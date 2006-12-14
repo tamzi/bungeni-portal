@@ -42,13 +42,13 @@ Document repository
   version of a bill.
 
 Annotation framework
-  The PIS should allow annotation and amendment of bills. Amendments 
+  The PIS should allow annotation and amendment of bills. Amendments
   should be possible on word, phrase and paragraph level, as well as on
-  larger structural elements of the bill. 
+  larger structural elements of the bill.
 
   A clerk should be able to review, edit and order amendments for
   submission to parliament or to a committee. The clerk's submission
-  should reference the original annotations. 
+  should reference the original annotations.
 
 Authentication
   Various classes of user should be able to log into the PIS. They
@@ -109,7 +109,7 @@ Custom products
 ---------------
 
 The specific requirements of the Parliamentary Information System will
-be implemented as a (set of) Plone products. 
+be implemented as a (set of) Plone products.
 
 ParliamentaryInformationSystem
   This product defines the custom content types and workflows, and

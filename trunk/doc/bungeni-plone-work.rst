@@ -5,7 +5,7 @@ Bill of work for implementing Bungeni in Plone
 :Author: Jean Jordaan
 :Date: 2006-12-12
 
-.. contents:
+.. contents::
 
 Background
 ==========

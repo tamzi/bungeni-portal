@@ -77,7 +77,6 @@ def initialize(context):
     import interfaces
     import membership
 
-    import INormaAfricaSoap
 
     # Initialize portal content
     all_content_types, all_constructors, all_ftis = process_types(

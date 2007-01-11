@@ -39,6 +39,7 @@ __docformat__ = 'plaintext'
 import IOpenID
 import IWebProtocols
 import IRDBMS
+import INormaAfricaSoap
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

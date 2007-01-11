@@ -61,7 +61,7 @@ class BillPage(BaseContent, HelpCenterReferenceManualPage):
 
     meta_type = 'BillPage'
     portal_type = 'BillPage'
-    allowed_content_types = [] + list(getattr(HelpCenterReferenceManualPage, 'allowed_content_types', []))
+    allowed_content_types = []
     filter_content_types = 0
     global_allow = 0
     #content_icon = 'BillPage.gif'

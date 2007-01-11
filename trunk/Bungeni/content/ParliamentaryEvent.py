@@ -29,7 +29,7 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from ATContentTypes.content.event import ATEvent
+from Products.ATContentTypes.content.event import ATEvent
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here

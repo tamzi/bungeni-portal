@@ -61,7 +61,7 @@ class LegislationFolder(BaseFolder, HelpCenterReferenceManualFolder):
 
     meta_type = 'LegislationFolder'
     portal_type = 'LegislationFolder'
-    allowed_content_types = ['Bill'] + list(getattr(HelpCenterReferenceManualFolder, 'allowed_content_types', []))
+    allowed_content_types = ['Bill']
     filter_content_types = 1
     global_allow = 1
     #content_icon = 'LegislationFolder.gif'

@@ -61,7 +61,7 @@ class Bill(BaseFolder, HelpCenterReferenceManual):
 
     meta_type = 'Bill'
     portal_type = 'Bill'
-    allowed_content_types = ['BillSection', 'ATFile'] + list(getattr(HelpCenterReferenceManual, 'allowed_content_types', []))
+    allowed_content_types = ['BillSection', 'ATFile', 'ATImage']
     filter_content_types = 1
     global_allow = 0
     #content_icon = 'Bill.gif'

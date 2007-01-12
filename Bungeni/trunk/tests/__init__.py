@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: interfaces.py
+# File: tests.py
 #
 # Copyright (c) 2007 by []
 # Generator: ArchGenXML Version 1.5.1-svn
@@ -36,8 +36,6 @@ __docformat__ = 'plaintext'
 # Additional
 
 # Classes
-import IMemberOfParliament
-import IClerk
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

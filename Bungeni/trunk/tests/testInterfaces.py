@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: interfaces.py
+# File: testInterfaces.py
 #
 # Copyright (c) 2007 by []
 # Generator: ArchGenXML Version 1.5.1-svn
@@ -27,18 +27,54 @@
 __author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
+#
+# Interface tests
+#
 
-##code-section init-module-header #fill in your manual code here
-##/code-section init-module-header
+import os, sys
+if __name__ == '__main__':
+    execfile(os.path.join(sys.path[0], 'framework.py'))
+
+from Interface import Implements
+
+from Products.Bungeni.tests.BungeniTest import BungeniTest
 
 
-# Subpackages
-# Additional
+from Interface.Verify import verifyClass
 
-# Classes
-import IMemberOfParliament
-import IClerk
 
-##code-section init-module-footer #fill in your manual code here
-##/code-section init-module-footer
+from Products.Bungeni.interfaces.IClerk import IClerk
+
+
+
+
+from Products.Bungeni.interfaces.IMemberOfParliament import IMemberOfParliament
+
+
+
+
+
+class testInterfaces(BungeniTest):
+        
+    def testInterfacesForIClerk(self):
+        '''test interface compliance for class IClerk'''
+
+        
+    
+            
+    def testInterfacesForIMemberOfParliament(self):
+        '''test interface compliance for class IMemberOfParliament'''
+
+        
+    
+        
+def test_suite():
+    from unittest import TestSuite, makeSuite
+    suite = TestSuite()
+    suite.addTest(makeSuite(testInterfaces))
+    return suite
+
+if __name__ == '__main__':
+    framework()
+
 

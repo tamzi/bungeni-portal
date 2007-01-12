@@ -36,3 +36,23 @@ msgstr ""
 msgid "Bungeni_label_memberofparliaments"
 msgstr ""
 
+#. Default: "Billpages"
+#: content/Amendment.py
+msgid "trunk_label_billpages"
+msgstr ""
+
+#. Default: "Bills"
+#: content/Amendment.py
+msgid "trunk_label_bills"
+msgstr ""
+
+#. Default: "Billsections"
+#: content/Amendment.py
+msgid "trunk_label_billsections"
+msgstr ""
+
+#. Default: "Memberofparliaments"
+#: content/Question.py
+msgid "trunk_label_memberofparliaments"
+msgstr ""
+

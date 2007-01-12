@@ -29,6 +29,8 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+import zope
+from Products.Bungeni.interfaces.IClerk import IClerk
 # imports needed by remember
 from Products.remember.content.member import BaseMember
 from Products.remember.permissions import \
@@ -64,6 +66,8 @@ class Clerk(BaseMember, BaseContent):
     """
     security = ClassSecurityInfo()
     __implements__ = (getattr(BaseMember,'__implements__',()),) + (getattr(BaseContent,'__implements__',()),)
+    # zope3 interfaces
+    zope.interface.implements(IClerk)
 
     # This name appears in the 'add' box
     archetype_name = 'Clerk'

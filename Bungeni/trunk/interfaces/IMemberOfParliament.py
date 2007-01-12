@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: ParliamentaryEvent.py
+# File: IMemberOfParliament.py
 #
 # Copyright (c) 2007 by []
 # Generator: ArchGenXML Version 1.5.1-svn
@@ -27,45 +27,23 @@
 __author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
-from AccessControl import ClassSecurityInfo
-from Products.Archetypes.atapi import *
-from Products.ATContentTypes.content.event import ATEvent
-from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
-schema = Schema((
 
-),
-)
 
-##code-section after-local-schema #fill in your manual code here
-##/code-section after-local-schema
 
-ParliamentaryEvent_schema = getattr(ATEvent, 'schema', Schema(())).copy() + \
-    schema.copy()
+import zope
 
-##code-section after-schema #fill in your manual code here
-##/code-section after-schema
+class IMemberOfParliament(zope.interface.Interface):
+    ''' '''
 
-class ParliamentaryEvent(BaseContent, ATEvent):
-    """
-    """
-    security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(ATEvent,'__implements__',()),)
+    ##code-section class-header_IMemberOfParliament #fill in your manual code here
+    ##/code-section class-header_IMemberOfParliament
 
-    allowed_content_types = [] + list(getattr(ATEvent, 'allowed_content_types', []))
-    _at_rename_after_creation = True
 
-    schema = ParliamentaryEvent_schema
 
-    ##code-section class-header #fill in your manual code here
-    ##/code-section class-header
-
-    # Methods
-
-# end of class ParliamentaryEvent
 
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer

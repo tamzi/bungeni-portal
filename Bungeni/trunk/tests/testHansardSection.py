@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: ParliamentaryEvent.py
+# File: testHansardSection.py
 #
 # Copyright (c) 2007 by []
 # Generator: ArchGenXML Version 1.5.1-svn
@@ -27,48 +27,50 @@
 __author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
-from AccessControl import ClassSecurityInfo
-from Products.Archetypes.atapi import *
-from Products.ATContentTypes.content.event import ATEvent
-from Products.Bungeni.config import *
+import os, sys
+if __name__ == '__main__':
+    execfile(os.path.join(sys.path[0], 'framework.py'))
 
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
-schema = Schema((
+#
+# Test-cases for class(es) HansardSection
+#
 
-),
-)
+from Testing import ZopeTestCase
+from Products.Bungeni.config import *
+from Products.Bungeni.tests.BungeniTest import BungeniTest
 
-##code-section after-local-schema #fill in your manual code here
-##/code-section after-local-schema
+# Import the tested classes
+from Products.Bungeni.content.HansardSection import HansardSection
 
-ParliamentaryEvent_schema = getattr(ATEvent, 'schema', Schema(())).copy() + \
-    schema.copy()
+##code-section module-beforeclass #fill in your manual code here
+##/code-section module-beforeclass
 
-##code-section after-schema #fill in your manual code here
-##/code-section after-schema
 
-class ParliamentaryEvent(BaseContent, ATEvent):
-    """
-    """
-    security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(ATEvent,'__implements__',()),)
+class testHansardSection(BungeniTest):
+    """Test-cases for class(es) HansardSection."""
 
-    allowed_content_types = [] + list(getattr(ATEvent, 'allowed_content_types', []))
-    _at_rename_after_creation = True
+    ##code-section class-header_testHansardSection #fill in your manual code here
+    ##/code-section class-header_testHansardSection
 
-    schema = ParliamentaryEvent_schema
+    def afterSetUp(self):
+        pass
 
-    ##code-section class-header #fill in your manual code here
-    ##/code-section class-header
+    # Manually created methods
 
-    # Methods
 
-# end of class ParliamentaryEvent
+def test_suite():
+    from unittest import TestSuite, makeSuite
+    suite = TestSuite()
+    suite.addTest(makeSuite(testHansardSection))
+    return suite
 
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer
 
+if __name__ == '__main__':
+    framework()
 
 

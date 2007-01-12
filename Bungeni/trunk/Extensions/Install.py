@@ -115,7 +115,6 @@ def install(self, reinstall=False):
         "Amendment",
         "Motion",
         "Question",
-        "ParliamentaryEvent",
         "MemberOfParliament",
         "Clerk",
         ] + factory_tool.getFactoryTypes().keys()

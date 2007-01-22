@@ -38,9 +38,9 @@ __docformat__ = 'plaintext'
 #   - To register a customisation policy, create a file CustomizationPolicy.py
 #       with a method register(context) to register the policy.
 
-from zLOG import LOG, INFO, DEBUG
-
-LOG('Bungeni', DEBUG, 'Installing Product')
+import logging
+logger = logging.getLogger('Bungeni')
+logger.info('Installing Product')
 
 try:
     import CustomizationPolicy

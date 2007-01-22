@@ -72,50 +72,62 @@ def setupWestminsterBillWorkflow(self, workflow):
 
     stateDef = workflow.states['PresentedToParliament']
     stateDef.setProperties(title="""PresentedToParliament""",
+                           description="""""",
                            transitions=['commit'])
 
     stateDef = workflow.states['CommittedToCommittee']
     stateDef.setProperties(title="""CommittedToCommittee""",
+                           description="""""",
                            transitions=['second_reading', 'withdraw'])
 
     stateDef = workflow.states['DebateBillTitle']
     stateDef.setProperties(title="""DebateBillTitle""",
+                           description="""""",
                            transitions=['commit', 'commit', 'reject', 'withdraw'])
 
     stateDef = workflow.states['DebateBill']
     stateDef.setProperties(title="""DebateBill""",
+                           description="""""",
                            transitions=['request_report', 'withdraw'])
 
     stateDef = workflow.states['ReportOnBillProgress']
     stateDef.setProperties(title="""ReportOnBillProgress""",
+                           description="""""",
                            transitions=['recommit', 'third_reading', 'withdraw'])
 
     stateDef = workflow.states['ThirdReadingDone']
     stateDef.setProperties(title="""ThirdReadingDone""",
+                           description="""""",
                            transitions=['approve', 'reject', 'withdraw'])
 
     stateDef = workflow.states['Approved']
     stateDef.setProperties(title="""Approved""",
+                           description="""""",
                            transitions=['submit'])
 
     stateDef = workflow.states['Rejected']
     stateDef.setProperties(title="""Rejected""",
+                           description="""""",
                            transitions=['reintroduce'])
 
     stateDef = workflow.states['SubmittedToAttorneyGeneral']
     stateDef.setProperties(title="""SubmittedToAttorneyGeneral""",
+                           description="""""",
                            transitions=['sign'])
 
     stateDef = workflow.states['SignedIntoLaw']
     stateDef.setProperties(title="""SignedIntoLaw""",
+                           description="""""",
                            transitions=[])
 
     stateDef = workflow.states['Withdrawn']
     stateDef.setProperties(title="""Withdrawn""",
+                           description="""""",
                            transitions=[])
 
     stateDef = workflow.states['presented']
     stateDef.setProperties(title="""presented""",
+                           description="""""",
                            transitions=['first_reading'])
 
     ## Transitions initialization

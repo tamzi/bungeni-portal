@@ -1,4 +1,4 @@
-# Integrated in Bungeni product. 
+# Products that are integrated in Bungeni product. 
 # The Plone site should be a membrane/remember site.
 DEPENDENCIES = ['AddRemoveWidget', 'PloneHelpCenter',]
 
@@ -11,3 +11,6 @@ DEPENDENCIES += [
     'CMFNotification', 
     'Plone4ArtistsCalendar', # Installs CMFonFive
     ]
+
+# Permissions we want globally available
+from Products.CMFCore import CMFCorePermissions

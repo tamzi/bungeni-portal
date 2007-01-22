@@ -58,6 +58,10 @@ class testHansard(BungeniTest):
     def afterSetUp(self):
         pass
 
+    # from class Hansard:
+    def test_getTOC(self):
+        pass
+
     # Manually created methods
 
 

@@ -32,6 +32,9 @@ from Products.Archetypes.atapi import *
 from Products.PloneHelpCenter.content.ReferenceManual import HelpCenterReferenceManual
 from Products.Bungeni.config import *
 
+# additional imports from tagged value 'import'
+from Products.CMFPlone.browser.navtree import NavtreeStrategyBase, buildFolderTree
+
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
@@ -79,6 +82,38 @@ class Hansard(BaseFolder, HelpCenterReferenceManual):
     ##/code-section class-header
 
     # Methods
+
+    security.declareProtected(CMFCorePermissions.View, 'getTOC')
+    def getTOC(self,current=None,root=None):
+        """ See HelpCenterReferenceManual.getTOC for documentation.
+        We're only overriding the query.
+        """
+        if not root:
+            root = self
+
+        class Strategy(NavtreeStrategyBase):
+
+            rootPath = '/'.join(root.getPhysicalPath())
+            showAllParents = False
+
+        strategy = Strategy()
+        # Custom query for Bungeni:
+        query=  {'path'        : '/'.join(root.getPhysicalPath()),
+                 'portal_type' : ('HansardSection', 'HansardPage',),
+                 'sort_on'     : 'getObjPositionInParent'}
+
+        toc = buildFolderTree(self, current, query, strategy)['children']
+
+        def buildNumbering(nodes, base=""):
+            idx = 1
+            for n in nodes:
+                numbering = "%s%d." % (base, idx,)
+                n['numbering'] = numbering
+                buildNumbering(n['children'], numbering)
+                idx += 1
+
+        buildNumbering(toc)
+        return toc
 
 
 registerType(Hansard, PROJECTNAME)

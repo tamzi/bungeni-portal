@@ -35,7 +35,7 @@ if __name__ == '__main__':
 ##/code-section module-header
 
 #
-# Test-cases for class(es) 
+# Test-cases for class(es) BillPage
 #
 
 from Testing import ZopeTestCase

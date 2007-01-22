@@ -58,6 +58,10 @@ class testBill(BungeniTest):
     def afterSetUp(self):
         pass
 
+    # from class Bill:
+    def test_getTOC(self):
+        pass
+
     # Manually created methods
 
     def test_operation_2(self):

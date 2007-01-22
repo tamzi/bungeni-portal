@@ -42,9 +42,6 @@ from Products.Archetypes.Extensions.utils import installTypes
 from Products.Archetypes.Extensions.utils import install_subskin
 from Products.Archetypes.config import TOOL_NAME as ARCHETYPETOOLNAME
 from Products.Archetypes.atapi import listTypes
-#njj {dtml-if "[cn for cn in generator.getGeneratedClasses(package) if cn.hasStereoType(generator.cmfmember_stereotype)]"}
-#njj from Products.CMFMember.Extensions.toolbox import SetupMember
-#njj {/dtml-if}
 from Products.BungeniSkin.config import PROJECTNAME
 from Products.BungeniSkin.config import product_globals as GLOBALS
 
@@ -91,12 +88,7 @@ def install(self, reinstall=False):
         print >>out,'no workflow install'
 
 
-    # enable portal_factory for given types
-    factory_tool = getToolByName(self,'portal_factory')
-    factory_types=[
-        "LookAndFeel",
-        ] + factory_tool.getFactoryTypes().keys()
-    factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
+
 
     from Products.BungeniSkin.config import STYLESHEETS
     try:
@@ -110,7 +102,7 @@ def install(self, reinstall=False):
             'media': 'all',
             'enabled': True}
             defaults.update(stylesheet)
-            portal_css.manage_addStylesheet(**defaults)
+            portal_css.registerStylesheet(**defaults)
     except:
         # No portal_css registry
         pass

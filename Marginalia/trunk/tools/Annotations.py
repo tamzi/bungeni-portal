@@ -1,0 +1,164 @@
+# -*- coding: utf-8 -*-
+#
+# File: Annotations.py
+#
+# Copyright (c) 2007 by []
+# Generator: ArchGenXML Version 1.5.1-svn
+#            http://plone.org/products/archgenxml
+#
+# GNU General Public License (GPL)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
+# 02110-1301, USA.
+#
+
+__author__ = """Jean Jordaan <jean.jordaan@gmail.com>"""
+__docformat__ = 'plaintext'
+
+from AccessControl import ClassSecurityInfo
+from Products.Archetypes.atapi import *
+from Products.Marginalia.config import *
+
+
+from Products.CMFCore.utils import UniqueObject
+
+    
+##code-section module-header #fill in your manual code here
+##/code-section module-header
+
+schema = Schema((
+
+),
+)
+
+##code-section after-local-schema #fill in your manual code here
+##/code-section after-local-schema
+
+Annotations_schema = BaseBTreeFolderSchema.copy() + \
+    schema.copy()
+
+##code-section after-schema #fill in your manual code here
+##/code-section after-schema
+
+class Annotations(UniqueObject, BaseBTreeFolder):
+    """
+    """
+    security = ClassSecurityInfo()
+    __implements__ = (getattr(UniqueObject,'__implements__',()),) + (getattr(BaseBTreeFolder,'__implements__',()),)
+
+    # This name appears in the 'add' box
+    archetype_name = 'Annotations'
+
+    meta_type = 'Annotations'
+    portal_type = 'Annotations'
+    allowed_content_types = ['Annotation']
+    filter_content_types = 1
+    global_allow = 0
+    #content_icon = 'Annotations.gif'
+    immediate_view = 'base_view'
+    default_view = 'base_view'
+    suppl_views = ()
+    typeDescription = "Annotations"
+    typeDescMsgId = 'description_edit_annotations'
+    #toolicon = 'Annotations.gif'
+
+
+    actions =  (
+
+
+       {'action': "string:${object_url}/listAnnotations",
+        'category': "object",
+        'id': 'listAnnotations',
+        'name': 'listAnnotations',
+        'permissions': ("View",),
+        'condition': 'python:1'
+       },
+
+
+    )
+
+    _at_rename_after_creation = True
+
+    schema = Annotations_schema
+
+    ##code-section class-header #fill in your manual code here
+    ##/code-section class-header
+
+
+    # tool-constructors have no id argument, the id is fixed
+    def __init__(self, id=None):
+        BaseBTreeFolder.__init__(self,'portal_annotations')
+        self.setTitle('Annotations')
+        
+        ##code-section constructor-footer #fill in your manual code here
+        ##/code-section constructor-footer
+
+
+    # tool should not appear in portal_catalog
+    def at_post_edit_script(self):
+        self.unindexObject()
+        
+        ##code-section post-edit-method-footer #fill in your manual code here
+        ##/code-section post-edit-method-footer
+
+
+    # Methods
+
+    security.declarePublic('annotate')
+    def annotate(self):
+        """
+        """
+        params = {
+            'url': '',
+            'range': '',
+            'note': '',
+            'access': '',
+            'quote': '',
+            'quote_title': '',
+            'quote_author': '',
+            'link': '',
+            }
+        params.update(self.REQUEST)
+        return self.invokeFactory('Annotation', id='xx', **params)
+
+    security.declarePublic('getFeedUID')
+    def getFeedUID(self):
+        """
+        """
+        return 'tag:%s,%s:annotation' % ('localhost', '2007-01-24')
+
+    security.declarePublic('getSortedFeedEntries')
+    def getSortedFeedEntries(self):
+        """
+        """
+        # TODO get from catalog, filter on user
+        ans = self.contentValues('Annotation')
+        return ans
+
+    security.declarePublic('getBaseURL')
+    def getBaseURL(self):
+        """
+        """
+        return self.absolute_url()
+
+
+registerType(Annotations, PROJECTNAME)
+# end of class Annotations
+
+##code-section module-footer #fill in your manual code here
+##/code-section module-footer
+
+
+

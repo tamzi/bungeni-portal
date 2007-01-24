@@ -1,0 +1,71 @@
+<tal:block tal:define="dummy python:context.REQUEST.RESPONSE.setHeader('Content-Type', 'application/atom+xml')"/><?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"
+      xmlns:atom="http://www.w3.org/2005/Atom"
+      xmlns:ptr="http://www.geof.net/code/annotation/"
+      xml:base=""
+      xml:lang="en"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      tal:define="feed nocall:context;
+                  results feed/getSortedFeedEntries;"
+      tal:attributes="xml:base feed/getBaseURL"
+      i18n:domain="marginalia"
+      ptr:annotation-version='0.3'
+      >
+  <link rel="self"
+        href=""
+        tal:attributes="href string:${feed/absolute_url}/atom.xml" />
+
+  <updated>2002-10-02T10:00:00-05:00</updated>
+
+  <title type="html" tal:content="feed/Title"> Annotations </title>
+
+  <id tal:content="string:urn:syndication:${feed/getFeedUID}">
+    Really unique id
+  </id>
+
+  <subtitle tal:content="feed/Description">
+    Longer subtitle about the greatness of this magnificent epos.
+  </subtitle>
+
+  <tal:repeat repeat="feedentry results">
+
+    <entry>
+    <ptr:range tal:content="feedentry/getRange">/2/15.0:/2/17.7</ptr:range>
+    <ptr:access tal:content="feedentry/getAccess">private</ptr:access>
+
+      <title tal:content="feedentry/Title">
+        The Netherlands wins the world cup
+      </title>
+
+      <link rel="self" 
+      type="application/xml"
+      tal:attributes="href feedentry/absolute_url" />
+
+      <link rel="alternate" 
+            type="text/html"
+            href=""
+            title="Plone marginalia"
+            tal:attributes="href feedentry/getUrl" />
+
+      <id tal:content="string:tag:localhost:${feedentry/getUID}">
+        tag:localhost:12345678
+      </id>
+
+      <updated>2002-10-02T10:00:00-05:00</updated>
+
+      <summary tal:condition="feedentry/Description"
+               tal:content="feedentry/Description"/>
+
+      <author>
+        <name tal:content="feedentry/getQuote_author">username</name>
+        <contributor tal:content="feedentry/getQuote_author">
+        source of commented text
+        </contributor>
+      </author>
+
+    </entry>
+
+  </tal:repeat>
+
+</feed>

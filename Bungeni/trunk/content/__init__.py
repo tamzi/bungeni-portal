@@ -40,14 +40,14 @@ import Bill
 import LegislationFolder
 import BillSection
 import BillPage
-import HansardFolder
-import Hansard
-import HansardSection
-import HansardPage
 import Amendment
 import Motion
 import Question
 import ParliamentaryEvent
+import HansardFolder
+import Hansard
+import HansardSection
+import HansardPage
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

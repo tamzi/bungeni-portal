@@ -29,7 +29,9 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+import zope
 from Products.PloneHelpCenter.content.ReferenceManual import HelpCenterReferenceManual
+from Products.Bungeni.interfaces.IBill import IBill
 from Products.Bungeni.config import *
 
 # additional imports from tagged value 'import'
@@ -58,6 +60,8 @@ class Bill(BaseFolder, HelpCenterReferenceManual):
     """
     security = ClassSecurityInfo()
     __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(HelpCenterReferenceManual,'__implements__',()),)
+    # zope3 interfaces
+    zope.interface.implements(IBill)
 
     # This name appears in the 'add' box
     archetype_name = 'Bill'

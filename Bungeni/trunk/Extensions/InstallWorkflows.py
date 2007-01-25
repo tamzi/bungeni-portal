@@ -41,6 +41,16 @@ def installWorkflows(self, package, out):
     workflowTool = getToolByName(self, 'portal_workflow')
 
     ourProductWorkflow = ExternalMethod('temp', 'temp',
+                                        productname+'.'+'BungeniWorkflow',
+                                        'createBungeniWorkflow')
+    workflow = ourProductWorkflow(self, 'BungeniWorkflow')
+    if 'BungeniWorkflow' in workflowTool.listWorkflows():
+        print >> out, 'BungeniWorkflow already in workflows.'
+    else:
+        workflowTool._setObject('BungeniWorkflow', workflow)
+    workflowTool.setChainForPortalTypes(['ATFile'], workflow.getId())
+
+    ourProductWorkflow = ExternalMethod('temp', 'temp',
                                         productname+'.'+'WestminsterBillWorkflow',
                                         'createWestminsterBillWorkflow')
     workflow = ourProductWorkflow(self, 'WestminsterBillWorkflow')
@@ -51,6 +61,7 @@ def installWorkflows(self, package, out):
     workflowTool.setChainForPortalTypes(['Bill'], workflow.getId())
 
     ##code-section after-workflow-install #fill in your manual code here
+    workflowTool.setDefaultChain('BungeniWorkflow')
     ##/code-section after-workflow-install
 
     return workflowTool
@@ -63,6 +74,8 @@ def uninstallWorkflows(self, package, out):
     """
 
     ##code-section workflow-uninstall #fill in your manual code here
+    workflowTool = getToolByName(self, 'portal_workflow')
+    workflowTool.setDefaultChain('plone_workflow')
     ##/code-section workflow-uninstall
 
     pass

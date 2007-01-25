@@ -38,6 +38,7 @@ __docformat__ = 'plaintext'
 # Classes
 import IMemberOfParliament
 import IClerk
+import IBill
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

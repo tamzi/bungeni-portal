@@ -97,6 +97,9 @@ def install(self, reinstall=False):
     else:
         print >>out,'no workflow install'
 
+    #bind classes to workflows
+    wft = getToolByName(self,'portal_workflow')
+    wft.setChainForPortalTypes( ['LegislationFolder'], "helpcenterfolder_workflow")
 
 
     # enable portal_factory for given types
@@ -106,13 +109,13 @@ def install(self, reinstall=False):
         "LegislationFolder",
         "BillSection",
         "BillPage",
+        "Amendment",
+        "Motion",
+        "Question",
         "HansardFolder",
         "Hansard",
         "HansardSection",
         "HansardPage",
-        "Amendment",
-        "Motion",
-        "Question",
         "MemberOfParliament",
         "Clerk",
         ] + factory_tool.getFactoryTypes().keys()

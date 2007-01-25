@@ -49,16 +49,12 @@ class IBill(zope.interface.Interface):
        """
 
        """
-       
-       
 
 
     def operation_2():
        """
 
        """
-       
-       
 
 
 ##code-section module-footer #fill in your manual code here

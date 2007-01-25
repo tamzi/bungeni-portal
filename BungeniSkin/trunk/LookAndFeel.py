@@ -42,7 +42,8 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-LookAndFeel_schema = schema.copy()
+LookAndFeel_schema = BaseSchema.copy() + \
+    schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
@@ -53,7 +54,21 @@ class LookAndFeel(BaseContent):
     security = ClassSecurityInfo()
     __implements__ = (getattr(BaseContent,'__implements__',()),)
 
+    # This name appears in the 'add' box
+    archetype_name = 'LookAndFeel'
+
+    meta_type = 'LookAndFeel'
+    portal_type = 'LookAndFeel'
     allowed_content_types = []
+    filter_content_types = 0
+    global_allow = 1
+    #content_icon = 'LookAndFeel.gif'
+    immediate_view = 'base_view'
+    default_view = 'base_view'
+    suppl_views = ()
+    typeDescription = "LookAndFeel"
+    typeDescMsgId = 'description_edit_lookandfeel'
+
 
     actions =  (
 
@@ -87,6 +102,8 @@ class LookAndFeel(BaseContent):
 
     # Methods
 
+
+registerType(LookAndFeel, PROJECTNAME)
 # end of class LookAndFeel
 
 ##code-section module-footer #fill in your manual code here

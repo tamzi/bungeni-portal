@@ -55,6 +55,11 @@ else:
 # Permissions
 DEFAULT_ADD_CONTENT_PERMISSION = "Add portal content"
 setDefaultRoles(DEFAULT_ADD_CONTENT_PERMISSION, ('Manager', 'Owner'))
+ADD_CONTENT_PERMISSIONS = {
+    'LookAndFeel': 'Nobody gets this permission',
+}
+
+setDefaultRoles('Nobody gets this permission', ('Manager','Owner'))
 
 product_globals = globals()
 

@@ -70,6 +70,10 @@ def install(self, reinstall=False):
                  PROJECTNAME)
     install_subskin(self, out, GLOBALS)
 
+    portal = getToolByName(self,'portal_url').getPortalObject()
+    for slot in ['here/theme_portlet/macros/portlet']:
+       if slot not in portal.left_slots:
+           portal.left_slots = list(portal.left_slots) + [slot]
 
     # try to call a workflow install method
     # in 'InstallWorkflows.py' method 'installWorkflows'
@@ -89,6 +93,12 @@ def install(self, reinstall=False):
 
 
 
+    # enable portal_factory for given types
+    factory_tool = getToolByName(self,'portal_factory')
+    factory_types=[
+        "LookAndFeel",
+        ] + factory_tool.getFactoryTypes().keys()
+    factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
 
     from Products.BungeniSkin.config import STYLESHEETS
     try:

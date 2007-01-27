@@ -33,6 +33,7 @@ msgstr ""
 
 #. Default: "Memberofparliaments"
 #: content/Question.py
+#: content/Motion.py
 msgid "Bungeni_label_memberofparliaments"
 msgstr ""
 

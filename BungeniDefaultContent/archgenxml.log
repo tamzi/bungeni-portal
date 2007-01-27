@@ -1,0 +1,559 @@
+main       DEBUG Reading command line options first.
+main       DEBUG Model file is 'trunk/doc/BungeniDefaultContent.zuml'.
+main       DEBUG Figuring out the settings we're passing to the main program...
+main       DEBUG Keys available through the option parser: ['ape_support', 'author', 'backreferences_support', 'build_msgcatalog', 'config_file', 'copyright', 'creation_roles', 'customization_policy', 'default_class_type', 'default_creation_permission', 'default_description_generation', 'default_field_generation', 'detailed_created_permissions', 'detailed_creation_permissions', 'email', 'force', 'generateActions', 'generateDefaultActions', 'generate_packages', 'generated_date', 'i18n_content_support', 'license', 'method_preservation', 'module_info_header', 'noclass', 'outfilename', 'parse_packages', 'pdb_on_exception', 'prefix', 'rcs_id', 'relation_implementation', 'sql_storage_support', 'strip_html', 'unknownTypesAsString', 'version_info', 'widget_enhancement'].
+main       DEBUG Option 'ape_support' has value '0'.
+main       DEBUG Option 'author' has value '[]'.
+main       DEBUG Option 'backreferences_support' has value 'None'.
+main       DEBUG Option 'build_msgcatalog' has value '1'.
+main       DEBUG Option 'config_file' has value 'None'.
+main       DEBUG Option 'copyright' has value ''.
+main       DEBUG Option 'creation_roles' has value 'python:('Manager','Owner')'.
+main       DEBUG Option 'customization_policy' has value '0'.
+main       DEBUG Option 'default_class_type' has value 'content_class'.
+main       DEBUG Option 'default_creation_permission' has value 'Add portal content'.
+main       DEBUG Option 'default_description_generation' has value '0'.
+main       DEBUG Option 'default_field_generation' has value '0'.
+main       DEBUG Option 'detailed_created_permissions' has value '0'.
+main       DEBUG Option 'detailed_creation_permissions' has value '0'.
+main       DEBUG Option 'email' has value '[]'.
+main       DEBUG Option 'force' has value '1'.
+main       DEBUG Option 'generateActions' has value '1'.
+main       DEBUG Option 'generateDefaultActions' has value '0'.
+main       DEBUG Option 'generate_packages' has value 'None'.
+main       DEBUG Option 'generated_date' has value '0'.
+main       DEBUG Option 'i18n_content_support' has value ''.
+main       DEBUG Option 'license' has value 'GPL'.
+main       DEBUG Option 'method_preservation' has value '1'.
+main       DEBUG Option 'module_info_header' has value '1'.
+main       DEBUG Option 'noclass' has value '0'.
+main       DEBUG Option 'outfilename' has value ''.
+main       DEBUG Option 'parse_packages' has value 'None'.
+main       DEBUG Option 'pdb_on_exception' has value '0'.
+main       DEBUG Option 'prefix' has value ''.
+main       DEBUG Option 'rcs_id' has value '0'.
+main       DEBUG Option 'relation_implementation' has value 'basic'.
+main       DEBUG Option 'sql_storage_support' has value '0'.
+main       DEBUG Option 'strip_html' has value '0'.
+main       DEBUG Option 'unknownTypesAsString' has value '0'.
+main       DEBUG Option 'version_info' has value '1'.
+main       DEBUG Option 'widget_enhancement' has value '1'.
+main       DEBUG Outfilename not specified in the options. Trying second loose commandline argument.
+main       DEBUG No second argument found: keeping outfilename empty.
+generator  DEBUG Initializing ArchetypesGenerator. We're being passed a file 'trunk/doc/BungeniDefaultContent.zuml' and keyword arguments {'detailed_creation_permissions': 0, 'default_description_generation': 0, 'force': 1, 'backreferences_support': None, 'prefix': '', 'default_class_type': 'content_class', 'generated_date': 0, 'relation_implementation': 'basic', 'detailed_created_permissions': 0, 'customization_policy': 0, 'generate_packages': None, 'sql_storage_support': 0, 'copyright': '', 'author': [], 'outfilename': '', 'generateDefaultActions': 0, 'email': [], 'config_file': None, 'version_info': 1, 'pdb_on_exception': 0, 'generateActions': 1, 'rcs_id': 0, 'module_info_header': 1, 'default_creation_permission': 'Add portal content', 'build_msgcatalog': 1, 'i18n_content_support': '', 'license': 'GPL', 'default_field_generation': 0, 'unknownTypesAsString': 0, 'method_preservation': 1, 'widget_enhancement': 1, 'strip_html': 0, 'ape_support': 0, 'noclass': 0, 'parse_packages': None, 'creation_roles': "python:('Manager','Owner')"}.
+generator  DEBUG After copying over the keyword arguments (read: OptionParser's options), outfilename is ''.
+generator  DEBUG Outfilename hasn't been set. Setting targetroot to the current directory.
+generator  DEBUG Initialization finished.
+generator  INFO  Parsing...
+generator  DEBUG Opening .zuml ...
+XMIparser  DEBUG XMI version: 1.2
+XMIparser  DEBUG Using xmi 1.2+ parser.
+XMIparser  DEBUG Initializing from DOM: name='BungeniDefaultContent', id='I5f08a7d7m11010ecae1dmm6a7d'.
+XMIparser  DEBUG Gathering the taggedvalues for element BungeniDefaultContent.
+XMIparser  DEBUG Found nothing.
+XMIparser  DEBUG Found the following state machines: [].
+XMIparser  DEBUG Initializing from DOM: name='BungeniDefaultContent', id='I5f08a7d7m11010ecae1dmm6a7c'.
+XMIparser  DEBUG Gathering the taggedvalues for element BungeniDefaultContent.
+XMIparser  DEBUG Found nothing.
+generator  DEBUG No outfilename present, not changing the name of the root generator.
+generator  INFO  Directory in which we're generating the files: ''.
+generator  INFO  Generating...
+generator  DEBUG Method bodies will be preserved
+XMIparser  DEBUG Looking if element has stereotype ['odStub', 'stub']
+umlprofile DEBUG Finding stereotypes for entities ['XMIParser.XMIModel'].
+umlprofile DEBUG Stripped off 'XMIParser.': ['XMIModel'].
+XMIparser  DEBUG Stereotype '%s' is registered.
+umlprofile DEBUG Finding stereotypes for entities ['XMIParser.XMIModel'].
+umlprofile DEBUG Stripped off 'XMIParser.': ['XMIModel'].
+XMIparser  DEBUG Stereotype '%s' is registered.
+generator  INFO  Starting new Product: 'BungeniDefaultContent'.
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+generator  DEBUG Calling makeDir to create 'BungeniDefaultContent'.
+generator  DEBUG Together with the targetroot that means './BungeniDefaultContent'.
+utils      DEBUG Trying to make directory './BungeniDefaultContent' (force=1).
+utils      DEBUG Directory already exists. Fine.
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+generator  DEBUG Calling makeDir to create 'BungeniDefaultContent/skins'.
+generator  DEBUG Together with the targetroot that means './BungeniDefaultContent/skins'.
+utils      DEBUG Trying to make directory './BungeniDefaultContent/skins' (force=1).
+utils      DEBUG Made the directory.
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+generator  DEBUG Calling makeDir to create 'BungeniDefaultContent/skins/BungeniDefaultContent'.
+generator  DEBUG Together with the targetroot that means './BungeniDefaultContent/skins/BungeniDefaultContent'.
+utils      DEBUG Trying to make directory './BungeniDefaultContent/skins/BungeniDefaultContent' (force=1).
+utils      DEBUG Made the directory.
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+generator  DEBUG Calling makeFile to create 'BungeniDefaultContent/skins/BungeniDefaultContent/readme.txt'.
+generator  DEBUG Together with the targetroot that means './BungeniDefaultContent/skins/BungeniDefaultContent/readme.txt'.
+utils      DEBUG Making file './BungeniDefaultContent/skins/BungeniDefaultContent/readme.txt' (force=1).
+utils      DEBUG Opening the file for writing and returning it.
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+generator  DEBUG Calling makeDir to create 'BungeniDefaultContent/i18n'.
+generator  DEBUG Together with the targetroot that means './BungeniDefaultContent/i18n'.
+utils      DEBUG Trying to make directory './BungeniDefaultContent/i18n' (force=1).
+utils      DEBUG Made the directory.
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+basegenerator DEBUG Getting the authors...
+basegenerator DEBUG Trying to get value of option 'author' for element 'BungeniDefaultContent' (default value is '[]', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is '[]'.
+basegenerator DEBUG Trying to split authors on ','.
+basegenerator DEBUG Found the following authors: ['unknown'].
+basegenerator DEBUG Getting the email addresses.
+basegenerator DEBUG Trying to get value of option 'email' for element 'BungeniDefaultContent' (default value is '[]', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is '[]'.
+basegenerator DEBUG Found the following email addresses: ['<unknown>'].
+generator  DEBUG Calling makeFile to create 'BungeniDefaultContent/i18n/generated.pot'.
+generator  DEBUG Together with the targetroot that means './BungeniDefaultContent/i18n/generated.pot'.
+utils      DEBUG Making file './BungeniDefaultContent/i18n/generated.pot' (force=1).
+utils      DEBUG Opening the file for writing and returning it.
+generator  DEBUG Generating package <XMIParser.XMIModel instance at 0xb787a46c>.
+XMIparser  DEBUG Looking if element has stereotype ['odStub', 'stub']
+umlprofile DEBUG Finding stereotypes for entities ['XMIParser.XMIModel'].
+umlprofile DEBUG Stripped off 'XMIParser.': ['XMIModel'].
+XMIparser  DEBUG Stereotype '%s' is registered.
+umlprofile DEBUG Finding stereotypes for entities ['XMIParser.XMIModel'].
+umlprofile DEBUG Stripped off 'XMIParser.': ['XMIModel'].
+XMIparser  DEBUG Stereotype '%s' is registered.
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+generator  DEBUG Calling makeDir to create 'BungeniDefaultContent'.
+generator  DEBUG Together with the targetroot that means './BungeniDefaultContent'.
+utils      DEBUG Trying to make directory './BungeniDefaultContent' (force=1).
+utils      DEBUG Directory already exists. Fine.
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+generator  DEBUG Calling makeFile to create 'BungeniDefaultContent/refresh.txt'.
+generator  DEBUG Together with the targetroot that means './BungeniDefaultContent/refresh.txt'.
+utils      DEBUG Making file './BungeniDefaultContent/refresh.txt' (force=1).
+utils      DEBUG Opening the file for writing and returning it.
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+utils      DEBUG Trying to open './BungeniDefaultContent/version.txt' for reading.
+utils      DEBUG Couldn't open the file, returning nothing.
+generator  DEBUG Calling makeFile to create 'BungeniDefaultContent/version.txt'.
+generator  DEBUG Together with the targetroot that means './BungeniDefaultContent/version.txt'.
+utils      DEBUG Making file './BungeniDefaultContent/version.txt' (force=1).
+utils      DEBUG Opening the file for writing and returning it.
+basegenerator DEBUG Trying to get value of option 'additional_permission' for element 'BungeniDefaultContent' (default value is '[]', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Returning default value '[]'.
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+pyparser   DEBUG Initialising module parser for file './BungeniDefaultContent/__init__.py'.
+utils      DEBUG Trying to read template '__init__.py'.
+utils      DEBUG Trying to find it in template directory '/home/jean/repos/svn/svn.plone.org/ArchGenXML-trunk/templates'.
+utils      DEBUG Succesfully opened the template, returning it.
+basegenerator DEBUG Getting info for the header...
+basegenerator DEBUG Trying to get value of option 'copyright' for element 'BungeniDefaultContent' (default value is '', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is ''.
+basegenerator DEBUG Copyright = 'Copyright (c) 2007 by []'.
+basegenerator DEBUG Trying to get value of option 'license' for element 'BungeniDefaultContent' (default value is 'GPL', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is 'GPL'.
+basegenerator DEBUG License: 'GNU General Public License (GPL)\n#\n# This program is free software; you can redistribute it and/or\n# modify it under the terms of the GNU General Public License\n# as published by the Free Software Foundation; either version 2\n# of the License, or (at your option) any later version.\n#\n# This program is distributed in the hope that it will be useful,\n# but WITHOUT ANY WARRANTY; without even the implied warranty of\n# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n# GNU General Public License for more details.\n#\n# You should have received a copy of the GNU General Public License\n# along with this program; if not, write to the Free Software\n# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA\n# 02110-1301, USA.'.
+basegenerator DEBUG Getting the authors...
+basegenerator DEBUG Trying to get value of option 'author' for element 'BungeniDefaultContent' (default value is '[]', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is '[]'.
+basegenerator DEBUG Trying to split authors on ','.
+basegenerator DEBUG Found the following authors: ['unknown'].
+basegenerator DEBUG Getting the email addresses.
+basegenerator DEBUG Trying to get value of option 'email' for element 'BungeniDefaultContent' (default value is '[]', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is '[]'.
+basegenerator DEBUG Found the following email addresses: ['<unknown>'].
+basegenerator DEBUG Trying to get value of option 'rcs_id' for element 'BungeniDefaultContent' (default value is 'False', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is '0'.
+basegenerator DEBUG Using filename.
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+basegenerator DEBUG Trying to get value of option 'generated_date' for element 'BungeniDefaultContent' (default value is 'False', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is '0'.
+basegenerator DEBUG Trying to get value of option 'version_info' for element 'BungeniDefaultContent' (default value is 'True', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is '1'.
+basegenerator DEBUG We want version info in every file.
+basegenerator DEBUG Trying to get value of option 'encoding' for element 'BungeniDefaultContent' (default value is 'utf-8', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Returning default value 'utf-8'.
+basegenerator DEBUG Encoding for python files is set to utf-8
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+generator  DEBUG Calling makeFile to create 'BungeniDefaultContent/__init__.py'.
+generator  DEBUG Together with the targetroot that means './BungeniDefaultContent/__init__.py'.
+utils      DEBUG Making file './BungeniDefaultContent/__init__.py' (force=1).
+utils      DEBUG Opening the file for writing and returning it.
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+pyparser   DEBUG Initialising module parser for file './BungeniDefaultContent/config.py'.
+basegenerator DEBUG Trying to get value of option 'creation_permission' for element 'BungeniDefaultContent' (default value is 'None', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Returning default value 'None'.
+utils      DEBUG Trying to read template 'config.py'.
+utils      DEBUG Trying to find it in template directory '/home/jean/repos/svn/svn.plone.org/ArchGenXML-trunk/templates'.
+utils      DEBUG Succesfully opened the template, returning it.
+basegenerator DEBUG Getting info for the header...
+basegenerator DEBUG Trying to get value of option 'copyright' for element 'BungeniDefaultContent' (default value is '', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is ''.
+basegenerator DEBUG Copyright = 'Copyright (c) 2007 by []'.
+basegenerator DEBUG Trying to get value of option 'license' for element 'BungeniDefaultContent' (default value is 'GPL', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is 'GPL'.
+basegenerator DEBUG License: 'GNU General Public License (GPL)\n#\n# This program is free software; you can redistribute it and/or\n# modify it under the terms of the GNU General Public License\n# as published by the Free Software Foundation; either version 2\n# of the License, or (at your option) any later version.\n#\n# This program is distributed in the hope that it will be useful,\n# but WITHOUT ANY WARRANTY; without even the implied warranty of\n# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n# GNU General Public License for more details.\n#\n# You should have received a copy of the GNU General Public License\n# along with this program; if not, write to the Free Software\n# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA\n# 02110-1301, USA.'.
+basegenerator DEBUG Getting the authors...
+basegenerator DEBUG Trying to get value of option 'author' for element 'BungeniDefaultContent' (default value is '[]', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is '[]'.
+basegenerator DEBUG Trying to split authors on ','.
+basegenerator DEBUG Found the following authors: ['unknown'].
+basegenerator DEBUG Getting the email addresses.
+basegenerator DEBUG Trying to get value of option 'email' for element 'BungeniDefaultContent' (default value is '[]', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is '[]'.
+basegenerator DEBUG Found the following email addresses: ['<unknown>'].
+basegenerator DEBUG Trying to get value of option 'rcs_id' for element 'BungeniDefaultContent' (default value is 'False', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is '0'.
+basegenerator DEBUG Using filename.
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+basegenerator DEBUG Trying to get value of option 'generated_date' for element 'BungeniDefaultContent' (default value is 'False', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is '0'.
+basegenerator DEBUG Trying to get value of option 'version_info' for element 'BungeniDefaultContent' (default value is 'True', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is '1'.
+basegenerator DEBUG We want version info in every file.
+basegenerator DEBUG Trying to get value of option 'encoding' for element 'BungeniDefaultContent' (default value is 'utf-8', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Returning default value 'utf-8'.
+basegenerator DEBUG Encoding for python files is set to utf-8
+generator  DEBUG Calling makeFile to create 'BungeniDefaultContent/config.py'.
+generator  DEBUG Together with the targetroot that means './BungeniDefaultContent/config.py'.
+utils      DEBUG Making file './BungeniDefaultContent/config.py' (force=1).
+utils      DEBUG Opening the file for writing and returning it.
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+generator  DEBUG Calling makeDir to create 'BungeniDefaultContent/Extensions'.
+generator  DEBUG Together with the targetroot that means './BungeniDefaultContent/Extensions'.
+utils      DEBUG Trying to make directory './BungeniDefaultContent/Extensions' (force=1).
+utils      DEBUG Made the directory.
+generator  DEBUG Calling makeFile to create 'BungeniDefaultContent/Extensions/__init__.py'.
+generator  DEBUG Together with the targetroot that means './BungeniDefaultContent/Extensions/__init__.py'.
+utils      DEBUG Making file './BungeniDefaultContent/Extensions/__init__.py' (force=1).
+utils      DEBUG Opening the file for writing and returning it.
+utils      DEBUG Trying to read template 'Install.py'.
+utils      DEBUG Trying to find it in template directory '/home/jean/repos/svn/svn.plone.org/ArchGenXML-trunk/templates'.
+utils      DEBUG Succesfully opened the template, returning it.
+basegenerator DEBUG Getting info for the header...
+basegenerator DEBUG Trying to get value of option 'copyright' for element 'BungeniDefaultContent' (default value is '', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is ''.
+basegenerator DEBUG Copyright = 'Copyright (c) 2007 by []'.
+basegenerator DEBUG Trying to get value of option 'license' for element 'BungeniDefaultContent' (default value is 'GPL', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is 'GPL'.
+basegenerator DEBUG License: 'GNU General Public License (GPL)\n#\n# This program is free software; you can redistribute it and/or\n# modify it under the terms of the GNU General Public License\n# as published by the Free Software Foundation; either version 2\n# of the License, or (at your option) any later version.\n#\n# This program is distributed in the hope that it will be useful,\n# but WITHOUT ANY WARRANTY; without even the implied warranty of\n# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the\n# GNU General Public License for more details.\n#\n# You should have received a copy of the GNU General Public License\n# along with this program; if not, write to the Free Software\n# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA\n# 02110-1301, USA.'.
+basegenerator DEBUG Getting the authors...
+basegenerator DEBUG Trying to get value of option 'author' for element 'BungeniDefaultContent' (default value is '[]', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is '[]'.
+basegenerator DEBUG Trying to split authors on ','.
+basegenerator DEBUG Found the following authors: ['unknown'].
+basegenerator DEBUG Getting the email addresses.
+basegenerator DEBUG Trying to get value of option 'email' for element 'BungeniDefaultContent' (default value is '[]', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is '[]'.
+basegenerator DEBUG Found the following email addresses: ['<unknown>'].
+basegenerator DEBUG Trying to get value of option 'rcs_id' for element 'BungeniDefaultContent' (default value is 'False', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is '0'.
+basegenerator DEBUG Using filename.
+basegenerator DEBUG Trying to get value of option 'generated_date' for element 'BungeniDefaultContent' (default value is 'False', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is '0'.
+basegenerator DEBUG Trying to get value of option 'version_info' for element 'BungeniDefaultContent' (default value is 'True', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Found a matching option (passed on the commandline or in the configfile).
+basegenerator DEBUG The value is '1'.
+basegenerator DEBUG We want version info in every file.
+basegenerator DEBUG Trying to get value of option 'encoding' for element 'BungeniDefaultContent' (default value is 'utf-8', aggregate is 'False').
+basegenerator DEBUG Found the element.
+basegenerator DEBUG Found nothing in the assorted taggedvalues.
+basegenerator DEBUG Now looking in the options.
+basegenerator DEBUG Returning default value 'utf-8'.
+basegenerator DEBUG Encoding for python files is set to utf-8
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+generator  DEBUG Calling makeFile to create 'BungeniDefaultContent/Extensions/Install.py'.
+generator  DEBUG Together with the targetroot that means './BungeniDefaultContent/Extensions/Install.py'.
+utils      DEBUG Making file './BungeniDefaultContent/Extensions/Install.py' (force=1).
+utils      DEBUG Opening the file for writing and returning it.
+XMIparser  DEBUG Getting value for tag 'module' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+XMIparser  DEBUG Getting value for tag 'module_name' (default=). Note: we're not doing this recursively.
+TGVregistry DEBUG Checking tag 'module_name' (category 'XMIParser.XMIModel') in the registry...
+TGVregistry DEBUG Tag 'module_name' (category 'model') exists in the registry.
+XMIparser  DEBUG Returning value '',
+generator  DEBUG Calling makeFile to create 'BungeniDefaultContent/i18n/generated.pot'.
+generator  DEBUG Together with the targetroot that means './BungeniDefaultContent/i18n/generated.pot'.
+utils      DEBUG Making file './BungeniDefaultContent/i18n/generated.pot' (force=1).
+utils      DEBUG Opening the file for writing and returning it.

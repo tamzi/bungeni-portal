@@ -12,5 +12,9 @@ DEPENDENCIES += [
     'Plone4ArtistsCalendar', # Installs CMFonFive
     ]
 
+# Note that though we need PloneHelpCenter in the Products dir, we don't
+# want to install it, as we don't use its content types -- only the ones
+# that we derive from it.
+
 # Permissions we want globally available
 from Products.CMFCore import CMFCorePermissions

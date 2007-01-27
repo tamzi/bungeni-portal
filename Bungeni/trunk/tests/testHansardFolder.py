@@ -24,7 +24,7 @@
 # 02110-1301, USA.
 #
 
-__author__ = """unknown <unknown>"""
+__author__ = """Jean Jordaan <jean.jordaan@gmail.com>"""
 __docformat__ = 'plaintext'
 
 import os, sys

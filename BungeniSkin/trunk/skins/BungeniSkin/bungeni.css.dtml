@@ -12,12 +12,11 @@
 /* <dtml-call "REQUEST.set('portal_url', portal_url())"> (not this either :) */
 
 
+/* Second-level navigation, beneath global tabs */
+
 #portal-globalnav-sub li {
     display: inline;
 }
-
-
-
 
 /* </dtml-with> */
 

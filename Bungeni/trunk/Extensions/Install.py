@@ -73,13 +73,15 @@ def install(self, reinstall=False):
     # Adds our types to MemberDataContainer.allowed_content_types
     types_tool = getToolByName(self, 'portal_types')
     act = types_tool.MemberDataContainer.allowed_content_types
-    types_tool.MemberDataContainer.manage_changeProperties(allowed_content_types=act+('MemberOfParliament', 'Clerk', ))
+    types_tool.MemberDataContainer.manage_changeProperties(allowed_content_types=act+('MemberOfParliament', 'Clerk', 'MemberOfPublic', ))
     # registers with membrane tool ...
     membrane_tool = getToolByName(self, 'membrane_tool')
     membrane_tool.registerMembraneType('MemberOfParliament')
     # print >> out, SetupMember(self, member_type='MemberOfParliament', register=False).finish()
     membrane_tool.registerMembraneType('Clerk')
     # print >> out, SetupMember(self, member_type='Clerk', register=False).finish()
+    membrane_tool.registerMembraneType('MemberOfPublic')
+    # print >> out, SetupMember(self, member_type='MemberOfPublic', register=False).finish()
 
     # try to call a workflow install method
     # in 'InstallWorkflows.py' method 'installWorkflows'
@@ -118,6 +120,7 @@ def install(self, reinstall=False):
         "HansardPage",
         "MemberOfParliament",
         "Clerk",
+        "MemberOfPublic",
         ] + factory_tool.getFactoryTypes().keys()
     factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
 
@@ -180,13 +183,15 @@ def uninstall(self, reinstall=False):
     # Removes our types from MemberDataContainer.allowed_content_types
     types_tool = getToolByName(self, 'portal_types')
     act = types_tool.MemberDataContainer.allowed_content_types
-    types_tool.MemberDataContainer.manage_changeProperties(allowed_content_types=[ct for ct in act if ct not in ('MemberOfParliament', 'Clerk', ) ])
+    types_tool.MemberDataContainer.manage_changeProperties(allowed_content_types=[ct for ct in act if ct not in ('MemberOfParliament', 'Clerk', 'MemberOfPublic', ) ])
     # unregister with membrane tool ...
     membrane_tool = getToolByName(self, 'membrane_tool')
     membrane_tool.unregisterMembraneType('MemberOfParliament')
     # print >> out, SetupMember(self, member_type='MemberOfParliament', register=False).finish()
     membrane_tool.unregisterMembraneType('Clerk')
     # print >> out, SetupMember(self, member_type='Clerk', register=False).finish()
+    membrane_tool.unregisterMembraneType('MemberOfPublic')
+    # print >> out, SetupMember(self, member_type='MemberOfPublic', register=False).finish()
 
 
     # try to call a workflow uninstall method

@@ -240,24 +240,40 @@ def setupWestminsterBillWorkflow(self, workflow):
                                 props={},
                                 )
 
+    ## Creation of workflow scripts
+    for wf_scriptname in ['publishChildren']:
+        if not wf_scriptname in workflow.scripts.objectIds():
+            workflow.scripts._setObject(wf_scriptname,
+                ExternalMethod(wf_scriptname, wf_scriptname,
+                productname + '.WestminsterBillWorkflow_scripts',
+                wf_scriptname))
+
     transitionDef = workflow.transitions['sign']
     transitionDef.setProperties(title="""sign""",
                                 new_state_id="""SignedIntoLaw""",
                                 trigger_type=1,
                                 script_name="""""",
-                                after_script_name="""""",
+                                after_script_name="""publishChildren""",
                                 actbox_name="""sign""",
                                 actbox_url="""""",
                                 actbox_category="""workflow""",
                                 props={},
                                 )
 
+    ## Creation of workflow scripts
+    for wf_scriptname in ['approveChildren']:
+        if not wf_scriptname in workflow.scripts.objectIds():
+            workflow.scripts._setObject(wf_scriptname,
+                ExternalMethod(wf_scriptname, wf_scriptname,
+                productname + '.WestminsterBillWorkflow_scripts',
+                wf_scriptname))
+
     transitionDef = workflow.transitions['approve']
     transitionDef.setProperties(title="""approve""",
                                 new_state_id="""Approved""",
                                 trigger_type=1,
                                 script_name="""""",
-                                after_script_name="""""",
+                                after_script_name="""approveChildren""",
                                 actbox_name="""approve""",
                                 actbox_url="""""",
                                 actbox_category="""workflow""",

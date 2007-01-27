@@ -48,7 +48,7 @@ def installWorkflows(self, package, out):
         print >> out, 'BungeniWorkflow already in workflows.'
     else:
         workflowTool._setObject('BungeniWorkflow', workflow)
-    workflowTool.setChainForPortalTypes(['ATFile'], workflow.getId())
+    workflowTool.setChainForPortalTypes(['ATFile', 'LegislationFolder'], workflow.getId())
 
     ourProductWorkflow = ExternalMethod('temp', 'temp',
                                         productname+'.'+'WestminsterBillWorkflow',
@@ -59,6 +59,26 @@ def installWorkflows(self, package, out):
     else:
         workflowTool._setObject('WestminsterBillWorkflow', workflow)
     workflowTool.setChainForPortalTypes(['Bill'], workflow.getId())
+
+    ourProductWorkflow = ExternalMethod('temp', 'temp',
+                                        productname+'.'+'SubWorkflow',
+                                        'createSubWorkflow')
+    workflow = ourProductWorkflow(self, 'SubWorkflow')
+    if 'SubWorkflow' in workflowTool.listWorkflows():
+        print >> out, 'SubWorkflow already in workflows.'
+    else:
+        workflowTool._setObject('SubWorkflow', workflow)
+    workflowTool.setChainForPortalTypes(['BillSection', 'BillPage', 'HansardSection', 'HansardPage'], workflow.getId())
+
+    ourProductWorkflow = ExternalMethod('temp', 'temp',
+                                        productname+'.'+'HansardWorkflow',
+                                        'createHansardWorkflow')
+    workflow = ourProductWorkflow(self, 'HansardWorkflow')
+    if 'HansardWorkflow' in workflowTool.listWorkflows():
+        print >> out, 'HansardWorkflow already in workflows.'
+    else:
+        workflowTool._setObject('HansardWorkflow', workflow)
+    workflowTool.setChainForPortalTypes(['Hansard'], workflow.getId())
 
     ##code-section after-workflow-install #fill in your manual code here
     workflowTool.setDefaultChain('BungeniWorkflow')

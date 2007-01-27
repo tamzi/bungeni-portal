@@ -40,31 +40,27 @@ from Products.Bungeni.config import *
 
 productname = 'Bungeni'
 
-def setupBungeniWorkflow(self, workflow):
-    """Define the BungeniWorkflow workflow.
+def setupSubWorkflow(self, workflow):
+    """Define the SubWorkflow workflow.
     """
 
-    workflow.setProperties(title='BungeniWorkflow')
+    workflow.setProperties(title='SubWorkflow')
 
     ##code-section create-workflow-setup-method-header #fill in your manual code here
     ##/code-section create-workflow-setup-method-header
 
 
-    for s in ['private', 'pending', 'published', 'draft']:
+    for s in ['pending', 'approved', 'published', 'obsolete', 'draft']:
         workflow.states.addState(s)
 
-    for t in ['hide', 'submit', 'reject', 'retract', 'show', 'publish']:
+    for t in ['submit', 'withdraw', 'reject', 'retract', 'approve', 'publish']:
         workflow.transitions.addTransition(t)
 
     for v in ['review_history', 'comments', 'time', 'actor', 'action']:
         workflow.variables.addVariable(v)
 
-    workflow.addManagedPermission('Access contents information')
-    workflow.addManagedPermission('Change portal events')
-    workflow.addManagedPermission('Modify portal content')
-    workflow.addManagedPermission('View')
 
-    for l in ['reviewer_queue']:
+    for l in []:
         if not l in workflow.worklists.objectValues():
             workflow.worklists.addWorklist(l)
 
@@ -74,146 +70,103 @@ def setupBungeniWorkflow(self, workflow):
 
     ## States initialization
 
-    stateDef = workflow.states['private']
-    stateDef.setProperties(title="""private""",
-                           description="""""",
-                           transitions=['show'])
-    stateDef.setPermission('Access contents information',
-                           0,
-                           ['Manager', 'Owner'])
-    stateDef.setPermission('Change portal events',
-                           0,
-                           ['Manager', 'Owner'])
-    stateDef.setPermission('Modify portal content',
-                           0,
-                           ['Manager', 'Owner'])
-    stateDef.setPermission('View',
-                           0,
-                           ['Manager', 'Owner'])
-
     stateDef = workflow.states['pending']
     stateDef.setProperties(title="""pending""",
                            description="""""",
-                           transitions=['hide', 'reject', 'retract', 'publish'])
-    stateDef.setPermission('Access contents information',
-                           1,
-                           ['Manager', 'Owner', 'Reviewer'])
-    stateDef.setPermission('Change portal events',
-                           0,
-                           ['Manager', 'Reviewer'])
-    stateDef.setPermission('Modify portal content',
-                           0,
-                           ['Manager', 'Reviewer'])
-    stateDef.setPermission('View',
-                           1,
-                           ['Manager', 'Owner', 'Reviewer'])
+                           transitions=['approve', 'retract', 'reject', 'publish'])
+
+    stateDef = workflow.states['approved']
+    stateDef.setProperties(title="""approved""",
+                           description="""""",
+                           transitions=['reject', 'retract', 'publish'])
 
     stateDef = workflow.states['published']
     stateDef.setProperties(title="""published""",
                            description="""""",
-                           transitions=['reject', 'retract'])
-    stateDef.setPermission('Access contents information',
-                           1,
-                           ['Anonymous', 'Manager'])
-    stateDef.setPermission('Change portal events',
-                           0,
-                           ['Manager'])
-    stateDef.setPermission('Modify portal content',
-                           0,
-                           ['Manager'])
-    stateDef.setPermission('View',
-                           1,
-                           ['Manager'])
+                           transitions=['withdraw'])
+
+    stateDef = workflow.states['obsolete']
+    stateDef.setProperties(title="""obsolete""",
+                           description="""""",
+                           transitions=['publish'])
 
     stateDef = workflow.states['draft']
     stateDef.setProperties(title="""draft""",
                            description="""""",
-                           transitions=['hide', 'submit', 'publish'])
-    stateDef.setPermission('Access contents information',
-                           0,
-                           ['Authenticated', 'Manager', 'Reviewer'])
-    stateDef.setPermission('Change portal events',
-                           0,
-                           ['Manager', 'Owner'])
-    stateDef.setPermission('Modify portal content',
-                           0,
-                           ['Manager', 'Owner'])
-    stateDef.setPermission('View',
-                           0,
-                           ['Authenticated', 'Manager', 'Reviewer'])
+                           transitions=['submit', 'publish'])
 
     ## Transitions initialization
 
-    transitionDef = workflow.transitions['hide']
-    transitionDef.setProperties(title="""Make private""",
-                                new_state_id="""private""",
-                                trigger_type=1,
-                                script_name="""""",
-                                after_script_name="""""",
-                                actbox_name="""Make private""",
-                                actbox_url="""""",
-                                actbox_category="""workflow""",
-                                props={'guard_roles': 'Owner'},
-                                )
-
     transitionDef = workflow.transitions['submit']
-    transitionDef.setProperties(title="""Submit""",
+    transitionDef.setProperties(title="""submit""",
                                 new_state_id="""pending""",
                                 trigger_type=1,
                                 script_name="""""",
                                 after_script_name="""""",
-                                actbox_name="""Submit""",
+                                actbox_name="""submit""",
                                 actbox_url="""""",
                                 actbox_category="""workflow""",
                                 props={'guard_permissions': 'Request review'},
                                 )
 
+    transitionDef = workflow.transitions['withdraw']
+    transitionDef.setProperties(title="""withdraw""",
+                                new_state_id="""obsolete""",
+                                trigger_type=2,
+                                script_name="""""",
+                                after_script_name="""""",
+                                actbox_name="""withdraw""",
+                                actbox_url="""""",
+                                actbox_category="""workflow""",
+                                props={},
+                                )
+
     transitionDef = workflow.transitions['reject']
-    transitionDef.setProperties(title="""Reject""",
+    transitionDef.setProperties(title="""reject""",
                                 new_state_id="""draft""",
                                 trigger_type=1,
                                 script_name="""""",
                                 after_script_name="""""",
-                                actbox_name="""Reject""",
+                                actbox_name="""reject""",
                                 actbox_url="""""",
                                 actbox_category="""workflow""",
                                 props={'guard_permissions': 'Review portal content'},
                                 )
 
     transitionDef = workflow.transitions['retract']
-    transitionDef.setProperties(title="""Retract""",
+    transitionDef.setProperties(title="""retract""",
                                 new_state_id="""draft""",
                                 trigger_type=1,
                                 script_name="""""",
                                 after_script_name="""""",
-                                actbox_name="""Retract""",
+                                actbox_name="""retract""",
                                 actbox_url="""""",
                                 actbox_category="""workflow""",
                                 props={'guard_permissions': 'Request review'},
                                 )
 
-    transitionDef = workflow.transitions['show']
-    transitionDef.setProperties(title="""Make visible""",
-                                new_state_id="""draft""",
+    transitionDef = workflow.transitions['approve']
+    transitionDef.setProperties(title="""approve""",
+                                new_state_id="""approved""",
                                 trigger_type=1,
                                 script_name="""""",
                                 after_script_name="""""",
-                                actbox_name="""Make visible""",
+                                actbox_name="""approve""",
                                 actbox_url="""""",
                                 actbox_category="""workflow""",
-                                props={'guard_roles': 'Owner'},
+                                props={},
                                 )
 
     transitionDef = workflow.transitions['publish']
-    transitionDef.setProperties(title="""Publish""",
+    transitionDef.setProperties(title="""publish""",
                                 new_state_id="""published""",
-                                trigger_type=1,
+                                trigger_type=2,
                                 script_name="""""",
                                 after_script_name="""""",
-                                actbox_name="""Publish""",
+                                actbox_name="""publish""",
                                 actbox_url="""""",
                                 actbox_category="""workflow""",
-                                props={'guard_permissions': 'Review portal content'},
+                                props={},
                                 )
 
     ## State Variable
@@ -267,16 +220,6 @@ def setupBungeniWorkflow(self, workflow):
 
     ## Worklists Initialization
 
-    worklistDef = workflow.worklists['reviewer_queue']
-    worklistStates = ['pending']
-    actbox_url = "%(portal_url)s/search?review_state=" + "&review_state=".join(worklistStates)
-    worklistDef.setProperties(description="Reviewer tasks",
-                              actbox_name="Pending (%(count)d)",
-                              actbox_url=actbox_url,
-                              actbox_category="global",
-                              props={'guard_permissions': 'Review portal content',
-                                     'guard_roles': '',
-                                     'var_match_review_state': ';'.join(worklistStates)})
 
     # WARNING: below protected section is deprecated.
     # Add a tagged value 'worklist' with the worklist name to your state(s) instead.
@@ -286,17 +229,17 @@ def setupBungeniWorkflow(self, workflow):
 
 
 
-def createBungeniWorkflow(self, id):
+def createSubWorkflow(self, id):
     """Create the workflow for Bungeni.
     """
 
     ob = DCWorkflowDefinition(id)
-    setupBungeniWorkflow(self, ob)
+    setupSubWorkflow(self, ob)
     return ob
 
-addWorkflowFactory(createBungeniWorkflow,
-                   id='BungeniWorkflow',
-                   title='BungeniWorkflow')
+addWorkflowFactory(createSubWorkflow,
+                   id='SubWorkflow',
+                   title='SubWorkflow')
 
 ##code-section create-workflow-module-footer #fill in your manual code here
 ##/code-section create-workflow-module-footer

@@ -94,7 +94,7 @@ def setupBungeniWorkflow(self, workflow):
     stateDef = workflow.states['pending']
     stateDef.setProperties(title="""pending""",
                            description="""""",
-                           transitions=['hide', 'reject', 'retract', 'publish'])
+                           transitions=['publish', 'hide', 'reject', 'retract'])
     stateDef.setPermission('Access contents information',
                            1,
                            ['Manager', 'Owner', 'Reviewer'])

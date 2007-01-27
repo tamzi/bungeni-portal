@@ -62,8 +62,8 @@ ADD_CONTENT_PERMISSIONS = {
     'Motion': 'Bungeni: Add content',
     'Question': 'Bungeni: Add content',
     'HansardFolder': 'Bungeni: Add content',
-    'MemberOfParliament': ADD_MEMBER_PERMISSION,
-    'Clerk': ADD_MEMBER_PERMISSION,
+    'MemberOfParliament': 'Bungeni: Add member',
+    'Clerk': 'Bungeni: Add member',
     'MemberOfPublic': ADD_MEMBER_PERMISSION,
 }
 

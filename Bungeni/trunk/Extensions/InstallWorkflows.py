@@ -82,6 +82,7 @@ def installWorkflows(self, package, out):
 
     ##code-section after-workflow-install #fill in your manual code here
     workflowTool.setDefaultChain('BungeniWorkflow')
+    workflowTool.updateRoleMappings()
     ##/code-section after-workflow-install
 
     return workflowTool
@@ -96,6 +97,7 @@ def uninstallWorkflows(self, package, out):
     ##code-section workflow-uninstall #fill in your manual code here
     workflowTool = getToolByName(self, 'portal_workflow')
     workflowTool.setDefaultChain('plone_workflow')
+    workflowTool.updateRoleMappings()
     ##/code-section workflow-uninstall
 
     pass

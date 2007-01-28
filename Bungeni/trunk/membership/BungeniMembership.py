@@ -50,7 +50,7 @@ schema = Schema((
             i18n_domain='Bungeni',
         ),
         multiValued=1,
-        vocabulary='getMemberTypes'
+        vocabulary='getMemberTypesVocab'
     ),
 
 ),
@@ -115,9 +115,9 @@ class BungeniMembership(UniqueObject, BaseContent):
 
     # Methods
 
-    security.declarePublic('getMemberTypes')
-    def getMemberTypes(self):
-        """
+    security.declarePublic('getMemberTypesVocab')
+    def getMemberTypesVocab(self):
+        """ Get a displaylist of remember-based member types.
         """
         remtypes = getRememberTypes(self)
         remtypes.sort()

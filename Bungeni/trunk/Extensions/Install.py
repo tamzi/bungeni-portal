@@ -70,6 +70,54 @@ def install(self, reinstall=False):
                  PROJECTNAME)
     install_subskin(self, out, GLOBALS)
 
+    # autoinstall tools
+    portal = getToolByName(self,'portal_url').getPortalObject()
+    for t in ['BungeniMembership']:
+        try:
+            portal.manage_addProduct[PROJECTNAME].manage_addTool(t)
+        except BadRequest:
+            # if an instance with the same name already exists this error will
+            # be swallowed. Zope raises in an unelegant manner a 'Bad Request' error
+            pass
+        except:
+            e = sys.exc_info()
+            if e[0] != 'Bad Request':
+                raise
+
+    # hide tools in the search form
+    portalProperties = getToolByName(self, 'portal_properties', None)
+    if portalProperties is not None:
+        siteProperties = getattr(portalProperties, 'site_properties', None)
+        if siteProperties is not None and siteProperties.hasProperty('types_not_searched'):
+            for tool in ['BungeniMembership']:
+                current = list(siteProperties.getProperty('types_not_searched'))
+                if tool not in current:
+                    current.append(tool)
+                    siteProperties.manage_changeProperties(**{'types_not_searched' : current})
+
+    # remove workflow for tools
+    portal_workflow = getToolByName(self, 'portal_workflow')
+    for tool in ['BungeniMembership']:
+        portal_workflow.setChainForPortalTypes([tool], '')
+
+    # uncatalog tools
+    for toolname in ['portal_bungenimembership']:
+        try:
+            portal[toolname].unindexObject()
+        except:
+            pass
+
+    # hide tools in the navigation
+    portalProperties = getToolByName(self, 'portal_properties', None)
+    if portalProperties is not None:
+        navtreeProperties = getattr(portalProperties, 'navtree_properties', None)
+        if navtreeProperties is not None and navtreeProperties.hasProperty('idsNotToList'):
+            for toolname in ['portal_bungenimembership']:
+                current = list(navtreeProperties.getProperty('idsNotToList'))
+                if toolname not in current:
+                    current.append(toolname)
+                    navtreeProperties.manage_changeProperties(**{'idsNotToList' : current})
+
     # Adds our types to MemberDataContainer.allowed_content_types
     types_tool = getToolByName(self, 'portal_types')
     act = types_tool.MemberDataContainer.allowed_content_types
@@ -127,6 +175,8 @@ def install(self, reinstall=False):
         "MemberOfParliament",
         "Clerk",
         "MemberOfPublic",
+        "multiselect",
+        "BungeniMembership",
         ] + factory_tool.getFactoryTypes().keys()
     factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
 
@@ -199,6 +249,28 @@ def uninstall(self, reinstall=False):
     membrane_tool.unregisterMembraneType('MemberOfPublic')
     # print >> out, SetupMember(self, member_type='MemberOfPublic', register=False).finish()
 
+    # unhide tools in the search form
+    portalProperties = getToolByName(self, 'portal_properties', None)
+    if portalProperties is not None:
+        siteProperties = getattr(portalProperties, 'site_properties', None)
+        if siteProperties is not None and siteProperties.hasProperty('types_not_searched'):
+            for tool in ['BungeniMembership']:
+                current = list(siteProperties.getProperty('types_not_searched'))
+                if tool in current:
+                    current.remove(tool)
+                    siteProperties.manage_changeProperties(**{'types_not_searched' : current})
+
+
+    # unhide tools
+    portalProperties = getToolByName(self, 'portal_properties', None)
+    if portalProperties is not None:
+        navtreeProperties = getattr(portalProperties, 'navtree_properties', None)
+        if navtreeProperties is not None and navtreeProperties.hasProperty('idsNotToList'):
+            for toolname in ['portal_bungenimembership']:
+                current = list(navtreeProperties.getProperty('idsNotToList'))
+                if toolname in current:
+                    current.remove(toolname)
+                    navtreeProperties.manage_changeProperties(**{'idsNotToList' : current})
 
     # try to call a workflow uninstall method
     # in 'InstallWorkflows.py' method 'uninstallWorkflows'

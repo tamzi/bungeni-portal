@@ -39,6 +39,8 @@ __docformat__ = 'plaintext'
 import MemberOfParliament
 import Clerk
 import MemberOfPublic
+import multiselect
+import BungeniMembership
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

@@ -16,6 +16,18 @@ msgstr ""
 "Preferred-Encodings: latin1 utf-8\n"
 "Domain: Bungeni\n"
 
+#. Default: "Creatememberareafor"
+#: membership/MembershipTool.py
+#: membership/Membership.py
+#: membership/BungeniMembership.py
+msgid "Bungeni_label_CreateMemberareaFor"
+msgstr ""
+
+#. Default: "Membertypeswithhomefolders"
+#: membership/BungeniMembership.py
+msgid "Bungeni_label_MemberTypesWithHomeFolders"
+msgstr ""
+
 #. Default: "Billpages"
 #: content/Amendment.py
 msgid "Bungeni_label_billpages"

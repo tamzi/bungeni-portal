@@ -78,6 +78,13 @@ def initialize(context):
     import membership
 
 
+    # Initialize portal tools
+    tools = [membership.BungeniMembership.BungeniMembership]
+    ToolInit( PROJECTNAME +' Tools',
+                tools = tools,
+                icon='tool.gif'
+                ).initialize( context )
+
     # Initialize portal content
     all_content_types, all_constructors, all_ftis = process_types(
         listTypes(PROJECTNAME),

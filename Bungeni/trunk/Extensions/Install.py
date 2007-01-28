@@ -175,7 +175,6 @@ def install(self, reinstall=False):
         "MemberOfParliament",
         "Clerk",
         "MemberOfPublic",
-        "multiselect",
         "BungeniMembership",
         ] + factory_tool.getFactoryTypes().keys()
     factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)

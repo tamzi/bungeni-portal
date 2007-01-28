@@ -64,10 +64,10 @@ class testBill(BungeniTest):
 
     # Manually created methods
 
-    def test_operation_1(self):
+    def test_operation_2(self):
         pass
 
-    def test_operation_2(self):
+    def test_operation_1(self):
         pass
 
 

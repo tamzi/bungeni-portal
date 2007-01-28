@@ -65,6 +65,8 @@ DirectoryView.registerDirectory('skins/Bungeni',
                                     product_globals)
 
 ##code-section custom-init-head #fill in your manual code here
+# Monkeypatch membership
+import Patch
 ##/code-section custom-init-head
 
 

@@ -83,7 +83,7 @@ class Hansard(BaseFolder, HelpCenterReferenceManual):
 
     # Methods
 
-    security.declareProtected(CMFCorePermissions.View, 'getTOC')
+    security.declareProtected(permissions.View, 'getTOC')
     def getTOC(self,current=None,root=None):
         """ See HelpCenterReferenceManual.getTOC for documentation.
         We're only overriding the query.

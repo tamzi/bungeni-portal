@@ -1,5 +1,5 @@
 # Permissions we want globally available
-from Products.CMFCore import CMFCorePermissions
+from Products.CMFCore import permissions
 
 # Products that are integrated in Bungeni product. 
 # The Plone site should be a membrane/remember site.

@@ -74,6 +74,9 @@ def install(self, reinstall=False):
     for slot in ['here/theme_portlet/macros/portlet']:
        if slot not in portal.left_slots:
            portal.left_slots = list(portal.left_slots) + [slot]
+    for slot in ['here/sections_portlet/macros/portlet']:
+       if slot not in portal.right_slots:
+           portal.right_slots = list(portal.right_slots) + [slot]
 
     # try to call a workflow install method
     # in 'InstallWorkflows.py' method 'installWorkflows'

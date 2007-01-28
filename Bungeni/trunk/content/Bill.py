@@ -87,7 +87,7 @@ class Bill(BaseFolder, HelpCenterReferenceManual):
 
     # Methods
 
-    security.declareProtected(permissions.View, 'getTOC')
+    security.declareProtected(CMFCorePermissions.View, 'getTOC')
     def getTOC(self, current=None, root=None):
         """ See HelpCenterReferenceManual.getTOC for documentation.
         We're only overriding the query.

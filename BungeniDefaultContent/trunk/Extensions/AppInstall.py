@@ -10,17 +10,24 @@ def install(self):
     plone = getToolByName(self, 'portal_url').getPortalObject()
 
     # Filter the global tabs
-    plone.Members
+    plone.Members # hide ...
 
+    #
     # Create default content
+    #
+    def add_object(parent, d):
+        id = d.get('id', None)
+        if id is None:
+            id = self.generateUniqueId(d['type'])
+        parent.invokeFactory(d['type'], id,)
+        obj = parent[id]
+        obj.processForm(data=1, values=d)
+
     def add_structure(root, structure):
         """ Recursively add content as specified in tuples of dicts.
         """
         for d in structure:
-            root.invokeFactory(d['type'], d['id'])
-            obj = root[d['id']]
-            obj.edit(**d)
-            # recatalog?
+            add_object(root, d)
             if d['children']:
                 add_structure(obj, d['children'])
     add_structure(plone, DEFAULT_SITE_CONTENT)

@@ -21,6 +21,9 @@ def install(self):
             id = self.generateUniqueId(d['type'])
         parent.invokeFactory(d['type'], id,)
         obj = parent[id]
+        layout = d.get('layout', None)
+        if layout:
+            obj.setLayout(layout)
         obj.processForm(data=1, values=d)
 
     def add_structure(root, structure):
@@ -28,7 +31,7 @@ def install(self):
         """
         for d in structure:
             add_object(root, d)
-            if d['children']:
+            if d.get('children', None):
                 add_structure(obj, d['children'])
     add_structure(plone, DEFAULT_SITE_CONTENT)
 

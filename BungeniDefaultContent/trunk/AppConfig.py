@@ -2,12 +2,10 @@
 DEPENDENCIES = ['Bungeni', ]
 
 DEFAULT_SITE_CONTENT = (
-        {'id': 'business', 'title': 'Business', 'type': 'Folder', 
-        'children': (
+        {'id': 'business', 'title': 'Business', 'type': 'Folder', 'children': (
             {'id': 'index_html', 'title': 'Business', 'type': 'Document',
-            'text': 'Documents about parliamentary business', 
-            'children': ()},
-            {'id': 'chamber', 'title': 'Chamber', 'type': 'Folder', 'children': (
+            'text': 'Documents about parliamentary business', },
+            {'title': 'Chamber', 'type': 'Folder', 'children': (
                 {'title': 'Business Bulletin', 'type': '«»', 'children': ()}, 
                 {'title': 'Debate Report', 'type': '«»', 'children': ()}, 
                 {'title': 'Minutes of Proceedings', 'type': '«»', 'children': ()}, 
@@ -15,49 +13,47 @@ DEFAULT_SITE_CONTENT = (
                 {'title': 'Voting Records', 'type': '«»', 'children': ()}, 
                 {'title': 'Attendance List', 'type': '«»', 'children': ()}, 
                 ),},
-            {'id': 'committees', 'title': 'Committees', 'type': 'Topic',  # TODO add criteria for smart folder to select committees
+            {'title': 'Committees', 'type': 'Topic',  # TODO add criteria for smart folder to select committees
             'children': (),},
-            {'id': 'bills', 'title': 'Bills', 'type': '«»', 'children': (),},
-            {'id': 'motions', 'title': 'Motions', 'type': '«»', 'children': (),},
-            {'id': 'questions', 'title': 'Questions', 'type': '«»', 'children': (),},
-            {'id': 'events', 'title': 'Events', 'type': '«»', 'children': (),},
+            {'title': 'Bills', 'type': '«»', 'children': (),},
+            {'title': 'Motions', 'type': '«»', 'children': (),},
+            {'title': 'Questions', 'type': '«»', 'children': (),},
+            {'title': 'Events', 'type': '«»', 'children': (),},
             ),
         },
         {'id': 'people', 'type': 'Folder', 'children': (
             {'id': 'index_html', 'type': 'Document', 
-            'text': 'Lists the MPs and staff. Use RichTopic?',
-            'children': ()},
+            'text': 'Lists the MPs and staff. Use RichTopic?', },
             )
         },
         {'id': 'about', 'type': 'Folder', 'children': (
             {'id': 'index_html', 'type': 'Document', 
-            'text': 'Background information about the parliament',
-            'children': (
-                {'title': 'How it works', 'type': '«»', 'children': (
-                    {'title': 'Parliamentary Procedure', 'type': 'Document', 'children': ()}, 
-                    {'title': 'Standing Orders', 'type': 'Document', 'children': ()}, 
-                    {'title': 'The Legislative Process', 'type': 'Document', 'children': ()}, 
-                    {'title': 'Oversight', 'type': 'Document', 'children': ()}, 
-                    {'title': 'Guides', 'type': 'Document', 'children': ()}, 
-                    {'title': 'Guide on Public Bills', 'type': 'Document', 'children': ()}, 
-                    {'title': 'Guide on Private Bills', 'type': 'Document', 'children': ()}, 
-                    {'title': 'Guide for Motions', 'type': 'Document', 'children': ()}, 
-                    {'title': 'Guide for Parliamentary Questions', 'type': 'Document', 'children': ()}, 
-                    {'title': 'Guide for Committee Conveners', 'type': 'Document', 'children': ()}, 
-                    {'title': 'Guide on Committees', 'type': 'Document', 'children': ()}, 
+            'text': 'Background information about the parliament',},
+            {'title': 'How it works', 'type': 'Folder', 'children': (
+                {'id': 'index_html', 'title': 'How it works', 'type': 'Dynamic Page'},
+                {'title': 'Parliamentary Procedure', 'type': 'Document'}, 
+                {'title': 'Standing Orders', 'type': 'Document'}, 
+                {'title': 'The Legislative Process', 'type': 'Document'}, 
+                {'title': 'Oversight', 'type': 'Document'}, 
+                {'title': 'Guides', 'type': 'LongDocument', 'children': (
+                    {'title': 'Guide on Public Bills', 'type': 'LongDocumentPage'}, 
+                    {'title': 'Guide on Private Bills', 'type': 'LongDocumentPage'}, 
+                    {'title': 'Guide for Motions', 'type': 'LongDocumentPage'}, 
+                    {'title': 'Guide for Parliamentary Questions', 'type': 'LongDocumentPage'}, 
+                    {'title': 'Guide for Committee Conveners', 'type': 'LongDocumentPage'}, 
+                    {'title': 'Guide on Committees', 'type': 'LongDocumentPage'}, 
                     )}, 
-                {'title': 'History', 'type': '«»', 'children': ()}, 
-                {'title': 'How to visit it', 'type': '«»', 'children': ()}, 
-                {'title': 'How to participate', 'type': '«»', 'children': ()}, 
-                {'title': 'Learning resources', 'type': '«»', 'children': ()}, 
-                {'title': 'Pictures', 'type': '«»', 'children': ()}, 
-                )},
+                )}, 
+            {'title': 'History', 'type': 'Document'}, 
+            {'title': 'How to visit', 'type': 'Document'}, 
+            {'title': 'How to participate', 'type': 'Document'}, 
+            {'title': 'Learning resources', 'type': 'Document'}, 
+            {'title': 'Pictures', 'type': 'Folder', 'layout': 'atct_album_view'},
             )
         },
         {'id': 'publications', 'type': 'Folder', 'children': (
             {'id': 'index_html', 'type': 'Document', 
-            'text': 'Publications include legislation and hansard.',
-            'children': ()},
+            'text': 'Publications include legislation and hansard.'},
             )
         },
         {'id': 'organisation', 'type': 'Folder', 'children': (

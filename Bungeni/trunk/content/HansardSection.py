@@ -61,7 +61,7 @@ class HansardSection(BaseFolder, HelpCenterReferenceManualSection):
 
     meta_type = 'HansardSection'
     portal_type = 'HansardSection'
-    allowed_content_types = ['HansardPage'] + list(getattr(HelpCenterReferenceManualSection, 'allowed_content_types', []))
+    allowed_content_types = ['HansardPage']
     filter_content_types = 1
     global_allow = 0
     #content_icon = 'HansardSection.gif'

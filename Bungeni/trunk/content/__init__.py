@@ -48,6 +48,9 @@ import HansardFolder
 import Hansard
 import HansardSection
 import HansardPage
+import LongDocument
+import LongDocumentSection
+import LongDocumentPage
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

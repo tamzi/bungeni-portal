@@ -161,6 +161,10 @@ def install(self, reinstall=False):
     # enable portal_factory for given types
     factory_tool = getToolByName(self,'portal_factory')
     factory_types=[
+        "MemberOfParliament",
+        "Clerk",
+        "MemberOfPublic",
+        "BungeniMembership",
         "Bill",
         "LegislationFolder",
         "BillSection",
@@ -172,10 +176,9 @@ def install(self, reinstall=False):
         "Hansard",
         "HansardSection",
         "HansardPage",
-        "MemberOfParliament",
-        "Clerk",
-        "MemberOfPublic",
-        "BungeniMembership",
+        "LongDocument",
+        "LongDocumentSection",
+        "LongDocumentPage",
         ] + factory_tool.getFactoryTypes().keys()
     factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
 

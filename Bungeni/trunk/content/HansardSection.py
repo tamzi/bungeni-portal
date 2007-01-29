@@ -68,7 +68,7 @@ class HansardSection(BaseFolder, HelpCenterReferenceManualSection):
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "HansardSection"
+    typeDescription = "A section of a Hansard report."
     typeDescMsgId = 'description_edit_hansardsection'
 
     _at_rename_after_creation = True

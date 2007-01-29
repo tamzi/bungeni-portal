@@ -75,7 +75,7 @@ class Bill(BaseFolder, HelpCenterReferenceManual):
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "Bill"
+    typeDescription = "A Bill can contain pages and sections, images and files."
     typeDescMsgId = 'description_edit_bill'
 
     _at_rename_after_creation = True

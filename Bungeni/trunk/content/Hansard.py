@@ -71,7 +71,7 @@ class Hansard(BaseFolder, HelpCenterReferenceManual):
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "Hansard"
+    typeDescription = "The Hansard report of a sitting of parliament."
     typeDescMsgId = 'description_edit_hansard'
 
     _at_rename_after_creation = True

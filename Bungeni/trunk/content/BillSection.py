@@ -68,7 +68,7 @@ class BillSection(BaseFolder, HelpCenterReferenceManualSection):
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "BillSection"
+    typeDescription = "A bill section can contain pages and subsections."
     typeDescMsgId = 'description_edit_billsection'
 
     _at_rename_after_creation = True

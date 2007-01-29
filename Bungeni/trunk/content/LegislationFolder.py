@@ -68,7 +68,7 @@ class LegislationFolder(BaseFolder, HelpCenterReferenceManualFolder):
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "LegislationFolder"
+    typeDescription = "A legislation folder can contain bills"
     typeDescMsgId = 'description_edit_legislationfolder'
 
     _at_rename_after_creation = True

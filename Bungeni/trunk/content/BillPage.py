@@ -68,7 +68,7 @@ class BillPage(BaseContent, HelpCenterReferenceManualPage):
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "BillPage"
+    typeDescription = "A page contains the text of one of the pages of the bill."
     typeDescMsgId = 'description_edit_billpage'
 
     _at_rename_after_creation = True

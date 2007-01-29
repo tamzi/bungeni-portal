@@ -68,7 +68,7 @@ class HansardPage(BaseContent, HelpCenterReferenceManualPage):
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "HansardPage"
+    typeDescription = "A page of a Hansard report."
     typeDescMsgId = 'description_edit_hansardpage'
 
     _at_rename_after_creation = True

@@ -68,7 +68,7 @@ class HansardFolder(BaseFolder, HelpCenterReferenceManualFolder):
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "HansardFolder"
+    typeDescription = "A Hansard folder contains Hansard reports."
     typeDescMsgId = 'description_edit_hansardfolder'
 
     _at_rename_after_creation = True

@@ -27,12 +27,20 @@ def install(self):
 
     # Require approval for the adding of plain old members
     wft = getToolByName(self, 'portal_workflow')
-    wft.setChainForPortalTypes( ['Member'], "member_approval_workflow")
+    wft.setChainForPortalTypes( ['Member'], "MemberApprovalWorkflow")
 
-    # Allow member data container to store the new member types
-    types_tool = getToolByName(self, 'portal_types')
-    memberdata_tool = getToolByName(self, 'portal_memberdata')
-    fti = types_tool.getTypeInfo(memberdata_tool)
-    fti.manage_changeProperties(allowed_content_types=getRememberTypes(self))
+    # Change the default workflow
+    wft = getToolByName(self, 'portal_workflow')
+    wft.setDefaultChain('BungeniWorkflow')
+    wft.setChainForPortalTypes( ['Folder', 'Large Plone Folder'], "BungeniWorkflow")
+    wft.updateRoleMappings()
 
     return out.getvalue()
+
+def uninstall(self):
+
+    # Change back the default workflow
+    wft = getToolByName(self, 'portal_workflow')
+    wft.setDefaultChain('plone_workflow')
+    wft.setChainForPortalTypes( ['Folder', 'Large Plone Folder'], "folder_workflow")
+    wft.updateRoleMappings()

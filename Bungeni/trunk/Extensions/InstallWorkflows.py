@@ -51,6 +51,26 @@ def installWorkflows(self, package, out):
     workflowTool.setChainForPortalTypes(['ATFile', 'LegislationFolder'], workflow.getId())
 
     ourProductWorkflow = ExternalMethod('temp', 'temp',
+                                        productname+'.'+'MemberAutoWorkflow',
+                                        'createMemberAutoWorkflow')
+    workflow = ourProductWorkflow(self, 'MemberAutoWorkflow')
+    if 'MemberAutoWorkflow' in workflowTool.listWorkflows():
+        print >> out, 'MemberAutoWorkflow already in workflows.'
+    else:
+        workflowTool._setObject('MemberAutoWorkflow', workflow)
+    workflowTool.setChainForPortalTypes(['MemberOfParliament', 'Clerk'], workflow.getId())
+
+    ourProductWorkflow = ExternalMethod('temp', 'temp',
+                                        productname+'.'+'MemberApprovalWorkflow',
+                                        'createMemberApprovalWorkflow')
+    workflow = ourProductWorkflow(self, 'MemberApprovalWorkflow')
+    if 'MemberApprovalWorkflow' in workflowTool.listWorkflows():
+        print >> out, 'MemberApprovalWorkflow already in workflows.'
+    else:
+        workflowTool._setObject('MemberApprovalWorkflow', workflow)
+    workflowTool.setChainForPortalTypes(['MemberOfPublic'], workflow.getId())
+
+    ourProductWorkflow = ExternalMethod('temp', 'temp',
                                         productname+'.'+'WestminsterBillWorkflow',
                                         'createWestminsterBillWorkflow')
     workflow = ourProductWorkflow(self, 'WestminsterBillWorkflow')
@@ -81,8 +101,6 @@ def installWorkflows(self, package, out):
     workflowTool.setChainForPortalTypes(['Hansard'], workflow.getId())
 
     ##code-section after-workflow-install #fill in your manual code here
-    workflowTool.setDefaultChain('BungeniWorkflow')
-    workflowTool.updateRoleMappings()
     ##/code-section after-workflow-install
 
     return workflowTool
@@ -95,9 +113,6 @@ def uninstallWorkflows(self, package, out):
     """
 
     ##code-section workflow-uninstall #fill in your manual code here
-    workflowTool = getToolByName(self, 'portal_workflow')
-    workflowTool.setDefaultChain('plone_workflow')
-    workflowTool.updateRoleMappings()
     ##/code-section workflow-uninstall
 
     pass

@@ -2,16 +2,7 @@ from StringIO import StringIO
 from Products.CMFCore.utils import getToolByName
 from Products.BungeniDefaultContent.config import DEFAULT_SITE_CONTENT
 
-def install(self):
-    """ Do stuff that GS will do for us soon ..
-    """
-    out = StringIO()
-
-    plone = getToolByName(self, 'portal_url').getPortalObject()
-
-    # Filter the global tabs
-    plone.Members # hide ...
-
+def add_default_content(self):
     #
     # Create default content
     #
@@ -47,6 +38,21 @@ def install(self):
     print >>out, 'Created testing content'
 
     return out.getvalue()
+
+def install(self):
+    """ Do stuff that GS will do for us soon ..
+    """
+    out = StringIO()
+
+    plone = getToolByName(self, 'portal_url').getPortalObject()
+
+    # Filter the global tabs
+    plone.Members # hide ...
+
+    # Add default content
+    result = add_default_content(self)
+    print >>out, result
+
 
 def uninstall(self):
     out = StringIO()

@@ -149,13 +149,11 @@ def install(self, reinstall=False):
 
     #bind classes to workflows
     wft = getToolByName(self,'portal_workflow')
+    wft.setChainForPortalTypes( ['Clerk'], "MemberAutoWorkflow")
     wft.setChainForPortalTypes( ['LegislationFolder'], "BungeniWorkflow")
     wft.setChainForPortalTypes( ['BillPage'], "SubWorkflow")
     wft.setChainForPortalTypes( ['HansardSection'], "SubWorkflow")
     wft.setChainForPortalTypes( ['HansardPage'], "SubWorkflow")
-    wft.setChainForPortalTypes( ['MemberOfParliament'], "member_auto_workflow")
-    wft.setChainForPortalTypes( ['Clerk'], "member_auto_workflow")
-    wft.setChainForPortalTypes( ['MemberOfPublic'], "member_approval_workflow")
 
 
     # enable portal_factory for given types

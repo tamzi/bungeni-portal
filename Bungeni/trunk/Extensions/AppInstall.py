@@ -7,13 +7,18 @@ def install(self):
     """
     out = StringIO()
 
-    # Apply membrane and remember profiles (we can't QI them)
-    setup_tool = getToolByName(self, 'portal_setup')
-    for p in ('membrane', 'remember', ):
-        setup_tool.setImportContext('profile-%s:default' % p)
-        out.write( 'Switched to profile: %s \n' % p)
-        result = setup_tool.runAllImportSteps()
-        print >>out,  'Steps run: %s \n' % ', '.join(result['steps'])
+    # XXX: this doesn't actually work, as it steps on work done in
+    # Install.py
+    #
+    # # Apply membrane and remember profiles (we can't QI them)
+    # membrane_tool = getToolByName(self, 'membrane_tool')
+    # if not membrane_tool:
+    #     setup_tool = getToolByName(self, 'portal_setup')
+    #     for p in ('membrane', 'remember', ):
+    #         setup_tool.setImportContext('profile-%s:default' % p)
+    #         out.write( 'Switched to profile: %s \n' % p)
+    #         result = setup_tool.runAllImportSteps()
+    #         print >>out,  'Steps run: %s \n' % ', '.join(result['steps'])
 
     # Change default member to MemberOfPublic
     plone = getToolByName(self, 'portal_url').getPortalObject()

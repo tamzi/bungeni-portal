@@ -1,6 +1,6 @@
 from StringIO import StringIO
 from Products.CMFCore.utils import getToolByName
-from Products.remember.utils import getAdderUtility, getRememberTypes
+from Products.remember.utils import getAdderUtility
 
 def install(self):
     """ Do stuff that GS will do for us soon ..
@@ -37,10 +37,3 @@ def install(self):
 
     return out.getvalue()
 
-def uninstall(self):
-
-    # Change back the default workflow
-    wft = getToolByName(self, 'portal_workflow')
-    wft.setDefaultChain('plone_workflow')
-    wft.setChainForPortalTypes( ['Folder', 'Large Plone Folder'], "folder_workflow")
-    wft.updateRoleMappings()

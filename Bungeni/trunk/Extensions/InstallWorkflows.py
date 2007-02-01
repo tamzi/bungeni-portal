@@ -32,6 +32,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.ExternalMethod.ExternalMethod import ExternalMethod
 
 ##code-section module-header #fill in your manual code here
+from Products.remember.utils import getRememberTypes
 ##/code-section module-header
 
 def installWorkflows(self, package, out):
@@ -113,6 +114,15 @@ def uninstallWorkflows(self, package, out):
     """
 
     ##code-section workflow-uninstall #fill in your manual code here
+    # Change back the default workflow
+    wft = getToolByName(self, 'portal_workflow')
+    wft.setDefaultChain('plone_workflow')
+    wft.setChainForPortalTypes( ['Folder', 'Large Plone Folder'], "folder_workflow")
+    wft.setChainForPortalTypes(
+            getRememberTypes(self) +
+            ['MemberOfParliament', 'Clerk', 'MemberOfPublic', ],
+            'member_auto_workflow')
+    wft.updateRoleMappings()
     ##/code-section workflow-uninstall
 
     pass

@@ -70,7 +70,7 @@ def setupMemberApprovalWorkflow(self, workflow):
     workflow.addManagedPermission('membrane: Register member')
     workflow.addManagedPermission('Access contents information')
 
-    for l in []:
+    for l in ['reviewer_queue']:
         if not l in workflow.worklists.objectValues():
             workflow.worklists.addWorklist(l)
 
@@ -95,25 +95,25 @@ def setupMemberApprovalWorkflow(self, workflow):
                            ['Manager'])
     stateDef.setPermission('Modify portal content',
                            0,
-                           ['Manager'])
+                           ['Manager', 'Reviewer'])
     stateDef.setPermission('Set own password',
                            0,
-                           ['Manager'])
+                           ['Manager', 'Reviewer'])
     stateDef.setPermission('Set own properties',
                            0,
-                           ['Manager'])
+                           ['Manager', 'Reviewer'])
     stateDef.setPermission('View',
                            0,
-                           ['Manager'])
+                           ['Manager', 'Reviewer'])
     stateDef.setPermission('membrane: Edit member id',
                            0,
-                           ['Manager'])
+                           ['Manager', 'Reviewer'])
     stateDef.setPermission('membrane: Register member',
                            0,
-                           ['Manager'])
+                           ['Manager', 'Reviewer'])
     stateDef.setPermission('Access contents information',
                            0,
-                           ['Manager'])
+                           ['Manager', 'Reviewer'])
 
     stateDef = workflow.states['disabled']
     stateDef.setProperties(title="""Disabled""",
@@ -468,6 +468,16 @@ def setupMemberApprovalWorkflow(self, workflow):
 
     ## Worklists Initialization
 
+    worklistDef = workflow.worklists['reviewer_queue']
+    worklistStates = ['pending']
+    actbox_url = "%(portal_url)s/search?review_state=" + "&review_state=".join(worklistStates)
+    worklistDef.setProperties(description="Reviewer tasks",
+                              actbox_name="Pending (%(count)d)",
+                              actbox_url=actbox_url,
+                              actbox_category="global",
+                              props={'guard_permissions': 'Review portal content',
+                                     'guard_roles': '',
+                                     'var_match_review_state': ';'.join(worklistStates)})
 
     # WARNING: below protected section is deprecated.
     # Add a tagged value 'worklist' with the worklist name to your state(s) instead.

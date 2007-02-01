@@ -11,9 +11,11 @@ PATCH_PREFIX = '_monkey_'
 
 __refresh_module__ = 0
 
+
 class Patched_CMFCore_MembershipTool:
     #
     #   Squash getMemberareaCreationFlag: we ask BungeniMembership
+    #   about this on a per-member-type basis instead.
     #
 
     security = ClassSecurityInfo()

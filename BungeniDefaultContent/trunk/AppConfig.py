@@ -26,7 +26,7 @@ DEFAULT_SITE_CONTENT = (
                 {'title': 'Attendance List', 'text': 'Text about Attendance List'+LOREM_IPSUM, 'type': 'Document'}, 
                 ),},
             {'title': 'Committees', 'type': 'Topic', 'children': (
-                {'field': 'Type', 'type': 'ATPortalTypeCriterion', 'value': 'Team', 'operator': 'and'},
+                # {'field': 'Type', 'type': 'ATPortalTypeCriterion', 'value': 'Team', 'operator': 'and'},
                 ),},
             {'title': 'Bills', 'text': 'Text about Bills'+LOREM_IPSUM, 'type': 'Document'},
             {'title': 'Motions', 'text': 'Text about Motions'+LOREM_IPSUM, 'type': 'Document'},
@@ -73,3 +73,7 @@ DEFAULT_SITE_CONTENT = (
         },
         )
 
+# Some committees to play with
+DEFAULT_TEAMS = (
+        # {'title': 'Committee 1', 'type': 'Team',},
+        )

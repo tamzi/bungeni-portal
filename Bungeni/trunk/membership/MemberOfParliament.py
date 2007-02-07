@@ -30,6 +30,7 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 import zope
+from Products.Bungeni.membership.BungeniMember import BungeniMember
 from Products.Bungeni.interfaces.IMemberOfParliament import IMemberOfParliament
 # imports needed by remember
 from Products.remember.content.member import BaseMember
@@ -54,6 +55,7 @@ schema = Schema((
 ##/code-section after-local-schema
 
 MemberOfParliament_schema = BaseSchema.copy() + \
+    getattr(BungeniMember, 'schema', Schema(())).copy() + \
     BaseMember.schema.copy() + \
     ExtensibleMetadata.schema.copy() + \
     schema.copy()
@@ -61,11 +63,11 @@ MemberOfParliament_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class MemberOfParliament(BaseMember, BaseContent):
+class MemberOfParliament(BaseMember, BaseContent, BungeniMember):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseMember,'__implements__',()),) + (getattr(BaseContent,'__implements__',()),)
+    __implements__ = (getattr(BaseMember,'__implements__',()),) + (getattr(BaseContent,'__implements__',()),) + (getattr(BungeniMember,'__implements__',()),)
     # zope3 interfaces
     zope.interface.implements(IMemberOfParliament)
 
@@ -74,7 +76,7 @@ class MemberOfParliament(BaseMember, BaseContent):
 
     meta_type = 'MemberOfParliament'
     portal_type = 'MemberOfParliament'
-    allowed_content_types = []
+    allowed_content_types = [] + list(getattr(BungeniMember, 'allowed_content_types', []))
     filter_content_types = 0
     global_allow = 0
     #content_icon = 'MemberOfParliament.gif'

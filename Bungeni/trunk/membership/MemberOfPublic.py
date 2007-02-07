@@ -29,6 +29,7 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from Products.Bungeni.membership.BungeniMember import BungeniMember
 # imports needed by remember
 from Products.remember.content.member import BaseMember
 from Products.remember.permissions import \
@@ -52,6 +53,7 @@ schema = Schema((
 ##/code-section after-local-schema
 
 MemberOfPublic_schema = BaseSchema.copy() + \
+    getattr(BungeniMember, 'schema', Schema(())).copy() + \
     BaseMember.schema.copy() + \
     ExtensibleMetadata.schema.copy() + \
     schema.copy()
@@ -59,18 +61,18 @@ MemberOfPublic_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class MemberOfPublic(BaseMember, BaseContent):
+class MemberOfPublic(BaseMember, BaseContent, BungeniMember):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseMember,'__implements__',()),) + (getattr(BaseContent,'__implements__',()),)
+    __implements__ = (getattr(BaseMember,'__implements__',()),) + (getattr(BaseContent,'__implements__',()),) + (getattr(BungeniMember,'__implements__',()),)
 
     # This name appears in the 'add' box
     archetype_name = 'MemberOfPublic'
 
     meta_type = 'MemberOfPublic'
     portal_type = 'MemberOfPublic'
-    allowed_content_types = []
+    allowed_content_types = [] + list(getattr(BungeniMember, 'allowed_content_types', []))
     filter_content_types = 0
     global_allow = 0
     #content_icon = 'MemberOfPublic.gif'

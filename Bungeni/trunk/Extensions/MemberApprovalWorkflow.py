@@ -104,7 +104,7 @@ def setupMemberApprovalWorkflow(self, workflow):
                            ['Manager', 'Reviewer'])
     stateDef.setPermission('View',
                            0,
-                           ['Manager', 'Reviewer'])
+                           ['Anonymous', 'Manager', 'Reviewer'])
     stateDef.setPermission('membrane: Edit member id',
                            0,
                            ['Manager', 'Reviewer'])
@@ -113,7 +113,7 @@ def setupMemberApprovalWorkflow(self, workflow):
                            ['Manager', 'Reviewer'])
     stateDef.setPermission('Access contents information',
                            0,
-                           ['Manager', 'Reviewer'])
+                           ['Anonymous', 'Manager', 'Reviewer'])
 
     stateDef = workflow.states['disabled']
     stateDef.setProperties(title="""Disabled""",
@@ -298,7 +298,7 @@ def setupMemberApprovalWorkflow(self, workflow):
                                 actbox_name="""Automatically submit member""",
                                 actbox_url="""""",
                                 actbox_category="""workflow""",
-                                props={'guard_expr': 'here/isValid', 'guard_permissions': 'Request review'},
+                                props={'guard_expr': 'here/isValid'},
                                 )
 
     transitionDef = workflow.transitions['make_public']

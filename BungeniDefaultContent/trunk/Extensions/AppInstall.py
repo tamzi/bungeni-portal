@@ -81,6 +81,10 @@ def install(self):
     result = add_default_content(self, DEFAULT_SITE_CONTENT)
     print >>out, result
 
+    # Hide from navigation
+    self.Members.setExcludeFromNav(True)
+    self.Members.reindexObject()
+
     # Add default committees
     tt = getToolByName(self, 'portal_teams')
     result = add_default_content(tt, DEFAULT_TEAMS, initial_transitions=[])

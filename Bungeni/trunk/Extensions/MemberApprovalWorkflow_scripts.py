@@ -35,16 +35,34 @@ __docformat__ = 'plaintext'
 
 
 def enable(self, state_change, **kw):
-    pass
+    # From remember/Extensions/workflow.py
+    obj=state_change.object
+    try:
+        if hasattr(obj, 'old_state'):
+            delattr(obj, 'old_state')
+    except:
+        # write tracebacks because otherwise workflow will swallow exceptions
+        log_exc()
+        raise
 
 
 
 def disable(self, state_change, **kw):
-    pass
+    # From remember/Extensions/workflow.py
+    obj=state_change.object
+    try:
+        workflow_tool = getToolByName(obj, 'portal_workflow')
+        obj.old_state = workflow_tool.getInfoFor(obj, 'review_state', '')
+    except:
+         # write tracebacks because otherwise workflow will swallow exceptions
+        log_exc()
+        raise
 
 
 
 def register(self, state_change, **kw):
-    pass
+    # From remember/Extensions/workflow.py
+    obj = state_change.object
+    return obj.register()
 
 

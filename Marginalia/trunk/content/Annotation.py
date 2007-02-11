@@ -155,7 +155,7 @@ class Annotation(BaseContent):
     def getUID(self):
         """
         """
-        return 'tag:%s,%s:%s' % ('localhost', DateTime().year, self.getId())
+        return 'tag:%s,%s:%s' % ('localhost', DateTime().year(), self.getId())
 
 
 registerType(Annotation, PROJECTNAME)

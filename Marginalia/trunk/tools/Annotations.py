@@ -36,6 +36,7 @@ from Products.CMFCore.utils import UniqueObject
 
     
 ##code-section module-header #fill in your manual code here
+from Products.CMFCore.utils import getToolByName
 ##/code-section module-header
 
 schema = Schema((
@@ -116,9 +117,47 @@ class Annotations(UniqueObject, BaseBTreeFolder):
 
     # Methods
 
+    security.declarePublic('preference') #XXX fix security
+    def preference(self):
+        """ Quick & REST dirty preferences. Move to configlet later.
+        """
+        rest_verb_map = {
+            'GET': self.listPreferences,
+            'POST': self.setPreference,
+            }
+        verb = rest_verb_map[self.REQUEST.REQUEST_METHOD]
+        return verb()
+
+    def listPreferences(self):
+        """ Stub .. TODO
+        """
+        return ('annotations.show:true\n'
+                'annotations.show-user:anonymous\n'
+                'annotations.note-edit-mode:note freeform\n')
+
+    def setPreference(self):
+        """
+        """
+        # TODO: Ignore prefence saving for now
+        self.REQUEST.RESPONSE.setHeader('NoContent')
+        return
+
     security.declarePublic('annotate')
     def annotate(self):
+        """ Examine request for REST verbs.
         """
+        rest_verb_map = {
+            'GET': self.listAnnotations, # Finds listAnnotations.pt in skins
+            'POST': self.createAnnotation,
+            'PUT': self.updateAnnotation,
+            'DELETE': self.deleteAnnotation,
+            }
+        verb = rest_verb_map[self.REQUEST.REQUEST_METHOD]
+        return verb()
+
+    security.declarePublic('createAnnotation')
+    def createAnnotation(self):
+        """ Create annotation from POST.
         """
         params = {
             'url': '',
@@ -131,7 +170,34 @@ class Annotations(UniqueObject, BaseBTreeFolder):
             'link': '',
             }
         params.update(self.REQUEST)
-        return self.invokeFactory('Annotation', id='xx', **params)
+        plone = getToolByName(self, 'portal_url').getPortalObject()
+        obj_id = plone.generateUniqueId('Annotation')
+        return self.invokeFactory('Annotation', id=obj_id, **params)
+
+    security.declarePublic('updateAnnotation')
+    def updateAnnotation(self):
+        """
+        """
+        params = {
+            'id': '',
+            'note': '',
+            'access': '',
+            'link': '',
+            }
+        params.update(self.REQUEST)
+        return self.edit(**params)
+
+    security.declarePublic('deleteAnnotation')
+    def deleteAnnotation(self):
+        """
+        """
+        annotation_id = self.REQUEST.get('id', None)
+        if annotation_id:
+            self.manage_delObjects(annotation_id)
+            self.REQUEST.RESPONSE.setStatus('NoContent')
+            return
+        self.REQUEST.RESPONSE.setStatus('BadRequest') # No id
+        return
 
     security.declarePublic('getFeedUID')
     def getFeedUID(self):
@@ -140,12 +206,12 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         return 'tag:%s,%s:annotation' % ('localhost', '2007-01-24')
 
     security.declarePublic('getSortedFeedEntries')
-    def getSortedFeedEntries(self):
+    def getSortedFeedEntries(self, user, url):
         """
         """
-        # TODO get from catalog, filter on user
-        ans = self.contentValues('Annotation')
-        return ans
+        # TODO get from catalog, filter on user and url
+        annotations = self.contentValues('Annotation')
+        return annotations
 
     security.declarePublic('getBaseURL')
     def getBaseURL(self):

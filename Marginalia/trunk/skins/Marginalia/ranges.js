@@ -352,7 +352,7 @@ WordRange.prototype.compare = function( r2 )
 	a = this.start.compare( r2.start );
 	if ( 0 == a )
 	{
-		b == this.end.compare( r2.end );
+		b = this.end.compare( r2.end );
 		if ( 0 == b )
 			return 0;
 		else

@@ -113,6 +113,7 @@ schema = Schema((
 )
 
 ##code-section after-local-schema #fill in your manual code here
+schema += Schema(( ComputedField( name='title', accessor='Title',),),)
 ##/code-section after-local-schema
 
 Annotation_schema = BaseSchema.copy() + \
@@ -156,6 +157,10 @@ class Annotation(BaseContent):
         """
         """
         return 'tag:%s,%s:%s' % ('localhost', DateTime().year(), self.getId())
+
+    security.declarePublic('getUID')
+    def Title(self):
+        return self.getNote()
 
 
 registerType(Annotation, PROJECTNAME)

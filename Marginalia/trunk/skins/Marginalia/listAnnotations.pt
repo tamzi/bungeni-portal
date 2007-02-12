@@ -74,8 +74,8 @@
 
       <updated tal:content="python:toLocalizedTime(feedentry.ModificationDate(),long_format=1)">2002-10-02T10:00:00-05:00</updated>
 
-      <summary tal:condition="feedentry/Description"
-               tal:content="feedentry/Description"/>
+      <summary tal:condition="feedentry/getQuote"
+               tal:content="feedentry/getQuote"/>
 
       <author>
         <name tal:content="feedentry/getQuote_author">username</name>

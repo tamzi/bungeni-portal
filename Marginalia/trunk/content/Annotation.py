@@ -162,6 +162,11 @@ class Annotation(BaseContent):
     def Title(self):
         return self.getNote()
 
+    security.declarePublic('getUserName')
+    def getUserName(self):
+        # XXX haaaack replace with a view class .. 
+        return self.getOwner().getUserName()
+
 
 registerType(Annotation, PROJECTNAME)
 # end of class Annotation

@@ -78,7 +78,7 @@
                tal:content="feedentry/getQuote"/>
 
       <author>
-        <name tal:content="feedentry/getQuote_author">username</name>
+        <name tal:content="feedentry/getUserName">username</name>
         <contributor tal:content="feedentry/getQuote_author">
         source of commented text
         </contributor>

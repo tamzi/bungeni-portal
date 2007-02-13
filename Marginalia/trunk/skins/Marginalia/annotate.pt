@@ -24,7 +24,7 @@
 		/* // var preferences = new Preferences( new StaticPreferenceService( ) ); */
 		var keywordService = new RestKeywordService( serviceRoot + '/keywords.txt');
 		keywordService.init( );
-		marginaliaInit( annotationService, 'anonymous', 'anonymous', null,
+		marginaliaInit( annotationService, '${user/getUserName}', '${user/getUserName}', null,
 			preferences, keywordService );
         function show_annotations_on_load() {
             window.marginalia.showAnnotations( '${request/URL}/#*')

@@ -36,6 +36,7 @@ from Products.CMFCore.utils import UniqueObject
 
     
 ##code-section module-header #fill in your manual code here
+from cgi import parse_qsl
 from Products.CMFCore.utils import getToolByName
 ##/code-section module-header
 
@@ -139,7 +140,7 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         """
         """
         # TODO: Ignore prefence saving for now
-        self.REQUEST.RESPONSE.setHeader('NoContent')
+        self.REQUEST.RESPONSE.setStatus('NoContent')
         return
 
     security.declarePublic('annotate')
@@ -170,9 +171,12 @@ class Annotations(UniqueObject, BaseBTreeFolder):
             'link': '',
             }
         params.update(self.REQUEST)
+        params.update(parse_qsl(self.REQUEST.QUERY_STRING))
         plone = getToolByName(self, 'portal_url').getPortalObject()
         obj_id = plone.generateUniqueId('Annotation')
-        return self.invokeFactory('Annotation', id=obj_id, **params)
+        new_id = self.invokeFactory('Annotation', id=obj_id, **params)
+        self.REQUEST.RESPONSE.setStatus('Created')
+        return new_id
 
     security.declarePublic('updateAnnotation')
     def updateAnnotation(self):
@@ -185,19 +189,24 @@ class Annotations(UniqueObject, BaseBTreeFolder):
             'link': '',
             }
         params.update(self.REQUEST)
-        return self.edit(**params)
+        params.update(parse_qsl(self.REQUEST.QUERY_STRING))
+        annotation = self.get(params['id'], None)
+        if not annotation:
+            self.REQUEST.RESPONSE.setStatus('BadRequest')
+            return
+        annotation.edit(**params)
+        self.REQUEST.RESPONSE.setStatus('NoContent')
 
     security.declarePublic('deleteAnnotation')
     def deleteAnnotation(self):
         """
         """
-        annotation_id = self.REQUEST.get('id', None)
-        if annotation_id:
-            self.manage_delObjects(annotation_id)
+        name, value = self.REQUEST.QUERY_STRING.split('=')
+        if value:
+            self.manage_delObjects(value)
             self.REQUEST.RESPONSE.setStatus('NoContent')
             return
         self.REQUEST.RESPONSE.setStatus('BadRequest') # No id
-        return
 
     security.declarePublic('getFeedUID')
     def getFeedUID(self):

@@ -91,6 +91,15 @@ class LookAndFeel(BaseContent):
        },
 
 
+       {'action': "string:${object_url}/global_siteactions",
+        'category': "object",
+        'id': 'global_siteactions',
+        'name': 'global_siteactions',
+        'permissions': ("View",),
+        'condition': 'python:1'
+       },
+
+
     )
 
     _at_rename_after_creation = True

@@ -2,7 +2,7 @@
       xml:lang="en"
       lang="en"
       i18n:domain="plone">
-
+<!-- bungeni: changed to cater for action icons here same as elsewhere -->
 <body>
 <ul metal:define-macro="site_actions"
     id="portal-siteactions"

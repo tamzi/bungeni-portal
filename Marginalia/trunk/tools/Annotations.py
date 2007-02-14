@@ -118,30 +118,16 @@ class Annotations(UniqueObject, BaseBTreeFolder):
 
     # Methods
 
-    security.declarePublic('preference') #XXX fix security
+    security.declarePublic('preference')
     def preference(self):
         """ Quick & REST dirty preferences. Move to configlet later.
         """
         rest_verb_map = {
-            'GET': self.listPreferences,
-            'POST': self.setPreference,
+            'GET': self._listPreferences,
+            'POST': self._setPreference,
             }
         verb = rest_verb_map[self.REQUEST.REQUEST_METHOD]
         return verb()
-
-    def listPreferences(self):
-        """ Stub .. TODO
-        """
-        return ('annotations.show:true\n'
-                'annotations.show-user:anonymous\n'
-                'annotations.note-edit-mode:note freeform\n')
-
-    def setPreference(self):
-        """
-        """
-        # TODO: Ignore prefence saving for now
-        self.REQUEST.RESPONSE.setStatus('NoContent')
-        return
 
     security.declarePublic('annotate')
     def annotate(self):
@@ -149,64 +135,12 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         """
         rest_verb_map = {
             'GET': self.listAnnotations, # Finds listAnnotations.pt in skins
-            'POST': self.createAnnotation,
-            'PUT': self.updateAnnotation,
-            'DELETE': self.deleteAnnotation,
+            'POST': self._createAnnotation,
+            'PUT': self._updateAnnotation,
+            'DELETE': self._deleteAnnotation,
             }
         verb = rest_verb_map[self.REQUEST.REQUEST_METHOD]
         return verb()
-
-    security.declarePublic('createAnnotation')
-    def createAnnotation(self):
-        """ Create annotation from POST.
-        """
-        params = {
-            'url': '',
-            'range': '',
-            'note': '',
-            'access': '',
-            'quote': '',
-            'quote_title': '',
-            'quote_author': '',
-            'link': '',
-            }
-        params.update(self.REQUEST)
-        params.update(parse_qsl(self.REQUEST.QUERY_STRING))
-        plone = getToolByName(self, 'portal_url').getPortalObject()
-        obj_id = plone.generateUniqueId('Annotation')
-        new_id = self.invokeFactory('Annotation', id=obj_id, **params)
-        self.REQUEST.RESPONSE.setStatus('Created')
-        return new_id
-
-    security.declarePublic('updateAnnotation')
-    def updateAnnotation(self):
-        """
-        """
-        params = {
-            'id': '',
-            'note': '',
-            'access': '',
-            'link': '',
-            }
-        params.update(self.REQUEST)
-        params.update(parse_qsl(self.REQUEST.QUERY_STRING))
-        annotation = self.get(params['id'], None)
-        if not annotation:
-            self.REQUEST.RESPONSE.setStatus('BadRequest')
-            return
-        annotation.edit(**params)
-        self.REQUEST.RESPONSE.setStatus('NoContent')
-
-    security.declarePublic('deleteAnnotation')
-    def deleteAnnotation(self):
-        """
-        """
-        name, value = self.REQUEST.QUERY_STRING.split('=')
-        if value:
-            self.manage_delObjects(value)
-            self.REQUEST.RESPONSE.setStatus('NoContent')
-            return
-        self.REQUEST.RESPONSE.setStatus('BadRequest') # No id
 
     security.declarePublic('getFeedUID')
     def getFeedUID(self):
@@ -227,6 +161,72 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         """
         """
         return self.absolute_url()
+
+    security.declarePrivate('_listPreferences')
+    def _listPreferences(self):
+        """ Stub .. TODO
+        """
+        return ('annotations.show:true\n' 'annotations.show-user:anonymous\n' 'annotations.note-edit-mode:note freeform\n')
+
+    security.declarePrivate('_setPreference')
+    def _setPreference(self):
+        """
+        """
+        # TODO: Ignore prefence saving for now
+        self.REQUEST.RESPONSE.setStatus('NoContent')
+        return
+
+    security.declarePrivate('_createAnnotation')
+    def _createAnnotation(self):
+        """ Create annotation from POST.
+        """
+        params = {
+            'url': '',
+            'range': '',
+            'note': '',
+            'access': '',
+            'quote': '',
+            'quote_title': '',
+            'quote_author': '',
+            'link': '',
+            }
+        params.update(self.REQUEST)
+        params.update(parse_qsl(self.REQUEST.QUERY_STRING))
+        plone = getToolByName(self, 'portal_url').getPortalObject()
+        obj_id = plone.generateUniqueId('Annotation')
+        new_id = self.invokeFactory('Annotation', id=obj_id, **params)
+        self.REQUEST.RESPONSE.setStatus('Created')
+        return new_id
+
+    security.declarePrivate('_updateAnnotation')
+    def _updateAnnotation(self):
+        """
+        """
+        params = {
+            'id': '',
+            'note': '',
+            'access': '',
+            'link': '',
+            }
+        params.update(self.REQUEST)
+        params.update(parse_qsl(self.REQUEST.QUERY_STRING))
+        annotation = self.get(params['id'], None)
+        if not annotation:
+            self.REQUEST.RESPONSE.setStatus('BadRequest')
+            return
+        annotation.edit(**params)
+        self.REQUEST.RESPONSE.setStatus('NoContent')
+
+    security.declarePrivate('_deleteAnnotation')
+    def _deleteAnnotation(self):
+        """
+        """
+        name, value = self.REQUEST.QUERY_STRING.split('=')
+        if value:
+            self.manage_delObjects(value)
+            self.REQUEST.RESPONSE.setStatus('NoContent')
+            return
+        self.REQUEST.RESPONSE.setStatus('BadRequest') # No id
 
 
 registerType(Annotations, PROJECTNAME)

@@ -158,14 +158,14 @@ class Annotation(BaseContent):
         """
         return 'tag:%s,%s:%s' % ('localhost', DateTime().year(), self.getId())
 
-    security.declarePublic('getUID')
-    def Title(self):
-        return self.getNote()
-
     security.declarePublic('getUserName')
     def getUserName(self):
-        # XXX haaaack replace with a view class .. 
+        # XXX haaaack replace with a view class ..
         return self.getOwner().getUserName()
+
+    security.declarePublic('Title')
+    def Title(self):
+        return self.getNote()
 
 
 registerType(Annotation, PROJECTNAME)

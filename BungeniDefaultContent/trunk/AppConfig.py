@@ -71,9 +71,101 @@ DEFAULT_SITE_CONTENT = (
             {'id': 'index_html', 'title': 'Organisation', 'type': 'Document', 'text': 'The parliament is structured as follows ...'+LOREM_IPSUM, },
             )
         },
+        {'title': 'Help', 'type': 'HelpFolder', 'children': (
+                {'id': 'index_html', 'title': 'Help', 'type': 'Document', 'text': 'Some helpful text to explain how to get around in the site. '},
+                {'title': 'FAQ', 'type': 'HelpCenterFAQFolder', 'children': (
+                    {'title': 'How can I find out the name of my Member of Parliament?', 'answer': 'Use our Find your MP service to identify the name of your MP.', 'type': 'HelpCenterFAQ'},
+                    {'title': 'Who is the youngest MP?', 'answer': 'The youngest MP is Jo Swinson, MP for East Dunbartonshire (DOB 05.02.80)', 'type': 'HelpCenterFAQ'},
+                    {'title': 'How can I contact my Member of Parliament?', 'answer': '''MPs may be contacted at the House of Commons, London, SW1A 0AA. It is usually a good idea to write to your MP in the first instance, so that you can explain things clearly and so that your MP will have written details of your case. However, if you would like to speak to your MP's office at the House of Commons, please telephone the switchboard (020 7219 3000) and ask to be transferred to the appropriate office. The switchboard can also take a message for your MP.\n\nIf you wish to e-mail your MP, please check the Alphabetical List of Members of Parliament. Where MPs have requested a link to their e-mail, it is given in the right-hand column.''', 'type': 'HelpCenterFAQ'}
+                    )},
+                {'title': 'Glossary', 'type': 'HelpCenterGlossary', 'children': (
+                    {'title': 'Abstain', 'description': 'To abstain is to refuse to take sides in a vote.  However, abstentions are not officially recorded in the House of Commons or House of Lords.', 'type': 'HelpCenterDefinition'},
+                    {'title': 'Yeomen of the Guard (Beefeaters)', 'description': '''Before the State Opening of Parliament, the Yeomen of the Guard search the cellars of the Palace of Westminster to ensure that there is no repeat of the Gunpowder Conspiracy, when Guy Fawkes was arrested in the cellars attempting to blow up the Palace.\n\nThe Yeomen of the Guard are a military corps founded by Henry VII in 1485 and since then they have been the bodyguard of the Monarch although their duties today are purely ceremonial.''', 'type': 'HelpCenterDefinition'}
+                    )}
+                )
+        },
+        )
+
+DEFAULT_WORKSPACES = (
+        {'id': 'workspace', 'title': 'Committee workspaces', 'type': 'Folder', 'children': (
+            {'title': "House Business Committee", 'type': 'TeamSpace'},
+            {'title': "Public Accounts Committee", 'type': 'TeamSpace'},
+            {'title': "Public Investments Committee", 'type': 'TeamSpace'},
+            {'title': "Speaker's Committee", 'type': 'TeamSpace'},
+            {'title': "Standing Orders Committee", 'type': 'TeamSpace'},
+            {'title': "Liaison Committee", 'type': 'TeamSpace'},
+            {'title': "Powers and Privileges Committee", 'type': 'TeamSpace'},
+        )},
+        )
+
+# Some members to play with
+DEFAULT_MEMBERS = (
+        {'salutation': 'Mr', 'firstname': '', 'surname': "Smith", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Prof.', 'firstname': '', 'surname': "Mzee", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Kofa", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Manga", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Mak'Onyango", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Manduku", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Achola", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Criticos", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Aluoch", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Nthenge", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Moiben", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Barmasai", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Nyagah", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Maore", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Obwocha", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Shikuku", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Col.', 'firstname': '', 'surname': "Kiluta", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Karan", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Dr.', 'firstname': '', 'surname': "Lwali-Oyondi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Farah", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Falana", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'R.K.', 'firstname': '', 'surname': "Mungai", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Angatia", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Wetangula", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Wako", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com'},
         )
 
 # Some committees to play with
 DEFAULT_TEAMS = (
-        # {'title': 'Committee 1', 'type': 'Team',},
+        {'title': "Members: House Business Committee", 'description': "prepares and manages the programme of the business of the House on a weekly basis;", 'type': 'Team', 'children': (
+            {'firstname': '', 'surname': "Smith", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Mzee", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Kofa", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Manga", 'type': 'Team Membership'},
+        )},
+        {'title': "Members: Public Accounts Committee", 'description': "examines reports by the Controller and Auditor-General on Central Government expenditure and fund accounts;", 'type': 'Team', 'children': (
+            {'firstname': '', 'surname': "Farah", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Falana", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Mungai", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Angatia", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Wetangula", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Wako", 'type': 'Team Membership'},
+        )},
+        {'title': "Members: Public Investments Committee", 'description': "examines reports by the Auditor-General (Corporations) on accounts of state corporations;", 'type': 'Team', 'children': (
+            {'firstname': '', 'surname': "Mak'Onyango", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Shikuku", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Kiluta", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Karan", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Lwali-Oyondi", 'type': 'Team Membership'},
+        )},
+        {'title': "Members: Speaker's Committee", 'description': "examines matters relating to the welfare of Members and staff of the National Assembly;", 'type': 'Team', 'children': (
+            {'firstname': '', 'surname': "Manduku", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Maore", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Obwocha", 'type': 'Team Membership'},
+        )},
+        {'title': "Members: Standing Orders Committee", 'description': "examines matters relating to and makes periodic reviews of the Standing Orders as necessary", 'type': 'Team', 'children': (
+            {'firstname': '', 'surname': "Achola", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Nyagah", 'type': 'Team Membership'},
+        )},
+        {'title': "Members: Liaison Committee", 'description': "examines and co-ordinates matters relating to operations of the Departmental Committees; and", 'type': 'Team', 'children': (
+            {'firstname': '', 'surname': "Moiben", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Barmasai", 'type': 'Team Membership'},
+        )},
+        {'title': "Members: Powers and Privileges Committee", 'description': "is established under the National Assembly (Powers and Privileges) Act, (Cap 6, Laws of Kenya), and deals with issues regarding privileges of the House, Members and staff.", 'type': 'Team', 'children': (
+            {'firstname': '', 'surname': "Criticos", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Aluoch", 'type': 'Team Membership'},
+            {'firstname': '', 'surname': "Nthenge", 'type': 'Team Membership'},
+        )},
         )

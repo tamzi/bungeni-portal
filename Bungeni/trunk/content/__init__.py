@@ -51,6 +51,7 @@ import HansardPage
 import LongDocument
 import LongDocumentSection
 import LongDocumentPage
+import HelpFolder
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

@@ -177,6 +177,7 @@ def install(self, reinstall=False):
         "LongDocument",
         "LongDocumentSection",
         "LongDocumentPage",
+        "HelpFolder",
         ] + factory_tool.getFactoryTypes().keys()
     factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
 

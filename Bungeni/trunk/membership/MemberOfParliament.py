@@ -61,6 +61,7 @@ MemberOfParliament_schema = BaseSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
+MemberOfParliament_schema = MemberOfParliament_schema + BungeniMember.schema.copy()
 ##/code-section after-schema
 
 class MemberOfParliament(BaseMember, BaseContent, BungeniMember):

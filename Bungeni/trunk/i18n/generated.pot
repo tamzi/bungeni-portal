@@ -23,9 +23,29 @@ msgstr ""
 msgid "Bungeni_label_CreateMemberareaFor"
 msgstr ""
 
+#. Default: "Firstname"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_Firstname"
+msgstr ""
+
+#. Default: "Fullname"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_Fullname"
+msgstr ""
+
 #. Default: "Membertypeswithhomefolders"
 #: membership/BungeniMembership.py
 msgid "Bungeni_label_MemberTypesWithHomeFolders"
+msgstr ""
+
+#. Default: "Salutation"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_Salutation"
+msgstr ""
+
+#. Default: "Surname"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_Surname"
 msgstr ""
 
 #. Default: "Billpages"
@@ -43,10 +63,40 @@ msgstr ""
 msgid "Bungeni_label_billsections"
 msgstr ""
 
+#. Default: "First name"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_firstname"
+msgstr ""
+
+#. Default: "Full name"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_fullname"
+msgstr ""
+
+#. Default: "Isauto"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_isAuto"
+msgstr ""
+
 #. Default: "Memberofparliaments"
 #: content/Question.py
 #: content/Motion.py
 msgid "Bungeni_label_memberofparliaments"
+msgstr ""
+
+#. Default: "Title or salutation"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_salutation"
+msgstr ""
+
+#. Default: "Surname"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_surname"
+msgstr ""
+
+#. Default: "Test"
+#: membership/MemberOfParliament.py
+msgid "Bungeni_label_test"
 msgstr ""
 
 #. Default: "Billpages"

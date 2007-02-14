@@ -39,6 +39,49 @@ from Products.CMFCore.utils import getToolByName
 
 schema = Schema((
 
+    StringField(
+        name='salutation',
+        widget=StringWidget(
+            label="Title or salutation",
+            label_msgid='Bungeni_label_salutation',
+            i18n_domain='Bungeni',
+        ),
+        user_property=True,
+        regfield=1
+    ),
+
+    StringField(
+        name='firstname',
+        widget=StringWidget(
+            label="First name",
+            label_msgid='Bungeni_label_firstname',
+            i18n_domain='Bungeni',
+        ),
+        user_property=True,
+        regfield=1
+    ),
+
+    StringField(
+        name='surname',
+        widget=StringWidget(
+            label="Surname",
+            label_msgid='Bungeni_label_surname',
+            i18n_domain='Bungeni',
+        ),
+        user_property=True,
+        regfield=1
+    ),
+
+    ComputedField(
+        name='fullname',
+        index=('membrane_tool/ZCTextIndex,lexicon_id=member_lexicon,index_type=Cosine Measure|TextIndex:brains', 'ZCTextIndex|TextIndex:brains'),
+        widget=ComputedField._properties['widget'](
+            label="Full name",
+            label_msgid='Bungeni_label_fullname',
+            i18n_domain='Bungeni',
+        )
+    ),
+
 ),
 )
 
@@ -82,6 +125,22 @@ class BungeniMember(BaseContent):
             auto = 'auto' in workflow_name.lower()
             if auto: break
         return auto
+
+    security.declarePublic('getFullname')
+    def getFullname(self):
+        """
+        """
+        # XXX unicode names break sending the email
+        unicode_name = ' '.join([n for n in 
+                [self.getSalutation(), self.getFirstname(), self.getSurname()]
+                if n])
+        return str(unicode_name)
+
+    security.declarePublic('setFullname')
+    def setFullname(self, dummy):
+        """ stub for BaseMember.register
+        """
+        pass
 
 # end of class BungeniMember
 

@@ -146,7 +146,7 @@ def install(self):
     # TODO
 
     # Hide from navigation
-    for obj in [self.Members, self.workspaces, self.help, ]:
+    for obj in [self.Members, self.workspace, self.help, ]:
         obj.setExcludeFromNav(True)
         obj.reindexObject()
 

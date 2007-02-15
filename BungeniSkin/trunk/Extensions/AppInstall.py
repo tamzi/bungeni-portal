@@ -28,7 +28,7 @@ def install(self):
     #
     # Tweak actions
     #
-    actions_tool = getToolByName(portal, 'portal_actions', None)
+    actions_tool = getToolByName(self, 'portal_actions', None)
     changed_actions = {
         'rss': {'category': 'site_actions',}
         }

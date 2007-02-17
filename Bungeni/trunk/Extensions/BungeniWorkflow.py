@@ -43,6 +43,26 @@ productname = 'Bungeni'
 def setupBungeniWorkflow(self, workflow):
     """Define the BungeniWorkflow workflow.
     """
+    # Add additional roles to portal
+    portal = getToolByName(self,'portal_url').getPortalObject()
+    data = list(portal.__ac_roles__)
+    for role in ['CurrentMP']:
+        if not role in data:
+            data.append(role)
+            # add to portal_role_manager
+            # first try to fetch it. if its not there, we probaly have no PAS 
+            # or another way to deal with roles was configured.            
+            try:
+                prm = portal.acl_users.get('portal_role_manager', None)
+                if prm is not None:
+                    try:
+                        prm.addRole(role, role, 
+                                    "Added by product 'Bungeni'/workflow 'BungeniWorkflow'")
+                    except KeyError: # role already exists
+                        pass
+            except AttributeError:
+                pass
+    portal.__ac_roles__ = tuple(data)
 
     workflow.setProperties(title='BungeniWorkflow')
 
@@ -141,6 +161,21 @@ def setupBungeniWorkflow(self, workflow):
     stateDef.setPermission('View',
                            0,
                            ['Authenticated', 'Manager', 'Reviewer'])
+    stateDef.setPermission('Bungeni: Add Amendment',
+                           0,
+                           ['Manager', 'CurrentMP'])
+    stateDef.setPermission('Bungeni: Add Question',
+                           0,
+                           ['Manager', 'CurrentMP'])
+    stateDef.setPermission('Bungeni: Add HansardFolder',
+                           0,
+                           ['Manager'])
+    stateDef.setPermission('Bungeni: Add HelpFolder',
+                           0,
+                           ['Manager'])
+    stateDef.setPermission('Bungeni: Add LegislationFolder',
+                           0,
+                           ['Manager'])
 
     ## Transitions initialization
 

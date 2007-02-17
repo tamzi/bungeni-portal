@@ -70,7 +70,7 @@ def setupBungeniWorkflow(self, workflow):
     ##/code-section create-workflow-setup-method-header
 
 
-    for s in ['private', 'pending', 'published', 'draft']:
+    for s in ['private', 'pending', 'published', 'internal']:
         workflow.states.addState(s)
 
     for t in ['hide', 'submit', 'reject', 'retract', 'show', 'publish']:
@@ -90,7 +90,7 @@ def setupBungeniWorkflow(self, workflow):
 
     ## Initial State
 
-    workflow.states.setInitialState('draft')
+    workflow.states.setInitialState('internal')
 
     ## States initialization
 
@@ -145,8 +145,8 @@ def setupBungeniWorkflow(self, workflow):
                            1,
                            ['Manager'])
 
-    stateDef = workflow.states['draft']
-    stateDef.setProperties(title="""draft""",
+    stateDef = workflow.states['internal']
+    stateDef.setProperties(title="""internal""",
                            description="""""",
                            transitions=['hide', 'submit', 'publish'])
     stateDef.setPermission('Access contents information',
@@ -205,7 +205,7 @@ def setupBungeniWorkflow(self, workflow):
 
     transitionDef = workflow.transitions['reject']
     transitionDef.setProperties(title="""Reject""",
-                                new_state_id="""draft""",
+                                new_state_id="""internal""",
                                 trigger_type=1,
                                 script_name="""""",
                                 after_script_name="""""",
@@ -217,7 +217,7 @@ def setupBungeniWorkflow(self, workflow):
 
     transitionDef = workflow.transitions['retract']
     transitionDef.setProperties(title="""Retract""",
-                                new_state_id="""draft""",
+                                new_state_id="""internal""",
                                 trigger_type=1,
                                 script_name="""""",
                                 after_script_name="""""",
@@ -229,7 +229,7 @@ def setupBungeniWorkflow(self, workflow):
 
     transitionDef = workflow.transitions['show']
     transitionDef.setProperties(title="""Make visible""",
-                                new_state_id="""draft""",
+                                new_state_id="""internal""",
                                 trigger_type=1,
                                 script_name="""""",
                                 after_script_name="""""",

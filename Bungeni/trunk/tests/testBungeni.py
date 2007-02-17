@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: BungeniTest.py
+# File: testBungeni.py
 #
 # Copyright (c) 2007 by []
 # Generator: ArchGenXML Version 1.5.1-svn
@@ -40,7 +40,6 @@ if __name__ == '__main__':
 
 from Testing import ZopeTestCase
 from Products.PloneTestCase import PloneTestCase
-from Products.Bungeni.tests.testBungeniSetup import testBungeniSetup
 from Products.Bungeni.config import HAS_PLONE21
 from Products.Bungeni.config import PRODUCT_DEPENDENCIES
 from Products.Bungeni.config import DEPENDENCIES
@@ -62,18 +61,18 @@ PRODUCTS = list()
 PRODUCTS += DEPENDENCIES
 PRODUCTS.append('Bungeni')
 
-testcase = testBungeniSetup
+testcase = PloneTestCase.PloneTestCase
 
 ##code-section module-before-plone-site-setup #fill in your manual code here
 ##/code-section module-before-plone-site-setup
 
 PloneTestCase.setupPloneSite(products=PRODUCTS)
 
-class BungeniTest(testcase):
+class testBungeni(testcase):
     """Base TestCase for Bungeni."""
 
-    ##code-section class-header_BungeniTest #fill in your manual code here
-    ##/code-section class-header_BungeniTest
+    ##code-section class-header_testBungeni #fill in your manual code here
+    ##/code-section class-header_testBungeni
 
     # Commented out for now, it gets blasted at the moment anyway.
     # Place it in the protected section if you need it.
@@ -114,7 +113,7 @@ Note: You have the same locals available as in your test-case.
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
-    suite.addTest(makeSuite(BungeniTest))
+    suite.addTest(makeSuite(testBungeni))
     return suite
 
 ##code-section module-footer #fill in your manual code here

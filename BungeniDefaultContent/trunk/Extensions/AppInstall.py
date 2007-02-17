@@ -132,15 +132,21 @@ def install(self):
 
     # Add default groups
     portal_groups = getToolByName(self, 'portal_groups')
-    for group in DEFAULT_GROUPS:
-        group_id = normalizeString(group['title'])
+    portal_groupdata = getToolByName(self, 'portal_groupdata')
+    for group_dict in DEFAULT_GROUPS:
+        group_id = normalizeString(group_dict['title'])
         portal_groups.addGroup(group_id)
         group = portal_groups.getGroupById(group_id)
-        group.setGroupProperties(**group)
-        for member_title in group['members']:
+
+        processed={}
+        for id, property in portal_groupdata.propertyItems():
+            processed[id]=group_dict.get(id, None)
+
+        group.setGroupProperties(processed)
+        for member_title in group_dict['members']:
             member_id = normalizeString(member_title)
             group.addMember(member_id)
-        portal_groups.editGroup(group_id, roles=[r for r in group['roles']])
+        portal_groups.editGroup(group_id, roles=[r for r in group_dict['roles']])
 
     # Rename the teams tool: ?
     # TODO teams_tool = getToolByName(self, 'portal_teams')

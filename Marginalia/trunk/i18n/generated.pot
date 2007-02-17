@@ -21,6 +21,11 @@ msgstr ""
 msgid "Marginalia_label_access"
 msgstr ""
 
+#. Default: "Keywords"
+#: tools/Annotations.py
+msgid "Marginalia_label_keywords"
+msgstr ""
+
 #. Default: "Link"
 #: content/Annotation.py
 msgid "Marginalia_label_link"

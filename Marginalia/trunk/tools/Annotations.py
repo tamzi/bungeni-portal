@@ -42,6 +42,16 @@ from Products.CMFCore.utils import getToolByName
 
 schema = Schema((
 
+    LinesField(
+        name='keywords',
+        default=('Agree:This is a good point', 'Disagree:I think this is wrong', 'More Info:I need more information on this',),
+        widget=LinesField._properties['widget'](
+            label='Keywords',
+            label_msgid='Marginalia_label_keywords',
+            i18n_domain='Marginalia',
+        )
+    ),
+
 ),
 )
 
@@ -142,11 +152,11 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         verb = rest_verb_map[self.REQUEST.REQUEST_METHOD]
         return verb()
 
-    security.declarePublic('getFeedUID')
-    def getFeedUID(self):
+    security.declarePublic('listKeywords')
+    def listKeywords(self):
+        """ Turn Python list into a list of lines
         """
-        """
-        return 'tag:%s,%s:annotation' % ('localhost', '2007-01-24')
+        return '\n'.join(self.Schema()['keywords'].get(self))
 
     security.declarePublic('getSortedFeedEntries')
     def getSortedFeedEntries(self, user, url):
@@ -155,6 +165,12 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         # TODO get from catalog, filter on user and url
         annotations = self.contentValues('Annotation')
         return annotations
+
+    security.declarePublic('getFeedUID')
+    def getFeedUID(self):
+        """
+        """
+        return 'tag:%s,%s:annotation' % ('localhost', '2007-01-24')
 
     security.declarePublic('getBaseURL')
     def getBaseURL(self):

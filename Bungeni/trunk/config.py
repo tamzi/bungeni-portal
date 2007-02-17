@@ -57,17 +57,23 @@ else:
 DEFAULT_ADD_CONTENT_PERMISSION = "Add portal content"
 setDefaultRoles(DEFAULT_ADD_CONTENT_PERMISSION, ('Manager', 'Owner'))
 ADD_CONTENT_PERMISSIONS = {
-    'LegislationFolder': 'Bungeni: Add content',
-    'Amendment': 'Bungeni: Add content',
-    'Motion': 'Bungeni: Add content',
-    'Question': 'Bungeni: Add content',
-    'HansardFolder': 'Bungeni: Add content',
-    'MemberOfParliament': 'Bungeni: Add member',
-    'Clerk': 'Bungeni: Add member',
+    'MemberOfParliament': ADD_MEMBER_PERMISSION,
+    'Clerk': ADD_MEMBER_PERMISSION,
     'MemberOfPublic': ADD_MEMBER_PERMISSION,
+    'LegislationFolder': 'Bungeni: Add LegislationFolder',
+    'Amendment': 'Bungeni: Add Amendment',
+    'Motion': 'Bungeni: Add Motion',
+    'Question': 'Bungeni: Add Question',
+    'HansardFolder': 'Bungeni: Add HansardFolder',
+    'HelpFolder': 'Bungeni: Add HelpFolder',
 }
 
-setDefaultRoles('Bungeni: Add content', ('Manager','Owner'))
+setDefaultRoles('Bungeni: Add LegislationFolder', ('Manager','Owner'))
+setDefaultRoles('Bungeni: Add Amendment', ('Manager','Owner'))
+setDefaultRoles('Bungeni: Add Motion', ('Manager','Owner'))
+setDefaultRoles('Bungeni: Add Question', ('Manager','Owner'))
+setDefaultRoles('Bungeni: Add HansardFolder', ('Manager','Owner'))
+setDefaultRoles('Bungeni: Add HelpFolder', ('Manager','Owner'))
 
 product_globals = globals()
 

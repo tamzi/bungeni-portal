@@ -18,6 +18,53 @@
     display: inline;
 }
 
+.debaterecord .preface {
+    background: lightgray;
+}
+
+.debaterecord .important {
+    font-weight: bold;
+}
+
+.debaterecord .center {
+    text-align: center;
+}
+
+.debaterecord .title {
+    font-size: 130%;
+    font-weight: bold;
+}
+
+.debaterecord .title .title {
+    font-size: 120%;
+}
+
+.debaterecord .title .title .title {
+    font-size: 110%;
+}
+
+.debaterecord .other {
+    font-style: italic;
+}
+
+.debaterecord .from {
+    font-style: italic;
+    font-weight: bold;
+}
+
+.debaterecord .speech {
+    background: #c6d1db;
+}
+
+.debaterecord .question {
+    background: #9bfcb2;
+}
+
+.debaterecord .answer {
+    background: #6bff8e;
+}
+
+
 /* </dtml-with> */
 
 /* DOCUMENTATION ON PRE-DEFINED PROPERTIES FROM PLONE */

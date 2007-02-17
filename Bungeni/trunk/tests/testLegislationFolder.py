@@ -40,7 +40,7 @@ if __name__ == '__main__':
 
 from Testing import ZopeTestCase
 from Products.Bungeni.config import *
-from Products.Bungeni.tests.BungeniTest import BungeniTest
+from Products.Bungeni.tests.testBungeni import testBungeni
 
 # Import the tested classes
 from Products.Bungeni.content.LegislationFolder import LegislationFolder
@@ -49,7 +49,7 @@ from Products.Bungeni.content.LegislationFolder import LegislationFolder
 ##/code-section module-beforeclass
 
 
-class testLegislationFolder(BungeniTest):
+class testLegislationFolder(testBungeni):
     """Test-cases for class(es) LegislationFolder."""
 
     ##code-section class-header_testLegislationFolder #fill in your manual code here

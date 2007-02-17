@@ -40,7 +40,7 @@ if __name__ == '__main__':
 
 from Testing import ZopeTestCase
 from Products.Bungeni.config import *
-from Products.Bungeni.tests.BungeniTest import BungeniTest
+from Products.Bungeni.tests.testBungeni import testBungeni
 
 # Import the tested classes
 from Products.Bungeni.content.Hansard import Hansard
@@ -49,7 +49,7 @@ from Products.Bungeni.content.Hansard import Hansard
 ##/code-section module-beforeclass
 
 
-class testHansard(BungeniTest):
+class testHansard(testBungeni):
     """Test-cases for class(es) Hansard."""
 
     ##code-section class-header_testHansard #fill in your manual code here

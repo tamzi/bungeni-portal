@@ -37,7 +37,7 @@ if __name__ == '__main__':
 
 from Interface import Implements
 
-from Products.Bungeni.tests.BungeniTest import BungeniTest
+from Products.Bungeni.tests.testBungeni import testBungeni
 
 
 from Interface.Verify import verifyClass
@@ -54,7 +54,7 @@ from Products.Bungeni.interfaces.IMemberOfParliament import IMemberOfParliament
 
 
 
-class testInterfaces(BungeniTest):
+class testInterfaces(testBungeni):
         
     def testInterfacesForIClerk(self):
         '''test interface compliance for class IClerk'''

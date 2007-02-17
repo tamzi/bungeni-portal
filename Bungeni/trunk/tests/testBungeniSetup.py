@@ -40,8 +40,9 @@ if __name__ == '__main__':
 
 import os, sys
 from Testing import ZopeTestCase
+from Products.Bungeni.tests.testBungeni import testBungeni
 
-class testBungeniSetup:
+class testBungeniSetup(testBungeni):
     """Test cases for the generic setup of the product."""
 
     ##code-section class-header_testBungeniSetup #fill in your manual code here

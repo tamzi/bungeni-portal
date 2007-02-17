@@ -40,7 +40,7 @@ if __name__ == '__main__':
 
 from Testing import ZopeTestCase
 from Products.Bungeni.config import *
-from Products.Bungeni.tests.BungeniTest import BungeniTest
+from Products.Bungeni.tests.testBungeni import testBungeni
 
 # Import the tested classes
 from Products.Bungeni.content.BillSection import BillSection
@@ -49,7 +49,7 @@ from Products.Bungeni.content.BillSection import BillSection
 ##/code-section module-beforeclass
 
 
-class testBillSection(BungeniTest):
+class testBillSection(testBungeni):
     """Test-cases for class(es) BillSection."""
 
     ##code-section class-header_testBillSection #fill in your manual code here

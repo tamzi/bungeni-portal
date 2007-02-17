@@ -36,42 +36,6 @@ from Products.Bungeni.config import *
 
 schema = Schema((
 
-    ReferenceField(
-        name='bills',
-        widget=ReferenceWidget(
-            label='Bills',
-            label_msgid='Bungeni_label_bills',
-            i18n_domain='Bungeni',
-        ),
-        allowed_types=('Bill',),
-        multiValued=0,
-        relationship='amendment_bill'
-    ),
-
-    ReferenceField(
-        name='billsections',
-        widget=ReferenceWidget(
-            label='Billsections',
-            label_msgid='Bungeni_label_billsections',
-            i18n_domain='Bungeni',
-        ),
-        allowed_types=('BillSection',),
-        multiValued=0,
-        relationship='amendment_billsection'
-    ),
-
-    ReferenceField(
-        name='billpages',
-        widget=ReferenceWidget(
-            label='Billpages',
-            label_msgid='Bungeni_label_billpages',
-            i18n_domain='Bungeni',
-        ),
-        allowed_types=('BillPage',),
-        multiValued=0,
-        relationship='amendment_billpage'
-    ),
-
 ),
 )
 
@@ -97,7 +61,7 @@ class Amendment(BaseContent):
     portal_type = 'Amendment'
     allowed_content_types = []
     filter_content_types = 0
-    global_allow = 1
+    global_allow = 0
     #content_icon = 'Amendment.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'

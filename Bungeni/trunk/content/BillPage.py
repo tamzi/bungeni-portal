@@ -43,26 +43,26 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-BillPage_schema = BaseSchema.copy() + \
+BillPage_schema = BaseFolderSchema.copy() + \
     getattr(HelpCenterReferenceManualPage, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class BillPage(BaseContent, HelpCenterReferenceManualPage):
+class BillPage(BaseFolder, HelpCenterReferenceManualPage):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(HelpCenterReferenceManualPage,'__implements__',()),)
+    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(HelpCenterReferenceManualPage,'__implements__',()),)
 
     # This name appears in the 'add' box
     archetype_name = 'BillPage'
 
     meta_type = 'BillPage'
     portal_type = 'BillPage'
-    allowed_content_types = []
-    filter_content_types = 0
+    allowed_content_types = ['Amendment']
+    filter_content_types = 1
     global_allow = 0
     #content_icon = 'BillPage.gif'
     immediate_view = 'base_view'

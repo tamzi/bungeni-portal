@@ -61,7 +61,7 @@ class BillSection(BaseFolder, HelpCenterReferenceManualSection):
 
     meta_type = 'BillSection'
     portal_type = 'BillSection'
-    allowed_content_types = ['BillPage', 'BillSection']
+    allowed_content_types = ['BillPage', 'BillSection', 'Amendment']
     filter_content_types = 1
     global_allow = 0
     #content_icon = 'BillSection.gif'

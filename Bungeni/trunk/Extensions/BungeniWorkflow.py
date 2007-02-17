@@ -83,6 +83,11 @@ def setupBungeniWorkflow(self, workflow):
     workflow.addManagedPermission('Change portal events')
     workflow.addManagedPermission('Modify portal content')
     workflow.addManagedPermission('View')
+    workflow.addManagedPermission('Bungeni: Add Amendment')
+    workflow.addManagedPermission('Bungeni: Add Question')
+    workflow.addManagedPermission('Bungeni: Add HansardFolder')
+    workflow.addManagedPermission('Bungeni: Add HelpFolder')
+    workflow.addManagedPermission('Bungeni: Add LegislationFolder')
 
     for l in ['reviewer_queue']:
         if not l in workflow.worklists.objectValues():

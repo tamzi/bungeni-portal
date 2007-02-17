@@ -58,6 +58,21 @@ class AnnotationMixin(BaseContent):
     zope.interface.implements(IAnnotatable)
 
     allowed_content_types = []
+
+    actions =  (
+
+
+       {'action': "string:${object_url}/annotate",
+        'category': "object",
+        'id': 'annotate',
+        'name': 'annotate',
+        'permissions': ("View",),
+        'condition': 'python:1'
+       },
+
+
+    )
+
     _at_rename_after_creation = True
 
     schema = AnnotationMixin_schema

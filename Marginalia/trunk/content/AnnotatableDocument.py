@@ -29,10 +29,8 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-import zope
 from Products.Marginalia.content.AnnotationMixin import AnnotationMixin
 from Products.ATContentTypes.content.document import ATDocument
-from Products.Marginalia.interfaces.IAnnotatable import IAnnotatable
 from Products.Marginalia.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -59,8 +57,6 @@ class AnnotatableDocument(BaseContent, AnnotationMixin, ATDocument):
     """
     security = ClassSecurityInfo()
     __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(AnnotationMixin,'__implements__',()),) + (getattr(ATDocument,'__implements__',()),)
-    # zope3 interfaces
-    zope.interface.implements(IAnnotatable)
 
     # This name appears in the 'add' box
     archetype_name = 'AnnotatableDocument'
@@ -76,21 +72,6 @@ class AnnotatableDocument(BaseContent, AnnotationMixin, ATDocument):
     suppl_views = ()
     typeDescription = "AnnotatableDocument"
     typeDescMsgId = 'description_edit_annotatabledocument'
-
-
-    actions =  (
-
-
-       {'action': "string:${object_url}/annotate",
-        'category': "object",
-        'id': 'annotate',
-        'name': 'annotate',
-        'permissions': ("View",),
-        'condition': 'python:1'
-       },
-
-
-    )
 
     _at_rename_after_creation = True
 

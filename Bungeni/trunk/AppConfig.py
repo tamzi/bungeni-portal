@@ -8,7 +8,7 @@ DEPENDENCIES = ['AddRemoveWidget', 'PloneHelpCenter',]
 # Products that we want to use alongside Bungeni
 DEPENDENCIES += [
     'iterate', # Installs CMFEditions, CMFDiffTool
-    'Hornet', # Requires ZMySQLdb
+    # 'Hornet', # Requires ZMySQLdb
     'TeamSpace',
     'LinguaPlone', # Installs PloneLanguageTool
     'CMFNotification', 

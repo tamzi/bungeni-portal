@@ -94,6 +94,8 @@ def install(self):
     """ Do stuff that GS will do for us soon ..
     """
     out = StringIO()
+    plone = getToolByName(self, 'portal_url').getPortalObject()
+    normalizeString = getToolByName(plone, 'plone_utils').normalizeString
 
     #
     # Filter the navigation
@@ -127,6 +129,18 @@ def install(self):
     memberdata_tool = getToolByName(self, 'portal_memberdata')
     result = add_default_content(memberdata_tool, DEFAULT_MEMBERS, initial_transitions=['trigger',])
     print >>out, result
+
+    # Add default groups
+    portal_groups = getToolByName(self, 'portal_groups')
+    for group in DEFAULT_GROUPS:
+        group_id = normalizeString(group['title'])
+        portal_groups.addGroup(group_id)
+        group = portal_groups.getGroupById(group_id)
+        group.setGroupProperties(**group)
+        for member_title in group['members']:
+            member_id = normalizeString(member_title)
+            group.addMember(member_id)
+        portal_groups.editGroup(group_id, roles=[r for r in group['roles']])
 
     # Rename the teams tool: ?
     # TODO teams_tool = getToolByName(self, 'portal_teams')
@@ -168,6 +182,12 @@ def uninstall(self):
     membership_tool.deleteMembers([
             normalizeString(get_id(d)) for d in DEFAULT_MEMBERS])
     print >>out, 'Deleted our testing members'
+
+    # Delete the groups we added
+    portal_groups = getToolByName(self, 'portal_groups')
+    group_ids = [normalizeString(group['title']) for group in DEFAULT_GROUPS]
+    group_ids = [i for i in group_ids if portal_groups.getGroupById(i)]
+    portal_groups.removeGroups(group_ids)
 
     # Delete the teams we added
     teams_tool = getToolByName(self, 'portal_teams')

@@ -30,6 +30,25 @@ def get_id(d):
     # This must be a member
     return ' '.join([n for n in [d['firstname'], d['surname']] if n])
 
+def do_transition(root, structure, transition):
+    """ Perform the initial workflow transition(s)
+    """
+    normalizeString = getToolByName(root, 'plone_utils').normalizeString
+    folderish_ids = []
+    for d in structure:
+        id = normalizeString(get_id(d))
+        if d.get('children'):
+            folderish_ids.append(id)
+        else:
+            obj = root.get(id, None)
+            if obj:
+                obj.content_status_modify(transition,
+                        'Installer: %s'%transition, None, None,)
+    paths = ['/'.join(root[i].getPhysicalPath()) for i in folderish_ids]
+    if paths:
+        root.folder_publish(workflow_action=transition, paths=paths,
+                comment="Installer: %s."%transition, include_children=True)
+
 def add_default_content(root, structure, initial_transitions=['publish']):
     """ Create default content
     """
@@ -43,14 +62,22 @@ def add_default_content(root, structure, initial_transitions=['publish']):
             obj = parent.addCriterion(d['field'], d['type'])
         elif d['type'] == 'Team Membership':
             obj = parent.addMember(obj_id)
+            do_transition(parent, [d], 'activate')
         else:
             parent.invokeFactory(d['type'], obj_id,)
             obj = parent[obj_id]
             layout = d.get('layout', None)
             if layout:
                 obj.setLayout(layout)
+            if obj.portal_type == 'Team':
+                roles = list(obj.getAllowedTeamRoles())
+                roles.extend(d.get('allowed_team_roles', []))
+                obj.setAllowedTeamRoles(roles)
+                roles = list(obj.getDefaultRoles())
+                roles.extend(d.get('default_team_roles', []))
+                obj.setDefaultRoles(roles)
             if obj.portal_type == 'TeamSpace':
-                team_ids = [normalizeString('Members: %s'%d['title'])]
+                team_ids = [normalizeString('Team: %s'%d['title'])]
                 team_ids.extend(d.get('team_ids', []))
                 obj.editTeams(team_ids)
         obj.processForm(data=1, values=d)
@@ -64,23 +91,6 @@ def add_default_content(root, structure, initial_transitions=['publish']):
             if d.get('children', None):
                 add_structure(obj, d['children'])
     add_structure(root, structure)
-
-    def do_transition(root, structure, transition):
-        """ Perform the initial workflow transition(s)
-        """
-        folderish_ids = []
-        for d in structure:
-            id = normalizeString(get_id(d))
-            if d.get('children'):
-                folderish_ids.append(id)
-            else:
-                obj = root.get(id, None)
-                if obj:
-                    obj.content_status_modify(transition,
-                            'Installer: %s'%transition, None, None,)
-        paths = ['/'.join(root[i].getPhysicalPath()) for i in folderish_ids]
-        root.folder_publish(workflow_action=transition, paths=paths,
-                comment="Installer: %s."%transition, include_children=True)
 
     if initial_transitions:
         for t in initial_transitions:
@@ -125,28 +135,41 @@ def install(self):
                 visible=1,
                 )
 
+    #
     # Add default members
+    #
+    properties_tool = getToolByName(self, 'portal_properties')
+    # Don't send mail while adding
+    properties_tool.site_properties.manage_changeProperties(validate_email=0)
     memberdata_tool = getToolByName(self, 'portal_memberdata')
-    result = add_default_content(memberdata_tool, DEFAULT_MEMBERS, initial_transitions=['trigger',])
+    result = add_default_content(memberdata_tool, DEFAULT_MEMBERS,
+            initial_transitions=['trigger',])
+    # OK, start sending mail again
+    properties_tool.site_properties.manage_changeProperties(validate_email=1)
     print >>out, result
 
     # Add default groups
     portal_groups = getToolByName(self, 'portal_groups')
     portal_groupdata = getToolByName(self, 'portal_groupdata')
     for group_dict in DEFAULT_GROUPS:
-        group_id = normalizeString(group_dict['title'])
-        portal_groups.addGroup(group_id)
+        group_id = group_dict['title']
         group = portal_groups.getGroupById(group_id)
+        if not group:
+            portal_groups.addGroup(group_id)
+            group = portal_groups.getGroupById(group_id)
 
         processed={}
         for id, property in portal_groupdata.propertyItems():
             processed[id]=group_dict.get(id, None)
-
         group.setGroupProperties(processed)
+
         for member_title in group_dict['members']:
             member_id = normalizeString(member_title)
             group.addMember(member_id)
-        portal_groups.editGroup(group_id, roles=[r for r in group_dict['roles']])
+        roles = group_dict.get('roles', None)
+        if roles:
+            portal_groups.editGroup(group_id,
+                    roles=[r for r in group_dict['roles']])
 
     # Rename the teams tool: ?
     # TODO teams_tool = getToolByName(self, 'portal_teams')
@@ -161,6 +184,11 @@ def install(self):
     print >>out, result
     result = add_default_content(self, DEFAULT_WORKSPACES, initial_transitions=[])
     print >>out, result
+
+    # Publish existing content
+    # We don't want this content to be deleted upon uninstallation
+    do_transition(self, EXISTING_SITE_CONTENT, transition='publish')
+    print >>out, 'Published existing content'
 
     # Filter the global tabs
     # TODO

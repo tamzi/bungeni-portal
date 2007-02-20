@@ -35,7 +35,76 @@ from Products.Bungeni.config import *
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
+copied_fields = {}
+copied_fields['tabledDate'] = ATEvent.schema['startDate'].copy(name='tabledDate')
+copied_fields['tabledDate'].read_permission = "Bungeni: Set tabled date"
+copied_fields['tabledDate'].mutator = "setTabledDate"
+copied_fields['tabledDate'].accessor = "getTabledDate"
+copied_fields['tabledDate'].edit_accessor = "getRawTabledDate"
+copied_fields['tabledDate'].widget.label = "To be tabled on"
+copied_fields['endDate'] = ATEvent.schema['endDate'].copy()
+copied_fields['endDate'].widget.visible = False
+copied_fields['location'] = ATEvent.schema['location'].copy()
+copied_fields['location'].widget.visible = False
+copied_fields['attendees'] = ATEvent.schema['attendees'].copy()
+copied_fields['attendees'].widget.visible = False
+copied_fields['eventUrl'] = ATEvent.schema['eventUrl'].copy()
+copied_fields['eventUrl'].widget.visible = False
+copied_fields['contactName'] = ATEvent.schema['contactName'].copy()
+copied_fields['contactName'].widget.visible = False
+copied_fields['contactEmail'] = ATEvent.schema['contactEmail'].copy()
+copied_fields['contactEmail'].widget.visible = False
+copied_fields['contactPhone'] = ATEvent.schema['contactPhone'].copy()
+copied_fields['contactPhone'].widget.visible = False
 schema = Schema((
+
+    ReferenceField(
+        name='otherSignatories',
+        widget=ReferenceField._properties['widget'](
+            label="Other Signatories",
+            label_msgid='Bungeni_label_otherSignatories',
+            i18n_domain='Bungeni',
+        ),
+        allowed_types="MemberOfParliament",
+        multiValued=1,
+        relationship="ParliamentaryEvent_MemberOfParliament"
+    ),
+
+    copied_fields['tabledDate'],
+
+    ComputedField(
+        name='startDate',
+        widget=ComputedField._properties['widget'](
+            label='Startdate',
+            label_msgid='Bungeni_label_startDate',
+            i18n_domain='Bungeni',
+        ),
+        accessor="start"
+    ),
+
+    copied_fields['endDate'],
+
+    copied_fields['location'],
+
+    copied_fields['attendees'],
+
+    ComputedField(
+        name='eventType',
+        widget=ComputedField._properties['widget'](
+            label="Event Type",
+            visible=False,
+            label_msgid='Bungeni_label_eventType',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    copied_fields['eventUrl'],
+
+    copied_fields['contactName'],
+
+    copied_fields['contactEmail'],
+
+    copied_fields['contactPhone'],
 
 ),
 )
@@ -64,6 +133,27 @@ class ParliamentaryEvent(BaseContent, ATEvent):
     ##/code-section class-header
 
     # Methods
+
+    security.declarePublic('start')
+    def start(self):
+        """ Alias for tabledDate, to satisfy calendar interface
+        """
+        return self.getTabledDate()
+
+    security.declarePublic('getEventType')
+    def getEventType(self):
+        """
+        """
+        # XXX is there a better way to get the name of a type??
+        return self.portal_type
+
+    security.declarePublic('setEventType')
+    def setEventType(self, value, alreadySet=False, **kw):
+        """ Override ATEvent.setEventType: don't try and set me, I'm
+        computed now.
+        """
+        value = self.getEventType()
+        self.setSubject(value, alreadySet=True, **kw)
 
 # end of class ParliamentaryEvent
 

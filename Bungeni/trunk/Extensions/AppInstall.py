@@ -1,6 +1,11 @@
 from StringIO import StringIO
 from Products.CMFCore.utils import getToolByName
+from Products.membrane.interfaces import ICategoryMapper
+from Products.membrane.config import ACTIVE_STATUS_CATEGORY
+from Products.membrane.utils import getAllWFStatesForType
+from Products.membrane.utils import generateCategorySetIdForType
 from Products.remember.utils import getAdderUtility
+from Products.Bungeni.config import ACTIVE_MEMBRANE_STATES 
 
 def install(self):
     """ Do stuff that GS will do for us soon ..
@@ -28,6 +33,19 @@ def install(self):
     # Require approval for the adding of plain old members
     wft = getToolByName(self, 'portal_workflow')
     wft.setChainForPortalTypes( ['Member'], "MemberApprovalWorkflow")
+
+    # Repair status_map for our new types.
+    # TODO: setting their workflow *after* registering the types in
+    # TODO: Install.py messes with the default active state(s) of the
+    # TODO: members. Fix AGX to generate them after workflow
+    # TODO: registration.
+    membrane_tool = getToolByName(self, 'membrane_tool')
+    cat_map = ICategoryMapper(membrane_tool)
+    for portal_type in ['MemberOfParliament', 'Clerk', 'MemberOfPublic']:
+        cat_set = generateCategorySetIdForType(portal_type)
+        # states = getAllWFStatesForType(self, portal_type)
+        states = ACTIVE_MEMBRANE_STATES[portal_type]
+        cat_map.replaceCategoryValues(cat_set, ACTIVE_STATUS_CATEGORY, states)
 
     # Change the default workflow
     wft = getToolByName(self, 'portal_workflow')

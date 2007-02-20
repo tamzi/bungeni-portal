@@ -53,5 +53,11 @@ def install(self):
     wft.setChainForPortalTypes( ['Folder', 'Large Plone Folder'], "BungeniWorkflow")
     wft.updateRoleMappings()
 
+    # # Change the default roles managed by teams
+    # teams_tool = getToolByName(self, 'portal_teams')
+    # allowed_roles = teams_tool.getDefaultAllowedRoles()
+    # teams_tool.setDefaultAllowedRoles(
+    #         allowed_roles+['ReviewerForSpeaker', 'CurrentMP'])
+
     return out.getvalue()
 

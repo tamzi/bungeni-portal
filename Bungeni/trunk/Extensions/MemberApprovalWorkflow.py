@@ -43,6 +43,26 @@ productname = 'Bungeni'
 def setupMemberApprovalWorkflow(self, workflow):
     """Define the MemberApprovalWorkflow workflow.
     """
+    # Add additional roles to portal
+    portal = getToolByName(self,'portal_url').getPortalObject()
+    data = list(portal.__ac_roles__)
+    for role in ['Awaiting registration', 'Disabled', 'Registered user', 'private profile', 'public profile', 'Newly created member']:
+        if not role in data:
+            data.append(role)
+            # add to portal_role_manager
+            # first try to fetch it. if its not there, we probaly have no PAS 
+            # or another way to deal with roles was configured.            
+            try:
+                prm = portal.acl_users.get('portal_role_manager', None)
+                if prm is not None:
+                    try:
+                        prm.addRole(role, role, 
+                                    "Added by product 'Bungeni'/workflow 'MemberApprovalWorkflow'")
+                    except KeyError: # role already exists
+                        pass
+            except AttributeError:
+                pass
+    portal.__ac_roles__ = tuple(data)
 
     workflow.setProperties(title='MemberApprovalWorkflow')
 

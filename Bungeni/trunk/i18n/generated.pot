@@ -63,6 +63,11 @@ msgstr ""
 msgid "Bungeni_label_billsections"
 msgstr ""
 
+#. Default: "Eventtype"
+#: content/ParliamentaryEvent.py
+msgid "Bungeni_label_eventType"
+msgstr ""
+
 #. Default: "First name"
 #: membership/BungeniMember.py
 msgid "Bungeni_label_firstname"
@@ -84,9 +89,24 @@ msgstr ""
 msgid "Bungeni_label_memberofparliaments"
 msgstr ""
 
+#. Default: "Othersignatories"
+#: content/ParliamentaryEvent.py
+msgid "Bungeni_label_otherSignatories"
+msgstr ""
+
+#. Default: "Requirewrittenanswer"
+#: content/Question.py
+msgid "Bungeni_label_requireWrittenAnswer"
+msgstr ""
+
 #. Default: "Title or salutation"
 #: membership/BungeniMember.py
 msgid "Bungeni_label_salutation"
+msgstr ""
+
+#. Default: "Startdate"
+#: content/ParliamentaryEvent.py
+msgid "Bungeni_label_startDate"
 msgstr ""
 
 #. Default: "Surname"

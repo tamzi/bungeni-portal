@@ -92,6 +92,16 @@ def installWorkflows(self, package, out):
     workflowTool.setChainForPortalTypes(['BillSection', 'BillPage', 'HansardSection', 'HansardPage'], workflow.getId())
 
     ourProductWorkflow = ExternalMethod('temp', 'temp',
+                                        productname+'.'+'ParliamentaryEventWorkflow',
+                                        'createParliamentaryEventWorkflow')
+    workflow = ourProductWorkflow(self, 'ParliamentaryEventWorkflow')
+    if 'ParliamentaryEventWorkflow' in workflowTool.listWorkflows():
+        print >> out, 'ParliamentaryEventWorkflow already in workflows.'
+    else:
+        workflowTool._setObject('ParliamentaryEventWorkflow', workflow)
+    workflowTool.setChainForPortalTypes(['ParliamentaryEvent', 'Motion', 'Question'], workflow.getId())
+
+    ourProductWorkflow = ExternalMethod('temp', 'temp',
                                         productname+'.'+'HansardWorkflow',
                                         'createHansardWorkflow')
     workflow = ourProductWorkflow(self, 'HansardWorkflow')

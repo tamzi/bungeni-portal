@@ -152,6 +152,8 @@ def install(self, reinstall=False):
     wft.setChainForPortalTypes( ['Clerk'], "MemberAutoWorkflow")
     wft.setChainForPortalTypes( ['LegislationFolder'], "BungeniWorkflow")
     wft.setChainForPortalTypes( ['BillPage'], "SubWorkflow")
+    wft.setChainForPortalTypes( ['Motion'], "ParliamentaryEventWorkflow")
+    wft.setChainForPortalTypes( ['Question'], "ParliamentaryEventWorkflow")
     wft.setChainForPortalTypes( ['HansardSection'], "SubWorkflow")
     wft.setChainForPortalTypes( ['HansardPage'], "SubWorkflow")
 

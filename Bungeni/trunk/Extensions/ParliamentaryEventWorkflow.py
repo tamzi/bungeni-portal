@@ -83,6 +83,8 @@ def setupParliamentaryEventWorkflow(self, workflow):
     workflow.addManagedPermission('Change portal events')
     workflow.addManagedPermission('Modify portal content')
     workflow.addManagedPermission('View')
+    workflow.addManagedPermission('Review portal content')
+    workflow.addManagedPermission('Bungeni: Schedule parliamentary business')
 
     for l in ['speaker_worklist', 'reviewer_queue']:
         if not l in workflow.worklists.objectValues():
@@ -117,7 +119,7 @@ def setupParliamentaryEventWorkflow(self, workflow):
                            transitions=['reject', 'publish'])
     stateDef.setPermission('Access contents information',
                            0,
-                           ['Manager', 'Owner', 'ReviewerForSpeaker'])
+                           ['Manager', 'Owner', 'ReviewerForSpeaker', 'Reviewer'])
     stateDef.setPermission('Change portal events',
                            0,
                            ['Manager', 'ReviewerForSpeaker'])
@@ -126,7 +128,13 @@ def setupParliamentaryEventWorkflow(self, workflow):
                            ['Manager', 'ReviewerForSpeaker'])
     stateDef.setPermission('View',
                            0,
-                           ['Manager', 'Owner', 'ReviewerForSpeaker'])
+                           ['Manager', 'Owner', 'ReviewerForSpeaker', 'Reviewer'])
+    stateDef.setPermission('Review portal content',
+                           0,
+                           ['ReviewerForSpeaker'])
+    stateDef.setPermission('Bungeni: Schedule parliamentary business',
+                           0,
+                           ['ReviewerForSpeaker'])
 
     stateDef = workflow.states['published']
     stateDef.setProperties(title="""published""",

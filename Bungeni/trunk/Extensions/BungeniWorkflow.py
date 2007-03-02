@@ -88,6 +88,7 @@ def setupBungeniWorkflow(self, workflow):
     workflow.addManagedPermission('Bungeni: Add HansardFolder')
     workflow.addManagedPermission('Bungeni: Add HelpFolder')
     workflow.addManagedPermission('Bungeni: Add LegislationFolder')
+    workflow.addManagedPermission('Bungeni: Add Motion')
 
     for l in ['reviewer_queue']:
         if not l in workflow.worklists.objectValues():
@@ -181,6 +182,9 @@ def setupBungeniWorkflow(self, workflow):
     stateDef.setPermission('Bungeni: Add LegislationFolder',
                            0,
                            ['Manager'])
+    stateDef.setPermission('Bungeni: Add Motion',
+                           0,
+                           ['Manager', 'CurrentMP'])
 
     ## Transitions initialization
 

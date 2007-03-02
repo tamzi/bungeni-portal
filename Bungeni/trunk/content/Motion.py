@@ -76,9 +76,11 @@ class Motion(BaseContent, ParliamentaryEvent):
     schema = Motion_schema
 
     ##code-section class-header #fill in your manual code here
+    eventType = [portal_type]
     ##/code-section class-header
 
     # Methods
+
 
 
 registerType(Motion, PROJECTNAME)

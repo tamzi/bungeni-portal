@@ -7,11 +7,12 @@
       <dl class="portlet" id="portlet-theme_portlet">
         <dt class="portletHeader">
           <span class="portletTopLeft"></span>
-          <span i18n:translate="box_theme_portlet">theme_portlet</span>
+          <span i18n:translate="box_theme_portlet">Theme vertical banner</span>
           <span class="portletTopRight"></span>
         </dt>
         <dd class="portletItem odd lastItem">
-          place your portlet code here
+        
+The theme Vertical Banner is used to display custom content like images within the site. 
           <span class="portletBottomLeft"></span>
           <span class="portletBottomRight"></span>
         </dd>

@@ -140,6 +140,12 @@ class ParliamentaryEvent(BaseContent, ATEvent):
         """
         return self.getTabledDate()
 
+    security.declarePublic('end')
+    def end(self):
+        """ Alias for tabledDate, to satisfy calendar interface
+        """
+        return self.getTabledDate()+1
+
     security.declarePublic('getEventType')
     def getEventType(self):
         """

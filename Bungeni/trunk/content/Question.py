@@ -37,16 +37,13 @@ from Products.Bungeni.config import *
 
 schema = Schema((
 
-    ReferenceField(
-        name='memberofparliaments',
-        widget=ReferenceWidget(
-            label='Memberofparliaments',
-            label_msgid='Bungeni_label_memberofparliaments',
+    BooleanField(
+        name='requireWrittenAnswer',
+        widget=BooleanField._properties['widget'](
+            label="Require written answer?",
+            label_msgid='Bungeni_label_requireWrittenAnswer',
             i18n_domain='Bungeni',
-        ),
-        allowed_types=('MemberOfParliament',),
-        multiValued=0,
-        relationship='question_memberofparliament'
+        )
     ),
 
 ),

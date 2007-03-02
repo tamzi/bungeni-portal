@@ -37,18 +37,6 @@ from Products.Bungeni.config import *
 
 schema = Schema((
 
-    ReferenceField(
-        name='memberofparliaments',
-        widget=ReferenceWidget(
-            label='Memberofparliaments',
-            label_msgid='Bungeni_label_memberofparliaments',
-            i18n_domain='Bungeni',
-        ),
-        allowed_types=('MemberOfParliament',),
-        multiValued=0,
-        relationship='motion_memberofparliament'
-    ),
-
 ),
 )
 

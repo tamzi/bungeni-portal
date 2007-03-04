@@ -42,11 +42,11 @@ from Products.Archetypes.Extensions.utils import installTypes
 from Products.Archetypes.Extensions.utils import install_subskin
 from Products.Archetypes.config import TOOL_NAME as ARCHETYPETOOLNAME
 from Products.Archetypes.atapi import listTypes
-from Products.BungeniSkinCM.config import PROJECTNAME
-from Products.BungeniSkinCM.config import product_globals as GLOBALS
+from Products.BungeniSkinAO.config import PROJECTNAME
+from Products.BungeniSkinAO.config import product_globals as GLOBALS
 
 def install(self, reinstall=False):
-    """ External Method to install BungeniSkinCM """
+    """ External Method to install BungeniSkinAO """
     out = StringIO()
     print >> out, "Installation log of %s:" % PROJECTNAME
 
@@ -54,7 +54,7 @@ def install(self, reinstall=False):
     # them.  Add a list called DEPENDENCIES to your custom
     # AppConfig.py (imported by config.py) to use it.
     try:
-        from Products.BungeniSkinCM.config import DEPENDENCIES
+        from Products.BungeniSkinAO.config import DEPENDENCIES
     except:
         DEPENDENCIES = []
     portal = getToolByName(self,'portal_url').getPortalObject()
@@ -97,7 +97,7 @@ def install(self, reinstall=False):
 
 
 
-    from Products.BungeniSkinCM.config import STYLESHEETS
+    from Products.BungeniSkinAO.config import STYLESHEETS
     try:
         portal_css = getToolByName(portal, 'portal_css')
         for stylesheet in STYLESHEETS:
@@ -113,7 +113,7 @@ def install(self, reinstall=False):
     except:
         # No portal_css registry
         pass
-    from Products.BungeniSkinCM.config import JAVASCRIPTS
+    from Products.BungeniSkinAO.config import JAVASCRIPTS
     try:
         portal_javascripts = getToolByName(portal, 'portal_javascripts')
         for javascript in JAVASCRIPTS:

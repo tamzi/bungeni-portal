@@ -4,14 +4,16 @@
   <body>
 
     <div metal:define-macro="portlet" tal:omit-tag="">
-      <dl class="portlet" id="portlet-sections_portlet">
+      <dl class="portlet" id="portlet-theme_portlet">
         <dt class="portletHeader">
           <span class="portletTopLeft"></span>
-          <span i18n:translate="box_sections_portlet">sections_portlet</span>
+          <span i18n:translate="box_theme_portlet">Theme vertical banner </span>
           <span class="portletTopRight"></span>
         </dt>
         <dd class="portletItem odd lastItem">
-          place your portlet code here
+         
+
+In the home page the Theme Vertical Banner provide an area where the graphical Identity of the Parliaments may find a further be expressed. .
           <span class="portletBottomLeft"></span>
           <span class="portletBottomRight"></span>
         </dd>

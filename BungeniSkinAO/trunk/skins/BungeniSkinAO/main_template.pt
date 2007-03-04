@@ -49,9 +49,7 @@
     <div id="visual-portal-wrapper">
 
       <div id="portal-top" i18n:domain="plone">
-        <div metal:use-macro="here/global_siteactions/macros/site_actions">
-               Site-wide actions (Contact, Sitemap, Help, Style Switcher etc)
-        </div>
+
         <div id="portal-header">
           <p class="hiddenStructure">
             <a accesskey="2"
@@ -63,9 +61,11 @@
                i18n:translate="label_skiptonavigation">Skip to navigation</a>
           </p>
 
-            <a metal:use-macro="here/global_logo/macros/portal_logo">
-               The portal logo, linked to the portal root
-             </a>
+             <div metal:use-macro="here/global_siteactions/macros/site_actions">
+               Site-wide actions (Contact, Sitemap, Help, Style Switcher etc)
+             </div>
+
+             
 
              <div metal:use-macro="here/global_skinswitcher/macros/skin_tabs">
                The skin switcher tabs. Based on which role you have, you
@@ -76,12 +76,15 @@
           </div>
 
           
-         <div metal:use-macro="here/global_pathbar/macros/path_bar">
-             The breadcrumb navigation ("you are here")
-           </div>
+
            
       </div>
-
+      <div metal:use-macro="here/global_sections/macros/portal_tabs">
+               The global sections tabs. (Welcome, News etc)
+             </div>
+<div metal:use-macro="here/global_pathbar/macros/path_bar">
+             The breadcrumb navigation ("you are here")
+           </div>
       <div class="visualClear" id="clear-space-before-wrapper-table"><!-- --></div>
 
       <tal:comment replace="nothing">
@@ -186,7 +189,11 @@
           Footer
         </metal:footer>
 
-       </metal:block>
+        <metal:colophon use-macro="here/colophon/macros/colophon">
+          The colophon area - contains details about the production of
+          the site. Typically "powered by" buttons, standards, tools used.
+        </metal:colophon>
+      </metal:block>
 
     </div>
 

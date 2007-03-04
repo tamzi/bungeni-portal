@@ -63,7 +63,10 @@
                i18n:translate="label_skiptonavigation">Skip to navigation</a>
           </p>
 
-            
+            <a metal:use-macro="here/global_logo/macros/portal_logo">
+               The portal logo, linked to the portal root
+             </a>
+
              <div metal:use-macro="here/global_skinswitcher/macros/skin_tabs">
                The skin switcher tabs. Based on which role you have, you
                get a selection of skins that you can switch between.
@@ -72,13 +75,13 @@
              
           </div>
 
-          
+          <div metal:use-macro="here/global_pathbar/macros/path_bar">
+             The breadcrumb navigation ("you are here")
+           </div>
 
            
       </div>
-        <div metal:use-macro="here/global_pathbar/macros/path_bar">
-             The breadcrumb navigation ("you are here")
-           </div>
+
       <div class="visualClear" id="clear-space-before-wrapper-table"><!-- --></div>
 
       <tal:comment replace="nothing">

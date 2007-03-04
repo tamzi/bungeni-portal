@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: BungeniSkinCM.py
+# File: BungeniSkinAO.py
 #
 # Copyright (c) 2007 by []
 # Generator: ArchGenXML Version 1.5.1-svn
@@ -42,7 +42,7 @@ from Products.CMFCore.CMFCorePermissions import setDefaultRoles
 ##/code-section config-head
 
 
-PROJECTNAME = "BungeniSkinCM"
+PROJECTNAME = "BungeniSkinAO"
 
 # Check for Plone 2.1
 try:
@@ -80,6 +80,6 @@ JAVASCRIPTS = []
 
 # Load custom configuration not managed by ArchGenXML
 try:
-    from Products.BungeniSkinCM.AppConfig import *
+    from Products.BungeniSkinAO.AppConfig import *
 except ImportError:
     pass

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: BungeniSkinCM.py
+# File: BungeniSkinAO.py
 #
 # Copyright (c) 2007 by []
 # Generator: ArchGenXML Version 1.5.1-svn
@@ -39,7 +39,7 @@ __docformat__ = 'plaintext'
 #       with a method register(context) to register the policy.
 
 import logging
-logger = logging.getLogger('BungeniSkinCM')
+logger = logging.getLogger('BungeniSkinAO')
 logger.info('Installing Product')
 
 try:
@@ -58,10 +58,10 @@ from Products.Archetypes.utils import capitalize
 
 import os, os.path
 
-from Products.BungeniSkinCM.config import *
+from Products.BungeniSkinAO.config import *
 
 DirectoryView.registerDirectory('skins', product_globals)
-DirectoryView.registerDirectory('skins/BungeniSkinCM',
+DirectoryView.registerDirectory('skins/BungeniSkinAO',
                                     product_globals)
 
 ##code-section custom-init-head #fill in your manual code here
@@ -92,7 +92,7 @@ def initialize(context):
     # Apply customization-policy, if theres any
     if CustomizationPolicy and hasattr(CustomizationPolicy, 'register'):
         CustomizationPolicy.register(context)
-        print 'Customization policy for BungeniSkinCM installed'
+        print 'Customization policy for BungeniSkinAO installed'
 
     ##code-section custom-init-bottom #fill in your manual code here
     ##/code-section custom-init-bottom

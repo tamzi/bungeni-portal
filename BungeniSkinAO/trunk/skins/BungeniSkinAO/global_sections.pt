@@ -1,11 +1,44 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      lang="en"
-      metal:use-macro="here/main_template/macros/master"
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
       i18n:domain="plone">
+
 <body>
 
-<div metal:fill-slot="main">
-    
+<!-- THE SECTION TABS DEFINITION -->
+<div metal:define-macro="portal_tabs"
+     tal:omit-tag=""
+     tal:define="selected_tabs python:here.selectedTabs('index_html', here, portal_tabs);
+                 selected_portal_tab selected_tabs/portal;"
+     tal:condition="portal_tabs">
+    <h5 class="hiddenStructure" i18n:translate="heading_sections">Sections</h5>
+    <div id="portal-globalnav">
+    <ul >
+        <tal:tabs tal:repeat="tab portal_tabs"><li tal:attributes="id string:portaltab-${tab/id};
+                            class python:test(selected_portal_tab==tab['id'], 'selected', 'plain');">
+           <span> <a href="" 
+               tal:content="tab/name"
+               tal:attributes="href tab/url;
+                               title tab/description|nothing">
+            Tab Name
+            </a></span></li></tal:tabs>
+    </ul>
+    <h6 class="hiddenStructure" i18n:translate="heading_sub_sections">Subsections</h6>
+    <div id="portal-globalnav-sub">
+    <ul>
+        <tal:subnav 
+        tal:define="selected_portal_obj python:getattr(portal_object, selected_portal_tab)"
+        tal:repeat="tab python:selected_portal_obj.contentValues(['ATDocument','ATTopic'])">
+        <li tal:attributes="id string:portalsubtab-${tab/getId};
+                            class python:test(selected_portal_tab==tab['id'], 'selected', 'plain');">
+            <a href="" 
+                tal:content="tab/Title"
+               tal:attributes="href tab/absolute_url;
+                               title tab/Description|nothing">
+            Tab Name
+            </a></li>
+        </tal:subnav>
+    </ul>
+    </div>
+   </div>
 </div>
 
 </body>

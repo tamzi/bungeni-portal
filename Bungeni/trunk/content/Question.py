@@ -48,6 +48,18 @@ schema = Schema((
         )
     ),
 
+    ReferenceField(
+        name='respondents',
+        widget=ReferenceField._properties['widget'](
+            label="Respondents",
+            label_msgid='Bungeni_label_respondents',
+            i18n_domain='Bungeni',
+        ),
+        allowed_types="MemberOfParliament",
+        multiValued=1,
+        relationship="Question_MemberOfParliament"
+    ),
+
 ),
 )
 

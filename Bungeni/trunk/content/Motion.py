@@ -29,7 +29,9 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+import zope
 from Products.Bungeni.content.ParliamentaryEvent import ParliamentaryEvent
+from Products.AuditTrail.interfaces.IAuditable import IAuditable
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -55,6 +57,8 @@ class Motion(BaseContent, ParliamentaryEvent):
     """
     security = ClassSecurityInfo()
     __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(ParliamentaryEvent,'__implements__',()),)
+    # zope3 interfaces
+    zope.interface.implements(IAuditable)
 
     # This name appears in the 'add' box
     archetype_name = 'Motion'
@@ -80,7 +84,6 @@ class Motion(BaseContent, ParliamentaryEvent):
     ##/code-section class-header
 
     # Methods
-
 
 
 registerType(Motion, PROJECTNAME)

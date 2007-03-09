@@ -29,7 +29,9 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+import zope
 from Products.PloneHelpCenter.content.ReferenceManualFolder import HelpCenterReferenceManualFolder
+from Products.AuditTrail.interfaces.IAuditable import IAuditable
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -55,6 +57,8 @@ class LegislationFolder(BaseFolder, HelpCenterReferenceManualFolder):
     """
     security = ClassSecurityInfo()
     __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(HelpCenterReferenceManualFolder,'__implements__',()),)
+    # zope3 interfaces
+    zope.interface.implements(IAuditable)
 
     # This name appears in the 'add' box
     archetype_name = 'LegislationFolder'

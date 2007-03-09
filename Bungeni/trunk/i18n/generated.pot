@@ -93,6 +93,11 @@ msgstr ""
 msgid "Bungeni_label_requireWrittenAnswer"
 msgstr ""
 
+#. Default: "Respondents"
+#: content/Question.py
+msgid "Bungeni_label_respondents"
+msgstr ""
+
 #. Default: "Title or salutation"
 #: membership/BungeniMember.py
 msgid "Bungeni_label_salutation"

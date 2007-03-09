@@ -31,8 +31,8 @@ def install(self):
     adder.default_member_type = 'MemberOfPublic'
 
     # Require approval for the adding of plain old members
-    wft = getToolByName(self, 'portal_workflow')
-    wft.setChainForPortalTypes( ['Member'], "MemberApprovalWorkflow")
+    workflow_tool = getToolByName(self, 'portal_workflow')
+    workflow_tool.setChainForPortalTypes( ['Member'], "MemberApprovalWorkflow")
 
     # Repair status_map for our new types.
     # TODO: setting their workflow *after* registering the types in
@@ -48,10 +48,21 @@ def install(self):
         cat_map.replaceCategoryValues(cat_set, ACTIVE_STATUS_CATEGORY, states)
 
     # Change the default workflow
-    wft = getToolByName(self, 'portal_workflow')
-    wft.setDefaultChain('BungeniWorkflow')
-    wft.setChainForPortalTypes( ['Folder', 'Large Plone Folder'], "BungeniWorkflow")
-    wft.updateRoleMappings()
+    workflow_tool = getToolByName(self, 'portal_workflow')
+    workflow_tool.setDefaultChain('BungeniWorkflow')
+    workflow_tool.setChainForPortalTypes( ['Folder', 'Large Plone Folder'], "BungeniWorkflow")
+    workflow_tool.updateRoleMappings()
+
+    # Enable syndication
+    # XXX: Figure out a better way to identify the content that needs syndication
+    syndication_tool = getToolByName(self, 'portal_syndication')
+    if not syndication_tool.isSiteSyndicationAllowed():
+        syndication_tool.editProperties(isAllowed=1)
+    if not syndication_tool.isSyndicationAllowed(self.events):
+        syndication_tool.enableSyndication(self.events)
+
+    # Configure logging using CMFNotification
+    notification_tool = getToolByName(self, 'portal_notification')
 
     # # Change the default roles managed by teams
     # teams_tool = getToolByName(self, 'portal_teams')

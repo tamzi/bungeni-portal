@@ -14,18 +14,18 @@ Bungeni portal may be interested in.
 Namespace Declarations
 ----------------------
 
-- ``xmlns:content="http://bungeni.org/rss/1.0/modules/bungeni/"``
+- ``xmlns:content="http://bungeni.org/ns/1.0/bungeni/"``
 
 Syntax
 ------
 
-bungeni:questioning
-```````````````````
+bungeni:from
+````````````
 
-``bungeni:questioning`` enumerates the person, people or groups asking a
+``bungeni:from`` enumerates the person, people or groups asking a
 question in parliament. It is used as follows::
 
-  <bungeni:questioning>
+  <bungeni:from>
     <rdf:Bag>
       <rdf:li>
         <bungeni:principal>
@@ -34,26 +34,66 @@ question in parliament. It is used as follows::
       </rdf:li>
       <!-- Optionally, include as many more bungeni:principal elements as needed. -->
     </rdf:Bag>
-  </bungeni:questioning>
+  </bungeni:from>
 
-bungeni:questioned
-``````````````````
+If you don't feel like obliging RDF parsers, that looks like::
 
-``bungeni:questioned`` enumerates the person, people or groups being asked a
-question in parliament. It is used similarly to ``bungeni:questioning``.
+  <bungeni:from>
+    <bungeni:principal>
+      <!-- Use bungeni:principal as described below -->
+    </bungeni:principal>
+  </bungeni:from>
+
+bungeni:to
+``````````
+
+``bungeni:to`` enumerates the person, people or groups being asked a
+question in parliament. It is used similarly to ``bungeni:from``.
 
 bungeni:principal
 `````````````````
 
 ``bungeni:principal`` identifies a principal (normally a site member,
-but possibly a group or an organisation) involved addressing someone or
-being addressed. If it is necessary to unambiguously identify someone,
-then this could be the UID of the principal::
-
-  <bungeni:principal>265d3a4f2164e4d9a3ad5545d8135c3c</bungeni:principal>
-
-However, if it is for display purposes, it could be the name::
+but possibly a group or an organisation) addressing someone or being
+addressed. If it is for display purposes, it could be the name::
 
   <bungeni:principal>John Smith</bungeni:principal>
 
+If more information is required, the following optional sub-elements are
+available: `bungeni:name`_, `bungeni:identifier`_, `bungeni:uri`_, and
+`bungeni:type`_. Here is an example with all of the sub-elements::
+
+  <bungeni:principal>
+    <bungeni:principal>John Smith</bungeni:principal> 
+    <bungeni:identifier>265d3a4f2164e4d9a3ad5545d8135c3c</bungeni:identifier>
+    <bungeni:uri>http://www.parliament.gh/minutes/2005/0719</bungeni:uri>
+    <bungeni:type>MemberOfParliament</bungeni:type>
+  </bungeni:principal>
+
+bungeni:name
+````````````
+
+The name of the person or group.
+
+bungeni:identifier
+``````````````````
+An identifier that identifies this resource uniquely. In the context of
+the Bungeni portal, this will be an Archetypes UID string, e.g.::
+
+  <bungeni:identifier>265d3a4f2164e4d9a3ad5545d8135c3c</bungeni:identifier>
+
+bungeni:uri
+```````````
+
+The URI identifying this principal in the Norma Africa storage for a
+Parliament. The Norma Africa server is the authoritative source of the
+URI. Only content stored by Norma Africa have URIs.
+
+bungeni:type
+````````````
+
+The type of the principal. In the context of the Bungeni portal, this
+will be the ``portal_type`` of the referenced object::
+
+  <bungeni:type>MemberOfParliament</bungeni:type>
 

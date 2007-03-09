@@ -1,3 +1,12 @@
+* * *
+
+This is a (hopefully short-lived) fork of
+svn://svn.zope.org/repos/main/CMF/trunk/DCWorkflow
+
+It exists only for the backport of the patch to introduce events to
+workflow. See http://svn.zope.org/CMF/trunk/?rev=71686&view=rev
+
+* * *
 
 There is some documentation in the 'doc' directory.
 

@@ -3,7 +3,11 @@ from Products.CMFCore import permissions
 
 # Products that are integrated in Bungeni product. 
 # The Plone site should be a membrane/remember site.
-DEPENDENCIES = ['AddRemoveWidget', 'PloneHelpCenter',]
+DEPENDENCIES = [
+    'AddRemoveWidget', 
+    'PloneHelpCenter',
+    'qRSS2Syndication', # RSS2 feeds
+    ]
 
 # Products that we want to use alongside Bungeni
 DEPENDENCIES += [

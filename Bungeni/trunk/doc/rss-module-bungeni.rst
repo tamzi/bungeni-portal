@@ -36,6 +36,8 @@ question in parliament. It is used as follows::
     </rdf:Bag>
   </bungeni:from>
 
+.. The current implementation assumes that principles will be site members.
+
 If you don't feel like obliging RDF parsers, that looks like::
 
   <bungeni:from>
@@ -91,6 +93,8 @@ bungeni:uri
 The URI identifying this principal in the Norma Africa storage for a
 Parliament. The Norma Africa server is the authoritative source of the
 URI. Only content stored by Norma Africa have URIs.
+
+.. In future we may want to include URIs as ``rdf:about`` attributes as well.
 
 bungeni:type
 ````````````

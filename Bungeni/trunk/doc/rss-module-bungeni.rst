@@ -64,11 +64,14 @@ available: `bungeni:name`_, `bungeni:identifier`_, `bungeni:uri`_, and
 `bungeni:type`_. Here is an example with all of the sub-elements::
 
   <bungeni:principal>
-    <bungeni:principal>John Smith</bungeni:principal> 
+    <bungeni:name>John Smith</bungeni:name> 
     <bungeni:identifier>265d3a4f2164e4d9a3ad5545d8135c3c</bungeni:identifier>
     <bungeni:uri>http://www.parliament.gh/minutes/2005/0719</bungeni:uri>
     <bungeni:type>MemberOfParliament</bungeni:type>
   </bungeni:principal>
+
+If you use any sub-elements, the ``bungeni:principal`` tag shouldn't
+have text content.
 
 bungeni:name
 ````````````

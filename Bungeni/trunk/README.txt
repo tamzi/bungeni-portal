@@ -6,3 +6,5 @@ profiles before installation.
 
 PloneHelpCenter needs to be present, since we subclass from it, but it
 needn't be installed.
+
+For dependencies, see AppConfig.py

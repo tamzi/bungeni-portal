@@ -1,12 +1,14 @@
 # Permissions we want globally available
 from Products.CMFCore import permissions
 
-# Products that are integrated in Bungeni product. 
 # The Plone site should be a membrane/remember site.
+
+# Products that are integrated in Bungeni product. 
 DEPENDENCIES = [
     'AddRemoveWidget', 
     'PloneHelpCenter',
     'qRSS2Syndication', # RSS2 feeds
+    'AuditTrail', 
     ]
 
 # Products that we want to use alongside Bungeni

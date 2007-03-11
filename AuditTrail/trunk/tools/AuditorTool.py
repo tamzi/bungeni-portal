@@ -31,6 +31,9 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from Products.AuditTrail.config import *
 
+# additional imports from tagged value 'import'
+from LockingFileLogger import LockingFileLogger
+
 
 from Products.CMFCore.utils import UniqueObject
 

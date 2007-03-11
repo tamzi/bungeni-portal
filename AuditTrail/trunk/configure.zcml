@@ -2,11 +2,13 @@
            xmlns:i18n="http://namespaces.zope.org/i18n"
            i18n_domain="AuditTrail">
 
+    <!-- ObjectModifiedEvent is fired after creation is finished
     <subscriber
         for="Products.AuditTrail.interfaces.IAuditable.IAuditable
             zope.app.container.interfaces.IObjectAddedEvent"
         handler="Products.AuditTrail.tools.AuditorTool.auditHandler"
         />
+    -->
 
     <subscriber
         for="Products.AuditTrail.interfaces.IAuditable.IAuditable

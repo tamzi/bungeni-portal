@@ -32,6 +32,7 @@ from Products.Archetypes.atapi import *
 import zope
 from Products.Bungeni.membership.BungeniMember import BungeniMember
 from Products.Bungeni.interfaces.IClerk import IClerk
+from Products.AuditTrail.interfaces.IAuditable import IAuditable
 # imports needed by remember
 from Products.remember.content.member import BaseMember
 from Products.remember.permissions import \
@@ -69,7 +70,7 @@ class Clerk(BaseMember, BaseContent, BungeniMember):
     security = ClassSecurityInfo()
     __implements__ = (getattr(BaseMember,'__implements__',()),) + (getattr(BaseContent,'__implements__',()),) + (getattr(BungeniMember,'__implements__',()),)
     # zope3 interfaces
-    zope.interface.implements(IClerk)
+    zope.interface.implements(IClerk, IAuditable)
 
     # This name appears in the 'add' box
     archetype_name = 'Clerk'

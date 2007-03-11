@@ -37,11 +37,17 @@ from Products.CMFCore.utils import UniqueObject
     
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore.utils import getToolByName
+from Products.DCWorkflow.interfaces import IAfterTransitionEvent
+
+FORMAT = """------ %(asctime)s ------ %(levelname)s ------
+%(message)s
+"""
 
 import logging
 logger = logging.getLogger('AuditTrailLog')
 logger.propagate = 0
 handler = logging.FileHandler(LOG_PATH, mode='w')
+handler.setFormatter(logging.Formatter(FORMAT))
 logger.addHandler(handler)
 logger.setLevel(logging.INFO)
 ##/code-section module-header
@@ -113,10 +119,14 @@ class AuditorTool(UniqueObject, BaseContent):
     def logEvent(self,ob,event):
         """
         """
-        import pdb; pdb.set_trace()
+        if IAfterTransitionEvent.providedBy(event) and event.transition:
+            msg = "transition: %s" % event.transition.id
+        else:
+            return # Ignore null transitions
+
         marshaller = ob.Schema().getLayerImpl('marshall')
-        rfc822 = marshaller.marshall(ob)[2]
-        logger.info(rfc822)
+        msg = '\n'.join([ msg, marshaller.marshall(ob)[2] ])
+        logger.info(msg)
 
 
 registerType(AuditorTool, PROJECTNAME)

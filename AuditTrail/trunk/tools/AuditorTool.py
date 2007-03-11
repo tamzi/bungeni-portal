@@ -122,13 +122,18 @@ class AuditorTool(UniqueObject, BaseContent):
     def logEvent(self,ob,event):
         """
         """
-        if IAfterTransitionEvent.providedBy(event) and event.transition:
+        msg = ''
+
+        if IAfterTransitionEvent.providedBy(event):
+            if not event.transition:
+                return # Ignore null transitions
             msg = "transition: %s" % event.transition.id
-        else:
-            return # Ignore null transitions
+        if IObjectRemovedEvent.providedBy(event):
+            msg = 'removed: 1\nid: %s\n' % ob.getId()
+        if IObjectModifiedEvent.providedBy(event):
+            msg = '\n'.join([ msg, marshaller.marshall(ob)[2] ])
 
         marshaller = ob.Schema().getLayerImpl('marshall')
-        msg = '\n'.join([ msg, marshaller.marshall(ob)[2] ])
         logger.info(msg)
 
 

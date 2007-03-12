@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="BungeniDocTree" script:language="StarBasic">Option Explicit
+
+
+Private oDialog as object		&apos;Points to the dialog dlgCrossRef
+Private oDialogListener as Object
+Private oDoc as object			&apos;Points to the current document
+Private oText as object			&apos;Points to the text of the current document
+Private oCurSelection as object	&apos;Points to the current selection
+Private mOutlines()				&apos;Holds the text of the headings, the level, and name of reference
+Private mLinks()				&apos;For each item in listbox mLinks holds the index of the corresponding
+								&apos;entry in mOutlines
+Private nHeadCount as long		&apos;The number of heading paragraphs in the document
+Private mDocs()
+Global mXRefDialogSettings(12)	&apos;Holds the current settings of the dialog.
+								&apos;Global so settings are still available for next time dialog is called.
+Const nIndent = 3				&apos;Number spaces at left of item in listbox acting as tree control
+Private sTranslatXRefHead(100) as string &apos;100 to allow additional localizations, then increase this value
+Private sLanguage as string		&apos;For locale detection
+
+Private mbDlgCloseTracker as boolean
+&apos;=====================================================
+&apos;	Main entry point.
+&apos;	Procedure to initialise and display the dialog box 
+&apos;=====================================================
+Sub LaunchDocTree
+
+&apos;Initialize language
+&apos;Call SubSetLanguage
+&apos;Call SubTranslateRef
+
+&apos;Check that we are in a text document and that text is selected
+oDoc = stardesktop.currentComponent
+oCurSelection = oDoc.CurrentSelection
+
+&apos;If not oDoc.supportsService(&quot;com.sun.star.text.GenericTextDocument&quot;) then
+&apos;	msgbox sTranslatXRefHead(0), 16, sTranslatXRefHead(1)
+&apos;	Exit Sub
+&apos;End If
+
+&apos;If not oCurSelection.supportsService(&quot;com.sun.star.text.TextRanges&quot;) then
+&apos;	msgbox sTranslatXRefHead(2), 16, sTranslatXRefHead(3)
+&apos;	Exit Sub
+&apos;End If
+
+&apos;Set-up the dialog
+mbDlgCloseTracker = false
+dialogLibraries.LoadLibrary(&quot;BungeniDocTree&quot;)
+oDialog = CreateUnoDialog(DialogLibraries.BungeniDocTree.dlgDocTree)
+
+SubBuildArray(oDoc)
+
+oDialog.getControl(&quot;lbTreeLevel&quot;).selectItemPos(0, true)
+&apos;SubLoadDialogSettings
+SubCurrentWriterDocuments
+SubShowLevel(oDialog.getControl(&quot;lbDocTree&quot;),	oDialog.getControl(&quot;lbTreeLevel&quot;).selectedItemPos + 1)
+
+oDialog.setVisible(true) &apos;display dialog modelessly
+oDialogListener = createUnoListener(&quot;dlgDocTree_&quot;, &quot;com.sun.star.awt.XTopListener&quot;) &apos;create top window listener
+oDialog.addTopWindowListener(oDialogListener)
+
+Do 
+Wait 100
+Loop until mbDlgCloseTracker &apos;loop until boolean is true....
+oDialog.setVisible(false)
+&apos;Present the dialog
+End Sub
+
+&apos;****************************Dialog listeners ***************************
+Sub dlgDocTree_windowActivated(oEvent)
+  oEvent.Source.getModel.BackGroundColor = RGB (255,0, 0)
+End Sub
+
+
+
+Sub dlgDocTree_windowDeactivated(oEvent)
+End Sub
+
+Sub dlgDocTree_windowClosing(oEvent)
+msgbox (&quot;hello&quot;)
+mbDlgCloseTracker = true
+ End Sub
+
+Sub dlgDocTree_windowClosed(oEvent)
+End Sub
+
+Sub dlgDocTree_windowMinimized(oEvent)
+End Sub
+
+
+Sub dlgDocTree_windowNormalized(oEvent)
+End Sub
+
+
+Sub dlgDocTree_windowDisposing(oEvent)
+End Sub
+
+Sub dlgDocTree_Cancel(oEvent)
+ mbDlgCloseTracker = true
+End Sub
+
+
+
+&apos;**************************** Display a preview *****************************
+Sub SubEventPreview
+Dim nPosn as long, sPreview as string
+
+nPosn = odialog.getControl(&quot;lbDocTree&quot;).SelectedItemPos
+If nPosn &lt; 0 then	&apos;Nothing selected so can&apos;t insert anything
+	beep
+	Exit Sub
+End If
+
+&apos;If oDialog.Model.CheckBoxChapter.state = 1 then
+&apos;	sPreview = oDialog.Model.TextField0.Text &amp; &quot;#.#&quot;
+&apos;End If
+&apos;If oDialog.Model.CheckBoxRef.state = 1 then
+&apos;	sPreview = sPreview &amp; oDialog.Model.TextField1.Text &amp; sTranslatXRefHead(29)
+&apos;End If
+
+&apos;If oDialog.Model.CheckBoxPage.state = 1 then
+&apos;	sPreview = sPreview &amp; oDialog.Model.TextField2.Text &amp; &quot;#&quot;
+&apos;End If
+&apos;If oDialog.Model.CheckBoxDirection.state = 1 then
+&apos;	sPreview = sPreview &amp; oDialog.Model.TextField3.Text &amp; sTranslatXRefHead(30)
+&apos;End If
+&apos;oDialog.Model.LabelPreview.label = sPreview
+End Sub
+
+
+&apos;**************************** Set a unique name ****************************
+function fnNewRefName(sBaseName as string)
+Dim i as integer
+
+If oDoc.ReferenceMarks.hasByName(&quot;§ &quot; &amp; sBaseName) then
+	i =  1 &apos;oDoc.ReferenceMarks.Count
+	While oDoc.ReferenceMarks.hasByName(&quot;§ &quot; &amp; sBaseName &amp; &quot;_&quot; &amp; i)
+		i = i + 1
+	Wend
+	fnNewRefName = &quot;§ &quot; &amp; sBaseName &amp; &quot;_&quot; &amp; i
+Else
+	fnNewRefName = &quot;§ &quot; &amp; sBaseName
+End If
+End function
+
+
+&apos;**************************** List the headings ****************************
+Sub SubBuildArray(oDoc)
+&apos;Uses module level variables: oText
+&apos;Set values for module level variables: mOutlines, nHeadCount
+&apos;Redimensions mOutlines to the number of found headings (nHeadCount)
+&apos;Stores the heading text, heading level, then either
+&apos;the reference name if it exists or the paragraph number
+Dim oTextEnum as Object, oTextElement as Object, oCellCursor as Object
+Dim oPortionEnum as object, oParaEnum as Object, oPortion as object, oCellPara as object
+Dim i as long, nHeadsFound as long, CellNames as object, oCell as object, nPonct as long, C as long
+Dim oRefField as object, sRefname as string
+
+&apos;Find number of heading paragraphs
+oText = oDoc.Text
+nHeadsFound = -1
+oTextEnum = oText.createEnumeration
+While oTextEnum.hasMoreElements
+	oTextElement = oTextEnum.nextElement
+	If oTextElement.supportsService(&quot;com.sun.star.text.Paragraph&quot;) Then
+		If oTextElement.ParaChapterNumberingLevel &gt;= 0 then
+			&apos;Msgbox (&quot;para chapter numbering leve&quot;)
+			nHeadsFound = nHeadsFound + 1
+		End If
+	ElseIf oTextElement.SupportsService(&quot;com.sun.star.text.TextTable&quot;) then &apos;If table...
+   		CellNames = oTextElement.getCellNames
+   		For C = 0 to uBound(CellNames())
+    		oCell = oTextElement.getCellByName(CellNames(C))
+    		oCellCursor = oCell.createTextCursor
+    		If oCellCursor.ParaChapterNumberingLevel &gt;= 0 then &apos;If a heading
+     			nHeadsFound = nHeadsFound + 1
+     		EndIf
+   		Next C
+	End If
+Wend
+nHeadCount = nHeadsFound
+Redim mOutlines(nHeadCount + 1, 2)
+Redim mLinks(nHeadCount + 1)
+
+&apos;Fill the array with the headings, heading level, 
+&apos;and reference name if it exist otherwise the paragraph number
+i = -1
+nHeadsFound = -1
+oTextEnum = oText.createEnumeration
+
+While nHeadsFound &lt; nHeadCount and oTextEnum.hasMoreElements &apos;Second condition should be unnecessary but...
+	oTextElement = oTextEnum.nextElement
+	If oTextElement.supportsService(&quot;com.sun.star.text.Paragraph&quot;) Then
+		i = i + 1		
+		If oTextElement.ParaChapterNumberingLevel &gt;= 0 then
+			nHeadsFound = nHeadsFound + 1
+			mOutlines(nHeadsFound, 0) = oTextElement.string
+			mOutlines(nHeadsFound, 1) = oTextElement.ParaChapterNumberingLevel + 1
+			mOutlines(nHeadsFound, 2) = i
+			oPortionEnum = oTextElement.createEnumeration
+			do While oPortionEnum.hasMoreElements
+				oPortion = oPortionEnum.nextElement
+				If oPortion.TextPortionType = &quot;ReferenceMark&quot; then
+					mOutlines(nHeadsFound, 2) = oPortion.ReferenceMark.name
+					Exit Do
+				End If
+			loop
+		End If
+		
+&apos; This is for headings in tables, easier to define them directly as ReferenceMarks	
+	ElseIf oTextElement.SupportsService(&quot;com.sun.star.text.TextTable&quot;) then
+   		CellNames = oTextElement.getCellNames
+   		For C = 0 to uBound(CellNames())
+    		oCell = oTextElement.getCellByName(CellNames(C))
+    		oCellCursor = oCell.createTextCursor
+    		If oCellCursor.ParaChapterNumberingLevel &gt;= 0 then &apos;If a heading
+     			nHeadsFound = nHeadsFound + 1
+     			oCellCursor.gotoEndOfParagraph(true)
+				mOutlines(nHeadsFound, 0) = oCellCursor.string
+				mOutlines(nHeadsFound, 1) = oCellCursor.ParaChapterNumberingLevel + 1
+				mOutlines(nHeadsFound, 2) = -1
+				oParaEnum = oCell.createEnumeration
+    			While oParaEnum.hasMoreElements
+     				oCellPara = oParaEnum.nextElement
+     				On Local Error Resume Next
+     				oPortionEnum = oCellPara.createEnumeration
+     				Do While oPortionEnum.hasMoreElements
+ 						oPortion = oPortionEnum.nextElement
+ 						If oPortion.TextPortionType = &quot;ReferenceMark&quot; then
+ 							mOutlines(nHeadsFound, 2) = oPortion.ReferenceMark.name
+							Exit Do
+						Elseif isNumeric(mOutlines(nHeadsFound, 2)) then
+							oCellCursor.gotoStartOfParagraph(false)
+							oCell.insertString(oCellCursor, &quot; &quot;, False) &apos;Insert a space to avoid having the outline number in string
+							oCellCursor.gotoEndOfParagraph(true)
+							nPonct = oDialog.Model.NumericFieldPonct.value
+							oCellCursor.goLeft(nPonct,true)	&apos;Come back to deselect ponctuation
+							oRefField = oDoc.createInstance(&quot;com.sun.star.text.ReferenceMark&quot;)
+							sRefname = fnNewRefName(oCellCursor.getString) &apos;Give the reference name the title text
+							oRefField.setName(sRefname)
+							oCellCursor.gotoStartOfParagraph(False)
+							oCellCursor.goRight(1,true)
+							oCell.insertString(oCellCursor, &quot;&quot;, True) &apos; Remove added space and select again the string
+							oCellCursor.gotoEndOfParagraph(true)
+							oCellCursor.goLeft(nPonct,true)
+							oCell.insertTextContent(oCellCursor, oRefField, True)
+							mOutlines(nHeadsFound, 2) = sRefname
+						End If
+					Loop
+				Wend
+			End If
+   		Next C
+	End If
+Wend
+
+End Sub
+
+
+&apos;******************** When level to be shown is changed ********************
+Sub SubEventlbTreeLevels_Initiate(oEvent)
+SubShowLevel(oDialog.getControl(&quot;lbDocTree&quot;), oEvent.Source.SelectedItemPos + 1)
+End Sub
+
+
+&apos;*************************** Headings tree level ***************************
+Sub SubShowLevel(oListBox as object, nDisplayLevel as integer)
+&apos;Called by:SubMyCrossRef,  SubEventlbTreeLevels_Initiate
+&apos;Displays the headings in the listbox up to the specified level
+&apos;E.g.  SubShowLevel(oListBox,2) would display headings with levels of 1 and 2
+Dim i as long, nPosn as long
+
+oListBox.removeItems(0, oListBox.getItemCount)
+nPosn = -1
+
+For i = 0 to nHeadCount
+	If mOutlines(i, 1) &lt;= nDisplayLevel then
+		nPosn = nPosn + 1
+		SubAddItem(oListBox, i, nPosn, nDisplayLevel)
+		mLinks(nPosn) = i
+	End If
+Next
+End Sub
+
+
+&apos;************************ Display selected outlines ************************
+Sub SubAddItem(oListBox as object, i as long, nPosn as long, nDisplayLevel as integer)
+&apos;Insert an item into the listbox
+Dim sInitial as string, nLevel as integer
+
+nLevel = mOutlines(i, 1)
+sInitial = string((abs(nLevel) - 1) * nIndent, &quot; &quot;)	
+If mOutlines(i + 1, 1) &gt; nLevel and nDisplayLevel = nLevel and nDisplayLevel &lt; 10 then
+	sInitial = sInitial &amp; &quot;+&quot;
+Else
+	sInitial = sInitial &amp; &quot;-&quot;
+End If
+oListBox.addItem(sInitial &amp; mOutlines(i, 0), nPosn)
+End Sub
+
+
+&apos;*********************** Manage headings tree locally ***********************
+Sub SubAddSubLevel(oListBox as object, nPosn as long)
+&apos;Display the Sublevel of the heading at nPosn in the listbox
+Dim i as long, nLevel as integer, nCurPosn as long, nDiff as long, j as long
+
+nLevel = mOutlines(mLinks(nPosn), 1) + 1
+nCurPosn = nPosn
+i = mLinks(nPosn) + 1
+While mOutlines(i, 1) &gt;= nLevel
+	If mOutlines(i, 1) = nLevel then
+		nCurPosn = nCurPosn + 1
+		SubAddItem(oListBox, i, nCurPosn, nLevel)
+		For j = oListBox.getItemCount - 1 to nCurPosn + 1 step -1
+			mLinks(j) = mLinks(j - 1)
+		Next
+		mLinks(nCurPosn) = i
+	End If
+	i = i + 1
+Wend
+End Sub
+
+
+&apos;*********************** Manage headings tree locally ***********************
+Sub SubRemoveSubLevels(oListBox as object, nPosn as long)
+&apos;Remove from the listbox the sublevel headings of the heading at nPosn
+Dim i as integer, nCurLevel as integer, nCurPosn as long, nDiff as long
+
+nCurPosn = nPosn + 1
+nCurlevel = mOutlines(mLinks(nPosn), 1)
+i= nCurPosn
+While nPosn &lt; oListBox.getItemCount and mOutlines(mLinks(nCurPosn), 1) &gt; nCurLevel
+	oListBox.removeItems(i, 1)
+	nCurPosn = nCurPosn + 1
+Wend
+
+&apos;Shift the link array back
+nDiff = nCurPosn - nPosn - 1
+For i = nPosn + 1 to oListBox.getItemCount -1
+	mLinks(i) = mLinks(i+nDiff)
+Next
+End Sub
+
+
+&apos;******************** When double-click on headings list ********************
+Sub SubEventlbDocTree_Initiate(oEvent)
+Dim olbDocTree as object, nSelectedItemPos as long
+
+olbDocTree = oDialog.getControl(&quot;lbDocTree&quot;)
+nSelectedItemPos = olbDocTree.SelectedItemPos
+SubAddRemoveNextLevel(oEvent.Source)
+olbDocTree.selectItemPos(olbDocTree.itemCount -1, true)
+olbDocTree.selectItemPos(nSelectedItemPos, true)
+End Sub
+
+
+Sub SubAddRemoveNextLevel(oListBox as object)
+&apos;Called by: SubEventlbDocTree_Initiate
+Dim nPosn as integer
+Dim sSelection as string
+
+sSelection = oListbox.SelectedItem
+nPosn = oListBox.SelectedItemPos
+If nPosn &lt; 0 then	&apos;Don&apos;t think this could happen but just in case
+	Exit Sub
+End If
+
+If fnLevel(sSelection) &gt; 0 then
+	SubSetPlusMinus(oListBox, nPosn, &quot;+&quot;, &quot;-&quot;)
+	SubAddSubLevel(oListBox, nPosn)
+Else
+	SubSetPlusMinus(oListBox, nPosn, &quot;-&quot;, &quot;+&quot;)
+	SubRemoveSubLevels(oListBox, nPosn)
+End If
+End Sub
+
+
+Sub SubSetPlusMinus(oListBox as object, nPosn as Integer, sCur as string, sTo as string)
+&apos;Called by: SubAddRemoveNextLevel
+&apos;Toggless the + and - in the currently selected item
+Dim sSelection as string
+
+sSelection = oListBox.getItem(nPosn)
+oListBox.removeItems(nPosn, 1)
+mid(sSelection,instr(sSelection, sCur), 1, sTo)
+oListBox.addItem(sSelection, nPosn)
+oListBox.selectItemPos(nPosn, true)
+End Sub
+
+
+function fnLevel(sSelection as string) as integer
+&apos;Called by: fnGetLevel,fnGetItem, SubAddRemoveNextLevel
+&apos;Determines the level of the string by looking at the leading spaces and first symbol (highest level = 1)
+Dim i as integer, iLen as integer
+iLen = len(sSelection)
+i=1
+While i &lt; iLen and mid(sSelection, i, 1) = &quot; &quot;
+	i = i + nIndent
+Wend
+If mid(sSelection,i,1) = &quot;+&quot; then
+	fnLevel = int((i - 1) / nIndent) + 1
+Else
+	fnLevel = -1*(int((i - 1) / nIndent) + 1)
+End If
+End function
+
+
+function fnGetLevel(oListBox as object) as integer
+&apos;Returns the level of the currently selected item
+fnGetLevel = abs(fnLevel(oListBox.SelectedItem))
+End function
+
+
+Sub SubCurrentWriterDocuments
+Dim oEnum as object, oPosDoc as object, i as integer
+Dim olbDocSelection as object
+
+oEnum = StarDesktop.getComponents.createEnumeration
+
+&apos;Count doc windows
+i = 0
+While oEnum.hasMoreElements
+	oPosDoc = oEnum.nextElement
+	If HasUnoInterfaces( oPosDoc, &quot;com.sun.star.frame.XModel&quot; ) Then &apos;Thanks to DannyB for this line
+		If oPosDoc.supportsService(&quot;com.sun.star.text.TextDocument&quot;) then
+			i = i + 1
+		End If
+	End If
+Wend
+
+Redim mDocs(i)
+
+i = 0
+olbDocSelection = oDialog.getControl(&quot;lbDocSelection&quot;)
+oEnum = StarDesktop.getComponents.createEnumeration
+While oEnum.hasMoreElements
+	oPosDoc = oEnum.nextElement
+	If HasUnoInterfaces( oPosDoc, &quot;com.sun.star.frame.XModel&quot; ) Then 
+		If oPosDoc.supportsService(&quot;com.sun.star.text.TextDocument&quot;) then
+			mDocs(i) = oPosDoc
+			olbDocSelection.addItem(oPosDoc.currentController.frame.title, i)
+			If oDoc.currentController.frame.title = oPosDoc.currentController.frame.title then
+				olbDocSelection.selectItemPos(i, true)
+			End If
+			i = i + 1
+		End If
+	End If
+Wend
+End Sub
+
+
+Sub SubEventChangeDoc
+Dim olbDocSelection as object, oDocTemp as object
+olbDocSelection = oDialog.getControl(&quot;lbDocSelection&quot;)
+oDocTemp = mDocs(olbDocSelection.SelectedItemPos)
+SubBuildArray(oDocTemp)
+SubShowLevel(oDialog.getControl(&quot;lbDocTree&quot;),	oDialog.getControl(&quot;lbTreeLevel&quot;).selectedItemPos + 1)
+End Sub
+
+
+&apos;****************************** Save settings ******************************
+
+&apos;****************************** Load settings ******************************
+
+
+
+
+</script:module>

@@ -1,0 +1,1238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Main" script:language="StarBasic">REM  *****  BASIC  *****
+
+Option Explicit
+
+
+
+
+Sub Bungeni_Login
+
+End Sub
+
+
+Sub Bungeni_Logout
+
+End Sub
+
+Sub CreateDocument
+
+
+End Sub
+
+Sub Validate
+
+End Sub
+
+Sub SaveDocumentToServer
+
+End Sub
+
+Sub MarkupStyle
+
+End Sub
+
+Sub SetMetadata
+
+End Sub
+
+REM  *****  BASIC  *****
+Global g_allowedStyles()
+Global g_serviceObject as Object
+
+
+Sub makePrayer 
+	Dim isHansard as integer
+
+	isHansard =  IsHansardDocument()
+	
+	if (isHansard = 0 ) then
+
+	Call makeStyle (&quot;prayers&quot;)
+	end if
+	
+	if (isHansard = -1 or isHansard = -2 ) then
+	&apos;	Call hansardDocumentError()
+	end if 
+End Sub
+
+Sub hansardDocumentError 
+	msgbox &quot;This is not a Hansard document!&quot;	
+End sub
+
+
+Sub makePaper
+	Call makeStyle (&quot;papers&quot;)
+End Sub
+
+Sub makePaperDetails
+	Call makeStyle (&quot;paper-details&quot;)
+End Sub
+
+Sub makeNoticeOfMotion
+	Call makeStyle (&quot;notice-of-motion&quot;)
+End Sub
+
+Sub makeNotice
+	Call makeStyle (&quot;notice&quot;)
+End Sub
+
+Sub makeNoticeText
+	Call makeStyle (&quot;noticetext&quot;)
+End Sub
+
+Sub makeSession
+	Call makeStyle (&quot;session&quot;)
+End Sub
+
+Sub makeAgenda
+	Call makeStyle (&quot;agenda&quot;)
+End Sub
+
+Sub makeQuestion
+	Call makeStyle (&quot;question&quot;)
+End Sub
+
+Sub makeAnswer
+	Call makeStyle (&quot;answer&quot;)
+End Sub
+
+
+
+sub makeStyle (styleName as String)
+rem ----------------------------------------------------------------------
+rem define variables
+dim document   as object
+dim dispatcher as object
+rem ----------------------------------------------------------------------
+rem get access to the document
+document   =StarDesktop.getCurrentComponent().CurrentController.Frame
+dispatcher = createUnoService(&quot;com.sun.star.frame.DispatchHelper&quot;)
+
+rem ----------------------------------------------------------------------
+dim args1(1) as new com.sun.star.beans.PropertyValue
+args1(0).Name = &quot;Template&quot;
+args1(0).Value = styleName
+args1(1).Name = &quot;Family&quot;
+args1(1).Value = 2
+
+dispatcher.executeDispatch(document, &quot;.uno:StyleApply&quot;, &quot;&quot;, 0, args1())
+
+end sub
+
+Sub removeErrorTables()
+   Dim oTables    &apos;Enumerator used to enumerate the text sections
+    Dim oTable     &apos;The enumerated text section
+    Dim tblIndex, tblCount, tblDeletionIndex as Long   &apos; section index
+    Dim properties() as object
+
+    oTables = ThisComponent.getTextTables()
+    tblIndex = 0
+  	tblDeletionIndex = 0
+    tblCount = oTables.getCount()
+    if (tblCount = 0 ) Then
+    	Msgbox &quot;There were no error markers found!&quot;
+    End if 
+    
+    Do While tblIndex &lt; tblCount
+    	
+        oTable = oTables.getByIndex(tblDeletionIndex)
+        Dim strTableName as String
+        strTableName = oTable.getName()
+        if (Instr (strTableName, &quot;error-section&quot;) &lt;&gt; 0 ) then
+        	&apos;delete this table
+        	oTable.dispose()
+        	tblDeletionIndex = tblDeletionIndex - 1
+        end if
+   		&apos;oTable.dispose()
+        &apos; ThisComponent.getText().removeTextContent( oTable )
+          tblIndex = tblIndex + 1
+		  tblDeletionIndex = tblDeletionIndex + 1
+    Loop 
+
+End Sub
+Sub removeSections()
+    Dim oSections    &apos;Enumerator used to enumerate the text sections
+    Dim oSection     &apos;The enumerated text section
+    Dim section as Long   &apos; section index
+    Dim properties() as object
+
+    oSections = oDoc.getTextSections()
+    section = 0
+    Do While section &lt; oSections.getCount()
+        oSection = oSections.getByIndex(section)
+        if (oSection.FileLink().FileURL() &lt;&gt; &quot;&quot;) then
+            if oSection.supportsService(&quot;com.sun.star.text.TextSection&quot;) then
+                msgBox(&quot;Section &quot; + section + &quot;, called &quot; + oSection.Name()_
+                         + &quot;, is a file link and supports TextSection&quot;
+                URL = oSection.FileLink().FileURL()
+                oDoc.getText().removeTextContent( oSection )
+                oDoc.getText().createTextCursor().insertDocumentFromURL(URL, properties)
+            else
+                section = section + 1
+            end if
+        else
+            section = section + 1
+        end if
+    Loop 
+ End Sub
+ 
+ 
+Sub insertErrorParagraphX (oCurs as Variant, sStyle as String)
+	Dim oText as Variant
+	Dim errorCursor as Variant
+	oText = ThisComponent.getText() 
+	errorCursor = oText.createTextCursorByRange(oCurs.getStart(False))
+	oText.insertString(errorCursor, &quot;---this style is not allowed &quot; + sStyle + &quot; ----&quot;, False)
+	errorCursor.ParaStyleName = &quot;error-para&quot;
+    oText.insertControlCharacter(errorCursor, com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
+    oText.insertControlCharacter(errorCursor, com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, True)
+	&apos;reset to old paragraph style
+    oCurs.ParaStyleName=sStyle
+
+End Sub
+
+public error_section_count as String
+
+
+
+Function RandomErrorSection
+	Randomize
+	Dim sRandom as String
+	sRandom=&quot;&quot;
+
+	RandomErrorSection = sRandom+ CStr(Int(Rnd(1)*1000 ))
+&apos;	Msgbox CStr(RandomErrorSection)
+End Function
+
+Sub insertErrorParagraph (oCurs as Variant, sStyle as String, message as String )
+	Dim oText as Variant
+	Dim errorCursor as Variant
+	Dim section_dom as String
+	oText = ThisComponent.getText() 
+
+	
+	error_section_count=RandomErrorSection()
+	errorCursor = oText.createTextCursorByRange(oCurs.getStart(False))
+	errorCursor.CharColor = RGB (255, 0 , 255)
+    	
+    section_dom = &quot;com.sun.star.text.TextTable&quot;
+    Dim oTable
+    
+    oTable = ThisComponent.createInstance(section_dom)
+    oTable.setName(&quot;error-section-&quot;+CSTr(error_section_count))
+    oTable.initialize(1,1)
+    oText.insertTextContent(errorCursor, oTable, False)
+ 	oTable.BackColor = RGB  (200, 0 , 0)
+ 	&apos;oTable.getCellByName(&quot;A1&quot;).setValue( &quot;---&quot;+ message + sStyle + &quot; ----&quot;)
+ 	
+	InsertIntoCell &quot;A1&quot;,  &quot;---&quot;+message + sStyle + &quot; ----&quot;, oTable
+
+End Sub
+
+Sub insertIntoCell( strCellName, strText, objTable) 
+	dim objCellText, objCellCursor
+    objCellText= objTable.getCellByName( strCellName) 
+     objCellCursor= objCellText.createTextCursor ()
+    objCellText.insertString(objCellCursor, strText, false)
+    
+End Sub 
+
+
+Sub insertErrorParagraphX2 (oCurs as Variant, sStyle as String)
+	Dim oText as Variant
+	Dim errorCursor as Variant
+	Dim section_dom as String
+	oText = ThisComponent.getText() 
+
+	
+	error_section_count=RandomErrorSection()
+	errorCursor = oText.createTextCursorByRange(oCurs.getStart(False))
+	
+	oText.insertControlCharacter(errorCursor, _
+    	com.sun.star.text.ControlCharacter.LINE_BREAK, False)
+    REM Insert a new paragraph and select it
+    oText.insertControlCharacter(errorCursor, _
+    	com.sun.star.text.ControlCharacter.LINE_BREAK, True)
+    	
+    section_dom = &quot;com.sun.star.text.TextSection&quot;
+    Dim oSect
+    
+    oSect = ThisComponent.createInstance(section_dom)
+    oSect.setName(&quot;error-section-&quot;+CSTr(error_section_count))
+ 	oSect.BackColor = RGB  (200, 0 , 0)
+    oText.insertTextContent(errorCursor, oSect, True)
+    oText.insertString(errorCursor,  &quot;---this style is not allowed &quot; + sStyle + &quot; ----&quot;, True)
+
+	
+	
+	
+	
+&apos;	oText.insertString(errorCursor, &quot;---this style is not allowed &quot; + sStyle + &quot; ----&quot;, False)
+&apos;	errorCursor.ParaStyleName = &quot;error-para&quot;
+ &apos;   oText.insertControlCharacter(errorCursor, com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
+ &apos;   oText.insertControlCharacter(errorCursor, com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, True)
+	&apos;reset to old paragraph style
+  &apos;  oCurs.ParaStyleName=sStyle
+
+End Sub
+
+
+Sub ValidatStylesWithRules
+
+Dim outputStr as String
+Dim outputArr()
+Dim i as integer
+Dim outputArrStr as string
+if (IsNull(g_serviceObject)) then &apos;declare the validator service object
+	g_serviceObject = CreateUnoService(&quot;org.openoffice.bungenivalidator.BungeniValidatorService&quot;)
+	g_serviceObject.InitRules(&quot;E:\projects\BungeniRuleParser\bungeni-rule.xml&quot;)
+end if
+
+outputStr = g_serviceObject.CheckElement(&quot;alpha&quot;)
+Msgbox outputStr
+outputStr = g_serviceObject.CheckElement(&quot;oo-prayers&quot;)
+Msgbox outputStr
+
+outputArr = g_serviceObject.ValidElements()
+outputArrStr = &quot;&quot;
+for i=LBound(outputArr) to UBound(outputArr) - 1
+	outputArrStr = outputArrStr + &quot; - &quot; + outputArr(i)
+Next 
+Msgbox (outputArrStr)
+set g_serviceObject = Nothing
+
+End Sub
+
+Sub ValidateStyles
+	call makeAllowedStyles
+	call IterateAllStyles
+End Sub
+
+&apos;
+&apos;Build Allowed Styles Array
+&apos;
+&apos;
+&apos;
+Sub makeAllowedStyles
+&apos;	allowedStyles() = Array(&quot;session&quot;, &quot;agenda&quot;, &quot;question&quot;, &quot;answer&quot;, &quot;notice&quot;, &quot;notice-of-motion&quot;, &quot;prayers&quot;, &quot;papers&quot;, &quot;paper-details&quot;, &quot;noticetext&quot; )
+
+	Dim outputStr as String
+	Dim i as integer
+	
+	if (IsNull(g_serviceObject)) then
+		g_serviceObject = CreateUnoService(&quot;org.openoffice.bungenivalidator.BungeniValidatorService&quot;)
+		g_serviceObject.InitRules(&quot;E:\projects\BungeniRuleParser\bungeni-rule.xml&quot;)
+	end if
+
+	if  ((UBound(g_allowedStyles) = -1 ) or (UBound(g_allowedStyles) = 0 )) then
+		g_allowedStyles() = g_serviceObject.ValidElements()
+	
+		for i = LBound(g_allowedStyles) to UBound(g_allowedStyles)
+			Dim ruleNameasStyle 
+			ruleNameasStyle = ConvertRuleNameToStyle(g_allowedStyles(i))
+			if ((ruleNameasStyle &lt;&gt; False) and (Len(ruleNameasStyle) &gt; 0 )) then 
+				g_allowedStyles(i) = ConvertRuleNameToStyle(g_allowedStyles(i))
+			end if
+		next		
+		
+	end if
+
+
+End Sub
+
+
+&apos;
+&apos;
+&apos;isStyleAllowed checks if a particular style is valid or not.
+&apos;
+&apos;
+Function isStyleAllowed(styleName as String)
+	Dim i as Integer
+	
+	For i=LBound(g_allowedStyles) to UBound(g_allowedStyles) 
+		If (InStr(g_allowedStyles(i), styleName) &gt;0 ) Then
+			isStyleAllowed=True
+			Exit Function
+		End If
+	Next
+	isStyleAllowed=False
+
+End Function
+
+
+&apos;
+&apos;
+&apos;Called from Validate Styles function
+&apos;
+&apos;
+Sub IterateAllStyles
+  Dim s As String
+  Dim oCurs as Variant
+  Dim sCurStyle As String
+  Dim bErrorsFound as Boolean
+  Dim sPrevStyle as String
+  Dim currentRuleElement as Object
+  Dim previousRuleElement as Object
+  Dim bFirst as Boolean
+  
+  bErrorsFound = False
+  bFirst = False
+  
+  oCurs = ThisComponent.Text.CreateTextCursor()
+  oCurs.GoToStart(False)
+  
+  Dim objParaSection as Object
+  &apos;XRay oCurs
+  objParaSection = oCurs.TextSection
+  
+  If (IsEmpty(objParaSection)) Then
+  	Msgbox (&quot;Empty Section Object&quot;)
+  else
+  	&apos;Msgbox (objParaSection.Name)
+  End if
+  
+  Do
+    If NOT oCurs.gotoEndOfParagraph(True) Then Exit Do
+   &apos; XRay oCurs
+    Dim x
+    x = oCurs.getPropertyValue (&quot;TextSection&quot;)
+    
+    if (not IsEmpty(x)) then 
+    	objParaSection = oCurs.TextSection
+  		  if (Not IsEmpty(objParaSection) ) Then
+    		if (objParaSection.Name = &quot;debatebody&quot;) Then
+    			
+		    	sCurStyle = oCurs.ParaStyleName
+    			&apos;Msgbox sCurStyle
+    			&apos;XRay g_serviceObject
+		    	If Not (isStyleAllowed(sCurStyle)) Then
+		    		 &apos;insert error paragraph at this point
+		    	 	bErrorsFound = True
+		    	 	call insertErrorParagraph( oCurs, sCurStyle, &quot;This Style marker is not allowed in this document : &quot; )
+		    	 	sCurStyle = sPrevStyle
+		    	Else   			
+			    	currentRuleElement = g_serviceObject.GetElement (&quot;oo-&quot;+sCurStyle) 
+						dim sPrevObj
+						if (len(sPrevStyle) &gt; 0 ) then
+							sPrevObj = g_serviceObject.GetElement(&quot;oo-&quot;+sPrevStyle)
+							if (currentRuleElement.ParentElement &lt;&gt; sPrevObj.ParentElement) then
+								call insertErrorParagraph (oCurs, sCurStyle, &quot;This style marker appears to have been wrongly placed in this document : &quot; )
+							end if			
+							
+			    		end if
+			    	if (not len(currentRuleElement.PreviousElement) = 0) then
+			    		if (currentRuleElement.PreviousElement &lt;&gt; sPrevStyle) then
+			    			MsgBox &quot;Style order error, current element = &quot; + currentRuleElement.PreviousElement + &quot;, previous element = &quot; + sPrevStyle 
+			    		End if
+			    	end if
+			    	&apos;check if style is allowed
+			    	If Not (isStyleAllowed(sCurStyle)) Then
+			    		 &apos;insert error paragraph at this point
+			    	 	bErrorsFound = True
+			    	 	call insertErrorParagraph( oCurs, sCurStyle)
+			    	End If
+			    	If (Not IsNull(previousRuleElement)) then
+	    		
+			    	End if
+				    &apos;s = s &amp; &quot;&quot;&quot;&quot; &amp; sCurStyle &amp; &quot;&quot;&quot;&quot; &amp; CHR$(10)
+				    sPrevStyle = sCurStyle
+				    previousRuleElement = currentRuleElement
+				 End If   
+			End If
+		End If    
+	 End If	
+Loop Until NOT oCurs.gotoNextParagraph(False)
+ &apos; MsgBox s, 0, &quot;Styles in Document&quot;
+ if (bErrorsFound) then
+ 	&apos;errors were found
+ 	Msgbox &quot;There were errors found in the document, please correct them before proceeding&quot;
+ End if 
+End Sub
+
+
+
+
+&apos;public dialog variable
+Public oDialog_BungeniSelector
+&apos;public dialog controller variable
+Public lFinished_BungeniSelector as Integer
+
+&apos;public dialog variable
+Public oDialog_TabledDocumentsSelector
+&apos;public dialog controller variable
+Public lFinished_TabledDocumentsSelector as Integer
+&apos;public database connection variable
+
+
+&apos;public database connection variable
+public oConnection
+Const current_db = &quot;bungeni&quot;
+
+Sub LoadDialogLibraries
+	DialogLibraries.LoadLibrary( &quot;BungeniHansard&quot; )
+End Sub
+
+&apos;&apos;&apos;
+&apos;DialogLibraries.GetByName( &quot;Standard&quot; ).GetByName( &quot;bungeni_mp&quot; )
+Function LaunchDialogByName(fullDlg)
+	LaunchDialogByName= createUnoDialog( fullDlg )
+End Function
+
+&apos;Sub Launcher(dialogname as String)
+&apos;	if (dialogname = &quot;bungeni_mp&quot;) Then
+&apos;		Launcher_BungeniMP (dialogname)
+&apos;	Elseif (dialogname = &quot;tabled_documents&quot;) Then
+&apos;		Launcher_TabledDocuments (dialogname)
+&apos;	End If
+&apos;
+&apos;End Sub
+
+Function Launcher_BungeniMP()
+	&apos;check if dialog is already loaded....
+	if (lFinished_BungeniSelector=1) Then 
+		Exit Function
+	end if
+	
+	&apos;If (lFinished_BungeniSelector = False) Then
+	&apos;	Exit Function
+	&apos;End If
+	
+	Dim strDialogName as string
+	strDialogName = &quot;bungeni_mp&quot;
+	Call LoadDialogLibraries
+	lFinished_BungeniSelector = 1 &apos;False
+	bungeniDlgHandle = DialogLibraries.GetByName( &quot;BungeniHansard&quot; ).GetByName(strDialogName )
+	&apos;launch the dialog
+	oDialog_BungeniSelector = LaunchDialogByName(bungeniDlgHandle)
+	&apos;initliase the dialg
+	Call InitDialog(strDialogName, oDialog_BungeniSelector)
+	
+	oDialog_BungeniSelector.setVisible(True)
+	While (lFinished_BungeniSelector &lt;&gt; 2)
+		Wait 100
+		&apos; Note, we could be doing something useful inside this loop,
+		&apos;  such as copying files, and updating progress information
+		&apos;  on the dialog box.
+	Wend
+	
+	&apos; Hide the dialog box.
+	oDialog_BungeniSelector.setVisible( False )
+End Function
+
+
+Function Launcher_TabledDocuments()
+	if (lFinished_TabledDocumentsSelector = 1) then
+		Exit Function
+	End if
+	
+	Dim strDialogName as string
+	strDialogName = &quot;tabled_documents&quot;	
+	Call LoadDialogLibraries
+	lFinished_TabledDocumentsSelector = 1
+	
+
+	
+	bungeniDlgHandle = DialogLibraries.GetByName( &quot;BungeniHansard&quot; ).GetByName( strDialogName )
+	&apos;launch the dialog
+	oDialog_TabledDocumentsSelector = LaunchDialogByName(bungeniDlgHandle)
+	&apos;initliase the dialg
+	Call InitDialog(strDialogName, 	oDialog_TabledDocumentsSelector)
+	
+	oDialog_TabledDocumentsSelector.setVisible(True)
+	While (lFinished_TabledDocumentsSelector &lt;&gt; 2)
+		Wait 100
+		&apos; Note, we could be doing something useful inside this loop,
+		&apos;  such as copying files, and updating progress information
+		&apos;  on the dialog box.
+	Wend
+	
+	&apos; Hide the dialog box.
+	oDialog_TabledDocumentsSelector.setVisible( False )
+End Function
+
+Sub btnOK_clicked( oEvent )
+	lFinished_BungeniSelector = 2
+End Sub
+
+
+Sub btnOK_TabledDocuments_clicked( oEvent )
+	lFinished_TabledDocumentsSelector = 2
+End Sub
+
+Sub InsertMP_clicked(oEvent)
+  Dim oCur  &apos; Created cursor
+  Dim oDoc  &apos; 
+  Dim oVC   &apos; 
+  Dim oText &apos;
+  Dim selectItemText as String
+
+  dlgComboMP = oDialog_BungeniSelector.getControl(&quot;mp_list&quot;)
+  selectItemText = dlgComboMP.getText()
+  if (Len(Trim(selectItemText)) = 0 ) Then
+  	Exit Sub
+  End If
+  
+  Dim beginParens as Integer
+  Dim endParens as Integer
+  Dim nameFilter as String
+  
+  beginParens = Instr(selectItemText, &quot;(&quot;)
+  endParens = Instr(selectItemText, &quot;)&quot;)
+  
+  &apos;Msgbox(&quot;Index number = &quot;+ Mid(selectItemText, beginParens+1, endParens-beginParens-1) )
+  nameFilter = Mid(selectItemText, 1, beginParens-1)
+  Dim cIntSelect as Integer
+  cIntSelect = CInt( Mid(selectItemText, beginParens+1, endParens-beginParens-1) )
+  &apos;Msgbox (&quot;Value Index = &quot;+ valueIndex(cIntSelect-1))
+  &apos;selectItemPos = dlgComboMP.getSelectedItemPos()
+  &apos;MsgBox (&quot;selected index = &quot;+CStr(selectItemPos))
+  	
+  oDoc = ThisComponent
+  oVC = oDoc.getCurrentController().getViewCursor()
+  oText = oVC.getText()
+  oCur=oText.createTextCursorByRange(oVC.getStart())
+  oText.insertString(oCur, nameFilter, True)
+  oCur.HyperLinkTarget = &quot;ref/&quot;+ valueIndex(cIntSelect-1)
+  oCur.HyperLinkURL = valueIndex(cIntSelect-1)
+  
+  
+  
+End Sub
+
+Sub InsertTabledDocuments_clicked(oEvent)
+  Dim oCur  &apos; Created cursor
+  Dim oDoc  &apos; 
+  Dim oVC   &apos; 
+  Dim oText &apos;
+  Dim selectItemsArray
+  Dim selectItemsPosArray
+   Dim dlgLbTabledDocuments
+  dlgLbTabledDocuments = oDialog_TabledDocumentsSelector.getControl(&quot;lbTabledDocuments&quot;)
+  oDoc = ThisComponent
+  oVC = oDoc.getCurrentController().getViewCursor()
+  oText = oVC.getText()
+  oCur=oText.createTextCursorByRange(oVC.getStart())
+
+	selectItemsArray = dlgLbTabledDocuments.getSelectedItems()
+	selectItemsPosArray = dlgLbTabledDocuments.getSelectedItemsPos()
+
+	For i=LBound(selectItemsArray) to UBound(selectItemsArray)
+	  oText.insertString(oCur,  selectItemsArray(i) , False)
+	  &apos;oCur.CharWeight = com.sun.star.awt.FontWeight.BOLD
+	  &apos;oCur.gotoEndOfSentence(False)
+	  &apos;oCur.CharWeight = com.sun.star.awt.FontWeight.NORMAL
+ 	  oText.insertControlCharacter(oCur, com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
+	Next i
+	oNumRules = ThisComponent.createInstance(&quot;com.sun.star.text.NumberingRules&quot;)
+	&apos;MsgBox(oNumRules.dbg_Properties)
+	&apos;MsgBox (oNumRules.dbg_Methods)
+	mLevel = oNumRules.getByIndex(0)
+	For k = LBound(mLevel) To UBound(mLevel)
+          vProperty = mLevel(k)
+          If (vProperty.Name = &quot;NumberingType&quot;) Then
+            &apos;and give it the passed Format
+            vProperty.Value = com.sun.star.style.NumberingType.CHAR_SPECIAL
+            oNumRules.replaceByIndex(0, mLevel)
+          End If 
+          &apos;mLevel(k) = vProperty
+	next
+	
+	&apos;oCur.gotoPreviousParagraph(False)
+	For l=LBound(selectItemsArray) to UBound(selectItemsArray)
+		oCur.gotoPreviousParagraph(True)
+	Next l
+	oCur.setPropertyValue(&quot;NumberingRules&quot;, oNumRules)	
+  &apos;   oText.insertControlCharacter(oCur, com.sun.star.text.ControlCharacter.LINE_BREAK, True)
+   &apos;  oCur.goRight(0, False)
+
+  
+End Sub
+
+
+
+Function InitDialog(dialog_name as String, dlg as Variant)
+	if (dialog_name = &quot;bungeni_mp&quot;) Then
+		Call InitBungeniMP(dlg)
+	Elseif (dialog_name=&quot;tabled_documents&quot;) Then
+		Call InitTabledDocuments(dlg)
+	End If
+	InitDialog = True
+End Function
+
+
+&apos;value index array for combo name value pairs	
+Public valueIndex() as String
+
+Sub InitBungeniMP(dlg as Variant)
+	&apos;&apos;&apos;&apos;VARIABLE DECLARATIONS&apos;&apos;&apos;&apos;
+	&apos;combbobox handle variable
+	Dim dlgComboMP
+	&apos;SQL Queries
+	Dim strSQLCount as String
+	Dim strSQL as String
+	&apos;SQL Results
+	Dim oResultsCount
+	Dim oResults
+	&apos;Statement object
+	Dim oStatement
+	&apos;integer varibale to store the results count
+	Dim iResultsCount as Integer
+	Dim strMpNames() as String
+	&apos;&apos;&apos;&apos;VARIABLE DECLARATIONS END&apos;&apos;&apos;&apos;
+
+	&apos;&apos;&apos;&apos;VARIABLE INITS&apos;&apos;&apos;&apos;
+	&apos;first query counts the number of records
+	strSQLCount=&quot;Select count(*) from &quot;&quot;mp_registry&quot;&quot;&quot;
+	&apos;this one makes the query
+	strSQL = &quot;Select &quot;&quot;mp_id&quot;&quot;, &quot;&quot;mp_fullname&quot;&quot; from &quot;&quot;mp_registry&quot;&quot;&quot;
+	&apos;initialzie combox box handle
+	dlgComboMP = dlg.getControl(&quot;mp_list&quot;)
+	&apos;&apos;&apos;&apos;VARIBABLE INITS END&apos;&apos;&apos;&apos;
+	
+	&apos;Msgbox (&quot;hello&quot;)
+	&apos;begin connection stuff.....
+	Connect(current_db)
+	
+	oStatement = oConnection.CreateStatement
+	&apos;Results count return
+	oResultsCount = oStatement.executeQuery(strSQLCount)
+	If Not IsNull(oResultsCount) Then
+		Do While (oResultsCount.next)
+			iResultsCount = oResultsCount.getInt(1)
+			&apos;Msgbox (CStr(iResultsCount))
+			Exit Do
+		Loop
+	End if
+	oResultsCount.Dispose
+	
+	Redim valueIndex(iResultsCount)
+	Redim strMpNames(iResultsCount) as String
+	
+	&apos;get query results now
+	oResults = oStatement.executeQuery(strSQL)
+	Dim i as Integer
+	i=0
+	If Not IsNull(oResults) Then
+		While (oResults.next)
+			&apos;name of mp, add it to the combo box
+			&apos;mp_name = oResults.getString(2)
+			strMpNames(i) = CStr(oResults.getString(2)) + &quot;(&quot;+CStr(i+1)+&quot;)&quot;
+			&apos;dlgComboMP.addItem(mp_name, i+1)
+			
+			&apos;column with mp id
+			valueIndex(i) = CStr((oResults.getInt(1))		
+			&apos;Msgbox (mp_name + &quot; --- &quot; + valueIndex(i))
+			i=i+1
+		Wend
+		oResults.Dispose
+		dlgComboMP.Model.StringItemList()=strMpNames
+		
+	Else
+		Msgbox(&quot;Query returned no results&quot;)
+		oResults.Dispose
+	End If	
+	CloseConnect()
+End Sub
+
+Public valueTabledDocuments() as String
+
+Sub InitTabledDocuments(dlg as Variant)
+	&apos;&apos;&apos;&apos;VARIABLE DECLARATIONS&apos;&apos;&apos;&apos;
+	&apos;combbobox handle variable
+	Dim dlgLbTabledDocuments
+	&apos;SQL Queries
+	Dim strSQLCount as String
+	Dim strSQL as String
+	&apos;SQL Results
+	Dim oResultsCount
+	Dim oResults
+	&apos;Statement object
+	Dim oStatement
+	&apos;integer varibale to store the results count
+	Dim iResultsCount as Integer
+	Dim strDocumentNames() as String
+	&apos;&apos;&apos;&apos;VARIABLE DECLARATIONS END&apos;&apos;&apos;&apos;
+
+	&apos;&apos;&apos;&apos;VARIABLE INITS&apos;&apos;&apos;&apos;
+	&apos;first query counts the number of records
+	strSQLCount=&quot;Select count(*) from &quot;&quot;tabled_documents&quot;&quot;&quot;
+	&apos;this one makes the query
+	strSQL = &quot;Select &quot;&quot;ID&quot;&quot;, &quot;&quot;document-name&quot;&quot;, &quot;&quot;document-description&quot;&quot; from &quot;&quot;tabled_documents&quot;&quot;&quot;
+	&apos;initialzie combox box handle
+	dlgLbTabledDocuments = dlg.getControl(&quot;lbTabledDocuments&quot;)
+	&apos;&apos;&apos;&apos;VARIBABLE INITS END&apos;&apos;&apos;&apos;
+	
+	
+	&apos;begin connection stuff.....
+	Connect(current_db)
+	
+	oStatement = oConnection.CreateStatement
+	&apos;Results count return
+	oResultsCount = oStatement.executeQuery(strSQLCount)
+	If Not IsNull(oResultsCount) Then
+		Do While (oResultsCount.next)
+			iResultsCount = oResultsCount.getInt(1)
+			Exit Do
+		Loop
+	End if
+	oResultsCount.Dispose
+	
+	Redim valueTabledDocuments(iResultsCount)
+	Redim strDocumentNames(iResultsCount) 
+	
+	&apos;get query results now
+	oResults = oStatement.executeQuery(strSQL)
+	Dim i as Integer
+	i=0
+	If Not IsNull(oResults) Then
+		While (oResults.next)
+			&apos;name of mp, add it to the combo box
+			&apos;mp_name = oResults.getString(2)
+			strDocumentNames(i) = CStr(oResults.getString(2)) + &quot; - &quot; + CStr(oResults.getString(3))
+			&apos;dlgComboMP.addItem(mp_name, i+1)
+			
+			&apos;column with mp id
+			valueTabledDocuments(i) = CStr((oResults.getInt(1))		
+			&apos;Msgbox (mp_name + &quot; --- &quot; + valueIndex(i))
+			i=i+1
+		Wend
+		oResults.Dispose
+		dlgLbTabledDocuments.Model.StringItemList()=strDocumentNames
+		
+	Else
+		Msgbox(&quot;Query returned no results&quot;)
+		oResults.Dispose
+	End If	
+	CloseConnect()
+End Sub
+
+
+
+&apos; Called by the btnOK when it is clicked.
+
+&apos; Set the colored button based on which checkboxes are checked.
+
+Function Connect(dbName as String) &apos; name of registered datasource
+	Dim dbx 
+	On error goto errHandler
+	dbx = createUnoService(&quot;com.sun.star.sdb.DatabaseContext&quot;)
+	oConnection = dbx.getByName(dbName).GetConnection(&quot;&quot;,&quot;&quot;)
+	Connect = True
+	Exit Function
+	errHandler:
+	Msgbox(&quot;Failed to open connection = &quot; + dbName)
+	Connect = False
+End Function
+
+Function CloseConnect()
+	On error goto errHandler
+	oConnection.close()
+	oConnection.dispose()
+	CloseConnect=True
+	Exit Function
+	errHandler:
+	Msgbox (&quot;Failed to close connection&quot;)
+	CloseConnect = False
+End Function
+
+Sub Test()
+	bConn = Connect(&quot;bungeni&quot;)
+	bClose = CloseConnect()
+	If (bConn) Then
+		Msgbox(&quot;Okay&quot;)
+	Else
+		MsgBox (&quot;No Kay&quot;)
+	End If	
+	
+	If (bClose) Then
+		Msgbox(&quot;C0-Okay&quot;)
+	Else
+		MsgBox (&quot;CO-No Kay&quot;)
+	End If	
+
+End Sub
+
+Public varTest as Integer
+
+Sub varTestFunc()
+	If (varTest=0) Then
+		Msgbox (&quot;VarTest is Zero&quot;)
+	End If
+	If (IsEmpty(varTest)) Then
+		Msgbox (&quot;VarTest is Empty&quot;)	
+	End If
+	
+	
+End Sub
+Sub DeleteErrorPars()
+	Call RemoveErrorTables()
+	
+End Sub
+
+Sub DeleteErrorParsX2()
+  Dim oCursor
+  oCursor = ThisComponent.Text.createTextCursor()
+  oCursor.GoToStart(False)
+  Dim s as string
+  Do While oCursor.gotoNextParagraph(False)
+  	s = s &amp; oCursor.ParaStyleName &amp; chr$(10)
+  	if (oCursor.ParaStyleName = &quot;error-para&quot; ) Then
+  		oCursor.gotoStartOfParagraph(False)
+	    oCursor.gotoEndOfParagraph(True)
+        oCursor.setString(&quot;&quot;)  	
+    End if
+  	&apos;Msgbox (oCursor.ParaStyleName)
+  Loop		
+	Msgbox (s)
+End Sub
+
+
+Sub DeleteErrorPars2()
+  Dim oCursor, oEndCursor
+  Dim lastStyle as String
+  oCursor = ThisComponent.Text.createTextCursor()
+  oCursor.GoToStart(False)
+  oEndCursor = ThisComponent.Text.createTextCursor()
+  oEndCursor.GoToEnd(False)
+  
+  Dim s as string
+  Do While oCursor.gotoNextParagraph(False)
+  	s = s &amp; oCursor.ParaStyleName &amp; chr$(10)
+  	if (oCursor.ParaStyleName = &quot;error-para&quot; ) Then
+  		oCursor.gotoStartOfParagraph(False)
+	    oCursor.gotoEndOfParagraph(True)
+        oCursor.setString(&quot;&quot;)  	
+    End if
+  	&apos;Msgbox (oCursor.ParaStyleName)
+  Loop		
+  
+	&apos;Msgbox (s)
+	oCursor.GoToStart(False)
+	Dim oText
+	oText = oCursor.getText()	
+	
+	oCursor.goRight(0, False)
+	
+	s=&quot;&quot;
+	Dim i as integer
+	Dim sCurStyle as String
+  Do While oCursor.gotoNextParagraph(TRUE) and oText.compareRegionEnds(oCursor, oEndCursor) &gt; 0
+  		sParText = oCursor.getString()
+  		
+  		i = Len(sParText)
+	    &apos;We do not have short circuit logical. Drat!
+    	Do While i &gt; 0
+		      If (Mid(sParText,i,1) = Chr(10)) OR (Mid(sParText,i,1) = Chr(13)) Then
+        			i = i - 1
+		      Else
+			        i = -1
+		      End If
+	    Loop
+    	If i = 0 Then
+    		
+		    oCursor.setString(&quot;&quot;)
+		    &apos;Msgbox (&quot;last style = &quot; + lastStyle)
+    	Else
+    		Dim tmpCursor 
+    		tmpCursor = createTextCursorByRange(
+      		oCursor.goLeft(0,FALSE)
+	   End If
+	   lastStyle = oCursor.ParaStyleName
+  	&apos;Msgbox (oCursor.ParaStyleName)
+  Loop		
+	
+End Sub
+
+
+Sub ViewErrorPars()
+  Dim oCursor
+  oCursor = ThisComponent.Text.createTextCursor()
+  oCursor.GoToStart(False)
+  Dim s as string
+  Do While oCursor.gotoNextParagraph(False)
+  	s = s &amp; oCursor.ParaStyleName &amp; chr$(10)
+  	if (oCursor.ParaStyleName = &quot;error-para&quot; ) Then
+  		Msgbox (&quot;error para&quot;)
+    End if
+  	&apos;Msgbox (oCursor.ParaStyleName)
+  Loop		
+	Msgbox (s)
+End Sub
+
+
+
+Function IsHansardDocumentX
+	Dim docType as String
+	Dim docBungeni as String
+	IsHansardDocument = 0
+	docType = ThisComponent.DocumentInfo.getPropertyValue(&quot;BungeniDocumentType&quot;)
+	docBungeni = ThisComponent.DocumentInfo.getPropertyValue(&quot;BungeniDocument&quot;)
+	if (docBungeni &lt;&gt; &quot;TRUE&quot;) Then
+		IsHansardDocument = -1
+		Exit Function
+	end if
+	if (docType &lt;&gt; &quot;HANSARD&quot;) Then 
+		IsHansardDocument = -2
+		Exit Function
+	End if 
+	
+End Function
+
+
+Function IsHansardDocument
+	Dim docType as String
+	Dim docBungeni as String
+	IsHansardDocument = 0
+
+	
+End Function
+
+Sub NewHansardDocument
+  Dim oDoc
+  Dim sPath$
+  Dim a(1) As New com.sun.star.beans.PropertyValue
+  a(0).Name = &quot;AsTemplate&quot;
+  a(0).Value = true
+ a(1).Name = &quot;MacroExecutionMode&quot;
+ a(1).Value = com.sun.star.document.MacroExecMode.ALWAYS_EXECUTE
+  sPath$ =&quot;file:///E:/hansard.ott&quot;
+  oDoc = StarDesktop.LoadComponentFromUrl(sPath$, &quot;_blank&quot; , 0, a())
+ 
+  Dim docProperties, aName, i
+ 
+  oDoc.DocumentInfo.AddProperty(&quot;BungeniDocumentType&quot;,0,&quot;HANSARD&quot;)
+  oDoc.DocumentInfo.AddProperty(&quot;BungeniDocument&quot;, 0, &quot;TRUE&quot;)
+  		
+    oDoc.DocumentInfo.Title = &quot;New Hansard Document&quot;
+
+
+End Sub
+&apos;
+&apos;
+&apos;searchReplaceType = plain / colored
+&apos;if colored - this function replaces all styles with black white styles....
+&apos;
+Sub SearchReplaceStyles (searchReplaceType as String)
+	&apos;check the current document property for doc color state
+	dim docColorState as String
+	
+	if (IfPropertyExists(&quot;BungeniDocColorState&quot;) = true) then
+	
+		docColorState = ThisComponent.DocumentInfo.getPropertyValue(&quot;BungeniDocColorState&quot;)
+		if (docColorState = searchReplaceType) then
+			Msgbox &quot;The Document is already in a &quot;+ docColorState + &quot; state&quot;
+			exit Sub
+		end if 
+	end if
+	
+	call makeAllowedStyles
+&apos;	Msgbox &quot;beginning search &amp; replace&quot;
+	Dim xReplaceDescr, xFound
+	xReplaceDescr = ThisComponent.createReplaceDescriptor() 
+	xReplaceDescr.SearchWords = False
+	xReplaceDescr.SearchCaseSensitive=True
+	xReplaceDescr.SearchStyles = True
+	Dim iterator as integer
+	
+	For iterator = LBound (g_allowedStyles()) to UBound(g_allowedStyles()) - 1
+
+		&apos;Msgbox (g_allowedStyles(iterator))
+		Dim replaceStr as string
+		XReplaceDescr.SearchString = g_allowedStyles(iterator)
+		if (searchReplaceType = &quot;plain&quot;) then 
+			replaceStr = g_allowedStyles(iterator) + &quot;-plain&quot;
+		end if
+		if (searchReplaceType = &quot;colored&quot;) then 
+			replaceStr = g_allowedStyles(iterator)
+		end if
+	
+		XReplaceDescr.ReplaceString = replaceStr
+		xFound = ThisComponent.replaceAll( xReplaceDescr ) 
+	Next
+
+End Sub
+
+Sub IterateArray
+Dim uArr as integer , lArr as Integer
+call makeAllowedStyles
+uArr = LBound(g_allowedStyles())
+lArr = UBound (g_allowedStyles())
+dim i 
+
+for i = LBound(g_allowedStyles) to UBound(g_allowedStyles)-1
+&apos;	Msgbox (g_allowedStyles(i))
+next 
+End Sub
+
+Sub makeTwoColumn
+	call SplitContentSection &quot;debatebody&quot;, 2
+End Sub
+
+Sub makeSingleColumn
+	call SplitContentSection &quot;debatebody&quot;, 1
+End Sub
+
+Sub CheckSections
+	Dim oSections
+	Dim oBodyObject
+	oSections = ThisComponent.getTextSections()
+	
+	if (not oSections.hasByName(&quot;preface&quot;)) then
+		Msgbox &quot;You must define a preface&quot;
+	End if
+	
+	If (not oSections.hasByname(&quot;debatebody&quot;))then
+		Msgbox &quot;You must define a body for the debate&quot;
+	End if 
+	
+	oBodyObject = oSections.getByName(&quot;debatebody&quot;)
+	Dim mX as Object
+	mX = oBodyObject.getText()
+	XRay mX
+End Sub
+
+Sub SplitContentSection (sectionName as String, columnCount as long)
+  Rem Section object
+  Dim oSect
+  Rem column path resolution
+  Dim sColumnPath as String
+  Dim currentTextColumn as Object
+  Rem collumn object of the current document
+  Dim oCols as Object
+  
+  If ThisComponent.getTextSections().getCount() = 0 Then
+    Print &quot;There are no text sections&quot;
+    Exit Sub
+  End If
+
+  REM You can get a text section by name or index.
+  oSect = ThisComponent.getTextSections().getByName(sectionName)
+  currentTextColumn = oSect.TextColumns
+  if (currentTextColumn.ColumnCount = columnCount) then
+  	if (columnCount = 2) then
+  		Msgbox &quot;This Hansard is already a two column Hansard!&quot;
+  	end if
+  	if (columnCount = 1) then
+  		Msgbox &quot;This Hansard is already a single column Hansard!&quot;
+  	end if
+  end if
+  
+  &apos;oSect = ThisComponent.getTextSections().getByIndex(0)
+     sColumnPath = &quot;com.sun.star.text.TextColumns&quot;
+    oCols = ThisComponent.createInstance(sColumnPath)
+    
+    oCols.setColumnCount(columnCount)
+    oSect.TextColumns = oCols
+  REM Create a cursor and move the cursor to the text section.
+  
+End Sub
+
+
+Sub AboutBungeni 
+	MsgBox &quot;About Bungeni Hansard Module &quot; + CHr$(13) + Chr$(10) + &quot;Version .9 &quot; 
+End Sub
+
+Sub makeBlackandWhiteView
+	Dim iAns as integer
+    iAns = MsgBox(&quot;This action will generate a new copy of the document without the color-coded formatting&quot;,292,&quot;Confirm to Proceed&quot;)
+   &apos; Msgbox cstr(iAns)
+	If iAns &lt;&gt; 6 then 
+	 	Exit Sub
+	EndIf
+	call SearchReplaceStyles &quot;plain&quot;
+	call changeSectionToPlain &quot;preface&quot;
+	call changeSectionToPlain &quot;debatebody&quot;
+	if (IfPropertyExists (&quot;BungeniDocColorState&quot;)) then
+		call SetDocProperty (&quot;BungeniDocColorState&quot;, &quot;plain&quot;)
+	Else
+		ThisComponent.DocumentInfo.AddProperty(&quot;BungeniDocColorState&quot;, 0, &quot;plain&quot;)
+	End If
+End Sub
+
+Sub changeSectionToPlain (sectionName as String)
+Dim oSect
+ If ThisComponent.getTextSections().hasByName(sectionName) Then
+    oSect = ThisComponent.getTextSections().getByName(sectionName)
+    oSect.BackColor = -1
+ End if
+End Sub
+
+Sub makeColorView
+	call SearchReplaceStyles &quot;colored&quot;
+	If (IfPropertyExists (&quot;BungeniDocColorState&quot;) ) then 
+		call SetDocProperty (&quot;BungeniDocColorState&quot;, &quot;colored&quot;)
+	Else
+		ThisComponent.DocumentInfo.AddProperty(&quot;BungeniDocColorState&quot;, 0, &quot;colored&quot;)
+	End If
+End Sub
+
+
+
+Sub SetDocProperty (propertyName as String, propertyValue as String)
+	On error resume next
+	ThisComponent.DocumentInfo.SetPropertyValue (propertyName, propertyValue)
+End SUb
+
+Function IfPropertyExists (propertyName as String)
+	On Error resume next
+	Dim objProperties()
+	Dim aName as String 
+	Dim i as integer
+
+	objProperties() = ThisComponent.getDocumentInfo().getPropertyValues()
+	for i=LBound(objProperties()) to UBound(objProperties())
+	    aName = objProperties(i).Name
+	    if (aName = propertyName) Then
+	    	IfPropertyExists = True
+	    	exit function
+	    end if
+	next 
+	IfPropertyExists = False
+End Function
+
+
+Function ConvertRuleNameToStyle (ruleName as String)
+	Dim posSeparator as Integer
+	posSeparator = Instr(ruleName, &quot;-&quot;)
+	if (posSeparator = 0 ) then &apos;not found in string
+		ConvertRuleNameToStyle = False
+	else
+		ConvertRuleNameToStyle = Mid (ruleName, posSeparator+1, Len(ruleName) - posSeparator + 1)
+	end if
+	
+End Function
+
+
+Sub GetTextFromTextSection
+  Dim oSect
+  Dim oCurs
+
+  If ThisComponent.getTextSections().getCount() = 0 Then
+    Print &quot;There are no text sections&quot;
+    Exit Sub
+  End If
+
+  REM You can get a text section by name or index.
+  oSect = ThisComponent.getTextSections().getByName(&quot;preface&quot;)
+ &apos; oSect = ThisComponent.getTextSections().getByIndex(0)
+  
+  REM Create a cursor and move the cursor to the text section.
+  oCurs = ThisComponent.getText().createTextCursor()
+  oCurs.gotoRange(oSect.getAnchor(), False)
+  
+  REM In this example, I assume that there is text after
+  REM the text section. If there is not, then this is 
+  REM an infinite loop. You had better verify that
+  REM gotoNextParagraph does not return False.
+  Do While NOT IsEmpty(oCurs.TextSection)
+    oCurs.gotoNextParagraph(False)
+  Loop
+  
+  oCurs.gotoPreviousParagraph(False)
+  oCurs.gotoRange(oSect.getAnchor(), True)
+  &apos;MsgBox oCurs.getString()
+End Sub
+
+</script:module>

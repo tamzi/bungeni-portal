@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="tabled_documents" dlg:left="136" dlg:top="21" dlg:width="148" dlg:height="124" dlg:closeable="true" dlg:moveable="true" dlg:title="Select Tabled Documents">
+ <dlg:bulletinboard>
+  <dlg:button dlg:id="SelectTabled" dlg:tab-index="1" dlg:left="2" dlg:top="96" dlg:width="68" dlg:height="28" dlg:value="Insert Selected &#x0a; Document References">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:Standard.akomantoso.InsertTabledDocuments_clicked?language=Basic&amp;location=document" script:language="Script"/>
+  </dlg:button>
+  <dlg:button dlg:id="btnOK_TableDocuments" dlg:tab-index="2" dlg:left="76" dlg:top="96" dlg:width="70" dlg:height="28" dlg:value="Close">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:Standard.akomantoso.btnOK_TabledDocuments_clicked?language=Basic&amp;location=document" script:language="Script"/>
+  </dlg:button>
+  <dlg:menulist dlg:id="lbTabledDocuments" dlg:tab-index="0" dlg:left="2" dlg:top="3" dlg:width="144" dlg:height="89" dlg:multiselection="true">
+   <dlg:menupopup>
+    <dlg:menuitem dlg:value="alpha"/>
+    <dlg:menuitem dlg:value="beta"/>
+   </dlg:menupopup>
+  </dlg:menulist>
+ </dlg:bulletinboard>
+</dlg:window>

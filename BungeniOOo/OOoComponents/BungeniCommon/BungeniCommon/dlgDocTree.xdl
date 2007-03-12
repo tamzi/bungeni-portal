@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE dlg:window PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "dialog.dtd">
+<dlg:window xmlns:dlg="http://openoffice.org/2000/dialog" xmlns:script="http://openoffice.org/2000/script" dlg:id="dlgDocTree" dlg:left="221" dlg:top="95" dlg:width="138" dlg:height="220" dlg:closeable="true" dlg:moveable="true" dlg:title="Bungeni Document Structure">
+ <dlg:styles>
+  <dlg:style dlg:style-id="0" dlg:border="simple"/>
+ </dlg:styles>
+ <dlg:bulletinboard>
+  <dlg:menulist dlg:style-id="0" dlg:id="lbDocTree" dlg:tab-index="0" dlg:left="1" dlg:top="1" dlg:width="137" dlg:height="167">
+   <script:event script:event-name="on-itemstatechange" script:macro-name="vnd.sun.star.script:BungeniDocTree.BungeniDocTree.SubEventPreview?language=Basic&amp;location=document" script:language="Script"/>
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:BungeniDocTree.BungeniDocTree.SubEventlbDocTree_Initiate?language=Basic&amp;location=document" script:language="Script"/>
+  </dlg:menulist>
+  <dlg:text dlg:id="labelDocumentLevel" dlg:tab-index="1" dlg:left="28" dlg:top="187" dlg:width="77" dlg:height="12" dlg:value="Heading Level to Display"/>
+  <dlg:menulist dlg:id="lbDocSelection" dlg:tab-index="2" dlg:left="2" dlg:top="171" dlg:width="134" dlg:height="12" dlg:spin="true">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:BungeniDocTree.BungeniDocTree.SubEventChangeDoc?language=Basic&amp;location=document" script:language="Script"/>
+  </dlg:menulist>
+  <dlg:menulist dlg:id="lbTreeLevel" dlg:tab-index="3" dlg:left="107" dlg:top="188" dlg:width="29" dlg:height="12" dlg:spin="true">
+   <dlg:menupopup>
+    <dlg:menuitem dlg:value="1"/>
+    <dlg:menuitem dlg:value="2"/>
+    <dlg:menuitem dlg:value="3"/>
+    <dlg:menuitem dlg:value="4"/>
+    <dlg:menuitem dlg:value="5"/>
+    <dlg:menuitem dlg:value="6"/>
+    <dlg:menuitem dlg:value="7"/>
+   </dlg:menupopup>
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:BungeniDocTree.BungeniDocTree.SubEventlbTreeLevels_Initiate?language=Basic&amp;location=document" script:language="Script"/>
+  </dlg:menulist>
+  <dlg:button dlg:id="dlgDocTreeClose" dlg:tab-index="4" dlg:left="31" dlg:top="206" dlg:width="77" dlg:height="14" dlg:value="Close Window">
+   <script:event script:event-name="on-performaction" script:macro-name="vnd.sun.star.script:BungeniDocTree.BungeniDocTree.dlgDocTree_Cancel?language=Basic&amp;location=document" script:language="Script"/>
+  </dlg:button>
+ </dlg:bulletinboard>
+</dlg:window>

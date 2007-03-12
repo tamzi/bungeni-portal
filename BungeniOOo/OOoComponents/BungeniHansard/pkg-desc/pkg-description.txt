@@ -1,0 +1,4 @@
+Bungeni Hansard
+Copyright (c) 2007  
+Bungeni, Hansard Drafting Module
+

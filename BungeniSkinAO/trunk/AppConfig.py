@@ -1,0 +1,2 @@
+
+STYLESHEETS = [{'id': 'public.css'}]

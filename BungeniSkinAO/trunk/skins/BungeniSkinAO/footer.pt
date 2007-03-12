@@ -1,0 +1,18 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      i18n:domain="plone">
+<body>
+<div id="portal-footer" metal:define-macro="portal_footer" i18n:domain="plone">
+
+<p>
+    <span i18n:translate="description_copyright" tal:omit-tag="">
+    This site is Copyright &copy; 2007-<span i18n:name="current_year" 
+               tal:define="now modules/DateTime/DateTime" 
+               tal:content="now/year" />
+    of the Parliament of Angola.
+    </span>
+</p>
+
+
+</div>
+</body>
+</html>

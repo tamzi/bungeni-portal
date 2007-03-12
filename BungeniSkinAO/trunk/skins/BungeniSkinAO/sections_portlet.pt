@@ -1,0 +1,31 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="plone">
+  <body>
+
+    <div metal:define-macro="portlet" tal:omit-tag="">
+      <dl class="portlet" id="portlet-sections_portlet">
+        <dt class="portletHeader">
+          <span class="portletTopLeft"></span>
+          <span i18n:translate="box_sections_portlet">sections_portlet</span>
+          <span class="portletTopRight"></span>
+        </dt>
+        <dd class="portletItem odd lastItem">
+        <p> place your portlet code here </p>
+
+        <p>
+          The <i>Direct
+Navigation</i> provides access to  drop-down menu list that
+allow direct links to the top level of pages  of all Content
+Sections. This is a particularly useful tool if you are looking for
+something specific but are not sure which Content Area it is in.
+        </p>
+          <span class="portletBottomLeft"></span>
+          <span class="portletBottomRight"></span>
+        </dd>
+      </dl>
+    </div>
+  </body>
+
+</html>
+

@@ -14,7 +14,7 @@ Bungeni portal may be interested in.
 Namespace Declarations
 ----------------------
 
-- ``xmlns:content="http://bungeni.org/ns/1.0/bungeni/"``
+- ``xmlns:bungeni="http://bungeni.org/ns/1.0/bungeni/"``
 
 Syntax
 ------

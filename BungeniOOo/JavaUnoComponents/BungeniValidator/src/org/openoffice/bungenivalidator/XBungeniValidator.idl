@@ -1,0 +1,25 @@
+/*
+ * XBungeniValidator.idl
+ *
+ * Created on 16.01.2007 - 10:14:41
+ *
+ */
+
+#ifndef __org_openoffice_bungenivalidator_XBungeniValidator__
+#define __org_openoffice_bungenivalidator_XBungeniValidator__
+
+#include "BungeniRuleElement.idl"
+#include <com/sun/star/uno/XInterface.idl>
+
+module org { module openoffice { module bungenivalidator {
+typedef sequence<string> stringArray;
+    interface XBungeniValidator {
+        void InitRules( [in] string ruleFile);
+        string CheckElement([in] string StyleName);
+        string About ([in] long dummParameter);
+        stringArray ValidElements ();
+        org::openoffice::bungenivalidator::BungeniRuleElement GetElement([in] string StyleName);
+    };
+}; }; };
+
+#endif

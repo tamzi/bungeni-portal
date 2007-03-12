@@ -36,7 +36,7 @@ question in parliament. It is used as follows::
     </rdf:Bag>
   </bungeni:from>
 
-.. The current implementation assumes that principles will be site members.
+.. The current implementation assumes that principals will be site members.
 
 If you don't feel like obliging RDF parsers, that looks like::
 

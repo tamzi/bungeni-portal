@@ -38,8 +38,8 @@ import zope
 
 class TransactionEndHandler(logging.handlers.MemoryHandler):
     """ MacYET suggested implementing IDataManager instead, and doing
-    the work in 'commit'. I don't have time for that now, and this seems
-    to work, so TODO.
+    the work in 'commit'. Or look at MaildropHost.TransactionalEmail.
+    I don't have time for that now, and this seems to work, so TODO.
     """
     # zope3 interfaces
     zope.interface.implements(ISynchronizer)

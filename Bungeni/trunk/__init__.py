@@ -75,13 +75,14 @@ def initialize(context):
     ##/code-section custom-init-top
 
     # imports packages and types for registration
-    import content
     import interfaces
     import membership
+    import content
+    import tools
 
 
     # Initialize portal tools
-    tools = [membership.BungeniMembership.BungeniMembership]
+    tools = [membership.BungeniMembership.BungeniMembership, tools.BungeniTeamsTool.BungeniTeamsTool]
     ToolInit( PROJECTNAME +' Tools',
                 tools = tools,
                 icon='tool.gif'

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: LockingFileLogger.py
+# File: LockingFileHandler.py
 #
 # Copyright (c) 2007 by []
 # Generator: ArchGenXML Version 1.5.1-svn
@@ -47,19 +47,19 @@ class LockingFileHandler(logging.FileHandler):
     """
     """
 
-    ##code-section class-header_LockingFileLogger #fill in your manual code here
-    ##/code-section class-header_LockingFileLogger
+    ##code-section class-header_LockingFileHandler #fill in your manual code here
+    ##/code-section class-header_LockingFileHandler
 
     def emit(self, record):
-        """ Make sure no one reads a halfwritten record .. 
+        """ Make sure no one reads a halfwritten record ..
         """
         lock(self.stream, fcntl.LOCK_EX)
         logging.FileHandler.emit(self, record)
+        self.flush()
         unlock(self.stream)
 
 
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer
-
 
 

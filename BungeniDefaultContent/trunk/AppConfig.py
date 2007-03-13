@@ -40,6 +40,12 @@ DEFAULT_SITE_CONTENT = (
             {'title': 'Motions', 'text': 'Text about Motions'+LOREM_IPSUM, 'type': 'Document'},
             {'title': 'Questions', 'text': 'Text about Questions'+LOREM_IPSUM, 'type': 'Document'},
             {'title': 'Events', 'text': 'Text about Events'+LOREM_IPSUM, 'type': 'Document'},
+            {'title': 'Scheduled business', 'type': 'Topic', 'children': (
+                {'type': 'ATPortalTypeCriterion', 'field': 'Type', 'value': ['Question', 'Motion'], },
+                {'type': 'ATSimpleStringCriterion', 'field': 'review_state', 'value': 'published', },
+                {'type': 'ATFriendlyDateCriteria', 'field': 'start', 'value': 0, 'operation': 'more', 'dateRange': '+'},
+                {'type': 'ATSortCriterion', 'field': 'start', },
+                )}
             ),
         },
         {'title': 'People', 'type': 'Folder', 'children': (

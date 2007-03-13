@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0"
+     xmlns:tal="http://xml.zope.org/namespaces/tal"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:bungeni="http://bungeni.org/rss/1.0/modules/bungeni/"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:metal="http://xml.zope.org/namespaces/metal" >
+
+<metal:block define-macro="item">
+  <bungeni:from>
+    <rdf:bag>
+    <!-- TODO: we assume the principal is a site member .. rethink this. -->
+      <rdf:li tal:define="creator res/Creator; principal python:here.portal_membership.getMemberById(creator)">
+        <bungeni:principal metal:define-macro="principal">
+          <bungeni:name tal:content="principal/getFullname | string:Missing name">John Smith</bungeni:name>
+          <bungeni:identifier tal:content="principal/UID">265d3a4f2164e4d9a3ad5545d8135c3c</bungeni:identifier>
+          <bungeni:uri tal:condition="principal/getURI | nothing" tal:content="principal/getURI"></bungeni:uri>
+          <bungeni:type tal:content="principal/portal_type">MemberOfParliament</bungeni:type>
+        </bungeni:principal>
+      </rdf:li>
+      <rdf:li tal:repeat="principal res/getOtherSignatories">
+      <!-- TODO: figure out why template/macros/principal breaks. -->
+        <metal:principal use-macro="here/question_item/macros/principal"/>
+      </rdf:li>
+    </rdf:bag>
+  </bungeni:from>
+  <bungeni:to tal:define="respondents res/getRespondents" tal:condition="respondents">
+    <rdf:bag>
+      <rdf:li tal:repeat="principal respondents">
+        <metal:principal use-macro="here/question_item/macros/principal"/>
+      </rdf:li>
+    </rdf:bag>
+  </bungeni:to>
+   <content:encoded>
+       <tal:x replace="structure python:'&lt;![CDATA['+res.getText()+']]&gt;'"/>
+   </content:encoded>
+ </metal:block>
+</rss>

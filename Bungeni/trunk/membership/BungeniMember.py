@@ -82,6 +82,60 @@ schema = Schema((
         )
     ),
 
+    DateTimeField(
+        name='dateOfBirth',
+        widget=CalendarWidget(
+            label='Dateofbirth',
+            label_msgid='Bungeni_label_dateOfBirth',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    DateTimeField(
+        name='placeOfBirth',
+        widget=CalendarWidget(
+            label='Placeofbirth',
+            label_msgid='Bungeni_label_placeOfBirth',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    StringField(
+        name='gender',
+        widget=SelectionWidget(
+            label='Gender',
+            label_msgid='Bungeni_label_gender',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    StringField(
+        name='maidenName',
+        widget=StringWidget(
+            label='Maidenname',
+            label_msgid='Bungeni_label_maidenName',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    DateTimeField(
+        name='dateOfDeath',
+        widget=CalendarWidget(
+            label='Dateofdeath',
+            label_msgid='Bungeni_label_dateOfDeath',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    StringField(
+        name='nationalIdNumber',
+        widget=StringWidget(
+            label='Nationalidnumber',
+            label_msgid='Bungeni_label_nationalIdNumber',
+            i18n_domain='Bungeni',
+        )
+    ),
+
 ),
 )
 
@@ -131,7 +185,7 @@ class BungeniMember(BaseContent):
         """
         """
         # XXX unicode names break sending the email
-        unicode_name = ' '.join([n for n in 
+        unicode_name = ' '.join([n for n in
                 [self.getSalutation(), self.getFirstname(), self.getSurname()]
                 if n])
         return str(unicode_name)

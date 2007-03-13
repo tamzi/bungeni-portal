@@ -158,6 +158,14 @@ def install(self, reinstall=False):
     wft.setChainForPortalTypes( ['HansardPage'], "SubWorkflow")
 
 
+    # configuration for Relations
+    relations_tool = getToolByName(self,'relations_library')
+    xmlpath = os.path.join(package_home(GLOBALS),'relations.xml')
+    f = open(xmlpath)
+    xml = f.read()
+    f.close()
+    relations_tool.importXML(xml)
+
     # enable portal_factory for given types
     factory_tool = getToolByName(self,'portal_factory')
     factory_types=[

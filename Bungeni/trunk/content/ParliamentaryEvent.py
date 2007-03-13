@@ -39,11 +39,12 @@ from Products.Bungeni.config import *
 
 copied_fields = {}
 copied_fields['tabledDate'] = ATEvent.schema['startDate'].copy(name='tabledDate')
-copied_fields['tabledDate'].read_permission = "Bungeni: Set tabled date"
+copied_fields['tabledDate'].read_permission = "Bungeni: Schedule parliamentary business"
 copied_fields['tabledDate'].mutator = "setTabledDate"
 copied_fields['tabledDate'].accessor = "getTabledDate"
+copied_fields['tabledDate'].write_permission = "Bungeni: Schedule parliamentary business"
 copied_fields['tabledDate'].edit_accessor = "getRawTabledDate"
-copied_fields['tabledDate'].widget.label = "To be tabled on"
+copied_fields['tabledDate'].widget.label = "Scheduled date"
 copied_fields['endDate'] = ATEvent.schema['endDate'].copy()
 copied_fields['endDate'].widget.visible = False
 copied_fields['location'] = ATEvent.schema['location'].copy()
@@ -77,7 +78,8 @@ schema = Schema((
     ComputedField(
         name='startDate',
         widget=ComputedField._properties['widget'](
-            label='Startdate',
+            label="Scheduled date",
+            visible=False,
             label_msgid='Bungeni_label_startDate',
             i18n_domain='Bungeni',
         ),
@@ -93,11 +95,12 @@ schema = Schema((
     ComputedField(
         name='eventType',
         widget=ComputedField._properties['widget'](
-            label="Event Type",
             visible=False,
+            label='Eventtype',
             label_msgid='Bungeni_label_eventType',
             i18n_domain='Bungeni',
-        )
+        ),
+        label="Event Type"
     ),
 
     copied_fields['eventUrl'],

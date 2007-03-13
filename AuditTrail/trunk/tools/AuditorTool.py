@@ -42,6 +42,8 @@ from Products.CMFCore.utils import UniqueObject
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore.utils import getToolByName
 from Products.DCWorkflow.interfaces import IAfterTransitionEvent
+from zope.app.container.interfaces import IObjectModifiedEvent
+from zope.app.container.interfaces import IObjectRemovedEvent
 
 FORMAT = """------ %(asctime)s ------ %(levelname)s ------
 %(message)s
@@ -124,19 +126,19 @@ class AuditorTool(UniqueObject, BaseContent):
     def logEvent(self,ob,event):
         """
         """
-        msg = ''
+        msg = []
 
         if IAfterTransitionEvent.providedBy(event):
             if not event.transition:
                 return # Ignore null transitions
-            msg = "transition: %s" % event.transition.id
+            msg.append( "transition: %s" % event.transition.id )
         if IObjectRemovedEvent.providedBy(event):
-            msg = 'removed: 1\nid: %s\n' % ob.getId()
-        if IObjectModifiedEvent.providedBy(event):
-            msg = '\n'.join([ msg, marshaller.marshall(ob)[2] ])
+            msg.append( 'removed: 1\nid: %s\n' % ob.getId() )
+        else:
+            marshaller = ob.Schema().getLayerImpl('marshall')
+            msg.append( marshaller.marshall(ob)[2] )
 
-        marshaller = ob.Schema().getLayerImpl('marshall')
-        logger.info(msg)
+        logger.info('\n'.join(msg))
 
 
 registerType(AuditorTool, PROJECTNAME)

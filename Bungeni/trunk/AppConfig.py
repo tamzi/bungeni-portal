@@ -9,6 +9,7 @@ DEPENDENCIES = [
     'PloneHelpCenter',
     'qRSS2Syndication', # RSS2 feeds
     'AuditTrail', 
+    'Relations',
     ]
 
 # Products that we want to use alongside Bungeni

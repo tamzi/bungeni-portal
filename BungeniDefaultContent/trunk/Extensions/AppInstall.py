@@ -27,8 +27,8 @@ def get_id(d):
     id = d.get('id', d.get('title'))
     if id:
         return id
-    # This must be a member
-    return ' '.join([n for n in [d['firstname'], d['surname']] if n])
+    if d.has_key('firstname'):
+        return ' '.join([n for n in [d['firstname'], d['surname']] if n])
 
 def do_transition(root, structure, transition):
     """ Perform the initial workflow transition(s)
@@ -58,8 +58,9 @@ def add_default_content(root, structure, initial_transitions=['publish']):
 
     def add_object(parent, d):
         obj_id = normalizeString(get_id(d))
-        if d['type'].endswith('Criterion'):
+        if 'Criteri' in d['type']:
             obj = parent.addCriterion(d['field'], d['type'])
+            obj.edit(**d)
         elif d['type'] == 'Team Membership':
             obj = parent.addMember(obj_id)
             do_transition(parent, [d], 'activate')
@@ -77,10 +78,12 @@ def add_default_content(root, structure, initial_transitions=['publish']):
                 roles.extend(d.get('default_team_roles', []))
                 obj.setDefaultRoles(roles)
             if obj.portal_type == 'TeamSpace':
-                team_ids = [normalizeString('Team: %s'%d['title'])]
+                team_ids = [normalizeString(d['title'])]
                 team_ids.extend(d.get('team_ids', []))
                 obj.editTeams(team_ids)
-        obj.processForm(data=1, values=d)
+        if not 'Criteri' in d['type']:
+            # Criterions shouldn't get cataloged, and processForm does this.
+            obj.processForm(data=1, values=d)
         return obj
 
     def add_structure(root, structure):

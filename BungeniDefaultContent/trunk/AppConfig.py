@@ -608,7 +608,7 @@ DEFAULT_TEAMS = (
             {'firstname': '', 'surname': "Kofa", 'type': 'Team Membership'},
             {'firstname': '', 'surname': "Manga", 'type': 'Team Membership'},
         )},
-        {'title': "Team: Public Accounts Committee", 'description': "examines reports by the Controller and Auditor-General on Central Government expenditure and fund accounts;", 'type': 'Team', 'children': (
+        {'title': "Public Accounts Committee", 'description': "examines reports by the Controller and Auditor-General on Central Government expenditure and fund accounts;", 'type': 'Team', 'children': (
             {'firstname': '', 'surname': "Farah", 'type': 'Team Membership'},
             {'firstname': '', 'surname': "Falana", 'type': 'Team Membership'},
             {'firstname': '', 'surname': "Mungai", 'type': 'Team Membership'},
@@ -616,38 +616,38 @@ DEFAULT_TEAMS = (
             {'firstname': '', 'surname': "Wetangula", 'type': 'Team Membership'},
             {'firstname': '', 'surname': "Wako", 'type': 'Team Membership'},
         )},
-        {'title': "Team: Public Investments Committee", 'description': "examines reports by the Auditor-General (Corporations) on accounts of state corporations;", 'type': 'Team', 'children': (
+        {'title': "Public Investments Committee", 'description': "examines reports by the Auditor-General (Corporations) on accounts of state corporations;", 'type': 'Team', 'children': (
             {'firstname': '', 'surname': "Mak'Onyango", 'type': 'Team Membership'},
             {'firstname': '', 'surname': "Shikuku", 'type': 'Team Membership'},
             {'firstname': '', 'surname': "Kiluta", 'type': 'Team Membership'},
             {'firstname': '', 'surname': "Karan", 'type': 'Team Membership'},
             {'firstname': '', 'surname': "Lwali-Oyondi", 'type': 'Team Membership'},
         )},
-        {'title': "Team: Speaker's Committee", 'description': "examines matters relating to the welfare of Members and staff of the National Assembly;", 'type': 'Team', 'children': (
+        {'title': "Speaker's Committee", 'description': "examines matters relating to the welfare of Members and staff of the National Assembly;", 'type': 'Team', 'children': (
             {'firstname': '', 'surname': "Manduku", 'type': 'Team Membership'},
             {'firstname': '', 'surname': "Maore", 'type': 'Team Membership'},
             {'firstname': '', 'surname': "Obwocha", 'type': 'Team Membership'},
         )},
-        {'title': "Team: Standing Orders Committee", 'description': "examines matters relating to and makes periodic reviews of the Standing Orders as necessary", 'type': 'Team', 'children': (
+        {'title': "Standing Orders Committee", 'description': "examines matters relating to and makes periodic reviews of the Standing Orders as necessary", 'type': 'Team', 'children': (
             {'firstname': '', 'surname': "Achola", 'type': 'Team Membership'},
             {'firstname': '', 'surname': "Nyagah", 'type': 'Team Membership'},
         )},
-        {'title': "Team: Liaison Committee", 'description': "examines and co-ordinates matters relating to operations of the Departmental Committees; and", 'type': 'Team', 'children': (
+        {'title': "Liaison Committee", 'description': "examines and co-ordinates matters relating to operations of the Departmental Committees; and", 'type': 'Team', 'children': (
             {'firstname': '', 'surname': "Moiben", 'type': 'Team Membership'},
             {'firstname': '', 'surname': "Barmasai", 'type': 'Team Membership'},
         )},
-        {'title': "Team: Powers and Privileges Committee", 'description': "is established under the National Assembly (Powers and Privileges) Act, (Cap 6, Laws of Kenya), and deals with issues regarding privileges of the House, Members and staff.", 'type': 'Team', 'children': (
+        {'title': "Powers and Privileges Committee", 'description': "is established under the National Assembly (Powers and Privileges) Act, (Cap 6, Laws of Kenya), and deals with issues regarding privileges of the House, Members and staff.", 'type': 'Team', 'children': (
             {'firstname': '', 'surname': "Criticos", 'type': 'Team Membership'},
             {'firstname': '', 'surname': "Aluoch", 'type': 'Team Membership'},
             {'firstname': '', 'surname': "Nthenge", 'type': 'Team Membership'},
         )},
-        {'title': "Team: Clerks", 'description': "a generic team of clerks", 'type': 'Team', 
+        {'title': "Clerks", 'description': "a generic team of clerks", 'type': 'Team', 
          'default_team_roles': ['Reviewer', ], 'children': (
             {'firstname': 'Clerk', 'surname': "Angatia", 'type': 'Team Membership'},
             {'firstname': 'Clerk', 'surname': "Wetangula", 'type': 'Team Membership'},
             {'firstname': 'Clerk', 'surname': "Wako", 'type': 'Team Membership'},
         )},
-        {'title': "Team: Speaker's Office", 'description': "Clerks working in the speaker's office", 'type': 'Team', 
+        {'title': "Speaker's Office", 'description': "Clerks working in the speaker's office", 'type': 'Team', 
          'allowed_team_roles': ['ReviewerForSpeaker', ], 'default_team_roles': ['ReviewerForSpeaker', ], 'children': (
             {'firstname': '', 'surname': "Reviewer for speaker", 'type': 'Team Membership', },
         )},

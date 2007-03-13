@@ -116,8 +116,9 @@ Adding bills
   to enable leveraging Plone infrastructure for the browsing, editing,
   searching and annotation of bills.
 
-Most likely, there will also need to be a PUT-factory, to enable the
-bulk uploading of bills via FTP or WebDAV.
+Most likely, there will also need to be a PUT_factory, or at least a
+properly configured content type registry, to enable the bulk uploading
+of bills via FTP or WebDAV.
 
 Editing bills
 -------------

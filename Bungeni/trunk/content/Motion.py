@@ -30,12 +30,24 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from Products.Bungeni.content.ParliamentaryEvent import ParliamentaryEvent
+from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
 schema = Schema((
+
+    RelationField(
+        name='secondedBy',
+        widget=ReferenceWidget(
+            label='Secondedby',
+            label_msgid='Bungeni_label_secondedBy',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=0,
+        relationship='Motion_MemberOfParliament'
+    ),
 
 ),
 )

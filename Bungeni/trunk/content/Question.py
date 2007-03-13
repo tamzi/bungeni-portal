@@ -30,6 +30,7 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from Products.Bungeni.content.ParliamentaryEvent import ParliamentaryEvent
+from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -46,16 +47,15 @@ schema = Schema((
         )
     ),
 
-    ReferenceField(
+    RelationField(
         name='respondents',
-        widget=ReferenceField._properties['widget'](
-            label="Respondents",
+        widget=ReferenceWidget(
+            label='Respondents',
             label_msgid='Bungeni_label_respondents',
             i18n_domain='Bungeni',
         ),
-        allowed_types="MemberOfParliament",
         multiValued=1,
-        relationship="Question_MemberOfParliament"
+        relationship='Question_MemberOfParliament'
     ),
 
 ),

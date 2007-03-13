@@ -32,7 +32,8 @@ from Products.Archetypes.atapi import *
 from Products.AuditTrail.config import *
 
 # additional imports from tagged value 'import'
-from LockingFileLogger import LockingFileLogger
+from LockingFileHandler import LockingFileHandler
+from TransactionEndHandler import TransactionEndHandler
 
 
 from Products.CMFCore.utils import UniqueObject
@@ -49,9 +50,10 @@ FORMAT = """------ %(asctime)s ------ %(levelname)s ------
 import logging
 logger = logging.getLogger('AuditTrailLog')
 logger.propagate = 0
-handler = logging.FileHandler(LOG_PATH, mode='w')
-handler.setFormatter(logging.Formatter(FORMAT))
-logger.addHandler(handler)
+filehandler = LockingFileHandler(LOG_PATH)
+filehandler.setFormatter(logging.Formatter(FORMAT))
+memoryhandler = TransactionEndHandler(target=filehandler)
+logger.addHandler(memoryhandler)
 logger.setLevel(logging.INFO)
 ##/code-section module-header
 

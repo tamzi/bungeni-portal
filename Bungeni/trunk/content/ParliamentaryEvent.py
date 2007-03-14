@@ -32,6 +32,7 @@ from Products.Archetypes.atapi import *
 from zope import interface
 from Products.ATContentTypes.content.event import ATEvent
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
+from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -60,18 +61,6 @@ copied_fields['contactEmail'].widget.visible = False
 copied_fields['contactPhone'] = ATEvent.schema['contactPhone'].copy()
 copied_fields['contactPhone'].widget.visible = False
 schema = Schema((
-
-    ReferenceField(
-        name='otherSignatories',
-        widget=ReferenceField._properties['widget'](
-            label="Other Signatories",
-            label_msgid='Bungeni_label_otherSignatories',
-            i18n_domain='Bungeni',
-        ),
-        allowed_types="MemberOfParliament",
-        multiValued=1,
-        relationship="ParliamentaryEvent_MemberOfParliament"
-    ),
 
     copied_fields['tabledDate'],
 
@@ -110,6 +99,17 @@ schema = Schema((
     copied_fields['contactEmail'],
 
     copied_fields['contactPhone'],
+
+    RelationField(
+        name='otherSignatories',
+        widget=ReferenceWidget(
+            label="Other signatories",
+            label_msgid='Bungeni_label_otherSignatories',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=1,
+        relationship='ParliamentaryEvent_MemberOfParliament'
+    ),
 
 ),
 )

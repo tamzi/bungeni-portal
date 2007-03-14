@@ -131,10 +131,10 @@ def setupParliamentaryEventWorkflow(self, workflow):
                            ['Manager', 'Owner', 'ReviewerForSpeaker', 'Reviewer'])
     stateDef.setPermission('Review portal content',
                            0,
-                           ['ReviewerForSpeaker'])
+                           ['Manager', 'ReviewerForSpeaker'])
     stateDef.setPermission('Bungeni: Schedule parliamentary business',
                            0,
-                           ['ReviewerForSpeaker'])
+                           ['Manager', 'ReviewerForSpeaker'])
 
     stateDef = workflow.states['published']
     stateDef.setProperties(title="""published""",
@@ -181,7 +181,7 @@ def setupParliamentaryEventWorkflow(self, workflow):
                                 actbox_name="""submit_to_speaker""",
                                 actbox_url="""""",
                                 actbox_category="""workflow""",
-                                props={},
+                                props={'guard_permissions': 'Review portal content'},
                                 )
 
     transitionDef = workflow.transitions['submit_to_clerk']

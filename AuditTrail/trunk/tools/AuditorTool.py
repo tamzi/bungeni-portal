@@ -126,7 +126,7 @@ class AuditorTool(UniqueObject, BaseContent):
     def logEvent(self,ob,event):
         """
         """
-        msg = []
+        msg = ['uid: %s' % ob.UID()]
 
         if IAfterTransitionEvent.providedBy(event):
             if not event.transition:

@@ -26,6 +26,19 @@
 				</maxTargetCardinality>
 			</CardinalityConstraint>
 		</Ruleset>
+		<Ruleset id="ParliamentaryEvent_MemberOfParliament" uid="Im75124e49m11151194f22mm6009">
+			<TypeConstraint id="type_constraint">
+				<allowedSourceType>
+					Question
+				</allowedSourceType>
+				<allowedSourceType>
+					Motion
+				</allowedSourceType>
+				<allowedTargetType>
+					MemberOfParliament
+				</allowedTargetType>
+			</TypeConstraint>
+		</Ruleset>
 	</RulesetCollection>
 </RelationsLibrary>
 

@@ -3,7 +3,7 @@
 # File: MemberOfPublic.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.5.1-svn
+# Generator: ArchGenXML Version 1.6.0-beta-svn
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)

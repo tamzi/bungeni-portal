@@ -42,23 +42,16 @@ import logging
 logger = logging.getLogger('Bungeni')
 logger.info('Installing Product')
 
-try:
-    import CustomizationPolicy
-except ImportError:
-    CustomizationPolicy = None
-
+import os, os.path
 from Globals import package_home
 from Products.CMFCore import utils as cmfutils
-from Products.CMFCore import CMFCorePermissions
+from Products.CMFCore import permissions as cmfpermissions
 from Products.CMFCore import DirectoryView
 from Products.CMFPlone.utils import ToolInit
 from Products.Archetypes.atapi import *
 from Products.Archetypes import listTypes
 from Products.Archetypes.utils import capitalize
-
-import os, os.path
-
-from Products.Bungeni.config import *
+from config import *
 
 DirectoryView.registerDirectory('skins', product_globals)
 DirectoryView.registerDirectory('skins/Bungeni',
@@ -110,11 +103,6 @@ def initialize(context):
         context.registerClass(meta_type   = all_ftis[i]['meta_type'],
                               constructors= (all_constructors[i],),
                               permission  = ADD_CONTENT_PERMISSIONS[klassname])
-
-    # Apply customization-policy, if theres any
-    if CustomizationPolicy and hasattr(CustomizationPolicy, 'register'):
-        CustomizationPolicy.register(context)
-        print 'Customization policy for Bungeni installed'
 
     ##code-section custom-init-bottom #fill in your manual code here
     ##/code-section custom-init-bottom

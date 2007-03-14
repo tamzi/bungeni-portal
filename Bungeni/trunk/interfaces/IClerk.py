@@ -34,9 +34,9 @@ __docformat__ = 'plaintext'
 
 
 
-import zope
+from zope import interface
 
-class IClerk(zope.interface.Interface):
+class IClerk(interface.Interface):
     ''' '''
 
     ##code-section class-header_IClerk #fill in your manual code here

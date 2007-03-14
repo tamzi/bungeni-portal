@@ -34,9 +34,9 @@ __docformat__ = 'plaintext'
 
 
 
-import zope
+from zope import interface
 
-class IBungeniMember(zope.interface.Interface):
+class IBungeniMember(interface.Interface):
     ''' '''
 
     ##code-section class-header_IBungeniMember #fill in your manual code here

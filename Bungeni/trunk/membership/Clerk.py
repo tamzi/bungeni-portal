@@ -3,7 +3,7 @@
 # File: Clerk.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.5.1-svn
+# Generator: ArchGenXML Version 1.6.0-beta-svn
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,7 +29,7 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-import zope
+from zope import interface
 from Products.Bungeni.membership.BungeniMember import BungeniMember
 from Products.Bungeni.interfaces.IClerk import IClerk
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
@@ -70,7 +70,7 @@ class Clerk(BaseMember, BaseContent, BungeniMember):
     security = ClassSecurityInfo()
     __implements__ = (getattr(BaseMember,'__implements__',()),) + (getattr(BaseContent,'__implements__',()),) + (getattr(BungeniMember,'__implements__',()),)
     # zope3 interfaces
-    zope.interface.implements(IClerk, IAuditable)
+    interface.implements(IClerk, IAuditable)
 
     # This name appears in the 'add' box
     archetype_name = 'Clerk'

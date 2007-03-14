@@ -29,7 +29,7 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-import zope
+from zope import interface
 from Products.Bungeni.interfaces.IBungeniMember import IBungeniMember
 from Products.Bungeni.config import *
 
@@ -153,7 +153,7 @@ class BungeniMember(BaseContent):
     security = ClassSecurityInfo()
     __implements__ = (getattr(BaseContent,'__implements__',()),)
     # zope3 interfaces
-    zope.interface.implements(IBungeniMember)
+    interface.implements(IBungeniMember)
 
     allowed_content_types = []
     _at_rename_after_creation = True

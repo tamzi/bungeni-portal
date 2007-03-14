@@ -29,7 +29,7 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-import zope
+from zope import interface
 from Products.Bungeni.membership.BungeniMember import BungeniMember
 from Products.Bungeni.interfaces.IMemberOfParliament import IMemberOfParliament
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
@@ -71,7 +71,7 @@ class MemberOfParliament(BaseMember, BaseContent, BungeniMember):
     security = ClassSecurityInfo()
     __implements__ = (getattr(BaseMember,'__implements__',()),) + (getattr(BaseContent,'__implements__',()),) + (getattr(BungeniMember,'__implements__',()),)
     # zope3 interfaces
-    zope.interface.implements(IMemberOfParliament, IAuditable)
+    interface.implements(IMemberOfParliament, IAuditable)
 
     # This name appears in the 'add' box
     archetype_name = 'MemberOfParliament'

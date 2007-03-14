@@ -34,9 +34,9 @@ __docformat__ = 'plaintext'
 
 
 
-import zope
+from zope import interface
 
-class IBill(zope.interface.Interface):
+class IBill(interface.Interface):
     ''' '''
 
     ##code-section class-header_IBill #fill in your manual code here

@@ -34,9 +34,9 @@ __docformat__ = 'plaintext'
 
 
 
-import zope
+from zope import interface
 
-class IMemberOfParliament(zope.interface.Interface):
+class IMemberOfParliament(interface.Interface):
     ''' '''
 
     ##code-section class-header_IMemberOfParliament #fill in your manual code here

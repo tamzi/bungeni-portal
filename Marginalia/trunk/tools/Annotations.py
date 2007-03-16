@@ -199,6 +199,8 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         params = {
             'url': '',
             'range': '',
+            'range_from_closest_id': '',
+            'closest_id': '',
             'note': '',
             'access': '',
             'quote': '',

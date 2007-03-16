@@ -58,6 +58,10 @@ class testLegislationFolder(testBungeni):
     def afterSetUp(self):
         pass
 
+    # from class LegislationFolder:
+    def test_PUT_factory(self):
+        pass
+
     # Manually created methods
 
 

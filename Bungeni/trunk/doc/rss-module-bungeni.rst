@@ -134,3 +134,10 @@ bungeni:range_from_closest_id
 
 The Marginalia range specification, but starting from the element with
 the closest ID.
+
+bungeni:quote
+`````````````
+
+The text in the original document to which the annotation applies. (The
+text of the annotation is in the ``content:encoded`` tag.)
+

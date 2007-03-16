@@ -109,10 +109,12 @@ bungeni:range
 `````````````
 
 The range of text to which an annotation applies. This element may have
-several sub-elements specifying different ways of expressing the range::
+several sub-elements with different information about the range::
 
   <bungeni:range>
     <bungeni:marginalia>/1/5/3.0:/1/5/3.4</bungeni:marginalia>
+    <bungeni:closest_id>clause02-art03-part002</bungeni:closest_id>
+    <bungeni:range_from_closest_id>/5/3.0</bungeni:range_from_closest_id>
   </bungeni:range>
 
 bungeni:marginalia
@@ -120,3 +122,15 @@ bungeni:marginalia
 
 A range specification as defined by the marginalia annotation
 application. See marginalia-20070121/www/lib/ranges.js
+
+bungeni:closest_id
+``````````````````
+
+The closest ID preceding the start of the annotation, to help external
+systems (e.g. OpenOffice) to locate the position in the document.
+
+bungeni:range_from_closest_id
+`````````````````````````````
+
+The Marginalia range specification, but starting from the element with
+the closest ID.

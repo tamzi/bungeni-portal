@@ -29,7 +29,7 @@
         function show_annotations_on_load() {
             window.marginalia.showAnnotations( '${request/URL}/#*')
         }
-        addEvent(window, 'load', show_annotations_on_load)
+        addEventHandler(window, 'load', show_annotations_on_load, window)
         ">
 	</script>
 </metal:block>

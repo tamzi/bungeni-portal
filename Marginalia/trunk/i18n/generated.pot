@@ -21,6 +21,11 @@ msgstr ""
 msgid "Marginalia_label_access"
 msgstr ""
 
+#. Default: "Closest_id"
+#: content/Annotation.py
+msgid "Marginalia_label_closest_id"
+msgstr ""
+
 #. Default: "Keywords"
 #: tools/Annotations.py
 msgid "Marginalia_label_keywords"
@@ -54,6 +59,11 @@ msgstr ""
 #. Default: "Range"
 #: content/Annotation.py
 msgid "Marginalia_label_range"
+msgstr ""
+
+#. Default: "Range_from_closest_id"
+#: content/Annotation.py
+msgid "Marginalia_label_range_from_closest_id"
 msgstr ""
 
 #. Default: "Url"

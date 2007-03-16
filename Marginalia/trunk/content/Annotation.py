@@ -109,6 +109,24 @@ schema = Schema((
         )
     ),
 
+    StringField(
+        name='closest_id',
+        widget=StringWidget(
+            label='Closest_id',
+            label_msgid='Marginalia_label_closest_id',
+            i18n_domain='Marginalia',
+        )
+    ),
+
+    StringField(
+        name='range_from_closest_id',
+        widget=StringWidget(
+            label='Range_from_closest_id',
+            label_msgid='Marginalia_label_range_from_closest_id',
+            i18n_domain='Marginalia',
+        )
+    ),
+
 ),
 )
 

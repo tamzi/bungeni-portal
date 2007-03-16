@@ -6,6 +6,9 @@
      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
      xmlns:metal="http://xml.zope.org/namespaces/metal" >
 
+     <!-- Used by qRSS2Syndication if it's installed to present Question
+     instances in an RSS2 feed.
+     -->
 <metal:block define-macro="item">
   <bungeni:from>
     <rdf:bag>

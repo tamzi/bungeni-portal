@@ -62,14 +62,6 @@ class testBill(testBungeni):
     def test_getTOC(self):
         pass
 
-    # Manually created methods
-
-    def test_operation_2(self):
-        pass
-
-    def test_operation_1(self):
-        pass
-
 
 def test_suite():
     from unittest import TestSuite, makeSuite

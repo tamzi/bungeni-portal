@@ -104,6 +104,8 @@ RestAnnotationService.prototype.createAnnotation = function( marginalia, annotat
 	var body
 		= 'url=' + encodeURIParameter( annotation.url )
 		+ '&range=' + encodeURIParameter( annotation.range.toString( annotation.post.contentElement ) )
+		+ '&closest_id=' + encodeURIParameter( annotation.range.closestID( annotation.post.contentElement ) )
+		+ '&range_from_closest_id=' + encodeURIParameter( annotation.range.toString_from_ClosestID( annotation.post.contentElement ) )
 		+ '&note=' + encodeURIParameter( annotation.note )
 		+ '&access=' + encodeURIParameter( annotation.access )
 		+ '&quote=' + encodeURIParameter( annotation.quote )

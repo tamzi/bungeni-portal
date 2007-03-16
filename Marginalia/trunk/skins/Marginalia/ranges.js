@@ -386,6 +386,19 @@ function NodeToPath( root, rel )
 }
 
 /**
+ * njj: Get the closest node with an ID, to help OpenOffice
+ */
+function ClosestNodeWithID( root, rel )
+{
+    var node = rel;
+	while ( null != node && root != node && null == node.getAttribute('id'))
+    {
+		node = node.parentNode;
+    }
+    return node
+}
+
+/**
  * Convert a path expression (as produced by NodeToPath()) to a node reference
  */
 function PathToNode( root, path )
@@ -455,6 +468,35 @@ WordRange.prototype.toString = function( root )
 		throw "WordRange.toString() requires root parameter";
 	return this.start.toString( root ) + ':' + this.end.toString( root );
 }
+
+/* njj: closest id */
+WordRange.prototype.closestID = function( root )
+{
+	if ( null == root )
+		throw "WordPoint.toString requires root parameter";
+	if ( ! this.string || this.root != root)
+	{
+		this.root = root;
+		this.closest_id = ClosestNodeWithID( root, this.start.rel).getAttribute('id');
+	}
+	return this.closest_id;
+}
+
+/* njj: path from closest id */
+WordRange.prototype.toString_from_ClosestID = function( root )
+{
+	if ( null == root )
+		throw "WordPoint.toString requires root parameter";
+	if ( ! this.string || this.root != root)
+	{
+		this.root = root;
+		this.id_node = ClosestNodeWithID( root, this.rel);
+		this.string_from_ClosestID = NodeToPath( root, this.start.id_node ) + '/' + this.start.words + '.' + this.start.chars;
+	}
+	return this.string_from_ClosestID;
+}
+
+
 
 /** Read in the content of a WordRange from a string.
  *  Assumes the WordRange is set to default values

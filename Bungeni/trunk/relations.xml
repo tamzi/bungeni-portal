@@ -1,6 +1,19 @@
 <?xml version="1.0" ?>
 <RelationsLibrary>
 	<RulesetCollection id="Bungeni">
+		<Ruleset id="ParliamentaryEvent_MemberOfParliament" uid="Im75124e49m11151194f22mm6009">
+			<TypeConstraint id="type_constraint">
+				<allowedSourceType>
+					Question
+				</allowedSourceType>
+				<allowedSourceType>
+					Motion
+				</allowedSourceType>
+				<allowedTargetType>
+					MemberOfParliament
+				</allowedTargetType>
+			</TypeConstraint>
+		</Ruleset>
 		<Ruleset id="Question_MemberOfParliament" uid="Imf56e9f1m111314474c0mm478">
 			<TypeConstraint id="type_constraint">
 				<allowedSourceType>
@@ -25,19 +38,6 @@
 					1
 				</maxTargetCardinality>
 			</CardinalityConstraint>
-		</Ruleset>
-		<Ruleset id="ParliamentaryEvent_MemberOfParliament" uid="Im75124e49m11151194f22mm6009">
-			<TypeConstraint id="type_constraint">
-				<allowedSourceType>
-					Question
-				</allowedSourceType>
-				<allowedSourceType>
-					Motion
-				</allowedSourceType>
-				<allowedTargetType>
-					MemberOfParliament
-				</allowedTargetType>
-			</TypeConstraint>
 		</Ruleset>
 	</RulesetCollection>
 </RelationsLibrary>

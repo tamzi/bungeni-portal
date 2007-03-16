@@ -3,7 +3,7 @@
 # File: AnnotationMixin.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.5.1-svn
+# Generator: ArchGenXML Version 1.6.0-beta-svn
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,7 +29,7 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-import zope
+from zope import interface
 from Products.Marginalia.interfaces.IAnnotatable import IAnnotatable
 from Products.Marginalia.config import *
 
@@ -55,7 +55,7 @@ class AnnotationMixin(BaseContent):
     security = ClassSecurityInfo()
     __implements__ = (getattr(BaseContent,'__implements__',()),)
     # zope3 interfaces
-    zope.interface.implements(IAnnotatable)
+    interface.implements(IAnnotatable)
 
     allowed_content_types = []
 

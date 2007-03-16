@@ -3,7 +3,7 @@
 # File: Install.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.5.1-svn
+# Generator: ArchGenXML Version 1.6.0-beta-svn
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -62,7 +62,8 @@ def install(self, reinstall=False):
     for dependency in DEPENDENCIES:
         print >> out, "Installing dependency %s:" % dependency
         quickinstaller.installProduct(dependency)
-        get_transaction().commit(1)
+        import transaction
+        transaction.savepoint(optimistic=True)
 
     classes = listTypes(PROJECTNAME)
     installTypes(self, out,

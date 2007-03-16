@@ -34,7 +34,11 @@ from Products.PloneHelpCenter.content.ReferenceManualFolder import HelpCenterRef
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
 from Products.Bungeni.config import *
 
+# additional imports from tagged value 'import'
+from Products.Marginalia.content.AnnotatableDocument import AnnotatableDocument
+
 ##code-section module-header #fill in your manual code here
+from Acquisition import aq_parent, aq_inner, aq_base
 ##/code-section module-header
 
 schema = Schema((
@@ -65,7 +69,7 @@ class LegislationFolder(BaseFolder, HelpCenterReferenceManualFolder):
 
     meta_type = 'LegislationFolder'
     portal_type = 'LegislationFolder'
-    allowed_content_types = ['Bill']
+    allowed_content_types = ['Bill', 'AnnotatableDocument']
     filter_content_types = 1
     global_allow = 1
     #content_icon = 'LegislationFolder.gif'
@@ -83,6 +87,21 @@ class LegislationFolder(BaseFolder, HelpCenterReferenceManualFolder):
     ##/code-section class-header
 
     # Methods
+
+    security.declarePublic('PUT_factory')
+    def PUT_factory( self, name, typ, body ):
+        """ Hook PUT creation to make objects of the right type when
+            new item uploaded via FTP/WebDAV.
+        """
+        if typ is None:
+            typ, enc = guess_content_type(name, body)
+        if typ == 'text/html':
+            self.invokeFactory( 'AnnotatableDocument', name )
+            # invokeFactory does too much, so the object has to be removed again
+            obj = aq_base( self._getOb( name ) )
+            self._delObject( name )
+            return obj
+        return None # take the default, then
 
 
 registerType(LegislationFolder, PROJECTNAME)

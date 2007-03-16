@@ -22,8 +22,9 @@ Syntax
 bungeni:from
 ````````````
 
-``bungeni:from`` enumerates the person, people or groups asking a
-question in parliament. It is used as follows::
+``bungeni:from`` enumerates the person, people or groups making a
+contribution. This could be, for example, asking a question in
+parliament, or making an annotation. It is used as follows::
 
   <bungeni:from>
     <rdf:Bag>
@@ -104,3 +105,18 @@ will be the ``portal_type`` of the referenced object::
 
   <bungeni:type>MemberOfParliament</bungeni:type>
 
+bungeni:range
+`````````````
+
+The range of text to which an annotation applies. This element may have
+several sub-elements specifying different ways of expressing the range::
+
+  <bungeni:range>
+    <bungeni:marginalia>/1/5/3.0:/1/5/3.4</bungeni:marginalia>
+  </bungeni:range>
+
+bungeni:marginalia
+``````````````````
+
+A range specification as defined by the marginalia annotation
+application. See marginalia-20070121/www/lib/ranges.js

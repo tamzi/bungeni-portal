@@ -1,0 +1,23 @@
+/*
+ * XBungeniRSSReader.idl
+ *
+ * Created on 08.02.2007 - 10:38:27
+ *
+ */
+
+#ifndef __org_openoffice_rssreader_XBungeniRSSReader__
+#define __org_openoffice_rssreader_XBungeniRSSReader__
+
+#include "BungeniRssDocument.idl"
+#include <com/sun/star/uno/XInterface.idl>
+
+module org { module openoffice { module rssreader {
+    interface XBungeniRSSReader {
+
+        string OpenFeed([in] string feedURL);
+        org::openoffice::rssreader::BungeniRssHeader RssHeader();
+        rssRecordArray RssRecords();
+    };
+}; }; };
+
+#endif

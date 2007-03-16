@@ -1,0 +1,17 @@
+/*
+ * BungeniRSSReaderService.idl
+ *
+ * Created on 08.02.2007 - 10:38:27
+ *
+ */
+
+#ifndef __org_openoffice_rssreader_BungeniRSSReaderService__
+#define __org_openoffice_rssreader_BungeniRSSReaderService__
+
+#include "XBungeniRSSReader.idl"
+
+module org { module openoffice { module rssreader {
+    service BungeniRSSReaderService : XBungeniRSSReader;
+}; }; };
+
+#endif

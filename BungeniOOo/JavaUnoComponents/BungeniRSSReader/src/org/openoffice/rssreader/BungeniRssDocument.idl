@@ -1,0 +1,32 @@
+/*
+ * BungeniRuleElement.idl
+ *
+ * Created on 17.01.2007 - 22:51:56
+ *
+ */
+
+#ifndef __org_openoffice_rssreader_BungeniRssDocument__
+#define __org_openoffice_rssreader_BungeniRssDocument__
+
+
+/*
+This struct defines the property returned to StarBasic
+
+the Rule Element property is marshalled with the StarBasic interpreter using this property
+this struct can be logically mapped to the RuleXMLElement class
+*/
+
+
+#include "BungeniRssHeader.idl"
+#include "BungeniRssRecord.idl"
+
+
+module org { module openoffice { module rssreader {
+  typedef sequence<org::openoffice::rssreader::BungeniRssRecord> rssRecordArray;
+    struct BungeniRssDocument {
+        org::openoffice::rssreader::BungeniRssHeader rssHeader;
+        rssRecordArray  rssRecords;
+    };
+}; }; };
+
+#endif

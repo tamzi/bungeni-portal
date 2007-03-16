@@ -1,0 +1,38 @@
+/*
+ * BungeniRssRecord.idl
+ *
+ * Created on 17.01.2007 - 22:51:56
+ *
+ */
+
+#ifndef __org_openoffice_rssreader_BungeniRssRecord__
+#define __org_openoffice_rssreader_BungeniRssRecord__
+
+
+/*
+This struct defines the property returned to StarBasic
+
+the Rule Element property is marshalled with the StarBasic interpreter using this property
+this struct can be logically mapped to the RuleXMLElement class
+*/
+
+
+
+module org { module openoffice { module rssreader {
+    struct BungeniRssRecord {
+    string feedTitle;
+    string feedLink;
+    string feedGUID;
+    string feedAuthor;
+    string feedCategory;
+    string feedDate;
+    string feedCustom1;
+    string feedCustom2;
+    string feedCustom3;
+    string feedCustom4;
+    string feedContent;
+
+    };
+}; }; };
+
+#endif

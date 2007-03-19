@@ -180,12 +180,6 @@ class Annotation(BaseContent):
 
     # Methods
 
-    security.declarePublic('getUID')
-    def getUID(self):
-        """
-        """
-        return 'tag:%s,%s:%s' % ('localhost', DateTime().year(), self.getId())
-
     security.declarePublic('getUserName')
     def getUserName(self):
         # XXX haaaack replace with a view class ..

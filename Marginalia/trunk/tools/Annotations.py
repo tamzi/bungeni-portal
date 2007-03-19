@@ -160,11 +160,26 @@ class Annotations(UniqueObject, BaseBTreeFolder):
 
     security.declarePublic('getSortedFeedEntries')
     def getSortedFeedEntries(self, user, url):
+        """ The incoming query specifies an URL like 
+        http://server/somedocument/annotate/#*
+        where the fragment identifier ('#*') specifies all annotations
+        for this page. The document is cataloged under the URL w/o
+        fragment, so chop that to get the same effect. 
+
+        To query per fragment identifier, filter the returned
+        annotations by looking at their 'url' field.
         """
-        """
-        # TODO get from catalog, filter on user and url
-        annotations = self.contentValues('Annotation')
-        return annotations
+        catalog = getToolByName(self, 'portal_catalog')
+        if url.find('#') != -1:
+            url = url[:url.index('#')]
+        query = {
+            'portal_type': 'Annotation',
+            'Creator': user,
+            'getIndexed_url': url
+            }
+        ps = catalog(query)
+        annotations = [p.getObject() for p in ps]
+        return annotations 
 
     security.declarePublic('getFeedUID')
     def getFeedUID(self):

@@ -64,6 +64,49 @@
     background: #6bff8e;
 }
 
+#portal-globalnav-sub {
+    background-color: #fff0d1;
+    padding: 0em 0em 0em 2em;
+    white-space: nowrap;
+    list-style: none;
+    margin: 0;
+    height: auto;
+    line-height: normal;
+}
+
+#portal-globalnav-sub li {
+    display: inline;
+}
+
+#portal-globalnav-sub li a {
+    /* The normal, unselected tabs. They are all links */
+    background-color: transparent;
+    border-color: &dtml-globalBorderColor;;
+    border-width: &dtml-borderWidth;;
+    border-style: &dtml-borderStyle; &dtml-borderStyle; none &dtml-borderStyle;;
+    color: &dtml-globalFontColor;;
+    height: auto;
+    margin-right: 0.5em;
+    padding: 0em 1.25em;
+    text-decoration: none;
+    text-transform: &dtml-textTransform;;
+}
+
+#portal-globalnav-sub li.selected a {
+    /* The selected tab. There's only one of this */
+    background-color: &dtml-globalBackgroundColor;;
+    border: &dtml-borderWidth; &dtml-borderStyle; &dtml-globalBorderColor;;
+    border-bottom: &dtml-globalBackgroundColor; &dtml-borderWidth; &dtml-borderStyle;;
+    color: &dtml-globalFontColor;;
+}
+
+#portal-globalnav-sub li a:hover {
+    background-color: &dtml-globalBackgroundColor;;
+    border-color: &dtml-globalBorderColor;;
+    border-bottom-color: &dtml-globalBackgroundColor;;
+    color: &dtml-globalFontColor;;
+}
+
 
 /* </dtml-with> */
 

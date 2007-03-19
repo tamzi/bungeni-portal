@@ -127,6 +127,16 @@ schema = Schema((
         )
     ),
 
+    ComputedField(
+        name='indexed_url',
+        index="FieldIndex",
+        widget=ComputedField._properties['widget'](
+            label='Indexed_url',
+            label_msgid='Marginalia_label_indexed_url',
+            i18n_domain='Marginalia',
+        )
+    ),
+
 ),
 )
 
@@ -184,6 +194,25 @@ class Annotation(BaseContent):
     security.declarePublic('Title')
     def Title(self):
         return self.getNote()
+
+    security.declarePublic('Description')
+    def Description(self):
+        return '"%s" annotated this text:\n\n"%s"\n\nas follows:\n\n"%s"' % ( self.getUserName(), self.getQuote(), self.getNote() )
+
+    security.declarePublic('getIndexed_url')
+    def getIndexed_url(self):
+        """ There may be more than one annotatable area on a page,
+        identified by fragment (#1, #2, ...). Annotations are queried
+        per page (#*), so catalog under the page URL.
+
+        Note that the URL includes the server name, so if the server is
+        accessed with different names, annotations will be partitioned
+        per name.
+        """
+        url = self.getUrl()
+        if url.find('#') != -1:
+            url = url[:url.index('#')]
+        return url
 
 
 registerType(Annotation, PROJECTNAME)

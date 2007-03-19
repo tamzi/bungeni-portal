@@ -1,13 +1,12 @@
 /*
  * post-micro.js
- * Part of Marginalia web annotation
- * See www.geof.net/code/annotation/ for full source and documentation.
  *
- * Web Annotation is being developed for Moodle with funding from BC Campus 
- * and support from Simon Fraser University and SFU's Applied Communication
- * Technologies Group and the e-Learning Innovation Centre of the
- * Learning Instructional Development Centre at SFU
- * Copyright (C) 2005 Geoffrey Glass www.geof.net
+ *
+ * Marginalia has been developed with funding and support from
+ * BC Campus, Simon Fraser University, and the Government of
+ * Canada, and units and individuals within those organizations.
+ * Many thanks to all of them.  See CREDITS.html for details.
+ * Copyright (C) 2005-2007 Geoffrey Glass www.geof.net
  * 
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -23,9 +22,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * Support for message / blog post micro-format.  Because there is as-yet no standard,
- * this is my own format.  It should change to match established practice once there
- * is such a thing.
+ * Support for message / blog post micro-format.  This is based on the
+ * hAtom microformat.
  */
 
 // These class names will change once there's a microformat standard.

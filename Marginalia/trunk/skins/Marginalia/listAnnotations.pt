@@ -68,7 +68,7 @@
             title="Plone marginalia"
             tal:attributes="href feedentry/getUrl" />
 
-      <id tal:content="feedentry/getUID">
+      <id tal:content="feedentry/UID">
         tag:localhost:12345678
       </id>
 

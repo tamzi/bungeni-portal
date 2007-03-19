@@ -26,6 +26,11 @@ msgstr ""
 msgid "Marginalia_label_closest_id"
 msgstr ""
 
+#. Default: "Indexed_url"
+#: content/Annotation.py
+msgid "Marginalia_label_indexed_url"
+msgstr ""
+
 #. Default: "Keywords"
 #: tools/Annotations.py
 msgid "Marginalia_label_keywords"

@@ -10,8 +10,8 @@
     format=atom      .. This template can only return atom
     exclude=content  .. Only return content for individual annotations. TODO
     point            .. Ignored?
-    user             .. Only return annotations for this user. TODO
-    url              .. Only return annotations for this URL. TODO
+    user             .. Only return annotations for this user.
+    url              .. Only return annotations for this URL.
     -->
 <feed xmlns="http://www.w3.org/2005/Atom"
       xmlns:atom="http://www.w3.org/2005/Atom"

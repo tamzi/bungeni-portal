@@ -3,7 +3,7 @@
 # File: TransactionEndHandler.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.5.1-svn
+# Generator: ArchGenXML Version 1.6.0-beta-svn
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -34,7 +34,7 @@ import Products.AuditTrail.patches
 import logging, transaction
 from logging.handlers import BufferingHandler
 from transaction.interfaces import ISynchronizer
-import zope
+from zope import interface
 
 class TransactionEndHandler(logging.handlers.MemoryHandler):
     """ MacYET suggested implementing IDataManager instead, and doing
@@ -42,7 +42,7 @@ class TransactionEndHandler(logging.handlers.MemoryHandler):
     I don't have time for that now, and this seems to work, so TODO.
     """
     # zope3 interfaces
-    zope.interface.implements(ISynchronizer)
+    interface.implements(ISynchronizer)
 
     ##code-section class-header_TransactionEndHandler #fill in your manual code here
     ##/code-section class-header_TransactionEndHandler

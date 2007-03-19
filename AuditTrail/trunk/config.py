@@ -3,7 +3,7 @@
 # File: AuditTrail.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.5.1-svn
+# Generator: ArchGenXML Version 1.6.0-beta-svn
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -37,7 +37,8 @@ __docformat__ = 'plaintext'
 # AppConfig.py in your product's root directory. This will be included
 # in this file if found.
 
-from Products.CMFCore.CMFCorePermissions import setDefaultRoles
+from Products.CMFCore.permissions import setDefaultRoles
+
 ##code-section config-head #fill in your manual code here
 ##/code-section config-head
 

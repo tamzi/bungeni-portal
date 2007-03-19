@@ -3,7 +3,7 @@
 # File: IAuditable.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.5.1-svn
+# Generator: ArchGenXML Version 1.6.0-beta-svn
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -34,9 +34,9 @@ __docformat__ = 'plaintext'
 
 
 
-import zope
+from zope import interface
 
-class IAuditable(zope.interface.Interface):
+class IAuditable(interface.Interface):
     ''' '''
 
     ##code-section class-header_IAuditable #fill in your manual code here

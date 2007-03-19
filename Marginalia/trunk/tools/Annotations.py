@@ -183,9 +183,9 @@ class Annotations(UniqueObject, BaseBTreeFolder):
 
     security.declarePublic('getFeedUID')
     def getFeedUID(self):
+        """ The feed UID needs to be constant
         """
-        """
-        return 'tag:%s,%s:annotation' % ('localhost', '2007-01-24')
+        return 'tag:%s:annotation' % self.UID()
 
     security.declarePublic('getBaseURL')
     def getBaseURL(self):

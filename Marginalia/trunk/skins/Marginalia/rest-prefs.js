@@ -59,7 +59,7 @@ RestPreferenceService.prototype.listPreferences = function( f )
 				alert( "serverGetPreference failed with code " + xmlhttp.status + "\n" + xmlhttp.responseText );
 		}
 	}
-	/* //trace( "PreferenceService.setPreference " + serviceUrl) */
+	//trace( "PreferenceService.setPreference " + serviceUrl)
 	xmlhttp.send( null );
 }
 
@@ -79,9 +79,9 @@ RestPreferenceService.prototype.setPreference = function( setting, value, f )
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 )
 		{
-			/* // Safari is braindead here:  any status code other than 200 is converted to undefined */
-			/* // IE invents its own 1223 status code */
-			/* // See http://www.trachtenberg.com/blog/?p=74 */
+			// Safari is braindead here:  any status code other than 200 is converted to undefined
+			// IE invents its own 1223 status code
+			// See http://www.trachtenberg.com/blog/?p=74
 			if ( 204 == xmlhttp.status || null == xmlhttp.status || 1223 == xmlhttp.status )
 			{
 				if ( null != f )
@@ -91,6 +91,6 @@ RestPreferenceService.prototype.setPreference = function( setting, value, f )
 				alert( "serverSetPreference failed with code " + xmlhttp.status + "\n" + xmlhttp.responseText );
 		}
 	}
-	/* //trace( "PreferenceService.setPreference " + serviceUrl) */
+	//trace( "PreferenceService.setPreference " + serviceUrl)
 	xmlhttp.send( body );
 }

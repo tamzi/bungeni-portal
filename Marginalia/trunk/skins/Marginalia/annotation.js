@@ -2,11 +2,11 @@
 NS_PTR = 'http://www.geof.net/code/annotation/';
 NS_ATOM = 'http://www.w3.org/2005/Atom';
 
-/* // values for annotation.access */
+// values for annotation.access
 AN_PUBLIC_ACCESS = 'public';
 AN_PRIVATE_ACCESS = 'private';
 
-/* // values for annotation.editing (field is deleted when not editing) */
+// values for annotation.editing (field is deleted when not editing)
 AN_EDIT_NOTE_FREEFORM = 'note freeform';
 AN_EDIT_NOTE_KEYWORDS = 'note keywords';
 AN_EDIT_LINK = 'link';
@@ -35,7 +35,7 @@ function Annotation( post, range )
 	this.access = ANNOTATION_ACCESS_DEFAULT;
 	this.quote = '';
 	this.isLocal = false;
-	/* // this.editing = null; -- deleted when not needed */
+	// this.editing = null; -- deleted when not needed
 	this.link = '';
 	return this;
 }
@@ -49,12 +49,12 @@ function annotationFromTextRange( post, textRange )
 {
 	var range = textRangeToWordRange( textRange, post.contentElement, _skipContent );
 	if ( null == range )
-		return null;  /* // The range is probably invalid (e.g. whitespace only) */
+		return null;  // The range is probably invalid (e.g. whitespace only)
 	var annotation = new Annotation( post, range );
-	/* // Can't just call toString() to grab the quote from the text range, because that would */
-	/* // include any smart copy text. */
+	// Can't just call toString() to grab the quote from the text range, because that would
+	// include any smart copy text.
 	annotation.quote = getTextRangeContent( textRange, _skipContent );
-	/* //annotation.quote = textRange.toString( ); */
+	//annotation.quote = textRange.toString( );
 	return annotation;
 }
 
@@ -108,7 +108,7 @@ function parseAnnotationXml( xmlDoc )
 	{
 		for ( var i = 0;  i < xmlDoc.documentElement.childNodes.length;  ++i ) {
 			child = xmlDoc.documentElement.childNodes[ i ];
-			/* // obliged to use tagName here rather than localName due to IE */
+			// obliged to use tagName here rather than localName due to IE
 			if ( child.namespaceURI == NS_ATOM && getLocalName( child ) == 'entry' )
 			{
 				var hOffset, hLength, text, url, id;
@@ -120,7 +120,7 @@ function parseAnnotationXml( xmlDoc )
 					{
 						var rel = field.getAttribute( 'rel' );
 						var href = field.getAttribute( 'href' );
-						/* // What is the role of this link element?  (there are several links in each entry) */
+						// What is the role of this link element?  (there are several links in each entry)
 						if ( 'self' == rel )
 							annotation.id = href.substring( href.lastIndexOf( '/' ) + 1 );
 						else if ( 'related' == rel )
@@ -157,9 +157,9 @@ function parseAnnotationXml( xmlDoc )
 							annotation.access = 'private';
 					}
 				}
-				/* // This should really check the validity of the whole annotation.  Most important */
-				/* // though is that the ID not be zero, otherwise this would interfere with the */
-				/* // creation of new annotations. */
+				// This should really check the validity of the whole annotation.  Most important
+				// though is that the ID not be zero, otherwise this would interfere with the
+				// creation of new annotations.
 				if ( 0 != annotation.id && null != annotation.post )
 				{
 					annotation.range = new WordRange( );

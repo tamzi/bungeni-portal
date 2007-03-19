@@ -23,8 +23,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/* // If this is true, uses paths like annotate/nnn */
-/* // if false, use paths like annotation/annotate.php?id=nnn */
+// If this is true, uses paths like annotate/nnn
+// if false, use paths like annotation/annotate.php?id=nnn
 ANNOTATION_NICE_URLS = false;
 
 
@@ -62,7 +62,7 @@ function RestAnnotationService( serviceUrl )
  */
 RestAnnotationService.prototype.listAnnotations = function( marginalia, url, point, f )
 {
-	/* // exclude content to lighten the size across the wire */
+	// exclude content to lighten the size across the wire
 	var serviceUrl = this.serviceUrl;
 	serviceUrl += '?format=atom&exclude=content';
 	if ( point )
@@ -71,14 +71,14 @@ RestAnnotationService.prototype.listAnnotations = function( marginalia, url, poi
 	
 	var xmlhttp = createAjaxRequest( );
 	xmlhttp.open( 'GET', serviceUrl );
-	/* //xmlhttp.setRequestHeader( 'Accept', 'application/xml' ); */
+	//xmlhttp.setRequestHeader( 'Accept', 'application/xml' );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
 			if ( xmlhttp.status == 200 ) {
 				if ( null != f )
 				{
 					trace( 'list-annotations-xml', "listAnnotations result:\n" + xmlhttp.responseText );
-					/* // alert( serviceUrl + "\n" + xmlhttp.responseText ); */
+					// alert( serviceUrl + "\n" + xmlhttp.responseText );
 					f( xmlhttp.responseXML );
 				}
 			}
@@ -97,7 +97,7 @@ RestAnnotationService.prototype.listAnnotations = function( marginalia, url, poi
  * When successful, calls a function f with one parameter:  the URL of the created annotation
  */
 RestAnnotationService.prototype.createAnnotation = function( marginalia, annotation, f )
-/* //url, offset, length, note, access, quote, quote_title, quote_author, f ) */
+//url, offset, length, note, access, quote, quote_title, quote_author, f )
 {
 	var serviceUrl = this.serviceUrl;
 		
@@ -116,11 +116,11 @@ RestAnnotationService.prototype.createAnnotation = function( marginalia, annotat
 	
 	xmlhttp.open( 'POST', serviceUrl, true );
 	xmlhttp.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8' );
-	/* //xmlhttp.setRequestHeader( 'Accept', 'application/xml' ); */
+	//xmlhttp.setRequestHeader( 'Accept', 'application/xml' );
 	xmlhttp.setRequestHeader( 'Content-length', body.length );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
-			/* // No need for Safari hack, since Safari can't create annotations anyway. */
+			// No need for Safari hack, since Safari can't create annotations anyway.
 			if ( xmlhttp.status == 201 ) {
 				var url = xmlhttp.getResponseHeader( 'Location' );
 				if ( null != f )
@@ -157,13 +157,13 @@ RestAnnotationService.prototype.updateAnnotation = function( marginalia, annotat
 	var xmlhttp = createAjaxRequest( );
 	xmlhttp.open( 'PUT', serviceUrl, true );
 	xmlhttp.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8' );
-	/* //xmlhttp.setRequestHeader( 'Accept', 'application/xml' ); */
+	//xmlhttp.setRequestHeader( 'Accept', 'application/xml' );
 	xmlhttp.setRequestHeader( 'Content-length', body.length );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
-			/* // Safari is braindead here:  any status code other than 200 is converted to undefined */
-			/* // IE invents its own 1223 status code */
-			/* // See http://www.trachtenberg.com/blog/?p=74 */
+			// Safari is braindead here:  any status code other than 200 is converted to undefined
+			// IE invents its own 1223 status code
+			// See http://www.trachtenberg.com/blog/?p=74
 			if ( 204 == xmlhttp.status || xmlhttp.status == null || xmlhttp.status == 1223 ) {
 				if ( null != f )
 					f( xmlhttp.responseXML );
@@ -188,11 +188,11 @@ RestAnnotationService.prototype.deleteAnnotation = function( marginalia, annotat
 	
 	var xmlhttp = createAjaxRequest( );
 	xmlhttp.open( 'DELETE', serviceUrl, true );
-	/* //xmlhttp.setRequestHeader( 'Accept', 'application/xml' ); */
+	//xmlhttp.setRequestHeader( 'Accept', 'application/xml' );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
-			/* // Safari is braindead here:  any status code other than 200 is converted to undefined */
-			/* // IE invents its own 1223 status code */
+			// Safari is braindead here:  any status code other than 200 is converted to undefined
+			// IE invents its own 1223 status code
 			if ( 204 == xmlhttp.status || xmlhttp.status == null || xmlhttp.status == 1223 ) {
 				if ( null != f )
 					f( xmlhttp.responseXML );

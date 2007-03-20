@@ -50,7 +50,7 @@ def install(self):
     if not BASE_SKIN_NAME in skin_names:
         raise AttributeError("Impossible installation without %s skin." % BASE_SKIN_NAME)
     # Checking for presenting lower_SKIN_NAME directory in portal skins
-    lower_SKIN_NAME = string.lower(SKIN_NAME)
+    lower_SKIN_NAME = SKIN_NAME
     if lower_SKIN_NAME in skinsTool.objectIds():
         raise AttributeError("%s skin layer already exist in portal skins. Installation Impossible." % lower_SKIN_NAME)
     return CHECKED_MESSAGE

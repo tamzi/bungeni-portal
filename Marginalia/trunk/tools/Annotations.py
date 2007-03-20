@@ -211,6 +211,12 @@ class Annotations(UniqueObject, BaseBTreeFolder):
     def _createAnnotation(self):
         """ Create annotation from POST.
         """
+        # TODO: do something useful with 'access'. Plone already
+        # enforces security based on ownership, so access is 'private'
+        # by default. 'public' access could mean sharing the annotation
+        # with the 'Anonymous' role, though a more restrictive
+        # implementation such as 'Member' or 'MemberOfParliament'
+        # probably makes more sense.
         params = {
             'url': '',
             'range': '',

@@ -29,7 +29,7 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from Products.BungeniSkinCM.config import *
+from Products.BungeniSkinGH.config import *
 
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header

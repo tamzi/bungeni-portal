@@ -63,9 +63,7 @@
              <div metal:use-macro="here/global_siteactions/macros/site_actions">
                Site-wide actions (Contact, Sitemap, Help, Style Switcher etc)
              </div>
-            <a metal:use-macro="here/global_logo/macros/portal_logo">
-               The portal logo, linked to the portal root
-             </a>
+            
              
              <div metal:use-macro="here/global_skinswitcher/macros/skin_tabs">
                The skin switcher tabs. Based on which role you have, you

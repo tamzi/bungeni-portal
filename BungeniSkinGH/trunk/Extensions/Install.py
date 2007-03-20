@@ -42,11 +42,11 @@ from Products.Archetypes.Extensions.utils import installTypes
 from Products.Archetypes.Extensions.utils import install_subskin
 from Products.Archetypes.config import TOOL_NAME as ARCHETYPETOOLNAME
 from Products.Archetypes.atapi import listTypes
-from Products.BungeniSkinCM.config import PROJECTNAME
-from Products.BungeniSkinCM.config import product_globals as GLOBALS
+from Products.BungeniSkinGH.config import PROJECTNAME
+from Products.BungeniSkinGH.config import product_globals as GLOBALS
 
 def install(self, reinstall=False):
-    """ External Method to install BungeniSkinCM """
+    """ External Method to install BungeniSkinGH """
     out = StringIO()
     print >> out, "Installation log of %s:" % PROJECTNAME
 
@@ -54,7 +54,7 @@ def install(self, reinstall=False):
     # them.  Add a list called DEPENDENCIES to your custom
     # AppConfig.py (imported by config.py) to use it.
     try:
-        from Products.BungeniSkinCM.config import DEPENDENCIES
+        from Products.BungeniSkinGH.config import DEPENDENCIES
     except:
         DEPENDENCIES = []
     portal = getToolByName(self,'portal_url').getPortalObject()
@@ -74,6 +74,9 @@ def install(self, reinstall=False):
     for slot in ['here/theme_portlet/macros/portlet']:
        if slot not in portal.left_slots:
            portal.left_slots = list(portal.left_slots) + [slot]
+    for slot in ['here/portlet_navigation/macros/portlet']:
+       if slot not in portal.left_slots:
+           portal.left_slots = [slot] + list(portal.left_slots)
     for slot in ['here/sections_portlet/macros/portlet']:
        if slot not in portal.right_slots:
            portal.right_slots = list(portal.right_slots) + [slot]
@@ -97,7 +100,7 @@ def install(self, reinstall=False):
 
 
 
-    from Products.BungeniSkinCM.config import STYLESHEETS
+    from Products.BungeniSkinGH.config import STYLESHEETS
     try:
         portal_css = getToolByName(portal, 'portal_css')
         for stylesheet in STYLESHEETS:
@@ -113,7 +116,7 @@ def install(self, reinstall=False):
     except:
         # No portal_css registry
         pass
-    from Products.BungeniSkinCM.config import JAVASCRIPTS
+    from Products.BungeniSkinGH.config import JAVASCRIPTS
     try:
         portal_javascripts = getToolByName(portal, 'portal_javascripts')
         for javascript in JAVASCRIPTS:

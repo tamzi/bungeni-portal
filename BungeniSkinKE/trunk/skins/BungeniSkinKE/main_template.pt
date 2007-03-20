@@ -65,8 +65,6 @@
                Site-wide actions (Contact, Sitemap, Help, Style Switcher etc)
              </div>
 
-             
-
              <div metal:use-macro="here/global_skinswitcher/macros/skin_tabs">
                The skin switcher tabs. Based on which role you have, you
                get a selection of skins that you can switch between.
@@ -75,16 +73,12 @@
              
           </div>
 
-          
-
            
       </div>
-      <div metal:use-macro="here/global_sections/macros/portal_tabs">
-               The global sections tabs. (Welcome, News etc)
-             </div>
-<div metal:use-macro="here/global_pathbar/macros/path_bar">
-             The breadcrumb navigation ("you are here")
-           </div>
+      <div metal:use-macro="here/global_pathbar/macros/path_bar">
+             The breadcrumb navigation
+      </div>
+
       <div class="visualClear" id="clear-space-before-wrapper-table"><!-- --></div>
 
       <tal:comment replace="nothing">
@@ -189,11 +183,7 @@
           Footer
         </metal:footer>
 
-        <metal:colophon use-macro="here/colophon/macros/colophon">
-          The colophon area - contains details about the production of
-          the site. Typically "powered by" buttons, standards, tools used.
-        </metal:colophon>
-      </metal:block>
+       </metal:block>
 
     </div>
 

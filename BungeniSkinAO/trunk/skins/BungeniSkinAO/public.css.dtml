@@ -256,28 +256,26 @@ body {
 /* Searchbox style and positioning */
 
 #portal-searchbox {
-    float: right;
-    clear: right;
-    background-color: transparent;
-    margin: 1.5em 0 0 0;
-    padding: 0 2em 0 0;
-    text-align: right;
-    text-transform: &dtml-textTransform;;
-    white-space: nowrap;
-    z-index: 2;
+background-color: transparent;
+margin: 1.5em 0 0 0;
+padding: 0 2em 0 0;
+text-align: right;
+text-transform: &dtml-textTransform;;
+white-space: nowrap;
+z-index: 2;
+height:30px;
 }
 
 #portal-advanced-search {
-    margin-top: 0.2em;
-    clear: both;
+margin: 0.2em;
+clear: both;
 }
 
 #portal-advanced-search a {
-    color: &dtml-discreetColor;;
-    text-decoration: none;
-    text-transform: &dtml-textTransform;;
+color: &dtml-discreetColor;;
+text-decoration: none;
+text-transform: &dtml-textTransform;;
 }
-
 /* LiveSearch styles */
 
 .LSRes {
@@ -1181,5 +1179,15 @@ body.fullscreen #portal-searchbox {
 }
 .ploneCalendar {
     background:#C11E05;
+}
+#diff-table .diff_sub {
+ text-decoration: line-through;
+ background:transparent;
+ color:red;
+}
+#diff-table .diff_add {
+ text-decoration: underline;
+ background:transparent;
+ color:blue;
 }
 /* </dtml-with> */

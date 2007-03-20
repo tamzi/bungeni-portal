@@ -75,13 +75,13 @@
              
           </div>
 
-          <div metal:use-macro="here/global_pathbar/macros/path_bar">
-             The breadcrumb navigation ("you are here")
-           </div>
+          
 
            
       </div>
-
+      <div metal:use-macro="here/global_pathbar/macros/path_bar">
+             The breadcrumb navigation ("you are here")
+      </div>
       <div class="visualClear" id="clear-space-before-wrapper-table"><!-- --></div>
 
       <tal:comment replace="nothing">

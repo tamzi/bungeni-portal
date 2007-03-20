@@ -11,10 +11,8 @@
                tal:define="now modules/DateTime/DateTime" 
                tal:content="now/year" />
     of the 
-    <span i18n:name="plonefoundation">
-        <a href="http://plone.org/foundation" i18n:translate="label_plone_foundation">Parliament of Tanzania</a>
-    </span>
-    et al.
+    Parliament of Uganda
+   
     </span>
 </p>
 

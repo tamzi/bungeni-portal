@@ -74,6 +74,9 @@ def install(self, reinstall=False):
     for slot in ['here/theme_portlet/macros/portlet']:
        if slot not in portal.left_slots:
            portal.left_slots = list(portal.left_slots) + [slot]
+    for slot in ['here/portlet_navigation/macros/portlet']:
+       if slot not in portal.left_slots:
+           portal.left_slots = [slot] + list(portal.left_slots)
     for slot in ['here/sections_portlet/macros/portlet']:
        if slot not in portal.right_slots:
            portal.right_slots = list(portal.right_slots) + [slot]

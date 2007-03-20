@@ -121,7 +121,7 @@ DEFAULT_MEMBERS = (
         {'salutation': '', 'firstname': "Majib Hihamed", 'surname': "Balala", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
         {'salutation': '', 'firstname': "Wakili Sylvester", 'surname': "Bifwili", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
         {'salutation': '', 'firstname': "Ulice Jematia Rinih", 'surname': "Chelaite", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Hirris Hwachindi", 'surname': "Dziri", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Hirris Hwachindi", 'surname': "Dziri", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf', 'create_home_folder': 1},  #Kenya 
         {'salutation': '', 'firstname': "Ukwee David", 'surname': "Uthuri", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
         {'salutation': '', 'firstname': "James Mderitu", 'surname': "Gachagua", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
         {'salutation': '', 'firstname': "Ribinsin Mjeru", 'surname': "Githae", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
@@ -195,7 +195,7 @@ DEFAULT_MEMBERS = (
         {'salutation': '', 'firstname': "Daudi", 'surname': "Hwiraria", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
         {'salutation': '', 'firstname': "Valerian Kilemi", 'surname': "Hwiria", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
         {'salutation': '', 'firstname': "Richard Kalembe", 'surname': "Mdile", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Reuben Uwini Myanginya", 'surname': "Mdili", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Reuben Uwini Myanginya", 'surname': "Mdili", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf', 'create_home_folder': 1},  #Kenya 
         {'salutation': '', 'firstname': "Peter Mjeru", 'surname': "Mwiga", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
         {'salutation': 'Mrs', 'firstname': " Charity Kaluki", 'surname': "Mgilu", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
         {'salutation': '', 'firstname': "Ubdallah Jumaa", 'surname': "Mgizi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 

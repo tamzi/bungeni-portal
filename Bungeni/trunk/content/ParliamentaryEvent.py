@@ -134,12 +134,6 @@ class ParliamentaryEvent(BaseContent, ATEvent):
 
     # Methods
 
-    security.declarePublic('start')
-    def start(self):
-        """
-        """
-        pass
-
     security.declarePublic('end')
     def end(self):
         """ Alias for tabledDate, to satisfy calendar interface

@@ -224,7 +224,7 @@ def installSkin(portal, pp_up, out):
             idx += 1
         addProperty(pp_up, 'q_actual_skin_name', product_skin_name, 'string', out)
     # Add directory views
-    layer_skin_name = string.lower(SKIN_NAME)
+    layer_skin_name = SKIN_NAME
     addDirectoryViews(skinsTool, 'skins', GLOBALS)
     print >> out,  "- added '%s' directory views to portal_skins." % layer_skin_name
     # Get Default skin and remember it for backup on uninstallig
@@ -256,7 +256,7 @@ def uninstallSkin(skinsTool, actual_skin_name, initial_skin):
         skin_names.remove(actual_skin_name)
     # Remove product skin directory from skins tool 
     # AND Remove skin-product layer from available skins
-    skin_layer = SKIN_NAME.lower()
+    skin_layer = SKIN_NAME
     if skin_layer in skinsTool.objectIds():
         skinsTool.manage_delObjects(skin_layer)
     for skin_name in skin_names:

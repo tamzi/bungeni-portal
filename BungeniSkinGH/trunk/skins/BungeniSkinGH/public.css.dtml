@@ -18,19 +18,18 @@
 
 /* Padding for the columns */
 body {
-         background-color:#FFFBE6;
+         background-color:#ffffff;
+         
 }
 #portal-column-one .visualPadding {
     padding: 0em 0em 0em 0em;
-    margin: 0.5em 0em 0em 0em;
-     background: transparent;
+    margin: 0em 0em 0em 0em;
 }
 
 #portal-column-two .visualPadding {
     
     padding: 0em 0em 0em 0em;
-    margin: 0.5em 0em 0em 0em;
-    background:#CECE94;
+    margin: 0em 0em 0em 0em;
 }
 
 /* Content area */
@@ -39,7 +38,6 @@ body {
     font-size: 110%;
     padding: 1em 1em 2em 1em !important;
     background: transparent;
-    margin-top:0.2em; 
 }
 
 
@@ -163,31 +161,30 @@ body {
 
 
 #visual-portal-wrapper {
-    margin-left:auto !important;
-    margin-right:auto !important;
+    margin-left:1px !important;
+   /* margin-right:auto !important;*/
     width:800px !important;
     text-align:left;
-    background-color:#F6EEDD;
+    background-color:#ffffff;
     border:1px solid white;
 }
 
 
 /* Logo properties */
 #portal-header {
-    background: url(banner.jpg) no-repeat;
+    background: url(banner.gif) no-repeat;
+    height:96px;
      background-color: transparent;
-     position:relative;
-     top:20px;
-     height:90px;
+     
     
 }
 #portal-logo {
-    background: url(&dtml-portal_url;/&dtml-logoName;) no-repeat;
+    background:none;
     border: 0;
     padding: 0;
     position:relative;
     left:684px;
-  
+
 }
 
 #portal-logo a {
@@ -217,8 +214,7 @@ body {
     /* Top section */
     margin: 0;
     padding: 0;
-    background-color:#E6EBCE;
-    height:110px;
+    
 }
 
 /* Site-wide action menu - font size, contact, index, sitemap etc */
@@ -242,7 +238,7 @@ body {
 
 #portal-siteactions li a {
     background-color: transparent;
-    border: 1px solid &dtml-backgroundColor;;
+    border: 0px solid &dtml-backgroundColor;;
     color: &dtml-discreetColor;;
     height: auto;
     padding: 0.2em;
@@ -266,28 +262,26 @@ body {
 /* Searchbox style and positioning */
 
 #portal-searchbox {
-    float: right;
-    clear: right;
-    background-color: transparent;
-    margin: 1.5em 0 0 0;
-    padding: 0 2em 0 0;
-    text-align: right;
-    text-transform: &dtml-textTransform;;
-    white-space: nowrap;
-    z-index: 2;
+background-color: transparent;
+margin: 1.5em 0 0 0;
+padding: 0 2em 0 0;
+text-align: right;
+text-transform: &dtml-textTransform;;
+white-space: nowrap;
+z-index: 2;
+height:30px;
 }
 
 #portal-advanced-search {
-    margin-top: 0.2em;
-    clear: both;
+margin: 0.2em;
+clear: both;
 }
 
 #portal-advanced-search a {
-    color: &dtml-discreetColor;;
-    text-decoration: none;
-    text-transform: &dtml-textTransform;;
+color: &dtml-discreetColor;;
+text-decoration: none;
+text-transform: &dtml-textTransform;;
 }
-
 /* LiveSearch styles */
 
 .LSRes {
@@ -510,7 +504,7 @@ body {
     padding-right: 2em;
     text-transform: &dtml-textTransform;;
     line-height: 1.6em;
-     background: #DEDFBD;
+     background: #ffffff;
 }
 
 #portal-breadcrumbs a {
@@ -1149,8 +1143,8 @@ body.fullscreen #portal-searchbox {
 	padding:0.1em 0em 0.1em 0.3em;
 	color:#000000 !important;
 	font-size:8pt;
-        background:#CECE94;
-	border:1px inset #feffef;
+        background:#FFEB31;
+	border:1px inset #AD2421;
 }
 
 
@@ -1158,20 +1152,18 @@ body.fullscreen #portal-searchbox {
 #portlet-navigation-tree ul li a.navTreeCurrentItem {
 	margin-bottom:0px;
 	padding:0.1em 0em 0.1em 0.3em;
-	color:#000000 !important;
+	color:#ffffff !important;
 	font-size:8pt;
-       	border:0px solid blue;
+       	border:1px &dtml-globalBorderColor;;
 }
 #portlet-navigation-tree ul li a:hover{
-        background:#ffffff;
-        
+        background:#000000;
+        color:#ffffff;
 }
 #portlet-navigation-tree ul li a.navTreeCurrentItem {
-        background:#F7F7D6;
-        color:#000000 !important;
-               
+        background:#299631;
+        color:#ffffff !important;
 }
-
 *html #portlet-navigation-tree ul li a,
 *html #portlet-navigation-tree ul li a:hover,
 *html #portlet-navigation-tree ul li a.navTreeCurrentItem {
@@ -1208,6 +1200,24 @@ dd.portletItem .navTreeItem .navTreeCurrentItem  {
 	padding-left:0;
 	background-image:none;
 }
-
+#p4acalendar-day-2007-02-27,
+#p4acalendar-day-2007-02-27 a
+{
+     background:green;
+     color:white;
+}
+#p4acalendar .event-title {
+font-size:1em;
+background green;
+color:#760404;
+}
+#diff-table .diff_sub {
+ text-decoration: line-through;
+ background:transparent;
+}
+#diff-table .diff_add {
+ text-decoration: underline;
+ background:pink;
+}
 
 /* </dtml-with> */

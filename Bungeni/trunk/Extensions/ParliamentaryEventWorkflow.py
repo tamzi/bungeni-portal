@@ -73,7 +73,7 @@ def setupParliamentaryEventWorkflow(self, workflow):
     for s in ['pending_edit', 'pending_approval', 'admissable', 'scheduled', 'tabled', 'draft']:
         workflow.states.addState(s)
 
-    for t in ['submit_to_speaker', 'schedule', 'table', 'postpone', 'reject', 'approve', 'submit_to_clerk']:
+    for t in ['submit_to_speaker', 'schedule', 'retract', 'table', 'postpone', 'reject', 'approve', 'submit_to_clerk']:
         workflow.transitions.addTransition(t)
 
     for v in ['review_history', 'comments', 'time', 'actor', 'action']:
@@ -100,7 +100,7 @@ def setupParliamentaryEventWorkflow(self, workflow):
     stateDef = workflow.states['pending_edit']
     stateDef.setProperties(title="""pending_edit""",
                            description="""""",
-                           transitions=['submit_to_speaker', 'reject'])
+                           transitions=['submit_to_speaker', 'reject', 'retract'])
     stateDef.setPermission('Access contents information',
                            1,
                            ['Manager', 'Owner', 'Reviewer'])
@@ -235,6 +235,18 @@ def setupParliamentaryEventWorkflow(self, workflow):
                                 actbox_url="""""",
                                 actbox_category="""workflow""",
                                 props={'guard_permissions': 'Bungeni: Schedule parliamentary business'},
+                                )
+
+    transitionDef = workflow.transitions['retract']
+    transitionDef.setProperties(title="""retract""",
+                                new_state_id="""draft""",
+                                trigger_type=1,
+                                script_name="""""",
+                                after_script_name="""""",
+                                actbox_name="""retract""",
+                                actbox_url="""""",
+                                actbox_category="""workflow""",
+                                props={'guard_roles': 'Owner'},
                                 )
 
     transitionDef = workflow.transitions['table']

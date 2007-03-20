@@ -41,6 +41,7 @@ class TransactionEndHandler(logging.handlers.MemoryHandler):
     the work in 'commit'. Or look at MaildropHost.TransactionalEmail.
     I don't have time for that now, and this seems to work, so TODO.
     """
+
     # zope3 interfaces
     interface.implements(ISynchronizer)
 
@@ -57,7 +58,7 @@ class TransactionEndHandler(logging.handlers.MemoryHandler):
 
     def beforeCompletion(self, transaction):
         logger = logging.getLogger('AuditTrail')
-        logger.info('AuditTrail.TransactionEndHandler.beforeCompletion> Flushing')
+        #DBG logger.info('AuditTrail.TransactionEndHandler.beforeCompletion> Flushing')
         self.flush()
 
     def afterCompletion(self, transaction):

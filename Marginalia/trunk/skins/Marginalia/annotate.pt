@@ -5,33 +5,32 @@
 
 <metal:block fill-slot="javascript_head_slot">
     <script type="text/javascript" tal:content="string:
-		function myCreateAnnotation( event, postId )
-		{
-			event = getEvent( event );
-			stopPropagation( event );
-			createAnnotation( postId,true );
-		}
-		
-		function _skipContent( node )
-		{
-			return _skipAnnotationLinks( node );
-		}
+        function myCreateAnnotation( event, postId )
+        {
+            event = getEvent( event );
+            stopPropagation( event );
+            createAnnotation( postId,true );
+        }
+        
+        function _skipContent( node )
+        {
+            return _skipAnnotationLinks( node );
+        }
 
         var serviceRoot = '${request/base}/${utool/getPortalPath}/portal_annotations';
-		var annotationService = new RestAnnotationService( serviceRoot );
-        /* // var annotationService = new StaticAnnotationService( serviceRoot, 'example-annotations.xml' ); */
-		var preferences = new Preferences( new RestPreferenceService( serviceRoot ) );
-		/* // var preferences = new Preferences( new StaticPreferenceService( ) ); */
-		var keywordService = new RestKeywordService( serviceRoot + '/listKeywords');
-		keywordService.init( );
-		marginaliaInit( annotationService, '${user/getUserName}', '${user/getUserName}', null,
-			preferences, keywordService );
-        function show_annotations_on_load() {
+        var annotationService = new RestAnnotationService( serviceRoot );
+        var preferences = new Preferences( new RestPreferenceService( serviceRoot ) );
+        var keywordService = new RestKeywordService( serviceRoot + '/listKeywords');
+        keywordService.init( );
+        marginaliaInit( annotationService, '${user/getUserName}', '${user/getUserName}', null, preferences, keywordService );
+
+        function show_annotations_on_load() 
+        {
             window.marginalia.showAnnotations( '${request/URL}/#*')
         }
         addEventHandler(window, 'load', show_annotations_on_load, window)
         ">
-	</script>
+    </script>
 </metal:block>
 
 <body>
@@ -90,7 +89,7 @@
                   </td>
                 </tr>
               </table>
-			</div>
+            </div>
         </div>
 
         <div metal:use-macro="here/document_relateditems/macros/relatedItems">

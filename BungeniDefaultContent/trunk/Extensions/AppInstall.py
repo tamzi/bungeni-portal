@@ -60,6 +60,16 @@ def add_default_content(root, structure, initial_transitions=['publish']):
 
     def add_object(parent, d):
         obj_id = normalizeString(get_id(d))
+
+        # Short-circuit if the object exists: allow incremental updates
+        # Not very sophisticated now .. if the code is changed, we want
+        # to re-add everything anyway, and if the data is modified,
+        # rather than added to, the modified objects will need to be
+        # deleted first .. and they may have relations to other objects
+        # .. 
+        if parent._getOb(obj_id):
+            return parent[obj_id]
+
         if 'Criteri' in d['type']:
             obj = parent.addCriterion(d['field'], d['type'])
             obj.edit(**d)

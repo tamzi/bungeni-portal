@@ -40,12 +40,14 @@ from Products.Bungeni.config import *
 
 copied_fields = {}
 copied_fields['tabledDate'] = ATEvent.schema['startDate'].copy(name='tabledDate')
-copied_fields['tabledDate'].read_permission = "Bungeni: Schedule parliamentary business"
 copied_fields['tabledDate'].mutator = "setTabledDate"
 copied_fields['tabledDate'].accessor = "getTabledDate"
+copied_fields['tabledDate'].read_permission = "Bungeni: Schedule parliamentary business"
 copied_fields['tabledDate'].write_permission = "Bungeni: Schedule parliamentary business"
 copied_fields['tabledDate'].edit_accessor = "getRawTabledDate"
 copied_fields['tabledDate'].widget.label = "Scheduled date"
+copied_fields['startDate'] = ATEvent.schema['startDate'].copy()
+copied_fields['startDate'].widget.label = "Scheduled date"
 copied_fields['endDate'] = ATEvent.schema['endDate'].copy()
 copied_fields['endDate'].widget.visible = False
 copied_fields['location'] = ATEvent.schema['location'].copy()
@@ -64,16 +66,7 @@ schema = Schema((
 
     copied_fields['tabledDate'],
 
-    ComputedField(
-        name='startDate',
-        widget=ComputedField._properties['widget'](
-            label="Scheduled date",
-            visible=False,
-            label_msgid='Bungeni_label_startDate',
-            i18n_domain='Bungeni',
-        ),
-        accessor="start"
-    ),
+    copied_fields['startDate'],
 
     copied_fields['endDate'],
 
@@ -143,15 +136,15 @@ class ParliamentaryEvent(BaseContent, ATEvent):
 
     security.declarePublic('start')
     def start(self):
-        """ Alias for tabledDate, to satisfy calendar interface
         """
-        return self.getTabledDate()
+        """
+        pass
 
     security.declarePublic('end')
     def end(self):
         """ Alias for tabledDate, to satisfy calendar interface
         """
-        return self.getTabledDate()+1
+        return self.start()+1
 
     security.declarePublic('getEventType')
     def getEventType(self):

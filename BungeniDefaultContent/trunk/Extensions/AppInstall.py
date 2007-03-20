@@ -2,6 +2,7 @@ from StringIO import StringIO
 from Products.CMFCore.permissions import View
 from Products.CMFCore.utils import getToolByName
 from Products.BungeniDefaultContent.config import *
+from Products.PlonePAS.utils import cleanId
 
 new_actions = (
         {'id': 'glossary',
@@ -55,6 +56,7 @@ def add_default_content(root, structure, initial_transitions=['publish']):
     out = StringIO()
     plone = getToolByName(root, 'portal_url').getPortalObject()
     normalizeString = getToolByName(plone, 'plone_utils').normalizeString
+    membership_tool = getToolByName(root, 'portal_membership')
 
     def add_object(parent, d):
         obj_id = normalizeString(get_id(d))
@@ -81,6 +83,8 @@ def add_default_content(root, structure, initial_transitions=['publish']):
                 team_ids = [normalizeString(d['title'])]
                 team_ids.extend(d.get('team_ids', []))
                 obj.editTeams(team_ids)
+            if d.has_key('create_home_folder'):
+                membership_tool.createMemberArea(obj_id)
         if not 'Criteri' in d['type']:
             # Criterions shouldn't get cataloged, and processForm does this.
             obj.processForm(data=1, values=d)
@@ -151,7 +155,20 @@ def install(self):
     properties_tool.site_properties.manage_changeProperties(validate_email=1)
     print >>out, result
 
+    #
+    # Add content for some members
+    #
+    membership_tool = getToolByName(self, 'portal_membership')
+    members = membership_tool.getMembersFolder()
+    for mp in DEFAULT_MEMBER_DOCS.keys():
+        mf = members[cleanId(normalizeString(mp))]
+        result = add_default_content(mf, DEFAULT_MEMBER_DOCS[mp],
+                initial_transitions=['submit_to_clerk'])
+        print >>out, result
+
+    #
     # Add default groups
+    #
     portal_groups = getToolByName(self, 'portal_groups')
     portal_groupdata = getToolByName(self, 'portal_groupdata')
     for group_dict in DEFAULT_GROUPS:

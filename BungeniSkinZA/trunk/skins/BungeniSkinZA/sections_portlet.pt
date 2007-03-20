@@ -1,0 +1,16 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="plone">
+  <body>
+
+    <div metal:define-macro="portlet" tal:omit-tag="">
+      <div class="portlet" id="portlet-sections_portlet">
+        
+        <img src="./left.jpg">
+        
+      </div>
+    </div>
+  </body>
+
+</html>
+

@@ -1,0 +1,15 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="plone">
+  <body>
+
+    <div metal:define-macro="portlet" tal:omit-tag="">
+      <div class="portlet" id="portlet-theme_portlet">
+        <img src="flag.jpg"><p>
+         <span>Parliament's Public Education Office co-ordinates the maintenance of information on this website</span>
+        </p></div>
+    </div>
+  </body>
+
+</html>
+

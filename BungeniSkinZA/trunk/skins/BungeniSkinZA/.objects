@@ -1,0 +1,6 @@
+global_siteactions : Page Template
+sections_portlet : Page Template
+footer : Page Template
+global_sections : Page Template
+main_template : Page Template
+theme_portlet : Page Template

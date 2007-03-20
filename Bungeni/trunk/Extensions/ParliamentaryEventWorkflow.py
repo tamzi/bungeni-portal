@@ -70,10 +70,10 @@ def setupParliamentaryEventWorkflow(self, workflow):
     ##/code-section create-workflow-setup-method-header
 
 
-    for s in ['pending_edit', 'pending_approval', 'published', 'draft']:
+    for s in ['pending_edit', 'pending_approval', 'admissable', 'scheduled', 'tabled', 'draft']:
         workflow.states.addState(s)
 
-    for t in ['submit_to_speaker', 'submit_to_clerk', 'publish', 'reject']:
+    for t in ['submit_to_speaker', 'schedule', 'table', 'postpone', 'reject', 'approve', 'submit_to_clerk']:
         workflow.transitions.addTransition(t)
 
     for v in ['review_history', 'comments', 'time', 'actor', 'action']:
@@ -85,8 +85,9 @@ def setupParliamentaryEventWorkflow(self, workflow):
     workflow.addManagedPermission('View')
     workflow.addManagedPermission('Review portal content')
     workflow.addManagedPermission('Bungeni: Schedule parliamentary business')
+    workflow.addManagedPermission('Change Portal Events')
 
-    for l in ['speaker_worklist', 'reviewer_queue']:
+    for l in ['speaker_admissable_worklist', 'speaker_worklist', 'reviewer_queue']:
         if not l in workflow.worklists.objectValues():
             workflow.worklists.addWorklist(l)
 
@@ -116,7 +117,7 @@ def setupParliamentaryEventWorkflow(self, workflow):
     stateDef = workflow.states['pending_approval']
     stateDef.setProperties(title="""pending_approval""",
                            description="""""",
-                           transitions=['reject', 'publish'])
+                           transitions=['reject', 'approve'])
     stateDef.setPermission('Access contents information',
                            0,
                            ['Manager', 'Owner', 'ReviewerForSpeaker', 'Reviewer'])
@@ -136,14 +137,54 @@ def setupParliamentaryEventWorkflow(self, workflow):
                            0,
                            ['Manager', 'ReviewerForSpeaker'])
 
-    stateDef = workflow.states['published']
-    stateDef.setProperties(title="""published""",
+    stateDef = workflow.states['admissable']
+    stateDef.setProperties(title="""admissable""",
+                           description="""""",
+                           transitions=['schedule'])
+    stateDef.setPermission('Access contents information',
+                           0,
+                           ['Manager', 'Owner', 'ReviewerForSpeaker', 'Reviewer'])
+    stateDef.setPermission('Change portal events',
+                           0,
+                           ['Manager', 'ReviewerForSpeaker'])
+    stateDef.setPermission('Modify portal content',
+                           0,
+                           ['Manager', 'ReviewerForSpeaker'])
+    stateDef.setPermission('View',
+                           0,
+                           ['Manager', 'Owner', 'ReviewerForSpeaker', 'Reviewer'])
+    stateDef.setPermission('Review portal content',
+                           0,
+                           ['Manager', 'ReviewerForSpeaker'])
+    stateDef.setPermission('Bungeni: Schedule parliamentary business',
+                           0,
+                           ['Manager', 'ReviewerForSpeaker'])
+
+    stateDef = workflow.states['scheduled']
+    stateDef.setProperties(title="""scheduled""",
+                           description="""""",
+                           transitions=['postpone', 'table'])
+    stateDef.setPermission('Access contents information',
+                           1,
+                           ['Anonymous', 'Manager', 'ReviewerForSpeaker'])
+    stateDef.setPermission('Change Portal Events',
+                           0,
+                           ['Manager', 'ReviewerForSpeaker'])
+    stateDef.setPermission('Modify portal content',
+                           0,
+                           ['Manager', 'ReviewerForSpeaker'])
+    stateDef.setPermission('View',
+                           1,
+                           ['Manager', 'ReviewerForSpeaker'])
+
+    stateDef = workflow.states['tabled']
+    stateDef.setProperties(title="""tabled""",
                            description="""""",
                            transitions=[])
     stateDef.setPermission('Access contents information',
                            1,
                            ['Anonymous', 'Manager'])
-    stateDef.setPermission('Change portal events',
+    stateDef.setPermission('Change Portal Events',
                            0,
                            ['Manager'])
     stateDef.setPermission('Modify portal content',
@@ -184,25 +225,37 @@ def setupParliamentaryEventWorkflow(self, workflow):
                                 props={'guard_permissions': 'Review portal content'},
                                 )
 
-    transitionDef = workflow.transitions['submit_to_clerk']
-    transitionDef.setProperties(title="""submit_to_clerk""",
-                                new_state_id="""pending_edit""",
+    transitionDef = workflow.transitions['schedule']
+    transitionDef.setProperties(title="""schedule""",
+                                new_state_id="""scheduled""",
                                 trigger_type=1,
                                 script_name="""""",
                                 after_script_name="""""",
-                                actbox_name="""submit_to_clerk""",
+                                actbox_name="""schedule""",
                                 actbox_url="""""",
                                 actbox_category="""workflow""",
-                                props={},
+                                props={'guard_permissions': 'Bungeni: Schedule parliamentary business'},
                                 )
 
-    transitionDef = workflow.transitions['publish']
-    transitionDef.setProperties(title="""publish""",
-                                new_state_id="""published""",
+    transitionDef = workflow.transitions['table']
+    transitionDef.setProperties(title="""table""",
+                                new_state_id="""tabled""",
                                 trigger_type=1,
                                 script_name="""""",
                                 after_script_name="""""",
-                                actbox_name="""publish""",
+                                actbox_name="""table""",
+                                actbox_url="""""",
+                                actbox_category="""workflow""",
+                                props={'guard_permissions': 'Bungeni: Schedule parliamentary business'},
+                                )
+
+    transitionDef = workflow.transitions['postpone']
+    transitionDef.setProperties(title="""postpone""",
+                                new_state_id="""admissable""",
+                                trigger_type=1,
+                                script_name="""""",
+                                after_script_name="""""",
+                                actbox_name="""postpone""",
                                 actbox_url="""""",
                                 actbox_category="""workflow""",
                                 props={'guard_permissions': 'Bungeni: Schedule parliamentary business'},
@@ -218,6 +271,30 @@ def setupParliamentaryEventWorkflow(self, workflow):
                                 actbox_url="""""",
                                 actbox_category="""workflow""",
                                 props={'guard_permissions': 'Review portal content'},
+                                )
+
+    transitionDef = workflow.transitions['approve']
+    transitionDef.setProperties(title="""approve""",
+                                new_state_id="""admissable""",
+                                trigger_type=1,
+                                script_name="""""",
+                                after_script_name="""""",
+                                actbox_name="""approve""",
+                                actbox_url="""""",
+                                actbox_category="""workflow""",
+                                props={'guard_permissions': 'Bungeni: Schedule parliamentary business'},
+                                )
+
+    transitionDef = workflow.transitions['submit_to_clerk']
+    transitionDef.setProperties(title="""submit_to_clerk""",
+                                new_state_id="""pending_edit""",
+                                trigger_type=1,
+                                script_name="""""",
+                                after_script_name="""""",
+                                actbox_name="""submit_to_clerk""",
+                                actbox_url="""""",
+                                actbox_category="""workflow""",
+                                props={},
                                 )
 
     ## State Variable
@@ -271,6 +348,16 @@ def setupParliamentaryEventWorkflow(self, workflow):
 
     ## Worklists Initialization
 
+    worklistDef = workflow.worklists['speaker_admissable_worklist']
+    worklistStates = ['admissable']
+    actbox_url = "%(portal_url)s/search?review_state=" + "&review_state=".join(worklistStates)
+    worklistDef.setProperties(description="Reviewer tasks",
+                              actbox_name="Pending (%(count)d)",
+                              actbox_url=actbox_url,
+                              actbox_category="global",
+                              props={'guard_permissions': 'Review portal content',
+                                     'guard_roles': '',
+                                     'var_match_review_state': ';'.join(worklistStates)})
     worklistDef = workflow.worklists['speaker_worklist']
     worklistStates = ['pending_approval']
     actbox_url = "%(portal_url)s/search?review_state=" + "&review_state=".join(worklistStates)

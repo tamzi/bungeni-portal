@@ -1,0 +1,18 @@
+CREATE TABLE "plone_question" (
+  "id" text,
+  "uid" char(32) NOT NULL,
+  "title" varchar(150) default NULL,
+  "effectiveDate" text  default '0000-00-00 00:00:00',
+  "expirationDate" text default '0000-00-00 00:00:00',
+  "language" char(5) default 'en',
+  "creation_date" text default '0000-00-00 00:00:00',
+  "modification_date" text default '0000-00-00 00:00:00',
+  "startDate" text default '0000-00-00 00:00:00',
+  "endDate" text default '0000-00-00 00:00:00',
+  "creators" text,
+  "respondents" text,
+  "content" text,
+  "action" char(10) default NULL,
+  "requireWrittenAnswer" int(11) default NULL,
+  "otherSignatories" text NULL);
+

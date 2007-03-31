@@ -1,0 +1,1178 @@
+------ 2007-03-20 14:37:48,133 ------ INFO ------
+uid: b9d9efe91cf3cf39b27f228940ac4d3a
+portal_type: Question
+id: question-regarding-opening-of-saboti-health-centre
+title: Question regarding opening of Saboti Health Centre
+allowDiscussion: None
+subject: Question
+description: 
+contributors: 
+creators: admin
+effectiveDate: None
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 14:37:47.872 GMT+2
+modification_date: 2007/03/20 14:37:48.062 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 14:37:47.875 GMT+2
+endDate: 2007/03/21 14:37:47.875 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 14:37:47.881 GMT+2
+otherSignatories: 
+requireWrittenAnswer: False
+respondents: 
+Content-Type: text/html
+
+<p>Mr. Moiben asked the Minister for Health</p> <ul id="ul7"> <li>when Saboti Health Centre will be operational and officially opened; and,</li> <li>when the Health Centre will be supplied with electricity.</li> </ul>
+
+------ 2007-03-20 14:37:48,197 ------ INFO ------
+uid: 95a37ca486959e4bf98a46b784bea5ee
+portal_type: Question
+transition: submit_to_clerk
+id: question-regarding-revival-of-eac
+title: Question regarding revival of EAC
+allowDiscussion: None
+subject: Question
+description: 
+contributors: 
+creators: admin
+effectiveDate: 2007/03/20 14:37:48.144 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 14:37:47.266 GMT+2
+modification_date: 2007/03/20 14:37:48.148 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 14:37:47.268 GMT+2
+endDate: 2007/03/21 14:37:47.268 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 14:37:47.275 GMT+2
+otherSignatories: 
+requireWrittenAnswer: False
+respondents: 
+Content-Type: text/html
+
+<p>Mr. Dziri asked the Minister for Foreign Affairs and International Co-operation</p> <ul id="ul3"> <li>what bottlenecks are delaying the revival of the East African Community as mapped out in the Arusha Accord of the 1st December, 1994, between the Heads of State of Kenya, Uganda and Tanzania; and,</li> <li>to what extent is Kenya, as a country, to blame for the delay.</li> </ul>
+
+------ 2007-03-20 14:37:48,280 ------ INFO ------
+uid: 69a0d0d4cd20a63f9db75c69e09e1f13
+portal_type: Question
+transition: submit_to_clerk
+id: question-regarding-theft-from-migori-district-hospital
+title: Question regarding theft from Migori District Hospital
+allowDiscussion: None
+subject: Question
+description: 
+contributors: 
+creators: admin
+effectiveDate: 2007/03/20 14:37:48.234 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 14:37:47.564 GMT+2
+modification_date: 2007/03/20 14:37:48.237 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 14:37:47.566 GMT+2
+endDate: 2007/03/21 14:37:47.566 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 14:37:47.573 GMT+2
+otherSignatories: 
+requireWrittenAnswer: False
+respondents: 
+Content-Type: text/html
+
+<p>Mr. Achola asked the Minister for Health</p> <ul id="ul4"> <li>whether he is aware that during 1994/95 fiscal year alone, drugs, medical supplies and various equipment amounting to over Kshs13 million were stolen from Migori District Hospital; and,</li> <li>what action does he contemplate taking to bring the culprits to book and save wananchi from perpetual lack of drugs and diagnostic services. </li> </ul>
+
+------ 2007-03-20 14:37:48,362 ------ INFO ------
+uid: b9d9efe91cf3cf39b27f228940ac4d3a
+portal_type: Question
+transition: submit_to_clerk
+id: question-regarding-opening-of-saboti-health-centre
+title: Question regarding opening of Saboti Health Centre
+allowDiscussion: None
+subject: Question
+description: 
+contributors: 
+creators: admin
+effectiveDate: 2007/03/20 14:37:48.312 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 14:37:47.872 GMT+2
+modification_date: 2007/03/20 14:37:48.315 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 14:37:47.875 GMT+2
+endDate: 2007/03/21 14:37:47.875 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 14:37:47.881 GMT+2
+otherSignatories: 
+requireWrittenAnswer: False
+respondents: 
+Content-Type: text/html
+
+<p>Mr. Moiben asked the Minister for Health</p> <ul id="ul7"> <li>when Saboti Health Centre will be operational and officially opened; and,</li> <li>when the Health Centre will be supplied with electricity.</li> </ul>
+
+------ 2007-03-20 19:00:01,213 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+id: open-source-implementation-in-government
+title: Open source implementation in government....
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: None
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/20 19:00:00.675 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 18:59:59.738 GMT+2
+endDate: 2007/03/21 18:59:59.738 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 18:59:59.757 GMT+2
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for bungeni has progressed</li></ul>
+
+
+------ 2007-03-20 19:01:19,749 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+transition: submit_to_clerk
+id: open-source-implementation-in-government
+title: Open source implementation in government....
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/20 19:01:19.584 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 18:59:59.738 GMT+2
+endDate: 2007/03/21 18:59:59.738 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 18:59:59.757 GMT+2
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for bungeni has progressed</li></ul>
+
+
+------ 2007-03-20 19:01:59,744 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+transition: retract
+id: open-source-implementation-in-government
+title: Open source implementation in government....
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/20 19:01:19.584 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 18:59:59.738 GMT+2
+endDate: 2007/03/21 18:59:59.738 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 18:59:59.757 GMT+2
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for bungeni has progressed</li></ul>
+
+
+------ 2007-03-20 19:03:01,718 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+id: open-source-implementation-in-government
+title: Open source implementation in government....
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/20 19:03:01.410 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 18:59:59.738 GMT+2
+endDate: 2007/03/21 18:59:59.738 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 18:59:59.757 GMT+2
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for Bungeni has progressed</li><li>Whether procurement of hardware has begun<br /></li></ul>
+
+
+------ 2007-03-20 19:04:45,178 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+id: open-source-implementation-in-government
+title: Open source implementation in government....
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/20 19:04:45.021 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 18:59:59.738 GMT+2
+endDate: 2007/03/21 18:59:59.738 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 18:59:59.757 GMT+2
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for Bungeni has progressed</li><li>Whether procurement of hardware has begun and progressed.<br /></li></ul>
+
+
+------ 2007-03-20 19:05:27,380 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+transition: submit_to_clerk
+id: open-source-implementation-in-government
+title: Open source implementation in government....
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/20 19:04:45.021 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 18:59:59.738 GMT+2
+endDate: 2007/03/21 18:59:59.738 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 18:59:59.757 GMT+2
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for Bungeni has progressed</li><li>Whether procurement of hardware has begun and progressed.<br /></li></ul>
+
+
+------ 2007-03-20 19:45:32,074 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+id: open-source-implementation-in-government
+title: Open source implementation in government of kenya
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/20 19:45:31.752 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 18:59:59.738 GMT+2
+endDate: 2007/03/21 18:59:59.738 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 18:59:59.757 GMT+2
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for Bungeni has progressed</li><li>Whether procurement of hardware has commenced .<br /></li></ul>
+
+
+------ 2007-03-20 19:49:14,108 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+transition: submit_to_speaker
+id: open-source-implementation-in-government
+title: Open source implementation in government of kenya
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/20 19:45:31.752 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 18:59:59.738 GMT+2
+endDate: 2007/03/21 18:59:59.738 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 18:59:59.757 GMT+2
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for Bungeni has progressed</li><li>Whether procurement of hardware has commenced .<br /></li></ul>
+
+
+------ 2007-03-20 23:32:26,165 ------ INFO ------
+uid: 3f9447c6531fd870165c0e1c18da8917
+portal_type: Question
+id: question-regarding-attack-on-councillor-abdi-sole
+title: Question regarding attack on Councillor Abdi Sole
+allowDiscussion: None
+subject: Question
+description: Addressing the security issue in and around the city
+contributors: 
+creators: admin
+effectiveDate: 2007/03/20 14:37:46.674 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 14:37:42.646 GMT+2
+modification_date: 2007/03/20 23:32:25.190 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 14:37:42.648 GMT+2
+endDate: 2007/03/21 14:37:42.648 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 14:37:42.655 GMT+2
+otherSignatories: 
+requireWrittenAnswer: False
+respondents: 1416b43adb8c98f52a115036d5199325
+  a981cb7a8ba04e058499f014045470af
+  0f6ba0f1135e2907a62ce80e9113f8ff
+  28e13c180986d11c8a10f92a319f68df
+  3f9100338246213a057ced0ec84ad7f6
+Content-Type: text/html
+
+
+<p>Mr. Kofa asks the Minister of State, Office of the President:<br /></p>
+<ul><li>whether he is aware that Councillor Abdi Sole of Asako Location was seriously injured and two homeguards were shot dead and their guns stolen while pursuing bandits on 20th May, 1995;</li><li>who instructed these people to pursue the heavily armed bandits; and,</li><li>if the Ministry can ensure that the families of the deceased homeguards are compensated and that Councillor Sole's medical expenses are paid in full.</li></ul>
+<p><br /><br /></p>
+
+
+------ 2007-03-21 12:12:28,356 ------ INFO ------
+uid: 62ffc83c2e0885fa662f0236468ca553
+portal_type: Clerk
+transition: trigger
+id: speaker
+allowDiscussion: None
+subject: 
+description: 
+contributors: 
+creators: admin
+effectiveDate: None
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/21 12:12:27.648 GMT+2
+modification_date: 2007/03/21 12:12:28.082 GMT+2
+salutation: 
+firstname: 
+surname: Speaker
+fullname: Speaker
+dateOfBirth: None
+placeOfBirth: None
+gender: 
+maidenName: 
+dateOfDeath: None
+nationalIdNumber: 
+email: jean.jordaan@gmail.com
+wysiwyg_editor: Kupu
+portal_skin: None
+visible_ids: False
+home_page: 
+location: 
+password: 
+confirm_password: 
+mail_me: False
+roles: Member
+groups: 
+domains: 
+make_private: False
+login_time: 2000/01/01
+last_login_time: 2000/01/01
+Content-Type: text/plain
+
+
+
+------ 2007-03-21 12:12:29,854 ------ INFO ------
+uid: 62ffc83c2e0885fa662f0236468ca553
+portal_type: Clerk
+transition: auto_register
+id: speaker
+allowDiscussion: None
+subject: 
+description: 
+contributors: 
+creators: admin
+effectiveDate: None
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/21 12:12:27.648 GMT+2
+modification_date: 2007/03/21 12:12:28.082 GMT+2
+salutation: 
+firstname: 
+surname: Speaker
+fullname: Speaker
+dateOfBirth: None
+placeOfBirth: None
+gender: 
+maidenName: 
+dateOfDeath: None
+nationalIdNumber: 
+email: jean.jordaan@gmail.com
+wysiwyg_editor: Kupu
+portal_skin: None
+visible_ids: False
+home_page: 
+location: 
+password: 
+confirm_password: 
+mail_me: False
+roles: Member
+groups: 
+domains: 
+make_private: False
+login_time: 2000/01/01
+last_login_time: 2000/01/01
+Content-Type: text/plain
+
+
+
+------ 2007-03-21 12:12:29,949 ------ INFO ------
+uid: 62ffc83c2e0885fa662f0236468ca553
+portal_type: Clerk
+id: speaker
+allowDiscussion: None
+subject: 
+description: 
+contributors: 
+creators: admin
+effectiveDate: None
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/21 12:12:27.648 GMT+2
+modification_date: 2007/03/21 12:12:28.082 GMT+2
+salutation: 
+firstname: 
+surname: Speaker
+fullname: Speaker
+dateOfBirth: None
+placeOfBirth: None
+gender: 
+maidenName: 
+dateOfDeath: None
+nationalIdNumber: 
+email: jean.jordaan@gmail.com
+wysiwyg_editor: Kupu
+portal_skin: None
+visible_ids: False
+home_page: 
+location: 
+password: 
+confirm_password: 
+mail_me: False
+roles: Member
+groups: 
+domains: 
+make_private: False
+login_time: 2000/01/01
+last_login_time: 2000/01/01
+Content-Type: text/plain
+
+
+
+------ 2007-03-21 12:16:50,348 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+id: open-source-implementation-in-government
+title: Open source implementation in government of Republic of Kenya
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/21 12:16:49.780 GMT+2
+excludeFromNav: False
+startDate: 2007/04/18
+endDate: 2007/04/19
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 18:59:59.757 GMT+2
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for Bungeni has progressed</li><li>Whether procurement of hardware has commenced .<br /></li></ul>
+
+
+------ 2007-03-21 12:18:27,816 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+id: open-source-implementation-in-government
+title: Open source implementation in government of Republic of Kenya
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/21 12:18:27.683 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 18:59:59.738 GMT+2
+endDate: 2007/03/21 18:59:59.738 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/04/10 18:00:00 GMT+0
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for Bungeni has progressed</li><li>Whether procurement of hardware has commenced .<br /></li></ul>
+
+
+------ 2007-03-21 12:19:18,852 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+id: open-source-implementation-in-government
+title: Open source implementation in government of kenya
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/21 12:19:18.401 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 18:59:59.738 GMT+2
+endDate: 2007/03/21 18:59:59.738 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 18:59:59.757 GMT+2
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for Bungeni has progressed</li><li>Whether procurement of hardware has commenced .<br /></li></ul>
+
+
+------ 2007-03-21 12:23:02,294 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+id: open-source-implementation-in-government
+title: Open source implementation in government of Republic of Kenya
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/21 12:23:02.140 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 18:59:59.738 GMT+2
+endDate: 2007/03/21 18:59:59.738 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/04/11 18:00:00 GMT+0
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for Bungeni has progressed</li><li>Whether procurement of hardware has commenced .<br /></li></ul>
+
+
+------ 2007-03-21 12:23:41,949 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+id: open-source-implementation-in-government
+title: Open source implementation in government of Republic of Kenya
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/21 12:23:41.814 GMT+2
+excludeFromNav: False
+startDate: 2007/04/10 18:00:00 GMT+0
+endDate: 2007/04/11 18:00:00 GMT+0
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/04/11 18:00:00 GMT+0
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for Bungeni has progressed</li><li>Whether procurement of hardware has commenced .<br /></li></ul>
+
+
+------ 2007-03-21 12:24:05,400 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+id: open-source-implementation-in-government
+title: Open source implementation in government of Republic of Kenya
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/21 12:24:05.263 GMT+2
+excludeFromNav: False
+startDate: 2007/04/11 20:00:00 GMT+0
+endDate: 2007/04/12 20:00:00 GMT+0
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/04/11 18:00:00 GMT+0
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for Bungeni has progressed</li><li>Whether procurement of hardware has commenced .<br /></li></ul>
+
+
+------ 2007-03-21 12:26:20,384 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+id: open-source-implementation-in-government
+title: Open source implementation in government of Republic of Kenya
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/21 12:26:19.665 GMT+2
+excludeFromNav: False
+startDate: 2007/04/11 20:00:00 GMT+0
+endDate: 2007/04/12 20:00:00 GMT+0
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/04/11 18:00:00 GMT+0
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for Bungeni has progressed</li><li>Whether procurement of hardware has commenced .</li><li>Whether appropriate reports have been sent to the minsitry<br /></li></ul>
+
+
+------ 2007-03-21 12:27:31,619 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+id: open-source-implementation-in-government
+title: Open source implementation in government of Republic of Kenya
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/21 12:27:31.568 GMT+2
+excludeFromNav: False
+startDate: 2007/04/11 20:00:00 GMT+0
+endDate: 2007/04/12 20:00:00 GMT+0
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/04/11 18:00:00 GMT+0
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for Bungeni has progressed</li><li>Whether appropriate reports have been sent to the minsitry<br /></li></ul>
+
+
+------ 2007-03-21 12:28:36,614 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+transition: approve
+id: open-source-implementation-in-government
+title: Open source implementation in government of Republic of Kenya
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/21 12:27:31.568 GMT+2
+excludeFromNav: False
+startDate: 2007/04/11 20:00:00 GMT+0
+endDate: 2007/04/12 20:00:00 GMT+0
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/04/11 18:00:00 GMT+0
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for Bungeni has progressed</li><li>Whether appropriate reports have been sent to the minsitry<br /></li></ul>
+
+
+------ 2007-03-21 13:04:59,442 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+transition: schedule
+id: open-source-implementation-in-government
+title: Open source implementation in government of Republic of Kenya
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/21 12:27:31.568 GMT+2
+excludeFromNav: False
+startDate: 2007/04/11 20:00:00 GMT+0
+endDate: 2007/04/12 20:00:00 GMT+0
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/04/11 18:00:00 GMT+0
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for Bungeni has progressed</li><li>Whether appropriate reports have been sent to the minsitry<br /></li></ul>
+
+
+------ 2007-03-21 13:05:31,961 ------ INFO ------
+uid: cebc81bbab10b446299e3ba186d4a3ac
+portal_type: Question
+transition: table
+id: open-source-implementation-in-government
+title: Open source implementation in government of Republic of Kenya
+allowDiscussion: None
+subject: Question
+description: Adoption of the open source platform and products within parliament
+contributors: 
+creators: hugava-tila-kifa
+effectiveDate: 2007/03/20 19:01:19.577 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 18:59:59.733 GMT+2
+modification_date: 2007/03/21 12:27:31.568 GMT+2
+excludeFromNav: False
+startDate: 2007/04/11 20:00:00 GMT+0
+endDate: 2007/04/12 20:00:00 GMT+0
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/04/11 18:00:00 GMT+0
+otherSignatories: 7ae0cfa5402d47544fde4ae4cc013ea1
+requireWrittenAnswer: True
+respondents: 28e13c180986d11c8a10f92a319f68df
+Content-Type: text/html
+
+
+<ul><li>Whether the adoption of open source by government departments is on course</li><li>Whether the schedules of interviews for technical staff have been conducted</li><li>Whether data collection for Bungeni has progressed</li><li>Whether appropriate reports have been sent to the minsitry<br /></li></ul>
+
+
+------ 2007-03-21 13:06:55,567 ------ INFO ------
+uid: 3f9447c6531fd870165c0e1c18da8917
+portal_type: Question
+transition: submit_to_speaker
+id: question-regarding-attack-on-councillor-abdi-sole
+title: Question regarding attack on Councillor Abdi Sole
+allowDiscussion: None
+subject: Question
+description: Addressing the security issue in and around the city
+contributors: 
+creators: admin
+effectiveDate: 2007/03/20 14:37:46.674 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 14:37:42.646 GMT+2
+modification_date: 2007/03/20 23:32:25.190 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 14:37:42.648 GMT+2
+endDate: 2007/03/21 14:37:42.648 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 14:37:42.655 GMT+2
+otherSignatories: 
+requireWrittenAnswer: False
+respondents: 1416b43adb8c98f52a115036d5199325
+  a981cb7a8ba04e058499f014045470af
+  0f6ba0f1135e2907a62ce80e9113f8ff
+  28e13c180986d11c8a10f92a319f68df
+  3f9100338246213a057ced0ec84ad7f6
+Content-Type: text/html
+
+
+<p>Mr. Kofa asks the Minister of State, Office of the President:<br /></p>
+<ul><li>whether he is aware that Councillor Abdi Sole of Asako Location was seriously injured and two homeguards were shot dead and their guns stolen while pursuing bandits on 20th May, 1995;</li><li>who instructed these people to pursue the heavily armed bandits; and,</li><li>if the Ministry can ensure that the families of the deceased homeguards are compensated and that Councillor Sole's medical expenses are paid in full.</li></ul>
+<p><br /><br /></p>
+
+
+------ 2007-03-21 13:07:02,263 ------ INFO ------
+uid: 3f9447c6531fd870165c0e1c18da8917
+portal_type: Question
+transition: approve
+id: question-regarding-attack-on-councillor-abdi-sole
+title: Question regarding attack on Councillor Abdi Sole
+allowDiscussion: None
+subject: Question
+description: Addressing the security issue in and around the city
+contributors: 
+creators: admin
+effectiveDate: 2007/03/20 14:37:46.674 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 14:37:42.646 GMT+2
+modification_date: 2007/03/20 23:32:25.190 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 14:37:42.648 GMT+2
+endDate: 2007/03/21 14:37:42.648 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 14:37:42.655 GMT+2
+otherSignatories: 
+requireWrittenAnswer: False
+respondents: 1416b43adb8c98f52a115036d5199325
+  a981cb7a8ba04e058499f014045470af
+  0f6ba0f1135e2907a62ce80e9113f8ff
+  28e13c180986d11c8a10f92a319f68df
+  3f9100338246213a057ced0ec84ad7f6
+Content-Type: text/html
+
+
+<p>Mr. Kofa asks the Minister of State, Office of the President:<br /></p>
+<ul><li>whether he is aware that Councillor Abdi Sole of Asako Location was seriously injured and two homeguards were shot dead and their guns stolen while pursuing bandits on 20th May, 1995;</li><li>who instructed these people to pursue the heavily armed bandits; and,</li><li>if the Ministry can ensure that the families of the deceased homeguards are compensated and that Councillor Sole's medical expenses are paid in full.</li></ul>
+<p><br /><br /></p>
+
+
+------ 2007-03-21 13:07:08,412 ------ INFO ------
+uid: 3f9447c6531fd870165c0e1c18da8917
+portal_type: Question
+transition: schedule
+id: question-regarding-attack-on-councillor-abdi-sole
+title: Question regarding attack on Councillor Abdi Sole
+allowDiscussion: None
+subject: Question
+description: Addressing the security issue in and around the city
+contributors: 
+creators: admin
+effectiveDate: 2007/03/20 14:37:46.674 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 14:37:42.646 GMT+2
+modification_date: 2007/03/20 23:32:25.190 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 14:37:42.648 GMT+2
+endDate: 2007/03/21 14:37:42.648 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 14:37:42.655 GMT+2
+otherSignatories: 
+requireWrittenAnswer: False
+respondents: 1416b43adb8c98f52a115036d5199325
+  a981cb7a8ba04e058499f014045470af
+  0f6ba0f1135e2907a62ce80e9113f8ff
+  28e13c180986d11c8a10f92a319f68df
+  3f9100338246213a057ced0ec84ad7f6
+Content-Type: text/html
+
+
+<p>Mr. Kofa asks the Minister of State, Office of the President:<br /></p>
+<ul><li>whether he is aware that Councillor Abdi Sole of Asako Location was seriously injured and two homeguards were shot dead and their guns stolen while pursuing bandits on 20th May, 1995;</li><li>who instructed these people to pursue the heavily armed bandits; and,</li><li>if the Ministry can ensure that the families of the deceased homeguards are compensated and that Councillor Sole's medical expenses are paid in full.</li></ul>
+<p><br /><br /></p>
+
+
+------ 2007-03-21 13:07:21,192 ------ INFO ------
+uid: 3f9447c6531fd870165c0e1c18da8917
+portal_type: Question
+transition: postpone
+id: question-regarding-attack-on-councillor-abdi-sole
+title: Question regarding attack on Councillor Abdi Sole
+allowDiscussion: None
+subject: Question
+description: Addressing the security issue in and around the city
+contributors: 
+creators: admin
+effectiveDate: 2007/03/20 14:37:46.674 GMT+2
+expirationDate: None
+language: 
+rights: 
+creation_date: 2007/03/20 14:37:42.646 GMT+2
+modification_date: 2007/03/20 23:32:25.190 GMT+2
+excludeFromNav: False
+startDate: 2007/03/20 14:37:42.648 GMT+2
+endDate: 2007/03/21 14:37:42.648 GMT+2
+location: 
+attendees: 
+eventUrl: 
+contactName: 
+contactEmail: 
+contactPhone: 
+relatedItems: 
+tabledDate: 2007/03/20 14:37:42.655 GMT+2
+otherSignatories: 
+requireWrittenAnswer: False
+respondents: 1416b43adb8c98f52a115036d5199325
+  a981cb7a8ba04e058499f014045470af
+  0f6ba0f1135e2907a62ce80e9113f8ff
+  28e13c180986d11c8a10f92a319f68df
+  3f9100338246213a057ced0ec84ad7f6
+Content-Type: text/html
+
+
+<p>Mr. Kofa asks the Minister of State, Office of the President:<br /></p>
+<ul><li>whether he is aware that Councillor Abdi Sole of Asako Location was seriously injured and two homeguards were shot dead and their guns stolen while pursuing bandits on 20th May, 1995;</li><li>who instructed these people to pursue the heavily armed bandits; and,</li><li>if the Ministry can ensure that the families of the deceased homeguards are compensated and that Councillor Sole's medical expenses are paid in full.</li></ul>
+<p><br /><br /></p>
+
+

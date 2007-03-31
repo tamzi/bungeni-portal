@@ -1,0 +1,31 @@
+CREATE TABLE "portal_attribute_mapping" (
+  "id" int(11) NOT NULL primary key,
+  "portal_mapping_id" int(11) default NULL,
+  "plone_attribute_field" char(100) default NULL,
+  "registry_attribute_field" char(100) default NULL
+);
+
+INSERT INTO "portal_attribute_mapping" VALUES (1,1,'uid','uid');
+INSERT INTO "portal_attribute_mapping" VALUES (2,1,'id','id');
+INSERT INTO "portal_attribute_mapping" VALUES (3,1,'title','title');
+INSERT INTO "portal_attribute_mapping" VALUES (4,1,'effectiveDate','effectiveDate');
+INSERT INTO "portal_attribute_mapping" VALUES (5,1,'expirationDate','expirationDate');
+INSERT INTO "portal_attribute_mapping" VALUES (6,1,'language','language');
+INSERT INTO "portal_attribute_mapping" VALUES (7,1,'creation_date','creation_date');
+INSERT INTO "portal_attribute_mapping" VALUES (8,1,'modification_date','modification_date');
+INSERT INTO "portal_attribute_mapping" VALUES (9,1,'startDate','startDate');
+INSERT INTO "portal_attribute_mapping" VALUES (10,1,'endDate','endDate');
+INSERT INTO "portal_attribute_mapping" VALUES (11,1,'creators','creators');
+INSERT INTO "portal_attribute_mapping" VALUES (12,1,'respondents','respondents');
+INSERT INTO "portal_attribute_mapping" VALUES (13,1,'message_content','content');
+INSERT INTO "portal_attribute_mapping" VALUES (16,1,'action','action');
+INSERT INTO "portal_attribute_mapping" VALUES (15,1,'requireWrittenAnswer','requireWrittenAnswer');
+INSERT INTO "portal_attribute_mapping" VALUES (14,1,'otherSignatories','otherSignatories');
+
+CREATE TABLE "portal_type_mapping" (
+  "portal_mapping_id" int(11) primary key,
+  "portal_type" char(100) default NULL,
+  "registry_type" char(100) default NULL
+);
+
+

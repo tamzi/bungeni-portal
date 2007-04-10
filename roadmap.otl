@@ -1,9 +1,12 @@
 Bungeni Roadmap
+	What is this?
 	: This is a "view from 10,000 feet". More detailed documents will be
 	: referenced from this one as they become available.
 	Format
 		This document is maintained using [http://www.vimoutliner.org/ VimOutliner]
 Systems involved
+	: This section lists all the systems used in Bungeni. They may themselves
+	: be complex (have subsystems).
 	Plone
 		: These are all the Plone Products that together make up the Bungeni
 		: portal.
@@ -16,8 +19,9 @@ Systems involved
 	OOo
 		Editing of Hansard and Bills
 	Registry
+		: Uses MySQL or other RDBMS
 		Audit log consumer
-	AkomaNtoso
+	NormaAfrica
 		URI resolver
 	eXist
 		XML database
@@ -37,6 +41,8 @@ Communication between systems
 		OOo reads from registry to populate various dropdowns, etc.
 	Plone -> NormaAfrica/resolver
 		Plone asks for URIs
+			Each legal document (e.g. Bill) gets an unchanging URI
+			This is supplied by a naming service
 		Plone sends AkomaNtosoXML documents 
 		Plone queries documents AkomaNtosoXML documents
 	OOo (Plone?) -> eXist
@@ -45,8 +51,10 @@ Communication between systems
 	Plone -> Calendaring applications
 		Bungeni publishes calendar feeds as ical
 Dependencies between systems
+	: If one system is down, the functioning of the other is impaired or
+	: prevented.
 	OOo -> Plone
-		OOo needs to retrieve annotations from Plone
+		OOo needs to retrieve RSS2 feeds from Plone
 		OOo needs to push Hansard & other docs to Plone for browsing
 	OOo -> registry
 		OOo uses the registry to populate various choices
@@ -59,9 +67,26 @@ Research to do
 	eXist integration
 		eXist use cases: what queries do we need that Plone can't do
 	XML in Silva
+		: We should do as much as we can within Plone, even if eXist is used
+		: as a repository for XML documents. Ideally, the Bungeni portal
+		: should be able to work without depending on any external systems.
+		: I'd like to find out what XML-handling capacity Silva has, and
+		: whether we can use it.
 		How is XML handled in Silva? Transformations? Can we use it in Bungeni?
+		Related to eXist integration.
 	Transformation of incoming AkomaNtosoXML to PHC subclasses
-	Should Marginalia use KSS?
+	Can Marginalia use [http://kukit.org/ KSS]?
+		Yes
+			The creation of annotations, both temporary and permanent
+			The creation of the HTML snippets for editing
+		No
+			The range-finding code
+		What does it entail?
+			Custom annotation template
+			We ignore a lot of marginalia js, mainly use the range-calculating
+		All KSS functionality is Plone-specific
+			Actually other systems could also use KSS, but none do for now
+			How easy is it for other systems to use KSS?
 	Impact of migrating to Plone 3
 	ZSQLCatalog 
 		: can be viewed as a kind of Relational Online Analytical Processing
@@ -74,9 +99,29 @@ Research to do
 			: store past relationships)
 	Public participation
 		Can anyone join? Any citizen?
+			: We should talk through scenarios and their implications for
+			: scaling and vulnerability. If we allow anyone to sign up, how do
+			: we prevent one person from creating an army of users? If we
+			: require an ID number (if there is one) how do we prevent
+			: identity theft?
+			Levels of participation
+				Informal
+					We don't really care about identity, we'd just like to get an idea
+				Formal
+					Voting 
+						It's really important that someone is who they say they are
+			Single sign-on considerations
+				For public access, we could potentially integrate with existing directories
+					Some countries already have databases of citizens
+				If we're building a directory, other applications could use it
+					Integrate an [http://openid.net/ OpenID] server?
+						: Members of the public may already have an OpenID
+						: identity. Let them use this? Or provide an OpenID
+						: interface to our directory, for other applications
+						: to use?
 		Commenting/annotation
 			Spam protection
-				Akismet integration
+				[http://akismet.com/ Akismet] integration
 		Voting/surveying
 			Cellphones: ask a question of a constituency, get immediate answers per SMS
 	Use of ontology
@@ -103,10 +148,18 @@ Overarching tasks
 	Deployment
 		Release process (tagging, bundling, installing)
 			Possible outputs
-				VMWare appliance, or similar virtual "Bungeni-in-a-box"
+				VMWare appliance, or similar *virtual* "Bungeni-in-a-box"
 				Real "Bungeni-in-a-box" (pre-installed server)
 				Hosted Bungeni (web app)
+					: Hosted is ideal, takes a lot of technical support work
+					: out of the picture.
 				Intranet Bungeni (a machine on the parliament's intranet)
+					: Intranet instances would be required out of data
+					: security/ownership concerns, but can hurt this as much
+					: as help. We should explore specifying a secure hosting
+					: offering that would be acceptable to parliaments. E.g.
+					: offsite backups go to parliamentary servers, but the
+					: running system is maintained by the hosting provider.
 		Bungeni federation/standardisation
 			: "federation": setting up one Bungeni instance to look at others;
 			: e.g. in a local/national government type deployment.
@@ -150,8 +203,23 @@ Development tasks per system
 			Bills
 				How closely do we model the parliamentary process?
 					: I.e. is our workflow document-management-oriented, or is
-					: it strictly parliamentary?
+					: it strictly parliamentary? Document-management-oriented
+					: workflow may only reflect changes in the content or
+					: accessibility of a document. Parliamentary workflow may
+					: additionally reflect changes in the formal status of a
+					: document. In the first case, we just look at the
+					: requirements of the portal (who needs to see the
+					: document, what needs to be done to it). In the second
+					: case, we also look at the parliamentary processes, that
+					: may include more steps and shades of meaning than we
+					: implement in the portal.
 				Who takes a bill through this process?
+					: Say a document has been scheduled for some day, but has
+					: not been debated. Someone needs to signal this to the
+					: system. Similarly other formal status changes may need
+					: to be signalled. Someone needs to go and select some
+					: documents and move them to their new state. Which group
+					: does this, what is its members?
 		Translation, LinguaPlone
 		Presentation, browsing, searching of parliamentary docs
 		Calendaring
@@ -159,7 +227,13 @@ Development tasks per system
 			What is the workflow for bumped events?
 		Templating
 			How far can we use auto-generated archetypes forms?
+				: The current forms are auto-generated. If we want them to
+				: look a very different, we'll have to hand-craft  new forms,
+				: or tune the underlying base_... forms.
 			Customise base_edit to incorporate some metadata fields?
+				: Most of the metadata  fields are on the "properties" tab,
+				: not the "edit" tab.  If we want them to see more use, they
+				: could be moved to the "edit" tab.
 		Integration of PloneOntology
 			Who manages the ontology?
 	Marginalia
@@ -169,6 +243,11 @@ Development tasks per system
 			variant forms
 				choose one which becomes (part of) the annotation text (current) 
 				choose a *type of* annotation (insert/delete/substitute)
+				reference Plone documents from an annotation
+					: E.g. the annotation could be a short note referencing a
+					: more substantial formatted document.
+					Implications for RSS2 feed of annotations? 
+						RDF pointer at the document as an external resource?
 		Adapt document (Bills, etc) to IAnnotatable, instead of subclassing AnnotatableDocument
 			cf. audio files in Plone4Artists project
 		Make sure that all kinds of annotation works (overlapping, nested, etc.)

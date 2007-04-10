@@ -1,0 +1,199 @@
+Bungeni Roadmap
+	: This is a "view from 10,000 feet". More detailed documents will be
+	: referenced from this one as they become available.
+	Format
+		This document is maintained using [http://www.vimoutliner.org/ VimOutliner]
+Systems involved
+	Plone
+		: These are all the Plone Products that together make up the Bungeni
+		: portal.
+		Bungeni
+		Marginalia
+		BungeniSkin
+			BungeniSkinXX
+		AuditTrail
+		Public Website
+	OOo
+		Editing of Hansard and Bills
+	Registry
+		Audit log consumer
+	AkomaNtoso
+		URI resolver
+	eXist
+		XML database
+Communication between systems
+	Plone -> OOo
+		OOo reads RSS2 feeds from Plone
+			annotations 
+			questions
+			motions
+			tabled documents
+			calendar events
+	OOo -> Plone
+		OOo posts documents (Hansard, Bills) to Plone via WebDAV
+	Registry
+		Plone writes audit log
+		Registry feeder reads audit log
+		OOo reads from registry to populate various dropdowns, etc.
+	Plone -> NormaAfrica/resolver
+		Plone asks for URIs
+		Plone sends AkomaNtosoXML documents 
+		Plone queries documents AkomaNtosoXML documents
+	OOo (Plone?) -> eXist
+		Stores XML documents in eXist
+		Does XQuery, XPath queries against eXist
+	Plone -> Calendaring applications
+		Bungeni publishes calendar feeds as ical
+Dependencies between systems
+	OOo -> Plone
+		OOo needs to retrieve annotations from Plone
+		OOo needs to push Hansard & other docs to Plone for browsing
+	OOo -> registry
+		OOo uses the registry to populate various choices
+			any chance of querying Plone directly?
+	Plone -> eXist (?)
+		Doing arbitrary XPath/XQuery queries against AkomaNtosoXML documents
+	Registry -> Audit log
+		The audit log needs to be kept up to date for the registry to reflect Plone
+Research to do
+	eXist integration
+		eXist use cases: what queries do we need that Plone can't do
+	XML in Silva
+		How is XML handled in Silva? Transformations? Can we use it in Bungeni?
+	Transformation of incoming AkomaNtosoXML to PHC subclasses
+	Should Marginalia use KSS?
+	Impact of migrating to Plone 3
+	ZSQLCatalog 
+		: can be viewed as a kind of Relational Online Analytical Processing
+		: (ROLAP) component for object databases, and it provides a nice
+		: interface for extracting reports from the object database into
+		: OpenOffice or Microsoft Excel spreadsheets.
+		Alternative to registry for querying
+		Different use case
+			: ZSQLCatalog is for searching, but not for time travel (doesn't
+			: store past relationships)
+	Public participation
+		Can anyone join? Any citizen?
+		Commenting/annotation
+			Spam protection
+				Akismet integration
+		Voting/surveying
+			Cellphones: ask a question of a constituency, get immediate answers per SMS
+	Use of ontology
+		: Given that we have a multilingual ontology, what use will be made of
+		: it in the portal? Will it be used to provide alternative navigation
+		: structures? How should it be shown during browsing of documents? I
+		: don't think we can answer these yet, we need more content to play
+		: with.
+		Interrelation of content
+		Alternative navigation structure
+	Security
+		Define the kind of security Bungeni should offer
+		Access control
+		Tamper-resistant data ([http://www.wayner.org/books/td/ translucent data])
+	Future
+		GIS integration (the Dutch guys)
+Overarching tasks
+	Testing
+		Writing unit tests
+		Writing functional tests
+			[http://plone.org/documentation/tutorial/testing/functional-tests testbrowser]
+			[http://ingeniweb.sourceforge.net/Products/PloneSelenium/ selenium]
+		Load testing
+	Deployment
+		Release process (tagging, bundling, installing)
+			Possible outputs
+				VMWare appliance, or similar virtual "Bungeni-in-a-box"
+				Real "Bungeni-in-a-box" (pre-installed server)
+				Hosted Bungeni (web app)
+				Intranet Bungeni (a machine on the parliament's intranet)
+		Bungeni federation/standardisation
+			: "federation": setting up one Bungeni instance to look at others;
+			: e.g. in a local/national government type deployment.
+			: "standardisation": Bungeni can be customised, but this should
+			: not be allowed to jeopardise interoperability, so we should
+			: specify what's allowed.
+			Do Bungeni instances exchange information?
+				e.g. one Bungeni instance may be interested in events created on a different one
+			What may be customised?
+				Yes: skins.
+				No: AkomaNtosoXML (may be extended, but according to spec).
+				: If workflow/permissions is customised too much, training and
+				: public access, mashups, 3rdparty systems become problematic.
+		System administration
+			What is needed to keep a Bungeni implementation running?
+	Documentation & training
+		Creation of personas, writing use cases as stories featuring personas
+		Document the use of member/role/group/team/workspace in Bungeni
+		Write scenarios of how Bungeni can fit into the day-to-day at parliament
+			: Who enters data, on which computers, how is info looked up, is
+			: it selected, formatted & printed as handouts/notes in
+			: parliament, what about MPs who don't know computers, ...
+		Screencasts
+			Scripting
+			Recording
+			Editing
+			Play through abovementioned use cases
+		Training courses
+			For MP
+			For clerical staff
+				Editing
+				Administrative
+			For legal drafters
+Development tasks per system
+	: Many of these need BIPs
+	Bungeni
+		: Areas that need attention, need fleshing out
+		Workflow/security
+			Default
+			Question/motion
+			Bills
+				How closely do we model the parliamentary process?
+					: I.e. is our workflow document-management-oriented, or is
+					: it strictly parliamentary?
+				Who takes a bill through this process?
+		Translation, LinguaPlone
+		Presentation, browsing, searching of parliamentary docs
+		Calendaring
+			How do events get scheduled
+			What is the workflow for bumped events?
+		Templating
+			How far can we use auto-generated archetypes forms?
+			Customise base_edit to incorporate some metadata fields?
+		Integration of PloneOntology
+			Who manages the ontology?
+	Marginalia
+		Make it solid across browsers
+		Extend keyword concept 
+			per document type
+			variant forms
+				choose one which becomes (part of) the annotation text (current) 
+				choose a *type of* annotation (insert/delete/substitute)
+		Adapt document (Bills, etc) to IAnnotatable, instead of subclassing AnnotatableDocument
+			cf. audio files in Plone4Artists project
+		Make sure that all kinds of annotation works (overlapping, nested, etc.)
+		Extend browsing of annotations (per user, per paragraph, see stet)
+		Different roles can see only own annotations/various users' annotations
+		Store annotations per-document, rather than in tool?
+			Think through pros & cons
+		Presentation of annotation
+			show more of source document context
+			Each annotation can become root of a discussion thread
+		From annotations to amendments
+			Order annotations for discussion (most radical first)
+			Take annotations from lightweight marginalia to more formal OOo amendments
+				Amendment is a different content type from annotation
+	BungeniSkin
+		BungeniSkinXX
+			Convert from qPloneSkinDump to ArchGenXML-based skins
+	AuditTrail
+		Check file locking
+			Can't read while writing
+			Can't rotate file while writing
+		Formulate protocol for offsite backup
+		Formulate protocol for registry logfile consumption
+	Public Website
+		: Currently, this is just a publically-browsable content hierarchy in
+		: Bungeni. In practice, this may be rooted in e.g. /public/ in Plone
+		: and published to a remote server using deliverance or one of the
+		: deployment products.

@@ -52,16 +52,6 @@ def installWorkflows(self, package, out):
     workflowTool.setChainForPortalTypes(['ATFile', 'LegislationFolder'], workflow.getId())
 
     ourProductWorkflow = ExternalMethod('temp', 'temp',
-                                        productname+'.'+'MemberAutoWorkflow',
-                                        'createMemberAutoWorkflow')
-    workflow = ourProductWorkflow(self, 'MemberAutoWorkflow')
-    if 'MemberAutoWorkflow' in workflowTool.listWorkflows():
-        print >> out, 'MemberAutoWorkflow already in workflows.'
-    else:
-        workflowTool._setObject('MemberAutoWorkflow', workflow)
-    workflowTool.setChainForPortalTypes(['MemberOfParliament', 'Clerk'], workflow.getId())
-
-    ourProductWorkflow = ExternalMethod('temp', 'temp',
                                         productname+'.'+'MemberApprovalWorkflow',
                                         'createMemberApprovalWorkflow')
     workflow = ourProductWorkflow(self, 'MemberApprovalWorkflow')
@@ -70,6 +60,26 @@ def installWorkflows(self, package, out):
     else:
         workflowTool._setObject('MemberApprovalWorkflow', workflow)
     workflowTool.setChainForPortalTypes(['MemberOfPublic'], workflow.getId())
+
+    ourProductWorkflow = ExternalMethod('temp', 'temp',
+                                        productname+'.'+'MotionWorkflow',
+                                        'createMotionWorkflow')
+    workflow = ourProductWorkflow(self, 'MotionWorkflow')
+    if 'MotionWorkflow' in workflowTool.listWorkflows():
+        print >> out, 'MotionWorkflow already in workflows.'
+    else:
+        workflowTool._setObject('MotionWorkflow', workflow)
+    workflowTool.setChainForPortalTypes(['Motion'], workflow.getId())
+
+    ourProductWorkflow = ExternalMethod('temp', 'temp',
+                                        productname+'.'+'ParliamentaryEventWorkflow',
+                                        'createParliamentaryEventWorkflow')
+    workflow = ourProductWorkflow(self, 'ParliamentaryEventWorkflow')
+    if 'ParliamentaryEventWorkflow' in workflowTool.listWorkflows():
+        print >> out, 'ParliamentaryEventWorkflow already in workflows.'
+    else:
+        workflowTool._setObject('ParliamentaryEventWorkflow', workflow)
+    workflowTool.setChainForPortalTypes(['ParliamentaryEvent', 'Motion', 'Question'], workflow.getId())
 
     ourProductWorkflow = ExternalMethod('temp', 'temp',
                                         productname+'.'+'WestminsterBillWorkflow',
@@ -89,17 +99,7 @@ def installWorkflows(self, package, out):
         print >> out, 'SubWorkflow already in workflows.'
     else:
         workflowTool._setObject('SubWorkflow', workflow)
-    workflowTool.setChainForPortalTypes(['BillSection', 'BillPage', 'HansardSection', 'HansardPage'], workflow.getId())
-
-    ourProductWorkflow = ExternalMethod('temp', 'temp',
-                                        productname+'.'+'ParliamentaryEventWorkflow',
-                                        'createParliamentaryEventWorkflow')
-    workflow = ourProductWorkflow(self, 'ParliamentaryEventWorkflow')
-    if 'ParliamentaryEventWorkflow' in workflowTool.listWorkflows():
-        print >> out, 'ParliamentaryEventWorkflow already in workflows.'
-    else:
-        workflowTool._setObject('ParliamentaryEventWorkflow', workflow)
-    workflowTool.setChainForPortalTypes(['ParliamentaryEvent', 'Motion', 'Question'], workflow.getId())
+    workflowTool.setChainForPortalTypes(['BillSection', 'BillPage', 'HansardPage', 'HansardSection'], workflow.getId())
 
     ourProductWorkflow = ExternalMethod('temp', 'temp',
                                         productname+'.'+'HansardWorkflow',
@@ -110,6 +110,16 @@ def installWorkflows(self, package, out):
     else:
         workflowTool._setObject('HansardWorkflow', workflow)
     workflowTool.setChainForPortalTypes(['Hansard'], workflow.getId())
+
+    ourProductWorkflow = ExternalMethod('temp', 'temp',
+                                        productname+'.'+'MemberAutoWorkflow',
+                                        'createMemberAutoWorkflow')
+    workflow = ourProductWorkflow(self, 'MemberAutoWorkflow')
+    if 'MemberAutoWorkflow' in workflowTool.listWorkflows():
+        print >> out, 'MemberAutoWorkflow already in workflows.'
+    else:
+        workflowTool._setObject('MemberAutoWorkflow', workflow)
+    workflowTool.setChainForPortalTypes(['MemberOfParliament', 'Clerk'], workflow.getId())
 
     ##code-section after-workflow-install #fill in your manual code here
     ##/code-section after-workflow-install

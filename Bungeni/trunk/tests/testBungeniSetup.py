@@ -54,7 +54,7 @@ class testBungeniSetup(testBungeni):
     def test_tools(self):
         ids = self.portal.objectIds()
         self.failUnless('archetype_tool' in ids)
-
+        # []
     def test_types(self):
         ids = self.portal.portal_types.objectIds()
         self.failUnless('Document' in ids)

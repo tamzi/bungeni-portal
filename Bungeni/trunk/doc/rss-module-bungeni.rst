@@ -1,5 +1,5 @@
-RDF Site Summary 1.0 Modules: Content
-=====================================
+RSS Bungeni Modules: Bungeni
+============================
 
 :Authors: Jean Jordaan, Ashok Hariharan
 :Date: 2007-03-07

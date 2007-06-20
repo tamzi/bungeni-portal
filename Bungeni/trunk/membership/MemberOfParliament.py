@@ -31,8 +31,8 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
 from Products.Bungeni.membership.BungeniMember import BungeniMember
-from Products.Bungeni.interfaces.IMemberOfParliament import IMemberOfParliament
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
+from Products.Bungeni.interfaces.IMemberOfParliament import IMemberOfParliament
 # imports needed by remember
 from Products.remember.content.member import BaseMember
 from Products.remember.permissions import \
@@ -62,16 +62,17 @@ MemberOfParliament_schema = BaseSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
+# Just to fix the order of the fields.
 MemberOfParliament_schema = MemberOfParliament_schema + BungeniMember.schema.copy()
 ##/code-section after-schema
 
-class MemberOfParliament(BaseMember, BaseContent, BungeniMember):
+class MemberOfParliament(BaseMember, BungeniMember, BaseContent):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseMember,'__implements__',()),) + (getattr(BaseContent,'__implements__',()),) + (getattr(BungeniMember,'__implements__',()),)
+    __implements__ = (getattr(BaseMember,'__implements__',()),) + (getattr(BungeniMember,'__implements__',()),) + (getattr(BaseContent,'__implements__',()),)
     # zope3 interfaces
-    interface.implements(IMemberOfParliament, IAuditable)
+    interface.implements(IAuditable, IMemberOfParliament)
 
     # This name appears in the 'add' box
     archetype_name = 'MemberOfParliament'

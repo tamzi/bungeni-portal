@@ -5,28 +5,27 @@ from Products.CMFCore import permissions
 
 # Products that are integrated in Bungeni product. 
 DEPENDENCIES = [
-    'AddRemoveWidget', 
-    'PloneHelpCenter',
-    'qRSS2Syndication', # RSS2 feeds
-    'AuditTrail', 
-    'Relations',
-    ]
+        'AddRemoveWidget', 
+        'PloneHelpCenter',
+        'qRSS2Syndication', # RSS2 feeds
+        'AuditTrail', 
+        'Relations',
+        ]
 
 # Products that we want to use alongside Bungeni
 DEPENDENCIES += [
-    'iterate', # Installs CMFEditions, CMFDiffTool
-    # 'Hornet', # Requires ZMySQLdb
-    'TeamSpace',
-    'LinguaPlone', # Installs PloneLanguageTool
-    'CMFNotification', 
-    'Plone4ArtistsCalendar', # Installs CMFonFive
-    ]
+        'iterate', # Installs CMFEditions, CMFDiffTool
+        # 'Hornet', # Requires ZMySQLdb
+        'TeamSpace',
+        'LinguaPlone', # Installs PloneLanguageTool
+        'Plone4ArtistsCalendar', # Installs CMFonFive
+        ]
 
 # TODO: Move this to the model
 ACTIVE_MEMBRANE_STATES = {
-    'MemberOfParliament': ['public', 'private'],
-    'Clerk': ['public', 'private'],
-    'MemberOfPublic': ['public', 'private']
+        'MemberOfParliament': ['public', 'private'],
+        'Clerk': ['public', 'private'],
+        'MemberOfPublic': ['public', 'private']
 }
 
 # Note that though we need PloneHelpCenter in the Products dir, we don't

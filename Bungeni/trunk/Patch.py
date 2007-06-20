@@ -62,5 +62,6 @@ class Patched_PAS_MembershipTool:
 
 zLOG.LOG('Bungeni', zLOG.INFO, 'Monkey patching PlonePAS.tools.membership.MembershipTool')
 monkeyPatch(CMFCore_MembershipTool, Patched_CMFCore_MembershipTool)
+
 zLOG.LOG('Bungeni', zLOG.INFO, 'Monkey patching CMFCore.MembershipTool')
 monkeyPatch(PAS_MembershipTool, Patched_PAS_MembershipTool)

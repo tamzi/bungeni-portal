@@ -43,14 +43,14 @@ from Products.Bungeni.config import *
 from Products.Bungeni.tests.testBungeni import testBungeni
 
 # Import the tested classes
-from Products.Bungeni.content.BillPage import BillPage
+from Products.Bungeni.bills.BillPage import BillPage
 
 ##code-section module-beforeclass #fill in your manual code here
 ##/code-section module-beforeclass
 
 
 class testBillPage(testBungeni):
-    """Test-cases for class(es) ."""
+    """Test-cases for class(es) BillPage."""
 
     ##code-section class-header_testBillPage #fill in your manual code here
     ##/code-section class-header_testBillPage

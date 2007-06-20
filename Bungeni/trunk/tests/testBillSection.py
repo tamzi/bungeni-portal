@@ -43,7 +43,7 @@ from Products.Bungeni.config import *
 from Products.Bungeni.tests.testBungeni import testBungeni
 
 # Import the tested classes
-from Products.Bungeni.content.BillSection import BillSection
+from Products.Bungeni.bills.BillSection import BillSection
 
 ##code-section module-beforeclass #fill in your manual code here
 ##/code-section module-beforeclass

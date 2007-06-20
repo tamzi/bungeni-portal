@@ -40,15 +40,13 @@ if __name__ == '__main__':
 
 from Testing import ZopeTestCase
 from Products.PloneTestCase import PloneTestCase
-from Products.Bungeni.config import HAS_PLONE21
 from Products.Bungeni.config import PRODUCT_DEPENDENCIES
 from Products.Bungeni.config import DEPENDENCIES
 
 # Add common dependencies
-if not HAS_PLONE21:
-    DEPENDENCIES.append('Archetypes')
-    PRODUCT_DEPENDENCIES.append('MimetypesRegistry')
-    PRODUCT_DEPENDENCIES.append('PortalTransforms')
+DEPENDENCIES.append('Archetypes')
+PRODUCT_DEPENDENCIES.append('MimetypesRegistry')
+PRODUCT_DEPENDENCIES.append('PortalTransforms')
 PRODUCT_DEPENDENCIES.append('Bungeni')
 
 # Install all (product-) dependencies, install them too

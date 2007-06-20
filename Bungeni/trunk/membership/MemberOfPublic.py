@@ -29,6 +29,7 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from zope import interface
 from Products.Bungeni.membership.BungeniMember import BungeniMember
 # imports needed by remember
 from Products.remember.content.member import BaseMember

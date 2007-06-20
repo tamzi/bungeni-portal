@@ -29,6 +29,7 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from zope import interface
 from Products.PloneHelpCenter.content.ReferenceManualPage import HelpCenterReferenceManualPage
 from Products.Bungeni.config import *
 

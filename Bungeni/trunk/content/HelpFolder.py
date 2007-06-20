@@ -29,10 +29,16 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from zope import interface
 from Products.ATContentTypes.content.folder import ATFolder
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
+# TODO: Rationalize interface generation.
+# The 'from zope import interface' above is because default interfaces
+# are z3. However, below we have old-style __implements__ because we
+# don't implement any new-style interfaces. Either do it z3-style
+# throughout, or don't include z3 cruft if not needed.
 ##/code-section module-header
 
 schema = Schema((

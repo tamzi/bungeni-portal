@@ -64,11 +64,11 @@ Clerk_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Clerk(BaseMember, BaseContent, BungeniMember):
+class Clerk(BaseMember, BungeniMember, BaseContent):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseMember,'__implements__',()),) + (getattr(BaseContent,'__implements__',()),) + (getattr(BungeniMember,'__implements__',()),)
+    __implements__ = (getattr(BaseMember,'__implements__',()),) + (getattr(BungeniMember,'__implements__',()),) + (getattr(BaseContent,'__implements__',()),)
     # zope3 interfaces
     interface.implements(IClerk, IAuditable)
 

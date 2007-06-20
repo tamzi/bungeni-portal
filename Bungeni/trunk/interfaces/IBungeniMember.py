@@ -45,6 +45,20 @@ class IBungeniMember(interface.Interface):
 
 
 
+    def getFullname():
+       """
+
+       """
+
+
+
+    def setFullname():
+       """
+
+       """
+
+
+
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer
 

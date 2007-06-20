@@ -16,6 +16,10 @@ def install(self):
     # XXX: this doesn't actually work, as it steps on work done in
     # Install.py
     #
+    # Note that we can apply profiles after adding a Plone site using
+    # instancemanager: does it make more sense to leave it to
+    # instancemanager?
+    #
     # # Apply membrane and remember profiles (we can't QI them)
     # membrane_tool = getToolByName(self, 'membrane_tool')
     # if not membrane_tool:

@@ -36,11 +36,11 @@ __docformat__ = 'plaintext'
 # Additional
 
 # Classes
-import MemberOfParliament
-import Clerk
 import MemberOfPublic
 import BungeniMembership
 import BungeniMember
+import Clerk
+import MemberOfParliament
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

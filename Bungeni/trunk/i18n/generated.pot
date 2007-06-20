@@ -1,10 +1,10 @@
-# ArchGenXML generated POT File
+# archgenxml generated POT File
 # Jean Jordaan <jean.jordaan@gmail.com>, 2007.
 msgid ""
 msgstr ""
 "Project-Id-Version: Bungeni\n"
-"POT-Creation-Date: Fri Mar 16 11:13:52 2007\n"
-"PO-Revision-Date: Fri Mar 16 11:13:52 2007\n"
+"POT-Creation-Date: Fri Jun  8 18:37:30 2007\n"
+"PO-Revision-Date: Fri Jun  8 18:37:30 2007\n"
 "Last-Translator: Jean Jordaan <jean.jordaan@gmail.com>\n"
 "Language-Team: Jean Jordaan <jean.jordaan@gmail.com>\n"
 "MIME-Version: 1.0\n"
@@ -16,19 +16,51 @@ msgstr ""
 "Preferred-Encodings: latin1 utf-8\n"
 "Domain: Bungeni\n"
 
+#: votes/VoteCount.py
+msgid "Bungeni_label_"
+msgstr ""
+
+#. Default: "Aye"
+#: votes/VoteOfMP.py
+msgid "Bungeni_label_Aye"
+msgstr ""
+
 #. Default: "Membertypeswithhomefolders"
 #: membership/BungeniMembership.py
 msgid "Bungeni_label_MemberTypesWithHomeFolders"
 msgstr ""
 
+#. Default: "Numberofaye"
+#: votes/VoteCount.py
+#: votes/VoteSummary.py
+msgid "Bungeni_label_NumberOfAye"
+msgstr ""
+
+#. Default: "Numberofnay"
+#: votes/VoteCount.py
+#: votes/VoteSummary.py
+msgid "Bungeni_label_NumberOfNay"
+msgstr ""
+
+#. Default: "Pass"
+#: votes/VoteCount.py
+#: votes/VoteSummary.py
+msgid "Bungeni_label_Pass"
+msgstr ""
+
 #. Default: "Category"
-#: content/Committee.py
+#: groups/Committee.py
 msgid "Bungeni_label_category"
 msgstr ""
 
 #. Default: "Cessationdate"
-#: content/Party.py
+#: groups/Party.py
 msgid "Bungeni_label_cessationDate"
+msgstr ""
+
+#. Default: "Clerks"
+#: hansard/Take.py
+msgid "Bungeni_label_clerks"
 msgstr ""
 
 #. Default: "Dateofbirth"
@@ -42,12 +74,12 @@ msgid "Bungeni_label_dateOfDeath"
 msgstr ""
 
 #. Default: "Dissolutiondate"
-#: content/Committee.py
+#: groups/Committee.py
 msgid "Bungeni_label_dissolutionDate"
 msgstr ""
 
 #. Default: "Eventtype"
-#: content/ParliamentaryEvent.py
+#: events/ParliamentaryEvent.py
 msgid "Bungeni_label_eventType"
 msgstr ""
 
@@ -62,7 +94,7 @@ msgid "Bungeni_label_fullname"
 msgstr ""
 
 #. Default: "Functions"
-#: content/Committee.py
+#: groups/Committee.py
 msgid "Bungeni_label_functions"
 msgstr ""
 
@@ -77,23 +109,33 @@ msgid "Bungeni_label_maidenName"
 msgstr ""
 
 #. Default: "Maxchairs"
-#: content/Committee.py
+#: groups/Committee.py
 msgid "Bungeni_label_maxChairs"
 msgstr ""
 
 #. Default: "Maxmembers"
-#: content/Committee.py
+#: groups/Committee.py
 msgid "Bungeni_label_maxMembers"
 msgstr ""
 
 #. Default: "Maxsecretaries"
-#: content/Committee.py
+#: groups/Committee.py
 msgid "Bungeni_label_maxSecretaries"
 msgstr ""
 
+#. Default: "Memberofparliaments"
+#: votes/VoteOfMP.py
+msgid "Bungeni_label_memberofparliaments"
+msgstr ""
+
 #. Default: "Minattendance"
-#: content/Committee.py
+#: groups/Committee.py
 msgid "Bungeni_label_minAttendance"
+msgstr ""
+
+#. Default: "Motions"
+#: events/AgendaItem.py
+msgid "Bungeni_label_motions"
 msgstr ""
 
 #. Default: "Nationalidnumber"
@@ -102,7 +144,7 @@ msgid "Bungeni_label_nationalIdNumber"
 msgstr ""
 
 #. Default: "Other signatories"
-#: content/ParliamentaryEvent.py
+#: events/ParliamentaryEvent.py
 msgid "Bungeni_label_otherSignatories"
 msgstr ""
 
@@ -112,27 +154,33 @@ msgid "Bungeni_label_placeOfBirth"
 msgstr ""
 
 #. Default: "Presidencyinternal"
-#: content/Committee.py
+#: groups/Committee.py
 msgid "Bungeni_label_presidencyInternal"
 msgstr ""
 
 #. Default: "Proportionalrepresentation"
-#: content/Committee.py
+#: groups/Committee.py
 msgid "Bungeni_label_proportionalRepresentation"
 msgstr ""
 
+#. Default: "Questions"
+#: events/Response.py
+#: events/AgendaItem.py
+msgid "Bungeni_label_questions"
+msgstr ""
+
 #. Default: "Registrationdate"
-#: content/Party.py
+#: groups/Party.py
 msgid "Bungeni_label_registrationDate"
 msgstr ""
 
 #. Default: "Require written answer?"
-#: content/Question.py
+#: events/Question.py
 msgid "Bungeni_label_requireWrittenAnswer"
 msgstr ""
 
 #. Default: "Respondents"
-#: content/Question.py
+#: events/Question.py
 msgid "Bungeni_label_respondents"
 msgstr ""
 
@@ -142,22 +190,17 @@ msgid "Bungeni_label_salutation"
 msgstr ""
 
 #. Default: "Secondedby"
-#: content/Motion.py
+#: events/Motion.py
 msgid "Bungeni_label_secondedBy"
 msgstr ""
 
 #. Default: "Shorttitle"
-#: content/Party.py
+#: groups/Party.py
 msgid "Bungeni_label_shortTitle"
 msgstr ""
 
-#. Default: "Scheduled date"
-#: content/ParliamentaryEvent.py
-msgid "Bungeni_label_startDate"
-msgstr ""
-
 #. Default: "Substitutionallowed"
-#: content/Committee.py
+#: groups/Committee.py
 msgid "Bungeni_label_substitutionAllowed"
 msgstr ""
 
@@ -167,7 +210,7 @@ msgid "Bungeni_label_surname"
 msgstr ""
 
 #. Default: "Type"
-#: content/Committee.py
+#: groups/Committee.py
 msgid "Bungeni_label_type"
 msgstr ""
 

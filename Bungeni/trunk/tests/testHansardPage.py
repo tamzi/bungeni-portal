@@ -43,7 +43,7 @@ from Products.Bungeni.config import *
 from Products.Bungeni.tests.testBungeni import testBungeni
 
 # Import the tested classes
-from Products.Bungeni.content.HansardPage import HansardPage
+from Products.Bungeni.hansard.HansardPage import HansardPage
 
 ##code-section module-beforeclass #fill in your manual code here
 ##/code-section module-beforeclass

@@ -180,6 +180,14 @@ class BungeniMember(BaseContent):
             if auto: break
         return auto
 
+    # Methods from Interface IBungeniMember
+
+    security.declarePublic('setFullname')
+    def setFullname(self):
+        """ Stub for BaseMember.register
+        """
+        pass
+
     security.declarePublic('getFullname')
     def getFullname(self):
         """
@@ -189,12 +197,6 @@ class BungeniMember(BaseContent):
                 [self.getSalutation(), self.getFirstname(), self.getSurname()]
                 if n])
         return str(unicode_name)
-
-    security.declarePublic('setFullname')
-    def setFullname(self, dummy):
-        """ stub for BaseMember.register
-        """
-        pass
 
 # end of class BungeniMember
 

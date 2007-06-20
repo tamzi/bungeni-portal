@@ -34,6 +34,7 @@ came_from = REQUEST.get('came_from', None)
 
 # Bungeni: start
 # custom landing page for specific roles after login.
+# XXX: is there a better hook for this?
 member = context.portal_membership.getAuthenticatedMember()
 for r in ['CurrentMP', 'ReviewerForSpeaker']:
     if member.has_role(r):

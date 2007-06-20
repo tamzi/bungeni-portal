@@ -43,7 +43,7 @@ from Products.Bungeni.config import *
 from Products.Bungeni.tests.testBungeni import testBungeni
 
 # Import the tested classes
-from Products.Bungeni.content.Bill import Bill
+from Products.Bungeni.bills.Bill import Bill
 
 ##code-section module-beforeclass #fill in your manual code here
 ##/code-section module-beforeclass
@@ -61,6 +61,8 @@ class testBill(testBungeni):
     # from class Bill:
     def test_getTOC(self):
         pass
+
+    # Manually created methods
 
 
 def test_suite():

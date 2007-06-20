@@ -151,13 +151,13 @@ def install(self, reinstall=False):
 
     #bind classes to workflows
     wft = getToolByName(self,'portal_workflow')
+    wft.setChainForPortalTypes( ['Clerk'], "MemberAutoWorkflow")
     wft.setChainForPortalTypes( ['Motion'], "ParliamentaryEventWorkflow")
     wft.setChainForPortalTypes( ['Question'], "ParliamentaryEventWorkflow")
     wft.setChainForPortalTypes( ['LegislationFolder'], "BungeniWorkflow")
     wft.setChainForPortalTypes( ['BillPage'], "SubWorkflow")
     wft.setChainForPortalTypes( ['HansardPage'], "SubWorkflow")
     wft.setChainForPortalTypes( ['HansardSection'], "SubWorkflow")
-    wft.setChainForPortalTypes( ['Clerk'], "MemberAutoWorkflow")
     # configuration for Relations
     relations_tool = getToolByName(self,'relations_library')
     xmlpath = os.path.join(package_home(GLOBALS),'relations.xml')
@@ -171,6 +171,8 @@ def install(self, reinstall=False):
     factory_types=[
         "MemberOfPublic",
         "BungeniMembership",
+        "Clerk",
+        "MemberOfParliament",
         "LongDocument",
         "LongDocumentSection",
         "LongDocumentPage",
@@ -194,7 +196,6 @@ def install(self, reinstall=False):
         "HansardSection",
         "Recording",
         "Take",
-        "Clerk",
         "TakeTranscription",
         "Committee",
         "Party",
@@ -205,7 +206,6 @@ def install(self, reinstall=False):
         "VoteOfMP",
         "Vote",
         "VoteSummary",
-        "MemberOfParliament",
         ] + factory_tool.getFactoryTypes().keys()
     factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
 

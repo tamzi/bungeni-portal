@@ -43,7 +43,7 @@ from Products.Bungeni.config import *
 from Products.Bungeni.tests.testBungeni import testBungeni
 
 # Import the tested classes
-from Products.Bungeni.content.LegislationFolder import LegislationFolder
+from Products.Bungeni.bills.LegislationFolder import LegislationFolder
 
 ##code-section module-beforeclass #fill in your manual code here
 ##/code-section module-beforeclass

@@ -35,22 +35,24 @@ __docformat__ = 'plaintext'
 #       each generated class and in this file.
 #   - To perform custom initialisation after types have been registered,
 #       use the protected code section at the bottom of initialize().
-#   - To register a customisation policy, create a file CustomizationPolicy.py
-#       with a method register(context) to register the policy.
 
 import logging
 logger = logging.getLogger('Bungeni')
-logger.info('Installing Product')
+logger.debug('Installing Product')
 
-import os, os.path
+import Products.CMFPlone.interfaces
+import os
+import os.path
 from Globals import package_home
-from Products.CMFCore import utils as cmfutils
-from Products.CMFCore import permissions as cmfpermissions
-from Products.CMFCore import DirectoryView
-from Products.CMFPlone.utils import ToolInit
-from Products.Archetypes.atapi import *
 from Products.Archetypes import listTypes
+from Products.Archetypes.atapi import *
 from Products.Archetypes.utils import capitalize
+from Products.CMFCore import DirectoryView
+from Products.CMFCore import permissions as cmfpermissions
+from Products.CMFCore import utils as cmfutils
+from Products.CMFPlone.utils import ToolInit
+from Products.GenericSetup import EXTENSION
+from Products.GenericSetup import profile_registry
 from config import *
 
 DirectoryView.registerDirectory('skins', product_globals)
@@ -68,14 +70,19 @@ def initialize(context):
     ##/code-section custom-init-top
 
     # imports packages and types for registration
-    import interfaces
     import membership
-    import content
     import tools
+    import interfaces
+    import content
+    import events
+    import bills
+    import hansard
+    import groups
+    import votes
 
 
     # Initialize portal tools
-    tools = [membership.BungeniMembership.BungeniMembership, tools.BungeniTeamsTool.BungeniTeamsTool]
+    tools = [membership.BungeniMembership.BungeniMembership, groups.BungeniTeamsTool.BungeniTeamsTool]
     ToolInit( PROJECTNAME +' Tools',
                 tools = tools,
                 icon='tool.gif'
@@ -103,6 +110,15 @@ def initialize(context):
         context.registerClass(meta_type   = all_ftis[i]['meta_type'],
                               constructors= (all_constructors[i],),
                               permission  = ADD_CONTENT_PERMISSIONS[klassname])
+
+    profile_registry.registerProfile(
+        name='default',
+        title=PROJECTNAME,
+        description='Profile for Bungeni',
+        path='profiles/default',
+        product='Bungeni',
+        profile_type=EXTENSION,
+        for_=Products.CMFPlone.interfaces.IPloneSiteRoot)
 
     ##code-section custom-init-bottom #fill in your manual code here
     ##/code-section custom-init-bottom

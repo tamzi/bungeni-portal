@@ -43,12 +43,12 @@ from Products.Bungeni.tests.testBungeni import testBungeni
 from Interface.Verify import verifyClass
 
 
-from Products.Bungeni.interfaces.IClerk import IClerk
-
-
-
-
 from Products.Bungeni.interfaces.IMemberOfParliament import IMemberOfParliament
+
+
+
+
+from Products.Bungeni.interfaces.IClerk import IClerk
 
 
 
@@ -56,15 +56,21 @@ from Products.Bungeni.interfaces.IMemberOfParliament import IMemberOfParliament
 
 class testInterfaces(testBungeni):
         
+    def testInterfacesForIMemberOfParliament(self):
+        '''test interface compliance for class IMemberOfParliament'''
+
+        
+        for iface in Implements.flattenInterfaces(getattr(testInterfaces,'__implements__',[])):
+            self.failUnless(verifyClass(iface, IMemberOfParliament))
+        
+    
+            
     def testInterfacesForIClerk(self):
         '''test interface compliance for class IClerk'''
 
         
-    
-            
-    def testInterfacesForIMemberOfParliament(self):
-        '''test interface compliance for class IMemberOfParliament'''
-
+        for iface in Implements.flattenInterfaces(getattr(testInterfaces,'__implements__',[])):
+            self.failUnless(verifyClass(iface, IClerk))
         
     
         

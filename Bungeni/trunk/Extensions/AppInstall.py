@@ -1,5 +1,6 @@
 from StringIO import StringIO
 from Products.CMFCore.utils import getToolByName
+from Products.Archetypes.utils import shasattr
 from Products.membrane.interfaces import ICategoryMapper
 from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.utils import getAllWFStatesForType
@@ -61,14 +62,18 @@ def install(self):
     if not syndication_tool.isSyndicationAllowed(self.events):
         syndication_tool.enableSyndication(self.events)
 
-    # Configure logging using CMFNotification
-    notification_tool = getToolByName(self, 'portal_notification')
-
     # # Change the default roles managed by teams
     # teams_tool = getToolByName(self, 'portal_teams')
     # allowed_roles = teams_tool.getDefaultAllowedRoles()
     # teams_tool.setDefaultAllowedRoles(
     #         allowed_roles+['ReviewerForSpeaker', 'CurrentMP'])
+
+    # Replace the default MailHost with a MaildropHost
+    if (shasattr(plone, 'MailHost') and 
+            plone.MailHost.meta_type != 'Secure Maildrop Host'):
+        plone.manage_delObjects('MailHost')
+    if not shasattr(plone, 'MailHost'):
+        plone.manage_addProduct['SecureMaildropHost'].manage_addSecureMaildropHost('MailHost')
 
     return out.getvalue()
 

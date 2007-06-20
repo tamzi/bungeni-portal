@@ -45,18 +45,6 @@ class IBill(interface.Interface):
 
 
 
-    def operation_1():
-       """
-
-       """
-
-
-    def operation_2():
-       """
-
-       """
-
-
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer
 

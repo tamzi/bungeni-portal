@@ -45,6 +45,7 @@ from Products.Archetypes.atapi import listTypes
 from Products.Bungeni.config import PROJECTNAME
 from Products.Bungeni.config import product_globals as GLOBALS
 
+
 def install(self, reinstall=False):
     """ External Method to install Bungeni """
     out = StringIO()
@@ -119,18 +120,6 @@ def install(self, reinstall=False):
                     current.append(toolname)
                     navtreeProperties.manage_changeProperties(**{'idsNotToList' : current})
 
-    # Adds our types to MemberDataContainer.allowed_content_types
-    types_tool = getToolByName(self, 'portal_types')
-    act = types_tool.MemberDataContainer.allowed_content_types
-    types_tool.MemberDataContainer.manage_changeProperties(allowed_content_types=act+('MemberOfParliament', 'Clerk', 'MemberOfPublic', ))
-    # registers with membrane tool ...
-    membrane_tool = getToolByName(self, 'membrane_tool')
-    membrane_tool.registerMembraneType('MemberOfParliament')
-    # print >> out, SetupMember(self, member_type='MemberOfParliament', register=False).finish()
-    membrane_tool.registerMembraneType('Clerk')
-    # print >> out, SetupMember(self, member_type='Clerk', register=False).finish()
-    membrane_tool.registerMembraneType('MemberOfPublic')
-    # print >> out, SetupMember(self, member_type='MemberOfPublic', register=False).finish()
 
     # try to call a workflow install method
     # in 'InstallWorkflows.py' method 'installWorkflows'
@@ -147,18 +136,28 @@ def install(self, reinstall=False):
         print >>out,res or 'no output'
     else:
         print >>out,'no workflow install'
+    # Adds our types to MemberDataContainer.allowed_content_types
+    types_tool = getToolByName(self, 'portal_types')
+    act = types_tool.MemberDataContainer.allowed_content_types
+    types_tool.MemberDataContainer.manage_changeProperties(allowed_content_types=act+('MemberOfPublic', 'Clerk', 'MemberOfParliament', ))
+    # registers with membrane tool ...
+    membrane_tool = getToolByName(self, 'membrane_tool')
+    membrane_tool.registerMembraneType('MemberOfPublic')
+    # print >> out, SetupMember(self, member_type='MemberOfPublic', register=False).finish()
+    membrane_tool.registerMembraneType('Clerk')
+    # print >> out, SetupMember(self, member_type='Clerk', register=False).finish()
+    membrane_tool.registerMembraneType('MemberOfParliament')
+    # print >> out, SetupMember(self, member_type='MemberOfParliament', register=False).finish()
 
     #bind classes to workflows
     wft = getToolByName(self,'portal_workflow')
-    wft.setChainForPortalTypes( ['Clerk'], "MemberAutoWorkflow")
-    wft.setChainForPortalTypes( ['LegislationFolder'], "BungeniWorkflow")
-    wft.setChainForPortalTypes( ['BillPage'], "SubWorkflow")
     wft.setChainForPortalTypes( ['Motion'], "ParliamentaryEventWorkflow")
     wft.setChainForPortalTypes( ['Question'], "ParliamentaryEventWorkflow")
-    wft.setChainForPortalTypes( ['HansardSection'], "SubWorkflow")
+    wft.setChainForPortalTypes( ['LegislationFolder'], "BungeniWorkflow")
+    wft.setChainForPortalTypes( ['BillPage'], "SubWorkflow")
     wft.setChainForPortalTypes( ['HansardPage'], "SubWorkflow")
-
-
+    wft.setChainForPortalTypes( ['HansardSection'], "SubWorkflow")
+    wft.setChainForPortalTypes( ['Clerk'], "MemberAutoWorkflow")
     # configuration for Relations
     relations_tool = getToolByName(self,'relations_library')
     xmlpath = os.path.join(package_home(GLOBALS),'relations.xml')
@@ -170,28 +169,43 @@ def install(self, reinstall=False):
     # enable portal_factory for given types
     factory_tool = getToolByName(self,'portal_factory')
     factory_types=[
-        "MemberOfParliament",
-        "Clerk",
         "MemberOfPublic",
         "BungeniMembership",
-        "Bill",
-        "LegislationFolder",
-        "BillSection",
-        "BillPage",
-        "Amendment",
-        "Motion",
-        "Question",
-        "HansardFolder",
-        "Hansard",
-        "HansardSection",
-        "HansardPage",
         "LongDocument",
         "LongDocumentSection",
         "LongDocumentPage",
         "HelpFolder",
-        "Party",
+        "Motion",
+        "Question",
+        "Response",
+        "Parliament",
+        "OrderOfBusiness",
+        "AgendaItem",
+        "MotionBook",
+        "Sitting",
+        "LegislationFolder",
+        "Bill",
+        "BillPage",
+        "BillSection",
+        "Amendment",
+        "Hansard",
+        "HansardPage",
+        "HansardFolder",
+        "HansardSection",
+        "Recording",
+        "Take",
+        "Clerk",
+        "TakeTranscription",
         "Committee",
+        "Party",
+        "Ministry",
         "BungeniTeamsTool",
+        "Reporters",
+        "VoteCount",
+        "VoteOfMP",
+        "Vote",
+        "VoteSummary",
+        "MemberOfParliament",
         ] + factory_tool.getFactoryTypes().keys()
     factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
 
@@ -246,24 +260,28 @@ def install(self, reinstall=False):
             print >>out,'no output'
     else:
         print >>out,'no custom install'
+    setup_tool = getToolByName(portal, 'portal_setup')
+    setup_tool.setImportContext('profile-Bungeni:default')
+    setup_tool.runAllImportSteps()
+    setup_tool.setImportContext('profile-CMFPlone:plone')
+    print >> out, "Ran all GS import steps."
     return out.getvalue()
+
 
 def uninstall(self, reinstall=False):
     out = StringIO()
-
     # Removes our types from MemberDataContainer.allowed_content_types
     types_tool = getToolByName(self, 'portal_types')
     act = types_tool.MemberDataContainer.allowed_content_types
-    types_tool.MemberDataContainer.manage_changeProperties(allowed_content_types=[ct for ct in act if ct not in ('MemberOfParliament', 'Clerk', 'MemberOfPublic', ) ])
+    types_tool.MemberDataContainer.manage_changeProperties(allowed_content_types=[ct for ct in act if ct not in ('MemberOfPublic', 'Clerk', 'MemberOfParliament', ) ])
     # unregister with membrane tool ...
     membrane_tool = getToolByName(self, 'membrane_tool')
-    membrane_tool.unregisterMembraneType('MemberOfParliament')
-    # print >> out, SetupMember(self, member_type='MemberOfParliament', register=False).finish()
-    membrane_tool.unregisterMembraneType('Clerk')
-    # print >> out, SetupMember(self, member_type='Clerk', register=False).finish()
     membrane_tool.unregisterMembraneType('MemberOfPublic')
     # print >> out, SetupMember(self, member_type='MemberOfPublic', register=False).finish()
-
+    membrane_tool.unregisterMembraneType('Clerk')
+    # print >> out, SetupMember(self, member_type='Clerk', register=False).finish()
+    membrane_tool.unregisterMembraneType('MemberOfParliament')
+    # print >> out, SetupMember(self, member_type='MemberOfParliament', register=False).finish()
     # unhide tools in the search form
     portalProperties = getToolByName(self, 'portal_properties', None)
     if portalProperties is not None:
@@ -274,7 +292,6 @@ def uninstall(self, reinstall=False):
                 if tool in current:
                     current.remove(tool)
                     siteProperties.manage_changeProperties(**{'types_not_searched' : current})
-
 
     # unhide tools
     portalProperties = getToolByName(self, 'portal_properties', None)
@@ -310,7 +327,6 @@ def uninstall(self, reinstall=False):
                                    PROJECTNAME+'.AppInstall', 'uninstall')
     except:
         uninstall = None
-
     if uninstall:
         print >>out,'Custom Uninstall:'
         try:
@@ -323,8 +339,8 @@ def uninstall(self, reinstall=False):
             print >>out,'no output'
     else:
         print >>out,'no custom uninstall'
-
     return out.getvalue()
+
 
 def beforeUninstall(self, reinstall, product, cascade):
     """ try to call a custom beforeUninstall method in 'AppInstall.py'
@@ -332,16 +348,18 @@ def beforeUninstall(self, reinstall, product, cascade):
     """
     out = StringIO()
     try:
-        beforeuninstall = ExternalMethod('temp', 'temp',
-                                   PROJECTNAME+'.AppInstall', 'beforeUninstall')
+        beforeuninstall = ExternalMethod(
+            'temp', 'temp',
+            PROJECTNAME+'.AppInstall', 'beforeUninstall')
     except:
         beforeuninstall = []
 
     if beforeuninstall:
         print >>out, 'Custom beforeUninstall:'
-        res = beforeuninstall(self, reinstall=reinstall
-                                  , product=product
-                                  , cascade=cascade)
+        res = beforeuninstall(self,
+                              reinstall=reinstall,
+                              product=product,
+                              cascade=cascade)
         if res:
             print >>out, res
         else:
@@ -349,6 +367,7 @@ def beforeUninstall(self, reinstall, product, cascade):
     else:
         print >>out, 'no custom beforeUninstall'
     return (out,cascade)
+
 
 def afterInstall(self, reinstall, product):
     """ try to call a custom afterInstall method in 'AppInstall.py' method
@@ -363,8 +382,9 @@ def afterInstall(self, reinstall, product):
 
     if afterinstall:
         print >>out, 'Custom afterInstall:'
-        res = afterinstall(self, product=None
-                               , reinstall=None)
+        res = afterinstall(self,
+                           product=None,
+                           reinstall=None)
         if res:
             print >>out, res
         else:

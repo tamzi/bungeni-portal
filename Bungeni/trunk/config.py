@@ -34,8 +34,8 @@ __docformat__ = 'plaintext'
 # workflow configuration and every content type module.
 #
 # If you wish to perform custom configuration, you may put a file
-# AppConfig.py in your product's root directory. This will be included
-# in this file if found.
+# AppConfig.py in your product's root directory. The items in there
+# will be included (by importing) in this file if found.
 
 from Products.CMFCore.permissions import setDefaultRoles
 
@@ -46,35 +46,27 @@ from Products.remember.permissions import ADD_MEMBER_PERMISSION
 
 PROJECTNAME = "Bungeni"
 
-# Check for Plone 2.1
-try:
-    from Products.CMFPlone.migrations import v2_1
-except ImportError:
-    HAS_PLONE21 = False
-else:
-    HAS_PLONE21 = True
-
 # Permissions
 DEFAULT_ADD_CONTENT_PERMISSION = "Add portal content"
 setDefaultRoles(DEFAULT_ADD_CONTENT_PERMISSION, ('Manager', 'Owner'))
 ADD_CONTENT_PERMISSIONS = {
-    'MemberOfParliament': ADD_MEMBER_PERMISSION,
-    'Clerk': ADD_MEMBER_PERMISSION,
     'MemberOfPublic': ADD_MEMBER_PERMISSION,
-    'LegislationFolder': 'Bungeni: Add LegislationFolder',
-    'Amendment': 'Bungeni: Add Amendment',
+    'HelpFolder': 'Bungeni: Add HelpFolder',
     'Motion': 'Bungeni: Add Motion',
     'Question': 'Bungeni: Add Question',
+    'LegislationFolder': 'Bungeni: Add LegislationFolder',
+    'Amendment': 'Bungeni: Add Amendment',
     'HansardFolder': 'Bungeni: Add HansardFolder',
-    'HelpFolder': 'Bungeni: Add HelpFolder',
+    'Clerk': ADD_MEMBER_PERMISSION,
+    'MemberOfParliament': ADD_MEMBER_PERMISSION,
 }
 
-setDefaultRoles('Bungeni: Add LegislationFolder', ('Manager','Owner'))
-setDefaultRoles('Bungeni: Add Amendment', ('Manager','Owner'))
+setDefaultRoles('Bungeni: Add HelpFolder', ('Manager','Owner'))
 setDefaultRoles('Bungeni: Add Motion', ('Manager','Owner'))
 setDefaultRoles('Bungeni: Add Question', ('Manager','Owner'))
+setDefaultRoles('Bungeni: Add LegislationFolder', ('Manager','Owner'))
+setDefaultRoles('Bungeni: Add Amendment', ('Manager','Owner'))
 setDefaultRoles('Bungeni: Add HansardFolder', ('Manager','Owner'))
-setDefaultRoles('Bungeni: Add HelpFolder', ('Manager','Owner'))
 
 product_globals = globals()
 
@@ -87,9 +79,10 @@ DEPENDENCIES = []
 PRODUCT_DEPENDENCIES = []
 
 # You can overwrite these two in an AppConfig.py:
-# STYLESHEETS = [{'id': 'my_global_stylesheet.css'},
-#                {'id': 'my_contenttype.css',
-#                 'expression': 'python:object.getTypeInfo().getId() == "MyType"'}]
+# STYLESHEETS = [
+#     {'id': 'my_global_stylesheet.css'},
+#     {'id': 'my_contenttype.css',
+#      'expression': 'python:object.getTypeInfo().getId() == "MyType"'}]
 # You can do the same with JAVASCRIPTS.
 STYLESHEETS = []
 JAVASCRIPTS = []
@@ -98,7 +91,7 @@ JAVASCRIPTS = []
 ##/code-section config-bottom
 
 
-# Load custom configuration not managed by ArchGenXML
+# Load custom configuration not managed by archgenxml
 try:
     from Products.Bungeni.AppConfig import *
 except ImportError:

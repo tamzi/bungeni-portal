@@ -60,6 +60,8 @@ function RestAnnotationService( serviceUrl )
 /**
  * Fetch a list of annotations from the server
  */
+// XXX njj: should listAnnotations always pass 'user'? What if we want
+// other people's 'public' annotations?
 RestAnnotationService.prototype.listAnnotations = function( marginalia, url, point, f )
 {
 	// exclude content to lighten the size across the wire

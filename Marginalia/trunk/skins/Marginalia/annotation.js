@@ -39,7 +39,7 @@ AN_EDIT_LINK = 'link';
 /* ************************ Annotation Class ************************ */
 /*
  * This is a data-only class with (almost) no methods.  This is because all annotation
- * function either affect the display or hit the server, so more properly belong
+ * functions either affect the display or hit the server, so more properly belong
  * to AnnotationService or PostMicro.
  * An annotation is based on a selection range relative to a contentElement.
  * The ID of a new range is 0, as it doesn't yet exist on the server.

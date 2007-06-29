@@ -9,7 +9,9 @@
 ##title=Login next actions
 ##
 
+########################################################################
 # Bungeni: set came_from for certain roles upon login
+########################################################################
 
 from Products.CMFPlone import PloneMessageFactory as _
 from DateTime import DateTime
@@ -32,7 +34,9 @@ if membership_tool.isAnonymousUser():
 
 came_from = REQUEST.get('came_from', None)
 
+########################################################################
 # Bungeni: start
+#
 # custom landing page for specific roles after login.
 # XXX: is there a better hook for this?
 member = context.portal_membership.getAuthenticatedMember()
@@ -40,7 +44,9 @@ for r in ['CurrentMP', 'ReviewerForSpeaker']:
     if member.has_role(r):
          came_from = '%s/recently_modified'%context.portal_url.getPortalObject().absolute_url()
          break
+#
 # Bungeni: end
+########################################################################
 
 # if we weren't called from something that set 'came_from' or if HTTP_REFERER
 # is the 'logged_out' page, return the default 'login_success' form

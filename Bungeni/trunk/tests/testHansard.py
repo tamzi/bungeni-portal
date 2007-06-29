@@ -35,7 +35,7 @@ if __name__ == '__main__':
 ##/code-section module-header
 
 #
-# Test-cases for class(es) Hansard
+# Test-cases for class(es) DebateRecord
 #
 
 from Testing import ZopeTestCase
@@ -43,7 +43,7 @@ from Products.Bungeni.config import *
 from Products.Bungeni.tests.testBungeni import testBungeni
 
 # Import the tested classes
-from Products.Bungeni.hansard.Hansard import Hansard
+from Products.Bungeni.debaterecord.DebateRecord import DebateRecord
 
 ##code-section module-beforeclass #fill in your manual code here
 ##/code-section module-beforeclass
@@ -58,7 +58,7 @@ class testHansard(testBungeni):
     def afterSetUp(self):
         pass
 
-    # from class Hansard:
+    # from class DebateRecord:
     def test_getTOC(self):
         pass
 

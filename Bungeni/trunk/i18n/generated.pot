@@ -27,6 +27,7 @@ msgstr ""
 
 #. Default: "Membertypeswithhomefolders"
 #: membership/BungeniMembership.py
+#: tools/BungeniMembershipTool.py
 msgid "Bungeni_label_MemberTypesWithHomeFolders"
 msgstr ""
 
@@ -48,6 +49,11 @@ msgstr ""
 msgid "Bungeni_label_Pass"
 msgstr ""
 
+#. Default: "Bills"
+#: events/AgendaItem.py
+msgid "Bungeni_label_bills"
+msgstr ""
+
 #. Default: "Category"
 #: groups/Committee.py
 msgid "Bungeni_label_category"
@@ -60,6 +66,7 @@ msgstr ""
 
 #. Default: "Clerks"
 #: hansard/Take.py
+#: debaterecord/Take.py
 msgid "Bungeni_label_clerks"
 msgstr ""
 

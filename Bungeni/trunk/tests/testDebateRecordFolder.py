@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: testHansardFolder.py
+# File: testDebateRecordFolder.py
 #
 # Copyright (c) 2007 by []
 # Generator: ArchGenXML Version 1.6.0-beta-svn
@@ -49,11 +49,11 @@ from Products.Bungeni.debaterecord.DebateRecordFolder import DebateRecordFolder
 ##/code-section module-beforeclass
 
 
-class testHansardFolder(testBungeni):
-    """Test-cases for class(es) HansardFolder."""
+class testDebateRecordFolder(testBungeni):
+    """Test-cases for class(es) DebateRecordFolder."""
 
-    ##code-section class-header_testHansardFolder #fill in your manual code here
-    ##/code-section class-header_testHansardFolder
+    ##code-section class-header_testDebateRecordFolder #fill in your manual code here
+    ##/code-section class-header_testDebateRecordFolder
 
     def afterSetUp(self):
         pass
@@ -64,7 +64,7 @@ class testHansardFolder(testBungeni):
 def test_suite():
     from unittest import TestSuite, makeSuite
     suite = TestSuite()
-    suite.addTest(makeSuite(testHansardFolder))
+    suite.addTest(makeSuite(testDebateRecordFolder))
     return suite
 
 ##code-section module-footer #fill in your manual code here

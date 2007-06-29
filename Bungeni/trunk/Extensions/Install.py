@@ -74,7 +74,7 @@ def install(self, reinstall=False):
 
     # autoinstall tools
     portal = getToolByName(self,'portal_url').getPortalObject()
-    for t in ['BungeniMembership', 'BungeniTeamsTool']:
+    for t in ['BungeniMembershipTool', 'BungeniTeamsTool']:
         try:
             portal.manage_addProduct[PROJECTNAME].manage_addTool(t)
         except BadRequest:
@@ -91,7 +91,7 @@ def install(self, reinstall=False):
     if portalProperties is not None:
         siteProperties = getattr(portalProperties, 'site_properties', None)
         if siteProperties is not None and siteProperties.hasProperty('types_not_searched'):
-            for tool in ['BungeniMembership', 'BungeniTeamsTool']:
+            for tool in ['BungeniMembershipTool', 'BungeniTeamsTool']:
                 current = list(siteProperties.getProperty('types_not_searched'))
                 if tool not in current:
                     current.append(tool)
@@ -99,11 +99,11 @@ def install(self, reinstall=False):
 
     # remove workflow for tools
     portal_workflow = getToolByName(self, 'portal_workflow')
-    for tool in ['BungeniMembership', 'BungeniTeamsTool']:
+    for tool in ['BungeniMembershipTool', 'BungeniTeamsTool']:
         portal_workflow.setChainForPortalTypes([tool], '')
 
     # uncatalog tools
-    for toolname in ['portal_bungenimembership', 'portal_bungeniteamstool']:
+    for toolname in ['portal_bungenimembershiptool', 'portal_bungeniteamstool']:
         try:
             portal[toolname].unindexObject()
         except:
@@ -114,7 +114,7 @@ def install(self, reinstall=False):
     if portalProperties is not None:
         navtreeProperties = getattr(portalProperties, 'navtree_properties', None)
         if navtreeProperties is not None and navtreeProperties.hasProperty('idsNotToList'):
-            for toolname in ['portal_bungenimembership', 'portal_bungeniteamstool']:
+            for toolname in ['portal_bungenimembershiptool', 'portal_bungeniteamstool']:
                 current = list(navtreeProperties.getProperty('idsNotToList'))
                 if toolname not in current:
                     current.append(toolname)
@@ -170,9 +170,10 @@ def install(self, reinstall=False):
     factory_tool = getToolByName(self,'portal_factory')
     factory_types=[
         "MemberOfPublic",
-        "BungeniMembership",
         "Clerk",
         "MemberOfParliament",
+        "BungeniMembershipTool",
+        "BungeniTeamsTool",
         "LongDocument",
         "LongDocumentSection",
         "LongDocumentPage",
@@ -200,7 +201,6 @@ def install(self, reinstall=False):
         "Committee",
         "Party",
         "Ministry",
-        "BungeniTeamsTool",
         "Reporters",
         "VoteCount",
         "VoteOfMP",
@@ -287,7 +287,7 @@ def uninstall(self, reinstall=False):
     if portalProperties is not None:
         siteProperties = getattr(portalProperties, 'site_properties', None)
         if siteProperties is not None and siteProperties.hasProperty('types_not_searched'):
-            for tool in ['BungeniMembership', 'BungeniTeamsTool']:
+            for tool in ['BungeniMembershipTool', 'BungeniTeamsTool']:
                 current = list(siteProperties.getProperty('types_not_searched'))
                 if tool in current:
                     current.remove(tool)
@@ -298,7 +298,7 @@ def uninstall(self, reinstall=False):
     if portalProperties is not None:
         navtreeProperties = getattr(portalProperties, 'navtree_properties', None)
         if navtreeProperties is not None and navtreeProperties.hasProperty('idsNotToList'):
-            for toolname in ['portal_bungenimembership', 'portal_bungeniteamstool']:
+            for toolname in ['portal_bungenimembershiptool', 'portal_bungeniteamstool']:
                 current = list(navtreeProperties.getProperty('idsNotToList'))
                 if toolname in current:
                     current.remove(toolname)

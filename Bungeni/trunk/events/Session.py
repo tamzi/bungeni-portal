@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: Sitting.py
+# File: Session.py
 #
 # Copyright (c) 2007 by []
 # Generator: ArchGenXML Version 1.6.0-beta-svn
@@ -30,7 +30,6 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
-from Products.Bungeni.events.ParliamentaryEvent import ParliamentaryEvent
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -44,46 +43,44 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Sitting_schema = BaseFolderSchema.copy() + \
-    getattr(ParliamentaryEvent, 'schema', Schema(())).copy() + \
+Session_schema = BaseFolderSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Sitting(BaseFolder, ParliamentaryEvent):
+class Session(BaseFolder):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(ParliamentaryEvent,'__implements__',()),)
+    __implements__ = (getattr(BaseFolder,'__implements__',()),)
 
     # This name appears in the 'add' box
-    archetype_name = 'Sitting'
+    archetype_name = 'Session'
 
-    meta_type = 'Sitting'
-    portal_type = 'Sitting'
-    allowed_content_types = ['OrderOfBusiness', 'DebateRecordFolder'] + list(getattr(ParliamentaryEvent, 'allowed_content_types', []))
+    meta_type = 'Session'
+    portal_type = 'Session'
+    allowed_content_types = ['Sitting']
     filter_content_types = 1
     global_allow = 0
-    #content_icon = 'Sitting.gif'
+    #content_icon = 'Session.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "Sitting"
-    typeDescMsgId = 'description_edit_sitting'
+    typeDescription = "Session"
+    typeDescMsgId = 'description_edit_session'
 
     _at_rename_after_creation = True
 
-    schema = Sitting_schema
+    schema = Session_schema
 
     ##code-section class-header #fill in your manual code here
     ##/code-section class-header
 
     # Methods
 
-
-registerType(Sitting, PROJECTNAME)
-# end of class Sitting
+registerType(Session, PROJECTNAME)
+# end of class Session
 
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer

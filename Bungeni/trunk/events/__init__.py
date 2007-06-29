@@ -40,11 +40,11 @@ import Motion
 import ParliamentaryEvent
 import Question
 import Response
-import Parliament
 import OrderOfBusiness
 import AgendaItem
-import MotionBook
 import Sitting
+import ParliamentWS
+import Session
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

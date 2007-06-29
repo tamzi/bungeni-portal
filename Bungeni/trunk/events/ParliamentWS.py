@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: Sitting.py
+# File: ParliamentWS.py
 #
 # Copyright (c) 2007 by []
 # Generator: ArchGenXML Version 1.6.0-beta-svn
@@ -30,7 +30,7 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
-from Products.Bungeni.events.ParliamentaryEvent import ParliamentaryEvent
+from Products.TeamSpace.space import TeamSpace
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -44,37 +44,37 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Sitting_schema = BaseFolderSchema.copy() + \
-    getattr(ParliamentaryEvent, 'schema', Schema(())).copy() + \
+ParliamentWS_schema = BaseFolderSchema.copy() + \
+    getattr(TeamSpace, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Sitting(BaseFolder, ParliamentaryEvent):
+class ParliamentWS(BaseFolder, TeamSpace):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(ParliamentaryEvent,'__implements__',()),)
+    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(TeamSpace,'__implements__',()),)
 
     # This name appears in the 'add' box
-    archetype_name = 'Sitting'
+    archetype_name = 'ParliamentWS'
 
-    meta_type = 'Sitting'
-    portal_type = 'Sitting'
-    allowed_content_types = ['OrderOfBusiness', 'DebateRecordFolder'] + list(getattr(ParliamentaryEvent, 'allowed_content_types', []))
+    meta_type = 'ParliamentWS'
+    portal_type = 'ParliamentWS'
+    allowed_content_types = ['Session'] + list(getattr(TeamSpace, 'allowed_content_types', []))
     filter_content_types = 1
-    global_allow = 0
-    #content_icon = 'Sitting.gif'
+    global_allow = 1
+    #content_icon = 'ParliamentWS.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "Sitting"
-    typeDescMsgId = 'description_edit_sitting'
+    typeDescription = "ParliamentWS"
+    typeDescMsgId = 'description_edit_parliamentws'
 
     _at_rename_after_creation = True
 
-    schema = Sitting_schema
+    schema = ParliamentWS_schema
 
     ##code-section class-header #fill in your manual code here
     ##/code-section class-header
@@ -82,8 +82,8 @@ class Sitting(BaseFolder, ParliamentaryEvent):
     # Methods
 
 
-registerType(Sitting, PROJECTNAME)
-# end of class Sitting
+registerType(ParliamentWS, PROJECTNAME)
+# end of class ParliamentWS
 
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer

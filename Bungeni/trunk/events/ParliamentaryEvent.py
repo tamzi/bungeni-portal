@@ -31,7 +31,6 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
 from Products.ATContentTypes.content.event import ATEvent
-from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -91,17 +90,6 @@ schema = Schema((
     copied_fields['contactEmail'],
 
     copied_fields['contactPhone'],
-
-    RelationField(
-        name='otherSignatories',
-        widget=ReferenceWidget(
-            label="Other signatories",
-            label_msgid='Bungeni_label_otherSignatories',
-            i18n_domain='Bungeni',
-        ),
-        multiValued=1,
-        relationship='ParliamentaryEvent_MemberOfParliament'
-    ),
 
 ),
 )

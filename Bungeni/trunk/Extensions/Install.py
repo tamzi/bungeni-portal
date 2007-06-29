@@ -186,6 +186,7 @@ def install(self, reinstall=False):
         "Sitting",
         "ParliamentWS",
         "Session",
+        "CommitteeWS",
         "LegislationFolder",
         "Bill",
         "BillPage",

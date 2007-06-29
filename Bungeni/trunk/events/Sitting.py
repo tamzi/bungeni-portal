@@ -62,7 +62,7 @@ class Sitting(BaseFolder, ParliamentaryEvent):
 
     meta_type = 'Sitting'
     portal_type = 'Sitting'
-    allowed_content_types = ['OrderOfBusiness', 'MotionBook', 'HansardFolder'] + list(getattr(ParliamentaryEvent, 'allowed_content_types', []))
+    allowed_content_types = ['OrderOfBusiness', 'MotionBook', 'DebateRecordFolder'] + list(getattr(ParliamentaryEvent, 'allowed_content_types', []))
     filter_content_types = 1
     global_allow = 0
     #content_icon = 'Sitting.gif'

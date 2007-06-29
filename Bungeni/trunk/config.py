@@ -58,7 +58,7 @@ ADD_CONTENT_PERMISSIONS = {
     'Question': 'Bungeni: Add Question',
     'LegislationFolder': 'Bungeni: Add LegislationFolder',
     'Amendment': 'Bungeni: Add Amendment',
-    'HansardFolder': 'Bungeni: Add HansardFolder',
+    'DebateRecordFolder': 'Bungeni: Add DebateRecordFolder',
 }
 
 setDefaultRoles('Bungeni: Add HelpFolder', ('Manager','Owner'))
@@ -66,7 +66,7 @@ setDefaultRoles('Bungeni: Add Motion', ('Manager','Owner'))
 setDefaultRoles('Bungeni: Add Question', ('Manager','Owner'))
 setDefaultRoles('Bungeni: Add LegislationFolder', ('Manager','Owner'))
 setDefaultRoles('Bungeni: Add Amendment', ('Manager','Owner'))
-setDefaultRoles('Bungeni: Add HansardFolder', ('Manager','Owner'))
+setDefaultRoles('Bungeni: Add DebateRecordFolder', ('Manager','Owner'))
 
 product_globals = globals()
 

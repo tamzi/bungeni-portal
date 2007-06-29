@@ -76,7 +76,7 @@ def initialize(context):
     import content
     import events
     import bills
-    import hansard
+    import debaterecord
     import groups
     import votes
 

@@ -109,7 +109,7 @@ def installWorkflows(self, package, out):
         print >> out, 'SubWorkflow already in workflows.'
     else:
         workflowTool._setObject('SubWorkflow', workflow)
-    workflowTool.setChainForPortalTypes(['BillSection', 'BillPage', 'HansardPage', 'HansardSection'], workflow.getId())
+    workflowTool.setChainForPortalTypes(['BillSection', 'BillPage', 'DebateRecordPage', 'DebateRecordSection'], workflow.getId())
 
     ourProductWorkflow = ExternalMethod('temp', 'temp',
                                         productname+'.'+'HansardWorkflow',
@@ -119,7 +119,7 @@ def installWorkflows(self, package, out):
         print >> out, 'HansardWorkflow already in workflows.'
     else:
         workflowTool._setObject('HansardWorkflow', workflow)
-    workflowTool.setChainForPortalTypes(['Hansard'], workflow.getId())
+    workflowTool.setChainForPortalTypes(['DebateRecord'], workflow.getId())
 
     ##code-section after-workflow-install #fill in your manual code here
     ##/code-section after-workflow-install

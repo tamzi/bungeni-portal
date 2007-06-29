@@ -37,7 +37,6 @@ __docformat__ = 'plaintext'
 
 # Classes
 import MemberOfPublic
-import BungeniMembership
 import BungeniMember
 import Clerk
 import MemberOfParliament

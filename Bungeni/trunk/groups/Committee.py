@@ -146,18 +146,18 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Committee_schema = BaseFolderSchema.copy() + \
+Committee_schema = BaseSchema.copy() + \
     getattr(Team, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Committee(BaseFolder, Team):
+class Committee(BaseContent, Team):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(Team,'__implements__',()),)
+    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(Team,'__implements__',()),)
     # zope3 interfaces
     interface.implements(IAuditable)
 
@@ -166,8 +166,8 @@ class Committee(BaseFolder, Team):
 
     meta_type = 'Committee'
     portal_type = 'Committee'
-    allowed_content_types = ['Committee'] + list(getattr(Team, 'allowed_content_types', []))
-    filter_content_types = 1
+    allowed_content_types = [] + list(getattr(Team, 'allowed_content_types', []))
+    filter_content_types = 0
     global_allow = 0
     #content_icon = 'Committee.gif'
     immediate_view = 'base_view'

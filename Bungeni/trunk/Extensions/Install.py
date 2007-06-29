@@ -156,8 +156,8 @@ def install(self, reinstall=False):
     wft.setChainForPortalTypes( ['Question'], "ParliamentaryEventWorkflow")
     wft.setChainForPortalTypes( ['LegislationFolder'], "BungeniWorkflow")
     wft.setChainForPortalTypes( ['BillPage'], "SubWorkflow")
-    wft.setChainForPortalTypes( ['HansardPage'], "SubWorkflow")
-    wft.setChainForPortalTypes( ['HansardSection'], "SubWorkflow")
+    wft.setChainForPortalTypes( ['DebateRecordPage'], "SubWorkflow")
+    wft.setChainForPortalTypes( ['DebateRecordSection'], "SubWorkflow")
     # configuration for Relations
     relations_tool = getToolByName(self,'relations_library')
     xmlpath = os.path.join(package_home(GLOBALS),'relations.xml')
@@ -191,10 +191,10 @@ def install(self, reinstall=False):
         "BillPage",
         "BillSection",
         "Amendment",
-        "Hansard",
-        "HansardPage",
-        "HansardFolder",
-        "HansardSection",
+        "DebateRecord",
+        "DebateRecordPage",
+        "DebateRecordFolder",
+        "DebateRecordSection",
         "Recording",
         "Take",
         "TakeTranscription",

@@ -39,7 +39,6 @@ __docformat__ = 'plaintext'
 import Committee
 import Party
 import Ministry
-import BungeniTeamsTool
 import Reporters
 
 ##code-section init-module-footer #fill in your manual code here

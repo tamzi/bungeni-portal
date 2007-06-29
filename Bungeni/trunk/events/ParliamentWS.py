@@ -30,6 +30,7 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from Products.Bungeni.events.ParliamentaryEvent import ParliamentaryEvent
 from Products.TeamSpace.space import TeamSpace
 from Products.Bungeni.config import *
 
@@ -45,24 +46,25 @@ schema = Schema((
 ##/code-section after-local-schema
 
 ParliamentWS_schema = BaseFolderSchema.copy() + \
+    getattr(ParliamentaryEvent, 'schema', Schema(())).copy() + \
     getattr(TeamSpace, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class ParliamentWS(BaseFolder, TeamSpace):
+class ParliamentWS(BaseFolder, ParliamentaryEvent, TeamSpace):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(TeamSpace,'__implements__',()),)
+    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(ParliamentaryEvent,'__implements__',()),) + (getattr(TeamSpace,'__implements__',()),)
 
     # This name appears in the 'add' box
     archetype_name = 'ParliamentWS'
 
     meta_type = 'ParliamentWS'
     portal_type = 'ParliamentWS'
-    allowed_content_types = ['Session'] + list(getattr(TeamSpace, 'allowed_content_types', []))
+    allowed_content_types = ['Session'] + list(getattr(ParliamentaryEvent, 'allowed_content_types', [])) + list(getattr(TeamSpace, 'allowed_content_types', []))
     filter_content_types = 1
     global_allow = 1
     #content_icon = 'ParliamentWS.gif'

@@ -183,7 +183,7 @@ class BungeniMember(BaseContent):
     # Methods from Interface IBungeniMember
 
     security.declarePublic('setFullname')
-    def setFullname(self):
+    def setFullname(self, name=None):
         """ Stub for BaseMember.register
         """
         pass

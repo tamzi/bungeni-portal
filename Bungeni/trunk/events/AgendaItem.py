@@ -60,6 +60,17 @@ schema = Schema((
         relationship='agendaitem_motion'
     ),
 
+    RelationField(
+        name='bills',
+        widget=ReferenceWidget(
+            label='Bills',
+            label_msgid='Bungeni_label_bills',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=0,
+        relationship='agendaitem_bill'
+    ),
+
 ),
 )
 

@@ -4,6 +4,32 @@
       i18n:domain="plone">
 
 <metal:block fill-slot="javascript_head_slot">
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/3rd-party.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/log.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/prefs.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/html-model.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/domutil.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/ranges.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/range-format.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/post-micro.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/linkable.js"></script>
+	
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/marginalia.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/blockmarker-ui.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/highlight-ui.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/link-ui.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/note-ui.js"></script>	
+	
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/annotation.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/block-info.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/rest-annotate.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/rest-prefs.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/rest-keywords.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/marginalia-direct.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia-config.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia-strings.js"></script>
+	<link rel="stylesheet" type="text/css" href="" tal:attributes="href string:${context/absolute_url}/marginalia/marginalia-direct.css"/>
+
     <script type="text/javascript" tal:content="string:
         function myCreateAnnotation( event, postId )
         {
@@ -14,7 +40,7 @@
         
         function _skipContent( node )
         {
-            return _skipAnnotationLinks( node );
+            return _skipAnnotationLinks( node ) || _skipAnnotationActions( node );
         }
 
         var serviceRoot = '${request/base}/${utool/getPortalPath}/portal_annotations';
@@ -26,9 +52,14 @@
 
         function show_annotations_on_load() 
         {
-            window.marginalia.showAnnotations( '${request/URL}/#*')
+			window.marginalia.showAnnotations( '${request/URL}/#*')
+			window.marginalia.showPerBlockUserCounts( '${request/URL}/#*' );
         }
         addEventHandler(window, 'load', show_annotations_on_load, window)
+		
+		var marginaliaDirect = new MarginaliaDirect( annotationService );
+		marginaliaDirect.init( );
+		initLogging();
         ">
     </script>
 </metal:block>
@@ -74,6 +105,10 @@
             <div class="hentry" id="m1">
               <table border="1" style="width: 100%">
                 <tr>
+					<td>
+						<div class="markers">
+						</div>
+					</td>
                   <td>
                     <h3 class="entry-title">Annotation demo</h3>
                     <div class="entry-content" tal:content="structure text" />

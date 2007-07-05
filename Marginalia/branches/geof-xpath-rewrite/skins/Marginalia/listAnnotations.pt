@@ -8,8 +8,7 @@
     =====================
 
     format=atom      .. This template can only return atom
-    exclude=content  .. Only return content for individual annotations. TODO
-    point            .. Ignored?
+    block            .. TODO: return annotations whose ranges impinge on a given block
     user             .. Only return annotations for this user.
     url              .. Only return annotations for this URL.
     -->
@@ -21,16 +20,15 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       tal:define="
-      q_format request/format;
-      q_exclude request/exclude;
-      q_point request/point | nothing;
+      q_format request/format | nothing;
+      q_block request/block | nothing;
       q_user request/user;
       q_url request/url;
       feed nocall:context;
       results python:feed.getSortedFeedEntries(q_user, q_url);"
       tal:attributes="xml:base feed/getBaseURL"
       i18n:domain="marginalia"
-      ptr:annotation-version='0.3'
+      ptr:annotation-version='0.4'
       >
   <link rel="self"
         href=""
@@ -51,7 +49,8 @@
   <tal:repeat repeat="feedentry results">
 
     <entry>
-    <ptr:range tal:content="feedentry/getRange">/2/15.0:/2/17.7</ptr:range>
+    <ptr:range format="sequence" tal:content="feedentry/getSequenceRange">/2/15.0;/2/17.7</ptr:range>
+    <ptr:range format="xpath" tal:content="feedentry/getXPathRange">p[2]/word(15)/char(0);p[2]/word(17)/char(7)</ptr:range>
     <ptr:access tal:content="feedentry/getAccess">private</ptr:access>
 
       <title tal:content="feedentry/Title">
@@ -83,6 +82,28 @@
         source of commented text
         </contributor>
       </author>
+	  
+      <content type="xhtml">
+        <div xmlns='http://www.w3.org/1999/xhtml' class='annotation'>
+            <p>
+              <cite>
+                <a href="http://annotated-url"
+                   tal:attributes="href feedentry/getUrl"
+                   tal:content="feedentry/getQuote_title">
+                   title of annotated document
+                 </a>
+              </cite>
+              (<span class='quoteAuthor'
+                     tal:content="feedentry/getQuote_author">
+                     Geof Glass
+              </span>):
+            </p>
+			<blockquote cite="http://annotated-url" tal:attributes="cite feedentry/getUrl">
+              <p tal:content="feedentry/getQuote">quoted text</p>
+            </blockquote>
+			<p class='note' tal:content="feedentry/getNote">margin note</p>
+        </div>
+      </content>
 
     </entry>
 

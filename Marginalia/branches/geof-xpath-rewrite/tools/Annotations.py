@@ -27,10 +27,14 @@
 __author__ = """Jean Jordaan <jean.jordaan@gmail.com>"""
 __docformat__ = 'plaintext'
 
+import sys
+
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from Products.Marginalia.config import *
-
+from Products.Marginalia.tools.SequenceRange import SequenceRange, SequencePoint
+from Products.Marginalia.tools.XPathRange import XPathRange, XPathPoint
+from Products.Marginalia.tools.RangeInfo import RangeInfo, mergeRangeInfos
 
 from Products.CMFCore.utils import UniqueObject
 
@@ -144,7 +148,7 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         """ Examine request for REST verbs.
         """
         rest_verb_map = {
-            'GET': self.listAnnotations, # Finds listAnnotations.pt in skins
+            'GET': self._listAnnotations, # Finds listAnnotations.pt in skins
             'POST': self._createAnnotation,
             'PUT': self._updateAnnotation,
             'DELETE': self._deleteAnnotation,
@@ -174,13 +178,26 @@ class Annotations(UniqueObject, BaseBTreeFolder):
             url = url[:url.index('#')]
         query = {
             'portal_type': 'Annotation',
-            'Creator': user,
             'getIndexed_url': url
             }
+        if user:
+            query[ 'Creator' ] = user
         ps = catalog(query)
         annotations = [p.getObject() for p in ps]
         return annotations 
 
+    security.declarePublic('getRangeInfos')
+    def getRangeInfos(self, user, url):
+        """ As with getSortedFeedEntries, but instead of returning individual
+        annotations, return BlockInfo entries. """
+        annotations = self.getSortedFeedEntries( user, url )
+        infos = [ ]
+        for annotation in annotations:
+            info = RangeInfo( )
+            info.fromAnnotation( annotation )
+            infos.append( info )
+        return mergeRangeInfos( infos )
+    
     security.declarePublic('getFeedUID')
     def getFeedUID(self):
         """ The feed UID needs to be constant
@@ -207,6 +224,16 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         self.REQUEST.RESPONSE.setStatus('NoContent')
         return
 
+    security.declarePrivate('_listAnnotations')
+    def _listAnnotations(self):
+        params = { 'format' : 'atom' }
+        params.update( parse_qsl( self.REQUEST.QUERY_STRING ) )
+        format = params[ 'format' ]
+        if 'atom' == format:
+            return self.listAnnotations( )
+        elif 'blocks' == format:
+            return self.listBlocks( )
+        
     security.declarePrivate('_createAnnotation')
     def _createAnnotation(self):
         """ Create annotation from POST.
@@ -219,18 +246,35 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         # probably makes more sense.
         params = {
             'url': '',
-            'range': '',
-            'range_from_closest_id': '',
-            'closest_id': '',
+            'block-range': '',
+            'xpath-range': '',
             'note': '',
             'access': '',
+            'action': '',
             'quote': '',
             'quote_title': '',
             'quote_author': '',
             'link': '',
             }
+        # TODO: Don't treat query string and body parameters as equivalent.
+        # Query string parameters should identify the resources, while
+        # parameters in the body should specify the action to take.
         params.update(self.REQUEST)
         params.update(parse_qsl(self.REQUEST.QUERY_STRING))
+        sequenceRange = SequenceRange( )
+        sequenceRange.fromString( params[ 'sequence-range' ] )
+        xpathRange = XPathRange( )
+        xpathRange.fromString( params[ 'xpath-range' ] )
+        params[ 'start_block' ] = sequenceRange.start.getPaddedPathStr( )
+        params[ 'start_xpath' ] = xpathRange.start.getPathStr( )
+        params[ 'start_word' ] = xpathRange.start.words
+        params[ 'start_char' ] = xpathRange.start.chars
+        params[ 'end_block' ] = sequenceRange.end.getPaddedPathStr( )
+        params[ 'end_xpath' ] = xpathRange.end.getPathStr( )
+        params[ 'end_word' ] = xpathRange.end.words
+        params[ 'end_char' ] = xpathRange.end.chars
+        del params[ 'sequence-range' ]
+        del params[ 'xpath-range' ]
         plone = getToolByName(self, 'portal_url').getPortalObject()
         obj_id = plone.generateUniqueId('Annotation')
         new_id = self.invokeFactory('Annotation', id=obj_id, **params)

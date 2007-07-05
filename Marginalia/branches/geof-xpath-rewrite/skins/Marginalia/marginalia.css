@@ -189,7 +189,44 @@ ol#articles {
 	width: 1em;
 }
 
-.hentry .smart-copy {
-	display: none;
+.hentry .notes li.quote-error p:before {
+	content: '!';
+	padding: 0 .75ex;
+	margin-right: .2ex;
+	background: red;
+	color: white;
+	font-weight: bold;
+}
+
+
+/* BlockInfo Markers */
+
+.hentry .markers {
+	width: 3em;
+	margin: 0;
+	padding: 0;
+}
+
+.hentry .markers .marker {
+	position: absolute;
+	right: .25em;
+}
+
+.hentry .markers .marker:hover {
+	background-image:  url( 'marker-tail.png' );
+	background-repeat:  repeat-y;
+	background-position:  top right;
+}
+
+.hentry span.annotation-user-count {
+	cursor: pointer;
+	display:  block;
+	width: 1.5em;
+	text-align: center;
+	padding: .25ex .5ex;
+	background: #6666ff;
+	font-family: sans-serif;
+	font-weight: bold;
+	color: white;
 }
 

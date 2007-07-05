@@ -30,6 +30,8 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from Products.Marginalia.config import *
+from Products.Marginalia.tools.SequenceRange import SequenceRange, SequencePoint
+from Products.Marginalia.tools.XPathRange import XPathRange, XPathPoint
 
 ##code-section module-header #fill in your manual code here
 from DateTime import DateTime
@@ -47,10 +49,74 @@ schema = Schema((
     ),
 
     StringField(
-        name='range',
+        name='start_block',
         widget=StringWidget(
-            label='Range',
-            label_msgid='Marginalia_label_range',
+            label='Start Block',
+            label_msgid='Marginalia_label_start_block',
+            i18n_domain='Marginalia',
+        )
+    ),
+
+    StringField(
+        name='start_xpath',
+        widget=StringWidget(
+            label='Start XPath',
+            label_msgid='Marginalia_label_start_xpath',
+            i18n_domain='Marginalia',
+        )
+    ),
+
+    StringField(
+        name='start_word',
+        widget=StringWidget(
+            label='Start Word',
+            label_msgid='Marginalia_label_start_word',
+            i18n_domain='Marginalia',
+        )
+    ),
+
+    StringField(
+        name='start_char',
+        widget=StringWidget(
+            label='start_char',
+            label_msgid='Marginalia_label_start_char',
+            i18n_domain='Marginalia',
+        )
+    ),
+
+
+    StringField(
+        name='end_block',
+        widget=StringWidget(
+            label='End Block',
+            label_msgid='Marginalia_label_end_block',
+            i18n_domain='Marginalia',
+        )
+    ),
+
+    StringField(
+        name='end_xpath',
+        widget=StringWidget(
+            label='End XPath',
+            label_msgid='Marginalia_label_end_xpath',
+            i18n_domain='Marginalia',
+        )
+    ),
+
+    StringField(
+        name='end_word',
+        widget=StringWidget(
+            label='End Word',
+            label_msgid='Marginalia_label_end_word',
+            i18n_domain='Marginalia',
+        )
+    ),
+
+    StringField(
+        name='end_char',
+        widget=StringWidget(
+            label='End Char',
+            label_msgid='Marginalia_label_end_char',
             i18n_domain='Marginalia',
         )
     ),
@@ -69,6 +135,15 @@ schema = Schema((
         widget=StringWidget(
             label='Access',
             label_msgid='Marginalia_label_access',
+            i18n_domain='Marginalia',
+        )
+    ),
+
+    StringField(
+        name='action',
+        widget=StringWidget(
+            label='Action',
+            label_msgid='Marginalia_label_action',
             i18n_domain='Marginalia',
         )
     ),
@@ -105,24 +180,6 @@ schema = Schema((
         widget=StringWidget(
             label='Link',
             label_msgid='Marginalia_label_link',
-            i18n_domain='Marginalia',
-        )
-    ),
-
-    StringField(
-        name='closest_id',
-        widget=StringWidget(
-            label='Closest_id',
-            label_msgid='Marginalia_label_closest_id',
-            i18n_domain='Marginalia',
-        )
-    ),
-
-    StringField(
-        name='range_from_closest_id',
-        widget=StringWidget(
-            label='Range_from_closest_id',
-            label_msgid='Marginalia_label_range_from_closest_id',
             i18n_domain='Marginalia',
         )
     ),
@@ -202,11 +259,37 @@ class Annotation(BaseContent):
         Note that the URL includes the server name, so if the server is
         accessed with different names, annotations will be partitioned
         per name.
+        
+        TODO: Use config settings to strip server name.
         """
         url = self.getUrl()
         if url.find('#') != -1:
             url = url[:url.index('#')]
         return url
+        
+    security.declarePublic( 'getSequenceRange' )
+    def getSequenceRange( self ):
+        startBlock = self.getStart_block( )
+        startWord = self.getStart_word( )
+        startChar = self.getStart_char( )
+        endBlock = self.getEnd_block( )
+        endWord = self.getEnd_word( )
+        endChar = self.getEnd_char( )
+        return SequenceRange(
+            SequencePoint( startBlock, startWord, startChar ),
+            SequencePoint( endBlock, endWord, endChar ) )
+        
+    security.declarePublic( 'getXPathRange' )
+    def getXPathRange( self ):
+        startXPath = self.getStart_xpath( )
+        startWord = self.getStart_word( )
+        startChar = self.getStart_char( )
+        endXPath = self.getEnd_xpath( )
+        endWord = self.getEnd_word( )
+        endChar = self.getEnd_char( )
+        return XPathRange(
+            XPathPoint( startXPath, startWord, startChar ),
+            XPathPoint( endXPath, endWord, endChar ) )
 
 
 registerType(Annotation, PROJECTNAME)

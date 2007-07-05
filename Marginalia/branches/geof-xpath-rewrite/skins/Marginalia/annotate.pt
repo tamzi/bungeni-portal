@@ -1,0 +1,104 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+<metal:block fill-slot="javascript_head_slot">
+    <script type="text/javascript" tal:content="string:
+        function myCreateAnnotation( event, postId )
+        {
+            event = getEvent( event );
+            stopPropagation( event );
+            createAnnotation( postId,true );
+        }
+        
+        function _skipContent( node )
+        {
+            return _skipAnnotationLinks( node );
+        }
+
+        var serviceRoot = '${request/base}/${utool/getPortalPath}/portal_annotations';
+        var annotationService = new RestAnnotationService( serviceRoot );
+        var preferences = new Preferences( new RestPreferenceService( serviceRoot ) );
+        var keywordService = new RestKeywordService( serviceRoot + '/listKeywords');
+        keywordService.init( );
+        marginaliaInit( annotationService, '${user/getUserName}', '${user/getUserName}', null, preferences, keywordService );
+
+        function show_annotations_on_load() 
+        {
+            window.marginalia.showAnnotations( '${request/URL}/#*')
+        }
+        addEventHandler(window, 'load', show_annotations_on_load, window)
+        ">
+    </script>
+</metal:block>
+
+<body>
+
+<metal:main fill-slot="main">
+    <tal:main-macro metal:define-macro="main"
+           tal:define="text python: here.CookedBody(stx_level=2)">
+
+        <div metal:use-macro="here/document_actions/macros/document_actions">
+            Document actions (print, sendto etc)
+        </div>
+
+        <h1 tal:content="object_title" class="documentFirstHeading">
+          Title or id
+        </h1>
+
+        <!-- Marginalia .. -->
+        <ul id="debug" style="display:none">
+            <li></li>
+        </ul>
+    
+        <div metal:use-macro="here/document_byline/macros/byline">
+          Get the byline - contains details about author and modification date.
+        </div>
+
+        <p class="documentDescription"
+           tal:content="here/Description"
+           tal:condition="here/Description">
+            Description
+        </p>
+        <p tal:condition="python: not text and is_editable"
+           i18n:translate="no_body_text"
+           class="discreet">
+            This item does not have any body text, click the edit tab to change it.
+        </p>
+    
+        <div class="stx"
+             tal:condition="text"
+             tal:attributes="class python:test(here.Format() in ('text/structured',
+                                                   'text/x-rst', ), 'stx', 'plain')">
+            <div class="hentry" id="m1">
+              <table border="1" style="width: 100%">
+                <tr>
+                  <td>
+                    <h3 class="entry-title">Annotation demo</h3>
+                    <div class="entry-content" tal:content="structure text" />
+                    <a rel="bookmark"
+                        tal:attributes="href string:${here/absolute_url}/annotate/#m1"
+                        href="http://www.geof.net/code/annotation/demo/#m1">#</a>
+                  </td>
+                  <td>
+                    <div class="notes">
+                      <button class="createAnnotation" onclick="myCreateAnnotation(event,'m1')" title="Click here to create an annotation">&gt;</button>
+                      <ol><li></li></ol>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+        </div>
+
+        <div metal:use-macro="here/document_relateditems/macros/relatedItems">
+            show related items if they exist
+        </div>
+    
+    </tal:main-macro>
+</metal:main>
+
+</body>
+</html>
+

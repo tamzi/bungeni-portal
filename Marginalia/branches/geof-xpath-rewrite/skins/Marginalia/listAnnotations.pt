@@ -48,10 +48,14 @@
 
   <tal:repeat repeat="feedentry results">
 
-    <entry>
+    <entry tal:define="
+		action feedentry/getAction;
+		note feedentry/getNote;
+		quote feedentry/getQuote">
     <ptr:range format="sequence" tal:content="feedentry/getSequenceRange">/2/15.0;/2/17.7</ptr:range>
     <ptr:range format="xpath" tal:content="feedentry/getXPathRange">p[2]/word(15)/char(0);p[2]/word(17)/char(7)</ptr:range>
     <ptr:access tal:content="feedentry/getAccess">private</ptr:access>
+	<ptr:action tal:content="action">edit</ptr:action>
 
       <title tal:content="feedentry/Title">
         The Netherlands wins the world cup
@@ -98,10 +102,18 @@
                      Geof Glass
               </span>):
             </p>
-			<blockquote cite="http://annotated-url" tal:attributes="cite feedentry/getUrl">
-              <p tal:content="feedentry/getQuote">quoted text</p>
+			
+			<blockquote tal:condition="quote" cite="http://annotated-url" tal:attributes="cite feedentry/getUrl">
+				<p
+					><del tal:condition="python:action=='edit'" tal:content="quote">strikethrough text</del
+					><span tal:condition="python:action!='edit'" tal:replace="quote">quoted text</span
+				></p>
             </blockquote>
-			<p class='note' tal:content="feedentry/getNote">margin note</p>
+			
+			<p class="note" tal:condition="note">
+				<ins tal:condition="python:action=='edit'" tal:content="note">insertion text</ins>
+				<span tal:condition="python:action!='edit'" tal:replace="note">margin note</span>
+			</p>
         </div>
       </content>
 

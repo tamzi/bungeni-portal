@@ -202,6 +202,7 @@ ol#articles {
 /* BlockInfo Markers */
 
 .hentry .markers {
+	position: relative;
 	width: 3em;
 	margin: 0;
 	padding: 0;

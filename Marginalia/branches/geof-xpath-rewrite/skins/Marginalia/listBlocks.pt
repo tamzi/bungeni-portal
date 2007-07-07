@@ -15,6 +15,7 @@
 <range-infos
     xml:base=""
     xml:lang="en"
+    xmlns:ptr="http://www.geof.net/code/annotation/"
     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
     xmlns:tal="http://xml.zope.org/namespaces/tal"
     tal:define="
@@ -32,8 +33,10 @@
 		<range-info url="" tal:attributes="url rangeinfo/url">
 			<range format="sequence" tal:content="rangeinfo/sequenceRange"/>
 			<range format="xpath" tal:content="rangeinfo/xpathRange"/>
-			<tal:repeat repeat="annotation rangeinfo/annotations">
-				<user tal:content="annotation/userName"/>
+			<tal:repeat repeat="userinfo rangeinfo/getUsers">
+				<user notes="" edits=""
+					tal:attributes="notes userinfo/notes; edits userinfo/edits"
+					tal:content="userinfo/username"/>
 			</tal:repeat>
 		</range-info>
 	</tal:repeat>

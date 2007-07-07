@@ -10,7 +10,8 @@
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/html-model.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/domutil.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/ranges.js"></script>
-	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/range-format.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/SequenceRange.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/XPathRange.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/post-micro.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/linkable.js"></script>
 	

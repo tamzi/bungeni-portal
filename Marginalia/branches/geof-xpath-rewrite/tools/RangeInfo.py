@@ -1,8 +1,12 @@
-#from AccessControl import ClassSecurityInfo
+
+import Globals
+from AccessControl import ClassSecurityInfo
 
 
 class RangeInfo:
 	""" A RangeInfo object contains aggregated annotation information about a range. """
+
+	security = ClassSecurityInfo()
 	
 	def __init__( self, url=None, sequenceRange=None, xpathRange=None, annotations=[ ] ):
 		self.url = url
@@ -19,8 +23,45 @@ class RangeInfo:
 	def addAnnotation( self, annotation ):
 		self.annotations.append( annotation )
 		
+	security.declarePublic( 'getUsers' )
+	def getUsers( self ):
+		users = { }
+		# I'm sure there's a more Pythonic way to do this, but I'm tired and don't know it
+		for annotation in self.annotations:
+			username = annotation.getUserName( )
+			if not users.has_key( username ):
+				users[ username ] = RangeInfoUser( username )
+			if 'edit' == annotation.getAction( ):
+				users[ username ].edits += 1
+			else:
+				users[ username ].notes += 1
+		return users.values( )
 		
+	security.declarePublic('url')
+	security.declarePublic('sequenceRange')
+	security.declarePublic('xpathRange')
+	security.declarePublic('annotations')
+		
+Globals.InitializeClass( RangeInfo )
 
+
+class RangeInfoUser:
+	""" Used by RangeInfo to return user information aggregated from annotations """
+	
+	security = ClassSecurityInfo()
+	
+	def __init__( self, username ):
+		self.username = username
+		self.notes = 0
+		self.edits = 0
+		
+	security.declarePublic( 'username' )
+	security.declarePublic( 'notes' )
+	security.declarePublic( 'edits' )
+
+Globals.InitializeClass( RangeInfoUser )
+
+	
 def mergeRangeInfos( infos ):
 	""" Reduce the number of range infos as much as possible.
 	Subsequent infos with the same stand and end will be collapsed to a single info. """

@@ -29,9 +29,9 @@ import sys
 import re
 
 class XPathRange:
-	def __init__( self, startPoint=None, endPoint=None ):
-		self.start = startPoint
-		self.end = endPoint
+	def __init__( self, rangeStr=None ):
+		if rangeStr is not None and rangeStr != '':
+			self.fromString( rangeStr )
 		
 	def fromString( self, s ):
 		if self.start is not None or self.end is not None:
@@ -55,19 +55,23 @@ class XPathPoint:
 		- XPathPoint( '/p[2]/p[7]/word(15,3)' )
 		"""
 
-		matches = POINT_RE.match( xpathStr )
-		if matches:
-			if not isXPathSafe( matches.group( 1 ) ):
-				raise "Unsafe XPath"
-			self.path = matches.group( 1 )
-			self.words = int( matches.group( 2 ) )
-			self.chars = int( matches.group( 3 ) )
+		xpath = xpathStr
+		if words:
+			matches = POINT_RE.match( xpathStr )
+			if matches:
+				xpath = matches.group( 1 )
+				self.words = int( matches.group( 2 ) )
+				self.chars = int( matches.group( 3 ) )
+			else:
+				self.words = int( words )
+				self.chars = int( chars )
 		else:
-			if not isXPathSafe( xpathStr ):
-				raise "Unsafe XPath"
-			self.path = xpathStr
-			self.words = words
-			self.chars = chars
+			self.words = None
+			self.chars = None
+		
+		if not isXPathSafe( xpath ):
+			raise "Unsafe XPath"
+		self.path = xpath
 	
 	def getPathStr( self ):
 		""" Get the xpath (specifying a particular element in the HTML document) """

@@ -34,9 +34,9 @@ class SequenceRange:
 	Immutable (fromString should be treated only as a constructor)
 	"""
 
-	def __init__( self, startPoint=None, endPoint=None ):
-		self.start = startPoint
-		self.end = endPoint
+	def __init__( self, rangeStr=None ):
+		if rangeStr is not None and rangeStr != '':
+			self.romString( rangeStr )
 		
 	def fromString( self, s ):
 		if self.start is not None and this.end is not None:
@@ -61,6 +61,10 @@ class SequenceRange:
 		return self.end.__cmp__( other.end )
 
 
+CMP_INCLUSIVE = 0		# a:B -> 0, A:b -> 0
+CMP_TOSTART = -1		# a:B -> -1, A:b -> 1
+CMP_TOEND = 1			# a:B -> 1, a:B -> -1
+
 class SequencePoint:
 	"""
 	Represents a point in an annotated document
@@ -83,23 +87,24 @@ class SequencePoint:
 		# Transform the second call style (all one string)
 		# into the correct parameters for the first
 		if words is None:
-			if -1 != dot:
-				slash = blockStr.rindex( '/' )
-#				print >>sys.stderr, "Slash at %d, dot at %d in '%s' -> word( %s )" % ( slash, dot, blockStr, blockStr[ slash + 1 : dot - slash ] )
-				words = int( blockStr[ slash + 1 : dot ] )
-				chars = int( blockStr[ dot + 1 : ] )
-				blockStr = blockStr[ 0 : slash ]
-				n -= 1
-			else:
+			if -1 == dot:
 				self.words = None
 				self.chars = None
+			else:
+				slash = blockStr.rindex( '/' )
+#				print >>sys.stderr, "Slash at %d, dot at %d in '%s' -> word( %s )" % ( slash, dot, blockStr, blockStr[ slash + 1 : dot - slash ] )
+				self.words = int( blockStr[ slash + 1 : dot ] )
+				self.chars = int( blockStr[ dot + 1 : ] )
+				blockStr = blockStr[ 0 : slash ]
+				n -= 1
+		else:
+			self.words = int( words )
+			self.chars = int( chars )
 		
 		# The blockStr may be padded with zeros.  Strip them.
 		self.path = [ ]
 		for part in parts[ 1:n ]:
 			self.path.append( int( part ) )
-		self.words = int( words )
-		self.chars = int( chars )
 	
 	def comparePath( self, point2 ):
 		""" Compare only the path components of two points """
@@ -117,6 +122,39 @@ class SequencePoint:
 		else:
 			return 0
 	
+	def compare( self, point2, underspecified=CMP_TOSTART ):
+		""" Compare two points.  If one point is more specified than the other (e.g. it has
+		words specified, while the other doesn't), use the inclusive parameter.  Inclusive
+		of True defaults to return True in this case, False to False. """
+		r = self.comparePath( point2 )
+		if r != 0:
+			return r
+		elif self.words is None and point2.words is None:
+			return 0
+		elif self.words is None:		# a:B
+			return underspecified
+		elif point2.words is None:		# A:b
+			return -1 * underspecified
+		elif self.words < point2.words:
+			return -1
+		elif self.words > point2.words:
+			return 1
+		elif self.chars is None and point2.chars is None:
+			return 0
+		elif self.chars is None:		# a:B
+			return underspecified
+		elif point2.chars is None:		# A:b
+			return -1 * underspecified
+		elif self.chars < point2.chars:
+			return -1
+		elif self.chars > point2.chars:
+			return 1
+		else:
+			return 0
+			
+	def compareInclusive( self, point2 ):
+		return self.compare( point2, CMP_INCLUSIVE )
+		
 	def __cmp__( self, point2 ):
 		""" Compare location with another point. """
 		
@@ -125,31 +163,8 @@ class SequencePoint:
 			(self.chars is None and point2.words is not None) or
 			(self.chars is not None and point2.words is None)):
 			raise "Comparison of incomparable SequencePoints."
-		r = self.comparePath( point2 )
-		if r != 0:
-			return r
-		elif self.words is None and point2.words is None:
-			return 0
-		elif self.words is None:
-			return -1
-		elif point2.words is None:
-			return 1
-		elif self.words < point2.words:
-			return -1
-		elif self.words > point2.words:
-			return 1
-		elif self.chars is None and point2.chars is None:
-			return 0
-		elif self.chars is None:
-			return -1
-		elif point2.chars is None:
-			return 1
-		elif self.chars < point2.chars:
-			return -1
-		elif self.chars > point2.chars:
-			return 1
 		else:
-			return 0
+			return self.compare( point2 );
 	
 	def getPathStr( self ):
 		""" Get the block path as a string of slash-separated indices """

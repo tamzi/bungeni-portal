@@ -163,7 +163,7 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         return '\n'.join(self.Schema()['keywords'].get(self))
 
     security.declarePublic('getSortedFeedEntries')
-    def getSortedFeedEntries(self, user, url):
+    def getSortedFeedEntries(self, user, url, block=None):
         """ The incoming query specifies an URL like 
         http://server/somedocument/annotate/#*
         where the fragment identifier ('#*') specifies all annotations
@@ -183,7 +183,17 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         if user:
             query[ 'Creator' ] = user
         ps = catalog(query)
-        annotations = [p.getObject() for p in ps]
+        # Filter by position (if block was specified )
+        annotations = [ ]
+        if block is not None and block != '':
+            block = SequencePoint( block );
+            for p in ps:
+                annotation = p.getObject( )
+                arange = annotation.getSequenceRange( )
+                if arange.start.compareInclusive( block ) <= 0 and arange.end.compareInclusive( block ) >= 0:
+                    annotations.append( annotation )
+        else:
+            annotations = [ p.getObject( ) for p in ps ]
         return annotations 
 
     security.declarePublic('getRangeInfos')
@@ -261,10 +271,8 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         # parameters in the body should specify the action to take.
         params.update(self.REQUEST)
         params.update(parse_qsl(self.REQUEST.QUERY_STRING))
-        sequenceRange = SequenceRange( )
-        sequenceRange.fromString( params[ 'sequence-range' ] )
-        xpathRange = XPathRange( )
-        xpathRange.fromString( params[ 'xpath-range' ] )
+        sequenceRange = SequenceRange( params[ 'sequence-range' ] )
+        xpathRange = XPathRange( params[ 'xpath-range' ] )
         params[ 'start_block' ] = sequenceRange.start.getPaddedPathStr( )
         params[ 'start_xpath' ] = xpathRange.start.getPathStr( )
         params[ 'start_word' ] = xpathRange.start.words

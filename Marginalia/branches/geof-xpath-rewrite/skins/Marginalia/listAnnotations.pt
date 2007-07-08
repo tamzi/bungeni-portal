@@ -25,7 +25,7 @@
       q_user request/user;
       q_url request/url;
       feed nocall:context;
-      results python:feed.getSortedFeedEntries(q_user, q_url);"
+      results python:feed.getSortedFeedEntries(q_user, q_url, q_block);"
       tal:attributes="xml:base feed/getBaseURL"
       i18n:domain="marginalia"
       ptr:annotation-version='0.4'

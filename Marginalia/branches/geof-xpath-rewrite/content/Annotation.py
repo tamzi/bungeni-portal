@@ -275,9 +275,10 @@ class Annotation(BaseContent):
         endBlock = self.getEnd_block( )
         endWord = self.getEnd_word( )
         endChar = self.getEnd_char( )
-        return SequenceRange(
-            SequencePoint( startBlock, startWord, startChar ),
-            SequencePoint( endBlock, endWord, endChar ) )
+        sequenceRange = SequenceRange( )
+        sequenceRange.start = SequencePoint( startBlock, startWord, startChar )
+        sequenceRange.end = SequencePoint( endBlock, endWord, endChar )
+        return sequenceRange
         
     security.declarePublic( 'getXPathRange' )
     def getXPathRange( self ):
@@ -287,9 +288,10 @@ class Annotation(BaseContent):
         endXPath = self.getEnd_xpath( )
         endWord = self.getEnd_word( )
         endChar = self.getEnd_char( )
-        return XPathRange(
-            XPathPoint( startXPath, startWord, startChar ),
-            XPathPoint( endXPath, endWord, endChar ) )
+        xpathRange = XPathRange( )
+        xpathRange.start = XPathPoint( startXPath, startWord, startChar )
+        xpathRange.end = XPathPoint( endXPath, endWord, endChar )
+        return xpathRange
 
 
 registerType(Annotation, PROJECTNAME)

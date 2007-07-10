@@ -20,30 +20,28 @@ ftp_port = None
 symlink_basedir_template = '%(user_dir)s/repos/'
 symlink_sources = [
         # Bungeni products
-        {'source': 'svk/bungeni-portal/AuditTrail/trunk', 'productname': 'AuditTrail'},
-        {'source': 'svk/bungeni-portal/Bungeni/trunk', 'productname': 'Bungeni'},
-        {'source': 'svk/bungeni-portal/BungeniDefaultContent/trunk', 'productname': 'BungeniDefaultContent'},
-        {'source': 'svk/bungeni-portal/BungeniSkin/trunk', 'productname': 'BungeniSkin'},
-        {'source': 'svk/bungeni-portal/BungeniSkinAO/trunk', 'productname': 'BungeniSkinAO'},
-        {'source': 'svk/bungeni-portal/BungeniSkinCM/trunk', 'productname': 'BungeniSkinCM'},
-        {'source': 'svk/bungeni-portal/BungeniSkinGH/trunk', 'productname': 'BungeniSkinGH'},
-        {'source': 'svk/bungeni-portal/BungeniSkinKE/trunk', 'productname': 'BungeniSkinKE'},
-        {'source': 'svk/bungeni-portal/BungeniSkinMZ/trunk', 'productname': 'BungeniSkinMZ'},
-        {'source': 'svk/bungeni-portal/BungeniSkinNG/trunk', 'productname': 'BungeniSkinNG'},
-        {'source': 'svk/bungeni-portal/BungeniSkinPanafrica/trunk', 'productname': 'BungeniSkinPanafrica'},
-        {'source': 'svk/bungeni-portal/BungeniSkinRW/trunk', 'productname': 'BungeniSkinRW'},
-        {'source': 'svk/bungeni-portal/BungeniSkinTZ/trunk', 'productname': 'BungeniSkinTZ'},
-        {'source': 'svk/bungeni-portal/BungeniSkinUG/trunk', 'productname': 'BungeniSkinUG'},
-        {'source': 'svk/bungeni-portal/BungeniSkinZA/trunk', 'productname': 'BungeniSkinZA'},
-        {'source': 'svk/bungeni-portal/Marginalia/trunk', 'productname': 'Marginalia'},
-        {'source': 'svk/bungeni-portal/DCWorkflow', 'productname': 'DCWorkflow'},
-
-        # Kludge, hmf.
-        {'source': 'svn/codespeak.net/pythonproducts-trunk/src/pythonproducts', 'productname': 'pythonproducts'},
+        {'source': 'svn/googlecode.com/bungeni-portal/AuditTrail/trunk', 'productname': 'AuditTrail'},
+        {'source': 'svn/googlecode.com/bungeni-portal/Bungeni/trunk', 'productname': 'Bungeni'},
+        {'source': 'svn/googlecode.com/bungeni-portal/BungeniDefaultContent/trunk', 'productname': 'BungeniDefaultContent'},
+        {'source': 'svn/googlecode.com/bungeni-portal/BungeniSkin/trunk', 'productname': 'BungeniSkin'},
+        # {'source': 'svn/googlecode.com/bungeni-portal/BungeniSkinAO/trunk', 'productname': 'BungeniSkinAO'},
+        # {'source': 'svn/googlecode.com/bungeni-portal/BungeniSkinCM/trunk', 'productname': 'BungeniSkinCM'},
+        # {'source': 'svn/googlecode.com/bungeni-portal/BungeniSkinGH/trunk', 'productname': 'BungeniSkinGH'},
+        # {'source': 'svn/googlecode.com/bungeni-portal/BungeniSkinKE/trunk', 'productname': 'BungeniSkinKE'},
+        # {'source': 'svn/googlecode.com/bungeni-portal/BungeniSkinMZ/trunk', 'productname': 'BungeniSkinMZ'},
+        # {'source': 'svn/googlecode.com/bungeni-portal/BungeniSkinNG/trunk', 'productname': 'BungeniSkinNG'},
+        # {'source': 'svn/googlecode.com/bungeni-portal/BungeniSkinPanafrica/trunk', 'productname': 'BungeniSkinPanafrica'},
+        # {'source': 'svn/googlecode.com/bungeni-portal/BungeniSkinRW/trunk', 'productname': 'BungeniSkinRW'},
+        # {'source': 'svn/googlecode.com/bungeni-portal/BungeniSkinTZ/trunk', 'productname': 'BungeniSkinTZ'},
+        # {'source': 'svn/googlecode.com/bungeni-portal/BungeniSkinUG/trunk', 'productname': 'BungeniSkinUG'},
+        # {'source': 'svn/googlecode.com/bungeni-portal/BungeniSkinZA/trunk', 'productname': 'BungeniSkinZA'},
+        {'source': 'svn/googlecode.com/bungeni-portal/Marginalia/trunk', 'productname': 'Marginalia'},
+        {'source': 'svn/googlecode.com/bungeni-portal/DCWorkflow', 'productname': 'DCWorkflow'},
 
         # Plone
         {'source': 'svn/svn.plone.org/MoreFieldsAndWidgets/AddRemoveWidget/trunk', 'productname': 'AddRemoveWidget'},
-        {'source': 'svn/svn.plone.org/gsxml-trunk/inquant', 'productname': 'inquant', 'pylib': True},
+        # installed into site-packages somewhere, gmf ..
+        # {'source': 'svn/svn.plone.org/gsxml-trunk/inquant', 'productname': 'inquant', 'pylib': True},
         {'source': 'svn/svn.plone.org/SecureMaildropHost-trunk', 'productname': 'SecureMaildropHost'},
         {'source': 'svn/svn.plone.org/membrane-trunk', 'productname': 'membrane'},
         {'source': 'svn/svn.plone.org/PloneHelpCenter/trunk', 'productname': 'PloneHelpCenter'},
@@ -71,7 +69,6 @@ use_svn_export = False
 
 archive_basedir_template = '%(user_dir)s/download/code/plone/products/'
 archive_sources = [
-        # Installing via pythonproducts now, sigh ..
         # 'gsxml-bungeni.tar.gz',
         'MaildropHost-1.20.tgz',
         'PlonePopoll-2.5.1.tgz',

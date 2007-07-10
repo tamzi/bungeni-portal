@@ -25,7 +25,7 @@
     <ul id="portal-globalnav-sub">
         <tal:subnav 
         tal:define="selected_portal_obj python:getattr(portal_object, selected_portal_tab)"
-        tal:repeat="tab python:selected_portal_obj.contentValues(['ATDocument','ATTopic'])">
+        tal:repeat="tab python:selected_portal_obj.contentValues(['ATDocument','ATTopic','Window'])">
         <li tal:attributes="id string:portalsubtab-${tab/getId};
                             class python:test(here.getId()==tab.getId(), 'selected', 'plain');">
             <a href="" 

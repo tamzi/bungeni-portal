@@ -79,6 +79,7 @@ class Minutes(BaseContent):
 
     # Methods
 
+
 registerType(Minutes, PROJECTNAME)
 # end of class Minutes
 

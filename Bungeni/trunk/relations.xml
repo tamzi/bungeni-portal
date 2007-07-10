@@ -1,13 +1,13 @@
 <?xml version="1.0" ?>
 <RelationsLibrary>
 	<RulesetCollection id="Bungeni">
-		<Ruleset id="response_question" uid="Im5be589d8m112e2682741mm4e84">
+		<Ruleset id="take_clerk" uid="Im5be589d8m112e2682741mm32ce">
 			<TypeConstraint id="type_constraint">
 				<allowedSourceType>
-					Response
+					Take
 				</allowedSourceType>
 				<allowedTargetType>
-					Question
+					Clerk
 				</allowedTargetType>
 			</TypeConstraint>
 			<CardinalityConstraint id="cardinality">
@@ -56,13 +56,13 @@
 				</allowedTargetType>
 			</TypeConstraint>
 		</Ruleset>
-		<Ruleset id="agendaitem_motion" uid="Im5be589d8m112e2682741mm373c">
+		<Ruleset id="agendaitem_bill" uid="Im569b1bf8m1134968e78emm3ef0">
 			<TypeConstraint id="type_constraint">
 				<allowedSourceType>
 					AgendaItem
 				</allowedSourceType>
 				<allowedTargetType>
-					Motion
+					Bill
 				</allowedTargetType>
 			</TypeConstraint>
 			<CardinalityConstraint id="cardinality">
@@ -71,13 +71,13 @@
 				</maxTargetCardinality>
 			</CardinalityConstraint>
 		</Ruleset>
-		<Ruleset id="take_clerk" uid="Im5be589d8m112e2682741mm32ce">
+		<Ruleset id="response_question" uid="Im5be589d8m112e2682741mm4e84">
 			<TypeConstraint id="type_constraint">
 				<allowedSourceType>
-					Take
+					Response
 				</allowedSourceType>
 				<allowedTargetType>
-					Clerk
+					Question
 				</allowedTargetType>
 			</TypeConstraint>
 			<CardinalityConstraint id="cardinality">
@@ -101,13 +101,13 @@
 				</maxTargetCardinality>
 			</CardinalityConstraint>
 		</Ruleset>
-		<Ruleset id="agendaitem_bill" uid="Im569b1bf8m1134968e78emm3ef0">
+		<Ruleset id="agendaitem_motion" uid="Im5be589d8m112e2682741mm373c">
 			<TypeConstraint id="type_constraint">
 				<allowedSourceType>
 					AgendaItem
 				</allowedSourceType>
 				<allowedTargetType>
-					Bill
+					Motion
 				</allowedTargetType>
 			</TypeConstraint>
 			<CardinalityConstraint id="cardinality">

@@ -79,6 +79,7 @@ class Session(BaseFolder):
 
     # Methods
 
+
 registerType(Session, PROJECTNAME)
 # end of class Session
 

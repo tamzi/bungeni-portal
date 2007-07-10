@@ -3,8 +3,14 @@
 
 <body>
 
-<!-- THE PORTAL LOGO DEFINITION -->
 <div metal:define-macro="portal_logo">
+
+    <tal:comment replace="nothing">
+    <!-- THE PORTAL LOGO DEFINITION 
+
+    hack out: if we want to vary the logo, it can't be specified in
+    cached CSS
+
 <h1 id="portal-logo">
     <a href="/"
        tal:attributes="href navigation_root_url"
@@ -14,6 +20,16 @@
         Plone
     </a>
 </h1>
+    -->
+    </tal:comment>
+
+    <p tal:condition="isAnon"><img src="logo.png"/></p>
+    <p tal:condition="not:isAnon" style="background-color: #9aff7b; margin-bottom: -10px">
+    <img src="logo.gif"/> 
+    <em style="font-weight: bold; font-size: 250%; margin-left: 90px; margin-top: 20px; color: brown;">
+    Parliament's view
+    </em>
+    </p>
 
 <div class="portalMessage" tal:condition="not:isAnon">Logged in as: 
     <em tal:content="python:', '.join([r for r in user.getRoles() if r not in ['Authenticated', 'Anonymous', 'Member']])"></em>; 

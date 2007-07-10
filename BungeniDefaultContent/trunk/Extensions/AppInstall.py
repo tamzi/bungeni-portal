@@ -1,8 +1,9 @@
 from StringIO import StringIO
 from Products.CMFCore.permissions import View
 from Products.CMFCore.utils import getToolByName
-from Products.BungeniDefaultContent.config import *
+from Products.Archetypes.utils import shasattr
 from Products.PlonePAS.utils import cleanId
+from Products.BungeniDefaultContent.config import *
 
 new_actions = (
         {'id': 'glossary',
@@ -67,7 +68,7 @@ def add_default_content(root, structure, initial_transitions=['publish']):
         # rather than added to, the modified objects will need to be
         # deleted first .. and they may have relations to other objects
         # .. 
-        if parent._getOb(obj_id):
+        if shasattr(parent, obj_id):
             return parent[obj_id]
 
         if 'Criteri' in d['type']:

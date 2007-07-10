@@ -107,6 +107,17 @@
     color: &dtml-globalFontColor;;
 }
 
+.insert {
+    text-decoration: underline;
+}
+
+.delete {
+    text-decoration: line-through;
+}
+
+/* Mint green
+* #9aff7b
+*/
 
 /* </dtml-with> */
 

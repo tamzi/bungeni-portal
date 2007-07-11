@@ -1,0 +1,5 @@
+firstlaunch=0
+workspace.folder=workspace
+server.ip=192.168.0.1
+server.port=1980
+serverpath=/tempo

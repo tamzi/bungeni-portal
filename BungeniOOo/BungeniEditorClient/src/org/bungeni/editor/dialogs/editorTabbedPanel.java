@@ -22,14 +22,17 @@ import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.table.XCell;
 import com.sun.star.text.XText;
+import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextTable;
 import com.sun.star.uno.Any;
 import com.sun.star.uno.Any;
 import com.sun.star.uno.AnyConverter;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+import java.util.Vector;
 import javax.swing.Icon;
 import javax.swing.JFrame;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -63,7 +66,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     }
     
     private void initTree(){
-       DocStructureTreeModel treeModel = new DocStructureTreeModel(getTree());
+       DocStructureTreeModel treeModel = new DocStructureTreeModel(getDocumentTree());
        treeDocStructure.setModel(treeModel);
         DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
         Icon personIcon = null;
@@ -74,15 +77,21 @@ public class editorTabbedPanel extends javax.swing.JPanel {
       
     }
         
-   private DocStructureTreeNode getDocumentTree() throws UnknownPropertyException{
+   private DocStructureTreeNode getDocumentTree() {
        //get text handle
+       DocStructureTreeNode mainNode = new DocStructureTreeNode("Document");
        XText objText = getTextDocument().getText();
        XEnumerationAccess objEnumAccess = (XEnumerationAccess) UnoRuntime.queryInterface( XEnumerationAccess.class, objText); 
        XEnumeration paraEnum =  objEnumAccess.createEnumeration();
        int nHeadsFound = 0;
+       Vector vHeadings = new Vector();
        try {
         // While there are paragraphs, do things to them 
+        //first we find the number of heading paragraphs
+        log.debug("Inside getDocumentTree, entering, hasMoreElements");
         while (paraEnum.hasMoreElements()) { 
+            log.debug("Inside getDocumentTree, inside, hasMoreElements");
+
             XServiceInfo xInfo;
             xInfo = null;
             Object objNextElement = null;
@@ -93,15 +102,62 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                 // Access the paragraph's property set...the properties in this 
                 // property set are listed 
                 // in: com.sun.star.style.ParagraphProperties 
-               
-                XPropertySet xSet = (XPropertySet) UnoRuntime.queryInterface( 
-                    XPropertySet.class, xInfo);
+                 log.debug("Inside getDocumentTree, supportsService paragraph");
+
+                XPropertySet xSet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, xInfo);
                      // Set the justification to be center justified 
-                    Integer nLevel =  (Integer)xSet.getPropertyValue("NumberingLevel");
+                    log.debug("Inside getDocumentTree, before , NumberingLevel");
+                        
+                    short nLevel = -1;
+                    nLevel = AnyConverter.toShort(xSet.getPropertyValue("ParaChapterNumberingLevel"));
+                    
+                    log.debug("Inside getDocumentTree, after , NumberingLevel = "+ nLevel);
+                    
                     if (nLevel == 0 ){
+                        XTextContent xContent = getTextContent(objNextElement);
+                        XTextRange aTextRange =   xContent.getAnchor();
+                        String strHeading = aTextRange.getString();
+                        DocStructureTreeNode treeNode = new DocStructureTreeNode(strHeading);
+                        log.debug("adding heading level 0");
+                        vHeadings.addElement(treeNode);
+                        
                         nHeadsFound++;
                     }
-            } /*
+            }
+            else           log.debug("Inside getDocumentTree, paragraph not supproted");
+            
+
+           
+          
+             //now we look for subheadings of headings....
+             /*
+             int nHeadCounter = 0;
+             int iCounter = 0;
+             XEnumerationAccess objEnumAccess2 = (XEnumerationAccess) UnoRuntime.queryInterface( XEnumerationAccess.class, objText); 
+             paraEnum =  objEnumAccess2.createEnumeration();
+             while ((nHeadCounter < nHeadsFounds ) && paraEnum.hasMoreElements() ) {
+                 XServiceInfo xInfo;
+                 xInfo = null;
+                Object objNextElement = null;
+                objNextElement = paraEnum.nextElement();
+                        //get service info
+                  xInfo = getServiceInfo(objNextElement);
+                if (xInfo.supportsService("com.sun.star.text.Paragraph")) { 
+                       iCounter++;
+                       XPropertySet xSet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, xInfo);
+                     // Set the justification to be center justified 
+                        Integer nLevel =  (Integer)xSet.getPropertyValue("NumberingLevel");
+                        if (nLevel >= 0) {
+                            nHeadCounter++;
+                            XTextContent xContent = getTextContent(objNextElement);
+                            
+                        }
+                    }
+             }
+             
+            */
+            
+             /*
             else if (xInfo.supportsService("com.sun.star.TextTable")){
                     ///get texttable object
                     XTextTable xTable = (XTextTable)UnoRuntime.queryInterface(XTextTable.class, objNextElement); 
@@ -118,8 +174,20 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                         }
                     }               
                  }  */
+             
+             //Fill an array with hedings and heading levels....
+             
+             
         } 
-        
+           if (nHeadsFound > 0 ) {
+                 log.debug("size of headings array = "+ vHeadings.size());
+                DocStructureTreeNode[] docStruct = new DocStructureTreeNode[vHeadings.size()];
+                 for (int i=0; i < vHeadings.size(); i++) {
+                      log.debug("adding headings to array "+ i);
+                     docStruct[i] = (DocStructureTreeNode) vHeadings.elementAt(i);
+                 }
+             DocStructureTreeNode.makeRelation(mainNode, docStruct);
+             }
         log.debug("no. of headings found = "+ nHeadsFound);
         } catch (WrappedTargetException ex) {
                 log.debug(ex.getLocalizedMessage(), ex);
@@ -127,10 +195,19 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                log.debug(ex.getLocalizedMessage(), ex);
             } 
        finally {
-            return new DocStructureTreeNode("return");
+            return mainNode;
        }
    }
     
+    private XTextContent getTextContent(Object element){
+        XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, element);
+        return xContent;
+    }
+    private XServiceInfo getServiceInfo(Object myObject){
+            XServiceInfo xInfo;
+            xInfo = (XServiceInfo) UnoRuntime.queryInterface(XServiceInfo.class, myObject);
+            return xInfo;
+    }
     /**** TEST METHOD *****/
     private DocStructureTreeNode getTree() {
         //the greatgrandparent generation

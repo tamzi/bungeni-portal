@@ -28,7 +28,7 @@
       results python:feed.getSortedFeedEntries(q_user, q_url, q_block);"
       tal:attributes="xml:base feed/getBaseURL"
       i18n:domain="marginalia"
-      ptr:annotation-version='0.4'
+      ptr:annotation-version='0.5'
       >
   <link rel="self"
         href=""
@@ -71,7 +71,11 @@
             title="Plone marginalia"
             tal:attributes="href feedentry/getUrl" />
 
-      <id tal:content="feedentry/UID">
+	<link rel='related' type='text/html' title="" href=""
+		tal:attributes="title feedentry/getLink_title;
+						 href feedentry/getLink"/>
+
+	<id tal:content="feedentry/UID">
         tag:localhost:12345678
       </id>
 
@@ -89,34 +93,27 @@
 	  
       <content type="xhtml">
         <div xmlns='http://www.w3.org/1999/xhtml' class='annotation'>
-            <p>
-              <cite>
-                <a href="http://annotated-url"
-                   tal:attributes="href feedentry/getUrl"
-                   tal:content="feedentry/getQuote_title">
-                   title of annotated document
-                 </a>
-              </cite>
-              (<span class='quoteAuthor'
-                     tal:content="feedentry/getQuote_author">
-                     Geof Glass
-              </span>):
-            </p>
-			
-			<blockquote tal:condition="quote" cite="http://annotated-url" tal:attributes="cite feedentry/getUrl">
-				<p
-					><del tal:condition="python:action=='edit'" tal:content="quote">strikethrough text</del
-					><span tal:condition="python:action!='edit'" tal:replace="quote">quoted text</span
-				></p>
-            </blockquote>
+            <p class="quote">
+				<del tal:condition="python:action=='edit'"><q tal:content="quote">strikethrough text</q></del>
+				<q tal:condition="python:action!='edit'" tal:content="quote">quoted text</q>
+				&#x2015; <span class="quoteAuthor" tal:content="feedentry/getQuote_author">author</span>,
+				<cite><a href="cited-url" tal:attributes="href feedentry/getUrl" tal:content="feedentry/getQuote_title">
+					title of annotated document
+				</a></cite>
+			</p>
 			
 			<p class="note" tal:condition="note">
 				<ins tal:condition="python:action=='edit'" tal:content="note">insertion text</ins>
 				<span tal:condition="python:action!='edit'" tal:replace="note">margin note</span>
 			</p>
+			
+			<p class="see-also" tal:condition="feedentry/getLink">
+				<cite>
+					<a href="" tal:attributes="href feedentry/getLink" tal:content="feedentry/getLink_title">link</a>
+				</cite>
+			</p>			
         </div>
       </content>
-
     </entry>
 
   </tal:repeat>

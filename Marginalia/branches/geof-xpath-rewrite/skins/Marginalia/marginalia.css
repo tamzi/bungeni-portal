@@ -179,14 +179,16 @@ ol#articles {
 .hentry .notes .editing-link input {
 	margin-left: 1.5em;
 	margin-right: 1.5em;
-	max-width: 80%;
+	max-width: 70%;
 }
 
 .hentry .notes .editing-link button {
-	position: absolute;
+	float: right;
+/*	position: absolute;
 	top: 0;
 	right: 0;
 	width: 1em;
+	*/
 }
 
 .hentry .notes li.quote-error p:before {

@@ -183,6 +183,15 @@ schema = Schema((
             i18n_domain='Marginalia',
         )
     ),
+	
+	StringField(
+		name ='link_title',
+		widget=StringWidget(
+			label='Link_title',
+			label_msgid='Marginalia_label_link_title',
+			il8n_domain='Marginalia',
+		)
+	),
 
     ComputedField(
         name='indexed_url',

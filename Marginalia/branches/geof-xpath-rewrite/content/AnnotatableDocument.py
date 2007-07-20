@@ -32,12 +32,17 @@ from Products.Archetypes.atapi import *
 from Products.Marginalia.content.AnnotationMixin import AnnotationMixin
 from Products.ATContentTypes.content.document import ATDocument
 from Products.Marginalia.config import *
+from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import *
 
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
 schema = Schema((
-
+#    ReferenceField('reference_link', 
+#                   multiValued=0,
+#                   allowed_types=('ATDocument','ATFile', 'Article'),
+#                   relationship='referenceLink1',
+#                   widget=ReferenceBrowserWidget(default_search_index='SearchableText', description='This is the first field. Pick an object.')),
 ),
 )
 
@@ -82,6 +87,23 @@ class AnnotatableDocument(BaseContent, AnnotationMixin, ATDocument):
 
     # Methods
 
+    # TODO: The following are necessary for the pop-up reference widget to work
+    # I don't know how to determine these values, nor do I know how to
+    # instantiate an AtReferenceBrowserWidget as a source for them
+    # (at least not without embedding that widget in the page, which I don't want)
+#    security.declarePublic( 'getReferenceBrowserPath' )
+#    def getReferenceBrowserStartupDir( self ):
+#        return 'http://localhost:8080/Plone'
+#        
+#    security.declarePublic( 'getReferenceBrowserAtUrl' )
+#    def getReferenceBrowserAtUrl( self ):
+#        return 'http://localhost:8080/Plone'
+
+#    security.declarePublic( 'getReferenceLink' )
+#    def getReferenceLink( self ):
+#        self.folder.invokeFactory( 'ReferenceField', 'ref1' )
+#        obj = self.folder.ObjectIds( ) [ 'ref1' ]
+#        return self.getReference_link( )
 
 registerType(AnnotatableDocument, PROJECTNAME)
 # end of class AnnotatableDocument

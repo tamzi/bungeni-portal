@@ -55,7 +55,6 @@ schema = Schema((
             i18n_domain='Marginalia',
         )
     ),
-
 ),
 )
 
@@ -318,8 +317,7 @@ class Annotations(UniqueObject, BaseBTreeFolder):
             self.REQUEST.RESPONSE.setStatus('NoContent')
             return
         self.REQUEST.RESPONSE.setStatus('BadRequest') # No id
-
-
+    
 registerType(Annotations, PROJECTNAME)
 # end of class Annotations
 

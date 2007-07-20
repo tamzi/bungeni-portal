@@ -17,6 +17,7 @@ import com.sun.star.container.XEnumeration;
 import com.sun.star.container.XEnumerationAccess;
 import com.sun.star.document.XDocumentInfo;
 import com.sun.star.document.XDocumentInfoSupplier;
+import com.sun.star.frame.XModel;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XServiceInfo;
@@ -27,18 +28,31 @@ import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextTable;
+import com.sun.star.text.XTextViewCursor;
+import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.Any;
 import com.sun.star.uno.Any;
 import com.sun.star.uno.AnyConverter;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Vector;
+import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.JFrame;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import org.apache.commons.collections.map.MultiValueMap;
+import org.bungeni.utils.DocStructureElement;
+/*
 import org.bungeni.utils.DocStructureTreeModel;
 import org.bungeni.utils.DocStructureTreeNode;
-
+*/
 /**
  *
  * @author  Administrator
@@ -47,6 +61,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     XComponent Component;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(editorTabbedPanel.class.getName());
     private String[] arrDocTypes = { "Acts" , "DebateRecords", "Bills" };
+    //vector that houses the list of document headings used by the display tree
+    private Vector mvDocumentHeadings = new Vector();
+         
     /** Creates new form SwingTabbedJPanel */
     public editorTabbedPanel() {
         initComponents();
@@ -61,41 +78,37 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     }
     
     private void initFields(){
-        initTree();
+        //initTree();
+        initList();
         
     }
     
-    private void initTree(){
-       DocStructureTreeModel treeModel = new DocStructureTreeModel(getDocumentTree());
-       treeDocStructure.setModel(treeModel);
-        DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
-        Icon personIcon = null;
-        renderer.setLeafIcon(personIcon);
-        renderer.setClosedIcon(personIcon);
-        renderer.setOpenIcon(personIcon);
-        treeDocStructure.setCellRenderer(renderer);
-      
-    }
-        
-   private DocStructureTreeNode getDocumentTree() {
-       //get text handle
-       DocStructureTreeNode mainNode = new DocStructureTreeNode("Document");
+    private void initList(){
+       
+       try { 
        XText objText = getTextDocument().getText();
+       
        XEnumerationAccess objEnumAccess = (XEnumerationAccess) UnoRuntime.queryInterface( XEnumerationAccess.class, objText); 
        XEnumeration paraEnum =  objEnumAccess.createEnumeration();
        int nHeadsFound = 0;
-       Vector vHeadings = new Vector();
-       try {
+       int nMaxLevel = 0;
+       int nPrevLevel = 0;
+       DocStructureElement previousElement = null;
+                
+       
         // While there are paragraphs, do things to them 
         //first we find the number of heading paragraphs
         log.debug("Inside getDocumentTree, entering, hasMoreElements");
+        
         while (paraEnum.hasMoreElements()) { 
             log.debug("Inside getDocumentTree, inside, hasMoreElements");
 
             XServiceInfo xInfo;
             xInfo = null;
             Object objNextElement = null;
-            objNextElement = paraEnum.nextElement();
+     
+                objNextElement = paraEnum.nextElement();
+       
                     //get service info
              xInfo = (XServiceInfo) UnoRuntime.queryInterface(XServiceInfo.class, objNextElement);
             if (xInfo.supportsService("com.sun.star.text.Paragraph")) { 
@@ -109,19 +122,72 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                     log.debug("Inside getDocumentTree, before , NumberingLevel");
                         
                     short nLevel = -1;
+                 
                     nLevel = AnyConverter.toShort(xSet.getPropertyValue("ParaChapterNumberingLevel"));
+                   
                     
                     log.debug("Inside getDocumentTree, after , NumberingLevel = "+ nLevel);
-                    
-                    if (nLevel == 0 ){
+                    /*
+                     *count total headings >= level 0
+                     *iterate through all the headings again
+                     *for each heading add the level information for the heading
+                     */
+                    if (nLevel >= 0 ){
+                        
+                        nHeadsFound++;
                         XTextContent xContent = getTextContent(objNextElement);
                         XTextRange aTextRange =   xContent.getAnchor();
                         String strHeading = aTextRange.getString();
-                        DocStructureTreeNode treeNode = new DocStructureTreeNode(strHeading);
-                        log.debug("adding heading level 0");
-                        vHeadings.addElement(treeNode);
                         
-                        nHeadsFound++;
+                        if (nLevel > nMaxLevel)
+                            nMaxLevel = nLevel;
+                        
+                        
+                        DocStructureElement element = new DocStructureElement(strHeading, nLevel, nHeadsFound, aTextRange );
+                        if (previousElement == null  ){
+                            previousElement = element;
+                        }
+                        else{
+                            int currentVectorIndex = nHeadsFound - 1;
+                            //get prev index
+                            DocStructureElement prev = (DocStructureElement) mvDocumentHeadings.elementAt(currentVectorIndex - 1);
+                             
+                            //get element at previous index
+                            if (previousElement.getLevel() <  element.getLevel()) {
+                                prev.hasChildren(true);
+                                mvDocumentHeadings.setElementAt(prev, currentVectorIndex - 1);
+                            }
+                            else {
+                                prev.hasChildren(false);
+                                mvDocumentHeadings.setElementAt(prev, currentVectorIndex - 1);
+                            }
+                        }
+                           
+                        log.debug("adding heading level =" + nLevel + " and heading count = "+nHeadsFound);
+                        mvDocumentHeadings.addElement(element);
+                        
+                        //TextRange can be used to getText()
+                        // XText xRangeText = aTextRange.getText();
+                        /*
+                        XEnumerationAccess xRangeAccess = (XEnumerationAccess)UnoRuntime.queryInterface(com.sun.star.container.XEnumerationAccess.class,
+                                                                                                        objNextElement);
+                        if (xRangeAccess == null) {
+                            log.debug("RangeAccess was null");
+                        }                                                                                
+                        XEnumeration portionEnum =  xRangeAccess.createEnumeration();
+                        while (portionEnum.hasMoreElements()){
+                            Object textPortion =  portionEnum.nextElement();  
+                            XServiceInfo xTextPortionService= getServiceInfo(textPortion);
+                            if (xTextPortionService.supportsService( "com.sun.star.text.TextPortion")){
+                                XPropertySet xTextPortionProps = (XPropertySet)UnoRuntime.queryInterface(XPropertySet.class, textPortion);
+                                String textPortionType="";
+                                textPortionType = AnyConverter.toString(xTextPortionProps.getPropertyValue("TextPortionType"));
+                                if (textPortionType.equals("ReferenceMark"){
+                                    if ()
+                                }
+                            }
+                        }*/
+                 
                     }
             }
             else           log.debug("Inside getDocumentTree, paragraph not supproted");
@@ -179,6 +245,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
              
              
         } 
+        
+            /*
            if (nHeadsFound > 0 ) {
                  log.debug("size of headings array = "+ vHeadings.size());
                 DocStructureTreeNode[] docStruct = new DocStructureTreeNode[vHeadings.size()];
@@ -187,28 +255,128 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                      docStruct[i] = (DocStructureTreeNode) vHeadings.elementAt(i);
                  }
              DocStructureTreeNode.makeRelation(mainNode, docStruct);
-             }
-        log.debug("no. of headings found = "+ nHeadsFound);
-        } catch (WrappedTargetException ex) {
-                log.debug(ex.getLocalizedMessage(), ex);
-            } catch (NoSuchElementException ex) {
-               log.debug(ex.getLocalizedMessage(), ex);
-            } 
-       finally {
-            return mainNode;
-       }
+             }*/
+        
+             if (nHeadsFound > 0 ){
+                //iterate through the vector and add elemnts to list
+                DefaultListModel model = new DefaultListModel();
+                for (int i=0 ; i < mvDocumentHeadings.size(); i++)
+                     {               
+                        DocStructureElement elem = (DocStructureElement)mvDocumentHeadings.elementAt(i);
+                        model.addElement(elem);
+                     }
+                    // ListSelectionModel selectionModel = treeDocStructure.getSelectionModel();
+                    // selectionModel.addListSelectionListener(new DocStructureListSelectionHandler());
+                        
+                     treeDocStructure.setModel(model);
+                     treeDocStructure.addMouseListener(new DocStructureListMouseListener());
+                  }
+        
+             /*
+            For i = 0 to nHeadCount
+                    If mOutlines(i, 1) <= nDisplayLevel then
+                            nPosn = nPosn + 1
+                            SubAddItem(oListBox, i, nPosn, nDisplayLevel)
+                            mLinks(nPosn) = i
+                    End If
+            Next
+              */
+        
+           } catch (NoSuchElementException ex) {
+                ex.printStackTrace();
+            } catch (WrappedTargetException ex) {
+                ex.printStackTrace();
+            }
+            catch (com.sun.star.lang.IllegalArgumentException ex) {
+                        ex.printStackTrace();
+                    } 
+            catch (UnknownPropertyException ex) {
+                        ex.printStackTrace();
+                    }
+            
+   }
+    
+    class DocStructureListMouseListener implements MouseListener{
+        public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 2){
+                JList listBox = (JList)e.getSource();
+                listBox.getMaxSelectionIndex();
+                int nIndex = listBox.locationToIndex(e.getPoint());
+                //JOptionPane.showMessageDialog(null, "current selected index is = "+ nIndex);
+                
+                //get view cursor 
+                XTextViewCursor xViewCursor = getViewCursor();
+                //get the current object range
+                DocStructureElement docElement = (DocStructureElement)mvDocumentHeadings.elementAt(nIndex);
+                //move the view cursor to the element's range
+                xViewCursor.gotoRange(docElement.getRange(), false);
+            }
+        }
+
+        public void mousePressed(MouseEvent e) {
+        }
+
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        public void mouseExited(MouseEvent e) {
+        }
+        
+    }
+    class DocStructureListSelectionHandler implements ListSelectionListener {
+    public void valueChanged(ListSelectionEvent e) {
+        ListSelectionModel lsm = (ListSelectionModel)e.getSource();
+        if (lsm.isSelectionEmpty()) {
+            return;
+        } else {
+            // Find out which indexes are selected.
+            int minIndex = lsm.getMinSelectionIndex();
+            int maxIndex = lsm.getMaxSelectionIndex();
+            for (int i = minIndex; i <= maxIndex; i++) {
+                if (lsm.isSelectedIndex(i)) {
+                    JOptionPane.showMessageDialog(null, "Current Selected Index is = "+ i);
+                }
+            }
+        }
+    }
+}
+
+    /*
+    private void initTree(){
+       DocStructureTreeModel treeModel = new DocStructureTreeModel(getDocumentTree());
+       treeDocStructure.setModel(treeModel);
+        DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
+        Icon personIcon = null;
+        renderer.setLeafIcon(personIcon);
+        renderer.setClosedIcon(personIcon);
+        renderer.setOpenIcon(personIcon);
+        treeDocStructure.setCellRenderer(renderer);
+      
+    }
+    */
+    
+   private class documentNodeMapKey {
+       int level;
+       int count;
+   }
+   
+   
+   
+   private XServiceInfo getServiceInfo(Object obj){
+             XServiceInfo xInfo = (XServiceInfo) UnoRuntime.queryInterface(XServiceInfo.class, obj);
+             return xInfo;
    }
     
     private XTextContent getTextContent(Object element){
         XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, element);
         return xContent;
     }
-    private XServiceInfo getServiceInfo(Object myObject){
-            XServiceInfo xInfo;
-            xInfo = (XServiceInfo) UnoRuntime.queryInterface(XServiceInfo.class, myObject);
-            return xInfo;
-    }
+ 
     /**** TEST METHOD *****/
+  /*
     private DocStructureTreeNode getTree() {
         //the greatgrandparent generation
         DocStructureTreeNode main = new DocStructureTreeNode("Main");
@@ -251,7 +419,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
 
         return a1;
     }
-
+*/
     private void initializeValues(){
         //get metadata property alues
         String strAuthor = ""; String strDocType = "";
@@ -275,6 +443,16 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private XTextDocument getTextDocument(){
         XTextDocument xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, this.Component);
         return xTextDoc;
+    }
+    
+    private XModel getDocumentModel(){
+        return (XModel)UnoRuntime.queryInterface(XModel.class, this.Component);
+    }
+    
+    private XTextViewCursor getViewCursor(){
+     XTextViewCursorSupplier xViewCursorSupplier = (XTextViewCursorSupplier)UnoRuntime.queryInterface(XTextViewCursorSupplier.class, getDocumentModel().getCurrentController());
+     XTextViewCursor xViewCursor = xViewCursorSupplier.getViewCursor();
+     return xViewCursor;
     }
     
     private XDocumentInfo getDocumentInfo(XTextDocument doc){
@@ -398,9 +576,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         btnNewEditorNote = new javax.swing.JButton();
         btnSaveEditorNote = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        treeDocStructure = new javax.swing.JTree();
         jLabel2 = new javax.swing.JLabel();
+        scrollPane_treeDocStructure = new javax.swing.JScrollPane();
+        treeDocStructure = new javax.swing.JList();
 
         jTabsContainer.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         lblDocAuthor.setText("Author");
@@ -625,9 +803,15 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         );
         jTabsContainer.addTab("Notes", panelNotes);
 
-        jScrollPane1.setViewportView(treeDocStructure);
-
         jLabel2.setText("Document Structure");
+
+        treeDocStructure.setFont(new java.awt.Font("Tahoma", 0, 10));
+        treeDocStructure.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        scrollPane_treeDocStructure.setViewportView(treeDocStructure);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -640,7 +824,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             .add(jTabsContainer, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                .add(scrollPane_treeDocStructure, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -651,8 +835,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                 .add(22, 22, 22)
                 .add(jLabel2)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 199, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(21, 21, 21))
+                .add(scrollPane_treeDocStructure, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -705,7 +889,6 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JRadioButton jRadioButton1;
     private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTabbedPane jTabsContainer;
@@ -720,8 +903,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private javax.swing.JPanel panelHistory;
     private javax.swing.JPanel panelMetadata;
     private javax.swing.JPanel panelNotes;
+    private javax.swing.JScrollPane scrollPane_treeDocStructure;
     private javax.swing.JScrollPane tblDocHistory;
-    private javax.swing.JTree treeDocStructure;
+    private javax.swing.JList treeDocStructure;
     private javax.swing.JTextField txtDocAuthor;
     private javax.swing.JTextField txtDocType;
     private javax.swing.JTextField txtEditorNote;

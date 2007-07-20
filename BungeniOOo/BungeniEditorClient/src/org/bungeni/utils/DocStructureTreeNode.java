@@ -18,6 +18,8 @@ import javax.swing.tree.TreeNode;
  */
 public class DocStructureTreeNode {
     private String name;
+    private int level;
+    private int count;
     DocStructureTreeNode parent;
     Vector<DocStructureTreeNode> children;
     
@@ -29,6 +31,14 @@ public class DocStructureTreeNode {
         
     }
     
+    public DocStructureTreeNode(String nodeName, int nLevel, int nCount) {
+        this.name = nodeName;
+        this.level = nLevel;
+        this.count = nCount;
+        this.parent = null;
+        this.children = new Vector<DocStructureTreeNode>();
+        
+    }
     public static void makeRelation (DocStructureTreeNode newParent, DocStructureTreeNode[] newChildrens){
         
         for (DocStructureTreeNode newChildren: newChildrens){
@@ -45,6 +55,9 @@ public class DocStructureTreeNode {
         return parent;
     }
     
+    public int getLevel(){
+        return this.level;
+    }
     public String toString(){
         return name;
         

@@ -35,15 +35,22 @@ import com.sun.star.uno.Any;
 import com.sun.star.uno.AnyConverter;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Vector;
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.Border;
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultTreeCellRenderer;
@@ -269,6 +276,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                     // selectionModel.addListSelectionListener(new DocStructureListSelectionHandler());
                         
                      treeDocStructure.setModel(model);
+                     treeDocStructure.setCellRenderer(new DocStructureListElementRenderer());
                      treeDocStructure.addMouseListener(new DocStructureListMouseListener());
                   }
         
@@ -534,6 +542,44 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             return bExists;
         }
      }
+    
+public class DocStructureListElementRenderer extends JLabel implements ListCellRenderer {
+    private  final Color HIGHLIGHT_COLOR = new Color(0, 0, 128);
+    private Border raisedEtched, lineBorder;
+    public DocStructureListElementRenderer( ) {
+        setOpaque(true);
+        setIconTextGap(12);
+         raisedEtched = BorderFactory.createRaisedBevelBorder();
+         lineBorder = BorderFactory.createLineBorder(Color.GRAY);
+        
+    }
+
+    public Component getListCellRendererComponent(
+        JList list,
+        Object value,
+        int index,
+        boolean isSelected,
+        boolean cellHasFocus)
+    {
+        DocStructureElement entry = (DocStructureElement)value;
+        //setBorder(lineBorder);
+        setText(entry.toString());
+        setFont(new java.awt.Font("Tahoma", 0, 10));
+            
+        
+        //setIcon(entry.getImage());
+        if(isSelected) {
+            setBackground(HIGHLIGHT_COLOR);
+            setForeground(Color.white);
+            setBorder(raisedEtched);
+        } else {
+            setBackground(Color.white);
+            setForeground(Color.black);
+            setBorder(lineBorder);
+        }
+        return this;
+    }
+}
     
     
     /** This method is called from within the constructor to

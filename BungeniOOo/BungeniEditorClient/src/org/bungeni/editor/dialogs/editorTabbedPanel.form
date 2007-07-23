@@ -5,6 +5,11 @@
     <Component class="javax.swing.ButtonGroup" name="btnGrpBodyMetadataTarget">
     </Component>
   </NonVisualComponents>
+  <Properties>
+    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+      <Font name="Tahoma" size="10" style="0"/>
+    </Property>
+  </Properties>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
@@ -20,23 +25,23 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabel2" pref="212" max="32767" attributes="0"/>
+              <Component id="jLabel2" pref="223" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Component id="jTabsContainer" alignment="0" pref="232" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="scrollPane_treeDocStructure" pref="212" max="32767" attributes="0"/>
+              <Component id="scrollPane_treeDocStructure" pref="223" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
+          <Component id="jTabsContainer" alignment="0" pref="243" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTabsContainer" min="-2" pref="319" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+              <Component id="jTabsContainer" min="-2" pref="335" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="scrollPane_treeDocStructure" pref="209" max="32767" attributes="0"/>
@@ -49,11 +54,19 @@
     <Container class="javax.swing.JTabbedPane" name="jTabsContainer">
       <Properties>
         <Property name="tabLayoutPolicy" type="int" value="1"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="10" style="0"/>
+        </Property>
       </Properties>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
         <Container class="javax.swing.JPanel" name="panelMetadata">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="10" style="0"/>
+            </Property>
+          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Doc. Metadata">
@@ -70,11 +83,11 @@
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtDocAuthor" alignment="0" pref="207" max="32767" attributes="0"/>
-                                  <Component id="lblDocAuthor" alignment="0" pref="207" max="32767" attributes="0"/>
-                                  <Component id="lblDocType" alignment="0" pref="207" max="32767" attributes="0"/>
+                                  <Component id="txtDocAuthor" alignment="0" pref="218" max="32767" attributes="0"/>
+                                  <Component id="lblDocAuthor" alignment="0" pref="218" max="32767" attributes="0"/>
+                                  <Component id="lblDocType" alignment="0" pref="218" max="32767" attributes="0"/>
                                   <Component id="lblDocURI" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cboDocURI" alignment="0" pref="207" max="32767" attributes="0"/>
+                                  <Component id="cboDocURI" alignment="0" pref="218" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
@@ -83,7 +96,7 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtDocType" pref="207" max="32767" attributes="0"/>
+                              <Component id="txtDocType" pref="218" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -105,7 +118,7 @@
                       <Component id="lblDocURI" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cboDocURI" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="107" max="32767" attributes="0"/>
+                      <EmptySpace pref="127" max="32767" attributes="0"/>
                       <Component id="btnSetMetadata" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                   </Group>
@@ -115,6 +128,9 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblDocAuthor">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="10" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Author"/>
               </Properties>
             </Component>
@@ -122,11 +138,17 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblDocType">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="10" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Document Type"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblDocURI">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="10" style="0"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Document URI"/>
               </Properties>
             </Component>
@@ -167,17 +189,17 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jLabel1" alignment="0" pref="207" max="32767" attributes="0"/>
-                          <Component id="cboSelectBodyMetadata" alignment="0" pref="207" max="32767" attributes="0"/>
-                          <Component id="lblSelectBodyMetadata" alignment="0" pref="207" max="32767" attributes="0"/>
-                          <Component id="lblEnterMetadataValue" alignment="0" pref="207" max="32767" attributes="0"/>
-                          <Component id="txtMetadataValue" alignment="0" pref="207" max="32767" attributes="0"/>
+                          <Component id="jLabel1" alignment="0" pref="218" max="32767" attributes="0"/>
+                          <Component id="cboSelectBodyMetadata" alignment="0" pref="218" max="32767" attributes="0"/>
+                          <Component id="lblSelectBodyMetadata" alignment="0" pref="218" max="32767" attributes="0"/>
+                          <Component id="lblEnterMetadataValue" alignment="0" pref="218" max="32767" attributes="0"/>
+                          <Component id="txtMetadataValue" alignment="0" pref="218" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="btnClearMetadataValue" min="-2" pref="85" max="-2" attributes="0"/>
-                              <EmptySpace pref="41" max="32767" attributes="0"/>
+                              <EmptySpace pref="52" max="32767" attributes="0"/>
                               <Component id="btnLookupMetadata" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="btnApplyMetaToSelectedText" alignment="0" pref="207" max="32767" attributes="0"/>
+                          <Component id="btnApplyMetaToSelectedText" alignment="0" pref="218" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="10" pref="10" max="10" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -210,7 +232,7 @@
                       <Component id="jLabel1" min="-2" pref="23" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jRadioButton1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="11" max="32767" attributes="0"/>
+                      <EmptySpace pref="29" max="32767" attributes="0"/>
                       <Component id="jRadioButton2" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnApplyMetaToSelectedText" min="-2" max="-2" attributes="0"/>
@@ -227,6 +249,9 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="cboSelectBodyMetadata">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                  <Font name="Tahoma" size="10" style="0"/>
+                </Property>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="4">
                     <StringItem index="0" value="Members Of Parliament"/>
@@ -299,6 +324,28 @@
             </Component>
           </SubComponents>
         </Container>
+        <Container class="javax.swing.JPanel" name="panelMarkup">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Markup">
+                <Property name="tabTitle" type="java.lang.String" value="Markup"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <EmptySpace min="0" pref="238" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <EmptySpace min="0" pref="311" max="32767" attributes="0"/>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+        </Container>
         <Container class="javax.swing.JPanel" name="panelHistory">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
@@ -311,13 +358,13 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="tblDocHistory" min="-2" pref="207" max="-2" attributes="0"/>
+                          <Component id="tblDocHistory" alignment="0" min="-2" pref="197" max="-2" attributes="0"/>
                           <Component id="jLabel3" alignment="0" min="-2" pref="142" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="31" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -328,7 +375,7 @@
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       <Component id="tblDocHistory" min="-2" pref="209" max="-2" attributes="0"/>
-                      <EmptySpace pref="50" max="32767" attributes="0"/>
+                      <EmptySpace pref="67" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -377,15 +424,15 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jScrollPane2" alignment="0" pref="207" max="32767" attributes="1"/>
-                          <Component id="txtEditorNote" alignment="0" pref="207" max="32767" attributes="1"/>
+                          <Component id="jScrollPane2" alignment="0" pref="218" max="32767" attributes="1"/>
+                          <Component id="txtEditorNote" alignment="0" pref="218" max="32767" attributes="1"/>
                           <Component id="lblEditorNotes" alignment="0" min="-2" pref="163" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="btnNewEditorNote" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace pref="41" max="32767" attributes="0"/>
+                              <EmptySpace pref="52" max="32767" attributes="0"/>
                               <Component id="btnSaveEditorNote" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="jLabel4" alignment="0" pref="207" max="32767" attributes="0"/>
+                          <Component id="jLabel4" alignment="0" pref="218" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -406,7 +453,7 @@
                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" pref="97" max="32767" attributes="0"/>
+                      <Component id="jScrollPane2" pref="114" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>

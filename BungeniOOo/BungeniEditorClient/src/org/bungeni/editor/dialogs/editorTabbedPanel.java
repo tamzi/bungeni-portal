@@ -35,8 +35,12 @@ import com.sun.star.uno.Any;
 import com.sun.star.uno.AnyConverter;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Vector;
@@ -47,6 +51,9 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTree;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.Border;
@@ -55,7 +62,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import org.apache.commons.collections.map.MultiValueMap;
+import org.bungeni.editor.dialogs.swingxpanels.swingXPanel01;
 import org.bungeni.utils.DocStructureElement;
+import org.bungeni.utils.StackedBox;
 /*
 import org.bungeni.utils.DocStructureTreeModel;
 import org.bungeni.utils.DocStructureTreeNode;
@@ -82,12 +91,37 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        initComponents();   
        initFields();
        initializeValues();
+       panelMarkup.setLayout(new FlowLayout());
+       initCollapsiblePane();
     }
     
     private void initFields(){
         //initTree();
         initList();
         
+    }
+    
+    private void initCollapsiblePane(){
+     try {
+     StackedBox box = new StackedBox();    
+     //create scroll pane with stacked box
+     log.debug("initializing stackedbox");
+     
+     JScrollPane scrollPane = new JScrollPane(box);
+     scrollPane.setBorder(null);
+     //add the scroll pane to the scroll pane
+     panelMarkup.add(scrollPane, BorderLayout.CENTER);
+     swingXPanel01 panel  = new swingXPanel01();
+     box.addBox("test panel", panel );    
+     JPanel profilingResults = new JPanel(new BorderLayout(3, 3));
+     profilingResults.add("Center", new JScrollPane(new JTree()));
+     profilingResults.setPreferredSize(new Dimension(200, 100));
+     box.addBox("Profiling Results", profilingResults);
+     }
+     catch (Exception e){
+         log.debug("exception : "+ e.getMessage());
+     }
+     
     }
     
     private void initList(){
@@ -108,7 +142,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         log.debug("Inside getDocumentTree, entering, hasMoreElements");
         
         while (paraEnum.hasMoreElements()) { 
-            log.debug("Inside getDocumentTree, inside, hasMoreElements");
+            //log.debug("Inside getDocumentTree, inside, hasMoreElements");
 
             XServiceInfo xInfo;
             xInfo = null;
@@ -122,18 +156,18 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                 // Access the paragraph's property set...the properties in this 
                 // property set are listed 
                 // in: com.sun.star.style.ParagraphProperties 
-                 log.debug("Inside getDocumentTree, supportsService paragraph");
+                // log.debug("Inside getDocumentTree, supportsService paragraph");
 
                 XPropertySet xSet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, xInfo);
                      // Set the justification to be center justified 
-                    log.debug("Inside getDocumentTree, before , NumberingLevel");
+                    //log.debug("Inside getDocumentTree, before , NumberingLevel");
                         
                     short nLevel = -1;
                  
                     nLevel = AnyConverter.toShort(xSet.getPropertyValue("ParaChapterNumberingLevel"));
                    
                     
-                    log.debug("Inside getDocumentTree, after , NumberingLevel = "+ nLevel);
+                    //log.debug("Inside getDocumentTree, after , NumberingLevel = "+ nLevel);
                     /*
                      *count total headings >= level 0
                      *iterate through all the headings again
@@ -170,7 +204,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                             }
                         }
                            
-                        log.debug("adding heading level =" + nLevel + " and heading count = "+nHeadsFound);
+                        //log.debug("adding heading level =" + nLevel + " and heading count = "+nHeadsFound);
                         mvDocumentHeadings.addElement(element);
                         
                         //TextRange can be used to getText()
@@ -610,6 +644,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         jRadioButton1 = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
         jRadioButton2 = new javax.swing.JRadioButton();
+        panelMarkup = new javax.swing.JPanel();
         panelHistory = new javax.swing.JPanel();
         tblDocHistory = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
@@ -626,11 +661,17 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         scrollPane_treeDocStructure = new javax.swing.JScrollPane();
         treeDocStructure = new javax.swing.JList();
 
+        setFont(new java.awt.Font("Tahoma", 0, 10));
         jTabsContainer.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
+        jTabsContainer.setFont(new java.awt.Font("Tahoma", 0, 10));
+        panelMetadata.setFont(new java.awt.Font("Tahoma", 0, 10));
+        lblDocAuthor.setFont(new java.awt.Font("Tahoma", 0, 10));
         lblDocAuthor.setText("Author");
 
+        lblDocType.setFont(new java.awt.Font("Tahoma", 0, 10));
         lblDocType.setText("Document Type");
 
+        lblDocURI.setFont(new java.awt.Font("Tahoma", 0, 10));
         lblDocURI.setText("Document URI");
 
         btnSetMetadata.setText("Set Metadata");
@@ -651,17 +692,17 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                     .add(panelMetadataLayout.createSequentialGroup()
                         .addContainerGap()
                         .add(panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(txtDocAuthor, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-                            .add(lblDocAuthor, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-                            .add(lblDocType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                            .add(txtDocAuthor, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                            .add(lblDocAuthor, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                            .add(lblDocType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                             .add(lblDocURI)
-                            .add(cboDocURI, 0, 207, Short.MAX_VALUE)))
+                            .add(cboDocURI, 0, 218, Short.MAX_VALUE)))
                     .add(panelMetadataLayout.createSequentialGroup()
                         .add(56, 56, 56)
                         .add(btnSetMetadata))
                     .add(panelMetadataLayout.createSequentialGroup()
                         .addContainerGap()
-                        .add(txtDocType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)))
+                        .add(txtDocType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelMetadataLayout.setVerticalGroup(
@@ -679,7 +720,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                 .add(lblDocURI)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(cboDocURI, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 107, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 127, Short.MAX_VALUE)
                 .add(btnSetMetadata)
                 .add(19, 19, 19))
         );
@@ -687,6 +728,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
 
         lblSelectBodyMetadata.setText("Select Metadata Element");
 
+        cboSelectBodyMetadata.setFont(new java.awt.Font("Tahoma", 0, 10));
         cboSelectBodyMetadata.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Members Of Parliament", "Ontology", "Keywords", "Tabled Documents" }));
 
         lblEnterMetadataValue.setText("Enter Metadata Value");
@@ -717,16 +759,16 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
             .add(panelBodyMetadataLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(panelBodyMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-                    .add(cboSelectBodyMetadata, 0, 207, Short.MAX_VALUE)
-                    .add(lblSelectBodyMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-                    .add(lblEnterMetadataValue, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-                    .add(txtMetadataValue, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                    .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                    .add(cboSelectBodyMetadata, 0, 218, Short.MAX_VALUE)
+                    .add(lblSelectBodyMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                    .add(lblEnterMetadataValue, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                    .add(txtMetadataValue, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, panelBodyMetadataLayout.createSequentialGroup()
                         .add(btnClearMetadataValue, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 41, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 52, Short.MAX_VALUE)
                         .add(btnLookupMetadata))
-                    .add(btnApplyMetaToSelectedText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                    .add(btnApplyMetaToSelectedText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                     .add(panelBodyMetadataLayout.createSequentialGroup()
                         .add(10, 10, 10)
                         .add(panelBodyMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -753,13 +795,25 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                 .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jRadioButton1)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 11, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 29, Short.MAX_VALUE)
                 .add(jRadioButton2)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnApplyMetaToSelectedText)
                 .addContainerGap())
         );
         jTabsContainer.addTab("Body Metadata", panelBodyMetadata);
+
+        org.jdesktop.layout.GroupLayout panelMarkupLayout = new org.jdesktop.layout.GroupLayout(panelMarkup);
+        panelMarkup.setLayout(panelMarkupLayout);
+        panelMarkupLayout.setHorizontalGroup(
+            panelMarkupLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 238, Short.MAX_VALUE)
+        );
+        panelMarkupLayout.setVerticalGroup(
+            panelMarkupLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(0, 311, Short.MAX_VALUE)
+        );
+        jTabsContainer.addTab("Markup", panelMarkup);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -783,9 +837,9 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
             .add(panelHistoryLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(panelHistoryLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(tblDocHistory, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 207, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(tblDocHistory, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 197, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 142, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         panelHistoryLayout.setVerticalGroup(
             panelHistoryLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -794,7 +848,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                 .add(jLabel3)
                 .add(10, 10, 10)
                 .add(tblDocHistory, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 209, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
         jTabsContainer.addTab("Doc. History", panelHistory);
 
@@ -820,14 +874,14 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
             .add(org.jdesktop.layout.GroupLayout.TRAILING, panelNotesLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(panelNotesLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, txtEditorNote, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, txtEditorNote, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, lblEditorNotes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 163, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, panelNotesLayout.createSequentialGroup()
                         .add(btnNewEditorNote)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 41, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 52, Short.MAX_VALUE)
                         .add(btnSaveEditorNote))
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 207, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelNotesLayout.setVerticalGroup(
@@ -844,7 +898,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                 .add(14, 14, 14)
                 .add(jLabel4)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jTabsContainer.addTab("Notes", panelNotes);
@@ -865,20 +919,20 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
                 .addContainerGap())
-            .add(jTabsContainer, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(scrollPane_treeDocStructure, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 212, Short.MAX_VALUE)
+                .add(scrollPane_treeDocStructure, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
                 .addContainerGap())
+            .add(jTabsContainer, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jTabsContainer, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 319, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(22, 22, 22)
+                .add(jTabsContainer, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 335, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jLabel2)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(scrollPane_treeDocStructure, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
@@ -947,6 +1001,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
     private javax.swing.JList listboxEditorNotes;
     private javax.swing.JPanel panelBodyMetadata;
     private javax.swing.JPanel panelHistory;
+    private javax.swing.JPanel panelMarkup;
     private javax.swing.JPanel panelMetadata;
     private javax.swing.JPanel panelNotes;
     private javax.swing.JScrollPane scrollPane_treeDocStructure;

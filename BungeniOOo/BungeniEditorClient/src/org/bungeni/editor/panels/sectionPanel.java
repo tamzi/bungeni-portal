@@ -6,16 +6,80 @@
 
 package org.bungeni.editor.panels;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URL;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.border.Border;
+import org.bungeni.editor.dialogs.editorTabbedPanel;
+import org.bungeni.ooo.OOComponentHelper;
+
 /**
  *
  * @author  Administrator
  */
-public class sectionPanel extends javax.swing.JPanel {
-    
+public class sectionPanel extends javax.swing.JPanel implements ActionListener{
+   
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(sectionPanel.class.getName());
+    private OOComponentHelper ooDocument;
+
     /** Creates new form sectionPanel */
     public sectionPanel() {
         initComponents();
+        initButtons();
     }
+    
+    public sectionPanel(OOComponentHelper ooDoc) {
+      initComponents();
+      initButtons();
+      this.ooDocument = ooDoc;
+    }
+    
+    
+    private void initButtons(){
+        //reset toolbar
+        //Border contentBorder = BorderFactory.createEmptyBorder(6, 8, 6, 8);
+        // the control pane
+        toolbarSectionButtons.setFloatable(false);
+        //toolbarSectionButtons.setBorder(contentBorder);
+        toolbarSectionButtons.setRollover(true);
+        toolbarSectionButtons.setOpaque(false);
+        JButton btnSectionPrayer = createButton("icon_01", "makePrayerSection", "Create a Prayer Section", "Prayer");
+        toolbarSectionButtons.add(btnSectionPrayer);
+        JButton btnSectionPaper = createButton("icon_02", "makePaperSection", "Create a Paper Section", "Paper");
+        toolbarSectionButtons.add(btnSectionPaper);
+        JButton btnNoticeOfMotion = createButton("icon_03", "makeNoticeOfMotionSection", "Create a Notice-of-Motion Section", "Notice of Motion");
+        toolbarSectionButtons.add(btnNoticeOfMotion);
+        JButton btnQuestionAnswerSection = createButton("icon_04", "makeQASection", "Create a Question-Answer Section", "Question Answer Section");
+        toolbarSectionButtons.add(btnQuestionAnswerSection);
+        JButton btnQuestionBlockSection = createButton("icon_05", "makeQuestionBlockSection", "Create a Question-Block Section", "Question Answer Section");
+        toolbarSectionButtons.add(btnQuestionBlockSection);
+        
+    }
+    
+    private JButton createButton(String imageName, String actionCommand, String tooltipText, String altText){
+           String imgLocation = "/gui/"
+                             + imageName
+                             + ".png";
+            URL imageURL = sectionPanel.class.getResource(imgLocation);
+        //Create and initialize the button.
+        JButton button = new JButton();
+        button.setActionCommand(actionCommand);
+        button.setToolTipText(tooltipText);
+        button.addActionListener(this);
+
+        if (imageURL != null) {                      //image found
+            button.setIcon(new ImageIcon(imageURL, altText));
+        } else {                                     //no image found
+            button.setText(altText);
+           log.debug("Resource not found: "
+                               + imgLocation);
+        }
+        return button;
+    }
+    
     
     /** This method is called from within the constructor to
      * initialize the form.
@@ -24,32 +88,36 @@ public class sectionPanel extends javax.swing.JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        jButton1 = new javax.swing.JButton();
-
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/icon_01.png")));
-        jButton1.setText("jButton1");
+        toolbarSectionButtons = new javax.swing.JToolBar();
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(93, Short.MAX_VALUE))
+            .add(toolbarSectionButtons, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 216, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 41, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(144, Short.MAX_VALUE))
+                .add(toolbarSectionButtons, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 48, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    public void actionPerformed(ActionEvent e) {
+        String cmd = e.getActionCommand() ;
+        log.debug("action perfomed = "+ cmd);
+        ItoolbarButtonEvent iEvent = getEventClass(cmd);
+        iEvent.doCommand(ooDocument, cmd);
+    }
     
+    public ItoolbarButtonEvent getEventClass(String cmd){
+        log.debug("getting command factory ....");
+        return toolbarButtonCommandFactory.getButtonEventHandler(cmd);
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JToolBar toolbarSectionButtons;
     // End of variables declaration//GEN-END:variables
     
 }

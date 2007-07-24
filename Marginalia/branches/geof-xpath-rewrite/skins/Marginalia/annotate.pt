@@ -63,13 +63,13 @@
 			keywordService.init( );
 			marginaliaInit( annotationService, '${user/getUserName}', '${user/getUserName}', null, preferences, keywordService );
 			window.marginalia.linkUi = new SimpleLinkUi( ); // new PloneLinkUi( '{startup_dir}', '{at_url}' );
+			window.marginalia.setFeature( AN_BLOCKMARKER_FEAT, true );
 	
 			var marginaliaDirect = new MarginaliaDirect( annotationService );
 			marginaliaDirect.init( );
 			initLogging();
 
 			window.marginalia.showAnnotations( '${request/URL}/#*')
-			window.marginalia.showPerBlockUserCounts( '${request/URL}/#*' );
         }
         addEventHandler(window, 'load', show_annotations_on_load, window)
 		

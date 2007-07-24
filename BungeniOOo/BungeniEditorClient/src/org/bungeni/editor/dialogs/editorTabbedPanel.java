@@ -63,6 +63,8 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import org.apache.commons.collections.map.MultiValueMap;
 import org.bungeni.editor.dialogs.swingxpanels.swingXPanel01;
+import org.bungeni.editor.panels.sectionPanel;
+import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.DocStructureElement;
 import org.bungeni.utils.StackedBox;
 /*
@@ -74,7 +76,11 @@ import org.bungeni.utils.DocStructureTreeNode;
  * @author  Administrator
  */
 public class editorTabbedPanel extends javax.swing.JPanel {
+    /**
+     * XComponent object, handle to current openoffice document instance
+     */
     XComponent Component;
+    private OOComponentHelper ooDocument;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(editorTabbedPanel.class.getName());
     private String[] arrDocTypes = { "Acts" , "DebateRecords", "Bills" };
     //vector that houses the list of document headings used by the display tree
@@ -85,9 +91,13 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         initComponents();
     }
     
+    /**
+     * Constructor for main Tabbed panel interface
+     */
     public editorTabbedPanel(XComponent impComponent){
         
        this.Component = impComponent;
+       ooDocument = new OOComponentHelper(impComponent);
        initComponents();   
        initFields();
        initializeValues();
@@ -111,7 +121,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      scrollPane.setBorder(null);
      //add the scroll pane to the scroll pane
      panelMarkup.add(scrollPane, BorderLayout.CENTER);
-     swingXPanel01 panel  = new swingXPanel01();
+     sectionPanel panel  = new sectionPanel(ooDocument);
      box.addBox("test panel", panel );    
      JPanel profilingResults = new JPanel(new BorderLayout(3, 3));
      profilingResults.add("Center", new JScrollPane(new JTree()));
@@ -127,7 +137,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private void initList(){
        
        try { 
-       XText objText = getTextDocument().getText();
+       XText objText = ooDocument.getTextDocument().getText();//getTextDocument().getText();
        
        XEnumerationAccess objEnumAccess = (XEnumerationAccess) UnoRuntime.queryInterface( XEnumerationAccess.class, objText); 
        XEnumeration paraEnum =  objEnumAccess.createEnumeration();
@@ -151,7 +161,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                 objNextElement = paraEnum.nextElement();
        
                     //get service info
-             xInfo = (XServiceInfo) UnoRuntime.queryInterface(XServiceInfo.class, objNextElement);
+             xInfo = ooDocument.getServiceInfo(objNextElement); // UnoRuntime.queryInterface(XServiceInfo.class, objNextElement);
             if (xInfo.supportsService("com.sun.star.text.Paragraph")) { 
                 // Access the paragraph's property set...the properties in this 
                 // property set are listed 
@@ -176,7 +186,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                     if (nLevel >= 0 ){
                         
                         nHeadsFound++;
-                        XTextContent xContent = getTextContent(objNextElement);
+                        XTextContent xContent = ooDocument.getTextContent(objNextElement);
                         XTextRange aTextRange =   xContent.getAnchor();
                         String strHeading = aTextRange.getString();
                         
@@ -338,6 +348,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             
    }
     
+    /**
+     * Mouse event listener for list box displaying document structure
+     */
     class DocStructureListMouseListener implements MouseListener{
         public void mouseClicked(MouseEvent e) {
             if (e.getClickCount() == 2){
@@ -347,7 +360,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                 //JOptionPane.showMessageDialog(null, "current selected index is = "+ nIndex);
                 
                 //get view cursor 
-                XTextViewCursor xViewCursor = getViewCursor();
+                XTextViewCursor xViewCursor = ooDocument.getViewCursor();
                 //get the current object range
                 DocStructureElement docElement = (DocStructureElement)mvDocumentHeadings.elementAt(nIndex);
                 //move the view cursor to the element's range
@@ -466,13 +479,13 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         //get metadata property alues
         String strAuthor = ""; String strDocType = "";
           try {
-        if (propertyExists("Bungeni_DocAuthor")){
+        if (ooDocument.propertyExists("Bungeni_DocAuthor")){
           
-                strAuthor = getPropertyValue("Bungeni_DocAuthor");
+                strAuthor = ooDocument.getPropertyValue("Bungeni_DocAuthor");
            
         }
-        if (propertyExists("Bungeni_DocType")){
-            strDocType = getPropertyValue("Bungeni_DocType");
+        if (ooDocument.propertyExists("Bungeni_DocType")){
+            strDocType = ooDocument.getPropertyValue("Bungeni_DocType");
         }
         
         txtDocAuthor.setText(strAuthor);
@@ -482,6 +495,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             }
        
     }
+    
+    /*           
+            
     private XTextDocument getTextDocument(){
         XTextDocument xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, this.Component);
         return xTextDoc;
@@ -577,9 +593,26 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         }
      }
     
+     */
+    
+    /**
+     * Class that handles rendering of List cell elements, in the Document Structure listbox
+     */
 public class DocStructureListElementRenderer extends JLabel implements ListCellRenderer {
     private  final Color HIGHLIGHT_COLOR = new Color(0, 0, 128);
+    private Color [] COLOR_LEVELS = {
+                        new Color(104, 104,104),
+                        new Color(124, 124,124),
+                        new Color(144, 144,144),
+                        new Color(164, 164,164),
+                        new Color(184, 184,184),
+                        new Color(204, 204,204),
+                        new Color(224, 224,224)
+    };
     private Border raisedEtched, lineBorder;
+        /**
+         * Constructor for List cell renderer class
+         */
     public DocStructureListElementRenderer( ) {
         setOpaque(true);
         setIconTextGap(12);
@@ -596,18 +629,22 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         boolean cellHasFocus)
     {
         DocStructureElement entry = (DocStructureElement)value;
+        int nMaxIndex = COLOR_LEVELS.length - 1;
+        int nLevel = entry.getLevel();
+        if (nLevel > nMaxIndex)
+            setBackground(Color.WHITE);
+        else
+            setBackground(COLOR_LEVELS[nLevel]);
         //setBorder(lineBorder);
         setText(entry.toString());
         setFont(new java.awt.Font("Tahoma", 0, 10));
-            
+        
         
         //setIcon(entry.getImage());
         if(isSelected) {
-            setBackground(HIGHLIGHT_COLOR);
             setForeground(Color.white);
             setBorder(raisedEtched);
         } else {
-            setBackground(Color.white);
             setForeground(Color.black);
             setBorder(lineBorder);
         }
@@ -949,21 +986,21 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
             strDocType = this.txtDocType.getText();
             log.debug("setting metadata......");
             
-            if (!this.propertyExists("Bungeni_DocAuthor")) {
-                this.addProperty("Bungeni_DocAuthor", strAuthor);
+            if (!ooDocument.propertyExists("Bungeni_DocAuthor")) {
+                ooDocument.addProperty("Bungeni_DocAuthor", strAuthor);
                 log.debug("adding property - author");
             }
             else {
-                this.setPropertyValue("Bungeni_DocAuthor", strAuthor);
+                ooDocument.setPropertyValue("Bungeni_DocAuthor", strAuthor);
                 log.debug("setting property - author");
             }
             
-            if (!this.propertyExists("Bungeni_DocType")) {
-                this.addProperty("Bungeni_DocType", strDocType);
+            if (!ooDocument.propertyExists("Bungeni_DocType")) {
+                ooDocument.addProperty("Bungeni_DocType", strDocType);
                 log.debug("adding property - doctype ");
             }
             else {
-                this.setPropertyValue("Bungeni_DocType", strDocType);
+                ooDocument.setPropertyValue("Bungeni_DocType", strDocType);
                 log.debug("setting property - doctype");
             }
                 

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="MarginaliaOOo" script:language="StarBasic">REM  *****  BASIC  *****
+Option Explicit
+
+Sub Main
+	
+	Dim theParagraph 
+	Dim theNthWord as String
+	
+	theParagraph = getNthParagraph(3)
+	if (Not isnull(theParagraph) ) then
+		Msgbox theParagraph.getString()
+		Dim paraBegin
+	    Dim paraCursor 
+	    paraCursor =  theParagraph.getText().createTextCursorByRange(theParagraph.getStart())
+		getNthWord(theParagraph, 5)	    
+	end if
+
+End Sub
+
+REM returns the nth paragraph
+Function getNthParagraph (nthPara as integer)
+	Dim paraEnumerator, theParagraph
+	Dim i as integer &apos;counter for paragraphs
+	i = 0 
+	paraEnumerator = thisComponent.getText().createEnumeration()
+  	Do while paraEnumerator.hasMoreElements()
+  		theParagraph = paraEnumerator.nextElement
+  		Rem check if it is a pargraph
+  		if (theParagraph.supportsService(&quot;com.sun.star.text.Paragraph&quot;)) then
+  			i = i + 1
+  			if ( i = nthPara) then 
+  				&apos;this is the para we need
+  				getNthParagraph = theParagraph
+  				Exit function
+  			end if	
+  		end if	
+  	Loop
+  	getNthParagraph = null
+End Function
+
+Function getNthWord (theParagraph  as variant, nthWord as integer)
+	
+	Dim paraLeftCursor , paraRightCursor
+	Dim paraText 
+	
+	paraText = theParagraph.getText()
+	
+	paraLeftCursor = theParagraph.getText().createTextCursorByRange(theParagraph.getStart())
+	paraRightCursor =  theParagraph.getText().createTextCursorByRange(theParagraph.getStart())
+	paraRightCursor.gotoEndOfParagraph(True)
+
+	Dim wordCounter as Integer
+	wordCounter = 0
+	
+	paraLeftCursor.goRight(0, False)
+	
+	
+	Do while paraText.compareRegionEnds(paraLeftCursor, paraRightCursor) &gt;= 0 
+		Dim bNextWord as boolean
+		bNextWord = paraLeftCursor.gotoNextWord(true)	
+		if (bNextWord = False) then 
+			exit do
+		End if
+		wordCounter = wordCounter + 1
+		Dim msg as String
+		msg=&quot;&quot;
+		if (wordCounter = nthWord) then 
+			getNthWord = paraLeftCursor.getString() 
+			Exit Function
+		end if
+	
+		paraLeftCursor.goRight(0, False)	
+		
+	Loop 
+	
+
+End Function
+</script:module>

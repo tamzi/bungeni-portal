@@ -62,6 +62,15 @@ schema = Schema((
     ),
 
     StringField(
+        name='middlename',
+        widget=StringWidget(
+            label='Middlename',
+            label_msgid='Bungeni_label_middlename',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    StringField(
         name='surname',
         widget=StringWidget(
             label="Surname",
@@ -72,12 +81,30 @@ schema = Schema((
         regfield=1
     ),
 
+    StringField(
+        name='maidenname',
+        widget=StringWidget(
+            label='Maidenname',
+            label_msgid='Bungeni_label_maidenname',
+            i18n_domain='Bungeni',
+        )
+    ),
+
     ComputedField(
         name='fullname',
         index=('membrane_tool/ZCTextIndex,lexicon_id=member_lexicon,index_type=Cosine Measure|TextIndex:brains', 'ZCTextIndex|TextIndex:brains'),
         widget=ComputedField._properties['widget'](
             label="Full name",
             label_msgid='Bungeni_label_fullname',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    StringField(
+        name='placeOfBirth',
+        widget=StringWidget(
+            label='Placeofbirth',
+            label_msgid='Bungeni_label_placeOfBirth',
             i18n_domain='Bungeni',
         )
     ),
@@ -92,10 +119,10 @@ schema = Schema((
     ),
 
     DateTimeField(
-        name='placeOfBirth',
+        name='dateOfDeath',
         widget=CalendarWidget(
-            label='Placeofbirth',
-            label_msgid='Bungeni_label_placeOfBirth',
+            label='Dateofdeath',
+            label_msgid='Bungeni_label_dateOfDeath',
             i18n_domain='Bungeni',
         )
     ),
@@ -106,25 +133,8 @@ schema = Schema((
             label='Gender',
             label_msgid='Bungeni_label_gender',
             i18n_domain='Bungeni',
-        )
-    ),
-
-    StringField(
-        name='maidenName',
-        widget=StringWidget(
-            label='Maidenname',
-            label_msgid='Bungeni_label_maidenName',
-            i18n_domain='Bungeni',
-        )
-    ),
-
-    DateTimeField(
-        name='dateOfDeath',
-        widget=CalendarWidget(
-            label='Dateofdeath',
-            label_msgid='Bungeni_label_dateOfDeath',
-            i18n_domain='Bungeni',
-        )
+        ),
+        vocabulary=['M','F']
     ),
 
     StringField(
@@ -194,7 +204,7 @@ class BungeniMember(BaseContent):
         """
         # XXX unicode names break sending the email
         unicode_name = ' '.join([n for n in
-                [self.getSalutation(), self.getFirstname(), self.getSurname()]
+                [self.getSalutation(), self.getFirstname(), self.getMiddlename(), self.getSurname()]
                 if n])
         return str(unicode_name)
 

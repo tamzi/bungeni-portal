@@ -30,6 +30,7 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from Products.ATContentTypes.content.file import ATFile
 from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
@@ -39,14 +40,14 @@ from Products.Bungeni.config import *
 schema = Schema((
 
     RelationField(
-        name='clerks',
+        name='staffs',
         widget=ReferenceWidget(
-            label='Clerks',
-            label_msgid='Bungeni_label_clerks',
+            label='Staffs',
+            label_msgid='Bungeni_label_staffs',
             i18n_domain='Bungeni',
         ),
         multiValued=0,
-        relationship='take_clerk'
+        relationship='take_staff'
     ),
 
 ),
@@ -56,23 +57,24 @@ schema = Schema((
 ##/code-section after-local-schema
 
 Take_schema = BaseFolderSchema.copy() + \
+    getattr(ATFile, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Take(BaseFolder):
+class Take(BaseFolder, ATFile):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),)
+    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(ATFile,'__implements__',()),)
 
     # This name appears in the 'add' box
     archetype_name = 'Take'
 
     meta_type = 'Take'
     portal_type = 'Take'
-    allowed_content_types = ['TakeTranscription']
+    allowed_content_types = ['TakeTranscription'] + list(getattr(ATFile, 'allowed_content_types', []))
     filter_content_types = 1
     global_allow = 0
     #content_icon = 'Take.gif'

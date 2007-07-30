@@ -3,6 +3,8 @@
 <script:module xmlns:script="http://openoffice.org/2000/script" script:name="MarginaliaOOo" script:language="StarBasic">REM  *****  BASIC  *****
 Option Explicit
 
+
+REM test function
 Sub Main
 	
 	Dim theParagraph 
@@ -12,14 +14,39 @@ Sub Main
 	if (Not isnull(theParagraph) ) then
 		Msgbox theParagraph.getString()
 		Dim paraBegin
-	    Dim paraCursor 
+	    Dim paraCursor, wordCursor 
 	    paraCursor =  theParagraph.getText().createTextCursorByRange(theParagraph.getStart())
-		getNthWord(theParagraph, 5)	    
+		wordCursor = getNthWord(theParagraph, 4)	    
+		Msgbox wordCursor.getString()
+		Dim charCursor, charCursorEnd
+		charCursor = getNthCharacter(wordCursor, 0)
+		charCursorEnd = getNthCharacter(wordCursor, 3)
+		charCursor.gotoRange(charCursorEnd, true)
+		charCursor.CharBackColor = RGB(200, 0 , 0)
+		Msgbox charCursor.getString()
 	end if
 
+	Dim wordRange 
+	Dim libs 
+	libs = BasicLibraries
+	libs.LoadLibrary(&quot;Marginalia&quot;)
+	wordRange = &quot;p[2]/word(2);p[2]/word(5)&quot;
+	Dim test as Variant
+	
+	test = getMarginaliaRangeMeasure(wordRange)
+
+	if (IsArray(test.MFrom)) then
+	Msgbox &quot;test successful for From range&quot;
+	end if
+	if (IsArray(test.MTo)) then
+	Msgbox &quot;test successful for to range&quot;
+	end if
+	
+	
 End Sub
 
 REM returns the nth paragraph
+REM returns a paragraph object
 Function getNthParagraph (nthPara as integer)
 	Dim paraEnumerator, theParagraph
 	Dim i as integer &apos;counter for paragraphs
@@ -28,18 +55,22 @@ Function getNthParagraph (nthPara as integer)
   	Do while paraEnumerator.hasMoreElements()
   		theParagraph = paraEnumerator.nextElement
   		Rem check if it is a pargraph
-  		if (theParagraph.supportsService(&quot;com.sun.star.text.Paragraph&quot;)) then
-  			i = i + 1
-  			if ( i = nthPara) then 
-  				&apos;this is the para we need
-  				getNthParagraph = theParagraph
-  				Exit function
-  			end if	
+  		if (theParagraph.supportsService(&quot;com.sun.star.text.Paragraph&quot;) ) then
+  			if (theParagraph.ParaChapterNumberingLevel = -1 ) then
+  				i = i + 1
+  				if ( i = nthPara) then 
+  					&apos;this is the para we need
+  					getNthParagraph = theParagraph
+  					Exit function
+  				end if	
+  			end if
   		end if	
   	Loop
   	getNthParagraph = null
 End Function
 
+REM function to get the nth word
+REM returns a word cursor
 Function getNthWord (theParagraph  as variant, nthWord as integer)
 	
 	Dim paraLeftCursor , paraRightCursor
@@ -67,7 +98,7 @@ Function getNthWord (theParagraph  as variant, nthWord as integer)
 		Dim msg as String
 		msg=&quot;&quot;
 		if (wordCounter = nthWord) then 
-			getNthWord = paraLeftCursor.getString() 
+			getNthWord = paraLeftCursor
 			Exit Function
 		end if
 	
@@ -76,5 +107,17 @@ Function getNthWord (theParagraph  as variant, nthWord as integer)
 	Loop 
 	
 
+End Function
+
+rem for characters the index is 0 based 
+rem 0 = start of 1st character
+rem returns a character level cursor
+Function getNthCharacter (theWord as Variant, nthBeginCharacter as integer)
+	Dim wordLeftCursor , wordRightCursor
+	Dim wordText 
+	wordText = theWord.getText()
+	wordLeftCursor = theWord.getText().createTextCursorByRange(theWord.getStart())
+	wordLeftCursor.goRight(nthBeginCharacter, false)
+	getNthCharacter = wordLeftCursor
 End Function
 </script:module>

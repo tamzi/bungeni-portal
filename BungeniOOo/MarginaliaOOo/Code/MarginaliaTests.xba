@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="MarginaliaTests" script:language="StarBasic">REM  *****  BASIC  *****
+
+Dim dlg as Object
+Dim dlgClose as Boolean
+Sub Main
+
+Dim oListener
+
+DialogLibraries.LoadLibrary(&quot;Marginalia&quot;)
+BasicLibraries.LoadLibrary(&quot;Marginalia&quot;)
+
+dlgClose = false
+dlg = CreateUnoDialog(DialogLibraries.Marginalia.TestRunner)
+
+Dim lbCombo 
+lbCombo=dlg.getControl(&quot;lbRanges&quot;)
+lbCombo.addItem(&quot;p[2]/word(4)/char(0);p[2]/word(4)/char(7) == reflect&quot;, 1)
+lbCombo.addItem(&quot;p[3]/word(77)/char(0);p[3]/word(90)/char(12) == Our oldest...domesticated&quot;, 2)
+lbCombo.addItem(&quot;p[6]/word(41)/char(0);p[6]/word(50)/char(11) == The effects on ....indefinite&quot;, 3)
+lbCombo.addItem(&quot;p[5]/word(6)/char(6);p[5]/word(23)/char(2) == , we must bear in mind....  insisted, and as&quot;, 4)
+lbCombo.addItem(&quot;p[7]/word(1)/char(0);p[7]/word(28)/char(7) == They may considered... in the same manner&quot;, 5)
+
+dlg.setVisible(true)
+
+Do
+If ( dlgClose) then 
+	Exit Do
+End if
+Wait(100)
+Loop
+dlg.setVisible(false)
+dlg.Dispose()
+
+End Sub
+
+Sub MarkRange_Clicked()
+	Dim lbCombo, strItem, arrItem()
+	lbCombo = dlg.getControl(&quot;lbRanges&quot;)
+	if (lbCombo.getSelectedItemPos() = -1 ) then 
+		Msgbox &quot;Nothing was selected !!&quot; 
+		exit sub
+	end if
+	strItem = lbCombo.getItem(lbCombo.getSelectedItemPos())
+	arrItem = split(strItem, &quot;==&quot;)
+	Msgbox &quot;the range :&quot; + Trim(arrItem(0)) + &quot; will be attempted now&quot;
+	FindRange (arrItem(0))
+End sub
+
+Sub CloseDialog_Clicked()
+	dlgClose = true
+End sub
+
+Function FindRange (theRange as string)
+	Dim tstMarginaliaRangeMeasure as variant
+	
+	tstMarginaliaRangeMeasure = getMarginaliaRangeMeasure(theRange)
+	
+	Dim i as integer
+	Dim fromRange as variant
+	Dim toRange as Variant
+	
+	Dim fromRangeStr as String
+	Dim toRangeStr as String
+	fromRange = tstMarginaliaRangeMeasure.MFrom
+	toRange = tstMarginaliaRangeMeasure.MTo
+	
+	
+	Dim theParagraphFrom as variant
+	Dim theWordFrom as variant
+	Dim theCharacterFrom as Variant
+	
+	For i=LBound(fromRange) to UBound(fromRange)
+		Dim fromMarginaliaRangeType as Variant
+		fromMarginaliaRangeType = fromRange(i)
+		
+		if (fromMarginaliaRangeType.rangeType = &quot;block&quot;) then
+			rem this is a block type range = paragraph, table, section etc...
+			if (fromMarginaliaRangeType.rangeName = &quot;p&quot;) then
+				theParagraphFrom = getNthParagraph (fromMarginaliaRangeType.rangeNumber)	
+			end if
+		end if 
+		
+		if (fromMarginaliaRangeType.rangeType = &quot;string&quot;) then
+			if (fromMarginaliaRangeType.rangeName = &quot;word&quot;) then
+				if ((i &gt; LBound(fromRange)) and (Not IsNull(theParagraphFrom) )) then 
+					rem because the string range cannot be the starting range
+					rem and becase the preceeding parent range must be a block type
+					theWordFrom = getNthWord(theParagraphFrom, fromMarginaliaRangeType.rangeNumber)
+				else
+					MsgBox &quot;the parent (paragraph) range was invalid&quot;
+				end if
+			end if
+			if (fromMarginaliaRangeType.rangeName = &quot;char&quot;) then
+				if ((i &gt; LBound(fromRange)) and (Not IsNull(theWordFrom) )) then 
+					rem because the string range cannot be the starting range
+					rem and becase the preceeding parent range must be a block type
+					theCharacterFrom = getNthCharacter(theWordFrom, fromMarginaliaRangeType.rangeNumber)
+				else
+					MsgBox &quot;the parent (word) range was invalid&quot;
+				end if
+			end if		
+		end if
+	Next 	
+
+	
+	Dim theParagraphTo as variant
+	Dim theWordTo as variant
+	Dim theCharacterTo as Variant
+	
+	For i=LBound(toRange) to UBound(toRange)
+		Dim toMarginaliaRangeType as Variant
+		toMarginaliaRangeType = toRange(i)
+		
+		if (toMarginaliaRangeType.rangeType = &quot;block&quot;) then
+			rem this is a block type range = paragraph, table, section etc...
+			if (toMarginaliaRangeType.rangeName = &quot;p&quot;) then
+				theParagraphTo = getNthParagraph (toMarginaliaRangeType.rangeNumber)	
+			end if
+		end if 
+		
+		if (toMarginaliaRangeType.rangeType = &quot;string&quot;) then
+			if (toMarginaliaRangeType.rangeName = &quot;word&quot;) then
+				if ((i &gt; LBound(toRange)) and (Not IsNull(theParagraphTo) )) then 
+					rem because the string range cannot be the starting range
+					rem and becase the preceeding parent range must be a block type
+					theWordTo = getNthWord(theParagraphTo, toMarginaliaRangeType.rangeNumber)
+				else
+					MsgBox &quot;the parent (paragraph) range was invalid&quot;
+				end if
+			end if
+			if (toMarginaliaRangeType.rangeName = &quot;char&quot;) then
+				if ((i &gt; LBound(toRange)) and (Not IsNull(theWordTo) )) then 
+					rem because the string range cannot be the starting range
+					rem and becase the preceeding parent range must be a block type
+					theCharacterTo = getNthCharacter(theWordTo, toMarginaliaRangeType.rangeNumber)
+				else
+					MsgBox &quot;the parent (word) range was invalid&quot;
+				end if
+			end if		
+		end if
+	Next 	
+
+theCharacterFrom.gotoRange(theCharacterTo, true)
+theCharacterFrom.CharBackColor = RGB(200,0,0)
+
+
+End Function
+
+
+Function getRange
+
+
+End Function
+</script:module>

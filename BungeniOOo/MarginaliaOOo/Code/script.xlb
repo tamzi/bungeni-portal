@@ -3,4 +3,5 @@
 <library:library xmlns:library="http://openoffice.org/2000/library" library:name="Marginalia" library:readonly="false" library:passwordprotected="false">
  <library:element library:name="MarginaliaOOo"/>
  <library:element library:name="Marginalia"/>
+ <library:element library:name="MarginaliaTests"/>
 </library:library>

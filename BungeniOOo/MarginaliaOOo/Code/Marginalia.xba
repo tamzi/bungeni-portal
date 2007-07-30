@@ -4,15 +4,20 @@
 Option Explicit
 
 
-
+rem 
 Type MarginaliaRange
+	REM &quot;block&quot; or &quot;string&quot; to identify between xpath style (p[1] and word(3) )
 	rangeType as string
+	REM name of the range p or char or word
 	rangeName as String
+	REM sequence of the range element - this is probbly redundant because the
+	REM ranges are returned in a sequential array
 	rangeOrder as integer
+	REM the rangeNumber begins with a 0-index only for the &quot;char&quot; range name
 	rangeNumber as integer
 End Type
 
-Type MarginaliaRangeMeasure
+ Type MarginaliaRangeMeasure
 	REM array of marginalia range objects (MarginaliaRange() ) indicating the From range
 	MFrom as Variant
 	REM array of marginalia range objects indicating the two range
@@ -21,7 +26,7 @@ End Type
 
 
 REM Function to test the library
-REM returns a MarginaliaRangeMeasue object
+REM returns a MarginaliaRangeMeasure object
 Sub Main
 	Dim test as MarginaliaRangeMeasure
 	test = getMarginaliaRangeMeasure(&quot;p[1]/word(2)/char(0);p[1]/word(2)/char(6)&quot;)
@@ -33,6 +38,15 @@ Sub Main
 	end if
 	
 End Sub
+
+REM returns a new MarginaliaRangeMeasure object
+REM this is required because OOBasic does not you declare modularized 
+REM types directly
+Function newMarginaliaRangeMeasure as MarginaliaRangeMeasure
+	Dim mrm as New MarginaliaRangeMeasure
+	newMarginaliaRangeMeasure = mrm	
+End Function
+
 
 Function getMarginaliaRangeMeasure (strRange as String) as MarginaliaRangeMeasure
 	Dim arr()

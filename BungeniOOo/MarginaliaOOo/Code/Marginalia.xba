@@ -84,57 +84,7 @@ Function MakeMarginaliaRange (arrayOfRange as Variant, singleRange as Boolean) a
 End Function
 
 REM RETURNS AN ARRAY OF MARGINALIA RANGE OBJECTS
-Function TransformRangeComponents2  (rangeComponents as Variant)
-	Dim i as integer
-	Dim myMarginaliaRanges()
-	Redim myMarginaliaRanges(Ubound(rangeComponents)) as Variant
-	Dim subRangeComponent as string
-	Dim subRangeComponentPos as string
-	
-	For i=LBound(rangeComponents) to UBound(rangeComponents)
-		Dim rangeComponent as string
-		rangeComponent = rangeComponents(i)
-		rem check if he range component is a block type, look for block brackets
-		if ((instr(rangeComponent, &quot;[&quot;) &lt;&gt; 0 ) and (instr(rangeComponent, &quot;]&quot;))) then
-			rem if yes look split the string
-			Dim posOpenBracket, posCloseBracket as integer
-			posOpenBracket = instr(rangeComponent, &quot;[&quot;)
-			posCloseBracket = instr(rangeComponent, &quot;]&quot;)
-			rem indexes of brackets
-			subRangeComponent = left(rangeComponent, posOpenBracket - 1 )			
-			subRangeComponentPos = mid(rangeComponent, posOpenBracket + 1 , posCloseBracket - posOpenBracket - 1 )
-			rem make range object
-			dim mRange as MarginaliaRange
-			mRange.rangeType = &quot;block&quot;
-			mRange.rangeName = subRangeComponent
-			mRange.rangeOrder = i + 1
-			mRange.rangeNumber = Cint(subRangeComponentPos)
-			myMarginaliaRanges(i) = mRange
-			Msgbox &quot;matched sub range (block) component&quot;
-				
-		End if
 
-		if ((instr(rangeComponent, &quot;(&quot;) &lt;&gt; 0 ) and (instr(rangeComponent, &quot;)&quot;))) then
-			rem if yes look split the string
-			Dim posOpenParens, posCloseParens as integer
-			posOpenParens = instr(rangeComponent, &quot;(&quot;)
-			posCloseParens = instr(rangeComponent, &quot;)&quot;)
-
-			subRangeComponent = left(rangeComponent, posOpenParens - 1 )			
-			subRangeComponentPos = mid(rangeComponent, posOpenParens + 1 , posCloseParens - posOpenParens - 1 )
-			rem make range object
-			dim mStringRange as MarginaliaRange
-			mStringRange.rangeType = &quot;string&quot;
-			mStringRange.rangeName = subRangeComponent
-			mStringRange.rangeOrder = i + 1
-			mStringRange.rangeNumber = Cint(subRangeComponentPos)
-			myMarginaliaRanges(i) = mStringRange
-			Msgbox &quot;matched sub range (string) component&quot;
-				
-		End if
-			
-	Next
-End Function
 
 
 REM returns an Array of MarginaliaRange objects representing a single range description

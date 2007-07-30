@@ -3,9 +3,18 @@
 <script:module xmlns:script="http://openoffice.org/2000/script" script:name="MarginaliaOOo" script:language="StarBasic">REM  *****  BASIC  *****
 Option Explicit
 
+Sub Main
+	Dim theParagraph 
+	Dim theNthWord as String
+	
+	theParagraph = getNthHeading(&quot;h2&quot;, 1)
+	if (Not isnull(theParagraph) ) then
+		Msgbox theParagraph.getString()
+	end if
+End Sub
 
 REM test function
-Sub Main
+Sub Main2
 	
 	Dim theParagraph 
 	Dim theNthWord as String
@@ -120,4 +129,42 @@ Function getNthCharacter (theWord as Variant, nthBeginCharacter as integer)
 	wordLeftCursor.goRight(nthBeginCharacter, false)
 	getNthCharacter = wordLeftCursor
 End Function
+
+
+Function getNthHeading (headingName as string, nthHeading as integer)
+rem heading types are h1, h2, h3, h4...etc....
+Dim headingType as string
+rem heading levels are 0 based indexes
+Dim headingLevel as integer
+
+headingType = left(headingName, 1)
+rem subtract 1 because heading levels are 0 based...
+headingLevel = CInt(Mid (headingName, 2, len(headingName))) - 1
+
+if (headingType = &quot;h&quot; ) then 
+	Dim paraEnumerator, theHeading
+	Dim i as integer &apos;counter for paragraphs
+	i = 0 
+	paraEnumerator = thisComponent.getText().createEnumeration()
+  	Do while paraEnumerator.hasMoreElements()
+  		theHeading = paraEnumerator.nextElement
+  		Rem check if it is a pargraph
+  		if (theHeading.supportsService(&quot;com.sun.star.text.Paragraph&quot;) ) then
+  			if (theHeading.ParaChapterNumberingLevel =  headingLevel ) then
+  				i = i + 1
+  				if ( i = nthHeading) then 
+  					&apos;this is the para we need
+  					getNthHeading = theHeading
+  					Exit function
+  				end if	
+  			end if
+  		end if	
+  	Loop
+ else
+ 	getNthHeading = Nothing
+end if
+getNthHeading
+End function
+
+
 </script:module>

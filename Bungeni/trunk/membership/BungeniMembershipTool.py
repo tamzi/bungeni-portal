@@ -32,6 +32,10 @@ from Products.Archetypes.atapi import *
 from zope import interface
 from Products.Bungeni.config import *
 
+# additional imports from tagged value 'import'
+from Products.Archetypes.utils import DisplayList
+from Products.remember.utils import getRememberTypes
+
 
 from Products.CMFCore.utils import UniqueObject
 
@@ -115,9 +119,12 @@ class BungeniMembershipTool(UniqueObject, BaseContent):
 
     security.declarePublic('getMemberTypesVocab')
     def getMemberTypesVocab(self):
+        """ Get a displaylist of remember-based member types.
         """
-        """
-        pass
+        remtypes = getRememberTypes(self)
+        remtypes.sort()
+        remtypes = [(i, i) for i in remtypes]
+        return DisplayList(remtypes)
 
 
 registerType(BungeniMembershipTool, PROJECTNAME)

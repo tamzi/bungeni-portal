@@ -108,12 +108,14 @@ public class sectionPanel extends javax.swing.JPanel implements ActionListener{
         String cmd = e.getActionCommand() ;
         log.debug("action perfomed = "+ cmd);
         ItoolbarButtonEvent iEvent = getEventClass(cmd);
-        iEvent.doCommand(ooDocument, cmd);
+        
+        iEvent.doCommand(this.ooDocument, cmd);
     }
     
     public ItoolbarButtonEvent getEventClass(String cmd){
         log.debug("getting command factory ....");
-        return toolbarButtonCommandFactory.getButtonEventHandler(cmd);
+        ItoolbarButtonEvent event = toolbarButtonCommandFactory.getButtonEventHandler(cmd);
+        return event;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

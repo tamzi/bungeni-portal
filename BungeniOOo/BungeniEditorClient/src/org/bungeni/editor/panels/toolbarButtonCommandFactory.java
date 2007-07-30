@@ -9,8 +9,7 @@
 
 package org.bungeni.editor.panels;
 
-import java.util.Map;
-import org.apache.commons.collections.map.HashedMap;
+import java.util.HashMap;
 import org.apache.log4j.varia.NullAppender;
 import org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler;
 
@@ -19,7 +18,7 @@ import org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler;
  * @author Administrator
  */
 public class toolbarButtonCommandFactory extends Object {
-    private static Map commandsMap=null;
+    private static java.util.HashMap commandsMap=null;
     private static final ItoolbarButtonEvent DEFAULT_EVENT_HANDLER = new org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler();
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(toolbarButtonCommandFactory.class.getName());
  
@@ -31,12 +30,13 @@ public class toolbarButtonCommandFactory extends Object {
         log.debug("in factory class command = "+cmdName);
         ItoolbarButtonEvent iEvent = null;
         try {
-            String className = getClassName( cmdName );
-            if( className != null )
+            String className = "", namingConvetion = "", numberingType = "";
+            className = getCommandClass(cmdName);
+             if( className.length() > 0  )
             {
-            log.debug("in factory: getButtonEventHandler :" + className );    
-            Class eventHandlerClass;
-                eventHandlerClass = Class.forName(className);
+                log.debug("in factory: getButtonEventHandler :" + className );    
+                Class eventHandlerClass;
+                    eventHandlerClass = Class.forName(className);
                 iEvent = (ItoolbarButtonEvent) eventHandlerClass.newInstance();
             }    
             else
@@ -59,36 +59,135 @@ public class toolbarButtonCommandFactory extends Object {
          }
     }
     
+    public static String getCommandClass(String command) {
+        HashMap mp;
+        String commandClass = "";
+        try {
+             mp = getClassName(command);
+             commandClass = (String) mp.get("class");
+         } catch (Exception ex) {
+            log.debug("error in getCommandClass " + ex.getLocalizedMessage(), ex);
+        } finally {
+            return commandClass;
+        }
+    }
     
-    private static String getClassName(String clsName){
+    public static String getCommandNamingConvention(String command){
+        HashMap mp;
+        String commandClass = "";
+        try {
+             mp = getClassName(command);
+             commandClass = (String) mp.get("section");
+         } catch (Exception ex) {
+            log.debug("error in getCommandNamingConvention " + ex.getLocalizedMessage(), ex);
+        } finally {
+            return commandClass;
+        }
+    }
+    
+    public static String getCommandNumberingType (String command) {
+        HashMap mp;
+        String commandClass = "";
+        try {
+             mp = getClassName(command);
+             commandClass = (String) mp.get("type");
+         } catch (Exception ex) {
+            log.debug("error in getCommandNumberingType " + ex.getLocalizedMessage(), ex);
+        } finally {
+            return commandClass;
+        }  
+    }
+    
+    private static HashMap getClassName(String clsName) throws Exception{
         log.debug("in factory: getClass("+clsName+")");
-        String strClass =  (String) getIdNameMap().get(clsName);
-        if (strClass == null ){
+        HashMap cmdMap;
+        HashMap cmdsMap;
+        cmdsMap = getIdNameMap();
+        
+        if (cmdsMap.containsKey(clsName)) {
+            cmdMap =  (HashMap) cmdsMap.get(clsName);
+            return cmdMap;
+        } else {
             log.debug("in factory: getClass is null");
-            return null;
+            throw new Exception("getClassName(), the command name :"+clsName+" was not found.");
+            
         }
-        else{
-            log.debug("in factory: getClass is not null and is: "+ strClass);
-            return strClass;
-        }
+       
+       
 
     }
       /** Return the Id/Name map, create if necessary */
-    private static Map getIdNameMap()
+    private static HashMap getIdNameMap()
     {
         log.debug("in factory, getIdNameMap()");
-        if( commandsMap == null )
+        try {
+        if( commandsMap == null ) {
+            log.debug("commandsMap is null");
             commandsMap = createCommandsMap();
-        
+            log.debug("commandsMap size = "+commandsMap.size());
+        }
+        }
+        catch (Exception e){
+            log.debug("exception in getIdNameMap()"+e.getLocalizedMessage());
+        }
         return commandsMap;
     }
 
-    private static Map createCommandsMap(){
-        Map cmds = new HashedMap();
-        cmds.put("makePaperSection", "toolbarButtonEventHandler");
-        cmds.put("makePrayerSection",  "toolbarButtonEventHandler");
-        log.debug("in factory, createCommandsMap()");
-        return cmds;
+    private static String getCommandValue(String cmdName, String cmdKey ) throws Exception{
+        HashMap cmdsMap = getIdNameMap();
+        
+        if (cmdsMap.containsKey(cmdName)) 
+            {
+             HashMap cmdMap = (HashMap) commandsMap.get(cmdName);
+             if (cmdMap.containsKey(cmdKey)){
+                 String keyValue = (String) cmdMap.get(cmdKey);
+                 return keyValue;
+             } else {
+                 throw new Exception("Command key was not found for the command, key combination of :"+ cmdName + "," + cmdKey );
+             }
+        }  else
+            throw new Exception("Command "+cmdName + " was not found!");
+    }
+ 
+    
+    private static HashMap createCommandsMap(){
+        HashMap cmds = null;
+        try {
+            cmds = new HashMap();
+            
+             log.debug("creating commands map");
+
+            cmds.put(new String("makePaperSection"),         
+                    newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "paper", "single"));
+            cmds.put(new String("makePrayerSection"), 
+                    newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "prayer", "single"));
+            cmds.put(new String("makeNoticeOfMotionSection"), 
+                    newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "notice-of-motion", "single"));
+            cmds.put(new String("makeQASection"), 
+                    newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "qa-section", "single"));
+            cmds.put(new String("makeQuestionBlockSection"), 
+                    newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "question-block", "single"));            
+            log.debug(new String("in factory, createCommandsMap()"));
+      }
+      catch (Exception e)
+      {
+          log.debug("exception in createCommandsMap() "+ e.getLocalizedMessage());
+      }
+        finally{
+            return cmds;
+        }
+        
+    }
+  
+    
+    
+    private static HashMap newChildMap(String theClass, String theSection, String theType){
+        HashMap mp = new HashMap();
+        mp.put(new String("class"), theClass);
+        mp.put(new String("section"), theSection);
+        //single / serial
+        mp.put(new String("type"), theType );
+        return mp;
     }
 
     

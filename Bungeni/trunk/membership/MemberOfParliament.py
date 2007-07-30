@@ -33,6 +33,7 @@ from zope import interface
 from Products.Bungeni.membership.BungeniMember import BungeniMember
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
 from Products.Bungeni.interfaces.IMemberOfParliament import IMemberOfParliament
+from Products.Relations.field import RelationField
 # imports needed by remember
 from Products.remember.content.member import BaseMember
 from Products.remember.permissions import \
@@ -48,6 +49,28 @@ from Products.Bungeni.config import *
 ##/code-section module-header
 
 schema = Schema((
+
+    RelationField(
+        name='constituencys',
+        widget=ReferenceWidget(
+            label='Constituencys',
+            label_msgid='Bungeni_label_constituencys',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=0,
+        relationship='memberofparliament_constituency'
+    ),
+
+    RelationField(
+        name='ministrys',
+        widget=ReferenceWidget(
+            label='Ministrys',
+            label_msgid='Bungeni_label_ministrys',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=0,
+        relationship='memberofparliament_ministry'
+    ),
 
 ),
 )

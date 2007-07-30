@@ -38,6 +38,7 @@ from Products.CMFCore.utils import UniqueObject
 
     
 ##code-section module-header #fill in your manual code here
+from Products.TeamSpace.membership import TeamMembership
 ##/code-section module-header
 
 schema = Schema((
@@ -66,7 +67,7 @@ class BungeniTeamsTool(UniqueObject, BaseBTreeFolder, TeamsTool):
 
     meta_type = 'BungeniTeamsTool'
     portal_type = 'BungeniTeamsTool'
-    allowed_content_types = ['Party', 'Committee', 'Ministry', 'Reporters'] + list(getattr(TeamsTool, 'allowed_content_types', []))
+    allowed_content_types = ['Party', 'Committee', 'Ministry', 'Reporters', 'Parliament', 'Parliament', 'Office', 'DebateRecordOffice'] + list(getattr(TeamsTool, 'allowed_content_types', []))
     filter_content_types = 1
     global_allow = 0
     #content_icon = 'BungeniTeamsTool.gif'
@@ -82,6 +83,7 @@ class BungeniTeamsTool(UniqueObject, BaseBTreeFolder, TeamsTool):
     schema = BungeniTeamsTool_schema
 
     ##code-section class-header #fill in your manual code here
+    allowed_membership_types =  (TeamMembership.portal_type,)
     ##/code-section class-header
 
 
@@ -91,6 +93,7 @@ class BungeniTeamsTool(UniqueObject, BaseBTreeFolder, TeamsTool):
         self.setTitle('BungeniTeamsTool')
         
         ##code-section constructor-footer #fill in your manual code here
+        TeamsTool.__init__(self, id='portal_bungeniteamstool')
         ##/code-section constructor-footer
 
 
@@ -103,6 +106,13 @@ class BungeniTeamsTool(UniqueObject, BaseBTreeFolder, TeamsTool):
 
 
     # Methods
+
+    security.declarePublic('getTeams')
+    def getTeams(self,teamspace_type):
+        """
+        """
+        # TODO filter returned types
+        return TeamsTool.getTeams(self)
 
 
 registerType(BungeniTeamsTool, PROJECTNAME)

@@ -30,7 +30,7 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
-from Products.TeamSpace.team import Team
+from Products.Bungeni.groups.BungeniTeam import BungeniTeam
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
 from Products.Bungeni.config import *
 
@@ -73,17 +73,17 @@ schema = Schema((
 ##/code-section after-local-schema
 
 Party_schema = BaseSchema.copy() + \
-    getattr(Team, 'schema', Schema(())).copy() + \
+    getattr(BungeniTeam, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Party(BaseContent, Team):
+class Party(BungeniTeam):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(Team,'__implements__',()),)
+    __implements__ = (getattr(BungeniTeam,'__implements__',()),)
     # zope3 interfaces
     interface.implements(IAuditable)
 
@@ -92,7 +92,7 @@ class Party(BaseContent, Team):
 
     meta_type = 'Party'
     portal_type = 'Party'
-    allowed_content_types = [] + list(getattr(Team, 'allowed_content_types', []))
+    allowed_content_types = [] + list(getattr(BungeniTeam, 'allowed_content_types', []))
     filter_content_types = 0
     global_allow = 0
     #content_icon = 'Party.gif'

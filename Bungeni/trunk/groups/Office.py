@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: Ministry.py
+# File: Office.py
 #
 # Copyright (c) 2007 by []
 # Generator: ArchGenXML Version 1.6.0-beta-svn
@@ -31,9 +31,7 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
 from Products.Bungeni.groups.BungeniTeam import BungeniTeam
-from Products.Archetypes.ReferenceEngine import ContentReferenceCreator
 from Products.Relations.field import RelationField
-from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -41,34 +39,26 @@ from Products.Bungeni.config import *
 
 schema = Schema((
 
-    StringField(
-        name='shortTitle',
-        widget=StringWidget(
-            label='Shorttitle',
-            label_msgid='Bungeni_label_shortTitle',
-            i18n_domain='Bungeni',
-        )
-    ),
-
-    StringField(
-        name='portfolio',
-        widget=SelectionWidget(
-            label='Portfolio',
-            label_msgid='Bungeni_label_portfolio',
-            i18n_domain='Bungeni',
-        ),
-        vocabulary=NamedVocabulary("""Ministry.vdex""")
-    ),
-
     RelationField(
-        name='memberofparliaments',
+        name='staffs',
         widget=ReferenceWidget(
-            label='Memberofparliaments',
-            label_msgid='Bungeni_label_memberofparliaments',
+            label='Staffs',
+            label_msgid='Bungeni_label_staffs',
             i18n_domain='Bungeni',
         ),
         multiValued=0,
-        relationship='Tenure'
+        relationship='clerk'
+    ),
+
+    RelationField(
+        name='staffs',
+        widget=ReferenceWidget(
+            label='Staffs',
+            label_msgid='Bungeni_label_staffs',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=0,
+        relationship='deputy_clerk'
     ),
 
 ),
@@ -77,37 +67,37 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Ministry_schema = BaseSchema.copy() + \
+Office_schema = BaseSchema.copy() + \
     getattr(BungeniTeam, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Ministry(BungeniTeam):
+class Office(BungeniTeam):
     """
     """
     security = ClassSecurityInfo()
     __implements__ = (getattr(BungeniTeam,'__implements__',()),)
 
     # This name appears in the 'add' box
-    archetype_name = 'Ministry'
+    archetype_name = 'Office'
 
-    meta_type = 'Ministry'
-    portal_type = 'Ministry'
+    meta_type = 'Office'
+    portal_type = 'Office'
     allowed_content_types = [] + list(getattr(BungeniTeam, 'allowed_content_types', []))
     filter_content_types = 0
     global_allow = 0
-    #content_icon = 'Ministry.gif'
+    #content_icon = 'Office.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "Ministry"
-    typeDescMsgId = 'description_edit_ministry'
+    typeDescription = "Office"
+    typeDescMsgId = 'description_edit_office'
 
     _at_rename_after_creation = True
 
-    schema = Ministry_schema
+    schema = Office_schema
 
     ##code-section class-header #fill in your manual code here
     ##/code-section class-header
@@ -115,8 +105,8 @@ class Ministry(BungeniTeam):
     # Methods
 
 
-registerType(Ministry, PROJECTNAME)
-# end of class Ministry
+registerType(Office, PROJECTNAME)
+# end of class Office
 
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer

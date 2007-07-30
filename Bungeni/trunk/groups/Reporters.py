@@ -30,6 +30,7 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from Products.Bungeni.groups.BungeniTeam import BungeniTeam
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -44,23 +45,24 @@ schema = Schema((
 ##/code-section after-local-schema
 
 Reporters_schema = BaseSchema.copy() + \
+    getattr(BungeniTeam, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Reporters(BaseContent):
+class Reporters(BungeniTeam):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),)
+    __implements__ = (getattr(BungeniTeam,'__implements__',()),)
 
     # This name appears in the 'add' box
     archetype_name = 'Reporters'
 
     meta_type = 'Reporters'
     portal_type = 'Reporters'
-    allowed_content_types = []
+    allowed_content_types = [] + list(getattr(BungeniTeam, 'allowed_content_types', []))
     filter_content_types = 0
     global_allow = 0
     #content_icon = 'Reporters.gif'

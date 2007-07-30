@@ -30,8 +30,9 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
-from Products.TeamSpace.team import Team
+from Products.Bungeni.groups.BungeniTeam import BungeniTeam
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
+from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -45,7 +46,8 @@ schema = Schema((
             label='Type',
             label_msgid='Bungeni_label_type',
             i18n_domain='Bungeni',
-        )
+        ),
+        vocabulary=['Permanent', 'Temporary']
     ),
 
     StringField(
@@ -54,7 +56,8 @@ schema = Schema((
             label='Category',
             label_msgid='Bungeni_label_category',
             i18n_domain='Bungeni',
-        )
+        ),
+        vocabulary=['housekeeping', 'ad hoc', 'departmental', 'watchdog']
     ),
 
     TextField(
@@ -140,6 +143,71 @@ schema = Schema((
         )
     ),
 
+    StringField(
+        name='duration',
+        widget=SelectionWidget(
+            label='Duration',
+            label_msgid='Bungeni_label_duration',
+            i18n_domain='Bungeni',
+        ),
+        vocabulary=['parliament', 'annual']
+    ),
+
+    RelationField(
+        name='memberofparliaments',
+        widget=ReferenceWidget(
+            label='Memberofparliaments',
+            label_msgid='Bungeni_label_memberofparliaments',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=0,
+        relationship='chairperson'
+    ),
+
+    RelationField(
+        name='staffs',
+        widget=ReferenceWidget(
+            label='Staffs',
+            label_msgid='Bungeni_label_staffs',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=0,
+        relationship='clerk'
+    ),
+
+    RelationField(
+        name='memberofparliaments',
+        widget=ReferenceWidget(
+            label='Memberofparliaments',
+            label_msgid='Bungeni_label_memberofparliaments',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=0,
+        relationship='secretary'
+    ),
+
+    RelationField(
+        name='memberofparliaments',
+        widget=ReferenceWidget(
+            label='Memberofparliaments',
+            label_msgid='Bungeni_label_memberofparliaments',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=0,
+        relationship='deputy_chairperson'
+    ),
+
+    RelationField(
+        name='staffs',
+        widget=ReferenceWidget(
+            label='Staffs',
+            label_msgid='Bungeni_label_staffs',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=0,
+        relationship='deputy_clerk'
+    ),
+
 ),
 )
 
@@ -147,17 +215,17 @@ schema = Schema((
 ##/code-section after-local-schema
 
 Committee_schema = BaseSchema.copy() + \
-    getattr(Team, 'schema', Schema(())).copy() + \
+    getattr(BungeniTeam, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Committee(BaseContent, Team):
+class Committee(BungeniTeam):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(Team,'__implements__',()),)
+    __implements__ = (getattr(BungeniTeam,'__implements__',()),)
     # zope3 interfaces
     interface.implements(IAuditable)
 
@@ -166,7 +234,7 @@ class Committee(BaseContent, Team):
 
     meta_type = 'Committee'
     portal_type = 'Committee'
-    allowed_content_types = [] + list(getattr(Team, 'allowed_content_types', []))
+    allowed_content_types = [] + list(getattr(BungeniTeam, 'allowed_content_types', []))
     filter_content_types = 0
     global_allow = 0
     #content_icon = 'Committee.gif'

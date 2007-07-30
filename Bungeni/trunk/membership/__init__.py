@@ -38,8 +38,9 @@ __docformat__ = 'plaintext'
 # Classes
 import MemberOfPublic
 import BungeniMember
-import Clerk
+import Staff
 import MemberOfParliament
+import BungeniMembershipTool
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

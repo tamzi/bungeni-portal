@@ -30,14 +30,49 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
-from Products.TeamSpace.team import Team
-from Products.ATContentTypes.content.event import ATEvent
+from Products.Bungeni.groups.BungeniTeam import BungeniTeam
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
 schema = Schema((
+
+    StringField(
+        name='number',
+        widget=StringWidget(
+            label='Number',
+            label_msgid='Bungeni_label_number',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    DateTimeField(
+        name='dateElected',
+        widget=CalendarWidget(
+            label='Dateelected',
+            label_msgid='Bungeni_label_dateElected',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    DateTimeField(
+        name='dateInaugurated',
+        widget=CalendarWidget(
+            label='Dateinaugurated',
+            label_msgid='Bungeni_label_dateInaugurated',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    DateTimeField(
+        name='dateDissolved',
+        widget=CalendarWidget(
+            label='Datedissolved',
+            label_msgid='Bungeni_label_dateDissolved',
+            i18n_domain='Bungeni',
+        )
+    ),
 
 ),
 )
@@ -46,25 +81,24 @@ schema = Schema((
 ##/code-section after-local-schema
 
 Parliament_schema = BaseSchema.copy() + \
-    getattr(Team, 'schema', Schema(())).copy() + \
-    getattr(ATEvent, 'schema', Schema(())).copy() + \
+    getattr(BungeniTeam, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Parliament(BaseContent, Team, ATEvent):
+class Parliament(BungeniTeam):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(Team,'__implements__',()),) + (getattr(ATEvent,'__implements__',()),)
+    __implements__ = (getattr(BungeniTeam,'__implements__',()),)
 
     # This name appears in the 'add' box
     archetype_name = 'Parliament'
 
     meta_type = 'Parliament'
     portal_type = 'Parliament'
-    allowed_content_types = [] + list(getattr(Team, 'allowed_content_types', [])) + list(getattr(ATEvent, 'allowed_content_types', []))
+    allowed_content_types = [] + list(getattr(BungeniTeam, 'allowed_content_types', []))
     filter_content_types = 0
     global_allow = 0
     #content_icon = 'Parliament.gif'
@@ -82,6 +116,12 @@ class Parliament(BaseContent, Team, ATEvent):
     ##/code-section class-header
 
     # Methods
+
+    security.declarePublic('setDateDissolved')
+    def setDateDissolved(self, date):
+        """
+        """
+        pass
 
 
 registerType(Parliament, PROJECTNAME)

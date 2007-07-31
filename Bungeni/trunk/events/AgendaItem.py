@@ -30,13 +30,33 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from Products.Bungeni.events.ParliamentaryEvent import ParliamentaryEvent
 from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
+copied_fields = {}
+copied_fields['tabledDate'] = ParliamentaryEvent.schema['startDate'].copy(name='tabledDate')
+copied_fields['tabledDate'].read_permission = "Bungeni: Schedule parliamentary business"
+copied_fields['tabledDate'].mutator = "setTabledDate"
+copied_fields['tabledDate'].accessor = "getTabledDate"
+copied_fields['tabledDate'].write_permission = "Bungeni: Schedule parliamentary business"
+copied_fields['tabledDate'].edit_accessor = "getRawTabledDate"
+copied_fields['tabledDate'].widget.label = "Tabled date"
+copied_fields['scheduledDate'] = ParliamentaryEvent.schema['startDate'].copy(name='scheduledDate')
+copied_fields['scheduledDate'].read_permission = "Bungeni: Schedule parliamentary business"
+copied_fields['scheduledDate'].mutator = "setScheduledDate"
+copied_fields['scheduledDate'].accessor = "getScheduledDate"
+copied_fields['scheduledDate'].write_permission = "Bungeni: Schedule parliamentary business"
+copied_fields['scheduledDate'].edit_accessor = "getRawScheduledDate"
+copied_fields['scheduledDate'].widget.label = "Scheduled date"
 schema = Schema((
+
+    copied_fields['tabledDate'],
+
+    copied_fields['scheduledDate'],
 
     RelationField(
         name='questions',
@@ -78,23 +98,24 @@ schema = Schema((
 ##/code-section after-local-schema
 
 AgendaItem_schema = BaseSchema.copy() + \
+    getattr(ParliamentaryEvent, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class AgendaItem(BaseContent):
+class AgendaItem(BaseContent, ParliamentaryEvent):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),)
+    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(ParliamentaryEvent,'__implements__',()),)
 
     # This name appears in the 'add' box
     archetype_name = 'AgendaItem'
 
     meta_type = 'AgendaItem'
     portal_type = 'AgendaItem'
-    allowed_content_types = []
+    allowed_content_types = [] + list(getattr(ParliamentaryEvent, 'allowed_content_types', []))
     filter_content_types = 0
     global_allow = 0
     #content_icon = 'AgendaItem.gif'

@@ -58,22 +58,30 @@ public class toolbarButtonEventHandler extends Object implements ItoolbarButtonE
            String namingConvention, numberingType;
            String newName = "";
            namingConvention = toolbarButtonCommandFactory.getCommandNamingConvention(cmd);
+           if (namingConvention.equals("")) {
+                log.debug("unable to name section, section mame was blank");
+                MessageBox.OK("The command:" + cmd+" does not have a naming convention associated with it");
+                return;
+           }
            numberingType = toolbarButtonCommandFactory.getCommandNumberingType(cmd);
            if (numberingType.equals("single")) {
                 newName = namingConvention;
-           } else {
+           } else if (numberingType.equals("serial")) {
                 //do sequential naming thing....or whatever.....
                 newName = namingConvention;
+           } else if (numberingType.equals("")) {
+               MessageBox.OK("The command: "+ cmd+ " does not have a numbering type associated with it");
+               return;
            }
-                if (this.ooDocument.getTextSections().hasByName(newName)){
+           if (this.ooDocument.getTextSections().hasByName(newName)){
                    log.debug("in doc command: section  already exists");
                    MessageBox.OK("The section:  prayers already exists");
-                }
-                else {
-                    log.debug("in doCommand : adding text section prayers");
-                    addTextSection(newName);
-                    MessageBox.OK("Prayers section was added !");
-                }
+            }
+          else {
+               log.debug("in doCommand : adding text section prayers");
+               addTextSection(newName);
+               MessageBox.OK(newName + " section was added !");
+          }
     }
     private void addTextSection(String sectionName){
  

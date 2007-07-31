@@ -15,12 +15,12 @@ import javax.swing.JButton;
 import javax.swing.border.Border;
 import org.bungeni.editor.dialogs.editorTabbedPanel;
 import org.bungeni.ooo.OOComponentHelper;
-
+import org.bungeni.editor.panels.ICollapsiblePanel;
 /**
  *
  * @author  Administrator
  */
-public class sectionPanel extends javax.swing.JPanel implements ActionListener{
+public class sectionPanel extends javax.swing.JPanel implements ICollapsiblePanel , ActionListener  {
    
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(sectionPanel.class.getName());
     private OOComponentHelper ooDocument;
@@ -31,12 +31,13 @@ public class sectionPanel extends javax.swing.JPanel implements ActionListener{
         initButtons();
     }
     
+    /*
     public sectionPanel(OOComponentHelper ooDoc) {
       initComponents();
       initButtons();
       this.ooDocument = ooDoc;
     }
-    
+    */
     
     private void initButtons(){
         //reset toolbar
@@ -116,6 +117,10 @@ public class sectionPanel extends javax.swing.JPanel implements ActionListener{
         log.debug("getting command factory ....");
         ItoolbarButtonEvent event = toolbarButtonCommandFactory.getButtonEventHandler(cmd);
         return event;
+    }
+
+    public void setOOComponentHandle(OOComponentHelper ooComponent) {
+        this.ooDocument = ooComponent;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

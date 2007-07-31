@@ -63,6 +63,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import org.apache.commons.collections.map.MultiValueMap;
 import org.bungeni.editor.dialogs.swingxpanels.swingXPanel01;
+import org.bungeni.editor.panels.ICollapsiblePanel;
 import org.bungeni.editor.panels.sectionPanel;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.DocStructureElement;
@@ -121,12 +122,15 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      scrollPane.setBorder(null);
      //add the scroll pane to the scroll pane
      panelMarkup.add(scrollPane, BorderLayout.CENTER);
-     sectionPanel panel  = new sectionPanel(ooDocument);
-     box.addBox("test panel", panel );    
-     JPanel profilingResults = new JPanel(new BorderLayout(3, 3));
-     profilingResults.add("Center", new JScrollPane(new JTree()));
-     profilingResults.setPreferredSize(new Dimension(200, 100));
-     box.addBox("Profiling Results", profilingResults);
+     sectionPanel panel  = new sectionPanel();
+     panel.setOOComponentHandle(ooDocument);
+     box.addBox("Section Tools", panel );   
+     Class eventHandlerClass;
+     eventHandlerClass = Class.forName("org.bungeni.editor.panels.textmarkupPanel");
+     ICollapsiblePanel iPanel = (ICollapsiblePanel) eventHandlerClass.newInstance();
+     iPanel.setOOComponentHandle(ooDocument);
+     box.addBox("Markup Tools", panel );   
+   
      }
      catch (Exception e){
          log.debug("exception : "+ e.getMessage());

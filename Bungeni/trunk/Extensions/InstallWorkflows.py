@@ -69,7 +69,7 @@ def installWorkflows(self, package, out):
         print >> out, 'MemberAutoWorkflow already in workflows.'
     else:
         workflowTool._setObject('MemberAutoWorkflow', workflow)
-    workflowTool.setChainForPortalTypes(['MemberOfParliament', 'Clerk'], workflow.getId())
+    workflowTool.setChainForPortalTypes(['MemberOfParliament', 'Staff'], workflow.getId())
 
     ourProductWorkflow = ExternalMethod('temp', 'temp',
                                         productname+'.'+'MotionWorkflow',

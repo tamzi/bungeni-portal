@@ -37,15 +37,8 @@ from Products.Bungeni.config import *
 ##/code-section module-header
 
 copied_fields = {}
-copied_fields['tabledDate'] = ATEvent.schema['startDate'].copy(name='tabledDate')
-copied_fields['tabledDate'].mutator = "setTabledDate"
-copied_fields['tabledDate'].accessor = "getTabledDate"
-copied_fields['tabledDate'].read_permission = "Bungeni: Schedule parliamentary business"
-copied_fields['tabledDate'].write_permission = "Bungeni: Schedule parliamentary business"
-copied_fields['tabledDate'].edit_accessor = "getRawTabledDate"
-copied_fields['tabledDate'].widget.label = "Scheduled date"
 copied_fields['startDate'] = ATEvent.schema['startDate'].copy()
-copied_fields['startDate'].widget.label = "Scheduled date"
+copied_fields['startDate'].widget.visible = False
 copied_fields['endDate'] = ATEvent.schema['endDate'].copy()
 copied_fields['endDate'].widget.visible = False
 copied_fields['location'] = ATEvent.schema['location'].copy()
@@ -61,8 +54,6 @@ copied_fields['contactEmail'].widget.visible = False
 copied_fields['contactPhone'] = ATEvent.schema['contactPhone'].copy()
 copied_fields['contactPhone'].widget.visible = False
 schema = Schema((
-
-    copied_fields['tabledDate'],
 
     copied_fields['startDate'],
 

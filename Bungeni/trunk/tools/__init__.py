@@ -36,8 +36,6 @@ __docformat__ = 'plaintext'
 # Additional
 
 # Classes
-import BungeniMembershipTool
-import BungeniTeamsTool
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

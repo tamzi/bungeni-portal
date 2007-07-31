@@ -19,12 +19,13 @@ DEPENDENCIES += [
         'TeamSpace',
         'LinguaPlone', # Installs PloneLanguageTool
         'Plone4ArtistsCalendar', # Installs CMFonFive
+        'ATVocabularyManager',
         ]
 
 # TODO: Move this to the model
 ACTIVE_MEMBRANE_STATES = {
         'MemberOfParliament': ['public', 'private'],
-        'Clerk': ['public', 'private'],
+        'Staff': ['public', 'private'],
         'MemberOfPublic': ['public', 'private']
 }
 

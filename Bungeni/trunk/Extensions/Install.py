@@ -120,6 +120,51 @@ def install(self, reinstall=False):
                     current.append(toolname)
                     navtreeProperties.manage_changeProperties(**{'idsNotToList' : current})
 
+    # register tools as configlets
+    portal_controlpanel = getToolByName(self,'portal_controlpanel')
+    portal_controlpanel.unregisterConfiglet('BungeniTeamsTool')
+    portal_controlpanel.registerConfiglet(
+        'BungeniTeamsTool', #id of your Tool
+        'BungeniTeamsTool', # Title of your Product
+        'string:${portal_url}/portal_bungeniteamstool/view',
+        'python:True', # a condition
+        'Manage portal', # access permission
+        'Products', # section to which the configlet should be added: (Plone, Products (default) or Member)
+        1, # visibility
+        'BungeniTeamsToolID',
+        'site_icon.gif', # icon in control_panel
+        'Configuration for tool BungeniTeamsTool.',
+        None,
+    )
+
+
+    # Create vocabularies in vocabulary lib
+    from Products.ATVocabularyManager.config import TOOL_NAME as ATVOCABULARYTOOL
+    atvm = getToolByName(self, ATVOCABULARYTOOL)
+    vocabmap = {'Ministry.vdex': ('SimpleVocabulary', 'SimpleVocabularyTerm'),
+        }
+    for vocabname in vocabmap.keys():
+        if not vocabname in atvm.contentIds():
+            atvm.invokeFactory(vocabmap[vocabname][0], vocabname)
+
+        if len(atvm[vocabname].contentIds()) < 1:
+            if vocabmap[vocabname][0] == "VdexVocabulary":
+                vdexpath = os.path.join(
+                    package_home(GLOBALS), 'data', '%s.vdex' % vocabname)
+                if not (os.path.exists(vdexpath) and os.path.isfile(vdexpath)):
+                    print >>out, 'No VDEX import file provided at %s.' % vdexpath
+                    continue
+                try:
+                    #read data
+                    f = open(vdexpath, 'r')
+                    data = f.read()
+                    f.close()
+                except:
+                    print >>out, 'Problems while reading VDEX import file provided at %s.' % vdexpath
+                    continue
+                atvm[vocabname].importXMLBinding(data)
+            else:
+                pass
 
     # try to call a workflow install method
     # in 'InstallWorkflows.py' method 'installWorkflows'
@@ -139,19 +184,19 @@ def install(self, reinstall=False):
     # Adds our types to MemberDataContainer.allowed_content_types
     types_tool = getToolByName(self, 'portal_types')
     act = types_tool.MemberDataContainer.allowed_content_types
-    types_tool.MemberDataContainer.manage_changeProperties(allowed_content_types=act+('MemberOfPublic', 'Clerk', 'MemberOfParliament', ))
+    types_tool.MemberDataContainer.manage_changeProperties(allowed_content_types=act+('MemberOfPublic', 'Staff', 'MemberOfParliament', ))
     # registers with membrane tool ...
     membrane_tool = getToolByName(self, 'membrane_tool')
     membrane_tool.registerMembraneType('MemberOfPublic')
     # print >> out, SetupMember(self, member_type='MemberOfPublic', register=False).finish()
-    membrane_tool.registerMembraneType('Clerk')
-    # print >> out, SetupMember(self, member_type='Clerk', register=False).finish()
+    membrane_tool.registerMembraneType('Staff')
+    # print >> out, SetupMember(self, member_type='Staff', register=False).finish()
     membrane_tool.registerMembraneType('MemberOfParliament')
     # print >> out, SetupMember(self, member_type='MemberOfParliament', register=False).finish()
 
     #bind classes to workflows
     wft = getToolByName(self,'portal_workflow')
-    wft.setChainForPortalTypes( ['Clerk'], "MemberAutoWorkflow")
+    wft.setChainForPortalTypes( ['Staff'], "MemberAutoWorkflow")
     wft.setChainForPortalTypes( ['Motion'], "ParliamentaryEventWorkflow")
     wft.setChainForPortalTypes( ['Question'], "ParliamentaryEventWorkflow")
     wft.setChainForPortalTypes( ['LegislationFolder'], "BungeniWorkflow")
@@ -170,10 +215,9 @@ def install(self, reinstall=False):
     factory_tool = getToolByName(self,'portal_factory')
     factory_types=[
         "MemberOfPublic",
-        "Clerk",
+        "Staff",
         "MemberOfParliament",
         "BungeniMembershipTool",
-        "BungeniTeamsTool",
         "LongDocument",
         "LongDocumentSection",
         "LongDocumentPage",
@@ -184,9 +228,10 @@ def install(self, reinstall=False):
         "OrderOfBusiness",
         "AgendaItem",
         "Sitting",
-        "ParliamentWS",
         "Session",
-        "CommitteeWS",
+        "CommitteeFolder",
+        "MinistryFolder",
+        "MinistryWS",
         "LegislationFolder",
         "Bill",
         "BillPage",
@@ -204,10 +249,24 @@ def install(self, reinstall=False):
         "Ministry",
         "Reporters",
         "Parliament",
+        "Office",
+        "BungeniTeamSpace",
+        "BungeniTeamsTool",
+        "DebateRecordOffice",
+        "BungeniTeam",
+        "Tenure",
         "VoteCount",
         "VoteOfMP",
         "Vote",
         "VoteSummary",
+        "Region",
+        "Constituency",
+        "Regions",
+        "Province",
+        "OfficeWS",
+        "OfficeFolder",
+        "ParliamentWS",
+        "CommitteeWS",
         ] + factory_tool.getFactoryTypes().keys()
     factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
 
@@ -275,13 +334,13 @@ def uninstall(self, reinstall=False):
     # Removes our types from MemberDataContainer.allowed_content_types
     types_tool = getToolByName(self, 'portal_types')
     act = types_tool.MemberDataContainer.allowed_content_types
-    types_tool.MemberDataContainer.manage_changeProperties(allowed_content_types=[ct for ct in act if ct not in ('MemberOfPublic', 'Clerk', 'MemberOfParliament', ) ])
+    types_tool.MemberDataContainer.manage_changeProperties(allowed_content_types=[ct for ct in act if ct not in ('MemberOfPublic', 'Staff', 'MemberOfParliament', ) ])
     # unregister with membrane tool ...
     membrane_tool = getToolByName(self, 'membrane_tool')
     membrane_tool.unregisterMembraneType('MemberOfPublic')
     # print >> out, SetupMember(self, member_type='MemberOfPublic', register=False).finish()
-    membrane_tool.unregisterMembraneType('Clerk')
-    # print >> out, SetupMember(self, member_type='Clerk', register=False).finish()
+    membrane_tool.unregisterMembraneType('Staff')
+    # print >> out, SetupMember(self, member_type='Staff', register=False).finish()
     membrane_tool.unregisterMembraneType('MemberOfParliament')
     # print >> out, SetupMember(self, member_type='MemberOfParliament', register=False).finish()
     # unhide tools in the search form

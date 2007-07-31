@@ -38,6 +38,26 @@ from Products.Bungeni.config import *
 
 schema = Schema((
 
+    StringField(
+        name='attendees',
+        widget=SelectionWidget(
+            label='Attendees',
+            label_msgid='Bungeni_label_attendees',
+            i18n_domain='Bungeni',
+        ),
+        vocabulary='getAttendeesVocab'
+    ),
+
+    StringField(
+        name='sittingType',
+        widget=SelectionWidget(
+            label='Sittingtype',
+            label_msgid='Bungeni_label_sittingType',
+            i18n_domain='Bungeni',
+        ),
+        vocabulary=['morning', 'afternoon', 'extraordinary']
+    ),
+
 ),
 )
 
@@ -80,6 +100,20 @@ class Sitting(BaseFolder, ParliamentaryEvent):
     ##/code-section class-header
 
     # Methods
+
+    security.declarePublic('getAttendeesVocab')
+    def getAttendeesVocab(self):
+        """ Active members may be attendees of a sitting.
+        """
+        # TODO: this currently allows us to add active members to a
+        # sitting. That means we can't add members to sittings of past
+        # parliaments. Is this OK?
+        parliament = self.aq_parent.aq_parent
+        teams = parliament.getTeams()
+        members = []
+        for team in teams:
+            members.extend(team.getActiveMembers())
+        return DisplayList([(m.getId(), m) for m in members])
 
 
 registerType(Sitting, PROJECTNAME)

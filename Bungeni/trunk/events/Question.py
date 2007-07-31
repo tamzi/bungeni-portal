@@ -66,18 +66,18 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Question_schema = BaseSchema.copy() + \
+Question_schema = BaseFolderSchema.copy() + \
     getattr(ParliamentaryEvent, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Question(BaseContent, ParliamentaryEvent):
+class Question(BaseFolder, ParliamentaryEvent):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(ParliamentaryEvent,'__implements__',()),)
+    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(ParliamentaryEvent,'__implements__',()),)
     # zope3 interfaces
     interface.implements(IAuditable)
 
@@ -86,8 +86,8 @@ class Question(BaseContent, ParliamentaryEvent):
 
     meta_type = 'Question'
     portal_type = 'Question'
-    allowed_content_types = [] + list(getattr(ParliamentaryEvent, 'allowed_content_types', []))
-    filter_content_types = 0
+    allowed_content_types = ['Response'] + list(getattr(ParliamentaryEvent, 'allowed_content_types', []))
+    filter_content_types = 1
     global_allow = 1
     #content_icon = 'Question.gif'
     immediate_view = 'base_view'

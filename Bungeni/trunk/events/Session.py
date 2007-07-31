@@ -30,12 +30,43 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from Products.Bungeni.events.ParliamentaryEvent import ParliamentaryEvent
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
+copied_fields = {}
+copied_fields['startDate'] = ParliamentaryEvent.schema['startDate'].copy()
+copied_fields['startDate'].widget.visible = True
+copied_fields['endDate'] = ParliamentaryEvent.schema['endDate'].copy()
+copied_fields['endDate'].widget.visible = True
 schema = Schema((
+
+    StringField(
+        name='sessionType',
+        widget=SelectionWidget(
+            label='Sessiontype',
+            label_msgid='Bungeni_label_sessionType',
+            i18n_domain='Bungeni',
+        ),
+        vocabulary=['First Session', 'Second Session', 'Third Session']
+    ),
+
+    copied_fields['startDate'],
+
+    copied_fields['endDate'],
+
+    TextField(
+        name='notes',
+        allowable_content_types=('text/plain', 'text/structured', 'text/html', 'application/msword',),
+        widget=RichWidget(
+            label='Notes',
+            label_msgid='Bungeni_label_notes',
+            i18n_domain='Bungeni',
+        ),
+        default_output_type='text/html'
+    ),
 
 ),
 )
@@ -44,23 +75,24 @@ schema = Schema((
 ##/code-section after-local-schema
 
 Session_schema = BaseFolderSchema.copy() + \
+    getattr(ParliamentaryEvent, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Session(BaseFolder):
+class Session(BaseFolder, ParliamentaryEvent):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),)
+    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(ParliamentaryEvent,'__implements__',()),)
 
     # This name appears in the 'add' box
     archetype_name = 'Session'
 
     meta_type = 'Session'
     portal_type = 'Session'
-    allowed_content_types = ['Sitting']
+    allowed_content_types = ['Sitting'] + list(getattr(ParliamentaryEvent, 'allowed_content_types', []))
     filter_content_types = 1
     global_allow = 0
     #content_icon = 'Session.gif'

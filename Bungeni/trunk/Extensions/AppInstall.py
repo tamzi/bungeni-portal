@@ -46,7 +46,7 @@ def install(self):
     # TODO: registration.
     membrane_tool = getToolByName(self, 'membrane_tool')
     cat_map = ICategoryMapper(membrane_tool)
-    for portal_type in ['MemberOfParliament', 'Clerk', 'MemberOfPublic']:
+    for portal_type in ['MemberOfParliament', 'Staff', 'MemberOfPublic']:
         cat_set = generateCategorySetIdForType(portal_type)
         # states = getAllWFStatesForType(self, portal_type)
         states = ACTIVE_MEMBRANE_STATES[portal_type]

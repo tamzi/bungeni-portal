@@ -69,7 +69,7 @@ class Bill(BaseFolder, HelpCenterReferenceManual):
 
     meta_type = 'Bill'
     portal_type = 'Bill'
-    allowed_content_types = ['BillSection', 'ATFile', 'ATImage', 'Amendment']
+    allowed_content_types = ['BillSection', 'ATFile', 'ATImage', 'Amendment', 'Take']
     filter_content_types = 1
     global_allow = 0
     #content_icon = 'Bill.gif'
@@ -89,7 +89,7 @@ class Bill(BaseFolder, HelpCenterReferenceManual):
     # Methods
 
     security.declareProtected(permissions.View, 'getTOC')
-    def getTOC(self,current,root):
+    def getTOC(self, current=None, root=None):
         """ See HelpCenterReferenceManual.getTOC for documentation.
         We're only overriding the query.
         """

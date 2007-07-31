@@ -31,24 +31,12 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
 from Products.Bungeni.events.ParliamentaryEvent import ParliamentaryEvent
-from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
 schema = Schema((
-
-    RelationField(
-        name='questions',
-        widget=ReferenceWidget(
-            label='Questions',
-            label_msgid='Bungeni_label_questions',
-            i18n_domain='Bungeni',
-        ),
-        multiValued=0,
-        relationship='response_question'
-    ),
 
 ),
 )
@@ -76,7 +64,7 @@ class Response(BaseContent, ParliamentaryEvent):
     portal_type = 'Response'
     allowed_content_types = [] + list(getattr(ParliamentaryEvent, 'allowed_content_types', []))
     filter_content_types = 0
-    global_allow = 1
+    global_allow = 0
     #content_icon = 'Response.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'

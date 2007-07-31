@@ -89,6 +89,7 @@ def setupBungeniWorkflow(self, workflow):
     workflow.addManagedPermission('Bungeni: Add HelpFolder')
     workflow.addManagedPermission('Bungeni: Add LegislationFolder')
     workflow.addManagedPermission('Bungeni: Add Motion')
+    workflow.addManagedPermission('Add portal content')
 
     for l in ['reviewer_queue']:
         if not l in workflow.worklists.objectValues():
@@ -183,6 +184,12 @@ def setupBungeniWorkflow(self, workflow):
                            0,
                            ['Manager'])
     stateDef.setPermission('Bungeni: Add Motion',
+                           0,
+                           ['Manager', 'CurrentMP'])
+    stateDef.setPermission('Add portal content',
+                           0,
+                           ['Manager', 'CurrentMP'])
+    stateDef.setPermission('Modify portal content',
                            0,
                            ['Manager', 'CurrentMP'])
 

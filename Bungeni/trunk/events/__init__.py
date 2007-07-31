@@ -43,9 +43,10 @@ import Response
 import OrderOfBusiness
 import AgendaItem
 import Sitting
-import ParliamentWS
 import Session
-import CommitteeWS
+import CommitteeFolder
+import MinistryFolder
+import MinistryWS
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

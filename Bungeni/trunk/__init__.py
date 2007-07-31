@@ -71,7 +71,6 @@ def initialize(context):
 
     # imports packages and types for registration
     import membership
-    import tools
     import interfaces
     import content
     import events
@@ -79,10 +78,12 @@ def initialize(context):
     import debaterecord
     import groups
     import votes
+    import geoinfo
+    import workspaces
 
 
     # Initialize portal tools
-    tools = [tools.BungeniMembershipTool.BungeniMembershipTool, tools.BungeniTeamsTool.BungeniTeamsTool]
+    tools = [membership.BungeniMembershipTool.BungeniMembershipTool, groups.BungeniTeamsTool.BungeniTeamsTool]
     ToolInit( PROJECTNAME +' Tools',
                 tools = tools,
                 icon='tool.gif'

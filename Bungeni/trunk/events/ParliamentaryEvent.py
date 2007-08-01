@@ -31,6 +31,7 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
 from Products.ATContentTypes.content.event import ATEvent
+from Products.Bungeni.events.ParliamentaryDocument import ParliamentaryDocument
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -89,18 +90,19 @@ schema = Schema((
 ##/code-section after-local-schema
 
 ParliamentaryEvent_schema = getattr(ATEvent, 'schema', Schema(())).copy() + \
+    getattr(ParliamentaryDocument, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class ParliamentaryEvent(BaseContent, ATEvent):
+class ParliamentaryEvent(BaseContent, ATEvent, ParliamentaryDocument):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(ATEvent,'__implements__',()),)
+    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(ATEvent,'__implements__',()),) + (getattr(ParliamentaryDocument,'__implements__',()),)
 
-    allowed_content_types = [] + list(getattr(ATEvent, 'allowed_content_types', []))
+    allowed_content_types = [] + list(getattr(ATEvent, 'allowed_content_types', [])) + list(getattr(ParliamentaryDocument, 'allowed_content_types', []))
     _at_rename_after_creation = True
 
     schema = ParliamentaryEvent_schema

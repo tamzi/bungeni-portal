@@ -148,6 +148,11 @@ msgstr ""
 msgid "Bungeni_label_Surname"
 msgstr ""
 
+#. Default: "Uri"
+#: events/ParliamentaryDocument.py
+msgid "Bungeni_label_URI"
+msgstr ""
+
 #. Default: "Attendees"
 #: events/Sitting.py
 msgid "Bungeni_label_attendees"
@@ -335,6 +340,7 @@ msgstr ""
 
 #. Default: "Number"
 #: groups/Parliament.py
+#: events/ParliamentaryDocument.py
 msgid "Bungeni_label_number"
 msgstr ""
 

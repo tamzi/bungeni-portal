@@ -190,6 +190,12 @@ class BungeniMember(BaseContent):
             if auto: break
         return auto
 
+    security.declarePublic('setExpirationDate')
+    def setExpirationDate(self):
+        """
+        """
+        pass
+
     # Methods from Interface IBungeniMember
 
     security.declarePublic('setFullname')

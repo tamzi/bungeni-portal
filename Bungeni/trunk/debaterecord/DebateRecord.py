@@ -68,7 +68,7 @@ class DebateRecord(BaseFolder, HelpCenterReferenceManual):
 
     meta_type = 'DebateRecord'
     portal_type = 'DebateRecord'
-    allowed_content_types = ['DebateRecordSection', 'DebateRecord']
+    allowed_content_types = ['DebateRecordSection', 'DebateRecordPage']
     filter_content_types = 1
     global_allow = 0
     #content_icon = 'DebateRecord.gif'

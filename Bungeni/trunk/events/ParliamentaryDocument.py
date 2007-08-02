@@ -81,6 +81,7 @@ class ParliamentaryDocument(BaseContent):
     ##/code-section class-header
 
     # Methods
+
 # end of class ParliamentaryDocument
 
 ##code-section module-footer #fill in your manual code here

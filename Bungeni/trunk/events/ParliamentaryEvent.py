@@ -112,13 +112,6 @@ class ParliamentaryEvent(BaseContent, ATEvent, ParliamentaryDocument):
 
     # Methods
 
-    security.declarePublic('end')
-    def end(self):
-        """
-        """
-        # TODO This isn't really rational
-        return self.start()+1
-
     security.declarePublic('getEventType')
     def getEventType(self):
         """

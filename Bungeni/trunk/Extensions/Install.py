@@ -254,7 +254,6 @@ def install(self, reinstall=False):
         "BungeniTeamsTool",
         "DebateRecordOffice",
         "BungeniTeam",
-        "Tenure",
         "VoteCount",
         "VoteOfMP",
         "Vote",

@@ -31,8 +31,6 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
 from Products.Bungeni.groups.BungeniTeam import BungeniTeam
-from Products.Archetypes.ReferenceEngine import ContentReferenceCreator
-from Products.Relations.field import RelationField
 from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
 from Products.Bungeni.config import *
 
@@ -58,17 +56,6 @@ schema = Schema((
             i18n_domain='Bungeni',
         ),
         vocabulary=NamedVocabulary("""Ministry.vdex""")
-    ),
-
-    RelationField(
-        name='memberofparliaments',
-        widget=ReferenceWidget(
-            label='Memberofparliaments',
-            label_msgid='Bungeni_label_memberofparliaments',
-            i18n_domain='Bungeni',
-        ),
-        multiValued=0,
-        relationship='Tenure'
     ),
 
 ),

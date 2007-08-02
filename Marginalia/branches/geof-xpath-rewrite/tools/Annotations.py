@@ -173,8 +173,7 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         annotations by looking at their 'url' field.
         """
         catalog = getToolByName(self, 'portal_catalog')
-        if url.find('#') != -1:
-            url = url[:url.index('#')]
+			
         query = {
             'portal_type': 'Annotation',
             'getIndexed_url': url

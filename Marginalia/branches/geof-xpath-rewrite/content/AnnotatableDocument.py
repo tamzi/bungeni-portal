@@ -86,7 +86,13 @@ class AnnotatableDocument(BaseContent, AnnotationMixin, ATDocument):
     ##/code-section class-header
 
     # Methods
-
+    security.declarePublic( 'getAnnotatedUrl' )
+    def getAnnotatedUrl( self, url ):
+        x = url.find( '/annotate' )
+        if -1 != x:
+            url = url[ : x ]
+        return url
+    
     # TODO: The following are necessary for the pop-up reference widget to work
     # I don't know how to determine these values, nor do I know how to
     # instantiate an AtReferenceBrowserWidget as a source for them

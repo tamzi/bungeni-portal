@@ -4,9 +4,11 @@
 #
 # Marginalia has been developed with funding and support from
 # BC Campus, Simon Fraser University, and the Government of
-# Canada, and units and individuals within those organizations.
-# Many thanks to all of them.  See CREDITS.html for details.
-# Copyright (C) 2005-2007 Geoffrey Glass www.geof.net
+# Canada, the UNDESA Africa i-Parliaments Action Plan, and  
+# units and individuals within those organizations.  Many 
+# thanks to all of them.  See CREDITS.html for details.
+# Copyright (C) 2005-2007 Geoffrey Glass; the United Nations
+# http://www.geof.net/code/annotation
 # 
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License
@@ -36,20 +38,25 @@ class SequenceRange:
 
 	def __init__( self, rangeStr=None ):
 		if rangeStr is not None and rangeStr != '':
-			self.romString( rangeStr )
+			self.fromString( rangeStr )
 		
 	def fromString( self, s ):
-		if self.start is not None and this.end is not None:
+		try:
+			x = self.start
+			x = self.end
 			raise "Attempt to modify SequenceRange"
+		except AttributeError:
+			pass
+
 		# Standard format, e.g. /2/3.1;/2/3.5
-#		try:
+		# try:
 		points = s.split( ';' )
 		self.start = SequencePoint( points[ 0 ] )
 		self.end = SequencePoint( points[ 1 ] )
 		# Older formats are not supported, as there was no python implementation of Marginalia
 		# that used them.
-#		except ValueError:
-#			raise "Bad BlockRange format (" + s + ")"
+		# except ValueError:
+		# raise "Bad BlockRange format (" + s + ")"
 			
 	def __repr__( self ):
 		return str( self.start ) + ';' + str( self.end )

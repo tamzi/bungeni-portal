@@ -3,7 +3,10 @@
       metal:use-macro="here/main_template/macros/master"
       i18n:domain="plone">
 
-<metal:block fill-slot="javascript_head_slot">
+<metal:block fill-slot="javascript_head_slot"
+	tal:define="absoluteUrl string:${here/absolute_url};
+	annotatedUrl python:context.getAnnotatedUrl(absoluteUrl)">
+
 <!--	tal:define="
 		startup_directory python:context.getReferenceLink().referencebrowser_startupDirectory (referenceLink.widget.startup_directory);
 		global at_url at_url|python:'/'.join(context.getReferenceLink().getPhysicalPath())">
@@ -32,7 +35,7 @@
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/link-ui-simple.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/PloneLinkUi.js"></script>	
 	
-	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/block-info.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/RangeInfo.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/rest-annotate.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/rest-prefs.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/rest-keywords.js"></script>
@@ -41,37 +44,30 @@
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia-strings.js"></script>
 
     <script type="text/javascript" tal:content="string:
-        function myCreateAnnotation( event, postId )
-        {
-            event = getEvent( event );
-            stopPropagation( event );
-            createAnnotation( postId,true );
-        }
-        
-        function _skipContent( node )
-        {
-            return _skipAnnotationLinks( node ) || _skipAnnotationActions( node );
-        }
-
-		
         function show_annotations_on_load() 
         {
 			var serviceRoot = '${request/base}/${utool/getPortalPath}/portal_annotations';
-			var annotationService = new RestAnnotationService( serviceRoot );
-			var preferences = new Preferences( new RestPreferenceService( serviceRoot ) );
+			var annotationService = new RestAnnotationService( serviceRoot + '/annotate', false );
 			var keywordService = new RestKeywordService( serviceRoot + '/listKeywords');
 			keywordService.init( );
-			marginaliaInit( annotationService, '${user/getUserName}', '${user/getUserName}', null, preferences, keywordService );
-			window.marginalia.linkUi = new SimpleLinkUi( ); // new PloneLinkUi( '{startup_dir}', '{at_url}' );
-			window.marginalia.setFeature( AN_BLOCKMARKER_FEAT, true );
+			window.marginalia = new Marginalia( annotationService, '${user/getUserName}', '${user/getUserName}', {
+				preferences: new Preferences( new RestPreferenceService( serviceRoot + '/preference', true ) ),
+				keywordService: keywordService,
+				linkUi:  new SimpleLinkUi( true ),		// new PloneLinkUi( '{startup_dir}', '{at_url}' ),
+				baseUrl:  null,
+				showAccess:  true,
+				showBlockMarkers:  true,
+				showActions:  true,
+				onkeyCreate:  true
+			} );
 	
 			var marginaliaDirect = new MarginaliaDirect( annotationService );
 			marginaliaDirect.init( );
 			initLogging();
 
-			window.marginalia.showAnnotations( '${request/URL}/#*')
+			window.marginalia.showAnnotations( '${annotatedUrl}' );
         }
-        addEventHandler(window, 'load', show_annotations_on_load, window)
+        addEventHandler(window, 'load', show_annotations_on_load, window);
 		
         ">
     </script>
@@ -79,7 +75,10 @@
 
 <body>
 
-<metal:main fill-slot="main">
+<metal:main fill-slot="main"
+	tal:define="absoluteUrl string:${here/absolute_url};
+	annotatedUrl python:context.getAnnotatedUrl(absoluteUrl)">
+
     <tal:main-macro metal:define-macro="main"
            tal:define="text python: here.CookedBody(stx_level=2)">
 
@@ -126,12 +125,12 @@
                     <h3 class="entry-title">Annotation demo</h3>
                     <div class="entry-content" tal:content="structure text" />
                     <a rel="bookmark"
-                        tal:attributes="href string:${here/absolute_url}/annotate/#m1"
+                        tal:attributes="href annotatedUrl"
                         href="http://www.geof.net/code/annotation/demo/#m1">#</a>
                   </td>
                   <td>
                     <div class="notes">
-                      <button class="createAnnotation" onclick="myCreateAnnotation(event,'m1')" title="Click here to create an annotation">&gt;</button>
+                      <button class="createAnnotation" onclick="clickCreateAnnotation(event,'m1')" title="Click here to create an annotation">&gt;</button>
                       <ol><li></li></ol>
                     </div>
                   </td>

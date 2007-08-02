@@ -34,13 +34,6 @@ ANNOTATION_ACTIONS = true;		// If true, switch on support for actions (insert, s
 
 ANNOTATION_ACCESS_DEFAULT = 'private';	// default access
 
-// If this is true, uses paths like annotate/nnn
-// if false, use paths like annotation/annotate.php?id=nnn
-ANNOTATION_NICE_URLS = false;
-
-NICE_ANNOTATION_SERVICE_URL = '/annotate';
-UGLY_ANNOTATION_SERVICE_URL = '/annotate';
-
 function initLogging( )
 {
 	var log = window.log = new ErrorLogger( true, true );

@@ -34,8 +34,12 @@ class XPathRange:
 			self.fromString( rangeStr )
 		
 	def fromString( self, s ):
-		if self.start is not None or self.end is not None:
+		try:
+			x = self.start
+			x = self.end
 			raise "Attempt to modify XPathRange"
+		except AttributeError:
+			pass
 			
 		points = s.split( ';' )
 		self.start = XPathPoint( points[ 0 ].strip() )
@@ -52,25 +56,25 @@ class XPathPoint:
 		"""
 		Two ways to call:
 		- XPathPoint( '/p[2]/p[7]', 15, 3 )
-		- XPathPoint( '/p[2]/p[7]/word(15,3)' )
+		- XPathPoint( '/p[2]/p[7]/word(15)/char(3)' )
 		"""
 
 		xpath = xpathStr
 		if words:
+			self.words = int( words )
+			self.chars = int( chars )
+		else:
 			matches = POINT_RE.match( xpathStr )
 			if matches:
 				xpath = matches.group( 1 )
 				self.words = int( matches.group( 2 ) )
 				self.chars = int( matches.group( 3 ) )
 			else:
-				self.words = int( words )
-				self.chars = int( chars )
-		else:
-			self.words = None
-			self.chars = None
+				self.words = None
+				self.chars = None
 		
 		if not isXPathSafe( xpath ):
-			raise "Unsafe XPath"
+			raise "Unsafe XPath " + xpath
 		self.path = xpath
 	
 	def getPathStr( self ):

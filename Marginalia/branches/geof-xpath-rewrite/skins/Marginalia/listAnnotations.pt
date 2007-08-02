@@ -22,7 +22,7 @@
       tal:define="
       q_format request/format | nothing;
       q_block request/block | nothing;
-      q_user request/user;
+      q_user request/user | nothing;
       q_url request/url;
       feed nocall:context;
       results python:feed.getSortedFeedEntries(q_user, q_url, q_block);"

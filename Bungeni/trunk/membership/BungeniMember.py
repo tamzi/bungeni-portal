@@ -192,7 +192,7 @@ class BungeniMember(BaseContent):
 
     security.declarePublic('setExpirationDate')
     def setExpirationDate(self):
-        """ 
+        """
         # TODO: why is this needed again?
         # (comment is here because of
         # http://plone.org/products/archgenxml/issues/128)

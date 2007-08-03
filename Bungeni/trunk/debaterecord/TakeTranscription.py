@@ -30,6 +30,7 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from Products.ATContentTypes.content.document import ATDocument
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -44,23 +45,24 @@ schema = Schema((
 ##/code-section after-local-schema
 
 TakeTranscription_schema = BaseSchema.copy() + \
+    getattr(ATDocument, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class TakeTranscription(BaseContent):
+class TakeTranscription(BaseContent, ATDocument):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),)
+    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(ATDocument,'__implements__',()),)
 
     # This name appears in the 'add' box
     archetype_name = 'TakeTranscription'
 
     meta_type = 'TakeTranscription'
     portal_type = 'TakeTranscription'
-    allowed_content_types = []
+    allowed_content_types = [] + list(getattr(ATDocument, 'allowed_content_types', []))
     filter_content_types = 0
     global_allow = 0
     #content_icon = 'TakeTranscription.gif'

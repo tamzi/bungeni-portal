@@ -6,6 +6,9 @@
 
 package org.bungeni.editor.panels;
 
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -24,20 +27,26 @@ public class textmarkupPanel extends javax.swing.JPanel implements ICollapsibleP
     /** Creates new form textmarkupPanel */
     public textmarkupPanel() {
         initComponents();
+        initButtons();
         log.debug("textmarkupPanel class was initialized...");
     }
     
     private void initButtons(){
+        toolbarMarkupButtons.setLayout(new FlowLayout());
         toolbarMarkupButtons.setFloatable(false);
         toolbarMarkupButtons.setRollover(true);
         toolbarMarkupButtons.setOpaque(false);
-     
         toolbarMarkupButtons.add(createButton("icon_06", "makePrayerMarkup", "Mark selected text as Prayer", "Prayer"));
         toolbarMarkupButtons.add(createButton("icon_07", "makePaperMarkup", "Mark the selected text Paper Markup", "Paper"));
-        toolbarMarkupButtons.add(createButton("icon_08", "makeNoticeOfMotionSection", "Create a Notice-of-Motion Section", "Notice of Motion"));
-        toolbarMarkupButtons.add(createButton("icon_09", "makeQASection", "Create a Question-Answer Section", "Question Answer Section"));
-        toolbarMarkupButtons.add(createButton("icon_10", "makeQuestionBlockSection", "Create a Question-Block Section", "Question Answer Section"));
-        
+        toolbarMarkupButtons.add(createButton("icon_08", "makePaperDetailsMarkup", "Mark the selected text as Paper Details", "Paper Details"));
+        toolbarMarkupButtons.add(createButton("icon_09", "makeNoticeOfMotionMarkup", "Mark the selected text as Notice of Motion", "Notice of Motion"));
+        toolbarMarkupButtons.add(createButton("icon_10", "makeNoticeMarkup", "Mark the selected text as Notice", "Question Answer Section"));
+        toolbarMarkupButtons.add(createButton("icon_11", "makeNoticeDetailsMarkup", "Mark the selected text as Notice Details", "Question Answer Section"));
+        toolbarMarkupButtons.add(createButton("icon_12", "makeQAMarkup", "Mark the selected text as QA", "Question Answer Section"));
+        toolbarMarkupButtons.add(createButton("icon_13", "makeAgendaMarkup", "Mark the selected text as Agenda", "Question Answer Section"));
+        toolbarMarkupButtons.add(createButton("icon_14", "makeQuestionMarkup", "Mark the selected text as Question", "Question Answer Section"));
+        toolbarMarkupButtons.add(createButton("icon_15", "makeSpeechMarkup", "Mark the selected text as Speech", "Question Answer Section"));
+            
     }
     /** This method is called from within the constructor to
      * initialize the form.
@@ -52,15 +61,11 @@ public class textmarkupPanel extends javax.swing.JPanel implements ICollapsibleP
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .add(toolbarMarkupButtons, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 285, Short.MAX_VALUE)
-                .addContainerGap())
+            .add(toolbarMarkupButtons, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 216, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .add(toolbarMarkupButtons, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                .addContainerGap())
+            .add(toolbarMarkupButtons, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -90,6 +95,10 @@ public class textmarkupPanel extends javax.swing.JPanel implements ICollapsibleP
                                + imgLocation);
         }
         return button;
+    }
+
+    public Component getObjectHandle() {
+        return this;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar toolbarMarkupButtons;

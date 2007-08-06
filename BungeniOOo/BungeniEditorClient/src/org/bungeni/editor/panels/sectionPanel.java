@@ -6,6 +6,7 @@
 
 package org.bungeni.editor.panels;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -43,6 +44,7 @@ public class sectionPanel extends javax.swing.JPanel implements ICollapsiblePane
         //reset toolbar
         //Border contentBorder = BorderFactory.createEmptyBorder(6, 8, 6, 8);
         // the control pane
+        
         toolbarSectionButtons.setFloatable(false);
         //toolbarSectionButtons.setBorder(contentBorder);
         toolbarSectionButtons.setRollover(true);
@@ -57,6 +59,7 @@ public class sectionPanel extends javax.swing.JPanel implements ICollapsiblePane
         toolbarSectionButtons.add(btnQuestionAnswerSection);
         JButton btnQuestionBlockSection = createButton("icon_05", "makeQuestionBlockSection", "Create a Question-Block Section", "Question Answer Section");
         toolbarSectionButtons.add(btnQuestionBlockSection);
+        
         
     }
     
@@ -121,6 +124,10 @@ public class sectionPanel extends javax.swing.JPanel implements ICollapsiblePane
 
     public void setOOComponentHandle(OOComponentHelper ooComponent) {
         this.ooDocument = ooComponent;
+    }
+
+    public Component getObjectHandle() {
+        return this;
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -9,6 +9,7 @@
 
 package org.bungeni.editor.panels;
 
+import java.awt.Component;
 import javax.swing.JPanel;
 import org.bungeni.ooo.OOComponentHelper;
 
@@ -19,4 +20,5 @@ import org.bungeni.ooo.OOComponentHelper;
  */
 public interface ICollapsiblePanel  {
   public void setOOComponentHandle (OOComponentHelper ooComponent);
+  public Component getObjectHandle();
 }

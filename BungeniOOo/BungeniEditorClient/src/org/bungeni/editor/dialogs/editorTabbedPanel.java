@@ -85,7 +85,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(editorTabbedPanel.class.getName());
     private String[] arrDocTypes = { "Acts" , "DebateRecords", "Bills" };
     //vector that houses the list of document headings used by the display tree
-    private Vector mvDocumentHeadings = new Vector();
+    private Vector<DocStructureElement> mvDocumentHeadings = new Vector<DocStructureElement>();
          
     /** Creates new form SwingTabbedJPanel */
     public editorTabbedPanel() {
@@ -128,9 +128,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      Class eventHandlerClass;
      eventHandlerClass = Class.forName("org.bungeni.editor.panels.textmarkupPanel");
      ICollapsiblePanel iPanel = (ICollapsiblePanel) eventHandlerClass.newInstance();
-     iPanel.setOOComponentHandle(ooDocument);
-     box.addBox("Markup Tools", panel );   
-   
+     iPanel.setOOComponentHandle(ooDocument); 
+     box.addBox("Markup Tools", iPanel.getObjectHandle() ); 
+     
      }
      catch (Exception e){
          log.debug("exception : "+ e.getMessage());
@@ -199,7 +199,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                         
                         
                         DocStructureElement element = new DocStructureElement(strHeading, nLevel, nHeadsFound, aTextRange );
-                        if (previousElement == null  ){
+                        if (previousElement == null  ){ 
                             previousElement = element;
                         }
                         else{

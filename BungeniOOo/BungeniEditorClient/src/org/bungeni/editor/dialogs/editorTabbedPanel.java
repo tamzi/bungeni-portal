@@ -63,6 +63,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import org.apache.commons.collections.map.MultiValueMap;
 import org.bungeni.editor.dialogs.swingxpanels.swingXPanel01;
+import org.bungeni.editor.panels.CollapsiblePanelFactory;
 import org.bungeni.editor.panels.ICollapsiblePanel;
 import org.bungeni.editor.panels.sectionPanel;
 import org.bungeni.ooo.OOComponentHelper;
@@ -122,14 +123,13 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      scrollPane.setBorder(null);
      //add the scroll pane to the scroll pane
      panelMarkup.add(scrollPane, BorderLayout.CENTER);
-     sectionPanel panel  = new sectionPanel();
-     panel.setOOComponentHandle(ooDocument);
-     box.addBox("Section Tools", panel );   
-     Class eventHandlerClass;
-     eventHandlerClass = Class.forName("org.bungeni.editor.panels.textmarkupPanel");
-     ICollapsiblePanel iPanel = (ICollapsiblePanel) eventHandlerClass.newInstance();
-     iPanel.setOOComponentHandle(ooDocument); 
-     box.addBox("Markup Tools", iPanel.getObjectHandle() ); 
+     ICollapsiblePanel sectionPanel = CollapsiblePanelFactory.getPanelClass("sectionPanel");
+     sectionPanel.setOOComponentHandle(ooDocument);
+     box.addBox("Section Tools", sectionPanel.getObjectHandle() );   
+ 
+     ICollapsiblePanel markupPanel = CollapsiblePanelFactory.getPanelClass("textmarkupPanel");
+     markupPanel.setOOComponentHandle(ooDocument); 
+     box.addBox("Markup Tools", markupPanel.getObjectHandle() ); 
      
      }
      catch (Exception e){

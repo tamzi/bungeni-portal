@@ -11,19 +11,31 @@ package org.bungeni.ooo;
 
 import com.sun.star.beans.IllegalTypeException;
 import com.sun.star.beans.PropertyExistException;
+import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.PropertyVetoException;
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertyContainer;
 import com.sun.star.beans.XPropertySet;
+import com.sun.star.comp.helper.Bootstrap;
+import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.container.XNameAccess;
 import com.sun.star.container.XNamed;
 import com.sun.star.document.XDocumentInfo;
 import com.sun.star.document.XDocumentInfoSupplier;
+import com.sun.star.frame.XController;
+import com.sun.star.frame.XDispatchHelper;
+import com.sun.star.frame.XDispatchProvider;
+import com.sun.star.frame.XFrame;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
+import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.lang.XMultiServiceFactory;
 import com.sun.star.lang.XServiceInfo;
+import com.sun.star.lang.XServiceInfo;
+import com.sun.star.lang.XServiceInfo;
+import com.sun.star.lang.XServiceInfo;
+import com.sun.star.style.XStyleFamiliesSupplier;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextColumns;
 import com.sun.star.text.XTextContent;
@@ -34,6 +46,7 @@ import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.Any;
 import com.sun.star.uno.AnyConverter;
 import com.sun.star.uno.UnoRuntime;
+import com.sun.star.uno.XComponentContext;
 import org.bungeni.editor.dialogs.editorTabbedPanel;
 
 /**
@@ -44,18 +57,24 @@ import org.bungeni.editor.dialogs.editorTabbedPanel;
  */
 public class OOComponentHelper {
     private XComponent m_xComponent;
+    private XComponentContext m_xComponentContext;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(OOComponentHelper.class.getName());
       
     /** Creates a new instance of OOComponentHelper */
-    public OOComponentHelper(XComponent xComponent) {
-        m_xComponent = xComponent;
+    public OOComponentHelper(XComponent xComponent, XComponentContext xComponentContext) {
+          try {
+            m_xComponent = xComponent;
+            m_xComponentContext = xComponentContext;
+        } catch (Exception ex) {
+            log.debug(ex.getLocalizedMessage(), ex);
+        }
     }
     
     /**
      * Queries an input Object for an XServiceInfo interface, if found, returns the interface.
      */
      public XServiceInfo getServiceInfo(Object obj){
-             XServiceInfo xInfo = (XServiceInfo) UnoRuntime.queryInterface(XServiceInfo.class, obj);
+             XServiceInfo xInfo = ooQueryInterface.XServiceInfo(obj); // UnoRuntime.queryInterface(XServiceInfo.class, obj);
              return xInfo;
    }
     
@@ -63,7 +82,7 @@ public class OOComponentHelper {
      * Gets the XTextContent from the input Object. Input object is queried for XTextContent.
      */
     public XTextContent getTextContent(Object element){
-        XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, element);
+        XTextContent xContent = ooQueryInterface.XTextContent(element);//(XTextContent) UnoRuntime.queryInterface(XTextContent.class, element);
         return xContent;
     }
     /**
@@ -99,6 +118,20 @@ public class OOComponentHelper {
             return newInstance;
         }
     }
+    
+    public Object createInstanceWithContext(String instanceName){
+       Object newInstance = null;
+        try {
+            newInstance = this.m_xComponentContext.getServiceManager().createInstanceWithContext("com.sun.star.frame.DispatchHelper", this.m_xComponentContext);
+        } 
+        catch (com.sun.star.uno.Exception ex) {
+            log.debug(ex.getLocalizedMessage(), ex);
+        }
+        finally {
+            return newInstance;
+        }
+   }
+    
     
     public XTextContent createTextSection(String sectionName, short numberOfColumns){
        XNamed xNamedSection = null;
@@ -145,6 +178,10 @@ public class OOComponentHelper {
      return xViewCursor;
     }
     
+    public XNameAccess getStyleFamilies(){
+        XStyleFamiliesSupplier xStyleFamiliesSupplier = ooQueryInterface.XStyleFamiliesSupplier(getTextDocument());
+        return xStyleFamiliesSupplier.getStyleFamilies();
+    }
     public XDocumentInfo getDocumentInfo(){
       XDocumentInfoSupplier xdisInfoProvider =  (XDocumentInfoSupplier) UnoRuntime.queryInterface(XDocumentInfoSupplier.class, getTextDocument() );
       return  xdisInfoProvider.getDocumentInfo();
@@ -180,6 +217,7 @@ public class OOComponentHelper {
             XDocumentInfo xdi = getDocumentInfo();
             XPropertySet xDocProperties = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, xdi);
             try{
+               
                 xDocProperties.setPropertyValue(propertyName, propertyValue);
             } catch (UnknownPropertyException ex) {
                 ex.printStackTrace();
@@ -225,10 +263,43 @@ public class OOComponentHelper {
     public XComponent getComponent(){
         return this.m_xComponent;
     }
+    public XMultiComponentFactory getRemoteServiceManager() {
+        return this.m_xComponentContext.getServiceManager();
+    }
+    public void executeDispatch(String cmd, PropertyValue[] oProperties){
+        try {
+
+        log.debug("executeDispatch : "+ cmd);
+        log.debug("executeDispatch: oProperties0 : "+ oProperties[0].Name+" , "+ oProperties[0].Value);
+        log.debug("executeDispatch: oProperties1 : "+ oProperties[1].Name+" , "+ oProperties[1].Value);
+        
+        final XModel docModel = this.getDocumentModel();
+        log.debug("executeDispath: modelURL "+ docModel.getURL() );
+        log.debug("executeDispatch : getting controller");
+        XController docController = docModel.getCurrentController();
+        final XFrame docFrame = docController.getFrame();
+        log.debug("executeDispatch : getting dispatch provider");
+        XDispatchProvider docDispatchProvider = ooQueryInterface.XDispatchProvider(docFrame);
+        log.debug("executeDispatch : getting dispatchhelper");
+        final Object oDispatchHelper = this.getRemoteServiceManager().createInstanceWithContext("com.sun.star.frame.DispatchHelper", this.m_xComponentContext);
+        if (oDispatchHelper == null ) { log.debug("executeDispatch oDispatchHelper is null!!"); }
+        XDispatchHelper xdispatchHelper = ooQueryInterface.XDispatchHelper(oDispatchHelper);
+        
+        xdispatchHelper.executeDispatch(docDispatchProvider, cmd, "", 0, oProperties); 
+
+        } catch (com.sun.star.uno.Exception ex){
+            log.debug("error in exeucteDispatch " +ex.getLocalizedMessage(), ex);
+        }
+        
+    }
+    
     
     public void createInstance(){
        
     }
+    
+    
+    
     public boolean propertyExists(String propertyName){
         XDocumentInfo xdi = getDocumentInfo();
         boolean bExists = false;
@@ -256,5 +327,5 @@ public class OOComponentHelper {
         }
      }
     
-    
+ 
 }

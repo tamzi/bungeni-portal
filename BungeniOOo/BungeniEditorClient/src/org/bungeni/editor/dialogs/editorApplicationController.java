@@ -659,7 +659,7 @@ private void initProperties(java.io.File currentFolder) {
         
 private void initFrame(XComponent component){
             javax.swing.JFrame frame = new javax.swing.JFrame("Editor Palette");
-            org.bungeni.editor.dialogs.editorTabbedPanel panel = new org.bungeni.editor.dialogs.editorTabbedPanel(component);
+            org.bungeni.editor.dialogs.editorTabbedPanel panel = new org.bungeni.editor.dialogs.editorTabbedPanel(component, this.m_xContext);
             frame.add(panel);
             frame.setSize(230, 650);
             frame.setResizable(false);

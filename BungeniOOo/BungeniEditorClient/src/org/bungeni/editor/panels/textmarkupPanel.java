@@ -31,7 +31,7 @@ public class textmarkupPanel extends javax.swing.JPanel implements ICollapsibleP
         log.debug("textmarkupPanel class was initialized...");
     }
     
-    private void initButtons(){
+    private void initButtons(){ 
         toolbarMarkupButtons.setLayout(new FlowLayout());
         toolbarMarkupButtons.setFloatable(false);
         toolbarMarkupButtons.setRollover(true);
@@ -74,13 +74,19 @@ public class textmarkupPanel extends javax.swing.JPanel implements ICollapsibleP
     }
 
     public void actionPerformed(ActionEvent e) {
+        
+        String cmd = e.getActionCommand() ;
+        log.debug("action perfomed = "+ cmd);
+        ItoolbarButtonEvent iEvent = getEventClass(cmd);
+        
+        iEvent.doCommand(this.ooDocument, cmd);
     }
     
     private JButton createButton(String imageName, String actionCommand, String tooltipText, String altText){
            String imgLocation = "/gui/"
                              + imageName
                              + ".png";
-            URL imageURL = sectionPanel.class.getResource(imgLocation);
+            URL imageURL = textmarkupPanel.class.getResource(imgLocation);
         //Create and initialize the button.
         JButton button = new JButton();
         button.setActionCommand(actionCommand);
@@ -89,6 +95,7 @@ public class textmarkupPanel extends javax.swing.JPanel implements ICollapsibleP
 
         if (imageURL != null) {                      //image found
             button.setIcon(new ImageIcon(imageURL, altText));
+            //button.setText(altText);
         } else {                                     //no image found
             button.setText(altText);
            log.debug("Resource not found: "
@@ -99,6 +106,12 @@ public class textmarkupPanel extends javax.swing.JPanel implements ICollapsibleP
 
     public Component getObjectHandle() {
         return this;
+    }
+
+    public ItoolbarButtonEvent getEventClass(String btnCommand) {
+        log.debug("getting event class");
+        ItoolbarButtonEvent event = toolbarButtonCommandFactory.getButtonEventHandler(btnCommand);
+        return event;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JToolBar toolbarMarkupButtons;

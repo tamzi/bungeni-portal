@@ -9,6 +9,7 @@
 
 package org.bungeni.editor.panels.toolbarevents;
 
+import com.sun.star.beans.PropertyValue;
 import com.sun.star.container.XNamed;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
@@ -45,6 +46,8 @@ public class toolbarButtonEventHandler extends Object implements ItoolbarButtonE
             doMakeSection(cmd);
         else if (cmd.equals("makeQuestionBlockSection"))
             doMakeSection(cmd);
+        else if (cmd.equals("makePrayerMarkup"))
+            doMarkup(cmd);
         else
             MessageBox.OK("the command action: "+cmd+" has not been implemented!");
     }
@@ -97,5 +100,32 @@ public class toolbarButtonEventHandler extends Object implements ItoolbarButtonE
         
         
     }
-    
+
+    private void doMarkup(String cmd) {
+        log.debug("in doMarkup for command: "+cmd);
+        
+           String namingConvention = "", numberingType = "", newName = "";
+           namingConvention = toolbarButtonCommandFactory.getCommandNamingConvention(cmd);
+           numberingType = toolbarButtonCommandFactory.getCommandNumberingType(cmd);
+           log.debug("naming convention = "+ namingConvention);
+            if (namingConvention.equals("")) {
+                log.debug("unable to name section, section mame was blank");
+                MessageBox.OK("The command:" + cmd+" does not have a naming convention associated with it");
+                return;
+            }
+           numberingType = toolbarButtonCommandFactory.getCommandNumberingType(cmd);
+           log.debug("numbering type = " + numberingType);
+           if (numberingType.equals("markup")) {    
+              
+               PropertyValue[] loadProps = new com.sun.star.beans.PropertyValue[2];
+               loadProps[0] = new PropertyValue();
+               loadProps[0].Name = new String( "Template");
+               loadProps[0].Value = namingConvention;
+               loadProps[1] = new PropertyValue();
+               loadProps[1].Name = new String( "Family");
+               loadProps[1].Value = new Integer(2);
+               log.debug("invoking execute dispatch");
+               ooDocument.executeDispatch(".uno:StyleApply", loadProps);
+           }
+    }
 }

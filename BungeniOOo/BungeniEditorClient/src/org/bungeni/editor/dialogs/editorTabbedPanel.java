@@ -81,7 +81,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     /**
      * XComponent object, handle to current openoffice document instance
      */
-    XComponent Component;
+    private XComponent Component;
+    private XComponentContext ComponentContext;
     private OOComponentHelper ooDocument;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(editorTabbedPanel.class.getName());
     private String[] arrDocTypes = { "Acts" , "DebateRecords", "Bills" };
@@ -96,10 +97,11 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     /**
      * Constructor for main Tabbed panel interface
      */
-    public editorTabbedPanel(XComponent impComponent){
+    public editorTabbedPanel(XComponent impComponent, XComponentContext impComponentContext){
         
        this.Component = impComponent;
-       ooDocument = new OOComponentHelper(impComponent);
+       this.ComponentContext = impComponentContext;
+       ooDocument = new OOComponentHelper(impComponent, impComponentContext);
        initComponents();   
        initFields();
        initializeValues();

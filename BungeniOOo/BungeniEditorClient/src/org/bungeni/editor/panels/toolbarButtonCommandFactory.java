@@ -167,6 +167,13 @@ public class toolbarButtonCommandFactory extends Object {
                     newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "qa-section", "single"));
             cmds.put(new String("makeQuestionBlockSection"), 
                     newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "question-block", "single"));            
+            cmds.put(new String("makePrayerMarkup"),
+                    newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "prayers", "markup"));     
+            cmds.put(new String("makePaperMarkup"),
+                    newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "papers", "markup"));     
+            cmds.put(new String("makePapersLaidMarkup"),
+                    newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "papers-laid", "markup"));     
+
             log.debug(new String("in factory, createCommandsMap()"));
       }
       catch (Exception e)

@@ -266,13 +266,16 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblEnterMetadataValue">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Enter Metadata Value"/>
+                <Property name="text" type="java.lang.String" value="Selected Metadata Value"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnLookupMetadata">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Lookup..."/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="userMetadataLookup_Clicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnClearMetadataValue">
               <Properties>

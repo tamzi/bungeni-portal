@@ -40,26 +40,33 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Collections;
 import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
+import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import org.apache.commons.collections.map.MultiValueMap;
 import org.bungeni.editor.dialogs.swingxpanels.swingXPanel01;
@@ -67,7 +74,9 @@ import org.bungeni.editor.panels.CollapsiblePanelFactory;
 import org.bungeni.editor.panels.ICollapsiblePanel;
 import org.bungeni.editor.panels.sectionPanel;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.utils.BungeniDataReader;
 import org.bungeni.utils.DocStructureElement;
+import org.bungeni.utils.MessageBox;
 import org.bungeni.utils.StackedBox;
 /*
 import org.bungeni.utils.DocStructureTreeModel;
@@ -139,7 +148,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      }
      
     }
-    
+    public Component getComponentHandle(){
+        return this;
+    }
     private void initList(){
        
        try { 
@@ -774,9 +785,14 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         cboSelectBodyMetadata.setFont(new java.awt.Font("Tahoma", 0, 10));
         cboSelectBodyMetadata.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Members Of Parliament", "Ontology", "Keywords", "Tabled Documents" }));
 
-        lblEnterMetadataValue.setText("Enter Metadata Value");
+        lblEnterMetadataValue.setText("Selected Metadata Value");
 
         btnLookupMetadata.setText("Lookup...");
+        btnLookupMetadata.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                userMetadataLookup_Clicked(evt);
+            }
+        });
 
         btnClearMetadataValue.setText("Clear");
 
@@ -982,6 +998,84 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    
+    private void btnSelectMP_Clicked(java.awt.event.ActionEvent evt){
+       int nRow =  mpTable.getSelectedRow();
+       if (nRow == -1 ) {
+           MessageBox.OK("You must select an MP");
+           return;
+       }
+      String mp_name = (String)  mpTable.getValueAt(nRow, 1)+ " "+ (String) mpTable.getValueAt(nRow, 2);
+      String mp_name_display = mp_name;
+      String mp_uri = (String) mpTable.getValueAt(nRow, 3);
+      String newLine = "\n";
+      MessageBox.OK(mp_name+newLine+mp_uri);
+    }
+   
+  private class tblMembersOfParliamentListRowListener implements ListSelectionListener {
+        
+       public void valueChanged(ListSelectionEvent event) {
+            if (event.getValueIsAdjusting()) {
+                return;
+            }
+            
+            String strRowData = "";
+           
+            strRowData = (String) mpTable.getValueAt(mpTable.getSelectedRow(), 0);
+            MessageBox.OK(mpDialog, strRowData );
+            //  output.append("ROW SELECTION EVENT. ");
+          //  outputSelection();
+        }
+    }
+    
+    
+    private JTable mpTable;
+    private JDialog mpDialog;
+    private void userMetadataLookup_Clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userMetadataLookup_Clicked
+     //collect the data
+        
+     String colNames[] = {"id", "First Name", "Last Name", "URI"};
+     Vector<String> vMpColumns = new Vector<String>();
+     Collections.addAll(vMpColumns, colNames);
+     
+     BungeniDataReader mps = new BungeniDataReader();
+     Vector<Vector> vMps = new Vector<Vector>();
+     vMps = mps.read("mps.data");
+     //set table model
+     DefaultTableModel dtm = new DefaultTableModel(vMps,vMpColumns);
+     mpTable = new JTable();
+     mpTable.setModel(dtm);
+     mpTable.setRowSelectionAllowed(true);
+     mpTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+     //mpTable.getSelectionModel().addListSelectionListener(new tblMembersOfParliamentListRowListener());
+ 
+     JScrollPane sp = new JScrollPane(mpTable);
+     sp.setPreferredSize(new Dimension(400,200));
+     JPanel panel = new JPanel(new FlowLayout());
+     panel.setPreferredSize(new Dimension(400,200));
+     panel.add(sp);
+     JButton btnSelectMp = new JButton();
+     btnSelectMp.setText("Select an MP");
+     btnSelectMp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelectMP_Clicked(evt);
+            }
+        });
+     panel.add(btnSelectMp);
+
+     mpDialog = new JDialog();
+     mpDialog.setTitle("Select an MP");
+     mpDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+     mpDialog.setPreferredSize(new Dimension(420, 280));
+     mpDialog.getContentPane().add(panel);
+     mpDialog.pack();
+     mpDialog.setVisible(true);
+     mpDialog.setAlwaysOnTop(true);
+
+
+// TODO add your handling code here:
+    }//GEN-LAST:event_userMetadataLookup_Clicked
 
     private void btnSetMetadataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetMetadataActionPerformed
 // TODO add your handling code here:

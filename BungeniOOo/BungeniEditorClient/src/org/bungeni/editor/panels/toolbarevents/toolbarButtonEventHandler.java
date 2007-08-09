@@ -48,6 +48,16 @@ public class toolbarButtonEventHandler extends Object implements ItoolbarButtonE
             doMakeSection(cmd);
         else if (cmd.equals("makePrayerMarkup"))
             doMarkup(cmd);
+        else if (cmd.equals("makePaperMarkup"))
+            doMarkup(cmd);
+        else if (cmd.equals("makePaperDetailsMarkup"))
+            doMarkup(cmd);
+        else if (cmd.equals("makeNoticeOfMotionMarkup"))
+            doMarkup(cmd);
+        else if (cmd.equals("makeNoticeMarkup"))
+            doMarkup(cmd);
+        else if (cmd.equals("makeNoticeDetailsMarkup"))
+            doMarkup(cmd);
         else
             MessageBox.OK("the command action: "+cmd+" has not been implemented!");
     }

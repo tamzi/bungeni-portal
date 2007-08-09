@@ -166,13 +166,21 @@ public class toolbarButtonCommandFactory extends Object {
             cmds.put(new String("makeQASection"), 
                     newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "qa-section", "single"));
             cmds.put(new String("makeQuestionBlockSection"), 
-                    newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "question-block", "single"));            
+                    newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "question-block", "single"));  
+            //markup buttons
+             
             cmds.put(new String("makePrayerMarkup"),
                     newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "prayers", "markup"));     
             cmds.put(new String("makePaperMarkup"),
                     newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "papers", "markup"));     
-            cmds.put(new String("makePapersLaidMarkup"),
-                    newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "papers-laid", "markup"));     
+            cmds.put(new String("makePaperDetailsMarkup"),
+                    newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "paper-details", "markup"));     
+            cmds.put(new String("makeNoticeOfMotionMarkup"),
+                    newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "notice-of-motion", "markup"));     
+            cmds.put(new String("makeNoticeMarkup"),
+                    newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "notice", "markup"));     
+            cmds.put(new String("makeNoticeDetailsMarkup"),
+                    newChildMap("org.bungeni.editor.panels.toolbarevents.toolbarButtonEventHandler", "noticetext", "markup"));     
 
             log.debug(new String("in factory, createCommandsMap()"));
       }

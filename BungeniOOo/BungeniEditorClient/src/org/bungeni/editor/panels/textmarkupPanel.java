@@ -8,6 +8,7 @@ package org.bungeni.editor.panels;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,7 +33,7 @@ public class textmarkupPanel extends javax.swing.JPanel implements ICollapsibleP
     }
     
     private void initButtons(){ 
-        toolbarMarkupButtons.setLayout(new FlowLayout());
+        toolbarMarkupButtons.setLayout(new GridLayout(0, 2));
         toolbarMarkupButtons.setFloatable(false);
         toolbarMarkupButtons.setRollover(true);
         toolbarMarkupButtons.setOpaque(false);
@@ -95,6 +96,7 @@ public class textmarkupPanel extends javax.swing.JPanel implements ICollapsibleP
 
         if (imageURL != null) {                      //image found
             button.setIcon(new ImageIcon(imageURL, altText));
+            //button.setText(altText);
             //button.setText(altText);
         } else {                                     //no image found
             button.setText(altText);

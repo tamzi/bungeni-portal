@@ -10,13 +10,17 @@
 package org.bungeni.utils;
 
 import java.awt.Component;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 
 
 public  class MessageBox extends Object {
     public static void OK(Component parent, String msg){
-        JOptionPane.showMessageDialog(parent, msg );
+        JOptionPane pane = new JOptionPane ("Bungeni Editor");
+        JDialog dlg = pane.createDialog(parent, msg);
+        dlg.setAlwaysOnTop(true);
+        dlg.setVisible(true);
     }
     
     public static void OK(String msg){

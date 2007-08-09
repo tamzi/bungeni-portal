@@ -30,6 +30,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
+import java.util.Vector;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -38,6 +39,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import org.apache.webdav.lib.WebdavResource;
 import org.bungeni.ooo.BungenioOoHelper;
+import org.bungeni.utils.BungeniDataReader;
 import org.bungeni.utils.CommonFileFunctions;
 import org.bungeni.utils.FileTableModel;
 import org.bungeni.utils.Installation;
@@ -108,6 +110,7 @@ public class editorApplicationController extends javax.swing.JPanel {
         initWorkspaceFolderModels(dir);
         initPanels(dir);
         initWebDav();
+        initDataReader();
     }
     
     /** This method is called from within the constructor to
@@ -692,6 +695,18 @@ private void initoOoAndLaunchFrame(String templatePath, boolean isTemplate){
             //XText xText = xTextDocument.getText();    
             //xText.setString("Hello World!!!!!!!");
             initFrame(xComponent);
+}
+
+public void initDataReader(){
+
+/**
+     BungeniDataReader rds = new BungeniDataReader();
+    Vector<String[]> vMpData = new Vector<String[]>();
+    vMpData = rds.read("mps.data");
+    System.out.println("size of mp.data = "+ vMpData.size());
+
+ *
+ */
 }
 
 private void launchFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_launchFrameActionPerformed

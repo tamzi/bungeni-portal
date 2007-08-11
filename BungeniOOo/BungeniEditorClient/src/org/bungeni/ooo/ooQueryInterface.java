@@ -175,7 +175,7 @@ public class ooQueryInterface {
         return (XMultiServiceFactory) UnoRuntime.queryInterface( XMultiServiceFactory.class, obj );
     }
    
-   static XServiceInfo XServiceInfo(Object obj){
+   static public XServiceInfo XServiceInfo(Object obj){
         XServiceInfo xObj = (XServiceInfo)UnoRuntime.queryInterface(XServiceInfo.class, obj);
         return xObj;
     }
@@ -223,6 +223,11 @@ public class ooQueryInterface {
         return (XTextContent) UnoRuntime.queryInterface( XTextContent.class, obj );
     }
    
+    static public XTextRange XTextRange(Object obj){
+        XTextRange xObj = (XTextRange)UnoRuntime.queryInterface(XTextRange.class, obj);
+        return xObj;
+    }
+
     //--------------------------------------------------
     //  Util                    com.sun.star.util.*
     //--------------------------------------------------

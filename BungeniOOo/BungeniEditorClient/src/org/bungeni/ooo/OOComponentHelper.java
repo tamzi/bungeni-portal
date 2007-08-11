@@ -18,7 +18,10 @@ import com.sun.star.beans.XPropertyContainer;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.comp.helper.Bootstrap;
 import com.sun.star.comp.helper.BootstrapException;
+import com.sun.star.container.ElementExistException;
+import com.sun.star.container.XIndexAccess;
 import com.sun.star.container.XNameAccess;
+import com.sun.star.container.XNameContainer;
 import com.sun.star.container.XNamed;
 import com.sun.star.document.XDocumentInfo;
 import com.sun.star.document.XDocumentInfoSupplier;
@@ -39,14 +42,17 @@ import com.sun.star.style.XStyleFamiliesSupplier;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextColumns;
 import com.sun.star.text.XTextContent;
+import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextSectionsSupplier;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.Any;
 import com.sun.star.uno.AnyConverter;
+import com.sun.star.uno.Type;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+import com.sun.star.xml.AttributeData;
 import org.bungeni.editor.dialogs.editorTabbedPanel;
 
 /**
@@ -103,6 +109,9 @@ public class OOComponentHelper {
     }
     
     
+    /**
+     * Get the DocumentFactory interface.
+     */
     public XMultiServiceFactory getDocumentFactory(){
         XMultiServiceFactory xFactory = (XMultiServiceFactory) UnoRuntime.queryInterface(XMultiServiceFactory.class, this.m_xComponent);
         return xFactory;
@@ -298,7 +307,75 @@ public class OOComponentHelper {
        
     }
     
-    
+  
+   public void addAttributeToText(XTextCursor xTextCursor, String XMLAttrName, String XMLAttrVal) throws UnknownPropertyException, PropertyVetoException, com.sun.star.lang.IllegalArgumentException, WrappedTargetException {
+
+        XPropertySet xCursorProps = ooQueryInterface.XPropertySet( xTextCursor);
+        XNameContainer uda = createAttribute(xCursorProps,"TextUserDefinedAttributes","CDATA",XMLAttrName,XMLAttrVal);
+        xCursorProps.setPropertyValue("TextUserDefinedAttributes", uda);
+}
+
+   public XNameContainer createAttribute(XPropertySet xSet,  String propertyName,String XMLAttrType, String XMLAttrName, String XMLAttrValue) throws UnknownPropertyException, WrappedTargetException {
+   
+    String nameSpace="urn:ooo:names:tc:opendocument:xmlns:semantic-text:1.0";
+
+    AttributeData attr = new AttributeData();
+    attr.Namespace = nameSpace;
+    attr.Type = XMLAttrType;
+    attr.Value = XMLAttrValue;
+
+    XNameContainer uda = null;
+    try{
+    uda = (XNameContainer) AnyConverter.toObject(new Type(XNameContainer.class),
+                                                 xSet.getPropertyValue(propertyName));
+    uda.insertByName(XMLAttrName, attr);
+
+    } catch (com.sun.star.lang.IllegalArgumentException e){
+        // TODO Auto-generated catch block
+         log.debug(e.getLocalizedMessage());
+    } catch (ElementExistException e) {
+    // TODO Auto-generated catch block
+         log.debug(e.getLocalizedMessage());
+    }
+    return uda;
+} 
+    public void getSelectedText() {
+        try {
+        XController xDocController = this.getDocumentModel().getCurrentController();
+        com.sun.star.view.XSelectionSupplier xSelSupplier = ooQueryInterface.XSelectionSupplier(xDocController);
+        Object oSelection = xSelSupplier.getSelection();
+        if (oSelection == null ) {
+            log.debug("getSelectedText: nothing was selected");
+        }
+        XServiceInfo xSelInfo = ooQueryInterface.XServiceInfo(oSelection);
+        if ( xSelInfo.supportsService("com.sun.star.text.TextRanges") )
+        {
+            XIndexAccess xIndexAccess = ooQueryInterface.XIndexAccess(oSelection);
+            int count = xIndexAccess.getCount();
+            com.sun.star.text.XTextRange xTextRange = null;
+            for ( int i = 0; i < count; i++ ) {
+                    xTextRange = ooQueryInterface.XTextRange(xIndexAccess.getByIndex(i));
+                log.debug( "You have selected a text range: \""
+                                    + xTextRange.getString() + "\"." );
+            }
+        }
+
+        if ( xSelInfo.supportsService("com.sun.star.text.TextGraphicObject") )
+        {
+            log.debug( "You have selected a graphics." );
+        }
+
+        if ( xSelInfo.supportsService("com.sun.star.text.TextTableCursor") )
+        {
+            log.debug( "You have selected a text table." );
+        }
+      
+      } catch (WrappedTargetException ex) {
+                    log.debug("in getselectedtext" + ex.getLocalizedMessage());
+      } catch (com.sun.star.lang.IndexOutOfBoundsException ex) {
+                    log.debug("in getselectedtext" + ex.getLocalizedMessage());
+      }    
+}
     
     public boolean propertyExists(String propertyName){
         XDocumentInfo xdi = getDocumentInfo();

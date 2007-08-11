@@ -187,7 +187,7 @@ public class WebDavStore {
     /**
      * Get an array of pathnames and basic information denoting the WebDAV resources in the denoted by this pathname. array 0: displayname array 1: getcontentlength array 2: iscollection or getcontentype array 3: getlastmodifieddate array 4: name
      * @throws java.io.IOException 
-     * @return 
+     * @return java.util.Vector
      */
     public Vector listBasic() throws IOException {
         

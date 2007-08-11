@@ -33,7 +33,7 @@ public class textmarkupPanel extends javax.swing.JPanel implements ICollapsibleP
     }
     
     private void initButtons(){ 
-        toolbarMarkupButtons.setLayout(new GridLayout(0, 2));
+        toolbarMarkupButtons.setLayout(new FlowLayout());
         toolbarMarkupButtons.setFloatable(false);
         toolbarMarkupButtons.setRollover(true);
         toolbarMarkupButtons.setOpaque(false);

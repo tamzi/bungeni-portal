@@ -68,8 +68,6 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import org.apache.commons.collections.map.MultiValueMap;
-import org.bungeni.editor.dialogs.swingxpanels.swingXPanel01;
 import org.bungeni.editor.panels.CollapsiblePanelFactory;
 import org.bungeni.editor.panels.ICollapsiblePanel;
 import org.bungeni.editor.panels.sectionPanel;
@@ -121,7 +119,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private void initFields(){
         //initTree();
         initList();
-        
+        //clear meatada listbox
+        listboxMetadata.setModel(new DefaultListModel());
     }
     
     private void initCollapsiblePane(){
@@ -690,14 +689,15 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         panelBodyMetadata = new javax.swing.JPanel();
         lblSelectBodyMetadata = new javax.swing.JLabel();
         cboSelectBodyMetadata = new javax.swing.JComboBox();
-        txtMetadataValue = new javax.swing.JTextField();
         lblEnterMetadataValue = new javax.swing.JLabel();
         btnLookupMetadata = new javax.swing.JButton();
         btnClearMetadataValue = new javax.swing.JButton();
-        btnApplyMetaToSelectedText = new javax.swing.JButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
+        btnApplyMetadata = new javax.swing.JButton();
+        radioSelectedText = new javax.swing.JRadioButton();
         jLabel1 = new javax.swing.JLabel();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        radioDocumentSection = new javax.swing.JRadioButton();
+        scrollListboxMetadata = new javax.swing.JScrollPane();
+        listboxMetadata = new javax.swing.JList();
         panelMarkup = new javax.swing.JPanel();
         panelHistory = new javax.swing.JPanel();
         tblDocHistory = new javax.swing.JScrollPane();
@@ -795,21 +795,38 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         });
 
         btnClearMetadataValue.setText("Clear");
+        btnClearMetadataValue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearMetadata_Clicked(evt);
+            }
+        });
 
-        btnApplyMetaToSelectedText.setText("Apply Metadata");
+        btnApplyMetadata.setText("Apply Metadata");
+        btnApplyMetadata.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApplyMetadata_Clicked(evt);
+            }
+        });
 
-        btnGrpBodyMetadataTarget.add(jRadioButton1);
-        jRadioButton1.setSelected(true);
-        jRadioButton1.setText("Selected Text");
-        jRadioButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        jRadioButton1.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnGrpBodyMetadataTarget.add(radioSelectedText);
+        radioSelectedText.setSelected(true);
+        radioSelectedText.setText("Selected Text");
+        radioSelectedText.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        radioSelectedText.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
         jLabel1.setText("Select Target for Applying Metadata");
 
-        btnGrpBodyMetadataTarget.add(jRadioButton2);
-        jRadioButton2.setText("Current Document Section");
-        jRadioButton2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        jRadioButton2.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnGrpBodyMetadataTarget.add(radioDocumentSection);
+        radioDocumentSection.setText("Current Document Section");
+        radioDocumentSection.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        radioDocumentSection.setMargin(new java.awt.Insets(0, 0, 0, 0));
+
+        listboxMetadata.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        scrollListboxMetadata.setViewportView(listboxMetadata);
 
         org.jdesktop.layout.GroupLayout panelBodyMetadataLayout = new org.jdesktop.layout.GroupLayout(panelBodyMetadata);
         panelBodyMetadata.setLayout(panelBodyMetadataLayout);
@@ -818,21 +835,21 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
             .add(panelBodyMetadataLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(panelBodyMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(scrollListboxMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                     .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                     .add(cboSelectBodyMetadata, 0, 218, Short.MAX_VALUE)
                     .add(lblSelectBodyMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                     .add(lblEnterMetadataValue, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .add(txtMetadataValue, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, panelBodyMetadataLayout.createSequentialGroup()
                         .add(btnClearMetadataValue, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 52, Short.MAX_VALUE)
                         .add(btnLookupMetadata))
-                    .add(btnApplyMetaToSelectedText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                    .add(btnApplyMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                     .add(panelBodyMetadataLayout.createSequentialGroup()
                         .add(10, 10, 10)
                         .add(panelBodyMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(jRadioButton2)
-                            .add(jRadioButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 156, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                            .add(radioDocumentSection)
+                            .add(radioSelectedText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 156, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         panelBodyMetadataLayout.setVerticalGroup(
@@ -844,8 +861,8 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                 .add(cboSelectBodyMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lblEnterMetadataValue)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(txtMetadataValue, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 70, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(3, 3, 3)
+                .add(scrollListboxMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 73, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(panelBodyMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnLookupMetadata)
@@ -853,11 +870,11 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jRadioButton1)
+                .add(radioSelectedText)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 29, Short.MAX_VALUE)
-                .add(jRadioButton2)
+                .add(radioDocumentSection)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnApplyMetaToSelectedText)
+                .add(btnApplyMetadata)
                 .addContainerGap())
         );
         jTabsContainer.addTab("Body Metadata", panelBodyMetadata);
@@ -999,43 +1016,49 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnApplyMetadata_Clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyMetadata_Clicked
+// TODO add your handling code here:
+    ooDocument.getSelectedText();
+    }//GEN-LAST:event_btnApplyMetadata_Clicked
+
+    private void btnClearMetadata_Clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearMetadata_Clicked
+// TODO add your handling code here:
+        listboxMetadata.setModel(new DefaultListModel());
+    }//GEN-LAST:event_btnClearMetadata_Clicked
+
     
     private void btnSelectMP_Clicked(java.awt.event.ActionEvent evt){
        int nRow =  mpTable.getSelectedRow();
        if (nRow == -1 ) {
-           MessageBox.OK("You must select an MP");
+          lblMessage.setForeground(new Color(255,0,0));
+           lblMessage.setText("You must select an MP");
            return;
        }
       String mp_name = (String)  mpTable.getValueAt(nRow, 1)+ " "+ (String) mpTable.getValueAt(nRow, 2);
       String mp_name_display = mp_name;
       String mp_uri = (String) mpTable.getValueAt(nRow, 3);
       String newLine = "\n";
-      MessageBox.OK(mp_name+newLine+mp_uri);
+      listboxMetadata.setModel(new DefaultListModel());
+      DefaultListModel metadataModel = (DefaultListModel) listboxMetadata.getModel();
+      metadataModel.addElement("Name: "+ mp_name);
+      metadataModel.addElement("URI: "+mp_uri);
+     //set the MP data in parent list box
+       
     }
-   
-  private class tblMembersOfParliamentListRowListener implements ListSelectionListener {
-        
-       public void valueChanged(ListSelectionEvent event) {
-            if (event.getValueIsAdjusting()) {
-                return;
-            }
-            
-            String strRowData = "";
-           
-            strRowData = (String) mpTable.getValueAt(mpTable.getSelectedRow(), 0);
-            MessageBox.OK(mpDialog, strRowData );
-            //  output.append("ROW SELECTION EVENT. ");
-          //  outputSelection();
-        }
-    }
+ 
+  private void btnCloseMpDialog_Clicked(java.awt.event.ActionEvent evt){
+      mpDialog.dispose();
+  }
     
     
     private JTable mpTable;
     private JDialog mpDialog;
+    private JLabel lblMessage;
+    private String colNames[] = {"id", "First Name", "Last Name", "URI"};
+   
     private void userMetadataLookup_Clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userMetadataLookup_Clicked
      //collect the data
         
-     String colNames[] = {"id", "First Name", "Last Name", "URI"};
      Vector<String> vMpColumns = new Vector<String>();
      Collections.addAll(vMpColumns, colNames);
      
@@ -1053,21 +1076,34 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
      JScrollPane sp = new JScrollPane(mpTable);
      sp.setPreferredSize(new Dimension(400,200));
      JPanel panel = new JPanel(new FlowLayout());
-     panel.setPreferredSize(new Dimension(400,200));
+     panel.setPreferredSize(new Dimension(400,300));
      panel.add(sp);
+     lblMessage = new JLabel();
+     lblMessage.setPreferredSize(new Dimension(400, 20));
+     lblMessage.setText("Please select an MP");
+     
      JButton btnSelectMp = new JButton();
+     JButton btnClose = new JButton();
+     btnClose.setText("Close");
+     btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseMpDialog_Clicked(evt);
+            }
+        });
      btnSelectMp.setText("Select an MP");
      btnSelectMp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSelectMP_Clicked(evt);
             }
         });
+     panel.add(lblMessage);
      panel.add(btnSelectMp);
+     panel.add(btnClose);
 
      mpDialog = new JDialog();
      mpDialog.setTitle("Select an MP");
      mpDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-     mpDialog.setPreferredSize(new Dimension(420, 280));
+     mpDialog.setPreferredSize(new Dimension(420, 300));
      mpDialog.getContentPane().add(panel);
      mpDialog.pack();
      mpDialog.setVisible(true);
@@ -1111,7 +1147,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnApplyMetaToSelectedText;
+    private javax.swing.JButton btnApplyMetadata;
     private javax.swing.JButton btnClearMetadataValue;
     private javax.swing.ButtonGroup btnGrpBodyMetadataTarget;
     private javax.swing.JButton btnLookupMetadata;
@@ -1124,8 +1160,6 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
     private javax.swing.JTabbedPane jTabsContainer;
@@ -1136,18 +1170,21 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
     private javax.swing.JLabel lblEnterMetadataValue;
     private javax.swing.JLabel lblSelectBodyMetadata;
     private javax.swing.JList listboxEditorNotes;
+    private javax.swing.JList listboxMetadata;
     private javax.swing.JPanel panelBodyMetadata;
     private javax.swing.JPanel panelHistory;
     private javax.swing.JPanel panelMarkup;
     private javax.swing.JPanel panelMetadata;
     private javax.swing.JPanel panelNotes;
+    private javax.swing.JRadioButton radioDocumentSection;
+    private javax.swing.JRadioButton radioSelectedText;
+    private javax.swing.JScrollPane scrollListboxMetadata;
     private javax.swing.JScrollPane scrollPane_treeDocStructure;
     private javax.swing.JScrollPane tblDocHistory;
     private javax.swing.JList treeDocStructure;
     private javax.swing.JTextField txtDocAuthor;
     private javax.swing.JTextField txtDocType;
     private javax.swing.JTextField txtEditorNote;
-    private javax.swing.JTextField txtMetadataValue;
     // End of variables declaration//GEN-END:variables
    public static void main(String args[]) {
     JFrame frame = new JFrame("Oval Sample");

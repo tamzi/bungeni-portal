@@ -189,22 +189,22 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="scrollListboxMetadata" alignment="0" pref="218" max="32767" attributes="0"/>
                           <Component id="jLabel1" alignment="0" pref="218" max="32767" attributes="0"/>
                           <Component id="cboSelectBodyMetadata" alignment="0" pref="218" max="32767" attributes="0"/>
                           <Component id="lblSelectBodyMetadata" alignment="0" pref="218" max="32767" attributes="0"/>
                           <Component id="lblEnterMetadataValue" alignment="0" pref="218" max="32767" attributes="0"/>
-                          <Component id="txtMetadataValue" alignment="0" pref="218" max="32767" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="btnClearMetadataValue" min="-2" pref="85" max="-2" attributes="0"/>
                               <EmptySpace pref="52" max="32767" attributes="0"/>
                               <Component id="btnLookupMetadata" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="btnApplyMetaToSelectedText" alignment="0" pref="218" max="32767" attributes="0"/>
+                          <Component id="btnApplyMetadata" alignment="0" pref="218" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="10" pref="10" max="10" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="jRadioButton2" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jRadioButton1" alignment="0" min="-2" pref="156" max="-2" attributes="0"/>
+                                  <Component id="radioDocumentSection" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="radioSelectedText" alignment="0" min="-2" pref="156" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -221,8 +221,8 @@
                       <Component id="cboSelectBodyMetadata" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="lblEnterMetadataValue" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtMetadataValue" min="-2" pref="70" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="3" max="-2" attributes="0"/>
+                      <Component id="scrollListboxMetadata" min="-2" pref="73" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="btnLookupMetadata" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -231,11 +231,11 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel1" min="-2" pref="23" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jRadioButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="radioSelectedText" min="-2" max="-2" attributes="0"/>
                       <EmptySpace pref="29" max="32767" attributes="0"/>
-                      <Component id="jRadioButton2" min="-2" max="-2" attributes="0"/>
+                      <Component id="radioDocumentSection" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnApplyMetaToSelectedText" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnApplyMetadata" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -262,8 +262,6 @@
                 </Property>
               </Properties>
             </Component>
-            <Component class="javax.swing.JTextField" name="txtMetadataValue">
-            </Component>
             <Component class="javax.swing.JLabel" name="lblEnterMetadataValue">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Selected Metadata Value"/>
@@ -281,13 +279,19 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Clear"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClearMetadata_Clicked"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btnApplyMetaToSelectedText">
+            <Component class="javax.swing.JButton" name="btnApplyMetadata">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Apply Metadata"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnApplyMetadata_Clicked"/>
+              </Events>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="jRadioButton1">
+            <Component class="javax.swing.JRadioButton" name="radioSelectedText">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="btnGrpBodyMetadataTarget"/>
@@ -309,7 +313,7 @@
                 <Property name="text" type="java.lang.String" value="Select Target for Applying Metadata"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JRadioButton" name="jRadioButton2">
+            <Component class="javax.swing.JRadioButton" name="radioDocumentSection">
               <Properties>
                 <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                   <ComponentRef name="btnGrpBodyMetadataTarget"/>
@@ -325,6 +329,28 @@
                 </Property>
               </Properties>
             </Component>
+            <Container class="javax.swing.JScrollPane" name="scrollListboxMetadata">
+              <AuxValues>
+                <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+              </AuxValues>
+
+              <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+              <SubComponents>
+                <Component class="javax.swing.JList" name="listboxMetadata">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
+                      <StringArray count="5">
+                        <StringItem index="0" value="Item 1"/>
+                        <StringItem index="1" value="Item 2"/>
+                        <StringItem index="2" value="Item 3"/>
+                        <StringItem index="3" value="Item 4"/>
+                        <StringItem index="4" value="Item 5"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                </Component>
+              </SubComponents>
+            </Container>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="panelMarkup">

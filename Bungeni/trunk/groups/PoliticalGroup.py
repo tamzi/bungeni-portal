@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: Party.py
+# File: PoliticalGroup.py
 #
 # Copyright (c) 2007 by []
 # Generator: ArchGenXML Version 1.6.0-beta-svn
@@ -72,14 +72,14 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Party_schema = BaseSchema.copy() + \
+PoliticalGroup_schema = BaseSchema.copy() + \
     getattr(BungeniTeam, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Party(BungeniTeam):
+class PoliticalGroup(BungeniTeam):
     """
     """
     security = ClassSecurityInfo()
@@ -88,32 +88,31 @@ class Party(BungeniTeam):
     interface.implements(IAuditable)
 
     # This name appears in the 'add' box
-    archetype_name = 'Party'
+    archetype_name = 'PoliticalGroup'
 
-    meta_type = 'Party'
-    portal_type = 'Party'
+    meta_type = 'PoliticalGroup'
+    portal_type = 'PoliticalGroup'
     allowed_content_types = [] + list(getattr(BungeniTeam, 'allowed_content_types', []))
     filter_content_types = 0
     global_allow = 0
-    #content_icon = 'Party.gif'
+    #content_icon = 'PoliticalGroup.gif'
     immediate_view = 'base_view'
     default_view = 'base_view'
     suppl_views = ()
-    typeDescription = "Party"
-    typeDescMsgId = 'description_edit_party'
+    typeDescription = "PoliticalGroup"
+    typeDescMsgId = 'description_edit_politicalgroup'
 
     _at_rename_after_creation = True
 
-    schema = Party_schema
+    schema = PoliticalGroup_schema
 
     ##code-section class-header #fill in your manual code here
     ##/code-section class-header
 
     # Methods
 
-
-registerType(Party, PROJECTNAME)
-# end of class Party
+registerType(PoliticalGroup, PROJECTNAME)
+# end of class PoliticalGroup
 
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer

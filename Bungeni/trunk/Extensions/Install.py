@@ -245,7 +245,7 @@ def install(self, reinstall=False):
         "TakeTranscription",
         "Minutes",
         "Committee",
-        "Party",
+        "PoliticalGroup",
         "Ministry",
         "Reporters",
         "Parliament",

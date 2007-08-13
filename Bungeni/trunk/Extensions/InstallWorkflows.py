@@ -121,6 +121,46 @@ def installWorkflows(self, package, out):
         workflowTool._setObject('HansardWorkflow', workflow)
     workflowTool.setChainForPortalTypes(['DebateRecord'], workflow.getId())
 
+    ourProductWorkflow = ExternalMethod('temp', 'temp',
+                                        productname+'.'+'CommitteeWorkflow',
+                                        'createCommitteeWorkflow')
+    workflow = ourProductWorkflow(self, 'CommitteeWorkflow')
+    if 'CommitteeWorkflow' in workflowTool.listWorkflows():
+        print >> out, 'CommitteeWorkflow already in workflows.'
+    else:
+        workflowTool._setObject('CommitteeWorkflow', workflow)
+    workflowTool.setChainForPortalTypes(['Committee'], workflow.getId())
+
+    ourProductWorkflow = ExternalMethod('temp', 'temp',
+                                        productname+'.'+'PoliticalGroupWorkflow',
+                                        'createPoliticalGroupWorkflow')
+    workflow = ourProductWorkflow(self, 'PoliticalGroupWorkflow')
+    if 'PoliticalGroupWorkflow' in workflowTool.listWorkflows():
+        print >> out, 'PoliticalGroupWorkflow already in workflows.'
+    else:
+        workflowTool._setObject('PoliticalGroupWorkflow', workflow)
+    workflowTool.setChainForPortalTypes(['PoliticalGroup'], workflow.getId())
+
+    ourProductWorkflow = ExternalMethod('temp', 'temp',
+                                        productname+'.'+'ParliamentWorkflow',
+                                        'createParliamentWorkflow')
+    workflow = ourProductWorkflow(self, 'ParliamentWorkflow')
+    if 'ParliamentWorkflow' in workflowTool.listWorkflows():
+        print >> out, 'ParliamentWorkflow already in workflows.'
+    else:
+        workflowTool._setObject('ParliamentWorkflow', workflow)
+    workflowTool.setChainForPortalTypes(['Parliament'], workflow.getId())
+
+    ourProductWorkflow = ExternalMethod('temp', 'temp',
+                                        productname+'.'+'OfficeWorkflow',
+                                        'createOfficeWorkflow')
+    workflow = ourProductWorkflow(self, 'OfficeWorkflow')
+    if 'OfficeWorkflow' in workflowTool.listWorkflows():
+        print >> out, 'OfficeWorkflow already in workflows.'
+    else:
+        workflowTool._setObject('OfficeWorkflow', workflow)
+    workflowTool.setChainForPortalTypes(['Office'], workflow.getId())
+
     ##code-section after-workflow-install #fill in your manual code here
     ##/code-section after-workflow-install
 

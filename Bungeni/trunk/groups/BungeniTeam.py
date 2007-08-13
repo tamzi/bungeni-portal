@@ -33,8 +33,13 @@ from zope import interface
 from Products.TeamSpace.team import Team
 from Products.Bungeni.config import *
 
+# additional imports from tagged value 'import'
+from Products.TeamSpace.relations import MemberTeamRelation
+
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore.utils import getToolByName
+from Products.TeamSpace.permissions import *
+from Products.TeamSpace.team import team_type_information
 ##/code-section module-header
 
 schema = Schema((
@@ -79,6 +84,8 @@ class BungeniTeam(Team):
 
     ##code-section class-header #fill in your manual code here
 
+    actions = team_type_information['actions']
+
     # All the overridden methods below are just
     # s/portal_teams/portal_bungeniteamstool/ .. is there a better way?
 
@@ -86,7 +93,7 @@ class BungeniTeam(Team):
 
     # Methods
 
-    security.declarePublic('addMember')
+    security.declareProtected(ManageTeamMembership, 'addMember')
     def addMember(self, member_id, membership_type=None, reindex=True):
         """
         add a membership object with the given member id and associate
@@ -132,7 +139,7 @@ class BungeniTeam(Team):
 
         return membership
 
-    security.declarePublic('getMembers')
+    security.declareProtected(ViewAllTeam, 'getMembers')
     def getMembers(self):
         """
         return all members in the team
@@ -143,7 +150,7 @@ class BungeniTeam(Team):
                                            relationship=rship)
         return [m.getObject() for m in mbrains]
 
-    security.declarePublic('getOrphanedRoles')
+    security.declareProtected(ManageTeam, 'getOrphanedRoles')
     def getOrphanedRoles(self):
         """
         get the roles that are now hidden from the team zmi interface

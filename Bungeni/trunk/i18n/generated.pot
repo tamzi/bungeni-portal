@@ -25,6 +25,16 @@ msgstr ""
 msgid "Bungeni_label_Aye"
 msgstr ""
 
+#. Default: "Chiefclerk"
+#: groups/Office.py
+msgid "Bungeni_label_ChiefClerk"
+msgstr ""
+
+#. Default: "Chiefeditor"
+#: groups/Office.py
+msgid "Bungeni_label_ChiefEditor"
+msgstr ""
+
 #. Default: "Createddate"
 #: geoinfo/Constituency.py
 msgid "Bungeni_label_CreatedDate"
@@ -38,6 +48,21 @@ msgstr ""
 #. Default: "Dateofdeath"
 #: membership/BungeniMember.py
 msgid "Bungeni_label_DateOfDeath"
+msgstr ""
+
+#. Default: "Deputychiefeditor"
+#: groups/Office.py
+msgid "Bungeni_label_DeputyChiefEditor"
+msgstr ""
+
+#. Default: "Deputyclerk"
+#: groups/Office.py
+msgid "Bungeni_label_DeputyClerk"
+msgstr ""
+
+#. Default: "Editor"
+#: groups/Office.py
+msgid "Bungeni_label_Editor"
 msgstr ""
 
 #. Default: "Enddate"
@@ -132,6 +157,11 @@ msgstr ""
 msgid "Bungeni_label_Region"
 msgstr ""
 
+#. Default: "Reporter"
+#: groups/Office.py
+msgid "Bungeni_label_Reporter"
+msgstr ""
+
 #. Default: "Title or salutation"
 #: membership/BungeniMember.py
 msgid "Bungeni_label_Salutation"
@@ -198,6 +228,7 @@ msgstr ""
 
 #. Default: "Cessationdate"
 #: groups/Party.py
+#: groups/PoliticalGroup.py
 msgid "Bungeni_label_cessationDate"
 msgstr ""
 
@@ -379,6 +410,7 @@ msgstr ""
 
 #. Default: "Registrationdate"
 #: groups/Party.py
+#: groups/PoliticalGroup.py
 msgid "Bungeni_label_registrationDate"
 msgstr ""
 

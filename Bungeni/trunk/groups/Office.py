@@ -39,6 +39,60 @@ from Products.Bungeni.config import *
 
 schema = Schema((
 
+    ComputedField(
+        name='ChiefClerk',
+        widget=ComputedField._properties['widget'](
+            label='Chiefclerk',
+            label_msgid='Bungeni_label_ChiefClerk',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    ComputedField(
+        name='DeputyClerk',
+        widget=ComputedField._properties['widget'](
+            label='Deputyclerk',
+            label_msgid='Bungeni_label_DeputyClerk',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    ComputedField(
+        name='ChiefEditor',
+        widget=ComputedField._properties['widget'](
+            label='Chiefeditor',
+            label_msgid='Bungeni_label_ChiefEditor',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    ComputedField(
+        name='DeputyChiefEditor',
+        widget=ComputedField._properties['widget'](
+            label='Deputychiefeditor',
+            label_msgid='Bungeni_label_DeputyChiefEditor',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    ComputedField(
+        name='Editor',
+        widget=ComputedField._properties['widget'](
+            label='Editor',
+            label_msgid='Bungeni_label_Editor',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    ComputedField(
+        name='Reporter',
+        widget=ComputedField._properties['widget'](
+            label='Reporter',
+            label_msgid='Bungeni_label_Reporter',
+            i18n_domain='Bungeni',
+        )
+    ),
+
     RelationField(
         name='staffs',
         widget=ReferenceWidget(
@@ -104,6 +158,10 @@ class Office(BungeniTeam):
 
     # Methods
 
+    security.declarePublic('getChiefClerk')
+    def getChiefClerk(self):
+        # TODO query for allowedRolesAndUsers
+        pass
 
 registerType(Office, PROJECTNAME)
 # end of class Office

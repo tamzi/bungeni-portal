@@ -190,15 +190,6 @@ class BungeniMember(BaseContent):
             if auto: break
         return auto
 
-    security.declarePublic('setExpirationDate')
-    def setExpirationDate(self):
-        """
-        # TODO: why is this needed again?
-        # (comment is here because of
-        # http://plone.org/products/archgenxml/issues/128)
-        """
-        pass
-
     # Methods from Interface IBungeniMember
 
     security.declarePublic('setFullname')

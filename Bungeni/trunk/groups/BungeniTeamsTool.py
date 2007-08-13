@@ -67,7 +67,7 @@ class BungeniTeamsTool(UniqueObject, BaseBTreeFolder, TeamsTool):
 
     meta_type = 'BungeniTeamsTool'
     portal_type = 'BungeniTeamsTool'
-    allowed_content_types = ['Party', 'Committee', 'Ministry', 'Reporters', 'Parliament', 'Parliament', 'Office', 'DebateRecordOffice'] + list(getattr(TeamsTool, 'allowed_content_types', []))
+    allowed_content_types = ['PoliticalGroup', 'Committee', 'Ministry', 'Reporters', 'Parliament', 'Parliament', 'Office', 'DebateRecordOffice'] + list(getattr(TeamsTool, 'allowed_content_types', []))
     filter_content_types = 1
     global_allow = 0
     #content_icon = 'BungeniTeamsTool.gif'

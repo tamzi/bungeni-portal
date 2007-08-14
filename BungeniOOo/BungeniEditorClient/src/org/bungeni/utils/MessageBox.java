@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
 public  class MessageBox extends Object {
     public static void OK(Component parent, String msg){
         JOptionPane pane = new JOptionPane ("Bungeni Editor");
-        JDialog dlg = pane.createDialog(parent, msg);
+       JDialog dlg = pane.createDialog(null, msg);
         dlg.setAlwaysOnTop(true);
         dlg.setVisible(true);
     }

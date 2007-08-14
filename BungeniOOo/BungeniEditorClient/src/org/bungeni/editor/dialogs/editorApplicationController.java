@@ -601,6 +601,7 @@ private void initWebDav(){
     m_dav.setConnectionUsername(m_settings_ServerUser);
     m_dav.setConnectionPassword(m_settings_ServerPassword);
     m_dav.setConnectionBaseDirectory(m_settings_ServerPath);
+    
      m_dav.connect("");
     
     /*

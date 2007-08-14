@@ -12,9 +12,11 @@ import com.sun.star.beans.PropertyVetoException;
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertyContainer;
 import com.sun.star.beans.XPropertySet;
+import com.sun.star.beans.XPropertySetInfo;
 import com.sun.star.container.NoSuchElementException;
 import com.sun.star.container.XEnumeration;
 import com.sun.star.container.XEnumerationAccess;
+import com.sun.star.container.XNameContainer;
 import com.sun.star.document.XDocumentInfo;
 import com.sun.star.document.XDocumentInfoSupplier;
 import com.sun.star.frame.XModel;
@@ -33,8 +35,10 @@ import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.Any;
 import com.sun.star.uno.Any;
 import com.sun.star.uno.AnyConverter;
+import com.sun.star.uno.Type;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
+import com.sun.star.xml.AttributeData;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -42,9 +46,11 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -54,12 +60,15 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.ListCellRenderer;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
@@ -72,6 +81,7 @@ import org.bungeni.editor.panels.CollapsiblePanelFactory;
 import org.bungeni.editor.panels.ICollapsiblePanel;
 import org.bungeni.editor.panels.sectionPanel;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.utils.BungeniDataReader;
 import org.bungeni.utils.DocStructureElement;
 import org.bungeni.utils.MessageBox;
@@ -118,6 +128,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     
     private void initFields(){
         //initTree();
+        treeDocStructure.setModel(new DefaultListModel());
         initList();
         //clear meatada listbox
         listboxMetadata.setModel(new DefaultListModel());
@@ -381,6 +392,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                 DocStructureElement docElement = (DocStructureElement)mvDocumentHeadings.elementAt(nIndex);
                 //move the view cursor to the element's range
                 xViewCursor.gotoRange(docElement.getRange(), false);
+            }
+            if ((e.getModifiers() & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK ){
+                //trap right click
             }
         }
 
@@ -668,7 +682,79 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
     }
 }
     
+private void displayUserMetadata(XTextRange xRange) {
+         try {
+       XTextCursor xRangeCursor = xRange.getText().createTextCursorByRange(xRange);
+       XText objText = xRangeCursor.getText();
+       
+       XEnumerationAccess objEnumAccess = (XEnumerationAccess) UnoRuntime.queryInterface( XEnumerationAccess.class, objText); 
+       XEnumeration paraEnum =  objEnumAccess.createEnumeration();
     
+        // While there are paragraphs, do things to them 
+        //first we find the number of heading paragraphs
+        log.debug("Inside displayUserMetadata, entering, displayUserMetadata");
+        
+        while (paraEnum.hasMoreElements()) { 
+            //log.debug("Inside getDocumentTree, inside, hasMoreElements");
+            XServiceInfo xInfo;
+            xInfo = null;
+            Object objNextElement = null;
+       
+                objNextElement = paraEnum.nextElement();
+        
+            //get service info
+            xInfo = ooDocument.getServiceInfo(objNextElement); // UnoRuntime.queryInterface(XServiceInfo.class, objNextElement);
+            if (xInfo.supportsService("com.sun.star.text.Paragraph")) { 
+                // Access the paragraph's property set...the properties in this 
+                // property set are listed 
+                // in: com.sun.star.style.ParagraphProperties 
+                // log.debug("Inside getDocumentTree, supportsService paragraph");
+
+                XPropertySet xSet = ooQueryInterface.XPropertySet(objNextElement);
+                     // Set the justification to be center justified 
+                    //log.debug("Inside getDocumentTree, before , NumberingLevel");
+                XPropertySetInfo xSetInfo = xSet.getPropertySetInfo();     
+                if (xSetInfo.hasPropertyByName("TextUserDefinedAttributes")) {
+                    XNameContainer uda=null;
+                    Type t = AnyConverter.getType(xSet.getPropertyValue("TextUserDefinedAttributes"));
+                    log.debug("TypeName = "+ t.getTypeName());
+                    Object att = xSet.getPropertyValue("TextUserDefinedAttributes");
+                        try {
+                   // uda =  ooQueryInterface.XNameContainer(att);
+                            
+                            uda = (XNameContainer) AnyConverter.toObject(
+                                          new Type(XNameContainer.class),
+                                           att);
+                        } catch (com.sun.star.lang.IllegalArgumentException ex) {
+                            ex.printStackTrace();
+                        }
+                    if (uda != null ) {
+                    if (uda.hasElements()) {
+                        log.debug("uda has elements");
+                        String[] elements = uda.getElementNames();
+                        AttributeData[] adData = new AttributeData[elements.length];
+                        for (int i=0; i < elements.length; i++ ){
+                             adData[i] = (AttributeData) uda.getByName(elements[i]);
+                             log.debug("ns:"+adData[i].Namespace+" ; type:"+adData[i].Type+" ; value:"+adData[i].Value);
+                         } 
+                    }
+                    }
+                }
+            }    
+        else           
+                log.debug("Inside getDocumentTree, paragraph not supproted");
+        }
+            
+    } catch (NoSuchElementException ex) {
+                log.debug("displayUserMetadata : "+ ex.getLocalizedMessage());
+    } catch (WrappedTargetException ex) {
+                log.debug("displayUserMetadata : "+ ex.getLocalizedMessage());
+    } /*catch (com.sun.star.lang.IllegalArgumentException ex) {
+                log.debug("displayUserMetadata : "+ ex.getLocalizedMessage());
+    } */ catch (UnknownPropertyException ex) {
+                log.debug("displayUserMetadata : "+ ex.getLocalizedMessage());
+    }    
+}    
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -714,6 +800,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         jLabel2 = new javax.swing.JLabel();
         scrollPane_treeDocStructure = new javax.swing.JScrollPane();
         treeDocStructure = new javax.swing.JList();
+        btnViewSelectedMetadata = new javax.swing.JButton();
 
         setFont(new java.awt.Font("Tahoma", 0, 10));
         jTabsContainer.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -989,6 +1076,14 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         });
         scrollPane_treeDocStructure.setViewportView(treeDocStructure);
 
+        btnViewSelectedMetadata.setFont(new java.awt.Font("Tahoma", 0, 10));
+        btnViewSelectedMetadata.setText("View Selected Item Metadata...");
+        btnViewSelectedMetadata.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnViewSelectedMetadata_Clicked(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -997,11 +1092,15 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                 .addContainerGap()
                 .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
                 .addContainerGap())
-            .add(layout.createSequentialGroup()
+            .add(jTabsContainer, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(62, Short.MAX_VALUE)
+                .add(btnViewSelectedMetadata)
+                .addContainerGap())
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .add(scrollPane_treeDocStructure, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
                 .addContainerGap())
-            .add(jTabsContainer, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1010,15 +1109,65 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                 .add(jTabsContainer, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 335, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jLabel2)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(scrollPane_treeDocStructure, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 188, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(scrollPane_treeDocStructure, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                .add(btnViewSelectedMetadata)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnViewSelectedMetadata_Clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewSelectedMetadata_Clicked
+   // TODO add your handling code here:
+        int nIndex = treeDocStructure.getMaxSelectionIndex();
+        System.out.println("selected index = " + nIndex);
+        DocStructureElement docElement = (DocStructureElement)mvDocumentHeadings.elementAt(nIndex);
+        displayUserMetadata(docElement.getRange());
+        /*  int nIndex = listBox.locationToIndex(e.getPoint());
+                //JOptionPane.showMessageDialog(null, "current selected index is = "+ nIndex);
+                
+                //get view cursor 
+                XTextViewCursor xViewCursor = ooDocument.getViewCursor();
+                //get the current object range
+                DocStructureElement docElement = (DocStructureElement)mvDocumentHeadings.elementAt(nIndex);
+                //move the view cursor to the element's range
+                xViewCursor.gotoRange(docElement.getRange(), false);   */
+        
+    }//GEN-LAST:event_btnViewSelectedMetadata_Clicked
+
     private void btnApplyMetadata_Clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyMetadata_Clicked
 // TODO add your handling code here:
-    ooDocument.getSelectedText();
+       ListModel model = listboxMetadata.getModel();
+       int count = model.getSize();
+       if (count == 0) 
+       {
+           log.debug("apply_metadata: no attribute was selected");
+           MessageBox.OK("You have not selected any metadata values to set");
+           return;
+       }
+       String name = (String)model.getElementAt(0);
+       String value = (String)model.getElementAt(1);
+       
+       String[] namePair = name.split(":");
+       String nameAttrib = namePair[1].trim();
+       String[] valuePair = value.split(":");
+       String valueAttrib = valuePair[1].trim();
+       
+       log.debug("name : "+nameAttrib+" ; value : " +valueAttrib);
+      
+        try {
+            HashMap xmlAttribs = new HashMap();
+            xmlAttribs.put("akoma:name", nameAttrib);
+            xmlAttribs.put("akoma:uri", valueAttrib);
+            ooDocument.setAttributesToSelectedText(xmlAttribs, new Integer(0xECECEC));
+           //ooDocument.setAttributeToSelectedText("akoma:name", nameAttrib);
+           //ooDocument.setAttributeToSelectedText("akoma:uri", valueAttrib);
+           
+           //ooDocument.setSelectedTextBackColor(new Integer(0xECECEC));
+        } catch (Exception ex) {
+           log.debug("adding_attribute : "+ex.getLocalizedMessage());
+        }
+       
     }//GEN-LAST:event_btnApplyMetadata_Clicked
 
     private void btnClearMetadata_Clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearMetadata_Clicked
@@ -1026,7 +1175,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         listboxMetadata.setModel(new DefaultListModel());
     }//GEN-LAST:event_btnClearMetadata_Clicked
 
-    
+  
     private void btnSelectMP_Clicked(java.awt.event.ActionEvent evt){
        int nRow =  mpTable.getSelectedRow();
        if (nRow == -1 ) {
@@ -1154,6 +1303,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
     private javax.swing.JButton btnNewEditorNote;
     private javax.swing.JButton btnSaveEditorNote;
     private javax.swing.JButton btnSetMetadata;
+    private javax.swing.JButton btnViewSelectedMetadata;
     private javax.swing.JComboBox cboDocURI;
     private javax.swing.JComboBox cboSelectBodyMetadata;
     private javax.swing.JLabel jLabel1;

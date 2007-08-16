@@ -82,6 +82,7 @@ import org.bungeni.editor.panels.ICollapsiblePanel;
 import org.bungeni.editor.panels.sectionPanel;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
+import org.bungeni.ooo.ooUserDefinedAttributes;
 import org.bungeni.utils.BungeniDataReader;
 import org.bungeni.utils.DocStructureElement;
 import org.bungeni.utils.MessageBox;
@@ -681,7 +682,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         return this;
     }
 }
-    
+ 
 private void displayUserMetadata(XTextRange xRange) {
          try {
        XTextCursor xRangeCursor = xRange.getText().createTextCursorByRange(xRange);
@@ -1137,14 +1138,20 @@ private void displayUserMetadata(XTextRange xRange) {
 
     private void btnApplyMetadata_Clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyMetadata_Clicked
 // TODO add your handling code here:
-       ListModel model = listboxMetadata.getModel();
+       DefaultListModel model = (DefaultListModel) listboxMetadata.getModel();
        int count = model.getSize();
+       log.debug("capacity:"+model.getSize());
        if (count == 0) 
        {
            log.debug("apply_metadata: no attribute was selected");
            MessageBox.OK("You have not selected any metadata values to set");
            return;
        }
+       String[] listContents = new String[count];
+       model.copyInto(listContents);
+     
+       //if (1 == 1 ) return;
+       /*
        String name = (String)model.getElementAt(0);
        String value = (String)model.getElementAt(1);
        
@@ -1154,11 +1161,9 @@ private void displayUserMetadata(XTextRange xRange) {
        String valueAttrib = valuePair[1].trim();
        
        log.debug("name : "+nameAttrib+" ; value : " +valueAttrib);
-      
+        */
         try {
-            HashMap xmlAttribs = new HashMap();
-            xmlAttribs.put("akoma:name", nameAttrib);
-            xmlAttribs.put("akoma:uri", valueAttrib);
+            HashMap xmlAttribs = ooUserDefinedAttributes.make(listContents);
             ooDocument.setAttributesToSelectedText(xmlAttribs, new Integer(0xECECEC));
            //ooDocument.setAttributeToSelectedText("akoma:name", nameAttrib);
            //ooDocument.setAttributeToSelectedText("akoma:uri", valueAttrib);

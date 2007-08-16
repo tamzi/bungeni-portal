@@ -36,7 +36,7 @@ public class SettingsDb {
         path_prefix = path;
     }
     
-      SettingsDb() {
+    public SettingsDb() {
         try {
             Class.forName("org.hsqldb.jdbcDriver");
             Installation install = new Installation(); 
@@ -44,11 +44,11 @@ public class SettingsDb {
             
             String full_path = dir.getAbsolutePath();
             String relative_path = dir.getPath();
-            System.out.println("full path = "+ full_path);
-            System.out.println("relative path = " + relative_path);
+            log.debug("full path = "+ full_path);
+            log.debug("relative path = " + relative_path);
             
             String connectionString = "jdbc:hsqldb:" + full_path + File.separator+ path_prefix + File.separator + db_name_prefix ;
-            System.out.println("Connection String = "+ connectionString);
+            log.debug("Connection String = "+ connectionString);
             m_Connection = DriverManager.getConnection( connectionString,    // filenames
                                                         "sa",   // username
                                                         "");   // password 
@@ -59,7 +59,7 @@ public class SettingsDb {
         } 
      }
      
-     SettingsDb(String db_file_name_prefix)  {    // note more general exception
+     public SettingsDb(String db_file_name_prefix)  {    // note more general exception
         try { 
         Class.forName("org.hsqldb.jdbcDriver");
         // It can contain directory names relative to the
@@ -81,11 +81,11 @@ public class SettingsDb {
         }
         return false;
     } 
-    public synchronized HashMap query(String expression) {
+    public synchronized Vector<Vector> query(String expression) {
 
         Statement st = null;
         ResultSet rs = null;
-        HashMap results = new HashMap();
+        Vector<Vector> results = new Vector<Vector>();
         
         try {
             
@@ -93,7 +93,7 @@ public class SettingsDb {
             // repeated calls to execute but we
             // choose to make a new one each time
             rs = st.executeQuery(expression);    // run the query
-
+            
             // do something with the result set.
             results = dump(rs);
             st.close();    // NOTE!! if you close a statement the associated ResultSet is
@@ -106,25 +106,32 @@ public class SettingsDb {
         }   
     }
  
-   public static HashMap dump(ResultSet rs) {
+   public static Vector<Vector> dump(ResultSet rs) {
         ResultSetMetaData meta;
-        HashMap tblRecords = new HashMap();
+        Vector<Vector> tblRecords = new Vector<Vector>();
         
         try {
             meta = rs.getMetaData();
             int colmax = meta.getColumnCount();
             int  i;
+            int iMeta;
             String oField = "";
-
+            //build column name vector 
+            Vector<String> columnsMeta = new Vector<String>();
+            for (iMeta = 0; iMeta < colmax; ++iMeta) {
+               columnsMeta.addElement( meta.getColumnName(iMeta+1));
+            }
+            tblRecords.addElement(columnsMeta);
+            //build column data vectors
             for (; rs.next(); ) {
-                String key = "";
+                log.debug("fetching row");
                 Vector<String> vRecord = new Vector<String>();
                 for (i = 0; i < colmax; ++i) {
                     oField = (String) rs.getObject(i + 1);   
                     // with 1 not 0
                     vRecord.addElement(oField);
                 }
-                tblRecords.put(vRecord.elementAt(0), vRecord);
+                tblRecords.addElement(vRecord);
           }
          } catch (SQLException ex) {
             log.debug("dump:"+ex.getLocalizedMessage());

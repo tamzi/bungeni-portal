@@ -157,6 +157,20 @@ class BungeniTeam(Team):
         """
         tt = getToolByName(self, 'portal_bungeniteamstool')
 
+    security.declareProtected(ViewAllTeam, 'getActiveMembersByRoles')
+    def getActiveMembersByRoles(self,roles):
+        """
+        """
+        if type(roles) == type(''):
+            roles = [roles]
+        memberships = self.getMembershipsByStates('active')
+        memberships_with_roles = []
+        for r in roles:
+            memberships.extend(
+                    [m for m in memberships if r in m.getTeamRoles()]
+                    )
+        return memberships_with_roles
+
     security.declarePublic('initializeArchetype')
     def initializeArchetype(self, **kw):
         BaseBTreeFolder.initializeArchetype(self, **kw)
@@ -177,6 +191,41 @@ class BungeniTeam(Team):
 
         if not self._default_membership_type:
             self._default_membership_type = tt.getDefaultMembershipType()
+
+    security.declarePublic('_constrainMembershipRoles')
+    def _constrainMembershipRoles(self,constrained_roles, member_roles):
+        """
+        """
+        members_per_role = {}
+        for mr in member_roles:
+            for role in mr['roles']:
+                members = members_per_role.setdefault(role, [])
+                if mr['member_id'] not in members:
+                    members.append(mr['member_id'])
+                    members_per_role[role] = members
+        for role, number in constrained_roles.items():
+            # TODO: fail more gracefully?
+            assert len(members_per_role[role]) <= number
+
+    security.declarePublic('_get_member_roles')
+    def _get_member_roles(self,members,role):
+        """
+        """
+        member_roles_map = {}
+        active_memberships = self.getActiveMemberships()
+        if type(members) != type([]):
+            members = [members]
+        for v in value:
+            for m in active_memberships:
+                roles = m.getTeamRoles()
+                if (m.getId() == v.getId() and
+                        role not in roles):
+                    roles.append(role)
+                member_roles[m.getId()] = roles
+        member_roles = []
+        for mid, mroles in member_roles_map.items:
+            member_roles.append({'member_id': mid, 'roles': mroles})
+        return member_roles
 
 
 registerType(BungeniTeam, PROJECTNAME)

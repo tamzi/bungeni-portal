@@ -70,10 +70,10 @@ def setupParliamentWorkflow(self, workflow):
     ##/code-section create-workflow-setup-method-header
 
 
-    for s in ['active']:
+    for s in ['inactive', 'active']:
         workflow.states.addState(s)
 
-    for t in []:
+    for t in ['retire']:
         workflow.transitions.addTransition(t)
 
     for v in ['review_history', 'comments', 'time', 'actor', 'action']:
@@ -81,6 +81,7 @@ def setupParliamentWorkflow(self, workflow):
 
     workflow.addManagedPermission('View')
     workflow.addManagedPermission('Access contents information')
+    workflow.addManagedPermission('Modify portal content')
 
     for l in []:
         if not l in workflow.worklists.objectValues():
@@ -92,8 +93,8 @@ def setupParliamentWorkflow(self, workflow):
 
     ## States initialization
 
-    stateDef = workflow.states['active']
-    stateDef.setProperties(title="""active""",
+    stateDef = workflow.states['inactive']
+    stateDef.setProperties(title="""inactive""",
                            description="""""",
                            transitions=[])
     stateDef.setPermission('View',
@@ -103,7 +104,33 @@ def setupParliamentWorkflow(self, workflow):
                            0,
                            ['Manager', 'Speaker', 'DeputySpeaker', 'Spokesperson', 'Secretary', 'MemberOfParliament'])
 
+    stateDef = workflow.states['active']
+    stateDef.setProperties(title="""active""",
+                           description="""""",
+                           transitions=['retire'])
+    stateDef.setPermission('View',
+                           0,
+                           ['Manager', 'Speaker', 'DeputySpeaker', 'Spokesperson', 'Secretary', 'MemberOfParliament', 'Member'])
+    stateDef.setPermission('Modify portal content',
+                           0,
+                           ['Manager', 'Speaker', 'DeputySpeaker', 'Spokesperson', 'Secretary', 'MemberOfParliament'])
+    stateDef.setPermission('Access contents information',
+                           0,
+                           ['Manager', 'Speaker', 'DeputySpeaker', 'Spokesperson', 'Secretary', 'MemberOfParliament', 'Member'])
+
     ## Transitions initialization
+
+    transitionDef = workflow.transitions['retire']
+    transitionDef.setProperties(title="""retire""",
+                                new_state_id="""inactive""",
+                                trigger_type=1,
+                                script_name="""""",
+                                after_script_name="""""",
+                                actbox_name="""retire""",
+                                actbox_url="""""",
+                                actbox_category="""workflow""",
+                                props={},
+                                )
 
     ## State Variable
     workflow.variables.setStateVar('review_state')

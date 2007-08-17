@@ -13,19 +13,26 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="toolbarGeneralToolbar" alignment="0" pref="216" max="32767" attributes="0"/>
+          <Component id="generalEditorScrollPane" alignment="0" pref="216" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="toolbarGeneralToolbar" alignment="0" pref="100" max="32767" attributes="0"/>
+          <Component id="generalEditorScrollPane" alignment="0" pref="156" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JToolBar" name="toolbarGeneralToolbar">
+    <Container class="javax.swing.JScrollPane" name="generalEditorScrollPane">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
 
-      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTree" name="treeGeneralEditor">
+        </Component>
+      </SubComponents>
     </Container>
   </SubComponents>
 </Form>

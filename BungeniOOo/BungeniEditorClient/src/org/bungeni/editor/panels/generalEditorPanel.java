@@ -43,17 +43,20 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        toolbarGeneralToolbar = new javax.swing.JToolBar();
+        generalEditorScrollPane = new javax.swing.JScrollPane();
+        treeGeneralEditor = new javax.swing.JTree();
+
+        generalEditorScrollPane.setViewportView(treeGeneralEditor);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(toolbarGeneralToolbar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+            .add(generalEditorScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(toolbarGeneralToolbar, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
+            .add(generalEditorScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -80,6 +83,7 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
     }
 
     private void initButtons() {
+        /*
         toolbarGeneralToolbar.setFloatable(false);
         //toolbarSectionButtons.setBorder(contentBorder);
         toolbarGeneralToolbar.setRollover(true);
@@ -94,7 +98,7 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
         toolbarGeneralToolbar.add(btnQuestionAnswerSection);
         JButton btnQuestionBlockSection = createButton("icon_05", "makeQuestionBlockSection", "Create a Question-Block Section", "Question Answer Section");
         toolbarGeneralToolbar.add(btnQuestionBlockSection);
-        
+        */ 
     }
     
     protected JButton createButton(String imageName, String actionCommand, String tooltipText, String altText){
@@ -103,9 +107,14 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
         return btn;
     }
     
+    private void buildActionTree(String point) {
+      //  static boolean bStart = false;
+    }
+    
+    toolbarAction baseAction;
     public void loadToolbarButtons() {
         
-        toolbarGeneralToolbar.setFloatable(false);
+        //toolbarGeneralToolbar.setFloatable(false);
         //toolbarSectionButtons.setBorder(contentBorder);
         //toolbarGeneralToolbar.setRollover(true);
         //toolbarGeneralToolbar.setOpaque(false);
@@ -127,13 +136,17 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
            if (query_results.hasResults() ) {
                results = query_results.theResults();
                //query_results.print_columns();
+               //toolbarAction actionRoot = new toolbarAction("rootNode");
+               
                HashMap columns = query_results.columnNameMap();
                for (int i = 0 ; i < results.size(); i++ ) {
                    //get the results row by row into a string vector
                    Vector<String> tableRow = new Vector<String>();
                    tableRow = results.elementAt(i);
+                   //addToTree (tableRow, columns);
                    toolbarAction action = new toolbarAction(tableRow, columns);
-                   //action.brains();
+                  
+                    //action.brains();
                    System.out.println(" ");
                    //results are contained in the tableRow object
                    //row by row...
@@ -147,7 +160,8 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
         }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToolBar toolbarGeneralToolbar;
+    private javax.swing.JScrollPane generalEditorScrollPane;
+    private javax.swing.JTree treeGeneralEditor;
     // End of variables declaration//GEN-END:variables
     
 }

@@ -18,8 +18,9 @@ import java.util.Vector;
  */
 public class toolbarAction {
     toolbarAction parent;
-   private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(toolbarAction.class.getName());
-
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(toolbarAction.class.getName());
+    Vector<toolbarAction> containedActions;
+    private static String ROOT_ACTION_DISPLAY="Editing Actions";
     
     public String action_name;
     public String action_order;
@@ -38,6 +39,10 @@ public class toolbarAction {
     public toolbarAction(Vector<String> actionDesc, HashMap action_mapping) {
         log.debug("in toolbarAction constructor");
         try {
+        
+        containedActions = new Vector<toolbarAction>();     
+        parent = null;
+        
         action_name = (String) safeGet(actionDesc, action_mapping, "ACTION_NAME");
         action_order = (String) safeGet(actionDesc, action_mapping, "ACTION_ORDER");
         action_class = (String) safeGet(actionDesc, action_mapping, "ACTION_CLASS");
@@ -49,6 +54,7 @@ public class toolbarAction {
         action_icon = (String) safeGet(actionDesc, action_mapping, "ACTION_ICON");
         action_display_text = (String) safeGet(actionDesc, action_mapping, "ACTION_DISPLAY_TEXT");
         action_dimension = (String) safeGet(actionDesc, action_mapping, "ACTION_DIMENSION");
+        
         } catch (Exception e) {
             log.debug("error in toolbarAction constructor : " + e.getMessage());
             e.printStackTrace();
@@ -56,6 +62,45 @@ public class toolbarAction {
         log.debug("finished toolbarAction constructor");
     }
     
+    /*
+     *Used only for defining the root action
+     */
+    public toolbarAction(String action) {
+        if (action.equals("rootAction")){
+            parent = null;
+            containedActions = new Vector<toolbarAction>();
+            action_display_text = ROOT_ACTION_DISPLAY;
+        }
+    }
+    
+    public static void makeLinktoChildren(toolbarAction theFather,
+                                            toolbarAction[] childActions) {
+        for (toolbarAction childAction : childActions) {
+            theFather.containedActions.addElement(childAction);
+            childAction.parent = theFather;
+        }
+    }
+
+   public String toString() {
+       return this.action_display_text;
+   } 
+   
+   public toolbarAction getParent() {
+       return parent;
+   }
+   
+   public int getContainedActionsCount() {
+       return containedActions.size();
+   }
+   
+   public toolbarAction getContainedActionAt(int i) {
+        return containedActions.elementAt(i);
+   }
+   
+   public int getIndexOfContainedAction(toolbarAction childAction) {
+       return containedActions.indexOf(childAction);
+   }
+   
     public void brains() {
         System.out.println("action_name = "+ action_name);
         System.out.println("action_parent = " + action_parent);

@@ -45,8 +45,6 @@ import AgendaItem
 import Sitting
 import Session
 import CommitteeFolder
-import MinistryFolder
-import MinistryWS
 import ParliamentaryDocument
 
 ##code-section init-module-footer #fill in your manual code here

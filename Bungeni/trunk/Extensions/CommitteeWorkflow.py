@@ -80,6 +80,7 @@ def setupCommitteeWorkflow(self, workflow):
         workflow.variables.addVariable(v)
 
     workflow.addManagedPermission('View')
+    workflow.addManagedPermission('Modify portal content')
     workflow.addManagedPermission('Access contents information')
 
     for l in []:
@@ -98,10 +99,13 @@ def setupCommitteeWorkflow(self, workflow):
                            transitions=[])
     stateDef.setPermission('View',
                            0,
+                           ['Manager', 'Chairperson', 'CommitteeClerk', 'CommitteeMember', 'DeputyChairperson', 'DeputyCommitteeClerk', 'Secretary', 'Member'])
+    stateDef.setPermission('Modify portal content',
+                           0,
                            ['Manager', 'Chairperson', 'CommitteeClerk', 'CommitteeMember', 'DeputyChairperson', 'DeputyCommitteeClerk', 'Secretary'])
     stateDef.setPermission('Access contents information',
                            0,
-                           ['Manager', 'Chairperson', 'CommitteeClerk', 'CommitteeMember', 'DeputyChairperson', 'DeputyCommitteeClerk', 'Secretary'])
+                           ['Manager', 'Chairperson', 'CommitteeClerk', 'CommitteeMember', 'DeputyChairperson', 'DeputyCommitteeClerk', 'Secretary', 'Member'])
 
     ## Transitions initialization
 

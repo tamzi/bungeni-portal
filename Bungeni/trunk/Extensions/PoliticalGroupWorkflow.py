@@ -80,6 +80,7 @@ def setupPoliticalGroupWorkflow(self, workflow):
         workflow.variables.addVariable(v)
 
     workflow.addManagedPermission('View')
+    workflow.addManagedPermission('Modify portal content')
     workflow.addManagedPermission('Access contents information')
 
     for l in []:
@@ -98,10 +99,13 @@ def setupPoliticalGroupWorkflow(self, workflow):
                            transitions=[])
     stateDef.setPermission('View',
                            0,
+                           ['Manager', 'Leader', 'DeputyLeader', 'Spokesperson', 'Secretary', 'Member'])
+    stateDef.setPermission('Modify portal content',
+                           0,
                            ['Manager', 'Leader', 'DeputyLeader', 'Spokesperson', 'Secretary'])
     stateDef.setPermission('Access contents information',
                            0,
-                           ['Manager', 'Leader', 'DeputyLeader', 'Spokesperson', 'Secretary'])
+                           ['Manager', 'Leader', 'DeputyLeader', 'Spokesperson', 'Secretary', 'Member'])
 
     ## Transitions initialization
 

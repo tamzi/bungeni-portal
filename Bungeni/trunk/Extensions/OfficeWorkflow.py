@@ -80,6 +80,7 @@ def setupOfficeWorkflow(self, workflow):
         workflow.variables.addVariable(v)
 
     workflow.addManagedPermission('View')
+    workflow.addManagedPermission('Modify portal content')
     workflow.addManagedPermission('Access contents information')
 
     for l in []:
@@ -98,10 +99,13 @@ def setupOfficeWorkflow(self, workflow):
                            transitions=[])
     stateDef.setPermission('View',
                            0,
+                           ['Manager', 'ParliamentClerk', 'DeputyParliamentClerk', 'CommitteeClerk', 'ChiefEditor', 'DeputyChiefEditor', 'Editor', 'Reporter', 'Member'])
+    stateDef.setPermission('Modify portal content',
+                           0,
                            ['Manager', 'ParliamentClerk', 'DeputyParliamentClerk', 'CommitteeClerk', 'ChiefEditor', 'DeputyChiefEditor', 'Editor', 'Reporter'])
     stateDef.setPermission('Access contents information',
                            0,
-                           ['Manager', 'ParliamentClerk', 'DeputyParliamentClerk', 'CommitteeClerk', 'ChiefEditor', 'DeputyChiefEditor', 'Editor', 'Reporter'])
+                           ['Manager', 'ParliamentClerk', 'DeputyParliamentClerk', 'CommitteeClerk', 'ChiefEditor', 'DeputyChiefEditor', 'Editor', 'Reporter', 'Member'])
 
     ## Transitions initialization
 

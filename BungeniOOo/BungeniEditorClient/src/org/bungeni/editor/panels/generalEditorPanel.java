@@ -9,15 +9,19 @@ package org.bungeni.editor.panels;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import org.bungeni.db.toolbarAction;
 import org.bungeni.ooo.OOComponentHelper;
-import org.bungeni.utils.QueryResults;
+import org.bungeni.db.BungeniClientDB;
+import org.bungeni.utils.Installation;
+import org.bungeni.db.QueryResults;
 import org.bungeni.utils.SettingsDb;
-import org.bungeni.utils.SettingsQueryFactory;
+import org.bungeni.db.SettingsQueryFactory;
 
 /**
  *
@@ -100,29 +104,44 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
     }
     
     public void loadToolbarButtons() {
+        
+        toolbarGeneralToolbar.setFloatable(false);
+        //toolbarSectionButtons.setBorder(contentBorder);
+        //toolbarGeneralToolbar.setRollover(true);
+        //toolbarGeneralToolbar.setOpaque(false);
         log.debug("in loadToolbarButtons");
-        SettingsDb instance = new SettingsDb();
-        if (instance.isConnected()) {
+        Installation install = new Installation();
+        String installDirectory = install.getAbsoluteInstallDir();
+        BungeniClientDB instance = new BungeniClientDB(installDirectory + File.separator + "settings" + File.separator + "db" + File.separator, "");
+        
+        if (instance.Connect()) {
             log.debug("db connected");
            Vector<Vector> results = new Vector<Vector>();
-           //query the db for the buttons
-           results = instance.query(
-                   SettingsQueryFactory.Q_FETCH_PARENT_TOOLBAR_ACTIONS());
+           //query the db for the parent level buttons
+           results = instance.Query(SettingsQueryFactory.Q_FETCH_PARENT_TOOLBAR_ACTIONS());
            log.debug("no.of results = "+ results.size());
-              QueryResults query_results = new QueryResults (results);
-            log.debug("Query has results = "+ (query_results.hasResults()? "true":"false" ));
+           
+           QueryResults query_results = new QueryResults (results);
+           log.debug("Query has results = "+ (query_results.hasResults()? "true":"false" ));
+           int nLevel = 0;
            if (query_results.hasResults() ) {
                results = query_results.theResults();
-               query_results.print_columns();
+               //query_results.print_columns();
+               HashMap columns = query_results.columnNameMap();
                for (int i = 0 ; i < results.size(); i++ ) {
                    //get the results row by row into a string vector
                    Vector<String> tableRow = new Vector<String>();
                    tableRow = results.elementAt(i);
+                   toolbarAction action = new toolbarAction(tableRow, columns);
+                   //action.brains();
+                   System.out.println(" ");
                    //results are contained in the tableRow object
                    //row by row...
-      
+                //System.out.println(" action order = " + query_results.getColumnIndex("ACTION_ORDER"));
+                //System.out.println(" action name = " + query_results.getColumnIndex("ACTION_NAME"));
                }
-           }
+               
+           } 
         } else {
             log.debug("connection failed ");
         }

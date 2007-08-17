@@ -145,7 +145,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      scrollPane.setBorder(null);
      //add the scroll pane to the scroll pane
      panelMarkup.add(scrollPane, BorderLayout.CENTER);
-     
+     /*
      //add section panel
      ICollapsiblePanel sectionPanel = CollapsiblePanelFactory.getPanelClass("sectionPanel");
      sectionPanel.setOOComponentHandle(ooDocument);
@@ -155,6 +155,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      ICollapsiblePanel markupPanel = CollapsiblePanelFactory.getPanelClass("textmarkupPanel");
      markupPanel.setOOComponentHandle(ooDocument); 
      box.addBox("Markup Tools", markupPanel.getObjectHandle() ); 
+     */
      
      ICollapsiblePanel generalEditorPanel = CollapsiblePanelFactory.getPanelClass("generalEditorPanel");
      generalEditorPanel.setOOComponentHandle(ooDocument);

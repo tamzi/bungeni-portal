@@ -69,7 +69,14 @@ public class Installation {
     }
     
     return new File(System.getProperty("user.dir"));
-  }  
+  } 
+  
+  public  String getAbsoluteInstallDir() {
+       File dir = getInstallDirectory(this.getClass());
+       String full_path = dir.getAbsolutePath();
+       return full_path;
+  }
+  
   /**
    * Get URL of the given class.
    * 

@@ -29,8 +29,10 @@ public class SettingsDb {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(SettingsDb.class.getName());
 
     /** Creates a new instance of SettingsDb */
-    static String path_prefix="settings"+File.separator+"db";
-    static String db_name_prefix ="settings.db";
+    private static String path_prefix="settings"+File.separator+"db";
+    private static String db_name_prefix ="settings.db";
+    private static String DRIVER_CLASS_NAME = "org.h2.Driver";
+    private static String JDBC_CONNECTION_PREFIX = "jdbc:h2:";
     
     public static void setDbPath(String path){
         path_prefix = path;
@@ -38,7 +40,8 @@ public class SettingsDb {
     
     public SettingsDb() {
         try {
-            Class.forName("org.hsqldb.jdbcDriver");
+            
+            Class.forName(DRIVER_CLASS_NAME);
             Installation install = new Installation(); 
             File dir = install.getInstallDirectory(this.getClass());
             
@@ -47,7 +50,7 @@ public class SettingsDb {
             log.debug("full path = "+ full_path);
             log.debug("relative path = " + relative_path);
             
-            String connectionString = "jdbc:hsqldb:" + full_path + File.separator+ path_prefix + File.separator + db_name_prefix ;
+            String connectionString = JDBC_CONNECTION_PREFIX + full_path + File.separator+ path_prefix + File.separator + db_name_prefix ;
             log.debug("Connection String = "+ connectionString);
             m_Connection = DriverManager.getConnection( connectionString,    // filenames
                                                         "sa",   // username
@@ -61,10 +64,10 @@ public class SettingsDb {
      
      public SettingsDb(String db_file_name_prefix)  {    // note more general exception
         try { 
-        Class.forName("org.hsqldb.jdbcDriver");
+        Class.forName(DRIVER_CLASS_NAME);
         // It can contain directory names relative to the
         // current working directory
-        m_Connection = DriverManager.getConnection("jdbc:hsqldb:"
+        m_Connection = DriverManager.getConnection(JDBC_CONNECTION_PREFIX
                                            + db_file_name_prefix,    // filenames
                                            "sa",                     // username
                                            "");                      // password
@@ -96,9 +99,8 @@ public class SettingsDb {
             
             // do something with the result set.
             results = dump(rs);
-            st.close();    // NOTE!! if you close a statement the associated ResultSet is
+            //st.close();    // NOTE!! if you close a statement the associated ResultSet is
 
-            return results;
         } catch (SQLException ex) {
             log.debug("query:"+ ex.getLocalizedMessage());
         } finally {

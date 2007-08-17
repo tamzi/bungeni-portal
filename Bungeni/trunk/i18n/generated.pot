@@ -25,6 +25,12 @@ msgstr ""
 msgid "Bungeni_label_Aye"
 msgstr ""
 
+#. Default: "Chairperson"
+#: groups/Office.py
+#: groups/Committee.py
+msgid "Bungeni_label_Chairperson"
+msgstr ""
+
 #. Default: "Chiefclerk"
 #: groups/Office.py
 msgid "Bungeni_label_ChiefClerk"
@@ -32,7 +38,18 @@ msgstr ""
 
 #. Default: "Chiefeditor"
 #: groups/Office.py
+#: groups/DebateRecordOffice.py
 msgid "Bungeni_label_ChiefEditor"
+msgstr ""
+
+#. Default: "Clerk"
+#: groups/Committee.py
+msgid "Bungeni_label_Clerk"
+msgstr ""
+
+#. Default: "Committee"
+#: groups/Committee.py
+msgid "Bungeni_label_Committee"
 msgstr ""
 
 #. Default: "Createddate"
@@ -50,19 +67,38 @@ msgstr ""
 msgid "Bungeni_label_DateOfDeath"
 msgstr ""
 
+#. Default: "Deputychairperson"
+#: groups/Office.py
+#: groups/Committee.py
+msgid "Bungeni_label_DeputyChairperson"
+msgstr ""
+
 #. Default: "Deputychiefeditor"
 #: groups/Office.py
+#: groups/DebateRecordOffice.py
 msgid "Bungeni_label_DeputyChiefEditor"
 msgstr ""
 
 #. Default: "Deputyclerk"
 #: groups/Office.py
+#: groups/Committee.py
 msgid "Bungeni_label_DeputyClerk"
+msgstr ""
+
+#. Default: "Deuputyleader"
+#: groups/PoliticalGroup.py
+msgid "Bungeni_label_DeuputyLeader"
 msgstr ""
 
 #. Default: "Editor"
 #: groups/Office.py
+#: groups/DebateRecordOffice.py
 msgid "Bungeni_label_Editor"
+msgstr ""
+
+#. Default: "Editors"
+#: groups/DebateRecordOffice.py
+msgid "Bungeni_label_Editors"
 msgstr ""
 
 #. Default: "Enddate"
@@ -84,6 +120,11 @@ msgstr ""
 #. Default: "Gender"
 #: membership/BungeniMember.py
 msgid "Bungeni_label_Gender"
+msgstr ""
+
+#. Default: "Leader"
+#: groups/PoliticalGroup.py
+msgid "Bungeni_label_Leader"
 msgstr ""
 
 #. Default: "Maidenname"
@@ -159,12 +200,35 @@ msgstr ""
 
 #. Default: "Reporter"
 #: groups/Office.py
+#: groups/DebateRecordOffice.py
 msgid "Bungeni_label_Reporter"
+msgstr ""
+
+#. Default: "Reporters"
+#: groups/DebateRecordOffice.py
+msgid "Bungeni_label_Reporters"
 msgstr ""
 
 #. Default: "Title or salutation"
 #: membership/BungeniMember.py
 msgid "Bungeni_label_Salutation"
+msgstr ""
+
+#. Default: "Secretary"
+#: groups/Office.py
+#: groups/Committee.py
+#: groups/PoliticalGroup.py
+msgid "Bungeni_label_Secretary"
+msgstr ""
+
+#. Default: "Spokesperson"
+#: groups/PoliticalGroup.py
+msgid "Bungeni_label_Spokesperson"
+msgstr ""
+
+#. Default: "Stafftype"
+#: membership/Staff.py
+msgid "Bungeni_label_StaffType"
 msgstr ""
 
 #. Default: "Startdate"
@@ -230,6 +294,11 @@ msgstr ""
 #: groups/Party.py
 #: groups/PoliticalGroup.py
 msgid "Bungeni_label_cessationDate"
+msgstr ""
+
+#. Default: "Class_2s"
+#: debaterecord/TakeTranscription.py
+msgid "Bungeni_label_class_2s"
 msgstr ""
 
 #. Default: "Clerks"
@@ -351,6 +420,7 @@ msgstr ""
 #. Default: "Ministrys"
 #: membership/MemberOfParliament.py
 #: membership/Staff.py
+#: content/Ministry.py
 msgid "Bungeni_label_ministrys"
 msgstr ""
 
@@ -390,6 +460,11 @@ msgstr ""
 #. Default: "Portfolio"
 #: groups/Ministry.py
 msgid "Bungeni_label_portfolio"
+msgstr ""
+
+#. Default: "Portfolios"
+#: membership/MemberOfParliament.py
+msgid "Bungeni_label_portfolios"
 msgstr ""
 
 #. Default: "Presidencyinternal"

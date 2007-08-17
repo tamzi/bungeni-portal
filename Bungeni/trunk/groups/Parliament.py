@@ -113,6 +113,7 @@ class Parliament(BungeniTeam):
     schema = Parliament_schema
 
     ##code-section class-header #fill in your manual code here
+    actions = BungeniTeam.actions
     ##/code-section class-header
 
     # Methods

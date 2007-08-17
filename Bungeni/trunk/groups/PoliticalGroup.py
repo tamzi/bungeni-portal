@@ -32,9 +32,11 @@ from Products.Archetypes.atapi import *
 from zope import interface
 from Products.Bungeni.groups.BungeniTeam import BungeniTeam
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
+from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
+from Products.TeamSpace.permissions import *
 ##/code-section module-header
 
 schema = Schema((
@@ -64,6 +66,50 @@ schema = Schema((
             label_msgid='Bungeni_label_cessationDate',
             i18n_domain='Bungeni',
         )
+    ),
+
+    RelationField(
+        name='Leader',
+        widget=ReferenceWidget(
+            label='Leader',
+            label_msgid='Bungeni_label_Leader',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=0,
+        relationship='politicalgroup_leader'
+    ),
+
+    RelationField(
+        name='DeuputyLeader',
+        widget=ReferenceWidget(
+            label='Deuputyleader',
+            label_msgid='Bungeni_label_DeuputyLeader',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=0,
+        relationship='politicalgroup_deuputyleader'
+    ),
+
+    RelationField(
+        name='Spokesperson',
+        widget=ReferenceWidget(
+            label='Spokesperson',
+            label_msgid='Bungeni_label_Spokesperson',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=0,
+        relationship='politicalgroup_spokesperson'
+    ),
+
+    RelationField(
+        name='Secretary',
+        widget=ReferenceWidget(
+            label='Secretary',
+            label_msgid='Bungeni_label_Secretary',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=0,
+        relationship='politicalgroup_secretary'
     ),
 
 ),
@@ -107,9 +153,41 @@ class PoliticalGroup(BungeniTeam):
     schema = PoliticalGroup_schema
 
     ##code-section class-header #fill in your manual code here
+    actions = BungeniTeam.actions
     ##/code-section class-header
 
     # Methods
+
+    security.declarePublic('setLeader')
+    def setLeader(self):
+        """
+        """
+        pass
+
+    security.declarePublic('setDeputyLeader')
+    def setDeputyLeader(self):
+        """
+        """
+        pass
+
+    security.declarePublic('setSpokesperson')
+    def setSpokesperson(self):
+        """
+        """
+        pass
+
+    security.declarePublic('setSecretary')
+    def setSecretary(self):
+        """
+        """
+        pass
+
+    security.declareProtected(ManageTeam, 'manage_updateRoles')
+    def manage_updateRoles(self,member_roles,REQUEST):
+        """
+        """
+        pass
+
 
 registerType(PoliticalGroup, PROJECTNAME)
 # end of class PoliticalGroup

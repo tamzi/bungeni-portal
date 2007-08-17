@@ -31,88 +31,47 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
 from Products.Bungeni.groups.BungeniTeam import BungeniTeam
+from Products.Bungeni.groups.BungeniTeam import BungeniTeam
 from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
+from Products.TeamSpace.permissions import *
 ##/code-section module-header
 
 schema = Schema((
 
-    ComputedField(
-        name='ChiefClerk',
-        widget=ComputedField._properties['widget'](
-            label='Chiefclerk',
-            label_msgid='Bungeni_label_ChiefClerk',
-            i18n_domain='Bungeni',
-        )
-    ),
-
-    ComputedField(
-        name='DeputyClerk',
-        widget=ComputedField._properties['widget'](
-            label='Deputyclerk',
-            label_msgid='Bungeni_label_DeputyClerk',
-            i18n_domain='Bungeni',
-        )
-    ),
-
-    ComputedField(
-        name='ChiefEditor',
-        widget=ComputedField._properties['widget'](
-            label='Chiefeditor',
-            label_msgid='Bungeni_label_ChiefEditor',
-            i18n_domain='Bungeni',
-        )
-    ),
-
-    ComputedField(
-        name='DeputyChiefEditor',
-        widget=ComputedField._properties['widget'](
-            label='Deputychiefeditor',
-            label_msgid='Bungeni_label_DeputyChiefEditor',
-            i18n_domain='Bungeni',
-        )
-    ),
-
-    ComputedField(
-        name='Editor',
-        widget=ComputedField._properties['widget'](
-            label='Editor',
-            label_msgid='Bungeni_label_Editor',
-            i18n_domain='Bungeni',
-        )
-    ),
-
-    ComputedField(
-        name='Reporter',
-        widget=ComputedField._properties['widget'](
-            label='Reporter',
-            label_msgid='Bungeni_label_Reporter',
-            i18n_domain='Bungeni',
-        )
-    ),
-
     RelationField(
-        name='staffs',
+        name='Chairperson',
         widget=ReferenceWidget(
-            label='Staffs',
-            label_msgid='Bungeni_label_staffs',
+            label='Chairperson',
+            label_msgid='Bungeni_label_Chairperson',
             i18n_domain='Bungeni',
         ),
         multiValued=0,
-        relationship='clerk'
+        relationship='office_chairperson'
     ),
 
     RelationField(
-        name='staffs',
+        name='DeputyChairperson',
         widget=ReferenceWidget(
-            label='Staffs',
-            label_msgid='Bungeni_label_staffs',
+            label='Deputychairperson',
+            label_msgid='Bungeni_label_DeputyChairperson',
             i18n_domain='Bungeni',
         ),
         multiValued=0,
-        relationship='deputy_clerk'
+        relationship='office_deputychairperson'
+    ),
+
+    RelationField(
+        name='Secretary',
+        widget=ReferenceWidget(
+            label='Secretary',
+            label_msgid='Bungeni_label_Secretary',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=0,
+        relationship='office_secretary'
     ),
 
 ),
@@ -122,6 +81,7 @@ schema = Schema((
 ##/code-section after-local-schema
 
 Office_schema = BaseSchema.copy() + \
+    getattr(BungeniTeam, 'schema', Schema(())).copy() + \
     getattr(BungeniTeam, 'schema', Schema(())).copy() + \
     schema.copy()
 
@@ -139,7 +99,7 @@ class Office(BungeniTeam):
 
     meta_type = 'Office'
     portal_type = 'Office'
-    allowed_content_types = [] + list(getattr(BungeniTeam, 'allowed_content_types', []))
+    allowed_content_types = [] + list(getattr(BungeniTeam, 'allowed_content_types', [])) + list(getattr(BungeniTeam, 'allowed_content_types', []))
     filter_content_types = 0
     global_allow = 0
     #content_icon = 'Office.gif'
@@ -154,14 +114,69 @@ class Office(BungeniTeam):
     schema = Office_schema
 
     ##code-section class-header #fill in your manual code here
+    actions = BungeniTeam.actions
     ##/code-section class-header
 
     # Methods
 
-    security.declarePublic('getChiefClerk')
-    def getChiefClerk(self):
-        # TODO query for allowedRolesAndUsers
+    security.declarePublic('setChairPerson')
+    def setChairPerson(self):
+        """
+        """
         pass
+
+    security.declarePublic('setDeputyChairperson')
+    def setDeputyChairperson(self):
+        """
+        """
+        pass
+
+    security.declarePublic('setSecretary')
+    def setSecretary(self):
+        """
+        """
+        pass
+
+    security.declareProtected(ManageTeam, 'manage_updateRoles')
+    def manage_updateRoles(self,member_roles,REQUEST):
+        """ Constrain some roles
+        """
+        constrained_roles = {
+                'Chairperson': 1,
+                'DeputyChairperson': 1, # TODO: verify
+                'Secretary': 1,
+                }
+        self._constrainMembershipRoles(constrained_roles, member_roles)
+        # Delegate to super
+        BungeniTeam.manage_updateRoles(self,member_roles,REQUEST=None)
+
+    # Manually created methods
+
+    security.declarePublic('getChairPerson')
+    def getChairPerson(self):
+        """
+        """
+        m = self.getActiveMembersByRoles('Chairperson')
+        assert len(m) == 1 # TODO constrain setting of roles
+        return m[0]
+
+    security.declarePublic('getDeputyChairperson')
+    def getDeputyChairperson(self):
+        """
+        """
+        m = self.getActiveMembersByRoles('DeputyChairperson')
+        assert len(m) == 1 # TODO constrain setting of roles
+        return m[0]
+
+    security.declarePublic('getSecretary')
+    def getSecretary(self):
+        """
+        """
+        m = self.getActiveMembersByRoles('Secretary')
+        assert len(m) == 1 # TODO constrain setting of roles
+        return m[0]
+
+
 
 registerType(Office, PROJECTNAME)
 # end of class Office

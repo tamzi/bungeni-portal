@@ -62,7 +62,7 @@ class ParliamentWS(BaseFolder, BungeniTeamSpace):
 
     meta_type = 'ParliamentWS'
     portal_type = 'ParliamentWS'
-    allowed_content_types = ['Session', 'CommitteeFolder', 'MinistryFolder'] + list(getattr(BungeniTeamSpace, 'allowed_content_types', []))
+    allowed_content_types = ['Session', 'CommitteeFolder'] + list(getattr(BungeniTeamSpace, 'allowed_content_types', []))
     filter_content_types = 1
     global_allow = 1
     #content_icon = 'ParliamentWS.gif'

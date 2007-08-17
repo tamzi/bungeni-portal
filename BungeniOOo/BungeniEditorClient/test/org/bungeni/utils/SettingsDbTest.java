@@ -64,9 +64,9 @@ public class SettingsDbTest extends TestCase {
         String expression = "";
         db = testConnect();
         if (db.isConnected()) { 
-        HashMap expResult = null;
-        HashMap result = db.query("select * from toolbar_action_settings");
-        System.out.println("size of query resultset = "+ result.size());
+        Vector<Vector> expResult = null;
+        Vector<Vector> result = db.query("select * from toolbar_action_settings");
+       System.out.println("size of query resultset = "+ result.size());
         assertTrue("tests failed", result.size() > 0);
         return;
         }

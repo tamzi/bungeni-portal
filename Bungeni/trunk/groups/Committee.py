@@ -32,7 +32,6 @@ from Products.Archetypes.atapi import *
 from zope import interface
 from Products.Bungeni.groups.BungeniTeam import BungeniTeam
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
-from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -153,59 +152,37 @@ schema = Schema((
         vocabulary=['parliament', 'annual']
     ),
 
-    RelationField(
-        name='memberofparliaments',
-        widget=ReferenceWidget(
-            label='Memberofparliaments',
-            label_msgid='Bungeni_label_memberofparliaments',
+    ReferenceField(
+        name='Chairperson',
+        widget=ReferenceField._properties['widget'](
+            label='Chairperson',
+            label_msgid='Bungeni_label_Chairperson',
             i18n_domain='Bungeni',
         ),
-        multiValued=0,
-        relationship='chairperson'
+        allowed_types=['Staff', 'MemberOfParliament'],
+        relationship="committee_chairperson"
     ),
 
-    RelationField(
-        name='staffs',
-        widget=ReferenceWidget(
-            label='Staffs',
-            label_msgid='Bungeni_label_staffs',
+    ReferenceField(
+        name='DeputyChairperson',
+        widget=ReferenceField._properties['widget'](
+            label='Deputychairperson',
+            label_msgid='Bungeni_label_DeputyChairperson',
             i18n_domain='Bungeni',
         ),
-        multiValued=0,
-        relationship='clerk'
+        allowed_types=['Staff', 'MemberOfParliament'],
+        relationship="committee_deputychairperson"
     ),
 
-    RelationField(
-        name='memberofparliaments',
-        widget=ReferenceWidget(
-            label='Memberofparliaments',
-            label_msgid='Bungeni_label_memberofparliaments',
+    ReferenceField(
+        name='Secretary',
+        widget=ReferenceField._properties['widget'](
+            label='Secretary',
+            label_msgid='Bungeni_label_Secretary',
             i18n_domain='Bungeni',
         ),
-        multiValued=0,
-        relationship='secretary'
-    ),
-
-    RelationField(
-        name='memberofparliaments',
-        widget=ReferenceWidget(
-            label='Memberofparliaments',
-            label_msgid='Bungeni_label_memberofparliaments',
-            i18n_domain='Bungeni',
-        ),
-        multiValued=0,
-        relationship='deputy_chairperson'
-    ),
-
-    RelationField(
-        name='staffs',
-        widget=ReferenceWidget(
-            label='Staffs',
-            label_msgid='Bungeni_label_staffs',
-            i18n_domain='Bungeni',
-        ),
-        multiValued=0,
-        relationship='deputy_clerk'
+        allowed_types=['Staff', 'MemberOfParliament'],
+        relationship="committee_secretary"
     ),
 
 ),
@@ -249,9 +226,56 @@ class Committee(BungeniTeam):
     schema = Committee_schema
 
     ##code-section class-header #fill in your manual code here
+    actions = BungeniTeam.actions
     ##/code-section class-header
 
     # Methods
+
+    security.declarePublic('setChairperson')
+    def setChairperson(self, value, **kw_args):
+        """
+        """
+        # Manage team roles
+        member_roles = self._get_member_roles(value, ['Chairperson'])
+        self.manage_updateRoles(member_roles)
+        # Reference
+        field = self.schema['Chairperson']
+        field.set(self, value, kw_args)
+
+    security.declarePublic('setSecretary')
+    def setSecretary(self):
+        """
+        """
+        # Manage team roles
+        member_roles = self._get_member_roles(value, ['Secretary'])
+        self.manage_updateRoles(member_roles)
+        # Reference
+        field = self.schema['Secretary']
+        field.set(self, value, kw_args)
+
+    security.declarePublic('setDeputyChairperson')
+    def setDeputyChairperson(self):
+        """
+        """
+        # Manage team roles
+        member_roles = self._get_member_roles(value, ['DeputyChairperson'])
+        self.manage_updateRoles(member_roles)
+        # Reference
+        field = self.schema['DeputyChairperson']
+        field.set(self, value, kw_args)
+
+    security.declarePublic('manage_updateRoles')
+    def manage_updateRoles(self,member_roles,REQUEST=None):
+        """
+        """
+        constrained_roles = {
+                'Chairperson': self.getMaxChairs(),
+                'DeputyChairperson': 1, # TODO: verify
+                'Secretary': self.getMaxSecretaries(),
+                }
+        self._constrainMembershipRoles(constrained_roles, member_roles)
+        # Delegate to super
+        BungeniTeam.manage_updateRoles(self,member_roles,REQUEST=None)
 
 
 registerType(Committee, PROJECTNAME)

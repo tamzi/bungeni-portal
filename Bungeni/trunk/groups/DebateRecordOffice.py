@@ -35,41 +35,53 @@ from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
+from Products.TeamSpace.permissions import *
 ##/code-section module-header
 
 schema = Schema((
 
     RelationField(
-        name='staffs',
+        name='ChiefEditor',
         widget=ReferenceWidget(
-            label='Staffs',
-            label_msgid='Bungeni_label_staffs',
+            label='Chiefeditor',
+            label_msgid='Bungeni_label_ChiefEditor',
             i18n_domain='Bungeni',
         ),
         multiValued=0,
-        relationship='editor'
+        relationship='debaterecordoffice_chiefeditor'
     ),
 
     RelationField(
-        name='staffs',
+        name='DeputyChiefEditor',
         widget=ReferenceWidget(
-            label='Staffs',
-            label_msgid='Bungeni_label_staffs',
+            label='Deputychiefeditor',
+            label_msgid='Bungeni_label_DeputyChiefEditor',
             i18n_domain='Bungeni',
         ),
         multiValued=0,
-        relationship='chief_editor'
+        relationship='debaterecordoffice_deputychiefeditor'
     ),
 
     RelationField(
-        name='staffs',
+        name='Editors',
         widget=ReferenceWidget(
-            label='Staffs',
-            label_msgid='Bungeni_label_staffs',
+            label='Editors',
+            label_msgid='Bungeni_label_Editors',
             i18n_domain='Bungeni',
         ),
         multiValued=0,
-        relationship='deputy_chief_editor'
+        relationship='debaterecordoffice_editors'
+    ),
+
+    RelationField(
+        name='Reporters',
+        widget=ReferenceWidget(
+            label='Reporters',
+            label_msgid='Bungeni_label_Reporters',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=0,
+        relationship='debaterecordoffice_reporters'
     ),
 
 ),
@@ -111,9 +123,46 @@ class DebateRecordOffice(BaseContent, Office):
     schema = DebateRecordOffice_schema
 
     ##code-section class-header #fill in your manual code here
+    actions = Office.actions
     ##/code-section class-header
 
     # Methods
+
+    security.declarePublic('setChiefEditor')
+    def setChiefEditor(self):
+        """
+        """
+        pass
+
+    security.declarePublic('setDeputyChiefEditor')
+    def setDeputyChiefEditor(self):
+        """
+        """
+        pass
+
+    security.declarePublic('setEditors')
+    def setEditors(self):
+        """
+        """
+        pass
+
+    security.declarePublic('setReporters')
+    def setReporters(self):
+        """
+        """
+        pass
+
+    security.declareProtected(ManageTeam, 'manage_updateRoles')
+    def manage_updateRoles(self,member_roles,REQUEST=None):
+        """
+        """
+        constrained_roles = {
+                'ChiefEditor': 1,
+                'DeputyEditor': 1,
+                }
+        self._constrainMembershipRoles(constrained_roles, member_roles)
+        # Delegate to super
+        Office.manage_updateRoles(self,member_roles,REQUEST=None)
 
 
 registerType(DebateRecordOffice, PROJECTNAME)

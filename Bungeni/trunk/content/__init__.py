@@ -40,6 +40,11 @@ import LongDocument
 import LongDocumentSection
 import LongDocumentPage
 import HelpFolder
+import Ministry
+import MinistryFolder
+import Portfolio
+import Minister
+import AssistantMinister
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

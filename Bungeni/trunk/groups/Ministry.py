@@ -30,8 +30,7 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
-from Products.Bungeni.groups.BungeniTeam import BungeniTeam
-from Products.ATVocabularyManager.namedvocabulary import NamedVocabulary
+from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -48,14 +47,15 @@ schema = Schema((
         )
     ),
 
-    StringField(
-        name='portfolio',
-        widget=SelectionWidget(
-            label='Portfolio',
-            label_msgid='Bungeni_label_portfolio',
+    RelationField(
+        name='ministrys',
+        widget=ReferenceWidget(
+            label='Ministrys',
+            label_msgid='Bungeni_label_ministrys',
             i18n_domain='Bungeni',
         ),
-        vocabulary=NamedVocabulary("""Ministry.vdex""")
+        multiValued=1,
+        relationship='supersedes'
     ),
 
 ),
@@ -64,26 +64,25 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-Ministry_schema = BaseSchema.copy() + \
-    getattr(BungeniTeam, 'schema', Schema(())).copy() + \
+Ministry_schema = BaseFolderSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Ministry(BungeniTeam):
+class Ministry(BaseFolder):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BungeniTeam,'__implements__',()),)
+    __implements__ = (getattr(BaseFolder,'__implements__',()),)
 
     # This name appears in the 'add' box
     archetype_name = 'Ministry'
 
     meta_type = 'Ministry'
     portal_type = 'Ministry'
-    allowed_content_types = [] + list(getattr(BungeniTeam, 'allowed_content_types', []))
-    filter_content_types = 0
+    allowed_content_types = ['Portfolio']
+    filter_content_types = 1
     global_allow = 0
     #content_icon = 'Ministry.gif'
     immediate_view = 'base_view'

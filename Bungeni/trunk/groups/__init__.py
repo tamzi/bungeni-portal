@@ -38,7 +38,6 @@ __docformat__ = 'plaintext'
 # Classes
 import Committee
 import PoliticalGroup
-import Ministry
 import Reporters
 import Parliament
 import Office

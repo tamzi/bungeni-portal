@@ -1,0 +1,3 @@
+ore.alchemist https://svn.objectrealms.net/svn/public/ore.alchemist
+#ore.grimoire https://svn.objectrealms.net/svn/public/ore.grimoire
+ore.auditlog https://svn.objectrealms.net/svn/public/ore.auditlog

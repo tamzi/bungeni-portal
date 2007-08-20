@@ -62,12 +62,33 @@ public class toolbarAction {
         log.debug("finished toolbarAction constructor");
     }
     
+    public String action_name() {
+        return this.action_name;
+    }
+    
+    public String action_class() {
+        return this.action_class;
+    }
+    
+    public String action_display_text(){
+        return this.action_display_text;
+    }
+    
+    public String action_naming_convention(){
+        return this.action_naming_convention;
+    }
+    
+    public String action_numbering_convention(){
+        return this.action_numbering_convention;
+    }
+    
     /*
      *Used only for defining the root action
      */
     public toolbarAction(String action) {
         if (action.equals("rootAction")){
             parent = null;
+            action_name="parent";
             containedActions = new Vector<toolbarAction>();
             action_display_text = ROOT_ACTION_DISPLAY;
         }

@@ -26,4 +26,13 @@ public class SettingsQueryFactory {
                 "order by action_order");
         return  query;
     }
+    
+    public static String Q_FETCH_CHILD_TOOLBAR_ACTIONS(String parent_name) {
+        String query = new String("" +
+                "Select * from toolbar_action_settings " +
+                "where action_parent='"+ parent_name  + "' " +
+                "order by action_order");
+        return  query;
+    }
+    
 }

@@ -9,19 +9,34 @@ package org.bungeni.editor.panels;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JTree;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.event.TreeWillExpandListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.ExpandVetoException;
+import javax.swing.tree.TreePath;
 import org.bungeni.db.toolbarAction;
+import org.bungeni.editor.actions.EditorActionFactory;
+import org.bungeni.editor.actions.IEditorActionEvent;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.db.BungeniClientDB;
+import org.bungeni.utils.CommonTreeFunctions;
 import org.bungeni.utils.Installation;
 import org.bungeni.db.QueryResults;
-import org.bungeni.utils.SettingsDb;
 import org.bungeni.db.SettingsQueryFactory;
+import org.bungeni.utils.MessageBox;
 
 /**
  *
@@ -34,6 +49,7 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
     public generalEditorPanel() {
         initComponents();
         loadToolbarButtons();
+        initTree();
     }
     
     /** This method is called from within the constructor to
@@ -68,16 +84,7 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
         return this;
     }
 
-    public ItoolbarButtonEvent getEventClass(String btnCommand) {
-        return new ItoolbarButtonEvent() {
 
-            public void doCommand(OOComponentHelper ooDocument) {
-            }
-
-            public void doCommand(OOComponentHelper ooDocument, String cmd) {
-            }
-        };
-    }
 
     public void actionPerformed(ActionEvent e) {
     }
@@ -111,54 +118,143 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
       //  static boolean bStart = false;
     }
     
-    toolbarAction baseAction;
+   class treeGeneralEditorTreeWillExpandListener implements TreeWillExpandListener {
+        public void treeWillExpand(TreeExpansionEvent evt) throws ExpandVetoException {
+            JTree tree = (JTree)evt.getSource();
+    
+            // Get the path that will be expanded
+            TreePath path = evt.getPath();
+            log.debug("tree will expand");
+            // Cancel the operation if desired
+            boolean veto = true;
+            if (veto) {
+                throw new ExpandVetoException(evt);
+            }
+        }
+    
+        public void treeWillCollapse(TreeExpansionEvent evt) throws ExpandVetoException {
+            JTree tree = (JTree)evt.getSource();
+    
+            // Get the path that will be collapsed
+            TreePath path = evt.getPath();
+            log.debug("tree will collapse");
+            // Cancel the operation if desired
+            boolean veto = true;
+            if (veto) {
+                throw new ExpandVetoException(evt);
+            }
+        }
+    }
+    
+    // Post-expansion/collapse event listener
+    public class treeGeneralEditorTreeExpansionListener implements TreeExpansionListener {
+        public void treeExpanded(TreeExpansionEvent evt) {
+            JTree tree = (JTree)evt.getSource();
+    
+            // Get the path that was expanded
+            TreePath path = evt.getPath();
+        }
+    
+        public void treeCollapsed(TreeExpansionEvent evt) {
+            JTree tree = (JTree)evt.getSource();
+    
+            // Get the path that was collapsed
+            TreePath path = evt.getPath();
+        }
+    }
+
+
+    class treeGeneralEditorSelectionListener implements MouseListener {
+        public void mouseClicked(MouseEvent e) {
+            if (e.getClickCount() == 2){
+            JTree tree = (JTree) e.getSource();
+            int xCoord = e.getX() ; int yCoord = e.getY();
+            TreePath path = tree.getPathForLocation(xCoord, yCoord);
+            DefaultMutableTreeNode selNode = (DefaultMutableTreeNode)path.getLastPathComponent();
+            toolbarAction selectedAction = (toolbarAction) selNode.getUserObject();
+            MessageBox.OK("action name = "+ selectedAction.action_name);
+            }
+        }
+
+        public void mousePressed(MouseEvent e) {
+        }
+
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        public void mouseEntered(MouseEvent e) {
+        }
+
+        public void mouseExited(MouseEvent e) {
+        }
+   
+    }
+    
+    private void initTree(){
+        treeGeneralEditor.addMouseListener(new treeGeneralEditorSelectionListener());
+        treeGeneralEditor.addTreeExpansionListener(new treeGeneralEditorTreeExpansionListener());
+        treeGeneralEditor.addTreeWillExpandListener(new treeGeneralEditorTreeWillExpandListener());
+    }
+    
     public void loadToolbarButtons() {
         
-        //toolbarGeneralToolbar.setFloatable(false);
-        //toolbarSectionButtons.setBorder(contentBorder);
-        //toolbarGeneralToolbar.setRollover(true);
-        //toolbarGeneralToolbar.setOpaque(false);
         log.debug("in loadToolbarButtons");
         Installation install = new Installation();
         String installDirectory = install.getAbsoluteInstallDir();
         BungeniClientDB instance = new BungeniClientDB(installDirectory + File.separator + "settings" + File.separator + "db" + File.separator, "");
-        
+        toolbarAction rootAction = new toolbarAction("rootAction");
+        DefaultMutableTreeNode rootNode= new DefaultMutableTreeNode(rootAction);
         if (instance.Connect()) {
-            log.debug("db connected");
-           Vector<Vector> results = new Vector<Vector>();
-           //query the db for the parent level buttons
-           results = instance.Query(SettingsQueryFactory.Q_FETCH_PARENT_TOOLBAR_ACTIONS());
-           log.debug("no.of results = "+ results.size());
+            createToolNodes(rootNode, rootAction, instance );
+            instance.EndConnect();
+        }
+        treeGeneralEditor.setModel(new DefaultTreeModel(rootNode));
+        CommonTreeFunctions.expandAll(treeGeneralEditor, true);
+    }
+    
+    private void createToolNodes(DefaultMutableTreeNode baseNode, toolbarAction baseNodeAction, BungeniClientDB instance) {
+        
+        String actionParent = baseNodeAction.action_name;
+        log.debug("createToolNodes for : " + actionParent);
+        Vector<Vector> results = new Vector<Vector>();
+        //DefaultMutableTreeNode child = new DefaultMutableTreeNode (addThisActionObject);
+        
+        //addToThisNode.add( child);
+        log.debug("createToolNodes - query : " + SettingsQueryFactory.Q_FETCH_CHILD_TOOLBAR_ACTIONS(actionParent));
+        results = instance.Query(SettingsQueryFactory.Q_FETCH_CHILD_TOOLBAR_ACTIONS(actionParent));
+        
+        QueryResults query_results = new QueryResults(results);
+        HashMap columns = query_results.columnNameMap();
            
-           QueryResults query_results = new QueryResults (results);
-           log.debug("Query has results = "+ (query_results.hasResults()? "true":"false" ));
-           int nLevel = 0;
-           if (query_results.hasResults() ) {
-               results = query_results.theResults();
-               //query_results.print_columns();
-               //toolbarAction actionRoot = new toolbarAction("rootNode");
-               
-               HashMap columns = query_results.columnNameMap();
+        if (query_results.hasResults()) {
+            log.debug("createToolNodes: has children");
+            //child actions are present
+            //call the result nodes recursively...
+            query_results.theResults();
                for (int i = 0 ; i < results.size(); i++ ) {
                    //get the results row by row into a string vector
-                   Vector<String> tableRow = new Vector<String>();
+                   Vector<java.lang.String> tableRow = new Vector<java.lang.String>();
                    tableRow = results.elementAt(i);
-                   //addToTree (tableRow, columns);
-                   toolbarAction action = new toolbarAction(tableRow, columns);
-                  
-                    //action.brains();
-                   System.out.println(" ");
-                   //results are contained in the tableRow object
-                   //row by row...
-                //System.out.println(" action order = " + query_results.getColumnIndex("ACTION_ORDER"));
-                //System.out.println(" action name = " + query_results.getColumnIndex("ACTION_NAME"));
+                   toolbarAction action = new toolbarAction(tableRow, columns );
+                   DefaultMutableTreeNode child = new DefaultMutableTreeNode(action);
+                   baseNode.add(child);
+                   log.debug("createToolNodes : recursing child nodes");
+                   createToolNodes (child, action, instance);
                }
-               
-           } 
-        } else {
-            log.debug("connection failed ");
-        }
+        } 
+        log.debug("createToolNodes : popping from recrusive level");
+        return ;
     }
+
+    public IEditorActionEvent getEventClass(toolbarAction action) {
+        IEditorActionEvent event = EditorActionFactory.getEventClass(action);
+        return event;
+    }
+
+    
+
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane generalEditorScrollPane;
     private javax.swing.JTree treeGeneralEditor;

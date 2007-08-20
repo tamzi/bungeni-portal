@@ -10,7 +10,7 @@ ZopeVersionControl svn://svn.zope.org/repos/main/Products.ZopeVersionControl/tru
 CMFEditions https://svn.plone.org/svn/collective/CMFEditions/branches/1.0
 CMFDiffTool http://svn.plone.org/svn/collective/CMFDiffTool/branches/0.2
 Calendaring https://svn.plone.org/svn/collective/Calendaring/trunk
-ATVocabularyManager https://svn.plone.org/svn/archetypes/ATVocabularyManager
+ATVocabularyManager https://svn.plone.org/svn/archetypes/ATVocabularyManager/trunk
 iterate https://svn.objectrealms.net/svn/public/iterate/branches/0.3-plone-2.1-2.5
 membrane https://svn.plone.org/svn/collective/membrane/trunk
 remember https://svn.plone.org/svn/collective/remember/trunk

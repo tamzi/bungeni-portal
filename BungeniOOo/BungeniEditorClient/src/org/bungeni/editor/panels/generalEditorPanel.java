@@ -121,8 +121,6 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
    class treeGeneralEditorTreeWillExpandListener implements TreeWillExpandListener {
         public void treeWillExpand(TreeExpansionEvent evt) throws ExpandVetoException {
             JTree tree = (JTree)evt.getSource();
-    
-            // Get the path that will be expanded
             TreePath path = evt.getPath();
             log.debug("tree will expand");
             // Cancel the operation if desired
@@ -150,7 +148,6 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
     public class treeGeneralEditorTreeExpansionListener implements TreeExpansionListener {
         public void treeExpanded(TreeExpansionEvent evt) {
             JTree tree = (JTree)evt.getSource();
-    
             // Get the path that was expanded
             TreePath path = evt.getPath();
         }
@@ -172,7 +169,8 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
             TreePath path = tree.getPathForLocation(xCoord, yCoord);
             DefaultMutableTreeNode selNode = (DefaultMutableTreeNode)path.getLastPathComponent();
             toolbarAction selectedAction = (toolbarAction) selNode.getUserObject();
-            MessageBox.OK("action name = "+ selectedAction.action_name);
+            IEditorActionEvent event = getEventClass(selectedAction);
+            event.doCommand(ooDocument, selectedAction);
             }
         }
 

@@ -25,15 +25,14 @@ public class EditorActionFactory extends Object {
     public static IEditorActionEvent getEventClass(toolbarAction action) {
       IEditorActionEvent eventHandler = null;
        try {
-      Class eventHandlerClass;
-       
-            eventHandlerClass = Class.forName(action.action_class());
-       
-      eventHandler = (IEditorActionEvent) eventHandlerClass.newInstance();
+             log.debug("getEventClass: creating event class"+ action.action_class());
+             Class eventHandlerClass;
+             eventHandlerClass = Class.forName(action.action_class());
+             eventHandler = (IEditorActionEvent) eventHandlerClass.newInstance();
        } catch (ClassNotFoundException ex) {
            log.debug("getEventClass:"+ ex.getMessage());
         } finally {
-            return eventHandler;
+             return eventHandler;
         }
     }
 }

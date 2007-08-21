@@ -23,78 +23,78 @@ EXISTING_SITE_CONTENT = (
         )
 
 DEFAULT_SITE_CONTENT = (
-        {'title': 'Business', 'type': 'Folder', 'children': (
-            {'id': 'index_html', 'title': 'Business', 'type': 'Document', 'text': 'Documents about parliamentary business'+LOREM_IPSUM, },
-            {'title': 'Chamber', 'type': 'Folder', 'children': (
-                {'title': 'Business Bulletin', 'text': 'Text about Business Bulletin'+LOREM_IPSUM, 'type': 'Document'}, 
-                {'title': 'Debate Report', 'text': 'Text about Debate Report'+LOREM_IPSUM, 'type': 'Document'}, 
-                {'title': 'Minutes of Proceedings', 'text': 'Text about Minutes of Proceedings'+LOREM_IPSUM, 'type': 'Document'}, 
-                {'title': 'Tabled Documents', 'text': 'Text about Tabled Documents'+LOREM_IPSUM, 'type': 'Document'}, 
-                {'title': 'Voting Records', 'text': 'Text about Voting Records'+LOREM_IPSUM, 'type': 'Document'}, 
-                {'title': 'Attendance List', 'text': 'Text about Attendance List'+LOREM_IPSUM, 'type': 'Document'}, 
+        {'title': 'Business', 'portal_type': 'Folder', 'children': (
+            {'id': 'index_html', 'title': 'Business', 'portal_type': 'Document', 'text': 'Documents about parliamentary business'+LOREM_IPSUM, },
+            {'title': 'Chamber', 'portal_type': 'Folder', 'children': (
+                {'title': 'Business Bulletin', 'text': 'Text about Business Bulletin'+LOREM_IPSUM, 'portal_type': 'Document'}, 
+                {'title': 'Debate Report', 'text': 'Text about Debate Report'+LOREM_IPSUM, 'portal_type': 'Document'}, 
+                {'title': 'Minutes of Proceedings', 'text': 'Text about Minutes of Proceedings'+LOREM_IPSUM, 'portal_type': 'Document'}, 
+                {'title': 'Tabled Documents', 'text': 'Text about Tabled Documents'+LOREM_IPSUM, 'portal_type': 'Document'}, 
+                {'title': 'Voting Records', 'text': 'Text about Voting Records'+LOREM_IPSUM, 'portal_type': 'Document'}, 
+                {'title': 'Attendance List', 'text': 'Text about Attendance List'+LOREM_IPSUM, 'portal_type': 'Document'}, 
                 ),},
-            {'title': 'Committees', 'type': 'Topic', 'children': (
-                # {'type': 'ATPortalTypeCriterion', 'field': 'Type', 'value': 'Team', 'operator': 'and'},
+            {'title': 'Committees', 'portal_type': 'Topic', 'children': (
+                # {'portal_type': 'ATPortalTypeCriterion', 'field': 'portal_type', 'value': 'Team', 'operator': 'and'},
                 ),},
-            {'title': 'Bills', 'text': 'Text about Bills'+LOREM_IPSUM, 'type': 'Document'},
-            {'title': 'Motions', 'text': 'Text about Motions'+LOREM_IPSUM, 'type': 'Document'},
-            {'title': 'Questions', 'text': 'Text about Questions'+LOREM_IPSUM, 'type': 'Document'},
-            {'title': 'Events', 'text': 'Text about Events'+LOREM_IPSUM, 'type': 'Document'},
-            {'title': 'Scheduled business', 'type': 'Topic', 'children': (
-                {'type': 'ATPortalTypeCriterion', 'field': 'Type', 'value': ['Question', 'Motion'], },
-                {'type': 'ATSimpleStringCriterion', 'field': 'review_state', 'value': 'published', },
-                {'type': 'ATFriendlyDateCriteria', 'field': 'start', 'value': 0, 'operation': 'more', 'dateRange': '+'},
-                {'type': 'ATSortCriterion', 'field': 'start', },
+            {'title': 'Bills', 'text': 'Text about Bills'+LOREM_IPSUM, 'portal_type': 'Document'},
+            {'title': 'Motions', 'text': 'Text about Motions'+LOREM_IPSUM, 'portal_type': 'Document'},
+            {'title': 'Questions', 'text': 'Text about Questions'+LOREM_IPSUM, 'portal_type': 'Document'},
+            {'title': 'Events', 'text': 'Text about Events'+LOREM_IPSUM, 'portal_type': 'Document'},
+            {'title': 'Scheduled business', 'portal_type': 'Topic', 'children': (
+                {'portal_type': 'ATPortalTypeCriterion', 'field': 'portal_type', 'value': ['Question', 'Motion'], },
+                {'portal_type': 'ATSimpleStringCriterion', 'field': 'review_state', 'value': 'published', },
+                {'portal_type': 'ATFriendlyDateCriteria', 'field': 'start', 'value': 0, 'operation': 'more', 'dateRange': '+'},
+                {'portal_type': 'ATSortCriterion', 'field': 'start', },
                 )}
             ),
         },
-        {'title': 'People', 'type': 'Folder', 'children': (
-            {'id': 'index_html', 'title': 'Parliament People', 'type': 'Document', 'text': 'Lists the MPs and staff. Use RichTopic?'+LOREM_IPSUM, },
+        {'title': 'People', 'portal_type': 'Folder', 'children': (
+            {'id': 'index_html', 'title': 'Parliament People', 'portal_type': 'Document', 'text': 'Lists the MPs and staff. Use RichTopic?'+LOREM_IPSUM, },
             )
         },
-        {'title': 'About', 'type': 'Folder', 'children': (
-            {'id': 'index_html', 'title': 'About the parliament', 'type': 'Document', 'text': 'Background information about the parliament'+LOREM_IPSUM,},
-            {'title': 'How it works', 'type': 'Folder', 'children': (
-                {'id': 'index_html', 'title': 'How it works', 'type': 'Document'},
-                # {'id': 'index_html', 'title': 'How it works', 'type': 'Dynamic Page'},
-                {'title': 'Parliamentary Procedure', 'text': 'Text about Parliamentary Procedure'+LOREM_IPSUM, 'type': 'Document'}, 
-                {'title': 'Standing Orders', 'text': 'Text about Standing Orders'+LOREM_IPSUM, 'type': 'Document'}, 
-                {'title': 'The Legislative Process', 'text': 'Text about The Legislative Process'+LOREM_IPSUM, 'type': 'Document'}, 
-                {'title': 'Oversight', 'text': 'Text about Oversight'+LOREM_IPSUM, 'type': 'Document'}, 
-                {'title': 'Guides', 'type': 'LongDocument', 'children': (
-                    {'title': 'Guide on Public Bills', 'text': 'Text about Guide on Public Bills'+LOREM_IPSUM, 'type': 'LongDocumentPage'}, 
-                    {'title': 'Guide on Private Bills', 'text': 'Text about Guide on Private Bills'+LOREM_IPSUM, 'type': 'LongDocumentPage'}, 
-                    {'title': 'Guide for Motions', 'text': 'Text about Guide for Motions'+LOREM_IPSUM, 'type': 'LongDocumentPage'}, 
-                    {'title': 'Guide for Parliamentary Questions', 'text': 'Text about Guide for Parliamentary Questions'+LOREM_IPSUM, 'type': 'LongDocumentPage'}, 
-                    {'title': 'Guide for Committee Conveners', 'text': 'Text about Guide for Committee Conveners'+LOREM_IPSUM, 'type': 'LongDocumentPage'}, 
-                    {'title': 'Guide on Committees', 'text': 'Text about Guide on Committees'+LOREM_IPSUM, 'type': 'LongDocumentPage'}, 
+        {'title': 'About', 'portal_type': 'Folder', 'children': (
+            {'id': 'index_html', 'title': 'About the parliament', 'portal_type': 'Document', 'text': 'Background information about the parliament'+LOREM_IPSUM,},
+            {'title': 'How it works', 'portal_type': 'Folder', 'children': (
+                {'id': 'index_html', 'title': 'How it works', 'portal_type': 'Document'},
+                # {'id': 'index_html', 'title': 'How it works', 'portal_type': 'Dynamic Page'},
+                {'title': 'Parliamentary Procedure', 'text': 'Text about Parliamentary Procedure'+LOREM_IPSUM, 'portal_type': 'Document'}, 
+                {'title': 'Standing Orders', 'text': 'Text about Standing Orders'+LOREM_IPSUM, 'portal_type': 'Document'}, 
+                {'title': 'The Legislative Process', 'text': 'Text about The Legislative Process'+LOREM_IPSUM, 'portal_type': 'Document'}, 
+                {'title': 'Oversight', 'text': 'Text about Oversight'+LOREM_IPSUM, 'portal_type': 'Document'}, 
+                {'title': 'Guides', 'portal_type': 'LongDocument', 'children': (
+                    {'title': 'Guide on Public Bills', 'text': 'Text about Guide on Public Bills'+LOREM_IPSUM, 'portal_type': 'LongDocumentPage'}, 
+                    {'title': 'Guide on Private Bills', 'text': 'Text about Guide on Private Bills'+LOREM_IPSUM, 'portal_type': 'LongDocumentPage'}, 
+                    {'title': 'Guide for Motions', 'text': 'Text about Guide for Motions'+LOREM_IPSUM, 'portal_type': 'LongDocumentPage'}, 
+                    {'title': 'Guide for Parliamentary Questions', 'text': 'Text about Guide for Parliamentary Questions'+LOREM_IPSUM, 'portal_type': 'LongDocumentPage'}, 
+                    {'title': 'Guide for Committee Conveners', 'text': 'Text about Guide for Committee Conveners'+LOREM_IPSUM, 'portal_type': 'LongDocumentPage'}, 
+                    {'title': 'Guide on Committees', 'text': 'Text about Guide on Committees'+LOREM_IPSUM, 'portal_type': 'LongDocumentPage'}, 
                     )}, 
                 )}, 
-            {'title': 'History', 'text': 'Text about History'+LOREM_IPSUM, 'type': 'Document'}, 
-            {'title': 'How to visit', 'text': 'Text about How to visit'+LOREM_IPSUM, 'type': 'Document'}, 
-            {'title': 'How to participate', 'text': 'Text about How to participate'+LOREM_IPSUM, 'type': 'Document'}, 
-            {'title': 'Learning resources', 'text': 'Text about Learning resources'+LOREM_IPSUM, 'type': 'Document'}, 
-            {'title': 'Pictures', 'type': 'Folder', 'layout': 'atct_album_view'},
+            {'title': 'History', 'text': 'Text about History'+LOREM_IPSUM, 'portal_type': 'Document'}, 
+            {'title': 'How to visit', 'text': 'Text about How to visit'+LOREM_IPSUM, 'portal_type': 'Document'}, 
+            {'title': 'How to participate', 'text': 'Text about How to participate'+LOREM_IPSUM, 'portal_type': 'Document'}, 
+            {'title': 'Learning resources', 'text': 'Text about Learning resources'+LOREM_IPSUM, 'portal_type': 'Document'}, 
+            {'title': 'Pictures', 'portal_type': 'Folder', 'layout': 'atct_album_view'},
             )
         },
-        {'title': 'Publications', 'type': 'Folder', 'children': (
-            {'id': 'index_html', 'title': 'Publications', 'type': 'Document', 'text': 'Publications include legislation and hansard.'+LOREM_IPSUM},
+        {'title': 'Publications', 'portal_type': 'Folder', 'children': (
+            {'id': 'index_html', 'title': 'Publications', 'portal_type': 'Document', 'text': 'Publications include legislation and hansard.'+LOREM_IPSUM},
             )
         },
-        {'title': 'Organisation', 'type': 'Folder', 'children': (
-            {'id': 'index_html', 'title': 'Organisation', 'type': 'Document', 'text': 'The parliament is structured as follows ...'+LOREM_IPSUM, },
+        {'title': 'Organisation', 'portal_type': 'Folder', 'children': (
+            {'id': 'index_html', 'title': 'Organisation', 'portal_type': 'Document', 'text': 'The parliament is structured as follows ...'+LOREM_IPSUM, },
             )
         },
-        {'title': 'Help', 'type': 'HelpFolder', 'children': (
-                {'id': 'index_html', 'title': 'Help', 'type': 'Document', 'text': 'Some helpful text to explain how to get around in the site. '},
-                {'title': 'FAQ', 'type': 'HelpCenterFAQFolder', 'children': (
-                    {'title': 'How can I find out the name of my Member of Parliament?', 'answer': 'Use our Find your MP service to identify the name of your MP.', 'type': 'HelpCenterFAQ'},
-                    {'title': 'Who is the youngest MP?', 'answer': 'The youngest MP is Jo Swinson, MP for East Dunbartonshire (DOB 05.02.80)', 'type': 'HelpCenterFAQ'},
-                    {'title': 'How can I contact my Member of Parliament?', 'answer': '''MPs may be contacted at the House of Commons, London, SW1A 0AA. It is usually a good idea to write to your MP in the first instance, so that you can explain things clearly and so that your MP will have written details of your case. However, if you would like to speak to your MP's office at the House of Commons, please telephone the switchboard (020 7219 3000) and ask to be transferred to the appropriate office. The switchboard can also take a message for your MP.\n\nIf you wish to e-mail your MP, please check the Alphabetical List of Members of Parliament. Where MPs have requested a link to their e-mail, it is given in the right-hand column.''', 'type': 'HelpCenterFAQ'}
+        {'title': 'Help', 'portal_type': 'HelpFolder', 'children': (
+                {'id': 'index_html', 'title': 'Help', 'portal_type': 'Document', 'text': 'Some helpful text to explain how to get around in the site. '},
+                {'title': 'FAQ', 'portal_type': 'HelpCenterFAQFolder', 'children': (
+                    {'title': 'How can I find out the name of my Member of Parliament?', 'answer': 'Use our Find your MP service to identify the name of your MP.', 'portal_type': 'HelpCenterFAQ'},
+                    {'title': 'Who is the youngest MP?', 'answer': 'The youngest MP is Jo Swinson, MP for East Dunbartonshire (DOB 05.02.80)', 'portal_type': 'HelpCenterFAQ'},
+                    {'title': 'How can I contact my Member of Parliament?', 'answer': '''MPs may be contacted at the House of Commons, London, SW1A 0AA. It is usually a good idea to write to your MP in the first instance, so that you can explain things clearly and so that your MP will have written details of your case. However, if you would like to speak to your MP's office at the House of Commons, please telephone the switchboard (020 7219 3000) and ask to be transferred to the appropriate office. The switchboard can also take a message for your MP.\n\nIf you wish to e-mail your MP, please check the Alphabetical List of Members of Parliament. Where MPs have requested a link to their e-mail, it is given in the right-hand column.''', 'portal_type': 'HelpCenterFAQ'}
                     )},
-                {'title': 'Glossary', 'type': 'HelpCenterGlossary', 'children': (
-                    {'title': 'Abstain', 'description': 'To abstain is to refuse to take sides in a vote.  However, abstentions are not officially recorded in the House of Commons or House of Lords.', 'type': 'HelpCenterDefinition'},
-                    {'title': 'Yeomen of the Guard (Beefeaters)', 'description': '''Before the State Opening of Parliament, the Yeomen of the Guard search the cellars of the Palace of Westminster to ensure that there is no repeat of the Gunpowder Conspiracy, when Guy Fawkes was arrested in the cellars attempting to blow up the Palace.\n\nThe Yeomen of the Guard are a military corps founded by Henry VII in 1485 and since then they have been the bodyguard of the Monarch although their duties today are purely ceremonial.''', 'type': 'HelpCenterDefinition'}
+                {'title': 'Glossary', 'portal_type': 'HelpCenterGlossary', 'children': (
+                    {'title': 'Abstain', 'description': 'To abstain is to refuse to take sides in a vote.  However, abstentions are not officially recorded in the House of Commons or House of Lords.', 'portal_type': 'HelpCenterDefinition'},
+                    {'title': 'Yeomen of the Guard (Beefeaters)', 'description': '''Before the State Opening of Parliament, the Yeomen of the Guard search the cellars of the Palace of Westminster to ensure that there is no repeat of the Gunpowder Conspiracy, when Guy Fawkes was arrested in the cellars attempting to blow up the Palace.\n\nThe Yeomen of the Guard are a military corps founded by Henry VII in 1485 and since then they have been the bodyguard of the Monarch although their duties today are purely ceremonial.''', 'portal_type': 'HelpCenterDefinition'}
                     )}
                 )
         },
@@ -111,261 +111,261 @@ DEFAULT_SITE_CONTENT = (
 #
 DEFAULT_MEMBERS = (
 #         # MPs
-        {'salutation': '', 'firstname': "Umilii Hwai", 'surname': "Kibaki", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Upainitius Hises", 'surname': "Ukaranga", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Ubdullahi Ubrahim", 'surname': "Uli", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Julius Udenyi", 'surname': "Urungah", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Dr.', 'firstname': "Udhu ", 'surname': "Uwiti", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Urthur U.Hiidy", 'surname': "Uwiri", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Uchilli", 'surname': "Uyacki", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Majib Hihamed", 'surname': "Balala", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Wakili Sylvester", 'surname': "Bifwili", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Ulice Jematia Rinih", 'surname': "Chelaite", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Hirris Hwachindi", 'surname': "Dziri", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf', 'create_home_folder': 1},  #Kenya 
-        {'salutation': '', 'firstname': "Ukwee David", 'surname': "Uthuri", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "James Mderitu", 'surname': "Gachagua", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Ribinsin Mjeru", 'surname': "Githae", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Yattani Kanachi", 'surname': "Ukur", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Fredrick Umuli", 'surname': "Gumi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Hutahi", 'surname': "Kagwe", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Peter Kyali", 'surname': "Kaindi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Seif Ramadhan", 'surname': "Kajembe", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Utieni Gerald", 'surname': "Kajwang'", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Haina", 'surname': "Kamanda", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jihn Jiseph", 'surname': "Kamithi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Daniel Dicksin", 'surname': "Karaba", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Gidfrey Gitahi", 'surname': "Kariuki", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Hirugi", 'surname': "Kariuki", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Ms', 'firstname': " Hartha Wangari", 'surname': "Karua", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "James Mjenga", 'surname': "Karume", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jihn Hutua", 'surname': "Katuku", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Gitura", 'surname': "Kembi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Peter", 'surname': "Kenneth", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Hihamed", 'surname': "Khalif", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Basiye Binny", 'surname': "Khalwale", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Lyula Daniel", 'surname': "Khamasi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jiseph Hatani", 'surname': "Khamisi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Geirge Hunyasa", 'surname': "Khaniri", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Dr.', 'firstname': "Unich Wamalwa ", 'surname': "Kibunguchy", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Prof.', 'firstname': "Kivutha", 'surname': "Kibwana", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jayne", 'surname': "Kihara", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Linah Jebii", 'surname': "Kilimi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "C.H.", 'surname': "Kilinzi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Umis Huhinga", 'surname': "Kimunya", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jiseph Kahindi", 'surname': "Kingi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Kipruti Rini Urap", 'surname': "Kirwa", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Dr.', 'firstname': "Hukhisa", 'surname': "Kituyi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "F.Hwangi", 'surname': "Kiunjuri", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Husikari Mazi", 'surname': "Kimbi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Gidein Sitelu", 'surname': "Kinchella", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Mewtin Wanjala", 'surname': "Kulundu", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Simin Kanyingi", 'surname': "Kuria", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Undrew Mdiili .", 'surname': "Ligale", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Wangari Huta", 'surname': "Haathai", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Wilfred gisuka", 'surname': "Hachage", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Lucas Baya Hweni", 'surname': "Haitha", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Prof.', 'firstname': "Christine Ubungu ", 'surname': "Hangi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Kenneth Utiati", 'surname': "Harende", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Bensin Utwiku", 'surname': "Hbai", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Ulias Peter", 'surname': "Hbau", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jihn Mjirige", 'surname': "Hichuki", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Washingtin Jakiyi", 'surname': "Hidiwi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Kirugi Laibin", 'surname': "H'Hkukindia", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Petkay Shen Hiriti", 'surname': "H'Mkiria", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Geiffrey Gachara", 'surname': "Huchiri", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Mrs.', 'firstname': "Beth Wambui", 'surname': "Hugi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Patrick Kariuki", 'surname': "Huiruri", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Hacharia", 'surname': "Hukiri", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Dansin Buya", 'surname': "Hungatana", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jiseph Kinzilli", 'surname': "Hunyai", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jihn Kiying'a", 'surname': "Hunyes", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Peter Gichihi", 'surname': "Huriithi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Karue Huriuki", 'surname': "Huriuki", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Raphael", 'surname': "Huriungi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Christipher Mdarathi", 'surname': "Hurungaru", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Kiraitu", 'surname': "Hurungi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "David", 'surname': "Husila", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Stephen Kalinzi", 'surname': "Husyika", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jihn Hutinda", 'surname': "Hutisi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Chirau Uli", 'surname': "Hwakwere", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Unesmus Kihara", 'surname': "Hwangi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Fredrick Daudi", 'surname': "Hwanzia", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Winfred Myiva", 'surname': "Hwendwa", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "David S.Kamau", 'surname': "Hwenje", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Daudi", 'surname': "Hwiraria", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Valerian Kilemi", 'surname': "Hwiria", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Richard Kalembe", 'surname': "Mdile", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Reuben Uwini Myanginya", 'surname': "Mdili", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf', 'create_home_folder': 1},  #Kenya 
-        {'salutation': '', 'firstname': "Peter Mjeru", 'surname': "Mwiga", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Mrs', 'firstname': " Charity Kaluki", 'surname': "Mgilu", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Ubdallah Jumaa", 'surname': "Mgizi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "William Ringira Ule", 'surname': "Mtimama", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jiseph William Mthiga", 'surname': "Myagah", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Mirman H.G.K.", 'surname': "Myagah", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Uric Upin", 'surname': "Myamunga", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Peter Unyang'", 'surname': "Mying'i", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Eng.', 'firstname': "Raila Umili ", 'surname': "Udinga", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Peter Uchieng", 'surname': "Udiyi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Uburu", 'surname': "Uginga", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Tibias Uchila-Ugur", 'surname': "Urai", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Sispeter Udeke", 'surname': "Ujaamingsin", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jishua Urwa", 'surname': "Ujide", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Phillip Ukith", 'surname': "Ukundi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Prof.', 'firstname': "Patrick Uyiechi", 'surname': "Ulweny", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Herman Udhiambi", 'surname': "Umamba", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Ken", 'surname': "Myagudi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "William Upindi", 'surname': "Umindi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Stephen Ulliys Uluich", 'surname': "Undiek", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Wycliffe Umbetsa", 'surname': "Uparanya", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Wycliffe", 'surname': "Usundwa", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Paddy", 'surname': "Uhenda", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Charles Uyugi", 'surname': "Uwini", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "J.K.", 'surname': "Hetiti", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Prof.', 'firstname': "Geirge", 'surname': "Saititi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Ubdi Tari", 'surname': "Sasura", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Suleiman Rashid", 'surname': "Shakimbi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Uric Gir", 'surname': "Sungu", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Zaddick Hadiri", 'surname': "Syingih", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Stephen Kipkiyeny", 'surname': "Tarus", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jishua Mgugi", 'surname': "Tiri", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Raphael", 'surname': "Tuju", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Hwangi K.", 'surname': "Waithaka", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Davies", 'surname': "Makitare", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Hartin Myaga", 'surname': "Wambira", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Uthanas Hisiki Wafula", 'surname': "Wamunyinyi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Kiigi", 'surname': "Wamwere", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Raphael Bitta Sauti", 'surname': "Wanjala", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Dr', 'firstname': " Miah Hahalang'ang'a", 'surname': "Wekesa", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "David Uiki", 'surname': "Were", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Hises Hasika", 'surname': "Wetangula", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Samuel Urthur", 'surname': "Weya", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Peter Ulii", 'surname': "Uringi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Franklin", 'surname': "Bett", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Cecily", 'surname': "Hbarire", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Udelina Mdeti", 'surname': "Hwau", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Mjiki", 'surname': "Mdung'u", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Julia", 'surname': "Ujiambi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Betty Mjeri", 'surname': "Tett", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Uli Hassan", 'surname': "Ubdirahman", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Francis Uwatin", 'surname': "Uchuka", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Uli Ubdul", 'surname': "Bahari", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Udan Keriw", 'surname': "Billiw", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Michilas Kiprini Kipyatir", 'surname': "Biwitt", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "William Kiplumbei", 'surname': "Biit", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Hises Kipkembii", 'surname': "Chebii", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Lucas Kipkisgei", 'surname': "Chepkitiny", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jimmy", 'surname': "Chige", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Ubdullahi Sheikh", 'surname': "Dahir", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Dr.', 'firstname': "Gurrach Biru ", 'surname': "Galgalli", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Hihamed Yusuf", 'surname': "Haji", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Uhuru Huigai", 'surname': "Kenyatta", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Charles Cheruiyit", 'surname': "Keter", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "James Visciunt", 'surname': "Kimathi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Unthiny Kipkisge", 'surname': "Kimeti", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jiseph Lagat", 'surname': "Kipchumba", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jihn Kipsang arap", 'surname': "Kiech", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Sammy Cheruiyit", 'surname': "Kiech", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Hugava Tila", 'surname': "Kifa", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf', 'create_home_folder': 1},  #Kenya 
-        {'salutation': '', 'firstname': "Jiseph Kipkapti", 'surname': "Kirir", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "David Kiptanui", 'surname': "Kiris", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Henry Kiprini.", 'surname': "Kiskey", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Hihamed Ubdi", 'surname': "Kuti", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Prisa Sammy", 'surname': "Leshire", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Simein Saimanga", 'surname': "Lesirma", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Rtd Maj.', 'firstname': "Hardsen Herman", 'surname': "Hadika", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Urthur Kinyanjui", 'surname': "Hagugu", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Richard Haika", 'surname': "Haire", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Biniface", 'surname': "Hganga", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Hussein Haalim", 'surname': "Hihamed", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Ubdi Hihamud", 'surname': "Hihamed", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Hihamed Ubdi Haji", 'surname': "Hihamed", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Chiaba', 'firstname': "Ubu ", 'surname': "Hihamed", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Gidein K.Tiwett", 'surname': "Hii", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Samuel Chumel", 'surname': "Hiriti", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Justin Bedan Mjika", 'surname': "Huturi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Gidein Husyika", 'surname': "Mdambuki", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Ulfred Hwangi", 'surname': "Mderitu", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jiseph", 'surname': "Lekutin", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Kasaine Jiseph", 'surname': "Mkaisserry", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Stephen Kanyinke", 'surname': "Mtutu", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Chrysanthus", 'surname': "Ukemi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Samuel Lisurin", 'surname': "Pighisii", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Phillip Ruti", 'surname': "Ritini", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "William Samiei", 'surname': "Ruti", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Dr.', 'firstname': "Sammy Kipkembii .", 'surname': "Rutti", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Michilas Kiptii Kirir", 'surname': "Salat", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jihn Kipkirir", 'surname': "Sambu", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Kipkirir Harisin", 'surname': "Sang", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jihn Bimet", 'surname': "Serut", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Dr.', 'firstname': "Maimi Mamsi ", 'surname': "Shaban", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Uli Usaack", 'surname': "Shaaban", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Husa Cherutich", 'surname': "Sirma", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Uhmed Uden", 'surname': "Sugiw", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "David Kiprini Sutter", 'surname': "Sudi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Mindin Miah arap", 'surname': "Tii", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Fahim Yasin", 'surname': "Twaha", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Uli", 'surname': "Warii", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Umina", 'surname': "Ubdalla", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Dr.', 'firstname': "Usther ", 'surname': "Keini", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Hutula", 'surname': "Kilinzi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': 'Prof.', 'firstname': "Ruth ", 'surname': "Uniangi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
-        {'salutation': '', 'firstname': "Jimmy Muru Undieki", 'surname': "Ungwenyi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Usiman Ubingitum", 'surname': "Kamama", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Julius Kiema", 'surname': "Kilinzi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "James Umingi", 'surname': "Hagara", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': 'Dr.', 'firstname': "Hezrin ", 'surname': "Handuku", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Stephen Kengere", 'surname': "Haniti", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Gidfrey Ukeri", 'surname': "Hasanya", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "J.D.Hghanga", 'surname': "Hwandawiri", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Simein", 'surname': "Myachae", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Henry Unyancha.", 'surname': "Ubwicha", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Samsin H.Myang'au", 'surname': "Ukiima", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Jiel Umagwa", 'surname': "Unyancha", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Jihn Zebedei", 'surname': "Upire", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Samuel Ginzi", 'surname': "Rai", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Peter Shitanda", 'surname': "Siita", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Kipkalia", 'surname': "Kines", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Paul Kibugi", 'surname': "Huite", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Peter Gatirau", 'surname': "Hunya", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Patrice Hwangu", 'surname': "Uvuti", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Francis Myamu", 'surname': "Kagwima", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "William Kabigi", 'surname': "Gitau", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Harrisin Garama", 'surname': "Kimbe", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': "Ummanuel Karisa", 'surname': "Haitha", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
-        {'salutation': '', 'firstname': 'Kausia F.X.Ule', 'surname': 'Kapari', 'type': 'Clerk', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'}, #Kenya 
+        {'salutation': '', 'firstname': "Umilii Hwai", 'surname': "Kibaki", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Upainitius Hises", 'surname': "Ukaranga", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Ubdullahi Ubrahim", 'surname': "Uli", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Julius Udenyi", 'surname': "Urungah", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Dr.', 'firstname': "Udhu ", 'surname': "Uwiti", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Urthur U.Hiidy", 'surname': "Uwiri", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Uchilli", 'surname': "Uyacki", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Majib Hihamed", 'surname': "Balala", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Wakili Sylvester", 'surname': "Bifwili", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Ulice Jematia Rinih", 'surname': "Chelaite", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Hirris Hwachindi", 'surname': "Dziri", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf', 'create_home_folder': 1},  #Kenya 
+        {'salutation': '', 'firstname': "Ukwee David", 'surname': "Uthuri", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "James Mderitu", 'surname': "Gachagua", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Ribinsin Mjeru", 'surname': "Githae", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Yattani Kanachi", 'surname': "Ukur", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Fredrick Umuli", 'surname': "Gumi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Hutahi", 'surname': "Kagwe", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Peter Kyali", 'surname': "Kaindi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Seif Ramadhan", 'surname': "Kajembe", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Utieni Gerald", 'surname': "Kajwang'", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Haina", 'surname': "Kamanda", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jihn Jiseph", 'surname': "Kamithi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Daniel Dicksin", 'surname': "Karaba", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Gidfrey Gitahi", 'surname': "Kariuki", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Hirugi", 'surname': "Kariuki", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Ms', 'firstname': " Hartha Wangari", 'surname': "Karua", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "James Mjenga", 'surname': "Karume", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jihn Hutua", 'surname': "Katuku", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Gitura", 'surname': "Kembi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Peter", 'surname': "Kenneth", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Hihamed", 'surname': "Khalif", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Basiye Binny", 'surname': "Khalwale", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Lyula Daniel", 'surname': "Khamasi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jiseph Hatani", 'surname': "Khamisi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Geirge Hunyasa", 'surname': "Khaniri", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Dr.', 'firstname': "Unich Wamalwa ", 'surname': "Kibunguchy", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Prof.', 'firstname': "Kivutha", 'surname': "Kibwana", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jayne", 'surname': "Kihara", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Linah Jebii", 'surname': "Kilimi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "C.H.", 'surname': "Kilinzi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Umis Huhinga", 'surname': "Kimunya", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jiseph Kahindi", 'surname': "Kingi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Kipruti Rini Urap", 'surname': "Kirwa", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Dr.', 'firstname': "Hukhisa", 'surname': "Kituyi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "F.Hwangi", 'surname': "Kiunjuri", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Husikari Mazi", 'surname': "Kimbi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Gidein Sitelu", 'surname': "Kinchella", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Mewtin Wanjala", 'surname': "Kulundu", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Simin Kanyingi", 'surname': "Kuria", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Undrew Mdiili .", 'surname': "Ligale", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Wangari Huta", 'surname': "Haathai", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Wilfred gisuka", 'surname': "Hachage", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Lucas Baya Hweni", 'surname': "Haitha", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Prof.', 'firstname': "Christine Ubungu ", 'surname': "Hangi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Kenneth Utiati", 'surname': "Harende", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Bensin Utwiku", 'surname': "Hbai", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Ulias Peter", 'surname': "Hbau", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jihn Mjirige", 'surname': "Hichuki", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Washingtin Jakiyi", 'surname': "Hidiwi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Kirugi Laibin", 'surname': "H'Hkukindia", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Petkay Shen Hiriti", 'surname': "H'Mkiria", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Geiffrey Gachara", 'surname': "Huchiri", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Mrs.', 'firstname': "Beth Wambui", 'surname': "Hugi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Patrick Kariuki", 'surname': "Huiruri", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Hacharia", 'surname': "Hukiri", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Dansin Buya", 'surname': "Hungatana", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jiseph Kinzilli", 'surname': "Hunyai", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jihn Kiying'a", 'surname': "Hunyes", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Peter Gichihi", 'surname': "Huriithi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Karue Huriuki", 'surname': "Huriuki", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Raphael", 'surname': "Huriungi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Christipher Mdarathi", 'surname': "Hurungaru", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Kiraitu", 'surname': "Hurungi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "David", 'surname': "Husila", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Stephen Kalinzi", 'surname': "Husyika", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jihn Hutinda", 'surname': "Hutisi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Chirau Uli", 'surname': "Hwakwere", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Unesmus Kihara", 'surname': "Hwangi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Fredrick Daudi", 'surname': "Hwanzia", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Winfred Myiva", 'surname': "Hwendwa", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "David S.Kamau", 'surname': "Hwenje", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Daudi", 'surname': "Hwiraria", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Valerian Kilemi", 'surname': "Hwiria", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Richard Kalembe", 'surname': "Mdile", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Reuben Uwini Myanginya", 'surname': "Mdili", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf', 'create_home_folder': 1},  #Kenya 
+        {'salutation': '', 'firstname': "Peter Mjeru", 'surname': "Mwiga", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Mrs', 'firstname': " Charity Kaluki", 'surname': "Mgilu", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Ubdallah Jumaa", 'surname': "Mgizi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "William Ringira Ule", 'surname': "Mtimama", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jiseph William Mthiga", 'surname': "Myagah", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Mirman H.G.K.", 'surname': "Myagah", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Uric Upin", 'surname': "Myamunga", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Peter Unyang'", 'surname': "Mying'i", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Eng.', 'firstname': "Raila Umili ", 'surname': "Udinga", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Peter Uchieng", 'surname': "Udiyi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Uburu", 'surname': "Uginga", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Tibias Uchila-Ugur", 'surname': "Urai", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Sispeter Udeke", 'surname': "Ujaamingsin", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jishua Urwa", 'surname': "Ujide", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Phillip Ukith", 'surname': "Ukundi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Prof.', 'firstname': "Patrick Uyiechi", 'surname': "Ulweny", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Herman Udhiambi", 'surname': "Umamba", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Ken", 'surname': "Myagudi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "William Upindi", 'surname': "Umindi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Stephen Ulliys Uluich", 'surname': "Undiek", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Wycliffe Umbetsa", 'surname': "Uparanya", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Wycliffe", 'surname': "Usundwa", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Paddy", 'surname': "Uhenda", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Charles Uyugi", 'surname': "Uwini", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "J.K.", 'surname': "Hetiti", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Prof.', 'firstname': "Geirge", 'surname': "Saititi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Ubdi Tari", 'surname': "Sasura", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Suleiman Rashid", 'surname': "Shakimbi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Uric Gir", 'surname': "Sungu", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Zaddick Hadiri", 'surname': "Syingih", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Stephen Kipkiyeny", 'surname': "Tarus", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jishua Mgugi", 'surname': "Tiri", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Raphael", 'surname': "Tuju", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Hwangi K.", 'surname': "Waithaka", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Davies", 'surname': "Makitare", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Hartin Myaga", 'surname': "Wambira", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Uthanas Hisiki Wafula", 'surname': "Wamunyinyi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Kiigi", 'surname': "Wamwere", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Raphael Bitta Sauti", 'surname': "Wanjala", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Dr', 'firstname': " Miah Hahalang'ang'a", 'surname': "Wekesa", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "David Uiki", 'surname': "Were", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Hises Hasika", 'surname': "Wetangula", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Samuel Urthur", 'surname': "Weya", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Peter Ulii", 'surname': "Uringi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Franklin", 'surname': "Bett", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Cecily", 'surname': "Hbarire", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Udelina Mdeti", 'surname': "Hwau", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Mjiki", 'surname': "Mdung'u", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Julia", 'surname': "Ujiambi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Betty Mjeri", 'surname': "Tett", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Uli Hassan", 'surname': "Ubdirahman", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Francis Uwatin", 'surname': "Uchuka", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Uli Ubdul", 'surname': "Bahari", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Udan Keriw", 'surname': "Billiw", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Michilas Kiprini Kipyatir", 'surname': "Biwitt", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "William Kiplumbei", 'surname': "Biit", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Hises Kipkembii", 'surname': "Chebii", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Lucas Kipkisgei", 'surname': "Chepkitiny", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jimmy", 'surname': "Chige", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Ubdullahi Sheikh", 'surname': "Dahir", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Dr.', 'firstname': "Gurrach Biru ", 'surname': "Galgalli", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Hihamed Yusuf", 'surname': "Haji", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Uhuru Huigai", 'surname': "Kenyatta", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Charles Cheruiyit", 'surname': "Keter", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "James Visciunt", 'surname': "Kimathi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Unthiny Kipkisge", 'surname': "Kimeti", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jiseph Lagat", 'surname': "Kipchumba", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jihn Kipsang arap", 'surname': "Kiech", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Sammy Cheruiyit", 'surname': "Kiech", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Hugava Tila", 'surname': "Kifa", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf', 'create_home_folder': 1},  #Kenya 
+        {'salutation': '', 'firstname': "Jiseph Kipkapti", 'surname': "Kirir", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "David Kiptanui", 'surname': "Kiris", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Henry Kiprini.", 'surname': "Kiskey", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Hihamed Ubdi", 'surname': "Kuti", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Prisa Sammy", 'surname': "Leshire", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Simein Saimanga", 'surname': "Lesirma", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Rtd Maj.', 'firstname': "Hardsen Herman", 'surname': "Hadika", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Urthur Kinyanjui", 'surname': "Hagugu", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Richard Haika", 'surname': "Haire", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Biniface", 'surname': "Hganga", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Hussein Haalim", 'surname': "Hihamed", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Ubdi Hihamud", 'surname': "Hihamed", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Hihamed Ubdi Haji", 'surname': "Hihamed", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Chiaba', 'firstname': "Ubu ", 'surname': "Hihamed", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Gidein K.Tiwett", 'surname': "Hii", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Samuel Chumel", 'surname': "Hiriti", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Justin Bedan Mjika", 'surname': "Huturi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Gidein Husyika", 'surname': "Mdambuki", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Ulfred Hwangi", 'surname': "Mderitu", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jiseph", 'surname': "Lekutin", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Kasaine Jiseph", 'surname': "Mkaisserry", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Stephen Kanyinke", 'surname': "Mtutu", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Chrysanthus", 'surname': "Ukemi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Samuel Lisurin", 'surname': "Pighisii", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Phillip Ruti", 'surname': "Ritini", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "William Samiei", 'surname': "Ruti", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Dr.', 'firstname': "Sammy Kipkembii .", 'surname': "Rutti", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Michilas Kiptii Kirir", 'surname': "Salat", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jihn Kipkirir", 'surname': "Sambu", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Kipkirir Harisin", 'surname': "Sang", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jihn Bimet", 'surname': "Serut", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Dr.', 'firstname': "Maimi Mamsi ", 'surname': "Shaban", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Uli Usaack", 'surname': "Shaaban", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Husa Cherutich", 'surname': "Sirma", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Uhmed Uden", 'surname': "Sugiw", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "David Kiprini Sutter", 'surname': "Sudi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Mindin Miah arap", 'surname': "Tii", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Fahim Yasin", 'surname': "Twaha", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Uli", 'surname': "Warii", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Umina", 'surname': "Ubdalla", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Dr.', 'firstname': "Usther ", 'surname': "Keini", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Hutula", 'surname': "Kilinzi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': 'Prof.', 'firstname': "Ruth ", 'surname': "Uniangi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},  #Kenya 
+        {'salutation': '', 'firstname': "Jimmy Muru Undieki", 'surname': "Ungwenyi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Usiman Ubingitum", 'surname': "Kamama", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Julius Kiema", 'surname': "Kilinzi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "James Umingi", 'surname': "Hagara", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': 'Dr.', 'firstname': "Hezrin ", 'surname': "Handuku", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Stephen Kengere", 'surname': "Haniti", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Gidfrey Ukeri", 'surname': "Hasanya", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "J.D.Hghanga", 'surname': "Hwandawiri", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Simein", 'surname': "Myachae", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Henry Unyancha.", 'surname': "Ubwicha", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Samsin H.Myang'au", 'surname': "Ukiima", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Jiel Umagwa", 'surname': "Unyancha", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Jihn Zebedei", 'surname': "Upire", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Samuel Ginzi", 'surname': "Rai", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Peter Shitanda", 'surname': "Siita", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Kipkalia", 'surname': "Kines", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Paul Kibugi", 'surname': "Huite", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Peter Gatirau", 'surname': "Hunya", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Patrice Hwangu", 'surname': "Uvuti", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Francis Myamu", 'surname': "Kagwima", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "William Kabigi", 'surname': "Gitau", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Harrisin Garama", 'surname': "Kimbe", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': "Ummanuel Karisa", 'surname': "Haitha", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},   #Kenya 
+        {'salutation': '', 'firstname': 'Kausia F.X.Ule', 'surname': 'Kapari', 'portal_type': 'Staff', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'}, #Kenya 
         # Demo users
-        {'salutation': 'Mr', 'firstname': '', 'surname': "Smith", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Prof.', 'firstname': '', 'surname': "Hzee", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Ms.', 'firstname': '', 'surname': "Hanga", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Mr.', 'firstname': '', 'surname': "Hak'Unyangi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Mr.', 'firstname': '', 'surname': "Handuku", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Ms.', 'firstname': '', 'surname': "Uchila", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Mr.', 'firstname': '', 'surname': "Criticis", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Mr.', 'firstname': '', 'surname': "Uluich", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Ms.', 'firstname': '', 'surname': "Mthenge", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Mr.', 'firstname': '', 'surname': "Hiiben", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Ms.', 'firstname': '', 'surname': "Barmasai", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Mr.', 'firstname': '', 'surname': "Myagah", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Mr.', 'firstname': '', 'surname': "Haire", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Mr.', 'firstname': '', 'surname': "Ubwicha", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Mr.', 'firstname': '', 'surname': "Shikuku", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Col.', 'firstname': '', 'surname': "Kiluta", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Mr.', 'firstname': '', 'surname': "Karan", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Dr.', 'firstname': '', 'surname': "Lwali-Uyindi", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Mr.', 'firstname': '', 'surname': "Farah", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Mr.', 'firstname': '', 'surname': "Falana", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'R.K.', 'firstname': '', 'surname': "Hungai", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Mr.', 'firstname': '', 'surname': "Ungatia", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Mr.', 'firstname': '', 'surname': "Wetangula", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': 'Mr.', 'firstname': '', 'surname': "Waki", 'type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Mr', 'firstname': '', 'surname': "Smith", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Prof.', 'firstname': '', 'surname': "Hzee", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Ms.', 'firstname': '', 'surname': "Hanga", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Hak'Unyangi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Handuku", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Ms.', 'firstname': '', 'surname': "Uchila", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Criticis", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Uluich", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Ms.', 'firstname': '', 'surname': "Mthenge", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Hiiben", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Ms.', 'firstname': '', 'surname': "Barmasai", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Myagah", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Haire", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Ubwicha", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Shikuku", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Col.', 'firstname': '', 'surname': "Kiluta", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Karan", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Dr.', 'firstname': '', 'surname': "Lwali-Uyindi", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Farah", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Falana", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'R.K.', 'firstname': '', 'surname': "Hungai", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Ungatia", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Wetangula", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Mr.', 'firstname': '', 'surname': "Waki", 'portal_type': 'MemberOfParliament', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
         # Clerks
-        {'salutation': '', 'firstname': 'Clerk', 'surname': "Falana", 'type': 'Clerk', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': '', 'firstname': 'Clerk', 'surname': "Hungai", 'type': 'Clerk', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': '', 'firstname': 'Clerk', 'surname': "Ungatia", 'type': 'Clerk', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': '', 'firstname': 'Clerk', 'surname': "Wetangula", 'type': 'Clerk', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
-        {'salutation': '', 'firstname': 'Clerk', 'surname': "Waki", 'type': 'Clerk', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': '', 'firstname': 'Clerk', 'surname': "Falana", 'portal_type': 'Staff', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': '', 'firstname': 'Clerk', 'surname': "Hungai", 'portal_type': 'Staff', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': '', 'firstname': 'Clerk', 'surname': "Ungatia", 'portal_type': 'Staff', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': '', 'firstname': 'Clerk', 'surname': "Wetangula", 'portal_type': 'Staff', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': '', 'firstname': 'Clerk', 'surname': "Waki", 'portal_type': 'Staff', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
         # Clerks (Speaker's office)
-        {'salutation': 'Clerk', 'firstname': '', 'surname': "Reviewer for speaker", 'type': 'Clerk', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
+        {'salutation': 'Clerk', 'firstname': '', 'surname': "Reviewer for speaker", 'portal_type': 'Staff', 'email': 'jean.jordaan@gmail.com', 'password': 'asdfasdf', 'confirm_password': 'asdfasdf'},
         )
 
 DEFAULT_GROUPS = (
@@ -381,614 +381,658 @@ DEFAULT_GROUPS = (
 
 # Some committees to play with
 DEFAULT_TEAMS = (
+
         #
-        # From Kenya registry
+        # From Kenya registry: Political parties
         #
-        {'title': 'NARC- National Rainbow Coalition', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': "Umilii Hwai", 'surname': "Kibaki", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Upainitius Hises", 'surname': "Ukaranga", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Ubdullahi Ubrahim", 'surname': "Uli", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Julius Udenyi", 'surname': "Urungah", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Udhu", 'surname': "Uwiti", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Urthur U.Hiidy", 'surname': "Uwiri", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Uchilli", 'surname': "Uyacki", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Majib Hihamed", 'surname': "Balala", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Wakili Sylvester", 'surname': "Bifwili", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Ulice Jematia Rinih", 'surname': "Chelaite", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hirris Hwachindi", 'surname': "Dziri", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Ukwee David", 'surname': "Uthuri", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "James Mderitu", 'surname': "Gachagua", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Ribinsin Mjeru", 'surname': "Githae", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Yattani Kanachi", 'surname': "Ukur", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Fredrick Umuli", 'surname': "Gumi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hutahi", 'surname': "Kagwe", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Peter Kyali", 'surname': "Kaindi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Seif Ramadhan", 'surname': "Kajembe", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Utieni Gerald", 'surname': "Kajwang'", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Haina", 'surname': "Kamanda", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jihn Jiseph", 'surname': "Kamithi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Daniel Dicksin", 'surname': "Karaba", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Gidfrey Gitahi", 'surname': "Kariuki", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hirugi", 'surname': "Kariuki", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hartha Wangari", 'surname': "Karua", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "James Mjenga", 'surname': "Karume", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jihn Hutua", 'surname': "Katuku", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Gitura", 'surname': "Kembi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Peter", 'surname': "Kenneth", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hihamed", 'surname': "Khalif", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Basiye Binny", 'surname': "Khalwale", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Lyula Daniel", 'surname': "Khamasi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jiseph Hatani", 'surname': "Khamisi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Geirge Hunyasa", 'surname': "Khaniri", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Unich Wamalwa", 'surname': "Kibunguchy", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Kivutha", 'surname': "Kibwana", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jayne", 'surname': "Kihara", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Linah Jebii", 'surname': "Kilimi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "C.H.", 'surname': "Kilinzi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Umis Huhinga", 'surname': "Kimunya", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jiseph Kahindi", 'surname': "Kingi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Kipruti Rini Urap", 'surname': "Kirwa", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hukhisa", 'surname': "Kituyi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "F.Hwangi", 'surname': "Kiunjuri", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Husikari Mazi", 'surname': "Kimbi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Gidein Sitelu", 'surname': "Kinchella", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Mewtin Wanjala", 'surname': "Kulundu", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Simin Kanyingi", 'surname': "Kuria", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Undrew Mdiili .", 'surname': "Ligale", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Wangari Huta", 'surname': "Haathai", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Wilfred gisuka", 'surname': "Hachage", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Lucas Baya Hweni", 'surname': "Haitha", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Christine Ubungu", 'surname': "Hangi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Kenneth Utiati", 'surname': "Harende", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Bensin Utwiku", 'surname': "Hbai", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Ulias Peter", 'surname': "Hbau", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jihn Mjirige", 'surname': "Hichuki", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Washingtin Jakiyi", 'surname': "Hidiwi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Kirugi Laibin", 'surname': "H'Hkukindia", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Petkay Shen Hiriti", 'surname': "H'Mkiria", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Geiffrey Gachara", 'surname': "Huchiri", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Beth Wambui", 'surname': "Hugi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Patrick Kariuki", 'surname': "Huiruri", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hacharia", 'surname': "Hukiri", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Dansin Buya", 'surname': "Hungatana", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jiseph Kinzilli", 'surname': "Hunyai", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jihn Kiying'a", 'surname': "Hunyes", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Peter Gichihi", 'surname': "Huriithi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Karue Huriuki", 'surname': "Huriuki", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Raphael", 'surname': "Huriungi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Christipher Mdarathi", 'surname': "Hurungaru", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Kiraitu", 'surname': "Hurungi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "David", 'surname': "Husila", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Stephen Kalinzi", 'surname': "Husyika", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jihn Hutinda", 'surname': "Hutisi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Chirau Uli", 'surname': "Hwakwere", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Unesmus Kihara", 'surname': "Hwangi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Fredrick Daudi", 'surname': "Hwanzia", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Winfred Myiva", 'surname': "Hwendwa", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "David S.Kamau", 'surname': "Hwenje", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Daudi", 'surname': "Hwiraria", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Valerian Kilemi", 'surname': "Hwiria", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Richard Kalembe", 'surname': "Mdile", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Reuben Uwini Myanginya", 'surname': "Mdili", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Peter Mjeru", 'surname': "Mwiga", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Charity Kaluki", 'surname': "Mgilu", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Ubdallah Jumaa", 'surname': "Mgizi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "William Ringira Ule", 'surname': "Mtimama", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jiseph William Mthiga", 'surname': "Myagah", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Mirman H.G.K.", 'surname': "Myagah", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Uric Upin", 'surname': "Myamunga", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Peter Unyang'", 'surname': "Mying'i", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Raila Umili", 'surname': "Udinga", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Peter Uchieng", 'surname': "Udiyi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Uburu", 'surname': "Uginga", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Tibias Uchila-Ugur", 'surname': "Urai", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Sispeter Udeke", 'surname': "Ujaamingsin", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jishua Urwa", 'surname': "Ujide", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Phillip Ukith", 'surname': "Ukundi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Patrick Uyiechi", 'surname': "Ulweny", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Herman Udhiambi", 'surname': "Umamba", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Ken", 'surname': "Myagudi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "William Upindi", 'surname': "Umindi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Stephen Ulliys Uluich", 'surname': "Undiek", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Wycliffe Umbetsa", 'surname': "Uparanya", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Wycliffe", 'surname': "Usundwa", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Paddy", 'surname': "Uhenda", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Charles Uyugi", 'surname': "Uwini", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "J.K.", 'surname': "Hetiti", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Geirge", 'surname': "Saititi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Ubdi Tari", 'surname': "Sasura", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Suleiman Rashid", 'surname': "Shakimbi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Uric Gir", 'surname': "Sungu", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Zaddick Hadiri", 'surname': "Syingih", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Stephen Kipkiyeny", 'surname': "Tarus", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jishua Mgugi", 'surname': "Tiri", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Raphael", 'surname': "Tuju", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hwangi K.", 'surname': "Waithaka", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Davies", 'surname': "Makitare", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hartin Myaga", 'surname': "Wambira", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Uthanas Hisiki Wafula", 'surname': "Wamunyinyi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Kiigi", 'surname': "Wamwere", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Raphael Bitta Sauti", 'surname': "Wanjala", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Miah Hahalang'ang'a", 'surname': "Wekesa", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "David Uiki", 'surname': "Were", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hises Hasika", 'surname': "Wetangula", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Samuel Urthur", 'surname': "Weya", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Peter Ulii", 'surname': "Uringi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Franklin", 'surname': "Bett", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Cecily", 'surname': "Hbarire", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Udelina Mdeti", 'surname': "Hwau", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Mjiki", 'surname': "Mdung'u", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Julia", 'surname': "Ujiambi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Betty Mjeri", 'surname': "Tett", 'type': 'Team Membership'},  #Kenya 
+        {'title': 'NARC- National Rainbow Coalition', 'portal_type': 'Party', 'children': ( #Kenya 
+            { 'firstname': "Umilii Hwai", 'surname': "Kibaki", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Upainitius Hises", 'surname': "Ukaranga", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Ubdullahi Ubrahim", 'surname': "Uli", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Julius Udenyi", 'surname': "Urungah", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Udhu", 'surname': "Uwiti", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Urthur U.Hiidy", 'surname': "Uwiri", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Uchilli", 'surname': "Uyacki", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Majib Hihamed", 'surname': "Balala", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Wakili Sylvester", 'surname': "Bifwili", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Ulice Jematia Rinih", 'surname': "Chelaite", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Hirris Hwachindi", 'surname': "Dziri", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Ukwee David", 'surname': "Uthuri", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "James Mderitu", 'surname': "Gachagua", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Ribinsin Mjeru", 'surname': "Githae", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Yattani Kanachi", 'surname': "Ukur", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Fredrick Umuli", 'surname': "Gumi", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Hutahi", 'surname': "Kagwe", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Peter Kyali", 'surname': "Kaindi", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Seif Ramadhan", 'surname': "Kajembe", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Utieni Gerald", 'surname': "Kajwang'", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Haina", 'surname': "Kamanda", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Jihn Jiseph", 'surname': "Kamithi", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Daniel Dicksin", 'surname': "Karaba", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Gidfrey Gitahi", 'surname': "Kariuki", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Hirugi", 'surname': "Kariuki", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Hartha Wangari", 'surname': "Karua", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "James Mjenga", 'surname': "Karume", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Jihn Hutua", 'surname': "Katuku", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Gitura", 'surname': "Kembi", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Peter", 'surname': "Kenneth", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Hihamed", 'surname': "Khalif", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Basiye Binny", 'surname': "Khalwale", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Lyula Daniel", 'surname': "Khamasi", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Jiseph Hatani", 'surname': "Khamisi", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Geirge Hunyasa", 'surname': "Khaniri", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Unich Wamalwa", 'surname': "Kibunguchy", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Kivutha", 'surname': "Kibwana", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Jayne", 'surname': "Kihara", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Linah Jebii", 'surname': "Kilimi", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "C.H.", 'surname': "Kilinzi", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Umis Huhinga", 'surname': "Kimunya", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Jiseph Kahindi", 'surname': "Kingi", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Kipruti Rini Urap", 'surname': "Kirwa", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Hukhisa", 'surname': "Kituyi", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "F.Hwangi", 'surname': "Kiunjuri", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Husikari Mazi", 'surname': "Kimbi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Gidein Sitelu", 'surname': "Kinchella", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Mewtin Wanjala", 'surname': "Kulundu", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Simin Kanyingi", 'surname': "Kuria", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Undrew Mdiili .", 'surname': "Ligale", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Wangari Huta", 'surname': "Haathai", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Wilfred gisuka", 'surname': "Hachage", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Lucas Baya Hweni", 'surname': "Haitha", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Christine Ubungu", 'surname': "Hangi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Kenneth Utiati", 'surname': "Harende", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Bensin Utwiku", 'surname': "Hbai", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Ulias Peter", 'surname': "Hbau", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Jihn Mjirige", 'surname': "Hichuki", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Washingtin Jakiyi", 'surname': "Hidiwi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Kirugi Laibin", 'surname': "H'Hkukindia", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Petkay Shen Hiriti", 'surname': "H'Mkiria", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Geiffrey Gachara", 'surname': "Huchiri", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Beth Wambui", 'surname': "Hugi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Patrick Kariuki", 'surname': "Huiruri", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Hacharia", 'surname': "Hukiri", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Dansin Buya", 'surname': "Hungatana", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Jiseph Kinzilli", 'surname': "Hunyai", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Jihn Kiying'a", 'surname': "Hunyes", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Peter Gichihi", 'surname': "Huriithi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Karue Huriuki", 'surname': "Huriuki", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Raphael", 'surname': "Huriungi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Christipher Mdarathi", 'surname': "Hurungaru", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Kiraitu", 'surname': "Hurungi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "David", 'surname': "Husila", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Stephen Kalinzi", 'surname': "Husyika", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Jihn Hutinda", 'surname': "Hutisi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Chirau Uli", 'surname': "Hwakwere", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Unesmus Kihara", 'surname': "Hwangi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Fredrick Daudi", 'surname': "Hwanzia", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Winfred Myiva", 'surname': "Hwendwa", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "David S.Kamau", 'surname': "Hwenje", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Daudi", 'surname': "Hwiraria", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Valerian Kilemi", 'surname': "Hwiria", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Richard Kalembe", 'surname': "Mdile", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Reuben Uwini Myanginya", 'surname': "Mdili", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Peter Mjeru", 'surname': "Mwiga", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Charity Kaluki", 'surname': "Mgilu", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Ubdallah Jumaa", 'surname': "Mgizi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "William Ringira Ule", 'surname': "Mtimama", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Jiseph William Mthiga", 'surname': "Myagah", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Mirman H.G.K.", 'surname': "Myagah", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Uric Upin", 'surname': "Myamunga", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Peter Unyang'", 'surname': "Mying'i", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Raila Umili", 'surname': "Udinga", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Peter Uchieng", 'surname': "Udiyi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Uburu", 'surname': "Uginga", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Tibias Uchila-Ugur", 'surname': "Urai", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Sispeter Udeke", 'surname': "Ujaamingsin", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Jishua Urwa", 'surname': "Ujide", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Phillip Ukith", 'surname': "Ukundi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Patrick Uyiechi", 'surname': "Ulweny", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Herman Udhiambi", 'surname': "Umamba", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Ken", 'surname': "Myagudi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "William Upindi", 'surname': "Umindi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Stephen Ulliys Uluich", 'surname': "Undiek", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Wycliffe Umbetsa", 'surname': "Uparanya", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Wycliffe", 'surname': "Usundwa", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Paddy", 'surname': "Uhenda", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Charles Uyugi", 'surname': "Uwini", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "J.K.", 'surname': "Hetiti", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Geirge", 'surname': "Saititi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Ubdi Tari", 'surname': "Sasura", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Suleiman Rashid", 'surname': "Shakimbi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Uric Gir", 'surname': "Sungu", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Zaddick Hadiri", 'surname': "Syingih", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Stephen Kipkiyeny", 'surname': "Tarus", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Jishua Mgugi", 'surname': "Tiri", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Raphael", 'surname': "Tuju", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Hwangi K.", 'surname': "Waithaka", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Davies", 'surname': "Makitare", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Hartin Myaga", 'surname': "Wambira", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Uthanas Hisiki Wafula", 'surname': "Wamunyinyi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Kiigi", 'surname': "Wamwere", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Raphael Bitta Sauti", 'surname': "Wanjala", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Miah Hahalang'ang'a", 'surname': "Wekesa", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "David Uiki", 'surname': "Were", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Hises Hasika", 'surname': "Wetangula", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Samuel Urthur", 'surname': "Weya", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Peter Ulii", 'surname': "Uringi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Franklin", 'surname': "Bett", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Cecily", 'surname': "Hbarire", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Udelina Mdeti", 'surname': "Hwau", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Mjiki", 'surname': "Mdung'u", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Julia", 'surname': "Ujiambi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Betty Mjeri", 'surname': "Tett", 'portal_type': 'Team Membership'},  #Kenya 
             )}, #Kenya 
-        {'title': 'KANU- Kenya African National Union', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': "Uli Hassan", 'surname': "Ubdirahman", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Francis Uwatin", 'surname': "Uchuka", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Uli Ubdul", 'surname': "Bahari", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Udan Keriw", 'surname': "Billiw", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Michilas Kiprini Kipyatir", 'surname': "Biwitt", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "William Kiplumbei", 'surname': "Biit", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hises Kipkembii", 'surname': "Chebii", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Lucas Kipkisgei", 'surname': "Chepkitiny", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jimmy", 'surname': "Chige", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Ubdullahi Sheikh", 'surname': "Dahir", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Gurrach Biru", 'surname': "Galgalli", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hihamed Yusuf", 'surname': "Haji", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Uhuru Huigai", 'surname': "Kenyatta", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Charles Cheruiyit", 'surname': "Keter", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "James Visciunt", 'surname': "Kimathi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Unthiny Kipkisge", 'surname': "Kimeti", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jiseph Lagat", 'surname': "Kipchumba", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jihn Kipsang arap", 'surname': "Kiech", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Sammy Cheruiyit", 'surname': "Kiech", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hugava Tila", 'surname': "Kifa", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jiseph Kipkapti", 'surname': "Kirir", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "David Kiptanui", 'surname': "Kiris", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Henry Kiprini.", 'surname': "Kiskey", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hihamed Ubdi", 'surname': "Kuti", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Prisa Sammy", 'surname': "Leshire", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Simein Saimanga", 'surname': "Lesirma", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hardsen Herman", 'surname': "Hadika", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Urthur Kinyanjui", 'surname': "Hagugu", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Richard Haika", 'surname': "Haire", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Biniface", 'surname': "Hganga", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hussein Haalim", 'surname': "Hihamed", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Ubdi Hihamud", 'surname': "Hihamed", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hihamed Ubdi Haji", 'surname': "Hihamed", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Ubu", 'surname': "Hihamed", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Gidein K.Tiwett", 'surname': "Hii", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Samuel Chumel", 'surname': "Hiriti", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Justin Bedan Mjika", 'surname': "Huturi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Gidein Husyika", 'surname': "Mdambuki", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Ulfred Hwangi", 'surname': "Mderitu", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jiseph", 'surname': "Lekutin", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Kasaine Jiseph", 'surname': "Mkaisserry", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Stephen Kanyinke", 'surname': "Mtutu", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Chrysanthus", 'surname': "Ukemi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Samuel Lisurin", 'surname': "Pighisii", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Phillip Ruti", 'surname': "Ritini", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "William Samiei", 'surname': "Ruti", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Sammy Kipkembii", 'surname': "Rutti", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Michilas Kiptii Kirir", 'surname': "Salat", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jihn Kipkirir", 'surname': "Sambu", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Kipkirir Harisin", 'surname': "Sang", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Jihn Bimet", 'surname': "Serut", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Maimi Mamsi", 'surname': "Shaban", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Uli Usaack", 'surname': "Shaaban", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Husa Cherutich", 'surname': "Sirma", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Uhmed Uden", 'surname': "Sugiw", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "David Kiprini Sutter", 'surname': "Sudi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Mindin Miah arap", 'surname': "Tii", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Fahim Yasin", 'surname': "Twaha", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Uli", 'surname': "Warii", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Umina", 'surname': "Ubdalla", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Usther", 'surname': "Keini", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Hutula", 'surname': "Kilinzi", 'type': 'Team Membership'},  #Kenya 
-            { 'firstname': "Ruth", 'surname': "Uniangi", 'type': 'Team Membership'},  #Kenya 
+        {'title': 'KANU- Kenya African National Union', 'portal_type': 'Party', 'children': ( #Kenya 
+            { 'firstname': "Uli Hassan", 'surname': "Ubdirahman", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Francis Uwatin", 'surname': "Uchuka", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Uli Ubdul", 'surname': "Bahari", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Udan Keriw", 'surname': "Billiw", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Michilas Kiprini Kipyatir", 'surname': "Biwitt", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "William Kiplumbei", 'surname': "Biit", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Hises Kipkembii", 'surname': "Chebii", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Lucas Kipkisgei", 'surname': "Chepkitiny", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Jimmy", 'surname': "Chige", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Ubdullahi Sheikh", 'surname': "Dahir", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Gurrach Biru", 'surname': "Galgalli", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Hihamed Yusuf", 'surname': "Haji", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Uhuru Huigai", 'surname': "Kenyatta", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Charles Cheruiyit", 'surname': "Keter", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "James Visciunt", 'surname': "Kimathi", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Unthiny Kipkisge", 'surname': "Kimeti", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Jiseph Lagat", 'surname': "Kipchumba", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Jihn Kipsang arap", 'surname': "Kiech", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Sammy Cheruiyit", 'surname': "Kiech", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Hugava Tila", 'surname': "Kifa", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Jiseph Kipkapti", 'surname': "Kirir", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "David Kiptanui", 'surname': "Kiris", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Henry Kiprini.", 'surname': "Kiskey", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Hihamed Ubdi", 'surname': "Kuti", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Prisa Sammy", 'surname': "Leshire", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Simein Saimanga", 'surname': "Lesirma", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Hardsen Herman", 'surname': "Hadika", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Urthur Kinyanjui", 'surname': "Hagugu", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Richard Haika", 'surname': "Haire", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Biniface", 'surname': "Hganga", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Hussein Haalim", 'surname': "Hihamed", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Ubdi Hihamud", 'surname': "Hihamed", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Hihamed Ubdi Haji", 'surname': "Hihamed", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Ubu", 'surname': "Hihamed", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Gidein K.Tiwett", 'surname': "Hii", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Samuel Chumel", 'surname': "Hiriti", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Justin Bedan Mjika", 'surname': "Huturi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Gidein Husyika", 'surname': "Mdambuki", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Ulfred Hwangi", 'surname': "Mderitu", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Jiseph", 'surname': "Lekutin", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Kasaine Jiseph", 'surname': "Mkaisserry", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Stephen Kanyinke", 'surname': "Mtutu", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Chrysanthus", 'surname': "Ukemi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Samuel Lisurin", 'surname': "Pighisii", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Phillip Ruti", 'surname': "Ritini", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "William Samiei", 'surname': "Ruti", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Sammy Kipkembii", 'surname': "Rutti", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Michilas Kiptii Kirir", 'surname': "Salat", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Jihn Kipkirir", 'surname': "Sambu", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Kipkirir Harisin", 'surname': "Sang", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Jihn Bimet", 'surname': "Serut", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Maimi Mamsi", 'surname': "Shaban", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Uli Usaack", 'surname': "Shaaban", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Husa Cherutich", 'surname': "Sirma", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Uhmed Uden", 'surname': "Sugiw", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "David Kiprini Sutter", 'surname': "Sudi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Mindin Miah arap", 'surname': "Tii", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Fahim Yasin", 'surname': "Twaha", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Uli", 'surname': "Warii", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Umina", 'surname': "Ubdalla", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Usther", 'surname': "Keini", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Hutula", 'surname': "Kilinzi", 'portal_type': 'Team Membership'},  #Kenya 
+            # { 'firstname': "Ruth", 'surname': "Uniangi", 'portal_type': 'Team Membership'},  #Kenya 
             )}, #Kenya 
-        {'title': 'FORD-People', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': "Jimmy Muru Undieki", 'surname': "Ungwenyi", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "Usiman Ubingitum", 'surname': "Kamama", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "Julius Kiema", 'surname': "Kilinzi", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "James Umingi", 'surname': "Hagara", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "Hezrin", 'surname': "Handuku", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "Stephen Kengere", 'surname': "Haniti", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "Gidfrey Ukeri", 'surname': "Hasanya", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "J.D.Hghanga", 'surname': "Hwandawiri", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "Simein", 'surname': "Myachae", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "Henry Unyancha.", 'surname': "Ubwicha", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "Samsin H.Myang'au", 'surname': "Ukiima", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "Jiel Umagwa", 'surname': "Unyancha", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "Jihn Zebedei", 'surname': "Upire", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "Samuel Ginzi", 'surname': "Rai", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "Peter Shitanda", 'surname': "Siita", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "Kipkalia", 'surname': "Kines", 'type': 'Team Membership'},   #Kenya 
+        {'title': 'FORD-People', 'portal_type': 'Party', 'children': ( #Kenya 
+            { 'firstname': "Jimmy Muru Undieki", 'surname': "Ungwenyi", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Usiman Ubingitum", 'surname': "Kamama", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Julius Kiema", 'surname': "Kilinzi", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "James Umingi", 'surname': "Hagara", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Hezrin", 'surname': "Handuku", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Stephen Kengere", 'surname': "Haniti", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Gidfrey Ukeri", 'surname': "Hasanya", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "J.D.Hghanga", 'surname': "Hwandawiri", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Simein", 'surname': "Myachae", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Henry Unyancha.", 'surname': "Ubwicha", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Samsin H.Myang'au", 'surname': "Ukiima", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Jiel Umagwa", 'surname': "Unyancha", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Jihn Zebedei", 'surname': "Upire", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Samuel Ginzi", 'surname': "Rai", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Peter Shitanda", 'surname': "Siita", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Kipkalia", 'surname': "Kines", 'portal_type': 'Team Membership'},   #Kenya 
             )}, #Kenya 
-        {'title': 'SAFINA', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': "Paul Kibugi", 'surname': "Huite", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "Peter Gatirau", 'surname': "Hunya", 'type': 'Team Membership'},   #Kenya 
+        {'title': 'SAFINA', 'portal_type': 'Party', 'children': ( #Kenya 
+            { 'firstname': "Paul Kibugi", 'surname': "Huite", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Peter Gatirau", 'surname': "Hunya", 'portal_type': 'Team Membership'},   #Kenya 
             )}, #Kenya 
-        {'title': 'FORD-Asili', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': "Patrice Hwangu", 'surname': "Uvuti", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "Francis Myamu", 'surname': "Kagwima", 'type': 'Team Membership'},   #Kenya 
+        {'title': 'FORD-Asili', 'portal_type': 'Party', 'children': ( #Kenya 
+            { 'firstname': "Patrice Hwangu", 'surname': "Uvuti", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Francis Myamu", 'surname': "Kagwima", 'portal_type': 'Team Membership'},   #Kenya 
             )}, #Kenya 
-        {'title': 'SPK- Shirikisho Party of Kenya', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': "William Kabigi", 'surname': "Gitau", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "Harrisin Garama", 'surname': "Kimbe", 'type': 'Team Membership'},   #Kenya 
-            { 'firstname': "Ummanuel Karisa", 'surname': "Haitha", 'type': 'Team Membership'},   #Kenya 
+        {'title': 'SPK- Shirikisho Party of Kenya', 'portal_type': 'Party', 'children': ( #Kenya 
+            { 'firstname': "William Kabigi", 'surname': "Gitau", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Harrisin Garama", 'surname': "Kimbe", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Ummanuel Karisa", 'surname': "Haitha", 'portal_type': 'Team Membership'},   #Kenya 
             )}, #Kenya 
-        {'title': "House Business Committee", 'description': "prepares and manages the programme of the business of the House on a weekly basis;", 'type': 'Team', 'children': (
-            { 'firstname': '', 'surname': "Smith", 'type': 'Team Membership'},
-            { 'firstname': '', 'surname': "Hzee", 'type': 'Team Membership'},
-            { 'firstname': '', 'surname': "Hanga", 'type': 'Team Membership'},
+
+        #
+        # From Kenya registry: Committees
+        #
+        {'title': "House Business Committee", 'description': "prepares and manages the programme of the business of the House on a weekly basis;", 'portal_type': 'Committee', 'children': (
+            { 'firstname': '', 'surname': "Smith", 'portal_type': 'Team Membership'},
+            { 'firstname': '', 'surname': "Hzee", 'portal_type': 'Team Membership'},
+            { 'firstname': '', 'surname': "Hanga", 'portal_type': 'Team Membership'},
             # From Kenya registry
-            { 'firstname': 'Hartha Wangari', 'surname': 'Karua', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Umis Huhinga', 'surname': 'Kimunya', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Urthur U.Hiidy', 'surname': 'Uwiri', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Chrysanthus', 'surname': 'Ukemi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Upainitius Hises', 'surname': 'Ukaranga', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Henry Kiprini.', 'surname': 'Kiskey', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Henry Unyancha.', 'surname': 'Ubwicha', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Jihn Jiseph', 'surname': 'Kamithi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Jihn Mjirige', 'surname': 'Hichuki', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Justin Bedan Mjika', 'surname': 'Huturi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kipruti Rini Urap', 'surname': 'Kirwa', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hardsen Herman', 'surname': 'Hadika', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hihamed Yusuf', 'surname': 'Haji', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Husikari Mazi', 'surname': 'Kimbi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Mirman H.G.K.', 'surname': 'Myagah', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kivutha', 'surname': 'Kibwana', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Raphael', 'surname': 'Tuju', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Simein', 'surname': 'Myachae', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Uhuru Huigai', 'surname': 'Kenyatta', 'type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Hartha Wangari', 'surname': 'Karua', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Umis Huhinga', 'surname': 'Kimunya', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Urthur U.Hiidy', 'surname': 'Uwiri', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Chrysanthus', 'surname': 'Ukemi', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Upainitius Hises', 'surname': 'Ukaranga', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Henry Kiprini.', 'surname': 'Kiskey', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Henry Unyancha.', 'surname': 'Ubwicha', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Jihn Jiseph', 'surname': 'Kamithi', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Jihn Mjirige', 'surname': 'Hichuki', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Justin Bedan Mjika', 'surname': 'Huturi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Kipruti Rini Urap', 'surname': 'Kirwa', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hardsen Herman', 'surname': 'Hadika', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hihamed Yusuf', 'surname': 'Haji', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Husikari Mazi', 'surname': 'Kimbi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Mirman H.G.K.', 'surname': 'Myagah', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Kivutha', 'surname': 'Kibwana', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Raphael', 'surname': 'Tuju', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Simein', 'surname': 'Myachae', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Uhuru Huigai', 'surname': 'Kenyatta', 'portal_type': 'Team Membership'}, #Kenya 
         )},
-        {'title': "Public Accounts Committee", 'description': "examines reports by the Controller and Auditor-General on Central Government expenditure and fund accounts;", 'type': 'Team', 'children': (
-            { 'firstname': '', 'surname': "Farah", 'type': 'Team Membership'},
-            { 'firstname': '', 'surname': "Falana", 'type': 'Team Membership'},
-            { 'firstname': '', 'surname': "Hungai", 'type': 'Team Membership'},
-            { 'firstname': '', 'surname': "Ungatia", 'type': 'Team Membership'},
-            { 'firstname': '', 'surname': "Wetangula", 'type': 'Team Membership'},
-            { 'firstname': '', 'surname': "Waki", 'type': 'Team Membership'},
+        {'title': "Public Accounts Committee", 'description': "examines reports by the Controller and Auditor-General on Central Government expenditure and fund accounts;", 'portal_type': 'Committee', 'children': (
+            { 'firstname': '', 'surname': "Farah", 'portal_type': 'Team Membership'},
+            { 'firstname': '', 'surname': "Falana", 'portal_type': 'Team Membership'},
+            { 'firstname': '', 'surname': "Hungai", 'portal_type': 'Team Membership'},
+            { 'firstname': '', 'surname': "Ungatia", 'portal_type': 'Team Membership'},
+            { 'firstname': '', 'surname': "Wetangula", 'portal_type': 'Team Membership'},
+            { 'firstname': '', 'surname': "Waki", 'portal_type': 'Team Membership'},
             # From Kenya registry
-            { 'firstname': 'Udan Keriw', 'surname': 'Billiw', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Udhu', 'surname': 'Uwiti', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Charles Cheruiyit', 'surname': 'Keter', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Fahim Yasin', 'surname': 'Twaha', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Jayne', 'surname': 'Kihara', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Jihn Zebedei', 'surname': 'Upire', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Jiseph Lagat', 'surname': 'Kipchumba', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Lyula Daniel', 'surname': 'Khamasi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Mirman H.G.K.', 'surname': 'Myagah', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Peter Uchieng', 'surname': 'Udiyi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Uhuru Huigai', 'surname': 'Kenyatta', 'type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Udan Keriw', 'surname': 'Billiw', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Udhu', 'surname': 'Uwiti', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Charles Cheruiyit', 'surname': 'Keter', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Fahim Yasin', 'surname': 'Twaha', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Jayne', 'surname': 'Kihara', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Jihn Zebedei', 'surname': 'Upire', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Jiseph Lagat', 'surname': 'Kipchumba', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Lyula Daniel', 'surname': 'Khamasi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Mirman H.G.K.', 'surname': 'Myagah', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Peter Uchieng', 'surname': 'Udiyi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Uhuru Huigai', 'surname': 'Kenyatta', 'portal_type': 'Team Membership'}, #Kenya 
         )},
-        {'title': "Public Investments Committee", 'description': "examines reports by the Auditor-General (Corporations) on accounts of state corporations;", 'type': 'Team', 'children': (
-            { 'firstname': '', 'surname': "Hak'Unyangi", 'type': 'Team Membership'},
-            { 'firstname': '', 'surname': "Shikuku", 'type': 'Team Membership'},
-            { 'firstname': '', 'surname': "Kiluta", 'type': 'Team Membership'},
-            { 'firstname': '', 'surname': "Karan", 'type': 'Team Membership'},
-            { 'firstname': '', 'surname': "Lwali-Uyindi", 'type': 'Team Membership'},
+        {'title': "Public Investments Committee", 'description': "examines reports by the Auditor-General (Corporations) on accounts of state corporations;", 'portal_type': 'Committee', 'children': (
+            { 'firstname': '', 'surname': "Hak'Unyangi", 'portal_type': 'Team Membership'},
+            { 'firstname': '', 'surname': "Shikuku", 'portal_type': 'Team Membership'},
+            { 'firstname': '', 'surname': "Kiluta", 'portal_type': 'Team Membership'},
+            { 'firstname': '', 'surname': "Karan", 'portal_type': 'Team Membership'},
+            { 'firstname': '', 'surname': "Lwali-Uyindi", 'portal_type': 'Team Membership'},
             # From Kenya registry
-            { 'firstname': 'Ubdullahi Ubrahim', 'surname': 'Uli', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Uli Ubdul', 'surname': 'Bahari', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Uthanas Hisiki Wafula', 'surname': 'Wamunyinyi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Geiffrey Gachara', 'surname': 'Huchiri', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hussein Haalim', 'surname': 'Hihamed', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Jimmy Muru Undieki', 'surname': 'Ungwenyi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Justin Bedan Mjika', 'surname': 'Huturi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kipkirir Harisin', 'surname': 'Sang', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Peter Gatirau', 'surname': 'Hunya', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Sammy Kipkembii', 'surname': 'Rutti', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'William Kabigi', 'surname': 'Gitau', 'type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Ubdullahi Ubrahim', 'surname': 'Uli', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Uli Ubdul', 'surname': 'Bahari', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Uthanas Hisiki Wafula', 'surname': 'Wamunyinyi', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Geiffrey Gachara', 'surname': 'Huchiri', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Hussein Haalim', 'surname': 'Hihamed', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Jimmy Muru Undieki', 'surname': 'Ungwenyi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Justin Bedan Mjika', 'surname': 'Huturi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Kipkirir Harisin', 'surname': 'Sang', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Peter Gatirau', 'surname': 'Hunya', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Sammy Kipkembii', 'surname': 'Rutti', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'William Kabigi', 'surname': 'Gitau', 'portal_type': 'Team Membership'}, #Kenya 
         )},
-        {'title': "Speaker's Committee", 'description': "examines matters relating to the welfare of Members and staff of the National Assembly;", 'type': 'Team', 'children': (
-            { 'firstname': '', 'surname': "Handuku", 'type': 'Team Membership'},
-            { 'firstname': '', 'surname': "Haire", 'type': 'Team Membership'},
-            { 'firstname': '', 'surname': "Ubwicha", 'type': 'Team Membership'},
+        {'title': "Speaker's Committee", 'description': "examines matters relating to the welfare of Members and staff of the National Assembly;", 'portal_type': 'Committee', 'children': (
+            { 'firstname': '', 'surname': "Handuku", 'portal_type': 'Team Membership'},
+            { 'firstname': '', 'surname': "Haire", 'portal_type': 'Team Membership'},
+            { 'firstname': '', 'surname': "Ubwicha", 'portal_type': 'Team Membership'},
             # From Kenya registry
-            { 'firstname': 'Uli', 'surname': 'Warii', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Umis Huhinga', 'surname': 'Kimunya', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Unthiny Kipkisge', 'surname': 'Kimeti', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Christipher Mdarathi', 'surname': 'Hurungaru', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Gidein Husyika', 'surname': 'Mdambuki', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'James Mderitu', 'surname': 'Gachagua', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Jihn Hutinda', 'surname': 'Hutisi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Jihn Mjirige', 'surname': 'Hichuki', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Julius Kiema', 'surname': 'Kilinzi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kausia F.X.Ule', 'surname': 'Kapari', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Michilas Kiptii Kirir', 'surname': 'Salat', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Peter', 'surname': 'Kenneth', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Geirge', 'surname': 'Saititi', 'type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Uli', 'surname': 'Warii', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Umis Huhinga', 'surname': 'Kimunya', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Unthiny Kipkisge', 'surname': 'Kimeti', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Christipher Mdarathi', 'surname': 'Hurungaru', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Gidein Husyika', 'surname': 'Mdambuki', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'James Mderitu', 'surname': 'Gachagua', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Jihn Hutinda', 'surname': 'Hutisi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Jihn Mjirige', 'surname': 'Hichuki', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Julius Kiema', 'surname': 'Kilinzi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Kausia F.X.Ule', 'surname': 'Kapari', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Michilas Kiptii Kirir', 'surname': 'Salat', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Peter', 'surname': 'Kenneth', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Geirge', 'surname': 'Saititi', 'portal_type': 'Team Membership'}, #Kenya 
         )},
-        {'title': "Standing Orders Committee", 'description': "examines matters relating to and makes periodic reviews of the Standing Orders as necessary", 'type': 'Team', 'children': (
-            { 'firstname': '', 'surname': "Uchila", 'type': 'Team Membership'},
-            { 'firstname': '', 'surname': "Myagah", 'type': 'Team Membership'},
+        {'title': "Standing Orders Committee", 'description': "examines matters relating to and makes periodic reviews of the Standing Orders as necessary", 'portal_type': 'Committee', 'children': (
+            { 'firstname': '', 'surname': "Uchila", 'portal_type': 'Team Membership'},
+            { 'firstname': '', 'surname': "Myagah", 'portal_type': 'Team Membership'},
             # From Kenya registry
-            { 'firstname': 'David', 'surname': 'Husila', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Usther', 'surname': 'Keini', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Fredrick Daudi', 'surname': 'Hwanzia', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kausia F.X.Ule', 'surname': 'Kapari', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Lucas Kipkisgei', 'surname': 'Chepkitiny', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Lyula Daniel', 'surname': 'Khamasi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hartin Myaga', 'surname': 'Wambira', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hugava Tila', 'surname': 'Kifa', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hutula', 'surname': 'Kilinzi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Unesmus Kihara', 'surname': 'Hwangi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Utieni Gerald', 'surname': 'Kajwang', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Paul Kibugi', 'surname': 'Huite', 'type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'David', 'surname': 'Husila', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Usther', 'surname': 'Keini', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Fredrick Daudi', 'surname': 'Hwanzia', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Kausia F.X.Ule', 'surname': 'Kapari', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Lucas Kipkisgei', 'surname': 'Chepkitiny', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Lyula Daniel', 'surname': 'Khamasi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hartin Myaga', 'surname': 'Wambira', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hugava Tila', 'surname': 'Kifa', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hutula', 'surname': 'Kilinzi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Unesmus Kihara', 'surname': 'Hwangi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Utieni Gerald', 'surname': 'Kajwang', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Paul Kibugi', 'surname': 'Huite', 'portal_type': 'Team Membership'}, #Kenya 
         )},
-        {'title': "Liaison Committee", 'description': "examines and co-ordinates matters relating to operations of the Departmental Committees; and", 'type': 'Team', 'children': (
-            { 'firstname': '', 'surname': "Hiiben", 'type': 'Team Membership'},
-            { 'firstname': '', 'surname': "Barmasai", 'type': 'Team Membership'},
+        {'title': "Liaison Committee", 'description': "examines and co-ordinates matters relating to operations of the Departmental Committees; and", 'portal_type': 'Committee', 'children': (
+            { 'firstname': '', 'surname': "Hiiben", 'portal_type': 'Team Membership'},
+            { 'firstname': '', 'surname': "Barmasai", 'portal_type': 'Team Membership'},
         )},
-        {'title': "Powers and Privileges Committee", 'description': "is established under the National Assembly (Powers and Privileges) Act, (Cap 6, Laws of Kenya), and deals with issues regarding privileges of the House, Members and staff.", 'type': 'Team', 'children': (
-            { 'firstname': '', 'surname': "Criticis", 'type': 'Team Membership'},
-            { 'firstname': '', 'surname': "Uluich", 'type': 'Team Membership'},
-            { 'firstname': '', 'surname': "Mthenge", 'type': 'Team Membership'},
+        {'title': "Powers and Privileges Committee", 'description': "is established under the National Assembly (Powers and Privileges) Act, (Cap 6, Laws of Kenya), and deals with issues regarding privileges of the House, Members and staff.", 'portal_type': 'Committee', 'children': (
+            { 'firstname': '', 'surname': "Criticis", 'portal_type': 'Team Membership'},
+            { 'firstname': '', 'surname': "Uluich", 'portal_type': 'Team Membership'},
+            { 'firstname': '', 'surname': "Mthenge", 'portal_type': 'Team Membership'},
             # From Kenya registry
-            { 'firstname': 'Umina', 'surname': 'Ubdalla', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Davies', 'surname': 'Makitare', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Uric Upin', 'surname': 'Myamunga', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Geiffrey Gachara', 'surname': 'Huchiri', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Henry Kiprini.', 'surname': 'Kiskey', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'J.K.', 'surname': 'Hetiti', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kausia F.X.Ule', 'surname': 'Kapari', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hardsen Herman', 'surname': 'Hadika', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Husikari Mazi', 'surname': 'Kimbi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Stephen Kengere', 'surname': 'Haniti', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'William Samiei', 'surname': 'Ruti', 'type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Umina', 'surname': 'Ubdalla', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Davies', 'surname': 'Makitare', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Uric Upin', 'surname': 'Myamunga', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Geiffrey Gachara', 'surname': 'Huchiri', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Henry Kiprini.', 'surname': 'Kiskey', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'J.K.', 'surname': 'Hetiti', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Kausia F.X.Ule', 'surname': 'Kapari', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hardsen Herman', 'surname': 'Hadika', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Husikari Mazi', 'surname': 'Kimbi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Stephen Kengere', 'surname': 'Haniti', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'William Samiei', 'surname': 'Ruti', 'portal_type': 'Team Membership'}, #Kenya 
         )},
-        {'title': 'Catering Committee', 'description': 'It is responsible for running the Members\' lounge and 2 other restaurants located within the parliament buildings', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': 'Ulfred Hwangi', 'surname': 'Mderitu', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Fahim Yasin', 'surname': 'Twaha', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kausia F.X.Ule', 'surname': 'Kapari', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hihamed Yusuf', 'surname': 'Haji', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Maimi Mamsi', 'surname': 'Shaban', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Patrice Hwangu', 'surname': 'Uvuti', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Sammy Kipkembii', 'surname': 'Rutti', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'William Upindi', 'surname': 'Umindi', 'type': 'Team Membership'}, #Kenya 
+        {'title': 'Catering Committee', 'description': 'It is responsible for running the Members\' lounge and 2 other restaurants located within the parliament buildings', 'portal_type': 'Committee', 'children': ( #Kenya 
+            { 'firstname': 'Ulfred Hwangi', 'surname': 'Mderitu', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Fahim Yasin', 'surname': 'Twaha', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Kausia F.X.Ule', 'surname': 'Kapari', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hihamed Yusuf', 'surname': 'Haji', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Maimi Mamsi', 'surname': 'Shaban', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Patrice Hwangu', 'surname': 'Uvuti', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Sammy Kipkembii', 'surname': 'Rutti', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'William Upindi', 'surname': 'Umindi', 'portal_type': 'Team Membership'}, #Kenya 
         )}, #Kenya 
-        {'title': 'Library Committee', 'description': 'It is responsible for managing the parliamentary library', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': 'David', 'surname': 'Husila', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'David Kiprini Sutter', 'surname': 'Sudi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Francis Uwatin', 'surname': 'Uchuka', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Jayne', 'surname': 'Kihara', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kipkirir Harisin', 'surname': 'Sang', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hacharia', 'surname': 'Hukiri', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Reuben Uwini Myanginya', 'surname': 'Mdili', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': "Samsin H.Myang'au", 'surname': 'Ukiima', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'William Kiplumbei', 'surname': 'Biit', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Wycliffe Umbetsa', 'surname': 'Uparanya', 'type': 'Team Membership'}, #Kenya 
+        {'title': 'Library Committee', 'description': 'It is responsible for managing the parliamentary library', 'portal_type': 'Committee', 'children': ( #Kenya 
+            { 'firstname': 'David', 'surname': 'Husila', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'David Kiprini Sutter', 'surname': 'Sudi', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Francis Uwatin', 'surname': 'Uchuka', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Jayne', 'surname': 'Kihara', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Kipkirir Harisin', 'surname': 'Sang', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hacharia', 'surname': 'Hukiri', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Reuben Uwini Myanginya', 'surname': 'Mdili', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': "Samsin H.Myang'au", 'surname': 'Ukiima', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'William Kiplumbei', 'surname': 'Biit', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Wycliffe Umbetsa', 'surname': 'Uparanya', 'portal_type': 'Team Membership'}, #Kenya 
         )}, #Kenya 
-        {'title': 'Agriculture, Lands and Natural Resources', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': 'Uli', 'surname': 'Warii', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Franklin', 'surname': 'Bett', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'James Mderitu', 'surname': 'Gachagua', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Julius Udenyi', 'surname': 'Urungah', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hihamed Yusuf', 'surname': 'Haji', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hwangi K.', 'surname': 'Waithaka', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Patrick Kariuki', 'surname': 'Huiruri', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Peter Gichihi', 'surname': 'Huriithi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Phillip Ruti', 'surname': 'Ritini', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Patrick Uyiechi', 'surname': 'Ulweny', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': "Samsin H.Myang'au", 'surname': 'Ukiima', 'type': 'Team Membership'}, #Kenya 
+        {'title': 'Agriculture, Lands and Natural Resources', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'portal_type': 'Committee', 'children': ( #Kenya 
+            { 'firstname': 'Uli', 'surname': 'Warii', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Franklin', 'surname': 'Bett', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'James Mderitu', 'surname': 'Gachagua', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Julius Udenyi', 'surname': 'Urungah', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hihamed Yusuf', 'surname': 'Haji', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hwangi K.', 'surname': 'Waithaka', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Patrick Kariuki', 'surname': 'Huiruri', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Peter Gichihi', 'surname': 'Huriithi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Phillip Ruti', 'surname': 'Ritini', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Patrick Uyiechi', 'surname': 'Ulweny', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': "Samsin H.Myang'au", 'surname': 'Ukiima', 'portal_type': 'Team Membership'}, #Kenya 
         )}, #Kenya 
-        {'title': 'Energy, Communications and Public Works', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': 'Uthanas Hisiki Wafula', 'surname': 'Wamunyinyi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Ulias Peter', 'surname': 'Hbau', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Gidein K.Tiwett', 'surname': 'Hii', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'James Visciunt', 'surname': 'Kimathi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Jimmy Muru Undieki', 'surname': 'Ungwenyi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Julius Udenyi', 'surname': 'Urungah', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Lucas Baya Hweni', 'surname': 'Haitha', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hihamed Ubdi Haji', 'surname': 'Hihamed', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Phillip Ukith', 'surname': 'Ukundi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Richard Haika', 'surname': 'Haire', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Samuel Ginzi', 'surname': 'Rai', 'type': 'Team Membership'}, #Kenya 
+        {'title': 'Energy, Communications and Public Works', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'portal_type': 'Committee', 'children': ( #Kenya 
+            { 'firstname': 'Uthanas Hisiki Wafula', 'surname': 'Wamunyinyi', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Ulias Peter', 'surname': 'Hbau', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Gidein K.Tiwett', 'surname': 'Hii', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'James Visciunt', 'surname': 'Kimathi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Jimmy Muru Undieki', 'surname': 'Ungwenyi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Julius Udenyi', 'surname': 'Urungah', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Lucas Baya Hweni', 'surname': 'Haitha', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hihamed Ubdi Haji', 'surname': 'Hihamed', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Phillip Ukith', 'surname': 'Ukundi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Richard Haika', 'surname': 'Haire', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Samuel Ginzi', 'surname': 'Rai', 'portal_type': 'Team Membership'}, #Kenya 
         )}, #Kenya 
-        {'title': 'Education, Research and Technology', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': 'C.H.', 'surname': 'Kilinzi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Daniel Dicksin', 'surname': 'Karaba', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Francis Myamu', 'surname': 'Kagwima', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Gidfrey Ukeri', 'surname': 'Hasanya', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Harrisin Garama', 'surname': 'Kimbe', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Christine Ubungu', 'surname': 'Hangi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Ruth', 'surname': 'Uniangi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Sammy Kipkembii', 'surname': 'Rutti', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Stephen Kengere', 'surname': 'Haniti', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Wakili Sylvester', 'surname': 'Bifwili', 'type': 'Team Membership'}, #Kenya 
+        {'title': 'Education, Research and Technology', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'portal_type': 'Committee', 'children': ( #Kenya 
+            { 'firstname': 'C.H.', 'surname': 'Kilinzi', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Daniel Dicksin', 'surname': 'Karaba', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Francis Myamu', 'surname': 'Kagwima', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Gidfrey Ukeri', 'surname': 'Hasanya', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Harrisin Garama', 'surname': 'Kimbe', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Christine Ubungu', 'surname': 'Hangi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Ruth', 'surname': 'Uniangi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Sammy Kipkembii', 'surname': 'Rutti', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Stephen Kengere', 'surname': 'Haniti', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Wakili Sylvester', 'surname': 'Bifwili', 'portal_type': 'Team Membership'}, #Kenya 
         )}, #Kenya 
-        {'title': 'Health, Housing, Labour and Social Welfare', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': 'Ubdallah Jumaa', 'surname': 'Mgizi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Bensin Utwiku', 'surname': 'Hbai', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'David Kiptanui', 'surname': 'Kiris', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hezrin', 'surname': 'Handuku', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Jihn Zebedei', 'surname': 'Upire', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Julia', 'surname': 'Ujiambi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Maimi Mamsi', 'surname': 'Shaban', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Mirman H.G.K.', 'surname': 'Myagah', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Reuben Uwini Myanginya', 'surname': 'Mdili', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Tibias Uchila-Ugur', 'surname': 'Urai', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'William Kiplumbei', 'surname': 'Biit', 'type': 'Team Membership'}, #Kenya 
+        {'title': 'Health, Housing, Labour and Social Welfare', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'portal_type': 'Committee', 'children': ( #Kenya 
+            { 'firstname': 'Ubdallah Jumaa', 'surname': 'Mgizi', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Bensin Utwiku', 'surname': 'Hbai', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'David Kiptanui', 'surname': 'Kiris', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Hezrin', 'surname': 'Handuku', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Jihn Zebedei', 'surname': 'Upire', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Julia', 'surname': 'Ujiambi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Maimi Mamsi', 'surname': 'Shaban', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Mirman H.G.K.', 'surname': 'Myagah', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Reuben Uwini Myanginya', 'surname': 'Mdili', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Tibias Uchila-Ugur', 'surname': 'Urai', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'William Kiplumbei', 'surname': 'Biit', 'portal_type': 'Team Membership'}, #Kenya 
         )}, #Kenya 
-        {'title': 'Administration, National Security and Local Authorities', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': 'Ubdallah Jumaa', 'surname': 'Mgizi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Ulfred Hwangi', 'surname': 'Mderitu', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Fredrick Daudi', 'surname': 'Hwanzia', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Herman Udhiambi', 'surname': 'Umamba', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'J.K.', 'surname': 'Hetiti', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Jiseph Kipkapti', 'surname': 'Kirir', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kipkalia', 'surname': 'Kines', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Husa Cherutich', 'surname': 'Sirma', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Mindin Miah arap', 'surname': 'Tii', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Patrice Hwangu', 'surname': 'Uvuti', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Seif Ramadhan', 'surname': 'Kajembe', 'type': 'Team Membership'}, #Kenya 
+        {'title': 'Administration, National Security and Local Authorities', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'portal_type': 'Committee', 'children': ( #Kenya 
+            { 'firstname': 'Ubdallah Jumaa', 'surname': 'Mgizi', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Ulfred Hwangi', 'surname': 'Mderitu', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Fredrick Daudi', 'surname': 'Hwanzia', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Herman Udhiambi', 'surname': 'Umamba', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'J.K.', 'surname': 'Hetiti', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Jiseph Kipkapti', 'surname': 'Kirir', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Kipkalia', 'surname': 'Kines', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Husa Cherutich', 'surname': 'Sirma', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Mindin Miah arap', 'surname': 'Tii', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Patrice Hwangu', 'surname': 'Uvuti', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Seif Ramadhan', 'surname': 'Kajembe', 'portal_type': 'Team Membership'}, #Kenya 
         )}, #Kenya 
-        {'title': 'Finance, Planning and Trade', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': 'Udhu', 'surname': 'Uwiti', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Chrysanthus', 'surname': 'Ukemi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Daudi', 'surname': 'Hwiraria', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Jihn Hutinda', 'surname': 'Hutisi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Lucas Kipkisgei', 'surname': 'Chepkitiny', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Uburu', 'surname': 'Uginga', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Simin Kanyingi', 'surname': 'Kuria', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Washingtin Jakiyi', 'surname': 'Hidiwi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'William Kabigi', 'surname': 'Gitau', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Wycliffe Umbetsa', 'surname': 'Uparanya', 'type': 'Team Membership'}, #Kenya 
+        {'title': 'Finance, Planning and Trade', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'portal_type': 'Committee', 'children': ( #Kenya 
+            { 'firstname': 'Udhu', 'surname': 'Uwiti', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Chrysanthus', 'surname': 'Ukemi', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Daudi', 'surname': 'Hwiraria', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Jihn Hutinda', 'surname': 'Hutisi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Lucas Kipkisgei', 'surname': 'Chepkitiny', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Uburu', 'surname': 'Uginga', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Simin Kanyingi', 'surname': 'Kuria', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Washingtin Jakiyi', 'surname': 'Hidiwi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'William Kabigi', 'surname': 'Gitau', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Wycliffe Umbetsa', 'surname': 'Uparanya', 'portal_type': 'Team Membership'}, #Kenya 
         )}, #Kenya 
-        {'title': 'Administration of Justice and Legal Affairs', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': 'Umina', 'surname': 'Ubdalla', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Gidein Husyika', 'surname': 'Mdambuki', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'James Umingi', 'surname': 'Hagara', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Jimmy', 'surname': 'Chige', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kenneth Utiati', 'surname': 'Harende', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hacharia', 'surname': 'Hukiri', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hises Kipkembii', 'surname': 'Chebii', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Mjiki', 'surname': "Mdung'u", 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Paul Kibugi', 'surname': 'Huite', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Wakili Sylvester', 'surname': 'Bifwili', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Zaddick Hadiri', 'surname': 'Syingih', 'type': 'Team Membership'}, #Kenya 
+        {'title': 'Administration of Justice and Legal Affairs', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'portal_type': 'Committee', 'children': ( #Kenya 
+            { 'firstname': 'Umina', 'surname': 'Ubdalla', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Gidein Husyika', 'surname': 'Mdambuki', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'James Umingi', 'surname': 'Hagara', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Jimmy', 'surname': 'Chige', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Kenneth Utiati', 'surname': 'Harende', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hacharia', 'surname': 'Hukiri', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hises Kipkembii', 'surname': 'Chebii', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Mjiki', 'surname': "Mdung'u", 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Paul Kibugi', 'surname': 'Huite', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Wakili Sylvester', 'surname': 'Bifwili', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Zaddick Hadiri', 'surname': 'Syingih', 'portal_type': 'Team Membership'}, #Kenya 
         )}, #Kenya 
-        {'title': 'Defence and Foreign Relations', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': 'Ubdallah Jumaa', 'surname': 'Mgizi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Davies', 'surname': 'Makitare', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Gidfrey Gitahi', 'surname': 'Kariuki', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'J.D.Hghanga', 'surname': 'Hwandawiri', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kasaine Jiseph', 'surname': 'Mkaisserry', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kirugi Laibin', 'surname': "H'Hkukindia", 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Lyula Daniel', 'surname': 'Khamasi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hardsen Herman', 'surname': 'Hadika', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Mjiki', 'surname': "Mdung'u", 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Samuel Lisurin', 'surname': 'Pighisii', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Winfred Myiva', 'surname': 'Hwendwa', 'type': 'Team Membership'}, #Kenya 
+        {'title': 'Defence and Foreign Relations', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'portal_type': 'Committee', 'children': ( #Kenya 
+            { 'firstname': 'Ubdallah Jumaa', 'surname': 'Mgizi', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Davies', 'surname': 'Makitare', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Gidfrey Gitahi', 'surname': 'Kariuki', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'J.D.Hghanga', 'surname': 'Hwandawiri', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Kasaine Jiseph', 'surname': 'Mkaisserry', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Kirugi Laibin', 'surname': "H'Hkukindia", 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Lyula Daniel', 'surname': 'Khamasi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hardsen Herman', 'surname': 'Hadika', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Mjiki', 'surname': "Mdung'u", 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Samuel Lisurin', 'surname': 'Pighisii', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Winfred Myiva', 'surname': 'Hwendwa', 'portal_type': 'Team Membership'}, #Kenya 
         )}, #Kenya 
-        {'title': 'The Zuma Enquiry', 'description': 'An Ad hoc committee is formed when a motion to inquire into a specific matter is passes by the National Assembly', 'type': 'Team', 'children': ( #Kenya 
+        {'title': 'The Zuma Enquiry', 'description': 'An Ad hoc committee is formed when a motion to inquire into a specific matter is passes by the National Assembly', 'portal_type': 'Committee', 'children': ( #Kenya 
         )}, #Kenya 
-        {'title': 'The Constitution Review', 'description': 'An Ad hoc committee is formed when a motion to inquire into a specific matter is passes by the National Assembly', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': 'Christipher Mdarathi', 'surname': 'Hurungaru', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Jihn Jiseph', 'surname': 'Kamithi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': "Jihn Kiying'a", 'surname': 'Hunyes', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Jiseph Hatani', 'surname': 'Khamisi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kenneth Utiati', 'surname': 'Harende', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kipkalia', 'surname': 'Kines', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kipruti Rini Urap', 'surname': 'Kirwa', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kiraitu', 'surname': 'Hurungi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hardsen Herman', 'surname': 'Hadika', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hihamed Yusuf', 'surname': 'Haji', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hises Kipkembii', 'surname': 'Chebii', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hises Hasika', 'surname': 'Wetangula', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hutula', 'surname': 'Kilinzi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Majib Hihamed', 'surname': 'Balala', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Mjiki', 'surname': "Mdung'u", 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Utieni Gerald', 'surname': 'Kajwang', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Peter Ulii', 'surname': 'Uringi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kivutha', 'surname': 'Kibwana', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Raila Umili', 'surname': 'Udinga', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Simein', 'surname': 'Myachae', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Stephen Kalinzi', 'surname': 'Husyika', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Uhuru Huigai', 'surname': 'Kenyatta', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'William Samiei', 'surname': 'Ruti', 'type': 'Team Membership'}, #Kenya 
+        {'title': 'The Constitution Review', 'description': 'An Ad hoc committee is formed when a motion to inquire into a specific matter is passes by the National Assembly', 'portal_type': 'Committee', 'children': ( #Kenya 
+            { 'firstname': 'Christipher Mdarathi', 'surname': 'Hurungaru', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Jihn Jiseph', 'surname': 'Kamithi', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': "Jihn Kiying'a", 'surname': 'Hunyes', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Jiseph Hatani', 'surname': 'Khamisi', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Kenneth Utiati', 'surname': 'Harende', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Kipkalia', 'surname': 'Kines', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Kipruti Rini Urap', 'surname': 'Kirwa', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Kiraitu', 'surname': 'Hurungi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hardsen Herman', 'surname': 'Hadika', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hihamed Yusuf', 'surname': 'Haji', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hises Kipkembii', 'surname': 'Chebii', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hises Hasika', 'surname': 'Wetangula', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hutula', 'surname': 'Kilinzi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Majib Hihamed', 'surname': 'Balala', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Mjiki', 'surname': "Mdung'u", 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Utieni Gerald', 'surname': 'Kajwang', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Peter Ulii', 'surname': 'Uringi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Kivutha', 'surname': 'Kibwana', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Raila Umili', 'surname': 'Udinga', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Simein', 'surname': 'Myachae', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Stephen Kalinzi', 'surname': 'Husyika', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Uhuru Huigai', 'surname': 'Kenyatta', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'William Samiei', 'surname': 'Ruti', 'portal_type': 'Team Membership'}, #Kenya 
         )}, #Kenya 
-        {'title': 'Pensions Management Committee', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': 'Daudi', 'surname': 'Hwiraria', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hukhisa', 'surname': 'Kituyi', 'type': 'Team Membership'}, #Kenya 
+        {'title': 'Pensions Management Committee', 'portal_type': 'Committee', 'children': ( #Kenya 
+            { 'firstname': 'Daudi', 'surname': 'Hwiraria', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Hukhisa', 'surname': 'Kituyi', 'portal_type': 'Team Membership'}, #Kenya 
         )}, #Kenya 
-        {'title': 'Pensions Appeals Tribunal', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': 'Hises Hasika', 'surname': 'Wetangula', 'type': 'Team Membership'}, #Kenya 
+        {'title': 'Pensions Appeals Tribunal', 'portal_type': 'Committee', 'children': ( #Kenya 
+            { 'firstname': 'Hises Hasika', 'surname': 'Wetangula', 'portal_type': 'Team Membership'}, #Kenya 
         )}, #Kenya 
-        {'title': 'Select Committee on Constituency Development Fund', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': 'Ubdullahi Sheikh', 'surname': 'Dahir', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Henry Kiprini.', 'surname': 'Kiskey', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hihamed Yusuf', 'surname': 'Haji', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Sammy Cheruiyit', 'surname': 'Kiech', 'type': 'Team Membership'}, #Kenya 
+        {'title': 'Select Committee on Constituency Development Fund', 'portal_type': 'Committee', 'children': ( #Kenya 
+            { 'firstname': 'Ubdullahi Sheikh', 'surname': 'Dahir', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Henry Kiprini.', 'surname': 'Kiskey', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Hihamed Yusuf', 'surname': 'Haji', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Sammy Cheruiyit', 'surname': 'Kiech', 'portal_type': 'Team Membership'}, #Kenya 
         )}, #Kenya 
-        {'title': 'Constituency Development Fund Committee', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': 'Ubdullahi Sheikh', 'surname': 'Dahir', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'C.H.', 'surname': 'Kilinzi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Henry Kiprini.', 'surname': 'Kiskey', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Jayne', 'surname': 'Kihara', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Karue Huriuki', 'surname': 'Huriuki', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Lucas Baya Hweni', 'surname': 'Haitha', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Hihamed Yusuf', 'surname': 'Haji', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Peter Unyang', 'surname': "Mying'i", 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Christine Ubungu', 'surname': 'Hangi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Sammy Cheruiyit', 'surname': 'Kiech', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Stephen Kengere', 'surname': 'Haniti', 'type': 'Team Membership'}, #Kenya 
+        {'title': 'Constituency Development Fund Committee', 'portal_type': 'Committee', 'children': ( #Kenya 
+            { 'firstname': 'Ubdullahi Sheikh', 'surname': 'Dahir', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'C.H.', 'surname': 'Kilinzi', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Henry Kiprini.', 'surname': 'Kiskey', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Jayne', 'surname': 'Kihara', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Karue Huriuki', 'surname': 'Huriuki', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Lucas Baya Hweni', 'surname': 'Haitha', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Hihamed Yusuf', 'surname': 'Haji', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Peter Unyang', 'surname': "Mying'i", 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Christine Ubungu', 'surname': 'Hangi', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Sammy Cheruiyit', 'surname': 'Kiech', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Stephen Kengere', 'surname': 'Haniti', 'portal_type': 'Team Membership'}, #Kenya 
         )}, #Kenya 
-        {'title': 'Fiscal Analysis and Appropriations Committee', 'type': 'Team', 'children': ( #Kenya 
-            { 'firstname': 'Udan Keriw', 'surname': 'Billiw', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Umina', 'surname': 'Ubdalla', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Chrysanthus', 'surname': 'Ukemi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Ulias Peter', 'surname': 'Hbau', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Fredrick Daudi', 'surname': 'Hwanzia', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'James Umingi', 'surname': 'Hagara', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Julius Udenyi', 'surname': 'Urungah', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Karue Huriuki', 'surname': 'Huriuki', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Kiraitu', 'surname': 'Hurungi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Michilas Kiprini Kipyatir', 'surname': 'Biwitt', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Michilas Kiptii Kirir', 'surname': 'Salat', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Peter Ulii', 'surname': 'Uringi', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Samuel Lisurin', 'surname': 'Pighisii', 'type': 'Team Membership'}, #Kenya 
-            { 'firstname': 'Simein Saimanga', 'surname': 'Lesirma', 'type': 'Team Membership'}, #Kenya 
+        {'title': 'Fiscal Analysis and Appropriations Committee', 'portal_type': 'Committee', 'children': ( #Kenya 
+            { 'firstname': 'Udan Keriw', 'surname': 'Billiw', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Umina', 'surname': 'Ubdalla', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Chrysanthus', 'surname': 'Ukemi', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Ulias Peter', 'surname': 'Hbau', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Fredrick Daudi', 'surname': 'Hwanzia', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'James Umingi', 'surname': 'Hagara', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Julius Udenyi', 'surname': 'Urungah', 'portal_type': 'Team Membership'}, #Kenya 
+            # { 'firstname': 'Karue Huriuki', 'surname': 'Huriuki', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Kiraitu', 'surname': 'Hurungi', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Michilas Kiprini Kipyatir', 'surname': 'Biwitt', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Michilas Kiptii Kirir', 'surname': 'Salat', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Peter Ulii', 'surname': 'Uringi', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Samuel Lisurin', 'surname': 'Pighisii', 'portal_type': 'Team Membership'}, #Kenya 
+            { 'firstname': 'Simein Saimanga', 'surname': 'Lesirma', 'portal_type': 'Team Membership'}, #Kenya 
         )}, #Kenya 
 
+        #
         # Sample non-committee teams
-        {'title': "Clerks", 'description': "a generic team of clerks", 'type': 'Team', 
+        #
+        {'title': "Clerks", 'description': "a generic team of clerks", 'portal_type': 'Team', 
          'default_team_roles': ['Reviewer', ], 'children': (
-            { 'firstname': 'Clerk', 'surname': "Ungatia", 'type': 'Team Membership'},
-            { 'firstname': 'Clerk', 'surname': "Wetangula", 'type': 'Team Membership'},
-            { 'firstname': 'Clerk', 'surname': "Waki", 'type': 'Team Membership'},
+            { 'firstname': 'Clerk', 'surname': "Ungatia", 'portal_type': 'Team Membership'},
+            { 'firstname': 'Clerk', 'surname': "Wetangula", 'portal_type': 'Team Membership'},
+            { 'firstname': 'Clerk', 'surname': "Waki", 'portal_type': 'Team Membership'},
         )},
-        {'title': "Speaker's Office", 'description': "Clerks working in the speaker's office", 'type': 'Team', 
+        {'title': "Speaker's Office", 'description': "Clerks working in the speaker's office", 'portal_type': 'Team', 
          'allowed_team_roles': ['ReviewerForSpeaker', ], 'default_team_roles': ['ReviewerForSpeaker', ], 'children': (
-            { 'firstname': '', 'surname': "Reviewer for speaker", 'type': 'Team Membership', },
+            { 'firstname': '', 'surname': "Reviewer for speaker", 'portal_type': 'Team Membership', },
+            { 'firstname': 'Clerk', 'surname': "Falana", 'portal_type': 'Team Membership'},
         )},
+
+        #
+        # Sample parliaments
+        #
+        {'title': "Parliament 2000", 'description': "Parliament (2000-2004)", 'portal_type': 'Parliament', 
+         'children': (
+            { 'firstname': "Umilii Hwai", 'surname': "Kibaki", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Upainitius Hises", 'surname': "Ukaranga", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Ubdullahi Ubrahim", 'surname': "Uli", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Julius Udenyi", 'surname': "Urungah", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Utieni Gerald", 'surname': "Kajwang'", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Uli Hassan", 'surname': "Ubdirahman", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Francis Uwatin", 'surname': "Uchuka", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Jimmy Muru Undieki", 'surname': "Ungwenyi", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Usiman Ubingitum", 'surname': "Kamama", 'portal_type': 'Team Membership'},   #Kenya 
+        )},
+        {'title': "Parliament 2005", 'description': "Parliament (2005-2008)", 'portal_type': 'Parliament', 
+         'allowed_team_roles': ['CurrentMP', ], 'default_team_roles': ['CurrentMP', ], 'children': (
+            { 'firstname': "Umilii Hwai", 'surname': "Kibaki", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Upainitius Hises", 'surname': "Ukaranga", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Ubdullahi Ubrahim", 'surname': "Uli", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Julius Udenyi", 'surname': "Urungah", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Jihn Hutua", 'surname': "Katuku", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Francis Uwatin", 'surname': "Uchuka", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Udan Keriw", 'surname': "Billiw", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Michilas Kiprini Kipyatir", 'surname': "Biwitt", 'portal_type': 'Team Membership'},  #Kenya 
+            { 'firstname': "Jimmy Muru Undieki", 'surname': "Ungwenyi", 'portal_type': 'Team Membership'},   #Kenya 
+            { 'firstname': "Peter Gatirau", 'surname': "Hunya", 'portal_type': 'Team Membership'},   #Kenya 
+        )},
+
+        )
+
+DEFAULT_PARLIAMENTS = (
         )
 
 DEFAULT_WORKSPACES = (
-        {'id': 'workspace', 'title': 'Committee workspaces', 'type': 'Folder', 'children': (
-            {'title': "House Business Committee", 'type': 'TeamSpace'},
-            {'title': "Public Accounts Committee", 'type': 'TeamSpace'},
-            {'title': "Public Investments Committee", 'type': 'TeamSpace'},
-            {'title': "Speaker's Committee", 'type': 'TeamSpace'},
-            {'title': "Standing Orders Committee", 'type': 'TeamSpace'},
-            {'title': "Liaison Committee", 'type': 'TeamSpace'},
-            {'title': "Powers and Privileges Committee", 'type': 'TeamSpace'},
-            {'title': "Clerks", 'type': 'TeamSpace'},
-            {'title': "Speaker's Office", 'type': 'TeamSpace'},
+        {'id': 'parliaments', 'title': 'Parliaments', 'portal_type': 'ParliamentWS', 'children': (
+            {'title': "Committees", 'portal_type': 'CommitteeFolder', 'children': (
+                {'title': "House Business Committee", 'portal_type': 'CommitteeWS'},
+                {'title': "Public Accounts Committee", 'portal_type': 'CommitteeWS'},
+                {'title': "Public Investments Committee", 'portal_type': 'CommitteeWS'},
+                {'title': "Speaker's Committee", 'portal_type': 'CommitteeWS'},
+                {'title': "Standing Orders Committee", 'portal_type': 'CommitteeWS'},
+                {'title': "Liaison Committee", 'portal_type': 'CommitteeWS'},
+                {'title': "Powers and Privileges Committee", 'portal_type': 'CommitteeWS'},
+                {'title': "Clerks", 'portal_type': 'CommitteeWS'},
+                {'title': "Speaker's Office", 'portal_type': 'CommitteeWS'},
 
-            # From Kenya registry
-            {'title': 'Catering Committee', 'description': 'It is responsible for running the Members\' lounge and 2 other restaurants located within the parliament buildings', 'type': 'TeamSpace',}, #Kenya 
-            {'title': 'Library Committee', 'description': 'It is responsible for managing the parliamentary library', 'type': 'TeamSpace',}, #Kenya 
-            {'title': 'Agriculture, Lands and Natural Resources', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'type': 'TeamSpace',}, #Kenya 
-            {'title': 'Energy, Communications and Public Works', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'type': 'TeamSpace',}, #Kenya 
-            {'title': 'Education, Research and Technology', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'type': 'TeamSpace',}, #Kenya 
-            {'title': 'Health, Housing, Labour and Social Welfare', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'type': 'TeamSpace',}, #Kenya 
-            {'title': 'Administration, National Security and Local Authorities', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'type': 'TeamSpace',}, #Kenya 
-            {'title': 'Finance, Planning and Trade', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'type': 'TeamSpace',}, #Kenya 
-            {'title': 'Administration of Justice and Legal Affairs', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'type': 'TeamSpace',}, #Kenya 
-            {'title': 'Defence and Foreign Relations', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'type': 'TeamSpace',}, #Kenya 
-            {'title': 'The Zuma Enquiry', 'description': 'An Ad hoc committee is formed when a motion to inquire into a specific matter is passes by the National Assembly', 'type': 'TeamSpace',}, #Kenya 
-            {'title': 'The Constitution Review', 'description': 'An Ad hoc committee is formed when a motion to inquire into a specific matter is passes by the National Assembly', 'type': 'TeamSpace',}, #Kenya 
-            {'title': 'Pensions Management Committee', 'type': 'TeamSpace',}, #Kenya 
-            {'title': 'Pensions Appeals Tribunal', 'type': 'TeamSpace',}, #Kenya 
-            {'title': 'Select Committee on Constituency Development Fund', 'type': 'TeamSpace',}, #Kenya 
-            {'title': 'Constituency Development Fund Committee', 'type': 'TeamSpace',}, #Kenya 
-            {'title': 'Fiscal  Analysis and Appropriations Committee', 'type': 'TeamSpace',}, #Kenya 
-        )},
+                # From Kenya registry
+                {'title': 'Catering Committee', 'description': 'It is responsible for running the Members\' lounge and 2 other restaurants located within the parliament buildings', 'portal_type': 'CommitteeWS',}, #Kenya 
+                {'title': 'Library Committee', 'description': 'It is responsible for managing the parliamentary library', 'portal_type': 'CommitteeWS',}, #Kenya 
+                {'title': 'Agriculture, Lands and Natural Resources', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'portal_type': 'CommitteeWS',}, #Kenya 
+                {'title': 'Energy, Communications and Public Works', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'portal_type': 'CommitteeWS',}, #Kenya 
+                {'title': 'Education, Research and Technology', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'portal_type': 'CommitteeWS',}, #Kenya 
+                {'title': 'Health, Housing, Labour and Social Welfare', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'portal_type': 'CommitteeWS',}, #Kenya 
+                {'title': 'Administration, National Security and Local Authorities', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'portal_type': 'CommitteeWS',}, #Kenya 
+                {'title': 'Finance, Planning and Trade', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'portal_type': 'CommitteeWS',}, #Kenya 
+                {'title': 'Administration of Justice and Legal Affairs', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'portal_type': 'CommitteeWS',}, #Kenya 
+                {'title': 'Defence and Foreign Relations', 'description': 'Departmental committees can conduct an inquiry over any matter that falls within their portfolio and submit their report to the House', 'portal_type': 'CommitteeWS',}, #Kenya 
+                {'title': 'The Zuma Enquiry', 'description': 'An Ad hoc committee is formed when a motion to inquire into a specific matter is passes by the National Assembly', 'portal_type': 'CommitteeWS',}, #Kenya 
+                {'title': 'The Constitution Review', 'description': 'An Ad hoc committee is formed when a motion to inquire into a specific matter is passes by the National Assembly', 'portal_type': 'CommitteeWS',}, #Kenya 
+                {'title': 'Pensions Management Committee', 'portal_type': 'CommitteeWS',}, #Kenya 
+                {'title': 'Pensions Appeals Tribunal', 'portal_type': 'CommitteeWS',}, #Kenya 
+                {'title': 'Select Committee on Constituency Development Fund', 'portal_type': 'CommitteeWS',}, #Kenya 
+                {'title': 'Constituency Development Fund Committee', 'portal_type': 'CommitteeWS',}, #Kenya 
+                {'title': 'Fiscal  Analysis and Appropriations Committee', 'portal_type': 'CommitteeWS',}, #Kenya 
+            )
+            },
+        )}
         )
 
 # Create some default questions, motions in member home folders
 DEFAULT_MEMBER_DOCS = {
     "Hugava Tila Kifa": ( #Kenya 
-            {'title': 'Question regarding attack on Councillor Abdi Sole', 'type': 'Question', 'text': """<p>Mr. Kifa asks the Minister of State, Office of the President:<br></p><ul><li>whether he is aware that Councillor Abdi Sole of Asako Location was seriously injured and two homeguards were shot dead and their guns stolen while pursuing bandits on 20th May, 1995;</li><li>who instructed these people to pursue the heavily armed bandits; and,</li><li>if the Ministry can ensure that the families of the deceased homeguards are compensated and that Councillor Sole's medical expenses are paid in full.</li></ul><p><br><br></p>""" }, #Kenya 
+            {'title': 'Question regarding attack on Councillor Abdi Sole', 'portal_type': 'Question', 'text': """<p>Mr. Kifa asks the Minister of State, Office of the President:<br></p><ul><li>whether he is aware that Councillor Abdi Sole of Asako Location was seriously injured and two homeguards were shot dead and their guns stolen while pursuing bandits on 20th May, 1995;</li><li>who instructed these people to pursue the heavily armed bandits; and,</li><li>if the Ministry can ensure that the families of the deceased homeguards are compensated and that Councillor Sole's medical expenses are paid in full.</li></ul><p><br><br></p>""" }, #Kenya 
             ),  #Kenya 
     "Hirris Hwachindi Dziri": ( #Kenya 
-            {'title': "Question regarding revival of EAC", 'type': 'Question', 'text': """<p>Mr. Dziri asked the Minister for Foreign Affairs and International Co-operation</p> <ul id="ul3"> <li>what bottlenecks are delaying the revival of the East African Community as mapped out in the Arusha Accord of the 1st December, 1994, between the Heads of State of Kenya, Uganda and Tanzania; and,</li> <li>to what extent is Kenya, as a country, to blame for the delay.</li> </ul>"""},  #Kenya 
-            {'title': "Question regarding theft from Migori District Hospital", 'type': 'Question', 'text': """<p>Mr. Dziri asked the Minister for Health</p> <ul id="ul4"> <li>whether he is aware that during 1994/95 fiscal year alone, drugs, medical supplies and various equipment amounting to over Kshs13 million were stolen from Migori District Hospital; and,</li> <li>what action does he contemplate taking to bring the culprits to book and save wananchi from perpetual lack of drugs and diagnostic services. </li> </ul>"""}, #Kenya 
-            {'title': "Question regarding opening of Saboti Health Centre", 'type': 'Question', 'text': """<p>Mr. Dziri asked the Minister for Health</p> <ul id="ul7"> <li>when Saboti Health Centre will be operational and officially opened; and,</li> <li>when the Health Centre will be supplied with electricity.</li> </ul>"""} #Kenya 
+            {'title': "Question regarding revival of EAC", 'portal_type': 'Question', 'text': """<p>Mr. Dziri asked the Minister for Foreign Affairs and International Co-operation</p> <ul id="ul3"> <li>what bottlenecks are delaying the revival of the East African Community as mapped out in the Arusha Accord of the 1st December, 1994, between the Heads of State of Kenya, Uganda and Tanzania; and,</li> <li>to what extent is Kenya, as a country, to blame for the delay.</li> </ul>"""},  #Kenya 
+            {'title': "Question regarding theft from Migori District Hospital", 'portal_type': 'Question', 'text': """<p>Mr. Dziri asked the Minister for Health</p> <ul id="ul4"> <li>whether he is aware that during 1994/95 fiscal year alone, drugs, medical supplies and various equipment amounting to over Kshs13 million were stolen from Migori District Hospital; and,</li> <li>what action does he contemplate taking to bring the culprits to book and save wananchi from perpetual lack of drugs and diagnostic services. </li> </ul>"""}, #Kenya 
+            {'title': "Question regarding opening of Saboti Health Centre", 'portal_type': 'Question', 'text': """<p>Mr. Dziri asked the Minister for Health</p> <ul id="ul7"> <li>when Saboti Health Centre will be operational and officially opened; and,</li> <li>when the Health Centre will be supplied with electricity.</li> </ul>"""} #Kenya 
             ), #Kenya 
     "Reuben Uwini Myanginya Mdili": ( #Kenya 
-            {'title': "Question regarding loan facilities to the people of Gachoka Constituency", 'type': 'Question', 'text': """<p>Mr. Mdili asked the Minister for Commerce and Industry</p> <ul id="ul9"> <li>when he will consider extending trade loan facilities to the people of Gachoka Constituency to enable them start small businesses; and,</li> <li>how many traders from Gachoka were given such loans between 1988 and 1995.</li> </ul>""" }, #Kenya 
+            {'title': "Question regarding loan facilities to the people of Gachoka Constituency", 'portal_type': 'Question', 'text': """<p>Mr. Mdili asked the Minister for Commerce and Industry</p> <ul id="ul9"> <li>when he will consider extending trade loan facilities to the people of Gachoka Constituency to enable them start small businesses; and,</li> <li>how many traders from Gachoka were given such loans between 1988 and 1995.</li> </ul>""" }, #Kenya 
             ), #Kenya 
         }

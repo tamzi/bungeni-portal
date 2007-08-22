@@ -1,4 +1,7 @@
 # We add default content for the Bungeni product.
+
+CSV_IMPORT_PREFIX = '/home/jean/repos/svn/googlecode.com/bungeni-portal/BungeniDefaultContent/demo-parliament/' 
+
 DEPENDENCIES = ['Bungeni', ]
 
 LOREM_IPSUM = """

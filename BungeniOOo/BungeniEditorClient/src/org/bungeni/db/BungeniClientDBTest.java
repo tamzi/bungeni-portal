@@ -21,15 +21,5 @@ public class BungeniClientDBTest {
     public BungeniClientDBTest() {
     }
     
-    public static void main (String[] args) {
-        BungeniClientDB db = new BungeniClientDB("e:\\projects\\WorkingProjects\\BungeniEditorClient\\dist\\settings\\db\\", "");
-        if (db.Connect() ) {
-        Vector<Vector> results = db.Query("select * from toolbar_action_settings");
-        db.EndConnect();
-        System.out.println("Results = "+ results.size());
-        }
-        
-        
-        
-    }
+   
 }

@@ -26,7 +26,7 @@ public class templatePanel extends javax.swing.JPanel {
            String imgLocation = "/gui/"
                              + imageName
                              + ".png";
-            URL imageURL = sectionPanel.class.getResource(imgLocation);
+            URL imageURL = templatePanel.class.getResource(imgLocation);
         //Create and initialize the button.
         JButton button = new JButton();
         button.setActionCommand(actionCommand);

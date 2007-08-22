@@ -474,7 +474,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="jScrollPane2" alignment="0" pref="218" max="32767" attributes="1"/>
+                          <Component id="scroll_panelNotes" alignment="0" pref="218" max="32767" attributes="1"/>
                           <Component id="txtEditorNote" alignment="0" pref="218" max="32767" attributes="1"/>
                           <Component id="lblEditorNotes" alignment="0" min="-2" pref="163" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
@@ -503,14 +503,14 @@
                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                       <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" pref="114" max="32767" attributes="0"/>
+                      <Component id="scroll_panelNotes" pref="114" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+            <Container class="javax.swing.JScrollPane" name="scroll_panelNotes">
               <AuxValues>
                 <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
               </AuxValues>
@@ -543,11 +543,17 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="New Note"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNewEditorNoteActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnSaveEditorNote">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Save Note"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveEditorNoteActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel4">
               <Properties>

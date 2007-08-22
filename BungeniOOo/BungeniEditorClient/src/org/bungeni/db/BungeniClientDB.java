@@ -9,6 +9,7 @@
 
 package org.bungeni.db;
 import java.sql.*;
+import java.util.HashMap;
 import java.util.Vector;
 import org.apache.log4j.Logger;
 /**
@@ -98,10 +99,14 @@ public class BungeniClientDB {
     }
     */
      
-    public synchronized Vector<Vector> Query(String expression) {
+    public synchronized HashMap Query(String expression) {
             Statement st = null;
             ResultSet rs = null;
+            HashMap query_results = new HashMap();
+            
             Vector<Vector> results = new Vector<Vector>();
+            Vector<String> columnsMeta = new Vector<String>();
+        
         
             try {
 
@@ -115,13 +120,13 @@ public class BungeniClientDB {
                 int               colmax = meta.getColumnCount();
                 int               i;
                 Object            o = null;
-                Vector<String> columnsMeta = new Vector<String>();
                 for (int iMeta = 0; iMeta < colmax; ++iMeta) {
                     //System.out.println("column no."+(iMeta+1)+" = "+meta.getColumnName(iMeta+1));
                     columnsMeta.addElement( meta.getColumnName(iMeta+1));
                  }
-                results.addElement(columnsMeta);
+                query_results.put("columns", columnsMeta);
                 
+                boolean returned_results = false;
                 for (   ;rs.next() ; ) {
                     Vector<String> resultsRow = new Vector<String>();
                     for (i = 0; i < colmax; ++i) {
@@ -132,14 +137,16 @@ public class BungeniClientDB {
                     }    
                     //System.out.println(" ");
                     results.addElement(resultsRow);
+                    returned_results = true;
                 }
                 log.debug ("Query Results = "+ results.size());
+                if (returned_results) query_results.put("results", results);
                 st.close();    // NOTE!! if you close a statement the associated ResultSet is
 
         } catch (SQLException ex) {
             System.out.println("query:"+ ex.getLocalizedMessage());
         } finally {
-            return results;
+            return query_results;
         }   
     }
  

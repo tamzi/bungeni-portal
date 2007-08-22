@@ -72,7 +72,7 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(generalEditorScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+            .add(generalEditorScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -211,30 +211,37 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
     }
     
     private void createToolNodes(DefaultMutableTreeNode baseNode, toolbarAction baseNodeAction, BungeniClientDB instance) {
-        
+        try {
         String actionParent = baseNodeAction.action_name;
         log.debug("createToolNodes for : " + actionParent);
-        Vector<Vector> results = new Vector<Vector>();
+        HashMap results = new HashMap();
+        Vector<Vector> resultRows = new Vector<Vector>();
+       // Vector<Vector> results = new Vector<Vector>();
         //DefaultMutableTreeNode child = new DefaultMutableTreeNode (addThisActionObject);
         
         //addToThisNode.add( child);
         log.debug("createToolNodes - query : " + SettingsQueryFactory.Q_FETCH_CHILD_TOOLBAR_ACTIONS(actionParent));
         results = instance.Query(SettingsQueryFactory.Q_FETCH_CHILD_TOOLBAR_ACTIONS(actionParent));
-        
+        log.debug("db results returned === "+ results.size());
         QueryResults query_results = new QueryResults(results);
+        if (query_results.hasResults())
+            log.debug("last query returned results " + query_results.theResults().size());
+        else
+            log.debug ("last query did not return results " + query_results.theResults().size());
         HashMap columns = query_results.columnNameMap();
            
-        if (query_results.hasResults()) {
+        if (query_results.hasResults() ) {
             log.debug("createToolNodes: has children");
             //child actions are present
             //call the result nodes recursively...
-            query_results.theResults();
-               for (int i = 0 ; i < results.size(); i++ ) {
+            resultRows = query_results.theResults();
+               for (int i = 0 ; i < resultRows.size(); i++ ) {
                    //get the results row by row into a string vector
                    Vector<java.lang.String> tableRow = new Vector<java.lang.String>();
-                   tableRow = results.elementAt(i);
+                   tableRow = resultRows.elementAt(i);
                    toolbarAction action = new toolbarAction(tableRow, columns );
                    DefaultMutableTreeNode child = new DefaultMutableTreeNode(action);
+                   log.debug("adding node = " + action);
                    baseNode.add(child);
                    log.debug("createToolNodes : recursing child nodes");
                    createToolNodes (child, action, instance);
@@ -242,6 +249,13 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
         } 
         log.debug("createToolNodes : popping from recrusive level");
         return ;
+        }
+        catch (Exception e) {
+            log.debug("createToolNodes excetopn:"+e.getMessage() );
+            e.printStackTrace();
+        } finally {
+            return;
+        }
     }
 
     public IEditorActionEvent getEventClass(toolbarAction action) {

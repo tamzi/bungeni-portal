@@ -21,7 +21,7 @@ public class DocStructureElement {
     private int count=0;
     boolean hasChild=false;
     private XTextRange textRange;
-    private String __padding = "  ";
+    private String __padding = "-";
     
     /** Creates a new instance of DocStructureElement */
     public DocStructureElement() {

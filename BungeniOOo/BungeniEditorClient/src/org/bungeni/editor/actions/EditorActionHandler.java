@@ -9,6 +9,7 @@
 
 package org.bungeni.editor.actions;
 
+import com.sun.star.beans.PropertyValue;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextViewCursor;
@@ -32,12 +33,33 @@ public class EditorActionHandler implements IEditorActionEvent {
         //main action handler class 
         //can be implemented by any class that implements IEditorActionEvent]
         this.ooDocument = ooDocument;
-        if (action.action_name().equals ("makePrayerSection")) {
+        String cmd = action.action_name;
+        if (cmd.equals ("makePrayerSection")) 
             doMakeSection(action);
-        } else {
-            log.debug("action not implemented");
-        }
-             
+        else if (cmd.equals("makePrayerSection"))
+            doMakeSection(action);
+        else if (cmd.equals("makeQASection"))
+            doMakeSection(action);
+        else if (cmd.equals("makePaperSection"))
+            doMakeSection(action);
+        else if (cmd.equals("makeNoticeOfMotionSection"))
+            doMakeSection(action);
+        else if (cmd.equals("makeQuestionBlockSection"))
+            doMakeSection(action);
+        else if (cmd.equals("makePrayerMarkup"))
+            doMarkup(action);
+        else if (cmd.equals("makePaperMarkup"))
+            doMarkup(action);
+        else if (cmd.equals("makePaperDetailsMarkup"))
+            doMarkup(action);
+        else if (cmd.equals("makeNoticeOfMotionMarkup"))
+            doMarkup(action);
+        else if (cmd.equals("makeNoticeMarkup"))
+            doMarkup(action);
+        else if (cmd.equals("makeNoticeDetailsMarkup"))
+            doMarkup(action);
+        else
+            MessageBox.OK("the command action: "+cmd+" has not been implemented!");    
     }
     
      private void doMakeSection(toolbarAction action){
@@ -85,4 +107,32 @@ public class EditorActionHandler implements IEditorActionEvent {
         
         
     }
+    
+      private void doMarkup(toolbarAction action) {
+        log.debug("in doMarkup for command: "+action.action_name());
+          
+           String namingConvention = "", numberingType = "", newName = "";
+           namingConvention = action.action_naming_convention();
+           numberingType =action.action_numbering_convention();
+           log.debug("naming convention = "+ namingConvention);
+            if (namingConvention.equals("")) {
+                log.debug("unable to name section, section mame was blank");
+                MessageBox.OK("The command:" + action.action_name()+" does not have a naming convention associated with it");
+                return;
+            }
+           log.debug("numbering type = " + numberingType);
+           if (action.action_type.equals("markup")) {    
+              
+               PropertyValue[] loadProps = new com.sun.star.beans.PropertyValue[2];
+               loadProps[0] = new PropertyValue();
+               loadProps[0].Name = new String( "Template");
+               loadProps[0].Value = namingConvention;
+               loadProps[1] = new PropertyValue();
+               loadProps[1].Name = new String( "Family");
+               loadProps[1].Value = new Integer(2);
+               log.debug("invoking execute dispatch");
+               ooDocument.executeDispatch(".uno:StyleApply", loadProps);
+           }
+    }
+
 }

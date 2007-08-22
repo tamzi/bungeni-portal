@@ -17,16 +17,20 @@ import java.util.Vector;
  * @author Administrator
  */
 public class QueryResults {
+   boolean hasResults = false;
    Vector<Vector> theResults = null ;
    HashMap metadataColumnNameMap = null;
    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(QueryResults.class.getName());
  
     /** Creates a new instance of QueryResults */
-    public QueryResults(Vector<Vector> queryResults) {
-        theResults = queryResults;
+    public QueryResults(HashMap results) {
+        if (results.containsKey("results")) {
+            theResults = (Vector<Vector>)results.get("results");
+            hasResults = true;
+        }
         metadataColumnNameMap = new HashMap();
-        if (hasResults()) {
-            buildMetadataInfo();
+        if (results.containsKey("columns")) {
+            buildMetadataInfo((Vector<String>)results.get("columns"));
         }
         
     }
@@ -44,12 +48,7 @@ public class QueryResults {
         }
     }
     public boolean hasResults() {
-        if (theResults == null)
-            return false;
-        if (theResults.size() > 1 ) {
-            return true;
-        }
-        return false;
+       return hasResults;
     }
     
     static int METADATA_ROW_INDEX = 0;
@@ -57,18 +56,15 @@ public class QueryResults {
        return theResults;
     }
     
-    private void buildMetadataInfo () {
-         if (theResults.size() > 1 )  {
+    private void buildMetadataInfo (Vector<String> metadataRow) {
+         if (theResults.size() > 0 )  {
            //build metadata column map
-                  Vector<String> metadataRow = new Vector<String>();
-                  metadataRow = (Vector<String>)theResults.elementAt(METADATA_ROW_INDEX);
-                  for (int n=0; n < metadataRow.size(); n++ ) {
+                    for (int n=0; n < metadataRow.size(); n++ ) {
                      String column_name= "";
                      column_name = (String) metadataRow.elementAt(n);
                      //add to column name ==> column number mapping map
                      metadataColumnNameMap.put(column_name, new Integer(n+1));
                   }
-                  theResults.remove(METADATA_ROW_INDEX);     
        }
     }
     

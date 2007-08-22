@@ -10,6 +10,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.utils import shasattr
 from Products.PlonePAS.utils import cleanId
 from Products.BungeniDefaultContent.config import *
+from Globals import package_home
 
 from Products.Archetypes.debug import log
 
@@ -39,7 +40,6 @@ new_actions = (
 # Read CSV
 #
 
-PREFIX = '/home/jean/repos/svn/googlecode.com/bungeni-portal/BungeniDefaultContent/demo-parliament/'
 # Describe the sources. 
 # For records that correspond to objects in Plone:
 # - how do their fields map to our Plone objects?
@@ -312,8 +312,10 @@ def shelve_csv_data():
             # "_1" in case of splitting ..
             log('%s.* exists, skipping .. (delete to re-create).'%csv_name)
             continue
-        log('opening %s'%csv_name) #DBG 
-        csv_lines = [line for line in csv.DictReader(open(PREFIX+csv_name+'.csv'))]
+        log('opening %s'%csv_name) #DBG
+        csv_path = os.path.join( package_home( product_globals ), 'demo-parliament', csv_name+'.csv' )
+        
+        csv_lines = [line for line in csv.DictReader(open(csv_path ) ) ]
         if split_by_field:
             splits = {}
             for d in csv_lines:

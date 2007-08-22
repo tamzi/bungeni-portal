@@ -36,15 +36,17 @@ from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
+from Products.Archetypes.utils import DisplayList
 ##/code-section module-header
 
 schema = Schema((
 
     RelationField(
-        name='memberofparliaments',
+        name='Minister',
+        vocabulary='getParliamentMembershipVocab',
         widget=ReferenceWidget(
-            label='Memberofparliaments',
-            label_msgid='Bungeni_label_memberofparliaments',
+            label='Minister',
+            label_msgid='Bungeni_label_Minister',
             i18n_domain='Bungeni',
         ),
         multiValued=0,
@@ -52,10 +54,11 @@ schema = Schema((
     ),
 
     RelationField(
-        name='memberofparliaments',
+        name='AssistantMinister',
+        vocabulary='getParliamentMembershipVocab',
         widget=ReferenceWidget(
-            label='Memberofparliaments',
-            label_msgid='Bungeni_label_memberofparliaments',
+            label='Assistantminister',
+            label_msgid='Bungeni_label_AssistantMinister',
             i18n_domain='Bungeni',
         ),
         multiValued=0,
@@ -104,6 +107,19 @@ class Portfolio(BaseContent, ATDocument):
     ##/code-section class-header
 
     # Methods
+
+    security.declarePublic('getParliamentMembershipVocab')
+    def getParliamentMembershipVocab(self):
+        """
+        return all current parliament members
+        """
+        catalog = getToolByName(self, 'portal_catalog')
+        path = '/'.join(self.parliaments.getPhysicalPath())
+        proxies = catalog(
+                path={'query': path, 'depth':1},
+                portal_type='Team Membership',
+                review_state='active')
+        return DisplayList([(p.UID, p.Title) for p in proxies])
 
 
 registerType(Portfolio, PROJECTNAME)

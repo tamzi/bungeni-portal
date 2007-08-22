@@ -126,6 +126,16 @@ class BungeniMembershipTool(UniqueObject, BaseContent):
         remtypes = [(i, i) for i in remtypes]
         return DisplayList(remtypes)
 
+    security.declarePublic('getMemberByUID')
+    def getMemberByUID(self,uid):
+        """
+        """
+        proxies = self.uid_catalog(UID=uid)
+        if proxies:
+            assert len(proxies) == 1
+            member = proxies[0].getObject()
+            return member
+
 
 registerType(BungeniMembershipTool, PROJECTNAME)
 # end of class BungeniMembershipTool

@@ -35,6 +35,7 @@ from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
+from Products.CMFCore.utils import getToolByName
 from Products.TeamSpace.permissions import *
 ##/code-section module-header
 
@@ -42,6 +43,7 @@ schema = Schema((
 
     RelationField(
         name='ChiefEditor',
+        vocabulary='getMembershipVocab',
         widget=ReferenceWidget(
             label='Chiefeditor',
             label_msgid='Bungeni_label_ChiefEditor',
@@ -53,6 +55,7 @@ schema = Schema((
 
     RelationField(
         name='DeputyChiefEditor',
+        vocabulary='getMembershipVocab',
         widget=ReferenceWidget(
             label='Deputychiefeditor',
             label_msgid='Bungeni_label_DeputyChiefEditor',
@@ -64,23 +67,25 @@ schema = Schema((
 
     RelationField(
         name='Editors',
+        vocabulary='getMembershipVocab',
         widget=ReferenceWidget(
             label='Editors',
             label_msgid='Bungeni_label_Editors',
             i18n_domain='Bungeni',
         ),
-        multiValued=0,
+        multiValued=1,
         relationship='debaterecordoffice_editors'
     ),
 
     RelationField(
         name='Reporters',
+        vocabulary='getMembershipVocab',
         widget=ReferenceWidget(
             label='Reporters',
             label_msgid='Bungeni_label_Reporters',
             i18n_domain='Bungeni',
         ),
-        multiValued=0,
+        multiValued=1,
         relationship='debaterecordoffice_reporters'
     ),
 
@@ -129,28 +134,59 @@ class DebateRecordOffice(BaseContent, Office):
     # Methods
 
     security.declarePublic('setChiefEditor')
-    def setChiefEditor(self):
+    def setChiefEditor(self,value,**kw):
         """
         """
-        pass
+        # Team:
+        if value:
+            uid = value[0]
+            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
+            member_roles = self._get_member_roles(member, ['ChiefEditor'])
+            self.manage_updateRoles(member_roles)
+        # Field:
+        field = self.Schema()['ChiefEditor']
+        return field.set(self, value, **kw)
 
     security.declarePublic('setDeputyChiefEditor')
-    def setDeputyChiefEditor(self):
+    def setDeputyChiefEditor(self,value,**kw):
         """
         """
-        pass
+        # Team:
+        if value:
+            uid = value[0]
+            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
+            member_roles = self._get_member_roles(member, ['DeputyChiefEditor'])
+            self.manage_updateRoles(member_roles)
+        # Field:
+        field = self.Schema()['DeputyChiefEditor']
+        return field.set(self, value, **kw)
 
     security.declarePublic('setEditors')
-    def setEditors(self):
+    def setEditors(self,value,**kw):
         """
         """
-        pass
+        # Team:
+        if value:
+            mt = getToolByName(self, 'portal_bungenimembershiptool')
+            members = [mt.getMemberByUID(uid) for uid in value]
+            member_roles = self._get_member_roles(members, ['Editor'])
+            self.manage_updateRoles(member_roles)
+        # Field:
+        field = self.Schema()['Editors']
+        return field.set(self, value, **kw)
 
     security.declarePublic('setReporters')
-    def setReporters(self):
+    def setReporters(self,value,**kw):
         """
         """
-        pass
+        # Team:
+        for uid in value:
+            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
+            member_roles = self._get_member_roles(member, ['Reporter'])
+            self.manage_updateRoles(member_roles)
+        # Field:
+        field = self.Schema()['Reporters']
+        return field.set(self, value, **kw)
 
     security.declareProtected(ManageTeam, 'manage_updateRoles')
     def manage_updateRoles(self,member_roles,REQUEST=None):

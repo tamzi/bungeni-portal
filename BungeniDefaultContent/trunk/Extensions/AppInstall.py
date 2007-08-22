@@ -202,8 +202,10 @@ csv_sources = {
                             'portal_type': 'DebateRecordFolder', },
                         ]
                     },
+                # reference_fields specifies the type for which IDs
+                # should be resolved
                 'reference_fields': (
-                    ('attendees', 'Persons_ID_register'),
+                    ('attendees', 'MemberOfParliament'),
                     ),
                 'id_field': 'seating_id'}, 
         'Seating_type_des': {'id_field': 'seating_type'}, 
@@ -664,6 +666,7 @@ def set_ministries():
                 'title': ministry['portfolio'],
                 'portal_type': 'Portfolio',
                 'Minister': minister_id, # TODO convert to UID
+                'reference_fields': [('Minister', 'MemberOfParliament'), ]
                 }
         if not portfolio in ministry['children']:
             ministry['children'].append(portfolio)
@@ -925,17 +928,16 @@ def do_transition(root, structure, transition, reason=''):
         root.folder_publish(workflow_action=transition, paths=paths,
                 comment=reason, include_children=True)
 
-# TODO: We need a way to relate ids in the input CSV with UIDs of the
-# corresponding Plone objects, to enable easy creation of references.
-id_uid_map = {
-        # (portal_type, id): UID, ...
-        }
-
 created_obj_counter = 0
 
 def add_default_content(root, structure, initial_transitions=['publish']):
     """ Create default content
     """
+    # TODO: We need a way to relate ids in the input CSV with UIDs of the
+    # corresponding Plone objects, to enable easy creation of references.
+    # (portal_type, id): UID, ...
+    id_uid_map = shelve.open('id_uid_map', writeback=True)
+
     out = StringIO()
     plone = getToolByName(root, 'portal_url').getPortalObject()
     normalizeString = getToolByName(plone, 'plone_utils').normalizeString
@@ -1024,7 +1026,10 @@ def add_default_content(root, structure, initial_transitions=['publish']):
             if d.has_key('create_home_folder'):
                 membership_tool.createMemberArea(obj_id)
         do_process_form(obj, d)
-        d['UID'] = obj.UID()
+        if d.has_key('id_field'):
+            log('add_object> %s %s (%s) is %s'% (obj.portal_type, d[d['id_field']], obj.getId(), obj.UID()))
+            id_uid_map['%s_%s'%(obj.portal_type, d[d['id_field']])] = obj.UID()
+            id_uid_map['%s_%s'%(obj.portal_type, d[d['id_field']])] = obj.UID()
 
         # Commit a subtransaction every 1000 objects, to conserve memory
         global created_obj_counter
@@ -1042,12 +1047,8 @@ def add_default_content(root, structure, initial_transitions=['publish']):
         """
         for d in structure:
             if d.has_key('reference_fields'):
-                for field, cvs_file in d['reference_fields']:
-                    records = data[cvs_file]
-                    # Translate ids to UIDs. Obviously you can only
-                    # reference objects that have already been created
-                    # and have UIDs, so watch out for order.
-                    d[field] = [records[id]['UID'] for id in d[field]]
+                for field, portal_type in d['reference_fields']:
+                    d[field] = [id_uid_map['%s_%s'%(portal_type, id)] for id in d[field]]
             obj = add_object(root, d)
             if d.get('children', None):
                 add_structure(obj, d['children'])

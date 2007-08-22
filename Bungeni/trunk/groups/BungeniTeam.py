@@ -35,6 +35,7 @@ from Products.Bungeni.config import *
 
 # additional imports from tagged value 'import'
 from Products.TeamSpace.relations import MemberTeamRelation
+from Products.Archetypes.utils import DisplayList
 
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore.utils import getToolByName
@@ -205,27 +206,35 @@ class BungeniTeam(Team):
                     members_per_role[role] = members
         for role, number in constrained_roles.items():
             # TODO: fail more gracefully?
-            assert len(members_per_role[role]) <= number
+            member_ids = members_per_role.get(role, [])
+            assert len(member_ids) <= number
 
     security.declarePublic('_get_member_roles')
-    def _get_member_roles(self,members,role):
+    def _get_member_roles(self,members=[],new_roles=[]):
         """
         """
         member_roles_map = {}
         active_memberships = self.getActiveMemberships()
         if type(members) != type([]):
             members = [members]
-        for v in value:
-            for m in active_memberships:
-                roles = m.getTeamRoles()
-                if (m.getId() == v.getId() and
-                        role not in roles):
-                    roles.append(role)
-                member_roles[m.getId()] = roles
-        member_roles = []
-        for mid, mroles in member_roles_map.items:
-            member_roles.append({'member_id': mid, 'roles': mroles})
-        return member_roles
+        if type(new_roles) != type([]):
+            new_roles = [new_roles]
+        for member in members:
+            for membership in active_memberships:
+                roles = membership.getTeamRoles()
+                if member.getId() == membership.getId():
+                    for role in new_roles:
+                        if role not in roles:
+                            roles.append(role)
+                member_roles_map[membership.getId()] = roles
+        return [{'member_id': mid, 'roles': mroles} for mid, mroles in member_roles_map.items()]
+
+    security.declarePublic('getMembershipVocab')
+    def getMembershipVocab(self):
+        """ Return a DisplayList of memberships of this team, as vocab
+        for team officer references.
+        """
+        return DisplayList([(m.UID(), m.Title()) for m in self.getActiveMembers()])
 
 
 registerType(BungeniTeam, PROJECTNAME)

@@ -70,6 +70,7 @@ schema = Schema((
 
     RelationField(
         name='Leader',
+        vocabulary='getMembershipVocab',
         widget=ReferenceWidget(
             label='Leader',
             label_msgid='Bungeni_label_Leader',
@@ -80,18 +81,20 @@ schema = Schema((
     ),
 
     RelationField(
-        name='DeuputyLeader',
+        name='DeputyLeader',
+        vocabulary='getMembershipVocab',
         widget=ReferenceWidget(
-            label='Deuputyleader',
-            label_msgid='Bungeni_label_DeuputyLeader',
+            label='Deputyleader',
+            label_msgid='Bungeni_label_DeputyLeader',
             i18n_domain='Bungeni',
         ),
         multiValued=0,
-        relationship='politicalgroup_deuputyleader'
+        relationship='politicalgroup_deputyleader'
     ),
 
     RelationField(
         name='Spokesperson',
+        vocabulary='getMembershipVocab',
         widget=ReferenceWidget(
             label='Spokesperson',
             label_msgid='Bungeni_label_Spokesperson',
@@ -103,6 +106,7 @@ schema = Schema((
 
     RelationField(
         name='Secretary',
+        vocabulary='getMembershipVocab',
         widget=ReferenceWidget(
             label='Secretary',
             label_msgid='Bungeni_label_Secretary',
@@ -159,34 +163,42 @@ class PoliticalGroup(BungeniTeam):
     # Methods
 
     security.declarePublic('setLeader')
-    def setLeader(self):
+    def setLeader(self,value,**kw):
         """
         """
         pass
 
     security.declarePublic('setDeputyLeader')
-    def setDeputyLeader(self):
+    def setDeputyLeader(self,value,**kw):
         """
         """
         pass
 
     security.declarePublic('setSpokesperson')
-    def setSpokesperson(self):
+    def setSpokesperson(self,value,**kw):
         """
         """
         pass
 
     security.declarePublic('setSecretary')
-    def setSecretary(self):
+    def setSecretary(self,value,**kw):
         """
         """
         pass
 
     security.declareProtected(ManageTeam, 'manage_updateRoles')
     def manage_updateRoles(self,member_roles,REQUEST):
+        """ Constrain some roles
         """
-        """
-        pass
+        constrained_roles = {
+                'Leader': 1,
+                'DeputyLeader': 1,
+                'Spokesperson': 1,
+                'Secretary': 1,
+                }
+        self._constrainMembershipRoles(constrained_roles, member_roles)
+        # Delegate to super
+        BungeniTeam.manage_updateRoles(self,member_roles,REQUEST=None)
 
 
 registerType(PoliticalGroup, PROJECTNAME)

@@ -43,6 +43,7 @@ schema = Schema((
 
     RelationField(
         name='Chairperson',
+        vocabulary='getMembershipVocab',
         widget=ReferenceWidget(
             label='Chairperson',
             label_msgid='Bungeni_label_Chairperson',
@@ -54,6 +55,7 @@ schema = Schema((
 
     RelationField(
         name='DeputyChairperson',
+        vocabulary='getMembershipVocab',
         widget=ReferenceWidget(
             label='Deputychairperson',
             label_msgid='Bungeni_label_DeputyChairperson',
@@ -65,6 +67,7 @@ schema = Schema((
 
     RelationField(
         name='Secretary',
+        vocabulary='getMembershipVocab',
         widget=ReferenceWidget(
             label='Secretary',
             label_msgid='Bungeni_label_Secretary',
@@ -119,23 +122,47 @@ class Office(BungeniTeam):
 
     # Methods
 
-    security.declarePublic('setChairPerson')
-    def setChairPerson(self):
+    security.declarePublic('setChairperson')
+    def setChairperson(self,value,**kw):
         """
         """
-        pass
+        # Team:
+        if value:
+            uid = value[0]
+            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
+            member_roles = self._get_member_roles(member, ['Chairperson'])
+            self.manage_updateRoles(member_roles)
+        # Field:
+        field = self.Schema()['Chairperson']
+        return field.set(self, value, **kw)
 
     security.declarePublic('setDeputyChairperson')
-    def setDeputyChairperson(self):
+    def setDeputyChairperson(self,value,**kw):
         """
         """
-        pass
+        # Team:
+        if value:
+            uid = value[0]
+            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
+            member_roles = self._get_member_roles(member, ['DeputyChairperson'])
+            self.manage_updateRoles(member_roles)
+        # Field:
+        field = self.Schema()['DeputyChairperson']
+        return field.set(self, value, **kw)
 
     security.declarePublic('setSecretary')
-    def setSecretary(self):
+    def setSecretary(self,value,**kw):
         """
         """
-        pass
+        # Team:
+        if value:
+            uid = value[0]
+            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
+            member_roles = self._get_member_roles(member, ['Secretary'])
+            self.manage_updateRoles(member_roles)
+        # Field:
+        field = self.Schema()['Secretary']
+        return field.set(self, value, **kw)
 
     security.declareProtected(ManageTeam, 'manage_updateRoles')
     def manage_updateRoles(self,member_roles,REQUEST):
@@ -149,33 +176,6 @@ class Office(BungeniTeam):
         self._constrainMembershipRoles(constrained_roles, member_roles)
         # Delegate to super
         BungeniTeam.manage_updateRoles(self,member_roles,REQUEST=None)
-
-    # Manually created methods
-
-    security.declarePublic('getChairPerson')
-    def getChairPerson(self):
-        """
-        """
-        m = self.getActiveMembersByRoles('Chairperson')
-        assert len(m) == 1 # TODO constrain setting of roles
-        return m[0]
-
-    security.declarePublic('getDeputyChairperson')
-    def getDeputyChairperson(self):
-        """
-        """
-        m = self.getActiveMembersByRoles('DeputyChairperson')
-        assert len(m) == 1 # TODO constrain setting of roles
-        return m[0]
-
-    security.declarePublic('getSecretary')
-    def getSecretary(self):
-        """
-        """
-        m = self.getActiveMembersByRoles('Secretary')
-        assert len(m) == 1 # TODO constrain setting of roles
-        return m[0]
-
 
 
 registerType(Office, PROJECTNAME)

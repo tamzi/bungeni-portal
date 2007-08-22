@@ -32,6 +32,7 @@ from Products.Archetypes.atapi import *
 from zope import interface
 from Products.Bungeni.groups.BungeniTeam import BungeniTeam
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
+from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -152,37 +153,43 @@ schema = Schema((
         vocabulary=['parliament', 'annual']
     ),
 
-    ReferenceField(
-        name='Chairperson',
-        widget=ReferenceField._properties['widget'](
-            label='Chairperson',
-            label_msgid='Bungeni_label_Chairperson',
-            i18n_domain='Bungeni',
-        ),
-        allowed_types=['Staff', 'MemberOfParliament'],
-        relationship="committee_chairperson"
-    ),
-
-    ReferenceField(
+    RelationField(
         name='DeputyChairperson',
-        widget=ReferenceField._properties['widget'](
+        vocabulary='getMembershipVocab',
+        widget=ReferenceWidget(
             label='Deputychairperson',
             label_msgid='Bungeni_label_DeputyChairperson',
             i18n_domain='Bungeni',
         ),
-        allowed_types=['Staff', 'MemberOfParliament'],
-        relationship="committee_deputychairperson"
+        allowed_types=['MemberOfParliament', 'Staff'],
+        multiValued=1,
+        relationship='committee_deputychairperson'
     ),
 
-    ReferenceField(
+    RelationField(
         name='Secretary',
-        widget=ReferenceField._properties['widget'](
+        vocabulary='getMembershipVocab',
+        widget=ReferenceWidget(
             label='Secretary',
             label_msgid='Bungeni_label_Secretary',
             i18n_domain='Bungeni',
         ),
-        allowed_types=['Staff', 'MemberOfParliament'],
-        relationship="committee_secretary"
+        allowed_types=['MemberOfParliament', 'Staff'],
+        multiValued=1,
+        relationship='committee_secretary'
+    ),
+
+    RelationField(
+        name='Chairperson',
+        vocabulary='getMembershipVocab',
+        widget=ReferenceWidget(
+            label='Chairperson',
+            label_msgid='Bungeni_label_Chairperson',
+            i18n_domain='Bungeni',
+        ),
+        allowed_types=['MemberOfParliament', 'Staff'],
+        multiValued=1,
+        relationship='committee_chairperson'
     ),
 
 ),
@@ -235,34 +242,43 @@ class Committee(BungeniTeam):
     def setChairperson(self, value, **kw_args):
         """
         """
-        # Manage team roles
-        member_roles = self._get_member_roles(value, ['Chairperson'])
-        self.manage_updateRoles(member_roles)
-        # Reference
+        # Team:
+        if value:
+            uid = value[0]
+            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
+            member_roles = self._get_member_roles(member, ['Chairperson'])
+            self.manage_updateRoles(member_roles)
+        # Field:
         field = self.schema['Chairperson']
-        field.set(self, value, kw_args)
+        return field.set(self, value, **kw_args)
 
     security.declarePublic('setSecretary')
-    def setSecretary(self):
+    def setSecretary(self, value, **kw_args):
         """
         """
-        # Manage team roles
-        member_roles = self._get_member_roles(value, ['Secretary'])
-        self.manage_updateRoles(member_roles)
-        # Reference
+        # Team:
+        if value:
+            uid = value[0]
+            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
+            member_roles = self._get_member_roles(member, ['Secretary'])
+            self.manage_updateRoles(member_roles)
+        # Field:
         field = self.schema['Secretary']
-        field.set(self, value, kw_args)
+        return field.set(self, value, **kw_args)
 
     security.declarePublic('setDeputyChairperson')
-    def setDeputyChairperson(self):
+    def setDeputyChairperson(self, value, **kw_args):
         """
         """
-        # Manage team roles
-        member_roles = self._get_member_roles(value, ['DeputyChairperson'])
-        self.manage_updateRoles(member_roles)
-        # Reference
+        # Team:
+        if value:
+            uid = value[0]
+            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
+            member_roles = self._get_member_roles(member, ['DeputyChairperson'])
+            self.manage_updateRoles(member_roles)
+        # Field:
         field = self.schema['DeputyChairperson']
-        field.set(self, value, kw_args)
+        return field.set(self, value, **kw_args)
 
     security.declarePublic('manage_updateRoles')
     def manage_updateRoles(self,member_roles,REQUEST=None):

@@ -20,6 +20,16 @@ msgstr ""
 msgid "Bungeni_label_"
 msgstr ""
 
+#. Default: "Assistantminister"
+#: content/Portfolio.py
+msgid "Bungeni_label_AssistantMinister"
+msgstr ""
+
+#. Default: "Assistentminister"
+#: content/Portfolio.py
+msgid "Bungeni_label_AssistentMinister"
+msgstr ""
+
 #. Default: "Aye"
 #: votes/VoteOfMP.py
 msgid "Bungeni_label_Aye"
@@ -29,6 +39,11 @@ msgstr ""
 #: groups/Office.py
 #: groups/Committee.py
 msgid "Bungeni_label_Chairperson"
+msgstr ""
+
+#. Default: "Chairpersontoo"
+#: groups/Committee.py
+msgid "Bungeni_label_Chairpersontoo"
 msgstr ""
 
 #. Default: "Chiefclerk"
@@ -83,6 +98,11 @@ msgstr ""
 #: groups/Office.py
 #: groups/Committee.py
 msgid "Bungeni_label_DeputyClerk"
+msgstr ""
+
+#. Default: "Deputyleader"
+#: groups/PoliticalGroup.py
+msgid "Bungeni_label_DeputyLeader"
 msgstr ""
 
 #. Default: "Deuputyleader"
@@ -144,6 +164,11 @@ msgstr ""
 msgid "Bungeni_label_Middlename"
 msgstr ""
 
+#. Default: "Minister"
+#: content/Portfolio.py
+msgid "Bungeni_label_Minister"
+msgstr ""
+
 #. Default: "Nationalidnumber"
 #: membership/BungeniMember.py
 msgid "Bungeni_label_NationalIdNumber"
@@ -201,6 +226,7 @@ msgstr ""
 #. Default: "Reporter"
 #: groups/Office.py
 #: groups/DebateRecordOffice.py
+#: membership/Take.py
 msgid "Bungeni_label_Reporter"
 msgstr ""
 
@@ -240,6 +266,11 @@ msgstr ""
 #. Default: "Surname"
 #: membership/BungeniMember.py
 msgid "Bungeni_label_Surname"
+msgstr ""
+
+#. Default: "Testrelation"
+#: groups/Office.py
+msgid "Bungeni_label_TestRelation"
 msgstr ""
 
 #. Default: "Uri"
@@ -432,6 +463,16 @@ msgstr ""
 #. Default: "Nationalidnumber"
 #: membership/BungeniMember.py
 msgid "Bungeni_label_nationalIdNumber"
+msgstr ""
+
+#. Default: "Notassistantminister"
+#: content/Portfolio.py
+msgid "Bungeni_label_notAssistantMinister"
+msgstr ""
+
+#. Default: "Notminister"
+#: content/Portfolio.py
+msgid "Bungeni_label_notMinister"
 msgstr ""
 
 #. Default: "Notes"

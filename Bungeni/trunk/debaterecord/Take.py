@@ -40,14 +40,15 @@ from Products.Bungeni.config import *
 schema = Schema((
 
     RelationField(
-        name='staffs',
+        name='Reporter',
+        vocabulary='getReportersVocab',
         widget=ReferenceWidget(
-            label='Staffs',
-            label_msgid='Bungeni_label_staffs',
+            label='Reporter',
+            label_msgid='Bungeni_label_Reporter',
             i18n_domain='Bungeni',
         ),
         multiValued=0,
-        relationship='take_staff'
+        relationship='take_reporter'
     ),
 
 ),
@@ -92,6 +93,13 @@ class Take(BaseFolder, ATFile):
     ##/code-section class-header
 
     # Methods
+
+    security.declarePublic('getReportersMembershipVocab')
+    def getReportersMembershipVocab(self):
+        """ Get the current parliament's team of reporters, and return
+        the active memberships.
+        """
+        pass
 
 
 registerType(Take, PROJECTNAME)

@@ -72,7 +72,7 @@ public class ooDocNotes {
                     //get the note elemnt
                     Element note = (Element) notes.get(i);
                     String date = note.getChildText("dte");
-                    String author = note.getChildText("bau");
+                    String author = note.getChildText("aut");
                     String text = note.getChildText("txt");
                     ooDocNoteStructure noteObj = new ooDocNoteStructure (date, author, text);
                     ooNotes.addElement(noteObj);
@@ -88,9 +88,34 @@ public class ooDocNotes {
     private void initNoteProperty () {
         log.debug("initNoteProperty");
         if (! ooDocument.propertyExists(NOTE_PROPERTY_NAME)) {
-            log.debug("adding Property: initNoteProperty");
-            ooDocument.addProperty(NOTE_PROPERTY_NAME, _Note_Xml());
+            log.debug("property does not exist, adding Property: initNoteProperty");
+            addNoteProperty();
         }
+    }
+    
+    private void addNoteProperty() {
+        String value = encodeXml(_Note_Xml());
+        ooDocument.addProperty(this.NOTE_PROPERTY_NAME,value);
+    }
+    
+    private void setNoteProperty (String value ) {
+        //encode value 
+        value = encodeXml (value);
+        log.debug("setNoteProperty: setting value:" + decodeXml(value));
+        ooDocument.setPropertyValue(this.NOTE_PROPERTY_NAME, value);
+        log.debug("after setNoteProperty: setting value");
+     
+    }
+    
+    private String getNoteProperty () {
+        String value = null;
+        try {
+              value = ooDocument.getPropertyValue(this.NOTE_PROPERTY_NAME);
+              value = decodeXml(value);
+         } catch (UnknownPropertyException ex) {
+            log.debug("getNoteProperty:"+ ex.getLocalizedMessage());
+        }
+        return value;
     }
     
     private String _Note_Xml (){
@@ -99,6 +124,13 @@ public class ooDocNotes {
         return note_Xml;
     }
     
+    private String encodeXml (String xml) {
+        return StringEscapeUtils.escapeXml(xml);
+    }
+    
+    private String decodeXml(String xml) {
+        return StringEscapeUtils.unescapeXml(xml);
+    }
     public void addNote (ooDocNoteStructure note) {
         try {
         Element newNote = newNote(note.getNoteText(), note.getNoteDate(), note.getNoteAuthor());
@@ -106,9 +138,8 @@ public class ooDocNotes {
         childNotes.add(newNote);
         XMLOutputter outer = new XMLOutputter();
         String outputXML = outer.outputString(xmlNotesDocument);
-        String escapedOutputXML = StringEscapeUtils.escapeXml(outputXML);
-        //now set property value
-        ooDocument.setPropertyValue(NOTE_PROPERTY_NAME, escapedOutputXML);
+         //now set property value
+        setNoteProperty(outputXML);
         } catch (Exception ex) {
             log.debug("addNote Exception" + ex.getMessage(), ex);
         }
@@ -118,14 +149,13 @@ public class ooDocNotes {
         String bungeniEditorNotes = "";
         List notes = null;
         try {
-             bungeniEditorNotes = ooDocument.getPropertyValue(NOTE_PROPERTY_NAME);
+             bungeniEditorNotes = this.getNoteProperty();
                 //decode XML and parse
-             bungeniEditorNotes = org.apache.commons.lang.StringEscapeUtils.unescapeXml(bungeniEditorNotes);
              xmlNotesDocument = getXMLDocument(bungeniEditorNotes);
              //getRootElement is <notes> within that are the note elements
               notes = xmlNotesDocument.getRootElement().getChildren("note"); 
-         } catch (UnknownPropertyException ex) {
-            log.debug(ex.getMessage(), ex);
+         } catch (Exception ex) {
+            log.debug("getNotesCollection: "+ ex.getMessage(), ex);
         } finally {
             return notes;
         }

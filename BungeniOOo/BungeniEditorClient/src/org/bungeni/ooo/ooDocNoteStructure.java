@@ -21,13 +21,13 @@ public class ooDocNoteStructure {
     
     /** Creates a new instance of ooDocNoteStructure */
     public ooDocNoteStructure(String date, String author, String text) {
-        noteText = text;
+        noteText = text.replaceAll("[\\r\\n\\f]","");
         noteDate = date;
         noteAuthor = author;
     }
 
     public String toString() {
-        return getNoteDate();
+        return getNoteDate() + " ["+ getNoteAuthor()+ "]";
     }
     
     public String getNoteText() {

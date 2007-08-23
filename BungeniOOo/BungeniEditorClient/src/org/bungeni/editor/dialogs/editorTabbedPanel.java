@@ -93,6 +93,7 @@ import org.bungeni.utils.BungeniDataReader;
 import org.bungeni.utils.DocStructureElement;
 import org.bungeni.utils.MessageBox;
 import org.bungeni.utils.StackedBox;
+import org.bungeni.utils.TextSizeFilter;
 /*
 import org.bungeni.utils.DocStructureTreeModel;
 import org.bungeni.utils.DocStructureTreeNode;
@@ -179,19 +180,52 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     }
     
     private void initNotesPanel() {
+        try {
+        //restrict editor note text field
+        javax.swing.text.Document txtEditorNoteDoc = txtEditorNote.getDocument();
+        if (txtEditorNoteDoc instanceof javax.swing.text.AbstractDocument) {
+            javax.swing.text.AbstractDocument doc = (javax.swing.text.AbstractDocument)txtEditorNoteDoc;
+            doc.setDocumentFilter(new TextSizeFilter(100));
+        } else {
+            log.debug("initNotesPanel: not an AbstratDocument instance");
+        }
+        //populate editor notes list
+        initEditorNotesList();
+        
+        } catch (Exception ex) {
+            log.debug("exception initNotesPanel:"+ ex.getMessage());
+            ex.printStackTrace();
+        }
+    }
+    
+    private void initEditorNotesList() {
+        try {
         m_ooNotes = new ooDocNotes (ooDocument);
         Vector<ooDocNoteStructure> allNotes = new Vector<ooDocNoteStructure>();
-        allNotes = docNotes.readNotes();
-        DefaultListModel notesList = (DefaultListModel) listboxEditorNotes.getModel();
-        
+        log.debug("after initializing ooDocNotes");
+        allNotes = m_ooNotes.readNotes();
+        DefaultListModel notesList = new DefaultListModel();
+        log.debug("getting default listmodel");
+   
         if (allNotes != null) {
+            log.debug("allNotes is not null = "+ allNotes.size());
             for (int i=0; i < allNotes.size(); i++ ) {
                 ooDocNoteStructure docNote = null;
                 docNote = allNotes.elementAt(i);
                 notesList.addElement(docNote);
+                log.debug("docNote no."+ i + " , value = "+ docNote.getNoteDate());
             }
+        } 
+        listboxEditorNotes.setModel(notesList);
+        log.debug("initEditorNotesList: size = "+ listboxEditorNotes.getModel().getSize());
+        listboxEditorNotes.ensureIndexIsVisible(listboxEditorNotes.getModel().getSize());
+        listboxEditorNotes.setSelectedIndex(listboxEditorNotes.getModel().getSize());
+        } catch (Exception e) {
+            log.debug("initEditorNotesList: exception : " + e.getMessage());
         }
+        
     }
+    
     public Component getComponentHandle(){
         return this;
     }
@@ -835,11 +869,12 @@ private void displayUserMetadata(XTextRange xRange) {
         panelNotes = new javax.swing.JPanel();
         scroll_panelNotes = new javax.swing.JScrollPane();
         listboxEditorNotes = new javax.swing.JList();
-        txtEditorNote = new javax.swing.JTextField();
         lblEditorNotes = new javax.swing.JLabel();
         btnNewEditorNote = new javax.swing.JButton();
         btnSaveEditorNote = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtEditorNote = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         scrollPane_treeDocStructure = new javax.swing.JScrollPane();
         treeDocStructure = new javax.swing.JList();
@@ -1063,6 +1098,12 @@ private void displayUserMetadata(XTextRange xRange) {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        listboxEditorNotes.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listboxEditorNotesValueChanged(evt);
+            }
+        });
+
         scroll_panelNotes.setViewportView(listboxEditorNotes);
 
         lblEditorNotes.setText("Editor Note");
@@ -1083,21 +1124,29 @@ private void displayUserMetadata(XTextRange xRange) {
 
         jLabel4.setText("View Archived Notes");
 
+        txtEditorNote.setColumns(20);
+        txtEditorNote.setEditable(false);
+        txtEditorNote.setFont(new java.awt.Font("Tahoma", 0, 11));
+        txtEditorNote.setLineWrap(true);
+        txtEditorNote.setRows(5);
+        txtEditorNote.setToolTipText("Type in your editor notes here.");
+        jScrollPane1.setViewportView(txtEditorNote);
+
         org.jdesktop.layout.GroupLayout panelNotesLayout = new org.jdesktop.layout.GroupLayout(panelNotes);
         panelNotes.setLayout(panelNotesLayout);
         panelNotesLayout.setHorizontalGroup(
             panelNotesLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, panelNotesLayout.createSequentialGroup()
+            .add(panelNotesLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(panelNotesLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, scroll_panelNotes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, txtEditorNote, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, lblEditorNotes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 163, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, panelNotesLayout.createSequentialGroup()
+                .add(panelNotesLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                    .add(scroll_panelNotes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                    .add(lblEditorNotes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 163, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(panelNotesLayout.createSequentialGroup()
                         .add(btnNewEditorNote)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 52, Short.MAX_VALUE)
                         .add(btnSaveEditorNote))
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                    .add(jLabel4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelNotesLayout.setVerticalGroup(
@@ -1105,8 +1154,8 @@ private void displayUserMetadata(XTextRange xRange) {
             .add(panelNotesLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(lblEditorNotes)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(txtEditorNote, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 92, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(4, 4, 4)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(panelNotesLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnNewEditorNote)
@@ -1114,7 +1163,7 @@ private void displayUserMetadata(XTextRange xRange) {
                 .add(14, 14, 14)
                 .add(jLabel4)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(scroll_panelNotes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
+                .add(scroll_panelNotes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jTabsContainer.addTab("Notes", panelNotes);
@@ -1170,6 +1219,18 @@ private void displayUserMetadata(XTextRange xRange) {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void listboxEditorNotesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listboxEditorNotesValueChanged
+// TODO add your handling code here:
+        JList listbox = (JList)evt.getSource();
+        ListModel model = listbox.getModel();
+        int index = listbox.getMaxSelectionIndex();
+        if (index != -1 ) {
+            ooDocNoteStructure ooNote = (ooDocNoteStructure) model.getElementAt(index);
+            String noteText = ooNote.getNoteText();
+            txtEditorNote.setText(noteText);
+        }
+    }//GEN-LAST:event_listboxEditorNotesValueChanged
+
     private void btnSaveEditorNoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveEditorNoteActionPerformed
 // TODO add your handling code here:
         Date current = new Date();
@@ -1179,15 +1240,19 @@ private void displayUserMetadata(XTextRange xRange) {
         String strNoteDate = formatter.format(current);
         String strAuthor= "Ashok";
         String strEditorNote = txtEditorNote.getText();
+        log.debug("actionPerformed:saveEditorNote");
         ooDocNoteStructure ooNote = new ooDocNoteStructure (strNoteDate, strAuthor, strEditorNote);
         m_ooNotes.addNote(ooNote);
+        initEditorNotesList();
+        txtEditorNote.setEditable(false);
+     
     }//GEN-LAST:event_btnSaveEditorNoteActionPerformed
 
     private void btnNewEditorNoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewEditorNoteActionPerformed
 // TODO add your handling code here:
-
-        
-        
+    txtEditorNote.setText("");
+    txtEditorNote.setEditable(true);
+       
     }//GEN-LAST:event_btnNewEditorNoteActionPerformed
 
     private void btnViewSelectedMetadata_Clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewSelectedMetadata_Clicked
@@ -1387,6 +1452,7 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
     private javax.swing.JTabbedPane jTabsContainer;
     private javax.swing.JLabel lblDocAuthor;
@@ -1411,7 +1477,7 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JList treeDocStructure;
     private javax.swing.JTextField txtDocAuthor;
     private javax.swing.JTextField txtDocType;
-    private javax.swing.JTextField txtEditorNote;
+    private javax.swing.JTextArea txtEditorNote;
     // End of variables declaration//GEN-END:variables
    public static void main(String args[]) {
     JFrame frame = new JFrame("Oval Sample");

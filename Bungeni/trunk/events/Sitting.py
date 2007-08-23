@@ -113,7 +113,7 @@ class Sitting(BaseFolder, ParliamentaryEvent):
         members = []
         for team in teams:
             members.extend(team.getActiveMembers())
-        return DisplayList([(m.UID(), m.getFullname()) for m in members])
+        return DisplayList([(m.UID(), m.getFullname()) for m in members if m])
 
 
 registerType(Sitting, PROJECTNAME)

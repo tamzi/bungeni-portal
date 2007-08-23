@@ -49,19 +49,43 @@ schema = Schema((
             label_msgid='Bungeni_label_Minister',
             i18n_domain='Bungeni',
         ),
-        multiValued=0,
+        multiValued=1,
         relationship='Minister'
     ),
 
     RelationField(
-        name='AssistantMinister',
+        name='AssistentMinister',
         vocabulary='getParliamentMembershipVocab',
         widget=ReferenceWidget(
-            label='Assistantminister',
-            label_msgid='Bungeni_label_AssistantMinister',
+            label='Assistentminister',
+            label_msgid='Bungeni_label_AssistentMinister',
             i18n_domain='Bungeni',
         ),
-        multiValued=0,
+        multiValued=1,
+        relationship='Assistentminister'
+    ),
+
+    RelationField(
+        name='notMinister',
+        vocabulary='getParliamentMembershipVocab',
+        widget=ReferenceWidget(
+            label='Notminister',
+            label_msgid='Bungeni_label_notMinister',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=1,
+        relationship='Minister'
+    ),
+
+    RelationField(
+        name='notAssistantMinister',
+        vocabulary='getParliamentMembershipVocab',
+        widget=ReferenceWidget(
+            label='Notassistantminister',
+            label_msgid='Bungeni_label_notAssistantMinister',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=1,
         relationship='AssistantMinister'
     ),
 

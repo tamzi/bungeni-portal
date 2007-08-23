@@ -139,9 +139,8 @@ class DebateRecordOffice(BaseContent, Office):
         """
         # Team:
         if value:
-            uid = value[0]
-            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
-            member_roles = self._get_member_roles(member, ['ChiefEditor'])
+            member_roles = self._get_member_roles_from_UIDs(
+                    value, ['ChiefEditor'])
             self.manage_updateRoles(member_roles)
         # Field:
         field = self.Schema()['ChiefEditor']
@@ -153,9 +152,8 @@ class DebateRecordOffice(BaseContent, Office):
         """
         # Team:
         if value:
-            uid = value[0]
-            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
-            member_roles = self._get_member_roles(member, ['DeputyChiefEditor'])
+            member_roles = self._get_member_roles_from_UIDs(
+                    value, ['DeputyChiefEditor'])
             self.manage_updateRoles(member_roles)
         # Field:
         field = self.Schema()['DeputyChiefEditor']
@@ -167,9 +165,8 @@ class DebateRecordOffice(BaseContent, Office):
         """
         # Team:
         if value:
-            mt = getToolByName(self, 'portal_bungenimembershiptool')
-            members = [mt.getMemberByUID(uid) for uid in value]
-            member_roles = self._get_member_roles(members, ['Editor'])
+            member_roles = self._get_member_roles_from_UIDs(
+                    value, ['Editor'])
             self.manage_updateRoles(member_roles)
         # Field:
         field = self.Schema()['Editors']
@@ -180,9 +177,9 @@ class DebateRecordOffice(BaseContent, Office):
         """
         """
         # Team:
-        for uid in value:
-            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
-            member_roles = self._get_member_roles(member, ['Reporter'])
+        if value:
+            member_roles = self._get_member_roles_from_UIDs(
+                    value, ['Reporter'])
             self.manage_updateRoles(member_roles)
         # Field:
         field = self.Schema()['Reporters']

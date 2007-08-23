@@ -128,9 +128,8 @@ class Office(BungeniTeam):
         """
         # Team:
         if value:
-            uid = value[0]
-            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
-            member_roles = self._get_member_roles(member, ['Chairperson'])
+            member_roles = self._get_member_roles_from_UIDs(
+                    value, ['Chairperson'])
             self.manage_updateRoles(member_roles)
         # Field:
         field = self.Schema()['Chairperson']
@@ -142,9 +141,9 @@ class Office(BungeniTeam):
         """
         # Team:
         if value:
+            member_roles = self._get_member_roles_from_UIDs(
+                    value, ['DeputyChairperson'])
             uid = value[0]
-            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
-            member_roles = self._get_member_roles(member, ['DeputyChairperson'])
             self.manage_updateRoles(member_roles)
         # Field:
         field = self.Schema()['DeputyChairperson']
@@ -156,9 +155,8 @@ class Office(BungeniTeam):
         """
         # Team:
         if value:
-            uid = value[0]
-            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
-            member_roles = self._get_member_roles(member, ['Secretary'])
+            member_roles = self._get_member_roles_from_UIDs(
+                    value, ['Secretary'])
             self.manage_updateRoles(member_roles)
         # Field:
         field = self.Schema()['Secretary']

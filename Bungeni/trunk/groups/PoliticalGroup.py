@@ -166,25 +166,53 @@ class PoliticalGroup(BungeniTeam):
     def setLeader(self,value,**kw):
         """
         """
-        pass
+        # Team:
+        if value:
+            member_roles = self._get_member_roles_from_UIDs(
+                    value, ['Leader'])
+            self.manage_updateRoles(member_roles)
+        # Field:
+        field = self.Schema()['Leader']
+        return field.set(self, value, **kw)
 
     security.declarePublic('setDeputyLeader')
     def setDeputyLeader(self,value,**kw):
         """
         """
-        pass
+        # Team:
+        if value:
+            member_roles = self._get_member_roles_from_UIDs(
+                    value, ['DeputyLeader'])
+            self.manage_updateRoles(member_roles)
+        # Field:
+        field = self.Schema()['DeputyLeader']
+        return field.set(self, value, **kw)
 
     security.declarePublic('setSpokesperson')
     def setSpokesperson(self,value,**kw):
         """
         """
-        pass
+        # Team:
+        if value:
+            member_roles = self._get_member_roles_from_UIDs(
+                    value, ['Spokesperson'])
+            self.manage_updateRoles(member_roles)
+        # Field:
+        field = self.Schema()['Spokesperson']
+        return field.set(self, value, **kw)
 
     security.declarePublic('setSecretary')
     def setSecretary(self,value,**kw):
         """
         """
-        pass
+        # Team:
+        if value:
+            member_roles = self._get_member_roles_from_UIDs(
+                    value, ['Secretary'])
+            self.manage_updateRoles(member_roles)
+        # Field:
+        field = self.Schema()['Secretary']
+        return field.set(self, value, **kw)
 
     security.declareProtected(ManageTeam, 'manage_updateRoles')
     def manage_updateRoles(self,member_roles,REQUEST):

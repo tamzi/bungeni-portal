@@ -77,7 +77,8 @@ schema = Schema((
             label='Maxmembers',
             label_msgid='Bungeni_label_maxMembers',
             i18n_domain='Bungeni',
-        )
+        ),
+        label="Maximum number of members"
     ),
 
     BooleanField(
@@ -244,9 +245,8 @@ class Committee(BungeniTeam):
         """
         # Team:
         if value:
-            uid = value[0]
-            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
-            member_roles = self._get_member_roles(member, ['Chairperson'])
+            member_roles = self._get_member_roles_from_UIDs(
+                    value, ['Chairperson'])
             self.manage_updateRoles(member_roles)
         # Field:
         field = self.schema['Chairperson']
@@ -258,9 +258,8 @@ class Committee(BungeniTeam):
         """
         # Team:
         if value:
-            uid = value[0]
-            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
-            member_roles = self._get_member_roles(member, ['Secretary'])
+            member_roles = self._get_member_roles_from_UIDs(
+                    value, ['Secretary'])
             self.manage_updateRoles(member_roles)
         # Field:
         field = self.schema['Secretary']
@@ -272,9 +271,8 @@ class Committee(BungeniTeam):
         """
         # Team:
         if value:
-            uid = value[0]
-            member = self.portal_bungenimembershiptool.getMemberByUID(uid)
-            member_roles = self._get_member_roles(member, ['DeputyChairperson'])
+            member_roles = self._get_member_roles_from_UIDs(
+                    value, ['DeputyChairperson'])
             self.manage_updateRoles(member_roles)
         # Field:
         field = self.schema['DeputyChairperson']
@@ -291,7 +289,7 @@ class Committee(BungeniTeam):
                 }
         self._constrainMembershipRoles(constrained_roles, member_roles)
         # Delegate to super
-        BungeniTeam.manage_updateRoles(self,member_roles,REQUEST=None)
+        return BungeniTeam.manage_updateRoles(self,member_roles,REQUEST=None)
 
 
 registerType(Committee, PROJECTNAME)

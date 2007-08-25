@@ -2,7 +2,6 @@
 Installing Bungeni Portal
 -------------------------
 
-
 to install the portal using buildout, you'll first need to bootstrap the system via::
 
    python2.4 bootstrap.py
@@ -26,6 +25,15 @@ on subsequent changes you can avoid a full rebuild via telling buildout to
 perform an optimistic update::
 
    ./bin/buildout -N -v
+
+to perform updates of the codebase, you can execute an svn up
+commmand from the buildout directory::
+
+    svn up
+
+
+
+   
 
 
   

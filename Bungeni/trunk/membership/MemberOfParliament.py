@@ -61,6 +61,28 @@ schema = Schema((
         relationship='memberofparliament_constituency'
     ),
 
+    RelationField(
+        name='portfolios',
+        widget=ReferenceWidget(
+            label='Portfolios',
+            label_msgid='Bungeni_label_portfolios',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=1,
+        relationship='notminister_portfolio'
+    ),
+
+    RelationField(
+        name='portfolios',
+        widget=ReferenceWidget(
+            label='Portfolios',
+            label_msgid='Bungeni_label_portfolios',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=1,
+        relationship='notassistantminister_portfolio'
+    ),
+
 ),
 )
 

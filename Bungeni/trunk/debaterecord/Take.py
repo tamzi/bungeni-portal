@@ -35,20 +35,23 @@ from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
+from Products.Archetypes.utils import DisplayList
+from Products.CMFCore.utils import getToolByName
 ##/code-section module-header
 
 schema = Schema((
 
     RelationField(
-        name='Reporter',
-        vocabulary='getReportersVocab',
+        name='RotaItem',
+        vocabulary='getRotaItemVocab',
         widget=ReferenceWidget(
-            label='Reporter',
-            label_msgid='Bungeni_label_Reporter',
+            label='Rotaitem',
+            label_msgid='Bungeni_label_RotaItem',
             i18n_domain='Bungeni',
         ),
         multiValued=0,
-        relationship='take_reporter'
+        relationship='take_rotaitem',
+        default_method="getNextRotaItem"
     ),
 
 ),
@@ -94,12 +97,39 @@ class Take(BaseFolder, ATFile):
 
     # Methods
 
-    security.declarePublic('getReportersMembershipVocab')
-    def getReportersMembershipVocab(self):
-        """ Get the current parliament's team of reporters, and return
-        the active memberships.
+    security.declarePublic('getNextRotaItem')
+    def getNextRotaItem(self):
         """
-        pass
+        """
+        rota_items = self.getRotaItems()
+        if rota_items:
+            return [ri for ri in rota_items if not ri.getReporter()]
+        return []
+
+    security.declarePublic('getRotaItemVocab')
+    def getRotaItemVocab(self):
+        """
+        """
+        ris = self.getRotaItems()
+        return DisplayList([(ri.UID(), ri.Title()) for ri in ris])
+
+    # Manually created methods
+
+    def getRotaItems(self):
+        """
+        """
+        parent = self
+        while parent.portal_type != 'DebateRecordFolder':
+            parent = parent.aq_parent
+        rf = parent.contentValues(
+                filter={'portal_type': 'RotaFolder'})
+        if rf:
+            rota_items = rf[0].contentValues(
+                    filter={'portal_type': 'RotaItem'})
+            return rota_items
+        else:
+            return []
+
 
 
 registerType(Take, PROJECTNAME)

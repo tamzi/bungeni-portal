@@ -156,15 +156,15 @@ def install(self, reinstall=False):
     # Adds our types to MemberDataContainer.allowed_content_types
     types_tool = getToolByName(self, 'portal_types')
     act = types_tool.MemberDataContainer.allowed_content_types
-    types_tool.MemberDataContainer.manage_changeProperties(allowed_content_types=act+('MemberOfPublic', 'Staff', 'MemberOfParliament', ))
+    types_tool.MemberDataContainer.manage_changeProperties(allowed_content_types=act+('MemberOfPublic', 'MemberOfParliament', 'Staff', ))
     # registers with membrane tool ...
     membrane_tool = getToolByName(self, 'membrane_tool')
     membrane_tool.registerMembraneType('MemberOfPublic')
     # print >> out, SetupMember(self, member_type='MemberOfPublic', register=False).finish()
-    membrane_tool.registerMembraneType('Staff')
-    # print >> out, SetupMember(self, member_type='Staff', register=False).finish()
     membrane_tool.registerMembraneType('MemberOfParliament')
     # print >> out, SetupMember(self, member_type='MemberOfParliament', register=False).finish()
+    membrane_tool.registerMembraneType('Staff')
+    # print >> out, SetupMember(self, member_type='Staff', register=False).finish()
 
     #bind classes to workflows
     wft = getToolByName(self,'portal_workflow')
@@ -187,9 +187,9 @@ def install(self, reinstall=False):
     factory_tool = getToolByName(self,'portal_factory')
     factory_types=[
         "MemberOfPublic",
-        "Staff",
         "MemberOfParliament",
         "BungeniMembershipTool",
+        "Staff",
         "LongDocument",
         "LongDocumentSection",
         "LongDocumentPage",
@@ -216,9 +216,11 @@ def install(self, reinstall=False):
         "DebateRecordPage",
         "DebateRecordFolder",
         "DebateRecordSection",
-        "Take",
         "TakeTranscription",
         "Minutes",
+        "Take",
+        "RotaFolder",
+        "RotaItem",
         "Committee",
         "PoliticalGroup",
         "Reporters",
@@ -307,15 +309,15 @@ def uninstall(self, reinstall=False):
     # Removes our types from MemberDataContainer.allowed_content_types
     types_tool = getToolByName(self, 'portal_types')
     act = types_tool.MemberDataContainer.allowed_content_types
-    types_tool.MemberDataContainer.manage_changeProperties(allowed_content_types=[ct for ct in act if ct not in ('MemberOfPublic', 'Staff', 'MemberOfParliament', ) ])
+    types_tool.MemberDataContainer.manage_changeProperties(allowed_content_types=[ct for ct in act if ct not in ('MemberOfPublic', 'MemberOfParliament', 'Staff', ) ])
     # unregister with membrane tool ...
     membrane_tool = getToolByName(self, 'membrane_tool')
     membrane_tool.unregisterMembraneType('MemberOfPublic')
     # print >> out, SetupMember(self, member_type='MemberOfPublic', register=False).finish()
-    membrane_tool.unregisterMembraneType('Staff')
-    # print >> out, SetupMember(self, member_type='Staff', register=False).finish()
     membrane_tool.unregisterMembraneType('MemberOfParliament')
     # print >> out, SetupMember(self, member_type='MemberOfParliament', register=False).finish()
+    membrane_tool.unregisterMembraneType('Staff')
+    # print >> out, SetupMember(self, member_type='Staff', register=False).finish()
     # unhide tools in the search form
     portalProperties = getToolByName(self, 'portal_properties', None)
     if portalProperties is not None:

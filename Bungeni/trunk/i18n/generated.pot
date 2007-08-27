@@ -235,6 +235,11 @@ msgstr ""
 msgid "Bungeni_label_Reporters"
 msgstr ""
 
+#. Default: "Rotaitem"
+#: debaterecord/Take.py
+msgid "Bungeni_label_RotaItem"
+msgstr ""
+
 #. Default: "Title or salutation"
 #: membership/BungeniMember.py
 msgid "Bungeni_label_Salutation"

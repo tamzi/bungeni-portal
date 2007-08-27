@@ -58,7 +58,18 @@ class testDebateRecordFolder(testBungeni):
     def afterSetUp(self):
         pass
 
+    # from class DebateRecordFolder:
+    def test_getReportersVocab(self):
+        pass
+
+    # from class DebateRecordFolder:
+    def test_getReporters(self):
+        pass
+
     # Manually created methods
+
+    def test_getReportersMembershipVocab(self):
+        pass
 
 
 def test_suite():

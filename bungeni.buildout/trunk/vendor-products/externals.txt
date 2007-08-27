@@ -14,3 +14,6 @@ ATVocabularyManager https://svn.plone.org/svn/archetypes/ATVocabularyManager/tru
 iterate https://svn.objectrealms.net/svn/public/iterate/branches/0.3-plone-2.1-2.5
 membrane https://svn.plone.org/svn/collective/membrane/trunk
 remember https://svn.plone.org/svn/collective/remember/trunk
+
+# While debugging
+PDBDebugMode http://svn.plone.org/svn/collective/PDBDebugMode/trunk

@@ -40,9 +40,11 @@ import DebateRecord
 import DebateRecordPage
 import DebateRecordFolder
 import DebateRecordSection
-import Take
 import TakeTranscription
 import Minutes
+import Take
+import RotaFolder
+import RotaItem
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

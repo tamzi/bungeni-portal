@@ -199,7 +199,7 @@ class BungeniTeam(Team):
         """
         members_per_role = {}
         for mr in member_roles:
-            for role in mr['roles']:
+            for role in mr.get('roles', []):
                 members = members_per_role.setdefault(role, [])
                 if mr['member_id'] not in members:
                     members.append(mr['member_id'])

@@ -22,6 +22,9 @@ DEPENDENCIES += [
         'ATVocabularyManager',
         ]
 
+# 'BlobFile',
+# 'Plone4ArtistsAudio',
+
 # TODO: Move this to the model
 ACTIVE_MEMBRANE_STATES = {
         'MemberOfParliament': ['public', 'private'],

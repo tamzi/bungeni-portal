@@ -34,6 +34,8 @@ from Products.PloneHelpCenter.content.ReferenceManualFolder import HelpCenterRef
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
+from Products.CMFCore.utils import getToolByName
+from Products.Archetypes.utils import DisplayList
 ##/code-section module-header
 
 schema = Schema((
@@ -62,7 +64,7 @@ class DebateRecordFolder(BaseFolder, HelpCenterReferenceManualFolder):
 
     meta_type = 'DebateRecordFolder'
     portal_type = 'DebateRecordFolder'
-    allowed_content_types = ['DebateRecord', 'Take', 'Minutes']
+    allowed_content_types = ['DebateRecord', 'Minutes', 'Take', 'RotaFolder']
     filter_content_types = 1
     global_allow = 0
     #content_icon = 'DebateRecordFolder.gif'
@@ -80,6 +82,28 @@ class DebateRecordFolder(BaseFolder, HelpCenterReferenceManualFolder):
     ##/code-section class-header
 
     # Methods
+
+    security.declarePublic('getReportersVocab')
+    def getReportersVocab(self):
+        """ Get the current parliament's team of reporters, and return
+        the active memberships.
+        """
+        members = self._getReporters()
+        return DisplayList([(m.UID(), m.Title()) for m in members])
+
+    security.declarePublic('getReporters')
+    def getReporters(self):
+        # TODO: this looks for all Reporters in all teams. If someone is
+        # a Reporter in more than one team, this can return duplicates.
+        # Is that a bug?
+        catalog = getToolByName(self, 'portal_catalog')
+        reporter_proxies = catalog.search(
+                {'allowedRolesAndUsers': 'Reporter', 'review_state': 'active',
+                    'portal_type': 'Team Membership'}
+                )
+        reporters = [p.getObject() for p in reporter_proxies]
+        members = [r.getMember() for r in reporters]
+        return members
 
 
 registerType(DebateRecordFolder, PROJECTNAME)

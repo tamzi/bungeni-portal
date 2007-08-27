@@ -43,26 +43,24 @@ schema = Schema((
 
     RelationField(
         name='Minister',
-        vocabulary='getParliamentMembershipVocab',
         widget=ReferenceWidget(
             label='Minister',
             label_msgid='Bungeni_label_Minister',
             i18n_domain='Bungeni',
         ),
         multiValued=1,
-        relationship='Minister'
+        relationship='portfolio_minister'
     ),
 
     RelationField(
         name='AssistentMinister',
-        vocabulary='getParliamentMembershipVocab',
         widget=ReferenceWidget(
             label='Assistentminister',
             label_msgid='Bungeni_label_AssistentMinister',
             i18n_domain='Bungeni',
         ),
         multiValued=1,
-        relationship='Assistentminister'
+        relationship='portfolio_assistentminister'
     ),
 
     RelationField(

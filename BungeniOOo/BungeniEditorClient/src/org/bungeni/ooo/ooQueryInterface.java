@@ -228,6 +228,13 @@ public class ooQueryInterface {
         return xObj;
     }
 
+    static public XTextRangeCompare XTextRangeCompare(Object obj){
+        XTextRangeCompare xObj = (XTextRangeCompare)UnoRuntime.queryInterface(XTextRangeCompare.class, obj);
+        return xObj;
+    }
+
+    
+    
     //--------------------------------------------------
     //  Util                    com.sun.star.util.*
     //--------------------------------------------------

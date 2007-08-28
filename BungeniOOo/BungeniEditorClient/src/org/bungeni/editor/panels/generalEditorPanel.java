@@ -24,6 +24,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreePath;
@@ -189,6 +190,11 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
     }
     
     private void initTree(){
+        DefaultTreeCellRenderer cellRenderer = new DefaultTreeCellRenderer();
+        cellRenderer.setOpenIcon(null);
+        cellRenderer.setLeafIcon(null);
+        cellRenderer.setClosedIcon(null);
+        treeGeneralEditor.setCellRenderer(cellRenderer);
         treeGeneralEditor.addMouseListener(new treeGeneralEditorSelectionListener());
         treeGeneralEditor.addTreeExpansionListener(new treeGeneralEditorTreeExpansionListener());
         treeGeneralEditor.addTreeWillExpandListener(new treeGeneralEditorTreeWillExpandListener());

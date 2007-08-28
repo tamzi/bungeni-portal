@@ -39,12 +39,17 @@ import com.sun.star.lang.XServiceInfo;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.lang.XServiceInfo;
+import com.sun.star.script.provider.XScript;
+import com.sun.star.script.provider.XScriptProvider;
+import com.sun.star.script.provider.XScriptProviderSupplier;
 import com.sun.star.style.XStyleFamiliesSupplier;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextColumns;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextRange;
+import com.sun.star.text.XTextRangeCompare;
 import com.sun.star.text.XTextSectionsSupplier;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.text.XTextViewCursorSupplier;
@@ -320,6 +325,76 @@ public class OOComponentHelper {
         Object oSelection = xSelSupplier.getSelection();
         return oSelection;
     }
+    
+    
+    public HashMap<String,Object> getSingleSelectionRange() {
+        Object selection = this.getCurrentSelection();
+        HashMap<String,Object> rangeMap = new HashMap<String,Object>();
+        XTextRange xRange = null;
+        try {
+            if (selection == null )     
+                log.debug("getSelectedText: nothing was selected");
+            XServiceInfo xSelInfo = ooQueryInterface.XServiceInfo(selection);
+            if ( xSelInfo.supportsService("com.sun.star.text.TextRanges") ){
+                XIndexAccess xIndexAccess = ooQueryInterface.XIndexAccess(selection);
+                int count = xIndexAccess.getCount();
+                if (count == 1 ) { 
+                    Object singleSelection;
+                    singleSelection = xIndexAccess.getByIndex(0);
+                    xRange = ooQueryInterface.XTextRange(singleSelection);
+                    rangeMap.put("XTextRange", xRange);
+                    //get the cursor for the selected range
+                    XTextCursor xRangeCursor = xRange.getText().createTextCursorByRange(xRange);
+                    rangeMap.put("XTextCursor", xRangeCursor );
+                    //get the range comparator
+                    XTextRangeCompare comparer = ooQueryInterface.XTextRangeCompare(xRange.getText());
+                    rangeMap.put("XTextRangeCompare", comparer);
+                }
+            }
+        } catch (Exception ex) {
+            log.debug("getSingleSelectionCursor: "+ ex.getMessage());
+        } finally {
+            return rangeMap ;
+        }
+    }
+   /*
+    * nEdge = 0 , means left edge
+    * nEdge = 1 , means right edge
+    *
+    */
+    public XTextCursor getCursorEdgeSelection(int nEdge) {
+        HashMap<String,Object> rangeSelectionMap = new HashMap<String,Object>();
+        XTextRange edgeRange = null;
+        XTextCursor edgeCursor = null, rangeCursor = null;
+        XTextRange theRange = null ;
+   
+        try {
+         rangeSelectionMap = this.getSingleSelectionRange();   
+         if (rangeSelectionMap.size() > 0 ) {
+            theRange = (XTextRange) rangeSelectionMap.get("XTextRange");
+            XText theRangeText = theRange.getText();
+            rangeCursor = (XTextCursor) rangeSelectionMap.get("XTextCursor");
+            XTextRangeCompare rangeCompare = (XTextRangeCompare) rangeSelectionMap.get("XTextRangeCompare");
+               if (rangeCompare.compareRegionStarts(rangeCursor.getEnd(), theRange) >= 0 ) {
+                    edgeRange = (nEdge == 0 ? theRange.getEnd(): theRange.getStart());
+                } else {
+                    edgeRange = (nEdge == 0 ? theRange.getStart(): theRange.getEnd());
+                }
+ 
+            edgeCursor = theRangeText.createTextCursorByRange(edgeRange);
+            if (nEdge == 0 ) 
+                edgeCursor.goRight((short) 0, false);
+            else 
+                edgeCursor.goLeft((short) 0, false);
+        }  
+        
+         } catch (com.sun.star.lang.IllegalArgumentException ex) {
+               log.debug("getCursorLeftSelection: "+ ex.getMessage());
+         }
+        
+        return edgeCursor;
+    }
+    
     
     public void setAttributesToSelectedText (HashMap xmlAttributesMap, Integer backColor) {
         Object oSelection = this.getCurrentSelection();
@@ -648,6 +723,28 @@ public class OOComponentHelper {
             return bExists;
         }
      }
-    
  
+
+/**
+ * @param strMacroName The full macro uri to call
+ * @param aParams A list of string parameters
+ * @return Returns the return value of the macro.
+ */
+public Object executeMacro(String strMacroName, Object[] aParams) {
+   try {
+      XScriptProviderSupplier xScriptPS = (XScriptProviderSupplier)UnoRuntime.queryInterface(XScriptProviderSupplier.class, this.m_xComponent);
+      log.debug("executemacro : " + ((xScriptPS != null)? "null" : "not null"));
+      String strScriptTemplate = "vnd.sun.star.script:BungeniLibs.Common."+strMacroName+ "?language=Basic&location=application"   ;   
+      log.debug("executemacro :" + strScriptTemplate);
+      XScriptProvider xScriptProvider = xScriptPS.getScriptProvider();
+      XScript xScript = xScriptProvider.getScript(strScriptTemplate);
+      short[][] aOutParamIndex = new short[1][1];
+      Object[][] aOutParam  = new Object[1][1];
+      return xScript.invoke(aParams, aOutParamIndex, aOutParam);
+       
+   } catch (Exception e) {
+      throw new RuntimeException(e);
+   }
+} 
+
 }

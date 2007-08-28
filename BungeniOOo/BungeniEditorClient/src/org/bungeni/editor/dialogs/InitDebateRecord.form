@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <AuxValues>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="lbl_initdebate_setpath" pref="279" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="lbl_initdebate_hansarddate" alignment="0" pref="289" max="32767" attributes="1"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="btn_initdebate_selectlogo" alignment="0" min="-2" pref="133" max="-2" attributes="1"/>
+                          <Component id="lbl_initdate_mastheadlogo" alignment="0" pref="163" max="32767" attributes="1"/>
+                          <Component id="lbl_initdebate_hansardtime" alignment="0" pref="163" max="32767" attributes="1"/>
+                          <Component id="btn_initdebate_apply" alignment="0" min="-2" pref="138" max="-2" attributes="1"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btn_initdebate_cancel" min="-2" pref="112" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="initdebate_debatedate" alignment="0" pref="279" max="32767" attributes="1"/>
+                          <Component id="initdebate_timeofhansard" alignment="1" pref="279" max="32767" attributes="1"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+              <Component id="lbl_initdebate_hansarddate" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="initdebate_debatedate" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lbl_initdebate_hansardtime" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="initdebate_timeofhansard" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lbl_initdate_mastheadlogo" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btn_initdebate_selectlogo" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lbl_initdebate_setpath" pref="14" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="btn_initdebate_apply" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btn_initdebate_cancel" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="org.jdesktop.swingx.JXDatePicker" name="initdebate_debatedate">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbl_initdebate_hansarddate">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Hansard Date"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbl_initdate_mastheadlogo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Masthead Logo"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btn_initdebate_selectlogo">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Select Logo..."/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_initdebate_selectlogoActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="initdebate_timeofhansard">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbl_initdebate_hansardtime">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Hansard Time"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btn_initdebate_apply">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Apply to Document "/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_initdebate_applyActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btn_initdebate_cancel">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cancel"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_initdebate_cancelActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbl_initdebate_setpath">
+    </Component>
+  </SubComponents>
+</Form>

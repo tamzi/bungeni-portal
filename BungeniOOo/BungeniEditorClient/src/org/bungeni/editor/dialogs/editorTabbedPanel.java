@@ -82,6 +82,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import org.bungeni.db.BungeniClientDB;
+import org.bungeni.db.DefaultInstanceFactory;
+import org.bungeni.db.GeneralQueryFactory;
 import org.bungeni.editor.panels.CollapsiblePanelFactory;
 import org.bungeni.editor.panels.ICollapsiblePanel;
 import org.bungeni.ooo.OOComponentHelper;
@@ -134,6 +137,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        panelMarkup.setLayout(new FlowLayout());
        initCollapsiblePane();
        initNotesPanel();
+       initBodyMetadataPanel();
      
     }
     
@@ -226,6 +230,14 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         
     }
     
+    private void initBodyMetadataPanel(){
+        BungeniClientDB db = new BungeniClientDB(DefaultInstanceFactory.DEFAULT_INSTANCE(), "");
+        db.Connect();
+        db.Query(GeneralQueryFactory.Q_FETCH_ALL_MPS());
+        
+        
+        db.EndConnect();
+    }
     public Component getComponentHandle(){
         return this;
     }
@@ -849,6 +861,7 @@ private void displayUserMetadata(XTextRange xRange) {
         cboDocURI = new javax.swing.JComboBox();
         btnSetMetadata = new javax.swing.JButton();
         txtDocType = new javax.swing.JTextField();
+        btnTester = new javax.swing.JButton();
         panelBodyMetadata = new javax.swing.JPanel();
         lblSelectBodyMetadata = new javax.swing.JLabel();
         cboSelectBodyMetadata = new javax.swing.JComboBox();
@@ -902,6 +915,13 @@ private void displayUserMetadata(XTextRange xRange) {
 
         txtDocType.setEditable(false);
 
+        btnTester.setText("Test Action");
+        btnTester.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTesterActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout panelMetadataLayout = new org.jdesktop.layout.GroupLayout(panelMetadata);
         panelMetadata.setLayout(panelMetadataLayout);
         panelMetadataLayout.setHorizontalGroup(
@@ -917,11 +937,13 @@ private void displayUserMetadata(XTextRange xRange) {
                             .add(lblDocURI)
                             .add(cboDocURI, 0, 218, Short.MAX_VALUE)))
                     .add(panelMetadataLayout.createSequentialGroup()
-                        .add(56, 56, 56)
-                        .add(btnSetMetadata))
-                    .add(panelMetadataLayout.createSequentialGroup()
                         .addContainerGap()
-                        .add(txtDocType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)))
+                        .add(txtDocType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                    .add(panelMetadataLayout.createSequentialGroup()
+                        .add(67, 67, 67)
+                        .add(panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, btnTester, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, btnSetMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         panelMetadataLayout.setVerticalGroup(
@@ -939,9 +961,11 @@ private void displayUserMetadata(XTextRange xRange) {
                 .add(lblDocURI)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(cboDocURI, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 127, Short.MAX_VALUE)
+                .add(18, 18, 18)
                 .add(btnSetMetadata)
-                .add(19, 19, 19))
+                .add(18, 18, 18)
+                .add(btnTester)
+                .addContainerGap(87, Short.MAX_VALUE))
         );
         jTabsContainer.addTab("Doc. Metadata", panelMetadata);
 
@@ -1219,6 +1243,27 @@ private void displayUserMetadata(XTextRange xRange) {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnTesterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTesterActionPerformed
+// TODO add your handling code here:
+     Object[] params = new Object[1];
+     params[0] = new String("prayers");
+     this.ooDocument.executeMacro("AddSectionText", params);
+     return;
+     /*
+     JDialog initDebaterecord;
+     initDebaterecord = new JDialog();
+     initDebaterecord.setTitle("Select an MP");
+     initDebaterecord.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+     //initDebaterecord.setPreferredSize(new Dimension(420, 300));
+     InitDebateRecord panel = new InitDebateRecord(ooDocument, initDebaterecord);;
+ 
+     initDebaterecord.getContentPane().add(panel);
+     initDebaterecord.pack();
+     initDebaterecord.setVisible(true);
+     initDebaterecord.setAlwaysOnTop(true);*/
+
+    }//GEN-LAST:event_btnTesterActionPerformed
+
     private void listboxEditorNotesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listboxEditorNotesValueChanged
 // TODO add your handling code here:
         JList listbox = (JList)evt.getSource();
@@ -1286,25 +1331,20 @@ private void displayUserMetadata(XTextRange xRange) {
        }
        String[] listContents = new String[count];
        model.copyInto(listContents);
-     
-       //if (1 == 1 ) return;
-       /*
-       String name = (String)model.getElementAt(0);
-       String value = (String)model.getElementAt(1);
-       
-       String[] namePair = name.split(":");
-       String nameAttrib = namePair[1].trim();
-       String[] valuePair = value.split(":");
-       String valueAttrib = valuePair[1].trim();
-       
-       log.debug("name : "+nameAttrib+" ; value : " +valueAttrib);
-        */
+   
         try {
-            HashMap xmlAttribs = ooUserDefinedAttributes.make(listContents);
-            ooDocument.setAttributesToSelectedText(xmlAttribs, new Integer(0xECECEC));
-           //ooDocument.setAttributeToSelectedText("akoma:name", nameAttrib);
-           //ooDocument.setAttributeToSelectedText("akoma:uri", valueAttrib);
-           
+            //HashMap xmlAttribs = ooUserDefinedAttributes.make(listContents);
+            //ooDocument.setAttributesToSelectedText(xmlAttribs, new Integer(0xECECEC));
+            XTextCursor leftCursor = ooDocument.getCursorEdgeSelection(0);
+            XTextCursor rightCursor = ooDocument.getCursorEdgeSelection(1);
+           if (leftCursor != null && rightCursor != null ) {
+                log.debug("left and right cursors were not null");
+                leftCursor.getText().insertString(leftCursor, "{{", true);
+                rightCursor.getText().insertString(rightCursor, "}}", false);
+           } else {
+                log.debug("left and right cursors were null");
+           }
+            
            //ooDocument.setSelectedTextBackColor(new Integer(0xECECEC));
         } catch (Exception ex) {
            log.debug("adding_attribute : "+ex.getLocalizedMessage());
@@ -1445,6 +1485,7 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JButton btnNewEditorNote;
     private javax.swing.JButton btnSaveEditorNote;
     private javax.swing.JButton btnSetMetadata;
+    private javax.swing.JButton btnTester;
     private javax.swing.JButton btnViewSelectedMetadata;
     private javax.swing.JComboBox cboDocURI;
     private javax.swing.JComboBox cboSelectBodyMetadata;

@@ -13,8 +13,11 @@ import com.sun.star.beans.PropertyValue;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextViewCursor;
+import javax.swing.JDialog;
+import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
 import org.bungeni.db.toolbarAction;
+import org.bungeni.editor.dialogs.InitDebateRecord;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.MessageBox;
 
@@ -35,9 +38,7 @@ public class EditorActionHandler implements IEditorActionEvent {
         this.ooDocument = ooDocument;
         String cmd = action.action_name;
         if (cmd.equals ("makePrayerSection")) 
-            doMakeSection(action);
-        else if (cmd.equals("makePrayerSection"))
-            doMakeSection(action);
+            doMakePrayerSection(action);
         else if (cmd.equals("makeQASection"))
             doMakeSection(action);
         else if (cmd.equals("makePaperSection"))
@@ -62,7 +63,24 @@ public class EditorActionHandler implements IEditorActionEvent {
             MessageBox.OK("the command action: "+cmd+" has not been implemented!");    
     }
     
-     private void doMakeSection(toolbarAction action){
+     private void doMakePrayerSection(toolbarAction action) {
+      
+            //section was added now prompt for dialog information
+             JDialog initDebaterecord;
+             initDebaterecord = new JDialog();
+             initDebaterecord.setTitle("Enter Settings for Document");
+             initDebaterecord.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+             //initDebaterecord.setPreferredSize(new Dimension(420, 300));
+             InitDebateRecord panel = new InitDebateRecord(ooDocument, 
+                     initDebaterecord, action);;
+             initDebaterecord.getContentPane().add(panel);
+             initDebaterecord.pack();
+             initDebaterecord.setVisible(true);
+             initDebaterecord.setAlwaysOnTop(true);
+       
+     }
+     
+     private int doMakeSection(toolbarAction action){
            //get the section name and numbering type for the command
            String namingConvention, numberingType;
            String newName = "";
@@ -70,7 +88,7 @@ public class EditorActionHandler implements IEditorActionEvent {
            if (namingConvention.equals("")) {
                 log.debug("unable to name section, section mame was blank");
                 MessageBox.OK("The command:" + action.action_name()+" does not have a naming convention associated with it");
-                return;
+                return -1;
            }
            numberingType = action.action_numbering_convention();
            
@@ -81,16 +99,17 @@ public class EditorActionHandler implements IEditorActionEvent {
                 newName = namingConvention;
            } else if (numberingType.equals("")) {
                MessageBox.OK("The command: "+ action.action_name()+ " does not have a numbering type associated with it");
-               return;
+               return -1;
            }
            if (this.ooDocument.getTextSections().hasByName(newName)){
                    log.debug("in doc command: section  already exists");
                    MessageBox.OK("The section:  prayers already exists");
+                   return 0;
             }
           else {
                log.debug("in doCommand : adding text section prayers");
                addTextSection(newName);
-               MessageBox.OK(newName + " section was added !");
+               return 1;
           }
     }
     private void addTextSection(String sectionName){

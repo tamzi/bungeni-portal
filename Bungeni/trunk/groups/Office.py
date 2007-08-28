@@ -163,7 +163,7 @@ class Office(BungeniTeam):
         return field.set(self, value, **kw)
 
     security.declareProtected(ManageTeam, 'manage_updateRoles')
-    def manage_updateRoles(self,member_roles,REQUEST):
+    def manage_updateRoles(self,member_roles,REQUEST=None):
         """ Constrain some roles
         """
         constrained_roles = {

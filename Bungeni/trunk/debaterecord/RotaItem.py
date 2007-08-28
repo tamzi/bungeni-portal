@@ -30,6 +30,7 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from Products.Bungeni.interfaces.IRotaItem import IRotaItem
 from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
@@ -67,6 +68,8 @@ class RotaItem(BaseContent):
     """
     security = ClassSecurityInfo()
     __implements__ = (getattr(BaseContent,'__implements__',()),)
+    # zope3 interfaces
+    interface.implements(IRotaItem)
 
     # This name appears in the 'add' box
     archetype_name = 'RotaItem'

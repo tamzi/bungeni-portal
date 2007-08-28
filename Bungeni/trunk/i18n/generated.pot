@@ -30,6 +30,11 @@ msgstr ""
 msgid "Bungeni_label_AssistentMinister"
 msgstr ""
 
+#. Default: "Availablereporters"
+#: debaterecord/RotaFolder.py
+msgid "Bungeni_label_AvailableReporters"
+msgstr ""
+
 #. Default: "Aye"
 #: votes/VoteOfMP.py
 msgid "Bungeni_label_Aye"
@@ -235,9 +240,19 @@ msgstr ""
 msgid "Bungeni_label_Reporters"
 msgstr ""
 
+#. Default: "Rotafrom"
+#: debaterecord/RotaFolder.py
+msgid "Bungeni_label_RotaFrom"
+msgstr ""
+
 #. Default: "Rotaitem"
 #: debaterecord/Take.py
 msgid "Bungeni_label_RotaItem"
+msgstr ""
+
+#. Default: "Rotato"
+#: debaterecord/RotaFolder.py
+msgid "Bungeni_label_RotaTo"
 msgstr ""
 
 #. Default: "Title or salutation"

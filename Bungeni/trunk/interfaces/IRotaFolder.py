@@ -45,13 +45,6 @@ class IRotaFolder(interface.Interface):
 
 
 
-    def addedRotaFolder():
-       """
-
-       """
-
-
-
 ##code-section module-footer #fill in your manual code here
 ##/code-section module-footer
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# File: interfaces.py
+# File: IRotaFolder.py
 #
 # Copyright (c) 2007 by []
 # Generator: ArchGenXML Version 1.6.0-beta-svn
@@ -28,21 +28,32 @@ __author__ = """Jean Jordaan <jean.jordaan@gmail.com>"""
 __docformat__ = 'plaintext'
 
 
-##code-section init-module-header #fill in your manual code here
-##/code-section init-module-header
+##code-section module-header #fill in your manual code here
+##/code-section module-header
 
 
-# Subpackages
-# Additional
 
-# Classes
-import IBungeniMember
-import IMemberOfParliament
-import IClerk
-import IBill
-import IRotaFolder
-import IRotaItem
 
-##code-section init-module-footer #fill in your manual code here
-##/code-section init-module-footer
+from zope import interface
+
+class IRotaFolder(interface.Interface):
+    ''' '''
+
+    ##code-section class-header_IRotaFolder #fill in your manual code here
+    ##/code-section class-header_IRotaFolder
+
+
+
+
+    def addedRotaFolder():
+       """
+
+       """
+
+
+
+##code-section module-footer #fill in your manual code here
+##/code-section module-footer
+
+
 

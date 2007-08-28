@@ -237,7 +237,7 @@ class BungeniTeam(Team):
         return DisplayList([(m.UID(), m.Title()) for m in self.getActiveMembers()])
 
     security.declarePublic('_get_member_roles_from_UIDs')
-    def _get_member_roles_from_UIDs(uids, roles):
+    def _get_member_roles_from_UIDs(self, uids, roles):
         mt = getToolByName(self, 'portal_bungenimembershiptool')
         members = [mt.getMemberByUID(uid) for uid in uids if uid]
         return self._get_member_roles(members, roles)

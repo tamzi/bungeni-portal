@@ -15,7 +15,7 @@ from Globals import package_home
 from Products.Archetypes.debug import log
 
 # TEAM_TYPES = ['Parliament', 'Committee', 'Ministry', 'Party', 'Reporters', 'Sitting']
-TEAM_TYPES = ['Parliament', 'Committee', 'PoliticalGroup', 'Reporters', ]
+TEAM_TYPES = ['Parliament', 'Committee', 'PoliticalGroup', 'Reporters', 'Office']
 TEAMSPACE_TYPES = ['ParliamentWS', 'CommitteeWS']
 
 new_actions = (
@@ -665,7 +665,7 @@ def set_ministries():
         portfolio = {
                 'title': ministry['portfolio'],
                 'portal_type': 'Portfolio',
-                'Minister': minister_id, # TODO convert to UID
+                'Minister': [minister_id], # TODO convert to UID
                 'reference_fields': [('Minister', 'MemberOfParliament'), ]
                 }
         if not portfolio in ministry['children']:
@@ -861,6 +861,7 @@ def massage_data():
         team['allowed_team_roles'] = [
                 r['role'] for r in fz_staff_roles_to_plone_roles_map.values()
                 ]
+        team['allowed_team_roles'].extend(committee_plone_role_map.values())
         team['default_team_roles'] = ('CommitteeClerk', )
         teams['teams'].extend([team])
     teams.close()
@@ -1160,6 +1161,10 @@ def install(self):
     # We don't want this content to be deleted upon uninstallation
     do_transition(self, EXISTING_SITE_CONTENT, transition='publish')
     print >>out, 'Published existing content'
+
+    # DBG Cause an exception just before we're done. I want to be able
+    # to rerun this install, without going via uninstall. 
+    asfd
 
     # Filter the global tabs
     # TODO

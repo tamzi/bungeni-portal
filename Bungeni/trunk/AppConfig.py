@@ -10,6 +10,7 @@ DEPENDENCIES = [
         'qRSS2Syndication', # RSS2 feeds
         'AuditTrail', 
         'Relations',
+        'OrderableReferenceField',
         ]
 
 # Products that we want to use alongside Bungeni

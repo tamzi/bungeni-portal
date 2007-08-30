@@ -51,6 +51,17 @@ schema = Schema((
         relationship='rotaitem_reporter'
     ),
 
+    RelationField(
+        name='Take',
+        widget=ReferenceWidget(
+            label='Take',
+            label_msgid='Bungeni_label_Take',
+            i18n_domain='Bungeni',
+        ),
+        multiValued=1,
+        relationship='rotaitem_take'
+    ),
+
 ),
 )
 

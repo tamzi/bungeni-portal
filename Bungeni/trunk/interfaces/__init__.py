@@ -42,6 +42,7 @@ import IClerk
 import IBill
 import IRotaFolder
 import IRotaItem
+import ITake
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

@@ -31,6 +31,7 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
 from Products.ATContentTypes.content.file import ATFile
+from Products.Bungeni.interfaces.ITake import ITake
 from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
@@ -45,13 +46,13 @@ schema = Schema((
         name='RotaItem',
         vocabulary='getRotaItemVocab',
         widget=ReferenceWidget(
+            macro_edit="rotaitem_edit",
             label='Rotaitem',
             label_msgid='Bungeni_label_RotaItem',
             i18n_domain='Bungeni',
         ),
-        multiValued=0,
-        relationship='take_rotaitem',
-        default_method="getNextRotaItem"
+        multiValued=1,
+        relationship='take_rotaitem'
     ),
 
 ),
@@ -72,6 +73,8 @@ class Take(BaseFolder, ATFile):
     """
     security = ClassSecurityInfo()
     __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(ATFile,'__implements__',()),)
+    # zope3 interfaces
+    interface.implements(ITake)
 
     # This name appears in the 'add' box
     archetype_name = 'Take'
@@ -102,9 +105,15 @@ class Take(BaseFolder, ATFile):
         """
         """
         rota_items = self.getRotaItems()
-        if rota_items:
-            return [ri for ri in rota_items if not ri.getReporter()]
-        return []
+        if not rota_items:
+            self.plone_log('getNextRotaItem> No items') #DBG
+            return []
+        for ri in rota_items:
+            if not ri.getTake():
+                break
+        # return the first RotaItem w/o a take, or the last one.
+        self.plone_log('getNextRotaItem> %s: %s'%(ri.getId(), ri.UID())) #DBG
+        return ri.UID()
 
     security.declarePublic('getRotaItemVocab')
     def getRotaItemVocab(self):

@@ -88,7 +88,7 @@ class DebateRecordFolder(BaseFolder, HelpCenterReferenceManualFolder):
         """ Get the current parliament's team of reporters, and return
         the active memberships.
         """
-        members = self._getReporters()
+        members = self.getReporters()
         return DisplayList([(m.UID(), m.Title()) for m in members])
 
     security.declarePublic('getReporters')

@@ -250,6 +250,11 @@ msgstr ""
 msgid "Bungeni_label_RotaItem"
 msgstr ""
 
+#. Default: "Rotaitem_inverse"
+#: debaterecord/RotaItem.py
+msgid "Bungeni_label_RotaItem_inverse"
+msgstr ""
+
 #. Default: "Rotato"
 #: debaterecord/RotaFolder.py
 msgid "Bungeni_label_RotaTo"
@@ -286,6 +291,11 @@ msgstr ""
 #. Default: "Surname"
 #: membership/BungeniMember.py
 msgid "Bungeni_label_Surname"
+msgstr ""
+
+#. Default: "Take"
+#: debaterecord/RotaItem.py
+msgid "Bungeni_label_Take"
 msgstr ""
 
 #. Default: "Testrelation"
@@ -560,6 +570,11 @@ msgstr ""
 msgid "Bungeni_label_respondents"
 msgstr ""
 
+#. Default: "Rotaitems"
+#: debaterecord/Take.py
+msgid "Bungeni_label_rotaitems"
+msgstr ""
+
 #. Default: "Title or salutation"
 #: membership/BungeniMember.py
 msgid "Bungeni_label_salutation"
@@ -617,6 +632,11 @@ msgstr ""
 #: membership/BungeniMember.py
 #: groups/Party.py
 msgid "Bungeni_label_surnameBungeni_label_shortTitle"
+msgstr ""
+
+#. Default: "Takes"
+#: debaterecord/RotaItem.py
+msgid "Bungeni_label_takes"
 msgstr ""
 
 #. Default: "Type"

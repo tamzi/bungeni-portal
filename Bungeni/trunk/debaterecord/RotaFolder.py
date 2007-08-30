@@ -35,12 +35,17 @@ from Products.Bungeni.config import *
 
 # additional imports from tagged value 'import'
 from Products.OrderableReferenceField import OrderableReferenceField
+from DateTime import DateTime
 
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.utils import shasattr
+from Products.Archetypes.utils import log
 ##/code-section module-header
 
+copied_fields = {}
+copied_fields['title'] = BaseSchema['title'].copy()
+copied_fields['title'].default = "Rota"
 schema = Schema((
 
     OrderableReferenceField(
@@ -58,6 +63,7 @@ schema = Schema((
 
     DateTimeField(
         name='RotaFrom',
+        default=DateTime(),
         widget=CalendarWidget(
             label='Rotafrom',
             label_msgid='Bungeni_label_RotaFrom',
@@ -67,12 +73,15 @@ schema = Schema((
 
     DateTimeField(
         name='RotaTo',
+        default=DateTime(),
         widget=CalendarWidget(
             label='Rotato',
             label_msgid='Bungeni_label_RotaTo',
             i18n_domain='Bungeni',
         )
     ),
+
+    copied_fields['title'],
 
 ),
 )
@@ -142,16 +151,16 @@ def addedRotaFolder(obj, event):
     """ After the folder has been added, populate it with RotaItems
     based on the AvailableReporters.
     """
-    from ipdb import set_trace; set_trace()
+    if obj.isTemporary():
+        log('addedRotaFolder> Not yet!')
+        return
     normalizeString = getToolByName(obj, 'plone_utils').normalizeString
-    reporters = obj.getReporters()
-    # TODO order reporters by weight.
-    obj.setAvailableReporters(reporters)
-    for r in reporters:
+    obj.setAvailableReporters(obj.REQUEST.form['AvailableReporters'])
+    for r in obj.getAvailableReporters():
         title = 'Reporter: %s'%r.Title()
         ri_id = normalizeString(title)
         if not shasattr(obj, ri_id):
-            obj.invokeFactory('RotaItem', ri_id, title=title, Reporters=r.UID())
+            obj.invokeFactory('RotaItem', ri_id, title=title, Reporter=r.UID())
 ##/code-section module-footer
 
 

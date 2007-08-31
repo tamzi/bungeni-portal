@@ -49,15 +49,16 @@ copied_fields['title'].default = "Rota"
 schema = Schema((
 
     OrderableReferenceField(
-        name='AvailableReporters',
-        vocabulary='getReportersVocab',
+        name='ReportersForSitting',
+        vocabulary='getReportersForSittingVocab',
         widget=OrderableReferenceField._properties['widget'](
-            label='Availablereporters',
-            label_msgid='Bungeni_label_AvailableReporters',
+            macro_edit="reportersforsitting_edit",
+            label='Reportersforsitting',
+            label_msgid='Bungeni_label_ReportersForSitting',
             i18n_domain='Bungeni',
         ),
         allowed_types=['Staff'],
-        relationship="rotafolder_availablereporters",
+        relationship="rotafolder_reportersforsitting",
         relation_implementation="basic"
     ),
 
@@ -155,8 +156,8 @@ def addedRotaFolder(obj, event):
         log('addedRotaFolder> Not yet!')
         return
     normalizeString = getToolByName(obj, 'plone_utils').normalizeString
-    obj.setAvailableReporters(obj.REQUEST.form['AvailableReporters'])
-    for r in obj.getAvailableReporters():
+    obj.setReportersForSitting(obj.REQUEST.form['ReportersForSitting'])
+    for r in obj.getReportersForSitting():
         title = 'Reporter: %s'%r.Title()
         ri_id = normalizeString(title)
         if not shasattr(obj, ri_id):

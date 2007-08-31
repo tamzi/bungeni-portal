@@ -74,11 +74,10 @@ schema = Schema((
     IntegerField(
         name='maxMembers',
         widget=IntegerField._properties['widget'](
-            label='Maxmembers',
+            label="Maximum number of members",
             label_msgid='Bungeni_label_maxMembers',
             i18n_domain='Bungeni',
-        ),
-        label="Maximum number of members"
+        )
     ),
 
     BooleanField(

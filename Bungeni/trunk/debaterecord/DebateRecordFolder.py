@@ -83,27 +83,14 @@ class DebateRecordFolder(BaseFolder, HelpCenterReferenceManualFolder):
 
     # Methods
 
-    security.declarePublic('getReportersVocab')
-    def getReportersVocab(self):
+    security.declarePublic('getReportersForSittingVocab')
+    def getReportersForSittingVocab(self):
         """ Get the current parliament's team of reporters, and return
         the active memberships.
         """
-        members = self.getReporters()
+        rota_tool = getToolByName(self, 'portal_rotatool')
+        members = rota_tool.getAvailableReporters()
         return DisplayList([(m.UID(), m.Title()) for m in members])
-
-    security.declarePublic('getReporters')
-    def getReporters(self):
-        # TODO: this looks for all Reporters in all teams. If someone is
-        # a Reporter in more than one team, this can return duplicates.
-        # Is that a bug?
-        catalog = getToolByName(self, 'portal_catalog')
-        reporter_proxies = catalog.search(
-                {'allowedRolesAndUsers': 'Reporter', 'review_state': 'active',
-                    'portal_type': 'Team Membership'}
-                )
-        reporters = [p.getObject() for p in reporter_proxies]
-        members = [r.getMember() for r in reporters]
-        return members
 
 
 registerType(DebateRecordFolder, PROJECTNAME)

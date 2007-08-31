@@ -122,8 +122,7 @@ class Take(BaseFolder, ATFile):
         ris = self.getRotaItems()
         return DisplayList([(ri.UID(), ri.Title()) for ri in ris])
 
-    # Manually created methods
-
+    security.declarePublic('getRotaItems')
     def getRotaItems(self):
         """
         """
@@ -138,7 +137,6 @@ class Take(BaseFolder, ATFile):
             return rota_items
         else:
             return []
-
 
 
 registerType(Take, PROJECTNAME)

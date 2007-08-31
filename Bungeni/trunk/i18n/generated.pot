@@ -16,6 +16,21 @@ msgstr ""
 "Preferred-Encodings: latin1 utf-8\n"
 "Domain: Bungeni\n"
 
+#. Default: "The allowance of extra takes to cater for sitting overrunning"
+#: debaterecord/RotaTool.py
+msgid "Bungeni_help_ExtraTakes"
+msgstr ""
+
+#. Default: "How many minutes before the take the reporters have to be in the Chamber/Committee Room"
+#: debaterecord/RotaTool.py
+msgid "Bungeni_help_ReportingLeadTime"
+msgstr ""
+
+#. Default: "The length of a take in minutes"
+#: debaterecord/RotaTool.py
+msgid "Bungeni_help_TakeLength"
+msgstr ""
+
 #: votes/VoteCount.py
 msgid "Bungeni_label_"
 msgstr ""
@@ -32,6 +47,7 @@ msgstr ""
 
 #. Default: "Availablereporters"
 #: debaterecord/RotaFolder.py
+#: debaterecord/RotaTool.py
 msgid "Bungeni_label_AvailableReporters"
 msgstr ""
 
@@ -130,6 +146,11 @@ msgstr ""
 #: groups/Minister.py
 #: groups/Tenure.py
 msgid "Bungeni_label_EndDate"
+msgstr ""
+
+#. Default: "Extratakes"
+#: debaterecord/RotaTool.py
+msgid "Bungeni_label_ExtraTakes"
 msgstr ""
 
 #. Default: "First name"
@@ -240,6 +261,16 @@ msgstr ""
 msgid "Bungeni_label_Reporters"
 msgstr ""
 
+#. Default: "Reportersforsitting"
+#: debaterecord/RotaFolder.py
+msgid "Bungeni_label_ReportersForSitting"
+msgstr ""
+
+#. Default: "WidgetLabel"
+#: debaterecord/RotaTool.py
+msgid "Bungeni_label_ReportingLeadTime"
+msgstr ""
+
 #. Default: "Rotafrom"
 #: debaterecord/RotaFolder.py
 msgid "Bungeni_label_RotaFrom"
@@ -253,6 +284,11 @@ msgstr ""
 #. Default: "Rotaitem_inverse"
 #: debaterecord/RotaItem.py
 msgid "Bungeni_label_RotaItem_inverse"
+msgstr ""
+
+#. Default: "Rotasubscribers"
+#: debaterecord/RotaTool.py
+msgid "Bungeni_label_RotaSubscribers"
 msgstr ""
 
 #. Default: "Rotato"
@@ -296,6 +332,11 @@ msgstr ""
 #. Default: "Take"
 #: debaterecord/RotaItem.py
 msgid "Bungeni_label_Take"
+msgstr ""
+
+#. Default: "Takelength"
+#: debaterecord/RotaTool.py
+msgid "Bungeni_label_TakeLength"
 msgstr ""
 
 #. Default: "Testrelation"

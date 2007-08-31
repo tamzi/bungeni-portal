@@ -41,7 +41,7 @@ schema = Schema((
 
     RelationField(
         name='Reporter',
-        vocabulary='getReportersVocab',
+        vocabulary='getReportersForSittingVocab',
         widget=ReferenceWidget(
             label='Reporter',
             label_msgid='Bungeni_label_Reporter',

@@ -67,12 +67,11 @@ schema = Schema((
     ComputedField(
         name='eventType',
         widget=ComputedField._properties['widget'](
+            label="Event Type",
             visible=False,
-            label='Eventtype',
             label_msgid='Bungeni_label_eventType',
             i18n_domain='Bungeni',
-        ),
-        label="Event Type"
+        )
     ),
 
     copied_fields['eventUrl'],

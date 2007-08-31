@@ -45,6 +45,7 @@ import Minutes
 import Take
 import RotaFolder
 import RotaItem
+import RotaTool
 
 ##code-section init-module-footer #fill in your manual code here
 ##/code-section init-module-footer

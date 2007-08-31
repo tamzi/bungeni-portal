@@ -59,14 +59,16 @@ class testDebateRecordFolder(testBungeni):
         pass
 
     # from class DebateRecordFolder:
-    def test_getReportersVocab(self):
-        pass
-
-    # from class DebateRecordFolder:
-    def test_getReporters(self):
+    def test_getReportersForSittingVocab(self):
         pass
 
     # Manually created methods
+
+    def test_getReportersVocab(self):
+        pass
+
+    def test_getReporters(self):
+        pass
 
     def test_getReportersMembershipVocab(self):
         pass

@@ -7,6 +7,7 @@
 package org.bungeni.editor.panels;
 
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -15,11 +16,16 @@ import java.io.File;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Vector;
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeExpansionListener;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeWillExpandListener;
@@ -29,6 +35,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreePath;
 import org.bungeni.editor.actions.toolbarAction;
+import org.bungeni.editor.actions.toolbarActionGroup;
 import org.bungeni.editor.actions.EditorActionFactory;
 import org.bungeni.editor.actions.IEditorActionEvent;
 import org.bungeni.ooo.OOComponentHelper;
@@ -43,13 +50,70 @@ import org.bungeni.utils.MessageBox;
  *
  * @author  Administrator
  */
-public class generalEditorPanel extends templatePanel implements ICollapsiblePanel , ActionListener {
+public class generalEditorPanel2 extends templatePanel implements ICollapsiblePanel , ActionListener {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(generalEditorPanel.class.getName());
     private OOComponentHelper ooDocument;    
+    class BungeniJTree extends JTree {
+	       public boolean isPathEditable(TreePath path) { 
+    		if (isEditable()) { 
+                       DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
+                       Object obj =  node.getUserObject();
+                       toolbarActionGroup grp; toolbarAction action;
+                       if (obj instanceof toolbarAction) {
+                        //   action = (toolbarAction) obj;
+                           return false;
+                       } else {
+                          // grp = (toolbarActionGroup) obj;
+                           return true;
+                       }
+         	}
+  		return false;
+		}   
+  	}
+    
+    class BungeniActionTreeModelListener implements TreeModelListener {
+    public void treeNodesChanged(TreeModelEvent evt) {
+		System.out.println("Tree Nodes Changed Event");
+		Object[] children = evt.getChildren();
+                if (children == null ) {
+                   // MessageBox.OK("here no children");
+                   System.out.println("root changed...");
+                   DefaultMutableTreeNode nd = (DefaultMutableTreeNode)evt.getTreePath().getLastPathComponent();
+                   String s = (String) nd.getUserObject();
+                   System.out.println("root = " + s);
+                   return;
+                }
+                MessageBox.OK("here with children");
+		int[] childIndices = evt.getChildIndices();
+		for (int i = 0; i < children.length; i++) {
+		    System.out.println("Index " + childIndices[i] + 
+				       ", changed value: " + children[0]);
+		}					
+	    }
+	    public void treeStructureChanged(TreeModelEvent evt) {
+		System.out.println("Tree Structure Changed Event");
+	    }
+	    public void treeNodesInserted(TreeModelEvent evt) {
+		System.out.println("Tree Nodes Inserted Event");
+	    }
+	    public void treeNodesRemoved(TreeModelEvent evt) {
+		System.out.println("Tree Nodes Removed Event");
+	    }
+        
+    }
+   // JScrollPane generalEditorScrollPane;
+   // JTree treeGeneralEditor;
     /** Creates new form generalEditorPanel */
-    public generalEditorPanel() {
+    public generalEditorPanel2() {
         initComponents();
-        loadToolbarButtons();
+       // setLayout(new FlowLayout());
+       // this.setSize(216,235);
+      //  generalEditorScrollPane = new javax.swing.JScrollPane();
+     //   generalEditorScrollPane.setSize(214,200);
+       // treeGeneralEditor = new javax.swing.JTree();
+       // generalEditorScrollPane.setViewportView(treeGeneralEditor);
+       // add(generalEditorScrollPane);
+        loadToolbarButtons2();
         initTree();
     }
     
@@ -61,7 +125,7 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
         generalEditorScrollPane = new javax.swing.JScrollPane();
-        treeGeneralEditor = new javax.swing.JTree();
+        treeGeneralEditor = new BungeniJTree();
 
         generalEditorScrollPane.setViewportView(treeGeneralEditor);
 
@@ -69,7 +133,7 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(generalEditorScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, generalEditorScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -199,6 +263,7 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
         treeGeneralEditor.addTreeExpansionListener(new treeGeneralEditorTreeExpansionListener());
         treeGeneralEditor.addTreeWillExpandListener(new treeGeneralEditorTreeWillExpandListener());
     }
+   
     
     public void loadToolbarButtons() {
         
@@ -209,18 +274,86 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
         toolbarAction rootAction = new toolbarAction("rootAction");
         DefaultMutableTreeNode rootNode= new DefaultMutableTreeNode(rootAction);
         if (instance.Connect()) {
+            
             createToolNodes(rootNode, rootAction, instance );
             instance.EndConnect();
         }
         treeGeneralEditor.setModel(new DefaultTreeModel(rootNode));
+       //
         CommonTreeFunctions.expandAll(treeGeneralEditor, true);
     }
     
+    public void loadToolbarButtons2() {
+        
+        log.debug("in loadToolbarButtons");
+        Installation install = new Installation();
+        String installDirectory = install.getAbsoluteInstallDir();
+        BungeniClientDB instance = new BungeniClientDB(installDirectory + File.separator + "settings" + File.separator + "db" + File.separator, "");
+        toolbarAction rootAction = new toolbarAction("rootAction");
+        DefaultMutableTreeNode rootNode= new DefaultMutableTreeNode(rootAction);
+        toolbarActionGroup grp = new toolbarActionGroup("Create a Section", "Create a Section");
+       JComboBox box = new JComboBox();
+        if (instance.Connect()) {
+            box = createToolActionNodes(rootNode, rootAction, instance);
+            //createToolNodes(rootNode, rootAction, instance );
+            instance.EndConnect();
+        }
+        DefaultCellEditor cellEditor = new DefaultCellEditor(box);
+        treeGeneralEditor.setCellEditor(cellEditor);
+        treeGeneralEditor.setModel(new DefaultTreeModel(rootNode));
+        treeGeneralEditor.getModel().addTreeModelListener(new BungeniActionTreeModelListener());
+        treeGeneralEditor.setEditable(true);
+        CommonTreeFunctions.expandAll(treeGeneralEditor, true);
+    }
+   
+     private JComboBox createToolActionNodes(DefaultMutableTreeNode baseNode, toolbarAction baseNodeAction, BungeniClientDB instance) {
+        String actionParent = baseNodeAction.action_name();
+           JComboBox box = new JComboBox();
+        log.debug("createToolNodes for : " + actionParent);
+        HashMap results = new HashMap();
+        Vector<Vector> resultRows = new Vector<Vector>();
+       // Vector<Vector> results = new Vector<Vector>();
+        //DefaultMutableTreeNode child = new DefaultMutableTreeNode (addThisActionObject);
+        
+        //addToThisNode.add( child);
+        log.debug("createToolActionNodes - query : " + SettingsQueryFactory.Q_FETCH_CHILD_TOOLBAR_ACTIONS(actionParent));
+        results = instance.Query(SettingsQueryFactory.Q_FETCH_CHILD_TOOLBAR_ACTIONS(actionParent));
+        log.debug("createToolActionNodes db results returned === "+ results.size());
+        QueryResults query_results = new QueryResults(results);
+        
+        if (query_results.hasResults() ) {
+             HashMap columns = query_results.columnNameMap();
+             log.debug("createToolNodes: has children");
+             //child actions are present
+             //call the result nodes recursively...
+             resultRows = query_results.theResults();
+             toolbarActionGroup grp = new toolbarActionGroup("create a section", "create a section");
+                 for (int i = 0 ; i < resultRows.size(); i++ ) {
+                   //get the results row by row into a string vector
+                   Vector<java.lang.String> tableRow = new Vector<java.lang.String>();
+                   tableRow = resultRows.elementAt(i);
+                   toolbarAction action = new toolbarAction(tableRow, columns );
+                   
+                    //DefaultMutableTreeNode child = new DefaultMutableTreeNode(action);
+                   log.debug("adding node = " + action);
+                   grp.addAction(action);
+                   box.addItem(action);
+                   //baseNode.add(child);
+                   //log.debug("createToolNodes : recursing child nodes");
+                   //createToolNodes (child, action, instance);
+               }
+              // DefaultMutableTreeNode child = new DefaultMutableTreeNode(grp);
+              // baseNode.add(child);
+        }
+     
+      return box;
+     }
+     
     private void createToolNodes(DefaultMutableTreeNode baseNode, toolbarAction baseNodeAction, BungeniClientDB instance) {
         try {
         String actionParent = baseNodeAction.action_name();
         log.debug("createToolNodes for : " + actionParent);
-        HashMap<String,Vector> results = new HashMap();
+        HashMap results = new HashMap();
         Vector<Vector> resultRows = new Vector<Vector>();
        // Vector<Vector> results = new Vector<Vector>();
         //DefaultMutableTreeNode child = new DefaultMutableTreeNode (addThisActionObject);

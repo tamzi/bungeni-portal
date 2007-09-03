@@ -35,6 +35,9 @@ public class CollapsiblePanelFactory {
         } else
         if (panelName.equals("generalEditorPanel")) {
             className = "org.bungeni.editor.panels.generalEditorPanel";
+        } else
+        if (panelName.equals("generalEditorPanel3")) {
+            className = "org.bungeni.editor.panels.generalEditorPanel3";
         }
         
         Class eventClass;

@@ -150,10 +150,10 @@ public class toolbarButtonCommandFactory extends Object {
     }
  
     
-    private static HashMap createCommandsMap(){
-        HashMap cmds = null;
+    private static HashMap<String,HashMap> createCommandsMap(){
+        HashMap<String, HashMap> cmds = null;
         try {
-            cmds = new HashMap();
+            cmds = new HashMap<String, HashMap>();
             
              log.debug("creating commands map");
 
@@ -196,8 +196,8 @@ public class toolbarButtonCommandFactory extends Object {
   
     
     
-    private static HashMap newChildMap(String theClass, String theSection, String theType){
-        HashMap mp = new HashMap();
+    private static HashMap<String,String> newChildMap(String theClass, String theSection, String theType){
+        HashMap<String,String> mp = new HashMap<String,String>();
         mp.put(new String("class"), theClass);
         mp.put(new String("section"), theSection);
         //single / serial

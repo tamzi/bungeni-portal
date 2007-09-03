@@ -16,8 +16,10 @@ import com.sun.star.text.XTextViewCursor;
 import javax.swing.JDialog;
 import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
-import org.bungeni.db.toolbarAction;
-import org.bungeni.editor.dialogs.InitDebateRecord;
+import org.bungeni.editor.actions.toolbarAction;
+import org.bungeni.editor.selectors.InitDebateRecord;
+import org.bungeni.editor.selectors.InitQuestionBlock;
+import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.MessageBox;
 
@@ -36,9 +38,11 @@ public class EditorActionHandler implements IEditorActionEvent {
         //main action handler class 
         //can be implemented by any class that implements IEditorActionEvent]
         this.ooDocument = ooDocument;
-        String cmd = action.action_name;
-        if (cmd.equals ("makePrayerSection")) 
+        String cmd = action.action_name();
+        if (cmd.equals("makeMastHead"))
             doMakePrayerSection(action);
+        else if (cmd.equals ("makePrayerSection")) 
+            doMakeSection(action);
         else if (cmd.equals("makeQASection"))
             doMakeSection(action);
         else if (cmd.equals("makePaperSection"))
@@ -46,7 +50,7 @@ public class EditorActionHandler implements IEditorActionEvent {
         else if (cmd.equals("makeNoticeOfMotionSection"))
             doMakeSection(action);
         else if (cmd.equals("makeQuestionBlockSection"))
-            doMakeSection(action);
+            doMakeQuestionBlockSection(action);
         else if (cmd.equals("makePrayerMarkup"))
             doMarkup(action);
         else if (cmd.equals("makePaperMarkup"))
@@ -75,11 +79,33 @@ public class EditorActionHandler implements IEditorActionEvent {
                      initDebaterecord, action);;
              initDebaterecord.getContentPane().add(panel);
              initDebaterecord.pack();
+             initDebaterecord.setLocationRelativeTo(null);
              initDebaterecord.setVisible(true);
              initDebaterecord.setAlwaysOnTop(true);
        
      }
      
+     private void doMakeQuestionBlockSection(toolbarAction action) {
+            //section was added now prompt for dialog information
+             JDialog makeQuestionBlock;
+             makeQuestionBlock = new JDialog();
+             makeQuestionBlock.setTitle("Enter Settings for Document");
+             makeQuestionBlock.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+             //initDebaterecord.setPreferredSize(new Dimension(420, 300));
+             InitQuestionBlock panel = new InitQuestionBlock(ooDocument, 
+                     makeQuestionBlock, action);;
+             
+              if (ooDocument.isTextSelected())
+                panel.setDialogMode(SelectorDialogModes.TEXT_SELECTED);
+              else
+                panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
+
+             makeQuestionBlock.getContentPane().add(panel);
+             makeQuestionBlock.pack();
+             makeQuestionBlock.setLocationRelativeTo(null);
+             makeQuestionBlock.setVisible(true);
+             makeQuestionBlock.setAlwaysOnTop(true);   
+     }
      private int doMakeSection(toolbarAction action){
            //get the section name and numbering type for the command
            String namingConvention, numberingType;
@@ -140,7 +166,7 @@ public class EditorActionHandler implements IEditorActionEvent {
                 return;
             }
            log.debug("numbering type = " + numberingType);
-           if (action.action_type.equals("markup")) {    
+           if (action.action_type().equals("markup")) {    
               
                PropertyValue[] loadProps = new com.sun.star.beans.PropertyValue[2];
                loadProps[0] = new PropertyValue();

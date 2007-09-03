@@ -22,7 +22,7 @@ import org.bungeni.db.SettingsQueryFactory;
  * @author Administrator
  */
 public class BungeniEditorProperties {
-    private static HashMap<String,String> propertiesMap = new HashMap();
+    private static HashMap<String,String> propertiesMap = new HashMap<String,String>();
     private static org.apache.log4j.Logger log = Logger.getLogger(BungeniEditorProperties.class.getName());
     
     /** Creates a new instance of BungeniEditorProperties */
@@ -43,7 +43,7 @@ public class BungeniEditorProperties {
         String settingsInstance = DefaultInstanceFactory.DEFAULT_INSTANCE();
         BungeniClientDB db = new BungeniClientDB(settingsInstance, "");
         db.Connect();
-        HashMap resultsMap = db.Query(SettingsQueryFactory.Q_FETCH_EDITOR_PROPERTY(propertyName));
+        HashMap<String,Vector> resultsMap = db.Query(SettingsQueryFactory.Q_FETCH_EDITOR_PROPERTY(propertyName));
         db.EndConnect();
         QueryResults results = new QueryResults(resultsMap);
         if (results.hasResults() ) {

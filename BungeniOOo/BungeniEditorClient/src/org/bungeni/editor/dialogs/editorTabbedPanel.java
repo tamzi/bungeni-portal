@@ -55,6 +55,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.Vector;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
@@ -83,8 +84,10 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import org.bungeni.db.BungeniClientDB;
+import org.bungeni.db.BungeniRegistryFactory;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.GeneralQueryFactory;
+import org.bungeni.db.QueryResults;
 import org.bungeni.editor.panels.CollapsiblePanelFactory;
 import org.bungeni.editor.panels.ICollapsiblePanel;
 import org.bungeni.ooo.OOComponentHelper;
@@ -171,7 +174,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      box.addBox("Markup Tools", markupPanel.getObjectHandle() ); 
      */
      
-     ICollapsiblePanel generalEditorPanel = CollapsiblePanelFactory.getPanelClass("generalEditorPanel");
+     ICollapsiblePanel generalEditorPanel = CollapsiblePanelFactory.getPanelClass("generalEditorPanel3");
      generalEditorPanel.setOOComponentHandle(ooDocument);
      box.addBox("Editor Tools", generalEditorPanel.getObjectHandle());
      
@@ -230,13 +233,23 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         
     }
     
+    private class selectMetadataModel {
+        String query;
+        String text;
+        public selectMetadataModel(String t, String q) {
+            text = t;
+            query = q;
+        }
+        public String toString() {
+            return text;
+        }
+    }
     private void initBodyMetadataPanel(){
-        BungeniClientDB db = new BungeniClientDB(DefaultInstanceFactory.DEFAULT_INSTANCE(), "");
-        db.Connect();
-        db.Query(GeneralQueryFactory.Q_FETCH_ALL_MPS());
+        //initilize cboSelectBodyMetadata
         
+        cboSelectBodyMetadata.removeAllItems();
+        cboSelectBodyMetadata.addItem(new selectMetadataModel("Members of Parliament", GeneralQueryFactory.Q_FETCH_ALL_MPS()));;
         
-        db.EndConnect();
     }
     public Component getComponentHandle(){
         return this;
@@ -594,8 +607,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                 strAuthor = ooDocument.getPropertyValue("Bungeni_DocAuthor");
            
         }
-        if (ooDocument.propertyExists("Bungeni_DocType")){
-            strDocType = ooDocument.getPropertyValue("Bungeni_DocType");
+        if (ooDocument.propertyExists("bungeni_document_type")){
+            strDocType = ooDocument.getPropertyValue("bungeni_document_type");
         }
         
         txtDocAuthor.setText(strAuthor);
@@ -1389,7 +1402,75 @@ private void displayUserMetadata(XTextRange xRange) {
    
     private void userMetadataLookup_Clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userMetadataLookup_Clicked
      //collect the data
-        
+      HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
+      BungeniClientDB dbReg = new BungeniClientDB(registryMap);
+      dbReg.Connect();
+      HashMap<String,Vector> results = dbReg.Query(GeneralQueryFactory.Q_FETCH_ALL_MPS());
+      dbReg.EndConnect();
+      QueryResults theResults = new QueryResults(results);
+      if (theResults.hasResults()) {
+          String[] columns = theResults.getColumns();
+          Vector<String> vMpColumns = new Vector<String>();
+          Vector<Vector> vMps = new Vector<Vector>();
+          Collections.addAll(vMpColumns, columns);
+          vMps = theResults.theResults();
+          
+           DefaultTableModel dtm = new DefaultTableModel(vMps,vMpColumns);
+             mpTable = new JTable() {
+                 public boolean isCellEditable(int rowIndex, int vColIndex) {
+                    return false;
+                    }
+             };
+             mpTable.setModel(dtm);
+             mpTable.setRowSelectionAllowed(true);
+             mpTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+             //mpTable.getSelectionModel().addListSelectionListener(new tblMembersOfParliamentListRowListener());
+
+             JScrollPane sp = new JScrollPane(mpTable);
+             sp.setPreferredSize(new Dimension(400,200));
+             JPanel panel = new JPanel(new FlowLayout());
+             panel.setPreferredSize(new Dimension(400,300));
+             panel.add(sp);
+             lblMessage = new JLabel();
+             lblMessage.setPreferredSize(new Dimension(400, 20));
+             lblMessage.setText("Please select an MP");
+
+             JButton btnSelectMp = new JButton();
+             JButton btnClose = new JButton();
+             btnClose.setText("Close");
+             btnClose.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        btnCloseMpDialog_Clicked(evt);
+                    }
+                });
+             btnSelectMp.setText("Select an MP");
+             btnSelectMp.addActionListener(new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        btnSelectMP_Clicked(evt);
+                    }
+                });
+             panel.add(lblMessage);
+             panel.add(btnSelectMp);
+             panel.add(btnClose);
+
+             mpDialog = new JDialog();
+             mpDialog.setLocationRelativeTo(null);
+             mpDialog.setTitle("Select an MP");
+             mpDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+             mpDialog.setPreferredSize(new Dimension(420, 300));
+             mpDialog.getContentPane().add(panel);
+             mpDialog.pack();
+             mpDialog.setVisible(true);
+             mpDialog.setAlwaysOnTop(true);
+          log.debug("there are results :" + columns[0] + "," + columns[1]);
+      } else {
+          log.debug("there are no results");
+      }
+      
+      //System.out.println("connection string = " + registryMap.get("ConnectionString"));
+      //System.out.println("driver = " + registryMap.get("Driver"));
+      
+      /*  
      Vector<String> vMpColumns = new Vector<String>();
      Collections.addAll(vMpColumns, colNames);
      
@@ -1439,7 +1520,7 @@ private void displayUserMetadata(XTextRange xRange) {
      mpDialog.pack();
      mpDialog.setVisible(true);
      mpDialog.setAlwaysOnTop(true);
-
+     */
 
 // TODO add your handling code here:
     }//GEN-LAST:event_userMetadataLookup_Clicked
@@ -1462,12 +1543,12 @@ private void displayUserMetadata(XTextRange xRange) {
                 log.debug("setting property - author");
             }
             
-            if (!ooDocument.propertyExists("Bungeni_DocType")) {
-                ooDocument.addProperty("Bungeni_DocType", strDocType);
+            if (!ooDocument.propertyExists("bungeni_document_type")) {
+                ooDocument.addProperty("bungeni_document_type", strDocType);
                 log.debug("adding property - doctype ");
             }
             else {
-                ooDocument.setPropertyValue("Bungeni_DocType", strDocType);
+                ooDocument.setPropertyValue("bungeni_document_type", strDocType);
                 log.debug("setting property - doctype");
             }
                 

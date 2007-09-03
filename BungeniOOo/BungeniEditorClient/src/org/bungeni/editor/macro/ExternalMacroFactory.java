@@ -52,7 +52,7 @@ public class ExternalMacroFactory {
         String settingsInstance = DefaultInstanceFactory.DEFAULT_INSTANCE();
         BungeniClientDB db = new BungeniClientDB(settingsInstance, "");
         db.Connect();
-        HashMap resultsMap = db.Query(query);
+        HashMap<String,Vector> resultsMap = db.Query(query);
         db.EndConnect();
         QueryResults results = new QueryResults(resultsMap);
         String programmingLang= "", libraryName = "", noParams = "";

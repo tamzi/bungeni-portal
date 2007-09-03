@@ -4,7 +4,7 @@
  * Created on August 27, 2007, 11:39 AM
  */
 
-package org.bungeni.editor.dialogs;
+package org.bungeni.editor.selectors;
 
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
@@ -12,14 +12,19 @@ import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextViewCursor;
 import java.awt.Container;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JRootPane;
+import javax.swing.text.DateFormatter;
+import javax.swing.text.DefaultFormatterFactory;
 import org.bungeni.db.DefaultInstanceFactory;
-import org.bungeni.db.toolbarAction;
+import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.BungeniEditorProperties;
+import org.bungeni.editor.dialogs.*;
 import org.bungeni.editor.fragments.FragmentsFactory;
 import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
@@ -33,10 +38,11 @@ import org.bungeni.ooo.OOComponentHelper;
  * - allows setting various variables within that section
  * - slaps the text into the created text section
  */
-public class InitDebateRecord extends javax.swing.JPanel {
+public class InitDebateRecord extends javax.swing.JPanel implements IDialogSelector{
     private OOComponentHelper ooDocument;
     private JDialog parent;
     private toolbarAction theAction;
+    private SelectorDialogModes theMode;
    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(InitDebateRecord.class.getName());
      
    private String m_strLogoPath; 
@@ -46,12 +52,22 @@ public class InitDebateRecord extends javax.swing.JPanel {
         initComponents();
     }
     
-    public InitDebateRecord(OOComponentHelper ooDocument, JDialog parentDlg, toolbarAction theAction) {
+    public InitDebateRecord(OOComponentHelper ooDocument, 
+            JDialog parentDlg, 
+            toolbarAction theAction) {
         this.ooDocument = ooDocument;
         this.parent = parentDlg;
         this.theAction = theAction;
         initComponents();
-        
+        //default m_strLogoPath
+        String logoPath = BungeniEditorProperties.getEditorProperty("logoPath");
+        log.debug("logo path = " + logoPath);
+        String strPath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH();
+        m_strLogoPath = strPath + File.separator + logoPath + File.separator + "default_logo.jpg";
+        log.debug("InitDebateRecord:" + m_strLogoPath);
+        // DateFormat formatter = new SimpleDateFormat("H:m"); 
+       // DateFormatter dfTimeOfHansard = new DateFormatter(formatter);
+       // initdebate_timeofhansard.setFormatterFactory(new DefaultFormatterFactory(dfTimeOfHansard));
     }
     
     /** This method is called from within the constructor to
@@ -65,11 +81,11 @@ public class InitDebateRecord extends javax.swing.JPanel {
         lbl_initdebate_hansarddate = new javax.swing.JLabel();
         lbl_initdate_mastheadlogo = new javax.swing.JLabel();
         btn_initdebate_selectlogo = new javax.swing.JButton();
-        initdebate_timeofhansard = new javax.swing.JTextField();
         lbl_initdebate_hansardtime = new javax.swing.JLabel();
         btn_initdebate_apply = new javax.swing.JButton();
         btn_initdebate_cancel = new javax.swing.JButton();
         lbl_initdebate_setpath = new javax.swing.JLabel();
+        initdebate_timeofhansard = new javax.swing.JFormattedTextField();
 
         lbl_initdebate_hansarddate.setText("Hansard Date");
 
@@ -120,8 +136,8 @@ public class InitDebateRecord extends javax.swing.JPanel {
                         .addContainerGap())
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, initdebate_debatedate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
-                            .add(initdebate_timeofhansard, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE))
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, initdebate_timeofhansard, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                            .add(initdebate_debatedate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE))
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -135,7 +151,7 @@ public class InitDebateRecord extends javax.swing.JPanel {
                 .add(lbl_initdebate_hansardtime)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(initdebate_timeofhansard, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(4, 4, 4)
                 .add(lbl_initdate_mastheadlogo)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btn_initdebate_selectlogo)
@@ -159,7 +175,7 @@ public class InitDebateRecord extends javax.swing.JPanel {
     strDebateDate = formatter.format(dtDebate);
     strLogoPath = m_strLogoPath;
     //adding section
-   if (theAction.action_type.equals("section")) {
+   if (theAction.action_type().equals("section")) {
         //create a text section
         //load the related document
         //set the field values in loaded document
@@ -190,7 +206,14 @@ public class InitDebateRecord extends javax.swing.JPanel {
             setFieldValue.addParameter(new String("debaterecord_official_date"));
             setFieldValue.addParameter(strDebateDate);
             ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());
+   
+            setFieldValue.clearParams();
+            setFieldValue.addParameter(new String("debaterecord_hansard_time"));
+            setFieldValue.addParameter(strTimeOfHansard);
+            ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());
+   
    }       
+    
     //ooDocument.executeDispatch("")
         //added Section, now execute Macros
         //load template document into main document
@@ -234,6 +257,23 @@ public class InitDebateRecord extends javax.swing.JPanel {
 // TODO add your handling code here:
         parent.dispose();
     }//GEN-LAST:event_btn_initdebate_cancelActionPerformed
+
+    public void setDialogMode(SelectorDialogModes mode) {
+        
+    }
+
+    public SelectorDialogModes getDialogMode() {
+        return theMode;
+    }
+
+    public void setOOComponentHelper(OOComponentHelper ooComp) {
+    }
+
+    public void setToolbarAction(toolbarAction action) {
+    }
+
+    public void setParentDialog(JDialog dlg) {
+    }
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -241,7 +281,7 @@ public class InitDebateRecord extends javax.swing.JPanel {
     private javax.swing.JButton btn_initdebate_cancel;
     private javax.swing.JButton btn_initdebate_selectlogo;
     private org.jdesktop.swingx.JXDatePicker initdebate_debatedate;
-    private javax.swing.JTextField initdebate_timeofhansard;
+    private javax.swing.JFormattedTextField initdebate_timeofhansard;
     private javax.swing.JLabel lbl_initdate_mastheadlogo;
     private javax.swing.JLabel lbl_initdebate_hansarddate;
     private javax.swing.JLabel lbl_initdebate_hansardtime;

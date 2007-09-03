@@ -11,7 +11,7 @@ package org.bungeni.editor.panels;
 
 import java.awt.Component;
 import javax.swing.JPanel;
-import org.bungeni.db.toolbarAction;
+import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.IEditorActionEvent;
 import org.bungeni.ooo.OOComponentHelper;
 
@@ -34,4 +34,6 @@ public interface ICollapsiblePanel  {
      * get the handle of the class that manages toolbar events for all actions
      */
   public IEditorActionEvent getEventClass(toolbarAction action);
+
+  public void setParentWindowHandle(Component c);
 }

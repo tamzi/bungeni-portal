@@ -39,6 +39,16 @@ from Products.Bungeni.config import *
 
 schema = Schema((
 
+    ComputedField(
+        name='title',
+        widget=ComputedField._properties['widget'](
+            label='Title',
+            label_msgid='Bungeni_label_title',
+            i18n_domain='Bungeni',
+        ),
+        accessor="Title"
+    ),
+
     RelationField(
         name='Reporter',
         vocabulary='getReportersForSittingVocab',
@@ -105,6 +115,13 @@ class RotaItem(BaseContent):
     ##/code-section class-header
 
     # Methods
+
+    security.declarePublic('Title')
+    def Title(self):
+        """
+        """
+        if self.getReporter():
+            return 'Reporter: %s'%self.getReporter().Title()
 
 
 registerType(RotaItem, PROJECTNAME)

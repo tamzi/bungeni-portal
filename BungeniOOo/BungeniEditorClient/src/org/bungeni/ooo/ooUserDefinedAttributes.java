@@ -25,9 +25,9 @@ public class ooUserDefinedAttributes {
         NS_PREFIX = nsPrefix;
     }
     
-    public static HashMap make(String[] list){
+    public static HashMap<String,String> make(String[] list){
         String nsPrefix = NS_PREFIX;
-        HashMap xmlAttribs = new HashMap();
+        HashMap<String,String> xmlAttribs = new HashMap<String,String>();
        //name value pairs separated by : 
         for (int i = 0 ; i < list.length ; i++) {
             String[] nameValuePair = list[i].split(":");

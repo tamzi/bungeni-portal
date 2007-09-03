@@ -62,8 +62,6 @@ import com.sun.star.xml.AttributeData;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
-import org.bungeni.editor.dialogs.editorTabbedPanel;
-import org.bungeni.utils.MessageBox;
 
 /**
  * 
@@ -181,6 +179,20 @@ public class OOComponentHelper {
         }
         
     }
+    
+    public XTextContent addViewSection(String sectionName) {
+           XTextViewCursor viewCursor = getViewCursor();
+           XText xText = getViewCursor().getText();
+           XTextContent xSectionContent = createTextSection(sectionName, (short)1);
+        try {
+            xText.insertTextContent(viewCursor, xSectionContent , true);
+        } catch (com.sun.star.lang.IllegalArgumentException ex) {
+            log.debug("addViewSection:" + ex.getMessage());
+        } finally {
+            return xSectionContent;
+        }
+    }
+    
     
     public XPropertySet getObjectPropertySet(Object obj){
         XPropertySet xObjProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, obj); 
@@ -332,8 +344,10 @@ public class OOComponentHelper {
         HashMap<String,Object> rangeMap = new HashMap<String,Object>();
         XTextRange xRange = null;
         try {
-            if (selection == null )     
+            if (selection == null )     {
                 log.debug("getSelectedText: nothing was selected");
+                return null;
+            }
             XServiceInfo xSelInfo = ooQueryInterface.XServiceInfo(selection);
             if ( xSelInfo.supportsService("com.sun.star.text.TextRanges") ){
                 XIndexAccess xIndexAccess = ooQueryInterface.XIndexAccess(selection);
@@ -356,6 +370,18 @@ public class OOComponentHelper {
         } finally {
             return rangeMap ;
         }
+    }
+    
+    public boolean isTextSelected() {
+        HashMap<String, Object> rangeMap = null;
+        rangeMap = getSingleSelectionRange();
+        if (rangeMap == null)
+            return false;
+        XTextCursor rangeCursor = (XTextCursor)rangeMap.get("XTextCursor");
+        if (rangeCursor.isCollapsed())
+            return false;
+        else
+            return true;
     }
    /*
     * nEdge = 0 , means left edge
@@ -500,7 +526,7 @@ public class OOComponentHelper {
                     log.debug( "You have selected a text range: \""
                                         + xTextRange.getString() + "\"." );
                 }
-                MessageBox.OK("Multiple Selection Attributes have not been implemented yet");
+                log.debug("Multiple Selection Attributes have not been implemented yet");
             }
         }
 

@@ -28,19 +28,19 @@ import org.jdom.output.XMLOutputter;
  * XML string which is stored in a property called "bungeniEditoNotes" 
  * a "bungeniEditorNotes" XML looks like this:
  * <notes>
- *    <note>
- *        <dte>
- *            ISO date
- *        </dte>
- *        <bau>
- *            author name
- *        </bau>
- *        <txt>
- *            <![[CDATA[
- *                Note text
- *            ]]>
- *        </txt>
- *    </note>
+ *     <note>
+ *         <dte>
+ *             ISO date
+ *         </dte>
+ *         <bau>
+ *             author name
+ *         </bau>
+ *         <txt>
+ *             <![[CDATA[
+ *             Note text
+ *             ]]>
+ *         </txt>
+ *     </note>
  * </notes>
  * @author Administrator
  */

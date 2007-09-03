@@ -36,6 +36,11 @@ from Products.Bungeni.config import *
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
 
+copied_fields = {}
+copied_fields['startDate'] = ParliamentaryEvent.schema['startDate'].copy()
+copied_fields['startDate'].widget.visible = True
+copied_fields['endDate'] = ParliamentaryEvent.schema['endDate'].copy()
+copied_fields['endDate'].widget.visible = True
 schema = Schema((
 
     StringField(
@@ -57,6 +62,10 @@ schema = Schema((
         ),
         vocabulary=['morning', 'afternoon', 'extraordinary']
     ),
+
+    copied_fields['startDate'],
+
+    copied_fields['endDate'],
 
 ),
 )

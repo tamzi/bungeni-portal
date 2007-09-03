@@ -1,4 +1,5 @@
 AddRemoveWidget https://svn.plone.org/svn/archetypes/MoreFieldsAndWidgets/AddRemoveWidget/trunk
+OrderableReferenceField https://svn.plone.org/svn/archetypes/MoreFieldsAndWidgets/OrderableReferenceField/trunk
 SecureMaildropHost https://svn.plone.org/svn/collective/SecureMaildropHost/trunk
 PloneHelpCenter https://svn.plone.org/svn/collective/PloneHelpCenter/trunk
 PloneStickies https://svn.plone.org/svn/collective/PloneStickies/trunk

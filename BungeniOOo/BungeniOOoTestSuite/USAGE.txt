@@ -1,0 +1,1 @@
+Include Libs specified in manifest.mf in the Libs subdirectory relative to the BungeniOOoTestSuite.jar file, and execute with java -jar

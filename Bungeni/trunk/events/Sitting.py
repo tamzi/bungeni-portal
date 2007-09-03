@@ -50,6 +50,7 @@ schema = Schema((
             label_msgid='Bungeni_label_attendees',
             i18n_domain='Bungeni',
         ),
+        multiValued=True,
         vocabulary='getAttendeesVocab'
     ),
 

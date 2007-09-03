@@ -87,17 +87,17 @@ schema = Schema((
 ##code-section after-local-schema #fill in your manual code here
 ##/code-section after-local-schema
 
-RotaFolder_schema = BaseFolderSchema.copy() + \
+RotaFolder_schema = OrderedBaseFolderSchema.copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class RotaFolder(BaseFolder):
+class RotaFolder(OrderedBaseFolder):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),)
+    __implements__ = (getattr(OrderedBaseFolder,'__implements__',()),)
     # zope3 interfaces
     interface.implements(IRotaFolder)
 
@@ -170,14 +170,30 @@ def addedRotaFolder(obj, event):
     if obj.isTemporary():
         log('addedRotaFolder> Not yet!')
         return
-    normalizeString = getToolByName(obj, 'plone_utils').normalizeString
+
+    rt = getToolByName(obj, 'portal_rotatool')
+
     obj.setReportersForSitting(obj.REQUEST.form['ReportersForSitting'])
+    reporters = obj.getReportersForSitting()
+
+    # Get the lead/extra times as a fraction of a day (1440 minutes)
+    lead_time_fraction = rt.getReportingLeadTime() / 1440.00
+    extra_time_fraction = (rt.getExtraTakes() * rt.getTakeLength()) / 1440.00
+
+    start_time = obj.getRotaFrom() - lead_time_fraction 
+    end_time = obj.getRotaTo() + extra_time_fraction
+    duration_in_minutes = (end_time - start_time) * 1440.00
+    iterations = duration_in_minutes / rt.getTakeLength()
+    reporter_index = 0
+
     # Generate the rota
-    for r in obj.getReportersForSitting():
-        title = 'Reporter: %s'%r.Title()
-        ri_id = normalizeString(title)
-        if not shasattr(obj, ri_id):
-            obj.invokeFactory('RotaItem', ri_id, title=title, Reporter=r.UID())
+    for n in range(iterations):
+        if reporter_index == len(reporters):
+            reporter_index = 0
+        r = reporters[reporter_index]
+        reporter_index += 1
+        ri_id = obj.generateUniqueId('RotaItem')
+        obj.invokeFactory('RotaItem', ri_id, Reporter=r.UID())
 ##/code-section module-footer
 
 

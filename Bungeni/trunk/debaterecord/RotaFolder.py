@@ -35,7 +35,6 @@ from Products.Bungeni.config import *
 
 # additional imports from tagged value 'import'
 from Products.OrderableReferenceField import OrderableReferenceField
-from DateTime import DateTime
 
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore.utils import getToolByName
@@ -62,20 +61,18 @@ schema = Schema((
         relation_implementation="basic"
     ),
 
-    DateTimeField(
+    ComputedField(
         name='RotaFrom',
-        default=DateTime(),
-        widget=CalendarWidget(
+        widget=ComputedField._properties['widget'](
             label='Rotafrom',
             label_msgid='Bungeni_label_RotaFrom',
             i18n_domain='Bungeni',
         )
     ),
 
-    DateTimeField(
+    ComputedField(
         name='RotaTo',
-        default=DateTime(),
-        widget=CalendarWidget(
+        widget=ComputedField._properties['widget'](
             label='Rotato',
             label_msgid='Bungeni_label_RotaTo',
             i18n_domain='Bungeni',
@@ -143,6 +140,24 @@ class RotaFolder(BaseFolder):
 
     # Methods
 
+    security.declarePublic('getRotaFrom')
+    def getRotaFrom(self):
+        """
+        """
+        parent = self
+        while parent.portal_type != 'Sitting':
+            parent = parent.aq_parent
+        return parent.start()
+
+    security.declarePublic('getRotaTo')
+    def getRotaTo(self):
+        """
+        """
+        parent = self
+        while parent.portal_type != 'Sitting':
+            parent = parent.aq_parent
+        return parent.end()
+
 
 registerType(RotaFolder, PROJECTNAME)
 # end of class RotaFolder
@@ -157,6 +172,7 @@ def addedRotaFolder(obj, event):
         return
     normalizeString = getToolByName(obj, 'plone_utils').normalizeString
     obj.setReportersForSitting(obj.REQUEST.form['ReportersForSitting'])
+    # Generate the rota
     for r in obj.getReportersForSitting():
         title = 'Reporter: %s'%r.Title()
         ri_id = normalizeString(title)

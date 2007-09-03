@@ -22,7 +22,7 @@ public class SettingsQueryFactory {
     public static String Q_FETCH_PARENT_TOOLBAR_ACTIONS() {
         String query = new String("" +
                 "Select * from toolbar_action_settings " +
-                "where action_parent='parent' " +
+                "where action_parent='parent' and action_state=1 " +
                 "order by action_order");
         return  query;
     }
@@ -30,7 +30,7 @@ public class SettingsQueryFactory {
     public static String Q_FETCH_CHILD_TOOLBAR_ACTIONS(String parent_name) {
         String query = new String("" +
                 "Select * from toolbar_action_settings " +
-                "where action_parent='"+ parent_name  + "' " +
+                "where action_parent='"+ parent_name  + "' and action_state=1 " +
                 "order by action_order");
         return  query;
     }

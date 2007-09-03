@@ -20,11 +20,11 @@ public class BungeniClientDB {
     
     private static org.apache.log4j.Logger log = Logger.getLogger(BungeniClientDB.class.getName());
   
-    private static String DRIVER = "org.h2.Driver";
-    private static String JDBC_PREFIX = "jdbc:h2:";
-    private static String DEFAULT_DB = "settings.db";
-    private static String USER_NAME = "sa";
-    private static String PASS_WORD = "";
+    private  String DRIVER = "org.h2.Driver";
+    private  String JDBC_PREFIX = "jdbc:h2:";
+    private  String DEFAULT_DB = "settings.db";
+    private  String USER_NAME = "sa";
+    private  String PASS_WORD = "";
     
     private String current_database;
     private String path_to_database;
@@ -36,6 +36,7 @@ public class BungeniClientDB {
      * @param pathToDb 
      * @param dbName 
      */
+    
     public BungeniClientDB(String pathToDb, String dbName) {
         if (dbName.equals(""))
             current_database = DEFAULT_DB;
@@ -44,6 +45,19 @@ public class BungeniClientDB {
         path_to_database = pathToDb;
         connection_string = JDBC_PREFIX + path_to_database + current_database;
         System.out.println("connection string = "+ connection_string);
+    }
+   
+    /*
+     *
+     *
+     *
+     */
+    public BungeniClientDB (HashMap<String, String> map) {
+        this.connection_string = map.get("ConnectionString");
+        this.USER_NAME = map.get("UserName");
+        this.PASS_WORD = map.get("Password");
+        this.DRIVER = map.get("Driver");
+        
     }
     
     public boolean Connect() {
@@ -98,11 +112,16 @@ public class BungeniClientDB {
         }    
     }
     */
-     
-    public synchronized HashMap Query(String expression) {
+    
+    public QueryResults QueryResults(String expression ) {
+        HashMap<String,Vector> qResults = Query(expression);
+        QueryResults qr = new QueryResults(qResults);
+        return qr;
+    }
+    public synchronized HashMap<String,Vector> Query(String expression) {
             Statement st = null;
             ResultSet rs = null;
-            HashMap query_results = new HashMap();
+            HashMap<String,Vector> query_results = new HashMap<String,Vector>();
             
             Vector<Vector> results = new Vector<Vector>();
             Vector<String> columnsMeta = new Vector<String>();

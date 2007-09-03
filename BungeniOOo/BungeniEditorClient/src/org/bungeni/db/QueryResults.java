@@ -19,17 +19,19 @@ import java.util.Vector;
 public class QueryResults {
    boolean hasResults = false;
    Vector<Vector> theResults = null ;
-   HashMap metadataColumnNameMap = null;
+   Vector<String> theColumns = null;
+   HashMap<String,Integer> metadataColumnNameMap = null;
    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(QueryResults.class.getName());
  
     /** Creates a new instance of QueryResults */
-    public QueryResults(HashMap results) {
+    public QueryResults(HashMap<String,Vector> results) {
         if (results.containsKey("results")) {
             theResults = (Vector<Vector>)results.get("results");
             hasResults = true;
         }
-        metadataColumnNameMap = new HashMap();
+        metadataColumnNameMap = new HashMap<String,Integer>();
         if (results.containsKey("columns")) {
+            theColumns = new Vector<String>();
             buildMetadataInfo((Vector<String>)results.get("columns"));
         }
         
@@ -62,6 +64,7 @@ public class QueryResults {
                     for (int n=0; n < metadataRow.size(); n++ ) {
                      String column_name= "";
                      column_name = (String) metadataRow.elementAt(n);
+                     theColumns.add(column_name);
                      //add to column name ==> column number mapping map
                      metadataColumnNameMap.put(column_name, new Integer(n+1));
                   }
@@ -76,4 +79,22 @@ public class QueryResults {
         return -1;
     }
     
+    public String[] getColumns() {
+        String[] arrayColumns  = theColumns.toArray(new String[theColumns.size()]);
+        return arrayColumns;
+    }
+    
+    public String[] getSingleColumnResult(String theColumn){
+        String[] specificresult = null;
+        if (hasResults()) {
+            specificresult = new String[theResults.size()];
+            for (int i = 0; i< theResults.size(); i++ ) {
+                Vector<String> tableRow = theResults.elementAt(i);
+                specificresult[i] = tableRow.elementAt(getColumnIndex(theColumn)-1);
+            }
+            return specificresult;
+        } else {
+            return null;
+        }
+    }
 }

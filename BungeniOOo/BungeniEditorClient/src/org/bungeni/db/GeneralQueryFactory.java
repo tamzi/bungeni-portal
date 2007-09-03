@@ -20,7 +20,7 @@ public class GeneralQueryFactory {
     }
       public static String Q_FETCH_ALL_MPS (){
         String query = new String("" +
-                "select * from persons");
+                "select id, first_name, last_name, uri from persons");
         return query;
     }
     
@@ -39,5 +39,14 @@ public class GeneralQueryFactory {
                 "library_name= '"+library_name+"' and " +
                 "macro_name = '"+macro_name+"' ");
         return query; 
+    }
+    
+    public static String Q_FETCH_ALL_QUESTIONS() {
+        return new String("select * from questions");
+    }
+
+    public static String Q_FETCH_PERSON_BY_URI (String URI) {
+        return new String("Select * from persons where " +
+                "uri='"+URI +"'");
     }
 }

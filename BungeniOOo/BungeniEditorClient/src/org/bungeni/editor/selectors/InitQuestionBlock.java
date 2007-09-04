@@ -6,18 +6,28 @@
 
 package org.bungeni.editor.selectors;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
 import javax.swing.JDialog;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.BungeniRegistryFactory;
+import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.GeneralQueryFactory;
 import org.bungeni.db.QueryResults;
 import org.bungeni.db.registryQueryDialog;
 import org.bungeni.editor.actions.toolbarAction;
+import org.bungeni.editor.fragments.FragmentsFactory;
+import org.bungeni.editor.macro.ExternalMacro;
+import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.MessageBox;
+import org.safehaus.uuid.UUID;
+import org.safehaus.uuid.UUIDGenerator;
 
 /**
  *
@@ -33,6 +43,7 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(InitQuestionBlock.class.getName());
  
     HashMap<String, String> selectionData = new HashMap<String,String>();
+    String txtURI = "";
     /** Creates new form InitQuestionBlock */
     public InitQuestionBlock() {
         initComponents();
@@ -42,14 +53,35 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
         this.ooDocument = ooDocument;
         this.parent = parentDlg;
         this.theAction = theAction;
-        txtAddressedTo.setEditable(false);
-        txtPersonName.setEditable(true);
-        txtQuestionText.setEditable(false);
-        txtQuestionTitle.setEditable(false);
+        initFields();
+   
         HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
         dbInstance = new BungeniClientDB(registryMap);
     }
-    
+   
+    private void initFields() {
+
+        if (theMode == SelectorDialogModes.TEXT_INSERTION) {
+            txtAddressedTo.setEditable(false);
+            txtPersonName.setEditable(true);
+            txtQuestionText.setEditable(false);
+            txtQuestionTitle.setEditable(false);
+            txtMessageArea.setText("You are attempting to insert a new Question, " +
+                    "please select a question, and edit the name if neccessary, the " +
+                    "text of the question and the metadata will be inserted into the " +
+                    "document");
+        } else if (theMode == SelectorDialogModes.TEXT_SELECTED) {
+            txtAddressedTo.setEditable(false);
+            lblNameOfPersonFrom.setVisible(false);
+            txtPersonName.setVisible(false); //setEditable(false);
+            txtQuestionText.setEditable(false);
+            txtQuestionTitle.setEditable(false);    
+            txtMessageArea.setText("You are attempting to markup some existing text" +
+                    " as a Question, " +
+                    "please select the Question you would like to markup , and press apply" +
+                    "to markup the selected text with the correct question metadata");
+        }
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -57,48 +89,66 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        jScrollPane1 = new javax.swing.JScrollPane();
+        scrollQuestionText = new javax.swing.JScrollPane();
         txtQuestionText = new javax.swing.JTextArea();
-        jLabel2 = new javax.swing.JLabel();
+        lblQuestionText = new javax.swing.JLabel();
         btnSelectQuestion = new javax.swing.JButton();
         txtQuestionTitle = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        lblQuestionTitle = new javax.swing.JLabel();
         txtPersonName = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        btnQuestionApply = new javax.swing.JButton();
-        btnQuestionCancel = new javax.swing.JButton();
+        lblNameOfPersonFrom = new javax.swing.JLabel();
+        btnApply = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
         txtAddressedTo = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
+        lblQuestionAddressedTo = new javax.swing.JLabel();
+        separatorLine1 = new javax.swing.JSeparator();
+        scrollMessageArea = new javax.swing.JScrollPane();
+        txtMessageArea = new javax.swing.JTextArea();
 
         txtQuestionText.setColumns(20);
         txtQuestionText.setFont(new java.awt.Font("Tahoma", 0, 10));
         txtQuestionText.setLineWrap(true);
         txtQuestionText.setRows(5);
-        jScrollPane1.setViewportView(txtQuestionText);
+        scrollQuestionText.setViewportView(txtQuestionText);
 
-        jLabel2.setText("Question Text");
+        lblQuestionText.setText("Question Text");
 
         btnSelectQuestion.setText("Select a Question...");
+        btnSelectQuestion.setActionCommand("Select a Question");
         btnSelectQuestion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSelectQuestionActionPerformed(evt);
             }
         });
 
-        jLabel1.setText("Question Title ");
+        lblQuestionTitle.setText("Question Title ");
 
-        jLabel3.setText("Edit name of Person asking Question");
+        lblNameOfPersonFrom.setText("Edit name of Person asking Question");
 
-        btnQuestionApply.setText("Apply");
-        btnQuestionApply.addActionListener(new java.awt.event.ActionListener() {
+        btnApply.setText("Apply");
+        btnApply.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnQuestionApplyActionPerformed(evt);
+                btnApplyActionPerformed(evt);
             }
         });
 
-        btnQuestionCancel.setText("Cancel");
+        btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
-        jLabel4.setText("Question Addressed To :");
+        lblQuestionAddressedTo.setText("Question Addressed To :");
+
+        txtMessageArea.setBackground(new java.awt.Color(204, 204, 204));
+        txtMessageArea.setColumns(20);
+        txtMessageArea.setEditable(false);
+        txtMessageArea.setFont(new java.awt.Font("Tahoma", 0, 11));
+        txtMessageArea.setLineWrap(true);
+        txtMessageArea.setRows(5);
+        txtMessageArea.setWrapStyleWord(true);
+        scrollMessageArea.setViewportView(txtMessageArea);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -107,54 +157,187 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(txtQuestionTitle, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
-                    .add(jLabel1)
-                    .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 264, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(txtPersonName, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
-                        .add(btnQuestionApply, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 117, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(btnApply, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 117, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 43, Short.MAX_VALUE)
-                        .add(btnQuestionCancel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 119, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
-                    .add(jLabel2)
+                        .add(btnCancel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 119, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, scrollQuestionText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                    .add(lblQuestionText)
                     .add(txtAddressedTo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
-                    .add(jLabel4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 265, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(btnSelectQuestion))
+                    .add(lblQuestionAddressedTo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 265, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(txtPersonName, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                    .add(lblNameOfPersonFrom, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 264, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(txtQuestionTitle, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                    .add(lblQuestionTitle, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 190, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(btnSelectQuestion)
+                    .add(separatorLine1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                    .add(scrollMessageArea, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
+                .add(scrollMessageArea, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 73, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(separatorLine1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnSelectQuestion)
-                .add(7, 7, 7)
-                .add(jLabel1)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lblQuestionTitle)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(txtQuestionTitle, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel3)
+                .add(lblNameOfPersonFrom)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(txtPersonName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel4)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(lblQuestionAddressedTo)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(txtAddressedTo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel2)
+                .add(lblQuestionText)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 104, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(scrollQuestionText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 104, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(btnQuestionApply)
-                    .add(btnQuestionCancel))
+                    .add(btnApply)
+                    .add(btnCancel))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnQuestionApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQuestionApplyActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
 // TODO add your handling code here:
+        parent.dispose();
+    }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void btnApplyActionPerformed(java.awt.event.ActionEvent evt)  {//GEN-FIRST:event_btnApplyActionPerformed
+// TODO add your handling code here:
+        String AddressedTo = txtAddressedTo.getText();
+        String PersonName = txtPersonName.getText();
+        String QuestionText = txtQuestionText.getText();
+        String QuestionTitle = txtQuestionTitle.getText();
+        String URI = selectionData.get("URI");
+        
+        String QuestionId = theAction.action_naming_convention() +  selectionData.get("ID");
+        
+        if (URI == null) URI = "";
+        
+       // if (URI.length() == 0 ) {
+        //    MessageBox.OK(parent, "Please select a question first !");
+         //   return;
+       // }
+        
+        try {
+        if (this.theMode == SelectorDialogModes.TEXT_SELECTED) {
+            //insert mode
+            //check if section by that name exists, fail immediately if true
+            if (ooDocument.getTextSections().hasByName(QuestionId)) {
+                MessageBox.OK("The Question: " + QuestionId+" already exists in the document !");
+                return;
+            }
+            //now check if inside a question-section, if so fail immediately
+            ExternalMacro cursorInSection = ExternalMacroFactory.getMacroDefinition("CursorInSection");
+            Object retValue = ooDocument.executeMacro(cursorInSection.toString(), cursorInSection.getParams());
+            String sectionNameExists = (String)retValue;
+            if (sectionNameExists.startsWith("question")) {
+                MessageBox.OK(parent, "You cannot insert a question inisde another, \n Please place the cursor in a different part of the document");
+                return;
+            }
+            //now add the section
+            ooDocument.addViewSection(QuestionId);
+            //now add the section Content
+            MessageBox.OK(parent, "The selected text was placed in a section , and marked up as: " + QuestionId);
+            
+            
+        } else if (this.theMode == SelectorDialogModes.TEXT_INSERTION) {
+            
+             if (ooDocument.getTextSections().hasByName(QuestionId)) {
+                MessageBox.OK(parent, "The Question: " + QuestionId+" already exists in the document !");
+                return;
+            }
+            
+            ExternalMacro cursorInSection = ExternalMacroFactory.getMacroDefinition("CursorInSection");
+            Object retValue = ooDocument.executeMacro(cursorInSection.toString(), cursorInSection.getParams());
+            String sectionNameExists = (String)retValue;
+            if (sectionNameExists.startsWith("question")) {
+                MessageBox.OK(parent, "You cannot insert a question inisde another, \n Please place the cursor in a different part of the document");
+                return;
+            }
+            
+            UUIDGenerator gen = UUIDGenerator.getInstance();
+            UUID uuid = gen.generateTimeBasedUUID();
+            String tmpFileName = uuid.toString().replaceAll("-", "")+".html";
+            String pathToFile = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH() + File.separator+ "tmp" + File.separator;
+                BufferedWriter out;
+                    out = new BufferedWriter(new FileWriter(new File(pathToFile + tmpFileName)));
+            out.write(QuestionText);
+            out.close();
+            log.debug("tmpFile Name = " + pathToFile+tmpFileName);
+            //selection mode
+            //insert mode
        
-    }//GEN-LAST:event_btnQuestionApplyActionPerformed
+            //now add the section
+            ooDocument.addViewSection(QuestionId);
+            //now add the section Content
+            //add question title into section
+            ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
+            insertDocIntoSection.addParameter(QuestionId)   ;
+            insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_question"));
+            ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
+            //search replace title into question title marker
+            ExternalMacro SearchAndReplace = ExternalMacroFactory.getMacroDefinition("SearchAndReplace");
+            SearchAndReplace.addParameter("[[QUESTION_TITLE]]");
+            SearchAndReplace.addParameter(QuestionTitle);
+            ooDocument.executeMacro(SearchAndReplace.toString(), SearchAndReplace.getParams());
+            //add sub section (numbered serially) and 
+            String newSectionName = QuestionId + "-que1" ;
+            int nCounter = 1;
+            while (ooDocument.getTextSections().hasByName(newSectionName) ) {
+                nCounter++;
+                newSectionName = QuestionId+"-que"+nCounter;
+            }
+            ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSection");
+            AddSectionInsideSection.addParameter(QuestionId);
+            AddSectionInsideSection.addParameter(newSectionName);
+            ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
+            //import sub section fragment
+            insertDocIntoSection.clearParams();
+            insertDocIntoSection.addParameter(newSectionName);
+            insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_question_text"));
+            ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
+            //search and replace into fragment
+            SearchAndReplace.clearParams();
+            SearchAndReplace.addParameter("[[QUESTION_FROM]]");
+            SearchAndReplace.addParameter(PersonName);
+            ooDocument.executeMacro(SearchAndReplace.toString(), SearchAndReplace.getParams());
+      
+            //SearchAndReplace.clearParams();
+            //SearchAndReplace.addParameter("[[QUESTION_TEXT]]");
+            //SearchAndReplace.addParameter(QuestionText);
+            //ooDocument.executeMacro(SearchAndReplace.toString(), SearchAndReplace.getParams());
+        
+            SearchAndReplace.clearParams();
+            SearchAndReplace.addParameter("[[QUESTION_NO]]");
+            SearchAndReplace.addParameter(newSectionName);
+            ooDocument.executeMacro(SearchAndReplace.toString(), SearchAndReplace.getParams());
+        
+            ExternalMacro insertHtmlDocumentIntoSection = ExternalMacroFactory.getMacroDefinition("InsertHTMLDocumentIntoSection");
+            insertHtmlDocumentIntoSection.addParameter(newSectionName);
+            insertHtmlDocumentIntoSection.addParameter(pathToFile+tmpFileName);
+            insertHtmlDocumentIntoSection.addParameter(new String("question-text"));
+            ooDocument.executeMacro(insertHtmlDocumentIntoSection.toString(), insertHtmlDocumentIntoSection.getParams() );
+            
+            MessageBox.OK(parent, "Finished Importing !");
+        }   
+        
+    // End of variables declaration                      
+            } catch (IOException ex) {
+                    log.debug("InitQuestionBlock: " +ex.getMessage());
+                }
+           
+    }//GEN-LAST:event_btnApplyActionPerformed
 
     private void btnSelectQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectQuestionActionPerformed
 // TODO add your handling code here:
@@ -186,7 +369,7 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             
             //
             txtQuestionText.setText(selectionData.get("QUESTON_TEXT"));
-            fillDocument();
+            //fillDocument();
         } else {
             log.debug("selected keyset empty");
         }
@@ -212,6 +395,7 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
     }
     public void setDialogMode(SelectorDialogModes mode) {
         theMode = mode;
+        initFields();
     }
 
     public SelectorDialogModes getDialogMode() {
@@ -229,15 +413,18 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnQuestionApply;
-    private javax.swing.JButton btnQuestionCancel;
+    private javax.swing.JButton btnApply;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSelectQuestion;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblNameOfPersonFrom;
+    private javax.swing.JLabel lblQuestionAddressedTo;
+    private javax.swing.JLabel lblQuestionText;
+    private javax.swing.JLabel lblQuestionTitle;
+    private javax.swing.JScrollPane scrollMessageArea;
+    private javax.swing.JScrollPane scrollQuestionText;
+    private javax.swing.JSeparator separatorLine1;
     private javax.swing.JTextField txtAddressedTo;
+    private javax.swing.JTextArea txtMessageArea;
     private javax.swing.JTextField txtPersonName;
     private javax.swing.JTextArea txtQuestionText;
     private javax.swing.JTextField txtQuestionTitle;

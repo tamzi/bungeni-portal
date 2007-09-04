@@ -102,6 +102,7 @@ public class generalEditorPanel3 extends templatePanel implements ICollapsiblePa
         lblSubActions.setText("Available Sub - Actions...");
 
         btnExecSelectedSection.setText("Create Selected Section");
+        btnExecSelectedSection.setActionCommand("MainAction");
         btnExecSelectedSection.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExecSelectedSectionActionPerformed(evt);
@@ -109,6 +110,7 @@ public class generalEditorPanel3 extends templatePanel implements ICollapsiblePa
         });
 
         btnExecSelectedMarkup.setText("Make Selected Markup");
+        btnExecSelectedMarkup.setActionCommand("SubAction");
         btnExecSelectedMarkup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExecSelectedMarkupActionPerformed(evt);
@@ -161,15 +163,21 @@ public class generalEditorPanel3 extends templatePanel implements ICollapsiblePa
 
     private void btnExecSelectedMarkupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExecSelectedMarkupActionPerformed
 // TODO add your handling code here:
-         toolbarAction action = (toolbarAction) comboCreateSection.getSelectedItem();
-         if (action == null ) return ;
-         IEditorActionEvent event = getEventClass(action);
-         event.doCommand(ooDocument, action); 
+   toolbarAction action = null;
+        if (evt.getActionCommand().equals("MainAction")) {
+         action = (toolbarAction) comboCreateSection.getSelectedItem();
+        } else if (evt.getActionCommand().equals("SubAction")) {
+          action = (toolbarAction) listMarkupActions.getModel().getElementAt(listMarkupActions.getMaxSelectionIndex());
+        }
+        if (action == null ) return ;
+          IEditorActionEvent event = getEventClass(action);
+         event.doCommand(ooDocument, action);
     }//GEN-LAST:event_btnExecSelectedMarkupActionPerformed
 
     private void btnExecSelectedSectionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExecSelectedSectionActionPerformed
 // TODO add your handling code here:
-        toolbarAction action = (toolbarAction) comboCreateSection.getSelectedItem();
+        toolbarAction action = null;
+         action = (toolbarAction) comboCreateSection.getSelectedItem();
         if (action == null ) return ;
           IEditorActionEvent event = getEventClass(action);
          event.doCommand(ooDocument, action);

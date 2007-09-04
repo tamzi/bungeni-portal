@@ -13,12 +13,14 @@ import com.sun.star.beans.PropertyValue;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextViewCursor;
+import java.awt.Color;
 import javax.swing.JDialog;
 import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.selectors.InitDebateRecord;
 import org.bungeni.editor.selectors.InitQuestionBlock;
+import org.bungeni.editor.selectors.InitSpeech;
 import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.MessageBox;
@@ -51,6 +53,8 @@ public class EditorActionHandler implements IEditorActionEvent {
             doMakeSection(action);
         else if (cmd.equals("makeQuestionBlockSection"))
             doMakeQuestionBlockSection(action);
+        else if (cmd.equals("makeSpeechMarkup"))
+            doMakeSpeechBlock(action);
         else if (cmd.equals("makePrayerMarkup"))
             doMarkup(action);
         else if (cmd.equals("makePaperMarkup"))
@@ -89,23 +93,53 @@ public class EditorActionHandler implements IEditorActionEvent {
             //section was added now prompt for dialog information
              JDialog makeQuestionBlock;
              makeQuestionBlock = new JDialog();
-             makeQuestionBlock.setTitle("Enter Settings for Document");
              makeQuestionBlock.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
              //initDebaterecord.setPreferredSize(new Dimension(420, 300));
              InitQuestionBlock panel = new InitQuestionBlock(ooDocument, 
                      makeQuestionBlock, action);;
              
-              if (ooDocument.isTextSelected())
+              if (ooDocument.isTextSelected()) {
                 panel.setDialogMode(SelectorDialogModes.TEXT_SELECTED);
-              else
+                panel.setBackground(new Color(255, 255, 153));
+                makeQuestionBlock.setTitle("Selection Mode");
+              } else {
                 panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
-
+                panel.setBackground(new Color(204, 255, 153));
+                makeQuestionBlock.setTitle("Insertion Mode");
+              }
              makeQuestionBlock.getContentPane().add(panel);
              makeQuestionBlock.pack();
              makeQuestionBlock.setLocationRelativeTo(null);
              makeQuestionBlock.setVisible(true);
              makeQuestionBlock.setAlwaysOnTop(true);   
      }
+     
+     
+     private void doMakeSpeechBlock(toolbarAction action) {
+            //section was added now prompt for dialog information
+             JDialog makeSpeechBlock;
+             makeSpeechBlock = new JDialog();
+             makeSpeechBlock.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+             //initDebaterecord.setPreferredSize(new Dimension(420, 300));
+             InitSpeech panel = new InitSpeech(ooDocument,  makeSpeechBlock, action);;
+             
+              if (ooDocument.isTextSelected()) {
+                panel.setDialogMode(SelectorDialogModes.TEXT_SELECTED);
+                panel.setBackground(new Color(255, 255, 153));
+                makeSpeechBlock.setTitle("Selection Mode");
+              } else {
+                panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
+                panel.setBackground(new Color(204, 255, 153));
+                makeSpeechBlock.setTitle("Insertion Mode");
+              }
+             makeSpeechBlock.getContentPane().add(panel);
+             makeSpeechBlock.pack();
+             makeSpeechBlock.setLocationRelativeTo(null);
+             makeSpeechBlock.setVisible(true);
+             makeSpeechBlock.setAlwaysOnTop(true);   
+     }
+     
+     
      private int doMakeSection(toolbarAction action){
            //get the section name and numbering type for the command
            String namingConvention, numberingType;

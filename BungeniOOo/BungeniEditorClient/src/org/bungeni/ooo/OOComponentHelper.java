@@ -371,7 +371,7 @@ public class OOComponentHelper {
             return rangeMap ;
         }
     }
-    
+
     public boolean isTextSelected() {
         HashMap<String, Object> rangeMap = null;
         rangeMap = getSingleSelectionRange();

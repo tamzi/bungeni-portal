@@ -77,7 +77,9 @@ public class ExternalMacro {
             Object[] paramArray = (Object[])params.toArray(new Object[params.size()]);
             return paramArray;
         } else {
-            return null;
+            //retun blank object array
+            Object[] paramArray = {};
+            return paramArray;
         }
      }
     }

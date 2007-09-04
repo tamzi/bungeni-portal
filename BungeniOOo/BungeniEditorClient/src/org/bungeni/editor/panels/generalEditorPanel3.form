@@ -111,6 +111,7 @@
     <Component class="javax.swing.JButton" name="btnExecSelectedSection">
       <Properties>
         <Property name="text" type="java.lang.String" value="Create Selected Section"/>
+        <Property name="actionCommand" type="java.lang.String" value="MainAction"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExecSelectedSectionActionPerformed"/>
@@ -119,6 +120,7 @@
     <Component class="javax.swing.JButton" name="btnExecSelectedMarkup">
       <Properties>
         <Property name="text" type="java.lang.String" value="Make Selected Markup"/>
+        <Property name="actionCommand" type="java.lang.String" value="SubAction"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExecSelectedMarkupActionPerformed"/>

@@ -35,18 +35,36 @@ from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
+from Products.CMFCore.utils import getToolByName
 ##/code-section module-header
 
 schema = Schema((
 
     ComputedField(
-        name='title',
+        name='ItemOrder',
         widget=ComputedField._properties['widget'](
-            label='Title',
-            label_msgid='Bungeni_label_title',
+            label='Itemorder',
+            label_msgid='Bungeni_label_ItemOrder',
             i18n_domain='Bungeni',
-        ),
-        accessor="Title"
+        )
+    ),
+
+    ComputedField(
+        name='ItemFrom',
+        widget=ComputedField._properties['widget'](
+            label='Itemfrom',
+            label_msgid='Bungeni_label_ItemFrom',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    ComputedField(
+        name='ItemTo',
+        widget=ComputedField._properties['widget'](
+            label='Itemto',
+            label_msgid='Bungeni_label_ItemTo',
+            i18n_domain='Bungeni',
+        )
     ),
 
     RelationField(
@@ -116,12 +134,44 @@ class RotaItem(BaseContent):
 
     # Methods
 
-    security.declarePublic('Title')
-    def Title(self):
+    security.declarePublic('setReporter')
+    def setReporter(self, value, **kw_args):
         """
         """
-        if self.getReporter():
-            return 'Reporter: %s'%self.getReporter().Title()
+        catalog = getToolByName(self, 'portal_catalog')
+        reporter_brains = catalog(UID=value)
+        if reporter_brains:
+            reporter = reporter_brains[0].getObject()
+            self.setTitle('Reporter: %s'%reporter.Title())
+            self.reindexObject()
+        field = self.schema['Reporter']
+        return field.set(self, value, **kw_args)
+
+    security.declarePublic('getItemOrder')
+    def getItemOrder(self):
+        """
+        """
+        return self.aq_parent.getObjectPosition(self.getId())
+
+    security.declarePublic('getItemFrom')
+    def getItemFrom(self):
+        """
+        """
+        rt = getToolByName(self, 'portal_rotatool')
+
+        item_number = self.getItemOrder() + 1
+        lead_time_fraction = rt.getReportingLeadTime() / 1440.00
+        rota_start_time = self.aq_parent.getRotaFrom() - lead_time_fraction
+        item_start_time = rota_start_time + (
+                item_number*rt.getTakeLength())/1440.00
+        return item_start_time
+
+    security.declarePublic('getItemTo')
+    def getItemTo(self):
+        """
+        """
+        rt = getToolByName(self, 'portal_rotatool')
+        return self.getItemFrom() + rt.getTakeLength()/1440.00
 
 
 registerType(RotaItem, PROJECTNAME)

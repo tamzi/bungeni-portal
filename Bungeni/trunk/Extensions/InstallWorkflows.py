@@ -122,6 +122,16 @@ def installWorkflows(self, package, out):
     workflowTool.setChainForPortalTypes(['DebateRecord'], workflow.getId())
 
     ourProductWorkflow = ExternalMethod('temp', 'temp',
+                                        productname+'.'+'RotaFolderWorkflow',
+                                        'createRotaFolderWorkflow')
+    workflow = ourProductWorkflow(self, 'RotaFolderWorkflow')
+    if 'RotaFolderWorkflow' in workflowTool.listWorkflows():
+        print >> out, 'RotaFolderWorkflow already in workflows.'
+    else:
+        workflowTool._setObject('RotaFolderWorkflow', workflow)
+    workflowTool.setChainForPortalTypes(['RotaFolder'], workflow.getId())
+
+    ourProductWorkflow = ExternalMethod('temp', 'temp',
                                         productname+'.'+'CommitteeWorkflow',
                                         'createCommitteeWorkflow')
     workflow = ourProductWorkflow(self, 'CommitteeWorkflow')

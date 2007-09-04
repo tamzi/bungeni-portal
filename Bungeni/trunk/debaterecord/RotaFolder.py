@@ -158,6 +158,46 @@ class RotaFolder(OrderedBaseFolder):
             parent = parent.aq_parent
         return parent.end()
 
+    security.declarePublic('publishRota')
+    def publishRota(self, state_change, kw):
+        """ Do everything that needs to be done when the Rota is
+        published.
+        """
+        self.createRotaDocument()
+
+    security.declarePublic('createRotaDocument')
+    def createRotaDocument(self):
+        """
+        """
+        items = self.contentValues(
+                    filter={'portal_type': 'RotaItem'})
+        paragraph = """%s: %s to %s
+  %s
+
+"""
+        paragraphs = ["Rota for %s on %s\n\n===========\n\n"%(
+            self.aq_parent.aq_parent.Title(),
+            self.getRotaFrom().Date())]
+        for item in items:
+            paragraphs.append(paragraph%(
+                item.getItemOrder()+1,
+                item.getItemFrom().TimeMinutes(),
+                item.getItemTo().TimeMinutes(),
+                item.getReporter().Title(),
+                ))
+        portal_types = getToolByName(self, 'portal_types')
+        # Use constructContent to bypass allowed types constraint.
+        did = portal_types.constructContent('Document', self,
+                'rota-document',
+                title='Rota',
+                text=''.join(paragraphs))
+        document = getattr(self, did)
+        plone_utils = getToolByName(self, 'plone_utils')
+        plone_utils.editMetadata(document, format='text/x-rst')
+
+        # XXX 
+        self.REQUEST.RESPONSE.redirect(document.absolute_url())
+
 
 registerType(RotaFolder, PROJECTNAME)
 # end of class RotaFolder
@@ -180,7 +220,7 @@ def addedRotaFolder(obj, event):
     lead_time_fraction = rt.getReportingLeadTime() / 1440.00
     extra_time_fraction = (rt.getExtraTakes() * rt.getTakeLength()) / 1440.00
 
-    start_time = obj.getRotaFrom() - lead_time_fraction 
+    start_time = obj.getRotaFrom() - lead_time_fraction
     end_time = obj.getRotaTo() + extra_time_fraction
     duration_in_minutes = (end_time - start_time) * 1440.00
     iterations = duration_in_minutes / rt.getTakeLength()

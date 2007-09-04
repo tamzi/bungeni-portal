@@ -213,12 +213,6 @@ class RotaTool(UniqueObject, BaseContent):
         members = [r.getMember() for r in mps]
         return members
 
-    security.declarePublic('notifySubscribers')
-    def notifySubscribers(self):
-        """
-        """
-        pass
-
 
 registerType(RotaTool, PROJECTNAME)
 # end of class RotaTool

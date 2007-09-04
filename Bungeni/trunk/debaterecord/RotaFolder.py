@@ -164,6 +164,7 @@ class RotaFolder(OrderedBaseFolder):
         published.
         """
         self.createRotaDocument()
+        self.notifySubscribers()
 
     security.declarePublic('createRotaDocument')
     def createRotaDocument(self):
@@ -171,13 +172,11 @@ class RotaFolder(OrderedBaseFolder):
         """
         items = self.contentValues(
                     filter={'portal_type': 'RotaItem'})
-        paragraph = """%s: %s to %s
-  %s
-
-"""
-        paragraphs = ["Rota for %s on %s\n\n===========\n\n"%(
+        paragraph = "%s: %s to %s\n %s\n\n"
+        title = "Rota for %s on %s"%(
             self.aq_parent.aq_parent.Title(),
-            self.getRotaFrom().Date())]
+            self.getRotaFrom().Date())
+        paragraphs = ["%s\n\n===========\n\n"%title]
         for item in items:
             paragraphs.append(paragraph%(
                 item.getItemOrder()+1,
@@ -189,14 +188,34 @@ class RotaFolder(OrderedBaseFolder):
         # Use constructContent to bypass allowed types constraint.
         did = portal_types.constructContent('Document', self,
                 'rota-document',
-                title='Rota',
+                title=title,
                 text=''.join(paragraphs))
         document = getattr(self, did)
         plone_utils = getToolByName(self, 'plone_utils')
         plone_utils.editMetadata(document, format='text/x-rst')
 
-        # XXX 
+        # XXX
         self.REQUEST.RESPONSE.redirect(document.absolute_url())
+
+    security.declarePublic('notifySubscribers')
+    def notifySubscribers(self):
+        """
+        """
+        rota_tool = getToolByName(self, 'portal_rotatool')
+        properties_tool = getToolByName(self, 'portal_properties')
+        subscribers = rota_tool.getRotaSubscribers()
+        rota_document = getattr(self, 'rota-document')
+        if not rota_document:
+            return
+        for s in subscribers:
+            email = s.getEmail()
+            if email:
+                self.MailHost.send(rota_document.getRawText(), email, 
+                        properties_tool.email_from_address,
+                        rota_document.Title())
+            else:
+                log('notifySubscribers> %s has no email address'%s.Title())
+
 
 
 registerType(RotaFolder, PROJECTNAME)

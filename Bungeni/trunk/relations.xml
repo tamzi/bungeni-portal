@@ -1,23 +1,15 @@
 <?xml version="1.0" ?>
 <RelationsLibrary>
 	<RulesetCollection id="Bungeni">
-		<Ruleset id="office_secretary" uid="I10c6d157m1143f96d50dmm1b24">
+		<Ruleset id="rotatool_rotasubscribers" uid="Im50e35388m114abe94303m5fc3">
 			<TypeConstraint id="type_constraint">
 				<allowedSourceType>
-					Office
-				</allowedSourceType>
-				<allowedSourceType>
-					DebateRecordOffice
+					RotaTool
 				</allowedSourceType>
 				<allowedTargetType>
 					Staff
 				</allowedTargetType>
 			</TypeConstraint>
-			<CardinalityConstraint id="cardinality">
-				<maxTargetCardinality>
-					1
-				</maxTargetCardinality>
-			</CardinalityConstraint>
 		</Ruleset>
 		<Ruleset id="politicalgroup_deputyleader" uid="I10c6d157m1143f96d50dmm1dea">
 			<TypeConstraint id="type_constraint">
@@ -34,28 +26,13 @@
 				</maxTargetCardinality>
 			</CardinalityConstraint>
 		</Ruleset>
-		<Ruleset id="politicalgroup_leader" uid="I10c6d157m1143f96d50dmm1e13">
+		<Ruleset id="portfolio_assistentminister" uid="I10c6d157m1143f96d50dm621d">
 			<TypeConstraint id="type_constraint">
 				<allowedSourceType>
-					PoliticalGroup
+					Portfolio
 				</allowedSourceType>
 				<allowedTargetType>
 					MemberOfParliament
-				</allowedTargetType>
-			</TypeConstraint>
-			<CardinalityConstraint id="cardinality">
-				<maxTargetCardinality>
-					1
-				</maxTargetCardinality>
-			</CardinalityConstraint>
-		</Ruleset>
-		<Ruleset id="supersedes" uid="I10c6d157m1143f96d50dmm2d2c">
-			<TypeConstraint id="type_constraint">
-				<allowedSourceType>
-					Ministry
-				</allowedSourceType>
-				<allowedTargetType>
-					Ministry
 				</allowedTargetType>
 			</TypeConstraint>
 		</Ruleset>
@@ -84,33 +61,7 @@
 				</allowedTargetType>
 			</TypeConstraint>
 		</Ruleset>
-		<Ruleset id="take_rotaitem" uid="Im50e35388m114abe94303m5ed5">
-			<TypeConstraint id="type_constraint">
-				<allowedSourceType>
-					Take
-				</allowedSourceType>
-				<allowedTargetType>
-					RotaItem
-				</allowedTargetType>
-			</TypeConstraint>
-			<InverseImplicator id="inverse_relation">
-				<inverseRuleset uidref="rotaitem_take"/>
-			</InverseImplicator>
-		</Ruleset>
-		<Ruleset id="rotaitem_take" uid="rotaitem_take">
-			<TypeConstraint id="type_constraint">
-				<allowedSourceType>
-					RotaItem
-				</allowedSourceType>
-				<allowedTargetType>
-					Take
-				</allowedTargetType>
-			</TypeConstraint>
-			<InverseImplicator id="inverse_relation">
-				<inverseRuleset uidref="Im50e35388m114abe94303m5ed5"/>
-			</InverseImplicator>
-		</Ruleset>
-		<Ruleset id="debaterecordoffice_deputychiefeditor" uid="I10c6d157m1143f96d50dmm1c25">
+		<Ruleset id="debaterecordoffice_chiefeditor" uid="I10c6d157m1143f96d50dmm1c4e">
 			<TypeConstraint id="type_constraint">
 				<allowedSourceType>
 					DebateRecordOffice
@@ -124,6 +75,41 @@
 					1
 				</maxTargetCardinality>
 			</CardinalityConstraint>
+		</Ruleset>
+		<Ruleset id="politicalgroup_secretary" uid="I10c6d157m1143f96d50dmm1d98">
+			<TypeConstraint id="type_constraint">
+				<allowedSourceType>
+					PoliticalGroup
+				</allowedSourceType>
+				<allowedTargetType>
+					MemberOfParliament
+				</allowedTargetType>
+			</TypeConstraint>
+			<CardinalityConstraint id="cardinality">
+				<maxTargetCardinality>
+					1
+				</maxTargetCardinality>
+			</CardinalityConstraint>
+		</Ruleset>
+		<Ruleset id="Question_MemberOfParliament" uid="Imf56e9f1m111314474c0mm478">
+			<TypeConstraint id="type_constraint">
+				<allowedSourceType>
+					Question
+				</allowedSourceType>
+				<allowedTargetType>
+					MemberOfParliament
+				</allowedTargetType>
+			</TypeConstraint>
+		</Ruleset>
+		<Ruleset id="committee_chairperson" uid="I10c6d157m1143f96d50dmm16ea">
+			<TypeConstraint id="type_constraint">
+				<allowedSourceType>
+					Committee
+				</allowedSourceType>
+				<allowedTargetType>
+					MemberOfParliament
+				</allowedTargetType>
+			</TypeConstraint>
 		</Ruleset>
 		<Ruleset id="Minister" uid="I10c6d157m1143f96d50dmm2e26">
 			<TypeConstraint id="type_constraint">
@@ -173,98 +159,10 @@
 				<inverseRuleset uidref="I10c6d157m1143f96d50dmm2e26"/>
 			</InverseImplicator>
 		</Ruleset>
-		<Ruleset id="AssistantMinister" uid="I10c6d157m1143f96d50dmm2da9">
-			<TypeConstraint id="type_constraint">
-				<allowedSourceType>
-					Portfolio
-				</allowedSourceType>
-				<allowedTargetType>
-					MemberOfParliament
-				</allowedTargetType>
-			</TypeConstraint>
-			<ContentReference id="content_reference">
-				<portalType>
-					AssistantMinister
-				</portalType>
-				<shareWithInverse>
-					1
-				</shareWithInverse>
-				<primary>
-					1
-				</primary>
-			</ContentReference>
-			<InverseImplicator id="inverse_relation">
-				<inverseRuleset uidref="notassistantminister_portfolio"/>
-			</InverseImplicator>
-		</Ruleset>
-		<Ruleset id="notassistantminister_portfolio" uid="notassistantminister_portfolio">
-			<TypeConstraint id="type_constraint">
-				<allowedSourceType>
-					MemberOfParliament
-				</allowedSourceType>
-				<allowedTargetType>
-					Portfolio
-				</allowedTargetType>
-			</TypeConstraint>
-			<ContentReference id="content_reference">
-				<portalType>
-					AssistantMinister
-				</portalType>
-				<shareWithInverse>
-					1
-				</shareWithInverse>
-				<primary>
-					0
-				</primary>
-			</ContentReference>
-			<InverseImplicator id="inverse_relation">
-				<inverseRuleset uidref="I10c6d157m1143f96d50dmm2da9"/>
-			</InverseImplicator>
-		</Ruleset>
-		<Ruleset id="agendaitem_bill" uid="Im569b1bf8m1134968e78emm3ef0">
-			<TypeConstraint id="type_constraint">
-				<allowedSourceType>
-					AgendaItem
-				</allowedSourceType>
-				<allowedTargetType>
-					Bill
-				</allowedTargetType>
-			</TypeConstraint>
-			<CardinalityConstraint id="cardinality">
-				<maxTargetCardinality>
-					1
-				</maxTargetCardinality>
-			</CardinalityConstraint>
-		</Ruleset>
-		<Ruleset id="voteofmp_memberofparliament" uid="Im5be589d8m112e2682741mm4c1d">
-			<TypeConstraint id="type_constraint">
-				<allowedSourceType>
-					VoteOfMP
-				</allowedSourceType>
-				<allowedTargetType>
-					MemberOfParliament
-				</allowedTargetType>
-			</TypeConstraint>
-			<CardinalityConstraint id="cardinality">
-				<maxTargetCardinality>
-					1
-				</maxTargetCardinality>
-			</CardinalityConstraint>
-		</Ruleset>
 		<Ruleset id="committee_deputychairperson" uid="I10c6d157m1143f96d50dmm16c0">
 			<TypeConstraint id="type_constraint">
 				<allowedSourceType>
 					Committee
-				</allowedSourceType>
-				<allowedTargetType>
-					MemberOfParliament
-				</allowedTargetType>
-			</TypeConstraint>
-		</Ruleset>
-		<Ruleset id="Question_MemberOfParliament" uid="Imf56e9f1m111314474c0mm478">
-			<TypeConstraint id="type_constraint">
-				<allowedSourceType>
-					Question
 				</allowedSourceType>
 				<allowedTargetType>
 					MemberOfParliament
@@ -286,42 +184,33 @@
 				</maxTargetCardinality>
 			</CardinalityConstraint>
 		</Ruleset>
-		<Ruleset id="portfolio_assistentminister" uid="I10c6d157m1143f96d50dm621d">
+		<Ruleset id="take_rotaitem" uid="Im50e35388m114abe94303m5ed5">
 			<TypeConstraint id="type_constraint">
 				<allowedSourceType>
-					Portfolio
+					Take
 				</allowedSourceType>
 				<allowedTargetType>
-					MemberOfParliament
+					RotaItem
 				</allowedTargetType>
 			</TypeConstraint>
+			<InverseImplicator id="inverse_relation">
+				<inverseRuleset uidref="rotaitem_take"/>
+			</InverseImplicator>
 		</Ruleset>
-		<Ruleset id="rotatool_rotasubscribers" uid="Im50e35388m114abe94303m5fc3">
+		<Ruleset id="rotaitem_take" uid="rotaitem_take">
 			<TypeConstraint id="type_constraint">
 				<allowedSourceType>
-					RotaTool
+					RotaItem
 				</allowedSourceType>
 				<allowedTargetType>
-					Staff
+					Take
 				</allowedTargetType>
 			</TypeConstraint>
+			<InverseImplicator id="inverse_relation">
+				<inverseRuleset uidref="Im50e35388m114abe94303m5ed5"/>
+			</InverseImplicator>
 		</Ruleset>
-		<Ruleset id="debaterecordoffice_chiefeditor" uid="I10c6d157m1143f96d50dmm1c4e">
-			<TypeConstraint id="type_constraint">
-				<allowedSourceType>
-					DebateRecordOffice
-				</allowedSourceType>
-				<allowedTargetType>
-					Staff
-				</allowedTargetType>
-			</TypeConstraint>
-			<CardinalityConstraint id="cardinality">
-				<maxTargetCardinality>
-					1
-				</maxTargetCardinality>
-			</CardinalityConstraint>
-		</Ruleset>
-		<Ruleset id="politicalgroup_secretary" uid="I10c6d157m1143f96d50dmm1d98">
+		<Ruleset id="politicalgroup_leader" uid="I10c6d157m1143f96d50dmm1e13">
 			<TypeConstraint id="type_constraint">
 				<allowedSourceType>
 					PoliticalGroup
@@ -335,6 +224,16 @@
 					1
 				</maxTargetCardinality>
 			</CardinalityConstraint>
+		</Ruleset>
+		<Ruleset id="supersedes" uid="I10c6d157m1143f96d50dmm2d2c">
+			<TypeConstraint id="type_constraint">
+				<allowedSourceType>
+					Ministry
+				</allowedSourceType>
+				<allowedTargetType>
+					Ministry
+				</allowedTargetType>
+			</TypeConstraint>
 		</Ruleset>
 		<Ruleset id="office_deputychairperson" uid="I10c6d157m1143f96d50dmm1b4d">
 			<TypeConstraint id="type_constraint">
@@ -394,15 +293,83 @@
 				</allowedTargetType>
 			</TypeConstraint>
 		</Ruleset>
-		<Ruleset id="committee_chairperson" uid="I10c6d157m1143f96d50dmm16ea">
+		<Ruleset id="AssistantMinister" uid="I10c6d157m1143f96d50dmm2da9">
 			<TypeConstraint id="type_constraint">
 				<allowedSourceType>
-					Committee
+					Portfolio
 				</allowedSourceType>
 				<allowedTargetType>
 					MemberOfParliament
 				</allowedTargetType>
 			</TypeConstraint>
+			<ContentReference id="content_reference">
+				<portalType>
+					AssistantMinister
+				</portalType>
+				<shareWithInverse>
+					1
+				</shareWithInverse>
+				<primary>
+					1
+				</primary>
+			</ContentReference>
+			<InverseImplicator id="inverse_relation">
+				<inverseRuleset uidref="notassistantminister_portfolio"/>
+			</InverseImplicator>
+		</Ruleset>
+		<Ruleset id="notassistantminister_portfolio" uid="notassistantminister_portfolio">
+			<TypeConstraint id="type_constraint">
+				<allowedSourceType>
+					MemberOfParliament
+				</allowedSourceType>
+				<allowedTargetType>
+					Portfolio
+				</allowedTargetType>
+			</TypeConstraint>
+			<ContentReference id="content_reference">
+				<portalType>
+					AssistantMinister
+				</portalType>
+				<shareWithInverse>
+					1
+				</shareWithInverse>
+				<primary>
+					0
+				</primary>
+			</ContentReference>
+			<InverseImplicator id="inverse_relation">
+				<inverseRuleset uidref="I10c6d157m1143f96d50dmm2da9"/>
+			</InverseImplicator>
+		</Ruleset>
+		<Ruleset id="debaterecordoffice_deputychiefeditor" uid="I10c6d157m1143f96d50dmm1c25">
+			<TypeConstraint id="type_constraint">
+				<allowedSourceType>
+					DebateRecordOffice
+				</allowedSourceType>
+				<allowedTargetType>
+					Staff
+				</allowedTargetType>
+			</TypeConstraint>
+			<CardinalityConstraint id="cardinality">
+				<maxTargetCardinality>
+					1
+				</maxTargetCardinality>
+			</CardinalityConstraint>
+		</Ruleset>
+		<Ruleset id="voteofmp_memberofparliament" uid="Im5be589d8m112e2682741mm4c1d">
+			<TypeConstraint id="type_constraint">
+				<allowedSourceType>
+					VoteOfMP
+				</allowedSourceType>
+				<allowedTargetType>
+					MemberOfParliament
+				</allowedTargetType>
+			</TypeConstraint>
+			<CardinalityConstraint id="cardinality">
+				<maxTargetCardinality>
+					1
+				</maxTargetCardinality>
+			</CardinalityConstraint>
 		</Ruleset>
 		<Ruleset id="portfolio_minister" uid="I10c6d157m1143f96d50dm61f0">
 			<TypeConstraint id="type_constraint">
@@ -413,6 +380,39 @@
 					MemberOfParliament
 				</allowedTargetType>
 			</TypeConstraint>
+		</Ruleset>
+		<Ruleset id="agendaitem_bill" uid="Im569b1bf8m1134968e78emm3ef0">
+			<TypeConstraint id="type_constraint">
+				<allowedSourceType>
+					AgendaItem
+				</allowedSourceType>
+				<allowedTargetType>
+					Bill
+				</allowedTargetType>
+			</TypeConstraint>
+			<CardinalityConstraint id="cardinality">
+				<maxTargetCardinality>
+					1
+				</maxTargetCardinality>
+			</CardinalityConstraint>
+		</Ruleset>
+		<Ruleset id="office_secretary" uid="I10c6d157m1143f96d50dmm1b24">
+			<TypeConstraint id="type_constraint">
+				<allowedSourceType>
+					Office
+				</allowedSourceType>
+				<allowedSourceType>
+					DebateRecordOffice
+				</allowedSourceType>
+				<allowedTargetType>
+					Staff
+				</allowedTargetType>
+			</TypeConstraint>
+			<CardinalityConstraint id="cardinality">
+				<maxTargetCardinality>
+					1
+				</maxTargetCardinality>
+			</CardinalityConstraint>
 		</Ruleset>
 		<Ruleset id="office_chairperson" uid="I10c6d157m1143f96d50dmm1b76">
 			<TypeConstraint id="type_constraint">

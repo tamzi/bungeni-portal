@@ -168,6 +168,21 @@ msgstr ""
 msgid "Bungeni_label_Gender"
 msgstr ""
 
+#. Default: "Itemfrom"
+#: debaterecord/RotaItem.py
+msgid "Bungeni_label_ItemFrom"
+msgstr ""
+
+#. Default: "Itemorder"
+#: debaterecord/RotaItem.py
+msgid "Bungeni_label_ItemOrder"
+msgstr ""
+
+#. Default: "Itemto"
+#: debaterecord/RotaItem.py
+msgid "Bungeni_label_ItemTo"
+msgstr ""
+
 #. Default: "Leader"
 #: groups/PoliticalGroup.py
 msgid "Bungeni_label_Leader"
@@ -678,6 +693,11 @@ msgstr ""
 #. Default: "Takes"
 #: debaterecord/RotaItem.py
 msgid "Bungeni_label_takes"
+msgstr ""
+
+#. Default: "Title"
+#: debaterecord/RotaItem.py
+msgid "Bungeni_label_title"
 msgstr ""
 
 #. Default: "Type"

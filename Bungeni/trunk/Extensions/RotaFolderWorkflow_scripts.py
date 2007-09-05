@@ -34,12 +34,12 @@ __docformat__ = 'plaintext'
 ##/code-section workflow-script-header
 
 
-def deleteRotaDocument(self, state_change, **kw):
-    pass
-
-
-
 def publishRota(self, state_change, **kw):
     state_change.object.publishRota(state_change, kw)
+
+
+
+def retractRota(self, state_change, **kw):
+    state_change.object.retractRota(state_change, kw)
 
 

@@ -59,6 +59,15 @@ schema = Schema((
     ),
 
     ComputedField(
+        name='ItemFromWithLead',
+        widget=ComputedField._properties['widget'](
+            label='Itemfromwithlead',
+            label_msgid='Bungeni_label_ItemFromWithLead',
+            i18n_domain='Bungeni',
+        )
+    ),
+
+    ComputedField(
         name='ItemTo',
         widget=ComputedField._properties['widget'](
             label='Itemto',
@@ -160,11 +169,19 @@ class RotaItem(BaseContent):
         rt = getToolByName(self, 'portal_rotatool')
 
         item_number = self.getItemOrder() + 1
-        lead_time_fraction = rt.getReportingLeadTime() / 1440.00
-        rota_start_time = self.aq_parent.getRotaFrom() - lead_time_fraction
+        rota_start_time = self.aq_parent.getRotaFrom()
         item_start_time = rota_start_time + (
                 item_number*rt.getTakeLength())/1440.00
         return item_start_time
+
+    security.declarePublic('getItemFromWithLead')
+    def getItemFromWithLead(self):
+        """
+        """
+        rt = getToolByName(self, 'portal_rotatool')
+        lead_time_fraction = rt.getReportingLeadTime() / 1440.00
+        item_start_time = self.getItemFrom()
+        return item_start_time - lead_time_fraction
 
     security.declarePublic('getItemTo')
     def getItemTo(self):

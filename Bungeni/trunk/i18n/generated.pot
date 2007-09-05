@@ -173,6 +173,11 @@ msgstr ""
 msgid "Bungeni_label_ItemFrom"
 msgstr ""
 
+#. Default: "Itemfromwithlead"
+#: debaterecord/RotaItem.py
+msgid "Bungeni_label_ItemFromWithLead"
+msgstr ""
+
 #. Default: "Itemorder"
 #: debaterecord/RotaItem.py
 msgid "Bungeni_label_ItemOrder"

@@ -163,23 +163,46 @@ class RotaFolder(OrderedBaseFolder):
         """ Do everything that needs to be done when the Rota is
         published.
         """
-        self.createRotaDocument()
-        self.notifySubscribers()
+        # Finalize RotaItems (make them non-editable).
+        items = self.contentValues(
+                    filter={'portal_type': 'RotaItem'})
+        workflow_tool = getToolByName(self, 'portal_workflow')
+        for item in items:
+            workflow_tool.doActionFor(item, 'finalize',
+                    comment='Finalize as part of Rota publication')
 
-    security.declarePublic('createRotaDocument')
-    def createRotaDocument(self):
+        self._createRotaDocument()
+        self._notifySubscribers()
+
+    security.declarePublic('retractRota')
+    def retractRota(self, state_change, kw):
+        """
+        """
+        # Retract RotaItems (make them editable again).
+        items = self.contentValues(
+                    filter={'portal_type': 'RotaItem'})
+        workflow_tool = getToolByName(self, 'portal_workflow')
+        for item in items:
+            workflow_tool.doActionFor(item, 'retract',
+                    comment='Retract as part of Rota retraction')
+
+        self.manage_delObjects('rota-document')
+
+    security.declarePrivate('_createRotaDocument')
+    def _createRotaDocument(self):
         """
         """
         items = self.contentValues(
                     filter={'portal_type': 'RotaItem'})
-        paragraph = "%s: %s to %s\n %s\n\n"
+        paragraph = "%s: %s (for %s to %s)\n %s\n\n"
         title = "Rota for %s on %s"%(
             self.aq_parent.aq_parent.Title(),
             self.getRotaFrom().Date())
-        paragraphs = ["%s\n\n===========\n\n"%title]
+        paragraphs = ["%s\n%s\n\n"%(title, '='*len(title))]
         for item in items:
             paragraphs.append(paragraph%(
                 item.getItemOrder()+1,
+                item.getItemFromWithLead().TimeMinutes(),
                 item.getItemFrom().TimeMinutes(),
                 item.getItemTo().TimeMinutes(),
                 item.getReporter().Title(),
@@ -197,10 +220,14 @@ class RotaFolder(OrderedBaseFolder):
         # XXX
         self.REQUEST.RESPONSE.redirect(document.absolute_url())
 
-    security.declarePublic('notifySubscribers')
-    def notifySubscribers(self):
+    security.declarePrivate('_notifySubscribers')
+    def _notifySubscribers(self):
+        """ Send the summary rota document to all the subscribers
         """
-        """
+        # TODO Consider making this more sophisticated: allow teams as
+        # subscribers (mail to all team members); maybe use one of the
+        # newsletter products to do the sending more reliably, with more
+        # features ..
         rota_tool = getToolByName(self, 'portal_rotatool')
         properties_tool = getToolByName(self, 'portal_properties')
         subscribers = rota_tool.getRotaSubscribers()
@@ -210,12 +237,11 @@ class RotaFolder(OrderedBaseFolder):
         for s in subscribers:
             email = s.getEmail()
             if email:
-                self.MailHost.send(rota_document.getRawText(), email, 
+                self.MailHost.send(rota_document.getRawText(), email,
                         properties_tool.email_from_address,
-                        rota_document.Title())
+                        subject=rota_document.Title())
             else:
                 log('notifySubscribers> %s has no email address'%s.Title())
-
 
 
 registerType(RotaFolder, PROJECTNAME)
@@ -227,7 +253,7 @@ def addedRotaFolder(obj, event):
     based on the AvailableReporters.
     """
     if obj.isTemporary():
-        log('addedRotaFolder> Not yet!')
+        #DBG log('addedRotaFolder> Not yet!')
         return
 
     rt = getToolByName(obj, 'portal_rotatool')

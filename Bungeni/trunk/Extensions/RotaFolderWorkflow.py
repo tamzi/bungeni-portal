@@ -83,7 +83,7 @@ def setupRotaFolderWorkflow(self, workflow):
     ## Transitions initialization
 
     ## Creation of workflow scripts
-    for wf_scriptname in ['deleteRotaDocument']:
+    for wf_scriptname in ['retractRota']:
         if not wf_scriptname in workflow.scripts.objectIds():
             workflow.scripts._setObject(wf_scriptname,
                 ExternalMethod(wf_scriptname, wf_scriptname,
@@ -95,7 +95,7 @@ def setupRotaFolderWorkflow(self, workflow):
                                 new_state_id="""new""",
                                 trigger_type=1,
                                 script_name="""""",
-                                after_script_name="""deleteRotaDocument""",
+                                after_script_name="""retractRota""",
                                 actbox_name="""retract""",
                                 actbox_url="""""",
                                 actbox_category="""workflow""",

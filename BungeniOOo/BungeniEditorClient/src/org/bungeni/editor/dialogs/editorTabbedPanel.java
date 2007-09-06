@@ -1346,8 +1346,9 @@ private void displayUserMetadata(XTextRange xRange) {
        model.copyInto(listContents);
    
         try {
-            //HashMap xmlAttribs = ooUserDefinedAttributes.make(listContents);
-            //ooDocument.setAttributesToSelectedText(xmlAttribs, new Integer(0xECECEC));
+            HashMap xmlAttribs = ooUserDefinedAttributes.make(listContents);
+            ooDocument.setAttributesToSelectedText(xmlAttribs, new Integer(0xECECEC));
+            /*
             XTextCursor leftCursor = ooDocument.getCursorEdgeSelection(0);
             XTextCursor rightCursor = ooDocument.getCursorEdgeSelection(1);
            if (leftCursor != null && rightCursor != null ) {
@@ -1356,9 +1357,9 @@ private void displayUserMetadata(XTextRange xRange) {
                 rightCursor.getText().insertString(rightCursor, "}}", false);
            } else {
                 log.debug("left and right cursors were null");
-           }
+           } */
             
-           //ooDocument.setSelectedTextBackColor(new Integer(0xECECEC));
+           ooDocument.setSelectedTextBackColor(new Integer(0xECECEC));
         } catch (Exception ex) {
            log.debug("adding_attribute : "+ex.getLocalizedMessage());
         }

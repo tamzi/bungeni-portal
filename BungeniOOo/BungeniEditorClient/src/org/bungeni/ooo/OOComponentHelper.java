@@ -59,6 +59,7 @@ import com.sun.star.uno.Type;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 import com.sun.star.xml.AttributeData;
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -73,7 +74,7 @@ public class OOComponentHelper {
     private XComponent m_xComponent;
     private XComponentContext m_xComponentContext;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(OOComponentHelper.class.getName());
-      
+    public static final String ATTRIBUTE_NAMESPACE = "urn:akomantoso:names:tc:opendocument:xmlns:semantic-text:1.0";  
     /** Creates a new instance of OOComponentHelper */
     public OOComponentHelper(XComponent xComponent, XComponentContext xComponentContext) {
           try {
@@ -149,7 +150,36 @@ public class OOComponentHelper {
         }
    }
     
-    
+    public XTextContent createTextSection(String sectionName, short numberOfColumns, Integer cBackColor){
+      XNamed xNamedSection = null;
+       XTextContent xSectionContent = null;
+       try {
+           //create a new section instance
+           Object newSection = createInstance("com.sun.star.text.TextSection");
+           //set the name
+           xNamedSection = (XNamed)UnoRuntime.queryInterface(XNamed.class, newSection);
+           xNamedSection.setName(sectionName);
+           //XTextContent xSectionContent = (XTextContent)UnoRuntime.queryInterface(XTextContent.class, newSection);
+           //create column instance, and set column count
+           XTextColumns xColumns = (XTextColumns) UnoRuntime.queryInterface( XTextColumns.class, createInstance("com.sun.star.text.TextColumns")); 
+           xColumns.setColumnCount(numberOfColumns);
+           //set the column count to the section
+           getObjectPropertySet(xNamedSection).setPropertyValue(ooProperties.TEXT_COLUMNS, xColumns);
+           getObjectPropertySet(xNamedSection).setPropertyValue(ooProperties.SECTION_BACK_COLOR, cBackColor);
+           xSectionContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, xNamedSection);
+        } catch (PropertyVetoException ex) {
+            ex.printStackTrace();
+        } catch (WrappedTargetException ex) {
+            ex.printStackTrace();
+        } catch (com.sun.star.lang.IllegalArgumentException ex) {
+            ex.printStackTrace();
+        } catch (UnknownPropertyException ex) {
+            ex.printStackTrace();
+        } finally {
+            return xSectionContent;
+        }
+    }
+   
     public XTextContent createTextSection(String sectionName, short numberOfColumns){
        XNamed xNamedSection = null;
        XTextContent xSectionContent = null;
@@ -184,6 +214,19 @@ public class OOComponentHelper {
            XTextViewCursor viewCursor = getViewCursor();
            XText xText = getViewCursor().getText();
            XTextContent xSectionContent = createTextSection(sectionName, (short)1);
+        try {
+            xText.insertTextContent(viewCursor, xSectionContent , true);
+        } catch (com.sun.star.lang.IllegalArgumentException ex) {
+            log.debug("addViewSection:" + ex.getMessage());
+        } finally {
+            return xSectionContent;
+        }
+    }
+    
+    public XTextContent addViewSection(String sectionName, Integer cBackColor) {
+           XTextViewCursor viewCursor = getViewCursor();
+           XText xText = getViewCursor().getText(); 
+           XTextContent xSectionContent = createTextSection(sectionName, (short)1, cBackColor);
         try {
             xText.insertTextContent(viewCursor, xSectionContent , true);
         } catch (com.sun.star.lang.IllegalArgumentException ex) {
@@ -640,7 +683,7 @@ public class OOComponentHelper {
    }
    
    public AttributeData _makeAttributeCDATAvalue( String xmlAttrValue) {
-       String nameSpace =  "urn:akomantoso:names:tc:opendocument:xmlns:semantic-text:1.0" ; 
+       String nameSpace =  ATTRIBUTE_NAMESPACE ; 
        AttributeData attr = new AttributeData();
        attr.Namespace = nameSpace;
        attr.Type = "CDATA";

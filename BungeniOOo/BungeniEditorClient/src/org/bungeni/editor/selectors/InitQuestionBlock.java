@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.BungeniRegistryFactory;
@@ -132,7 +133,7 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             }
         });
 
-        btnCancel.setText("Cancel");
+        btnCancel.setText("Close");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -212,8 +213,16 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
         parent.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
+    private void returnError (boolean state) {
+        btnApply.setEnabled(state);
+        btnCancel.setEnabled(state);
+        btnSelectQuestion.setEnabled(state);
+        return;
+    }
+    
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt)  {//GEN-FIRST:event_btnApplyActionPerformed
 // TODO add your handling code here:
+        returnError(false);
         String AddressedTo = txtAddressedTo.getText();
         String PersonName = txtPersonName.getText();
         String QuestionText = txtQuestionText.getText();
@@ -222,8 +231,12 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
         
         String QuestionId = theAction.action_naming_convention() +  selectionData.get("ID");
         
-        if (URI == null) URI = "";
-        
+        //if (URI == null) URI = "";
+        if (selectionData.size() == 0 ) {
+            MessageBox.OK(parent, "Please select a question first!");
+             returnError(true);
+            return;
+        }
        // if (URI.length() == 0 ) {
         //    MessageBox.OK(parent, "Please select a question first !");
          //   return;
@@ -234,7 +247,8 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             //insert mode
             //check if section by that name exists, fail immediately if true
             if (ooDocument.getTextSections().hasByName(QuestionId)) {
-                MessageBox.OK("The Question: " + QuestionId+" already exists in the document !");
+                MessageBox.OK(parent, "The Question: " + QuestionId+" already exists in the document !");
+                returnError(true);
                 return;
             }
             //now check if inside a question-section, if so fail immediately
@@ -243,18 +257,21 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             String sectionNameExists = (String)retValue;
             if (sectionNameExists.startsWith("question")) {
                 MessageBox.OK(parent, "You cannot insert a question inisde another, \n Please place the cursor in a different part of the document");
+                returnError(true);
                 return;
             }
             //now add the section
-            ooDocument.addViewSection(QuestionId);
+            ooDocument.addViewSection(QuestionId, new Integer(0xffffe1));
             //now add the section Content
-            MessageBox.OK(parent, "The selected text was placed in a section , and marked up as: " + QuestionId);
-            
+            MessageBox.OK(parent, "The selected text was placed in a section , and marked up " +
+                    "as: " + QuestionId + "\n Please highlight the name of the person making the speech to assigne their metadata");
+            returnError(true);
             
         } else if (this.theMode == SelectorDialogModes.TEXT_INSERTION) {
             
              if (ooDocument.getTextSections().hasByName(QuestionId)) {
                 MessageBox.OK(parent, "The Question: " + QuestionId+" already exists in the document !");
+                returnError(true);
                 return;
             }
             
@@ -263,6 +280,7 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             String sectionNameExists = (String)retValue;
             if (sectionNameExists.startsWith("question")) {
                 MessageBox.OK(parent, "You cannot insert a question inisde another, \n Please place the cursor in a different part of the document");
+                returnError(true);
                 return;
             }
             
@@ -279,7 +297,7 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             //insert mode
        
             //now add the section
-            ooDocument.addViewSection(QuestionId);
+            ooDocument.addViewSection(QuestionId, new Integer(0xffffe1));
             //now add the section Content
             //add question title into section
             ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
@@ -330,12 +348,15 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             ooDocument.executeMacro(insertHtmlDocumentIntoSection.toString(), insertHtmlDocumentIntoSection.getParams() );
             
             MessageBox.OK(parent, "Finished Importing !");
+            returnError(true);
+
         }   
         
     // End of variables declaration                      
             } catch (IOException ex) {
                     log.debug("InitQuestionBlock: " +ex.getMessage());
-                }
+                 returnError(true);
+            }
            
     }//GEN-LAST:event_btnApplyActionPerformed
 

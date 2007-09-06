@@ -6,6 +6,7 @@
 
 package org.bungeni.editor.selectors;
 
+import com.sun.star.xml.AttributeData;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -111,7 +112,7 @@ public class InitSpeech extends javax.swing.JPanel implements IDialogSelector {
             }
         });
 
-        btnCancel.setText("Cancel");
+        btnCancel.setText("Close");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -179,10 +180,17 @@ public class InitSpeech extends javax.swing.JPanel implements IDialogSelector {
         parent.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
+    private void returnError(boolean state) {
+        btnApply.setEnabled(state);
+        btnCancel.setEnabled(state);
+        btn_SpeechBy.setEnabled(state);
+    }
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt)  {//GEN-FIRST:event_btnApplyActionPerformed
 // TODO add your handling code here:
+        returnError(false);
         if (selectionData.size() == 0) {
             MessageBox.OK(parent, "Please select a Person!");
+            returnError(true);
             return;
         }
           ExternalMacro cursorInSection = ExternalMacroFactory.getMacroDefinition("CursorInSection");
@@ -191,11 +199,14 @@ public class InitSpeech extends javax.swing.JPanel implements IDialogSelector {
             
             if (strCurrentSection.indexOf("-") != -1 ) {
                 MessageBox.OK(parent, "A speech can be created only as part of a Main section of text !");
+                returnError(true);
                 return;
             }
            
             if (strCurrentSection.trim().length() == 0 ) {
                 MessageBox.OK(parent, "You can create a speech only within a Main text section !");
+                returnError(true);
+                return;
             }
                   
             
@@ -210,6 +221,21 @@ public class InitSpeech extends javax.swing.JPanel implements IDialogSelector {
         
         String URI = selectionData.get("URI");
         String PersonName = txt_SpeechBy.getText();
+        
+        //build attribute metadata for section
+        Vector<String> AttrNames = new Vector<String>();
+        AttrNames.addElement(new String("Name"));
+        AttrNames.addElement(new String("URI"));
+        
+        String[] strAttrNames = AttrNames.toArray(new String[AttrNames.size()]);
+        
+        Vector<AttributeData> AttrValues  = new Vector<AttributeData>();
+        AttrValues.addElement(ooDocument._makeAttributeCDATAvalue(PersonName));
+        AttrValues.addElement(ooDocument._makeAttributeCDATAvalue(URI));
+        
+        AttributeData[] xmlAttrValues = AttrValues.toArray(new AttributeData[AttrValues.size()]);
+        
+
         //String newSectionName = strCurrentSection+"-speech"+speechCounter;
         
         
@@ -225,21 +251,33 @@ public class InitSpeech extends javax.swing.JPanel implements IDialogSelector {
             AddSectionInsideSection.addParameter(strCurrentSection);
             AddSectionInsideSection.addParameter(newSectionName);
             ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
+            /*
+            ExternalMacro AddSectionInsideSectionWithAttributes = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithAttributes");
+            AddSectionInsideSectionWithAttributes.addParameter(strCurrentSection);
+            AddSectionInsideSectionWithAttributes.addParameter(newSectionName);
+            AddSectionInsideSectionWithAttributes.addParameter(strAttrNames);
+            AddSectionInsideSectionWithAttributes.addParameter(xmlAttrValues);
+            ooDocument.executeMacro(AddSectionInsideSectionWithAttributes.toString(), AddSectionInsideSectionWithAttributes.getParams());   */         
             
             ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
             insertDocIntoSection.addParameter(newSectionName)   ;
             insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_speech"));
             ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
             //search replace title into question title marker
-            ExternalMacro SearchAndReplace = ExternalMacroFactory.getMacroDefinition("SearchAndReplace");
-            SearchAndReplace.addParameter("[[SPEECH_BY]]");
-            SearchAndReplace.addParameter(PersonName);
-            ooDocument.executeMacro(SearchAndReplace.toString(), SearchAndReplace.getParams());
-         }   
+            ExternalMacro SearchAndReplaceWithAttrs = ExternalMacroFactory.getMacroDefinition("SearchAndReplaceWithAttributes");
+            SearchAndReplaceWithAttrs.addParameter("[[SPEECH_BY]]");
+            SearchAndReplaceWithAttrs.addParameter(PersonName);
+            SearchAndReplaceWithAttrs.addParameter(strAttrNames);
+            SearchAndReplaceWithAttrs.addParameter(xmlAttrValues);
+            ooDocument.executeMacro(SearchAndReplaceWithAttrs.toString(), SearchAndReplaceWithAttrs.getParams());
+            returnError(true);
+            MessageBox.OK(parent, "Added new Speech element to document, \n please type in the text of the speech.");
+        }   
         
     // End of variables declaration                      
             } catch (Exception ex) {
                     log.debug("InitQuestionBlock: " +ex.getMessage());
+                    returnError(true);
                 }
            
     }//GEN-LAST:event_btnApplyActionPerformed

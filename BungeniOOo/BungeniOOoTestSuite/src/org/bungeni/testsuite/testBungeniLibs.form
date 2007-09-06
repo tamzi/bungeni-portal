@@ -17,11 +17,11 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jLabel1" pref="324" max="32767" attributes="0"/>
+                      <Component id="jLabel1" pref="336" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" pref="324" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="336" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="118" max="-2" attributes="0"/>
@@ -29,17 +29,23 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnLaunch" pref="324" max="32767" attributes="0"/>
+                      <Component id="btnLaunch" pref="336" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtTemplatePath" pref="324" max="32767" attributes="0"/>
+                      <Component id="txtTemplatePath" pref="336" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnSelectiListener" min="-2" pref="148" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="execBasicMacro" alignment="0" max="32767" attributes="0"/>
+                          <Component id="btnSelectiListener" alignment="0" pref="148" max="32767" attributes="1"/>
+                      </Group>
                       <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                      <Component id="btnRemoveSelListener" pref="160" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="btnMacroReturnValue" max="32767" attributes="0"/>
+                          <Component id="btnRemoveSelListener" alignment="0" pref="149" max="32767" attributes="0"/>
+                      </Group>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -54,12 +60,17 @@
               <Component id="txtTemplatePath" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btnLaunch" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnSelectiListener" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnRemoveSelListener" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="122" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="execBasicMacro" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnMacroReturnValue" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="112" max="32767" attributes="0"/>
               <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
               <Component id="btnClear" min="-2" max="-2" attributes="0"/>
@@ -118,6 +129,22 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRemoveSelListenerActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="execBasicMacro">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Exec. Search Replace Macro"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="execBasicMacroActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnMacroReturnValue">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Get Macro Return value"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMacroReturnValueActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

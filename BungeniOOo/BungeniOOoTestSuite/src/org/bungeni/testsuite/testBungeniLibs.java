@@ -64,6 +64,8 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
         jLabel1 = new javax.swing.JLabel();
         btnSelectiListener = new javax.swing.JButton();
         btnRemoveSelListener = new javax.swing.JButton();
+        execBasicMacro = new javax.swing.JButton();
+        btnMacroReturnValue = new javax.swing.JButton();
 
         btnLaunch.setText("Launch OO and Connect");
         btnLaunch.addActionListener(new java.awt.event.ActionListener() {
@@ -95,6 +97,20 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
             }
         });
 
+        execBasicMacro.setText("Exec. Search Replace Macro");
+        execBasicMacro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                execBasicMacroActionPerformed(evt);
+            }
+        });
+
+        btnMacroReturnValue.setText("Get Macro Return value");
+        btnMacroReturnValue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMacroReturnValueActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -103,24 +119,28 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE))
+                        .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE))
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .add(118, 118, 118)
                         .add(btnClear, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(btnLaunch, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE))
+                        .add(btnLaunch, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(txtTemplatePath, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 324, Short.MAX_VALUE))
+                        .add(txtTemplatePath, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(btnSelectiListener, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, execBasicMacro, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, btnSelectiListener, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, Short.MAX_VALUE))
                         .add(16, 16, 16)
-                        .add(btnRemoveSelListener, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)))
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(btnMacroReturnValue, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(btnRemoveSelListener, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -131,16 +151,39 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
                 .add(txtTemplatePath, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnLaunch)
-                .add(25, 25, 25)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnSelectiListener)
                     .add(btnRemoveSelListener))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 122, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(execBasicMacro)
+                    .add(btnMacroReturnValue))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 112, Short.MAX_VALUE)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(9, 9, 9)
                 .add(btnClear))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnMacroReturnValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMacroReturnValueActionPerformed
+// TODO add your handling code here:
+        Object[] params = {};
+        Object value = ooDocument.executeMacro("CursorInSection", params);
+        txtMessage.append("Output values from macro was: " + (String)value);
+        
+    }//GEN-LAST:event_btnMacroReturnValueActionPerformed
+
+
+
+
+    private void execBasicMacroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_execBasicMacroActionPerformed
+// TODO add your handling code here:
+        Object[] params = new Object[2];
+        params[0] = new String("Search for this");
+        params[1] = new String("Replace with that");
+        ooDocument.executeMacro("SearchAndReplace", params);
+    }//GEN-LAST:event_execBasicMacroActionPerformed
 
     private void btnRemoveSelListenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoveSelListenerActionPerformed
 // TODO add your handling code here:
@@ -259,8 +302,10 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
     private javax.swing.JButton btnLaunch;
+    private javax.swing.JButton btnMacroReturnValue;
     private javax.swing.JButton btnRemoveSelListener;
     private javax.swing.JButton btnSelectiListener;
+    private javax.swing.JButton execBasicMacro;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea txtMessage;

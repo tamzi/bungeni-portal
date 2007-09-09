@@ -115,9 +115,14 @@ public class BungeniClientDB {
     
     public QueryResults QueryResults(String expression ) {
         HashMap<String,Vector> qResults = Query(expression);
-        QueryResults qr = new QueryResults(qResults);
-        return qr;
+        QueryResults qr = null;
+        if (qResults.containsKey("results")) {
+             qr = new QueryResults(qResults);
+             return qr;
+        } else 
+            return null;
     }
+    
     public synchronized HashMap<String,Vector> Query(String expression) {
             Statement st = null;
             ResultSet rs = null;

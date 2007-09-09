@@ -174,7 +174,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      box.addBox("Markup Tools", markupPanel.getObjectHandle() ); 
      */
      
-     ICollapsiblePanel generalEditorPanel = CollapsiblePanelFactory.getPanelClass("generalEditorPanel3");
+     ICollapsiblePanel generalEditorPanel = CollapsiblePanelFactory.getPanelClass("generalEditorPanel4");
      generalEditorPanel.setOOComponentHandle(ooDocument);
      box.addBox("Editor Tools", generalEditorPanel.getObjectHandle());
      

@@ -82,5 +82,20 @@ public class ExternalMacro {
             return paramArray;
         }
      }
+     
+    private static final String BOOKMARK_BEGIN_PREFIX = "begin-";
+    private static final String BOOKMARK_END_PREFIX = "end-";
+    
+    public static String[] getBookmarkRangeForTag(String tag) {
+        //for e.g. tag = [[SPEECH_BY]]
+        tag = tag.toLowerCase();
+        tag = tag.replaceAll("[\\[\\]]", "");
+        String[] bookmarkRange = new String[2];
+        bookmarkRange[0] = BOOKMARK_BEGIN_PREFIX+tag;
+        bookmarkRange[1] = BOOKMARK_END_PREFIX+tag;
+        return bookmarkRange;
     }
+
+}
+
 

@@ -11,6 +11,7 @@ DEPENDENCIES = [
         'AuditTrail', 
         'Relations',
         'OrderableReferenceField',
+        'Plone4ArtistsAudio',
         ]
 
 # Products that we want to use alongside Bungeni

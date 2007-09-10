@@ -12,6 +12,7 @@
 		global at_url at_url|python:'/'.join(context.getReferenceLink().getPhysicalPath())">
 > -->
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/3rd-party.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/3rd-party/shortcut.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/3rd-party/cssQuery.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/3rd-party/cssQuery-level2.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/3rd-party/cssQuery-standard.js"></script>
@@ -33,6 +34,7 @@
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/link-ui.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/note-ui.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/link-ui-simple.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/track-changes.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/PloneLinkUi.js"></script>	
 	
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/RangeInfo.js"></script>
@@ -42,34 +44,29 @@
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/marginalia-direct.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia-config.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia-strings.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/bungeni-annotate.js"></script>
 
     <script type="text/javascript" tal:content="string:
         function show_annotations_on_load() 
         {
 			var serviceRoot = '${request/base}/${utool/getPortalPath}/portal_annotations';
-			var annotationService = new RestAnnotationService( serviceRoot + '/annotate', false );
-			var keywordService = new RestKeywordService( serviceRoot + '/listKeywords');
-			keywordService.init( );
-			window.marginalia = new Marginalia( annotationService, '${user/getUserName}', '${user/getUserName}', {
-				preferences: new Preferences( new RestPreferenceService( serviceRoot + '/preference', true ) ),
-				keywordService: keywordService,
-				linkUi:  new SimpleLinkUi( true ),		// new PloneLinkUi( '{startup_dir}', '{at_url}' ),
-				baseUrl:  null,
-				showAccess:  true,
-				showBlockMarkers:  true,
-				showActions:  true,
-				onkeyCreate:  true
-			} );
-	
-			var marginaliaDirect = new MarginaliaDirect( annotationService );
-			marginaliaDirect.init( );
-			initLogging();
-
-			window.marginalia.showAnnotations( '${annotatedUrl}' );
-        }
-        addEventHandler(window, 'load', show_annotations_on_load, window);
+			var username = '${user/getUserName}';
+			var url = '${annotatedUrl}';
+			bungeniMarginaliaInit( username, url, serviceRoot );
+		}
+		addEventHandler(window, 'load', show_annotations_on_load, window);
 		
-        ">
+		/*
+		 * Called when the margin button is clicked to create an annotation.
+		 * There are two choices for editor:
+		 * 1. SelectAnnotationNoteEditor - select an edit action
+		 * 2. BungeniNoteEditor - create a simple margin note
+		 */
+		function bungeniClickCreateAnnotation( event, id )
+		{
+			clickCreateAnnotation( event, id, new SelectActionNoteEditor( ) );
+		}
+		">
     </script>
 </metal:block>
 
@@ -130,7 +127,7 @@
                   </td>
                   <td>
                     <div class="notes">
-                      <button class="createAnnotation" onclick="clickCreateAnnotation(event,'m1')" title="Click here to create an annotation">&gt;</button>
+                      <button class="createAnnotation" onclick="bungeniClickCreateAnnotation(event,'m1')" title="Click here to create an annotation">&gt;</button>
                       <ol><li></li></ol>
                     </div>
                   </td>

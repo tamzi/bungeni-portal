@@ -340,19 +340,6 @@ ol#articles {
 	margin: 1ex 0;
 }
 
-.hentry .entry-content em.annotation {
-	background: #ffe880;
-	font-style: normal;
-}
-
-.hentry .entry-content em.annotation em.annotation {
-	background: #ecd470;
-}
-
-.hentry .entry-content em.annotation em.annotation em.annotation {
-	background: #d8c666;
-}
-
 /* Action markers */
 .hentry .entry-content em.annotation del {
 	text-decoration: line-through;

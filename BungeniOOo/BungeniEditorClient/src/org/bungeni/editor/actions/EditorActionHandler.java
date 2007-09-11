@@ -41,20 +41,24 @@ public class EditorActionHandler implements IEditorActionEvent {
         //can be implemented by any class that implements IEditorActionEvent]
         this.ooDocument = ooDocument;
         String cmd = action.action_name();
-        if (cmd.equals("makeMastHead"))
-            doMakePrayerSection(action);
-        else if (cmd.equals ("makePrayerSection")) 
-            doMakeSection(action);
+        log.debug("doCommand executed : "+ cmd);
+       // if (cmd.equals("makeMastHead"))
+        if (cmd.equals ("makePrayerSection")) 
+             doMakePrayerSection(action);
+        //else if (cmd.equals ("makePrayerSection")) 
+        //    doMakeSection(action);
         else if (cmd.equals("makeQASection"))
-            doMakeSection(action);
+            doMakeQASection(action);
         else if (cmd.equals("makePaperSection"))
-            doMakeSection(action);
+            doMakePaperSection(action);
         else if (cmd.equals("makeNoticeOfMotionSection"))
-            doMakeSection(action);
+            doMakeNOMSection(action);
         else if (cmd.equals("makeQuestionBlockSection"))
             doMakeQuestionBlockSection(action);
+        else if (cmd.equals("makeQuestionBlockSection"))
+            doMakeSpeechBlockSection(action);
         else if (cmd.equals("makeSpeechMarkup"))
-            doMakeSpeechBlock(action);
+            doMakeSpeechMarkup(action);
         else if (cmd.equals("makePrayerMarkup"))
             doMarkup(action);
         else if (cmd.equals("makePaperMarkup"))
@@ -68,7 +72,7 @@ public class EditorActionHandler implements IEditorActionEvent {
         else if (cmd.equals("makeNoticeDetailsMarkup"))
             doMarkup(action);
         else
-            MessageBox.OK("the command action: "+cmd+" has not been implemented!");    
+            MessageBox.OK("the command action: "+cmd+" has not been implemented!");   
     }
     
      private void doMakePrayerSection(toolbarAction action) {
@@ -212,6 +216,26 @@ public class EditorActionHandler implements IEditorActionEvent {
                log.debug("invoking execute dispatch");
                ooDocument.executeDispatch(".uno:StyleApply", loadProps);
            }
+    }
+
+    private void doMakeQASection(toolbarAction action) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    private void doMakePaperSection(toolbarAction action) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    private void doMakeSpeechBlockSection(toolbarAction action) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    private void doMakeSpeechMarkup(toolbarAction action) {
+        throw new UnsupportedOperationException("Not yet implemented");
+    }
+
+    private void doMakeNOMSection(toolbarAction action) {
+        throw new UnsupportedOperationException("Not yet implemented");
     }
 
 }

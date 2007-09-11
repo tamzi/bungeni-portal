@@ -105,7 +105,13 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         //DefaultMutableTreeNode child = new DefaultMutableTreeNode (addThisActionObject);
         
         //addToThisNode.add( child);
-        QueryResults query_results = instance.QueryResults(SettingsQueryFactory.Q_FETCH_CHILD_TOOLBAR_ACTIONS(actionParent));
+        QueryResults query_results;
+        if (actionParent.equals("parent"))
+            query_results = instance.QueryResults(SettingsQueryFactory.Q_FETCH_PARENT_ACTIONS());
+        else
+            query_results = instance.QueryResults(SettingsQueryFactory.Q_FETCH_PARENT_ACTIONS(actionParent));
+        
+        //QueryResults query_results = instance.QueryResults(SettingsQueryFactory.Q_FETCH_CHILD_TOOLBAR_ACTIONS(actionParent));
         //QueryResults query_results = new QueryResults(results);
         if (query_results == null) 
             return ;
@@ -154,9 +160,12 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     private javax.swing.JTree treeGeneralEditor;
     // End of variables declaration//GEN-END:variables
     
-    private  enum PopupTypeIdentifier {CREATE_EDIT , VIEW_ACTIONS  };
-    private String[] popup_actions = {"View Available Actions", "Create/Edit Section" };
+    private  enum PopupTypeIdentifier {CREATE_EDIT , VIEW_ACTIONS, APPLY_MARKUP  };
+    private String[] popup_section_actions = {"View Available Actions", "Create/Edit Section" };
+    private String[] popup_markup_actions = {"Apply Markup" };
+    
     class treePopupMenuAction extends AbstractAction {
+        PopupTypeIdentifier popupType;
         
         public treePopupMenuAction (toolbarAction action) {
             super(action.toString());
@@ -164,9 +173,12 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         }
         
         public treePopupMenuAction (String actionText,  toolbarAction action, PopupTypeIdentifier id ) {
+            
             super(actionText);
             putValue("POPUP_IDENTIFIER", id);
             putValue("USER_OBJECT", action);
+            popupType = id;
+            
             
         }
         
@@ -190,54 +202,74 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
               TreePath path = treeGeneralEditor.getSelectionPath();
               //get current node selected...
               DefaultMutableTreeNode thisNode = (DefaultMutableTreeNode) path.getLastPathComponent();
-              //get toolbar action     
+              if (popupType == PopupTypeIdentifier.CREATE_EDIT) {
+                    toolbarAction action =(toolbarAction)thisNode.getUserObject();
+                    IEditorActionEvent event = getEventClass(action);
+                    event.doCommand(ooDocument, action);
+              } else 
+              if (popupType == PopupTypeIdentifier.VIEW_ACTIONS) {
+                   if (thisNode.isLeaf()) {
+                      log.debug("processPopupSelection : thisNode = leaf");
+                    instance.Connect();
+                    createTreeNodes(thisNode);
+                    instance.EndConnect();
+                    if (!thisNode.isLeaf()) {
+                     treeGeneralEditor.expandPath(path);
+                    } 
+                  }
+              } else 
+              if (popupType == PopupTypeIdentifier.APPLY_MARKUP) {
+                    toolbarAction action =(toolbarAction)thisNode.getUserObject();
+                    IEditorActionEvent event = getEventClass(action);
+                    event.doCommand(ooDocument, action);
+              }
+                //get toolbar action     
               //toolbarAction action = (toolbarAction) thisNode.getUserObject();
               //add items only if it is a leaf node
-              if (thisNode.isLeaf()) {
-                  log.debug("processPopupSelection : thisNode = leaf");
-                instance.Connect();
-                createTreeNodes(thisNode);
-                instance.EndConnect();
-                if (!thisNode.isLeaf()) {
-                 treeGeneralEditor.expandPath(path);
-                } 
-         }
+
         }
         
-        private void addChildTreeNodes(DefaultMutableTreeNode parentNode){
-            
-        }
+ 
     }
     
 
     
     class treeGeneralEditorMouseListener implements MouseListener {
         public void mouseClicked(MouseEvent evt) {
-                int selRow = treeGeneralEditor.getRowForLocation(evt.getX(), evt.getY());
-                TreePath selPath = treeGeneralEditor.getPathForLocation(evt.getX(), evt.getY());
-                 if (selRow != -1 ) {
-                     if (evt.getClickCount() == 1) {
-                         instance.Connect();
-                        DefaultMutableTreeNode node = (DefaultMutableTreeNode) selPath.getLastPathComponent();
-                         System.out.println("node = "+ (toolbarAction) node.getUserObject());   
-                         toolbarAction action = (toolbarAction)node.getUserObject();
-                         createPopupMenuItems (action);
-                         popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
-                       instance.EndConnect();
-                     }
-
-                 }
+      
         }
         
        private void createPopupMenuItems (toolbarAction baseNodeAction){
            
             if (baseNodeAction.action_type().equals("section")) {
                 popupMenu.removeAll();
-                popupMenu.add(new treePopupMenuAction(popup_actions[0], baseNodeAction, PopupTypeIdentifier.VIEW_ACTIONS));
-                popupMenu.add(new treePopupMenuAction(popup_actions[1], baseNodeAction, PopupTypeIdentifier.CREATE_EDIT));
+                popupMenu.add(new treePopupMenuAction(popup_section_actions[0], baseNodeAction, PopupTypeIdentifier.VIEW_ACTIONS));
+                popupMenu.add(new treePopupMenuAction(popup_section_actions[1], baseNodeAction, PopupTypeIdentifier.CREATE_EDIT));
+            } else 
+            if (baseNodeAction.action_type().equals("markup")) {
+                popupMenu.removeAll();
+                popupMenu.add(new treePopupMenuAction(popup_markup_actions[0], baseNodeAction, PopupTypeIdentifier.APPLY_MARKUP));
             }
          }
-        public void mousePressed(MouseEvent e) {
+        public void mousePressed(MouseEvent evt) {
+                  int selRow = treeGeneralEditor.getRowForLocation(evt.getX(), evt.getY());
+                TreePath selPath = treeGeneralEditor.getPathForLocation(evt.getX(), evt.getY());
+                // TreePath selPath = treeGeneralEditor.getSelectionPath();
+                 //DefaultMutableTreeNode node = (DefaultMutableTreeNode) selPath.getLastPathComponent();
+                 if (selRow != -1 ) {
+                 //if (node != null ) {     
+              
+                     if (evt.getClickCount() == 1) {
+                         
+                         DefaultMutableTreeNode node = (DefaultMutableTreeNode) selPath.getLastPathComponent();
+                         System.out.println("node = "+ (toolbarAction) node.getUserObject());   
+                         toolbarAction action = (toolbarAction)node.getUserObject();
+                         createPopupMenuItems (action);
+                         popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                      return;
+                     }  
+                
+                 }
         }
 
         public void mouseReleased(MouseEvent e) {
@@ -281,7 +313,11 @@ class treeGeneralEditorCellRenderer extends JLabel implements TreeCellRenderer {
                 if (value instanceof DefaultMutableTreeNode) {
                   DefaultMutableTreeNode uo = (DefaultMutableTreeNode)value;
                   if (uo.isLeaf()) {
-                      setIcon(imgIcons[SECTION_ICON]);
+                      toolbarAction act = (toolbarAction) uo.getUserObject();
+                      if (act.action_type().equals("markup")) 
+                        setIcon(imgIcons[MARKUP_ICON]);
+                      else 
+                        setIcon(imgIcons[SECTION_ICON]);
                   } else {
                       setIcon(imgIcons[SECTION_PLUS_ICON]);
                   }

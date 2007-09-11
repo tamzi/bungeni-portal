@@ -1,5 +1,6 @@
 package org.bungeni.testsuite;
 
+import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.XIndexAccess;
 import com.sun.star.document.XEventListener;
 import com.sun.star.frame.XController;
@@ -9,6 +10,9 @@ import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextRange;
+import com.sun.star.text.XTextSection;
+import com.sun.star.text.XTextViewCursor;
+import com.sun.star.uno.Any;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 import com.sun.star.view.XSelectionChangeListener;
@@ -66,6 +70,8 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
         btnRemoveSelListener = new javax.swing.JButton();
         execBasicMacro = new javax.swing.JButton();
         btnMacroReturnValue = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
 
         btnLaunch.setText("Launch OO and Connect");
         btnLaunch.addActionListener(new java.awt.event.ActionListener() {
@@ -111,6 +117,15 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
             }
         });
 
+        jButton1.setText("import doc above+replace text+apply attributes");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jTextField1.setText("jTextField1");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -119,19 +134,19 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE))
+                        .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE))
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .add(118, 118, 118)
                         .add(btnClear, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(btnLaunch, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE))
+                        .add(btnLaunch, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(txtTemplatePath, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE))
+                        .add(txtTemplatePath, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
@@ -139,8 +154,14 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
                             .add(org.jdesktop.layout.GroupLayout.LEADING, btnSelectiListener, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, Short.MAX_VALUE))
                         .add(16, 16, 16)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(btnMacroReturnValue, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(btnRemoveSelListener, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE))))
+                            .add(btnMacroReturnValue, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                            .add(btnRemoveSelListener, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)))
+                    .add(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(jButton1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(jTextField1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -159,12 +180,28 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(execBasicMacro)
                     .add(btnMacroReturnValue))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 112, Short.MAX_VALUE)
+                .add(12, 12, 12)
+                .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 33, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 41, Short.MAX_VALUE)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(9, 9, 9)
                 .add(btnClear))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+// TODO add your handling code here:
+            Object[] params = new Object[2];
+            params[0] = new String("Section1")   ;
+            params[1] =  jTextField1.getText();
+            txtMessage.append("running macro : InsertDocIntoSection");
+            ooDocument.executeMacro("InsertDocIntoSection", params);
+            params[0] = new String("[[QUESTION_TITLE]]");
+            params[1] = new String("new string title");
+            ooDocument.executeMacro("SearchAndReplace" , params);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnMacroReturnValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMacroReturnValueActionPerformed
 // TODO add your handling code here:
@@ -190,6 +227,37 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
         ooQueryInterface.XSelectionSupplier(ooDocument.getDocumentModel().getCurrentController()).removeSelectionChangeListener(selList);
     }//GEN-LAST:event_btnRemoveSelListenerActionPerformed
 
+    public String getSectionName()
+{
+    XTextSection loXTextSection;
+    XTextViewCursor loXTextCursor;
+    XPropertySet loXPropertySet;
+
+    String lstrSectionName = "";
+
+    try
+    {
+        loXTextCursor = ooDocument.getViewCursor();
+        
+        
+        loXPropertySet = (XPropertySet)UnoRuntime.queryInterface(XPropertySet.class, loXTextCursor);
+
+        loXTextSection = (XTextSection)((Any)loXPropertySet.getPropertyValue("TextSection")).getObject();
+
+        if (loXTextSection != null)
+        {
+            loXPropertySet = (XPropertySet)UnoRuntime.queryInterface(XPropertySet.class, loXTextSection);
+
+            lstrSectionName = (String)loXPropertySet.getPropertyValue("LinkDisplayName");
+        }
+    }
+    catch (java.lang.Exception poException)
+    {
+        poException.printStackTrace();
+    }
+
+    return lstrSectionName;
+} 
     class SelectionChangeListener implements XSelectionChangeListener {
         public SelectionChangeListener() {
             
@@ -207,6 +275,8 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
                  txtMessage.append("\n NULL SELECTION");
                 else {
                        XServiceInfo xSelInfo = ooQueryInterface.XServiceInfo(selection);
+                           String strSelection = getSectionName();
+                           txtMessage.append("Current Selectio = " + strSelection);
                         if ( xSelInfo.supportsService("com.sun.star.text.TextRanges") ){
                               XIndexAccess xIndexAccess = ooQueryInterface.XIndexAccess(selection);
                               if (xIndexAccess == null ) 
@@ -297,6 +367,8 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
         theComponent.removeEventListener(this);
         
     }
+
+    
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -306,8 +378,10 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
     private javax.swing.JButton btnRemoveSelListener;
     private javax.swing.JButton btnSelectiListener;
     private javax.swing.JButton execBasicMacro;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextArea txtMessage;
     private java.awt.TextField txtTemplatePath;
     // End of variables declaration//GEN-END:variables

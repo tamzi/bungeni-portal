@@ -34,6 +34,8 @@ ACTIVE_MEMBRANE_STATES = {
         'MemberOfPublic': ['public', 'private']
 }
 
+TEAM_TYPES = ['Parliament', 'Committee', 'PoliticalGroup', 'Reporters', 'Office']
+
 # Note that though we need PloneHelpCenter in the Products dir, we don't
 # want to install it, as we don't use its content types -- only the ones
 # that we derive from it.

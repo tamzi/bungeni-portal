@@ -6,7 +6,7 @@ from Products.membrane.config import ACTIVE_STATUS_CATEGORY
 from Products.membrane.utils import getAllWFStatesForType
 from Products.membrane.utils import generateCategorySetIdForType
 from Products.remember.utils import getAdderUtility
-from Products.Bungeni.config import ACTIVE_MEMBRANE_STATES 
+from Products.Bungeni.config import ACTIVE_MEMBRANE_STATES, TEAM_TYPES
 
 def install(self):
     """ Do stuff that GS will do for us soon ..
@@ -71,6 +71,8 @@ def install(self):
     # allowed_roles = teams_tool.getDefaultAllowedRoles()
     # teams_tool.setDefaultAllowedRoles(
     #         allowed_roles+['ReviewerForSpeaker', 'CurrentMP'])
+    teams_tool = getToolByName(self, 'portal_teams')
+    teams_tool.setAllowedTeamTypes(TEAM_TYPES)
 
     # Replace the default MailHost with a MaildropHost
     if (shasattr(plone, 'MailHost') and 

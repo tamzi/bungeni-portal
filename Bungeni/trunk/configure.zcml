@@ -8,4 +8,10 @@
         handler="Products.Bungeni.debaterecord.RotaFolder.addedRotaFolder"
         />
 
+    <subscriber
+        for="Products.Bungeni.interfaces.IDebateRecordFolder.IDebateRecordFolder
+            zope.app.container.interfaces.IObjectAddedEvent"
+        handler="Products.Bungeni.debaterecord.DebateRecordFolder.addedDebateRecordFolder"
+        />
+
 </configure>

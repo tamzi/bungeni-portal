@@ -62,15 +62,27 @@ class testDebateRecordFolder(testBungeni):
     def test_getReportersForSittingVocab(self):
         pass
 
+    # from class DebateRecordFolder:
+    def test_getSpaceTeamsDefault(self):
+        pass
+
+    # from class BungeniTeamSpace:
+    def test_getAllTeamsDisplayList(self):
+        pass
+
+    # from class BungeniTeamSpace:
+    def test_editTeams(self):
+        pass
+
     # Manually created methods
+
+    def test_getReportersMembershipVocab(self):
+        pass
 
     def test_getReportersVocab(self):
         pass
 
     def test_getReporters(self):
-        pass
-
-    def test_getReportersMembershipVocab(self):
         pass
 
 

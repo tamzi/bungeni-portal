@@ -9,13 +9,13 @@ from Products.CMFCore.permissions import View
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.utils import shasattr
 from Products.PlonePAS.utils import cleanId
+from Products.Bungeni.config import *
 from Products.BungeniDefaultContent.config import *
 from Globals import package_home
 
 from Products.Archetypes.debug import log
 
 # TEAM_TYPES = ['Parliament', 'Committee', 'Ministry', 'Party', 'Reporters', 'Sitting']
-TEAM_TYPES = ['Parliament', 'Committee', 'PoliticalGroup', 'Reporters', 'Office']
 TEAMSPACE_TYPES = ['ParliamentWS', 'CommitteeWS']
 
 new_actions = (
@@ -863,6 +863,8 @@ def massage_data():
                 ]
         team['allowed_team_roles'].extend(committee_plone_role_map.values())
         team['default_team_roles'] = ('CommitteeClerk', )
+        if team['title'] == "Debate Record Office":
+            team['portal_type'] = 'DebateRecordOffice'
         teams['teams'].extend([team])
     teams.close()
     offices_map.close()

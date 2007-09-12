@@ -87,76 +87,9 @@ class BungeniTeam(Team):
 
     actions = team_type_information['actions']
 
-    # All the overridden methods below are just
-    # s/portal_teams/portal_bungeniteamstool/ .. is there a better way?
-
     ##/code-section class-header
 
     # Methods
-
-    security.declareProtected(ManageTeamMembership, 'addMember')
-    def addMember(self, member_id, membership_type=None, reindex=True):
-        """
-        add a membership object with the given member id and associate
-        via archetypes reference engine with the member object
-        """
-        pm_tool = getToolByName(self, 'portal_membership')
-        pt_tool = getToolByName(self, 'portal_types')
-        teams_tool = getToolByName(self, 'portal_bungeniteamstool')
-
-        membership = self._getOb(member_id, None)
-        if membership is not None: # member already exists
-            return
-
-        member = pm_tool.getMemberById(member_id)
-
-        if member is None:
-            raise MemberNotFound(str(member_id))
-
-        if membership_type is None:
-            membership_type = self.getDefaultMembershipType()
-        elif not membership_type in teams_tool.allowed_membership_types:
-            raise RuntimeError("Invalid Membership Type %r" % membership_type)
-
-        pt_tool.constructContent(membership_type, self, member_id)
-
-        membership = self._getOb(member_id)
-        refclass = self.membership_reference_class
-        member.addReference(membership,
-                            relationship=refclass.relationship,
-                            referenceClass=refclass)
-
-        # Assign the default Role to the member
-        # We want to assign the default roles to the member
-        membership.editTeamRoles(self._default_roles)
-
-        # And notify space objects as these are the most likely
-        # subclasses that could hook the event.
-        spaces = self.getTeamSpaces()
-        for space in spaces:
-            space._updateMember('add', member, membership, self)
-        if reindex:
-            self.reindexTeamSpaceSecurity()
-
-        return membership
-
-    security.declareProtected(ViewAllTeam, 'getMembers')
-    def getMembers(self):
-        """
-        return all members in the team
-        """
-        ttool = getToolByName(self, 'portal_bungeniteamstool')
-        rship = MemberTeamRelation.relationship
-        mbrains = ttool.getRefSourceBrains(self,
-                                           relationship=rship)
-        return [m.getObject() for m in mbrains]
-
-    security.declareProtected(ManageTeam, 'getOrphanedRoles')
-    def getOrphanedRoles(self):
-        """
-        get the roles that are now hidden from the team zmi interface
-        """
-        tt = getToolByName(self, 'portal_bungeniteamstool')
 
     security.declareProtected(ViewAllTeam, 'getActiveMembersByRoles')
     def getActiveMembersByRoles(self,roles):
@@ -171,27 +104,6 @@ class BungeniTeam(Team):
                     [m for m in memberships if r in m.getTeamRoles()]
                     )
         return memberships_with_roles
-
-    security.declarePublic('initializeArchetype')
-    def initializeArchetype(self, **kw):
-        BaseBTreeFolder.initializeArchetype(self, **kw)
-        # Use our aq context to find the team tool and get our initial state
-
-        tt = getToolByName(self, 'portal_bungeniteamstool')
-
-        self.allowed_content_types = tt.allowed_membership_types
-
-        if not self._active_states:
-            self._active_states = tt.getDefaultActiveStates()
-
-        if not self._allowed_team_roles:
-            self._allowed_team_roles = tt.getDefaultAllowedRoles()
-
-        if not self._default_roles:
-            self._default_roles = tt.getDefaultRoles()
-
-        if not self._default_membership_type:
-            self._default_membership_type = tt.getDefaultMembershipType()
 
     security.declarePublic('_constrainMembershipRoles')
     def _constrainMembershipRoles(self,constrained_roles, member_roles):

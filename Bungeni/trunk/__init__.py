@@ -83,7 +83,7 @@ def initialize(context):
 
 
     # Initialize portal tools
-    tools = [membership.BungeniMembershipTool.BungeniMembershipTool, debaterecord.RotaTool.RotaTool, groups.BungeniTeamsTool.BungeniTeamsTool]
+    tools = [membership.BungeniMembershipTool.BungeniMembershipTool, debaterecord.RotaTool.RotaTool]
     ToolInit( PROJECTNAME +' Tools',
                 tools = tools,
                 icon='tool.gif'

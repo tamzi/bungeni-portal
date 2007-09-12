@@ -215,18 +215,18 @@ class BungeniTeam(Team):
         """
         member_roles_map = {}
         active_memberships = self.getActiveMemberships()
+        for membership in active_memberships:
+            member_roles_map[membership.getId()] = membership.getTeamRoles()
         if type(members) != type([]):
             members = [members]
         if type(new_roles) != type([]):
             new_roles = [new_roles]
         for member in members:
-            for membership in active_memberships:
-                roles = membership.getTeamRoles()
-                if member.getId() == membership.getId():
-                    for role in new_roles:
-                        if role not in roles:
-                            roles.append(role)
-                member_roles_map[membership.getId()] = roles
+            roles = member_roles_map[member.getId()]
+            for role in new_roles:
+                if role not in roles:
+                    roles.append(role)
+            member_roles_map[member.getId()] = roles
         return [{'member_id': mid, 'roles': mroles} for mid, mroles in member_roles_map.items()]
 
     security.declarePublic('getMembershipVocab')

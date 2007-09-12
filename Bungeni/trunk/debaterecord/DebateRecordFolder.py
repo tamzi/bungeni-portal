@@ -31,6 +31,8 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
 from Products.PloneHelpCenter.content.ReferenceManualFolder import HelpCenterReferenceManualFolder
+from Products.Bungeni.groups.BungeniTeamSpace import BungeniTeamSpace
+from Products.Bungeni.interfaces.IDebateRecordFolder import IDebateRecordFolder
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -38,7 +40,12 @@ from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.utils import DisplayList
 ##/code-section module-header
 
+copied_fields = {}
+copied_fields['space_teams'] = BungeniTeamSpace.schema['space_teams'].copy()
+copied_fields['space_teams'].widget.macro_edit = "space_teams_edit"
 schema = Schema((
+
+    copied_fields['space_teams'],
 
 ),
 )
@@ -48,16 +55,19 @@ schema = Schema((
 
 DebateRecordFolder_schema = BaseFolderSchema.copy() + \
     getattr(HelpCenterReferenceManualFolder, 'schema', Schema(())).copy() + \
+    getattr(BungeniTeamSpace, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class DebateRecordFolder(BaseFolder, HelpCenterReferenceManualFolder):
+class DebateRecordFolder(BaseFolder, HelpCenterReferenceManualFolder, BungeniTeamSpace):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(HelpCenterReferenceManualFolder,'__implements__',()),)
+    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(HelpCenterReferenceManualFolder,'__implements__',()),) + (getattr(BungeniTeamSpace,'__implements__',()),)
+    # zope3 interfaces
+    interface.implements(IDebateRecordFolder)
 
     # This name appears in the 'add' box
     archetype_name = 'DebateRecordFolder'
@@ -92,11 +102,29 @@ class DebateRecordFolder(BaseFolder, HelpCenterReferenceManualFolder):
         members = rota_tool.getAvailableReporters()
         return DisplayList([(m.UID(), m.Title()) for m in members])
 
+    security.declarePublic('getSpaceTeamsDefault')
+    def getSpaceTeamsDefault(self):
+        """ Used from space_team_edit.pt
+        """
+        catalog = getToolByName(self, 'uid_catalog')
+        team_ids = [p.UID for p in catalog(portal_type='DebateRecordOffice')]
+        return team_ids
+
 
 registerType(DebateRecordFolder, PROJECTNAME)
 # end of class DebateRecordFolder
 
 ##code-section module-footer #fill in your manual code here
+def addedDebateRecordFolder(obj, event):
+    if obj.isTemporary():
+        #DBG log('addedRotaFolder> Not yet!')
+        return
+
+    catalog = getToolByName(obj, 'portal_catalog')
+    default_teams = [p.getId for p in catalog(portal_type='DebateRecordOffice')]
+
+    current_teams = obj.getTeams()
+    obj.editTeams(current_teams+default_teams)
 ##/code-section module-footer
 
 

@@ -43,6 +43,10 @@ from Products.CMFCore.utils import UniqueObject
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.utils import DisplayList
+
+from Products.validation.config import validation
+from Products.validation.validators.RangeValidator import RangeValidator
+validation.register(RangeValidator('isPositiveNumber', 1, 600))
 ##/code-section module-header
 
 schema = Schema((
@@ -55,7 +59,9 @@ schema = Schema((
             label_msgid='Bungeni_label_ReportingLeadTime',
             description_msgid='Bungeni_help_ReportingLeadTime',
             i18n_domain='Bungeni',
-        )
+        ),
+        required=1,
+        validators=('isPositiveNumber',)
     ),
 
     IntegerField(
@@ -66,7 +72,9 @@ schema = Schema((
             label_msgid='Bungeni_label_TakeLength',
             description_msgid='Bungeni_help_TakeLength',
             i18n_domain='Bungeni',
-        )
+        ),
+        required=1,
+        validators=('isPositiveNumber',)
     ),
 
     IntegerField(
@@ -77,7 +85,9 @@ schema = Schema((
             label_msgid='Bungeni_label_ExtraTakes',
             description_msgid='Bungeni_help_ExtraTakes',
             i18n_domain='Bungeni',
-        )
+        ),
+        required=1,
+        validators=('isPositiveNumber',)
     ),
 
     OrderableReferenceField(

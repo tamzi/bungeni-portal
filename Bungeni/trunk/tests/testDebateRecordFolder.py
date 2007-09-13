@@ -66,6 +66,10 @@ class testDebateRecordFolder(testBungeni):
     def test_getSpaceTeamsDefault(self):
         pass
 
+    # from class DebateRecordFolder:
+    def test_getNotAddableTypes(self):
+        pass
+
     # from class BungeniTeamSpace:
     def test_getAllTeamsDisplayList(self):
         pass

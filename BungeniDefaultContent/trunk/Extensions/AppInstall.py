@@ -1145,7 +1145,7 @@ def install(self):
     #
     # Add default teams
     #
-    teams_tool = getToolByName(self, 'portal_bungeniteamstool')
+    teams_tool = getToolByName(self, 'portal_teams')
     result = add_default_content(
             teams_tool,
             shelve.open('teams')['teams'],
@@ -1319,7 +1319,7 @@ def uninstall(self):
 
     # Delete the teams we added
     # teams_tool = getToolByName(self, 'portal_teams')
-    teams_tool = getToolByName(self, 'portal_bungeniteamstool')
+    teams_tool = getToolByName(self, 'portal_teams')
     ids = [normalizeString(get_id(d)) for d in DEFAULT_TEAMS]
     ids = [i for i in ids if teams_tool.get(i, None)]
     teams_tool.manage_delObjects(ids) 

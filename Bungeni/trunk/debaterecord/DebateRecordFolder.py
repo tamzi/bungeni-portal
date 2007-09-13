@@ -110,6 +110,20 @@ class DebateRecordFolder(BaseFolder, HelpCenterReferenceManualFolder, BungeniTea
         team_ids = [p.UID for p in catalog(portal_type='DebateRecordOffice')]
         return team_ids
 
+    security.declarePublic('getNotAddableTypes')
+    def getNotAddableTypes(self):
+        """ Don't allow a Rota folder to be added until we have proper
+        parameters for it.
+        """
+        rota_tool = getToolByName(self, 'portal_rotatool')
+        if ((not rota_tool.getReportingLeadTime()) or 
+                (not rota_tool.getTakeLength()) or 
+                (not rota_tool.getExtraTakes()) or 
+                (not rota_tool.getAvailableReporters())
+                ):
+            return ['RotaFolder', ]
+        return []
+
 
 registerType(DebateRecordFolder, PROJECTNAME)
 # end of class DebateRecordFolder

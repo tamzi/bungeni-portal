@@ -102,11 +102,11 @@ DebateRecordOffice_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class DebateRecordOffice(BaseContent, Office):
+class DebateRecordOffice(Office):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(Office,'__implements__',()),)
+    __implements__ = (getattr(Office,'__implements__',()),)
 
     # This name appears in the 'add' box
     archetype_name = 'DebateRecordOffice'

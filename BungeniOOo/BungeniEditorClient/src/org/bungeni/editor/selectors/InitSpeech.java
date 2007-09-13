@@ -208,7 +208,12 @@ public class InitSpeech extends javax.swing.JPanel implements IDialogSelector {
                 returnError(true);
                 return;
             }
-                  
+            
+            if (!strCurrentSection.startsWith("question") ) {
+                MessageBox.OK(parent, "You can create speech only within a question");
+                returnError(true);
+                return;
+            }
             
         String newSectionName = strCurrentSection + "-speech1" ;
         int nCounter = 1;
@@ -247,9 +252,14 @@ public class InitSpeech extends javax.swing.JPanel implements IDialogSelector {
             
         } else if (this.theMode == SelectorDialogModes.TEXT_INSERTION) {
             
-           ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSection");
+            
+            long sectionBackColor = 0xe6e6a0;
+            float sectionLeftMargin = (float).6;            
+           ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
             AddSectionInsideSection.addParameter(strCurrentSection);
             AddSectionInsideSection.addParameter(newSectionName);
+            AddSectionInsideSection.addParameter(sectionBackColor);
+            AddSectionInsideSection.addParameter(sectionLeftMargin);      
             ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
             /*
             ExternalMacro AddSectionInsideSectionWithAttributes = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithAttributes");
@@ -264,11 +274,13 @@ public class InitSpeech extends javax.swing.JPanel implements IDialogSelector {
             insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_speech"));
             ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
             //search replace title into question title marker
-            ExternalMacro SearchAndReplaceWithAttrs = ExternalMacroFactory.getMacroDefinition("SearchAndReplaceWithAttributes");
+            String[] speechBookmarkRanges= {"begin-speech_by", "end-speech_by" };
+            
+            ExternalMacro SearchAndReplaceWithAttrs = ExternalMacroFactory.getMacroDefinition("SearchAndReplace2");
             SearchAndReplaceWithAttrs.addParameter("[[SPEECH_BY]]");
             SearchAndReplaceWithAttrs.addParameter(PersonName);
-            SearchAndReplaceWithAttrs.addParameter(strAttrNames);
-            SearchAndReplaceWithAttrs.addParameter(xmlAttrValues);
+            SearchAndReplaceWithAttrs.addParameter(speechBookmarkRanges);
+            SearchAndReplaceWithAttrs.addParameter("Name: "+PersonName+";URI: "+URI);
             ooDocument.executeMacro(SearchAndReplaceWithAttrs.toString(), SearchAndReplaceWithAttrs.getParams());
             returnError(true);
             MessageBox.OK(parent, "Added new Speech element to document, \n please type in the text of the speech.");

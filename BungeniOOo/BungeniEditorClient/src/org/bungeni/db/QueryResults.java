@@ -84,6 +84,10 @@ public class QueryResults {
         return arrayColumns;
     }
     
+    public Vector<String> getColumnsAsVector(){
+        return theColumns;
+    }
+    
     public String[] getSingleColumnResult(String theColumn){
         String[] specificresult = null;
         if (hasResults()) {

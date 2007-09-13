@@ -109,7 +109,7 @@ public class editorApplicationController extends javax.swing.JPanel {
         initFileTableModels(dir);
         initWorkspaceFolderModels(dir);
         initPanels(dir);
-        initWebDav();
+        //initWebDav();
         initDataReader();
     }
     
@@ -713,7 +713,7 @@ public void initDataReader(){
 private void launchFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_launchFrameActionPerformed
             //use template defined in m_settings_CurrentTemplate
             //m_FullTemplatesPath
-    
+            m_settings_CurrentTemplate = "hansard.ott";
             String templateURL = "";
             log.debug("Current Template file :" + m_FullTemplatesPath+File.separatorChar+m_settings_CurrentTemplate);
             initoOoAndLaunchFrame(m_FullTemplatesPath+File.separatorChar+m_settings_CurrentTemplate, true); 

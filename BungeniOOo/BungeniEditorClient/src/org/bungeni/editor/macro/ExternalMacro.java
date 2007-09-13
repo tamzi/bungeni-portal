@@ -74,6 +74,7 @@ public class ExternalMacro {
     public Object[] getParams() { 
         if (params.size() > 0 ) {
             log.debug("getParams : params > 0, size = "+ params.size());
+            
             Object[] paramArray = (Object[])params.toArray(new Object[params.size()]);
             return paramArray;
         } else {

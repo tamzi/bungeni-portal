@@ -75,6 +75,7 @@ public class OOComponentHelper {
     private XComponentContext m_xComponentContext;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(OOComponentHelper.class.getName());
     public static final String ATTRIBUTE_NAMESPACE = "urn:akomantoso:names:tc:opendocument:xmlns:semantic-text:1.0";  
+    private static long MARGIN_MEASURE_BASE = 254;
     /** Creates a new instance of OOComponentHelper */
     public OOComponentHelper(XComponent xComponent, XComponentContext xComponentContext) {
           try {
@@ -336,6 +337,12 @@ public class OOComponentHelper {
         return xNamedSections;
     }
     
+    public boolean hasSection(String sectionName) {
+        if (getTextSections().hasByName(sectionName))
+            return true;
+        else
+            return false;
+    }
     public XComponent getComponent(){
         return this.m_xComponent;
     }
@@ -816,4 +823,7 @@ public Object executeMacro(String strMacroName, Object[] aParams) {
    }
 } 
 
+public long inchesToOOoMeasure (long inches ) {
+    return this.MARGIN_MEASURE_BASE * inches ;
+}
 }

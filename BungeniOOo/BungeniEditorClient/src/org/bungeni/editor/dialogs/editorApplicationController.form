@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.3" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.4" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
@@ -94,8 +94,10 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblCurrentTemplate">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="11" style="1"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
+                  <FontInfo relative="false">
+                    <Font name="Tahoma" size="11" style="1"/>
+                  </FontInfo>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Current Template"/>
               </Properties>
@@ -253,8 +255,10 @@
         </Container>
         <Container class="javax.swing.JPanel" name="tabSettings">
           <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="11" style="1"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
+              <FontInfo relative="false">
+                <Font name="Tahoma" size="11" style="1"/>
+              </FontInfo>
             </Property>
           </Properties>
           <Constraints>
@@ -362,8 +366,10 @@
           <SubComponents>
             <Component class="javax.swing.JLabel" name="lblWorkspacePath">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="11" style="1"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
+                  <FontInfo relative="false">
+                    <Font name="Tahoma" size="11" style="1"/>
+                  </FontInfo>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Workspace Path"/>
               </Properties>
@@ -380,8 +386,10 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="11" style="1"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
+                  <FontInfo relative="false">
+                    <Font name="Tahoma" size="11" style="1"/>
+                  </FontInfo>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Server IP"/>
               </Properties>
@@ -395,8 +403,10 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblServerPort">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="11" style="1"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
+                  <FontInfo relative="false">
+                    <Font name="Tahoma" size="11" style="1"/>
+                  </FontInfo>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Server Port"/>
               </Properties>
@@ -405,8 +415,10 @@
             </Component>
             <Component class="javax.swing.JLabel" name="lblServerHomeDir">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="11" style="1"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
+                  <FontInfo relative="false">
+                    <Font name="Tahoma" size="11" style="1"/>
+                  </FontInfo>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Server Home Directory"/>
               </Properties>
@@ -417,8 +429,10 @@
             </Component>
             <Component class="javax.swing.JCheckBox" name="checkBoxConnectOnStartup">
               <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                  <Font name="Tahoma" size="11" style="1"/>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
+                  <FontInfo relative="false">
+                    <Font name="Tahoma" size="11" style="1"/>
+                  </FontInfo>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Connect to Server on Start Up"/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">

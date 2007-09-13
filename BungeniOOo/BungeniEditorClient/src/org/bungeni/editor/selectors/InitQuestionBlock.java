@@ -20,6 +20,7 @@ import org.bungeni.db.BungeniRegistryFactory;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.GeneralQueryFactory;
 import org.bungeni.db.QueryResults;
+import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.db.registryQueryDialog;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.fragments.FragmentsFactory;
@@ -38,6 +39,7 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
     private OOComponentHelper ooDocument;
     private JDialog parent;
     private BungeniClientDB dbInstance=null;
+    private BungeniClientDB dbSettings=null;
     private toolbarAction theAction;
     registryQueryDialog rqs;
     private SelectorDialogModes theMode;
@@ -58,6 +60,8 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
    
         HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
         dbInstance = new BungeniClientDB(registryMap);
+        dbSettings = new BungeniClientDB(DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
+      
     }
    
     private void initFields() {
@@ -245,6 +249,7 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
         try {
         if (this.theMode == SelectorDialogModes.TEXT_SELECTED) {
             //insert mode
+            log.debug("in selection mode");
             //check if section by that name exists, fail immediately if true
             if (ooDocument.getTextSections().hasByName(QuestionId)) {
                 MessageBox.OK(parent, "The Question: " + QuestionId+" already exists in the document !");
@@ -255,8 +260,28 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             ExternalMacro cursorInSection = ExternalMacroFactory.getMacroDefinition("CursorInSection");
             Object retValue = ooDocument.executeMacro(cursorInSection.toString(), cursorInSection.getParams());
             String sectionNameExists = (String)retValue;
-            if (sectionNameExists.startsWith("question")) {
-                MessageBox.OK(parent, "You cannot insert a question inisde another, \n Please place the cursor in a different part of the document");
+            
+            dbSettings.Connect();
+            QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_GET_SECTION_PARENT(theAction.action_name()));
+            dbSettings.EndConnect();
+            String[] validParentSections = qr.getSingleColumnResult("ACTION_NAMING_CONVENTION");
+            
+            boolean wrongSection = true;
+            int validCounter = 0;
+            for ( ; validCounter < validParentSections.length; validCounter++ ) {
+                if (sectionNameExists.equals(validParentSections[validCounter])) {
+                    wrongSection = false;
+                    break;
+                }
+            }
+        
+            
+            if (wrongSection) {
+                String message = "You cannot insert a question in this section, \n Please place the cursor in a different part of the document, valid sections are: ";
+                for (int i=0; i < validParentSections.length; i++) {
+                    message+=validParentSections[i]+ ", ";
+                }
+                MessageBox.OK(parent, message);
                 returnError(true);
                 return;
             }
@@ -268,13 +293,15 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             returnError(true);
             
         } else if (this.theMode == SelectorDialogModes.TEXT_INSERTION) {
-            
+            log.debug("in insert mode");
              if (ooDocument.getTextSections().hasByName(QuestionId)) {
                 MessageBox.OK(parent, "The Question: " + QuestionId+" already exists in the document !");
                 returnError(true);
                 return;
             }
-            
+          
+         
+            /* 
             ExternalMacro cursorInSection = ExternalMacroFactory.getMacroDefinition("CursorInSection");
             Object retValue = ooDocument.executeMacro(cursorInSection.toString(), cursorInSection.getParams());
             String sectionNameExists = (String)retValue;
@@ -283,7 +310,9 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
                 returnError(true);
                 return;
             }
-            
+            */
+             
+             
             UUIDGenerator gen = UUIDGenerator.getInstance();
             UUID uuid = gen.generateTimeBasedUUID();
             String tmpFileName = uuid.toString().replaceAll("-", "")+".html";
@@ -297,7 +326,19 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             //insert mode
        
             //now add the section
-            ooDocument.addViewSection(QuestionId, new Integer(0xffffe1));
+            // commented on 13 Sep 2007
+            //ooDocument.addViewSection(QuestionId, new Integer(0xffffe1));
+            log.debug("adding section inside section");
+            long sectionBackColor = 0xe6e6cc;
+            float sectionLeftMargin = (float).2;
+            log.debug("section left margin : "+ sectionLeftMargin);
+            ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
+            AddSectionInsideSection.addParameter("qa");
+            AddSectionInsideSection.addParameter(QuestionId);
+            AddSectionInsideSection.addParameter(sectionBackColor);
+            AddSectionInsideSection.addParameter(sectionLeftMargin);
+            ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
+            
             //now add the section Content
             //add question title into section
             ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
@@ -316,9 +357,15 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
                 nCounter++;
                 newSectionName = QuestionId+"-que"+nCounter;
             }
-            ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSection");
+            
+            log.debug("addingSectionInsideSection : queston id="+QuestionId+" , new section name="+newSectionName+" , sectionBackColor="+sectionBackColor+", "+sectionLeftMargin);
+            AddSectionInsideSection.clearParams();
+            sectionBackColor = 0xe6e6e6;
+            sectionLeftMargin = (float).4;
             AddSectionInsideSection.addParameter(QuestionId);
             AddSectionInsideSection.addParameter(newSectionName);
+            AddSectionInsideSection.addParameter(sectionBackColor);
+            AddSectionInsideSection.addParameter(sectionLeftMargin);
             ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
             //import sub section fragment
             insertDocIntoSection.clearParams();
@@ -326,10 +373,15 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_question_text"));
             ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
             //search and replace into fragment
-            SearchAndReplace.clearParams();
-            SearchAndReplace.addParameter("[[QUESTION_FROM]]");
-            SearchAndReplace.addParameter(PersonName);
-            ooDocument.executeMacro(SearchAndReplace.toString(), SearchAndReplace.getParams());
+            String[] arrBookmarkRanges = { "begin-question_from", "end-question_from" };
+            
+            ExternalMacro SearchAndReplace2 = ExternalMacroFactory.getMacroDefinition("SearchAndReplace2");
+            SearchAndReplace2.addParameter("[[QUESTION_FROM]]");
+            SearchAndReplace2.addParameter(PersonName);
+            SearchAndReplace2.addParameter(arrBookmarkRanges);
+            SearchAndReplace2.addParameter("Name: "+PersonName+ ";URI: "+selectionData.get("QUESTION_FROM"));
+            
+            ooDocument.executeMacro(SearchAndReplace2.toString(), SearchAndReplace2.getParams());
       
             //SearchAndReplace.clearParams();
             //SearchAndReplace.addParameter("[[QUESTION_TEXT]]");

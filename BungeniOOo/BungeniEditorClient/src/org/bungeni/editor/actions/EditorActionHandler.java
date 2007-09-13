@@ -19,6 +19,8 @@ import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.selectors.InitDebateRecord;
+import org.bungeni.editor.selectors.InitPapers;
+import org.bungeni.editor.selectors.InitQAsection;
 import org.bungeni.editor.selectors.InitQuestionBlock;
 import org.bungeni.editor.selectors.InitSpeech;
 import org.bungeni.editor.selectors.SelectorDialogModes;
@@ -55,7 +57,7 @@ public class EditorActionHandler implements IEditorActionEvent {
             doMakeNOMSection(action);
         else if (cmd.equals("makeQuestionBlockSection"))
             doMakeQuestionBlockSection(action);
-        else if (cmd.equals("makeQuestionBlockSection"))
+        else if (cmd.equals("makeSpeechBlockSection"))
             doMakeSpeechBlockSection(action);
         else if (cmd.equals("makeSpeechMarkup"))
             doMakeSpeechMarkup(action);
@@ -85,6 +87,9 @@ public class EditorActionHandler implements IEditorActionEvent {
              //initDebaterecord.setPreferredSize(new Dimension(420, 300));
              InitDebateRecord panel = new InitDebateRecord(ooDocument, 
                      initDebaterecord, action);;
+            panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
+            panel.setBackground(new Color(255, 255, 153));
+             initDebaterecord.setTitle("Selection Mode");
              initDebaterecord.getContentPane().add(panel);
              initDebaterecord.pack();
              initDebaterecord.setLocationRelativeTo(null);
@@ -119,7 +124,7 @@ public class EditorActionHandler implements IEditorActionEvent {
      }
      
      
-     private void doMakeSpeechBlock(toolbarAction action) {
+     private void doMakeSpeechBlockSection(toolbarAction action) {
             //section was added now prompt for dialog information
              JDialog makeSpeechBlock;
              makeSpeechBlock = new JDialog();
@@ -219,16 +224,57 @@ public class EditorActionHandler implements IEditorActionEvent {
     }
 
     private void doMakeQASection(toolbarAction action) {
-        throw new UnsupportedOperationException("Not yet implemented");
+            JDialog makeQASection;
+            makeQASection = new JDialog();
+             makeQASection.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+             InitQAsection panel = new InitQAsection(ooDocument,  makeQASection, action);;
+             System.out.println("size of panel : "+panel.getSize().height + " ," + panel.getSize().width  );
+            
+             makeQASection.setSize(348, 314);
+             
+              if (ooDocument.isTextSelected()) {
+                panel.setDialogMode(SelectorDialogModes.TEXT_SELECTED);
+                panel.setBackground(new Color(255, 255, 153));
+                makeQASection.setTitle("Selection Mode");
+              } else {
+                panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
+                panel.setBackground(new Color(204, 255, 153));
+                makeQASection.setTitle("Insertion Mode");
+              }
+             makeQASection.getContentPane().add(panel);
+             makeQASection.pack();
+             makeQASection.setLocationRelativeTo(null);
+             makeQASection.setVisible(true);
+             makeQASection.setAlwaysOnTop(true); 
     }
 
     private void doMakePaperSection(toolbarAction action) {
-        throw new UnsupportedOperationException("Not yet implemented");
+               //section was added now prompt for dialog information
+             JDialog makePaperSection;
+             makePaperSection = new JDialog();
+             makePaperSection.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+             InitPapers panel = new InitPapers(ooDocument,  makePaperSection, action);;
+             System.out.println("size of panel : "+panel.getSize().height + " ," + panel.getSize().width  );
+            
+             makePaperSection.setSize(348, 314);
+             
+              if (ooDocument.isTextSelected()) {
+                panel.setDialogMode(SelectorDialogModes.TEXT_SELECTED);
+                panel.setBackground(new Color(255, 255, 153));
+                makePaperSection.setTitle("Selection Mode");
+              } else {
+                panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
+                panel.setBackground(new Color(204, 255, 153));
+                makePaperSection.setTitle("Insertion Mode");
+              }
+             makePaperSection.getContentPane().add(panel);
+             makePaperSection.pack();
+             makePaperSection.setLocationRelativeTo(null);
+             makePaperSection.setVisible(true);
+             makePaperSection.setAlwaysOnTop(true); 
     }
 
-    private void doMakeSpeechBlockSection(toolbarAction action) {
-        throw new UnsupportedOperationException("Not yet implemented");
-    }
+    
 
     private void doMakeSpeechMarkup(toolbarAction action) {
         throw new UnsupportedOperationException("Not yet implemented");

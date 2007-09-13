@@ -58,6 +58,21 @@ public class SettingsQueryFactory {
                "parent_action='"+byAction+"')";
        return query;        
     }
+    
+    public static String Q_CHECK_IF_ACTION_HAS_PARENT(String actionName) {
+        String query = "select count(parent_action) as the_count  from action_parent " +
+                " where action_name ='"+actionName+"'";
+        return query;
+
+    }
+    
+    public static String Q_GET_SECTION_PARENT (String actionName) {
+        String query = "select action_naming_convention from toolbar_action_settings  " +
+                "where action_name in (select distinct parent_action from action_parent " +
+                "where action_name  = '"+actionName+"')";
+        return query;
+    }
+    
     public static String Q_FETCH_EDITOR_PROPERTY(String propertyName) {
         String query = new String("" +
                 "Select * from general_editor_properties " +

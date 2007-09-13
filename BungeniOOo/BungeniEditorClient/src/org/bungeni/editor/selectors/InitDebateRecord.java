@@ -29,6 +29,7 @@ import org.bungeni.editor.fragments.FragmentsFactory;
 import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.utils.MessageBox;
 
 /**
  *
@@ -82,8 +83,8 @@ public class InitDebateRecord extends javax.swing.JPanel implements IDialogSelec
         lbl_initdate_mastheadlogo = new javax.swing.JLabel();
         btn_initdebate_selectlogo = new javax.swing.JButton();
         lbl_initdebate_hansardtime = new javax.swing.JLabel();
-        btn_initdebate_apply = new javax.swing.JButton();
-        btn_initdebate_cancel = new javax.swing.JButton();
+        btnApply = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
         lbl_initdebate_setpath = new javax.swing.JLabel();
         initdebate_timeofhansard = new javax.swing.JFormattedTextField();
 
@@ -100,17 +101,17 @@ public class InitDebateRecord extends javax.swing.JPanel implements IDialogSelec
 
         lbl_initdebate_hansardtime.setText("Hansard Time");
 
-        btn_initdebate_apply.setText("Apply to Document ");
-        btn_initdebate_apply.addActionListener(new java.awt.event.ActionListener() {
+        btnApply.setText("Apply to Document ");
+        btnApply.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_initdebate_applyActionPerformed(evt);
+                btnApplyActionPerformed(evt);
             }
         });
 
-        btn_initdebate_cancel.setText("Cancel");
-        btn_initdebate_cancel.addActionListener(new java.awt.event.ActionListener() {
+        btnCancel.setText("Cancel");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_initdebate_cancelActionPerformed(evt);
+                btnCancelActionPerformed(evt);
             }
         });
 
@@ -130,9 +131,9 @@ public class InitDebateRecord extends javax.swing.JPanel implements IDialogSelec
                             .add(org.jdesktop.layout.GroupLayout.LEADING, btn_initdebate_selectlogo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(org.jdesktop.layout.GroupLayout.LEADING, lbl_initdate_mastheadlogo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
                             .add(org.jdesktop.layout.GroupLayout.LEADING, lbl_initdebate_hansardtime, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, btn_initdebate_apply, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 138, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, btnApply, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 138, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btn_initdebate_cancel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(btnCancel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
@@ -159,26 +160,61 @@ public class InitDebateRecord extends javax.swing.JPanel implements IDialogSelec
                 .add(lbl_initdebate_setpath, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(btn_initdebate_apply)
-                    .add(btn_initdebate_cancel))
+                    .add(btnApply)
+                    .add(btnCancel))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_initdebate_applyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_initdebate_applyActionPerformed
+   
+    private void enableButtons(boolean state) {
+        btnApply.setEnabled(state);
+        btnCancel.setEnabled(state);
+    }
+    private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
 // TODO add your handling code here:
         //get field values : 
+    enableButtons(false);    
+    
     String strDebateDate = "", strTimeOfHansard = "", strLogoPath = "";   
     Date dtDebate = initdebate_debatedate.getDate();
     strTimeOfHansard =  initdebate_timeofhansard.getText();
     SimpleDateFormat formatter = new SimpleDateFormat ("MMMM dd yyyy");
     strDebateDate = formatter.format(dtDebate);
     strLogoPath = m_strLogoPath;
+    //do checks 
+    if (!ooDocument.hasSection("root")){
+        MessageBox.OK(parent, "The document does not have a root section, and cannot be used!" );
+        enableButtons(true);
+        return;
+    }
+    
+    if (ooDocument.hasSection(theAction.action_naming_convention())) {
+        MessageBox.OK(parent, "This document already has a mast head, you cannot add a second one!");
+        enableButtons(true);
+        return;
+    }
+    
     //adding section
    if (theAction.action_type().equals("section")) {
         //create a text section
+        //add section inside section
+        //rem 254 is = .1 inch
+        //rem 508 is = .2 inch
+        long sectionBackColor = 0xe6e6e6;
+        float sectionLeftMargin = (float).2;
+        log.debug("section left margin : "+ sectionLeftMargin);
+        ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
+        AddSectionInsideSection.addParameter("root");
+        AddSectionInsideSection.addParameter(theAction.action_naming_convention());
+        AddSectionInsideSection.addParameter(sectionBackColor);
+        AddSectionInsideSection.addParameter(sectionLeftMargin);
+        
+        ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
+      
         //load the related document
         //set the field values in loaded document
+        /*
            String sectionClass = "com.sun.star.text.TextSection";
            XTextViewCursor xCursor = ooDocument.getViewCursor();
            XText xText = xCursor.getText();
@@ -186,9 +222,10 @@ public class InitDebateRecord extends javax.swing.JPanel implements IDialogSelec
             try {
              xText.insertTextContent(xCursor, xSectionContent , true);
             } catch (com.sun.star.lang.IllegalArgumentException ex) {
+                btnApply.setEnabled(true);
             log.debug("in addTextSection : "+ex.getLocalizedMessage(), ex);
             } 
-           
+          */ 
             //embed logo image
              ExternalMacro addImageIntoSection = ExternalMacroFactory.getMacroDefinition("AddImageIntoSection");
              addImageIntoSection.addParameter(theAction.action_naming_convention());
@@ -208,12 +245,13 @@ public class InitDebateRecord extends javax.swing.JPanel implements IDialogSelec
             ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());
    
             setFieldValue.clearParams();
-            setFieldValue.addParameter(new String("debaterecord_hansard_time"));
+            setFieldValue.addParameter(new String("debaterecord_official_time"));
             setFieldValue.addParameter(strTimeOfHansard);
             ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());
-   
+           
    }       
-    
+   enableButtons(true);
+   MessageBox.OK(parent, "Prayers section was successfully added");
     //ooDocument.executeDispatch("")
         //added Section, now execute Macros
         //load template document into main document
@@ -227,7 +265,7 @@ public class InitDebateRecord extends javax.swing.JPanel implements IDialogSelec
     */
    
       
-    }//GEN-LAST:event_btn_initdebate_applyActionPerformed
+    }//GEN-LAST:event_btnApplyActionPerformed
 
     private void btn_initdebate_selectlogoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_initdebate_selectlogoActionPerformed
 // TODO add your handling code here:
@@ -253,10 +291,10 @@ public class InitDebateRecord extends javax.swing.JPanel implements IDialogSelec
         }
     }//GEN-LAST:event_btn_initdebate_selectlogoActionPerformed
 
-    private void btn_initdebate_cancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_initdebate_cancelActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
 // TODO add your handling code here:
         parent.dispose();
-    }//GEN-LAST:event_btn_initdebate_cancelActionPerformed
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     public void setDialogMode(SelectorDialogModes mode) {
         
@@ -277,8 +315,8 @@ public class InitDebateRecord extends javax.swing.JPanel implements IDialogSelec
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_initdebate_apply;
-    private javax.swing.JButton btn_initdebate_cancel;
+    private javax.swing.JButton btnApply;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btn_initdebate_selectlogo;
     private org.jdesktop.swingx.JXDatePicker initdebate_debatedate;
     private javax.swing.JFormattedTextField initdebate_timeofhansard;

@@ -89,8 +89,11 @@ class BungeniTeamSpace(BaseContent, TeamSpace):
     def getAllTeamsDisplayList(self):
         """
         """
-        team_tool = getToolByName(self, 'portal_bungeniteamstool')
-        # TODO constrain this based on portal_type or something
+        # TODO constrain this based on portal_type or something. The
+        # idea is that e.g. a Committee workspace can only be associated
+        # with types of committees and certain offices. See
+        # http://code.google.com/p/bungeni-portal/issues/detail?id=80
+        team_tool = getToolByName(self, 'portal_teams')
         display_vars = tuple([(team.UID(), team.title_or_id()) for team in team_tool.getTeams(self.portal_type)])
         return DisplayList(display_vars)
 
@@ -99,8 +102,10 @@ class BungeniTeamSpace(BaseContent, TeamSpace):
         """
         edit the teams associated with this teamspace, defer to schema mutator
         """
+        # TODO. See
+        # http://code.google.com/p/bungeni-portal/issues/detail?id=80
         team_ids = filter(None, team_ids)
-        teams_tool = getToolByName(self, 'portal_bungeniteamstool')
+        teams_tool = getToolByName(self, 'portal_teams')
         team_uids = [ teams_tool._getOb(tid).UID() for tid in team_ids \
                       if teams_tool._getOb(tid, None)]
         return self.Schema()['space_teams'].getMutator(self)(team_uids)

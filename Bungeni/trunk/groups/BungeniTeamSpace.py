@@ -94,7 +94,7 @@ class BungeniTeamSpace(BaseContent, TeamSpace):
         # with types of committees and certain offices. See
         # http://code.google.com/p/bungeni-portal/issues/detail?id=80
         team_tool = getToolByName(self, 'portal_teams')
-        display_vars = tuple([(team.UID(), team.title_or_id()) for team in team_tool.getTeams(self.portal_type)])
+        display_vars = tuple([(team.UID(), team.title_or_id()) for team in team_tool.getTeams()])
         return DisplayList(display_vars)
 
     security.declarePublic('editTeams')

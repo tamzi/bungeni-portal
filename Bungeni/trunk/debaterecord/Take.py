@@ -35,9 +35,16 @@ from Products.Bungeni.interfaces.ITake import ITake
 from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
+# additional imports from tagged value 'import'
+from appy.pod import renderer
+
 ##code-section module-header #fill in your manual code here
+import os
+import time
+import tempfile
 from Products.Archetypes.utils import DisplayList
 from Products.CMFCore.utils import getToolByName
+import Products.Bungeni
 ##/code-section module-header
 
 schema = Schema((
@@ -51,7 +58,7 @@ schema = Schema((
             label_msgid='Bungeni_label_RotaItem',
             i18n_domain='Bungeni',
         ),
-        multiValued=1,
+        multiValued=0,
         relationship='take_rotaitem'
     ),
 
@@ -138,11 +145,59 @@ class Take(BaseFolder, ATFile):
         else:
             return []
 
+    security.declarePublic('getNotAddableTypes')
+    def getNotAddableTypes(self):
+        """ A take can have only one transcription.
+        """
+        transcription = self.contentIds(
+                filter={'portal_type': 'TakeTranscription'})
+        if transcription:
+            return ['TakeTranscription', ]
+        return []
+
+    security.declarePrivate('_generateTakeTranscription')
+    def _generateTakeTranscription(self):
+        """
+        """
+        # Get our associated RotaItem
+        self.setRotaItem(self.REQUEST.form['RotaItem'])
+        ri = self.getRotaItem()
+
+        # Add a new transcription
+        t_id = self.generateUniqueId('TakeTranscription')
+        self.invokeFactory('TakeTranscription', t_id,
+                title=self.getRotaItem().Title())
+        tt = self[t_id]
+
+        # Use a template to generate a new document
+        from ipdb import set_trace; set_trace()
+        # fd, fn = tempfile.mkstemp()
+        tempFileName = '/tmp/%s.%f.%s' % (self._at_uid, time.time(), 'odt')
+        r = renderer.Renderer(
+                '%s/taketranscription.odt' % os.path.dirname(
+                    Products.Bungeni.__file__),
+                {'InsertedText': ri.Title()},
+                tempFileName)
+        r.run()
+
+        # Set that document on our transcription
+        new_file = open(tempFileName, 'rb')
+        tt.setFile(new_file)
+        os.remove(tempFileName)
+
 
 registerType(Take, PROJECTNAME)
 # end of class Take
 
 ##code-section module-footer #fill in your manual code here
+def addedTake(obj, event):
+    """ After the Take has been added, populate it with a TakeTranscription.
+    """
+    if obj.isTemporary():
+        #DBG log('addedRotaFolder> Not yet!')
+        return
+
+    obj._generateTakeTranscription()
 ##/code-section module-footer
 
 

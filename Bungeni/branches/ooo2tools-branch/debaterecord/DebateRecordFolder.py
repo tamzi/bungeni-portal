@@ -116,13 +116,21 @@ class DebateRecordFolder(BaseFolder, HelpCenterReferenceManualFolder, BungeniTea
         parameters for it.
         """
         rota_tool = getToolByName(self, 'portal_rotatool')
-        if ((not rota_tool.getReportingLeadTime()) or 
-                (not rota_tool.getTakeLength()) or 
-                (not rota_tool.getExtraTakes()) or 
+        if ((not rota_tool.getReportingLeadTime()) or
+                (not rota_tool.getTakeLength()) or
+                (not rota_tool.getExtraTakes()) or
                 (not rota_tool.getAvailableReporters())
                 ):
             return ['RotaFolder', ]
         return []
+
+    security.declareProtected(permissions.View, 'getItemsByAudiencesAndSections')
+    def getItemsByAudiencesAndSections(self, **kwargs):
+        """ Narrow search to allowed PHC types.
+        """
+        query = {'portal_type': ['HelpCenterReferenceManual', ]}
+        query.update(kwargs)
+        return HelpCenterReferenceManualFolder.getItemsByAudiencesAndSections(self, **query)
 
 
 registerType(DebateRecordFolder, PROJECTNAME)
@@ -130,6 +138,9 @@ registerType(DebateRecordFolder, PROJECTNAME)
 
 ##code-section module-footer #fill in your manual code here
 def addedDebateRecordFolder(obj, event):
+    """ A DebateRecordFolder is always associated with teams of type
+    DebateRecordOffice by default.
+    """
     if obj.isTemporary():
         #DBG log('addedRotaFolder> Not yet!')
         return

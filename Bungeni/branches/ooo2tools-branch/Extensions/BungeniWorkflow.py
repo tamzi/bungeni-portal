@@ -170,10 +170,10 @@ def setupBungeniWorkflow(self, workflow):
                            ['Authenticated', 'Manager', 'Reviewer'])
     stateDef.setPermission('Bungeni: Add Amendment',
                            0,
-                           ['Manager', 'CurrentMP'])
+                           ['Manager', 'CurrentMP', 'Owner'])
     stateDef.setPermission('Bungeni: Add Question',
                            0,
-                           ['Manager', 'CurrentMP'])
+                           ['Manager', 'CurrentMP', 'Owner'])
     stateDef.setPermission('Bungeni: Add HansardFolder',
                            0,
                            ['Manager'])
@@ -185,13 +185,13 @@ def setupBungeniWorkflow(self, workflow):
                            ['Manager'])
     stateDef.setPermission('Bungeni: Add Motion',
                            0,
-                           ['Manager', 'CurrentMP'])
+                           ['Manager', 'CurrentMP', 'Owner'])
     stateDef.setPermission('Add portal content',
                            0,
-                           ['Manager', 'CurrentMP'])
+                           ['Manager', 'CurrentMP', 'Owner'])
     stateDef.setPermission('Modify portal content',
                            0,
-                           ['Manager', 'CurrentMP'])
+                           ['Manager', 'CurrentMP', 'Owner'])
 
     ## Transitions initialization
 

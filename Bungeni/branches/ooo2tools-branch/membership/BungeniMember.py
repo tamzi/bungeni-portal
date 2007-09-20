@@ -146,6 +146,15 @@ schema = Schema((
         )
     ),
 
+    BooleanField(
+        name='ext_editor',
+        widget=BooleanField._properties['widget'](
+            label='Ext_editor',
+            label_msgid='Bungeni_label_ext_editor',
+            i18n_domain='Bungeni',
+        )
+    ),
+
 ),
 )
 

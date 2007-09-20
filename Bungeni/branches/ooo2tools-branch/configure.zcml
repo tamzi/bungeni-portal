@@ -14,4 +14,10 @@
         handler="Products.Bungeni.debaterecord.DebateRecordFolder.addedDebateRecordFolder"
         />
 
+    <subscriber
+        for="Products.Bungeni.interfaces.ITake.ITake
+            zope.app.container.interfaces.IObjectAddedEvent"
+        handler="Products.Bungeni.debaterecord.Take.addedTake"
+        />
+
 </configure>

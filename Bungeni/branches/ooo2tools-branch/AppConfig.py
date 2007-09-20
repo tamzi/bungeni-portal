@@ -12,6 +12,7 @@ DEPENDENCIES = [
         'Relations',
         'OrderableReferenceField',
         'Plone4ArtistsAudio',
+        'OOo2Tools',
         ]
 
 # Products that we want to use alongside Bungeni

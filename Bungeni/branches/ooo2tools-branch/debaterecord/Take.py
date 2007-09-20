@@ -51,7 +51,7 @@ schema = Schema((
             label_msgid='Bungeni_label_RotaItem',
             i18n_domain='Bungeni',
         ),
-        multiValued=1,
+        multiValued=0,
         relationship='take_rotaitem'
     ),
 
@@ -138,11 +138,55 @@ class Take(BaseFolder, ATFile):
         else:
             return []
 
+    security.declarePublic('getNotAddableTypes')
+    def getNotAddableTypes(self):
+        """ A take can have only one transcription.
+        """
+        transcription = self.contentIds(
+                filter={'portal_type': 'TakeTranscription'})
+        if transcription:
+            return ['TakeTranscription', ]
+        return []
+
+    security.declarePrivate('_generateTakeTranscription')
+    def _generateTakeTranscription(self):
+        """
+        """
+        oo2_tool = getToolByName(self, 'portal_ooo2server')
+
+        self.setRotaItem(self.REQUEST.form['RotaItem'])
+        ri = self.getRotaItem()
+        t_id = self.generateUniqueId('TakeTranscription')
+        self.invokeFactory('TakeTranscription', t_id,
+                title='Transcription by %s'%self.getRotaItem().Title())
+        tt = self[t_id]
+        macro = oo2_tool.get_new_macro()
+        #DBG: need a proper place for the templates:
+        template = oo2_tool.get_template_byname('taketranscription')
+        macro.add_open_cmd(document=template,name='transcription')
+        macro.add_cmd('set_title', 'Transcription of %s'%ri.Title())
+        #DBG: This is just an arbitrary test-document
+        insert_file = self.portal_catalog(id='sometext.odt')[0].getObject() #DBG
+        macro.add_cmd('insert_file',atfile=insert_file,filename='fn')
+        macro.add_save_cmd(name='my_transcription')
+        #DBG: This dies ..
+        oo2_tool.execute_macro(macro)
+        saved_file = macro.get_content('my_transcription')
+        tt.setFile(saved_file)
+
 
 registerType(Take, PROJECTNAME)
 # end of class Take
 
 ##code-section module-footer #fill in your manual code here
+def addedTake(obj, event):
+    """ After the Take has been added, populate it with a TakeTranscription.
+    """
+    if obj.isTemporary():
+        #DBG log('addedRotaFolder> Not yet!')
+        return
+
+    obj._generateTakeTranscription()
 ##/code-section module-footer
 
 

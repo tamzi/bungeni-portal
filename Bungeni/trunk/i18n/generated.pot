@@ -474,6 +474,11 @@ msgstr ""
 msgid "Bungeni_label_eventType"
 msgstr ""
 
+#. Default: "Ext_editor"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_ext_editor"
+msgstr ""
+
 #. Default: "First name"
 #: membership/BungeniMember.py
 msgid "Bungeni_label_firstname"

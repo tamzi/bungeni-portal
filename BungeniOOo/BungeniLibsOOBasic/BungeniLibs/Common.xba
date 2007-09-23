@@ -33,29 +33,20 @@ rem	AddTextToSectionWithCharStyle &quot;question-1&quot;, &quot;Mr.Kofa&quot;, &
 rem	AddTextToSection &quot;question-1&quot;, &quot; : Ministry of Tourism&quot;, &quot;question&quot;
 
 rem SearchAndReplace &quot;Some Text&quot;, &quot;This Text&quot;
-rem  AddSectionInsideSection &quot;Section1&quot;, &quot;Section2-Section1&quot;
+rem AddSectionInsideSection &quot;qa&quot;, &quot;question4&quot;
 rem InsertHTMLDocumentIntoSection &quot;Section1&quot;, &quot;e:\htmlFragment.html&quot;, &quot;Heading 1&quot;
 rem dim oSect
 rem oSect = ThisComponent.getTextSections().getByName(&quot;Section1&quot;)
- Dim ArrValues(1) as New com.sun.star.xml.AttributeData
- Dim ArrNames(1) as String
- ArrNames(0) = &quot;Attr1&quot;
- ArrNames(1) = &quot;Attr2&quot;
 
- With ArrValues(0)
-    .Namespace = &quot;&quot;
-    .Type = &quot;CDATA&quot;
-    .Value = &quot;test1&quot;
- End With
-  With ArrValues(1)
-   .Namespace = &quot;&quot;
-   .Type = &quot;CDATA&quot;
-   .Value = &quot;test2&quot;
- End With
-AddSectionInsideSectionWithAttributes &quot;Section1&quot;, &quot;Section21&quot;, ArrNames, ArrValues
-  
+rem  	InsertDocumentIntoSection &quot;Section1&quot;, &quot;E:\projects\WorkingProjects\BungeniEditorClient\dist\settings\fragments\new_hansard_question.odt&quot;
+rem  	SearchAndReplace2 &quot;[[QUESTION_TITLE]]&quot;, &quot;new text&quot;
   	
 rem AddAttributesToContainer (oSect.UserDefinedAttributes, ArrNames(), ArrValues() )
+
+Dim arr() 
+arr() = Array(&quot;begin0&quot;, &quot;end0&quot;)
+
+rem SearchAndReplace2 &quot;less&quot;, &quot;more&quot;, arr(), &quot;myurl&quot;
 End Sub
 
       
@@ -224,13 +215,49 @@ Sub AddSectionInsideSection ( innerSection as String,  newSection as String )
 
 End Sub
 
+Sub AddSectionInsideSectionWithStyle ( innerSection as String,  newSection as String, backgroundColor as Long, sectionLeftIndentInches as Single )
+  Dim oSect
+  If ThisComponent.getTextSections().hasByName(innerSection) Then
+  	  oSect = ThisComponent.getTextSections().getByName(innerSection)
+       rem XRay oSect
+  	    Dim sectionText , sectionCurs
+    	sectionCurs = ThisComponent.getText().createTextCursor()
+        sectionCurs.gotoRange(oSect.getAnchor(), false)
+        Dim endRange, endCursor
+        endRange = sectionCurs.getEnd()
+      
+        endCursor = endRange.getText().createTextCursorByRange(endRange.getStart())
+        Dim newSect, oCols
+        newSect = ThisComponent.createInstance(&quot;com.sun.star.text.TextSection&quot;)
+   		newSect.setName(newSection)
+   		REM Now, create the columns...
+     	oCols = ThisComponent.createInstance(&quot;com.sun.star.text.TextColumns&quot;)
+    	oCols.setColumnCount(1)
+    	newSect.TextColumns = oCols
+    	newSect.BackColor = backgroundColor
+    	newSect.SectionLeftMargin = sectionLeftIndentInches * 10 * 254
+        endCursor.getText().insertTextContent( endCursor, newSect, false)
+        
+        Dim oPar
+        oPar = ThisComponent.createInstance(&quot;com.sun.star.text.Paragraph&quot;) 
+        
+        endCursor.getText().insertTextContentAfter (oPar, newSect)
+  End If
+
+End Sub
+
 Sub InsertHTMLDocumentIntoSection(sName$, sFileUrl$ , sStyleApply$)
  sFileUrl = ConvertToURL(sFileUrl)
    rem now iterate through the section 
   Dim oSect
+  Dim viewCur 
+  
+  viewCur = ThisComponent.currentcontroller.getviewcursor
+  
   If ThisComponent.getTextSections().hasByName(sName) Then
   	  oSect = ThisComponent.getTextSections().getByName(sName)
        rem XRay oSect
+       
   	    Dim sectionText , sectionCurs
     	sectionCurs = ThisComponent.getText().createTextCursor()
         sectionCurs.gotoRange(oSect.getAnchor(), false)
@@ -444,6 +471,81 @@ Sub SetParagraphStyle
   Next
 End Sub
 
+Sub SearchAndReplace2 (searchFor as string, replaceWith as String, bookmarkRange(), URLStr as String)
+    
+    Dim oBookmarkBegin, oBookmarkEnd
+    oBookmarkBegin = ThisComponent.getBookmarks().getByName(bookmarkRange(LBound(bookmarkRange))
+    oBookmarkEnd = ThisComponent.getBookmarks().getByName(bookmarkRange(UBound(bookmarkRange))
+ 	
+ 	Dim beginAnchor, statCurs
+    beginAnchor = oBookmarkBegin.getAnchor()
+    statCurs = beginAnchor.getText().createTextCursorByRange(beginAnchor.getStart())
+    statCurs.gotoRange(oBookmarkEnd.getAnchor().getStart(), true)
+    Dim cursorStr as string
+    cursorStr =  statCurs.getString()
+    Dim newStr as String
+    newStr = ReplaceSubstring(cursorStr, searchFor, replaceWith)
+    statCurs.setString(newStr)
+    statCurs.CharBackColor = RGB (255, 255, 192)
+    statCurs.HyperLinkURL = &quot;#&quot;+ URLStr
+    rem oBookmarkBegin.dispose()
+    oBookmarkEnd.dispose()
+    
+End Sub
+
+Sub InsertArrayAsBulletList (bookmarkAnchor as String, selectItemsArray() , listItemURIs()  )
+
+	Dim oDoc,  oText, oCur
+	Dim bookmarkBegin, beginAnchor
+	oDoc = ThisComponent
+	bookmarkBegin = oDoc.getBookmarks().getByName(bookmarkAnchor)
+	beginAnchor = bookmarkBegin.getAnchor()
+	
+    oText = beginAnchor.getText()
+    oCur=oText.createTextCursorByRange(beginAnchor.getStart())
+
+
+	
+	Dim i 
+	
+	For i=LBound(selectItemsArray) to UBound(selectItemsArray)
+	  oCur.HyperLinkURL=&quot;http://akomantoso.org/resolver/&quot;+ listItemURIs(i)
+	  oText.insertString(oCur,  selectItemsArray(i) , False)
+	  &apos;oCur.CharWeight = com.sun.star.awt.FontWeight.BOLD
+	  &apos;oCur.gotoEndOfSentence(False)
+	  &apos;oCur.CharWeight = com.sun.star.awt.FontWeight.NORMAL 
+ 	  oText.insertControlCharacter(oCur, com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
+	Next i
+	
+	Dim oNumRules
+	
+	oNumRules = ThisComponent.createInstance(&quot;com.sun.star.text.NumberingRules&quot;)
+
+	Dim mLevel, k, vProperty
+	
+	mLevel = oNumRules.getByIndex(0)
+	For k = LBound(mLevel) To UBound(mLevel)
+          vProperty = mLevel(k)
+          If (vProperty.Name = &quot;NumberingType&quot;) Then
+            &apos;and give it the passed Format
+            vProperty.Value = com.sun.star.style.NumberingType.CHAR_SPECIAL
+            oNumRules.replaceByIndex(0, mLevel)
+          End If 
+          &apos;mLevel(k) = vProperty
+	next
+
+oCur.gotoPreviousParagraph(False)
+	
+oCur.gotoRange(beginAnchor.getStart(), true)
+rem	Dim l
+rem	For l=LBound(selectItemsArray) to UBound(selectItemsArray)
+rem		oCur.gotoPreviousParagraph(True)
+rem	Next l
+oCur.setPropertyValue(&quot;NumberingRules&quot;, oNumRules)	
+
+
+End Sub
+
 Sub SearchAndReplace (searchFor as string, replaceWith as string)
 	Dim oReplace
   	oReplace = ThisComponent.createReplaceDescriptor() 
@@ -451,6 +553,7 @@ Sub SearchAndReplace (searchFor as string, replaceWith as string)
   	oReplace.SearchString = searchFor
     oReplace.ReplaceString = replaceWith 
     ThisComponent.ReplaceAll(oReplace)
+    
 End Sub
 
 
@@ -548,4 +651,185 @@ Function AddAttribute(AttributeContainer As com.sun.star.xml.AttributeContainer,
 
   AddAttribute = AttributeContainer
 End Function
+
+
+Function ReplaceSubstring(sourcestr As String, fromstr As String, tostr As String) As String
+   &apos; This function replaces characters in a string. Take all the occurrences of &quot;fromstr&quot;
+   &apos; in the source string and replace them with &quot;tostr&quot;
+   Dim tempstr As String
+   Dim convstr As String
+   Dim i As Long
+   Dim length As Long
+   tempstr = sourcestr
+   If Len(fromstr) = 0 Then
+      ReplaceSubstring = sourcestr
+      Exit Function
+   End If
+   If Instr(tostr, fromstr) &lt;&gt; 0 Then &apos; If, for example, &quot;\&quot; is being replaced with &quot;\\&quot;
+      &apos; Find a character (or set) that is not in the source string.
+      &apos; Try the extended characters (over 128 ASCII)
+      i = 128
+      length = 1
+      convstr = &quot;&quot;
+      While convstr = &quot;&quot;
+         If Instr(tempstr, String$(length, Chr$(i))) = 0 Then convstr = String$(length, Chr$(i))
+         i = i + 1
+         If i = 256 Then &apos; If all the extended characters were in there
+            length = length + 1 &apos; Start over, but try 2 extended characters (or 3 or 4)
+            i = 128
+         End If
+      Wend
+      &apos; Go through tempstr twice - once replacing fromstr with the computed
+      &apos; string, then replacing the computed string with tostr
+      While Instr(tempstr, fromstr) &lt;&gt; 0
+         tempstr = Left(tempstr, Instr(tempstr, fromstr)-1) &amp; convstr _
+         &amp; Mid(tempstr, Instr(tempstr, fromstr)+Len(fromstr))
+      Wend
+      While Instr(tempstr, convstr) &lt;&gt; 0
+         tempstr = Left(tempstr, Instr(tempstr, convstr)-1) &amp; tostr _
+         &amp; Mid(tempstr, Instr(tempstr, convstr)+Len(convstr))
+      Wend
+   Else &apos; It&apos;s a normal replace substring call - fromstr is not part of tostr
+      While Instr(tempstr, fromstr) &lt;&gt; 0
+         tempstr = Left(tempstr, Instr(tempstr, fromstr)-1) &amp; tostr _
+         &amp; Mid(tempstr, Instr(tempstr, fromstr)+Len(fromstr))
+      Wend
+   End If
+   ReplaceSubstring = tempstr
+End Function
+
+
+
+Const MOVESECTION_BEFORE = 0
+Const MOVESECTION_AFTER = 1
+
+Sub MoveSection (moveThisSection as string, fixedSection as string, beforeOrAfter as Integer)
+   rem get handles
+   Dim oDoc, oViewCurs, NoArg()
+   oDoc = ThisComponent
+   oViewCurs = ThisComponent.CurrentController.getViewCursor
+   oText = oDoc.getText()
+   
+   rem Get all sections
+   sections=oDoc.getTextSections()
+   
+   rem get handle to section that is to be moved
+   Dim sectMoveThis, sectMoveThisRange
+   Dim sectMoveThisBeginCurs, sectMoveThisEndCurs
+   sectMoveThis = sections.getByName(moveThisSection)
+   sectMoveThisRange = sectMoveThis.getAnchor()
+   sectMoveThisBeginCurs = sectMoveThisRange.getText().createTextCursorByRange(sectMoveThisRange.getStart())
+   
+   rem sectMoveThisEndCurs = sectMoveThisRange.getText().createTextCursorByRange(sectMoveThisRange.getEnd())
+   rem oViewCurs.gotoRange(sectMoveThisRange.getStart(), false)
+   rem oViewCurs.gotoRange(sectMoveThisRange.getEnd(), true)
+   
+   rem select section to be moved
+   oDoc.CurrentController.Select(sectMoveThisRange)
+   
+   rem create the DispatcherService 
+   oDisp = createUnoService(&quot;com.sun.star.frame.DispatchHelper&quot;) 
+   rem copy the current selection to the clipboard. 
+   oDisp.executeDispatch(ThisComponent.CurrentController, &quot;.uno:Copy&quot;, &quot;&quot;, 0, NoArg()) 
+   &apos; section content in clipboard now....
+   &apos; now remove the section and its contents
+   &apos; and recreate it in another place
+   rem save section backcolor, leftmargin and rightmargin
+   rem we will set these back to the recreated section boilerplate
+   Dim backColor, sectionLeft, sectionRight
+   backColor = sectMoveThis.BackColor
+   sectionLeft = sectMoveThis.SectionLeftMargin
+   sectionRight = sectMoveThis.SectionRightMargin
+   
+   rem remove the section to be moved
+   RemoveSectionAndContents moveThisSection
+   
+   rem get handle to section before which we are moving the first section 
+   Dim sectFixed, sectFixedRange
+   Dim sectFixedCurs 
+   sectFixed = sections.getByName(fixedSection)
+   sectFixedRange = sectFixed.getAnchor()
+   sectFixedCurs = sectFixedRange.getText().createTextCursorByRange(sectFixedRange.getEnd())
+   
+   
+   rem create new sectio with the same name, and identical properites
+   dim newSect, newSectColumns, newPara
+   newSect = oDoc.createInstance(&quot;com.sun.star.text.TextSection&quot;)
+   newSect.setName (moveThisSection)
+   newSectColumns = ThisComponent.createInstance(&quot;com.sun.star.text.TextColumns&quot;)
+   newSectColumns.setColumnCount(1)
+   newSect.TextColumns = newSectColumns
+   newSect.BackColor=backColor
+   newSect.SectionLeftMargin = sectionLeft
+   newSect.SectionRightMargin = sectionRight
+   rem we have to create a new paragraph first at the point where we want to insert the section
+   rem this is to create a place where the cursor can go and paste the contents of the copied section
+   newPara = ThisComponent.createInstance(&quot;com.sun.star.text.Paragraph&quot;)
+   rem create paragraph
+   if (beforeOrAfter = MOVESECTION_BEFORE ) Then
+ 	  oText.insertTextContentBefore ( newPara, sectFixed)
+   Elseif (beforeOrAfter = MOVESECTION_AFTER ) Then 
+   	  oText.InsertTextContentAfter (newPara, sectFixed)	
+   End if
+   
+   rem select the section before which we want to move our section
+   rem and goleft for  1 character, this will move the cursor to the point
+   rem just before the section
+  
+   If (beforeOrAfter = MOVESECTION_BEFORE) Then
+   
+    oViewCurs.gotoRange(sectFixedRange.getStart(), false)
+   	oViewCurs.goleft(1, false)
+   
+   ElseIf (beforeOrAfter = MOVESECTION_AFTER) Then
+   
+    oViewCurs.gotoRange(sectFixedRange.getEnd(), false)
+    oViewCurs.goRight(1, false)
+   
+   End If
+   
+   rem insert the section at the currently moved cursor position
+   oText.insertTextContent(oViewCurs, newSect, true)
+   rem after creating the section, the cursor moves 1 character after
+   rem the section, so we move one character to the left to move inside
+   rem the newly created section
+   oViewCurs.goLeft(1, false)
+   rem now paste the previously copied section contents into the newly created section
+   oDisp.executeDispatch(ThisComponent.CurrentController, &quot;.uno:Paste&quot;, &quot;&quot;, 0, NoArg()) 
+ 
+   rem docText.insertTextContentBefore (newSect, sectFixed)
+   rem oViewCurs.gotoRange(sectFixed.getStart() , false)
+  rem sectFixedCurs =  sectFixedRange.getText().createTextCursorByRange(sectFixedRange.getStart())
+  rem sectFixedCurs.goLeft(1, false)
+  rem sectFixedCurs.getText().insertTextContent(sectFixedCurs, newSect, False)
+  
+   
+End Sub 
+
+
+Sub RemoveSectionAndContents (sectionName as string )
+
+  Dim section as Object
+  section = thisComponent.getTextSections().getByName(sectionName)
+  &apos; make section visible to be able to remove its TextContents
+  aTextRange=section.getAnchor()
+  &apos; Remove all TextContent of the section
+  xEnum = aTextRange.createContentEnumeration( &quot;com.sun.star.text.TextContent&quot; )
+  While xEnum.hasMoreElements()
+            &apos;print xEnum.nextElement().Name
+            oText.removeTextContent(xEnum.nextElement())
+  Wend
+  &apos; remove text of section
+ 
+  aTextRange.setString(&quot;&quot;)
+   
+  Dim rangeCursBegin
+  rangeCurs = aTextRange.getText().createTextCursorByRange(aTextRange.getStart())
+  rangeCurs.gotoRange(aTextRange.getEnd(), true)
+  rangeCurs.setPropertyValue(&quot;ParaStyleName&quot;, &quot;Default&quot;)
+  
+  &apos; Remove the section
+  ThisComponent.getText().removeTextContent(section)
+  
+End Sub
 </script:module>

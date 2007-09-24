@@ -62,7 +62,7 @@ class LongDocumentSection(BaseFolder, HelpCenterReferenceManualSection):
 
     meta_type = 'LongDocumentSection'
     portal_type = 'LongDocumentSection'
-    allowed_content_types = ['LongDocumentPage', 'ATFile', 'ATImage', 'Take']
+    allowed_content_types = ['LongDocumentPage', 'ATImage', 'ATFile']
     filter_content_types = 1
     global_allow = 0
     #content_icon = 'LongDocumentSection.gif'

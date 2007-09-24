@@ -229,8 +229,12 @@
 	border-color: orange;
 }
 
+.hentry .notes li.editing-note {
+	border-color: red;
+}
+
 .hentry .entry-content em.editing-note {
-	outline: red 1px solid;
+	outline: red 2px solid;
 }
 
 .hentry .notes li button.expand-edit {

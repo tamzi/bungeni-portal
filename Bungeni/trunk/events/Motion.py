@@ -77,7 +77,7 @@ class Motion(BaseFolder, ParliamentaryEvent):
 
     meta_type = 'Motion'
     portal_type = 'Motion'
-    allowed_content_types = ['Vote', 'Amendment', 'VoteCount', 'VoteSummary'] + list(getattr(ParliamentaryEvent, 'allowed_content_types', []))
+    allowed_content_types = ['Amendment'] + list(getattr(ParliamentaryEvent, 'allowed_content_types', []))
     filter_content_types = 1
     global_allow = 1
     #content_icon = 'Motion.gif'

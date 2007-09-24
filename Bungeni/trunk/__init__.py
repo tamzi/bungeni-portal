@@ -77,7 +77,6 @@ def initialize(context):
     import bills
     import debaterecord
     import groups
-    import votes
     import geoinfo
     import workspaces
 

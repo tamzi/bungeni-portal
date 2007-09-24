@@ -204,16 +204,7 @@ def setupTakeWorkflow(self, workflow):
 
     ##code-section create-workflow-setup-method-footer #fill in your manual code here
 
-    workflow.worklists.addWorklist('transcription_list')
-
-    # Worklist Initialization
-    ldef = workflow.worklists['transcription_list']
-    ldef.setProperties(description='',
-                       actbox_name='',
-                       actbox_url='%(content_url)s',
-                       actbox_category='global',
-                       props={'var_match_assigned_to': '%(user_id)s', 'guard_roles': 'Reporter'})
-
+    # Add variable
     workflow.variables.addVariable('assigned_to')
 
     vdef = workflow.variables['assigned_to']
@@ -224,6 +215,16 @@ def setupTakeWorkflow(self, workflow):
                        for_status=1,
                        update_always=1,
                        props={'guard_roles': 'Reporter'})
+
+    # Worklist Initialization
+    workflow.worklists.addWorklist('transcription_list')
+
+    ldef = workflow.worklists['transcription_list']
+    ldef.setProperties(description='',
+                       actbox_name='',
+                       actbox_url='%(content_url)s',
+                       actbox_category='global',
+                       props={'var_match_assigned_to': '%(user_id)s', 'guard_roles': 'Reporter'})
 
     ##/code-section create-workflow-setup-method-footer
 

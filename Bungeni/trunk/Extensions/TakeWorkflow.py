@@ -204,10 +204,10 @@ def setupTakeWorkflow(self, workflow):
 
     ##code-section create-workflow-setup-method-footer #fill in your manual code here
 
-    wf.worklists.addWorklist('transcription_list')
+    workflow.worklists.addWorklist('transcription_list')
 
     # Worklist Initialization
-    ldef = wf.worklists['transcription_list']
+    ldef = workflow.worklists['transcription_list']
     ldef.setProperties(description='',
                        actbox_name='',
                        actbox_url='%(content_url)s',
@@ -216,7 +216,7 @@ def setupTakeWorkflow(self, workflow):
 
     workflow.variables.addVariable('assigned_to')
 
-    vdef = wf.variables['assigned_to']
+    vdef = workflow.variables['assigned_to']
     vdef.setProperties(description='id of actor to whom this Take is assigned',
                        default_value='',
                        default_expr='python:state_change.object.getRotaItem() and state_change.object.getRotaItem().getReporter().getId() or None',

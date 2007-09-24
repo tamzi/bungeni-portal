@@ -203,6 +203,28 @@ def setupTakeWorkflow(self, workflow):
     # Add a tagged value 'worklist' with the worklist name to your state(s) instead.
 
     ##code-section create-workflow-setup-method-footer #fill in your manual code here
+
+    wf.worklists.addWorklist('transcription_list')
+
+    # Worklist Initialization
+    ldef = wf.worklists['transcription_list']
+    ldef.setProperties(description='',
+                       actbox_name='',
+                       actbox_url='%(content_url)s',
+                       actbox_category='global',
+                       props={'var_match_assigned_to': '%(user_id)s', 'guard_roles': 'Reporter'})
+
+    workflow.variables.addVariable('assigned_to')
+
+    vdef = wf.variables['assigned_to']
+    vdef.setProperties(description='id of actor to whom this Take is assigned',
+                       default_value='',
+                       default_expr='python:state_change.object.getRotaItem() and state_change.object.getRotaItem().getReporter().getId() or None',
+                       for_catalog=1,
+                       for_status=1,
+                       update_always=1,
+                       props={'guard_roles': 'Reporter'})
+
     ##/code-section create-workflow-setup-method-footer
 
 

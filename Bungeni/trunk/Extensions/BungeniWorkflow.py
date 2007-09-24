@@ -46,7 +46,7 @@ def setupBungeniWorkflow(self, workflow):
     # Add additional roles to portal
     portal = getToolByName(self,'portal_url').getPortalObject()
     data = list(portal.__ac_roles__)
-    for role in ['CurrentMP']:
+    for role in ['Reporter', 'CommitteeClerk', 'CurrentMP']:
         if not role in data:
             data.append(role)
             # add to portal_role_manager
@@ -164,7 +164,7 @@ def setupBungeniWorkflow(self, workflow):
                            ['Manager', 'Owner'])
     stateDef.setPermission('Modify portal content',
                            0,
-                           ['Manager', 'Owner'])
+                           ['Manager', 'Owner', 'Reporter', 'CommitteeClerk'])
     stateDef.setPermission('View',
                            0,
                            ['Authenticated', 'Manager', 'Reviewer'])
@@ -188,10 +188,10 @@ def setupBungeniWorkflow(self, workflow):
                            ['Manager', 'CurrentMP', 'Owner'])
     stateDef.setPermission('Add portal content',
                            0,
-                           ['Manager', 'CurrentMP', 'Owner'])
+                           ['Manager', 'CurrentMP', 'Owner', 'Reporter', 'CommitteeClerk'])
     stateDef.setPermission('Modify portal content',
                            0,
-                           ['Manager', 'CurrentMP', 'Owner'])
+                           ['Manager', 'CurrentMP', 'Owner', 'Reporter', 'CommitteeClerk'])
 
     ## Transitions initialization
 

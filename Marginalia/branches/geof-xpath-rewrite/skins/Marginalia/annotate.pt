@@ -35,7 +35,7 @@
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/note-ui.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/link-ui-simple.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/track-changes.js"></script>
-	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/PloneLinkUi.js"></script>	
+<!--	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/PloneLinkUi.js"></script>	 -->
 	
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/RangeInfo.js"></script>
 	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/rest-annotate.js"></script>

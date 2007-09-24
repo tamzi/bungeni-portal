@@ -9,24 +9,24 @@
  * Use darker shades of yellow for overlapping highlights
  */
  
-.hentry .entry-content em.annotation {
+.hentry em.annotation {
 	background: #fdf377;
 	font-style: inherit;
 }
 
-.hentry .entry-content em.annotation em.annotation {
+.hentry em.annotation em.annotation {
 	background: #f4e373;
 }
 
-.hentry .entry-content em.annotation em.annotation em.annotation {
+.hentry em.annotation em.annotation em.annotation {
 	background: #ecd470;
 }
 
-.hentry .entry-content em.annotation em.annotation em.annotation em.annotation {
+.hentry em.annotation em.annotation em.annotation em.annotation {
 	background: #e0ce6c;
 }
 
-.hentry .entry-content em.annotation em.annotation em.annotation em.annotation em.annotation {
+.hentry em.annotation em.annotation em.annotation em.annotation em.annotation {
 	background: #d8c666;
 }
 
@@ -42,7 +42,7 @@
 }
 
 .hentry .entry-content em.annotation del {
-	color: darkred;
+	color: red;
 	text-decoration: line-through;
 }
 
@@ -209,12 +209,28 @@
 	width: 95%;
 }
 
-.hentry .notes li.hover,
 .hentry .entry-content em.annotation.hover,
+.hentry .entry-content em.annotation em.annotation.hover,
+.hentry .entry-content em.annotation em.annotation em.annotation.hover,
+.hentry .entry-content em.annotation em.annotation em.annotation em.annotation.hover,
+.hentry .entry-content em.annotation em.annotation em.annotation em.annotation em.annotation.hover,
 .hentry .entry-content em.annotation.hover ins,
 .hentry .entry-content em.annotation.hover del {
-	color: red;
+	background: orange !important;
+	z-index: 1;
 /*	outline: red 1px solid; */
+}
+
+.hentry .entry-content em.annotation.hover em.annotation {
+	background: none !important;
+}
+
+.hentry .notes li.hover {
+	border-color: orange;
+}
+
+.hentry .entry-content em.editing-note {
+	outline: red 1px solid;
 }
 
 .hentry .notes li button.expand-edit {
@@ -412,10 +428,6 @@ ol#articles {
 	border: none;
 }
 
-.hentry .notes li.hover {
-	border-color: red;
-}
-
 .hentry .notes li.hover p,
 .hentry .notes li.hover .note-type {
 	color: black;
@@ -494,12 +506,6 @@ ol#articles {
 	background: white;
 	margin: 0;
 	width: 95%;
-}
-
-.hentry .notes li.hover,
-.hentry .entry-content em.annotation.hover {
-	color: red;
-/*	outline: red 1px solid; */
 }
 
 .hentry .notes li button.expand-edit {

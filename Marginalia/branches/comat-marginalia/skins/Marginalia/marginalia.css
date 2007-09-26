@@ -1,0 +1,602 @@
+/********* Copy of the generic marginalia.css (index.css from the demo follows) ********/
+/* I would have done this properly if I knew how to configure Plone.  This should be split
+ * into two files - marginalia.css in skins/marginalia, and call it "annotate.css" or
+ * something similar that's Bungeni-specific in the skins directory. */
+
+/*
+ * Highlights
+ *
+ * Use darker shades of yellow for overlapping highlights
+ */
+ 
+.hentry em.annotation {
+	background: #fdf377;
+	font-style: inherit;
+}
+
+.hentry em.annotation em.annotation {
+	background: #f4e373;
+}
+
+.hentry em.annotation em.annotation em.annotation {
+	background: #ecd470;
+}
+
+.hentry em.annotation em.annotation em.annotation em.annotation {
+	background: #e0ce6c;
+}
+
+.hentry em.annotation em.annotation em.annotation em.annotation em.annotation {
+	background: #d8c666;
+}
+
+
+/*
+ * Edit actions
+ *
+ * Strikethrough etc.
+ */
+
+.hentry .entry-content em.annotation.action-edit {
+	background: none;
+}
+
+.hentry .entry-content em.annotation del {
+	color: red;
+	text-decoration: line-through;
+}
+
+.hentry .entry-content em.annotation ins {
+	color: darkblue;
+	text-decoration: none;
+}
+
+.hentry .entry-content em.annotation a,
+.hentry .entry-content a em.annotation {
+	text-decoration: underline;
+}
+
+
+/*
+ * Inserted links
+ */
+
+.hentry .entry-content em.annotation sup a {
+	text-decoration: none;
+	background-color: inherit;
+	cursor: pointer;
+}
+
+
+/*
+ * Annotation create button
+ */
+
+.hentry button.createAnnotation {
+	height: 100%;
+	width: 1em;
+	position: absolute;
+	top: 0 ;
+}
+.editing-note .hentry button.createAnnotation {
+	visibility: hidden;
+}
+
+
+/*
+ * Annotation margin notes
+ */
+
+.hentry .notes ol {
+	list-style-type: none;
+	margin: 0 0 0 1em ;
+	padding: 0 .5ex ;
+	height: 100%;
+}
+
+.hentry .notes li {
+	position: relative;
+	font-family: sans-serif;
+	font-size: 80%;	
+	margin: 0 ;
+	margin-bottom: .5ex;
+	padding: 0;
+	min-height: 1.2em;
+	width: 100%;
+	cursor: pointer;
+}
+
+.hentry .notes li.dummy {
+	height: 1px;
+	min-height: 1px;
+	margin: 0 0 -1px 0;
+	padding: 0;
+}
+
+/* notes by another user are in a lighter grey */
+.hentry .notes li.other-user {
+	color: #555;
+}
+.hentry .notes .username {
+	font-style: italic;
+}
+
+
+.hentry .notes li.quote-error p:before {
+	content: '!';
+	padding: 0 .75ex;
+	margin-right: .2ex;
+	background: red;
+	color: white;
+	font-weight: bold;
+}
+
+.hentry .notes li.collapsed {
+	overflow: hidden;
+}
+
+.hentry .notes li.collapsed p {
+	white-space: nowrap;
+}
+
+.hentry .notes li.dummyfirst {
+	height: 1px;	/* force minimal display so later note margins will be correctly calculated */
+	cursor: default;
+	border: none;
+	background: none;
+	margin: 0;
+	padding: 0;
+}
+
+.hentry .notes li .controls {
+	float: right;
+	vertical-align: top;
+	/*display: none;*/
+}
+
+.hentry .notes li .select-action {
+	margin: .5ex;
+	padding: 0 0 0 .5ex;
+	list-style-type: none;
+	font-size: inherit;
+	border-left: #bbb .5ex solid;
+}
+
+.hentry .notes li .select-action li {
+	margin: 0;
+	padding: 0;
+	position: relative;
+}
+
+.hentry .notes li .select-action button {
+	border: none;
+	padding: 0;
+	cursor: pointer;
+	width: 100%;
+	text-align: left;
+	font-size: inherit;
+}
+
+
+.hentry .notes li .select-action button:hover {
+	background-color: #bbb;
+}
+	
+.hentry .notes li .controls button,
+.hentry .notes li button.expand-edit {
+	line-height: 1em;
+	border: none;
+	font-size: inherit;
+	padding: 0;
+	margin: 0;
+	width: 1.5em;
+	vertical-align: top;
+	cursor: pointer;
+	z-index: 1000;
+}
+
+.hentry .notes li .controls button:hover,
+.hentry .notes li button.expand-edit {
+	font-weight: bold;
+}
+
+.hentry .notes li textarea {
+	font-size: inherit;
+	font-family: sans-serif;
+	border: none;
+	background: white;
+	margin: 0;
+	width: 95%;
+}
+
+.hentry .entry-content em.annotation.hover,
+.hentry .entry-content em.annotation em.annotation.hover,
+.hentry .entry-content em.annotation em.annotation em.annotation.hover,
+.hentry .entry-content em.annotation em.annotation em.annotation em.annotation.hover,
+.hentry .entry-content em.annotation em.annotation em.annotation em.annotation em.annotation.hover,
+.hentry .entry-content em.annotation.hover ins,
+.hentry .entry-content em.annotation.hover del {
+	background: orange !important;
+	z-index: 1;
+/*	outline: red 1px solid; */
+}
+
+.hentry .entry-content em.annotation.hover em.annotation {
+	background: none !important;
+}
+
+.hentry .notes li.hover {
+	border-color: orange;
+}
+
+.hentry .notes li.editing-note {
+	border-color: red;
+}
+
+.hentry .entry-content em.editing-note {
+	outline: red 2px solid;
+}
+
+.hentry .notes li button.expand-edit {
+	position: absolute;
+	top: 0;
+	right: 100%;
+}
+
+.hentry .notes .editing-link label {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1em;
+}
+
+.hentry .notes .editing-link input {
+	margin-left: 1.5em;
+	margin-right: 1.5em;
+	max-width: 80%;
+}
+
+.hentry .notes .editing-link button {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 1em;
+}
+
+
+/*
+ * Hide smart copy additional info
+ */
+.hentry .smart-copy {
+	display: none;
+}
+
+
+/********* Copy of index.css from the marginalia demo: ********/
+
+h1 {
+	font-family: Georgia, serif;
+	text-align: center;
+	font-size: x-large;
+}
+
+h2 {
+	font-family: Georgia, serif;
+	font-size: large;
+	text-align: center;
+}
+
+p {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	margin: 1em 2em;
+}
+
+form {
+	margin-left: 11em;
+}
+
+/* General layout */
+
+#sidebar {
+	text-align: left;
+	position: absolute;
+	top: 0;
+	left: .5ex;
+	width: 11em;
+}
+
+#sidebar h3 {
+	margin: 1em 0 1ex 0;
+}
+
+#sidebar ul {
+	list-style-type: none;
+	margin: 1ex 0 1ex 1em;
+	padding: 0;
+}
+
+#sidebar ul li {
+	font-weight: bold;
+	margin: 1ex 0;
+	padding: 0;
+}
+
+#debug {
+	margin-left: 12em;
+}
+
+/* Annotation styles */
+ol#articles {
+	list-style-type: none;
+	position: relative ;
+	width: 40em ;
+	margin: 0;
+	margin-left: 11em;
+	padding: 0;
+}
+
+.hentry h3 {
+	margin: 1ex 0;
+}
+
+.hentry {
+	position: relative;
+	padding: 0 ;
+	margin: 2em 0 ;
+}
+
+.hentry .entry-content {
+	width: 60% ;
+	margin-left: 3em;
+	font-size: medium;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+.hentry p {
+	margin: 1ex 0;
+}
+
+.hentry .entry-content li {
+	margin: 1ex 0;
+}
+
+/* Action markers */
+.hentry .entry-content em.annotation del {
+	text-decoration: line-through;
+}
+
+.hentry .entry-content em.annotation ins {
+	color: blue;
+	text-decoration: none;
+}
+
+.hentry .entry-content em.annotation a,
+.hentry .entry-content a em.annotation {
+	text-decoration: underline;
+}
+
+.hentry .entry-content em.annotation sup a {
+	text-decoration: none;
+	background-color: inherit;
+	cursor: pointer;
+}
+
+.hentry .notes {
+	background: #eee;
+	position: absolute;
+	height: 100%;
+	width: 30%;
+	top: 0;
+	right: 0 ;
+	margin: 0;
+	padding: 0;
+}
+
+.hentry button.createAnnotation {
+	height: 100%;
+	width: 1em;
+	position: absolute;
+	top: 0 ;
+}
+
+.editing-note .hentry button.createAnnotation {
+	visibility: hidden;
+}
+
+.hentry table td {
+	vertical-align: top;
+}
+
+.hentry .notes ol {
+	list-style-type: none;
+	margin: 0 0 0 1em ;
+	padding: 2px .5ex ;
+	height: 100%;
+}
+
+.hentry .notes li {
+	position: relative;
+	font-family: sans-serif;
+	font-size: 80%;	
+	margin: 0 ;
+	margin-bottom: 1ex;
+	padding: .25ex .5ex;
+	min-height: 1.2em;
+	width: 90%;
+	cursor: pointer;
+	border: #bbb 2px solid;
+}
+
+.hentry .notes li.dummy,
+.hentry .notes li li {
+	border: none;
+}
+
+.hentry .notes li.hover p,
+.hentry .notes li.hover .note-type {
+	color: black;
+}
+
+.hentry .notes li .note-type {
+	font-weight: bold;
+	float: left;
+	display: block;
+}
+
+.hentry .notes li p {
+	clear: both;
+	margin: 0;
+}
+
+.hentry .notes li.other-user {
+	color: #555;
+}
+
+
+.hentry .notes li.quote-error p:before {
+	content: '!';
+	padding: 0 .75ex;
+	margin-right: .2ex;
+	background: red;
+	color: white;
+	font-weight: bold;
+}
+
+.hentry .notes li.collapsed {
+	overflow: hidden;
+}
+
+.hentry .notes li.collapsed p {
+	white-space: nowrap;
+}
+
+.hentry .notes li.dummyfirst {
+	height: 1px;
+	cursor: default;
+	border: none;
+	background: none;
+	margin: 0;
+	padding: 0;
+}
+
+.hentry .notes li .controls {
+	float: right;
+	/*display: none;*/
+}
+/*
+.hentry .notes li:hover {
+	background: #ddd;
+}
+
+.hentry .notes li:hover .controls {
+	display: block;
+	position: absolute;
+	bottom:  100%;
+	left: 0;
+	width: 100%;
+	background: #ddd;
+}
+
+.hentry .notes li:hover button {
+	background: #ddd;
+	border: #ddd 1px solid;
+}
+*/
+
+.hentry .notes li textarea {
+	font-size: inherit;
+	font-family: sans-serif;
+	border: none;
+	background: white;
+	margin: 0;
+	width: 95%;
+}
+
+.hentry .notes li button.expand-edit {
+	position: absolute;
+	top: 0;
+	right: 100%;
+}
+
+/* Box a note while editing:
+.hentry .notes .editing-note {
+	border: black 1px solid;
+}
+*/
+
+.hentry .notes .editing-link label {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 1em;
+}
+
+.hentry .notes .editing-link input {
+	margin-left: 1.5em;
+	margin-right: 1.5em;
+	max-width: 80%;
+}
+
+.hentry .notes .editing-link button {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 1em;
+}
+
+.hentry .notes .username {
+	font-style: italic;
+}
+
+.hentry .markers {
+	position: absolute;
+	height: 100%;
+	width: 3em;
+	top: 0;
+	left: 0;
+	margin: 0;
+	padding: 0;
+}
+
+.hentry .markers .marker {
+	position: absolute;
+	right: .35em;
+}
+
+.hentry .markers .marker:hover {
+	background-image:  url( 'marker-tail.png' );
+	background-repeat:  repeat-y;
+	background-position:  top right;
+}
+
+.hentry .markers .annotation-user-count {
+	cursor: pointer;
+	display:  block;
+	width: 1.5em;
+	text-align: center;
+	padding: .25ex .25ex;
+	background: #bbb;
+	font-family: sans-serif;
+	font-weight: bold;
+	color: white;
+}
+
+.hentry .markers .marker.fetched .annotation-user-count {
+	background: transparent;
+	color: #bbb;
+}
+
+.hentry .markers .marker:hover .annotation-user-count {
+	background: #66f;
+}
+
+#range-caret {
+	width: 1px;
+	margin-right: -1px;
+	background: red;
+}
+
+.hentry .smart-copy {
+	display: none;
+}
+

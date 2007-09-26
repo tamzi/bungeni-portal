@@ -1,0 +1,148 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="plone">
+
+<metal:block fill-slot="javascript_head_slot"
+	tal:define="absoluteUrl string:${here/absolute_url};
+	annotatedUrl python:context.getAnnotatedUrl(absoluteUrl)">
+
+<!--	tal:define="
+		startup_directory python:context.getReferenceLink().referencebrowser_startupDirectory (referenceLink.widget.startup_directory);
+		global at_url at_url|python:'/'.join(context.getReferenceLink().getPhysicalPath())">
+> -->
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/3rd-party.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/3rd-party/shortcut.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/3rd-party/cssQuery.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/3rd-party/cssQuery-level2.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/3rd-party/cssQuery-standard.js"></script>
+
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/log.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/prefs.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/html-model.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/domutil.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/ranges.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/SequenceRange.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/XPathRange.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/annotation.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/post-micro.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/linkable.js"></script>
+	
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/marginalia.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/blockmarker-ui.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/highlight-ui.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/link-ui.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/note-ui.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/link-ui-simple.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/track-changes.js"></script>
+<!--	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/PloneLinkUi.js"></script>	 -->
+	
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/RangeInfo.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/rest-annotate.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/rest-prefs.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/rest-keywords.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia/marginalia-direct.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia-config.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/marginalia-strings.js"></script>
+	<script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/bungeni-annotate.js"></script>
+
+    <script type="text/javascript" tal:content="string:
+        function show_annotations_on_load() 
+        {
+			var serviceRoot = '${request/base}/${utool/getPortalPath}/portal_annotations';
+			var username = '${user/getUserName}';
+			var url = '${annotatedUrl}';
+			bungeniMarginaliaInit( username, url, serviceRoot );
+		}
+		addEventHandler(window, 'load', show_annotations_on_load, window);
+		
+		/*
+		 * Called when the margin button is clicked to create an annotation.
+		 * There are two choices for editor:
+		 * 1. SelectAnnotationNoteEditor - select an edit action
+		 * 2. BungeniNoteEditor - create a simple margin note
+		 */
+		function bungeniClickCreateAnnotation( event, id )
+		{
+			clickCreateAnnotation( event, id, new SelectActionNoteEditor( ) );
+		}
+		">
+    </script>
+</metal:block>
+
+<body>
+
+<metal:main fill-slot="main"
+	tal:define="absoluteUrl string:${here/absolute_url};
+	annotatedUrl python:context.getAnnotatedUrl(absoluteUrl)">
+
+    <tal:main-macro metal:define-macro="main"
+           tal:define="text python: here.CookedBody(stx_level=2)">
+
+        <div metal:use-macro="here/document_actions/macros/document_actions">
+            Document actions (print, sendto etc)
+        </div>
+
+        <h1 tal:content="object_title" class="documentFirstHeading">
+          Title or id
+        </h1>
+
+        <!-- Marginalia .. -->
+        <ul id="debug" style="display:none">
+            <li></li>
+        </ul>
+    
+        <div metal:use-macro="here/document_byline/macros/byline">
+          Get the byline - contains details about author and modification date.
+        </div>
+
+        <p class="documentDescription"
+           tal:content="here/Description"
+           tal:condition="here/Description">
+            Description
+        </p>
+        <p tal:condition="python: not text and is_editable"
+           i18n:translate="no_body_text"
+           class="discreet">
+            This item does not have any body text, click the edit tab to change it.
+        </p>
+    
+        <div class="stx"
+             tal:condition="text"
+             tal:attributes="class python:test(here.Format() in ('text/structured',
+                                                   'text/x-rst', ), 'stx', 'plain')">
+            <div class="hentry" id="m1">
+              <table border="1" style="width: 100%">
+                <tr>
+					<td>
+						<div class="markers">
+						</div>
+					</td>
+                  <td>
+                    <h3 class="entry-title">Annotation demo</h3>
+                    <div class="entry-content" tal:content="structure text" />
+                    <a rel="bookmark"
+                        tal:attributes="href annotatedUrl"
+                        href="http://www.geof.net/code/annotation/demo/#m1">#</a>
+                  </td>
+                  <td>
+                    <div class="notes">
+                      <button class="createAnnotation" onclick="bungeniClickCreateAnnotation(event,'m1')" title="Click here to create an annotation">&gt;</button>
+                      <ol><li></li></ol>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+        </div>
+
+        <div metal:use-macro="here/document_relateditems/macros/relatedItems">
+            show related items if they exist
+        </div>
+    
+    </tal:main-macro>
+</metal:main>
+
+</body>
+</html>
+

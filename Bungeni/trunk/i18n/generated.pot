@@ -42,6 +42,7 @@ msgstr ""
 
 #. Default: "Assistentminister"
 #: content/Portfolio.py
+#: government/Portfolio.py
 msgid "Bungeni_label_AssistentMinister"
 msgstr ""
 
@@ -212,6 +213,7 @@ msgstr ""
 
 #. Default: "Minister"
 #: content/Portfolio.py
+#: government/Portfolio.py
 msgid "Bungeni_label_Minister"
 msgstr ""
 
@@ -563,11 +565,13 @@ msgstr ""
 
 #. Default: "Notassistantminister"
 #: content/Portfolio.py
+#: government/Portfolio.py
 msgid "Bungeni_label_notAssistantMinister"
 msgstr ""
 
 #. Default: "Notminister"
 #: content/Portfolio.py
+#: government/Portfolio.py
 msgid "Bungeni_label_notMinister"
 msgstr ""
 

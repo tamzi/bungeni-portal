@@ -194,11 +194,7 @@ def install(self, reinstall=False):
         "LongDocumentSection",
         "LongDocumentPage",
         "HelpFolder",
-        "Ministry",
         "MinistryFolder",
-        "Portfolio",
-        "Minister",
-        "AssistantMinister",
         "Motion",
         "Question",
         "Response",
@@ -238,6 +234,11 @@ def install(self, reinstall=False):
         "OfficeFolder",
         "ParliamentWS",
         "CommitteeWS",
+        "Ministry",
+        "Portfolio",
+        "Government",
+        "Minister",
+        "AssistantMinister",
         ] + factory_tool.getFactoryTypes().keys()
     factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
 

@@ -79,6 +79,7 @@ def initialize(context):
     import groups
     import geoinfo
     import workspaces
+    import government
 
 
     # Initialize portal tools

@@ -81,8 +81,6 @@ class BungeniTeamSpace(BaseContent, TeamSpace):
     schema = BungeniTeamSpace_schema
 
     ##code-section class-header #fill in your manual code here
-    __ac_local_roles__ = TeamSpace.__ac_local_roles__
-    __ac_local_roles_bag__ = TeamSpace.__ac_local_roles_bag__ 
     ##/code-section class-header
 
     # Methods

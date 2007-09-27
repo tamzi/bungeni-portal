@@ -30,8 +30,12 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
-from Products.Bungeni.groups.BungeniTeamSpace import BungeniTeamSpace
 from Products.Bungeni.config import *
+
+# additional imports from tagged value 'import'
+from Products.TeamSpace.space import TeamSpaceMixin
+from Products.Bungeni.groups.BungeniTeamSpace import BungeniTeamSpace
+from Products.Bungeni.events.ParliamentaryEvent import ParliamentaryEvent
 
 ##code-section module-header #fill in your manual code here
 ##/code-section module-header
@@ -42,27 +46,29 @@ schema = Schema((
 )
 
 ##code-section after-local-schema #fill in your manual code here
+schema = getattr(ParliamentaryEvent, 'schema', Schema(())).copy() + \
+    getattr(BungeniTeamSpace, 'schema', Schema(())).copy() + \
+    schema.copy()
 ##/code-section after-local-schema
 
 ParliamentWS_schema = BaseFolderSchema.copy() + \
-    getattr(BungeniTeamSpace, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class ParliamentWS(BaseFolder, BungeniTeamSpace):
+class ParliamentWS(TeamSpaceMixin, BungeniTeamSpace, ParliamentaryEvent, BaseFolder):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(BungeniTeamSpace,'__implements__',()),)
+    __implements__ = (getattr(TeamSpaceMixin,'__implements__',()),) + (getattr(BungeniTeamSpace,'__implements__',()),) + (getattr(ParliamentaryEvent,'__implements__',()),) + (getattr(BaseFolder,'__implements__',()),)
 
     # This name appears in the 'add' box
     archetype_name = 'ParliamentWS'
 
     meta_type = 'ParliamentWS'
     portal_type = 'ParliamentWS'
-    allowed_content_types = ['Session', 'CommitteeFolder'] + list(getattr(BungeniTeamSpace, 'allowed_content_types', []))
+    allowed_content_types = ['Session', 'CommitteeFolder']
     filter_content_types = 1
     global_allow = 1
     #content_icon = 'ParliamentWS.gif'
@@ -77,6 +83,10 @@ class ParliamentWS(BaseFolder, BungeniTeamSpace):
     schema = ParliamentWS_schema
 
     ##code-section class-header #fill in your manual code here
+
+    # augment allowed_content_types above
+    allowed_content_types = self.allowed_content_types + list(getattr(ParliamentaryEvent, 'allowed_content_types', [])) + list(getattr(BungeniTeamSpace, 'allowed_content_types', []))
+
     ##/code-section class-header
 
     # Methods

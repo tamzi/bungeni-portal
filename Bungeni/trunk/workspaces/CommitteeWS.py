@@ -85,7 +85,7 @@ class CommitteeWS(TeamSpaceMixin, BungeniTeamSpace, ParliamentaryEvent, BaseFold
     ##code-section class-header #fill in your manual code here
 
     # augment allowed_content_types above
-    allowed_content_types = self.allowed_content_types + list(getattr(ParliamentaryEvent, 'allowed_content_types', [])) + list(getattr(BungeniTeamSpace, 'allowed_content_types', []))
+    allowed_content_types = allowed_content_types + list(getattr(ParliamentaryEvent, 'allowed_content_types', [])) + list(getattr(BungeniTeamSpace, 'allowed_content_types', []))
 
     ##/code-section class-header
 

@@ -9,9 +9,8 @@ rem EmbedGraphic ThisComponent, &quot;file:///e:/default_logo.jpg&quot;
 
 rem AddImageIntoSection &quot;prayers&quot;, &quot;e:\default_logo.jpg&quot; 
 
-rem InsertDocumentIntoSection &quot;prayers&quot;, &quot;e:\import.odt&quot;
 
-
+rem SetReferenceInputFieldValue(&quot;debaterecord_official_date&quot;, &quot;2033-03-01&quot;, &quot;root&quot;)
 rem	AddTextToSection &quot;prayers&quot;, &quot;some text&quot;, &quot;Heading 1&quot;
 rem	AddTextToSection &quot;prayers&quot;, &quot;&lt;parabreak&gt;&quot;, &quot;Heading 1&quot;
 rem	AddTextToSection &quot;prayers&quot;, &quot;some text 2&quot;, &quot;Heading 2&quot;
@@ -43,10 +42,29 @@ rem  	SearchAndReplace2 &quot;[[QUESTION_TITLE]]&quot;, &quot;new text&quot;
   	
 rem AddAttributesToContainer (oSect.UserDefinedAttributes, ArrNames(), ArrValues() )
 
-Dim arr() 
-arr() = Array(&quot;begin0&quot;, &quot;end0&quot;)
-
 rem SearchAndReplace2 &quot;less&quot;, &quot;more&quot;, arr(), &quot;myurl&quot;
+
+rem section metadata tests
+ dim arrAttrNames(), arrAttrValues()
+
+rem arrAttrNames = Array (&quot;mpName&quot;, &quot;mpURI&quot;, &quot;mpStatus&quot;)
+rem arrAttrValues = Array (&quot;Kumar Sekar&quot;, &quot;ken.mp.1989-02-02&quot;, &quot;Deceased&quot;)
+
+rem SetSectionMetadata &quot;NewName&quot;, arrAttrNames, arrAttrValues
+
+rem arrAttrNames = Array (&quot;mpName&quot;, &quot;mpURI&quot;, &quot;mpStatus&quot;)
+rem arrAttrValues = Array (&quot;Raila Odinga&quot;, &quot;ken.mp.1993-02-1&quot;, &quot;Alive&quot;)
+
+
+rem SetSectionMetadata &quot;NewName2&quot;, arrAttrNames, arrAttrValues
+
+ arrAttrNames = Array (&quot;mpInnerName&quot;, &quot;mpInnerURI&quot;, &quot;mpInnerStatus&quot;)
+ arrAttrValues = Array (&quot;Mp Inside Another MP&quot;, &quot;ken.mp.1998-02-29&quot;, &quot;Insider&quot;)
+
+
+SetSectionMetadata &quot;NewName5&quot;, arrAttrNames, arrAttrValues
+
+
 End Sub
 
       
@@ -90,6 +108,7 @@ Function CursorInSection () as String
   End If	
   
 End Function
+
 
 
 Sub AddTextToSection (sectionName as String, strText as String, strStyle as String)
@@ -277,6 +296,66 @@ Sub InsertHTMLDocumentIntoSection(sName$, sFileUrl$ , sStyleApply$)
 
 End Sub
 
+Function SetAttributeData (uda as Object, cAttributeName as String, cAttributeValue as String) 
+	Dim oMyAttribute 
+ &apos; Is there already an attribute with the desired name? 
+   If uda.hasByName( cAttributeName ) Then 
+      &apos; Get the existing attribute. 
+      oMyAttribute = uda.getByName( cAttributeName ) 
+      &apos; Update the value. 
+      oMyAttribute.Value = cAttributeValue 
+   Else 
+      &apos; Create a new attribute. 
+      oMyAttribute = createUnoStruct( &quot;com.sun.star.xml.AttributeData&quot; ) 
+      With oMyAttribute 
+         .Type = &quot;CDATA&quot; 
+         .Value = cAttributeValue 
+      End With 
+      uda.insertByName( cAttributeName, oMyAttribute ) 
+   
+   EndIf 
+   
+   setAttributeData = uda
+   
+End Function
+
+
+Sub SetSectionMetadata (sectionName as String, attrNames() , attrValues() )
+	Dim oDoc
+	oDoc = ThisComponent
+	Dim sect
+	sect = oDoc.getTextSections().getByName(sectionName)
+	Dim uda
+	uda = sect.UserDefinedAttributes
+	Dim i as integer
+	
+	For i = LBound(attrNames) to UBound(attrNames)
+		
+		 SetAttributeData(uda, attrNames(i), attrValues(i) )
+		
+	Next
+
+   &apos; Assign the modified container of attributes back to the shape. 
+   sect.UserDefinedAttributes = uda 	
+
+
+End Sub
+
+
+
+Sub RenameSection (renameThisSection as String, renameToSection as String)
+	Dim oDoc 
+	oDoc = ThisComponent
+	
+	Dim sectRename
+	sectRename = oDoc.getTextSections().getByName(renameThisSection)
+	if (sectRename.IsProtected ) then
+		sectRename.IsProtected = False
+	End if
+	sectRename.setName(renameToSection)
+	sectRename.IsProtected = True
+End Sub
+
 Sub InsertDocumentIntoSection(sName$, sFileUrl$)
   
    sFileUrl = ConvertToURL(sFileUrl)
@@ -296,6 +375,8 @@ Sub InsertDocumentIntoSection(sName$, sFileUrl$)
   End If
  
 End Sub
+
+
 
 Sub SetInputFieldValue (hintName as String, hintValue as String)
   Dim vEnum
@@ -317,6 +398,38 @@ Sub SetInputFieldValue (hintName as String, hintValue as String)
     Loop
   End if
   ThisComponent.TextFields.refresh()
+End Sub
+
+Sub SetReferenceInputFieldValue (hintName as String, placeHolder as string, unprotectSection as string)
+  Dim vEnum
+  Dim vVal
+  
+  vEnum = thisComponent.getTextFields().createEnumeration()
+  
+  Dim sect 
+  if (unprotectSection &lt;&gt; &quot;&quot; ) then 
+ 	 sect = ThisComponent.getTextSections().getByName(unprotectSection)
+  	 sect.IsProtected = False
+  end if 
+  
+  If Not IsNull(vEnum) Then
+    Do While vEnum.hasMoreElements()
+      vVal = vEnum.nextElement()
+      If vVal.supportsService(&quot;com.sun.star.text.TextField.JumpEdit&quot;) Then
+      		if (vVal.Hint = hintName ) then 
+      		
+      			rem hint name exists 
+      			rem set hint name to new value
+      			vVal.PlaceHolder = placeHolder
+      		    vVal.update
+      		end if 
+      end If
+    Loop
+  End if
+  
+  if (unprotectSection &lt;&gt; &quot;&quot;) then
+  	sect.IsProtected = True
+  end if
 End Sub
 
 Sub EmbedGraphic(oDoc, sURL$)

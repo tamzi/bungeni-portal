@@ -50,6 +50,7 @@ import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextRangeCompare;
+import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextSectionsSupplier;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.text.XTextViewCursorSupplier;
@@ -243,6 +244,37 @@ public class OOComponentHelper {
         return xObjProps;
     }
     
+    public HashMap<String, String> getSectionMetadataAttributes(String sectionName){
+        HashMap<String,String> metadata = null; 
+        try {
+            //get the section handle
+            Object section = this.getTextSections().getByName(sectionName);
+            XTextSection theSection = ooQueryInterface.XTextSection(section);
+            //get the propertySet Handle for the section
+            XPropertySet theProperties = ooQueryInterface.XPropertySet(theSection);
+            XNameContainer attrContainer =  _getAttributeContainer(theProperties, ooProperties.SECTION_USERDEFINED_ATTRIBUTES);
+            //get attribute element names
+            String[] attributeNames = attrContainer.getElementNames();
+            metadata = new HashMap<String,String>();
+            for (int i=0;  i < attributeNames.length; i++) {
+                //get values for each attribute name
+                AttributeData attrValue = (AttributeData) AnyConverter.toObject(new Type(AttributeData.class), 
+                        attrContainer.getByName(attributeNames[i]));
+                String strValue = attrValue.Value    ;
+                metadata.put(attributeNames[i], strValue); 
+            }
+            
+        } catch (NoSuchElementException ex) {
+           log.debug(ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.debug(ex.getMessage());
+        } catch (com.sun.star.lang.IllegalArgumentException ex){
+            log.debug(ex.getMessage());
+        } finally {
+            return metadata;
+        }
+    }
+    
     
     /**
      * Gets the current view cursor.
@@ -388,7 +420,35 @@ public class OOComponentHelper {
         return oSelection;
     }
     
-    
+      public String currentSectionName() {
+            XTextSection loXTextSection;
+            XTextViewCursor loXTextCursor;
+            XPropertySet loXPropertySet;
+            String lstrSectionName = "";
+
+         try
+         {
+            loXTextCursor = getViewCursor();
+            loXPropertySet = ooQueryInterface.XPropertySet(loXTextCursor);
+            loXTextSection = (XTextSection)((Any)loXPropertySet.getPropertyValue("TextSection")).getObject();
+            if (loXTextSection != null)
+            {
+                loXPropertySet = ooQueryInterface.XPropertySet(loXTextSection);
+                lstrSectionName = (String)loXPropertySet.getPropertyValue("LinkDisplayName");
+            }
+          }
+          catch (java.lang.Exception poException)
+            {
+                log.debug("currentSectionName:" + poException.getLocalizedMessage());
+            }
+          finally {  
+             return lstrSectionName; 
+          }
+        }
+   
+    public static String getMetadataNameSpace() {
+        return ATTRIBUTE_NAMESPACE;
+    }  
     public HashMap<String,Object> getSingleSelectionRange() {
         Object selection = this.getCurrentSelection();
         HashMap<String,Object> rangeMap = new HashMap<String,Object>();

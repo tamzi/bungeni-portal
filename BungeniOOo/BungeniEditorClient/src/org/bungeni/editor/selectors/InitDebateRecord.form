@@ -24,7 +24,7 @@
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="btn_initdebate_selectlogo" alignment="0" min="-2" pref="133" max="-2" attributes="1"/>
-                          <Component id="lbl_initdate_mastheadlogo" alignment="0" pref="163" max="32767" attributes="1"/>
+                          <Component id="lbl_initdebate_mastheadlogo" alignment="0" pref="163" max="32767" attributes="1"/>
                           <Component id="lbl_initdebate_hansardtime" alignment="0" pref="163" max="32767" attributes="1"/>
                           <Component id="btnApply" alignment="0" min="-2" pref="138" max="-2" attributes="1"/>
                       </Group>
@@ -55,7 +55,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="initdebate_timeofhansard" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
-              <Component id="lbl_initdate_mastheadlogo" min="-2" max="-2" attributes="0"/>
+              <Component id="lbl_initdebate_mastheadlogo" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_initdebate_selectlogo" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -78,7 +78,7 @@
         <Property name="text" type="java.lang.String" value="Hansard Date"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="lbl_initdate_mastheadlogo">
+    <Component class="javax.swing.JLabel" name="lbl_initdebate_mastheadlogo">
       <Properties>
         <Property name="text" type="java.lang.String" value="Masthead Logo"/>
       </Properties>

@@ -80,5 +80,10 @@ public class SettingsQueryFactory {
         return  query;
     }
         
-  
+   public static String Q_FETCH_NEIGBOURING_ACTIONS (String preceeding, String following) {
+        String query = "SELECT * FROM TOOLBAR_ACTION_SETTINGS where action_type  = 'section'" +
+                " and action_name not in (select action_name from action_parent) " +
+                " and action_order in  ("+ preceeding +","+ following +") order by action_order asc";
+         return query;       
+   }
 }

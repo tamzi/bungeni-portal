@@ -16,22 +16,24 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="scrollQuestionText" alignment="0" pref="279" max="32767" attributes="0"/>
+                  <Component id="scrollMessageArea" alignment="0" pref="279" max="32767" attributes="0"/>
+                  <Component id="separatorLine1" alignment="1" pref="279" max="32767" attributes="0"/>
+                  <Component id="btnSelectQuestion" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblQuestionTitle" alignment="0" min="-2" pref="190" max="-2" attributes="0"/>
+                  <Component id="txtQuestionTitle" alignment="0" pref="279" max="32767" attributes="0"/>
+                  <Component id="lblNameOfPersonFrom" alignment="0" min="-2" pref="264" max="-2" attributes="0"/>
+                  <Component id="txtPersonName" alignment="0" pref="279" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="btnApply" min="-2" pref="117" max="-2" attributes="0"/>
                       <EmptySpace pref="43" max="32767" attributes="0"/>
                       <Component id="btnCancel" min="-2" pref="119" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="scrollQuestionText" alignment="1" pref="279" max="32767" attributes="0"/>
-                  <Component id="lblQuestionText" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtAddressedTo" alignment="0" pref="279" max="32767" attributes="0"/>
+                  <Component id="lblPersonURI" alignment="0" min="-2" pref="138" max="-2" attributes="0"/>
+                  <Component id="txtPersonURI" alignment="0" pref="279" max="32767" attributes="0"/>
                   <Component id="lblQuestionAddressedTo" alignment="0" min="-2" pref="265" max="-2" attributes="0"/>
-                  <Component id="txtPersonName" alignment="0" pref="279" max="32767" attributes="0"/>
-                  <Component id="lblNameOfPersonFrom" alignment="0" min="-2" pref="264" max="-2" attributes="0"/>
-                  <Component id="txtQuestionTitle" alignment="0" pref="279" max="32767" attributes="0"/>
-                  <Component id="lblQuestionTitle" alignment="0" min="-2" pref="190" max="-2" attributes="0"/>
-                  <Component id="btnSelectQuestion" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="separatorLine1" alignment="0" pref="279" max="32767" attributes="0"/>
-                  <Component id="scrollMessageArea" alignment="0" pref="279" max="32767" attributes="0"/>
+                  <Component id="txtAddressedTo" alignment="0" pref="279" max="32767" attributes="0"/>
+                  <Component id="lblQuestionText" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -42,11 +44,11 @@
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="scrollMessageArea" min="-2" pref="73" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="separatorLine1" min="-2" pref="10" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btnSelectQuestion" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
               <Component id="lblQuestionTitle" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="txtQuestionTitle" min="-2" max="-2" attributes="0"/>
@@ -55,13 +57,17 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="txtPersonName" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
+              <Component id="lblPersonURI" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="txtPersonURI" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="lblQuestionAddressedTo" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="txtAddressedTo" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="lblQuestionText" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="scrollQuestionText" min="-2" pref="104" max="-2" attributes="0"/>
+              <Component id="scrollQuestionText" pref="112" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnApply" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -73,27 +79,6 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JScrollPane" name="scrollQuestionText">
-      <AuxValues>
-        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-      </AuxValues>
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-      <SubComponents>
-        <Component class="javax.swing.JTextArea" name="txtQuestionText">
-          <Properties>
-            <Property name="columns" type="int" value="20"/>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
-              <FontInfo relative="false">
-                <Font name="Tahoma" size="10" style="0"/>
-              </FontInfo>
-            </Property>
-            <Property name="lineWrap" type="boolean" value="true"/>
-            <Property name="rows" type="int" value="5"/>
-          </Properties>
-        </Component>
-      </SubComponents>
-    </Container>
     <Component class="javax.swing.JLabel" name="lblQuestionText">
       <Properties>
         <Property name="text" type="java.lang.String" value="Question Text"/>
@@ -170,6 +155,24 @@
             <Property name="rows" type="int" value="5"/>
             <Property name="wrapStyleWord" type="boolean" value="true"/>
           </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JLabel" name="lblPersonURI">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="URI of Person"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtPersonURI">
+    </Component>
+    <Container class="javax.swing.JScrollPane" name="scrollQuestionText">
+      <AuxValues>
+        <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+      </AuxValues>
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+      <SubComponents>
+        <Component class="javax.swing.JTextPane" name="txtQuestionText">
         </Component>
       </SubComponents>
     </Container>

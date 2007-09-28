@@ -31,6 +31,7 @@ import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.actions.EditorActionFactory;
 import org.bungeni.editor.actions.IEditorActionEvent;
 import org.bungeni.editor.actions.toolbarAction;
+import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.ooo.OOComponentHelper;
 
 /**
@@ -45,12 +46,16 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     private DefaultMutableTreeNode root;
     private JPopupMenu popupMenu;
     
+    private  enum PopupTypeIdentifier {CREATE_EDIT , APPLY_MARKUP, EDIT  };
+ 
+    private HashMap<PopupTypeIdentifier, String> popupMap = new HashMap<PopupTypeIdentifier, String>();
+    
     /** Creates new form generalEditorPanel4 */
     public generalEditorPanel4() {
         initComponents();
         initOthers();
         initTree();
-    
+        
         
      }
     
@@ -81,13 +86,18 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     private void initOthers(){
         instance = new BungeniClientDB (DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
         popupMenu = new JPopupMenu();
+        
+        popupMap.put(PopupTypeIdentifier.APPLY_MARKUP, "Apply Markup");
+        popupMap.put(PopupTypeIdentifier.CREATE_EDIT, "Create Section");
+        popupMap.put(PopupTypeIdentifier.EDIT, "Edit Section");
+        
     }
     
     private void initTree() {
         toolbarAction rootAction = new toolbarAction("rootAction");
         root = new DefaultMutableTreeNode(rootAction);
         if (instance.Connect()) {
-            createTreeNodes( root);
+            createTreeNodes( root, true);
             //createToolNodes(rootNode, rootAction, instance );
             instance.EndConnect();
         } 
@@ -96,7 +106,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         treeGeneralEditor.setCellRenderer(new treeGeneralEditorCellRenderer());
     }
     
-    private void createTreeNodes(DefaultMutableTreeNode rootNode) {
+    private void createTreeNodes(DefaultMutableTreeNode rootNode, boolean recurse) {
         toolbarAction baseNode = (toolbarAction) rootNode.getUserObject();
         String actionParent = baseNode.action_name();
         //HashMap results = new HashMap();
@@ -129,6 +139,9 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                    toolbarAction action = new toolbarAction(tableRow, columns );
                    DefaultMutableTreeNode node = new DefaultMutableTreeNode(action);
                    rootNode.add(node);
+                   if (recurse ) {
+                       createTreeNodes(node, true);
+                   }
                }
         }
      
@@ -160,9 +173,6 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     private javax.swing.JTree treeGeneralEditor;
     // End of variables declaration//GEN-END:variables
     
-    private  enum PopupTypeIdentifier {CREATE_EDIT , VIEW_ACTIONS, APPLY_MARKUP  };
-    private String[] popup_section_actions = {"View Available Actions", "Create/Edit Section" };
-    private String[] popup_markup_actions = {"Apply Markup" };
     
     class treePopupMenuAction extends AbstractAction {
         PopupTypeIdentifier popupType;
@@ -204,20 +214,33 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
               DefaultMutableTreeNode thisNode = (DefaultMutableTreeNode) path.getLastPathComponent();
               if (popupType == PopupTypeIdentifier.CREATE_EDIT) {
                     toolbarAction action =(toolbarAction)thisNode.getUserObject();
+                    if (!ooDocument.isTextSelected())
+                        action.setSelectorDialogMode(SelectorDialogModes.TEXT_INSERTION);
+                    else
+                        action.setSelectorDialogMode(SelectorDialogModes.TEXT_SELECTED);
                     IEditorActionEvent event = getEventClass(action);
                     event.doCommand(ooDocument, action);
-              } else 
+              } else
+               if (popupType == PopupTypeIdentifier.EDIT) {
+                    //look for existing masthead section 
+                    //if it exists popup the edit screen for it.
+                    toolbarAction action =(toolbarAction)thisNode.getUserObject();
+                    action.setSelectorDialogMode(SelectorDialogModes.TEXT_EDIT);
+                    IEditorActionEvent event = getEventClass(action);
+                    event.doCommand(ooDocument, action);
+               }
+              /*else 
               if (popupType == PopupTypeIdentifier.VIEW_ACTIONS) {
                    if (thisNode.isLeaf()) {
                       log.debug("processPopupSelection : thisNode = leaf");
                     instance.Connect();
-                    createTreeNodes(thisNode);
+                    createTreeNodes(thisNode, false);
                     instance.EndConnect();
                     if (!thisNode.isLeaf()) {
                      treeGeneralEditor.expandPath(path);
                     } 
                   }
-              } else 
+              }*/ else 
               if (popupType == PopupTypeIdentifier.APPLY_MARKUP) {
                     toolbarAction action =(toolbarAction)thisNode.getUserObject();
                     IEditorActionEvent event = getEventClass(action);
@@ -243,12 +266,15 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
            
             if (baseNodeAction.action_type().equals("section")) {
                 popupMenu.removeAll();
-                popupMenu.add(new treePopupMenuAction(popup_section_actions[0], baseNodeAction, PopupTypeIdentifier.VIEW_ACTIONS));
-                popupMenu.add(new treePopupMenuAction(popup_section_actions[1], baseNodeAction, PopupTypeIdentifier.CREATE_EDIT));
+                //popupMenu.add(new treePopupMenuAction(popup_section_actions[0], baseNodeAction, PopupTypeIdentifier.VIEW_ACTIONS));
+                popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.CREATE_EDIT), baseNodeAction, PopupTypeIdentifier.CREATE_EDIT));
+                popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.EDIT), baseNodeAction, PopupTypeIdentifier.EDIT));
+                
+                //popupMenu.add(new treePopupMenuAction(popup_section_actions[2]))
             } else 
             if (baseNodeAction.action_type().equals("markup")) {
                 popupMenu.removeAll();
-                popupMenu.add(new treePopupMenuAction(popup_markup_actions[0], baseNodeAction, PopupTypeIdentifier.APPLY_MARKUP));
+                popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.APPLY_MARKUP), baseNodeAction, PopupTypeIdentifier.APPLY_MARKUP));
             }
          }
         public void mousePressed(MouseEvent evt) {

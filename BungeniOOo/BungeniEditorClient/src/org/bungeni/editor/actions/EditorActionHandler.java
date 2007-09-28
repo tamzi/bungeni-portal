@@ -85,9 +85,10 @@ public class EditorActionHandler implements IEditorActionEvent {
              initDebaterecord.setTitle("Enter Settings for Document");
              initDebaterecord.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
              //initDebaterecord.setPreferredSize(new Dimension(420, 300));
+            
              InitDebateRecord panel = new InitDebateRecord(ooDocument, 
-                     initDebaterecord, action);;
-            panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
+                     initDebaterecord, action);
+              //panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
             panel.setBackground(new Color(255, 255, 153));
              initDebaterecord.setTitle("Selection Mode");
              initDebaterecord.getContentPane().add(panel);

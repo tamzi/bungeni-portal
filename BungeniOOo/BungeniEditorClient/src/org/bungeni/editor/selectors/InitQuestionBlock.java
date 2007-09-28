@@ -10,6 +10,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
@@ -27,6 +28,7 @@ import org.bungeni.editor.fragments.FragmentsFactory;
 import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.ooo.ooDocMetadata;
 import org.bungeni.utils.MessageBox;
 import org.safehaus.uuid.UUID;
 import org.safehaus.uuid.UUIDGenerator;
@@ -35,57 +37,125 @@ import org.safehaus.uuid.UUIDGenerator;
  *
  * @author  Administrator
  */
-public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSelector {
-    private OOComponentHelper ooDocument;
-    private JDialog parent;
-    private BungeniClientDB dbInstance=null;
-    private BungeniClientDB dbSettings=null;
-    private toolbarAction theAction;
+public class InitQuestionBlock extends selectorTemplatePanel  {
+  
     registryQueryDialog rqs;
-    private SelectorDialogModes theMode;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(InitQuestionBlock.class.getName());
  
     HashMap<String, String> selectionData = new HashMap<String,String>();
     String txtURI = "";
+
+    private String sourceSectionName;
     /** Creates new form InitQuestionBlock */
     public InitQuestionBlock() {
         initComponents();
     }
     public InitQuestionBlock(OOComponentHelper ooDocument, JDialog parentDlg, toolbarAction theAction) {
+        super(ooDocument, parentDlg, theAction);
         initComponents();
-        this.ooDocument = ooDocument;
-        this.parent = parentDlg;
-        this.theAction = theAction;
-        initFields();
-   
-        HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
-        dbInstance = new BungeniClientDB(registryMap);
-        dbSettings = new BungeniClientDB(DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
-      
+        //above is required code....
+        init();
+
     }
    
-    private void initFields() {
+    private void init() {
+        txtQuestionText.setContentType("text/html");
+        setControlModes();
+        setControlData();
+        
+    }
+    
+    private void setControlModes() {
 
         if (theMode == SelectorDialogModes.TEXT_INSERTION) {
             txtAddressedTo.setEditable(false);
             txtPersonName.setEditable(true);
             txtQuestionText.setEditable(false);
             txtQuestionTitle.setEditable(false);
+            txtPersonURI.setVisible(false); lblPersonURI.setVisible(false);
+            txtQuestionText.setVisible(true);
+            lblQuestionText.setVisible(true);
+ 
             txtMessageArea.setText("You are attempting to insert a new Question, " +
                     "please select a question, and edit the name if neccessary, the " +
                     "text of the question and the metadata will be inserted into the " +
                     "document");
+        } else if (theMode == SelectorDialogModes.TEXT_EDIT) {
+            log.debug("InitQuestionBlock: In selectorDialogMode TEXT_EIDT ");
+            txtAddressedTo.setEditable(false);
+            txtPersonName.setEditable(true);
+            txtQuestionText.setEditable(false);
+            txtQuestionTitle.setEditable(false);
+            txtPersonURI.setEditable(false);
+            txtPersonURI.setVisible(true); 
+            lblPersonURI.setVisible(true);
+            txtQuestionText.setVisible(false);
+            lblQuestionText.setVisible(false);
+            scrollQuestionText.setVisible(false);
+            txtMessageArea.setText("You are attempting to Edit metadata for a question");
+            
         } else if (theMode == SelectorDialogModes.TEXT_SELECTED) {
             txtAddressedTo.setEditable(false);
             lblNameOfPersonFrom.setVisible(false);
             txtPersonName.setVisible(false); //setEditable(false);
             txtQuestionText.setEditable(false);
             txtQuestionTitle.setEditable(false);    
-            txtMessageArea.setText("You are attempting to markup some existing text" +
-                    " as a Question, " +
-                    "please select the Question you would like to markup , and press apply" +
-                    "to markup the selected text with the correct question metadata");
+            txtPersonURI.setVisible(false); lblPersonURI.setVisible(false);
+            txtQuestionText.setVisible(true);
+            lblQuestionText.setVisible(true);
+ 
+            txtMessageArea.setText("You are in Select mode. Your hightlighted block of text will be marked up as a Question using this interface ");
+                   
         }
+    }
+    
+    public void setControlData(){
+           try {
+        //only in edit mode, only if the metadata properties exist
+        if (theMode == SelectorDialogModes.TEXT_EDIT) {
+                goEditMode();
+                btnApply.setEnabled(false);
+                btnCancel.setEnabled(true);
+                
+            }
+        } catch (Exception ex) {
+            log.debug("SetControlData: "+ ex.getMessage());
+        }
+    }
+    
+    private boolean goEditMode() {
+          String currentSectionName = "";
+            currentSectionName = ooDocument.currentSectionName();
+            ///do stuff for speech sections retrieve from section metadata////
+            ///we probably need a associative metadata attribute factory that
+            ///retrieves valid metadata elements for specific seciton types.
+            ///how do you identify section types ? probably by naming convention....
+            if (currentSectionName.startsWith(theAction.action_naming_convention())) {
+                //this section stores MP specific metadata
+                //get attribute names for mp specific metadata
+                //Bungeni_SpeechMemberName
+                //Bungeni_SpeechMemberURI
+                //the basic macro for adding attributes takes two arrays as a parameter
+                //one fr attribute names , one for attribute values
+                HashMap<String,String> attribMap = ooDocument.getSectionMetadataAttributes(currentSectionName);
+                this.sourceSectionName = currentSectionName;
+                if (attribMap.size() > 0 ) {
+                  
+                    this.txtAddressedTo.setText(attribMap.get("Bungeni_QuestionAddressedTo"));
+                    this.txtQuestionTitle.setText(attribMap.get("Bungeni_QuestionTitle"));
+                    this.txtPersonName.setText(attribMap.get("Bungeni_QuestionMemberFrom"));
+                    this.txtPersonURI.setText(attribMap.get("Bungeni_QuestionMemberFromURI"));
+                 
+                  return true;
+                } else {
+                    MessageBox.OK(parent, "No metadata has been set for this section!");
+                    return false;
+                }
+            } else {
+                MessageBox.OK(this.parent, "The Current section, "+currentSectionName + ", does not have any Speech related metadata !");
+                parent.dispose();
+                return false;
+            }
     }
     /** This method is called from within the constructor to
      * initialize the form.
@@ -94,8 +164,6 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        scrollQuestionText = new javax.swing.JScrollPane();
-        txtQuestionText = new javax.swing.JTextArea();
         lblQuestionText = new javax.swing.JLabel();
         btnSelectQuestion = new javax.swing.JButton();
         txtQuestionTitle = new javax.swing.JTextField();
@@ -109,12 +177,10 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
         separatorLine1 = new javax.swing.JSeparator();
         scrollMessageArea = new javax.swing.JScrollPane();
         txtMessageArea = new javax.swing.JTextArea();
-
-        txtQuestionText.setColumns(20);
-        txtQuestionText.setFont(new java.awt.Font("Tahoma", 0, 10));
-        txtQuestionText.setLineWrap(true);
-        txtQuestionText.setRows(5);
-        scrollQuestionText.setViewportView(txtQuestionText);
+        lblPersonURI = new javax.swing.JLabel();
+        txtPersonURI = new javax.swing.JTextField();
+        scrollQuestionText = new javax.swing.JScrollPane();
+        txtQuestionText = new javax.swing.JTextPane();
 
         lblQuestionText.setText("Question Text");
 
@@ -155,6 +221,10 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
         txtMessageArea.setWrapStyleWord(true);
         scrollMessageArea.setViewportView(txtMessageArea);
 
+        lblPersonURI.setText("URI of Person");
+
+        scrollQuestionText.setViewportView(txtQuestionText);
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -162,21 +232,23 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(scrollQuestionText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                    .add(scrollMessageArea, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, separatorLine1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                    .add(btnSelectQuestion)
+                    .add(lblQuestionTitle, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 190, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(txtQuestionTitle, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                    .add(lblNameOfPersonFrom, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 264, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(txtPersonName, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
                         .add(btnApply, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 117, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 43, Short.MAX_VALUE)
                         .add(btnCancel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 119, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, scrollQuestionText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
-                    .add(lblQuestionText)
-                    .add(txtAddressedTo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                    .add(lblPersonURI, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 138, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(txtPersonURI, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
                     .add(lblQuestionAddressedTo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 265, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(txtPersonName, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
-                    .add(lblNameOfPersonFrom, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 264, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(txtQuestionTitle, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
-                    .add(lblQuestionTitle, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 190, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(btnSelectQuestion)
-                    .add(separatorLine1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
-                    .add(scrollMessageArea, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE))
+                    .add(txtAddressedTo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                    .add(lblQuestionText))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -184,11 +256,11 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .add(scrollMessageArea, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 73, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(separatorLine1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnSelectQuestion)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(14, 14, 14)
                 .add(lblQuestionTitle)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(txtQuestionTitle, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -197,13 +269,17 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(txtPersonName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lblPersonURI)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(txtPersonURI, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lblQuestionAddressedTo)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(txtAddressedTo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lblQuestionText)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(scrollQuestionText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 104, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(scrollQuestionText, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnApply)
@@ -231,7 +307,7 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
         String PersonName = txtPersonName.getText();
         String QuestionText = txtQuestionText.getText();
         String QuestionTitle = txtQuestionTitle.getText();
-        String URI = selectionData.get("URI");
+        String URI = selectionData.get("QUESTION_FROM");
         
         String QuestionId = theAction.action_naming_convention() +  selectionData.get("ID");
         
@@ -286,7 +362,7 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
                 return;
             }
             //now add the section
-            ooDocument.addViewSection(QuestionId, new Integer(0xffffe1));
+            ooDocument.addViewSection(QuestionId, new Integer(0xffffff));
             //now add the section Content
             MessageBox.OK(parent, "The selected text was placed in a section , and marked up " +
                     "as: " + QuestionId + "\n Please highlight the name of the person making the speech to assigne their metadata");
@@ -311,7 +387,13 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
                 return;
             }
             */
-             
+            
+            /*
+             *Import of Question in XHTML Format is done in the following way..
+             *Question text is dumped into a temporary html file
+             *the temporary html file is loaded (using loadComponentFromFile() ) into
+             *the section, the OOo html importer takes care of formatting the html.
+             */
              
             UUIDGenerator gen = UUIDGenerator.getInstance();
             UUID uuid = gen.generateTimeBasedUUID();
@@ -328,8 +410,11 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             //now add the section
             // commented on 13 Sep 2007
             //ooDocument.addViewSection(QuestionId, new Integer(0xffffe1));
+            /*
+             *Add question section into the QA section
+             */
             log.debug("adding section inside section");
-            long sectionBackColor = 0xe6e6cc;
+            long sectionBackColor = 0xffffff;
             float sectionLeftMargin = (float).2;
             log.debug("section left margin : "+ sectionLeftMargin);
             ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
@@ -341,16 +426,27 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             
             //now add the section Content
             //add question title into section
+            /*
+             *Add hansard_question document fragment to import the question header into the 
+             *document, question header - which sets question title and brief writeup about question
+             */
             ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
             insertDocIntoSection.addParameter(QuestionId)   ;
             insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_question"));
             ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
             //search replace title into question title marker
+            /*
+             *SearchAndReplace question_title with actual question title from the swing dialog
+             */
             ExternalMacro SearchAndReplace = ExternalMacroFactory.getMacroDefinition("SearchAndReplace");
             SearchAndReplace.addParameter("[[QUESTION_TITLE]]");
             SearchAndReplace.addParameter(QuestionTitle);
             ooDocument.executeMacro(SearchAndReplace.toString(), SearchAndReplace.getParams());
             //add sub section (numbered serially) and 
+            /*
+             *Generate incrementally numbered question section, generate it based on 
+             *current maximum question no. in document + 1
+             */
             String newSectionName = QuestionId + "-que1" ;
             int nCounter = 1;
             while (ooDocument.getTextSections().hasByName(newSectionName) ) {
@@ -359,8 +455,12 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             }
             
             log.debug("addingSectionInsideSection : queston id="+QuestionId+" , new section name="+newSectionName+" , sectionBackColor="+sectionBackColor+", "+sectionLeftMargin);
+            /*
+             *add a question section named based on the generated name above
+             *add it inside the qa section
+             */
             AddSectionInsideSection.clearParams();
-            sectionBackColor = 0xe6e6e6;
+            sectionBackColor = 0xffffff;
             sectionLeftMargin = (float).4;
             AddSectionInsideSection.addParameter(QuestionId);
             AddSectionInsideSection.addParameter(newSectionName);
@@ -368,40 +468,79 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
             AddSectionInsideSection.addParameter(sectionLeftMargin);
             ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
             //import sub section fragment
+            /*
+             *Import hansard_question_text fragment into newly created section
+             */
             insertDocIntoSection.clearParams();
             insertDocIntoSection.addParameter(newSectionName);
             insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_question_text"));
             ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
             //search and replace into fragment
+            /*
+             *Search and replace "question by" from between the beginnign and ending bookmarks
+             */
             String[] arrBookmarkRanges = { "begin-question_from", "end-question_from" };
-            
             ExternalMacro SearchAndReplace2 = ExternalMacroFactory.getMacroDefinition("SearchAndReplace2");
             SearchAndReplace2.addParameter("[[QUESTION_FROM]]");
             SearchAndReplace2.addParameter(PersonName);
             SearchAndReplace2.addParameter(arrBookmarkRanges);
             SearchAndReplace2.addParameter("Name: "+PersonName+ ";URI: "+selectionData.get("QUESTION_FROM"));
-            
             ooDocument.executeMacro(SearchAndReplace2.toString(), SearchAndReplace2.getParams());
-      
+            /*
+             *Imported section has section called mp_name that contains the default name "mp_name"
+             *rename it to the UUID based name
+             */
+            ExternalMacro RenameSection = ExternalMacroFactory.getMacroDefinition("RenameSection");
+            RenameSection.addParameter("mp_name");
+            String renamedSectionName = "meta-mp-"+uuid.toString();
+            RenameSection.addParameter(renamedSectionName);
+            ooDocument.executeMacro(RenameSection.toString(), RenameSection.getParams());
+            
+            String[] attrNames = new String[5];
+            String[] attrValues = new String[5];
+            attrNames[0] = "Bungeni_QuestionMemberFrom";
+            attrNames[1] = "Bungeni_QuestionMemberFromURI" ;
+            attrNames[2] = "Bungeni_QuestionID";
+            attrNames[3] = "Bungeni_QuestionAddressedTo";
+            attrNames[4] = "Bungeni_QuestionTitle";
+            
+            attrValues[0] = PersonName;
+            attrValues[1] = URI;
+            attrValues[2] = QuestionId;
+            attrValues[3] = AddressedTo;
+            attrValues[4] = QuestionTitle;
+            /*
+             *Set metadata into section
+             */
+            ExternalMacro SetSectionMetadata = ExternalMacroFactory.getMacroDefinition("SetSectionMetadata");
+            SetSectionMetadata.addParameter(newSectionName );
+            SetSectionMetadata.addParameter(attrNames);
+            SetSectionMetadata.addParameter(attrValues);
+            ooDocument.executeMacro(SetSectionMetadata.toString(), SetSectionMetadata.getParams());
+            
             //SearchAndReplace.clearParams();
             //SearchAndReplace.addParameter("[[QUESTION_TEXT]]");
             //SearchAndReplace.addParameter(QuestionText);
             //ooDocument.executeMacro(SearchAndReplace.toString(), SearchAndReplace.getParams());
-        
+            /*
             SearchAndReplace.clearParams();
             SearchAndReplace.addParameter("[[QUESTION_NO]]");
             SearchAndReplace.addParameter(newSectionName);
             ooDocument.executeMacro(SearchAndReplace.toString(), SearchAndReplace.getParams());
-        
+            */
+            
+            /*
+             *Import html document framgment 
+             */
             ExternalMacro insertHtmlDocumentIntoSection = ExternalMacroFactory.getMacroDefinition("InsertHTMLDocumentIntoSection");
             insertHtmlDocumentIntoSection.addParameter(newSectionName);
             insertHtmlDocumentIntoSection.addParameter(pathToFile+tmpFileName);
             insertHtmlDocumentIntoSection.addParameter(new String("question-text"));
             ooDocument.executeMacro(insertHtmlDocumentIntoSection.toString(), insertHtmlDocumentIntoSection.getParams() );
             
-            MessageBox.OK(parent, "Finished Importing !");
+            //MessageBox.OK(parent, "Finished Importing !");
             returnError(true);
-
+            parent.dispose();
         }   
         
     // End of variables declaration                      
@@ -466,23 +605,9 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
           ooDocument.addViewSection(newSectionName); 
         
     }
-    public void setDialogMode(SelectorDialogModes mode) {
-        theMode = mode;
-        initFields();
-    }
+   
 
-    public SelectorDialogModes getDialogMode() {
-        return theMode;
-    }
-
-    public void setOOComponentHelper(OOComponentHelper ooComp) {
-    }
-
-    public void setToolbarAction(toolbarAction action) {
-    }
-
-    public void setParentDialog(JDialog dlg) {
-    }
+   
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -490,6 +615,7 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnSelectQuestion;
     private javax.swing.JLabel lblNameOfPersonFrom;
+    private javax.swing.JLabel lblPersonURI;
     private javax.swing.JLabel lblQuestionAddressedTo;
     private javax.swing.JLabel lblQuestionText;
     private javax.swing.JLabel lblQuestionTitle;
@@ -499,7 +625,8 @@ public class InitQuestionBlock extends javax.swing.JPanel implements IDialogSele
     private javax.swing.JTextField txtAddressedTo;
     private javax.swing.JTextArea txtMessageArea;
     private javax.swing.JTextField txtPersonName;
-    private javax.swing.JTextArea txtQuestionText;
+    private javax.swing.JTextField txtPersonURI;
+    private javax.swing.JTextPane txtQuestionText;
     private javax.swing.JTextField txtQuestionTitle;
     // End of variables declaration//GEN-END:variables
     

@@ -29,6 +29,7 @@ import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextRange;
+import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextTable;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.text.XTextViewCursorSupplier;
@@ -43,12 +44,16 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -57,11 +62,14 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -76,13 +84,17 @@ import javax.swing.JTree;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.Timer;
 import javax.swing.WindowConstants;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.BungeniRegistryFactory;
 import org.bungeni.db.DefaultInstanceFactory;
@@ -96,6 +108,7 @@ import org.bungeni.ooo.ooDocNotes;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.ooo.ooUserDefinedAttributes;
 import org.bungeni.utils.BungeniDataReader;
+import org.bungeni.utils.CommonTreeFunctions;
 import org.bungeni.utils.DocStructureElement;
 import org.bungeni.utils.MessageBox;
 import org.bungeni.utils.StackedBox;
@@ -116,11 +129,20 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private XComponentContext ComponentContext;
     private OOComponentHelper ooDocument;
     private ooDocNotes m_ooNotes;
+    private JFrame parentFrame;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(editorTabbedPanel.class.getName());
     private String[] arrDocTypes = { "Acts" , "DebateRecords", "Bills" };
     //vector that houses the list of document headings used by the display tree
     private Vector<DocStructureElement> mvDocumentHeadings = new Vector<DocStructureElement>();
-         
+    private Vector<String> mvSections = new Vector<String>();
+    private DefaultMutableTreeNode sectionsRootNode;
+    private Timer sectionNameTimer;
+    private Timer docStructureTimer;
+    private Thread tStructure;
+    private changeStructureItem selectedChangeStructureItem;
+    private JTree treeDocStructureTree;
+    private JPopupMenu popupMenuTreeStructure = new JPopupMenu();
+    private boolean mouseOver_TreeDocStructureTree = false;
     /** Creates new form SwingTabbedJPanel */
     public editorTabbedPanel() {
         initComponents();
@@ -129,11 +151,12 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     /**
      * Constructor for main Tabbed panel interface
      */
-    public editorTabbedPanel(XComponent impComponent, XComponentContext impComponentContext){
+    public editorTabbedPanel(XComponent impComponent, XComponentContext impComponentContext, JFrame parentFrame){
         
        this.Component = impComponent;
        this.ComponentContext = impComponentContext;
        ooDocument = new OOComponentHelper(impComponent, impComponentContext);
+       this.parentFrame = parentFrame;
        initComponents();   
        initFields();
        initializeValues();
@@ -141,15 +164,49 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        initCollapsiblePane();
        initNotesPanel();
        initBodyMetadataPanel();
-     
+       initTimers();
+      
     }
+    
+  
     
     private void initFields(){
         //initTree();
         treeDocStructure.setModel(new DefaultListModel());
-        initList();
+        treeDocStructureTree = new JTree();
+        treeDocStructureTree.setExpandsSelectedPaths(true);
+        treeDocStructureTree.addMouseListener(new treeDocStructureTreeMouseListener());
+        //initList();
+        //initSectionList();
         //clear meatada listbox
         listboxMetadata.setModel(new DefaultListModel());
+        //init combo change structure
+        changeStructureItem[] items = initChangeStructureItems();
+        for (int i=0; i < items.length; i++) {
+            comboChangeStructure.addItem(items[i]);    
+        }
+        comboChangeStructure.addActionListener (new comboChangeStructureListener());
+        selectedChangeStructureItem = (changeStructureItem)comboChangeStructure.getSelectedItem();
+        initList();
+    }
+    
+    private changeStructureItem[] initChangeStructureItems() {
+        changeStructureItem itema = new changeStructureItem ("VIEW_PARAGRAPHS", "View Paragraphs");
+        changeStructureItem itemb = new changeStructureItem ("VIEW_SECTIONS", "View Sections");
+        changeStructureItem[] items = new changeStructureItem[2];
+        items[0] = itema;
+        items[1] = itemb;
+        return items;
+    }
+    
+    class comboChangeStructureListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            JComboBox box = (JComboBox) e.getSource();
+            changeStructureItem theItem = (changeStructureItem) box.getSelectedItem();
+            String theIndex = theItem.getIndex();
+            selectedChangeStructureItem = theItem;
+        }
+        
     }
     
     private void initCollapsiblePane(){
@@ -184,6 +241,10 @@ public class editorTabbedPanel extends javax.swing.JPanel {
          log.debug("exception : "+ e.getMessage());
      }
      
+    }
+    
+    private editorTabbedPanel self() {
+        return this;
     }
     
     private void initNotesPanel() {
@@ -254,9 +315,108 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     public Component getComponentHandle(){
         return this;
     }
-    private void initList(){
+    
+    private void initList() {
+        if (selectedChangeStructureItem.getIndex().equals("VIEW_PARAGRAPHS")) {
+            log.debug("initList: initParagraphList");
+            scrollPane_treeDocStructure.setViewportView(treeDocStructure);
+            initParagraphList(); 
+        } else {
+            log.debug("initList: initSectionList");
+            scrollPane_treeDocStructure.setViewportView(treeDocStructureTree);
+            //do not refresh if the mouse is over the tree
+            if (mouseOver_TreeDocStructureTree) 
+                return;
+            initSectionList();
+        }    
+   }
+    
+    private void initSectionsArray() {
+        try {
+            treeDocStructureTree.removeAll();
+            //this.sectionsRootNode = null ; //new DefaultMutableTreeNode(new String("root"));
+            
+            //mvSections.removeAllElements();
+            if (!ooDocument.getTextSections().hasByName("root")) {
+                log.debug("no root section found");
+                return;
+            }
+            Object rootSection = ooDocument.getTextSections().getByName("root");
+            XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
+            sectionsRootNode = new DefaultMutableTreeNode(new String("root"));
+            
+            recurseSections (theSection, sectionsRootNode);
+            
+            CommonTreeFunctions.expandAll(treeDocStructureTree, true);
+        
+        } catch (NoSuchElementException ex) {
+            log.debug(ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.debug(ex.getMessage());
+        }
+    }
+    
+    private void recurseSections (XTextSection theSection, DefaultMutableTreeNode node ) {
+        try {
+     
+      //  mvSections.add(padding + sectionName);
+      //  log.debug("recurse sections, section name:"+padding+sectionName);
+        //recurse children
+        XTextSection[] sections = theSection.getChildSections();
+         
+        if (sections != null ) {
+            if (sections.length > 0 ) {
+                //start from last index and go to first
+                for (int nSection = sections.length - 1 ; nSection >=0 ; nSection--) {
+                    log.debug ("section name = "+sections[nSection] );
+                    //get the name for the section and add it to the root node.
+                    XPropertySet childSet = ooQueryInterface.XPropertySet(sections[nSection]);
+                    String childSectionName = (String) childSet.getPropertyValue("LinkDisplayName");
+                    DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(childSectionName);
+                    
+                    node.add(newNode);
+                    
+                    recurseSections (sections[nSection], newNode);
+                    
+                }
+            } else 
+                return;
+        } else 
+            return;
+        } catch (UnknownPropertyException ex) {
+            log.debug(ex.getMessage());
+        } catch (WrappedTargetException ex ) {
+            log.debug(ex.getMessage());
+        }
+    }
+    
+    private void initSectionList() {
+     initSectionsArray();   
+     treeDocStructureTree.setModel(new DefaultTreeModel(sectionsRootNode));
+     CommonTreeFunctions.expandAll(treeDocStructureTree, true);
+     /*
+     DefaultListModel model = new DefaultListModel();
+                for (int i=0 ; i < mvSections.size(); i++)
+                     {               
+                        String elem = (String)mvSections.elementAt(i);
+                        model.addElement(elem);
+                     }
+                    // ListSelectionModel selectionModel = treeDocStructure.getSelectionModel();
+                    // selectionModel.addListSelectionListener(new DocStructureListSelectionHandler());
+                        
+                     treeDocStructure.setModel(model);
+                    // treeDocStructure.setCellRenderer(new DocStructureListElementRenderer());
+                    // treeDocStructure.addMouseListener(new DocStructureListMouseListener());    
+    
+      */
+      }
+    
+    
+    private void initParagraphList(){
        
        try { 
+     
+       mvDocumentHeadings.removeAllElements();
        XText objText = ooDocument.getTextDocument().getText();//getTextDocument().getText();
        
        XEnumerationAccess objEnumAccess = (XEnumerationAccess) UnoRuntime.queryInterface( XEnumerationAccess.class, objText); 
@@ -269,10 +429,10 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        
         // While there are paragraphs, do things to them 
         //first we find the number of heading paragraphs
-        log.debug("Inside getDocumentTree, entering, hasMoreElements");
+        //log.debug("Inside getDocumentTree, entering, hasMoreElements");
         
         while (paraEnum.hasMoreElements()) { 
-            //log.debug("Inside getDocumentTree, inside, hasMoreElements");
+            log.debug("Inside getDocumentTree, inside, hasMoreElements");
 
             XServiceInfo xInfo;
             xInfo = null;
@@ -286,34 +446,26 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                 // Access the paragraph's property set...the properties in this 
                 // property set are listed 
                 // in: com.sun.star.style.ParagraphProperties 
-                // log.debug("Inside getDocumentTree, supportsService paragraph");
+                log.debug("Inside getDocumentTree, supportsService paragraph");
 
                 XPropertySet xSet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, xInfo);
                      // Set the justification to be center justified 
-                    //log.debug("Inside getDocumentTree, before , NumberingLevel");
-                        
+                    log.debug("Inside getDocumentTree, before , NumberingLevel");
                     short nLevel = -1;
-                 
                     nLevel = AnyConverter.toShort(xSet.getPropertyValue("ParaChapterNumberingLevel"));
-                   
-                    
-                    //log.debug("Inside getDocumentTree, after , NumberingLevel = "+ nLevel);
+                    log.debug("Inside getDocumentTree, after , NumberingLevel = "+ nLevel);
                     /*
                      *count total headings >= level 0
                      *iterate through all the headings again
                      *for each heading add the level information for the heading
                      */
                     if (nLevel >= 0 ){
-                        
                         nHeadsFound++;
                         XTextContent xContent = ooDocument.getTextContent(objNextElement);
                         XTextRange aTextRange =   xContent.getAnchor();
                         String strHeading = aTextRange.getString();
-                        
                         if (nLevel > nMaxLevel)
                             nMaxLevel = nLevel;
-                        
-                        
                         DocStructureElement element = new DocStructureElement(strHeading, nLevel, nHeadsFound, aTextRange );
                         if (previousElement == null  ){ 
                             previousElement = element;
@@ -334,7 +486,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                             }
                         }
                            
-                        //log.debug("adding heading level =" + nLevel + " and heading count = "+nHeadsFound);
+                        log.debug("adding heading level =" + nLevel + " and heading count = "+nHeadsFound);
                         mvDocumentHeadings.addElement(element);
                         
                         //TextRange can be used to getText()
@@ -468,6 +620,26 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             
    }
     
+   class treeDocStructureTreeMouseListener implements MouseListener {
+        public void mouseClicked(MouseEvent e) {
+        }     
+        public void mousePressed(MouseEvent evt) {
+        }
+        public void mouseReleased(MouseEvent e) {
+        }
+
+        public void mouseEntered(MouseEvent e) {
+            log.debug("treeDocStructureTree: mouseEntered!!");
+            mouseOver_TreeDocStructureTree = true;
+        }
+
+        public void mouseExited(MouseEvent e) {
+            log.debug("treeDocStructureTree: mouseExiting!!");
+            mouseOver_TreeDocStructureTree = false;
+        }
+       
+   }
+    
     /**
      * Mouse event listener for list box displaying document structure
      */
@@ -543,16 +715,6 @@ public class editorTabbedPanel extends javax.swing.JPanel {
    
    
    
-   private XServiceInfo getServiceInfo(Object obj){
-             XServiceInfo xInfo = (XServiceInfo) UnoRuntime.queryInterface(XServiceInfo.class, obj);
-             return xInfo;
-   }
-    
-    private XTextContent getTextContent(Object element){
-        XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, element);
-        return xContent;
-    }
- 
     /**** TEST METHOD *****/
   /*
     private DocStructureTreeNode getTree() {
@@ -618,105 +780,6 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             }
        
     }
-    
-    /*           
-            
-    private XTextDocument getTextDocument(){
-        XTextDocument xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, this.Component);
-        return xTextDoc;
-    }
-    
-    private XModel getDocumentModel(){
-        return (XModel)UnoRuntime.queryInterface(XModel.class, this.Component);
-    }
-    
-    private XTextViewCursor getViewCursor(){
-     XTextViewCursorSupplier xViewCursorSupplier = (XTextViewCursorSupplier)UnoRuntime.queryInterface(XTextViewCursorSupplier.class, getDocumentModel().getCurrentController());
-     XTextViewCursor xViewCursor = xViewCursorSupplier.getViewCursor();
-     return xViewCursor;
-    }
-    
-    private XDocumentInfo getDocumentInfo(XTextDocument doc){
-      XDocumentInfoSupplier xdisInfoProvider =  (XDocumentInfoSupplier) UnoRuntime.queryInterface(XDocumentInfoSupplier.class, doc );
-      return  xdisInfoProvider.getDocumentInfo();
-    }
-    
-    private void addProperty (String propertyName, String value){
-        
-         XPropertyContainer xDocPropertiesContainer = (XPropertyContainer) UnoRuntime.queryInterface(XPropertyContainer.class, getDocumentInfo(getTextDocument()));
-        try {
-       
-            xDocPropertiesContainer.addProperty(propertyName, (short)0, new Any(com.sun.star.uno.Type.STRING, value));
-        } catch (PropertyExistException ex) {
-            log.debug("Property " + propertyName + " already Exists");
-        } catch (com.sun.star.lang.IllegalArgumentException ex) {
-            log.debug(ex.getLocalizedMessage(), ex);
-        } catch (IllegalTypeException ex) {
-            log.debug(ex.getLocalizedMessage(), ex);
-        }
-    }
-    
-    private void setPropertyValue(String propertyName, String propertyValue) {
-            XDocumentInfo xdi = getDocumentInfo(getTextDocument());
-            XPropertySet xDocProperties = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, xdi);
-            try{
-                xDocProperties.setPropertyValue(propertyName, propertyValue);
-            } catch (UnknownPropertyException ex) {
-                ex.printStackTrace();
-            } catch (WrappedTargetException ex) {
-                ex.printStackTrace();
-            } catch (com.sun.star.lang.IllegalArgumentException ex) {
-                ex.printStackTrace();
-            } catch (PropertyVetoException ex) {
-                ex.printStackTrace();
-            }
-    }
-    
-    private String getPropertyValue(String propertyName ) throws UnknownPropertyException{
-            XDocumentInfo xdi = getDocumentInfo(getTextDocument());
-            String value="";
-        XPropertySet xDocProperties = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, xdi);
-        try {
-             value = (String) xDocProperties.getPropertyValue(propertyName);
-           /// value = anyUnoValue.toString();
-        } catch (UnknownPropertyException ex) {
-            log.debug("Property "+ propertyName+ " does not exit");
-        } catch (WrappedTargetException ex) {
-            log.debug(ex.getLocalizedMessage(), ex);
-        } finally {
-            return value;
-        }
-            
-    }
-    
-    private boolean propertyExists(String propertyName){
-        XDocumentInfo xdi = getDocumentInfo(getTextDocument());
-        boolean bExists = false;
-        XPropertySet xDocProperties = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, xdi);
-        try {
-     
-                Object objValue =  xDocProperties.getPropertyValue(propertyName);
-                bExists = true;
-                log.debug("property Exists - value : "+ AnyConverter.toString(objValue) );
-            } 
-        catch (com.sun.star.lang.IllegalArgumentException ex) {
-                        bExists = false;
-                         log.debug("propertyExists - unknown property exception");
-            }
-         catch (UnknownPropertyException ex) {
-                 log.debug("propertyExists - unknown property exception");
-                //property does not exist
-                    bExists = false;
-        }
-        catch (WrappedTargetException ex) {
-                      bExists = false;
-            }
-        finally {
-            return bExists;
-        }
-     }
-    
-     */
     
     /**
      * Class that handles rendering of List cell elements, in the Document Structure listbox
@@ -865,6 +928,10 @@ private void displayUserMetadata(XTextRange xRange) {
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
         btnGrpBodyMetadataTarget = new javax.swing.ButtonGroup();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTree1 = new javax.swing.JTree();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTree2 = new javax.swing.JTree();
         jTabsContainer = new javax.swing.JTabbedPane();
         panelMetadata = new javax.swing.JPanel();
         lblDocAuthor = new javax.swing.JLabel();
@@ -874,7 +941,8 @@ private void displayUserMetadata(XTextRange xRange) {
         cboDocURI = new javax.swing.JComboBox();
         btnSetMetadata = new javax.swing.JButton();
         txtDocType = new javax.swing.JTextField();
-        btnTester = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tableDocMetadata = new javax.swing.JTable();
         panelBodyMetadata = new javax.swing.JPanel();
         lblSelectBodyMetadata = new javax.swing.JLabel();
         cboSelectBodyMetadata = new javax.swing.JComboBox();
@@ -901,10 +969,16 @@ private void displayUserMetadata(XTextRange xRange) {
         jLabel4 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtEditorNote = new javax.swing.JTextArea();
-        jLabel2 = new javax.swing.JLabel();
         scrollPane_treeDocStructure = new javax.swing.JScrollPane();
         treeDocStructure = new javax.swing.JList();
-        btnViewSelectedMetadata = new javax.swing.JButton();
+        lbl_DocStructTitle = new javax.swing.JLabel();
+        comboChangeStructure = new javax.swing.JComboBox();
+        toggleEditSection = new javax.swing.JCheckBox();
+        lbl_SectionName = new javax.swing.JTextField();
+
+        jScrollPane2.setViewportView(jTree1);
+
+        jScrollPane3.setViewportView(jTree2);
 
         setFont(new java.awt.Font("Tahoma", 0, 10));
         jTabsContainer.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
@@ -928,12 +1002,18 @@ private void displayUserMetadata(XTextRange xRange) {
 
         txtDocType.setEditable(false);
 
-        btnTester.setText("Test Action");
-        btnTester.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTesterActionPerformed(evt);
+        tableDocMetadata.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"DOC_AUTHOR", null},
+                {"DOC_TYPE", "debaterecord"},
+                {"PARLIAMENT_ID", null},
+                {"PARLIAMENT_SITTING", null}
+            },
+            new String [] {
+                "METADATA", "VALUE"
             }
-        });
+        ));
+        jScrollPane4.setViewportView(tableDocMetadata);
 
         org.jdesktop.layout.GroupLayout panelMetadataLayout = new org.jdesktop.layout.GroupLayout(panelMetadata);
         panelMetadata.setLayout(panelMetadataLayout);
@@ -943,20 +1023,21 @@ private void displayUserMetadata(XTextRange xRange) {
                 .add(panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(panelMetadataLayout.createSequentialGroup()
                         .addContainerGap()
+                        .add(txtDocType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                    .add(panelMetadataLayout.createSequentialGroup()
+                        .addContainerGap()
                         .add(panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(txtDocAuthor, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                             .add(lblDocAuthor, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                             .add(lblDocType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                             .add(lblDocURI)
                             .add(cboDocURI, 0, 218, Short.MAX_VALUE)))
-                    .add(panelMetadataLayout.createSequentialGroup()
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, panelMetadataLayout.createSequentialGroup()
                         .addContainerGap()
-                        .add(txtDocType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                        .add(jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
                     .add(panelMetadataLayout.createSequentialGroup()
-                        .add(67, 67, 67)
-                        .add(panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, btnTester, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, btnSetMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .add(66, 66, 66)
+                        .add(btnSetMetadata)))
                 .addContainerGap())
         );
         panelMetadataLayout.setVerticalGroup(
@@ -974,11 +1055,11 @@ private void displayUserMetadata(XTextRange xRange) {
                 .add(lblDocURI)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(cboDocURI, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(18, 18, 18)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnSetMetadata)
-                .add(18, 18, 18)
-                .add(btnTester)
-                .addContainerGap(87, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         jTabsContainer.addTab("Doc. Metadata", panelMetadata);
 
@@ -1205,8 +1286,6 @@ private void displayUserMetadata(XTextRange xRange) {
         );
         jTabsContainer.addTab("Notes", panelNotes);
 
-        jLabel2.setText("Document Structure");
-
         treeDocStructure.setFont(new java.awt.Font("Tahoma", 0, 10));
         treeDocStructure.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -1215,31 +1294,37 @@ private void displayUserMetadata(XTextRange xRange) {
         });
         scrollPane_treeDocStructure.setViewportView(treeDocStructure);
 
-        btnViewSelectedMetadata.setFont(new java.awt.Font("Tahoma", 0, 10));
-        btnViewSelectedMetadata.setText("View Selected Item Metadata...");
-        btnViewSelectedMetadata.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnViewSelectedMetadata_Clicked(evt);
-            }
-        });
+        lbl_DocStructTitle.setText("Current Section Name:");
+
+        toggleEditSection.setText("Edit Section");
+        toggleEditSection.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        toggleEditSection.setMargin(new java.awt.Insets(0, 0, 0, 0));
+
+        lbl_SectionName.setEditable(false);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jTabsContainer, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                .add(toggleEditSection)
+                .add(14, 14, 14)
+                .add(comboChangeStructure, 0, 136, Short.MAX_VALUE)
                 .addContainerGap())
-            .add(jTabsContainer, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(62, Short.MAX_VALUE)
-                .add(btnViewSelectedMetadata)
-                .addContainerGap())
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+            .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(scrollPane_treeDocStructure, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
                 .addContainerGap())
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(lbl_SectionName, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                .addContainerGap())
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(lbl_DocStructTitle, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                .add(91, 91, 91))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1247,35 +1332,17 @@ private void displayUserMetadata(XTextRange xRange) {
                 .addContainerGap()
                 .add(jTabsContainer, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 335, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel2)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(scrollPane_treeDocStructure, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 188, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(lbl_DocStructTitle)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 10, Short.MAX_VALUE)
+                .add(lbl_SectionName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnViewSelectedMetadata)
-                .addContainerGap())
+                .add(scrollPane_treeDocStructure, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 183, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(comboChangeStructure, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(toggleEditSection)))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnTesterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTesterActionPerformed
-// TODO add your handling code here:
-     Object[] params = new Object[1];
-     params[0] = new String("prayers");
-     this.ooDocument.executeMacro("AddSectionText", params);
-     return;
-     /*
-     JDialog initDebaterecord;
-     initDebaterecord = new JDialog();
-     initDebaterecord.setTitle("Select an MP");
-     initDebaterecord.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-     //initDebaterecord.setPreferredSize(new Dimension(420, 300));
-     InitDebateRecord panel = new InitDebateRecord(ooDocument, initDebaterecord);;
- 
-     initDebaterecord.getContentPane().add(panel);
-     initDebaterecord.pack();
-     initDebaterecord.setVisible(true);
-     initDebaterecord.setAlwaysOnTop(true);*/
-
-    }//GEN-LAST:event_btnTesterActionPerformed
 
     private void listboxEditorNotesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listboxEditorNotesValueChanged
 // TODO add your handling code here:
@@ -1312,24 +1379,6 @@ private void displayUserMetadata(XTextRange xRange) {
     txtEditorNote.setEditable(true);
        
     }//GEN-LAST:event_btnNewEditorNoteActionPerformed
-
-    private void btnViewSelectedMetadata_Clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewSelectedMetadata_Clicked
-   // TODO add your handling code here:
-        int nIndex = treeDocStructure.getMaxSelectionIndex();
-        System.out.println("selected index = " + nIndex);
-        DocStructureElement docElement = (DocStructureElement)mvDocumentHeadings.elementAt(nIndex);
-        displayUserMetadata(docElement.getRange());
-        /*  int nIndex = listBox.locationToIndex(e.getPoint());
-                //JOptionPane.showMessageDialog(null, "current selected index is = "+ nIndex);
-                
-                //get view cursor 
-                XTextViewCursor xViewCursor = ooDocument.getViewCursor();
-                //get the current object range
-                DocStructureElement docElement = (DocStructureElement)mvDocumentHeadings.elementAt(nIndex);
-                //move the view cursor to the element's range
-                xViewCursor.gotoRange(docElement.getRange(), false);   */
-        
-    }//GEN-LAST:event_btnViewSelectedMetadata_Clicked
 
     private void btnApplyMetadata_Clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyMetadata_Clicked
 // TODO add your handling code here:
@@ -1395,6 +1444,80 @@ private void displayUserMetadata(XTextRange xRange) {
       mpDialog.dispose();
   }
     
+/*
+ *
+ *
+ *
+ *
+ *
+ */  
+  class CurrentSectionNameUpdater implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            
+            String strSection="";
+            strSection = currentSectionName();
+            if (strSection.trim().length() == 0)
+                self().lbl_SectionName.setText("Cursor not in section");
+            else
+                self().lbl_SectionName.setText(strSection);
+            
+        }
+
+        
+        public String currentSectionName() {
+            XTextSection loXTextSection;
+            XTextViewCursor loXTextCursor;
+            XPropertySet loXPropertySet;
+            String lstrSectionName = "";
+
+         try
+         {
+            loXTextCursor = ooDocument.getViewCursor();
+            loXPropertySet = ooQueryInterface.XPropertySet(loXTextCursor);
+            loXTextSection = (XTextSection)((Any)loXPropertySet.getPropertyValue("TextSection")).getObject();
+            if (loXTextSection != null)
+            {
+                loXPropertySet = ooQueryInterface.XPropertySet(loXTextSection);
+                lstrSectionName = (String)loXPropertySet.getPropertyValue("LinkDisplayName");
+            }
+          }
+          catch (java.lang.Exception poException)
+            {
+                log.debug("currentSectionName:" + poException.getLocalizedMessage());
+            }
+          finally {  
+             return lstrSectionName; 
+          }
+        }
+        
+  }
+    
+    
+  
+    
+    
+    
+    private synchronized void initTimers(){
+   
+      //  synchronized(this);
+        try {
+            Action DocStructureListRunner = new AbstractAction() {
+                public void actionPerformed (ActionEvent e) {
+                    initList();
+                }
+            };
+            
+            docStructureTimer = new Timer(3000, DocStructureListRunner);
+            docStructureTimer.start();   
+            sectionNameTimer = new Timer(1000, new CurrentSectionNameUpdater());
+            sectionNameTimer.start();
+          
+            //docStructureTimer = new java.util.Timer();
+            //docStructureTimer.schedule(task, 0, 3000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     private JTable mpTable;
     private JDialog mpDialog;
@@ -1558,6 +1681,22 @@ private void displayUserMetadata(XTextRange xRange) {
      
     }//GEN-LAST:event_btnSetMetadataActionPerformed
     
+    class changeStructureItem {
+        String itemText;
+        String itemIndex;
+        changeStructureItem(String itemIndex, String itemText) {
+            this.itemText = itemText;
+            this.itemIndex = itemIndex;
+        }
+        
+        public String getIndex() {
+            return itemIndex;
+        }
+        public String toString(){
+            return itemText;
+        }
+        
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApplyMetadata;
@@ -1567,23 +1706,28 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JButton btnNewEditorNote;
     private javax.swing.JButton btnSaveEditorNote;
     private javax.swing.JButton btnSetMetadata;
-    private javax.swing.JButton btnTester;
-    private javax.swing.JButton btnViewSelectedMetadata;
     private javax.swing.JComboBox cboDocURI;
     private javax.swing.JComboBox cboSelectBodyMetadata;
+    private javax.swing.JComboBox comboChangeStructure;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JTabbedPane jTabsContainer;
+    private javax.swing.JTree jTree1;
+    private javax.swing.JTree jTree2;
     private javax.swing.JLabel lblDocAuthor;
     private javax.swing.JLabel lblDocType;
     private javax.swing.JLabel lblDocURI;
     private javax.swing.JLabel lblEditorNotes;
     private javax.swing.JLabel lblEnterMetadataValue;
     private javax.swing.JLabel lblSelectBodyMetadata;
+    private javax.swing.JLabel lbl_DocStructTitle;
+    private javax.swing.JTextField lbl_SectionName;
     private javax.swing.JList listboxEditorNotes;
     private javax.swing.JList listboxMetadata;
     private javax.swing.JPanel panelBodyMetadata;
@@ -1596,7 +1740,9 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JScrollPane scrollListboxMetadata;
     private javax.swing.JScrollPane scrollPane_treeDocStructure;
     private javax.swing.JScrollPane scroll_panelNotes;
+    private javax.swing.JTable tableDocMetadata;
     private javax.swing.JScrollPane tblDocHistory;
+    private javax.swing.JCheckBox toggleEditSection;
     private javax.swing.JList treeDocStructure;
     private javax.swing.JTextField txtDocAuthor;
     private javax.swing.JTextField txtDocType;

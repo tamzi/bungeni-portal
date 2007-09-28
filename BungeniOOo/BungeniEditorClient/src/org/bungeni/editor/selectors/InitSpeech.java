@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
 import javax.swing.JDialog;
+import org.apache.commons.collections.functors.TruePredicate;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.BungeniRegistryFactory;
 import org.bungeni.db.DefaultInstanceFactory;
@@ -34,32 +35,27 @@ import org.safehaus.uuid.UUIDGenerator;
  *
  * @author  Administrator
  */
-public class InitSpeech extends javax.swing.JPanel implements IDialogSelector {
-    private OOComponentHelper ooDocument;
-    private JDialog parent;
-    private BungeniClientDB dbInstance=null;
-    private toolbarAction theAction;
+public class InitSpeech extends selectorTemplatePanel {
+
     registryQueryDialog rqs;
-    private SelectorDialogModes theMode;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(InitSpeech.class.getName());
- 
+    private String sourceSectionName = "";
     HashMap<String, String> selectionData = new HashMap<String,String>();
     /** Creates new form InitQuestionBlock */
     public InitSpeech() {
         initComponents();
     }
     public InitSpeech(OOComponentHelper ooDocument, JDialog parentDlg, toolbarAction theAction) {
+        super(ooDocument, parentDlg, theAction);
         initComponents();
-        this.ooDocument = ooDocument;
-        this.parent = parentDlg;
-        this.theAction = theAction;
-        initFields();
+       
+        setControlModes();
+        setControlData();
    
-        HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
-        dbInstance = new BungeniClientDB(registryMap);
+      
     }
    
-    private void initFields() {
+    private void setControlModes() {
 
         if (theMode == SelectorDialogModes.TEXT_INSERTION) {
             
@@ -74,6 +70,67 @@ public class InitSpeech extends javax.swing.JPanel implements IDialogSelector {
                     "to markup the selected text with the correct speech metadata");
         }
     }
+    
+     public void setControlData() {
+        try {
+        //only in edit mode, only if the metadata properties exist
+        if (theMode == SelectorDialogModes.TEXT_EDIT) {
+            goEditMode();
+        
+           
+        } else if (theMode == SelectorDialogModes.TEXT_INSERTION) {
+           
+           this.lbl_URIofPerson.setEnabled(false);
+           this.txt_SpeechBy.setEnabled(true);
+           this.lbl_SpeechBy.setEnabled(true);
+           this.btn_SpeechBy.setEnabled(true);
+           
+        } else if (theMode == SelectorDialogModes.TEXT_SELECTED) {
+           
+            this.btn_SpeechBy.setEnabled(true);
+            this.txt_SpeechBy.setEditable(true);
+            this.txt_URIofPerson.setEditable(false);
+            
+        
+            
+        }
+        
+        } catch (Exception ex) {
+            log.debug("SetControlData: "+ ex.getMessage());
+        }
+    }
+     
+     public boolean goEditMode() {
+                 //get data from metadata in speech section
+            String currentSectionName = "";
+            currentSectionName = ooDocument.currentSectionName();
+            ///do stuff for speech sections retrieve from section metadata////
+            ///we probably need a associative metadata attribute factory that
+            ///retrieves valid metadata elements for specific seciton types.
+            ///how do you identify section types ? probably by naming convention....
+            if (currentSectionName.startsWith("meta-mp-")) {
+                //this section stores MP specific metadata
+                //get attribute names for mp specific metadata
+                //Bungeni_SpeechMemberName
+                //Bungeni_SpeechMemberURI
+                //the basic macro for adding attributes takes two arrays as a parameter
+                //one fr attribute names , one for attribute values
+                HashMap<String,String> attribMap = ooDocument.getSectionMetadataAttributes(currentSectionName);
+                this.sourceSectionName = currentSectionName;
+                if (attribMap.size() > 0 ) {
+                  this.txt_SpeechBy.setText(attribMap.get("Bungeni_MemberName"));
+                  this.txt_URIofPerson.setText(attribMap.get("Bungeni_MemberURI"));
+                  return true;
+                } else {
+                    log.debug("attribMap is  0!");
+                    return false;
+                }
+            } else {
+                MessageBox.OK(this.parent, "The Current section, "+currentSectionName + ", does not have any Speech related metadata !");
+                parent.dispose();
+                return false;
+            }
+     }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -229,22 +286,10 @@ public class InitSpeech extends javax.swing.JPanel implements IDialogSelector {
         
         //build attribute metadata for section
         Vector<String> AttrNames = new Vector<String>();
-        AttrNames.addElement(new String("Name"));
-        AttrNames.addElement(new String("URI"));
-        
+        AttrNames.addElement(new String("Bungeni_MemberName"));
+        AttrNames.addElement(new String("Bungeni_MemberURI"));
         String[] strAttrNames = AttrNames.toArray(new String[AttrNames.size()]);
-        
-        Vector<AttributeData> AttrValues  = new Vector<AttributeData>();
-        AttrValues.addElement(ooDocument._makeAttributeCDATAvalue(PersonName));
-        AttrValues.addElement(ooDocument._makeAttributeCDATAvalue(URI));
-        
-        AttributeData[] xmlAttrValues = AttrValues.toArray(new AttributeData[AttrValues.size()]);
-        
-
         //String newSectionName = strCurrentSection+"-speech"+speechCounter;
-        
-        
-        
         try {
         if (this.theMode == SelectorDialogModes.TEXT_SELECTED) {
             
@@ -253,7 +298,7 @@ public class InitSpeech extends javax.swing.JPanel implements IDialogSelector {
         } else if (this.theMode == SelectorDialogModes.TEXT_INSERTION) {
             
             
-            long sectionBackColor = 0xe6e6a0;
+            long sectionBackColor = 0xffffff;
             float sectionLeftMargin = (float).6;            
            ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
             AddSectionInsideSection.addParameter(strCurrentSection);
@@ -283,7 +328,8 @@ public class InitSpeech extends javax.swing.JPanel implements IDialogSelector {
             SearchAndReplaceWithAttrs.addParameter("Name: "+PersonName+";URI: "+URI);
             ooDocument.executeMacro(SearchAndReplaceWithAttrs.toString(), SearchAndReplaceWithAttrs.getParams());
             returnError(true);
-            MessageBox.OK(parent, "Added new Speech element to document, \n please type in the text of the speech.");
+            //MessageBox.OK(parent, "Added new Speech element to document, \n please type in the text of the speech.");
+            parent.dispose();
         }   
         
     // End of variables declaration                      
@@ -314,7 +360,7 @@ public class InitSpeech extends javax.swing.JPanel implements IDialogSelector {
     }
     public void setDialogMode(SelectorDialogModes mode) {
         theMode = mode;
-        initFields();
+        setControlModes();
     }
 
     public SelectorDialogModes getDialogMode() {

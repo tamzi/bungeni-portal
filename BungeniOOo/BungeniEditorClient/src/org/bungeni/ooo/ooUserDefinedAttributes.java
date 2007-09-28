@@ -17,6 +17,7 @@ import java.util.HashMap;
  */
 public class ooUserDefinedAttributes {
     private static String NS_PREFIX = "akoma:";
+    private HashMap<String,String> udfAttribs = new HashMap<String,String>();
     /** Creates a new instance of ooUserDefinedAttributes */
     public ooUserDefinedAttributes() {
     }
@@ -38,4 +39,10 @@ public class ooUserDefinedAttributes {
         }
         return xmlAttribs;
     }    
+    
+    public void addAttribute(String key, String value) {
+        
+    }
+    
+   
 }

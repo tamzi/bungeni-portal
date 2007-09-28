@@ -200,7 +200,7 @@ public class InitQAsection extends javax.swing.JPanel implements IDialogSelector
             
         } else if (this.theMode == SelectorDialogModes.TEXT_INSERTION) {
           
-           long sectionBackColor = 0xccccff;
+           long sectionBackColor = 0xeeffff;
             float sectionLeftMargin = (float).1;
             ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
             AddSectionInsideSection.addParameter("root");
@@ -220,9 +220,10 @@ public class InitQAsection extends javax.swing.JPanel implements IDialogSelector
             ooDocument.executeMacro(searchAndReplace.toString(), searchAndReplace.getParams());
 
             
-            MessageBox.OK(parent, "Finished Importing !");
+            //MessageBox.OK(parent, "Finished Importing !");
+            
             returnError(true);
-
+            parent.dispose();
         }   
     }//GEN-LAST:event_btnApplyActionPerformed
 

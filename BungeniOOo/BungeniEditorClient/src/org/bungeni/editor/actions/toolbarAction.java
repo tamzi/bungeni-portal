@@ -11,6 +11,7 @@ package org.bungeni.editor.actions;
 
 import java.util.HashMap;
 import java.util.Vector;
+import org.bungeni.editor.selectors.SelectorDialogModes;
 
 /**
  *
@@ -33,7 +34,7 @@ public class toolbarAction {
     private String action_icon;
     private String action_display_text;
     private String action_dimension;
-    
+    private SelectorDialogModes theMode = null;
            
     /** Creates a new instance of toolbarActionSettings */
     public toolbarAction(Vector<String> actionDesc, HashMap action_mapping) {
@@ -86,6 +87,9 @@ public class toolbarAction {
         return this.action_type;
     }
     
+    public int action_order() {
+       return Integer.parseInt(this.action_order);
+    }
     /*
      *Used only for defining the root action
      */
@@ -146,5 +150,13 @@ public class toolbarAction {
             return null;
         }
             
+    }
+    
+    public void setSelectorDialogMode (SelectorDialogModes mode) {
+        theMode = mode;
+    }
+    
+    public SelectorDialogModes getSelectorDialogMode(){
+        return theMode;
     }
 }

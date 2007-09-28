@@ -233,7 +233,11 @@ public class ooQueryInterface {
         return xObj;
     }
 
-    
+    static public XTextSection XTextSection(Object obj){
+        XTextSection xObj = (XTextSection)UnoRuntime.queryInterface(XTextSection.class, obj);
+        return xObj;
+    }
+
     
     //--------------------------------------------------
     //  Util                    com.sun.star.util.*

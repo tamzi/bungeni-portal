@@ -5,6 +5,7 @@ function bungeniMarginaliaInit( username, url, serviceRoot )
 	window.marginalia = new Marginalia( annotationService, username, username, {
 		preferences: new Preferences( new RestPreferenceService( serviceRoot + '/preference', true ) ),
 		baseUrl:  null,
+                annotationsUrl: serviceRoot,
 		showAccess:  true,
 		showBlockMarkers:  true,
 		showActions:  true,

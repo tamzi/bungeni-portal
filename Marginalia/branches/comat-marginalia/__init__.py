@@ -56,6 +56,8 @@ from config import *
 DirectoryView.registerDirectory('skins', product_globals)
 DirectoryView.registerDirectory('skins/Marginalia',
                                     product_globals)
+DirectoryView.registerDirectory('skins/marginalia',
+                                    product_globals)
 
 ##code-section custom-init-head #fill in your manual code here
 ##/code-section custom-init-head

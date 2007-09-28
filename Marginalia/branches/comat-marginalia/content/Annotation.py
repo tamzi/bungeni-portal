@@ -32,6 +32,7 @@ from Products.Archetypes.atapi import *
 from Products.Marginalia.config import *
 from Products.Marginalia.tools.SequenceRange import SequenceRange, SequencePoint
 from Products.Marginalia.tools.XPathRange import XPathRange, XPathPoint
+from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import *
 
 ##code-section module-header #fill in your manual code here
 from DateTime import DateTime
@@ -202,7 +203,13 @@ schema = Schema((
             i18n_domain='Marginalia',
         )
     ),
-
+    ReferenceField('reference_link', 
+                   multiValued=0,
+                   allowed_types=('ATDocument','ATFile', 'Article', 'AnnotatableDocument'),
+                   relationship='referenceLink1',
+                   widget=ReferenceBrowserWidget(default_search_index='SearchableText', description='This is the first field. Pick an object.'
+         )
+    ),
 ),
 )
 

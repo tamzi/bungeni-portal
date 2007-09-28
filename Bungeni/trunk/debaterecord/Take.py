@@ -170,7 +170,7 @@ class Take(BaseFolder, ATFile):
         tt = self[t_id]
 
         # Use a template to generate a new document
-        from ipdb import set_trace; set_trace()
+        #DBG from ipdb import set_trace; set_trace()
         # fd, fn = tempfile.mkstemp()
         tempFileName = '/tmp/%s.%f.%s' % (self._at_uid, time.time(), 'odt')
         r = renderer.Renderer(

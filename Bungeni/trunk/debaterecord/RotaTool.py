@@ -114,7 +114,7 @@ schema = Schema((
         multiValued=1,
         vocabulary='getRotaSubscribersVocab',
         default_method='setRotaSubscribersDefault',
-        allowed_types=['MemberOfParliament', 'Staff']
+        allowed_types="['MemberOfParliament', 'Staff']"
     ),
 
 ),

@@ -326,6 +326,7 @@ public class InitSpeech extends selectorTemplatePanel {
             SearchAndReplaceWithAttrs.addParameter(PersonName);
             SearchAndReplaceWithAttrs.addParameter(speechBookmarkRanges);
             SearchAndReplaceWithAttrs.addParameter("Name: "+PersonName+";URI: "+URI);
+            SearchAndReplaceWithAttrs.addParameter("member_url");
             ooDocument.executeMacro(SearchAndReplaceWithAttrs.toString(), SearchAndReplaceWithAttrs.getParams());
             returnError(true);
             //MessageBox.OK(parent, "Added new Speech element to document, \n please type in the text of the speech.");

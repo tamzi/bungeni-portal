@@ -30,6 +30,8 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     protected SelectorDialogModes theMode;
     protected BungeniClientDB dbInstance=null;
     protected BungeniClientDB dbSettings = null;
+    protected HashMap<String,String> theSerializationMap = new HashMap<String,String>();
+    protected HashMap<String,String> theMetadataMap = new HashMap<String,String>();
     class dlgBackgrounds {
         Color background;
         

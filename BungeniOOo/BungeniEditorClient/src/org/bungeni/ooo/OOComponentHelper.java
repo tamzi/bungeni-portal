@@ -61,6 +61,7 @@ import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 import com.sun.star.xml.AttributeData;
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -868,6 +869,10 @@ public class OOComponentHelper {
  */
 public Object executeMacro(String strMacroName, Object[] aParams) {
    try {
+      System.out.println("Running macro = " + strMacroName); 
+      for (int i=0; i < aParams.length; i++) {
+          System.out.println("param "+i+" = " + aParams[i]);
+      }
       XScriptProviderSupplier xScriptPS = (XScriptProviderSupplier)UnoRuntime.queryInterface(XScriptProviderSupplier.class, this.m_xComponent);
       log.debug("executemacro : " + ((xScriptPS != null)? "null" : "not null"));
       String strScriptTemplate = "vnd.sun.star.script:BungeniLibs.Common."+strMacroName+ "?language=Basic&location=application"   ;   
@@ -883,7 +888,98 @@ public Object executeMacro(String strMacroName, Object[] aParams) {
    }
 } 
 
+
+
 public long inchesToOOoMeasure (long inches ) {
     return this.MARGIN_MEASURE_BASE * inches ;
 }
+
+
+public boolean isSectionProtected (String sectionName) {
+    XTextSection section = getSection(sectionName);
+    return isSectionProtected(section);
+}
+
+public boolean isSectionProtected(XTextSection section) {
+     boolean isProtected=false;   
+    try { 
+         XPropertySet childProperties = ooQueryInterface.XPropertySet(section);
+         isProtected = AnyConverter.toBoolean(childProperties.getPropertyValue("IsProtected"));
+        } catch (com.sun.star.lang.IllegalArgumentException ex) {
+            log.debug(ex.getMessage());
+        } catch (UnknownPropertyException ex) {
+            log.debug(ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.debug(ex.getMessage());
+        } finally {
+            return isProtected;
+        }
+}
+
+public XTextSection getSection(String sectionName) {
+            XTextSection section = null ;
+        try {
+            section = ooQueryInterface.XTextSection(getTextSections().getByName(sectionName));
+        } catch (WrappedTargetException ex) {
+            log.debug(ex.getMessage());
+        } catch (NoSuchElementException ex) {
+            log.debug(ex.getMessage());
+        } finally {
+            return section;
+        }
+          
+}
+       
+public String getMatchingChildSection(String sectionName, String childPrefix) {
+        String matching = "";
+        try {
+             XTextSection section = getSection(sectionName);
+             XTextSection[] sections = section.getChildSections();
+             for (int i=0; i < sections.length; i++ ) {
+                 String childName = ooQueryInterface.XNamed(sections[i]).getName();
+                 if (childName.startsWith(childPrefix)) {
+                     matching = childName ;
+                 }
+             }
+         } catch (Exception ex) {
+            log.debug(ex.getMessage());
+         } finally {
+            return matching;
+        }
+}
+
+public void protectSection(String sectionName, boolean toState) {
+      try {
+           XTextSection childSection;
+           childSection = ooQueryInterface.XTextSection(getTextSections().getByName(sectionName));
+            protectSection(childSection, toState);
+        } catch (WrappedTargetException ex) {
+                log.debug(ex.getMessage());
+          } catch (NoSuchElementException ex) {
+                log.debug(ex.getMessage());
+          }
+}
+
+public void protectSection(XTextSection section, boolean toState) {
+         try {
+            XPropertySet childProperties = ooQueryInterface.XPropertySet(section);
+            childProperties.setPropertyValue("IsProtected", toState);
+        } catch (com.sun.star.lang.IllegalArgumentException ex) {
+           log.debug(ex.getMessage());
+        } catch (UnknownPropertyException ex) {
+           log.debug(ex.getMessage());
+        } catch (PropertyVetoException ex) {
+           log.debug(ex.getMessage());
+        } catch (WrappedTargetException ex) {
+           log.debug(ex.getMessage());
+        }
+}
+
+/*
+ *
+ *returns changed sections
+ *
+ */
+
+
 }

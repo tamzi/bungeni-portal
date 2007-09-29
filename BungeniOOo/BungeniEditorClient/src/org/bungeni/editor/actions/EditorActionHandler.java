@@ -107,16 +107,6 @@ public class EditorActionHandler implements IEditorActionEvent {
              //initDebaterecord.setPreferredSize(new Dimension(420, 300));
              InitQuestionBlock panel = new InitQuestionBlock(ooDocument, 
                      makeQuestionBlock, action);;
-             
-              if (ooDocument.isTextSelected()) {
-                panel.setDialogMode(SelectorDialogModes.TEXT_SELECTED);
-                panel.setBackground(new Color(255, 255, 153));
-                makeQuestionBlock.setTitle("Selection Mode");
-              } else {
-                panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
-                panel.setBackground(new Color(204, 255, 153));
-                makeQuestionBlock.setTitle("Insertion Mode");
-              }
              makeQuestionBlock.getContentPane().add(panel);
              makeQuestionBlock.pack();
              makeQuestionBlock.setLocationRelativeTo(null);

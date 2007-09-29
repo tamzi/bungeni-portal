@@ -6,12 +6,16 @@
 
 package org.bungeni.editor.selectors;
 
+import com.sun.star.beans.XPropertySet;
+import com.sun.star.text.XTextSection;
+import com.sun.star.uno.AnyConverter;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 import javax.swing.JComponent;
@@ -29,6 +33,7 @@ import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooDocMetadata;
+import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.utils.MessageBox;
 import org.safehaus.uuid.UUID;
 import org.safehaus.uuid.UUIDGenerator;
@@ -44,7 +49,9 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
  
     HashMap<String, String> selectionData = new HashMap<String,String>();
     String txtURI = "";
-
+    
+    String[] fldsSerialized = {"txtQuestionTitle", "txtQuestionName", "txtPersonURI", "txtAddressedTo", "txtQuestionText" };
+    
     private String sourceSectionName;
     /** Creates new form InitQuestionBlock */
     public InitQuestionBlock() {
@@ -58,12 +65,22 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
 
     }
    
+    
     private void init() {
         txtQuestionText.setContentType("text/html");
         setControlModes();
         setControlData();
         
     }
+    
+    private void initSerializationMap() {
+        for (int i=0; i < fldsSerialized.length; i++) {
+            theSerializationMap.put(fldsSerialized[i], "");
+        }
+    }
+    
+   
+    
     
     private void setControlModes() {
 
@@ -103,7 +120,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
             txtPersonURI.setVisible(false); lblPersonURI.setVisible(false);
             txtQuestionText.setVisible(true);
             lblQuestionText.setVisible(true);
- 
+            
             txtMessageArea.setText("You are in Select mode. Your hightlighted block of text will be marked up as a Question using this interface ");
                    
         }
@@ -114,7 +131,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
         //only in edit mode, only if the metadata properties exist
         if (theMode == SelectorDialogModes.TEXT_EDIT) {
                 goEditMode();
-                btnApply.setEnabled(false);
+                btnApply.setEnabled(true);
                 btnCancel.setEnabled(true);
                 
             }
@@ -303,6 +320,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt)  {//GEN-FIRST:event_btnApplyActionPerformed
 // TODO add your handling code here:
         returnError(false);
+        
         String AddressedTo = txtAddressedTo.getText();
         String PersonName = txtPersonName.getText();
         String QuestionText = txtQuestionText.getText();
@@ -310,12 +328,14 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
         String URI = selectionData.get("QUESTION_FROM");
         
         String QuestionId = theAction.action_naming_convention() +  selectionData.get("ID");
-        
+        log.debug("In Current Mode = " + theMode);
         //if (URI == null) URI = "";
         if (selectionData.size() == 0 ) {
+            if ((theMode == SelectorDialogModes.TEXT_INSERTION)|| (theMode == SelectorDialogModes.TEXT_SELECTED)) {
             MessageBox.OK(parent, "Please select a question first!");
              returnError(true);
             return;
+            }
         }
        // if (URI.length() == 0 ) {
         //    MessageBox.OK(parent, "Please select a question first !");
@@ -367,6 +387,52 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
             MessageBox.OK(parent, "The selected text was placed in a section , and marked up " +
                     "as: " + QuestionId + "\n Please highlight the name of the person making the speech to assigne their metadata");
             returnError(true);
+            
+        } else if (this.theMode == SelectorDialogModes.TEXT_EDIT) {
+            
+            //only name can be edited nothing else....
+            String sectionName = ooDocument.currentSectionName();
+            //unprotect any child sections if neccessary, and reprotect them at the end
+            //1 change the metadata in the parent section
+            //2 change he display text in the inner section
+            String childSection = ooDocument.getMatchingChildSection(sectionName, "meta-mp-");
+            boolean wasProtected = false;
+            if (ooDocument.isSectionProtected(childSection))
+                wasProtected = true;
+                
+            ExternalMacro ReplaceLinkInSectionByName = ExternalMacroFactory.getMacroDefinition("ReplaceLinkInSectionByName");
+            ReplaceLinkInSectionByName.addParameter(ooDocument.getComponent());
+            ReplaceLinkInSectionByName.addParameter(childSection);
+            ReplaceLinkInSectionByName.addParameter(new String("member_url"));
+            ReplaceLinkInSectionByName.addParameter(PersonName);
+            ReplaceLinkInSectionByName.addParameter( "Name: "+PersonName+ ";URI: "+this.txtPersonURI.getText());
+            ReplaceLinkInSectionByName.addParameter(wasProtected);
+            
+            ooDocument.executeMacro(ReplaceLinkInSectionByName.toString(), ReplaceLinkInSectionByName.getParams());
+
+            
+            /////now set the section metadata///
+            
+            String[] attrNames = new String[1];
+            String[] attrValues = new String[1];
+            attrNames[0] = "Bungeni_QuestionMemberFrom";
+            
+            attrValues[0] = PersonName;
+            log.debug("Updating person name = " + PersonName);
+            /*
+             *Set metadata into section
+             */
+            ExternalMacro SetSectionMetadata = ExternalMacroFactory.getMacroDefinition("SetSectionMetadata");
+            SetSectionMetadata.addParameter(ooDocument.getComponent());
+            SetSectionMetadata.addParameter(sectionName );
+            SetSectionMetadata.addParameter(attrNames);
+            SetSectionMetadata.addParameter(attrValues);
+            ooDocument.executeMacro(SetSectionMetadata.toString(), SetSectionMetadata.getParams());
+            
+           
+            MessageBox.OK(parent, "Metadata for the section was updated");
+            returnError(true);
+            parent.dispose();
             
         } else if (this.theMode == SelectorDialogModes.TEXT_INSERTION) {
             log.debug("in insert mode");
@@ -485,6 +551,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
             SearchAndReplace2.addParameter(PersonName);
             SearchAndReplace2.addParameter(arrBookmarkRanges);
             SearchAndReplace2.addParameter("Name: "+PersonName+ ";URI: "+selectionData.get("QUESTION_FROM"));
+            SearchAndReplace2.addParameter("member_url");
             ooDocument.executeMacro(SearchAndReplace2.toString(), SearchAndReplace2.getParams());
             /*
              *Imported section has section called mp_name that contains the default name "mp_name"
@@ -513,6 +580,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
              *Set metadata into section
              */
             ExternalMacro SetSectionMetadata = ExternalMacroFactory.getMacroDefinition("SetSectionMetadata");
+            SetSectionMetadata.addParameter(ooDocument.getComponent());
             SetSectionMetadata.addParameter(newSectionName );
             SetSectionMetadata.addParameter(attrNames);
             SetSectionMetadata.addParameter(attrValues);

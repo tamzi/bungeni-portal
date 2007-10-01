@@ -80,6 +80,20 @@ SimpleLinkUi.prototype.show = function( )
 	var post = this.postMicro;
 	var noteElement = this.noteElement;
 	var serviceUrl = this.marginalia.annotationsUrl + "/" + annotation.id + "/reference_edit"
+	var controlId =  annotation.getId() + '-linkedit';
+	
+	// add the link label
+	var refNode = domutil.element( 'div', {
+		id:  controlId,
+               } );
+
+	noteElement.appendChild(refNode);
+	noteElement.appendChild( domutil.button( {
+		className:  AN_LINKDELETEBUTTON_CLASS,
+		title:  getLocalized( 'delete annotation link button' ),
+		content:  'x',
+		annotationId:  annotation.getId(),
+		onclick: SimpleLinkUi._deleteLink } ) );
 
 	var xmlhttp = domutil.createAjaxRequest( );
 	
@@ -88,7 +102,7 @@ SimpleLinkUi.prototype.show = function( )
 	//xmlhttp.setRequestHeader( 'Content-length', body.length );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
-                        noteElement.innerHTML=xmlhttp.responseText;
+                        refNode.innerHTML=xmlhttp.responseText;
 		}
 	}
 	xmlhttp.open('GET', serviceUrl, true );
@@ -102,8 +116,9 @@ SimpleLinkUi.prototype.focus = function( )
 
 SimpleLinkUi.prototype.save = function( )
 {
-	this.annotation.setLink( this.editNode.value );
-	this.annotation.setLinkTitle( '' );
+	var children = domutil.childrenByTagClass( this.noteElement, 'input'); 
+	this.annotation.setLink(children[1].value);
+	this.annotation.setLinkTitle('');
 }
 
 
@@ -113,7 +128,7 @@ SimpleLinkUi.prototype.save = function( )
 SimpleLinkUi._deleteLink = function( event )
 {
 	event.stopPropagation( );
-	window.marginalia.noteEditor.editNode.value = '';
+	//	window.marginalia.noteEditor.editNode.value = '';
 	_saveAnnotation( event );
 }
 

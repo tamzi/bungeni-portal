@@ -109,7 +109,7 @@
 			
 			<p class="see-also" tal:condition="feedentry/getLink">
 				<cite>
-					<a href="" tal:attributes="href feedentry/getLink" tal:content="feedentry/getLink_title">link</a>
+					<a href="" tal:attributes="href python:feedentry.getLink().UID()" tal:content="feedentry/getLink_title">link</a>
 				</cite>
 			</p>			
         </div>

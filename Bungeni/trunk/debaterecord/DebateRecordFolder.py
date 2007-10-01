@@ -31,13 +31,9 @@ from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
 from Products.PloneHelpCenter.content.ReferenceManualFolder import HelpCenterReferenceManualFolder
+from Products.Bungeni.groups.BungeniTeamSpace import BungeniTeamSpace
 from Products.Bungeni.interfaces.IDebateRecordFolder import IDebateRecordFolder
 from Products.Bungeni.config import *
-
-# additional imports from tagged value 'import'
-from Products.TeamSpace.space import TeamSpaceMixin
-from Products.Bungeni.groups.BungeniTeamSpace import BungeniTeamSpace
-from Products.Bungeni.events.ParliamentaryEvent import ParliamentaryEvent
 
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore.utils import getToolByName
@@ -55,23 +51,21 @@ schema = Schema((
 )
 
 ##code-section after-local-schema #fill in your manual code here
-schema = getattr(ParliamentaryEvent, 'schema', Schema(())).copy() + \
-    getattr(BungeniTeamSpace, 'schema', Schema(())).copy() + \
-    schema.copy()
 ##/code-section after-local-schema
 
 DebateRecordFolder_schema = BaseFolderSchema.copy() + \
     getattr(HelpCenterReferenceManualFolder, 'schema', Schema(())).copy() + \
+    getattr(BungeniTeamSpace, 'schema', Schema(())).copy() + \
     schema.copy()
 
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class DebateRecordFolder(TeamSpaceMixin, BungeniTeamSpace, ParliamentaryEvent, BaseFolder, HelpCenterReferenceManualFolder):
+class DebateRecordFolder(BungeniTeamSpace, HelpCenterReferenceManualFolder):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(TeamSpaceMixin,'__implements__',()),) + (getattr(BungeniTeamSpace,'__implements__',()),) + (getattr(ParliamentaryEvent,'__implements__',()),) + (getattr(BaseFolder,'__implements__',()),) + (getattr(HelpCenterReferenceManualFolder,'__implements__',()),)
+    __implements__ = (getattr(BungeniTeamSpace,'__implements__',()),) + (getattr(HelpCenterReferenceManualFolder,'__implements__',()),)
     # zope3 interfaces
     interface.implements(IDebateRecordFolder)
 
@@ -95,10 +89,6 @@ class DebateRecordFolder(TeamSpaceMixin, BungeniTeamSpace, ParliamentaryEvent, B
     schema = DebateRecordFolder_schema
 
     ##code-section class-header #fill in your manual code here
-
-    # augment allowed_content_types above
-    allowed_content_types = allowed_content_types + list(getattr(ParliamentaryEvent, 'allowed_content_types', [])) + list(getattr(BungeniTeamSpace, 'allowed_content_types', []))
-
     ##/code-section class-header
 
     # Methods

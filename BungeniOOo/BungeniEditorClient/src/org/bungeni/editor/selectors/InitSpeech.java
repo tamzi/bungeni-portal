@@ -68,6 +68,8 @@ public class InitSpeech extends selectorTemplatePanel {
                     " as a Speech, " +
                     "please select the Speech you would like to markup , and press apply" +
                     "to markup the selected text with the correct speech metadata");
+        } else if (theMode == SelectorDialogModes.TEXT_EDIT) {
+           txtMessageArea.setText("You are attempting to edit metadata and content for an existing block of text.");
         }
     }
     

@@ -333,6 +333,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     
     private void initSectionsArray() {
         try {
+            if (!ooDocument.isXComponentValid()) return;
+            
             treeDocStructureTree.removeAll();
             //this.sectionsRootNode = null ; //new DefaultMutableTreeNode(new String("root"));
             
@@ -619,12 +621,31 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                     }
             
    }
-    
+   
+
+
+   
    class treeDocStructureTreeMouseListener implements MouseListener {
         public void mouseClicked(MouseEvent e) {
         }     
-        public void mousePressed(MouseEvent evt) {
+        
+         public void mousePressed(MouseEvent evt) {
+                int selRow = treeDocStructureTree.getRowForLocation(evt.getX(), evt.getY());
+                TreePath selPath = treeDocStructureTree.getPathForLocation(evt.getX(), evt.getY());
+                 if (selRow != -1 ) {
+                     if (evt.getClickCount() == 1) {
+                         DefaultMutableTreeNode node = (DefaultMutableTreeNode) selPath.getLastPathComponent();
+                         System.out.println("node = "+ (String) node.getUserObject());   
+                         String selectedSection = (String)node.getUserObject();
+                         createPopupMenuItems (selectedSection);
+                         popupMenuTreeStructure.show(evt.getComponent(), evt.getX(), evt.getY());
+                      return;
+                     }  
+                
+                 }
         }
+
+        
         public void mouseReleased(MouseEvent e) {
         }
 
@@ -638,8 +659,45 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             mouseOver_TreeDocStructureTree = false;
         }
        
+               
+       private void createPopupMenuItems (String selectedSection){
+                popupMenuTreeStructure.removeAll();
+                //popupMenu.add(new treePopupMenuAction(popup_section_actions[0], baseNodeAction, PopupTypeIdentifier.VIEW_ACTIONS));
+                popupMenuTreeStructure.add(new treeDocStructureTreePopupAction("Goto Section", selectedSection));
+               
+           }
    }
     
+      class treeDocStructureTreePopupAction extends AbstractAction {
+           
+          treeDocStructureTreePopupAction () {
+              
+          }
+          
+          treeDocStructureTreePopupAction (String actionText, String sectionName) {
+                super(actionText);
+                putValue("USER_OBJECT", sectionName);
+            }
+       
+          public void actionPerformed(ActionEvent e) {
+              Object value = getValue("USER_OBJECT");
+              if (value != null ) {
+                  processPopupSelection((String)value);
+              }
+            }
+          
+          public void processPopupSelection(String sectionName ) {
+              //go to selected range
+              XTextSection xSelectSection = ooDocument.getSection(sectionName);
+              if (xSelectSection != null  ) {
+                  XTextRange sectionRange = xSelectSection.getAnchor();
+                  XTextViewCursor xViewCursor = ooDocument.getViewCursor();
+                  xViewCursor.gotoRange(sectionRange, false);
+              }
+          }
+    }
+   
+   
     /**
      * Mouse event listener for list box displaying document structure
      */
@@ -1472,13 +1530,15 @@ private void displayUserMetadata(XTextRange xRange) {
 
          try
          {
-            loXTextCursor = ooDocument.getViewCursor();
-            loXPropertySet = ooQueryInterface.XPropertySet(loXTextCursor);
-            loXTextSection = (XTextSection)((Any)loXPropertySet.getPropertyValue("TextSection")).getObject();
-            if (loXTextSection != null)
-            {
-                loXPropertySet = ooQueryInterface.XPropertySet(loXTextSection);
-                lstrSectionName = (String)loXPropertySet.getPropertyValue("LinkDisplayName");
+            if (ooDocument.isXComponentValid() ) {
+                loXTextCursor = ooDocument.getViewCursor();
+                loXPropertySet = ooQueryInterface.XPropertySet(loXTextCursor);
+                loXTextSection = (XTextSection)((Any)loXPropertySet.getPropertyValue("TextSection")).getObject();
+                if (loXTextSection != null)
+                {
+                    loXPropertySet = ooQueryInterface.XPropertySet(loXTextSection);
+                    lstrSectionName = (String)loXPropertySet.getPropertyValue("LinkDisplayName");
+                }
             }
           }
           catch (java.lang.Exception poException)

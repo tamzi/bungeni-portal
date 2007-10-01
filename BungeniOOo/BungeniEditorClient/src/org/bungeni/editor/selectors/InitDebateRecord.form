@@ -33,10 +33,11 @@
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="initdebate_timeofhansard" alignment="0" pref="279" max="32767" attributes="0"/>
-                          <Component id="initdebate_debatedate" alignment="1" pref="279" max="32767" attributes="1"/>
-                      </Group>
+                      <Component id="initdebate_debatedate" pref="279" max="32767" attributes="1"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="initdebate_timeofhansard" min="-2" pref="86" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -54,7 +55,7 @@
               <Component id="lbl_initdebate_hansardtime" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="initdebate_timeofhansard" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="lbl_initdebate_mastheadlogo" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_initdebate_selectlogo" min="-2" max="-2" attributes="0"/>
@@ -114,7 +115,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lbl_initdebate_setpath">
     </Component>
-    <Component class="javax.swing.JFormattedTextField" name="initdebate_timeofhansard">
+    <Component class="javax.swing.JSpinner" name="initdebate_timeofhansard">
     </Component>
   </SubComponents>
 </Form>

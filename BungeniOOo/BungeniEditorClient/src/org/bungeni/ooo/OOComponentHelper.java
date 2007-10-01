@@ -31,6 +31,7 @@ import com.sun.star.frame.XDispatchHelper;
 import com.sun.star.frame.XDispatchProvider;
 import com.sun.star.frame.XFrame;
 import com.sun.star.frame.XModel;
+import com.sun.star.lang.EventObject;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
@@ -78,14 +79,28 @@ public class OOComponentHelper {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(OOComponentHelper.class.getName());
     public static final String ATTRIBUTE_NAMESPACE = "urn:akomantoso:names:tc:opendocument:xmlns:semantic-text:1.0";  
     private static long MARGIN_MEASURE_BASE = 254;
+    private boolean isXComponentNull = true;
     /** Creates a new instance of OOComponentHelper */
     public OOComponentHelper(XComponent xComponent, XComponentContext xComponentContext) {
           try {
+            isXComponentNull = false;
             m_xComponent = xComponent;
+            //add listener to listen for document closing events.
+            m_xComponent.addEventListener(new xComponentListener());
             m_xComponentContext = xComponentContext;
         } catch (Exception ex) {
             log.debug(ex.getLocalizedMessage(), ex);
         }
+    }
+    
+     class xComponentListener implements com.sun.star.lang.XEventListener {
+        
+         public void disposing(EventObject eventObject) {
+            //document window is closing
+             log.debug("xComponentListner : the document window is closing");
+             isXComponentNull = true;
+        }
+        
     }
     
     /**
@@ -245,6 +260,9 @@ public class OOComponentHelper {
         return xObjProps;
     }
     
+    public boolean isXComponentValid() {
+        return !isXComponentNull;
+    }
     public HashMap<String, String> getSectionMetadataAttributes(String sectionName){
         HashMap<String,String> metadata = null; 
         try {

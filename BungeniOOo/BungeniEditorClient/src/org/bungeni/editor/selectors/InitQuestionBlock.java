@@ -109,6 +109,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
             txtQuestionText.setVisible(false);
             lblQuestionText.setVisible(false);
             scrollQuestionText.setVisible(false);
+            this.btnSelectQuestion.setVisible(false);
             txtMessageArea.setText("You are attempting to Edit metadata for a question");
             
         } else if (theMode == SelectorDialogModes.TEXT_SELECTED) {

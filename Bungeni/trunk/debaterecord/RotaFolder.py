@@ -44,7 +44,7 @@ from Products.Archetypes.utils import log
 
 copied_fields = {}
 copied_fields['title'] = BaseSchema['title'].copy()
-copied_fields['title'].default = "Rota"
+copied_fields['title'].default_method = "defaultTitle"
 schema = Schema((
 
     OrderableReferenceField(
@@ -188,6 +188,15 @@ class RotaFolder(OrderedBaseFolder):
 
         self.manage_delObjects('rota-document')
 
+    security.declarePublic('defaultTitle')
+    def defaultTitle(self):
+        """
+        """
+        parent = self.aq_parent
+        while parent.Type() != 'Sitting':
+            parent = parent.aq_parent
+        return 'Rota for %s'%(parent.Title())
+
     security.declarePrivate('_createRotaDocument')
     def _createRotaDocument(self):
         """
@@ -242,6 +251,29 @@ class RotaFolder(OrderedBaseFolder):
                         subject=rota_document.Title())
             else:
                 log('notifySubscribers> %s has no email address'%s.Title())
+
+    # Manually created methods
+
+    security.declarePublic('reindexOnReorder')
+    def reindexOnReorder(self, parent):
+        """ Catalog ordering support """
+        # Copied from PloneTool.reindexOnReorder
+        # We're just indexing some more.
+        mtool = getToolByName(self, 'portal_membership')
+        if not mtool.checkPermission(permissions.ModifyPortalContent, parent):
+            return
+        cat = getToolByName(self, 'portal_catalog')
+        cataloged_objs = cat(path = {'query':'/'.join(parent.getPhysicalPath()),
+                                     'depth': 1})
+        for brain in cataloged_objs:
+            obj = brain.getObject()
+            # Don't crash when the catalog has contains a stale entry
+            if obj is not None:
+                cat.reindexObject(obj,['getObjPositionInParent', 'Title'],)
+            else:
+                # Perhaps we should remove the bad entry as well?
+                log('Object in catalog no longer exists, cannot reindex: %s.'%
+                                    brain.getPath())
 
 
 registerType(RotaFolder, PROJECTNAME)

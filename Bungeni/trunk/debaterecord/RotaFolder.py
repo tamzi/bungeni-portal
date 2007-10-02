@@ -37,6 +37,7 @@ from Products.Bungeni.config import *
 from Products.OrderableReferenceField import OrderableReferenceField
 
 ##code-section module-header #fill in your manual code here
+from Products.CMFCore.WorkflowCore import WorkflowException
 from Products.CMFCore.utils import getToolByName
 from Products.Archetypes.utils import shasattr
 from Products.Archetypes.utils import log
@@ -168,8 +169,11 @@ class RotaFolder(OrderedBaseFolder):
                     filter={'portal_type': 'RotaItem'})
         workflow_tool = getToolByName(self, 'portal_workflow')
         for item in items:
-            workflow_tool.doActionFor(item, 'finalize',
-                    comment='Finalize as part of Rota publication')
+            try:
+                workflow_tool.doActionFor(item, 'finalize',
+                        comment='Finalize as part of Rota publication')
+            except WorkflowException, e:
+                log('publishRota> %s: %s'%(self.getId(), e))
 
         self._createRotaDocument()
         self._notifySubscribers()

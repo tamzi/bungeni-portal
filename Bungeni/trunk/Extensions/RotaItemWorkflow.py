@@ -97,7 +97,7 @@ def setupRotaItemWorkflow(self, workflow):
                            transitions=['finalize'])
     stateDef.setPermission('Modify portal content',
                            0,
-                           ['ChiefEditor'])
+                           ['Manager', 'ChiefEditor'])
 
     stateDef = workflow.states['final']
     stateDef.setProperties(title="""final""",

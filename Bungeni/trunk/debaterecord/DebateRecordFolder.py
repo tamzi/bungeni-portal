@@ -116,7 +116,8 @@ class DebateRecordFolder(BungeniTeamSpace, HelpCenterReferenceManualFolder):
         parameters for it.
         """
         rota_tool = getToolByName(self, 'portal_rotatool')
-        if ((not rota_tool.getReportingLeadTime()) or
+        if (self.contentValues(filter={'portal_type': 'RotaFolder'}) or
+                (not rota_tool.getReportingLeadTime()) or
                 (not rota_tool.getTakeLength()) or
                 (not rota_tool.getExtraTakes()) or
                 (not rota_tool.getAvailableReporters())

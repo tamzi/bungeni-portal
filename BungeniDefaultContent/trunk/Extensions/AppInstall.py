@@ -858,10 +858,12 @@ def massage_data():
         team['default_team_roles'] = ('MemberOfGroup', )
         teams['teams'].extend([team])
     for team in offices_map.values():
-        team['allowed_team_roles'] = [
-                r['role'] for r in fz_staff_roles_to_plone_roles_map.values()
-                ]
-        team['allowed_team_roles'].extend(committee_plone_role_map.values())
+        roles = {}
+        for r in fz_staff_roles_to_plone_roles_map.values():
+            roles[r['role']] = None
+        for r in committee_plone_role_map.values():
+            roles[r] = None
+        team['allowed_team_roles'] = roles.keys()
         team['default_team_roles'] = ('CommitteeClerk', )
         if team['title'] == "Debate Record Office":
             team['portal_type'] = 'DebateRecordOffice'
@@ -1115,16 +1117,18 @@ def install(self):
 
     # Add some of the new content to the site actions
     actions_tool = getToolByName(self, 'portal_actions')
+    old_action_ids = [a.id for a in actions_tool.listActions()]
     for action in new_actions:
-        actions_tool.addAction(
-                action.get('id'),
-                action.get('name'),
-                action.get('action'),
-                action.get('condition'),
-                action.get('permission'),
-                action.get('category'),
-                visible=1,
-                )
+        if action.get('id') not in old_action_ids:
+            actions_tool.addAction(
+                    action.get('id'),
+                    action.get('name'),
+                    action.get('action'),
+                    action.get('condition'),
+                    action.get('permission'),
+                    action.get('category'),
+                    visible=1,
+                    )
 
     #
     # Add default members

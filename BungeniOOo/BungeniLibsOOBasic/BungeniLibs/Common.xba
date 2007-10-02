@@ -58,12 +58,15 @@ rem arrAttrValues = Array (&quot;Raila Odinga&quot;, &quot;ken.mp.1993-02-1&quot
 
 rem SetSectionMetadata &quot;NewName2&quot;, arrAttrNames, arrAttrValues
 
- arrAttrNames = Array (&quot;mpInnerName&quot;, &quot;mpInnerURI&quot;, &quot;mpInnerStatus&quot;)
- arrAttrValues = Array (&quot;Mp Inside Another MP&quot;, &quot;ken.mp.1998-02-29&quot;, &quot;Insider&quot;)
+ arrAttrNames = Array (&quot;Bungeni_QuestionMemberFrom&quot;)
+ arrAttrValues = Array (&quot;Mp Inside Another MP&quot;)
 
 
-SetSectionMetadata &quot;NewName5&quot;, arrAttrNames, arrAttrValues
+rem SetSectionMetadata thisComponent, &quot;question3-que1&quot;, arrAttrNames, arrAttrValues
+rem Dim props
 
+rem props = MakePropertyValue (&quot;One&quot;, &quot;Two&quot;)
+rem XRay props
 
 End Sub
 
@@ -296,44 +299,48 @@ Sub InsertHTMLDocumentIntoSection(sName$, sFileUrl$ , sStyleApply$)
 
 End Sub
 
-Function SetAttributeData (uda as Object, cAttributeName as String, cAttributeValue as String) 
+Function SetAttributeData (uda as Object, cAttributeName(), cAttributeValue()) 
 	Dim oMyAttribute 
+    Dim i
+    For i=LBound(cAttributeName) to UBound(cAttributeName)
+    
  &apos; Is there already an attribute with the desired name? 
-   If uda.hasByName( cAttributeName ) Then 
+ 
+   If uda.hasByName( cAttributeName(i) ) Then 
       &apos; Get the existing attribute. 
-      oMyAttribute = uda.getByName( cAttributeName ) 
+      oMyAttribute = uda.getByName( cAttributeName(i) ) 
       &apos; Update the value. 
-      oMyAttribute.Value = cAttributeValue 
+      oMyAttribute.Value = cAttributeValue(i)
+      uda.replaceByName(cAttributeName(i), oMyAttribute)
    Else 
       &apos; Create a new attribute. 
       oMyAttribute = createUnoStruct( &quot;com.sun.star.xml.AttributeData&quot; ) 
       With oMyAttribute 
          .Type = &quot;CDATA&quot; 
-         .Value = cAttributeValue 
+         .Value = cAttributeValue (i)
       End With 
-      uda.insertByName( cAttributeName, oMyAttribute ) 
+      uda.insertByName( cAttributeName(i), oMyAttribute ) 
    
    EndIf 
    
-   setAttributeData = uda
+   Next
+   
+   SetAttributeData = uda
    
 End Function
 
 
-Sub SetSectionMetadata (sectionName as String, attrNames() , attrValues() )
+Sub SetSectionMetadata (docComponent, sectionName as String, attrNames() , attrValues() )
 	Dim oDoc
-	oDoc = ThisComponent
+	oDoc = docComponent
 	Dim sect
 	sect = oDoc.getTextSections().getByName(sectionName)
 	Dim uda
 	uda = sect.UserDefinedAttributes
 	Dim i as integer
 	
-	For i = LBound(attrNames) to UBound(attrNames)
+	uda = SetAttributeData(uda, attrNames(), attrValues() )
 		
-		 SetAttributeData(uda, attrNames(i), attrValues(i) )
-		
-	Next
 
    &apos; Assign the modified container of attributes back to the shape. 
    sect.UserDefinedAttributes = uda 	
@@ -532,59 +539,8 @@ Sub AddImageIntoSection(sectionName$, sURL$)
   oDoc.getDrawPage().remove(oShape)
 End Sub
 
-Sub InsertString( oCursor, cString , cStyle)
-    Dim oText
-   oText = oCursor.getText()
-   oCursor.ParaStyleName = cStyle
-   oText.insertString( oCursor, cString, True )
 
-End Sub
-
-Dim globalWeight as Single 
-
-Sub InsertWeightedString(oCursor, cString, cStyle, cCharWeight) 
-   Dim oText
-   oText = oCursor.getText()
-   oCursor.ParaStyleName = cStyle
-   oCursor.CharWeight = cCharWeight
-   oText.insertString( oCursor, cString, True )
-
-End Sub
-
-Sub InsertLineBreak( oCursor )
-	Dim oText
-   oText = oCursor.getText()
-   oText.insertControlCharacter( oCursor, com.sun.star.text.ControlCharacter.LINE_BREAK, False )
-End Sub
-
-Sub InsertParaBreak( oCursor )
-    Dim oText
-   oText = oCursor.getText()
-   oText.insertControlCharacter( oCursor, com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False )
-End Sub
-
-Sub InsertPageBreak( oCursor )
-   Dim oText
-   oText = oCursor.getText()
-   oText.insertControlCharacter( oCursor, com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False )
-   oCursor.BreakType = com.sun.star.style.BreakType.PAGE_BEFORE
-End Sub 
-
-Sub SetParagraphStyle
-  Dim oSels As Object, oSel As Object, oText As Object
-  Dim lSelCount As Long, lWhichSelection As Long
-  Dim oLCurs As Object, oRCurs As Object
-  
-  oText = ThisComponent.Text
-  oSels = ThisComponent.getCurrentSelection()
-  lSelCount = oSels.getCount()
-  For lWhichSelection = 0 To lSelCount - 1
-    oSel = oSels.getByIndex(lWhichSelection)
-    oSel.ParaStyleName = &quot;Heading 2&quot;
-  Next
-End Sub
-
-Sub SearchAndReplace2 (searchFor as string, replaceWith as String, bookmarkRange(), URLStr as String)
+Sub SearchAndReplace2 (searchFor as string, replaceWith as String, bookmarkRange(), URLStr as String , URLName as String)
     
     Dim oBookmarkBegin, oBookmarkEnd
     oBookmarkBegin = ThisComponent.getBookmarks().getByName(bookmarkRange(LBound(bookmarkRange))
@@ -601,6 +557,7 @@ Sub SearchAndReplace2 (searchFor as string, replaceWith as String, bookmarkRange
     statCurs.setString(newStr)
     statCurs.CharBackColor = RGB (255, 255, 192)
     statCurs.HyperLinkURL = &quot;#&quot;+ URLStr
+    statCurs.HyperLinkName = URLName
     rem oBookmarkBegin.dispose()
     oBookmarkEnd.dispose()
     
@@ -687,131 +644,77 @@ Sub SearchAndReplaceWithAttributes (searchFor as string, replaceWith as string, 
 End Sub
 
 
-Function MakePropertyValue( Optional cName As String, Optional uValue ) As com.sun.star.beans.PropertyValue
-   Dim oPropertyValue As New com.sun.star.beans.PropertyValue
-   If Not IsMissing( cName ) Then
-      oPropertyValue.Name = cName
-   EndIf
-   If Not IsMissing( uValue ) Then
-      oPropertyValue.Value = uValue
-   EndIf
-   MakePropertyValue() = oPropertyValue
-End Function 
+Function ReplaceLinkInSectionByName(docComponent, sectionName as String, hyperLinkName as String, hyperLinkText as String, hyperLinkURL as String, isProtected as boolean) 
+Dim oSearchDesc ,oAllHyperLinks ,i,oFound,oCrsr, oNewDoc
+   oNewDoc = docComponent
+   oSearchDesc = oNewDoc.CreateSearchDescriptor 
 
+Dim sectionHandle
+Dim sectRange
+Dim sectCursBegin, sectCursEnd
+	sectionHandle = oNewDoc.getTextSections().getByName(sectionName)
+	if (isProtected) then 
+		sectionHandle.isProtected = False
+	End if
+   
+   oSearchDesc.valuesearch  = False
+   
+   Dim SrchAttributes(0) as new com.sun.star.beans.PropertyValue
+   SrchAttributes(0).Name = &quot;HyperLinkName&quot; 
+   SrchAttributes(0).Value = &quot;&quot;
+  	
+	sectRange = sectionHandle.getAnchor()
+	sectCursBegin = sectRange.getText().createTextCursorByRange(sectRange.getStart())
+	sectCursEnd = sectRange.getText().createTextCursorByRange(sectRange.getEnd())
+	
+	
+   oSearchDesc.SetSearchAttributes(SrchAttributes()) 
+   Dim oFoundPrevious
+   oFound = oNewDoc.findNext(sectRange.getStart(), oSearchDesc) 
+   oFoundPrevious = oFound
+   Do while not isnull(oFound)
+	Dim var  
+    var = oNewDoc.Text.compareRegionEnds(oFound, sectRange.getEnd()) 
+   	if ( -1 =  var) then 
+   		Exit do
+   	End if
+   	oFoundPrevious = oFound
+   	oFound = oNewDoc.findNext(oFound.End, oSearchDesc )
 
-
-Function GetAttributeValue(AttributeContainer As com.sun.star.xml.AttributeContainer, AttributeName As String) As String
-  Dim Attribute As Object
-
-  GetAttributeValue = &quot;&quot;
-
-  If AttributeContainer.hasByName(AttributeName) Then
-    Attribute = AttributeContainer.getByName(AttributeName)
-    GetAttributeValue = Attribute.Value
-  End If
+   Loop
+   
+   if (IsNull (oFoundPrevious) ) then 
+     	ReplaceLinkInSectionByName = Array (-1, &quot;No link was found&quot;)
+   		if (isProtected) then
+   			sectionHandle.isProtected = true
+   		end if
+   		Exit Function
+   End if 
+   
+   if (oNewDoc.Text.compareRegionEnds (oFoundPrevious, sectRange.getEnd()) = -1 ) then 
+   		ReplaceLinkInSectionByName = Array (-1, &quot;Link was found in a different section&quot;)
+   		if (isProtected) then
+   			sectionHandle.isProtected = true
+   		end if
+   		Exit Function
+   End if
+   
+   rem this is a valid match
+   if (oFoundPrevious.HyperLinkName = hyperLinkName) then 
+   		oFoundPrevious.setString(hyperLinkText)
+   		oFoundPrevious.HyperLinkURL = hyperLinkURL
+   		ReplaceLinkInSectionByName = Array (1, &quot;Link successfully changed&quot;)
+   		if (isProtected) then
+   			sectionHandle.isProtected = true
+   		end if
+   		Exit Function
+   End if
+   if (isProtected) then
+   		sectionHandle.isProtected = true
+   end if
+   ReplaceLinkInSectionByName = Array (-1, &quot;No link was found&quot;)
+   
 End Function
-
-Function AddAttributesToContainer (AttributeContainer As com.sun.star.xml.AttributeContainer, _
- ArrNames() as String, Attributes() As com.sun.star.xml.AttributeData)
- 
- Dim i as Integer
-
- 
- For i = LBound(Attributes()) to UBound(Attributes()) 
- 	if (AttributeContainer.hasByName (ArrNames(i)) ) then 
- 		AttributeContainer.removeByName (ArrNames(i))
- 		AttributeContainer.insertByName (ArrNames(i), Attributes(i))
- 	else
- 		AttributeContainer.insertByName (ArrNames(i), Attributes(i))
-    end if 
-    
- Next
- 
- AddAttributesToContainer = AttributeContainer 
- 
-End Function
- 
-Function AddAttribute(AttributeContainer As com.sun.star.xml.AttributeContainer, _
- AttributeName As String, AttributeValue As String)
-  Dim oMyAttribute, oMyAttribute2 As Object
-
-  oMyAttribute = createUnoStruct(&quot;com.sun.star.xml.AttributeData&quot;)
-  oMyAttribute2 = createUnoStruct(&quot;com.sun.star.xml.AttributeData&quot;)
-  With oMyAttribute
-    .Namespace = &quot;&quot;
-    .Type = &quot;CDATA&quot;
-    .Value = AttributeValue
-  End With
-  With oMyAttribute2
-    .Namespace = &quot;&quot;
-    .Type = &quot;CDATA&quot;
-    .Value = CStr(Now)
-  End With
-    
-  
-
-  If AttributeContainer.hasByName(AttributeName) Then
-    AttributeContainer.removeByName(AttributeName, oMyAttribute)
-    AttributeContainer.insertByName(AttributeName, oMyAttribute)
-    AttributeContainer.insertByName(&quot;docu-date&quot;, oMyAttribute2)
-  
-  Else
-  
-    AttributeContainer.insertByName(AttributeName, oMyAttribute)
-      AttributeContainer.insertByName(&quot;docu-date&quot;, oMyAttribute2)
-  
-  End If
-
-  AddAttribute = AttributeContainer
-End Function
-
-
-Function ReplaceSubstring(sourcestr As String, fromstr As String, tostr As String) As String
-   &apos; This function replaces characters in a string. Take all the occurrences of &quot;fromstr&quot;
-   &apos; in the source string and replace them with &quot;tostr&quot;
-   Dim tempstr As String
-   Dim convstr As String
-   Dim i As Long
-   Dim length As Long
-   tempstr = sourcestr
-   If Len(fromstr) = 0 Then
-      ReplaceSubstring = sourcestr
-      Exit Function
-   End If
-   If Instr(tostr, fromstr) &lt;&gt; 0 Then &apos; If, for example, &quot;\&quot; is being replaced with &quot;\\&quot;
-      &apos; Find a character (or set) that is not in the source string.
-      &apos; Try the extended characters (over 128 ASCII)
-      i = 128
-      length = 1
-      convstr = &quot;&quot;
-      While convstr = &quot;&quot;
-         If Instr(tempstr, String$(length, Chr$(i))) = 0 Then convstr = String$(length, Chr$(i))
-         i = i + 1
-         If i = 256 Then &apos; If all the extended characters were in there
-            length = length + 1 &apos; Start over, but try 2 extended characters (or 3 or 4)
-            i = 128
-         End If
-      Wend
-      &apos; Go through tempstr twice - once replacing fromstr with the computed
-      &apos; string, then replacing the computed string with tostr
-      While Instr(tempstr, fromstr) &lt;&gt; 0
-         tempstr = Left(tempstr, Instr(tempstr, fromstr)-1) &amp; convstr _
-         &amp; Mid(tempstr, Instr(tempstr, fromstr)+Len(fromstr))
-      Wend
-      While Instr(tempstr, convstr) &lt;&gt; 0
-         tempstr = Left(tempstr, Instr(tempstr, convstr)-1) &amp; tostr _
-         &amp; Mid(tempstr, Instr(tempstr, convstr)+Len(convstr))
-      Wend
-   Else &apos; It&apos;s a normal replace substring call - fromstr is not part of tostr
-      While Instr(tempstr, fromstr) &lt;&gt; 0
-         tempstr = Left(tempstr, Instr(tempstr, fromstr)-1) &amp; tostr _
-         &amp; Mid(tempstr, Instr(tempstr, fromstr)+Len(fromstr))
-      Wend
-   End If
-   ReplaceSubstring = tempstr
-End Function
-
-
 
 Const MOVESECTION_BEFORE = 0
 Const MOVESECTION_AFTER = 1

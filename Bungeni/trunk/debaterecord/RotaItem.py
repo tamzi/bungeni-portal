@@ -36,9 +36,21 @@ from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore.utils import getToolByName
+from Products.Archetypes.utils import log
 ##/code-section module-header
 
 schema = Schema((
+
+    ComputedField(
+        name='title',
+        widget=ComputedField._properties['widget'](
+            label='Title',
+            label_msgid='Bungeni_label_title',
+            i18n_domain='Bungeni',
+        ),
+        accessor="Title",
+        searchable=1
+    ),
 
     ComputedField(
         name='ItemOrder',
@@ -134,7 +146,7 @@ class RotaItem(BaseContent):
     typeDescription = "RotaItem"
     typeDescMsgId = 'description_edit_rotaitem'
 
-    _at_rename_after_creation = True
+    _at_rename_after_creation = False
 
     schema = RotaItem_schema
 
@@ -142,19 +154,6 @@ class RotaItem(BaseContent):
     ##/code-section class-header
 
     # Methods
-
-    security.declarePublic('setReporter')
-    def setReporter(self, value, **kw_args):
-        """
-        """
-        catalog = getToolByName(self, 'portal_catalog')
-        reporter_brains = catalog(UID=value)
-        if reporter_brains:
-            reporter = reporter_brains[0].getObject()
-            self.setTitle('Reporter: %s'%reporter.Title())
-            self.reindexObject()
-        field = self.schema['Reporter']
-        return field.set(self, value, **kw_args)
 
     security.declarePublic('getItemOrder')
     def getItemOrder(self):
@@ -189,6 +188,23 @@ class RotaItem(BaseContent):
         """
         rt = getToolByName(self, 'portal_rotatool')
         return self.getItemFrom() + rt.getTakeLength()/1440.00
+
+    security.declarePublic('Title')
+    def Title(self):
+        """
+        """
+        reporter_uid = self.REQUEST.form.get('Reporter')
+        if reporter_uid:
+            catalog = getToolByName(self, 'portal_catalog')
+            reporter_brains = catalog(UID=reporter_uid)
+            if reporter_brains:
+                assert len(reporter_brains) == 1
+                reporter_title = reporter_brains[0].Title
+        else:
+            reporter = self.getReporter()
+            reporter_title = reporter and reporter.Title() or ''
+        log('%s (%s to %s)'%(reporter_title, self.getItemFrom().strftime('%H:%M'), self.getItemTo().strftime('%H:%M')))
+        return '%s (%s to %s)'%(reporter_title, self.getItemFrom().strftime('%H:%M'), self.getItemTo().strftime('%H:%M'))
 
 
 registerType(RotaItem, PROJECTNAME)

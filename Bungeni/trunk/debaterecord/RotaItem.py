@@ -203,7 +203,6 @@ class RotaItem(BaseContent):
         else:
             reporter = self.getReporter()
             reporter_title = reporter and reporter.Title() or ''
-        log('%s (%s to %s)'%(reporter_title, self.getItemFrom().strftime('%H:%M'), self.getItemTo().strftime('%H:%M')))
         return '%s (%s to %s)'%(reporter_title, self.getItemFrom().strftime('%H:%M'), self.getItemTo().strftime('%H:%M'))
 
 

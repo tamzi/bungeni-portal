@@ -66,8 +66,8 @@ class TakeTranscription(BaseContent, ATFile):
     filter_content_types = 0
     global_allow = 0
     #content_icon = 'TakeTranscription.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
+    immediate_view = 'file_view'
+    default_view = 'file_view'
     suppl_views = ()
     typeDescription = "TakeTranscription"
     typeDescMsgId = 'description_edit_taketranscription'
@@ -80,6 +80,15 @@ class TakeTranscription(BaseContent, ATFile):
     ##/code-section class-header
 
     # Methods
+
+    # Manually created methods
+
+    security.declareProtected(permissions.View, 'index_html')
+    def index_html(self, REQUEST=None, RESPONSE=None):
+        """Download the file
+        """
+        return ATFile.index_html(self, REQUEST, RESPONSE)
+
 
 
 registerType(TakeTranscription, PROJECTNAME)

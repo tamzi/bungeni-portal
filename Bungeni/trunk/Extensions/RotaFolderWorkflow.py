@@ -59,6 +59,7 @@ def setupRotaFolderWorkflow(self, workflow):
     for v in ['review_history', 'comments', 'time', 'actor', 'action']:
         workflow.variables.addVariable(v)
 
+    workflow.addManagedPermission('Add portal content')
 
     for l in []:
         if not l in workflow.worklists.objectValues():
@@ -74,6 +75,9 @@ def setupRotaFolderWorkflow(self, workflow):
     stateDef.setProperties(title="""published""",
                            description="""""",
                            transitions=['retract'])
+    stateDef.setPermission('Add portal content',
+                           0,
+                           ['Manager'])
 
     stateDef = workflow.states['new']
     stateDef.setProperties(title="""new""",

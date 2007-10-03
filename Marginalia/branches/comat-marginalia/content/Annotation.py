@@ -177,15 +177,6 @@ schema = Schema((
     ),
 
     StringField(
-        name='link',
-        widget=StringWidget(
-            label='Link',
-            label_msgid='Marginalia_label_link',
-            i18n_domain='Marginalia',
-        )
-    ),
-	
-	StringField(
 		name ='link_title',
 		widget=StringWidget(
 			label='Link_title',
@@ -203,11 +194,14 @@ schema = Schema((
             i18n_domain='Marginalia',
         )
     ),
-    ReferenceField('reference_link', 
+    ReferenceField('link', 
                    multiValued=0,
                    allowed_types=('ATDocument','ATFile', 'Article', 'AnnotatableDocument'),
                    relationship='referenceLink1',
-                   widget=ReferenceBrowserWidget(default_search_index='SearchableText', description='This is the first field. Pick an object.'
+                   widget=ReferenceBrowserWidget(
+                       label="Reference Link",
+                       default_search_index='SearchableText',
+                       description='Use the browse button to link another document.'
          )
     ),
 ),

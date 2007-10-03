@@ -285,18 +285,16 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         obj_id = plone.generateUniqueId('Annotation')
         new_id = self.invokeFactory('Annotation', id=obj_id, **params)
         self.REQUEST.RESPONSE.setStatus('Created')
+        location = self.REQUEST.RESPONSE.headers['location']
+        location = location.rstrip("/base_view")
+        self.REQUEST.RESPONSE.setHeader("location", location)
         return new_id
 
     security.declarePrivate('_updateAnnotation')
     def _updateAnnotation(self):
         """
         """
-        params = {
-            'id': '',
-            'note': '',
-            'access': '',
-            'link': '',
-            }
+        params = {}
         params.update(self.REQUEST)
         params.update(parse_qsl(self.REQUEST.QUERY_STRING))
         annotation = self.get(params['id'], None)
@@ -316,6 +314,16 @@ class Annotations(UniqueObject, BaseBTreeFolder):
             self.REQUEST.RESPONSE.setStatus('NoContent')
             return
         self.REQUEST.RESPONSE.setStatus('BadRequest') # No id
+
+    security.declarePublic('linkUID')
+    def linkUID(self, uid, REQUEST=None):
+        """Redirects to the linked document."""
+        brains = self.uid_catalog({'UID':uid})
+        if not brains:
+            return 
+        return REQUEST.RESPONSE.redirect(brains[0].getObject().absolute_url())
+
+    
     
 registerType(Annotations, PROJECTNAME)
 # end of class Annotations

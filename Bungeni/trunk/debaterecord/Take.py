@@ -92,8 +92,8 @@ class Take(BaseFolder, ATFile):
     filter_content_types = 1
     global_allow = 0
     #content_icon = 'Take.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
+    immediate_view = 'file_view'
+    default_view = 'file_view'
     suppl_views = ()
     typeDescription = "Take"
     typeDescMsgId = 'description_edit_take'
@@ -185,19 +185,30 @@ class Take(BaseFolder, ATFile):
         tt.setFile(new_file)
         os.remove(tempFileName)
 
+    # Manually created methods
+
+    security.declareProtected(permissions.ModifyPortalContent, 'initializeArchetype')
+    def initializeArchetype(self, **kwargs):
+        BaseFolder.initializeArchetype(self, **kwargs)
+        ATFile.initializeArchetype(self, **kwargs)
+
+        if self.isTemporary():
+            log('addedRotaFolder> Not yet!') #DBG
+            return
+        self._generateTakeTranscription()
+
+    security.declareProtected(permissions.View, 'index_html')
+    def index_html(self, REQUEST=None, RESPONSE=None):
+        """Download the file
+        """
+        return ATFile.index_html(self, REQUEST, RESPONSE)
+
+
 
 registerType(Take, PROJECTNAME)
 # end of class Take
 
 ##code-section module-footer #fill in your manual code here
-def addedTake(obj, event):
-    """ After the Take has been added, populate it with a TakeTranscription.
-    """
-    if obj.isTemporary():
-        #DBG log('addedRotaFolder> Not yet!')
-        return
-
-    obj._generateTakeTranscription()
 ##/code-section module-footer
 
 

@@ -276,42 +276,44 @@ class RotaFolder(OrderedBaseFolder):
             else:
                 log('notifySubscribers> %s has no email address'%s.Title())
 
+    security.declareProtected(permissions.ModifyPortalContent, 'initializeArchetype')
+    def initializeArchetype(self, **kwargs):
+        OrderedBaseFolder.initializeArchetype(self, **kwargs)
+
+        if self.isTemporary():
+            log('initializeArchetype> Not yet.')
+            return
+
+        rt = getToolByName(self, 'portal_rotatool')
+
+        self.setReportersForSitting(self.REQUEST.form['ReportersForSitting'])
+        reporters = self.getReportersForSitting()
+
+        # Get the lead/extra times as a fraction of a day (1440 minutes)
+        lead_time_fraction = rt.getReportingLeadTime() / 1440.00
+        extra_time_fraction = (
+                (rt.getExtraTakes() * rt.getTakeLength()) / 1440.00)
+
+        start_time = self.getRotaFrom() - lead_time_fraction
+        end_time = self.getRotaTo() + extra_time_fraction
+        duration_in_minutes = (end_time - start_time) * 1440.00
+        iterations = duration_in_minutes / rt.getTakeLength()
+        reporter_index = 0
+
+        # Generate the rota
+        for n in range(iterations):
+            if reporter_index == len(reporters):
+                reporter_index = 0
+            r = reporters[reporter_index]
+            reporter_index += 1
+            ri_id = self.generateUniqueId('RotaItem')
+            self.invokeFactory('RotaItem', ri_id, Reporter=r.UID())
+
 
 registerType(RotaFolder, PROJECTNAME)
 # end of class RotaFolder
 
 ##code-section module-footer #fill in your manual code here
-def addedRotaFolder(obj, event):
-    """ After the folder has been added, populate it with RotaItems
-    based on the AvailableReporters.
-    """
-    if obj.isTemporary():
-        #DBG log('addedRotaFolder> Not yet!')
-        return
-
-    rt = getToolByName(obj, 'portal_rotatool')
-
-    obj.setReportersForSitting(obj.REQUEST.form['ReportersForSitting'])
-    reporters = obj.getReportersForSitting()
-
-    # Get the lead/extra times as a fraction of a day (1440 minutes)
-    lead_time_fraction = rt.getReportingLeadTime() / 1440.00
-    extra_time_fraction = (rt.getExtraTakes() * rt.getTakeLength()) / 1440.00
-
-    start_time = obj.getRotaFrom() - lead_time_fraction
-    end_time = obj.getRotaTo() + extra_time_fraction
-    duration_in_minutes = (end_time - start_time) * 1440.00
-    iterations = duration_in_minutes / rt.getTakeLength()
-    reporter_index = 0
-
-    # Generate the rota
-    for n in range(iterations):
-        if reporter_index == len(reporters):
-            reporter_index = 0
-        r = reporters[reporter_index]
-        reporter_index += 1
-        ri_id = obj.generateUniqueId('RotaItem')
-        obj.invokeFactory('RotaItem', ri_id, Reporter=r.UID())
 ##/code-section module-footer
 
 

@@ -3,21 +3,9 @@
     xmlns:five="http://namespaces.zope.org/five">
 
     <subscriber
-        for="Products.Bungeni.interfaces.IRotaFolder.IRotaFolder
-            zope.app.container.interfaces.IObjectAddedEvent"
-        handler="Products.Bungeni.debaterecord.RotaFolder.addedRotaFolder"
-        />
-
-    <subscriber
         for="Products.Bungeni.interfaces.IDebateRecordFolder.IDebateRecordFolder
             zope.app.container.interfaces.IObjectAddedEvent"
         handler="Products.Bungeni.debaterecord.DebateRecordFolder.addedDebateRecordFolder"
-        />
-
-    <subscriber
-        for="Products.Bungeni.interfaces.ITake.ITake
-            zope.app.container.interfaces.IObjectAddedEvent"
-        handler="Products.Bungeni.debaterecord.Take.addedTake"
         />
 
 </configure>

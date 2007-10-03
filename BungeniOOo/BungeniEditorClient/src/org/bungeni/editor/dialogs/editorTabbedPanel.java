@@ -24,6 +24,7 @@ import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.table.XCell;
+import com.sun.star.text.XRelativeTextContentInsert;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextCursor;
@@ -60,6 +61,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 import javax.swing.AbstractAction;
@@ -317,6 +319,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     }
     
     private void initList() {
+        if (!ooDocument.isXComponentValid()) return;
         if (selectedChangeStructureItem.getIndex().equals("VIEW_PARAGRAPHS")) {
             log.debug("initList: initParagraphList");
             scrollPane_treeDocStructure.setViewportView(treeDocStructure);
@@ -624,8 +627,35 @@ public class editorTabbedPanel extends javax.swing.JPanel {
    
 
 
-   
+     class treePopupMenu {
+        HashMap<String,String> popupMenuMap = new HashMap<String, String>();
+       
+        treePopupMenu (String menu_name_to_load_from_settings) {
+            //load the menu from settings, probably the db.
+            if (menu_name_to_load_from_settings.equals("treeDocStructureTree")) {
+                addItem("GOTO_SECTION", "Goto Section");
+                addItem("ADD_PARA_BEFORE_SECTION", "Add Para Before Section");
+                addItem("ADD_PARA_AFTER_SECTION", "Add Para After Section");
+            }
+        }
+        
+        public void addItem(String menu_id, String text) {
+            popupMenuMap.put(menu_id, text);
+        }
+        
+        public HashMap<String, String> getMenus() {
+            return popupMenuMap;
+        }
+        
+        
+    }
+    
    class treeDocStructureTreeMouseListener implements MouseListener {
+       private treePopupMenu theMenu ; 
+       treeDocStructureTreeMouseListener() {
+            theMenu  = new treePopupMenu("treeDocStructureTree");
+        }
+        
         public void mouseClicked(MouseEvent e) {
         }     
         
@@ -662,8 +692,15 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                
        private void createPopupMenuItems (String selectedSection){
                 popupMenuTreeStructure.removeAll();
+                //treePopupMenu menu = new treePopupMenu("treeDocStructureTree");
                 //popupMenu.add(new treePopupMenuAction(popup_section_actions[0], baseNodeAction, PopupTypeIdentifier.VIEW_ACTIONS));
-                popupMenuTreeStructure.add(new treeDocStructureTreePopupAction("Goto Section", selectedSection));
+                HashMap<String,String> menus = theMenu.getMenus();
+                Iterator<String> keys = menus.keySet().iterator();
+                while (keys.hasNext()) {
+                    String key = keys.next();
+                    popupMenuTreeStructure.add(new treeDocStructureTreePopupAction(key, menus.get(key), selectedSection));
+                }
+                //popupMenuTreeStructure.add(new treeDocStructureTreePopupAction(org.bungeni.editor.dialogs.editorTabbedPanel.PopupTypeIdentifier.GOTO_SECTION.popup_id(), selectedSection));
                
            }
    }
@@ -674,25 +711,51 @@ public class editorTabbedPanel extends javax.swing.JPanel {
               
           }
           
-          treeDocStructureTreePopupAction (String actionText, String sectionName) {
+          treeDocStructureTreePopupAction (String actionId, String actionText, String sectionName) {
                 super(actionText);
+                putValue("ACTION_ID", actionId);
                 putValue("USER_OBJECT", sectionName);
             }
        
           public void actionPerformed(ActionEvent e) {
               Object value = getValue("USER_OBJECT");
+              Object action_id = getValue("ACTION_ID");
               if (value != null ) {
-                  processPopupSelection((String)value);
+                  processPopupSelection((String)value, (String) action_id);
               }
             }
           
-          public void processPopupSelection(String sectionName ) {
+          public void processPopupSelection(String sectionName, String action_id ) {
               //go to selected range
-              XTextSection xSelectSection = ooDocument.getSection(sectionName);
-              if (xSelectSection != null  ) {
-                  XTextRange sectionRange = xSelectSection.getAnchor();
-                  XTextViewCursor xViewCursor = ooDocument.getViewCursor();
-                  xViewCursor.gotoRange(sectionRange, false);
+             XTextSection xSelectSection = ooDocument.getSection(sectionName);
+          
+              if (action_id.equals("GOTO_SECTION")) {
+                      if (xSelectSection != null  ) {
+                          XTextRange sectionRange = xSelectSection.getAnchor();
+                          XTextViewCursor xViewCursor = ooDocument.getViewCursor();
+                          xViewCursor.gotoRange(sectionRange, false);
+                      }
+                  
+              } else if (action_id.equals("ADD_PARA_BEFORE_SECTION")) {
+                   XTextContent oPar = ooQueryInterface.XTextContent(ooDocument.createInstance("com.sun.star.text.Paragraph"));
+                   XRelativeTextContentInsert xRelativeText = ooQueryInterface.XRelativeTextContentInsert(ooDocument.getTextDocument().getText());
+                    try {
+                        xRelativeText.insertTextContentBefore(oPar, ooQueryInterface.XTextContent(xSelectSection));
+                    } catch (com.sun.star.lang.IllegalArgumentException ex) {
+                        log.debug("insertTextContentbefore :" + ex.getMessage());
+                    }
+                    //move visible cursor to the point where the new para was added
+                   ooDocument.getViewCursor().gotoRange(xSelectSection.getAnchor().getStart(), false);
+              } else if (action_id.equals("ADD_PARA_AFTER_SECTION")) {
+                     XTextContent oPar = ooQueryInterface.XTextContent(ooDocument.createInstance("com.sun.star.text.Paragraph"));
+                     XRelativeTextContentInsert xRelativeText = ooQueryInterface.XRelativeTextContentInsert(ooDocument.getTextDocument().getText());
+                     try {
+                            xRelativeText.insertTextContentAfter(oPar, ooQueryInterface.XTextContent(xSelectSection));
+                     } catch (com.sun.star.lang.IllegalArgumentException ex) {
+                            log.debug("insertTextContentbefore :" + ex.getMessage());
+                     }
+                     //move visible cursor to point where para was added
+                    ooDocument.getViewCursor().gotoRange(xSelectSection.getAnchor().getEnd(), false);
               }
           }
     }
@@ -1511,7 +1574,7 @@ private void displayUserMetadata(XTextRange xRange) {
  */  
   class CurrentSectionNameUpdater implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            
+           
             String strSection="";
             strSection = currentSectionName();
             if (strSection.trim().length() == 0)

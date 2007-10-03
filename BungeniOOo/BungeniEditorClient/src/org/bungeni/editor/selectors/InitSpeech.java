@@ -12,6 +12,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.Vector;
 import javax.swing.JDialog;
@@ -27,6 +28,7 @@ import org.bungeni.editor.fragments.FragmentsFactory;
 import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.utils.BungeniUUID;
 import org.bungeni.utils.MessageBox;
 import org.safehaus.uuid.UUID;
 import org.safehaus.uuid.UUIDGenerator;
@@ -41,6 +43,7 @@ public class InitSpeech extends selectorTemplatePanel {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(InitSpeech.class.getName());
     private String sourceSectionName = "";
     HashMap<String, String> selectionData = new HashMap<String,String>();
+    String[] serializedFields = {"SpeechBy", "SpeechByURI" };
     /** Creates new form InitQuestionBlock */
     public InitSpeech() {
         initComponents();
@@ -48,17 +51,105 @@ public class InitSpeech extends selectorTemplatePanel {
     public InitSpeech(OOComponentHelper ooDocument, JDialog parentDlg, toolbarAction theAction) {
         super(ooDocument, parentDlg, theAction);
         initComponents();
-       
+        initNames();
+        initSerializationMap();
+        
         setControlModes();
         setControlData();
    
       
     }
    
-    private void setControlModes() {
-
-        if (theMode == SelectorDialogModes.TEXT_INSERTION) {
+    private void initNames() {
+        this.txt_SpeechBy.setName("SpeechBy");
+        this.txt_URIofPerson.setName("SpeechByURI");
+    }
+    
+    private void initSerializationMap(){
+        String dummyValue = "";
+        for (int i=0; i < serializedFields.length; i++ )
+         theSerializationMap.put(serializedFields[i], dummyValue);
+    }
+    
+    /*
+     *  1 => sets values from form to map
+     *  2 => sets values from map to form
+     */
+    enum SerializationDirection { FormToMap, MapToForm };
+    private void serializeFields(SerializationDirection direction){
+       Set<String> fieldNames =  theSerializationMap.keySet();
+       Iterator<String> fieldIterator = fieldNames.iterator();
+       java.awt.Container parentContainer = this;
+ 
+        if (direction == SerializationDirection.FormToMap) {
+           while (fieldIterator.hasNext()) {
+               String field = fieldIterator.next();
+               String value = getComponentValue(parentContainer, field);
+               theSerializationMap.put(field, value);
+           }
+        } else 
+        if (direction == SerializationDirection.MapToForm ) {
+           while (fieldIterator.hasNext()) {
+                String field = fieldIterator.next();
+                String value = theSerializationMap.get(field);
+                setComponentValue(parentContainer, field, value);
+           }
+        }
+       log.debug("serializationMap = " + org.bungeni.utils.BungeniLoggingUtils.dumpMap(theSerializationMap));
+ 
+    }
+    
+    public String getComponentValue (java.awt.Container container, String name) {
+        log.debug("getComponentValue = " + name);
+        java.awt.Component c = getComponentByName(container, name);
+        log.debug("getComponentValue, class name = " + c.getClass().getName());
+        if (c.getClass().getName().equals("javax.swing.JTextField")) {
+            log.debug("returning value for = " + c.getName());
+            return ((javax.swing.JTextField)c).getText();
+        } else  
+        if (c.getClass().equals("javax.swing.JTextArea")) {
+            log.debug("returning value for = " + c.getName());
+            return ((javax.swing.JTextArea)c).getText();
+        } else
+            return null;
+    }
+    
+    public boolean setComponentValue (java.awt.Container container, String name, String value ) {
+        boolean bSetValue = false;
+        java.awt.Component c = getComponentByName(container, name);
+         if (c.getClass().equals("javax.swing.JTextField")) {
+           ((javax.swing.JTextField)c).setText(value);
+           return true;
+        } else  
+        if (c.getClass().equals("javax.swing.JTextArea")) {
+           ((javax.swing.JTextArea)c).setText(value);
+           return true;
+        } else
+            return bSetValue;
+    }
+    
+    public java.awt.Component getComponentByName (java.awt.Container container, String name) {
+        for (int i=0; i < container.getComponentCount() ; i++){
+            //if componennt has children recurse to children
+            java.awt.Component child = container.getComponent(i);
+            log.debug("getComponentByName, loop = " + child.getName());
+            if (name.equals(child.getName())) {
+                return child;
+            }
             
+            if (child instanceof java.awt.Container) {
+                java.awt.Component c = getComponentByName((java.awt.Container)child, name);
+                if (!(c == null ))
+                    return c;
+            } 
+        }
+        return null;
+    }
+    
+    private void setControlModes() {
+        System.out.println("Current mode = " + theMode);
+        if (theMode == SelectorDialogModes.TEXT_INSERTION) {
+             txt_URIofPerson.setEditable(false);
             txtMessageArea.setText("You are attempting to insert a new Speech, " +
                     "please select the person making the speech, and edit the name if neccessary");               
         } else if (theMode == SelectorDialogModes.TEXT_SELECTED) {
@@ -69,6 +160,7 @@ public class InitSpeech extends selectorTemplatePanel {
                     "please select the Speech you would like to markup , and press apply" +
                     "to markup the selected text with the correct speech metadata");
         } else if (theMode == SelectorDialogModes.TEXT_EDIT) {
+           txt_URIofPerson.setEditable(false);
            txtMessageArea.setText("You are attempting to edit metadata and content for an existing block of text.");
         }
     }
@@ -77,23 +169,15 @@ public class InitSpeech extends selectorTemplatePanel {
         try {
         //only in edit mode, only if the metadata properties exist
         if (theMode == SelectorDialogModes.TEXT_EDIT) {
+            
             goEditMode();
         
            
         } else if (theMode == SelectorDialogModes.TEXT_INSERTION) {
            
-           this.lbl_URIofPerson.setEnabled(false);
-           this.txt_SpeechBy.setEnabled(true);
-           this.lbl_SpeechBy.setEnabled(true);
-           this.btn_SpeechBy.setEnabled(true);
+          
            
         } else if (theMode == SelectorDialogModes.TEXT_SELECTED) {
-           
-            this.btn_SpeechBy.setEnabled(true);
-            this.txt_SpeechBy.setEditable(true);
-            this.txt_URIofPerson.setEditable(false);
-            
-        
             
         }
         
@@ -110,18 +194,23 @@ public class InitSpeech extends selectorTemplatePanel {
             ///we probably need a associative metadata attribute factory that
             ///retrieves valid metadata elements for specific seciton types.
             ///how do you identify section types ? probably by naming convention....
-            if (currentSectionName.startsWith("meta-mp-")) {
+            if (currentSectionName.lastIndexOf(theAction.action_naming_convention()) != -1) {
+                
                 //this section stores MP specific metadata
                 //get attribute names for mp specific metadata
                 //Bungeni_SpeechMemberName
                 //Bungeni_SpeechMemberURI
                 //the basic macro for adding attributes takes two arrays as a parameter
                 //one fr attribute names , one for attribute values
+                log.debug("in goEditMode()");
                 HashMap<String,String> attribMap = ooDocument.getSectionMetadataAttributes(currentSectionName);
                 this.sourceSectionName = currentSectionName;
+                
                 if (attribMap.size() > 0 ) {
-                  this.txt_SpeechBy.setText(attribMap.get("Bungeni_MemberName"));
-                  this.txt_URIofPerson.setText(attribMap.get("Bungeni_MemberURI"));
+                  log.debug("attribMap was > 0");
+                  log.debug("attribMap keys = " + org.bungeni.utils.BungeniLoggingUtils.dumpMap(attribMap));
+                  this.txt_SpeechBy.setText(attribMap.get("Bungeni_SpeechBy"));
+                  this.txt_URIofPerson.setText(attribMap.get("Bungeni_SpeechByURI"));
                   return true;
                 } else {
                     log.debug("attribMap is  0!");
@@ -244,14 +333,73 @@ public class InitSpeech extends selectorTemplatePanel {
         btnCancel.setEnabled(state);
         btn_SpeechBy.setEnabled(state);
     }
+    /*
+     *get Value from seriailization map
+     *
+     */
+    private String getValue (String name) {
+        return theSerializationMap.get(name);
+    }
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt)  {//GEN-FIRST:event_btnApplyActionPerformed
 // TODO add your handling code here:
         returnError(false);
-        if (selectionData.size() == 0) {
+        if (this.theMode == SelectorDialogModes.TEXT_EDIT) {
+                  //only name can be edited nothing else....
+            String sectionName = ooDocument.currentSectionName();
+            //unprotect any child sections if neccessary, and reprotect them at the end
+            //1 change the metadata in the parent section
+            //2 change he display text in the inner section
+            String childSection = ooDocument.getMatchingChildSection(sectionName, "meta-mp-");
+            boolean wasProtected = false;
+            if (ooDocument.isSectionProtected(childSection)) {
+                wasProtected = true;
+            }
+            log.debug("in Text_Edit before serializing fields");
+            //send field values to map
+            this.serializeFields(SerializationDirection.FormToMap);
+            
+            ExternalMacro ReplaceLinkInSectionByName = ExternalMacroFactory.getMacroDefinition("ReplaceLinkInSectionByName");
+            ReplaceLinkInSectionByName.addParameter(ooDocument.getComponent());
+            ReplaceLinkInSectionByName.addParameter(childSection);
+            ReplaceLinkInSectionByName.addParameter(new String("member_url"));
+            ReplaceLinkInSectionByName.addParameter(getValue("SpeechBy"));
+            ReplaceLinkInSectionByName.addParameter( "Name: "+getValue("SpeechBy")+ ";URI: "+ getValue("SpeechByURI"));
+            ReplaceLinkInSectionByName.addParameter(wasProtected);
+            
+            ooDocument.executeMacro(ReplaceLinkInSectionByName.toString(), ReplaceLinkInSectionByName.getParams());
+
+            
+            /////now set the section metadata///
+            
+            String[] attrNames = new String[2];
+            String[] attrValues = new String[2];
+            attrNames[0] = "Bungeni_SpeechBy";
+            attrNames[1] = "Bungeni_SpeechByURI";
+            
+            attrValues[0] = getValue("SpeechBy");
+            attrValues[1] = getValue("SpeechByURI");
+      
+            ExternalMacro SetSectionMetadata = ExternalMacroFactory.getMacroDefinition("SetSectionMetadata");
+            SetSectionMetadata.addParameter(ooDocument.getComponent());
+            SetSectionMetadata.addParameter(sectionName );
+            SetSectionMetadata.addParameter(attrNames);
+            SetSectionMetadata.addParameter(attrValues);
+            ooDocument.executeMacro(SetSectionMetadata.toString(), SetSectionMetadata.getParams());
+            
+           
+            MessageBox.OK(parent, "Metadata for the section was updated");
+            returnError(true);
+            parent.dispose();
+           
+                
+      
+        } else 
+        if (this.theMode == SelectorDialogModes.TEXT_INSERTION) {
+          if (selectionData.size() == 0) {
             MessageBox.OK(parent, "Please select a Person!");
             returnError(true);
             return;
-        }
+            }
           ExternalMacro cursorInSection = ExternalMacroFactory.getMacroDefinition("CursorInSection");
             Object retValue = ooDocument.executeMacro(cursorInSection.toString(), cursorInSection.getParams());
             String strCurrentSection = (String)retValue;
@@ -274,11 +422,11 @@ public class InitSpeech extends selectorTemplatePanel {
                 return;
             }
             
-        String newSectionName = strCurrentSection + "-speech1" ;
+        String newSectionName = strCurrentSection + "-"+ theAction.action_naming_convention() +"1" ;
         int nCounter = 1;
          while (ooDocument.getTextSections().hasByName(newSectionName) ) {
                 nCounter++;
-                newSectionName = strCurrentSection+"-speech"+nCounter;
+                newSectionName = strCurrentSection+"-"+theAction.action_naming_convention()+nCounter;
             }
         
         
@@ -292,55 +440,69 @@ public class InitSpeech extends selectorTemplatePanel {
         AttrNames.addElement(new String("Bungeni_MemberURI"));
         String[] strAttrNames = AttrNames.toArray(new String[AttrNames.size()]);
         //String newSectionName = strCurrentSection+"-speech"+speechCounter;
-        try {
-        if (this.theMode == SelectorDialogModes.TEXT_SELECTED) {
-            
-            
-            
-        } else if (this.theMode == SelectorDialogModes.TEXT_INSERTION) {
-            
-            
-            long sectionBackColor = 0xffffff;
-            float sectionLeftMargin = (float).6;            
-           ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
-            AddSectionInsideSection.addParameter(strCurrentSection);
-            AddSectionInsideSection.addParameter(newSectionName);
-            AddSectionInsideSection.addParameter(sectionBackColor);
-            AddSectionInsideSection.addParameter(sectionLeftMargin);      
-            ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
-            /*
-            ExternalMacro AddSectionInsideSectionWithAttributes = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithAttributes");
-            AddSectionInsideSectionWithAttributes.addParameter(strCurrentSection);
-            AddSectionInsideSectionWithAttributes.addParameter(newSectionName);
-            AddSectionInsideSectionWithAttributes.addParameter(strAttrNames);
-            AddSectionInsideSectionWithAttributes.addParameter(xmlAttrValues);
-            ooDocument.executeMacro(AddSectionInsideSectionWithAttributes.toString(), AddSectionInsideSectionWithAttributes.getParams());   */         
-            
-            ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
-            insertDocIntoSection.addParameter(newSectionName)   ;
-            insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_speech"));
-            ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
-            //search replace title into question title marker
-            String[] speechBookmarkRanges= {"begin-speech_by", "end-speech_by" };
-            
-            ExternalMacro SearchAndReplaceWithAttrs = ExternalMacroFactory.getMacroDefinition("SearchAndReplace2");
-            SearchAndReplaceWithAttrs.addParameter("[[SPEECH_BY]]");
-            SearchAndReplaceWithAttrs.addParameter(PersonName);
-            SearchAndReplaceWithAttrs.addParameter(speechBookmarkRanges);
-            SearchAndReplaceWithAttrs.addParameter("Name: "+PersonName+";URI: "+URI);
-            SearchAndReplaceWithAttrs.addParameter("member_url");
-            ooDocument.executeMacro(SearchAndReplaceWithAttrs.toString(), SearchAndReplaceWithAttrs.getParams());
-            returnError(true);
-            //MessageBox.OK(parent, "Added new Speech element to document, \n please type in the text of the speech.");
-            parent.dispose();
-        }   
+     
+        long sectionBackColor = 0xffffff;
+        float sectionLeftMargin = (float).6;            
+       ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
+        AddSectionInsideSection.addParameter(strCurrentSection);
+        AddSectionInsideSection.addParameter(newSectionName);
+        AddSectionInsideSection.addParameter(sectionBackColor);
+        AddSectionInsideSection.addParameter(sectionLeftMargin);      
+        ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
+        /*
+        ExternalMacro AddSectionInsideSectionWithAttributes = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithAttributes");
+        AddSectionInsideSectionWithAttributes.addParameter(strCurrentSection);
+        AddSectionInsideSectionWithAttributes.addParameter(newSectionName);
+        AddSectionInsideSectionWithAttributes.addParameter(strAttrNames);
+        AddSectionInsideSectionWithAttributes.addParameter(xmlAttrValues);
+        ooDocument.executeMacro(AddSectionInsideSectionWithAttributes.toString(), AddSectionInsideSectionWithAttributes.getParams());   */         
+
+        ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
+        insertDocIntoSection.addParameter(newSectionName)   ;
+        insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_speech"));
+        ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
+        //search replace title into question title marker
+        String[] speechBookmarkRanges= {"begin-speech_by", "end-speech_by" };
+
+        ExternalMacro SearchAndReplaceWithAttrs = ExternalMacroFactory.getMacroDefinition("SearchAndReplace2");
+        SearchAndReplaceWithAttrs.addParameter("[[SPEECH_BY]]");
+        SearchAndReplaceWithAttrs.addParameter(PersonName);
+        SearchAndReplaceWithAttrs.addParameter(speechBookmarkRanges);
+        SearchAndReplaceWithAttrs.addParameter("Name: "+PersonName+";URI: "+URI);
+        SearchAndReplaceWithAttrs.addParameter("member_url");
+        ooDocument.executeMacro(SearchAndReplaceWithAttrs.toString(), SearchAndReplaceWithAttrs.getParams());
+        //above also imports a section called speech_by
+        //now rename the newly imported section
+        //newly imported section is called "speech_by", change the name to meta-mp-uuid identified name
+        String renamedSectionName = "meta-mp-"+BungeniUUID.getStringUUID();
+
+        if (ooDocument.renameSection("speech_by", renamedSectionName)) {
+
+                String[] attrNames = new String[2];
+                String[] attrValues = new String[2];
+                attrNames[0] = "Bungeni_SpeechBy";
+                attrNames[1] = "Bungeni_SpeechByURI" ;
+
+                attrValues[0] = PersonName;
+                attrValues[1] = URI;
+                /*
+                 *Set metadata into section
+                 */
+                ExternalMacro SetSectionMetadata = ExternalMacroFactory.getMacroDefinition("SetSectionMetadata");
+                SetSectionMetadata.addParameter(ooDocument.getComponent());
+                SetSectionMetadata.addParameter(newSectionName );
+                SetSectionMetadata.addParameter(attrNames);
+                SetSectionMetadata.addParameter(attrValues);
+                ooDocument.executeMacro(SetSectionMetadata.toString(), SetSectionMetadata.getParams());
+        }
+
+        returnError(true);
+        //MessageBox.OK(parent, "Added new Speech element to document, \n please type in the text of the speech.");
+        parent.dispose();
+        }
         
     // End of variables declaration                      
-            } catch (Exception ex) {
-                    log.debug("InitQuestionBlock: " +ex.getMessage());
-                    returnError(true);
-                }
-           
+        
     }//GEN-LAST:event_btnApplyActionPerformed
 
     private void btn_SpeechByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SpeechByActionPerformed

@@ -32,25 +32,33 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     protected BungeniClientDB dbSettings = null;
     protected HashMap<String,String> theSerializationMap = new HashMap<String,String>();
     protected HashMap<String,String> theMetadataMap = new HashMap<String,String>();
+    protected String windowTitle;
     class dlgBackgrounds {
         Color background;
-        
+        String windowTitle = "";
         dlgBackgrounds(SelectorDialogModes mode) {
             if (mode == SelectorDialogModes.TEXT_SELECTED) {
                   background = new Color(255, 255, 153);
+                  windowTitle = "Selection Mode";
               } else 
             if (mode == SelectorDialogModes.TEXT_INSERTION){
                   background = new Color(204, 255, 153);
+                  windowTitle = "Insertion Mode";
             } else 
             if (mode == SelectorDialogModes.TEXT_EDIT){
                   background = new Color(150, 255, 153);
+                  windowTitle = "Edit Mode";
             } else {
                 background = new Color (100, 255, 153);
+                windowTitle = "Mode not Selected";
             }
         }
         
         Color getBackground() {
             return background;
+        }
+        String getTitle() {
+            return windowTitle;
         }
         }
     
@@ -68,6 +76,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         this.theMode = theAction.getSelectorDialogMode();
         dlgBackgrounds bg = new dlgBackgrounds(theMode);
         this.setBackground(bg.getBackground());
+        this.windowTitle = bg.getTitle(); 
         HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
         dbInstance = new BungeniClientDB(registryMap);
         dbSettings = new BungeniClientDB(DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
@@ -81,6 +90,9 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         return this.theMode;
     }
 
+    public String getWindowTitle() {
+        return windowTitle;
+    }
     public void setOOComponentHelper(OOComponentHelper ooComp) {
         this.ooDocument=ooComp;
     }

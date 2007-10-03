@@ -23,6 +23,7 @@ import org.bungeni.editor.selectors.InitPapers;
 import org.bungeni.editor.selectors.InitQAsection;
 import org.bungeni.editor.selectors.InitQuestionBlock;
 import org.bungeni.editor.selectors.InitSpeech;
+import org.bungeni.editor.selectors.SelectSection;
 import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.MessageBox;
@@ -43,6 +44,20 @@ public class EditorActionHandler implements IEditorActionEvent {
         //can be implemented by any class that implements IEditorActionEvent]
         this.ooDocument = ooDocument;
         String cmd = action.action_name();
+        if (action.action_type().equals("section")) {
+            if (action.getSelectorDialogMode() == SelectorDialogModes.TEXT_INSERTION) {
+                //so we prompt for target section
+                if (SelectSection.Launchable(ooDocument)) {
+                    JDialog dlg;
+                    dlg = SelectSection.Launch(ooDocument, action.getSelectorDialogMode());
+                    SelectSection objPanel = (SelectSection)dlg.getContentPane().getComponent(0);
+                    String selAction = objPanel.getSelectedActionCommand();
+                    String selSection = objPanel.getSelectedSection();
+                    System.out.println( "Selected Action = " + selAction+" , " + selSection);
+                }
+            }
+        }
+        
         log.debug("doCommand executed : "+ cmd);
        // if (cmd.equals("makeMastHead"))
         if (cmd.equals ("makePrayerSection")) 
@@ -88,9 +103,9 @@ public class EditorActionHandler implements IEditorActionEvent {
             
              InitDebateRecord panel = new InitDebateRecord(ooDocument, 
                      initDebaterecord, action);
-              //panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
-            panel.setBackground(new Color(255, 255, 153));
-             initDebaterecord.setTitle("Selection Mode");
+             //panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
+             //panel.setBackground(new Color(255, 255, 153));
+             //initDebaterecord.setTitle("Selection Mode");
              initDebaterecord.getContentPane().add(panel);
              initDebaterecord.pack();
              initDebaterecord.setLocationRelativeTo(null);
@@ -108,6 +123,7 @@ public class EditorActionHandler implements IEditorActionEvent {
              InitQuestionBlock panel = new InitQuestionBlock(ooDocument, 
                      makeQuestionBlock, action);;
              makeQuestionBlock.getContentPane().add(panel);
+             makeQuestionBlock.setTitle(panel.getWindowTitle());
              makeQuestionBlock.pack();
              makeQuestionBlock.setLocationRelativeTo(null);
              makeQuestionBlock.setVisible(true);
@@ -122,7 +138,7 @@ public class EditorActionHandler implements IEditorActionEvent {
              makeSpeechBlock.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
              //initDebaterecord.setPreferredSize(new Dimension(420, 300));
              InitSpeech panel = new InitSpeech(ooDocument,  makeSpeechBlock, action);;
-             
+             /*
               if (ooDocument.isTextSelected()) {
                 panel.setDialogMode(SelectorDialogModes.TEXT_SELECTED);
                 panel.setBackground(new Color(255, 255, 153));
@@ -131,8 +147,9 @@ public class EditorActionHandler implements IEditorActionEvent {
                 panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
                 panel.setBackground(new Color(204, 255, 153));
                 makeSpeechBlock.setTitle("Insertion Mode");
-              }
+              }*/
              makeSpeechBlock.getContentPane().add(panel);
+             makeSpeechBlock.setTitle(panel.getWindowTitle());
              makeSpeechBlock.pack();
              makeSpeechBlock.setLocationRelativeTo(null);
              makeSpeechBlock.setVisible(true);

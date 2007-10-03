@@ -294,6 +294,29 @@ public class OOComponentHelper {
         }
     }
     
+    public boolean renameSection (String oldName, String newName ) {
+        XTextSection renameThisSection = getSection(oldName);
+        if (getTextSections().hasByName(newName))
+        {
+            log.debug("renameSection: section with name = "+ newName+ " already exists");
+            return false;
+        }
+        boolean stateProtected = false;
+        if (isSectionProtected(renameThisSection)) {
+            stateProtected = true;
+            this.protectSection(renameThisSection, false);
+        }
+       
+        XNamed sectName = ooQueryInterface.XNamed(renameThisSection);
+        sectName.setName(newName);
+        
+        if (stateProtected) {
+            this.protectSection(renameThisSection, true);
+        }
+        
+        return true;
+
+    }
     
     /**
      * Gets the current view cursor.

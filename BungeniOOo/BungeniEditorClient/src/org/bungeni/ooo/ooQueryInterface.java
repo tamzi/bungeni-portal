@@ -223,6 +223,11 @@ public class ooQueryInterface {
         return (XTextContent) UnoRuntime.queryInterface( XTextContent.class, obj );
     }
    
+    
+    static public XRelativeTextContentInsert XRelativeTextContentInsert( Object obj ) {
+        return (XRelativeTextContentInsert) UnoRuntime.queryInterface( XRelativeTextContentInsert.class, obj );
+    }
+   
     static public XTextRange XTextRange(Object obj){
         XTextRange xObj = (XTextRange)UnoRuntime.queryInterface(XTextRange.class, obj);
         return xObj;

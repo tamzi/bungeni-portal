@@ -35,5 +35,11 @@ public  class MessageBox extends Object {
         
         JOptionPane.showMessageDialog(parent, msg, title, type);
     }
+    
+    public static int Confirm(Component parent, String msg, String title) {
+        int ret = JOptionPane.showConfirmDialog(parent, msg, title, JOptionPane.YES_NO_OPTION );
+        return ret;
+    }
+
 }
 

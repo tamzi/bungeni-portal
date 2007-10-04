@@ -49,11 +49,15 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -102,6 +106,8 @@ import org.bungeni.db.BungeniRegistryFactory;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.GeneralQueryFactory;
 import org.bungeni.db.QueryResults;
+import org.bungeni.editor.dialogs.tree.NodeMoveTransferHandler;
+import org.bungeni.editor.dialogs.tree.TreeDropTarget;
 import org.bungeni.editor.panels.CollapsiblePanelFactory;
 import org.bungeni.editor.panels.ICollapsiblePanel;
 import org.bungeni.ooo.OOComponentHelper;
@@ -178,6 +184,10 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         treeDocStructureTree = new JTree();
         treeDocStructureTree.setExpandsSelectedPaths(true);
         treeDocStructureTree.addMouseListener(new treeDocStructureTreeMouseListener());
+        NodeMoveTransferHandler transferHandler = new NodeMoveTransferHandler(ooDocument);
+        treeDocStructureTree.setTransferHandler(transferHandler);
+        treeDocStructureTree.setDropTarget(new TreeDropTarget(transferHandler));
+        treeDocStructureTree.setDragEnabled(true);
         //initList();
         //initSectionList();
         //clear meatada listbox
@@ -660,19 +670,21 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         }     
         
          public void mousePressed(MouseEvent evt) {
-                int selRow = treeDocStructureTree.getRowForLocation(evt.getX(), evt.getY());
-                TreePath selPath = treeDocStructureTree.getPathForLocation(evt.getX(), evt.getY());
-                 if (selRow != -1 ) {
-                     if (evt.getClickCount() == 1) {
-                         DefaultMutableTreeNode node = (DefaultMutableTreeNode) selPath.getLastPathComponent();
-                         System.out.println("node = "+ (String) node.getUserObject());   
-                         String selectedSection = (String)node.getUserObject();
-                         createPopupMenuItems (selectedSection);
-                         popupMenuTreeStructure.show(evt.getComponent(), evt.getX(), evt.getY());
-                      return;
-                     }  
-                
-                 }
+                if (!toggleEditSection.isSelected()) {
+                    int selRow = treeDocStructureTree.getRowForLocation(evt.getX(), evt.getY());
+                    TreePath selPath = treeDocStructureTree.getPathForLocation(evt.getX(), evt.getY());
+                     if (selRow != -1 ) {
+                         if (evt.getClickCount() == 1) {
+                             DefaultMutableTreeNode node = (DefaultMutableTreeNode) selPath.getLastPathComponent();
+                             System.out.println("node = "+ (String) node.getUserObject());   
+                             String selectedSection = (String)node.getUserObject();
+                             createPopupMenuItems (selectedSection);
+                             popupMenuTreeStructure.show(evt.getComponent(), evt.getX(), evt.getY());
+                          return;
+                         }  
+
+                     }
+                }      
         }
 
         
@@ -705,6 +717,12 @@ public class editorTabbedPanel extends javax.swing.JPanel {
            }
    }
     
+   /*
+    *Drag and Drop handlers for JTree - treeDocStructureTree
+    * available under the tree package
+    */
+    
+   
       class treeDocStructureTreePopupAction extends AbstractAction {
            
           treeDocStructureTreePopupAction () {

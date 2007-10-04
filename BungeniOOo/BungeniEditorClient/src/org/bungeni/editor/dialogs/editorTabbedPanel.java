@@ -338,16 +338,19 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             log.debug("initList: initSectionList");
             scrollPane_treeDocStructure.setViewportView(treeDocStructureTree);
             //do not refresh if the mouse is over the tree
-            if (mouseOver_TreeDocStructureTree) 
+            if (mouseOver_TreeDocStructureTree) {
+                log.debug("initList: mouseOver treeDocStructure = true");
                 return;
+            }
             initSectionList();
         }    
    }
     
     private void initSectionsArray() {
         try {
+            log.debug("initSectionsArray....");
             if (!ooDocument.isXComponentValid()) return;
-            
+            log.debug("emptying treeDocStructureTree");
             treeDocStructureTree.removeAll();
             //this.sectionsRootNode = null ; //new DefaultMutableTreeNode(new String("root"));
             
@@ -356,10 +359,12 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                 log.debug("no root section found");
                 return;
             }
+            log.debug("InitSectionsArray = getting root section");
             Object rootSection = ooDocument.getTextSections().getByName("root");
             XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
+            sectionsRootNode = null;
             sectionsRootNode = new DefaultMutableTreeNode(new String("root"));
-            
+            log.debug("about to recurseSections()...");
             recurseSections (theSection, sectionsRootNode);
             
             CommonTreeFunctions.expandAll(treeDocStructureTree, true);
@@ -383,7 +388,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             if (sections.length > 0 ) {
                 //start from last index and go to first
                 for (int nSection = sections.length - 1 ; nSection >=0 ; nSection--) {
-                    log.debug ("section name = "+sections[nSection] );
+                    log.debug ("section name = "+ooQueryInterface.XNamed(sections[nSection]).getName() );
                     //get the name for the section and add it to the root node.
                     XPropertySet childSet = ooQueryInterface.XPropertySet(sections[nSection]);
                     String childSectionName = (String) childSet.getPropertyValue("LinkDisplayName");
@@ -406,24 +411,11 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     }
     
     private void initSectionList() {
-     initSectionsArray();   
-     treeDocStructureTree.setModel(new DefaultTreeModel(sectionsRootNode));
-     CommonTreeFunctions.expandAll(treeDocStructureTree, true);
-     /*
-     DefaultListModel model = new DefaultListModel();
-                for (int i=0 ; i < mvSections.size(); i++)
-                     {               
-                        String elem = (String)mvSections.elementAt(i);
-                        model.addElement(elem);
-                     }
-                    // ListSelectionModel selectionModel = treeDocStructure.getSelectionModel();
-                    // selectionModel.addListSelectionListener(new DocStructureListSelectionHandler());
-                        
-                     treeDocStructure.setModel(model);
-                    // treeDocStructure.setCellRenderer(new DocStructureListElementRenderer());
-                    // treeDocStructure.addMouseListener(new DocStructureListMouseListener());    
+        initSectionsArray();  
+        log.debug("setting defaultTreeModel to sectionsRootNode");
+        treeDocStructureTree.setModel(new DefaultTreeModel(sectionsRootNode));
+        CommonTreeFunctions.expandAll(treeDocStructureTree, true);
     
-      */
       }
     
     

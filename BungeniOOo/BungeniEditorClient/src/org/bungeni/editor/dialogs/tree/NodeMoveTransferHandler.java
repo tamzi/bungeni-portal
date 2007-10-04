@@ -30,6 +30,8 @@ import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
+import org.bungeni.editor.macro.ExternalMacro;
+import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.MessageBox;
 
@@ -40,6 +42,8 @@ import org.bungeni.utils.MessageBox;
 public class NodeMoveTransferHandler extends TransferHandler {
    private static org.apache.log4j.Logger log = Logger.getLogger(NodeMoveTransferHandler.class.getName());
    private OOComponentHelper ooDocument;
+   private final Integer MOVE_BEFORE=0;
+   private final Integer MOVE_AFTER=1;
   /**
    * constructor
    */
@@ -93,7 +97,7 @@ public class NodeMoveTransferHandler extends TransferHandler {
                      *we dont actually move the nodes on the tree, since the nodes get refreshed from the document
                      *we change the document and let the tree refreshe itself from the changed document 
                      */
-                    String sourceSection = (String)thisNode.getUserObject();
+                    String sourceSection = (String)fromNode.getUserObject();
                     String targetSection = (String) thisNode.getUserObject();
                     //call the macro implementation now to move the actual sections...
                     //prompt a warning yes/no before doing the move.
@@ -104,6 +108,13 @@ public class NodeMoveTransferHandler extends TransferHandler {
                             "Confirmation Required");
                     if (ret == JOptionPane.YES_OPTION) {
                         //move the sections
+                        
+                        ExternalMacro MoveSection = ExternalMacroFactory.getMacroDefinition("MoveSection");
+                        MoveSection.addParameter(ooDocument.getComponent());
+                        MoveSection.addParameter(sourceSection);
+                        MoveSection.addParameter(targetSection);
+                        MoveSection.addParameter(MOVE_AFTER);
+                        ooDocument.executeMacro(MoveSection.toString(), MoveSection.getParams());
                         
                     } else if (ret == JOptionPane.NO_OPTION) {
                         //dont do anything.

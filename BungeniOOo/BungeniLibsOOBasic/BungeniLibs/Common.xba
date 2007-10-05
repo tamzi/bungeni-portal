@@ -5,6 +5,8 @@ Option Explicit
 
 Sub Main
 
+
+rem AddSectionInsideSection &quot;Section1&quot;, &quot;Section2&quot;
 rem EmbedGraphic ThisComponent, &quot;file:///e:/default_logo.jpg&quot;
 
 rem AddImageIntoSection &quot;prayers&quot;, &quot;e:\default_logo.jpg&quot; 
@@ -58,8 +60,8 @@ rem arrAttrValues = Array (&quot;Raila Odinga&quot;, &quot;ken.mp.1993-02-1&quot
 
 rem SetSectionMetadata &quot;NewName2&quot;, arrAttrNames, arrAttrValues
 
- arrAttrNames = Array (&quot;Bungeni_QuestionMemberFrom&quot;)
- arrAttrValues = Array (&quot;Mp Inside Another MP&quot;)
+rem  arrAttrNames = Array (&quot;Bungeni_QuestionMemberFrom&quot;)
+rem  arrAttrValues = Array (&quot;Mp Inside Another MP&quot;)
 
 
 rem SetSectionMetadata thisComponent, &quot;question3-que1&quot;, arrAttrNames, arrAttrValues
@@ -716,14 +718,15 @@ Dim sectCursBegin, sectCursEnd
    
 End Function
 
+
 Const MOVESECTION_BEFORE = 0
 Const MOVESECTION_AFTER = 1
 
-Sub MoveSection (moveThisSection as string, fixedSection as string, beforeOrAfter as Integer)
+Sub MoveSection (docComponent, moveThisSection as string, fixedSection as string, beforeOrAfter as Integer)
    rem get handles
-   Dim oDoc, oViewCurs, NoArg()
-   oDoc = ThisComponent
-   oViewCurs = ThisComponent.CurrentController.getViewCursor
+   Dim oDoc, oViewCurs, NoArg(), oText, sections
+   oDoc = docComponent
+   oViewCurs = oDoc.CurrentController.getViewCursor
    oText = oDoc.getText()
    
    rem Get all sections
@@ -732,7 +735,20 @@ Sub MoveSection (moveThisSection as string, fixedSection as string, beforeOrAfte
    rem get handle to section that is to be moved
    Dim sectMoveThis, sectMoveThisRange
    Dim sectMoveThisBeginCurs, sectMoveThisEndCurs
+   
+   rem this is the Source section.  the move section happens in the following manner
+   rem 1 - the source section range is copied (copying the entire contents of the section
+   rem 2 - the contents of the section, and the section itself are deleted.
+   rem 3 - the section is recreated with the same name in the new position 
+   rem 4 - the contents are &quot;pasted&quot; from memorey into the new location
+   rem 5 - contents of the Source section are &quot;copied&quot;, and then 
+   rem because source section is deleted and recreated, any userdefinedattributes defined on it are lot
+   rem this means they need to be captured before deletion and restored into the new section.
+   
+   Dim sectMoveThisAttribs
+   
    sectMoveThis = sections.getByName(moveThisSection)
+   sectMoveThisAttribs = sectMoveThis.UserDefinedAttributes
    sectMoveThisRange = sectMoveThis.getAnchor()
    sectMoveThisBeginCurs = sectMoveThisRange.getText().createTextCursorByRange(sectMoveThisRange.getStart())
    
@@ -743,10 +759,11 @@ Sub MoveSection (moveThisSection as string, fixedSection as string, beforeOrAfte
    rem select section to be moved
    oDoc.CurrentController.Select(sectMoveThisRange)
    
+   Dim oDisp
    rem create the DispatcherService 
    oDisp = createUnoService(&quot;com.sun.star.frame.DispatchHelper&quot;) 
    rem copy the current selection to the clipboard. 
-   oDisp.executeDispatch(ThisComponent.CurrentController, &quot;.uno:Copy&quot;, &quot;&quot;, 0, NoArg()) 
+   oDisp.executeDispatch(oDoc.CurrentController, &quot;.uno:Copy&quot;, &quot;&quot;, 0, NoArg()) 
    &apos; section content in clipboard now....
    &apos; now remove the section and its contents
    &apos; and recreate it in another place
@@ -758,7 +775,7 @@ Sub MoveSection (moveThisSection as string, fixedSection as string, beforeOrAfte
    sectionRight = sectMoveThis.SectionRightMargin
    
    rem remove the section to be moved
-   RemoveSectionAndContents moveThisSection
+   RemoveSectionAndContents oDoc, moveThisSection
    
    rem get handle to section before which we are moving the first section 
    Dim sectFixed, sectFixedRange
@@ -772,15 +789,18 @@ Sub MoveSection (moveThisSection as string, fixedSection as string, beforeOrAfte
    dim newSect, newSectColumns, newPara
    newSect = oDoc.createInstance(&quot;com.sun.star.text.TextSection&quot;)
    newSect.setName (moveThisSection)
-   newSectColumns = ThisComponent.createInstance(&quot;com.sun.star.text.TextColumns&quot;)
+   newSectColumns = oDoc.createInstance(&quot;com.sun.star.text.TextColumns&quot;)
    newSectColumns.setColumnCount(1)
    newSect.TextColumns = newSectColumns
    newSect.BackColor=backColor
    newSect.SectionLeftMargin = sectionLeft
    newSect.SectionRightMargin = sectionRight
+   if (Not IsNull(sectMoveThisAttribs)) then 
+   	newSect.UserDefinedAttributes = sectMoveThisAttribs
+   end if 
    rem we have to create a new paragraph first at the point where we want to insert the section
    rem this is to create a place where the cursor can go and paste the contents of the copied section
-   newPara = ThisComponent.createInstance(&quot;com.sun.star.text.Paragraph&quot;)
+   newPara = oDoc.createInstance(&quot;com.sun.star.text.Paragraph&quot;)
    rem create paragraph
    if (beforeOrAfter = MOVESECTION_BEFORE ) Then
  	  oText.insertTextContentBefore ( newPara, sectFixed)
@@ -811,22 +831,22 @@ Sub MoveSection (moveThisSection as string, fixedSection as string, beforeOrAfte
    rem the newly created section
    oViewCurs.goLeft(1, false)
    rem now paste the previously copied section contents into the newly created section
-   oDisp.executeDispatch(ThisComponent.CurrentController, &quot;.uno:Paste&quot;, &quot;&quot;, 0, NoArg()) 
+   oDisp.executeDispatch(oDoc.CurrentController, &quot;.uno:Paste&quot;, &quot;&quot;, 0, NoArg()) 
  
    rem docText.insertTextContentBefore (newSect, sectFixed)
    rem oViewCurs.gotoRange(sectFixed.getStart() , false)
   rem sectFixedCurs =  sectFixedRange.getText().createTextCursorByRange(sectFixedRange.getStart())
   rem sectFixedCurs.goLeft(1, false)
   rem sectFixedCurs.getText().insertTextContent(sectFixedCurs, newSect, False)
-  
+  oDoc.refresh()
    
 End Sub 
 
 
-Sub RemoveSectionAndContents (sectionName as string )
+Sub RemoveSectionAndContents (docComponent, sectionName as string )
 
-  Dim section as Object
-  section = thisComponent.getTextSections().getByName(sectionName)
+  Dim section as Object, aTextRange, xEnum
+  section = docComponent.getTextSections().getByName(sectionName)
   &apos; make section visible to be able to remove its TextContents
   aTextRange=section.getAnchor()
   &apos; Remove all TextContent of the section
@@ -839,13 +859,14 @@ Sub RemoveSectionAndContents (sectionName as string )
  
   aTextRange.setString(&quot;&quot;)
    
-  Dim rangeCursBegin
+  Dim rangeCurs
   rangeCurs = aTextRange.getText().createTextCursorByRange(aTextRange.getStart())
   rangeCurs.gotoRange(aTextRange.getEnd(), true)
   rangeCurs.setPropertyValue(&quot;ParaStyleName&quot;, &quot;Default&quot;)
   
   &apos; Remove the section
-  ThisComponent.getText().removeTextContent(section)
+  docComponent.getText().removeTextContent(section)
   
 End Sub
+
 </script:module>

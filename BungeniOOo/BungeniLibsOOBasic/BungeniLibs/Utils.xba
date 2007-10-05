@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE script:module PUBLIC "-//OpenOffice.org//DTD OfficeDocument 1.0//EN" "module.dtd">
+<script:module xmlns:script="http://openoffice.org/2000/script" script:name="Utils" script:language="StarBasic">REM  *****  BASIC  *****
+
+
+Function MakePropertyValue( Optional cName As String, Optional uValue ) As com.sun.star.beans.PropertyValue
+   Dim oPropertyValue As New com.sun.star.beans.PropertyValue
+   If Not IsMissing( cName ) Then
+      oPropertyValue.Name = cName
+   EndIf
+   If Not IsMissing( uValue ) Then
+      oPropertyValue.Value = uValue
+   EndIf
+   MakePropertyValue() = oPropertyValue
+End Function 
+
+
+
+Function GetAttributeValue(AttributeContainer As com.sun.star.xml.AttributeContainer, AttributeName As String) As String
+  Dim Attribute As Object
+
+  GetAttributeValue = &quot;&quot;
+
+  If AttributeContainer.hasByName(AttributeName) Then
+    Attribute = AttributeContainer.getByName(AttributeName)
+    GetAttributeValue = Attribute.Value
+  End If
+End Function
+
+Function AddAttributesToContainer (AttributeContainer As com.sun.star.xml.AttributeContainer, _
+ ArrNames() as String, Attributes() As com.sun.star.xml.AttributeData)
+ 
+ Dim i as Integer
+
+ 
+ For i = LBound(Attributes()) to UBound(Attributes()) 
+ 	if (AttributeContainer.hasByName (ArrNames(i)) ) then 
+ 		AttributeContainer.removeByName (ArrNames(i))
+ 		AttributeContainer.insertByName (ArrNames(i), Attributes(i))
+ 	else
+ 		AttributeContainer.insertByName (ArrNames(i), Attributes(i))
+    end if 
+    
+ Next
+ 
+ AddAttributesToContainer = AttributeContainer 
+ 
+End Function
+ 
+Function AddAttribute(AttributeContainer As com.sun.star.xml.AttributeContainer, _
+ AttributeName As String, AttributeValue As String)
+  Dim oMyAttribute, oMyAttribute2 As Object
+
+  oMyAttribute = createUnoStruct(&quot;com.sun.star.xml.AttributeData&quot;)
+  oMyAttribute2 = createUnoStruct(&quot;com.sun.star.xml.AttributeData&quot;)
+  With oMyAttribute
+    .Namespace = &quot;&quot;
+    .Type = &quot;CDATA&quot;
+    .Value = AttributeValue
+  End With
+  With oMyAttribute2
+    .Namespace = &quot;&quot;
+    .Type = &quot;CDATA&quot;
+    .Value = CStr(Now)
+  End With
+    
+  
+
+  If AttributeContainer.hasByName(AttributeName) Then
+    AttributeContainer.removeByName(AttributeName, oMyAttribute)
+    AttributeContainer.insertByName(AttributeName, oMyAttribute)
+    AttributeContainer.insertByName(&quot;docu-date&quot;, oMyAttribute2)
+  
+  Else
+  
+    AttributeContainer.insertByName(AttributeName, oMyAttribute)
+      AttributeContainer.insertByName(&quot;docu-date&quot;, oMyAttribute2)
+  
+  End If
+
+  AddAttribute = AttributeContainer
+End Function
+
+
+Function ReplaceSubstring(sourcestr As String, fromstr As String, tostr As String) As String
+   &apos; This function replaces characters in a string. Take all the occurrences of &quot;fromstr&quot;
+   &apos; in the source string and replace them with &quot;tostr&quot;
+   Dim tempstr As String
+   Dim convstr As String
+   Dim i As Long
+   Dim length As Long
+   tempstr = sourcestr
+   If Len(fromstr) = 0 Then
+      ReplaceSubstring = sourcestr
+      Exit Function
+   End If
+   If Instr(tostr, fromstr) &lt;&gt; 0 Then &apos; If, for example, &quot;\&quot; is being replaced with &quot;\\&quot;
+      &apos; Find a character (or set) that is not in the source string.
+      &apos; Try the extended characters (over 128 ASCII)
+      i = 128
+      length = 1
+      convstr = &quot;&quot;
+      While convstr = &quot;&quot;
+         If Instr(tempstr, String$(length, Chr$(i))) = 0 Then convstr = String$(length, Chr$(i))
+         i = i + 1
+         If i = 256 Then &apos; If all the extended characters were in there
+            length = length + 1 &apos; Start over, but try 2 extended characters (or 3 or 4)
+            i = 128
+         End If
+      Wend
+      &apos; Go through tempstr twice - once replacing fromstr with the computed
+      &apos; string, then replacing the computed string with tostr
+      While Instr(tempstr, fromstr) &lt;&gt; 0
+         tempstr = Left(tempstr, Instr(tempstr, fromstr)-1) &amp; convstr _
+         &amp; Mid(tempstr, Instr(tempstr, fromstr)+Len(fromstr))
+      Wend
+      While Instr(tempstr, convstr) &lt;&gt; 0
+         tempstr = Left(tempstr, Instr(tempstr, convstr)-1) &amp; tostr _
+         &amp; Mid(tempstr, Instr(tempstr, convstr)+Len(convstr))
+      Wend
+   Else &apos; It&apos;s a normal replace substring call - fromstr is not part of tostr
+      While Instr(tempstr, fromstr) &lt;&gt; 0
+         tempstr = Left(tempstr, Instr(tempstr, fromstr)-1) &amp; tostr _
+         &amp; Mid(tempstr, Instr(tempstr, fromstr)+Len(fromstr))
+      Wend
+   End If
+   ReplaceSubstring = tempstr
+End Function
+
+
+Sub InsertString( oCursor, cString , cStyle)
+    Dim oText
+   oText = oCursor.getText()
+   oCursor.ParaStyleName = cStyle
+   oText.insertString( oCursor, cString, True )
+
+End Sub
+
+Dim globalWeight as Single 
+
+Sub InsertWeightedString(oCursor, cString, cStyle, cCharWeight) 
+   Dim oText
+   oText = oCursor.getText()
+   oCursor.ParaStyleName = cStyle
+   oCursor.CharWeight = cCharWeight
+   oText.insertString( oCursor, cString, True )
+
+End Sub
+
+Sub InsertLineBreak( oCursor )
+	Dim oText
+   oText = oCursor.getText()
+   oText.insertControlCharacter( oCursor, com.sun.star.text.ControlCharacter.LINE_BREAK, False )
+End Sub
+
+Sub InsertParaBreak( oCursor )
+    Dim oText
+   oText = oCursor.getText()
+   oText.insertControlCharacter( oCursor, com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False )
+End Sub
+
+Sub InsertPageBreak( oCursor )
+   Dim oText
+   oText = oCursor.getText()
+   oText.insertControlCharacter( oCursor, com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False )
+   oCursor.BreakType = com.sun.star.style.BreakType.PAGE_BEFORE
+End Sub 
+
+Sub SetParagraphStyle
+  Dim oSels As Object, oSel As Object, oText As Object
+  Dim lSelCount As Long, lWhichSelection As Long
+  Dim oLCurs As Object, oRCurs As Object
+  
+  oText = ThisComponent.Text
+  oSels = ThisComponent.getCurrentSelection()
+  lSelCount = oSels.getCount()
+  For lWhichSelection = 0 To lSelCount - 1
+    oSel = oSels.getByIndex(lWhichSelection)
+    oSel.ParaStyleName = &quot;Heading 2&quot;
+  Next
+End Sub
+
+</script:module>

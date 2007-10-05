@@ -161,8 +161,31 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         """
         return '\n'.join(self.Schema()['keywords'].get(self))
 
+    def _getUser(self):
+        """Returns User"""
+        return self.portal_membership.getAuthenticatedMember()
+
+    def _getUserName(self):
+        """Returns User Name"""        
+        return self._getUser().getUserName()
+
+    security.declarePublic( 'getAnnotatedUrl' )
+    def getAnnotatedUrl( self, url ):
+        x = url.find( '/annotate' )
+        if -1 != x:
+            url = url[ : x ]
+        return url
+
+    security.declarePublic('getOwnerList')
+    def getOwnerList(self, REQUEST=None):
+        """Returns the list of owner names."""
+        user = self._getUserName()
+        url = self.getAnnotatedUrl(REQUEST.getURL())
+        annotations = self.getSortedFeedEntries(user, url)
+        return set([annotation.Creator() for annotation in annotations])
+
     security.declarePublic('getSortedFeedEntries')
-    def getSortedFeedEntries(self, user, url, block=None):
+    def getSortedFeedEntries(self, user, url, block=None, filter_name=None):
         """ The incoming query specifies an URL like 
         http://server/somedocument/annotate/#*
         where the fragment identifier ('#*') specifies all annotations
@@ -178,27 +201,49 @@ class Annotations(UniqueObject, BaseBTreeFolder):
             'portal_type': 'Annotation',
             'getIndexed_url': url
             }
+        
+        public_annotations = catalog({'portal_type': 'Annotation',
+                                      'getIndexed_url': url,
+                                      'getAccess':'public'})
+        
         if user:
             query[ 'Creator' ] = user
-        ps = catalog(query)
+            
+        ps = catalog(query) + public_annotations
+        
         # Filter by position (if block was specified )
         annotations = [ ]
+        uids = []
         if block is not None and block != '':
             block = SequencePoint( block );
             for p in ps:
                 annotation = p.getObject( )
+                
+                if annotation.UID() in uids:
+                    continue
+                uids.append(annotation.UID())
+                
                 arange = annotation.getSequenceRange( )
                 if arange.start.compareInclusive( block ) <= 0 and arange.end.compareInclusive( block ) >= 0:
                     annotations.append( annotation )
         else:
-            annotations = [ p.getObject( ) for p in ps ]
+            for p in ps:
+                annotation = p.getObject( )
+                if annotation.UID() in uids:
+                    continue
+                uids.append(annotation.UID())                
+                annotations.append(annotation)
+
+        if filter_name:
+            return [annotation for annotation in annotations if annotation.Creator()==filter_name]
+        
         return annotations 
 
     security.declarePublic('getRangeInfos')
     def getRangeInfos(self, user, url):
         """ As with getSortedFeedEntries, but instead of returning individual
         annotations, return BlockInfo entries. """
-        annotations = self.getSortedFeedEntries( user, url )
+        annotations = self.getSortedFeedEntries(user, url)
         infos = [ ]
         for annotation in annotations:
             info = RangeInfo( )

@@ -6,6 +6,8 @@ function bungeniMarginaliaInit( username, url, serviceRoot )
 		preferences: new Preferences( new RestPreferenceService( serviceRoot + '/preference', true ) ),
 		baseUrl:  null,
                 annotationsUrl: serviceRoot,
+                registeredMemberName:username,
+                orig_url:url,
 		showAccess:  true,
 		showBlockMarkers:  true,
 		showActions:  true,

@@ -85,6 +85,11 @@ def install(self, reinstall=False):
             if e[0] != 'Bad Request':
                 raise
 
+    # Adding a new catalog index
+    catalog = getToolByName(portal,"portal_catalog")
+    if 'getAccess' not in catalog.indexes():
+        catalog.addIndex('getAccess', 'FieldIndex')
+
     # hide tools in the search form
     portalProperties = getToolByName(self, 'portal_properties', None)
     if portalProperties is not None:
@@ -203,6 +208,10 @@ def install(self, reinstall=False):
 def uninstall(self, reinstall=False):
     out = StringIO()
 
+    # Adding a new catalog index
+    catalog = getToolByName(self, "portal_catalog")
+    if 'getAccess' in catalog.indexes():
+        catalog.manage_delIndex(['getAccess',])
 
     # unhide tools in the search form
     portalProperties = getToolByName(self, 'portal_properties', None)

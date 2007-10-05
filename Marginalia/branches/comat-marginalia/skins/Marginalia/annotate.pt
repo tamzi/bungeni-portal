@@ -127,8 +127,15 @@
                         href="http://www.geof.net/code/annotation/demo/#m1">#</a>
                   </td>
                   <td>
-                    <div class="notes">
+                    <div class="notes" tal:define="member_names python:context.portal_annotations.getOwnerList(request)">
                       <button class="createAnnotation" onclick="bungeniClickCreateAnnotation(event,'m1')" title="Click here to create an annotation">&gt;</button>
+                      <select name="filter_owner" style="margin-left:15px;" language="javascript" onChange="reloadAnnotations(this);">
+                         <option value="" selected>All</option>
+                         <span tal:repeat="name member_names" tal:omit-tag="">
+                         <option value="" tal:attributes="value name" tal:content="name">Second</option>
+                         </span>
+                      </select>
+
                       <ol><li></li></ol>
                     </div>
                   </td>

@@ -485,6 +485,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
             float sectionLeftMargin = (float).2;
             log.debug("section left margin : "+ sectionLeftMargin);
             ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
+            AddSectionInsideSection.addParameter(ooDocument.getComponent());
             AddSectionInsideSection.addParameter("qa");
             AddSectionInsideSection.addParameter(QuestionId);
             AddSectionInsideSection.addParameter(sectionBackColor);
@@ -529,6 +530,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
             AddSectionInsideSection.clearParams();
             sectionBackColor = 0xffffff;
             sectionLeftMargin = (float).4;
+            AddSectionInsideSection.addParameter(ooDocument.getComponent());
             AddSectionInsideSection.addParameter(QuestionId);
             AddSectionInsideSection.addParameter(newSectionName);
             AddSectionInsideSection.addParameter(sectionBackColor);

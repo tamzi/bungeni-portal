@@ -35,7 +35,12 @@ public class toolbarAction {
     private String action_display_text;
     private String action_dimension;
     private SelectorDialogModes theMode = null;
-           
+    
+    /****act upon what ? *****/
+    private String selectedSection;
+    /**** and do what action ?*****/
+    private String selectedSectionActionCommand;
+    
     /** Creates a new instance of toolbarActionSettings */
     public toolbarAction(Vector<String> actionDesc, HashMap action_mapping) {
         log.debug("in toolbarAction constructor");
@@ -128,6 +133,22 @@ public class toolbarAction {
    
    public int getIndexOfContainedAction(toolbarAction childAction) {
        return containedActions.indexOf(childAction);
+   }
+   
+   public String getSelectedSectionToActUpon(){
+       return this.selectedSection;
+   }
+   
+   public String getSelectedSectionActionCommand(){
+       return this.selectedSectionActionCommand;
+   }
+   
+   public void setSelectedActionToActUpon(String sect){
+       this.selectedSection = sect;
+   }
+   
+   public void setSelectedSectionActionCommand(String cmd){
+        this.selectedSectionActionCommand = cmd;
    }
    
     public void brains() {

@@ -203,6 +203,7 @@ public class InitQAsection extends javax.swing.JPanel implements IDialogSelector
            long sectionBackColor = 0xeeffff;
             float sectionLeftMargin = (float).1;
             ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
+            AddSectionInsideSection.addParameter(ooDocument.getComponent());
             AddSectionInsideSection.addParameter("root");
             AddSectionInsideSection.addParameter(theAction.action_naming_convention());
             AddSectionInsideSection.addParameter(sectionBackColor);

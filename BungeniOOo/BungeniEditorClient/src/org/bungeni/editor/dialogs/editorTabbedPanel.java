@@ -206,8 +206,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         changeStructureItem itema = new changeStructureItem ("VIEW_PARAGRAPHS", "View Paragraphs");
         changeStructureItem itemb = new changeStructureItem ("VIEW_SECTIONS", "View Sections");
         changeStructureItem[] items = new changeStructureItem[2];
-        items[0] = itema;
-        items[1] = itemb;
+        items[0] = itemb;
+        items[1] = itema;
         return items;
     }
     

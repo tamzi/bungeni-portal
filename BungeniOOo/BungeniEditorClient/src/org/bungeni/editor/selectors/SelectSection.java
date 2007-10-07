@@ -34,6 +34,7 @@ public class SelectSection extends javax.swing.JPanel {
     private String m_selectedSection = "";
     private String m_selectedActionCommand = "";
     private boolean emptyRootNode = false;
+    private boolean cancelClicked = false;
     private SelectorDialogModes selectorMode;
     /** Creates new form SelectSection */
     public SelectSection() {
@@ -214,6 +215,7 @@ public class SelectSection extends javax.swing.JPanel {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
 // TODO add your handling code here:
+        cancelClicked = true;
         parent.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
@@ -224,8 +226,8 @@ public class SelectSection extends javax.swing.JPanel {
            DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) selectionPath.getLastPathComponent();
            m_selectedSection = (String) selectedNode.getUserObject();
            m_selectedActionCommand = grpSelectSection.getSelection().getActionCommand();
-           
-           MessageBox.OK(parent, "section = "+ m_selectedSection+ " , actionCommand = "+ m_selectedActionCommand);
+           parent.dispose();
+           return;
        } else {
            MessageBox.OK(parent, "You must select a section!");
            return;
@@ -240,6 +242,9 @@ public class SelectSection extends javax.swing.JPanel {
         return this.m_selectedSection;
     }
     
+    public boolean isCancelClicked() {
+        return cancelClicked;
+    }
     public static boolean Launchable(OOComponentHelper ooDoc) {
         //launchable only when the root section has children
         if (ooDoc.getTextSections().getElementNames().length > 1 ) {

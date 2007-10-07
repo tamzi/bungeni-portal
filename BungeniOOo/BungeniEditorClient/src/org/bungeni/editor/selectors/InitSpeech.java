@@ -400,6 +400,10 @@ public class InitSpeech extends selectorTemplatePanel {
             returnError(true);
             return;
             }
+         theAction.getSelectedSectionActionCommand();
+         theAction.getSelectedSectionToActUpon();
+         
+          //the below is not valid anymore since we are prompting the user for the section ///
           ExternalMacro cursorInSection = ExternalMacroFactory.getMacroDefinition("CursorInSection");
             Object retValue = ooDocument.executeMacro(cursorInSection.toString(), cursorInSection.getParams());
             String strCurrentSection = (String)retValue;
@@ -444,18 +448,13 @@ public class InitSpeech extends selectorTemplatePanel {
         long sectionBackColor = 0xffffff;
         float sectionLeftMargin = (float).6;            
        ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
+        AddSectionInsideSection.addParameter(ooDocument.getComponent());
         AddSectionInsideSection.addParameter(strCurrentSection);
         AddSectionInsideSection.addParameter(newSectionName);
         AddSectionInsideSection.addParameter(sectionBackColor);
         AddSectionInsideSection.addParameter(sectionLeftMargin);      
         ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
-        /*
-        ExternalMacro AddSectionInsideSectionWithAttributes = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithAttributes");
-        AddSectionInsideSectionWithAttributes.addParameter(strCurrentSection);
-        AddSectionInsideSectionWithAttributes.addParameter(newSectionName);
-        AddSectionInsideSectionWithAttributes.addParameter(strAttrNames);
-        AddSectionInsideSectionWithAttributes.addParameter(xmlAttrValues);
-        ooDocument.executeMacro(AddSectionInsideSectionWithAttributes.toString(), AddSectionInsideSectionWithAttributes.getParams());   */         
+
 
         ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
         insertDocIntoSection.addParameter(newSectionName)   ;

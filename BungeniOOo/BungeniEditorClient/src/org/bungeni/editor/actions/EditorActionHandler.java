@@ -53,6 +53,10 @@ public class EditorActionHandler implements IEditorActionEvent {
                     SelectSection objPanel = (SelectSection)dlg.getContentPane().getComponent(0);
                     String selAction = objPanel.getSelectedActionCommand();
                     String selSection = objPanel.getSelectedSection();
+                    if (objPanel.isCancelClicked())
+                        return;
+                    action.setSelectedActionToActUpon(selSection);
+                    action.setSelectedSectionActionCommand(selAction);
                     System.out.println( "Selected Action = " + selAction+" , " + selSection);
                 }
             }
@@ -242,12 +246,12 @@ public class EditorActionHandler implements IEditorActionEvent {
              
               if (ooDocument.isTextSelected()) {
                 panel.setDialogMode(SelectorDialogModes.TEXT_SELECTED);
-                panel.setBackground(new Color(255, 255, 153));
-                makeQASection.setTitle("Selection Mode");
+                //panel.setBackground(new Color(255, 255, 153));
+                //makeQASection.setTitle("Selection Mode");
               } else {
                 panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
-                panel.setBackground(new Color(204, 255, 153));
-                makeQASection.setTitle("Insertion Mode");
+                //panel.setBackground(new Color(204, 255, 153));
+                //makeQASection.setTitle("Insertion Mode");
               }
              makeQASection.getContentPane().add(panel);
              makeQASection.pack();

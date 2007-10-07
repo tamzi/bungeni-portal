@@ -330,6 +330,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
         //String parentSectionName = 
         
         ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
+        AddSectionInsideSection.addParameter(ooDocument.getComponent());
         AddSectionInsideSection.addParameter("root");
         AddSectionInsideSection.addParameter(theAction.action_naming_convention());
         AddSectionInsideSection.addParameter(sectionBackColor);

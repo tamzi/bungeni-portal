@@ -242,6 +242,7 @@ public class InitPapers extends javax.swing.JPanel implements IDialogSelector {
     String[] arrDocURI = docURIs.toArray(new String[docURIs.size()]);
     
     ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSection");
+    AddSectionInsideSection.addParameter(ooDocument.getComponent());
     AddSectionInsideSection.addParameter("root");
     AddSectionInsideSection.addParameter(theAction.action_naming_convention());
     ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());

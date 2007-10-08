@@ -360,7 +360,8 @@ public class InitDebateRecord extends selectorTemplatePanel {
             
             //loading the related document
             ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
-            insertDocIntoSection.addParameter(theAction.action_naming_convention())   ;
+            insertDocIntoSection.addParameter(ooDocument.getComponent());
+            insertDocIntoSection.addParameter(theAction.action_naming_convention())  ;
             insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_masthead"));
             ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
             

@@ -95,6 +95,9 @@ public class ooQueryInterface {
         return (XNamed) UnoRuntime.queryInterface( XNamed.class, obj );
     }
    
+    static public XContentEnumerationAccess XContentEnumerationAccess (Object obj) {
+        return (XContentEnumerationAccess) UnoRuntime.queryInterface( XContentEnumerationAccess.class, obj );
+    }
     //--------------------------------------------------
     //  Document                com.sun.star.document.*
     //--------------------------------------------------

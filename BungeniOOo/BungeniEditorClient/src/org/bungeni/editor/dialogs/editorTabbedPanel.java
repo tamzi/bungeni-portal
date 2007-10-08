@@ -14,6 +14,7 @@ import com.sun.star.beans.XPropertyContainer;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.beans.XPropertySetInfo;
 import com.sun.star.container.NoSuchElementException;
+import com.sun.star.container.XContentEnumerationAccess;
 import com.sun.star.container.XEnumeration;
 import com.sun.star.container.XEnumerationAccess;
 import com.sun.star.container.XNameContainer;
@@ -67,6 +68,7 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.Vector;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -108,6 +110,8 @@ import org.bungeni.db.GeneralQueryFactory;
 import org.bungeni.db.QueryResults;
 import org.bungeni.editor.dialogs.tree.NodeMoveTransferHandler;
 import org.bungeni.editor.dialogs.tree.TreeDropTarget;
+import org.bungeni.editor.macro.ExternalMacro;
+import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.editor.panels.CollapsiblePanelFactory;
 import org.bungeni.editor.panels.ICollapsiblePanel;
 import org.bungeni.ooo.OOComponentHelper;
@@ -630,14 +634,15 @@ public class editorTabbedPanel extends javax.swing.JPanel {
 
 
      class treePopupMenu {
-        HashMap<String,String> popupMenuMap = new HashMap<String, String>();
+        TreeMap<String,String> popupMenuMap = new TreeMap<String, String>();
        
         treePopupMenu (String menu_name_to_load_from_settings) {
             //load the menu from settings, probably the db.
             if (menu_name_to_load_from_settings.equals("treeDocStructureTree")) {
-                addItem("GOTO_SECTION", "Goto Section");
-                addItem("ADD_PARA_BEFORE_SECTION", "Add Para Before Section");
-                addItem("ADD_PARA_AFTER_SECTION", "Add Para After Section");
+                addItem("0_GOTO_SECTION", "Goto Section");
+                addItem("1_ADD_PARA_BEFORE_SECTION", "Add Para Before Section");
+                addItem("2_ADD_PARA_AFTER_SECTION", "Add Para After Section");
+                addItem("3_DELETE_SECTION", "Remove This Section");
             }
         }
         
@@ -645,7 +650,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             popupMenuMap.put(menu_id, text);
         }
         
-        public HashMap<String, String> getMenus() {
+        public TreeMap<String, String> getMenus() {
             return popupMenuMap;
         }
         
@@ -698,7 +703,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                 popupMenuTreeStructure.removeAll();
                 //treePopupMenu menu = new treePopupMenu("treeDocStructureTree");
                 //popupMenu.add(new treePopupMenuAction(popup_section_actions[0], baseNodeAction, PopupTypeIdentifier.VIEW_ACTIONS));
-                HashMap<String,String> menus = theMenu.getMenus();
+                TreeMap<String,String> menus = theMenu.getMenus();
                 Iterator<String> keys = menus.keySet().iterator();
                 while (keys.hasNext()) {
                     String key = keys.next();
@@ -739,14 +744,14 @@ public class editorTabbedPanel extends javax.swing.JPanel {
               //go to selected range
              XTextSection xSelectSection = ooDocument.getSection(sectionName);
           
-              if (action_id.equals("GOTO_SECTION")) {
+              if (action_id.equals("0_GOTO_SECTION")) {
                       if (xSelectSection != null  ) {
                           XTextRange sectionRange = xSelectSection.getAnchor();
                           XTextViewCursor xViewCursor = ooDocument.getViewCursor();
                           xViewCursor.gotoRange(sectionRange, false);
                       }
                   
-              } else if (action_id.equals("ADD_PARA_BEFORE_SECTION")) {
+              } else if (action_id.equals("1_ADD_PARA_BEFORE_SECTION")) {
                    XTextContent oPar = ooQueryInterface.XTextContent(ooDocument.createInstance("com.sun.star.text.Paragraph"));
                    XRelativeTextContentInsert xRelativeText = ooQueryInterface.XRelativeTextContentInsert(ooDocument.getTextDocument().getText());
                     try {
@@ -756,7 +761,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                     }
                     //move visible cursor to the point where the new para was added
                    ooDocument.getViewCursor().gotoRange(xSelectSection.getAnchor().getStart(), false);
-              } else if (action_id.equals("ADD_PARA_AFTER_SECTION")) {
+              } else if (action_id.equals("2_ADD_PARA_AFTER_SECTION")) {
                      XTextContent oPar = ooQueryInterface.XTextContent(ooDocument.createInstance("com.sun.star.text.Paragraph"));
                      XRelativeTextContentInsert xRelativeText = ooQueryInterface.XRelativeTextContentInsert(ooDocument.getTextDocument().getText());
                      try {
@@ -766,6 +771,56 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                      }
                      //move visible cursor to point where para was added
                     ooDocument.getViewCursor().gotoRange(xSelectSection.getAnchor().getEnd(), false);
+              } else if (action_id.equals("3_DELETE_SECTION")) {
+                    //first select the range...
+                    
+                    XTextContent sectionContent = ooQueryInterface.XTextContent(xSelectSection);
+                    XTextRange sectionRange = sectionContent.getAnchor();
+                    ooDocument.getViewCursor().gotoRange(sectionRange, false);
+                    
+                    //now prompt with a warning....
+                    int nRet = MessageBox.Confirm(self(), "WARNING, The section: "+sectionName+ ", and its contents, \n" +
+                            "and any other sections nested inside it will be removed. \n " +
+                            "Are you sure you want to proceed ?", "Deletion Warning");
+                    if (nRet == JOptionPane.YES_OPTION) {
+                        //delete section and contents
+                         //aTextRange=section.getAnchor()
+                        /*
+                         try {
+                            XTextContent sectionContent = ooQueryInterface.XTextContent(xSelectSection);
+                            XTextRange sectionRange = sectionContent.getAnchor();
+                            XText sectionRangeText = sectionRange.getText();
+                            XContentEnumerationAccess enumAccess = ooQueryInterface.XContentEnumerationAccess(sectionContent);
+                            XEnumeration xEnum = enumAccess.createContentEnumeration("com.sun.star.text.TextContent");
+                            while (xEnum.hasMoreElements()) {
+                                XTextContent nextContent = ooQueryInterface.XTextContent(xEnum.nextElement());
+                                sectionRangeText.removeTextContent(nextContent);
+                            }
+                            sectionRange.setString("");
+                            XTextCursor rangeCursor = sectionRange.getText().createTextCursorByRange(sectionRange.getStart());
+                            rangeCursor.gotoRange(sectionRange.getEnd(), true);
+                            XPropertySet cursorProperties = ooQueryInterface.XPropertySet(rangeCursor);
+                            cursorProperties.setPropertyValue("ParaStyleName", "Default");
+                            ooDocument.getTextDocument().getText().removeTextContent(xSelectSection);    
+                         } catch (NoSuchElementException ex){
+                            log.debug(ex.getMessage());
+                        } catch (UnknownPropertyException ex) {
+                            log.debug(ex.getMessage());
+                        } catch (WrappedTargetException ex) {
+                            log.debug(ex.getMessage());
+                        } catch (PropertyVetoException ex) {
+                            log.debug(ex.getMessage());
+                        } catch (com.sun.star.lang.IllegalArgumentException ex) {
+                            log.debug(ex.getMessage());
+                        } */
+                        
+                        ExternalMacro RemoveSectionAndContents = ExternalMacroFactory.getMacroDefinition("RemoveSectionAndContents");
+                        RemoveSectionAndContents.addParameter(ooDocument.getComponent());
+                        RemoveSectionAndContents.addParameter(sectionName);
+                        ooDocument.executeMacro(RemoveSectionAndContents.toString(), RemoveSectionAndContents.getParams());
+            
+                       } else 
+                        return;
               }
           }
     }

@@ -240,19 +240,38 @@ public class InitPapers extends javax.swing.JPanel implements IDialogSelector {
      
     String[] arrDocTitles = docTitles.toArray(new String[docTitles.size()]); 
     String[] arrDocURI = docURIs.toArray(new String[docURIs.size()]);
-    
+    String targetSection = "";
+    targetSection = theAction.getSelectedSectionToActUpon();
+    ExternalMacro createSectionMacro;
+    //now we need to check if the SelectSection resulted in a AFTER_SECTION or INSIDE_SECTION selection
+    if (theAction.getSelectedSectionActionCommand().equals("INSIDE_SECTION")) {
+        createSectionMacro = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSection");
+        createSectionMacro.addParameter(ooDocument.getComponent());
+        createSectionMacro.addParameter(targetSection);
+        createSectionMacro.addParameter(theAction.action_naming_convention());
+    } else  /*** if (theAction.getSelectedSectionActionCommand().equals("AFTER_SECTION")) ***/ {
+        createSectionMacro = ExternalMacroFactory.getMacroDefinition("InsertSectionAfterSection");
+        createSectionMacro.addParameter(ooDocument.getComponent());
+        createSectionMacro.addParameter(theAction.action_naming_convention());
+        createSectionMacro.addParameter(targetSection);
+        
+    }
+    /***
     ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSection");
     AddSectionInsideSection.addParameter(ooDocument.getComponent());
     AddSectionInsideSection.addParameter("root");
     AddSectionInsideSection.addParameter(theAction.action_naming_convention());
-    ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
+     ****/
+    ooDocument.executeMacro(createSectionMacro.toString(), createSectionMacro.getParams());
 
     ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
+    insertDocIntoSection.addParameter(ooDocument.getComponent());
     insertDocIntoSection.addParameter(theAction.action_naming_convention())   ;
     insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_papers"));
     ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
           
     ExternalMacro searchAndReplace = ExternalMacroFactory.getMacroDefinition("SearchAndReplace");
+    searchAndReplace.addParameter(ooDocument.getComponent());
     searchAndReplace.addParameter(new String("[[PAPER_TITLE]]"));
     searchAndReplace.addParameter(txt_title.getText());
     ooDocument.executeMacro(searchAndReplace.toString(), searchAndReplace.getParams());

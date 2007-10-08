@@ -66,6 +66,18 @@ public class SettingsQueryFactory {
 
     }
     
+       
+    public static String Q_GET_PARENT_ACTIONS (String byAction) {
+       String query= "SELECT distinct act.doc_type, act.action_name, act.action_order," +
+               "act.action_state, act.action_class, act.action_type, act.action_naming_convention, " +
+               "act.action_numbering_convention, act.action_parent, " +
+               "act.action_icon, act.action_display_text, act.action_dimension FROM " +
+               "TOOLBAR_ACTION_SETTINGS act where act.action_name in " +
+               "(select parent_action from action_parent where " +
+               "action_name='"+byAction+"')";
+       return query;        
+    }
+    
     public static String Q_GET_SECTION_PARENT (String actionName) {
         String query = "select action_naming_convention from toolbar_action_settings  " +
                 "where action_name in (select distinct parent_action from action_parent " +

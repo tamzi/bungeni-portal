@@ -33,6 +33,7 @@ import org.bungeni.editor.actions.IEditorActionEvent;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.utils.CommonTreeFunctions;
 
 /**
  *
@@ -104,6 +105,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         treeGeneralEditor.setModel(new DefaultTreeModel(root));
         treeGeneralEditor.addMouseListener(new treeGeneralEditorMouseListener());
         treeGeneralEditor.setCellRenderer(new treeGeneralEditorCellRenderer());
+        CommonTreeFunctions.expandAll(treeGeneralEditor, true);
     }
     
     private void createTreeNodes(DefaultMutableTreeNode rootNode, boolean recurse) {

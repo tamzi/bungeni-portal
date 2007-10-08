@@ -14,7 +14,6 @@ import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 
-
 public  class MessageBox extends Object {
   /*  public static void OK(Component parent, String msg){
         JOptionPane pane = new JOptionPane ("Bungeni Editor");
@@ -41,5 +40,6 @@ public  class MessageBox extends Object {
         return ret;
     }
 
+ 
 }
 

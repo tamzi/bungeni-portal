@@ -400,16 +400,19 @@ public class InitSpeech extends selectorTemplatePanel {
             returnError(true);
             return;
             }
-         theAction.getSelectedSectionActionCommand();
-         theAction.getSelectedSectionToActUpon();
+         String strCurrentSectionActionCommand = theAction.getSelectedSectionActionCommand();
+         String strCurrentSection = theAction.getSelectedSectionToActUpon();
          
           //the below is not valid anymore since we are prompting the user for the section ///
+         /*
           ExternalMacro cursorInSection = ExternalMacroFactory.getMacroDefinition("CursorInSection");
             Object retValue = ooDocument.executeMacro(cursorInSection.toString(), cursorInSection.getParams());
             String strCurrentSection = (String)retValue;
-            
+           */
+         
             if (strCurrentSection.indexOf("-") != -1 ) {
-                MessageBox.OK(parent, "A speech can be created only as part of a Main section of text !");
+                MessageBox.OK(parent, "A speech can be created only as part of a Main section of text ! \n" +
+                        "Please try and add the speech inside a primary container, for e.g. question<no> ");
                 returnError(true);
                 return;
             }
@@ -419,13 +422,13 @@ public class InitSpeech extends selectorTemplatePanel {
                 returnError(true);
                 return;
             }
-            
+            /*
             if (!strCurrentSection.startsWith("question") ) {
                 MessageBox.OK(parent, "You can create speech only within a question");
                 returnError(true);
                 return;
             }
-            
+            */
         String newSectionName = strCurrentSection + "-"+ theAction.action_naming_convention() +"1" ;
         int nCounter = 1;
          while (ooDocument.getTextSections().hasByName(newSectionName) ) {
@@ -444,7 +447,28 @@ public class InitSpeech extends selectorTemplatePanel {
         AttrNames.addElement(new String("Bungeni_MemberURI"));
         String[] strAttrNames = AttrNames.toArray(new String[AttrNames.size()]);
         //String newSectionName = strCurrentSection+"-speech"+speechCounter;
+     ExternalMacro createSectionMacro;
+     long sectionBackColor = 0xffffff;
+     float sectionLeftMargin = (float).6;            
+   
+     if (theAction.getSelectedSectionActionCommand().equals("INSIDE_SECTION")) {
+        createSectionMacro = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
+        createSectionMacro.addParameter(ooDocument.getComponent());
+        createSectionMacro.addParameter(strCurrentSection);
+        createSectionMacro.addParameter(newSectionName);
+        createSectionMacro.addParameter(sectionBackColor);
+        createSectionMacro.addParameter(sectionLeftMargin);      
      
+    } else  /*** if (theAction.getSelectedSectionActionCommand().equals("AFTER_SECTION")) ***/ {
+        createSectionMacro = ExternalMacroFactory.getMacroDefinition("InsertSectionAfterSectionWithStyle");
+        createSectionMacro.addParameter(ooDocument.getComponent());
+        createSectionMacro.addParameter(theAction.action_naming_convention());
+        createSectionMacro.addParameter(strCurrentSection);
+        createSectionMacro.addParameter(sectionBackColor);
+        createSectionMacro.addParameter(sectionLeftMargin);      
+       
+    }
+        /*
         long sectionBackColor = 0xffffff;
         float sectionLeftMargin = (float).6;            
        ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
@@ -454,16 +478,20 @@ public class InitSpeech extends selectorTemplatePanel {
         AddSectionInsideSection.addParameter(sectionBackColor);
         AddSectionInsideSection.addParameter(sectionLeftMargin);      
         ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
-
-
+        */
+        ooDocument.executeMacro(createSectionMacro.toString(), createSectionMacro.getParams());
+        
         ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
+        insertDocIntoSection.addParameter(ooDocument.getComponent());
         insertDocIntoSection.addParameter(newSectionName)   ;
         insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_speech"));
         ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
+        
         //search replace title into question title marker
         String[] speechBookmarkRanges= {"begin-speech_by", "end-speech_by" };
 
         ExternalMacro SearchAndReplaceWithAttrs = ExternalMacroFactory.getMacroDefinition("SearchAndReplace2");
+        SearchAndReplaceWithAttrs.addParameter(ooDocument.getComponent());
         SearchAndReplaceWithAttrs.addParameter("[[SPEECH_BY]]");
         SearchAndReplaceWithAttrs.addParameter(PersonName);
         SearchAndReplaceWithAttrs.addParameter(speechBookmarkRanges);
@@ -493,6 +521,7 @@ public class InitSpeech extends selectorTemplatePanel {
                 SetSectionMetadata.addParameter(attrNames);
                 SetSectionMetadata.addParameter(attrValues);
                 ooDocument.executeMacro(SetSectionMetadata.toString(), SetSectionMetadata.getParams());
+                ooDocument.protectSection(newSectionName, true);
         }
 
         returnError(true);

@@ -35,29 +35,20 @@ import org.safehaus.uuid.UUIDGenerator;
  *
  * @author  Administrator
  */
-public class InitQAsection extends javax.swing.JPanel implements IDialogSelector {
-    private OOComponentHelper ooDocument;
-    private JDialog parent;
-    private BungeniClientDB dbInstance=null;
+public class InitQAsection extends selectorTemplatePanel {
     private toolbarAction theAction;
     registryQueryDialog rqs;
-    private SelectorDialogModes theMode;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(InitQAsection.class.getName());
-    private BungeniClientDB dbSettings = null;
     String txtURI = "";
     /** Creates new form InitQuestionBlock */
     public InitQAsection() {
         initComponents();
     }
     public InitQAsection(OOComponentHelper ooDocument, JDialog parentDlg, toolbarAction theAction) {
+        super(ooDocument, parentDlg, theAction);
         initComponents();
-        this.ooDocument = ooDocument;
-        this.parent = parentDlg;
-        this.theAction = theAction;
         initFields();
-        dbSettings = new BungeniClientDB(DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
       
-     
     }
    
     private void initFields() {
@@ -211,11 +202,13 @@ public class InitQAsection extends javax.swing.JPanel implements IDialogSelector
             ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
 
             ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
+            insertDocIntoSection.addParameter(ooDocument.getComponent());
             insertDocIntoSection.addParameter(theAction.action_naming_convention())   ;
             insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_qa"));
             ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
 
             ExternalMacro searchAndReplace = ExternalMacroFactory.getMacroDefinition("SearchAndReplace");
+            searchAndReplace.addParameter(ooDocument.getComponent());
             searchAndReplace.addParameter(new String("[[QA_TITLE]]"));
             searchAndReplace.addParameter(txt_title.getText());
             ooDocument.executeMacro(searchAndReplace.toString(), searchAndReplace.getParams());

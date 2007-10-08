@@ -499,6 +499,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
              *document, question header - which sets question title and brief writeup about question
              */
             ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
+            insertDocIntoSection.addParameter(ooDocument.getComponent());
             insertDocIntoSection.addParameter(QuestionId)   ;
             insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_question"));
             ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
@@ -507,6 +508,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
              *SearchAndReplace question_title with actual question title from the swing dialog
              */
             ExternalMacro SearchAndReplace = ExternalMacroFactory.getMacroDefinition("SearchAndReplace");
+            SearchAndReplace.addParameter(ooDocument.getComponent());
             SearchAndReplace.addParameter("[[QUESTION_TITLE]]");
             SearchAndReplace.addParameter(QuestionTitle);
             ooDocument.executeMacro(SearchAndReplace.toString(), SearchAndReplace.getParams());
@@ -541,6 +543,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
              *Import hansard_question_text fragment into newly created section
              */
             insertDocIntoSection.clearParams();
+            insertDocIntoSection.addParameter(ooDocument.getComponent());
             insertDocIntoSection.addParameter(newSectionName);
             insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_question_text"));
             ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
@@ -550,6 +553,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
              */
             String[] arrBookmarkRanges = { "begin-question_from", "end-question_from" };
             ExternalMacro SearchAndReplace2 = ExternalMacroFactory.getMacroDefinition("SearchAndReplace2");
+            SearchAndReplace2.addParameter(ooDocument.getComponent());
             SearchAndReplace2.addParameter("[[QUESTION_FROM]]");
             SearchAndReplace2.addParameter(PersonName);
             SearchAndReplace2.addParameter(arrBookmarkRanges);
@@ -588,17 +592,6 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
             SetSectionMetadata.addParameter(attrNames);
             SetSectionMetadata.addParameter(attrValues);
             ooDocument.executeMacro(SetSectionMetadata.toString(), SetSectionMetadata.getParams());
-            
-            //SearchAndReplace.clearParams();
-            //SearchAndReplace.addParameter("[[QUESTION_TEXT]]");
-            //SearchAndReplace.addParameter(QuestionText);
-            //ooDocument.executeMacro(SearchAndReplace.toString(), SearchAndReplace.getParams());
-            /*
-            SearchAndReplace.clearParams();
-            SearchAndReplace.addParameter("[[QUESTION_NO]]");
-            SearchAndReplace.addParameter(newSectionName);
-            ooDocument.executeMacro(SearchAndReplace.toString(), SearchAndReplace.getParams());
-            */
             
             /*
              *Import html document framgment 

@@ -6,16 +6,29 @@
 
 package org.bungeni.editor.selectors;
 
+import com.sun.org.apache.bcel.internal.classfile.JavaClass;
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.NoSuchElementException;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.text.XTextSection;
+import java.awt.Component;
+import java.util.HashMap;
+import javax.swing.BorderFactory;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JTree;
 import javax.swing.WindowConstants;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
+import org.bungeni.db.BungeniClientDB;
+import org.bungeni.db.BungeniRegistryFactory;
+import org.bungeni.db.DefaultInstanceFactory;
+import org.bungeni.db.QueryResults;
+import org.bungeni.db.SettingsQueryFactory;
+import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.utils.CommonTreeFunctions;
@@ -25,37 +38,76 @@ import org.bungeni.utils.MessageBox;
  *
  * @author  Administrator
  */
-public class SelectSection extends javax.swing.JPanel {
-    OOComponentHelper ooDocument;
-    
+public class SelectSection extends selectorTemplatePanel {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(SelectSection.class.getName());
     private DefaultMutableTreeNode sectionRootNode = null;
-    private JDialog parent  = null;
     private String m_selectedSection = "";
     private String m_selectedActionCommand = "";
     private boolean emptyRootNode = false;
     private boolean cancelClicked = false;
-    private SelectorDialogModes selectorMode;
+    private String[] m_validParentSections;
     /** Creates new form SelectSection */
     public SelectSection() {
         initComponents();
     }
     
-    public SelectSection(OOComponentHelper doc, JDialog parentDlg, SelectorDialogModes mode) {
+    public SelectSection(OOComponentHelper doc, JDialog parentDlg,  toolbarAction action) {
+        super(doc, parentDlg, action);
         initComponents();
-        this.ooDocument = doc;
-        this.parent = parentDlg;
-        this.selectorMode = mode;
+        //make the required query to determine parent sections of this node i.e. where it can be inserted.
+        getAllowedLocations();
         initSectionList();
+        initTree();
     }
     
-    
+    private void initTree(){
+        treeSectionStructure.setCellRenderer(new treeSectionStructureCellRenderer());
+    }
      private void initSectionList() {
          initSectionsArray();   
          treeSectionStructure.setModel(new DefaultTreeModel(sectionRootNode));
          CommonTreeFunctions.expandAll(treeSectionStructure, true);
       }
     
+     private void getAllowedLocations(){
+       try {
+       String actionNamingPattern =  theAction.action_naming_convention();
+       String actionName = theAction.action_name();
+       log.debug("getAllowedLocations : connecting...");
+        dbSettings.Connect();
+        log.debug("getAllowedLocations : getting Query Results");
+        QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_GET_SECTION_PARENT(theAction.action_name()));
+        log.debug("getAllowedLocations : ending connection...");
+        dbSettings.EndConnect();
+        
+        if (qr != null ) {
+              log.debug("getAllowedLocations : queryResults were null...");
+              if (qr.hasResults()) {
+                log.debug("getAllowedLocations: before getting result");  
+                m_validParentSections = qr.getSingleColumnResult("ACTION_NAMING_CONVENTION");
+                log.debug("getAllowedLocations: after getting results");
+              }
+        } else {
+            //no returned parent action means this a root action
+            m_validParentSections = new String[1];
+            m_validParentSections[0] = "root";
+        }
+       } catch (Exception ex) {
+           log.debug("getAllowedSections:" + ex.getMessage());
+       }
+     }
+     
+     private boolean isAllowedLocation(String sectionName) {
+         log.debug("isAllowedLocation : section = " + sectionName);
+         for (int i=0; i < m_validParentSections.length; i++) {
+             log.debug ("validParentSections = " + m_validParentSections[i]);
+             if (sectionName.startsWith(m_validParentSections[i])){
+                 return true;
+             }
+         }
+         log.debug("isAllowedLocation: return false");
+         return false;
+     }
     private void initSectionsArray() {
         try {
             if (!ooDocument.isXComponentValid()) return;
@@ -124,7 +176,6 @@ public class SelectSection extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         treeSectionStructure = new javax.swing.JTree();
         btnApply = new javax.swing.JButton();
-        rbtnBefore = new javax.swing.JRadioButton();
         rbtnAfter = new javax.swing.JRadioButton();
         rbtnInside = new javax.swing.JRadioButton();
         lblMessage = new javax.swing.JLabel();
@@ -139,14 +190,8 @@ public class SelectSection extends javax.swing.JPanel {
             }
         });
 
-        grpSelectSection.add(rbtnBefore);
-        rbtnBefore.setSelected(true);
-        rbtnBefore.setText("Before Section");
-        rbtnBefore.setActionCommand("BEFORE_SECTION");
-        rbtnBefore.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        rbtnBefore.setMargin(new java.awt.Insets(0, 0, 0, 0));
-
         grpSelectSection.add(rbtnAfter);
+        rbtnAfter.setSelected(true);
         rbtnAfter.setText("After Section");
         rbtnAfter.setActionCommand("AFTER_SECTION");
         rbtnAfter.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -175,20 +220,17 @@ public class SelectSection extends javax.swing.JPanel {
                 .addContainerGap()
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 228, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                        .add(14, 14, 14)
-                        .add(lblMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE))
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, rbtnInside, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 115, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, rbtnAfter, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, rbtnBefore, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .add(layout.createSequentialGroup()
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                             .add(btnCancel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(btnApply, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE))))
+                            .add(btnApply, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
+                        .add(14, 14, 14)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(rbtnAfter, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                            .add(lblMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+                            .add(rbtnInside, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 115, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -198,13 +240,11 @@ public class SelectSection extends javax.swing.JPanel {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(lblMessage, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(rbtnBefore)
-                        .add(17, 17, 17)
+                        .add(14, 14, 14)
                         .add(rbtnAfter)
-                        .add(17, 17, 17)
+                        .add(20, 20, 20)
                         .add(rbtnInside)
-                        .add(19, 19, 19)
+                        .add(40, 40, 40)
                         .add(btnApply)
                         .add(13, 13, 13)
                         .add(btnCancel))
@@ -257,20 +297,20 @@ public class SelectSection extends javax.swing.JPanel {
         return false;
     }
     
-    public static JDialog Launch(OOComponentHelper ooDoc, SelectorDialogModes mode) {
+    public static JDialog Launch(OOComponentHelper ooDoc, toolbarAction action) {
           JDialog selectSectionDlg;
              selectSectionDlg = new JDialog();
              selectSectionDlg.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
              //initDebaterecord.setPreferredSize(new Dimension(420, 300));
              SelectSection panel = new SelectSection(ooDoc, 
-                     selectSectionDlg, mode);
+                     selectSectionDlg, action);
              selectSectionDlg.getContentPane().add(panel);
              selectSectionDlg.setTitle("Select Section");
              selectSectionDlg.pack();
              selectSectionDlg.setLocationRelativeTo(null);
              selectSectionDlg.setModal(true);
              selectSectionDlg.setVisible(true);
-             selectSectionDlg.setAlwaysOnTop(true);  
+             //selectSectionDlg.setAlwaysOnTop(true);  
              
              return selectSectionDlg;
     }
@@ -285,9 +325,33 @@ public class SelectSection extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblMessage;
     private javax.swing.JRadioButton rbtnAfter;
-    private javax.swing.JRadioButton rbtnBefore;
     private javax.swing.JRadioButton rbtnInside;
     private javax.swing.JTree treeSectionStructure;
     // End of variables declaration//GEN-END:variables
-   
+   class treeSectionStructureCellRenderer extends JLabel implements TreeCellRenderer {
+        public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+          
+            setText(value.toString( ));
+            this.setBorder( BorderFactory.createRaisedBevelBorder());
+            if (selected) 
+                  setOpaque(false);
+           else 
+                  setOpaque(true);
+
+            if (value instanceof DefaultMutableTreeNode) {
+                  DefaultMutableTreeNode uo = (DefaultMutableTreeNode)value;
+                  String act = (String) uo.getUserObject();
+                  //check if the action name matches with the allowed sections.
+                 
+                  if (isAllowedLocation(act)) 
+                      setBackground(new java.awt.Color(0,200,0));
+                  else 
+                      setBackground(new java.awt.Color(200, 0, 0));
+                  //if (act.action_name())
+                }
+                return this;    
+         
+        }
+       
+   }
 }

@@ -49,7 +49,7 @@ public class EditorActionHandler implements IEditorActionEvent {
                 //so we prompt for target section
                 if (SelectSection.Launchable(ooDocument)) {
                     JDialog dlg;
-                    dlg = SelectSection.Launch(ooDocument, action.getSelectorDialogMode());
+                    dlg = SelectSection.Launch(ooDocument, action);
                     SelectSection objPanel = (SelectSection)dlg.getContentPane().getComponent(0);
                     String selAction = objPanel.getSelectedActionCommand();
                     String selSection = objPanel.getSelectedSection();

@@ -185,7 +185,7 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         return set([annotation.Creator() for annotation in annotations])
 
     security.declarePublic('getSortedFeedEntries')
-    def getSortedFeedEntries(self, user, url, block=None, filter_name=None):
+    def getSortedFeedEntries(self, user, url, block=None, filter_name=None, search_string=None):
         """ The incoming query specifies an URL like 
         http://server/somedocument/annotate/#*
         where the fragment identifier ('#*') specifies all annotations
@@ -201,11 +201,19 @@ class Annotations(UniqueObject, BaseBTreeFolder):
             'portal_type': 'Annotation',
             'getIndexed_url': url
             }
-        
-        public_annotations = catalog({'portal_type': 'Annotation',
+        if search_string:
+            query['SearchableText'] = search_string
+            
+        if search_string:
+            public_annotations = catalog({'portal_type': 'Annotation',
+                                      'getIndexed_url': url,
+                                      'getAccess':'public',
+                                      'SearchableText':search_string})
+        else:
+            public_annotations = catalog({'portal_type': 'Annotation',
                                       'getIndexed_url': url,
                                       'getAccess':'public'})
-        
+                    
         if user:
             query[ 'Creator' ] = user
             

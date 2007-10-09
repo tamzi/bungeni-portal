@@ -284,12 +284,12 @@ Marginalia.prototype.showAnnotations = function( url, block )
 		function(xmldoc) { _showAnnotationsCallback( marginalia, url, xmldoc, true ) } );
 }
 
-Marginalia.prototype.redrawAnnotations = function( url, filter_name, block )
+Marginalia.prototype.redrawAnnotations = function( url, filter_name, search_string, block )
 {
 	var marginalia = this;
 	marginalia.hideAnnotations( );
 	this.annotationService.listAnnotations( url, this.anusername, block,
-		function(xmldoc) { _showAnnotationsCallback( marginalia, url, xmldoc, false ) }, filter_name );
+		function(xmldoc) { _showAnnotationsCallback( marginalia, url, xmldoc, false ) }, filter_name, search_string);
 }
 
 Marginalia.prototype.showBlockAnnotations = function( url, block )
@@ -1140,14 +1140,26 @@ function createAnnotation( postId, warn, editor )
 
 function reloadAnnotations(select_obj, block) 
 {
-	var option = select_obj.options[select_obj.selectedIndex];
-	var filter_name = option.value;
-	var post = marginalia.listPosts();
-	var p = post.posts[0];
-	p.hideAllAnnotations(marginalia);
+   var option = select_obj.options[select_obj.selectedIndex];
+   var parent_node = select_obj.parentNode;
+   var input_obj = parent_node.childNodes[5];
+   var search_string = input_obj.value;
+   var filter_name = option.value;
+   var post = marginalia.listPosts();
+   var p = post.posts[0];
+   p.hideAllAnnotations(marginalia);
+   this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, search_string);
+}
 
-	this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name);
-	//this.marginalia.hideAnnotations();
-	//alert(filter_name);
-
+function searchAnnotation(input_obj)
+{
+   var search_string = input_obj.value;
+   var parent_node = input_obj.parentNode;
+   var select_obj = parent_node.childNodes[3];
+   var option = select_obj.options[select_obj.selectedIndex];
+   var filter_name = option.value;
+   var post = marginalia.listPosts();
+   var p = post.posts[0];
+   p.hideAllAnnotations(marginalia);
+   this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, search_string);
 }

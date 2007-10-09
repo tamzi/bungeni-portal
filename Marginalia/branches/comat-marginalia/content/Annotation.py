@@ -260,6 +260,11 @@ class Annotation(BaseContent):
     def Description(self):
         return '"%s" annotated this text:\n\n"%s"\n\nas follows:\n\n"%s"' % ( self.getUserName(), self.getQuote(), self.getNote() )
 
+    security.declarePublic('Description')
+    def SearchableText(self):
+        """Returns searchable text for the annotation."""
+        return self.getNote()
+
     security.declarePublic('getIndexed_url')
     def getIndexed_url(self):
         """ There may be more than one annotatable area on a page,

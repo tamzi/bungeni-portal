@@ -131,11 +131,16 @@
                       <button class="createAnnotation" onclick="bungeniClickCreateAnnotation(event,'m1')" title="Click here to create an annotation">&gt;</button>
                       <select name="filter_owner" style="margin-left:15px;" language="javascript" onChange="reloadAnnotations(this);">
                          <option value="" selected>All</option>
+                         <option value="" tal:attributes="value user/getUserName">Self</option>
+                         <optgroup LABEL="Member Names">
                          <span tal:repeat="name member_names" tal:omit-tag="">
-                         <option value="" tal:attributes="value name" tal:content="name">Second</option>
+                            <span tal:condition="python:name!=user.getUserName()" tal:omit-tag="">
+                            <option value="" tal:attributes="value name" tal:content="name">Second</option>
+                            </span>
                          </span>
+                         </optgroup> 
                       </select>
-
+                      <input type="text" name="annotation_search" value="" onChange="searchAnnotation(this);"/>
                       <ol><li></li></ol>
                     </div>
                   </td>

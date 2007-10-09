@@ -105,7 +105,7 @@ RestAnnotationService.prototype.listBlocks = function( url, f )
 /**
  * Fetch a list of annotations from the server
  */
-RestAnnotationService.prototype.listAnnotations = function( url, username, block, f, filter_name)
+RestAnnotationService.prototype.listAnnotations = function( url, username, block, f, filter_name, search_string)
 {
 	// exclude content to lighten the size across the wire
 	var serviceUrl = this.serviceUrl;
@@ -116,6 +116,8 @@ RestAnnotationService.prototype.listAnnotations = function( url, username, block
 		serviceUrl += '&user=' + encodeURIParameter( username );
 	if ( filter_name )
 		serviceUrl += '&filter_name=' + encodeURIParameter(filter_name);
+	if ( search_string )
+		serviceUrl += '&search_string=' + encodeURIParameter(search_string);
 	serviceUrl += '&url=' + encodeURIParameter( url );
 	
 	// For demo debugging only

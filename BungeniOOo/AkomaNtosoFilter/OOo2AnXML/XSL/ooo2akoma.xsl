@@ -70,13 +70,11 @@ exclude-result-prefixes="office table style text draw svg   dc config xlink meta
          <identification>
            <!--put identification information here-->
          </identification>
-         <xsl:apply-templates select="/office:document-content/office:body/office:text/text:section[@text:name='root']//text:section[@text:name='prayers']//text:section[@text:name='masthead_datetime']"  />
-        <meta>  
+         <xsl:apply-templates select="/office:document-content/office:body/office:text/text:section[@text:name='root']//text:section[@text:name='prayers']//text:section[@text:name='masthead_datetime']"  mode="metaPublication" />
+        <references>  
     		<xsl:apply-templates select="office:automatic-styles" mode="metadata" />
-    	</meta>
-    	<body>
-     	 	<xsl:apply-templates select="office:body/office:text/text:section[@text:name='root']" mode="body" />
-      	</body>
+    	</references>
+     	 <xsl:apply-templates select="office:body/office:text/text:section[@text:name='root']" mode="body" />
        </debaterecord>
       </akomantoso>
     </xsl:template>
@@ -97,30 +95,54 @@ exclude-result-prefixes="office table style text draw svg   dc config xlink meta
 	 
 	<!-- process-section-style -->
 	<xsl:template name="process-section-style">
-		<xsl:if test="style:section-properties">
-			
-		</xsl:if>
+		<xsl:apply-templates />
 	</xsl:template>
 	
-	 <xsl:template match="office:body/office:text/text:section[@text:name='root']" mode="body">
-	  	<!--
-	 	<xsl:for-each select="text:section">
-	 		<xsl:if test="@text:name='papers'">
-	 			<xsl:apply-templates select="//text:section[@text:name='papers']" />
-	 		</xsl:if>
-	 		<xsl:if test="@text:name='prayers'">
-	 		<masthead>
-	 		   <xsl:apply-templates select="//text:section[@text:name='prayers']"  />
-	 	    </masthead>
-	 		</xsl:if>
-	 	</xsl:for-each>
-	 	-->
-	 	<xsl:apply-templates />
-	 </xsl:template>
-	 
+	<xsl:template match="style:section-properties[@Bungeni_QuestionID]">
+	  <xsl:element name="Person" >
+		<xsl:if test="string(@Bungeni_QuestionMemberFromURI)">
+		<xsl:attribute name="href"><xsl:value-of select="@Bungeni_QuestionMemberFromURI" /></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="string(@Bungeni_QuestionMemberFrom)">
+		<xsl:attribute name="showAs"><xsl:value-of select="@Bungeni_QuestionMemberFrom" /></xsl:attribute>
+		</xsl:if>
+		<xsl:attribute name="id">
+		<xsl:call-template name="getIdentifier" />
+		</xsl:attribute>
+	  </xsl:element>	
+	</xsl:template>
+	
+	<xsl:template match="style:section-properties[@Bungeni_SpeechBy]">
+  <xsl:element name="Person" >
+		<xsl:if test="string(@Bungeni_SpeechByURI)">
+		<xsl:attribute name="href"><xsl:value-of select="@Bungeni_SpeechByURI" /></xsl:attribute>
+		</xsl:if>
+		<xsl:if test="string(@Bungeni_SpeechBy)">
+		<xsl:attribute name="showAs"><xsl:value-of select="@Bungeni_SpeechBy" /></xsl:attribute>
+		</xsl:if>
+		<xsl:attribute name="id">
+		<xsl:call-template name="getIdentifier" />
+		</xsl:attribute>
+	  </xsl:element>	
+ </xsl:template>
+ 
+ <xsl:template name="getIdentifier" >
+ 	<xsl:variable name="referencedStyle" select="parent::style:style/@style:name" />
+ 	<xsl:value-of select="//text:section[@text:style-name=$referencedStyle]/text:section[starts-with(@text:name, 'meta')]/@text:name" />
+ </xsl:template>
+ 
 
-	 
-	 
+ 	
+	 <xsl:template match="office:body/office:text/text:section[@text:name='root']" mode="body">
+		<preface>
+		<xsl:apply-templates select="//text:section[@text:name='prayers']" />
+		</preface>
+		<debatebody>
+		<xsl:apply-templates select="//text:section[@text:name='papers']" />
+		<xsl:apply-templates select="//text:section[@text:name='qa']" />
+	 	</debatebody>
+	</xsl:template>
+
 	 <xsl:template match="//text:section[@text:name='papers']" >
      <subdivision id="papers">
       	<xsl:apply-templates />
@@ -128,9 +150,7 @@ exclude-result-prefixes="office table style text draw svg   dc config xlink meta
      </xsl:template>
      
      <xsl:template match="//text:section[@text:name='prayers']" >
-       <subdivision id="prayers">
         	<xsl:apply-templates />
-       </subdivision>	
      </xsl:template>
 
      <xsl:template match="//text:section[@text:name='qa']" >
@@ -139,11 +159,6 @@ exclude-result-prefixes="office table style text draw svg   dc config xlink meta
        </subdivision>	
      </xsl:template>
           
-     <xsl:template match="//text:section[@text:name='qa']" >
-       <subdivision id="qa">
-        	<xsl:apply-templates />
-       </subdivision>	
-     </xsl:template>
      
      <xsl:template match="//text:section[starts-with(@text:name,'question')]" >
      	<xsl:element name="subdivision">
@@ -151,6 +166,27 @@ exclude-result-prefixes="office table style text draw svg   dc config xlink meta
      		<xsl:apply-templates />
      	</xsl:element>
      </xsl:template>
+     
+     <xsl:template match="//text:section[contains(@text:name,'-speech')]" >
+     	<xsl:element name="speech">
+     		<xsl:attribute name="by"><xsl:value-of select="text:section[starts-with(@text:name, 'meta')]/@text:name" /></xsl:attribute>
+     		<xsl:apply-templates />
+     	</xsl:element>
+     </xsl:template>
+
+     <xsl:template match="//text:section[starts-with(@text:name,'question') and contains(@text:name, '-que')]" >
+     	<xsl:element name="question">
+     		<xsl:attribute name="by"><xsl:value-of select="text:section[starts-with(@text:name, 'meta')]/@text:name" /></xsl:attribute>
+     		<xsl:apply-templates />
+     	</xsl:element>
+     </xsl:template>
+          
+     <xsl:template match="//text:section[starts-with(@text:name,'meta-mp-')]" >
+     	<xsl:element name="from">
+     		<xsl:value-of select="translate(., '{}','')" />
+     	</xsl:element>
+     </xsl:template>
+     
      
      
 	<!-- merging question - text -->     
@@ -166,7 +202,7 @@ exclude-result-prefixes="office table style text draw svg   dc config xlink meta
      
      
      <!-- publication date and time -->
-      <xsl:template match="/office:document-content/office:body/office:text/text:section[@text:name='root']//text:section[@text:name='prayers']//text:section[@text:name='masthead_datetime']"  >
+      <xsl:template match="/office:document-content/office:body/office:text/text:section[@text:name='root']//text:section[@text:name='prayers']//text:section[@text:name='masthead_datetime']" mode="metaPublication"  >
       
       <!-- parse date and strip preceeding and following characters -->
       <xsl:variable name="origDateString" select="text:p/text:placeholder[@text:description='debaterecord_official_date']"/>
@@ -191,7 +227,8 @@ exclude-result-prefixes="office table style text draw svg   dc config xlink meta
 	   		<xsl:attribute name="time">
 	   			<xsl:value-of select="$secondReplaceTimeString" />
 	   		</xsl:attribute>
-	 	  	<xsl:attribute name="type">internal</xsl:attribute>
+	 	  	<xsl:attribute name="name">internal</xsl:attribute>
+	 	  	<xsl:attribute name="showAs">Internal Circulation Only</xsl:attribute>
 	   </xsl:element> 
 	  </xsl:template>
  
@@ -281,7 +318,14 @@ exclude-result-prefixes="office table style text draw svg   dc config xlink meta
 <title><xsl:value-of select="." /></title>
 </xsl:template>
 
+<xsl:template match="text:h[@text:style-name='papers']">
+<title><xsl:value-of select="." /></title>
+</xsl:template>
 
+
+<xsl:template match="text:h[@text:style-name='qa-title']">
+<title><xsl:value-of select="." /></title>
+</xsl:template>
 
 <xsl:template match="text:h">
 	<xsl:variable name="level">
@@ -299,6 +343,8 @@ exclude-result-prefixes="office table style text draw svg   dc config xlink meta
 		<xsl:apply-templates/>
 	</xsl:element>
 </xsl:template>
+
+
 
 	
 </xsl:stylesheet>

@@ -446,17 +446,6 @@ Marginalia.prototype.hideAnnotations = function( )
 	}
 }
 
-/* *****************************
- * Additions to Annotation class
- */
- 
-/**
- * Convenience method for getting the note element for a given annotation
- */
-Annotation.prototype.getNoteElement = function( )
-{
-	return document.getElementById( AN_ID_PREFIX + this.getId() );
-}
 
 
 /* ************************ Add/Show Functions ************************ */
@@ -542,6 +531,30 @@ PostMicro.prototype.removeAnnotations = function( marginalia )
 	return annotations;
 }
 
+PostMicro.prototype.hideAnnotations = function( marginalia )
+{
+	var notesElement = this.getNotesElement( marginalia );
+	var child = notesElement.firstChild;
+	var annotations = new Array( );
+	while ( null != child )
+	{
+		if ( child.annotation )
+		{
+			annotations[ annotations.length ] = child.annotation;
+			child.annotation = null;
+		}
+		notesElement.removeChild( child );
+		child = notesElement.firstChild;
+	}
+	var micro = this;
+	var stripTest = function( tnode )
+		{ return micro.highlightStripTest( tnode, null ); };
+	domutil.stripMarkup( this.contentElement, stripTest, true );
+	//portableNormalize( this.contentElement );
+	domutil.removeClass( this.element, AN_ANNOTATED_CLASS );
+	return annotations;
+}
+
 /**
  * Remove an individual annotation from a post
  */
@@ -555,6 +568,24 @@ PostMicro.prototype.removeAnnotation = function( marginalia, annotation )
 		this.repositionBlockMarkers( marginalia );
 	
 	return null == next ? null : next.annotation;
+}
+
+PostMicro.prototype.hideAllAnnotations = function( marginalia )
+{
+	var notesElement = this.getNotesElement( marginalia );
+	var child = notesElement.firstChild;
+	var annotations = new Array( );
+	while ( null != child )
+	{
+		if ( child.annotation )
+                {
+			annotations[ annotations.length ] = child.annotation;
+	               	this.removeHighlight( marginalia, child.annotation );
+                }
+		child = child.nextSibling;
+	}
+	return annotations;
+
 }
 
 /* ************************ Display Actions ************************ */
@@ -1109,9 +1140,14 @@ function createAnnotation( postId, warn, editor )
 
 function reloadAnnotations(select_obj, block) 
 {
-        var option = select_obj.options[select_obj.selectedIndex];
-        var filter_name = option.value;
+	var option = select_obj.options[select_obj.selectedIndex];
+	var filter_name = option.value;
+	var post = marginalia.listPosts();
+	var p = post.posts[0];
+	p.hideAllAnnotations(marginalia);
+
 	this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name);
- 	//alert(filter_name);
+	//this.marginalia.hideAnnotations();
+	//alert(filter_name);
 
 }

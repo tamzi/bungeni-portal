@@ -111,7 +111,12 @@
 			
 			<p class="see-also" tal:condition="feedentry/getLink">
 				<cite>
+                                        <span tal:condition="python:hasattr(feedentry.getLink(),'UID')" tal:omit-tag="">
 					<a href="" tal:attributes="href python:feedentry.getLink().UID()" tal:content="feedentry/getLink_title">link</a>
+                                        </span>
+                                        <span tal:condition="python:not hasattr(feedentry.getLink(),'UID')" tal:omit-tag="">
+					<a href="" tal:attributes="href python:feedentry.getLink()" tal:content="feedentry/getLink_title">link</a>
+                                        </span>
 				</cite>
 			</p>			
         </div>

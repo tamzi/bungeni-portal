@@ -117,8 +117,16 @@ SimpleLinkUi.prototype.focus = function( )
 SimpleLinkUi.prototype.save = function( )
 {
 	var children = domutil.childrenByTagClass( this.noteElement, 'input'); 
-	this.annotation.setLink(children[1].value);
+        var editable_input = children[0];
+        var uid_input = children[1];
+        if ( editable_input.value.substring(0,7)=='http://' ) {
+	this.annotation.setLink(editable_input.value);
 	this.annotation.setLinkTitle('');
+        }
+        else {
+	this.annotation.setLink(uid_input.value);
+	this.annotation.setLinkTitle(editable_input.value);
+        }
 }
 
 

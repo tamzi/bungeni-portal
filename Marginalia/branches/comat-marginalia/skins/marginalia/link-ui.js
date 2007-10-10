@@ -70,7 +70,16 @@ PostMicro.prototype.showLink = function( marginalia, annotation )
 							: annotation.getNote();
 					}
 				}
-				
+                           if ( annotation.getLink().substring(0,7)=='http://' ) {
+				lastHighlight.appendChild( domutil.element( 'sup', {
+					content:  domutil.element( 'a', {
+						className:  AN_LINK_CLASS + ' ' + AN_ID_PREFIX + annotation.getId(),
+						title:  linkTitle,
+						href:  annotation.getLink(),
+						content:  AN_LINK_ICON } )
+					} ) );
+                           }
+                           else {
 				lastHighlight.appendChild( domutil.element( 'sup', {
 					content:  domutil.element( 'a', {
 						className:  AN_LINK_CLASS + ' ' + AN_ID_PREFIX + annotation.getId(),
@@ -78,6 +87,9 @@ PostMicro.prototype.showLink = function( marginalia, annotation )
 						href:  'portal_annotations/linkUID?uid='+annotation.getLink(),
 						content:  AN_LINK_ICON } )
 					} ) );
+
+                           }
+				
 			}
 		}
 	}

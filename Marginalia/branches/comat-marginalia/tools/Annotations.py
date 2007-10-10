@@ -354,6 +354,14 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         if not annotation:
             self.REQUEST.RESPONSE.setStatus('BadRequest')
             return
+        if params.has_key('link'):
+            if  params['link'].startswith("http://"):
+                annotation.hyper_link = params['link']
+                params.pop('link')
+            else:
+                if hasattr(annotation, 'hyper_link'):
+                    del annotation.hyper_link
+            
         annotation.edit(**params)
         self.REQUEST.RESPONSE.setStatus('NoContent')
 

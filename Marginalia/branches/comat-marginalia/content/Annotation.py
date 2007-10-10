@@ -281,6 +281,14 @@ class Annotation(BaseContent):
         if url.find('#') != -1:
             url = url[:url.index('#')]
         return url
+
+    security.declarePublic( 'getLink' )
+    def getLink(self):
+        """Returns the reference link."""
+        if hasattr(self, 'hyper_link'):
+            return self.hyper_link
+        return self.schema.get('link').get(self)
+    
         
     security.declarePublic( 'getSequenceRange' )
     def getSequenceRange( self ):

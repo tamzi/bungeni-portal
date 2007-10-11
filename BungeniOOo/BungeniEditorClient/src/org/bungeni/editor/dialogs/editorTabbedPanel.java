@@ -188,7 +188,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         treeDocStructureTree = new JTree();
         treeDocStructureTree.setExpandsSelectedPaths(true);
         treeDocStructureTree.addMouseListener(new treeDocStructureTreeMouseListener());
-        NodeMoveTransferHandler transferHandler = new NodeMoveTransferHandler(ooDocument);
+        NodeMoveTransferHandler transferHandler = new NodeMoveTransferHandler(ooDocument, this);
         treeDocStructureTree.setTransferHandler(transferHandler);
         treeDocStructureTree.setDropTarget(new TreeDropTarget(transferHandler));
         treeDocStructureTree.setDragEnabled(true);
@@ -206,6 +206,10 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         initList();
     }
     
+    public void uncheckEditModeButton() {
+        toggleEditSection.setSelected(false);
+    }
+           
     private changeStructureItem[] initChangeStructureItems() {
         changeStructureItem itema = new changeStructureItem ("VIEW_PARAGRAPHS", "View Paragraphs");
         changeStructureItem itemb = new changeStructureItem ("VIEW_SECTIONS", "View Sections");

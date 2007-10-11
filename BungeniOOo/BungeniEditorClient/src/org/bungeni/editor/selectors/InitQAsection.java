@@ -36,8 +36,7 @@ import org.safehaus.uuid.UUIDGenerator;
  * @author  Administrator
  */
 public class InitQAsection extends selectorTemplatePanel {
-    private toolbarAction theAction;
-    registryQueryDialog rqs;
+     registryQueryDialog rqs;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(InitQAsection.class.getName());
     String txtURI = "";
     /** Creates new form InitQuestionBlock */
@@ -233,23 +232,8 @@ public class InitQAsection extends selectorTemplatePanel {
         
         
     }
-    public void setDialogMode(SelectorDialogModes mode) {
-        theMode = mode;
-        initFields();
-    }
-
-    public SelectorDialogModes getDialogMode() {
-        return theMode;
-    }
-
-    public void setOOComponentHelper(OOComponentHelper ooComp) {
-    }
-
-    public void setToolbarAction(toolbarAction action) {
-    }
-
-    public void setParentDialog(JDialog dlg) {
-    }
+    
+    
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -90,7 +90,11 @@ public class EditorActionHandler implements IEditorActionEvent {
             doMarkup(action);
         else if (cmd.equals("makeNoticeMarkup"))
             doMarkup(action);
-        else if (cmd.equals("makeNoticeDetailsMarkup"))
+        else if (cmd.equals("makeQuestionTitleMarkup"))
+            doMarkup(action);
+        else if (cmd.equals("makeQuestionTextMarkup"))
+            doMarkup(action);
+        else if (cmd.equals("makeQATitleMarkup"))
             doMarkup(action);
         else
             MessageBox.OK("the command action: "+cmd+" has not been implemented!");   
@@ -141,7 +145,9 @@ public class EditorActionHandler implements IEditorActionEvent {
              makeSpeechBlock = new JDialog();
              makeSpeechBlock.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
              //initDebaterecord.setPreferredSize(new Dimension(420, 300));
-             InitSpeech panel = new InitSpeech(ooDocument,  makeSpeechBlock, action);;
+             InitSpeech panel = new InitSpeech(ooDocument,  makeSpeechBlock, action);
+             if (panel.okToLaunch() == false) 
+                 return;
              /*
               if (ooDocument.isTextSelected()) {
                 panel.setDialogMode(SelectorDialogModes.TEXT_SELECTED);

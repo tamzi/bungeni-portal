@@ -227,6 +227,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                     //look for existing masthead section 
                     //if it exists popup the edit screen for it.
                     toolbarAction action =(toolbarAction)thisNode.getUserObject();
+                    //we look for sections matching this action type.
                     action.setSelectorDialogMode(SelectorDialogModes.TEXT_EDIT);
                     IEditorActionEvent event = getEventClass(action);
                     event.doCommand(ooDocument, action);

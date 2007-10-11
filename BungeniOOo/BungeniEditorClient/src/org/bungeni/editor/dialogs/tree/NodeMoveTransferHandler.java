@@ -42,6 +42,7 @@ import org.bungeni.utils.MessageBox;
 public class NodeMoveTransferHandler extends TransferHandler {
    private static org.apache.log4j.Logger log = Logger.getLogger(NodeMoveTransferHandler.class.getName());
    private OOComponentHelper ooDocument;
+   private org.bungeni.editor.dialogs.editorTabbedPanel parentPanel;
    private final Integer MOVE_BEFORE=0;
    private final Integer MOVE_AFTER=1;
   /**
@@ -51,9 +52,10 @@ public class NodeMoveTransferHandler extends TransferHandler {
     super();
   }
 
-  public NodeMoveTransferHandler(OOComponentHelper ooDoc) {
+  public NodeMoveTransferHandler(OOComponentHelper ooDoc, org.bungeni.editor.dialogs.editorTabbedPanel mainObj) {
       super();
       ooDocument = ooDoc;
+      parentPanel = mainObj;
   }
   /**
    * create a transferable that contains all paths that are currently selected in 
@@ -119,6 +121,7 @@ public class NodeMoveTransferHandler extends TransferHandler {
                     } else if (ret == JOptionPane.NO_OPTION) {
                         //dont do anything.
                     }
+                    parentPanel.uncheckEditModeButton();
   		}
   	}
   	draggedNode = null;

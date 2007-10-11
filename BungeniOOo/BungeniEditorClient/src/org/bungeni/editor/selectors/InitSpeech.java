@@ -44,6 +44,7 @@ public class InitSpeech extends selectorTemplatePanel {
     private String sourceSectionName = "";
     HashMap<String, String> selectionData = new HashMap<String,String>();
     String[] serializedFields = {"SpeechBy", "SpeechByURI" };
+    private boolean okayToLaunch = true;
     /** Creates new form InitQuestionBlock */
     public InitSpeech() {
         initComponents();
@@ -165,12 +166,18 @@ public class InitSpeech extends selectorTemplatePanel {
         }
     }
     
+    public boolean okToLaunch() {
+        return okayToLaunch;
+    }
      public void setControlData() {
         try {
         //only in edit mode, only if the metadata properties exist
         if (theMode == SelectorDialogModes.TEXT_EDIT) {
             
-            goEditMode();
+            if (goEditMode() == false)  
+            {
+                this.okayToLaunch = false;
+            }
         
            
         } else if (theMode == SelectorDialogModes.TEXT_INSERTION) {
@@ -218,7 +225,6 @@ public class InitSpeech extends selectorTemplatePanel {
                 }
             } else {
                 MessageBox.OK(this.parent, "The Current section, "+currentSectionName + ", does not have any Speech related metadata !");
-                parent.dispose();
                 return false;
             }
      }

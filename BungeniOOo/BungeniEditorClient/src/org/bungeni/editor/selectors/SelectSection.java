@@ -101,7 +101,9 @@ public class SelectSection extends selectorTemplatePanel {
          log.debug("isAllowedLocation : section = " + sectionName);
          for (int i=0; i < m_validParentSections.length; i++) {
              log.debug ("validParentSections = " + m_validParentSections[i]);
-             if (sectionName.startsWith(m_validParentSections[i])){
+             if (sectionName.startsWith(m_validParentSections[i]) /*section name matches a valid parent*/
+                        && 
+                     (sectionName.lastIndexOf("-") == -1)) /* and section name doest not contain as "-" */ {
                  return true;
              }
          }

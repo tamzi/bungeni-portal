@@ -1138,28 +1138,48 @@ function createAnnotation( postId, warn, editor )
 	return true;
 }
 
-function reloadAnnotations(select_obj, block) 
+function filterAnnotations(form_field)
 {
-   var option = select_obj.options[select_obj.selectedIndex];
-   var parent_node = select_obj.parentNode;
-   var input_obj = parent_node.childNodes[5];
-   var search_string = input_obj.value;
-   var filter_name = option.value;
-   var post = marginalia.listPosts();
-   var p = post.posts[0];
-   p.hideAllAnnotations(marginalia);
-   this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, search_string);
+  var parent_node = form_field.parentNode;
+  var select_obj = domutil.childrenByTagClass( parent_node, null, 'select_field', null, null )[0];
+  var input_obj = domutil.childrenByTagClass( parent_node, null, 'input_field', null, null )[0];
+  var option = select_obj.options[select_obj.selectedIndex];
+  var filter_name = option.value;
+  var search_string = input_obj.value;
+  var post = marginalia.listPosts();
+  var p = post.posts[0];
+  p.hideAllAnnotations(marginalia);
+  this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, search_string);
+  document.location.hash = "#filter_name=" + filter_name+"&search_string="+search_string;
 }
 
-function searchAnnotation(input_obj)
-{
-   var search_string = input_obj.value;
-   var parent_node = input_obj.parentNode;
-   var select_obj = parent_node.childNodes[3];
-   var option = select_obj.options[select_obj.selectedIndex];
-   var filter_name = option.value;
-   var post = marginalia.listPosts();
-   var p = post.posts[0];
-   p.hideAllAnnotations(marginalia);
-   this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, search_string);
+function filterAnnotationsFromBookmark(){
+  var hash_string = document.location.hash;  
+  if (hash_string.search("filter_name") > -1)
+  {
+
+	var filter_name= hash_string.substring((hash_string.indexOf('filter_name')) + 12, hash_string.indexOf('&'));
+	var search_string= hash_string.substring((hash_string.indexOf('search_string')) + 14);
+        var post = marginalia.listPosts();
+        var p = post.posts[0];
+        p.hideAllAnnotations(marginalia);
+        this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, search_string);
+        var select_child = domutil.childrenByTagClass(this.document.documentElement, null, 'select_field', null, null )[0];
+        var input_child = domutil.childrenByTagClass(this.document.documentElement, null, 'input_field', null, null )[0];
+        input_child.value = search_string;
+        for (i=0;i<select_child.options.length;i++)
+        {
+           var option = select_child.options[i];
+           if (option.value == filter_name)
+           {
+               option.selected = true;
+               select_child.selectedIndex = i;
+           }
+           else
+           {
+               option.selected = false;
+           }
+        } 
+  }
 }
+

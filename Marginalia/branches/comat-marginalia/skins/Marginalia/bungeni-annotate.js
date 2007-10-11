@@ -26,6 +26,7 @@ function bungeniMarginaliaInit( username, url, serviceRoot )
 	initLogging();
 
 	window.marginalia.showAnnotations( url );
+        filterAnnotationsFromBookmark();
 }
 
 function bungeniClickCreateEdit( )

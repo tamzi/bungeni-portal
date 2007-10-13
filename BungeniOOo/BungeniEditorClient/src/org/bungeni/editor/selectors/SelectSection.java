@@ -13,12 +13,16 @@ import com.sun.star.container.NoSuchElementException;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.text.XTextSection;
 import java.awt.Component;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.WindowConstants;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
@@ -28,6 +32,7 @@ import org.bungeni.db.BungeniRegistryFactory;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
+import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
@@ -62,6 +67,7 @@ public class SelectSection extends selectorTemplatePanel {
     
     private void initTree(){
         treeSectionStructure.setCellRenderer(new treeSectionStructureCellRenderer());
+        treeSectionStructure.addTreeSelectionListener(new treeSectionStructureSelectionListener());
     }
      private void initSectionList() {
          initSectionsArray();   
@@ -355,5 +361,38 @@ public class SelectSection extends selectorTemplatePanel {
          
         }
        
+   }
+   
+   static boolean wasSelected = false;
+   class treeSectionStructureSelectionListener implements TreeSelectionListener {
+        DefaultMutableTreeNode selNode;
+        String selectedNodeName;
+        String oldSelectedNodeName;
+       public void valueChanged(TreeSelectionEvent e) {
+            TreePath selectionPath = e.getNewLeadSelectionPath();
+            TreePath oldSelectionPath = e.getOldLeadSelectionPath();
+            if (selectionPath != null ) {
+              selNode = (DefaultMutableTreeNode) selectionPath.getLastPathComponent();
+              selectedNodeName = (String) selNode.getUserObject();
+              if (selectedNodeName.equals(BungeniEditorProperties.getEditorProperty("root:debaterecord"))) {
+                  wasSelected = rbtnAfter.isSelected();
+                  if (wasSelected)
+                      rbtnInside.setSelected(true);
+                  rbtnAfter.setEnabled(false);
+              } else {
+                  rbtnAfter.setEnabled(true);
+                  //if (wasSelected )
+                  //    rbtnAfter.setSelected(true);
+                   if (oldSelectionPath != null) {
+                        oldSelectedNodeName = (String) ((DefaultMutableTreeNode)oldSelectionPath.getLastPathComponent()).getUserObject();
+                        if (oldSelectedNodeName.equals(BungeniEditorProperties.getEditorProperty("root:debaterecord"))) {
+                            //previous selection was a root node
+                            if (wasSelected)
+                                rbtnAfter.setSelected(true);
+                        }
+                  }
+            }
+        }
+    }
    }
 }

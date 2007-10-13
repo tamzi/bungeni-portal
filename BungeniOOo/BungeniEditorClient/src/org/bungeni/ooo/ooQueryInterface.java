@@ -11,7 +11,7 @@ package org.bungeni.ooo;
 
 import com.sun.star.bridge.XUnoUrlResolver;
 
-//import com.sun.star.awt.*;
+import com.sun.star.awt.*;
 import com.sun.star.beans.*;
 import com.sun.star.chart.*;
 import com.sun.star.container.*;
@@ -280,5 +280,12 @@ public class ooQueryInterface {
     static public XStyleFamiliesSupplier XStyleFamiliesSupplier (Object obj){
         return (XStyleFamiliesSupplier) UnoRuntime.queryInterface( XStyleFamiliesSupplier.class, obj );
     }
+
+     //--------------------------------------------------
+    //  awt                    com.sun.star.awt.*
+    //--------------------------------------------------
     
+    static public XTopWindow XTopWindow(Object obj) {
+        return (XTopWindow) UnoRuntime.queryInterface(XTopWindow.class, obj);
+    }
 }

@@ -9,6 +9,8 @@ package org.bungeni.editor;
 
 import com.sun.star.uno.XComponentContext;
 import com.sun.star.comp.helper.Bootstrap;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import org.bungeni.editor.dialogs.editorApplicationController;
@@ -44,6 +46,7 @@ public class BungeniEditorClient {
  
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         editorApplicationController panel = new editorApplicationController(m_xContext);
+       // frame.addWindowListener(new org.bungeni.editor.BungeniPanelFrameWindowListener(panel));
         frame.add(panel);
         frame.setSize(615,400);
         //Display the window.

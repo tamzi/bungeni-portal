@@ -24,6 +24,8 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -76,7 +78,7 @@ public class editorApplicationController extends javax.swing.JPanel {
     private String m_currentTemplate;  
     private String m_currentSelectedWorkspaceFile;
     private String m_settings_CurrentTemplate;
-
+    private org.bungeni.editor.dialogs.editorTabbedPanel panel;
     private String m_FullFilesPath;
     /**
      * Constructor for editorApplicationController Class
@@ -663,8 +665,10 @@ private void initProperties(java.io.File currentFolder) {
         
 private void initFrame(XComponent component){
             javax.swing.JFrame frame = new javax.swing.JFrame("Editor Palette");
-            org.bungeni.editor.dialogs.editorTabbedPanel panel = new org.bungeni.editor.dialogs.editorTabbedPanel(component, this.m_xContext, frame);
+            
+            panel = new org.bungeni.editor.dialogs.editorTabbedPanel(component, this.m_xContext, frame);
             frame.add(panel);
+            frame.addWindowListener(new editorTabbedPanelFrameWindowListener());
             frame.setSize(230, 650);
             frame.setResizable(false);
             
@@ -776,6 +780,33 @@ private void launchFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         }
     }
 
+  
+  class editorTabbedPanelFrameWindowListener implements WindowListener {
+        public void windowOpened(WindowEvent e) {
+        }
+
+        public void windowClosing(WindowEvent e) {
+        }
+
+        public void windowClosed(WindowEvent e) {
+        }
+
+        public void windowIconified(WindowEvent e) {
+        }
+
+        public void windowDeiconified(WindowEvent e) {
+            panel.bringEditorWindowToFront();
+        }
+
+        public void windowActivated(WindowEvent e) {
+            System.out.println("Window Was Activated!");
+        }
+
+        public void windowDeactivated(WindowEvent e) {
+            System.out.println("Window was De-Activated!");
+        }
+      
+  }
 /**
  *  Mouse Listener Class for Server file listing 
  *  It checks for "double cick" on the JTable control listing the files from the webdav server

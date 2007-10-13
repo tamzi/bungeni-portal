@@ -20,6 +20,7 @@ import com.sun.star.container.XEnumerationAccess;
 import com.sun.star.container.XNameContainer;
 import com.sun.star.document.XDocumentInfo;
 import com.sun.star.document.XDocumentInfoSupplier;
+import com.sun.star.frame.XFrame;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
@@ -55,6 +56,8 @@ import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -169,6 +172,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        this.ComponentContext = impComponentContext;
        ooDocument = new OOComponentHelper(impComponent, impComponentContext);
        this.parentFrame = parentFrame;
+       
        initComponents();   
        initFields();
        initializeValues();
@@ -177,11 +181,12 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        initNotesPanel();
        initBodyMetadataPanel();
        initTimers();
-      
+       initDialogListeners();
     }
     
   
-    
+    private void initDialogListeners() {
+    }
     private void initFields(){
         //initTree();
         treeDocStructure.setModel(new DefaultListModel());
@@ -209,7 +214,14 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     public void uncheckEditModeButton() {
         toggleEditSection.setSelected(false);
     }
-           
+    
+    public void bringEditorWindowToFront(){
+        if (ooDocument.isXComponentValid()) {
+        XFrame xDocFrame = ooDocument.getDocumentModel().getCurrentController().getFrame();
+        ooQueryInterface.XTopWindow(xDocFrame.getContainerWindow()).toFront();
+        }
+    }
+    
     private changeStructureItem[] initChangeStructureItems() {
         changeStructureItem itema = new changeStructureItem ("VIEW_PARAGRAPHS", "View Paragraphs");
         changeStructureItem itemb = new changeStructureItem ("VIEW_SECTIONS", "View Sections");
@@ -1633,7 +1645,7 @@ private void displayUserMetadata(XTextRange xRange) {
   private void btnCloseMpDialog_Clicked(java.awt.event.ActionEvent evt){
       mpDialog.dispose();
   }
-    
+
 /*
  *
  *

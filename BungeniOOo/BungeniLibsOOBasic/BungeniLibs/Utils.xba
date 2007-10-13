@@ -180,4 +180,43 @@ Sub SetParagraphStyle
   Next
 End Sub
 
+
+Sub AddParaBreakAfterSection (docComponent, sectionName as string)
+	AddParaBreakToSectionBoundary docComponent, sectionName, 1
+End Sub
+
+REM beforeOrAfter = 0 (before section), 1 (after section)
+Sub AddParaBreakToSectionBoundary (docComponent, sectionName as String, beforeOrAfter as integer )
+
+Dim oSect, oText, oCurs, oPar
+If (docComponent.getTextSections().hasByName(sectionName) ) then
+	
+	oSect = docComponent.getTextSections().getByName(sectionName)
+	oText = docComponent.getText()
+	oCurs = oText.createTextCursor()
+	oPar = docComponent.createInstance(&quot;com.sun.star.text.Paragraph&quot;)
+	
+	if (beforeOrAfter = 0 ) then
+		oText.insertTextContentBefore(oPar, oSect)	
+	elseif (beforeOrAfter = 1) then
+		oText.insertTextContentAfter(oPar, oSect)
+	end if
+	
+End If
+
+End Sub
+
+
+Function createSection (docComponent, sectionName as string, sectionColumns as Integer, sectionBackground as integer)
+	
+	Dim oSect, oCols
+	oSect = docComponent.createInstance(&quot;com.sun.star.text.TextSection&quot;)
+	oSect.setName(sectionName)
+	oCols = docComponent.createInstance(&quot;com.sun.star.text.TextColumns&quot;)
+	oCols.setColumnCount(sectionColumns)
+	oSect.TextColumns = oCols
+	createSection = oSect
+	
+End Function
+
 </script:module>

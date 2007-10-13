@@ -70,6 +70,10 @@ rem Dim props
 rem props = MakePropertyValue (&quot;One&quot;, &quot;Two&quot;)
 rem XRay props
 
+rem InsertDocumentIntoSection thisComponent, &quot;qa&quot;, &quot;E:\projects\WorkingProjects\BungeniEditorClient\dist\settings\fragments\hansard_qa.odt&quot;
+rem msgbox &quot;ok&quot;
+rem SearchAndReplace thisComponent, &quot;[[QA_TITLE]]&quot;, &quot;Question Answer Title&quot;
+
 End Sub
 
       
@@ -209,8 +213,48 @@ Sub AddSectionInsideSectionWithAttributes ( innerSection as String, newSection a
 
 End Sub
 
+Sub AddSectionInsideSection (docComponent, innerSection as String,  newSection as String )
+  Dim oSect
+  If docComponent.getTextSections().hasByName(innerSection) Then
+  	  oSect = docComponent.getTextSections().getByName(innerSection)
+       rem XRay oSect
+  	    Dim sectionText , sectionCurs, sectionRange
+    	sectionCurs = docComponent.getText().createTextCursor()
+    	sectionRange = oSect.getAnchor()
+        sectionCurs.gotoRange(sectionRange, false)
+        Dim endRange, endCursor, compareSectionRegions
+        endRange = sectionCurs.getEnd()
+        REM if compareSectionRegions = 0 the section has no text and is empty
+        REM if compareSectionRegions = 1 the section has text and is not empty
+        compareSectionRegions = sectionRange.getText().compareRegionStarts(sectionRange.getStart(), sectionRange.getEnd())
+      	REM if 0 then we append a blank paragraph to the section.
+      	if (compareSectionRegions = 0 ) then 
+      		sectionCurs.gotoRange(sectionRange.getStart(), false)
+      		InsertParaBreak(sectionCurs)
+      	End if 
+       	if (compareSectionRegions = 1) then 
+       	   sectionCurs.gotoRange(sectionRange.getEnd(), false)
+       	   InsertParaBreak(sectionCurs)
+       	   rem endCursor.goLeft(1, false)
+       	end if
+        endCursor = endRange.getText().createTextCursorByRange(endRange.getStart())
 
-Sub AddSectionInsideSection ( innerSection as String,  newSection as String )
+        
+        Dim newSect, oCols
+        newSect = docComponent.createInstance(&quot;com.sun.star.text.TextSection&quot;)
+   		newSect.setName(newSection)
+   		REM Now, create the columns...
+     	oCols = docComponent.createInstance(&quot;com.sun.star.text.TextColumns&quot;)
+    	oCols.setColumnCount(1)
+    	newSect.TextColumns = oCols
+        endCursor.getText().insertTextContent( endCursor, newSect, false)
+
+  End If
+
+End Sub
+
+
+Sub AddSectionInsideSection_OLD ( innerSection as String,  newSection as String )
   Dim oSect
   If ThisComponent.getTextSections().hasByName(innerSection) Then
   	  oSect = ThisComponent.getTextSections().getByName(innerSection)
@@ -239,36 +283,16 @@ Sub AddSectionInsideSection ( innerSection as String,  newSection as String )
 
 End Sub
 
-Sub AddSectionInsideSectionWithStyle ( innerSection as String,  newSection as String, backgroundColor as Long, sectionLeftIndentInches as Single )
-  Dim oSect
-  If ThisComponent.getTextSections().hasByName(innerSection) Then
-  	  oSect = ThisComponent.getTextSections().getByName(innerSection)
-       rem XRay oSect
-  	    Dim sectionText , sectionCurs
-    	sectionCurs = ThisComponent.getText().createTextCursor()
-        sectionCurs.gotoRange(oSect.getAnchor(), false)
-        Dim endRange, endCursor
-        endRange = sectionCurs.getEnd()
-      
-        endCursor = endRange.getText().createTextCursorByRange(endRange.getStart())
-        Dim newSect, oCols
-        newSect = ThisComponent.createInstance(&quot;com.sun.star.text.TextSection&quot;)
-   		newSect.setName(newSection)
-   		REM Now, create the columns...
-     	oCols = ThisComponent.createInstance(&quot;com.sun.star.text.TextColumns&quot;)
-    	oCols.setColumnCount(1)
-    	newSect.TextColumns = oCols
+Sub AddSectionInsideSectionWithStyle ( docComponent, innerSection as String,  newSection as String, backgroundColor as Long, sectionLeftIndentInches as Single )
+   		AddSectionInsideSection docComponent, innerSection, newSection
+   		Dim newSect 
+   		newSect = docComponent.getTextSections().getByName(newSection)
     	newSect.BackColor = backgroundColor
     	newSect.SectionLeftMargin = sectionLeftIndentInches * 10 * 254
-        endCursor.getText().insertTextContent( endCursor, newSect, false)
-        
-        Dim oPar
-        oPar = ThisComponent.createInstance(&quot;com.sun.star.text.Paragraph&quot;) 
-        
-        endCursor.getText().insertTextContentAfter (oPar, newSect)
-  End If
-
+ 
 End Sub
+
+
 
 Sub InsertHTMLDocumentIntoSection(sName$, sFileUrl$ , sStyleApply$)
  sFileUrl = ConvertToURL(sFileUrl)
@@ -365,22 +389,23 @@ Sub RenameSection (renameThisSection as String, renameToSection as String)
 	sectRename.IsProtected = True
 End Sub
 
-Sub InsertDocumentIntoSection(sName$, sFileUrl$)
+Sub InsertDocumentIntoSection(docComponent, sName$, sFileUrl$)
   
    sFileUrl = ConvertToURL(sFileUrl)
    rem now iterate through the section 
   Dim oSect
-  If ThisComponent.getTextSections().hasByName(sName) Then
-  	  oSect = ThisComponent.getTextSections().getByName(sName)
+  If docComponent.getTextSections().hasByName(sName) Then
+  	  oSect = docComponent.getTextSections().getByName(sName)
        rem XRay oSect
   	    Dim sectionText , sectionCurs
-    	sectionCurs = ThisComponent.getText().createTextCursor()
+    	sectionCurs = docComponent.getText().createTextCursor()
         sectionCurs.gotoRange(oSect.getAnchor(), false)
         Dim endRange, endCursor
         endRange = sectionCurs.getEnd()
       
         endCursor = endRange.getText().createTextCursorByRange(endRange.getStart())
         endCursor.insertDocumentFromURL(sFileURL, Array())
+      
   End If
  
 End Sub
@@ -542,11 +567,11 @@ Sub AddImageIntoSection(sectionName$, sURL$)
 End Sub
 
 
-Sub SearchAndReplace2 (searchFor as string, replaceWith as String, bookmarkRange(), URLStr as String , URLName as String)
+Sub SearchAndReplace2 (docComponent, searchFor as string, replaceWith as String, bookmarkRange(), URLStr as String , URLName as String)
     
     Dim oBookmarkBegin, oBookmarkEnd
-    oBookmarkBegin = ThisComponent.getBookmarks().getByName(bookmarkRange(LBound(bookmarkRange))
-    oBookmarkEnd = ThisComponent.getBookmarks().getByName(bookmarkRange(UBound(bookmarkRange))
+    oBookmarkBegin = docComponent.getBookmarks().getByName(bookmarkRange(LBound(bookmarkRange))
+    oBookmarkEnd = docComponent.getBookmarks().getByName(bookmarkRange(UBound(bookmarkRange))
  	
  	Dim beginAnchor, statCurs
     beginAnchor = oBookmarkBegin.getAnchor()
@@ -618,13 +643,13 @@ oCur.setPropertyValue(&quot;NumberingRules&quot;, oNumRules)
 
 End Sub
 
-Sub SearchAndReplace (searchFor as string, replaceWith as string)
+Sub SearchAndReplace (docComponent, searchFor as string, replaceWith as string)
 	Dim oReplace
-  	oReplace = ThisComponent.createReplaceDescriptor() 
+  	oReplace = docComponent.createReplaceDescriptor() 
   	oReplace.SearchCaseSensitive = True 
   	oReplace.SearchString = searchFor
     oReplace.ReplaceString = replaceWith 
-    ThisComponent.ReplaceAll(oReplace)
+    docComponent.ReplaceAll(oReplace)
     
 End Sub
 
@@ -845,7 +870,8 @@ End Sub
 
 Sub RemoveSectionAndContents (docComponent, sectionName as string )
 
-  Dim section as Object, aTextRange, xEnum
+  Dim section as Object, aTextRange, xEnum, oText
+  oText = docComponent.getText()
   section = docComponent.getTextSections().getByName(sectionName)
   &apos; make section visible to be able to remove its TextContents
   aTextRange=section.getAnchor()
@@ -868,5 +894,46 @@ Sub RemoveSectionAndContents (docComponent, sectionName as string )
   docComponent.getText().removeTextContent(section)
   
 End Sub
+
+
+
+
+Sub InsertSectionAfterSection (docComponent, newSectionName as String, relativeToSection as String)
+	Dim oNewSection, oRelativeSection, oText, oPar
+	
+	If (docComponent.getTextSections().hasByName(relativeToSection) ) then
+				
+		oRelativeSection = docComponent.getTextSections().getByName(relativeToSection)
+		AddParaBreakAfterSection (docComponent, relativeToSection)
+		
+		Dim relativeSectRange, insertCursor
+		
+		relativeSectRange = oRelativeSection.getAnchor()
+		insertCursor = docComponent.getText().createTextCursor()
+		REM go to the end of the section
+		insertCursor.gotoRange(relativeSectRange.getEnd(), false)
+		REM go the paragraph just after the seciotn end boundary
+		insertCursor.gotoNextParagraph(false)
+		REM select the paragraph just after the end boundary
+		insertCursor.gotoEndOfParagraph(true)
+		REM conver the paragraph to a section
+		oNewSection = createSection(docComponent, newSectionName, 1, 0)
+		
+		insertCursor.getText().insertTextContent(insertCursor, oNewSection, false)
+		
+	End If
+End Sub
+
+
+Sub InsertSectionAfterSectionWithStyle (docComponent, newSectionName as String, relativeToSection as String, backgroundColor as Long, sectionLeftIndentInches as Single )
+   		InsertSectionAfterSection docComponent, newSectionName, relativeToSection
+   		Dim newSect 
+   		newSect = docComponent.getTextSections().getByName(newSectionName)
+    	newSect.BackColor = backgroundColor
+    	newSect.SectionLeftMargin = sectionLeftIndentInches * 10 * 254
+ 
+End Sub
+
+
 
 </script:module>

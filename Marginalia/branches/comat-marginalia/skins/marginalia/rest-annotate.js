@@ -24,7 +24,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * $Id: rest-annotate.js 240 2007-09-26 23:20:29Z geof.glass $
+ * $Id: rest-annotate.js 251 2007-10-13 02:52:10Z geof.glass $
  */
 
 // If this is true, uses paths like annotate/nnn
@@ -180,6 +180,11 @@ RestAnnotationService.prototype.createAnnotation = function( annotation, f )
 	if ( annotation.getLinkTitle( ) )
 		+ '&linkTitle=' + encodeURIParameter( annotation.getLinkTitle( ) );
 
+	// Cross-site request forgery protection (if present)
+	var csrfCookie = window.marginalia.csrfCookie;
+	if ( csrfCookie )
+		body += '&' + encodeURIComponent( csrfCookie ) + '=' + encodeURIParameter( readCookie( csrfCookie ) );
+		
 	var xmlhttp = domutil.createAjaxRequest( );
 	
 	xmlhttp.open( 'POST', serviceUrl, true );
@@ -235,6 +240,11 @@ RestAnnotationService.prototype.updateAnnotation = function( annotation, f )
 	if ( annotation.hasChanged( 'range/' + XPATH_RANGE ) )
 		body += '&xpath-range=' + encodeURIParameter( annotation.getRange( XPATH_RANGE ).toString( ) );
 
+	// Cross-site request forgery protection (if present)
+	var csrfCookie = window.marginalia.csrfCookie;
+	if ( csrfCookie )
+		body += '&' + encodeURIComponent( csrfCookie ) + '=' + encodeURIParameter( readCookie( csrfCookie ) );
+
 	var xmlhttp = domutil.createAjaxRequest( );
 	xmlhttp.open( 'PUT', serviceUrl, true );
 	xmlhttp.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8' );
@@ -273,6 +283,11 @@ RestAnnotationService.prototype.bulkUpdate = function( oldNote, newNote, f )
 		= 'note=' + encodeURIComponent( oldNote )
 		+ '&new-note=' + encodeURIComponent( newNote );
 		
+	// Cross-site request forgery protection (if present)
+	var csrfCookie = window.marginalia.csrfCookie;
+	if ( csrfCookie )
+		body += '&' + encodeURIComponent( csrfCookie ) + '=' + encodeURIComponent( readCookie( csrfCookie ) );
+
 	var xmlhttp = domutil.createAjaxRequest( );
 	
 	// This use of PUT is suspect, as it does not send a full representation of the resource -
@@ -312,6 +327,11 @@ RestAnnotationService.prototype.deleteAnnotation = function( annotationId, f )
 	var serviceUrl = this.serviceUrl;
 	serviceUrl += this.niceUrls ? ( '/' + annotationId ) : ( '?id=' + annotationId );
 	
+	// Cross-site request forgery protection (if present)
+	var csrfCookie = window.marginalia.csrfCookie;
+	if ( csrfCookie )
+		serviceUrl += '&' + encodeURIComponent( csrfCookie ) + '=' + encodeURIComponent( readCookie( csrfCookie ) );
+
 	// For demo debugging only
 	if ( window.marginalia && window.marginalia.userInRequest )
 		serviceUrl += ( this.niceUrls ? '?' : '&' )

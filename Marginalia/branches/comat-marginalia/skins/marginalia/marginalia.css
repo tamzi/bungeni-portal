@@ -600,3 +600,15 @@ ol#articles {
 	display: none;
 }
 
+.notes p {
+    margin-left:5px;
+    font-size: 9px;
+}
+
+.select_field {
+    font-size: 9px;
+}
+
+.input_field {
+    font-size: 9px;
+}

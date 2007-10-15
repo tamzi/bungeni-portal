@@ -336,11 +336,18 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         del params[ 'xpath-range' ]
         plone = getToolByName(self, 'portal_url').getPortalObject()
         obj_id = plone.generateUniqueId('Annotation')
-        new_id = self.invokeFactory('Annotation', id=obj_id, **params)
+        
+        #new_id = self.invokeFactory('Annotation', id=obj_id, **params)
+
+        new_id = self.invokeFactory('Annotation', id=obj_id)        
+        annotation = getattr(self, new_id)
+        annotation.update(**params)
+            
         self.REQUEST.RESPONSE.setStatus('Created')
-        location = self.REQUEST.RESPONSE.headers['location']
-        location = location.rstrip("/base_view")
-        self.REQUEST.RESPONSE.setHeader("location", location)
+        if self.REQUEST.RESPONSE.headers.has_key("location"):
+            location = self.REQUEST.RESPONSE.headers['location']
+            location = location.rstrip("/base_view")
+            self.REQUEST.RESPONSE.setHeader("location", location)
         return new_id
 
     security.declarePrivate('_updateAnnotation')

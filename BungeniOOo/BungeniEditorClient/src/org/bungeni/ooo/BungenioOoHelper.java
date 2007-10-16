@@ -165,7 +165,7 @@ public class BungenioOoHelper {
                m_ooDesktop = (com.sun.star.frame.XDesktop)
                    com.sun.star.uno.UnoRuntime.queryInterface(
                    com.sun.star.frame.XDesktop.class, oDesktop);
-           
+               
                  // (4b) get the desktop's component loader interface object
                m_ooComponentLoader = (com.sun.star.frame.XComponentLoader)
                    com.sun.star.uno.UnoRuntime.queryInterface(

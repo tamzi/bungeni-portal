@@ -246,6 +246,9 @@ public class ooQueryInterface {
         return xObj;
     }
 
+    static public XTextDocument XTextDocument(Object obj) {
+       return (XTextDocument)UnoRuntime.queryInterface(XTextDocument.class, obj);
+    }
     
     //--------------------------------------------------
     //  Util                    com.sun.star.util.*

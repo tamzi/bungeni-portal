@@ -80,17 +80,27 @@ public class OOComponentHelper {
     public static final String ATTRIBUTE_NAMESPACE = "urn:akomantoso:names:tc:opendocument:xmlns:semantic-text:1.0";  
     private static long MARGIN_MEASURE_BASE = 254;
     private boolean isXComponentNull = true;
+    private xComponentListener xEventListener;
     /** Creates a new instance of OOComponentHelper */
     public OOComponentHelper(XComponent xComponent, XComponentContext xComponentContext) {
           try {
             isXComponentNull = false;
             m_xComponent = xComponent;
             //add listener to listen for document closing events.
-            m_xComponent.addEventListener(new xComponentListener());
+            xEventListener = new xComponentListener();
+            m_xComponent.addEventListener(xEventListener);
             m_xComponentContext = xComponentContext;
         } catch (Exception ex) {
             log.debug(ex.getLocalizedMessage(), ex);
         }
+    }
+    
+    public void detachListener() {
+        m_xComponent.removeEventListener(xEventListener);
+    }
+    
+    public void attachListener() {
+        m_xComponent.addEventListener(xEventListener);
     }
     
      class xComponentListener implements com.sun.star.lang.XEventListener {

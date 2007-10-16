@@ -80,6 +80,7 @@ public class editorApplicationController extends javax.swing.JPanel {
     private String m_settings_CurrentTemplate;
     private org.bungeni.editor.dialogs.editorTabbedPanel panel;
     private String m_FullFilesPath;
+    private org.bungeni.ooo.BungenioOoHelper openofficeObject;
     /**
      * Constructor for editorApplicationController Class
      */
@@ -667,9 +668,10 @@ private void initFrame(XComponent component){
             javax.swing.JFrame frame = new javax.swing.JFrame("Editor Palette");
             
             panel = new org.bungeni.editor.dialogs.editorTabbedPanel(component, this.m_xContext, frame);
+            panel.setOOoHelper(this.openofficeObject);
             frame.add(panel);
             frame.addWindowListener(new editorTabbedPanelFrameWindowListener());
-            frame.setSize(230, 650);
+            frame.setSize(243, 650);
             frame.setResizable(false);
             
             frame.setAlwaysOnTop(true);
@@ -686,7 +688,7 @@ private void initFrame(XComponent component){
 }
 
 private void initoOoAndLaunchFrame(String templatePath, boolean isTemplate){
-            org.bungeni.ooo.BungenioOoHelper openofficeObject = new org.bungeni.ooo.BungenioOoHelper(m_xContext);
+            openofficeObject = new org.bungeni.ooo.BungenioOoHelper(m_xContext);
             openofficeObject.initoOo();
             
             String templateURL = openofficeObject.convertPathToURL(templatePath);

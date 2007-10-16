@@ -59,6 +59,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.InputEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
@@ -117,6 +119,7 @@ import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.editor.panels.CollapsiblePanelFactory;
 import org.bungeni.editor.panels.ICollapsiblePanel;
+import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooDocNoteStructure;
 import org.bungeni.ooo.ooDocNotes;
@@ -142,6 +145,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      */
     private XComponent Component;
     private XComponentContext ComponentContext;
+    private BungenioOoHelper ooHelper;
     private OOComponentHelper ooDocument;
     private ooDocNotes m_ooNotes;
     private JFrame parentFrame;
@@ -158,6 +162,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private JTree treeDocStructureTree;
     private JPopupMenu popupMenuTreeStructure = new JPopupMenu();
     private boolean mouseOver_TreeDocStructureTree = false;
+    private TreeMap<String, XComponent> editorMap;
     /** Creates new form SwingTabbedJPanel */
     public editorTabbedPanel() {
         initComponents();
@@ -170,13 +175,14 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         
        this.Component = impComponent;
        this.ComponentContext = impComponentContext;
+       editorMap = new TreeMap<String, XComponent>();
        ooDocument = new OOComponentHelper(impComponent, impComponentContext);
        this.parentFrame = parentFrame;
        
        initComponents();   
+       //initListDocuments();
        initFields();
        initializeValues();
-       panelMarkup.setLayout(new FlowLayout());
        initCollapsiblePane();
        initNotesPanel();
        initBodyMetadataPanel();
@@ -184,7 +190,63 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        initDialogListeners();
     }
     
-  
+   
+    public void initListDocuments(){
+        this.cboListDocuments.removeAll();
+        Iterator docIterator = editorMap.keySet().iterator();
+        while (docIterator.hasNext()) {
+            String docKey = (String) docIterator.next();
+            cboListDocuments.addItem(docKey);
+        }
+        cboListDocuments.updateUI();
+        //cboListDocuments.add
+    }
+    
+    
+    public void initOpenDocumentsList(){
+             try {
+        System.out.println("getting components");
+        XEnumerationAccess enumComponentsAccess = ooHelper.getDesktop().getComponents();
+        XEnumeration enumComponents = enumComponentsAccess.createEnumeration();
+        System.out.println("enumerating components");
+        int i=0;
+        //cboListDocuments.removeAllItems();
+        
+        while (enumComponents.hasMoreElements()) {
+            Object nextElem = enumComponents.nextElement();
+            System.out.println("getting model interface");
+            XModel docModel = ooQueryInterface.XModel(nextElem);
+            
+            if (docModel != null ) { //supports XModel interface 
+                System.out.println("docModel != null");
+                XServiceInfo serviceInfo = ooQueryInterface.XServiceInfo(nextElem);
+                if (serviceInfo.supportsService("com.sun.star.text.TextDocument")) {
+                    System.out.println("supports TextDocument "+ (++i));
+                    XTextDocument xDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, nextElem);
+                    XFrame xframe = xDoc.getCurrentController().getFrame();
+                    String strTitle = (String) ooQueryInterface.XPropertySet(xframe).getPropertyValue("Title");
+                    int dashIndex = strTitle.lastIndexOf("-");
+                    if (dashIndex != -1)
+                        strTitle = strTitle.substring(0, dashIndex);
+                    XComponent xComponent = (XComponent)UnoRuntime.queryInterface(XComponent.class, nextElem);
+                    editorMap.put(strTitle, xComponent);
+                   // this.cboOpenDocuments.addItem(i+ " - " + strTitle);
+                }
+            }
+        }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    public void setOOoHelper(BungenioOoHelper helper) {
+        this.ooHelper = helper;
+        //cboListDocuments.addItemListener(new cboListDocumentsItemListener());
+        cboListDocuments.addActionListener(new cboListDocumentsActionListener());
+        initOpenDocumentsList();
+        initListDocuments();
+    }
+    
     private void initDialogListeners() {
     }
     private void initFields(){
@@ -243,7 +305,12 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     
     private void initCollapsiblePane(){
      try {
-     StackedBox box = new StackedBox();    
+     
+     panelMarkup.removeAll();    
+     panelMarkup.setLayout(new FlowLayout());
+     
+     StackedBox box = new StackedBox(); 
+     
      //create scroll pane with stacked box
      log.debug("initializing stackedbox");
      
@@ -372,6 +439,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             if (!ooDocument.isXComponentValid()) return;
             log.debug("emptying treeDocStructureTree");
             treeDocStructureTree.removeAll();
+            treeDocStructureTree.updateUI();
             //this.sectionsRootNode = null ; //new DefaultMutableTreeNode(new String("root"));
             
             //mvSections.removeAllElements();
@@ -1145,6 +1213,8 @@ private void displayUserMetadata(XTextRange xRange) {
         txtDocType = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
         tableDocMetadata = new javax.swing.JTable();
+        cboListDocuments = new javax.swing.JComboBox();
+        lblOpenDocuments = new javax.swing.JLabel();
         panelBodyMetadata = new javax.swing.JPanel();
         lblSelectBodyMetadata = new javax.swing.JLabel();
         cboSelectBodyMetadata = new javax.swing.JComboBox();
@@ -1217,12 +1287,17 @@ private void displayUserMetadata(XTextRange xRange) {
         ));
         jScrollPane4.setViewportView(tableDocMetadata);
 
+        lblOpenDocuments.setText("Open Documents:");
+
         org.jdesktop.layout.GroupLayout panelMetadataLayout = new org.jdesktop.layout.GroupLayout(panelMetadata);
         panelMetadata.setLayout(panelMetadataLayout);
         panelMetadataLayout.setHorizontalGroup(
             panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelMetadataLayout.createSequentialGroup()
                 .add(panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(panelMetadataLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
                     .add(panelMetadataLayout.createSequentialGroup()
                         .addContainerGap()
                         .add(txtDocType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
@@ -1234,12 +1309,15 @@ private void displayUserMetadata(XTextRange xRange) {
                             .add(lblDocType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                             .add(lblDocURI)
                             .add(cboDocURI, 0, 218, Short.MAX_VALUE)))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, panelMetadataLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
                     .add(panelMetadataLayout.createSequentialGroup()
                         .add(66, 66, 66)
-                        .add(btnSetMetadata)))
+                        .add(btnSetMetadata))
+                    .add(panelMetadataLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 218, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(panelMetadataLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(lblOpenDocuments, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         panelMetadataLayout.setVerticalGroup(
@@ -1260,8 +1338,12 @@ private void displayUserMetadata(XTextRange xRange) {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnSetMetadata)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 100, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 74, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lblOpenDocuments)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 7, Short.MAX_VALUE)
+                .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jTabsContainer.addTab("Doc. Metadata", panelMetadata);
 
@@ -1329,12 +1411,13 @@ private void displayUserMetadata(XTextRange xRange) {
                         .add(btnClearMetadataValue, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 52, Short.MAX_VALUE)
                         .add(btnLookupMetadata))
-                    .add(btnApplyMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, btnApplyMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                     .add(panelBodyMetadataLayout.createSequentialGroup()
                         .add(10, 10, 10)
                         .add(panelBodyMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(radioDocumentSection)
-                            .add(radioSelectedText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 156, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
+                            .add(radioSelectedText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 156, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(radioDocumentSection))
+                        .add(52, 52, 52)))
                 .addContainerGap())
         );
         panelBodyMetadataLayout.setVerticalGroup(
@@ -1356,11 +1439,11 @@ private void displayUserMetadata(XTextRange xRange) {
                 .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(radioSelectedText)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 29, Short.MAX_VALUE)
+                .add(14, 14, 14)
                 .add(radioDocumentSection)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnApplyMetadata)
-                .addContainerGap())
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         jTabsContainer.addTab("Body Metadata", panelBodyMetadata);
 
@@ -1911,6 +1994,7 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JButton btnSaveEditorNote;
     private javax.swing.JButton btnSetMetadata;
     private javax.swing.JComboBox cboDocURI;
+    private javax.swing.JComboBox cboListDocuments;
     private javax.swing.JComboBox cboSelectBodyMetadata;
     private javax.swing.JComboBox comboChangeStructure;
     private javax.swing.JLabel jLabel1;
@@ -1929,6 +2013,7 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JLabel lblDocURI;
     private javax.swing.JLabel lblEditorNotes;
     private javax.swing.JLabel lblEnterMetadataValue;
+    private javax.swing.JLabel lblOpenDocuments;
     private javax.swing.JLabel lblSelectBodyMetadata;
     private javax.swing.JLabel lbl_DocStructTitle;
     private javax.swing.JTextField lbl_SectionName;
@@ -1952,7 +2037,33 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JTextField txtDocType;
     private javax.swing.JTextArea txtEditorNote;
     // End of variables declaration//GEN-END:variables
-   public static void main(String args[]) {
+    class cboListDocumentsItemListener implements ItemListener {
+        public void itemStateChanged(ItemEvent e) {
+            
+        }
+        
+    }
+    
+    class cboListDocumentsActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            JComboBox cb = (JComboBox) e.getSource();
+            String key = (String)cb.getSelectedItem();
+            XComponent xComp = editorMap.get(key);
+            ooDocument.detachListener();
+            ooDocument = new OOComponentHelper(xComp, ComponentContext);
+            bringEditorWindowToFront();
+            initFields();
+            initializeValues();
+            initCollapsiblePane();
+            initNotesPanel();
+            initBodyMetadataPanel();
+            //initTimers();
+            initDialogListeners();
+        }
+        
+    }
+    
+    public static void main(String args[]) {
     JFrame frame = new JFrame("Oval Sample");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

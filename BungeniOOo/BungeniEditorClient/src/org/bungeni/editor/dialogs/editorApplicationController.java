@@ -667,8 +667,8 @@ private void initProperties(java.io.File currentFolder) {
 private void initFrame(XComponent component){
             javax.swing.JFrame frame = new javax.swing.JFrame("Editor Palette");
             
-            panel = new org.bungeni.editor.dialogs.editorTabbedPanel(component, this.m_xContext, frame);
-            panel.setOOoHelper(this.openofficeObject);
+            panel = new org.bungeni.editor.dialogs.editorTabbedPanel(component, this.openofficeObject, frame);
+            //panel.setOOoHelper(this.openofficeObject);
             frame.add(panel);
             frame.addWindowListener(new editorTabbedPanelFrameWindowListener());
             frame.setSize(243, 650);

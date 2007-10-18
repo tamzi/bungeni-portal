@@ -98,13 +98,13 @@ def setupTakeWorkflow(self, workflow):
                            description="""""",
                            transitions=['complete'])
     stateDef.setPermission('View',
-                           0,
+                           1,
                            ['Manager', 'Reporter', 'Editor', 'ChiefEditor'])
     stateDef.setPermission('Modify portal content',
-                           0,
+                           1,
                            ['Manager', 'Reporter', 'Editor', 'ChiefEditor'])
     stateDef.setPermission('Access contents information',
-                           0,
+                           1,
                            ['Manager', 'Reporter', 'Editor', 'ChiefEditor'])
 
     stateDef = workflow.states['completed']
@@ -112,13 +112,13 @@ def setupTakeWorkflow(self, workflow):
                            description="""""",
                            transitions=['retract'])
     stateDef.setPermission('View',
-                           0,
+                           1,
                            ['Manager', 'Editor', 'ChiefEditor'])
     stateDef.setPermission('Modify portal content',
-                           0,
+                           1,
                            ['Manager', 'Editor', 'ChiefEditor'])
     stateDef.setPermission('Access contents information',
-                           0,
+                           1,
                            ['Manager', 'Editor', 'ChiefEditor'])
 
     ## Transitions initialization

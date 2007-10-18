@@ -75,11 +75,11 @@ Take_schema = BaseFolderSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Take(BaseFolder, ATFile):
+class Take(ATFile, BaseFolder):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(ATFile,'__implements__',()),)
+    __implements__ = (getattr(ATFile,'__implements__',()),) + (getattr(BaseFolder,'__implements__',()),)
     # zope3 interfaces
     interface.implements(ITake)
 
@@ -159,6 +159,7 @@ class Take(BaseFolder, ATFile):
     def _generateTakeTranscription(self):
         """
         """
+        # from ipdb import set_trace; set_trace()
         # Get our associated RotaItem
         self.setRotaItem(self.REQUEST.form['RotaItem'])
         ri = self.getRotaItem()
@@ -185,24 +186,27 @@ class Take(BaseFolder, ATFile):
         tt.setFile(new_file)
         os.remove(tempFileName)
 
-    # Manually created methods
-
-    security.declareProtected(permissions.ModifyPortalContent, 'initializeArchetype')
+    security.declarePublic('initializeArchetype')
     def initializeArchetype(self, **kwargs):
         BaseFolder.initializeArchetype(self, **kwargs)
         ATFile.initializeArchetype(self, **kwargs)
 
         if self.isTemporary():
-            log('addedRotaFolder> Not yet!') #DBG
+            log('initializeArchetype> Not yet!') #DBG
             return
         self._generateTakeTranscription()
 
-    security.declareProtected(permissions.View, 'index_html')
-    def index_html(self, REQUEST=None, RESPONSE=None):
-        """Download the file
+    security.declarePublic('objectIds')
+    def objectIds(self,spec=None, filter=None):
         """
-        return ATFile.index_html(self, REQUEST, RESPONSE)
+        """
+        return BaseFolder.objectIds(self, spec)
 
+    security.declarePublic('objectValues')
+    def objectValues(self,spec=None, filter=None):
+        """
+        """
+        return BaseFolder.objectValues(self, spec)
 
 
 registerType(Take, PROJECTNAME)

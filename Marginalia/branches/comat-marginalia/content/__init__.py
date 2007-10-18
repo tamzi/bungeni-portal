@@ -27,19 +27,8 @@
 __author__ = """Jean Jordaan <jean.jordaan@gmail.com>"""
 __docformat__ = 'plaintext'
 
-
-##code-section init-module-header #fill in your manual code here
-##/code-section init-module-header
-
-
-# Subpackages
-# Additional
-
-# Classes
 import Annotation
-import AnnotationMixin
 import AnnotatableDocument
+import AnnotationAdaptorAndView
 
-##code-section init-module-footer #fill in your manual code here
-##/code-section init-module-footer
 

@@ -27,33 +27,22 @@
 __author__ = """Jean Jordaan <jean.jordaan@gmail.com>"""
 __docformat__ = 'plaintext'
 
-
-##code-section module-header #fill in your manual code here
-##/code-section module-header
-
-
-
-
 from zope import interface
 
 class IAnnotatable(interface.Interface):
     ''' '''
 
-    ##code-section class-header_IAnnotatable #fill in your manual code here
-    ##/code-section class-header_IAnnotatable
-
-
-
+    # Acts as a marker interface    
+    
+class IAnnotatableAdaptor(interface.Interface):
+    ''' '''
 
     def isAnnotatable():
-       """
+        """Returns True if the object is annotatable """
 
-       """
+    def getAnnotatedUrl():
+        """Returns the annotated url """
 
-
-
-##code-section module-footer #fill in your manual code here
-##/code-section module-footer
 
 
 

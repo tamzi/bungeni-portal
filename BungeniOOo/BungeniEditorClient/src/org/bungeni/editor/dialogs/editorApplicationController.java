@@ -788,6 +788,7 @@ private void launchFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         }
 
         public void windowClosing(WindowEvent e) {
+            panel.cleanup();
         }
 
         public void windowClosed(WindowEvent e) {

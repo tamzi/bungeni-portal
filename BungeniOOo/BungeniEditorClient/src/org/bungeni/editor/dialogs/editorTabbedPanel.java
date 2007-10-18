@@ -68,11 +68,13 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.ListIterator;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.Vector;
@@ -160,12 +162,14 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private DefaultMutableTreeNode sectionsRootNode;
     private Timer sectionNameTimer;
     private Timer docStructureTimer;
+    private Timer componentsTrackingTimer;
+    
     private Thread tStructure;
     private changeStructureItem selectedChangeStructureItem;
     private JTree treeDocStructureTree;
     private JPopupMenu popupMenuTreeStructure = new JPopupMenu();
     private boolean mouseOver_TreeDocStructureTree = false;
-    private TreeMap<String, XComponent> editorMap;
+    private TreeMap<String, componentHandleContainer> editorMap;
     /** Creates new form SwingTabbedJPanel */
     public editorTabbedPanel() {
         initComponents();
@@ -179,7 +183,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        this.Component = impComponent;
        this.ooHelper = helperObj;
        this.ComponentContext = ooHelper.getComponentContext();
-       editorMap = new TreeMap<String, XComponent>();
+       editorMap = new TreeMap<String, componentHandleContainer>();
        ooDocument = new OOComponentHelper(impComponent, ComponentContext);
        this.parentFrame = parentFrame;
        
@@ -198,7 +202,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
       // this.Component = impComponent;
      //  this.ComponentContext = impComponentContext;
        this.ooHelper = helperObj;
-       editorMap = new TreeMap<String, XComponent>();
+       editorMap = new TreeMap<String, componentHandleContainer>();
        //prompt the user to select a document 
        //ooDocument = new OOComponentHelper(impComponent, impComponentContext);
        this.parentFrame = parentFrame;
@@ -221,7 +225,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        updateListDocuments();
     }
     
-    public void initListDocuments(){
+    private void initListDocuments(){
         log.debug("initListDocuments: init");
         //this.cboListDocuments.removeAll();
        // Iterator docIterator = editorMap.keySet().iterator();
@@ -241,7 +245,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         cboListDocuments.setSelectedItem(strTitle);
     }
     
-    public void initOpenDocumentsList(){
+    private void initOpenDocumentsList(){
              try {
         log.debug("initOpenDocumentsList: getting components");
         XEnumerationAccess enumComponentsAccess = ooHelper.getDesktop().getComponents();
@@ -270,7 +274,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                      */
                     String strTitle = getFrameTitle(xDoc);
                     XComponent xComponent = (XComponent)UnoRuntime.queryInterface(XComponent.class, nextElem);
-                    editorMap.put(strTitle, xComponent);
+                    componentHandleContainer compContainer = new componentHandleContainer(strTitle, xComponent);
+                    editorMap.put(compContainer.toString(), compContainer);
                    // this.cboOpenDocuments.addItem(i+ " - " + strTitle);
                 }
             }
@@ -346,6 +351,24 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         XFrame xDocFrame = ooDocument.getDocumentModel().getCurrentController().getFrame();
         ooQueryInterface.XTopWindow(xDocFrame.getContainerWindow()).toFront();
         }
+    }
+    
+   
+    /*
+     *this is invoked on window closing, by the JFrame that contains the panel
+     */
+    public void cleanup() {
+        //shutdown timers
+            docStructureTimer.stop();   
+            sectionNameTimer.stop();
+            componentsTrackingTimer.stop();
+        //cleanup component listners
+            Iterator keyIterator = editorMap.keySet().iterator();
+            while (keyIterator.hasNext()) {
+                String key = (String) keyIterator.next();
+                componentHandleContainer compHandle = editorMap.get(key);
+                compHandle.removeListener();
+            }
     }
     
     private changeStructureItem[] initChangeStructureItems() {
@@ -1852,21 +1875,32 @@ private void displayUserMetadata(XTextRange xRange) {
    
       //  synchronized(this);
         try {
+            //structure list & tree structure refresh timer
             Action DocStructureListRunner = new AbstractAction() {
                 public void actionPerformed (ActionEvent e) {
                     initList();
                 }
             };
-            
             docStructureTimer = new Timer(3000, DocStructureListRunner);
             docStructureTimer.start();   
+            
+            //section name timer
             sectionNameTimer = new Timer(1000, new CurrentSectionNameUpdater());
             sectionNameTimer.start();
           
+            //component handle tracker timer
+            Action componentsTrackingRunner = new AbstractAction(){
+                public void actionPerformed(ActionEvent e) {
+                    componentHandlesTracker();
+                }
+            };
+            componentsTrackingTimer = new Timer(5000, componentsTrackingRunner);
+            componentsTrackingTimer.start();
+            
             //docStructureTimer = new java.util.Timer();
             //docStructureTimer.schedule(task, 0, 3000);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.debug(e.getMessage());
         }
     }
     
@@ -2000,6 +2034,44 @@ private void displayUserMetadata(XTextRange xRange) {
 // TODO add your handling code here:
     }//GEN-LAST:event_userMetadataLookup_Clicked
 
+    private synchronized void componentHandlesTracker() {
+        
+                    //array list caches keys to be removed
+                    ArrayList<String> keysToRemove = new ArrayList<String>();
+                    
+                    //find the components that have been disposed
+                    Iterator iterKeys = editorMap.keySet().iterator();
+                    while (iterKeys.hasNext()) {
+                        String key = (String) iterKeys.next();
+                        componentHandleContainer cont = editorMap.get(key);
+                        if (cont.isComponentDisposed()) {
+                            cont.removeListener();
+                            keysToRemove.add(key);
+                        }
+                    }
+                  
+                  String selectedItem = (String)cboListDocuments.getSelectedItem();
+                  boolean selectedItemWasRemoved = false;
+                  //now remove the disposed components from the map
+                   ListIterator<String> iterKeysToRemove = keysToRemove.listIterator() ;
+                   while (iterKeysToRemove.hasNext()) {
+                       String key = iterKeysToRemove.next();
+                       if (key.equals(selectedItem)) {
+                           selectedItemWasRemoved = true;
+                       }
+                       editorMap.remove(key);
+                   }
+                   
+                   //now update the combo box... 
+                   String[] listDocuments = editorMap.keySet().toArray(new String[editorMap.keySet().size()]);
+                   cboListDocuments.setModel(new DefaultComboBoxModel(listDocuments));
+                   if (selectedItemWasRemoved)
+                       cboListDocuments.setSelectedIndex(0);
+                   else
+                       cboListDocuments.setSelectedItem(selectedItem);
+                   cboListDocuments.updateUI();
+                   
+    }
     private void btnSetMetadataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetMetadataActionPerformed
 // TODO add your handling code here:
      String strAuthor="";
@@ -2106,6 +2178,7 @@ private void displayUserMetadata(XTextRange xRange) {
         public void itemStateChanged(ItemEvent evt) {
             JComboBox listDocs = (JComboBox)evt.getSource();
             Object item= evt.getItem();
+            
             if (evt.getStateChange() == ItemEvent.SELECTED) {
                 //item was just selected
               //  MessageBox.Confirm(parent, "This will switch the document context from the document \n" +
@@ -2129,12 +2202,13 @@ private void displayUserMetadata(XTextRange xRange) {
                     return;
                 } else {
                     String key = (String)newItem;
-                    XComponent xComp = editorMap.get(key);
+                    componentHandleContainer xComp = editorMap.get(key);
                     if (xComp == null ) {
                         log.debug("XComponent is invalid");
                     }
-                    ooDocument.detachListener();
-                    ooDocument = new OOComponentHelper(xComp, ComponentContext);
+                   // ooDocument.detachListener();
+                    ooDocument = new OOComponentHelper(xComp.getComponent(), ComponentContext);
+                    
                     bringEditorWindowToFront();
                     initFields();
                     initializeValues();
@@ -2165,6 +2239,22 @@ private void displayUserMetadata(XTextRange xRange) {
             aName = name;
             aComponent = xComponent;
             aComponent.addEventListener(compListener);
+        }
+        
+        public XComponent getComponent(){
+            return aComponent;
+        }
+        
+        public String toString(){
+            return getName();
+        }
+        
+        public String getName(){
+            return aName;
+        }
+        
+        public boolean isComponentDisposed() {
+            return componentDisposed;
         }
         
         public void removeListener(){

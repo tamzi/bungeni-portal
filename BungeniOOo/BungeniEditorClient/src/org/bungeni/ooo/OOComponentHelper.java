@@ -87,14 +87,21 @@ public class OOComponentHelper {
             isXComponentNull = false;
             m_xComponent = xComponent;
             //add listener to listen for document closing events.
+            /*
+             *disabled temporarily
             xEventListener = new xComponentListener();
             m_xComponent.addEventListener(xEventListener);
+             *disabled temporarily
+             */
             m_xComponentContext = xComponentContext;
         } catch (Exception ex) {
             log.debug(ex.getLocalizedMessage(), ex);
         }
     }
     
+    /*
+     *disabled temporarily
+     *
     public void detachListener() {
         m_xComponent.removeEventListener(xEventListener);
     }
@@ -102,6 +109,8 @@ public class OOComponentHelper {
     public void attachListener() {
         m_xComponent.addEventListener(xEventListener);
     }
+     *disabled temporarily
+     */
     
      class xComponentListener implements com.sun.star.lang.XEventListener {
         

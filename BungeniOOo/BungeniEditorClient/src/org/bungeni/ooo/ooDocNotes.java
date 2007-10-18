@@ -171,7 +171,6 @@ public class ooDocNotes {
             newNoteText.addContent(new org.jdom.CDATA(cdataText));
             newNoteDate.addContent(noteDate);
             newNoteAuthor.addContent(noteAuthor);
-
             List noteChildren = newNote.getChildren();
             noteChildren.add(newNoteAuthor);
             noteChildren.add(newNoteDate);

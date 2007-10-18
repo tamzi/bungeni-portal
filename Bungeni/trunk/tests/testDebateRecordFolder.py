@@ -74,18 +74,20 @@ class testDebateRecordFolder(testBungeni):
     def test_getItemsByAudiencesAndSections(self):
         pass
 
-    # Manually created methods
+    # from class BungeniTeamSpace:
+    def test_getAllTeamsDisplayList(self):
+        pass
 
+    # from class BungeniTeamSpace:
     def test_editTeams(self):
         pass
+
+    # Manually created methods
 
     def test_getReportersMembershipVocab(self):
         pass
 
     def test_getReportersVocab(self):
-        pass
-
-    def test_getAllTeamsDisplayList(self):
         pass
 
     def test_getReporters(self):

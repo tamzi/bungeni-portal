@@ -219,8 +219,8 @@ class RotaFolder(OrderedBaseFolder):
                 cat.reindexObject(obj,['getObjPositionInParent', 'Title'],)
             else:
                 # Perhaps we should remove the bad entry as well?
-                log('Object in catalog no longer exists, cannot reindex: %s.'%
-                                    brain.getPath())
+                log('Object in catalog no longer exists, cannot reindex: %s.'% brain.getPath())
+
     security.declarePrivate('_createRotaDocument')
     def _createRotaDocument(self):
         """

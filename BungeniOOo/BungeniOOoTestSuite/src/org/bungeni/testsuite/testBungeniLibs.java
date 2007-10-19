@@ -1,14 +1,25 @@
 package org.bungeni.testsuite;
 
+import com.sun.star.accessibility.AccessibleEventObject;
+import com.sun.star.accessibility.XAccessibleEventListener;
+import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
+import com.sun.star.container.NoSuchElementException;
+import com.sun.star.container.XEnumeration;
+import com.sun.star.container.XEnumerationAccess;
 import com.sun.star.container.XIndexAccess;
+import com.sun.star.document.XDocumentInfo;
+import com.sun.star.document.XDocumentInfoSupplier;
 import com.sun.star.document.XEventListener;
 import com.sun.star.frame.XController;
+import com.sun.star.frame.XFrame;
+import com.sun.star.frame.XModel;
 import com.sun.star.lang.EventObject;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.text.XTextCursor;
+import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextViewCursor;
@@ -35,7 +46,7 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
     private XComponentContext theComponentContext;
     private XComponent  theComponent = null;
     private OOComponentHelper ooDocument;
-
+    private BungenioOoHelper openofficeObject;
     private String templatePath;
     SelectionChangeListener selList;
     /** Creates new form testBungeniLibs */
@@ -72,6 +83,10 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
         btnMacroReturnValue = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        cboOpenDocuments = new javax.swing.JComboBox();
+        jButton4 = new javax.swing.JButton();
 
         btnLaunch.setText("Launch OO and Connect");
         btnLaunch.addActionListener(new java.awt.event.ActionListener() {
@@ -126,6 +141,29 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
 
         jTextField1.setText("jTextField1");
 
+        jButton2.setText("Attach Doc. Modified Listener");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Display Section Hierarchy.....");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        cboOpenDocuments.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jButton4.setText("Get Currently Open Documents....");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -161,7 +199,18 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
                         .add(jButton1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(jTextField1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)))
+                        .add(jTextField1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
+                    .add(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(jButton2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 167, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(15, 15, 15)
+                        .add(jButton3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                    .add(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(cboOpenDocuments, 0, 400, Short.MAX_VALUE))
+                    .add(layout.createSequentialGroup()
+                        .add(106, 106, 106)
+                        .add(jButton4)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -184,12 +233,92 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
                 .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 33, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 41, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jButton2)
+                    .add(jButton3))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(cboOpenDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(jButton4)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(9, 9, 9)
                 .add(btnClear))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+// TODO add your handling code here:
+        try {
+        System.out.println("getting components");
+        XEnumerationAccess enumComponentsAccess = openofficeObject.getDesktop().getComponents();
+        XEnumeration enumComponents = enumComponentsAccess.createEnumeration();
+        System.out.println("enumerating components");
+        int i=0;
+           this.cboOpenDocuments.removeAllItems();
+         
+        
+        while (enumComponents.hasMoreElements()) {
+            Object nextElem = enumComponents.nextElement();
+            System.out.println("getting model interface");
+            XModel docModel = ooQueryInterface.XModel(nextElem);
+            
+            if (docModel != null ) { //supports XModel interface 
+                System.out.println("docModel != null");
+                XServiceInfo serviceInfo = ooQueryInterface.XServiceInfo(nextElem);
+                if (serviceInfo.supportsService("com.sun.star.text.TextDocument")) {
+                    System.out.println("supports TextDocument "+ (++i));
+                    XTextDocument xDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, nextElem);
+                    XFrame xframe = xDoc.getCurrentController().getFrame();
+                    String strTitle = (String) ooQueryInterface.XPropertySet(xframe).getPropertyValue("Title");
+                    this.cboOpenDocuments.addItem(i+ " - " + strTitle);
+                }
+            }
+        }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+// TODO add your handling code here:
+    try {
+       XTextSection theSection  = (XTextSection) UnoRuntime.queryInterface(XTextSection.class, ooDocument.getTextSections().getByName("Section1"));  
+       XTextSection[] sections = theSection.getChildSections();
+       for (int i=0; i < sections.length; i++) {
+           XPropertySet set = ooQueryInterface.XPropertySet(sections[i]);
+            String sectionName;
+      
+                sectionName = (String) set.getPropertyValue("LinkDisplayName");
+            
+                 txtMessage.append(sectionName + "\n");
+         
+       }
+            } catch (WrappedTargetException ex) {
+                ex.printStackTrace();
+            } catch (UnknownPropertyException ex) {
+                ex.printStackTrace();
+            } catch (NoSuchElementException ex) {
+                ex.printStackTrace();
+            }       
+            
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    class accessibleEventListener implements XAccessibleEventListener {
+        public void notifyEvent(AccessibleEventObject accessibleEventObject) {
+        }
+
+        public void disposing(EventObject eventObject) {
+        }
+        
+    }
+    
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+// TODO add your handling code here:
+    ooDocument.getComponent().addEventListener(this);
+    
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 // TODO add your handling code here:
@@ -320,7 +449,7 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
                 aCtrl.removeSelectionChangeListener( selList );
 
             // remove as dispose listener
-            //theComponent.removeEventListener( this );
+            theComponent.removeEventListener( this );
 
 
             return;
@@ -347,7 +476,7 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
             txtMessage.setText("There is already a window Open!!!");
             return;
         }
-       BungenioOoHelper openofficeObject = new org.bungeni.ooo.BungenioOoHelper(theComponentContext);
+       openofficeObject = new org.bungeni.ooo.BungenioOoHelper(theComponentContext);
        openofficeObject.initoOo();
        String templateURL = "";
         if (templatePath.length() != 0 )    
@@ -377,8 +506,12 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
     private javax.swing.JButton btnMacroReturnValue;
     private javax.swing.JButton btnRemoveSelListener;
     private javax.swing.JButton btnSelectiListener;
+    private javax.swing.JComboBox cboOpenDocuments;
     private javax.swing.JButton execBasicMacro;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;

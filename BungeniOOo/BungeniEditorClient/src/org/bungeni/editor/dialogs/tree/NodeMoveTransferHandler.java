@@ -17,11 +17,16 @@ import java.awt.Rectangle;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.TreeMap;
+import javax.swing.AbstractAction;
 
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.TransferHandler;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -33,6 +38,7 @@ import org.apache.log4j.Logger;
 import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.utils.BungeniPopupMenuHelper;
 import org.bungeni.utils.MessageBox;
 
 /**
@@ -45,6 +51,9 @@ public class NodeMoveTransferHandler extends TransferHandler {
    private org.bungeni.editor.dialogs.editorTabbedPanel parentPanel;
    private final Integer MOVE_BEFORE=0;
    private final Integer MOVE_AFTER=1;
+   private JPopupMenu moveMenu = new JPopupMenu();
+  // private BungeniPopupMenuHelper menuHelper;
+   private TreeMap<String,String> theMenu;
   /**
    * constructor
    */
@@ -56,6 +65,8 @@ public class NodeMoveTransferHandler extends TransferHandler {
       super();
       ooDocument = ooDoc;
       parentPanel = mainObj;
+      BungeniPopupMenuHelper menuHelper = new BungeniPopupMenuHelper("MoveSectionsDropMenu");
+      theMenu = menuHelper.getMenus();
   }
   /**
    * create a transferable that contains all paths that are currently selected in 
@@ -67,12 +78,12 @@ public class NodeMoveTransferHandler extends TransferHandler {
   protected Transferable createTransferable(JComponent c) {
   	Transferable t = null;
 	  if(c instanceof JTree) {
-	  	JTree tree = (JTree) c;
-	  	t = new GenericTransferable(tree.getSelectionPaths());
-      dragPath = tree.getSelectionPath();
-      if (dragPath != null) {
-        draggedNode = (MutableTreeNode) dragPath.getLastPathComponent();
-      }
+              JTree tree = (JTree) c;
+              t = new GenericTransferable(tree.getSelectionPaths());
+              dragPath = tree.getSelectionPath();
+              if (dragPath != null) {
+                draggedNode = (MutableTreeNode) dragPath.getLastPathComponent();
+              }
 	  }
 	  return t;
   }
@@ -105,22 +116,26 @@ public class NodeMoveTransferHandler extends TransferHandler {
                     //prompt a warning yes/no before doing the move.
                     //addNodes(currentPath, model, data);
                     Frame frame = JOptionPane.getFrameForComponent(tree);
+                    createPopupMenu (sourceSection, targetSection);
+                    /*
+                     *commented temporarily
+                     *
                     int ret = MessageBox.Confirm(frame, "This will move Section: " + sourceSection + " and sections " +
                             "contained within it, to the position after Section: " + targetSection +".  Proceed ?", 
                             "Confirmation Required");
                     if (ret == JOptionPane.YES_OPTION) {
-                        //move the sections
-                        
                         ExternalMacro MoveSection = ExternalMacroFactory.getMacroDefinition("MoveSection");
                         MoveSection.addParameter(ooDocument.getComponent());
                         MoveSection.addParameter(sourceSection);
                         MoveSection.addParameter(targetSection);
                         MoveSection.addParameter(MOVE_AFTER);
                         ooDocument.executeMacro(MoveSection.toString(), MoveSection.getParams());
-                        
                     } else if (ret == JOptionPane.NO_OPTION) {
                         //dont do anything.
                     }
+                     **
+                     *commented temporarily
+                     */
                     parentPanel.uncheckEditModeButton();
   		}
   	}
@@ -131,6 +146,18 @@ public class NodeMoveTransferHandler extends TransferHandler {
        } catch (UnsupportedFlavorException ex) {
          log.debug("exportDone:" + ex.getMessage());
        }
+      
+  }
+  
+  private void createPopupMenu (String source, String target) {
+      this.moveMenu.removeAll();
+      Iterator<String> keys = theMenu.keySet().iterator();
+      while (keys.hasNext()) {
+             String key = keys.next();
+             moveMenu.add(new moveSectionAction(key, theMenu.get(key), source, target));
+      }
+               
+      
       
   }
   
@@ -226,6 +253,38 @@ public class NodeMoveTransferHandler extends TransferHandler {
     return image;
   }
   
+     class moveSectionAction extends AbstractAction {
+           
+          moveSectionAction () {
+          }
+          
+          moveSectionAction (String actionId, String actionText, String sectionFrom, String sectionTo) {
+                super(actionText);
+                putValue("ACTION_ID", actionId);
+                putValue("FROM_SECTION", sectionFrom);
+                putValue("TO_SECTION", sectionTo);
+            }
+       
+          public void actionPerformed(ActionEvent e) {
+              Object sFrom = getValue("FROM_SECTION");
+              Object sTo = getValue("TO_SECTION");
+              Object action_id = getValue("ACTION_ID");
+              if (sFrom != null && sTo != null ) {
+                  processPopupSelection((String)sFrom, (String)sTo, (String) action_id);
+              }
+            }
+          
+          public void processPopupSelection(String sectionFrom, String sectionTo, String action_id ) {
+              //go to selected range
+              if (action_id.equals("0_GOTO_SECTION")) {
+              } else if (action_id.equals("1_ADD_PARA_BEFORE_SECTION")) {
+              } else if (action_id.equals("2_ADD_PARA_AFTER_SECTION")) {
+              } else if (action_id.equals("3_DELETE_SECTION")) {
+              }
+          }
+    }
+     
+     
   /** remember the path to the currently dragged node here (got from createTransferable) */
   private MutableTreeNode draggedNode;
   /** remember the currently dragged node here (got from createTransferable) */

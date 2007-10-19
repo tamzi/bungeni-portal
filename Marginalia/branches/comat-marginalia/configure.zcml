@@ -11,7 +11,7 @@
    
    <browser:page
       for=".interfaces.IAnnotatable.IAnnotatable"
-      name="annotate.pt"
+      name="annotate"
       template="skins/Marginalia/annotate.pt"
       class=".content.AnnotationAdaptorAndView.AnnotationView"      
       permission="zope2.View"

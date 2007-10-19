@@ -143,7 +143,7 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         return verb()
 
     security.declarePublic('annotate')
-    def annotate(self):
+    def annotate(self, REQUEST=None):
         """ Examine request for REST verbs.
         """
         rest_verb_map = {
@@ -342,12 +342,10 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         new_id = self.invokeFactory('Annotation', id=obj_id)        
         annotation = getattr(self, new_id)
         annotation.update(**params)
-            
+
         self.REQUEST.RESPONSE.setStatus('Created')
-        if self.REQUEST.RESPONSE.headers.has_key("location"):
-            location = self.REQUEST.RESPONSE.headers['location']
-            location = location.rstrip("/base_view")
-            self.REQUEST.RESPONSE.setHeader("location", location)
+        location = annotation.absolute_url()
+        self.REQUEST.RESPONSE.setHeader("location", location)
         return new_id
 
     security.declarePrivate('_updateAnnotation')

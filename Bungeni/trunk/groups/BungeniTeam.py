@@ -36,6 +36,7 @@ from Products.Bungeni.config import *
 # additional imports from tagged value 'import'
 from Products.TeamSpace.relations import MemberTeamRelation
 from Products.Archetypes.utils import DisplayList
+from Products.TeamSpace import permissions as ts_permissions
 
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore.utils import getToolByName
@@ -79,13 +80,64 @@ class BungeniTeam(Team):
     typeDescription = "BungeniTeam"
     typeDescMsgId = 'description_edit_bungeniteam'
 
+
+    actions =  (
+
+
+       {'action': "string:${object_url}/ts_team_list_view",
+        'category': "object",
+        'id': 'view',
+        'name': 'Member List',
+        'permissions': (ts_permissions.ViewTeam,),
+        'condition': 'python:1'
+       },
+
+
+       {'action': "string:${object_url}/ts_team_manage_memberships",
+        'category': "object",
+        'id': 'membership',
+        'name': 'Member Mgmt',
+        'permissions': (ts_permissions.ManageTeamMembership,),
+        'condition': 'python:1'
+       },
+
+
+       {'action': "string:${object_url}/ts_team_manage_roles",
+        'category': "object",
+        'id': 'member_roles',
+        'name': 'Member Roles',
+        'permissions': (ts_permissions.ManageTeam,),
+        'condition': 'python:1'
+       },
+
+
+       {'action': "string:${object_url}/base_edit",
+        'category': "object",
+        'id': 'edit',
+        'name': 'Edit',
+        'permissions': (ts_permissions.ManageTeam,),
+        'condition': 'python:1'
+       },
+
+
+       {'action': "string:${object_url}/base_metadata",
+        'category': "object",
+        'id': 'metadata',
+        'name': 'Properties',
+        'permissions': (ts_permissions.ManageTeam,),
+        'condition': 'python:1'
+       },
+
+
+    )
+
     _at_rename_after_creation = True
 
     schema = BungeniTeam_schema
 
     ##code-section class-header #fill in your manual code here
 
-    actions = team_type_information['actions']
+    # actions = team_type_information['actions']
 
     ##/code-section class-header
 
@@ -119,7 +171,8 @@ class BungeniTeam(Team):
         for role, number in constrained_roles.items():
             # TODO: fail more gracefully?
             member_ids = members_per_role.get(role, [])
-            assert len(member_ids) <= number
+            if number is not None:
+                assert len(member_ids) <= number
 
     security.declarePublic('_get_member_roles')
     def _get_member_roles(self,members=[],new_roles=[]):

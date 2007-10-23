@@ -61,7 +61,8 @@ DirectoryView.registerDirectory('skins/marginalia',
 
 ##code-section custom-init-head #fill in your manual code here
 ##/code-section custom-init-head
-
+from Products.CMFPlone.interfaces import IPloneSiteRoot
+from Products.GenericSetup import EXTENSION, profile_registry
 
 def initialize(context):
     ##code-section custom-init-top #fill in your manual code here
@@ -92,6 +93,15 @@ def initialize(context):
         extra_constructors = constructors,
         fti                = ftis,
         ).initialize(context)
+
+    profile_registry.registerProfile('marginalia',
+                                     'Marginalia',
+                                     'Bungeni',
+                                     'profiles/default',
+                                     'Marginalia',
+                                     EXTENSION,
+                                     for_=IPloneSiteRoot)
+
 
     ##code-section custom-init-bottom #fill in your manual code here
     ##/code-section custom-init-bottom

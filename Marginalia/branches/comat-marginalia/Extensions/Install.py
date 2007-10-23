@@ -103,8 +103,9 @@ def install(self, reinstall=False):
 
     # remove workflow for tools
     portal_workflow = getToolByName(self, 'portal_workflow')
-    for tool in ['Annotations']:
-        portal_workflow.setChainForPortalTypes([tool], '')
+
+    portal_workflow.setChainForPortalTypes(['Annotations'], '')
+    portal_workflow.setChainForPortalTypes(['Annotation'], 'annotation_workflow')
 
     # uncatalog tools
     for toolname in ['portal_annotations']:

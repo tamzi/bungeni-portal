@@ -368,6 +368,15 @@ class Annotations(UniqueObject, BaseBTreeFolder):
                     del annotation.hyper_link
             
         annotation.edit(**params)
+        if params.has_key("access"):
+            workflow = getToolByName(self, 'portal_workflow')
+            annotation_workflow = workflow.getWorkflowsFor(annotation)[0]
+            status = workflow.getStatusOf("annotation_workflow", annotation)
+            if params['access'] == "public" and status['review_state']=="private":
+                annotation_workflow.doActionFor(annotation, "publish")
+            elif params['access'] == "private" and status['review_state']=="published":
+                annotation_workflow.doActionFor(annotation, "retract")
+                
         self.REQUEST.RESPONSE.setStatus('NoContent')
 
     security.declarePrivate('_deleteAnnotation')

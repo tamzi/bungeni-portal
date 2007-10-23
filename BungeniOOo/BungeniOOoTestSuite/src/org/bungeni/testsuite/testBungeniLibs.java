@@ -37,7 +37,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import javax.swing.tree.DefaultMutableTreeNode;
-import nl.msd.jdots.*;
 import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;

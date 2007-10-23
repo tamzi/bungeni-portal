@@ -4,10 +4,12 @@ import com.sun.star.accessibility.AccessibleEventObject;
 import com.sun.star.accessibility.XAccessibleEventListener;
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
+import com.sun.star.beans.XPropertySetInfo;
 import com.sun.star.container.NoSuchElementException;
 import com.sun.star.container.XEnumeration;
 import com.sun.star.container.XEnumerationAccess;
 import com.sun.star.container.XIndexAccess;
+import com.sun.star.container.XNamed;
 import com.sun.star.document.XDocumentInfo;
 import com.sun.star.document.XDocumentInfoSupplier;
 import com.sun.star.document.XEventListener;
@@ -18,6 +20,7 @@ import com.sun.star.lang.EventObject;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XServiceInfo;
+import com.sun.star.text.XText;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextRange;
@@ -28,9 +31,17 @@ import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 import com.sun.star.view.XSelectionChangeListener;
 import com.sun.star.view.XSelectionSupplier;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+import javax.swing.tree.DefaultMutableTreeNode;
+import nl.msd.jdots.*;
 import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
+
 /*
  * testBungeniLibs.java
  *
@@ -87,6 +98,8 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
         jButton3 = new javax.swing.JButton();
         cboOpenDocuments = new javax.swing.JComboBox();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
 
         btnLaunch.setText("Launch OO and Connect");
         btnLaunch.addActionListener(new java.awt.event.ActionListener() {
@@ -148,7 +161,7 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
             }
         });
 
-        jButton3.setText("Display Section Hierarchy.....");
+        jButton3.setText("Display Section Hierarchy");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
@@ -164,6 +177,20 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
             }
         });
 
+        jButton5.setText("Display Section Hierarchy Enum");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("Close");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -176,9 +203,6 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
                         .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
-                    .add(layout.createSequentialGroup()
-                        .add(118, 118, 118)
-                        .add(btnClear, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .add(btnLaunch, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
@@ -194,23 +218,32 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(btnMacroReturnValue, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
                             .add(btnRemoveSelListener, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)))
-                    .add(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(jButton1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .add(jTextField1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(jButton2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 167, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(15, 15, 15)
-                        .add(jButton3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
-                    .add(layout.createSequentialGroup()
-                        .addContainerGap()
                         .add(cboOpenDocuments, 0, 400, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .add(106, 106, 106)
-                        .add(jButton4)))
+                        .add(jButton4))
+                    .add(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(layout.createSequentialGroup()
+                                .add(jButton2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 167, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(jButton5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE))
+                            .add(layout.createSequentialGroup()
+                                .add(jButton1)
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(jButton3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 127, Short.MAX_VALUE)))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED))
+                    .add(layout.createSequentialGroup()
+                        .add(66, 66, 66)
+                        .add(btnClear, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(18, 18, 18)
+                        .add(jButton6)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -232,11 +265,13 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
                 .add(12, 12, 12)
                 .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 33, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(jButton3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE)
+                    .add(jButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 33, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jButton2)
-                    .add(jButton3))
+                    .add(jButton5))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(cboOpenDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -244,10 +279,105 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(9, 9, 9)
-                .add(btnClear))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(btnClear)
+                    .add(jButton6)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+// TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+// TODO add your handling code here:
+    BungeniBTree treeRoot = new BungeniBTree();
+        try {
+            Object root = ooDocument.getTextSections().getByName("root");
+            treeRoot.addRootNode(new String("root"));
+            int currentIndex = 0;
+            String parentObject = "root";
+            XTextSection theSection = ooQueryInterface.XTextSection(root);
+             XTextRange range = theSection.getAnchor();
+             XText xText = range.getText();
+             XEnumerationAccess enumAccess = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, xText);
+             XEnumeration enumeration = enumAccess.createEnumeration();
+             while (enumeration.hasMoreElements()) {
+                 Object elem = enumeration.nextElement();
+                 XPropertySet objProps = ooQueryInterface.XPropertySet(elem);
+                 XPropertySetInfo objPropsInfo = objProps.getPropertySetInfo();
+                 if (objPropsInfo.hasPropertyByName("TextSection")) {
+                     XTextSection xConSection = (XTextSection) ((Any)objProps.getPropertyValue("TextSection")).getObject();
+                     if (xConSection != null ) {
+                         XNamed objSectProps = ooQueryInterface.XNamed(xConSection);
+                         String sectionName = objSectProps.getName();
+                          if (!sectionName.equals("root")) {
+                             System.out.println("if Section name is not root = " + sectionName); 
+                             BungeniBNode theNode = treeRoot.getNodeByName(sectionName);
+                                //theNode will never be null for the root section
+                                 if (theNode == null) { 
+                                      System.out.println("theNode was null for "+ sectionName);
+                                     //if the node doesnt exist, we need to add it
+                                     //get the parent section name
+                                     //iterate parent sections
+                                      XTextSection sectionParent=xConSection.getParentSection();
+                                      XNamed parentProps = ooQueryInterface.XNamed(sectionParent);
+                                      String parentSectionname = parentProps.getName();
+                                      String currentSectionname = sectionName;
+ 
+                                      ArrayList<String> nodeHierarchy = new ArrayList<String>();
+                                      //array list goes from child(0) to ancestors (n)
+                                      nodeHierarchy.add(currentSectionname);
+                                      System.out.println("before commencing parent loop iteration, starting parent = " +  parentSectionname);
+                                      while (1==1) {
+                                          //go up the hierarchy until you reach root.
+                                          //break upon reaching the parent
+                                          if (parentSectionname.equals("root")) {
+                                              nodeHierarchy.add(parentSectionname);
+                                              break;
+                                          }
+                                         nodeHierarchy.add(parentSectionname);
+                                         currentSectionname = parentSectionname;
+                                         sectionParent = sectionParent.getParentSection();
+                                         parentProps = ooQueryInterface.XNamed(sectionParent);
+                                         parentSectionname = parentProps.getName();
+                                         System.out.println("new parentSectionName = " + parentSectionname);
+                                      } //end while (1== 1)
+                                      //now iterate through the array list backwards adding grand parent the children
+                                      int nLastIndex = nodeHierarchy.size() - 1 ;
+                                      BungeniBNode currentNode = null, previousNode = null;
+                                      for (int n=nLastIndex ; n >= 0 ; n--) {
+                                          String matchingNode = nodeHierarchy.get(n);
+                                          //if it is root, it will always exist...
+                                          currentNode = treeRoot.getNodeByName(matchingNode);
+                                          if (currentNode == null ) { //node does not exist
+                                              //we need to create the current node and add it to the previous node
+                                               if (previousNode != null) //the starting point is always the root node
+                                                  treeRoot.addNodeToNamedNode(previousNode.getName(), matchingNode);
+                                                  previousNode = treeRoot.getNodeByName(matchingNode);
+                                              } else { //current node exists... 
+                                                  previousNode = currentNode;
+                                              }
+                                       } //end - for ()
+                         }   // end if (theNode==null)
+                       } // end if (section name != root)
+                     } //end if (conSection !=null)   
+                 } //end if (hasPropertyName textsection)
+             }   
+         txtMessage.append(treeRoot.toString());
+        } catch (Exception e) {
+            
+            System.out.println(" Exception was raised ");
+            System.out.println(" message = " + e.getMessage());
+            e.printStackTrace();
+        }
+        
+        
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
 // TODO add your handling code here:
         try {
@@ -512,6 +642,8 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;

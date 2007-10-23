@@ -838,6 +838,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         }     
         
          public void mousePressed(MouseEvent evt) {
+             
                 if (!toggleEditSection.isSelected()) {
                     int selRow = treeDocStructureTree.getRowForLocation(evt.getX(), evt.getY());
                     TreePath selPath = treeDocStructureTree.getPathForLocation(evt.getX(), evt.getY());

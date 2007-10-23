@@ -9,6 +9,7 @@
 
 package org.bungeni.editor.dialogs.tree;
 
+import com.sun.star.animations.Event;
 import java.awt.AlphaComposite;
 import java.awt.Frame;
 import java.awt.Graphics2D;
@@ -98,8 +99,9 @@ public class NodeMoveTransferHandler extends TransferHandler {
       try {
   	if(source instanceof JTree) {
   		JTree tree = (JTree) source;
-  		DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
-  		TreePath currentPath = tree.getSelectionPath();
+               DefaultTreeModel model = (DefaultTreeModel) tree.getModel();
+  	       TreePath currentPath = tree.getSelectionPath();
+               Rectangle rectCoords = tree.getPathBounds(currentPath);
   		if(currentPath != null) {
                     //get the drop target node
                     DefaultMutableTreeNode thisNode = (DefaultMutableTreeNode) currentPath.getLastPathComponent();
@@ -117,6 +119,8 @@ public class NodeMoveTransferHandler extends TransferHandler {
                     //addNodes(currentPath, model, data);
                     Frame frame = JOptionPane.getFrameForComponent(tree);
                     createPopupMenu (sourceSection, targetSection);
+                    Point ptPopup = RectToPoint(rectCoords);
+                    moveMenu.show(source, ptPopup.x,  ptPopup.y);
                     /*
                      *commented temporarily
                      *
@@ -148,6 +152,11 @@ public class NodeMoveTransferHandler extends TransferHandler {
        }
       
   }
+  
+  private Point RectToPoint(Rectangle bounds) {
+            return new Point(bounds.x + bounds.width - 35,
+                    bounds.y + bounds.height / 2);
+        }
   
   private void createPopupMenu (String source, String target) {
       this.moveMenu.removeAll();
@@ -276,10 +285,28 @@ public class NodeMoveTransferHandler extends TransferHandler {
           
           public void processPopupSelection(String sectionFrom, String sectionTo, String action_id ) {
               //go to selected range
-              if (action_id.equals("0_GOTO_SECTION")) {
-              } else if (action_id.equals("1_ADD_PARA_BEFORE_SECTION")) {
-              } else if (action_id.equals("2_ADD_PARA_AFTER_SECTION")) {
-              } else if (action_id.equals("3_DELETE_SECTION")) {
+               if (action_id.equals("0_MOVE_BEFORE")) {
+                
+                ExternalMacro MoveSection = ExternalMacroFactory.getMacroDefinition("MoveSection");
+                MoveSection.addParameter(ooDocument.getComponent());
+                MoveSection.addParameter(sectionFrom);
+                MoveSection.addParameter(sectionTo);
+                MoveSection.addParameter(MOVE_BEFORE);
+                ooDocument.executeMacro(MoveSection.toString(), MoveSection.getParams());
+                
+              } else if (action_id.equals("1_MOVE_AFTER")) {
+                
+                ExternalMacro MoveSection = ExternalMacroFactory.getMacroDefinition("MoveSection");
+                MoveSection.addParameter(ooDocument.getComponent());
+                MoveSection.addParameter(sectionFrom);
+                MoveSection.addParameter(sectionTo);
+                MoveSection.addParameter(MOVE_AFTER);
+                ooDocument.executeMacro(MoveSection.toString(), MoveSection.getParams());
+              
+              } else if (action_id.equals("2_MOVE_INSIDE")) {
+
+              } else if (action_id.equals("3_CANCEL_ACTION")) {
+                    return;
               }
           }
     }

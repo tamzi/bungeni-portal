@@ -204,18 +204,10 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         if search_string:
             query['SearchableText'] = search_string
 
-        if search_string:
-            public_annotations = catalog({'portal_type': 'Annotation',
-                                      'getIndexed_url': url,
-                                      'getAccess':'public',
-                                      'SearchableText':search_string})
-        else:
-            public_annotations = catalog({'portal_type': 'Annotation',
-                                      'getIndexed_url': url,
-                                      'getAccess':'public'})
+        public_annotations = catalog(query)
                     
         if user:
-            query[ 'Creator' ] = user
+            query['Creator'] = user
             
         ps = catalog(query) + public_annotations
 

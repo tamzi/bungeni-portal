@@ -1,6 +1,5 @@
-from Products.CMFPlone.tests import PloneTestCase
-from Products.PloneTestCase.PloneTestCase import setupPloneSite
-
+#from Products.CMFPlone.tests import PloneTestCase
+from Products.PloneTestCase import PloneTestCase
 from Products.CMFCore.utils import getToolByName
 from Acquisition import Implicit
 
@@ -9,7 +8,7 @@ portal_name = PloneTestCase.portal_name
 
 PloneTestCase.installProduct("Marginalia")
 
-#setupPloneSite(products=('Mariginalia',))
+PloneTestCase.setupPloneSite(products=('Mariginalia',), extension_profiles=('Marginalia:marginalia',))
 import ZPublisher
 
 class TestMarginaliaInstall(PloneTestCase.PloneTestCase):
@@ -52,16 +51,23 @@ class TestMarginaliaInstall(PloneTestCase.PloneTestCase):
                          "%s missing from portal_css"%stylesheet)
 
     def testJavascriptRegistry(self):
-        JAVASCRIPTS = ['3rd-party.js', 'log.js',
-         'config.js', 'prefs.js', 'html-model.js', 'domutil.js',
-         'ranges.js', 'post-micro.js', 'linkable.js', 'marginalia.js',
-         'annotation.js', 'rest-annotate.js', 'static-annotate.js', 'rest-prefs.js',
-         'rest-keywords.js', 'strings.js', 'static-prefs.js']
+        JAVASCRIPTS = ['3rd-party.js', '3rd-party/shortcut.js',
+        '3rd-party/cssQuery.js', '3rd-party/cssQuery-level2.js',
+        '3rd-party/cssQuery-standard.js', 'prefs.js', 'log.js',
+        'html-model.js', 'domutil.js', 'ranges.js',
+        'SequenceRange.js', 'XPathRange.js', 'annotation.js',
+        'post-micro.js', 'linkable.js', 'marginalia.js',
+        'blockmarker-ui.js', 'highlight-ui.js', 'link-ui.js',
+        'note-ui.js', 'link-ui-simple.js', 'track-changes.js',
+        'RangeInfo.js', 'rest-annotate.js', 'rest-prefs.js',
+        'rest-keywords.js', 'marginalia-direct.js',
+        'marginalia-config.js', 'marginalia-strings.js',
+        'bungeni-annotate.js']
                        
         portal_js = getToolByName(self.plone, 'portal_javascripts')
         for script in JAVASCRIPTS:
             self.assert_(script in portal_js.getResourceIds(),
-                         "%s missing from portal_css"%script)
+                         "%s missing from portal_javascript"%script)
 
 class TestMarginaliaAnnotationCreate(PloneTestCase.PloneTestCase):
 

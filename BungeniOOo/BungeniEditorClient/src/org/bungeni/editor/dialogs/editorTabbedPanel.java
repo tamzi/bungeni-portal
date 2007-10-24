@@ -19,6 +19,7 @@ import com.sun.star.container.XContentEnumerationAccess;
 import com.sun.star.container.XEnumeration;
 import com.sun.star.container.XEnumerationAccess;
 import com.sun.star.container.XNameContainer;
+import com.sun.star.container.XNamed;
 import com.sun.star.document.XDocumentInfo;
 import com.sun.star.document.XDocumentInfoSupplier;
 import com.sun.star.frame.XFrame;
@@ -136,6 +137,8 @@ import org.bungeni.utils.DocStructureElement;
 import org.bungeni.utils.MessageBox;
 import org.bungeni.utils.StackedBox;
 import org.bungeni.utils.TextSizeFilter;
+import org.bungeni.utils.BungeniBTree;
+import org.bungeni.utils.BungeniBNode;
 /*
 import org.bungeni.utils.DocStructureTreeModel;
 import org.bungeni.utils.DocStructureTreeNode;
@@ -520,7 +523,150 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         }    
    }
     
-    private void initSectionsArray() {
+    private void initSectionsArray(){
+        BungeniBTree treeRoot = new BungeniBTree();
+        try {
+            log.debug("initSectionsArray....");
+            if (!ooDocument.isXComponentValid()) return;
+            log.debug("emptying treeDocStructureTree");
+            treeDocStructureTree.removeAll();
+            treeDocStructureTree.updateUI();
+            
+            if (!ooDocument.getTextSections().hasByName("root")) {
+                log.debug("no root section found");
+                return;
+            }
+            log.debug("InitSectionsArray = getting root section");
+            //Object rootSection = ooDocument.getTextSections().getByName("root");
+            //XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
+            //sectionsRootNode = null;
+            //sectionsRootNode = new DefaultMutableTreeNode(new String("root"));
+            
+            Object root = ooDocument.getTextSections().getByName("root");
+            treeRoot.addRootNode(new String("root"));
+            int currentIndex = 0;
+            String parentObject = "root";
+            XTextSection theSection = ooQueryInterface.XTextSection(root);
+             XTextRange range = theSection.getAnchor();
+             XText xText = range.getText();
+             XEnumerationAccess enumAccess = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, xText);
+             XEnumeration enumeration = enumAccess.createEnumeration();
+             while (enumeration.hasMoreElements()) {
+                 Object elem = enumeration.nextElement();
+                 XPropertySet objProps = ooQueryInterface.XPropertySet(elem);
+                 XPropertySetInfo objPropsInfo = objProps.getPropertySetInfo();
+                 if (objPropsInfo.hasPropertyByName("TextSection")) {
+                     XTextSection xConSection = (XTextSection) ((Any)objProps.getPropertyValue("TextSection")).getObject();
+                     if (xConSection != null ) {
+                         XNamed objSectProps = ooQueryInterface.XNamed(xConSection);
+                         String sectionName = objSectProps.getName();
+                          if (!sectionName.equals("root")) {
+                             System.out.println("if Section name is not root = " + sectionName); 
+                             BungeniBNode theNode = treeRoot.getNodeByName(sectionName);
+                                //theNode will never be null for the root section
+                                 if (theNode == null) { 
+                                      System.out.println("theNode was null for "+ sectionName);
+                                     //if the node doesnt exist, we need to add it
+                                     //get the parent section name
+                                     //iterate parent sections
+                                      XTextSection sectionParent=xConSection.getParentSection();
+                                      XNamed parentProps = ooQueryInterface.XNamed(sectionParent);
+                                      String parentSectionname = parentProps.getName();
+                                      String currentSectionname = sectionName;
+ 
+                                      ArrayList<String> nodeHierarchy = new ArrayList<String>();
+                                      //array list goes from child(0) to ancestors (n)
+                                      nodeHierarchy.add(currentSectionname);
+                                      System.out.println("before commencing parent loop iteration, starting parent = " +  parentSectionname);
+                                      while (1==1) {
+                                          //go up the hierarchy until you reach root.
+                                          //break upon reaching the parent
+                                          if (parentSectionname.equals("root")) {
+                                              nodeHierarchy.add(parentSectionname);
+                                              break;
+                                          }
+                                         nodeHierarchy.add(parentSectionname);
+                                         currentSectionname = parentSectionname;
+                                         sectionParent = sectionParent.getParentSection();
+                                         parentProps = ooQueryInterface.XNamed(sectionParent);
+                                         parentSectionname = parentProps.getName();
+                                         System.out.println("new parentSectionName = " + parentSectionname);
+                                      } //end while (1== 1)
+                                      //now iterate through the array list backwards adding grand parent the children
+                                      int nLastIndex = nodeHierarchy.size() - 1 ;
+                                      BungeniBNode currentNode = null, previousNode = null;
+                                      for (int n=nLastIndex ; n >= 0 ; n--) {
+                                          String matchingNode = nodeHierarchy.get(n);
+                                          //if it is root, it will always exist...
+                                          currentNode = treeRoot.getNodeByName(matchingNode);
+                                          if (currentNode == null ) { //node does not exist
+                                              //we need to create the current node and add it to the previous node
+                                               if (previousNode != null) //the starting point is always the root node
+                                                  treeRoot.addNodeToNamedNode(previousNode.getName(), matchingNode);
+                                                  previousNode = treeRoot.getNodeByName(matchingNode);
+                                              } else { //current node exists... 
+                                                  previousNode = currentNode;
+                                              }
+                                       } //end - for ()
+                         }   // end if (theNode==null)
+                       } // end if (section name != root)
+                     } //end if (conSection !=null)   
+                 } //end if (hasPropertyName textsection)
+             } //while loop for enumeration
+             //now iterate through the BungeniBTree object and write out to TreeNodes
+           convertBTreetoJTreeNodes(treeRoot);
+           
+             
+        } catch (NoSuchElementException ex) {
+            log.debug(ex.getMessage());
+        } catch (UnknownPropertyException ex) {
+            log.debug(ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.debug(ex.getMessage());
+        }
+       
+    }
+    
+    private void convertBTreetoJTreeNodes(BungeniBTree theTree){
+        //TreeMap<Integer,BungeniBNode> sectionMap = theTree.getTree();
+        BungeniBNode rootNode = theTree.getNodeByName("root");
+        this.sectionsRootNode = null;
+        this.sectionsRootNode = new DefaultMutableTreeNode(new String("root"));
+        TreeMap<Integer,BungeniBNode> sectionMap = rootNode.getChildrenByOrder();
+        Iterator<Integer> rootIter = sectionMap.keySet().iterator();
+           int depth = 0;
+           while (rootIter.hasNext()) {
+                Integer key = (Integer) rootIter.next();
+                BungeniBNode n = sectionMap.get(key);
+                DefaultMutableTreeNode n_child = new DefaultMutableTreeNode(n.getName());
+                sectionsRootNode.add(n_child);
+                //sbOut.append(padding(depth) + n.getName()+ "\n");
+                //walkNodeByOrder(n, depth);
+                walkBNodeTree(n , n_child);
+            }
+    }
+    
+    private void walkBNodeTree(BungeniBNode theNode, DefaultMutableTreeNode pNode){
+        if (theNode.hasChildren()) {
+           TreeMap<Integer, BungeniBNode> n_children = theNode.getChildrenByOrder();
+           Iterator<Integer> nodesByOrder = n_children.keySet().iterator();
+           while (nodesByOrder.hasNext()) {
+               Integer key = (Integer) nodesByOrder.next();
+               BungeniBNode n = n_children.get(key);
+               DefaultMutableTreeNode dmt_node = new DefaultMutableTreeNode(n.getName());
+               pNode.add(dmt_node);
+               walkBNodeTree(n, dmt_node);
+           }
+        } else
+            return;
+    }
+    
+    /****this is the old sections iterator, it uses getTextSections(), and the getChildSections() API, 
+     * which does not display sections in the correct order
+     * see http://www.openoffice.org/issues/show_bug.cgi?id=82420
+     *****/
+    
+    private void initSectionsArray__Old() {
         try {
             log.debug("initSectionsArray....");
             if (!ooDocument.isXComponentValid()) return;
@@ -2280,4 +2426,6 @@ private void displayUserMetadata(XTextRange xRange) {
    frame.setSize(200,400);
    frame.setVisible(true);
   }   
+
+
 }

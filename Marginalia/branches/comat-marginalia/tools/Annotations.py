@@ -203,7 +203,7 @@ class Annotations(UniqueObject, BaseBTreeFolder):
             }
         if search_string:
             query['SearchableText'] = search_string
-            
+
         if search_string:
             public_annotations = catalog({'portal_type': 'Annotation',
                                       'getIndexed_url': url,
@@ -218,7 +218,7 @@ class Annotations(UniqueObject, BaseBTreeFolder):
             query[ 'Creator' ] = user
             
         ps = catalog(query) + public_annotations
-        
+
         # Filter by position (if block was specified )
         annotations = [ ]
         uids = []
@@ -243,9 +243,11 @@ class Annotations(UniqueObject, BaseBTreeFolder):
                 annotations.append(annotation)
 
         if filter_name:
-            return [annotation for annotation in annotations if annotation.Creator()==filter_name]
+            annotations = [annotation for annotation in annotations if annotation.Creator()==filter_name]
+
+        auth_member = self._getUser()        
         
-        return annotations 
+        return  [annotation for annotation in annotations if auth_member.has_permission("View", annotation)]
 
     security.declarePublic('getRangeInfos')
     def getRangeInfos(self, user, url):
@@ -376,7 +378,8 @@ class Annotations(UniqueObject, BaseBTreeFolder):
                 annotation_workflow.doActionFor(annotation, "publish")
             elif params['access'] == "private" and status['review_state']=="published":
                 annotation_workflow.doActionFor(annotation, "retract")
-                
+            annotation.reindexObject()
+            
         self.REQUEST.RESPONSE.setStatus('NoContent')
 
     security.declarePrivate('_deleteAnnotation')

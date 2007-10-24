@@ -23,7 +23,7 @@ function bungeniMarginaliaInit( username, url, serviceRoot )
 	trackchanges.addEditShortcuts( );
 //	var marginaliaDirect = new MarginaliaDirect( annotationService );
 //	marginaliaDirect.init( );
-	initLogging();
+//	initLogging();
 
 	window.marginalia.showAnnotations( url );
         filterAnnotationsFromBookmark();

@@ -601,14 +601,16 @@ ol#articles {
 }
 
 .notes p {
-    margin-left:5px;
+    margin-left:15px;
     font-size: 9px;
 }
 
 .select_field {
+    margin-top: 5px;
     font-size: 9px;
 }
 
 .input_field {
+    margin-top: 5px;
     font-size: 9px;
 }

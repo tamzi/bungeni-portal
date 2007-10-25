@@ -102,7 +102,13 @@ SimpleLinkUi.prototype.show = function( )
 	//xmlhttp.setRequestHeader( 'Content-length', body.length );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
-                        refNode.innerHTML=xmlhttp.responseText;
+			if ( xmlhttp.status == 200 ) {
+                refNode.innerHTML=xmlhttp.responseText;
+			}
+			else {
+				trace( "Reference code block failed with error code " + xmlhttp.status + ":\n");
+			}
+			xmlhttp = null;
 		}
 	}
 	xmlhttp.open('GET', serviceUrl, true );
@@ -116,16 +122,19 @@ SimpleLinkUi.prototype.focus = function( )
 
 SimpleLinkUi.prototype.save = function( )
 {
-	var children = domutil.childrenByTagClass( this.noteElement, 'input'); 
+	    var children = domutil.childrenByTagClass( this.noteElement, 'input'); 
+        if (children.length==0 ) {
+           return
+        }
         var editable_input = children[0];
         var uid_input = children[1];
         if ( editable_input.value.substring(0,7)=='http://' ) {
-	this.annotation.setLink(editable_input.value);
-	this.annotation.setLinkTitle('');
+        	this.annotation.setLink(editable_input.value);
+        	this.annotation.setLinkTitle('');
         }
         else {
-	this.annotation.setLink(uid_input.value);
-	this.annotation.setLinkTitle(editable_input.value);
+	        this.annotation.setLink(uid_input.value);
+        	this.annotation.setLinkTitle(editable_input.value);
         }
 }
 
@@ -136,7 +145,13 @@ SimpleLinkUi.prototype.save = function( )
 SimpleLinkUi._deleteLink = function( event )
 {
 	event.stopPropagation( );
+    var children = domutil.childrenByTagClass( window.marginalia.noteEditor.noteElement, 'input'); 
+    if (children.length!=0 ) {
+       var editable_input = children[0];
+       var uid_input = children[1];
+       uid_input.value = "";
+       editable_input.value = "";
+    }
 	//	window.marginalia.noteEditor.editNode.value = '';
 	_saveAnnotation( event );
 }
-

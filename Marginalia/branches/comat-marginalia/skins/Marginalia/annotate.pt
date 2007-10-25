@@ -90,8 +90,8 @@
                   <td>
                     <div class="notes" tal:define="member_names python:context.portal_annotations.getOwnerList(request)">
                       <button class="createAnnotation" onclick="bungeniClickCreateAnnotation(event,'m1')" title="Click here to create an annotation">&gt;</button>
-                      <p>&nbsp;&nbsp;&nbsp;Filter annotations by owner or query string.</p>
-                      <select class="select_field" name="filter_owner" style="margin-left:15px;" language="javascript" onChange="filterAnnotations(this);">
+                      <p>Filter annotations by owner or query string.
+                      <select class="select_field" name="filter_owner" language="javascript" onChange="filterAnnotations(this);">
                          <option value="" selected>All</option>
                          <option value="" tal:attributes="value user/getUserName">Self</option>
                          <optgroup LABEL="Member Names">
@@ -101,8 +101,8 @@
                             </span>
                          </span>
                          </optgroup> 
-                      </select>
-                      <input class="input_field" type="text" name="annotation_search" value="" onChange="filterAnnotations(this);"/>
+                      </select><br/>
+                      <input class="input_field" type="text" name="annotation_search" value="" onChange="filterAnnotations(this);"/></p>
                       <ol><li></li></ol>
                     </div>
                   </td>

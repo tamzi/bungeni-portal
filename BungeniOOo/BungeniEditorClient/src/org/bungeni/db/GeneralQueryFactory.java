@@ -34,7 +34,7 @@ public class GeneralQueryFactory {
                                              String library_name, 
                                              String macro_name ){
         String query = new String(""+ 
-                "select * from editor_macros where " +
+                "select prog_language, library_name, macro_name, no_of_params from editor_macros where " +
                 "prog_language='"+programming_lang+"' and " +
                 "library_name= '"+library_name+"' and " +
                 "macro_name = '"+macro_name+"' ");

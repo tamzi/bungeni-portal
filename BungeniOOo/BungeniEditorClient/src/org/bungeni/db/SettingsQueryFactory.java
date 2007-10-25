@@ -29,7 +29,10 @@ public class SettingsQueryFactory {
     
     public static String Q_FETCH_CHILD_TOOLBAR_ACTIONS(String parent_name) {
         String query = new String("" +
-                "Select * from toolbar_action_settings " +
+                "Select doc_type,action_name,action_order,action_state,action_class, " +
+                "action_type,action_naming_convention,action_numbering_convention," +
+                "action_parent,action_icon,action_display_text,action_dimension" +
+                "from toolbar_action_settings " +
                 "where action_parent='"+ parent_name  + "' and action_state=1 " +
                 "order by action_order");
         return  query;
@@ -87,7 +90,7 @@ public class SettingsQueryFactory {
     
     public static String Q_FETCH_EDITOR_PROPERTY(String propertyName) {
         String query = new String("" +
-                "Select * from general_editor_properties " +
+                "Select property_name, property_value from general_editor_properties " +
                 "where property_name='"+ propertyName  + "' " );
         return  query;
     }

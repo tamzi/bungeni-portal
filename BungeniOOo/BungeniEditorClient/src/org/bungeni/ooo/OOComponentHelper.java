@@ -282,6 +282,11 @@ public class OOComponentHelper {
     public boolean isXComponentValid() {
         return !isXComponentNull;
     }
+    
+    public void setSectionMetadataAttributes ( String sectionName, HashMap<String,String> metadataMap) {
+        
+    }
+    
     public HashMap<String, String> getSectionMetadataAttributes(String sectionName){
         HashMap<String,String> metadata = null; 
         try {

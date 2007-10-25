@@ -377,14 +377,16 @@ public class InitSpeech extends selectorTemplatePanel {
             
             /////now set the section metadata///
             
-            String[] attrNames = new String[2];
-            String[] attrValues = new String[2];
+            String[] attrNames = new String[3];
+            String[] attrValues = new String[3];
             attrNames[0] = "Bungeni_SpeechBy";
             attrNames[1] = "Bungeni_SpeechByURI";
+            attrNames[2] = "Bungeni_SectionType";
             
             attrValues[0] = getValue("SpeechBy");
             attrValues[1] = getValue("SpeechByURI");
-      
+            attrValues[2] = "SpeechContainer";
+            
             ExternalMacro SetSectionMetadata = ExternalMacroFactory.getMacroDefinition("SetSectionMetadata");
             SetSectionMetadata.addParameter(ooDocument.getComponent());
             SetSectionMetadata.addParameter(sectionName );

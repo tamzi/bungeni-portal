@@ -298,9 +298,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                strTitle = strTitle.substring(0, dashIndex);
  
         } catch (WrappedTargetException ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         } catch (UnknownPropertyException ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         } finally {
         return strTitle;
         }
@@ -427,7 +427,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      
      }
      catch (Exception e){
-         log.debug("exception : "+ e.getMessage());
+         log.error("exception : "+ e.getMessage());
      }
      
     }
@@ -450,7 +450,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         initEditorNotesList();
         
         } catch (Exception ex) {
-            log.debug("exception initNotesPanel:"+ ex.getMessage());
+            log.error("exception initNotesPanel:"+ ex.getMessage());
             ex.printStackTrace();
         }
     }
@@ -478,7 +478,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         listboxEditorNotes.ensureIndexIsVisible(listboxEditorNotes.getModel().getSize());
         listboxEditorNotes.setSelectedIndex(listboxEditorNotes.getModel().getSize());
         } catch (Exception e) {
-            log.debug("initEditorNotesList: exception : " + e.getMessage());
+            log.error("initEditorNotesList: exception : " + e.getMessage());
         }
         
     }
@@ -618,11 +618,11 @@ public class editorTabbedPanel extends javax.swing.JPanel {
            
              
         } catch (NoSuchElementException ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         } catch (UnknownPropertyException ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         } catch (WrappedTargetException ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         }
        
     }
@@ -691,9 +691,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             CommonTreeFunctions.expandAll(treeDocStructureTree, true);
         
         } catch (NoSuchElementException ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         } catch (WrappedTargetException ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         }
     }
     
@@ -725,9 +725,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         } else 
             return;
         } catch (UnknownPropertyException ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         } catch (WrappedTargetException ex ) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         }
     }
     
@@ -1085,7 +1085,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                      try {
                             xRelativeText.insertTextContentAfter(oPar, ooQueryInterface.XTextContent(xSelectSection));
                      } catch (com.sun.star.lang.IllegalArgumentException ex) {
-                            log.debug("insertTextContentbefore :" + ex.getMessage());
+                            log.error("insertTextContentbefore :" + ex.getMessage());
                      }
                      //move visible cursor to point where para was added
                     ooDocument.getViewCursor().gotoRange(xSelectSection.getAnchor().getEnd(), false);
@@ -1415,13 +1415,13 @@ private void displayUserMetadata(XTextRange xRange) {
         }
             
     } catch (NoSuchElementException ex) {
-                log.debug("displayUserMetadata : "+ ex.getLocalizedMessage());
+                log.error("displayUserMetadata : "+ ex.getLocalizedMessage());
     } catch (WrappedTargetException ex) {
-                log.debug("displayUserMetadata : "+ ex.getLocalizedMessage());
+                log.error("displayUserMetadata : "+ ex.getLocalizedMessage());
     } /*catch (com.sun.star.lang.IllegalArgumentException ex) {
-                log.debug("displayUserMetadata : "+ ex.getLocalizedMessage());
+                log.error("displayUserMetadata : "+ ex.getLocalizedMessage());
     } */ catch (UnknownPropertyException ex) {
-                log.debug("displayUserMetadata : "+ ex.getLocalizedMessage());
+                log.error("displayUserMetadata : "+ ex.getLocalizedMessage());
     }    
 }    
     /** This method is called from within the constructor to
@@ -1929,7 +1929,7 @@ private void displayUserMetadata(XTextRange xRange) {
             
            ooDocument.setSelectedTextBackColor(new Integer(0xECECEC));
         } catch (Exception ex) {
-           log.debug("adding_attribute : "+ex.getLocalizedMessage());
+           log.error("adding_attribute : "+ex.getLocalizedMessage());
         }
        
     }//GEN-LAST:event_btnApplyMetadata_Clicked
@@ -2004,7 +2004,7 @@ private void displayUserMetadata(XTextRange xRange) {
           }
           catch (java.lang.Exception poException)
             {
-                log.debug("currentSectionName:" + poException.getLocalizedMessage());
+                log.error("currentSectionName:" + poException.getLocalizedMessage());
             }
           finally {  
              return lstrSectionName; 
@@ -2047,7 +2047,7 @@ private void displayUserMetadata(XTextRange xRange) {
             //docStructureTimer = new java.util.Timer();
             //docStructureTimer.schedule(task, 0, 3000);
         } catch (Exception e) {
-            log.debug(e.getMessage());
+            log.error(e.getMessage());
         }
     }
     

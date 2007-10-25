@@ -30,7 +30,7 @@ public class EditorActionFactory extends Object {
              eventHandlerClass = Class.forName(action.action_class());
              eventHandler = (IEditorActionEvent) eventHandlerClass.newInstance();
        } catch (ClassNotFoundException ex) {
-           log.debug("getEventClass:"+ ex.getMessage());
+           log.error("getEventClass:"+ ex.getMessage());
         } finally {
              return eventHandler;
         }

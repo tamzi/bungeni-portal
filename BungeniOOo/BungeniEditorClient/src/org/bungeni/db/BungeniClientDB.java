@@ -44,7 +44,7 @@ public class BungeniClientDB {
             current_database = dbName;
         path_to_database = pathToDb;
         connection_string = JDBC_PREFIX + path_to_database + current_database;
-        System.out.println("connection string = "+ connection_string);
+        log.debug("connection string = "+ connection_string);
     }
    
     /*
@@ -66,10 +66,10 @@ public class BungeniClientDB {
              Class.forName(DRIVER);
              db_connection = DriverManager.getConnection(connection_string, USER_NAME, PASS_WORD); 
         } catch (SQLException ex) {
-            log.debug("Connect:"+ ex.getMessage());
+            log.error("Connect:"+ ex.getMessage());
             bState = false;
         }  catch (ClassNotFoundException ex) {
-            log.debug("Connect:"+ ex.getMessage());
+            log.error("Connect:"+ ex.getMessage());
             bState = false;
         }  finally {
             return bState;
@@ -168,7 +168,7 @@ public class BungeniClientDB {
                 st.close();    // NOTE!! if you close a statement the associated ResultSet is
 
         } catch (SQLException ex) {
-            System.out.println("query:"+ ex.getLocalizedMessage());
+            log.error("query:"+ ex.getLocalizedMessage());
         } finally {
             return query_results;
         }   
@@ -183,7 +183,7 @@ public class BungeniClientDB {
               st.execute("SHUTDOWN");
               st.close();
            } catch (SQLException ex) {
-            log.debug("EndConnect:"+ ex.getMessage());
+            log.error("EndConnect:"+ ex.getMessage());
         }
     }
     

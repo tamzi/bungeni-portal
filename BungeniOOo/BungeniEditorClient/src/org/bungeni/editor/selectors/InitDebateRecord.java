@@ -337,7 +337,18 @@ public class InitDebateRecord extends selectorTemplatePanel {
         AddSectionInsideSection.addParameter(sectionLeftMargin);
         
         ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
-      
+        
+        String[] attrNames = new String[1];
+        String[] attrValues = new String[1];
+        attrNames[0] = "Bungeni_SectionType";
+        attrValues[0] = "Masthead";
+        ExternalMacro SetSectionMetadata = ExternalMacroFactory.getMacroDefinition("SetSectionMetadata");
+        SetSectionMetadata.addParameter(ooDocument.getComponent());
+        SetSectionMetadata.addParameter(theAction.action_naming_convention() );
+        SetSectionMetadata.addParameter(attrNames);
+        SetSectionMetadata.addParameter(attrValues);
+        ooDocument.executeMacro(SetSectionMetadata.toString(), SetSectionMetadata.getParams());  
+        
         //load the related document
         //set the field values in loaded document
         /*

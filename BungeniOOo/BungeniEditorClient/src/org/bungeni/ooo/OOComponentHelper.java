@@ -95,7 +95,7 @@ public class OOComponentHelper {
              */
             m_xComponentContext = xComponentContext;
         } catch (Exception ex) {
-            log.debug(ex.getLocalizedMessage(), ex);
+            log.error(ex.getLocalizedMessage(), ex);
         }
     }
     
@@ -168,7 +168,7 @@ public class OOComponentHelper {
         try {
             newInstance = getDocumentFactory().createInstance(instanceName);
         } catch (com.sun.star.uno.Exception ex) {
-            log.debug("createInstance(instanceName="+instanceName+"); error message follows :"+ ex.getLocalizedMessage(), ex);
+            log.error("createInstance(instanceName="+instanceName+"); error message follows :"+ ex.getLocalizedMessage(), ex);
         } finally {
             return newInstance;
         }
@@ -180,7 +180,7 @@ public class OOComponentHelper {
             newInstance = this.m_xComponentContext.getServiceManager().createInstanceWithContext("com.sun.star.frame.DispatchHelper", this.m_xComponentContext);
         } 
         catch (com.sun.star.uno.Exception ex) {
-            log.debug(ex.getLocalizedMessage(), ex);
+            log.error(ex.getLocalizedMessage(), ex);
         }
         finally {
             return newInstance;
@@ -205,13 +205,13 @@ public class OOComponentHelper {
            getObjectPropertySet(xNamedSection).setPropertyValue(ooProperties.SECTION_BACK_COLOR, cBackColor);
            xSectionContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, xNamedSection);
         } catch (PropertyVetoException ex) {
-            ex.printStackTrace();
+            log.error(ex.getLocalizedMessage());
         } catch (WrappedTargetException ex) {
-            ex.printStackTrace();
+            log.error(ex.getLocalizedMessage());
         } catch (com.sun.star.lang.IllegalArgumentException ex) {
-            ex.printStackTrace();
+            log.error(ex.getLocalizedMessage());
         } catch (UnknownPropertyException ex) {
-            ex.printStackTrace();
+            log.error(ex.getLocalizedMessage());
         } finally {
             return xSectionContent;
         }
@@ -234,14 +234,14 @@ public class OOComponentHelper {
            getObjectPropertySet(xNamedSection).setPropertyValue(ooProperties.TEXT_COLUMNS, xColumns);
            xSectionContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, xNamedSection);
         } catch (PropertyVetoException ex) {
-            ex.printStackTrace();
+            log.error(ex.getLocalizedMessage());
         } catch (WrappedTargetException ex) {
-            ex.printStackTrace();
+            log.error(ex.getLocalizedMessage());
         } catch (com.sun.star.lang.IllegalArgumentException ex) {
-            ex.printStackTrace();
-        } catch (UnknownPropertyException ex) {
-            ex.printStackTrace();
-        } finally {
+               log.error(ex.getLocalizedMessage());
+      } catch (UnknownPropertyException ex) {
+            log.error(ex.getLocalizedMessage());
+         } finally {
             return xSectionContent;
         }
         
@@ -254,7 +254,7 @@ public class OOComponentHelper {
         try {
             xText.insertTextContent(viewCursor, xSectionContent , true);
         } catch (com.sun.star.lang.IllegalArgumentException ex) {
-            log.debug("addViewSection:" + ex.getMessage());
+            log.error("addViewSection:" + ex.getMessage());
         } finally {
             return xSectionContent;
         }
@@ -284,7 +284,44 @@ public class OOComponentHelper {
     }
     
     public void setSectionMetadataAttributes ( String sectionName, HashMap<String,String> metadataMap) {
-        
+       HashMap<String,String> metadata = null; 
+        try {
+            //get the section handle
+            Object section = this.getTextSections().getByName(sectionName);
+            XTextSection theSection = ooQueryInterface.XTextSection(section);
+            //get the propertySet Handle for the section
+            XPropertySet theProperties = ooQueryInterface.XPropertySet(theSection);
+            XNameContainer attrContainer =  _getAttributeContainer(theProperties, ooProperties.SECTION_USERDEFINED_ATTRIBUTES);
+            //get attribute element names
+            String[] attributeNames = attrContainer.getElementNames();
+            Iterator keyIter = metadataMap.keySet().iterator();
+            while (keyIter.hasNext()) {
+                String mapkey = (String) keyIter.next();
+                String mapValue = metadataMap.get(mapkey);
+                if (attrContainer.hasByName(mapkey)) {
+                    AttributeData attrValue = (AttributeData) AnyConverter.toObject(new Type(AttributeData.class), 
+                                                    attrContainer.getByName(mapkey));
+                    attrValue.Type = "CDATA";
+                    attrValue.Value = mapValue;
+                    attrContainer.replaceByName(mapkey, attrValue);
+                } else {
+                    AttributeData attrNewAttribute = new AttributeData();
+                    attrNewAttribute.Type = "CDATA";
+                    attrNewAttribute.Value = mapValue;
+                    attrContainer.insertByName(mapkey, attrNewAttribute);
+                }
+            }
+            theProperties.setPropertyValue(ooProperties.SECTION_USERDEFINED_ATTRIBUTES, attrContainer);
+  
+        } catch (NoSuchElementException ex) {
+           log.error(ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.error(ex.getMessage());
+        } catch (com.sun.star.lang.IllegalArgumentException ex){
+            log.error(ex.getMessage());
+        } finally {
+            return ;
+        }    
     }
     
     public HashMap<String, String> getSectionMetadataAttributes(String sectionName){
@@ -308,11 +345,11 @@ public class OOComponentHelper {
             }
             
         } catch (NoSuchElementException ex) {
-           log.debug(ex.getMessage());
+           log.error(ex.getMessage());
         } catch (WrappedTargetException ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         } catch (com.sun.star.lang.IllegalArgumentException ex){
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         } finally {
             return metadata;
         }
@@ -375,11 +412,11 @@ public class OOComponentHelper {
        
             xDocPropertiesContainer.addProperty(propertyName, (short)0, new Any(com.sun.star.uno.Type.STRING, value));
         } catch (PropertyExistException ex) {
-            log.debug("Property " + propertyName + " already Exists");
+            log.error("Property " + propertyName + " already Exists");
         } catch (com.sun.star.lang.IllegalArgumentException ex) {
-            log.debug(ex.getLocalizedMessage(), ex);
+            log.error(ex.getLocalizedMessage(), ex);
         } catch (IllegalTypeException ex) {
-            log.debug(ex.getLocalizedMessage(), ex);
+            log.error(ex.getLocalizedMessage(), ex);
         }
     }
     
@@ -395,13 +432,13 @@ public class OOComponentHelper {
                
                 xDocProperties.setPropertyValue(propertyName, propertyValue);
             } catch (UnknownPropertyException ex) {
-                ex.printStackTrace();
+                log.error(ex.getLocalizedMessage());
             } catch (WrappedTargetException ex) {
-                ex.printStackTrace();
+                log.error(ex.getLocalizedMessage());
             } catch (com.sun.star.lang.IllegalArgumentException ex) {
-                ex.printStackTrace();
+                log.error(ex.getLocalizedMessage());
             } catch (PropertyVetoException ex) {
-                ex.printStackTrace();
+                log.error(ex.getLocalizedMessage());
             }
     }
     
@@ -413,9 +450,9 @@ public class OOComponentHelper {
              value = (String) xDocProperties.getPropertyValue(propertyName);
            /// value = anyUnoValue.toString();
         } catch (UnknownPropertyException ex) {
-            log.debug("Property "+ propertyName+ " does not exit");
+            log.error("Property "+ propertyName+ " does not exit");
         } catch (WrappedTargetException ex) {
-            log.debug(ex.getLocalizedMessage(), ex);
+            log.error(ex.getLocalizedMessage(), ex);
         } finally {
             return value;
         }
@@ -469,7 +506,7 @@ public class OOComponentHelper {
         xdispatchHelper.executeDispatch(docDispatchProvider, cmd, "", 0, oProperties); 
 
         } catch (com.sun.star.uno.Exception ex){
-            log.debug("error in exeucteDispatch " +ex.getLocalizedMessage(), ex);
+            log.error("error in exeucteDispatch " +ex.getLocalizedMessage(), ex);
         }
         
     }
@@ -505,7 +542,7 @@ public class OOComponentHelper {
           }
           catch (java.lang.Exception poException)
             {
-                log.debug("currentSectionName:" + poException.getLocalizedMessage());
+                log.error("currentSectionName:" + poException.getLocalizedMessage());
             }
           finally {  
              return lstrSectionName; 
@@ -542,7 +579,7 @@ public class OOComponentHelper {
                 }
             }
         } catch (Exception ex) {
-            log.debug("getSingleSelectionCursor: "+ ex.getMessage());
+            log.error("getSingleSelectionCursor: "+ ex.getMessage());
         } finally {
             return rangeMap ;
         }
@@ -591,7 +628,7 @@ public class OOComponentHelper {
         }  
         
          } catch (com.sun.star.lang.IllegalArgumentException ex) {
-               log.debug("getCursorLeftSelection: "+ ex.getMessage());
+               log.error("getCursorLeftSelection: "+ ex.getMessage());
          }
         
         return edgeCursor;
@@ -623,9 +660,9 @@ public class OOComponentHelper {
             } 
             }
          } catch (com.sun.star.lang.IndexOutOfBoundsException ex) {
-                    log.debug("setAttributesToSelectedText: "+ex.getLocalizedMessage());
-                } catch (WrappedTargetException ex) {
-                 log.debug("setAttributesToSelectedText: "+ex.getLocalizedMessage());
+             log.error("setAttributesToSelectedText: "+ex.getLocalizedMessage());
+         } catch (WrappedTargetException ex) {
+             log.error("setAttributesToSelectedText: "+ex.getLocalizedMessage());
           }
     }
   
@@ -660,11 +697,11 @@ public class OOComponentHelper {
            //we wante the textuserdefinedattributes propertycontainer
            attributeContainer = (XNameContainer) AnyConverter.toObject(new Type(XNameContainer.class), xProperties.getPropertyValue(attrName));
         } catch (WrappedTargetException ex) {
-            log.debug("getAttributeContainer:" + ex.getLocalizedMessage());
+            log.error("getAttributeContainer:" + ex.getLocalizedMessage());
         } catch (com.sun.star.lang.IllegalArgumentException ex) {
-            log.debug("getAttributeContainer:" + ex.getLocalizedMessage());
+            log.error("getAttributeContainer:" + ex.getLocalizedMessage());
         } catch (UnknownPropertyException ex) {
-            log.debug("getAttributeContainer:" + ex.getLocalizedMessage());
+            log.error("getAttributeContainer:" + ex.getLocalizedMessage());
         } finally {
             return attributeContainer; 
         }
@@ -717,9 +754,9 @@ public class OOComponentHelper {
         }
       
       } catch (WrappedTargetException ex) {
-                    log.debug("in getselectedtext" + ex.getLocalizedMessage());
+                    log.error("in getselectedtext" + ex.getLocalizedMessage());
       } catch (com.sun.star.lang.IndexOutOfBoundsException ex) {
-                    log.debug("in getselectedtext" + ex.getLocalizedMessage());
+                    log.error("in getselectedtext" + ex.getLocalizedMessage());
       }          
    }
     
@@ -743,13 +780,13 @@ public class OOComponentHelper {
         try {
             xCursorProperties.setPropertyValue(propertyName, propertyValue);
         } catch (PropertyVetoException ex) {
-            log.debug("_addAttributeToText ("+ propertyName+"): "+ex.getLocalizedMessage());
+            log.error("_addAttributeToText ("+ propertyName+"): "+ex.getLocalizedMessage());
         } catch (com.sun.star.lang.IllegalArgumentException ex) {
-            log.debug("_addAttributeToText ("+ propertyName+"): "+ex.getLocalizedMessage());
+            log.error("_addAttributeToText ("+ propertyName+"): "+ex.getLocalizedMessage());
         } catch (WrappedTargetException ex) {
-            log.debug("_addAttributeToText ("+ propertyName+"): "+ex.getLocalizedMessage());
+            log.error("_addAttributeToText ("+ propertyName+"): "+ex.getLocalizedMessage());
         } catch (UnknownPropertyException ex) {
-            log.debug("_addAttributeToText ("+ propertyName+"): "+ex.getLocalizedMessage());
+            log.error("_addAttributeToText ("+ propertyName+"): "+ex.getLocalizedMessage());
         }
    }
    
@@ -759,13 +796,13 @@ public class OOComponentHelper {
  
             xCursorProperties.setPropertyValue(propertyName, attrContainer);
         } catch (com.sun.star.lang.IllegalArgumentException ex) {
-            log.debug("addAttributesToText : "+ ex.getLocalizedMessage());
+            log.error("addAttributesToText : "+ ex.getLocalizedMessage());
         } catch (PropertyVetoException ex) {
-            log.debug("addAttributesToText : "+ ex.getLocalizedMessage());
+            log.error("addAttributesToText : "+ ex.getLocalizedMessage());
         } catch (WrappedTargetException ex) {
-            log.debug("addAttributesToText : "+ ex.getLocalizedMessage());
+            log.error("addAttributesToText : "+ ex.getLocalizedMessage());
         } catch (UnknownPropertyException ex) {
-            log.debug("addAttributesToText : "+ ex.getLocalizedMessage());
+            log.error("addAttributesToText : "+ ex.getLocalizedMessage());
         }
       log.debug("end addAttributeStoText");
   }
@@ -804,13 +841,13 @@ public class OOComponentHelper {
         }
             xContainer.insertByName(attrName, attribute);
         } catch (com.sun.star.lang.IllegalArgumentException ex) {
-            log.debug("addToContainer : "+ex.getLocalizedMessage());
+            log.error("addToContainer : "+ex.getLocalizedMessage());
         } catch (ElementExistException ex) {
-            log.debug("addToContainer : "+ex.getLocalizedMessage());
+            log.error("addToContainer : "+ex.getLocalizedMessage());
         } catch (WrappedTargetException ex) {
-            log.debug("addToContainer : "+ex.getLocalizedMessage());
+            log.error("addToContainer : "+ex.getLocalizedMessage());
         } catch (NoSuchElementException ex) {
-            log.debug("addToContainer : " + ex.getLocalizedMessage());
+            log.error("addToContainer : " + ex.getLocalizedMessage());
         }
       return xContainer;
    }
@@ -843,10 +880,10 @@ public class OOComponentHelper {
 
     } catch (com.sun.star.lang.IllegalArgumentException e){
         // TODO Auto-generated catch block
-         log.debug(e.getLocalizedMessage());
+         log.error(e.getLocalizedMessage());
     } catch (ElementExistException e) {
     // TODO Auto-generated catch block
-         log.debug(e.getLocalizedMessage());
+         log.error(e.getLocalizedMessage());
     }
     return uda;
 } 
@@ -893,9 +930,9 @@ public class OOComponentHelper {
         }
       
       } catch (WrappedTargetException ex) {
-                    log.debug("in getselectedtext" + ex.getLocalizedMessage());
+                    log.error("in getselectedtext" + ex.getLocalizedMessage());
       } catch (com.sun.star.lang.IndexOutOfBoundsException ex) {
-                    log.debug("in getselectedtext" + ex.getLocalizedMessage());
+                    log.error("in getselectedtext" + ex.getLocalizedMessage());
       }    
 }
     
@@ -911,10 +948,10 @@ public class OOComponentHelper {
             } 
         catch (com.sun.star.lang.IllegalArgumentException ex) {
                         bExists = false;
-                         log.debug("propertyExists - unknown property exception");
+                         log.error("propertyExists - unknown property exception");
             }
          catch (UnknownPropertyException ex) {
-                 log.debug("propertyExists - unknown property exception");
+                 log.error("propertyExists - unknown property exception");
                 //property does not exist
                     bExists = false;
         }
@@ -971,11 +1008,11 @@ public boolean isSectionProtected(XTextSection section) {
          XPropertySet childProperties = ooQueryInterface.XPropertySet(section);
          isProtected = AnyConverter.toBoolean(childProperties.getPropertyValue("IsProtected"));
         } catch (com.sun.star.lang.IllegalArgumentException ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         } catch (UnknownPropertyException ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         } catch (WrappedTargetException ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         } finally {
             return isProtected;
         }
@@ -986,9 +1023,9 @@ public XTextSection getSection(String sectionName) {
         try {
             section = ooQueryInterface.XTextSection(getTextSections().getByName(sectionName));
         } catch (WrappedTargetException ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         } catch (NoSuchElementException ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         } finally {
             return section;
         }
@@ -1007,7 +1044,7 @@ public String getMatchingChildSection(String sectionName, String childPrefix) {
                  }
              }
          } catch (Exception ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
          } finally {
             return matching;
         }
@@ -1019,9 +1056,9 @@ public void protectSection(String sectionName, boolean toState) {
            childSection = ooQueryInterface.XTextSection(getTextSections().getByName(sectionName));
             protectSection(childSection, toState);
         } catch (WrappedTargetException ex) {
-                log.debug(ex.getMessage());
+                log.error(ex.getMessage());
           } catch (NoSuchElementException ex) {
-                log.debug(ex.getMessage());
+                log.error(ex.getMessage());
           }
 }
 
@@ -1030,13 +1067,13 @@ public void protectSection(XTextSection section, boolean toState) {
             XPropertySet childProperties = ooQueryInterface.XPropertySet(section);
             childProperties.setPropertyValue("IsProtected", toState);
         } catch (com.sun.star.lang.IllegalArgumentException ex) {
-           log.debug(ex.getMessage());
+           log.error(ex.getMessage());
         } catch (UnknownPropertyException ex) {
-           log.debug(ex.getMessage());
+           log.error(ex.getMessage());
         } catch (PropertyVetoException ex) {
-           log.debug(ex.getMessage());
+           log.error(ex.getMessage());
         } catch (WrappedTargetException ex) {
-           log.debug(ex.getMessage());
+           log.error(ex.getMessage());
         }
 }
 

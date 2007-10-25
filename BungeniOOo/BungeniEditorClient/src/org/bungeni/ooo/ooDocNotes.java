@@ -79,7 +79,7 @@ public class ooDocNotes {
                 }
         }
         } catch (Exception ex) {
-                log.debug(ex.getMessage());
+                log.error(ex.getMessage());
         } finally {
         return ooNotes;
         }
@@ -113,7 +113,7 @@ public class ooDocNotes {
               value = ooDocument.getPropertyValue(this.NOTE_PROPERTY_NAME);
               value = decodeXml(value);
          } catch (UnknownPropertyException ex) {
-            log.debug("getNoteProperty:"+ ex.getLocalizedMessage());
+            log.error("getNoteProperty:"+ ex.getLocalizedMessage());
         }
         return value;
     }
@@ -141,7 +141,7 @@ public class ooDocNotes {
          //now set property value
         setNoteProperty(outputXML);
         } catch (Exception ex) {
-            log.debug("addNote Exception" + ex.getMessage(), ex);
+            log.error("addNote Exception" + ex.getMessage(), ex);
         }
     }
     
@@ -155,7 +155,7 @@ public class ooDocNotes {
              //getRootElement is <notes> within that are the note elements
               notes = xmlNotesDocument.getRootElement().getChildren("note"); 
          } catch (Exception ex) {
-            log.debug("getNotesCollection: "+ ex.getMessage(), ex);
+            log.error("getNotesCollection: "+ ex.getMessage(), ex);
         } finally {
             return notes;
         }
@@ -176,7 +176,7 @@ public class ooDocNotes {
             noteChildren.add(newNoteDate);
             noteChildren.add(newNoteText);
         } catch (Exception ex ) {
-            log.debug(ex.getMessage(), ex);
+            log.error(ex.getMessage(), ex);
         } finally {
         return newNote;
         }
@@ -189,9 +189,9 @@ public class ooDocNotes {
         StringReader stringReader=new StringReader(bungeniEditorNotes);
         xmlDocument = saxBuilder.build(stringReader);
         } catch (IOException ex) {
-            log.debug(ex.getMessage(), ex);
+            log.error(ex.getMessage(), ex);
         } catch (JDOMException ex) {
-            log.debug(ex.getMessage(), ex);
+            log.error(ex.getMessage(), ex);
         } finally {
             return xmlDocument;
         }

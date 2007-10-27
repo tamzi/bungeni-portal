@@ -43,11 +43,11 @@ public class BungeniEditorProperties {
         String settingsInstance = DefaultInstanceFactory.DEFAULT_INSTANCE();
         BungeniClientDB db = new BungeniClientDB(settingsInstance, "");
         db.Connect();
-        HashMap<String,Vector> resultsMap = db.Query(SettingsQueryFactory.Q_FETCH_EDITOR_PROPERTY(propertyName));
+        HashMap<String,Vector<Vector<String>>> resultsMap = db.Query(SettingsQueryFactory.Q_FETCH_EDITOR_PROPERTY(propertyName));
         db.EndConnect();
         QueryResults results = new QueryResults(resultsMap);
         if (results.hasResults() ) {
-           Vector<Vector> resultRows  = new Vector<Vector>();
+           Vector<Vector<String>> resultRows  = new Vector<Vector<String>>();
            resultRows = results.theResults();
            //it should always return a single row.... 
            //so we process the first row and brea

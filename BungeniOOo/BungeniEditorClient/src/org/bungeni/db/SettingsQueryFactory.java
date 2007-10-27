@@ -9,6 +9,8 @@
 
 package org.bungeni.db;
 
+import org.bungeni.editor.BungeniEditorProperties;
+
 /**
  *
  * @author Administrator
@@ -19,7 +21,7 @@ public class SettingsQueryFactory {
     public SettingsQueryFactory() {
     }
     
-    public static String Q_FETCH_PARENT_TOOLBAR_ACTIONS() {
+    public static String Q_FETCH_PARENT_TOOLBAR_ACTIONS_deprecated() {
         String query = new String("" +
                 "Select * from toolbar_action_settings " +
                 "where action_parent='parent' and action_state=1 " +
@@ -62,6 +64,16 @@ public class SettingsQueryFactory {
        return query;        
     }
     
+    public static String Q_FETCH_DOCUMENT_METADATA_VARIABLES() {
+        String activeDocument = BungeniEditorProperties.getEditorProperty("activeDocumentMode");
+        String query = "select metadata_name, metadata_datatype " +
+                " from document_metadata " +
+                "where metadata_type = 'document'" +
+                "and doc_type = '"+activeDocument+"' " +
+                "and visible = 1 " +
+                "order by display_order asc";
+        return query;        
+    }
     public static String Q_CHECK_IF_ACTION_HAS_PARENT(String actionName) {
         String query = "select count(parent_action) as the_count  from action_parent " +
                 " where action_name ='"+actionName+"'";
@@ -95,7 +107,7 @@ public class SettingsQueryFactory {
         return  query;
     }
         
-   public static String Q_FETCH_NEIGBOURING_ACTIONS (String preceeding, String following) {
+   public static String Q_FETCH_NEIGBOURING_ACTIONS_deprecated (String preceeding, String following) {
         String query = "SELECT * FROM TOOLBAR_ACTION_SETTINGS where action_type  = 'section'" +
                 " and action_name not in (select action_name from action_parent) " +
                 " and action_order in  ("+ preceeding +","+ following +") order by action_order asc";

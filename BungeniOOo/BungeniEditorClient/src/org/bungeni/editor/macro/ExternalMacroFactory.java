@@ -52,7 +52,7 @@ public class ExternalMacroFactory {
         String settingsInstance = DefaultInstanceFactory.DEFAULT_INSTANCE();
         BungeniClientDB db = new BungeniClientDB(settingsInstance, "");
         db.Connect();
-        HashMap<String,Vector> resultsMap = db.Query(query);
+        HashMap<String,Vector<Vector<String>>> resultsMap = db.Query(query);
         db.EndConnect();
         QueryResults results = new QueryResults(resultsMap);
         String programmingLang= "", libraryName = "", noParams = "";
@@ -60,7 +60,7 @@ public class ExternalMacroFactory {
         if (results.hasResults() ) {
           HashMap columnsMap = results.columnNameMap();
           log.debug("getMacroDefiniton: hasResults()");
-           Vector<Vector> resultRows  = new Vector<Vector>();
+           Vector<Vector<String>> resultRows  = new Vector<Vector<String>>();
            resultRows = results.theResults();
            //it should always return a single row.... 
            //so we process the first row and brea

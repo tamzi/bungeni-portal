@@ -87,7 +87,7 @@ public class registryQueryDialog {
       HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
       BungeniClientDB dbReg = new BungeniClientDB(registryMap);
       dbReg.Connect();
-      HashMap<String,Vector> results = dbReg.Query(registryQuery);
+      HashMap<String,Vector<Vector<String>>> results = dbReg.Query(registryQuery);
       dbReg.EndConnect();
       theResults = new QueryResults(results);
       if (theResults.hasResults()) {
@@ -97,7 +97,7 @@ public class registryQueryDialog {
           rowCount = theResults.theResults().size();
           
           Vector<String> vMpColumns = new Vector<String>();
-          Vector<Vector> vMps = new Vector<Vector>();
+          Vector<Vector<String>> vMps = new Vector<Vector<String>>();
           Collections.addAll(vMpColumns, columns);
           vMps = theResults.theResults();
           

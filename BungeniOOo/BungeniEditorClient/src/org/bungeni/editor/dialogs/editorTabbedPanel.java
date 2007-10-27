@@ -2061,13 +2061,13 @@ private void displayUserMetadata(XTextRange xRange) {
       HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
       BungeniClientDB dbReg = new BungeniClientDB(registryMap);
       dbReg.Connect();
-      HashMap<String,Vector> results = dbReg.Query(GeneralQueryFactory.Q_FETCH_ALL_MPS());
+      HashMap<String,Vector<Vector<String>>> results = dbReg.Query(GeneralQueryFactory.Q_FETCH_ALL_MPS());
       dbReg.EndConnect();
       QueryResults theResults = new QueryResults(results);
       if (theResults.hasResults()) {
           String[] columns = theResults.getColumns();
           Vector<String> vMpColumns = new Vector<String>();
-          Vector<Vector> vMps = new Vector<Vector>();
+          Vector<Vector<String>> vMps = new Vector<Vector<String>>();
           Collections.addAll(vMpColumns, columns);
           vMps = theResults.theResults();
           

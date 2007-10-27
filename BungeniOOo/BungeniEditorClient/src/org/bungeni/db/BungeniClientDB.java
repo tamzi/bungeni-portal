@@ -114,7 +114,8 @@ public class BungeniClientDB {
     */
     
     public QueryResults QueryResults(String expression ) {
-        HashMap<String,Vector> qResults = Query(expression);
+        HashMap<String,Vector<Vector<String>>> qResults = Query(expression);
+        
         QueryResults qr = null;
         if (qResults.containsKey("results")) {
              qr = new QueryResults(qResults);
@@ -123,14 +124,17 @@ public class BungeniClientDB {
             return null;
     }
     
-    public synchronized HashMap<String,Vector> Query(String expression) {
+    public synchronized HashMap<String,Vector<Vector<String>>> Query(String expression) {
             Statement st = null;
             ResultSet rs = null;
-            HashMap<String,Vector> query_results = new HashMap<String,Vector>();
+            HashMap<String,Vector<Vector<String>>> query_results = new HashMap<String,Vector<Vector<String>>>();
             
-            Vector<Vector> results = new Vector<Vector>();
+            Vector<Vector<String>> results = new Vector<Vector<String>>();
+            Vector<Vector<String>> columns = new Vector<Vector<String>>();
             Vector<String> columnsMeta = new Vector<String>();
-        
+            /*
+            Vector<Vector<String>> columns = new Vector<Vector<String>>();
+            */
         
             try {
 
@@ -148,8 +152,13 @@ public class BungeniClientDB {
                     //System.out.println("column no."+(iMeta+1)+" = "+meta.getColumnName(iMeta+1));
                     columnsMeta.addElement( meta.getColumnName(iMeta+1));
                  }
-                query_results.put("columns", columnsMeta);
-                
+               
+                columns.addElement(columnsMeta);
+                query_results.put("columns", columns);
+                /*
+                columns.addElement(columnsMeta); 
+                query_results.put("columns", columns);
+                */
                 boolean returned_results = false;
                 for (   ;rs.next() ; ) {
                     Vector<String> resultsRow = new Vector<String>();

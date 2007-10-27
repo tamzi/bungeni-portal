@@ -88,7 +88,7 @@ public class InitPapers extends javax.swing.JPanel implements IDialogSelector {
         
         if (qr != null ) {
             if (qr.hasResults()) {
-                Vector<Vector> resultRows = new Vector<Vector>();
+                Vector<Vector<String>> resultRows = new Vector<Vector<String>>();
                 resultRows = qr.theResults();
               
                 DefaultTableModel mdl = new DefaultTableModel();

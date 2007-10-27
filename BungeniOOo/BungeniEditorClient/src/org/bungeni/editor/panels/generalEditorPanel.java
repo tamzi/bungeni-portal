@@ -220,8 +220,8 @@ public class generalEditorPanel extends templatePanel implements ICollapsiblePan
         try {
         String actionParent = baseNodeAction.action_name();
         log.debug("createToolNodes for : " + actionParent);
-        HashMap<String,Vector> results = new HashMap();
-        Vector<Vector> resultRows = new Vector<Vector>();
+        HashMap<String,Vector<Vector<String>>> results = new HashMap<String, Vector<Vector<String>>>();
+        Vector<Vector<String>> resultRows = new Vector<Vector<String>>();
        // Vector<Vector> results = new Vector<Vector>();
         //DefaultMutableTreeNode child = new DefaultMutableTreeNode (addThisActionObject);
         

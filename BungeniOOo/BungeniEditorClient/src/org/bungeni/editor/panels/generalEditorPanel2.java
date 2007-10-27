@@ -310,9 +310,9 @@ public class generalEditorPanel2 extends templatePanel implements ICollapsiblePa
         String actionParent = baseNodeAction.action_name();
            JComboBox box = new JComboBox();
         log.debug("createToolNodes for : " + actionParent);
-        HashMap results = new HashMap();
-        Vector<Vector> resultRows = new Vector<Vector>();
-       // Vector<Vector> results = new Vector<Vector>();
+       HashMap<String,Vector<Vector<String>>> results = new HashMap<String, Vector<Vector<String>>>();
+       Vector<Vector<String>> resultRows = new Vector<Vector<String>>();
+      // Vector<Vector> results = new Vector<Vector>();
         //DefaultMutableTreeNode child = new DefaultMutableTreeNode (addThisActionObject);
         
         //addToThisNode.add( child);
@@ -353,9 +353,9 @@ public class generalEditorPanel2 extends templatePanel implements ICollapsiblePa
         try {
         String actionParent = baseNodeAction.action_name();
         log.debug("createToolNodes for : " + actionParent);
-        HashMap results = new HashMap();
-        Vector<Vector> resultRows = new Vector<Vector>();
-       // Vector<Vector> results = new Vector<Vector>();
+        HashMap<String,Vector<Vector<String>>> results = new HashMap<String, Vector<Vector<String>>>();
+       Vector<Vector<String>> resultRows = new Vector<Vector<String>>();
+         // Vector<Vector> results = new Vector<Vector>();
         //DefaultMutableTreeNode child = new DefaultMutableTreeNode (addThisActionObject);
         
         //addToThisNode.add( child);

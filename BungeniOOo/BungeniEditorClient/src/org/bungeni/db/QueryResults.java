@@ -18,21 +18,23 @@ import java.util.Vector;
  */
 public class QueryResults {
    boolean hasResults = false;
-   Vector<Vector> theResults = null ;
+   Vector<Vector<String>> theResults = null ;
    Vector<String> theColumns = null;
    HashMap<String,Integer> metadataColumnNameMap = null;
    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(QueryResults.class.getName());
  
     /** Creates a new instance of QueryResults */
-    public QueryResults(HashMap<String,Vector> results) {
+    public QueryResults(HashMap<String,Vector<Vector<String>>> results) {
         if (results.containsKey("results")) {
-            theResults = (Vector<Vector>)results.get("results");
+            theResults = (Vector<Vector<String>>) results.get("results");
             hasResults = true;
         }
         metadataColumnNameMap = new HashMap<String,Integer>();
         if (results.containsKey("columns")) {
+            Vector<Vector<String>> tmpColumns = (Vector<Vector<String>>) results.get("columns");
             theColumns = new Vector<String>();
-            buildMetadataInfo((Vector<String>)results.get("columns"));
+            buildMetadataInfo(tmpColumns.elementAt(0));
+            //buildMetadataInfo((Vector<String>)results.get("columns"));
         }
         
     }
@@ -54,7 +56,7 @@ public class QueryResults {
     }
     
     static int METADATA_ROW_INDEX = 0;
-    public Vector<Vector> theResults() {
+    public Vector<Vector<String>> theResults() {
        return theResults;
     }
     

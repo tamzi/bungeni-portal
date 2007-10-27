@@ -279,13 +279,13 @@ public class generalEditorPanel3 extends templatePanel implements ICollapsiblePa
 }
    
    public Vector<toolbarAction> createChildActions(toolbarAction parentAction) {
-       HashMap results = new HashMap();
-       Vector<toolbarAction> actions = new Vector<toolbarAction>();
+       HashMap<String,Vector<Vector<String>>> results = new HashMap<String, Vector<Vector<String>>>();
+       Vector<Vector<String>> resultRows = new Vector<Vector<String>>();
+         Vector<toolbarAction> actions = new Vector<toolbarAction>();
        instance.Connect();
        results =instance.Query(SettingsQueryFactory.Q_FETCH_CHILD_TOOLBAR_ACTIONS(parentAction.action_name()));
        instance.EndConnect();
-       Vector<Vector> resultRows = new Vector<Vector>();
-       QueryResults query_results = new QueryResults(results);
+        QueryResults query_results = new QueryResults(results);
        if (query_results.hasResults()) {
              HashMap columns = query_results.columnNameMap();
              log.debug("createChildActions: has children");
@@ -327,9 +327,9 @@ public class generalEditorPanel3 extends templatePanel implements ICollapsiblePa
      private void createToolActionNodes(toolbarAction baseNodeAction) {
         String actionParent = baseNodeAction.action_name();
         log.debug("createToolNodes for : " + actionParent);
-        HashMap results = new HashMap();
-        Vector<Vector> resultRows = new Vector<Vector>();
-       // Vector<Vector> results = new Vector<Vector>();
+    HashMap<String,Vector<Vector<String>>> results = new HashMap<String, Vector<Vector<String>>>();
+       Vector<Vector<String>> resultRows = new Vector<Vector<String>>();
+        // Vector<Vector> results = new Vector<Vector>();
         //DefaultMutableTreeNode child = new DefaultMutableTreeNode (addThisActionObject);
         
         //addToThisNode.add( child);

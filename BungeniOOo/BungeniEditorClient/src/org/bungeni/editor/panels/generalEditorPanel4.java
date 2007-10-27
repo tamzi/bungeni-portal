@@ -53,8 +53,11 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     
     /** Creates new form generalEditorPanel4 */
     public generalEditorPanel4() {
+        log.debug("in constructor initComponents");
         initComponents();
+        log.debug("in constructor initOthers");
         initOthers();
+        log.debug("in constructor initTree");
         initTree();
         
         
@@ -97,11 +100,14 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     private void initTree() {
         toolbarAction rootAction = new toolbarAction("rootAction");
         root = new DefaultMutableTreeNode(rootAction);
+        log.debug("in InitTree");
         if (instance.Connect()) {
+            log.debug("about to call createTreeNodes()");
             createTreeNodes( root, true);
             //createToolNodes(rootNode, rootAction, instance );
             instance.EndConnect();
         } 
+        log.debug("after createTreeNodes()");
         treeGeneralEditor.setModel(new DefaultTreeModel(root));
         treeGeneralEditor.addMouseListener(new treeGeneralEditorMouseListener());
         treeGeneralEditor.setCellRenderer(new treeGeneralEditorCellRenderer());
@@ -109,10 +115,11 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     }
     
     private void createTreeNodes(DefaultMutableTreeNode rootNode, boolean recurse) {
+        try {
         toolbarAction baseNode = (toolbarAction) rootNode.getUserObject();
         String actionParent = baseNode.action_name();
         //HashMap results = new HashMap();
-        Vector<Vector> resultRows = new Vector<Vector>();
+        Vector<Vector<String>> resultRows = new Vector<Vector<String>>();
        // Vector<Vector> results = new Vector<Vector>();
         //DefaultMutableTreeNode child = new DefaultMutableTreeNode (addThisActionObject);
         
@@ -146,7 +153,10 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                    }
                }
         }
-     
+        } catch (Exception ex) {
+            log.debug("Exception in createTreeNodes: " + ex.getMessage());
+            ex.printStackTrace();
+        }
       return ;
     }
     

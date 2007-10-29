@@ -181,6 +181,7 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         """Returns the list of owner names."""
         user = self._getUserName()
         url = self.getAnnotatedUrl(REQUEST.getURL())
+        url = url.split("/@@")[0]
         annotations = self.getSortedFeedEntries(user, url)
         return set([annotation.Creator() for annotation in annotations])
 

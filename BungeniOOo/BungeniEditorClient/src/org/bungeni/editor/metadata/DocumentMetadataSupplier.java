@@ -9,13 +9,16 @@
 
 package org.bungeni.editor.metadata;
 
+import com.sun.star.beans.UnknownPropertyException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Vector;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
+import org.bungeni.ooo.OOComponentHelper;
 
 /**
  *
@@ -24,18 +27,82 @@ import org.bungeni.db.SettingsQueryFactory;
 public class DocumentMetadataSupplier {
     
     private HashMap<String, DocumentMetadata> metadataMap = new HashMap<String, DocumentMetadata>();
+    private OOComponentHelper ooDocument;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DocumentMetadataSupplier.class.getName());
 
-    private static int METADATA_NAME_COLUMN=0;
-    private static int METADATA_DATATYPE_COLUMN=1;
+    private static int METADATA_NAME_COLUMN = 0;
+    private static int METADATA_DATATYPE_COLUMN = 1;
+    private static int METADATA_TYPE_COLUMN = 2;
+    private static int METADATA_DISPLAYNAME_COLUMN = 3;
+    private static int METADATA_VISIBLE_COLUMN = 4;
     
     /** Creates a new instance of DocumentMetadataFactory */
-    public DocumentMetadataSupplier() {
+    public DocumentMetadataSupplier(OOComponentHelper ooDoc) {
+        ooDocument = ooDoc;
+        initDocumentMetadataVariables();
+    }
+   
+    public int getVisibleCount(){
+        int counter = 0;
+        Iterator keyIterator = metadataMap.keySet().iterator();
+        while (keyIterator.hasNext()) {
+             String key = (String) keyIterator.next();
+             DocumentMetadata metadata = metadataMap.get(key);
+             if (metadata.IsVisible())
+                 counter++;
+        }
+        return counter;
     }
     
-    public DocumentMetadata[] getDocumentMetadataVariables () {
+    public DocumentMetadata[] getDocumentMetadata(){
+        return metadataMap.values().toArray(new DocumentMetadata[metadataMap.size()]);
+    }
+    
+    /*
+     *Get metadata values from document into metadata map
+     */
+    public void loadMetadataFromDocument(){
+        try {
+        if (!metadataMap.isEmpty()) {
+            Iterator metaIterator = metadataMap.keySet().iterator();
+            while (metaIterator.hasNext()) {
+                String metaName = (String) metaIterator.next();
+                DocumentMetadata metadata = metadataMap.get(metaName);
+                //if the property exists in the document, get the property value
+                if (ooDocument.propertyExists(metadata.getName())) {
+                   metadata.setValue(ooDocument.getPropertyValue(metaName));
+                   metadataMap.put(metadata.getName(), metadata); 
+                } 
+            }
+        }
+        } catch (UnknownPropertyException ex) {
+            log.error("error in refreshmetadata() "+ ex.getMessage());
+        }
+    }
+    
+    /*
+     *Get metadata values from map into document
+     */
+    public void updateMetadataToDocument(){
+         if (!metadataMap.isEmpty()) {
+            Iterator metaIterator = metadataMap.keySet().iterator();
+            while (metaIterator.hasNext()) {
+                String metaName = (String) metaIterator.next();
+                DocumentMetadata metadata = metadataMap.get(metaName);
+                //if the property exists in the document, get the property value
+                if (ooDocument.propertyExists(metadata.getName())) {
+                   ooDocument.setPropertyValue(metadata.getName(), metadata.getValue());
+                } else {
+                    //property does not exist, so add it
+                   ooDocument.addProperty(metadata.getName(), metadata.getValue());
+                }
+            }
+        }
+    }
+    
+    private void initDocumentMetadataVariables () {
         String query = SettingsQueryFactory.Q_FETCH_DOCUMENT_METADATA_VARIABLES();
-        ArrayList<DocumentMetadata> arrayMeta = new ArrayList<DocumentMetadata>();
+        //ArrayList<DocumentMetadata> arrayMeta = new ArrayList<DocumentMetadata>();
         log.debug("getDocumentMetadataVariables :query = "+ query);
         String settingsInstance = DefaultInstanceFactory.DEFAULT_INSTANCE();
         BungeniClientDB db = new BungeniClientDB(settingsInstance, "");
@@ -44,7 +111,8 @@ public class DocumentMetadataSupplier {
         db.EndConnect();
         Vector<String> tableRow = new Vector<String>();
         QueryResults results = new QueryResults(resultsMap);
-           if (results.hasResults() ) {
+        metadataMap.clear();
+        if (results.hasResults() ) {
            Vector<Vector<String>> resultRows  = new Vector<Vector<String>>();
            resultRows = results.theResults();
            //it should always return a single row.... 
@@ -54,15 +122,17 @@ public class DocumentMetadataSupplier {
                    tableRow = resultRows.elementAt(i);
                    String metaName = tableRow.elementAt(METADATA_NAME_COLUMN);
                    String metaDataType = tableRow.elementAt(METADATA_DATATYPE_COLUMN);
-                   DocumentMetadata meta = new DocumentMetadata(metaName, "document", metaDataType);
-                   arrayMeta.add(meta);
-                   break;
+                   String metaType = tableRow.elementAt(METADATA_TYPE_COLUMN);
+                   String metaDisplay = tableRow.elementAt(METADATA_DISPLAYNAME_COLUMN);
+                   String visible = tableRow.elementAt(METADATA_VISIBLE_COLUMN);
+                   DocumentMetadata meta = new DocumentMetadata(metaName, metaType , metaDataType, metaDisplay, Integer.parseInt(visible));
+                   this.metadataMap.put (meta.getName(), meta);
+                  // arrayMeta.add(meta);
+                  // break;
            }
         } 
-        if (arrayMeta.size() > 0 )
-            return arrayMeta.toArray(new DocumentMetadata[arrayMeta.size()]);
-        else
-            return null;
+     
     }
+    
     
 }

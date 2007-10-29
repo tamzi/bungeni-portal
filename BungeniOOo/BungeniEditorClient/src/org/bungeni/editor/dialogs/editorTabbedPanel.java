@@ -123,6 +123,7 @@ import org.bungeni.editor.dialogs.tree.NodeMoveTransferHandler;
 import org.bungeni.editor.dialogs.tree.TreeDropTarget;
 import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
+import org.bungeni.editor.metadata.DocumentMetadataTableModel;
 import org.bungeni.editor.panels.CollapsiblePanelFactory;
 import org.bungeni.editor.panels.ICollapsiblePanel;
 import org.bungeni.ooo.BungenioOoHelper;
@@ -226,6 +227,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        log.debug("calling initOpenDOcuments");
        initOpenDocuments();
        updateListDocuments();
+       
+       tableDocMetadata.setModel(new DocumentMetadataTableModel(ooDocument) );
     }
     
     private void initListDocuments(){
@@ -1445,7 +1448,7 @@ private void displayUserMetadata(XTextRange xRange) {
         cboDocURI = new javax.swing.JComboBox();
         btnSetMetadata = new javax.swing.JButton();
         txtDocType = new javax.swing.JTextField();
-        jScrollPane4 = new javax.swing.JScrollPane();
+        scrollDocMetadata = new javax.swing.JScrollPane();
         tableDocMetadata = new javax.swing.JTable();
         cboListDocuments = new javax.swing.JComboBox();
         lblOpenDocuments = new javax.swing.JLabel();
@@ -1519,7 +1522,7 @@ private void displayUserMetadata(XTextRange xRange) {
                 "METADATA", "VALUE"
             }
         ));
-        jScrollPane4.setViewportView(tableDocMetadata);
+        scrollDocMetadata.setViewportView(tableDocMetadata);
 
         lblOpenDocuments.setText("Open Documents:");
 
@@ -1531,7 +1534,7 @@ private void displayUserMetadata(XTextRange xRange) {
                 .add(panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(panelMetadataLayout.createSequentialGroup()
                         .addContainerGap()
-                        .add(jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                        .add(scrollDocMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
                     .add(panelMetadataLayout.createSequentialGroup()
                         .addContainerGap()
                         .add(txtDocType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
@@ -1572,7 +1575,7 @@ private void displayUserMetadata(XTextRange xRange) {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnSetMetadata)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 74, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(scrollDocMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 74, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lblOpenDocuments)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 7, Short.MAX_VALUE)
@@ -2286,7 +2289,6 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTable jTable1;
     private javax.swing.JTabbedPane jTabsContainer;
     private javax.swing.JTree jTree1;
@@ -2309,6 +2311,7 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JPanel panelNotes;
     private javax.swing.JRadioButton radioDocumentSection;
     private javax.swing.JRadioButton radioSelectedText;
+    private javax.swing.JScrollPane scrollDocMetadata;
     private javax.swing.JScrollPane scrollListboxMetadata;
     private javax.swing.JScrollPane scrollPane_treeDocStructure;
     private javax.swing.JScrollPane scroll_panelNotes;

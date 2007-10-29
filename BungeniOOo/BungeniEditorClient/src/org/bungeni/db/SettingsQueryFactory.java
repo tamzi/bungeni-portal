@@ -66,11 +66,10 @@ public class SettingsQueryFactory {
     
     public static String Q_FETCH_DOCUMENT_METADATA_VARIABLES() {
         String activeDocument = BungeniEditorProperties.getEditorProperty("activeDocumentMode");
-        String query = "select metadata_name, metadata_datatype " +
+        String query = "select metadata_name, metadata_datatype, metadata_type, display_name, visible  " +
                 " from document_metadata " +
                 "where metadata_type = 'document'" +
                 "and doc_type = '"+activeDocument+"' " +
-                "and visible = 1 " +
                 "order by display_order asc";
         return query;        
     }

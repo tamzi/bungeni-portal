@@ -19,18 +19,32 @@ public class DocumentMetadata {
     private String Type;
     private String DisplayName;
     private String DataType;
-    private String Value;
+    private String Value = "";
+    private boolean isVisible;
 
     /** Creates a new instance of DocumentMetadata */
-    public DocumentMetadata(String name, String type, String datatype) {
+    public DocumentMetadata(String name, String type, String datatype, String displayname, int visible) {
         Name = name;
         Type = type;
         DataType = datatype;
+        DisplayName = displayname;
+        if (visible == 1)
+            isVisible = true;
+        else
+            isVisible = false;
     }
     
     public void setName(String name ) {
         Name = name;
     } 
+    
+    public String getDisplayName(){
+        return this.DisplayName;
+    }
+    
+    public boolean IsVisible(){
+        return isVisible;
+    }
     
     public void setType(String type ) {
         Type = type;
@@ -58,5 +72,13 @@ public class DocumentMetadata {
     
     public String toString(){
         return this.DisplayName;
+    }
+    
+    public void setValue (String value) {
+        this.Value = value;
+    }
+    
+    public String getValue(){
+        return Value;
     }
 }

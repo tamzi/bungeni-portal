@@ -11,33 +11,46 @@ package org.bungeni.editor.metadata;
 
 import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
+import org.bungeni.ooo.OOComponentHelper;
 
 /**
  *
  * @author Administrator
  */
 public class DocumentMetadataTableModel extends AbstractTableModel {
-    DocumentMetadata[] documentMetadata;
+    DocumentMetadataSupplier metaSupplier;
+    OOComponentHelper ooDocument;
     String[] column_names = {"Name", "Value" };
     private static org.apache.log4j.Logger log = Logger.getLogger(DocumentMetadataTableModel.class.getName());
   
     /** Creates a new instance of DocumentMetadataTableModel */
-    public DocumentMetadataTableModel() {
+    public DocumentMetadataTableModel(OOComponentHelper ooDoc) {
         //retrieve set of metadata applicable for this document
-        DocumentMetadataSupplier metaSupplier = new DocumentMetadataSupplier();
-        documentMetadata = DocumentMetametaSupplier.getDocumentMetadataVariables();
+        this.ooDocument = ooDoc;
+        metaSupplier = new DocumentMetadataSupplier(ooDocument);
     }
 
     public int getRowCount() {
-        return 0;
+        return metaSupplier.getVisibleCount();
     }
 
     public int getColumnCount() {
-        return 0;
+        return this.column_names.length;
     }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
+        DocumentMetadata[] metas = this.metaSupplier.getDocumentMetadata();
+        DocumentMetadata rowMeta = metas[rowIndex];
+        if (columnIndex == 0){
+            rowMeta.getDisplayName();
+        } else if (columnIndex == 1) {
+            rowMeta.getValue();
+        }
         return 0;
     }
     
+    public Class getColumnClass(int col) { 
+      return String.class;
+  }
+  
 }

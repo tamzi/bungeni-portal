@@ -39,6 +39,7 @@ public class DocumentMetadataSupplier {
     /** Creates a new instance of DocumentMetadataFactory */
     public DocumentMetadataSupplier(OOComponentHelper ooDoc) {
         ooDocument = ooDoc;
+        log.debug("in Constructor()");
         initDocumentMetadataVariables();
     }
    
@@ -101,8 +102,9 @@ public class DocumentMetadataSupplier {
     }
     
     private void initDocumentMetadataVariables () {
+        try {
         String query = SettingsQueryFactory.Q_FETCH_DOCUMENT_METADATA_VARIABLES();
-        //ArrayList<DocumentMetadata> arrayMeta = new ArrayList<DocumentMetadata>();
+       //ArrayList<DocumentMetadata> arrayMeta = new ArrayList<DocumentMetadata>();
         log.debug("getDocumentMetadataVariables :query = "+ query);
         String settingsInstance = DefaultInstanceFactory.DEFAULT_INSTANCE();
         BungeniClientDB db = new BungeniClientDB(settingsInstance, "");
@@ -117,10 +119,12 @@ public class DocumentMetadataSupplier {
            resultRows = results.theResults();
            //it should always return a single row.... 
            //so we process the first row and brea
+           log.debug("resultRows = "+ resultRows.size());
            for (int i = 0 ; i < resultRows.size(); i++ ) {
                    //get the results row by row into a string vector
                    tableRow = resultRows.elementAt(i);
                    String metaName = tableRow.elementAt(METADATA_NAME_COLUMN);
+                   log.debug("fetching metaName = "+ metaName);
                    String metaDataType = tableRow.elementAt(METADATA_DATATYPE_COLUMN);
                    String metaType = tableRow.elementAt(METADATA_TYPE_COLUMN);
                    String metaDisplay = tableRow.elementAt(METADATA_DISPLAYNAME_COLUMN);
@@ -130,8 +134,12 @@ public class DocumentMetadataSupplier {
                   // arrayMeta.add(meta);
                   // break;
            }
-        } 
-     
+        } else {
+            log.debug(" no results found!");
+        }
+        } catch (Exception ex) {
+            log.debug("exception in DocumentMetadataSupplier :"+ ex.getMessage());
+        }
     }
     
     

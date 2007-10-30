@@ -110,6 +110,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
@@ -123,7 +124,9 @@ import org.bungeni.editor.dialogs.tree.NodeMoveTransferHandler;
 import org.bungeni.editor.dialogs.tree.TreeDropTarget;
 import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
+import org.bungeni.editor.metadata.DocumentMetadataEditInvoke;
 import org.bungeni.editor.metadata.DocumentMetadataTableModel;
+import org.bungeni.editor.metadata.DocumentMetadataTableMouseListener;
 import org.bungeni.editor.panels.CollapsiblePanelFactory;
 import org.bungeni.editor.panels.ICollapsiblePanel;
 import org.bungeni.ooo.BungenioOoHelper;
@@ -229,6 +232,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        updateListDocuments();
        
        tableDocMetadata.setModel(new DocumentMetadataTableModel(ooDocument) );
+       tableDocMetadata.addMouseListener(new DocumentMetadataTableMouseListener());
     }
     
     private void initListDocuments(){

@@ -10,7 +10,8 @@
 package org.bungeni.editor.metadata;
 
 /**
- *
+ * 
+ * Document metadata container class
  * @author Administrator
  */
 public class DocumentMetadata {
@@ -22,7 +23,13 @@ public class DocumentMetadata {
     private String Value = "";
     private boolean isVisible;
 
-    /** Creates a new instance of DocumentMetadata */
+    /**
+     * Creates a new instance of DocumentMetadata
+     * @param name Name of metadata property
+     * @param type Data type of metadata - document or section or text level
+     * @param datatype data type of metadata value - string or datetime
+     * @param displayname description displayed on the user interface
+     */
     public DocumentMetadata(String name, String type, String datatype, String displayname, int visible) {
         Name = name;
         Type = type;
@@ -34,6 +41,9 @@ public class DocumentMetadata {
             isVisible = false;
     }
     
+    /**
+     * 
+     */
     public void setName(String name ) {
         Name = name;
     } 

@@ -127,6 +127,7 @@ import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.editor.metadata.DocumentMetadata;
 import org.bungeni.editor.metadata.DocumentMetadataEditInvoke;
+import org.bungeni.editor.metadata.DocumentMetadataSupplier;
 import org.bungeni.editor.metadata.DocumentMetadataTableModel;
 import org.bungeni.editor.metadata.DocumentMetadataTableMouseListener;
 import org.bungeni.editor.panels.CollapsiblePanelFactory;
@@ -197,7 +198,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        this.parentFrame = parentFrame;
        
        init();
-       
+      
     }
     
     /* we need three options,
@@ -508,7 +509,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         
         cboSelectBodyMetadata.removeAllItems();
         cboSelectBodyMetadata.addItem(new selectMetadataModel("Members of Parliament", GeneralQueryFactory.Q_FETCH_ALL_MPS()));;
-        
+        panelEditDocumentMetadata.setVisible(false);
     }
     public Component getComponentHandle(){
         return this;
@@ -1450,7 +1451,7 @@ private void displayUserMetadata(XTextRange xRange) {
         cboListDocuments = new javax.swing.JComboBox();
         lblOpenDocuments = new javax.swing.JLabel();
         panelEditDocumentMetadata = new javax.swing.JPanel();
-        btnSetMetadata = new javax.swing.JButton();
+        btnApplyDocMetadata = new javax.swing.JButton();
         btnMetadataCancel = new javax.swing.JButton();
         editStringTxt = new javax.swing.JTextField();
         editDateLbl = new javax.swing.JLabel();
@@ -1512,14 +1513,19 @@ private void displayUserMetadata(XTextRange xRange) {
 
         lblOpenDocuments.setText("Open Documents:");
 
-        btnSetMetadata.setText("Apply");
-        btnSetMetadata.addActionListener(new java.awt.event.ActionListener() {
+        btnApplyDocMetadata.setText("Apply");
+        btnApplyDocMetadata.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSetMetadataActionPerformed(evt);
+                btnApplyDocMetadataActionPerformed(evt);
             }
         });
 
         btnMetadataCancel.setText("Cancel");
+        btnMetadataCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMetadataCancelActionPerformed(evt);
+            }
+        });
 
         editDateLbl.setText("Edit Date Value");
 
@@ -1530,25 +1536,24 @@ private void displayUserMetadata(XTextRange xRange) {
         panelEditDocumentMetadataLayout.setHorizontalGroup(
             panelEditDocumentMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelEditDocumentMetadataLayout.createSequentialGroup()
-                .add(editDateLbl, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 139, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(79, Short.MAX_VALUE))
-            .add(editStringTxt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-            .add(editDateTxt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-            .add(panelEditDocumentMetadataLayout.createSequentialGroup()
-                .add(27, 27, 27)
-                .add(btnSetMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 69, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnMetadataCancel)
-                .addContainerGap(49, Short.MAX_VALUE))
-            .add(panelEditDocumentMetadataLayout.createSequentialGroup()
-                .add(editStringLbl, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 121, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(panelEditDocumentMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(panelEditDocumentMetadataLayout.createSequentialGroup()
+                        .add(35, 35, 35)
+                        .add(btnApplyDocMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 69, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(btnMetadataCancel))
+                    .add(editDateTxt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
+                    .add(editDateLbl, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 139, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(editStringTxt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 208, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(editStringLbl, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 121, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         panelEditDocumentMetadataLayout.setVerticalGroup(
             panelEditDocumentMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, panelEditDocumentMetadataLayout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(editStringLbl)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(editStringTxt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(editDateLbl)
@@ -1556,9 +1561,8 @@ private void displayUserMetadata(XTextRange xRange) {
                 .add(editDateTxt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(panelEditDocumentMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(btnSetMetadata)
-                    .add(btnMetadataCancel))
-                .addContainerGap())
+                    .add(btnApplyDocMetadata)
+                    .add(btnMetadataCancel)))
         );
 
         org.jdesktop.layout.GroupLayout panelMetadataLayout = new org.jdesktop.layout.GroupLayout(panelMetadata);
@@ -1570,18 +1574,18 @@ private void displayUserMetadata(XTextRange xRange) {
                 .add(panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(scrollDocMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                     .add(cboListDocuments, 0, 218, Short.MAX_VALUE)
-                    .add(panelEditDocumentMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(lblOpenDocuments, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                    .add(lblOpenDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 218, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(panelEditDocumentMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelMetadataLayout.setVerticalGroup(
             panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelMetadataLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(scrollDocMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 105, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(scrollDocMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 94, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(panelEditDocumentMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 120, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(16, 16, 16)
+                .add(panelEditDocumentMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(17, 17, 17)
                 .add(lblOpenDocuments)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -1870,6 +1874,11 @@ private void displayUserMetadata(XTextRange xRange) {
                     .add(toggleEditSection)))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnMetadataCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMetadataCancelActionPerformed
+// TODO add your handling code here:
+        this.panelEditDocumentMetadata.setVisible(false);
+    }//GEN-LAST:event_btnMetadataCancelActionPerformed
 
     private void listboxEditorNotesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listboxEditorNotesValueChanged
 // TODO add your handling code here:
@@ -2227,8 +2236,24 @@ private void displayUserMetadata(XTextRange xRange) {
                    cboListDocuments.updateUI();
                    
     }
-    private void btnSetMetadataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetMetadataActionPerformed
+    private void btnApplyDocMetadataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyDocMetadataActionPerformed
 // TODO add your handling code here:
+        DocumentMetadataSupplier dms = ((DocumentMetadataTableModel)tableDocMetadata.getModel()).getMetadataSupplier();
+        DocumentMetadata docMetadataSelectedRow = dms.getDocumentMetadata()[currentMetadataSelectedRow];
+        
+        if (docMetadataSelectedRow.getDataType().equals("datetime") ){
+             Date ctlValue = this.editDateTxt.getDate();
+             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+             docMetadataSelectedRow.setValue(formatter.format(ctlValue));
+        } else if (docMetadataSelectedRow.getDataType().equals("string") ) {
+             String ctlValue = this.editStringTxt.getText();
+             docMetadataSelectedRow.setValue(ctlValue);
+        }
+        
+        this.panelEditDocumentMetadata.setVisible(false);
+        dms.updateMetadataToDocument(docMetadataSelectedRow.getName());
+        this.tableDocMetadata.updateUI();
+     /*
      String strAuthor="";
      String strDocType = "";
      
@@ -2253,11 +2278,11 @@ private void displayUserMetadata(XTextRange xRange) {
                 ooDocument.setPropertyValue("bungeni_document_type", strDocType);
                 log.debug("setting property - doctype");
             }
-                
+       */         
       
             //set the new values into the document
      
-    }//GEN-LAST:event_btnSetMetadataActionPerformed
+    }//GEN-LAST:event_btnApplyDocMetadataActionPerformed
     
     class changeStructureItem {
         String itemText;
@@ -2277,6 +2302,7 @@ private void displayUserMetadata(XTextRange xRange) {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnApplyDocMetadata;
     private javax.swing.JButton btnApplyMetadata;
     private javax.swing.JButton btnClearMetadataValue;
     private javax.swing.ButtonGroup btnGrpBodyMetadataTarget;
@@ -2284,7 +2310,6 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JButton btnMetadataCancel;
     private javax.swing.JButton btnNewEditorNote;
     private javax.swing.JButton btnSaveEditorNote;
-    private javax.swing.JButton btnSetMetadata;
     private javax.swing.JComboBox cboListDocuments;
     private javax.swing.JComboBox cboSelectBodyMetadata;
     private javax.swing.JComboBox comboChangeStructure;
@@ -2379,6 +2404,7 @@ private void displayUserMetadata(XTextRange xRange) {
         
     }
     
+    private int currentMetadataSelectedRow = 0;
     
     public class DocumentMetadataTableMouseListener implements MouseListener {
     
@@ -2394,8 +2420,15 @@ private void displayUserMetadata(XTextRange xRange) {
             int row = tbl.rowAtPoint(p);
             DocumentMetadataTableModel mModel  = (DocumentMetadataTableModel) tbl.getModel();
             DocumentMetadata metadataObj = mModel.getMetadataSupplier().getDocumentMetadata()[row];
+            currentMetadataSelectedRow = row;
+            //update the controls with the value
             if (metadataObj.getDataType().equals("datetime")) {
                 try {
+                self().editStringLbl.setVisible(false);
+                self().editStringTxt.setVisible(false);
+                self().editDateLbl.setVisible(true);
+                self().editDateTxt.setVisible(true);
+                
                 String metaValue = metadataObj.getValue().trim();
                 SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd");
                 if (metaValue.length() == 0)
@@ -2406,6 +2439,11 @@ private void displayUserMetadata(XTextRange xRange) {
                     log.error("documentMetadataMouseListener error :" + ex.getMessage());
                 }
             } else if (metadataObj.getDataType().equals("string")) {
+                self().editStringLbl.setVisible(true);
+                self().editStringTxt.setVisible(true);
+                self().editDateLbl.setVisible(false);
+                self().editDateTxt.setVisible(false);
+                
                 String metaValue = metadataObj.getValue();
                 self().editStringTxt.setText(metaValue);
             }

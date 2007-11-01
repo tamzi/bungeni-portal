@@ -89,14 +89,18 @@ public class DocumentMetadataSupplier {
             Iterator metaIterator = metadataMap.keySet().iterator();
             while (metaIterator.hasNext()) {
                 String metaName = (String) metaIterator.next();
-                DocumentMetadata metadata = metadataMap.get(metaName);
-                //if the property exists in the document, get the property value
-                if (ooDocument.propertyExists(metadata.getName())) {
-                   ooDocument.setPropertyValue(metadata.getName(), metadata.getValue());
-                } else {
-                    //property does not exist, so add it
-                   ooDocument.addProperty(metadata.getName(), metadata.getValue());
-                }
+                updateMetadataToDocument(metaName);
+            }
+        }
+    }
+    public void updateMetadataToDocument(String name) {
+        if (metadataMap.containsKey(name)){
+            DocumentMetadata metadata = metadataMap.get(name);
+            if (ooDocument.propertyExists(metadata.getName())) {
+               ooDocument.setPropertyValue(metadata.getName(), metadata.getValue());
+            } else {
+                //property does not exist, so add it
+               ooDocument.addProperty(metadata.getName(), metadata.getValue());
             }
         }
     }

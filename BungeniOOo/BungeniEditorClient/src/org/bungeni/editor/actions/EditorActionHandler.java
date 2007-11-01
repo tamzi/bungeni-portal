@@ -208,7 +208,7 @@ public class EditorActionHandler implements IEditorActionEvent {
         try {
             xText.insertTextContent(xCursor, xSectionContent , true);        
         } catch (com.sun.star.lang.IllegalArgumentException ex) {
-            log.debug("in addTextSection : "+ex.getLocalizedMessage(), ex);
+            log.error("in addTextSection : "+ex.getLocalizedMessage(), ex);
         }        
         
         

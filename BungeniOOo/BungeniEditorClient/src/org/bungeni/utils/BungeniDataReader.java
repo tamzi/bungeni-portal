@@ -53,7 +53,7 @@ public class BungeniDataReader {
             }
           
         } catch (IOException ex) {
-            log.debug("BungeniDataReader.get : " + ex.getLocalizedMessage(), ex);
+            log.error("BungeniDataReader.get : " + ex.getLocalizedMessage(), ex);
         }  finally {
             return vFile;
         }

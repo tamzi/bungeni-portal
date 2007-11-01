@@ -116,7 +116,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
                 }
             }
         } catch (ParseException ex) {
-            log.debug("SetControlData: "+ ex.getMessage());
+            log.error("SetControlData: "+ ex.getMessage());
         }
     }
     

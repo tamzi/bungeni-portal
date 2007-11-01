@@ -99,7 +99,7 @@ public class SelectSection extends selectorTemplatePanel {
             m_validParentSections[0] = "root";
         }
        } catch (Exception ex) {
-           log.debug("getAllowedSections:" + ex.getMessage());
+           log.error("getAllowedSections:" + ex.getMessage());
        }
      }
      
@@ -139,9 +139,9 @@ public class SelectSection extends selectorTemplatePanel {
             CommonTreeFunctions.expandAll(treeSectionStructure, true);
         
         } catch (NoSuchElementException ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         } catch (WrappedTargetException ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         }
     }
     
@@ -167,9 +167,9 @@ public class SelectSection extends selectorTemplatePanel {
         } else 
             return;
         } catch (UnknownPropertyException ex) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         } catch (WrappedTargetException ex ) {
-            log.debug(ex.getMessage());
+            log.error(ex.getMessage());
         }
     }
     

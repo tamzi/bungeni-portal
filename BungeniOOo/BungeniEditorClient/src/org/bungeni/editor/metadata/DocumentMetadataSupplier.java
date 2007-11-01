@@ -138,7 +138,7 @@ public class DocumentMetadataSupplier {
             log.debug(" no results found!");
         }
         } catch (Exception ex) {
-            log.debug("exception in DocumentMetadataSupplier :"+ ex.getMessage());
+            log.error("exception in DocumentMetadataSupplier :"+ ex.getMessage());
         }
     }
     

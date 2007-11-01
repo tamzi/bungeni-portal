@@ -46,7 +46,7 @@ public class ooDocMetadata {
         if (PropertyExists (propertyName))
                 propertyValue = ooDocument.getPropertyValue(propertyName);
        } catch (UnknownPropertyException ex) {
-                log.debug("GetProperty:"+propertyName+" "+ ex.getMessage());
+                log.error("GetProperty:"+propertyName+" "+ ex.getMessage());
                
        } finally {
        return propertyValue;

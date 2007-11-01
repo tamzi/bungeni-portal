@@ -53,6 +53,7 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
+import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -124,6 +125,7 @@ import org.bungeni.editor.dialogs.tree.NodeMoveTransferHandler;
 import org.bungeni.editor.dialogs.tree.TreeDropTarget;
 import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
+import org.bungeni.editor.metadata.DocumentMetadata;
 import org.bungeni.editor.metadata.DocumentMetadataEditInvoke;
 import org.bungeni.editor.metadata.DocumentMetadataTableModel;
 import org.bungeni.editor.metadata.DocumentMetadataTableMouseListener;
@@ -291,7 +293,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             }
         }
         } catch (Exception ex) {
-            ex.printStackTrace();
+           log.error("InitOpenDocumentsList error :" + ex.getMessage());
         }
     }
     
@@ -942,18 +944,16 @@ public class editorTabbedPanel extends javax.swing.JPanel {
               */
         
            } catch (NoSuchElementException ex) {
-                ex.printStackTrace();
+                log.error(ex.getMessage());
             } catch (WrappedTargetException ex) {
-                ex.printStackTrace();
-            }
+                log.error(ex.getMessage());           }
             catch (com.sun.star.lang.IllegalArgumentException ex) {
-                        ex.printStackTrace();
-                    } 
+               log.error(ex.getMessage());
+            } 
             catch (UnknownPropertyException ex) {
-                        ex.printStackTrace();
-                    }
-            
-   }
+               log.error(ex.getMessage());
+            }
+}
    
 
 
@@ -1445,11 +1445,17 @@ private void displayUserMetadata(XTextRange xRange) {
         jTree2 = new javax.swing.JTree();
         jTabsContainer = new javax.swing.JTabbedPane();
         panelMetadata = new javax.swing.JPanel();
-        btnSetMetadata = new javax.swing.JButton();
         scrollDocMetadata = new javax.swing.JScrollPane();
         tableDocMetadata = new javax.swing.JTable();
         cboListDocuments = new javax.swing.JComboBox();
         lblOpenDocuments = new javax.swing.JLabel();
+        panelEditDocumentMetadata = new javax.swing.JPanel();
+        btnSetMetadata = new javax.swing.JButton();
+        btnMetadataCancel = new javax.swing.JButton();
+        editStringTxt = new javax.swing.JTextField();
+        editDateLbl = new javax.swing.JLabel();
+        editDateTxt = new org.jdesktop.swingx.JXDatePicker();
+        editStringLbl = new javax.swing.JLabel();
         panelBodyMetadata = new javax.swing.JPanel();
         lblSelectBodyMetadata = new javax.swing.JLabel();
         cboSelectBodyMetadata = new javax.swing.JComboBox();
@@ -1491,13 +1497,6 @@ private void displayUserMetadata(XTextRange xRange) {
         jTabsContainer.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         jTabsContainer.setFont(new java.awt.Font("Tahoma", 0, 10));
         panelMetadata.setFont(new java.awt.Font("Tahoma", 0, 10));
-        btnSetMetadata.setText("Set Metadata");
-        btnSetMetadata.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSetMetadataActionPerformed(evt);
-            }
-        });
-
         tableDocMetadata.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {"DOC_AUTHOR", null},
@@ -1513,35 +1512,76 @@ private void displayUserMetadata(XTextRange xRange) {
 
         lblOpenDocuments.setText("Open Documents:");
 
+        btnSetMetadata.setText("Apply");
+        btnSetMetadata.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetMetadataActionPerformed(evt);
+            }
+        });
+
+        btnMetadataCancel.setText("Cancel");
+
+        editDateLbl.setText("Edit Date Value");
+
+        editStringLbl.setText("Edit Text Value");
+
+        org.jdesktop.layout.GroupLayout panelEditDocumentMetadataLayout = new org.jdesktop.layout.GroupLayout(panelEditDocumentMetadata);
+        panelEditDocumentMetadata.setLayout(panelEditDocumentMetadataLayout);
+        panelEditDocumentMetadataLayout.setHorizontalGroup(
+            panelEditDocumentMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(panelEditDocumentMetadataLayout.createSequentialGroup()
+                .add(editDateLbl, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 139, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(79, Short.MAX_VALUE))
+            .add(editStringTxt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+            .add(editDateTxt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+            .add(panelEditDocumentMetadataLayout.createSequentialGroup()
+                .add(27, 27, 27)
+                .add(btnSetMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 69, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnMetadataCancel)
+                .addContainerGap(49, Short.MAX_VALUE))
+            .add(panelEditDocumentMetadataLayout.createSequentialGroup()
+                .add(editStringLbl, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 121, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        panelEditDocumentMetadataLayout.setVerticalGroup(
+            panelEditDocumentMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, panelEditDocumentMetadataLayout.createSequentialGroup()
+                .add(editStringLbl)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(editStringTxt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(editDateLbl)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(editDateTxt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(panelEditDocumentMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(btnSetMetadata)
+                    .add(btnMetadataCancel))
+                .addContainerGap())
+        );
+
         org.jdesktop.layout.GroupLayout panelMetadataLayout = new org.jdesktop.layout.GroupLayout(panelMetadata);
         panelMetadata.setLayout(panelMetadataLayout);
         panelMetadataLayout.setHorizontalGroup(
             panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelMetadataLayout.createSequentialGroup()
+                .addContainerGap()
                 .add(panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                        .add(org.jdesktop.layout.GroupLayout.LEADING, panelMetadataLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .add(scrollDocMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
-                        .add(org.jdesktop.layout.GroupLayout.LEADING, panelMetadataLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 218, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .add(org.jdesktop.layout.GroupLayout.LEADING, panelMetadataLayout.createSequentialGroup()
-                            .addContainerGap()
-                            .add(lblOpenDocuments, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)))
-                    .add(panelMetadataLayout.createSequentialGroup()
-                        .add(67, 67, 67)
-                        .add(btnSetMetadata)))
+                    .add(scrollDocMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                    .add(cboListDocuments, 0, 218, Short.MAX_VALUE)
+                    .add(panelEditDocumentMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(lblOpenDocuments, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelMetadataLayout.setVerticalGroup(
             panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelMetadataLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(scrollDocMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(scrollDocMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 105, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnSetMetadata)
-                .add(70, 70, 70)
+                .add(panelEditDocumentMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 120, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(16, 16, 16)
                 .add(lblOpenDocuments)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -2241,12 +2281,17 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JButton btnClearMetadataValue;
     private javax.swing.ButtonGroup btnGrpBodyMetadataTarget;
     private javax.swing.JButton btnLookupMetadata;
+    private javax.swing.JButton btnMetadataCancel;
     private javax.swing.JButton btnNewEditorNote;
     private javax.swing.JButton btnSaveEditorNote;
     private javax.swing.JButton btnSetMetadata;
     private javax.swing.JComboBox cboListDocuments;
     private javax.swing.JComboBox cboSelectBodyMetadata;
     private javax.swing.JComboBox comboChangeStructure;
+    private javax.swing.JLabel editDateLbl;
+    private org.jdesktop.swingx.JXDatePicker editDateTxt;
+    private javax.swing.JLabel editStringLbl;
+    private javax.swing.JTextField editStringTxt;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -2266,6 +2311,7 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JList listboxEditorNotes;
     private javax.swing.JList listboxMetadata;
     private javax.swing.JPanel panelBodyMetadata;
+    private javax.swing.JPanel panelEditDocumentMetadata;
     private javax.swing.JPanel panelHistory;
     private javax.swing.JPanel panelMarkup;
     private javax.swing.JPanel panelMetadata;
@@ -2333,6 +2379,76 @@ private void displayUserMetadata(XTextRange xRange) {
         
     }
     
+    
+    public class DocumentMetadataTableMouseListener implements MouseListener {
+    
+    /** Creates a new instance of DocumentMetadataTableMouseListener */
+    public DocumentMetadataTableMouseListener() {
+      }
+
+    public void mouseClicked(MouseEvent e) {
+           JTable tbl = (JTable) e.getSource();
+           
+          if (e.getClickCount() == 2){
+            Point p = e.getPoint();
+            int row = tbl.rowAtPoint(p);
+            DocumentMetadataTableModel mModel  = (DocumentMetadataTableModel) tbl.getModel();
+            DocumentMetadata metadataObj = mModel.getMetadataSupplier().getDocumentMetadata()[row];
+            if (metadataObj.getDataType().equals("datetime")) {
+                try {
+                String metaValue = metadataObj.getValue().trim();
+                SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd");
+                if (metaValue.length() == 0)
+                    self().editDateTxt.setDate(new Date());
+                else
+                    self().editDateTxt.setDate(formatter.parse(metaValue));
+                } catch (java.text.ParseException ex) {
+                    log.error("documentMetadataMouseListener error :" + ex.getMessage());
+                }
+            } else if (metadataObj.getDataType().equals("string")) {
+                String metaValue = metadataObj.getValue();
+                self().editStringTxt.setText(metaValue);
+            }
+            self().panelEditDocumentMetadata.setVisible(true);
+                    
+            /*
+            JDialog dlg;
+            dlg = panelEditDocumentMetadata.Launch( metadataObj);
+            panelEditDocumentMetadata objPanel = (panelEditDocumentMetadata)dlg.getContentPane().getComponent(0);
+            if (objPanel.isCancelClicked())
+                   return;
+            metadataObj = objPanel.getDocumentMetadata(); 
+            //pass the metadata object to update the document to metadata;
+            mModel.getMetadataSupplier().updateMetadataToDocument();
+            //System.out.println("metadata OnClick = " + metadataObj.toString()); 
+            /*
+            if (fileType.equals("folder")) {
+                log.debug("folder: "+fileName + "was clicked");
+                //switch to the clicked folder
+                //first get the table model
+                WebDavTableModel davModel = (WebDavTableModel) tblServerFiles.getModel();
+                davModel.brains();
+                davModel.setPathRelative(fileName);
+            }
+            else
+                log.debug("file was clicked");
+             */
+        }
+    }
+
+    public void mousePressed(MouseEvent e) {
+    }
+
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    public void mouseExited(MouseEvent e) {
+    }
+    
+}
     /*
      *This is the class contained in the map of all open documents
      *Adds an eventListener()
@@ -2378,6 +2494,7 @@ private void displayUserMetadata(XTextRange xRange) {
                 }
             }        
     }
+    
     
     public static void main(String args[]) {
     JFrame frame = new JFrame("Oval Sample");

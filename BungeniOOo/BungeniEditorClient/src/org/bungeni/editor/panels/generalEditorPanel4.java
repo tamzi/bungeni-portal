@@ -154,7 +154,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                }
         }
         } catch (Exception ex) {
-            log.debug("Exception in createTreeNodes: " + ex.getMessage());
+            log.error("Exception in createTreeNodes: " + ex.getMessage());
             ex.printStackTrace();
         }
       return ;

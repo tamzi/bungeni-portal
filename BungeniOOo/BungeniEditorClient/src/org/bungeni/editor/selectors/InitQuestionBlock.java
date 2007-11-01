@@ -137,7 +137,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
                 
             }
         } catch (Exception ex) {
-            log.debug("SetControlData: "+ ex.getMessage());
+            log.error("SetControlData: "+ ex.getMessage());
         }
     }
     
@@ -609,7 +609,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
         
     // End of variables declaration                      
             } catch (IOException ex) {
-                    log.debug("InitQuestionBlock: " +ex.getMessage());
+                    log.error("InitQuestionBlock: " +ex.getMessage());
                  returnError(true);
             }
            

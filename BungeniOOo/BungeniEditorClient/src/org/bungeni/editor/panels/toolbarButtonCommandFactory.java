@@ -43,11 +43,11 @@ public class toolbarButtonCommandFactory extends Object {
                 log.debug("in factory, class name was null ");
          } 
         catch (IllegalAccessException ex) {
-                ex.printStackTrace();
+                log.error("getButtonEventHandler :" + ex.getMessage());
             } catch (InstantiationException ex) {
-                ex.printStackTrace();
+                log.error("getButtonEventHandler :" + ex.getMessage());
             } catch (ClassNotFoundException ex) {
-                ex.printStackTrace();
+                log.error("getButtonEventHandler :" + ex.getMessage());
             }
          finally {   
             if( iEvent == null ) {
@@ -66,7 +66,7 @@ public class toolbarButtonCommandFactory extends Object {
              mp = getClassName(command);
              commandClass = (String) mp.get("class");
          } catch (Exception ex) {
-            log.debug("error in getCommandClass " + ex.getLocalizedMessage(), ex);
+            log.error("error in getCommandClass " + ex.getLocalizedMessage(), ex);
         } finally {
             return commandClass;
         }
@@ -79,7 +79,7 @@ public class toolbarButtonCommandFactory extends Object {
              mp = getClassName(command);
              commandClass = (String) mp.get("section");
          } catch (Exception ex) {
-            log.debug("error in getCommandNamingConvention " + ex.getLocalizedMessage(), ex);
+            log.error("error in getCommandNamingConvention " + ex.getLocalizedMessage(), ex);
         } finally {
             return commandClass;
         }
@@ -92,7 +92,7 @@ public class toolbarButtonCommandFactory extends Object {
              mp = getClassName(command);
              commandClass = (String) mp.get("type");
          } catch (Exception ex) {
-            log.debug("error in getCommandNumberingType " + ex.getLocalizedMessage(), ex);
+            log.error("error in getCommandNumberingType " + ex.getLocalizedMessage(), ex);
         } finally {
             return commandClass;
         }  
@@ -108,7 +108,7 @@ public class toolbarButtonCommandFactory extends Object {
             cmdMap =  (HashMap) cmdsMap.get(clsName);
             return cmdMap;
         } else {
-            log.debug("in factory: getClass is null");
+            log.error("in factory: getClass is null");
             throw new Exception("getClassName(), the command name :"+clsName+" was not found.");
             
         }
@@ -128,7 +128,7 @@ public class toolbarButtonCommandFactory extends Object {
         }
         }
         catch (Exception e){
-            log.debug("exception in getIdNameMap()"+e.getLocalizedMessage());
+            log.error("exception in getIdNameMap()"+e.getLocalizedMessage());
         }
         return commandsMap;
     }
@@ -186,7 +186,7 @@ public class toolbarButtonCommandFactory extends Object {
       }
       catch (Exception e)
       {
-          log.debug("exception in createCommandsMap() "+ e.getLocalizedMessage());
+          log.error("exception in createCommandsMap() "+ e.getLocalizedMessage());
       }
         finally{
             return cmds;

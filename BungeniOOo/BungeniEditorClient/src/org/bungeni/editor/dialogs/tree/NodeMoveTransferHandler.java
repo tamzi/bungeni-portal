@@ -146,9 +146,9 @@ public class NodeMoveTransferHandler extends TransferHandler {
   	draggedNode = null;
   	super.exportDone(source, data, action);
        } catch (IOException ex) {
-         log.debug("exportDone: "+ex.getMessage());
+         log.error("exportDone: "+ex.getMessage());
        } catch (UnsupportedFlavorException ex) {
-         log.debug("exportDone:" + ex.getMessage());
+         log.error("exportDone:" + ex.getMessage());
        }
       
   }

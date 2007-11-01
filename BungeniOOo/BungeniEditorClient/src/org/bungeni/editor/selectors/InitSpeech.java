@@ -189,7 +189,7 @@ public class InitSpeech extends selectorTemplatePanel {
         }
         
         } catch (Exception ex) {
-            log.debug("SetControlData: "+ ex.getMessage());
+            log.error("SetControlData: "+ ex.getMessage());
         }
     }
      

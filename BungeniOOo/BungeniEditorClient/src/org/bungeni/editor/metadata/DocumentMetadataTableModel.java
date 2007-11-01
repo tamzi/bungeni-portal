@@ -50,14 +50,14 @@ public class DocumentMetadataTableModel extends AbstractTableModel {
         return this.column_names[column];
     }
     
-    public boolean isCellEditable(int row, int column) {
+ /*   public boolean isCellEditable(int row, int column) {
         if (column == 0 )
             return false;
         if (column == 1 )
             return true;
         return false;
     }
-    
+   */ 
     public Object getValueAt(int rowIndex, int columnIndex) {
         DocumentMetadata[] metas = this.metaSupplier.getDocumentMetadata();
         DocumentMetadata rowMeta = metas[rowIndex];

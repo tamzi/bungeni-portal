@@ -12,6 +12,7 @@ package org.bungeni.editor.metadata;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import javax.swing.JDialog;
 import javax.swing.JTable;
 
 /**
@@ -31,8 +32,16 @@ public class DocumentMetadataTableMouseListener implements MouseListener {
             Point p = e.getPoint();
             int row = tbl.rowAtPoint(p);
             DocumentMetadataTableModel mModel  = (DocumentMetadataTableModel) tbl.getModel();
-            String m = (String)tbl.getValueAt(row, 0);
-            String fileType = (String) tbl.getValueAt(row, 1);
+            DocumentMetadata metadataObj = mModel.getMetadataSupplier().getDocumentMetadata()[row];
+            JDialog dlg;
+            dlg = panelEditDocumentMetadata.Launch( metadataObj);
+            panelEditDocumentMetadata objPanel = (panelEditDocumentMetadata)dlg.getContentPane().getComponent(0);
+            if (objPanel.isCancelClicked())
+                   return;
+            metadataObj = objPanel.getDocumentMetadata(); 
+            //pass the metadata object to update the document to metadata;
+            mModel.getMetadataSupplier().updateMetadataToDocument();
+            //System.out.println("metadata OnClick = " + metadataObj.toString()); 
             /*
             if (fileType.equals("folder")) {
                 log.debug("folder: "+fileName + "was clicked");

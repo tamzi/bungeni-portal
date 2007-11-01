@@ -1284,8 +1284,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             strDocType = ooDocument.getPropertyValue("bungeni_document_type");
         }
         
-        txtDocAuthor.setText(strAuthor);
-        txtDocType.setText(strDocType);
+        //txtDocAuthor.setText(strAuthor);
+        //txtDocType.setText(strDocType);
          } catch (UnknownPropertyException ex) {
                 ex.printStackTrace();
             }
@@ -1445,13 +1445,7 @@ private void displayUserMetadata(XTextRange xRange) {
         jTree2 = new javax.swing.JTree();
         jTabsContainer = new javax.swing.JTabbedPane();
         panelMetadata = new javax.swing.JPanel();
-        lblDocAuthor = new javax.swing.JLabel();
-        txtDocAuthor = new javax.swing.JTextField();
-        lblDocType = new javax.swing.JLabel();
-        lblDocURI = new javax.swing.JLabel();
-        cboDocURI = new javax.swing.JComboBox();
         btnSetMetadata = new javax.swing.JButton();
-        txtDocType = new javax.swing.JTextField();
         scrollDocMetadata = new javax.swing.JScrollPane();
         tableDocMetadata = new javax.swing.JTable();
         cboListDocuments = new javax.swing.JComboBox();
@@ -1497,23 +1491,12 @@ private void displayUserMetadata(XTextRange xRange) {
         jTabsContainer.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         jTabsContainer.setFont(new java.awt.Font("Tahoma", 0, 10));
         panelMetadata.setFont(new java.awt.Font("Tahoma", 0, 10));
-        lblDocAuthor.setFont(new java.awt.Font("Tahoma", 0, 10));
-        lblDocAuthor.setText("Author");
-
-        lblDocType.setFont(new java.awt.Font("Tahoma", 0, 10));
-        lblDocType.setText("Document Type");
-
-        lblDocURI.setFont(new java.awt.Font("Tahoma", 0, 10));
-        lblDocURI.setText("Document URI");
-
         btnSetMetadata.setText("Set Metadata");
         btnSetMetadata.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSetMetadataActionPerformed(evt);
             }
         });
-
-        txtDocType.setEditable(false);
 
         tableDocMetadata.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1536,53 +1519,31 @@ private void displayUserMetadata(XTextRange xRange) {
             panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelMetadataLayout.createSequentialGroup()
                 .add(panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, panelMetadataLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .add(scrollDocMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, panelMetadataLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 218, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, panelMetadataLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .add(lblOpenDocuments, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)))
                     .add(panelMetadataLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(scrollDocMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
-                    .add(panelMetadataLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(txtDocType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
-                    .add(panelMetadataLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(txtDocAuthor, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                            .add(lblDocAuthor, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                            .add(lblDocType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                            .add(lblDocURI)
-                            .add(cboDocURI, 0, 218, Short.MAX_VALUE)))
-                    .add(panelMetadataLayout.createSequentialGroup()
-                        .add(66, 66, 66)
-                        .add(btnSetMetadata))
-                    .add(panelMetadataLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 218, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(panelMetadataLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(lblOpenDocuments, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)))
+                        .add(67, 67, 67)
+                        .add(btnSetMetadata)))
                 .addContainerGap())
         );
         panelMetadataLayout.setVerticalGroup(
             panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelMetadataLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(lblDocAuthor)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(txtDocAuthor, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(lblDocType)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(txtDocType, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(lblDocURI)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(cboDocURI, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(scrollDocMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 148, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnSetMetadata)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(scrollDocMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 74, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(70, 70, 70)
                 .add(lblOpenDocuments)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 7, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -2231,8 +2192,8 @@ private void displayUserMetadata(XTextRange xRange) {
      String strAuthor="";
      String strDocType = "";
      
-            strAuthor = this.txtDocAuthor.getText();
-            strDocType = this.txtDocType.getText();
+        //    strAuthor = this.txtDocAuthor.getText();
+        //    strDocType = this.txtDocType.getText();
             log.debug("setting metadata......");
             
             if (!ooDocument.propertyExists("Bungeni_DocAuthor")) {
@@ -2283,7 +2244,6 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JButton btnNewEditorNote;
     private javax.swing.JButton btnSaveEditorNote;
     private javax.swing.JButton btnSetMetadata;
-    private javax.swing.JComboBox cboDocURI;
     private javax.swing.JComboBox cboListDocuments;
     private javax.swing.JComboBox cboSelectBodyMetadata;
     private javax.swing.JComboBox comboChangeStructure;
@@ -2297,9 +2257,6 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JTabbedPane jTabsContainer;
     private javax.swing.JTree jTree1;
     private javax.swing.JTree jTree2;
-    private javax.swing.JLabel lblDocAuthor;
-    private javax.swing.JLabel lblDocType;
-    private javax.swing.JLabel lblDocURI;
     private javax.swing.JLabel lblEditorNotes;
     private javax.swing.JLabel lblEnterMetadataValue;
     private javax.swing.JLabel lblOpenDocuments;
@@ -2323,8 +2280,6 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JScrollPane tblDocHistory;
     private javax.swing.JCheckBox toggleEditSection;
     private javax.swing.JList treeDocStructure;
-    private javax.swing.JTextField txtDocAuthor;
-    private javax.swing.JTextField txtDocType;
     private javax.swing.JTextArea txtEditorNote;
     // End of variables declaration//GEN-END:variables
    // private static listDocumentsItemChanged = false;
@@ -2365,7 +2320,7 @@ private void displayUserMetadata(XTextRange xRange) {
                     
                     bringEditorWindowToFront();
                     initFields();
-                    initializeValues();
+                    //initializeValues();
                     initCollapsiblePane();
                     initNotesPanel();
                     initBodyMetadataPanel();

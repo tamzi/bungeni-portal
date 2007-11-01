@@ -126,35 +126,23 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="scrollDocMetadata" pref="218" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="txtDocType" pref="218" max="32767" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="txtDocAuthor" alignment="0" pref="218" max="32767" attributes="0"/>
-                                  <Component id="lblDocAuthor" alignment="0" pref="218" max="32767" attributes="0"/>
-                                  <Component id="lblDocType" alignment="0" pref="218" max="32767" attributes="0"/>
-                                  <Component id="lblDocURI" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  <Component id="cboDocURI" alignment="0" pref="218" max="32767" attributes="0"/>
+                          <Group type="103" alignment="1" groupAlignment="1" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="scrollDocMetadata" pref="218" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="cboListDocuments" min="-2" pref="218" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="lblOpenDocuments" pref="218" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
                               <Component id="btnSetMetadata" min="-2" max="-2" attributes="1"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="cboListDocuments" min="-2" pref="218" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="lblOpenDocuments" pref="218" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -165,24 +153,12 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lblDocAuthor" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtDocAuthor" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lblDocType" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="txtDocType" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lblDocURI" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cboDocURI" min="-2" max="-2" attributes="0"/>
+                      <Component id="scrollDocMetadata" min="-2" pref="148" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnSetMetadata" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="scrollDocMetadata" min="-2" pref="74" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="70" max="-2" attributes="0"/>
                       <Component id="lblOpenDocuments" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="7" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="cboListDocuments" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -190,45 +166,6 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="javax.swing.JLabel" name="lblDocAuthor">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
-                  <FontInfo relative="false">
-                    <Font name="Tahoma" size="10" style="0"/>
-                  </FontInfo>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Author"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtDocAuthor">
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblDocType">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
-                  <FontInfo relative="false">
-                    <Font name="Tahoma" size="10" style="0"/>
-                  </FontInfo>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Document Type"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblDocURI">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
-                  <FontInfo relative="false">
-                    <Font name="Tahoma" size="10" style="0"/>
-                  </FontInfo>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Document URI"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JComboBox" name="cboDocURI">
-              <Properties>
-                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                  <StringArray count="0"/>
-                </Property>
-              </Properties>
-            </Component>
             <Component class="javax.swing.JButton" name="btnSetMetadata">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Set Metadata"/>
@@ -236,11 +173,6 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSetMetadataActionPerformed"/>
               </Events>
-            </Component>
-            <Component class="javax.swing.JTextField" name="txtDocType">
-              <Properties>
-                <Property name="editable" type="boolean" value="false"/>
-              </Properties>
             </Component>
             <Container class="javax.swing.JScrollPane" name="scrollDocMetadata">
               <AuxValues>

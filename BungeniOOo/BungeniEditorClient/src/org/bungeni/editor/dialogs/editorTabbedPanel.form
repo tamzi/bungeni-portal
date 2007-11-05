@@ -124,12 +124,12 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="lblOpenDocuments" alignment="1" pref="218" max="32767" attributes="0"/>
                           <Component id="scrollDocMetadata" alignment="0" pref="218" max="32767" attributes="0"/>
-                          <Component id="cboListDocuments" alignment="0" pref="218" max="32767" attributes="1"/>
-                          <Component id="lblOpenDocuments" alignment="0" min="-2" pref="218" max="-2" attributes="0"/>
+                          <Component id="cboListDocuments" alignment="0" min="-2" pref="218" max="-2" attributes="1"/>
                           <Component id="panelEditDocumentMetadata" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -143,9 +143,9 @@
                       <Component id="scrollDocMetadata" min="-2" pref="94" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="panelEditDocumentMetadata" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                      <EmptySpace pref="17" max="32767" attributes="0"/>
                       <Component id="lblOpenDocuments" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="cboListDocuments" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -187,11 +187,6 @@
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="0"/>
                 </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="lblOpenDocuments">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Open Documents:"/>
               </Properties>
             </Component>
             <Container class="javax.swing.JPanel" name="panelEditDocumentMetadata">
@@ -269,6 +264,11 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Component class="javax.swing.JLabel" name="lblOpenDocuments">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Open Documents:"/>
+              </Properties>
+            </Component>
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="panelBodyMetadata">

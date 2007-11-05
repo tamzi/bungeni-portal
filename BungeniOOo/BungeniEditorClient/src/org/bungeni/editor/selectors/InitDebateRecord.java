@@ -18,6 +18,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JRootPane;
@@ -338,9 +339,10 @@ public class InitDebateRecord extends selectorTemplatePanel {
         
         ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
         
+        /*
         String[] attrNames = new String[1];
         String[] attrValues = new String[1];
-        attrNames[0] = "Bungeni_SectionType";
+        attrNames[0] = "bungeni_sectiontype";
         attrValues[0] = "Masthead";
         ExternalMacro SetSectionMetadata = ExternalMacroFactory.getMacroDefinition("SetSectionMetadata");
         SetSectionMetadata.addParameter(ooDocument.getComponent());
@@ -348,6 +350,9 @@ public class InitDebateRecord extends selectorTemplatePanel {
         SetSectionMetadata.addParameter(attrNames);
         SetSectionMetadata.addParameter(attrValues);
         ooDocument.executeMacro(SetSectionMetadata.toString(), SetSectionMetadata.getParams());  
+        */
+        
+        this.setSectionMetadataForAction(theAction.action_naming_convention(), theAction);
         
         //load the related document
         //set the field values in loaded document

@@ -199,7 +199,8 @@ public class InitQAsection extends selectorTemplatePanel {
             AddSectionInsideSection.addParameter(sectionBackColor);
             AddSectionInsideSection.addParameter(sectionLeftMargin);
             ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
-
+            
+            
             ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
             insertDocIntoSection.addParameter(ooDocument.getComponent());
             insertDocIntoSection.addParameter(theAction.action_naming_convention())   ;

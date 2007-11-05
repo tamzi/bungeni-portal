@@ -22,7 +22,9 @@ public class toolbarAction {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(toolbarAction.class.getName());
     Vector<toolbarAction> containedActions;
     private static String ROOT_ACTION_DISPLAY="Editing Actions";
-    
+    public static String ACTION_TYPE_SECTION="section";
+    public static String ACTION_TYPE_MARKUP = "markup";
+         
     private String action_name;
     private String action_order;
     private String action_class;
@@ -34,6 +36,7 @@ public class toolbarAction {
     private String action_icon;
     private String action_display_text;
     private String action_dimension;
+    private String action_section_type;
     private SelectorDialogModes theMode = null;
     
     /****act upon what ? *****/
@@ -60,7 +63,7 @@ public class toolbarAction {
         action_icon = (String) safeGet(actionDesc, action_mapping, "ACTION_ICON");
         action_display_text = (String) safeGet(actionDesc, action_mapping, "ACTION_DISPLAY_TEXT");
         action_dimension = (String) safeGet(actionDesc, action_mapping, "ACTION_DIMENSION");
-        
+        action_section_type = (String) safeGet(actionDesc, action_mapping, "ACTION_SECTION_TYPE");
         } catch (Exception e) {
             log.debug("error in toolbarAction constructor : " + e.getMessage());
             e.printStackTrace();
@@ -90,6 +93,10 @@ public class toolbarAction {
     
     public String action_type(){
         return this.action_type;
+    }
+    
+    public String action_section_type() {
+        return this.action_section_type;
     }
     
     public int action_order() {

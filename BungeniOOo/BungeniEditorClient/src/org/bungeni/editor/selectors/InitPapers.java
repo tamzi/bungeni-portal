@@ -38,14 +38,9 @@ import org.safehaus.uuid.UUIDGenerator;
  *
  * @author  Administrator
  */
-public class InitPapers extends javax.swing.JPanel implements IDialogSelector {
-    private OOComponentHelper ooDocument;
-    private JDialog parent;
-    private BungeniClientDB dbInstance=null;
-    private BungeniClientDB dbSettings = null;
-    private toolbarAction theAction;
+public class InitPapers extends selectorTemplatePanel {
+   
     registryQueryDialog rqs;
-    private SelectorDialogModes theMode;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(InitPapers.class.getName());
  
     HashMap<String, ArrayList> selectionData = new HashMap<String,ArrayList>();
@@ -54,15 +49,9 @@ public class InitPapers extends javax.swing.JPanel implements IDialogSelector {
         initComponents();
     }
     public InitPapers(OOComponentHelper ooDocument, JDialog parentDlg, toolbarAction theAction) {
+        super(ooDocument, parentDlg, theAction);
         initComponents();
-        this.ooDocument = ooDocument;
-        this.parent = parentDlg;
-        this.theAction = theAction;
         initFields();
-   
-        HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
-        dbInstance = new BungeniClientDB(registryMap);
-        dbSettings = new BungeniClientDB(DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
         initData();
         tbl_tabledDocs.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     }
@@ -263,7 +252,9 @@ public class InitPapers extends javax.swing.JPanel implements IDialogSelector {
     AddSectionInsideSection.addParameter(theAction.action_naming_convention());
      ****/
     ooDocument.executeMacro(createSectionMacro.toString(), createSectionMacro.getParams());
-
+    
+    
+    
     ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
     insertDocIntoSection.addParameter(ooDocument.getComponent());
     insertDocIntoSection.addParameter(theAction.action_naming_convention())   ;

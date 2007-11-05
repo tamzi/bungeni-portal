@@ -46,6 +46,17 @@ public class EditorActionHandler implements IEditorActionEvent {
         String cmd = action.action_name();
         if (action.action_type().equals("section")) {
             if (action.getSelectorDialogMode() == SelectorDialogModes.TEXT_INSERTION) {
+                //first we check if section can indeed be inserted, make the neccessary checks
+                int nCheckSection = 0;
+                nCheckSection = checkSection(action);
+                if (nCheckSection < 0) {
+                    //failure occured.
+                    if (nCheckSection == -1){
+                        MessageBox.OK(null, "Only one instance of the section : " + action.action_naming_convention() + " can be added !" +
+                                " \n The section already exists");
+                        return;
+                    }
+                }
                 //so we prompt for target section
                 if (SelectSection.Launchable(ooDocument)) {
                     JDialog dlg;
@@ -100,6 +111,23 @@ public class EditorActionHandler implements IEditorActionEvent {
             MessageBox.OK("the command action: "+cmd+" has not been implemented!");   
     }
     
+    // -1 returns error for section already existing
+    // -2 returns error for section 
+     private int checkSection(toolbarAction action ) {
+         //first check if its a markup section or section
+         if (action.action_type().equals(toolbarAction.ACTION_TYPE_MARKUP)) {
+             return 0;
+         } else if (action.action_type().equals(toolbarAction.ACTION_TYPE_SECTION)) {
+             //first check if the section is of type single...
+             if (action.action_numbering_convention().equals("single")) {
+                 //only one instance of this section is allowed.
+                 if (ooDocument.hasSection(action.action_naming_convention())) {
+                     return -1;
+                 }
+             }
+         }
+         return 0;
+     }
      private void doMakePrayerSection(toolbarAction action) {
       
             //section was added now prompt for dialog information

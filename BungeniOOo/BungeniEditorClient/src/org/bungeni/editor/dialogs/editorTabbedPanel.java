@@ -1449,7 +1449,6 @@ private void displayUserMetadata(XTextRange xRange) {
         scrollDocMetadata = new javax.swing.JScrollPane();
         tableDocMetadata = new javax.swing.JTable();
         cboListDocuments = new javax.swing.JComboBox();
-        lblOpenDocuments = new javax.swing.JLabel();
         panelEditDocumentMetadata = new javax.swing.JPanel();
         btnApplyDocMetadata = new javax.swing.JButton();
         btnMetadataCancel = new javax.swing.JButton();
@@ -1457,6 +1456,7 @@ private void displayUserMetadata(XTextRange xRange) {
         editDateLbl = new javax.swing.JLabel();
         editDateTxt = new org.jdesktop.swingx.JXDatePicker();
         editStringLbl = new javax.swing.JLabel();
+        lblOpenDocuments = new javax.swing.JLabel();
         panelBodyMetadata = new javax.swing.JPanel();
         lblSelectBodyMetadata = new javax.swing.JLabel();
         cboSelectBodyMetadata = new javax.swing.JComboBox();
@@ -1511,8 +1511,6 @@ private void displayUserMetadata(XTextRange xRange) {
         ));
         scrollDocMetadata.setViewportView(tableDocMetadata);
 
-        lblOpenDocuments.setText("Open Documents:");
-
         btnApplyDocMetadata.setText("Apply");
         btnApplyDocMetadata.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1565,17 +1563,19 @@ private void displayUserMetadata(XTextRange xRange) {
                     .add(btnMetadataCancel)))
         );
 
+        lblOpenDocuments.setText("Open Documents:");
+
         org.jdesktop.layout.GroupLayout panelMetadataLayout = new org.jdesktop.layout.GroupLayout(panelMetadata);
         panelMetadata.setLayout(panelMetadataLayout);
         panelMetadataLayout.setHorizontalGroup(
             panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelMetadataLayout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, panelMetadataLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(scrollDocMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .add(cboListDocuments, 0, 218, Short.MAX_VALUE)
-                    .add(lblOpenDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 218, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(panelEditDocumentMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(lblOpenDocuments, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, scrollDocMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 218, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, panelEditDocumentMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         panelMetadataLayout.setVerticalGroup(
@@ -1585,9 +1585,9 @@ private void displayUserMetadata(XTextRange xRange) {
                 .add(scrollDocMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 94, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(panelEditDocumentMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(17, 17, 17)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 17, Short.MAX_VALUE)
                 .add(lblOpenDocuments)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );

@@ -105,5 +105,14 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         this.parent = dlg;
     }
     
+    public void setSectionMetadataForAction(String sectionName, toolbarAction action) {
+      
+        HashMap<String,String> sectionMeta = new HashMap<String,String>();
+        sectionMeta.put("BungeniSectionType", theAction.action_section_type());
+        ooDocument.setSectionMetadataAttributes(sectionName, sectionMeta);
+      
+    }
+       
+        
     
 }

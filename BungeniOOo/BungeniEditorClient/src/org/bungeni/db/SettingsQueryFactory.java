@@ -45,7 +45,7 @@ public class SettingsQueryFactory {
                 "SELECT distinct act.doc_type, act.action_name, act.action_order, " +
                 "act.action_state, act.action_class, act.action_type, act.action_naming_convention, "+
                 "act.action_numbering_convention, act.action_parent, "+
-                "act.action_icon, act.action_display_text, act.action_dimension"+
+                "act.action_icon, act.action_display_text, act.action_dimension, act.action_section_type "+
                 " FROM TOOLBAR_ACTION_SETTINGS act inner join " +
                 "action_parent p on (act.action_name = p.parent_action)"+
                 " where p.parent_action not in (select action_name from action_parent) "+
@@ -57,7 +57,7 @@ public class SettingsQueryFactory {
        String query= "SELECT distinct act.doc_type, act.action_name, act.action_order," +
                "act.action_state, act.action_class, act.action_type, act.action_naming_convention, " +
                "act.action_numbering_convention, act.action_parent, " +
-               "act.action_icon, act.action_display_text, act.action_dimension FROM " +
+               "act.action_icon, act.action_display_text, act.action_dimension, act.action_section_type FROM " +
                "TOOLBAR_ACTION_SETTINGS act where act.action_name in " +
                "(select action_name from action_parent where " +
                "parent_action='"+byAction+"')";

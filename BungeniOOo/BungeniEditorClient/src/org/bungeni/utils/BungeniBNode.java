@@ -21,7 +21,8 @@ import java.util.TreeMap;
             private String Name;
             private TreeMap<Integer, BungeniBNode> childNodes = new TreeMap<Integer,BungeniBNode>();
             private HashMap<String, BungeniBNode> childNodeNames = new HashMap<String,BungeniBNode>();
-            
+            private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniBNode.class.getName());
+                
             public BungeniBNode(String n) {
                 Name = n;
             }

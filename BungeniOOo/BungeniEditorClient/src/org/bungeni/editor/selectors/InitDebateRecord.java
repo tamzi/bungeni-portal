@@ -19,10 +19,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFormattedTextField;
 import javax.swing.JRootPane;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
@@ -80,12 +84,15 @@ public class InitDebateRecord extends selectorTemplatePanel {
          */
         initdebate_timeofhansard.setModel(new SpinnerDateModel(new Date(), null, null, Calendar.HOUR));
         initdebate_timeofhansard.setEditor(new JSpinner.DateEditor(initdebate_timeofhansard, "HH:mm"));
+        ((JSpinner.DefaultEditor)initdebate_timeofhansard.getEditor()).getTextField().setEditable(false);
+        this.initdebate_debatedate.setInputVerifier(new DateVerifier());
         setControlModes();
         setControlData();
     
        // initdebate_timeofhansard.setFormatterFactory(new DefaultFormatterFactory(dfTimeOfHansard));
     }
     
+  
     public void setControlModes() {
         if (theMode == SelectorDialogModes.TEXT_EDIT) {
             this.lbl_initdebate_mastheadlogo.setVisible(false);
@@ -239,8 +246,9 @@ public class InitDebateRecord extends selectorTemplatePanel {
 // TODO add your handling code here:
         //get field values : 
     enableButtons(false);    
-    
-
+    //validate fields
+    Date dtDebateDate = this.initdebate_debatedate.getDate();
+   
     //order defines the nth sequence of this section
     int nOrder = theAction.action_order();
     
@@ -456,5 +464,26 @@ public class InitDebateRecord extends selectorTemplatePanel {
     private javax.swing.JLabel lbl_initdebate_mastheadlogo;
     private javax.swing.JLabel lbl_initdebate_setpath;
     // End of variables declaration//GEN-END:variables
-    
+  
+   public class DateVerifier extends InputVerifier {
+     public boolean verify(JComponent input) {
+         if (input instanceof JFormattedTextField) {
+             JFormattedTextField ftf = (JFormattedTextField)input;
+             JFormattedTextField.AbstractFormatter formatter = ftf.getFormatter();
+             if (formatter != null) {
+                 String text = ftf.getText();
+                 try {
+                      formatter.stringToValue(text);
+                      return true;
+                  } catch (ParseException pe) {
+                      return false;
+                  }
+              }
+          }
+          return true;
+      }
+      public boolean shouldYieldFocus(JComponent input) {
+          return verify(input);
+      }
+  }
 }

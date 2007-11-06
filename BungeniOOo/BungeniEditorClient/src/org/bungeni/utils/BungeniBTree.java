@@ -36,7 +36,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 public final class BungeniBTree {
         private TreeMap<Integer,BungeniBNode> roots = new TreeMap<Integer,BungeniBNode> ();
         private HashMap<String, BungeniBNode> rootsByName = new HashMap<String,BungeniBNode>();
-       
+        private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniBTree.class.getName());
+        
     /**
      * Default constructor for the class
      */
@@ -65,10 +66,17 @@ public final class BungeniBTree {
         public void addNodeToNamedNode(String parent, String child) {
             BungeniBNode node = getNodeByName(parent);
             if (node == null ) {
-                System.out.println("unable to add node because parent:" + parent + " was null");
+                log.debug("unable to add node because parent:" + parent + " was null");
                 return;
             }
-            node.addChild(new BungeniBNode(child));
+           if (node.containsNodeByName(child))
+                log.debug("Already contains child named "+ child);
+            else  {
+                //check if child exists in tree... if so then add 
+                node.addChild(new BungeniBNode(child));
+            }
+                
+              
         }
         
         
@@ -106,7 +114,9 @@ public final class BungeniBTree {
                while (names.hasNext()) {
                    String nodeName =  (String) names.next();
                    BungeniBNode n_child = n.getChildrenByName().get(nodeName);
-                   return walkNodeByName(n_child, name);
+                   BungeniBNode walkNode = walkNodeByName(n_child, name);
+                   if (walkNode != null )
+                       return walkNode;
                }
             }
            return null;

@@ -129,7 +129,6 @@ import org.bungeni.editor.metadata.DocumentMetadata;
 import org.bungeni.editor.metadata.DocumentMetadataEditInvoke;
 import org.bungeni.editor.metadata.DocumentMetadataSupplier;
 import org.bungeni.editor.metadata.DocumentMetadataTableModel;
-import org.bungeni.editor.metadata.DocumentMetadataTableMouseListener;
 import org.bungeni.editor.panels.CollapsiblePanelFactory;
 import org.bungeni.editor.panels.ICollapsiblePanel;
 import org.bungeni.ooo.BungenioOoHelper;
@@ -533,7 +532,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         }    
    }
     
-    private void initSectionsArray(){
+    private void initSectionsArrayXXX(){
         BungeniBTree treeRoot = new BungeniBTree();
         try {
             log.debug("initSectionsArray....");
@@ -546,13 +545,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                 log.debug("no root section found");
                 return;
             }
-            log.debug("InitSectionsArray = getting root section");
-            //Object rootSection = ooDocument.getTextSections().getByName("root");
-            //XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
-            //sectionsRootNode = null;
-            //sectionsRootNode = new DefaultMutableTreeNode(new String("root"));
-            
+           
             Object root = ooDocument.getTextSections().getByName("root");
+            log.debug("InitSectionsArray: Adding root node");
             treeRoot.addRootNode(new String("root"));
             int currentIndex = 0;
             String parentObject = "root";
@@ -561,62 +556,88 @@ public class editorTabbedPanel extends javax.swing.JPanel {
              XText xText = range.getText();
              XEnumerationAccess enumAccess = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, xText);
              XEnumeration enumeration = enumAccess.createEnumeration();
+            
+             log.debug("InitSectionsArray: starting Enumeration ");
+             
              while (enumeration.hasMoreElements()) {
                  Object elem = enumeration.nextElement();
                  XPropertySet objProps = ooQueryInterface.XPropertySet(elem);
                  XPropertySetInfo objPropsInfo = objProps.getPropertySetInfo();
+                 /*
+                  *enumerate only TextSection objects
+                  */
                  if (objPropsInfo.hasPropertyByName("TextSection")) {
                      XTextSection xConSection = (XTextSection) ((Any)objProps.getPropertyValue("TextSection")).getObject();
                      if (xConSection != null ) {
+                         /*
+                          *Get the section name 
+                          */   
                          XNamed objSectProps = ooQueryInterface.XNamed(xConSection);
                          String sectionName = objSectProps.getName();
-                          if (!sectionName.equals("root")) {
-                             System.out.println("if Section name is not root = " + sectionName); 
+                         /*
+                          *only enumerate non root sections
+                          */ 
+                         if (!sectionName.equals("root")) {
+                             log.debug("InitSectionsArray: Found Section :"+ sectionName);
+                              /*
+                              *check if the node exists in the tree
+                              */
                              BungeniBNode theNode = treeRoot.getNodeByName(sectionName);
-                                //theNode will never be null for the root section
+                                /*
+                                 *theNode will be null if the section doesnt exist in the tree
+                                 */
                                  if (theNode == null) { 
-                                      System.out.println("theNode was null for "+ sectionName);
-                                     //if the node doesnt exist, we need to add it
-                                     //get the parent section name
-                                     //iterate parent sections
+                                   log.debug("InitSectionsArray: Section name: "+ sectionName + " does not exist in tree");
+                                      /*
+                                       *if the node doesnt exist add it
+                                       *get its parent section 
+                                       *iterate up parent sections
+                                       */
                                       XTextSection sectionParent=xConSection.getParentSection();
                                       XNamed parentProps = ooQueryInterface.XNamed(sectionParent);
                                       String parentSectionname = parentProps.getName();
                                       String currentSectionname = sectionName;
- 
+                                        
                                       ArrayList<String> nodeHierarchy = new ArrayList<String>();
                                       //array list goes from child(0) to ancestors (n)
+                                      log.debug("InitSectionsArray: nodeHierarchy: Adding "+ currentSectionname);
                                       nodeHierarchy.add(currentSectionname);
-                                      System.out.println("before commencing parent loop iteration, starting parent = " +  parentSectionname);
                                       while (1==1) {
                                           //go up the hierarchy until you reach root.
                                           //break upon reaching the parent
                                           if (parentSectionname.equals("root")) {
                                               nodeHierarchy.add(parentSectionname);
+                                              log.debug("InitSectionsArray: nodeHierarchy: Adding "+ parentSectionname + " and breaking.");
                                               break;
                                           }
                                          nodeHierarchy.add(parentSectionname);
+                                         log.debug("InitSectionsArray: nodeHierarchy: Adding "+ parentSectionname + ".");
                                          currentSectionname = parentSectionname;
                                          sectionParent = sectionParent.getParentSection();
                                          parentProps = ooQueryInterface.XNamed(sectionParent);
                                          parentSectionname = parentProps.getName();
-                                         System.out.println("new parentSectionName = " + parentSectionname);
                                       } //end while (1== 1)
                                       //now iterate through the array list backwards adding grand parent the children
                                       int nLastIndex = nodeHierarchy.size() - 1 ;
                                       BungeniBNode currentNode = null, previousNode = null;
                                       for (int n=nLastIndex ; n >= 0 ; n--) {
                                           String matchingNode = nodeHierarchy.get(n);
+                                          log.debug("InitSectionsArray: Reversing: "+ matchingNode);
                                           //if it is root, it will always exist...
                                           currentNode = treeRoot.getNodeByName(matchingNode);
                                           if (currentNode == null ) { //node does not exist
-                                              //we need to create the current node and add it to the previous node
+                                               log.debug("InitSectionsArray: Reversing: if (currentNode = null) "+ matchingNode + " doest not exist in Tree");
+                                               //we need to create the current node and add it to the previous node
                                                if (previousNode != null) //the starting point is always the root node
-                                                  treeRoot.addNodeToNamedNode(previousNode.getName(), matchingNode);
-                                                  previousNode = treeRoot.getNodeByName(matchingNode);
-                                              } else { //current node exists... 
+                                                    { 
+                                                        log.debug("InitSectionsArray: Reversing: if (currentNode = null): previousNode!= null adding: "+ matchingNode + " to "+ previousNode.getName());
+                                                        treeRoot.addNodeToNamedNode(previousNode.getName(), matchingNode);
+                                                    }
+                                               previousNode = treeRoot.getNodeByName(matchingNode);
+                                           } else { //current node exists... 
+                                                  log.debug("InitSectionsArray: Reversing: if (currentNode != null) "+ matchingNode + " doest not exist in Tree");
                                                   previousNode = currentNode;
-                                              }
+                                           }
                                        } //end - for ()
                          }   // end if (theNode==null)
                        } // end if (section name != root)
@@ -635,6 +656,163 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             log.error(ex.getMessage());
         }
        
+    }
+    
+    
+   
+
+    private void initSectionsArray(){
+        BungeniBTree treeRoot = new BungeniBTree();
+        TreeMap<Integer,String> namesMap = new TreeMap<Integer,String>();
+        try {
+            if (!ooDocument.isXComponentValid()) return;
+         	/*
+         	first clear the JTree
+         	*/
+            treeDocStructureTree.removeAll();
+            treeDocStructureTree.updateUI();
+            /*
+            do a basic check to see if the root section exists
+            */
+            if (!ooDocument.getTextSections().hasByName("root")) {
+                log.error("InitSectionsArray: no root section found");
+                return;
+            }
+            /*
+            get the root section and it as the root node to the JTree
+            */
+            Object root = ooDocument.getTextSections().getByName("root");
+            log.debug("InitSectionsArray: Adding root node");
+            treeRoot.addRootNode(new String("root"));
+            /*
+            now get the enumeration of the TextSection
+            */
+
+            int currentIndex = 0;
+            String parentObject = "root";
+            XTextSection theSection = ooQueryInterface.XTextSection(root);
+            XTextRange range = theSection.getAnchor();
+            XText xText = range.getText();
+            XEnumerationAccess enumAccess = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, xText);
+            //namesMap.put(currentIndex++, parentObject);
+            XEnumeration enumeration = enumAccess.createEnumeration();
+             log.debug("InitSectionsArray: starting Enumeration ");
+            /*
+            start the enumeration of sections first
+            */ 
+             while (enumeration.hasMoreElements()) {
+                 Object elem = enumeration.nextElement();
+                 XPropertySet objProps = ooQueryInterface.XPropertySet(elem);
+                 XPropertySetInfo objPropsInfo = objProps.getPropertySetInfo();
+                 /*
+                  *enumerate only TextSection objects
+                  */
+                 if (objPropsInfo.hasPropertyByName("TextSection")) {
+                     XTextSection xConSection = (XTextSection) ((Any)objProps.getPropertyValue("TextSection")).getObject();
+                     if (xConSection != null ) {
+                         /*
+                          *Get the section name 
+                          */   
+                         XNamed objSectProps = ooQueryInterface.XNamed(xConSection);
+                         String sectionName = objSectProps.getName();
+                         /*
+                          *only enumerate non root sections
+                          */ 
+                         if (!sectionName.equals("root")) {
+                             log.debug("InitSectionsArray: Found Section :"+ sectionName);
+                              /*
+                              *check if the node exists in the tree
+                              */
+                              if (!namesMap.containsValue(sectionName)) {
+                              		namesMap.put(currentIndex++, sectionName);
+                              }
+                         } // if (!sectionName...)     
+                     } // if (xConSection !=...)
+                 } // if (objPropsInfo.hasProper....)
+             } // while (enumeration.hasMore.... )
+             
+             /*
+              *now scan through the enumerated list of sections
+              */
+             Iterator namesIterator = namesMap.keySet().iterator();
+              while (namesIterator.hasNext()) {
+                  Integer iOrder = (Integer) namesIterator.next();
+                  String sectionName = namesMap.get(iOrder);
+                  /*
+                   *check if the sectionName exists in our section tree
+                   */
+                  BungeniBNode theNode = treeRoot.getNodeByName(sectionName);
+                  if (theNode == null ) {
+                      /*
+                       *the node does not exist, build its parent chain
+                       */
+                       ArrayList<String> parentChain = buildParentChain(sectionName);
+                       /*
+                        *now iterate through the paren->child hierarchy of sections
+                        */
+                       Iterator<String> sections = parentChain.iterator();
+                       BungeniBNode currentNode = null, previousNode = null;
+                       while (sections.hasNext()) {
+                           String hierSection = sections.next();
+                           currentNode =  treeRoot.getNodeByName(hierSection);
+                           if (currentNode == null ) {
+                               /* the node doesnt exist in the tree */
+                               if (previousNode != null ) {
+                                    treeRoot.addNodeToNamedNode(previousNode.getName(), hierSection);
+                                    previousNode = treeRoot.getNodeByName(hierSection);
+                                    if (previousNode == null ) 
+                                        log.error("previousNode was null");
+                               } else {
+                                   log.error("The root section was not in the BungeniBTree hierarchy, this is an error condition");
+                               }
+                           } else {
+                               /* the node already exists...*/
+                               previousNode = currentNode;
+                           }
+                       }
+                  }
+                  
+                 
+              }
+             
+            System.out.println("order of display  = " + treeRoot.toString());
+        } catch (NoSuchElementException ex) {
+            log.error(ex.getMessage());
+        } catch (UnknownPropertyException ex) {
+            log.error(ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.error(ex.getMessage());
+        }
+    }
+
+    private ArrayList<String> buildParentChain(String Sectionname){
+          XTextSection currentSection = ooDocument.getSection(Sectionname);
+          XTextSection sectionParent=currentSection.getParentSection();
+          XNamed parentProps = ooQueryInterface.XNamed(sectionParent);
+          String parentSectionname = parentProps.getName();
+          String currentSectionname = Sectionname;
+          ArrayList<String> nodeHierarchy = new ArrayList<String>();
+          //array list goes from child(0) to ancestors (n)
+          log.debug("buildParentChain: nodeHierarchy: Adding "+ currentSectionname);
+          nodeHierarchy.add(currentSectionname);
+          while (1==1) {
+              //go up the hierarchy until you reach root.
+              //break upon reaching the parent
+              if (parentSectionname.equals("root")) {
+                  nodeHierarchy.add(parentSectionname);
+                  log.debug("buildParentChain: nodeHierarchy: Adding "+ parentSectionname + " and breaking.");
+                  break;
+              }
+             nodeHierarchy.add(parentSectionname);
+             log.debug("buildParentChain: nodeHierarchy: Adding "+ parentSectionname + ".");
+             currentSectionname = parentSectionname;
+             sectionParent = sectionParent.getParentSection();
+             parentProps = ooQueryInterface.XNamed(sectionParent);
+             parentSectionname = parentProps.getName();
+          } //end while (1== 1)
+          if (nodeHierarchy.size() > 1 )
+            Collections.reverse(nodeHierarchy);
+          return nodeHierarchy;
     }
     
     private void convertBTreetoJTreeNodes(BungeniBTree theTree){
@@ -742,8 +920,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     }
     
     private void initSectionList() {
-        initSectionsArray();  
+        //initSectionsArray();  
         log.debug("setting defaultTreeModel to sectionsRootNode");
+        sectionsRootNode = new DefaultMutableTreeNode ("root");
         treeDocStructureTree.setModel(new DefaultTreeModel(sectionsRootNode));
         CommonTreeFunctions.expandAll(treeDocStructureTree, true);
     
@@ -1474,6 +1653,7 @@ private void displayUserMetadata(XTextRange xRange) {
         tblDocHistory = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         panelNotes = new javax.swing.JPanel();
         scroll_panelNotes = new javax.swing.JScrollPane();
         listboxEditorNotes = new javax.swing.JList();
@@ -1720,15 +1900,27 @@ private void displayUserMetadata(XTextRange xRange) {
 
         jLabel3.setText("Document Workflow History");
 
+        jButton1.setText("Test");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout panelHistoryLayout = new org.jdesktop.layout.GroupLayout(panelHistory);
         panelHistory.setLayout(panelHistoryLayout);
         panelHistoryLayout.setHorizontalGroup(
             panelHistoryLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelHistoryLayout.createSequentialGroup()
-                .addContainerGap()
                 .add(panelHistoryLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(tblDocHistory, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 197, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 142, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(panelHistoryLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(panelHistoryLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(tblDocHistory, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 197, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 142, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(panelHistoryLayout.createSequentialGroup()
+                        .add(66, 66, 66)
+                        .add(jButton1)))
                 .addContainerGap(31, Short.MAX_VALUE))
         );
         panelHistoryLayout.setVerticalGroup(
@@ -1737,8 +1929,10 @@ private void displayUserMetadata(XTextRange xRange) {
                 .addContainerGap()
                 .add(jLabel3)
                 .add(10, 10, 10)
-                .add(tblDocHistory, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 209, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(67, Short.MAX_VALUE))
+                .add(tblDocHistory, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 92, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(19, 19, 19)
+                .add(jButton1)
+                .addContainerGap(142, Short.MAX_VALUE))
         );
         jTabsContainer.addTab("Doc. History", panelHistory);
 
@@ -1875,6 +2069,13 @@ private void displayUserMetadata(XTextRange xRange) {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+// TODO add your handling code here:
+        this.initSectionsArray();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+ 
+    
     private void btnMetadataCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMetadataCancelActionPerformed
 // TODO add your handling code here:
         this.panelEditDocumentMetadata.setVisible(false);
@@ -1999,6 +2200,17 @@ private void displayUserMetadata(XTextRange xRange) {
             
         }
 
+        public String getSectionHierarchy(XTextSection thisSection) {
+            String sectionName = "";
+            sectionName = ooQueryInterface.XNamed(thisSection).getName();
+            if (thisSection.getParentSection() != null) {
+                sectionName = getSectionHierarchy(thisSection.getParentSection()) + ">" + sectionName;
+            } else
+                return sectionName;
+            return sectionName;    
+        }
+       
+        
         
         public String currentSectionName() {
             XTextSection loXTextSection;
@@ -2014,8 +2226,10 @@ private void displayUserMetadata(XTextRange xRange) {
                 loXTextSection = (XTextSection)((Any)loXPropertySet.getPropertyValue("TextSection")).getObject();
                 if (loXTextSection != null)
                 {
-                    loXPropertySet = ooQueryInterface.XPropertySet(loXTextSection);
-                    lstrSectionName = (String)loXPropertySet.getPropertyValue("LinkDisplayName");
+                    //loXPropertySet = ooQueryInterface.XPropertySet(loXTextSection);
+                    //XNamed objSectProps = ooQueryInterface.XNamed(loXTextSection);
+                    //lstrSectionName =  objSectProps.getName(); // (String)loXPropertySet.getPropertyValue("LinkDisplayName");
+                    lstrSectionName = getSectionHierarchy(loXTextSection);
                 }
             }
           }
@@ -2027,6 +2241,7 @@ private void displayUserMetadata(XTextRange xRange) {
              return lstrSectionName; 
           }
         }
+
         
   }
     
@@ -2045,7 +2260,7 @@ private void displayUserMetadata(XTextRange xRange) {
                     initList();
                 }
             };
-            docStructureTimer = new Timer(3000, DocStructureListRunner);
+            docStructureTimer = new Timer(10000, DocStructureListRunner);
             docStructureTimer.start();   
             
             //section name timer
@@ -2317,6 +2532,7 @@ private void displayUserMetadata(XTextRange xRange) {
     private org.jdesktop.swingx.JXDatePicker editDateTxt;
     private javax.swing.JLabel editStringLbl;
     private javax.swing.JTextField editStringTxt;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

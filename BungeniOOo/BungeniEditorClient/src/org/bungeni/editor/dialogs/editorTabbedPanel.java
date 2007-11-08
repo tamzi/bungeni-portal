@@ -774,8 +774,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                   
                  
               }
-             
-            System.out.println("order of display  = " + treeRoot.toString());
+               convertBTreetoJTreeNodes(treeRoot);
         } catch (NoSuchElementException ex) {
             log.error(ex.getMessage());
         } catch (UnknownPropertyException ex) {
@@ -920,9 +919,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     }
     
     private void initSectionList() {
-        //initSectionsArray();  
+        initSectionsArray();  
         log.debug("setting defaultTreeModel to sectionsRootNode");
-        sectionsRootNode = new DefaultMutableTreeNode ("root");
+        //sectionsRootNode = new DefaultMutableTreeNode ("root");
         treeDocStructureTree.setModel(new DefaultTreeModel(sectionsRootNode));
         CommonTreeFunctions.expandAll(treeDocStructureTree, true);
     
@@ -2260,7 +2259,7 @@ private void displayUserMetadata(XTextRange xRange) {
                     initList();
                 }
             };
-            docStructureTimer = new Timer(10000, DocStructureListRunner);
+            docStructureTimer = new Timer(5000, DocStructureListRunner);
             docStructureTimer.start();   
             
             //section name timer

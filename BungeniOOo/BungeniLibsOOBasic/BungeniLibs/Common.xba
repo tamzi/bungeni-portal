@@ -221,25 +221,68 @@ Sub AddSectionInsideSection (docComponent, innerSection as String,  newSection a
   	    Dim sectionText , sectionCurs, sectionRange
     	sectionCurs = docComponent.getText().createTextCursor()
     	sectionRange = oSect.getAnchor()
-        sectionCurs.gotoRange(sectionRange, false)
-        Dim endRange, endCursor, compareSectionRegions
-        endRange = sectionCurs.getEnd()
-        REM if compareSectionRegions = 0 the section has no text and is empty
-        REM if compareSectionRegions = 1 the section has text and is not empty
-        compareSectionRegions = sectionRange.getText().compareRegionStarts(sectionRange.getStart(), sectionRange.getEnd())
-      	REM if 0 then we append a blank paragraph to the section.
-      	if (compareSectionRegions = 0 ) then 
-      		sectionCurs.gotoRange(sectionRange.getStart(), false)
-      		InsertParaBreak(sectionCurs)
-      	End if 
-       	if (compareSectionRegions = 1) then 
-       	   sectionCurs.gotoRange(sectionRange.getEnd(), false)
-       	   InsertParaBreak(sectionCurs)
-       	   rem endCursor.goLeft(1, false)
-       	end if
-        endCursor = endRange.getText().createTextCursorByRange(endRange.getStart())
-
+    	Dim bTableAtBegin as Boolean
+    	Dim bTableAtEnd as Boolean
+    	
+    	bTableAtBegin = false
+    	bTableAtEnd = false
+    	
+    	if (Not IsEmpty(sectionRange.TextTable)) then 
+    		bTableAtBegin = true
+    	end if
+        if (Not IsEmpty(sectionRange.getEnd().TextTable) ) then 
+        	bTableAtEnd = true
+        End if 
+        rem the following line temporarily
         
+        Dim endRange, endCursor, compareSectionRegions
+	   	Dim endTable, endPara
+        if (bTableAtBegin) then
+        	rem check if the endrange is also a table....
+        	if (bTableAtEnd) then 
+        		
+        		rem add a line break after the table at the end
+        		endTable = sectionRange.getEnd().TextTable
+        		endTablePara = docComponent.createInstance(&quot;com.sun.star.text.Paragraph&quot;)
+        		docComponent.getText().insertTextContentAfter(endTablePara, endTable)
+        		REM we have to use a fresh section Anchor here to get the new range since sectRange still refers
+        		REM to the older section boundary wihtout the line break at the end
+        		endCursor = docComponent.getText().createTextCursorByRange(oSect.getAnchor().getEnd())
+        			
+        	Else
+        		
+        		endCursor = docComponent.getText().createTextCursorByRange(sectionRange.getEnd())
+        		InsertParaBreak(endCursor)
+        	
+        	End If
+        	rem endCursor.goLeft(1, false)	
+        ElseIf (bTableAtEnd) then 
+        	    
+        		endTable = sectionRange.getEnd().TextTable
+        		endTablePara = docComponent.createInstance(&quot;com.sun.star.text.Paragraph&quot;)
+        		docComponent.getText().insertTextContentAfter(endTablePara, endTable)
+        		endCursor = docComponent.getText().createTextCursorByRange(oSect.getAnchor().getEnd())
+      	
+        Else 
+	        endRange = sectionRange.getEnd()
+	        rem XRay endRange
+	        REM if compareSectionRegions = 0 the section has no text and is empty
+	        REM if compareSectionRegions = 1 the section has text and is not empty
+	        compareSectionRegions = sectionRange.getText().compareRegionStarts(sectionRange.getStart(), sectionRange.getEnd())
+	      	REM if 0 then we append a blank paragraph to the section.
+	      	if (compareSectionRegions = 0 ) then 
+	      		sectionCurs.gotoRange(sectionRange.getStart(), false)
+	      		InsertParaBreak(sectionCurs)
+	      	End if 
+	       	if (compareSectionRegions = 1) then 
+	       	   sectionCurs.gotoRange(sectionRange.getEnd(), false)
+	       	   InsertParaBreak(sectionCurs)
+	       	   rem endCursor.goLeft(1, false)
+	       	end if
+	        endCursor = endRange.getText().createTextCursorByRange(endRange.getStart())
+		End If
+        
+        REM create the new section object
         Dim newSect, oCols
         newSect = docComponent.createInstance(&quot;com.sun.star.text.TextSection&quot;)
    		newSect.setName(newSection)
@@ -247,25 +290,44 @@ Sub AddSectionInsideSection (docComponent, innerSection as String,  newSection a
      	oCols = docComponent.createInstance(&quot;com.sun.star.text.TextColumns&quot;)
     	oCols.setColumnCount(1)
     	newSect.TextColumns = oCols
-    	if ( endCursor.TextSection.Name &lt;&gt; innerSection) then 
+    	rem XRay endCursor
+    	REM Insert the section
+    	if (Not IsEmpty(endCursor.TextSection)) then 
     		rem this is a nested section inside the inner section
     		rem add a new paragrph after the inner section
-    		Dim innerSect, oParNew
-    		innerSect = docComponent.getTextSections().getByName(endCursor.TextSection.Name)
-    		oParNew = docComponent.createInstance(&quot;com.sun.star.text.Paragraph&quot;)
-    		docComponent.getText().insertTextContentAfter(oParNew, innerSect)
-    		rem docComponent.getText().insertTextContentAfter(newSect, innerSect)
-    		endCursor.goRight(1, false)
-    		endCursor.getText().insertTextContent(endCursor, newSect, false)
-    		rem Msgbox &quot;improper inside&quot;
+    		if (endCursor.TextSection.Name &lt;&gt; innerSection) then 
+	    		Dim innerSect, oParNew
+	    		innerSect = docComponent.getTextSections().getByName(endCursor.TextSection.Name)
+	    		Dim prevSection 
+	    		
+	    		Do while (1=1)
+	    			if (innerSect.Name = innerSection) then 
+	    				exit do
+	    			end if
+	    			prevSection = innerSect
+	    			innerSect = innerSect.ParentSection
+	    		Loop
+	    		
+	    		oParNew = docComponent.createInstance(&quot;com.sun.star.text.Paragraph&quot;)
+	    		docComponent.getText().insertTextContentAfter(oParNew, prevSection)
+	    		rem docComponent.getText().insertTextContentAfter(newSect, innerSect)
+	    		endCursor.goRight(1, false)
+	    		endCursor.getText().insertTextContent(endCursor, newSect, false)
+    		
+    		else
+    			endCursor.getText().insertTextContent( endCursor, newSect, false)
+    		end if
+    	
     	else
     		rem there is no nested section
-    		rem Msgbox &quot;proper inside&quot;
+    	
         	endCursor.getText().insertTextContent( endCursor, newSect, false)
 		end if
+		
   End If
 
 End Sub
+
 
 
 Sub AddSectionInsideSection_OLD ( innerSection as String,  newSection as String )

@@ -247,8 +247,22 @@ Sub AddSectionInsideSection (docComponent, innerSection as String,  newSection a
      	oCols = docComponent.createInstance(&quot;com.sun.star.text.TextColumns&quot;)
     	oCols.setColumnCount(1)
     	newSect.TextColumns = oCols
-        endCursor.getText().insertTextContent( endCursor, newSect, false)
-
+    	if ( endCursor.TextSection.Name &lt;&gt; innerSection) then 
+    		rem this is a nested section inside the inner section
+    		rem add a new paragrph after the inner section
+    		Dim innerSect, oParNew
+    		innerSect = docComponent.getTextSections().getByName(endCursor.TextSection.Name)
+    		oParNew = docComponent.createInstance(&quot;com.sun.star.text.Paragraph&quot;)
+    		docComponent.getText().insertTextContentAfter(oParNew, innerSect)
+    		rem docComponent.getText().insertTextContentAfter(newSect, innerSect)
+    		endCursor.goRight(1, false)
+    		endCursor.getText().insertTextContent(endCursor, newSect, false)
+    		rem Msgbox &quot;improper inside&quot;
+    	else
+    		rem there is no nested section
+    		rem Msgbox &quot;proper inside&quot;
+        	endCursor.getText().insertTextContent( endCursor, newSect, false)
+		end if
   End If
 
 End Sub

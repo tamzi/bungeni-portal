@@ -281,8 +281,8 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                 popupMenu.removeAll();
                 //popupMenu.add(new treePopupMenuAction(popup_section_actions[0], baseNodeAction, PopupTypeIdentifier.VIEW_ACTIONS));
                 popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.CREATE_EDIT), baseNodeAction, PopupTypeIdentifier.CREATE_EDIT));
-                popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.EDIT), baseNodeAction, PopupTypeIdentifier.EDIT));
-                
+                if (baseNodeAction.action_edit_dlg_allowed() == 1)
+                    popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.EDIT), baseNodeAction, PopupTypeIdentifier.EDIT));
                 //popupMenu.add(new treePopupMenuAction(popup_section_actions[2]))
             } else 
             if (baseNodeAction.action_type().equals("markup")) {

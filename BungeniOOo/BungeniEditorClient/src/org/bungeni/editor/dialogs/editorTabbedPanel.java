@@ -2259,7 +2259,7 @@ private void displayUserMetadata(XTextRange xRange) {
                     initList();
                 }
             };
-            docStructureTimer = new Timer(5000, DocStructureListRunner);
+            docStructureTimer = new Timer(3000, DocStructureListRunner);
             docStructureTimer.start();   
             
             //section name timer

@@ -37,6 +37,7 @@ public class toolbarAction {
     private String action_display_text;
     private String action_dimension;
     private String action_section_type;
+    private String action_edit_dlg_allowed;
     private SelectorDialogModes theMode = null;
     
     /****act upon what ? *****/
@@ -64,6 +65,7 @@ public class toolbarAction {
         action_display_text = (String) safeGet(actionDesc, action_mapping, "ACTION_DISPLAY_TEXT");
         action_dimension = (String) safeGet(actionDesc, action_mapping, "ACTION_DIMENSION");
         action_section_type = (String) safeGet(actionDesc, action_mapping, "ACTION_SECTION_TYPE");
+        action_edit_dlg_allowed = (String) safeGet(actionDesc, action_mapping, "ACTION_EDIT_DLG_ALLOWED");
         } catch (Exception e) {
             log.debug("error in toolbarAction constructor : " + e.getMessage());
             e.printStackTrace();
@@ -101,6 +103,10 @@ public class toolbarAction {
     
     public int action_order() {
        return Integer.parseInt(this.action_order);
+    }
+    
+    public int action_edit_dlg_allowed(){
+        return Integer.parseInt(this.action_edit_dlg_allowed);
     }
     /*
      *Used only for defining the root action

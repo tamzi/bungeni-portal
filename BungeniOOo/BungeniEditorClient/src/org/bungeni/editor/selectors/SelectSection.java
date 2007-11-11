@@ -68,6 +68,7 @@ public class SelectSection extends selectorTemplatePanel {
     private void initTree(){
         treeSectionStructure.setCellRenderer(new treeSectionStructureCellRenderer());
         treeSectionStructure.addTreeSelectionListener(new treeSectionStructureSelectionListener());
+        
     }
      private void initSectionList() {
          initSectionsArray();   
@@ -336,7 +337,9 @@ public class SelectSection extends selectorTemplatePanel {
     private javax.swing.JRadioButton rbtnInside;
     private javax.swing.JTree treeSectionStructure;
     // End of variables declaration//GEN-END:variables
+   static boolean rendered = false;
    class treeSectionStructureCellRenderer extends JLabel implements TreeCellRenderer {
+       
         public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
           
             setText(value.toString( ));
@@ -351,8 +354,13 @@ public class SelectSection extends selectorTemplatePanel {
                   String act = (String) uo.getUserObject();
                   //check if the action name matches with the allowed sections.
                  
-                  if (isAllowedLocation(act)) 
+                  if (isAllowedLocation(act))  {
                       setBackground(new java.awt.Color(0,200,0));
+                      if (!rendered) {
+                        tree.setSelectionPath(tree.getPathForRow(row));
+                        rendered = true;
+                      }
+                 }
                   else 
                       setBackground(new java.awt.Color(200, 0, 0));
                   //if (act.action_name())

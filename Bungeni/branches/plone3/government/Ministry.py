@@ -3,7 +3,7 @@
 # File: Ministry.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,7 +29,11 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from zope import interface
+from zope.interface import implements
+import interfaces
+
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
@@ -70,27 +74,13 @@ Ministry_schema = BaseFolderSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Ministry(BaseFolder):
+class Ministry(BaseFolder, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),)
-
-    # This name appears in the 'add' box
-    archetype_name = 'Ministry'
+    implements(interfaces.IMinistry)
 
     meta_type = 'Ministry'
-    portal_type = 'Ministry'
-    allowed_content_types = ['Portfolio']
-    filter_content_types = 1
-    global_allow = 0
-    #content_icon = 'Ministry.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "Ministry"
-    typeDescMsgId = 'description_edit_ministry'
-
     _at_rename_after_creation = True
 
     schema = Ministry_schema

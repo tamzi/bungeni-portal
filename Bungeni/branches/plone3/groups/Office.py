@@ -3,7 +3,7 @@
 # File: Office.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,9 +29,12 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.Bungeni.groups.BungeniTeam import BungeniTeam
 from Products.Bungeni.groups.BungeniTeam import BungeniTeam
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
@@ -91,27 +94,13 @@ Office_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Office(BungeniTeam):
+class Office(BungeniTeam, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BungeniTeam,'__implements__',()),)
-
-    # This name appears in the 'add' box
-    archetype_name = 'Office'
+    implements(interfaces.IOffice)
 
     meta_type = 'Office'
-    portal_type = 'Office'
-    allowed_content_types = [] + list(getattr(BungeniTeam, 'allowed_content_types', [])) + list(getattr(BungeniTeam, 'allowed_content_types', []))
-    filter_content_types = 0
-    global_allow = 0
-    #content_icon = 'Office.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "Office"
-    typeDescMsgId = 'description_edit_office'
-
     _at_rename_after_creation = True
 
     schema = Office_schema

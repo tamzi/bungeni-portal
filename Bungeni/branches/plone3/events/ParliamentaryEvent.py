@@ -3,7 +3,7 @@
 # File: ParliamentaryEvent.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,9 +29,12 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.ATContentTypes.content.event import ATEvent
 from Products.Bungeni.events.ParliamentaryDocument import ParliamentaryDocument
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -95,13 +98,12 @@ ParliamentaryEvent_schema = getattr(ATEvent, 'schema', Schema(())).copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class ParliamentaryEvent(BaseContent, ATEvent, ParliamentaryDocument):
+class ParliamentaryEvent(ATEvent, ParliamentaryDocument, BaseContent, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(ATEvent,'__implements__',()),) + (getattr(ParliamentaryDocument,'__implements__',()),)
+    implements(interfaces.IParliamentaryEvent)
 
-    allowed_content_types = [] + list(getattr(ATEvent, 'allowed_content_types', [])) + list(getattr(ParliamentaryDocument, 'allowed_content_types', []))
     _at_rename_after_creation = True
 
     schema = ParliamentaryEvent_schema

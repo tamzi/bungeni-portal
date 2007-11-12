@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<object name="portal_workflow" meta_type="Plone Workflow Tool">
+ <object name="BungeniWorkflow" meta_type="Workflow"/>
+ <object name="CommitteeWorkflow" meta_type="Workflow"/>
+ <object name="HansardWorkflow" meta_type="Workflow"/>
+ <object name="MemberApprovalWorkflow" meta_type="Workflow"/>
+ <object name="MemberAutoWorkflow" meta_type="Workflow"/>
+ <object name="MotionWorkflow" meta_type="Workflow"/>
+ <object name="OfficeWorkflow" meta_type="Workflow"/>
+ <object name="ParliamentWorkflow" meta_type="Workflow"/>
+ <object name="ParliamentaryEventWorkflow" meta_type="Workflow"/>
+ <object name="PoliticalGroupWorkflow" meta_type="Workflow"/>
+ <object name="RotaFolderWorkflow" meta_type="Workflow"/>
+ <object name="RotaItemWorkflow" meta_type="Workflow"/>
+ <object name="SubWorkflow" meta_type="Workflow"/>
+ <object name="TakeWorkflow" meta_type="Workflow"/>
+ <object name="WestminsterBillWorkflow" meta_type="Workflow"/>
+ <bindings>
+  <type type_id="BungeniMembershipTool" />
+  <type type_id="RotaTool" />
+  <type type_id="Bill">
+   <bound-workflow workflow_id="WestminsterBillWorkflow" />
+  </type>
+  <type type_id="BillPage">
+   <bound-workflow workflow_id="SubWorkflow" />
+  </type>
+  <type type_id="BillSection">
+   <bound-workflow workflow_id="SubWorkflow" />
+  </type>
+  <type type_id="Committee">
+   <bound-workflow workflow_id="CommitteeWorkflow" />
+  </type>
+  <type type_id="DebateRecord">
+   <bound-workflow workflow_id="HansardWorkflow" />
+  </type>
+  <type type_id="DebateRecordPage">
+   <bound-workflow workflow_id="SubWorkflow" />
+  </type>
+  <type type_id="DebateRecordSection">
+   <bound-workflow workflow_id="SubWorkflow" />
+  </type>
+  <type type_id="LegislationFolder">
+   <bound-workflow workflow_id="BungeniWorkflow" />
+  </type>
+  <type type_id="MemberOfParliament">
+   <bound-workflow workflow_id="MemberAutoWorkflow" />
+  </type>
+  <type type_id="MemberOfPublic">
+   <bound-workflow workflow_id="MemberApprovalWorkflow" />
+  </type>
+  <type type_id="Motion">
+   <bound-workflow workflow_id="ParliamentaryEventWorkflow" />
+  </type>
+  <type type_id="Office">
+   <bound-workflow workflow_id="OfficeWorkflow" />
+  </type>
+  <type type_id="Parliament">
+   <bound-workflow workflow_id="ParliamentWorkflow" />
+  </type>
+  <type type_id="ParliamentaryEvent">
+   <bound-workflow workflow_id="ParliamentaryEventWorkflow" />
+  </type>
+  <type type_id="PoliticalGroup">
+   <bound-workflow workflow_id="PoliticalGroupWorkflow" />
+  </type>
+  <type type_id="Question">
+   <bound-workflow workflow_id="ParliamentaryEventWorkflow" />
+  </type>
+  <type type_id="RotaFolder">
+   <bound-workflow workflow_id="RotaFolderWorkflow" />
+  </type>
+  <type type_id="RotaItem">
+   <bound-workflow workflow_id="RotaItemWorkflow" />
+  </type>
+  <type type_id="Staff">
+   <bound-workflow workflow_id="MemberAutoWorkflow" />
+  </type>
+  <type type_id="Take">
+   <bound-workflow workflow_id="TakeWorkflow" />
+  </type>
+ </bindings>
+</object>

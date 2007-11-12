@@ -3,7 +3,7 @@
 # File: HelpFolder.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,8 +29,11 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.ATContentTypes.content.folder import ATFolder
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -56,27 +59,13 @@ HelpFolder_schema = BaseFolderSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class HelpFolder(BaseFolder, ATFolder):
+class HelpFolder(BrowserDefaultMixin, BaseFolder, ATFolder):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(ATFolder,'__implements__',()),)
-
-    # This name appears in the 'add' box
-    archetype_name = 'HelpFolder'
+    implements(interfaces.IHelpFolder)
 
     meta_type = 'HelpFolder'
-    portal_type = 'HelpFolder'
-    allowed_content_types = ['HelpCenterFAQFolder', 'HelpCenterGlossary', 'Document'] + list(getattr(ATFolder, 'allowed_content_types', []))
-    filter_content_types = 1
-    global_allow = 1
-    #content_icon = 'HelpFolder.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "HelpFolder"
-    typeDescMsgId = 'description_edit_helpfolder'
-
     _at_rename_after_creation = True
 
     schema = HelpFolder_schema

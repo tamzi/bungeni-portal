@@ -3,7 +3,7 @@
 # File: LegislationFolder.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,8 +29,11 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.PloneHelpCenter.content.ReferenceManualFolder import HelpCenterReferenceManualFolder
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Bungeni.config import *
 
 # additional imports from tagged value 'import'
@@ -54,27 +57,13 @@ LegislationFolder_schema = BaseFolderSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class LegislationFolder(BaseFolder, HelpCenterReferenceManualFolder):
+class LegislationFolder(HelpCenterReferenceManualFolder, BaseFolder, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(HelpCenterReferenceManualFolder,'__implements__',()),)
-
-    # This name appears in the 'add' box
-    archetype_name = 'LegislationFolder'
+    implements(interfaces.ILegislationFolder)
 
     meta_type = 'LegislationFolder'
-    portal_type = 'LegislationFolder'
-    allowed_content_types = ['Bill', 'AnnotatableDocument']
-    filter_content_types = 1
-    global_allow = 1
-    #content_icon = 'LegislationFolder.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "A legislation folder can contain bills"
-    typeDescMsgId = 'description_edit_legislationfolder'
-
     _at_rename_after_creation = True
 
     schema = LegislationFolder_schema

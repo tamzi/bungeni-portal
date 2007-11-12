@@ -3,7 +3,7 @@
 # File: TakeTranscription.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,8 +29,11 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.ATContentTypes.content.file import ATFile
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -51,27 +54,13 @@ TakeTranscription_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class TakeTranscription(BaseContent, ATFile):
+class TakeTranscription(BrowserDefaultMixin, BaseContent, ATFile):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(ATFile,'__implements__',()),)
-
-    # This name appears in the 'add' box
-    archetype_name = 'TakeTranscription'
+    implements(interfaces.ITakeTranscription)
 
     meta_type = 'TakeTranscription'
-    portal_type = 'TakeTranscription'
-    allowed_content_types = [] + list(getattr(ATFile, 'allowed_content_types', []))
-    filter_content_types = 0
-    global_allow = 0
-    #content_icon = 'TakeTranscription.gif'
-    immediate_view = 'file_view'
-    default_view = 'file_view'
-    suppl_views = ()
-    typeDescription = "TakeTranscription"
-    typeDescMsgId = 'description_edit_taketranscription'
-
     _at_rename_after_creation = True
 
     schema = TakeTranscription_schema

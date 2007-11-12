@@ -3,7 +3,7 @@
 # File: PoliticalGroup.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -30,8 +30,12 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.Bungeni.groups.BungeniTeam import BungeniTeam
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
@@ -129,29 +133,13 @@ PoliticalGroup_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class PoliticalGroup(BungeniTeam):
+class PoliticalGroup(BungeniTeam, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BungeniTeam,'__implements__',()),)
-    # zope3 interfaces
-    interface.implements(IAuditable)
-
-    # This name appears in the 'add' box
-    archetype_name = 'PoliticalGroup'
+    implements(interfaces.IPoliticalGroup, IAuditable)
 
     meta_type = 'PoliticalGroup'
-    portal_type = 'PoliticalGroup'
-    allowed_content_types = [] + list(getattr(BungeniTeam, 'allowed_content_types', []))
-    filter_content_types = 0
-    global_allow = 0
-    #content_icon = 'PoliticalGroup.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "PoliticalGroup"
-    typeDescMsgId = 'description_edit_politicalgroup'
-
     _at_rename_after_creation = True
 
     schema = PoliticalGroup_schema

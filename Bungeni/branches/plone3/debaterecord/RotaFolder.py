@@ -3,7 +3,7 @@
 # File: RotaFolder.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -30,7 +30,11 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.Bungeni.interfaces.IRotaFolder import IRotaFolder
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Bungeni.config import *
 
 # additional imports from tagged value 'import'
@@ -94,44 +98,13 @@ RotaFolder_schema = OrderedBaseFolderSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class RotaFolder(OrderedBaseFolder):
+class RotaFolder(OrderedBaseFolder, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(OrderedBaseFolder,'__implements__',()),)
-    # zope3 interfaces
-    interface.implements(IRotaFolder)
-
-    # This name appears in the 'add' box
-    archetype_name = 'RotaFolder'
+    implements(interfaces.IRotaFolder, IRotaFolder)
 
     meta_type = 'RotaFolder'
-    portal_type = 'RotaFolder'
-    allowed_content_types = ['RotaItem']
-    filter_content_types = 1
-    global_allow = 0
-    #content_icon = 'RotaFolder.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "RotaFolder"
-    typeDescMsgId = 'description_edit_rotafolder'
-
-
-    actions =  (
-
-
-       {'action': "string:${object_url}/generateRota",
-        'category': "object",
-        'id': 'generateRota',
-        'name': 'generateRota',
-        'permissions': ("View",),
-        'condition': 'python:1'
-       },
-
-
-    )
-
     _at_rename_after_creation = True
 
     schema = RotaFolder_schema

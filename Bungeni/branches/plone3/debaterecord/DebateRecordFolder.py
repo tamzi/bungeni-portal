@@ -3,7 +3,7 @@
 # File: DebateRecordFolder.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -30,9 +30,13 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.PloneHelpCenter.content.ReferenceManualFolder import HelpCenterReferenceManualFolder
 from Products.Bungeni.groups.BungeniTeamSpace import BungeniTeamSpace
 from Products.Bungeni.interfaces.IDebateRecordFolder import IDebateRecordFolder
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -61,29 +65,13 @@ DebateRecordFolder_schema = BaseFolderSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class DebateRecordFolder(BungeniTeamSpace, HelpCenterReferenceManualFolder):
+class DebateRecordFolder(HelpCenterReferenceManualFolder, BrowserDefaultMixin, BungeniTeamSpace):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BungeniTeamSpace,'__implements__',()),) + (getattr(HelpCenterReferenceManualFolder,'__implements__',()),)
-    # zope3 interfaces
-    interface.implements(IDebateRecordFolder)
-
-    # This name appears in the 'add' box
-    archetype_name = 'DebateRecordFolder'
+    implements(interfaces.IDebateRecordFolder, IDebateRecordFolder)
 
     meta_type = 'DebateRecordFolder'
-    portal_type = 'DebateRecordFolder'
-    allowed_content_types = ['DebateRecord', 'Minutes', 'Take', 'RotaFolder']
-    filter_content_types = 1
-    global_allow = 0
-    #content_icon = 'DebateRecordFolder.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "A Hansard folder contains Hansard reports."
-    typeDescMsgId = 'description_edit_debaterecordfolder'
-
     _at_rename_after_creation = True
 
     schema = DebateRecordFolder_schema

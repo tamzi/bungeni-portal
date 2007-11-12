@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<tool-setup>
+ <required tool_id="portal_bungenimembershiptool"
+           class="Products.Bungeni.membership.BungeniMembershipTool.BungeniMembershipTool"/>
+ <required tool_id="portal_rotatool"
+           class="Products.Bungeni.debaterecord.RotaTool.RotaTool"/>
+
+ <!-- ##code-section toolset.xml -->
+ <!-- ##/code-section toolset.xml -->
+</tool-setup>

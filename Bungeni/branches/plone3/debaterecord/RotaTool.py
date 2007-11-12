@@ -3,7 +3,7 @@
 # File: RotaTool.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,7 +29,11 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from zope import interface
+from zope.interface import implements
+import interfaces
+
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
@@ -129,28 +133,13 @@ RotaTool_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class RotaTool(UniqueObject, BaseContent):
+class RotaTool(UniqueObject, BaseContent, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(UniqueObject,'__implements__',()),) + (getattr(BaseContent,'__implements__',()),)
-
-    # This name appears in the 'add' box
-    archetype_name = 'RotaTool'
+    implements(interfaces.IRotaTool)
 
     meta_type = 'RotaTool'
-    portal_type = 'RotaTool'
-    allowed_content_types = []
-    filter_content_types = 0
-    global_allow = 0
-    #content_icon = 'RotaTool.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "RotaTool"
-    typeDescMsgId = 'description_edit_rotatool'
-    #toolicon = 'RotaTool.gif'
-
     _at_rename_after_creation = True
 
     schema = RotaTool_schema
@@ -162,7 +151,7 @@ class RotaTool(UniqueObject, BaseContent):
     # tool-constructors have no id argument, the id is fixed
     def __init__(self, id=None):
         BaseContent.__init__(self,'portal_rotatool')
-        self.setTitle('RotaTool')
+        self.setTitle('')
         
         ##code-section constructor-footer #fill in your manual code here
         ##/code-section constructor-footer

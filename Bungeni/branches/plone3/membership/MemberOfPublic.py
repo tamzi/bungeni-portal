@@ -3,7 +3,7 @@
 # File: MemberOfPublic.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,8 +29,11 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.Bungeni.membership.BungeniMember import BungeniMember
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 # imports needed by remember
 from Products.remember.content.member import BaseMember
 from Products.remember.permissions import \
@@ -62,27 +65,13 @@ MemberOfPublic_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class MemberOfPublic(BaseMember, BungeniMember, BaseContent):
+class MemberOfPublic(BaseContent, BaseMember, BrowserDefaultMixin, BungeniMember):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseMember,'__implements__',()),) + (getattr(BungeniMember,'__implements__',()),) + (getattr(BaseContent,'__implements__',()),)
-
-    # This name appears in the 'add' box
-    archetype_name = 'MemberOfPublic'
+    implements(interfaces.IMemberOfPublic)
 
     meta_type = 'MemberOfPublic'
-    portal_type = 'MemberOfPublic'
-    allowed_content_types = [] + list(getattr(BungeniMember, 'allowed_content_types', []))
-    filter_content_types = 0
-    global_allow = 0
-    #content_icon = 'MemberOfPublic.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "MemberOfPublic"
-    typeDescMsgId = 'description_edit_memberofpublic'
-
     _at_rename_after_creation = True
 
     schema = MemberOfPublic_schema

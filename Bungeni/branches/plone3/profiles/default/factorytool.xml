@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<object name="portal_factory" meta_type="Plone Factory Tool">
+ <factorytypes>
+  <type portal_type="MemberOfPublic"/>
+  <type portal_type="MemberOfParliament"/>
+  <type portal_type="Staff"/>
+  <type portal_type="LongDocument"/>
+  <type portal_type="LongDocumentSection"/>
+  <type portal_type="LongDocumentPage"/>
+  <type portal_type="HelpFolder"/>
+  <type portal_type="MinistryFolder"/>
+  <type portal_type="Motion"/>
+  <type portal_type="Question"/>
+  <type portal_type="Response"/>
+  <type portal_type="OrderOfBusiness"/>
+  <type portal_type="AgendaItem"/>
+  <type portal_type="Sitting"/>
+  <type portal_type="Session"/>
+  <type portal_type="CommitteeFolder"/>
+  <type portal_type="LegislationFolder"/>
+  <type portal_type="Bill"/>
+  <type portal_type="BillPage"/>
+  <type portal_type="BillSection"/>
+  <type portal_type="Amendment"/>
+  <type portal_type="DebateRecord"/>
+  <type portal_type="DebateRecordPage"/>
+  <type portal_type="DebateRecordFolder"/>
+  <type portal_type="DebateRecordSection"/>
+  <type portal_type="TakeTranscription"/>
+  <type portal_type="Minutes"/>
+  <type portal_type="Take"/>
+  <type portal_type="RotaFolder"/>
+  <type portal_type="RotaItem"/>
+  <type portal_type="Committee"/>
+  <type portal_type="PoliticalGroup"/>
+  <type portal_type="Reporters"/>
+  <type portal_type="Parliament"/>
+  <type portal_type="Office"/>
+  <type portal_type="BungeniTeamSpace"/>
+  <type portal_type="DebateRecordOffice"/>
+  <type portal_type="BungeniTeam"/>
+  <type portal_type="Region"/>
+  <type portal_type="Constituency"/>
+  <type portal_type="Regions"/>
+  <type portal_type="Province"/>
+  <type portal_type="OfficeWS"/>
+  <type portal_type="OfficeFolder"/>
+  <type portal_type="ParliamentWS"/>
+  <type portal_type="CommitteeWS"/>
+  <type portal_type="Ministry"/>
+  <type portal_type="Portfolio"/>
+  <type portal_type="Government"/>
+  <type portal_type="Minister"/>
+  <type portal_type="AssistantMinister"/>
+ </factorytypes>
+</object>

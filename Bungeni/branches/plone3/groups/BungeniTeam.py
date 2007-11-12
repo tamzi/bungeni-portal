@@ -3,7 +3,7 @@
 # File: BungeniTeam.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,8 +29,11 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.TeamSpace.team import Team
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Bungeni.config import *
 
 # additional imports from tagged value 'import'
@@ -59,78 +62,13 @@ BungeniTeam_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class BungeniTeam(Team):
+class BungeniTeam(BrowserDefaultMixin, Team):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(Team,'__implements__',()),)
-
-    # This name appears in the 'add' box
-    archetype_name = 'BungeniTeam'
+    implements(interfaces.IBungeniTeam)
 
     meta_type = 'BungeniTeam'
-    portal_type = 'BungeniTeam'
-    allowed_content_types = [] + list(getattr(Team, 'allowed_content_types', []))
-    filter_content_types = 0
-    global_allow = 1
-    #content_icon = 'BungeniTeam.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "BungeniTeam"
-    typeDescMsgId = 'description_edit_bungeniteam'
-
-
-    actions =  (
-
-
-       {'action': "string:${object_url}/ts_team_list_view",
-        'category': "object",
-        'id': 'view',
-        'name': 'Member List',
-        'permissions': (ts_permissions.ViewTeam,),
-        'condition': 'python:1'
-       },
-
-
-       {'action': "string:${object_url}/ts_team_manage_memberships",
-        'category': "object",
-        'id': 'membership',
-        'name': 'Member Mgmt',
-        'permissions': (ts_permissions.ManageTeamMembership,),
-        'condition': 'python:1'
-       },
-
-
-       {'action': "string:${object_url}/ts_team_manage_roles",
-        'category': "object",
-        'id': 'member_roles',
-        'name': 'Member Roles',
-        'permissions': (ts_permissions.ManageTeam,),
-        'condition': 'python:1'
-       },
-
-
-       {'action': "string:${object_url}/base_edit",
-        'category': "object",
-        'id': 'edit',
-        'name': 'Edit',
-        'permissions': (ts_permissions.ManageTeam,),
-        'condition': 'python:1'
-       },
-
-
-       {'action': "string:${object_url}/base_metadata",
-        'category': "object",
-        'id': 'metadata',
-        'name': 'Properties',
-        'permissions': (ts_permissions.ManageTeam,),
-        'condition': 'python:1'
-       },
-
-
-    )
-
     _at_rename_after_creation = True
 
     schema = BungeniTeam_schema

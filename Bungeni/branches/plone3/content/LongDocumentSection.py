@@ -3,7 +3,7 @@
 # File: LongDocumentSection.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,8 +29,11 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.PloneHelpCenter.content.ReferenceManualSection import HelpCenterReferenceManualSection
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -51,27 +54,13 @@ LongDocumentSection_schema = BaseFolderSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class LongDocumentSection(BaseFolder, HelpCenterReferenceManualSection):
+class LongDocumentSection(HelpCenterReferenceManualSection, BaseFolder, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(HelpCenterReferenceManualSection,'__implements__',()),)
-
-    # This name appears in the 'add' box
-    archetype_name = 'Document Section'
+    implements(interfaces.ILongDocumentSection)
 
     meta_type = 'LongDocumentSection'
-    portal_type = 'LongDocumentSection'
-    allowed_content_types = ['LongDocumentPage', 'ATImage', 'ATFile']
-    filter_content_types = 1
-    global_allow = 0
-    #content_icon = 'LongDocumentSection.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "A section of a longer document."
-    typeDescMsgId = 'description_edit_longdocumentsection'
-
     _at_rename_after_creation = True
 
     schema = LongDocumentSection_schema

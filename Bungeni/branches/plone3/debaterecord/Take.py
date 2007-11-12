@@ -3,7 +3,7 @@
 # File: Take.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -30,8 +30,12 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.ATContentTypes.content.file import ATFile
 from Products.Bungeni.interfaces.ITake import ITake
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
@@ -75,29 +79,13 @@ Take_schema = BaseFolderSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Take(ATFile, BaseFolder):
+class Take(BaseFolder, BrowserDefaultMixin, ATFile):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(ATFile,'__implements__',()),) + (getattr(BaseFolder,'__implements__',()),)
-    # zope3 interfaces
-    interface.implements(ITake)
-
-    # This name appears in the 'add' box
-    archetype_name = 'Take'
+    implements(interfaces.ITake, ITake)
 
     meta_type = 'Take'
-    portal_type = 'Take'
-    allowed_content_types = ['TakeTranscription'] + list(getattr(ATFile, 'allowed_content_types', []))
-    filter_content_types = 1
-    global_allow = 0
-    #content_icon = 'Take.gif'
-    immediate_view = 'file_view'
-    default_view = 'file_view'
-    suppl_views = ()
-    typeDescription = "Take"
-    typeDescMsgId = 'description_edit_take'
-
     _at_rename_after_creation = True
 
     schema = Take_schema

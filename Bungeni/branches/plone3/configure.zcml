@@ -1,11 +1,15 @@
-<configure
-    xmlns="http://namespaces.zope.org/zope"
-    xmlns:five="http://namespaces.zope.org/five">
-
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:five="http://namespaces.zope.org/five">
+  
+  <include file="profiles.zcml" />
+    
+  <!-- ##code-section configure.zcml -->
     <subscriber
         for="Products.Bungeni.interfaces.IDebateRecordFolder.IDebateRecordFolder
             zope.app.container.interfaces.IObjectAddedEvent"
         handler="Products.Bungeni.debaterecord.DebateRecordFolder.addedDebateRecordFolder"
         />
+  <!-- ##/code-section configure.zcml -->
 
 </configure>

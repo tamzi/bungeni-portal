@@ -3,7 +3,7 @@
 # File: Response.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,8 +29,11 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.Bungeni.events.ParliamentaryEvent import ParliamentaryEvent
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -51,27 +54,13 @@ Response_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Response(BaseContent, ParliamentaryEvent):
+class Response(BrowserDefaultMixin, BaseContent, ParliamentaryEvent):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(ParliamentaryEvent,'__implements__',()),)
-
-    # This name appears in the 'add' box
-    archetype_name = 'Response'
+    implements(interfaces.IResponse)
 
     meta_type = 'Response'
-    portal_type = 'Response'
-    allowed_content_types = [] + list(getattr(ParliamentaryEvent, 'allowed_content_types', []))
-    filter_content_types = 0
-    global_allow = 0
-    #content_icon = 'Response.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "Response"
-    typeDescMsgId = 'description_edit_response'
-
     _at_rename_after_creation = True
 
     schema = Response_schema

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<object name="membrane_tool" meta_type="MembraneTool">
+ <membrane-type name="MemberOfPublic">
+  <active-workflow-state name="public"/>
+  <active-workflow-state name="private"/>
+ </membrane-type>
+ <membrane-type name="MemberOfParliament">
+  <active-workflow-state name="public"/>
+  <active-workflow-state name="private"/>
+ </membrane-type>
+ <membrane-type name="Staff">
+  <active-workflow-state name="public"/>
+  <active-workflow-state name="private"/>
+ </membrane-type>
+
+<!-- ##code-section INDEXMAP -->
+<!-- ##/code-section INDEXMAP -->
+
+</object>

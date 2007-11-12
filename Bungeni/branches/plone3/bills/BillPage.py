@@ -3,7 +3,7 @@
 # File: BillPage.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -30,8 +30,12 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.PloneHelpCenter.content.ReferenceManualPage import HelpCenterReferenceManualPage
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -52,29 +56,13 @@ BillPage_schema = BaseFolderSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class BillPage(BaseFolder, HelpCenterReferenceManualPage):
+class BillPage(BrowserDefaultMixin, BaseFolder, HelpCenterReferenceManualPage):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(HelpCenterReferenceManualPage,'__implements__',()),)
-    # zope3 interfaces
-    interface.implements(IAuditable)
-
-    # This name appears in the 'add' box
-    archetype_name = 'BillPage'
+    implements(interfaces.IBillPage, IAuditable)
 
     meta_type = 'BillPage'
-    portal_type = 'BillPage'
-    allowed_content_types = ['Amendment']
-    filter_content_types = 1
-    global_allow = 0
-    #content_icon = 'BillPage.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "A page contains the text of one of the pages of the bill."
-    typeDescMsgId = 'description_edit_billpage'
-
     _at_rename_after_creation = True
 
     schema = BillPage_schema

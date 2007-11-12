@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<import-steps>
+
+<import-step 
+    id="Bungeni-GS-dependencies" 
+    handler="Products.Bungeni.setuphandlers.installGSDependencies"
+    title="Dependend GS profiles for Bungeni"
+    version="2007-11-11T21:54:13.698420">
+   <dependency step="plone-final"/>
+   Install Generic Setup profile dependencies for Bungeni
+ </import-step>
+
+ <import-step 
+    id="Bungeni-QI-dependencies" 
+    handler="Products.Bungeni.setuphandlers.installQIDependencies"
+    title="Dependend QI installables for Bungeni"
+    version="2007-11-11T21:54:13.698420">
+   <dependency step="2007-11-11T21:54:13.698420-GS-dependencies"/>
+   Install quickinstaller dependencies for Bungeni
+ </import-step>
+ 
+    <import-step 
+    id="Bungeni-Hide-Tools-From-Navigation" 
+    handler="Products.Bungeni.setuphandlers.setupHideToolsFromNavigation"
+    title="Hide Custom tools from Navigation for Bungeni"
+    version="2007-11-11T21:54:13.698420">
+   <dependency step="2007-11-11T21:54:13.698420-QI-dependencies"/>
+   Hides custom tools from navigation tree for Bungeni
+ </import-step>
+ 
+   <import-step 
+    id="Bungeni-Import-Relations" 
+    handler="Products.Bungeni.setuphandlers.installRelations"
+    title="Install Relations for Bungeni"
+    version="2007-11-11T21:54:13.698420">
+   <dependency step="2007-11-11T21:54:13.698420-QI-dependencies"/>
+   Installs the relations.xml file into relations library for Bungeni
+ </import-step>
+ 
+  
+<!-- ##code-section ADDITIONALSTEPS -->
+<!-- ##/code-section ADDITIONALSTEPS --> 
+
+</import-steps>
+ 

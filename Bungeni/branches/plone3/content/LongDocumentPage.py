@@ -3,7 +3,7 @@
 # File: LongDocumentPage.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,8 +29,11 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.PloneHelpCenter.content.ReferenceManualPage import HelpCenterReferenceManualPage
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -51,27 +54,13 @@ LongDocumentPage_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class LongDocumentPage(BaseContent, HelpCenterReferenceManualPage):
+class LongDocumentPage(BrowserDefaultMixin, BaseContent, HelpCenterReferenceManualPage):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(HelpCenterReferenceManualPage,'__implements__',()),)
-
-    # This name appears in the 'add' box
-    archetype_name = 'Page'
+    implements(interfaces.ILongDocumentPage)
 
     meta_type = 'LongDocumentPage'
-    portal_type = 'LongDocumentPage'
-    allowed_content_types = [] + list(getattr(HelpCenterReferenceManualPage, 'allowed_content_types', []))
-    filter_content_types = 0
-    global_allow = 0
-    #content_icon = 'LongDocumentPage.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "A page of a longer document."
-    typeDescMsgId = 'description_edit_longdocumentpage'
-
     _at_rename_after_creation = True
 
     schema = LongDocumentPage_schema

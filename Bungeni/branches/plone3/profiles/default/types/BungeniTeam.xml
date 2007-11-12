@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<object name="BungeniTeam"
+        meta_type="Factory-based Type Information with dynamic views"
+        xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+   
+ <property name="title">BungeniTeam</property>
+ <property name="description"></property>
+ <property name="content_icon">BungeniTeam.gif</property>
+ <property name="content_meta_type">BungeniTeam</property>
+ <property name="product">Bungeni</property>
+ <property name="factory">addBungeniTeam</property>
+ <property name="immediate_view">base_view</property>
+ <property name="global_allow">True</property>
+ <property name="filter_content_types">False</property>
+ <property name="allowed_content_types">
+ </property>
+ <property name="allow_discussion">False</property>
+ <property name="default_view">base_view</property>
+ <property name="view_methods">
+  <element value="base_view"/>
+ </property>
+ <property name="default_view_fallback">False</property>
+ <alias from="(Default)" to="(dynamic view)"/>
+ <alias from="index.html" to="(dynamic view)"/>
+ <alias from="view" to="(selected layout)"/>
+ <alias from="edit" to="base_edit"/>
+ <alias from="properties" to="base_metadata"/>
+ <action title="Edit" action_id="edit"
+         category="object" condition_expr="python:1"
+         url_expr="string:${object_url}/base_edit" visible="True">
+  <permission value="python:ts_permissions.ManageTeam"/>
+ </action>
+ <action title="Member Mgmt" action_id="membership"
+         category="object" condition_expr="python:1"
+         url_expr="string:${object_url}/ts_team_manage_memberships" visible="True">
+  <permission value="python:ts_permissions.ManageTeamMembership"/>
+ </action>
+ <action title="Properties" action_id="metadata"
+         category="object" condition_expr="python:1"
+         url_expr="string:${object_url}/base_metadata" visible="True">
+  <permission value="python:ts_permissions.ManageTeam"/>
+ </action>
+ <action title="Member Roles" action_id="member_roles"
+         category="object" condition_expr="python:1"
+         url_expr="string:${object_url}/ts_team_manage_roles" visible="True">
+  <permission value="python:ts_permissions.ManageTeam"/>
+ </action>
+ <action title="Member List" action_id="view"
+         category="object" condition_expr="python:1"
+         url_expr="string:${object_url}/ts_team_list_view" visible="True">
+  <permission value="python:ts_permissions.ViewTeam"/>
+ </action>
+</object>

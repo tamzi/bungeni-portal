@@ -1,0 +1,236 @@
+<?xml version="1.0"?>
+<dc-workflow workflow_id="WestminsterBillWorkflow"
+             title="WestminsterBillWorkflow"
+             state_variable="review_state"
+             initial_state="presented">
+ <state state_id="Approved" 
+        title="Approved">
+  <exit-transition transition_id="submit"/>
+ </state>
+ <state state_id="CommittedToCommittee" 
+        title="CommittedToCommittee">
+  <exit-transition transition_id="second_reading"/>
+  <exit-transition transition_id="withdraw"/>
+ </state>
+ <state state_id="DebateBill" 
+        title="DebateBill">
+  <exit-transition transition_id="request_report"/>
+  <exit-transition transition_id="withdraw"/>
+ </state>
+ <state state_id="DebateBillTitle" 
+        title="DebateBillTitle">
+  <exit-transition transition_id="commit"/>
+  <exit-transition transition_id="commit"/>
+  <exit-transition transition_id="reject"/>
+  <exit-transition transition_id="withdraw"/>
+ </state>
+ <state state_id="PresentedToParliament" 
+        title="PresentedToParliament">
+  <exit-transition transition_id="commit"/>
+ </state>
+ <state state_id="Rejected" 
+        title="Rejected">
+  <exit-transition transition_id="reintroduce"/>
+ </state>
+ <state state_id="ReportOnBillProgress" 
+        title="ReportOnBillProgress">
+  <exit-transition transition_id="recommit"/>
+  <exit-transition transition_id="third_reading"/>
+  <exit-transition transition_id="withdraw"/>
+ </state>
+ <state state_id="SignedIntoLaw" 
+        title="SignedIntoLaw">
+ </state>
+ <state state_id="SubmittedToAttorneyGeneral" 
+        title="SubmittedToAttorneyGeneral">
+  <exit-transition transition_id="sign"/>
+ </state>
+ <state state_id="ThirdReadingDone" 
+        title="ThirdReadingDone">
+  <exit-transition transition_id="approve"/>
+  <exit-transition transition_id="reject"/>
+  <exit-transition transition_id="withdraw"/>
+ </state>
+ <state state_id="Withdrawn" 
+        title="Withdrawn">
+ </state>
+ <state state_id="presented" 
+        title="presented">
+  <exit-transition transition_id="first_reading"/>
+ </state>
+ <transition transition_id="approve" 
+             title="approve"
+             new_state="Approved"
+             trigger="USER" 
+             before_script="" 
+             after_script="approveChildren">
+  <action url="" category="workflow">approve</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="commit" 
+             title="commit"
+             new_state="CommittedToCommittee"
+             trigger="USER" 
+             before_script="" 
+             after_script="">
+  <action url="" category="workflow">commit</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="first_reading" 
+             title="first_reading"
+             new_state="PresentedToParliament"
+             trigger="USER" 
+             before_script="" 
+             after_script="">
+  <action url="" category="workflow">first_reading</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="recommit" 
+             title="recommit"
+             new_state="DebateBill"
+             trigger="USER" 
+             before_script="" 
+             after_script="">
+  <action url="" category="workflow">recommit</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="reintroduce" 
+             title="reintroduce"
+             new_state="presented"
+             trigger="USER" 
+             before_script="" 
+             after_script="">
+  <action url="" category="workflow">reintroduce</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="reject" 
+             title="reject"
+             new_state="Rejected"
+             trigger="USER" 
+             before_script="" 
+             after_script="">
+  <action url="" category="workflow">reject</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="request_report" 
+             title="request_report"
+             new_state="ReportOnBillProgress"
+             trigger="USER" 
+             before_script="" 
+             after_script="">
+  <action url="" category="workflow">request_report</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="second_reading" 
+             title="second_reading"
+             new_state="DebateBillTitle"
+             trigger="USER" 
+             before_script="" 
+             after_script="">
+  <action url="" category="workflow">second_reading</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="sign" 
+             title="sign"
+             new_state="SignedIntoLaw"
+             trigger="USER" 
+             before_script="" 
+             after_script="publishChildren">
+  <action url="" category="workflow">sign</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="submit" 
+             title="submit"
+             new_state="SubmittedToAttorneyGeneral"
+             trigger="USER" 
+             before_script="" 
+             after_script="">
+  <action url="" category="workflow">submit</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="third_reading" 
+             title="third_reading"
+             new_state="ThirdReadingDone"
+             trigger="USER" 
+             before_script="" 
+             after_script="">
+  <action url="" category="workflow">third_reading</action>
+  <guard>
+  </guard>
+ </transition>
+ <transition transition_id="withdraw" 
+             title="withdraw"
+             new_state="Withdrawn"
+             trigger="USER" 
+             before_script="" 
+             after_script="">
+  <action url="" category="workflow">withdraw</action>
+  <guard>
+  </guard>
+ </transition>
+ <variable variable_id="action" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>The last transition</description>
+  <default>
+   <expression>transition/getId|nothing</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="actor" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>The ID of the user who performed the last transition</description>
+  <default>
+   <expression>user/getId</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="comments" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>Comments about the last transition</description>
+  <default>
+   <expression>python:state_change.kwargs.get('comment', '')</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="review_history" for_catalog="False"
+           for_status="False" update_always="False">
+  <description>Provides access to workflow history</description>
+  <default>
+   <expression>state_change/getHistory</expression>
+  </default>
+  <guard>
+   <guard-permission>Request review</guard-permission>
+   <guard-permission>Review portal content</guard-permission>
+  </guard>
+ </variable>
+ <variable variable_id="time" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>Time of the last transition</description>
+  <default>
+   <expression>state_change/getDateTime</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <script script_id="approveChildren" type="External Method"
+         filename=""
+         module="Bungeni.WestminsterBillWorkflow_scripts"
+         function="approveChildren"/>
+ <script script_id="publishChildren" type="External Method"
+         filename=""
+         module="Bungeni.WestminsterBillWorkflow_scripts"
+         function="publishChildren"/>
+</dc-workflow>

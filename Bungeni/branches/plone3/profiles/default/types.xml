@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<object name="portal_types"
+        meta_type="Plone Types Tool">
+
+ <object name="MemberOfPublic"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="BungeniMember"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="MemberOfParliament"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="BungeniMembershipTool"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Staff"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="LongDocument"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="LongDocumentSection"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="LongDocumentPage"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="HelpFolder"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="MinistryFolder"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Motion"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="ParliamentaryEvent"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Question"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Response"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="OrderOfBusiness"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="AgendaItem"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Sitting"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Session"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="CommitteeFolder"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="ParliamentaryDocument"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="LegislationFolder"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Bill"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="BillPage"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="BillSection"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Amendment"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="DebateRecord"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="DebateRecordPage"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="DebateRecordFolder"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="DebateRecordSection"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="TakeTranscription"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Minutes"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Take"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="RotaFolder"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="RotaItem"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="RotaTool"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Committee"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="PoliticalGroup"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Reporters"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Parliament"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Office"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="BungeniTeamSpace"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="DebateRecordOffice"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="BungeniTeam"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Region"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Constituency"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Regions"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Province"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="OfficeWS"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="OfficeFolder"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="ParliamentWS"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="CommitteeWS"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Ministry"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Portfolio"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Government"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="Minister"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+ <object name="AssistantMinister"
+         meta_type="Factory-based Type Information with dynamic views"/>
+
+</object>

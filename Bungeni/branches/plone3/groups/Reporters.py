@@ -3,7 +3,7 @@
 # File: Reporters.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,8 +29,11 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.Bungeni.groups.BungeniTeam import BungeniTeam
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -51,27 +54,13 @@ Reporters_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Reporters(BungeniTeam):
+class Reporters(BungeniTeam, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BungeniTeam,'__implements__',()),)
-
-    # This name appears in the 'add' box
-    archetype_name = 'Reporters'
+    implements(interfaces.IReporters)
 
     meta_type = 'Reporters'
-    portal_type = 'Reporters'
-    allowed_content_types = [] + list(getattr(BungeniTeam, 'allowed_content_types', []))
-    filter_content_types = 0
-    global_allow = 0
-    #content_icon = 'Reporters.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "Reporters"
-    typeDescMsgId = 'description_edit_reporters'
-
     _at_rename_after_creation = True
 
     schema = Reporters_schema

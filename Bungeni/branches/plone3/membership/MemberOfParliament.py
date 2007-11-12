@@ -3,7 +3,7 @@
 # File: MemberOfParliament.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -30,9 +30,13 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.Bungeni.membership.BungeniMember import BungeniMember
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
 from Products.Bungeni.interfaces.IMemberOfParliament import IMemberOfParliament
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Relations.field import RelationField
 # imports needed by remember
 from Products.remember.content.member import BaseMember
@@ -100,29 +104,13 @@ MemberOfParliament_schema = BaseSchema.copy() + \
 MemberOfParliament_schema = MemberOfParliament_schema + BungeniMember.schema.copy()
 ##/code-section after-schema
 
-class MemberOfParliament(BaseMember, BungeniMember, BaseContent):
+class MemberOfParliament(BaseContent, BaseMember, BrowserDefaultMixin, BungeniMember):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseMember,'__implements__',()),) + (getattr(BungeniMember,'__implements__',()),) + (getattr(BaseContent,'__implements__',()),)
-    # zope3 interfaces
-    interface.implements(IAuditable, IMemberOfParliament)
-
-    # This name appears in the 'add' box
-    archetype_name = 'MemberOfParliament'
+    implements(interfaces.IMemberOfParliament, IAuditable, IMemberOfParliament)
 
     meta_type = 'MemberOfParliament'
-    portal_type = 'MemberOfParliament'
-    allowed_content_types = [] + list(getattr(BungeniMember, 'allowed_content_types', []))
-    filter_content_types = 0
-    global_allow = 0
-    #content_icon = 'MemberOfParliament.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "MemberOfParliament"
-    typeDescMsgId = 'description_edit_memberofparliament'
-
     _at_rename_after_creation = True
 
     schema = MemberOfParliament_schema

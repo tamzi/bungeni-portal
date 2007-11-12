@@ -3,7 +3,7 @@
 # File: Bungeni.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -38,7 +38,6 @@ __docformat__ = 'plaintext'
 # will be included (by importing) in this file if found.
 
 from Products.CMFCore.permissions import setDefaultRoles
-
 from Products.remember.permissions import ADD_MEMBER_PERMISSION
 ##code-section config-head #fill in your manual code here
 ##/code-section config-head
@@ -77,15 +76,6 @@ DEPENDENCIES = []
 # Dependend products - not quick-installed - used in testcase
 # override in custom configuration
 PRODUCT_DEPENDENCIES = []
-
-# You can overwrite these two in an AppConfig.py:
-# STYLESHEETS = [
-#     {'id': 'my_global_stylesheet.css'},
-#     {'id': 'my_contenttype.css',
-#      'expression': 'python:object.getTypeInfo().getId() == "MyType"'}]
-# You can do the same with JAVASCRIPTS.
-STYLESHEETS = []
-JAVASCRIPTS = []
 
 ##code-section config-bottom #fill in your manual code here
 ##/code-section config-bottom

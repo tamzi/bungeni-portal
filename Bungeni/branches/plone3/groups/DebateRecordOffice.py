@@ -3,7 +3,7 @@
 # File: DebateRecordOffice.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,8 +29,11 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.Bungeni.groups.Office import Office
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
@@ -102,27 +105,13 @@ DebateRecordOffice_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class DebateRecordOffice(Office):
+class DebateRecordOffice(BrowserDefaultMixin, Office):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(Office,'__implements__',()),)
-
-    # This name appears in the 'add' box
-    archetype_name = 'DebateRecordOffice'
+    implements(interfaces.IDebateRecordOffice)
 
     meta_type = 'DebateRecordOffice'
-    portal_type = 'DebateRecordOffice'
-    allowed_content_types = [] + list(getattr(Office, 'allowed_content_types', []))
-    filter_content_types = 0
-    global_allow = 0
-    #content_icon = 'DebateRecordOffice.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "DebateRecordOffice"
-    typeDescMsgId = 'description_edit_debaterecordoffice'
-
     _at_rename_after_creation = True
 
     schema = DebateRecordOffice_schema

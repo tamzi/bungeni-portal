@@ -3,7 +3,7 @@
 # File: Question.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -30,8 +30,12 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.Bungeni.events.ParliamentaryEvent import ParliamentaryEvent
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
@@ -73,29 +77,13 @@ Question_schema = BaseFolderSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Question(BaseFolder, ParliamentaryEvent):
+class Question(BrowserDefaultMixin, BaseFolder, ParliamentaryEvent):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(ParliamentaryEvent,'__implements__',()),)
-    # zope3 interfaces
-    interface.implements(IAuditable)
-
-    # This name appears in the 'add' box
-    archetype_name = 'Question'
+    implements(interfaces.IQuestion, IAuditable)
 
     meta_type = 'Question'
-    portal_type = 'Question'
-    allowed_content_types = ['Response'] + list(getattr(ParliamentaryEvent, 'allowed_content_types', []))
-    filter_content_types = 1
-    global_allow = 1
-    #content_icon = 'Question.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "Question"
-    typeDescMsgId = 'description_edit_question'
-
     _at_rename_after_creation = True
 
     schema = Question_schema

@@ -3,7 +3,7 @@
 # File: BungeniMember.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -30,7 +30,11 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.Bungeni.interfaces.IBungeniMember import IBungeniMember
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -92,7 +96,6 @@ schema = Schema((
 
     ComputedField(
         name='fullname',
-        index=('membrane_tool/ZCTextIndex,lexicon_id=member_lexicon,index_type=Cosine Measure|TextIndex:brains', 'ZCTextIndex|TextIndex:brains'),
         widget=ComputedField._properties['widget'](
             label="Full name",
             label_msgid='Bungeni_label_fullname',
@@ -166,15 +169,12 @@ BungeniMember_schema = schema.copy()
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class BungeniMember(BaseContent):
+class BungeniMember(BaseContent, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),)
-    # zope3 interfaces
-    interface.implements(IBungeniMember)
+    implements(interfaces.IBungeniMember, IBungeniMember)
 
-    allowed_content_types = []
     _at_rename_after_creation = True
 
     schema = BungeniMember_schema

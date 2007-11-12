@@ -3,7 +3,7 @@
 # File: DebateRecordPage.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -30,8 +30,12 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.PloneHelpCenter.content.ReferenceManualPage import HelpCenterReferenceManualPage
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Bungeni.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -52,29 +56,13 @@ DebateRecordPage_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class DebateRecordPage(BaseContent, HelpCenterReferenceManualPage):
+class DebateRecordPage(BrowserDefaultMixin, BaseContent, HelpCenterReferenceManualPage):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(HelpCenterReferenceManualPage,'__implements__',()),)
-    # zope3 interfaces
-    interface.implements(IAuditable)
-
-    # This name appears in the 'add' box
-    archetype_name = 'DebateRecordPage'
+    implements(interfaces.IDebateRecordPage, IAuditable)
 
     meta_type = 'DebateRecordPage'
-    portal_type = 'DebateRecordPage'
-    allowed_content_types = [] + list(getattr(HelpCenterReferenceManualPage, 'allowed_content_types', []))
-    filter_content_types = 0
-    global_allow = 0
-    #content_icon = 'DebateRecordPage.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "A page of a Hansard report."
-    typeDescMsgId = 'description_edit_debaterecordpage'
-
     _at_rename_after_creation = True
 
     schema = DebateRecordPage_schema

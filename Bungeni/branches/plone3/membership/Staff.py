@@ -3,7 +3,7 @@
 # File: Staff.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -30,9 +30,13 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.Bungeni.membership.BungeniMember import BungeniMember
 from Products.Bungeni.interfaces.IClerk import IClerk
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 # imports needed by remember
 from Products.remember.content.member import BaseMember
 from Products.remember.permissions import \
@@ -64,29 +68,13 @@ Staff_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class Staff(BaseMember, BungeniMember, BaseContent):
+class Staff(BaseContent, BaseMember, BrowserDefaultMixin, BungeniMember):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseMember,'__implements__',()),) + (getattr(BungeniMember,'__implements__',()),) + (getattr(BaseContent,'__implements__',()),)
-    # zope3 interfaces
-    interface.implements(IClerk, IAuditable)
-
-    # This name appears in the 'add' box
-    archetype_name = 'Staff'
+    implements(interfaces.IStaff, IClerk, IAuditable)
 
     meta_type = 'Staff'
-    portal_type = 'Staff'
-    allowed_content_types = [] + list(getattr(BungeniMember, 'allowed_content_types', []))
-    filter_content_types = 0
-    global_allow = 0
-    #content_icon = 'Staff.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "Staff"
-    typeDescMsgId = 'description_edit_staff'
-
     _at_rename_after_creation = True
 
     schema = Staff_schema

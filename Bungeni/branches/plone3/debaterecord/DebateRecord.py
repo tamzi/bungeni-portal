@@ -3,7 +3,7 @@
 # File: DebateRecord.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -30,8 +30,12 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.PloneHelpCenter.content.ReferenceManual import HelpCenterReferenceManual
 from Products.AuditTrail.interfaces.IAuditable import IAuditable
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Bungeni.config import *
 
 # additional imports from tagged value 'import'
@@ -55,29 +59,13 @@ DebateRecord_schema = BaseFolderSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class DebateRecord(BaseFolder, HelpCenterReferenceManual):
+class DebateRecord(BaseFolder, HelpCenterReferenceManual, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseFolder,'__implements__',()),) + (getattr(HelpCenterReferenceManual,'__implements__',()),)
-    # zope3 interfaces
-    interface.implements(IAuditable)
-
-    # This name appears in the 'add' box
-    archetype_name = 'DebateRecord'
+    implements(interfaces.IDebateRecord, IAuditable)
 
     meta_type = 'DebateRecord'
-    portal_type = 'DebateRecord'
-    allowed_content_types = ['DebateRecordSection', 'DebateRecordPage']
-    filter_content_types = 1
-    global_allow = 0
-    #content_icon = 'DebateRecord.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "The Hansard report of a sitting of parliament."
-    typeDescMsgId = 'description_edit_debaterecord'
-
     _at_rename_after_creation = True
 
     schema = DebateRecord_schema

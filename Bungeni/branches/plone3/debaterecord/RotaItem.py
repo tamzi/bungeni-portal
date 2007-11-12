@@ -3,7 +3,7 @@
 # File: RotaItem.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -30,7 +30,11 @@ __docformat__ = 'plaintext'
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
 from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.Bungeni.interfaces.IRotaItem import IRotaItem
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
@@ -123,29 +127,13 @@ RotaItem_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class RotaItem(BaseContent):
+class RotaItem(BaseContent, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),)
-    # zope3 interfaces
-    interface.implements(IRotaItem)
-
-    # This name appears in the 'add' box
-    archetype_name = 'RotaItem'
+    implements(interfaces.IRotaItem, IRotaItem)
 
     meta_type = 'RotaItem'
-    portal_type = 'RotaItem'
-    allowed_content_types = []
-    filter_content_types = 0
-    global_allow = 0
-    #content_icon = 'RotaItem.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "RotaItem"
-    typeDescMsgId = 'description_edit_rotaitem'
-
     _at_rename_after_creation = False
 
     schema = RotaItem_schema

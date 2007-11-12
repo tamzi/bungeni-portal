@@ -3,7 +3,7 @@
 # File: AgendaItem.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,8 +29,11 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from zope import interface
+from zope.interface import implements
+import interfaces
 from Products.Bungeni.events.ParliamentaryEvent import ParliamentaryEvent
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Relations.field import RelationField
 from Products.Bungeni.config import *
 
@@ -104,27 +107,13 @@ AgendaItem_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class AgendaItem(BaseContent, ParliamentaryEvent):
+class AgendaItem(BrowserDefaultMixin, BaseContent, ParliamentaryEvent):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),) + (getattr(ParliamentaryEvent,'__implements__',()),)
-
-    # This name appears in the 'add' box
-    archetype_name = 'AgendaItem'
+    implements(interfaces.IAgendaItem)
 
     meta_type = 'AgendaItem'
-    portal_type = 'AgendaItem'
-    allowed_content_types = [] + list(getattr(ParliamentaryEvent, 'allowed_content_types', []))
-    filter_content_types = 0
-    global_allow = 0
-    #content_icon = 'AgendaItem.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "AgendaItem"
-    typeDescMsgId = 'description_edit_agendaitem'
-
     _at_rename_after_creation = True
 
     schema = AgendaItem_schema

@@ -3,7 +3,7 @@
 # File: BungeniMembershipTool.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 1.6.0-beta-svn
+# Generator: ArchGenXML Version 2.0-beta4
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -29,7 +29,11 @@ __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
-from zope import interface
+from zope.interface import implements
+import interfaces
+
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.Bungeni.config import *
 
 # additional imports from tagged value 'import'
@@ -68,28 +72,13 @@ BungeniMembershipTool_schema = BaseSchema.copy() + \
 ##code-section after-schema #fill in your manual code here
 ##/code-section after-schema
 
-class BungeniMembershipTool(UniqueObject, BaseContent):
+class BungeniMembershipTool(UniqueObject, BaseContent, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(UniqueObject,'__implements__',()),) + (getattr(BaseContent,'__implements__',()),)
-
-    # This name appears in the 'add' box
-    archetype_name = 'BungeniMembershipTool'
+    implements(interfaces.IBungeniMembershipTool)
 
     meta_type = 'BungeniMembershipTool'
-    portal_type = 'BungeniMembershipTool'
-    allowed_content_types = []
-    filter_content_types = 1
-    global_allow = 0
-    #content_icon = 'BungeniMembershipTool.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "BungeniMembershipTool"
-    typeDescMsgId = 'description_edit_bungenimembershiptool'
-    #toolicon = 'BungeniMembershipTool.gif'
-
     _at_rename_after_creation = True
 
     schema = BungeniMembershipTool_schema
@@ -101,7 +90,7 @@ class BungeniMembershipTool(UniqueObject, BaseContent):
     # tool-constructors have no id argument, the id is fixed
     def __init__(self, id=None):
         BaseContent.__init__(self,'portal_bungenimembershiptool')
-        self.setTitle('BungeniMembershipTool')
+        self.setTitle('')
         
         ##code-section constructor-footer #fill in your manual code here
         ##/code-section constructor-footer

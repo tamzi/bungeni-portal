@@ -117,7 +117,6 @@ class DebateRecordOffice(BrowserDefaultMixin, Office):
     schema = DebateRecordOffice_schema
 
     ##code-section class-header #fill in your manual code here
-    actions = Office.actions
     ##/code-section class-header
 
     # Methods

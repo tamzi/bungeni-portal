@@ -145,7 +145,6 @@ class PoliticalGroup(BungeniTeam, BrowserDefaultMixin):
     schema = PoliticalGroup_schema
 
     ##code-section class-header #fill in your manual code here
-    actions = BungeniTeam.actions
     ##/code-section class-header
 
     # Methods

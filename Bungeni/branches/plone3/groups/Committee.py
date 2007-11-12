@@ -221,7 +221,6 @@ class Committee(BungeniTeam, BrowserDefaultMixin):
     schema = Committee_schema
 
     ##code-section class-header #fill in your manual code here
-    actions = BungeniTeam.actions
     ##/code-section class-header
 
     # Methods

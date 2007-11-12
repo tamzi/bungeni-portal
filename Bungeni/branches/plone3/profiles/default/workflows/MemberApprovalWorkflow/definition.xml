@@ -278,7 +278,7 @@
  <transition transition_id="auto_submit" 
              title="Automatically submit member"
              new_state="pending"
-             trigger="0" 
+             trigger="AUTOMATIC" 
              before_script="" 
              after_script="">
   <action url="" category="workflow">Automatically submit member</action>

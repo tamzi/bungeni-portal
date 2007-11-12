@@ -39,10 +39,12 @@
   <guard>
   </guard>
  </transition>
+ <!-- System Executed transition type went away-->
  <transition transition_id="publish" 
              title="publish"
              new_state="published"
-             trigger="2" 
+             trigger="AUTOMATIC" 
+	     guard_expression="python:1==2" 
              before_script="" 
              after_script="">
   <action url="" category="workflow">publish</action>
@@ -82,10 +84,12 @@
     <guard-permission>Request review</guard-permission>
   </guard>
  </transition>
+ <!-- System Executed transition type went away-->
  <transition transition_id="withdraw" 
              title="withdraw"
              new_state="obsolete"
-             trigger="2" 
+             trigger="AUTOMATIC" 
+	     guard_expression="python:1==2"
              before_script="" 
              after_script="">
   <action url="" category="workflow">withdraw</action>

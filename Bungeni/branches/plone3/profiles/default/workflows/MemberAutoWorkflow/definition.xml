@@ -223,7 +223,7 @@
  <transition transition_id="auto_register" 
              title="Automatically approve member"
              new_state="public"
-             trigger="0" 
+             trigger="AUTOMATIC" 
              before_script="register" 
              after_script="">
   <action url="" category="workflow">Automatically approve member</action>

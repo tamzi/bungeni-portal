@@ -1,0 +1,84 @@
+<!-- Modified from Archetypes/skins/archetypes/widgets/inandout.pt
+-->
+    <metal:define define-macro="edit">
+      <metal:use use-macro="field_macro | here/widgets/field/macros/edit">
+        <metal:fill fill-slot="widget_body"
+                    tal:define="vocab python:field.Vocabulary(here);
+                            vlen python:len(vocab);
+                            current_value python:here.isTemporary() and here.getSpaceTeamsDefault() or value;
+                    ">
+
+          <input type="hidden"
+                 value=""
+                 tal:condition="not:field/required|nothing"
+                 tal:attributes="name string:$fieldName:default:list;" />
+
+          <div>
+            <div style="float:left">
+                <table style="border:none;margin:0em;padding:0em;margin-right:0.5em;" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td style="padding-left:0em;padding-top:0em;">
+                      <select
+                        multiple="multiple"
+                        tal:attributes="name string:${fieldName}_options;
+                                        id string:${fieldName}_options;
+                                        size widget/size;
+                                        tabindex tabindex/next;
+                                        onDblClick string:javascript:inout_moveKeywords('${fieldName}_options','${fieldName}','${fieldName}')">
+      
+                  <span tal:content="current_value"></span>DBG
+                        <tal:block tal:repeat="vocab_item vocab">
+                  <span tal:content="vocab_item"></span>DBG
+                          <option
+                            tal:define="label python:here.translate(vocab.getMsgId(vocab_item), default=vocab.getValue(vocab_item))"
+                            tal:condition="python:test(here.unicodeTestIn(vocab_item, current_value), 0, 1)"
+                            tal:attributes="value vocab_item;"
+                            tal:content="label">
+                            option
+                          </option>
+                        </tal:block>
+      
+                      </select>
+                    </td>
+      
+                    <td style="vertical-align:middle">
+                      <input type="button" class="context" value="&gt;&gt;"
+                             tal:attributes="onClick string:javascript:inout_moveKeywords('${fieldName}_options','${fieldName}','${fieldName}')"
+                             />
+                      <br />
+                      <input type="button" class="context" value="&lt;&lt;"
+                             tal:attributes="onClick string:javascript:inout_moveKeywords('${fieldName}','${fieldName}_options','${fieldName}')"
+                             />
+                    </td>
+                  </tr>
+                </table>
+            </div>
+            <div style="float:left">
+              <select
+                  multiple="multiple"
+                  tal:attributes="name string:${fieldName}:list;
+                                  id string:${fieldName};
+                                  size widget/size;
+                                  tabindex tabindex/next;
+                                  onDblClick string:javascript:inout_moveKeywords('${fieldName}','${fieldName}_options','${fieldName}')">
+  
+                  <span tal:content="current_value"></span>DBG
+                  <tal:block tal:repeat="single_value current_value">
+                  <span tal:content="single_value"></span>DBG
+                    <option
+                      tal:condition="python:test(here.unicodeTestIn(single_value, current_value), 1, 0)"
+                      tal:attributes="value single_value;"
+                      tal:content="python:here.translate(vocab.getMsgId(single_value), default=vocab.getValue(single_value))"
+                       selected="selected">
+                      option
+                    </option>
+                  </tal:block>
+                  </select>
+             </div>
+             <div style="clear:both">&nbsp;</div>
+          </div>
+          <metal:addable metal:use-macro="here/widgets/addable_support/macros/addable"/>
+
+        </metal:fill>
+      </metal:use>
+    </metal:define>

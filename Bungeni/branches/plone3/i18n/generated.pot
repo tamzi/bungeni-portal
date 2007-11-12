@@ -1,0 +1,730 @@
+# archgenxml generated POT File
+# Jean Jordaan <jean.jordaan@gmail.com>, 2007.
+msgid ""
+msgstr ""
+"Project-Id-Version: Bungeni\n"
+"POT-Creation-Date: Fri Jun  8 18:37:30 2007\n"
+"PO-Revision-Date: Fri Jun  8 18:37:30 2007\n"
+"Last-Translator: Jean Jordaan <jean.jordaan@gmail.com>\n"
+"Language-Team: Jean Jordaan <jean.jordaan@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: latin1 utf-8\n"
+"Domain: Bungeni\n"
+
+#. Default: "The allowance of extra takes to cater for sitting overrunning"
+#: debaterecord/RotaTool.py
+msgid "Bungeni_help_ExtraTakes"
+msgstr ""
+
+#. Default: "How many minutes before the take the reporters have to be in the Chamber/Committee Room"
+#: debaterecord/RotaTool.py
+msgid "Bungeni_help_ReportingLeadTime"
+msgstr ""
+
+#. Default: "The length of a take in minutes"
+#: debaterecord/RotaTool.py
+msgid "Bungeni_help_TakeLength"
+msgstr ""
+
+#: votes/VoteCount.py
+msgid "Bungeni_label_"
+msgstr ""
+
+#. Default: "Assistantminister"
+#: content/Portfolio.py
+msgid "Bungeni_label_AssistantMinister"
+msgstr ""
+
+#. Default: "Assistentminister"
+#: content/Portfolio.py
+#: government/Portfolio.py
+msgid "Bungeni_label_AssistentMinister"
+msgstr ""
+
+#. Default: "Availablereporters"
+#: debaterecord/RotaFolder.py
+#: debaterecord/RotaTool.py
+msgid "Bungeni_label_AvailableReporters"
+msgstr ""
+
+#. Default: "Aye"
+#: votes/VoteOfMP.py
+msgid "Bungeni_label_Aye"
+msgstr ""
+
+#. Default: "Chairperson"
+#: groups/Office.py
+#: groups/Committee.py
+msgid "Bungeni_label_Chairperson"
+msgstr ""
+
+#. Default: "Chairpersontoo"
+#: groups/Committee.py
+msgid "Bungeni_label_Chairpersontoo"
+msgstr ""
+
+#. Default: "Chiefclerk"
+#: groups/Office.py
+msgid "Bungeni_label_ChiefClerk"
+msgstr ""
+
+#. Default: "Chiefeditor"
+#: groups/Office.py
+#: groups/DebateRecordOffice.py
+msgid "Bungeni_label_ChiefEditor"
+msgstr ""
+
+#. Default: "Clerk"
+#: groups/Committee.py
+msgid "Bungeni_label_Clerk"
+msgstr ""
+
+#. Default: "Committee"
+#: groups/Committee.py
+msgid "Bungeni_label_Committee"
+msgstr ""
+
+#. Default: "Createddate"
+#: geoinfo/Constituency.py
+msgid "Bungeni_label_CreatedDate"
+msgstr ""
+
+#. Default: "Dateofbirth"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_DateOfBirth"
+msgstr ""
+
+#. Default: "Dateofdeath"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_DateOfDeath"
+msgstr ""
+
+#. Default: "Deputychairperson"
+#: groups/Office.py
+#: groups/Committee.py
+msgid "Bungeni_label_DeputyChairperson"
+msgstr ""
+
+#. Default: "Deputychiefeditor"
+#: groups/Office.py
+#: groups/DebateRecordOffice.py
+msgid "Bungeni_label_DeputyChiefEditor"
+msgstr ""
+
+#. Default: "Deputyclerk"
+#: groups/Office.py
+#: groups/Committee.py
+msgid "Bungeni_label_DeputyClerk"
+msgstr ""
+
+#. Default: "Deputyleader"
+#: groups/PoliticalGroup.py
+msgid "Bungeni_label_DeputyLeader"
+msgstr ""
+
+#. Default: "Deuputyleader"
+#: groups/PoliticalGroup.py
+msgid "Bungeni_label_DeuputyLeader"
+msgstr ""
+
+#. Default: "Editor"
+#: groups/Office.py
+#: groups/DebateRecordOffice.py
+msgid "Bungeni_label_Editor"
+msgstr ""
+
+#. Default: "Editors"
+#: groups/DebateRecordOffice.py
+msgid "Bungeni_label_Editors"
+msgstr ""
+
+#. Default: "Enddate"
+#: groups/Minister.py
+#: groups/Tenure.py
+msgid "Bungeni_label_EndDate"
+msgstr ""
+
+#. Default: "Extratakes"
+#: debaterecord/RotaTool.py
+msgid "Bungeni_label_ExtraTakes"
+msgstr ""
+
+#. Default: "First name"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_Firstname"
+msgstr ""
+
+#. Default: "Full name"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_Fullname"
+msgstr ""
+
+#. Default: "Gender"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_Gender"
+msgstr ""
+
+#. Default: "Itemfrom"
+#: debaterecord/RotaItem.py
+msgid "Bungeni_label_ItemFrom"
+msgstr ""
+
+#. Default: "Itemfromwithlead"
+#: debaterecord/RotaItem.py
+msgid "Bungeni_label_ItemFromWithLead"
+msgstr ""
+
+#. Default: "Itemorder"
+#: debaterecord/RotaItem.py
+msgid "Bungeni_label_ItemOrder"
+msgstr ""
+
+#. Default: "Itemto"
+#: debaterecord/RotaItem.py
+msgid "Bungeni_label_ItemTo"
+msgstr ""
+
+#. Default: "Leader"
+#: groups/PoliticalGroup.py
+msgid "Bungeni_label_Leader"
+msgstr ""
+
+#. Default: "Maidenname"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_MaidenName"
+msgstr ""
+
+#. Default: "Membertypeswithhomefolders"
+#: membership/BungeniMembership.py
+#: tools/BungeniMembershipTool.py
+#: membership/BungeniMembershipTool.py
+msgid "Bungeni_label_MemberTypesWithHomeFolders"
+msgstr ""
+
+#. Default: "Middlename"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_Middlename"
+msgstr ""
+
+#. Default: "Minister"
+#: content/Portfolio.py
+#: government/Portfolio.py
+msgid "Bungeni_label_Minister"
+msgstr ""
+
+#. Default: "Nationalidnumber"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_NationalIdNumber"
+msgstr ""
+
+#. Default: "Numberofaye"
+#: votes/VoteCount.py
+#: votes/VoteSummary.py
+msgid "Bungeni_label_NumberOfAye"
+msgstr ""
+
+#. Default: "Numberofnay"
+#: votes/VoteCount.py
+#: votes/VoteSummary.py
+msgid "Bungeni_label_NumberOfNay"
+msgstr ""
+
+#. Default: "Numberofvoters"
+#: geoinfo/Constituency.py
+msgid "Bungeni_label_NumberOfVoters"
+msgstr ""
+
+#. Default: "Pass"
+#: votes/VoteCount.py
+#: votes/VoteSummary.py
+msgid "Bungeni_label_Pass"
+msgstr ""
+
+#. Default: "Placeofbirth"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_PlaceOfBirth"
+msgstr ""
+
+#. Default: "Province"
+#: geoinfo/Constituency.py
+msgid "Bungeni_label_Province"
+msgstr ""
+
+#. Default: "Reason"
+#: groups/Association_Class_2.py
+msgid "Bungeni_label_Reason"
+msgstr ""
+
+#. Default: "Reasonforleaving"
+#: groups/Minister.py
+#: groups/Tenure.py
+msgid "Bungeni_label_ReasonForLeaving"
+msgstr ""
+
+#. Default: "Region"
+#: geoinfo/Constituency.py
+msgid "Bungeni_label_Region"
+msgstr ""
+
+#. Default: "Reporter"
+#: groups/Office.py
+#: groups/DebateRecordOffice.py
+#: membership/Take.py
+msgid "Bungeni_label_Reporter"
+msgstr ""
+
+#. Default: "Reporters"
+#: groups/DebateRecordOffice.py
+msgid "Bungeni_label_Reporters"
+msgstr ""
+
+#. Default: "Reportersforsitting"
+#: debaterecord/RotaFolder.py
+msgid "Bungeni_label_ReportersForSitting"
+msgstr ""
+
+#. Default: "WidgetLabel"
+#: debaterecord/RotaTool.py
+msgid "Bungeni_label_ReportingLeadTime"
+msgstr ""
+
+#. Default: "Rotafrom"
+#: debaterecord/RotaFolder.py
+msgid "Bungeni_label_RotaFrom"
+msgstr ""
+
+#. Default: "Rotaitem"
+#: debaterecord/Take.py
+msgid "Bungeni_label_RotaItem"
+msgstr ""
+
+#. Default: "Rotaitem_inverse"
+#: debaterecord/RotaItem.py
+msgid "Bungeni_label_RotaItem_inverse"
+msgstr ""
+
+#. Default: "Rotasubscribers"
+#: debaterecord/RotaTool.py
+msgid "Bungeni_label_RotaSubscribers"
+msgstr ""
+
+#. Default: "Rotato"
+#: debaterecord/RotaFolder.py
+msgid "Bungeni_label_RotaTo"
+msgstr ""
+
+#. Default: "Title or salutation"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_Salutation"
+msgstr ""
+
+#. Default: "Secretary"
+#: groups/Office.py
+#: groups/Committee.py
+#: groups/PoliticalGroup.py
+msgid "Bungeni_label_Secretary"
+msgstr ""
+
+#. Default: "Spokesperson"
+#: groups/PoliticalGroup.py
+msgid "Bungeni_label_Spokesperson"
+msgstr ""
+
+#. Default: "Stafftype"
+#: membership/Staff.py
+msgid "Bungeni_label_StaffType"
+msgstr ""
+
+#. Default: "Startdate"
+#: groups/Minister.py
+#: groups/Tenure.py
+msgid "Bungeni_label_StartDate"
+msgstr ""
+
+#. Default: "Surname"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_Surname"
+msgstr ""
+
+#. Default: "Take"
+#: debaterecord/RotaItem.py
+msgid "Bungeni_label_Take"
+msgstr ""
+
+#. Default: "Takelength"
+#: debaterecord/RotaTool.py
+msgid "Bungeni_label_TakeLength"
+msgstr ""
+
+#. Default: "Testrelation"
+#: groups/Office.py
+msgid "Bungeni_label_TestRelation"
+msgstr ""
+
+#. Default: "Uri"
+#: events/ParliamentaryDocument.py
+msgid "Bungeni_label_URI"
+msgstr ""
+
+#. Default: "Attendees"
+#: events/Sitting.py
+msgid "Bungeni_label_attendees"
+msgstr ""
+
+#. Default: "Attribute_1"
+#: groups/Parliament.py
+msgid "Bungeni_label_attribute_1"
+msgstr ""
+
+#. Default: "Attribute_12"
+#: tools/BungeniTeamsTool.py
+#: groups/BungeniTeamsTool.py
+msgid "Bungeni_label_attribute_12"
+msgstr ""
+
+#. Default: "Attribute_23"
+#: groups/Tenure.py
+msgid "Bungeni_label_attribute_23"
+msgstr ""
+
+#. Default: "Attribute_4"
+#: events/AgendaItem.py
+msgid "Bungeni_label_attribute_4"
+msgstr ""
+
+#. Default: "Bills"
+#: events/AgendaItem.py
+msgid "Bungeni_label_bills"
+msgstr ""
+
+#. Default: "Burp"
+#: tools/BungeniTeamsTool.py
+#: groups/BungeniTeamsTool.py
+msgid "Bungeni_label_burp"
+msgstr ""
+
+#. Default: "Category"
+#: content/Committee.py
+#: groups/Committee.py
+msgid "Bungeni_label_category"
+msgstr ""
+
+#. Default: "Cessationdate"
+#: groups/Party.py
+#: groups/PoliticalGroup.py
+msgid "Bungeni_label_cessationDate"
+msgstr ""
+
+#. Default: "Class_2s"
+#: debaterecord/TakeTranscription.py
+msgid "Bungeni_label_class_2s"
+msgstr ""
+
+#. Default: "Clerks"
+#: hansard/Take.py
+#: debaterecord/Take.py
+msgid "Bungeni_label_clerks"
+msgstr ""
+
+#. Default: "Constituencys"
+#: membership/MemberOfParliament.py
+msgid "Bungeni_label_constituencys"
+msgstr ""
+
+#. Default: "Datedissolved"
+#: groups/Parliament.py
+msgid "Bungeni_label_dateDissolved"
+msgstr ""
+
+#. Default: "Dateelected"
+#: groups/Parliament.py
+msgid "Bungeni_label_dateElected"
+msgstr ""
+
+#. Default: "Dateinaugurated"
+#: groups/Parliament.py
+msgid "Bungeni_label_dateInaugurated"
+msgstr ""
+
+#. Default: "Dateofbirth"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_dateOfBirth"
+msgstr ""
+
+#. Default: "Dateofdeath"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_dateOfDeath"
+msgstr ""
+
+#. Default: "Dissolutiondate"
+#: groups/Committee.py
+msgid "Bungeni_label_dissolutionDate"
+msgstr ""
+
+#. Default: "Duration"
+#: groups/Committee.py
+msgid "Bungeni_label_duration"
+msgstr ""
+
+#. Default: "Eventtype"
+#: events/ParliamentaryEvent.py
+msgid "Bungeni_label_eventType"
+msgstr ""
+
+#. Default: "Ext_editor"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_ext_editor"
+msgstr ""
+
+#. Default: "First name"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_firstname"
+msgstr ""
+
+#. Default: "Full name"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_fullname"
+msgstr ""
+
+#. Default: "Isauto"
+#. Default: "Functions"
+#: groups/Committee.py
+msgid "Bungeni_label_functions"
+msgstr ""
+
+#. Default: "Gender"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_gender"
+msgstr ""
+
+#. Default: "Othersignatories"
+#. Default: "Maidenname"
+#: content/ParliamentaryEvent.py
+#: membership/BungeniMember.py
+msgid "Bungeni_label_maidenName"
+msgstr ""
+
+#. Default: "Maidenname"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_maidenname"
+msgstr ""
+
+#. Default: "Maxchairs"
+#: groups/Committee.py
+msgid "Bungeni_label_maxChairs"
+msgstr ""
+
+#. Default: "Maxmembers"
+#: groups/Committee.py
+msgid "Bungeni_label_maxMembers"
+msgstr ""
+
+#. Default: "Maxsecretaries"
+#: groups/Committee.py
+msgid "Bungeni_label_maxSecretaries"
+msgstr ""
+
+#. Default: "Memberofparliaments"
+#: votes/VoteOfMP.py
+#: groups/Ministry.py
+#: geoinfo/Constituency.py
+msgid "Bungeni_label_memberofparliaments"
+msgstr ""
+
+#. Default: "Middlename"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_middlename"
+msgstr ""
+
+#. Default: "Minattendance"
+#: groups/Committee.py
+msgid "Bungeni_label_minAttendance"
+msgstr ""
+
+#. Default: "Ministrys"
+#: membership/MemberOfParliament.py
+#: membership/Staff.py
+#: content/Ministry.py
+msgid "Bungeni_label_ministrys"
+msgstr ""
+
+#. Default: "Motions"
+#: events/AgendaItem.py
+msgid "Bungeni_label_motions"
+msgstr ""
+
+#. Default: "Nationalidnumber"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_nationalIdNumber"
+msgstr ""
+
+#. Default: "Notassistantminister"
+#: content/Portfolio.py
+#: government/Portfolio.py
+msgid "Bungeni_label_notAssistantMinister"
+msgstr ""
+
+#. Default: "Notminister"
+#: content/Portfolio.py
+#: government/Portfolio.py
+msgid "Bungeni_label_notMinister"
+msgstr ""
+
+#. Default: "Notes"
+#: events/Session.py
+msgid "Bungeni_label_notes"
+msgstr ""
+
+#. Default: "Number"
+#: groups/Parliament.py
+#: events/ParliamentaryDocument.py
+msgid "Bungeni_label_number"
+msgstr ""
+
+#. Default: "Other signatories"
+#: events/ParliamentaryEvent.py
+msgid "Bungeni_label_otherSignatories"
+msgstr ""
+
+#. Default: "Requirewrittenanswer"
+#. Default: "Placeofbirth"
+#: content/Question.py
+#: membership/BungeniMember.py
+msgid "Bungeni_label_placeOfBirth"
+msgstr ""
+
+#. Default: "Portfolio"
+#: groups/Ministry.py
+msgid "Bungeni_label_portfolio"
+msgstr ""
+
+#. Default: "Portfolios"
+#: membership/MemberOfParliament.py
+msgid "Bungeni_label_portfolios"
+msgstr ""
+
+#. Default: "Presidencyinternal"
+#: groups/Committee.py
+msgid "Bungeni_label_presidencyInternal"
+msgstr ""
+
+#. Default: "Proportionalrepresentation"
+#: groups/Committee.py
+msgid "Bungeni_label_proportionalRepresentation"
+msgstr ""
+
+#. Default: "Questions"
+#: events/Response.py
+#: events/AgendaItem.py
+msgid "Bungeni_label_questions"
+msgstr ""
+
+#. Default: "Registrationdate"
+#: groups/Party.py
+#: groups/PoliticalGroup.py
+msgid "Bungeni_label_registrationDate"
+msgstr ""
+
+#. Default: "Require written answer?"
+#: events/Question.py
+msgid "Bungeni_label_requireWrittenAnswer"
+msgstr ""
+
+#. Default: "Respondents"
+#: events/Question.py
+msgid "Bungeni_label_respondents"
+msgstr ""
+
+#. Default: "Rotaitems"
+#: debaterecord/Take.py
+msgid "Bungeni_label_rotaitems"
+msgstr ""
+
+#. Default: "Title or salutation"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_salutation"
+msgstr ""
+
+#. Default: "Secondedby"
+#: content/Motion.py
+#: events/Motion.py
+msgid "Bungeni_label_secondedBy"
+msgstr ""
+
+#. Default: "Sessiontype"
+#: events/Session.py
+msgid "Bungeni_label_sessionType"
+msgstr ""
+
+#. Default: "Shorttitle"
+#: content/Party.py
+#: groups/Party.py
+#: groups/Ministry.py
+msgid "Bungeni_label_shortTitle"
+msgstr ""
+
+#. Default: "Sittingtype"
+#: events/Sitting.py
+msgid "Bungeni_label_sittingType"
+msgstr ""
+
+#. Default: "Staffs"
+#: debaterecord/Take.py
+#: groups/Ministry.py
+#: groups/Committee.py
+msgid "Bungeni_label_staffs"
+msgstr ""
+
+#. Default: "Startdate"
+#. Default: "Secondedby"
+#: content/ParliamentaryEvent.py
+#: events/Motion.py
+msgid "Bungeni_label_startDateBungeni_label_secondedBy"
+msgstr ""
+
+#. Default: "Substitutionallowed"
+#: groups/Committee.py
+msgid "Bungeni_label_substitutionAllowed"
+msgstr ""
+
+#. Default: "Surname"
+#: membership/BungeniMember.py
+msgid "Bungeni_label_surname"
+msgstr ""
+
+#. Default: "Surname"
+#. Default: "Shorttitle"
+#: membership/BungeniMember.py
+#: groups/Party.py
+msgid "Bungeni_label_surnameBungeni_label_shortTitle"
+msgstr ""
+
+#. Default: "Takes"
+#: debaterecord/RotaItem.py
+msgid "Bungeni_label_takes"
+msgstr ""
+
+#. Default: "Title"
+#: debaterecord/RotaItem.py
+msgid "Bungeni_label_title"
+msgstr ""
+
+#. Default: "Type"
+#: content/Committee.py
+#: groups/Committee.py
+#: events/Session.py
+msgid "Bungeni_label_type"
+msgstr ""
+
+#. Default: "Billpages"
+#. Default: "Surname"
+#: content/Amendment.py
+#: membership/BungeniMember.py
+msgid "trunk_label_billpagesBungeni_label_surname"
+msgstr ""
+

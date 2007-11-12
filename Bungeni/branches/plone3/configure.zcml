@@ -1,0 +1,11 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five">
+
+    <subscriber
+        for="Products.Bungeni.interfaces.IDebateRecordFolder.IDebateRecordFolder
+            zope.app.container.interfaces.IObjectAddedEvent"
+        handler="Products.Bungeni.debaterecord.DebateRecordFolder.addedDebateRecordFolder"
+        />
+
+</configure>

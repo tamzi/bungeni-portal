@@ -2,12 +2,29 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1">
         <file>
+            <url>src/org/bungeni/editor/selectors/InitSpeech.java</url>
+            <line>378</line>
+            <line>538</line>
+        </file>
+        <file>
             <url>src/org/bungeni/editor/dialogs/editorTabbedPanel.java</url>
             <line>0</line>
+            <line>0</line>
+            <line>0</line>
+            <line>0</line>
+            <line>0</line>
+            <line>0</line>
+            <line>0</line>
+            <line>647</line>
         </file>
         <file>
             <url>src/org/bungeni/ooo/OOComponentHelper.java</url>
             <line>315</line>
+        </file>
+        <file>
+            <url>src/org/bungeni/editor/selectors/InitQuestionBlock.java</url>
+            <line>325</line>
+            <line>476</line>
         </file>
     </editor-bookmarks>
 </project-private>

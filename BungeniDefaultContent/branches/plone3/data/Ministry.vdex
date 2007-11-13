@@ -1,0 +1,412 @@
+<?xml version="1.0"?>
+<vdex language="en" orderSignificant="True" profileType="lax" xmlns="http://www.imsglobal.org/xsd/imsvdex_v1p0">
+  <vocabIdentifier>ministry</vocabIdentifier>
+  <vocabName>
+    <langstring>Ministry vocabulary</langstring>
+  </vocabName>
+  <term>
+    <termIdentifier>Agriculture</termIdentifier>
+    <caption>
+      <langstring>Caption for Agriculture</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Agriculture</langstring>
+    </description>
+    <term>
+      <termIdentifier>MA</termIdentifier>
+      <caption>
+        <langstring>Ministry of Agriculture</langstring>
+      </caption>
+      <description>
+        <langstring>Agricultural Policy and Services and National Food Policy.</langstring>
+      </description>
+    </term>
+    <term>
+      <termIdentifier>MA1</termIdentifier>
+      <caption>
+        <langstring>Ministry of Agriculture, Live Stock and Fisheries</langstring>
+      </caption>
+      <description>
+        <langstring>Agricultural Policy, development of fisheries and live stock Industry</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Communication</termIdentifier>
+    <caption>
+      <langstring>Caption for Communication</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Communication</langstring>
+    </description>
+    <term>
+      <termIdentifier>MIC</termIdentifier>
+      <caption>
+        <langstring>Ministry of Information and Communications</langstring>
+      </caption>
+      <description>
+        <langstring>Dissemination of information to the public, institute of mass communication film development, licensing and Censorship.</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Defense</termIdentifier>
+    <caption>
+      <langstring>Caption for Defense</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Defense</langstring>
+    </description>
+    <term>
+      <termIdentifier>MSD</termIdentifier>
+      <caption>
+        <langstring>Ministry of State for Defense</langstring>
+      </caption>
+      <description>
+        <langstring>In charge of National Defense.</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Deputy Leader</termIdentifier>
+    <caption>
+      <langstring>Caption for Deputy Leader</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Deputy Leader</langstring>
+    </description>
+    <term>
+      <termIdentifier>DPM</termIdentifier>
+      <caption>
+        <langstring>Deputy Prime Minister</langstring>
+      </caption>
+      <description>
+        <langstring>Deputy Leader of Government Business</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Development</termIdentifier>
+    <caption>
+      <langstring>Caption for Development</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Development</langstring>
+    </description>
+    <term>
+      <termIdentifier>MND</termIdentifier>
+      <caption>
+        <langstring>Ministry of National Development</langstring>
+      </caption>
+      <description>
+        <langstring>National development implementation and project management</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Education</termIdentifier>
+    <caption>
+      <langstring>Caption for Education</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Education</langstring>
+    </description>
+    <term>
+      <termIdentifier>ME</termIdentifier>
+      <caption>
+        <langstring>Ministry of Education</langstring>
+      </caption>
+      <description>
+        <langstring>Inspection and supervision of educational institutions and all educational issues.</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Environment</termIdentifier>
+    <caption>
+      <langstring>Caption for Environment</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Environment</langstring>
+    </description>
+    <term>
+      <termIdentifier>MENRW</termIdentifier>
+      <caption>
+        <langstring>Ministry of Environment, Natural Resources &amp; Wildlife</langstring>
+      </caption>
+      <description>
+        <langstring>All environmental issues, Conservation, Resource survey &amp; Remote Sensing and Forest Reserve.</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Finance</termIdentifier>
+    <caption>
+      <langstring>Caption for Finance</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Finance</langstring>
+    </description>
+    <term>
+      <termIdentifier>MF</termIdentifier>
+      <caption>
+        <langstring>Ministry of Finance</langstring>
+      </caption>
+      <description>
+        <langstring>Financial policies, national budget, government expenditure and borrowing.</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Fishery</termIdentifier>
+    <caption>
+      <langstring>Caption for Fishery</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Fishery</langstring>
+    </description>
+    <term>
+      <termIdentifier>MLSFD</termIdentifier>
+      <caption>
+        <langstring>Ministry of Live Stock and Fisheries Development</langstring>
+      </caption>
+      <description>
+        <langstring>Development of fisheries and live stock Industry and research work on live stock.</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Food Policy</termIdentifier>
+    <caption>
+      <langstring>Caption for Food Policy</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Food Policy</langstring>
+    </description>
+  </term>
+  <term>
+    <termIdentifier>Health</termIdentifier>
+    <caption>
+      <langstring>Caption for Health</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Health</langstring>
+    </description>
+    <term>
+      <termIdentifier>MH</termIdentifier>
+      <caption>
+        <langstring>Ministry of Health</langstring>
+      </caption>
+      <description>
+        <langstring>All health issues, dispensary ,trainings and HIV control.</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>International Commerce</termIdentifier>
+    <caption>
+      <langstring>Caption for International Commerce</langstring>
+    </caption>
+    <description>
+      <langstring>Description for International Commerce</langstring>
+    </description>
+  </term>
+  <term>
+    <termIdentifier>Leader</termIdentifier>
+    <caption>
+      <langstring>Caption for Leader</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Leader</langstring>
+    </description>
+    <term>
+      <termIdentifier>PM</termIdentifier>
+      <caption>
+        <langstring>Prime Minister</langstring>
+      </caption>
+      <description>
+        <langstring>Leader of Government Business</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Livestock</termIdentifier>
+    <caption>
+      <langstring>Caption for Livestock</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Livestock</langstring>
+    </description>
+  </term>
+  <term>
+    <termIdentifier>Local Authorities</termIdentifier>
+    <caption>
+      <langstring>Caption for Local Authorities</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Local Authorities</langstring>
+    </description>
+    <term>
+      <termIdentifier>MLG</termIdentifier>
+      <caption>
+        <langstring>Ministry of Local Government</langstring>
+      </caption>
+      <description>
+        <langstring>Local Authorities policies, cities, municipalities, towns and county councils oversight, management and development support.</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Natural disaster</termIdentifier>
+    <caption>
+      <langstring>Caption for Natural disaster</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Natural disaster</langstring>
+    </description>
+    <term>
+      <termIdentifier>MNE</termIdentifier>
+      <caption>
+        <langstring>Ministry of Natural Emergencies</langstring>
+      </caption>
+      <description>
+        <langstring>Natural disaster preparedness and response</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Planning</termIdentifier>
+    <caption>
+      <langstring>Caption for Planning</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Planning</langstring>
+    </description>
+    <term>
+      <termIdentifier>MPND</termIdentifier>
+      <caption>
+        <langstring>Ministry of Planning and National Development</langstring>
+      </caption>
+      <description>
+        <langstring>National development planning, evaluation, economic issues and policies, central bureau of statistic and population censor and development.</langstring>
+      </description>
+    </term>
+    <term>
+      <termIdentifier>MP</termIdentifier>
+      <caption>
+        <langstring>Ministry of Planning</langstring>
+      </caption>
+      <description>
+        <langstring>National planning, evaluation, economic issues and policies, central bureau of statistic and population censor and development.</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Preparedness &amp; Response</termIdentifier>
+    <caption>
+      <langstring>Caption for Preparedness &amp; Response</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Preparedness &amp; Response</langstring>
+    </description>
+  </term>
+  <term>
+    <termIdentifier>Public Administration</termIdentifier>
+    <caption>
+      <langstring>Caption for Public Administration</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Public Administration</langstring>
+    </description>
+    <term>
+      <termIdentifier>MSPS</termIdentifier>
+      <caption>
+        <langstring>Ministry of State and Public Services</langstring>
+      </caption>
+      <description>
+        <langstring>In charge of Public Service Commission.</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Research</termIdentifier>
+    <caption>
+      <langstring>Caption for Research</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Research</langstring>
+    </description>
+    <term>
+      <termIdentifier>MST</termIdentifier>
+      <caption>
+        <langstring>Ministry of Science and Technology</langstring>
+      </caption>
+      <description>
+        <langstring>Promotion of research, science and technology.</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Trade</termIdentifier>
+    <caption>
+      <langstring>Caption for Trade</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Trade</langstring>
+    </description>
+    <term>
+      <termIdentifier>MTI</termIdentifier>
+      <caption>
+        <langstring>Ministry of Trade and Industry</langstring>
+      </caption>
+      <description>
+        <langstring>All international and local trade units &amp; development of trade policies.</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Transport</termIdentifier>
+    <caption>
+      <langstring>Caption for Transport</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Transport</langstring>
+    </description>
+    <term>
+      <termIdentifier>MRPWH</termIdentifier>
+      <caption>
+        <langstring>Ministry of Roads Public Work and Housing</langstring>
+      </caption>
+      <description>
+        <langstring>Development and road maintenance &amp; public works planning policy development.</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Welfare</termIdentifier>
+    <caption>
+      <langstring>Caption for Welfare</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Welfare</langstring>
+    </description>
+    <term>
+      <termIdentifier>MSNE</termIdentifier>
+      <caption>
+        <langstring>Ministry of State for National Heritage</langstring>
+      </caption>
+      <description>
+        <langstring>Social Welfare &amp; Culture, Coordination of volunteer services</langstring>
+      </description>
+    </term>
+  </term>
+  <term>
+    <termIdentifier>Women</termIdentifier>
+    <caption>
+      <langstring>Caption for Women</langstring>
+    </caption>
+    <description>
+      <langstring>Description for Women</langstring>
+    </description>
+  </term>
+</vdex>

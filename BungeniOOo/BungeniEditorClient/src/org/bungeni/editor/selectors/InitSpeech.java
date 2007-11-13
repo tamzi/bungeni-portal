@@ -376,7 +376,11 @@ public class InitSpeech extends selectorTemplatePanel {
 
             
             /////now set the section metadata///
-            
+            HashMap<String,String> speechMeta = new HashMap<String,String>();
+            speechMeta.put("Bungeni_SpeechBy", getValue("SpeechBy"));
+            speechMeta.put("Bungeni_SpeechByURI", getValue("SpeechByURI"));
+            speechMeta.put("BungeniSectionType", theAction.action_section_type());
+            /*
             String[] attrNames = new String[3];
             String[] attrValues = new String[3];
             attrNames[0] = "Bungeni_SpeechBy";
@@ -386,14 +390,17 @@ public class InitSpeech extends selectorTemplatePanel {
             attrValues[0] = getValue("SpeechBy");
             attrValues[1] = getValue("SpeechByURI");
             attrValues[2] = "SpeechContainer";
-            
+            */
+            /*
             ExternalMacro SetSectionMetadata = ExternalMacroFactory.getMacroDefinition("SetSectionMetadata");
             SetSectionMetadata.addParameter(ooDocument.getComponent());
             SetSectionMetadata.addParameter(sectionName );
             SetSectionMetadata.addParameter(attrNames);
             SetSectionMetadata.addParameter(attrValues);
             ooDocument.executeMacro(SetSectionMetadata.toString(), SetSectionMetadata.getParams());
-            
+            */
+            ooDocument.setSectionMetadataAttributes(sectionName, speechMeta);
+           
            
             MessageBox.OK(parent, "Metadata for the section was updated");
             returnError(true);

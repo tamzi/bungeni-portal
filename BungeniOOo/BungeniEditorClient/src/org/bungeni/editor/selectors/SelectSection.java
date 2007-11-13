@@ -294,6 +294,7 @@ public class SelectSection extends selectorTemplatePanel {
     public boolean isCancelClicked() {
         return cancelClicked;
     }
+    
     public static boolean Launchable(OOComponentHelper ooDoc) {
         //launchable only when the root section has children
         if (ooDoc.getTextSections().getElementNames().length > 1 ) {

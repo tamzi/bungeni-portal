@@ -325,7 +325,7 @@ public class OOComponentHelper {
     }
     
     public HashMap<String, String> getSectionMetadataAttributes(String sectionName){
-        HashMap<String,String> metadata = null; 
+        HashMap<String,String> metadata = new HashMap<String,String>(); 
         try {
             //get the section handle
             Object section = this.getTextSections().getByName(sectionName);
@@ -334,6 +334,11 @@ public class OOComponentHelper {
             XPropertySet theProperties = ooQueryInterface.XPropertySet(theSection);
             XNameContainer attrContainer =  _getAttributeContainer(theProperties, ooProperties.SECTION_USERDEFINED_ATTRIBUTES);
             //get attribute element names
+           if (attrContainer.getElementNames().length == 0) //no attributes available
+           {
+                log.debug("getSectionMetadataAttributes: no attributes available in section metadata");
+                return metadata;
+           }
             String[] attributeNames = attrContainer.getElementNames();
             metadata = new HashMap<String,String>();
             for (int i=0;  i < attributeNames.length; i++) {

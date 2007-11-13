@@ -289,7 +289,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
         //if section exists
         //update fields
         String containerSection = theAction.action_naming_convention();
-        if (ooDocument.hasSection(containerSection) && ooDocument.hasSection("masthead_datetime")) {
+        if (ooDocument.hasSection(containerSection) && ooDocument.hasSection("int:masthead_datetime")) {
            //now edit the fields and set the new values
             String strDebateDate = "", strTimeOfHansard = "";   
             Date dtDebate = initdebate_debatedate.getDate();
@@ -303,12 +303,12 @@ public class InitDebateRecord extends selectorTemplatePanel {
             ExternalMacro setFieldValue = ExternalMacroFactory.getMacroDefinition("SetReferenceInputFieldValue");
             setFieldValue.addParameter(new String("debaterecord_official_date"));
             setFieldValue.addParameter(strDebateDate);
-            setFieldValue.addParameter(new String("masthead_datetime"));
+            setFieldValue.addParameter(new String("int:masthead_datetime"));
             ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());
             setFieldValue.clearParams();
             setFieldValue.addParameter(new String("debaterecord_official_time"));
             setFieldValue.addParameter(strTimeOfHansard);
-            setFieldValue.addParameter(new String("masthead_datetime"));
+            setFieldValue.addParameter(new String("int:masthead_datetime"));
             ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());   
             //set date and time of hansard to document
             ooDocMetadata meta = new ooDocMetadata(ooDocument);
@@ -347,68 +347,33 @@ public class InitDebateRecord extends selectorTemplatePanel {
         
         ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
         
-        /*
-        String[] attrNames = new String[1];
-        String[] attrValues = new String[1];
-        attrNames[0] = "bungeni_sectiontype";
-        attrValues[0] = "Masthead";
-        ExternalMacro SetSectionMetadata = ExternalMacroFactory.getMacroDefinition("SetSectionMetadata");
-        SetSectionMetadata.addParameter(ooDocument.getComponent());
-        SetSectionMetadata.addParameter(theAction.action_naming_convention() );
-        SetSectionMetadata.addParameter(attrNames);
-        SetSectionMetadata.addParameter(attrValues);
-        ooDocument.executeMacro(SetSectionMetadata.toString(), SetSectionMetadata.getParams());  
-        */
-        
         this.setSectionMetadataForAction(theAction.action_naming_convention(), theAction);
-        
-        //load the related document
-        //set the field values in loaded document
-        /*
-           String sectionClass = "com.sun.star.text.TextSection";
-           XTextViewCursor xCursor = ooDocument.getViewCursor();
-           XText xText = xCursor.getText();
-           XTextContent xSectionContent = ooDocument.createTextSection(theAction.action_naming_convention(), (short)1);
-            try {
-             xText.insertTextContent(xCursor, xSectionContent , true);
-            } catch (com.sun.star.lang.IllegalArgumentException ex) {
-                btnApply.setEnabled(true);
-            log.debug("in addTextSection : "+ex.getLocalizedMessage(), ex);
-            } 
-          */ 
-            //embed logo image
+        //embed logo image
              ExternalMacro addImageIntoSection = ExternalMacroFactory.getMacroDefinition("AddImageIntoSection");
              addImageIntoSection.addParameter(theAction.action_naming_convention());
              addImageIntoSection.addParameter(m_strLogoPath);
              ooDocument.executeMacro(addImageIntoSection.toString(), addImageIntoSection.getParams());
             
-            //loading the related document
+        //loading the related document
             ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
             insertDocIntoSection.addParameter(ooDocument.getComponent());
             insertDocIntoSection.addParameter(theAction.action_naming_convention())  ;
             insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_masthead"));
             ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
             
-            //set values from loaded document
-            /*
-            ExternalMacro setFieldValue = ExternalMacroFactory.getMacroDefinition("SetInputFieldValue");
-            setFieldValue.addParameter(new String("debaterecord_official_date"));
-            setFieldValue.addParameter(strDebateDate);
-            ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());
-            */
             ExternalMacro setFieldValue = ExternalMacroFactory.getMacroDefinition("SetReferenceInputFieldValue");
             setFieldValue.addParameter(new String("debaterecord_official_date"));
             setFieldValue.addParameter(strDebateDate);
-            setFieldValue.addParameter(new String("masthead_datetime"));
+            setFieldValue.addParameter(new String("int:masthead_datetime"));
             ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());
             
             
             setFieldValue.clearParams();
             setFieldValue.addParameter(new String("debaterecord_official_time"));
             setFieldValue.addParameter(strTimeOfHansard);
-            setFieldValue.addParameter(new String("masthead_datetime"));
+            setFieldValue.addParameter(new String("int:masthead_datetime"));
             ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());   
-            //set date and time of hansard to document
+        
             ooDocMetadata meta = new ooDocMetadata(ooDocument);
             meta.AddProperty("Bungeni_DebateOfficialDate", strDebateDate);
             meta.AddProperty("Bungeni_DebateOfficialTime", strTimeOfHansard);

@@ -14,7 +14,11 @@ import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextViewCursor;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
 import org.bungeni.editor.actions.toolbarAction;
@@ -24,6 +28,7 @@ import org.bungeni.editor.selectors.InitQAsection;
 import org.bungeni.editor.selectors.InitQuestionBlock;
 import org.bungeni.editor.selectors.InitSpeech;
 import org.bungeni.editor.selectors.SelectSection;
+import org.bungeni.editor.selectors.SelectSectionEdit;
 import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.MessageBox;
@@ -45,6 +50,28 @@ public class EditorActionHandler implements IEditorActionEvent {
         this.ooDocument = ooDocument;
         String cmd = action.action_name();
         if (action.action_type().equals("section")) {
+            if (action.getSelectorDialogMode() == SelectorDialogModes.TEXT_EDIT) {
+                //edit mode checks
+                //check if an editable section exists..., find all editable sections
+                int nCheckSection = 0;
+                ArrayList<String> editableSections = new ArrayList<String>();
+                editableSections = checkEditableSections(action);
+                if (editableSections.size() == 0 ) {
+                      MessageBox.OK(null, "An editable section of the type : " + action.action_naming_convention() + " was not found");
+                        return;
+                }
+                Iterator<String> itr  = editableSections.iterator();
+                while (itr.hasNext() ) {
+                   log.debug("doCommand iterate = "+  itr.next());
+                }
+                JDialog dlgSelect;
+                dlgSelect = SelectSectionEdit.Launch(editableSections);
+                SelectSectionEdit objPanel = (SelectSectionEdit)dlgSelect.getContentPane().getComponent(0);
+                if (objPanel.isCancelClicked())
+                        return;
+                String selSection = objPanel.getSelectedSection();
+                action.setSelectedActionToActUpon(selSection);
+            }
             if (action.getSelectorDialogMode() == SelectorDialogModes.TEXT_INSERTION) {
                 //first we check if section can indeed be inserted, make the neccessary checks
                 int nCheckSection = 0;
@@ -57,15 +84,18 @@ public class EditorActionHandler implements IEditorActionEvent {
                         return;
                     }
                 }
+                
                 //so we prompt for target section
                 if (SelectSection.Launchable(ooDocument)) {
                     JDialog dlg;
                     dlg = SelectSection.Launch(ooDocument, action);
                     SelectSection objPanel = (SelectSection)dlg.getContentPane().getComponent(0);
-                    String selAction = objPanel.getSelectedActionCommand();
-                    String selSection = objPanel.getSelectedSection();
                     if (objPanel.isCancelClicked())
                         return;
+      
+                    String selAction = objPanel.getSelectedActionCommand();
+                    String selSection = objPanel.getSelectedSection();
+
                     action.setSelectedActionToActUpon(selSection);
                     action.setSelectedSectionActionCommand(selAction);
                     System.out.println( "Selected Action = " + selAction+" , " + selSection);
@@ -125,9 +155,34 @@ public class EditorActionHandler implements IEditorActionEvent {
                      return -1;
                  }
              }
+             
          }
          return 0;
      }
+     
+     private ArrayList<String> checkEditableSections(toolbarAction action) {
+         String sectionType = action.action_section_type().trim();
+         String[] sections = new String[ooDocument.getTextSections().getElementNames().length];
+         ArrayList<String> validSections = new ArrayList<String>();
+         String validSection = "";
+         sections = ooDocument.getTextSections().getElementNames();
+         //look for sections of the same type
+         for (int i=0; i < sections.length ; i++ ) {
+              HashMap<String,String> thisSectionMetadata = ooDocument.getSectionMetadataAttributes(sections[i]);
+              log.debug("checkEditableSections: current section iterate : " + sections[i] + ", for sectionType :" + sectionType);
+              if (thisSectionMetadata.size() > 0 ) {
+                    String curSectionType = thisSectionMetadata.get("BungeniSectionType").trim();
+                    log.debug("checkEditableSections: iterate:" + sections[i] + " type = " + curSectionType);
+                    if (curSectionType.equals(sectionType)) {
+                        log.debug("checkEditableSections: equation success");
+                       if (!sections[i].startsWith("int:"))
+                            validSections.add(sections[i]);
+                    } else log.debug("checkEditableSections: equation failed : "+ sections[i]);
+              }
+         }
+         return validSections;
+     }
+     
      private void doMakePrayerSection(toolbarAction action) {
       
             //section was added now prompt for dialog information
@@ -152,6 +207,7 @@ public class EditorActionHandler implements IEditorActionEvent {
      
      private void doMakeQuestionBlockSection(toolbarAction action) {
             //section was added now prompt for dialog information
+             log.debug("makeQuestionBlockSection: invoke");
              JDialog makeQuestionBlock;
              makeQuestionBlock = new JDialog();
              makeQuestionBlock.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);

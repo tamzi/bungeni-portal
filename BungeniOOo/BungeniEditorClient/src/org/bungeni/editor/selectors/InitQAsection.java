@@ -200,6 +200,9 @@ public class InitQAsection extends selectorTemplatePanel {
             AddSectionInsideSection.addParameter(sectionLeftMargin);
             ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
             
+            HashMap<String,String> qaMetadata = new HashMap<String,String>();
+            qaMetadata.put("BungeniSectionType", theAction.action_section_type());
+            ooDocument.setSectionMetadataAttributes(theAction.action_naming_convention(), qaMetadata);
             
             ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
             insertDocIntoSection.addParameter(ooDocument.getComponent());

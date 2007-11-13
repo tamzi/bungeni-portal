@@ -112,7 +112,18 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         ooDocument.setSectionMetadataAttributes(sectionName, sectionMeta);
       
     }
-       
+    
+    public void setSectionMetadataSectionType (String sectionName, String sectionType) {
+      
+        HashMap<String,String> sectionMeta = new HashMap<String,String>();
+        sectionMeta.put("BungeniSectionType",sectionType);
+        ooDocument.setSectionMetadataAttributes(sectionName, sectionMeta);
         
+    }
+       
+    public HashMap<String,String> getSectionMetadataForAction(String sectionName) {
+        HashMap<String,String> sectionMeta = new HashMap<String,String>();
+        return ooDocument.getSectionMetadataAttributes(sectionName);
+    }    
     
 }

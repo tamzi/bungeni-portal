@@ -143,7 +143,8 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
     
     private boolean goEditMode() {
           String currentSectionName = "";
-            currentSectionName = ooDocument.currentSectionName();
+           currentSectionName = this.theAction.getSelectedSectionToActUpon();
+            //currentSectionName = ooDocument.currentSectionName();
             ///do stuff for speech sections retrieve from section metadata////
             ///we probably need a associative metadata attribute factory that
             ///retrieves valid metadata elements for specific seciton types.
@@ -442,19 +443,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
                 returnError(true);
                 return;
             }
-          
          
-            /* 
-            ExternalMacro cursorInSection = ExternalMacroFactory.getMacroDefinition("CursorInSection");
-            Object retValue = ooDocument.executeMacro(cursorInSection.toString(), cursorInSection.getParams());
-            String sectionNameExists = (String)retValue;
-            if (sectionNameExists.startsWith("question")) {
-                MessageBox.OK(parent, "You cannot insert a question inisde another, \n Please place the cursor in a different part of the document");
-                returnError(true);
-                return;
-            }
-            */
-            
             /*
              *Import of Question in XHTML Format is done in the following way..
              *Question text is dumped into a temporary html file
@@ -484,6 +473,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
             long sectionBackColor = 0xffffff;
             float sectionLeftMargin = (float).2;
             log.debug("section left margin : "+ sectionLeftMargin);
+
             ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
             AddSectionInsideSection.addParameter(ooDocument.getComponent());
             AddSectionInsideSection.addParameter("qa");
@@ -491,7 +481,24 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
             AddSectionInsideSection.addParameter(sectionBackColor);
             AddSectionInsideSection.addParameter(sectionLeftMargin);
             ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
+           
+            //new code for setting section metadata in  a hierarhical manner
+            //first set question id, question title at main question block level
+            //second set questionFrom and questionTo at nested question element level...
             
+            /*** new code *****/
+            HashMap<String,String> mainQuestionmeta = new HashMap<String,String>();
+            mainQuestionmeta.put("Bungeni_QuestionID", QuestionId);
+            mainQuestionmeta.put("Bungeni_QuestionTitle", QuestionTitle);
+            mainQuestionmeta.put("Bungeni_QuestionMemberFrom", PersonName);
+            mainQuestionmeta.put("Bungeni_QuestionMemberFromURI", URI);
+            mainQuestionmeta.put("Bungeni_QuestionAddressedTo", AddressedTo);
+            mainQuestionmeta.put("BungeniSectionType", "QuestionContainer");
+            
+            HashMap<String,String> questionHoldermeta = new HashMap<String,String>();
+            questionHoldermeta.put("BungeniSectionType", "Question");
+            
+            ooDocument.setSectionMetadataAttributes(QuestionId, mainQuestionmeta );
             //now add the section Content
             //add question title into section
             /*
@@ -538,6 +545,8 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
             AddSectionInsideSection.addParameter(sectionBackColor);
             AddSectionInsideSection.addParameter(sectionLeftMargin);
             ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
+            ooDocument.setSectionMetadataAttributes(newSectionName, questionHoldermeta );
+            
             //import sub section fragment
             /*
              *Import hansard_question_text fragment into newly created section
@@ -569,7 +578,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
             String renamedSectionName = "meta-mp-"+uuid.toString();
             RenameSection.addParameter(renamedSectionName);
             ooDocument.executeMacro(RenameSection.toString(), RenameSection.getParams());
-            
+            /**** commented by ashok on nov 13 2007 *****
             String[] attrNames = new String[5];
             String[] attrValues = new String[5];
             attrNames[0] = "Bungeni_QuestionMemberFrom";
@@ -583,16 +592,18 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
             attrValues[2] = QuestionId;
             attrValues[3] = AddressedTo;
             attrValues[4] = QuestionTitle;
+             ***** november 13 2007 *****/
             /*
              *Set metadata into section
              */
+            /***nove 13*****
             ExternalMacro SetSectionMetadata = ExternalMacroFactory.getMacroDefinition("SetSectionMetadata");
             SetSectionMetadata.addParameter(ooDocument.getComponent());
             SetSectionMetadata.addParameter(newSectionName );
             SetSectionMetadata.addParameter(attrNames);
             SetSectionMetadata.addParameter(attrValues);
             ooDocument.executeMacro(SetSectionMetadata.toString(), SetSectionMetadata.getParams());
-            
+            *****/
             /*
              *Import html document framgment 
              */

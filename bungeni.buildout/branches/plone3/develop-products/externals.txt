@@ -6,7 +6,6 @@ BungeniDefaultContent https://bungeni-portal.googlecode.com/svn/BungeniDefaultCo
 BungeniSkin https://bungeni-portal.googlecode.com/svn/BungeniSkin/trunk
 AuditTrail https://bungeni-portal.googlecode.com/svn/AuditTrail/trunk
 Marginalia https://bungeni-portal.googlecode.com/svn/Marginalia/trunk
-DCWorkflow https://bungeni-portal.googlecode.com/svn/DCWorkflow
 
 
 

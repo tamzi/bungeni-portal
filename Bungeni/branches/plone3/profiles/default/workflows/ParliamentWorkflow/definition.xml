@@ -63,7 +63,7 @@
  <transition transition_id="retire" 
              title="retire"
              new_state="inactive"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">retire</action>
@@ -117,4 +117,5 @@
   <guard>
   </guard>
  </variable>
+ <!-- We dont use workflow scripts any more, we use subscribers -->
 </dc-workflow>

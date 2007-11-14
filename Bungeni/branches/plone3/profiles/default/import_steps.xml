@@ -5,7 +5,7 @@
     id="Bungeni-GS-dependencies" 
     handler="Products.Bungeni.setuphandlers.installGSDependencies"
     title="Dependend GS profiles for Bungeni"
-    version="2007-11-11T21:54:13.698420">
+    version="2007-11-14T09:11:13.577768">
    <dependency step="plone-final"/>
    Install Generic Setup profile dependencies for Bungeni
  </import-step>
@@ -14,8 +14,8 @@
     id="Bungeni-QI-dependencies" 
     handler="Products.Bungeni.setuphandlers.installQIDependencies"
     title="Dependend QI installables for Bungeni"
-    version="2007-11-11T21:54:13.698420">
-   <dependency step="2007-11-11T21:54:13.698420-GS-dependencies"/>
+    version="2007-11-14T09:11:13.577768">
+   <dependency step="2007-11-14T09:11:13.577768-GS-dependencies"/>
    Install quickinstaller dependencies for Bungeni
  </import-step>
  
@@ -23,8 +23,8 @@
     id="Bungeni-Hide-Tools-From-Navigation" 
     handler="Products.Bungeni.setuphandlers.setupHideToolsFromNavigation"
     title="Hide Custom tools from Navigation for Bungeni"
-    version="2007-11-11T21:54:13.698420">
-   <dependency step="2007-11-11T21:54:13.698420-QI-dependencies"/>
+    version="2007-11-14T09:11:13.577768">
+   <dependency step="2007-11-14T09:11:13.577768-QI-dependencies"/>
    Hides custom tools from navigation tree for Bungeni
  </import-step>
  
@@ -32,8 +32,8 @@
     id="Bungeni-Import-Relations" 
     handler="Products.Bungeni.setuphandlers.installRelations"
     title="Install Relations for Bungeni"
-    version="2007-11-11T21:54:13.698420">
-   <dependency step="2007-11-11T21:54:13.698420-QI-dependencies"/>
+    version="2007-11-14T09:11:13.577768">
+   <dependency step="2007-11-14T09:11:13.577768-QI-dependencies"/>
    Installs the relations.xml file into relations library for Bungeni
  </import-step>
  

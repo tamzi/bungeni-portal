@@ -24,7 +24,7 @@
  <transition transition_id="finalize" 
              title="finalize"
              new_state="final"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">finalize</action>
@@ -34,7 +34,7 @@
  <transition transition_id="retract" 
              title="retract"
              new_state="new"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">retract</action>
@@ -88,4 +88,5 @@
   <guard>
   </guard>
  </variable>
+ <!-- We dont use workflow scripts any more, we use subscribers -->
 </dc-workflow>

@@ -56,7 +56,7 @@
  <transition transition_id="complete" 
              title="complete"
              new_state="completed"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">complete</action>
@@ -66,7 +66,7 @@
  <transition transition_id="retract" 
              title="retract"
              new_state="todo"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">retract</action>
@@ -120,4 +120,5 @@
   <guard>
   </guard>
  </variable>
+ <!-- We dont use workflow scripts any more, we use subscribers -->
 </dc-workflow>

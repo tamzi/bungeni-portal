@@ -35,7 +35,7 @@
  <transition transition_id="accept" 
              title="accept"
              new_state="accepted"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">accept</action>
@@ -45,7 +45,7 @@
  <transition transition_id="admit" 
              title="admit"
              new_state="admissable"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">admit</action>
@@ -55,7 +55,7 @@
  <transition transition_id="amend" 
              title="amend"
              new_state="draft"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">amend</action>
@@ -65,7 +65,7 @@
  <transition transition_id="move" 
              title="move"
              new_state="moved"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">move</action>
@@ -75,7 +75,7 @@
  <transition transition_id="reject" 
              title="reject"
              new_state="rejected"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">reject</action>
@@ -85,7 +85,7 @@
  <transition transition_id="schedule" 
              title="schedule"
              new_state="scheduled"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">schedule</action>
@@ -95,7 +95,7 @@
  <transition transition_id="submit" 
              title="submit"
              new_state="submitted"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">submit</action>
@@ -149,4 +149,5 @@
   <guard>
   </guard>
  </variable>
+ <!-- We dont use workflow scripts any more, we use subscribers -->
 </dc-workflow>

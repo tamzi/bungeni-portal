@@ -32,19 +32,17 @@
  <transition transition_id="approve" 
              title="approve"
              new_state="approved"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">approve</action>
   <guard>
   </guard>
  </transition>
- <!-- System Executed transition type went away-->
  <transition transition_id="publish" 
              title="publish"
              new_state="published"
-             trigger="AUTOMATIC" 
-	     guard_expression="python:1==2" 
+             trigger="2"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">publish</action>
@@ -54,7 +52,7 @@
  <transition transition_id="reject" 
              title="reject"
              new_state="draft"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">reject</action>
@@ -65,7 +63,7 @@
  <transition transition_id="retract" 
              title="retract"
              new_state="draft"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">retract</action>
@@ -76,7 +74,7 @@
  <transition transition_id="submit" 
              title="submit"
              new_state="pending"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">submit</action>
@@ -84,12 +82,10 @@
     <guard-permission>Request review</guard-permission>
   </guard>
  </transition>
- <!-- System Executed transition type went away-->
  <transition transition_id="withdraw" 
              title="withdraw"
              new_state="obsolete"
-             trigger="AUTOMATIC" 
-	     guard_expression="python:1==2"
+             trigger="2"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">withdraw</action>
@@ -143,4 +139,5 @@
   <guard>
   </guard>
  </variable>
+ <!-- We dont use workflow scripts any more, we use subscribers -->
 </dc-workflow>

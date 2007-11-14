@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <!-- ##code-section HEAD -->
 <!-- ##/code-section HEAD -->
-<object name="membrane_tool" meta_type="Plone Catalog Tool">
+<object name="python:('membrane_tool" meta_type="Plone Catalog Tool">
   <index name="getFullname" 
-         meta_type="TextIndex">
+         meta_type="ZCTextIndex,lexicon_id=member_lexicon,index_type=Cosine Measure|TextIndex">
     <indexed_attr value="getFullname"/>
   </index>
   <column value="getFullname"/>

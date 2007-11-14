@@ -3,7 +3,7 @@
 # File: Bungeni.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 2.0-beta4
+# Generator: ArchGenXML Version 2.0-beta5
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -57,8 +57,6 @@ DirectoryView.registerDirectory('skins', product_globals)
 
 
 ##code-section custom-init-head #fill in your manual code here
-# Monkeypatch membership
-import Patch
 ##/code-section custom-init-head
 
 

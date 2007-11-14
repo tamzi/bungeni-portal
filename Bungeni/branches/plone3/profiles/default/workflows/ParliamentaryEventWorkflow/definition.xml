@@ -188,7 +188,7 @@
  <transition transition_id="approve" 
              title="approve"
              new_state="admissable"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">approve</action>
@@ -199,7 +199,7 @@
  <transition transition_id="postpone" 
              title="postpone"
              new_state="admissable"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">postpone</action>
@@ -210,7 +210,7 @@
  <transition transition_id="reject" 
              title="reject"
              new_state="draft"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">reject</action>
@@ -221,7 +221,7 @@
  <transition transition_id="retract" 
              title="retract"
              new_state="draft"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">retract</action>
@@ -232,7 +232,7 @@
  <transition transition_id="schedule" 
              title="schedule"
              new_state="scheduled"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">schedule</action>
@@ -243,7 +243,7 @@
  <transition transition_id="submit_to_clerk" 
              title="submit_to_clerk"
              new_state="pending_edit"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">submit_to_clerk</action>
@@ -253,7 +253,7 @@
  <transition transition_id="submit_to_speaker" 
              title="submit_to_speaker"
              new_state="pending_approval"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">submit_to_speaker</action>
@@ -264,7 +264,7 @@
  <transition transition_id="table" 
              title="table"
              new_state="tabled"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">table</action>
@@ -343,4 +343,5 @@
   <guard>
   </guard>
  </variable>
+ <!-- We dont use workflow scripts any more, we use subscribers -->
 </dc-workflow>

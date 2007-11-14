@@ -3,7 +3,7 @@
 # File: groups.py
 #
 # Copyright (c) 2007 by []
-# Generator: ArchGenXML Version 2.0-beta4
+# Generator: ArchGenXML Version 2.0-beta5
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)

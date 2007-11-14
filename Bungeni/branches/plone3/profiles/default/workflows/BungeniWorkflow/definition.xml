@@ -168,7 +168,7 @@
  <transition transition_id="hide" 
              title="Make private"
              new_state="private"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">Make private</action>
@@ -179,7 +179,7 @@
  <transition transition_id="publish" 
              title="Publish"
              new_state="published"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">Publish</action>
@@ -190,7 +190,7 @@
  <transition transition_id="reject" 
              title="Reject"
              new_state="internal"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">Reject</action>
@@ -201,7 +201,7 @@
  <transition transition_id="retract" 
              title="Retract"
              new_state="internal"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">Retract</action>
@@ -212,7 +212,7 @@
  <transition transition_id="show" 
              title="Make visible"
              new_state="internal"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">Make visible</action>
@@ -223,7 +223,7 @@
  <transition transition_id="submit" 
              title="Submit"
              new_state="pending"
-             trigger="USER" 
+             trigger="USER"             
              before_script="" 
              after_script="">
   <action url="" category="workflow">Submit</action>
@@ -286,4 +286,5 @@
   <guard>
   </guard>
  </variable>
+ <!-- We dont use workflow scripts any more, we use subscribers -->
 </dc-workflow>

@@ -1,8 +1,7 @@
 OrderableReferenceField https://svn.plone.org/svn/archetypes/MoreFieldsAndWidgets/OrderableReferenceField/trunk
 PloneHelpCenter https://svn.plone.org/svn/collective/PloneHelpCenter/trunk
 Relations https://svn.plone.org/svn/archetypes/Relations/trunk
-ATVocabularyManager https://svn.plone.org/svn/archetypes/ATVocabularyManager/trunk
-
+TeamSpace https://svn.plone.org/svn/collective/teamspace/branches/kapil-plone3
 membrane https://svn.plone.org/svn/collective/membrane/trunk
 remember https://svn.plone.org/svn/collective/remember/trunk
 

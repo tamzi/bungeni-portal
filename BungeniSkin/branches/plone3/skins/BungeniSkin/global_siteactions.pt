@@ -1,0 +1,38 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en"
+      lang="en"
+      i18n:domain="plone">
+<!-- bungeni: changed to cater for action icons here same as elsewhere -->
+<body>
+<ul metal:define-macro="site_actions"
+    id="portal-siteactions"
+    tal:define="site_actions actions/site_actions|nothing;
+                getIconFor nocall:putils/getIconFor;
+                accesskeys python: {'sitemap' : '3', 'accessibility' : '0', 'contact' : '9'};"
+    tal:condition="site_actions">
+
+    <li tal:repeat="saction site_actions"
+        tal:attributes="id string:siteaction-${saction/id}"><a
+           href=""
+           tal:define="title saction/title;
+                       id saction/id;
+                       icon python:getIconFor('plone', saction['id'], None);
+                       accesskey python: accesskeys.get(id, '');"
+           i18n:attributes="title"
+           i18n:translate=""
+           tal:attributes="href saction/url;
+                           title title;
+                           accesskey accesskey;"
+                           >
+            <span tal:condition="not:icon" tal:replace="title">Site action</span>
+            <img i18n:attributes="title" src="" alt="" title=""
+                 tal:condition="icon"
+                 tal:attributes="src    string:$portal_url/$icon;
+                                 id     string:icon-${saction/id};
+                                 title  title;
+                                 alt    title;" />
+            </a></li>
+
+</ul>
+</body>
+</html>

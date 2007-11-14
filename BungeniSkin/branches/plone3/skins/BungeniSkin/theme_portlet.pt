@@ -1,0 +1,26 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="plone">
+  <body>
+
+    <div metal:define-macro="portlet" tal:omit-tag="">
+      <dl class="portlet" id="portlet-theme_portlet">
+        <dt class="portletHeader">
+          <span class="portletTopLeft"></span>
+          <span i18n:translate="box_theme_portlet">theme_portlet</span>
+          <span class="portletTopRight"></span>
+        </dt>
+        <dd class="portletItem odd lastItem">
+          place your portlet code here
+
+In the home page the Theme Vertical Banner provide an area where the graphical Identity of the Parliaments may find a further be expressed. At the Content Area level (second level) it provides an opportunity to not only to reinforce the graphical identity but also the characterised the theme of each content area.
+The Theme Vertical Banner does not appear in Level Three pages where the space it taken over by the content of the pages.
+          <span class="portletBottomLeft"></span>
+          <span class="portletBottomRight"></span>
+        </dd>
+      </dl>
+    </div>
+  </body>
+
+</html>
+

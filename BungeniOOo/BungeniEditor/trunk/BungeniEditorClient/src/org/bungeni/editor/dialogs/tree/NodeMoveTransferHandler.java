@@ -287,6 +287,8 @@ public class NodeMoveTransferHandler extends TransferHandler {
               //go to selected range
                if (action_id.equals("0_MOVE_BEFORE")) {
                 
+                org.bungeni.utils.Clipboard.clear();
+                
                 ExternalMacro MoveSection = ExternalMacroFactory.getMacroDefinition("MoveSection");
                 MoveSection.addParameter(ooDocument.getComponent());
                 MoveSection.addParameter(sectionFrom);
@@ -295,6 +297,8 @@ public class NodeMoveTransferHandler extends TransferHandler {
                 ooDocument.executeMacro(MoveSection.toString(), MoveSection.getParams());
                 
               } else if (action_id.equals("1_MOVE_AFTER")) {
+              
+                org.bungeni.utils.Clipboard.clear();
                 
                 ExternalMacro MoveSection = ExternalMacroFactory.getMacroDefinition("MoveSection");
                 MoveSection.addParameter(ooDocument.getComponent());

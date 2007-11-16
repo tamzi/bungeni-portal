@@ -22,8 +22,10 @@ import com.sun.star.container.XNameContainer;
 import com.sun.star.container.XNamed;
 import com.sun.star.document.XDocumentInfo;
 import com.sun.star.document.XDocumentInfoSupplier;
+import com.sun.star.document.XEventBroadcaster;
 import com.sun.star.frame.XFrame;
 import com.sun.star.frame.XModel;
+import com.sun.star.lang.EventObject;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XServiceInfo;
@@ -658,7 +660,14 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        
     }
     
-    
+    private void clearTree(){
+        treeDocStructureTree.removeAll();
+        treeDocStructureTree.updateUI();
+        DefaultTreeCellRenderer render = (DefaultTreeCellRenderer) treeDocStructureTree.getCellRenderer();
+        render.setLeafIcon(null);
+        render.setClosedIcon(null);
+        render.setOpenIcon(null);
+    }
    
 
     private void initSectionsArray(){
@@ -669,8 +678,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
          	/*
          	first clear the JTree
          	*/
-            treeDocStructureTree.removeAll();
-            treeDocStructureTree.updateUI();
+            clearTree();
             /*
             do a basic check to see if the root section exists
             */
@@ -1516,6 +1524,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         this.setIconTextGap(0);
         setText(entry.toString());
         setFont(new java.awt.Font("Tahoma", 0, 10));
+        /*
         if (entry.hasChildren()) {
         String imgLocation = "/gui/"
                              + "icon-list"
@@ -1525,6 +1534,8 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         if (imageURL != null)                     //image found
            setIcon(new ImageIcon(imageURL, entry.toString()));
         }
+         */
+        setIcon(null);
         //setIcon(entry.getImage());
         if(isSelected) {
             setForeground(Color.white);
@@ -2604,7 +2615,6 @@ private void displayUserMetadata(XTextRange xRange) {
                    // ooDocument.detachListener();
                     ooDocument = new OOComponentHelper(xComp.getComponent(), ComponentContext);
                     
-                    bringEditorWindowToFront();
                     initFields();
                     //initializeValues();
                     initCollapsiblePane();
@@ -2714,9 +2724,13 @@ private void displayUserMetadata(XTextRange xRange) {
         private xComponentListener compListener = new xComponentListener();
         
         componentHandleContainer(String name, XComponent xComponent) {
+            log.debug("componentHandleContainer: in constructor()");
             aName = name;
             aComponent = xComponent;
             aComponent.addEventListener(compListener);
+            //add the event broadcaster to the same listener
+            XEventBroadcaster xEventBroadcaster = (com.sun.star.document.XEventBroadcaster) UnoRuntime.queryInterface (com.sun.star.document.XEventBroadcaster.class, aComponent);
+            xEventBroadcaster.addEventListener (compListener); 
         }
         
         public XComponent getComponent(){
@@ -2739,12 +2753,45 @@ private void displayUserMetadata(XTextRange xRange) {
             aComponent.removeEventListener(compListener);
         }
     
-        class xComponentListener implements com.sun.star.lang.XEventListener {
+        class xComponentListener implements com.sun.star.document.XEventListener {
                  public void disposing(com.sun.star.lang.EventObject eventObject) {
                     //document window is closing
-                     log.debug("xComponentListner : the document window is closing");
+                     log.debug("xComponentListner : the document window is closing" + getName());
                      componentDisposed = true;
                 }
+                
+                public void notifyEvent(com.sun.star.document.EventObject eventObject) {
+                    if (eventObject.EventName.equals("OnFocus")) {
+                        log.debug("xComponentListner : the document window OnFocus()" + getName());
+                        //getName() for this document compare it with the current documetn in the editorTabbedPanel lis
+                        //if it isnt equal notify the user with a message box that the 
+                        Object selected = cboListDocuments.getSelectedItem();
+                        String selectedDocument = "";
+                        if (selected != null) {
+                            selectedDocument = (String) selected;
+                            if (selectedDocument.trim().equals(getName().trim())) {
+                                parentFrame.setAlwaysOnTop(true);
+                                parentFrame.setAlwaysOnTop(false);
+                                 parentFrame.toFront();
+                                parentFrame.setAlwaysOnTop(true);
+                               
+                                log.debug("xComponentListner : document selected ("+ selectedDocument + ") is the document being focused (" + getName() + ")" );
+                            } else {
+                                log.debug("xComponentListner : document selected ("+ selectedDocument + ") is NOT the document being focused (" + getName() + ")" );
+                                parentFrame.setAlwaysOnTop(true);
+                                parentFrame.setAlwaysOnTop(false);
+                                parentFrame.toFront();
+                                parentFrame.setAlwaysOnTop(true);
+                               
+                                log.debug("xComponentListner : brought editor window to Front");
+                                //MessageBox.OK(self(), "The current window is not the one being edited using the Bungeni Editor, please select this one from the Editor Selector!");
+                            }
+                        } else {
+                            log.debug("xComponentListner :  selected document object is null"  );
+                        }
+                    }
+                }
+        
             }        
     }
     

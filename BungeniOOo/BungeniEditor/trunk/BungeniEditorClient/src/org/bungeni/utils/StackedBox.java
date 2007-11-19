@@ -97,16 +97,18 @@ public class StackedBox extends JPanel implements Scrollable {
     collapsible.add(component);
     collapsible.setBorder(new CompoundBorder(separatorBorder, collapsible
       .getBorder()));
-
+    collapsible.setAnimated(false);
+    collapsible.setCollapsed(false);
     Action toggleAction = collapsible.getActionMap().get(
-      JXCollapsiblePane.TOGGLE_ACTION);
+     JXCollapsiblePane.TOGGLE_ACTION);
     // use the collapse/expand icons from the JTree UI
-    toggleAction.putValue(JXCollapsiblePane.COLLAPSE_ICON, UIManager
-      .getIcon("Tree.expandedIcon"));
-    toggleAction.putValue(JXCollapsiblePane.EXPAND_ICON, UIManager
-      .getIcon("Tree.collapsedIcon"));
+    //toggleAction.putValue(JXCollapsiblePane.COLLAPSE_ICON, UIManager
+    //  .getIcon("Tree.expandedIcon"));
+    //toggleAction.putValue(JXCollapsiblePane.EXPAND_ICON, UIManager
+     // .getIcon("Tree.collapsedIcon"));
 
     JXHyperlink link = new JXHyperlink(toggleAction);
+    link.setEnabled(false);
     link.setText(title);
     link.setFont(link.getFont().deriveFont(Font.BOLD));
     link.setOpaque(true);
@@ -114,13 +116,13 @@ public class StackedBox extends JPanel implements Scrollable {
     link.setFocusPainted(false);
 
     link.setUnclickedColor(getTitleForegroundColor());
-    link.setClickedColor(getTitleForegroundColor());
+    link.setClickedColor(getTitleForegroundColor()); 
 
     link.setBorder(new CompoundBorder(separatorBorder, BorderFactory
       .createEmptyBorder(2, 4, 2, 4)));
     link.setBorderPainted(true);
 
-    add(link);
+    add(link); 
     add(collapsible);
   }
 

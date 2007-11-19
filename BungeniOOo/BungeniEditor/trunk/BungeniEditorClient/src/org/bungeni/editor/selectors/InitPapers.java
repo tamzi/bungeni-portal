@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import org.bungeni.db.BungeniClientDB;
@@ -230,6 +231,21 @@ public class InitPapers extends selectorTemplatePanel {
     String[] arrDocTitles = docTitles.toArray(new String[docTitles.size()]); 
     String[] arrDocURI = docURIs.toArray(new String[docURIs.size()]);
     String targetSection = "";
+    
+    //if document already has section delete it
+    if (ooDocument.hasSection(theAction.action_naming_convention())) {
+       int nRet = MessageBox.Confirm(parent, "The existing section and its contents will be deleted, please confirm ?", "Deleting section");
+       if (nRet == JOptionPane.NO_OPTION) {
+           return;
+       }
+      //remove the section and components...
+       ExternalMacro removeSection = ExternalMacroFactory.getMacroDefinition("RemoveSectionAndContents");
+       removeSection.addParameter(ooDocument.getComponent());
+       removeSection.addParameter(theAction.action_naming_convention());
+       ooDocument.executeMacro(removeSection.toString(), removeSection.getParams());
+       
+    }
+    
     targetSection = theAction.getSelectedSectionToActUpon();
     ExternalMacro createSectionMacro;
     //now we need to check if the SelectSection resulted in a AFTER_SECTION or INSIDE_SECTION selection

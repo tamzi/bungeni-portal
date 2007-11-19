@@ -328,7 +328,7 @@ class treeGeneralEditorCellRenderer extends JLabel implements TreeCellRenderer {
          int SECTION_ICON = 0;
          int SECTION_PLUS_ICON = 1;
          int MARKUP_ICON = 2;
-        String[] icons = { "action_m.gif", "action_m_plus.gif", "action_s.gif" };
+        String[] icons = { "action_m.png", "action_m_plus.png", "action_s.png" };
         
         public treeGeneralEditorCellRenderer() {
               imgIcons = new ImageIcon[icons.length];

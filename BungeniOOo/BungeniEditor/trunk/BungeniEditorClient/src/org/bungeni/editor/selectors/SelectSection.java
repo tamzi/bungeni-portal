@@ -159,9 +159,11 @@ public class SelectSection extends selectorTemplatePanel {
                     //get the name for the section and add it to the root node.
                     XPropertySet childSet = ooQueryInterface.XPropertySet(sections[nSection]);
                     String childSectionName = (String) childSet.getPropertyValue("LinkDisplayName");
-                    DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(childSectionName);
-                    node.add(newNode);
-                    recurseSections (sections[nSection], newNode);
+                    if (!childSectionName.trim().equals(theAction.action_naming_convention())) {
+                     DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(childSectionName);
+                     node.add(newNode);
+                     recurseSections (sections[nSection], newNode);
+                    }
                 }
             } else 
                 return;

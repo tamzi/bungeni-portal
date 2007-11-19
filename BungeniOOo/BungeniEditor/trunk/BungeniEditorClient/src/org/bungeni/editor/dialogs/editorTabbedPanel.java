@@ -180,6 +180,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private JTree treeDocStructureTree;
     private JPopupMenu popupMenuTreeStructure = new JPopupMenu();
     private boolean mouseOver_TreeDocStructureTree = false;
+    private boolean program_refresh_documents = false;
     private TreeMap<String, componentHandleContainer> editorMap;
     /** Creates new form SwingTabbedJPanel */
     public editorTabbedPanel() {
@@ -2454,12 +2455,13 @@ private void displayUserMetadata(XTextRange xRange) {
                    //now update the combo box... 
                    String[] listDocuments = editorMap.keySet().toArray(new String[editorMap.keySet().size()]);
                    cboListDocuments.setModel(new DefaultComboBoxModel(listDocuments));
+                   this.program_refresh_documents = true;
                    if (selectedItemWasRemoved)
                        cboListDocuments.setSelectedIndex(0);
                    else
                        cboListDocuments.setSelectedItem(selectedItem);
                    cboListDocuments.updateUI();
-                   
+                   this.program_refresh_documents = false;
     }
     private void btnApplyDocMetadataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyDocMetadataActionPerformed
 // TODO add your handling code here:
@@ -2603,9 +2605,14 @@ private void displayUserMetadata(XTextRange xRange) {
             Object newItem = cb.getSelectedItem();
             boolean same = newItem.equals(oldItem);
             oldItem = newItem;
+            
             if ("comboBoxChanged".equals(e.getActionCommand())) {
                 if (same) {
-                    return;
+                    if (self().program_refresh_documents == true)
+                        return;
+                    else
+                        bringEditorWindowToFront();
+                    ///return;
                 } else {
                     String key = (String)newItem;
                     componentHandleContainer xComp = editorMap.get(key);
@@ -2622,9 +2629,11 @@ private void displayUserMetadata(XTextRange xRange) {
                     initBodyMetadataPanel();
                     //initTimers();
                     initDialogListeners();
+                    if (self().program_refresh_documents == false)
+                        bringEditorWindowToFront();
                 }
             }
-        
+            
         }
         
     }
@@ -2784,7 +2793,7 @@ private void displayUserMetadata(XTextRange xRange) {
                                 parentFrame.setAlwaysOnTop(true);
                                
                                 log.debug("xComponentListner : brought editor window to Front");
-                                //MessageBox.OK(self(), "The current window is not the one being edited using the Bungeni Editor, please select this one from the Editor Selector!");
+                                //MessageBox.OK(self(), "The current window is not the one being edited using the Bungeni Editor, please select this document :" +  getName() + " from the Editor Selector to be able to edit it!");
                             }
                         } else {
                             log.debug("xComponentListner :  selected document object is null"  );

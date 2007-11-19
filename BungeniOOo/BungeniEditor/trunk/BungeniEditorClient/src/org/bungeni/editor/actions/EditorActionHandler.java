@@ -83,6 +83,10 @@ public class EditorActionHandler implements IEditorActionEvent {
                                 " \n The section already exists");
                         return;
                     }
+                   
+                    if (nCheckSection == -2) {
+                        MessageBox.OK(null, "There is already a section of this type in the document, creating it again \n will replace the contents of the currently available  section");
+                    }
                 }
                 
                 //so we prompt for target section
@@ -151,8 +155,13 @@ public class EditorActionHandler implements IEditorActionEvent {
              //first check if the section is of type single...
              if (action.action_numbering_convention().equals("single")) {
                  //only one instance of this section is allowed.
+                 //check if section is editable.. if it isnt then we must allow creation of new section that
+                 //deletes the previous instance
                  if (ooDocument.hasSection(action.action_naming_convention())) {
-                     return -1;
+                     if (action.action_edit_dlg_allowed() == 0)
+                         return -2 ; //can be recreated
+                     else
+                        return -1;
                  }
              }
              

@@ -82,10 +82,10 @@ public class InitDebateRecord extends selectorTemplatePanel {
         }
         mf.install(initdebate_timeofhansard);
          */
-        initdebate_timeofhansard.setModel(new SpinnerDateModel(new Date(), null, null, Calendar.HOUR));
-        initdebate_timeofhansard.setEditor(new JSpinner.DateEditor(initdebate_timeofhansard, "HH:mm"));
-        ((JSpinner.DefaultEditor)initdebate_timeofhansard.getEditor()).getTextField().setEditable(false);
-        this.initdebate_debatedate.setInputVerifier(new DateVerifier());
+        dt_initdebate_timeofhansard.setModel(new SpinnerDateModel(new Date(), null, null, Calendar.HOUR));
+        dt_initdebate_timeofhansard.setEditor(new JSpinner.DateEditor(dt_initdebate_timeofhansard, "HH:mm"));
+        ((JSpinner.DefaultEditor)dt_initdebate_timeofhansard.getEditor()).getTextField().setEditable(false);
+        this.dt_initdebate_hansarddate.setInputVerifier(new DateVerifier());
         setControlModes();
         setControlData();
     
@@ -95,15 +95,16 @@ public class InitDebateRecord extends selectorTemplatePanel {
   
     public void setControlModes() {
         if (theMode == SelectorDialogModes.TEXT_EDIT) {
-            this.lbl_initdebate_mastheadlogo.setVisible(false);
+            this.lbl_initdebate_selectlogo.setVisible(false);
             this.btn_initdebate_selectlogo.setVisible(false);
         } else if (theMode == SelectorDialogModes.TEXT_INSERTION) {
-            this.lbl_initdebate_mastheadlogo.setVisible(true);
+            this.lbl_initdebate_selectlogo.setVisible(true);
             this.btn_initdebate_selectlogo.setVisible(true);
         } else if (theMode == SelectorDialogModes.TEXT_SELECTED) {
             
+            
         } else {
-            this.lbl_initdebate_mastheadlogo.setVisible(true);
+            this.lbl_initdebate_selectlogo.setVisible(true);
             this.btn_initdebate_selectlogo.setVisible(true);
         }
     }
@@ -118,9 +119,9 @@ public class InitDebateRecord extends selectorTemplatePanel {
                 String strDate = meta.GetProperty("Bungeni_DebateOfficialDate");
                 String strTime = meta.GetProperty("Bungeni_DebateOfficialTime");
                 SimpleDateFormat formatter = new SimpleDateFormat ("MMMM dd yyyy");
-                this.initdebate_debatedate.setDate(formatter.parse(strDate));
+                this.dt_initdebate_hansarddate.setDate(formatter.parse(strDate));
                 SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
-                this.initdebate_timeofhansard.setValue(timeFormat.parse(strTime));
+                this.dt_initdebate_timeofhansard.setValue(timeFormat.parse(strTime));
                 }
             }
         } catch (ParseException ex) {
@@ -135,19 +136,19 @@ public class InitDebateRecord extends selectorTemplatePanel {
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        initdebate_debatedate = new org.jdesktop.swingx.JXDatePicker();
+        dt_initdebate_hansarddate = new org.jdesktop.swingx.JXDatePicker();
         lbl_initdebate_hansarddate = new javax.swing.JLabel();
-        lbl_initdebate_mastheadlogo = new javax.swing.JLabel();
+        lbl_initdebate_selectlogo = new javax.swing.JLabel();
         btn_initdebate_selectlogo = new javax.swing.JButton();
-        lbl_initdebate_hansardtime = new javax.swing.JLabel();
+        lbl_initdebate_timeofhansard = new javax.swing.JLabel();
         btnApply = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         lbl_initdebate_setpath = new javax.swing.JLabel();
-        initdebate_timeofhansard = new javax.swing.JSpinner();
+        dt_initdebate_timeofhansard = new javax.swing.JSpinner();
 
         lbl_initdebate_hansarddate.setText("Hansard Date");
 
-        lbl_initdebate_mastheadlogo.setText("Masthead Logo");
+        lbl_initdebate_selectlogo.setText("Masthead Logo");
 
         btn_initdebate_selectlogo.setText("Select Logo...");
         btn_initdebate_selectlogo.addActionListener(new java.awt.event.ActionListener() {
@@ -156,7 +157,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
             }
         });
 
-        lbl_initdebate_hansardtime.setText("Hansard Time");
+        lbl_initdebate_timeofhansard.setText("Hansard Time");
 
         btnApply.setText("Apply to Document ");
         btnApply.addActionListener(new java.awt.event.ActionListener() {
@@ -186,17 +187,17 @@ public class InitDebateRecord extends selectorTemplatePanel {
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                             .add(org.jdesktop.layout.GroupLayout.LEADING, btn_initdebate_selectlogo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, lbl_initdebate_mastheadlogo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, lbl_initdebate_hansardtime, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, lbl_initdebate_selectlogo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, lbl_initdebate_timeofhansard, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
                             .add(org.jdesktop.layout.GroupLayout.LEADING, btnApply, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 138, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(btnCancel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .add(initdebate_debatedate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                        .add(dt_initdebate_hansarddate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
                         .addContainerGap())
                     .add(layout.createSequentialGroup()
-                        .add(initdebate_timeofhansard, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 86, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(dt_initdebate_timeofhansard, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 86, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -205,13 +206,13 @@ public class InitDebateRecord extends selectorTemplatePanel {
                 .add(36, 36, 36)
                 .add(lbl_initdebate_hansarddate)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(initdebate_debatedate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(dt_initdebate_hansarddate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(lbl_initdebate_hansardtime)
+                .add(lbl_initdebate_timeofhansard)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(initdebate_timeofhansard, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(dt_initdebate_timeofhansard, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(lbl_initdebate_mastheadlogo)
+                .add(lbl_initdebate_selectlogo)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btn_initdebate_selectlogo)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -247,7 +248,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
         //get field values : 
     enableButtons(false);    
     //validate fields
-    Date dtDebateDate = this.initdebate_debatedate.getDate();
+    Date dtDebateDate = this.dt_initdebate_hansarddate.getDate();
    
     //order defines the nth sequence of this section
     int nOrder = theAction.action_order();
@@ -292,10 +293,10 @@ public class InitDebateRecord extends selectorTemplatePanel {
         if (ooDocument.hasSection(containerSection) && ooDocument.hasSection("int:masthead_datetime")) {
            //now edit the fields and set the new values
             String strDebateDate = "", strTimeOfHansard = "";   
-            Date dtDebate = initdebate_debatedate.getDate();
+            Date dtDebate = dt_initdebate_hansarddate.getDate();
          
             SimpleDateFormat df = new SimpleDateFormat("HH:mm");
-            strTimeOfHansard =  df.format((Date)initdebate_timeofhansard.getValue()); //.getText();
+            strTimeOfHansard =  df.format((Date)dt_initdebate_timeofhansard.getValue()); //.getText();
 
             SimpleDateFormat formatter = new SimpleDateFormat ("MMMM dd yyyy");
             strDebateDate = formatter.format(dtDebate);
@@ -323,9 +324,9 @@ public class InitDebateRecord extends selectorTemplatePanel {
     }
     private boolean sectionInsertionAction() {
         String strDebateDate = "", strTimeOfHansard = "", strLogoPath = "";   
-        Date dtDebate = initdebate_debatedate.getDate();
+        Date dtDebate = dt_initdebate_hansarddate.getDate();
         SimpleDateFormat df= new SimpleDateFormat("HH:mm");
-        strTimeOfHansard =  df.format((Date)initdebate_timeofhansard.getValue());
+        strTimeOfHansard =  df.format((Date)dt_initdebate_timeofhansard.getValue());
         SimpleDateFormat formatter = new SimpleDateFormat ("MMMM dd yyyy");
         strDebateDate = formatter.format(dtDebate);
         strLogoPath = m_strLogoPath;
@@ -422,12 +423,12 @@ public class InitDebateRecord extends selectorTemplatePanel {
     private javax.swing.JButton btnApply;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btn_initdebate_selectlogo;
-    private org.jdesktop.swingx.JXDatePicker initdebate_debatedate;
-    private javax.swing.JSpinner initdebate_timeofhansard;
+    private org.jdesktop.swingx.JXDatePicker dt_initdebate_hansarddate;
+    private javax.swing.JSpinner dt_initdebate_timeofhansard;
     private javax.swing.JLabel lbl_initdebate_hansarddate;
-    private javax.swing.JLabel lbl_initdebate_hansardtime;
-    private javax.swing.JLabel lbl_initdebate_mastheadlogo;
+    private javax.swing.JLabel lbl_initdebate_selectlogo;
     private javax.swing.JLabel lbl_initdebate_setpath;
+    private javax.swing.JLabel lbl_initdebate_timeofhansard;
     // End of variables declaration//GEN-END:variables
   
    public class DateVerifier extends InputVerifier {

@@ -44,7 +44,9 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(generalEditorPanel4.class.getName());
     private OOComponentHelper ooDocument;    
     private BungeniClientDB instance;
+    
     private DefaultMutableTreeNode root;
+  //  private DefaultMutableTreeNode[] visibleActionRoots;
     private JPopupMenu popupMenu;
     
     private  enum PopupTypeIdentifier {CREATE_EDIT , APPLY_MARKUP, EDIT  };
@@ -99,11 +101,17 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     
     private void initTree() {
         toolbarAction rootAction = new toolbarAction("rootAction");
-        root = new DefaultMutableTreeNode(rootAction);
+        toolbarAction inivisibleRoot = new toolbarAction("invisibleRootAction");
+        
+        root = new DefaultMutableTreeNode(inivisibleRoot);
+        DefaultMutableTreeNode editorToolsRoot = new DefaultMutableTreeNode(rootAction);
+        root.add(editorToolsRoot);
+        
         log.debug("in InitTree");
         if (instance.Connect()) {
             log.debug("about to call createTreeNodes()");
-            createTreeNodes( root, true);
+            //create editor tools nodes
+            createTreeNodes( editorToolsRoot, true);
             //createToolNodes(rootNode, rootAction, instance );
             instance.EndConnect();
         } 
@@ -112,6 +120,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         treeGeneralEditor.addMouseListener(new treeGeneralEditorMouseListener());
         treeGeneralEditor.setCellRenderer(new treeGeneralEditorCellRenderer());
         CommonTreeFunctions.expandAll(treeGeneralEditor, true);
+        treeGeneralEditor.setRootVisible(false);
     }
     
     private void createTreeNodes(DefaultMutableTreeNode rootNode, boolean recurse) {
@@ -187,7 +196,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     
     
     class treePopupMenuAction extends AbstractAction {
-        PopupTypeIdentifier popupType;
+        PopupTypeIdentifier treePopupMenuAction_popupType;
         
         public treePopupMenuAction (toolbarAction action) {
             super(action.toString());
@@ -199,7 +208,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
             super(actionText);
             putValue("POPUP_IDENTIFIER", id);
             putValue("USER_OBJECT", action);
-            popupType = id;
+            treePopupMenuAction_popupType = id;
             
             
         }
@@ -219,26 +228,44 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                }
         }
 
+        private SelectorDialogModes getDialogMode(){
+            if (!ooDocument.isTextSelected()) {
+                if ( treePopupMenuAction_popupType == PopupTypeIdentifier.CREATE_EDIT) {
+                    return SelectorDialogModes.TEXT_INSERTION;
+                }
+                if (treePopupMenuAction_popupType ==  PopupTypeIdentifier.EDIT){
+                    return SelectorDialogModes.TEXT_EDIT;
+                }
+                
+                return SelectorDialogModes.NONE;
+                
+            } else {
+                return SelectorDialogModes.TEXT_SELECTED;
+            }
+        }     
         private void processPopupSelection(){
             //get selction path
               TreePath path = treeGeneralEditor.getSelectionPath();
               //get current node selected...
               DefaultMutableTreeNode thisNode = (DefaultMutableTreeNode) path.getLastPathComponent();
-              if (popupType == PopupTypeIdentifier.CREATE_EDIT) {
+              if (treePopupMenuAction_popupType == PopupTypeIdentifier.CREATE_EDIT) {
                     toolbarAction action =(toolbarAction)thisNode.getUserObject();
+                    /** commented for issue 108 ***
                     if (!ooDocument.isTextSelected())
                         action.setSelectorDialogMode(SelectorDialogModes.TEXT_INSERTION);
                     else
                         action.setSelectorDialogMode(SelectorDialogModes.TEXT_SELECTED);
+                     */
+                    action.setSelectorDialogMode(this.getDialogMode());
                     IEditorActionEvent event = getEventClass(action);
                     event.doCommand(ooDocument, action);
               } else
-               if (popupType == PopupTypeIdentifier.EDIT) {
+               if (treePopupMenuAction_popupType == PopupTypeIdentifier.EDIT) {
                     //look for existing masthead section 
                     //if it exists popup the edit screen for it.
                     toolbarAction action =(toolbarAction)thisNode.getUserObject();
                     //we look for sections matching this action type.
-                    action.setSelectorDialogMode(SelectorDialogModes.TEXT_EDIT);
+                    action.setSelectorDialogMode(this.getDialogMode());
                     IEditorActionEvent event = getEventClass(action);
                     event.doCommand(ooDocument, action);
                }
@@ -254,8 +281,9 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                     } 
                   }
               }*/ else 
-              if (popupType == PopupTypeIdentifier.APPLY_MARKUP) {
+              if (treePopupMenuAction_popupType == PopupTypeIdentifier.APPLY_MARKUP) {
                     toolbarAction action =(toolbarAction)thisNode.getUserObject();
+                    action.setSelectorDialogMode(this.getDialogMode());
                     IEditorActionEvent event = getEventClass(action);
                     event.doCommand(ooDocument, action);
               }

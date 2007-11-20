@@ -118,6 +118,12 @@ public class toolbarAction {
             containedActions = new Vector<toolbarAction>();
             action_display_text = ROOT_ACTION_DISPLAY;
         }
+        if (action.equals("invisibleRootAction")) {
+            parent=null;
+            action_name="parent";
+            containedActions = new Vector<toolbarAction>();
+            action_display_text = "INIVISIBLE ROOT";
+        }
     }
     
     public static void makeLinktoChildren(toolbarAction theFather,

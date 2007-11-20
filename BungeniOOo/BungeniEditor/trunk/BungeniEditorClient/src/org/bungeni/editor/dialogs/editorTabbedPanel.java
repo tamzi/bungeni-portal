@@ -117,6 +117,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.BungeniRegistryFactory;
@@ -172,6 +173,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private Vector<String> mvSections = new Vector<String>();
     private DefaultMutableTreeNode sectionsRootNode;
     private Timer sectionNameTimer;
+    private String currentSelectedSectionName = "";
     private Timer docStructureTimer;
     private Timer componentsTrackingTimer;
     
@@ -182,6 +184,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private boolean mouseOver_TreeDocStructureTree = false;
     private boolean program_refresh_documents = false;
     private TreeMap<String, componentHandleContainer> editorMap;
+    
     /** Creates new form SwingTabbedJPanel */
     public editorTabbedPanel() {
         initComponents();
@@ -664,10 +667,14 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private void clearTree(){
         treeDocStructureTree.removeAll();
         treeDocStructureTree.updateUI();
-        DefaultTreeCellRenderer render = (DefaultTreeCellRenderer) treeDocStructureTree.getCellRenderer();
-        render.setLeafIcon(null);
-        render.setClosedIcon(null);
-        render.setOpenIcon(null);
+        //DefaultTreeCellRenderer render = (DefaultTreeCellRenderer) treeDocStructureTree.getCellRenderer();
+        treeDocStructureTreeCellRenderer render = new treeDocStructureTreeCellRenderer();
+        treeDocStructureTree.setCellRenderer(render);
+        //DefaultTreeCellRenderer defRender = (DefaultTreeCellRenderer) treeDocStructureTree.getCellRenderer();
+        //defRender.setLeafIcon(null);
+        //defRender.setClosedIcon(null);
+        //defRender.setOpenIcon(null);
+        
     }
    
 
@@ -2240,8 +2247,10 @@ private void displayUserMetadata(XTextRange xRange) {
                     //loXPropertySet = ooQueryInterface.XPropertySet(loXTextSection);
                     //XNamed objSectProps = ooQueryInterface.XNamed(loXTextSection);
                     //lstrSectionName =  objSectProps.getName(); // (String)loXPropertySet.getPropertyValue("LinkDisplayName");
+                    self().currentSelectedSectionName  = ooQueryInterface.XNamed(loXTextSection).getName();
                     lstrSectionName = getSectionHierarchy(loXTextSection);
-                }
+                } else
+                    self().currentSelectedSectionName = "";
             }
           }
           catch (java.lang.Exception poException)
@@ -2804,6 +2813,28 @@ private void displayUserMetadata(XTextRange xRange) {
             }        
     }
     
+    class treeDocStructureTreeCellRenderer extends JLabel implements TreeCellRenderer {
+        public treeDocStructureTreeCellRenderer(){
+
+        }
+        public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+            setText(value.toString());
+            if (value instanceof DefaultMutableTreeNode) {
+                  DefaultMutableTreeNode uo = (DefaultMutableTreeNode)value;
+                  String act = (String) uo.getUserObject();
+                  if (act.trim().equals(self().currentSelectedSectionName)) {
+                      setBorder( BorderFactory.createRaisedBevelBorder());
+                      setBackground(new java.awt.Color(0,200,0));
+                  } else {
+                      setBorder(null);
+                      setBackground(null);
+                  }
+                      
+            }
+            return this;
+        }
+        
+    }
     
     public static void main(String args[]) {
     JFrame frame = new JFrame("Oval Sample");

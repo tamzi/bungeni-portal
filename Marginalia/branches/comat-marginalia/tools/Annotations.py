@@ -186,7 +186,7 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         return set([annotation.Creator() for annotation in annotations])
 
     security.declarePublic('getSortedFeedEntries')
-    def getSortedFeedEntries(self, user, url, block=None, filter_name=None, search_string=None):
+    def getSortedFeedEntries(self, user, url, block=None, filter_name=None, filter_type=None, search_string=None):
         """ The incoming query specifies an URL like 
         http://server/somedocument/annotate/#*
         where the fragment identifier ('#*') specifies all annotations
@@ -196,6 +196,7 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         To query per fragment identifier, filter the returned
         annotations by looking at their 'url' field.
         """
+
         catalog = getToolByName(self, 'portal_catalog')
 			
         query = {
@@ -235,8 +236,18 @@ class Annotations(UniqueObject, BaseBTreeFolder):
                 uids.append(annotation.UID())                
                 annotations.append(annotation)
 
+        if filter_name and "select_all" in filter_name:
+            filter_name = None
+        if filter_type and "select_all" in filter_type:
+            filter_type = None
+
         if filter_name:
-            annotations = [annotation for annotation in annotations if annotation.Creator()==filter_name]
+            filter_name = filter_name.split(",")
+            annotations = [annotation for annotation in annotations if annotation.Creator() in filter_name]
+
+        if filter_type:
+            filter_type = filter_type.split(",")
+            annotations = [annotation for annotation in annotations if annotation.getEditType() in filter_type]
 
         auth_member = self._getUser()        
         
@@ -319,6 +330,7 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         params.update(parse_qsl(self.REQUEST.QUERY_STRING))
         sequenceRange = SequenceRange( params[ 'sequence-range' ] )
         xpathRange = XPathRange( params[ 'xpath-range' ] )
+        print params.get("edit_type", "")
         params[ 'start_block' ] = sequenceRange.start.getPaddedPathStr( )
         params[ 'start_xpath' ] = xpathRange.start.getPathStr( )
         params[ 'start_word' ] = xpathRange.start.words

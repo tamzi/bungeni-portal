@@ -23,7 +23,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * $Id: marginalia.js 251 2007-10-13 02:52:10Z geof.glass $
+ * $Id: marginalia.js 264 2007-11-06 16:32:07Z geof.glass $
  */
 
 // Features that can be switched on and off
@@ -115,11 +115,6 @@ function Marginalia( service, username, anusername, features )
 				this.baseUrl = value;
 				break;
 				
-			// Name of cookie to use for preventing cross-site request forgery
-			case 'csrfCookie':
-				this.csrfCookie = value;
-				break;
-			
 			// Override the function for displaying a note in the margin
 			case 'displayNote':
 				this.displayNote = value;
@@ -316,12 +311,12 @@ Marginalia.prototype.showAnnotations = function( url, block )
 		function(xmldoc) { _showAnnotationsCallback( marginalia, url, xmldoc, true ) } );
 }
 
-Marginalia.prototype.redrawAnnotations = function( url, filter_name, search_string, block )
+Marginalia.prototype.redrawAnnotations = function( url, filter_name, filter_type, search_string, block )
 {
 	var marginalia = this;
 	marginalia.hideAnnotations( );
 	this.annotationService.listAnnotations( url, this.anusername, block,
-		function(xmldoc) { _showAnnotationsCallback( marginalia, url, xmldoc, false ) }, filter_name, search_string);
+						function(xmldoc) { _showAnnotationsCallback( marginalia, url, xmldoc, false ) }, filter_name, filter_type, search_string);
 }
 
 Marginalia.prototype.showBlockAnnotations = function( url, block )
@@ -758,26 +753,15 @@ PostMicro.prototype.saveAnnotation = function( marginalia, annotation )
 	// Now that validation's complete, start storing things
 	Marginalia.saveEditPrefs( marginalia, annotation, marginalia.noteEditor );
 
-	// Remove events
-	removeEvent( document.documentElement, 'click', _saveAnnotation );
-	var noteElement = document.getElementById( AN_ID_PREFIX + annotation.getId() );
-	removeEvent( noteElement, 'click', domutil.stopPropagation );
-	
 	// Ensure the window doesn't scroll by saving and restoring scroll position
 	var scrollY = domutil.getWindowYScroll( );
 	var scrollX = domutil.getWindowXScroll( );
 	
-	// Clear the editor
-	marginalia.noteEditor.clear();
-	marginalia.noteEditor = null;
-	while ( noteElement.firstChild )
-		noteElement.removeChild( noteElement.firstChild );
+	// Remove events and editor display
+	this.stopEditing( marginalia, annotation );
 
 	// TODO: listItem is an alias for noteElement
 	var listItem = document.getElementById( AN_ID_PREFIX + annotation.getId() );
-	
-	this.flagAnnotation( marginalia, annotation, AN_EDITINGNOTE_CLASS, false );
-	domutil.removeClass( document.body, AN_EDITINGNOTE_CLASS );
 	
 	// For annotations with links; insert, or substitute actions, must update highlight also
 	if ( 'edit' == annotation.action && annotation.hasChanged( 'note' ) || annotation.hasChanged( 'link' ) )
@@ -841,6 +825,29 @@ PostMicro.prototype.saveAnnotation = function( marginalia, annotation )
 	return true;
 }
 
+
+/**
+ * Stop edit mode
+ * This removes the editor display, but doesn't replace it with anything
+ */
+PostMicro.prototype.stopEditing = function( marginalia, annotation )
+{
+	// Remove events
+	removeEvent( document.documentElement, 'click', _saveAnnotation );
+	var noteElement = document.getElementById( AN_ID_PREFIX + annotation.getId() );
+	removeEvent( noteElement, 'click', domutil.stopPropagation );
+	
+	// Clear the editor
+	marginalia.noteEditor.clear();
+	marginalia.noteEditor = null;
+	while ( noteElement.firstChild )
+		noteElement.removeChild( noteElement.firstChild );
+
+	this.flagAnnotation( marginalia, annotation, AN_EDITINGNOTE_CLASS, false );
+	domutil.removeClass( document.body, AN_EDITINGNOTE_CLASS );
+}
+
+
 /**
  * Delete an annotation
  */
@@ -857,9 +864,13 @@ PostMicro.prototype.deleteAnnotation = function( marginalia, annotation )
 	var scrollY = domutil.getWindowYScroll( );
 	var scrollX = domutil.getWindowXScroll( );
 
+	// Check whether this annotation is being edited - if so, cancel the edit
+	if ( marginalia.noteEditor && annotation == marginalia.noteEditor.annotation )
+		this.stopEditing( marginalia, annotation );
+	
 	// Delete it on the server
-	marginalia.deleteAnnotation( annotation.getId(), null );
-	marginalia.editing = null;
+	if ( ! annotation.isLocal )
+		marginalia.deleteAnnotation( annotation.getId(), null );
 	
 	// Find the annotation
 	var next = this.removeAnnotation( marginalia, annotation );
@@ -1113,6 +1124,19 @@ function createAnnotation( postId, warn, editor )
 	}
 	
 	var post = marginalia.listPosts().getPostById( postId );
+	
+	// Confirm that the selection is within the post
+	var contentElement = post.getContentElement();
+	if ( ! ( ( domutil.isElementDescendant( textRange.startContainer,contentElement )
+		|| textRange.startContainer == contentElement )
+		&& ( domutil.isElementDescendant( textRange.endContainer, contentElement )
+		|| textRange.endContainer == contentElement ) ) )
+	{
+		if ( warn )
+			alert( getLocalized( 'invalid selection' ) );
+		return false;
+	}
+	
 	var annotation = new Annotation( post.url );
 	annotation.setUserId( marginalia.username );
 	
@@ -1136,7 +1160,7 @@ function createAnnotation( postId, warn, editor )
 	{
 		annotation.destruct( );
 		if ( warn )
-			alert( '3' + getLocalized( 'zero length quote' ) );
+			alert( getLocalized( 'zero length quote' ) );
 		trace( null, "zero length quote '" + annotation.getQuote() + "'" );
 		return false;
 	}
@@ -1148,7 +1172,7 @@ function createAnnotation( postId, warn, editor )
 	if ( null == annotation )
 	{
 		if ( warn )
-			alert( '2' + getLocalized( 'invalid selection' ) );
+			alert( getLocalized( 'invalid selection' ) );
 		return false;
 	}
 	
@@ -1173,39 +1197,78 @@ function createAnnotation( postId, warn, editor )
 function filterAnnotations(form_field)
 {
   var parent_node = form_field.parentNode;
-  var select_obj = domutil.childrenByTagClass( parent_node, null, 'select_field', null, null )[0];
+  var select_obj_owner = domutil.childrenByTagClass( parent_node, null, 'select_field', null, null )[0];
+  var select_obj_type = domutil.childrenByTagClass( parent_node, null, 'select_field', null, null )[1];
+  var owner='';
+  for(i=0; i<select_obj_owner.length; i++)  {
+      if (select_obj_owner.options[i].selected)
+	  {
+	  owner = owner +','+ select_obj_owner.options[i].value;
+          }
+      }
+  //removing first character from the string(i.e. removing',')
+  if (owner.length > 0)
+      {
+	  owner=owner.substring(1,owner.length )
+      }
+  var type='';
+  for(i=0; i<select_obj_type.length; i++)  {
+      if (select_obj_type.options[i].selected)
+	  {
+	  type = type +','+ select_obj_type.options[i].value;
+          }
+      }
+  //removing first character from the string(i.e. removing',')
+  if (type.length > 0)
+      {
+	  type=type.substring(1,type.length )
+      }
   var input_obj = domutil.childrenByTagClass( parent_node, null, 'input_field', null, null )[0];
-  var option = select_obj.options[select_obj.selectedIndex];
-  var filter_name = option.value;
+  var filter_name = owner;
+  var filter_type = type;
   var search_string = input_obj.value;
   var post = marginalia.listPosts();
   var p = post.posts[0];
   p.hideAllAnnotations(marginalia);
-  this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, search_string);
-  document.location.hash = "#filter_name=" + filter_name+"&search_string="+search_string;
+  this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, filter_type, search_string);
+  document.location.hash = "#filter_name=" + filter_name+"&filter_type=" + filter_type+"&search_string="+search_string;
 }
 
 function filterAnnotationsFromBookmark(){
   var hash_string = document.location.hash;  
   if (hash_string.search("filter_name") > -1)
   {
-
-	var filter_name= hash_string.substring((hash_string.indexOf('filter_name')) + 12, hash_string.indexOf('&'));
+	var filter_name= hash_string.substring((hash_string.indexOf('filter_name')) + 12, hash_string.indexOf('&filter_type'));
+	var filter_type= hash_string.substring((hash_string.indexOf('filter_type')) + 12, hash_string.indexOf('&search_string'));
+	filter_name = filter_name.split(",");
+	filter_type = filter_type.split(",");
 	var search_string= hash_string.substring((hash_string.indexOf('search_string')) + 14);
         var post = marginalia.listPosts();
         var p = post.posts[0];
         p.hideAllAnnotations(marginalia);
-        this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, search_string);
-        var select_child = domutil.childrenByTagClass(this.document.documentElement, null, 'select_field', null, null )[0];
+        this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, filter_type, search_string);
+        var select_name = domutil.childrenByTagClass(this.document.documentElement, null, 'select_field', null, null )[0];
+        var select_type = domutil.childrenByTagClass(this.document.documentElement, null, 'select_field', null, null )[1];
         var input_child = domutil.childrenByTagClass(this.document.documentElement, null, 'input_field', null, null )[0];
         input_child.value = search_string;
-        for (i=0;i<select_child.options.length;i++)
+        for (i=0;i<select_name.options.length;i++)
         {
-           var option = select_child.options[i];
-           if (option.value == filter_name)
+           var option = select_name.options[i];
+           if (filter_name.contains(option.value))
            {
                option.selected = true;
-               select_child.selectedIndex = i;
+           }
+           else
+           {
+               option.selected = false;
+           }
+        } 
+        for (i=0;i<select_type.options.length;i++)
+        {
+           var option = select_type.options[i];
+           if (filter_type.contains(option.value))
+           {
+               option.selected = true;
            }
            else
            {
@@ -1215,3 +1278,28 @@ function filterAnnotationsFromBookmark(){
   }
 }
 
+function toggle_visibility(id) {
+    var e = document.getElementById(id);
+    if(e.style.display == 'block')
+	e.style.display = 'none';
+    else
+	e.style.display = 'block';
+}
+
+function onEnterKey (obj, e) {
+    var press;
+    if (window.event) {
+	press = window.event.keyCode;
+    } else if (e) {
+	press = e.which;
+    } else {
+	return true;
+    }
+    if (press == 13) {
+     <!--WHAT DO I DO HERE?-->
+        filterAnnotations(obj);
+	return false
+
+	    }
+  return true
+  }

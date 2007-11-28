@@ -209,6 +209,13 @@
 	width: 95%;
 }
 
+.hentry .notes li button.annotation-access {
+	heigh: 1.2em;
+	width: 1em;
+}
+
+/*
+.hentry .notes li.hover,
 .hentry .entry-content em.annotation.hover,
 .hentry .entry-content em.annotation em.annotation.hover,
 .hentry .entry-content em.annotation em.annotation em.annotation.hover,
@@ -415,6 +422,7 @@ ol#articles {
 }
 
 .hentry .notes li {
+        background: #fff;
 	position: relative;
 	font-family: sans-serif;
 	font-size: 80%;	
@@ -429,6 +437,7 @@ ol#articles {
 
 .hentry .notes li.dummy,
 .hentry .notes li li {
+        background: none;
 	border: none;
 }
 
@@ -449,6 +458,7 @@ ol#articles {
 }
 
 .hentry .notes li.other-user {
+        background: none;
 	color: #555;
 }
 
@@ -600,9 +610,14 @@ ol#articles {
 	display: none;
 }
 
-.notes p {
+.notes div {
     margin-left:15px;
+}
+
+.plink {
+    padding-left:15px;
     font-size: 9px;
+    cursor: pointer;
 }
 
 .select_field {

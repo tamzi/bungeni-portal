@@ -150,6 +150,15 @@ schema = Schema((
     ),
 
     StringField(
+        name='edit_type',
+        widget=StringWidget(
+            label='Action',
+            label_msgid='Marginalia_label_action',
+            i18n_domain='Marginalia',
+        )
+    ),
+
+    StringField(
         name='quote',
         widget=StringWidget(
             label='Quote',
@@ -260,10 +269,15 @@ class Annotation(BaseContent):
     def Description(self):
         return '"%s" annotated this text:\n\n"%s"\n\nas follows:\n\n"%s"' % ( self.getUserName(), self.getQuote(), self.getNote() )
 
-    security.declarePublic('Description')
+    security.declarePublic('SearchableText')
     def SearchableText(self):
         """Returns searchable text for the annotation."""
         return self.getNote()
+
+    security.declarePublic('getEditType')
+    def getEditType(self):
+        """Returns edit type for the annotation. (Insert/Delete/Comment/Replace)"""
+        return self.getEdit_type()
 
     security.declarePublic('getIndexed_url')
     def getIndexed_url(self):

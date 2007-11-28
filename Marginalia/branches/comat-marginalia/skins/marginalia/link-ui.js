@@ -23,7 +23,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * $Id: link-ui.js 228 2007-09-21 22:48:19Z geof.glass $
+ * $Id: link-ui.js 265 2007-11-06 16:50:59Z geof.glass $
  */
 
 AN_LINK_CLASS = 'annotation-link';	// class given to a nodes for link annotations
@@ -39,9 +39,7 @@ MAX_LINK_LENGTH = 255;
  */
 PostMicro.prototype.showLink = function( marginalia, annotation )
 {
-	var existingLink = domutil.childByTagClass( this.contentElement, 'a', AN_ID_PREFIX + annotation.getId(), null );
-	if ( existingLink )
-		existingLink.parentNode.removeChild( existingLink );
+	this.hideLink( marginalia, annotation );
 	
 	if ( null != annotation.link && '' != annotation.link )
 	{
@@ -95,6 +93,16 @@ PostMicro.prototype.showLink = function( marginalia, annotation )
 	}
 }
 
+
+/**
+ * Remove the link icon (if present)
+ */
+PostMicro.prototype.hideLink = function( marginalia, annotation )
+{
+	var existingLink = domutil.childByTagClass( this.contentElement, 'a', AN_ID_PREFIX + annotation.getId(), null );
+	if ( existingLink )
+		existingLink.parentNode.removeChild( existingLink );	
+}
 
 /**
  * Don't call the linkUI implementation's methods directly - go through here instead so that

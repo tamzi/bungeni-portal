@@ -90,9 +90,10 @@
                   <td>
                     <div class="notes" tal:define="member_names python:context.portal_annotations.getOwnerList(request)">
                       <button class="createAnnotation" onclick="bungeniClickCreateAnnotation(event,'m1')" title="Click here to create an annotation">&gt;</button>
-                      <p>Filter annotations by owner or query string.
-                      <select class="select_field" name="filter_owner" language="javascript" onChange="filterAnnotations(this);">
-                         <option value="" selected>All</option>
+                      <a href="javascript:toggle_visibility('fields');"><p class="plink">Filter annotations by owner, type or query string. (show/hide)</p></a>
+		      <div id="fields" style="display:none;">
+                      <select class="select_field" name="filter_owner" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
+                         <option value="select_all" selected>All</option>
                          <option value="" tal:attributes="value user/getUserName">Self</option>
                          <optgroup LABEL="Member Names">
                          <span tal:repeat="name member_names" tal:omit-tag="">
@@ -102,7 +103,15 @@
                          </span>
                          </optgroup> 
                       </select><br/>
-                      <input class="input_field" type="text" name="annotation_search" value="" onChange="filterAnnotations(this);"/></p>
+                      <select class="select_field" name="filter_type" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
+                         <option value="select_all" selected>All</option>
+                         <option value="comment">Comment</option>
+                         <option value="insert">Insert</option>
+                         <option value="replace">Replace</option>
+                         <option value="delete">Delete</option>
+                      </select><br/>
+                      <input class="input_field" type="text" name="annotation_search" value="" onChange="filterAnnotations(this);" onkeypress="return onEnterKey(this, event);"/>
+                      </div>
                       <ol><li></li></ol>
                     </div>
                   </td>

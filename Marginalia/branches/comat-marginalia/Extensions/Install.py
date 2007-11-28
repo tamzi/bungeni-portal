@@ -89,6 +89,7 @@ def install(self, reinstall=False):
     catalog = getToolByName(portal,"portal_catalog")
     if 'getAccess' not in catalog.indexes():
         catalog.addIndex('getAccess', 'FieldIndex')
+        catalog.addIndex('getEditType', 'FieldIndex')
 
     # hide tools in the search form
     portalProperties = getToolByName(self, 'portal_properties', None)

@@ -114,15 +114,21 @@ public class toolbarAction {
     public toolbarAction(String action) {
         if (action.equals("rootAction")){
             parent = null;
-            action_name="parent";
+            action_name="editor_root";
             containedActions = new Vector<toolbarAction>();
             action_display_text = ROOT_ACTION_DISPLAY;
         }
         if (action.equals("invisibleRootAction")) {
             parent=null;
-            action_name="parent";
+            action_name="invisible_root";
             containedActions = new Vector<toolbarAction>();
             action_display_text = "INIVISIBLE ROOT";
+        }
+        if (action.equals("selectionAction")) {
+            parent=null;
+            action_name="selection_root";
+            containedActions = new Vector<toolbarAction>();
+            action_display_text = "Selection Actions";
         }
     }
     
@@ -137,6 +143,15 @@ public class toolbarAction {
    public String toString() {
        return this.action_display_text;
    } 
+   
+   public boolean isTopLevelAction() {
+            if (action_name().equals("editor_root") || 
+                action_name().equals("parent") || 
+                action_name().equals("selection_root"))
+                return true;
+            else 
+                return false;
+   }
    
    public toolbarAction getParent() {
        return parent;

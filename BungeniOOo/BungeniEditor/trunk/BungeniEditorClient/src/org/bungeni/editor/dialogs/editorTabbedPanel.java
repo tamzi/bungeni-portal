@@ -442,7 +442,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      
      }
      catch (Exception e){
-         log.error("exception : "+ e.getMessage());
+         log.error("InitCollapsiblePane: exception : "+ e.getMessage());
+         log.error("InitCollapsiblePane: stacktrace: " + org.bungeni.utils.CommonExceptionUtils.getStackTrace(e));
      }
      
     }

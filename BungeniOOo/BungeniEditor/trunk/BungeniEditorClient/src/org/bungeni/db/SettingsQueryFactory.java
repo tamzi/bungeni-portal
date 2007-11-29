@@ -113,4 +113,27 @@ public class SettingsQueryFactory {
                 " and action_order in  ("+ preceeding +","+ following +") order by action_order asc";
          return query;       
    }
+
+   public static String Q_FETCH_ALL_SELECTION_ACTIONS(String docType){
+       String query = "select doc_type, parent_action_name, sub_action_name, sub_action_order, sub_action_state, action_type, " +
+               "action_display_text, action_fields from toolbar_sub_action_settings " +
+               "where doc_type ='"+ docType +"'" ;
+       return query;
+   }
+
+
+   public static String Q_FETCH_ZERO_LEVEL_SELECTION_ACTIONS(String docType){
+       String query = "select doc_type, parent_action_name, sub_action_name, sub_action_order, sub_action_state, action_type, " +
+               "action_display_text, action_fields from toolbar_sub_action_settings " +
+               "where doc_type = '"+ docType +"' and sub_action_order = 0 ";
+       return query;
+   }
+
+   public static String Q_FETCH_CHILDREN_SELECTION_ACTIONS(String docType, String parentAction){
+       String query = "select doc_type, parent_action_name, sub_action_name, sub_action_order, sub_action_state, action_type, " +
+               "action_display_text, action_fields from toolbar_sub_action_settings " +
+               "where doc_type = '"+ docType +"' and parent_action_name = '"+ parentAction +"'  and sub_action_order > 0 ";
+       return query;
+   }
+      
 }

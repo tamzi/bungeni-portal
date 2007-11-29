@@ -31,6 +31,7 @@ import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.actions.EditorActionFactory;
 import org.bungeni.editor.actions.IEditorActionEvent;
 import org.bungeni.editor.actions.toolbarAction;
+import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.CommonTreeFunctions;
@@ -52,11 +53,12 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     private  enum PopupTypeIdentifier {CREATE_EDIT , APPLY_MARKUP, EDIT  };
  
     private HashMap<PopupTypeIdentifier, String> popupMap = new HashMap<PopupTypeIdentifier, String>();
-    
+    private String property_ActiveDocumentMode = "";
     /** Creates new form generalEditorPanel4 */
     public generalEditorPanel4() {
         log.debug("in constructor initComponents");
         initComponents();
+        property_ActiveDocumentMode = org.bungeni.editor.BungeniEditorProperties.getEditorProperty("activeDocumentMode");
         log.debug("in constructor initOthers");
         initOthers();
         log.debug("in constructor initTree");
@@ -100,18 +102,23 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     }
     
     private void initTree() {
+        try {
         toolbarAction rootAction = new toolbarAction("rootAction");
         toolbarAction inivisibleRoot = new toolbarAction("invisibleRootAction");
+        toolbarAction selectionAction = new toolbarAction("selectionAction");
         
         root = new DefaultMutableTreeNode(inivisibleRoot);
         DefaultMutableTreeNode editorToolsRoot = new DefaultMutableTreeNode(rootAction);
+        DefaultMutableTreeNode editorSelectionToolsRoot = new DefaultMutableTreeNode(selectionAction);
         root.add(editorToolsRoot);
+        root.add(editorSelectionToolsRoot);
         
         log.debug("in InitTree");
         if (instance.Connect()) {
             log.debug("about to call createTreeNodes()");
             //create editor tools nodes
             createTreeNodes( editorToolsRoot, true);
+            createSelectionNodes(editorSelectionToolsRoot, true);
             //createToolNodes(rootNode, rootAction, instance );
             instance.EndConnect();
         } 
@@ -121,6 +128,68 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         treeGeneralEditor.setCellRenderer(new treeGeneralEditorCellRenderer());
         CommonTreeFunctions.expandAll(treeGeneralEditor, true);
         treeGeneralEditor.setRootVisible(false);
+        } catch (Exception ex) {
+            log.error("InitTree: exception: " + ex.getMessage());
+            log.error("InitTree: stacktrace : " + org.bungeni.utils.CommonExceptionUtils.getStackTrace(ex));
+        }
+    }
+    
+    private void createSelectionNodes(DefaultMutableTreeNode rootNode, boolean recurse) {
+        try {
+        toolbarAction baseNode = (toolbarAction) rootNode.getUserObject();
+        String actionParent = baseNode.action_name();
+        Vector<Vector<String>> resultRows = new Vector<Vector<String>>();
+        QueryResults query_results;
+        query_results = instance.QueryResults(SettingsQueryFactory.Q_FETCH_ZERO_LEVEL_SELECTION_ACTIONS(this.property_ActiveDocumentMode));
+        log.debug("createSelectionNodes, query = " + SettingsQueryFactory.Q_FETCH_ZERO_LEVEL_SELECTION_ACTIONS(this.property_ActiveDocumentMode));
+        if (query_results == null) 
+            return ;
+        
+        if (query_results.hasResults() ) {
+             HashMap columns = query_results.columnNameMap();
+             //child actions are present
+             //call the result nodes recursively...
+             resultRows = query_results.theResults();
+             for (int i = 0 ; i < resultRows.size(); i++ ) {
+                   //get the results row by row into a string vector
+                   Vector<java.lang.String> tableRow = new Vector<java.lang.String>();
+                   tableRow = resultRows.elementAt(i);
+                   toolbarSubAction subAction = new toolbarSubAction(tableRow, columns);
+                   //String displayText = tableRow.elementAt((Integer)columns.get("ACTION_DISPLAY_TEXT") -1 );
+                   log.debug("createSelectionNodes : "+ subAction.toString());
+                   DefaultMutableTreeNode node = new DefaultMutableTreeNode(subAction);
+                   //add child actions to this parent selection action 
+                   addSelectionActionChildNodes(node);
+                   rootNode.add(node);
+               }
+        }
+        } catch (Exception ex) {
+            log.error ("createSelecitonNodes, Exception : "+ ex.getMessage());
+            log.error("createSelecitonNodes, StackTrace : "+ org.bungeni.utils.CommonExceptionUtils.getStackTrace(ex));
+        }
+    }
+   
+    private void addSelectionActionChildNodes(DefaultMutableTreeNode parentSelectionNode) {
+        toolbarSubAction parentSubAction = (toolbarSubAction) parentSelectionNode.getUserObject();
+        String query = SettingsQueryFactory.Q_FETCH_CHILDREN_SELECTION_ACTIONS(this.property_ActiveDocumentMode, parentSubAction.parent_action_name());
+        QueryResults qr = instance.QueryResults(query);
+        Vector<Vector<String>> resultRows = new Vector<Vector<String>>();
+       
+        if (qr == null ) return;
+        if (qr.hasResults()) {
+            HashMap columns = qr.columnNameMap();
+            resultRows = qr.theResults();
+            for (int i = 0; i < resultRows.size(); i++) {
+                   //get the results row by row into a string vector
+                   Vector<java.lang.String> tableRow = new Vector<java.lang.String>();
+                   tableRow = resultRows.elementAt(i);
+                   toolbarSubAction subAction = new toolbarSubAction(tableRow, columns);
+                   DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(subAction);
+                   parentSelectionNode.add(childNode);
+            }
+        }
+        
+        return;
     }
     
     private void createTreeNodes(DefaultMutableTreeNode rootNode, boolean recurse) {
@@ -134,11 +203,13 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         
         //addToThisNode.add( child);
         QueryResults query_results;
-        if (actionParent.equals("parent"))
+        if (actionParent.equals("editor_root")) {
+            log.debug("createTreeNodes: "+ SettingsQueryFactory.Q_FETCH_PARENT_ACTIONS());
             query_results = instance.QueryResults(SettingsQueryFactory.Q_FETCH_PARENT_ACTIONS());
-        else
+        } else {
+            log.debug("createTreeNodes: "+SettingsQueryFactory.Q_FETCH_PARENT_ACTIONS(actionParent));
             query_results = instance.QueryResults(SettingsQueryFactory.Q_FETCH_PARENT_ACTIONS(actionParent));
-        
+        }
         //QueryResults query_results = instance.QueryResults(SettingsQueryFactory.Q_FETCH_CHILD_TOOLBAR_ACTIONS(actionParent));
         //QueryResults query_results = new QueryResults(results);
         if (query_results == null) 
@@ -299,12 +370,15 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
 
     
     class treeGeneralEditorMouseListener implements MouseListener {
+      
         public void mouseClicked(MouseEvent evt) {
       
         }
         
        private void createPopupMenuItems (toolbarAction baseNodeAction){
-           
+           //do not generate menu for top level actions 
+           if (baseNodeAction.isTopLevelAction()) return ;
+            
             if (baseNodeAction.action_type().equals("section")) {
                 popupMenu.removeAll();
                 //popupMenu.add(new treePopupMenuAction(popup_section_actions[0], baseNodeAction, PopupTypeIdentifier.VIEW_ACTIONS));
@@ -329,10 +403,25 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                      if (evt.getClickCount() == 1) {
                          
                          DefaultMutableTreeNode node = (DefaultMutableTreeNode) selPath.getLastPathComponent();
-                         System.out.println("node = "+ (toolbarAction) node.getUserObject());   
-                         toolbarAction action = (toolbarAction)node.getUserObject();
-                         createPopupMenuItems (action);
-                         popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                         Object obj = node.getUserObject();
+                         toolbarAction action = null ;
+                        // toolbarSubAction subAction = null;
+                         String selectionItem = null ;
+                         if (obj.getClass() == org.bungeni.editor.actions.toolbarSubAction.class) {
+                             // this is not a toolbarAction object
+                             //selectionItem = (String) obj;
+                          //   subAction = (toolbarSubAction) obj;
+                             log.debug("treeGeneralEditorMouseListener: doubleClick_Pressed , String class, so returning now");
+                             return;
+                         } 
+                         if (obj.getClass() == org.bungeni.editor.actions.toolbarAction.class) {
+                             action = (toolbarAction) obj;
+                         }
+                        //create toolbarAction menu icons
+                        if (!action.isTopLevelAction()) {
+                            createPopupMenuItems (action);
+                            popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                        }
                       return;
                      }  
                 
@@ -356,7 +445,8 @@ class treeGeneralEditorCellRenderer extends JLabel implements TreeCellRenderer {
          int SECTION_ICON = 0;
          int SECTION_PLUS_ICON = 1;
          int MARKUP_ICON = 2;
-        String[] icons = { "action_m.png", "action_m_plus.png", "action_s.png" };
+         int TOPLEVEL_ICON=3;
+        String[] icons = { "action_m.png", "action_m_plus.png", "action_s.png", "icon_17x20.png" };
         
         public treeGeneralEditorCellRenderer() {
               imgIcons = new ImageIcon[icons.length];
@@ -367,32 +457,79 @@ class treeGeneralEditorCellRenderer extends JLabel implements TreeCellRenderer {
                   imgIcons[i] = new ImageIcon(imgUrl, "");
               }
         }
-
+        private int ACTION_OBJECT=0, SELECTION_OBJECT=1;
+        
         public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
-                setText(" "+ value.toString( ));
-                if (selected) {
-                  setOpaque(true);
-                }
-                else {
-                  setOpaque(false);
-                }
-
-                if (value instanceof DefaultMutableTreeNode) {
-                  DefaultMutableTreeNode uo = (DefaultMutableTreeNode)value;
-                  if (uo.isLeaf()) {
-                      toolbarAction act = (toolbarAction) uo.getUserObject();
-                      if (act.action_type().equals("markup")) 
-                        setIcon(imgIcons[MARKUP_ICON]);
-                      else 
-                        setIcon(imgIcons[SECTION_ICON]);
-                  } else {
-                      setIcon(imgIcons[SECTION_PLUS_ICON]);
-                  }
-                }
-                return this;    
+                int objectType = -1;
+                try {
+                    if (selected) 
+                      setOpaque(true);
+                    else
+                      setOpaque(false);
+               
+                    Object userObj;
+                    //only if its a defaultmutabletreenode
+                    if (!(value instanceof DefaultMutableTreeNode)) {
+                        log.debug("renderTreeComponent: not a defaultMutabletreenode");
+                        return this;
+                    }
+                    DefaultMutableTreeNode uo = (DefaultMutableTreeNode)value;
+                    //first check the object type
+                    userObj = uo.getUserObject();
+                    //for selection object the node user object is always a string
+                    //if (userObj.getClass() == java.lang.String.class) 
+                    //     objectType = this.SELECTION_OBJECT;
+                    if (userObj.getClass() == org.bungeni.editor.actions.toolbarSubAction.class) 
+                         objectType = this.SELECTION_OBJECT;
+                    else if (userObj.getClass() == org.bungeni.editor.actions.toolbarAction.class) 
+                         objectType = this.ACTION_OBJECT;
+                  
+                  
+                    if (objectType == -1 ) {
+                      log.debug("getTreeCellRenderComponent exception");
+                      return this;
+                    }
+                    // if (uo.isLeaf()) {
+                    if (this.SELECTION_OBJECT == objectType) {
+                          log.debug("treeCellRenderer: user Object is a string... ");
+                          setIcon(null);
+                          toolbarSubAction subAction = (toolbarSubAction)userObj;
+                          log.debug("treeCellRenderer: " + subAction.toString());
+                          setText(" "+ subAction.action_display_text());
+                        // return this;
+                    } else if (this.ACTION_OBJECT == objectType) {
+                          toolbarAction act = (toolbarAction) userObj;
+                          //just to make sure a null object is not returned
+                          if (act == null ) { 
+                              log.debug("treeCellRenderer: action object is null");  
+                              return this;
+                          } 
+                          setText(act.action_display_text());
+                          //action_type is not valid for the invisibleRoot, editorRoot or the selectionRoot
+                          //we need to filter by action name
+                          if (act.isTopLevelAction() ) {
+                                setIcon(imgIcons[TOPLEVEL_ICON]);
+                          } else {
+                              if (act.action_type().equals("markup")) 
+                                setIcon(imgIcons[MARKUP_ICON]);
+                              else 
+                                setIcon(imgIcons[SECTION_ICON]);
+                          }
+                    }       
+                  //} else {
+                  //    setIcon(imgIcons[SECTION_PLUS_ICON]);
+                  //}
+                
+                
+                } catch (Exception ex) {
+                    log.error("cellRender error: " + ex.getMessage());
+                    log.error("cellRender stackTrace: "+ org.bungeni.utils.CommonExceptionUtils.getStackTrace(ex));
+                } finally {
+                return this;
                 }
     }    
+        
 
-
+       }        
 
 }

@@ -28,6 +28,7 @@ public class toolbarSubAction {
     private String action_type;
     private String action_display_text;
     private String action_fields;
+    private String action_class;
     
     /** Creates a new instance of toolbarSubAction */
     public toolbarSubAction(Vector<String> actionDesc, HashMap action_mapping) {
@@ -40,7 +41,7 @@ public class toolbarSubAction {
         this.parent_action_name = (String) safeGet(actionDesc, action_mapping, "PARENT_ACTION_NAME");
         this.action_fields = (String) safeGet(actionDesc, action_mapping, "ACTION_FIELDS");
         this.action_display_text = (String) safeGet(actionDesc, action_mapping, "ACTION_DISPLAY_TEXT");
-        
+        this.action_class = (String) safeGet(actionDesc, action_mapping, "ACTION_CLASS");
     
     }
     
@@ -82,6 +83,9 @@ public class toolbarSubAction {
         return sub_action_name;
     }
 
+    public String action_class() {
+        return action_class;
+    }
   
     public String sub_action_order() {
         return sub_action_order;

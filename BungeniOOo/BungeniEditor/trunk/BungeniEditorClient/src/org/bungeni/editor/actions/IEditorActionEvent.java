@@ -18,4 +18,5 @@ import org.bungeni.ooo.OOComponentHelper;
  */
 public interface IEditorActionEvent {
        public void doCommand(OOComponentHelper ooDocument, toolbarAction action);
+       public void doCommand(OOComponentHelper ooDocument, toolbarSubAction action);
 }

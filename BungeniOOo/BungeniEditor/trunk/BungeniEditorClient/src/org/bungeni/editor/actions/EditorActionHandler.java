@@ -395,4 +395,7 @@ public class EditorActionHandler implements IEditorActionEvent {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
+    public void doCommand(OOComponentHelper ooDocument, toolbarSubAction action) {
+    }
+
 }

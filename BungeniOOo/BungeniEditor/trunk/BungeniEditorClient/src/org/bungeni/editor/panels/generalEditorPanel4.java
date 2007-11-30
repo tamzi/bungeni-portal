@@ -253,12 +253,18 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         return event;
     }
 
+    public IEditorActionEvent getEventClass(toolbarSubAction subAction) {
+       IEditorActionEvent event = EditorActionFactory.getEventClass(subAction);
+        return event;
+    }
+    
     public void setParentWindowHandle(Component c) {
     }
 
     public void actionPerformed(ActionEvent e) {
     }
-    
+
+   
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane generalEditorScrollPane;
@@ -398,8 +404,29 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                 // TreePath selPath = treeGeneralEditor.getSelectionPath();
                  //DefaultMutableTreeNode node = (DefaultMutableTreeNode) selPath.getLastPathComponent();
                  if (selRow != -1 ) {
-                 //if (node != null ) {     
-              
+                 //if (node != null ) {
+                     //double click only for toolbarSubAction type nodes
+                     if (evt.getClickCount() == 2) {
+                         DefaultMutableTreeNode node = (DefaultMutableTreeNode) selPath.getLastPathComponent();
+                         Object obj = node.getUserObject();
+                         toolbarSubAction subAction = null;
+                         if (obj.getClass() == org.bungeni.editor.actions.toolbarSubAction.class) {
+                           subAction = (toolbarSubAction) obj;
+                           if (subAction.sub_action_order().equals("0") ) {
+                               //this is a parent level selection action
+                               if (subAction.action_type().equals("section_create")) {
+                                   //section creation action
+                                    IEditorActionEvent event = getEventClass(subAction);
+                                    event.doCommand(ooDocument, subAction);
+                               } else {
+                                   //dialog display action section of the dialog
+                                   
+                               }
+                           }
+                         } 
+                         return;
+                     }
+                     //single click
                      if (evt.getClickCount() == 1) {
                          
                          DefaultMutableTreeNode node = (DefaultMutableTreeNode) selPath.getLastPathComponent();

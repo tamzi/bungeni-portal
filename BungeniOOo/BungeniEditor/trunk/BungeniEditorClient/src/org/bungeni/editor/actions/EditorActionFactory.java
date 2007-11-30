@@ -21,6 +21,19 @@ public class EditorActionFactory extends Object {
     /** Creates a new instance of EditorActionFactory */
     public EditorActionFactory() {
     }
+
+    public static IEditorActionEvent getEventClass(toolbarSubAction action) {
+       IEditorActionEvent eventHandler = null;
+       try {
+             Class eventHandlerClass;
+             eventHandlerClass = Class.forName(action.action_class());
+             eventHandler = (IEditorActionEvent) eventHandlerClass.newInstance();
+       } catch (ClassNotFoundException ex) {
+           log.error("getEventClass:"+ ex.getMessage());
+        } finally {
+             return eventHandler;
+        }
+    }
     
     public static IEditorActionEvent getEventClass(toolbarAction action) {
       IEditorActionEvent eventHandler = null;

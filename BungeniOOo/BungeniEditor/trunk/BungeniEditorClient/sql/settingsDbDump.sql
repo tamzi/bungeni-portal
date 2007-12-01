@@ -175,12 +175,13 @@ CREATE CACHED TABLE PUBLIC.TOOLBAR_SUB_ACTION_SETTINGS(
     SUB_ACTION_STATE INT NOT NULL,
     ACTION_TYPE VARCHAR(50),
     ACTION_DISPLAY_TEXT VARCHAR(100),
-    ACTION_FIELDS VARCHAR(100)
-);               
+    ACTION_FIELDS VARCHAR(100),
+    ACTION_CLASS VARCHAR(70)
+); 
 -- 4 = SELECT COUNT(*) FROM PUBLIC.TOOLBAR_SUB_ACTION_SETTINGS;               
-INSERT INTO PUBLIC.TOOLBAR_SUB_ACTION_SETTINGS(DOC_TYPE, PARENT_ACTION_NAME, SUB_ACTION_NAME, SUB_ACTION_ORDER, SUB_ACTION_STATE, ACTION_TYPE, ACTION_DISPLAY_TEXT, ACTION_FIELDS) VALUES('debaterecord', 'makePrayerSection', 'section_creation', 0, 1, 'section_create', 'Create emtpy masthead', '');      
-INSERT INTO PUBLIC.TOOLBAR_SUB_ACTION_SETTINGS(DOC_TYPE, PARENT_ACTION_NAME, SUB_ACTION_NAME, SUB_ACTION_ORDER, SUB_ACTION_STATE, ACTION_TYPE, ACTION_DISPLAY_TEXT, ACTION_FIELDS) VALUES('debaterecord', 'makePrayerSection', 'selectlogo', 3, 1, 'image', 'Apply logo', 'btn:initdebate_selectlogo');       
-INSERT INTO PUBLIC.TOOLBAR_SUB_ACTION_SETTINGS(DOC_TYPE, PARENT_ACTION_NAME, SUB_ACTION_NAME, SUB_ACTION_ORDER, SUB_ACTION_STATE, ACTION_TYPE, ACTION_DISPLAY_TEXT, ACTION_FIELDS) VALUES('debaterecord', 'makePrayerSection', 'debatedate_entry', 1, 1, 'date', 'Markup debate date', 'dt:initdebate_hansarddate');          
-INSERT INTO PUBLIC.TOOLBAR_SUB_ACTION_SETTINGS(DOC_TYPE, PARENT_ACTION_NAME, SUB_ACTION_NAME, SUB_ACTION_ORDER, SUB_ACTION_STATE, ACTION_TYPE, ACTION_DISPLAY_TEXT, ACTION_FIELDS) VALUES('debaterecord', 'makePrayerSection', 'debatetime_entry', 2, 1, 'time', 'Markup debate time', 'dt:initdebate_timeofhansard');        
+INSERT INTO PUBLIC.TOOLBAR_SUB_ACTION_SETTINGS(DOC_TYPE, PARENT_ACTION_NAME, SUB_ACTION_NAME, SUB_ACTION_ORDER, SUB_ACTION_STATE, ACTION_TYPE, ACTION_DISPLAY_TEXT, ACTION_FIELDS, ACTION_CLASS) VALUES('debaterecord', 'makePrayerSection', 'section_creation', 0, 1, 'section_create', 'Create emtpy masthead', '', 'org.bungeni.editor.actions.EditorSelectionActionHandler');             
+INSERT INTO PUBLIC.TOOLBAR_SUB_ACTION_SETTINGS(DOC_TYPE, PARENT_ACTION_NAME, SUB_ACTION_NAME, SUB_ACTION_ORDER, SUB_ACTION_STATE, ACTION_TYPE, ACTION_DISPLAY_TEXT, ACTION_FIELDS, ACTION_CLASS) VALUES('debaterecord', 'makePrayerSection', 'selectlogo', 3, 1, 'image', 'Apply logo', 'btn:initdebate_selectlogo', 'org.bungeni.editor.actions.EditorSelectionActionHandler');              
+INSERT INTO PUBLIC.TOOLBAR_SUB_ACTION_SETTINGS(DOC_TYPE, PARENT_ACTION_NAME, SUB_ACTION_NAME, SUB_ACTION_ORDER, SUB_ACTION_STATE, ACTION_TYPE, ACTION_DISPLAY_TEXT, ACTION_FIELDS, ACTION_CLASS) VALUES('debaterecord', 'makePrayerSection', 'debatedate_entry', 1, 1, 'date', 'Markup debate date', 'dt:initdebate_hansarddate', 'org.bungeni.editor.actions.EditorSelectionActionHandler'); 
+INSERT INTO PUBLIC.TOOLBAR_SUB_ACTION_SETTINGS(DOC_TYPE, PARENT_ACTION_NAME, SUB_ACTION_NAME, SUB_ACTION_ORDER, SUB_ACTION_STATE, ACTION_TYPE, ACTION_DISPLAY_TEXT, ACTION_FIELDS, ACTION_CLASS) VALUES('debaterecord', 'makePrayerSection', 'debatetime_entry', 2, 1, 'time', 'Markup debate time', 'dt:initdebate_timeofhansard', 'org.bungeni.editor.actions.EditorSelectionActionHandler');               
 CREATE PRIMARY KEY ON PUBLIC.TOOLBAR_SUB_ACTION_SETTINGS(DOC_TYPE, PARENT_ACTION_NAME, SUB_ACTION_NAME);      
 CREATE INDEX PUBLIC.SUBACTIONORDER_IDX ON PUBLIC.TOOLBAR_SUB_ACTION_SETTINGS(SUB_ACTION_ORDER);               

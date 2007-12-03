@@ -73,20 +73,26 @@
   </Layout>
   <SubComponents>
     <Component class="org.jdesktop.swingx.JXDatePicker" name="dt_initdebate_hansarddate">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="dt_initdebate_hansarddate"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lbl_initdebate_hansarddate">
       <Properties>
         <Property name="text" type="java.lang.String" value="Hansard Date"/>
+        <Property name="name" type="java.lang.String" value="lbl_initdebate_hansarddate"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lbl_initdebate_selectlogo">
       <Properties>
         <Property name="text" type="java.lang.String" value="Masthead Logo"/>
+        <Property name="name" type="java.lang.String" value="lbl_initdebate_selectlogo"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btn_initdebate_selectlogo">
       <Properties>
         <Property name="text" type="java.lang.String" value="Select Logo..."/>
+        <Property name="name" type="java.lang.String" value="btn_initdebate_selectlogo"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_initdebate_selectlogoActionPerformed"/>
@@ -95,11 +101,13 @@
     <Component class="javax.swing.JLabel" name="lbl_initdebate_timeofhansard">
       <Properties>
         <Property name="text" type="java.lang.String" value="Hansard Time"/>
+        <Property name="name" type="java.lang.String" value="lbl_initdebate_hansardtime"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnApply">
       <Properties>
         <Property name="text" type="java.lang.String" value="Apply to Document "/>
+        <Property name="name" type="java.lang.String" value="btn_apply"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnApplyActionPerformed"/>
@@ -108,6 +116,7 @@
     <Component class="javax.swing.JButton" name="btnCancel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Cancel"/>
+        <Property name="name" type="java.lang.String" value="btn_cancel"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelActionPerformed"/>
@@ -116,6 +125,9 @@
     <Component class="javax.swing.JLabel" name="lbl_initdebate_setpath">
     </Component>
     <Component class="javax.swing.JSpinner" name="dt_initdebate_timeofhansard">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="dt_initdebate_hansardtime"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

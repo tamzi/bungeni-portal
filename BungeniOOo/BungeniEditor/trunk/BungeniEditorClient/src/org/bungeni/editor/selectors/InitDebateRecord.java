@@ -16,9 +16,11 @@ import java.text.DateFormat;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -35,6 +37,7 @@ import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.BungeniEditorProperties;
+import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.editor.dialogs.*;
 import org.bungeni.editor.fragments.FragmentsFactory;
 import org.bungeni.editor.macro.ExternalMacro;
@@ -53,8 +56,8 @@ import org.bungeni.utils.MessageBox;
  */
 public class InitDebateRecord extends selectorTemplatePanel {
    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(InitDebateRecord.class.getName());
-    
-    
+   private toolbarSubAction theSubAction;
+   private ArrayList<String> enabledControls = new ArrayList<String>(); 
    private String m_strLogoPath; 
    private String m_strLogoFileName;
     /** Creates new form InitDebateRecord */
@@ -66,6 +69,70 @@ public class InitDebateRecord extends selectorTemplatePanel {
             JDialog parentDlg, 
             toolbarAction theAction) {
          super(ooDocument, parentDlg, theAction);
+        init();       // initdebate_timeofhansard.setFormatterFactory(new DefaultFormatterFactory(dfTimeOfHansard));
+        setControlModes();
+        setControlData();
+    
+    }
+    
+  
+      public InitDebateRecord(OOComponentHelper ooDocument, 
+            JDialog parentDlg, 
+            toolbarAction theAction, toolbarSubAction subAction) {
+         super(ooDocument, parentDlg, theAction);
+         this.theSubAction = subAction;
+         init();
+         setControlModes();
+         setControlData();
+         selectionControlModes();
+      }
+    
+      String[] controls_ignore_list = {"btn_apply", "btn_cancel" };
+      public void selectionControlModes() {
+        //set selection mode control modes
+         getEnabledControls();
+         if (theControlMap.keySet().size() > 0 ) {
+             Iterator<String> iterCtlNames = theControlMap.keySet().iterator();
+             while (iterCtlNames.hasNext()) {
+                 String controlname =   iterCtlNames.next();
+                 if (!enabledControls.contains(controlname)) {
+                     //disable all these controls
+                     if (theControlMap.containsKey(controlname)) {
+                         theControlMap.get(controlname).setVisible(false);
+                     }
+                 }
+             }
+         } else {
+             log.debug("selectionControlModes: no controls with names were found");
+         }
+      }
+      
+      private void getEnabledControls() {
+         String actionFields = theSubAction.action_fields().trim();
+         if (actionFields.indexOf(";") != -1) {
+            String[] enabledFields =  actionFields.split(";");
+            for (int i=0; i < enabledFields.length; i++ ) {
+                enabledControlNameFromAction(enabledFields[i]);
+            }
+         } else {
+            enabledControlNameFromAction(actionFields);
+         }
+         //add elements from ignore list
+         for (int i=0; i < this.controls_ignore_list.length ; i++ ) {
+             this.enabledControls.add(controls_ignore_list[i]);
+         }
+      }
+      
+      private void enabledControlNameFromAction (String actionField) {
+                 String[] control_and_name = actionField.split(":");
+                 String controlName = control_and_name[0].trim()+"_"+control_and_name[1].trim();
+                 this.enabledControls.add(controlName);
+                 String labelName = "lbl_" + control_and_name[1];
+                 this.enabledControls.add(labelName);
+      }
+      
+      public void init(){
+          
         initComponents();
         //default m_strLogoPath
         String logoPath = BungeniEditorProperties.getEditorProperty("logoPath");
@@ -73,26 +140,16 @@ public class InitDebateRecord extends selectorTemplatePanel {
         String strPath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH();
         m_strLogoPath = strPath + File.separator + logoPath + File.separator + "default_logo.jpg";
         log.debug("InitDebateRecord:" + m_strLogoPath);
-        /*
-        MaskFormatter mf = null;
-        try {
-            mf = new MaskFormatter("##:##");
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
-        mf.install(initdebate_timeofhansard);
-         */
         dt_initdebate_timeofhansard.setModel(new SpinnerDateModel(new Date(), null, null, Calendar.HOUR));
         dt_initdebate_timeofhansard.setEditor(new JSpinner.DateEditor(dt_initdebate_timeofhansard, "HH:mm"));
         ((JSpinner.DefaultEditor)dt_initdebate_timeofhansard.getEditor()).getTextField().setEditable(false);
         this.dt_initdebate_hansarddate.setInputVerifier(new DateVerifier());
-        setControlModes();
-        setControlData();
-    
-       // initdebate_timeofhansard.setFormatterFactory(new DefaultFormatterFactory(dfTimeOfHansard));
-    }
-    
-  
+        buildComponentsArray();
+
+      }
+      
+     
+      
     public void setControlModes() {
         if (theMode == SelectorDialogModes.TEXT_EDIT) {
             this.lbl_initdebate_selectlogo.setVisible(false);
@@ -146,11 +203,16 @@ public class InitDebateRecord extends selectorTemplatePanel {
         lbl_initdebate_setpath = new javax.swing.JLabel();
         dt_initdebate_timeofhansard = new javax.swing.JSpinner();
 
+        dt_initdebate_hansarddate.setName("dt_initdebate_hansarddate");
+
         lbl_initdebate_hansarddate.setText("Hansard Date");
+        lbl_initdebate_hansarddate.setName("lbl_initdebate_hansarddate");
 
         lbl_initdebate_selectlogo.setText("Masthead Logo");
+        lbl_initdebate_selectlogo.setName("lbl_initdebate_selectlogo");
 
         btn_initdebate_selectlogo.setText("Select Logo...");
+        btn_initdebate_selectlogo.setName("btn_initdebate_selectlogo");
         btn_initdebate_selectlogo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_initdebate_selectlogoActionPerformed(evt);
@@ -158,8 +220,10 @@ public class InitDebateRecord extends selectorTemplatePanel {
         });
 
         lbl_initdebate_timeofhansard.setText("Hansard Time");
+        lbl_initdebate_timeofhansard.setName("lbl_initdebate_hansardtime");
 
         btnApply.setText("Apply to Document ");
+        btnApply.setName("btn_apply");
         btnApply.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnApplyActionPerformed(evt);
@@ -167,11 +231,14 @@ public class InitDebateRecord extends selectorTemplatePanel {
         });
 
         btnCancel.setText("Cancel");
+        btnCancel.setName("btn_cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
+
+        dt_initdebate_timeofhansard.setName("dt_initdebate_hansardtime");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);

@@ -40,6 +40,14 @@ public class SettingsQueryFactory {
         return  query;
     }
     
+    private static String Common_ToolbarAction_Selection() {
+        String query = "" +
+                "SELECT distinct act.doc_type, act.action_name, act.action_order, " +
+                "act.action_state, act.action_class, act.action_type, act.action_naming_convention, "+
+                "act.action_numbering_convention, act.action_parent, "+
+                "act.action_icon, act.action_display_text, act.action_dimension, act.action_section_type, act.action_edit_dlg_allowed ";
+         return query;       
+    }
     public static String Q_FETCH_PARENT_ACTIONS() {
         String query = "" +
                 "SELECT distinct act.doc_type, act.action_name, act.action_order, " +
@@ -63,6 +71,13 @@ public class SettingsQueryFactory {
                "(select action_name from action_parent where " +
                "parent_action='"+byAction+"')";
        return query;        
+    }
+    
+    public static String Q_FETCH_ACTION_BY_NAME(String byActionName ) {
+        String query = Common_ToolbarAction_Selection() +
+                " from TOOLBAR_ACTION_SETTINGS act " +
+                "where act.action_name = '"+ byActionName +"'";
+               return query;
     }
     
     public static String Q_FETCH_DOCUMENT_METADATA_VARIABLES() {

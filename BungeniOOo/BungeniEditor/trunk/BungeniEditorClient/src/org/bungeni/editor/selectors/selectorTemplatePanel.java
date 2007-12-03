@@ -10,8 +10,12 @@
 package org.bungeni.editor.selectors;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
 import java.util.HashMap;
 import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.BungeniRegistryFactory;
 import org.bungeni.db.DefaultInstanceFactory;
@@ -32,6 +36,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     protected BungeniClientDB dbSettings = null;
     protected HashMap<String,String> theSerializationMap = new HashMap<String,String>();
     protected HashMap<String,String> theMetadataMap = new HashMap<String,String>();
+    protected HashMap<String,Component> theControlMap = new HashMap<String,Component>();
     protected String windowTitle;
     class dlgBackgrounds {
         Color background;
@@ -125,5 +130,35 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         HashMap<String,String> sectionMeta = new HashMap<String,String>();
         return ooDocument.getSectionMetadataAttributes(sectionName);
     }    
+ 
+    public void buildComponentsArray() {
+        getComponentsWithNames(this);
+    }
     
+   private void getComponentsWithNames(Container container) {
+        
+        for (Component component: container.getComponents()){
+           String strName = null;
+           if (component.getClass() == javax.swing.JList.class) {
+               System.out.println("this is a jlist");
+           }
+           strName = component.getName();
+           if (strName != null) {
+               theControlMap.put(strName.trim(), component);
+           }
+     
+           if (component instanceof JRootPane) {    
+              JRootPane nestedJRootPane = (JRootPane)component;
+              getComponentsWithNames(nestedJRootPane.getContentPane());
+            }
+
+           if (component instanceof JPanel) {
+              // JPanel found. Recursing into this panel.
+              JPanel nestedJPanel = (JPanel)component;
+              getComponentsWithNames(nestedJPanel);
+            }
+   
+        }
+        
+    }
 }

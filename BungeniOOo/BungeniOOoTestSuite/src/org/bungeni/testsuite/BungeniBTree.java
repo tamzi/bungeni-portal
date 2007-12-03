@@ -27,17 +27,26 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
 /**
- *
+ * <B>Class that implements a binary tree, used for tracking hierarchies within a Openoffice document
+ * . Currently the section hierarchy is created by enumerating the document, and tracking the sections and their parents.
+ * The tree class also implements lookups for nodes by name, or by order of enumeration</B>
  * @author ashok
  */
 final class BungeniBTree {
         private TreeMap<Integer,BungeniBNode> roots = new TreeMap<Integer,BungeniBNode> ();
         private HashMap<String, BungeniBNode> rootsByName = new HashMap<String,BungeniBNode>();
        
+    /**
+     * Default constructor for the class
+     */
         public BungeniBTree() {
             super();
         }
         
+    /**
+     * <B>The class supports multiple root nodes. However, current usage within the document is for a single root node.</B>
+     * @param name Name for the new root section to be added
+     */
         public void addRootNode(String name) {
            System.out.println("roots.size+1 is "+ new Integer(roots.size()+1));
            Integer nKey = roots.size()+1;
@@ -47,6 +56,11 @@ final class BungeniBTree {
            //System.out.println("roots.size = key , " + newKey.toString() +", "+ roots.get(new Integer(2)));
         }
         
+    /**
+     * <B>Adds a child node, to an existing node identified by name</B>
+     * @param parent Name of Node to which the node is to be added
+     * @param child Name of node to be added to parent.
+     */
         public void addNodeToNamedNode(String parent, String child) {
             BungeniBNode node = getNodeByName(parent);
             if (node == null ) {
@@ -57,6 +71,11 @@ final class BungeniBTree {
         }
         
         
+    /**
+     * Retrieves a node from the tree by name
+     * @param name Name of node to be retrieved
+     * @return Returns a BungeniBNode object.  If the node is not found, returns null.
+     */
         public BungeniBNode getNodeByName(String name) {
             if (this.rootsByName.containsKey(name)) {
                 return rootsByName.get(name);
@@ -116,6 +135,10 @@ final class BungeniBTree {
         }
         private StringBuffer sbOut = new StringBuffer();
        
+    /**
+     * Returns a indented string representation of the tree structure
+     * @return Returns a String
+     */
         public String toString() {
            sbOut = new StringBuffer();
            Iterator<Integer> rootIter = roots.keySet().iterator();

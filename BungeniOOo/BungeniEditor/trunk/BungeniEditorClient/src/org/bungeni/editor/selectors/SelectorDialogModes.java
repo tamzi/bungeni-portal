@@ -14,7 +14,8 @@ package org.bungeni.editor.selectors;
  * @author Administrator
  */
 public enum SelectorDialogModes {
-    TEXT_SELECTED,
+    TEXT_SELECTED_INSERT,
+    TEXT_SELECTED_EDIT,
     TEXT_INSERTION,
     TEXT_EDIT,
     NONE

@@ -58,16 +58,17 @@ public class InitPapers extends selectorTemplatePanel {
     }
    
     private void initFields() {
-
         if (theMode == SelectorDialogModes.TEXT_INSERTION) {
             
             txtMessageArea.setText("You are attempting to insert a new Papers section, " +
                     "please select a title for the section, and the list of tabled documents");               
-        } else if (theMode == SelectorDialogModes.TEXT_SELECTED) {
+        } else if (theMode == SelectorDialogModes.TEXT_SELECTED_INSERT) {
             txtMessageArea.setText("You are attempting to markup some existing text" +
                     " as a Papers section, " +
                     "please select the text you would like to markup , and press apply" +
                     "to markup the selected text with the correct speech metadata");
+        } else if (theMode == SelectorDialogModes.TEXT_SELECTED_EDIT) {
+            
         }
     }
     

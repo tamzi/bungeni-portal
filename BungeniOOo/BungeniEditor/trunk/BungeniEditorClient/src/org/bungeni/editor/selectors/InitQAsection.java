@@ -57,7 +57,7 @@ public class InitQAsection extends selectorTemplatePanel {
                     "please enter the titular text for the section, and press apply to add a new  " +
                     "Question-Answer block to the document " +
                     "document");
-        } else if (theMode == SelectorDialogModes.TEXT_SELECTED) {
+        } else if (theMode == SelectorDialogModes.TEXT_SELECTED_INSERT) {
             txtMessageArea.setText("You are attempting to markup some existing text" +
                     " as a Question-Answer block, " +
                     "please select the questions  you would like to markup , and press apply" +
@@ -182,7 +182,7 @@ public class InitQAsection extends selectorTemplatePanel {
         }  
       }
    
-        if (this.theMode == SelectorDialogModes.TEXT_SELECTED) {
+        if (this.theMode == SelectorDialogModes.TEXT_SELECTED_INSERT) {
             //insert mode
             //check if section by that name exists, fail immediately if true
         

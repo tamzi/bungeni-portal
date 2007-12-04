@@ -153,7 +153,7 @@ public class InitSpeech extends selectorTemplatePanel {
              txt_URIofPerson.setEditable(false);
             txtMessageArea.setText("You are attempting to insert a new Speech, " +
                     "please select the person making the speech, and edit the name if neccessary");               
-        } else if (theMode == SelectorDialogModes.TEXT_SELECTED) {
+        } else if (theMode == SelectorDialogModes.TEXT_SELECTED_INSERT) {
             txt_SpeechBy.setEditable(false);
             txt_URIofPerson.setEditable(false);
             txtMessageArea.setText("You are attempting to markup some existing text" +
@@ -184,7 +184,7 @@ public class InitSpeech extends selectorTemplatePanel {
            
           
            
-        } else if (theMode == SelectorDialogModes.TEXT_SELECTED) {
+        } else if (theMode == SelectorDialogModes.TEXT_SELECTED_INSERT) {
             
         }
         

@@ -112,7 +112,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
             this.btnSelectQuestion.setVisible(false);
             txtMessageArea.setText("You are attempting to Edit metadata for a question");
             
-        } else if (theMode == SelectorDialogModes.TEXT_SELECTED) {
+        } else if (theMode == SelectorDialogModes.TEXT_SELECTED_INSERT) {
             txtAddressedTo.setEditable(false);
             lblNameOfPersonFrom.setVisible(false);
             txtPersonName.setVisible(false); //setEditable(false);
@@ -333,7 +333,8 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
         log.debug("In Current Mode = " + theMode);
         //if (URI == null) URI = "";
         if (selectionData.size() == 0 ) {
-            if ((theMode == SelectorDialogModes.TEXT_INSERTION)|| (theMode == SelectorDialogModes.TEXT_SELECTED)) {
+            if ((theMode == SelectorDialogModes.TEXT_INSERTION)|| (theMode == SelectorDialogModes.TEXT_SELECTED_INSERT)) {
+                
             MessageBox.OK(parent, "Please select a question first!");
              returnError(true);
             return;
@@ -345,7 +346,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
        // }
         
         try {
-        if (this.theMode == SelectorDialogModes.TEXT_SELECTED) {
+        if (this.theMode == SelectorDialogModes.TEXT_SELECTED_INSERT) {
             //insert mode
             log.debug("in selection mode");
             //check if section by that name exists, fail immediately if true

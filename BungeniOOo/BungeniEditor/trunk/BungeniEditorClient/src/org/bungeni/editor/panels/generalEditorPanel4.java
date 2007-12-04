@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
@@ -50,7 +51,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
   //  private DefaultMutableTreeNode[] visibleActionRoots;
     private JPopupMenu popupMenu;
     
-    private  enum PopupTypeIdentifier {CREATE_EDIT , APPLY_MARKUP, EDIT  };
+    private  enum PopupTypeIdentifier {CREATE_EDIT , APPLY_MARKUP, EDIT, SELECT_INSERT, SELECT_EDIT  };
  
     private HashMap<PopupTypeIdentifier, String> popupMap = new HashMap<PopupTypeIdentifier, String>();
     private String property_ActiveDocumentMode = "";
@@ -98,6 +99,8 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         popupMap.put(PopupTypeIdentifier.APPLY_MARKUP, "Apply Markup");
         popupMap.put(PopupTypeIdentifier.CREATE_EDIT, "Create Section");
         popupMap.put(PopupTypeIdentifier.EDIT, "Edit Section");
+        popupMap.put(PopupTypeIdentifier.SELECT_EDIT, "Edit Selection");
+        popupMap.put(PopupTypeIdentifier.SELECT_INSERT, "Markup Selection");
         
     }
     
@@ -281,14 +284,20 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         }
         
         public treePopupMenuAction (String actionText,  toolbarAction action, PopupTypeIdentifier id ) {
-            
             super(actionText);
             putValue("POPUP_IDENTIFIER", id);
             putValue("USER_OBJECT", action);
             treePopupMenuAction_popupType = id;
-            
-            
         }
+     
+        public treePopupMenuAction (String actionText,  toolbarSubAction action, PopupTypeIdentifier id ) {
+            super(actionText);
+            putValue("POPUP_IDENTIFIER", id);
+            putValue("USER_OBJECT", action);
+            treePopupMenuAction_popupType = id;
+        }
+     
+        
         
         public void actionPerformed(ActionEvent e) {
             //toolbarAction action = (toolbarAction) e.getSource();
@@ -298,6 +307,20 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                 log.debug("popup, actionPerforemd : "+ s);
                Object value = this.getValue("USER_OBJECT");
                Object popId = this.getValue("POPUP_IDENTIFIER");
+               if (value == null ) {
+                   log.debug("actionPerformed, popupmenu selection null value of object");
+                   return;
+               }
+               if (value.getClass() == org.bungeni.editor.actions.toolbarAction.class ) {
+                   toolbarAction action = (toolbarAction)value;
+                   PopupTypeIdentifier popType = (PopupTypeIdentifier) popId;
+                   processPopupSelection(action, popType);
+               } 
+               else if ( value.getClass() == org.bungeni.editor.actions.toolbarSubAction.class) {
+                   toolbarSubAction subAction = (toolbarSubAction) value;
+                   PopupTypeIdentifier popType= (PopupTypeIdentifier) popId;
+                   processPopupSelection(subAction, popType);
+               }
                if (value != null ) {
                    log.debug("popup, actionPerforemd : popupSelection");
                 
@@ -306,20 +329,67 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         }
 
         private SelectorDialogModes getDialogMode(){
-            if (!ooDocument.isTextSelected()) {
-                if ( treePopupMenuAction_popupType == PopupTypeIdentifier.CREATE_EDIT) {
+          //warning text_select mode needs to be handled...
+           if ( treePopupMenuAction_popupType == PopupTypeIdentifier.CREATE_EDIT) {
                     return SelectorDialogModes.TEXT_INSERTION;
-                }
-                if (treePopupMenuAction_popupType ==  PopupTypeIdentifier.EDIT){
+           }
+           if (treePopupMenuAction_popupType ==  PopupTypeIdentifier.EDIT){
                     return SelectorDialogModes.TEXT_EDIT;
-                }
-                
-                return SelectorDialogModes.NONE;
-                
-            } else {
-                return SelectorDialogModes.TEXT_SELECTED;
-            }
-        }     
+           }
+           if (treePopupMenuAction_popupType ==  PopupTypeIdentifier.SELECT_EDIT){
+                    return SelectorDialogModes.TEXT_SELECTED_EDIT;
+           }
+           if (treePopupMenuAction_popupType ==  PopupTypeIdentifier.SELECT_INSERT){
+                    return SelectorDialogModes.TEXT_SELECTED_INSERT;
+           }
+           return SelectorDialogModes.NONE;
+        }    
+        
+        private void processPopupSelection (toolbarAction action, PopupTypeIdentifier popId) {
+            //{CREATE_EDIT , APPLY_MARKUP, EDIT, SELECT_INSERT, SELECT_EDIT  };
+               if (popId == PopupTypeIdentifier.CREATE_EDIT) {
+                   // toolbarAction action =(toolbarAction)thisNode.getUserObject();
+                    /** commented for issue 108 ***
+                    if (!ooDocument.isTextSelected())
+                        action.setSelectorDialogMode(SelectorDialogModes.TEXT_INSERTION);
+                    else
+                        action.setSelectorDialogMode(SelectorDialogModes.TEXT_SELECTED);
+                     */
+                    action.setSelectorDialogMode(this.getDialogMode());
+                    IEditorActionEvent event = getEventClass(action);
+                    event.doCommand(ooDocument, action);
+              } else
+               if (popId == PopupTypeIdentifier.EDIT) {
+                    //look for existing masthead section 
+                    //if it exists popup the edit screen for it.
+                    //toolbarAction action =(toolbarAction)thisNode.getUserObject();
+                    //we look for sections matching this action type.
+                    action.setSelectorDialogMode(this.getDialogMode());
+                    IEditorActionEvent event = getEventClass(action);
+                    event.doCommand(ooDocument, action);
+               } else 
+              if (popId == PopupTypeIdentifier.APPLY_MARKUP) {
+                    action.setSelectorDialogMode(this.getDialogMode());
+                    IEditorActionEvent event = getEventClass(action);
+                    event.doCommand(ooDocument, action);
+              }
+        }
+        
+        private void processPopupSelection (toolbarSubAction action, PopupTypeIdentifier popId) {
+            if (popId == PopupTypeIdentifier.SELECT_EDIT){
+                action.setSelectorDialogMode(this.getDialogMode());
+                IEditorActionEvent event = getEventClass(action);
+                event.doCommand(ooDocument, action);
+            } else 
+             if (popId == PopupTypeIdentifier.SELECT_INSERT) {
+                action.setSelectorDialogMode(this.getDialogMode());
+                IEditorActionEvent event = getEventClass(action);
+                event.doCommand(ooDocument, action);
+             }
+        }
+        
+        
+        
         private void processPopupSelection(){
             //get selction path
               TreePath path = treeGeneralEditor.getSelectionPath();
@@ -380,6 +450,17 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         public void mouseClicked(MouseEvent evt) {
       
         }
+       
+       private void createPopupMenuItems(toolbarSubAction subAction) {
+           // throw new UnsupportedOperationException("Not yet implemented");
+            popupMenu.removeAll(); 
+            if (subAction.sub_action_order().equals("0"))  {
+                 popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.SELECT_INSERT), subAction, PopupTypeIdentifier.SELECT_INSERT));
+            } else {
+                 popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.SELECT_INSERT), subAction, PopupTypeIdentifier.SELECT_INSERT));
+                 popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.SELECT_EDIT) , subAction, PopupTypeIdentifier.SELECT_INSERT));              
+            }
+        } 
         
        private void createPopupMenuItems (toolbarAction baseNodeAction){
            //do not generate menu for top level actions 
@@ -398,61 +479,40 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                 popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.APPLY_MARKUP), baseNodeAction, PopupTypeIdentifier.APPLY_MARKUP));
             }
          }
-        public void mousePressed(MouseEvent evt) {
-                  int selRow = treeGeneralEditor.getRowForLocation(evt.getX(), evt.getY());
-                TreePath selPath = treeGeneralEditor.getPathForLocation(evt.getX(), evt.getY());
-                // TreePath selPath = treeGeneralEditor.getSelectionPath();
-                 //DefaultMutableTreeNode node = (DefaultMutableTreeNode) selPath.getLastPathComponent();
-                 if (selRow != -1 ) {
-                 //if (node != null ) {
-                     //double click only for toolbarSubAction type nodes
-                     if (evt.getClickCount() == 2) {
-                         DefaultMutableTreeNode node = (DefaultMutableTreeNode) selPath.getLastPathComponent();
-                         Object obj = node.getUserObject();
-                         toolbarSubAction subAction = null;
-                         if (obj.getClass() == org.bungeni.editor.actions.toolbarSubAction.class) {
-                           subAction = (toolbarSubAction) obj;
-                           if (subAction.sub_action_order().equals("0") ) {
-                               //this is a parent level selection action
-                               if (subAction.action_type().equals("section_create")) {
-                                   //section creation action
-                                    IEditorActionEvent event = getEventClass(subAction);
-                                    event.doCommand(ooDocument, subAction);
-                               } else {
-                                   //dialog display action section of the dialog
-                                    
-                               }
-                           }
-                         } 
-                         return;
-                     }
-                     //single click
-                     if (evt.getClickCount() == 1) {
-                         
-                         DefaultMutableTreeNode node = (DefaultMutableTreeNode) selPath.getLastPathComponent();
-                         Object obj = node.getUserObject();
-                         toolbarAction action = null ;
-                        // toolbarSubAction subAction = null;
-                         String selectionItem = null ;
-                         if (obj.getClass() == org.bungeni.editor.actions.toolbarSubAction.class) {
-                             // this is not a toolbarAction object
-                             //selectionItem = (String) obj;
-                          //   subAction = (toolbarSubAction) obj;
-                             log.debug("treeGeneralEditorMouseListener: doubleClick_Pressed , String class, so returning now");
-                             return;
-                         } 
-                         if (obj.getClass() == org.bungeni.editor.actions.toolbarAction.class) {
-                             action = (toolbarAction) obj;
-                         }
-                        //create toolbarAction menu icons
-                        if (!action.isTopLevelAction()) {
-                            createPopupMenuItems (action);
-                            popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
-                        }
-                      return;
-                     }  
+       
+       public void mousePressed(MouseEvent evt) {
+         
+                //we dont want to process right click
+                if (SwingUtilities.isRightMouseButton(evt)) {
+                    log.debug("mousePressed: Ignore right clicks");
+                    return;
+                }
                 
-                 }
+                int selRow = treeGeneralEditor.getRowForLocation(evt.getX(), evt.getY());
+                
+                TreePath selPath = treeGeneralEditor.getPathForLocation(evt.getX(), evt.getY());
+                if (selRow == -1 ) return ; //dont process invalid clicks on tree nodes
+                //get the tree node and filter on userObject() 
+                DefaultMutableTreeNode node = (DefaultMutableTreeNode) selPath.getLastPathComponent();
+                Object obj = node.getUserObject();
+                if (obj.getClass() == org.bungeni.editor.actions.toolbarSubAction.class ) {
+                         toolbarSubAction subAction = null;
+                           subAction = (toolbarSubAction) obj; 
+                           if (subAction != null ) {
+                               createPopupMenuItems(subAction);
+                               popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                           }
+                } else 
+                if (obj.getClass() == org.bungeni.editor.actions.toolbarAction.class ) {
+                        toolbarAction action = null;
+                        action = (toolbarAction) obj;
+                        if (action != null) {
+                            if (!action.isTopLevelAction()) {
+                                createPopupMenuItems (action);
+                                popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                            }
+                        }       
+                } 
         }
 
         public void mouseReleased(MouseEvent e) {
@@ -463,6 +523,8 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
 
         public void mouseExited(MouseEvent e) {
         }
+
+      
         
     }
 

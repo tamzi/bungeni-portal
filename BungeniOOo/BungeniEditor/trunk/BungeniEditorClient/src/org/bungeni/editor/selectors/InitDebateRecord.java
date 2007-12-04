@@ -56,10 +56,11 @@ import org.bungeni.utils.MessageBox;
  */
 public class InitDebateRecord extends selectorTemplatePanel {
    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(InitDebateRecord.class.getName());
-   private toolbarSubAction theSubAction;
+   private toolbarSubAction theSubAction = null;
    private ArrayList<String> enabledControls = new ArrayList<String>(); 
    private String m_strLogoPath; 
    private String m_strLogoFileName;
+   
     /** Creates new form InitDebateRecord */
     public InitDebateRecord() {
         initComponents();
@@ -157,7 +158,10 @@ public class InitDebateRecord extends selectorTemplatePanel {
         } else if (theMode == SelectorDialogModes.TEXT_INSERTION) {
             this.lbl_initdebate_selectlogo.setVisible(true);
             this.btn_initdebate_selectlogo.setVisible(true);
-        } else if (theMode == SelectorDialogModes.TEXT_SELECTED) {
+        } else if (theMode == SelectorDialogModes.TEXT_SELECTED_INSERT) {
+            
+            
+        } else if (theMode == SelectorDialogModes.TEXT_SELECTED_EDIT) {
             
             
         } else {
@@ -331,18 +335,28 @@ public class InitDebateRecord extends selectorTemplatePanel {
     //}
      
     //adding section
-   if (theAction.action_type().equals("section")) {
-       if (!routeSectionAction()) {
-           enableButtons(true);
-           return;
-       }
-   }
-   else if (theAction.action_type().equals("markup")) 
-       markupAction();
-    parent.dispose();
+    if (theSubAction == null ) {
+           if (theAction.action_type().equals("section")) {
+               if (!routeSectionAction()) {
+                   enableButtons(true);
+                   return;
+               }
+           }
+           else if (theAction.action_type().equals("markup")) 
+               markupAction();
+    } else {
+        processSelectionAction();
+    }
+    
+    
+     parent.dispose();
        
       
     }//GEN-LAST:event_btnApplyActionPerformed
+    
+    private void processSelectionAction() {
+        
+    }
     
     private boolean routeSectionAction () {
         if (theMode == SelectorDialogModes.TEXT_INSERTION) {

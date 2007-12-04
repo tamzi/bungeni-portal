@@ -31,6 +31,7 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
    private static org.apache.log4j.Logger log = Logger.getLogger(EditorSelectionActionHandler.class.getName());
    private OOComponentHelper ooDocument;
    private toolbarSubAction m_subAction;   
+   private toolbarAction m_parentAction;
    private BungeniClientDB instance;
     /** Creates a new instance of EditorSelectionActionHandler */
     public EditorSelectionActionHandler() {
@@ -44,6 +45,7 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
     }
 
     public void doCommand(OOComponentHelper ooDocument, toolbarSubAction action) {
+        //the modes available are either text_select_insert or edit
         this.ooDocument = ooDocument;
         this.m_subAction = action;
         int nValid = -1;
@@ -52,6 +54,7 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
             log.debug("EditorSelectionActionHandler : invalid action in this context");
             return;
         }
+        this.m_parentAction = getParentAction();
         routeAction();
     
     }
@@ -64,7 +67,8 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
 
     private void routeAction_Masthead(){
             if (m_subAction.sub_action_name().equals("selectlogo")) {
-                
+                parentCheck();
+                displayFilteredDialog();
             }
             if (m_subAction.sub_action_name().equals("section_creation")) {
                 //get the parent section name and create it over the selected text
@@ -84,11 +88,17 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
                 displayFilteredDialog();
             }
             if (m_subAction.sub_action_name().equals("debatetime_entry")) {
-                
+                displayFilteredDialog();
             }
-            if (m_subAction.sub_action_name().equals("selectlogo")) {
-                
-            }
+   
+    }
+   
+    private int parentCheck(){
+        if (!ooDocument.hasSection(m_parentAction.action_naming_convention())) {
+            log.debug("parentCheck: parent container does not exist");
+            return -1;
+        } 
+       return 1; 
     }
     
     private int validateAction(){
@@ -104,7 +114,9 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
     }
     
     private void displayFilteredDialog() {
-             toolbarAction parentAction = getParentAction();
+             try {
+             log.debug("displayFilteredDialog: subAction name = "+ this.m_subAction.sub_action_name());
+             // toolbarAction parentAction = getParentAction();
              
              JDialog initDebaterecord;
              initDebaterecord = new JDialog();
@@ -113,7 +125,7 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
              //initDebaterecord.setPreferredSize(new Dimension(420, 300));
             
              InitDebateRecord panel = new InitDebateRecord(ooDocument, 
-                     initDebaterecord, parentAction, m_subAction);
+                     initDebaterecord, m_parentAction, m_subAction);
              //panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
              //panel.setBackground(new Color(255, 255, 153));
              //initDebaterecord.setTitle("Selection Mode");
@@ -122,7 +134,10 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
              initDebaterecord.setLocationRelativeTo(null);
              initDebaterecord.setVisible(true);
              initDebaterecord.setAlwaysOnTop(true);   
-         
+             } catch (Exception ex) {
+                 log.error("displayFilteredDialog : " + ex.getMessage());
+                 log.error("displayFilteredDialog: stack trace : \n" + org.bungeni.utils.CommonExceptionUtils.getStackTrace(ex));
+             }
     }
     
     

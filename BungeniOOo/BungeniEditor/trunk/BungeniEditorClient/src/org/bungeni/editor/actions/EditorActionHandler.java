@@ -344,7 +344,7 @@ public class EditorActionHandler implements IEditorActionEvent {
              makeQASection.setSize(348, 314);
              
               if (ooDocument.isTextSelected()) {
-                panel.setDialogMode(SelectorDialogModes.TEXT_SELECTED);
+              //  panel.setDialogMode(SelectorDialogModes.TEXT_SELECTED);
                 //panel.setBackground(new Color(255, 255, 153));
                 //makeQASection.setTitle("Selection Mode");
               } else {
@@ -370,9 +370,9 @@ public class EditorActionHandler implements IEditorActionEvent {
              makePaperSection.setSize(348, 314);
              
               if (ooDocument.isTextSelected()) {
-                panel.setDialogMode(SelectorDialogModes.TEXT_SELECTED);
+                /*panel.setDialogMode(SelectorDialogModes.TEXT_SELECTED);
                 panel.setBackground(new Color(255, 255, 153));
-                makePaperSection.setTitle("Selection Mode");
+                makePaperSection.setTitle("Selection Mode");*/
               } else {
                 panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
                 panel.setBackground(new Color(204, 255, 153));

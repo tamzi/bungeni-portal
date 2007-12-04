@@ -1669,9 +1669,11 @@ private void displayUserMetadata(XTextRange xRange) {
         listboxMetadata = new javax.swing.JList();
         panelMarkup = new javax.swing.JPanel();
         panelHistory = new javax.swing.JPanel();
-        tblDocHistory = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
+        jLabel2 = new javax.swing.JLabel();
+        jComboBox2 = new javax.swing.JComboBox();
+        jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         panelNotes = new javax.swing.JPanel();
         scroll_panelNotes = new javax.swing.JScrollPane();
@@ -1904,27 +1906,18 @@ private void displayUserMetadata(XTextRange xRange) {
         );
         jTabsContainer.addTab("Markup", panelMarkup);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tblDocHistory.setViewportView(jTable1);
+        jLabel3.setText("Transform Document");
 
-        jLabel3.setText("Document Workflow History");
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AkomaNtoso XML", "XHTML - eXtensible HTML", "Marginalia-safe HTML export", "Portable Document Format (PDF)" }));
 
-        jButton1.setText("Test");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        jLabel2.setText("Transformation Target");
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Export to Server", "Export to File-System path" }));
+
+        jLabel5.setText("Export To:");
+
+        jButton1.setText("Transform...");
+        jButton1.setEnabled(false);
 
         org.jdesktop.layout.GroupLayout panelHistoryLayout = new org.jdesktop.layout.GroupLayout(panelHistory);
         panelHistory.setLayout(panelHistoryLayout);
@@ -1934,26 +1927,35 @@ private void displayUserMetadata(XTextRange xRange) {
                 .add(panelHistoryLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(panelHistoryLayout.createSequentialGroup()
                         .addContainerGap()
-                        .add(panelHistoryLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(tblDocHistory, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 197, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(jLabel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 142, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(panelHistoryLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                            .add(jComboBox1, 0, 209, Short.MAX_VALUE)
+                            .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(jLabel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
+                            .add(jLabel5)
+                            .add(jComboBox2, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .add(panelHistoryLayout.createSequentialGroup()
-                        .add(66, 66, 66)
+                        .add(53, 53, 53)
                         .add(jButton1)))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
         panelHistoryLayout.setVerticalGroup(
             panelHistoryLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelHistoryLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(jLabel3)
-                .add(10, 10, 10)
-                .add(tblDocHistory, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 92, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(19, 19, 19)
+                .add(8, 8, 8)
+                .add(jLabel2)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jLabel5)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jComboBox2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(23, 23, 23)
                 .add(jButton1)
                 .addContainerGap(142, Short.MAX_VALUE))
         );
-        jTabsContainer.addTab("Doc. History", panelHistory);
+        jTabsContainer.addTab("Transform", panelHistory);
 
         listboxEditorNotes.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -2087,11 +2089,6 @@ private void displayUserMetadata(XTextRange xRange) {
                     .add(toggleEditSection)))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-// TODO add your handling code here:
-        this.initSectionsArray();
-    }//GEN-LAST:event_jButton1ActionPerformed
 
  
     
@@ -2555,13 +2552,16 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JLabel editStringLbl;
     private javax.swing.JTextField editStringTxt;
     private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTabbedPane jTabsContainer;
     private javax.swing.JTree jTree1;
     private javax.swing.JTree jTree2;
@@ -2586,7 +2586,6 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JScrollPane scrollPane_treeDocStructure;
     private javax.swing.JScrollPane scroll_panelNotes;
     private javax.swing.JTable tableDocMetadata;
-    private javax.swing.JScrollPane tblDocHistory;
     private javax.swing.JCheckBox toggleEditSection;
     private javax.swing.JList treeDocStructure;
     private javax.swing.JTextArea txtEditorNote;

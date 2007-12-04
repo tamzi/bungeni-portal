@@ -42,9 +42,13 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         Color background;
         String windowTitle = "";
         dlgBackgrounds(SelectorDialogModes mode) {
-            if (mode == SelectorDialogModes.TEXT_SELECTED) {
+            if (mode == SelectorDialogModes.TEXT_SELECTED_INSERT) {
                   background = new Color(255, 255, 153);
-                  windowTitle = "Selection Mode";
+                  windowTitle = "Selection Mode Insert";
+              } else 
+            if (mode == SelectorDialogModes.TEXT_SELECTED_EDIT) {
+                  background = new Color(255, 255, 153);
+                  windowTitle = "Selection Mode Edit";
               } else 
             if (mode == SelectorDialogModes.TEXT_INSERTION){
                   background = new Color(204, 255, 153);

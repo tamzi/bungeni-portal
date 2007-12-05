@@ -16,6 +16,7 @@ import java.util.HashMap;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
+import javax.swing.JScrollPane;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.BungeniRegistryFactory;
 import org.bungeni.db.DefaultInstanceFactory;
@@ -37,6 +38,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     protected HashMap<String,String> theSerializationMap = new HashMap<String,String>();
     protected HashMap<String,String> theMetadataMap = new HashMap<String,String>();
     protected HashMap<String,Component> theControlMap = new HashMap<String,Component>();
+    protected HashMap<String, Object> theControlDataMap = new HashMap<String, Object>();
     protected String windowTitle;
     class dlgBackgrounds {
         Color background;
@@ -161,6 +163,11 @@ public class selectorTemplatePanel extends javax.swing.JPanel
               JPanel nestedJPanel = (JPanel)component;
               getComponentsWithNames(nestedJPanel);
             }
+           
+           if (component instanceof JScrollPane) {
+               JScrollPane nestedJScroller = (JScrollPane) component;
+               getComponentsWithNames(nestedJScroller.getViewport());
+           }
    
         }
         

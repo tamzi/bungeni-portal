@@ -25,7 +25,10 @@ public  class MessageBox extends Object {
     public static void OK(Component parent, String msg){
         JOptionPane.showMessageDialog(parent, msg);
     }
-  
+
+    public static void OK(Component parent, Object[] msgs) {
+        JOptionPane.showMessageDialog(parent, msgs);
+    }
     public static void OK(String msg){
         JOptionPane.showMessageDialog(null, msg);
     }

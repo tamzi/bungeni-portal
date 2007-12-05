@@ -13,11 +13,11 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="lbl_initdebate_setpath" pref="279" max="32767" attributes="0"/>
+                      <Component id="txt_initdebate_selectlogo" pref="279" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Component id="lbl_initdebate_hansarddate" alignment="0" pref="289" max="32767" attributes="1"/>
@@ -60,8 +60,8 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btn_initdebate_selectlogo" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="lbl_initdebate_setpath" pref="14" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Component id="txt_initdebate_selectlogo" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnApply" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -122,11 +122,15 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="lbl_initdebate_setpath">
-    </Component>
     <Component class="javax.swing.JSpinner" name="dt_initdebate_timeofhansard">
       <Properties>
         <Property name="name" type="java.lang.String" value="dt_initdebate_hansardtime"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txt_initdebate_selectlogo">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+        <Property name="name" type="java.lang.String" value="txt_initdebate_selectlogo"/>
       </Properties>
     </Component>
   </SubComponents>

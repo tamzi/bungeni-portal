@@ -10,6 +10,7 @@ import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextViewCursor;
+import java.awt.Component;
 import java.awt.Container;
 import java.io.File;
 import java.text.DateFormat;
@@ -22,12 +23,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import javax.swing.InputVerifier;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
+import javax.swing.JList;
 import javax.swing.JRootPane;
 import javax.swing.JSpinner;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.text.DateFormatter;
@@ -45,6 +49,7 @@ import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooDocMetadata;
 import org.bungeni.utils.MessageBox;
+import org.jdesktop.swingx.JXDatePicker;
 
 /**
  *
@@ -76,7 +81,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
     
     }
     
-  
+        //invoked only for selection mode
       public InitDebateRecord(OOComponentHelper ooDocument, 
             JDialog parentDlg, 
             toolbarAction theAction, toolbarSubAction subAction) {
@@ -88,10 +93,13 @@ public class InitDebateRecord extends selectorTemplatePanel {
          selectionControlModes();
       }
     
+      private ArrayList<String> getEnabledControls() {
+          return this.enabledControls;
+      }
       String[] controls_ignore_list = {"btn_apply", "btn_cancel" };
       public void selectionControlModes() {
         //set selection mode control modes
-         getEnabledControls();
+         getEnabledControlList();
          if (theControlMap.keySet().size() > 0 ) {
              Iterator<String> iterCtlNames = theControlMap.keySet().iterator();
              while (iterCtlNames.hasNext()) {
@@ -108,7 +116,8 @@ public class InitDebateRecord extends selectorTemplatePanel {
          }
       }
       
-      private void getEnabledControls() {
+    
+      private void getEnabledControlList() {
          String actionFields = theSubAction.action_fields().trim();
          if (actionFields.indexOf(";") != -1) {
             String[] enabledFields =  actionFields.split(";");
@@ -204,8 +213,8 @@ public class InitDebateRecord extends selectorTemplatePanel {
         lbl_initdebate_timeofhansard = new javax.swing.JLabel();
         btnApply = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
-        lbl_initdebate_setpath = new javax.swing.JLabel();
         dt_initdebate_timeofhansard = new javax.swing.JSpinner();
+        txt_initdebate_selectlogo = new javax.swing.JTextField();
 
         dt_initdebate_hansarddate.setName("dt_initdebate_hansarddate");
 
@@ -244,6 +253,9 @@ public class InitDebateRecord extends selectorTemplatePanel {
 
         dt_initdebate_timeofhansard.setName("dt_initdebate_hansardtime");
 
+        txt_initdebate_selectlogo.setEditable(false);
+        txt_initdebate_selectlogo.setName("txt_initdebate_selectlogo");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -252,7 +264,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
-                        .add(lbl_initdebate_setpath, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
+                        .add(txt_initdebate_selectlogo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
                         .addContainerGap())
                     .add(lbl_initdebate_hansarddate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
@@ -287,8 +299,8 @@ public class InitDebateRecord extends selectorTemplatePanel {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btn_initdebate_selectlogo)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(lbl_initdebate_setpath, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 14, Short.MAX_VALUE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(txt_initdebate_selectlogo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnApply)
                     .add(btnCancel))
@@ -313,10 +325,213 @@ public class InitDebateRecord extends selectorTemplatePanel {
         }
     return true;
     }
+   
+    //move to base class implementation
+    ArrayList<String> checkFieldsMessages = new ArrayList<String>(0);
+    private boolean checkFields() {
+        boolean fieldCheck = true;
+        Iterator<String> enabledFields = enabledControls.iterator();
+        while (enabledFields.hasNext()) {
+            String fieldName = enabledFields.next();
+            boolean tmpCheck = checkField(fieldName);
+            //if any of the fields fails the checks, record it as a global failure
+            if (tmpCheck == false) fieldCheck = false;
+        }
+        return fieldCheck;
+    }
+    //move to base class implementation
+    private boolean checkField (String fieldName) {
+        Component componentField = theControlMap.get(fieldName);
+        if (isValidationRequired(componentField)) {
+            Object fieldValue =  getFieldValue(componentField);
+            if (fieldValue == null ) {
+                checkFieldsMessages.add("Field :"+ fieldName+ " cannot be blank!");
+                return false;
+            }
+            boolean validationCheck = validateFieldValue(componentField, fieldValue);
+            return validationCheck;
+        } else 
+            return true;
+    }
+    
+    //this function needs to be an overriden function
+    private boolean validateFieldValue(Component field, Object fieldValue ) {
+        String formFieldName = field.getName();
+        boolean bFailure=false;
+        //routes to appropriate field validator...
+        if (formFieldName.equals("dt_initdebate_hansarddate")) {
+            bFailure = validateHansardDate("dt_initdebate_hansarddate", fieldValue);
+        } else if (formFieldName.equals("dt_initdebate_timeofhansard")) {
+            bFailure = validateHansardTime("dt_initdebate_timeofhansard", fieldValue);
+        } else if (formFieldName.equals("txt_initdebate_selectlogo")) {
+            bFailure = validateLogo("txt_initdebate_selectlogo", fieldValue);
+        }  else {
+            log.debug("no validator found for field: "+ field.getName()+ " , returning true");
+            return true;
+        }
+        return bFailure;
+    }
+    
+   //needs to be in current class
+    private boolean validateHansardDate(String controlName, Object fieldValue) {
+        boolean bState = false;
+        try {
+            Date hansardDate = (Date) fieldValue;
+            SimpleDateFormat formatter = new SimpleDateFormat ("MMMM dd yyyy");
+            String strDebateDate = formatter.format(hansardDate);
+            theControlDataMap.put(controlName, strDebateDate);
+            bState = true;
+        } catch (Exception ex) {
+            log.error("validateHansardDate: error : " + ex.getMessage());
+            this.checkFieldsMessages.add(ex.getLocalizedMessage());
+            bState=false;
+        } finally {
+        return bState;
+        }
+    }
+    
+    private boolean validateHansardTime(String controlName, Object fieldValue) {
+        boolean bState = false;
+        try {
+            Date hansardTime = (Date) fieldValue;
+            SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+            String strTimeOfHansard = df.format(hansardTime);
+            theControlDataMap.put(controlName, strTimeOfHansard);
+            bState = true;
+        } catch (Exception ex) {
+           log.error("validateHansardTime: error : " + ex.getMessage());
+            this.checkFieldsMessages.add(ex.getLocalizedMessage());
+            bState=false;
+        } finally {
+             return bState;
+        }
+    }
+    
+    private boolean validateLogo(String controlName, Object fieldValue ) {
+        boolean bState= false;
+        try{
+           String logoFieldValue = (String) fieldValue;
+           if (logoFieldValue.length() == 0 ) {
+               checkFieldsMessages.add("You must select a logo !");
+               bState = false;
+           }
+           
+          theControlDataMap.put(controlName, m_strLogoPath);
+           bState = true;        
+        } catch (Exception ex) {
+           log.error("validateLogo: error : " + ex.getMessage());
+            this.checkFieldsMessages.add(ex.getLocalizedMessage());
+            bState=false;
+        } finally {
+            return bState;
+        }
+    }
+    
+    ///move to base class
+    private Object getFieldValue (Component field) {
+        if (field.getClass() == org.jdesktop.swingx.JXDatePicker.class ){
+           JXDatePicker dateField = (JXDatePicker)field;
+           Date fieldValue = dateField.getDate();
+           return fieldValue;
+        } else if (field.getClass() == javax.swing.JTextField.class) {
+            JTextField textField = (JTextField) field;
+            String fieldValue = textField.getText();
+            return fieldValue ;
+        } else if (field.getClass() == javax.swing.JList.class) {
+            JList listField = (JList) field;
+            Object fieldValue = listField.getSelectedValue();
+            return fieldValue;
+        } else if (field.getClass() == javax.swing.JComboBox.class)  {
+            JComboBox comboField = (JComboBox) field;
+            Object fieldValue = comboField.getSelectedItem();
+            return fieldValue;
+        } else if (field.getClass() == javax.swing.JTextArea.class) {
+            JTextArea textareaField = (JTextArea) field;
+            Object fieldValue = textareaField.getText();
+            return fieldValue;
+        } else if (field.getClass() == javax.swing.JSpinner.class ) {
+            JSpinner spinnerField = (JSpinner) field;
+            Object fieldValue = spinnerField.getValue();
+            return fieldValue;
+        } else {
+            log.debug("getFieldValue: "+ field.getClass().getName()+ " field type not supported!");
+            return null;
+        }
+        
+    }
+    
+    //move to base class
+    private boolean isValidationRequired(Component c) {
+        //add additional field types if required...
+        if (c.getClass() == org.jdesktop.swingx.JXDatePicker.class ){
+            return true;
+        } else if (c.getClass() == javax.swing.JTextField.class) {
+            return true;
+        } else if (c.getClass() == javax.swing.JList.class) {
+            return true;
+        } else if (c.getClass() == javax.swing.JComboBox.class)  {
+            return true;
+        } else if (c.getClass() == javax.swing.JTextArea.class) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    
+    private void applySelectEdit() {
+       //this is selection mode
+        //toolbarSubAction object is valid here.
+        //get list of fields to check then send them to check fields for interrogation
+        
+        //
+        
+    }
+    
+    //move to base
+    private void applySelectInsert() {
+        //first validate fields
+        if (checkFields() == false) {
+            if (!checkFieldsMessages.isEmpty()) {
+                MessageBox.OK(this, checkFieldsMessages.toArray() );   
+                return;
+            }
+        }
+        
+        
+    }
+    
+    //move to base...
+    private void applyFullEdit() {
+        
+    }
+    
+    //move to base...
+    private void applyFullInsert() {
+        
+    }
+    //over ride btnApply....by calling  a base class function to override functionality...
     
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
 // TODO add your handling code here:
         //get field values : 
+    switch (getDialogMode()) {
+        case TEXT_SELECTED_EDIT :
+            applySelectEdit();
+            break;
+        case TEXT_SELECTED_INSERT :
+            applySelectInsert();
+            break;
+        case TEXT_EDIT:
+            applyFullEdit();
+            break;
+        case TEXT_INSERTION:
+            applyFullInsert();
+            break;
+        default:
+            break;
+    }
+  
     enableButtons(false);    
     //validate fields
     Date dtDebateDate = this.dt_initdebate_hansarddate.getDate();
@@ -484,7 +699,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
             File file = chooser.getSelectedFile();
             m_strLogoFileName = file.getName();
             m_strLogoPath = file.getAbsolutePath();
-            lbl_initdebate_setpath.setText(m_strLogoFileName);
+            txt_initdebate_selectlogo.setText(m_strLogoFileName);
             //This is where a real application would open the file.
             log.debug("Opening: " + file.getName() + "." + "\n");
         } else {
@@ -508,8 +723,8 @@ public class InitDebateRecord extends selectorTemplatePanel {
     private javax.swing.JSpinner dt_initdebate_timeofhansard;
     private javax.swing.JLabel lbl_initdebate_hansarddate;
     private javax.swing.JLabel lbl_initdebate_selectlogo;
-    private javax.swing.JLabel lbl_initdebate_setpath;
     private javax.swing.JLabel lbl_initdebate_timeofhansard;
+    private javax.swing.JTextField txt_initdebate_selectlogo;
     // End of variables declaration//GEN-END:variables
   
    public class DateVerifier extends InputVerifier {

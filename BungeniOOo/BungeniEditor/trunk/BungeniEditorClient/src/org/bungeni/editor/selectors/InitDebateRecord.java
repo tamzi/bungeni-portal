@@ -80,7 +80,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
         init();       // initdebate_timeofhansard.setFormatterFactory(new DefaultFormatterFactory(dfTimeOfHansard));
         setControlModes();
         setControlData();
-    
+         log.debug("calling constructor : initDebateRecord, mode = " + getDialogMode());
     }
     
         //invoked only for selection mode
@@ -91,7 +91,8 @@ public class InitDebateRecord extends selectorTemplatePanel {
          init();
          setControlModes();
          setControlData();
-         selectionControlModes();
+         //selectionControlModes();
+         log.debug("calling constructor : initDebateRecord, mode = " + getDialogMode());
       }
     
  
@@ -99,14 +100,15 @@ public class InitDebateRecord extends selectorTemplatePanel {
      
       
     //override parent, call the parent api using super.
-      protected void getEnabledControlList() {
-          super.getEnabledControlList();  
+      /*
+      protected void getEnabledControlList_TextInsertion() {
+          super.getEnabledControlList_TextInsertion();  
          //add elements from ignore list
          for (int i=0; i < this.controls_ignore_list.length ; i++ ) {
              getEnabledControls().add(controls_ignore_list[i]);
          }
       }
-      
+      */
   
       
       public void init(){
@@ -127,7 +129,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
       }
       
      
-      
+      /*
     public void setControlModes() {
         if (theMode == SelectorDialogModes.TEXT_EDIT) {
             this.lbl_initdebate_selectlogo.setVisible(false);
@@ -146,7 +148,8 @@ public class InitDebateRecord extends selectorTemplatePanel {
             this.btn_initdebate_selectlogo.setVisible(true);
         }
     }
-    
+    */
+      
     public void setControlData() {
         try {
         //only in edit mode, only if the metadata properties exist
@@ -444,7 +447,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
            
            // m_containerSection = parentSection;
            // m_newSectionName = newSectionName;
-            boolean bState = this.action_addSectionIntoSectionwithStyling(ooDocument.getComponent(),
+            boolean bState = this.action_addSectionIntoSectionwithStyling(ooDocument,
                                                                         parentSection,
                                                                         newSectionName,
                                                                         sectionBackColor, 
@@ -505,7 +508,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
     protected boolean processFullEdit() {
         boolean bprocessFull = false;
         try {
-            boolean bSetDate = this.action_setInputFieldValue(ooDocument.getComponent(), 
+            boolean bSetDate = this.action_setInputFieldValue(ooDocument, 
                                                                "debaterecord_official_date",
                                                                 (String) theControlDataMap.get("dt_initdebate_hansarddate"),
                                                                 (String) theControlDataMap.get("datetime_container_section"));
@@ -520,7 +523,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
           setFieldValue.addParameter(strDebateDate);
           setFieldValue.addParameter(new String("int:masthead_datetime"));
           */
-          bSetDate = this.action_setInputFieldValue(ooDocument.getComponent(), 
+          bSetDate = this.action_setInputFieldValue(ooDocument, 
                                                                "debaterecord_official_time",
                                                                 (String) theControlDataMap.get("dt_initdebate_timeofhansard"),
                                                                 (String) theControlDataMap.get("datetime_container_section"));
@@ -566,7 +569,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
     protected boolean processFullInsert(){
             //set metadata for section
         //embed logo image
-            boolean bAddImage = action_addImageIntoSection(ooDocument.getComponent(), 
+            boolean bAddImage = action_addImageIntoSection(ooDocument, 
                     (String) thePreInsertMap.get("current_section"), 
                     (String) theControlDataMap.get("txt_initdebate_selectlogo") );
             if (bAddImage == false) {
@@ -575,7 +578,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
                 return false;
             } 
             
-            boolean bAddDocintoSection = action_addDocIntoSection(ooDocument.getComponent(), 
+            boolean bAddDocintoSection = action_addDocIntoSection(ooDocument, 
                     (String) thePreInsertMap.get("current_section"),
                     FragmentsFactory.getFragment("hansard_masthead"));
             if (bAddImage == false) {
@@ -584,7 +587,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
                 return false;
             } 
         
-            boolean bSetFieldValue =  action_setInputFieldValue(ooDocument.getComponent(),
+            boolean bSetFieldValue =  action_setInputFieldValue(ooDocument,
                                     new String("debaterecord_official_date"),
                                     (String) theControlDataMap.get("dt_initdebate_hansarddate"), 
                                     new String("int:masthead_datetime"));
@@ -595,7 +598,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
                 return false;
             } 
             
-            bSetFieldValue =  action_setInputFieldValue(ooDocument.getComponent(),
+            bSetFieldValue =  action_setInputFieldValue(ooDocument,
                                     new String("debaterecord_official_time"),
                                     (String) theControlDataMap.get("dt_initdebate_timeofhansard"), 
                                     new String("int:masthead_datetime"));
@@ -638,15 +641,16 @@ public class InitDebateRecord extends selectorTemplatePanel {
         return true;
     }
  
-       private boolean action_addSectionIntoSectionwithStyling(XComponent docComponent, String parentSection, String newSectionName, long sectionBackColor, float sectionLeftMargin) {
+       private boolean action_addSectionIntoSectionwithStyling(OOComponentHelper ooDoc, String parentSection, String newSectionName, long sectionBackColor, float sectionLeftMargin) {
         boolean bState = false; 
         try {
             ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
-            AddSectionInsideSection.addParameter(docComponent);
+            AddSectionInsideSection.addParameter(ooDoc.getComponent());
             AddSectionInsideSection.addParameter(parentSection);
             AddSectionInsideSection.addParameter(newSectionName);
             AddSectionInsideSection.addParameter(sectionBackColor);
             AddSectionInsideSection.addParameter(sectionLeftMargin);
+            ooDoc.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
              bState= true;
         } catch (Exception ex) {
             log.error("action_addSectionIntoSectionwithStyling: error : " + ex.getMessage());
@@ -657,14 +661,15 @@ public class InitDebateRecord extends selectorTemplatePanel {
          }
     }
     
-    private boolean action_addImageIntoSection(XComponent docComponent, String intoSection, String logoPath) {
+    private boolean action_addImageIntoSection(OOComponentHelper ooDoc, String intoSection, String logoPath) {
         boolean bState = false; 
         try {
+            log.debug("executing addImageIntoSection : intoSection = "+ intoSection + " , logoPath = "+logoPath);
              ExternalMacro addImageIntoSection = ExternalMacroFactory.getMacroDefinition("AddImageIntoSection");
-             addImageIntoSection.addParameter(docComponent);
+             addImageIntoSection.addParameter(ooDoc.getComponent());
              addImageIntoSection.addParameter(intoSection);
              addImageIntoSection.addParameter(logoPath);
-             ooDocument.executeMacro(addImageIntoSection.toString(), addImageIntoSection.getParams());
+             ooDoc.executeMacro(addImageIntoSection.toString(), addImageIntoSection.getParams());
              bState= true;
         } catch (Exception ex) {
             log.error("action_addImageIntoSection: error : " + ex.getMessage());
@@ -676,14 +681,14 @@ public class InitDebateRecord extends selectorTemplatePanel {
     }
     
     
-    private boolean action_addDocIntoSection(XComponent docComponent, String intoSection, String fragmentName) {
+    private boolean action_addDocIntoSection(OOComponentHelper ooDoc, String intoSection, String fragmentName) {
         boolean bState = false; 
        try {
             ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
-            insertDocIntoSection.addParameter(docComponent);
+            insertDocIntoSection.addParameter(ooDoc.getComponent());
             insertDocIntoSection.addParameter(intoSection)  ;
             insertDocIntoSection.addParameter(fragmentName);
-            ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
+            ooDoc.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
             bState= true;
         } catch (Exception ex) {
             log.error("action_addImageIntoSection: error : " + ex.getMessage());
@@ -694,15 +699,15 @@ public class InitDebateRecord extends selectorTemplatePanel {
          }
     }
     
-    private boolean action_setInputFieldValue(XComponent docComponent, String hintName, String strDebateDate, String unprotectSection) {
+    private boolean action_setInputFieldValue(OOComponentHelper ooDoc, String hintName, String strDebateDate, String unprotectSection) {
         boolean bState = false; 
        try {
            ExternalMacro setFieldValue = ExternalMacroFactory.getMacroDefinition("SetReferenceInputFieldValue");
-            setFieldValue.addParameter(docComponent);
+            setFieldValue.addParameter(ooDoc.getComponent());
             setFieldValue.addParameter(hintName);
             setFieldValue.addParameter(strDebateDate);
             setFieldValue.addParameter(unprotectSection);
-            ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());
+            ooDoc.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());
             bState= true;
         } catch (Exception ex) {
             log.error("action_addImageIntoSection: error : " + ex.getMessage());

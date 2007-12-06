@@ -23,9 +23,10 @@ public class CommonPropertyFunctions {
     
     public static String getDocumentRootSection(){
         String documentMode = BungeniEditorProperties.getEditorProperty("activeDocumentMode");
-        String queryNameofRoot = "root:"+documentMode;
-        queryNameofRoot = documentMode.trim();
-        return queryNameofRoot;
+        String queryNameofRoot = "root:"+documentMode.trim();
+       // queryNameofRoot = documentMode.trim();
+        String rootName = BungeniEditorProperties.getEditorProperty(queryNameofRoot);
+        return rootName;
     }
     
 }

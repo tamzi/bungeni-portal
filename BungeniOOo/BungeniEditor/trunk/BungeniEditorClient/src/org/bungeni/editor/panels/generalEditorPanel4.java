@@ -323,8 +323,6 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                }
                if (value != null ) {
                    log.debug("popup, actionPerforemd : popupSelection");
-                
-                   processPopupSelection();
                }
         }
 

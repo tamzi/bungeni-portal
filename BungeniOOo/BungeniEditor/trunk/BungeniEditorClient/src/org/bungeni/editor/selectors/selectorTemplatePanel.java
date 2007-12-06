@@ -302,7 +302,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         }
     }
 
- public void selectionControlModes() {
+ public void setControlModes() {
         //set selection mode control modes
          getEnabledControlList();
          if (theControlMap.keySet().size() > 0 ) {
@@ -322,16 +322,18 @@ public class selectorTemplatePanel extends javax.swing.JPanel
       }    
 
  protected void getEnabledControlList() {
-         String actionFields = theSubAction.action_fields().trim();
-         if (actionFields.indexOf(";") != -1) {
-            String[] enabledFields =  actionFields.split(";");
-            for (int i=0; i < enabledFields.length; i++ ) {
-                enabledControlNameFromAction(enabledFields[i]);
-            }
-         } else {
-            enabledControlNameFromAction(actionFields);
-         }
-         //add elements from ignore list
+        switch (getDialogMode() ) {
+            case TEXT_INSERTION:
+            case TEXT_EDIT :
+                getEnabledControlList_TextInsertion();
+                break;
+            case TEXT_SELECTED_EDIT:
+            case TEXT_SELECTED_INSERT:
+                getEnabledControlList_TextSelection();
+                break;
+                
+        }
+             //add elements from ignore list
          /*
          for (int i=0; i < this.controls_ignore_list.length ; i++ ) {
              enabledControls.add(controls_ignore_list[i]);
@@ -339,6 +341,28 @@ public class selectorTemplatePanel extends javax.swing.JPanel
           */
       } 
      
+    protected void getEnabledControlList_TextInsertion() {
+            //default is to enable all controls in text insertion
+            Iterator<String> controlNames = theControlMap.keySet().iterator();
+            while(controlNames.hasNext()) {
+                String controlName = controlNames.next();
+                enabledControls.add(controlName);
+            }
+    }
+    
+    protected void getEnabledControlList_TextSelection() {
+            //default in selection mode is to enabled controls listed in actions
+             String actionFields = theSubAction.action_fields().trim();
+             if (actionFields.indexOf(";") != -1) {
+                String[] enabledFields =  actionFields.split(";");
+                for (int i=0; i < enabledFields.length; i++ ) {
+                    enabledControlNameFromAction(enabledFields[i]);
+                }
+             } else {
+                enabledControlNameFromAction(actionFields);
+             }
+    }
+    
     private void enabledControlNameFromAction (String actionField) {
                  String[] control_and_name = actionField.split(":");
                  String controlName = control_and_name[0].trim()+"_"+control_and_name[1].trim();

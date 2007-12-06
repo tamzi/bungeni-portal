@@ -6,6 +6,7 @@
 
 package org.bungeni.editor.selectors;
 
+import com.sun.star.lang.XComponent;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextCursor;
@@ -39,6 +40,8 @@ import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.DefaultInstanceFactory;
+import org.bungeni.db.QueryResults;
+import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.actions.toolbarSubAction;
@@ -48,6 +51,7 @@ import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooDocMetadata;
+import org.bungeni.utils.CommonPropertyFunctions;
 import org.bungeni.utils.MessageBox;
 import org.jdesktop.swingx.JXDatePicker;
 
@@ -61,8 +65,6 @@ import org.jdesktop.swingx.JXDatePicker;
  */
 public class InitDebateRecord extends selectorTemplatePanel {
    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(InitDebateRecord.class.getName());
-   private toolbarSubAction theSubAction = null;
-   private ArrayList<String> enabledControls = new ArrayList<String>(); 
    private String m_strLogoPath; 
    private String m_strLogoFileName;
    
@@ -85,61 +87,27 @@ public class InitDebateRecord extends selectorTemplatePanel {
       public InitDebateRecord(OOComponentHelper ooDocument, 
             JDialog parentDlg, 
             toolbarAction theAction, toolbarSubAction subAction) {
-         super(ooDocument, parentDlg, theAction);
-         this.theSubAction = subAction;
+         super(ooDocument, parentDlg, theAction, subAction);
          init();
          setControlModes();
          setControlData();
          selectionControlModes();
       }
     
-      private ArrayList<String> getEnabledControls() {
-          return this.enabledControls;
-      }
+ 
       String[] controls_ignore_list = {"btn_apply", "btn_cancel" };
-      public void selectionControlModes() {
-        //set selection mode control modes
-         getEnabledControlList();
-         if (theControlMap.keySet().size() > 0 ) {
-             Iterator<String> iterCtlNames = theControlMap.keySet().iterator();
-             while (iterCtlNames.hasNext()) {
-                 String controlname =   iterCtlNames.next();
-                 if (!enabledControls.contains(controlname)) {
-                     //disable all these controls
-                     if (theControlMap.containsKey(controlname)) {
-                         theControlMap.get(controlname).setVisible(false);
-                     }
-                 }
-             }
-         } else {
-             log.debug("selectionControlModes: no controls with names were found");
-         }
-      }
+     
       
-    
-      private void getEnabledControlList() {
-         String actionFields = theSubAction.action_fields().trim();
-         if (actionFields.indexOf(";") != -1) {
-            String[] enabledFields =  actionFields.split(";");
-            for (int i=0; i < enabledFields.length; i++ ) {
-                enabledControlNameFromAction(enabledFields[i]);
-            }
-         } else {
-            enabledControlNameFromAction(actionFields);
-         }
+    //override parent, call the parent api using super.
+      protected void getEnabledControlList() {
+          super.getEnabledControlList();  
          //add elements from ignore list
          for (int i=0; i < this.controls_ignore_list.length ; i++ ) {
-             this.enabledControls.add(controls_ignore_list[i]);
+             getEnabledControls().add(controls_ignore_list[i]);
          }
       }
       
-      private void enabledControlNameFromAction (String actionField) {
-                 String[] control_and_name = actionField.split(":");
-                 String controlName = control_and_name[0].trim()+"_"+control_and_name[1].trim();
-                 this.enabledControls.add(controlName);
-                 String labelName = "lbl_" + control_and_name[1];
-                 this.enabledControls.add(labelName);
-      }
+  
       
       public void init(){
           
@@ -326,36 +294,16 @@ public class InitDebateRecord extends selectorTemplatePanel {
     return true;
     }
    
-    //move to base class implementation
-    ArrayList<String> checkFieldsMessages = new ArrayList<String>(0);
-    private boolean checkFields() {
-        boolean fieldCheck = true;
-        Iterator<String> enabledFields = enabledControls.iterator();
-        while (enabledFields.hasNext()) {
-            String fieldName = enabledFields.next();
-            boolean tmpCheck = checkField(fieldName);
-            //if any of the fields fails the checks, record it as a global failure
-            if (tmpCheck == false) fieldCheck = false;
-        }
-        return fieldCheck;
-    }
-    //move to base class implementation
-    private boolean checkField (String fieldName) {
-        Component componentField = theControlMap.get(fieldName);
-        if (isValidationRequired(componentField)) {
-            Object fieldValue =  getFieldValue(componentField);
-            if (fieldValue == null ) {
-                checkFieldsMessages.add("Field :"+ fieldName+ " cannot be blank!");
-                return false;
-            }
-            boolean validationCheck = validateFieldValue(componentField, fieldValue);
-            return validationCheck;
-        } else 
-            return true;
-    }
+  
     
-    //this function needs to be an overriden function
-    private boolean validateFieldValue(Component field, Object fieldValue ) {
+    /*
+     *This is a funciton overriden from the base class
+     *validateFieldValue is invoked by check fields
+     *user must write validation functions for fields and return true / false 
+     *after setting an error message
+     *
+     */
+    protected boolean validateFieldValue(Component field, Object fieldValue ) {
         String formFieldName = field.getName();
         boolean bFailure=false;
         //routes to appropriate field validator...
@@ -383,7 +331,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
             bState = true;
         } catch (Exception ex) {
             log.error("validateHansardDate: error : " + ex.getMessage());
-            this.checkFieldsMessages.add(ex.getLocalizedMessage());
+            checkFieldsMessages.add(ex.getLocalizedMessage());
             bState=false;
         } finally {
         return bState;
@@ -400,7 +348,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
             bState = true;
         } catch (Exception ex) {
            log.error("validateHansardTime: error : " + ex.getMessage());
-            this.checkFieldsMessages.add(ex.getLocalizedMessage());
+            checkFieldsMessages.add(ex.getLocalizedMessage());
             bState=false;
         } finally {
              return bState;
@@ -420,118 +368,359 @@ public class InitDebateRecord extends selectorTemplatePanel {
            bState = true;        
         } catch (Exception ex) {
            log.error("validateLogo: error : " + ex.getMessage());
-            this.checkFieldsMessages.add(ex.getLocalizedMessage());
+            checkFieldsMessages.add(ex.getLocalizedMessage());
             bState=false;
         } finally {
             return bState;
         }
     }
     
-    ///move to base class
-    private Object getFieldValue (Component field) {
-        if (field.getClass() == org.jdesktop.swingx.JXDatePicker.class ){
-           JXDatePicker dateField = (JXDatePicker)field;
-           Date fieldValue = dateField.getDate();
-           return fieldValue;
-        } else if (field.getClass() == javax.swing.JTextField.class) {
-            JTextField textField = (JTextField) field;
-            String fieldValue = textField.getText();
-            return fieldValue ;
-        } else if (field.getClass() == javax.swing.JList.class) {
-            JList listField = (JList) field;
-            Object fieldValue = listField.getSelectedValue();
-            return fieldValue;
-        } else if (field.getClass() == javax.swing.JComboBox.class)  {
-            JComboBox comboField = (JComboBox) field;
-            Object fieldValue = comboField.getSelectedItem();
-            return fieldValue;
-        } else if (field.getClass() == javax.swing.JTextArea.class) {
-            JTextArea textareaField = (JTextArea) field;
-            Object fieldValue = textareaField.getText();
-            return fieldValue;
-        } else if (field.getClass() == javax.swing.JSpinner.class ) {
-            JSpinner spinnerField = (JSpinner) field;
-            Object fieldValue = spinnerField.getValue();
-            return fieldValue;
+    
+    //move to base...
+   
+    //over ride btnApply....by calling  a base class function to override functionality...
+    
+    private String getNewSectionName() {
+        String newSectionName ="";
+        if (theAction.action_type().equals("section")) {
+            if (theAction.action_numbering_convention().equals("single")) {
+                return theAction.action_naming_convention();
+            } else {
+                String sectionPrefix = theAction.action_naming_convention();
+                log.debug("getNewSectionName: sectionPrefix = "+ sectionPrefix);
+                for (int i=1; ; i++) {
+                    newSectionName = sectionPrefix+i;
+                    if (ooDocument == null ) {
+                        System.out.println("ooDocument is null in new section name");
+                    }
+                    if (ooDocument.hasSection(newSectionName))
+                        continue;
+                    else
+                        break;
+                }
+            }
+            return newSectionName;
         } else {
-            log.debug("getFieldValue: "+ field.getClass().getName()+ " field type not supported!");
+            log.debug("getNewSectionName: the action type is not a section.");
             return null;
         }
-        
     }
     
-    //move to base class
-    private boolean isValidationRequired(Component c) {
-        //add additional field types if required...
-        if (c.getClass() == org.jdesktop.swingx.JXDatePicker.class ){
-            return true;
-        } else if (c.getClass() == javax.swing.JTextField.class) {
-            return true;
-        } else if (c.getClass() == javax.swing.JList.class) {
-            return true;
-        } else if (c.getClass() == javax.swing.JComboBox.class)  {
-            return true;
-        } else if (c.getClass() == javax.swing.JTextArea.class) {
-            return true;
+    
+    private String getParentSection(){
+      String parentSection = "";
+      dbSettings.Connect();
+      QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_CHECK_IF_ACTION_HAS_PARENT(theAction.action_naming_convention()));
+      dbSettings.EndConnect();
+      String[] results = qr.getSingleColumnResult("THE_COUNT");
+      if (results[0].equals("0")) {
+          //get the main root as the partn
+          parentSection = CommonPropertyFunctions.getDocumentRootSection();
         } else {
-            return false;
+          //this needs to be patched to deal with non root parents..
+          parentSection = CommonPropertyFunctions.getDocumentRootSection();
+        }
+     return parentSection;
+    }
+    
+    //String m_containerSection = "";
+    //String m_newSectionName = "";
+    HashMap<String,String> thePreInsertMap = new HashMap<String, String>();
+    
+    protected boolean preFullInsert() {
+        //add section inside the root section
+            log.debug("in preFullInsert...");
+            long sectionBackColor = 0xffffff;
+            float sectionLeftMargin = (float).2;
+           
+            String parentSection = getParentSection();
+            log.debug("preFullInsert() : getParentSection()" + parentSection );
+            String newSectionName = getNewSectionName();
+            log.debug("preFullInsert() : getNewSectionName()" + newSectionName );
+            
+            thePreInsertMap.clear();
+            thePreInsertMap.put("container_section", parentSection);
+            thePreInsertMap.put("current_section", newSectionName);
+           
+           // m_containerSection = parentSection;
+           // m_newSectionName = newSectionName;
+            boolean bState = this.action_addSectionIntoSectionwithStyling(ooDocument.getComponent(),
+                                                                        parentSection,
+                                                                        newSectionName,
+                                                                        sectionBackColor, 
+                                                                        sectionLeftMargin);
+            
+            if (bState == false ) {
+                return false;
+            } 
+                /*                                                    
+            ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
+            AddSectionInsideSection.addParameter(ooDocument.getComponent());
+            AddSectionInsideSection.addParameter(parentSection);
+            AddSectionInsideSection.addParameter(newSectionName);
+            AddSectionInsideSection.addParameter(sectionBackColor);
+            AddSectionInsideSection.addParameter(sectionLeftMargin);
+        
+            ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());  
+            */
+            
+            setSectionMetadataForAction(newSectionName, theAction);
+    
+            //MessageBox.OK(parent, "Prayers section was successfully added");
+            return true;
+       }
+ 
+   protected boolean preFullEdit(){
+     boolean bpreFullEdit= false;
+     try {
+     String containerSection = theAction.getSelectedSectionToActUpon();
+     String datetimeContainerSection = "int:masthead_datetime";
+     if (ooDocument.hasSection(containerSection) && ooDocument.hasSection(datetimeContainerSection)) {
+           //now edit the fields and set the new values
+            thePreInsertMap.clear();
+            thePreInsertMap.put("container_section", containerSection);
+            thePreInsertMap.put("datetime_container_section", datetimeContainerSection);
+            //set date and time of hansard to document
+     /*       ooDocMetadata meta = new ooDocMetadata(ooDocument);
+            meta.AddProperty("Bungeni_DebateOfficialDate", strDebateDate);
+            meta.AddProperty("Bungeni_DebateOfficialTime", strTimeOfHansard); */
+            bpreFullEdit = true;
+            
+        } else {
+            checkFieldsMessages.add("There is no masthead section available for editing in this document!");
+            bpreFullEdit = false;
+        } 
+     }  catch (Exception ex) {
+         log.error("preFullEdit: error :" + ex.getMessage());
+         checkFieldsMessages.add("There was an error initializing section editing!");
+         bpreFullEdit = false;
+         
+     } finally {
+         return bpreFullEdit;
+     }
+     
+   }
+    
+  
+    protected boolean processFullEdit() {
+        boolean bprocessFull = false;
+        try {
+            boolean bSetDate = this.action_setInputFieldValue(ooDocument.getComponent(), 
+                                                               "debaterecord_official_date",
+                                                                (String) theControlDataMap.get("dt_initdebate_hansarddate"),
+                                                                (String) theControlDataMap.get("datetime_container_section"));
+            if (!bSetDate) {
+                checkFieldsMessages.add("Date could not be marked up in document");
+                bprocessFull = false;
+                return bprocessFull;
+            }                                                    
+            /*
+          ExternalMacro setFieldValue = ExternalMacroFactory.getMacroDefinition("SetReferenceInputFieldValue");
+          setFieldValue.addParameter(new String("debaterecord_official_date"));
+          setFieldValue.addParameter(strDebateDate);
+          setFieldValue.addParameter(new String("int:masthead_datetime"));
+          */
+          bSetDate = this.action_setInputFieldValue(ooDocument.getComponent(), 
+                                                               "debaterecord_official_time",
+                                                                (String) theControlDataMap.get("dt_initdebate_timeofhansard"),
+                                                                (String) theControlDataMap.get("datetime_container_section"));
+           if (!bSetDate) {
+                checkFieldsMessages.add("Time could not be marked up in document");
+                bprocessFull = false;
+                return bprocessFull;
+           }
+          
+          bprocessFull = true;
+          /*ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());
+            setFieldValue.clearParams();
+            setFieldValue.addParameter(new String("debaterecord_official_time"));
+            setFieldValue.addParameter(strTimeOfHansard);
+            setFieldValue.addParameter(new String("int:masthead_datetime"));
+            ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams()) ; */   
+        } catch (Exception ex) {
+            log.error("proccessFullEdit: error: "+ ex.getMessage());
+            bprocessFull = false;
+        } finally {
+            return bprocessFull;
         }
     }
     
-    
-    private void applySelectEdit() {
-       //this is selection mode
-        //toolbarSubAction object is valid here.
-        //get list of fields to check then send them to check fields for interrogation
+    protected boolean postFullEdit(){
+      boolean bFullEdit = false;      
+      try {
+            ooDocMetadata meta = new ooDocMetadata(ooDocument);
+            meta.AddProperty("Bungeni_DebateOfficialDate", (String) theControlDataMap.get("dt_initdebate_hansarddate"));
+            meta.AddProperty("Bungeni_DebateOfficialTime", (String) theControlDataMap.get("dt_initdebate_timeofhansard"));
+            bFullEdit = true;
         
-        //
-        
+      } catch (Exception ex) {
+            log.error("postFullEdit: error :" + ex.getMessage());
+            checkFieldsMessages.add("There was an error setting document level metadata");
+            bFullEdit = false;
+            return bFullEdit;
+      } finally {
+          return bFullEdit;
+      }
     }
     
-    //move to base
-    private void applySelectInsert() {
-        //first validate fields
-        if (checkFields() == false) {
-            if (!checkFieldsMessages.isEmpty()) {
-                MessageBox.OK(this, checkFieldsMessages.toArray() );   
-                return;
-            }
-        }
+    protected boolean processFullInsert(){
+            //set metadata for section
+        //embed logo image
+            boolean bAddImage = action_addImageIntoSection(ooDocument.getComponent(), 
+                    (String) thePreInsertMap.get("current_section"), 
+                    (String) theControlDataMap.get("txt_initdebate_selectlogo") );
+            if (bAddImage == false) {
+                //displayFieldErrors();
+                checkFieldsMessages.add("The image could not be inserted properly");
+                return false;
+            } 
+            
+            boolean bAddDocintoSection = action_addDocIntoSection(ooDocument.getComponent(), 
+                    (String) thePreInsertMap.get("current_section"),
+                    FragmentsFactory.getFragment("hansard_masthead"));
+            if (bAddImage == false) {
+                checkFieldsMessages.add("The section could not be initialized correctly");
+                //displayFieldErrors();
+                return false;
+            } 
         
-        
+            boolean bSetFieldValue =  action_setInputFieldValue(ooDocument.getComponent(),
+                                    new String("debaterecord_official_date"),
+                                    (String) theControlDataMap.get("dt_initdebate_hansarddate"), 
+                                    new String("int:masthead_datetime"));
+            
+            if (bSetFieldValue == false) {
+                checkFieldsMessages.add("There was an error while setting the debate date");
+                //displayFieldErrors();
+                return false;
+            } 
+            
+            bSetFieldValue =  action_setInputFieldValue(ooDocument.getComponent(),
+                                    new String("debaterecord_official_time"),
+                                    (String) theControlDataMap.get("dt_initdebate_timeofhansard"), 
+                                    new String("int:masthead_datetime"));
+            
+            if (bSetFieldValue == false) {
+                //displayFieldErrors();
+                checkFieldsMessages.add("There was an error while setting the official time of the debate");
+                return false;
+            } 
+            
+            
+            
+        //loading the related document
+            /*
+            ExternalMacro setFieldValue = ExternalMacroFactory.getMacroDefinition("SetReferenceInputFieldValue");
+            setFieldValue.addParameter(new String("debaterecord_official_date"));
+            setFieldValue.addParameter(strDebateDate);
+            setFieldValue.addParameter(new String("int:masthead_datetime"));
+            ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());
+            */
+            
+            /*
+            setFieldValue.clearParams();
+            setFieldValue.addParameter(new String("debaterecord_official_time"));
+            setFieldValue.addParameter(strTimeOfHansard);
+            setFieldValue.addParameter(new String("int:masthead_datetime"));
+            ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());   
+            */
+            ooDocMetadata meta = new ooDocMetadata(ooDocument);
+            meta.AddProperty("Bungeni_DebateOfficialDate", (String) theControlDataMap.get("dt_initdebate_hansarddate"));
+            meta.AddProperty("Bungeni_DebateOfficialTime", (String) theControlDataMap.get("dt_initdebate_timeofhansard"));
+            
+            return true;
     }
     
-    //move to base...
-    private void applyFullEdit() {
-        
+   
+    protected boolean postFullInsert() {
+        //enable disable specific controls if required
+        parent.dispose();
+        return true;
+    }
+ 
+       private boolean action_addSectionIntoSectionwithStyling(XComponent docComponent, String parentSection, String newSectionName, long sectionBackColor, float sectionLeftMargin) {
+        boolean bState = false; 
+        try {
+            ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
+            AddSectionInsideSection.addParameter(docComponent);
+            AddSectionInsideSection.addParameter(parentSection);
+            AddSectionInsideSection.addParameter(newSectionName);
+            AddSectionInsideSection.addParameter(sectionBackColor);
+            AddSectionInsideSection.addParameter(sectionLeftMargin);
+             bState= true;
+        } catch (Exception ex) {
+            log.error("action_addSectionIntoSectionwithStyling: error : " + ex.getMessage());
+            //checkFieldsMessages.add(ex.getLocalizedMessage());
+            bState=false;
+         }   finally {
+             return bState;
+         }
     }
     
-    //move to base...
-    private void applyFullInsert() {
-        
+    private boolean action_addImageIntoSection(XComponent docComponent, String intoSection, String logoPath) {
+        boolean bState = false; 
+        try {
+             ExternalMacro addImageIntoSection = ExternalMacroFactory.getMacroDefinition("AddImageIntoSection");
+             addImageIntoSection.addParameter(docComponent);
+             addImageIntoSection.addParameter(intoSection);
+             addImageIntoSection.addParameter(logoPath);
+             ooDocument.executeMacro(addImageIntoSection.toString(), addImageIntoSection.getParams());
+             bState= true;
+        } catch (Exception ex) {
+            log.error("action_addImageIntoSection: error : " + ex.getMessage());
+            //checkFieldsMessages.add(ex.getLocalizedMessage());
+            bState=false;
+         }   finally {
+             return bState;
+         }
     }
-    //over ride btnApply....by calling  a base class function to override functionality...
+    
+    
+    private boolean action_addDocIntoSection(XComponent docComponent, String intoSection, String fragmentName) {
+        boolean bState = false; 
+       try {
+            ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
+            insertDocIntoSection.addParameter(docComponent);
+            insertDocIntoSection.addParameter(intoSection)  ;
+            insertDocIntoSection.addParameter(fragmentName);
+            ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
+            bState= true;
+        } catch (Exception ex) {
+            log.error("action_addImageIntoSection: error : " + ex.getMessage());
+            //checkFieldsMessages.add(ex.getLocalizedMessage());
+            bState=false;
+         }   finally {
+             return bState;
+         }
+    }
+    
+    private boolean action_setInputFieldValue(XComponent docComponent, String hintName, String strDebateDate, String unprotectSection) {
+        boolean bState = false; 
+       try {
+           ExternalMacro setFieldValue = ExternalMacroFactory.getMacroDefinition("SetReferenceInputFieldValue");
+            setFieldValue.addParameter(docComponent);
+            setFieldValue.addParameter(hintName);
+            setFieldValue.addParameter(strDebateDate);
+            setFieldValue.addParameter(unprotectSection);
+            ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());
+            bState= true;
+        } catch (Exception ex) {
+            log.error("action_addImageIntoSection: error : " + ex.getMessage());
+            //checkFieldsMessages.add(ex.getLocalizedMessage());
+            bState=false;
+         }   finally {
+             return bState;
+         }
+    }
+ 
     
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
 // TODO add your handling code here:
-        //get field values : 
-    switch (getDialogMode()) {
-        case TEXT_SELECTED_EDIT :
-            applySelectEdit();
-            break;
-        case TEXT_SELECTED_INSERT :
-            applySelectInsert();
-            break;
-        case TEXT_EDIT:
-            applyFullEdit();
-            break;
-        case TEXT_INSERTION:
-            applyFullInsert();
-            break;
-        default:
-            break;
-    }
-  
+        //get field values :
+        //apply functions work up the hierarchy
+        super.formApply();
+   
+  /*
     enableButtons(false);    
     //validate fields
     Date dtDebateDate = this.dt_initdebate_hansarddate.getDate();
@@ -565,7 +754,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
     
     
      parent.dispose();
-       
+    */   
       
     }//GEN-LAST:event_btnApplyActionPerformed
     

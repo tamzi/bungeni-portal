@@ -13,9 +13,11 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Vector;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JList;
@@ -28,6 +30,7 @@ import javax.swing.JTextField;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.BungeniRegistryFactory;
 import org.bungeni.db.DefaultInstanceFactory;
+import org.bungeni.db.QueryResults;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.ooo.OOComponentHelper;
@@ -297,6 +300,8 @@ public class selectorTemplatePanel extends javax.swing.JPanel
             return true;
         } else if (c.getClass() == javax.swing.JTextArea.class) {
             return true;
+        } else if (c.getClass() == javax.swing.JSpinner.class) {
+            return true;
         } else {
             return false;
         }
@@ -324,8 +329,10 @@ public class selectorTemplatePanel extends javax.swing.JPanel
  protected void getEnabledControlList() {
         switch (getDialogMode() ) {
             case TEXT_INSERTION:
-            case TEXT_EDIT :
                 getEnabledControlList_TextInsertion();
+                break;
+            case TEXT_EDIT :
+                getEnabledControlList_TextEdit();
                 break;
             case TEXT_SELECTED_EDIT:
             case TEXT_SELECTED_INSERT:
@@ -340,13 +347,54 @@ public class selectorTemplatePanel extends javax.swing.JPanel
          }
           */
       } 
-     
+   
+  private ArrayList<String> getInactiveControlsForMode(String currentMode) {
+        ArrayList<String> arrHiddenFields = new ArrayList<String>();
+        dbSettings.Connect();
+        QueryResults qr = dbSettings.QueryResults("select mode_hidden_field from action_modes " +
+                "where action_name='"+theAction.action_name()+"' and action_mode='"+ currentMode +"'");
+        dbSettings.EndConnect();
+        String[] hiddenFields = null;
+        try {
+        hiddenFields = qr.getSingleColumnResult("MODE_HIDDEN_FIELD");
+        } catch (NullPointerException ex) {
+            hiddenFields = null;
+        }
+        if (hiddenFields != null ) {
+            arrHiddenFields = new ArrayList<String>(Arrays.asList(hiddenFields));
+        } 
+        return arrHiddenFields ;
+    }
+  
     protected void getEnabledControlList_TextInsertion() {
+            ArrayList<String> arrHiddenFields = getInactiveControlsForMode("text_insert");
             //default is to enable all controls in text insertion
             Iterator<String> controlNames = theControlMap.keySet().iterator();
             while(controlNames.hasNext()) {
                 String controlName = controlNames.next();
-                enabledControls.add(controlName);
+                if (arrHiddenFields.size() > 0 ) {
+                    if (!arrHiddenFields.contains(controlName)) {
+                         enabledControls.add(controlName); 
+                    }
+                } else {
+                    enabledControls.add(controlName);
+                }
+            }
+    }
+    
+    protected void getEnabledControlList_TextEdit(){
+        ArrayList<String> arrHiddenFields = getInactiveControlsForMode("text_edit");
+        Iterator<String> controlNames = theControlMap.keySet().iterator();
+            while(controlNames.hasNext()) {
+                String controlName = controlNames.next();
+                if (arrHiddenFields.size() > 0 ) {
+                    if (!arrHiddenFields.contains(controlName)) {
+                         enabledControls.add(controlName); 
+                    }
+                } else {
+                    enabledControls.add(controlName);
+                }
+               
             }
     }
     

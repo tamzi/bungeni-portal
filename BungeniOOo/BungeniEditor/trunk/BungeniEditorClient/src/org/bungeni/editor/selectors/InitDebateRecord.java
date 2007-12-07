@@ -222,7 +222,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
             }
         });
 
-        dt_initdebate_timeofhansard.setName("dt_initdebate_hansardtime");
+        dt_initdebate_timeofhansard.setName("dt_initdebate_timeofhansard");
 
         txt_initdebate_selectlogo.setEditable(false);
         txt_initdebate_selectlogo.setName("txt_initdebate_selectlogo");
@@ -308,6 +308,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
      */
     protected boolean validateFieldValue(Component field, Object fieldValue ) {
         String formFieldName = field.getName();
+        log.debug("validating field = "+ field.getName());
         boolean bFailure=false;
         //routes to appropriate field validator...
         if (formFieldName.equals("dt_initdebate_hansarddate")) {
@@ -365,6 +366,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
            if (logoFieldValue.length() == 0 ) {
                checkFieldsMessages.add("You must select a logo !");
                bState = false;
+               return bState;
            }
            
           theControlDataMap.put(controlName, m_strLogoPath);
@@ -511,7 +513,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
             boolean bSetDate = this.action_setInputFieldValue(ooDocument, 
                                                                "debaterecord_official_date",
                                                                 (String) theControlDataMap.get("dt_initdebate_hansarddate"),
-                                                                (String) theControlDataMap.get("datetime_container_section"));
+                                                                (String) thePreInsertMap.get("datetime_container_section"));
             if (!bSetDate) {
                 checkFieldsMessages.add("Date could not be marked up in document");
                 bprocessFull = false;
@@ -526,7 +528,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
           bSetDate = this.action_setInputFieldValue(ooDocument, 
                                                                "debaterecord_official_time",
                                                                 (String) theControlDataMap.get("dt_initdebate_timeofhansard"),
-                                                                (String) theControlDataMap.get("datetime_container_section"));
+                                                                (String) thePreInsertMap.get("datetime_container_section"));
            if (!bSetDate) {
                 checkFieldsMessages.add("Time could not be marked up in document");
                 bprocessFull = false;
@@ -581,7 +583,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
             boolean bAddDocintoSection = action_addDocIntoSection(ooDocument, 
                     (String) thePreInsertMap.get("current_section"),
                     FragmentsFactory.getFragment("hansard_masthead"));
-            if (bAddImage == false) {
+            if (bAddDocintoSection == false) {
                 checkFieldsMessages.add("The section could not be initialized correctly");
                 //displayFieldErrors();
                 return false;

@@ -124,7 +124,7 @@
     </Component>
     <Component class="javax.swing.JSpinner" name="dt_initdebate_timeofhansard">
       <Properties>
-        <Property name="name" type="java.lang.String" value="dt_initdebate_hansardtime"/>
+        <Property name="name" type="java.lang.String" value="dt_initdebate_timeofhansard"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txt_initdebate_selectlogo">

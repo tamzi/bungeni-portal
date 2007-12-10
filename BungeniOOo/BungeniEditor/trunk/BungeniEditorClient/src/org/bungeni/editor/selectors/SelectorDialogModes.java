@@ -18,5 +18,6 @@ public enum SelectorDialogModes {
     TEXT_SELECTED_EDIT,
     TEXT_INSERTION,
     TEXT_EDIT,
-    NONE
+    TEXT_SELECTED_SYSTEM_ACTION,
+    NONE;
 }

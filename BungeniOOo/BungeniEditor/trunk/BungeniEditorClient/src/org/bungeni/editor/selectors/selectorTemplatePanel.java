@@ -480,9 +480,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         log.debug("applySelectEdit: not implemented yet");
      }
      
-     protected void applySelectInsert() {
-        log.debug("applySelectInsert: not implemented yet");
-     }
+   
      
     protected void formApply() {
       switch (getDialogMode()) {
@@ -557,7 +555,64 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     protected boolean processFullEdit(){
         return true;
     }
-  
+
+/*
+ *Event loop for select / markup mode.... 
+ *
+ */
+  protected void applySelectInsert() {
+       log.debug("in applyFullInsert()");
+       if (checkFields() == false) {
+            if (!checkFieldsMessages.isEmpty()) {
+                displayFieldErrors();   
+                return;
+            }
+        }
+       if (preSelectInsert() == false) {
+            //activities needed to be done before a full insert
+            if (!checkFieldsMessages.isEmpty()) {
+                displayFieldErrors();   
+                return;
+            }  
+       }   
+    
+       if (processSelectInsert() == false) {
+            //activities needed to be done before a full insert
+            if (!checkFieldsMessages.isEmpty()) {
+                displayFieldErrors();   
+                return;
+            }  
+       }   
+ 
+       if (postSelectInsert() == false) {
+            //activities needed to be done before a full insert
+            if (!checkFieldsMessages.isEmpty()) {
+                displayFieldErrors();   
+                return;
+            }  
+       }   
+        
+     
+     }    
+
+  /****
+   *
+   *All the below functions are overriden
+   *
+   *****/
+    protected boolean preSelectInsert() {
+        return true;
+    }
+
+    protected boolean processSelectInsert() {
+        return true;
+    }
+
+    protected boolean postSelectInsert() {
+        return true;
+    }
+    
+    
     
 }
 

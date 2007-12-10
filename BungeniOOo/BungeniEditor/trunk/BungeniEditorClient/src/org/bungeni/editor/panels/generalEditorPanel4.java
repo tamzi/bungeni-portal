@@ -51,7 +51,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
   //  private DefaultMutableTreeNode[] visibleActionRoots;
     private JPopupMenu popupMenu;
     
-    private  enum PopupTypeIdentifier {CREATE_EDIT , APPLY_MARKUP, EDIT, SELECT_INSERT, SELECT_EDIT  };
+    private  enum PopupTypeIdentifier {CREATE_EDIT , APPLY_MARKUP, EDIT, SELECT_INSERT, SELECT_EDIT, SYSTEM_ACTION  };
  
     private HashMap<PopupTypeIdentifier, String> popupMap = new HashMap<PopupTypeIdentifier, String>();
     private String property_ActiveDocumentMode = "";
@@ -101,6 +101,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         popupMap.put(PopupTypeIdentifier.EDIT, "Edit Section");
         popupMap.put(PopupTypeIdentifier.SELECT_EDIT, "Edit Selection");
         popupMap.put(PopupTypeIdentifier.SELECT_INSERT, "Markup Selection");
+        popupMap.put(PopupTypeIdentifier.SYSTEM_ACTION, "Generate System Container");
         
     }
     
@@ -340,6 +341,9 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
            if (treePopupMenuAction_popupType ==  PopupTypeIdentifier.SELECT_INSERT){
                     return SelectorDialogModes.TEXT_SELECTED_INSERT;
            }
+           if (treePopupMenuAction_popupType == PopupTypeIdentifier.SYSTEM_ACTION) {
+                    return SelectorDialogModes.TEXT_SELECTED_SYSTEM_ACTION;
+           }
            return SelectorDialogModes.NONE;
         }    
         
@@ -380,6 +384,11 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                 event.doCommand(ooDocument, action);
             } else 
              if (popId == PopupTypeIdentifier.SELECT_INSERT) {
+                action.setSelectorDialogMode(this.getDialogMode());
+                IEditorActionEvent event = getEventClass(action);
+                event.doCommand(ooDocument, action);
+             } else 
+             if (popId == PopupTypeIdentifier.SYSTEM_ACTION) {
                 action.setSelectorDialogMode(this.getDialogMode());
                 IEditorActionEvent event = getEventClass(action);
                 event.doCommand(ooDocument, action);
@@ -456,7 +465,10 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                  popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.SELECT_INSERT), subAction, PopupTypeIdentifier.SELECT_INSERT));
             } else {
                  popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.SELECT_INSERT), subAction, PopupTypeIdentifier.SELECT_INSERT));
-                 popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.SELECT_EDIT) , subAction, PopupTypeIdentifier.SELECT_INSERT));              
+                 popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.SELECT_EDIT) , subAction, PopupTypeIdentifier.SELECT_INSERT));   
+                 if (subAction.system_container().length() > 0 ) {
+                     popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.SYSTEM_ACTION), subAction, PopupTypeIdentifier.SYSTEM_ACTION));
+                 }
             }
         } 
         

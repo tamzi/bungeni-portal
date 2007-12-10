@@ -32,7 +32,7 @@ public class toolbarAction {
     private String action_type;
     private String action_naming_convention;
     private String action_numbering_convention;
-    private String action_parent;
+   // private String action_parent;
     private String action_icon;
     private String action_display_text;
     private String action_dimension;
@@ -60,7 +60,7 @@ public class toolbarAction {
         action_type = (String) safeGet(actionDesc, action_mapping, "ACTION_TYPE");
         action_naming_convention = (String) safeGet(actionDesc, action_mapping, "ACTION_NAMING_CONVENTION");
         action_numbering_convention = (String) safeGet(actionDesc, action_mapping, "ACTION_NUMBERING_CONVENTION");
-        action_parent = (String) safeGet(actionDesc, action_mapping, "ACTION_PARENT");
+     //   action_parent = (String) safeGet(actionDesc, action_mapping, "ACTION_PARENT");
         action_icon = (String) safeGet(actionDesc, action_mapping, "ACTION_ICON");
         action_display_text = (String) safeGet(actionDesc, action_mapping, "ACTION_DISPLAY_TEXT");
         action_dimension = (String) safeGet(actionDesc, action_mapping, "ACTION_DIMENSION");
@@ -187,7 +187,7 @@ public class toolbarAction {
    
     public void brains() {
         System.out.println("action_name = "+ action_name);
-        System.out.println("action_parent = " + action_parent);
+       // System.out.println("action_parent = " + action_parent);
     }
     private Object safeGet (Vector<String> actions, HashMap map, String key){
         Object o = null ;

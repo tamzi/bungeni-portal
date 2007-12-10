@@ -110,6 +110,12 @@ public class InitDebateRecord extends selectorTemplatePanel {
       }
       */
   
+      protected void getEnabledControlList_TextSelection(){
+          super.getEnabledControlList_TextSelection();
+          for (int i=0; i <controls_ignore_list.length; i++ ) {
+              getEnabledControls().add(controls_ignore_list[i]);
+          }
+      }
       
       public void init(){
           
@@ -204,7 +210,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
         });
 
         lbl_initdebate_timeofhansard.setText("Hansard Time");
-        lbl_initdebate_timeofhansard.setName("lbl_initdebate_hansardtime");
+        lbl_initdebate_timeofhansard.setName("lbl_initdebate_timeofhansard");
 
         btnApply.setText("Apply to Document ");
         btnApply.setName("btn_apply");
@@ -235,29 +241,31 @@ public class InitDebateRecord extends selectorTemplatePanel {
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(layout.createSequentialGroup()
+                        .add(btnApply, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 138, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 29, Short.MAX_VALUE)
+                        .add(btnCancel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(layout.createSequentialGroup()
                         .add(txt_initdebate_selectlogo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .add(lbl_initdebate_hansarddate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED))
+                    .add(lbl_initdebate_hansarddate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                             .add(org.jdesktop.layout.GroupLayout.LEADING, btn_initdebate_selectlogo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 133, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, lbl_initdebate_selectlogo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, lbl_initdebate_timeofhansard, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, btnApply, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 138, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnCancel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, lbl_initdebate_selectlogo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, lbl_initdebate_timeofhansard, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE))
+                        .add(126, 126, 126))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(dt_initdebate_hansarddate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
-                        .addContainerGap())
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED))
                     .add(layout.createSequentialGroup()
                         .add(dt_initdebate_timeofhansard, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 86, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
-                .add(36, 36, 36)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(22, Short.MAX_VALUE)
                 .add(lbl_initdebate_hansarddate)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(dt_initdebate_hansarddate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -271,7 +279,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
                 .add(btn_initdebate_selectlogo)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(txt_initdebate_selectlogo, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(20, 20, 20)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnApply)
                     .add(btnCancel))
@@ -428,10 +436,15 @@ public class InitDebateRecord extends selectorTemplatePanel {
      return parentSection;
     }
     
-    //String m_containerSection = "";
-    //String m_newSectionName = "";
-    HashMap<String,String> thePreInsertMap = new HashMap<String, String>();
-    
+    HashMap<String,String> thePreInsertMap = new HashMap<String, String>();    
+
+    /*
+     *
+     *
+     *Insert mode processing
+     *
+     *
+     */
     protected boolean preFullInsert() {
         //add section inside the root section
             log.debug("in preFullInsert...");
@@ -458,115 +471,10 @@ public class InitDebateRecord extends selectorTemplatePanel {
             if (bState == false ) {
                 return false;
             } 
-                /*                                                    
-            ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
-            AddSectionInsideSection.addParameter(ooDocument.getComponent());
-            AddSectionInsideSection.addParameter(parentSection);
-            AddSectionInsideSection.addParameter(newSectionName);
-            AddSectionInsideSection.addParameter(sectionBackColor);
-            AddSectionInsideSection.addParameter(sectionLeftMargin);
-        
-            ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());  
-            */
-            
             setSectionMetadataForAction(newSectionName, theAction);
     
-            //MessageBox.OK(parent, "Prayers section was successfully added");
             return true;
        }
- 
-   protected boolean preFullEdit(){
-     boolean bpreFullEdit= false;
-     try {
-     String containerSection = theAction.getSelectedSectionToActUpon();
-     String datetimeContainerSection = "int:masthead_datetime";
-     if (ooDocument.hasSection(containerSection) && ooDocument.hasSection(datetimeContainerSection)) {
-           //now edit the fields and set the new values
-            thePreInsertMap.clear();
-            thePreInsertMap.put("container_section", containerSection);
-            thePreInsertMap.put("datetime_container_section", datetimeContainerSection);
-            //set date and time of hansard to document
-     /*       ooDocMetadata meta = new ooDocMetadata(ooDocument);
-            meta.AddProperty("Bungeni_DebateOfficialDate", strDebateDate);
-            meta.AddProperty("Bungeni_DebateOfficialTime", strTimeOfHansard); */
-            bpreFullEdit = true;
-            
-        } else {
-            checkFieldsMessages.add("There is no masthead section available for editing in this document!");
-            bpreFullEdit = false;
-        } 
-     }  catch (Exception ex) {
-         log.error("preFullEdit: error :" + ex.getMessage());
-         checkFieldsMessages.add("There was an error initializing section editing!");
-         bpreFullEdit = false;
-         
-     } finally {
-         return bpreFullEdit;
-     }
-     
-   }
-    
-  
-    protected boolean processFullEdit() {
-        boolean bprocessFull = false;
-        try {
-            boolean bSetDate = this.action_setInputFieldValue(ooDocument, 
-                                                               "debaterecord_official_date",
-                                                                (String) theControlDataMap.get("dt_initdebate_hansarddate"),
-                                                                (String) thePreInsertMap.get("datetime_container_section"));
-            if (!bSetDate) {
-                checkFieldsMessages.add("Date could not be marked up in document");
-                bprocessFull = false;
-                return bprocessFull;
-            }                                                    
-            /*
-          ExternalMacro setFieldValue = ExternalMacroFactory.getMacroDefinition("SetReferenceInputFieldValue");
-          setFieldValue.addParameter(new String("debaterecord_official_date"));
-          setFieldValue.addParameter(strDebateDate);
-          setFieldValue.addParameter(new String("int:masthead_datetime"));
-          */
-          bSetDate = this.action_setInputFieldValue(ooDocument, 
-                                                               "debaterecord_official_time",
-                                                                (String) theControlDataMap.get("dt_initdebate_timeofhansard"),
-                                                                (String) thePreInsertMap.get("datetime_container_section"));
-           if (!bSetDate) {
-                checkFieldsMessages.add("Time could not be marked up in document");
-                bprocessFull = false;
-                return bprocessFull;
-           }
-          
-          bprocessFull = true;
-          /*ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());
-            setFieldValue.clearParams();
-            setFieldValue.addParameter(new String("debaterecord_official_time"));
-            setFieldValue.addParameter(strTimeOfHansard);
-            setFieldValue.addParameter(new String("int:masthead_datetime"));
-            ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams()) ; */   
-        } catch (Exception ex) {
-            log.error("proccessFullEdit: error: "+ ex.getMessage());
-            bprocessFull = false;
-        } finally {
-            return bprocessFull;
-        }
-    }
-    
-    protected boolean postFullEdit(){
-      boolean bFullEdit = false;      
-      try {
-            ooDocMetadata meta = new ooDocMetadata(ooDocument);
-            meta.AddProperty("Bungeni_DebateOfficialDate", (String) theControlDataMap.get("dt_initdebate_hansarddate"));
-            meta.AddProperty("Bungeni_DebateOfficialTime", (String) theControlDataMap.get("dt_initdebate_timeofhansard"));
-            bFullEdit = true;
-        
-      } catch (Exception ex) {
-            log.error("postFullEdit: error :" + ex.getMessage());
-            checkFieldsMessages.add("There was an error setting document level metadata");
-            bFullEdit = false;
-            return bFullEdit;
-      } finally {
-          return bFullEdit;
-      }
-    }
     
     protected boolean processFullInsert(){
             //set metadata for section
@@ -610,25 +518,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
                 checkFieldsMessages.add("There was an error while setting the official time of the debate");
                 return false;
             } 
-            
-            
-            
-        //loading the related document
-            /*
-            ExternalMacro setFieldValue = ExternalMacroFactory.getMacroDefinition("SetReferenceInputFieldValue");
-            setFieldValue.addParameter(new String("debaterecord_official_date"));
-            setFieldValue.addParameter(strDebateDate);
-            setFieldValue.addParameter(new String("int:masthead_datetime"));
-            ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());
-            */
-            
-            /*
-            setFieldValue.clearParams();
-            setFieldValue.addParameter(new String("debaterecord_official_time"));
-            setFieldValue.addParameter(strTimeOfHansard);
-            setFieldValue.addParameter(new String("int:masthead_datetime"));
-            ooDocument.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());   
-            */
+ 
             ooDocMetadata meta = new ooDocMetadata(ooDocument);
             meta.AddProperty("Bungeni_DebateOfficialDate", (String) theControlDataMap.get("dt_initdebate_hansarddate"));
             meta.AddProperty("Bungeni_DebateOfficialTime", (String) theControlDataMap.get("dt_initdebate_timeofhansard"));
@@ -643,6 +533,159 @@ public class InitDebateRecord extends selectorTemplatePanel {
         return true;
     }
  
+    
+    
+    
+    /*
+    *
+    *
+    *Edit mode processing
+    *
+    *
+    */
+   protected boolean preFullEdit(){
+     boolean bpreFullEdit= false;
+     try {
+     String containerSection = theAction.getSelectedSectionToActUpon();
+     String datetimeContainerSection = "int:masthead_datetime";
+     if (ooDocument.hasSection(containerSection) && ooDocument.hasSection(datetimeContainerSection)) {
+           //now edit the fields and set the new values
+            thePreInsertMap.clear();
+            thePreInsertMap.put("container_section", containerSection);
+            thePreInsertMap.put("datetime_container_section", datetimeContainerSection);
+            bpreFullEdit = true;
+            
+        } else {
+            checkFieldsMessages.add("There is no masthead section available for editing in this document!");
+            bpreFullEdit = false;
+        } 
+     }  catch (Exception ex) {
+         log.error("preFullEdit: error :" + ex.getMessage());
+         checkFieldsMessages.add("There was an error initializing section editing!");
+         bpreFullEdit = false;
+         
+     } finally {
+         return bpreFullEdit;
+     }
+     
+   }
+    
+  
+    protected boolean processFullEdit() {
+        boolean bprocessFull = false;
+        try {
+            boolean bSetDate = this.action_setInputFieldValue(ooDocument, 
+                                                               "debaterecord_official_date",
+                                                                (String) theControlDataMap.get("dt_initdebate_hansarddate"),
+                                                                (String) thePreInsertMap.get("datetime_container_section"));
+            if (!bSetDate) {
+                checkFieldsMessages.add("Date could not be marked up in document");
+                bprocessFull = false;
+                return bprocessFull;
+            }                                                    
+          bSetDate = this.action_setInputFieldValue(ooDocument, 
+                                                               "debaterecord_official_time",
+                                                                (String) theControlDataMap.get("dt_initdebate_timeofhansard"),
+                                                                (String) thePreInsertMap.get("datetime_container_section"));
+           if (!bSetDate) {
+                checkFieldsMessages.add("Time could not be marked up in document");
+                bprocessFull = false;
+                return bprocessFull;
+           }
+          
+          bprocessFull = true;
+        } catch (Exception ex) {
+            log.error("proccessFullEdit: error: "+ ex.getMessage());
+            bprocessFull = false;
+        } finally {
+            return bprocessFull;
+        }
+    }
+    
+    protected boolean postFullEdit(){
+      boolean bFullEdit = false;      
+      try {
+            ooDocMetadata meta = new ooDocMetadata(ooDocument);
+            meta.AddProperty("Bungeni_DebateOfficialDate", (String) theControlDataMap.get("dt_initdebate_hansarddate"));
+            meta.AddProperty("Bungeni_DebateOfficialTime", (String) theControlDataMap.get("dt_initdebate_timeofhansard"));
+            bFullEdit = true;
+        
+      } catch (Exception ex) {
+            log.error("postFullEdit: error :" + ex.getMessage());
+            checkFieldsMessages.add("There was an error setting document level metadata");
+            bFullEdit = false;
+            return bFullEdit;
+      } finally {
+          return bFullEdit;
+      }
+    }
+    
+    /*
+     *
+     *Selection mode implmenetation
+     *
+     *
+     */
+    private boolean m_wasSystemSectionProtected = false;
+    protected boolean preSelectInsert() {
+        //unprotect section
+        String systemContainer = theSubAction.system_container();
+        if (ooDocument.hasSection(systemContainer)) {
+            if (ooDocument.isSectionProtected(systemContainer)) {
+                ooDocument.protectSection(systemContainer, false);
+                m_wasSystemSectionProtected = true;
+            }
+        }
+        return true;
+    }
+
+    protected boolean processSelectInsert() {
+        
+        if (enabledControls.contains(new String("dt_initdebate_hansarddate"))) {
+            //get the value and set it into the document
+            String dateOfHansard = (String) theControlDataMap.get("dt_initdebate_hansarddate");
+            boolean bDateAdd = this.action_replaceTextWithField(ooDocument, "debaterecord_official_date", dateOfHansard);
+            if (!bDateAdd) {
+                checkFieldsMessages.add("There was an error while marking the handard date");
+            }
+            return bDateAdd;
+        }
+        
+        if (enabledControls.contains(new String("dt_initdebate_timeofhansard"))) {
+            //get the current time value into the document
+            String timeOfHansard = (String) theControlDataMap.get("dt_initdebate_timeofhansard");
+            boolean bTimeAdd = this.action_replaceTextWithField(ooDocument, "debaterecord_official_time", timeOfHansard);
+            if (!bTimeAdd) {
+                checkFieldsMessages.add("There was an error while marking the handard time");
+            }
+            return bTimeAdd;
+            
+        }
+        return true;
+    }
+
+    protected boolean postSelectInsert() {
+        return true;
+    }
+    
+    
+       private boolean action_replaceTextWithField(OOComponentHelper ooDoc, String hintName, String hintPlaceholderValue) {
+        boolean bState = false; 
+        try {
+            ExternalMacro ReplaceTextWithField = ExternalMacroFactory.getMacroDefinition("ReplaceTextWithField");
+            ReplaceTextWithField.addParameter(ooDoc.getComponent());
+            ReplaceTextWithField.addParameter(hintName);
+            ReplaceTextWithField.addParameter(hintPlaceholderValue);
+            ooDoc.executeMacro(ReplaceTextWithField.toString(), ReplaceTextWithField.getParams());
+             bState= true;
+        } catch (Exception ex) {
+            log.error("action_replaceTextWithField: error : " + ex.getMessage());
+            //checkFieldsMessages.add(ex.getLocalizedMessage());
+            bState=false;
+         }   finally {
+             return bState;
+         }
+    }
        private boolean action_addSectionIntoSectionwithStyling(OOComponentHelper ooDoc, String parentSection, String newSectionName, long sectionBackColor, float sectionLeftMargin) {
         boolean bState = false; 
         try {

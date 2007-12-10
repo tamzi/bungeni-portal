@@ -1,0 +1,14 @@
+<metal:master define-macro="identityimage">
+    <div style="float:right; text-align: center; margin: 1em 0 1em 1em;"
+         tal:condition="here/identity_thumb | nothing">
+         <a class="discreet"
+         tal:attributes="href string:${here/absolute_url}/identity/image_view_fullscreen">
+            <img tal:replace="structure here/identity_thumb" />
+            <br />
+            <img tal:replace="structure here/search_icon.gif" />
+            <span i18n:translate="label_click_to_enlarge">
+                Click to enlarge
+            </span>
+         </a>
+    </div>
+</metal:master>

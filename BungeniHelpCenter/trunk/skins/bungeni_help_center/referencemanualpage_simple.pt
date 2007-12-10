@@ -1,0 +1,34 @@
+    <div tal:define="fullToc    python:here.getTOC(current = here);
+                      tocInfo    python:here.getTOCInfo(fullToc);
+                      currentIdx tocInfo/currentIdx;
+                      tocList    tocInfo/tocList;
+                      current    python:tocList[currentIdx];
+                      numbering  current/numbering">
+                   
+    <h1 class="documentFirstHeading">
+        <img tal:replace="structure here/referencemanual_icon.gif" />
+        <span tal:replace="numbering">1.2.</span>
+        <span tal:replace="here/Title">Title</span>
+    </h1>
+    
+    <div metal:use-macro="here/phc_macros/macros/identityimage">
+      Identity Image 
+    </div>
+
+    <div metal:use-macro="here/referencemanual_macros/macros/jump_box"/>
+
+    <div class="documentDescription"
+      tal:condition="here/Description"
+      tal:content="structure here/Description">
+      Description
+    </div>
+    
+    <div class="portalMessage"
+         tal:condition="python:here.portal_workflow.getInfoFor(here, 'review_state') != 'published'"
+         i18n:translate="must_publish_before_visible_to_public">
+      You must publish this page before it becomes visible to the public.
+    </div>
+    
+    <div tal:replace="structure here/getBody"/>
+      
+  </div>

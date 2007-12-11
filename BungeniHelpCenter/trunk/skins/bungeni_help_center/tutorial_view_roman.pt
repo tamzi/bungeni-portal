@@ -3,13 +3,6 @@
   metal:use-macro="here/main_template/macros/master"
   i18n:domain="plonehelpcenter">
 
-<head>
- <metal:slot fill-slot="javascript_head_slot">
-   <script type="text/javascript" tal:attributes="src string:${context/portal_url}/page.js" src=""></script>
- </metal:slot>
-
-</head>
-
 <body>
 
   <div metal:fill-slot="main">

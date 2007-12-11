@@ -114,12 +114,13 @@
 
     Call this with tocInfo (as returned by getTOCInfo()) defined
   -->
+
 <div metal:define-macro="navigation_bar"
     class="listingBar" 
     tal:define="nextIdx tocInfo/nextIdx;
                 prevIdx tocInfo/prevIdx;
                 tocList tocInfo/tocList"
-    tal:condition="python: nextIdx or prevIdx"
+    tal:condition="python: nextIdx==None or prevIdx==None"
     i18n:domain="plonehelpcenter">
 
     <tal:next condition="nextIdx">

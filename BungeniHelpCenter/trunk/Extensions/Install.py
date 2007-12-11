@@ -15,17 +15,36 @@ from Products.Archetypes.Extensions.utils import installTypes
 from Products.Archetypes.Extensions.utils import install_subskin
 from Products.Archetypes.config import TOOL_NAME as ARCHETYPETOOLNAME
 from Products.Archetypes.atapi import listTypes
-from Products.BungeniHelpCenter.config import PROJECTNAME
+from Products.BungeniHelpCenter.config import PROJECTNAME, \
+    RESOURCES_CSS, RESOURCES_JS, TYPE_PARAMS
 from Products.BungeniHelpCenter.config import product_globals as GLOBALS
 
 def install(self, reinstall=False):
     """ External Method to install BungeniHelpCenter """
     out = StringIO()
     print >> out, "Installation log of %s:" % PROJECTNAME
+    portal = getToolByName(self,'portal_url').getPortalObject()
+
+    from Products.ResourceRegistries.config import CSSTOOLNAME, JSTOOLNAME
+
+    expr = 'python:getattr(here, \'portal_type\', None) in [\'%s\',\'%s\']'%('BungeniReferenceManualPage', 'BungeniTutorialPage') 
+
+    csstool = getToolByName(portal, CSSTOOLNAME)
+    for (id, media) in RESOURCES_CSS.iteritems():
+        csstool.manage_removeStylesheet(id=id)
+        csstool.manage_addStylesheet(id=id, media=media,\
+                                     rel='stylesheet', enabled=True, cookable=True, expression=expr)
+        print >> out, 'Registered CSS resource:', id
+
+    jstool = getToolByName(portal, JSTOOLNAME)
+    for id in RESOURCES_JS:
+        jstool.manage_removeScript(id=id)
+        jstool.manage_addScript(id=id,
+                                enabled=True, cookable=True, compression='none', expression=expr)
+        print >> out, 'Registered JS resource:', id
 
     # If the config contains a list of dependencies, try to install them
     from Products.BungeniHelpCenter.config import DEPENDENCIES
-    portal = getToolByName(self,'portal_url').getPortalObject()
     quickinstaller = portal.portal_quickinstaller
     for dependency in DEPENDENCIES:
         print >> out, "Installing dependency %s:" % dependency
@@ -54,6 +73,17 @@ def install(self, reinstall=False):
 
 def uninstall(self, reinstall=False):
     out = StringIO()
+    from Products.ResourceRegistries.config import CSSTOOLNAME, JSTOOLNAME
+    
+    csstool = getToolByName(portal, CSSTOOLNAME)
+    for id in RESOURCES_CSS.iterkeys():
+        csstool.manage_removeStylesheet(id=id)
+        print >> out, 'Unregistered CSS resource:', id
+
+    jstool = getToolByName(portal, JSTOOLNAME)
+    for id in RESOURCES_JS:
+        jstool.manage_removeScript(id=id)
+        print >> out, 'Unregistered JS resource:', id
 
     print >>out,'Uninstalled'
 

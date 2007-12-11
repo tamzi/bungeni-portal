@@ -102,20 +102,6 @@
     </ol>
     </div>
 
-<div class="visualClear">&nbsp;</div>
-<div class="custom">
-    <ul class="contentViews" tal:condition="here/getPages">
-         <li  class="plain" tal:repeat="page here/getPages">
-            <a tal:attributes="href string:javascript:xmlhttpPost('${page/getURL}/tutorialpage_simple')">
-               <span  style="background-color:transparent;padding:0em 1em;" tal:attributes="class string:state-${page/review_state}" 
-                     tal:content="page/Title" /></a>
-         </li>
-    </ul>
-    <br/>
-    <div id="pagecontents"></div>
-</div>
-
-
     <p tal:condition="not:here/getPages" class="discreet">
       There are no pages in this Tutorial. 
       <span tal:condition="python:member.has_permission('Modify portal contents', here)">

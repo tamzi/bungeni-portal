@@ -3,6 +3,15 @@
       metal:use-macro="here/main_template/macros/master"
       i18n:domain="plonehelpcenter">
 
+<head>
+ <metal:slot fill-slot="javascript_head_slot">
+   <script type="text/javascript" tal:attributes="src string:${context/portal_url}/TabbedSubpages.js" src=""></script>
+   <LINK tal:attributes="href string:${context/portal_url}/TabbedSubpages.css"
+         href="TabbedSubpages.css" rel="stylesheet" type="text/css">
+ </metal:slot>
+</head>
+<body>
+
 <body>
 
 <div metal:fill-slot="main">
@@ -147,27 +156,38 @@
             <div tal:replace="structure python:here.getBody()" />
         </div>
 
-    <div tal:repeat="subpage subpages">
-      <div tal:define="number repeat/subpage/number;
-                       layout python: here.getTargetObjectLayout(subpage);
-                       template python: getattr(subpage, layout, None);
-                       macros template/macros | nothing;
-                       main_macro macros/main | nothing">
-        <a tal:condition="python: user.has_role(['Owner', 'Reviewer', 'Manager'], context)"
-           class="edit-icon"
-           href="#" tal:attributes="href string:${subpage/absolute_url}/base_edit;"
-           title="Rediger underside">
-          <img src="" tal:attributes="src string:$portal_url/edit_icon.gif"
-               width="16"
-               title="Edit subpage"/>
-        </a>
-        <tal:content tal:define="batch_base_url string:${here/absolute_url}/${template_id};
-                                 here python: subpage;
-                                 here_url string:${here/absolute_url};
-                                 object_title here/Title">                    
-          <div metal:use-macro="main_macro" />
-        </tal:content>
-      </div>
+    <div id="tabber-block">
+
+        <div class="tabbernav-center">
+            <div class="tabber" tal:attributes="id here/getId">
+                <tal:tabs define="default_page here/REQUEST/page|python: 1"
+                          repeat="subpage subpages">
+                    <div tal:define="number repeat/subpage/number;
+                                     layout python: here.getTargetObjectLayout(subpage);
+                                     template python: getattr(subpage, layout, None);
+                                     macros template/macros | nothing;
+                                     main_macro macros/main | nothing"
+                         tal:attributes="class python: test(number == int(default_page), 'tabbertab tabbertabdefault', 'tabbertab')">
+                        <a tal:condition="python: user.has_role(['Owner', 'Reviewer', 'Manager'], context)"
+                            class="edit-icon"
+                            href="#" tal:attributes="href string:${subpage/absolute_url}/base_edit;"
+                            title="Rediger underside">
+                                <img src="" tal:attributes="src string:$portal_url/edit_icon.gif"
+                                            width="16"
+                                            title="Edit subpage"/>
+                        </a>
+                        <h2 class="tabberHeading" tal:content="subpage/Title">Tab</h2>
+                        <tal:content tal:define="batch_base_url string:${here/absolute_url}/${template_id};
+                                                 here python: subpage;
+                                                 here_url string:${here/absolute_url};
+                                                 object_title here/Title">                    
+                            <div metal:use-macro="main_macro" />
+                        </tal:content>
+                    </div>
+                </tal:tabs>
+            </div>
+        </div>
+
     </div>
 
         <div class="listingBar" tal:condition="python: next or prev"

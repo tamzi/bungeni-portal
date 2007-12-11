@@ -1,34 +1,27 @@
 <?xml version="1.0"?>
-<object name="BungeniHelpCenterTutorial" 
+<object name="TabbedSubpages" 
    meta_type="Factory-based Type Information with dynamic views"
    xmlns:i18n="http://xml.zope.org/namespaces/i18n">
- <property name="title">Tutorial</property>
+ <property name="title">Tabbed Page</property>
  <property
-    name="description">A tutorial containing TutorialPages, Files and Images.</property>
+    name="description">A tabbed page.</property>
  <property name="content_icon">tutorial_icon.gif</property>
- <property name="content_meta_type">BungeniHelpCenterTutorial</property>
+ <property name="content_meta_type">TabbedSubpages</property>
  <property name="product">BungeniHelpCenter</property>
- <property name="factory">addBungeniHelpCenterTutorial</property>
+ <property name="factory">addTabbedSubpages</property>
  <property name="immediate_view">base_edit</property>
  <property name="global_allow">False</property>
- <property name="filter_content_types">True</property>
- <property name="allowed_content_types">
-  <element value="BungeniHelpCenterTutorialPage"/>
-  <element value="Image"/>
-  <element value="File"/>
- </property>
- <property name="default_view">tutorial_view</property>
+ <property name="default_view">tabbed_subpages_view</property>
  <property name="view_methods">
-  <element value="tutorial_view_roman"/>
-  <element value="tutorial_view_letter"/>
-  <element value="tutorial_view"/>
+  <element value="tabbed_subpages_view"/>
+  <element value="tabbed_vertical_view"/>
+  <element value="tabbed_horizontal_view"/>
  </property>
  <property name="allow_discussion">True</property>
  <property name="default_view_fallback">False</property>
  <alias from="(Default)" to="(dynamic view)"/>
  <alias from="edit" to="base_edit"/>
  <alias from="properties" to="base_metadata"/>
- <alias from="sharing" to="folder_localrole_form"/>
  <alias from="view" to="(selected layout)"/>
  <action title="View" action_id="view" category="object" condition_expr=""
     url_expr="string:${object_url}/view" visible="True">
@@ -48,10 +41,5 @@
     url_expr="string:${object_url}/reference_graph" visible="True">
   <permission value="Modify portal content"/>
   <permission value="Review portal content"/>
- </action>
- <action title="Folder Listing" action_id="folderlisting" category="folder"
-    condition_expr="object/isPrincipiaFolderish"
-    url_expr="string:${folder_url}/view" visible="False">
-  <permission value="View"/>
  </action>
 </object>

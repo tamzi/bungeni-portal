@@ -21,9 +21,12 @@ from Products.BungeniHelpCenter.content import roman
 from Products.PloneHelpCenter.content import Definition, Glossary, \
     FAQFolder, LinkFolder, Link, PHCContent, PHCFolder, ReferenceManualPage
 from Products.PloneHelpCenter.content import ReferenceManual, ReferenceManualSection, \
-    TutorialFolder, TutorialPage, Tutorial
+    TutorialFolder, TutorialPage, Tutorial, ReferenceManualFolder
+from Products.PloneHelpCenter.content import HowToFolder
+
 from Products.PloneHelpCenter.config import DEFAULT_CONTENT_TYPES, REFERENCEABLE_TYPES, IMAGE_SIZES
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin, fti_meta_type
+from Products.PortalTaxonomy.fields import AttributeField, CategoryField
 
 BodyField =  TextField(
         'body',
@@ -38,6 +41,7 @@ BodyField =  TextField(
                 ),
         **DEFAULT_CONTENT_TYPES
         )
+
 IdentityField = ImageField(
         'identity',
         required=0,
@@ -50,6 +54,7 @@ IdentityField = ImageField(
             i18n_domain='plonehelpcenter',
             ),
         )
+
 ContributorsField =  LinesField(
         'contributors',
         accessor="Contributors",
@@ -90,6 +95,11 @@ RightsField =  TextField(
                  i18n_domain="plonehelpcenter"
                  ),
          )
+
+TaxCategoryField = CategoryField('categories')
+
+TaxAttributesField = AttributeField('attribs')
+
 
 # Patching PHCContent
 PHCContent = PHCContent.PHCContent
@@ -184,11 +194,14 @@ HelpCenterGlossary = Glossary.HelpCenterGlossary
 
 HelpCenterGlossary.schema['description'].required = 0
 
-HelpCenterGlossary.schema = HelpCenterGlossary.schema + Schema((BodyField, IdentityField, ContributorsField, RelatedItemsField),)
+HelpCenterGlossary.schema = HelpCenterGlossary.schema + \
+    Schema((BodyField, IdentityField, ContributorsField, RelatedItemsField, TaxCategoryField, TaxAttributesField),)
 
 HelpCenterGlossary.schema.moveField('sectionsVocab', pos='bottom')
 HelpCenterGlossary.schema.moveField('contributors', pos='bottom')
 HelpCenterGlossary.schema.moveField('relatedItems', pos='bottom')
+HelpCenterGlossary.schema.moveField('categories', pos='bottom')
+HelpCenterGlossary.schema.moveField('attribs', pos='bottom')
 
 def alphabetise(self):
     items = self.getFolderContents()
@@ -229,11 +242,16 @@ HelpCenterFAQFolder = FAQFolder.HelpCenterFAQFolder
 
 HelpCenterFAQFolder.schema['description'].required = 0
 
-HelpCenterFAQFolder.schema = HelpCenterFAQFolder.schema + Schema((BodyField, IdentityField, ContributorsField, RelatedItemsField, RightsField),)
+HelpCenterFAQFolder.schema = HelpCenterFAQFolder.schema +\
+Schema((BodyField, IdentityField, ContributorsField,\
+        RelatedItemsField, RightsField, TaxCategoryField, TaxAttributesField),)
 
 HelpCenterFAQFolder.schema.moveField('contributors', pos='bottom')
 HelpCenterFAQFolder.schema.moveField('relatedItems', pos='bottom')
 HelpCenterFAQFolder.schema.moveField('rights', pos='bottom')
+HelpCenterFAQFolder.schema.moveField('categories', pos='bottom')
+HelpCenterFAQFolder.schema.moveField('attribs', pos='bottom')
+
 
 generateMethods(HelpCenterFAQFolder, HelpCenterFAQFolder.schema.fields())
 
@@ -242,10 +260,13 @@ HelpCenterLinkFolder = LinkFolder.HelpCenterLinkFolder
 
 HelpCenterLinkFolder.schema['description'].required = 0
 
-HelpCenterLinkFolder.schema = HelpCenterLinkFolder.schema + Schema((BodyField, IdentityField, RelatedItemsField),)
+HelpCenterLinkFolder.schema = HelpCenterLinkFolder.schema + \
+    Schema((BodyField, IdentityField, RelatedItemsField, TaxCategoryField, TaxAttributesField),)
 
 HelpCenterLinkFolder.schema.moveField('sectionsVocab', pos='bottom')
 HelpCenterLinkFolder.schema.moveField('relatedItems', pos='bottom')
+HelpCenterLinkFolder.schema.moveField('categories', pos='bottom')
+HelpCenterLinkFolder.schema.moveField('attribs', pos='bottom')
 
 HelpCenterLinkFolder.alphabetise = alphabetise.__get__(None, HelpCenterLinkFolder)
 
@@ -266,6 +287,14 @@ HelpCenterLink.schema.moveField('startHere', pos='bottom')
 HelpCenterLink.schema.moveField('relatedItems', pos='bottom')
 
 generateMethods(HelpCenterLink, HelpCenterLink.schema.fields())
+
+# Patching ReferenceManualFolder
+HelpCenterReferenceManualFolder = ReferenceManualFolder.HelpCenterReferenceManualFolder
+
+HelpCenterReferenceManualFolder.schema = \
+    HelpCenterReferenceManualFolder.schema + Schema((RelatedItemsField),)
+
+generateMethods(HelpCenterReferenceManualFolder, HelpCenterReferenceManualFolder.schema.fields())
 
 # Patching ReferenceManual
 
@@ -294,7 +323,8 @@ HelpCenterReferenceManual.toRoman = toRoman.__get__(None, HelpCenterReferenceMan
 
 HelpCenterReferenceManual.schema['description'].required = 0
 
-HelpCenterReferenceManual.schema = HelpCenterReferenceManual.schema + Schema((BodyField, IdentityField, RightsField),)
+HelpCenterReferenceManual.schema = HelpCenterReferenceManual.schema + \
+ Schema((BodyField, IdentityField, RightsField, TaxCategoryField, TaxAttributesField),)
 
 HelpCenterReferenceManual.schema.moveField('relatedItems', pos='bottom')
 HelpCenterReferenceManual.schema.moveField('sections', pos='bottom')
@@ -304,16 +334,12 @@ HelpCenterReferenceManual.schema.moveField('startHere', pos='bottom')
 HelpCenterReferenceManual.schema.moveField('subject', pos='bottom')
 HelpCenterReferenceManual.schema.moveField('relatedItems', pos='bottom')
 HelpCenterReferenceManual.schema.moveField('rights', pos='bottom')
+HelpCenterReferenceManual.schema.moveField('categories', pos='bottom')
+HelpCenterReferenceManual.schema.moveField('attribs', pos='bottom')
 
 generateMethods(HelpCenterReferenceManual, HelpCenterReferenceManual.schema.fields())
 
 # Patching ReferenceManualPage
-
-HelpCenterReferenceManualPage = ReferenceManualPage.HelpCenterReferenceManualPage
-
-HelpCenterReferenceManualPage.schema['description'].required = 0
-
-generateMethods(HelpCenterReferenceManualPage, HelpCenterReferenceManualPage.schema.fields())
 
 # Patching ReferenceManualSection
 HelpCenterReferenceManualSection = ReferenceManualSection.HelpCenterReferenceManualSection
@@ -329,7 +355,9 @@ generateMethods(HelpCenterReferenceManualSection, HelpCenterReferenceManualSecti
 HelpCenterTutorialFolder = TutorialFolder.HelpCenterTutorialFolder
 
 HelpCenterTutorialFolder.schema['description'].required = 0
-HelpCenterTutorialFolder.schema = HelpCenterTutorialFolder.schema + Schema((BodyField, IdentityField, ContributorsField, RelatedItemsField),)
+HelpCenterTutorialFolder.schema = HelpCenterTutorialFolder.schema + \
+    Schema((BodyField, IdentityField, ContributorsField, \
+        RelatedItemsField),)
 
 HelpCenterTutorialFolder.schema.moveField('sectionsVocab', pos='bottom')
 HelpCenterTutorialFolder.schema.moveField('contributors', pos='bottom')
@@ -338,22 +366,27 @@ HelpCenterTutorialFolder.schema.moveField('relatedItems', pos='bottom')
 generateMethods(HelpCenterTutorialFolder, HelpCenterTutorialFolder.schema.fields())
 
 # Patching TutorialPage
-HelpCenterTutorialPage = TutorialPage.HelpCenterTutorialPage
-
-HelpCenterTutorialPage.schema['description'].required = 0
-
-HelpCenterTutorialPage.schema = HelpCenterTutorialPage.schema + Schema((ContributorsField),)
-
-if HelpCenterTutorialPage.schema.has_key('relatedItems'):
-    del HelpCenterTutorialPage.schema['relatedItems']
-HelpCenterTutorialPage.schema.moveField('contributors', pos='bottom')
-
-generateMethods(HelpCenterTutorialPage, HelpCenterTutorialPage.schema.fields())
 
 # Patching Tutorial
 HelpCenterTutorial = Tutorial.HelpCenterTutorial
 
 HelpCenterTutorial.schema['description'].required = 0
-HelpCenterTutorial.schema = HelpCenterTutorial.schema + Schema((BodyField),)
+HelpCenterTutorial.schema = HelpCenterTutorial.schema + Schema((BodyField, TaxCategoryField, TaxAttributesField),)
+
+HelpCenterTutorial.schema.moveField('body', pos='top')
+HelpCenterTutorial.schema.moveField('description', pos='top')
+HelpCenterTutorial.schema.moveField('title', pos='top')
+HelpCenterTutorial.schema.moveField('categories', pos='bottom')
+HelpCenterTutorial.schema.moveField('attribs', pos='bottom')
+
 
 generateMethods(HelpCenterTutorial, HelpCenterTutorial.schema.fields())
+
+# Patching HelpCenterHowTo
+
+HelpCenterHowToFolder = HowToFolder.HelpCenterHowToFolder
+
+HelpCenterHowToFolder.schema = \
+    HelpCenterHowToFolder.schema + Schema((RelatedItemsField),)
+
+generateMethods(HelpCenterHowToFolder, HelpCenterHowToFolder.schema.fields())

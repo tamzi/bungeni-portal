@@ -147,7 +147,7 @@ public class InitSpeech extends selectorTemplatePanel {
         return null;
     }
     
-    private void setControlModes() {
+    public void setControlModes() {
         System.out.println("Current mode = " + theMode);
         if (theMode == SelectorDialogModes.TEXT_INSERTION) {
              txt_URIofPerson.setEditable(false);

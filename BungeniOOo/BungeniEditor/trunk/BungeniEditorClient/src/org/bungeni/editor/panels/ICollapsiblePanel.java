@@ -10,6 +10,7 @@
 package org.bungeni.editor.panels;
 
 import java.awt.Component;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.IEditorActionEvent;
@@ -35,5 +36,5 @@ public interface ICollapsiblePanel  {
      */
   public IEditorActionEvent getEventClass(toolbarAction action);
 
-  public void setParentWindowHandle(Component c);
+  public void setParentWindowHandle(JFrame c);
 }

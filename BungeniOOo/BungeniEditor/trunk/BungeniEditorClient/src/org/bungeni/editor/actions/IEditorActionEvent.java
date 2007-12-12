@@ -17,6 +17,6 @@ import org.bungeni.ooo.OOComponentHelper;
  * @author Administrator
  */
 public interface IEditorActionEvent {
-       public void doCommand(OOComponentHelper ooDocument, toolbarAction action);
-       public void doCommand(OOComponentHelper ooDocument, toolbarSubAction action);
+       public void doCommand(OOComponentHelper ooDocument, toolbarAction action, javax.swing.JFrame parentFrame);
+       public void doCommand(OOComponentHelper ooDocument, toolbarSubAction action, javax.swing.JFrame parentFrame);
 }

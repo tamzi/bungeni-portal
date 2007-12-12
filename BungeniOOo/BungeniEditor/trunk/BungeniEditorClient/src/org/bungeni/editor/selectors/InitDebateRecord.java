@@ -135,27 +135,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
       }
       
      
-      /*
-    public void setControlModes() {
-        if (theMode == SelectorDialogModes.TEXT_EDIT) {
-            this.lbl_initdebate_selectlogo.setVisible(false);
-            this.btn_initdebate_selectlogo.setVisible(false);
-        } else if (theMode == SelectorDialogModes.TEXT_INSERTION) {
-            this.lbl_initdebate_selectlogo.setVisible(true);
-            this.btn_initdebate_selectlogo.setVisible(true);
-        } else if (theMode == SelectorDialogModes.TEXT_SELECTED_INSERT) {
-            
-            
-        } else if (theMode == SelectorDialogModes.TEXT_SELECTED_EDIT) {
-            
-            
-        } else {
-            this.lbl_initdebate_selectlogo.setVisible(true);
-            this.btn_initdebate_selectlogo.setVisible(true);
-        }
-    }
-    */
-      
+ 
     public void setControlData() {
         try {
         //only in edit mode, only if the metadata properties exist

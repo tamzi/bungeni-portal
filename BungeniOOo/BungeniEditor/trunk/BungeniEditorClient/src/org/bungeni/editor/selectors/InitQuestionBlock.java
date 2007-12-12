@@ -82,7 +82,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
    
     
     
-    private void setControlModes() {
+    public void setControlModes() {
 
         if (theMode == SelectorDialogModes.TEXT_INSERTION) {
             txtAddressedTo.setEditable(false);

@@ -17,6 +17,7 @@ import java.util.Vector;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
@@ -46,12 +47,12 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(generalEditorPanel4.class.getName());
     private OOComponentHelper ooDocument;    
     private BungeniClientDB instance;
-    
+    private JFrame parentFrame;
     private DefaultMutableTreeNode root;
   //  private DefaultMutableTreeNode[] visibleActionRoots;
     private JPopupMenu popupMenu;
     
-    private  enum PopupTypeIdentifier {CREATE_EDIT , APPLY_MARKUP, EDIT, SELECT_INSERT, SELECT_EDIT, SYSTEM_ACTION  };
+    private  enum PopupTypeIdentifier {CREATE_EDIT , APPLY_MARKUP, EDIT, SELECT_INSERT, SELECT_EDIT, SYSTEM_ACTION, DOCUMENT_ACTION  };
  
     private HashMap<PopupTypeIdentifier, String> popupMap = new HashMap<PopupTypeIdentifier, String>();
     private String property_ActiveDocumentMode = "";
@@ -102,7 +103,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         popupMap.put(PopupTypeIdentifier.SELECT_EDIT, "Edit Selection");
         popupMap.put(PopupTypeIdentifier.SELECT_INSERT, "Markup Selection");
         popupMap.put(PopupTypeIdentifier.SYSTEM_ACTION, "Generate System Container");
-        
+        popupMap.put(PopupTypeIdentifier.DOCUMENT_ACTION, "Execute Action");
     }
     
     private void initTree() {
@@ -262,7 +263,8 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         return event;
     }
     
-    public void setParentWindowHandle(Component c) {
+    public void setParentWindowHandle(JFrame c) {
+        this.parentFrame = c;
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -344,6 +346,9 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
            if (treePopupMenuAction_popupType == PopupTypeIdentifier.SYSTEM_ACTION) {
                     return SelectorDialogModes.TEXT_SELECTED_SYSTEM_ACTION;
            }
+           if (treePopupMenuAction_popupType == PopupTypeIdentifier.DOCUMENT_ACTION) {
+                    return SelectorDialogModes.DOCUMENT_LEVEL_ACTION;
+           }
            return SelectorDialogModes.NONE;
         }    
         
@@ -359,7 +364,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                      */
                     action.setSelectorDialogMode(this.getDialogMode());
                     IEditorActionEvent event = getEventClass(action);
-                    event.doCommand(ooDocument, action);
+                    event.doCommand(ooDocument, action, parentFrame);
               } else
                if (popId == PopupTypeIdentifier.EDIT) {
                     //look for existing masthead section 
@@ -368,31 +373,21 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                     //we look for sections matching this action type.
                     action.setSelectorDialogMode(this.getDialogMode());
                     IEditorActionEvent event = getEventClass(action);
-                    event.doCommand(ooDocument, action);
+                    event.doCommand(ooDocument, action, parentFrame);
                } else 
               if (popId == PopupTypeIdentifier.APPLY_MARKUP) {
                     action.setSelectorDialogMode(this.getDialogMode());
                     IEditorActionEvent event = getEventClass(action);
-                    event.doCommand(ooDocument, action);
+                    event.doCommand(ooDocument, action, parentFrame);
               }
         }
         
         private void processPopupSelection (toolbarSubAction action, PopupTypeIdentifier popId) {
-            if (popId == PopupTypeIdentifier.SELECT_EDIT){
+           
                 action.setSelectorDialogMode(this.getDialogMode());
                 IEditorActionEvent event = getEventClass(action);
-                event.doCommand(ooDocument, action);
-            } else 
-             if (popId == PopupTypeIdentifier.SELECT_INSERT) {
-                action.setSelectorDialogMode(this.getDialogMode());
-                IEditorActionEvent event = getEventClass(action);
-                event.doCommand(ooDocument, action);
-             } else 
-             if (popId == PopupTypeIdentifier.SYSTEM_ACTION) {
-                action.setSelectorDialogMode(this.getDialogMode());
-                IEditorActionEvent event = getEventClass(action);
-                event.doCommand(ooDocument, action);
-             }
+                event.doCommand(ooDocument, action, parentFrame);
+
         }
         
         
@@ -412,7 +407,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                      */
                     action.setSelectorDialogMode(this.getDialogMode());
                     IEditorActionEvent event = getEventClass(action);
-                    event.doCommand(ooDocument, action);
+                    event.doCommand(ooDocument, action, parentFrame);
               } else
                if (treePopupMenuAction_popupType == PopupTypeIdentifier.EDIT) {
                     //look for existing masthead section 
@@ -421,7 +416,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                     //we look for sections matching this action type.
                     action.setSelectorDialogMode(this.getDialogMode());
                     IEditorActionEvent event = getEventClass(action);
-                    event.doCommand(ooDocument, action);
+                    event.doCommand(ooDocument, action, parentFrame);
                }
               /*else 
               if (popupType == PopupTypeIdentifier.VIEW_ACTIONS) {
@@ -439,7 +434,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                     toolbarAction action =(toolbarAction)thisNode.getUserObject();
                     action.setSelectorDialogMode(this.getDialogMode());
                     IEditorActionEvent event = getEventClass(action);
-                    event.doCommand(ooDocument, action);
+                    event.doCommand(ooDocument, action, parentFrame);
               }
                 //get toolbar action     
               //toolbarAction action = (toolbarAction) thisNode.getUserObject();
@@ -461,14 +456,23 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
        private void createPopupMenuItems(toolbarSubAction subAction) {
            // throw new UnsupportedOperationException("Not yet implemented");
             popupMenu.removeAll(); 
-            if (subAction.sub_action_order().equals("0"))  {
-                 popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.SELECT_INSERT), subAction, PopupTypeIdentifier.SELECT_INSERT));
-            } else {
+            if (subAction.action_type().equals("section_create"))  {
+
+                popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.SELECT_INSERT), subAction, PopupTypeIdentifier.SELECT_INSERT));
+
+            } else if (subAction.action_type().equals("field_action")){
+
                  popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.SELECT_INSERT), subAction, PopupTypeIdentifier.SELECT_INSERT));
                  popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.SELECT_EDIT) , subAction, PopupTypeIdentifier.SELECT_INSERT));   
+
                  if (subAction.system_container().length() > 0 ) {
                      popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.SYSTEM_ACTION), subAction, PopupTypeIdentifier.SYSTEM_ACTION));
                  }
+
+            } else if (subAction.action_type().equals("document_action")) {
+
+                popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.DOCUMENT_ACTION), subAction, PopupTypeIdentifier.DOCUMENT_ACTION));
+
             }
         } 
         

@@ -13,9 +13,12 @@ import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextViewCursor;
+import java.awt.Component;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
 import org.bungeni.db.BungeniClientDB;
@@ -24,6 +27,8 @@ import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.selectors.InitDebateRecord;
 import org.bungeni.editor.selectors.SelectorDialogModes;
+import org.bungeni.error.BungeniError;
+import org.bungeni.error.ErrorMessages;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.utils.CommonPropertyFunctions;
@@ -37,31 +42,37 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
    private static org.apache.log4j.Logger log = Logger.getLogger(EditorSelectionActionHandler.class.getName());
    private OOComponentHelper ooDocument;
    private toolbarSubAction m_subAction;   
+   private JFrame parentFrame;
    private toolbarAction m_parentAction;
-   private BungeniClientDB instance;
+   private BungeniClientDB dbSettings;
+   private ErrorMessages errorMsgObj = new ErrorMessages();
     /** Creates a new instance of EditorSelectionActionHandler */
     public EditorSelectionActionHandler() {
            
-        instance = new BungeniClientDB (DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
+        dbSettings = new BungeniClientDB (DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
       
     }
 
-    public void doCommand(OOComponentHelper ooDocument, toolbarAction action) {
+    public void doCommand(OOComponentHelper ooDocument, toolbarAction action, JFrame c) {
     
     }
 
-    public void doCommand(OOComponentHelper ooDocument, toolbarSubAction action) {
+    public void doCommand(OOComponentHelper ooDocument, toolbarSubAction action, JFrame c) {
         //the modes available are either text_select_insert or edit
         this.ooDocument = ooDocument;
+        this.parentFrame = c;
         this.m_subAction = action;
         this.m_parentAction = getParentAction();
         this.m_parentAction.setSelectorDialogMode(action.getSelectorDialogMode());
         
         int nValid = -1;
-        if ((nValid = validateAction()) < 0 ) 
+        if ((nValid = _validateAction()) < 0 ) 
         {
             log.debug("EditorSelectionActionHandler : invalid action in this context");
             switch (nValid) {
+                case BungeniError.DOCUMENT_ROOT_DOES_NOT_EXIST :
+                    MessageBox.OK(errorMsgObj.toString());
+                    return;
                 case -1:
                      MessageBox.OK("There was no text selected in the document");
                  break;
@@ -108,13 +119,11 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
     }
     
     private void routeAction() {
-        if (m_subAction.parent_action_name().equals("makePrayerSection")) {
             if (m_subAction.getSelectorDialogMode() == SelectorDialogModes.TEXT_SELECTED_SYSTEM_ACTION) {
                 routeAction_SystemAction();
             } else {
                 routeAction_Masthead();    
             }
-        }
     }
 
     private void routeAction_SystemAction(){
@@ -177,6 +186,16 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
        return 1; 
     }
     
+    
+    /*
+     *
+     *actions are validated in the following order:
+     *validateAction() { 
+     *  isTextSelected()
+     *  systemContainerCheck()
+     *  parentContainerCheck()
+     */
+    /*
     private int validateAction(){
         //selection check
         boolean bSelected=false;
@@ -205,7 +224,7 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
         
         //parent container check
        
-        nRet = 0 ;  //  parentContainerCheck();
+        nRet =  parentContainerCheck();
         if (nRet == -6) {
             log.debug("validateAction: no parent container");
             return nRet;
@@ -227,7 +246,8 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
         }       
         return 1;
     }
-    
+*/
+    /*
     private int systemContainerCheck() {
         if (this.m_subAction.system_container().length() == 0 ) {
             //there is no system container 
@@ -259,13 +279,202 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
         }
         } 
     }
+   */
+    /*
+     *
+     *
+     *
+If documentHasNoRootSection
+	error root section
+	return
+
+If documentHasRootSection
+	if NoSelectedText
+	 	error selected text
+	 	return
+	 if selectedText
+	 	markupSelectedText()
+	 	
+
+if markupSelectedText():
+	if action requires SystemSection:
+		lookup full hierarchy for markupAction
+		if (actionHierarchy == sectionHierarchy) 
+			do markupAction()
+			exit
+		if (actionHierarchy <> sectionHierarchy)
+			error hierarchy
+			disply valid hierarchy 
+			exit
+	if action does not require SystemSection:
+		lookup full hierarchy for markupAction
+		if (actionHierarchy == sectionHierarchy) 
+			do markupAction()
+			exit
+		if (actionHierarchy <> sectionHierarchy)
+			error hierarchy
+			disply valid hierarchy 
+			exit
+			 	
+     *			 	
+     *
+     *
+     */
+    
+     private int _validateAction(){
+        
+         if (m_subAction.action_type().equals("document_action")) {
+             if (m_subAction.sub_action_name().equals("init_document")) {
+                    int nRet = MessageBox.Confirm((Component)parentFrame , "This will initalize the document " +
+                            "by create a root container for the content. Are you sure you want to do this ?", "Confirm");
+                    if (nRet == JOptionPane.YES_OPTION) {
+                        //create root container
+                    }   else if (nRet == JOptionPane.NO_OPTION) {
+                        //dont create root container
+                    }      
+             }
+         }
+         
+         
+        int nRootContainerCheck = _rootContainerCheck();
+        if (nRootContainerCheck == BungeniError.DOCUMENT_ROOT_DOES_NOT_EXIST) {
+            log.debug("validateaction: no root container");
+            return nRootContainerCheck;
+        }
+        
+         //selection check
+        boolean bSelected=false;
+        bSelected = ooDocument.isTextSelected();
+        if (!bSelected ) {
+            log.debug("validateAction: nothing was selected ");
+            return BungeniError.NO_TEXT_SELECTED;
+        }
+      
+        if (m_subAction.system_container().length() == 0 ) {
+            //system container not required
+            //parentCheckWithSystemContainer();
+        } else {
+            //system container required
+        //    parentCheckWithoutSystemContainer();
+        }
+     return 0;
+     }
+     
+    private int _rootContainerCheck(){
+        //check if root container exists
+        //if it doesnt exist fail
+         String documentRoot = CommonPropertyFunctions.getDocumentRootSection();
+         if (ooDocument.hasSection(documentRoot)) {
+             return BungeniError.DOCUMENT_ROOT_EXISTS;
+         } else {
+             this.errorMsgObj.add("The document needs to be initialized correctly with a main container.\n" +
+                     "Please initialize the document by using the 'Initialize Document' action");
+             return BungeniError.DOCUMENT_ROOT_DOES_NOT_EXIST;
+         }
+    }
+    
+    
+    private int _systemContainerCheck(){
+        String systemContainer = m_subAction.system_container();
+        String currentSectionname = ooDocument.currentSectionName();
+        if (systemContainer.length() == 0 ) {
+            //there is no system container 
+            return  BungeniError.SYSTEM_CONTAINER_NOT_REQD;
+        } 
+        //check if document has section
+        boolean bHasSystemContainer = ooDocument.hasSection(systemContainer) ;
+        if (bHasSystemContainer) {
+            //is the current section == the system container
+            if (systemContainer.equals(currentSectionname)) {
+               //selection is within the correct system container....
+                return BungeniError.SYSTEM_CONTAINER_CHECK_OK;
+            } else {
+                return BungeniError.SYSTEM_CONTAINER_WRONG_POSITION;
+            }
+        } else {
+            //no system container present...
+            //get full container hierarchy
+           return BungeniError.SYSTEM_CONTAINER_NOT_PRESENT;
+        }
+   }
+
+    private int _parentContainerCheck(int systemContainerCheck ) {
+        switch (systemContainerCheck) {
+            case BungeniError.SYSTEM_CONTAINER_NOT_PRESENT :
+                //system container was not present
+                _parentContainerCheck_MissingSystemContainer();
+                break;
+            case BungeniError.SYSTEM_CONTAINER_NOT_REQD:
+                _parentContainerCheck_SystemContainerNotReqd();
+                break;
+            case BungeniError.SYSTEM_CONTAINER_WRONG_POSITION:
+                _parentContainerCheck_NotInSystemContainer();
+                break;
+            case BungeniError.SYSTEM_CONTAINER_CHECK_OK:
+                _parentContainerCheck_SystemContainerOK();
+                break;
+ 
+        }
+        
+        return 0;
+    }
+    
+    private int _parentContainerCheck_MissingSystemContainer() {
+        //add error message for missing system container
+        //then run parentContainerCheckSystemContainerOK
+        return 0;
+    }
+    
+    private int _parentContainerCheck_SystemContainerOK() {
+        //system container was ok. 
+        //we need to check the placement of the system container with respect to the parent action
+        //first we determine the correct parent hierarchy for the action.
+        
+        String qrygetParents = SettingsQueryFactory.Q_FETCH_PARENT_ACTIONS(m_parentAction.action_name());
+        Vector<Vector<String>> resultRows = new Vector<Vector<String>>();
+        String currentSystemContainer = ooDocument.currentSectionName();
+        
+        QueryResults qrParents = dbSettings.QueryResults(qrygetParents);
+        if (qrParents != null ) {
+            if (qrParents.hasResults()) {
+                //get all the possible parent names
+                String[] theActionNames = qrParents.getSingleColumnResult("ACTION_NAME");
+                String[] theActionDisplayText = qrParents.getSingleColumnResult("ACTION_DISPLAY_TEXT");
+                String[] theActionSectionType = qrParents.getSingleColumnResult("ACTION_SECTION_TYPE");
+                //check if the hierarchy of parents = hierachy of sections in the document.
+                XTextSection theSystemSection = ooDocument.getSection(currentSystemContainer);
+                this.errorMsgObj.start("You need to create the parent containers before marking up using this action.\n");
+                this.errorMsgObj.add("The following actions can be used to create valid parent containers: \n");
+                for (int i=0; i < theActionNames.length ; i++ ) {
+                    this.errorMsgObj.add(" -- "+ theActionDisplayText[i]);
+                }
+            }
+        }
+        return 0;
+    }
+
+    private int _parentContainerCheck_NotInSystemContainer() {
+        return 0;
+    }
+
+    private int _parentContainerCheck_SystemContainerNotReqd() {
+        
+        return 0;
+    }
+    
+    private int validateSectionHierarchy(){
+        return 0;
+    }
     
     private int parentContainerCheck() {
         String parentContainer = "";
         String systemContainerName =  m_subAction.system_container();
+       
+        /*
         if (m_subAction.getSelectorDialogMode() == SelectorDialogModes.TEXT_SELECTED_SYSTEM_ACTION ) {
             return 0;
         }
+        */
         
         //ugly check below...make this more modular...
         if (m_subAction.sub_action_order().equals("0")) {
@@ -365,9 +574,9 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
         Vector<Vector<String>> resultRows = new Vector<Vector<String>>();
         toolbarAction action = null;
         try {
-            instance.Connect();
-            QueryResults qr = instance.QueryResults(SettingsQueryFactory.Q_FETCH_ACTION_BY_NAME(this.m_subAction.parent_action_name()));
-            instance.EndConnect();
+            dbSettings.Connect();
+            QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_FETCH_ACTION_BY_NAME(this.m_subAction.parent_action_name()));
+            dbSettings.EndConnect();
             if (qr == null ) {
                 throw new Exception ("QueryResults returned null");
             }
@@ -387,4 +596,6 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
             return action;
         }
     }  
+
+
    }

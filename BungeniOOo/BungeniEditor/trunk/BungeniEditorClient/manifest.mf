@@ -17,9 +17,9 @@ Class-Path: lib/juh.jar
   lib/commons-codec-1.3.jar 
           lib/commons-xmlio-0.1pre.jar 
   lib/jdom.jar  
-                        lib/swingx-2007_11_11.jar 
-  lib/opencsv-1.8.jar lib/h2.jar 
-                  lib/commons-lang-2.3.jar 
+  lib/swingx.jar 
+          lib/opencsv-1.8.jar lib/h2.jar 
+          lib/commons-lang-2.3.jar 
                   lib/jug-lgpl-2.0.0.jar
 
 Name: com/sun/star/lib/loader/Loader.class

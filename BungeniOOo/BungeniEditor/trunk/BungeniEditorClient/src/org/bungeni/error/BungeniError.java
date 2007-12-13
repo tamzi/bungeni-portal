@@ -30,4 +30,9 @@ public class BungeniError {
     public static final int DOCUMENT_ROOT_EXISTS = 2002 ;
     public static final int DOCUMENT_ROOT_DOES_NOT_EXIST = -2002;
     
+    public static final int DOCUMENT_LEVEL_ACTION_RO0T_EXISTS = 3001;
+    public static final int DOCUMENT_LEVEL_ACTION_ROOT_DOES_NOT_EXIST = 3002;
+    
+    public static final int METHOD_NOT_IMPLEMENTED = -9000;
+    
 }

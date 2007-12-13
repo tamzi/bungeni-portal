@@ -66,6 +66,8 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
         this.m_parentAction.setSelectorDialogMode(action.getSelectorDialogMode());
         
         int nValid = -1;
+        //all error returns < 0 indicate failure and stoppagte
+        //all error returns > 0 indicate that processing can go ahead
         if ((nValid = _validateAction()) < 0 ) 
         {
             log.debug("EditorSelectionActionHandler : invalid action in this context");
@@ -109,10 +111,76 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
             }
             return;
         }
-        routeAction();
+        int nRouteAction = _routeAction(nValid);
     
     }
     
+     private int _routeAction(int nValidationErrorCode){
+        int nRouteAction = BungeniError.METHOD_NOT_IMPLEMENTED;
+         switch (m_subAction.getSelectorDialogMode()) {
+             case DOCUMENT_LEVEL_ACTION:
+                 nRouteAction = routeAction_DocumentLevelAction(nValidationErrorCode);
+                 break;
+             case TEXT_SELECTED_EDIT:
+                 nRouteAction = routeAction_TextSelectedEditAction(nValidationErrorCode);
+                 break;
+             case TEXT_SELECTED_INSERT:
+                 nRouteAction = routeAction_TextSelectedInsertAction(nValidationErrorCode);
+                 break;
+             case TEXT_SELECTED_SYSTEM_ACTION:
+                 nRouteAction = routeAction_TextSelectedSystemAction(nValidationErrorCode);
+                 break;
+         
+         }
+        
+        return nRouteAction;
+    }
+    
+     private int routeAction_TextSelectedInsertAction( int nValidationErrorCode) {
+         return 0;
+     }
+    
+     private int routeAction_TextSelectedEditAction( int nValidationErrorCode) {
+         return 0;
+     }
+    
+     
+     private int routeAction_TextSelectedSystemAction( int nValidationErrorCode) {
+         return 0;
+     }
+
+     private int routeAction_DocumentLevelAction( int nValidationErrorCode) {
+          //actions operate on the whole document
+        int nActionDocument = -1;
+        if (m_subAction.sub_action_name().equals("init_document")) {
+            nActionDocument = routeAction_DocumentLevelAction_InitDocument(nValidationErrorCode);
+            return nActionDocument;
+        } else  {
+            log.debug("validateAction_DocumentLevelAction() : method not implemented");
+            return BungeniError.METHOD_NOT_IMPLEMENTED;
+        }
+     
+     }
+     
+     private int routeAction_DocumentLevelAction_InitDocument(int nValidationErrorCode){
+         int nRouteActionReturnValue = BungeniError.METHOD_NOT_IMPLEMENTED;
+         switch (nValidationErrorCode) {
+             case BungeniError.DOCUMENT_LEVEL_ACTION_RO0T_EXISTS:
+                 
+                //document has root section 
+                 break;
+             case BungeniError.DOCUMENT_LEVEL_ACTION_ROOT_DOES_NOT_EXIST:
+                 //document does not have route section
+                 
+                 break;
+                 
+             
+         }
+         return nRouteActionReturnValue;
+     }
+     
+    
+     
     private void selectContainer(String containerName) {
                 XTextSection systemContainer = ooDocument.getSection(containerName);
                 ooDocument.getViewCursor().gotoRange(systemContainer.getAnchor(), true);
@@ -322,15 +390,41 @@ if markupSelectedText():
      */
     
      private int _validateAction(){
-        
+        int nValidateAction = BungeniError.METHOD_NOT_IMPLEMENTED;
+         switch (m_subAction.getSelectorDialogMode()) {
+             case DOCUMENT_LEVEL_ACTION:
+                 nValidateAction = validateAction_DocumentLevelAction();
+                 break;
+             case TEXT_SELECTED_EDIT:
+                 nValidateAction = validateAction_TextSelectedEditAction();
+                 break;
+             case TEXT_SELECTED_INSERT:
+                 nValidateAction = validateAction_TextSelectedInsertAction();
+                 break;
+             case TEXT_SELECTED_SYSTEM_ACTION:
+                 nValidateAction = validateAction_TextSelectedSystemAction();
+                 break;
+         
+         }
+         /*
          if (m_subAction.action_type().equals("document_action")) {
              if (m_subAction.sub_action_name().equals("init_document")) {
+                 String rootContainerName = CommonPropertyFunctions.getDocumentRootSection();
+                 if (ooDocument.hasSection(rootContainerName)) {
+                    return BungeniError.DOCUMENT_ROOT_EXISTS;
+                 } else {
+                     return BungeniError.DOCUMENT_ROOT_DOES_NOT_EXIST;
+                 }
+                 
+                 if (ooDocument.hasSection(Commp))
                     int nRet = MessageBox.Confirm((Component)parentFrame , "This will initalize the document " +
                             "by create a root container for the content. Are you sure you want to do this ?", "Confirm");
                     if (nRet == JOptionPane.YES_OPTION) {
                         //create root container
+                        action_createSpannedRootContainer();
                     }   else if (nRet == JOptionPane.NO_OPTION) {
                         //dont create root container
+                        
                     }      
              }
          }
@@ -356,8 +450,11 @@ if markupSelectedText():
         } else {
             //system container required
         //    parentCheckWithoutSystemContainer();
-        }
-     return 0;
+        } 
+          *
+          */
+     return nValidateAction
+             ;
      }
      
     private int _rootContainerCheck(){
@@ -548,7 +645,7 @@ if markupSelectedText():
              initDebaterecord.setAlwaysOnTop(true);   
              } catch (Exception ex) {
                  log.error("displayFilteredDialog : " + ex.getMessage());
-                 log.error("displayFilteredDialog: stack trace : \n" + org.bungeni.utils.CommonExceptionUtils.getStackTrace(ex));
+                 log.error("displayFilteredDialog: stack trace :  \n" + org.bungeni.utils.CommonExceptionUtils.getStackTrace(ex));
              }
     }
     
@@ -597,5 +694,42 @@ if markupSelectedText():
         }
     }  
 
+    private int validateAction_DocumentLevelAction() {
+        //actions operate on the whole document
+        int nActionDocument = -1;
+        if (m_subAction.sub_action_name().equals("init_document")) {
+            nActionDocument = validateAction_DocumentLevelAction_InitDocument();
+            return nActionDocument;
+        } else  {
+            log.debug("validateAction_DocumentLevelAction() : method not implemented");
+            return BungeniError.METHOD_NOT_IMPLEMENTED;
+        }
+    }
+   
+    private int validateAction_DocumentLevelAction_InitDocument() {
+        String rootSectionname = CommonPropertyFunctions.getDocumentRootSection();
+        if (ooDocument.hasSection(rootSectionname)){
+            return BungeniError.DOCUMENT_LEVEL_ACTION_RO0T_EXISTS;
+        } else {
+            return BungeniError.DOCUMENT_LEVEL_ACTION_ROOT_DOES_NOT_EXIST;
+        }
+    }
+
+    private int validateAction_TextSelectedEditAction() {
+        
+        return 0;
+    }
+
+    private int validateAction_TextSelectedInsertAction() {
+        return 0;
+    }
+
+    private int validateAction_TextSelectedSystemAction() {
+        return 0;
+    }
+
+    private int action_initDocument(){
+        return 0;
+    }
 
    }

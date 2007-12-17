@@ -59,6 +59,10 @@ def install(self, reinstall=False):
     tutorial_folder = types['HelpCenterReferenceManualFolder']
     tutorial_folder.allowed_content_types = ('BungeniHelpCenterReferenceManual',)
 
+    reference_section = types['HelpCenterReferenceManualSection']
+    reference_section.allowed_content_types = ('BungeniHelpCenterReferenceManualPage', 'Image',\
+                                                   'HelpCenterReferenceManualSection')
+
     classes = listTypes(PROJECTNAME)
     installTypes(self, out,
                  classes,

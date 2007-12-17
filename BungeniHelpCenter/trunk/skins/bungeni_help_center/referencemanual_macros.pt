@@ -120,10 +120,10 @@
     tal:define="nextIdx tocInfo/nextIdx;
                 prevIdx tocInfo/prevIdx;
                 tocList tocInfo/tocList"
-    tal:condition="python: nextIdx==None or prevIdx==None"
+    tal:condition="python: nextIdx!=None or prevIdx!=None"
     i18n:domain="plonehelpcenter">
 
-    <tal:next condition="nextIdx">
+    <tal:next condition="python:nextIdx!=None">
         
         <a class="listingNext"
            tal:define="next python:tocList[nextIdx]['item']" 

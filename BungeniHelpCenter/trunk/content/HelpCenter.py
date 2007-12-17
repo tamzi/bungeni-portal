@@ -20,6 +20,8 @@ from Products.CMFCore.permissions import View
 from AccessControl import ClassSecurityInfo
 from Products.CMFPlone.browser.navtree import NavtreeStrategyBase, buildFolderTree
 from Products.PloneHelpCenter.config import DEFAULT_CONTENT_TYPES, REFERENCEABLE_TYPES, IMAGE_SIZES
+from Products.BungeniHelpCenter.config import BUNGENI_REFERENCEABLE_TYPES
+
 try:
     from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
     HAS_ISBD = True
@@ -34,7 +36,7 @@ except ImportError:
 RelatedItemsField =  ReferenceField(
         'relatedItems',
         relationship='PloneHelpCenter',
-        allowed_types=REFERENCEABLE_TYPES,
+        allowed_types=BUNGENI_REFERENCEABLE_TYPES,
         required = 0,
         multiValued=1,
         languageIndependent=1,

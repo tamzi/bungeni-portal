@@ -5,6 +5,7 @@ from Products.CMFCore.permissions import View
 from Products.PloneHelpCenter.config import DEFAULT_CONTENT_TYPES, REFERENCEABLE_TYPES, IMAGE_SIZES
 
 from Products.BungeniHelpCenter.config import TYPE_PARAMS
+from Products.BungeniHelpCenter.config import BUNGENI_REFERENCEABLE_TYPES
 
 from time import sleep
 try:
@@ -26,7 +27,7 @@ except ImportError:
 RelatedItemsField =  ReferenceField(
         'relatedItems',
         relationship='PloneHelpCenter',
-        allowed_types=REFERENCEABLE_TYPES,
+        allowed_types=BUNGENI_REFERENCEABLE_TYPES,
         required = 0,
         multiValued=1,
         languageIndependent=1,

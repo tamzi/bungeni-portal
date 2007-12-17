@@ -17,6 +17,17 @@ line-height: 1;
 #nav a {
 display: block;
 width: 1em;
+white-space:nowrap;
+}
+
+#nav a:hover {
+font-weight:bold;
+}
+#nav a:active {
+font-weight:bold;
+}
+#nav a:visited {
+font-weight:bold;
 }
 
 #nav li { /* all list items */
@@ -29,6 +40,11 @@ padding-top:1em;
 position: absolute;
 width: 2.5em;
 left: -999em;
+}
+#nav li ul li div {
+ background-color:#CDE2A7;
+ width:20em;
+ padding:5px;
 }
 
 #nav li:hover ul, #nav li.sfhover ul { /* lists nested under hovered
@@ -72,23 +88,12 @@ if (window.attachEvent) window.attachEvent("onload", sfHover);
       Folder Title
     </h1>
 
+    <a href="" tal:attributes="href python:here.absolute_url()+'/helplinkfolder_sections'">Section Based View</a><br/><br/>
+
     <div metal:use-macro="here/phc_macros/macros/identityimage">
       Identity Image 
     </div>
     
-    <table class="sectionIndex" tal:condition="not:noSections">
-        <thead>
-            <tr><th i18n:translate="phc_index_sections">Sections</th></tr>
-        </thead>
-        <tbody>
-            <tr tal:repeat="section sections">
-                <td><a tal:attributes="href python:'%s#%s'% (here.absolute_url(), section['id'],)"
-                       tal:content="section/section" i18n:translate="">Section</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
     <div class="documentDescription"
          tal:content="here/Description">
       Description.
@@ -108,7 +113,7 @@ if (window.attachEvent) window.attachEvent("onload", sfHover);
       tal:content="item/letter" />
       <li tal:condition="python:item['items']"><a href="#" tal:attributes="href python:'#alpha' + item['letter']" tal:content="item/letter" />
       <ul>
-          <li tal:repeat="definition python:item['items']"><a href="" tal:attributes="href definition/getURL" tal:content="definition/Title"></a></li>
+          <li tal:repeat="definition python:item['items']"><div><a href="" tal:attributes="href definition/getURL" tal:content="definition/Title"></a></div></li>
       </ul>
       </li>
       </span>
@@ -137,38 +142,6 @@ if (window.attachEvent) window.attachEvent("onload", sfHover);
    
    </tal:define>
 
-    <div tal:repeat="section sections">
-
-        <h2 tal:condition="not:noSections">
-          <a class="link-anchor" 
-              tal:content="section/section"
-	      i18n:translate=""
-              tal:attributes="name section/id;
-                              href string:${here/absolute_url}#${section/id};">
-              Section Heading
-            </a>
-        </h2>
-
-        <dl>
-            <tal:item tal:repeat="item python:section['items']">
-              
-            <dt>
-                <img metal:define-slot="item_icon" 
-                     tal:replace="structure here/helplink_icon.gif"/>
-                <a href="" tal:content="item/Title"
-                   tal:attributes="href item/getURL;
-                                   class string:state-${item/review_state}">Item</a>
-                <img src="error_icon.gif" alt="!" class="outdatedMarker"
-                     tal:condition="item/isOutdated"
-                     title="This item applies to a previous version" 
-                     i18n:attributes="title"/>
-            </dt>
-            
-            <dd tal:content="item/Description">Description</dd>
-          </tal:item>
-        </dl>
-
-    </div>
     <div metal:use-macro="here/helpcenter_references/macros/view_referenced_items">
       see also - shows the references if this feature is switched on
     </div>

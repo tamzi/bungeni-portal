@@ -16,6 +16,17 @@ line-height: 1;
 #nav a {
 display: block;
 width: 1em;
+white-space:nowrap;
+}
+
+#nav a:hover {
+font-weight:bold;
+}
+#nav a:active {
+font-weight:bold;
+}
+#nav a:visited {
+font-weight:bold;
 }
 
 #nav li { /* all list items */
@@ -28,6 +39,12 @@ padding-top:1em;
 position: absolute;
 width: 2.5em;
 left: -999em;
+}
+
+#nav li ul li div {
+ background-color:#CDE2A7;
+ width:20em;
+ padding:5px;
 }
 
 #nav li:hover ul, #nav li.sfhover ul { /* lists nested under hovered
@@ -116,7 +133,7 @@ if (window.attachEvent) window.attachEvent("onload", sfHover);
       tal:content="item/letter" />
       <li tal:condition="python:item['items']"><a href="#" tal:attributes="href python:'#alpha' + item['letter']" tal:content="item/letter" />
       <ul>
-          <li tal:repeat="definition python:item['items']"><a href="" tal:attributes="href definition/getURL" tal:content="definition/Title"></a></li>
+          <li tal:repeat="definition python:item['items']"><div><a href="" tal:attributes="href definition/getURL" tal:content="definition/Title"></a></div></li>
       </ul>
       </li>
       </span>
@@ -144,7 +161,7 @@ if (window.attachEvent) window.attachEvent("onload", sfHover);
    </span>
    
    </tal:define>
-    <div metal:use-macro="here/helpcenter_references/macros/view_referenced_items">
+    <div metal:use-macro="here/helpcenter_references/macros/plain_referenced_items">
       see also - shows the references if this feature is switched on
     </div>
 

@@ -96,6 +96,10 @@
         </div>
 
     </div>
+    <div metal:use-macro="here/helpcenter_references/macros/view_referenced_items">
+      see also - shows the references if this feature is switched on
+    </div>
+
     <div metal:use-macro="here/referencemanual_macros/macros/navigation_bar"/>
 
     <div metal:use-macro="here/document_byline/macros/byline">

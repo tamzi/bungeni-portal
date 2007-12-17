@@ -18,15 +18,21 @@ import string
 from Products.CMFCore.utils import getToolByName
 
 from Products.BungeniHelpCenter.content import roman
+from Products.BungeniHelpCenter.config import BUNGENI_REFERENCEABLE_TYPES
+#import Products
+#Products.PloneHelpCenter.config.REFERENCEABLE_TYPES = BUNGENI_REFERENCEABLE_TYPES
+
+from Products.PloneHelpCenter.config import DEFAULT_CONTENT_TYPES, REFERENCEABLE_TYPES, IMAGE_SIZES
 from Products.PloneHelpCenter.content import Definition, Glossary, \
     FAQFolder, LinkFolder, Link, PHCContent, PHCFolder, ReferenceManualPage
 from Products.PloneHelpCenter.content import ReferenceManual, ReferenceManualSection, \
-    TutorialFolder, TutorialPage, Tutorial, ReferenceManualFolder
+    TutorialFolder, TutorialPage, Tutorial, ReferenceManualFolder, \
+    FAQ, HowTo, ErrorReference, ErrorReferenceFolder
 from Products.PloneHelpCenter.content import HowToFolder
 
-from Products.PloneHelpCenter.config import DEFAULT_CONTENT_TYPES, REFERENCEABLE_TYPES, IMAGE_SIZES
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin, fti_meta_type
 from Products.PortalTaxonomy.fields import AttributeField, CategoryField
+from Products.ATContentTypes.content import folder
 
 BodyField =  TextField(
         'body',
@@ -71,7 +77,7 @@ ContributorsField =  LinesField(
 RelatedItemsField =  ReferenceField(
         'relatedItems',
         relationship='PloneHelpCenter',
-        allowed_types=REFERENCEABLE_TYPES,
+        allowed_types=BUNGENI_REFERENCEABLE_TYPES,
         required = 0,
         multiValued=1,
         languageIndependent=1,
@@ -255,6 +261,11 @@ HelpCenterFAQFolder.schema.moveField('attribs', pos='bottom')
 
 generateMethods(HelpCenterFAQFolder, HelpCenterFAQFolder.schema.fields())
 
+# Patching FAQ
+HelpCenterFAQ = FAQ.HelpCenterFAQ
+
+HelpCenterFAQ.schema['relatedItems'].allowed_types = BUNGENI_REFERENCEABLE_TYPES
+
 # Patching LinkFolder
 HelpCenterLinkFolder = LinkFolder.HelpCenterLinkFolder
 
@@ -346,7 +357,8 @@ HelpCenterReferenceManualSection = ReferenceManualSection.HelpCenterReferenceMan
 
 HelpCenterReferenceManualSection.schema['description'].required = 0
 
-HelpCenterReferenceManualSection.schema = HelpCenterReferenceManualSection.schema + Schema((BodyField),)
+HelpCenterReferenceManualSection.schema = \
+    HelpCenterReferenceManualSection.schema + Schema((BodyField, RelatedItemsField),)
 
 generateMethods(HelpCenterReferenceManualSection, HelpCenterReferenceManualSection.schema.fields())
 
@@ -382,7 +394,7 @@ HelpCenterTutorial.schema.moveField('attribs', pos='bottom')
 
 generateMethods(HelpCenterTutorial, HelpCenterTutorial.schema.fields())
 
-# Patching HelpCenterHowTo
+# Patching HelpCenterHowToFolder
 
 HelpCenterHowToFolder = HowToFolder.HelpCenterHowToFolder
 
@@ -390,3 +402,24 @@ HelpCenterHowToFolder.schema = \
     HelpCenterHowToFolder.schema + Schema((RelatedItemsField),)
 
 generateMethods(HelpCenterHowToFolder, HelpCenterHowToFolder.schema.fields())
+
+# Patching HelpCenterHowToxo
+HelpCenterHowTo = HowTo.HelpCenterHowTo
+
+HelpCenterHowTo.schema['relatedItems'].allowed_types = BUNGENI_REFERENCEABLE_TYPES
+
+# Patching ErrorReferenceFolder
+
+HelpCenterErrorReferenceFolder = ErrorReferenceFolder.HelpCenterErrorReferenceFolder
+HelpCenterErrorReferenceFolder.schema = \
+    HelpCenterErrorReferenceFolder.schema + Schema((RelatedItemsField),)
+
+generateMethods(HelpCenterErrorReferenceFolder, HelpCenterErrorReferenceFolder.schema.fields())
+
+# Patching ATFolder
+
+ATFolder = folder.ATFolder
+ATFolder.schema = \
+    ATFolder.schema + Schema((BodyField),)
+
+generateMethods(ATFolder, ATFolder.schema.fields())

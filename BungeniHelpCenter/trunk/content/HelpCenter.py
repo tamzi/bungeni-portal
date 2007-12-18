@@ -113,6 +113,14 @@ class BungeniHelpCenterReferenceManual(BrowserDefaultMixin,  HelpCenterReference
 
     security = ClassSecurityInfo()
 
+    def _navbar(self):
+        """Used to display the position of the navigation bar."""
+        return DisplayList((
+                ('both', 'Both'),
+                ('top', 'Top'),
+                ('bottom', 'Bottom'),
+                ))
+
     security.declareProtected(CMFCorePermissions.View, 'getTOC')
     def getTOC(self, current=None, root=None):
         """Get the table-of-contents of this manual. 
@@ -227,6 +235,14 @@ class BungeniHelpCenterTutorial(BrowserDefaultMixin, HelpCenterTutorial):
         }
 
     security = ClassSecurityInfo()
+
+    def _navbar(self):
+        """Used to display the position of the navigation bar."""
+        return DisplayList((
+                ('both', 'Both'),
+                ('top', 'Top'),
+                ('bottom', 'Bottom'),
+                ))
 
     security.declareProtected(CMFCorePermissions.View, 'getPages')
     def getPages(self, states=[]):

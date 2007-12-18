@@ -16,8 +16,9 @@
     <div metal:use-macro="here/document_actions/macros/document_actions">
       Document actions (print, sendto etc)
     </div>
+    <span tal:omit-tag="" tal:condition="python:here.getNavBarPosition() in ['both', 'top']">
     <div metal:use-macro="here/referencemanual_macros/macros/navigation_bar"/>
-
+    </span>
     <h1 class="documentFirstHeading">
         <img tal:replace="structure here/referencemanual_icon.gif" />
         <span tal:content="currentInfo/numbering"></span>
@@ -33,6 +34,9 @@
            i18n:translate="go_to_parent_url">
         Up one level
         </a>
+    <div metal:use-macro="here/phc_macros/macros/identityimage">
+      Identity Image 
+    </div>
 
     <div class="portalMessage"
          tal:condition="python:here.portal_workflow.getInfoFor(here, 'review_state') != 'published'"
@@ -47,10 +51,6 @@
       </a>
     </p>
     
-    <div metal:use-macro="here/phc_macros/macros/identityimage">
-      Identity Image 
-    </div>
-
     <div class="documentDescription"
       tal:condition="here/Description"
       tal:content="structure here/Description">
@@ -77,8 +77,10 @@
     <div metal:use-macro="here/helpcenter_references/macros/view_referenced_items">
       see also - shows the references if this feature is switched on
     </div>
-       
+    
+    <span tal:omit-tag="" tal:condition="python:here.getNavBarPosition() in ['both', 'bottom']">
     <div metal:use-macro="here/referencemanual_macros/macros/navigation_bar"/>
+    </span>
 
     <div metal:use-macro="here/document_byline/macros/byline">
       Get the byline - contains details about author and modification date.

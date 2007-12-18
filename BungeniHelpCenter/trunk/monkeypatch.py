@@ -61,6 +61,40 @@ IdentityField = ImageField(
             ),
         )
 
+IdentityPosition =  StringField('identity_position',
+                                accessor = 'getIdentityPosition',
+                                mutator = 'setIdentityPosition',
+                                vocabulary = DisplayList((
+                                            ('right', 'Top Right'),
+                                            ('left', 'Top Left'),)),
+                                searchable=0,
+                                default= ('right'),
+                                widget=
+                                SelectionWidget(label='Identity Logo Position',
+                                                label_msgid="label_identity_position",
+                                                description="Select the positioning of the Identity Logo.",
+                                                description_msgid="help_identity_position",
+                                                i18n_domain="plone"
+                                                ),
+                                )
+
+TocType =  StringField('toc_type',
+                       accessor = 'getTocType',
+                       mutator = 'setTocType',
+                       vocabulary = DisplayList((
+                                   ('drop', 'Drop Down'),
+                                   ('box', 'Box'),)),
+                       searchable=0,
+                       default= ('drop'),
+                       widget=
+                       SelectionWidget(label='TOC Display Type',
+                                       label_msgid="label_toc_type",
+                                       description="Select the TOC display type.",
+                                       description_msgid="help_toc_type",
+                                       i18n_domain="plone"
+                                       ),
+                       )
+
 ContributorsField =  LinesField(
         'contributors',
         accessor="Contributors",
@@ -101,6 +135,20 @@ RightsField =  TextField(
                  i18n_domain="plonehelpcenter"
                  ),
          )
+
+PositionField =  StringField('navbar_position',
+                             accessor = 'getNavBarPosition',
+                             mutator = 'setNavBarPosition',
+                             vocabulary = '_navbar',
+                             searchable=0,
+                             default= ('both'),
+                             widget= SelectionWidget(label='Navigation Bar',
+                                                     label_msgid="label_navigation_bar",
+                                                     description="Select the positioning of the Navigation Bar.",
+                                                     description_msgid="help_nav_bar",
+                                                     i18n_domain="plone"
+                                                     ),
+                             )
 
 TaxCategoryField = CategoryField('categories')
 
@@ -201,7 +249,7 @@ HelpCenterGlossary = Glossary.HelpCenterGlossary
 HelpCenterGlossary.schema['description'].required = 0
 
 HelpCenterGlossary.schema = HelpCenterGlossary.schema + \
-    Schema((BodyField, IdentityField, ContributorsField, RelatedItemsField, TaxCategoryField, TaxAttributesField),)
+    Schema((BodyField, IdentityField, IdentityPosition, ContributorsField, RelatedItemsField, TaxCategoryField, TaxAttributesField),)
 
 HelpCenterGlossary.schema.moveField('sectionsVocab', pos='bottom')
 HelpCenterGlossary.schema.moveField('contributors', pos='bottom')
@@ -249,7 +297,7 @@ HelpCenterFAQFolder = FAQFolder.HelpCenterFAQFolder
 HelpCenterFAQFolder.schema['description'].required = 0
 
 HelpCenterFAQFolder.schema = HelpCenterFAQFolder.schema +\
-Schema((BodyField, IdentityField, ContributorsField,\
+Schema((BodyField, IdentityField, IdentityPosition, ContributorsField,\
         RelatedItemsField, RightsField, TaxCategoryField, TaxAttributesField),)
 
 HelpCenterFAQFolder.schema.moveField('contributors', pos='bottom')
@@ -272,7 +320,7 @@ HelpCenterLinkFolder = LinkFolder.HelpCenterLinkFolder
 HelpCenterLinkFolder.schema['description'].required = 0
 
 HelpCenterLinkFolder.schema = HelpCenterLinkFolder.schema + \
-    Schema((BodyField, IdentityField, RelatedItemsField, TaxCategoryField, TaxAttributesField),)
+    Schema((BodyField, IdentityField, IdentityPosition, RelatedItemsField, TaxCategoryField, TaxAttributesField),)
 
 HelpCenterLinkFolder.schema.moveField('sectionsVocab', pos='bottom')
 HelpCenterLinkFolder.schema.moveField('relatedItems', pos='bottom')
@@ -335,7 +383,8 @@ HelpCenterReferenceManual.toRoman = toRoman.__get__(None, HelpCenterReferenceMan
 HelpCenterReferenceManual.schema['description'].required = 0
 
 HelpCenterReferenceManual.schema = HelpCenterReferenceManual.schema + \
- Schema((BodyField, IdentityField, RightsField, TaxCategoryField, TaxAttributesField),)
+ Schema((BodyField, IdentityField, IdentityPosition, RightsField, TaxCategoryField,\
+ TaxAttributesField, PositionField),)
 
 HelpCenterReferenceManual.schema.moveField('relatedItems', pos='bottom')
 HelpCenterReferenceManual.schema.moveField('sections', pos='bottom')
@@ -368,7 +417,7 @@ HelpCenterTutorialFolder = TutorialFolder.HelpCenterTutorialFolder
 
 HelpCenterTutorialFolder.schema['description'].required = 0
 HelpCenterTutorialFolder.schema = HelpCenterTutorialFolder.schema + \
-    Schema((BodyField, IdentityField, ContributorsField, \
+    Schema((BodyField, IdentityField, IdentityPosition, ContributorsField, \
         RelatedItemsField),)
 
 HelpCenterTutorialFolder.schema.moveField('sectionsVocab', pos='bottom')
@@ -383,7 +432,9 @@ generateMethods(HelpCenterTutorialFolder, HelpCenterTutorialFolder.schema.fields
 HelpCenterTutorial = Tutorial.HelpCenterTutorial
 
 HelpCenterTutorial.schema['description'].required = 0
-HelpCenterTutorial.schema = HelpCenterTutorial.schema + Schema((BodyField, TaxCategoryField, TaxAttributesField),)
+HelpCenterTutorial.schema = HelpCenterTutorial.schema +\
+    Schema((BodyField, TaxCategoryField, TaxAttributesField,\
+                PositionField, TocType),)
 
 HelpCenterTutorial.schema.moveField('body', pos='top')
 HelpCenterTutorial.schema.moveField('description', pos='top')

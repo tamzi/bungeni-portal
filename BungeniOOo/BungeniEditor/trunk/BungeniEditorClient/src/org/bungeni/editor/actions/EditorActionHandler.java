@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
@@ -44,7 +45,7 @@ public class EditorActionHandler implements IEditorActionEvent {
     public EditorActionHandler() {
     }
 
-    public void doCommand(OOComponentHelper ooDocument, toolbarAction action) {
+    public void doCommand(OOComponentHelper ooDocument, toolbarAction action, JFrame parentFrame) {
         //main action handler class 
         //can be implemented by any class that implements IEditorActionEvent]
         this.ooDocument = ooDocument;
@@ -395,7 +396,9 @@ public class EditorActionHandler implements IEditorActionEvent {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    public void doCommand(OOComponentHelper ooDocument, toolbarSubAction action) {
+
+   
+    public void doCommand(OOComponentHelper ooDocument, toolbarSubAction action, JFrame parentFrame) {
     }
 
 }

@@ -9,8 +9,10 @@
 
 package org.bungeni.editor.actions;
 
+import com.sun.star.container.NoSuchElementException;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
+import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextViewCursor;
 import java.awt.Component;
@@ -28,9 +30,11 @@ import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.selectors.InitDebateRecord;
 import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.error.BungeniError;
+import org.bungeni.error.BungeniMessage;
 import org.bungeni.error.ErrorMessages;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
+import org.bungeni.utils.CommonExceptionUtils;
 import org.bungeni.utils.CommonPropertyFunctions;
 import org.bungeni.utils.MessageBox;
 
@@ -62,98 +66,120 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
         this.ooDocument = ooDocument;
         this.parentFrame = c;
         this.m_subAction = action;
-        this.m_parentAction = getParentAction();
+        this.m_parentAction = get_parentAction();
         this.m_parentAction.setSelectorDialogMode(action.getSelectorDialogMode());
         
         int nValid = -1;
+        BungeniMessage theMessage ;
         //all error returns < 0 indicate failure and stoppagte
         //all error returns > 0 indicate that processing can go ahead
-        if ((nValid = _validateAction()) < 0 ) 
-        {
-            log.debug("EditorSelectionActionHandler : invalid action in this context");
-            switch (nValid) {
-                case BungeniError.DOCUMENT_ROOT_DOES_NOT_EXIST :
-                    MessageBox.OK(errorMsgObj.toString());
-                    return;
-                case -1:
-                     MessageBox.OK("There was no text selected in the document");
-                 break;
-                case -2:
-                    MessageBox.OK("This selection needs to be enclosed in a system container, \n The system container already exists in the document, please cut and paste the selection within the boudaries of the section called :" + m_subAction.system_container() +" \n This section has been highlighted for your convenience.");
-                    selectContainer(m_subAction.system_container());
-                break;
-                case -3:
-                    MessageBox.OK("This selection needs to be enclosed in a system container, \n Please first generate the system container by using the 'Generate system container' option from the context menu");
-                 break;   
-                case -4:
-                     MessageBox.OK("The selection is already in the correct system container!");
-                  break;
-                case -5:
-                     MessageBox.OK("The document has the correct system container: "+ m_subAction.system_container()+ " \n" +
-                        "but the selection is not within the system container, please the selection within the boudaries of the section called :" + m_subAction.system_container() +" \n" +
-                        " This section has been highlighted for your convenience.");
-                  break;
-                case -6:
-                     MessageBox.OK("The selection is not within the mandatory container - "+ m_parentAction.action_naming_convention());
-                  break;   
-                case -7:
-                     MessageBox.OK("The selection to be marked up is within the wrong container, please cut and paste it within the correct container :"+ m_parentAction.action_numbering_convention());
-                  break;   
-                case -8:
-                     MessageBox.OK("The selection and its system container need to be moved within the correct parent container :" + m_parentAction.action_naming_convention());
-                  break;   
-                case -9:
-                     MessageBox.OK("The selection's system container is not within a valid parent section: "+ m_parentAction.action_naming_convention());
-                  break;   
-                case -10:
-                    MessageBox.OK("This section needs to be created within the root section: " + CommonPropertyFunctions.getDocumentRootSection());
-                  break;
-            }
-            return;
+        theMessage = _validateAction();
+        int nRouteAction = -1;
+        switch (theMessage.getStep()) {
+            case BungeniError.DOCUMENT_LEVEL_ACTION_PROCEED:
+            case BungeniError.TEXT_SELECTED_INSERT_ACTION_PROCEED:
+            case BungeniError.TEXT_SELECTED_SYSTEM_ACTION_PROCEED:
+               nRouteAction = _routeAction(theMessage);
+               break;
+            default:
+               log.debug("There was an error : BungeniError : step: " + theMessage.getStep()+" , message = " + theMessage.getMessage());
+               break;
         }
-        int nRouteAction = _routeAction(nValid);
-    
+       
     }
     
-     private int _routeAction(int nValidationErrorCode){
+     private int _routeAction(BungeniMessage lastMessage){
         int nRouteAction = BungeniError.METHOD_NOT_IMPLEMENTED;
          switch (m_subAction.getSelectorDialogMode()) {
              case DOCUMENT_LEVEL_ACTION:
-                 nRouteAction = routeAction_DocumentLevelAction(nValidationErrorCode);
+                 nRouteAction = routeAction_DocumentLevelAction(lastMessage);
                  break;
+                 /*
              case TEXT_SELECTED_EDIT:
                  nRouteAction = routeAction_TextSelectedEditAction(nValidationErrorCode);
                  break;
+                  */
              case TEXT_SELECTED_INSERT:
-                 nRouteAction = routeAction_TextSelectedInsertAction(nValidationErrorCode);
+                 nRouteAction = routeAction_TextSelectedInsertAction(lastMessage);
                  break;
+                 
              case TEXT_SELECTED_SYSTEM_ACTION:
-                 nRouteAction = routeAction_TextSelectedSystemAction(nValidationErrorCode);
+                 nRouteAction = routeAction_TextSelectedSystemAction(lastMessage);
                  break;
-         
+                 
          }
         
         return nRouteAction;
     }
     
-     private int routeAction_TextSelectedInsertAction( int nValidationErrorCode) {
+     private int routeAction_TextSelectedInsertAction( BungeniMessage lastMessage) {
+        int nActionDocument = -1;
+        if (m_subAction.sub_action_name().equals("section_creation")) {
+            nActionDocument = routeAction_TextSelectedInsertAction_CreateSection(lastMessage);
+            return nActionDocument;
+        } else
+        if (m_subAction.sub_action_name().equals("debatedate_entry")) {
+            nActionDocument = routeAction_TextSelectedInsertAction_DebateDateEntry(lastMessage);
+            return nActionDocument;
+        } else 
+        if (m_subAction.sub_action_name().equals("debatedate_entry")) {
+            nActionDocument = routeAction_TextSelectedInsertAction_DebateTimeEntry(lastMessage);
+            return nActionDocument;
+        } else  {
+            log.debug("validateAction_DocumentLevelAction() : method not implemented");
+            return BungeniError.METHOD_NOT_IMPLEMENTED;
+        }
+     }
+     
+     private int routeAction_TextSelectedInsertAction_CreateSection(BungeniMessage lastMessage) {
+         String newSectionName = "";
+         newSectionName = get_newSectionNameForAction(m_parentAction);
+         if (newSectionName.length() == 0 ) {
+             
+         } else {
+            boolean bAction = action_createSystemContainerFromSelection(ooDocument, newSectionName);
+            if (bAction ) {
+                //set section type metadata
+                ooDocument.setSectionMetadataAttributes(newSectionName, get_newSectionMetadata(m_parentAction));
+            } else {
+                log.error("routeAction_TextSelectedInsertAction_CreateSection: error while creating section ");
+            }
+         }      
          return 0;
      }
     
+    private int routeAction_TextSelectedInsertAction_DebateDateEntry(BungeniMessage lastMessage) {
+        displayFilteredDialog();
+        return 0;
+    }
+  
+    private int routeAction_TextSelectedInsertAction_DebateTimeEntry(BungeniMessage lastMessage) {
+        displayFilteredDialog();
+        return 0;
+    }
+
+     
      private int routeAction_TextSelectedEditAction( int nValidationErrorCode) {
          return 0;
      }
     
      
-     private int routeAction_TextSelectedSystemAction( int nValidationErrorCode) {
+     private int routeAction_TextSelectedSystemAction(BungeniMessage lastMessage) {
          return 0;
      }
 
-     private int routeAction_DocumentLevelAction( int nValidationErrorCode) {
+     
+     /*
+      *
+      *Route Action == Document Level Action
+      *
+      *
+      */
+     private int routeAction_DocumentLevelAction( BungeniMessage lastMessage) {
           //actions operate on the whole document
         int nActionDocument = -1;
         if (m_subAction.sub_action_name().equals("init_document")) {
-            nActionDocument = routeAction_DocumentLevelAction_InitDocument(nValidationErrorCode);
+            nActionDocument = routeAction_DocumentLevelAction_InitDocument(lastMessage);
             return nActionDocument;
         } else  {
             log.debug("validateAction_DocumentLevelAction() : method not implemented");
@@ -161,193 +187,66 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
         }
      
      }
-     
-     private int routeAction_DocumentLevelAction_InitDocument(int nValidationErrorCode){
+     /*
+      *
+      *Route Action : Document Level Action
+      *Routing functions
+      */
+     private int routeAction_DocumentLevelAction_InitDocument(BungeniMessage lastMessage){
          int nRouteActionReturnValue = BungeniError.METHOD_NOT_IMPLEMENTED;
-         switch (nValidationErrorCode) {
-             case BungeniError.DOCUMENT_LEVEL_ACTION_RO0T_EXISTS:
-                 
+         int nRetValue = 0;
+         String strSection = CommonPropertyFunctions.getDocumentRootSection();
+
+         switch (lastMessage.getMessage()) {
+             case BungeniError.DOCUMENT_ROOT_EXISTS:
                 //document has root section 
+                //1. prompt to erase root section, if yes delete root section
+                //2. create fresh root section
+                 nRetValue = MessageBox.Confirm(parentFrame, "The document already has a root section.\n " +
+                         "Are you sure you want to delete the current root section and recreate it ", "Please Confirm");
+                 if (nRetValue == JOptionPane.YES_OPTION) {
+                     boolean bReturn = action_removeSectionWithoutContents(ooDocument,  strSection);
+                     if (bReturn ) {
+                     bReturn = action_createRootSection(ooDocument, strSection); 
+                     }
+                 } else {
+                     return BungeniError.ACTION_CANCELLED;
+                 }
                  break;
-             case BungeniError.DOCUMENT_LEVEL_ACTION_ROOT_DOES_NOT_EXIST:
-                 //document does not have route section
-                 
+             case BungeniError.DOCUMENT_ROOT_DOES_NOT_EXIST:
+                 //1. prompt warning that this will create a root section
+                 //2. create root section
+                 nRetValue = MessageBox.Confirm(parentFrame, "The document will be initialized now.\n " +
+                         "The contents of the document will be enclosed in a container section, Proceed ? ", "Please Confirm");
+                 if (nRetValue == JOptionPane.YES_OPTION) {
+                   boolean  bReturn = action_createRootSection(ooDocument, strSection); 
+                 } else {
+                     return BungeniError.ACTION_CANCELLED;
+                 }
                  break;
-                 
-             
          }
          return nRouteActionReturnValue;
      }
      
+ 
     
-     
-    private void selectContainer(String containerName) {
-                XTextSection systemContainer = ooDocument.getSection(containerName);
-                ooDocument.getViewCursor().gotoRange(systemContainer.getAnchor(), true);
-    }
-    
-    private void routeAction() {
-            if (m_subAction.getSelectorDialogMode() == SelectorDialogModes.TEXT_SELECTED_SYSTEM_ACTION) {
-                routeAction_SystemAction();
-            } else {
-                routeAction_Masthead();    
-            }
-    }
-
-    private void routeAction_SystemAction(){
-        String systemContainerName = m_subAction.system_container();
-        if (!action_createSystemContainerFromSelection(ooDocument, systemContainerName) ) {
-           log.debug("routeAction_SystemAction: creating system container from selection failed!");
-        }
-    }
-    
-    private boolean action_createSystemContainerFromSelection(OOComponentHelper ooDoc, String systemContainerName){
-        boolean bResult = false; 
+    private boolean action_removeSectionWithoutContents(OOComponentHelper ooDoc, String sectionName ) {
+        boolean bResult = false;
         try {
-        XTextViewCursor xCursor = ooDocument.getViewCursor();
-        XText xText = xCursor.getText();
-        XTextContent xSectionContent = ooDocument.createTextSection(systemContainerName, (short)1);
-        xText.insertTextContent(xCursor, xSectionContent , true); 
+        XTextSection theSection = ooDocument.getSection(sectionName);
+        XText docText = ooDocument.getTextDocument().getText();
+        docText.removeTextContent(theSection);
         bResult = true;
-        } catch (com.sun.star.lang.IllegalArgumentException ex) {
+        } catch (NoSuchElementException ex) {
+            log.error("in removeSectionWIthoutContents : "+ex.getLocalizedMessage(), ex);
             bResult = false;
-            log.error("in addTextSection : "+ex.getLocalizedMessage(), ex);
-        }  finally {
+        } finally {
             return bResult;
         }
     }
     
     
-    private void routeAction_Masthead(){
-            if (m_subAction.sub_action_name().equals("selectlogo")) {
-                parentCheck();
-                displayFilteredDialog();
-            }
-            if (m_subAction.sub_action_name().equals("section_creation")) {
-                //get the parent section name and create it over the selected text
-                
-                int nSectionRet ;
-                nSectionRet = createSection();
-                if (nSectionRet < 0 ) {
-                    if (nSectionRet == -2) {
-                        MessageBox.OK("The section already exists" );
-                    }
-                } else {
-                    MessageBox.OK("Section was successfully created");
-                }
-                return;
-            }
-            if (m_subAction.sub_action_name().equals("debatedate_entry")) {
-                displayFilteredDialog();
-            }
-            if (m_subAction.sub_action_name().equals("debatetime_entry")) {
-                displayFilteredDialog();
-            }
-   
-    }
-   
-    private int parentCheck(){
-        if (!ooDocument.hasSection(m_parentAction.action_naming_convention())) {
-            log.debug("parentCheck: parent container does not exist");
-            return -1;
-        } 
-       return 1; 
-    }
-    
-    
-    /*
-     *
-     *actions are validated in the following order:
-     *validateAction() { 
-     *  isTextSelected()
-     *  systemContainerCheck()
-     *  parentContainerCheck()
-     */
-    /*
-    private int validateAction(){
-        //selection check
-        boolean bSelected=false;
-        bSelected = ooDocument.isTextSelected();
-        if (!bSelected )
-        {
-            log.debug("validateAction: nothing was selected ");
-            return -1;
-        }
-        // this is a system container generation action
-            
-        int nRet = systemContainerCheck(); 
-        if (nRet == -2 ) {
-            log.debug("validateAction: system container check failed, but system container exists in document");
-            return nRet;
-        } else if (nRet == -3) {
-            log.debug("validateAction: system container check failed, but system container does not exist in document");
-            return nRet;
-        } else if (nRet == -4) {
-            log.debug("validateAction: already in the corect system container");
-            return nRet;
-        } else if (nRet == -5 ){
-            log.debug("validateAction: not in the system contianer, but the document has a system container");
-            return nRet;
-        }
-        
-        //parent container check
-       
-        nRet =  parentContainerCheck();
-        if (nRet == -6) {
-            log.debug("validateAction: no parent container");
-            return nRet;
-        }
-        if (nRet == -7) {
-            log.debug("validateAction: in the wrong section ");
-            return nRet;
-        }
-        if (nRet == -8) {
-            log.debug("validateAction: wrong parent section for system container ");
-            return nRet;
-        }
-        if (nRet == -9) {
-            log.debug("validateAction: no parent section for system container");
-            return nRet;
-        }
-        if (nRet == -10) {
-            return nRet;
-        }       
-        return 1;
-    }
-*/
-    /*
-    private int systemContainerCheck() {
-        if (this.m_subAction.system_container().length() == 0 ) {
-            //there is no system container 
-            return 0;
-        }
-        //check if this is the creation action for  asystem container, all other actions default to the else
-        if (m_subAction.getSelectorDialogMode() == SelectorDialogModes.TEXT_SELECTED_SYSTEM_ACTION ) {
-            //generate system container over selection
-            if (ooDocument.hasSection(m_subAction.system_container())) {
-                if (ooDocument.currentSectionName().equals(m_subAction.system_container())) {
-                    //already in the correct system container
-                    return -4;
-                }
-                //document has system container, but the selection isnt in the system container
-                return -5;
-            } else 
-                //document does not have system container, selection can be placed within system container.
-                return 0;
-        } else {
-        //get the current section name
-        String currentSectionname = ooDocument.currentSectionName();
-        if (currentSectionname.equals(m_subAction.system_container())) {
-            return 0;
-        } else {
-            if (ooDocument.hasSection(m_subAction.system_container())) 
-                return -2;
-             else 
-                return -3;
-        }
-        } 
-    }
-   */
+  
     /*
      *
      *
@@ -389,238 +288,34 @@ if markupSelectedText():
      *
      */
     
-     private int _validateAction(){
+     private BungeniMessage _validateAction(){
         int nValidateAction = BungeniError.METHOD_NOT_IMPLEMENTED;
+        BungeniMessage msg = new BungeniMessage();
          switch (m_subAction.getSelectorDialogMode()) {
              case DOCUMENT_LEVEL_ACTION:
-                 nValidateAction = validateAction_DocumentLevelAction();
+                 msg = validateAction_DocumentLevelAction();
                  break;
+                 /*
              case TEXT_SELECTED_EDIT:
                  nValidateAction = validateAction_TextSelectedEditAction();
                  break;
+                  */
              case TEXT_SELECTED_INSERT:
-                 nValidateAction = validateAction_TextSelectedInsertAction();
+                 msg = validateAction_TextSelectedInsertAction();
                  break;
-             case TEXT_SELECTED_SYSTEM_ACTION:
-                 nValidateAction = validateAction_TextSelectedSystemAction();
-                 break;
-         
-         }
-         /*
-         if (m_subAction.action_type().equals("document_action")) {
-             if (m_subAction.sub_action_name().equals("init_document")) {
-                 String rootContainerName = CommonPropertyFunctions.getDocumentRootSection();
-                 if (ooDocument.hasSection(rootContainerName)) {
-                    return BungeniError.DOCUMENT_ROOT_EXISTS;
-                 } else {
-                     return BungeniError.DOCUMENT_ROOT_DOES_NOT_EXIST;
-                 }
                  
-                 if (ooDocument.hasSection(Commp))
-                    int nRet = MessageBox.Confirm((Component)parentFrame , "This will initalize the document " +
-                            "by create a root container for the content. Are you sure you want to do this ?", "Confirm");
-                    if (nRet == JOptionPane.YES_OPTION) {
-                        //create root container
-                        action_createSpannedRootContainer();
-                    }   else if (nRet == JOptionPane.NO_OPTION) {
-                        //dont create root container
-                        
-                    }      
-             }
+             case TEXT_SELECTED_SYSTEM_ACTION:
+                 msg = validateAction_TextSelectedSystemAction();
+                 break;
+                 
          }
          
-         
-        int nRootContainerCheck = _rootContainerCheck();
-        if (nRootContainerCheck == BungeniError.DOCUMENT_ROOT_DOES_NOT_EXIST) {
-            log.debug("validateaction: no root container");
-            return nRootContainerCheck;
-        }
-        
-         //selection check
-        boolean bSelected=false;
-        bSelected = ooDocument.isTextSelected();
-        if (!bSelected ) {
-            log.debug("validateAction: nothing was selected ");
-            return BungeniError.NO_TEXT_SELECTED;
-        }
-      
-        if (m_subAction.system_container().length() == 0 ) {
-            //system container not required
-            //parentCheckWithSystemContainer();
-        } else {
-            //system container required
-        //    parentCheckWithoutSystemContainer();
-        } 
-          *
-          */
-     return nValidateAction
+     return msg
              ;
      }
      
-    private int _rootContainerCheck(){
-        //check if root container exists
-        //if it doesnt exist fail
-         String documentRoot = CommonPropertyFunctions.getDocumentRootSection();
-         if (ooDocument.hasSection(documentRoot)) {
-             return BungeniError.DOCUMENT_ROOT_EXISTS;
-         } else {
-             this.errorMsgObj.add("The document needs to be initialized correctly with a main container.\n" +
-                     "Please initialize the document by using the 'Initialize Document' action");
-             return BungeniError.DOCUMENT_ROOT_DOES_NOT_EXIST;
-         }
-    }
     
     
-    private int _systemContainerCheck(){
-        String systemContainer = m_subAction.system_container();
-        String currentSectionname = ooDocument.currentSectionName();
-        if (systemContainer.length() == 0 ) {
-            //there is no system container 
-            return  BungeniError.SYSTEM_CONTAINER_NOT_REQD;
-        } 
-        //check if document has section
-        boolean bHasSystemContainer = ooDocument.hasSection(systemContainer) ;
-        if (bHasSystemContainer) {
-            //is the current section == the system container
-            if (systemContainer.equals(currentSectionname)) {
-               //selection is within the correct system container....
-                return BungeniError.SYSTEM_CONTAINER_CHECK_OK;
-            } else {
-                return BungeniError.SYSTEM_CONTAINER_WRONG_POSITION;
-            }
-        } else {
-            //no system container present...
-            //get full container hierarchy
-           return BungeniError.SYSTEM_CONTAINER_NOT_PRESENT;
-        }
-   }
-
-    private int _parentContainerCheck(int systemContainerCheck ) {
-        switch (systemContainerCheck) {
-            case BungeniError.SYSTEM_CONTAINER_NOT_PRESENT :
-                //system container was not present
-                _parentContainerCheck_MissingSystemContainer();
-                break;
-            case BungeniError.SYSTEM_CONTAINER_NOT_REQD:
-                _parentContainerCheck_SystemContainerNotReqd();
-                break;
-            case BungeniError.SYSTEM_CONTAINER_WRONG_POSITION:
-                _parentContainerCheck_NotInSystemContainer();
-                break;
-            case BungeniError.SYSTEM_CONTAINER_CHECK_OK:
-                _parentContainerCheck_SystemContainerOK();
-                break;
- 
-        }
-        
-        return 0;
-    }
-    
-    private int _parentContainerCheck_MissingSystemContainer() {
-        //add error message for missing system container
-        //then run parentContainerCheckSystemContainerOK
-        return 0;
-    }
-    
-    private int _parentContainerCheck_SystemContainerOK() {
-        //system container was ok. 
-        //we need to check the placement of the system container with respect to the parent action
-        //first we determine the correct parent hierarchy for the action.
-        
-        String qrygetParents = SettingsQueryFactory.Q_FETCH_PARENT_ACTIONS(m_parentAction.action_name());
-        Vector<Vector<String>> resultRows = new Vector<Vector<String>>();
-        String currentSystemContainer = ooDocument.currentSectionName();
-        
-        QueryResults qrParents = dbSettings.QueryResults(qrygetParents);
-        if (qrParents != null ) {
-            if (qrParents.hasResults()) {
-                //get all the possible parent names
-                String[] theActionNames = qrParents.getSingleColumnResult("ACTION_NAME");
-                String[] theActionDisplayText = qrParents.getSingleColumnResult("ACTION_DISPLAY_TEXT");
-                String[] theActionSectionType = qrParents.getSingleColumnResult("ACTION_SECTION_TYPE");
-                //check if the hierarchy of parents = hierachy of sections in the document.
-                XTextSection theSystemSection = ooDocument.getSection(currentSystemContainer);
-                this.errorMsgObj.start("You need to create the parent containers before marking up using this action.\n");
-                this.errorMsgObj.add("The following actions can be used to create valid parent containers: \n");
-                for (int i=0; i < theActionNames.length ; i++ ) {
-                    this.errorMsgObj.add(" -- "+ theActionDisplayText[i]);
-                }
-            }
-        }
-        return 0;
-    }
-
-    private int _parentContainerCheck_NotInSystemContainer() {
-        return 0;
-    }
-
-    private int _parentContainerCheck_SystemContainerNotReqd() {
-        
-        return 0;
-    }
-    
-    private int validateSectionHierarchy(){
-        return 0;
-    }
-    
-    private int parentContainerCheck() {
-        String parentContainer = "";
-        String systemContainerName =  m_subAction.system_container();
-       
-        /*
-        if (m_subAction.getSelectorDialogMode() == SelectorDialogModes.TEXT_SELECTED_SYSTEM_ACTION ) {
-            return 0;
-        }
-        */
-        
-        //ugly check below...make this more modular...
-        if (m_subAction.sub_action_order().equals("0")) {
-            if (m_subAction.sub_action_name().equals("section_creaton")) {
-                String currentSection = ooDocument.currentSectionName();
-                String documentRoot = CommonPropertyFunctions.getDocumentRootSection();
-                if (currentSection.equals(documentRoot)) {
-                    return 0;
-                } else 
-                    return -10;
-            }
-        }
-        
-        if (systemContainerName.length() > 0 ) {
-            XTextSection xSysContainer = ooDocument.getSection(systemContainerName);
-            XTextSection xSysParent = xSysContainer.getParentSection();
-            if (xSysParent == null ) {
-                //no parent section for system container
-                return -9;
-            } else {
-                //parent section was not null
-                String sectionName = ooQueryInterface.XNamed(xSysParent).getName();
-                String parentActionPrefix  = this.m_parentAction.action_naming_convention();
-                if (sectionName.startsWith(parentActionPrefix)) {
-                    return 0;
-                } else
-                    return -8; //wrong parent section for system container
-            }
-        } else {
-            //no system container
-            //so get current section
-            String currentSection = ooDocument.currentSectionName();
-            if (currentSection.length() == 0) {
-                //not in a section, return error
-                return -6;
-            } else {
-                //current section is a section ...check if it is the right one....
-                String parentNamePrefix = this.m_parentAction.action_naming_convention();
-                if (parentNamePrefix.startsWith(currentSection)) {
-                    return 0;
-                } else {
-                    //wrongly placed needs to be in correct section
-                    return -7;
-                }
-            }
-        }
-       
-    }
-     
     
     private void displayFilteredDialog() {
              try {
@@ -650,24 +345,7 @@ if markupSelectedText():
     }
     
     
-    private int createSection() {
-        toolbarAction parentAction;
-        parentAction = getParentAction();
-        if (parentAction == null ) 
-            return -1;
-        String sectionName = parentAction.action_naming_convention();
-        if (ooDocument.hasSection(sectionName)) {
-            log.debug("createSection: section already exists");
-            return -2;
-        } else {
-            XTextContent xContent = ooDocument.addViewSection(sectionName);
-            if (xContent != null)
-                return 1;
-        }   
-        return 1;
-    }
-
-    private toolbarAction getParentAction(){
+    private toolbarAction get_parentAction(){
         Vector<Vector<String>> resultRows = new Vector<Vector<String>>();
         toolbarAction action = null;
         try {
@@ -693,43 +371,398 @@ if markupSelectedText():
             return action;
         }
     }  
-
-    private int validateAction_DocumentLevelAction() {
+   
+    
+    private BungeniMessage validateAction_DocumentLevelAction() {
         //actions operate on the whole document
         int nActionDocument = -1;
         if (m_subAction.sub_action_name().equals("init_document")) {
-            nActionDocument = validateAction_DocumentLevelAction_InitDocument();
-            return nActionDocument;
+            BungeniMessage msg = validateAction_DocumentLevelAction_InitDocument();
+            return msg;
         } else  {
             log.debug("validateAction_DocumentLevelAction() : method not implemented");
-            return BungeniError.METHOD_NOT_IMPLEMENTED;
+            return new BungeniMessage(BungeniError.DOCUMENT_LEVEL_ACTION_FAIL, BungeniError.METHOD_NOT_IMPLEMENTED); 
         }
     }
    
-    private int validateAction_DocumentLevelAction_InitDocument() {
-        String rootSectionname = CommonPropertyFunctions.getDocumentRootSection();
-        if (ooDocument.hasSection(rootSectionname)){
-            return BungeniError.DOCUMENT_LEVEL_ACTION_RO0T_EXISTS;
-        } else {
-            return BungeniError.DOCUMENT_LEVEL_ACTION_ROOT_DOES_NOT_EXIST;
-        }
-    }
-
     private int validateAction_TextSelectedEditAction() {
         
         return 0;
     }
 
-    private int validateAction_TextSelectedInsertAction() {
-        return 0;
+    private BungeniMessage validateAction_TextSelectedInsertAction() {
+        BungeniMessage validMessage = new BungeniMessage();
+        //check if text was selected
+        if (ooDocument.isTextSelected() == false) {
+            //fail if no text was selected
+            return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_FAIL, BungeniError.NO_TEXT_SELECTED);
+        }
+        
+        if (m_subAction.sub_action_name().equals("section_creation")) {
+            validMessage = validateAction_TextSelectedInsertAction_CreateSection();
+            return validMessage;
+        } else  
+        if (m_subAction.sub_action_name().equals("debatedate_entry")) {
+            validMessage = validateAction_TextSelectedInsertAction_DebateDateEntry();
+            return validMessage;
+        } else 
+        if (m_subAction.sub_action_name().equals("debatetime_entry")) {
+            validMessage = validateAction_TextSelectedInsertAction_DebateTimeEntry();
+            return validMessage;
+        }  else  {
+            log.debug("validateAction_DocumentLevelAction() : method not implemented");
+            return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_FAIL, BungeniError.METHOD_NOT_IMPLEMENTED);
+        }
+        
     }
 
-    private int validateAction_TextSelectedSystemAction() {
-        return 0;
+    /*
+     *
+     *This is a generic check, because a system action is always a generic action with generic validation
+     *
+     *
+     */
+    private BungeniMessage validateAction_TextSelectedSystemAction() {
+        int nRetValue  = -1;
+        BungeniMessage theMessage = new BungeniMessage();
+        //1st check ... look for root
+        nRetValue = check_rootContainerExists();
+        if (nRetValue == BungeniError.DOCUMENT_ROOT_DOES_NOT_EXIST) {
+                return new BungeniMessage(BungeniError.TEXT_SELECTED_SYSTEM_ACTION_FAIL, BungeniError.DOCUMENT_ROOT_DOES_NOT_EXIST);
+        }
+        //2nd check ... if text was selected
+        if (ooDocument.isTextSelected() == false) {
+            //fail if no text was selected
+            return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_FAIL, BungeniError.NO_TEXT_SELECTED);
+        }
+        //3rd check ... if system container can be created here
+        if (m_subAction.sub_action_name().equals("debatedate_entry")) {
+          theMessage = validateAction_TextSelectedSystemAction_DebateDateEntry();  
+          return theMessage;
+        } else 
+        if (m_subAction.sub_action_name().equals("debatetime_entry")) {
+          theMessage = validateAction_TextSelectedSystemAction_DebateTimeEntry();  
+          return theMessage;
+        } 
+        /*
+        nRetValue = check_canSystemContainerBeCreated();
+        if (nRetValue == BungeniError.INVALID_CONTAINER_FOR_SYSTEM_ACTION) {
+            return new BungeniMessage(BungeniError.TEXT_SELECTED_SYSTEM_ACTION_FAIL, BungeniError.INVALID_CONTAINER_FOR_SYSTEM_ACTION);
+        }
+        */
+        
+        return new BungeniMessage(BungeniError.TEXT_SELECTED_SYSTEM_ACTION_PROCEED, nRetValue);
+    
     }
 
+    private BungeniMessage validateAction_TextSelectedSystemAction_DebateDateEntry(){
+        int nRetValue = -1;
+        nRetValue = this.check_systemContainerPositionCheck();
+        switch (nRetValue) {
+            case BungeniError.SYSTEM_CONTAINER_ALREADY_EXISTS:
+            case BungeniError.SYSTEM_CONTAINER_WRONG_POSITION:
+                return new BungeniMessage(BungeniError.TEXT_SELECTED_SYSTEM_ACTION_FAIL, nRetValue);
+            default:
+                break;
+        }
+       nRetValue = this.check_canSystemContainerBeCreated();
+       if (nRetValue == BungeniError.INVALID_CONTAINER_FOR_SYSTEM_ACTION) {
+           return  new BungeniMessage(BungeniError.TEXT_SELECTED_SYSTEM_ACTION_FAIL, nRetValue);
+       } 
+      return new BungeniMessage(BungeniError.TEXT_SELECTED_SYSTEM_ACTION_PROCEED, nRetValue);
+    }
+
+    private BungeniMessage validateAction_TextSelectedSystemAction_DebateTimeEntry(){
+        int nRetValue = -1;
+        nRetValue = check_systemContainerPositionCheck();
+        switch (nRetValue) {
+            case BungeniError.SYSTEM_CONTAINER_ALREADY_EXISTS:
+            case BungeniError.SYSTEM_CONTAINER_WRONG_POSITION:
+                return new BungeniMessage(BungeniError.TEXT_SELECTED_SYSTEM_ACTION_FAIL, nRetValue);
+            default:
+                break;
+        }
+       nRetValue = check_canSystemContainerBeCreated();
+       if (nRetValue == BungeniError.INVALID_CONTAINER_FOR_SYSTEM_ACTION) {
+           return  new BungeniMessage(BungeniError.TEXT_SELECTED_SYSTEM_ACTION_FAIL, nRetValue);
+       } 
+      return new BungeniMessage(BungeniError.TEXT_SELECTED_SYSTEM_ACTION_PROCEED, nRetValue);
+    }
+    
+    private BungeniMessage validateAction_DocumentLevelAction_InitDocument() {
+        int nRootCheck =  check_rootContainerExists();
+        //whether it exists or not...return the proceed message
+        if (nRootCheck == BungeniError.DOCUMENT_ROOT_EXISTS ) {
+                return new BungeniMessage(BungeniError.DOCUMENT_LEVEL_ACTION_PROCEED, nRootCheck);
+        } else if (nRootCheck == BungeniError.DOCUMENT_ROOT_DOES_NOT_EXIST) {
+                return new BungeniMessage(BungeniError.DOCUMENT_LEVEL_ACTION_PROCEED, nRootCheck);
+        }
+        return new BungeniMessage(BungeniError.DOCUMENT_LEVEL_ACTION_FAIL, BungeniError.GENERAL_ERROR);
+    }
+    
+    private BungeniMessage validateAction_TextSelectedInsertAction_CreateSection(){
+        int nRetValue = -1;
+      
+        //1st tier, root container check
+        nRetValue = check_rootContainerExists();
+        if (nRetValue == BungeniError.DOCUMENT_ROOT_DOES_NOT_EXIST) {
+            return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_FAIL, BungeniError.DOCUMENT_ROOT_DOES_NOT_EXIST);
+        }
+        //2nd tier validation ...check up the hierarchy
+        //check if there is a current section, and if the section can be created in the current section
+        String currentSectionname = ooDocument.currentSectionName();
+        nRetValue = check_containment(currentSectionname);
+        if (nRetValue == BungeniError.INVALID_SECTION_CONTAINER) {
+            return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_FAIL, BungeniError.INVALID_SECTION_CONTAINER);
+        }
+       
+        //3rd tier validation
+        //check if section already exists (only for single type section)
+        nRetValue = check_actionSectionExists();
+        if (nRetValue == BungeniError.SECTION_EXISTS) {
+            return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_FAIL, BungeniError.SECTION_EXISTS);
+        }
+        
+        return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_PROCEED, nRetValue);    
+    }
+    
+   private BungeniMessage validateAction_TextSelectedInsertAction_DebateDateEntry(){
+     int nRetValue = -1;
+     if (m_subAction.system_container().length() > 0 ) { 
+         nRetValue = this.check_generic_systemContainerCheck();
+             switch (nRetValue) {
+                 case BungeniError.SYSTEM_CONTAINER_ALREADY_EXISTS:
+                 case BungeniError.SYSTEM_CONTAINER_WRONG_POSITION:
+                 case BungeniError.INVALID_CONTAINER_FOR_SYSTEM_ACTION:
+                     return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_FAIL, nRetValue);
+                 default:
+                     return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_PROCEED, nRetValue);
+              }
+     } else {
+            String currentSection = ooDocument.currentSectionName();
+            nRetValue = this.check_containment(currentSection);
+            if (nRetValue == BungeniError.VALID_SECTION_CONTAINER)
+                return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_PROCEED, BungeniError.VALID_SECTION_CONTAINER);
+            else 
+                return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_FAIL, BungeniError.INVALID_SECTION_CONTAINER);
+     }
+ }
+     
+     
+     
+   
+    private BungeniMessage validateAction_TextSelectedInsertAction_DebateTimeEntry(){
+      int nRetValue = -1;
+        nRetValue = check_systemContainerPositionCheck();
+        switch (nRetValue) {
+            case BungeniError.SYSTEM_CONTAINER_ALREADY_EXISTS:
+            case BungeniError.SYSTEM_CONTAINER_WRONG_POSITION:
+                return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_FAIL, nRetValue);
+            default:
+                break;
+        }
+       nRetValue = check_canSystemContainerBeCreated();
+       if (nRetValue == BungeniError.INVALID_CONTAINER_FOR_SYSTEM_ACTION) {
+           return  new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_FAIL, nRetValue);
+       } 
+      return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_PROCEED, nRetValue);
+    }
+    
+    private int check_actionSectionExists() {
+        if (m_parentAction.action_numbering_convention().equals("single")) {
+            if (ooDocument.hasSection(m_parentAction.action_naming_convention())) {
+                return BungeniError.SECTION_EXISTS;
+            } else {
+                return BungeniError.SECTION_DOES_NOT_EXIST;
+            }
+        } else { //if section style is not single then multiple instances of the section can be created.
+            return BungeniError.SECTION_DOES_NOT_EXIST;
+        }
+    }
+    
+    private int check_containment(String currentSectionname){
+         int nRetValue = -1;
+         if (currentSectionname.equals(CommonPropertyFunctions.getDocumentRootSection())) {
+                //current section is the root section
+                //can the section be added inside the root section ?
+                nRetValue = check_containment_RootSection(currentSectionname);
+            } else {
+                //current section is not the root section
+                //can the section be added inside this section
+                nRetValue = check_containment_Section(currentSectionname);
+            }
+        return nRetValue;
+    }
+    
+    private int check_containment_RootSection(String currentSectionname) {
+        //check if the current section can have the root section as a parent
+        String strQuery = "Select count(*) as THE_COUNT from ACTION_PARENT where ACTION_NAME='"+m_parentAction.action_name()+"'";
+        dbSettings.Connect();
+        QueryResults qr = dbSettings.QueryResults(strQuery);
+        dbSettings.EndConnect();
+        if (qr.hasResults()) {
+            String[] theCount = qr.getSingleColumnResult("THE_COUNT");
+            if (theCount[0].equals("0")) {
+                // the section can have the root section as its container
+                return BungeniError.VALID_SECTION_CONTAINER;
+            } else {
+                return BungeniError.INVALID_SECTION_CONTAINER;
+            }
+        } else {
+            return BungeniError.INVALID_SECTION_CONTAINER;
+        }
+    }
+    
+    private int check_containment_Section(String currentContainerSection) {
+        //get valid parent actions
+        String strActionName = m_parentAction.action_name();
+        dbSettings.Connect();
+        QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_FETCH_PARENT_ACTIONS(strActionName));
+        dbSettings.EndConnect();
+        String[] actionSectionTypes = qr.getSingleColumnResult("ACTON_SECTION_TYPE");
+        //there can be multiple parents... so we iterate through the array if one of them is a valid parent
+        
+        HashMap<String,String> sectionMetadata = ooDocument.getSectionMetadataAttributes(currentContainerSection);
+        //if (sectionMetadata.get)
+        String strDocSectionType = "";
+        if (sectionMetadata.containsKey("BungeniSectionType")) {
+                strDocSectionType = sectionMetadata.get("BungeniSectionType");
+                //check the doc section type against the array of valid action section types
+                for (String sectionType: actionSectionTypes) {
+                     if (strDocSectionType.equals(sectionType)) {
+                            return BungeniError.VALID_SECTION_CONTAINER;
+                     } 
+                 }
+                 return BungeniError.INVALID_SECTION_CONTAINER;
+          } else {
+            return BungeniError.INVALID_SECTION_CONTAINER;
+        }
+    }
+    
+    private int check_rootContainerExists(){
+        String rootSectionname = CommonPropertyFunctions.getDocumentRootSection();
+        if (ooDocument.hasSection(rootSectionname)){
+            return BungeniError.DOCUMENT_ROOT_EXISTS;
+        } else {
+            return BungeniError.DOCUMENT_ROOT_DOES_NOT_EXIST;
+        }
+    }
+    
+    private int check_canSystemContainerBeCreated(){
+        //this is the actual container section type
+        String containerSectionType = m_parentAction.action_section_type();
+        //this is the current section where the cursor is, we want to compare actual container
+        //section type with required.
+        String currentSection = ooDocument.currentSectionName();
+        HashMap<String,String> metaMap = ooDocument.getSectionMetadataAttributes(currentSection);
+        if (metaMap.containsKey("BungeniSectionType")) {
+            String currentSectionType = metaMap.get("BungeniSectionType");
+            if (currentSectionType.equals(containerSectionType)){
+                return BungeniError.VALID_CONTAINER_FOR_SYSTEM_ACTION;
+            } else {
+                return BungeniError.INVALID_CONTAINER_FOR_SYSTEM_ACTION;
+            }
+        } else 
+            return BungeniError.INVALID_CONTAINER_FOR_SYSTEM_ACTION;
+    }
+    
+    private int check_systemContainerPositionCheck(){
+     String systemContainer = m_subAction.system_container();
+        if (ooDocument.hasSection(systemContainer)) {
+            String currentSection = ooDocument.currentSectionName();
+            if (currentSection.equals(systemContainer)) {
+                return BungeniError.SYSTEM_CONTAINER_ALREADY_EXISTS;
+            } else {
+                return BungeniError.SYSTEM_CONTAINER_WRONG_POSITION;
+            }
+        } else {
+            return BungeniError.SYSTEM_CONTAINER_CHECK_OK;
+        }     
+    }
+    
+    private int check_generic_systemContainerCheck(){
+       int nRetValue = 0;
+        
+       nRetValue = check_systemContainerPositionCheck();
+        switch (nRetValue) {
+            case BungeniError.SYSTEM_CONTAINER_ALREADY_EXISTS:
+            case BungeniError.SYSTEM_CONTAINER_WRONG_POSITION:
+                return nRetValue;
+            default:
+                break;
+        }
+      
+        nRetValue = check_canSystemContainerBeCreated();
+        
+        return nRetValue;
+    }
+      
+       private HashMap<String,String> get_newSectionMetadata(toolbarAction pAction) {
+         HashMap<String,String> metaMap = new HashMap<String,String>();
+         metaMap.put("BungeniSectionType", pAction.action_section_type());
+         return metaMap;
+     }
+     private String get_newSectionNameForAction(toolbarAction pAction) {
+         String newSectionName = "";
+         if (pAction.action_numbering_convention().equals("single")) {
+             newSectionName = pAction.action_naming_convention();
+         } else if (pAction.action_numbering_convention().equals("serial")) {
+             String sectionPrefix = pAction.action_naming_convention();
+             for (int i=1 ; ; i++) {
+                if (ooDocument.hasSection(sectionPrefix+i)) {
+                    continue;
+                } else {
+                    newSectionName = sectionPrefix+i;
+                    break;
+                }
+             }
+           
+         } else {
+             log.error("get_newSectionNameForAction: invalid action naming convention: "+ m_parentAction.action_naming_convention());
+         }
+         return newSectionName;
+    }
+    
     private int action_initDocument(){
         return 0;
     }
+
+    
+    private boolean action_createRootSection(OOComponentHelper ooDoc, String sectionName) {
+        boolean bResult = false;
+        try {
+            XText docText = ooDocument.getTextDocument().getText();
+            XTextCursor docCursor = docText.createTextCursor();
+            docCursor.gotoStart(false);
+            docCursor.gotoEnd(true);
+            XTextContent theContent = ooDocument.createTextSection(sectionName, (short)1);
+            docText.insertTextContent(docCursor, theContent, true);
+            bResult = true;
+        } catch (IllegalArgumentException ex) {
+            log.error("in action_createRootSection :" + ex.getMessage());
+            log.error("in action_createRootSection :" + CommonExceptionUtils.getStackTrace(ex));
+        } finally {
+            return bResult;
+        }
+    }
+    
+    private boolean action_createSystemContainerFromSelection(OOComponentHelper ooDoc, String systemContainerName){
+        boolean bResult = false; 
+        try {
+        XTextViewCursor xCursor = ooDocument.getViewCursor();
+        XText xText = xCursor.getText();
+        XTextContent xSectionContent = ooDocument.createTextSection(systemContainerName, (short)1);
+        xText.insertTextContent(xCursor, xSectionContent , true); 
+        bResult = true;
+        } catch (com.sun.star.lang.IllegalArgumentException ex) {
+            bResult = false;
+            log.error("in addTextSection : "+ex.getLocalizedMessage(), ex);
+        }  finally {
+            return bResult;
+        }
+    }
+
+ 
+
 
    }

@@ -36,6 +36,23 @@
     </ul>
 </metal:block>
 
+<metal:block define-macro="float_toc">
+    <ul tal:condition="toc | nothing">
+        <li tal:repeat="tocElement toc">
+            <tal:item define="item tocElement/item">
+                <span tal:content="python:tocElement['numbering']"></span>
+                <a href="" tal:attributes="href item/getURL">
+                <span tal:content="string:${item/Title}" tal:attributes="class string:state-${item/review_state}"/></a>
+                            <p style="margin:2px 8px;"><span tal:replace="item/Description">Description</span></p>
+
+                    <tal:block define="toc tocElement/children">
+                        <metal:recursion use-macro="here/referencemanual_macros/macros/float_toc"/>
+                    </tal:block>
+            </tal:item>
+        </li>
+    </ul>
+</metal:block>
+
 <metal:block define-macro="section_toc_roman">
     <ul tal:condition="toc | nothing">
         <li tal:repeat="tocElement toc">

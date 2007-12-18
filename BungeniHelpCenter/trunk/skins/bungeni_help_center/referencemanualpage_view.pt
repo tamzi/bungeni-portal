@@ -37,25 +37,39 @@
            i18n:translate="go_to_parent_url">
         Up one level
         </a>
+    <div class="portalMessage"
+         tal:condition="python:here.portal_workflow.getInfoFor(here, 'review_state') != 'published'"
+         i18n:translate="must_publish_before_visible_to_public">
+      You must publish this page before it becomes visible to the public.
+    </div>
 
     <div metal:use-macro="here/phc_macros/macros/identityimage">
       Identity Image 
     </div>
 
+    <span tal:omit-tag="" tal:condition="python:here.getTocType() == 'drop'">    
     <div metal:use-macro="here/referencemanual_macros/macros/jump_box"/>
+    </span>
+    <span tal:omit-tag="" tal:condition="python:here.getTocType() == 'box'">
+        <div class="visualClear">&nbsp;</div>
+
+    <tal:block define="toc here/getTOC;">
+    
+	<div metal:define-slot="sectiontoc">
+    <div style="float: right;width:250px;border:1px solid #74AE0B;">
+        <metal:recursion use-macro="here/referencemanual_macros/macros/float_toc"/>
+    </div>
+	</div>
+            
+    </tal:block>
+    </span>
 
     <div class="documentDescription"
       tal:condition="here/Description"
       tal:content="structure here/Description">
       Description
     </div>
-    
-    <div class="portalMessage"
-         tal:condition="python:here.portal_workflow.getInfoFor(here, 'review_state') != 'published'"
-         i18n:translate="must_publish_before_visible_to_public">
-      You must publish this page before it becomes visible to the public.
-    </div>
-    
+        
     <div tal:replace="structure here/getBody"/>
 
 

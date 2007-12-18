@@ -384,7 +384,7 @@ HelpCenterReferenceManual.schema['description'].required = 0
 
 HelpCenterReferenceManual.schema = HelpCenterReferenceManual.schema + \
  Schema((BodyField, IdentityField, IdentityPosition, RightsField, TaxCategoryField,\
- TaxAttributesField, PositionField),)
+ TaxAttributesField, PositionField,TocType),)
 
 HelpCenterReferenceManual.schema.moveField('relatedItems', pos='bottom')
 HelpCenterReferenceManual.schema.moveField('sections', pos='bottom')

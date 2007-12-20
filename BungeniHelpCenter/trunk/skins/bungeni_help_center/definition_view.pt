@@ -128,8 +128,7 @@ if (window.attachEvent) window.attachEvent("onload", sfHover);
  </span>
     </p>
 
-    <div class="documentDescription"
-      tal:condition="here/Description"
+    <div tal:condition="here/Description"
       tal:content="structure here/Description">
       Definition
     </div>    

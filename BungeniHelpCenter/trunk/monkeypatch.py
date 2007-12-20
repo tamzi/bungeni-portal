@@ -48,6 +48,20 @@ BodyField =  TextField(
         **DEFAULT_CONTENT_TYPES
         )
 
+DefinitionField =  TextField(
+        'description',
+        searchable=1,
+        widget=RichWidget(
+                description = "An explanation of the term.",
+                description_msgid = "phc_desc_definition",
+                label = "Definition",
+                label_msgid = "phc_label_definition",
+                rows = 25,
+                i18n_domain = "plonehelpcenter"
+                ),
+        **DEFAULT_CONTENT_TYPES
+        )
+
 IdentityField = ImageField(
         'identity',
         required=0,
@@ -280,14 +294,8 @@ generateMethods(HelpCenterGlossary, HelpCenterGlossary.schema.fields())
 # Patching HelpCenterDefinition
 HelpCenterDefinition = Definition.HelpCenterDefinition
 
-HelpCenterDefinition.schema['description'].widget =RichWidget(
-                    description = 'An explanation of the term.',
-                    description_msgid = "phc_desc_definition",
-                    label = "Definition",
-                    label_msgid = "phc_label_definition",
-                    rows = 5,
-                    i18n_domain = "plonehelpcenter",
-                    )
+HelpCenterDefinition.schema = HelpCenterDefinition.schema +\
+    Schema((DefinitionField),)
 
 generateMethods(HelpCenterDefinition, HelpCenterDefinition.schema.fields())
 

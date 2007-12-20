@@ -32,6 +32,7 @@ font-weight:bold;
 #nav li { /* all list items */
 float: left;
 width: 2.5em; /* width needed or else Opera goes nuts */
+margin-bottom:0em;
 }
 
 #nav li ul { /* second-level lists */

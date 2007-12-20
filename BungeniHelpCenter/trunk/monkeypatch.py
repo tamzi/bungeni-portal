@@ -383,8 +383,8 @@ HelpCenterReferenceManual.toRoman = toRoman.__get__(None, HelpCenterReferenceMan
 HelpCenterReferenceManual.schema['description'].required = 0
 
 HelpCenterReferenceManual.schema = HelpCenterReferenceManual.schema + \
- Schema((BodyField, IdentityField, IdentityPosition, RightsField, TaxCategoryField,\
- TaxAttributesField, PositionField,TocType),)
+ Schema((BodyField, IdentityField, IdentityPosition, RightsField,\
+ PositionField, TocType),)
 
 HelpCenterReferenceManual.schema.moveField('relatedItems', pos='bottom')
 HelpCenterReferenceManual.schema.moveField('sections', pos='bottom')
@@ -394,8 +394,6 @@ HelpCenterReferenceManual.schema.moveField('startHere', pos='bottom')
 HelpCenterReferenceManual.schema.moveField('subject', pos='bottom')
 HelpCenterReferenceManual.schema.moveField('relatedItems', pos='bottom')
 HelpCenterReferenceManual.schema.moveField('rights', pos='bottom')
-HelpCenterReferenceManual.schema.moveField('categories', pos='bottom')
-HelpCenterReferenceManual.schema.moveField('attribs', pos='bottom')
 
 generateMethods(HelpCenterReferenceManual, HelpCenterReferenceManual.schema.fields())
 
@@ -433,15 +431,11 @@ HelpCenterTutorial = Tutorial.HelpCenterTutorial
 
 HelpCenterTutorial.schema['description'].required = 0
 HelpCenterTutorial.schema = HelpCenterTutorial.schema +\
-    Schema((BodyField, TaxCategoryField, TaxAttributesField,\
-                PositionField, TocType),)
+    Schema((BodyField, PositionField, TocType),)
 
 HelpCenterTutorial.schema.moveField('body', pos='top')
 HelpCenterTutorial.schema.moveField('description', pos='top')
 HelpCenterTutorial.schema.moveField('title', pos='top')
-HelpCenterTutorial.schema.moveField('categories', pos='bottom')
-HelpCenterTutorial.schema.moveField('attribs', pos='bottom')
-
 
 generateMethods(HelpCenterTutorial, HelpCenterTutorial.schema.fields())
 

@@ -32,6 +32,11 @@ try:
     PHCReferenceWidget = ReferenceBrowserWidget
 except ImportError:
     PHCReferenceWidget = ReferenceWidget
+from Products.PortalTaxonomy.fields import AttributeField, CategoryField
+
+TaxCategoryField = CategoryField('categories')
+
+TaxAttributesField = AttributeField('attribs')
 
 RelatedItemsField =  ReferenceField(
         'relatedItems',
@@ -51,6 +56,8 @@ RelatedItemsField =  ReferenceField(
 
 HelpCenterReferenceManual = ReferenceManual.HelpCenterReferenceManual
 
+HelpCenterReferenceManualSchema = HelpCenterReferenceManual.schema + Schema((TaxCategoryField, TaxAttributesField),)
+
 class BungeniHelpCenterReferenceManual(BrowserDefaultMixin,  HelpCenterReferenceManual):
     """A reference manual containing ReferenceManualPages,
     ReferenceManualSections, Files and Images.
@@ -62,6 +69,7 @@ class BungeniHelpCenterReferenceManual(BrowserDefaultMixin,  HelpCenterReference
     archetype_name = 'Reference Manual'
     meta_type='HelpCenterReferenceManual'
     content_icon = 'referencemanual_icon.gif'
+    schema = HelpCenterReferenceManualSchema
 
     global_allow = 0
     filter_content_types = 1
@@ -178,6 +186,8 @@ registerType(BungeniHelpCenterReferenceManual, PROJECTNAME)
 
 HelpCenterTutorial = Tutorial.HelpCenterTutorial
 
+HelpCenterTutorialSchema = HelpCenterTutorial.schema + Schema((TaxCategoryField, TaxAttributesField),)
+
 class BungeniHelpCenterTutorial(BrowserDefaultMixin, HelpCenterTutorial):
     """A tutorial containing TutorialPages, Files and Images."""
 
@@ -187,7 +197,7 @@ class BungeniHelpCenterTutorial(BrowserDefaultMixin, HelpCenterTutorial):
     archetype_name = 'Tutorial'
     meta_type = portal_type = 'HelpCenterTutorial'
     content_icon = 'tutorial_icon.gif'
-
+    schema = HelpCenterTutorialSchema
     global_allow = 0
     filter_content_types = 1
     allowed_content_types = ('BungeniHelpCenterTutorialPage', 'Image', 'File')

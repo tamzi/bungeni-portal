@@ -21,6 +21,9 @@ Class-Path: lib/juh.jar
           lib/opencsv-1.8.jar lib/h2.jar 
           lib/commons-lang-2.3.jar 
                   lib/jug-lgpl-2.0.0.jar
+  lib/commons-collections-3.2.jar lib/commons-beanutils.jar 
+  lib/commons-chain-1.1.jar  
+                lib/commons-digester-1.8.jar
 
 Name: com/sun/star/lib/loader/Loader.class
 Application-Class: org.bungeni.editor.BungeniEditorClient

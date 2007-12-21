@@ -31,9 +31,11 @@ import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.BungeniRegistryFactory;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.QueryResults;
+import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.utils.CommonPropertyFunctions;
 import org.bungeni.utils.MessageBox;
 import org.jdesktop.swingx.JXDatePicker;
 
@@ -58,8 +60,9 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     protected HashMap<String,String> theMetadataMap = new HashMap<String,String>();
     protected HashMap<String,Component> theControlMap = new HashMap<String,Component>();
     protected HashMap<String, Object> theControlDataMap = new HashMap<String, Object>();
+    protected HashMap<String,String> thePreInsertMap = new HashMap<String, String>();  
     protected String windowTitle;
-    
+    protected BungeniFormContext formContext;    
    //for selection mode apis 
    protected ArrayList<String> enabledControls = new ArrayList<String>(); 
  
@@ -129,6 +132,19 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         this.dbInstance = new BungeniClientDB(registryMap);
         this.dbSettings = new BungeniClientDB(DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
         this.theSubAction = null;
+    }
+    
+    protected void init(){
+        createContext();
+    }
+    
+    //this is overriden from the derived class and invoked form the derived as super.createContext();
+    protected void createContext(){
+        formContext = new BungeniFormContext();
+        formContext.setTheAction(theAction);
+        formContext.setTheSubAction(theSubAction);
+        formContext.setOoDocument(ooDocument);
+        formContext.setPreInsertMap(thePreInsertMap);
     }
     
     public void setDialogMode(SelectorDialogModes mode) {
@@ -348,6 +364,33 @@ public class selectorTemplatePanel extends javax.swing.JPanel
           */
       } 
    
+  protected void createCommandChain(){
+    dbSettings.Connect();
+    String formName = getClassName();
+    QueryResults qr = dbSettings.QueryResults("select FORM_MODE, COMMAND_CATALOG, COMMAND_CHAIN from " +
+            "FORM_COMMAND_CHAIN where FORM_NAME = '"+formName +"'");
+    dbSettings.EndConnect();
+    
+    if (qr.hasResults()) {
+         Vector<Vector<String>> resultRows  = new Vector<Vector<String>>();
+         resultRows = qr.theResults(); 
+         for (Vector<String> resultRow : resultRows) {
+             resultRow.elementAt(qr.getColumnIndex("FORM_MODE")-1);
+             resultRow.elementAt(qr.getColumnIndex("FORM_MODE")-1);
+             //resultRow.
+         }   
+    }
+           
+  }
+  
+  /*
+   *Always override in derived class
+   *
+   */
+  protected String getClassName(){
+        return selectorTemplatePanel.class.getName();
+  }
+  
   private ArrayList<String> getInactiveControlsForMode(String currentMode) {
         ArrayList<String> arrHiddenFields = new ArrayList<String>();
         dbSettings.Connect();
@@ -481,7 +524,49 @@ public class selectorTemplatePanel extends javax.swing.JPanel
      }
      
    
-     
+         public String getNewSectionName() {
+        String newSectionName ="";
+        if (theAction.action_type().equals("section")) {
+            if (theAction.action_numbering_convention().equals("single")) {
+                return theAction.action_naming_convention();
+            } else {
+                String sectionPrefix = theAction.action_naming_convention();
+                log.debug("getNewSectionName: sectionPrefix = "+ sectionPrefix);
+                for (int i=1; ; i++) {
+                    newSectionName = sectionPrefix+i;
+                    if (ooDocument == null ) {
+                        System.out.println("ooDocument is null in new section name");
+                    }
+                    if (ooDocument.hasSection(newSectionName))
+                        continue;
+                    else
+                        break;
+                }
+            }
+            return newSectionName;
+        } else {
+            log.debug("getNewSectionName: the action type is not a section.");
+            return null;
+        }
+    }
+    
+    
+    public String getParentSection(){
+      String parentSection = "";
+      dbSettings.Connect();
+      QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_CHECK_IF_ACTION_HAS_PARENT(theAction.action_naming_convention()));
+      dbSettings.EndConnect();
+      String[] results = qr.getSingleColumnResult("THE_COUNT");
+      if (results[0].equals("0")) {
+          //get the main root as the partn
+          parentSection = CommonPropertyFunctions.getDocumentRootSection();
+        } else {
+          //this needs to be patched to deal with non root parents..
+          parentSection = CommonPropertyFunctions.getDocumentRootSection();
+        }
+     return parentSection;
+    }
+    
     protected void formApply() {
       switch (getDialogMode()) {
         case TEXT_SELECTED_EDIT :

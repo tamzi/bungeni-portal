@@ -158,14 +158,35 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
         return 0;
     }
 
-     
+   
+    private int routeAction_TextSelectedSystemAction_DebateDateEntry(BungeniMessage lastMessage) {
+        return 0;
+    }
+    
+    private int routeAction_TextSelectedSystemAction_DebateTimeEntry(BungeniMessage lastMessage) {
+        return 0;
+    }
+
+    
      private int routeAction_TextSelectedEditAction( int nValidationErrorCode) {
          return 0;
      }
     
      
      private int routeAction_TextSelectedSystemAction(BungeniMessage lastMessage) {
-         return 0;
+        int nActionDocument = -1;
+    
+        if (m_subAction.sub_action_name().equals("debatedate_entry")) {
+            nActionDocument = routeAction_TextSelectedSystemAction_DebateDateEntry(lastMessage);
+            return nActionDocument;
+        } else 
+        if (m_subAction.sub_action_name().equals("debatedate_entry")) {
+            nActionDocument = routeAction_TextSelectedSystemAction_DebateTimeEntry(lastMessage);
+            return nActionDocument;
+        } else  {
+            log.debug("routeAction_TextSelectedSystemAction() : method not implemented");
+            return BungeniError.METHOD_NOT_IMPLEMENTED;
+        }
      }
 
      
@@ -529,6 +550,10 @@ if markupSelectedText():
    private BungeniMessage validateAction_TextSelectedInsertAction_DebateDateEntry(){
      int nRetValue = -1;
      if (m_subAction.system_container().length() > 0 ) { 
+         nRetValue = check_systemContainerExists();
+         if (nRetValue == BungeniError.SYSTEM_CONTAINER_NOT_PRESENT){
+             return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_FAIL, nRetValue);
+         }
          nRetValue = this.check_generic_systemContainerCheck();
              switch (nRetValue) {
                  case BungeniError.SYSTEM_CONTAINER_ALREADY_EXISTS:
@@ -680,6 +705,16 @@ if markupSelectedText():
         }     
     }
     
+    
+    private int check_systemContainerExists() {
+        String systemContainer = m_subAction.system_container();
+        if (ooDocument.hasSection(systemContainer)) {
+            return BungeniError.SYSTEM_CONTAINER_ALREADY_EXISTS;
+        } else {
+            return BungeniError.SYSTEM_CONTAINER_NOT_PRESENT;
+        } 
+            
+    }
     private int check_generic_systemContainerCheck(){
        int nRetValue = 0;
         
@@ -761,6 +796,8 @@ if markupSelectedText():
             return bResult;
         }
     }
+
+    
 
  
 

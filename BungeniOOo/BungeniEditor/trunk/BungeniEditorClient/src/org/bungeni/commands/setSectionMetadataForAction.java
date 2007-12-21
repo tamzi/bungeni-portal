@@ -1,0 +1,43 @@
+/*
+ * setSectionMetadataForAction.java
+ *
+ * Created on December 20, 2007, 5:57 PM
+ *
+ * To change this template, choose Tools | Template Manager
+ * and open the template in the editor.
+ */
+
+package org.bungeni.commands;
+
+/**
+ *
+ * @author Administrator
+ */
+
+
+
+import java.util.HashMap;
+import org.apache.commons.chain.Command;
+import org.apache.commons.chain.Context;
+import org.bungeni.editor.selectors.BungeniFormContext;
+import org.bungeni.editor.selectors.IBungeniForm;
+
+
+public class setSectionMetadataForAction implements Command {
+    
+    /**
+     * Creates a new instance of setSectionMetadataForAction
+     * Requires: the new_section variable to be set in the preInsertMap prior to invocation.
+     */
+      public boolean execute(Context context) throws Exception {
+        BungeniFormContext formContext = (BungeniFormContext) context;
+        //IBungeniForm iForm = formContext.getBungeniForm();
+        String newSectionname = formContext.getPreInsertMap().get("new_section");
+        
+        HashMap<String,String> sectionMeta = new HashMap<String,String>();
+        sectionMeta.put("BungeniSectionType", formContext.getTheAction().action_section_type());
+        formContext.getOoDocument().setSectionMetadataAttributes(newSectionname, sectionMeta);
+      
+        return false;
+      }
+}

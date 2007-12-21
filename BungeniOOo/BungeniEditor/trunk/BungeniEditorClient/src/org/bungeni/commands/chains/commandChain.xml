@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : commandChain.xml.xml
+    Created on : December 20, 2007, 12:53 PM
+    Author     : Administrator
+    Description:
+        Purpose of the document follows.
+-->
+<catalogs>
+    <catalog name="debaterecord">
+        <chain name="debateRecordInsertMasthead">
+            <command   id="addSectionIntoSectionWithStyling"
+                       className="org.bungeni.commands.addSectionIntoSectionWithStyling"/>
+            <command   id="setSectionMetadataForAction"
+                       className="org.bungeni.commands.setSectionMetadataForAction"/>
+            <command   id="addImageIntoSection"
+                       className="org.bungeni.commands.addImageIntoSection"/>
+            <command   id="addDocumentIntoSection"
+                       className="org.bungeni.commands.addDocumentIntoSection"/>
+            <command   id="setInputFieldValue"
+                       className="org.bungeni.commands.setInputFieldValue"/>
+            <command   id="setInputFieldValue2"
+                       className="org.bungeni.commands.setInputFieldValue"/>
+            <command   id="addDocumentMetadata"
+                       className="org.bungeni.commands.addDocumentMetadata"/>
+        </chain>
+    </catalog>
+    <catalog name="testCatalog">
+        <chain name="testChain">
+            <command id="testCommand" className="org.bungeni.commands.testCommand" />
+        </chain>   
+    </catalog>
+</catalogs>
+

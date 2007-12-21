@@ -23,4 +23,5 @@ public interface IDialogSelector {
     public void setOOComponentHelper(OOComponentHelper ooComp);
     public void setToolbarAction(toolbarAction action);
     public void setParentDialog(JDialog dlg);
+    
 }

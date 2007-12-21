@@ -23,6 +23,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import javax.naming.Context;
 import javax.swing.InputVerifier;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -50,6 +51,7 @@ import org.bungeni.editor.fragments.FragmentsFactory;
 import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.ooo.ooDocFieldSet;
 import org.bungeni.ooo.ooDocMetadata;
 import org.bungeni.utils.CommonPropertyFunctions;
 import org.bungeni.utils.MessageBox;
@@ -63,7 +65,7 @@ import org.jdesktop.swingx.JXDatePicker;
  * - allows setting various variables within that section
  * - slaps the text into the created text section
  */
-public class InitDebateRecord extends selectorTemplatePanel {
+public class InitDebateRecord extends selectorTemplatePanel implements IBungeniForm {
    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(InitDebateRecord.class.getName());
    private String m_strLogoPath; 
    private String m_strLogoFileName;
@@ -76,11 +78,11 @@ public class InitDebateRecord extends selectorTemplatePanel {
     public InitDebateRecord(OOComponentHelper ooDocument, 
             JDialog parentDlg, 
             toolbarAction theAction) {
-         super(ooDocument, parentDlg, theAction);
+        super(ooDocument, parentDlg, theAction);
         init();       // initdebate_timeofhansard.setFormatterFactory(new DefaultFormatterFactory(dfTimeOfHansard));
         setControlModes();
         setControlData();
-         log.debug("calling constructor : initDebateRecord, mode = " + getDialogMode());
+        log.debug("calling constructor : initDebateRecord, mode = " + getDialogMode());
     }
     
         //invoked only for selection mode
@@ -116,9 +118,10 @@ public class InitDebateRecord extends selectorTemplatePanel {
               getEnabledControls().add(controls_ignore_list[i]);
           }
       }
+
       
       public void init(){
-          
+        super.init();
         initComponents();
         //default m_strLogoPath
         String logoPath = BungeniEditorProperties.getEditorProperty("logoPath");
@@ -134,9 +137,18 @@ public class InitDebateRecord extends selectorTemplatePanel {
 
       }
       
+      protected HashMap<SelectorDialogModes, String> COMMAND_CHAIN = new HashMap<SelectorDialogModes, String>();
+      
+      protected void createContext(){
+          super.createContext();
+          formContext.setBungeniForm(this);
+      }
      
- 
-    public void setControlData() {
+    public String getClassName(){
+        return InitDebateRecord.class.getName();
+    }
+            
+    protected void setControlData() {
         try {
         //only in edit mode, only if the metadata properties exist
         if (theMode == SelectorDialogModes.TEXT_EDIT) {
@@ -373,50 +385,8 @@ public class InitDebateRecord extends selectorTemplatePanel {
    
     //over ride btnApply....by calling  a base class function to override functionality...
     
-    private String getNewSectionName() {
-        String newSectionName ="";
-        if (theAction.action_type().equals("section")) {
-            if (theAction.action_numbering_convention().equals("single")) {
-                return theAction.action_naming_convention();
-            } else {
-                String sectionPrefix = theAction.action_naming_convention();
-                log.debug("getNewSectionName: sectionPrefix = "+ sectionPrefix);
-                for (int i=1; ; i++) {
-                    newSectionName = sectionPrefix+i;
-                    if (ooDocument == null ) {
-                        System.out.println("ooDocument is null in new section name");
-                    }
-                    if (ooDocument.hasSection(newSectionName))
-                        continue;
-                    else
-                        break;
-                }
-            }
-            return newSectionName;
-        } else {
-            log.debug("getNewSectionName: the action type is not a section.");
-            return null;
-        }
-    }
-    
-    
-    private String getParentSection(){
-      String parentSection = "";
-      dbSettings.Connect();
-      QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_CHECK_IF_ACTION_HAS_PARENT(theAction.action_naming_convention()));
-      dbSettings.EndConnect();
-      String[] results = qr.getSingleColumnResult("THE_COUNT");
-      if (results[0].equals("0")) {
-          //get the main root as the partn
-          parentSection = CommonPropertyFunctions.getDocumentRootSection();
-        } else {
-          //this needs to be patched to deal with non root parents..
-          parentSection = CommonPropertyFunctions.getDocumentRootSection();
-        }
-     return parentSection;
-    }
-    
-    HashMap<String,String> thePreInsertMap = new HashMap<String, String>();    
+
+   
 
     /*
      *
@@ -425,7 +395,38 @@ public class InitDebateRecord extends selectorTemplatePanel {
      *
      *
      */
-    protected boolean preFullInsert() {
+    protected boolean preFullInsert(){
+            log.debug("in preFullInsert...");
+            
+            /** gathering values ***/
+            
+            long sectionBackColor = 0xffffff;
+            float sectionLeftMargin = (float).2;
+           
+            String parentSection = getParentSection();
+            log.debug("preFullInsert() : getParentSection()" + parentSection );
+            String newSectionName = getNewSectionName();
+            log.debug("preFullInsert() : getNewSectionName()" + newSectionName );
+            
+            /** seeding pre insert map that will be used by the commands chain **/
+            
+            thePreInsertMap.put("section_back_color", Long.toHexString(sectionBackColor));
+            thePreInsertMap.put("section_left_margin", Float.toString(sectionLeftMargin));
+            thePreInsertMap.put("container_section", parentSection);
+            thePreInsertMap.put("current_section", newSectionName);
+            thePreInsertMap.put("new_section", newSectionName);
+            thePreInsertMap.put("selected_logo", (String) theControlDataMap.get("txt_initdebate_selectlogo"));
+            thePreInsertMap.put("document_fragment", (String) FragmentsFactory.getFragment("hansard_masthead"));
+            formContext.getFieldSets().add(new ooDocFieldSet(new String("debaterecord_official_date"),
+                                            (String) theControlDataMap.get("dt_initdebate_hansarddate"),
+                                             new String("int:masthead_datetime")));
+            formContext.getFieldSets().add(new ooDocFieldSet(new String("debaterecord_official_time"),
+                                            (String) theControlDataMap.get("dt_initdebate_timeofhansard"),
+                                             new String("int:masthead_datetime")));
+            return true;
+    }
+    
+    protected boolean preFullInsert_old() {
         //add section inside the root section
             log.debug("in preFullInsert...");
             long sectionBackColor = 0xffffff;
@@ -439,6 +440,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
             thePreInsertMap.clear();
             thePreInsertMap.put("container_section", parentSection);
             thePreInsertMap.put("current_section", newSectionName);
+            thePreInsertMap.put("new_section", newSectionName);
            
            // m_containerSection = parentSection;
            // m_newSectionName = newSectionName;
@@ -456,9 +458,14 @@ public class InitDebateRecord extends selectorTemplatePanel {
             return true;
        }
     
-    protected boolean processFullInsert(){
+    protected boolean processFullInsert() {
+        
+    }
+    
+    protected boolean processFullInsert_old(){
             //set metadata for section
         //embed logo image
+        
             boolean bAddImage = action_addImageIntoSection(ooDocument, 
                     (String) thePreInsertMap.get("current_section"), 
                     (String) theControlDataMap.get("txt_initdebate_selectlogo") );
@@ -624,7 +631,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
         if (enabledControls.contains(new String("dt_initdebate_hansarddate"))) {
             //get the value and set it into the document
             String dateOfHansard = (String) theControlDataMap.get("dt_initdebate_hansarddate");
-            boolean bDateAdd = this.action_replaceTextWithField(ooDocument, "debaterecord_official_date", dateOfHansard);
+            boolean bDateAdd = action_replaceTextWithField(ooDocument, "debaterecord_official_date", dateOfHansard);
             if (!bDateAdd) {
                 checkFieldsMessages.add("There was an error while marking the handard date");
             }
@@ -634,7 +641,7 @@ public class InitDebateRecord extends selectorTemplatePanel {
         if (enabledControls.contains(new String("dt_initdebate_timeofhansard"))) {
             //get the current time value into the document
             String timeOfHansard = (String) theControlDataMap.get("dt_initdebate_timeofhansard");
-            boolean bTimeAdd = this.action_replaceTextWithField(ooDocument, "debaterecord_official_time", timeOfHansard);
+            boolean bTimeAdd = action_replaceTextWithField(ooDocument, "debaterecord_official_time", timeOfHansard);
             if (!bTimeAdd) {
                 checkFieldsMessages.add("There was an error while marking the handard time");
             }
@@ -930,9 +937,6 @@ public class InitDebateRecord extends selectorTemplatePanel {
 // TODO add your handling code here:
         parent.dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
-
-
-    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApply;

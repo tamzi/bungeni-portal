@@ -116,7 +116,35 @@
                 <tal:block condition="not: nocall:addImagePaths">
                     <div tal:replace="structure body" />
                 </tal:block>
-            </div>
+           </div>
+
+    <tal:subpage define="subpages python:itemObj.objectValues(['TabbedSubpages',]);">
+
+    <div tal:repeat="subpage subpages">
+      <div tal:define="number repeat/subpage/number;
+                       layout python: itemObj.getTargetObjectLayout(subpage);
+                       template python: getattr(subpage, layout, None);
+                       macros template/macros | nothing;
+                       main_macro macros/main | nothing">
+        <a tal:condition="python: user.has_role(['Owner', 'Reviewer', 'Manager'], context)"
+           class="edit-icon"
+           href="#" tal:attributes="href string:${subpage/absolute_url}/base_edit;"
+           title="Rediger underside">
+          <img src="" tal:attributes="src string:$portal_url/edit_icon.gif"
+               width="16"
+               title="Edit subpage"/>
+        </a>
+        <tal:content tal:define="batch_base_url string:${here/absolute_url}/${template_id};
+                                 here python: subpage;
+                                 here_url string:${here/absolute_url};
+                                 object_title here/Title">                    
+          <div metal:use-macro="main_macro" />
+        </tal:content>
+      </div>
+    </div>
+    </tal:subpage>
+
+
 
             <tal:subsections define="toc children"
                              condition="nocall:children">

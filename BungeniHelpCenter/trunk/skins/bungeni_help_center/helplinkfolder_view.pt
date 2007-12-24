@@ -6,71 +6,12 @@
 
   <head>
     <metal:block fill-slot="css_slot">
-      <style type="text/css">
-#nav, #nav ul { /* all lists */
-padding: 0;
-margin: 0;
-list-style: none;
-line-height: 1;
-}
-
-#nav a {
-display: block;
-width: 1em;
-white-space:nowrap;
-}
-
-#nav a:hover {
-font-weight:bold;
-}
-#nav a:active {
-font-weight:bold;
-}
-#nav a:visited {
-font-weight:bold;
-}
-
-#nav li { /* all list items */
-float: left;
-width: 2.5em; /* width needed or else Opera goes nuts */
-margin-bottom:0em;
-}
-
-#nav li ul { /* second-level lists */
-padding-top:1em;
-position: absolute;
-width: 2.5em;
-left: -999em;
-}
-#nav li ul li div {
- background-color:#CDE2A7;
- width:20em;
- padding:5px;
-}
-
-#nav li:hover ul, #nav li.sfhover ul { /* lists nested under hovered
-list items */
-left: auto;
-}
-       </style>
+      <metal:block metal:use-macro="here/phc_macros/macros/azcss">
+      </metal:block>
     </metal:block>
     <metal:block fill-slot="javascript_head_slot">
-<script type="text/javascript"><!--//--><![CDATA[//><!--
-
-sfHover = function() {
-var sfEls = document.getElementById("nav").getElementsByTagName("LI");
-for (var i=0; i<sfEls.length; i++) {
-sfEls[i].onmouseover=function() {
-this.className+=" sfhover";
-}
-sfEls[i].onmouseout=function() {
-this.className=this.className.replace(new RegExp(" sfhover\\b"), "");
-}
-}
-}
-if (window.attachEvent) window.attachEvent("onload", sfHover);
-
-//--><!]]></script>
+      <metal:block metal:use-macro="here/phc_macros/macros/azjs">
+      </metal:block>
     </metal:block>    
 
   </head>

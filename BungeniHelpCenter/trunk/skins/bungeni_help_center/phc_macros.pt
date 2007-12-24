@@ -14,7 +14,7 @@
     </div>
   </span>
    <span tal:omit-tag="" tal:condition="python:here.getIdentityPosition()=='left'">
-    <div style="margin: 1em 0 1em 1em;"
+    <div style="float:left; margin: 1em 0 1em 1em;"
          tal:condition="here/identity_thumb | nothing">
          <a class="discreet"
          tal:attributes="href string:${here/absolute_url}/identity/image_view_fullscreen">
@@ -27,4 +27,76 @@
          </a>
     </div>
   </span>
+</metal:master>
+
+<metal:master define-macro="azcss">
+      <style type="text/css">
+#nav, #nav ul { /* all lists */
+padding: 0;
+margin: 0;
+list-style: none;
+line-height: 1;
+}
+
+#nav a {
+display: block;
+text-decoration:none;
+}
+
+#nav a:hover {
+font-weight:bold;
+text-decoration:none;
+}
+#nav a:active {
+text-decoration:none;
+font-weight:bold;
+}
+#nav a:visited {
+text-decoration:none;
+font-weight:bold;
+}
+
+#nav li { /* all list items */
+float: left;
+width: 2.5em; /* width needed or else Opera goes nuts */
+margin-bottom:0em;
+}
+
+#nav li ul { /* second-level lists */
+padding-top:1em;
+position: absolute;
+width: 2.5em;
+left: -999em;
+}
+#nav li ul li div {
+ background-color:#CDE2A7;
+ width:20em;
+ padding:5px;
+}
+
+#nav li:hover ul, #nav li.sfhover ul { /* lists nested under hovered
+list items */
+left: auto;
+}
+       </style>
+   
+</metal:master>
+
+<metal:master define-macro="azjs">
+<script type="text/javascript"><!--//--><![CDATA[//><!--
+
+sfHover = function() {
+var sfEls = document.getElementById("nav").getElementsByTagName("LI");
+for (var i=0; i<sfEls.length; i++) {
+sfEls[i].onmouseover=function() {
+this.className+=" sfhover";
+}
+sfEls[i].onmouseout=function() {
+this.className=this.className.replace(new RegExp(" sfhover\\b"), "");
+}
+}
+}
+if (window.attachEvent) window.attachEvent("onload", sfHover);
+
+//--><!]]></script>
 </metal:master>

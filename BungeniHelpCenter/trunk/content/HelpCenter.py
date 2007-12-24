@@ -34,6 +34,121 @@ except ImportError:
     PHCReferenceWidget = ReferenceWidget
 from Products.PortalTaxonomy.fields import AttributeField, CategoryField
 
+BodyField =  TextField(
+        'body',
+        searchable=1,
+        widget=RichWidget(
+                description = "The body text.",
+                description_msgid = "phc_desc_body_referencemanual",
+                label = "Body text",
+                label_msgid = "phc_label_body_referencemanual",
+                rows = 25,
+                i18n_domain = "plonehelpcenter"
+                ),
+        **DEFAULT_CONTENT_TYPES
+        )
+
+DefinitionField =  TextField(
+        'description',
+        searchable=1,
+        widget=RichWidget(
+                description = "An explanation of the term.",
+                description_msgid = "phc_desc_definition",
+                label = "Definition",
+                label_msgid = "phc_label_definition",
+                rows = 25,
+                i18n_domain = "plonehelpcenter"
+                ),
+        **DEFAULT_CONTENT_TYPES
+        )
+
+IdentityField = ImageField(
+        'identity',
+        required=0,
+        sizes=IMAGE_SIZES,
+        widget=ImageWidget(
+            label='Identity Image',
+            label_msgid='phc_label_identity_image',
+            description='Add an identity image',
+            description_msgid='phc_help_identity_image',
+            i18n_domain='plonehelpcenter',
+            ),
+        )
+
+IdentityPosition =  StringField('identity_position',
+                                accessor = 'getIdentityPosition',
+                                mutator = 'setIdentityPosition',
+                                vocabulary = DisplayList((
+                                            ('right', 'Top Right'),
+                                            ('left', 'Top Left'),)),
+                                searchable=0,
+                                default= ('right'),
+                                widget=
+                                SelectionWidget(label='Identity Logo Position',
+                                                label_msgid="label_identity_position",
+                                                description="Select the positioning of the Identity Logo.",
+                                                description_msgid="help_identity_position",
+                                                i18n_domain="plone"
+                                                ),
+                                )
+
+TocType =  StringField('toc_type',
+                       accessor = 'getTocType',
+                       mutator = 'setTocType',
+                       vocabulary = DisplayList((
+                                   ('drop', 'Drop Down'),
+                                   ('box', 'Box'),)),
+                       searchable=0,
+                       default= ('drop'),
+                       widget=
+                       SelectionWidget(label='TOC Display Type',
+                                       label_msgid="label_toc_type",
+                                       description="Select the TOC display type.",
+                                       description_msgid="help_toc_type",
+                                       i18n_domain="plone"
+                                       ),
+                       )
+
+ContributorsField =  LinesField(
+        'contributors',
+        accessor="Contributors",
+        languageIndependent=1,
+        widget=LinesWidget(
+                label='Contributors',
+                label_msgid="label_contributors",
+                description="Enter additional names (no need to include the current owner) for those who have contributed to this entry, one per line.",
+                description_msgid="help_contributors",
+                i18n_domain="plone",
+                ),
+        )
+
+RightsField =  TextField(
+         'rights',
+         accessor="Rights",
+         widget=TextAreaWidget(
+                 label='Copyright',
+                 description="Copyright info for all content in the helpcenter.",
+                 label_msgid="phc_label_copyrights_referencemanual",
+                 description_msgid="phc_copyrights_referencemanual",
+                 i18n_domain="plonehelpcenter"
+                 ),
+         )
+
+PositionField =  StringField('navbar_position',
+                             accessor = 'getNavBarPosition',
+                             mutator = 'setNavBarPosition',
+                             vocabulary = '_navbar',
+                             searchable=0,
+                             default= ('both'),
+                             widget= SelectionWidget(label='Navigation Bar',
+                                                     label_msgid="label_navigation_bar",
+                                                     description="Select the positioning of the Navigation Bar.",
+                                                     description_msgid="help_nav_bar",
+                                                     i18n_domain="plone"
+                                                     ),
+                             )
+
+
 TaxCategoryField = CategoryField('categories')
 
 TaxAttributesField = AttributeField('attribs')
@@ -56,7 +171,20 @@ RelatedItemsField =  ReferenceField(
 
 HelpCenterReferenceManual = ReferenceManual.HelpCenterReferenceManual
 
-HelpCenterReferenceManualSchema = HelpCenterReferenceManual.schema + Schema((TaxCategoryField, TaxAttributesField),)
+HelpCenterReferenceManualSchema = HelpCenterReferenceManual.schema + Schema((BodyField, IdentityField, IdentityPosition, RightsField,\
+ PositionField, TocType, TaxCategoryField, TaxAttributesField),)
+
+HelpCenterReferenceManualSchema['description'].required = 0
+HelpCenterReferenceManualSchema.moveField('relatedItems', pos='bottom')
+HelpCenterReferenceManualSchema.moveField('sections', pos='bottom')
+HelpCenterReferenceManualSchema.moveField('audiences', pos='bottom')
+HelpCenterReferenceManualSchema.moveField('contributors', pos='bottom')
+HelpCenterReferenceManualSchema.moveField('startHere', pos='bottom')
+HelpCenterReferenceManualSchema.moveField('subject', pos='bottom')
+HelpCenterReferenceManualSchema.moveField('relatedItems', pos='bottom')
+HelpCenterReferenceManualSchema.moveField('rights', pos='bottom')
+HelpCenterReferenceManualSchema.moveField('categories', pos='bottom')
+HelpCenterReferenceManualSchema.moveField('attribs', pos='bottom')
 
 class BungeniHelpCenterReferenceManual(BrowserDefaultMixin,  HelpCenterReferenceManual):
     """A reference manual containing ReferenceManualPages,
@@ -182,11 +310,35 @@ class BungeniHelpCenterReferenceManual(BrowserDefaultMixin,  HelpCenterReference
         buildNumbering(toc)
         return toc
 
+    def toRoman(self, num):
+        """Convert to roman numerials"""
+        str = ''
+        for number in num.split('.'):
+            if number.isdigit():
+                str=str+"."+roman.toRoman(int(number))
+        if str:
+            return str[1:]
+
+    def toAlpha(self, num):
+        """Convert to alpha"""
+        str = ''
+        for number in num.split('.'):
+            if number.isdigit():
+                str=str+"."+roman.toAlpha(int(number))
+        if str:
+            return str[1:]
+
 registerType(BungeniHelpCenterReferenceManual, PROJECTNAME)
 
 HelpCenterTutorial = Tutorial.HelpCenterTutorial
 
-HelpCenterTutorialSchema = HelpCenterTutorial.schema + Schema((TaxCategoryField, TaxAttributesField),)
+HelpCenterTutorialSchema = HelpCenterTutorial.schema +\
+    Schema((BodyField, PositionField, TocType, TaxCategoryField, TaxAttributesField),)
+
+HelpCenterTutorialSchema['description'].required = 0
+HelpCenterTutorialSchema.moveField('body', pos='top')
+HelpCenterTutorialSchema.moveField('description', pos='top')
+HelpCenterTutorialSchema.moveField('title', pos='top')
 
 class BungeniHelpCenterTutorial(BrowserDefaultMixin, HelpCenterTutorial):
     """A tutorial containing TutorialPages, Files and Images."""

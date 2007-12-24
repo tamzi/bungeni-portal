@@ -365,46 +365,6 @@ generateMethods(HelpCenterReferenceManualFolder, HelpCenterReferenceManualFolder
 
 # Patching ReferenceManual
 
-HelpCenterReferenceManual = ReferenceManual.HelpCenterReferenceManual
-
-def toRoman(self, num):
-    """Convert to roman numerials"""
-    str = ''
-    for number in num.split('.'):
-        if number.isdigit():
-            str=str+"."+roman.toRoman(int(number))
-    if str:
-        return str[1:]
-
-def toAlpha(self, num):
-    """Convert to alpha"""
-    str = ''
-    for number in num.split('.'):
-        if number.isdigit():
-            str=str+"."+roman.toAlpha(int(number))
-    if str:
-        return str[1:]
-
-HelpCenterReferenceManual.toAlpha = toAlpha.__get__(None, HelpCenterReferenceManual)
-HelpCenterReferenceManual.toRoman = toRoman.__get__(None, HelpCenterReferenceManual)
-
-HelpCenterReferenceManual.schema['description'].required = 0
-
-HelpCenterReferenceManual.schema = HelpCenterReferenceManual.schema + \
- Schema((BodyField, IdentityField, IdentityPosition, RightsField,\
- PositionField, TocType),)
-
-HelpCenterReferenceManual.schema.moveField('relatedItems', pos='bottom')
-HelpCenterReferenceManual.schema.moveField('sections', pos='bottom')
-HelpCenterReferenceManual.schema.moveField('audiences', pos='bottom')
-HelpCenterReferenceManual.schema.moveField('contributors', pos='bottom')
-HelpCenterReferenceManual.schema.moveField('startHere', pos='bottom')
-HelpCenterReferenceManual.schema.moveField('subject', pos='bottom')
-HelpCenterReferenceManual.schema.moveField('relatedItems', pos='bottom')
-HelpCenterReferenceManual.schema.moveField('rights', pos='bottom')
-
-generateMethods(HelpCenterReferenceManual, HelpCenterReferenceManual.schema.fields())
-
 # Patching ReferenceManualPage
 
 # Patching ReferenceManualSection
@@ -435,17 +395,6 @@ generateMethods(HelpCenterTutorialFolder, HelpCenterTutorialFolder.schema.fields
 # Patching TutorialPage
 
 # Patching Tutorial
-HelpCenterTutorial = Tutorial.HelpCenterTutorial
-
-HelpCenterTutorial.schema['description'].required = 0
-HelpCenterTutorial.schema = HelpCenterTutorial.schema +\
-    Schema((BodyField, PositionField, TocType),)
-
-HelpCenterTutorial.schema.moveField('body', pos='top')
-HelpCenterTutorial.schema.moveField('description', pos='top')
-HelpCenterTutorial.schema.moveField('title', pos='top')
-
-generateMethods(HelpCenterTutorial, HelpCenterTutorial.schema.fields())
 
 # Patching HelpCenterHowToFolder
 

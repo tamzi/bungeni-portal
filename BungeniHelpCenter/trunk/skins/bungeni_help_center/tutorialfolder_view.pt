@@ -46,6 +46,8 @@
       Description
     </div>
 
+    <div class="visualClear">&nbsp;</div>
+
     <tal:audience repeat="audience audiences">
 
         <h2 tal:condition="not:noAudiences" >

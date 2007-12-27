@@ -146,6 +146,13 @@ public class SettingsQueryFactory {
                " order by sub_action_order";
        return query;
    }
+   
+   public static String Q_FETCH_COMMANDS_BY_FORM(String formName) {
+       String query = "SELECT fcs.FORM_NAME, fcc.FORM_MODE, fcc.COMMAND_CATALOG, fcc.COMMAND_CHAIN,  fcs.CATALOG_SOURCE " +
+                       "FROM FORM_COMMAND_CHAIN fcc INNER JOIN FORM_CATALOG_SOURCE fcs ON ( fcc.FORM_NAME = fcs.FORM_NAME ) " +
+                       "WHERE FCC.FORM_NAME = '"+formName+"'";
+               return query;
+   }
       
 }
 

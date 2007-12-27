@@ -27,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import org.bungeni.commands.chains.BungeniCatalogCommand;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.BungeniRegistryFactory;
 import org.bungeni.db.DefaultInstanceFactory;
@@ -61,6 +62,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     protected HashMap<String,Component> theControlMap = new HashMap<String,Component>();
     protected HashMap<String, Object> theControlDataMap = new HashMap<String, Object>();
     protected HashMap<String,String> thePreInsertMap = new HashMap<String, String>();  
+    protected HashMap<SelectorDialogModes,BungeniCatalogCommand> theCatalogCommands = new HashMap<SelectorDialogModes,BungeniCatalogCommand>();
     protected String windowTitle;
     protected BungeniFormContext formContext;    
    //for selection mode apis 
@@ -136,6 +138,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     
     protected void init(){
         createContext();
+        createCommandChain();
     }
     
     //this is overriden from the derived class and invoked form the derived as super.createContext();
@@ -367,17 +370,20 @@ public class selectorTemplatePanel extends javax.swing.JPanel
   protected void createCommandChain(){
     dbSettings.Connect();
     String formName = getClassName();
-    QueryResults qr = dbSettings.QueryResults("select FORM_MODE, COMMAND_CATALOG, COMMAND_CHAIN from " +
-            "FORM_COMMAND_CHAIN where FORM_NAME = '"+formName +"'");
+    QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_FETCH_COMMANDS_BY_FORM(formName));
     dbSettings.EndConnect();
-    
     if (qr.hasResults()) {
          Vector<Vector<String>> resultRows  = new Vector<Vector<String>>();
          resultRows = qr.theResults(); 
          for (Vector<String> resultRow : resultRows) {
-             resultRow.elementAt(qr.getColumnIndex("FORM_MODE")-1);
-             resultRow.elementAt(qr.getColumnIndex("FORM_MODE")-1);
-             //resultRow.
+            BungeniCatalogCommand catalogCommand = new BungeniCatalogCommand();
+            catalogCommand.setFormName(formName);
+            catalogCommand.setCatalogSource(resultRow.elementAt(qr.getColumnIndex("CATALOG_SOURCE")));
+            catalogCommand.setCommandCatalog(resultRow.elementAt(qr.getColumnIndex("COMMAND_CATALOG")));
+            catalogCommand.setFormMode(resultRow.elementAt(qr.getColumnIndex("FORM_MODE")));
+            catalogCommand.setCommandChain(resultRow.elementAt(qr.getColumnIndex("COMMAND_CHAIN")));
+            theCatalogCommands.put(catalogCommand.getFormMode(), catalogCommand);
+//resultRow.
          }   
     }
            
@@ -519,6 +525,10 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         return true;
     }
   
+    protected boolean processCatalogCommand() {
+        BungeniCatalogCommand cmd = theCatalogCommands.get(getDialogMode());
+        return true;
+    }
      protected void applySelectEdit() {
         log.debug("applySelectEdit: not implemented yet");
      }

@@ -39,6 +39,7 @@ import javax.swing.SpinnerDateModel;
 import javax.swing.text.DateFormatter;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
+import org.bungeni.commands.chains.BungeniCatalogCommand;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.QueryResults;
@@ -459,7 +460,8 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
        }
     
     protected boolean processFullInsert() {
-        
+        processCatalogCommand(getDialogMode());
+        return true;
     }
     
     protected boolean processFullInsert_old(){

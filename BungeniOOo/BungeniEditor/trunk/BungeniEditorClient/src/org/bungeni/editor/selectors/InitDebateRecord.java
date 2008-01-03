@@ -460,7 +460,7 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
        }
     
     protected boolean processFullInsert() {
-        processCatalogCommand(getDialogMode());
+        processCatalogCommand();
         return true;
     }
     

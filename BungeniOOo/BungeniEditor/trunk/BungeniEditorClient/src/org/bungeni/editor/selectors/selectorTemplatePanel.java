@@ -27,7 +27,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import org.apache.commons.chain.Catalog;
+import org.apache.commons.chain.Command;
 import org.bungeni.commands.chains.BungeniCatalogCommand;
+import org.bungeni.commands.chains.BungeniCommandsCatalogLoader;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.BungeniRegistryFactory;
 import org.bungeni.db.DefaultInstanceFactory;
@@ -36,6 +39,7 @@ import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.utils.CommonExceptionUtils;
 import org.bungeni.utils.CommonPropertyFunctions;
 import org.bungeni.utils.MessageBox;
 import org.jdesktop.swingx.JXDatePicker;
@@ -370,7 +374,10 @@ public class selectorTemplatePanel extends javax.swing.JPanel
   protected void createCommandChain(){
     dbSettings.Connect();
     String formName = getClassName();
-    QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_FETCH_COMMANDS_BY_FORM(formName));
+    String cmdsByForm = SettingsQueryFactory.Q_FETCH_COMMANDS_BY_FORM(formName);
+    System.out.println("createCommandChain: " + cmdsByForm);
+    log.debug("createCommandChain: " + cmdsByForm);
+    QueryResults qr = dbSettings.QueryResults(cmdsByForm);
     dbSettings.EndConnect();
     if (qr.hasResults()) {
          Vector<Vector<String>> resultRows  = new Vector<Vector<String>>();
@@ -378,10 +385,10 @@ public class selectorTemplatePanel extends javax.swing.JPanel
          for (Vector<String> resultRow : resultRows) {
             BungeniCatalogCommand catalogCommand = new BungeniCatalogCommand();
             catalogCommand.setFormName(formName);
-            catalogCommand.setCatalogSource(resultRow.elementAt(qr.getColumnIndex("CATALOG_SOURCE")));
-            catalogCommand.setCommandCatalog(resultRow.elementAt(qr.getColumnIndex("COMMAND_CATALOG")));
-            catalogCommand.setFormMode(resultRow.elementAt(qr.getColumnIndex("FORM_MODE")));
-            catalogCommand.setCommandChain(resultRow.elementAt(qr.getColumnIndex("COMMAND_CHAIN")));
+            catalogCommand.setCatalogSource(resultRow.elementAt(qr.getColumnIndex("CATALOG_SOURCE") - 1));
+            catalogCommand.setCommandCatalog(resultRow.elementAt(qr.getColumnIndex("COMMAND_CATALOG") - 1 ));
+            catalogCommand.setFormMode(resultRow.elementAt(qr.getColumnIndex("FORM_MODE") - 1));
+            catalogCommand.setCommandChain(resultRow.elementAt(qr.getColumnIndex("COMMAND_CHAIN") - 1));
             theCatalogCommands.put(catalogCommand.getFormMode(), catalogCommand);
 //resultRow.
          }   
@@ -526,10 +533,25 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     }
   
     protected boolean processCatalogCommand() {
+        boolean bReturn = false;
+        try {
         BungeniCatalogCommand cmd = theCatalogCommands.get(getDialogMode());
-        return true;
+        BungeniCommandsCatalogLoader loader = new BungeniCommandsCatalogLoader(cmd.getCatalogSource());
+        Catalog selectedCatalog;
+        selectedCatalog = loader.getCatalog(cmd.getCommandCatalog());
+        Command selectedCatalogCommand  = selectedCatalog.getCommand(cmd.getCommandChain());
+        selectedCatalogCommand.execute(formContext);
+        bReturn = true;
+        } catch (Exception ex) {
+            log.error("exception in  processCatalogCommand: "+ ex.getMessage());
+            log.error("exception in  processCatalogCommand: " + CommonExceptionUtils.getStackTrace(ex));
+            bReturn = false;
+        } finally {
+            return bReturn;
+        }
     }
-     protected void applySelectEdit() {
+
+    protected void applySelectEdit() {
         log.debug("applySelectEdit: not implemented yet");
      }
      

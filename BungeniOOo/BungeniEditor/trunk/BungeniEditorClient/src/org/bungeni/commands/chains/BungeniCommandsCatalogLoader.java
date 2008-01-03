@@ -21,16 +21,20 @@ import org.bungeni.editor.selectors.BungeniFormContext;
  * @author Administrator
  */
 public class BungeniCommandsCatalogLoader {
-	private static final String CONFIG_FILE = 
+	private static  String CONFIG_FILE = 
 		"/org/bungeni/commands/chains/commandChain.xml";
 	private ConfigParser parser;
 	private Catalog catalog;
 	
 	public BungeniCommandsCatalogLoader() {
 		parser = new ConfigParser();
-                
 	}
-	public Catalog getCatalog() throws Exception {
+
+        public BungeniCommandsCatalogLoader(String catalogSource) {
+                parser = new ConfigParser();
+                CONFIG_FILE = catalogSource;
+        }
+        public Catalog getCatalog() throws Exception {
 		if (catalog == null) {
                     parser.parse(this.getClass().getResource(CONFIG_FILE));		
 		}

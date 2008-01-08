@@ -1,0 +1,4 @@
+"""
+xapian indexing adapters
+"""
+

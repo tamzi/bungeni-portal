@@ -1,0 +1,48 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"           
+           xmlns:db="http://namespaces.objectrealms.net/rdb"
+           i18n_domain="bungeni">
+
+  <!-- Setup Database Connection -->	  
+  <db:engine
+     name="bungeni-db"
+     url="postgres://localhost/bungeni"
+     />
+
+  <!-- Bind Application Model to Database -->
+  <db:bind
+     engine="bungeni-db"
+     metadata=".schema.metadata" />
+
+  <!-- Authentication Utility 
+  <utility
+     provides="zope.app.authentication.interfaces.IAuthenticatorPlugin"
+     factory=".authentication.PistonAuthentication"
+     name="piston-rdb-auth"
+     />
+  -->
+
+  <!-- Application to publish -->
+  <utility
+     provides="ore.wsgiapp.interfaces.IApplication"
+     factory=".app.BungeniApp"
+     />
+
+  <!-- Application Setup -->
+  <subscriber
+     for=".interfaces.IBungeniApplication
+ 	   zope.lifecycleevent.interfaces.IObjectCreatedEvent"
+     handler=".app.setUpSubscriber"
+     />
+
+  <adapter
+     for=".interfaces.IBungeniApplication"
+     factory=".app.AppSetup"
+     />
+
+  <class 
+     class=".app.BungeniApp">
+     <allow interface="zope.app.container.interfaces.IReadContainer" />
+  </class>
+
+</configure>

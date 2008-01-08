@@ -1,0 +1,31 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"           
+           i18n_domain="bungeni">
+
+  <browser:page
+     for="bungeni.core.interfaces.IBungeniApplication"
+     permission="zope.View"
+     name="index"
+     template="templates/app-index.pt"
+     />
+
+  <browser:defaultView
+     for="bungeni.core.interfaces.IBungeniApplication"
+     name="index"
+     />
+
+  <!-- Setup Access to Browser Resources on the Application -->
+  <browser:page
+    name=""
+    for="bungeni.core.interfaces.IBungeniApplication"
+    class="zope.app.publisher.browser.resources.Resources"
+    permission="zope.Public"
+    allowed_interface="zope.publisher.interfaces.browser.IBrowserPublisher"
+    />
+
+  <include file="skin.zcml"/>
+  <include file="css.zcml"/>
+  <include file="js.zcml"/>
+  <include file="viewlet.zcml"/>
+
+</configure>

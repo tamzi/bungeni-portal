@@ -1,0 +1,13 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"           
+           i18n_domain="bungeni">
+
+  <browser:viewletManager
+      name="bungeni-js"
+      provides=".interfaces.ICSSManager"
+      layer=".interfaces.IBungeniSkin"
+      permission="zope.Public"
+      class=".viewlet.WeightBasedSorter"
+      />
+
+</configure>

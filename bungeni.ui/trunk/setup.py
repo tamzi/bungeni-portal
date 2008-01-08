@@ -6,7 +6,7 @@ setup(
     author='Bungeni Developers',
     author_email='bungeni-dev@googlegroups.com',
     description='UI for Bungeni, based on Plone',
-    license="GPL"
+    license="GPL",
     keywords = "zope3 bungeni",
       classifiers = [
           'Environment :: Web Environment',

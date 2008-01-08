@@ -1,0 +1,7 @@
+bungeni.server https://bungeni-portal.googlecode.com/svn/bungeni.server/trunk/ 
+bungeni.core   https://bungeni-portal.googlecode.com/svn/bungeni.core/trunk/
+bungeni.ui     https://bungeni-portal.googlecode.com/svn/bungeni.ui/trunk/
+ore.alchemist  https://zope-alchemist.googlecode.com/svn/ore.alchemist/branches/0.4
+ore.workflow   https://svn.objectrealms.net/svn/public/ore.workflow/trunk
+ore.wsgiapp    https://svn.objectrealms.net/svn/public/ore.wsgiapp/trunk
+ore.xapian     https://svn.objectrealms.net/svn/public/ore.xapian/trunk

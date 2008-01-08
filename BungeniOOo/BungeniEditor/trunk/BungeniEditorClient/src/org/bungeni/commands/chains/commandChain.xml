@@ -9,7 +9,7 @@
 -->
 <catalogs>
     <catalog name="debaterecord">
-        <chain name="debateRecordInsertMasthead">
+        <chain name="debateRecordFullInsertMasthead">
             <command   id="addSectionIntoSectionWithStyling"
                        className="org.bungeni.commands.addSectionIntoSectionWithStyling"/>
             <command   id="setSectionMetadataForAction"
@@ -24,6 +24,18 @@
                        className="org.bungeni.commands.setInputFieldValue"/>
             <command   id="addDocumentMetadata"
                        className="org.bungeni.commands.addDocumentMetadata"/>
+        </chain>
+        <chain name="debateRecordFullEditMasthead">
+            <command   id="debateRecordFullEditMasthead.setInputFieldValue"
+                       className="org.bungeni.commands.setInputFieldValue"/>
+            <command   id="debateRecordFullEditMasthead.setInputFieldValue2"
+                       className="org.bungeni.commands.setInputFieldValue"/>
+            <command   id="debateRecordFullEditMasthead.addDocumentMetadata"
+                       className="org.bungeni.commands.addDocumentMetadata"/>
+        </chain>
+        <chain name="debateRecordFullSelectedEditMasthead">
+        </chain>
+        <chain name="debateRecordFullSelectedInsertMasthead">
         </chain>
     </catalog>
     <catalog name="testCatalog">

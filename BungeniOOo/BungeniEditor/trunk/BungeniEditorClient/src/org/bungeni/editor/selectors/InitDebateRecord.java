@@ -54,6 +54,7 @@ import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooDocFieldSet;
 import org.bungeni.ooo.ooDocMetadata;
+import org.bungeni.ooo.ooDocMetadataFieldSet;
 import org.bungeni.utils.CommonPropertyFunctions;
 import org.bungeni.utils.MessageBox;
 import org.jdesktop.swingx.JXDatePicker;
@@ -424,6 +425,9 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
             formContext.getFieldSets().add(new ooDocFieldSet(new String("debaterecord_official_time"),
                                             (String) theControlDataMap.get("dt_initdebate_timeofhansard"),
                                              new String("int:masthead_datetime")));
+            formContext.getMetadataFieldSets().add(new ooDocMetadataFieldSet("Bungeni_DebateOfficialDate", (String) theControlDataMap.get("dt_initdebate_hansarddate")));
+            formContext.getMetadataFieldSets().add(new ooDocMetadataFieldSet("Bungeni_DebateOfficialTime", (String) theControlDataMap.get("dt_initdebate_timeofhansard")));
+            
             return true;
     }
     
@@ -538,13 +542,24 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
      String containerSection = theAction.getSelectedSectionToActUpon();
      String datetimeContainerSection = "int:masthead_datetime";
      if (ooDocument.hasSection(containerSection) && ooDocument.hasSection(datetimeContainerSection)) {
-           //now edit the fields and set the new values
-            thePreInsertMap.clear();
-            thePreInsertMap.put("container_section", containerSection);
-            thePreInsertMap.put("datetime_container_section", datetimeContainerSection);
-            bpreFullEdit = true;
-            
-        } else {
+     
+           formContext.getFieldSets().add(new ooDocFieldSet(new String("debaterecord_official_date"),
+                                            (String) theControlDataMap.get("dt_initdebate_hansarddate"),
+                                            datetimeContainerSection));
+           formContext.getFieldSets().add(new ooDocFieldSet(new String("debaterecord_official_time"),
+                                            (String) theControlDataMap.get("dt_initdebate_timeofhansard"),
+                                            datetimeContainerSection));
+           thePreInsertMap.put("container_section", containerSection);
+
+           formContext.getMetadataFieldSets().add(new ooDocMetadataFieldSet("Bungeni_DebateOfficialDate",
+                   (String) theControlDataMap.get("dt_initdebate_hansarddate")));
+
+           formContext.getMetadataFieldSets().add(new ooDocMetadataFieldSet("Bungeni_DebateOfficialTime", 
+                   (String) theControlDataMap.get("dt_initdebate_timeofhansard")));
+
+           bpreFullEdit = true;
+     
+     } else {
             checkFieldsMessages.add("There is no masthead section available for editing in this document!");
             bpreFullEdit = false;
         } 
@@ -559,8 +574,11 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
      
    }
     
-  
-    protected boolean processFullEdit() {
+  protected boolean processFullEdit(){
+    processCatalogCommand();
+    return true;
+  }
+    protected boolean processFullEdit_Old() {
         boolean bprocessFull = false;
         try {
             boolean bSetDate = this.action_setInputFieldValue(ooDocument, 

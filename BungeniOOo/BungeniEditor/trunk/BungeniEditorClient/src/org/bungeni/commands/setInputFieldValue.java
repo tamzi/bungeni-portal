@@ -20,7 +20,7 @@ import org.bungeni.ooo.ooDocFieldSet;
  *
  * @author Administrator
  */
-public class setInputFieldValue {
+public class setInputFieldValue implements Command {
     
     /**
      * Creates a new instance of setInputFieldValue

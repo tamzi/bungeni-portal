@@ -9,6 +9,7 @@
 
 package org.bungeni.commands;
 
+import java.util.Iterator;
 import org.apache.commons.chain.Command;
 import org.apache.commons.chain.Context;
 import org.bungeni.editor.selectors.BungeniFormContext;
@@ -21,7 +22,7 @@ import org.bungeni.ooo.ooDocMetadataFieldSet;
  *
  * @author Administrator
  */
-public class addDocumentMetadata {
+public class addDocumentMetadata implements Command {
     
     /**
      * Creates a new instance of addDocumentMetadata
@@ -30,12 +31,14 @@ public class addDocumentMetadata {
      public boolean execute(Context context) throws Exception {
         BungeniFormContext formContext = (BungeniFormContext) context;
        // IBungeniForm iForm = formContext.getBungeniForm();
-        
-        ooDocMetadataFieldSet metaFieldSet = formContext.getMetadataFieldSets().get(0);
+        //adds all the document metadata field set objects into the document
+        //iterate through the metadata fieldsets
         ooDocMetadata meta = new ooDocMetadata(formContext.getOoDocument());
-        meta.AddProperty(metaFieldSet.getMetadataName(), metaFieldSet.getMetadataValue());
-        formContext.getMetadataFieldSets().remove(metaFieldSet);
-        
+        Iterator<ooDocMetadataFieldSet> iterDocs = formContext.getMetadataFieldSets().iterator();
+        while (iterDocs.hasNext()) {
+            ooDocMetadataFieldSet metaFieldSet = iterDocs.next();
+            meta.AddProperty(metaFieldSet.getMetadataName(), metaFieldSet.getMetadataValue());
+        }
         return false;
      }
 }

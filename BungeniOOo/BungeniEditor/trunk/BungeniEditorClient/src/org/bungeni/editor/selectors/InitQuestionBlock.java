@@ -66,7 +66,7 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
     }
    
     
-    private void init() {
+    private void xinit() {
         txtQuestionText.setContentType("text/html");
         setControlModes();
         setControlData();

@@ -20,7 +20,7 @@ import org.bungeni.commands.CommonActions;
  * 
  * @author Administrator
  */
-public class addDocumentIntoSection {
+public class addDocumentIntoSection implements Command {
     
     /**
      * Creates a new instance of addDocumentIntoSection

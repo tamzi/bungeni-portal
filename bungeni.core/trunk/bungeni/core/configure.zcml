@@ -14,25 +14,24 @@
      engine="bungeni-db"
      metadata=".schema.metadata" />
 
-  <!-- Authentication Utility 
+  <!-- Application Setup -->
+  <subscriber
+     for=".interfaces.IBungeniApplication
+          zope.lifecycleevent.interfaces.IObjectCreatedEvent"
+     handler=".app.setUpSubscriber"
+     />
+
+  <!-- Authentication Utility -->
   <utility
      provides="zope.app.authentication.interfaces.IAuthenticatorPlugin"
-     factory=".authentication.PistonAuthentication"
-     name="piston-rdb-auth"
+     factory=".auth.DatabaseAuthentication"
+     name="bungeni-rdb-auth"
      />
-  -->
 
   <!-- Application to publish -->
   <utility
      provides="ore.wsgiapp.interfaces.IApplication"
      factory=".app.BungeniApp"
-     />
-
-  <!-- Application Setup -->
-  <subscriber
-     for=".interfaces.IBungeniApplication
- 	   zope.lifecycleevent.interfaces.IObjectCreatedEvent"
-     handler=".app.setUpSubscriber"
      />
 
   <adapter

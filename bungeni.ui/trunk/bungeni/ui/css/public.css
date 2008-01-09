@@ -54,12 +54,14 @@ h3, h4, h5, h6 {
     font-size: 110%;
     padding: 1em 1em 2em 1em !important;
     background: White;
+}
 
 .documentContent ul {
-    list-style-image: url((/++resource++images/bullet.gif);
+    list-style-image: url(/++resource++images/bullet.gif);
     list-style-type: square;
     margin: 0.5em 0 0 1.5em;
 }
+
 .documentContent ol {
     margin: 0.5em 0 0 2.5em;
 }
@@ -1008,17 +1010,17 @@ a.link-parent {
 }
 #content a[href ^="irc:"],
 #content a.link-irc {
-    background: transparent url((/++resource++images/discussionitem_icon.gif) 0px 1px no-repeat;
+    background: transparent url(/++resource++images/discussionitem_icon.gif) 0px 1px no-repeat;
     padding: 1px 0px 1px 16px;
 }
 #content a[href ^="callto:"],
 #content a.link-callto {
-    background: transparent url((/++resource++images/phone_icon.gif) 0px 1px no-repeat;
+    background: transparent url(/++resource++images/phone_icon.gif) 0px 1px no-repeat;
     padding: 1px 0px 1px 16px;
 }
 #content a[href ^="webcal:"],
 #content a.link-webcal {
-    background: transparent url((/++resource++images/event_icon.gif) 0px 1px no-repeat;
+    background: transparent url(/++resource++images/event_icon.gif) 0px 1px no-repeat;
     padding: 1px 0px 1px 16px;
 }
 #content a[href ^="feed:"],
@@ -1158,7 +1160,7 @@ div.managedPortlet.portlet {
 }
 
 #dashboard-actions ul li.portalUser {
-    background:transparent url((/++resource++images/user.gif) no-repeat scroll left center;
+    background:transparent url(/++resource++images/user.gif) no-repeat scroll left center;
     padding-left:18px;
 }
 

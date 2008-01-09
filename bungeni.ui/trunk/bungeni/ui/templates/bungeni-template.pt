@@ -25,6 +25,18 @@
   <div id="visual-portal-wrapper">
 
     <div id="portal-top">
+      <h5 class="hiddenStructure" i18n:translate="heading_sections">Sections</h5>
+
+      <div id="portal-header">
+          <ul id="portal-globalnav">
+              <li class="plain"><a href="/">Home</a></li>
+              <li class="plain"><a href="/parliament">Parliament</a></li>                
+              <li class="plain"><a href="/motions">Motions</a></li>        
+              <li class="plain"><a href="/bills">Bills</a></li>                
+              <li class="plain"><a href="/committees">Committees</a></li>
+          </ul>      
+      </div>
+
       <tal:block replace="structure provider:bungeni.portalheader" />
     </div>
 

@@ -9,6 +9,8 @@ Created by Kapil Thangavelu on 2007-11-22.
 
 
 from ore.alchemist import Session
+
+import md5, random, string
 #####
 
 class Entity( object ):
@@ -19,7 +21,16 @@ class Entity( object ):
     
 class User( object ):
     """
+    Domain Object For A User
     """
+    def __init__( self, user_id ):
+        self.user_id = user_id
+        self.salt = ''.join( random.sample( string.letters, 12) )
+    
+    def checkPassword( self, password_attempt ):
+        attempt = md5.md5( password_attempt + self.salt ).hexdigest()
+        return attempt == self.password
+
 
 class ParliamentMember( User ):
     """
@@ -31,7 +42,7 @@ class ParliamentMember( User ):
 
     # ministries
 
-class Consituencies( object ):
+class Constiuencies( object ):
     """
     """
 

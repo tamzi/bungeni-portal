@@ -1,5 +1,4 @@
 from ore.alchemist.model import ModelDescriptor
-from copy import deepcopy
 from i18n import _
 
 class UserDescriptor( ModelDescriptor ):
@@ -13,17 +12,16 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="gender", label=_(u"Gender")),
         dict( name="date_of_birth", label=_(u"Date of Birth")),
         dict( name="birth_country", label=_(u"Country of Birth")),
-        dict( name="date_of_death", label=_(u"Date of Death"), view_permission="bungeni.AdminUsers"), write_permission="bungeni.AdminUsers"),
+        dict( name="date_of_death", label=_(u"Date of Death"), view_permission="bungeni.AdminUsers", write_permission="bungeni.AdminUsers"),
         dict( name="password", omit=True ),
-        dict( name="salt",, omit=True),
+        dict( name="salt", omit=True),
         dict( name="active_p", label=_(u"Active"), view_permission="bungeni.AdminUsers", write_permission="bungeni.AdminUsers"),
         dict( name="type", omit=True ),
         ]
 
 class ParliamentMembers( UserDescriptor ):
-    fields = deepcopy( PistonDescriptor.fields )
 
-    fields.extend( [
+    fields = [
         dict( name="member_id", omit=True ),
         # this is only meant as a shortcut.. to the active parliament, else use group memberships
         dict( name="parliaments.parliament_id",),
@@ -33,8 +31,9 @@ class ParliamentMembers( UserDescriptor ):
         dict( name="end_date", label=_(u"End Date")  ),
         dict( name="leave_reason", label=_(u"Leave Reason")  ),
         dict( name="active_p", label=_(u"Active"), write_permission="bungeni.AdminUsers"),
-        ])
+        ]
 
+    
 class MotionDescriptor( ModelDescriptor ):
 
     fields = [
@@ -43,8 +42,8 @@ class MotionDescriptor( ModelDescriptor ):
         dict( name="submission_date", label=_(u"Submission Date") ),
         dict( name="received_date", label=_(u"Received Date")),
         dict( name="notice_date", label=_(u"Notice Date")),        
-        dict( name="type",label=_(u"Type"))
-        dict( name="subject", label=_(u"Subject") )
+        dict( name="type",label=_(u"Type")),
+        dict( name="subject", label=_(u"Subject") ),
         dict( name="identifier", label=_(u"Identifier")),
         dict( name="owner_id", label=_(u"Owner")),
         dict( name="motion_text", label=_(u"Motion Text")),
@@ -53,4 +52,16 @@ class MotionDescriptor( ModelDescriptor ):
         dict( name="status", label=_(u"Status") )
         ]
 
+class BillDescriptor( ModelDescriptor ):
+    
+    fields = [
+        dict( name="bill_id", omit=True ),
+        dict( name="title", label=_(u"Title"), listing=True ),
+        dict( name="preamble", label=_(u"Preamble")),
+        dict( name="session_id", label=_(u"Session") ),
+        dict( name="identifier", label=_(u"Identifer") ),
+        dict( name="submission_date", label=_(u"Submission Date"), listing=True ),
+        dict( name="publication_date", label=_(u"Publication Date") ),        
+        dict( name="status", label=_(u"Status"), listing=True )
+        ]
 

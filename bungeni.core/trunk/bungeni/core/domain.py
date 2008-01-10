@@ -23,8 +23,8 @@ class User( object ):
     """
     Domain Object For A User
     """
-    def __init__( self, user_id ):
-        self.user_id = user_id
+    def __init__( self, login=None ):
+        self.login = login
         self.salt = ''.join( random.sample( string.letters, 12) )
     
     def checkPassword( self, password_attempt ):
@@ -63,7 +63,10 @@ class Group( object ):
 class GroupMembership( object ):
     """
     """
-
+    def __init__( self, user, group ):
+        self.user = user
+        self.group = group
+        
 class GroupSitting( object ):
     """
     """

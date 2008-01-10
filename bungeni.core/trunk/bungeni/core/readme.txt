@@ -11,7 +11,7 @@ some setup for tests
    >>> from sqlalchemy import create_engine
    >>> from ore.alchemist.interfaces import IDatabaseEngine
    >>> from ore.alchemist import Session
-   >>> from bungeni import model
+   >>> from bungeni import core as model
 
 Setting up Database Connection and Utilities:
 
@@ -60,7 +60,7 @@ Questions
 ---------
 
   >>> question = model.Question()
-  >>> question.questions
+
 
 
  

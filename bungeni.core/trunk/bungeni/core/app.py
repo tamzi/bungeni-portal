@@ -2,26 +2,25 @@
 $Id: $
 """
 
-from zope import interface, event, lifecycleevent
+from zope import interface
+from zope.app.security.interfaces import IAuthentication
 from zope.app.authentication import PluggableAuthentication
 from zope.app.component import site
+
 from ore.wsgiapp.app import Application
 
+import domain
 import interfaces
-
 
 
 class BungeniApp( Application ):
 
     interface.implements( interfaces.IBungeniApplication )
 
-    def __init__( self ):
-        super( BungeniApp, self).__init__()
-        event.notify( lifecycleevent.ObjectCreatedEvent( self ) )
-
 def setUpSubscriber( object, event ):
     initializer = interfaces.IBungeniSetup( object )
     initializer.setUp()
+
     
 class AppSetup( object ):
 
@@ -41,3 +40,12 @@ class AppSetup( object ):
         sm.registerUtility( auth, IAuthentication )
 
         
+        # setup app structure
+        bills = domain.BillContainer()
+        self.context['bills'] = bills
+                
+        motions = domain.MotionContainer()
+        self.context['motions'] = motions
+        
+        
+1

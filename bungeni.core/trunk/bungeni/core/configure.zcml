@@ -14,10 +14,23 @@
      engine="bungeni-db"
      metadata=".schema.metadata" />
 
-  <!-- Application Setup -->
+  <!-- Catalyze Domain Models -->
+  <db:catalyst
+     class=".domain.Bill"
+     descriptor=".descriptor.BillDescriptor"
+     interface_module=".interfaces"
+     />
+
+  <db:catalyst
+     class=".domain.Motion"
+     descriptor=".descriptor.MotionDescriptor"
+     interface_module=".interfaces"
+     />
+     
+  <!-- Application Setup Handler -->
   <subscriber
      for=".interfaces.IBungeniApplication
-          zope.lifecycleevent.interfaces.IObjectCreatedEvent"
+          ore.wsgiapp.interfaces.IWSGIApplicationCreatedEvent"
      handler=".app.setUpSubscriber"
      />
 
@@ -25,7 +38,7 @@
   <utility
      provides="zope.app.authentication.interfaces.IAuthenticatorPlugin"
      factory=".auth.DatabaseAuthentication"
-     name="bungeni-rdb-auth"
+     name="rdb-auth"
      />
 
   <!-- Application to publish -->

@@ -18,6 +18,7 @@ users = rdb.Table(
    "users",
    metadata,
    rdb.Column( "user_id", rdb.Integer, primary_key=True ),
+   rdb.Column( "login", rdb.Unicode(16), unique=True ),
    rdb.Column( "first_name", rdb.Unicode ),
    rdb.Column( "last_name", rdb.Unicode ),
    rdb.Column( "middle_name", rdb.Unicode ),

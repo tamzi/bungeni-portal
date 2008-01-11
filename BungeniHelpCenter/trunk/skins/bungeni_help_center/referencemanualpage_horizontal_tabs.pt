@@ -74,11 +74,13 @@
     </span>
 
 
+    <span tal:omit-tag="" tal:condition="python:here.getTocType() == 'box'">
     <div class="documentDescription"
       tal:condition="here/Description"
       tal:content="structure here/Description">
       Description
     </div>
+    </span>
     
     
     <div tal:replace="structure here/getBody"/>

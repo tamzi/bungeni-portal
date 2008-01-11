@@ -154,11 +154,12 @@
     </ol>
     </div>
     </span>
+    <span tal:omit-tag="" tal:condition="python:here.getTocType() == 'box'">
         <div class="documentDescription"
              tal:content="here/Description">
             description
         </div>
-        
+    </span>
 
         <p class="discreet"
            tal:condition="python: not len_text and is_editable"

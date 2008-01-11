@@ -60,7 +60,9 @@
     <span tal:omit-tag="" tal:condition="python:here.getTocType() == 'box'">
         <div class="visualClear">&nbsp;</div>
 
-    <tal:block define="toc here/getTOC;">
+    <tal:block define="fullToc python:here.getTOC(current = context.aq_parent);
+                       tocInfo python:here.getTOCInfo(fullToc);
+                   toc  python:tocInfo['localTOC'] or fullToc;">
     
 	<div metal:define-slot="sectiontoc">
     <div style="float: right;width:250px;border:1px solid #74AE0B;">

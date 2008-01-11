@@ -22,65 +22,93 @@
 </metal:block>
 
 <metal:block define-macro="section_toc">
-    <ul tal:condition="toc | nothing">
-        <li tal:repeat="tocElement toc">
+    <blockquote  style="border: none;padding:2px;margin:0px;">
+    <table tal:condition="toc | nothing">
+        <tr tal:repeat="tocElement toc">
             <tal:item define="item tocElement/item">
-                <span tal:content="python:tocElement['numbering']"></span>
+                <td valign="top">                   
+                <span tal:content="python:tocElement['numbering'][:-1]"></span>:
+                </td>
+                <td valign="top">                   
                 <a href="" tal:attributes="href item/getURL">
                 <span tal:content="string:${item/Title}" tal:attributes="class string:state-${item/review_state}"/></a>
                     <tal:block define="toc tocElement/children">
                         <metal:recursion use-macro="here/referencemanual_macros/macros/section_toc"/>
                     </tal:block>
+                </td>
+                  
             </tal:item>
-        </li>
-    </ul>
+        </tr>
+    </table>
+    </blockquote>
+
 </metal:block>
 
 <metal:block define-macro="float_toc">
-    <ul tal:condition="toc | nothing">
-        <li tal:repeat="tocElement toc">
+    <blockquote  style="border: none;padding:2px;margin:0px;">
+    <table tal:condition="toc | nothing">
+        <tr tal:repeat="tocElement toc">
             <tal:item define="item tocElement/item">
-                <span tal:content="python:tocElement['numbering']"></span>
+                <td valign="top">                   
+                <span tal:content="python:tocElement['numbering'][:-1]"></span>:
+                </td>
+                <td valign="top">                   
                 <a href="" tal:attributes="href item/getURL">
                 <span tal:content="string:${item/Title}" tal:attributes="class string:state-${item/review_state}"/></a>
                             <p style="margin:2px 8px;"><span tal:replace="item/Description">Description</span></p>
-
+                            
                     <tal:block define="toc tocElement/children">
                         <metal:recursion use-macro="here/referencemanual_macros/macros/float_toc"/>
                     </tal:block>
+                </td>
             </tal:item>
-        </li>
-    </ul>
+        </tr>
+    </table>
+    </blockquote>
 </metal:block>
 
 <metal:block define-macro="section_toc_roman">
-    <ul tal:condition="toc | nothing">
-        <li tal:repeat="tocElement toc">
+    <blockquote style="border: none;padding:2px;margin:0px;">
+    <table tal:condition="toc | nothing">
+        <tr tal:repeat="tocElement toc">
             <tal:item define="item tocElement/item">
+                <td valign="top">                   
                 <span tal:content="python:here.toRoman(tocElement['numbering'])"></span>
+                </td>
+                <td valign="top">                   
                 <a href="" tal:attributes="href item/getURL">
                 <span tal:content="string:${item/Title}" tal:attributes="class string:state-${item/review_state}"/></a>
                     <tal:block define="toc tocElement/children">
                         <metal:recursion use-macro="here/referencemanual_macros/macros/section_toc_roman"/>
                     </tal:block>
+                </td>
+                  
             </tal:item>
-        </li>
-    </ul>
+        </tr>
+    </table>
+    </blockquote>
 </metal:block>
 
 <metal:block define-macro="section_toc_alpha">
-    <ul tal:condition="toc | nothing">
-        <li tal:repeat="tocElement toc">
+    <blockquote style="border: none;padding:2px;margin:0px;">
+    <table tal:condition="toc | nothing">
+        <tr tal:repeat="tocElement toc">
             <tal:item define="item tocElement/item">
+                <td valign="top">                   
                 <span tal:content="python:here.toAlpha(tocElement['numbering'])"></span>
+                </td>
+                <td valign="top">                   
                 <a href="" tal:attributes="href item/getURL">
                 <span tal:content="string:${item/Title}" tal:attributes="class string:state-${item/review_state}"/></a>
                     <tal:block define="toc tocElement/children">
                         <metal:recursion use-macro="here/referencemanual_macros/macros/section_toc_alpha"/>
                     </tal:block>
+                </td>
+                  
             </tal:item>
-        </li>
-    </ul>
+        </tr>
+    </table>
+    </blockquote>
 </metal:block>
 
 <!-- Listing of all pages in a section
@@ -210,7 +238,10 @@
 <div metal:define-macro="jump_box"
     class="jumpBox"
     i18n:domain="plonehelpcenter">
-
+    <tal:block define="fullToc python:here.getTOC(current = context.aq_parent);
+                       tocInfo python:here.getTOCInfo(fullToc);
+                       tocList python:tocInfo['localTOC'] or tocInfo['tocList'];
+                       ">
     <form method="get" action="#"
           tal:attributes="action context/absolute_url">
         <label for="destination" class="hiddenStructure">Jump to: </label>
@@ -224,7 +255,7 @@
             <option tal:repeat="tocItem tocList"
                     tal:attributes="value tocItem/item/getURL;
                                     selected python:tocItem['currentItem'] and 'selected' or nothing">
-                <span tal:replace="tocItem/numbering"/>
+                <span tal:replace="python:tocItem['numbering'][:-1]"/>:
                 <span tal:replace="tocItem/item/Title"/>
             </option>
         </select>
@@ -237,4 +268,5 @@
                    tal:attributes="tabindex tabindex/next|nothing" />
         </noscript>
     </form>
+    </tal:block>
 </div>

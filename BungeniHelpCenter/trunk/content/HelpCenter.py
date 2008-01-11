@@ -33,6 +33,7 @@ try:
 except ImportError:
     PHCReferenceWidget = ReferenceWidget
 from Products.PortalTaxonomy.fields import AttributeField, CategoryField
+from Products.BungeniHelpCenter.content import roman
 
 BodyField =  TextField(
         'body',

@@ -74,7 +74,9 @@
     </span>
 
 
-    <span tal:omit-tag="" tal:condition="python:here.getTocType() == 'box'">
+
+    <span tal:omit-tag="" tal:condition="python:here.getDisType() == 'yes'">
+
     <div class="documentDescription"
       tal:condition="here/Description"
       tal:content="structure here/Description">

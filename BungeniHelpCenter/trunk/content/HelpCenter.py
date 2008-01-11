@@ -110,6 +110,23 @@ TocType =  StringField('toc_type',
                                        ),
                        )
 
+DisType =  StringField('dis_type',
+                       accessor = 'getDisType',
+                       mutator = 'setDisType',
+                       vocabulary = DisplayList((
+                                   ('yes', 'Yes'),
+                                   ('no', 'No'),)),
+                       searchable=0,
+                       default= ('yes'),
+                       widget=
+                       SelectionWidget(label='Display Description',
+                                       label_msgid="label_dis_type",
+                                       description="Select description display option.",
+                                       description_msgid="help_dis_type",
+                                       i18n_domain="plone"
+                                       ),
+                       )
+
 ContributorsField =  LinesField(
         'contributors',
         accessor="Contributors",
@@ -173,7 +190,7 @@ RelatedItemsField =  ReferenceField(
 HelpCenterReferenceManual = ReferenceManual.HelpCenterReferenceManual
 
 HelpCenterReferenceManualSchema = HelpCenterReferenceManual.schema + Schema((BodyField, IdentityField, IdentityPosition, RightsField,\
- PositionField, TocType, TaxCategoryField, TaxAttributesField),)
+ PositionField, TocType, DisType, TaxCategoryField, TaxAttributesField),)
 
 HelpCenterReferenceManualSchema['description'].required = 0
 HelpCenterReferenceManualSchema.moveField('relatedItems', pos='bottom')
@@ -334,7 +351,7 @@ registerType(BungeniHelpCenterReferenceManual, PROJECTNAME)
 HelpCenterTutorial = Tutorial.HelpCenterTutorial
 
 HelpCenterTutorialSchema = HelpCenterTutorial.schema +\
-    Schema((BodyField, PositionField, TocType, TaxCategoryField, TaxAttributesField),)
+    Schema((BodyField, PositionField, TocType, DisType, TaxCategoryField, TaxAttributesField),)
 
 HelpCenterTutorialSchema['description'].required = 0
 HelpCenterTutorialSchema.moveField('body', pos='top')

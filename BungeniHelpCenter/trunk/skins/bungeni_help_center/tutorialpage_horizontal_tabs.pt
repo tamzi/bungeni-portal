@@ -154,7 +154,7 @@
     </ol>
     </div>
     </span>
-    <span tal:omit-tag="" tal:condition="python:here.getTocType() == 'box'">
+    <span tal:omit-tag="" tal:condition="python:here.getDisType() == 'yes'">
         <div class="documentDescription"
              tal:content="here/Description">
             description

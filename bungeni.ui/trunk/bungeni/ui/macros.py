@@ -15,5 +15,5 @@ class BungeniLayout( BrowserView ):
 
 class StandardMacros( BaseMacros ):
 
-    macro_pages = ['bungeni-layout']
+    macro_pages = ['bungeni-layout', 'alchemist-form']
 

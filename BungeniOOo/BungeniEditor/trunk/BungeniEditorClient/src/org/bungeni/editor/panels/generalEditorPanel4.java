@@ -693,7 +693,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                         toolbarIcon theIcon = getIcon(toolbarNode.node.getName());
                         org.jdom.Attribute visibleAttrib = toolbarNode.node.getAttribute("visible");
                         if (visibleAttrib == null) {
-                            setIcon(theIcon.disabledIcon);
+                            setIcon(theIcon.enabledIcon);
                             setText(nodeProc.getTitle()+"-"+nodeProc.getMode()+"-"+nodeProc.getTarget());
                         }
                         if (visibleAttrib.getValue().equals("true")) {

@@ -31,6 +31,9 @@ class User( object ):
         attempt = md5.md5( password_attempt + self.salt ).hexdigest()
         return attempt == self.password
 
+    @property
+    def name( self ):
+        return u"%s %s"%( self.first_name, self.last_name )
 
 class ParliamentMember( User ):
     """

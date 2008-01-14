@@ -19,13 +19,36 @@
      class=".domain.Bill"
      descriptor=".descriptor.BillDescriptor"
      interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+     echo="True"
      />
 
   <db:catalyst
      class=".domain.Motion"
      descriptor=".descriptor.MotionDescriptor"
      interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     echo="True"
      />
+
+  <db:catalyst
+     class=".domain.Parliament"
+     descriptor=".descriptor.ParliamentDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     echo="True"
+     />     
+
+
+  <db:catalyst
+     class=".domain.Committee"
+     descriptor=".descriptor.CommitteeDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     echo="True"
+     />     
+     
+     
      
   <!-- Application Setup Handler -->
   <subscriber

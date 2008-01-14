@@ -62,6 +62,9 @@ Questions
   >>> question = model.Question()
 
 
+Bill
+----
+  >>> bill = model.Bill()
 
  
 

@@ -1,4 +1,10 @@
 from ore.alchemist.model import ModelDescriptor
+
+from copy import deepcopy
+from zope import schema
+import vocabulary
+from alchemist.ui import widgets
+
 from i18n import _
 
 class UserDescriptor( ModelDescriptor ):
@@ -21,10 +27,12 @@ class UserDescriptor( ModelDescriptor ):
 
 class ParliamentMembers( UserDescriptor ):
 
+    fields = deepcopy( UserDescriptor.fields )
     fields = [
         dict( name="member_id", omit=True ),
         # this is only meant as a shortcut.. to the active parliament, else use group memberships
-        dict( name="parliaments.parliament_id",),
+        dict( name="parliaments.parliament_id"),
+
         dict( name="constituency_id", label=_(u"Constituency")),
         # these are again short cuts..
         dict( name="start_date", label=_(u"Start Date")),
@@ -33,23 +41,57 @@ class ParliamentMembers( UserDescriptor ):
         dict( name="active_p", label=_(u"Active"), write_permission="bungeni.AdminUsers"),
         ]
 
+class GroupDescriptor( ModelDescriptor ):
+
+    fields = [
+        dict( name="short_name", label=_(u"Name")),
+        dict( name="long_name", label=_(u"Full Name")),
+        dict( name="description", property=schema.Text(title=_(u"Description"))),
+        dict( name="start_date", label=_(u"Start Date")),
+        dict( name="end_date", label=_(u"End Date")),        
+        ]
+                    
+class ParliamentDescriptor( GroupDescriptor ):
     
+    fields = [
+        dict( name="short_name", label=_(u"Name")),
+        dict( name="long_name", label=_(u"Full Name")),
+        dict( name="description", property=schema.Text(title=_(u"Description"))),
+        dict( name="identifier", label=_(u"Parliamentary Identifier"), listing=True ),
+        dict( name="election_date", label=_(u"Election Date")),        
+        dict( name="start_date", label=_(u"Start Date")),
+        dict( name="end_date", label=_(u"End Date")),        
+        ]
+        
+class CommitteeDescriptor( GroupDescriptor ):
+    
+    fields = deepcopy( GroupDescriptor.fields )
+        
 class MotionDescriptor( ModelDescriptor ):
 
     fields = [
         dict( name="motion_id", omit=True ),
-        dict( name="session_id", label=_(u"Session") ),
-        dict( name="submission_date", label=_(u"Submission Date") ),
+        dict( name="subject", label=_(u"Subject"), listing=True,
+              edit_widget = widgets.LongTextWidget),
+        dict( name="session_id", label=_(u"Session"), listing=True ),
+        dict( name="submission_date", label=_(u"Submission Date"), listing=True ),
         dict( name="received_date", label=_(u"Received Date")),
-        dict( name="notice_date", label=_(u"Notice Date")),        
-        dict( name="type",label=_(u"Type")),
-        dict( name="subject", label=_(u"Subject") ),
+        dict( name="notice_date", label=_(u"Notice Date"), listing=True),        
+#        dict( name="type", label=_(u"Public"),
+#              edit_widget = widgets.YesNoInputWidget,
+#              view_widget = widgets.YesNoDisplayWidget),
         dict( name="identifier", label=_(u"Identifier")),
-        dict( name="owner_id", label=_(u"Owner")),
-        dict( name="motion_text", label=_(u"Motion Text")),
-        dict( name="entered_by", label=_(u"Entered By")),
-        dict( name="party_id", label=_(u"Party") ),
-        dict( name="status", label=_(u"Status") )
+        dict( name="owner_id",
+              property = schema.Choice( title=_(u"Owner"), source=vocabulary.ParliamentMembers, required=False )
+              ),
+        dict( name="motion_text", label=_(u"Motion Text"),
+              property = schema.Text( title=u"Motion" ),
+              ),
+        # TODO omit for now
+        dict( name="entered_by", label=_(u"Entered By"), omit=True ), 
+        dict( name="party_id",
+            property = schema.Choice( title=_(u"Political Party"), source=vocabulary.PoliticalParties, required=False) ),
+        dict( name="status", label=_(u"Status"), listing=True, edit=False )
         ]
 
 class BillDescriptor( ModelDescriptor ):

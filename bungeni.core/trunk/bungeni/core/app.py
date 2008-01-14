@@ -6,6 +6,7 @@ from zope import interface
 from zope.app.security.interfaces import IAuthentication
 from zope.app.authentication import PluggableAuthentication
 from zope.app.component import site
+from zope.app.container.sample import SampleContainer as Container
 
 from ore.wsgiapp.app import Application
 
@@ -39,13 +40,26 @@ class AppSetup( object ):
         auth.authenticatorPlugins = ('bungeni-rdb-auth',)
         sm.registerUtility( auth, IAuthentication )
 
-        
         # setup app structure
+        # 
+
+        # groups
+        parliaments = domain.ParliamentContainer()
+        self.context['parliament'] = parliaments
+        
+        committees = domain.CommitteeContainer()
+        self.context['committees'] = committees
+        
+        # parliamentary content
+        # 
+        # 
         bills = domain.BillContainer()
         self.context['bills'] = bills
-                
+        
         motions = domain.MotionContainer()
         self.context['motions'] = motions
+
+        
         
         
 1

@@ -127,8 +127,6 @@ committees = rdb.Table(
    rdb.Column( "commitee_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
    )
 
-
-
 political_parties = rdb.Table(
    "political_parties",
    metadata,
@@ -237,7 +235,7 @@ def make_changes_table( table, metadata ):
     
     changes_name = "%s_changes"%( entity_name )
     fk_id = "%s_id"%( entity_name )
-    print entity_name, fk_id
+    #print entity_name, fk_id
     
     changes_table = rdb.Table(
             changes_name,
@@ -363,8 +361,8 @@ questions = rdb.Table(
 question_changes = make_changes_table( questions, metadata )
 question_versions = make_versions_table( questions, metadata )
 
-print 'change', repr(question_changes.c.question_id)
-print 'version', repr(question_versions.c.question_id)
+#print 'change', repr(question_changes.c.question_id)
+#print 'version', repr(question_versions.c.question_id)
 
 
 responses = rdb.Table(
@@ -384,7 +382,7 @@ motions = rdb.Table(
    rdb.Column( "motion_id", rdb.Integer, ItemSequence, primary_key=True ),
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
    rdb.Column( "submission_date", rdb.DateTime ),
-   rdb.Column( "type", rdb.Unicode, rdb.CheckConstraint("type in ('Y','N')"), default=u"I"), # (Y)es (N)o Private
+   rdb.Column( "public", rdb.Unicode, rdb.CheckConstraint("type in ('Y','N')"), default=u"Y"), # (Y)es (N)o Private
    rdb.Column( "subject", rdb.Unicode ),
    rdb.Column( "identifier", rdb.Integer),
    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),

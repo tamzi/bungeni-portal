@@ -13,7 +13,7 @@ class MotionIndexer( object ):
         self.context = context
         
     def index( self, connection):
-        
+        pass
         
     
     

@@ -382,7 +382,7 @@ motions = rdb.Table(
    rdb.Column( "motion_id", rdb.Integer, ItemSequence, primary_key=True ),
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
    rdb.Column( "submission_date", rdb.DateTime ),
-   rdb.Column( "public", rdb.Unicode, rdb.CheckConstraint("type in ('Y','N')"), default=u"Y"), # (Y)es (N)o Private
+   rdb.Column( "public", rdb.Boolean ),
    rdb.Column( "subject", rdb.Unicode ),
    rdb.Column( "identifier", rdb.Integer),
    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),

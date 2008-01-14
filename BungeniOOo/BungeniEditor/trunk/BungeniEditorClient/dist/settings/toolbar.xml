@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : toolbar.xml.xml
+    Created on : January 9, 2008, 1:52 PM
+    Author     : Administrator
+    Description:
+        Purpose of the document follows.
+-->
+<toolbar>
+    <root lang="en" title="Editor Actions" visible="true" >
+        <actionGroup name="blockActions" title="Block Actions" visible="true">
+            <blockAction name="MastHead" title="MastHead" target="null" visible="true" >
+                <action name="MastHead.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makePrayerSection" visible="true" />
+                <action name="MastHead.selection" title="Create From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarAction.makerPrayerSection" visible="false" />
+                <action name="MastHead.edit" title="Edit Metadata" mode="TEXT_EDIT" target="toolbarAction.makePrayerSection" visible="false" />                
+            </blockAction>
+            <blockAction name="Papers" title="Papers" target="null" visible="true" >
+                <action name="Papers.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makePaperSection" visible="true" />
+                <action name="Papers.selection" title="Create From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarAction.makerPrayerSection" visible="true" />
+            </blockAction>
+        </actionGroup>
+    </root>
+</toolbar>

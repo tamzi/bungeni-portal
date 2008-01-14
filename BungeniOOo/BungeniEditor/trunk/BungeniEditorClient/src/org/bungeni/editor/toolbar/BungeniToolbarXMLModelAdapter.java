@@ -15,6 +15,7 @@ import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+import org.jdom.Attribute;
 import org.jdom.Document;
 
 /**
@@ -44,7 +45,7 @@ public class BungeniToolbarXMLModelAdapter implements TreeModel {
    public Object getChild(Object parent, int index) {
         BungeniToolbarXMLAdapterNode node = (BungeniToolbarXMLAdapterNode) parent;
         return node.child(index);
-    }
+   }
 
    public int getIndexOfChild(Object parent, Object child) {
         BungeniToolbarXMLAdapterNode node = (BungeniToolbarXMLAdapterNode) parent;

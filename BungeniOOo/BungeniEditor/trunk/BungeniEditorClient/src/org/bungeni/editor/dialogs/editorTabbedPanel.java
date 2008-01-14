@@ -893,8 +893,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             log.debug("about to recurseSections()...");
             recurseSections (theSection, sectionsRootNode);
             
-            CommonTreeFunctions.expandAll(treeDocStructureTree, true);
-        
+            //-tree-deprecated--CommonTreeFunctions.expandAll(treeDocStructureTree, true);
+            CommonTreeFunctions.expandAll(treeDocStructureTree);
+            
         } catch (NoSuchElementException ex) {
             log.error(ex.getMessage());
         } catch (WrappedTargetException ex) {
@@ -941,8 +942,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         log.debug("setting defaultTreeModel to sectionsRootNode");
         //sectionsRootNode = new DefaultMutableTreeNode ("root");
         treeDocStructureTree.setModel(new DefaultTreeModel(sectionsRootNode));
-        CommonTreeFunctions.expandAll(treeDocStructureTree, true);
-    
+        //-tree-deprecated--CommonTreeFunctions.expandAll(treeDocStructureTree, true);
+        CommonTreeFunctions.expandAll(treeDocStructureTree);
       }
     
     

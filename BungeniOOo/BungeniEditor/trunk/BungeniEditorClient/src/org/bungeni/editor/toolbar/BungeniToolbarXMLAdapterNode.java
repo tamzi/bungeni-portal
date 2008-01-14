@@ -70,6 +70,8 @@ public class BungeniToolbarXMLAdapterNode {
         return node.getChildren().size();
     }
 
+  
+    
 /**
      * Tricky toString which allows for copying entire elements and their children
      * from the xml viewer.
@@ -125,4 +127,5 @@ public class BungeniToolbarXMLAdapterNode {
         
         return sb.toString();
     }
+    
 }

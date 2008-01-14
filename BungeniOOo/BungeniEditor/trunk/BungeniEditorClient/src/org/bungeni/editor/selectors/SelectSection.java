@@ -73,7 +73,8 @@ public class SelectSection extends selectorTemplatePanel {
      private void initSectionList() {
          initSectionsArray();   
          treeSectionStructure.setModel(new DefaultTreeModel(sectionRootNode));
-         CommonTreeFunctions.expandAll(treeSectionStructure, true);
+         //-tree-deprecated--CommonTreeFunctions.expandAll(treeSectionStructure, true);
+         CommonTreeFunctions.expandAll(treeSectionStructure);
       }
     
      private void getAllowedLocations(){
@@ -137,8 +138,9 @@ public class SelectSection extends selectorTemplatePanel {
             
             recurseSections (theSection, sectionRootNode);
             
-            CommonTreeFunctions.expandAll(treeSectionStructure, true);
-        
+            //-tree-deprecated--CommonTreeFunctions.expandAll(treeSectionStructure, true);
+            CommonTreeFunctions.expandAll(treeSectionStructure);
+            
         } catch (NoSuchElementException ex) {
             log.error(ex.getMessage());
         } catch (WrappedTargetException ex) {

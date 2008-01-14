@@ -2,6 +2,16 @@
            xmlns:browser="http://namespaces.zope.org/browser"           
            i18n_domain="bungeni">
 
+  <!-- TimeZone Definition -->
+  <adapter factory=".tz.tzinfo" />
+
+  <!-- Site Skin Definition -->
+  <include file="skin.zcml"/>  
+  
+  <!-- Site Menus Definition -->
+  <include file="menu.zcml"/>
+  
+  <!-- Application UI -->
   <browser:page
      for="bungeni.core.interfaces.IBungeniApplication"
      permission="zope.View"
@@ -23,9 +33,10 @@
     allowed_interface="zope.publisher.interfaces.browser.IBrowserPublisher"
     />
 
-  <include file="skin.zcml"/>
+
   <include file="css.zcml"/>
   <include file="js.zcml"/>
+
   <include file="viewlet.zcml"/>
 
 </configure>

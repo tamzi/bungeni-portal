@@ -29,11 +29,17 @@
       
       <div id="portal-header">
           <ul id="portal-globalnav">
-              <li class="plain"><a href="/">Home</a></li>
-              <li class="plain"><a href="/parliament">Parliament</a></li>                
-              <li class="plain"><a href="/motions">Motions</a></li>        
-              <li class="plain"><a href="/bills">Bills</a></li>                
-              <li class="plain"><a href="/committees">Committees</a></li>
+            <tal:views repeat="action context/@@view_get_menu/site_actions">
+              <li tal:define="selected action/selected;"
+                  tal:attributes="class python:selected and 'selected' or 'plain'">
+                <a href=""
+                   tal:content="action/title"
+		   tal:attributes="href action/action;"
+                   i18n:translate="">
+                View name
+                </a>
+              </li>
+            </tal:views>
           </ul>      
       </div>
       <div id="portal-personaltools-wrapper">

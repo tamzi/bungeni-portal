@@ -51,4 +51,12 @@
      permission="zope.ManageContent"
      />
 
+   <browser:viewlet
+      name="bungeni.content.tabs"
+      for="*"
+      manager=".interfaces.IContentViewsManager"
+      template="templates/contentviews.pt"
+      permission="zope.Public"
+      />
+
 </configure>

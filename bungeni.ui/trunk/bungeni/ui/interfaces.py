@@ -32,3 +32,9 @@ class IPortalHeaderManager( IViewletManager ):
     
 class IPortalFooterManager( IViewletManager ):
     """ """
+
+class IContentViews( IViewletManager ):
+    """ """
+
+class IDocumentActions( IViewletManager ):
+    """ """

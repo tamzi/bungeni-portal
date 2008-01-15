@@ -1,6 +1,6 @@
 <metal:master define-macro="identityimage">
    <span tal:omit-tag="" tal:condition="python:here.getIdentityPosition()=='right'">
-    <div style="float:right; text-align: center; margin: 1em 0 1em 1em;"
+    <div class="floatright"
          tal:condition="here/identity_thumb | nothing">
          <a class="discreet"
          tal:attributes="href string:${here/absolute_url}/identity/image_view_fullscreen">
@@ -14,7 +14,7 @@
     </div>
   </span>
    <span tal:omit-tag="" tal:condition="python:here.getIdentityPosition()=='left'">
-    <div style="float:left; margin: 1em 0 1em 1em;"
+    <div class="floatleft"
          tal:condition="here/identity_thumb | nothing">
          <a class="discreet"
          tal:attributes="href string:${here/absolute_url}/identity/image_view_fullscreen">

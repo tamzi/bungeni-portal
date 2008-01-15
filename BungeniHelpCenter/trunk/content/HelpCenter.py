@@ -552,8 +552,9 @@ registerType(BungeniHelpCenterTutorialPage, PROJECTNAME)
 HelpCenterReferenceManualPage = ReferenceManualPage.HelpCenterReferenceManualPage
 
 HelpCenterReferenceManualPage.schema['description'].required = 0
+HelpCenterReferenceManualPage.schema['body'].required = 0
 
-HelpCenterReferenceManualPage.schema = \
+BungeniHelpCenterReferenceManualPageSchema = \
     HelpCenterReferenceManualPage.schema + Schema((RelatedItemsField),)
 
 class BungeniHelpCenterReferenceManualPage(BrowserDefaultMixin, OrderedBaseFolder, HelpCenterReferenceManualPage):
@@ -565,11 +566,12 @@ class BungeniHelpCenterReferenceManualPage(BrowserDefaultMixin, OrderedBaseFolde
     archetype_name = 'Page'
     meta_type='BungeniHelpCenterReferenceManualPage'
     content_icon = 'document_icon.gif'
-    schema = HelpCenterTutorialPage.schema
+    schema = BungeniHelpCenterReferenceManualPageSchema
     global_allow = 0
     filter_content_types = 1
     allowed_content_types = ('TabbedSubpages',)
     # allow_discussion = IS_DISCUSSABLE
+    _at_rename_after_creation = True
 
     typeDescription= 'A Tutorial can contain Tutorial Pages, Images and Files. Index order is decided by the folder order, use the normal up/down arrow in the folder content view to rearrange content.'
     typeDescMsgId  = 'description_edit_tutorial'

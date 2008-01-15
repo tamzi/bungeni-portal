@@ -13,7 +13,7 @@
               <a tal:attributes="href page/getURL">
 		<span tal:attributes="class string:state-${page/review_state}" 
                       tal:content="page/Title" /></a>
-            <p style="margin:2px 8px;"><span tal:replace="page/Description">Description</span></p>
+            <p class="pmargin"><span tal:replace="page/Description">Description</span></p>
             </li>
 	  </ol>
 	</div>

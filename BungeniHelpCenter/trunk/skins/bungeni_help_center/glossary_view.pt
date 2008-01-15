@@ -91,7 +91,7 @@
             <li><a href="" tal:attributes="href definition/getURL" tal:content="definition/Title"></a></li>
           </span>
         </ul>
-        <div style="float:right; text-align: center; margin: 1em 0 1em 1em;">
+        <div class="floatright">
          [<a href="#portal-top">Back</a>]
         </div>
         

@@ -10,7 +10,7 @@
             <tal:item define="item tocElement/item">
 
             <a tal:attributes="href string:javascript:xmlhttpPost('${item/getURL}/referencemanualpage_simple')">
-               <span  style="background-color:transparent;padding:0em 1em;" tal:attributes="class string:state-${item/review_state}" 
+               <span id="sectabs" tal:attributes="class string:state-${item/review_state}" 
                      tal:content="item/Title" /></a>
             </tal:item>
 
@@ -22,7 +22,7 @@
 </metal:block>
 
 <metal:block define-macro="section_toc">
-    <blockquote  style="border: none;padding:2px;margin:0px;">
+    <blockquote  class="bquote">
     <table tal:condition="toc | nothing">
         <tr tal:repeat="tocElement toc">
             <tal:item define="item tocElement/item">
@@ -45,7 +45,7 @@
 </metal:block>
 
 <metal:block define-macro="float_toc">
-    <blockquote  style="border: none;padding:2px;margin:0px;">
+    <blockquote  class="bquote">
     <table tal:condition="toc | nothing">
         <tr tal:repeat="tocElement toc">
             <tal:item define="item tocElement/item">
@@ -53,9 +53,10 @@
                 <span tal:content="python:tocElement['numbering'][:-1]"></span>:
                 </td>
                 <td valign="top">                   
-                <a href="" tal:attributes="href item/getURL">
+                <a href="" class="notcurrent" tal:attributes="href item/getURL;
+                                                              class python:numbering==tocElement['numbering'] and 'current' or 'notcurrent'">
                 <span tal:content="string:${item/Title}" tal:attributes="class string:state-${item/review_state}"/></a>
-                            <p style="margin:2px 8px;"><span tal:replace="item/Description">Description</span></p>
+                            <p class="pmargin"><span tal:replace="item/Description">Description</span></p>
                             
                     <tal:block define="toc tocElement/children">
                         <metal:recursion use-macro="here/referencemanual_macros/macros/float_toc"/>
@@ -68,7 +69,7 @@
 </metal:block>
 
 <metal:block define-macro="section_toc_roman">
-    <blockquote style="border: none;padding:2px;margin:0px;">
+    <blockquote class="bquote">
     <table tal:condition="toc | nothing">
         <tr tal:repeat="tocElement toc">
             <tal:item define="item tocElement/item">
@@ -90,7 +91,7 @@
 </metal:block>
 
 <metal:block define-macro="section_toc_alpha">
-    <blockquote style="border: none;padding:2px;margin:0px;">
+    <blockquote class="bquote">
     <table tal:condition="toc | nothing">
         <tr tal:repeat="tocElement toc">
             <tal:item define="item tocElement/item">

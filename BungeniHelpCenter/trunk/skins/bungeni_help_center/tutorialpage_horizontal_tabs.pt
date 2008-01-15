@@ -73,7 +73,7 @@
     <span tal:omit-tag="" tal:condition="python:here.getTocType() == 'drop'">    
     
         <div class="jumpBox">
-          <form method="get" action="#" style="text-align:right; float: right;">
+          <form method="get" action="#" class="rfloat">
             <label for="destination" class="hiddenStructure">Jump to:</label>
             <select name=":action" tabindex="3"
                     onchange="window.location.href=this.options[this.selectedIndex].value"
@@ -105,7 +105,7 @@
         
 	  <tal:byline
 	      tal:condition="python: site_properties.allowAnonymousViewAbout or not isAnon">
-            <div style="text-align: center;">
+            <div class="textcenter">
                 <img src=""
                      alt=""
                      class="portraitPhoto"
@@ -142,14 +142,14 @@
             </div>
         </div>
     <span tal:omit-tag="" tal:condition="python:here.getTocType() == 'box'">
-    <div style="float: right;width:250px;border:1px solid #74AE0B;">
+    <div class="stoc">
     <ol tal:condition="here/getPages">
          <li tal:repeat="page here/getPages">
             <a tal:attributes="href page/getURL">
                <span tal:attributes="class string:state-${page/review_state}" 
                      tal:content="page/Title" /></a>
 
-            <p style="margin:2px 8px;"><span tal:replace="page/Description">Description</span></p>
+            <p class="pmargin"><span tal:replace="page/Description">Description</span></p>
          </li>
     </ol>
     </div>

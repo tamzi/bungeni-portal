@@ -51,8 +51,7 @@
 
     <div class="visualClear">&nbsp;</div>
 
-      <dl class="portlet visualNoPrint"
-          style="float:right; margin: 0 0 1em 1em;"
+      <dl class="portlet visualNoPrint" id="faq"
           tal:condition="not:noSections">
         <dt class="portletHeader"
             i18n:translate="phc_index_sections">Sections</dt>
@@ -142,7 +141,7 @@
         </div>
 
         <div class="visualClear">&nbsp;</div>
-        <div style="float:right; text-align: center; margin: 1em 0 1em 1em;">
+        <div class="floatright">
          [<a href="#portal-top">Back</a>]
         </div>
 

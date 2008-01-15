@@ -28,7 +28,7 @@
         <dl>
             <tal:video tal:repeat="video python:here.getItemsBySection(section=section)">
             <dt>
-                <div style="float:right; text-align: center; margin: 1em 0 1em 1em;"
+                <div class="floatright">
                      tal:condition="video/screenshot_thumb | nothing">
                     <a class="discreet"
                        tal:attributes="href string:${video/absolute_url}/screenshot/image_view_fullscreen">

@@ -67,8 +67,27 @@
                    toc  python:tocInfo['localTOC'] or fullToc;">
     
 	<div metal:define-slot="sectiontoc">
-    <div style="float: right;width:250px;border:1px solid #74AE0B;">
+    <div class="stoc"
+         tal:define="parent python:context.aq_parent">
+      
+    <table>
+        <tr>
+                <td valign="top" tal:condition="python:len(toc)">                   
+                <span tal:content="python:toc[0]['numbering'][:-3]"></span>:
+                </td>
+                <td valign="top">                                     
+      <a href="" tal:attributes="href parent/absolute_url">
+        <span tal:content="string:${parent/Title}" tal:attributes="class
+        python:'state-'+here.portal_workflow.getInfoFor(parent, 'review_state')" />
+      </a>
+      <p class="pmargin">
+           <span tal:replace="parent/Description">Description</span>
+      </p>        
         <metal:recursion use-macro="here/referencemanual_macros/macros/float_toc"/>
+                </td>
+        </tr>
+    </table>
+
     </div>
 	</div>
             

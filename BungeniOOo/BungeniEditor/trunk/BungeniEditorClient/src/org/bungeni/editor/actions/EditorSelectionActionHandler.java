@@ -27,6 +27,7 @@ import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
+import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.selectors.InitDebateRecord;
 import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.error.BungeniError;
@@ -52,13 +53,10 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
    private ErrorMessages errorMsgObj = new ErrorMessages();
     /** Creates a new instance of EditorSelectionActionHandler */
     public EditorSelectionActionHandler() {
-           
         dbSettings = new BungeniClientDB (DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
-      
     }
 
     public void doCommand(OOComponentHelper ooDocument, toolbarAction action, JFrame c) {
-    
     }
 
     public void doCommand(OOComponentHelper ooDocument, toolbarSubAction action, JFrame c) {
@@ -82,7 +80,9 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
                nRouteAction = _routeAction(theMessage);
                break;
             default:
-               log.debug("There was an error : BungeniError : step: " + theMessage.getStep()+" , message = " + theMessage.getMessage());
+                String message = theMessage.getMessageString();
+               MessageBox.OK(c, message);
+               //log.debug("There was an error : BungeniError : step: " + theMessage.getStep()+" , message = " + theMessage.getMessage());
                break;
         }
        
@@ -370,8 +370,9 @@ if markupSelectedText():
         Vector<Vector<String>> resultRows = new Vector<Vector<String>>();
         toolbarAction action = null;
         try {
+            String currentDocumentType = BungeniEditorProperties.getEditorProperty("activeDocumentMode");
             dbSettings.Connect();
-            QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_FETCH_ACTION_BY_NAME(this.m_subAction.parent_action_name()));
+            QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_FETCH_ACTION_BY_NAME(currentDocumentType, this.m_subAction.parent_action_name()));
             dbSettings.EndConnect();
             if (qr == null ) {
                 throw new Exception ("QueryResults returned null");

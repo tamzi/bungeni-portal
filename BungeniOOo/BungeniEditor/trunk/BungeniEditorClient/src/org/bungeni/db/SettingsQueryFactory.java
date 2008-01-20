@@ -65,10 +65,10 @@ public class SettingsQueryFactory {
        return query;        
     }
     
-    public static String Q_FETCH_ACTION_BY_NAME(String byActionName ) {
+    public static String Q_FETCH_ACTION_BY_NAME(String docType, String byActionName ) {
         String query = Common_ToolbarAction_Selection() +
                 " from action_settings act " +
-                "where act.action_name = '"+ byActionName +"'";
+                "where act.doc_type='"+docType+"' and act.action_name = '"+ byActionName +"'";
                return query;
     }
     
@@ -142,6 +142,15 @@ public class SettingsQueryFactory {
        String query = "select doc_type, parent_action_name, sub_action_name, sub_action_order, sub_action_state, action_type, " +
                "action_display_text, action_fields, action_class, system_container from sub_action_settings " +
                "where doc_type = '"+ docType +"' and parent_action_name = '"+ parentAction +"'  and sub_action_order > 0" +
+               " and sub_action_state = 1" +
+               " order by sub_action_order";
+       return query;
+   }
+   
+   public static String Q_FETCH_SUB_ACTIONS(String docType, String parentAction, String subActionName){
+       String query = "select doc_type, parent_action_name, sub_action_name, sub_action_order, sub_action_state, action_type, " +
+               "action_display_text, action_fields, action_class, system_container from sub_action_settings " +
+               "where doc_type = '"+ docType +"' and parent_action_name = '"+ parentAction +"'  and sub_action_name ='"+subActionName+"' " +
                " and sub_action_state = 1" +
                " order by sub_action_order";
        return query;

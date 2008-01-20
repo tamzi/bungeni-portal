@@ -9,9 +9,13 @@
 
 package org.bungeni.commands;
 
+import com.sun.star.text.XText;
+import com.sun.star.text.XTextContent;
+import com.sun.star.text.XTextCursor;
 import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.utils.CommonExceptionUtils;
 
 /**
  *
@@ -102,4 +106,22 @@ public class CommonActions {
          }
     }  
 
+    
+    private boolean action_createRootSection(OOComponentHelper ooDoc, String sectionName) {
+        boolean bResult = false;
+        try {
+            XText docText = ooDoc.getTextDocument().getText();
+            XTextCursor docCursor = docText.createTextCursor();
+            docCursor.gotoStart(false);
+            docCursor.gotoEnd(true);
+            XTextContent theContent = ooDoc.createTextSection(sectionName, (short)1);
+            docText.insertTextContent(docCursor, theContent, true);
+            bResult = true;
+        } catch (IllegalArgumentException ex) {
+            log.error("in action_createRootSection :" + ex.getMessage());
+            log.error("in action_createRootSection :" + CommonExceptionUtils.getStackTrace(ex));
+        } finally {
+            return bResult;
+        }
+    }
 }

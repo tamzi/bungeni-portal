@@ -31,6 +31,9 @@ public class BungeniToolbarXMLTreeNodeProcessor {
         return getElementType("target");
     }
 
+    public String getVisible(){
+        return getElementType("visible");
+    }
     public String getMode(){
         return getElementType("mode");
     }
@@ -43,7 +46,11 @@ public class BungeniToolbarXMLTreeNodeProcessor {
         if (attrNode == null) {
             return null;
         } else {
-            return (String) attrNode.getValue();
+            String retValue = (String) attrNode.getValue();
+            if (retValue.equals("null"))
+                return null;
+            else
+                return (String) attrNode.getValue();
         }
     }
     

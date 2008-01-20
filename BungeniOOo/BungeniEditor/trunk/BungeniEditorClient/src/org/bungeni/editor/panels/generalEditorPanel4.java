@@ -22,14 +22,18 @@ import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
+import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.actions.EditorActionFactory;
 import org.bungeni.editor.actions.IEditorActionEvent;
 import org.bungeni.editor.actions.toolbarAction;
@@ -38,6 +42,7 @@ import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.editor.toolbar.BungeniToolbarXMLAdapterNode;
 import org.bungeni.editor.toolbar.BungeniToolbarXMLTreeNodeProcessor;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.utils.CommonExceptionUtils;
 import org.bungeni.utils.CommonTreeFunctions;
 
 /**
@@ -117,6 +122,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         treeGeneralEditor.addMouseListener(new treeGeneralEditorMouseListener());
         treeGeneralEditor.setCellRenderer(new treeGeneralEditorCellRenderer());
         //-tree-deprecated--CommonTreeFunctions.expandAll(treeGeneralEditor, true);
+        treeGeneralEditor.addTreeWillExpandListener(new treeGeneralEditorWillExpandListener());
         CommonTreeFunctions.expandAll(treeGeneralEditor);
         } catch (Exception ex) {
             log.error("initTree: "+ ex.getMessage());
@@ -463,6 +469,34 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     }
     
 
+    class treeGeneralEditorWillExpandListener implements TreeWillExpandListener {
+        public void treeWillExpand(TreeExpansionEvent event) throws ExpandVetoException {
+            Object lastPathObject = event.getPath().getLastPathComponent();
+            boolean throwException = false;
+            if (lastPathObject.getClass() == org.bungeni.editor.toolbar.BungeniToolbarXMLAdapterNode.class) {
+                        BungeniToolbarXMLAdapterNode adapterNode = (BungeniToolbarXMLAdapterNode) lastPathObject;
+                        org.jdom.Attribute visibleAttrib = adapterNode.node.getAttribute("showChildren");
+                        if (visibleAttrib == null) {
+                            throwException = false;
+                        } else {
+                            if (visibleAttrib.getValue().equals("true")) {
+                                throwException = false;
+                            } else if (visibleAttrib.getValue().equals("conditional")) {
+                                throwException = true;
+                            } else if (visibleAttrib.getValue().equals("false")) {
+                                throwException = true;
+                            }
+                        }
+            }
+            if (throwException) {
+                throw new ExpandVetoException(event);
+            }
+        }
+
+        public void treeWillCollapse(TreeExpansionEvent event) throws ExpandVetoException {
+        }
+        
+    }
     
     class treeGeneralEditorMouseListener implements MouseListener {
       
@@ -518,45 +552,101 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                     log.debug("mousePressed: Ignore right clicks");
                     return;
                 }
-                
+                //get selected row
                 int selRow = treeGeneralEditor.getRowForLocation(evt.getX(), evt.getY());
-                
+                //get treepath for currennt mouse click
                 TreePath selPath = treeGeneralEditor.getPathForLocation(evt.getX(), evt.getY());
                 if (selRow == -1 ) return ; //dont process invalid clicks on tree nodes
                 //get the tree node and filter on userObject() 
                Object pathComponent =  selPath.getLastPathComponent();
+               //process clicks only when the node object component is a bungenitoolbarxmladapternode
                if (pathComponent.getClass() == org.bungeni.editor.toolbar.BungeniToolbarXMLAdapterNode.class) {
+                    processBungeniToolbarXmlAdapterNode(evt, pathComponent);
+               }
+        }
+        
+       private void processBungeniToolbarXmlAdapterNode(MouseEvent evt, Object pathComponent){
+                try {
                    BungeniToolbarXMLAdapterNode thenode = (BungeniToolbarXMLAdapterNode)pathComponent;
                    BungeniToolbarXMLTreeNodeProcessor nodeProc = new BungeniToolbarXMLTreeNodeProcessor(thenode);
+                   //blank target, so nothing to process, return
                    if (nodeProc.getTarget() == null ){
                        log.debug("treeGeneralEditor, mousclick, target was null");
                        return;
-                   } else {
-                       if (nodeProc.getTarget().equals("null")) {
-                           return;
-                       }
-                       //based on the target information we need to create the action objectr
-                       String strTarget = nodeProc.getTarget();
-                       String[] arrTargetObj = strTarget.split("[.]");
-                       toolbarAction tbAction = null;
-                       // arrTargetObj[0] is the action class, arrTargetObj[1] is the action class identifier
-                       if (nodeProc.getMode().equals("TEXT_INSERTION")) {
-                            tbAction =  processInsertion(arrTargetObj[1]);
-                       } else if (nodeProc.getMode().equals("TEXT_SELECTED_INSERT")) {
-                            tbAction =  processInsertion(arrTargetObj[1]);
-                       }
-                       if (tbAction != null) {
-                           createPopupMenuItems(tbAction);
-                           popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
-                       }
+                   } 
+                   //if node is disabled, nothing to process, return
+                   if (nodeProc.getVisible() == null ) {
+                       return;
                    }
-               }
-                
-        }
-        
-       private toolbarAction processInsertion(String targetAction) {
+                   //based on the target information we need to create the action objectr
+                   String strTarget = nodeProc.getTarget();
+                   String[] arrTargetObj = strTarget.split("[.]");
+                   String actionType = arrTargetObj[0];
+                   if (actionType.equals("generalAction")) {
+                       
+                   } else if (actionType.equals("toolbarAction")) {
+                       
+                   } else if (actionType.equals("toolbarSubAction")) {
+                       
+                   }
+                   
+                   toolbarAction tbAction = null;
+                   toolbarSubAction tbSubAction = null;
+                   // arrTargetObj[0] is the action class, arrTargetObj[1] is the action class identifier
+                   if (nodeProc.getMode().equals("TEXT_INSERTION")) {
+                        tbAction =  processInsertion(arrTargetObj);
+                   } else if (nodeProc.getMode().equals("TEXT_SELECTED_INSERT")) {
+                        tbSubAction =  processSelection(arrTargetObj);
+                   }
+                   if (tbAction != null) {
+                       createPopupMenuItems(tbAction);
+                       popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                   }
+                   if (tbSubAction != null) {
+                       createPopupMenuItems(tbSubAction);
+                       popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                   }
+                } catch (Exception ex) {
+                    log.error("processBungeniToolbarXmlAdapterNode:"+ ex.getMessage());
+                    log.error("processBungeniToolbarXmlAdapterNode:"+ CommonExceptionUtils.getStackTrace(ex));
+                }
+       }
+       
+       private toolbarSubAction processSelection(String[] targetAction) {
+            int actionLength =  targetAction.length;
+            //toolbarSubAction.makePrayerSection.section_creation
+            String actionType = targetAction[0];
+            String actionMainAction = targetAction[1];
+            String documentType = BungeniEditorProperties.getEditorProperty("activeDocumentMode");
+            String actionSubAction = "";
+            if (actionLength == 3) {
+                actionSubAction = targetAction[2];
+            }
             instance.Connect();
-             QueryResults qr = instance.QueryResults(SettingsQueryFactory.Q_FETCH_ACTION_BY_NAME(targetAction));
+            String actionQuery = SettingsQueryFactory.Q_FETCH_SUB_ACTIONS(documentType, actionMainAction, actionSubAction);
+             QueryResults qr = instance.QueryResults(actionQuery);
+             instance.EndConnect();
+             if (qr == null ) {
+                 return null;
+             }
+             if (qr.hasResults()) {
+                //this should return only a single toolbarSubAction
+                 return new toolbarSubAction(qr.theResults().elementAt(0), qr.columnNameMap());
+             } else
+                 return null;
+       }
+       private toolbarAction processInsertion(String[] targetAction) {
+            int actionLength =  targetAction.length;
+            String actionType = targetAction[0];
+            String documentType = BungeniEditorProperties.getEditorProperty("activeDocumentMode");
+            String actionMainAction = targetAction[1];
+            String actionSubAction = "";
+            if (actionLength == 3) {
+                actionSubAction = targetAction[2];
+            }
+           instance.Connect();
+           String actionQuery = SettingsQueryFactory.Q_FETCH_ACTION_BY_NAME(documentType, actionMainAction);
+           QueryResults qr = instance.QueryResults(SettingsQueryFactory.Q_FETCH_ACTION_BY_NAME(documentType, actionMainAction));
              instance.EndConnect();
              if (qr == null ) {
                  return null;
@@ -668,6 +758,8 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                 return toolbarIconMap.get("block_action");
             } else if (elementName.equals("action")) {
                 return toolbarIconMap.get("action");
+            } else if (elementName.equals("subaction")) {
+                return toolbarIconMap.get("action");
             } else
                 return toolbarIconMap.get("block");
         }
@@ -677,7 +769,9 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                 int objectType = -1;
                 toolbarIcon currentIcon;
                 Object userObj;
-
+                if (ooDocument == null) {
+                    return this;
+                }
                 try {
                    if (selected) 
                       setOpaque(true);
@@ -692,20 +786,40 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                         BungeniToolbarXMLTreeNodeProcessor nodeProc = new BungeniToolbarXMLTreeNodeProcessor(toolbarNode);
                         toolbarIcon theIcon = getIcon(toolbarNode.node.getName());
                         org.jdom.Attribute visibleAttrib = toolbarNode.node.getAttribute("visible");
+                        org.jdom.Attribute conditionAttrib = toolbarNode.node.getAttribute("condition");
+                        org.jdom.Attribute nameAttrib = toolbarNode.node.getAttribute("name");
+                        
+                        //if visible = false - disable the action
+                        //if visible = true  - check if condition is required
+                        //if condition = none - enable the action unconditionallhy
+                        //if condition = something - check if the condition is valid
+                        //enable the aciton only when the condition is valid
                         if (visibleAttrib == null) {
-                            setIcon(theIcon.enabledIcon);
-                            setText(nodeProc.getTitle()+"-"+nodeProc.getMode()+"-"+nodeProc.getTarget());
-                        }
+                           nodeEnabled(theIcon, nodeProc);
+                        } else
+                        if (visibleAttrib.getValue().equals("false")) {
+                            nodeDisabled(theIcon, nodeProc);
+                        } else
                         if (visibleAttrib.getValue().equals("true")) {
-                            setForeground(new java.awt.Color(0x00, 0x00, 0x00));
-                            setIcon(theIcon.enabledIcon);
-                            setText(nodeProc.getTitle()+"-"+nodeProc.getMode()+"-"+nodeProc.getTarget());
-                        } else {
-                            setForeground(new java.awt.Color(0xFF, 0xCC,0xFF));
-                            setIcon(theIcon.disabledIcon);
-                            setText(nodeProc.getTitle()+"-"+nodeProc.getMode()+"-"+nodeProc.getTarget());
-                        }
-                    }
+                            if (conditionAttrib == null ) {
+                                //no condition act as if true
+                                nodeEnabled(theIcon, nodeProc);
+                            } else if (conditionAttrib.getValue().equals("none")) {
+                                //no condition act as if true
+                                nodeEnabled(theIcon, nodeProc);
+                            } else if (conditionAttrib.getValue().length()> 0) {
+                                //other condition always evaluates to whether action should be enabeld or disabled
+                                log.debug("current_node = "+ toolbarNode.node.getName()+" + condition_attrib = "+ conditionAttrib.getValue() + " + name_attrib = "+ nameAttrib.getValue());
+                                boolean bCondition =  processActionCondition(conditionAttrib);
+                                log.debug("current_node_return = "+ bCondition);
+                                
+                               if (bCondition) {
+                                   nodeEnabled(theIcon, nodeProc);
+                               } else {
+                                   nodeDisabled(theIcon, nodeProc);
+                               }
+                            }
+                        }                    }
                     
                   //} else {
                   //    setIcon(imgIcons[SECTION_PLUS_ICON]);
@@ -718,10 +832,92 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                 } finally {
                 return this;
                 }
-    }
+        }
+
+        void nodeEnabled(toolbarIcon theIcon, BungeniToolbarXMLTreeNodeProcessor nodeProc) {
+            setForeground(new java.awt.Color(0x00, 0x00,0x00));
+            setIcon(theIcon.enabledIcon);
+            setText(nodeProc.getTitle()+"-"+nodeProc.getMode()+"-"+nodeProc.getTarget());
+        }
+        
+        
+        void nodeDisabled(toolbarIcon theIcon, BungeniToolbarXMLTreeNodeProcessor nodeProc) {
+            setForeground(new java.awt.Color(0xFF, 0xCC,0xFF));
+            setIcon(theIcon.disabledIcon);
+            setText(nodeProc.getTitle()+"-"+nodeProc.getMode()+"-"+nodeProc.getTarget());
+        }
+        
+         boolean processActionCondition(org.jdom.Attribute conditionAttrib) {
+            String conditionValue =  conditionAttrib.getValue();
+            boolean bAction = true;
+            if (conditionValue.indexOf(":") != -1) {
+                String[] arrCondition = conditionValue.split("[:]");
+                if (arrCondition[0].equals("sectionNotExists")) {
+                    log.debug("processActionCondition:sectionNotExists");
+                    bAction = check_sectionNotExists(arrCondition);
+                    log.debug("processActionCondition:"+bAction);
+                } 
+                if (arrCondition[0].equals("sectionExists")) {
+                    log.debug("processActionCondition:sectionExists");
+                    bAction  = check_sectionExists(arrCondition);
+                    log.debug("processActionCondition:"+bAction);
+
+                }
+            }
+            return bAction;
+        }
+
+     
+     boolean check_sectionNotExists(String[] arrCondition) {
+         boolean bReturn = false;
+          try {
+             String sectionToActUpon = arrCondition[1];
+
+             if (sectionToActUpon.equals("root")) {
+                String activeDoc =  BungeniEditorProperties.getEditorProperty("activeDocumentMode");
+                sectionToActUpon = BungeniEditorProperties.getEditorProperty("root:"+activeDoc);
+             }
+
+             if (ooDocument.hasSection(sectionToActUpon)) {
+                 bReturn =  false;
+             } else {
+                 bReturn = true;
+             }
+         } catch (Exception ex) {
+             log.error("check_sectionNotExists:"+ex.getMessage());
+             log.error("check_sectionNotExists:"+ CommonExceptionUtils.getStackTrace(ex));
+             bReturn = false;
+         } finally {
+             return bReturn;
+         }
+     }    
     
-    
-    /****
+     boolean check_sectionExists(String[] arrCondition) {
+             boolean bReturn = false;
+          try {
+             String sectionToActUpon = arrCondition[1];
+
+             if (sectionToActUpon.equals("root")) {
+                String activeDoc =  BungeniEditorProperties.getEditorProperty("activeDocumentMode");
+                sectionToActUpon = BungeniEditorProperties.getEditorProperty("root:"+activeDoc);
+             }
+
+             if (ooDocument.hasSection(sectionToActUpon)) {
+                 bReturn =  true;
+             } else {
+                 bReturn = false;
+             }
+         } catch (Exception ex) {
+             log.error("check_sectionNotExists:"+ex.getMessage());
+             log.error("check_sectionNotExists:"+ CommonExceptionUtils.getStackTrace(ex));
+             bReturn = false;
+         } finally {
+             return bReturn;
+         }
+     }    
+
+     
+     /****
      *
 class treeGeneralEditorCellRenderer extends JLabel implements TreeCellRenderer {
         

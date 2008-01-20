@@ -11,6 +11,7 @@ package org.bungeni.utils;
 
 import java.awt.Component;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 
@@ -42,6 +43,8 @@ public  class MessageBox extends Object {
         int ret = JOptionPane.showConfirmDialog(parent, msg, title, JOptionPane.YES_NO_OPTION );
         return ret;
     }
+
+   
 
  
 }

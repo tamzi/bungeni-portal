@@ -18,14 +18,14 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="gender", label=_(u"Gender")),
         dict( name="date_of_birth", label=_(u"Date of Birth")),
         dict( name="birth_country", label=_(u"Country of Birth")),
-        dict( name="date_of_death", label=_(u"Date of Death"), view_permission="bungeni.AdminUsers", write_permission="bungeni.AdminUsers"),
+        dict( name="date_of_death", label=_(u"Date of Death"), view_permission="bungeni.AdminUsers", edit_permission="bungeni.AdminUsers"),
         dict( name="password", omit=True ),
         dict( name="salt", omit=True),
-        dict( name="active_p", label=_(u"Active"), view_permission="bungeni.AdminUsers", write_permission="bungeni.AdminUsers"),
+        dict( name="active_p", label=_(u"Active"), view_permission="bungeni.AdminUsers", edit_permission="bungeni.AdminUsers"),
         dict( name="type", omit=True ),
         ]
 
-class ParliamentMembers( UserDescriptor ):
+class MemberDescriptor( UserDescriptor ):
 
     fields = deepcopy( UserDescriptor.fields )
     fields = [
@@ -38,7 +38,7 @@ class ParliamentMembers( UserDescriptor ):
         dict( name="start_date", label=_(u"Start Date")),
         dict( name="end_date", label=_(u"End Date")  ),
         dict( name="leave_reason", label=_(u"Leave Reason")  ),
-        dict( name="active_p", label=_(u"Active"), write_permission="bungeni.AdminUsers"),
+        dict( name="active_p", label=_(u"Active"), edit_permission="bungeni.AdminUsers"),
         ]
 
 class GroupDescriptor( ModelDescriptor ):
@@ -66,6 +66,15 @@ class ParliamentDescriptor( GroupDescriptor ):
 class CommitteeDescriptor( GroupDescriptor ):
     
     fields = deepcopy( GroupDescriptor.fields )
+    
+class ParliamentSession( ModelDescriptor ):
+    
+    fields = [
+        dict( name="session_id", omit=True ),
+        dict( name="start_date", label=_(u"Start Date")),
+        dict( name="end_date", label=_(u"End Date")),                
+        dict( name="notes", property=schema.Text(title=_(u"Notes")))
+        ]    
         
 class MotionDescriptor( ModelDescriptor ):
 
@@ -73,7 +82,9 @@ class MotionDescriptor( ModelDescriptor ):
         dict( name="motion_id", omit=True ),
         dict( name="subject", label=_(u"Subject"), listing=True,
               edit_widget = widgets.LongTextWidget),
-        dict( name="session_id", label=_(u"Session"), listing=True ),
+        dict( name="session_id", 
+              property = schema.Choice( title=_(u"Session"), source=vocabulary.ParliamentSessions, required=False )
+              ),
         dict( name="submission_date", label=_(u"Submission Date"), listing=True ),
         dict( name="received_date", label=_(u"Received Date")),
         dict( name="notice_date", label=_(u"Notice Date"), listing=True),        
@@ -94,6 +105,26 @@ class MotionDescriptor( ModelDescriptor ):
         dict( name="status", label=_(u"Status"), listing=True, edit=False )
         ]
 
+class SittingDescriptor( ModelDescriptor ):
+    fields = [
+        dict( name="sitting_id", omit=True ),
+        dict( name="group_id", omit=True ),
+        dict( name="session_id", omit=True ),
+        dict( name="start_date", label=_(u"Start Date") ),
+        dict( name="end_date", label=_(u"End Date") ),
+        ]
+
+class SessionDescriptor( ModelDescriptor ):
+    fields = [
+        dict( name="session_id", omit=True),
+        #dict( name="parliament_id",)
+        dict( name="short_name", label=_(u"Short Name"), listing=True ),
+        dict( name="full_name", label=_(u"Full Name") ),
+        dict( name="start_date", label=_(u"Start Date"), listing=True ),
+        dict( name="end_date", label=_(u"End Date"), listing=True ),
+        dict( name="notes", label=_(u"Notes") )
+        ]
+        
 class BillDescriptor( ModelDescriptor ):
     
     fields = [

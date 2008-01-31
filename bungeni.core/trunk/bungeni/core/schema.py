@@ -179,6 +179,8 @@ parliament_sessions = rdb.Table(
    metadata,
    rdb.Column( "session_id", rdb.Integer, primary_key=True ),
    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'), unique=True),
+   rdb.Column( "short_name", rdb.Unicode(16) ),
+   rdb.Column( "full_name", rdb.Unicode(16) ),      
    rdb.Column( "start_date", rdb.DateTime),
    rdb.Column( "end_date", rdb.DateTime),
    rdb.Column( "notes", rdb.Unicode )   
@@ -481,7 +483,7 @@ if __name__ == '__main__':
     if len(sys.argv) == 1:
         db_uri = 'sqlite://'
     elif len(sys.argv) != 2:
-        print "populate.py DATABASE_URL"
+        print "schema.py DATABASE_URL"
         sys.exit(1)
     else:
         db_uri = sys.argv[1]

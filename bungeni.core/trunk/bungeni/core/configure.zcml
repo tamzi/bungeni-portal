@@ -39,6 +39,13 @@
      echo="True"
      />     
 
+  <db:catalyst
+     class=".domain.ParliamentMember"
+     descriptor=".descriptor.MemberDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     echo="True"
+     />     
 
   <db:catalyst
      class=".domain.Committee"
@@ -48,7 +55,22 @@
      echo="True"
      />     
      
-     
+
+  <db:catalyst
+     class=".domain.ParliamentSession"
+     descriptor=".descriptor.SessionDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     echo="True"
+     />     
+
+  <db:catalyst
+     class=".domain.GroupSitting"
+     descriptor=".descriptor.SittingDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     echo="True"
+     />               
      
   <!-- Application Setup Handler -->
   <subscriber

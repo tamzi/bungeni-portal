@@ -56,7 +56,7 @@ mapper( domain.Parliament, schema.parliaments,
         polymorphic_on=schema.groups.c.type,
         polymorphic_identity='government'
         )
-
+        
 mapper( domain.PoliticalParty, schema.political_parties,
         inherits=domain.Group,                        
         polymorphic_on=schema.groups.c.type,
@@ -85,6 +85,9 @@ mapper( domain.HansardReporter, schema.reporters,
         polymorphic_identity='reporter')
 
 
+mapper( domain.ParliamentSession, schema.parliament_sessions )
+mapper( domain.GroupSitting, schema.sittings )
+
 
 ##############################
 # Parliamentary Items
@@ -103,7 +106,8 @@ mapper( domain.MotionVersion, schema.motion_versions )
 mapper( domain.Motion, schema.motions,
         properties = {
              'versions':relation( domain.MotionVersion, backref='motion'),
-             'changes':relation( domain.MotionChange, backref='motion')
+             'changes':relation( domain.MotionChange, backref='motion'),
+             'session':relation( domain.ParliamentSession )
              }
         )
 

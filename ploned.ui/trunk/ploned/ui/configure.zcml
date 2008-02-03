@@ -1,0 +1,23 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"           
+           i18n_domain="plone">
+
+  <!-- TimeZone Definition -->
+  <adapter factory=".tz.tzinfo" />
+
+  <!-- Site Skin Definition -->
+  <include file="skin.zcml"/>  
+  
+  <!-- Site Menus Definition -->
+  <include file="menu.zcml"/>
+
+  <!-- CSS Definition -->
+  <include file="css.zcml"/>
+
+  <!-- Javascript Definition -->
+  <include file="js.zcml"/>
+
+  <!-- Viewlets -->
+  <include file="viewlet.zcml"/>
+
+</configure>

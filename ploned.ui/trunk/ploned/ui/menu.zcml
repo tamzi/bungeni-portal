@@ -1,0 +1,68 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           i18n_domain="plone">
+
+  <browser:menu
+     id="site_actions"
+     title="Actions"
+     class=".menu.AppSectionsMenu"
+     />
+
+  <browser:menuItem
+     menu="site_actions"
+     for="*"
+     action="/index"
+     title="Home"
+     />
+
+  <browser:menuItem
+     menu="site_actions"
+     for="*"
+     action="/committees"
+     title="Committees"
+     />
+
+  <browser:menuItem
+     menu="site_actions"
+     for="*"
+     action="/parliament"
+     title="Parliaments"
+     />
+
+  <browser:menuItem
+     menu="site_actions"
+     for="*"
+     action="/governments"
+     title="Governments"
+     />
+
+  <browser:menuItem
+     menu="site_actions"
+     for="*"
+     action="/bills"
+     title="Bills"
+     />
+
+  <browser:menuItem
+     menu="site_actions"
+     for="*"
+     action="/motions"
+     title="Motions"
+     />
+     
+   <browser:menuItem
+     menu="context_actions"
+     for="ore.alchemist.interfaces.IAlchemistContent"
+     action="view"
+     title="View"
+     />
+
+   <browser:menuItem
+     menu="context_actions"
+     for="ore.alchemist.interfaces.IAlchemistContent"
+     action="edit"
+     title="Edit"
+     />
+     
+</configure>
+

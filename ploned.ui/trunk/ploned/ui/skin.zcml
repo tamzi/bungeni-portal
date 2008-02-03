@@ -1,0 +1,62 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"           
+           i18n_domain="plone">
+
+  <!-- Skin Definition -->
+  <interface
+     interface=".interfaces.IPlonedSkin"
+     type="zope.publisher.interfaces.browser.IBrowserSkinType"
+     name="ploned"
+     />
+
+  <!-- Ploned Layout -->
+  <browser:view
+     for="*"
+     name="ploned-layout"
+     class=".macros.PlonedLayout"
+     layer=".interfaces.IPlonedSkin"
+     permission="zope.View"
+     />
+
+  <!-- Standard Macros Definition (access to layout/form) -->
+  <browser:view
+     for="*"
+     name="standard_macros"
+     class=".macros.StandardMacros"
+     permission="zope.View"
+     allowed_interface="zope.interface.common.mapping.IItemMapping"
+     layer=".interfaces.IPlonedSkin"     
+     />
+
+  <!-- Icon View for Site -->
+  <browser:view
+     for="zope.traversing.interfaces.IContainmentRoot"
+     name="favicon.ico"
+     layer=".interfaces.IPlonedSkin"
+     class=".images.FavIconView"
+     permission="zope.Public"
+     />
+
+  <!-- Skin CSS -->
+  <browser:resourceDirectory
+     name="css"
+     directory="css"
+     layer=".interfaces.IPlonedSkin"
+     />
+
+  <!-- Skin JavaScript ??? -->
+  <browser:resourceDirectory
+     name="js"
+     directory="js"
+     layer=".interfaces.IPlonedSkin"
+     />
+
+  <!-- Skin Images -->
+  <browser:resourceDirectory
+     name="images"
+     directory="images"
+     layer=".interfaces.IPlonedSkin"
+     />
+
+
+</configure>

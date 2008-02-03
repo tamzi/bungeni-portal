@@ -1,0 +1,62 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"           
+           i18n_domain="plone">
+
+  <browser:viewletManager
+     name="ploned.portalheader"
+     provides=".interfaces.IPortalHeaderManager"
+     layer=".interfaces.IPlonedSkin"
+     permission="zope.Public"
+     />
+
+  <browser:viewletManager
+     name="ploned.portalfooter"
+     provides=".interfaces.IPortalFooterManager"
+     layer=".interfaces.IPlonedSkin"
+     permission="zope.Public"
+     />
+
+  <browser:viewletManager
+     name="ploned.contentviews"
+     provides=".interfaces.IContentViewsManager"
+     layer=".interfaces.IPlonedSkin"
+     permission="zope.Public"
+     />
+
+  <browser:viewletManager
+     name="ploned.abovecontent"
+     provides=".interfaces.IAboveContentManager"
+     layer=".interfaces.IPlonedSkin"
+     permission="zope.Public"
+     />
+
+  <browser:viewletManager
+     name="ploned.belowcontent"
+     provides=".interfaces.IBelowContentManager"
+     layer=".interfaces.IPlonedSkin"
+     permission="zope.Public"
+     />
+
+  <browser:viewletManager
+     name="ploned.leftcolumn"
+     provides=".interfaces.ILeftColumnManager"
+     layer=".interfaces.IPlonedSkin"
+     permission="zope.Public"
+     />
+
+  <browser:viewletManager
+     name="ploned.rightcolumn"
+     provides=".interfaces.IRightColumnManager"
+     layer=".interfaces.IPlonedSkin"
+     permission="zope.ManageContent"
+     />
+
+   <browser:viewlet
+      name="ploned.content.tabs"
+      for="*"
+      manager=".interfaces.IContentViewsManager"
+      template="templates/contentviews.pt"
+      permission="zope.Public"
+      />
+
+</configure>

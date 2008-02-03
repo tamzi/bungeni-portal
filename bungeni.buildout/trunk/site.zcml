@@ -2,6 +2,9 @@
            xmlns:browser="http://namespaces.zope.org/browser"
            i18n_domain="bungeni">
 
+  <!-- Exclude ZCML Directives -->
+  <include package="zc.configuration" file="meta.zcml" />
+
   <!-- Load up AppServer Configuration -->
   <include package="bungeni.server" />
 
@@ -17,12 +20,14 @@
   <!-- Application Configuration -->
   <include package="bungeni.core" />
 
+  <!-- Application Theme -->
+  <include package="ploned.ui" />
+
   <!-- Application UI -->
   <include package="bungeni.ui" />
 
   <!-- Setup Default Skin For Application -->
   <browser:defaultSkin name="bungeni"/>
-
 
   <!-- AppServer Security Settings -->
   <include package="zope.app.securitypolicy" file="meta.zcml" />
@@ -50,9 +55,7 @@
   <!-- Replace the following directive if you don't want public access -->
   <grant permission="zope.View"
          principal="zope.anybody" />
-  <grant permission="zope.app.dublincore.view"
-         principal="zope.anybody" />
-  
+
   <role id="zope.Manager" title="Site Manager" />
   <role id="zope.Member" title="Site Member" />
   <grantAll role="zope.Manager" />

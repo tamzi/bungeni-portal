@@ -9,15 +9,6 @@
      name="bungeni"
      />
 
-  <!-- Bungeni Layout -->
-  <browser:view
-     for="*"
-     name="bungeni-layout"
-     class=".macros.BungeniLayout"
-     layer=".interfaces.IBungeniSkin"
-     permission="zope.View"
-     />
-
   <!-- Standard Macros Definition (access to layout/form) -->
   <browser:view
      for="*"
@@ -27,36 +18,5 @@
      allowed_interface="zope.interface.common.mapping.IItemMapping"
      layer=".interfaces.IBungeniSkin"     
      />
-
-  <!-- Icon View for Site -->
-  <browser:view
-     for="bungeni.core.interfaces.IBungeniApplication"
-     name="favicon.ico"
-     layer=".interfaces.IBungeniSkin"
-     class=".images.FavIconView"
-     permission="zope.Public"
-     />
-
-  <!-- Skin CSS -->
-  <browser:resourceDirectory
-     name="css"
-     directory="css"
-     layer=".interfaces.IBungeniSkin"
-     />
-
-  <!-- Skin JavaScript ??? -->
-  <browser:resourceDirectory
-     name="js"
-     directory="js"
-     layer=".interfaces.IBungeniSkin"
-     />
-
-  <!-- Skin Images -->
-  <browser:resourceDirectory
-     name="images"
-     directory="images"
-     layer=".interfaces.IBungeniSkin"
-     />
-
 
 </configure>

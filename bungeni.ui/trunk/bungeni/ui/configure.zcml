@@ -33,10 +33,4 @@
     allowed_interface="zope.publisher.interfaces.browser.IBrowserPublisher"
     />
 
-
-  <include file="css.zcml"/>
-  <include file="js.zcml"/>
-
-  <include file="viewlet.zcml"/>
-
 </configure>

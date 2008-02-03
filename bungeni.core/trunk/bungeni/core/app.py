@@ -43,16 +43,16 @@ class AppSetup( object ):
         # setup app structure
         # 
 
-        # groups
+        # domain objects
+        governments = domain.GovernmentContainer()
+        self.context['governments'] = governments
+        
         parliaments = domain.ParliamentContainer()
         self.context['parliament'] = parliaments
         
         committees = domain.CommitteeContainer()
         self.context['committees'] = committees
         
-        # parliamentary content
-        # 
-        # 
         bills = domain.BillContainer()
         self.context['bills'] = bills
         

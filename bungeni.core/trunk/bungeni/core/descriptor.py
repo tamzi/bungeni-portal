@@ -44,11 +44,13 @@ class MemberDescriptor( UserDescriptor ):
 class GroupDescriptor( ModelDescriptor ):
 
     fields = [
-        dict( name="short_name", label=_(u"Name")),
+        dict( name="group_id", omit=True ),
+        dict( name="short_name", label=_(u"Name"), listing=True),
         dict( name="long_name", label=_(u"Full Name")),
         dict( name="description", property=schema.Text(title=_(u"Description"))),
-        dict( name="start_date", label=_(u"Start Date")),
-        dict( name="end_date", label=_(u"End Date")),        
+        dict( name="start_date", label=_(u"Start Date"), listing=True ),
+        dict( name="end_date", label=_(u"End Date"), listing=True ),        
+        dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True )        
         ]
                     
 class ParliamentDescriptor( GroupDescriptor ):
@@ -69,13 +71,23 @@ class CommitteeDescriptor( GroupDescriptor ):
     
 class ParliamentSession( ModelDescriptor ):
     
-    fields = [
+    fields = deepcopy( GroupDescriptor.fields )
+    fields.extend([
         dict( name="session_id", omit=True ),
         dict( name="start_date", label=_(u"Start Date")),
         dict( name="end_date", label=_(u"End Date")),                
         dict( name="notes", property=schema.Text(title=_(u"Notes")))
-        ]    
+        ])
         
+class GovernmentDescriptor( ModelDescriptor ):
+    
+    fields = deepcopy( GroupDescriptor.fields )    
+    fields.extend([
+        dict( name="government_id", omit=True),
+        dict( name="start_gazetted_date", label=_(u"Gazetted Start Date") ),
+        dict( name="end_gazetted_date", label=_(u"Gazetted End Date") )
+        ])
+    
 class MotionDescriptor( ModelDescriptor ):
 
     fields = [

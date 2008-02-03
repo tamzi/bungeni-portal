@@ -20,7 +20,6 @@
      descriptor=".descriptor.BillDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
-     echo="True"
      />
 
   <db:catalyst
@@ -28,9 +27,16 @@
      descriptor=".descriptor.MotionDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
-     echo="True"
      />
-
+     
+  <db:catalyst
+     class=".domain.Government"
+     descriptor=".descriptor.GovernmentDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     echo="True"
+     />     
+     
   <db:catalyst
      class=".domain.Parliament"
      descriptor=".descriptor.ParliamentDescriptor"
@@ -52,10 +58,8 @@
      descriptor=".descriptor.CommitteeDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
-     echo="True"
      />     
      
-
   <db:catalyst
      class=".domain.ParliamentSession"
      descriptor=".descriptor.SessionDescriptor"

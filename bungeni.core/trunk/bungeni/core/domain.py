@@ -9,6 +9,7 @@ Created by Kapil Thangavelu on 2007-11-22.
 
 
 from ore.alchemist import Session
+from alchemist.traversal.managed import ManagedContainer
 
 import md5, random, string
 #####
@@ -71,15 +72,15 @@ class GroupMembership( object ):
         self.group = group
         
 class GroupSitting( object ):
-    """
+    """ a scheduled meeting for a group (parliament, committee, etc)
     """
     
 class GroupSittingAttendance( object ):
-    """
+    """ a record of attendance at a meeting 
     """
     
 class GroupItemAssignment(object):
-    """
+    """ the assignment of a parliamentary content object to a group
     """
 
 #############
@@ -91,6 +92,9 @@ class Government( Group ):
 class Parliament( Group ):
     """
     """
+
+    members = ManagedContainer("members", "bungeni.core.domain.ParliamentMemberContainer", "parliaments.parliament_id")
+    sessions = ManagedContainer("sessions", "bungeni.core.domain.SessionContainer", "parliaments.parliament_id")
 
 class PoliticalParty( Group ):
     """
@@ -163,7 +167,8 @@ BillVersion = ItemVersions.makeVersionFactory("BillVersion")
 class ParliamentSession( object ):
     """
     """
-
+    sittings = ManagedContainer("sittings", "bungeni.core.domain.GroupSittingContainer", "sessions.session_id")
+    
 class Rota( object ):
     """
     """

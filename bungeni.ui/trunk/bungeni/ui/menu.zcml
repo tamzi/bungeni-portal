@@ -26,7 +26,14 @@
      menu="site_actions"
      for="*"
      action="/parliament"
-     title="Parliament"
+     title="Parliaments"
+     />
+
+  <browser:menuItem
+     menu="site_actions"
+     for="*"
+     action="/governments"
+     title="Governments"
      />
 
   <browser:menuItem

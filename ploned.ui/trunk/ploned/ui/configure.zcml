@@ -2,9 +2,6 @@
            xmlns:browser="http://namespaces.zope.org/browser"           
            i18n_domain="plone">
 
-  <!-- TimeZone Definition -->
-  <adapter factory=".tz.tzinfo" />
-
   <!-- Site Skin Definition -->
   <include file="skin.zcml"/>  
   

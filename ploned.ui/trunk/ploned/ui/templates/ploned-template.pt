@@ -3,17 +3,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xml:lang="en"
       lang="en"
-      i18n:domain="bungeni">
+      i18n:domain="plone">
   <head>
     <metal:block define-slot="title">
-      <title tal:content="string:Bungeni">Z3 UI</title>
+      <title tal:content="string:bungeni">Z3 UI</title>
     </metal:block>         
 
-    <tal:block tal:replace="structure provider:bungeni-css">
+    <tal:block tal:replace="structure provider:ploned-css">
       CS Includes, Dynamically Included by Context 
     </tal:block>
 
-    <tal:block tal:replace="structure provider:bungeni-js">
+    <tal:block tal:replace="structure provider:ploned-js">
       JS Includes, Dynamically Included by Context 
     </tal:block>
 
@@ -48,7 +48,7 @@
              <li><a href="/@@login">Login</a></li>
           </ul>
       </div>
-      <tal:block replace="structure provider:bungeni.portalheader" />
+      <tal:block replace="structure provider:plone.portalheader" />
     </div>
 
     <div class="visualClear" id="clear-space-before-wrapper-table"><!-- --></div>      
@@ -59,7 +59,7 @@
             <tal:comment replace="nothing"> Start of the left column </tal:comment>
             <td id="portal-column-one">
               <div class="visualPadding">
-                  <tal:block replace="structure provider:bungeni.leftcolumn" />
+                  <tal:block replace="structure provider:plone.leftcolumn" />
                 &nbsp;
               </div>
             </td>
@@ -72,7 +72,7 @@
               <metal:block define-slot="content">
                 <div class="documentEditable">
 
-                  <div tal:replace="structure provider:bungeni.contentviews" />
+                  <div tal:replace="structure provider:plone.contentviews" />
 
                   <div id="region-content"
                        class="documentContent">
@@ -82,7 +82,7 @@
                     
                     <a name="documentContent"></a>
 
-                    <div id="viewlet-above-content" tal:content="structure provider:bungeni.abovecontent" />
+                    <div id="viewlet-above-content" tal:content="structure provider:plone.abovecontent" />
 
                     <metal:slot metal:define-slot="body">
                     <tal:comment replace="nothing">
@@ -105,7 +105,7 @@
 
                     </metal:slot>
 
-                      <div tal:replace="structure provider:bungeni.belowcontent" />
+                      <div tal:replace="structure provider:plone.belowcontent" />
                     
                     <span id="contentBottomLeft"></span>
                     <span id="contentBottomRight"></span>
@@ -121,7 +121,7 @@
             <tal:comment replace="nothing"> Start of right column </tal:comment>
             <td id="portal-column-two">
               <div class="visualPadding">
-                  <tal:block replace="structure provider:bungeni.rightcolumn" />
+                  <tal:block replace="structure provider:plone.rightcolumn" />
                 &nbsp;
               </div>
             </td>
@@ -135,7 +135,7 @@
       
       <metal:block>
 
-        <div tal:replace="structure provider:bungeni.portalfooter" />
+        <div tal:replace="structure provider:plone.portalfooter" />
 
       </metal:block>
 

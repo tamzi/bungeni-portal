@@ -1,4 +1,4 @@
-<div i18n:domain="bungeni"
+<div i18n:domain="plone"
      tal:omit-tag="">
 
         <h5 class="hiddenStructure"

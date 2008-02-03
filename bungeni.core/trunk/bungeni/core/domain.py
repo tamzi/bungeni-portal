@@ -37,7 +37,7 @@ class User( object ):
         return u"%s %s"%( self.first_name, self.last_name )
 
 class ParliamentMember( User ):
-    """
+    """ an MP
     """
 
     # groups
@@ -47,11 +47,11 @@ class ParliamentMember( User ):
     # ministries
 
 class Constiuencies( object ):
-    """
+    """ a locality region, which elects an MP 
     """
 
 class HansardReporter( User ):
-    """
+    """ a reporter who reports on parliamentary procedings
     """
 
     # rotas
@@ -61,11 +61,11 @@ class HansardReporter( User ):
 ######    
 
 class Group( object ):
-    """
+    """ an abstract collection of users
     """
     
 class GroupMembership( object ):
-    """
+    """ a user's membership in a group
     """
     def __init__( self, user, group ):
         self.user = user
@@ -86,39 +86,39 @@ class GroupItemAssignment(object):
 #############
 
 class Government( Group ):
-    """
+    """ a government
     """
 
 class Parliament( Group ):
-    """
+    """ a parliament
     """
 
     members = ManagedContainer("members", "bungeni.core.domain.ParliamentMemberContainer", "parliaments.parliament_id")
     sessions = ManagedContainer("sessions", "bungeni.core.domain.SessionContainer", "parliaments.parliament_id")
 
 class PoliticalParty( Group ):
-    """
+    """ a political party
     """
 
 class Ministry( Group ):
-    """
+    """ a government ministry
     """
 
 class Committee( Group ):
-    """
+    """ a parliamentary committee of MPs
     """
     
 #############
 
 class ItemLog( object ):
-    """
+    """ an audit log of events in the lifecycle of a parliamentary content
     """
     @classmethod
     def makeLogFactory( klass, name ):
         return type( name, (klass,), {} )
 
 class ItemVersions( object ):
-    """
+    """a collection of the versions of a parliamentary content object
     """
     @classmethod
     def makeVersionFactory( klass, name ):

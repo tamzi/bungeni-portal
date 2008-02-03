@@ -34,7 +34,6 @@
      descriptor=".descriptor.GovernmentDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
-     echo="True"
      />     
      
   <db:catalyst
@@ -42,7 +41,6 @@
      descriptor=".descriptor.ParliamentDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
-     echo="True"
      />     
 
   <db:catalyst
@@ -50,7 +48,6 @@
      descriptor=".descriptor.MemberDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
-     echo="True"
      />     
 
   <db:catalyst
@@ -65,7 +62,6 @@
      descriptor=".descriptor.SessionDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
-     echo="True"
      />     
 
   <db:catalyst
@@ -73,7 +69,6 @@
      descriptor=".descriptor.SittingDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
-     echo="True"
      />               
      
   <!-- Application Setup Handler -->

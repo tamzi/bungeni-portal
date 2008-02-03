@@ -21,7 +21,7 @@ setup(
     namespace_packages=['ploned'],
     install_requires = [ 'setuptools',
                          'zope.publisher',
-                         'zope.viewlet']
+                         'zope.viewlet'],
     zip_safe = False,
     )
 

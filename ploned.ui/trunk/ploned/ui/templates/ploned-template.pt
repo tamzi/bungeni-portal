@@ -9,11 +9,11 @@
       <title tal:content="string:bungeni">Z3 UI</title>
     </metal:block>         
 
-    <tal:block tal:replace="structure provider:ploned-css">
+    <tal:block tal:replace="structure provider:plone-css">
       CS Includes, Dynamically Included by Context 
     </tal:block>
 
-    <tal:block tal:replace="structure provider:ploned-js">
+    <tal:block tal:replace="structure provider:plone-js">
       JS Includes, Dynamically Included by Context 
     </tal:block>
 

@@ -8,7 +8,7 @@ class IPlonedSkin( IDefaultBrowserLayer ):
 class ICSSManager( IViewletManager ):
     """ viewlet manager for css """
 
-class IJavaScriptManger( IViewletManager ):
+class IJavaScriptManager( IViewletManager ):
     """ viewlet manager for js """
 
 

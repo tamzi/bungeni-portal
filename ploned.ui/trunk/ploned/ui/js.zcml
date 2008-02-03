@@ -3,9 +3,9 @@
            i18n_domain="plone">
 
   <browser:viewletManager
-      name="ploned-js"
-      provides=".interfaces.ICSSManager"
-      layer=".interfaces.IBungeniSkin"
+      name="plone-js"
+      provides=".interfaces.IJavaScriptManager"
+      layer=".interfaces.IPlonedSkin"
       permission="zope.Public"
       class=".viewlet.WeightBasedSorter"
       />

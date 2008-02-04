@@ -61,7 +61,7 @@
      class=".domain.ParliamentSession"
      descriptor=".descriptor.SessionDescriptor"
      interface_module=".interfaces"
-     ui_module="bungeni.ui.content"     
+     ui_module="bungeni.ui.content"
      />     
 
   <db:catalyst

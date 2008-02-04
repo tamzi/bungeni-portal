@@ -92,9 +92,8 @@ class Government( Group ):
 class Parliament( Group ):
     """ a parliament
     """
-
     members = ManagedContainer("members", "bungeni.core.domain.ParliamentMemberContainer", "parliaments.parliament_id")
-    sessions = ManagedContainer("sessions", "bungeni.core.domain.SessionContainer", "parliaments.parliament_id")
+    sessions = ManagedContainer("sittings", "bungeni.core.domain.ParliamentSessionContainer", "parliament_id")
 
 class PoliticalParty( Group ):
     """ a political party

@@ -10,8 +10,8 @@ from i18n import _
 class UserDescriptor( ModelDescriptor ):
     fields = [
         dict( name="user_id", omit=True),
-        dict( name="first_name", label=_(u"First Name")),
-        dict( name="last_name", label=_(u"Last Name")),
+        dict( name="first_name", label=_(u"First Name"), listing=True),
+        dict( name="last_name", label=_(u"Last Name"), listing=True),
         dict( name="middle_name", label=_(u"Middle Name")),
         dict( name="email", label=_(u"Email")),
         dict( name="national_id", label=_(u"National Id")),
@@ -28,25 +28,23 @@ class UserDescriptor( ModelDescriptor ):
 class MemberDescriptor( UserDescriptor ):
 
     fields = deepcopy( UserDescriptor.fields )
-    fields = [
+    fields.extend([
         dict( name="member_id", omit=True ),
         # this is only meant as a shortcut.. to the active parliament, else use group memberships
-        dict( name="parliaments.parliament_id"),
-
+        dict( name="parliaments.parliament_id",),
         dict( name="constituency_id", label=_(u"Constituency")),
         # these are again short cuts..
-        dict( name="start_date", label=_(u"Start Date")),
-        dict( name="end_date", label=_(u"End Date")  ),
+        dict( name="start_date", label=_(u"Start Date"), listing=True),
+        dict( name="end_date", label=_(u"End Date"), listing=True ),
         dict( name="leave_reason", label=_(u"Leave Reason")  ),
-        dict( name="active_p", label=_(u"Active"), edit_permission="bungeni.AdminUsers"),
-        ]
+        ])
 
 class GroupDescriptor( ModelDescriptor ):
 
     fields = [
         dict( name="group_id", omit=True ),
         dict( name="short_name", label=_(u"Name"), listing=True),
-        dict( name="long_name", label=_(u"Full Name")),
+        dict( name="full_name", label=_(u"Full Name")),
         dict( name="description", property=schema.Text(title=_(u"Description"))),
         dict( name="start_date", label=_(u"Start Date"), listing=True ),
         dict( name="end_date", label=_(u"End Date"), listing=True ),        
@@ -56,8 +54,8 @@ class GroupDescriptor( ModelDescriptor ):
 class ParliamentDescriptor( GroupDescriptor ):
     
     fields = [
-        dict( name="short_name", label=_(u"Name")),
-        dict( name="long_name", label=_(u"Full Name")),
+        dict( name="short_name", label=_(u"Name"), listing=True ),
+        dict( name="full_name", label=_(u"Full Name"), listing=True ),
         dict( name="description", property=schema.Text(title=_(u"Description"))),
         dict( name="identifier", label=_(u"Parliamentary Identifier"), listing=True ),
         dict( name="election_date", label=_(u"Election Date")),        

@@ -1,0 +1,15 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"           
+	   i18n_domain="bungeni">
+
+  <browser:viewlet
+      name="bungeni.parliament.navigation"
+      manager="ploned.ui.interfaces.ILeftColumnManager"
+      for="bungeni.core.interfaces.IParliament"
+      layer="..interfaces.IBungeniSkin"
+      template="parliament.pt"
+      permission="zope.View"
+      allowed_interface="zope.contentprovider.interfaces.IContentProvider"
+      />
+
+</configure>

@@ -10,7 +10,10 @@
   
   <!-- Site Menus Definition -->
   <include file="menu.zcml"/>
-  
+
+  <!-- Site Portlets -->
+  <include package=".portlets" />
+
   <!-- Application UI -->
   <browser:page
      for="bungeni.core.interfaces.IBungeniApplication"

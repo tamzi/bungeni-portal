@@ -6,16 +6,16 @@ bungeni.ui     https://bungeni-portal.googlecode.com/svn/bungeni.ui/trunk/
 ploned.ui      https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/
 
 # relational database support
-ore.alchemist  https://zope-alchemist.googlecode.com/svn/ore.alchemist/branches/0.4
+ore.alchemist  http://zope-alchemist.googlecode.com/svn/ore.alchemist/branches/0.4
 
 # rdb ui components
-alchemist.ui   https://zope-alchemist.googlecode.com/svn/alchemist.ui/trunk
+alchemist.ui   http://zope-alchemist.googlecode.com/svn/alchemist.ui/trunk
 
 # rdb auto generation
-alchemist.catalyst https://zope-alchemist.googlecode.com/svn/alchemist.catalyst/trunk
+alchemist.catalyst http://zope-alchemist.googlecode.com/svn/alchemist.catalyst/trunk
 
 # various traversal mechanisms
-alchemist.traversal https://zope-alchemist.googlecode.com/svn/alchemist.traversal/trunk
+alchemist.traversal http://zope-alchemist.googlecode.com/svn/alchemist.traversal/trunk
 
 # workflow support
 ore.workflow   https://svn.objectrealms.net/svn/public/ore.workflow/trunk

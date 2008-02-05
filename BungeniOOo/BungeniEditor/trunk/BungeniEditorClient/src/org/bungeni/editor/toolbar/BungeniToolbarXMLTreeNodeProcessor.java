@@ -23,6 +23,9 @@ public class BungeniToolbarXMLTreeNodeProcessor {
         adapterNode = node;
     }
     
+    public BungeniToolbarXMLAdapterNode getAdapterNode(){
+        return adapterNode;
+    }
     public String getTitle() {
        return getElementType("title");
     }
@@ -36,6 +39,10 @@ public class BungeniToolbarXMLTreeNodeProcessor {
     }
     public String getMode(){
         return getElementType("mode");
+    }
+    
+    public String getToolTip(){
+        return getElementType("tooltip");
     }
     
     public String getNodeName() {

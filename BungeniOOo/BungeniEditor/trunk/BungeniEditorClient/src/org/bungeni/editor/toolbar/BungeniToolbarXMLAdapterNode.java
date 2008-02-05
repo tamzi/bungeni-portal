@@ -9,6 +9,8 @@
 
 package org.bungeni.editor.toolbar;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 import org.jdom.Element;
 
 /**
@@ -18,7 +20,7 @@ import org.jdom.Element;
  * a JDOM Element object, since this is the main class used to model data in JDOM.
  * @author Administrator
  */
-public class BungeniToolbarXMLAdapterNode {
+public class BungeniToolbarXMLAdapterNode extends DefaultMutableTreeNode {
     public Element node;
         /** used for toString() */
     private final static String tab = "  ";
@@ -78,7 +80,7 @@ public class BungeniToolbarXMLAdapterNode {
      * 
      * @return String
      */
-    @Override
+   // @Override
     public String toString(){
         org.jdom.Attribute nodeAttrib = node.getAttribute("title");
         if (nodeAttrib == null )

@@ -671,7 +671,8 @@ private void initFrame(XComponent component){
             //panel.setOOoHelper(this.openofficeObject);
             frame.add(panel);
             frame.addWindowListener(new editorTabbedPanelFrameWindowListener());
-            frame.setSize(243, 650);
+            //frame.setSize(243, 650);
+            frame.setSize(259, 650);
             frame.setResizable(false);
             
             frame.setAlwaysOnTop(true);

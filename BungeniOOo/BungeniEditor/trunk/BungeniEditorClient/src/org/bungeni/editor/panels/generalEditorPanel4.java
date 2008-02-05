@@ -7,12 +7,16 @@
 package org.bungeni.editor.panels;
 
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Vector;
 import javax.swing.AbstractAction;
 import javax.swing.DefaultListModel;
@@ -22,6 +26,7 @@ import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.SwingUtilities;
+import javax.swing.ToolTipManager;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeWillExpandListener;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -41,6 +46,7 @@ import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.editor.toolbar.BungeniToolbarXMLAdapterNode;
 import org.bungeni.editor.toolbar.BungeniToolbarXMLTreeNodeProcessor;
+import org.bungeni.editor.toolbar.conditions.BungeniToolbarConditionProcessor;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.CommonExceptionUtils;
 import org.bungeni.utils.CommonTreeFunctions;
@@ -61,7 +67,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     //XML tree model used by the JTree control
     org.bungeni.editor.toolbar.BungeniToolbarXMLTree toolbarXmlTree ;
     
-    private  enum PopupTypeIdentifier {CREATE_EDIT , APPLY_MARKUP, EDIT, SELECT_INSERT, SELECT_EDIT, SYSTEM_ACTION, DOCUMENT_ACTION  };
+    private  enum PopupTypeIdentifier {CREATE_EDIT , APPLY_MARKUP, EDIT, SELECT_INSERT, SELECT_EDIT, SYSTEM_ACTION, DOCUMENT_ACTION, GENERAL_ACTION  };
  
     private HashMap<PopupTypeIdentifier, String> popupMap = new HashMap<PopupTypeIdentifier, String>();
     private String property_ActiveDocumentMode = "";
@@ -113,6 +119,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         popupMap.put(PopupTypeIdentifier.SELECT_INSERT, "Markup Selection");
         popupMap.put(PopupTypeIdentifier.SYSTEM_ACTION, "Generate System Container");
         popupMap.put(PopupTypeIdentifier.DOCUMENT_ACTION, "Execute Action");
+        popupMap.put(PopupTypeIdentifier.GENERAL_ACTION, "Execute Action");
     }
     
     private void initTree(){
@@ -124,6 +131,9 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         //-tree-deprecated--CommonTreeFunctions.expandAll(treeGeneralEditor, true);
         treeGeneralEditor.addTreeWillExpandListener(new treeGeneralEditorWillExpandListener());
         CommonTreeFunctions.expandAll(treeGeneralEditor);
+        javax.swing.Timer treeGeneralEditorPaintTimer = new javax.swing.Timer(3000, new treeGeneralEditorPaintTimerListener(treeGeneralEditor));
+        treeGeneralEditorPaintTimer.start();
+        ToolTipManager.sharedInstance().registerComponent(treeGeneralEditor);
         } catch (Exception ex) {
             log.error("initTree: "+ ex.getMessage());
         }
@@ -286,6 +296,11 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         return event;
     }
     
+    public IEditorActionEvent getEventClass(ArrayList<String> action) {
+       IEditorActionEvent event = EditorActionFactory.getEventClass(action);
+        return event;
+    }
+    
     public void setParentWindowHandle(JFrame c) {
         this.parentFrame = c;
     }
@@ -323,6 +338,14 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
             treePopupMenuAction_popupType = id;
         }
      
+        public treePopupMenuAction (String actionText,  String[] generalAction, PopupTypeIdentifier id ) {
+            super(actionText);
+            putValue("POPUP_IDENTIFIER", id);
+            List<String> arList = Arrays.asList(generalAction);
+            ArrayList<String> generalActionArray = new ArrayList<String>(arList);
+            putValue("USER_OBJECT", generalActionArray);
+            treePopupMenuAction_popupType = id;
+        }
         
         
         public void actionPerformed(ActionEvent e) {
@@ -346,6 +369,10 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                    toolbarSubAction subAction = (toolbarSubAction) value;
                    PopupTypeIdentifier popType= (PopupTypeIdentifier) popId;
                    processPopupSelection(subAction, popType);
+               } else if (value.getClass() == java.util.ArrayList.class) {
+                   ArrayList<String> arrGeneralAction = (ArrayList<String>) value;
+                   PopupTypeIdentifier popType = (PopupTypeIdentifier) popId;
+                   processPopupSelection(arrGeneralAction, popType);
                }
                if (value != null ) {
                    log.debug("popup, actionPerforemd : popupSelection");
@@ -413,6 +440,10 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
 
         }
         
+        private void processPopupSelection(ArrayList<String> action, PopupTypeIdentifier popId) {
+                IEditorActionEvent event = getEventClass(action);
+                event.doCommand(ooDocument, action, parentFrame);
+        }
         
         
         private void processPopupSelection(){
@@ -468,6 +499,20 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
  
     }
     
+    class treeGeneralEditorPaintTimerListener implements ActionListener{
+        private JTree timedTree;
+        
+        public treeGeneralEditorPaintTimerListener(JTree timedTree){
+            this.timedTree = timedTree;
+        }
+        
+        public void actionPerformed(ActionEvent e) {
+            if (timedTree.isShowing()) {
+            this.timedTree.repaint();
+            }
+        }
+        
+    }
 
     class treeGeneralEditorWillExpandListener implements TreeWillExpandListener {
         public void treeWillExpand(TreeExpansionEvent event) throws ExpandVetoException {
@@ -503,19 +548,19 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         public void mouseClicked(MouseEvent evt) {
       
         }
+       private void createPopupMenuItems(String[] arrGeneralAction) {
+            popupMenu.removeAll();
+            popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.GENERAL_ACTION), arrGeneralAction, PopupTypeIdentifier.GENERAL_ACTION));
+       }
        
        private void createPopupMenuItems(toolbarSubAction subAction) {
            // throw new UnsupportedOperationException("Not yet implemented");
             popupMenu.removeAll(); 
             if (subAction.action_type().equals("section_create"))  {
-
                 popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.SELECT_INSERT), subAction, PopupTypeIdentifier.SELECT_INSERT));
-
             } else if (subAction.action_type().equals("field_action")){
-
                  popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.SELECT_INSERT), subAction, PopupTypeIdentifier.SELECT_INSERT));
                  popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.SELECT_EDIT) , subAction, PopupTypeIdentifier.SELECT_INSERT));   
-
                  if (subAction.system_container().length() > 0 ) {
                      popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.SYSTEM_ACTION), subAction, PopupTypeIdentifier.SYSTEM_ACTION));
                  }
@@ -569,6 +614,16 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                 try {
                    BungeniToolbarXMLAdapterNode thenode = (BungeniToolbarXMLAdapterNode)pathComponent;
                    BungeniToolbarXMLTreeNodeProcessor nodeProc = new BungeniToolbarXMLTreeNodeProcessor(thenode);
+                   Object nodeUserObject = thenode.getUserObject();
+                   //check if node is enabled or disabled
+                   if (nodeUserObject != null) {
+                       if (nodeUserObject.getClass() == treeGeneralEditorNodeState.class) {
+                           treeGeneralEditorNodeState thestate = (treeGeneralEditorNodeState)nodeUserObject;
+                           if (thestate == treeGeneralEditorNodeState.DISABLED) {
+                             return;  
+                           } 
+                       }
+                   }
                    //blank target, so nothing to process, return
                    if (nodeProc.getTarget() == null ){
                        log.debug("treeGeneralEditor, mousclick, target was null");
@@ -579,39 +634,39 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                        return;
                    }
                    //based on the target information we need to create the action objectr
+                   
                    String strTarget = nodeProc.getTarget();
                    String[] arrTargetObj = strTarget.split("[.]");
                    String actionType = arrTargetObj[0];
                    if (actionType.equals("generalAction")) {
-                       
-                   } else if (actionType.equals("toolbarAction")) {
-                       
-                   } else if (actionType.equals("toolbarSubAction")) {
-                       
+                        createPopupMenuItems(arrTargetObj);
+                        popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                   } else if ((actionType.equals("toolbarAction")) || (actionType.equals("toolbarSubAction"))) {
+                       toolbarAction tbAction = null;
+                       toolbarSubAction tbSubAction = null;
+                       // arrTargetObj[0] is the action class, arrTargetObj[1] is the action class identifier
+                       if (nodeProc.getMode().equals("TEXT_INSERTION")) {
+                            tbAction =  processInsertion(arrTargetObj);
+                       } else if (nodeProc.getMode().equals("TEXT_SELECTED_INSERT")) {
+                            tbSubAction =  processSelection(arrTargetObj);
+                       }
+                       if (tbAction != null) {
+                           createPopupMenuItems(tbAction);
+                           popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                       }
+                       if (tbSubAction != null) {
+                           createPopupMenuItems(tbSubAction);
+                           popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                       }
                    }
                    
-                   toolbarAction tbAction = null;
-                   toolbarSubAction tbSubAction = null;
-                   // arrTargetObj[0] is the action class, arrTargetObj[1] is the action class identifier
-                   if (nodeProc.getMode().equals("TEXT_INSERTION")) {
-                        tbAction =  processInsertion(arrTargetObj);
-                   } else if (nodeProc.getMode().equals("TEXT_SELECTED_INSERT")) {
-                        tbSubAction =  processSelection(arrTargetObj);
-                   }
-                   if (tbAction != null) {
-                       createPopupMenuItems(tbAction);
-                       popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
-                   }
-                   if (tbSubAction != null) {
-                       createPopupMenuItems(tbSubAction);
-                       popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
-                   }
                 } catch (Exception ex) {
                     log.error("processBungeniToolbarXmlAdapterNode:"+ ex.getMessage());
                     log.error("processBungeniToolbarXmlAdapterNode:"+ CommonExceptionUtils.getStackTrace(ex));
                 }
        }
        
+      // private void processGeneralAction(String[] )
        private toolbarSubAction processSelection(String[] targetAction) {
             int actionLength =  targetAction.length;
             //toolbarSubAction.makePrayerSection.section_creation
@@ -726,7 +781,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     
     }
          
-    
+    enum treeGeneralEditorNodeState {ENABLED, DISABLED};
     class treeGeneralEditorCellRenderer extends JLabel implements TreeCellRenderer {
 
          int SECTION_ICON = 0;
@@ -734,14 +789,14 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
          int MARKUP_ICON = 2;
          int TOPLEVEL_ICON=3;
          int DISABLED_ICON=4;
-        
-        public treeGeneralEditorCellRenderer() {
+         Font labelFont = new Font("Tahoma", Font.PLAIN, 11);
+         public treeGeneralEditorCellRenderer() {
             if (toolbarIconMap.size() == 0 ) {
                 for (int i=0; i < icons.length; i++ ) {
                     toolbarIconMap.put(icons[i], new toolbarIcon(icons[i], "/gui/"));
                 }
             }
-        }
+         }
         private int ACTION_OBJECT=0, SELECTION_OBJECT=1;
         
         public void setToolbarStates() {
@@ -788,7 +843,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                         org.jdom.Attribute visibleAttrib = toolbarNode.node.getAttribute("visible");
                         org.jdom.Attribute conditionAttrib = toolbarNode.node.getAttribute("condition");
                         org.jdom.Attribute nameAttrib = toolbarNode.node.getAttribute("name");
-                        
+                        setFont(labelFont);
                         //if visible = false - disable the action
                         //if visible = true  - check if condition is required
                         //if condition = none - enable the action unconditionallhy
@@ -819,12 +874,9 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                                    nodeDisabled(theIcon, nodeProc);
                                }
                             }
-                        }                    }
+                        }                    
                     
-                  //} else {
-                  //    setIcon(imgIcons[SECTION_PLUS_ICON]);
-                  //}
-                
+                    }
                 
                 } catch (Exception ex) {
                     log.error("cellRender error: " + ex.getMessage());
@@ -835,87 +887,55 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         }
 
         void nodeEnabled(toolbarIcon theIcon, BungeniToolbarXMLTreeNodeProcessor nodeProc) {
+            nodeProc.getAdapterNode().setUserObject(treeGeneralEditorNodeState.ENABLED);
+            String ttText = nodeProc.getToolTip();
+            if (ttText != null) {
+               setToolTipText(ttText.replace('\n','-'));
+            }
             setForeground(new java.awt.Color(0x00, 0x00,0x00));
+      
             setIcon(theIcon.enabledIcon);
-            setText(nodeProc.getTitle()+"-"+nodeProc.getMode()+"-"+nodeProc.getTarget());
+            setText(nodeProc.getTitle());
+            //this.repaint();
+            //tree.repaint();
         }
         
         
         void nodeDisabled(toolbarIcon theIcon, BungeniToolbarXMLTreeNodeProcessor nodeProc) {
+            nodeProc.getAdapterNode().setUserObject(treeGeneralEditorNodeState.DISABLED);
+            String ttText = nodeProc.getToolTip();
+            if (ttText != null) {
+                setToolTipText(ttText.replace('\n','-'));
+            }
             setForeground(new java.awt.Color(0xFF, 0xCC,0xFF));
             setIcon(theIcon.disabledIcon);
-            setText(nodeProc.getTitle()+"-"+nodeProc.getMode()+"-"+nodeProc.getTarget());
+            setText(nodeProc.getTitle());
+                //this.repaint();
+            //tree.repaint();
         }
         
          boolean processActionCondition(org.jdom.Attribute conditionAttrib) {
-            String conditionValue =  conditionAttrib.getValue();
             boolean bAction = true;
-            if (conditionValue.indexOf(":") != -1) {
-                String[] arrCondition = conditionValue.split("[:]");
-                if (arrCondition[0].equals("sectionNotExists")) {
-                    log.debug("processActionCondition:sectionNotExists");
-                    bAction = check_sectionNotExists(arrCondition);
-                    log.debug("processActionCondition:"+bAction);
-                } 
-                if (arrCondition[0].equals("sectionExists")) {
-                    log.debug("processActionCondition:sectionExists");
-                    bAction  = check_sectionExists(arrCondition);
-                    log.debug("processActionCondition:"+bAction);
 
-                }
+            String conditionValue =  conditionAttrib.getValue().trim();
+            BungeniToolbarConditionProcessor condProc = new BungeniToolbarConditionProcessor(ooDocument, conditionValue);
+            bAction = condProc.evaluate();
+            /*
+            //first split multiple conditions by -and- or -or- 
+            //second evaluate each condition for validity
+            if (conditionValue.indexOf(" and ") != -1) {
+               bAction =  processCondition_and_Condition(conditionValue);
+            } else if (conditionValue.indexOf(" or ") != -1) {
+               bAction =  processCondition_or_Condition(conditionValue);
+            } else {
+                //no conditionals in the action conditionValue, process it as a singular action
+               bAction = processSubCondition(conditionValue);
             }
+             */
             return bAction;
         }
 
-     
-     boolean check_sectionNotExists(String[] arrCondition) {
-         boolean bReturn = false;
-          try {
-             String sectionToActUpon = arrCondition[1];
-
-             if (sectionToActUpon.equals("root")) {
-                String activeDoc =  BungeniEditorProperties.getEditorProperty("activeDocumentMode");
-                sectionToActUpon = BungeniEditorProperties.getEditorProperty("root:"+activeDoc);
-             }
-
-             if (ooDocument.hasSection(sectionToActUpon)) {
-                 bReturn =  false;
-             } else {
-                 bReturn = true;
-             }
-         } catch (Exception ex) {
-             log.error("check_sectionNotExists:"+ex.getMessage());
-             log.error("check_sectionNotExists:"+ CommonExceptionUtils.getStackTrace(ex));
-             bReturn = false;
-         } finally {
-             return bReturn;
-         }
-     }    
-    
-     boolean check_sectionExists(String[] arrCondition) {
-             boolean bReturn = false;
-          try {
-             String sectionToActUpon = arrCondition[1];
-
-             if (sectionToActUpon.equals("root")) {
-                String activeDoc =  BungeniEditorProperties.getEditorProperty("activeDocumentMode");
-                sectionToActUpon = BungeniEditorProperties.getEditorProperty("root:"+activeDoc);
-             }
-
-             if (ooDocument.hasSection(sectionToActUpon)) {
-                 bReturn =  true;
-             } else {
-                 bReturn = false;
-             }
-         } catch (Exception ex) {
-             log.error("check_sectionNotExists:"+ex.getMessage());
-             log.error("check_sectionNotExists:"+ CommonExceptionUtils.getStackTrace(ex));
-             bReturn = false;
-         } finally {
-             return bReturn;
-         }
-     }    
-
+  
      
      /****
      *

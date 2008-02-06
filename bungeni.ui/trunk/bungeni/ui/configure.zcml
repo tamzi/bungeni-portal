@@ -13,6 +13,9 @@
 
   <!-- Site Portlets -->
   <include package=".portlets" />
+  
+  <!-- Include Auditing -->
+  <include file="audit.zcml" />
 
   <!-- Application UI -->
   <browser:page

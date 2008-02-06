@@ -57,6 +57,22 @@
      action="edit"
      title="Edit"
      />
-     
+
+   <browser:menuItem
+     menu="context_actions"
+     for="bungeni.core.interfaces.IAuditable"
+     action="audit-log"
+     title="Audit Log"
+     />  
+
+<!--          
+   <browser:menuItem
+     menu="context_actions"
+     for="bungeni.core.interfaces.IVersionable"
+     action="versions"
+     title="Versions"
+     />  
+    
+    -->    
 </configure>
 

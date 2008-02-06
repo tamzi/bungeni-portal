@@ -162,7 +162,17 @@ public class SettingsQueryFactory {
                        "WHERE FCC.FORM_NAME = '"+formName+"'";
                return query;
    }
-      
+  
+   public static String Q_FETCH_CONDITIONAL_OPERATORS(){
+       String query = "SELECT condition_name, condition_syntax, condition_class FROM CONDITIONAL_OPERATORS";
+       return query;
+   }
+   
+   public static String Q_FETCH_CONDITION_CLASS_BY_NAME(String conditionName, String doctype){
+        String query = "Select condition_class from toolbar_conditions \n" + 
+                "where condition_name = '"+conditionName+"' and doctype = '"+doctype+"'";
+                return query;
+   }
 }
 
         

@@ -34,14 +34,11 @@
                       </Group>
                       <EmptySpace min="126" pref="126" max="126" attributes="0"/>
                   </Group>
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="dt_initdebate_hansarddate" pref="279" max="32767" attributes="1"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                  </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="dt_initdebate_timeofhansard" min="-2" pref="86" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
+                  <Component id="dt_initdebate_hansarddate" alignment="0" min="-2" pref="260" max="-2" attributes="1"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>

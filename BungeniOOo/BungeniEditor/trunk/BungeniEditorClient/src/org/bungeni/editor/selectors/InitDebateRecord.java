@@ -10,6 +10,7 @@ import com.sun.star.lang.XComponent;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextCursor;
+import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextViewCursor;
 import java.awt.Component;
 import java.awt.Container;
@@ -248,12 +249,10 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
                             .add(org.jdesktop.layout.GroupLayout.LEADING, lbl_initdebate_selectlogo, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
                             .add(org.jdesktop.layout.GroupLayout.LEADING, lbl_initdebate_timeofhansard, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE))
                         .add(126, 126, 126))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .add(dt_initdebate_hansarddate, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED))
                     .add(layout.createSequentialGroup()
                         .add(dt_initdebate_timeofhansard, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 86, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED))
+                    .add(dt_initdebate_hansarddate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 260, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -464,8 +463,10 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
        }
     
     protected boolean processFullInsert() {
-        processCatalogCommand();
-        return true;
+        /**call catalogcommand of base class**/
+        
+        boolean bReturn = processCatalogCommand();
+        return bReturn;
     }
     
     protected boolean processFullInsert_old(){
@@ -651,7 +652,11 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
         if (enabledControls.contains(new String("dt_initdebate_hansarddate"))) {
             //get the value and set it into the document
             String dateOfHansard = (String) theControlDataMap.get("dt_initdebate_hansarddate");
-            boolean bDateAdd = action_replaceTextWithField(ooDocument, "debaterecord_official_date", dateOfHansard);
+            ooDocMetadata meta = new ooDocMetadata(ooDocument);
+            meta.AddProperty("Bungeni_DebateOfficialDate", dateOfHansard);
+            XTextRange selRange = (XTextRange) ooDocument.getSingleSelectionRange().get("XTextRange");
+            String strSelection = selRange.getString();            
+            boolean bDateAdd = action_replaceTextWithField(ooDocument, "debaterecord_official_date", strSelection);
             if (!bDateAdd) {
                 checkFieldsMessages.add("There was an error while marking the handard date");
             }
@@ -661,7 +666,11 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
         if (enabledControls.contains(new String("dt_initdebate_timeofhansard"))) {
             //get the current time value into the document
             String timeOfHansard = (String) theControlDataMap.get("dt_initdebate_timeofhansard");
-            boolean bTimeAdd = action_replaceTextWithField(ooDocument, "debaterecord_official_time", timeOfHansard);
+            ooDocMetadata meta = new ooDocMetadata(ooDocument);
+            meta.AddProperty("Bungeni_DebateOfficialTime", timeOfHansard);
+            XTextRange selRange = (XTextRange) ooDocument.getSingleSelectionRange().get("XTextRange");
+            String strSelection = selRange.getString();
+            boolean bTimeAdd = action_replaceTextWithField(ooDocument, "debaterecord_official_time", strSelection);
             if (!bTimeAdd) {
                 checkFieldsMessages.add("There was an error while marking the handard time");
             }

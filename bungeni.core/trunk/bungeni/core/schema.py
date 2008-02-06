@@ -385,10 +385,10 @@ motions = rdb.Table(
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
    rdb.Column( "submission_date", rdb.DateTime ),
    rdb.Column( "public", rdb.Boolean ),
-   rdb.Column( "subject", rdb.Unicode ),
+   rdb.Column( "title", rdb.Unicode ),
    rdb.Column( "identifier", rdb.Integer),
    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),
-   rdb.Column( "motion_text", rdb.Unicode ),
+   rdb.Column( "body_text", rdb.Unicode ),
    rdb.Column( "received_date", rdb.DateTime ),
    rdb.Column( "entered_by", rdb.Integer, rdb.ForeignKey('users.user_id') ),   
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('political_parties.party_id')  ), # if the motion was sponsored by a party
@@ -405,9 +405,10 @@ motion_amendments = rdb.Table(
    rdb.Column( "amendment_id", rdb.Integer, primary_key=True ),
    rdb.Column( "motion_id", rdb.Integer, rdb.ForeignKey('motions.motion_id')  ),
    rdb.Column( "amended_id", rdb.Integer,  ),
-   rdb.Column( "amendment_text", rdb.Unicode ),  
+   rdb.Column( "body_text", rdb.Unicode ),  
    rdb.Column( "submission_date", rdb.DateTime ),    
    rdb.Column( "accepted_p", rdb.Boolean ),
+   rdb.Column( "title", rdb.Unicode ), 
    rdb.Column( "vote_date", rdb.DateTime ),   
    )
 
@@ -417,10 +418,11 @@ bills = rdb.Table(
    rdb.Column( "bill_id", rdb.Integer, ItemSequence, primary_key=True ),
    rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
    rdb.Column( "identifier",  rdb.Integer),
+   rdb.Column( "preamble", rdb.Unicode ),   
+   rdb.Column( "title", rdb.Unicode ), 
+   rdb.Column( "body_text",  rdb.Unicode ),
    rdb.Column( "submission_date", rdb.DateTime ),
    rdb.Column( "publication_date", rdb.DateTime ),
-   rdb.Column( "title", rdb.Unicode ), 
-   rdb.Column( "preamble", rdb.Unicode ),
    rdb.Column( "status", rdb.Unicode(12) ),
    )
    

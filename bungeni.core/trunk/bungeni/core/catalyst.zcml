@@ -1,0 +1,66 @@
+<configure
+ xmlns="http://namespaces.zope.org/zope"
+ xmlns:db="http://namespaces.objectrealms.net/rdb"
+ >
+
+
+  <!-- Catalyze Domain Models -->
+  <db:catalyst
+     class=".domain.Bill"
+     descriptor=".descriptor.BillDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+     echo="True"
+     />
+
+  <db:catalyst
+     class=".domain.Motion"
+     descriptor=".descriptor.MotionDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     />
+     
+  <db:catalyst
+     class=".domain.Government"
+     descriptor=".descriptor.GovernmentDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     />     
+     
+  <db:catalyst
+     class=".domain.Parliament"
+     descriptor=".descriptor.ParliamentDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     />     
+
+  <db:catalyst
+     class=".domain.ParliamentMember"
+     descriptor=".descriptor.MemberDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     />     
+
+  <db:catalyst
+     class=".domain.Committee"
+     descriptor=".descriptor.CommitteeDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     />     
+     
+  <db:catalyst
+     class=".domain.ParliamentSession"
+     descriptor=".descriptor.SessionDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+     />     
+
+  <db:catalyst
+     class=".domain.GroupSitting"
+     descriptor=".descriptor.SittingDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     />                 
+  
+  
+</configure>

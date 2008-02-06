@@ -14,69 +14,29 @@
      engine="bungeni-db"
      metadata=".schema.metadata" />
 
+
+  <!-- Application to publish -->
+  <utility
+     provides="ore.wsgiapp.interfaces.IApplication"
+     factory=".app.BungeniApp"
+     />
+
   <!-- Catalyze Domain Models -->
-  <db:catalyst
-     class=".domain.Bill"
-     descriptor=".descriptor.BillDescriptor"
-     interface_module=".interfaces"
-     ui_module="bungeni.ui.content"
-     />
+  <include file="catalyst.zcml"/>
 
-  <db:catalyst
-     class=".domain.Motion"
-     descriptor=".descriptor.MotionDescriptor"
-     interface_module=".interfaces"
-     ui_module="bungeni.ui.content"     
-     />
-     
-  <db:catalyst
-     class=".domain.Government"
-     descriptor=".descriptor.GovernmentDescriptor"
-     interface_module=".interfaces"
-     ui_module="bungeni.ui.content"     
-     />     
-     
-  <db:catalyst
-     class=".domain.Parliament"
-     descriptor=".descriptor.ParliamentDescriptor"
-     interface_module=".interfaces"
-     ui_module="bungeni.ui.content"     
-     />     
-
-  <db:catalyst
-     class=".domain.ParliamentMember"
-     descriptor=".descriptor.MemberDescriptor"
-     interface_module=".interfaces"
-     ui_module="bungeni.ui.content"     
-     />     
-
-  <db:catalyst
-     class=".domain.Committee"
-     descriptor=".descriptor.CommitteeDescriptor"
-     interface_module=".interfaces"
-     ui_module="bungeni.ui.content"     
-     />     
-     
-  <db:catalyst
-     class=".domain.ParliamentSession"
-     descriptor=".descriptor.SessionDescriptor"
-     interface_module=".interfaces"
-     ui_module="bungeni.ui.content"
-     />     
-
-  <db:catalyst
-     class=".domain.GroupSitting"
-     descriptor=".descriptor.SittingDescriptor"
-     interface_module=".interfaces"
-     ui_module="bungeni.ui.content"     
-     />               
-     
-  <!-- Application Setup Handler -->
-  <subscriber
-     for=".interfaces.IBungeniApplication
-          ore.wsgiapp.interfaces.IWSGIApplicationCreatedEvent"
-     handler=".app.setUpSubscriber"
-     />
+  <!-- Setup Domain Model Audit/ObjectLog Feature-->  
+  <include file="audit.zcml"/>
+  
+  <!-- Setup Domain Model Versioning Feature-->
+  <include file="version.zcml"/>
+  
+  
+  <!-- Pluggable Traversal for Parliamentary Content -->
+  <adapter
+      for=".interfaces.IBungeniContent
+           zope.publisher.interfaces.IPublisherRequest"
+      factory="z3c.traverser.traverser.PluggableTraverser"
+      provides="zope.publisher.interfaces.IPublishTraverse"/>
 
   <!-- Authentication Utility -->
   <utility
@@ -85,12 +45,15 @@
      name="rdb-auth"
      />
 
-  <!-- Application to publish -->
-  <utility
-     provides="ore.wsgiapp.interfaces.IApplication"
-     factory=".app.BungeniApp"
+  <!-- Application Setup Event Dispatcher -->
+  <subscriber
+     for=".interfaces.IBungeniApplication
+          ore.wsgiapp.interfaces.IWSGIApplicationCreatedEvent"
+     handler=".app.setUpSubscriber"
      />
-
+     
+  <!-- Application Setup -->
+  
   <adapter
      for=".interfaces.IBungeniApplication"
      factory=".app.AppSetup"

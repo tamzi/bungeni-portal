@@ -90,7 +90,7 @@ class MotionDescriptor( ModelDescriptor ):
 
     fields = [
         dict( name="motion_id", omit=True ),
-        dict( name="subject", label=_(u"Subject"), listing=True,
+        dict( name="title", label=_(u"Subject"), listing=True,
               edit_widget = widgets.LongTextWidget),
         dict( name="session_id", 
               property = schema.Choice( title=_(u"Session"), source=vocabulary.ParliamentSessions, required=False )
@@ -105,7 +105,7 @@ class MotionDescriptor( ModelDescriptor ):
         dict( name="owner_id",
               property = schema.Choice( title=_(u"Owner"), source=vocabulary.ParliamentMembers, required=False )
               ),
-        dict( name="motion_text", label=_(u"Motion Text"),
+        dict( name="body_text", label=_(u"Motion Text"),
               property = schema.Text( title=u"Motion" ),
               ),
         # TODO omit for now

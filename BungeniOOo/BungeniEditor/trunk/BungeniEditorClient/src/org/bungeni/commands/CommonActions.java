@@ -107,7 +107,7 @@ public class CommonActions {
     }  
 
     
-    private boolean action_createRootSection(OOComponentHelper ooDoc, String sectionName) {
+    public static boolean action_createRootSection(OOComponentHelper ooDoc, String sectionName) {
         boolean bResult = false;
         try {
             XText docText = ooDoc.getTextDocument().getText();
@@ -124,4 +124,23 @@ public class CommonActions {
             return bResult;
         }
     }
-}
+    
+     public static boolean action_replaceTextWithField(OOComponentHelper ooDoc, String hintName, String hintPlaceholderValue) {
+        boolean bState = false; 
+        try {
+            ExternalMacro ReplaceTextWithField = ExternalMacroFactory.getMacroDefinition("ReplaceTextWithField");
+            ReplaceTextWithField.addParameter(ooDoc.getComponent());
+            ReplaceTextWithField.addParameter(hintName);
+            ReplaceTextWithField.addParameter(hintPlaceholderValue);
+            ooDoc.executeMacro(ReplaceTextWithField.toString(), ReplaceTextWithField.getParams());
+             bState= true;
+        } catch (Exception ex) {
+            log.error("action_replaceTextWithField: error : " + ex.getMessage());
+            //checkFieldsMessages.add(ex.getLocalizedMessage());
+            bState=false;
+         }   finally {
+             return bState;
+         }
+     }
+     
+ }

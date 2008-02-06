@@ -243,12 +243,13 @@ def make_changes_table( table, metadata ):
             changes_name,
             metadata,
             rdb.Column( "change_id", rdb.Integer, primary_key=True ),
-            rdb.Column( fk_id, rdb.Integer, rdb.ForeignKey( table.c[ fk_id ] ) ),
+            rdb.Column( "content_id", rdb.Integer, rdb.ForeignKey( table.c[ fk_id ] ) ),
             rdb.Column( "action", rdb.Unicode(16) ),
             rdb.Column( "date", rdb.DateTime, default=rdb.PassiveDefault('now') ),
             rdb.Column( "description", rdb.Unicode),
             rdb.Column( "notes", rdb.Unicode),
-            rdb.Column( "user", rdb.Integer, rdb.ForeignKey('users.user_id') ),
+            
+            rdb.Column( "user_id", rdb.Unicode(32) ) # Integer, rdb.ForeignKey('users.user_id') ),
     )
     
     return changes_table

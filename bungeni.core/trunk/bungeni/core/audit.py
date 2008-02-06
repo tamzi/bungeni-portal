@@ -19,16 +19,22 @@ import sqlalchemy as rdb
 
 import schema
 
-def objectAdded( ob, event):
+
+
+def getAuditor( ob ):
     auditor = globals()['%sAuditor'%(ob.__class__.__name__)]
+    return auditor
+    
+def objectAdded( ob, event):
+    auditor = getAuditor( ob )
     auditor.objectAdded( removeSecurityProxy(ob), event )
     
 def objectModified( ob, event ):
-    auditor = globals()['%sAuditor'%(ob.__class__.__name__)]
+    auditor = getAuditor( ob )    
     auditor.objectModified( removeSecurityProxy(ob), event )    
     
 def objectDeleted( ob, event ):
-    auditor = globals()['%sAuditor'%(ob.__class__.__name__)]
+    auditor = getAuditor( ob )    
     auditor.objectDeleted( removeSecurityProxy(ob), event )        
 
 class AuditorFactory( object ):
@@ -57,12 +63,12 @@ class AuditorFactory( object ):
 
     def _objectChanged( self, change_kind, object, description=u'' ):
         oid, otype = self._getKey( object )
-        user_name = self._getCurrentUserName()
+        user_id = self._getCurrentUserId()
 
         self.change_table.insert(
             values = dict( action = change_kind,
                            date = datetime.now(),
-                           user_name = user_name,
+                           user_id = user_id,
                            description = description,
                            content_type = otype,
                            content_id = oid )
@@ -73,11 +79,11 @@ class AuditorFactory( object ):
         primary_key = mapper.primary_key_from_instance( ob )[0]
         return primary_key, unicode( ob.__class__.__name__ )
 
-    def _getCurrentUserName( self ):
+    def _getCurrentUserId( self ):
         interaction = getInteraction()
         for participation in interaction.participations:
             if IRequest.providedBy(participation):
-                return participation.principal.title
+                return participation.principal.id
         raise RuntimeError(_("No IRequest in interaction"))    
         
 BillAuditor = AuditorFactory( schema.bill_changes )        

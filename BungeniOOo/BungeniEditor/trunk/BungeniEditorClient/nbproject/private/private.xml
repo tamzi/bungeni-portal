@@ -2,6 +2,13 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1">
         <file>
+            <url>src/org/bungeni/editor/panels/generalEditorPanel4.java</url>
+            <line>163</line>
+            <line>357</line>
+            <line>478</line>
+            <line>521</line>
+        </file>
+        <file>
             <url>src/org/bungeni/editor/selectors/InitSpeech.java</url>
             <line>378</line>
             <line>538</line>
@@ -15,16 +22,24 @@
             <line>0</line>
             <line>0</line>
             <line>0</line>
-            <line>647</line>
+            <line>0</line>
+        </file>
+        <file>
+            <url>src/org/bungeni/editor/selectors/InitQuestionBlock.java</url>
+            <line>325</line>
+            <line>477</line>
+        </file>
+        <file>
+            <url>src/org/bungeni/editor/actions/EditorSelectionActionHandler.java</url>
+            <line>78</line>
         </file>
         <file>
             <url>src/org/bungeni/ooo/OOComponentHelper.java</url>
             <line>315</line>
         </file>
         <file>
-            <url>src/org/bungeni/editor/selectors/InitQuestionBlock.java</url>
-            <line>325</line>
-            <line>476</line>
+            <url>src/org/bungeni/editor/selectors/selectorTemplatePanel.java</url>
+            <line>362</line>
         </file>
     </editor-bookmarks>
 </project-private>

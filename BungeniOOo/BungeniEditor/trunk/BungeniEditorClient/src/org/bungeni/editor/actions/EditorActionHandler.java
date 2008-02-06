@@ -401,4 +401,7 @@ public class EditorActionHandler implements IEditorActionEvent {
     public void doCommand(OOComponentHelper ooDocument, toolbarSubAction action, JFrame parentFrame) {
     }
 
+    public void doCommand(OOComponentHelper ooDocument, ArrayList<String> action, JFrame parentFrame) {
+    }
+
 }

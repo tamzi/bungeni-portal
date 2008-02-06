@@ -16,6 +16,7 @@ import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextViewCursor;
 import java.awt.Component;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.JDialog;
@@ -550,6 +551,7 @@ if markupSelectedText():
     
    private BungeniMessage validateAction_TextSelectedInsertAction_DebateDateEntry(){
      int nRetValue = -1;
+     /*
      if (m_subAction.system_container().length() > 0 ) { 
          nRetValue = check_systemContainerExists();
          if (nRetValue == BungeniError.SYSTEM_CONTAINER_NOT_PRESENT){
@@ -564,14 +566,14 @@ if markupSelectedText():
                  default:
                      return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_PROCEED, nRetValue);
               }
-     } else {
+     } else { */
             String currentSection = ooDocument.currentSectionName();
             nRetValue = this.check_containment(currentSection);
             if (nRetValue == BungeniError.VALID_SECTION_CONTAINER)
                 return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_PROCEED, BungeniError.VALID_SECTION_CONTAINER);
             else 
                 return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_FAIL, BungeniError.INVALID_SECTION_CONTAINER);
-     }
+     /* } */
  }
      
      
@@ -579,6 +581,7 @@ if markupSelectedText():
    
     private BungeniMessage validateAction_TextSelectedInsertAction_DebateTimeEntry(){
       int nRetValue = -1;
+      /*
         nRetValue = check_systemContainerPositionCheck();
         switch (nRetValue) {
             case BungeniError.SYSTEM_CONTAINER_ALREADY_EXISTS:
@@ -587,6 +590,7 @@ if markupSelectedText():
             default:
                 break;
         }
+       */
        nRetValue = check_canSystemContainerBeCreated();
        if (nRetValue == BungeniError.INVALID_CONTAINER_FOR_SYSTEM_ACTION) {
            return  new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_FAIL, nRetValue);
@@ -640,28 +644,41 @@ if markupSelectedText():
     }
     
     private int check_containment_Section(String currentContainerSection) {
+        
+        int error = BungeniError.GENERAL_ERROR;
+        try {
         //get valid parent actions
         String strActionName = m_parentAction.action_name();
         dbSettings.Connect();
-        QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_FETCH_PARENT_ACTIONS(strActionName));
+        String fetchParentQuery = SettingsQueryFactory.Q_FETCH_PARENT_ACTIONS(strActionName);
+        log.debug("checkContainmentSection = " + fetchParentQuery);
+        QueryResults qr = dbSettings.QueryResults(fetchParentQuery);
         dbSettings.EndConnect();
-        String[] actionSectionTypes = qr.getSingleColumnResult("ACTON_SECTION_TYPE");
+        String[] actionSectionTypes = qr.getSingleColumnResult("ACTION_SECTION_TYPE");
         //there can be multiple parents... so we iterate through the array if one of them is a valid parent
         
         HashMap<String,String> sectionMetadata = ooDocument.getSectionMetadataAttributes(currentContainerSection);
         //if (sectionMetadata.get)
         String strDocSectionType = "";
         if (sectionMetadata.containsKey("BungeniSectionType")) {
-                strDocSectionType = sectionMetadata.get("BungeniSectionType");
+                strDocSectionType = sectionMetadata.get("BungeniSectionType").trim();
                 //check the doc section type against the array of valid action section types
                 for (String sectionType: actionSectionTypes) {
-                     if (strDocSectionType.equals(sectionType)) {
-                            return BungeniError.VALID_SECTION_CONTAINER;
-                     } 
+                     if (strDocSectionType.equals(sectionType.trim())) {
+                            error =  BungeniError.VALID_SECTION_CONTAINER;
+                            break;
+                     }  else {
+                             error = BungeniError.INVALID_SECTION_CONTAINER;
+                     }
                  }
-                 return BungeniError.INVALID_SECTION_CONTAINER;
           } else {
-            return BungeniError.INVALID_SECTION_CONTAINER;
+            error =  BungeniError.INVALID_SECTION_CONTAINER;
+        }
+        } catch (Exception ex) {
+            log.error("check_containmentSection : " + ex.getMessage());
+            log.error("check_containmentSection : " + CommonExceptionUtils.getStackTrace(ex));
+        } finally {
+            return error;
         }
     }
     
@@ -796,6 +813,9 @@ if markupSelectedText():
         }  finally {
             return bResult;
         }
+    }
+
+    public void doCommand(OOComponentHelper ooDocument, ArrayList<String> action, JFrame parentFrame) {
     }
 
     

@@ -9,6 +9,8 @@
 
 package org.bungeni.editor.actions;
 
+import java.util.ArrayList;
+import javax.swing.JFrame;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.ooo.OOComponentHelper;
 
@@ -19,4 +21,7 @@ import org.bungeni.ooo.OOComponentHelper;
 public interface IEditorActionEvent {
        public void doCommand(OOComponentHelper ooDocument, toolbarAction action, javax.swing.JFrame parentFrame);
        public void doCommand(OOComponentHelper ooDocument, toolbarSubAction action, javax.swing.JFrame parentFrame);
+       public void doCommand(OOComponentHelper ooDocument, ArrayList<String> action, javax.swing.JFrame parentFrame);
+
+   
 }

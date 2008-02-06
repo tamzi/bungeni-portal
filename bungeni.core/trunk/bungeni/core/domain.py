@@ -7,11 +7,14 @@ Created by Kapil Thangavelu on 2007-11-22.
 
 """
 
+import md5, random, string
 
+from zope import interface
 from ore.alchemist import Session
 from alchemist.traversal.managed import ManagedContainer
 
-import md5, random, string
+import interfaces
+
 #####
 
 class Entity( object ):
@@ -24,6 +27,9 @@ class User( object ):
     """
     Domain Object For A User
     """
+    
+    interface.implements( interfaces.IBungeniUser  )
+    
     def __init__( self, login=None ):
         self.login = login
         self.salt = ''.join( random.sample( string.letters, 12) )
@@ -63,6 +69,7 @@ class HansardReporter( User ):
 class Group( object ):
     """ an abstract collection of users
     """
+    interface.implements( interfaces.IBungeniGroup )
     
 class GroupMembership( object ):
     """ a user's membership in a group
@@ -92,7 +99,7 @@ class Government( Group ):
 class Parliament( Group ):
     """ a parliament
     """
-    members = ManagedContainer("members", "bungeni.core.domain.ParliamentMemberContainer", "parliaments.parliament_id")
+    mps = ManagedContainer("mps", "bungeni.core.domain.ParliamentMemberContainer", "parliaments.parliament_id")
     sessions = ManagedContainer("sittings", "bungeni.core.domain.ParliamentSessionContainer", "parliament_id")
 
 class PoliticalParty( Group ):
@@ -130,6 +137,7 @@ class ItemVotes( object ):
     
 class ParliamentaryItem( object ):
 
+    interface.implements( interfaces.IBungeniContent )
     # votes
 
     # schedule

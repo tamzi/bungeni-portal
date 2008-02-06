@@ -6,12 +6,14 @@
      provides=".interfaces.IVersioned"
      factory=".version.ContextVersioned"
      />
-     
+  
+  <!--   
   <subscriber
      for=".interfaces.IVersionable 
           zope.publisher.interfaces.IPublisherRequest"
      provides="z3c.traverser.interfaces.ITraverserPlugin"
      factory=".version.VersionTraversal"
      />
+    -->
     
 </configure>

@@ -59,7 +59,8 @@ class AppSetup( object ):
         motions = domain.MotionContainer()
         self.context['motions'] = motions
 
-        
+        questions = domain.QuestionContainer()
+        self.context['questions'] = questions
         
         
 1

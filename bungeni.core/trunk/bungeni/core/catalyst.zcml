@@ -60,7 +60,15 @@
      descriptor=".descriptor.SittingDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
-     />                 
+     />
+                      
+  <db:catalyst
+  	class=".domain.Question"
+  	descriptor=".descriptor.QuestionDescriptor"
+  	interface_module=".interfaces"
+    ui_module="bungeni.ui.content"    
+    echo="True" 
+    />
   
   
 </configure>

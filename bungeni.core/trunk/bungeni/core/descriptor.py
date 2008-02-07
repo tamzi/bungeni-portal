@@ -147,4 +147,23 @@ class BillDescriptor( ModelDescriptor ):
         dict( name="publication_date", label=_(u"Publication Date") ),        
         dict( name="status", label=_(u"Status"), listing=True )
         ]
-
+class QuestionDescriptor( ModelDescriptor ):
+	
+	fields = [
+		dict( name="question_id", omit=True),
+		dict( name="session_id", 
+				property = schema.Choice( title=_(u"Session"), source=vocabulary.ParliamentSessions, required=False )
+			),
+		dict( name="clerk_submission_date", label=_(u"Submission Date"), listing=True ),
+		dict( name="question_type", label=_(u"Question Type"), description=_("(O)rdinary or (P)rivate Notice"),  listing=True ),
+		dict( name="response_type", label=_(u"Response Type"), description=_("(O)ral or (W)ritten"), listing=True ),
+		dict( name="owner", 
+				property = schema.Choice( title=_(u"Owner"), source=vocabulary.ParliamentMembers, required=False )
+              ),
+        dict( name="status", label=_(u"Status"), listing=True ),
+        dict( name="supplement_parent_id", omit=True), #XXX
+        dict( name="sitting_id", omit=True), #XXX
+        dict( name="sitting_time", label=_(u"Sitting Time"), listing=True ),
+        ]
+              
+        

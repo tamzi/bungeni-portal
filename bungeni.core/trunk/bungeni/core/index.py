@@ -30,10 +30,10 @@ def setupStorageDirectory( ):
 class ContentResolver( object ):
 
     interface.implements( iindex.IResolver )
-    scheme = u'bungeni'
+    scheme = '' # u'bungeni'
     
     def id( self, object ): 
-        return "%s.%s-%s"%( object.__class__.__module,
+        return "%s.%s-%s"%( object.__class__.__module__,
                             object.__class__.__name__,
                             container.stringKey( object ) )
         
@@ -42,7 +42,6 @@ class ContentResolver( object ):
         domain_class = resolve.resolve( class_path )
         session = Session()
         return session.query( domain_class ).get( oid )
-
 
 store_dir = setupStorageDirectory() 
 

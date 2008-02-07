@@ -33,6 +33,8 @@
   
   <!-- Searching -->
   <utility component=".index.searcher" />
+  
+  <utility factory=".index.ContentResolver" />
       
   <!-- Pluggable Traversal for Parliamentary Content -->
   <adapter

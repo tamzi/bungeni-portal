@@ -5,7 +5,7 @@
 	<type>j2se</type>
 	<volume>
 		<type>classpath</type>
-		<resource>jar:file:lib_path/jug/jug-lgpl-2.0.0.jar!/</resource>
+		<resource>jar:file:lib_path/external_libs/jug/jug-lgpl-2.0.0.jar!/</resource>
 	</volume>
 	<volume>
 		<type>src</type>

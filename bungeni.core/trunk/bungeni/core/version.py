@@ -28,13 +28,15 @@ class Versioned( container.PartialContainer ):
     
     interface.implements( interfaces.IVersioned )
     
-    def create( self ):
+    def create( self, message ):
         """
         store the existing state of the adapted context as a new version
         """
         version = self.domain_class()
         for field in schema.getFields( IModelDescriptor( self.domain_class ).domain_interface ).values():
             field.set( version, field.query( self.context ) )
+            
+        # TODO - create change message and record it on version
         session = Session()
         session.save( version )
         
@@ -48,9 +50,8 @@ class Versioned( container.PartialContainer ):
             if value:
                 field.set( version, value )
                 
-        self.create()
-        
-        
+        self.create( message="reverted to previous version" )
+
 def ContextVersioned( ob ):
     versionedFactory = globals()['Versioned%s'%(ob.__class__.__name__)]
     return versionedFactory( ob )

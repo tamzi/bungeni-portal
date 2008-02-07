@@ -7,7 +7,7 @@ import xappy, os, os.path as path
 
 from ore.alchemist import container, Session
 from ore.alchemist.interfaces import IModelDescriptor
-from ore.xapian import queue, interfaces as iindex
+from ore.xapian import queue, search, interfaces as iindex
 
 # we store indexes in buildout/parts/index
 # 
@@ -46,6 +46,10 @@ class ContentResolver( object ):
 
 store_dir = setupStorageDirectory() 
 
+# search connection hub
+searcher = search.IndexSearch( store_dir )
+
+# async indexer
 indexer = xappy.IndexerConnection( store_dir )
 indexer.add_field_action('resolver', xappy.FieldActions.INDEX_EXACT )
 indexer.add_field_action('resolver', xappy.FieldActions.STORE_CONTENT )
@@ -55,4 +59,8 @@ indexer.add_field_action('title', xappy.FieldActions.INDEX_FREETEXT )
 indexer.add_field_action('title', xappy.FieldActions.STORE_CONTENT )
 indexer.add_field_action('description', xappy.FieldActions.INDEX_FREETEXT )
 
+# start the processing thread
 queue.QueueProcessor.start( indexer )
+
+
+

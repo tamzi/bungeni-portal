@@ -14,8 +14,11 @@
   <!-- Site Portlets -->
   <include package=".portlets" />
   
-  <!-- Include Auditing -->
+  <!-- Include Auditing UI-->
   <include file="audit.zcml" />
+
+  <!-- Include Versioning UI -->
+  <include file="version.zcml" />
 
   <!-- Application UI -->
   <browser:page

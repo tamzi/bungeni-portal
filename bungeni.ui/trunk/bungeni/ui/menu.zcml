@@ -44,6 +44,13 @@
      title="Motions"
      />
      
+  <browser:menuItem
+     menu="site_actions"
+     for="*"
+     actions="/search"
+     title="Search"
+     />
+     
    <browser:menuItem
      menu="context_actions"
      for="ore.alchemist.interfaces.IAlchemistContent"
@@ -65,7 +72,6 @@
      title="Audit Log"
      />  
 
-<!--          
    <browser:menuItem
      menu="context_actions"
      for="bungeni.core.interfaces.IVersionable"
@@ -73,6 +79,5 @@
      title="Versions"
      />  
     
-    -->    
 </configure>
 

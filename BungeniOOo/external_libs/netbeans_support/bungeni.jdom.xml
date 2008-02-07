@@ -5,7 +5,7 @@
 	<type>j2se</type>
 	<volume>
 		<type>classpath</type>
-		<resource>jar:file:/E:/projects/WorkingProjects/external_libs/jdom/jdom.jar!/</resource>
+		<resource>jar:file:lib_path/jdom/jdom.jar!/</resource>
 	</volume>
 	<volume>
 		<type>src</type>

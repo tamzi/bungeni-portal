@@ -5,15 +5,15 @@
 	<type>j2se</type>
 	<volume>
 		<type>classpath</type>
-		<resource>jar:file:/E:/projects/WorkingProjects/external_libs/apache-commons/beanutils/commons-beanutils.jar!/</resource>
-		<resource>jar:file:/E:/projects/WorkingProjects/external_libs/apache-commons/chain/commons-chain-1.1.jar!/</resource>
-		<resource>jar:file:/E:/projects/WorkingProjects/external_libs/apache-commons/codec/commons-codec-1.3.jar!/</resource>
-		<resource>jar:file:/E:/projects/WorkingProjects/external_libs/apache-commons/collections/commons-collections-3.2.jar!/</resource>
-		<resource>jar:file:/E:/projects/WorkingProjects/external_libs/apache-commons/digester/commons-digester-1.8.jar!/</resource>
-		<resource>jar:file:/E:/projects/WorkingProjects/external_libs/apache-commons/lang/commons-lang-2.3.jar!/</resource>
-		<resource>jar:file:/E:/projects/WorkingProjects/external_libs/apache-commons/logging/commons-logging-1.1.jar!/</resource>
-		<resource>jar:file:/E:/projects/WorkingProjects/external_libs/apache-commons/logging/commons-logging-adapters-1.1.jar!/</resource>
-		<resource>jar:file:/E:/projects/WorkingProjects/external_libs/apache-commons/logging/commons-logging-api-1.1.jar!/</resource>
+		<resource>jar:file:lib_path/apache-commons/beanutils/commons-beanutils.jar!/</resource>
+		<resource>jar:file:lib_path/apache-commons/chain/commons-chain-1.1.jar!/</resource>
+		<resource>jar:file:lib_path/apache-commons/codec/commons-codec-1.3.jar!/</resource>
+		<resource>jar:file:lib_path/apache-commons/collections/commons-collections-3.2.jar!/</resource>
+		<resource>jar:file:lib_path/apache-commons/digester/commons-digester-1.8.jar!/</resource>
+		<resource>jar:file:lib_path/apache-commons/lang/commons-lang-2.3.jar!/</resource>
+		<resource>jar:file:lib_path/apache-commons/logging/commons-logging-1.1.jar!/</resource>
+		<resource>jar:file:lib_path/apache-commons/logging/commons-logging-adapters-1.1.jar!/</resource>
+		<resource>jar:file:lib_path/apache-commons/logging/commons-logging-api-1.1.jar!/</resource>
 	</volume>
 	<volume>
 		<type>src</type>

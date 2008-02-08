@@ -69,6 +69,35 @@
     ui_module="bungeni.ui.content"    
     echo="True" 
     />
+    
+  <db:catalyst
+     class=".domain.Constituencies"
+     descriptor=".descriptor.ConstituencyDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+    />
   
+  <db:catalyst
+     class=".domain.HansardReporter"
+     descriptor=".descriptor.HansardReporterDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+    />
+   
+   <db:catalyst
+     class=".domain.PoliticalParty"
+     descriptor=".descriptor.PolitcalPartyDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+    />
+   
+   <db:catalyst
+     class=".domain.Ministry"
+     descriptor=".descriptor.MinistryDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+    />
+    
+
   
 </configure>

@@ -52,9 +52,8 @@ class ParliamentMember( User ):
 
     # ministries
 
-class Constiuencies( object ):
-    """ a locality region, which elects an MP 
-    """
+
+    
 
 class HansardReporter( User ):
     """ a reporter who reports on parliamentary procedings
@@ -167,6 +166,15 @@ class Bill( ParliamentaryItem ):
 
 BillChange = ItemLog.makeLogFactory( "BillChange")
 BillVersion = ItemVersions.makeVersionFactory("BillVersion")
+
+
+class Constituencies( object ):
+    """ a locality region, which elects an MP 
+    """
+    pass
+    
+ConstituencyChange = ItemLog.makeLogFactory( "ConstituencyChange")
+ConstituencyVersion = ItemVersions.makeVersionFactory("ConstituencyVersion")
 
 
 #############

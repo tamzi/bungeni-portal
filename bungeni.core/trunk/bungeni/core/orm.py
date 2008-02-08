@@ -119,9 +119,18 @@ mapper( domain.Bill, schema.bills,
              'changes':relation( domain.BillChange, backref='bill')
              }
         )
+######################
+#
 
-        
-        
+#mapper( domain.ConstituencyChange, schema.constituency_changes )
+#mapper( domain.ConstituencyVersion, schema.constituency_version )
+#mapper( domain.Constituency, schema.constituencies, 
+#		properties = {
+#			'versions':relation( domain.ConstituencyVersion, backref='Constituency' ),
+#			'changes':relation( domain.ConstituencyChange, backref='Constituency')
+#			}
+#		)         
+mapper( domain.Constituencies, schema.constituencies )        
         
 
         

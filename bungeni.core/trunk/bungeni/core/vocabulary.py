@@ -12,6 +12,7 @@ from bungeni import core
 ParliamentMembers = ObjectSource( core.ParliamentMember, 'name', 'member_id' )
 PoliticalParties  = ObjectSource( core.PoliticalParty, 'full_name', "id")
 ParliamentSessions = ObjectSource( core.ParliamentSession, 'short_name', 'session_id')
+QuestionType = ["(O)rdinary", "(P)rivate Notice"]
 
 
                              

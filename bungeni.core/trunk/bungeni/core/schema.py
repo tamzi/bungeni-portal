@@ -439,6 +439,8 @@ constituencies = rdb.Table(
    rdb.Column( "region", rdb.Unicode ),
    rdb.Column( "voters", rdb.Integer ),
    )
+#constituency_changes = make_changes_table( constituencies, metadata )
+#constituency_version = make_versions_table( constituencies, metadata )
 
 committee_reports = ()
 debates = ()

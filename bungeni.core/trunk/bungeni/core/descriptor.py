@@ -32,12 +32,16 @@ class MemberDescriptor( UserDescriptor ):
         dict( name="member_id", omit=True ),
         # this is only meant as a shortcut.. to the active parliament, else use group memberships
         dict( name="parliaments.parliament_id",),
-        dict( name="constituency_id", label=_(u"Constituency")),
+        dict( name="constituency_id", label=_(u"Constituency")), #XXX
         # these are again short cuts..
         dict( name="start_date", label=_(u"Start Date"), listing=True),
         dict( name="end_date", label=_(u"End Date"), listing=True ),
         dict( name="leave_reason", label=_(u"Leave Reason")  ),
         ])
+        
+class HansardReporterDescriptor( UserDescriptor ):
+	
+	 fields = deepcopy( UserDescriptor.fields )	        
 
 class GroupDescriptor( ModelDescriptor ):
 
@@ -66,6 +70,15 @@ class ParliamentDescriptor( GroupDescriptor ):
 class CommitteeDescriptor( GroupDescriptor ):
     
     fields = deepcopy( GroupDescriptor.fields )
+    
+class PolitcalPartyDescriptor( GroupDescriptor ):
+     
+    fields = deepcopy( GroupDescriptor.fields )    
+    
+class MinistryDescriptor( GroupDescriptor ):
+
+	fileds = deepcopy( GroupDescriptor.fields )       
+    
     
 class ParliamentSession( ModelDescriptor ):
     
@@ -155,15 +168,28 @@ class QuestionDescriptor( ModelDescriptor ):
 				property = schema.Choice( title=_(u"Session"), source=vocabulary.ParliamentSessions, required=False )
 			),
 		dict( name="clerk_submission_date", label=_(u"Submission Date"), listing=True ),
-		dict( name="question_type", label=_(u"Question Type"), description=_("(O)rdinary or (P)rivate Notice"),  listing=True ),
+		dict( name="question_type", label=_(u"Question Type"), description=_("(O)rdinary or (P)rivate Notice"),  listing=True ), 
+		#dict( name="question_type",
+		#		property = schema.Choice( title=_(u"Question Type"), description=_("(O)rdinary or (P)rivate Notice"), source=vocabulary.QuestionType, required=False )
+        #      ),
 		dict( name="response_type", label=_(u"Response Type"), description=_("(O)ral or (W)ritten"), listing=True ),
 		dict( name="owner", 
-				property = schema.Choice( title=_(u"Owner"), source=vocabulary.ParliamentMembers, required=False )
+				property = schema.Choice( title=_(u"Owner"), source=vocabulary.ParliamentMembers, required=True )
               ),
         dict( name="status", label=_(u"Status"), listing=True ),
         dict( name="supplement_parent_id", omit=True), #XXX
         dict( name="sitting_id", omit=True), #XXX
         dict( name="sitting_time", label=_(u"Sitting Time"), listing=True ),
         ]
-              
+
+class ConstituencyDescriptor( ModelDescriptor ):
+	fields = [
+		dict( name="constituency_id", omit=True ),
+		dict( name="name", label=_(u"Name"), description=_("Name of the constituency"), listing=True ),
+		dict( name="province", label=_(u"Province"), description=_(u"Name of the Province"), listing=True ),
+		dict( name="region", label=_(u"Region"), description=_(u"Name of the Region"), listing=True ),
+		dict( name="voters", label=_(u"Voters"), description=_(u"Number of Voters in the constituency"), listing=True ),
+		]
+		
+		
         

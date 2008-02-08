@@ -160,6 +160,7 @@ class BillDescriptor( ModelDescriptor ):
         dict( name="publication_date", label=_(u"Publication Date") ),        
         dict( name="status", label=_(u"Status"), listing=True )
         ]
+
 class QuestionDescriptor( ModelDescriptor ):
 	
 	fields = [
@@ -181,6 +182,16 @@ class QuestionDescriptor( ModelDescriptor ):
         dict( name="sitting_id", omit=True), #XXX
         dict( name="sitting_time", label=_(u"Sitting Time"), listing=True ),
         ]
+        
+class ResponseDescriptor( ModelDescriptor ):
+	fields = [
+		dict( name="response_id", omit=True ),
+		dict( name="question_id", label=_(u"Question") ), #XXX
+		dict( name="response_text", label=_(u"Response"), description=_(u"Response to the Question") ),
+		dict( name="type", label=_(u"Response Type"), description=_(u"(I)nitial or (S)ubsequent Response"), listing=True ),		
+        dict( name="sitting_id", omit=True ), #XXX
+        dict( name="sitting_time", label=_(u"Sitting Time"), description=_(u"Time of the Sitting"), listing=True ),
+        ]        
 
 class ConstituencyDescriptor( ModelDescriptor ):
 	fields = [
@@ -191,5 +202,5 @@ class ConstituencyDescriptor( ModelDescriptor ):
 		dict( name="voters", label=_(u"Voters"), description=_(u"Number of Voters in the constituency"), listing=True ),
 		]
 		
-		
+
         

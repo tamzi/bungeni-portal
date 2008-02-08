@@ -19,7 +19,7 @@
 
   <!-- Include Versioning UI -->
   <include file="version.zcml" />
-
+  
   <!-- Application UI -->
   <browser:page
      for="bungeni.core.interfaces.IBungeniApplication"
@@ -32,6 +32,14 @@
      for="bungeni.core.interfaces.IBungeniApplication"
      name="index"
      />
+
+  <!-- Content Search Form -->
+  <browser:page
+    for="bungeni.core.interfaces.IBungeniApplication"
+    permission="zope.View"
+    name="search"
+    class=".search.Search"
+    />
 
   <!-- Setup Access to Browser Resources on the Application -->
   <browser:page

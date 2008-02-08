@@ -47,7 +47,7 @@
   <browser:menuItem
      menu="site_actions"
      for="*"
-     actions="/search"
+     action="/search"
      title="Search"
      />
      

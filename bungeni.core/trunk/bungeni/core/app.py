@@ -75,4 +75,4 @@ class AppSetup( object ):
         #self.context['constituencies'] = constituency
 	
         #ministry = domain.MinistryContainer()
-        #self.context['ministry'] = ministry
+        #self.context['ministries'] = ministry

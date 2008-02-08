@@ -41,7 +41,7 @@ class MemberDescriptor( UserDescriptor ):
         
 class HansardReporterDescriptor( UserDescriptor ):
 	
-	 fields = deepcopy( UserDescriptor.fields )	        
+    fields = deepcopy( UserDescriptor.fields )	        
 
 class GroupDescriptor( ModelDescriptor ):
 
@@ -77,7 +77,7 @@ class PolitcalPartyDescriptor( GroupDescriptor ):
     
 class MinistryDescriptor( GroupDescriptor ):
 
-	fileds = deepcopy( GroupDescriptor.fields )       
+    fields = deepcopy( GroupDescriptor.fields )       
     
     
 class ParliamentSession( ModelDescriptor ):

@@ -1,7 +1,7 @@
 """
 xapian indexing adapters
 """
-from zope import interface
+from zope import interface, schema
 from zope.dottedname import resolve
 import xappy, os, os.path as path
 
@@ -42,21 +42,69 @@ class ContentResolver( object ):
         domain_class = resolve.resolve( class_path )
         session = Session()
         return session.query( domain_class ).get( oid )
+        
+# content indexer
+class ContentIndexer( object ):
+    
+    interface.implements( iindex.IIndexer )
+    
+    def __init__( self, context ):
+        self.context = context
+
+    def document( self, connection ):
+        """
+        return a xapian index document from the context.
+
+        we can introspect the connection to discover relevant fields available.
+        """
+        doc = xappy.UnprocessedDocument()        
+        
+        # object type
+        doc.fields.append( 
+             xappy.Field( "object_type", self.context.__class__.__name__ )
+             )
+        
+        # schema fields one by one
+        for iface in interface.providedBy( self.context ):
+            for field in schema.getFields( iface ).values():
+                if not isinstance( field, ( schema.Text, schema.ASCII ) ):
+                    continue
+                value = field.query( self.context, '' )
+                if value is None:
+                    value = u''
+                if not isinstance( value, (str, unicode)):
+                    value = unicode( value )
+                doc.fields.append(  xappy.Field(field.__name__, value ) )
+        return doc
+
 
 store_dir = setupStorageDirectory() 
 
 # search connection hub
 searcher = search.IndexSearch( store_dir )
 
-# async indexer
+# async indexer 
 indexer = xappy.IndexerConnection( store_dir )
+
+## Field Definitions
+
+# resolution utility type
 indexer.add_field_action('resolver', xappy.FieldActions.INDEX_EXACT )
 indexer.add_field_action('resolver', xappy.FieldActions.STORE_CONTENT )
+
+# content type
+indexer.add_field_action('object_type', xappy.FieldActions.INDEX_FREETEXT )
+indexer.add_field_action('object_type', xappy.FieldActions.STORE_CONTENT )
+
+# workflow status
+indexer.add_field_action('status', xappy.FieldActions.INDEX_FREETEXT )
+indexer.add_field_action('status', xappy.FieldActions.STORE_CONTENT )
 
 # fields for parliamentary items
 indexer.add_field_action('title', xappy.FieldActions.INDEX_FREETEXT )
 indexer.add_field_action('title', xappy.FieldActions.STORE_CONTENT )
-indexer.add_field_action('description', xappy.FieldActions.INDEX_FREETEXT )
+
+# 
 
 # start the processing thread
 queue.QueueProcessor.start( indexer )

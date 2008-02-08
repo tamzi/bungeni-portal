@@ -34,6 +34,10 @@
   <!-- Searching -->
   <utility component=".index.searcher" />
   
+  <adapter 
+      for=".interfaces.IBungeniContent"
+      factory=".index.ContentIndexer"/>
+      
   <utility factory=".index.ContentResolver" />
       
   <!-- Pluggable Traversal for Parliamentary Content -->

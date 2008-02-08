@@ -248,7 +248,6 @@ def make_changes_table( table, metadata ):
             rdb.Column( "date", rdb.DateTime, default=rdb.PassiveDefault('now') ),
             rdb.Column( "description", rdb.Unicode),
             rdb.Column( "notes", rdb.Unicode),
-            
             rdb.Column( "user_id", rdb.Unicode(32) ) # Integer, rdb.ForeignKey('users.user_id') ),
     )
     

@@ -10,7 +10,6 @@
      descriptor=".descriptor.BillDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
-     echo="True"
      />
 
   <db:catalyst
@@ -67,7 +66,6 @@
   	descriptor=".descriptor.QuestionDescriptor"
   	interface_module=".interfaces"
     ui_module="bungeni.ui.content"    
-    echo="True" 
     />
     
   <db:catalyst

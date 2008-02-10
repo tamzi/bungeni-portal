@@ -86,8 +86,9 @@ searcher = search.IndexSearch( store_dir )
 # async indexer 
 indexer = xappy.IndexerConnection( store_dir )
 
+####################
 ## Field Definitions
-
+# 
 # resolution utility type
 indexer.add_field_action('resolver', xappy.FieldActions.INDEX_EXACT )
 indexer.add_field_action('resolver', xappy.FieldActions.STORE_CONTENT )
@@ -101,10 +102,12 @@ indexer.add_field_action('status', xappy.FieldActions.INDEX_FREETEXT )
 indexer.add_field_action('status', xappy.FieldActions.STORE_CONTENT )
 
 # fields for parliamentary items
-indexer.add_field_action('title', xappy.FieldActions.INDEX_FREETEXT )
+# XXX xapian stores language codes at the field level, need to find a solution for this
+indexer.add_field_action('title', xappy.FieldActions.INDEX_FREETEXT, weight=5, language='en' )
 indexer.add_field_action('title', xappy.FieldActions.STORE_CONTENT )
 
-# 
+## End Field Definitions
+####################
 
 # start the processing thread
 queue.QueueProcessor.start( indexer )

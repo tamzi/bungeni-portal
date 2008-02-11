@@ -1,0 +1,9 @@
+<configure xmlns:browser="http://namespaces.zope.org/browser">
+
+<browser:page 
+    for="bungeni.core.interfaces.IBungeniContent"
+    name="workflow"
+    class=".workflow.Workflow"
+    permission="zope.Public"/>
+
+</configure>

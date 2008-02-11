@@ -20,6 +20,9 @@
   <!-- Include Versioning UI -->
   <include file="version.zcml" />
   
+  <!-- Include Workflow UI -->
+  <include file="workflow.zcml" />
+  
   <!-- Application UI -->
   <browser:page
      for="bungeni.core.interfaces.IBungeniApplication"

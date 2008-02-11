@@ -265,16 +265,16 @@ def make_versions_table( table, metadata ):
     
     columns = [
         rdb.Column( "version_id", rdb.Integer, primary_key=True ),
-        rdb.Column( "version_created", rdb.DateTime, default=rdb.PassiveDefault('now')),
-        rdb.Column( fk_id, rdb.Integer, rdb.ForeignKey( table.c[ fk_id ] ) ),
+        #rdb.Column( "version_created", rdb.DateTime, default=rdb.PassiveDefault('now') ),
+        rdb.Column( "content_id", rdb.Integer, rdb.ForeignKey( table.c[ fk_id ] ) ),
         rdb.Column( "change_id", rdb.Integer, rdb.ForeignKey('%s_changes.change_id'%entity_name))
     ]
     
     columns.extend( [ c.copy() for c in table.columns if not c.primary_key ] )
     
-    primary = [ c.copy() for c in table.columns if c.primary_key ][0]
-    primary.primary_key = False
-    columns.insert( 2, primary )
+    #primary = [ c.copy() for c in table.columns if c.primary_key ][0]
+    #primary.primary_key = False
+    #columns.insert( 2, primary )
     
     versions_table = rdb.Table(
             versions_name,

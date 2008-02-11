@@ -93,7 +93,9 @@ mapper( domain.GroupSitting, schema.sittings )
 # Parliamentary Items
 
 mapper( domain.QuestionChange, schema.question_changes )
-mapper( domain.QuestionVersion, schema.question_versions )
+mapper( domain.QuestionVersion, schema.question_versions,
+        properties= {'change':relation( domain.QuestionChange, uselist=False ) }
+        )
 mapper( domain.Question, schema.questions,
         properties = {
              'versions':relation( domain.QuestionVersion, backref='question'),
@@ -102,7 +104,9 @@ mapper( domain.Question, schema.questions,
         )
 
 mapper( domain.MotionChange, schema.motion_changes )
-mapper( domain.MotionVersion, schema.motion_versions )
+mapper( domain.MotionVersion, schema.motion_versions,
+        properties= {'change':relation( domain.MotionChange, uselist=False)}
+        )
 mapper( domain.Motion, schema.motions,
         properties = {
              'versions':relation( domain.MotionVersion, backref='motion'),
@@ -112,7 +116,9 @@ mapper( domain.Motion, schema.motions,
         )
 
 mapper( domain.BillChange, schema.bill_changes )
-mapper( domain.BillVersion, schema.bill_versions )
+mapper( domain.BillVersion, schema.bill_versions, 
+        properties= {'change':relation( domain.BillChange, uselist=False)}
+        )
 mapper( domain.Bill, schema.bills,
         properties = {
              'versions':relation( domain.BillVersion, backref='bill'),

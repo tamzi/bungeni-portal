@@ -12,25 +12,11 @@
 
    <h2 class="title" tal:content="string: ${view/form_name} ${context/short_name|nothing}"> </h2>
 
-   <table class="listing">
-     <thead>
-       <tr>
-	 <th> Change Kind </th>
-	 <th> User </th>	 
-	 <th> Date </th>	 
-	 <th> Details </th>	 
-       </tr>
-     </thead>
-     <tbody>
-       <tr tal:repeat="change view/getFeedEntries">
-	 <td tal:content="change/action"></td>
-	 <td tal:content="change/user_id"></td>
-	 <td tal:content="change/date"></td>
-	 <td tal:content="change/description">N/A</td>
-       </tr>
-     </tbody>
-    </table>
-
+   <form action="" method="GET"> 
+   <div tal:content="structure view/listing">
+       Changes
+   </div>
+   </form>
 </div>
 
 </body>

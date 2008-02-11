@@ -120,16 +120,18 @@ class ItemLog( object ):
     """
     @classmethod
     def makeLogFactory( klass, name ):
-        return type( name, (klass,), {} )
+        factory = type( name, (klass,), {} )
+        return factory
 
 class ItemVersions( object ):
     """a collection of the versions of a parliamentary content object
     """
     @classmethod
     def makeVersionFactory( klass, name ):
-        return type( name, (klass,), {} )    
-
-
+        factory = type( name, (klass,), {} )    
+        interface.classImplements( factory, interfaces.IVersion )
+        return factory
+        
 class ItemVotes( object ):
     """
     """

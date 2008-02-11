@@ -6,19 +6,29 @@
      handler=".audit.objectModified"
      trusted="True"
      />
-
+     
   <subscriber
      for=".interfaces.IAuditable
           zope.lifecycleevent.IObjectCreatedEvent"
      handler=".audit.objectAdded"
-     trusted="True"     
+     trusted="True"
      />
-
+     
   <subscriber
      for=".interfaces.IAuditable
         zope.app.container.interfaces.IObjectRemovedEvent"
      handler=".audit.objectDeleted"
-     trusted="True"     
+     trusted="True"
      />
+     
+  <subscriber
+     for=".interfaces.IAuditable
+          .interfaces.IVersionCreated"
+     handler=".audit.objectNewVersion" />
+     
+  <subscriber
+     for=".interfaces.IAuditable
+          .interfaces.IVersionReverted"
+     handler=".audit.objectRevertedVersion" />     
   
 </configure>

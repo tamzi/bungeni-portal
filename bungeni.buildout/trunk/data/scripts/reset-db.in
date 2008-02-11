@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# create the app database
+echo "Dropping Bungeni Database"
+%(parts-directory)s/postgresql/bin/dropdb bungeni
+
+echo "Dropping Xapian Indexes"
+rm -Rf %(parts-directory)s/index
+
+# create the app database
+echo "Creating Bungeni Database"
+%(parts-directory)s/postgresql/bin/createdb bungeni
+
+echo "Loading Bungeni Schema"
+# create the database schema
+/Users/kapil/projects/bungeni/bin/python /Users/kapil/projects/bungeni/data/scripts/setup-schema.py

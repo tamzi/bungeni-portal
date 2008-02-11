@@ -43,6 +43,7 @@ public class BungeniToolbarXMLTree {
     public BungeniToolbarXMLTree(JTree tree) {
         this.saxBuilder = new SAXBuilder(validate);
         String xmlConfigRelativePath = BungeniEditorProperties.getEditorProperty("toolbarXmlConfig");
+        xmlConfigRelativePath = xmlConfigRelativePath.replace('/', File.separatorChar);
         this.TOOLBAR_XML_FILE = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH() + File.separator + xmlConfigRelativePath;       
         this.theTree = tree;
     }

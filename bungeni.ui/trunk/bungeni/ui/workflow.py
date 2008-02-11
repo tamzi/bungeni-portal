@@ -57,10 +57,11 @@ class Workflow( BaseForm ):
     form_fields = form.Fields()
     
     def update( self ):
+        self.setupActions()   
+        super( Workflow, self).update()
+        self.setupActions()  # after we transition we have different actions      
         wf_state =interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
         self.wf_status = wf_state
-        self.setupActions()
-        super( Workflow, self).update()
         
     def setupActions( self ):
         self.wf = interfaces.IWorkflowInfo( self.context )

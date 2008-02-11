@@ -22,6 +22,12 @@
      />
      
   <subscriber
+      for=".interfaces.IAuditable
+           ore.workflow.interfaces.IWorkflowTransitionEvent"
+      handler=".audit.objectStateChange"
+      />
+
+  <subscriber
      for=".interfaces.IAuditable
           .interfaces.IVersionCreated"
      handler=".audit.objectNewVersion" />

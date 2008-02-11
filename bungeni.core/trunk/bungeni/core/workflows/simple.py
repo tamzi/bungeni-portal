@@ -13,7 +13,7 @@ from bungeni.core.i18n import _
 
 class states:
     new = _(u"visible")
-    pending = _(u"pending_clerk")
+    pending = _(u"pending")
     scheduled = _(u"scheduled")
 
 def create_simple_workflow( ):

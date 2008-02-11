@@ -14,9 +14,7 @@ from ore.alchemist.interfaces import IRelationChange
 from sqlalchemy import orm
 
 import interfaces
-
 import schema
-
 
 from i18n import _ 
 
@@ -30,12 +28,19 @@ def objectAdded( ob, event):
     
 def objectModified( ob, event ):
     auditor = getAuditor( ob )  
+    if getattr( event, 'change_id', None):
+        return
     auditor.objectModified( removeSecurityProxy(ob), event )    
     
 def objectDeleted( ob, event ):
     auditor = getAuditor( ob )    
     auditor.objectDeleted( removeSecurityProxy(ob), event )        
 
+def objectStateChange( ob, event ):
+    auditor = getAuditor( ob )
+    change_id = auditor.objectStateChanged( removeSecurityProxy(ob), event )
+    event.change_id = change_id
+    
 def objectNewVersion( ob, event ):
     auditor = getAuditor( ob )
     if not getattr( event, 'change_id', None):
@@ -43,7 +48,7 @@ def objectNewVersion( ob, event ):
     else:
         change_id = event.change_id
     event.version.change_id = change_id
-        
+
 def objectRevertedVersion( ob, event ):
     # slightly obnoxious hand off between event handlers (objectnewV, objectrevertedV),
     # stuffing onto the event for value passing
@@ -71,6 +76,14 @@ class AuditorFactory( object ):
 
         description = u", ".join( attrset )
         return self._objectChanged(u'modified', object, description )
+        
+    def objectStateChanged( self, object, event):
+        description = _(u"transition from %s to %s via %s - %s"%( 
+                        event.source,
+                        event.destination,
+                        event.transition.title,
+                        event.comment ) )
+        return self._objectChanged(u'workflow', object, description )
         
     def objectDeleted( self, object, event ):
         return self._objectChanged(u'deleted', object )

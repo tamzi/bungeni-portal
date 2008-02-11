@@ -17,6 +17,9 @@
   <include package="alchemist.catalyst" file="meta.zcml" />
   <include package="alchemist.ui" />
   
+  <!-- default indexing setup -->
+  <include package="ore.xapian" />
+  
   <!-- Application Configuration -->
   <include package="bungeni.core" />
 

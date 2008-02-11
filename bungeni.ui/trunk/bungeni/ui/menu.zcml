@@ -78,6 +78,13 @@
      action="versions"
      title="Versions"
      />  
+     
+   <browser:menuItem
+     menu="context_actions"
+     for="bungeni.core.interfaces.IBungeniContent"
+     action="similar"
+     title="Similar"
+     />       
     
 </configure>
 

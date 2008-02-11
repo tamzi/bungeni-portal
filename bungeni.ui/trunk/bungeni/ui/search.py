@@ -14,6 +14,7 @@ from ore.xapian import interfaces
 from zope import interface, schema, component
 from zope.publisher.browser import BrowserView
 from zope.app.pagetemplate import ViewPageTemplateFile
+from zope.security.proxy import removeSecurityProxy
 from zope.formlib import form
 from zc.table import table, column
 from bungeni.core.i18n import _
@@ -21,13 +22,9 @@ from bungeni.core.i18n import _
 class ISearch( interface.Interface ):
     
     full_text = schema.TextLine( title=_("Query"), required=False)
-        
-class Search( BaseForm ):
-    """  basic content search form and results
-    """
-    
-    template = ViewPageTemplateFile('templates/search.pt')
-    form_fields = form.Fields( ISearch )
+
+class ResultListing( object ):
+
     formatter_factory = table.StandaloneFullFormatter
     
     results = None 
@@ -43,7 +40,29 @@ class Search( BaseForm ):
         column.GetterColumn( title=_(u"weight"), getter=lambda i,f:i.weight ),                
         column.GetterColumn( title=_(u"percent"), getter=lambda i,f:i.percent ),                        
         ]
+
+    @property
+    def search_status( self ):
+        return "Found %s Results in %s Documents in %0.5f Seconds"%( len(self.results), self.doc_count, self.search_time )
+        
+    def listing( self ):
+        columns = self.columns
+        formatter = self.formatter_factory( self.context,
+                                            self.request,
+                                            self.results or (),
+                                            prefix="results",
+                                            visible_column_names = [c.name for c in columns],
+                                            #sort_on = ( ('name', False)
+                                            columns = columns )
+        formatter.cssClasses['table'] = 'listing'
+        return formatter()
+            
+class Search( BaseForm, ResultListing ):
+    """  basic content search form and results
+    """
     
+    template = ViewPageTemplateFile('templates/search.pt')
+    form_fields = form.Fields( ISearch )
     #selection_column = columns[0]
     
     def setUpWidgets( self, ignore_request=False):
@@ -66,43 +85,29 @@ class Search( BaseForm ):
         
         # spelling suggestions
         suggestion = searcher.spell_correct( search_term )
-        self.spelling_suggestion = ( suggestion == search_term and None or suggestion )
+        self.spelling_suggestion = (search_term != suggestion and suggestion or None)
         self.doc_count = searcher.get_doccount()
     
-    @property
-    def search_status( self ):
-        return "Found %s Results in %s Documents in %0.5f Seconds"%( len(self.results), self.doc_count, self.search_time )
-        
-    def listing( self ):
-        columns = self.columns
-        formatter = self.formatter_factory( self.context,
-                                            self.request,
-                                            self.results or (),
-                                            prefix="results",
-                                            visible_column_names = [c.name for c in columns],
-                                            #sort_on = ( ('name', False)
-                                            columns = columns )
-        formatter.cssClasses['table'] = 'listing'
-        return formatter()
-
-
-class Similiar( BrowserView ):
+class Similar( BrowserView, ResultListing ):
     
-    results = None     
+    template = ViewPageTemplateFile('templates/similar.pt')
 
     def update( self ):
         resolver = component.getUtility( interfaces.IResolver )
-        doc_id = resolver.id( self.context )
         
+        doc_id = resolver.id( removeSecurityProxy( self.context ) )
+        
+        t = time.time()
         searcher = component.getUtility( interfaces.IIndexSearch )()
-        query = searcher.query_similiar( doc_id )
-        
+        query = searcher.query_similar( doc_id )
         # similarity includes original doc      
         # grab first fifteen matching  
-        results = searcher.search( query, 0, 15)
+        self.results = searcher.search( query, 0, 15)
+        self.search_time = time.time()-t
+        self.doc_count = searcher.get_doccount()
         
     def render( self ):
-        return ''
+        return self.template()
     
     def __call__( self ):
         self.update()

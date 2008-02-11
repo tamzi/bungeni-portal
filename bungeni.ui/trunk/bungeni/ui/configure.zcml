@@ -41,6 +41,14 @@
     class=".search.Search"
     />
 
+  <!-- Similar Content -->
+  <browser:page
+    for="bungeni.core.interfaces.IBungeniContent"
+    permission="zope.View"
+    name="similar"
+    class=".search.Similar"
+    />
+    
   <!-- Setup Access to Browser Resources on the Application -->
   <browser:page
     name=""

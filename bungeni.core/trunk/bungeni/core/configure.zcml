@@ -39,6 +39,9 @@
       factory=".index.ContentIndexer"/>
       
   <utility factory=".index.ContentResolver" />
+  
+  <!-- Workflow -->
+  <include package=".workflows" />
       
   <!-- Pluggable Traversal for Parliamentary Content -->
   <adapter

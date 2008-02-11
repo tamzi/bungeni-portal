@@ -29,8 +29,6 @@ def objectAdded( ob, event):
     auditor.objectAdded( removeSecurityProxy(ob), event )
     
 def objectModified( ob, event ):
-    print 'modified'
-    import pdb; pdb.set_trace()
     auditor = getAuditor( ob )  
     auditor.objectModified( removeSecurityProxy(ob), event )    
     

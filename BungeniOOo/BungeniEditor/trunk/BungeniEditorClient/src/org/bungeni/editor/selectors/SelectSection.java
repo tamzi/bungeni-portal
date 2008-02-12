@@ -6,7 +6,6 @@
 
 package org.bungeni.editor.selectors;
 
-import com.sun.org.apache.bcel.internal.classfile.JavaClass;
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.NoSuchElementException;

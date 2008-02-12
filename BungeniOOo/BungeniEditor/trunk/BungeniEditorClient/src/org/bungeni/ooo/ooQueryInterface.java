@@ -291,4 +291,12 @@ public class ooQueryInterface {
     static public XTopWindow XTopWindow(Object obj) {
         return (XTopWindow) UnoRuntime.queryInterface(XTopWindow.class, obj);
     }
+    
+    static public XTextFieldsSupplier XTextFieldsSupplier(Object obj) {
+        return (XTextFieldsSupplier)UnoRuntime.queryInterface(XTextFieldsSupplier.class, obj);
+    }
+    
+    static public XTextGraphicObjectsSupplier XTextGraphicObjectsSupplier(Object obj) {
+        return (XTextGraphicObjectsSupplier)UnoRuntime.queryInterface(XTextGraphicObjectsSupplier.class, obj);
+    }
 }

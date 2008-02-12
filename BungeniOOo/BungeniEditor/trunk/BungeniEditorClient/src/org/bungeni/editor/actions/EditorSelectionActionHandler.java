@@ -123,7 +123,7 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
             nActionDocument = routeAction_TextSelectedInsertAction_DebateDateEntry(lastMessage);
             return nActionDocument;
         } else 
-        if (m_subAction.sub_action_name().equals("debatedate_entry")) {
+        if (m_subAction.sub_action_name().equals("debatetime_entry")) {
             nActionDocument = routeAction_TextSelectedInsertAction_DebateTimeEntry(lastMessage);
             return nActionDocument;
         } else  {

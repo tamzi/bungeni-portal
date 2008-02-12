@@ -20,6 +20,7 @@ import com.sun.star.comp.helper.Bootstrap;
 import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.container.ElementExistException;
 import com.sun.star.container.NoSuchElementException;
+import com.sun.star.container.XEnumerationAccess;
 import com.sun.star.container.XIndexAccess;
 import com.sun.star.container.XNameAccess;
 import com.sun.star.container.XNameContainer;
@@ -49,6 +50,8 @@ import com.sun.star.text.XTextColumns;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextFieldsSupplier;
+import com.sun.star.text.XTextGraphicObjectsSupplier;
 import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextRangeCompare;
 import com.sun.star.text.XTextSection;
@@ -1067,6 +1070,13 @@ public void protectSection(String sectionName, boolean toState) {
           }
 }
 
+
+public XEnumerationAccess getTextFields() {
+    XTextFieldsSupplier txtSupplier = ooQueryInterface.XTextFieldsSupplier(this.m_xComponent);
+    XEnumerationAccess fieldAccess = txtSupplier.getTextFields();
+    return fieldAccess;
+}
+
 public void protectSection(XTextSection section, boolean toState) {
          try {
             XPropertySet childProperties = ooQueryInterface.XPropertySet(section);
@@ -1088,6 +1098,46 @@ public void protectSection(XTextSection section, boolean toState) {
  *
  */
 
+
+public XNameAccess getGraphicObjects(){
+    XTextGraphicObjectsSupplier gobSupplier = ooQueryInterface.XTextGraphicObjectsSupplier(this.getTextDocument());
+    return gobSupplier.getGraphicObjects();
+}
+public int changeSelectedTextImageName(String newName) {
+    int nReturn = -1;
+    try {
+    XTextViewCursor viewCursor = this.getViewCursor();
+    Object selection = this.getCurrentSelection();
+    XServiceInfo xSelInfo = ooQueryInterface.XServiceInfo(selection); 
+    if (xSelInfo.supportsService("com.sun.star.text.TextGraphicObject")) {
+        XNameAccess graphicObjectAccess =        this.getGraphicObjects();
+        if (graphicObjectAccess.getElementNames().length > 1)  {
+            nReturn = -1; //more than one object was selected
+        } else if (graphicObjectAccess.getElementNames().length == 0) {
+            nReturn =  -2; //no grphic object selected
+        } else {
+            String[] elemnames = graphicObjectAccess.getElementNames();
+            XTextContent graphObj;
+            graphObj = ooQueryInterface.XTextContent(graphicObjectAccess.getByName(elemnames[0]));
+            XPropertySet graphProperties = ooQueryInterface.XPropertySet(graphObj);
+            graphProperties.setPropertyValue("Name", newName);
+            nReturn = 0;
+          }
+        }
+     } catch (WrappedTargetException ex) {
+                log.error(ex.getMessage());
+      } catch (NoSuchElementException ex) {
+            log.error(ex.getMessage());
+      } catch (UnknownPropertyException ex) {
+            log.error(ex.getMessage());
+      } catch (PropertyVetoException ex) {
+            log.error(ex.getMessage());
+      } catch (com.sun.star.lang.IllegalArgumentException ex) {
+            log.error(ex.getMessage());
+      } finally {
+          return nReturn;
+      }
+}
   
 
 }

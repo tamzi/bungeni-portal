@@ -672,7 +672,7 @@ private void initFrame(XComponent component){
             frame.add(panel);
             frame.addWindowListener(new editorTabbedPanelFrameWindowListener());
             //frame.setSize(243, 650);
-            frame.setSize(259, 650);
+            frame.setSize(275, 650);
             frame.setResizable(false);
             
             frame.setAlwaysOnTop(true);

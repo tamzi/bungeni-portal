@@ -17,6 +17,7 @@ from domain import ParliamentSession
 from domain import Question, QuestionVersion, QuestionChange
 from domain import Motion, MotionVersion, MotionChange
 from domain import Bill, BillVersion, BillChange
+from domain import Constituency, Parliament
 
 
 

@@ -170,7 +170,7 @@ BillChange = ItemLog.makeLogFactory( "BillChange")
 BillVersion = ItemVersions.makeVersionFactory("BillVersion")
 
 
-class Constituencies( object ):
+class Constituency( object ):
     """ a locality region, which elects an MP 
     """
     pass

@@ -54,7 +54,7 @@ mapper( domain.Government, schema.governments,
 mapper( domain.Parliament, schema.parliaments,
         inherits=domain.Group,                
         polymorphic_on=schema.groups.c.type,
-        polymorphic_identity='government'
+        polymorphic_identity='parliament'
         )
         
 mapper( domain.PoliticalParty, schema.political_parties,
@@ -72,7 +72,7 @@ mapper( domain.Ministry, schema.ministries,
 mapper( domain.Committee, schema.committees,
         inherits=domain.Group,
         polymorphic_on=schema.groups.c.type,
-        polymorphic_identity='ministry'
+        polymorphic_identity='committee'
         )        
 
 
@@ -136,7 +136,7 @@ mapper( domain.Bill, schema.bills,
 #			'changes':relation( domain.ConstituencyChange, backref='Constituency')
 #			}
 #		)         
-mapper( domain.Constituencies, schema.constituencies )        
+mapper( domain.Constituency, schema.constituencies )        
         
 
         

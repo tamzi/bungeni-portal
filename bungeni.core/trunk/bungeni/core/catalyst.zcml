@@ -69,7 +69,7 @@
     />
     
   <db:catalyst
-     class=".domain.Constituencies"
+     class=".domain.Constituency"
      descriptor=".descriptor.ConstituencyDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"

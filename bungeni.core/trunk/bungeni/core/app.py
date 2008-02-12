@@ -62,17 +62,18 @@ class AppSetup( object ):
         questions = domain.QuestionContainer()
         self.context['questions'] = questions
         
-        #users = domain.UserContainer()
+        #users = domain.UsersContainer()
         #self.context['users'] = users
 		
-        #parliament_members = domain.ParliamentMemberContainer()
-        #self.context['members'] = parliament_members
+        parliament_members = domain.ParliamentMemberContainer()
+        self.context['members'] = parliament_members
 	
         #groups = domain.GroupContainer()       
         #self.context['groups'] = groups
 		
-        #constituency = domain.ConstituenciesContainer()
-        #self.context['constituencies'] = constituency
+        constituency = domain.ConstituencyContainer()
+        self.context['constituencies'] = constituency
 	
-        #ministry = domain.MinistryContainer()
-        #self.context['ministries'] = ministry
+        ministry = domain.MinistryContainer()
+        self.context['ministries'] = ministry
+        

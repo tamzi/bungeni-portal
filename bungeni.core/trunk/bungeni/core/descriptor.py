@@ -31,8 +31,14 @@ class MemberDescriptor( UserDescriptor ):
     fields.extend([
         dict( name="member_id", omit=True ),
         # this is only meant as a shortcut.. to the active parliament, else use group memberships
-        dict( name="parliaments.parliament_id",),
-        dict( name="constituency_id", label=_(u"Constituency")), #XXX
+        #dict( name="parliaments.parliament_id",),
+        dict( name="parliaments.parliament_id",
+             property = schema.Choice( title=_(u"Parliament"), source=vocabulary.Parliaments, required=True )
+              ), 
+        #dict( name="constituency_id", label=_(u"Constituency")), #XXX
+        dict( name="constituency_id",
+             property = schema.Choice( title=_(u"Constituency"), source=vocabulary.Constituencies, required=True )
+              ),                
         # these are again short cuts..
         dict( name="start_date", label=_(u"Start Date"), listing=True),
         dict( name="end_date", label=_(u"End Date"), listing=True ),
@@ -164,19 +170,19 @@ class BillDescriptor( ModelDescriptor ):
 class QuestionDescriptor( ModelDescriptor ):
 	
 	fields = [
-		dict( name="question_id", omit=True),
-		dict( name="session_id", 
-				property = schema.Choice( title=_(u"Session"), source=vocabulary.ParliamentSessions, required=False )
-			),
-		dict( name="clerk_submission_date", label=_(u"Submission Date"), listing=True ),
-		dict( name="question_type", label=_(u"Question Type"), description=_("(O)rdinary or (P)rivate Notice"),  listing=True ), 
-		#dict( name="question_type",
-		#		property = schema.Choice( title=_(u"Question Type"), description=_("(O)rdinary or (P)rivate Notice"), source=vocabulary.QuestionType, required=False )
+        dict( name="question_id", omit=True),
+        dict( name="session_id", 
+                property = schema.Choice( title=_(u"Session"), source=vocabulary.ParliamentSessions, required=False )
+            ),
+        dict( name="clerk_submission_date", label=_(u"Submission Date"), listing=True ),
+        dict( name="question_type", label=_(u"Question Type"), description=_("(O)rdinary or (P)rivate Notice"),  listing=True ), 
+        #dict( name="question_type",
+        #		property = schema.Choice( title=_(u"Question Type"), description=_("(O)rdinary or (P)rivate Notice"), source=vocabulary.QuestionType, required=False )
         #      ),
-		dict( name="response_type", label=_(u"Response Type"), description=_("(O)ral or (W)ritten"), listing=True ),
-		dict( name="owner", 
-				property = schema.Choice( title=_(u"Owner"), source=vocabulary.ParliamentMembers, required=True )
-              ),
+        dict( name="response_type", label=_(u"Response Type"), description=_("(O)ral or (W)ritten"), listing=True ),
+        dict( name="owner", 
+                property = schema.Choice( title=_(u"Owner"), source=vocabulary.ParliamentMembers, required=True )
+            ),
         dict( name="status", label=_(u"Status"), listing=True ),
         dict( name="supplement_parent_id", omit=True), #XXX
         dict( name="sitting_id", omit=True), #XXX
@@ -185,22 +191,49 @@ class QuestionDescriptor( ModelDescriptor ):
         
 class ResponseDescriptor( ModelDescriptor ):
 	fields = [
-		dict( name="response_id", omit=True ),
-		dict( name="question_id", label=_(u"Question") ), #XXX
-		dict( name="response_text", label=_(u"Response"), description=_(u"Response to the Question") ),
-		dict( name="type", label=_(u"Response Type"), description=_(u"(I)nitial or (S)ubsequent Response"), listing=True ),		
+        dict( name="response_id", omit=True ),
+        dict( name="question_id", label=_(u"Question") ), #XXX
+        dict( name="response_text", label=_(u"Response"), description=_(u"Response to the Question") ),
+        dict( name="type", label=_(u"Response Type"), description=_(u"(I)nitial or (S)ubsequent Response"), listing=True ),		
         dict( name="sitting_id", omit=True ), #XXX
         dict( name="sitting_time", label=_(u"Sitting Time"), description=_(u"Time of the Sitting"), listing=True ),
         ]        
 
 class ConstituencyDescriptor( ModelDescriptor ):
 	fields = [
-		dict( name="constituency_id", omit=True ),
-		dict( name="name", label=_(u"Name"), description=_("Name of the constituency"), listing=True ),
-		dict( name="province", label=_(u"Province"), description=_(u"Name of the Province"), listing=True ),
-		dict( name="region", label=_(u"Region"), description=_(u"Name of the Region"), listing=True ),
-		dict( name="voters", label=_(u"Voters"), description=_(u"Number of Voters in the constituency"), listing=True ),
-		]
+        dict( name="constituency_id", omit=True ),
+        dict( name="name", label=_(u"Name"), description=_("Name of the constituency"), listing=True ),
+        dict( name="province", label=_(u"Province"), description=_(u"Name of the Province"), listing=True ),
+        dict( name="region", label=_(u"Region"), description=_(u"Name of the Region"), listing=True ),
+        dict( name="voters", label=_(u"Voters"), description=_(u"Number of Voters in the constituency"), listing=True ),
+        ]
 		
-
+################
+# Hansard
+################
+class RotaDescriptor( ModelDescriptor ):
+    fields = [
+        dict( name="rota_id", omit=True ),         
+        dict( name="reporter_id", 
+            property = schema.Choice( title=_(u"Hansard Reporter"), source=vocabulary.ParliamentMembers, required=True ) #XXX
+            ),
+        dict( name="identifier", title=_("Rota Identifier"), listing=True),
+        dict( name="start_date", label=_(u"Start Date"), listing=True ),
+        dict( name="end_date", label=_(u"End Date"), listing=True ),
+        ]
         
+#class TakeDescriptor( ModelDescriptor ):
+#    fields = [        
+#        dict( name="take_id", omit=True ),
+#        dict( name="rota_id", 
+#              property = schema.Choice( title=_(u"Rota"), source=vocabulary.Rota, required=True )
+#            ),
+#        dict( name="identifier", title=_(u"Take Identifier"), listing=True ),
+#        ]
+        
+# take_media
+
+#class TranscriptIdentifier( ModelDescriptor ):
+ 
+ 
+ 

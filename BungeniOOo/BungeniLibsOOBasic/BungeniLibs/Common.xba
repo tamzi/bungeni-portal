@@ -118,7 +118,18 @@ Function CursorInSection () as String
   
 End Function
 
-
+Sub ReplaceTextWithField (docComponent, HintName as String, PlaceHolderHintValue as String)
+	Dim viewCursor, hintField, oText, tCursor
+	
+	hintField = thisComponent.createinstance(&quot;com.sun.star.text.TextField.JumpEdit&quot;)
+	hintField.Hint = HintName
+	hintField.PlaceHolder = PlaceHolderHintValue
+	
+	viewCursor = docComponent.CurrentController.GetViewCursor()
+	oText = viewCursor.getText()
+	oText.insertTextContent(viewCursor, hintField, true)
+	
+End Sub
 
 Sub AddTextToSection (sectionName as String, strText as String, strStyle as String)
  Dim oSect
@@ -510,15 +521,15 @@ Sub SetInputFieldValue (hintName as String, hintValue as String)
   ThisComponent.TextFields.refresh()
 End Sub
 
-Sub SetReferenceInputFieldValue (hintName as String, placeHolder as string, unprotectSection as string)
+Sub SetReferenceInputFieldValue (docComponent, hintName as String, placeHolder as string, unprotectSection as string)
   Dim vEnum
   Dim vVal
   
-  vEnum = thisComponent.getTextFields().createEnumeration()
+  vEnum = docComponent.getTextFields().createEnumeration()
   
   Dim sect 
   if (unprotectSection &lt;&gt; &quot;&quot; ) then 
- 	 sect = ThisComponent.getTextSections().getByName(unprotectSection)
+ 	 sect = docComponent.getTextSections().getByName(unprotectSection)
   	 sect.IsProtected = False
   end if 
   
@@ -585,7 +596,7 @@ Sub SetDocumentProperty (propertyName as string, propertyValue as string)
 	end if
 End Sub
 
-Sub AddImageIntoSection(sectionName$, sURL$)
+Sub AddImageIntoSection(docComponent, sectionName$, sURL$)
   Dim oShape
   Dim oGraph     &apos;The graphic object is text content.
   Dim oProvider  &apos;GraphicProvider service.
@@ -594,7 +605,7 @@ Sub AddImageIntoSection(sectionName$, sURL$)
   Dim oDoc 
   Dim sName as string
   sName = sectionName 
-  oDoc = ThisComponent
+  oDoc = docComponent
 
   sURL = ConvertToURL(sURL)
   
@@ -617,11 +628,11 @@ Sub AddImageIntoSection(sectionName$, sURL$)
   
   rem now iterate through the section 
   Dim oSect
-  If ThisComponent.getTextSections().hasByName(sName) Then
-  	  oSect = ThisComponent.getTextSections().getByName(sName)
+  If docComponent.getTextSections().hasByName(sName) Then
+  	  oSect = docComponent.getTextSections().getByName(sName)
        rem XRay oSect
   	    Dim sectionText , sectionCurs
-    	sectionCurs = ThisComponent.getText().createTextCursor()
+    	sectionCurs = docComponent.getText().createTextCursor()
         sectionCurs.gotoRange(oSect.getAnchor(), false)
         Dim endRange, endCursor
         endRange = sectionCurs.getEnd()

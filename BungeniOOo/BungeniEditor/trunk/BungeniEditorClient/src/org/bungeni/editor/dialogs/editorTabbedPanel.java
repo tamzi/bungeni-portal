@@ -248,6 +248,11 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        tableDocMetadata.addMouseListener(new DocumentMetadataTableMouseListener());
     }    
     
+    private void refreshTableDocMetadataModel(){
+        DocumentMetadataTableModel tblModel = (DocumentMetadataTableModel) tableDocMetadata.getModel();
+        tblModel.refreshMetaData();
+    }
+    
     private boolean metadataChecks(){
       //checkDocument Type here
       DocumentMetadataTableModel mModel  = (DocumentMetadataTableModel) tableDocMetadata.getModel();
@@ -2692,6 +2697,7 @@ private void displayUserMetadata(XTextRange xRange) {
                     initNotesPanel();
                     initBodyMetadataPanel();
                     initDialogListeners();
+                    refreshTableDocMetadataModel();
                     if (self().program_refresh_documents == false)
                         bringEditorWindowToFront();
                 }

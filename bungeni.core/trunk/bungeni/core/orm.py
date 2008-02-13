@@ -136,7 +136,10 @@ mapper( domain.Bill, schema.bills,
 #			'changes':relation( domain.ConstituencyChange, backref='Constituency')
 #			}
 #		)         
-mapper( domain.Constituency, schema.constituencies )        
+mapper( domain.Constituency, schema.constituencies )    
+mapper( domain.Province, schema.provinces )    
+mapper( domain.Region, schema.regions )
+mapper( domain.ConstituencyDetail, schema.constituency_details )
         
 
         

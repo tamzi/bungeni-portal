@@ -73,7 +73,17 @@ class AppSetup( object ):
 		
         constituency = domain.ConstituencyContainer()
         self.context['constituencies'] = constituency
+        
+        province = domain.ProvinceContainer()
+        self.context['provinces'] = province
+        
+        region = domain.RegionContainer()
+        self.context['regions'] = region
 	
         ministry = domain.MinistryContainer()
         self.context['ministries'] = ministry
+        
+        politicalparty = domain.PoliticalPartyContainer()
+        self.context['politicalparties'] = politicalparty
+        
         

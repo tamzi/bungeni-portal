@@ -178,6 +178,23 @@ class Constituency( object ):
 ConstituencyChange = ItemLog.makeLogFactory( "ConstituencyChange")
 ConstituencyVersion = ItemVersions.makeVersionFactory("ConstituencyVersion")
 
+class Region( object ):
+    """
+    Region of the constituency
+    """
+    pass
+    
+class Province( object ):
+    """
+    Province of the Constituency
+    """
+    pass
+    
+class ConstituencyDetail( object ):
+    """
+    Details of the Constituency like population and voters at a given time
+    """
+    pass        
 
 #############
 

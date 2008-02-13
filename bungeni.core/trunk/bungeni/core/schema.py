@@ -78,6 +78,50 @@ reporters = rdb.Table(
    )
 
 
+#########################
+#constituencies
+#########################
+constituencies = rdb.Table(
+   "constituencies",
+   metadata,
+   rdb.Column( "constituency_id", rdb.Integer, primary_key=True ),
+   rdb.Column( "constituency_identifier", rdb.Unicode(16), nullable=False ),
+   rdb.Column( "name", rdb.Unicode(80), nullable=False ),
+   #rdb.Column( "province", rdb.Unicode ),
+   rdb.Column( "province", rdb.Integer, rdb.ForeignKey('provinces.province_id') ),
+   #rdb.Column( "region", rdb.Unicode ),
+   rdb.Column( "region", rdb.Integer, rdb.ForeignKey('regions.region_id') ),
+   rdb.Column( "start_date", rdb.DateTime, nullable=False ),
+   rdb.Column( "end_date", rdb.DateTime ),   
+   )
+#constituency_changes = make_changes_table( constituencies, metadata )
+#constituency_version = make_versions_table( constituencies, metadata )
+
+provinces = rdb.Table(
+    "provinces",
+    metadata,
+    rdb.Column( "province_id", rdb.Integer, primary_key=True ),
+    rdb.Column( "province", rdb.Unicode(80), nullable=False ),
+    )
+    
+regions = rdb.Table(
+    "regions",
+    metadata,
+    rdb.Column( "region_id", rdb.Integer, primary_key=True ),
+    rdb.Column( "region", rdb.Unicode(80), nullable=False ),    
+    )
+    
+constituency_details = rdb.Table(
+    "constituency_details",
+    metadata,
+    rdb.Column( "constituency_detail_id", rdb.Integer, primary_key=True ),
+    rdb.Column( "constituency_id", rdb.Integer, rdb.ForeignKey('constituencies.constituency_id') ),
+    rdb.Column( "date", rdb.DateTime, nullable=False ),
+    rdb.Column( "population", rdb.Integer, nullable=False ),
+    rdb.Column( "voters", rdb.Integer, nullable=False ),
+    )
+
+
 #######################
 # Groups
 #######################
@@ -429,20 +473,11 @@ bills = rdb.Table(
 bill_changes = make_changes_table( bills, metadata )
 bill_versions = make_versions_table( bills, metadata )
 
-constituencies = rdb.Table(
-   "constituencies",
-   metadata,
-   rdb.Column( "constituency_id", rdb.Integer, primary_key=True ),
-   rdb.Column( "name", rdb.Unicode, nullable=False ),
-   rdb.Column( "province", rdb.Unicode ),
-   rdb.Column( "region", rdb.Unicode ),
-   rdb.Column( "voters", rdb.Integer ),
-   )
-#constituency_changes = make_changes_table( constituencies, metadata )
-#constituency_version = make_versions_table( constituencies, metadata )
-
 committee_reports = ()
 debates = ()
+
+
+
 
 #######################
 # Hansard

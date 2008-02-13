@@ -1,8 +1,9 @@
 from ore.alchemist.model import ModelDescriptor
-
+from ore.alchemist.vocabulary import DatabaseSource
 from copy import deepcopy
 from zope import schema
 import vocabulary
+import domain
 from alchemist.ui import widgets
 
 from i18n import _
@@ -181,7 +182,7 @@ class QuestionDescriptor( ModelDescriptor ):
         #      ),
         dict( name="response_type", label=_(u"Response Type"), description=_("(O)ral or (W)ritten"), listing=True ),
         dict( name="owner", 
-                property = schema.Choice( title=_(u"Owner"), source=vocabulary.ParliamentMembers, required=True )
+                property = schema.Choice( title=_(u"Owner"), source=vocabulary.ParliamentMembers, required=True ) #XXX
             ),
         dict( name="status", label=_(u"Status"), listing=True ),
         dict( name="supplement_parent_id", omit=True), #XXX
@@ -202,12 +203,43 @@ class ResponseDescriptor( ModelDescriptor ):
 class ConstituencyDescriptor( ModelDescriptor ):
 	fields = [
         dict( name="constituency_id", omit=True ),
+        dict( name="constituency_identifier", label=_(u"Identifier"), description=_(u"Identifier of the Constitueny, usually a Number"), listing =True ),
         dict( name="name", label=_(u"Name"), description=_("Name of the constituency"), listing=True ),
+        #dict( name="province", label=_(u"Province"), description=_(u"Name of the Province"), listing=True ), #XXX
+        dict(name="province",
+            property = schema.Choice( title=_(u"Province"), source=DatabaseSource(domain.Province,'province', 'province_id'), required=True )
+            ),
+        #dict( name="region", label=_(u"Region"), description=_(u"Name of the Region"), listing=True ), #XXX
+         dict( name="region", label=_(u"Region")
+             property = schema.Choice( title=_(u"Region"), source=DatabaseSource(domain.Province,'region', 'region_id'), required=True )
+            ),
+        dict( name="start_date", label=_(u"Start Date"), listing=True ),
+        dict( name="end_date", label=_(u"End Date"), listing=True ),        
+        ]
+        
+class ProvinceDescriptor( ModelDescriptor ):
+    fields = [
+        dict( name="province_id", omit=True ),
         dict( name="province", label=_(u"Province"), description=_(u"Name of the Province"), listing=True ),
-        dict( name="region", label=_(u"Region"), description=_(u"Name of the Region"), listing=True ),
-        dict( name="voters", label=_(u"Voters"), description=_(u"Number of Voters in the constituency"), listing=True ),
+        ]
+        
+class RegionDescriptor( ModelDescriptor ):
+    fields = [
+        dict( name="region_id", omit=True ),
+        dict( name="region", label=_(u"Region"), description=_(u"Name of the Region"), listing=True ), 
         ]
 		
+class ConstituencyDetailDescriptor( ModelDescriptor ):
+    fields = [
+        dict( name="constituency_detail_id", omit=True ),
+        dict( name="constituency_id", label=_(u"Name"), description=_("Name of the constituency"), listing=True ), #XXX
+        dict( name="date", label=_(u"Date"), description=_(u"Date the data was submitted from the Constituency"), listing=True ),
+        dict( name="population", label=_(u"Population"), description=_(u"Total Number of People living in this Constituency"), listing=True ),
+        dict( name="voters", label=_(u"Voters"), description=_(u"Number of Voters registered in this Constituency"), listing=True ),
+        ]
+        
+        
+        		
 ################
 # Hansard
 ################

@@ -148,6 +148,7 @@ import org.bungeni.utils.StackedBox;
 import org.bungeni.utils.TextSizeFilter;
 import org.bungeni.utils.BungeniBTree;
 import org.bungeni.utils.BungeniBNode;
+import org.bungeni.editor.BungeniEditorProperties;
 /*
 import org.bungeni.utils.DocStructureTreeModel;
 import org.bungeni.utils.DocStructureTreeNode;
@@ -184,7 +185,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private boolean mouseOver_TreeDocStructureTree = false;
     private boolean program_refresh_documents = false;
     private TreeMap<String, componentHandleContainer> editorMap;
-    
+    private String activeDocument; 
     /** Creates new form SwingTabbedJPanel */
     public editorTabbedPanel() {
         initComponents();
@@ -201,7 +202,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        editorMap = new TreeMap<String, componentHandleContainer>();
        ooDocument = new OOComponentHelper(impComponent, ComponentContext);
        this.parentFrame = parentFrame;
-       
+       this.activeDocument = BungeniEditorProperties.getEditorProperty("activeDocumentMode");
        init();
       
     }
@@ -238,11 +239,29 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        log.debug("calling initOpenDOcuments");
        initOpenDocuments();
        updateListDocuments();
-       
+       initTableDocMetadata();
+       metadataChecks();
+    }
+
+    private void initTableDocMetadata(){
        tableDocMetadata.setModel(new DocumentMetadataTableModel(ooDocument) );
        tableDocMetadata.addMouseListener(new DocumentMetadataTableMouseListener());
-    }
+    }    
     
+    private boolean metadataChecks(){
+      //checkDocument Type here
+      DocumentMetadataTableModel mModel  = (DocumentMetadataTableModel) tableDocMetadata.getModel();
+      DocumentMetadata [] m=mModel.getMetadataSupplier().getDocumentMetadata();
+      
+      for(int i=0;i<m.length;i++){
+          if(m[i].getName().equals("doctype") && m[i].getValue().equals("")){
+              log.debug("Setting document type value");
+              m[i].setValue(activeDocument);
+         } 
+      }
+       return true;	
+    }
+	
     private void initListDocuments(){
         log.debug("initListDocuments: init");
         //this.cboListDocuments.removeAll();
@@ -365,12 +384,20 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     }
     
     public void bringEditorWindowToFront(){
-        if (ooDocument.isXComponentValid()) {
+   	if (ooDocument.isXComponentValid()) {
         XFrame xDocFrame = ooDocument.getDocumentModel().getCurrentController().getFrame();
-        ooQueryInterface.XTopWindow(xDocFrame.getContainerWindow()).toFront();
+        Object docFrameWindow = xDocFrame.getContainerWindow();
+        if (docFrameWindow == null) return;
+        
+        Object queryInterface=ooQueryInterface.XTopWindow(docFrameWindow);
+        if (queryInterface==null){
+            return;
+        }else{
+            log.debug("Bring selected window to the front");
+            ooQueryInterface.XTopWindow(xDocFrame.getContainerWindow()).toFront();
         }
-    }
-    
+      }
+   } 
    
     /*
      *this is invoked on window closing, by the JFrame that contains the panel
@@ -2483,7 +2510,24 @@ private void displayUserMetadata(XTextRange xRange) {
              docMetadataSelectedRow.setValue(formatter.format(ctlValue));
         } else if (docMetadataSelectedRow.getDataType().equals("string") ) {
              String ctlValue = this.editStringTxt.getText();
-             docMetadataSelectedRow.setValue(ctlValue);
+                //check if selected row is the doctype row
+             if(docMetadataSelectedRow.getName().equals("doctype")){
+                 log.debug("doctype row selected " +  tableDocMetadata.getValueAt(0,1) + tableDocMetadata.getSelectedRow());
+                 //if row is selected ensure that textbox value and row value are equal to activeDocument
+                 if(ctlValue.equals(activeDocument) && docMetadataSelectedRow.getValue().equals(activeDocument)){
+                     //row value is equal to activeDocument
+                     //set the value
+                     docMetadataSelectedRow.setValue(ctlValue);
+                 }else{
+                    log.debug("Invalid document type");
+                    //value is not equal to activeDocument so show error message
+                    JOptionPane.showMessageDialog(null,"Please enter the correct document type","Document Type Error",JOptionPane.ERROR_MESSAGE);
+                 }
+                
+             }else{
+               //another row was selected so skip the validation
+               docMetadataSelectedRow.setValue(ctlValue);  
+             }
         }
         
         this.panelEditDocumentMetadata.setVisible(false);
@@ -2635,10 +2679,18 @@ private void displayUserMetadata(XTextRange xRange) {
                     
                     initFields();
                     //initializeValues();
-                    initCollapsiblePane();
+                   
+                    /*author: John Wesonga
+                     *Date: 13/02/2008
+                     *The initCollapsiblePane1() method is the cause of the crash when documents 
+                     * are switched so we comment it out 
+                     */
+                   // removed call to collapsiblepane function
+                  ICollapsiblePanel generalEditorPanel = CollapsiblePanelFactory.getPanelClass("generalEditorPanel4");
+                    generalEditorPanel.setOOComponentHandle(ooDocument);
+                    
                     initNotesPanel();
                     initBodyMetadataPanel();
-                    //initTimers();
                     initDialogListeners();
                     if (self().program_refresh_documents == false)
                         bringEditorWindowToFront();

@@ -86,4 +86,8 @@ class AppSetup( object ):
         politicalparty = domain.PoliticalPartyContainer()
         self.context['politicalparties'] = politicalparty
         
+        #session = domain.ParliamentSessionContainer()
+        #self.context['sessions'] = session
+        
+        
         

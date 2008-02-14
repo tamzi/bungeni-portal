@@ -56,7 +56,7 @@ parliament_members = rdb.Table(
    metadata,
    rdb.Column( "member_id", rdb.Integer, rdb.ForeignKey('users.user_id'), primary_key=True ),
    # this is only meant as a shortcut.. to the active parliament, else use group memberships
-   rdb.Column( "parliaments.parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id') ),
+   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'), primary_key=True ), #a person can be member of multiple parliaments
    rdb.Column( "constituency_id", rdb.Integer, rdb.ForeignKey('constituencies.constituency_id') ),
    rdb.Column( "start_date", rdb.DateTime, nullable=False ),
    rdb.Column( "end_date", rdb.DateTime ),
@@ -381,7 +381,7 @@ questions = rdb.Table(
    "questions",
    metadata,
    rdb.Column( "question_id", rdb.Integer, ItemSequence, primary_key=True ),
-   #   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id') ),
+   
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
    rdb.Column( "clerk_submission_date", rdb.DateTime ),
    rdb.Column( "question_type", rdb.Unicode(1), 
@@ -390,8 +390,9 @@ questions = rdb.Table(
                 rdb.CheckConstraint("response_type in ('O', 'W')"), default=u"O" ), # (O)ral (W)ritten
 
    # TODO - ? normalize to use user item associations.
-   rdb.Column( "owner", rdb.Integer, rdb.ForeignKey('parliament_members.member_id'), nullable=False),
-   
+   rdb.Column( "owner", rdb.Integer, nullable=False),
+   rdb.Column( "parliament_id", rdb.Integer, nullable=False ),
+   rdb.ForeignKeyConstraint(['owner', 'parliament_id'], ['parliament_members.member_id', 'parliament_members.parliament_id']),
    # Workflow State
    rdb.Column( "status", rdb.Unicode(16) ),
    

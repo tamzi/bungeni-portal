@@ -31,14 +31,18 @@ class MemberDescriptor( UserDescriptor ):
     fields = deepcopy( UserDescriptor.fields )
     fields.extend([
         dict( name="member_id", omit=True ),
-        # this is only meant as a shortcut.. to the active parliament, else use group memberships
-        #dict( name="parliaments.parliament_id",),
-        dict( name="parliaments.parliament_id",
-             property = schema.Choice( title=_(u"Parliament"), source=vocabulary.Parliaments, required=True )
+        # this is only meant as a shortcut.. to the active parliament, else use group memberships       
+        dict( name="parliament_id",
+             property = schema.Choice( title=_(u"Parliament"), 
+                                       source=DatabaseSource(domain.Parliament, 'identifier', 'parliament_id' ),
+                                       required=True )
               ), 
-        #dict( name="constituency_id", label=_(u"Constituency")), #XXX
         dict( name="constituency_id",
-             property = schema.Choice( title=_(u"Constituency"), source=vocabulary.Constituencies, required=True )
+             property = schema.Choice( title=_(u"Constituency"), 
+                                       source=DatabaseSource(domain.Constituency, 
+                                                             'constituency_identifier', 
+                                                             'constituency_id'),
+                                       required=True )
               ),                
         # these are again short cuts..
         dict( name="start_date", label=_(u"Start Date"), listing=True),
@@ -113,7 +117,8 @@ class MotionDescriptor( ModelDescriptor ):
         dict( name="title", label=_(u"Subject"), listing=True,
               edit_widget = widgets.LongTextWidget),
         dict( name="session_id", 
-              property = schema.Choice( title=_(u"Session"), source=vocabulary.ParliamentSessions, required=False )
+              property = schema.Choice( title=_(u"Session"), source=DatabaseSource(domain.ParliamentSession, 'short_name', 'session_id'), 
+              required=False )
               ),
         dict( name="submission_date", label=_(u"Submission Date"), listing=True ),
         dict( name="received_date", label=_(u"Received Date")),
@@ -123,7 +128,7 @@ class MotionDescriptor( ModelDescriptor ):
 #              view_widget = widgets.YesNoDisplayWidget),
         dict( name="identifier", label=_(u"Identifier")),
         dict( name="owner_id",
-              property = schema.Choice( title=_(u"Owner"), source=vocabulary.ParliamentMembers, required=False )
+              property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, 'last_name', 'user_id' ), required=False )
               ),
         dict( name="body_text", label=_(u"Motion Text"),
               property = schema.Text( title=u"Motion" ),
@@ -131,7 +136,9 @@ class MotionDescriptor( ModelDescriptor ):
         # TODO omit for now
         dict( name="entered_by", label=_(u"Entered By"), omit=True ), 
         dict( name="party_id",
-            property = schema.Choice( title=_(u"Political Party"), source=vocabulary.PoliticalParties, required=False) ),
+            property = schema.Choice( title=_(u"Political Party"), 
+                                      source=DatabaseSource(domain.PoliticalParty, 'full_name', 'party_id' ), 
+                                      required=False) ),
         dict( name="status", label=_(u"Status"), listing=True, edit=False )
         ]
 
@@ -147,7 +154,7 @@ class SittingDescriptor( ModelDescriptor ):
 class SessionDescriptor( ModelDescriptor ):
     fields = [
         dict( name="session_id", omit=True),
-        #dict( name="parliament_id",)
+        dict( name="parliament_id", omit=True),
         dict( name="short_name", label=_(u"Short Name"), listing=True ),
         dict( name="full_name", label=_(u"Full Name") ),
         dict( name="start_date", label=_(u"Start Date"), listing=True ),
@@ -182,7 +189,8 @@ class QuestionDescriptor( ModelDescriptor ):
         #      ),
         dict( name="response_type", label=_(u"Response Type"), description=_("(O)ral or (W)ritten"), listing=True ),
         dict( name="owner", 
-                property = schema.Choice( title=_(u"Owner"), source=vocabulary.ParliamentMembers, required=True ) #XXX
+                property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, 'last_name', 'user_id' ), #XXX
+                required=True ) 
             ),
         dict( name="status", label=_(u"Status"), listing=True ),
         dict( name="supplement_parent_id", omit=True), #XXX
@@ -205,13 +213,13 @@ class ConstituencyDescriptor( ModelDescriptor ):
         dict( name="constituency_id", omit=True ),
         dict( name="constituency_identifier", label=_(u"Identifier"), description=_(u"Identifier of the Constitueny, usually a Number"), listing =True ),
         dict( name="name", label=_(u"Name"), description=_("Name of the constituency"), listing=True ),
-        #dict( name="province", label=_(u"Province"), description=_(u"Name of the Province"), listing=True ), #XXX
         dict(name="province",
-            property = schema.Choice( title=_(u"Province"), source=DatabaseSource(domain.Province,'province', 'province_id'), required=True )
+            property = schema.Choice( title=_(u"Province"), source=DatabaseSource(domain.Province,'province', 'province_id'), 
+            required=True )
             ),
-        #dict( name="region", label=_(u"Region"), description=_(u"Name of the Region"), listing=True ), #XXX
-         dict( name="region", label=_(u"Region")
-             property = schema.Choice( title=_(u"Region"), source=DatabaseSource(domain.Province,'region', 'region_id'), required=True )
+         dict( name="region", label=_(u"Region"),
+             property = schema.Choice( title=_(u"Region"), source=DatabaseSource(domain.Region,'region', 'region_id'), 
+             required=True )
             ),
         dict( name="start_date", label=_(u"Start Date"), listing=True ),
         dict( name="end_date", label=_(u"End Date"), listing=True ),        
@@ -232,7 +240,11 @@ class RegionDescriptor( ModelDescriptor ):
 class ConstituencyDetailDescriptor( ModelDescriptor ):
     fields = [
         dict( name="constituency_detail_id", omit=True ),
-        dict( name="constituency_id", label=_(u"Name"), description=_("Name of the constituency"), listing=True ), #XXX
+        dict( name="constituency_id", label=_(u"Name"), description=_("Name of the constituency"), listing=False ), #XXX
+        #dict( name='constituency_id',
+        #      property = schema.Choice( title=_(u"Constituency"), source=DatabaseSource(domain.Constituency, 'constituency_identifier','constituencies.constituency_id')),
+        #      listing=False , reqired=True
+        #    ),
         dict( name="date", label=_(u"Date"), description=_(u"Date the data was submitted from the Constituency"), listing=True ),
         dict( name="population", label=_(u"Population"), description=_(u"Total Number of People living in this Constituency"), listing=True ),
         dict( name="voters", label=_(u"Voters"), description=_(u"Number of Voters registered in this Constituency"), listing=True ),
@@ -246,9 +258,9 @@ class ConstituencyDetailDescriptor( ModelDescriptor ):
 class RotaDescriptor( ModelDescriptor ):
     fields = [
         dict( name="rota_id", omit=True ),         
-        dict( name="reporter_id", 
-            property = schema.Choice( title=_(u"Hansard Reporter"), source=vocabulary.ParliamentMembers, required=True ) #XXX
-            ),
+        dict( name="reporter_id", omit=True), #XXX
+        #    property = schema.Choice( title=_(u"Hansard Reporter"), source=vocabulary.ParliamentMembers, required=True ) #XXX
+        #    ),
         dict( name="identifier", title=_("Rota Identifier"), listing=True),
         dict( name="start_date", label=_(u"Start Date"), listing=True ),
         dict( name="end_date", label=_(u"End Date"), listing=True ),

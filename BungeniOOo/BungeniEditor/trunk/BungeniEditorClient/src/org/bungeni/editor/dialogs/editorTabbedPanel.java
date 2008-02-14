@@ -186,6 +186,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private boolean program_refresh_documents = false;
     private TreeMap<String, componentHandleContainer> editorMap;
     private String activeDocument; 
+    private DocumentMetadataTableModel docMetadataTableModel;
     /** Creates new form SwingTabbedJPanel */
     public editorTabbedPanel() {
         initComponents();
@@ -244,26 +245,53 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     }
 
     private void initTableDocMetadata(){
-       tableDocMetadata.setModel(new DocumentMetadataTableModel(ooDocument) );
+        docMetadataTableModel = new DocumentMetadataTableModel(ooDocument);
+        tableDocMetadata.setModel(docMetadataTableModel );
        tableDocMetadata.addMouseListener(new DocumentMetadataTableMouseListener());
+       //the actionListener uses the tableDocMetadata's custom model in the refreshMetadata call
+       //so we move the call to addthe action listener after the table model has been set.
+       cboListDocuments.addActionListener(new cboListDocumentsActionListener());
     }    
+
+    protected void setOODocumentObject (OOComponentHelper ooDoc) {
+        this.ooDocument = ooDoc;
+    }
     
     private void refreshTableDocMetadataModel(){
+       //this is throwing a ClassCast Exception during runtime???
+        docMetadataTableModel = new DocumentMetadataTableModel(ooDocument);
+        tableDocMetadata.setModel(docMetadataTableModel );
+        /*
         DocumentMetadataTableModel tblModel = (DocumentMetadataTableModel) tableDocMetadata.getModel();
+        tblModel.setOOComponentHelper(this.ooDocument);
         tblModel.refreshMetaData();
+        */
+        
+    }
+    
+    private void onRefreshCheckMetaData(){
+        
     }
     
     private boolean metadataChecks(){
-      //checkDocument Type here
+      
       DocumentMetadataTableModel mModel  = (DocumentMetadataTableModel) tableDocMetadata.getModel();
       DocumentMetadata [] m=mModel.getMetadataSupplier().getDocumentMetadata();
-      
-      for(int i=0;i<m.length;i++){
-          if(m[i].getName().equals("doctype") && m[i].getValue().equals("")){
-              log.debug("Setting document type value");
-              m[i].setValue(activeDocument);
-         } 
+     //checkDocument Type here
+      //check to see if current document has docttype
+     /* if(ooDocument.propertyExists("doctype")){
+          //property found
+              for(int i=0;i<m.length;i++){
+              if(m[i].getName().equals("doctype") && m[i].getValue().equals("")){
+                  log.debug("Setting document type value");
+                  m[i].setValue(activeDocument);
+             } 
+          }
+      }else{
+          JOptionPane.showMessageDialog(null,"No doc type","Document Type Error",JOptionPane.ERROR_MESSAGE);
       }
+     //checks to see if doctype within the table is empty, if it is it sets to the activeDocumeht 
+      */
        return true;	
     }
 	
@@ -347,7 +375,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     
     private void initOpenDocuments(){
         log.debug("initOpenDocuments: calling");
-        cboListDocuments.addActionListener(new cboListDocumentsActionListener());
+        //commented here for listener synchronization issues, as the combox action
+        //listener depends on the tree data model being set.
+       // cboListDocuments.addActionListener(new cboListDocumentsActionListener());
         initOpenDocumentsList();
         initListDocuments();
     }
@@ -2515,11 +2545,12 @@ private void displayUserMetadata(XTextRange xRange) {
              docMetadataSelectedRow.setValue(formatter.format(ctlValue));
         } else if (docMetadataSelectedRow.getDataType().equals("string") ) {
              String ctlValue = this.editStringTxt.getText();
-                //check if selected row is the doctype row
+             
+             //check if selected row is the doctype row
              if(docMetadataSelectedRow.getName().equals("doctype")){
                  log.debug("doctype row selected " +  tableDocMetadata.getValueAt(0,1) + tableDocMetadata.getSelectedRow());
                  //if row is selected ensure that textbox value and row value are equal to activeDocument
-                 if(ctlValue.equals(activeDocument) && docMetadataSelectedRow.getValue().equals(activeDocument)){
+                 if(ctlValue.equals(activeDocument)){
                      //row value is equal to activeDocument
                      //set the value
                      docMetadataSelectedRow.setValue(ctlValue);
@@ -2531,8 +2562,9 @@ private void displayUserMetadata(XTextRange xRange) {
                 
              }else{
                //another row was selected so skip the validation
-               docMetadataSelectedRow.setValue(ctlValue);  
+               docMetadataSelectedRow.setValue(ctlValue); 
              }
+              
         }
         
         this.panelEditDocumentMetadata.setVisible(false);
@@ -2680,8 +2712,8 @@ private void displayUserMetadata(XTextRange xRange) {
                         log.debug("XComponent is invalid");
                     }
                    // ooDocument.detachListener();
-                    ooDocument = new OOComponentHelper(xComp.getComponent(), ComponentContext);
-                    
+                setOODocumentObject(new OOComponentHelper(xComp.getComponent(), ComponentContext));
+                 
                     initFields();
                     //initializeValues();
                    
@@ -2698,8 +2730,10 @@ private void displayUserMetadata(XTextRange xRange) {
                     initBodyMetadataPanel();
                     initDialogListeners();
                     refreshTableDocMetadataModel();
+                   // metadataChecks();
                     if (self().program_refresh_documents == false)
                         bringEditorWindowToFront();
+                       
                 }
             }
             
@@ -2894,6 +2928,8 @@ private void displayUserMetadata(XTextRange xRange) {
             return this;
         }
         
+    
+    
     }
     
     public static void main(String args[]) {

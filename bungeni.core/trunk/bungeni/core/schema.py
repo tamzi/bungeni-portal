@@ -18,15 +18,16 @@ users = rdb.Table(
    "users",
    metadata,
    rdb.Column( "user_id", rdb.Integer, primary_key=True ),
-   rdb.Column( "login", rdb.Unicode(16), unique=True ),
-   rdb.Column( "first_name", rdb.Unicode ),
-   rdb.Column( "last_name", rdb.Unicode ),
-   rdb.Column( "middle_name", rdb.Unicode ),
-   rdb.Column( "email", rdb.Unicode(32), nullable=False ),
+   rdb.Column( "login", rdb.Unicode(16), unique=True,  ),
+   rdb.Column( "first_name", rdb.Unicode(80), nullable=False ),
+   rdb.Column( "last_name", rdb.Unicode(80), nullable=False ),
+   rdb.Column( "middle_name", rdb.Unicode(80) ),
+   rdb.Column( "email", rdb.String(32), nullable=False ),
    rdb.Column( "gender", rdb.String(1),
-        rdb.CheckConstraint("gender in ('M', 'F')") ), # (M)ale (F)emale    ),   
-   rdb.Column( "date_of_birth", rdb.DateTime ),
-   rdb.Column( "birth_country", rdb.Unicode ),
+        rdb.CheckConstraint("gender in ('M', 'F')"), 
+        nullable=False), # (M)ale (F)emale    ),   
+   rdb.Column( "date_of_birth", rdb.DateTime, nullable=False ),
+   rdb.Column( "birth_country", rdb.String(2), rdb.ForeignKey('countries.country_id'), nullable=False ),
    rdb.Column( "date_of_death", rdb.DateTime ),
    rdb.Column( "national_id", rdb.Unicode(32) ),
    rdb.Column( "password", rdb.String(24)),    
@@ -111,6 +112,13 @@ regions = rdb.Table(
     rdb.Column( "region", rdb.Unicode(80), nullable=False ),    
     )
     
+countries = rdb.Table(
+    "countries",
+    metadata,
+    rdb.Column( "country_id", rdb.String(2), primary_key=True ),
+    rdb.Column( "country_name", rdb.Unicode(40), nullable=False ),
+    )
+        
 constituency_details = rdb.Table(
     "constituency_details",
     metadata,
@@ -134,8 +142,8 @@ groups = rdb.Table(
    "groups",
    metadata,
    rdb.Column( "group_id", rdb.Integer, primary_key=True ),
-   rdb.Column( "short_name", rdb.Unicode(16) ),
-   rdb.Column( "full_name", rdb.Unicode(16) ),   
+   rdb.Column( "short_name", rdb.Unicode(16), nullable=False ),
+   rdb.Column( "full_name", rdb.Unicode(32) ),   
    rdb.Column( "description", rdb.Unicode ),
    rdb.Column( "status", rdb.Unicode(12) ), # workflow for groups
    rdb.Column( "start_date", rdb.DateTime, nullable=False ),
@@ -147,15 +155,15 @@ governments = rdb.Table(
    "government_id",
    metadata,
    rdb.Column( "government_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
-   rdb.Column( "start_gazetted_date", rdb.DateTime  ),
-   rdb.Column( "end_gazetted_date", rdb.DateTime ),
+   #rdb.Column( "start_gazetted_date", rdb.DateTime  ),
+   #rdb.Column( "end_gazetted_date", rdb.DateTime ),
    )
 
 parliaments = rdb.Table(
    "parliaments",
    metadata,
    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),   
-   rdb.Column( "identifier", rdb.String(5) ),
+   rdb.Column( "identifier", rdb.String(5), nullable=False, unique=True ),
    rdb.Column( "election_date", rdb.DateTime ),
    )
 

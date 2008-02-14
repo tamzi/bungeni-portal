@@ -139,6 +139,7 @@ mapper( domain.Bill, schema.bills,
 mapper( domain.Constituency, schema.constituencies )    
 mapper( domain.Province, schema.provinces )    
 mapper( domain.Region, schema.regions )
+mapper( domain.Country, schema.countries )
 mapper( domain.ConstituencyDetail, schema.constituency_details )
         
 

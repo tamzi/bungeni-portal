@@ -90,6 +90,14 @@
      ui_module="bungeni.ui.content"
     />
     
+    <!--db:catalyst
+     class=".domain.Country"
+     descriptor=".descriptor.CountryDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+     echo="True"
+    /-->
+    
     <db:catalyst
      class=".domain.ConstituencyDetail"
      descriptor=".descriptor.ConstituencyDetailDescriptor"

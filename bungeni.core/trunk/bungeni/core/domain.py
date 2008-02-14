@@ -190,6 +190,12 @@ class Province( object ):
     """
     pass
     
+class Country( object ):
+    """
+    Country of Birth
+    """ 
+    pass   
+    
 class ConstituencyDetail( object ):
     """
     Details of the Constituency like population and voters at a given time

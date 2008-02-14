@@ -18,7 +18,11 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="national_id", label=_(u"National Id")),
         dict( name="gender", label=_(u"Gender")),
         dict( name="date_of_birth", label=_(u"Date of Birth")),
-        dict( name="birth_country", label=_(u"Country of Birth")),
+        dict( name="birth_country", 
+            property = schema.Choice( title=_(u"Country of Birth"), 
+                                       source=DatabaseSource(domain.Country, 'country_name', 'country_id' ),
+                                       required=True )
+            ),
         dict( name="date_of_death", label=_(u"Date of Death"), view_permission="bungeni.AdminUsers", edit_permission="bungeni.AdminUsers"),
         dict( name="password", omit=True ),
         dict( name="salt", omit=True),
@@ -70,9 +74,9 @@ class ParliamentDescriptor( GroupDescriptor ):
     
     fields = [
         dict( name="short_name", label=_(u"Name"), listing=True ),
-        dict( name="full_name", label=_(u"Full Name"), listing=True ),
-        dict( name="description", property=schema.Text(title=_(u"Description"))),
-        dict( name="identifier", label=_(u"Parliamentary Identifier"), listing=True ),
+        dict( name="full_name", label=_(u"Full Name"), description=_(u"Chamber if applicable"), listing=True ),
+        dict( name="description", property=schema.Text(title=_(u"Description"), required=False )),
+        dict( name="identifier", label=_(u"Parliament Number"), listing=True ),
         dict( name="election_date", label=_(u"Election Date")),        
         dict( name="start_date", label=_(u"Start Date")),
         dict( name="end_date", label=_(u"End Date")),        
@@ -106,8 +110,8 @@ class GovernmentDescriptor( ModelDescriptor ):
     fields = deepcopy( GroupDescriptor.fields )    
     fields.extend([
         dict( name="government_id", omit=True),
-        dict( name="start_gazetted_date", label=_(u"Gazetted Start Date") ),
-        dict( name="end_gazetted_date", label=_(u"Gazetted End Date") )
+        #dict( name="start_gazetted_date", label=_(u"Gazetted Start Date") ),
+        #dict( name="end_gazetted_date", label=_(u"Gazetted End Date") )
         ])
     
 class MotionDescriptor( ModelDescriptor ):

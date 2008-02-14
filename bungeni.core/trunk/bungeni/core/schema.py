@@ -152,7 +152,7 @@ groups = rdb.Table(
    )
 
 governments = rdb.Table(
-   "government_id",
+   "government",
    metadata,
    rdb.Column( "government_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
    #rdb.Column( "start_gazetted_date", rdb.DateTime  ),
@@ -171,12 +171,14 @@ ministries = rdb.Table(
    "ministries",
    metadata,
    rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
+   rdb.Column( "government_id", rdb.Integer, rdb.ForeignKey('government.government_id')),
    )
 
 committees = rdb.Table(
    "committees",
    metadata,
    rdb.Column( "commitee_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
+   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id')),
    )
 
 political_parties = rdb.Table(

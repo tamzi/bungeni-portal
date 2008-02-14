@@ -85,6 +85,11 @@ class ParliamentDescriptor( GroupDescriptor ):
 class CommitteeDescriptor( GroupDescriptor ):
     
     fields = deepcopy( GroupDescriptor.fields )
+    fields.extend([
+        dict( name='parliament_id', 
+            property=schema.Choice( title=_(u"Parliament"), source=DatabaseSource(domain.Parliament,"identifier", "parliament_id")),
+            )
+    ])
     
 class PolitcalPartyDescriptor( GroupDescriptor ):
      
@@ -93,7 +98,11 @@ class PolitcalPartyDescriptor( GroupDescriptor ):
 class MinistryDescriptor( GroupDescriptor ):
 
     fields = deepcopy( GroupDescriptor.fields )       
-    
+    fields.extend([
+        dict( name='ministry_id', 
+            property=schema.Choice( title=_(u"Parliament"), source=DatabaseSource(domain.Ministry,"full_name", "ministry_id")),
+            )
+    ])
     
 class ParliamentSession( ModelDescriptor ):
     

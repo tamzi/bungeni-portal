@@ -32,7 +32,7 @@ class DatabaseAuthentication( Contained ):
         if not credentials:
             return None
         login, password = credentials.get('login'), credentials.get('password')
-        results = Session().query( User ).filter_by( username = unicode(login) ).all()
+        results = Session().query( User ).filter_by( login = unicode(login) ).all()
 
         if len(results) != 1:
             return None
@@ -44,7 +44,7 @@ class DatabaseAuthentication( Contained ):
         return self._makeInfo( user )
         
     def principalInfo( self, id ):
-        results = Session().query( User ).filter_by( username = id ).all()
+        results = Session().query( User ).filter_by( login = id ).all()
         if len(results) != 1: # unique index on column
             return None
 
@@ -53,10 +53,10 @@ class DatabaseAuthentication( Contained ):
 
     def _makeInfo( self, user ):
 
-        return PrincipalInfo( "users.%s"%user.username, # userid
-                              user.username,            # login
-                              user.username,            # title
-                              user.email_address,       # description
+        return PrincipalInfo( "users.%s"%user.login,    # userid
+                              user.login,               # login
+                              u"%s, %s"%(user.last_name, user.first_name), # title
+                              user.email,               # description
                               self                      # auth plugin
                               )
         

@@ -30,7 +30,7 @@ users = rdb.Table(
    rdb.Column( "birth_country", rdb.String(2), rdb.ForeignKey('countries.country_id'), nullable=False ),
    rdb.Column( "date_of_death", rdb.DateTime ),
    rdb.Column( "national_id", rdb.Unicode(32) ),
-   rdb.Column( "password", rdb.String(24)),    
+   rdb.Column( "password", rdb.String(36)), # we store salted md5 hash hexdigests
    rdb.Column( "salt", rdb.String(24)),    
    rdb.Column( "active_p", rdb.Boolean ),
    rdb.Column( "type", rdb.String(30), nullable=False )

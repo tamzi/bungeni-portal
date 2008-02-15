@@ -61,4 +61,19 @@
     allowed_interface="zope.publisher.interfaces.browser.IBrowserPublisher"
     />
 
+  <!-- Login UI -->
+    <browser:page
+     for="bungeni.core.interfaces.IBungeniApplication"
+     permission="zope.Public"
+     name="signup"
+     class=".login.SignUp"
+     />
+     
+  <browser:page
+     for="bungeni.core.interfaces.IBungeniApplication"
+     permission="zope.Public"
+     name="login"
+     class=".login.Login"
+     />
+     
 </configure>

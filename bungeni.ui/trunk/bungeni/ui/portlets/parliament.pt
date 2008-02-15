@@ -6,7 +6,8 @@
         Parliament
         <span class="portletTopRight"></span>
     </dt>
-    
+
+<!--    
     <dd class="portletItem even">
      <a href="bills" i18n:translate="box_bills"> Bills </a>
     </dd>
@@ -14,13 +15,14 @@
     <dd class="portletItem odd">
      <a href="motions" i18n:translate="box_motions"> Motions </a>
     </dd>
+   -->
 
     <dd class="portletItem even">
-     <a href="sittings" i18n:translate="box_sittings"> Sittings </a>
+     <a href="sessions" i18n:translate="box_sessions"> Sessions </a>
     </dd>
 
     <dd class="portletItem odd">
-     <a href="members" i18n:translate="box_members"> Members </a>
+     <a href="mps" i18n:translate="box_members"> Members </a>
     </dd>
 
     <dd class="portletFooter">

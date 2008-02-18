@@ -173,7 +173,7 @@ BillVersion = ItemVersions.makeVersionFactory("BillVersion")
 class Constituency( object ):
     """ a locality region, which elects an MP 
     """
-    pass
+    cdetail = ManagedContainer("cdetail", "bungeni.core.domain.ConstituencyDetailContainer", "constituency_id")
     
 ConstituencyChange = ItemLog.makeLogFactory( "ConstituencyChange")
 ConstituencyVersion = ItemVersions.makeVersionFactory("ConstituencyVersion")

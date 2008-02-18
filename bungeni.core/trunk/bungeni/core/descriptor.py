@@ -11,6 +11,7 @@ from i18n import _
 class UserDescriptor( ModelDescriptor ):
     fields = [
         dict( name="user_id", omit=True),
+        dict( name="titles", label=_(u"Title(s)"), description=_(u"Indicate any titles the person may hold")),
         dict( name="first_name", label=_(u"First Name"), listing=True),
         dict( name="last_name", label=_(u"Last Name"), listing=True),
         dict( name="middle_name", label=_(u"Middle Name")),
@@ -35,7 +36,9 @@ class MemberDescriptor( UserDescriptor ):
     fields = deepcopy( UserDescriptor.fields )
     fields.extend([
         dict( name="member_id", omit=True ),
-        # this is only meant as a shortcut.. to the active parliament, else use group memberships       
+        dict( name="elected_nominated", label=_("elected/nominated"), description=_("Is the MP (E)lected or (N)ominated")),
+        # this is only meant as a shortcut.. to the active parliament, else use group memberships 
+        # note that parliament_id = group_id      
         dict( name="parliament_id",
              property = schema.Choice( title=_(u"Parliament"), 
                                        source=DatabaseSource(domain.Parliament, 'identifier', 'parliament_id' ),
@@ -73,13 +76,13 @@ class GroupDescriptor( ModelDescriptor ):
 class ParliamentDescriptor( GroupDescriptor ):
     
     fields = [
-        dict( name="short_name", label=_(u"Name"), listing=True ),
-        dict( name="full_name", label=_(u"Full Name"), description=_(u"Chamber if applicable"), listing=True ),
+        dict( name="short_name", label=_(u"Parliament Identifier"), description=_(u"Unique identifier of each Parliament (e.g. nth Parliament)"), listing=True ),
+        dict( name="full_name", label=_(u"Name"), description=_(u"Parliament name"), listing=True ),
         dict( name="description", property=schema.Text(title=_(u"Description"), required=False )),
-        dict( name="identifier", label=_(u"Parliament Number"), listing=True ),
-        dict( name="election_date", label=_(u"Election Date")),        
-        dict( name="start_date", label=_(u"Start Date")),
-        dict( name="end_date", label=_(u"End Date")),        
+        #dict( name="identifier", label=_(u"Parliament Number"), listing=True ),
+        dict( name="election_date", label=_(u"Election Date"), description=_(u"Date the of the election") ),        
+        dict( name="start_date", label=_(u"In power from"),  description=_(u"Date the of the swearing in") ),
+        dict( name="end_date", label=_(u"In power till"),  description=_(u"Date the of the dissolution") ),        
         ]
         
 class CommitteeDescriptor( GroupDescriptor ):
@@ -94,7 +97,9 @@ class CommitteeDescriptor( GroupDescriptor ):
 class PolitcalPartyDescriptor( GroupDescriptor ):
      
     fields = deepcopy( GroupDescriptor.fields )    
-    
+    fields.extend([
+        dict( name='logo', label=_(u"Logo"))
+     ])
 class MinistryDescriptor( GroupDescriptor ):
 
     fields = deepcopy( GroupDescriptor.fields )       
@@ -116,12 +121,23 @@ class ParliamentSession( ModelDescriptor ):
         
 class GovernmentDescriptor( ModelDescriptor ):
     
-    fields = deepcopy( GroupDescriptor.fields )    
-    fields.extend([
-        dict( name="government_id", omit=True),
-        #dict( name="start_gazetted_date", label=_(u"Gazetted Start Date") ),
-        #dict( name="end_gazetted_date", label=_(u"Gazetted End Date") )
-        ])
+    #fields = deepcopy( GroupDescriptor.fields )    
+    #fields.extend([
+    #    dict( name="government_id", omit=True),
+    #    dict( name="start_gazetted_date", label=_(u"Gazetted Start Date") ),
+    #    dict( name="end_gazetted_date", label=_(u"Gazetted End Date") )
+    #    ])
+    fields = [
+        dict( name="group_id", omit=True ),
+        dict( name="short_name", label=_(u"Name"), description=_(u"Name of the Head of Government"), listing=True),
+        dict( name="full_name", label=_(u"Number")),       
+        dict( name="start_date", label=_(u"In power from"), listing=True ),
+        dict( name="end_date", label=_(u"In power till"), listing=True ),        
+        dict( name="description", property=schema.Text(title=_(u"Notes"))),
+        dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True ),
+        dict( name="government_id", omit=True),     
+        ]
+    
     
 class MotionDescriptor( ModelDescriptor ):
 
@@ -195,7 +211,7 @@ class QuestionDescriptor( ModelDescriptor ):
         dict( name="session_id", 
                 property = schema.Choice( title=_(u"Session"), source=vocabulary.ParliamentSessions, required=False )
             ),
-        dict( name="clerk_submission_date", label=_(u"Submission Date"), listing=True ),
+        dict( name="clerk_submission_date", label=_(u"Submission Date"), listing=True, omit=True ),
         dict( name="question_type", label=_(u"Question Type"), description=_("(O)rdinary or (P)rivate Notice"),  listing=True ), 
         #dict( name="question_type",
         #		property = schema.Choice( title=_(u"Question Type"), description=_("(O)rdinary or (P)rivate Notice"), source=vocabulary.QuestionType, required=False )
@@ -205,7 +221,14 @@ class QuestionDescriptor( ModelDescriptor ):
                 property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, 'last_name', 'user_id' ), #XXX
                 required=True ) 
             ),
-        dict( name="status", label=_(u"Status"), listing=True ),
+        dict( name="subject", label=_(u"Subject"), description=_(u"Subject of the Question"), ),
+        dict( name="question_text", property=schema.Text(title=_(u"Question"), required=True )),
+        dict( name="ministry_id",
+                property = schema.Choice( title=_(u"to Ministry"), source=DatabaseSource(domain.Ministry, 'full_name', 'group_id' ), 
+                required=False ) 
+            ),
+        #label=_("Question"), description=_(u"The Question submitted")),        
+        dict( name="status", label=_(u"Status"), omit=True ),
         dict( name="supplement_parent_id", omit=True), #XXX
         dict( name="sitting_id", omit=True), #XXX
         dict( name="sitting_time", label=_(u"Sitting Time"), listing=True ),
@@ -253,11 +276,13 @@ class RegionDescriptor( ModelDescriptor ):
 class ConstituencyDetailDescriptor( ModelDescriptor ):
     fields = [
         dict( name="constituency_detail_id", omit=True ),
-        dict( name="constituency_id", label=_(u"Name"), description=_("Name of the constituency"), listing=False ), #XXX
-        #dict( name='constituency_id',
-        #      property = schema.Choice( title=_(u"Constituency"), source=DatabaseSource(domain.Constituency, 'constituency_identifier','constituencies.constituency_id')),
-        #      listing=False , reqired=True
-        #    ),
+        #dict( name="constituency_id", label=_(u"Name"), description=_("Name of the constituency"), listing=False ), #XXX
+        dict( name='constituency_id',
+              property = schema.Choice( title=_(u"Constituency"), 
+                                        source=DatabaseSource(domain.Constituency, 'constituency_identifier','constituency_id'), 
+                                        required=True),
+              
+            ),
         dict( name="date", label=_(u"Date"), description=_(u"Date the data was submitted from the Constituency"), listing=True ),
         dict( name="population", label=_(u"Population"), description=_(u"Total Number of People living in this Constituency"), listing=True ),
         dict( name="voters", label=_(u"Voters"), description=_(u"Number of Voters registered in this Constituency"), listing=True ),

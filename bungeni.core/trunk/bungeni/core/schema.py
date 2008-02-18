@@ -19,6 +19,7 @@ users = rdb.Table(
    metadata,
    rdb.Column( "user_id", rdb.Integer, primary_key=True ),
    rdb.Column( "login", rdb.Unicode(16), unique=True,  ),
+   rdb.Column( "titles", rdb.Unicode(32)),
    rdb.Column( "first_name", rdb.Unicode(80), nullable=False ),
    rdb.Column( "last_name", rdb.Unicode(80), nullable=False ),
    rdb.Column( "middle_name", rdb.Unicode(80) ),
@@ -32,7 +33,9 @@ users = rdb.Table(
    rdb.Column( "national_id", rdb.Unicode(32) ),
    rdb.Column( "password", rdb.String(36)), # we store salted md5 hash hexdigests
    rdb.Column( "salt", rdb.String(24)),    
-   rdb.Column( "active_p", rdb.Boolean ),
+   rdb.Column( "active_p", rdb.String,
+                rdb.CheckConstraint("active_p in ('A', 'I', 'D')"),
+                nullable=False), #activ/inactiv/deceased
    rdb.Column( "type", rdb.String(30), nullable=False )
    )
 
@@ -59,6 +62,9 @@ parliament_members = rdb.Table(
    # this is only meant as a shortcut.. to the active parliament, else use group memberships
    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'), primary_key=True ), #a person can be member of multiple parliaments
    rdb.Column( "constituency_id", rdb.Integer, rdb.ForeignKey('constituencies.constituency_id') ),
+   rdb.Column( "elected_nominated", rdb.String(1), 
+                rdb.CheckConstraint("elected_nominated in ('E','N')"), # is the MP elected or nominated
+                nullable=False ),
    rdb.Column( "start_date", rdb.DateTime, nullable=False ),
    rdb.Column( "end_date", rdb.DateTime ),
    rdb.Column( "leave_reason", rdb.Unicode ),
@@ -163,7 +169,7 @@ parliaments = rdb.Table(
    "parliaments",
    metadata,
    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),   
-   rdb.Column( "identifier", rdb.String(5), nullable=False, unique=True ),
+   #rdb.Column( "identifier", rdb.String(5), nullable=False, unique=True ),
    rdb.Column( "election_date", rdb.DateTime ),
    )
 
@@ -179,12 +185,38 @@ committees = rdb.Table(
    metadata,
    rdb.Column( "commitee_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id')),
+   rdb.Column( "committe_type_id", rdb.Integer, rdb.ForeignKey( 'committee_types.committee_type_id')),
+   rdb.Column( "no_members", rdb.Integer),
+   rdb.Column( "min_no_members", rdb.Integer),
+   rdb.Column( "quorum", rdb.Integer ),
+   rdb.Column( "no_clerks", rdb.Integer ),
+   rdb.Column( "no_researchers", rdb.Integer ),
+   rdb.Column( "proportional_representation", rdb.Boolean ),
+   rdb.Column( "researcher_required", rdb.Boolean ),
+   rdb.Column( "default_chairperson", rdb.Boolean ),
+   rdb.Column( "default_position", rdb.Unicode(80) ),
+   rdb.Column( "dissolution_date", rdb.DateTime ),
+   rdb.Column( "reinstatement_date", rdb.DateTime ),
    )
+
+committee_type = rdb.Table(
+    "committee_types",
+    metadata,
+    rdb.Column("committee_type_id", rdb.Integer, primary_key=True),
+    rdb.Column("committee_type", rdb.Unicode(80), nullable=False),
+    rdb.Column("description", rdb.Unicode,),
+    rdb.Column("life_span", rdb.Unicode(16)),
+    rdb.Column("status", rdb.String(1),             # maybe to be moved to a lookup table 
+       rdb.CheckConstraint("status in ('P','T')"),  # Indicate whether this type of committees are: ‘P' - Permanent, ‘T' - Temporary 
+                nullable=False ),
+                
+    )
 
 political_parties = rdb.Table(
    "political_parties",
    metadata,
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),   
+   rdb.Column( "logo", rdb.Binary, ),
    )
 
 
@@ -393,16 +425,19 @@ questions = rdb.Table(
    rdb.Column( "question_id", rdb.Integer, ItemSequence, primary_key=True ),
    
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
-   rdb.Column( "clerk_submission_date", rdb.DateTime ),
+   rdb.Column( "clerk_submission_date", rdb.DateTime, default=rdb.func.current_timestamp() ),
    rdb.Column( "question_type", rdb.Unicode(1), 
                 rdb.CheckConstraint("question_type in ('O', 'P')"), default=u"O" ), # (O)rdinary (P)rivate Notice
    rdb.Column( "response_type", rdb.Unicode(1), 
                 rdb.CheckConstraint("response_type in ('O', 'W')"), default=u"O" ), # (O)ral (W)ritten
 
    # TODO - ? normalize to use user item associations.
-   rdb.Column( "owner", rdb.Integer, nullable=False),
+   rdb.Column( "owner", rdb.Integer, nullable=False ),
    rdb.Column( "parliament_id", rdb.Integer, nullable=False ),
-   rdb.ForeignKeyConstraint(['owner', 'parliament_id'], ['parliament_members.member_id', 'parliament_members.parliament_id']),
+   #rdb.ForeignKeyConstraint(['owner', 'parliament_id'], ['parliament_members.member_id', 'parliament_members.parliament_id']),
+   rdb.Column( "subject", rdb.Unicode(80), nullable=False ),
+   rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('ministries.ministry_id') ),
+   rdb.Column( "question_text", rdb.Unicode, nullable=False ),
    # Workflow State
    rdb.Column( "status", rdb.Unicode(16) ),
    
@@ -440,14 +475,15 @@ motions = rdb.Table(
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
    rdb.Column( "submission_date", rdb.DateTime ),
    rdb.Column( "public", rdb.Boolean ),
-   rdb.Column( "title", rdb.Unicode ),
+   rdb.Column( "title", rdb.Unicode(80) ),
    rdb.Column( "identifier", rdb.Integer),
    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),
+   rdb.Column( "seconder_id", rdb.Integer, rdb.ForeignKey('users.user_id') ), 
    rdb.Column( "body_text", rdb.Unicode ),
    rdb.Column( "received_date", rdb.DateTime ),
    rdb.Column( "entered_by", rdb.Integer, rdb.ForeignKey('users.user_id') ),   
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('political_parties.party_id')  ), # if the motion was sponsored by a party
-   rdb.Column( "notice_date", rdb.DateTime ),
+   rdb.Column( "notice_date", rdb.DateTime, default=rdb.PassiveDefault('now') ),
    rdb.Column( "status",  rdb.Unicode(12) ),
    )
 
@@ -471,7 +507,7 @@ bills = rdb.Table(
    "bills",
    metadata,
    rdb.Column( "bill_id", rdb.Integer, ItemSequence, primary_key=True ),
-   rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
+   rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('ministries.ministry_id') ),
    rdb.Column( "identifier",  rdb.Integer),
    rdb.Column( "preamble", rdb.Unicode ),   
    rdb.Column( "title", rdb.Unicode ), 

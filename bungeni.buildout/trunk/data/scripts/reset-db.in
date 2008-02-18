@@ -13,4 +13,4 @@ echo "Creating Bungeni Database"
 
 echo "Loading Bungeni Schema"
 # create the database schema
-/Users/kapil/projects/bungeni/bin/python /Users/kapil/projects/bungeni/data/scripts/setup-schema.py
+%(bin-directory)s/python /Users/kapil/projects/bungeni/data/scripts/setup-schema.py

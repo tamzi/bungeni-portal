@@ -6,12 +6,14 @@ from zope import interface
 from zope.app.security.interfaces import IAuthentication
 from zope.app.authentication import PluggableAuthentication
 from zope.app.component import site
-from zope.app.container.sample import SampleContainer as Container
-
+from ore.alchemist.interfaces import IAlchemistContent
+from zope.traversing.browser.interfaces import IAbsoluteURL
+from zope.publisher.interfaces.http import IHTTPRequest
 from ore.wsgiapp.app import Application
 
 import domain
 import interfaces
+import url
 
 
 class BungeniApp( Application ):
@@ -37,7 +39,7 @@ class AppSetup( object ):
         # setup authentication plugin
         auth = PluggableAuthentication()
         auth.credentialsPlugins = ('Cookie Credentials',)
-        auth.authenticatorPlugins = ('bungeni-rdb-auth',)
+        auth.authenticatorPlugins = ('rdb-auth',)
         sm.registerUtility( auth, IAuthentication )
 
         # setup app structure
@@ -58,36 +60,46 @@ class AppSetup( object ):
         
         motions = domain.MotionContainer()
         self.context['motions'] = motions
-
+        
         questions = domain.QuestionContainer()
         self.context['questions'] = questions
         
         #users = domain.UsersContainer()
         #self.context['users'] = users
-		
+        
         parliament_members = domain.ParliamentMemberContainer()
         self.context['members'] = parliament_members
-	
+        
         #groups = domain.GroupContainer()       
         #self.context['groups'] = groups
-		
+        
         constituency = domain.ConstituencyContainer()
         self.context['constituencies'] = constituency
         
-        province = domain.ProvinceContainer()
-        self.context['provinces'] = province
+        provinces = domain.ProvinceContainer()
+        self.context['provinces'] = provinces
         
-        region = domain.RegionContainer()
-        self.context['regions'] = region
-	
-        ministry = domain.MinistryContainer()
-        self.context['ministries'] = ministry
+        regions = domain.RegionContainer()
+        self.context['regions'] = regions
         
-        politicalparty = domain.PoliticalPartyContainer()
-        self.context['politicalparties'] = politicalparty
+        ministries = domain.MinistryContainer()
+        self.context['ministries'] = ministries
         
-        #session = domain.ParliamentSessionContainer()
-        #self.context['sessions'] = session
+        parties = domain.PoliticalPartyContainer()
+        self.context['politicalparties'] = parties
         
+        self.context['sessions'] = domain.ParliamentSessionContainer()
         
-        
+        # todo separate out to url module
+        #url.setupResolver( self.context )
+        # 
+        # provide a url resolver for object urls
+        url_resolver = url.AbsoluteURLFactory( self.context )
+        sm.registerAdapter( factory=url_resolver, 
+                            required=(IAlchemistContent, IHTTPRequest), 
+                            provided=IAbsoluteURL, name="absolute_url")
+                           
+        sm.registerAdapter( factory=url_resolver, 
+                            required=(IAlchemistContent, IHTTPRequest),
+                            provided=IAbsoluteURL )
+

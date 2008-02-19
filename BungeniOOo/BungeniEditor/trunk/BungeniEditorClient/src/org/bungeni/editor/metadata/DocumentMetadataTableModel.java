@@ -75,10 +75,13 @@ public class DocumentMetadataTableModel extends AbstractTableModel {
       return String.class;
   }
   
-   public void refreshMetaData(/*OOComponentHelper ooDoc*/){
-        //John: the following are not needed
-        //this.ooDocument = ooDoc;
+   public void setOOComponentHelper(OOComponentHelper ooDoc) {
+       this.ooDocument = ooDoc;
+   }
+   public void refreshMetaData(){
+    //John: the following are not needed
         //metaSupplier = new DocumentMetadataSupplier(ooDocument);
+      // metaSupplier.setOOComponentHelper(this.ooDocument);
         metaSupplier.loadMetadataFromDocument();
     }    
     

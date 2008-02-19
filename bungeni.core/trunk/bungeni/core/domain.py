@@ -30,12 +30,21 @@ class User( object ):
     
     interface.implements( interfaces.IBungeniUser  )
     
-    def __init__( self, login=None ):
+    def __init__( self, login=None, **kw ):
         self.login = login
-        self.salt = ''.join( random.sample( string.letters, 12) )
+        self.salt = self._makeSalt()
     
+    def _makeSalt( self ):
+        return ''.join( random.sample( string.letters, 12) )
+        
+    def setPassword( self, password ):
+        self.password = self.encode( password )
+        
+    def encode( self, password ):
+        return md5.md5( password + self.salt ).hexdigest()
+        
     def checkPassword( self, password_attempt ):
-        attempt = md5.md5( password_attempt + self.salt ).hexdigest()
+        attempt = self.encode( password_attempt )
         return attempt == self.password
 
     @property

@@ -247,7 +247,7 @@ class ResponseDescriptor( ModelDescriptor ):
 class ConstituencyDescriptor( ModelDescriptor ):
 	fields = [
         dict( name="constituency_id", omit=True ),
-        dict( name="constituency_identifier", label=_(u"Identifier"), description=_(u"Identifier of the Constitueny, usually a Number"), listing =True ),
+        #dict( name="constituency_identifier", label=_(u"Identifier"), description=_(u"Identifier of the Constitueny, usually a Number"), listing =True ),
         dict( name="name", label=_(u"Name"), description=_("Name of the constituency"), listing=True ),
         dict(name="province",
             property = schema.Choice( title=_(u"Province"), source=DatabaseSource(domain.Province,'province', 'province_id'), 

@@ -92,11 +92,9 @@ constituencies = rdb.Table(
    "constituencies",
    metadata,
    rdb.Column( "constituency_id", rdb.Integer, primary_key=True ),
-   rdb.Column( "constituency_identifier", rdb.Unicode(16), nullable=False ),
+   #rdb.Column( "constituency_identifier", rdb.Unicode(16), nullable=False ),
    rdb.Column( "name", rdb.Unicode(80), nullable=False ),
-   #rdb.Column( "province", rdb.Unicode ),
    rdb.Column( "province", rdb.Integer, rdb.ForeignKey('provinces.province_id') ),
-   #rdb.Column( "region", rdb.Unicode ),
    rdb.Column( "region", rdb.Integer, rdb.ForeignKey('regions.region_id') ),
    rdb.Column( "start_date", rdb.DateTime, nullable=False ),
    rdb.Column( "end_date", rdb.DateTime ),   
@@ -122,7 +120,7 @@ countries = rdb.Table(
     "countries",
     metadata,
     rdb.Column( "country_id", rdb.String(2), primary_key=True ),
-    rdb.Column( "country_name", rdb.Unicode(40), nullable=False ),
+    rdb.Column( "country_name", rdb.Unicode(80), nullable=False ),
     )
         
 constituency_details = rdb.Table(

@@ -59,6 +59,15 @@ public class DocumentMetadataSupplier {
         return metadataMap.values().toArray(new DocumentMetadata[metadataMap.size()]);
     }
     
+    
+    /*
+     *Set ooDocument OOComponentHelper Object
+     */
+    
+    public void setOOComponentHelper(OOComponentHelper ooDoc){
+        this.ooDocument = ooDoc;
+    }
+    
     /*
      *Get metadata values from document into metadata map
      */
@@ -73,7 +82,10 @@ public class DocumentMetadataSupplier {
                 if (ooDocument.propertyExists(metadata.getName())) {
                    metadata.setValue(ooDocument.getPropertyValue(metaName));
                    metadataMap.put(metadata.getName(), metadata); 
-                } 
+                } else {
+                  // metadata.setValue("ERROR_PROP_DOES_NOT_EXIST");
+                 //  metadataMap.put(metadata.getName(), metadata); 
+                }
             }
         }
         } catch (UnknownPropertyException ex) {

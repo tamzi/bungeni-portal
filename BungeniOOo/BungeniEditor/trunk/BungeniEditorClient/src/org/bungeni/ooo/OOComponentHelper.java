@@ -65,10 +65,13 @@ import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 import com.sun.star.xml.AttributeData;
 import java.awt.Color;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+import org.bungeni.utils.CommonExceptionUtils;
+import org.omg.CORBA.COMM_FAILURE;
 
 /**
  * 
@@ -426,6 +429,12 @@ public class OOComponentHelper {
         } catch (IllegalTypeException ex) {
             log.error(ex.getLocalizedMessage(), ex);
         }
+    }
+    
+    public com.sun.star.beans.Property[] getDocumentProperties(){
+        XDocumentInfo xInfo  = this.getDocumentInfo();
+        XPropertySet xDocSet = ooQueryInterface.XPropertySet(xInfo);
+        return xDocSet.getPropertySetInfo().getProperties();
     }
     
     /**
@@ -1103,6 +1112,19 @@ public XNameAccess getGraphicObjects(){
     XTextGraphicObjectsSupplier gobSupplier = ooQueryInterface.XTextGraphicObjectsSupplier(this.getTextDocument());
     return gobSupplier.getGraphicObjects();
 }
+
+public boolean isTextGraphicObjectSelected(){
+    boolean bReturn = false;
+    XTextViewCursor viewCursor = this.getViewCursor();
+    Object selection = this.getCurrentSelection();
+    XServiceInfo xSelInfo = ooQueryInterface.XServiceInfo(selection); 
+    if (xSelInfo.supportsService("com.sun.star.text.TextGraphicObject")) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 public int changeSelectedTextImageName(String newName) {
     int nReturn = -1;
     try {
@@ -1110,30 +1132,12 @@ public int changeSelectedTextImageName(String newName) {
     Object selection = this.getCurrentSelection();
     XServiceInfo xSelInfo = ooQueryInterface.XServiceInfo(selection); 
     if (xSelInfo.supportsService("com.sun.star.text.TextGraphicObject")) {
-        XNameAccess graphicObjectAccess =        this.getGraphicObjects();
-        if (graphicObjectAccess.getElementNames().length > 1)  {
-            nReturn = -1; //more than one object was selected
-        } else if (graphicObjectAccess.getElementNames().length == 0) {
-            nReturn =  -2; //no grphic object selected
-        } else {
-            String[] elemnames = graphicObjectAccess.getElementNames();
-            XTextContent graphObj;
-            graphObj = ooQueryInterface.XTextContent(graphicObjectAccess.getByName(elemnames[0]));
-            XPropertySet graphProperties = ooQueryInterface.XPropertySet(graphObj);
-            graphProperties.setPropertyValue("Name", newName);
+            XNamed xGraphName = ooQueryInterface.XNamed(selection);
+            xGraphName.setName(newName);
             nReturn = 0;
           }
-        }
-     } catch (WrappedTargetException ex) {
-                log.error(ex.getMessage());
-      } catch (NoSuchElementException ex) {
-            log.error(ex.getMessage());
-      } catch (UnknownPropertyException ex) {
-            log.error(ex.getMessage());
-      } catch (PropertyVetoException ex) {
-            log.error(ex.getMessage());
-      } catch (com.sun.star.lang.IllegalArgumentException ex) {
-            log.error(ex.getMessage());
+     } catch (Exception ex) {
+            log.error("changeSelectedTextImageName: "+ex.getMessage());         
       } finally {
           return nReturn;
       }

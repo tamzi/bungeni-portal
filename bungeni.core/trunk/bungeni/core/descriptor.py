@@ -76,6 +76,8 @@ class GroupDescriptor( ModelDescriptor ):
 class ParliamentDescriptor( GroupDescriptor ):
     
     fields = [
+        dict( name="group_id", omit=True ),
+        dict( name="parliament_id", omit=True ),
         dict( name="short_name", label=_(u"Parliament Identifier"), description=_(u"Unique identifier of each Parliament (e.g. nth Parliament)"), listing=True ),
         dict( name="full_name", label=_(u"Name"), description=_(u"Parliament name"), listing=True ),
         dict( name="description", property=schema.Text(title=_(u"Description"), required=False )),
@@ -90,7 +92,7 @@ class CommitteeDescriptor( GroupDescriptor ):
     fields = deepcopy( GroupDescriptor.fields )
     fields.extend([
         dict( name='parliament_id', 
-            property=schema.Choice( title=_(u"Parliament"), source=DatabaseSource(domain.Parliament,"identifier", "parliament_id")),
+            property=schema.Choice( title=_(u"Parliament"), source=DatabaseSource(domain.Parliament,"short_name", "parliament_id")),
             )
     ])
     

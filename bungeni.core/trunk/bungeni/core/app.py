@@ -13,7 +13,7 @@ from ore.wsgiapp.app import Application
 
 import domain
 import interfaces
-import url
+#import url
 
 
 class BungeniApp( Application ):
@@ -94,12 +94,15 @@ class AppSetup( object ):
         #url.setupResolver( self.context )
         # 
         # provide a url resolver for object urls
-        url_resolver = url.AbsoluteURLFactory( self.context )
-        sm.registerAdapter( factory=url_resolver, 
-                            required=(IAlchemistContent, IHTTPRequest), 
-                            provided=IAbsoluteURL, name="absolute_url")
+        
+        ######### does this cause the multiadapter error? ########
+        
+        #url_resolver = url.AbsoluteURLFactory( self.context )
+        #sm.registerAdapter( factory=url_resolver, 
+        #                    required=(IAlchemistContent, IHTTPRequest), 
+        #                    provided=IAbsoluteURL, name="absolute_url")
                            
-        sm.registerAdapter( factory=url_resolver, 
-                            required=(IAlchemistContent, IHTTPRequest),
-                            provided=IAbsoluteURL )
+        #sm.registerAdapter( factory=url_resolver, 
+        #                    required=(IAlchemistContent, IHTTPRequest),
+        #                    provided=IAbsoluteURL )
 

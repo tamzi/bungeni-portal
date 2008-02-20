@@ -6,4 +6,10 @@ from ploned.ui.interfaces import IPlonedSkin
 
 class IBungeniSkin( IPlonedSkin ):
     """ skin for bungeni """
+    
+class IWorkflowViewletManager( IViewletManager ):
+    """
+    Viewlet manager to display worflow history
+    """
+
 

@@ -18,5 +18,7 @@
      allowed_interface="zope.interface.common.mapping.IItemMapping"
      layer=".interfaces.IBungeniSkin"     
      />
+     
+
 
 </configure>

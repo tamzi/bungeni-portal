@@ -9,6 +9,41 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from ore.workflow import interfaces
 from bungeni.core.i18n import _
 from zope.formlib import form
+from zope.viewlet.manager import WeightOrderedViewletManager
+from zope.viewlet import viewlet
+import zope.interface
+from interfaces import IWorkflowViewletManager
+
+class WorkflowViewletManager( WeightOrderedViewletManager ):
+    """
+    implements the Workflowviewlet
+    """
+    zope.interface.implements(IWorkflowViewletManager)
+
+class WorkflowViewlet( viewlet.ViewletBase ):
+    """"
+    implements the workflowviewlet
+    this viewlet shows the current workflow state.
+    """
+    
+    def __init__( self, context, request, view, manager ):
+        self.weight = 0
+        self.context = context
+        #self.request = request
+        self.__parent__= view
+        #self.manager = manager
+        self.wf_status = 'new'
+        
+    def update(self):
+        try:
+            wf_state =interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
+        except:
+            wf_state = 'undefined'            
+        self.wf_status = wf_state       
+        
+    def render ( self ):
+        return ( self.wf_status )
+
 
 #################################
 # workflow transition 2 formlib action bindings

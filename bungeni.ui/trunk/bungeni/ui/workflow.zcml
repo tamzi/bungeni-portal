@@ -1,9 +1,28 @@
 <configure xmlns:browser="http://namespaces.zope.org/browser">
 
-<browser:page 
+   <browser:page 
     for="bungeni.core.interfaces.IBungeniContent"
     name="workflow"
     class=".workflow.Workflow"
     permission="zope.Public"/>
-
+    
+    
+   <!-- Workflow View  -->
+   <browser:viewletManager
+     name="IWorkflowViewletManager"
+     provides=".interfaces.IWorkflowViewletManager"     
+     class=".workflow.WorkflowViewletManager"
+     permission="zope.View"
+     layer=".interfaces.IBungeniSkin"          
+     />
+     
+   <browser:viewlet
+    name="viewlet.workflow"   
+    manager="ploned.ui.interfaces.ILeftColumnManager"
+    class=".workflow.WorkflowViewlet"
+    permission="zope.Public"
+    layer=".interfaces.IBungeniSkin"    
+    weight="2"
+    />
+    
 </configure>

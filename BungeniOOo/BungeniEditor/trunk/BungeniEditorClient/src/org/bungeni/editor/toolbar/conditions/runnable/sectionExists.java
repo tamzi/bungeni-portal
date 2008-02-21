@@ -15,7 +15,11 @@ import org.bungeni.editor.toolbar.conditions.IBungeniToolbarCondition;
 import org.bungeni.ooo.OOComponentHelper;
 
 /**
- *
+ * 
+ * Contextual evaluator that checks if a particular section exists in the document.
+ * e.g. sectionsExists:section_name
+ * will evaluate to true if a section called section_name exists the document
+ * will evaluate to false if a section called section_name does not exist the document
  * @author Administrator
  */
 public class sectionExists implements IBungeniToolbarCondition {

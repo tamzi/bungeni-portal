@@ -17,7 +17,11 @@ import org.bungeni.editor.toolbar.conditions.IBungeniToolbarCondition;
 import org.bungeni.ooo.OOComponentHelper;
 
 /**
- *
+ * 
+ * Contextual evaluator that checks if a field exists in a document.
+ * e.g. fieldExists:field_name
+ * will evaluate to true if the field_name exists in the document
+ * will evaluate to false if the field_name does not exist in the document
  * @author Administrator
  */
 public class fieldExists implements IBungeniToolbarCondition {

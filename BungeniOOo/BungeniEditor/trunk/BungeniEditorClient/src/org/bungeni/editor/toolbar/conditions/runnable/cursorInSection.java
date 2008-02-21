@@ -15,7 +15,12 @@ import org.bungeni.editor.toolbar.conditions.IBungeniToolbarCondition;
 import org.bungeni.ooo.OOComponentHelper;
 
 /**
- *
+ * 
+ * Contextual evauluator that checks if the cursor is in a particular section in the document.
+ * e.g. cursorInSection:section_name
+ * will evaluate to true if the cursor is placed in section called section_name
+ * will evaluate to false if the cursor is placed in section not called section_name
+ * will evaluate to false if the cursor is not placed in a section.
  * @author Administrator
  */
 public class cursorInSection implements IBungeniToolbarCondition {

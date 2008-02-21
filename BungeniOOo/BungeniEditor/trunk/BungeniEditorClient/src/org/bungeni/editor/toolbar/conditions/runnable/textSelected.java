@@ -15,7 +15,12 @@ import org.bungeni.editor.toolbar.conditions.IBungeniToolbarCondition;
 import org.bungeni.ooo.OOComponentHelper;
 
 /**
- *
+ * 
+ * Contextual evaluator that checks if text has been selected in the document.
+ * (i.e. the cursor has highlight some text)
+ * e.g. textSelected: false
+ * will evaluate to true if no text was selected in the document
+ * will evalaute to false if text selected in the document.
  * @author Administrator
  */
 public class textSelected implements IBungeniToolbarCondition {

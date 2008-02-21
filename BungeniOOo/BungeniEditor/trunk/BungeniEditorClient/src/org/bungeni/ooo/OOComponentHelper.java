@@ -1125,7 +1125,19 @@ public boolean isTextGraphicObjectSelected(){
     }
 }
 
-public int changeSelectedTextImageName(String newName) {
+public String getSelectedTextImageName() {
+    String selectedImage = "";
+    if (this.isTextGraphicObjectSelected()) {
+        XTextViewCursor viewCursor = this.getViewCursor();
+        Object selection = this.getCurrentSelection();
+        XNamed xGraphName = ooQueryInterface.XNamed(selection);
+        selectedImage = xGraphName.getName();
+        return selectedImage;
+    } else 
+        return selectedImage;
+}
+
+public int setSelectedTextImageName(String newName) {
     int nReturn = -1;
     try {
     XTextViewCursor viewCursor = this.getViewCursor();

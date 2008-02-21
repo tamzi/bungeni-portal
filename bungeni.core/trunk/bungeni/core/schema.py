@@ -58,9 +58,9 @@ users = rdb.Table(
 parliament_members = rdb.Table(
    "parliament_members",
    metadata,
-   rdb.Column( "member_id", rdb.Integer, rdb.ForeignKey('users.user_id'), primary_key=True ),
+   rdb.Column( "membership_id", rdb.Integer, rdb.ForeignKey('user_group_memberships.membership_id'), primary_key=True ),
    # this is only meant as a shortcut.. to the active parliament, else use group memberships
-   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'), primary_key=True ), #a person can be member of multiple parliaments
+   #rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'), primary_key=True ), #a person can be member of multiple parliaments
    rdb.Column( "constituency_id", rdb.Integer, rdb.ForeignKey('constituencies.constituency_id') ),
    rdb.Column( "elected_nominated", rdb.String(1), 
                 rdb.CheckConstraint("elected_nominated in ('E','N')"), # is the MP elected or nominated
@@ -73,6 +73,8 @@ parliament_members = rdb.Table(
    # substitutions 
 
    )   
+   
+   
 
 reporters = rdb.Table(
    "reporters",

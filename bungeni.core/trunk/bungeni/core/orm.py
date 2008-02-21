@@ -76,9 +76,21 @@ mapper( domain.Committee, schema.committees,
         )        
 
 
-mapper( domain.ParliamentMember, schema.parliament_members,
-        inherits=domain.User,
-        polymorphic_identity='memberofparliament')
+#mapper( domain.ParliamentMember, schema.parliament_members,
+#        inherits=domain.User,
+#        polymorphic_identity='memberofparliament')
+
+# A parliament member is described by 
+# membership in the parliament (group + parliament_id)
+# plus the additional data in the parliament_members table.
+#SELECT * FROM "user_group_memberships", "users", "groups", "parliaments", "parliament_members" 
+#WHERE 
+#( "user_group_memberships"."user_id" = "users"."user_id" 
+#  AND "user_group_memberships"."group_id" = "groups"."group_id" 
+#  AND "parliaments"."parliament_id" = "groups"."group_id" 
+#  AND "parliament_members"."membership_id" = "user_group_memberships"."membership_id" )
+
+
 
 mapper( domain.HansardReporter, schema.reporters,
         inherits=domain.User,

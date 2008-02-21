@@ -76,9 +76,9 @@ mapper( domain.Committee, schema.committees,
         )        
 
 
-#mapper( domain.ParliamentMember, schema.parliament_members,
-#        inherits=domain.User,
-#        polymorphic_identity='memberofparliament')
+mapper( domain.ParliamentMember, 
+        inherits=domain.User,
+        polymorphic_identity='memberofparliament')
 
 # A parliament member is described by 
 # membership in the parliament (group + parliament_id)
@@ -89,6 +89,8 @@ mapper( domain.Committee, schema.committees,
 #  AND "user_group_memberships"."group_id" = "groups"."group_id" 
 #  AND "parliaments"."parliament_id" = "groups"."group_id" 
 #  AND "parliament_members"."membership_id" = "user_group_memberships"."membership_id" )
+
+# schema.user_group_membership.join(schema.parliament_members)
 
 
 

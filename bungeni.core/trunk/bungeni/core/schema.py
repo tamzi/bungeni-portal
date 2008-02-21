@@ -9,6 +9,7 @@ import sqlalchemy as rdb
 
 metadata = rdb.MetaData()
 
+ItemSequence = rdb.Sequence('item_sequence')
 
 #######################
 # Users 
@@ -17,8 +18,8 @@ metadata = rdb.MetaData()
 users = rdb.Table(
    "users",
    metadata,
-   rdb.Column( "user_id", rdb.Integer, primary_key=True ),
-   rdb.Column( "login", rdb.Unicode(16), unique=True,  ),
+   rdb.Column( "user_id", rdb.Integer, ItemSequence, primary_key=True ),
+   rdb.Column( "login", rdb.Unicode(16), unique=True, nullable=True ),
    rdb.Column( "titles", rdb.Unicode(32)),
    rdb.Column( "first_name", rdb.Unicode(80), nullable=False ),
    rdb.Column( "last_name", rdb.Unicode(80), nullable=False ),
@@ -93,7 +94,7 @@ reporters = rdb.Table(
 constituencies = rdb.Table(
    "constituencies",
    metadata,
-   rdb.Column( "constituency_id", rdb.Integer, primary_key=True ),
+   rdb.Column( "constituency_id", rdb.Integer, ItemSequence, primary_key=True ),
    #rdb.Column( "constituency_identifier", rdb.Unicode(16), nullable=False ),
    rdb.Column( "name", rdb.Unicode(80), nullable=False ),
    rdb.Column( "province", rdb.Integer, rdb.ForeignKey('provinces.province_id') ),
@@ -107,14 +108,14 @@ constituencies = rdb.Table(
 provinces = rdb.Table(
     "provinces",
     metadata,
-    rdb.Column( "province_id", rdb.Integer, primary_key=True ),
+    rdb.Column( "province_id", rdb.Integer, ItemSequence, primary_key=True ),
     rdb.Column( "province", rdb.Unicode(80), nullable=False ),
     )
     
 regions = rdb.Table(
     "regions",
     metadata,
-    rdb.Column( "region_id", rdb.Integer, primary_key=True ),
+    rdb.Column( "region_id", rdb.Integer, ItemSequence, primary_key=True ),
     rdb.Column( "region", rdb.Unicode(80), nullable=False ),    
     )
     
@@ -128,7 +129,7 @@ countries = rdb.Table(
 constituency_details = rdb.Table(
     "constituency_details",
     metadata,
-    rdb.Column( "constituency_detail_id", rdb.Integer, primary_key=True ),
+    rdb.Column( "constituency_detail_id", rdb.Integer, ItemSequence, primary_key=True ),
     rdb.Column( "constituency_id", rdb.Integer, rdb.ForeignKey('constituencies.constituency_id') ),
     rdb.Column( "date", rdb.DateTime, nullable=False ),
     rdb.Column( "population", rdb.Integer, nullable=False ),
@@ -147,7 +148,7 @@ other things in the system.
 groups = rdb.Table(
    "groups",
    metadata,
-   rdb.Column( "group_id", rdb.Integer, primary_key=True ),
+   rdb.Column( "group_id", rdb.Integer, ItemSequence,  primary_key=True ),
    rdb.Column( "short_name", rdb.Unicode(16), nullable=False ),
    rdb.Column( "full_name", rdb.Unicode(32) ),   
    rdb.Column( "description", rdb.Unicode ),
@@ -370,7 +371,7 @@ def make_versions_table( table, metadata ):
             
     return versions_table
     
-ItemSequence = rdb.Sequence('item_sequence')
+
 
 item_votes = rdb.Table( 
    'item_votes',

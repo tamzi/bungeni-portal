@@ -16,14 +16,16 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="last_name", label=_(u"Last Name"), listing=True),
         dict( name="middle_name", label=_(u"Middle Name")),
         dict( name="email", label=_(u"Email")),
+        dict( name="login", label=_(u"Login Name")),
         dict( name="national_id", label=_(u"National Id")),
         dict( name="gender", label=_(u"Gender")),
         dict( name="date_of_birth", label=_(u"Date of Birth")),
-        dict( name="birth_country", 
-            property = schema.Choice( title=_(u"Country of Birth"), 
-                                       source=DatabaseSource(domain.Country, 'country_name', 'country_id' ),
-                                       required=True )
-            ),
+        dict( name="birth_country", label=_(u"Country of Birth"), description =_(u"ISO Code of the  country")),
+#        dict( name="birth_country", 
+#            property = schema.Choice( title=_(u"Country of Birth"), 
+#                                       source=DatabaseSource(domain.Country, 'country_name', 'country_id' ),
+#                                       required=True )
+#            ),
         dict( name="date_of_death", label=_(u"Date of Death"), view_permission="bungeni.AdminUsers", edit_permission="bungeni.AdminUsers"),
         dict( name="password", omit=True ),
         dict( name="salt", omit=True),
@@ -34,28 +36,28 @@ class UserDescriptor( ModelDescriptor ):
 class MemberDescriptor( UserDescriptor ):
 
     fields = deepcopy( UserDescriptor.fields )
-    fields.extend([
-        dict( name="member_id", omit=True ),
-        dict( name="elected_nominated", label=_("elected/nominated"), description=_("Is the MP (E)lected or (N)ominated")),
-        # this is only meant as a shortcut.. to the active parliament, else use group memberships 
-        # note that parliament_id = group_id      
-        dict( name="parliament_id",
-             property = schema.Choice( title=_(u"Parliament"), 
-                                       source=DatabaseSource(domain.Parliament, 'identifier', 'parliament_id' ),
-                                       required=True )
-              ), 
-        dict( name="constituency_id",
-             property = schema.Choice( title=_(u"Constituency"), 
-                                       source=DatabaseSource(domain.Constituency, 
-                                                             'constituency_identifier', 
-                                                             'constituency_id'),
-                                       required=True )
-              ),                
-        # these are again short cuts..
-        dict( name="start_date", label=_(u"Start Date"), listing=True),
-        dict( name="end_date", label=_(u"End Date"), listing=True ),
-        dict( name="leave_reason", label=_(u"Leave Reason")  ),
-        ])
+#    fields.extend([
+#        dict( name="member_id", omit=True ),
+#        dict( name="elected_nominated", label=_("elected/nominated"), description=_("Is the MP (E)lected or (N)ominated")),
+#        # this is only meant as a shortcut.. to the active parliament, else use group memberships 
+#        # note that parliament_id = group_id      
+#        dict( name="parliament_id",
+#             property = schema.Choice( title=_(u"Parliament"), 
+#                                       source=DatabaseSource(domain.Parliament, 'identifier', 'parliament_id' ),
+#                                       required=True )
+#              ), 
+#        dict( name="constituency_id",
+#             property = schema.Choice( title=_(u"Constituency"), 
+#                                       source=DatabaseSource(domain.Constituency, 
+#                                                             'constituency_identifier', 
+#                                                             'constituency_id'),
+#                                       required=True )
+#              ),                
+#        # these are again short cuts..
+#        dict( name="start_date", label=_(u"Start Date"), listing=True),
+#        dict( name="end_date", label=_(u"End Date"), listing=True ),
+#        dict( name="leave_reason", label=_(u"Leave Reason")  ),
+#        ])
         
 class HansardReporterDescriptor( UserDescriptor ):
 	

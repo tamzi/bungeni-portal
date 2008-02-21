@@ -16,6 +16,7 @@
                 <action name="MastHead.selection" tooltip="Select some text in the document to mark it up as a MastHead." title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePrayerSection.section_creation" visible="true" condition="sectionNotExists:masthead :and: textSelected:true" showChildren="true" >
                     <subaction name="Masthead.selection.date" tooltip="Select some text to mark it up as a 'Document Date'" title="Markup Date" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePrayerSection.debatedate_entry" visible="true" condition="cursorInSection:masthead :and: textSelected:true" />
                     <subaction name="Masthead.selection.time" tooltip="Select some text to mark it up as 'Document Time'" title="Markup Time" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePrayerSection.debatetime_entry" visible="true" condition="cursorInSection:masthead :and: textSelected:true" />
+                    <subaction name="Masthead.selection.logo" tooltip="Mark image as logo" title="Markup logo" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePrayerSection.markup_logo" visible="true" condition="imageSelectedIsNot:main_logo" />
                 </action>
                  <action name="MastHead.edit" title="Edit Metadata" mode="TEXT_EDIT" target="toolbarAction.makePrayerSection" visible="false" />                
             </blockAction>

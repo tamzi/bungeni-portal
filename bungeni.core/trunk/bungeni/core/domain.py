@@ -30,9 +30,9 @@ class User( object ):
     
     interface.implements( interfaces.IBungeniUser  )
     
-    def __init__( self, login=None, **kw ):
-        self.login = login
-        self.salt = self._makeSalt()
+    #def __init__( self, login=None, **kw ):
+    #    self.login = login
+    #    self.salt = self._makeSalt()
     
     def _makeSalt( self ):
         return ''.join( random.sample( string.letters, 12) )

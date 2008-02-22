@@ -160,9 +160,10 @@ class MotionDescriptor( ModelDescriptor ):
 #              edit_widget = widgets.YesNoInputWidget,
 #              view_widget = widgets.YesNoDisplayWidget),
         dict( name="identifier", label=_(u"Identifier")),
-        dict( name="owner_id",
-              property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, 'last_name', 'user_id' ), required=False )
-              ),
+        #XXX get the members of the current (same value as the motion) parliament only!
+#        dict( name="owner_id",
+#              property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, 'last_name', 'user_id' ), required=False )
+#              ),
         dict( name="body_text", label=_(u"Motion Text"),
               property = schema.Text( title=u"Motion" ),
               ),

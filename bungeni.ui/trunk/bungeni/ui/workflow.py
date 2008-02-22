@@ -14,6 +14,11 @@ from zope.viewlet import viewlet
 import zope.interface
 from interfaces import IWorkflowViewletManager
 
+from bungeni.core import audit
+from sqlalchemy import orm
+from zc.table import batching, column
+import sqlalchemy as rdb
+
 class WorkflowViewletManager( WeightOrderedViewletManager ):
     """
     implements the Workflowviewlet
@@ -26,24 +31,76 @@ class WorkflowViewlet( viewlet.ViewletBase ):
     this viewlet shows the current workflow state.
     """
     
-    def __init__( self, context, request, view, manager ):
+    def __init__( self,  context, request, view, manager ):
         self.weight = 0
         self.context = context
-        #self.request = request
+        self.request = request
         self.__parent__= view
-        #self.manager = manager
-        self.wf_status = 'new'
+        self.manager = manager
+        self.wf_status = u'new'
+        self.has_status = False
+        self.transitions = []
+        # table to display the workflow history
+        self.formatter_factory = batching.Formatter    
+        self.columns = [            
+            column.GetterColumn( title=_(u"date"), getter=lambda i,f: i['date'] ),
+            column.GetterColumn( title=_(u"user"), getter=lambda i,f:i['user_id'] ),
+            column.GetterColumn( title=_(u"description"), getter=lambda i,f:i['description'] ),
+            ]    
         
     def update(self):
+        has_wfstate = False
         try:
             wf_state =interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
+            has_wfstate = True
         except:
-            wf_state = 'undefined'            
+            wf_state = u'undefined'                        
+        if wf_state is None:
+           wf_state =u'undefined'
+           has_wfstate = False
         self.wf_status = wf_state       
+        self.has_status = has_wfstate                
+        try:
+            self.wf = interfaces.IWorkflowInfo( self.context )
+            transitions = self.wf.getManualTransitionIds()
+        except:
+            transitions = []
+        self.transitions = transitions
+    
+    render = ViewPageTemplateFile ('workflow_viewlet.pt')
+    
+    def listing( self ):
+        columns = self.columns
+        formatter = self.formatter_factory( self.context,
+                                            self.request,
+                                            self.getFeedEntries(),
+                                            prefix="results",
+                                            visible_column_names = [c.name for c in columns],
+                                            #sort_on = ('name', False)
+                                            columns = columns )
+        formatter.cssClasses['table'] = 'listing'
+        formatter.updateBatching()
+        return formatter()
         
-    def render ( self ):
-        return ( self.wf_status )
+    @property
+    def _log_table( self ):
+        auditor = audit.getAuditor( self.context )
+        return auditor.change_table
+        
+    def getFeedEntries( self ):
+        instance = removeSecurityProxy( self.context )        
+        mapper = orm.object_mapper( instance )
+        
+        query = self._log_table.select().where(
+            rdb.and_( self._log_table.c.content_id == rdb.bindparam('content_id'),
+            rdb.and_(self._log_table.c.action == 'workflow') )
+            )
 
+        content_id = mapper.primary_key_from_instance( instance )[0] 
+        content_changes = query.execute( content_id = content_id )
+        return map( dict, content_changes)
+    
+        
 
 #################################
 # workflow transition 2 formlib action bindings

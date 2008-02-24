@@ -437,7 +437,6 @@ questions = rdb.Table(
    rdb.Column( "parliament_id", rdb.Integer, nullable=False ),
    #rdb.ForeignKeyConstraint(['owner', 'parliament_id'], ['parliament_members.member_id', 'parliament_members.parliament_id']),
    rdb.Column( "subject", rdb.Unicode(80), nullable=False ),
-   rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('ministries.ministry_id') ),
    rdb.Column( "question_text", rdb.Unicode, nullable=False ),
    # Workflow State
    rdb.Column( "status", rdb.Unicode(16) ),

@@ -12,6 +12,7 @@ some setup for tests
    >>> from ore.alchemist.interfaces import IDatabaseEngine
    >>> from ore.alchemist import Session
    >>> from bungeni import core as model
+   >>> from datetime import datetime
 
 Setting up Database Connection and Utilities:
 
@@ -25,29 +26,62 @@ Users
 
 First we can create some users.
 
-  >>> user = model.User()
+  >>> user = model.User("jsmith")
   >>>
 
 Members of Parliament
 ---------------------
 
-  >>> mp_1 = model.ParliamentMember()
-  >>> mp_2 = model.ParliamentMember()
-  >>> mp_3 = model.ParliamentMember()
-
+  >>> mp_1 = model.ParliamentMember(u"mp_1", 
+  ...        first_name=u"a", 
+  ...        last_name=u'ab', 
+  ...        email=u"mp1@example.com", 
+  ...        date_of_birth=datetime.now(),
+  ...        birth_country="SA",
+  ...        gender='M')
+  >>> mp_2 = model.ParliamentMember(u"mp_2", 
+  ...        first_name=u"b", 
+  ...        last_name=u"bc", 
+  ...        date_of_birth=datetime.now(),
+  ...        email=u"mp2@example.com",
+  ...        gender='M')
+  >>> mp_3 = model.ParliamentMember(u"mp_3",
+  ...        first_name=u"c", 
+  ...        last_name=u"cd",
+  ...        date_of_birth=datetime.now(),
+  ...        email=u"mp3@example.com", 
+  ...        gender='M')
 
 Groups
 ------
 
-  >>> parliament = model.Parliament()
-  >>> political_party_a = model.PoliticalParty()
-  >>> political_party_b = model.PoliticalParty()
-  >>> comittee_a = model.Committee()
+  >>> parliament = model.Parliament( short_name=u"p_1", start_date=datetime.now())
+  >>> political_party_a = model.PoliticalParty(short_name=u"pp_1", start_date=datetime.now())
+  >>> political_party_b = model.PoliticalParty(short_name=u"pp_2", start_date=datetime.now())
+  >>> committee_a = model.Committee(short_name=u"commitee_1", start_date=datetime.now())
 
-  >>> membership = model.GroupMembership( mp_1, political_party_a )
+Create political party memberships, committee memberships,
+and parliamentary memberships.
 
+  >>> for mp in [ mp_1, mp_2, mp_3 ]:
+  ...    membership = model.GroupMembership()
+  ...    membership.user = mp
+  ...    membership.group = parliament
+  ...    session.save( membership )
+  ...    membership = model.GroupMembership()
+  ...    membership.user = mp
+  ...    membership.group = political_party_a
+  ...    session.save( membership )
+  
   >>> session.save( mp_1 )
+  >>> session.save( committee_a )
+  >>> session.save( membership )
 
+Check that we can access the membership through the containment object
+
+  >>> session.flush()
+  >>> len( list( parliament.users.values() ) )
+  3
   
 Sittings
 --------

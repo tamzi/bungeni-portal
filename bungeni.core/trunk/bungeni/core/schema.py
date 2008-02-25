@@ -6,7 +6,7 @@
 """
 
 import sqlalchemy as rdb
-
+from datetime import datetime
 metadata = rdb.MetaData()
 
 ItemSequence = rdb.Sequence('item_sequence')
@@ -29,13 +29,14 @@ users = rdb.Table(
         rdb.CheckConstraint("gender in ('M', 'F')"), 
         nullable=False), # (M)ale (F)emale    ),   
    rdb.Column( "date_of_birth", rdb.DateTime(timezone=True), nullable=False ),
-   rdb.Column( "birth_country", rdb.String(2), rdb.ForeignKey('countries.country_id'), nullable=False ),
+   rdb.Column( "birth_country", rdb.String(2) ),
    rdb.Column( "date_of_death", rdb.DateTime(timezone=True) ),
    rdb.Column( "national_id", rdb.Unicode(32) ),
    rdb.Column( "password", rdb.String(36)), # we store salted md5 hash hexdigests
    rdb.Column( "salt", rdb.String(24)),    
-   rdb.Column( "active_p", rdb.String,
+   rdb.Column( "active_p", rdb.String(1),
                 rdb.CheckConstraint("active_p in ('A', 'I', 'D')"),
+                default="A",
                 nullable=False), #activ/inactiv/deceased
    rdb.Column( "type", rdb.String(30), nullable=False )
    )
@@ -232,7 +233,7 @@ user_group_memberships = rdb.Table(
    rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey( 'users.user_id')),
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey( 'groups.group_id')),
    rdb.Column( "title", rdb.Unicode(16)), # title of user's group role
-   rdb.Column( "start_date", rdb.DateTime(timezone=True), default=rdb.PassiveDefault('now') ),
+   rdb.Column( "start_date", rdb.DateTime(timezone=True), default=datetime.now),
    rdb.Column( "end_date", rdb.DateTime(timezone=True) ),
    rdb.Column( "notes", rdb.Unicode ),
    rdb.Column( "substitution_p", rdb.Boolean, default=False ),
@@ -252,7 +253,7 @@ group_item_assignments = rdb.Table(
    rdb.Column( "object_id", rdb.Integer ), # any object placed here needs to have a class hierarchy sequence
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
    rdb.Column( "title", rdb.Unicode(16)), # title of user's group role
-   rdb.Column( "start_date", rdb.DateTime(timezone=True), default=rdb.PassiveDefault('now') ),
+   rdb.Column( "start_date", rdb.DateTime(timezone=True), default=datetime.now),
    rdb.Column( "end_date", rdb.DateTime(timezone=True) ),   
    rdb.Column( "due_date", rdb.DateTime(timezone=True) ),    
    rdb.Column( "notes", rdb.Unicode ),
@@ -332,7 +333,7 @@ def make_changes_table( table, metadata ):
             rdb.Column( "change_id", rdb.Integer, primary_key=True ),
             rdb.Column( "content_id", rdb.Integer, rdb.ForeignKey( table.c[ fk_id ] ) ),
             rdb.Column( "action", rdb.Unicode(16) ),
-            rdb.Column( "date", rdb.DateTime(timezone=True), default=rdb.PassiveDefault('now') ),
+            rdb.Column( "date", rdb.DateTime(timezone=True), default=datetime.now),
             rdb.Column( "description", rdb.Unicode),
             rdb.Column( "notes", rdb.Unicode),
             rdb.Column( "user_id", rdb.Unicode(32) ) # Integer, rdb.ForeignKey('users.user_id') ),
@@ -426,18 +427,18 @@ questions = rdb.Table(
    rdb.Column( "question_id", rdb.Integer, ItemSequence, primary_key=True ),
    
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
-   rdb.Column( "clerk_submission_date", rdb.DateTime(timezone=True), default=rdb.func.current_timestamp() ),
+   rdb.Column( "clerk_submission_date", rdb.DateTime(timezone=True), default=datetime.now),
    rdb.Column( "question_type", rdb.Unicode(1), 
                 rdb.CheckConstraint("question_type in ('O', 'P')"), default=u"O" ), # (O)rdinary (P)rivate Notice
    rdb.Column( "response_type", rdb.Unicode(1), 
                 rdb.CheckConstraint("response_type in ('O', 'W')"), default=u"O" ), # (O)ral (W)ritten
 
    # TODO - ? normalize to use user item associations.
-   rdb.Column( "owner", rdb.Integer, nullable=False ),
-   rdb.Column( "parliament_id", rdb.Integer, nullable=False ),
+   rdb.Column( "owner_id", rdb.Integer),#, nullable=False ),
+   rdb.Column( "parliament_id", rdb.Integer),#, nullable=False ),
    #rdb.ForeignKeyConstraint(['owner', 'parliament_id'], ['parliament_members.member_id', 'parliament_members.parliament_id']),
-   rdb.Column( "subject", rdb.Unicode(80), nullable=False ),
-   rdb.Column( "question_text", rdb.Unicode, nullable=False ),
+   rdb.Column( "subject", rdb.Unicode(80)),#, nullable=False ),
+   rdb.Column( "question_text", rdb.Unicode),#, nullable=False ),
    # Workflow State
    rdb.Column( "status", rdb.Unicode(16) ),
    
@@ -483,7 +484,7 @@ motions = rdb.Table(
    rdb.Column( "received_date", rdb.DateTime(timezone=True) ),
    rdb.Column( "entered_by", rdb.Integer, rdb.ForeignKey('users.user_id') ),   
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('political_parties.party_id')  ), # if the motion was sponsored by a party
-   rdb.Column( "notice_date", rdb.DateTime(timezone=True), default=rdb.PassiveDefault('now') ),
+   rdb.Column( "notice_date", rdb.DateTime(timezone=True) ),
    rdb.Column( "status",  rdb.Unicode(12) ),
    )
 

@@ -1,7 +1,7 @@
 """
 $Id: $
 """
-
+from zope.schema import vocabulary
 from ore.alchemist.vocabulary import DatabaseSource, ObjectSource
 from bungeni import core
  
@@ -12,7 +12,7 @@ from bungeni import core
 ParliamentMembers = ObjectSource( core.ParliamentMember, 'name', 'member_id' )
 PoliticalParties  = ObjectSource( core.PoliticalParty, 'full_name', "id")
 ParliamentSessions = ObjectSource( core.ParliamentSession, 'short_name', 'session_id')
-QuestionType = [("O","(O)rdinary"), ("P","(P)rivate Notice")]
+QuestionType = vocabulary.SimpleVocabulary.fromItems( [("O","(O)rdinary"), ("P","(P)rivate Notice")] )
 Constituencies = ObjectSource( core.Constituency, 'name', 'constituency_id')
 Parliaments = ObjectSource( core.Parliament, 'identifier', 'parliament_id')
 

@@ -18,7 +18,7 @@ ItemSequence = rdb.Sequence('item_sequence')
 users = rdb.Table(
    "users",
    metadata,
-   rdb.Column( "user_id", rdb.Integer, ItemSequence, primary_key=True ),
+   rdb.Column( "user_id", rdb.Integer,  primary_key=True ),
    rdb.Column( "login", rdb.Unicode(16), unique=True, nullable=True ),
    rdb.Column( "titles", rdb.Unicode(32)),
    rdb.Column( "first_name", rdb.Unicode(80), nullable=False ),
@@ -94,7 +94,7 @@ reporters = rdb.Table(
 constituencies = rdb.Table(
    "constituencies",
    metadata,
-   rdb.Column( "constituency_id", rdb.Integer, ItemSequence, primary_key=True ),
+   rdb.Column( "constituency_id", rdb.Integer,  primary_key=True ),
    #rdb.Column( "constituency_identifier", rdb.Unicode(16), nullable=False ),
    rdb.Column( "name", rdb.Unicode(80), nullable=False ),
    rdb.Column( "province", rdb.Integer, rdb.ForeignKey('provinces.province_id') ),
@@ -108,14 +108,14 @@ constituencies = rdb.Table(
 provinces = rdb.Table(
     "provinces",
     metadata,
-    rdb.Column( "province_id", rdb.Integer, ItemSequence, primary_key=True ),
+    rdb.Column( "province_id", rdb.Integer,  primary_key=True ),
     rdb.Column( "province", rdb.Unicode(80), nullable=False ),
     )
     
 regions = rdb.Table(
     "regions",
     metadata,
-    rdb.Column( "region_id", rdb.Integer, ItemSequence, primary_key=True ),
+    rdb.Column( "region_id", rdb.Integer,  primary_key=True ),
     rdb.Column( "region", rdb.Unicode(80), nullable=False ),    
     )
     
@@ -129,7 +129,7 @@ countries = rdb.Table(
 constituency_details = rdb.Table(
     "constituency_details",
     metadata,
-    rdb.Column( "constituency_detail_id", rdb.Integer, ItemSequence, primary_key=True ),
+    rdb.Column( "constituency_detail_id", rdb.Integer,  primary_key=True ),
     rdb.Column( "constituency_id", rdb.Integer, rdb.ForeignKey('constituencies.constituency_id') ),
     rdb.Column( "date", rdb.DateTime(timezone=True), nullable=False ),
     rdb.Column( "population", rdb.Integer, nullable=False ),
@@ -148,7 +148,7 @@ other things in the system.
 groups = rdb.Table(
    "groups",
    metadata,
-   rdb.Column( "group_id", rdb.Integer, ItemSequence,  primary_key=True ),
+   rdb.Column( "group_id", rdb.Integer,   primary_key=True ),
    rdb.Column( "short_name", rdb.Unicode(16), nullable=False ),
    rdb.Column( "full_name", rdb.Unicode(32) ),   
    rdb.Column( "description", rdb.Unicode ),
@@ -203,7 +203,7 @@ committees = rdb.Table(
 committee_type = rdb.Table(
     "committee_types",
     metadata,
-    rdb.Column("committee_type_id", rdb.Integer, primary_key=True),
+    rdb.Column("committee_type_id", rdb.Integer,  primary_key=True),
     rdb.Column("committee_type", rdb.Unicode(80), nullable=False),
     rdb.Column("description", rdb.Unicode,),
     rdb.Column("life_span", rdb.Unicode(16)),
@@ -228,7 +228,7 @@ political_parties = rdb.Table(
 user_group_memberships = rdb.Table(
    "user_group_memberships",
    metadata,
-   rdb.Column( "membership_id", rdb.Integer, primary_key=True),
+   rdb.Column( "membership_id", rdb.Integer,  primary_key=True),
    rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey( 'users.user_id')),
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey( 'groups.group_id')),
    rdb.Column( "title", rdb.Unicode(16)), # title of user's group role
@@ -248,7 +248,7 @@ user_group_memberships = rdb.Table(
 group_item_assignments = rdb.Table(
    "group_assignments",
    metadata,
-   rdb.Column( "assignment_id", rdb.Integer, primary_key=True ),
+   rdb.Column( "assignment_id", rdb.Integer,  primary_key=True ),
    rdb.Column( "object_id", rdb.Integer ), # any object placed here needs to have a class hierarchy sequence
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
    rdb.Column( "title", rdb.Unicode(16)), # title of user's group role
@@ -264,8 +264,8 @@ group_item_assignments = rdb.Table(
 parliament_sessions = rdb.Table(
    "sessions",
    metadata,
-   rdb.Column( "session_id", rdb.Integer, primary_key=True ),
-   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'), unique=True),
+   rdb.Column( "session_id", rdb.Integer,   primary_key=True ),
+   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id')),
    rdb.Column( "short_name", rdb.Unicode(16) ),
    rdb.Column( "full_name", rdb.Unicode(16) ),      
    rdb.Column( "start_date", rdb.DateTime(timezone=True)),
@@ -285,7 +285,7 @@ parliament_sessions = rdb.Table(
 sittings = rdb.Table(
    "group_sittings",
    metadata,
-   rdb.Column( "sitting_id", rdb.Integer, primary_key=True ),
+   rdb.Column( "sitting_id", rdb.Integer,  primary_key=True ),
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
    rdb.Column( "start_date", rdb.DateTime(timezone=True)),

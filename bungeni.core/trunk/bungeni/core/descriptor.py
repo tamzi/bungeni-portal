@@ -63,6 +63,22 @@ class HansardReporterDescriptor( UserDescriptor ):
 	
     fields = deepcopy( UserDescriptor.fields )	        
 
+class GroupMembershipDescriptor( ModelDescriptor ):
+
+   fields = [
+        dict( name="title", label=_(u"Title") ),
+        dict( name="start_date", label=_(u"Start Date") ),
+        dict( name="end_date", label=_(u"End Date") ),
+        dict( name="active_p", label=_(u"Active") ),
+        dict( name="notes", label=_(u"Notes") ),
+        dict( name="substitution_p", label=_(u"Substituted") ),
+        dict( name="substitution_type", label=_(u"Type of Substitution") ),
+        dict( name="replaced_id", omit=True),
+        dict( name="user_id", omit=True),
+        dict( name="group_id", omit=True),
+        dict( name="status", omit=True )
+        ]
+        
 class GroupDescriptor( ModelDescriptor ):
 
     fields = [
@@ -86,7 +102,7 @@ class ParliamentDescriptor( GroupDescriptor ):
         #dict( name="identifier", label=_(u"Parliament Number"), listing=True ),
         dict( name="election_date", label=_(u"Election Date"), description=_(u"Date the of the election") ),        
         dict( name="start_date", label=_(u"In power from"),  description=_(u"Date the of the swearing in") ),
-        dict( name="end_date", label=_(u"In power till"),  description=_(u"Date the of the dissolution") ),        
+        dict( name="end_date", label=_(u"In power till"),  description=_(u"Date the of the dissolution") ),
         ]
         
 class CommitteeDescriptor( GroupDescriptor ):
@@ -104,6 +120,7 @@ class PolitcalPartyDescriptor( GroupDescriptor ):
     fields.extend([
         dict( name='logo', label=_(u"Logo"))
      ])
+     
 class MinistryDescriptor( GroupDescriptor ):
 
     fields = deepcopy( GroupDescriptor.fields )       
@@ -125,6 +142,7 @@ class ParliamentSession( ModelDescriptor ):
         
 class GovernmentDescriptor( ModelDescriptor ):
     
+    display_name = _(u"Government")
     #fields = deepcopy( GroupDescriptor.fields )    
     #fields.extend([
     #    dict( name="government_id", omit=True),
@@ -144,7 +162,9 @@ class GovernmentDescriptor( ModelDescriptor ):
     
     
 class MotionDescriptor( ModelDescriptor ):
-
+    
+    display_name = _(u"Motion")
+    
     fields = [
         dict( name="motion_id", omit=True ),
         dict( name="title", label=_(u"Subject"), listing=True,
@@ -173,10 +193,13 @@ class MotionDescriptor( ModelDescriptor ):
             property = schema.Choice( title=_(u"Political Party"), 
                                       source=DatabaseSource(domain.PoliticalParty, 'full_name', 'party_id' ), 
                                       required=False) ),
-        dict( name="status", label=_(u"Status"), listing=True, edit=False )
+        dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True )
         ]
 
 class SittingDescriptor( ModelDescriptor ):
+    
+    display_name = _(u"Parliamentary Sitting")
+    
     fields = [
         dict( name="sitting_id", omit=True ),
         dict( name="group_id", omit=True ),
@@ -186,6 +209,9 @@ class SittingDescriptor( ModelDescriptor ):
         ]
 
 class SessionDescriptor( ModelDescriptor ):
+    
+    display_name = _(u"Parliamentary Session")
+    
     fields = [
         dict( name="session_id", omit=True),
         dict( name="parliament_id", omit=True),
@@ -198,6 +224,8 @@ class SessionDescriptor( ModelDescriptor ):
         
 class BillDescriptor( ModelDescriptor ):
     
+    display_name = _(u"Bill")
+    
     fields = [
         dict( name="bill_id", omit=True ),
         dict( name="title", label=_(u"Title"), listing=True ),
@@ -206,32 +234,29 @@ class BillDescriptor( ModelDescriptor ):
         dict( name="identifier", label=_(u"Identifer") ),
         dict( name="submission_date", label=_(u"Submission Date"), listing=True ),
         dict( name="publication_date", label=_(u"Publication Date") ),        
-        dict( name="status", label=_(u"Status"), listing=True )
+        dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True )        
         ]
 
 class QuestionDescriptor( ModelDescriptor ):
-	
-	fields = [
+
+    display_name = _(u"Question")
+    
+    fields = [
         dict( name="question_id", omit=True),
         dict( name="session_id", 
                 property = schema.Choice( title=_(u"Session"), source=vocabulary.ParliamentSessions, required=False )
             ),
         dict( name="clerk_submission_date", label=_(u"Submission Date"), listing=True, omit=True ),
-        dict( name="question_type", label=_(u"Question Type"), description=_("(O)rdinary or (P)rivate Notice"),  listing=True ), 
-        #dict( name="question_type",
-        #		property = schema.Choice( title=_(u"Question Type"), description=_("(O)rdinary or (P)rivate Notice"), source=vocabulary.QuestionType, required=False )
-        #      ),
+        dict( name="question_type", listing=True, 
+              property=schema.Choice( title=_(u"Question Type"), 
+                                      description=_("(O)rdinary or (P)rivate Notice"), 
+                                      vocabulary=vocabulary.QuestionType) ),
         dict( name="response_type", label=_(u"Response Type"), description=_("(O)ral or (W)ritten"), listing=True ),
-        dict( name="owner", 
-                property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, 'last_name', 'user_id' ), #XXX
-                required=True ) 
+        dict( name="owner_id", 
+              property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, 'last_name', 'user_id' )), 
             ),
         dict( name="subject", label=_(u"Subject"), description=_(u"Subject of the Question"), ),
         dict( name="question_text", property=schema.Text(title=_(u"Question"), required=True )),
-        dict( name="ministry_id",
-                property = schema.Choice( title=_(u"to Ministry"), source=DatabaseSource(domain.Ministry, 'full_name', 'group_id' ), 
-                required=False ) 
-            ),
         #label=_("Question"), description=_(u"The Question submitted")),        
         dict( name="status", label=_(u"Status"), omit=True ),
         dict( name="supplement_parent_id", omit=True), #XXX
@@ -240,7 +265,9 @@ class QuestionDescriptor( ModelDescriptor ):
         ]
         
 class ResponseDescriptor( ModelDescriptor ):
-	fields = [
+    display_name = _(u"Response")
+    
+    fields = [
         dict( name="response_id", omit=True ),
         dict( name="question_id", label=_(u"Question") ), #XXX
         dict( name="response_text", label=_(u"Response"), description=_(u"Response to the Question") ),

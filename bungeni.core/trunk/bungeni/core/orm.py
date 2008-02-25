@@ -15,7 +15,7 @@ mapper( domain.User, schema.users,
 # Groups
 mapper( domain.Group, schema.groups,
         properties={
-            'members': relation( domain.GroupMembership, backref='group' )
+            'members': relation( domain.GroupMembership )
             },
         polymorphic_on=schema.groups.c.type,
         polymorphic_identity='group'
@@ -28,12 +28,11 @@ mapper( domain.Group, schema.groups,
 mapper( domain.GroupMembership, schema.user_group_memberships,
         properties={
             'user': relation( domain.User,
-                              primaryjoin=rdb.and_(schema.user_group_memberships.c.user_id==schema.users.c.user_id, 
-                                                   schema.user_group_memberships.c.group_id==schema.groups.c.group_id ),
+                              primaryjoin=rdb.and_(schema.user_group_memberships.c.user_id==schema.users.c.user_id ),
                               lazy=False ),
-#            'group': relation( domain.Group,
-#                               primaryjoin=schema.user_group_memberships.c.user_id==schema.users.c.user_id,
-#                               lazy=False ),                              
+            'group': relation( domain.Group,
+                               primaryjoin=schema.user_group_memberships.c.group_id==schema.groups.c.group_id,
+                               lazy=False ),                              
             'replaced': relation( domain.User,
                                   primaryjoin=schema.user_group_memberships.c.replaced_id==schema.users.c.user_id,
                                   lazy=True ),

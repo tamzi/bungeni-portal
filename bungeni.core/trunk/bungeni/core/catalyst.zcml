@@ -5,23 +5,11 @@
 
 
   <!-- Catalyze Domain Models -->
-  <db:catalyst
-     class=".domain.Bill"
-     descriptor=".descriptor.BillDescriptor"
-     interface_module=".interfaces"
-     ui_module="bungeni.ui.content"
-     />
 
+  <!-- Groups -->
   <db:catalyst
-     class=".domain.Motion"
-     descriptor=".descriptor.MotionDescriptor"
-     interface_module=".interfaces"
-     ui_module="bungeni.ui.content"     
-     />
-     
-  <db:catalyst
-     class=".domain.Government"
-     descriptor=".descriptor.GovernmentDescriptor"
+     class=".domain.Group"
+     descriptor=".descriptor.GroupDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
      />     
@@ -34,40 +22,70 @@
      />     
 
   <db:catalyst
-     class=".domain.ParliamentMember"
-     descriptor=".descriptor.MemberDescriptor"
-     interface_module=".interfaces"
-     ui_module="bungeni.ui.content"     
-     />     
-
-  <db:catalyst
      class=".domain.Committee"
      descriptor=".descriptor.CommitteeDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
      />     
      
+   <db:catalyst
+     class=".domain.PoliticalParty"
+     descriptor=".descriptor.PolitcalPartyDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+    />
+   
+   <db:catalyst
+     class=".domain.Ministry"
+     descriptor=".descriptor.MinistryDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+    />
+    
   <db:catalyst
      class=".domain.ParliamentSession"
      descriptor=".descriptor.SessionDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
      />     
-
+     
+  <db:catalyst
+     class=".domain.GroupMembership"
+     descriptor=".descriptor.GroupMembershipDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+     />
+          
   <db:catalyst
      class=".domain.GroupSitting"
      descriptor=".descriptor.SittingDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
      />
-                      
+
+  <!-- Content -->
   <db:catalyst
-  	class=".domain.Question"
-  	descriptor=".descriptor.QuestionDescriptor"
-  	interface_module=".interfaces"
+     class=".domain.Bill"
+     descriptor=".descriptor.BillDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+     />
+     
+  <db:catalyst
+     class=".domain.Motion"
+     descriptor=".descriptor.MotionDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+     />     
+                           
+  <db:catalyst
+    class=".domain.Question"
+    descriptor=".descriptor.QuestionDescriptor"
+    interface_module=".interfaces"
     ui_module="bungeni.ui.content"    
     />
     
+  <!-- Domain Model -->
   <db:catalyst
      class=".domain.Constituency"
      descriptor=".descriptor.ConstituencyDescriptor"
@@ -80,7 +98,6 @@
      descriptor=".descriptor.RegionDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
-     echo="True"
     />
        
     <db:catalyst
@@ -105,6 +122,21 @@
      ui_module="bungeni.ui.content"
     />
   
+  <!-- User -->
+  <db:catalyst
+     class=".domain.User"
+     descriptor=".descriptor.UserDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+    />
+    
+  <db:catalyst
+     class=".domain.ParliamentMember"
+     descriptor=".descriptor.MemberDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     />         
+    
   <db:catalyst
      class=".domain.HansardReporter"
      descriptor=".descriptor.HansardReporterDescriptor"
@@ -112,20 +144,7 @@
      ui_module="bungeni.ui.content"
     />
    
-   <db:catalyst
-     class=".domain.PoliticalParty"
-     descriptor=".descriptor.PolitcalPartyDescriptor"
-     interface_module=".interfaces"
-     ui_module="bungeni.ui.content"
-    />
-   
-   <db:catalyst
-     class=".domain.Ministry"
-     descriptor=".descriptor.MinistryDescriptor"
-     interface_module=".interfaces"
-     ui_module="bungeni.ui.content"
-    />
-    
+
     <!--db:catalyst
      class=".domain.Response"
      descriptor=".descriptor.ResponseDescriptor"

@@ -13,7 +13,14 @@
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
      />     
-     
+
+  <db:catalyst
+     class=".domain.Government"
+     descriptor=".descriptor.GovernmentDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     /> 
+          
   <db:catalyst
      class=".domain.Parliament"
      descriptor=".descriptor.ParliamentDescriptor"

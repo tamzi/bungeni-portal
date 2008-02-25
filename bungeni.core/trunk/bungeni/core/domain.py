@@ -9,30 +9,47 @@ Created by Kapil Thangavelu on 2007-11-22.
 
 import md5, random, string
 
-from zope import interface
-from ore.alchemist import Session
-from alchemist.traversal.managed import ManagedContainer
+from zope import interface, location
+from ore.alchemist import Session, model
+from alchemist.traversal.managed import one2many
 
+import logging
 import interfaces
+
+logger = logging.getLogger('bungeni.core')
 
 #####
 
 class Entity( object ):
 
-    @property
-    def query( self ):
-        return Session().query( self.__class__)
+    interface.implements( location.ILocation )
+
+    __name__ = None
+    __parent__ = None
     
-class User( object ):
+    def __init__( self, **kw ):
+        
+        domain_schema = model.queryModelInterface( self.__class__ )
+        known_names = [ k for k,d in domain_schema.namesAndDescriptions(1)]
+        
+        for k,v in kw.items():
+            if k in known_names:
+                setattr( self, k, v)
+            else:
+                logger.warn("invalid attribute on %s %s"%(self.__class__.__name__, k) )
+                
+class User( Entity ):
     """
     Domain Object For A User
     """
     
     interface.implements( interfaces.IBungeniUser  )
     
-    #def __init__( self, login=None, **kw ):
-    #    self.login = login
-    #    self.salt = self._makeSalt()
+    def __init__( self,  login=None, **kw ):
+        if login:
+            self.login = login
+        super( User, self ).__init__( **kw )
+        self.salt = self._makeSalt()
     
     def _makeSalt( self ):
         return ''.join( random.sample( string.letters, 12) )
@@ -74,19 +91,18 @@ class HansardReporter( User ):
     
 ######    
 
-class Group( object ):
+class Group( Entity ):
     """ an abstract collection of users
     """
     interface.implements( interfaces.IBungeniGroup )
+
+    users = one2many("users", "bungeni.core.domain.GroupMembershipContainer", "group_id")
     
-class GroupMembership( object ):
+class GroupMembership( Entity ):
     """ a user's membership in a group
     """
-    def __init__( self, user, group ):
-        self.user = user
-        self.group = group
         
-class GroupSitting( object ):
+class GroupSitting( Entity ):
     """ a scheduled meeting for a group (parliament, committee, etc)
     """
     
@@ -94,7 +110,7 @@ class GroupSittingAttendance( object ):
     """ a record of attendance at a meeting 
     """
     
-class GroupItemAssignment(object):
+class GroupItemAssignment( object ):
     """ the assignment of a parliamentary content object to a group
     """
 
@@ -103,12 +119,12 @@ class GroupItemAssignment(object):
 class Government( Group ):
     """ a government
     """
-
+    ministries = one2many("ministries", "bungeni.core.domain.MinistryContainer", "government_id")
+    
 class Parliament( Group ):
     """ a parliament
     """
-    mps = ManagedContainer("mps", "bungeni.core.domain.ParliamentMemberContainer", "parliament_id")
-    sessions = ManagedContainer("sessions", "bungeni.core.domain.ParliamentSessionContainer", "parliament_id")
+    sessions = one2many("sessions", "bungeni.core.domain.ParliamentSessionContainer", "parliament_id")
 
 class PoliticalParty( Group ):
     """ a political party
@@ -117,11 +133,13 @@ class PoliticalParty( Group ):
 class Ministry( Group ):
     """ a government ministry
     """
+    sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "session_id")
 
 class Committee( Group ):
     """ a parliamentary committee of MPs
     """
-    
+    sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "session_id")
+
 #############
 
 class ItemLog( object ):
@@ -179,10 +197,40 @@ BillChange = ItemLog.makeLogFactory( "BillChange")
 BillVersion = ItemVersions.makeVersionFactory("BillVersion")
 
 
+#############
+
+class ParliamentSession( Entity ):
+    """
+    """
+    sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "session_id")
+    
+class Rota( object ):
+    """
+    """
+
+class Take( object ):
+    """
+    """
+
+class TakeMedia( object ):
+    """
+    """
+
+class Transcript( object ):
+    """
+    """    
+
+
+class ObjectSubscriptions( object ):
+    """
+    """
+
+# ###############
+
 class Constituency( object ):
     """ a locality region, which elects an MP 
     """
-    cdetail = ManagedContainer("cdetail", "bungeni.core.domain.ConstituencyDetailContainer", "constituency_id")
+    cdetail = one2many("cdetail", "bungeni.core.domain.ConstituencyDetailContainer", "constituency_id")
     
 ConstituencyChange = ItemLog.makeLogFactory( "ConstituencyChange")
 ConstituencyVersion = ItemVersions.makeVersionFactory("ConstituencyVersion")
@@ -209,34 +257,4 @@ class ConstituencyDetail( object ):
     """
     Details of the Constituency like population and voters at a given time
     """
-    pass        
-
-#############
-
-class ParliamentSession( object ):
-    """
-    """
-    sittings = ManagedContainer("sittings", "bungeni.core.domain.GroupSittingContainer", "sessions.session_id")
-    
-class Rota( object ):
-    """
-    """
-
-class Take( object ):
-    """
-    """
-
-class TakeMedia( object ):
-    """
-    """
-
-class Transcript( object ):
-    """
-    """    
-
-###############
-
-class ObjectSubscriptions( object ):
-    """
-    """
-
+    pass       

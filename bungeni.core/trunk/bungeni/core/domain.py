@@ -139,6 +139,10 @@ class Committee( Group ):
     """ a parliamentary committee of MPs
     """
     sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "session_id")
+    
+class CommitteeType( object):
+    """ Type of Committee """
+        
 
 #############
 

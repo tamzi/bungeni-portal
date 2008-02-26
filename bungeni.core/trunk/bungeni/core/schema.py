@@ -151,7 +151,7 @@ groups = rdb.Table(
    metadata,
    rdb.Column( "group_id", rdb.Integer,   primary_key=True ),
    rdb.Column( "short_name", rdb.Unicode(16), nullable=False ),
-   rdb.Column( "full_name", rdb.Unicode(32) ),   
+   rdb.Column( "full_name", rdb.Unicode(80) ),   
    rdb.Column( "description", rdb.Unicode ),
    rdb.Column( "status", rdb.Unicode(12) ), # workflow for groups
    rdb.Column( "start_date", rdb.DateTime(timezone=True), nullable=False ),
@@ -185,9 +185,9 @@ ministries = rdb.Table(
 committees = rdb.Table(
    "committees",
    metadata,
-   rdb.Column( "commitee_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
+   rdb.Column( "committee_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id')),
-   rdb.Column( "committe_type_id", rdb.Integer, rdb.ForeignKey( 'committee_types.committee_type_id')),
+   rdb.Column( "committee_type_id", rdb.Integer, rdb.ForeignKey( 'committee_types.committee_type_id')),
    rdb.Column( "no_members", rdb.Integer),
    rdb.Column( "min_no_members", rdb.Integer),
    rdb.Column( "quorum", rdb.Integer ),

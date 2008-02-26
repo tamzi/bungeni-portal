@@ -111,7 +111,21 @@ class CommitteeDescriptor( GroupDescriptor ):
     fields.extend([
         dict( name='parliament_id', 
             property=schema.Choice( title=_(u"Parliament"), source=DatabaseSource(domain.Parliament,"short_name", "parliament_id")),
-            )
+            ),
+        dict( name = 'committee_type_id',
+            property=schema.Choice( title=_(u"Type of committee"), source=DatabaseSource(domain.CommitteeType, 'committee_type', 'committee_type_id')),
+            ),
+        dict( name='no_members', label=_(u"Number of members"), description=_(u"") ),
+        dict( name='min_no_members', label =_(u"Minimum Number of Members")),
+        dict( name='quorum', label=_(u"Quorum")),
+        dict( name='no_clerks', label=_(u"Number of clerks")),
+        dict( name='no_researchers', label=_(u"Number of researchers")),
+        dict( name='proportional_representation', label=_(u"Proportional reprensentation")),
+        dict( name='researcher_required', label=_(u"Researcher required")),
+        dict( name='default_chairperson', label=_(u"Default chairperson")),
+        dict( name='default_position', label=_(u"Default Position")),
+        dict( name='dissolution_date', label=_(u"Dissolution date")),
+        dict( name='reinstatement_date', label=_(u"Reinstatement Date")),              
     ])
     
 class PolitcalPartyDescriptor( GroupDescriptor ):
@@ -125,9 +139,8 @@ class MinistryDescriptor( GroupDescriptor ):
 
     fields = deepcopy( GroupDescriptor.fields )       
     fields.extend([
-        dict( name='ministry_id', 
-            property=schema.Choice( title=_(u"Parliament"), source=DatabaseSource(domain.Ministry,"full_name", "ministry_id")),
-            )
+        dict( name='ministry_id', omit=True ),
+        dict( name='government_id', omit=True ),           
     ])
     
 class ParliamentSession( ModelDescriptor ):

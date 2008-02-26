@@ -74,7 +74,7 @@ mapper( domain.Committee, schema.committees,
         polymorphic_identity='committee'
         )        
 
-
+    
 mapper( domain.ParliamentMember, 
         inherits=domain.User,
         polymorphic_identity='memberofparliament')
@@ -89,7 +89,6 @@ mapper( domain.ParliamentMember,
 #  AND "parliaments"."parliament_id" = "groups"."group_id" 
 #  AND "parliament_members"."membership_id" = "user_group_memberships"."membership_id" )
 
-# schema.user_group_membership.join(schema.parliament_members)
 
 
 
@@ -149,12 +148,13 @@ mapper( domain.Bill, schema.bills,
 #			'changes':relation( domain.ConstituencyChange, backref='Constituency')
 #			}
 #		)         
+
 mapper( domain.Constituency, schema.constituencies )    
 mapper( domain.Province, schema.provinces )    
 mapper( domain.Region, schema.regions )
 mapper( domain.Country, schema.countries )
 mapper( domain.ConstituencyDetail, schema.constituency_details )
-        
+mapper( domain.CommitteeType, schema.committee_type )        
 
         
 

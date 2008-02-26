@@ -83,7 +83,8 @@ class AuditorFactory( object ):
                         event.destination,
                         event.transition.title,
                         event.comment ) )
-        return self._objectChanged(u'workflow', object, description=event.message )
+        return self._objectChanged(u'workflow', object, description=event.comment )
+        #return self._objectChanged(u'workflow', object )
         
     def objectDeleted( self, object, event ):
         return self._objectChanged(u'deleted', object )

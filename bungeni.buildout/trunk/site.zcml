@@ -11,14 +11,36 @@
   <!-- bypass default publishers, don't publish/open the zodb -->
   <includeOverrides package="ore.wsgiapp" />
 
+  <!-- Security Debugging Tools 
+  <include package="zope.session"/>
+  <utility 
+      provides="zope.session.interfaces.IClientIdManager"
+      factory="zope.session.http.CookieClientIdManager"/>
+      
+  <utility
+      provides="zope.session.interfaces.ISessionDataContainer"
+      factory="zope.session.session.RAMSessionDataContainer" />
+
+  <include package="z3c.macro" file="meta.zcml"/>
+  <include package="z3c.macro"/>
+  <include package="z3c.securitytool" />
+   -->
+
   <!-- setup database meta configuration -->
   <include package="ore.alchemist" file="meta.zcml" />
   <include package="ore.alchemist"/>  
   <include package="alchemist.catalyst" file="meta.zcml" />
   <include package="alchemist.ui" />
+
+  <!-- include cookie authentication -->
+  <include package="wc.cookiecredentials"/>
   
   <!-- default indexing setup -->
   <include package="ore.xapian" />
+
+  <!-- svn repositories 
+  <include package="ore.library" />
+    -->
   
   <!-- Application Configuration -->
   <include package="bungeni.core" />
@@ -57,12 +79,16 @@
 
   <!-- Replace the following directive if you don't want public access -->
   <grant permission="zope.View"
-         principal="zope.anybody" />
+         principal="zope.anybody" />         
+
 
   <role id="zope.Manager" title="Site Manager" />
   <role id="zope.Member" title="Site Member" />
+
   <grantAll role="zope.Manager" />
   <grant role="zope.Manager"
          principal="zope.manager" />
+  <grant role="zope.Manager"
+	 principal="zope.anybody" />
 
 </configure>

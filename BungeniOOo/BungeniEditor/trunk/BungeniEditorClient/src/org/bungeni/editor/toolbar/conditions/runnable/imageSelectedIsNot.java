@@ -45,7 +45,7 @@ public class imageSelectedIsNot implements IBungeniToolbarCondition {
             else 
                 return true;
         } else {
-            return true;
+            return false;
         }
     }
     

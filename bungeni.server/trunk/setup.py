@@ -47,8 +47,6 @@ setup(name='bungeni.server',
                         'zope.app.securitypolicy',
                         ],
       entry_points = """
-      [console_scripts]
-      bungeni-console = bungeni.server.startup:interactive_debug_prompt
       [paste.app_factory]
       main = bungeni.server.startup:application_factory
       """

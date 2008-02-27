@@ -2,13 +2,13 @@ import os
 import sys
 import code
 import zdaemon.zdctl
-import cap.rootapp.wsgi
+import ore.wsgiapp.wsgi
 import zope.app.wsgi
 import zope.app.debug
 
 def application_factory(global_conf, conf='zope.conf'):
     zope_conf = os.path.join(global_conf['here'], conf)
-    return cap.rootapp.wsgi.getWSGIApplication(zope_conf)
+    return ore.wsgiapp.wsgi.getWSGIApplication(zope_conf)
 
 def interactive_debug_prompt(zope_conf='zope.conf'):
     db = zope.app.wsgi.config(zope_conf)

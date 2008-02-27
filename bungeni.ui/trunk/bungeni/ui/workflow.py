@@ -25,21 +25,20 @@ class WorkflowViewletManager( WeightOrderedViewletManager ):
     """
     zope.interface.implements(IWorkflowViewletManager)
 
-class WorkflowViewlet( viewlet.ViewletBase ):
+class WorkflowHistoryViewlet( viewlet.ViewletBase ):
     """"
-    implements the workflowviewlet
+    implements the workflowHistoryviewlet
     this viewlet shows the current workflow state.
+    and the workflowhistory
     """
     
-    def __init__( self,  context, request, view, manager ):
-        self.weight = 0
+    def __init__( self,  context, request, view, manager ):        
         self.context = context
         self.request = request
         self.__parent__= view
         self.manager = manager
         self.wf_status = u'new'
         self.has_status = False
-        self.transitions = []
         # table to display the workflow history
         self.formatter_factory = batching.Formatter    
         self.columns = [            
@@ -60,14 +59,9 @@ class WorkflowViewlet( viewlet.ViewletBase ):
            has_wfstate = False
         self.wf_status = wf_state       
         self.has_status = has_wfstate                
-        try:
-            self.wf = interfaces.IWorkflowInfo( self.context )
-            transitions = self.wf.getManualTransitionIds()
-        except:
-            transitions = []
-        self.transitions = transitions
+       
     
-    render = ViewPageTemplateFile ('workflow_viewlet.pt')
+    render = ViewPageTemplateFile ('templates/workflowhistory_viewlet.pt')
     
     def listing( self ):
         columns = self.columns
@@ -142,11 +136,33 @@ def bindTransitions( form_instance, transitions, wf_name=None, wf=None):
         actions.append( action )
     return actions
 
+class WorkflowActionViewlet( BaseForm, viewlet.ViewletBase ):
+    """
+    display workflow status and actions
+    """
+    form_name = "Workflow"
+    form_fields = form.Fields()
+
+    render = ViewPageTemplateFile ('templates/workflowaction_viewlet.pt')
+    
+    def update( self ):
+        self.setupActions()   
+        super( WorkflowActionViewlet, self).update()
+        self.setupActions()  # after we transition we have different actions      
+        wf_state =interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
+        self.wf_status = wf_state
+        
+    def setupActions( self ):
+        self.wf = interfaces.IWorkflowInfo( self.context )
+        transitions = self.wf.getManualTransitionIds()
+        self.actions = bindTransitions( self, transitions )     
+
 class Workflow( BaseForm ):
     
     template = ViewPageTemplateFile('templates/workflow.pt')
     form_name = "Workflow"
     form_fields = form.Fields()
+
     
     def update( self ):
         self.setupActions()   
@@ -159,3 +175,4 @@ class Workflow( BaseForm ):
         self.wf = interfaces.IWorkflowInfo( self.context )
         transitions = self.wf.getManualTransitionIds()
         self.actions = bindTransitions( self, transitions )
+        

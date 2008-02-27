@@ -11,7 +11,7 @@ from bungeni.core.i18n import _
 from zope.formlib import form
 from zope.viewlet.manager import WeightOrderedViewletManager
 from zope.viewlet import viewlet
-import zope.interface
+import zope.interface, zope.schema
 from interfaces import IWorkflowViewletManager
 
 from bungeni.core import audit
@@ -133,16 +133,24 @@ def bindTransitions( form_instance, transitions, wf_name=None, wf=None):
             action = form.Action( tid, **d )
         action.form = form_instance
         action.__name__ = "%s.%s"%(form_instance.prefix, action.__name__)
+        
         actions.append( action )
     return actions
+    
+class IWorkflowComment( zope.interface.Interface ):
+    """
+    a dummy to get the comment field into the form
+    """           
+    notes = zope.schema.Text(title=_("Comment on workflow change") )
 
+    
 class WorkflowActionViewlet( BaseForm, viewlet.ViewletBase ):
     """
     display workflow status and actions
     """
     form_name = "Workflow"
-    form_fields = form.Fields()
-
+    form_fields = form.Fields(IWorkflowComment)
+    actions=()
     render = ViewPageTemplateFile ('templates/workflowaction_viewlet.pt')
     
     def update( self ):
@@ -151,11 +159,21 @@ class WorkflowActionViewlet( BaseForm, viewlet.ViewletBase ):
         self.setupActions()  # after we transition we have different actions      
         wf_state =interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
         self.wf_status = wf_state
+        if len(self.actions) ==0: #only display the notes field to comment if there is an action
+            self.form_fields = self.form_fields.omit('notes')
+        self.setUpWidgets()
         
     def setupActions( self ):
         self.wf = interfaces.IWorkflowInfo( self.context )
         transitions = self.wf.getManualTransitionIds()
-        self.actions = bindTransitions( self, transitions )     
+        self.actions = bindTransitions( self, transitions )  
+        
+    def setUpWidgets( self , ignore_request=False):
+        # setup widgets in data entry mode not bound to context
+        self.adapters = {}
+        self.widgets = form.setUpDataWidgets(
+            self.form_fields, self.prefix, self.context, self.request,
+            )           
 
 class Workflow( BaseForm ):
     

@@ -6,7 +6,7 @@ bungeni.ui     https://bungeni-portal.googlecode.com/svn/bungeni.ui/trunk/
 ploned.ui      https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/
 
 # relational database support
-ore.alchemist  http://zope-alchemist.googlecode.com/svn/ore.alchemist/branches/0.4
+ore.alchemist  http://zope-alchemist.googlecode.com/svn/ore.alchemist/trunk
 
 # rdb ui components
 alchemist.ui   http://zope-alchemist.googlecode.com/svn/alchemist.ui/trunk
@@ -25,3 +25,17 @@ ore.wsgiapp    https://svn.objectrealms.net/svn/public/ore.wsgiapp/trunk
 
 # indexing support
 ore.xapian     https://svn.objectrealms.net/svn/public/ore.xapian/trunk
+
+# subversion support
+# ore.svn        https://svn.objectrealms.net/svn/public/ore.svn/trunk
+# library support
+#ore.library    https://svn.objectrealms.net/svn/public/ore.library/trunk
+
+# z3c.traverser
+z3c.traverser svn://svn.zope.org/repos/main/z3c.traverser/trunk
+
+# zc.displayname
+zc.displayname svn://svn.zope.org/repos/main/zc.displayname/trunk
+
+# z3c.securitytool
+z3c.securitytool svn://svn.zope.org/repos/main/z3c.securitytool/trunk

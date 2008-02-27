@@ -1,0 +1,37 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="bungeniprivate">
+
+<include package="plone.app.portlets" />
+
+    <interface
+        interface=".interfaces.Ibungeniprivate"
+        type="zope.publisher.interfaces.browser.IBrowserSkinType"
+        name="bungeniprivate"
+        />
+
+    <!-- The customized logo -->
+
+    <browser:viewlet
+        name="bungeniprivate.privatelogo"
+        manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+        class=".viewlets.LogoViewlet"
+        layer=".interfaces.Ibungeniprivate"
+        permission="zope2.View"
+        />
+
+<!-- The customized footer -->
+
+    <browser:viewlet
+        name="bungeniprivate.footer"
+        manager="plone.app.layout.viewlets.interfaces.IPortalFooter"
+        template="footer.pt"
+        layer=".interfaces.Ibungeniprivate"
+        permission="zope2.View"
+     />
+    
+
+</configure>
+

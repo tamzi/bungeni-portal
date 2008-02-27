@@ -78,12 +78,12 @@ class AuditorFactory( object ):
         return self._objectChanged(u'modified', object, description )
         
     def objectStateChanged( self, object, event):
-        description = _(u"transition from %s to %s via %s - %s"%( 
+        description = _(u"""transition from %s to %s via %s - %s"""%( 
                         event.source,
                         event.destination,
                         event.transition.title,
                         event.comment ) )
-        return self._objectChanged(u'workflow', object, description=event.comment )
+        return self._objectChanged(u'workflow', object, description )
         #return self._objectChanged(u'workflow', object )
         
     def objectDeleted( self, object, event ):

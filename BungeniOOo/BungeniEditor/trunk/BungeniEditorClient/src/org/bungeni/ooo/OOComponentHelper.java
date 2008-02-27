@@ -1155,5 +1155,27 @@ public int setSelectedTextImageName(String newName) {
       }
 }
   
-
+ public String getDocumentTitle() {
+        String strTitle = "";
+        XTextDocument xDoc = this.getTextDocument();
+        strTitle = getFrameTitle(xDoc);
+        return strTitle;
+    }
+ public static String getFrameTitle(XTextDocument xDoc) {
+   String strTitle = "";
+     try {
+            XFrame xframe = xDoc.getCurrentController().getFrame();
+            strTitle = (String) ooQueryInterface.XPropertySet(xframe).getPropertyValue("Title");
+            int dashIndex = strTitle.lastIndexOf("-");
+            if (dashIndex != -1)
+               strTitle = strTitle.substring(0, dashIndex);
+ 
+        } catch (WrappedTargetException ex) {
+            log.error(ex.getMessage());
+        } catch (UnknownPropertyException ex) {
+            log.error(ex.getMessage());
+        } finally {
+        return strTitle;
+        }
+ }
 }

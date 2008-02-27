@@ -55,13 +55,21 @@ Members of Parliament
 Groups
 ------
 
+Bungeni uses groups to model any collection of users. The relational inheritance
+features of sqlalchemy to allow for subclassing group, with value storage in a 
+different table. Bungeni uses this feature to model parliaments, committees, 
+political parties, etc. Let's create some groups in the system to examine how
+they work.
+
   >>> parliament = model.Parliament( short_name=u"p_1", start_date=datetime.now())
   >>> political_party_a = model.PoliticalParty(short_name=u"pp_1", start_date=datetime.now())
   >>> political_party_b = model.PoliticalParty(short_name=u"pp_2", start_date=datetime.now())
   >>> committee_a = model.Committee(short_name=u"commitee_1", start_date=datetime.now())
 
-Create political party memberships, committee memberships,
-and parliamentary memberships.
+A user is associated to a group via a membership, where we can store additional properties, such
+as a user's role/title in a group.
+
+Let's create some memberships and see what we can do with them.
 
   >>> for mp in [ mp_1, mp_2, mp_3 ]:
   ...    membership = model.GroupMembership()
@@ -90,10 +98,27 @@ any group can schedule a sitting, a sitting is treated as a physical
 meeting of the group by the system. 
 
 
+Motions
+-------
+
+Motions
+
 Questions
 ---------
 
   >>> question = model.Question()
+  >>> question
+  
+Question Workflow
++++++++++++++++++
+ 
+The question
+
+
+Assignment  
+++++++++++  
+
+assigning a question to a ministry
 
 Bill
 ----

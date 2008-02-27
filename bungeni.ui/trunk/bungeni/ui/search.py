@@ -72,11 +72,16 @@ class Search( BaseForm, ResultListing ):
             self.form_fields, self.prefix, self.context, self.request,
             ignore_request = ignore_request )
                 
-    @form.action(label=_("Search") )
+    @form.action(label=_(u"Search") )
     def handle_search( self, action, data ):
         searcher = component.getUtility( interfaces.IIndexSearch )()
         search_term = data[ 'full_text' ]
 
+        
+        if not search_term:
+            self.status = _(u"Invalid Query")
+            return
+            
         # compose query
         t = time.time()
         query = searcher.query_parse( search_term )

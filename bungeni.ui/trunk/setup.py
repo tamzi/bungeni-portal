@@ -21,7 +21,8 @@ setup(
     namespace_packages=['bungeni'],
     install_requires = [ 'setuptools',
                          'bungeni.core',
-#                         'alchemist.ui',
+                         'simplejson',
+                         'alchemist.ui',
                          'zope.formlib'],
     zip_safe = False,
     )

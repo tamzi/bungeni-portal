@@ -24,8 +24,10 @@ class ConstraintNavigation( viewlet.ViewletBase ):
         context_class = self.context.__class__
         context_class = removeSecurityProxy( context_class )    
         
+        items =[]
         for k, v in context_class.__dict__.items():
             if isinstance( v, ManagedContainerDescriptor ):
                 i = { 'name' : v.domain_container._class.__name__,
                       'url'  : k }
-                yield i
+                items.append( i )
+        return items

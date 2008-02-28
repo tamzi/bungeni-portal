@@ -78,6 +78,7 @@ public class DocumentMetadataSupplier {
             while (metaIterator.hasNext()) {
                 String metaName = (String) metaIterator.next();
                 DocumentMetadata metadata = metadataMap.get(metaName);
+                log.debug("metaName " + metaName);
                 //if the property exists in the document, get the property value
                 if (ooDocument.propertyExists(metadata.getName())) {
                    metadata.setValue(ooDocument.getPropertyValue(metaName));
@@ -92,6 +93,8 @@ public class DocumentMetadataSupplier {
             log.error("error in refreshmetadata() "+ ex.getMessage());
         }
     }
+    
+    
     
     /*
      *Get metadata values from map into document

@@ -26,14 +26,14 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
-import org.bungeni.editor.metadata.DocMetadataTreeTableModel;
-import org.bungeni.editor.metadata.DocumentMetadataTableModel;
-import org.bungeni.editor.metadata.DocumentMetadataTableModelLoad;
-import org.bungeni.editor.metadata.SectionMetadataLoad;
+import org.bungeni.editor.dialogs.treetable.DocMetadataTreeTableModel;
+import org.bungeni.editor.dialogs.metadatapanel.DocumentMetadataTableModel;
+import org.bungeni.editor.dialogs.metadatapanel.DocumentMetadataTableModelLoad;
+import org.bungeni.editor.dialogs.metadatapanel.SectionMetadataLoad;
 import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.ooo.OOComponentHelper;
 import org.apache.log4j.Logger;
-import org.bungeni.editor.metadata.sectionHive;
+import org.bungeni.editor.dialogs.treetable.sectionHive;
 import org.jdesktop.swingx.JXTreeTable;
 
 

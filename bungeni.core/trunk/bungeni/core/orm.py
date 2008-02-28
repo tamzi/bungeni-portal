@@ -97,7 +97,11 @@ ugm = rdb.join(schema.user_group_memberships, schema.parliament_members,
 #ugm = rdb.join( schema.user_group_memberships, schema.parliament_members, 
 #                schema.user_group_memberships.c.membership_id == schema.parliament_members.c.membership_id)
 
-mapper ( domain.mp , ugm )
+mapper ( domain.mp , ugm,
+         primary_key=[schema.user_group_memberships.c.membership_id],
+         properties = {
+           'group_id':[schema.user_group_memberships.c.group_id, schema.parliaments.c.parliament_id],
+      })
 
 mapper( domain.HansardReporter, schema.reporters,
         inherits=domain.User,

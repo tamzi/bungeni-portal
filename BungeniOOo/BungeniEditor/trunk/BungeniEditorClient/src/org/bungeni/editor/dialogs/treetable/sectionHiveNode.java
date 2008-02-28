@@ -64,8 +64,8 @@ public class sectionHiveNode implements TreeTableNode {
         return hive.isHeadless();
     }
 
-    public Enumeration children() {
-        return new IteratorAsEnumeration(children.iterator());
+    public Enumeration<org.jdesktop.swingx.treetable.TreeTableNode> children() {
+        return (Enumeration<org.jdesktop.swingx.treetable.TreeTableNode>)new IteratorAsEnumeration(children.iterator());
     }
     
     @Override

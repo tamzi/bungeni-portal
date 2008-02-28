@@ -124,13 +124,14 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="scrollDocMetadata" alignment="0" min="-2" pref="218" max="-2" attributes="0"/>
                           <Component id="lblOpenDocuments" alignment="1" pref="218" max="32767" attributes="0"/>
-                          <Component id="scrollDocMetadata" alignment="0" pref="218" max="32767" attributes="0"/>
                           <Component id="cboListDocuments" alignment="0" min="-2" pref="218" max="-2" attributes="1"/>
-                          <Component id="panelEditDocumentMetadata" alignment="0" max="32767" attributes="0"/>
+                          <Component id="check_floatingMetadataWindow" alignment="0" min="-2" pref="210" max="-2" attributes="0"/>
+                          <Component id="panelEditDocumentMetadata" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -138,12 +139,14 @@
             </DimensionLayout>
             <DimensionLayout dim="1">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="scrollDocMetadata" min="-2" pref="94" max="-2" attributes="0"/>
+                      <Component id="check_floatingMetadataWindow" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="scrollDocMetadata" min="-2" pref="79" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="panelEditDocumentMetadata" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="17" max="32767" attributes="0"/>
+                      <EmptySpace pref="19" max="32767" attributes="0"/>
                       <Component id="lblOpenDocuments" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cboListDocuments" min="-2" max="-2" attributes="0"/>
@@ -195,19 +198,31 @@
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                                  <Component id="btnApplyDocMetadata" min="-2" pref="69" max="-2" attributes="1"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btnMetadataCancel" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="editDateTxt" alignment="0" pref="179" max="32767" attributes="1"/>
+                                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                          <Component id="editStringTxt" alignment="1" max="32767" attributes="1"/>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="btnApplyDocMetadata" min="-2" pref="69" max="-2" attributes="1"/>
+                                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                                              <Component id="btnMetadataCancel" min="-2" pref="69" max="-2" attributes="0"/>
+                                          </Group>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace pref="29" max="32767" attributes="0"/>
                               </Group>
-                              <Component id="editDateTxt" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
-                              <Component id="editDateLbl" alignment="0" min="-2" pref="139" max="-2" attributes="0"/>
-                              <Component id="editStringTxt" alignment="0" min="-2" pref="208" max="-2" attributes="0"/>
-                              <Component id="editStringLbl" alignment="0" min="-2" pref="121" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="editDateLbl" min="-2" pref="139" max="-2" attributes="0"/>
+                                  <EmptySpace pref="69" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="editStringLbl" min="-2" pref="121" max="-2" attributes="0"/>
+                                  <EmptySpace pref="87" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -215,17 +230,17 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="32767" attributes="0"/>
-                          <Component id="editStringLbl" min="-2" max="-2" attributes="0"/>
+                          <Component id="editStringLbl" min="-2" pref="13" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="editStringTxt" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="editDateLbl" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="editDateTxt" min="-2" max="-2" attributes="0"/>
+                          <Component id="editDateTxt" min="-2" pref="22" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnApplyDocMetadata" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btnMetadataCancel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnMetadataCancel" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
+                              <Component id="btnApplyDocMetadata" alignment="3" min="-2" pref="20" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -234,6 +249,11 @@
               <SubComponents>
                 <Component class="javax.swing.JButton" name="btnApplyDocMetadata">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
+                      <FontInfo relative="false">
+                        <Font name="Tahoma" size="10" style="0"/>
+                      </FontInfo>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Apply"/>
                   </Properties>
                   <Events>
@@ -242,6 +262,11 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="btnMetadataCancel">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
+                      <FontInfo relative="false">
+                        <Font name="Tahoma" size="10" style="0"/>
+                      </FontInfo>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Cancel"/>
                   </Properties>
                   <Events>
@@ -249,16 +274,40 @@
                   </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="editStringTxt">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
+                      <FontInfo relative="false">
+                        <Font name="Tahoma" size="10" style="0"/>
+                      </FontInfo>
+                    </Property>
+                  </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="editDateLbl">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
+                      <FontInfo relative="false">
+                        <Font name="Tahoma" size="10" style="0"/>
+                      </FontInfo>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Edit Date Value"/>
                   </Properties>
                 </Component>
                 <Component class="org.jdesktop.swingx.JXDatePicker" name="editDateTxt">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
+                      <FontInfo relative="false">
+                        <Font name="SansSerif" size="10" style="0"/>
+                      </FontInfo>
+                    </Property>
+                  </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="editStringLbl">
                   <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
+                      <FontInfo relative="false">
+                        <Font name="Tahoma" size="10" style="0"/>
+                      </FontInfo>
+                    </Property>
                     <Property name="text" type="java.lang.String" value="Edit Text Value"/>
                   </Properties>
                 </Component>
@@ -268,6 +317,22 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Open Documents:"/>
               </Properties>
+            </Component>
+            <Component class="javax.swing.JCheckBox" name="check_floatingMetadataWindow">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Show Floating Metadata Window"/>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                    <EmptyBorder bottom="0" left="0" right="0" top="0"/>
+                  </Border>
+                </Property>
+                <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
+                  <Insets value="[0, 0, 0, 0]"/>
+                </Property>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="check_floatingMetadataWindowActionPerformed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

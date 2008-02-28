@@ -27,7 +27,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.TreeCellRenderer;
 import org.bungeni.editor.dialogs.treetable.DocMetadataTreeTableModel;
-import org.bungeni.editor.dialogs.metadatapanel.DocumentMetadataTableModel;
+import org.bungeni.editor.metadata.DocumentMetadataTableModel;
 import org.bungeni.editor.dialogs.metadatapanel.DocumentMetadataTableModelLoad;
 import org.bungeni.editor.dialogs.metadatapanel.SectionMetadataLoad;
 import org.bungeni.ooo.BungenioOoHelper;

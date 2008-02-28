@@ -2,6 +2,8 @@ package org.bungeni.testsuite;
 
 import com.sun.star.accessibility.AccessibleEventObject;
 import com.sun.star.accessibility.XAccessibleEventListener;
+import com.sun.star.beans.Property;
+import com.sun.star.beans.PropertyVetoException;
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.beans.XPropertySetInfo;
@@ -99,6 +101,7 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
 
         btnLaunch.setText("Launch OO and Connect");
         btnLaunch.addActionListener(new java.awt.event.ActionListener() {
@@ -190,6 +193,13 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
             }
         });
 
+        jButton7.setText("Get image properties");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -222,12 +232,6 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
                         .add(jTextField1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .addContainerGap()
-                        .add(cboOpenDocuments, 0, 400, Short.MAX_VALUE))
-                    .add(layout.createSequentialGroup()
-                        .add(106, 106, 106)
-                        .add(jButton4))
-                    .add(layout.createSequentialGroup()
-                        .addContainerGap()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                             .add(layout.createSequentialGroup()
                                 .add(jButton2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 167, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -242,7 +246,16 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
                         .add(66, 66, 66)
                         .add(btnClear, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(18, 18, 18)
-                        .add(jButton6)))
+                        .add(jButton6))
+                    .add(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(layout.createSequentialGroup()
+                                .add(10, 10, 10)
+                                .add(jButton4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 166, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(29, 29, 29)
+                                .add(jButton7))
+                            .add(cboOpenDocuments, 0, 400, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -273,8 +286,10 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
                     .add(jButton5))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(cboOpenDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(jButton4)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jButton4)
+                    .add(jButton7))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(9, 9, 9)
@@ -283,6 +298,34 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
                     .add(jButton6)))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    public int changeSelectedTextImageName(String newName) {
+    int nReturn = -1;
+    try {
+    XTextViewCursor viewCursor = ooDocument.getViewCursor();
+    Object selection = ooDocument.getCurrentSelection();
+    XServiceInfo xSelInfo = ooQueryInterface.XServiceInfo(selection); 
+    if (xSelInfo.supportsService("com.sun.star.text.TextGraphicObject")) {
+            XNamed xNamedSel = ooQueryInterface.XNamed(selection);
+             xNamedSel.setName("tiger");
+            nReturn = 0;
+          }
+     }  catch (Exception ex) {
+            ex.printStackTrace();
+      } finally {
+          return nReturn;
+      }
+}
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+// TODO add your handling code here:
+       if( ooDocument.isTextGraphicObjectSelected() ) {
+           this.txtMessage.append("yes image was selected\n");
+           this.txtMessage.append("changing image name to tiger\n");
+           changeSelectedTextImageName("tiger");
+       } else
+           this.txtMessage.append("no image was selected\n");
+       
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
 // TODO add your handling code here:
@@ -643,6 +686,7 @@ public class testBungeniLibs extends javax.swing.JPanel implements com.sun.star.
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField1;

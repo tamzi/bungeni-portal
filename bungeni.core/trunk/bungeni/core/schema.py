@@ -150,7 +150,7 @@ groups = rdb.Table(
    "groups",
    metadata,
    rdb.Column( "group_id", rdb.Integer,   primary_key=True ),
-   rdb.Column( "short_name", rdb.Unicode(16), nullable=False ),
+   rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),
    rdb.Column( "full_name", rdb.Unicode(80) ),   
    rdb.Column( "description", rdb.Unicode ),
    rdb.Column( "status", rdb.Unicode(12) ), # workflow for groups
@@ -232,7 +232,7 @@ user_group_memberships = rdb.Table(
    rdb.Column( "membership_id", rdb.Integer,  primary_key=True),
    rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey( 'users.user_id')),
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey( 'groups.group_id')),
-   rdb.Column( "title", rdb.Unicode(16)), # title of user's group role
+   rdb.Column( "title", rdb.Unicode(40)), # title of user's group role
    rdb.Column( "start_date", rdb.DateTime(timezone=True), default=datetime.now),
    rdb.Column( "end_date", rdb.DateTime(timezone=True) ),
    rdb.Column( "notes", rdb.Unicode ),
@@ -252,7 +252,7 @@ group_item_assignments = rdb.Table(
    rdb.Column( "assignment_id", rdb.Integer,  primary_key=True ),
    rdb.Column( "object_id", rdb.Integer ), # any object placed here needs to have a class hierarchy sequence
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
-   rdb.Column( "title", rdb.Unicode(16)), # title of user's group role
+   rdb.Column( "title", rdb.Unicode(40)), # title of user's group role
    rdb.Column( "start_date", rdb.DateTime(timezone=True), default=datetime.now),
    rdb.Column( "end_date", rdb.DateTime(timezone=True) ),   
    rdb.Column( "due_date", rdb.DateTime(timezone=True) ),    
@@ -290,23 +290,39 @@ sittings = rdb.Table(
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
    rdb.Column( "start_date", rdb.DateTime(timezone=True)),
-   rdb.Column( "end_date", rdb.DateTime(timezone=True)),   
+   rdb.Column( "end_date", rdb.DateTime(timezone=True)), 
+   rdb.Column( "sitting_type", rdb.Integer, rdb.ForeignKey('sitting_type.sitting_type_id')),
    )   
+
+sitting_type = rdb.Table(
+    "sitting_type",
+    metadata,
+    rdb.Column( "sitting_type_id", rdb.Integer, primary_key=True ),
+    rdb.Column( "sitting_type", rdb.Unicode(40)),
+    )
 
 sitting_schedule = rdb.Table(
    "sitting_schedule",
    metadata,
    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id')),
    rdb.Column( "item_id",  rdb.Integer, nullable=False),   
-   rdb.Column( "item_type", rdb.Unicode ),
+   rdb.Column( "item_type", rdb.Unicode(80) ),
    rdb.Column( "order", rdb.Integer ),
    )
    
 sitting_attendance = rdb.Table(
    "sitting_attendance",
    metadata,
-   rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id') ),
-   rdb.Column( "member_id",  rdb.Integer, rdb.ForeignKey('users.user_id') ),
+   rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id'),  primary_key=True  ),
+   rdb.Column( "member_id",  rdb.Integer, rdb.ForeignKey('users.user_id'),  primary_key=True  ),
+   rdb.Column( "attendance_id", rdb.Integer, rdb.ForeignKey('attendance_type.attendance_id')), 
+   )
+   
+attendance_type = rdb.Table(
+   "attendance_type",
+   metadata,
+   rdb.Column ("attendance_id", rdb.Integer, primary_key=True ),
+   rdb.Column ("attendance_type", rdb.Unicode(40) ),
    )
 # 
 

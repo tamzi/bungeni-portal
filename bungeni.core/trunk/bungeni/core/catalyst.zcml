@@ -127,6 +127,7 @@
      descriptor=".descriptor.ConstituencyDetailDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="True"
     />
   
   <!-- User -->
@@ -142,7 +143,14 @@
      descriptor=".descriptor.MemberDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
-     />         
+     />
+              
+  <db:catalyst
+     class=".domain.mp"
+     descriptor=".descriptor.MpDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     />  
     
   <db:catalyst
      class=".domain.HansardReporter"

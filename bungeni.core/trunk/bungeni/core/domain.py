@@ -79,7 +79,11 @@ class ParliamentMember( User ):
     # ministries
 
 
-    
+class mp ( object ):    
+    """
+    defined by groupmembership and aditional data
+    """
+
 
 class HansardReporter( User ):
     """ a reporter who reports on parliamentary procedings
@@ -125,7 +129,9 @@ class Parliament( Group ):
     """ a parliament
     """
     sessions = one2many("sessions", "bungeni.core.domain.ParliamentSessionContainer", "parliament_id")
-
+    committees = one2many("comittees", "bungeni.core.domain.CommitteeContainer", "parliament_id")
+    mps = one2many("mps","bungeni.core.domain.mpContainer", "group_id")
+    
 class PoliticalParty( Group ):
     """ a political party
     """
@@ -203,7 +209,7 @@ BillVersion = ItemVersions.makeVersionFactory("BillVersion")
 
 #############
 
-class ParliamentSession( Entity ):
+class ParliamentSession( object ):
     """
     """
     sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "session_id")
@@ -257,7 +263,7 @@ class Country( object ):
     """ 
     pass   
     
-class ConstituencyDetail( object ):
+class ConstituencyDetail( Entity ):
     """
     Details of the Constituency like population and voters at a given time
     """

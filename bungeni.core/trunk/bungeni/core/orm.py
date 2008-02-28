@@ -89,8 +89,15 @@ mapper( domain.ParliamentMember,
 #  AND "parliaments"."parliament_id" = "groups"."group_id" 
 #  AND "parliament_members"."membership_id" = "user_group_memberships"."membership_id" )
 
+ugm = rdb.join(schema.user_group_memberships, schema.parliament_members, 
+               schema.user_group_memberships.c.membership_id == schema.parliament_members.c.membership_id).join( 
+                    schema.parliaments,
+                    schema.user_group_memberships.c.group_id == schema.parliaments.c.parliament_id )
 
+#ugm = rdb.join( schema.user_group_memberships, schema.parliament_members, 
+#                schema.user_group_memberships.c.membership_id == schema.parliament_members.c.membership_id)
 
+mapper ( domain.mp , ugm )
 
 mapper( domain.HansardReporter, schema.reporters,
         inherits=domain.User,

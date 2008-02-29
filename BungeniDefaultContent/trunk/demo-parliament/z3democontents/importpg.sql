@@ -1,3 +1,8 @@
+/* import bungeni demo data */
+/* call with bin/psql bungeni < ~/devel/bungenidata/importpg.sql */
+/* replace /home/undesa/devel/bungenidata/ with the absolute(!) path where your importdata is located */
+
+
 copy public.countries from '/home/undesa/devel/bungenidata/countries.csv' csv ;
 
 copy public.provinces from '/home/undesa/devel/bungenidata/provinces.csv' csv ;
@@ -45,7 +50,7 @@ copy public.user_group_memberships (membership_id, user_id, group_id, start_date
 from '/home/undesa/devel/bungenidata/parliament_group_members.csv'
 csv;
 
-copy public.parliament_members (membership_id, constituency_id,  elected_nominated , start_date, end_date, leave_reason)
+copy public.parliament_members (membership_id, constituency_id,  elected_nominated , leave_reason)
     from '/home/undesa/devel/bungenidata/parliament_members.csv'
 csv ;
 

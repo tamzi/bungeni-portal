@@ -110,6 +110,10 @@ class GroupSitting( Entity ):
     """ a scheduled meeting for a group (parliament, committee, etc)
     """
     
+class SittingType( object ):
+    """ Type of sitting
+    morning/afternoon/... """    
+    
 class GroupSittingAttendance( object ):
     """ a record of attendance at a meeting 
     """
@@ -139,12 +143,12 @@ class PoliticalParty( Group ):
 class Ministry( Group ):
     """ a government ministry
     """
-    sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "session_id")
+    sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "group_id")
 
 class Committee( Group ):
     """ a parliamentary committee of MPs
     """
-    sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "session_id")
+    sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "group_id")
     
 class CommitteeType( object):
     """ Type of Committee """

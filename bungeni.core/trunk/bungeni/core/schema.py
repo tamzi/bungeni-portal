@@ -65,14 +65,16 @@ parliament_members = rdb.Table(
    #rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'), primary_key=True ), #a person can be member of multiple parliaments
    rdb.Column( "constituency_id", rdb.Integer, rdb.ForeignKey('constituencies.constituency_id') ),
    rdb.Column( "elected_nominated", rdb.String(1), 
-                rdb.CheckConstraint("elected_nominated in ('E','N')"), # is the MP elected or nominated
+                rdb.CheckConstraint("elected_nominated in ('E','N')"), # is the MP elected or nominated 
                 nullable=False ),
-   rdb.Column( "start_date", rdb.DateTime(timezone=True), nullable=False ),
-   rdb.Column( "end_date", rdb.DateTime(timezone=True) ),
+   # active_p, start and end date are already defined in group_user_membership                
+   #rdb.Column( "start_date", rdb.DateTime(timezone=True), nullable=False ), 
+   #rdb.Column( "end_date", rdb.DateTime(timezone=True) ),
    rdb.Column( "leave_reason", rdb.Unicode ),
-   rdb.Column( "active_p", rdb.Boolean ), 
+   #rdb.Column( "active_p", rdb.Boolean ), 
    # XXX - TODO 
    # substitutions 
+   # substitution are too defined in user_group_membership!
 
    )   
    

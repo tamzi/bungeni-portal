@@ -20,12 +20,12 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="national_id", label=_(u"National Id")),
         dict( name="gender", label=_(u"Gender")),
         dict( name="date_of_birth", label=_(u"Date of Birth")),
-        dict( name="birth_country", label=_(u"Country of Birth"), description =_(u"ISO Code of the  country")),
-#        dict( name="birth_country", 
-#            property = schema.Choice( title=_(u"Country of Birth"), 
-#                                       source=DatabaseSource(domain.Country, 'country_name', 'country_id' ),
-#                                       required=True )
-#            ),
+        #dict( name="birth_country", label=_(u"Country of Birth"), description =_(u"ISO Code of the  country")),
+        dict( name="birth_country", 
+            property = schema.Choice( title=_(u"Country of Birth"), 
+                                       source=DatabaseSource(domain.Country, 'country_name', 'country_id' ),
+                                       required=True )
+            ),
         dict( name="date_of_death", label=_(u"Date of Death"), view_permission="bungeni.AdminUsers", edit_permission="bungeni.AdminUsers"),
         dict( name="password", omit=True ),
         dict( name="salt", omit=True),
@@ -36,6 +36,9 @@ class UserDescriptor( ModelDescriptor ):
 class MemberDescriptor( UserDescriptor ):
 
     fields = deepcopy( UserDescriptor.fields )
+#    fields.extend([
+#        dict( name='fullname', label=_(u"Fullname"),listing=True),
+#        ])
 #    fields.extend([
 #        dict( name="member_id", omit=True ),
 #        dict( name="elected_nominated", label=_("elected/nominated"), description=_("Is the MP (E)lected or (N)ominated")),
@@ -76,7 +79,10 @@ class GroupMembershipDescriptor( ModelDescriptor ):
         dict( name="substitution_p", label=_(u"Substituted") ),
         dict( name="substitution_type", label=_(u"Type of Substitution") ),
         dict( name="replaced_id", omit=True),
-        dict( name="user_id", omit=True),
+        #dict( name="user_id", omit=True),
+        dict( name="user_id",
+            property=schema.Choice( title=_(u"Member of Parliament"), source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id'))
+            ),     
         dict( name="group_id", omit=True),
         dict( name="status", omit=True )
         ]
@@ -84,9 +90,9 @@ class GroupMembershipDescriptor( ModelDescriptor ):
 class MpDescriptor ( ModelDescriptor ):
     fields = deepcopy(GroupMembershipDescriptor.fields)
     fields.extend([
-        dict( name="constituency_id", 
-            property=schema.Choice( title=_(u"Constituency"), source=DatabaseSource(domain.Constituency, 'constituency_id', 'name'))
-            ),        
+        dict( name="constituency_id",
+            property=schema.Choice( title=_(u"Constituency"), source=DatabaseSource(domain.Constituency,  'name', 'constituency_id'))
+            ),                
         dict( name="elected_nominated", label=_(u"elected/nominated")),
         #dict( name="start_date", label=_(u"Start Date"), listing=True ),
         #dict( name="end_date", label=_(u"End Date"), listing=True ), 
@@ -235,6 +241,10 @@ class SittingDescriptor( ModelDescriptor ):
         dict( name="session_id", omit=True ),
         dict( name="start_date", label=_(u"Start Date") ),
         dict( name="end_date", label=_(u"End Date") ),
+        dict( name="sitting_type", 
+              property = schema.Choice( title=_(u"Sitting Type"), 
+                                      source=DatabaseSource(domain.SittingType, 'sitting_type', 'sitting_type_id' ), 
+                                      required=False) ),
         ]
 
 class SessionDescriptor( ModelDescriptor ):
@@ -314,7 +324,7 @@ class ConstituencyDescriptor( ModelDescriptor ):
             property = schema.Choice( title=_(u"Province"), source=DatabaseSource(domain.Province,'province', 'province_id'), 
             required=True )
             ),
-         dict( name="region", label=_(u"Region"),
+        dict( name="region", label=_(u"Region"),
              property = schema.Choice( title=_(u"Region"), source=DatabaseSource(domain.Region,'region', 'region_id'), 
              required=True )
             ),
@@ -333,6 +343,12 @@ class RegionDescriptor( ModelDescriptor ):
         dict( name="region_id", omit=True ),
         dict( name="region", label=_(u"Region"), description=_(u"Name of the Region"), listing=True ), 
         ]
+
+class CountryDescriptor( ModelDescriptor ):
+    fields = [
+        dict( name="country_id", label=_(u"Country Code") , description =_(u"ISO Code of the  country")),
+        dict( name="country_name", label=_(u"Country"), description=_(u"Name of the Country"), listing=True ), 
+        ]        
 		
 class ConstituencyDetailDescriptor( ModelDescriptor ):
     fields = [

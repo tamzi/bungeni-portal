@@ -2,7 +2,7 @@
 
 
 import sqlalchemy as rdb
-from sqlalchemy.orm import mapper, relation
+from sqlalchemy.orm import mapper, relation, column_property
 
 import schema
 import domain
@@ -77,7 +77,15 @@ mapper( domain.Committee, schema.committees,
     
 mapper( domain.ParliamentMember, 
         inherits=domain.User,
-        polymorphic_identity='memberofparliament')
+          properties={
+           'fullname' : column_property(
+                             (schema.users.c.first_name + " " + 
+                             schema.users.c.middle_name + " " + 
+                             schema.users.c.last_name).label('fullname')
+                                           )
+                    },
+        polymorphic_identity='memberofparliament'
+      )
 
 # A parliament member is described by 
 # membership in the parliament (group + parliament_id)
@@ -89,19 +97,22 @@ mapper( domain.ParliamentMember,
 #  AND "parliaments"."parliament_id" = "groups"."group_id" 
 #  AND "parliament_members"."membership_id" = "user_group_memberships"."membership_id" )
 
-ugm = rdb.join(schema.user_group_memberships, schema.parliament_members, 
-               schema.user_group_memberships.c.membership_id == schema.parliament_members.c.membership_id).join( 
-                    schema.parliaments,
-                    schema.user_group_memberships.c.group_id == schema.parliaments.c.parliament_id )
+#_mp = rdb.join(schema.user_group_memberships, schema.parliament_members, 
+#               schema.user_group_memberships.c.membership_id == schema.parliament_members.c.membership_id).join( 
+#                    schema.parliaments,
+#                    schema.user_group_memberships.c.group_id == schema.parliaments.c.parliament_id )
 
-#ugm = rdb.join( schema.user_group_memberships, schema.parliament_members, 
-#                schema.user_group_memberships.c.membership_id == schema.parliament_members.c.membership_id)
+_mp = rdb.join(schema.user_group_memberships, schema.parliament_members, 
+                schema.user_group_memberships.c.membership_id == schema.parliament_members.c.membership_id)
+                
+mapper ( domain.mp , _mp,
+         primary_key=[schema.user_group_memberships.c.membership_id],         
+        )
+        
+# properties = {
+#           'group_id':[schema.user_group_memberships.c.group_id, schema.parliaments.c.parliament_id],
+#      }
 
-mapper ( domain.mp , ugm,
-         primary_key=[schema.user_group_memberships.c.membership_id],
-         properties = {
-           'group_id':[schema.user_group_memberships.c.group_id, schema.parliaments.c.parliament_id],
-      })
 
 mapper( domain.HansardReporter, schema.reporters,
         inherits=domain.User,
@@ -165,7 +176,8 @@ mapper( domain.Province, schema.provinces )
 mapper( domain.Region, schema.regions )
 mapper( domain.Country, schema.countries )
 mapper( domain.ConstituencyDetail, schema.constituency_details )
-mapper( domain.CommitteeType, schema.committee_type )        
+mapper( domain.CommitteeType, schema.committee_type )   
+mapper( domain.SittingType, schema.sitting_type )     
 
         
 

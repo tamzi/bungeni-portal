@@ -1,12 +1,15 @@
 from ore.alchemist.model import ModelDescriptor
 from ore.alchemist.vocabulary import DatabaseSource
 from copy import deepcopy
-from zope import schema
+from zope import schema, interface
 import vocabulary
 import domain
 from alchemist.ui import widgets
+from bungeni.ui.login import check_email
 
 from i18n import _
+
+
 
 class UserDescriptor( ModelDescriptor ):
     fields = [
@@ -15,7 +18,14 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="first_name", label=_(u"First Name"), listing=True),
         dict( name="last_name", label=_(u"Last Name"), listing=True),
         dict( name="middle_name", label=_(u"Middle Name")),
-        dict( name="email", label=_(u"Email")),
+        #dict( name="email", label=_(u"Email")),
+        dict( name="email",
+            property = schema.TextLine( title =_(u"Email"), 
+                                        description=_(u"Email address"),
+                                        constraint=check_email,
+                                        required=True
+                                        ),
+             ),                                                                                
         dict( name="login", label=_(u"Login Name")),
         dict( name="national_id", label=_(u"National Id")),
         dict( name="gender", label=_(u"Gender")),
@@ -32,6 +42,14 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="active_p", label=_(u"Active"), view_permission="bungeni.AdminUsers", edit_permission="bungeni.AdminUsers"),
         dict( name="type", omit=True ),
         ]
+        
+#    @interface.invariant #(DeathBeforeLife)    
+#    def DeathBeforeLife(User):
+#        raise(interface.Invalid("stop there"))
+#        if User.date_of_death < User.date_of_birth:
+#            raise(interface.Inavlid("One cannot die before being born"))   
+
+        
 
 class MemberDescriptor( UserDescriptor ):
 

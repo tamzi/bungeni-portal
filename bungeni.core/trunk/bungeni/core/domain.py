@@ -78,6 +78,9 @@ class ParliamentMember( User ):
 
     # ministries
 
+#    @interface.invariant
+#    def DeathBeforeLife(User):
+#        raise(interface.Invalid("stop there"))
 
 class mp ( object ):    
     """

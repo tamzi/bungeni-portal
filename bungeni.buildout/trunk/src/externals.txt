@@ -28,14 +28,15 @@ ore.xapian     https://svn.objectrealms.net/svn/public/ore.xapian/trunk
 
 # subversion support
 # ore.svn        https://svn.objectrealms.net/svn/public/ore.svn/trunk
-# library support
+# ui for svn files/directories with version browsing
 #ore.library    https://svn.objectrealms.net/svn/public/ore.library/trunk
 
-# z3c.traverser
+# pluggable traversal support for domain objects ( foreign key traversal for example )
 z3c.traverser svn://svn.zope.org/repos/main/z3c.traverser/trunk
 
-# zc.displayname
+# display / title names across content, breadcrumbs support
 zc.displayname svn://svn.zope.org/repos/main/zc.displayname/trunk
 
-# z3c.securitytool
+# shows security information ( principal, permissions, views )
+# usage requires including security-debug.zcml
 z3c.securitytool svn://svn.zope.org/repos/main/z3c.securitytool/trunk

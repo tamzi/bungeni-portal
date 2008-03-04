@@ -12,12 +12,16 @@ class ILoginForm( interface.Interface ):
     login = schema.TextLine( title=_(u"Username"))
     password = schema.Password( title=_(u"Password"))    
 
+class NotAnEmailAddress(schema.ValidationError):
+    """This is not a valid email address"""
+
 def check_password( signup ):
     if not signup.password_repeat == signup.password:
         raise schema.ValidationError(_(u"Passwords do not match"))
 
 def check_email( email ):
     if EMAIL_RE.match( email ) is None:
+        raise NotAnEmailAddress(email)
         return False
     return True
                  

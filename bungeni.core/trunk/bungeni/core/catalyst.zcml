@@ -165,6 +165,13 @@
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
     />
+
+  <db:catalyst
+     class=".domain.GroupSittingAttendance"
+     descriptor=".descriptor.AttendanceDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+    />    
    
 
     <!--db:catalyst

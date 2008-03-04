@@ -1,5 +1,5 @@
 from ore.alchemist.model import ModelDescriptor
-from ore.alchemist.vocabulary import DatabaseSource
+from ore.alchemist.vocabulary import DatabaseSource, VocabularyTable
 from copy import deepcopy
 from zope import schema, interface
 import vocabulary
@@ -18,7 +18,6 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="first_name", label=_(u"First Name"), listing=True),
         dict( name="last_name", label=_(u"Last Name"), listing=True),
         dict( name="middle_name", label=_(u"Middle Name")),
-        #dict( name="email", label=_(u"Email")),
         dict( name="email",
             property = schema.TextLine( title =_(u"Email"), 
                                         description=_(u"Email address"),
@@ -30,7 +29,6 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="national_id", label=_(u"National Id")),
         dict( name="gender", label=_(u"Gender")),
         dict( name="date_of_birth", label=_(u"Date of Birth")),
-        #dict( name="birth_country", label=_(u"Country of Birth"), description =_(u"ISO Code of the  country")),
         dict( name="birth_country", 
             property = schema.Choice( title=_(u"Country of Birth"), 
                                        source=DatabaseSource(domain.Country, 'country_name', 'country_id' ),
@@ -39,7 +37,7 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="date_of_death", label=_(u"Date of Death"), view_permission="bungeni.AdminUsers", edit_permission="bungeni.AdminUsers"),
         dict( name="password", omit=True ),
         dict( name="salt", omit=True),
-        dict( name="active_p", label=_(u"Active"), view_permission="bungeni.AdminUsers", edit_permission="bungeni.AdminUsers"),
+        dict( name="active_p", label=_(u"Active"), view_permission="bungeni.AdminUsers", edit_permission="bungeni.AdminUsers", listing=True),
         dict( name="type", omit=True ),
         ]
         
@@ -97,7 +95,6 @@ class GroupMembershipDescriptor( ModelDescriptor ):
         dict( name="substitution_p", label=_(u"Substituted") ),
         dict( name="substitution_type", label=_(u"Type of Substitution") ),
         dict( name="replaced_id", omit=True),
-        #dict( name="user_id", omit=True),
         dict( name="user_id",
             property=schema.Choice( title=_(u"Member of Parliament"), source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id'))
             ),     
@@ -106,14 +103,13 @@ class GroupMembershipDescriptor( ModelDescriptor ):
         ]
 
 class MpDescriptor ( ModelDescriptor ):
+    display_name = _(u"Member of Parliament")
     fields = deepcopy(GroupMembershipDescriptor.fields)
     fields.extend([
         dict( name="constituency_id",
             property=schema.Choice( title=_(u"Constituency"), source=DatabaseSource(domain.Constituency,  'name', 'constituency_id'))
             ),                
         dict( name="elected_nominated", label=_(u"elected/nominated")),
-        #dict( name="start_date", label=_(u"Start Date"), listing=True ),
-        #dict( name="end_date", label=_(u"End Date"), listing=True ), 
         dict( name="leave_reason", label=_("Leave Reason")),     
     ])
 
@@ -131,7 +127,7 @@ class GroupDescriptor( ModelDescriptor ):
         ]
                     
 class ParliamentDescriptor( GroupDescriptor ):
-    
+    display_name = _(u"Parliament")    
     fields = [
         dict( name="group_id", omit=True ),
         dict( name="parliament_id", omit=True ),
@@ -145,7 +141,7 @@ class ParliamentDescriptor( GroupDescriptor ):
         ]
         
 class CommitteeDescriptor( GroupDescriptor ):
-    
+    display_name = _(u"Committee")    
     fields = deepcopy( GroupDescriptor.fields )
     fields.extend([
         #dict( name='parliament_id', 
@@ -169,14 +165,14 @@ class CommitteeDescriptor( GroupDescriptor ):
     ])
     
 class PolitcalPartyDescriptor( GroupDescriptor ):
-     
+    display_name = _(u"Political Party")     
     fields = deepcopy( GroupDescriptor.fields )    
     fields.extend([
         dict( name='logo', label=_(u"Logo"))
      ])
      
 class MinistryDescriptor( GroupDescriptor ):
-
+    display_name = _(u"Ministry")
     fields = deepcopy( GroupDescriptor.fields )       
     fields.extend([
         dict( name='ministry_id', omit=True ),
@@ -184,7 +180,7 @@ class MinistryDescriptor( GroupDescriptor ):
     ])
     
 class ParliamentSession( ModelDescriptor ):
-    
+    display_name = _(u"Parliamentary Session")    
     fields = deepcopy( GroupDescriptor.fields )
     fields.extend([
         dict( name="session_id", omit=True ),
@@ -196,12 +192,6 @@ class ParliamentSession( ModelDescriptor ):
 class GovernmentDescriptor( ModelDescriptor ):
     
     display_name = _(u"Government")
-    #fields = deepcopy( GroupDescriptor.fields )    
-    #fields.extend([
-    #    dict( name="government_id", omit=True),
-    #    dict( name="start_gazetted_date", label=_(u"Gazetted Start Date") ),
-    #    dict( name="end_gazetted_date", label=_(u"Gazetted End Date") )
-    #    ])
     fields = [
         dict( name="group_id", omit=True ),
         dict( name="short_name", label=_(u"Name"), description=_(u"Name of the Head of Government"), listing=True),
@@ -279,6 +269,15 @@ class SessionDescriptor( ModelDescriptor ):
         dict( name="notes", label=_(u"Notes") )
         ]
         
+class AttendanceDescriptor( ModelDescriptor ):
+    display_name =_(u"Sitting Attendance")
+    
+    fields = [
+        dict( name="sitting_id", omit=True),
+        dict( name="member_id", listing=True),
+        dict( name="attendance_id", listing=True),
+        ]
+        
 class BillDescriptor( ModelDescriptor ):
     
     display_name = _(u"Bill")
@@ -300,9 +299,9 @@ class QuestionDescriptor( ModelDescriptor ):
     
     fields = [
         dict( name="question_id", omit=True),
-        dict( name="session_id", 
-                property = schema.Choice( title=_(u"Session"), source=DatabaseSource(domain.ParliamentSession,'short_name' ,'session_id'), required=False )
-            ),
+#        dict( name="session_id", 
+#                property = schema.Choice( title=_(u"Session"), source=DatabaseSource(domain.ParliamentSession,'short_name' ,'session_id'), required=False )
+#            ),
         dict( name="clerk_submission_date", label=_(u"Submission Date"), listing=True, omit=True ),
         dict( name="question_type", listing=True, 
               property=schema.Choice( title=_(u"Question Type"), 
@@ -310,7 +309,7 @@ class QuestionDescriptor( ModelDescriptor ):
                                       vocabulary=vocabulary.QuestionType) ),
         dict( name="response_type", label=_(u"Response Type"), description=_("(O)ral or (W)ritten"), listing=True ),
         dict( name="owner_id", 
-              property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, 'last_name', 'user_id' )), 
+              property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, 'fullname', 'user_id' )), 
             ),
         dict( name="subject", label=_(u"Subject"), description=_(u"Subject of the Question"), ),
         dict( name="question_text", property=schema.Text(title=_(u"Question"), required=True )),
@@ -339,10 +338,12 @@ class ConstituencyDescriptor( ModelDescriptor ):
         #dict( name="constituency_identifier", label=_(u"Identifier"), description=_(u"Identifier of the Constitueny, usually a Number"), listing =True ),
         dict( name="name", label=_(u"Name"), description=_("Name of the constituency"), listing=True ),
         dict(name="province",
+#            property = schema.Choice( title=_(u"Province"), source=VocabularyTable(domain.Province,'province', 'province_id'), 
             property = schema.Choice( title=_(u"Province"), source=DatabaseSource(domain.Province,'province', 'province_id'), 
             required=True )
             ),
         dict( name="region", label=_(u"Region"),
+#             property = schema.Choice( title=_(u"Region"), source=VocabularyTable(domain.Region,'region', 'region_id'), 
              property = schema.Choice( title=_(u"Region"), source=DatabaseSource(domain.Region,'region', 'region_id'), 
              required=True )
             ),

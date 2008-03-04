@@ -13,6 +13,7 @@ from zope import interface, location
 from ore.alchemist import Session, model
 from alchemist.traversal.managed import one2many
 
+
 import logging
 import interfaces
 
@@ -112,6 +113,7 @@ class GroupMembership( Entity ):
 class GroupSitting( Entity ):
     """ a scheduled meeting for a group (parliament, committee, etc)
     """
+    attendance = one2many( "attendance", "bungeni.core.domain.GroupSittingAttendanceContainer", "sitting_id" )
     
 class SittingType( object ):
     """ Type of sitting
@@ -142,11 +144,14 @@ class Parliament( Group ):
 class PoliticalParty( Group ):
     """ a political party
     """
-
+    partymembers = one2many("partymembers","bungeni.core.domain.mpContainer", "group_id")
+    
+    
 class Ministry( Group ):
     """ a government ministry
     """
     sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "group_id")
+    ministers = one2many("Ministers","bungeni.core.domain.mpContainer", "group_id")
 
 class Committee( Group ):
     """ a parliamentary committee of MPs
@@ -216,7 +221,7 @@ BillVersion = ItemVersions.makeVersionFactory("BillVersion")
 
 #############
 
-class ParliamentSession( object ):
+class ParliamentSession( Entity ):
     """
     """
     sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "session_id")
@@ -244,7 +249,7 @@ class ObjectSubscriptions( object ):
 
 # ###############
 
-class Constituency( object ):
+class Constituency( Entity ):
     """ a locality region, which elects an MP 
     """
     cdetail = one2many("cdetail", "bungeni.core.domain.ConstituencyDetailContainer", "constituency_id")
@@ -252,17 +257,17 @@ class Constituency( object ):
 ConstituencyChange = ItemLog.makeLogFactory( "ConstituencyChange")
 ConstituencyVersion = ItemVersions.makeVersionFactory("ConstituencyVersion")
 
-class Region( object ):
+class Region( Entity ):
     """
     Region of the constituency
     """
-    pass
+    constituencies = one2many( "constituencies", "bungeni.core.domain.ConstituencyContainer", "region" ) 
     
-class Province( object ):
+class Province( Entity ):
     """
     Province of the Constituency
     """
-    pass
+    constituencies = one2many( "constituencies", "bungeni.core.domain.ConstituencyContainer", "province" )
     
 class Country( object ):
     """
@@ -270,7 +275,7 @@ class Country( object ):
     """ 
     pass   
     
-class ConstituencyDetail( Entity ):
+class ConstituencyDetail( object ):
     """
     Details of the Constituency like population and voters at a given time
     """

@@ -7,6 +7,12 @@ from sqlalchemy.orm import mapper, relation, column_property
 import schema
 import domain
 
+def IsNull( Value=None):
+    """ Reurn an empty String if the Value is Null (None) """
+    if Value is None:
+        return ''
+    return Value
+
 # Users
 mapper( domain.User, schema.users,
         polymorphic_on=schema.users.c.type,
@@ -79,8 +85,8 @@ mapper( domain.ParliamentMember,
         inherits=domain.User,
           properties={
            'fullname' : column_property(
-                             (schema.users.c.first_name + " " + 
-                             schema.users.c.middle_name + " " + 
+                             (schema.users.c.first_name + u" " + 
+                             schema.users.c.middle_name + u" " + 
                              schema.users.c.last_name).label('fullname')
                                            )
                     },
@@ -178,6 +184,7 @@ mapper( domain.Country, schema.countries )
 mapper( domain.ConstituencyDetail, schema.constituency_details )
 mapper( domain.CommitteeType, schema.committee_type )   
 mapper( domain.SittingType, schema.sitting_type )     
+mapper( domain.GroupSittingAttendance, schema.sitting_attendance )
 
         
 

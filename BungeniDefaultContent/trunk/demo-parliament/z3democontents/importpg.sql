@@ -4,6 +4,10 @@
 
 
 copy public.countries from '/home/undesa/devel/bungenidata/countries.csv' csv ;
+/* workaround for now because vocabulary source does not accept unicode */
+/* XXX */
+
+delete from countries where country_id not in ('AO', 'KE', 'UG', 'ZA');
 
 copy public.provinces from '/home/undesa/devel/bungenidata/provinces.csv' csv ;
 
@@ -19,6 +23,9 @@ email, birth_country, gender, national_id, active_p, type)
 from  '/home/undesa/devel/bungenidata/users.csv' with delimiter ';' csv ;
 
 update public.users set active_p = 'D' where date_of_death is not null;
+
+update public.users set titles = 'Mrs.' where gender = 'F';
+update public.users set titles = 'Mr.' where gender = 'M';
 
 
 copy public.groups ( group_id, short_name, full_name, start_date, end_date, type) 
@@ -106,13 +113,25 @@ copy public.attendance_type( attendance_id, attendance_type)
 from '/home/undesa/devel/bungenidata/attendance_type.csv'
 csv;
 
-copy public.sitting_attendance( sitting_id, member_id, attendance_id)
-from '/home/undesa/devel/bungenidata/Seating_attendance.csv'
-csv;
-
 copy public.user_group_memberships ( user_id, group_id, start_date, end_date)
 from '/home/undesa/devel/bungenidata/partymembers.csv'
 csv;
+
+
+/* set the active flags to something sane */
+
+update user_group_memberships set active_p =  false where end_date is not null;
+
+update user_group_memberships set active_p =  true  where end_date is  null;
+
+update users set active_p = 'I' where user_id not in (select user_id from user_group_memberships where active_p = True);
+
+update users set active_p = 'D' where date_of_death is not null;
+
+copy public.sitting_attendance( sitting_id, member_id, attendance_id)
+from '/home/undesa/devel/bungenidata/sitting_attendance.csv'
+csv;
+
 
 /*get all sequences */
 select  sequence_name from information_schema.sequences

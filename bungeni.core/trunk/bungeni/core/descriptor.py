@@ -7,7 +7,7 @@ import vocabulary
 import domain
 from alchemist.ui import widgets
 from bungeni.ui.login import check_email
-
+from bungeni.ui.datetimewidget import SelectDateWidget
 from i18n import _
 
 def _column( name, title, renderer, default="" ):
@@ -28,6 +28,37 @@ def name_column( name, title, default=""):
             return "%s..."%value[:size]
         return value
     return _column( name, title, renderer, default)
+    
+def EndAfterStart(obj):
+    """ End Date must be after Start Date"""    
+    if obj.end_date is None: return
+    if obj.end_date < obj.start_date:
+        raise interface.Invalid("End Date must be after Start Date")
+    
+class DeathBeforeLifeError(schema.interfaces.ValidationError):
+     """One cannot die before being born"""
+    
+def DeathBeforeLife(User):
+    """Check if date of death is after date of birth"""
+    if User.date_of_death is None: return
+    if User.date_of_death < User.date_of_birth:       
+        raise DeathBeforeLifeError
+    
+def IsDeceased(User):
+    """If a user is deceased a date of death must be given"""
+    if User.active_p is None: 
+        if User.date_of_death is None: 
+            return
+        else: 
+            raise interface.Invalid("If a user is deceased he must have the status 'D'")
+    if User.active_p == 'D':
+        if User.date_of_death is None:
+            raise interface.Invalid("A Date of Death must be given if a user is deceased")
+    else:
+        if User.date_of_death is not None:
+            raise interface.Invalid("If a user is deceased he must have the status 'D'")
+            
+              
 
 class UserDescriptor( ModelDescriptor ):
     fields = [
@@ -46,7 +77,7 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="login", label=_(u"Login Name")),
         dict( name="national_id", label=_(u"National Id")),
         dict( name="gender", label=_(u"Gender")),
-        dict( name="date_of_birth", label=_(u"Date of Birth")),
+        dict( name="date_of_birth", label=_(u"Date of Birth"), edit_widget=SelectDateWidget ),
         dict( name="birth_country", 
             property = schema.Choice( title=_(u"Country of Birth"), 
                                        source=DatabaseSource(domain.Country, 'country_name', 'country_id' ),
@@ -59,11 +90,7 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="type", omit=True ),
         ]
         
-#    @interface.invariant #(DeathBeforeLife)    
-#    def DeathBeforeLife(User):
-#        raise(interface.Invalid("stop there"))
-#        if User.date_of_death < User.date_of_birth:
-#            raise(interface.Inavlid("One cannot die before being born"))   
+    schema_invariants = [DeathBeforeLife, IsDeceased]
 
         
 
@@ -119,6 +146,8 @@ class GroupMembershipDescriptor( ModelDescriptor ):
         dict( name="group_id", omit=True),
         dict( name="status", omit=True )
         ]
+        
+   schema_invariants = [EndAfterStart]
 
 class MpDescriptor ( ModelDescriptor ):
     display_name = _(u"Member of Parliament")
@@ -146,7 +175,9 @@ class GroupDescriptor( ModelDescriptor ):
               listing_column=day_column('end_date', _(u"End Date"))),        
         dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True )        
         ]
-                    
+
+    schema_invariants = [EndAfterStart]
+                        
 class ParliamentDescriptor( GroupDescriptor ):
     display_name = _(u"Parliament")    
     fields = [
@@ -161,7 +192,8 @@ class ParliamentDescriptor( GroupDescriptor ):
         dict( name="start_date", label=_(u"In power from"),  description=_(u"Date the of the swearing in") ),
         dict( name="end_date", label=_(u"In power till"),  description=_(u"Date the of the dissolution") ),
         ]
-        
+    schema_invariants = [EndAfterStart]
+            
 class CommitteeDescriptor( GroupDescriptor ):
     display_name = _(u"Committee")    
     fields = deepcopy( GroupDescriptor.fields )
@@ -185,7 +217,8 @@ class CommitteeDescriptor( GroupDescriptor ):
         dict( name='dissolution_date', label=_(u"Dissolution date")),
         dict( name='reinstatement_date', label=_(u"Reinstatement Date")),              
     ])
-    
+
+        
 class PolitcalPartyDescriptor( GroupDescriptor ):
     display_name = _(u"Political Party")     
     fields = deepcopy( GroupDescriptor.fields )    
@@ -212,6 +245,8 @@ class ParliamentSession( ModelDescriptor ):
         dict( name="notes", property=schema.Text(title=_(u"Notes")))
         ])
         
+schema_invariants = [EndAfterStart]        
+        
 class GovernmentDescriptor( ModelDescriptor ):
     
     display_name = _(u"Government")
@@ -228,6 +263,7 @@ class GovernmentDescriptor( ModelDescriptor ):
         dict( name="government_id", omit=True),     
         ]
     
+schema_invariants = [EndAfterStart]    
     
 class MotionDescriptor( ModelDescriptor ):
     
@@ -280,6 +316,8 @@ class SittingDescriptor( ModelDescriptor ):
                                       required=False) ),
         ]
 
+    schema_invariants = [EndAfterStart]
+    
 class SessionDescriptor( ModelDescriptor ):
     
     display_name = _(u"Parliamentary Session")
@@ -293,7 +331,8 @@ class SessionDescriptor( ModelDescriptor ):
         dict( name="end_date", label=_(u"End Date"), listing=True, listing_column=day_column("end_date", _(u"End Date"))),
         dict( name="notes", label=_(u"Notes") )
         ]
-        
+    schema_invariants = [EndAfterStart]
+            
 class AttendanceDescriptor( ModelDescriptor ):
     display_name =_(u"Sitting Attendance")
     
@@ -376,6 +415,8 @@ class ConstituencyDescriptor( ModelDescriptor ):
         dict( name="start_date", label=_(u"Start Date"), listing=True ),
         dict( name="end_date", label=_(u"End Date"), listing=True ),        
         ]
+
+schema_invariants = [EndAfterStart]
         
 class ProvinceDescriptor( ModelDescriptor ):
     fields = [
@@ -425,6 +466,8 @@ class RotaDescriptor( ModelDescriptor ):
         dict( name="start_date", label=_(u"Start Date"), listing=True ),
         dict( name="end_date", label=_(u"End Date"), listing=True ),
         ]
+
+    schema_invariants = [EndAfterStart]
         
 #class TakeDescriptor( ModelDescriptor ):
 #    fields = [        

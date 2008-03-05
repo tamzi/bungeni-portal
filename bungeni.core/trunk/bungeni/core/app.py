@@ -90,6 +90,9 @@ class AppSetup( object ):
         
         self.context['sessions'] = domain.ParliamentSessionContainer()
         
+        countries = domain.CountryContainer()
+        self.context['countries'] = countries
+        
         # todo separate out to url module
         #url.setupResolver( self.context )
         # 

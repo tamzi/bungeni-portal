@@ -37,7 +37,7 @@ users = rdb.Table(
    rdb.Column( "active_p", rdb.String(1),
                 rdb.CheckConstraint("active_p in ('A', 'I', 'D')"),
                 default="A",
-                nullable=False), #activ/inactiv/deceased
+                    nullable=False), #activ/inactiv/deceased
    rdb.Column( "type", rdb.String(30), nullable=False )
    )
 
@@ -482,7 +482,7 @@ responses = rdb.Table(
    rdb.Column( "response_id", rdb.Integer, primary_key=True ),
    rdb.Column( "question_id", rdb.Integer, rdb.ForeignKey('questions.question_id') ),
    rdb.Column( "response_text", rdb.Unicode ),
-   rdb.Column( "response_type", rdb.Unicode, rdb.CheckConstraint("type in ('I','S')"), default=u"I"), # (I)nitial (S)ubsequent
+   rdb.Column( "response_type", rdb.String(1), rdb.CheckConstraint("response_type in ('I','S')"), default=u"I"), # (I)nitial (S)ubsequent
    # 
 # for attachment to the debate record, but not actually scheduled on the floor
    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id') ),

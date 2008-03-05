@@ -482,7 +482,9 @@ responses = rdb.Table(
    rdb.Column( "response_id", rdb.Integer, primary_key=True ),
    rdb.Column( "question_id", rdb.Integer, rdb.ForeignKey('questions.question_id') ),
    rdb.Column( "response_text", rdb.Unicode ),
-   rdb.Column( "type", rdb.Unicode, rdb.CheckConstraint("type in ('I','S')"), default=u"I"), # (I)nitial (S)ubsequent
+   rdb.Column( "response_type", rdb.Unicode, rdb.CheckConstraint("type in ('I','S')"), default=u"I"), # (I)nitial (S)ubsequent
+   # 
+# for attachment to the debate record, but not actually scheduled on the floor
    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id') ),
    rdb.Column( "sitting_time", rdb.DateTime(timezone=True) )
    )

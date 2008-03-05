@@ -2,6 +2,7 @@ from ore.alchemist.model import ModelDescriptor
 from ore.alchemist.vocabulary import DatabaseSource, VocabularyTable
 from copy import deepcopy
 from zope import schema, interface
+from zc.table import column
 import vocabulary
 import domain
 from alchemist.ui import widgets
@@ -9,7 +10,24 @@ from bungeni.ui.login import check_email
 
 from i18n import _
 
-
+def _column( name, title, renderer, default="" ):
+    def getter( item, formatter ):
+        value = getattr( item, name )
+        if value:
+            return renderer( value )
+        return default
+    return column.GetterColumn( name, getter )
+    
+def day_column( name, title, default="" ):
+    renderer = lambda x: x.strftime('%Y-%m-%d')
+    return _column( name, title, renderer, default)
+    
+def name_column( name, title, default=""):
+    def renderer( value, size=30 ):
+        if len(value) > size:
+            return "%s..."%value[:size]
+        return value
+    return _column( name, title, renderer, default)
 
 class UserDescriptor( ModelDescriptor ):
     fields = [
@@ -88,8 +106,8 @@ class GroupMembershipDescriptor( ModelDescriptor ):
 
    fields = [
         dict( name="title", label=_(u"Title") ),
-        dict( name="start_date", label=_(u"Start Date") ),
-        dict( name="end_date", label=_(u"End Date") ),
+        dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ) ),
+        dict( name="end_date", label=_(u"End Date"), listing_column=day_column("end_date", _(u"End Date")) ),
         dict( name="active_p", label=_(u"Active") ),
         dict( name="notes", label=_(u"Notes") ),
         dict( name="substitution_p", label=_(u"Substituted") ),
@@ -119,10 +137,13 @@ class GroupDescriptor( ModelDescriptor ):
     fields = [
         dict( name="group_id", omit=True ),
         dict( name="short_name", label=_(u"Name"), listing=True),
-        dict( name="full_name", label=_(u"Full Name")),
+        dict( name="full_name", label=_(u"Full Name"), listing=True,
+              listing_column=name_column("full_name", _(u"Full Name"))),
         dict( name="description", property=schema.Text(title=_(u"Description"))),
-        dict( name="start_date", label=_(u"Start Date"), listing=True ),
-        dict( name="end_date", label=_(u"End Date"), listing=True ),        
+        dict( name="start_date", label=_(u"Start Date"), listing=True, 
+              listing_column=day_column("start_date", _(u"Start Date"))),
+        dict( name="end_date", label=_(u"End Date"), listing=True, 
+              listing_column=day_column('end_date', _(u"End Date"))),        
         dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True )        
         ]
                     
@@ -132,7 +153,8 @@ class ParliamentDescriptor( GroupDescriptor ):
         dict( name="group_id", omit=True ),
         dict( name="parliament_id", omit=True ),
         dict( name="short_name", label=_(u"Parliament Identifier"), description=_(u"Unique identifier of each Parliament (e.g. nth Parliament)"), listing=True ),
-        dict( name="full_name", label=_(u"Name"), description=_(u"Parliament name"), listing=True ),
+        dict( name="full_name", label=_(u"Name"), description=_(u"Parliament name"), listing=True,
+              listing_column=name_column("full_name", "Name") ),
         dict( name="description", property=schema.Text(title=_(u"Description"), required=False )),
         #dict( name="identifier", label=_(u"Parliament Number"), listing=True ),
         dict( name="election_date", label=_(u"Election Date"), description=_(u"Date the of the election") ),        
@@ -176,7 +198,8 @@ class MinistryDescriptor( GroupDescriptor ):
     fields = deepcopy( GroupDescriptor.fields )       
     fields.extend([
         dict( name='ministry_id', omit=True ),
-        dict( name='government_id', omit=True ),           
+        dict( name='government_id', omit=True ),
+                   
     ])
     
 class ParliamentSession( ModelDescriptor ):
@@ -196,8 +219,10 @@ class GovernmentDescriptor( ModelDescriptor ):
         dict( name="group_id", omit=True ),
         dict( name="short_name", label=_(u"Name"), description=_(u"Name of the Head of Government"), listing=True),
         dict( name="full_name", label=_(u"Number")),       
-        dict( name="start_date", label=_(u"In power from"), listing=True ),
-        dict( name="end_date", label=_(u"In power till"), listing=True ),        
+        dict( name="start_date", label=_(u"In power from"), listing=True, 
+              listing_column=day_column("start_date", _(u"In power from")) ),
+        dict( name="end_date", label=_(u"In power till"), listing=True,
+              listing_column=day_column("end_date", _(u"In power till")) ),
         dict( name="description", property=schema.Text(title=_(u"Notes"))),
         dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True ),
         dict( name="government_id", omit=True),     
@@ -264,8 +289,8 @@ class SessionDescriptor( ModelDescriptor ):
         dict( name="parliament_id", omit=True),
         dict( name="short_name", label=_(u"Short Name"), listing=True ),
         dict( name="full_name", label=_(u"Full Name") ),
-        dict( name="start_date", label=_(u"Start Date"), listing=True ),
-        dict( name="end_date", label=_(u"End Date"), listing=True ),
+        dict( name="start_date", label=_(u"Start Date"), listing=True, listing_column=day_column("start_date", _(u"Start Date"))),
+        dict( name="end_date", label=_(u"End Date"), listing=True, listing_column=day_column("end_date", _(u"End Date"))),
         dict( name="notes", label=_(u"Notes") )
         ]
         
@@ -288,7 +313,8 @@ class BillDescriptor( ModelDescriptor ):
         dict( name="preamble", label=_(u"Preamble")),
         dict( name="session_id", label=_(u"Session") ),
         dict( name="identifier", label=_(u"Identifer") ),
-        dict( name="submission_date", label=_(u"Submission Date"), listing=True ),
+        dict( name="submission_date", label=_(u"Submission Date"), listing=True, 
+              listing_column=day_column("submission_date", _(u"Submission Date")) ),
         dict( name="publication_date", label=_(u"Publication Date") ),        
         dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True )        
         ]
@@ -327,7 +353,7 @@ class ResponseDescriptor( ModelDescriptor ):
         dict( name="response_id", omit=True ),
         dict( name="question_id", label=_(u"Question") ), #XXX
         dict( name="response_text", label=_(u"Response"), description=_(u"Response to the Question") ),
-        dict( name="type", label=_(u"Response Type"), description=_(u"(I)nitial or (S)ubsequent Response"), listing=True ),		
+        dict( name="response_kind", label=_(u"Response Kind"), description=_(u"(I)nitial or (S)ubsequent Response"), listing=True ),		
         dict( name="sitting_id", omit=True ), #XXX
         dict( name="sitting_time", label=_(u"Sitting Time"), description=_(u"Time of the Sitting"), listing=True ),
         ]        

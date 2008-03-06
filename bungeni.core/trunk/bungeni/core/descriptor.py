@@ -6,6 +6,8 @@ from copy import deepcopy
 from zope import schema, interface
 from zc.table import column
 
+from bungeni.ui.datetimewidget import SelectDateWidget, SelectDateTimeWidget
+
 
 from alchemist.ui import widgets
 from bungeni.ui.login import check_email
@@ -113,13 +115,14 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="login", label=_(u"Login Name")),
         dict( name="national_id", label=_(u"National Id")),
         dict( name="gender", label=_(u"Gender")),
-        dict( name="date_of_birth", label=_(u"Date of Birth") ),
+        dict( name="date_of_birth", label=_(u"Date of Birth"), edit_widget=SelectDateWidget),
         dict( name="birth_country", 
             property = schema.Choice( title=_(u"Country of Birth"), 
                                        source=DatabaseSource(domain.Country, 'country_name', 'country_id' ),
                                        required=True )
             ),
-        dict( name="date_of_death", label=_(u"Date of Death"), view_permission="bungeni.AdminUsers", edit_permission="bungeni.AdminUsers"),
+        dict( name="date_of_death", label=_(u"Date of Death"), view_permission="bungeni.AdminUsers", 
+                edit_permission="bungeni.AdminUsers", edit_widget=SelectDateWidget),
         dict( name="password", omit=True ),
         dict( name="salt", omit=True),
         dict( name="active_p", label=_(u"Active"), view_permission="bungeni.AdminUsers", edit_permission="bungeni.AdminUsers", listing=True),
@@ -353,8 +356,8 @@ class SittingDescriptor( ModelDescriptor ):
         dict( name="sitting_id", omit=True ),
         dict( name="group_id", omit=True ),
         dict( name="session_id", omit=True ),
-        dict( name="start_date", label=_(u"Start Date") ),
-        dict( name="end_date", label=_(u"End Date") ),
+        dict( name="start_date", label=_(u"Start Date"), edit_widget=SelectDateTimeWidget),
+        dict( name="end_date", label=_(u"End Date"), edit_widget=SelectDateTimeWidget),
         dict( name="sitting_type", 
               listing_column = vocab_column( "sitting_type", _(u"Sitting Type"), vocabulary.SittingTypes ),
               property = schema.Choice( title=_(u"Sitting Type"), 

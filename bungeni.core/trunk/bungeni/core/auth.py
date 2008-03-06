@@ -44,6 +44,9 @@ class DatabaseAuthentication( Contained ):
         return self._makeInfo( user )
         
     def principalInfo( self, id ):
+        # shortcircuit evaluation of these, defer to global definitions
+        if id in ('zope.Everybody', 'zope.Anybody'):
+            return None
         results = Session().query( User ).filter_by( login = id ).all()
         if len(results) != 1: # unique index on column
             return None

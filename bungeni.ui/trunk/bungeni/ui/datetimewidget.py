@@ -1,6 +1,6 @@
 ### -*- coding: utf-8 -*- #############################################
 
-import datetime
+import datetime, pytz
 
 from zope.component import getMultiAdapter
 from zope.app.form.interfaces import ConversionError, InputErrors
@@ -16,7 +16,7 @@ from zope.interface.common import idatetime
 class SelectDateWidget( SimpleInputWidget):
     """ A more user freindly date input """
     
-    __call__=ViewPageTemplateFile('templates/datewidget.pt')
+    __call__ = ViewPageTemplateFile('templates/datewidget.pt')
     
     _missing = u''
     minYear = None
@@ -24,11 +24,15 @@ class SelectDateWidget( SimpleInputWidget):
 
     minYearDelta = 100
     maxYearDelta = 5
-    time_zone = idatetime.ITZInfo(self.request)
-    try:
+    
+    @property
+    def time_zone( self ):
         time_zone = idatetime.ITZInfo(self.request)
-    except TypeError:
-        time_zone = pytz.UTC
+        try:
+            time_zone = idatetime.ITZInfo(self.request)
+        except TypeError:
+            time_zone = pytz.UTC
+        return time_zone
 
     def _days(self):
         return range( 1, 32 )

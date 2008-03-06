@@ -5,6 +5,7 @@ from zope.security.proxy import removeSecurityProxy
 from zope import interface
 
 from alchemist.traversal.managed import ManagedContainerDescriptor
+from ore.alchemist.model import queryModelDescriptor
 from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
 
 class ConstraintNavigation( viewlet.ViewletBase ):
@@ -27,7 +28,14 @@ class ConstraintNavigation( viewlet.ViewletBase ):
         items =[]
         for k, v in context_class.__dict__.items():
             if isinstance( v, ManagedContainerDescriptor ):
-                i = { 'name' : v.domain_container._class.__name__,
+                domain_model = v.domain_container._class 
+                descriptor = queryModelDescriptor( domain_model )
+                if descriptor:
+                    name = getattr( descriptor, 'display_name', None)
+                if not name:
+                    name = domain_model.__name__
+                    
+                i = { 'name' : name,
                       'url'  : k }
                 items.append( i )
         return items

@@ -85,7 +85,8 @@
     name="dhtmlgoodies_calendar.js"
     file="calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.js"
     />
-    <browser:resource
+
+  <browser:resource
     name="dhtmlgoodies_calendar.css"
     file="calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.css"
     />

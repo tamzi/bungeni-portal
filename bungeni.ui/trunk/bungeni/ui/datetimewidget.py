@@ -7,7 +7,7 @@ from zope.app.form.interfaces import ConversionError, InputErrors
 from zope.app.form.browser.widget import SimpleInputWidget, renderElement
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from bungeni.core.i18n import _
-import pdb 
+from zope.interface.common import idatetime
 
 
 #months = [_(u'January'),_(u'February'),_(u'March'),_(u'April'),_(u'May'),_(u'June'),
@@ -24,7 +24,11 @@ class SelectDateWidget( SimpleInputWidget):
 
     minYearDelta = 100
     maxYearDelta = 5
-    
+    time_zone = idatetime.ITZInfo(self.request)
+    try:
+        time_zone = idatetime.ITZInfo(self.request)
+    except TypeError:
+        time_zone = pytz.UTC
 
     def _days(self):
         return range( 1, 32 )

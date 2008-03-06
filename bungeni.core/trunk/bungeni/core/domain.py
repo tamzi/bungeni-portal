@@ -139,7 +139,7 @@ class Parliament( Group ):
     """
     sessions = one2many("sessions", "bungeni.core.domain.ParliamentSessionContainer", "parliament_id")
     committees = one2many("comittees", "bungeni.core.domain.CommitteeContainer", "parliament_id")
-    mps = one2many("mps","bungeni.core.domain.mpContainer", "group_id")
+    mps = one2many("mps","bungeni.core.domain.GroupMembershipContainer", "group_id")
     
 class PoliticalParty( Group ):
     """ a political party

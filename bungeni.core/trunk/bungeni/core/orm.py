@@ -7,12 +7,6 @@ from sqlalchemy.orm import mapper, relation, column_property
 import schema
 import domain
 
-def IsNull( Value=None):
-    """ Reurn an empty String if the Value is Null (None) """
-    if Value is None:
-        return ''
-    return Value
-
 # Users
 mapper( domain.User, schema.users,
         polymorphic_on=schema.users.c.type,

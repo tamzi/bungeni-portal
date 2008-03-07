@@ -139,6 +139,7 @@ where sequence_schema='public';
 
 /*set the sequences to a new value*/
  
+ SELECT setval('principal_sequence', 5000); 
  SELECT setval('groups_group_id_seq', 1000);
  SELECT setval('sessions_session_id_seq', 1000);
  SELECT setval('item_sequence', 1000);
@@ -165,6 +166,7 @@ where sequence_schema='public';
  SELECT setval('constituencies_constituency_id_seq', 1000);
  SELECT setval('motion_versions_version_id_seq', 1000);
  SELECT setval('constituency_details_constituency_detail_id_seq', 1000);
+
 
 
 

@@ -46,3 +46,5 @@ z3c.securitytool svn://svn.zope.org/repos/main/z3c.securitytool/trunk
 
 #lovely memcached
 lovely.memcached svn://svn.zope.org/repos/main/lovely.memcached/trunk/
+lovely.responsecache svn://svn.zope.org/repos/main/lovely.responsecache/trunk/ 
+lovely.remoteinclude svn://svn.zope.org/repos/main/lovely.remoteinclude/trunk/ 

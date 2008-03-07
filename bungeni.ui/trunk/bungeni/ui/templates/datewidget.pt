@@ -3,7 +3,7 @@
            tal:attributes="src context/++resource++dhtmlgoodies_calendar.js"></script>
    <link type="text/css" rel="stylesheet" href="dhtmlgoodies_calendar/dhtmlgoodies_calendar.css" media="screen"
          tal:attributes="href context/++resource++dhtmlgoodies_calendar.css" />         
-    <span tal:define="form_value view/_getFormValue">         
+    <span tal:define="form_value view/_getFormValue">        
         <select name="year" tal:attributes="name view/_year_name" >
         <option value ="" tal:condition="not:view/required"> -- </option>
           <tal:loop tal:repeat="year view/_years">   
@@ -38,7 +38,7 @@
                string:displayCalendarSelectBox(document.forms[0].${view/_year_name},
                                                document.forms[0].${view/_month_name},
                                                document.forms[0].${view/_day_name},
-                                               false,false,this)">
+                                               false,false,this)" />
     </span>
 </div>
 

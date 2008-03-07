@@ -9,7 +9,6 @@ from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from bungeni.core.i18n import _
 from zope.interface.common import idatetime
 
-
 #months = [_(u'January'),_(u'February'),_(u'March'),_(u'April'),_(u'May'),_(u'June'),
 #          _(u'July'),_(u'August'),_(u'September'),_(u'October'),_(u'November'),_(u'December')]
 
@@ -78,7 +77,12 @@ class SelectDateWidget( SimpleInputWidget):
     def _year_name(self):
         return self.name.replace(".","__") + '__year'
         
-
+    def timezone(self):       
+        try:
+            time_zone = idatetime.ITZInfo(self.request)
+        except TypeError:
+            time_zone = pytz.UTC
+        return time_zone
  
     def hasInput(self):
         """Widgets need to determine whether the request contains an input
@@ -116,14 +120,14 @@ class SelectDateWidget( SimpleInputWidget):
                     return self.context.missing_value
         else:
             try:
-                #pdb.set_trace()
-                return datetime.datetime(int(year), int(month), int(day) )
+                time_zone = self.timezone()
+                return datetime.datetime(year=int(year), month=int(month), day=int(day), tzinfo=time_zone )
             except ValueError, e:
                 raise ConversionError(_(u"Incorrect string data for date"), e)                
                 
     
     def _toFormValue(self, value):
-        """convert a field value to a string that can be inserted into the form"""
+        """convert a field value to a string that can be inserted into the form"""        
         if (value == self.context.missing_value) and self.required:
             d = datetime.date.today()
             return (d.day, d.month, d.year)
@@ -214,8 +218,9 @@ class SelectDateTimeWidget(SelectDateWidget):
                 else:
                     return self.context.missing_value              
         else:
-            try:                               
-                return datetime.datetime(int(year), int(month), int(day), int(hour), int(minute))
+            try:    
+                time_zone = self.timezone()                           
+                return datetime.datetime(year=int(year), month=int(month), day=int(day), hour=int(hour), minute=int(minute), tzinfo=time_zone)
             except ValueError, e:
                 raise ConversionError(_(u"Incorrect string data for date and time"), e)
                             

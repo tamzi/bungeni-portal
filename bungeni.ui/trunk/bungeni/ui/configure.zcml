@@ -13,6 +13,9 @@
 
   <!-- Site Portlets -->
   <include package=".portlets" />
+
+  <!-- Calendar Widgets -->
+  <include file="calendar.zcml" />
   
   <!-- Include Auditing UI-->
   <include file="audit.zcml" />
@@ -76,25 +79,5 @@
      class=".login.Login"
      />
      
-   <browser:resourceDirectory
-    name="dhtmlgoodies_calendar"
-    directory="calendar/dhtmlgoodies_calendar"  
-    />
-       
-  <browser:resource
-    name="dhtmlgoodies_calendar.js"
-    file="calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.js"
-    />
-
-  <browser:resource
-    name="dhtmlgoodies_calendar.css"
-    file="calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.css"
-    />
-    
-  <browser:resourceDirectory
-    name="images"
-    directory="calendar/images"  
-    />
-    
      
 </configure>

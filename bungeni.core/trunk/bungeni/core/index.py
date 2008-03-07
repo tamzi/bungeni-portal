@@ -38,10 +38,11 @@ class ContentResolver( object ):
                             container.stringKey( object ) )
         
     def resolve( self, id ): 
-        class_path, oid = id.split('-')
+        class_path, oid = id.split('-', 1)
         domain_class = resolve.resolve( class_path )
         session = Session()
-        return session.query( domain_class ).get( oid )
+        value_key = container.valueKey( oid )
+        return session.query( domain_class ).get( value_key )
         
 # content indexer
 class ContentIndexer( object ):

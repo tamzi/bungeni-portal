@@ -10,6 +10,7 @@ from datetime import datetime
 metadata = rdb.MetaData()
 
 ItemSequence = rdb.Sequence('item_sequence')
+PrincipalSequence = rdb.Sequence('principal_sequence')
 
 #######################
 # Users 
@@ -18,7 +19,7 @@ ItemSequence = rdb.Sequence('item_sequence')
 users = rdb.Table(
    "users",
    metadata,
-   rdb.Column( "user_id", rdb.Integer,  primary_key=True ),
+   rdb.Column( "user_id", rdb.Integer, PrincipalSequence, primary_key=True ),
    rdb.Column( "login", rdb.Unicode(16), unique=True, nullable=True ),
    rdb.Column( "titles", rdb.Unicode(32)),
    rdb.Column( "first_name", rdb.Unicode(80), nullable=False ),
@@ -27,8 +28,8 @@ users = rdb.Table(
    rdb.Column( "email", rdb.String(32), nullable=False ),
    rdb.Column( "gender", rdb.String(1),
         rdb.CheckConstraint("gender in ('M', 'F')"), 
-        nullable=False), # (M)ale (F)emale    ),   
-   rdb.Column( "date_of_birth", rdb.DateTime(timezone=True), nullable=False ),
+        ), # (M)ale (F)emale    ),   
+   rdb.Column( "date_of_birth", rdb.DateTime(timezone=True) ),
    rdb.Column( "birth_country", rdb.String(2) ),
    rdb.Column( "date_of_death", rdb.DateTime(timezone=True) ),
    rdb.Column( "national_id", rdb.Unicode(32) ),
@@ -36,8 +37,8 @@ users = rdb.Table(
    rdb.Column( "salt", rdb.String(24)),    
    rdb.Column( "active_p", rdb.String(1),
                 rdb.CheckConstraint("active_p in ('A', 'I', 'D')"),
-                default="A",
-                    nullable=False), #activ/inactiv/deceased
+                default="A", #activ/inactiv/deceased
+                ), 
    rdb.Column( "type", rdb.String(30), nullable=False )
    )
 
@@ -151,7 +152,7 @@ other things in the system.
 groups = rdb.Table(
    "groups",
    metadata,
-   rdb.Column( "group_id", rdb.Integer,   primary_key=True ),
+   rdb.Column( "group_id", rdb.Integer, PrincipalSequence,  primary_key=True ),
    rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),
    rdb.Column( "full_name", rdb.Unicode(80) ),   
    rdb.Column( "description", rdb.Unicode ),

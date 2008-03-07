@@ -119,7 +119,6 @@
      descriptor=".descriptor.CountryDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
-     echo="True"
     />
     
     <db:catalyst
@@ -127,7 +126,6 @@
      descriptor=".descriptor.ConstituencyDetailDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
-     echo="True"
     />
   
   <!-- User -->

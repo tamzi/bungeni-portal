@@ -14,7 +14,11 @@
      engine="bungeni-db"
      metadata=".schema.metadata" />
 
-
+  <!-- Bind Security Model to Database (role, permission maps) -->
+  <db:bind
+     engine="bungeni-db"
+     metadata="alchemist.security.schema.metadata" />
+     
   <!-- Application to publish -->
   <utility
      provides="ore.wsgiapp.interfaces.IApplication"
@@ -51,9 +55,20 @@
       provides="zope.publisher.interfaces.IPublishTraverse"/>
 
   <!-- Authentication Utility -->
+  
+  <adapter
+     factory=".auth.authUser"
+     />
+     
+ <adapter
+     for=".interfaces.IBungeniApplication"
+     provides="zope.securitypolicy.interfaces.IPrincipalRoleMap"
+     factory="alchemist.security.role.adaptprm"
+     />
+          
   <utility
      provides="zope.app.authentication.interfaces.IAuthenticatorPlugin"
-     factory=".auth.DatabaseAuthentication"
+     factory="alchemist.security.auth.DatabaseAuthentication"
      name="rdb-auth"
      />
 

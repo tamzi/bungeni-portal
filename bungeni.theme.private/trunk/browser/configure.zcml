@@ -1,0 +1,29 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="bungeni">
+
+    <!-- The customized logo -->
+
+    <browser:viewlet
+        name="bungeni.theme.public.logo"
+        manager="ploned.ui.interfaces.IPortalHeader"
+        class=".viewlets.LogoViewlet"
+        layer=".interfaces.IBungeniThemePrivate"
+        permission="zope.Public"
+        />
+
+    <!-- The customized footer -->
+
+    <browser:viewlet
+        name="bungenipublic.footer"
+        manager="ploned.ui.interfaces.IPortalFooter"
+        template="footer.pt"
+        layer=".interfaces.IBungeniThemePrivate"
+        permission="zope.Public"
+     />
+    
+
+</configure>
+

@@ -43,3 +43,6 @@ zc.displayname svn://svn.zope.org/repos/main/zc.displayname/trunk
 # shows security information ( principal, permissions, views )
 # usage requires including security-debug.zcml
 z3c.securitytool svn://svn.zope.org/repos/main/z3c.securitytool/trunk
+
+#lovely memcached
+lovely.memcached svn://svn.zope.org/repos/main/lovely.memcached/trunk/

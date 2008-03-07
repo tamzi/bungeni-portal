@@ -17,6 +17,9 @@ alchemist.catalyst http://zope-alchemist.googlecode.com/svn/alchemist.catalyst/t
 # various traversal mechanisms
 alchemist.traversal http://zope-alchemist.googlecode.com/svn/alchemist.traversal/trunk
 
+# zope.securitypolicy rdb implementation
+alchemist.security http://zope-alchemist.googlecode.com/svn/alchemist.security/trunk
+
 # workflow support
 ore.workflow   https://svn.objectrealms.net/svn/public/ore.workflow/trunk
 

@@ -6,8 +6,7 @@
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
  */
-
-package org.bungeni.editor.actions;
+package org.bungeni.editor.actions.validators;
 
 import java.util.HashMap;
 import org.apache.log4j.Logger;
@@ -15,6 +14,7 @@ import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
+import org.bungeni.editor.actions.*;
 import org.bungeni.error.BungeniMessage;
 import org.bungeni.error.BungeniMsg;
 import org.bungeni.error.BungeniValidatorState;
@@ -45,7 +45,7 @@ public class validateCreateSection implements IBungeniActionValidator {
         bstate= check_rootContainerExists(ooDocument);
         if (!bstate) {
             //if it doesnt exist fail
-             return new BungeniValidatorState(bstate, new BungeniMsg("ROOT_CONTAINER_NOT_EXIST")); 
+             return new BungeniValidatorState(false, new BungeniMsg("ROOT_CONTAINER_NOT_EXIST")); 
         }
         //2nd tier validation ...check up the hierarchy
         //check if there is a current section, and if the section can be created in the current section
@@ -53,7 +53,7 @@ public class validateCreateSection implements IBungeniActionValidator {
         bstate = check_containment(action, subAction, ooDocument, currentSectionname);
         if (!bstate) {
             //if containment check fails return fals and fail
-            return new BungeniValidatorState(bstate, new BungeniMsg("INVALID_SECTION_CONTAINER"));
+            return new BungeniValidatorState(false, new BungeniMsg("INVALID_SECTION_CONTAINER"));
         }
         //3rd tier validation
         //check if section already exists (only for single type section)
@@ -61,7 +61,7 @@ public class validateCreateSection implements IBungeniActionValidator {
         if (bstate) {
             //check if action section exists... 
             //if it already exists, fail
-            return new BungeniValidatorState(!bstate, new BungeniMsg("SECTION_EXISTS"));
+            return new BungeniValidatorState(false, new BungeniMsg("SECTION_EXISTS"));
         }
         
         return new BungeniValidatorState(true, new BungeniMsg("SUCCESS")); 

@@ -31,6 +31,8 @@ public class toolbarSubAction {
     private String action_fields;
     private String action_class;
     private String system_container;
+    private String action_value;
+    private String validator_class;
     private SelectorDialogModes theMode=null;
     /** Creates a new instance of toolbarSubAction */
     public toolbarSubAction(Vector<String> actionDesc, HashMap action_mapping) {
@@ -45,6 +47,7 @@ public class toolbarSubAction {
         this.action_display_text = (String) safeGet(actionDesc, action_mapping, "ACTION_DISPLAY_TEXT");
         this.action_class = (String) safeGet(actionDesc, action_mapping, "ACTION_CLASS");
         this.system_container = (String) safeGet(actionDesc, action_mapping, "SYSTEM_CONTAINER");
+        this.validator_class = (String)safeGet(actionDesc, action_mapping, "VALIDATOR_CLASS");
     }
     
     public String toString() {
@@ -117,6 +120,16 @@ public class toolbarSubAction {
         return this.system_container;
     }
     
+    public String validator_class(){
+        return this.validator_class;
+    }
+    public String action_value(){
+        return this.action_value;
+    }
+    
+    public void setActionValue(String value) {
+        this.action_value = value;
+    }
     public void setSelectorDialogMode (SelectorDialogModes mode) {
         theMode = mode;
     }

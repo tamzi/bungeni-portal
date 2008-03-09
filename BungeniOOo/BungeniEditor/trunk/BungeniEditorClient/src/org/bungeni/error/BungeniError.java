@@ -53,7 +53,7 @@ public class BungeniError {
     public static final int SECTION_DOES_NOT_EXIST = -9003;
     public static final int INVALID_CONTAINER_FOR_SYSTEM_ACTION = -9004;
     public static final int VALID_CONTAINER_FOR_SYSTEM_ACTION = 9004;
-    
+    public static final int MARKUP_LOGO_PROCEED = 9005;
     public static final int GENERAL_ERROR = -9999;
 
 

@@ -15,7 +15,7 @@
      layer=".interfaces.IPlonedSkin"
      permission="zope.Public"
      />
-
+     
   <browser:viewletManager
      name="plone.contentviews"
      provides=".interfaces.IContentViewsManager"

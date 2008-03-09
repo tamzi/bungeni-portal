@@ -8,5 +8,20 @@
      class=".menu.AppSectionsMenu"
      />
      
+  <browser:viewletManager
+     name="portal.personalbar.menu"
+     provides=".interfaces.IPersonalBarMenu"
+     layer=".interfaces.IPlonedSkin"
+     class="z3c.menu.ready2go.manager.MenuManager"
+     permission="zope.View"
+     />
+     
+  <browser:viewletManager
+     name="portal.personal.menu"
+     provides=".interfaces.IPersonalTasksMenu"
+     layer=".interfaces.IPlonedSkin"
+     permission="zope.View"
+     />     
+          
 </configure>
 

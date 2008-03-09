@@ -7,8 +7,10 @@
  * and open the template in the editor.
  */
 
-package org.bungeni.editor.actions;
+package org.bungeni.editor.actions.validators;
 
+import org.bungeni.editor.actions.toolbarAction;
+import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.ooo.OOComponentHelper;
 
 /**

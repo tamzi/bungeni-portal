@@ -79,5 +79,11 @@
      class=".login.Login"
      />
      
+  <browser:page
+     for="bungeni.core.interfaces.IBungeniApplication"
+     permission="zope.Public"
+     name="logout"
+     class=".login.Logout"
+     />     
      
 </configure>

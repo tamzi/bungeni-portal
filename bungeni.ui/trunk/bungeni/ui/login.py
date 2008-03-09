@@ -1,10 +1,17 @@
 import re
+
 from zope import interface, schema, component
 from zope.formlib import form
-from alchemist.ui.core import BaseForm
-from ore.alchemist import Session
+
+from zope.app.component.hooks import getSite
+from zope.publisher.browser import BrowserView
+from zope.traversing.browser import absoluteURL
 from zope.app.authentication.interfaces import IAuthenticatorPlugin
 from zope.app.security.interfaces import IUnauthenticatedPrincipal
+
+from ore.alchemist import Session
+from alchemist.ui.core import BaseForm
+
 from bungeni.core.i18n import _
 from bungeni.core import User
 
@@ -40,25 +47,6 @@ class ISignupForm(interface.Interface):
     password_repeat = schema.Password(title=_(u"Repeat password"))
 
 
-class Login( BaseForm ):
-
-    form_fields = form.Fields( ILoginForm )
-    prefix = ""
-    form_name = _(u"Login")
-    
-    def update( self ):
-        self.status = self.request.get('status_message', '')
-        super( Login, self).update()
-        
-    @form.action( _(u"Login") )
-    def handle_login( self, action, data ):
-        if IUnauthenticatedPrincipal.providedBy(self.request.principal):
-            self.status=_(u"Invalid Account Credentials")
-        else:
-            camefrom = self.request.get('camefrom', '.')
-            self.status = _("You are now logged in")
-            self.request.response.redirect( camefrom )
-
 class SignUp( BaseForm ):
     
     form_name = "signup"
@@ -88,3 +76,30 @@ class SignUp( BaseForm ):
         msg = _(u"Registration+Successful")
         self.request.response.redirect(u'/@@login?status_message=%s'%(msg) )
 
+        
+class Login( BaseForm ):
+
+    form_fields = form.Fields( ILoginForm )
+    prefix = ""
+    form_name = _(u"Login")
+    
+    def update( self ):
+        self.status = self.request.get('status_message', '')
+        super( Login, self).update()
+        
+    @form.action( _(u"Login") )
+    def handle_login( self, action, data ):
+        if IUnauthenticatedPrincipal.providedBy(self.request.principal):
+            self.status=_(u"Invalid Account Credentials")
+        else:
+            camefrom = self.request.get('camefrom', '.')
+            self.status = _("You are now logged in")
+            self.request.response.redirect( camefrom )
+            
+
+class Logout( BrowserView ):
+
+    def __call__( self ):
+        self.request.response.expireCookie( "wc.cookiecredentials" )
+        site_url = absoluteURL( getSite(), self.request )
+        self.request.response.redirect( site_url )

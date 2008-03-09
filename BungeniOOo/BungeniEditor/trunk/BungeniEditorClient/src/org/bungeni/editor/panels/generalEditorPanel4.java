@@ -44,6 +44,7 @@ import org.bungeni.editor.actions.IEditorActionEvent;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.editor.selectors.SelectorDialogModes;
+import org.bungeni.editor.toolbar.BungeniToolbarTargetProcessor;
 import org.bungeni.editor.toolbar.BungeniToolbarXMLAdapterNode;
 import org.bungeni.editor.toolbar.BungeniToolbarXMLTreeNodeProcessor;
 import org.bungeni.editor.toolbar.conditions.BungeniToolbarConditionProcessor;
@@ -509,6 +510,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         public void actionPerformed(ActionEvent e) {
             if (timedTree.isShowing()) {
             this.timedTree.repaint();
+            log.debug("document title = " + ooDocument.getDocumentTitle());
             }
         }
         
@@ -548,6 +550,8 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         public void mouseClicked(MouseEvent evt) {
       
         }
+        
+  
        private void createPopupMenuItems(String[] arrGeneralAction) {
             popupMenu.removeAll();
             popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.GENERAL_ACTION), arrGeneralAction, PopupTypeIdentifier.GENERAL_ACTION));
@@ -636,9 +640,35 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                    //based on the target information we need to create the action objectr
                    
                    String strTarget = nodeProc.getTarget();
-                   String[] arrTargetObj = strTarget.split("[.]");
-                   String actionType = arrTargetObj[0];
-                   if (actionType.equals("generalAction")) {
+                   BungeniToolbarTargetProcessor targetObj = new BungeniToolbarTargetProcessor(strTarget);
+                   
+          //         String[] arrTargetObj = strTarget.split("[.]");
+            //       String actionType = arrTargetObj[0];
+                    toolbarAction tbAction = null;
+                    toolbarSubAction tbSubAction = null;
+                    
+                   switch (targetObj.target_type) {
+                       case GENERAL_ACTION :
+                            createPopupMenuItems(targetObj.strTarget);
+                            popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                            break;
+                       case ACTION :
+                           if (nodeProc.getMode().equals("TEXT_INSERTION")) {
+                                tbAction =  processInsertion(targetObj);
+                               createPopupMenuItems(tbAction);
+                               popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                           }
+                            break;
+                       case SUB_ACTION :
+                           if (nodeProc.getMode().equals("TEXT_SELECTED_INSERT")) {
+                               tbSubAction = processSelection(targetObj); 
+                                createPopupMenuItems(tbSubAction);
+                                popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                           }
+                            break;
+                   }
+                   /*
+                   if (targetObj.target_type == BungeniToolbarTargetProcessor.TARGET.GENERAL_ACTION) {
                         createPopupMenuItems(arrTargetObj);
                         popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
                    } else if ((actionType.equals("toolbarAction")) || (actionType.equals("toolbarSubAction"))) {
@@ -658,7 +688,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                            createPopupMenuItems(tbSubAction);
                            popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
                        }
-                   }
+                   } */
                    
                 } catch (Exception ex) {
                     log.error("processBungeniToolbarXmlAdapterNode:"+ ex.getMessage());
@@ -667,41 +697,59 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
        }
        
       // private void processGeneralAction(String[] )
-       private toolbarSubAction processSelection(String[] targetAction) {
+       private toolbarSubAction processSelection(BungeniToolbarTargetProcessor targetObj) {
+         
+            String documentType = BungeniEditorProperties.getEditorProperty("activeDocumentMode");
+            /*
             int actionLength =  targetAction.length;
             //toolbarSubAction.makePrayerSection.section_creation
             String actionType = targetAction[0];
             String actionMainAction = targetAction[1];
-            String documentType = BungeniEditorProperties.getEditorProperty("activeDocumentMode");
             String actionSubAction = "";
             if (actionLength == 3) {
                 actionSubAction = targetAction[2];
-            }
+            } */
+           
             instance.Connect();
-            String actionQuery = SettingsQueryFactory.Q_FETCH_SUB_ACTIONS(documentType, actionMainAction, actionSubAction);
+            String actionQuery = SettingsQueryFactory.Q_FETCH_SUB_ACTIONS(documentType, targetObj.actionName, targetObj.subActionName);
              QueryResults qr = instance.QueryResults(actionQuery);
              instance.EndConnect();
              if (qr == null ) {
+                 log.debug("processSelection : queryResults :" + actionQuery + " were null");
                  return null;
              }
              if (qr.hasResults()) {
                 //this should return only a single toolbarSubAction
-                 return new toolbarSubAction(qr.theResults().elementAt(0), qr.columnNameMap());
+                 toolbarSubAction subActionObj =  new toolbarSubAction(qr.theResults().elementAt(0), qr.columnNameMap());
+                 subActionObj.setActionValue(targetObj.actionValue);
+                 return subActionObj;
              } else
                  return null;
        }
-       private toolbarAction processInsertion(String[] targetAction) {
-            int actionLength =  targetAction.length;
-            String actionType = targetAction[0];
+       private toolbarAction processInsertion(BungeniToolbarTargetProcessor targetAction) {
+          // BungeniToolbarTargetProcessor targetObject = new BungeniToolbarTargetProcessor()
             String documentType = BungeniEditorProperties.getEditorProperty("activeDocumentMode");
-            String actionMainAction = targetAction[1];
+          
+           /*
+           int actionLength =  targetAction.length;
+            String actionType = targetAction[0];
+             String actionMainAction = targetAction[1];
             String actionSubAction = "";
+            String actionSubActionValue="";
             if (actionLength == 3) {
+                //actiontype.parentaciton.sub_aciton_name:sub_action_value
+                //the below will give us sub_action_name:sub_action_value
+                if (targetAction[2].indexOf(":") != -1) {
+                  String[] actionSubActionSplit = targetAction[2].split(":")  ;
+                  actionSubAction = actionSubActionSplit[0];
+                  actionSubActionValue = actionSubActionSplit[1];
+                } else
                 actionSubAction = targetAction[2];
-            }
+            } */
+           
            instance.Connect();
-           String actionQuery = SettingsQueryFactory.Q_FETCH_ACTION_BY_NAME(documentType, actionMainAction);
-           QueryResults qr = instance.QueryResults(SettingsQueryFactory.Q_FETCH_ACTION_BY_NAME(documentType, actionMainAction));
+           String actionQuery = SettingsQueryFactory.Q_FETCH_ACTION_BY_NAME(documentType, targetAction.actionName);
+           QueryResults qr = instance.QueryResults(SettingsQueryFactory.Q_FETCH_ACTION_BY_NAME(documentType, targetAction.actionName));
              instance.EndConnect();
              if (qr == null ) {
                  return null;

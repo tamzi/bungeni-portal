@@ -26,18 +26,15 @@ import org.bungeni.utils.CommonPropertyFunctions;
  *
  * @author Administrator
  */
-public class validateCreateSection implements IBungeniActionValidator {
-   private BungeniClientDB dbSettings;
+public class validateCreateSection extends defaultValidator {
    private static org.apache.log4j.Logger log = Logger.getLogger(validateCreateSection.class.getName());
  
     /** Creates a new instance of validateCreateSection */
     public validateCreateSection() {
-        dbSettings = new BungeniClientDB (DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
+        super();
     }
 
-    public BungeniValidatorState check_DocumentLevelAction(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) {
-           return new BungeniValidatorState(true, new BungeniMsg("SUCCESS")); 
-    }
+   
 
     public BungeniValidatorState check_TextSelectedInsert(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) {
         boolean bstate;
@@ -67,17 +64,7 @@ public class validateCreateSection implements IBungeniActionValidator {
         return new BungeniValidatorState(true, new BungeniMsg("SUCCESS")); 
     }
 
-    public BungeniValidatorState check_TextSelectedEdit(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) {
-            return new BungeniValidatorState(true, new BungeniMsg("SUCCESS")); 
-    }
-
-    public BungeniValidatorState check_FullInsert(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) {
-            return new BungeniValidatorState(true, new BungeniMsg("SUCCESS")); 
-    }
-
-    public BungeniValidatorState check_FullEdit(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) {
-            return new BungeniValidatorState(true, new BungeniMsg("SUCCESS")); 
-    }
+   
 
     private boolean check_rootContainerExists(OOComponentHelper ooDocument){
         String rootSectionname = CommonPropertyFunctions.getDocumentRootSection();

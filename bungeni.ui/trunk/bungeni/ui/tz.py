@@ -6,4 +6,4 @@ from zope.publisher.interfaces.browser import IBrowserRequest
 @interface.implementer(ITZInfo)
 @component.adapter(IBrowserRequest)
 def tzinfo(request):
-     return pytz.timezone('US/Eastern') # or whatever timezone you wish
+     return pytz.timezone('Africa/Nairobi') # or whatever timezone you wish

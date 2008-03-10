@@ -26,7 +26,6 @@ class SelectDateWidget( SimpleInputWidget):
     
     @property
     def time_zone( self ):
-        time_zone = idatetime.ITZInfo(self.request)
         try:
             time_zone = idatetime.ITZInfo(self.request)
         except TypeError:
@@ -34,7 +33,10 @@ class SelectDateWidget( SimpleInputWidget):
         return time_zone
 
     def _days(self):
-        return range( 1, 32 )
+        dl = []
+        for i in range( 1, 32 ):
+            dl.append( '%02d' % (i) )
+        return dl            
         
 
     def _months(self):
@@ -77,12 +79,6 @@ class SelectDateWidget( SimpleInputWidget):
     def _year_name(self):
         return self.name.replace(".","__") + '__year'
         
-    def timezone(self):       
-        try:
-            time_zone = idatetime.ITZInfo(self.request)
-        except TypeError:
-            time_zone = pytz.UTC
-        return time_zone
  
     def hasInput(self):
         """Widgets need to determine whether the request contains an input
@@ -120,7 +116,7 @@ class SelectDateWidget( SimpleInputWidget):
                     return self.context.missing_value
         else:
             try:
-                time_zone = self.timezone()
+                time_zone = self.time_zone
                 return datetime.datetime(year=int(year), month=int(month), day=int(day), tzinfo=time_zone )
             except ValueError, e:
                 raise ConversionError(_(u"Incorrect string data for date"), e)                
@@ -192,10 +188,16 @@ class SelectDateTimeWidget(SelectDateWidget):
                     self._getFieldInput(self._minute_name))
 
     def _hours(self):
-        return range( 0, 24 )
+        hl = []
+        for i in range( 0, 24 ):
+            hl.append( '%02d' % (i) )
+        return hl
 
     def _minutes(self):
-        return range( 0, 60 )
+        ml = []
+        for i in range( 0, 60 ):
+            ml.append( '%02d' % (i) )
+        return ml
 
     def _toFormValue(self, value):
         if value == self.context.missing_value and self.required:
@@ -219,7 +221,7 @@ class SelectDateTimeWidget(SelectDateWidget):
                     return self.context.missing_value              
         else:
             try:    
-                time_zone = self.timezone()                           
+                time_zone = self.time_zone                          
                 return datetime.datetime(year=int(year), month=int(month), day=int(day), hour=int(hour), minute=int(minute), tzinfo=time_zone)
             except ValueError, e:
                 raise ConversionError(_(u"Incorrect string data for date and time"), e)

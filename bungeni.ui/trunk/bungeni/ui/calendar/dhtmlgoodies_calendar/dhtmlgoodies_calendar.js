@@ -63,7 +63,7 @@ var calendar_display_time = true;
 // [monthString] = Name of current month
 // [year] = Current year
 var todayStringFormat = '[todayString] [UCFdayString]. [day]. [monthString] [year]';
-var pathToImages = 'images/';	// Relative to your HTML file
+var pathToImages = '/@@/images/';	// absolute path to resource
 
 var speedOfSelectBoxSliding = 200;	// Milliseconds between changing year and hour when holding mouse over "-" and "+" - lower value = faster
 var intervalSelectBox_minutes = 5;	// Minute select box - interval between each option (5 = default)
@@ -1043,7 +1043,7 @@ function pickTodaysDate()
 
 }
 
-function pickDate(e,inputDay)
+/*function pickDate(e,inputDay)
 {
 	var month = currentMonth/1 +1;
 	if(month<10)month = '0' + month;
@@ -1102,7 +1102,68 @@ function pickDate(e,inputDay)
 	}
 	closeCalendar();
 
+}*/
+
+function pickDate(e,inputDay)
+{
+    var month = currentMonth/1 +1;
+    if(month<10)month = '0' + month;
+    var day;
+    if(!inputDay && this)day = this.innerHTML; else day = inputDay;
+    if(day/1<10)day = '0' + day;
+        if(returnFormat){
+        returnFormat = returnFormat.replace('dd',day);
+        returnFormat = returnFormat.replace('mm',month);
+        returnFormat = returnFormat.replace('yyyy',currentYear);
+        returnFormat = returnFormat.replace('hh',currentHour);
+        returnFormat = returnFormat.replace('ii',currentMinute);
+        returnFormat = returnFormat.replace('d',day/1);
+        returnFormat = returnFormat.replace('m',month/1);
+
+        returnDateTo.value = returnFormat;
+        try{
+        returnDateTo.onchange();
+        }catch(e){
+
+        }
+    }else{
+        for(var no=0;no<returnDateToYear.options.length;no++){
+            if(returnDateToYear.options[no].value==currentYear){
+            returnDateToYear.selectedIndex=no;
+            break;
+        }
+    }
+        for(var no=0;no<returnDateToMonth.options.length;no++){
+            if(returnDateToMonth.options[no].value==parseInt(month,10)){
+            returnDateToMonth.selectedIndex=no;
+            break;
+        }
+    }
+        for(var no=0;no<returnDateToDay.options.length;no++){
+            if(returnDateToDay.options[no].value==parseInt(day,10)){
+            returnDateToDay.selectedIndex=no;
+            break;
+        }
+    }
+    if(calendarDisplayTime){
+    for(var no=0;no<returnDateToHour.options.length;no++){
+            if(returnDateToHour.options[no].value==parseInt(currentHour,10)){
+            returnDateToHour.selectedIndex=no;
+            break;
+            }
+        }
+    for(var no=0;no<returnDateToMinute.options.length;no++){
+            if(returnDateToMinute.options[no].value==parseInt(currentMinute,10)){
+            returnDateToMinute.selectedIndex=no;
+            break;
+            }
+        }
+    }
+    }
+    closeCalendar();
+
 }
+
 
 // This function is from http://www.codeproject.com/csharp/gregorianwknum.asp
 // Only changed the month add

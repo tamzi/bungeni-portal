@@ -33,6 +33,7 @@ public class toolbarSubAction {
     private String system_container;
     private String action_value;
     private String validator_class;
+    private String router_class;
     private SelectorDialogModes theMode=null;
     /** Creates a new instance of toolbarSubAction */
     public toolbarSubAction(Vector<String> actionDesc, HashMap action_mapping) {
@@ -48,6 +49,7 @@ public class toolbarSubAction {
         this.action_class = (String) safeGet(actionDesc, action_mapping, "ACTION_CLASS");
         this.system_container = (String) safeGet(actionDesc, action_mapping, "SYSTEM_CONTAINER");
         this.validator_class = (String)safeGet(actionDesc, action_mapping, "VALIDATOR_CLASS");
+        this.router_class = (String)safeGet(actionDesc, action_mapping, "ROUTER_CLASS");
     }
     
     public String toString() {
@@ -122,6 +124,10 @@ public class toolbarSubAction {
     
     public String validator_class(){
         return this.validator_class;
+    }
+    
+    public String router_class(){
+        return this.router_class;
     }
     public String action_value(){
         return this.action_value;

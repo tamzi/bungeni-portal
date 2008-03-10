@@ -9,6 +9,8 @@
 
 package org.bungeni.editor.actions.routers;
 
+import org.bungeni.db.BungeniClientDB;
+import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.error.BungeniMsg;
@@ -20,9 +22,10 @@ import org.bungeni.ooo.OOComponentHelper;
  * @author Administrator
  */
 public class defaultRouter implements IBungeniActionRouter {
-    
+    protected BungeniClientDB dbSettings;
     /** Creates a new instance of defaultRouter */
     public defaultRouter() {
+          dbSettings = new BungeniClientDB (DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
     }
 
     public BungeniValidatorState route(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDoc) {

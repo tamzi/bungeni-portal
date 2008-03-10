@@ -29,10 +29,13 @@ import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.BungeniEditorProperties;
+import org.bungeni.editor.actions.routers.routerFactory;
+import org.bungeni.editor.actions.validators.validatorFactory;
 import org.bungeni.editor.selectors.InitDebateRecord;
 import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.error.BungeniError;
 import org.bungeni.error.BungeniMessage;
+import org.bungeni.error.BungeniValidatorState;
 import org.bungeni.error.ErrorMessages;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
@@ -69,10 +72,20 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
         this.m_parentAction.setSelectorDialogMode(action.getSelectorDialogMode());
         
         int nValid = -1;
-        BungeniMessage theMessage ;
+        //BungeniMessage theMessage ;
         //all error returns < 0 indicate failure and stoppagte
         //all error returns > 0 indicate that processing can go ahead
-        theMessage = _validateAction();
+        //theMessage = _validateAction();
+        BungeniValidatorState validObj = _validateAction();
+        if (validObj.state)  { //state alright, route action  
+            BungeniValidatorState routeObj = _routeAction();
+        } else {
+            //state false....
+            //show error message
+            String msg = validObj.msg.getMessageString();
+            MessageBox.OK(null, msg);
+        }
+            /*
         int nRouteAction = -1;
         switch (theMessage.getStep()) {
             case BungeniError.DOCUMENT_LEVEL_ACTION_PROCEED:
@@ -85,10 +98,17 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
                MessageBox.OK(c, message);
                //log.debug("There was an error : BungeniError : step: " + theMessage.getStep()+" , message = " + theMessage.getMessage());
                break;
-        }
+        } */
        
     }
     
+     private BungeniValidatorState _routeAction(){
+         org.bungeni.editor.actions.routers.IBungeniActionRouter routerObject = null;
+         routerObject = routerFactory.getRouterClass(m_subAction);
+         BungeniValidatorState validState = routerObject.route(m_parentAction, m_subAction, ooDocument);
+         return validState; 
+     }
+     
      private int _routeAction(BungeniMessage lastMessage){
         int nRouteAction = BungeniError.METHOD_NOT_IMPLEMENTED;
          switch (m_subAction.getSelectorDialogMode()) {
@@ -126,7 +146,13 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
         if (m_subAction.sub_action_name().equals("debatetime_entry")) {
             nActionDocument = routeAction_TextSelectedInsertAction_DebateTimeEntry(lastMessage);
             return nActionDocument;
-        } else  {
+        } else 
+        if (m_subAction.sub_action_name().equals("markup_logo")) {
+            nActionDocument = routeAction_TextSelectedInsertAction_MarkupLogo(lastMessage);
+            return nActionDocument;
+        } else
+        
+        {
             log.debug("validateAction_DocumentLevelAction() : method not implemented");
             return BungeniError.METHOD_NOT_IMPLEMENTED;
         }
@@ -157,6 +183,23 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
     private int routeAction_TextSelectedInsertAction_DebateTimeEntry(BungeniMessage lastMessage) {
         displayFilteredDialog();
         return 0;
+    }
+    private int routeAction_TextSelectedInsertAction_MarkupLogo(BungeniMessage lastMessage) {
+        //this.m_subAction. 
+        String newSectionName = "";
+         newSectionName = get_newSectionNameForAction(m_parentAction);
+         if (newSectionName.length() == 0 ) {
+             
+         } else {
+            boolean bAction = action_createSystemContainerFromSelection(ooDocument, newSectionName);
+            if (bAction ) {
+                //set section type metadata
+                ooDocument.setSectionMetadataAttributes(newSectionName, get_newSectionMetadata(m_parentAction));
+            } else {
+                log.error("routeAction_TextSelectedInsertAction_CreateSection: error while creating section ");
+            }
+         }      
+         return 0;
     }
 
    
@@ -310,7 +353,14 @@ if markupSelectedText():
      *
      */
     
-     private BungeniMessage _validateAction(){
+     private BungeniValidatorState _validateAction() {
+         //get subAction validator class
+         org.bungeni.editor.actions.validators.IBungeniActionValidator validatorObject = null;
+         validatorObject = org.bungeni.editor.actions.validators.validatorFactory.getValidatorClass(m_subAction);
+         BungeniValidatorState validState = validatorObject.check(this.m_parentAction, this.m_subAction, this.ooDocument);
+         return validState;
+     }
+     private BungeniMessage _validateAction_old(){
         int nValidateAction = BungeniError.METHOD_NOT_IMPLEMENTED;
         BungeniMessage msg = new BungeniMessage();
          switch (m_subAction.getSelectorDialogMode()) {
@@ -416,7 +466,7 @@ if markupSelectedText():
     private BungeniMessage validateAction_TextSelectedInsertAction() {
         BungeniMessage validMessage = new BungeniMessage();
         //check if text was selected
-        if (ooDocument.isTextSelected() == false) {
+        if ((ooDocument.isTextSelected() == false) || (ooDocument.isTextGraphicObjectSelected() == false)) {
             //fail if no text was selected
             return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_FAIL, BungeniError.NO_TEXT_SELECTED);
         }
@@ -432,7 +482,14 @@ if markupSelectedText():
         if (m_subAction.sub_action_name().equals("debatetime_entry")) {
             validMessage = validateAction_TextSelectedInsertAction_DebateTimeEntry();
             return validMessage;
-        }  else  {
+        } else
+        if (m_subAction.sub_action_name().equals("markup_logo")) {
+            validMessage = validateAction_TextSelectedInsertAction_MarkupLogo();
+            return validMessage;
+        }
+        
+        
+        else  {
             log.debug("validateAction_DocumentLevelAction() : method not implemented");
             return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_FAIL, BungeniError.METHOD_NOT_IMPLEMENTED);
         }
@@ -595,6 +652,23 @@ if markupSelectedText():
        if (nRetValue == BungeniError.INVALID_CONTAINER_FOR_SYSTEM_ACTION) {
            return  new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_FAIL, nRetValue);
        } 
+      return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_PROCEED, nRetValue);
+    }
+    
+    
+    private BungeniMessage validateAction_TextSelectedInsertAction_MarkupLogo(){
+      int nRetValue = -1;
+      /*
+        nRetValue = check_systemContainerPositionCheck();
+        switch (nRetValue) {
+            case BungeniError.SYSTEM_CONTAINER_ALREADY_EXISTS:
+            case BungeniError.SYSTEM_CONTAINER_WRONG_POSITION:
+                return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_FAIL, nRetValue);
+            default:
+                break;
+        }
+       */
+       nRetValue = BungeniError.MARKUP_LOGO_PROCEED;
       return new BungeniMessage(BungeniError.TEXT_SELECTED_INSERT_ACTION_PROCEED, nRetValue);
     }
     
@@ -817,6 +891,7 @@ if markupSelectedText():
 
     public void doCommand(OOComponentHelper ooDocument, ArrayList<String> action, JFrame parentFrame) {
     }
+
 
     
 

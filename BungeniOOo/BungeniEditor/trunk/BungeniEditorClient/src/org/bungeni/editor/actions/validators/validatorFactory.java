@@ -9,7 +9,7 @@
 
 package org.bungeni.editor.actions.validators;
 
-import org.bungeni.editor.actions.IBungeniActionValidator;
+import org.bungeni.editor.actions.validators.IBungeniActionValidator;
 import org.bungeni.editor.actions.toolbarSubAction;
 
 /**

@@ -123,7 +123,7 @@ public class SettingsQueryFactory {
 
    public static String Q_FETCH_ALL_SELECTION_ACTIONS(String docType){
        String query = "select doc_type, parent_action_name, sub_action_name, sub_action_order, sub_action_state, action_type, " +
-               "action_display_text, action_fields, action_class, system_container from sub_action_settings " +
+               "action_display_text, action_fields, action_class, system_container, validator_class, router_class from sub_action_settings " +
                "where doc_type ='"+ docType +"'" ;
        return query;
    }
@@ -131,7 +131,7 @@ public class SettingsQueryFactory {
 
    public static String Q_FETCH_ZERO_LEVEL_SELECTION_ACTIONS(String docType){
        String query = "select doc_type, parent_action_name, sub_action_name, sub_action_order, sub_action_state, action_type, " +
-               "action_display_text, action_fields, action_class, system_container from sub_action_settings " +
+               "action_display_text, action_fields, action_class, system_container, validator_class, router_class from sub_action_settings " +
                "where doc_type = '"+ docType +"' and sub_action_order <= 0" +
                " and sub_action_state = 1 " +
                "order by sub_action_order";
@@ -140,7 +140,7 @@ public class SettingsQueryFactory {
 
    public static String Q_FETCH_CHILDREN_SELECTION_ACTIONS(String docType, String parentAction){
        String query = "select doc_type, parent_action_name, sub_action_name, sub_action_order, sub_action_state, action_type, " +
-               "action_display_text, action_fields, action_class, system_container from sub_action_settings " +
+               "action_display_text, action_fields, action_class, system_container, validator_class, router_class from sub_action_settings " +
                "where doc_type = '"+ docType +"' and parent_action_name = '"+ parentAction +"'  and sub_action_order > 0" +
                " and sub_action_state = 1" +
                " order by sub_action_order";
@@ -149,7 +149,7 @@ public class SettingsQueryFactory {
    
    public static String Q_FETCH_SUB_ACTIONS(String docType, String parentAction, String subActionName){
        String query = "select doc_type, parent_action_name, sub_action_name, sub_action_order, sub_action_state, action_type, " +
-               "action_display_text, action_fields, action_class, system_container from sub_action_settings " +
+               "action_display_text, action_fields, action_class, system_container, validator_class, router_class from sub_action_settings " +
                "where doc_type = '"+ docType +"' and parent_action_name = '"+ parentAction +"'  and sub_action_name ='"+subActionName+"' " +
                " and sub_action_state = 1" +
                " order by sub_action_order";

@@ -32,6 +32,7 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
 import javax.swing.JList;
+import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
@@ -99,7 +100,9 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
          //selectionControlModes();
          log.debug("calling constructor : initDebateRecord, mode = " + getDialogMode());
       }
-    
+      public JPanel getPanel(){
+          return this;
+      }
  
       String[] controls_ignore_list = {"btn_apply", "btn_cancel" };
      

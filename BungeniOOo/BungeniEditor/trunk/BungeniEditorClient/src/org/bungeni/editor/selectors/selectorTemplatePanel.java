@@ -55,7 +55,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
  
     protected OOComponentHelper ooDocument;
     protected JDialog parent;
-    protected toolbarAction theAction;
+    protected toolbarAction theAction =null ;
     protected toolbarSubAction theSubAction = null;
 
     protected SelectorDialogModes theMode;
@@ -727,6 +727,18 @@ public class selectorTemplatePanel extends javax.swing.JPanel
 
     protected boolean postSelectInsert() {
         return true;
+    }
+
+    public void setToolbarSubAction(toolbarSubAction subAction) {
+        theSubAction = subAction;
+    }
+
+    public void initObject(OOComponentHelper ooDoc, JDialog dlg, toolbarAction act, toolbarSubAction subAct) {
+        this.initVariables(ooDoc, dlg, act, subAct);
+    }
+
+    public JPanel getPanel() {
+        return this;
     }
     
     

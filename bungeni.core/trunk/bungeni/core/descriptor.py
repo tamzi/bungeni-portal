@@ -416,9 +416,9 @@ class AttendanceDescriptor( ModelDescriptor ):
                                           filter_by="sitting_id", 
                                           filter_value="sitting_id", 
                                           title_field="Name" )
-    membersVocab=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')                                     
+#    membersVocab=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')                                     
     fields = [
-        dict( name="sitting_id", omit=True),
+        dict( name="sitting_id", omit=True ),
         dict( name="member_id", listing=True,
                 property = schema.Choice(title=_(u"Attendance"), source=membersVocab, ),
               listing_column=member_fk_column("member_id", _(u"Member of Parliament") ) ),

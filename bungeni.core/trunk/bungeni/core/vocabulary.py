@@ -1,8 +1,11 @@
 """
 $Id: $
 """
-
+from zope import interface
+from zope.schema.interfaces import IContextSourceBinder
 from zope.schema import vocabulary
+from zope.security.proxy import removeSecurityProxy
+
 from ore.alchemist.vocabulary import DatabaseSource, ObjectSource, Session
 from sqlalchemy.orm import mapper, relation, column_property
 from sqlalchemy.sql import text
@@ -31,6 +34,8 @@ SittingTypes = DatabaseSource( domain.SittingType, 'sitting_type', 'sitting_type
 
 class QuerySource( object ):
     """ call a query with an additonal filter """
+    interface.implements( IContextSourceBinder )
+        
     def __init__( self, domain_model, token_field, value_field, filter_by, filter_value, title_field=None ):
         self.domain_model = domain_model
         self.token_field = token_field
@@ -41,8 +46,9 @@ class QuerySource( object ):
         
     def constructQuery( self, context ):
         session = Session()
-        pdb.set_trace()
-        query = session.query( self.domain_model ).filter(self.domain_model.c[self.filter_by] == self.filter_value )
+        trusted=removeSecurityProxy(context)
+        pdb.set_trace()        
+        query = session.query( self.domain_model ).filter(self.domain_model.c[self.filter_by] == trusted[self.filter_value] )
         return query
         
     def __call__( self, context=None ):

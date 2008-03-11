@@ -48,7 +48,7 @@ class QuerySource( object ):
         session = Session()
         trusted=removeSecurityProxy(context)
         pdb.set_trace()        
-        query = session.query( self.domain_model ).filter(self.domain_model.c[self.filter_by] == trusted[self.filter_value] )
+        query = session.query( self.domain_model ).filter(self.domain_model.c[self.filter_by] == trusted.__dict__[self.filter_value] )
         return query
         
     def __call__( self, context=None ):

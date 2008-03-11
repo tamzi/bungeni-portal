@@ -179,6 +179,7 @@ mapper( domain.ConstituencyDetail, schema.constituency_details )
 mapper( domain.CommitteeType, schema.committee_type )   
 mapper( domain.SittingType, schema.sitting_type )     
 mapper( domain.GroupSittingAttendance, schema.sitting_attendance )
+mapper( domain.AttendanceType, schema.attendance_type )
 
         
 

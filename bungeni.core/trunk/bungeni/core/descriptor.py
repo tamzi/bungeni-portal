@@ -17,6 +17,8 @@ import domain
 from i18n import _
 
 
+import pdb
+
 ###
 # Listing Columns 
 # 
@@ -63,6 +65,17 @@ def member_fk_column( name, title, default=""):
         return u"%s %s"%(member.first_name, member.last_name)
     return column.GetterColumn( title, getter )
 
+def lookup_fk_column(name, title, domain_model, field, default=""):
+    def getter( item, formatter ):
+        value = getattr( item, name)
+        if not value:
+            return default
+        session = Session()
+        member = session.query( domain_model ).get( value )
+        return domain_model.Column[field]
+    return column.GetterColumn( title, getter )
+     
+
 ####
 #  Constraints / Invariants
 #     
@@ -70,7 +83,7 @@ def EndAfterStart(obj):
     """ End Date must be after Start Date"""    
     if obj.end_date is None: return
     if obj.end_date < obj.start_date:
-        raise interface.Invalid("End Date must be after Start Date")
+        raise interface.Invalid(_("End Date must be after Start Date"))
     
 class DeathBeforeLifeError(schema.interfaces.ValidationError):
      """One cannot die before being born"""
@@ -87,13 +100,13 @@ def IsDeceased(User):
         if User.date_of_death is None: 
             return
         else: 
-            raise interface.Invalid("If a user is deceased he must have the status 'D'")
+            raise interface.Invalid(_(u"If a user is deceased he must have the status 'D'"))
     if User.active_p == 'D':
         if User.date_of_death is None:
-            raise interface.Invalid("A Date of Death must be given if a user is deceased")
+            raise interface.Invalid(_(u"A Date of Death must be given if a user is deceased"))
     else:
         if User.date_of_death is not None:
-            raise interface.Invalid("If a user is deceased he must have the status 'D'")
+            raise interface.Invalid(_(u"If a user is deceased he must have the status 'D'"))
             
 ####
 # Descriptors
@@ -176,8 +189,8 @@ class GroupMembershipDescriptor( ModelDescriptor ):
 
    fields = [
         dict( name="title", label=_(u"Title") ),
-        dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ) ),
-        dict( name="end_date", label=_(u"End Date"), listing_column=day_column("end_date", _(u"End Date")) ),
+        dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ), edit_widget=SelectDateWidget ),
+        dict( name="end_date", label=_(u"End Date"), listing_column=day_column("end_date", _(u"End Date")), edit_widget=SelectDateWidget ),
         dict( name="active_p", label=_(u"Active") ),
         dict( name="notes", label=_(u"Notes") ),
         dict( name="substitution_p", label=_(u"Substituted") ),
@@ -198,9 +211,11 @@ class GroupMembershipDescriptor( ModelDescriptor ):
 class MpDescriptor ( ModelDescriptor ):
     display_name = _(u"Member of Parliament")
     fields = deepcopy(GroupMembershipDescriptor.fields)
+    constituencySource=DatabaseSource(domain.Constituency,  'name', 'constituency_id')
     fields.extend([
         dict( name="constituency_id",
-            property=schema.Choice( title=_(u"Constituency"), source=DatabaseSource(domain.Constituency,  'name', 'constituency_id'))
+            property=schema.Choice( title=_(u"Constituency"), source=constituencySource,),
+            listing_column=vocab_column( "constituency_id" , _(u"Constituency"), constituencySource, ),
             ),                
         dict( name="elected_nominated", label=_(u"elected/nominated")),
         dict( name="leave_reason", label=_("Leave Reason")),     
@@ -216,9 +231,9 @@ class GroupDescriptor( ModelDescriptor ):
               listing_column=name_column("full_name", _(u"Full Name"))),
         dict( name="description", property=schema.Text(title=_(u"Description"))),
         dict( name="start_date", label=_(u"Start Date"), listing=True, 
-              listing_column=day_column("start_date", _(u"Start Date"))),
+              listing_column=day_column("start_date", _(u"Start Date")), edit_widget=SelectDateWidget),
         dict( name="end_date", label=_(u"End Date"), listing=True, 
-              listing_column=day_column('end_date', _(u"End Date"))),        
+              listing_column=day_column('end_date', _(u"End Date")), edit_widget=SelectDateWidget),        
         dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True )        
         ]
 
@@ -238,23 +253,27 @@ class ParliamentDescriptor( GroupDescriptor ):
               listing_column=name_column("full_name", "Name") ),
         dict( name="description", property=schema.Text(title=_(u"Description"), required=False )),
         #dict( name="identifier", label=_(u"Parliament Number"), listing=True ),
-        dict( name="election_date", label=_(u"Election Date"), description=_(u"Date the of the election") ),        
-        dict( name="start_date", label=_(u"In power from"),  description=_(u"Date the of the swearing in") ),
-        dict( name="end_date", label=_(u"In power till"),  description=_(u"Date the of the dissolution") ),
+        dict( name="election_date", label=_(u"Election Date"), description=_(u"Date the of the election"), edit_widget=SelectDateWidget ),        
+        dict( name="start_date", label=_(u"In power from"), 
+              listing_column=day_column("start_date", _(u"In power from") ), listing=True, 
+              description=_(u"Date the of the swearing in"), edit_widget=SelectDateWidget ),
+        dict( name="end_date", label=_(u"In power till"),  description=_(u"Date the of the dissolution"), 
+              listing_column=day_column("end_date", _(u"In power till")), listing=True,
+              edit_widget=SelectDateWidget ),
         ]
     schema_invariants = [EndAfterStart]
             
 class CommitteeDescriptor( GroupDescriptor ):
     display_name = _(u"Committee")    
     fields = deepcopy( GroupDescriptor.fields )
+    typeSource = DatabaseSource(domain.CommitteeType, 'committee_type', 'committee_type_id')
     fields.extend([
-        #dict( name='parliament_id', 
-        #    property=schema.Choice( title=_(u"Parliament"), source=DatabaseSource(domain.Parliament,"short_name", "parliament_id")),
-        #    ),
         dict( name='parliament_id', omit=True ),
         dict( name = 'committee_type_id',
-            property=schema.Choice( title=_(u"Type of committee"), 
-            source=DatabaseSource(domain.CommitteeType, 'committee_type', 'committee_type_id')),
+                property=schema.Choice( title=_(u"Type of committee"), 
+                    source=typeSource),
+                listing_column=vocab_column( "committee_type_id" , _(u"Type"), typeSource, ), listing=True,
+            
             ),
         dict( name='no_members', label=_(u"Number of members"), description=_(u"") ),
         dict( name='min_no_members', label =_(u"Minimum Number of Members")),
@@ -291,8 +310,8 @@ class ParliamentSession( ModelDescriptor ):
     fields = deepcopy( GroupDescriptor.fields )
     fields.extend([
         dict( name="session_id", omit=True ),
-        dict( name="start_date", label=_(u"Start Date")),
-        dict( name="end_date", label=_(u"End Date")),                
+        dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ), edit_widget=SelectDateWidget),
+        dict( name="end_date", label=_(u"End Date"), edit_widget=SelectDateWidget),                
         dict( name="notes", property=schema.Text(title=_(u"Notes")))
         ])
         
@@ -306,9 +325,9 @@ class GovernmentDescriptor( ModelDescriptor ):
         dict( name="short_name", label=_(u"Name"), description=_(u"Name of the Head of Government"), listing=True),
         dict( name="full_name", label=_(u"Number")),       
         dict( name="start_date", label=_(u"In power from"), listing=True, 
-              listing_column=day_column("start_date", _(u"In power from")) ),
+              listing_column=day_column("start_date", _(u"In power from")), edit_widget=SelectDateWidget ),
         dict( name="end_date", label=_(u"In power till"), listing=True,
-              listing_column=day_column("end_date", _(u"In power till")) ),
+              listing_column=day_column("end_date", _(u"In power till")), edit_widget=SelectDateWidget ),
         dict( name="description", property=schema.Text(title=_(u"Notes"))),
         dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True ),
         dict( name="government_id", omit=True),     
@@ -346,7 +365,7 @@ class MotionDescriptor( ModelDescriptor ):
         dict( name="entered_by", label=_(u"Entered By"), omit=True ), 
         dict( name="party_id",
             property = schema.Choice( title=_(u"Political Party"), 
-                                      source=DatabaseSource(domain.PoliticalParty, 'full_name', 'party_id' ), 
+                                      source=DatabaseSource(domain.PoliticalParty, 'short_name', 'party_id' ), 
                                       required=False) ),
         dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True )
         ]
@@ -360,8 +379,8 @@ class SittingDescriptor( ModelDescriptor ):
         dict( name="sitting_id", omit=True ),
         dict( name="group_id", omit=True ),
         dict( name="session_id", omit=True ),
-        dict( name="start_date", label=_(u"Start Date"), edit_widget=SelectDateTimeWidget),
-        dict( name="end_date", label=_(u"End Date"), edit_widget=SelectDateTimeWidget),
+        dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ),  edit_widget=SelectDateTimeWidget),
+        dict( name="end_date", label=_(u"End Date"), listing_column=day_column("end_date", _(u"End Date")), edit_widget=SelectDateTimeWidget),
         dict( name="sitting_type", 
               listing_column = vocab_column( "sitting_type", _(u"Sitting Type"), vocabulary.SittingTypes ),
               property = schema.Choice( title=_(u"Sitting Type"), 
@@ -380,20 +399,40 @@ class SessionDescriptor( ModelDescriptor ):
         dict( name="parliament_id", omit=True),
         dict( name="short_name", label=_(u"Short Name"), listing=True ),
         dict( name="full_name", label=_(u"Full Name") ),
-        dict( name="start_date", label=_(u"Start Date"), listing=True, listing_column=day_column("start_date", _(u"Start Date"))),
-        dict( name="end_date", label=_(u"End Date"), listing=True, listing_column=day_column("end_date", _(u"End Date"))),
+        dict( name="start_date", label=_(u"Start Date"), listing=True, listing_column=day_column("start_date", _(u"Start Date")), edit_widget=SelectDateWidget),
+        dict( name="end_date", label=_(u"End Date"), listing=True, listing_column=day_column("end_date", _(u"End Date")), edit_widget=SelectDateWidget),
         dict( name="notes", label=_(u"Notes") )
         ]
     schema_invariants = [EndAfterStart]
             
+                
+            
 class AttendanceDescriptor( ModelDescriptor ):
     display_name =_(u"Sitting Attendance")
-    
+    attendanceVocab = DatabaseSource(domain.AttendanceType, 'attendance_type', 'attendance_id' )
+    membersVocab = vocabulary.QuerySource(domain_model=domain.ParliamentMember, 
+                                          token_field='fullname', 
+                                          value_field='user_id', 
+                                          filter_by="sitting_id", 
+                                          filter_value="sitting_id", 
+                                          title_field="Name" )
+    membersVocab=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')                                     
     fields = [
         dict( name="sitting_id", omit=True),
         dict( name="member_id", listing=True,
+                property = schema.Choice(title=_(u"Attendance"), source=membersVocab, ),
               listing_column=member_fk_column("member_id", _(u"Member of Parliament") ) ),
-        dict( name="attendance_id", listing=True),
+        dict( name="attendance_id", listing=True, 
+                property = schema.Choice( title=_(u"Attendance"), source=attendanceVocab, required=True),
+                listing_column = vocab_column("attendance_id", _(u"Attendance"), attendanceVocab )),            
+        ]
+        
+class AttendanceTypeDescriptor( ModelDescriptor ):        
+    display_name =_(u"Sitting Attendance")
+    
+    fields = [
+        dict (name="attendance_id", omit=True ),
+        dict (name="attendance_type", label=_(u"Attendance type") ),
         ]
         
 class BillDescriptor( ModelDescriptor ):
@@ -452,22 +491,27 @@ class ResponseDescriptor( ModelDescriptor ):
         ]        
 
 class ConstituencyDescriptor( ModelDescriptor ):
-	fields = [
+    provinceSource=DatabaseSource(domain.Province,'province', 'province_id')
+    regionSource=DatabaseSource(domain.Region,'region', 'region_id')
+    fields = [
         dict( name="constituency_id", omit=True ),
-        #dict( name="constituency_identifier", label=_(u"Identifier"), description=_(u"Identifier of the Constitueny, usually a Number"), listing =True ),
         dict( name="name", label=_(u"Name"), description=_("Name of the constituency"), listing=True ),
         dict(name="province",
-#            property = schema.Choice( title=_(u"Province"), source=VocabularyTable(domain.Province,'province', 'province_id'), 
-            property = schema.Choice( title=_(u"Province"), source=DatabaseSource(domain.Province,'province', 'province_id'), 
-            required=True )
+            property = schema.Choice( title=_(u"Province"), source=provinceSource,            
+            required=True ),
+            listing_column = vocab_column("province", _(u"Province"), provinceSource ), listing=True,
             ),
         dict( name="region", label=_(u"Region"),
-#             property = schema.Choice( title=_(u"Region"), source=VocabularyTable(domain.Region,'region', 'region_id'), 
-             property = schema.Choice( title=_(u"Region"), source=DatabaseSource(domain.Region,'region', 'region_id'), 
-             required=True )
+             property = schema.Choice( title=_(u"Region"), source=regionSource,              
+             required=True ),
+             listing_column = vocab_column("region", _(u"Region"), regionSource), listing=True,
             ),
-        dict( name="start_date", label=_(u"Start Date"), listing=True ),
-        dict( name="end_date", label=_(u"End Date"), listing=True ),        
+        dict( name="start_date", label=_(u"Start Date"), 
+                listing=True, listing_column=day_column('start_date', _(u"Start Date")), 
+                edit_widget=SelectDateWidget),
+        dict( name="end_date", label=_(u"End Date"), 
+                listing=True , listing_column=day_column('end_date', _(u"End Date")), 
+                edit_widget=SelectDateWidget),        
         ]
 
 schema_invariants = [EndAfterStart]
@@ -494,14 +538,10 @@ class ConstituencyDetailDescriptor( ModelDescriptor ):
     fields = [
         dict( name="constituency_detail_id", omit=True ),
         dict( name="constituency_id", label=_(u"Name"), description=_("Name of the constituency"), listing=False, omit=True ), #XXX
-        #dict( name='constituency_id',
-        #      property = schema.Choice( title=_(u"Constituency"), 
-        #                                source=DatabaseSource(domain.Constituency, 'constituency_identifier','constituency_id'), 
-        #                                required=True),
-        #      
-        #    ),
-        dict( name="date", label=_(u"Date"), description=_(u"Date the data was submitted from the Constituency"), listing=True ),
-        dict( name="population", label=_(u"Population"), description=_(u"Total Number of People living in this Constituency"), listing=True ),
+        dict( name="date", label=_(u"Date"), description=_(u"Date the data was submitted from the Constituency"), 
+            listing=True,  listing_column=day_column("date", "Date"),
+                edit_widget=SelectDateWidget),
+        dict( name="population", label=_(u"Population"), description=_(u"Total Number of People living in this Constituency"), listing=True ),                
         dict( name="voters", label=_(u"Voters"), description=_(u"Number of Voters registered in this Constituency"), listing=True ),
         ]
         
@@ -517,8 +557,8 @@ class RotaDescriptor( ModelDescriptor ):
         #    property = schema.Choice( title=_(u"Hansard Reporter"), source=vocabulary.ParliamentMembers, required=True ) #XXX
         #    ),
         dict( name="identifier", title=_("Rota Identifier"), listing=True),
-        dict( name="start_date", label=_(u"Start Date"), listing=True ),
-        dict( name="end_date", label=_(u"End Date"), listing=True ),
+        dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ), listing=True , edit_widget=SelectDateWidget),
+        dict( name="end_date", label=_(u"End Date"), listing_column=day_column("end_date", _(u"End Date")), listing=True, edit_widget=SelectDateWidget ),
         ]
 
     schema_invariants = [EndAfterStart]

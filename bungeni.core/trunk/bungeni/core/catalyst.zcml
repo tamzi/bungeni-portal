@@ -169,8 +169,14 @@
      descriptor=".descriptor.AttendanceDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
-    />    
-   
+    />  
+      
+  <db:catalyst
+     class=".domain.AttendanceType"
+     descriptor=".descriptor.AttendanceTypeDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+    />   
 
     <!--db:catalyst
      class=".domain.Response"

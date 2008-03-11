@@ -79,9 +79,6 @@ class ParliamentMember( User ):
 
     # ministries
 
-#    @interface.invariant
-#    def DeathBeforeLife(User):
-#        raise(interface.Invalid("stop there"))
 
 class mp ( object ):    
     """
@@ -122,6 +119,11 @@ class SittingType( object ):
 class GroupSittingAttendance( object ):
     """ a record of attendance at a meeting 
     """
+    
+class AttendanceType( object ):
+    """
+    lookup for attendance type
+    """    
     
 class GroupItemAssignment( object ):
     """ the assignment of a parliamentary content object to a group

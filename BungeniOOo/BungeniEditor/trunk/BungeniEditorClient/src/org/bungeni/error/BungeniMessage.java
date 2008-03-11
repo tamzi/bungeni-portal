@@ -22,8 +22,8 @@ import org.bungeni.db.DefaultInstanceFactory;
  * @author Administrator
  */
 public class BungeniMessage {
-    private BungeniErr m_message;
-    private BungeniErr m_next;
+   // private BungeniErr m_message;
+   // private BungeniErr m_next;
     private int n_message;
     private int n_next;
     private ResourceBundle msgBundle;

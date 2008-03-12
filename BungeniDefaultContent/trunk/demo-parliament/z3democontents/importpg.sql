@@ -139,7 +139,6 @@ where sequence_schema='public';
 
 /*set the sequences to a new value*/
  
- SELECT setval('groups_group_id_seq', 1000);
  SELECT setval('sessions_session_id_seq', 1000);
  SELECT setval('item_sequence', 1000);
  SELECT setval('group_sittings_sitting_id_seq', 5000);
@@ -153,7 +152,6 @@ where sequence_schema='public';
  SELECT setval('group_assignments_assignment_id_seq', 1000);
  SELECT setval('item_votes_vote_id_seq', 1000);
  SELECT setval('provinces_province_id_seq', 1000);
- SELECT setval('users_user_id_seq', 1000);
  SELECT setval('takes_take_id_seq', 1000);
  SELECT setval('take_media_media_id_seq', 1000);
  SELECT setval('rotas_rota_id_seq', 1000);
@@ -165,6 +163,7 @@ where sequence_schema='public';
  SELECT setval('constituencies_constituency_id_seq', 1000);
  SELECT setval('motion_versions_version_id_seq', 1000);
  SELECT setval('constituency_details_constituency_detail_id_seq', 1000);
+ SELECT setval('principal_sequence', 1000);
 
 
 

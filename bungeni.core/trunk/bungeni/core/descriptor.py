@@ -1,7 +1,7 @@
 
 from ore.alchemist import Session
 from ore.alchemist.model import ModelDescriptor
-from ore.alchemist.vocabulary import DatabaseSource, QuerySource
+from ore.alchemist.vocabulary import DatabaseSource
 from copy import deepcopy
 from zope import schema, interface
 from zc.table import column
@@ -410,7 +410,7 @@ class SessionDescriptor( ModelDescriptor ):
 class AttendanceDescriptor( ModelDescriptor ):
     display_name =_(u"Sitting Attendance")
     attendanceVocab = DatabaseSource(domain.AttendanceType, 'attendance_type', 'attendance_id' )
-    membersVocab = QuerySource(vocabulary.mps_sitting, 
+    membersVocab = vocabulary.QuerySource(vocabulary.mps_sitting, 
                                           token_field='fullname', 
                                           value_field='user_id', 
                                           filter_field='sitting_id', 

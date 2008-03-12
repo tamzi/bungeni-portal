@@ -50,6 +50,45 @@ mapper( mps_sitting, _mp_sitting,
                     },)
  
 
+class QuerySource( object ):
+    """ call a query with an additonal filter and ordering
+    note that the domain_model *must* not have a where and order_by clause 
+    (otherwise the parameters passed to this query will be ignored),
+    the order_by and filter_field fields *must* be public attributes"""
+    interface.implements( IContextSourceBinder )
+        
+    def __init__( self, domain_model, token_field, value_field, filter_field, filter_value, order_by_field, title_field=None ):
+        self.domain_model = domain_model
+        self.token_field = token_field
+        self.value_field = value_field
+        self.title_field = title_field
+        self.filter_field = filter_field
+        self.order_by_field = order_by_field
+        self.filter_value = filter_value
+        
+    def constructQuery( self, context ):
+        session = Session()
+        trusted=removeSecurityProxy(context)
+        #pdb.set_trace()        
+        query = session.query( self.domain_model ).filter(self.domain_model.c[self.filter_field] == trusted.__dict__[self.filter_value] )
+        query = query.order_by(self.domain_model.c[self.order_by_field])
+        return query
+        
+    def __call__( self, context=None ):
+        query = self.constructQuery( context )
+        results = query.all()
+        
+        terms = []
+        title_field = self.title_field or self.token_field
+        for ob in results:
+            terms.append( 
+                vocabulary.SimpleTerm( 
+                    value = getattr( ob, self.value_field), 
+                    token = getattr( ob, self.token_field),
+                    title = getattr( ob, title_field) ,
+                    ))
+                    
+        return vocabulary.SimpleVocabulary( terms )
 
 
 class SQLQuerySource ( object ):

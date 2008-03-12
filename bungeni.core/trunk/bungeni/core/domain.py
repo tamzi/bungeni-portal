@@ -154,13 +154,22 @@ class Ministry( Group ):
     """ a government ministry
     """
     sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "group_id")
-    ministers = one2many("Ministers","bungeni.core.domain.mpContainer", "group_id")
+    ministers = one2many("Ministers","bungeni.core.domain.MinisterContainer", "group_id")
+    
+class Minister( Entity ):
+    """ A Minister
+    defined by its user_group_membership in a ministry (group)
+    """    
 
 class Committee( Group ):
     """ a parliamentary committee of MPs
     """
     sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "group_id")
+    committeemembers = one2many("committeemembers", "bungeni.core.domain.CommitteeMemberContainer", "group_id")
 
+class CommitteeMember( Entity ):
+    """ A Member of a committee
+    defined by its membership to a committee (group)""" 
     
 class CommitteeType( object):
     """ Type of Committee """

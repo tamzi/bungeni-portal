@@ -109,10 +109,10 @@ mapper ( domain.mp , _mp,
          primary_key=[schema.user_group_memberships.c.membership_id],         
         )
         
-# properties = {
-#           'group_id':[schema.user_group_memberships.c.group_id, schema.parliaments.c.parliament_id],
-#      }
-
+# Ministers and Committee members are defined by their group membership in a 
+# ministry or committee (group)        
+mapper( domain.Minister, schema.user_group_memberships )
+mapper( domain.CommitteeMember, schema.user_group_memberships )
 
 mapper( domain.HansardReporter, schema.reporters,
         inherits=domain.User,

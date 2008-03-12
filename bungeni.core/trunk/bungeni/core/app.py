@@ -46,14 +46,14 @@ class AppSetup( object ):
         # 
 
         # domain objects
-        governments = domain.GovernmentContainer()
-        self.context['governments'] = governments
+        #governments = domain.GovernmentContainer()
+        #self.context['governments'] = governments
         
         parliaments = domain.ParliamentContainer()
         self.context['parliament'] = parliaments
         
-        committees = domain.CommitteeContainer()
-        self.context['committees'] = committees
+        #committees = domain.CommitteeContainer()
+        #self.context['committees'] = committees
         
         bills = domain.BillContainer()
         self.context['bills'] = bills
@@ -82,8 +82,8 @@ class AppSetup( object ):
         regions = domain.RegionContainer()
         self.context['regions'] = regions
         
-        ministries = domain.MinistryContainer()
-        self.context['ministries'] = ministries
+        #ministries = domain.MinistryContainer()
+        #self.context['ministries'] = ministries
         
         parties = domain.PoliticalPartyContainer()
         self.context['politicalparties'] = parties

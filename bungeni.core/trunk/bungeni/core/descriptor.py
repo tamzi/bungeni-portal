@@ -186,7 +186,7 @@ class HansardReporterDescriptor( UserDescriptor ):
     fields = deepcopy( UserDescriptor.fields )	        
 
 class GroupMembershipDescriptor( ModelDescriptor ):
-
+   
    fields = [
         dict( name="title", label=_(u"Title") ),
         dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ), edit_widget=SelectDateWidget ),
@@ -196,11 +196,12 @@ class GroupMembershipDescriptor( ModelDescriptor ):
         dict( name="substitution_p", label=_(u"Substituted") ),
         dict( name="substitution_type", label=_(u"Type of Substitution") ),
         dict( name="replaced_id", omit=True),
-        dict( name="user_id",
-              property=schema.Choice( title=_(u"Member of Parliament"), 
-                                      source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
-              listing_column=member_fk_column("user_id", _(u"Member of Parliament") )
-            ),     
+# the Member that is selectable depends on the context (group she/he is in)          
+#        dict( name="user_id",
+#              property=schema.Choice( title=_(u"Member of Parliament"), 
+#                                      source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
+#              listing_column=member_fk_column("user_id", _(u"Member of Parliament") )
+#            ),     
         dict( name="group_id", omit=True),
         dict( name="membership_id", omit=True),
         dict( name="status", omit=True )
@@ -213,6 +214,11 @@ class MpDescriptor ( ModelDescriptor ):
     fields = deepcopy(GroupMembershipDescriptor.fields)
     constituencySource=DatabaseSource(domain.Constituency,  'name', 'constituency_id')
     fields.extend([
+        dict( name="user_id",
+              property=schema.Choice( title=_(u"Member of Parliament"), 
+                                      source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
+              listing_column=member_fk_column("user_id", _(u"Member of Parliament") )
+            ),
         dict( name="constituency_id",
             property=schema.Choice( title=_(u"Constituency"), source=constituencySource,),
             listing_column=vocab_column( "constituency_id" , _(u"Constituency"), constituencySource, ),
@@ -288,6 +294,24 @@ class CommitteeDescriptor( GroupDescriptor ):
         dict( name='reinstatement_date', label=_(u"Reinstatement Date")),              
     ])
 
+class CommitteeMemberDescriptor( ModelDescriptor ):
+    display_name = _(u"Committee Members")
+    fields = deepcopy(GroupMembershipDescriptor.fields)
+    membersVocab = vocabulary.QuerySource(vocabulary.mp_committees, 
+                                          token_field='fullname', 
+                                          value_field='user_id', 
+                                          filter_field='committee_id', 
+                                          filter_value='group_id', 
+                                          order_by_field='last_name',
+                                          title_field='fullname' )      
+    fields.extend([
+            dict( name="user_id", listing=True,
+                property = schema.Choice(title=_(u"Committee member"), source=membersVocab, ),
+                listing_column=member_fk_column("user_id", _(u"Committee Member") ) ),
+    ])   
+    
+    
+     
         
 class PolitcalPartyDescriptor( GroupDescriptor ):
     display_name = _(u"Political Party")     
@@ -304,6 +328,22 @@ class MinistryDescriptor( GroupDescriptor ):
         dict( name='government_id', omit=True ),
                    
     ])
+    
+class MinisterDescriptor( ModelDescriptor ):    
+    display_name = _(u"Minister")
+    fields = deepcopy(GroupMembershipDescriptor.fields)
+    membersVocab = vocabulary.QuerySource(vocabulary.mp_ministers, 
+                                          token_field='fullname', 
+                                          value_field='user_id', 
+                                          filter_field='ministry_id', 
+                                          filter_value='group_id', 
+                                          order_by_field='last_name',
+                                          title_field='fullname' )      
+    fields.extend([
+            dict( name="user_id", listing=True,
+                property = schema.Choice(title=_(u"Minister"), source=membersVocab, ),
+                listing_column=member_fk_column("user_id", _(u"Minister") ) ),
+    ])   
     
 class ParliamentSession( ModelDescriptor ):
     display_name = _(u"Parliamentary Session")    

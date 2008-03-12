@@ -48,7 +48,50 @@ mapper( mps_sitting, _mp_sitting,
                              schema.users.c.last_name).label('fullname')
                                            )
                     },)
- 
+                    
+class mp_ministers( object ):
+    """ returns the MPs which are members of the parliament for a (given) ministry
+    (potential ministers)
+    """
+
+_mp_ministers = rdb.join(schema.ministries, schema.governments,
+                        schema.ministries.c.government_id == schema.governments.c.government_id).join(
+                            schema.parliaments,
+                            schema.governments.c.parliament_id == schema.parliaments.c.parliament_id).join(
+                                schema.user_group_memberships,
+                                schema.parliaments.c.parliament_id == schema.user_group_memberships.c.group_id).join(
+                                    schema.users,
+                                    schema.user_group_memberships.c.user_id == schema.users.c.user_id)
+                    
+mapper( mp_ministers, _mp_ministers,
+        properties={
+           'fullname' : column_property(
+                             (schema.users.c.first_name + u" " + 
+                             schema.users.c.middle_name + u" " + 
+                             schema.users.c.last_name).label('fullname')
+                                           )
+                    },)     
+                    
+                    
+class mp_committees( object ):
+    """ Returns the MPs that are members of the parliament for a (given) committee
+    (potential committee members)"""
+    
+_mp_comittee = rdb.join(schema.committees,  schema.parliaments,
+                        schema.committees.c.parliament_id == schema.parliaments.c.parliament_id).join(
+                                schema.user_group_memberships,
+                                schema.parliaments.c.parliament_id == schema.user_group_memberships.c.group_id).join(
+                                    schema.users,
+                                    schema.user_group_memberships.c.user_id == schema.users.c.user_id)
+mapper( mp_committees, _mp_comittee,
+        properties={
+           'fullname' : column_property(
+                             (schema.users.c.first_name + u" " + 
+                             schema.users.c.middle_name + u" " + 
+                             schema.users.c.last_name).label('fullname')
+                                           )
+                    },)                                         
+                                                                
 
 class QuerySource( object ):
     """ call a query with an additonal filter and ordering
@@ -71,7 +114,7 @@ class QuerySource( object ):
         trusted=removeSecurityProxy(context)
         #pdb.set_trace()        
         query = session.query( self.domain_model ).filter(self.domain_model.c[self.filter_field] == trusted.__dict__[self.filter_value] )
-        query = query.order_by(self.domain_model.c[self.order_by_field])
+        query = query.distinct().order_by(self.domain_model.c[self.order_by_field])
         return query
         
     def __call__( self, context=None ):

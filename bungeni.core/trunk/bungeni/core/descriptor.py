@@ -330,7 +330,8 @@ class GovernmentDescriptor( ModelDescriptor ):
               listing_column=day_column("end_date", _(u"In power till")), edit_widget=SelectDateWidget ),
         dict( name="description", property=schema.Text(title=_(u"Notes"))),
         dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True ),
-        dict( name="government_id", omit=True),     
+        dict( name="government_id", omit=True), 
+        dict( name="parliament_id", omit=True),     
         ]
     
 schema_invariants = [EndAfterStart]    

@@ -9,8 +9,8 @@ import sqlalchemy as rdb
 from datetime import datetime
 metadata = rdb.MetaData()
 
-ItemSequence = rdb.Sequence('item_sequence')
-PrincipalSequence = rdb.Sequence('principal_sequence')
+ItemSequence = rdb.Sequence('item_sequence') # used for Bills, motions, questions
+PrincipalSequence = rdb.Sequence('principal_sequence') # for users and groups because of the zope users and groups
 
 #######################
 # Users 
@@ -166,6 +166,7 @@ governments = rdb.Table(
    "government",
    metadata,
    rdb.Column( "government_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
+   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'), nullable=False),
    #rdb.Column( "start_gazetted_date", rdb.DateTime  ),
    #rdb.Column( "end_gazetted_date", rdb.DateTime ),
    )

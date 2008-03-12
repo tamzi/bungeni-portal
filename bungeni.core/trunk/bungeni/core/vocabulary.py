@@ -93,7 +93,9 @@ class QuerySource( object ):
 
 class SQLQuerySource ( object ):
     """ call with a SQL Statement and the rows which make up the vocabulary
+    note that a % wildcard for sql LIKEs must be escaped as %%
     """
+    interface.implements( IContextSourceBinder )    
     
     def __init__( self, sql_statement, token_field, value_field, title_field=None ):
         self.sql_statement = sql_statement

@@ -30,44 +30,26 @@ Parliaments = ObjectSource( domain.Parliament, 'identifier', 'parliament_id')
 
 SittingTypes = DatabaseSource( domain.SittingType, 'sitting_type', 'sitting_type_id' )   
 
+class mps_sitting( object ):
+    """ returns the mps for a sitting """
+    
+_mp_sitting = rdb.join(schema.sittings, schema.parliament_sessions,
+                        schema.sittings.c.session_id == schema.parliament_sessions.c.session_id).join(
+                            schema.user_group_memberships,
+                            schema.parliament_sessions.c.parliament_id == schema.user_group_memberships.c.group_id).join(
+                                schema.users,
+                                schema.user_group_memberships.c.user_id == schema.users.c.user_id)
+                                                                
+mapper( mps_sitting, _mp_sitting,
+          properties={
+           'fullname' : column_property(
+                             (schema.users.c.first_name + u" " + 
+                             schema.users.c.middle_name + u" " + 
+                             schema.users.c.last_name).label('fullname')
+                                           )
+                    },)
  
 
-class QuerySource( object ):
-    """ call a query with an additonal filter """
-    interface.implements( IContextSourceBinder )
-        
-    def __init__( self, domain_model, token_field, value_field, filter_by, filter_value, title_field=None ):
-        self.domain_model = domain_model
-        self.token_field = token_field
-        self.value_field = value_field
-        self.title_field = title_field
-        self.filter_by = filter_by
-        self.filter_value = filter_value
-        
-    def constructQuery( self, context ):
-        session = Session()
-        trusted=removeSecurityProxy(context)
-        pdb.set_trace()        
-        query = session.query( self.domain_model ).filter(self.domain_model.c[self.filter_by] == trusted.__dict__[self.filter_value] )
-        return query
-        
-    def __call__( self, context=None ):
-        query = self.constructQuery( context )
-        results = query.all()
-        
-        terms = []
-        title_field = self.title_field or self.token_field
-        for ob in results:
-            terms.append( 
-                vocabulary.SimpleTerm( 
-                    value = getattr( ob, self.value_field), 
-                    token = getattr( ob, self.token_field),
-                    title = getattr( ob, title_field) ,
-                    ))
-                    
-        return vocabulary.SimpleVocabulary( terms )
-
-    
 
 
 class SQLQuerySource ( object ):

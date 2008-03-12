@@ -93,7 +93,7 @@ csv;
  SELECT setval('user_group_memberships_membership_id_seq', 2000);
 
 copy public.user_group_memberships ( group_id, user_id, title, start_date, end_date)
-from '%(directory)s/data/demodata/committees_membership.csv'
+from '%(directory)s/data/demodata/committee_members.csv'
 csv;
 
 

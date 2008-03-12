@@ -93,7 +93,7 @@ csv;
  SELECT setval('user_group_memberships_membership_id_seq', 2000);
 
 copy public.user_group_memberships ( group_id, user_id, title, start_date, end_date)
-from '/home/undesa/devel/bungenidata/committees_membership.csv'
+from '/home/undesa/devel/bungenidata/committees_members.csv'
 csv;
 
 
@@ -163,7 +163,7 @@ where sequence_schema='public';
  SELECT setval('constituencies_constituency_id_seq', 1000);
  SELECT setval('motion_versions_version_id_seq', 1000);
  SELECT setval('constituency_details_constituency_detail_id_seq', 1000);
- SELECT setval('principal_sequence', 1000);
+ SELECT setval('principal_sequence', 5000);
 
 
 

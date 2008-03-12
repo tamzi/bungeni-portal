@@ -27,12 +27,12 @@ import org.bungeni.ooo.OOComponentHelper;
  *
  * @author Administrator
  */
-public class routerDebateDateEntry extends defaultRouter {
+public class routerDebateTimeEntry extends defaultRouter {
    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(routerCreateSection.class.getName());
  
 
     /** Creates a new instance of routerCreateSection */
-    public routerDebateDateEntry() {
+    public routerDebateTimeEntry() {
         super();
         
     }

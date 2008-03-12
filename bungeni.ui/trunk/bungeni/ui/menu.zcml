@@ -9,12 +9,12 @@
      title="Home"
      />
 
-  <browser:menuItem
+  <!--browser:menuItem
      menu="site_actions"
      for="*"
      action="/committees"
      title="Committees"
-     />
+     /-->
 
   <browser:menuItem
      menu="site_actions"
@@ -23,12 +23,12 @@
      title="Parliaments"
      />
 
-  <browser:menuItem
+  <!--browser:menuItem
      menu="site_actions"
      for="*"
      action="/governments"
      title="Governments"
-     />
+     /-->
 
   <browser:menuItem
      menu="site_actions"

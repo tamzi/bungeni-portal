@@ -47,6 +47,7 @@ public class cursorInSection implements IBungeniToolbarCondition {
     }
     
     public boolean processCondition(BungeniToolbarCondition condition) {
+        System.out.println("processing condition: "+ ooDocument.getDocumentTitle());
         return check_cursorInSection(condition);
     }
         

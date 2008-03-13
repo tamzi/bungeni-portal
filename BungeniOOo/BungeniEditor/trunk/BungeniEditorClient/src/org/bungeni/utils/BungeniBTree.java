@@ -50,7 +50,7 @@ public final class BungeniBTree {
      * @param name Name for the new root section to be added
      */
         public void addRootNode(String name) {
-           System.out.println("roots.size+1 is "+ new Integer(roots.size()+1));
+           //System.out.println("roots.size+1 is "+ new Integer(roots.size()+1));
            Integer nKey = roots.size()+1;
            BungeniBNode xRoot = new BungeniBNode(name);
            roots.put(nKey, xRoot );

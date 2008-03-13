@@ -280,6 +280,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     }
     
     public void setOOComponentHandle(OOComponentHelper ooComponent) {
+        System.out.println("Changing PANEL....");
         ooDocument = ooComponent;
     }
 

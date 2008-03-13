@@ -296,7 +296,13 @@ public class ooQueryInterface {
         return (XTextFieldsSupplier)UnoRuntime.queryInterface(XTextFieldsSupplier.class, obj);
     }
     
+    
+    static public XTextField XTextField(Object obj) {
+        return (XTextField)UnoRuntime.queryInterface(XTextField.class, obj);
+    }
+    
     static public XTextGraphicObjectsSupplier XTextGraphicObjectsSupplier(Object obj) {
         return (XTextGraphicObjectsSupplier)UnoRuntime.queryInterface(XTextGraphicObjectsSupplier.class, obj);
     }
+
 }

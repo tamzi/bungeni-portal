@@ -65,13 +65,12 @@ import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 import com.sun.star.xml.AttributeData;
 import java.awt.Color;
-import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import org.bungeni.utils.CommonExceptionUtils;
-import org.omg.CORBA.COMM_FAILURE;
+
 
 /**
  * 
@@ -1149,7 +1148,8 @@ public int setSelectedTextImageName(String newName) {
             nReturn = 0;
           }
      } catch (Exception ex) {
-            log.error("changeSelectedTextImageName: "+ex.getMessage());         
+            log.error("changeSelectedTextImageName: "+ex.getMessage());        
+            nReturn = -1;
       } finally {
           return nReturn;
       }

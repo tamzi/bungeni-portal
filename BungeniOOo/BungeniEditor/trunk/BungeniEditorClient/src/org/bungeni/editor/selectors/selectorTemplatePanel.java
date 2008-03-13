@@ -734,7 +734,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     }
 
     public void initObject(OOComponentHelper ooDoc, JDialog dlg, toolbarAction act, toolbarSubAction subAct) {
-        this.initVariables(ooDoc, dlg, act, subAct);
+        initVariables(ooDoc, dlg, act, subAct);
     }
 
     public JPanel getPanel() {

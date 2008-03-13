@@ -803,11 +803,11 @@ private void launchFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         }
 
         public void windowActivated(WindowEvent e) {
-            System.out.println("Window Was Activated!");
+          //  System.out.println("Window Was Activated!");
         }
 
         public void windowDeactivated(WindowEvent e) {
-            System.out.println("Window was De-Activated!");
+         //   System.out.println("Window was De-Activated!");
         }
       
   }

@@ -29,55 +29,29 @@ import org.bungeni.ooo.ooQueryInterface;
  * will evaluate to false if the field_name does not exist in the document
  * @author Administrator
  */
-public class fieldExists implements IBungeniToolbarCondition {
+public class fieldNotExists implements IBungeniToolbarCondition {
     private OOComponentHelper ooDocument;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(fieldExists.class.getName());
     /** Creates a new instance of sectionExists */
-    public fieldExists() {
+    public fieldNotExists() {
     }
 
     public void setOOoComponentHelper(OOComponentHelper ooDocument) {
         this.ooDocument = ooDocument;
     }
 
-    boolean check_fieldExists (BungeniToolbarCondition condition) {
-        boolean bReturn = false;
-        try {
-        String fieldName  =  condition.getConditionValue();
-        XEnumerationAccess fieldAccess = ooDocument.getTextFields();
-        if (!fieldAccess.hasElements()) {
-            //field does not exist
-            bReturn = false;
+    boolean check_fieldNotExists (BungeniToolbarCondition condition) {
+        fieldExists fldExists = new fieldExists();
+        fldExists.setOOoComponentHelper(ooDocument);
+        if (fldExists.processCondition(condition)) {
+            return false;
         } else {
-            //field may exist
-            XEnumeration enumFields = fieldAccess.createEnumeration();
-            while (enumFields.hasMoreElements()) {
-                Object fieldObject = enumFields.nextElement();
-                //XTextField xField = ooQueryInterface.XTextField(fieldObject);
-                XServiceInfo xService = ooQueryInterface.XServiceInfo(fieldObject);
-                if (xService.supportsService("com.sun.star.text.TextField.JumpEdit")){
-                    XTextField xField = ooQueryInterface.XTextField(fieldObject);
-                    XPropertySet xSet = ooQueryInterface.XPropertySet(xField );
-                    if (xSet.getPropertySetInfo().hasPropertyByName("Hint")) {
-                        String hintName = (String) xSet.getPropertyValue("Hint");
-                        if (fieldName.equals(hintName))
-                            bReturn = true;
-                        else
-                            bReturn = false;
-                    }
-                }
-            }
-        }
-        } catch (NoSuchElementException ex) {
-            log.error("check_fieldExists:" + ex.getMessage());
-            bReturn = false;
-        }  finally {
-            return bReturn;
+            return true;
         }
     }
     
     public boolean processCondition(BungeniToolbarCondition condition) {
-        return check_fieldExists(condition);
+        return check_fieldNotExists(condition);
     }
         
     /*

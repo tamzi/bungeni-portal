@@ -20,6 +20,8 @@ import org.bungeni.ooo.OOComponentHelper;
  */
 public class sectionNotExists implements IBungeniToolbarCondition {
     private OOComponentHelper ooDocument;
+      private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(sectionNotExists.class.getName());
+        
     /** Creates a new instance of sectionExists */
     public sectionNotExists() {
     }
@@ -29,15 +31,21 @@ public class sectionNotExists implements IBungeniToolbarCondition {
     }
 
     boolean check_sectionNotExists (BungeniToolbarCondition condition) {
+        
+        log.debug("sectionNotExists: value "+ condition.getConditionValue());
+        log.debug("sectionNotExists: name "+ condition.getConditionName());
+        
         String sectionToActUpon =  condition.getConditionValue();
         if (sectionToActUpon.equals("root")) {
            String activeDoc =  BungeniEditorProperties.getEditorProperty("activeDocumentMode");
            sectionToActUpon = BungeniEditorProperties.getEditorProperty("root:"+activeDoc);
         }
         if (ooDocument.hasSection(sectionToActUpon)) {
-         return false;
+            log.debug("section :  "+sectionToActUpon + " does not exist" );
+            return false;
         } else {
-         return true;
+            log.debug("section :  "+sectionToActUpon + " exists" );
+            return true;
         }
     }
     

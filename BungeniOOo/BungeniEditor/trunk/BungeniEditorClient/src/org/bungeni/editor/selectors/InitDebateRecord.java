@@ -76,7 +76,8 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
    
     /** Creates new form InitDebateRecord */
     public InitDebateRecord() {
-        initComponents();
+        //initComponents();
+        super();
     }
     
     public InitDebateRecord(OOComponentHelper ooDocument, 
@@ -107,6 +108,13 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
       String[] controls_ignore_list = {"btn_apply", "btn_cancel" };
      
       
+    public void initObject(OOComponentHelper ooDoc, JDialog dlg, toolbarAction act, toolbarSubAction subAct) {
+        super.initObject( ooDoc, dlg, act, subAct);
+            init();
+         setControlModes();
+         setControlData();
+    }
+    
     //override parent, call the parent api using super.
       /*
       protected void getEnabledControlList_TextInsertion() {

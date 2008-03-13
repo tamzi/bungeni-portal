@@ -7,6 +7,7 @@ from zope.schema import vocabulary
 from zope.security.proxy import removeSecurityProxy
 
 from ore.alchemist.vocabulary import DatabaseSource, ObjectSource, Session
+from ore.alchemist.container import valueKey
 from sqlalchemy.orm import mapper, relation, column_property
 from sqlalchemy.sql import text
 
@@ -99,8 +100,20 @@ class QuerySource( object ):
     (otherwise the parameters passed to this query will be ignored),
     the order_by and filter_field fields *must* be public attributes"""
     interface.implements( IContextSourceBinder )
+    
+    def getValueKey(self, context):
+        """iterate through the parents until you get a valueKey """
+        if context.__parent__ is None:
+            return None
+        else:            
+            try:
+                value_key = valueKey( context.__parent__.__name__ )[0]
+            except:
+                value_key = self.getValueKey( context.__parent__)
+        return value_key         
         
-    def __init__( self, domain_model, token_field, value_field, filter_field, filter_value, order_by_field, title_field=None ):
+        
+    def __init__( self, domain_model, token_field, value_field, filter_field, filter_value=None, order_by_field=None, title_field=None ):
         self.domain_model = domain_model
         self.token_field = token_field
         self.value_field = value_field
@@ -112,9 +125,18 @@ class QuerySource( object ):
     def constructQuery( self, context ):
         session = Session()
         trusted=removeSecurityProxy(context)
-        #pdb.set_trace()        
-        query = session.query( self.domain_model ).filter(self.domain_model.c[self.filter_field] == trusted.__dict__[self.filter_value] )
-        query = query.distinct().order_by(self.domain_model.c[self.order_by_field])
+        #pdb.set_trace() 
+        if self.filter_value:       
+            query = session.query( self.domain_model ).filter(self.domain_model.c[self.filter_field] == trusted.__dict__[self.filter_value] )
+        else:
+            #pfk = valueKey( context.__parent__.__parent__.__name__ )[0]
+            pfk = self.getValueKey(context)
+            query = session.query( self.domain_model ).filter(self.domain_model.c[self.filter_field] == pfk )
+        query = query.distinct()
+        if self.order_by_field:
+            query = query.order_by(self.domain_model.c[self.order_by_field])
+            
+            
         return query
         
     def __call__( self, context=None ):

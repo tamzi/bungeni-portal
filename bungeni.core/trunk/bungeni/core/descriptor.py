@@ -6,6 +6,8 @@ from copy import deepcopy
 from zope import schema, interface
 from zc.table import column
 
+import pdb
+
 from bungeni.ui.datetimewidget import SelectDateWidget, SelectDateTimeWidget
 
 
@@ -84,6 +86,12 @@ def EndAfterStart(obj):
     if obj.end_date is None: return
     if obj.end_date < obj.start_date:
         raise interface.Invalid(_("End Date must be after Start Date"))
+
+def DissolutionAfterReinstatement( obj ):       
+    """ A committee must be disolved before it can be reinstated """   
+    if (obj.dissolution_date is None) or (obj.reinstatement_date is None): return
+    if obj.dissolution_date > obj.reinstatement_date:
+        raise interface.Invalid(_("A committee must be disolved before it can be reinstated"))
     
 class DeathBeforeLifeError(schema.interfaces.ValidationError):
      """One cannot die before being born"""
@@ -129,14 +137,14 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="national_id", label=_(u"National Id")),
         dict( name="gender", 
               property = schema.Choice( title=_(u"Gender"), values=['M', 'F'] ) ),
-        dict( name="date_of_birth", label=_(u"Date of Birth"), edit_widget=SelectDateWidget),
+        dict( name="date_of_birth", label=_(u"Date of Birth"), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
         dict( name="birth_country", 
               property = schema.Choice( title=_(u"Country of Birth"), 
                                         source=DatabaseSource(domain.Country, 'country_name', 'country_id' ),
                                         required=True )
             ),
         dict( name="date_of_death", label=_(u"Date of Death"), view_permission="bungeni.AdminUsers", 
-                edit_permission="bungeni.AdminUsers", edit_widget=SelectDateWidget),
+                edit_permission="bungeni.AdminUsers", edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
         dict( name="password", omit=True ),
         dict( name="salt", omit=True),
         dict( name="active_p", label=_(u"Active"), 
@@ -189,8 +197,8 @@ class GroupMembershipDescriptor( ModelDescriptor ):
    
    fields = [
         dict( name="title", label=_(u"Title") ),
-        dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ), edit_widget=SelectDateWidget ),
-        dict( name="end_date", label=_(u"End Date"), listing_column=day_column("end_date", _(u"End Date")), edit_widget=SelectDateWidget ),
+        dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
+        dict( name="end_date", label=_(u"End Date"), listing_column=day_column("end_date", _(u"End Date")), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         dict( name="active_p", label=_(u"Active") ),
         dict( name="notes", label=_(u"Notes") ),
         dict( name="substitution_p", label=_(u"Substituted") ),
@@ -237,9 +245,9 @@ class GroupDescriptor( ModelDescriptor ):
               listing_column=name_column("full_name", _(u"Full Name"))),
         dict( name="description", property=schema.Text(title=_(u"Description"))),
         dict( name="start_date", label=_(u"Start Date"), listing=True, 
-              listing_column=day_column("start_date", _(u"Start Date")), edit_widget=SelectDateWidget),
+              listing_column=day_column("start_date", _(u"Start Date")), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
         dict( name="end_date", label=_(u"End Date"), listing=True, 
-              listing_column=day_column('end_date', _(u"End Date")), edit_widget=SelectDateWidget),        
+              listing_column=day_column('end_date', _(u"End Date")), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),        
         dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True )        
         ]
 
@@ -259,13 +267,13 @@ class ParliamentDescriptor( GroupDescriptor ):
               listing_column=name_column("full_name", "Name") ),
         dict( name="description", property=schema.Text(title=_(u"Description"), required=False )),
         #dict( name="identifier", label=_(u"Parliament Number"), listing=True ),
-        dict( name="election_date", label=_(u"Election Date"), description=_(u"Date the of the election"), edit_widget=SelectDateWidget ),        
+        dict( name="election_date", label=_(u"Election Date"), description=_(u"Date the of the election"), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),        
         dict( name="start_date", label=_(u"In power from"), 
               listing_column=day_column("start_date", _(u"In power from") ), listing=True, 
-              description=_(u"Date the of the swearing in"), edit_widget=SelectDateWidget ),
+              description=_(u"Date the of the swearing in"), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         dict( name="end_date", label=_(u"In power till"),  description=_(u"Date the of the dissolution"), 
               listing_column=day_column("end_date", _(u"In power till")), listing=True,
-              edit_widget=SelectDateWidget ),
+              edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         ]
     schema_invariants = [EndAfterStart]
             
@@ -290,10 +298,11 @@ class CommitteeDescriptor( GroupDescriptor ):
         dict( name='researcher_required', label=_(u"Researcher required")),
         dict( name='default_chairperson', label=_(u"Default chairperson")),
         dict( name='default_position', label=_(u"Default Position")),
-        dict( name='dissolution_date', label=_(u"Dissolution date")),
-        dict( name='reinstatement_date', label=_(u"Reinstatement Date")),              
+        dict( name='dissolution_date', label=_(u"Dissolution date"), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
+        dict( name='reinstatement_date', label=_(u"Reinstatement Date"), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),              
     ])
-
+    schema_invariants = [DissolutionAfterReinstatement]
+    
 class CommitteeMemberDescriptor( ModelDescriptor ):
     display_name = _(u"Committee Members")
     fields = deepcopy(GroupMembershipDescriptor.fields)
@@ -301,7 +310,7 @@ class CommitteeMemberDescriptor( ModelDescriptor ):
                                           token_field='fullname', 
                                           value_field='user_id', 
                                           filter_field='committee_id', 
-                                          filter_value='group_id', 
+                                          filter_value= None, #'group_id', 
                                           order_by_field='last_name',
                                           title_field='fullname' )      
     fields.extend([
@@ -336,7 +345,7 @@ class MinisterDescriptor( ModelDescriptor ):
                                           token_field='fullname', 
                                           value_field='user_id', 
                                           filter_field='ministry_id', 
-                                          filter_value='group_id', 
+                                          filter_value=None, 
                                           order_by_field='last_name',
                                           title_field='fullname' )      
     fields.extend([
@@ -350,8 +359,8 @@ class ParliamentSession( ModelDescriptor ):
     fields = deepcopy( GroupDescriptor.fields )
     fields.extend([
         dict( name="session_id", omit=True ),
-        dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ), edit_widget=SelectDateWidget),
-        dict( name="end_date", label=_(u"End Date"), edit_widget=SelectDateWidget),                
+        dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+        dict( name="end_date", label=_(u"End Date"), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),                
         dict( name="notes", property=schema.Text(title=_(u"Notes")))
         ])
         
@@ -365,9 +374,9 @@ class GovernmentDescriptor( ModelDescriptor ):
         dict( name="short_name", label=_(u"Name"), description=_(u"Name of the Head of Government"), listing=True),
         dict( name="full_name", label=_(u"Number")),       
         dict( name="start_date", label=_(u"In power from"), listing=True, 
-              listing_column=day_column("start_date", _(u"In power from")), edit_widget=SelectDateWidget ),
+              listing_column=day_column("start_date", _(u"In power from")), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         dict( name="end_date", label=_(u"In power till"), listing=True,
-              listing_column=day_column("end_date", _(u"In power till")), edit_widget=SelectDateWidget ),
+              listing_column=day_column("end_date", _(u"In power till")), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         dict( name="description", property=schema.Text(title=_(u"Notes"))),
         dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True ),
         dict( name="government_id", omit=True), 
@@ -420,8 +429,8 @@ class SittingDescriptor( ModelDescriptor ):
         dict( name="sitting_id", omit=True ),
         dict( name="group_id", omit=True ),
         dict( name="session_id", omit=True ),
-        dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ),  edit_widget=SelectDateTimeWidget),
-        dict( name="end_date", label=_(u"End Date"), listing_column=day_column("end_date", _(u"End Date")), edit_widget=SelectDateTimeWidget),
+        dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ),  edit_widget=SelectDateTimeWidget, add_widget=SelectDateTimeWidget),
+        dict( name="end_date", label=_(u"End Date"), listing_column=day_column("end_date", _(u"End Date")), edit_widget=SelectDateTimeWidget, add_widget=SelectDateTimeWidget),
         dict( name="sitting_type", 
               listing_column = vocab_column( "sitting_type", _(u"Sitting Type"), vocabulary.SittingTypes ),
               property = schema.Choice( title=_(u"Sitting Type"), 
@@ -440,9 +449,9 @@ class SessionDescriptor( ModelDescriptor ):
         dict( name="parliament_id", omit=True),
         dict( name="short_name", label=_(u"Short Name"), listing=True ),
         dict( name="full_name", label=_(u"Full Name") ),
-        dict( name="start_date", label=_(u"Start Date"), listing=True, listing_column=day_column("start_date", _(u"Start Date")), edit_widget=SelectDateWidget),
-        dict( name="end_date", label=_(u"End Date"), listing=True, listing_column=day_column("end_date", _(u"End Date")), edit_widget=SelectDateWidget),
-        dict( name="notes", label=_(u"Notes") )
+        dict( name="start_date", label=_(u"Start Date"), listing=True, listing_column=day_column("start_date", _(u"Start Date")), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+        dict( name="end_date", label=_(u"End Date"), listing=True, listing_column=day_column("end_date", _(u"End Date")), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+        dict( name="notes", label=_(u"Notes"), required=True)
         ]
     schema_invariants = [EndAfterStart]
             
@@ -455,7 +464,7 @@ class AttendanceDescriptor( ModelDescriptor ):
                                           token_field='fullname', 
                                           value_field='user_id', 
                                           filter_field='sitting_id', 
-                                          filter_value='sitting_id', 
+                                          filter_value=None, 
                                           order_by_field='last_name',
                                           title_field='fullname' )                                    
     fields = [
@@ -549,10 +558,10 @@ class ConstituencyDescriptor( ModelDescriptor ):
             ),
         dict( name="start_date", label=_(u"Start Date"), 
                 listing=True, listing_column=day_column('start_date', _(u"Start Date")), 
-                edit_widget=SelectDateWidget),
+                edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
         dict( name="end_date", label=_(u"End Date"), 
                 listing=True , listing_column=day_column('end_date', _(u"End Date")), 
-                edit_widget=SelectDateWidget),        
+                edit_widget=SelectDateWidget, add_widget=SelectDateWidget),        
         ]
 
 schema_invariants = [EndAfterStart]
@@ -581,7 +590,7 @@ class ConstituencyDetailDescriptor( ModelDescriptor ):
         dict( name="constituency_id", label=_(u"Name"), description=_("Name of the constituency"), listing=False, omit=True ), #XXX
         dict( name="date", label=_(u"Date"), description=_(u"Date the data was submitted from the Constituency"), 
             listing=True,  listing_column=day_column("date", "Date"),
-                edit_widget=SelectDateWidget),
+                edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
         dict( name="population", label=_(u"Population"), description=_(u"Total Number of People living in this Constituency"), listing=True ),                
         dict( name="voters", label=_(u"Voters"), description=_(u"Number of Voters registered in this Constituency"), listing=True ),
         ]
@@ -598,8 +607,8 @@ class RotaDescriptor( ModelDescriptor ):
         #    property = schema.Choice( title=_(u"Hansard Reporter"), source=vocabulary.ParliamentMembers, required=True ) #XXX
         #    ),
         dict( name="identifier", title=_("Rota Identifier"), listing=True),
-        dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ), listing=True , edit_widget=SelectDateWidget),
-        dict( name="end_date", label=_(u"End Date"), listing_column=day_column("end_date", _(u"End Date")), listing=True, edit_widget=SelectDateWidget ),
+        dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ), listing=True , edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+        dict( name="end_date", label=_(u"End Date"), listing_column=day_column("end_date", _(u"End Date")), listing=True, edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         ]
 
     schema_invariants = [EndAfterStart]

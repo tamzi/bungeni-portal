@@ -74,6 +74,7 @@ mapper( domain.Committee, schema.committees,
         polymorphic_identity='committee'
         )        
 
+mapper( domain.ParliamentMembershipType, schema.parliament_membership_type )
     
 mapper( domain.ParliamentMember, 
         inherits=domain.User,

@@ -79,6 +79,10 @@ class ParliamentMember( User ):
 
     # ministries
 
+class ParliamentMembershipType( object ):
+    """ The Type of the MPs membership in parliament,
+    was he elected, nominated or is he member ex oficio, ... """
+    
 
 class mp ( object ):    
     """
@@ -143,6 +147,7 @@ class Parliament( Group ):
     committees = one2many("comittees", "bungeni.core.domain.CommitteeContainer", "parliament_id")
     mps = one2many("mps","bungeni.core.domain.GroupMembershipContainer", "group_id")
     governments = one2many("governments","bungeni.core.domain.GovernmentContainer", "parliament_id")
+    parliamentmembers = one2many("parliamentmembers", "bungeni.core.domain.mpContainer", "group_id") 
     
 class PoliticalParty( Group ):
     """ a political party

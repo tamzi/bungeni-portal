@@ -77,7 +77,7 @@ def lookup_fk_column(name, title, domain_model, field, default=""):
         return domain_model.Column[field]
     return column.GetterColumn( title, getter )
      
-
+     
 ####
 #  Constraints / Invariants
 #     
@@ -92,6 +92,11 @@ def DissolutionAfterReinstatement( obj ):
     if (obj.dissolution_date is None) or (obj.reinstatement_date is None): return
     if obj.dissolution_date > obj.reinstatement_date:
         raise interface.Invalid(_("A committee must be disolved before it can be reinstated"))
+
+def ActiveAndSubstituted( obj ):
+    """ A person cannot be active and substituted at the same time"""
+    if obj.active_p and obj.substitution_p:
+        raise interface.Invalid(_("A person cannot be active and substituted at the same time"))
     
 class DeathBeforeLifeError(schema.interfaces.ValidationError):
      """One cannot die before being born"""
@@ -215,12 +220,13 @@ class GroupMembershipDescriptor( ModelDescriptor ):
         dict( name="status", omit=True )
         ]
         
-   schema_invariants = [EndAfterStart]
+   schema_invariants = [EndAfterStart,ActiveAndSubstituted]
 
 class MpDescriptor ( ModelDescriptor ):
     display_name = _(u"Member of Parliament")
     fields = deepcopy(GroupMembershipDescriptor.fields)
     constituencySource=DatabaseSource(domain.Constituency,  'name', 'constituency_id')
+    mpTypeSource=DatabaseSource(domain.ParliamentMembershipType, 'membership_type_desc', 'parliament_membership_type_id')
     fields.extend([
         dict( name="user_id",
               property=schema.Choice( title=_(u"Member of Parliament"), 
@@ -231,7 +237,9 @@ class MpDescriptor ( ModelDescriptor ):
             property=schema.Choice( title=_(u"Constituency"), source=constituencySource,),
             listing_column=vocab_column( "constituency_id" , _(u"Constituency"), constituencySource, ),
             ),                
-        dict( name="elected_nominated", label=_(u"elected/nominated")),
+        dict( name="elected_nominated", 
+            property=schema.Choice( title=_(u"elected/nominated"), source=mpTypeSource,),
+            ),
         dict( name="leave_reason", label=_("Leave Reason")),     
     ])
 
@@ -319,7 +327,7 @@ class CommitteeMemberDescriptor( ModelDescriptor ):
                 listing_column=member_fk_column("user_id", _(u"Committee Member") ) ),
     ])   
     
-    
+    schema_invariants = [EndAfterStart, ActiveAndSubstituted]
      
         
 class PolitcalPartyDescriptor( GroupDescriptor ):
@@ -329,6 +337,8 @@ class PolitcalPartyDescriptor( GroupDescriptor ):
         dict( name='logo', label=_(u"Logo"))
      ])
      
+    schema_invariants = [EndAfterStart]
+     
 class MinistryDescriptor( GroupDescriptor ):
     display_name = _(u"Ministry")
     fields = deepcopy( GroupDescriptor.fields )       
@@ -337,6 +347,8 @@ class MinistryDescriptor( GroupDescriptor ):
         dict( name='government_id', omit=True ),
                    
     ])
+    
+    schema_invariants = [EndAfterStart]
     
 class MinisterDescriptor( ModelDescriptor ):    
     display_name = _(u"Minister")
@@ -354,6 +366,8 @@ class MinisterDescriptor( ModelDescriptor ):
                 listing_column=member_fk_column("user_id", _(u"Minister") ) ),
     ])   
     
+    schema_invariants = [EndAfterStart]
+    
 class ParliamentSession( ModelDescriptor ):
     display_name = _(u"Parliamentary Session")    
     fields = deepcopy( GroupDescriptor.fields )
@@ -364,7 +378,7 @@ class ParliamentSession( ModelDescriptor ):
         dict( name="notes", property=schema.Text(title=_(u"Notes")))
         ])
         
-schema_invariants = [EndAfterStart]        
+    schema_invariants = [EndAfterStart]        
         
 class GovernmentDescriptor( ModelDescriptor ):
     
@@ -383,7 +397,7 @@ class GovernmentDescriptor( ModelDescriptor ):
         dict( name="parliament_id", omit=True),     
         ]
     
-schema_invariants = [EndAfterStart]    
+    schema_invariants = [EndAfterStart]    
     
 class MotionDescriptor( ModelDescriptor ):
     

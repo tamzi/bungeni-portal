@@ -40,7 +40,7 @@ public class RomanNumerals {
     }
     
     public static void main(String[]args){
-        NumberingScheme test=new NumberingScheme();
+        RomanNumerals test=new RomanNumerals();
         test.setRange(25,76);
         long startRange=test.getStart();
         long endRange=test.getEnd();

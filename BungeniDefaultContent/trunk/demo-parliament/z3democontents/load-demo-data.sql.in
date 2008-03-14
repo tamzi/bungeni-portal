@@ -26,7 +26,7 @@ update public.users set active_p = 'D' where date_of_death is not null;
 
 update public.users set titles = 'Mrs.' where gender = 'F';
 update public.users set titles = 'Mr.' where gender = 'M';
-
+update public.users set middle_name = '' where middle_name is null;
 
 copy public.groups ( group_id, short_name, full_name, start_date, end_date, type) 
 from '%(directory)s/data/demodata/parliament_group.csv' with delimiter ';' csv ;
@@ -50,7 +50,8 @@ copy public.ministries ( government_id, ministry_id )
 from '%(directory)s/data/demodata/ministries.csv'
 csv ; 
 
-
+copy public.parliament_membership_type
+from '%(directory)s/data/demodata/parliament_membership_type.csv' csv;
 
 
 copy public.user_group_memberships (membership_id, user_id, group_id, start_date, end_date, notes)
@@ -140,7 +141,7 @@ where sequence_schema='public';
 /*set the sequences to a new value*/
  
  SELECT setval('principal_sequence', 5000); 
- SELECT setval('groups_group_id_seq', 1000);
+/* SELECT setval('groups_group_id_seq', 1000);*/
  SELECT setval('sessions_session_id_seq', 1000);
  SELECT setval('item_sequence', 1000);
  SELECT setval('group_sittings_sitting_id_seq', 5000);
@@ -154,7 +155,7 @@ where sequence_schema='public';
  SELECT setval('group_assignments_assignment_id_seq', 1000);
  SELECT setval('item_votes_vote_id_seq', 1000);
  SELECT setval('provinces_province_id_seq', 1000);
- SELECT setval('users_user_id_seq', 1000);
+/* SELECT setval('users_user_id_seq', 1000);*/
  SELECT setval('takes_take_id_seq', 1000);
  SELECT setval('take_media_media_id_seq', 1000);
  SELECT setval('rotas_rota_id_seq', 1000);

@@ -44,9 +44,31 @@ public class NumbersToAlphabet extends AbstractNumberer{
     
     public static void main(String [] args){
         numbererObj=new NumbersToAlphabet();
-        numbererObj.setRange(12,25);
+        numbererObj.setRange(1,25);
         long startRange=numbererObj.getStart();
         long endRange=numbererObj.getEnd();
+        System.out.println("Start range: " + startRange + " End Range: " + endRange);
+        
+        ArrayList<Long> list=new ArrayList<Long>();
+        for(long i=startRange;i<=endRange;i++){
+            list.add(i);
+        }
+               
+        
+        //start a sequence of numbers based upon the range
+       System.out.println("Starting Numbering Scheme");
+       ListIterator<Long> listIterator= list.listIterator();
+        while(listIterator.hasNext()){
+          
+            
+            Object nextItem=listIterator.next();
+            Long numberSequence=(Long)nextItem;
+         
+           System.out.println("Alphabet - " + numbererObj.toAlphaSequence(numberSequence,"ABCDEFGHIJKLMOPQRSTUVWXYZ"));
+            
+            
+            
+        }
     }
 
     public String toWords(long l) {

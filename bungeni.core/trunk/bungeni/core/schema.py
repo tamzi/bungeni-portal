@@ -29,9 +29,9 @@ users = rdb.Table(
    rdb.Column( "gender", rdb.String(1),
         rdb.CheckConstraint("gender in ('M', 'F')"), 
         ), # (M)ale (F)emale    ),   
-   rdb.Column( "date_of_birth", rdb.DateTime(timezone=True) ),
+   rdb.Column( "date_of_birth", rdb.DateTime(timezone=False) ),
    rdb.Column( "birth_country", rdb.String(2) ),
-   rdb.Column( "date_of_death", rdb.DateTime(timezone=True) ),
+   rdb.Column( "date_of_death", rdb.DateTime(timezone=False) ),
    rdb.Column( "national_id", rdb.Unicode(32) ),
    rdb.Column( "password", rdb.String(36)), # we store salted md5 hash hexdigests
    rdb.Column( "salt", rdb.String(24)),    
@@ -70,8 +70,8 @@ parliament_members = rdb.Table(
                 #rdb.CheckConstraint("elected_nominated in ('E','N')"), # is the MP elected or nominated 
                 nullable=False ),
    # active_p, start and end date are already defined in group_user_membership                
-   #rdb.Column( "start_date", rdb.DateTime(timezone=True), nullable=False ), 
-   #rdb.Column( "end_date", rdb.DateTime(timezone=True) ),
+   #rdb.Column( "start_date", rdb.DateTime(timezone=False), nullable=False ), 
+   #rdb.Column( "end_date", rdb.DateTime(timezone=False) ),
    rdb.Column( "leave_reason", rdb.Unicode(40) ),
    #rdb.Column( "active_p", rdb.Boolean ), 
    # XXX - TODO 
@@ -112,8 +112,8 @@ constituencies = rdb.Table(
    rdb.Column( "name", rdb.Unicode(80), nullable=False ),
    rdb.Column( "province", rdb.Integer, rdb.ForeignKey('provinces.province_id') ),
    rdb.Column( "region", rdb.Integer, rdb.ForeignKey('regions.region_id') ),
-   rdb.Column( "start_date", rdb.DateTime(timezone=True), nullable=False ),
-   rdb.Column( "end_date", rdb.DateTime(timezone=True) ),   
+   rdb.Column( "start_date", rdb.DateTime(timezone=False), nullable=False ),
+   rdb.Column( "end_date", rdb.DateTime(timezone=False) ),   
    )
 #constituency_changes = make_changes_table( constituencies, metadata )
 #constituency_version = make_versions_table( constituencies, metadata )
@@ -144,7 +144,7 @@ constituency_details = rdb.Table(
     metadata,
     rdb.Column( "constituency_detail_id", rdb.Integer,  primary_key=True ),
     rdb.Column( "constituency_id", rdb.Integer, rdb.ForeignKey('constituencies.constituency_id') ),
-    rdb.Column( "date", rdb.DateTime(timezone=True), nullable=False ),
+    rdb.Column( "date", rdb.DateTime(timezone=False), nullable=False ),
     rdb.Column( "population", rdb.Integer, nullable=False ),
     rdb.Column( "voters", rdb.Integer, nullable=False ),
     )
@@ -166,8 +166,8 @@ groups = rdb.Table(
    rdb.Column( "full_name", rdb.Unicode(80) ),   
    rdb.Column( "description", rdb.Unicode ),
    rdb.Column( "status", rdb.Unicode(12) ), # workflow for groups
-   rdb.Column( "start_date", rdb.DateTime(timezone=True), nullable=False ),
-   rdb.Column( "end_date", rdb.DateTime(timezone=True) ),  #
+   rdb.Column( "start_date", rdb.DateTime(timezone=False), nullable=False ),
+   rdb.Column( "end_date", rdb.DateTime(timezone=False) ),  #
    rdb.Column( "type", rdb.String(30), nullable=False)
    )
 
@@ -185,7 +185,7 @@ parliaments = rdb.Table(
    metadata,
    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),   
    #rdb.Column( "identifier", rdb.String(5), nullable=False, unique=True ),
-   rdb.Column( "election_date", rdb.DateTime(timezone=True) ),
+   rdb.Column( "election_date", rdb.DateTime(timezone=False) ),
    )
 
 ministries = rdb.Table(
@@ -210,8 +210,8 @@ committees = rdb.Table(
    rdb.Column( "researcher_required", rdb.Boolean ),
    rdb.Column( "default_chairperson", rdb.Boolean ),
    rdb.Column( "default_position", rdb.Unicode(80) ),
-   rdb.Column( "dissolution_date", rdb.DateTime(timezone=True) ),
-   rdb.Column( "reinstatement_date", rdb.DateTime(timezone=True) ),
+   rdb.Column( "dissolution_date", rdb.DateTime(timezone=False) ),
+   rdb.Column( "reinstatement_date", rdb.DateTime(timezone=False) ),
    )
 
 committee_type = rdb.Table(
@@ -246,8 +246,8 @@ user_group_memberships = rdb.Table(
    rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey( 'users.user_id')),
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey( 'groups.group_id')),
    rdb.Column( "title", rdb.Unicode(40)), # title of user's group role
-   rdb.Column( "start_date", rdb.DateTime(timezone=True), default=datetime.now),
-   rdb.Column( "end_date", rdb.DateTime(timezone=True) ),
+   rdb.Column( "start_date", rdb.DateTime(timezone=False), default=datetime.now),
+   rdb.Column( "end_date", rdb.DateTime(timezone=False) ),
    rdb.Column( "notes", rdb.Unicode ),
    rdb.Column( "substitution_p", rdb.Boolean, default=False ),
    # we use this as an easier query to end_date in queries, needs to be set by
@@ -266,9 +266,9 @@ group_item_assignments = rdb.Table(
    rdb.Column( "object_id", rdb.Integer ), # any object placed here needs to have a class hierarchy sequence
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
    rdb.Column( "title", rdb.Unicode(40)), # title of user's group role
-   rdb.Column( "start_date", rdb.DateTime(timezone=True), default=datetime.now),
-   rdb.Column( "end_date", rdb.DateTime(timezone=True) ),   
-   rdb.Column( "due_date", rdb.DateTime(timezone=True) ),    
+   rdb.Column( "start_date", rdb.DateTime(timezone=False), default=datetime.now),
+   rdb.Column( "end_date", rdb.DateTime(timezone=False) ),   
+   rdb.Column( "due_date", rdb.DateTime(timezone=False) ),    
    rdb.Column( "notes", rdb.Unicode ),
    )
 
@@ -282,8 +282,8 @@ parliament_sessions = rdb.Table(
    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id')),
    rdb.Column( "short_name", rdb.Unicode(16) ),
    rdb.Column( "full_name", rdb.Unicode(16) ),      
-   rdb.Column( "start_date", rdb.DateTime(timezone=True)),
-   rdb.Column( "end_date", rdb.DateTime(timezone=True)),
+   rdb.Column( "start_date", rdb.DateTime(timezone=False)),
+   rdb.Column( "end_date", rdb.DateTime(timezone=False)),
    rdb.Column( "notes", rdb.Unicode )   
    )
 
@@ -302,8 +302,8 @@ sittings = rdb.Table(
    rdb.Column( "sitting_id", rdb.Integer,  primary_key=True ),
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
-   rdb.Column( "start_date", rdb.DateTime(timezone=True)),
-   rdb.Column( "end_date", rdb.DateTime(timezone=True)), 
+   rdb.Column( "start_date", rdb.DateTime(timezone=False)),
+   rdb.Column( "end_date", rdb.DateTime(timezone=False)), 
    rdb.Column( "sitting_type", rdb.Integer, rdb.ForeignKey('sitting_type.sitting_type_id')),
    )   
 
@@ -362,7 +362,7 @@ def make_changes_table( table, metadata ):
             rdb.Column( "change_id", rdb.Integer, primary_key=True ),
             rdb.Column( "content_id", rdb.Integer, rdb.ForeignKey( table.c[ fk_id ] ) ),
             rdb.Column( "action", rdb.Unicode(16) ),
-            rdb.Column( "date", rdb.DateTime(timezone=True), default=datetime.now),
+            rdb.Column( "date", rdb.DateTime(timezone=False), default=datetime.now),
             rdb.Column( "description", rdb.Unicode),
             rdb.Column( "notes", rdb.Unicode),
             rdb.Column( "user_id", rdb.Unicode(32) ) # Integer, rdb.ForeignKey('users.user_id') ),
@@ -408,7 +408,7 @@ item_votes = rdb.Table(
    metadata,
    rdb.Column( "vote_id", rdb.Integer, primary_key=True ),
    rdb.Column( "item_id", rdb.Integer, nullable=False ),
-   rdb.Column( "date", rdb.DateTime(timezone=True) ),
+   rdb.Column( "date", rdb.DateTime(timezone=False) ),
 #   rdb.Column( "division_p",  rdb.Boolean ), # isn't a division implied by the vote?
    rdb.Column( "affirmative_votes", rdb.Integer),
    rdb.Column( "negative_votes", rdb.Integer ),
@@ -441,7 +441,7 @@ subscriptions = rdb.Table(
    rdb.Column( "object_type", rdb.Unicode, nullable=False ),
    rdb.Column( "party_id",  rdb.Integer, nullable=False ),
    rdb.Column( "party_type", rdb.Unicode, nullable=False ),
-   rdb.Column( "last_delivery", rdb.DateTime(timezone=True), nullable=False ),   
+   rdb.Column( "last_delivery", rdb.DateTime(timezone=False), nullable=False ),   
    # delivery period
    # rdb.Column( "delivery_period",  rdb.Integer ),
    # delivery type
@@ -456,7 +456,7 @@ questions = rdb.Table(
    rdb.Column( "question_id", rdb.Integer, ItemSequence, primary_key=True ),
    
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
-   rdb.Column( "clerk_submission_date", rdb.DateTime(timezone=True), default=datetime.now),
+   rdb.Column( "clerk_submission_date", rdb.DateTime(timezone=False), default=datetime.now),
    rdb.Column( "question_type", rdb.Unicode(1), 
                 rdb.CheckConstraint("question_type in ('O', 'P')"), default=u"O" ), # (O)rdinary (P)rivate Notice
    rdb.Column( "response_type", rdb.Unicode(1), 
@@ -476,7 +476,7 @@ questions = rdb.Table(
      
    # after the question is scheduled
    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id')  ),
-   rdb.Column( "sitting_time", rdb.DateTime(timezone=True) )
+   rdb.Column( "sitting_time", rdb.DateTime(timezone=False) )
    )
 
 
@@ -497,7 +497,7 @@ responses = rdb.Table(
    # 
 # for attachment to the debate record, but not actually scheduled on the floor
    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id') ),
-   rdb.Column( "sitting_time", rdb.DateTime(timezone=True) )
+   rdb.Column( "sitting_time", rdb.DateTime(timezone=False) )
    )
 
 motions = rdb.Table(
@@ -505,17 +505,17 @@ motions = rdb.Table(
    metadata,
    rdb.Column( "motion_id", rdb.Integer, ItemSequence, primary_key=True ),
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
-   rdb.Column( "submission_date", rdb.DateTime(timezone=True) ),
+   rdb.Column( "submission_date", rdb.DateTime(timezone=False) ),
    rdb.Column( "public", rdb.Boolean ),
    rdb.Column( "title", rdb.Unicode(80) ),
    rdb.Column( "identifier", rdb.Integer),
    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),
    rdb.Column( "seconder_id", rdb.Integer, rdb.ForeignKey('users.user_id') ), 
    rdb.Column( "body_text", rdb.Unicode ),
-   rdb.Column( "received_date", rdb.DateTime(timezone=True) ),
+   rdb.Column( "received_date", rdb.DateTime(timezone=False) ),
    rdb.Column( "entered_by", rdb.Integer, rdb.ForeignKey('users.user_id') ),   
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('political_parties.party_id')  ), # if the motion was sponsored by a party
-   rdb.Column( "notice_date", rdb.DateTime(timezone=True) ),
+   rdb.Column( "notice_date", rdb.DateTime(timezone=False) ),
    rdb.Column( "status",  rdb.Unicode(12) ),
    )
 
@@ -529,10 +529,10 @@ motion_amendments = rdb.Table(
    rdb.Column( "motion_id", rdb.Integer, rdb.ForeignKey('motions.motion_id')  ),
    rdb.Column( "amended_id", rdb.Integer,  ),
    rdb.Column( "body_text", rdb.Unicode ),  
-   rdb.Column( "submission_date", rdb.DateTime(timezone=True) ),    
+   rdb.Column( "submission_date", rdb.DateTime(timezone=False) ),    
    rdb.Column( "accepted_p", rdb.Boolean ),
    rdb.Column( "title", rdb.Unicode ), 
-   rdb.Column( "vote_date", rdb.DateTime(timezone=True) ),   
+   rdb.Column( "vote_date", rdb.DateTime(timezone=False) ),   
    )
 
 bills = rdb.Table(
@@ -544,8 +544,8 @@ bills = rdb.Table(
    rdb.Column( "preamble", rdb.Unicode ),   
    rdb.Column( "title", rdb.Unicode ), 
    rdb.Column( "body_text",  rdb.Unicode ),
-   rdb.Column( "submission_date", rdb.DateTime(timezone=True) ),
-   rdb.Column( "publication_date", rdb.DateTime(timezone=True) ),
+   rdb.Column( "submission_date", rdb.DateTime(timezone=False) ),
+   rdb.Column( "publication_date", rdb.DateTime(timezone=False) ),
    rdb.Column( "status", rdb.Unicode(12) ),
    )
    
@@ -568,8 +568,8 @@ rotas = rdb.Table(
    rdb.Column( "rota_id", rdb.Integer, primary_key=True ),
    rdb.Column( "reporter_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),
    rdb.Column( "identifier", rdb.Unicode ),
-   rdb.Column( "start_date", rdb.DateTime(timezone=True) ),
-   rdb.Column( "end_date", rdb.DateTime(timezone=True) )
+   rdb.Column( "start_date", rdb.DateTime(timezone=False) ),
+   rdb.Column( "end_date", rdb.DateTime(timezone=False) )
    )
 
 takes = rdb.Table(

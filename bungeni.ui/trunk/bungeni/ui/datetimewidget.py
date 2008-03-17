@@ -26,6 +26,8 @@ class SelectDateWidget( SimpleInputWidget):
     
     @property
     def time_zone( self ):
+        """ returns something like:  tzinfo=<DstTzInfo 'Africa/Nairobi' LMT+2:27:00 STD> 
+        should return: tzinfo=tzinfo(180)"""
         try:
             time_zone = idatetime.ITZInfo(self.request)
         except TypeError:
@@ -83,14 +85,14 @@ class SelectDateWidget( SimpleInputWidget):
     def hasInput(self):
         """Widgets need to determine whether the request contains an input
         value for them """
-        return (self._day_name in self.request.form and \
-                self._month_name in self.request.form and \
+        return (self._day_name in self.request.form and 
+                self._month_name in self.request.form and 
                 self._year_name in self.request.form)
 
     def _hasPartialInput(self):
-        return self._day_name in self.request.form or \
-               self._month_name in self.request.form or \
-               self._year_name in self.request.form
+        return (self._day_name in self.request.form or 
+               self._month_name in self.request.form or 
+               self._year_name in self.request.form)
      
     
         
@@ -117,7 +119,7 @@ class SelectDateWidget( SimpleInputWidget):
         else:
             try:
                 time_zone = self.time_zone
-                return datetime.datetime(year=int(year), month=int(month), day=int(day), tzinfo=time_zone )
+                return datetime.datetime(year=int(year), month=int(month), day=int(day), ) #tzinfo=time_zone )
             except ValueError, e:
                 raise ConversionError(_(u"Incorrect string data for date"), e)                
                 
@@ -174,18 +176,18 @@ class SelectDateTimeWidget(SelectDateWidget):
 
 
     def hasInput(self):
-        return super(SelectDateTimeWidget, self).hasInput() and \
-                    self._hour_name in self.request.form and \
-                    self._minute_name in self.request.form
+        return (super(SelectDateTimeWidget, self).hasInput() and 
+                    self._hour_name in self.request.form and 
+                    self._minute_name in self.request.form)
     def _hasPartialInput(self):
-        return super(SelectDateTimeWidget, self)._hasPartialInput() or \
-            self._hour_name in self.request.form or \
-            self._minute_name in self.request.form 
+        return (super(SelectDateTimeWidget, self)._hasPartialInput() or 
+            self._hour_name in self.request.form or 
+            self._minute_name in self.request.form) 
 
     def _getFormInput(self):
-        return super(SelectDateTimeWidget, self)._getFormInput() +\
+        return (super(SelectDateTimeWidget, self)._getFormInput() +
                     (self._getFieldInput(self._hour_name),
-                    self._getFieldInput(self._minute_name))
+                    self._getFieldInput(self._minute_name)))
 
     def _hours(self):
         hl = []
@@ -210,8 +212,8 @@ class SelectDateTimeWidget(SelectDateWidget):
                 return ( '0', '0', '0', '0', '0')
                 
     def _toFieldValue(self, (day, month, year, hour, minute)):
-        if day == self._missing or month == self._missing or year == self._missing \
-                                or hour == self._missing or minute == self._missing:
+        if (day == self._missing or month == self._missing or year == self._missing 
+                                or hour == self._missing or minute == self._missing):
             if self.required:
                 return self.context.missing_value
             else:
@@ -222,7 +224,7 @@ class SelectDateTimeWidget(SelectDateWidget):
         else:
             try:    
                 time_zone = self.time_zone                          
-                return datetime.datetime(year=int(year), month=int(month), day=int(day), hour=int(hour), minute=int(minute), tzinfo=time_zone)
+                return datetime.datetime(year=int(year), month=int(month), day=int(day), hour=int(hour), minute=int(minute),) #tzinfo=time_zone)
             except ValueError, e:
                 raise ConversionError(_(u"Incorrect string data for date and time"), e)
                             

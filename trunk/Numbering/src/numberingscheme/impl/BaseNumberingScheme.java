@@ -19,32 +19,59 @@ import net.sf.saxon.number.Numberer_en;
  */
 public class BaseNumberingScheme   {
     
+    /**
+     * NumberRange object used by base class
+     */
     protected NumberRange baseRange = new NumberRange();
+    /**
+     * baseSequence ArrayList object, (long) never used directly by the derived class, but used to generate the derived class sequence
+     */
     protected ArrayList<Long> baseSequence = new ArrayList<Long>();
+    /**
+     * ArrayList that stores the derived class generated sequence, (Array of strings)
+     */
     protected ArrayList<String> generatedSequence=new ArrayList<String>();
     
+    /**
+     * base class constructor, needs to be explicitly invoked with super() from the derived class
+     */
     public BaseNumberingScheme() {
         baseRange = new NumberRange((long)1, (long)10);
         baseSequence = new ArrayList<Long>();
     }
     
+    /**
+     * constructor that takes in start, end ranges, called with super(long, long) from the deriveed class overriden constructor
+     */
     public BaseNumberingScheme(long rStart, long rEnd){
         baseRange = new NumberRange(rStart, rEnd);
         baseSequence = new ArrayList<Long>();
     }
     
+    /**
+     * returns the NumberRange object
+     */
     public NumberRange getRange() {
         return baseRange;
     }
 
+    /**
+     * sets the NumberRange object
+     */
     public void setRange(NumberRange range) {
         baseRange = range;
     }
 
+    /**
+     * Returns the baseSequence object
+     */
     public ArrayList<Long> getSequence() {
         return baseSequence;
     }
 
+    /**
+     * generates the baseSequence (list of Long objects)
+     */
    public void generateSequence() {
       System.out.println("baseRange.start = " + baseRange.start);
       for(long i=baseRange.start;i<=baseRange.end;i++){
@@ -52,6 +79,9 @@ public class BaseNumberingScheme   {
         }
     }
     
+    /**
+     * returns the generatedSequence object (the derived sequence)
+     */
    public ArrayList<String> getGeneratedSequence(){
        return generatedSequence;
    }

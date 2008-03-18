@@ -16,6 +16,15 @@ PrincipalSequence = rdb.Sequence('principal_sequence') # for users and groups be
 # Users 
 #######################
 # 
+
+user_types = rdb.Table(
+    "user_types",
+    metadata,
+    rdb.Column( "user_type_id", rdb.String(30), primary_key=True),
+    rdb.Column( "user_type_dec", rdb.Unicode(40), nullable=False),
+    )
+
+
 users = rdb.Table(
    "users",
    metadata,
@@ -39,7 +48,7 @@ users = rdb.Table(
                 rdb.CheckConstraint("active_p in ('A', 'I', 'D')"),
                 default="A", #activ/inactiv/deceased
                 ), 
-   rdb.Column( "type", rdb.String(30), nullable=False )
+   rdb.Column( "type", rdb.String(30), rdb.ForeignKey('user_types.user_type_id'), nullable=False  ),
    )
 
 # # not in use yet, but potentially for all 
@@ -55,6 +64,8 @@ users = rdb.Table(
 #    rdb.Column( "notes", rdb.Unicode ),
 #    rdb.Column( "type", rdb.Unicode(16) ),   
 #    )
+
+
    
 
 # specific user classes
@@ -67,7 +78,6 @@ parliament_members = rdb.Table(
    rdb.Column( "constituency_id", rdb.Integer, rdb.ForeignKey('constituencies.constituency_id') ),
    rdb.Column( "elected_nominated", rdb.String(1), 
                 rdb.ForeignKey('parliament_membership_type.parliament_membership_type_id'),
-                #rdb.CheckConstraint("elected_nominated in ('E','N')"), # is the MP elected or nominated 
                 nullable=False ),
    # active_p, start and end date are already defined in group_user_membership                
    #rdb.Column( "start_date", rdb.DateTime(timezone=False), nullable=False ), 
@@ -158,6 +168,14 @@ we're using a very normalized form here to represent all kinds of groups and the
 other things in the system.
 """
 
+group_types = rdb.Table(
+    "group_types",
+    metadata,
+    rdb.Column( "group_type_id", rdb.String(30), primary_key=True ),
+    rdb.Column( "group_type_desc", rdb.Unicode(40), nullable=False ),
+    )
+
+
 groups = rdb.Table(
    "groups",
    metadata,
@@ -168,7 +186,7 @@ groups = rdb.Table(
    rdb.Column( "status", rdb.Unicode(12) ), # workflow for groups
    rdb.Column( "start_date", rdb.DateTime(timezone=False), nullable=False ),
    rdb.Column( "end_date", rdb.DateTime(timezone=False) ),  #
-   rdb.Column( "type", rdb.String(30), nullable=False)
+   rdb.Column( "type", rdb.String(30), rdb.ForeignKey('group_types.group_type_id'),  nullable=False )
    )
 
 governments = rdb.Table(
@@ -233,6 +251,38 @@ political_parties = rdb.Table(
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),   
    rdb.Column( "logo", rdb.Binary, ),
    )
+
+###
+#  the personal role of a user in terms of their membership this group
+#  The personal roles a person may have varies with the context. In a party
+#  one may have the role spokesperson, member, ...
+
+user_role_type = rdb.Table(
+    "user_role_types",
+    metadata,
+    rdb.Column( "user_role_type_id", rdb.Integer, primary_key=True),
+    rdb.Column( "group_type", rdb.String(30), rdb.ForeignKey('group_types.group_type_id'),  nullable=False  ),
+    rdb.Column( "user_role_name", rdb.Unicode(40), nullable=False),
+    )
+
+###
+#  group extensions define additional members which can be assigned to a group
+#  by user_group_memberships. allthough this is not limited by the implementation of 
+#  user_group_memberships the application has to restrict the group membership
+#  a) to avoid invalid input
+#  b) to limit the number of choices
+#  
+
+extension_groups = rdb.Table(
+    "extension_groups",
+    metadata,
+    rdb.Column( "extension_type_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
+    rdb.Column( "group_type", rdb.String(30), rdb.ForeignKey('group_types.group_type_id'),  nullable=False  ),
+    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'), nullable=False),
+    )
+
+    
+    
 
 
 #

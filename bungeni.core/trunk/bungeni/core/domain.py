@@ -179,6 +179,8 @@ class CommitteeMember( Entity ):
 class CommitteeType( object):
     """ Type of Committee """
         
+class ExtensionGroup( Group ):
+    """ Extend selectable users for a group membership """
 
 #############
 

@@ -72,7 +72,13 @@ mapper( domain.Committee, schema.committees,
         inherits=domain.Group,
         polymorphic_on=schema.groups.c.type,
         polymorphic_identity='committee'
-        )        
+        )    
+        
+mapper( domain.ExtensionGroup, schema.extension_groups,
+        inherits=domain.Group,
+        polymorphic_on=schema.groups.c.type,
+        polymorphic_identity='extension'
+        )                         
 
 mapper( domain.ParliamentMembershipType, schema.parliament_membership_type )
     

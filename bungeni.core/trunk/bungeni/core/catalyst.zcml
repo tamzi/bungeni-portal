@@ -55,7 +55,13 @@
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
     />
-    
+  <db:catalyst
+     class=".domain.ExtensionGroup"
+     descriptor=".descriptor.ExtensionGroupDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+    />
+        
   <db:catalyst
      class=".domain.Minister"
      descriptor=".descriptor.MinisterDescriptor"

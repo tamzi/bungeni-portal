@@ -338,6 +338,13 @@ class PolitcalPartyDescriptor( GroupDescriptor ):
      ])
      
     schema_invariants = [EndAfterStart]
+    
+class ExtensionGroupDescriptor( GroupDescriptor ):
+    display_name = _(u"Group extensions")
+    fields = deepcopy( GroupDescriptor.fields )    
+    fields.extend([
+        dict(name="group_type")
+    ])   
      
 class MinistryDescriptor( GroupDescriptor ):
     display_name = _(u"Ministry")

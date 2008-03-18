@@ -18,9 +18,18 @@ copy public.constituencies (constituency_id, name, province, region, start_date)
 copy public.constituency_details (constituency_id, voters, "date", population) from
 '%(directory)s/data/demodata/constituency_details.csv' csv ;
 
+copy public.user_types 
+from '%(directory)s/data/demodata/user_types.csv' csv;
+
+copy public.group_types 
+from '%(directory)s/data/demodata/group_types.csv' csv;
+
+copy public.user_role_types
+from '%(directory)s/data/demodata/user_role_type.csv' csv;
+
 copy public.users ( user_id, first_name, middle_name, last_name, date_of_birth, date_of_death, 
 email, birth_country, gender, national_id, active_p, type) 
-from  '%(directory)s/data/demodata/users.csv' with delimiter ';' csv ;
+from  '%(directory)s/data/demodata/users.csv' csv ;
 
 update public.users set active_p = 'D' where date_of_death is not null;
 

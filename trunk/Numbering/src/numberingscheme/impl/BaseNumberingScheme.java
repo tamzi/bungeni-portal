@@ -10,8 +10,6 @@
 package numberingscheme.impl;
 
 import java.util.ArrayList;
-import net.sf.saxon.number.AbstractNumberer;
-import net.sf.saxon.number.Numberer_en;
 
 /**
  * Base class for numbering schemes, all numbering schemes extend this class

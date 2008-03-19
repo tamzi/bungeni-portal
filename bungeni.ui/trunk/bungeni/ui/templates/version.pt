@@ -6,11 +6,8 @@
 
     <h2 i18n:translate="">Versions</h2>
     
-    <div metal:use-macro="context/@@standard_macros/form">
-        <div metal:fill-slot="pre-fieldset">
-            <div tal:replace="structure view/listing"></div>     
-        </div>
-    </div>
+         <div tal:content="structure provider:IVersionViewletManager"> Version History </div>
+
   </div>
   
 </html>  

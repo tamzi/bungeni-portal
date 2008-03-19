@@ -5,25 +5,33 @@ from alchemist.ui.core import BaseForm, getSelected
 from zope import interface, schema
 from zope.security.proxy import removeSecurityProxy
 from zope.formlib import form
-from zope.publisher.browser import BrowserView
+from zope.publisher.browser import BrowserView, BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zc.table import table, column, batching
-
-
+from interfaces import IVersionViewletManager
+from zope.viewlet.manager import WeightOrderedViewletManager
+from zope.viewlet import viewlet
 from bungeni.core.interfaces import IVersioned
 from bungeni.core.i18n import _
+
+class VersionViewletManager( WeightOrderedViewletManager ):
+    """
+    implements the Version viewlet
+    """
+    interface.implements(IVersionViewletManager)
+
 
 class IVersionEntry( interface.Interface ):
     
     commit_message = schema.Text(title=_("Change Message") )
 
-class VersionLog( BaseForm ):
+class VersionLogViewlet( BaseForm , viewlet.ViewletBase ):
     """  
     """
-    template = ViewPageTemplateFile('templates/version.pt')
+    #template = ViewPageTemplateFile('templates/version.pt')
     form_fields = form.Fields( IVersionEntry )
     formatter_factory = batching.Formatter
-    
+    render = ViewPageTemplateFile ('templates/version_viewlet.pt')
     columns = [
         column.SelectionColumn( lambda item: str(item.version_id), name="selection"),
         column.GetterColumn( title=_(u"version"), getter=lambda i,f:i.version_id ),    
@@ -83,3 +91,8 @@ class VersionLog( BaseForm ):
         instance = removeSecurityProxy( self.context )
         versions = IVersioned( instance )
         return versions
+        
+class VersionLog( BrowserPage ):
+    
+    __call__ = ViewPageTemplateFile('templates/version.pt')
+    

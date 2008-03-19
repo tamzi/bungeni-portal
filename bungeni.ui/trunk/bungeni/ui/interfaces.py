@@ -11,6 +11,10 @@ class IWorkflowViewletManager( IViewletManager ):
     """
     Viewlet manager to display worflow history
     """
+class IVersionViewletManager( IViewletManager ):
+    """
+    Viewletmanager to display the versions
+    """
 
 # class IParliamentMemberTaskMenu( interface.Interface ):
 #     """ viewlet manager for member of parliament """

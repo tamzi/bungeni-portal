@@ -14,6 +14,8 @@ from zope.viewlet import viewlet
 from bungeni.core.interfaces import IVersioned
 from bungeni.core.i18n import _
 
+
+
 class VersionViewletManager( WeightOrderedViewletManager ):
     """
     implements the Version viewlet
@@ -28,10 +30,11 @@ class IVersionEntry( interface.Interface ):
 class VersionLogViewlet( BaseForm , viewlet.ViewletBase ):
     """  
     """
-    #template = ViewPageTemplateFile('templates/version.pt')
+
     form_fields = form.Fields( IVersionEntry )
     formatter_factory = batching.Formatter
     render = ViewPageTemplateFile ('templates/version_viewlet.pt')
+
     columns = [
         column.SelectionColumn( lambda item: str(item.version_id), name="selection"),
         column.GetterColumn( title=_(u"version"), getter=lambda i,f:i.version_id ),    
@@ -80,8 +83,9 @@ class VersionLogViewlet( BaseForm , viewlet.ViewletBase ):
     def handle_revert_version( self, action, data):
         selected = getSelected( self.selection_column, self.request )        
         version = self._versions.get( selected[0] )
-        self._versions.revert( version )
-        self.status = _(u"Reverted to Previous Version")
+        message = data['commit_message']
+        self._versions.revert( version, message )
+        self.status = (_(u"Reverted to Previous Version %s") %(version.version_id))
         
     def getVersions( self ):
         return self._versions.values()

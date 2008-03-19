@@ -9,8 +9,6 @@ from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from bungeni.core.i18n import _
 from zope.interface.common import idatetime
 
-#months = [_(u'January'),_(u'February'),_(u'March'),_(u'April'),_(u'May'),_(u'June'),
-#          _(u'July'),_(u'August'),_(u'September'),_(u'October'),_(u'November'),_(u'December')]
 
 class SelectDateWidget( SimpleInputWidget):
     """ A more user freindly date input """
@@ -27,7 +25,7 @@ class SelectDateWidget( SimpleInputWidget):
     @property
     def time_zone( self ):
         """ returns something like:  tzinfo=<DstTzInfo 'Africa/Nairobi' LMT+2:27:00 STD> 
-        should return: tzinfo=tzinfo(180)"""
+        """
         try:
             time_zone = idatetime.ITZInfo(self.request)
         except TypeError:

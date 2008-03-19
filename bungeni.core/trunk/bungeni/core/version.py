@@ -11,6 +11,7 @@ from i18n import _
 import domain
 import interfaces
 
+
 class Versioned( container.PartialContainer ):
     
     interface.implements( interfaces.IVersioned )
@@ -46,7 +47,7 @@ class Versioned( container.PartialContainer ):
         session = Session()
         session.save( version )
         
-    def revert( self, version ):
+    def revert( self, version, message ):
         """
         revert the current state of the adapted object to the values specified
         in version, and create a new version with reverted state. 
@@ -56,9 +57,8 @@ class Versioned( container.PartialContainer ):
         
         # set values on version from context
         self._copyFields(  version, self.__parent__,
-                           model.queryModelInterface( ctx_class ) )
-                           
-        msg = _(u"reverted to previous version")
+                           model.queryModelInterface( ctx_class ) )                  
+        msg = (_(u"reverted to previous version %s") %(version.version_id)) + u" - " + message        
         event.notify( interfaces.VersionReverted( self.__parent__, self, version, msg  ) )
         self.create( message=msg )
 

@@ -24,13 +24,5 @@
     weight="1"
     />
     
-    <!--browser:viewlet
-    name="viewlet.workflowActions"   
-    manager=".interfaces.IWorkflowViewletManager"
-    class=".workflow.WorkflowActionViewlet"
-    permission="zope.Public"
-    layer=".interfaces.IBungeniSkin" 
-    weight="2"
-    /-->    
 
 </configure>

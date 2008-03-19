@@ -80,6 +80,8 @@ mapper( domain.ExtensionGroup, schema.extension_groups,
         polymorphic_identity='extension'
         )                         
 
+
+
 mapper( domain.ParliamentMembershipType, schema.parliament_membership_type )
     
 mapper( domain.ParliamentMember, 
@@ -120,6 +122,9 @@ mapper ( domain.mp , _mp,
 # ministry or committee (group)        
 mapper( domain.Minister, schema.user_group_memberships )
 mapper( domain.CommitteeMember, schema.user_group_memberships )
+mapper( domain.ExtensionMember, schema.user_group_memberships )
+
+
 
 mapper( domain.HansardReporter, schema.reporters,
         inherits=domain.User,
@@ -187,6 +192,8 @@ mapper( domain.CommitteeType, schema.committee_type )
 mapper( domain.SittingType, schema.sitting_type )     
 mapper( domain.GroupSittingAttendance, schema.sitting_attendance )
 mapper( domain.AttendanceType, schema.attendance_type )
+mapper( domain.GroupTypes, schema.group_types )
+
 
         
 

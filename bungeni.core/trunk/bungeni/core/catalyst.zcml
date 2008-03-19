@@ -70,6 +70,13 @@
     />
     
   <db:catalyst
+     class=".domain.ExtensionMember"
+     descriptor=".descriptor.ExtensionMemberDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+    />    
+    
+  <db:catalyst
      class=".domain.ParliamentSession"
      descriptor=".descriptor.SessionDescriptor"
      interface_module=".interfaces"

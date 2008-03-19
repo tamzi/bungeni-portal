@@ -202,6 +202,10 @@ class GroupMembershipDescriptor( ModelDescriptor ):
    
    fields = [
         dict( name="title", label=_(u"Title") ),
+#       dict( name="function", 
+#               property=schema.choice( title=_(u"Title")
+#                                       source=DatabaseSource(domain.MemberTitle, 'user_role_type_id', 'user_role_name')),
+#           )                    
         dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         dict( name="end_date", label=_(u"End Date"), listing_column=day_column("end_date", _(u"End Date")), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         dict( name="active_p", label=_(u"Active") ),
@@ -243,7 +247,16 @@ class MpDescriptor ( ModelDescriptor ):
         dict( name="leave_reason", label=_("Leave Reason")),     
     ])
 
-        
+class ExtensionMemberDescriptor( ModelDescriptor ):
+    display_name =_(u"Additional members")
+    fields = deepcopy(GroupMembershipDescriptor.fields)
+    fields.extend([
+         dict( name="user_id",
+              property=schema.Choice( title=_(u"Member of Parliament"), 
+                                      source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
+              listing_column=member_fk_column("user_id", _(u"Member of Parliament") )
+            ),
+            ])
 class GroupDescriptor( ModelDescriptor ):
 
     fields = [
@@ -343,7 +356,9 @@ class ExtensionGroupDescriptor( GroupDescriptor ):
     display_name = _(u"Group extensions")
     fields = deepcopy( GroupDescriptor.fields )    
     fields.extend([
-        dict(name="group_type")
+        dict(name="group_type", listing=True,
+        property = schema.Choice(title=_(u"Extension for"), source=DatabaseSource(domain.GroupTypes,'group_type_desc','group_type_id'))
+        ),
     ])   
      
 class MinistryDescriptor( GroupDescriptor ):

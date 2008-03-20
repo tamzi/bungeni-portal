@@ -295,7 +295,7 @@ user_group_memberships = rdb.Table(
    rdb.Column( "membership_id", rdb.Integer,  primary_key=True),
    rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey( 'users.user_id')),
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey( 'groups.group_id')),
-   rdb.Column( "title", rdb.Unicode(40)), # title of user's group role
+   rdb.Column( "title", rdb.Integer, rdb.ForeignKey('user_role_types.user_role_type_id')), # title of user's group role
    rdb.Column( "start_date", rdb.DateTime(timezone=False), default=datetime.now),
    rdb.Column( "end_date", rdb.DateTime(timezone=False) ),
    rdb.Column( "notes", rdb.Unicode ),

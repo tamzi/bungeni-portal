@@ -74,7 +74,7 @@ def lookup_fk_column(name, title, domain_model, field, default=""):
             return default
         session = Session()
         member = session.query( domain_model ).get( value )
-        return domain_model.Column[field]
+        return member.__dict__[field]
     return column.GetterColumn( title, getter )
      
      
@@ -199,15 +199,26 @@ class HansardReporterDescriptor( UserDescriptor ):
     fields = deepcopy( UserDescriptor.fields )	        
 
 class GroupMembershipDescriptor( ModelDescriptor ):
-   
+   TitleSource= vocabulary.QuerySource(vocabulary.title_in_group, 
+                                          token_field='user_role_name', 
+                                          value_field='user_role_type_id', 
+                                          filter_field='group_id', 
+                                          filter_value= None, #'group_id', 
+                                          order_by_field='user_role_name')   
    fields = [
-        dict( name="title", label=_(u"Title") ),
-#       dict( name="function", 
-#               property=schema.choice( title=_(u"Title")
-#                                       source=DatabaseSource(domain.MemberTitle, 'user_role_type_id', 'user_role_name')),
-#           )                    
-        dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
-        dict( name="end_date", label=_(u"End Date"), listing_column=day_column("end_date", _(u"End Date")), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
+#        dict( name="title", label=_(u"Title") ),
+        dict( name="title", 
+               property=schema.Choice( title=_(u"Title"),
+                                       source=TitleSource),
+                listing_column = lookup_fk_column( "title", _(u"Title"), domain.MemberTitle, 'user_role_name' ), 
+                listing=True,                                      
+           ),                    
+        dict( name="start_date", label=_(u"Start Date"), 
+            listing_column=day_column("start_date", _(u"Start Date") ), listing=True,
+            edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
+        dict( name="end_date", label=_(u"End Date"), listing=True,
+            listing_column=day_column("end_date", _(u"End Date")), 
+            edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         dict( name="active_p", label=_(u"Active") ),
         dict( name="notes", label=_(u"Notes") ),
         dict( name="substitution_p", label=_(u"Substituted") ),
@@ -235,14 +246,14 @@ class MpDescriptor ( ModelDescriptor ):
         dict( name="user_id",
               property=schema.Choice( title=_(u"Member of Parliament"), 
                                       source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
-              listing_column=member_fk_column("user_id", _(u"Member of Parliament") )
+              listing_column=member_fk_column("user_id", _(u"Member of Parliament")), listing=True,
             ),
         dict( name="constituency_id",
             property=schema.Choice( title=_(u"Constituency"), source=constituencySource,),
             listing_column=vocab_column( "constituency_id" , _(u"Constituency"), constituencySource, ),
             ),                
         dict( name="elected_nominated", 
-            property=schema.Choice( title=_(u"elected/nominated"), source=mpTypeSource,),
+            property=schema.Choice( title=_(u"elected/nominated"), source=mpTypeSource,), listing=True,
             ),
         dict( name="leave_reason", label=_("Leave Reason")),     
     ])

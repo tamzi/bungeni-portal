@@ -193,6 +193,7 @@ mapper( domain.SittingType, schema.sitting_type )
 mapper( domain.GroupSittingAttendance, schema.sitting_attendance )
 mapper( domain.AttendanceType, schema.attendance_type )
 mapper( domain.GroupTypes, schema.group_types )
+mapper( domain.MemberTitle, schema.user_role_type )
 
 
         

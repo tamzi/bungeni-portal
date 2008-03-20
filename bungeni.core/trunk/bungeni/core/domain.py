@@ -314,3 +314,8 @@ class GroupTypes( object):
     """    
     pass
     
+class MemberTitle( object ):
+    """ Titles for members in groups"""
+    pass
+        
+    

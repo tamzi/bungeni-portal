@@ -176,6 +176,8 @@ where sequence_schema='public';
  SELECT setval('constituencies_constituency_id_seq', 1000);
  SELECT setval('motion_versions_version_id_seq', 1000);
  SELECT setval('constituency_details_constituency_detail_id_seq', 1000);
+ SELECT setval('user_role_types_user_role_type_id_seq', 1000)
+
 
 
 

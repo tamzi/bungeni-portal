@@ -13,6 +13,7 @@ import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.toolbar.conditions.BungeniToolbarCondition;
 import org.bungeni.editor.toolbar.conditions.IBungeniToolbarCondition;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.utils.CommonExceptionUtils;
 
 /**
  * 
@@ -25,6 +26,8 @@ import org.bungeni.ooo.OOComponentHelper;
  */
 public class cursorInSection implements IBungeniToolbarCondition {
     private OOComponentHelper ooDocument;
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(cursorInSection.class.getName());
+ 
     /** Creates a new instance of sectionExists */
     public cursorInSection() {
     }
@@ -34,55 +37,32 @@ public class cursorInSection implements IBungeniToolbarCondition {
     }
 
     boolean check_cursorInSection (BungeniToolbarCondition condition) {
+        boolean bReturn = true;
+        try {
         String sectionToActUpon =  condition.getConditionValue();
         if (sectionToActUpon.equals("root")) {
            String activeDoc =  BungeniEditorProperties.getEditorProperty("activeDocumentMode");
            sectionToActUpon = BungeniEditorProperties.getEditorProperty("root:"+activeDoc);
         }
         if (ooDocument.currentSectionName().equalsIgnoreCase(sectionToActUpon)) {
-         return true;
+         bReturn = true;
         } else {
-         return false;
+         bReturn = false;
+        }
+        } catch (Exception ex) {
+            log.error("cursorInSection :" + ex.getMessage());
+            log.error("cursorInSection, stack =" + CommonExceptionUtils.getStackTrace(ex));
+        } finally {
+            return bReturn;
         }
     }
     
     public boolean processCondition(BungeniToolbarCondition condition) {
-        System.out.println("processing condition: "+ ooDocument.getDocumentTitle());
+       // System.out.println("processing condition: "+ ooDocument.getDocumentTitle());
         return check_cursorInSection(condition);
     }
         
-    /*
-       boolean check_sectionExists(String[] arrCondition) {
-             boolean bReturn = false;
-          try {
-             String sectionToActUpon = arrCondition[1];
-
-             if (sectionToActUpon.equals("root")) {
-                String activeDoc =  BungeniEditorProperties.getEditorProperty("activeDocumentMode");
-                sectionToActUpon = BungeniEditorProperties.getEditorProperty("root:"+activeDoc);
-             }
-
-             if (ooDocument.hasSection(sectionToActUpon)) {
-                 bReturn =  true;
-             } else {
-                 bReturn = false;
-             }
-         } catch (Exception ex) {
-             log.error("check_sectionNotExists:"+ex.getMessage());
-             log.error("check_sectionNotExists:"+ CommonExceptionUtils.getStackTrace(ex));
-             bReturn = false;
-         } finally {
-             return bReturn;
-         }
-     }    
-       
-    if (arrCondition[0].equals("sectionExists")) {
-                    log.debug("processActionCondition:sectionExists");
-                    bAction  = check_sectionExists(arrCondition);
-                    log.debug("processActionCondition:"+bAction);
-                }
-*/
-
+ 
 
 
  }

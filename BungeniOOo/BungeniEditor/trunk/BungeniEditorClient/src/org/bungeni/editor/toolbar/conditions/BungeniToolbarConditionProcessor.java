@@ -36,6 +36,14 @@ public class BungeniToolbarConditionProcessor {
         operators = BungeniToolbarConditionOperatorFactory.getObjects();
         processOperators(conditionVal);
     }
+    
+    public void setOOComponentHandle(OOComponentHelper ooIncoming) {
+        if (ooDocument == ooIncoming) { //incoming ooDoc handle = cached ooDoc handle
+            return;
+        } else {
+            this.ooDocument = ooIncoming;
+        }
+    }
     protected void processOperators(String fullConditionValue) {
         //we split string by operators 
         //currently only a single type of operator identification is supported
@@ -95,7 +103,7 @@ public class BungeniToolbarConditionProcessor {
     }
     
     
-    public boolean evaluate() {
+    synchronized public boolean evaluate() {
         boolean bResult = false;
         if (matchedCondition == null) {
             //singular condition

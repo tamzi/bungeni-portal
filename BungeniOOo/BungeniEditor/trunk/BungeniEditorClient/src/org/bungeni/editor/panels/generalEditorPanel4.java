@@ -132,8 +132,13 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         //-tree-deprecated--CommonTreeFunctions.expandAll(treeGeneralEditor, true);
         treeGeneralEditor.addTreeWillExpandListener(new treeGeneralEditorWillExpandListener());
         CommonTreeFunctions.expandAll(treeGeneralEditor);
+        //using a timer to repaint the tree causes very poor tab switching performnce in some cases
+        //investigate using fireTreeNodesChanged
         javax.swing.Timer treeGeneralEditorPaintTimer = new javax.swing.Timer(3000, new treeGeneralEditorPaintTimerListener(treeGeneralEditor));
         treeGeneralEditorPaintTimer.start();
+        //for note above about firenodeschanged, this has been implemented but works for model refresh ==> tree update.
+        //but does not reflect in case of document cursor changes ==> reflecting back to the tree, as this requires a full iteration 
+        //of the tree again. so for now implemented both as a treeTimer and fireNodeschanged event refresh
         ToolTipManager.sharedInstance().registerComponent(treeGeneralEditor);
         } catch (Exception ex) {
             log.error("initTree: "+ ex.getMessage());
@@ -510,8 +515,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         
         public void actionPerformed(ActionEvent e) {
             if (timedTree.isShowing()) {
-            this.timedTree.repaint();
-            log.debug("document title = " + ooDocument.getDocumentTitle());
+                this.timedTree.repaint();
             }
         }
         
@@ -624,6 +628,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                    if (nodeUserObject != null) {
                        if (nodeUserObject.getClass() == treeGeneralEditorNodeState.class) {
                            treeGeneralEditorNodeState thestate = (treeGeneralEditorNodeState)nodeUserObject;
+                           //if disabled, dont process, just return
                            if (thestate == treeGeneralEditorNodeState.DISABLED) {
                              return;  
                            } 
@@ -831,6 +836,8 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
     }
          
     enum treeGeneralEditorNodeState {ENABLED, DISABLED};
+    /*** caches conditionValue and condition processor for better performance **/
+    HashMap<String, BungeniToolbarConditionProcessor> conditionMap = new HashMap<String, BungeniToolbarConditionProcessor>();
     class treeGeneralEditorCellRenderer extends JLabel implements TreeCellRenderer {
 
          int SECTION_ICON = 0;
@@ -913,10 +920,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                                 nodeEnabled(theIcon, nodeProc);
                             } else if (conditionAttrib.getValue().length()> 0) {
                                 //other condition always evaluates to whether action should be enabeld or disabled
-                                log.debug("current_node = "+ toolbarNode.node.getName()+" + condition_attrib = "+ conditionAttrib.getValue() + " + name_attrib = "+ nameAttrib.getValue());
                                 boolean bCondition =  processActionCondition(conditionAttrib);
-                                log.debug("current_node_return = "+ bCondition);
-                                
                                if (bCondition) {
                                    nodeEnabled(theIcon, nodeProc);
                                } else {
@@ -945,6 +949,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
       
             setIcon(theIcon.enabledIcon);
             setText(nodeProc.getTitle());
+           // treeGeneralEditor.getModel().valueForPathChanged()
             //this.repaint();
             //tree.repaint();
         }
@@ -962,13 +967,21 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                 //this.repaint();
             //tree.repaint();
         }
-        
+       
          boolean processActionCondition(org.jdom.Attribute conditionAttrib) {
             boolean bAction = true;
 
             String conditionValue =  conditionAttrib.getValue().trim();
-            BungeniToolbarConditionProcessor condProc = new BungeniToolbarConditionProcessor(ooDocument, conditionValue);
-            bAction = condProc.evaluate();
+            if (conditionMap.containsKey(conditionValue)) {
+                //already has conditionprocessor object, get cached object and reset...
+                conditionMap.get(conditionValue).setOOComponentHandle(ooDocument);
+            } else {
+                BungeniToolbarConditionProcessor condProc = new BungeniToolbarConditionProcessor(ooDocument, conditionValue);
+                conditionMap.put(conditionValue, condProc);
+            }
+            //BungeniToolbarConditionProcessor condProc = new BungeniToolbarConditionProcessor(ooDocument, conditionValue);
+            bAction = conditionMap.get(conditionValue).evaluate();
+            //condProc.evaluate();
             /*
             //first split multiple conditions by -and- or -or- 
             //second evaluate each condition for validity

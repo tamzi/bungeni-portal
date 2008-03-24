@@ -674,7 +674,6 @@ private void initFrame(XComponent component){
             //frame.setSize(243, 650);
             frame.setSize(275, 650);
             frame.setResizable(false);
-            
             frame.setAlwaysOnTop(true);
             frame.setVisible(true);
             //position frame
@@ -789,6 +788,7 @@ private void launchFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
         }
 
         public void windowClosing(WindowEvent e) {
+            //System.out.println("windowClosing....");
             panel.cleanup();
         }
 

@@ -2181,7 +2181,7 @@ private void displayUserMetadata(XTextRange xRange) {
  */  
   class CurrentSectionNameUpdater implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-           
+            
             String strSection="";
             strSection = currentSectionName();
             if (strSection.trim().length() == 0)
@@ -2263,7 +2263,7 @@ private void displayUserMetadata(XTextRange xRange) {
             //component handle tracker timer
             Action componentsTrackingRunner = new AbstractAction(){
                 public void actionPerformed(ActionEvent e) {
-                    componentHandlesTracker();
+                  componentHandlesTracker();
                 }
             };
             componentsTrackingTimer = new Timer(5000, componentsTrackingRunner);
@@ -2528,16 +2528,6 @@ private void displayUserMetadata(XTextRange xRange) {
         }
         
     }
-    
-    class cboListDocumentsVetoableChangeListener implements VetoableChangeListener {
-        Object oldItem;
-        
-        public void vetoableChange(PropertyChangeEvent evt) throws java.beans.PropertyVetoException {
-            
-          
-        }
-        
-    }
 /**
  * This action listener updates document handles when switching between documents
  * 
@@ -2712,7 +2702,7 @@ private void displayUserMetadata(XTextRange xRange) {
                 
                 public void notifyEvent(com.sun.star.document.EventObject eventObject) {
                     if (eventObject.EventName.equals("OnFocus")) {
-                        log.debug("xComponentListner : the document window OnFocus()" + getName());
+                        log.error("xComponentListner : the document window OnFocus()" + getName());
                         //getName() for this document compare it with the current documetn in the editorTabbedPanel lis
                         //if it isnt equal notify the user with a message box that the 
                         Object selected = cboListDocuments.getSelectedItem();
@@ -2720,24 +2710,23 @@ private void displayUserMetadata(XTextRange xRange) {
                         if (selected != null) {
                             selectedDocument = (String) selected;
                             if (selectedDocument.trim().equals(getName().trim())) {
-                                parentFrame.setAlwaysOnTop(true);
-                                parentFrame.setAlwaysOnTop(false);
-                                 parentFrame.toFront();
-                                parentFrame.setAlwaysOnTop(true);
+                              /** commented below to prevent swing thread-sync bug **/
+                               // parentFrame.setAlwaysOnTop(true);
+                              //  parentFrame.setAlwaysOnTop(false);
+                              //   parentFrame.toFront();
+                              //  parentFrame.setAlwaysOnTop(true);
                                
-                                log.debug("xComponentListner : document selected ("+ selectedDocument + ") is the document being focused (" + getName() + ")" );
                             } else {
-                                log.debug("xComponentListner : document selected ("+ selectedDocument + ") is NOT the document being focused (" + getName() + ")" );
-                                parentFrame.setAlwaysOnTop(true);
-                                parentFrame.setAlwaysOnTop(false);
-                                parentFrame.toFront();
-                                parentFrame.setAlwaysOnTop(true);
+                              /** commented below to prevent thread synchronization bug **/  
+                                //parentFrame.setAlwaysOnTop(true);
+                               // parentFrame.setAlwaysOnTop(false);
+                               // parentFrame.toFront();
+                               // parentFrame.setAlwaysOnTop(true);
                                
-                                log.debug("xComponentListner : brought editor window to Front");
                                 //MessageBox.OK(self(), "The current window is not the one being edited using the Bungeni Editor, please select this document :" +  getName() + " from the Editor Selector to be able to edit it!");
                             }
                         } else {
-                            log.debug("xComponentListner :  selected document object is null"  );
+                            log.error("xComponentListner :  selected document object is null"  );
                         }
                     }
                 }

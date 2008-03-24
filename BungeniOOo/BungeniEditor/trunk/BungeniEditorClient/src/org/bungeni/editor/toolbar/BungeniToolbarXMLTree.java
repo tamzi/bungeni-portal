@@ -16,6 +16,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
 import javax.swing.JTree;
+import javax.swing.event.TreeModelEvent;
+import javax.swing.event.TreeModelListener;
+import javax.swing.tree.DefaultMutableTreeNode;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.jdom.Document;
@@ -91,6 +94,7 @@ public class BungeniToolbarXMLTree {
             document = saxBuilder.build(stringReader);
             //convert the document object into a JTree
             BungeniToolbarXMLModelAdapter model = new BungeniToolbarXMLModelAdapter(document);
+            model.addTreeModelListener(new BungeniToolbarXMLModelAdapterListener() );
             theTree.setModel(model);
             //tree.setCellRenderer(new XMLTreeCellRenderer());
         } catch (IOException ex) {
@@ -100,4 +104,28 @@ public class BungeniToolbarXMLTree {
         }
     }
     
+    class BungeniToolbarXMLModelAdapterListener implements TreeModelListener {
+        public void treeNodesChanged(TreeModelEvent e) {
+             //   System.out.println("The node has changed");
+            DefaultMutableTreeNode node;
+            node = (DefaultMutableTreeNode)e.getTreePath().getLastPathComponent();
+            try {
+                int nIndex = e.getChildIndices()[0];
+                node= (DefaultMutableTreeNode)(node.getChildAt(nIndex));
+            } catch (NullPointerException ex) {
+              log.error("treeNodesChanged = "+ex.getMessage());  
+            }
+           
+        }
+
+        public void treeNodesInserted(TreeModelEvent e) {
+        }
+
+        public void treeNodesRemoved(TreeModelEvent e) {
+        }
+
+        public void treeStructureChanged(TreeModelEvent e) {
+        }
+        
+    }
 }

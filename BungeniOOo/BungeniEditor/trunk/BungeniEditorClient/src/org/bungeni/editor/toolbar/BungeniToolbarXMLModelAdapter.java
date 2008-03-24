@@ -96,31 +96,39 @@ public class BungeniToolbarXMLModelAdapter implements TreeModel {
 	 * just hacked 'em in here so they are immediately at hand.
 	 */
     public void fireTreeNodesChanged(TreeModelEvent e) {
+       
 		Iterator<TreeModelListener> listeners = listenerList.iterator();
 		while (listeners.hasNext()) {
 			TreeModelListener listener = (TreeModelListener) listeners.next();
 			listener.treeNodesChanged(e);
 		}
-	} 
+              
+         } 
     public void fireTreeNodesInserted(TreeModelEvent e) {
+        
 		Iterator<TreeModelListener> listeners = listenerList.iterator();
 		while (listeners.hasNext()) {
 			TreeModelListener listener = (TreeModelListener) listeners.next();
 			listener.treeNodesInserted(e);
 		}
-	}   
+	
+         }   
     public void fireTreeNodesRemoved(TreeModelEvent e) {
-		Iterator<TreeModelListener> listeners = listenerList.iterator();
+	
+        Iterator<TreeModelListener> listeners = listenerList.iterator();
 		while (listeners.hasNext()) {
 			TreeModelListener listener = (TreeModelListener) listeners.next();
 			listener.treeNodesRemoved(e);
 		}
-	}   
+	
+         }   
     public void fireTreeStructureChanged(TreeModelEvent e) {
-		Iterator<TreeModelListener> listeners = listenerList.iterator();
+	
+        Iterator<TreeModelListener> listeners = listenerList.iterator();
 		while (listeners.hasNext()) {
 			TreeModelListener listener = (TreeModelListener) listeners.next();
 			listener.treeStructureChanged(e);
 		}
-	}
+	
+         }
 }

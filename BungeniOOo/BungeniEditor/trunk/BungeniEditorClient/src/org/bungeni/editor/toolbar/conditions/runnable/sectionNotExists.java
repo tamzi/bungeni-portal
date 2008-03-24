@@ -13,6 +13,7 @@ import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.toolbar.conditions.BungeniToolbarCondition;
 import org.bungeni.editor.toolbar.conditions.IBungeniToolbarCondition;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.utils.CommonExceptionUtils;
 
 /**
  *
@@ -30,61 +31,46 @@ public class sectionNotExists implements IBungeniToolbarCondition {
         this.ooDocument = ooDocument;
     }
 
-    boolean check_sectionNotExists (BungeniToolbarCondition condition) {
-        
-        log.debug("sectionNotExists: value "+ condition.getConditionValue());
-        log.debug("sectionNotExists: name "+ condition.getConditionName());
+    synchronized boolean check_sectionNotExists (BungeniToolbarCondition condition) {
+        boolean bResult = false;
+        try {
         
         String sectionToActUpon =  condition.getConditionValue();
         if (sectionToActUpon.equals("root")) {
+           log.debug("sectionNotExists: before activeDoc"); 
            String activeDoc =  BungeniEditorProperties.getEditorProperty("activeDocumentMode");
+           log.debug("sectionNotExists: activeDocumentMode = " + activeDoc);
            sectionToActUpon = BungeniEditorProperties.getEditorProperty("root:"+activeDoc);
+           log.debug("sectionNotExists: sectionToActUpon = " + sectionToActUpon);
+           
         }
+        log.debug("sectionNotExists: before hasSection");
+        if (ooDocument == null ) {
+            log.debug("sectionNotExists: ooDocument is null");
+        }
+        if (ooDocument.isXComponentValid()) {
+            log.debug("sectionNotExists : xcomponent valid");
+        }
+        log.debug("sectionNotExists, after xcomponent validity");
         if (ooDocument.hasSection(sectionToActUpon)) {
-            log.debug("section :  "+sectionToActUpon + " does not exist" );
-            return false;
+            log.debug("sectionNotExists, sectionToActUpon :  "+sectionToActUpon + " exists" );
+            bResult= false;
         } else {
-            log.debug("section :  "+sectionToActUpon + " exists" );
-            return true;
+            log.debug("sectionNotExists, sectionToActUpon :  "+sectionToActUpon + " does not exists" );
+            bResult= true;
+        }
+        } catch (Exception ex) {
+            log.error("check_sectionNotExists:"+ ex.getMessage());
+            log.error("check_sectionNotExists, stack:" + CommonExceptionUtils.getStackTrace(ex));
+        } finally {
+            return bResult;
         }
     }
     
-    public boolean processCondition(BungeniToolbarCondition condition) {
+    synchronized public boolean processCondition(BungeniToolbarCondition condition) {
         return check_sectionNotExists(condition);
     }
         
-    /*
-       boolean check_sectionExists(String[] arrCondition) {
-             boolean bReturn = false;
-          try {
-             String sectionToActUpon = arrCondition[1];
-
-             if (sectionToActUpon.equals("root")) {
-                String activeDoc =  BungeniEditorProperties.getEditorProperty("activeDocumentMode");
-                sectionToActUpon = BungeniEditorProperties.getEditorProperty("root:"+activeDoc);
-             }
-
-             if (ooDocument.hasSection(sectionToActUpon)) {
-                 bReturn =  true;
-             } else {
-                 bReturn = false;
-             }
-         } catch (Exception ex) {
-             log.error("check_sectionNotExists:"+ex.getMessage());
-             log.error("check_sectionNotExists:"+ CommonExceptionUtils.getStackTrace(ex));
-             bReturn = false;
-         } finally {
-             return bReturn;
-         }
-     }    
-       
-    if (arrCondition[0].equals("sectionExists")) {
-                    log.debug("processActionCondition:sectionExists");
-                    bAction  = check_sectionExists(arrCondition);
-                    log.debug("processActionCondition:"+bAction);
-                }
-*/
-
 
 
  }

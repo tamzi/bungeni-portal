@@ -78,7 +78,7 @@ import org.bungeni.utils.CommonExceptionUtils;
  * This class takes an XComponent object as input, and provides various document level helper functions.
  * @author Administrator
  */
-public class OOComponentHelper {
+public  class OOComponentHelper {
     private XComponent m_xComponent;
     private XComponentContext m_xComponentContext;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(OOComponentHelper.class.getName());
@@ -146,10 +146,20 @@ public class OOComponentHelper {
      * Returns the XTextDocument of the current openoffice document.
      */
   public XTextDocument getTextDocument(){
-      log.debug("in getTextDocument()");
-        XTextDocument xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, this.m_xComponent);
-       if (xTextDoc == null ) log.debug("getTextDocument() returned null");
-        return xTextDoc;
+      XTextDocument xTextDoc = null;
+      try {
+      xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, this.m_xComponent);
+       if (xTextDoc == null ) {
+          log.debug("getTextDocument is null");
+       } else {
+          log.debug("getTextDocument is not null");
+       }      
+      } catch (Exception ex) {
+          log.error("getTextDocument " + ex.getMessage());
+          log.error("getTextDocument = stacktrace, " +CommonExceptionUtils.getStackTrace(ex));
+      } finally {
+          return xTextDoc;
+      }
     }
     
     /**
@@ -476,23 +486,36 @@ public class OOComponentHelper {
     }
     
     public XNameAccess getTextSections(){
-        log.debug("in getTextSections()");
+        XNameAccess xNamedSections = null; 
+        try {
         //get the text document, XText object
         //query interface for the textsections supplier
-         XTextSectionsSupplier oTSSupp = (XTextSectionsSupplier)UnoRuntime.queryInterface( XTextSectionsSupplier.class, getTextDocument() );
-         XNameAccess xNamedSections = oTSSupp.getTextSections();
-        if (xNamedSections == null ) 
-            log.debug("getTextSections() returned null");
-        else
-            log.debug("getTextSections retrned : "+ (xNamedSections.hasElements()==true?"true":"false") );
-        return xNamedSections;
+        XTextDocument xDoc = getTextDocument();
+         XTextSectionsSupplier oTSSupp = (XTextSectionsSupplier)UnoRuntime.queryInterface( XTextSectionsSupplier.class, xDoc );
+         xNamedSections = oTSSupp.getTextSections();
+        } catch (Exception ex) {
+            log.error("getTextSections = " + ex.getMessage());
+            log.error("getTextSections , stacktrace = " + CommonExceptionUtils.getStackTrace(ex));
+        } finally {
+            return xNamedSections;
+        }
     }
     
-    public boolean hasSection(String sectionName) {
-        if (getTextSections().hasByName(sectionName))
-            return true;
-        else
-            return false;
+    public synchronized boolean hasSection(String sectionName) {
+        boolean bResult = false;
+        try {
+        if (getTextSections().hasByName(sectionName.trim())) {
+            bResult= true;
+        }
+        else {
+            bResult=false;
+            }
+        } catch (Exception ex) {
+            log.error("hasSection = " + ex.getMessage());
+            log.error("hasSection, stackTrace = " + CommonExceptionUtils.getStackTrace(ex));
+        } finally {
+            return bResult;
+        }
     }
     public XComponent getComponent(){
         return this.m_xComponent;

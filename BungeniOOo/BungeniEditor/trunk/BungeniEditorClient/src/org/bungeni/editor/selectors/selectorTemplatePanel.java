@@ -400,7 +400,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
    *Always override in derived class
    *
    */
-  protected String getClassName(){
+  public String getClassName(){
         return selectorTemplatePanel.class.getName();
   }
   
@@ -520,15 +520,15 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     /*
      *All these functions are overriden in the dialog classes
      */ 
-    protected boolean preFullInsert(){
+    public boolean preFullInsert(){
         return true;
     }
     
-    protected boolean postFullInsert(){
+    public boolean postFullInsert(){
         return true;
     }
     
-    protected boolean processFullInsert(){
+    public boolean processFullInsert(){
         return true;
     }
   
@@ -661,15 +661,15 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     /*
      *All these functions are overriden in the dialog classes
      */ 
-    protected boolean preFullEdit(){
+    public boolean preFullEdit(){
         return true;
     }
     
-    protected boolean postFullEdit(){
+    public boolean postFullEdit(){
         return true;
     }
     
-    protected boolean processFullEdit(){
+    public boolean processFullEdit(){
         return true;
     }
 
@@ -717,15 +717,15 @@ public class selectorTemplatePanel extends javax.swing.JPanel
    *All the below functions are overriden
    *
    *****/
-    protected boolean preSelectInsert() {
+    public boolean preSelectInsert() {
         return true;
     }
 
-    protected boolean processSelectInsert() {
+    public boolean processSelectInsert() {
         return true;
     }
 
-    protected boolean postSelectInsert() {
+    public boolean postSelectInsert() {
         return true;
     }
 

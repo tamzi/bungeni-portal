@@ -1,4 +1,4 @@
-from zope import     schema
+from zope import interface, schema
 from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope.viewlet.interfaces import IViewletManager
 from z3c.menu.ready2go import interfaces as imenu
@@ -50,3 +50,8 @@ class IContentViews( IViewletManager ):
 
 class IDocumentActions( IViewletManager ):
     """ """
+
+class ISkinDirectory( interface.Interface ):
+    """ a skin directory looks up resources in a stacked lookup through across layers """
+    layers = schema.List( value_type=schema.Object( interface.Interface ) )
+    

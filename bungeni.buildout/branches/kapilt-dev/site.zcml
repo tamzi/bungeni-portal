@@ -55,6 +55,9 @@
 
   <!-- Application UI -->
   <include package="bungeni.ui" />
+  
+  <!-- Application Skin -->
+  <include package="bungeni.theme.private"/>
 
   <!-- Setup Default Skin For Application -->
   <browser:defaultSkin name="bungeni"/>

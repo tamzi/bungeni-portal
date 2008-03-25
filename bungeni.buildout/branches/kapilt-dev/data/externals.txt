@@ -1,1 +1,1 @@
-demodata https://bungeni-portal.googlecode.com/svn/BungeniDefaultContent/trunk/demo-parliament/z3democontents
+demodata -r1364 https://bungeni-portal.googlecode.com/svn/BungeniDefaultContent/trunk/demo-parliament/z3democontents

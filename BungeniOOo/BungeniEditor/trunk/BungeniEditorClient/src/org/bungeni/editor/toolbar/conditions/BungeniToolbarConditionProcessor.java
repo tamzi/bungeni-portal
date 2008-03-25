@@ -74,14 +74,14 @@ public class BungeniToolbarConditionProcessor {
           selectedOperator.setOperatingCondition(matchedCondition, individualConditions);
           bResult = selectedOperator.result();
          } catch (InstantiationException ex) {
-               log.debug("evaluateWithOperator: " + ex.getMessage());
-               log.debug("evaluateWithOperator: " + CommonExceptionUtils.getStackTrace(ex));
+               log.error("evaluateWithOperator: " + ex.getMessage());
+               log.error("evaluateWithOperator: " + CommonExceptionUtils.getStackTrace(ex));
            } catch (IllegalAccessException ex) {
-               log.debug("evaluateWithOperator: " + ex.getMessage());
-               log.debug("evaluateWithOperator: " + CommonExceptionUtils.getStackTrace(ex));
+               log.error("evaluateWithOperator: " + ex.getMessage());
+               log.error("evaluateWithOperator: " + CommonExceptionUtils.getStackTrace(ex));
            }  catch (ClassNotFoundException ex) {
-               log.debug("evaluateWithOperator: " + ex.getMessage());
-               log.debug("evaluateWithOperator: " + CommonExceptionUtils.getStackTrace(ex));
+               log.error("evaluateWithOperator: " + ex.getMessage());
+               log.error("evaluateWithOperator: " + CommonExceptionUtils.getStackTrace(ex));
           }  finally {
             return bResult;
         }
@@ -95,8 +95,8 @@ public class BungeniToolbarConditionProcessor {
             iCondition.setOOoComponentHelper(ooDocument);
             bResult = iCondition.processCondition(toolbarCond) ;
           } catch (Exception ex) {
-               log.debug("evaluateWithOperator: " + ex.getMessage());
-               log.debug("evaluateWithOperator: " + CommonExceptionUtils.getStackTrace(ex));
+               log.error("evaluateWithOperator: " + ex.getMessage());
+               log.error("evaluateWithOperator: " + CommonExceptionUtils.getStackTrace(ex));
           } finally {
               return bResult;
         }

@@ -8,7 +8,7 @@ $Id: $
 from zope import interface, component
 from zope.publisher.interfaces import NotFound
 
-from zope.app.publisher.directoryresource import DirectoryResource, Directory, _marker
+from zope.app.publisher.browser.directoryresource import DirectoryResource, Directory, _marker
 
 import interfaces
 

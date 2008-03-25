@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:meta="http://namespaces.zope.org/meta"
+    xmlns:zcml="http://namespaces.zope.org/zcml">
+
+  <meta:directives namespace="http://namespaces.zope.org/browser">
+
+    <meta:directive
+        name="skinDirectory"
+        schema=".zcml.ISkinDirectoryDirective"
+        handler=".zcml.skinDirectory"
+        />
+        
+  </meta:directives>
+          
+</configure>        

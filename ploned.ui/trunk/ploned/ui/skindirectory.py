@@ -4,23 +4,25 @@ a skin resource directory walks through a stack of layers to find a named resour
 
 $Id: $
 """
-
 from zope import interface, component
+
+from zope.component.interfaces import IResource
 from zope.publisher.interfaces import NotFound
+from zope.publisher.interfaces.browser import IBrowserRequest, IBrowserPublisher
 
 from zope.app.publisher.browser.directoryresource import DirectoryResource, Directory, _marker
 
 import interfaces
 
 class RequestWrapper( object ):
-    __slots__ = ('request',)
+    
+    interface.implements( IBrowserRequest )
     
     def __init__( self, request ):
-        self.request = request
-    def __getattr__( self, name):
-        return getattr( self.request, name )
-    def __setattr__( self, name, value):
-        setattr( self.request, name)
+        self._request = request
+    def __getattr__( self, name ):
+        return getattr( self._request, name )
+
         
 class SkinDirectory(DirectoryResource):
 
@@ -29,15 +31,21 @@ class SkinDirectory(DirectoryResource):
     layers = ()
         
     def get(self, name, default=_marker):
-        value = super( SkinDirectory ).get( name, None)
+        value = super( SkinDirectory, self ).get( name, None)
         if value is not None:
             return value
         
         wrapper = RequestWrapper( self.request )
         
+        # lookup through the layer stack to find other directory
+        # resources that
         for layer in self.layers:
             interface.directlyProvides( wrapper, layer )
-            resource = component.queryAdapter(wrapper, name=name)
+            resource_dir = component.queryAdapter(wrapper, name=self.__name__)
+            if not ( IResource.providedBy( resource_dir ) \
+                and IBrowserPublisher.providedBy( resource_dir ) ):
+                continue
+            resource = resource_dir.get( name )
             if resource is not None:
                 return resource
         raise NotFound( name )

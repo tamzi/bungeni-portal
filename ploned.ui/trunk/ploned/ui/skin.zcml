@@ -38,14 +38,14 @@
      />
 
   <!-- Skin CSS -->
-  <browser:skinDirectory
+  <browser:resourceDirectory
      name="css"
      directory="css"
      layer=".interfaces.IPlonedSkin"
      />
 
   <!-- Skin JavaScript ??? -->
-  <browser:skinDirectory
+  <browser:resourceDirectory
      name="js"
      directory="js"
      layer=".interfaces.IPlonedSkin"

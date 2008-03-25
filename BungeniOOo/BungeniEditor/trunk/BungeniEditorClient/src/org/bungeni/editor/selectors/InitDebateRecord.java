@@ -407,7 +407,7 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
      *
      *
      */
-    protected boolean preFullInsert(){
+    public boolean preFullInsert(){
             log.debug("in preFullInsert...");
             
             /** gathering values ***/
@@ -440,7 +440,7 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
             
             return true;
     }
-    
+    /*
     protected boolean preFullInsert_old() {
         //add section inside the root section
             log.debug("in preFullInsert...");
@@ -472,14 +472,14 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
     
             return true;
        }
-    
-    protected boolean processFullInsert() {
+    */
+    public boolean processFullInsert() {
         /**call catalogcommand of base class**/
         
         boolean bReturn = processCatalogCommand();
         return bReturn;
     }
-    
+    /*
     protected boolean processFullInsert_old(){
             //set metadata for section
         //embed logo image
@@ -530,9 +530,9 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
             
             return true;
     }
-    
+    */
    
-    protected boolean postFullInsert() {
+    public boolean postFullInsert() {
         //enable disable specific controls if required
         parent.dispose();
         return true;
@@ -548,7 +548,7 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
     *
     *
     */
-   protected boolean preFullEdit(){
+   public boolean preFullEdit(){
      boolean bpreFullEdit= false;
      try {
      String containerSection = theAction.getSelectedSectionToActUpon();
@@ -586,10 +586,11 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
      
    }
     
-  protected boolean processFullEdit(){
+  public boolean processFullEdit(){
     processCatalogCommand();
     return true;
   }
+  /*
     protected boolean processFullEdit_Old() {
         boolean bprocessFull = false;
         try {
@@ -620,8 +621,9 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
             return bprocessFull;
         }
     }
-    
-    protected boolean postFullEdit(){
+    */
+  
+    public boolean postFullEdit(){
       boolean bFullEdit = false;      
       try {
             ooDocMetadata meta = new ooDocMetadata(ooDocument);
@@ -646,7 +648,7 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
      *
      */
     private boolean m_wasSystemSectionProtected = false;
-    protected boolean preSelectInsert() {
+    public boolean preSelectInsert() {
         //unprotect section
         String systemContainer = theSubAction.system_container();
         if (ooDocument.hasSection(systemContainer)) {
@@ -658,7 +660,7 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
         return true;
     }
 
-    protected boolean processSelectInsert() {
+    public boolean processSelectInsert() {
         
         if (enabledControls.contains(new String("dt_initdebate_hansarddate"))) {
             //get the value and set it into the document
@@ -691,7 +693,7 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
         return true;
     }
 
-    protected boolean postSelectInsert() {
+    public boolean postSelectInsert() {
         return true;
     }
     

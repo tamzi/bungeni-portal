@@ -1,6 +1,8 @@
 """Skin Resource Directory
 
-a skin resource directory walks through a stack of layers to find a named resource 
+a skin resource directory walks through a stack of layers to find a named resource.
+
+also adds in support for plone's dtml css files 
 
 $Id: $
 """
@@ -13,6 +15,7 @@ from zope.publisher.interfaces.browser import IBrowserRequest, IBrowserPublisher
 from zope.app.publisher.browser.directoryresource import DirectoryResource, Directory, _marker
 
 import interfaces
+import dtmlresource
 
 class RequestWrapper( object ):
     
@@ -29,6 +32,9 @@ class SkinDirectory(DirectoryResource):
     interface.implements( interfaces.ISkinDirectory )
 
     layers = ()
+    
+    resource_factories = DirectoryResource.resource_factories.copy()
+    resource_factories['.dtml'] = dtmlresource.DTMLResourceFactory
         
     def get(self, name, default=_marker):
         value = super( SkinDirectory, self ).get( name, None)
@@ -38,7 +44,7 @@ class SkinDirectory(DirectoryResource):
         wrapper = RequestWrapper( self.request )
         
         # lookup through the layer stack to find other directory
-        # resources that
+        # resources that might contain the requested resource.
         for layer in self.layers:
             interface.directlyProvides( wrapper, layer )
             resource_dir = component.queryAdapter(wrapper, name=self.__name__)

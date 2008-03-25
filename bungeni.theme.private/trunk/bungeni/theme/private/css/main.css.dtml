@@ -1,5 +1,3 @@
-/* <dtml-with base_properties> (do not remove this :) */
-/* <dtml-call "REQUEST.set('portal_url', portal_url())"> (not this either :) */
 /* The basics */
 
 
@@ -517,5 +515,5 @@ padding: 0 0 0 0;
     #portal-searchbox {
         display: none;
     }
-/* </dtml-with> */
+
 

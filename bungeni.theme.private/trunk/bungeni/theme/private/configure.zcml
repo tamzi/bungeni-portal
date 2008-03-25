@@ -33,13 +33,13 @@
       />
 
   <browser:viewlet
-     name="plone-public"
+     name="plone-main"
      for="*"
-     class=".css.Public"
+     class=".css.Main"
      manager="ploned.ui.interfaces.ICSSManager"
      permission="zope.Public"
      layer=".interfaces.IBungeniPrivateTheme"
-     weight="15"
+     weight="50"
      />
      
 </configure>

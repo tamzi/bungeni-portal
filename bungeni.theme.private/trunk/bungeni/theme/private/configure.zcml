@@ -10,12 +10,20 @@
   <include package=".browser" />
      
  <!-- Skin CSS -->
-  <browser:resourceDirectory
+  <browser:skinDirectory
      name="css"
      directory="css"
      layer=".interfaces.IBungeniPrivateTheme"
+     layers="ploned.ui.interfaces.IPlonedSkin"
      />
-          
+
+  <browser:skinDirectory
+     name="images"
+     directory="images"
+     layer=".interfaces.IBungeniPrivateTheme"
+     layers="ploned.ui.interfaces.IPlonedSkin"
+     />
+               
   <browser:viewletManager
       name="plone-css"
       provides="ploned.ui.interfaces.ICSSManager"

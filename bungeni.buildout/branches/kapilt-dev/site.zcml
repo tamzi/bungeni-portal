@@ -51,6 +51,7 @@
   <include package="bungeni.core" />
 
   <!-- Application Theme -->
+  <include package="ploned.ui" file="meta.zcml"/>
   <include package="ploned.ui" />
 
   <!-- Application UI -->

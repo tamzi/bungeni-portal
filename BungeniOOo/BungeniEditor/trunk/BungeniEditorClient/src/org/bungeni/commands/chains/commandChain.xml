@@ -37,6 +37,14 @@
         </chain>
         <chain name="debateRecordFullSelectedInsertMasthead">
         </chain>
+        <chain name="debateRecordFullInsertPapers">
+       </chain>
+        <chain name="debateRecordFullEditPapers">
+        </chain>
+        <chain name="debateRecordFullSelectedEditPapers">
+        </chain>
+        <chain name="debateRecordFullSelectedInsertPapers">
+        </chain>        
     </catalog>
     <catalog name="testCatalog">
         <chain name="testChain">

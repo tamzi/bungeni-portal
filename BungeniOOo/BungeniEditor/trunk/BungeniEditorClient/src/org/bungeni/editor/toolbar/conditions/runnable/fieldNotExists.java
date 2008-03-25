@@ -44,13 +44,16 @@ public class fieldNotExists implements IBungeniToolbarCondition {
         fieldExists fldExists = new fieldExists();
         fldExists.setOOoComponentHelper(ooDocument);
         if (fldExists.processCondition(condition)) {
+            log.error("fieldNotExists = false");
             return false;
         } else {
+            log.error("fieldNotExists = true");
             return true;
         }
     }
     
     public boolean processCondition(BungeniToolbarCondition condition) {
+        log.error("processing fieldNotExists");
         return check_fieldNotExists(condition);
     }
         

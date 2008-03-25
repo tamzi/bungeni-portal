@@ -80,38 +80,7 @@ public class fieldExists implements IBungeniToolbarCondition {
         return check_fieldExists(condition);
     }
         
-    /*
-       boolean check_sectionExists(String[] arrCondition) {.
-             boolean bReturn = false;
-          try {
-             String sectionToActUpon = arrCondition[1];
-
-             if (sectionToActUpon.equals("root")) {
-                String activeDoc =  BungeniEditorProperties.getEditorProperty("activeDocumentMode");
-                sectionToActUpon = BungeniEditorProperties.getEditorProperty("root:"+activeDoc);
-             }
-
-             if (ooDocument.hasSection(sectionToActUpon)) {
-                 bReturn =  true;
-             } else {
-                 bReturn = false;
-             }
-         } catch (Exception ex) {
-             log.error("check_sectionNotExists:"+ex.getMessage());
-             log.error("check_sectionNotExists:"+ CommonExceptionUtils.getStackTrace(ex));
-             bReturn = false;
-         } finally {
-             return bReturn;
-         }
-     }    
-       
-    if (arrCondition[0].equals("sectionExists")) {
-                    log.debug("processActionCondition:sectionExists");
-                    bAction  = check_sectionExists(arrCondition);
-                    log.debug("processActionCondition:"+bAction);
-                }
-*/
-
+  
 
 
  }

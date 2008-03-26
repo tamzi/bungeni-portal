@@ -9,7 +9,7 @@ from zope.security.proxy import removeSecurityProxy
 from ore.alchemist.vocabulary import DatabaseSource, ObjectSource, Session
 from ore.alchemist.container import valueKey
 from sqlalchemy.orm import mapper, relation, column_property
-from sqlalchemy.sql import text
+
 
 import sqlalchemy as rdb
 import schema, domain

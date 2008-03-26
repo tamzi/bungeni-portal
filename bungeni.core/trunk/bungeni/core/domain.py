@@ -153,8 +153,13 @@ class Parliament( Group ):
 class PoliticalParty( Group ):
     """ a political party
     """
-    partymembers = one2many("partymembers","bungeni.core.domain.mpContainer", "group_id")
-    
+    partymembers = one2many("partymembers","bungeni.core.domain.PartyMemberContainer", "group_id")
+
+class PartyMember( Entity ):
+    """ 
+    Member of a political party, defined by its group membership 
+    """
+        
     
 class Ministry( Group ):
     """ a government ministry

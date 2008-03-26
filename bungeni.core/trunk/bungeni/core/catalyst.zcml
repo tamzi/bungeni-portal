@@ -169,6 +169,13 @@
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
      />
+     
+  <db:catalyst
+     class=".domain.PartyMember"
+     descriptor=".descriptor.PartyMemberDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     />     
    
   <!--db:catalyst
      class=".domain.SittingType"

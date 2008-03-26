@@ -258,14 +258,25 @@ class MpDescriptor ( ModelDescriptor ):
         dict( name="leave_reason", label=_("Leave Reason")),     
     ])
 
+class PartyMemberDescriptor( ModelDescriptor ):
+    display_name=_(u"Party Member")
+    fields = deepcopy(GroupMembershipDescriptor.fields)
+    fields.extend([
+         dict( name="user_id",
+              property=schema.Choice( title=_(u"Person"), 
+                                      source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
+              listing_column=member_fk_column("user_id", _(u"Person")), listing=True,
+            ),
+            ])
+
 class ExtensionMemberDescriptor( ModelDescriptor ):
     display_name =_(u"Additional members")
     fields = deepcopy(GroupMembershipDescriptor.fields)
     fields.extend([
          dict( name="user_id",
-              property=schema.Choice( title=_(u"Member of Parliament"), 
+              property=schema.Choice( title=_(u"Person"), 
                                       source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
-              listing_column=member_fk_column("user_id", _(u"Member of Parliament") )
+              listing_column=member_fk_column("user_id", _(u"Person") )
             ),
             ])
 class GroupDescriptor( ModelDescriptor ):

@@ -123,6 +123,7 @@ mapper ( domain.mp , _mp,
 mapper( domain.Minister, schema.user_group_memberships )
 mapper( domain.CommitteeMember, schema.user_group_memberships )
 mapper( domain.ExtensionMember, schema.user_group_memberships )
+mapper( domain.PartyMember, schema.user_group_memberships )
 
 
 

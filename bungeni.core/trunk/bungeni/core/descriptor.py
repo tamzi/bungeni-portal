@@ -98,14 +98,12 @@ def ActiveAndSubstituted( obj ):
     if obj.active_p and obj.substitution_p:
         raise interface.Invalid(_("A person cannot be active and substituted at the same time"))
     
-class DeathBeforeLifeError(schema.interfaces.ValidationError):
-     """One cannot die before being born"""
-    
+
 def DeathBeforeLife(User):
     """Check if date of death is after date of birth"""
     if User.date_of_death is None: return
     if User.date_of_death < User.date_of_birth:       
-        raise DeathBeforeLifeError
+        raise interface.Invalid(_(u"One cannot die before being born"))
     
 def IsDeceased(User):
     """If a user is deceased a date of death must be given"""

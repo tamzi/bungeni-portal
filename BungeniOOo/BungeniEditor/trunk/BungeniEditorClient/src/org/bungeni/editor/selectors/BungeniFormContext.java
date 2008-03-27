@@ -29,14 +29,14 @@ public class BungeniFormContext extends ContextBase implements IBungeniFormConte
     private IBungeniForm bungeniForm;
     private ArrayList<ooDocFieldSet> fieldSets = new ArrayList<ooDocFieldSet>(0);
     private ArrayList<ooDocMetadataFieldSet> metadataFieldSets = new ArrayList<ooDocMetadataFieldSet>(0);
-    private HashMap<String,String> preInsertMap = new HashMap<String, String>();
+    private HashMap<String,Object> preInsertMap = new HashMap<String, Object>();
     /** Creates a new instance of BungeniFormContext */
     public BungeniFormContext(){
         
     }
     
     public BungeniFormContext(OOComponentHelper ooDoc, 
-            toolbarAction ta, toolbarSubAction tsa, HashMap<String,String> pim) {
+            toolbarAction ta, toolbarSubAction tsa, HashMap<String,Object> pim) {
         this.setOoDocument(ooDoc);
         this.setTheSubAction(tsa);
         this.setTheAction(ta);
@@ -91,11 +91,13 @@ public class BungeniFormContext extends ContextBase implements IBungeniFormConte
         this.metadataFieldSets = metadataFieldSets;
     }
 
-    public HashMap<String, String> getPreInsertMap() {
+    public HashMap<String, Object> getPreInsertMap() {
         return preInsertMap;
     }
+    
+     
 
-    public void setPreInsertMap(HashMap<String, String> preInsertMap) {
+    public void setPreInsertMap(HashMap<String, Object> preInsertMap) {
         this.preInsertMap = preInsertMap;
     }
 

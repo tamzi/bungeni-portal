@@ -30,7 +30,7 @@ public class addImageIntoSection implements Command {
     public boolean execute(Context context) throws Exception {
         BungeniFormContext formContext = (BungeniFormContext) context;
         //IBungeniForm iForm = formContext.getBungeniForm();
-        String currentSection = formContext.getPreInsertMap().get("current_section");
+        String currentSection = (String) formContext.getPreInsertMap().get("current_section");
         String logoPath = (String) formContext.getPreInsertMap().get("selected_logo");
         boolean bAddImage = CommonActions.action_addImageIntoSection(formContext.getOoDocument(), 
                     currentSection, 

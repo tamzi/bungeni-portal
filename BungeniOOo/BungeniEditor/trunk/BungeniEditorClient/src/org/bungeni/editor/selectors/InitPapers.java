@@ -7,6 +7,7 @@
 package org.bungeni.editor.selectors;
 
 import com.sun.star.xml.AttributeData;
+import java.awt.Component;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -17,6 +18,8 @@ import java.util.Set;
 import java.util.Vector;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import org.bungeni.db.BungeniClientDB;
@@ -27,6 +30,7 @@ import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.db.registryQueryDialog;
 import org.bungeni.editor.actions.toolbarAction;
+import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.editor.fragments.FragmentsFactory;
 import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
@@ -39,7 +43,7 @@ import org.safehaus.uuid.UUIDGenerator;
  *
  * @author  Administrator
  */
-public class InitPapers extends selectorTemplatePanel {
+public  class InitPapers extends selectorTemplatePanel implements IBungeniForm {
    
     registryQueryDialog rqs;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(InitPapers.class.getName());
@@ -47,16 +51,51 @@ public class InitPapers extends selectorTemplatePanel {
     HashMap<String, ArrayList> selectionData = new HashMap<String,ArrayList>();
     /** Creates new form InitQuestionBlock */
     public InitPapers() {
-        initComponents();
+       // initComponents();
+        super();
     }
     public InitPapers(OOComponentHelper ooDocument, JDialog parentDlg, toolbarAction theAction) {
         super(ooDocument, parentDlg, theAction);
-        initComponents();
-        initFields();
-        initData();
+        init();
+        //initComponents();
+        //initFields();
+        //initData();
+        setControlModes();
+        setControlData();
         tbl_tabledDocs.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
     }
+    
+      public InitPapers(OOComponentHelper ooDocument, 
+            JDialog parentDlg, 
+            toolbarAction theAction, toolbarSubAction subAction) {
+         super(ooDocument, parentDlg, theAction, subAction);
+         init();
+         setControlModes();
+         setControlData();
+         //selectionControlModes();
+         log.debug("calling constructor : initDebateRecord, mode = " + getDialogMode());
+      }
+    public String getClassName(){
+        return InitPapers.class.getName();
+    }
+    
+    protected void createContext(){
+          super.createContext();
+          formContext.setBungeniForm(this);
+      }
+    public void initObject(OOComponentHelper ooDoc, JDialog dlg, toolbarAction act, toolbarSubAction subAct) {
+        super.initObject( ooDoc, dlg, act, subAct);
+            init();
+         setControlModes();
+         setControlData();
+    }
    
+    public void init(){
+        super.init();
+        initComponents();
+        buildComponentsArray();
+      }
+          
     private void initFields() {
         if (theMode == SelectorDialogModes.TEXT_INSERTION) {
             
@@ -69,6 +108,19 @@ public class InitPapers extends selectorTemplatePanel {
                     "to markup the selected text with the correct speech metadata");
         } else if (theMode == SelectorDialogModes.TEXT_SELECTED_EDIT) {
             
+        }
+    }
+    
+    protected void setControlData() {
+        try {
+        //only in edit mode, only if the metadata properties exist
+        initData();
+        initFields();
+        if (theMode == SelectorDialogModes.TEXT_EDIT) {
+         
+            }
+        } catch (Exception ex) {
+            log.error("SetControlData: "+ ex.getMessage());
         }
     }
     
@@ -109,10 +161,13 @@ public class InitPapers extends selectorTemplatePanel {
         tbl_tabledDocs = new javax.swing.JTable();
 
         setPreferredSize(new java.awt.Dimension(348, 314));
+        txt_title.setName("txt_initpapers_title");
 
         lbl_title.setText("Enter a title for the section");
+        lbl_title.setName("lbl_initpapers_title");
 
         btnApply.setText("Apply");
+        btnApply.setName("btn_apply");
         btnApply.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnApplyActionPerformed(evt);
@@ -120,6 +175,7 @@ public class InitPapers extends selectorTemplatePanel {
         });
 
         btnCancel.setText("Close");
+        btnCancel.setName("btn_cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
@@ -136,6 +192,7 @@ public class InitPapers extends selectorTemplatePanel {
         scrollMessageArea.setViewportView(txtMessageArea);
 
         lbl_tabledDocs.setText("Select Tabled Documents");
+        lbl_tabledDocs.setName("lbl_initpapers_tableddocs");
 
         tbl_tabledDocs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -148,6 +205,7 @@ public class InitPapers extends selectorTemplatePanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tbl_tabledDocs.setName("tbl_initpapers_tableddocs");
         jScrollPane1.setViewportView(tbl_tabledDocs);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
@@ -192,10 +250,137 @@ public class InitPapers extends selectorTemplatePanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    public boolean validateTabledDocs(Component field) {
+        JTable tbl = (JTable) field;
+        if (tbl.getSelectedRowCount() == 0) {
+            checkFieldsMessages.add("Please select a tabled document!");
+            return false;
+        }
+        return true;
+    }
+    
+    public boolean validateTitle (Component field, Object fieldValue ) {
+        JTextField txtField = (JTextField) field; 
+        if (txtField.getText().trim().length() == 0 ) {
+            checkFieldsMessages.add("You must enter a title! ");
+            return false;
+       }
+        return true;
+    }
+
+    
+    public boolean preValidationFullInsert(){
+      boolean bResult = true;
+      try {
+      //check root
+      dbSettings.Connect();
+      QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_CHECK_IF_ACTION_HAS_PARENT(theAction.action_naming_convention()));
+      dbSettings.EndConnect();
+      String[] results = qr.getSingleColumnResult("THE_COUNT");
+      if (results[0].equals("0")) {
+        if (!ooDocument.hasSection("root")) {
+            checkFieldsMessages.add("The document does not have a root section!");
+            bResult = false;
+            return bResult;
+       }  
+      }
+      
+       if (ooDocument.hasSection(theAction.action_naming_convention())) {
+        checkFieldsMessages.add( "The document already has a papers section, please delete the section first");
+        bResult = false;
+        return bResult;
+       }
+      
+      } catch(Exception ex) {
+        log.error("preValidation : " + ex.getMessage());
+        bResult = false;
+      } finally {
+          return bResult;
+      }
+    }
+    
+    /*
+     *This is a funciton overriden from the base class
+     *validateFieldValue is invoked by check fields
+     *user must write validation functions for fields and return true / false 
+     *after setting an error message
+     *
+     */
+
+    public boolean validateFieldValue(Component field, Object fieldValue ) {
+        String formFieldName = field.getName();
+        boolean bFailure=false;
+      //table validations need to be handled directly.
+     
+        if (formFieldName.equals("tbl_initpapers_tableddocs")) {
+            bFailure = validateTabledDocs(field);
+        } else if (formFieldName.equals("txt_initpapers_title")) {
+            bFailure = validateTitle(field, fieldValue);
+        }
+        /*
+     if (tbl_tabledDocs.getSelectedRowCount() == 0) {
+            MessageBox.OK(parent, "Please select a Tabled Document!");
+            returnError(true);
+            return;
+        }
+       if (txt_title.getText().trim().length() == 0 ) {
+            MessageBox.OK(parent, "You must enter a title! ");
+            returnError(true);
+            return;
+       }
+      dbSettings.Connect();
+      QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_CHECK_IF_ACTION_HAS_PARENT(theAction.action_naming_convention()));
+      dbSettings.EndConnect();
+      String[] results = qr.getSingleColumnResult("THE_COUNT");
+      if (results[0].equals("0")) {
+        //no parent section
+        if (!ooDocument.hasSection("root")) {
+            MessageBox.OK(parent, "The document does not have a root section!");
+            returnError(true);
+            return;
+        }  
+      }
+      
+     int[] selectedRows = tbl_tabledDocs.getSelectedRows();
+     ArrayList<String> docTitles = new ArrayList<String>();
+     ArrayList<String> docURIs = new ArrayList<String>();
+     
+     for (int i=0; i < selectedRows.length; i++) {
+         String docTitle = (String)tbl_tabledDocs.getModel().getValueAt(i, 0 );
+         String docURI = (String) tbl_tabledDocs.getModel().getValueAt(i, 1);
+         docTitles.add(docTitle);
+         docURIs.add(docURI);
+     }
+     
+    String[] arrDocTitles = docTitles.toArray(new String[docTitles.size()]); 
+    String[] arrDocURI = docURIs.toArray(new String[docURIs.size()]);
+    String targetSection = "";
+    
+    //if document already has section delete it
+    if (ooDocument.hasSection(theAction.action_naming_convention())) {
+       int nRet = MessageBox.Confirm(parent, "The existing section and its contents will be deleted, please confirm ?", "Deleting section");
+       if (nRet == JOptionPane.NO_OPTION) {
+           return;
+       }
+        //routes to appropriate field validator...
+        if (formFieldName.equals("dt_initdebate_hansarddate")) {
+        } else if (formFieldName.equals("dt_initdebate_timeofhansard")) {
+        } else if (formFieldName.equals("txt_initdebate_selectlogo")) {
+        }  else {
+            log.debug("no validator found for field: "+ field.getName()+ " , returning true");
+            return true;
+        }
+         */
+        return bFailure;
+    }
+    
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
 // TODO add your handling code here:
-     returnError(false);
-        if (tbl_tabledDocs.getSelectedRowCount() == 0) {
+     super.formApply();
+        /*
+        returnError(false);
+
+     if (tbl_tabledDocs.getSelectedRowCount() == 0) {
             MessageBox.OK(parent, "Please select a Tabled Document!");
             returnError(true);
             return;
@@ -255,19 +440,14 @@ public class InitPapers extends selectorTemplatePanel {
         createSectionMacro.addParameter(ooDocument.getComponent());
         createSectionMacro.addParameter(targetSection);
         createSectionMacro.addParameter(theAction.action_naming_convention());
-    } else  /*** if (theAction.getSelectedSectionActionCommand().equals("AFTER_SECTION")) ***/ {
+    } else  {
         createSectionMacro = ExternalMacroFactory.getMacroDefinition("InsertSectionAfterSection");
         createSectionMacro.addParameter(ooDocument.getComponent());
         createSectionMacro.addParameter(theAction.action_naming_convention());
         createSectionMacro.addParameter(targetSection);
         
     }
-    /***
-    ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSection");
-    AddSectionInsideSection.addParameter(ooDocument.getComponent());
-    AddSectionInsideSection.addParameter("root");
-    AddSectionInsideSection.addParameter(theAction.action_naming_convention());
-     ****/
+
     ooDocument.executeMacro(createSectionMacro.toString(), createSectionMacro.getParams());
     
     
@@ -292,6 +472,7 @@ public class InitPapers extends selectorTemplatePanel {
     //MessageBox.OK(parent, "Paper details have been imported !");
     returnError(true);
     parent.dispose();
+    */
     }//GEN-LAST:event_btnApplyActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
@@ -306,24 +487,48 @@ public class InitPapers extends selectorTemplatePanel {
     private void fillDocument(){
         
     }
-    public void setDialogMode(SelectorDialogModes mode) {
-        theMode = mode;
-        initFields();
-    }
-
-    public SelectorDialogModes getDialogMode() {
-        return theMode;
-    }
-
-    public void setOOComponentHelper(OOComponentHelper ooComp) {
-    }
-
-    public void setToolbarAction(toolbarAction action) {
-    }
-
-    public void setParentDialog(JDialog dlg) {
+ 
+    
+    public void getTableSelection() {
+         int[] selectedRows = tbl_tabledDocs.getSelectedRows();
+         ArrayList<String> docTitles = new ArrayList<String>();
+          ArrayList<String> docURIs = new ArrayList<String>();
+     
+             for (int i=0; i < selectedRows.length; i++) {
+                 String docTitle = (String)tbl_tabledDocs.getModel().getValueAt(i, 0 );
+                 String docURI = (String) tbl_tabledDocs.getModel().getValueAt(i, 1);
+                 docTitles.add(docTitle);
+                 docURIs.add(docURI);
+             }
+     
+        String[] arrDocTitles = docTitles.toArray(new String[docTitles.size()]); 
+        String[] arrDocURI = docURIs.toArray(new String[docURIs.size()]);
+        
+        thePreInsertMap.put("tabled_document_titles", arrDocTitles);
+        thePreInsertMap.put("tabled_document_urs", arrDocURI);
+        
     }
     
+    public boolean preFullInsert(){
+        
+        getTableSelection();
+        thePreInsertMap.put("current_section", theAction.action_naming_convention());
+        thePreInsertMap.put("target_section",  theAction.getSelectedSectionToActUpon());
+        thePreInsertMap.put("hansard_document_fragment", FragmentsFactory.getFragment("hansard_papers"));
+        thePreInsertMap.put("replacement_text", txt_title.getText());
+        
+    String targetSection = "";
+        return true;
+    }
+    
+    public boolean postFullInsert(){
+        return true;
+    }
+    
+    public boolean processFullInsert(){
+        return true;
+    }
+  
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApply;

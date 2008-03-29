@@ -41,12 +41,55 @@ public class CommonActions {
              bState= true;
         } catch (Exception ex) {
             log.error("action_addImageIntoSection: error : " + ex.getMessage());
+            log.error("in action_addImageIntoSection:" + CommonExceptionUtils.getStackTrace(ex));
             bState=false;
          }   finally {
              return bState;
          }
     }
    
+    public static boolean action_addSectionInsideSection(OOComponentHelper ooDoc, String targetSection, String newSection ) {
+    boolean bState = false; 
+        try {
+            
+            ExternalMacro AddSectionInsideSection =ExternalMacroFactory.getMacroDefinition("AddSectionInsideSection");
+            AddSectionInsideSection.addParameter(ooDoc.getComponent());
+            AddSectionInsideSection.addParameter(targetSection);
+            AddSectionInsideSection.addParameter(newSection);
+            ooDoc.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
+             bState= true;
+        } catch (Exception ex) {
+            log.error("action_addSectionIntoSection: error : " + ex.getMessage());
+            log.error("in action_addSectionIntoSection:" + CommonExceptionUtils.getStackTrace(ex));
+            //checkFieldsMessages.add(ex.getLocalizedMessage());
+            bState=false;
+         }   finally {
+             return bState;
+         }    
+        
+    }
+    
+    public static boolean action_insertSectionAfterSection(OOComponentHelper ooDoc, String targetSection, String newSection ) {
+    boolean bState = false; 
+        try {
+            
+        ExternalMacro createSectionMacro = ExternalMacroFactory.getMacroDefinition("InsertSectionAfterSection");
+        createSectionMacro.addParameter(ooDoc.getComponent());
+        createSectionMacro.addParameter(newSection);
+        createSectionMacro.addParameter(targetSection);
+        ooDoc.executeMacro(createSectionMacro.toString(), createSectionMacro.getParams());
+             bState= true;
+        } catch (Exception ex) {
+            log.error("action_insertSectionAfterSection: error : " + ex.getMessage());
+            log.error("in action_insertSectionAfterSection:" + CommonExceptionUtils.getStackTrace(ex));
+            //checkFieldsMessages.add(ex.getLocalizedMessage());
+            bState=false;
+         }   finally {
+             return bState;
+         }    
+        
+    }
+    
      public static boolean action_addSectionIntoSectionwithStyling(OOComponentHelper ooDoc, String parentSection, String newSectionName, long sectionBackColor, float sectionLeftMargin) {
         boolean bState = false; 
         try {
@@ -60,6 +103,7 @@ public class CommonActions {
              bState= true;
         } catch (Exception ex) {
             log.error("action_addSectionIntoSectionwithStyling: error : " + ex.getMessage());
+            log.error("in action_addSectionIntoSectionwithStyling:" + CommonExceptionUtils.getStackTrace(ex));
             //checkFieldsMessages.add(ex.getLocalizedMessage());
             bState=false;
          }   finally {
@@ -78,7 +122,8 @@ public class CommonActions {
             ooDoc.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
             bState= true;
         } catch (Exception ex) {
-            log.error("action_addImageIntoSection: error : " + ex.getMessage());
+            log.error("action_addDocIntoSection: error : " + ex.getMessage());
+            log.error("in action_addDocIntoSection:" + CommonExceptionUtils.getStackTrace(ex));
             //checkFieldsMessages.add(ex.getLocalizedMessage());
             bState=false;
          }   finally {
@@ -98,7 +143,8 @@ public class CommonActions {
             ooDoc.executeMacro( setFieldValue.toString(),  setFieldValue.getParams());
             bState= true;
         } catch (Exception ex) {
-            log.error("action_addImageIntoSection: error : " + ex.getMessage());
+            log.error("actionn_setInputFieldValue: error : " + ex.getMessage());
+            log.error("in actionn_setInputFieldValue:" + CommonExceptionUtils.getStackTrace(ex));
             //checkFieldsMessages.add(ex.getLocalizedMessage());
             bState=false;
          }   finally {
@@ -107,6 +153,25 @@ public class CommonActions {
     }  
 
     
+    public static boolean action_searchAndReplace(OOComponentHelper ooDoc, String searchFor, String replaceWith) {
+        boolean bState = false; 
+       try {
+           ExternalMacro searchAndReplace= ExternalMacroFactory.getMacroDefinition("SearchAndReplace");
+            searchAndReplace.addParameter(ooDoc.getComponent());
+            searchAndReplace.addParameter(searchFor);
+            searchAndReplace.addParameter(replaceWith);
+            ooDoc.executeMacro( searchAndReplace.toString(),  searchAndReplace.getParams());
+            bState= true;
+        } catch (Exception ex) {
+            log.error("action_searchAndReplace: error : " + ex.getMessage());
+            log.error("in action_searchAndReplace:" + CommonExceptionUtils.getStackTrace(ex));
+            //checkFieldsMessages.add(ex.getLocalizedMessage());
+            bState=false;
+         }   finally {
+             return bState;
+         }
+    }  
+
     public static boolean action_createRootSection(OOComponentHelper ooDoc, String sectionName) {
         boolean bResult = false;
         try {
@@ -136,11 +201,35 @@ public class CommonActions {
              bState= true;
         } catch (Exception ex) {
             log.error("action_replaceTextWithField: error : " + ex.getMessage());
+            log.error("in action_replaceTextWithField:" + CommonExceptionUtils.getStackTrace(ex));
             //checkFieldsMessages.add(ex.getLocalizedMessage());
             bState=false;
          }   finally {
              return bState;
          }
      }
+    
+     
+     public static boolean action_insertArrayAsBulletList(OOComponentHelper ooDoc, String bookmarkName, String[] titles, String[] uris) {
+        boolean bState = false; 
+        try {
+             ExternalMacro insertArrayAsBulletList = ExternalMacroFactory.getMacroDefinition("InsertArrayAsBulletList");
+                insertArrayAsBulletList.addParameter(ooDoc.getComponent());
+                insertArrayAsBulletList.addParameter(bookmarkName);
+                insertArrayAsBulletList.addParameter(titles);
+                insertArrayAsBulletList.addParameter(uris);
+                ooDoc.executeMacro(insertArrayAsBulletList.toString(), insertArrayAsBulletList.getParams());
+             bState= true;
+        } catch (Exception ex) {
+            log.error("action_insertArrayAsBulletList: error : " + ex.getMessage());
+            log.error("in action_insertArrayAsBulletList:" + CommonExceptionUtils.getStackTrace(ex));
+            //checkFieldsMessages.add(ex.getLocalizedMessage());
+            bState=false;
+         }   finally {
+             return bState;
+         }
+     }
+     
+     
      
  }

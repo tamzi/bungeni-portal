@@ -24,20 +24,26 @@ import org.bungeni.editor.selectors.IBungeniForm;
 
 
 public class setSectionMetadataForAction implements Command {
-    
+       private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(setSectionMetadataForAction.class.getName());
     /**
      * Creates a new instance of setSectionMetadataForAction
      * Requires: the new_section variable to be set in the preInsertMap prior to invocation.
      */
-      public boolean execute(Context context) throws Exception {
-        BungeniFormContext formContext = (BungeniFormContext) context;
-        //IBungeniForm iForm = formContext.getBungeniForm();
-        String newSectionname = formContext.getPreInsertMap().get("new_section");
-        
-        HashMap<String,String> sectionMeta = new HashMap<String,String>();
-        sectionMeta.put("BungeniSectionType", formContext.getTheAction().action_section_type());
-        formContext.getOoDocument().setSectionMetadataAttributes(newSectionname, sectionMeta);
-      
-        return false;
+      public boolean execute(Context context) {
+        boolean bRet = false;
+          try {
+            BungeniFormContext formContext = (BungeniFormContext) context;
+            //IBungeniForm iForm = formContext.getBungeniForm();
+            String newSectionname = (String) formContext.getPreInsertMap().get("new_section");
+            HashMap<String,String> sectionMeta = new HashMap<String,String>();
+            sectionMeta.put("BungeniSectionType", formContext.getTheAction().action_section_type());
+            formContext.getOoDocument().setSectionMetadataAttributes(newSectionname, sectionMeta);
+            bRet = false;
+          } catch (Exception ex) {
+              log.error("Command: setSectionMetadataForAction : " + ex.getMessage());
+              bRet = true;
+          } finally {
+                return bRet;
+          }
       }
 }

@@ -34,10 +34,21 @@
                        className="org.bungeni.commands.addDocumentMetadata"/>
         </chain>
         <chain name="debateRecordFullSelectedEditMasthead">
+
         </chain>
         <chain name="debateRecordFullSelectedInsertMasthead">
         </chain>
         <chain name="debateRecordFullInsertPapers">
+            <command   id="debateRecordFullInsertPapers.condAddSectionInsideSection"
+                   className="org.bungeni.commands.addSectionInsideSection" />   
+            <command   id="debateRecordFullInsertPapers.condAddSectionAfterSection"
+                   className="org.bungeni.commands.insertSectionAfterSection" />
+            <command   id="debateRecordFullInsertPapers.addDocIntoSection"
+                   className="org.bungeni.commands.addDocumentIntoSection" />
+            <command   id="debateRecordFullInsertPapers.searchAndReplace"
+                   className="org.bungeni.commands.searchAndReplace" />   
+            <command   id="debateRecordFullInsertPapers.insertArrayAsBulletList"
+                   className="org.bungeni.commands.insertArrayAsBulletList" />   
        </chain>
         <chain name="debateRecordFullEditPapers">
         </chain>

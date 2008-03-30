@@ -2047,6 +2047,8 @@ private void displayUserMetadata(XTextRange xRange) {
             metadataPanelParentFrame = new javax.swing.JFrame("Document Metadata Panel");
             if (metadataTabbedPanel == null) {
                 metadataTabbedPanel = new org.bungeni.editor.dialogs.metadataTabbedPanel(this.ooDocument, metadataPanelParentFrame);
+            } else {
+                metadataTabbedPanel.updateOOhandle(ooDocument, metadataPanelParentFrame);
             }
             //panel.setOOoHelper(this.openofficeObject);
             metadataPanelParentFrame.add(metadataTabbedPanel);

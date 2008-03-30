@@ -65,7 +65,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     protected HashMap<String,String> theMetadataMap = new HashMap<String,String>();
     protected HashMap<String,Component> theControlMap = new HashMap<String,Component>();
     protected HashMap<String, Object> theControlDataMap = new HashMap<String, Object>();
-    protected HashMap<String,String> thePreInsertMap = new HashMap<String, String>();  
+    protected HashMap<String,Object> thePreInsertMap = new HashMap<String, Object>();  
     protected HashMap<SelectorDialogModes,BungeniCatalogCommand> theCatalogCommands = new HashMap<SelectorDialogModes,BungeniCatalogCommand>();
     protected String windowTitle;
     protected BungeniFormContext formContext;    
@@ -206,9 +206,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         
         for (Component component: container.getComponents()){
            String strName = null;
-           if (component.getClass() == javax.swing.JList.class) {
-               System.out.println("this is a jlist");
-           }
+                       
            strName = component.getName();
            if (strName != null) {
                theControlMap.put(strName.trim(), component);
@@ -272,7 +270,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
 
    ///move to base class
     private Object getFieldValue (Component field) {
-        if (field.getClass() == org.jdesktop.swingx.JXDatePicker.class ){
+          if (field.getClass() == org.jdesktop.swingx.JXDatePicker.class ){
            JXDatePicker dateField = (JXDatePicker)field;
            Date fieldValue = dateField.getDate();
            return fieldValue;
@@ -296,7 +294,12 @@ public class selectorTemplatePanel extends javax.swing.JPanel
             JSpinner spinnerField = (JSpinner) field;
             Object fieldValue = spinnerField.getValue();
             return fieldValue;
-        } else {
+        } else if (field.getClass() == javax.swing.JTable.class) {
+           //table validation  handle manually in overriding class
+            Object fieldValue = "javax.swing.JTable.class";
+           return fieldValue;
+        } 
+        else {
             log.debug("getFieldValue: "+ field.getClass().getName()+ " field type not supported!");
             return null;
         }
@@ -311,23 +314,24 @@ public class selectorTemplatePanel extends javax.swing.JPanel
           return this.enabledControls;
       }
  //move to base class
+    private static Class[] validateControlTypes = {
+        org.jdesktop.swingx.JXDatePicker.class,
+        javax.swing.JTextField.class,
+        javax.swing.JList.class,
+        javax.swing.JComboBox.class,
+        javax.swing.JTextArea.class,
+        javax.swing.JSpinner.class,
+        javax.swing.JTable.class
+    };
+
+   
     private boolean isValidationRequired(Component c) {
         //add additional field types if required...
-        if (c.getClass() == org.jdesktop.swingx.JXDatePicker.class ){
-            return true;
-        } else if (c.getClass() == javax.swing.JTextField.class) {
-            return true;
-        } else if (c.getClass() == javax.swing.JList.class) {
-            return true;
-        } else if (c.getClass() == javax.swing.JComboBox.class)  {
-            return true;
-        } else if (c.getClass() == javax.swing.JTextArea.class) {
-            return true;
-        } else if (c.getClass() == javax.swing.JSpinner.class) {
-            return true;
-        } else {
-            return false;
+        for (int i=0; i < validateControlTypes.length; i++ ) {
+            if (validateControlTypes[i] == c.getClass() )
+                return true;
         }
+        return false;
     }
 
  public void setControlModes() {
@@ -423,7 +427,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     }
   
     protected void getEnabledControlList_TextInsertion() {
-            ArrayList<String> arrHiddenFields = getInactiveControlsForMode("text_insert");
+            ArrayList<String> arrHiddenFields = getInactiveControlsForMode("TEXT_INSERTION");
             //default is to enable all controls in text insertion
             Iterator<String> controlNames = theControlMap.keySet().iterator();
             while(controlNames.hasNext()) {
@@ -439,7 +443,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     }
     
     protected void getEnabledControlList_TextEdit(){
-        ArrayList<String> arrHiddenFields = getInactiveControlsForMode("text_edit");
+        ArrayList<String> arrHiddenFields = getInactiveControlsForMode("TEXT_EDIT");
         Iterator<String> controlNames = theControlMap.keySet().iterator();
             while(controlNames.hasNext()) {
                 String controlName = controlNames.next();
@@ -486,6 +490,12 @@ public class selectorTemplatePanel extends javax.swing.JPanel
      */
      protected void applyFullInsert() {
        log.debug("in applyFullInsert()");
+       if (preValidation() == false) {
+           if (!checkFieldsMessages.isEmpty()) {
+               displayFieldErrors();
+               return;
+           }
+       }
        if (checkFields() == false) {
             if (!checkFieldsMessages.isEmpty()) {
                 displayFieldErrors();   
@@ -517,9 +527,43 @@ public class selectorTemplatePanel extends javax.swing.JPanel
        }
     }
      
+     
+   public boolean preValidation(){
+        switch (getDialogMode()) {
+                case TEXT_SELECTED_EDIT :
+                    return preValidationSelectEdit();
+                case TEXT_SELECTED_INSERT :
+                    return preValidationSelectInsert();
+                case TEXT_EDIT:
+                    return  preValidationFullEdit();
+                case TEXT_INSERTION:
+                   // log.debug("formApply: calling apllyFullInsert()");
+                    return preValidationFullInsert();
+                default:
+                    return true;
+        }  
+   }
     /*
      *All these functions are overriden in the dialog classes
      */ 
+   
+    public boolean preValidationSelectEdit(){
+        return true;
+    }
+    
+    public boolean preValidationSelectInsert(){
+       return true;
+    }
+    
+    public boolean preValidationFullEdit(){
+      return true;
+    }
+    
+    public boolean preValidationFullInsert(){
+        return true;
+    }
+            
+   
     public boolean preFullInsert(){
         return true;
     }

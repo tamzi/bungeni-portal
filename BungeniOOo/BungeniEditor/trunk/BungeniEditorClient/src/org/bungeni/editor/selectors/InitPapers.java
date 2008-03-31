@@ -311,7 +311,7 @@ public  class InitPapers extends selectorTemplatePanel implements IBungeniForm {
         String formFieldName = field.getName();
         boolean bFailure=false;
       //table validations need to be handled directly.
-     
+                                
         if (formFieldName.equals("tbl_initpapers_tableddocs")) {
             bFailure = validateTabledDocs(field);
         } else if (formFieldName.equals("txt_initpapers_title")) {
@@ -505,30 +505,55 @@ public  class InitPapers extends selectorTemplatePanel implements IBungeniForm {
         String[] arrDocURI = docURIs.toArray(new String[docURIs.size()]);
         
         thePreInsertMap.put("tabled_document_titles", arrDocTitles);
-        thePreInsertMap.put("tabled_document_urs", arrDocURI);
+        thePreInsertMap.put("tabled_document_uris", arrDocURI);
         
     }
     
     public boolean preFullInsert(){
-        
         getTableSelection();
+        /* the above adds : 
+         *         thePreInsertMap.put("tabled_document_titles", arrDocTitles);
+         *         thePreInsertMap.put("tabled_document_urs", arrDocURI);
+         */
         thePreInsertMap.put("current_section", theAction.action_naming_convention());
-        thePreInsertMap.put("target_section",  theAction.getSelectedSectionToActUpon());
-        thePreInsertMap.put("hansard_document_fragment", FragmentsFactory.getFragment("hansard_papers"));
+        thePreInsertMap.put("target_section",  getParentSection());
+        thePreInsertMap.put("container_section", thePreInsertMap.get("target_section"));
+        thePreInsertMap.put("document_fragment", FragmentsFactory.getFragment("hansard_papers"));
+        thePreInsertMap.put("search_for", "[[PAPER_TITLE]]");
         thePreInsertMap.put("replacement_text", txt_title.getText());
-        
-    String targetSection = "";
+        thePreInsertMap.put("bullet_list_begin_bookmark", new String("begin_tabled_documents_list"));
+        //in insert mode this is always INSIDE_SECTION
+        thePreInsertMap.put("selected_section_action_command",  "INSIDE_SECTION");
         return true;
     }
     
     public boolean postFullInsert(){
+        parent.dispose();
         return true;
     }
     
     public boolean processFullInsert(){
-        return true;
+                
+        boolean bReturn = processCatalogCommand();
+        return bReturn;
+        
     }
   
+    public boolean preFullEdit(){
+        return true;
+    }
+    
+    public boolean processFullEdit(){
+        return true;
+    }
+    
+    public boolean postFullEdit(){
+        return true;
+    }
+    
+    
+    
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApply;

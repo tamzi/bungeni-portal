@@ -101,6 +101,21 @@ _user_group_type = rdb.join(schema.groups, schema.user_role_type,
                             
 mapper( title_in_group, _user_group_type)
 
+class substitution_member( object):
+    """ replaced by this Member  """
+    
+_substitution_user = rdb.join( schema.user_group_memberships, schema.users,
+                                schema.user_group_memberships.c.user_id == schema.users.c.user_id)
+
+mapper (substitution_member, _substitution_user,
+        properties={
+           'fullname' : column_property(
+                             (schema.users.c.first_name + u" " + 
+                             schema.users.c.middle_name + u" " + 
+                             schema.users.c.last_name).label('fullname')
+                                           )
+                    },)                                        
+
                                                                 
 
 class QuerySource( object ):

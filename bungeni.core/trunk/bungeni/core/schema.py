@@ -298,13 +298,12 @@ user_group_memberships = rdb.Table(
    rdb.Column( "title", rdb.Integer, rdb.ForeignKey('user_role_types.user_role_type_id')), # title of user's group role
    rdb.Column( "start_date", rdb.DateTime(timezone=False), default=datetime.now),
    rdb.Column( "end_date", rdb.DateTime(timezone=False) ),
-   rdb.Column( "notes", rdb.Unicode ),
-   rdb.Column( "substitution_p", rdb.Boolean, default=False ),
+   rdb.Column( "notes", rdb.Unicode ),   
    # we use this as an easier query to end_date in queries, needs to be set by
    # a cron process against end_date < current_time
    rdb.Column( "active_p", rdb.Boolean, default=False ),
    # these fields are only present when a membership is a result of substitution   
-   rdb.Column( "replaced_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),
+   rdb.Column( "replaced_id", rdb.Integer, rdb.ForeignKey('user_group_memberships.membership_id') ),
    rdb.Column( "substitution_type", rdb.Unicode(100) ),
    )
   
@@ -330,8 +329,8 @@ parliament_sessions = rdb.Table(
    metadata,
    rdb.Column( "session_id", rdb.Integer,   primary_key=True ),
    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id')),
-   rdb.Column( "short_name", rdb.Unicode(16) ),
-   rdb.Column( "full_name", rdb.Unicode(16) ),      
+   rdb.Column( "short_name", rdb.Unicode(32) ),
+   rdb.Column( "full_name", rdb.Unicode(32) ),      
    rdb.Column( "start_date", rdb.DateTime(timezone=False)),
    rdb.Column( "end_date", rdb.DateTime(timezone=False)),
    rdb.Column( "notes", rdb.Unicode )   

@@ -203,6 +203,12 @@ class GroupMembershipDescriptor( ModelDescriptor ):
                                           filter_field='group_id', 
                                           filter_value= None, #'group_id', 
                                           order_by_field='user_role_name')   
+   SubstitutionSource = vocabulary.QuerySource(vocabulary.substitution_member,
+                                          token_field='fullname', 
+                                          value_field='membership_id', 
+                                          filter_field='group_id', 
+                                          filter_value= None, #'group_id', 
+                                          order_by_field='last_name')      
    fields = [
 #        dict( name="title", label=_(u"Title") ),
         dict( name="title", 
@@ -219,9 +225,10 @@ class GroupMembershipDescriptor( ModelDescriptor ):
             edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         dict( name="active_p", label=_(u"Active") ),
         dict( name="notes", label=_(u"Notes") ),
-        dict( name="substitution_p", label=_(u"Substituted") ),
         dict( name="substitution_type", label=_(u"Type of Substitution") ),
-        dict( name="replaced_id", omit=True),
+        dict( name="replaced_id", 
+                property=schema.Choice( title=_(u"Substituted by"), source=SubstitutionSource, required=False),
+                ),
 # the Member that is selectable depends on the context (group she/he is in)          
 #        dict( name="user_id",
 #              property=schema.Choice( title=_(u"Member of Parliament"), 

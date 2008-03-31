@@ -95,9 +95,14 @@ def DissolutionAfterReinstatement( obj ):
 
 def ActiveAndSubstituted( obj ):
     """ A person cannot be active and substituted at the same time"""
-    if obj.active_p and obj.substitution_p:
+    if obj.active_p and obj.replaced_id:
         raise interface.Invalid(_("A person cannot be active and substituted at the same time"))
-    
+
+def SubstitudedEndDate( obj ):
+    """ If a person is substituted he must have an end date"""
+    if not (obj.end_date) and obj.replaced_id:
+        raise interface.Invalid(_("If a person is substituted End Date must be set"))
+        
 
 def DeathBeforeLife(User):
     """Check if date of death is after date of birth"""
@@ -240,7 +245,7 @@ class GroupMembershipDescriptor( ModelDescriptor ):
         dict( name="status", omit=True )
         ]
         
-   schema_invariants = [EndAfterStart,ActiveAndSubstituted]
+   schema_invariants = [EndAfterStart,ActiveAndSubstituted,SubstitudedEndDate]
 
 class MpDescriptor ( ModelDescriptor ):
     display_name = _(u"Member of Parliament")
@@ -262,7 +267,8 @@ class MpDescriptor ( ModelDescriptor ):
             ),
         dict( name="leave_reason", label=_("Leave Reason")),     
     ])
-
+    schema_invariants = [EndAfterStart, ActiveAndSubstituted, SubstitudedEndDate]
+    
 class PartyMemberDescriptor( ModelDescriptor ):
     display_name=_(u"Party Member")
     fields = deepcopy(GroupMembershipDescriptor.fields)
@@ -367,7 +373,7 @@ class CommitteeMemberDescriptor( ModelDescriptor ):
                 listing_column=member_fk_column("user_id", _(u"Committee Member") ) ),
     ])   
     
-    schema_invariants = [EndAfterStart, ActiveAndSubstituted]
+    schema_invariants = [EndAfterStart, ActiveAndSubstituted, SubstitudedEndDate]
      
         
 class PolitcalPartyDescriptor( GroupDescriptor ):
@@ -415,7 +421,7 @@ class MinisterDescriptor( ModelDescriptor ):
                 listing_column=member_fk_column("user_id", _(u"Minister") ) ),
     ])   
     
-    schema_invariants = [EndAfterStart]
+    schema_invariants = [ActiveAndSubstituted,SubstitudedEndDate]
     
 class ParliamentSession( ModelDescriptor ):
     display_name = _(u"Parliamentary Session")    

@@ -3,7 +3,6 @@ Auditing of Changes for Domain Objects
 """
 from datetime import datetime
 
-from zope import interface
 from zope.security.proxy import removeSecurityProxy
 from zope.security.management import getInteraction
 from zope.publisher.interfaces import IRequest
@@ -13,7 +12,6 @@ from zope import lifecycleevent
 from ore.alchemist.interfaces import IRelationChange
 from sqlalchemy import orm
 
-import interfaces
 import schema
 
 from i18n import _ 

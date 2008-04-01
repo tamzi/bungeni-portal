@@ -8,19 +8,17 @@ from zope.security.proxy import removeSecurityProxy
 
 from ore.alchemist.vocabulary import DatabaseSource, ObjectSource, Session
 from ore.alchemist.container import valueKey
-from sqlalchemy.orm import mapper, relation, column_property
+from sqlalchemy.orm import mapper,  column_property
 
 
 import sqlalchemy as rdb
 import schema, domain
-import pdb
-
 
 
 #ModelTypeSource = ObjectSource( model.DataModelType, 'short_name', 'id')
 #SecurityLevelSource = DatabaseSource( model.SecurityLevel, 'short_name', 'id' )
 
-#Constituency = ObjectSource( )
+
 ParliamentMembers = ObjectSource( domain.ParliamentMember, 'name', 'member_id' )
 PoliticalParties  = ObjectSource( domain.PoliticalParty, 'full_name', "id")
 ParliamentSessions = ObjectSource( domain.ParliamentSession, 'short_name', 'session_id')
@@ -114,7 +112,8 @@ mapper (substitution_member, _substitution_user,
                              schema.users.c.middle_name + u" " + 
                              schema.users.c.last_name).label('fullname')
                                            )
-                    },)                                        
+                    },          
+        )                                    
 
                                                                 
 
@@ -155,7 +154,10 @@ class QuerySource( object ):
         else:
             #pfk = valueKey( context.__parent__.__parent__.__name__ )[0]
             pfk = self.getValueKey(context)
-            query = session.query( self.domain_model ).filter(self.domain_model.c[self.filter_field] == pfk )
+            query = session.query( self.domain_model )
+            #pdb.set_trace()
+            query = query.filter(self.domain_model.c[self.filter_field] == pfk )
+            
         query = query.distinct()
         if self.order_by_field:
             query = query.order_by(self.domain_model.c[self.order_by_field])
@@ -194,8 +196,8 @@ class SQLQuerySource ( object ):
         
     def constructQuery( self, context ):
         session = Session()        
-        query = session.query( text(self.sql_statement) )
-        return query
+#        query = session.query( text(self.sql_statement) )
+#        return query
         
     def __call__( self, context=None ):
         query = self.constructQuery( context )

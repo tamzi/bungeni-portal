@@ -6,9 +6,6 @@ from zope import interface
 from zope.app.security.interfaces import IAuthentication
 from zope.app.authentication import PluggableAuthentication
 from zope.app.component import site
-from ore.alchemist.interfaces import IAlchemistContent
-from zope.traversing.browser.interfaces import IAbsoluteURL
-from zope.publisher.interfaces.http import IHTTPRequest
 from ore.wsgiapp.app import Application
 
 import domain

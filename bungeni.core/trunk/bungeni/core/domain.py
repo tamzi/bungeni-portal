@@ -10,7 +10,7 @@ Created by Kapil Thangavelu on 2007-11-22.
 import md5, random, string
 
 from zope import interface, location
-from ore.alchemist import Session, model
+from ore.alchemist import model
 from alchemist.traversal.managed import one2many
 
 

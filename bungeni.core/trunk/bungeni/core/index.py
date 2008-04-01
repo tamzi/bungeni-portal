@@ -6,7 +6,6 @@ from zope.dottedname import resolve
 import xappy, os, os.path as path
 
 from ore.alchemist import container, Session
-from ore.alchemist.interfaces import IModelDescriptor
 from ore.xapian import queue, search, interfaces as iindex
 
 # we store indexes in buildout/parts/index

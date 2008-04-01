@@ -3,10 +3,9 @@ $Id: $
 """
 
 import unittest
-import zope.interface
 
 from zope.testing import doctest, doctestunit
-from zope.app.testing import placelesssetup, ztapi
+from zope.app.testing import placelesssetup
 from zope.configuration import xmlconfig
 from bungeni.core import metadata
 

@@ -6,8 +6,6 @@ from copy import deepcopy
 from zope import schema, interface
 from zc.table import column
 
-import pdb
-
 from bungeni.ui.datetimewidget import SelectDateWidget, SelectDateTimeWidget
 
 
@@ -18,8 +16,6 @@ import vocabulary
 import domain
 from i18n import _
 
-
-import pdb
 
 ###
 # Listing Columns 

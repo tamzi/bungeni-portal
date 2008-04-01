@@ -1,7 +1,6 @@
 from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
 from ore.alchemist import container 
 from zope.location.interfaces import ILocation
-from zope.traversing.browser.interfaces import IAbsoluteURL
 from zope.security.proxy import removeSecurityProxy
 import urllib
 

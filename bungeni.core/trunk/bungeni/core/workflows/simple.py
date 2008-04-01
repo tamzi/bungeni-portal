@@ -3,12 +3,9 @@
 
 """
 
-from zope.interface import implements
-
 from ore.workflow import interfaces as iworkflow
 from ore.workflow import workflow
 
-from bungeni.core import interfaces 
 from bungeni.core.i18n import _
 
 class states:

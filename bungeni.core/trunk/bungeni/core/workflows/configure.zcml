@@ -1,5 +1,7 @@
 <configure xmlns="http://namespaces.zope.org/zope">
-    
+
+  <!-- content workflow -->
+  
   <adapter
      for="..interfaces.IBungeniContent"
      provides="ore.workflow.interfaces.IWorkflowState"
@@ -15,7 +17,25 @@
      provides="ore.workflow.interfaces.IWorkflowInfo"
      factory="ore.workflow.workflow.WorkflowInfo"/>
 
+  <!-- questions workflow -->
+
+  <adapter
+     for="..domain.Question"
+     provides="ore.workflow.interfaces.IWorkflowState"
+     factory=".WorkflowState" />
+  
+  <adapter
+     for="..domain.Question"
+     provides="ore.workflow.interfaces.IWorkflow"
+     factory=".question.QuestionWorkflowAdapter" />
+
+  <adapter
+     for="..domain.Question"
+     provides="ore.workflow.interfaces.IWorkflowInfo"
+     factory="ore.workflow.workflow.WorkflowInfo"/>
+  
   <!-- silly versioning thingy for wf runtime-->
+
   <utility
      provides="ore.workflow.interfaces.IWorkflowVersions"
      factory=".NullVersions"
@@ -35,7 +55,8 @@
           zope.lifecycleevent.IObjectCreatedEvent"
      />
      
-  <!-- Fire Automatic Transitions -->
+  <!-- automatic transitioning -->
+
   <subscriber
      handler=".fireAutomaticTransitions"
      for="bungeni.core.interfaces.IBungeniContent

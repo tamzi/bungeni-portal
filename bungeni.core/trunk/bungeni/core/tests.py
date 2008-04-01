@@ -2,6 +2,9 @@
 $Id: $
 """
 
+from zope import interface
+from zope import component
+
 import unittest
 
 from zope.testing import doctest, doctestunit
@@ -42,12 +45,17 @@ def tearDown( test ):
     metadata.drop_all( checkfirst=True )
 
 def test_suite():
+    doctests = ('readme.txt', 'workflows/question.txt')
+
+    globs = dict(interface=interface, component=component)
+    
     return unittest.TestSuite((
-        doctestunit.DocFileSuite('readme.txt',
+        doctestunit.DocFileSuite(filename,
                                  setUp = setUp,
                                  tearDown = tearDown,
+                                 globs = globs,
                                  optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
-                                 ),
+                                 ) for filename in doctests
         ))
 
 if __name__ == '__main__':

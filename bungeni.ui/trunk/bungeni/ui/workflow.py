@@ -28,7 +28,7 @@ class WorkflowViewletManager( WeightOrderedViewletManager ):
     zope.interface.implements(IWorkflowViewletManager)
 
 class WorkflowHistoryViewlet( viewlet.ViewletBase ):
-    """"
+    """
     implements the workflowHistoryviewlet
     this viewlet shows the current workflow state.
     and the workflowhistory

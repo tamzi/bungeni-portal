@@ -10,6 +10,7 @@ import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.beans.XPropertySetInfo;
 import com.sun.star.container.NoSuchElementException;
+import com.sun.star.container.XContentEnumerationAccess;
 import com.sun.star.container.XEnumeration;
 import com.sun.star.container.XEnumerationAccess;
 import com.sun.star.container.XNamed;
@@ -28,6 +29,7 @@ import com.sun.star.uno.XComponentContext;
 import com.sun.star.util.XNumberFormatTypes;
 import com.sun.star.util.XNumberFormats;
 import com.sun.star.util.XNumberFormatsSupplier;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -40,6 +42,8 @@ import org.bungeni.ooo.OOComponentHelper;
 import org.apache.log4j.Logger;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.ooo.ooUserDefinedAttributes;
+import numberingscheme.schemes.*;
+import org.bungeni.utils.CommonExceptionUtils;
 
 /**
  *
@@ -52,6 +56,8 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     private BungenioOoHelper openofficeObject;
     HashMap<String, String> sectionMetadataMap=new HashMap<String, String>();
     private static org.apache.log4j.Logger log = Logger.getLogger(sectionNumbererPanel.class.getName());
+    private schemeNumeric numObj;
+    
 
    
     
@@ -186,10 +192,46 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         //get numbering scheme from drop down
         //setup start and end figures
        String numberingScheme =cboNumberingScheme.getSelectedItem().toString();
-        XText xRangeText=aTextRange.getText();
+       int numberingSchemeIndex=cboNumberingScheme.getSelectedIndex();
+       log.debug("numbering scheme selected " + numberingScheme);
+       XText xRangeText=aTextRange.getText();
         XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
                                 xTextCursor.gotoRange(aTextRange.getEnd(), true);
-        xRangeText.insertString(xTextCursor,"1" + ") ",false);
+       switch (numberingSchemeIndex) {
+           //numeric numbering scheme
+           case 1:
+           log.debug("numbering scheme selected " + numberingScheme); 
+           
+            numObj=new schemeNumeric((long)1, (long) 1);
+            numObj.generateSequence();
+            ArrayList<String> seq = numObj.getGeneratedSequence();
+            Iterator<String> iter = seq.iterator();
+            while (iter.hasNext()) {
+                String elem = iter.next();
+                xRangeText.insertString(xTextCursor,"1" + ") ",false);
+            }
+           break;
+           
+           //point numbering scheme
+           case 2:
+           log.debug("numbering scheme selected " + numberingScheme);
+           break;
+           
+           //roman numerals
+           case 3:
+           log.debug("numbering scheme selected " + numberingScheme);
+           
+           break;
+           
+             //alphabet 
+           case 4:
+           log.debug("numbering scheme selected " + numberingScheme);
+           break;
+           
+           default: log.debug("numbering scheme selected base numbering");break;
+           
+       }
+       
     }
     
     //nethod to get reference mark from heading
@@ -205,7 +247,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                       XPropertySet xTextPortionProps = (XPropertySet)UnoRuntime.queryInterface(XPropertySet.class, textPortion);
                       String textPortionType="";
                       
-                        try {
+                        
                             textPortionType = AnyConverter.toString(xTextPortionProps.getPropertyValue("TextPortionType"));
                             if (textPortionType.equals("ReferenceMark")){
                                 return;
@@ -226,25 +268,19 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                                 
                                 
                           }
-                        } catch (com.sun.star.lang.IllegalArgumentException ex) {
-                            ex.printStackTrace();
-                        } catch (WrappedTargetException ex) {
-                            ex.printStackTrace();
-                        } catch (UnknownPropertyException ex) {
-                            ex.printStackTrace();
-                        }
-                          
                      
-                      
-                      
-                      
                    }
                   
              }catch(NoSuchElementException ex){
                  log.error(ex.getMessage());
              }catch (WrappedTargetException ex) {
                 log.error(ex.getMessage());
+             }catch (com.sun.star.lang.IllegalArgumentException ex) {
+                  log.error(ex.getMessage());
+             }catch (UnknownPropertyException ex) {
+                  log.error(ex.getMessage());
              }
+             
              
          }
     }
@@ -255,21 +291,17 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
             Object sectionName = ooDocument.getTextSections().getByName("part2");
             XTextSection theSection = ooQueryInterface.XTextSection(sectionName);
             XTextRange range = theSection.getAnchor();
-            XText xText = range.getText();
-             XEnumerationAccess enumAccess = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, xText);
-             XEnumeration enumeration = enumAccess.createEnumeration();
-            log.debug("InitSectionsArray: starting Enumeration ");
-             while (enumeration.hasMoreElements()) {
-               Object elem = enumeration.nextElement();
-                
-                 
-               XServiceInfo xInfo = (XServiceInfo)UnoRuntime.queryInterface(XServiceInfo.class, elem);
-               if(xInfo.supportsService("com.sun.star.text.Paragraph")){
+            
+            XEnumerationAccess enumAcc  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, range);
+            XEnumeration xEnum = enumAcc.createEnumeration();
+            while (xEnum.hasMoreElements()) {
+                Object elem = xEnum.nextElement();
+                XServiceInfo xInfo = (XServiceInfo)UnoRuntime.queryInterface(XServiceInfo.class, elem);
+                if(xInfo.supportsService("com.sun.star.text.Paragraph")){
+                    System.out.println("found paragraph.... ");
                     XPropertySet objProps = ooQueryInterface.XPropertySet(xInfo);
-                    
-                    short nLevel = -1;
-                    try {
-                        nLevel = com.sun.star.uno.AnyConverter.toShort(objProps.getPropertyValue("ParaChapterNumberingLevel"));
+                     short nLevel = -1;
+                     nLevel = com.sun.star.uno.AnyConverter.toShort(objProps.getPropertyValue("ParaChapterNumberingLevel"));
                      if(nLevel>=0){
                         XTextContent xContent = ooDocument.getTextContent(elem);
                         XTextRange aTextRange =   xContent.getAnchor();
@@ -280,25 +312,23 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                         //apply numbering scheme
                          log.debug("heading found " + strHeading);
                       }
-                  }catch (com.sun.star.lang.IllegalArgumentException ex){
-                      log.error(ex.getMessage());
-                  }
-               }
- 
-                
-                  
-                 
-             }
-       
+                }
+            }
+            
+            
         
         }catch (NoSuchElementException ex) {
-            log.error(ex.getMessage());
+            log.error(ex.getClass().getName() + " - " + ex.getMessage());
+            log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
         } catch (WrappedTargetException ex) {
-            log.error(ex.getMessage());
-        }catch(UnknownPropertyException ex){
-            log.error(ex.getMessage());
-        }catch(IllegalArgumentException ex){
-             log.error(ex.getMessage());
+            log.error(ex.getClass().getName() + " - " + ex.getMessage());
+            log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+        } catch(UnknownPropertyException ex){
+            log.error(ex.getClass().getName() + " - " + ex.getMessage());
+            log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+        }catch(com.sun.star.lang.IllegalArgumentException ex){
+            log.error(ex.getClass().getName() + " - " + ex.getMessage());
+            log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
         }
         
     }

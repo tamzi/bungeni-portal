@@ -2,9 +2,8 @@
 
 import datetime, pytz
 
-from zope.component import getMultiAdapter
 from zope.app.form.interfaces import ConversionError, InputErrors
-from zope.app.form.browser.widget import SimpleInputWidget, renderElement
+from zope.app.form.browser.widget import SimpleInputWidget
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from bungeni.core.i18n import _
 from zope.interface.common import idatetime

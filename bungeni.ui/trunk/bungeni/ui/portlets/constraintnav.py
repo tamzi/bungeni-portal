@@ -2,11 +2,10 @@
 from zope.viewlet import viewlet
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.security.proxy import removeSecurityProxy
-from zope import interface
 
 from alchemist.traversal.managed import ManagedContainerDescriptor
 from ore.alchemist.model import queryModelDescriptor
-from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
+from ore.alchemist.interfaces import  IAlchemistContent
 
 class ConstraintNavigation( viewlet.ViewletBase ):
     """

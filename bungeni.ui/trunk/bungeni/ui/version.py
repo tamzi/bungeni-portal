@@ -5,9 +5,9 @@ from alchemist.ui.core import BaseForm, getSelected
 from zope import interface, schema
 from zope.security.proxy import removeSecurityProxy
 from zope.formlib import form
-from zope.publisher.browser import BrowserView, BrowserPage
+from zope.publisher.browser import  BrowserPage
 from zope.app.pagetemplate import ViewPageTemplateFile
-from zc.table import table, column, batching
+from zc.table import  column, batching
 from interfaces import IVersionViewletManager
 from zope.viewlet.manager import WeightOrderedViewletManager
 from zope.viewlet import viewlet

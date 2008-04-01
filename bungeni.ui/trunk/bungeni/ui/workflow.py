@@ -20,7 +20,6 @@ from sqlalchemy import orm
 from zc.table import batching, column
 import sqlalchemy as rdb
 
-import pdb
 
 class WorkflowViewletManager( WeightOrderedViewletManager ):
     """
@@ -106,7 +105,7 @@ class TransitionHandler( object ):
     def __init__( self, transition_id, wf_name=None):
         self.transition_id = transition_id
         self.wf_name = wf_name
-        self.notes = None
+
 
     def __call__( self, form, action, data ):
         context = getattr( form.context, '_object', form.context )
@@ -114,9 +113,8 @@ class TransitionHandler( object ):
         if self.wf_name:
             info = component.getAdapter( context, interfaces.IWorkflowInfo, self.wf_name )
         else:
-            info = interfaces.IWorkflowInfo( context )      
-        self.notes= data['notes']        
-        info.fireTransition( self.transition_id, self.notes )        
+            info = interfaces.IWorkflowInfo( context )
+        info.fireTransition( self.transition_id, data['notes'] )        
         form.setupActions()
 
 def bindTransitions( form_instance, transitions, wf_name=None, wf=None):

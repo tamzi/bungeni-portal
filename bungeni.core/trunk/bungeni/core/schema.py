@@ -525,7 +525,9 @@ questions = rdb.Table(
      
    # after the question is scheduled
    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id')  ),
-   rdb.Column( "sitting_time", rdb.DateTime(timezone=False) )
+   rdb.Column( "sitting_time", rdb.DateTime(timezone=False)),
+   rdb.Column( "receive_notification", rdb.Boolean)
+   
    )
 
 

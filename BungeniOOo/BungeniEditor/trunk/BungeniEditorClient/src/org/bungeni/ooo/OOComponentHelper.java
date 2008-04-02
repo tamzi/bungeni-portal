@@ -16,6 +16,7 @@ import com.sun.star.beans.PropertyVetoException;
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertyContainer;
 import com.sun.star.beans.XPropertySet;
+import com.sun.star.beans.XPropertySetInfo;
 import com.sun.star.comp.helper.Bootstrap;
 import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.container.ElementExistException;
@@ -1178,12 +1179,59 @@ public int setSelectedTextImageName(String newName) {
       }
 }
   
- public String getDocumentTitle() {
+
+public boolean setSelectedTextStyle(String styleName) {
+    Object oSelection = null;
+    boolean bState = true;
+    try {
+    oSelection = this.getCurrentSelection();            
+    if (oSelection != null ) {
+         XServiceInfo xSelInfo = ooQueryInterface.XServiceInfo(oSelection);
+        if ( xSelInfo.supportsService("com.sun.star.text.TextRanges") ){
+            XIndexAccess xIndexAccess = ooQueryInterface.XIndexAccess(oSelection);
+            int count = xIndexAccess.getCount();
+            com.sun.star.text.XTextRange xTextRange = null;
+            if (count == 1 ) { 
+                Object singleSelection;
+                singleSelection = xIndexAccess.getByIndex(0);
+                xTextRange = ooQueryInterface.XTextRange(singleSelection);
+                XPropertySet rangeProps = ooQueryInterface.XPropertySet(xTextRange);
+                XPropertySetInfo xPropsInfo = rangeProps.getPropertySetInfo();
+                if (xPropsInfo.hasPropertyByName("ParaStyleName")) {
+                    rangeProps.setPropertyValue("ParaStyleName", styleName);
+                }
+    
+            }
+
+        }
+    }
+    } catch (com.sun.star.lang.IndexOutOfBoundsException ex) {
+        log.error(ex.getClass().getName() + " " + ex.getMessage());
+        bState = false;
+    } catch (UnknownPropertyException ex) {
+        log.error(ex.getClass().getName() + " " + ex.getMessage());
+        bState = false;
+    } catch (PropertyVetoException ex) {
+        log.error(ex.getClass().getName() + " " + ex.getMessage());
+        bState = false;
+    } catch (com.sun.star.lang.IllegalArgumentException ex) {
+        log.error(ex.getClass().getName() + " " + ex.getMessage());
+        bState = false;
+    }catch (WrappedTargetException ex) {
+        log.error(ex.getClass().getName() + " " + ex.getMessage());
+        bState = false;
+    } finally {
+        return bState;
+    }
+}  
+
+    public String getDocumentTitle() {
         String strTitle = "";
         XTextDocument xDoc = this.getTextDocument();
         strTitle = getFrameTitle(xDoc);
         return strTitle;
     }
+ 
  public static String getFrameTitle(XTextDocument xDoc) {
    String strTitle = "";
      try {

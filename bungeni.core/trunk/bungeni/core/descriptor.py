@@ -276,16 +276,18 @@ class PartyMemberDescriptor( ModelDescriptor ):
             ),
             ])
 
-class ExtensionMemberDescriptor( ModelDescriptor ):
-    display_name =_(u"Additional members")
-    fields = deepcopy(GroupMembershipDescriptor.fields)
-    fields.extend([
-         dict( name="user_id",
-              property=schema.Choice( title=_(u"Person"), 
-                                      source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
-              listing_column=member_fk_column("user_id", _(u"Person") )
-            ),
-            ])
+#class ExtensionMemberDescriptor( ModelDescriptor ):
+#    display_name =_(u"Additional members")
+#    fields = deepcopy(GroupMembershipDescriptor.fields)
+#    fields.extend([
+#         dict( name="user_id",
+#              property=schema.Choice( title=_(u"Person"), 
+#                                      source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
+#              listing_column=member_fk_column("user_id", _(u"Person") )
+#            ),
+#           ])
+
+
 class GroupDescriptor( ModelDescriptor ):
 
     fields = [
@@ -381,14 +383,14 @@ class PolitcalPartyDescriptor( GroupDescriptor ):
      
     schema_invariants = [EndAfterStart]
     
-class ExtensionGroupDescriptor( GroupDescriptor ):
-    display_name = _(u"Group extensions")
-    fields = deepcopy( GroupDescriptor.fields )    
-    fields.extend([
-        dict(name="group_type", listing=True,
-        property = schema.Choice(title=_(u"Extension for"), source=DatabaseSource(domain.GroupTypes,'group_type_desc','group_type_id'))
-        ),
-    ])   
+#class ExtensionGroupDescriptor( GroupDescriptor ):
+#    display_name = _(u"Group extensions")
+#    fields = deepcopy( GroupDescriptor.fields )    
+#    fields.extend([
+#        dict(name="group_type", listing=True,
+#        property = schema.Choice(title=_(u"Extension for"), source=DatabaseSource(domain.GroupTypes,'group_type_desc','group_type_id'))
+#        ),
+#    ])   
      
 class MinistryDescriptor( GroupDescriptor ):
     display_name = _(u"Ministry")
@@ -531,7 +533,23 @@ class AttendanceDescriptor( ModelDescriptor ):
                                           filter_field='sitting_id', 
                                           filter_value=None, 
                                           order_by_field='last_name',
-                                          title_field='fullname' )                                    
+                                          title_field='fullname' )      
+    
+    sql_members ='''SELECT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as user_name, 
+                    "users"."user_id", "group_sittings"."sitting_id" 
+                    FROM "public"."group_sittings", "public"."sessions", 
+                    "public"."user_group_memberships", "public"."users" 
+                    WHERE ( "group_sittings"."session_id" = "sessions"."session_id" 
+                    AND "user_group_memberships"."group_id" = "sessions"."parliament_id" 
+                    AND "user_group_memberships"."user_id" = "users"."user_id" )
+                    AND ("group_sittings"."sitting_id" = %(primary_key)s)
+                    AND ( "users"."user_id" NOT IN (SELECT member_id 
+                                                    FROM sitting_attendance 
+                                                    WHERE sitting_id = %(primary_key)s)
+                         )
+                    
+                    '''
+    #membersVocab = vocabulary.SQLQuerySource(sql_members, 'user_name', 'user_id')                                                                        
     fields = [
         dict( name="sitting_id", omit=True ),
         dict( name="member_id", listing=True,

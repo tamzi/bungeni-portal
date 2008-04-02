@@ -5,12 +5,9 @@ from zope import interface
 from zope.schema.interfaces import IContextSourceBinder
 from zope.schema import vocabulary
 from zope.security.proxy import removeSecurityProxy
-
 from ore.alchemist.vocabulary import DatabaseSource, ObjectSource, Session
 from ore.alchemist.container import valueKey
-from sqlalchemy.orm import mapper,  column_property
-
-
+from sqlalchemy.orm import mapper,  column_property 
 import sqlalchemy as rdb
 import schema, domain
 
@@ -186,18 +183,33 @@ class SQLQuerySource ( object ):
     """ call with a SQL Statement and the rows which make up the vocabulary
     note that a % wildcard for sql LIKEs must be escaped as %%
     """
-    interface.implements( IContextSourceBinder )    
+    interface.implements( IContextSourceBinder )   
+
+        
+    def getValueKey(self, context):
+        """iterate through the parents until you get a valueKey """
+        if context.__parent__ is None:
+            return None
+        else:            
+            try:
+                value_key = valueKey( context.__parent__.__name__ )[0]
+            except:
+                value_key = self.getValueKey( context.__parent__)
+        return value_key          
     
     def __init__( self, sql_statement, token_field, value_field, title_field=None ):
         self.sql_statement = sql_statement
         self.token_field = token_field
         self.value_field = value_field
         self.title_field = title_field
+        #self.filter_values = filter_values
         
-    def constructQuery( self, context ):
-        session = Session()        
-#        query = session.query( text(self.sql_statement) )
-#        return query
+    def constructQuery( self, context ):        
+        session = Session()    
+        pfk = self.getValueKey(context)   
+        sql_statement =  (self.sql_statement % {'primary_key' : pfk} )         
+        query = session.execute(rdb.sql.text(sql_statement))
+        return query
         
     def __call__( self, context=None ):
         query = self.constructQuery( context )

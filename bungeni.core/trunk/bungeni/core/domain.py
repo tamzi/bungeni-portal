@@ -148,7 +148,7 @@ class Parliament( Group ):
     mps = one2many("mps","bungeni.core.domain.GroupMembershipContainer", "group_id")
     governments = one2many("governments","bungeni.core.domain.GovernmentContainer", "parliament_id")
     parliamentmembers = one2many("parliamentmembers", "bungeni.core.domain.mpContainer", "group_id") 
-    extensionmembers = one2many("extensionmembers", "bungeni.core.domain.ExtensionGroupContainer", "parliament_id")
+#    extensionmembers = one2many("extensionmembers", "bungeni.core.domain.ExtensionGroupContainer", "parliament_id")
     
 class PoliticalParty( Group ):
     """ a political party
@@ -185,12 +185,12 @@ class CommitteeMember( Entity ):
 class CommitteeType( object):
     """ Type of Committee """
         
-class ExtensionGroup( Group ):
-    """ Extend selectable users for a group membership """
-    extmembers = one2many("extmembers", "bungeni.core.domain.ExtensionMemberContainer", "group_id") 
-    
-class ExtensionMember( Entity ):
-    """ Users for Extension group """    
+#class ExtensionGroup( Group ):
+#    """ Extend selectable users for a group membership """
+#    extmembers = one2many("extmembers", "bungeni.core.domain.ExtensionMemberContainer", "group_id") 
+#    
+#class ExtensionMember( Entity ):
+#    """ Users for Extension group """    
 
 #############
 

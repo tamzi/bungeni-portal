@@ -75,6 +75,7 @@ class ContentIndexer( object ):
                 if not isinstance( value, (str, unicode)):
                     value = unicode( value )
                 doc.fields.append(  xappy.Field(field.__name__, value ) )
+
         return doc
 
 
@@ -98,7 +99,7 @@ indexer.add_field_action('object_type', xappy.FieldActions.INDEX_FREETEXT )
 indexer.add_field_action('object_type', xappy.FieldActions.STORE_CONTENT )
 
 # workflow status
-indexer.add_field_action('status', xappy.FieldActions.INDEX_FREETEXT )
+indexer.add_field_action('status', xappy.FieldActions.INDEX_EXACT )
 indexer.add_field_action('status', xappy.FieldActions.STORE_CONTENT )
 
 # fields for parliamentary items

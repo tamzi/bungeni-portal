@@ -20,6 +20,7 @@
      name="plone.contentviews"
      provides=".interfaces.IContentViewsManager"
      layer=".interfaces.IPlonedSkin"
+     class=".viewlet.WeightBasedSorter"
      permission="zope.Public"
      />
 
@@ -57,6 +58,18 @@
       manager=".interfaces.IContentViewsManager"
       template="templates/contentviews.pt"
       permission="zope.Public"
+      weight="10"
       />
 
+   <!-- TODO: The content actions viewlet should require zope.ManageContent -->
+
+   <browser:viewlet
+      name="plone.contentactions"
+      for="*"
+      manager=".interfaces.IContentViewsManager"
+      template="templates/contentactions.pt"
+      permission="zope.Public"
+      weight="20"
+      />
+   
 </configure>

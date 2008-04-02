@@ -18,6 +18,9 @@ from zope.security.proxy import removeSecurityProxy
 from zope.interface import providedBy, Interface
 from zope.app.publisher.interfaces.browser import IBrowserSubMenuItem
 from zope.app.publisher.browser.menu import BrowserMenu, getMenu
+from zope.app.publisher.interfaces.browser import IBrowserMenu
+
+from zope.app.pagetemplate import ViewPageTemplateFile
 
 class AppSectionsMenu( BrowserMenu ):
 
@@ -86,3 +89,26 @@ class AppSectionsMenu( BrowserMenu ):
             return True
 
         return False
+
+class ContentMenuProvider(object):
+    """Content menu."""
+    
+    def __init__(self, context, request, view):
+        self.__parent__ = view
+        self.view = view
+        self.context = context
+        self.request = request
+
+    def update(self):
+        pass
+
+    render = ViewPageTemplateFile('templates/contentmenu.pt')
+
+    def available(self):
+        return True
+
+    def menu(self):
+        menu = zope.component.getUtility(IBrowserMenu, name='plone_contentmenu')
+        items = menu.getMenuItems(self.context, self.request)
+        items.reverse()
+        return items

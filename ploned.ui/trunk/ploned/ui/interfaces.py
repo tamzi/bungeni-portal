@@ -3,6 +3,13 @@ from zope.publisher.interfaces.browser import IDefaultBrowserLayer
 from zope.viewlet.interfaces import IViewletManager
 from z3c.menu.ready2go import interfaces as imenu
 
+from zope.interface import directlyProvides
+
+from zope.app.publisher.interfaces.browser import IBrowserMenu
+from zope.app.publisher.interfaces.browser import IBrowserSubMenuItem
+from zope.app.publisher.interfaces.browser import IMenuItemType
+from zope.contentprovider.interfaces import IContentProvider
+
 class IPlonedSkin( IDefaultBrowserLayer ):
     """ plone skin for zope3  """
 
@@ -54,4 +61,51 @@ class IDocumentActions( IViewletManager ):
 class ISkinDirectory( interface.Interface ):
     """ a skin directory looks up resources in a stacked lookup through across layers """
     layers = schema.List( value_type=schema.Object( interface.Interface ) )
-    
+
+class IContentMenuView(IContentProvider):
+    """The view that powers the content menu (the green bar at the top of
+    the editable border).
+
+    This will construct a menu by finding an adapter to IContentMenu.
+    """
+
+    def available():
+        """Determine whether the menu should be displayed at all.
+        """
+
+    def menu():
+        """Create a list of dicts that can be used to render a menu.
+
+        The keys in this dict are: title, description, action (a URL),
+        selected (a boolean), icon (a URI), extra (a random payload), and
+        submenu
+        """
+
+# The content menu itself - menu items are registered as adapters to this
+# interface (this is signalled by marking the interface itself with the
+# IInterface IMenuItemType)
+
+class IContentMenuItem(interface.Interface):
+    """Special menu item type for Plone's content menu."""
+
+directlyProvides(IContentMenuItem, IMenuItemType)
+
+# The sub-menus - because they require additional logic, each of these will be
+# implemented with a separate class. We provide markers here to distinguish
+# them, although IBrowserMenu is the primary interface through which they are
+# looked up. We also provide markers for the special menu items - see
+# configure.zcml for more details.
+
+# We use the 'extra' field in the menu items for various bits of information
+# the view needs to render the menu. 'extra' will be a dict, with the following
+# keys, all optional:
+#
+#   id           :   The id of the menu item, e.g. the id of the type to add or
+#                        the workflow transition
+#   state        :   The current state of the item
+#   stateTitle   :   The title of the state - to be displayed after the main
+#                        item title
+#   class        :   A CSS class to apply
+#   separator    :   True if the item should be preceded by a separator
+#   hideChildren :   True if the item's children should not be rendered
+

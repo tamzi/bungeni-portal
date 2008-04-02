@@ -1,0 +1,23 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n_domain="bungeni.ui">
+
+  <div class="workspace-viewlet"
+       tal:attributes="id string:workspace-viewlet-${view/state}">
+
+    <h4 i18n:translate="" tal:content="view/title" />
+    
+    <ul tal:define="results view/results"
+        tal:condition="results">
+
+      <li tal:repeat="result results">
+        <a tal:attributes="href result/url">
+          <span tal:content="result/title" />
+        </a>
+      </li>
+      
+    </ul>
+
+  </div>
+  
+</html>

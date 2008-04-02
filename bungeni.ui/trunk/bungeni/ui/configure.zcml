@@ -16,8 +16,10 @@
   <!-- Site Portlets -->
   <include package=".portlets" />
 
-  <!-- Content Menu -->
+  <!-- Site Viewlets -->
+  <include package=".viewlets" />
 
+  <!-- Content Menu -->
   <include package=".contentmenu" />
   
   <!-- Calendar Widgets -->

@@ -1,0 +1,24 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"           
+           i18n_domain="bungeni">
+
+  <!-- managers -->
+  
+  <browser:viewletManager
+     name="bungeni.workspace"
+     provides=".interfaces.IWorkspace"
+     permission="zope.View"
+     class=".workspace.Manager"
+     />
+
+  <!-- workspace viewlets -->
+
+  <browser:viewlet
+     name="bungeni.workspace.questions-in-draft-state"
+     for="*"
+     manager=".interfaces.IWorkspace"
+     class=".workspace.Draft"
+     permission="zope.View"
+     />
+
+</configure>

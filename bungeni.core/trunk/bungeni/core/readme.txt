@@ -106,14 +106,9 @@ Motions
 Questions
 ---------
 
-  >>> question = model.Question()
-  >>> question
-  
-Question Workflow
-+++++++++++++++++
- 
-The question
+Note that the questions workflow is tested separated (see workflows/question.txt).
 
+  >>> question = model.Question()
 
 Assignment  
 ++++++++++  

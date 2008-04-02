@@ -13,16 +13,19 @@ import com.sun.star.container.NoSuchElementException;
 import com.sun.star.container.XContentEnumerationAccess;
 import com.sun.star.container.XEnumeration;
 import com.sun.star.container.XEnumerationAccess;
+import com.sun.star.container.XNameAccess;
 import com.sun.star.container.XNamed;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XServiceInfo;
+import com.sun.star.text.XReferenceMarksSupplier;
 import com.sun.star.text.XSimpleText;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextSection;
+import com.sun.star.text.XTextViewCursor;
 import com.sun.star.uno.AnyConverter;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
@@ -33,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 import javax.swing.DefaultListModel;
 import javax.swing.event.ListSelectionEvent;
@@ -50,15 +54,21 @@ import org.bungeni.utils.CommonExceptionUtils;
  * @author  undesa
  */
 public class sectionNumbererPanel extends javax.swing.JPanel {
-     private XComponentContext xContext;
-     private OOComponentHelper ooDocument;
-     private XComponent xComponent;
+    private XComponentContext xContext;
+    private OOComponentHelper ooDocument;
+    private XComponent xComponent;
     private BungenioOoHelper openofficeObject;
     HashMap<String, String> sectionMetadataMap=new HashMap<String, String>();
+   //HashMap<String, String> sectionTypeMetadataMap=new HashMap<String, String>();
     private static org.apache.log4j.Logger log = Logger.getLogger(sectionNumbererPanel.class.getName());
     private schemeNumeric numObj;
+    private schemePointNumber numObjPoint;
+    private HashMap<String,String> metadata = new HashMap();
+    private ArrayList<String> sectionTypeMatchedSections = new ArrayList<String>();
+    private int countElems=1;
+    DefaultListModel model=new DefaultListModel();
     
-
+    Set attributeSet=new HashSet();
    
     
     /** Creates new form sectionNumbererPanel */
@@ -74,16 +84,18 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     
     private void init(){
         initSectionsArray();
+        loadJlist();
         listSectionTypes.addListSelectionListener(new NumberingSchemeListener());
-        //panelNumberingScheme.setVisible(false);
+        panelNumberingScheme.setVisible(false);
     }
     
+  
     
     private void initSectionsArray(){
   
         openofficeObject = new org.bungeni.ooo.BungenioOoHelper(xContext);
         openofficeObject.initoOo();
-        xComponent = openofficeObject.openDocument("/home/undesa/downloads/sections1.odt");
+        xComponent = openofficeObject.openDocument("/home/undesa/downloads/doc_with_sections.odt");
         ooDocument = new OOComponentHelper(xComponent, xContext);
         try{
             if (!ooDocument.isXComponentValid()) return;
@@ -104,12 +116,13 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         } catch (WrappedTargetException ex) {
             log.error(ex.getMessage());
         }
+        
+        
     }
     
     private void recurseSections(XTextSection theSection){
-        DefaultListModel model=new DefaultListModel();
-        Set attributeSet=new HashSet();
-        
+       
+       
           //recurse children
             XTextSection[] sections = theSection.getChildSections();
             if (sections != null ) {
@@ -127,19 +140,22 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                                while(metaIterator.hasNext()){
                                         for(int i=0; i< sectionMetadataMap.size(); i++) {
                                             String metaName = (String) metaIterator.next();
-                                         //  if(metaName.startsWith("BungeniSectionType")){
-                                                //model.addElement(metaName + " " + "-" + sectionMetadataMap.get(metaName));
-                                                model.addElement(sectionMetadataMap.get(metaName));
-                                          // }
+                                            log.debug("childSectionName: " + childSectionName + " metaName: "  + metaName + " attribute: " + sectionMetadataMap.get(metaName));
+                                           
+                                          if(metaName.startsWith("BungeniSectionType")){
+                                               
+                                              
+                                               attributeSet.add(sectionMetadataMap.get(metaName).trim());
+                                               
+                                                
+                                           }
                                             
                                            
                                         }
                                  }  
+                                 
                             }
-                       
-                          
-
-                            recurseSections(sections[nSection]);
+                             recurseSections(sections[nSection]);
                        
                      }
                    
@@ -147,95 +163,119 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                 
             }
             
-            listSectionTypes.setModel(model);
-           
+            
            
             
     }
     
-    private class NumberingSchemeListener implements ListSelectionListener{
-        public void valueChanged(ListSelectionEvent listSelectionEvent) {
-            txtSectionType.setText(listSectionTypes.getSelectedValue().toString());
-            panelNumberingScheme.setVisible(true);
-        }
-        
+    private void loadJlist(){
+         Iterator attributeSetIterator = attributeSet.iterator();
+              while (attributeSetIterator.hasNext()) {
+               
+               Object element = attributeSetIterator.next();
+               model.addElement(element);
+            }
+        listSectionTypes.setModel(model);
     }
     
-    private void applyNumberingFormat(){
-        HashMap<String,String> metadata = new HashMap();
-        metadata.put("NumberingScheme",cboNumberingScheme.getSelectedItem().toString());
-          
-        try{
-            Object sectionName = ooDocument.getTextSections().getByName("part2");
-            log.debug("set numbering scheme attribute " + cboNumberingScheme.getSelectedItem().toString());
-            ooDocument.setSectionMetadataAttributes("part2",metadata);
-          
-       
-        
-        }catch (NoSuchElementException ex) {
+     private void readSections(){
+         String sectionType=listSectionTypes.getSelectedValue().toString();
+       try{
+            if (!ooDocument.isXComponentValid()) return;
+            
+           
+            if (!ooDocument.getTextSections().hasByName("root")) {
+                log.debug("no root section found");
+                return;
+            }
+            Object rootSection = ooDocument.getTextSections().getByName("root");
+            XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
+            this.sectionTypeMatchedSections.clear();
+           recurseSectionsForSectionType(theSection,sectionType);
+           
+            //now the arraylist should have been populated
+            //now iterate through the arraylist and apply the numbering scheme across the matched sections.
+         }catch (NoSuchElementException ex) {
             log.error(ex.getMessage());
         } catch (WrappedTargetException ex) {
             log.error(ex.getMessage());
         }
-        
-       
-       
-       
-        
-    }
-    //method to insert reference mark over heading
-    private void insertReferenceMark(XTextRange aTextRange, String refName){
-        
-    }
+   }
     
-    private void insertNumber(XTextRange aTextRange){
+   private void recurseSectionsForSectionType(XTextSection theSection, String sectionType){
+       
+            
+            // metadata.put("NumberingScheme",cboNumberingScheme.getSelectedItem().toString());
+             int sectionCount=0;
+          //recurse children
+            XTextSection[] sections = theSection.getChildSections();
+            if (sections != null ) {
+                if (sections.length > 0 ) {
+                    //start from last index and go to first
+                    for (int nSection = sections.length - 1 ; nSection >=0 ; nSection--) {
+                        XNamed xSecName = ooQueryInterface.XNamed(sections[nSection]);
+                        String childSectionName = (String) xSecName.getName();
+                        sectionMetadataMap=ooDocument.getSectionMetadataAttributes(childSectionName);
+                        if (sectionMetadataMap.containsKey("BungeniSectionType") ) {
+                            String matchedSectionType= sectionMetadataMap.get("BungeniSectionType");
+                            if(matchedSectionType.equalsIgnoreCase(sectionType)){
+                                System.out.println(childSectionName);
+                                sectionTypeMatchedSections.add(childSectionName);
+                            }
+                          
+                        }
+                        
+                        log.debug("recurseSectionsForSectionType: " + childSectionName);
+                        recurseSectionsForSectionType(sections[nSection],sectionType);
+                       
+                     }
+                   
+                } 
+                
+            }
+            
+           
+           
+   }
+    
+   private void applyNumberingScheme(){
+       metadata.put("NumberingScheme",cboNumberingScheme.getSelectedItem().toString());
+       Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
+       while(typedMatchSectionItr.hasNext()){
+           
+            Object matchedSectionElem=typedMatchSectionItr.next();
+            log.debug("applyNumberingScheme function " + metadata + " to " + matchedSectionElem.toString());
+            ooDocument.setSectionMetadataAttributes(matchedSectionElem.toString(),metadata);
+       }
+       
+       
+      
+   }
+    
+   
+   
+    
+    private void insertNumber(XTextRange aTextRange,int countElems){
+        
         //get numbering scheme from drop down
         //setup start and end figures
        String numberingScheme =cboNumberingScheme.getSelectedItem().toString();
        int numberingSchemeIndex=cboNumberingScheme.getSelectedIndex();
        log.debug("numbering scheme selected " + numberingScheme);
        XText xRangeText=aTextRange.getText();
-        XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
-                                xTextCursor.gotoRange(aTextRange.getEnd(), true);
-       switch (numberingSchemeIndex) {
-           //numeric numbering scheme
-           case 1:
-           log.debug("numbering scheme selected " + numberingScheme); 
-           
-            numObj=new schemeNumeric((long)1, (long) 1);
-            numObj.generateSequence();
-            ArrayList<String> seq = numObj.getGeneratedSequence();
-            Iterator<String> iter = seq.iterator();
-            while (iter.hasNext()) {
-                String elem = iter.next();
-                xRangeText.insertString(xTextCursor,"1" + ") ",false);
-            }
-           break;
-           
-           //point numbering scheme
-           case 2:
-           log.debug("numbering scheme selected " + numberingScheme);
-           break;
-           
-           //roman numerals
-           case 3:
-           log.debug("numbering scheme selected " + numberingScheme);
-           
-           break;
-           
-             //alphabet 
-           case 4:
-           log.debug("numbering scheme selected " + numberingScheme);
-           break;
-           
-           default: log.debug("numbering scheme selected base numbering");break;
-           
-       }
+       XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
+       xTextCursor.gotoRange(aTextRange.getEnd(), true);
        
+       xRangeText.insertString(xTextCursor,countElems + ") ",false);
+      
     }
+    
+     
+    
     
     //nethod to get reference mark from heading
     private void getReferenceMark(XTextRange aTextRange, Object elem){
+       
         XText xRangeText=aTextRange.getText();
         XEnumerationAccess xRangeAccess = (XEnumerationAccess)UnoRuntime.queryInterface(com.sun.star.container.XEnumerationAccess.class,elem);
          XEnumeration portionEnum =  xRangeAccess.createEnumeration();
@@ -252,22 +292,26 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                             if (textPortionType.equals("ReferenceMark")){
                                 return;
                           } else{
-                                log.debug("no reference mark found");
+                              
+                                System.out.println("no reference mark found " + countElems);
                                 //insert reference mark
-                               // XText xText = aTextRange.getText();
+                               
                                 XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
                                 xTextCursor.gotoRange(aTextRange.getEnd(), true);
                                 XNamed xRefMark = (XNamed) UnoRuntime.queryInterface(XNamed.class,
                                         ooDocument.createInstance("com.sun.star.text.ReferenceMark"));
                                 
-                                 xRefMark.setName("refText");
+                                 xRefMark.setName("refText:" + aTextRange.getString());
+                                 System.out.println("refText:" + aTextRange.getString());
                                  XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, xRefMark);
                                  xRangeText.insertTextContent(xTextCursor,xContent,true);
                                  
-                                 insertNumber(aTextRange);
-                                
+                                insertNumber(aTextRange, countElems);
+                                countElems++;
+                                 
                                 
                           }
+                             
                      
                    }
                   
@@ -283,52 +327,82 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
              
              
          }
+         
     }
-    //method to get heading from section
-    private void getHeading() {
-        
-        try{
-            Object sectionName = ooDocument.getTextSections().getByName("part2");
+    //method to get heading from section with selected sectionType
+    private void getHeadingInSection() {
+        //iterate through the sectionTypeMatchedSections and look for heading in section
+       Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
+       while(typedMatchSectionItr.hasNext()){
+           
+            Object matchedSectionElem=typedMatchSectionItr.next();
+            
+            try{
+            Object sectionName = ooDocument.getTextSections().getByName(matchedSectionElem.toString());
             XTextSection theSection = ooQueryInterface.XTextSection(sectionName);
             XTextRange range = theSection.getAnchor();
             
             XEnumerationAccess enumAcc  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, range);
             XEnumeration xEnum = enumAcc.createEnumeration();
+           
+            int headCount=0;
             while (xEnum.hasMoreElements()) {
                 Object elem = xEnum.nextElement();
                 XServiceInfo xInfo = (XServiceInfo)UnoRuntime.queryInterface(XServiceInfo.class, elem);
                 if(xInfo.supportsService("com.sun.star.text.Paragraph")){
-                    System.out.println("found paragraph.... ");
+                    //System.out.println("found paragraph.... ");
                     XPropertySet objProps = ooQueryInterface.XPropertySet(xInfo);
+                    
                      short nLevel = -1;
                      nLevel = com.sun.star.uno.AnyConverter.toShort(objProps.getPropertyValue("ParaChapterNumberingLevel"));
                      if(nLevel>=0){
                         XTextContent xContent = ooDocument.getTextContent(elem);
                         XTextRange aTextRange =   xContent.getAnchor();
                         String strHeading = aTextRange.getString();
-                        
-                       //insert reference mark
-                         getReferenceMark(aTextRange,elem);
+                                              
                         //apply numbering scheme
-                         log.debug("heading found " + strHeading);
+                         log.debug("getHeading: heading found " + strHeading);
+                                                
+                         getReferenceMark(aTextRange,elem);
+                      
+                        break;
+                         
                       }
                 }
+                
             }
-            
+           
             
         
-        }catch (NoSuchElementException ex) {
-            log.error(ex.getClass().getName() + " - " + ex.getMessage());
-            log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
-        } catch (WrappedTargetException ex) {
-            log.error(ex.getClass().getName() + " - " + ex.getMessage());
-            log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
-        } catch(UnknownPropertyException ex){
-            log.error(ex.getClass().getName() + " - " + ex.getMessage());
-            log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
-        }catch(com.sun.star.lang.IllegalArgumentException ex){
-            log.error(ex.getClass().getName() + " - " + ex.getMessage());
-            log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            }catch (NoSuchElementException ex) {
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            } catch (WrappedTargetException ex) {
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            } catch(UnknownPropertyException ex){
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            }catch(com.sun.star.lang.IllegalArgumentException ex){
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            }
+            
+       }
+       
+        
+        
+        
+    }
+    
+    private void renumberItem(){
+        
+    }
+    
+     private class NumberingSchemeListener implements ListSelectionListener{
+        public void valueChanged(ListSelectionEvent listSelectionEvent) {
+            txtSectionType.setText(listSectionTypes.getSelectedValue().toString());
+            panelNumberingScheme.setVisible(true);
         }
         
     }
@@ -352,6 +426,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
+        listSectionTypes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(listSectionTypes);
 
         txtSectionType.setEditable(false);
@@ -417,9 +492,13 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnApplyNumberingSchemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyNumberingSchemeActionPerformed
-       
-       // applyNumberingFormat();
-        getHeading();
+        countElems=1;
+         readSections();
+         applyNumberingScheme();
+         getHeadingInSection();
+         
+      //  getHeading();
+       // insertCrossReferenceAtCursor();
         
     }//GEN-LAST:event_btnApplyNumberingSchemeActionPerformed
     

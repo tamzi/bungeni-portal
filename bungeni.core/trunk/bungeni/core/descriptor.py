@@ -605,10 +605,11 @@ class QuestionDescriptor( ModelDescriptor ):
         dict( name="subject", label=_(u"Subject"), description=_(u"Subject of the Question"), ),
         dict( name="question_text", property=schema.Text(title=_(u"Question"), required=True )),
         #label=_("Question"), description=_(u"The Question submitted")),        
-        dict( name="status", label=_(u"Status"), omit=True ),
+        dict( name="status", label=_(u"Status"), modes="listing"),
         dict( name="supplement_parent_id", omit=True), #XXX
         dict( name="sitting_id", omit=True), #XXX
         dict( name="sitting_time", label=_(u"Sitting Time"), listing=True ),
+        dict( name="receive_notification", label=_(u"Receive notification"), description=_(u"Select this option to receive notifications for this question."), listing=True ),
         ]
         
 class ResponseDescriptor( ModelDescriptor ):

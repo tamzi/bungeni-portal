@@ -57,8 +57,13 @@ public class BungeniToolbarTargetProcessor {
             //contains a value
             String strActionValue[] = lastElem.split(":");
             this.actionValue = strActionValue[1];
-        } else 
+            if (this.target_type == TARGET.SUB_ACTION)
+                this.subActionName = strActionValue[0];
+        } else  {
             this.actionValue = "";
+            if (this.target_type == TARGET.SUB_ACTION)
+                this.subActionName = lastElem;
+        }
    }
     
     public static void main(String[] args) {

@@ -4,7 +4,7 @@
 
   <div metal:fill-slot="body" i18n:domain="bungeni">
                  
-     <div tal:content="structure provider:IWorkflowViewletManager"> Workflow History </div>
+     <div tal:content="structure provider:workflow.manager"> Workflow History </div>
      
   </div>
   

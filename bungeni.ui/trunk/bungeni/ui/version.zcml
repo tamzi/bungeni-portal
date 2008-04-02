@@ -8,7 +8,7 @@
     
    <!-- Version View  -->
    <browser:viewletManager
-     name="IVersionViewletManager"
+     name="version.manager"
      provides=".interfaces.IVersionViewletManager"     
      class=".version.VersionViewletManager"
      permission="zope.View"

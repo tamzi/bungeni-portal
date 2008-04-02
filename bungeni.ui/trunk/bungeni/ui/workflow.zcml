@@ -9,7 +9,7 @@
     
    <!-- Workflow View  -->
    <browser:viewletManager
-     name="IWorkflowViewletManager"
+     name="workflow.manager"
      provides=".interfaces.IWorkflowViewletManager"     
      class=".workflow.WorkflowViewletManager"
      permission="zope.View"

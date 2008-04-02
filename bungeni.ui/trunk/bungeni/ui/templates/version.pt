@@ -6,7 +6,7 @@
 
     <h2 i18n:translate="">Versions</h2>
     
-         <div tal:content="structure provider:IVersionViewletManager"> Version History </div>
+         <div tal:content="structure provider:version.manager"> Version History </div>
 
   </div>
   

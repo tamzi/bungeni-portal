@@ -92,7 +92,8 @@ class Login( BaseForm ):
         if IUnauthenticatedPrincipal.providedBy(self.request.principal):
             self.status=_(u"Invalid Account Credentials")
         else:
-            camefrom = self.request.get('camefrom', '.')
+            site_url = absoluteURL(getSite(), self.request)
+            camefrom = self.request.get('camefrom', site_url+'/workspace')
             self.status = _("You are now logged in")
             self.request.response.redirect( camefrom )
             

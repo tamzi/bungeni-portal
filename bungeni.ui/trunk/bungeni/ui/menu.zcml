@@ -9,6 +9,13 @@
      title="Home"
      />
 
+  <browser:menuItem
+     menu="site_actions"
+     for="*"
+     action="/workspace"
+     title="Workspace"
+     />
+
   <!--browser:menuItem
      menu="site_actions"
      for="*"

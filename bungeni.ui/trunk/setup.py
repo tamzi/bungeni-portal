@@ -22,6 +22,8 @@ setup(
     install_requires = [ 'setuptools',
                          'bungeni.core',
                          'simplejson',
+                         'zope.app.cache',
+                         'plone.memoize',
                          'alchemist.ui',
                          'zope.formlib'],
     zip_safe = False,

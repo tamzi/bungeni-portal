@@ -17,12 +17,12 @@ PrincipalSequence = rdb.Sequence('principal_sequence') # for users and groups be
 #######################
 # 
 
-user_types = rdb.Table(
-    "user_types",
-    metadata,
-    rdb.Column( "user_type_id", rdb.String(30), primary_key=True),
-    rdb.Column( "user_type_dec", rdb.Unicode(40), nullable=False),
-    )
+#user_types = rdb.Table(
+#    "user_types",
+#    metadata,
+#    rdb.Column( "user_type_id", rdb.String(30), primary_key=True),
+#    rdb.Column( "user_type_dec", rdb.Unicode(40), nullable=False),
+#   )
 
 
 users = rdb.Table(
@@ -48,7 +48,7 @@ users = rdb.Table(
                 rdb.CheckConstraint("active_p in ('A', 'I', 'D')"),
                 default="A", #activ/inactiv/deceased
                 ), 
-   rdb.Column( "type", rdb.String(30), rdb.ForeignKey('user_types.user_type_id'), nullable=False  ),
+   rdb.Column( "type", rdb.String(30), nullable=False  ),
    )
 
 # # not in use yet, but potentially for all 
@@ -186,7 +186,7 @@ groups = rdb.Table(
    rdb.Column( "status", rdb.Unicode(12) ), # workflow for groups
    rdb.Column( "start_date", rdb.DateTime(timezone=False), nullable=False ),
    rdb.Column( "end_date", rdb.DateTime(timezone=False) ),  #
-   rdb.Column( "type", rdb.String(30), rdb.ForeignKey('group_types.group_type_id'),  nullable=False )
+   rdb.Column( "type", rdb.String(30),  nullable=False )
    )
 
 governments = rdb.Table(

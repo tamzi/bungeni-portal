@@ -41,6 +41,9 @@ import java.util.Set;
 import javax.swing.DefaultListModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import numberingscheme.impl.IGeneralNumberingScheme;
+import numberingscheme.impl.NumberRange;
+import numberingscheme.impl.NumberingSchemeFactory;
 import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.ooo.OOComponentHelper;
 import org.apache.log4j.Logger;
@@ -61,13 +64,13 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     HashMap<String, String> sectionMetadataMap=new HashMap<String, String>();
    //HashMap<String, String> sectionTypeMetadataMap=new HashMap<String, String>();
     private static org.apache.log4j.Logger log = Logger.getLogger(sectionNumbererPanel.class.getName());
-    private schemeNumeric numObj;
-    private schemePointNumber numObjPoint;
+   
     private HashMap<String,String> metadata = new HashMap();
     private ArrayList<String> sectionTypeMatchedSections = new ArrayList<String>();
     private int countElems=1;
     private int testCount=1;
     DefaultListModel model=new DefaultListModel();
+    
     
     Set attributeSet=new HashSet();
    
@@ -205,12 +208,6 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     
    private void recurseSectionsForSectionType(XTextSection theSection, String sectionType){
        
-            
-           
-          
-          //recurse children
-          
-         
             XTextSection[] sections = theSection.getChildSections();
             if (sections != null ) {
                 if (sections.length > 0 ) {
@@ -229,9 +226,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                         if (sectionMetadataMap.containsKey("BungeniSectionType") ) {
                             String matchedSectionType= sectionMetadataMap.get("BungeniSectionType");
                             if(matchedSectionType.equalsIgnoreCase(sectionType)){
-                               
-                               // System.out.println(childSectionName + " parent " + parentSectionName);
-                                sectionTypeMatchedSections.add(childSectionName);
+                              sectionTypeMatchedSections.add(childSectionName);
                                 
                             }
                           
@@ -267,12 +262,12 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                          testCount=1;
                         
                          System.out.println("different parent" + "testCount " + testCount);
-                         insertNumber(aTextRange, testCount);
+                        // insertNumber(aTextRange, testCount);
                         
                      }else{
                          //continue numbering
                         testCount++;
-                        insertNumber(aTextRange, testCount);                 
+                        //insertNumber(aTextRange, testCount);                 
                         System.out.println("same parent" + "testCount " + testCount);
                      }
                     prevParent=(String)xParentSecName.getName();
@@ -314,11 +309,24 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
        String numberingScheme =cboNumberingScheme.getSelectedItem().toString();
        int numberingSchemeIndex=cboNumberingScheme.getSelectedIndex();
        log.debug("numbering scheme selected " + numberingScheme);
+       
+       IGeneralNumberingScheme inumScheme =NumberingSchemeFactory.getNumberingScheme(numberingScheme);
+
+       
        XText xRangeText=aTextRange.getText();
        XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
        xTextCursor.gotoRange(aTextRange.getEnd(), true);
        
-       xRangeText.insertString(xTextCursor,testCount + ") ",false);
+       inumScheme.setRange (new NumberRange(testCount, testCount));
+       inumScheme.generateSequence();
+       ArrayList<String> seq = inumScheme.getGeneratedSequence();
+        Iterator<String> iter = seq.iterator();
+        while (iter.hasNext()) {
+           
+            xRangeText.insertString(xTextCursor,iter.next() + ") ",false);
+        }
+       
+     
       
     }
     
@@ -345,7 +353,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                                 return null;
                           } else{
                               
-                                //System.out.println("no reference mark found " + countElems);
+                                System.out.println("no reference mark found ");
                                 //insert reference mark
                                
                                 XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
@@ -357,13 +365,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                                  System.out.println("refText:" + aTextRange.getString());
                                  XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, xRefMark);
                                  xRangeText.insertTextContent(xTextCursor,xContent,true);
-                                 
-                                 
-                             //getParentFromSection(aTextRange);
-                               //insertNumber(aTextRange);
-                                //countElems++;
-                               
-                                 
+                                
                                 
                           }
                              
@@ -387,10 +389,10 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     }
     //method to get heading from section with selected sectionType
     private void getHeadingInSection() {
-         String prevParent="";
+        
+        String prevParent="";
         //iterate through the sectionTypeMatchedSections and look for heading in section
        Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
-       
        while(typedMatchSectionItr.hasNext()){
            
             Object matchedSectionElem=typedMatchSectionItr.next();
@@ -419,27 +421,30 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                         XTextRange aTextRange =   xContent.getAnchor();
                         String strHeading = aTextRange.getString();
                                               
-                        //apply numbering scheme
+                       
                          log.debug("getHeading: heading found " + strHeading);
-                         
+                          //insert number here
                          XNamed xParentSecName= ooQueryInterface.XNamed(theSection.getParentSection());
                          String currentParent=(String)xParentSecName.getName();
                          if(!currentParent.equalsIgnoreCase(prevParent)){
                              //restart numbering here
                              testCount=1;
-                          
+                             
                              insertNumber(aTextRange, testCount);
 
                          }else{
                              //continue numbering
                             testCount++;
+                            
                             insertNumber(aTextRange, testCount);                 
-                            System.out.println("same parent" + "testCount " + testCount);
+                            
                          }
+                         
                         prevParent=(String)xParentSecName.getName();
                                                 
                         getReferenceMark(aTextRange,elem);
-                         
+                        
+                      
                         break;
                         
                          
@@ -448,7 +453,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                 
             }
            
-            
+             
         
             }catch (NoSuchElementException ex) {
                 log.error(ex.getClass().getName() + " - " + ex.getMessage());
@@ -466,7 +471,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
             
        }
        
-        
+         
         
         
     }
@@ -505,7 +510,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
 
         txtSectionType.setEditable(false);
 
-        cboNumberingScheme.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Base Numbering", "Point Numbering", "Roman Numerals", "Alphabet" }));
+        cboNumberingScheme.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Base Numbering", "ROMAN", "ALPHA" }));
 
         btnApplyNumberingScheme.setText("Apply Numbering Scheme");
         btnApplyNumberingScheme.addActionListener(new java.awt.event.ActionListener() {
@@ -570,7 +575,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
          readSections();
          applyNumberingScheme();
          getHeadingInSection();
-        // getParentFromSection();
+       
         
          
      

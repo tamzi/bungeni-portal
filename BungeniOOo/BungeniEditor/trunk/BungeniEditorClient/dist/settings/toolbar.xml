@@ -20,9 +20,13 @@
                 </action>
                  <action name="MastHead.edit" title="Edit Metadata" mode="TEXT_EDIT" target="toolbarAction.makePrayerSection" visible="false" />                
             </blockAction>
-            <blockAction name="Papers" title="Papers" target="null" visible="true" >
-                <action name="Papers.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makePaperSection" visible="true" />
-                <action name="Papers.selection" title="Create From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarAction.makerPrayerSection" visible="true" />
+            <blockAction name="Papers" tooltip="Actions to create and manage the papers section" title="Papers" target="null" visible="true" condition="none" >
+                <action name="Papers.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makePaperSection" visible="true" condition="sectionNotExists:papers" />
+                <action name="Papers.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.section_creation" condition="sectionNotExists:papers :and: textSelected:true" visible="true" showChildren="true" >
+                    <subaction name="Papers.selection.title" tooltip="Markup selection as title" title="Markup Title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.apply_style:papers" visible="true" condition="cursorInSection:papers :and: textSelected:true" />
+                    <subaction name="Papers.selection.details" tooltip="Markup selection as details" title="Markup Details" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.apply_style:paper-details" visible="true" condition="cursorInSection:papers :and: textSelected:true" />
+                    <subaction name="Papers.selection.import_tabled_documents" tooltip="Select tabled documents and insert into document" title="Import Tabled Documents" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.import_tabled_documents" visible="true" condition="cursorInSection:papers" />
+                </action>
             </blockAction>
         </actionGroup>
     </root>

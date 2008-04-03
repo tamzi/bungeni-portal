@@ -22,8 +22,9 @@ copy public.constituency_details (constituency_id, voters, "date", population) f
 from '%(directory)s/data/demodata/user_types.csv' csv;
 */
 
-copy public.group_types 
+/*copy public.group_types 
 from '%(directory)s/data/demodata/group_types.csv' csv;
+*/
 
 copy public.user_role_types
 from '%(directory)s/data/demodata/user_role_type.csv' csv;
@@ -60,9 +61,9 @@ copy public.ministries ( government_id, ministry_id )
 from '%(directory)s/data/demodata/ministries.csv'
 csv ; 
 
-copy public.parliament_membership_type
+/*copy public.parliament_membership_type
 from '%(directory)s/data/demodata/parliament_membership_type.csv' csv;
-
+*/
 
 copy public.user_group_memberships (membership_id, user_id, group_id, start_date, end_date, notes)
 from '%(directory)s/data/demodata/parliament_group_members.csv'

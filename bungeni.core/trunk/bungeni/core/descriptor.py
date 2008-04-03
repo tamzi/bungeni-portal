@@ -247,7 +247,7 @@ class MpDescriptor ( ModelDescriptor ):
     display_name = _(u"Member of Parliament")
     fields = deepcopy(GroupMembershipDescriptor.fields)
     constituencySource=DatabaseSource(domain.Constituency,  'name', 'constituency_id')
-    mpTypeSource=DatabaseSource(domain.ParliamentMembershipType, 'membership_type_desc', 'parliament_membership_type_id')
+    #mpTypeSource= ['E', 'N', 'O']
     fields.extend([
         dict( name="user_id",
               property=schema.Choice( title=_(u"Member of Parliament"), 
@@ -259,7 +259,7 @@ class MpDescriptor ( ModelDescriptor ):
             listing_column=vocab_column( "constituency_id" , _(u"Constituency"), constituencySource, ),
             ),                
         dict( name="elected_nominated", 
-            property=schema.Choice( title=_(u"elected/nominated"), source=mpTypeSource,), listing=True,
+            property=schema.Choice( title=_(u"elected/nominated"), values=['E', 'N', 'O']), listing=True,
             ),
         dict( name="leave_reason", label=_("Leave Reason")),     
     ])

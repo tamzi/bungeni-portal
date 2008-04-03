@@ -141,17 +141,13 @@ check the pk if it was saved and pk sequence is working
  >>> constituency.constituency_id
  1L
  
-ParliamentMembershipType 
-------------------------
-was the mp elected, nominated or ...
 
- >>> pmt = model.ParliamentMembershipType()
- >>> pmt.parliament_membership_type_id = 'E' 
- >>> pmt.membership_type_desc = u"elected" 
- >>> session.save(pmt)
- >>> session.flush()
- >>> pmt.parliament_membership_type_id
- 'E'
+ 
+Titles of Members
+------------------
+Members have a title in their groups
+
+ 
  
 Members of parliament
 ----------------------
@@ -181,6 +177,9 @@ meeting of the group by the system.
  >>> st.sitting_type = u"morning"
  >>> session.save(st)
  >>> session.flush()
+ 
+ >>> st.sitting_type_id
+ 1L
  
 
  >>> sit = model.GroupSitting()
@@ -220,10 +219,13 @@ A parliamentary Session
  >>> session.save(sess)
  >>> session.flush() 
  
+ >>> sess.session_id
+ 1L
+ 
 Sitting in this session 
  
  >>> ssit = model.GroupSitting()
- >>> ssit.group_id = sess.session_id
+ >>> ssit.session_id = sess.session_id
  >>> ssit.start_date = datetime.now()
  >>> ssit.end_date = datetime.now()
  >>> ssit.sitting_type = st.sitting_type_id

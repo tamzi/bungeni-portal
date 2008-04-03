@@ -79,10 +79,7 @@ class ParliamentMember( User ):
 
     # ministries
 
-class ParliamentMembershipType( object ):
-    """ The Type of the MPs membership in parliament,
-    was he elected, nominated or is he member ex oficio, ... """
-    
+
 
 class MemberOfParliament ( object ):    
     """

@@ -400,6 +400,9 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
            if (treePopupMenuAction_popupType ==  PopupTypeIdentifier.SELECT_INSERT){
                     return SelectorDialogModes.TEXT_SELECTED_INSERT;
            }
+           if (treePopupMenuAction_popupType ==  PopupTypeIdentifier.APPLY_MARKUP){
+                    return SelectorDialogModes.TEXT_SELECTED_INSERT;
+           }
            if (treePopupMenuAction_popupType == PopupTypeIdentifier.SYSTEM_ACTION) {
                     return SelectorDialogModes.TEXT_SELECTED_SYSTEM_ACTION;
            }
@@ -578,6 +581,9 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
 
                 popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.DOCUMENT_ACTION), subAction, PopupTypeIdentifier.DOCUMENT_ACTION));
 
+            } else if (subAction.action_type().equals("markup")) {
+                popupMenu.removeAll();
+                popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.APPLY_MARKUP), subAction, PopupTypeIdentifier.APPLY_MARKUP));
             }
         } 
         

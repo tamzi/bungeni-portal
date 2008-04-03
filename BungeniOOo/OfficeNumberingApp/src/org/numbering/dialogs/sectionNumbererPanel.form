@@ -57,6 +57,7 @@
                 <StringItem index="4" value="Item 5"/>
               </StringArray>
             </Property>
+            <Property name="selectionMode" type="int" value="0"/>
           </Properties>
         </Component>
       </SubComponents>
@@ -100,11 +101,10 @@
         <Component class="javax.swing.JComboBox" name="cboNumberingScheme">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
+              <StringArray count="3">
                 <StringItem index="0" value="Base Numbering"/>
-                <StringItem index="1" value="Point Numbering"/>
-                <StringItem index="2" value="Roman Numerals"/>
-                <StringItem index="3" value="Alphabet"/>
+                <StringItem index="1" value="ROMAN"/>
+                <StringItem index="2" value="ALPHA"/>
               </StringArray>
             </Property>
           </Properties>

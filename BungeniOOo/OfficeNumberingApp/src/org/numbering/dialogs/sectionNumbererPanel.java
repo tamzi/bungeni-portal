@@ -250,7 +250,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
            
    }
    
-   private void getParentFromSection(){
+   private void getParentFromSection(XTextRange aTextRange){
       
        String prevParent="";
         Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
@@ -267,13 +267,13 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                          testCount=1;
                         
                          System.out.println("different parent" + "testCount " + testCount);
+                         insertNumber(aTextRange, testCount);
                         
                      }else{
                          //continue numbering
                         testCount++;
-                        
-                        
-                         System.out.println("same parent" + "testCount " + testCount);
+                        insertNumber(aTextRange, testCount);                 
+                        System.out.println("same parent" + "testCount " + testCount);
                      }
                     prevParent=(String)xParentSecName.getName();
 
@@ -308,8 +308,9 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
    
    
     
-    private void insertNumber(XTextRange aTextRange, int countElems){
- 
+    private void insertNumber(XTextRange aTextRange, int testCount){
+        
+        
        String numberingScheme =cboNumberingScheme.getSelectedItem().toString();
        int numberingSchemeIndex=cboNumberingScheme.getSelectedIndex();
        log.debug("numbering scheme selected " + numberingScheme);
@@ -317,7 +318,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
        XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
        xTextCursor.gotoRange(aTextRange.getEnd(), true);
        
-       xRangeText.insertString(xTextCursor,countElems + ") ",false);
+       xRangeText.insertString(xTextCursor,testCount + ") ",false);
       
     }
     
@@ -358,8 +359,8 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                                  xRangeText.insertTextContent(xTextCursor,xContent,true);
                                  
                                  
-                             
-                             //  insertNumber(aTextRange);
+                             //getParentFromSection(aTextRange);
+                               //insertNumber(aTextRange);
                                 //countElems++;
                                
                                  
@@ -386,13 +387,16 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     }
     //method to get heading from section with selected sectionType
     private void getHeadingInSection() {
+         String prevParent="";
         //iterate through the sectionTypeMatchedSections and look for heading in section
        Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
+       
        while(typedMatchSectionItr.hasNext()){
            
             Object matchedSectionElem=typedMatchSectionItr.next();
             
             try{
+               
             Object sectionName = ooDocument.getTextSections().getByName(matchedSectionElem.toString());
             XTextSection theSection = ooQueryInterface.XTextSection(sectionName);
             XTextRange range = theSection.getAnchor();
@@ -400,7 +404,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
             XEnumerationAccess enumAcc  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, range);
             XEnumeration xEnum = enumAcc.createEnumeration();
            
-            int headCount=0;
+           
             while (xEnum.hasMoreElements()) {
                 Object elem = xEnum.nextElement();
                 XServiceInfo xInfo = (XServiceInfo)UnoRuntime.queryInterface(XServiceInfo.class, elem);
@@ -417,10 +421,27 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                                               
                         //apply numbering scheme
                          log.debug("getHeading: heading found " + strHeading);
+                         
+                         XNamed xParentSecName= ooQueryInterface.XNamed(theSection.getParentSection());
+                         String currentParent=(String)xParentSecName.getName();
+                         if(!currentParent.equalsIgnoreCase(prevParent)){
+                             //restart numbering here
+                             testCount=1;
+                          
+                             insertNumber(aTextRange, testCount);
+
+                         }else{
+                             //continue numbering
+                            testCount++;
+                            insertNumber(aTextRange, testCount);                 
+                            System.out.println("same parent" + "testCount " + testCount);
+                         }
+                        prevParent=(String)xParentSecName.getName();
                                                 
-                         getReferenceMark(aTextRange,elem);
-                      
+                        getReferenceMark(aTextRange,elem);
+                         
                         break;
+                        
                          
                       }
                 }
@@ -547,9 +568,9 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     private void btnApplyNumberingSchemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyNumberingSchemeActionPerformed
        // countElems=1;
          readSections();
-         
          applyNumberingScheme();
          getHeadingInSection();
+        // getParentFromSection();
         
          
      

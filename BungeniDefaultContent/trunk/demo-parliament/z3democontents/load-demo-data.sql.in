@@ -18,8 +18,9 @@ copy public.constituencies (constituency_id, name, province, region, start_date)
 copy public.constituency_details (constituency_id, voters, "date", population) from
 '%(directory)s/data/demodata/constituency_details.csv' csv ;
 
-copy public.user_types 
+/*copy public.user_types 
 from '%(directory)s/data/demodata/user_types.csv' csv;
+*/
 
 copy public.group_types 
 from '%(directory)s/data/demodata/group_types.csv' csv;
@@ -76,6 +77,11 @@ update public.parliament_members set elected_nominated ='N' where constituency_i
 copy public.sessions (session_id, parliament_id, short_name, start_date, end_date, notes)
 from '%(directory)s/data/demodata/sessions.csv'
 csv ;
+
+
+update public.sessions set full_name = short_name || ' ' || extract(year from start_date) 
+;
+
 
 /* political parties */
 copy public.groups( group_id, short_name, start_date, type )
@@ -176,7 +182,7 @@ where sequence_schema='public';
  SELECT setval('constituencies_constituency_id_seq', 1000);
  SELECT setval('motion_versions_version_id_seq', 1000);
  SELECT setval('constituency_details_constituency_detail_id_seq', 1000);
- SELECT setval('user_role_types_user_role_type_id_seq', 1000)
+ SELECT setval('user_role_types_user_role_type_id_seq', 1000);
 
 
 

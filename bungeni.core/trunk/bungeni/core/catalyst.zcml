@@ -185,7 +185,7 @@
      /-->
               
   <db:catalyst
-     class=".domain.mp"
+     class=".domain.MemberOfParliament"
      descriptor=".descriptor.MpDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     

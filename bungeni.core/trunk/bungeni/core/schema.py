@@ -36,10 +36,10 @@ users = rdb.Table(
    rdb.Column( "middle_name", rdb.Unicode(80) ),
    rdb.Column( "email", rdb.String(32), nullable=False ),
    rdb.Column( "gender", rdb.String(1),
-        rdb.CheckConstraint("gender in ('M', 'F')"), 
+        rdb.CheckConstraint("gender in ('M', 'F')"), nullable=False,
         ), # (M)ale (F)emale    ),   
    rdb.Column( "date_of_birth", rdb.DateTime(timezone=False) ),
-   rdb.Column( "birth_country", rdb.String(2) ),
+   rdb.Column( "birth_country", rdb.String(2), nullable=False ),
    rdb.Column( "date_of_death", rdb.DateTime(timezone=False) ),
    rdb.Column( "national_id", rdb.Unicode(32) ),
    rdb.Column( "password", rdb.String(36)), # we store salted md5 hash hexdigests

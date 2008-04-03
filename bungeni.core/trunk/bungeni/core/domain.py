@@ -84,7 +84,7 @@ class ParliamentMembershipType( object ):
     was he elected, nominated or is he member ex oficio, ... """
     
 
-class mp ( object ):    
+class MemberOfParliament ( object ):    
     """
     defined by groupmembership and aditional data
     """
@@ -147,7 +147,7 @@ class Parliament( Group ):
     committees = one2many("comittees", "bungeni.core.domain.CommitteeContainer", "parliament_id")
     mps = one2many("mps","bungeni.core.domain.GroupMembershipContainer", "group_id")
     governments = one2many("governments","bungeni.core.domain.GovernmentContainer", "parliament_id")
-    parliamentmembers = one2many("parliamentmembers", "bungeni.core.domain.mpContainer", "group_id") 
+    parliamentmembers = one2many("parliamentmembers", "bungeni.core.domain.MemberOfParliamentContainer", "group_id") 
 #    extensionmembers = one2many("extensionmembers", "bungeni.core.domain.ExtensionGroupContainer", "parliament_id")
     
 class PoliticalParty( Group ):
@@ -164,7 +164,7 @@ class PartyMember( Entity ):
 class Ministry( Group ):
     """ a government ministry
     """
-    sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "group_id")
+    #sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "group_id")
     ministers = one2many("Ministers","bungeni.core.domain.MinisterContainer", "group_id")
     
 class Minister( Entity ):

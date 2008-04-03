@@ -19,7 +19,37 @@ Setting up Database Connection and Utilities:
    >>> db = create_engine('postgres://localhost/bungeni', echo=False)
    >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
    >>> model.metadata.bind = db   
+   >>> model.metadata.create_all() 
    >>> session = Session()
+
+region, country, province
+--------------------------
+get some values in those tables as they are needed later on
+
+ >>> country = model.Country()
+ >>> country.country_id = 'KE'
+ >>> country.country_name = u"Kenya"
+ >>> session.save(country)
+ >>> session.flush()
+ >>> country.country_id
+ 'KE'
+ >>> country.country_name
+ u'Kenya'
+
+Regions and provinces get their primary key with a db sequence:
+ 
+ >>> region = model.Region()
+ >>> region.region = u"Nairobi"
+ >>> session.save(region)
+ >>> session.flush() 
+ >>> region.region_id
+ 1L
+ >>> province = model.Province()
+ >>> province.province= u"Central"
+ >>> session.save(province)
+ >>> session.flush()
+ >>> province.province_id
+ 1L
 
 Users
 -----
@@ -35,22 +65,24 @@ Members of Parliament
   >>> mp_1 = model.ParliamentMember(u"mp_1", 
   ...        first_name=u"a", 
   ...        last_name=u'ab', 
+  ...        birth_country="KE",
   ...        email=u"mp1@example.com", 
   ...        date_of_birth=datetime.now(),
-  ...        birth_country="SA",
   ...        gender='M')
   >>> mp_2 = model.ParliamentMember(u"mp_2", 
   ...        first_name=u"b", 
   ...        last_name=u"bc", 
+  ...        birth_country="KE",  
   ...        date_of_birth=datetime.now(),
   ...        email=u"mp2@example.com",
   ...        gender='M')
   >>> mp_3 = model.ParliamentMember(u"mp_3",
   ...        first_name=u"c", 
+  ...        birth_country="KE",  
   ...        last_name=u"cd",
   ...        date_of_birth=datetime.now(),
   ...        email=u"mp3@example.com", 
-  ...        gender='M')
+  ...        gender='F')
 
 Groups
 ------
@@ -90,6 +122,54 @@ Check that we can access the membership through the containment object
   >>> session.flush()
   >>> len( list( parliament.users.values() ) )
   3
+
+Constituencies
+-----------------
+Constituencies have a fk on regions and provinces:
+
+ >>> constituency = model.Constituency()
+ >>> constituency.name = u"Nairobi/Westlands"
+ >>> constituency.region = 1
+ >>> constituency.province = 1
+ >>> constituency.start_date = datetime.now()
+
+ >>> session.save(constituency)
+ >>> session.flush()
+ 
+check the pk if it was saved and pk sequence is working
+
+ >>> constituency.constituency_id
+ 1L
+ 
+ParliamentMembershipType 
+------------------------
+was the mp elected, nominated or ...
+
+ >>> pmt = model.ParliamentMembershipType()
+ >>> pmt.parliament_membership_type_id = 'E' 
+ >>> pmt.membership_type_desc = u"elected" 
+ >>> session.save(pmt)
+ >>> session.flush()
+ >>> pmt.parliament_membership_type_id
+ 'E'
+ 
+Members of parliament
+----------------------
+Members of parliament are defined by their membership in
+the parliaments group and additional attributes.
+
+  >>> mp4 = model.MemberOfParliament()
+  >>> mp4.group_id = parliament.group_id
+  >>> mp4.user_id = mp_1.user_id
+  >>> mp4.start_date = datetime.now()
+  >>> mp4.constituency_id = 1
+  >>> mp4.elected_nominated = 'E'
+  >>> session.save(mp4)
+  >>> session.flush()   
+  >>> mp4.membership_id
+  7L            
+
+      
   
 Sittings
 --------
@@ -100,6 +180,7 @@ meeting of the group by the system.
 
 Motions
 -------
+  >>> motion = model.Motion()
 
 Motions
 
@@ -121,6 +202,11 @@ Bill
 
 Rota Preparation
 ----------------
+ 
+
+
+ 
+
  
 
 

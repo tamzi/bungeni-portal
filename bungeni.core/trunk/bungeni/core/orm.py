@@ -114,7 +114,7 @@ mapper( domain.ParliamentMember,
 _mp = rdb.join(schema.user_group_memberships, schema.parliament_members, 
                 schema.user_group_memberships.c.membership_id == schema.parliament_members.c.membership_id)
                 
-mapper ( domain.mp , _mp,
+mapper ( domain.MemberOfParliament , _mp,
          primary_key=[schema.user_group_memberships.c.membership_id],         
         )
         

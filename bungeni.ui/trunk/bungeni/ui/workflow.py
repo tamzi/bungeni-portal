@@ -114,7 +114,7 @@ class TransitionHandler( object ):
             info = component.getAdapter( context, interfaces.IWorkflowInfo, self.wf_name )
         else:
             info = interfaces.IWorkflowInfo( context )
-        info.fireTransition( self.transition_id, data['notes'] )        
+        info.fireTransition( self.transition_id )        
         form.setupActions()
 
 def bindTransitions( form_instance, transitions, wf_name=None, wf=None):
@@ -153,6 +153,7 @@ class WorkflowActionViewlet( BaseForm, viewlet.ViewletBase ):
     """
     form_name = "Workflow"
     form_fields = form.Fields(IWorkflowComment)
+    #form_fields = form.Fields()
     actions=()
     render = ViewPageTemplateFile ('templates/workflowaction_viewlet.pt')
     
@@ -179,8 +180,23 @@ class WorkflowActionViewlet( BaseForm, viewlet.ViewletBase ):
             self.form_fields, self.prefix, self.context, self.request,
             ignore_request = ignore_request )            
 
-class Workflow( BrowserPage ):
+class Workflow( BaseForm ):
     
-    __call__ = ViewPageTemplateFile('templates/workflow.pt')
+    template = ViewPageTemplateFile('templates/workflow.pt')
+    form_name = "Workflow"
+    form_fields = form.Fields()
+
+    
+    def update( self ):
+        self.setupActions()   
+        super( Workflow, self).update()
+        self.setupActions()  # after we transition we have different actions      
+        wf_state =interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
+        self.wf_status = wf_state
+        
+    def setupActions( self ):
+        self.wf = interfaces.IWorkflowInfo( self.context )
+        transitions = self.wf.getManualTransitionIds()
+        self.actions = bindTransitions( self, transitions )
 
         

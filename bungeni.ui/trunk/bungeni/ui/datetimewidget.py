@@ -116,7 +116,7 @@ class SelectDateWidget( SimpleInputWidget):
         else:
             try:
                 time_zone = self.time_zone
-                return datetime.datetime(year=int(year), month=int(month), day=int(day), ) #tzinfo=time_zone )
+                return datetime.date(year=int(year), month=int(month), day=int(day), ) #tzinfo=time_zone )
             except ValueError, e:
                 raise ConversionError(_(u"Incorrect string data for date"), e)                
                 
@@ -124,7 +124,7 @@ class SelectDateWidget( SimpleInputWidget):
     def _toFormValue(self, value):
         """convert a field value to a string that can be inserted into the form"""        
         if (value == self.context.missing_value) and self.required:
-            d = datetime.date.today()
+            d = date.date.today()
             return (d.day, d.month, d.year)
         else:
             try:

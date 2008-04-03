@@ -545,11 +545,11 @@ class AttendanceDescriptor( ModelDescriptor ):
                     AND ("group_sittings"."sitting_id" = %(primary_key)s)
                     AND ( "users"."user_id" NOT IN (SELECT member_id 
                                                     FROM sitting_attendance 
-                                                    WHERE sitting_id = %(primary_key)s)
+                                                    WHERE sitting_id = %(primary_key)s)                                           
                          )
-                    
+                    ORDER BY "users"."last_name"                    
                     '''
-    #membersVocab = vocabulary.SQLQuerySource(sql_members, 'user_name', 'user_id')                                                                        
+    membersVocab = vocabulary.SQLQuerySource(sql_members, 'user_name', 'user_id')                                                                        
     fields = [
         dict( name="sitting_id", omit=True ),
         dict( name="member_id", listing=True,

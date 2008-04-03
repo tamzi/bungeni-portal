@@ -7,6 +7,7 @@ from zope.schema import vocabulary
 from zope.security.proxy import removeSecurityProxy
 from ore.alchemist.vocabulary import DatabaseSource, ObjectSource, Session
 from ore.alchemist.container import valueKey
+#import ore.alchemist
 from sqlalchemy.orm import mapper,  column_property 
 import sqlalchemy as rdb
 import schema, domain
@@ -179,6 +180,12 @@ class QuerySource( object ):
         return vocabulary.SimpleVocabulary( terms )
 
 
+# object to get the connection from so we can execute a sql statement
+class _TmpSqlQuery( object):
+    pass    
+mapper( _TmpSqlQuery, schema.parliaments )
+    
+    
 class SQLQuerySource ( object ):
     """ call with a SQL Statement and the rows which make up the vocabulary
     note that a % wildcard for sql LIKEs must be escaped as %%
@@ -207,13 +214,14 @@ class SQLQuerySource ( object ):
     def constructQuery( self, context ):        
         session = Session()    
         pfk = self.getValueKey(context)   
-        sql_statement =  (self.sql_statement % {'primary_key' : pfk} )         
-        query = session.execute(rdb.sql.text(sql_statement))
+        sql_statement =  (self.sql_statement % {'primary_key' : pfk} )   
+        connection = session.connection(_TmpSqlQuery)      
+        query = connection.execute(sql_statement)        
         return query
         
     def __call__( self, context=None ):
         query = self.constructQuery( context )
-        results = query.all()
+        results = query.fetchall()
         
         terms = []
         title_field = self.title_field or self.token_field

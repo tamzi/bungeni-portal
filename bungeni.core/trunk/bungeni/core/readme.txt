@@ -177,6 +177,67 @@ Sittings
 any group can schedule a sitting, a sitting is treated as a physical
 meeting of the group by the system. 
 
+ >>> st = model.SittingType()
+ >>> st.sitting_type = u"morning"
+ >>> session.save(st)
+ >>> session.flush()
+ 
+
+ >>> sit = model.GroupSitting()
+ >>> sit.group_id = committee_a.group_id
+ >>> sit.start_date = datetime.now()
+ >>> sit.end_date = datetime.now()
+ >>> sit.sitting_type = st.sitting_type_id
+ >>> session.save(sit)
+ >>> session.flush() 
+
+Sitting attendance
+-------------------
+
+the attendance of a member at a sitting.
+
+ >>> at = model.AttendanceType()
+ >>> at.attendance_type = u"present"
+ >>> session.save(at)
+ >>> session.flush()  
+ 
+ >>> gsa = model.GroupSittingAttendance()
+ >>> gsa.sitting_id = sit.sitting_id
+ >>> gsa.member_id = mp_1.user_id
+ >>> gsa.attendance_id = at.attendance_id
+ >>> session.save(gsa)
+ >>> session.flush() 
+ 
+Sessions
+-----------
+A parliamentary Session
+
+ >>> sess = model.ParliamentSession()
+ >>> sess.parliament_id = parliament.parliament_id
+ >>> sess.short_name = u"First Session"
+ >>> sess.start_date = datetime.now()
+ >>> sess.end_date = datetime.now()
+ >>> session.save(sess)
+ >>> session.flush() 
+ 
+Sitting in this session 
+ 
+ >>> ssit = model.GroupSitting()
+ >>> ssit.group_id = sess.session_id
+ >>> ssit.start_date = datetime.now()
+ >>> ssit.end_date = datetime.now()
+ >>> ssit.sitting_type = st.sitting_type_id
+ >>> session.save(ssit)
+ >>> session.flush() 
+ 
+Attendance
+
+ >>> sgsa = model.GroupSittingAttendance()
+ >>> sgsa.sitting_id = ssit.sitting_id
+ >>> sgsa.member_id = mp_1.user_id
+ >>> sgsa.attendance_id = at.attendance_id
+ >>> session.save(sgsa)
+ >>> session.flush() 
 
 Motions
 -------

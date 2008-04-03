@@ -12,7 +12,7 @@ from schema import metadata
 
 from domain import User, ParliamentMember, HansardReporter
 from domain import GroupMembership, Group, Government, Parliament, PoliticalParty, Ministry, Committee
-
+from domain import GroupSitting, SittingType, GroupSittingAttendance, AttendanceType
 from domain import ParliamentSession
 from domain import Question, QuestionVersion, QuestionChange
 from domain import Motion, MotionVersion, MotionChange

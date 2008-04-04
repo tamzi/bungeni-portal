@@ -1,6 +1,7 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"           
            xmlns:db="http://namespaces.objectrealms.net/rdb"
+           xmlns:xapian="http://namespaces.objectrealms.net/xapian"
            i18n_domain="bungeni">
 
   <include package="ore.xapian" />
@@ -16,7 +17,7 @@
   <db:bind
      engine="bungeni-db"
      metadata=".schema.metadata" />
-
+  
   <!-- Bind Security Model to Database (role, permission maps) -->
   <db:bind
      engine="bungeni-db"

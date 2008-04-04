@@ -36,7 +36,7 @@ public class schemeNumeric extends BaseNumberingScheme implements IGeneralNumber
         Iterator<Long> baseIterator = baseSequence.iterator();
         while (baseIterator.hasNext()) {
             Long baseNumber = baseIterator.next();
-            generatedSequence.add(baseNumber.toString());
+            addNumberToSequence(baseNumber.toString());
         }
     }
    

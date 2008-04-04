@@ -41,13 +41,14 @@ public class schemeRoman extends BaseNumberingScheme implements IGeneralNumberin
         Iterator<Long> baseIterator = baseSequence.iterator();
         while (baseIterator.hasNext()) {
             Long baseNumber = baseIterator.next();
-            generatedSequence.add(numberer.toRoman(baseNumber));
+            addNumberToSequence(numberer.toRoman(baseNumber));
         }
     }
    
     
     public static void main(String[] args) {
         schemeRoman numObj = new schemeRoman((long)12, (long) 33);
+        numObj.setParentPrefix("1");
         numObj.generateSequence();
         ArrayList<String> seq = numObj.getGeneratedSequence();
         Iterator<String> iter = seq.iterator();

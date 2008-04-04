@@ -50,7 +50,7 @@ public class schemeAlphabetical extends BaseNumberingScheme implements IGeneralN
         Iterator<Long> baseIterator = baseSequence.iterator();
         while (baseIterator.hasNext()) {
             Long baseNumber = baseIterator.next();
-            generatedSequence.add(numberer.toAlpha(baseNumber));
+            addNumberToSequence(numberer.toAlpha(baseNumber));
         }
     }
    
@@ -58,6 +58,7 @@ public class schemeAlphabetical extends BaseNumberingScheme implements IGeneralN
     
     public static void main(String[] args) {
         schemeAlphabetical numObj = new schemeAlphabetical((long)12, (long) 33);
+        numObj.setParentPrefix("1.1");
         numObj.generateSequence();
         ArrayList<String> seq = numObj.getGeneratedSequence();
         Iterator<String> iter = seq.iterator();

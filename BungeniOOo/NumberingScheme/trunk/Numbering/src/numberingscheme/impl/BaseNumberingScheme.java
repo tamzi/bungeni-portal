@@ -29,6 +29,10 @@ public class BaseNumberingScheme   {
      * ArrayList that stores the derived class generated sequence, (Array of strings)
      */
     protected ArrayList<String> generatedSequence=new ArrayList<String>();
+    static String DEFAULT_SEPARATOR = ".";
+    protected boolean hasPrefix = false;
+    protected String parentPrefix ;
+    protected String parentPrefixSeparator = DEFAULT_SEPARATOR;
     
     /**
      * base class constructor, needs to be explicitly invoked with super() from the derived class
@@ -83,5 +87,27 @@ public class BaseNumberingScheme   {
    public ArrayList<String> getGeneratedSequence(){
        return generatedSequence;
    }
+   
+   public boolean hasParentPrefix() {
+       return hasPrefix;
+   }
+   
+   public void setParentPrefix (String pPrefix, String pSeparator) {
+       setParentPrefix (pPrefix);
+       this.parentPrefixSeparator = pSeparator;
+   }
  
+   public void setParentPrefix (String pPrefix) {
+       this.hasPrefix = true;
+       this.parentPrefix = pPrefix;
+   }
+   
+   public void addNumberToSequence (String number) {
+       if (hasParentPrefix()) {
+           generatedSequence.add(parentPrefix + parentPrefixSeparator + number);
+       } else {
+            generatedSequence.add(number);
+       }
+   }
+   
 }

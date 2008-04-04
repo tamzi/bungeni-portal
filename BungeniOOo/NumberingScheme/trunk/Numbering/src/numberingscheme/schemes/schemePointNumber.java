@@ -49,13 +49,14 @@ public class schemePointNumber extends BaseNumberingScheme implements IGeneralNu
         while (baseIterator.hasNext()) {
             Long baseNumber = baseIterator.next();
             String pointNumber = numberer.toPointNum(baseNumber);
-            generatedSequence.add(pointNumber);
+            addNumberToSequence(pointNumber);
         }
     }
    
     
     public static void main(String[] args) {
     schemePointNumber numObj = new schemePointNumber((long)12341, (long) 12349);
+    numObj.setParentPrefix("1");
         numObj.generateSequence();
         ArrayList<String> seq = numObj.getGeneratedSequence();
         Iterator<String> iter = seq.iterator();

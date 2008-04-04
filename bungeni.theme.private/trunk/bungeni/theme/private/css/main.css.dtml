@@ -55,13 +55,13 @@ table.main-body-table{
 }
 
 td.left-column{
-	background: #f7e2c7 url(&dtml-portal_url;/shadow_left.gif) right repeat-y ;
+	background: #f7e2c7 url(&dtml-image_url;/shadow_left.gif) right repeat-y ;
 	width: 9px;
 	height: 100%;
 }
 
 td.right-column{
-	background: #f7e2c7 url(&dtml-portal_url;/shadow_right.gif) repeat-y left;
+	background: #f7e2c7 url(&dtml-image_url;/shadow_right.gif) repeat-y left;
 	width: 9px;
 	height: 100%;
 }
@@ -70,7 +70,7 @@ td.right-column{
 #portal-breadcrumbs {
 background-color: transparent;
 display: block;
-/*background: transparent url(&dtml-portal_url;/breadcrumb_back1.gif) no-repeat left top;*/
+/*background: transparent url(&dtml-image_url;/breadcrumb_back1.gif) no-repeat left top;*/
 margin: 0;
 margin-bottom: 0 !important;
 padding-bottom: 1em;
@@ -289,7 +289,7 @@ margin-top:10px;
 }
 
 #portal-column-one .portletHeader {
-background: transparent url(&dtml-portal_url;/header_back2.jpg) left top no-repeat;
+background: transparent url(&dtml-image_url;/header_back2.jpg) left top no-repeat;
 display: block;
 padding: 0.2em 0 0 0.3em;
 margin: 0;
@@ -377,12 +377,12 @@ background-color:transparent;
 
 dd.portletItem .navTreeItem a:hover
 {
-background: transparent url(&dtml-portal_url;/bullet_curent1.gif) no-repeat top left;
+background: transparent url(&dtml-image_url;/bullet_curent1.gif) no-repeat top left;
 color: #da5d0e!important;
 }
 
 dd.portletItem .navTreeItem .navTreeCurrentItem {
-background: transparent url(&dtml-portal_url;/bullet_curent1.gif) no-repeat top left;
+background: transparent url(&dtml-image_url;/bullet_curent1.gif) no-repeat top left;
 color: #da5d0e !important;
 font-weight: bold;
 }

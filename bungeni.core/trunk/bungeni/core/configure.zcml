@@ -3,6 +3,9 @@
            xmlns:db="http://namespaces.objectrealms.net/rdb"
            i18n_domain="bungeni">
 
+  <include package="ore.xapian" />
+  <include package="ore.xapian" file="meta.zcml" />
+
   <!-- Setup Database Connection -->	  
   <db:engine
      name="bungeni-db"
@@ -34,7 +37,6 @@
   <!-- Setup Domain Model Versioning Feature-->
   <include file="version.zcml"/>
   
-  
   <!-- Searching -->
   <utility component=".index.searcher" />
   
@@ -43,7 +45,10 @@
       factory=".index.ContentIndexer"/>
       
   <utility factory=".index.ContentResolver" />
-  
+
+  <xapian:queue
+     indexer=".index.indexer" />
+
   <!-- Workflow -->
   <include package=".workflows" />
       

@@ -16,7 +16,7 @@ some setup for tests
 
 Setting up Database Connection and Utilities:
 
-   >>> db = create_engine('postgres://localhost/bungeni', echo=False)
+   >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
    >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
    >>> model.metadata.bind = db   
    >>> model.metadata.create_all() 

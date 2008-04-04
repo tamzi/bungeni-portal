@@ -17,10 +17,9 @@ class CSSPropertiedDTMLResource(FileResource):
         data = super( CSSPropertiedDTMLResource, self).GET()
         if not data:
             return data
-        import pdb ; pdb.set_trace( )
         template = HTML( data )
         
-        self.properties['portal_url'] = self.request.getApplicationURL()
+        self.properties['image_url'] = self.request.getApplicationURL() + '/++resource++images'
         data = template( mapping=self.properties, REQUEST=self.request )
         self.request.response.setHeader('Content-Type', 'text/css')
         return data

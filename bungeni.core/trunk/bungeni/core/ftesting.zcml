@@ -1,0 +1,79 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"           
+           xmlns:db="http://namespaces.objectrealms.net/rdb"
+           xmlns:xapian="http://namespaces.objectrealms.net/xapian"
+           i18n_domain="bungeni">
+
+  <include package="zope.component" file="meta.zcml" />
+  <include package="zope.app.component" file="meta.zcml" />
+  
+  <include package="ore.alchemist" file="meta.zcml"/>
+  <include package="alchemist.catalyst" file="meta.zcml"/>
+
+  <include package="ore.xapian" />
+  <include package="ore.xapian" file="meta.zcml" />
+  
+  <!-- Setup Database Connection -->
+  <db:engine
+     name="bungeni-db"
+     url="postgres://localhost/bungeni-test"
+     />
+     
+  <db:bind
+     engine="bungeni-db"
+     metadata="bungeni.core.metadata" />
+
+  <!-- Bind Security Model to Database (role, permission maps) -->
+  <db:bind
+     engine="bungeni-db"
+     metadata="alchemist.security.schema.metadata" />
+
+  <!-- Setup Core Model --> 
+  <include package="bungeni.core" file="catalyst.zcml"/>
+
+  <!-- Catalyze Domain Models -->
+  <include file="catalyst.zcml"/>
+
+  <!-- Searching -->
+  <utility component=".testing.searcher" />
+
+  <adapter
+     for=".interfaces.IBungeniContent"
+     factory=".index.ContentIndexer" />
+      
+  <utility factory=".index.ContentResolver" />
+
+  <xapian:queue
+     indexer=".testing.indexer" />
+
+  <!-- Pluggable Traversal for Parliamentary Content -->
+  <adapter
+      for=".interfaces.IBungeniContent
+           zope.publisher.interfaces.IPublisherRequest"
+      factory="z3c.traverser.traverser.PluggableTraverser"
+      provides="zope.publisher.interfaces.IPublishTraverse"/>
+
+  <!-- Authentication Utility -->
+  <adapter
+     factory=".auth.authUser"
+     />
+     
+ <adapter
+     for=".interfaces.IBungeniApplication"
+     provides="zope.securitypolicy.interfaces.IPrincipalRoleMap"
+     factory="alchemist.security.role.adaptprm"
+     />
+          
+  <utility
+     provides="zope.app.authentication.interfaces.IAuthenticatorPlugin"
+     factory="alchemist.security.auth.DatabaseAuthentication"
+     name="rdb-auth"
+     />
+
+  <!-- Application setup -->
+  <class 
+     class=".app.BungeniApp">
+     <allow interface="zope.app.container.interfaces.IReadContainer" />
+  </class>
+
+</configure>

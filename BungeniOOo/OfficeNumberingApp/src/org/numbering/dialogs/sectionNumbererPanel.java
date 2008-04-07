@@ -342,12 +342,9 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                 try {
                     xFieldProps.setPropertyValue("SourceName", aNames[i]);
                     xFieldProps.setPropertyValue ("ReferenceFieldSource", new Short(ReferenceFieldSource.REFERENCE_MARK));
-                                      
-                   if(xFieldProps.getPropertyValue("SourceName").toString().equals(aNames[i])){
-                        System.out.println("found" + aNames[i]);
-                    }else{
-                        System.out.println("broken" + aNames[i]);
-                    }
+                  
+                   
+                   
                     
                 } catch (UnknownPropertyException ex) {
                     ex.printStackTrace();

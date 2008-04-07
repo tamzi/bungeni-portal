@@ -3,21 +3,22 @@
       i18n_domain="bungeni.ui">
 
   <div class="workspace-viewlet"
+       tal:define="results view/results"
        tal:attributes="id string:workspace-viewlet-${view/state}">
 
     <h4 i18n:translate="" tal:content="view/title" />
     
-    <ul tal:define="results view/results"
-        tal:condition="results">
-
+    <ul tal:condition="results">
       <li tal:repeat="result results">
         <a tal:attributes="href result/url">
           <span tal:content="result/title" />
         </a>
       </li>
-      
     </ul>
 
+    <p tal:condition="not: results" i18n:translate="">
+      No items.
+    </p>
   </div>
   
 </html>

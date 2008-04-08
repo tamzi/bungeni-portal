@@ -28,4 +28,12 @@
      permission="zope.View"
      />
 
+  <browser:viewlet
+     name="bungeni.workspace.questions-archive"
+     for="*"
+     manager=".interfaces.IWorkspace"
+     class=".question.Archive"
+     permission="zope.View"
+     />
+
 </configure>

@@ -4,7 +4,7 @@
 
   <div class="workspace-viewlet"
        tal:define="results view/results"
-       tal:attributes="id string:workspace-viewlet-${view/state}">
+       tal:attributes="id string:workspace-viewlet-${view/name}">
 
     <h4 i18n:translate="" tal:content="view/title" />
     

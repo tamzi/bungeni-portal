@@ -4,7 +4,8 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.traversing.browser.absoluteurl import absoluteURL
 
 from ore.xapian.interfaces import IIndexSearch
-from ore.xapian.interfaces import IResolver
+
+import xapian
 
 from bungeni.ui.i18n import MessageFactory as _
 
@@ -17,25 +18,15 @@ class QuestionsListingViewletBase(object):
     
     render = ViewPageTemplateFile("questions.pt")
 
-    title = description = None
-    state = marker
-
+    name = title = description = None
     count = 5
-    
+        
     def update(self):
         """Run query."""
 
-        if self.state is marker:
-            return NotImplementedError("Subclass must provide ``state``.")
+        questions = [result.object() for result in self.query()]
 
-        searcher = component.getUtility(IIndexSearch)()
-        query = searcher.query_field('status', self.state)
-
-        # resolve items
-        resolver = component.getUtility(IResolver)
-        brains = searcher.search(query, 0, self.count)
-        questions = [brain.object() for brain in brains]
-
+        
         results = []
 
         for question in questions:
@@ -51,13 +42,45 @@ class QuestionsListingViewletBase(object):
             results.append(item)
 
         self.results = results
+
+    def query(self):
+        return NotImplementedError("Subclass must implement this method.")
+
+class QuestionsInParticularStateViewlet(QuestionsListingViewletBase):
+    state = marker
+
+    def query(self):
+        if self.state is marker:
+            return NotImplementedError("Subclass must provide ``state``.")
+    
+        searcher = component.getUtility(IIndexSearch)()
+        query = searcher.query_field('status', self.state)
+        brains = searcher.search(query, 0, self.count)
+
+        return brains
         
-class Draft(QuestionsListingViewletBase):
-    state = states.draft
+class Draft(QuestionsInParticularStateViewlet):
+    name = state = states.draft
     title = _(u"Drafts")
     description = _(u"Questions in draft state.")
 
-class Submitted(QuestionsListingViewletBase):
-    state = states.submitted
+class Submitted(QuestionsInParticularStateViewlet):
+    name = state = states.submitted
     title = _(u"Submitted")
     description = _(u"Questions submitted to Clerk's office.")
+
+class Archive(QuestionsListingViewletBase):
+    title = _(u"Archive")
+    description = _(u"Past submitted questions.")
+    name = 'archive'
+    
+    def query(self):
+        searcher = component.getUtility(IIndexSearch)()
+
+        draft = searcher.query_field('status', states.draft)
+        all = searcher.query_all()
+        
+        query = searcher.query_filter(all, draft, exclude=True)        
+        brains = searcher.search(query, 0, self.count)
+
+        return brains

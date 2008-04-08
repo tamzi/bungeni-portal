@@ -49,6 +49,7 @@
   
   <!-- Application Configuration -->
   <include package="bungeni.core" />
+  <include package="bungeni.messaging" />
 
   <!-- Application Theme -->
   <include package="ploned.ui" />
@@ -86,11 +87,19 @@
   <grant permission="zope.View"
          principal="zope.anybody" />         
 
-
   <role id="zope.Manager" title="Site Manager" />
   <role id="zope.Member" title="Site Member" />
+  
+  <grant permission="zope.View"
+         role="zope.Member" />         
 
+  <!-- authenticated users are members -->
+  
+  <grant role="zope.Member"
+         principal="zope.Authenticated" />
+  
   <grantAll role="zope.Manager" />
+  
   <grant role="zope.Manager"
          principal="zope.manager" />
   <grant role="zope.Manager"

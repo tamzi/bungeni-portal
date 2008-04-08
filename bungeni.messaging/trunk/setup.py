@@ -21,8 +21,7 @@ setup(
     install_requires = [ 'setuptools',
                          'zope.schema',
                          'zope.interface',
-                         'zope.sendmail',
-                         'plone.smtp',]
+                         'zope.sendmail', ],
     zip_safe = False,
     )
 

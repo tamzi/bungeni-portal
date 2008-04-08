@@ -124,7 +124,7 @@ class SelectDateWidget( SimpleInputWidget):
     def _toFormValue(self, value):
         """convert a field value to a string that can be inserted into the form"""        
         if (value == self.context.missing_value) and self.required:
-            d = date.date.today()
+            d = datetime.date.today()
             return (d.day, d.month, d.year)
         else:
             try:

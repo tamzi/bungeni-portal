@@ -6,7 +6,6 @@
 
 package org.numbering.dialogs;
 
-import com.sun.star.beans.Property;
 import com.sun.star.beans.PropertyVetoException;
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
@@ -39,6 +38,8 @@ import com.sun.star.util.XNumberFormats;
 import com.sun.star.util.XNumberFormatsSupplier;
 import com.sun.star.view.XViewCursor;
 import com.sun.star.xforms.XModel;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -77,6 +78,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     private int countElems=1;
     private int testCount=1;
     DefaultListModel model=new DefaultListModel();
+    private IGeneralNumberingScheme inumScheme;
     
     
     Set attributeSet=new HashSet();
@@ -98,6 +100,8 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         loadJlist();
         listSectionTypes.addListSelectionListener(new NumberingSchemeListener());
         panelNumberingScheme.setVisible(false);
+        checkbxUseParentPrefix.setSelected(false);
+        checkbxUseParentPrefix.addItemListener(new ParentSchemeListener());
     }
     
   
@@ -106,7 +110,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
   
         openofficeObject = new org.bungeni.ooo.BungenioOoHelper(xContext);
         openofficeObject.initoOo();
-        xComponent = openofficeObject.openDocument("file:///home/undesa/Documents/testsection3.odt");
+        xComponent = openofficeObject.openDocument("/home/undesa/downloads/doc_with_sections.odt");
         ooDocument = new OOComponentHelper(xComponent, xContext);
         try{
             if (!ooDocument.isXComponentValid()) return;
@@ -316,6 +320,18 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         
    }
     
+  
+   private void insertParentPrefix(Object sectionElement, int parentPrefix){
+        String strParentPrefix="" + parentPrefix + "";
+        //clear the metadata map
+        metadata.clear();
+        //insert key=>value attribute into metadata map
+        metadata.put("ParentPrefix",strParentPrefix);
+        System.out.println("insertParentPrefix function " + metadata + " to " + sectionElement.toString());
+        //insert the applied number into the metadata
+        //ooDocument.setSectionMetadataAttributes(sectionElement.toString(),metadata);
+        
+   }
    
    private void removeNumber(XTextRange aTextRange, int testCount){
        //this function will delete the numbers next to each heading and regenerate based on the numbering
@@ -323,8 +339,10 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
        
    }
    
-   private void findBrokenReferences2() {
-    try {
+   private void findBrokenReferences(){
+    
+        
+       try {
     //dim oDoc as object
     //oDoc=thisComponent
     XTextDocument xDoc = ooDocument.getTextDocument();
@@ -353,8 +371,8 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         
         XServiceInfo xService = ooQueryInterface.XServiceInfo(oField);
        if (xService.supportsService("com.sun.star.text.TextField.GetReference")){
-        
-               XTextField xField = ooQueryInterface.XTextField(oField);
+              
+               XTextField xField =  (XTextField) UnoRuntime.queryInterface(XTextField.class, oField ) ;
                XPropertySet xFieldProperties = ooQueryInterface.XPropertySet(xField);
                XPropertySetInfo xFieldPropsInfo  = xFieldProperties.getPropertySetInfo();
 
@@ -393,67 +411,6 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     } catch (Exception ex) {
         
     }
-    
-    
-    }
-    
-
-
-       
-       
-       
-  
-   
-   
-   private void findBrokenReferences(){
-    
-        
-      XPropertySet xFieldProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, ooDocument.createInstance(
-                  "com.sun.star.text.TextField.GetReference"));
-       // Get the XReferenceMarksSupplier interface of the document
-       XReferenceMarksSupplier xRefSupplier = (XReferenceMarksSupplier) UnoRuntime.queryInterface(
-                         XReferenceMarksSupplier.class, ooDocument.getTextDocument());
-       // Get an XNameAccess which refers to all inserted reference marks
-       XNameAccess xMarks = (XNameAccess) UnoRuntime.queryInterface(XNameAccess.class,
-                     xRefSupplier.getReferenceMarks());
-         
-        // Put the names of each reference mark into an array of strings
-         String[] aNames = xMarks.getElementNames();
-         if (aNames.length > 0) {
-            for(int i=0;i<aNames.length;i++){
-                
-                System.out.println ("GetReference text field inserted for ReferenceMark : "  + aNames[i]);
-                
-                try {
-                    xFieldProps.setPropertyValue("SourceName", aNames[i]);
-                    xFieldProps.setPropertyValue ("ReferenceFieldSource", new Short(ReferenceFieldSource.REFERENCE_MARK));
-                  
-                 
-                 //identify broken references based on the macro code
-                 /*	if not oRefMarks.hasByName(oTextField.Sourcename) then
-				'orphan or broken reference found
-			end if
-                  *
-                  *
-                  *
-                  */
-                  if(!xMarks.hasByName(xFieldProps.getPropertyValue("SourceName").toString())){
-                        System.out.println("hello");
-                  }
-                   
-                    
-                } catch (UnknownPropertyException ex) {
-                    ex.printStackTrace();
-                } catch (WrappedTargetException ex) {
-                    ex.printStackTrace();
-                } catch (com.sun.star.lang.IllegalArgumentException ex) {
-                    ex.printStackTrace();
-                } catch (PropertyVetoException ex) {
-                    ex.printStackTrace();
-                }
-            }
-             
-         }
        
          
          
@@ -468,7 +425,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
        int numberingSchemeIndex=cboNumberingScheme.getSelectedIndex();
        log.debug("numbering scheme selected " + numberingScheme);
        
-       IGeneralNumberingScheme inumScheme =NumberingSchemeFactory.getNumberingScheme(numberingScheme);
+       inumScheme =NumberingSchemeFactory.getNumberingScheme(numberingScheme);
 
        
        XText xRangeText=aTextRange.getText();
@@ -479,12 +436,15 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
        XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, xTextCursor);
        
        inumScheme.setRange (new NumberRange(testCount, testCount));
+     
+       
        inumScheme.generateSequence();
        ArrayList<String> seq = inumScheme.getGeneratedSequence();
         Iterator<String> iter = seq.iterator();
         while (iter.hasNext()) {
            
             xRangeText.insertString(xTextCursor,iter.next() + ") ",false);
+            
         }
        
      
@@ -553,6 +513,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     private void getHeadingInSection() {
         
         String prevParent="";
+        int parentPrefix=0;;
         //iterate through the sectionTypeMatchedSections and look for heading in section
        Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
        while(typedMatchSectionItr.hasNext()){
@@ -588,23 +549,41 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                           //insert number here
                          XNamed xParentSecName= ooQueryInterface.XNamed(theSection.getParentSection());
                          String currentParent=(String)xParentSecName.getName();
+                       
+                         System.out.println("currentParent " + currentParent);
+                         
+                     
+                        
+                       
                          if(!currentParent.equalsIgnoreCase(prevParent)){
                              //restart numbering here
                              testCount=1;
-                             
-                            // insertNumber(aTextRange, testCount);
-                             //insertAppliedNumberToMetadata(matchedSectionElem,testCount);
+                              if(currentParent.equals("root")){
+                                  insertParentPrefix(matchedSectionElem, testCount);
+                                  
+                              }else{
+                                 parentPrefix=testCount;
+                                 insertParentPrefix(matchedSectionElem, parentPrefix);
+                              }
+                             insertNumber(aTextRange, testCount);
+                             insertAppliedNumberToMetadata(matchedSectionElem,testCount);
                          }else{
                              //continue numbering
                             testCount++;
-                            
-                           // insertNumber(aTextRange, testCount);                 
-                            //insertAppliedNumberToMetadata(matchedSectionElem,testCount);
+                            if(currentParent.equals("root")){
+                                  insertParentPrefix(matchedSectionElem, testCount);
+                                  
+                              }else{
+                                parentPrefix=testCount;
+                                 insertParentPrefix(matchedSectionElem, parentPrefix);
+                              }
+                            insertNumber(aTextRange, testCount);                 
+                            insertAppliedNumberToMetadata(matchedSectionElem,testCount);
                          }
                          
                         prevParent=(String)xParentSecName.getName();
                                                 
-                       // getReferenceMark(aTextRange,elem);
+                        getReferenceMark(aTextRange,elem);
                         
                       
                         break;
@@ -644,6 +623,17 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         public void valueChanged(ListSelectionEvent listSelectionEvent) {
             txtSectionType.setText(listSectionTypes.getSelectedValue().toString());
             panelNumberingScheme.setVisible(true);
+        }
+        
+    }
+     
+    private class ParentSchemeListener implements ItemListener{
+        public void itemStateChanged(ItemEvent itemEvent) {
+            int state = itemEvent.getStateChange();
+            if (state == ItemEvent.SELECTED) {
+              System.out.println("selected checkbox");
+             // inumScheme.setParentPrefix("1");
+            }
         }
         
     }
@@ -687,7 +677,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         checkbxUseParentPrefix.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         checkbxUseParentPrefix.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
-        jButton1.setText("test");
+        jButton1.setText("Renumber Sections");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -753,7 +743,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 // TODO add your handling code here:
-         findBrokenReferences2();
+         findBrokenReferences();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnApplyNumberingSchemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyNumberingSchemeActionPerformed

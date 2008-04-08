@@ -6,6 +6,7 @@
 
 package org.numbering.dialogs;
 
+import com.sun.star.beans.Property;
 import com.sun.star.beans.PropertyVetoException;
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
@@ -25,6 +26,8 @@ import com.sun.star.text.XSimpleText;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextCursor;
+import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextField;
 import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextViewCursor;
@@ -103,7 +106,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
   
         openofficeObject = new org.bungeni.ooo.BungenioOoHelper(xContext);
         openofficeObject.initoOo();
-        xComponent = openofficeObject.openDocument("/home/undesa/Documents/testsection3.odt");
+        xComponent = openofficeObject.openDocument("file:///home/undesa/Documents/testsection3.odt");
         ooDocument = new OOComponentHelper(xComponent, xContext);
         try{
             if (!ooDocument.isXComponentValid()) return;
@@ -319,6 +322,88 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
        //scheme again
        
    }
+   
+   private void findBrokenReferences2() {
+    try {
+    //dim oDoc as object
+    //oDoc=thisComponent
+    XTextDocument xDoc = ooDocument.getTextDocument();
+    //dim oRefMarks as object
+    //oRefMarks=oDoc.Referencemarks
+    XReferenceMarksSupplier xRefSupplier = (XReferenceMarksSupplier) UnoRuntime.queryInterface(
+                     XReferenceMarksSupplier.class, xDoc);
+    XNameAccess xRefMarks = xRefSupplier.getReferenceMarks();
+    /*
+    nCount = 0
+    bCancel = false
+    oFieldEnum = oDoc.textFields.createEnumeration
+    */
+    XEnumerationAccess xEnumFieldsAccess = ooDocument.getTextFields();
+    XEnumeration xFields = xEnumFieldsAccess.createEnumeration();
+    /*
+    do while oFieldEnum.hasMoreElements
+	oTextField = oFieldEnum.nextElement
+    */
+    int nCount = 0;
+    while (xFields.hasMoreElements()) {
+        Object oField = xFields.nextElement();
+        /*
+      	If oTextField.supportsService("com.sun.star.text.TextField.GetReference") then
+        */
+        
+        XServiceInfo xService = ooQueryInterface.XServiceInfo(oField);
+       if (xService.supportsService("com.sun.star.text.TextField.GetReference")){
+        
+               XTextField xField = ooQueryInterface.XTextField(oField);
+               XPropertySet xFieldProperties = ooQueryInterface.XPropertySet(xField);
+               XPropertySetInfo xFieldPropsInfo  = xFieldProperties.getPropertySetInfo();
+
+                /*
+		if oTextField.ReferenceFieldSource = com.sun.star.text.ReferenceFieldSource.REFERENCE_MARK then
+			if not oRefMarks.hasByName(oTextField.Sourcename) then
+				nCount = nCount + 1
+			
+			end if
+		elseif oTextField.ReferenceFieldSource = com.sun.star.text.ReferenceFieldSource.BOOKMARK then
+			if not oBookMarks.hasByName(oTextField.Sourcename) then
+				nCount = nCount + 1
+			
+			end if
+		elseif oTextField.ReferenceFieldSource = com.sun.star.text.ReferenceFieldSource.SEQUENCE_FIELD then
+		
+		end if
+                */
+               
+               short refSourceRefMark = AnyConverter.toShort(xFieldProperties.getPropertyValue("ReferenceFieldSource")); 
+               String sourceName = AnyConverter.toString(xFieldProperties.getPropertyValue("SourceName"));
+               switch (refSourceRefMark) {
+                   case com.sun.star.text.ReferenceFieldSource.REFERENCE_MARK :
+                       if (!xRefMarks.hasByName(sourceName)) 
+                           nCount++;
+                       break;
+                   default:
+                       break;
+               }
+       }
+      
+                
+      }
+    System.out.println("DEAD LINKS FOUND = " + nCount);
+        
+    } catch (Exception ex) {
+        
+    }
+    
+    
+    }
+    
+
+
+       
+       
+       
+  
+   
    
    private void findBrokenReferences(){
     
@@ -668,7 +753,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 // TODO add your handling code here:
-         findBrokenReferences();
+         findBrokenReferences2();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnApplyNumberingSchemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyNumberingSchemeActionPerformed

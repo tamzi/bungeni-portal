@@ -1,11 +1,12 @@
 import smtplib
 
+import zope.interface
 import zope.sendmail.interfaces
 
 class SMTPMailer(object):
     """A direct mailer for use with zope.sendmail."""
 
-    interface.implements(zope.sendmail.interfaces.ISMTPMailer)
+    zope.interface.implements(zope.sendmail.interfaces.ISMTPMailer)
 
     def send(self, fromaddr, toaddrs, message):
         hostname = 'localhost'

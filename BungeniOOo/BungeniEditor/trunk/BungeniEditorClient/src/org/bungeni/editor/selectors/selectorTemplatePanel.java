@@ -408,6 +408,43 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         return selectorTemplatePanel.class.getName();
   }
   
+  private class controlsForActionMode {
+      ArrayList<String> inactiveControlsForMode = new ArrayList<String>();
+       
+      controlsForActionMode() {
+      }
+      
+      ArrayList<String> getInactiveControlsForMode(){
+          String currentMode = getDialogMode().toString();
+          dbSettings.Connect();
+           QueryResults qr = dbSettings.QueryResults("select mode_hidden_field from action_modes " +
+                    "where action_name='"+theAction.action_name()+"' and action_mode='"+ currentMode +"'");
+          dbSettings.EndConnect();
+          String[] hiddenFields = null;
+            try {
+            hiddenFields = qr.getSingleColumnResult("MODE_HIDDEN_FIELD");
+            } catch (NullPointerException ex) {
+                hiddenFields = null;
+            }
+            if (hiddenFields != null ) {
+                inactiveControlsForMode = new ArrayList<String>(Arrays.asList(hiddenFields));
+            } 
+          
+          if (inactiveControlsForMode.size() > 0 ) {
+              for (String inact: inactiveControlsForMode) {
+                  log.debug("inactive controls for this mode ("+getDialogMode().toString()+") " + inact);
+              }
+          }
+          return inactiveControlsForMode ;
+      }
+  }
+  
+  private ArrayList<String> getInactiveControlsForMode(){
+    controlsForActionMode actionMode = new controlsForActionMode();
+    return actionMode.getInactiveControlsForMode();
+  }
+
+  /*
   private ArrayList<String> getInactiveControlsForMode(String currentMode) {
         ArrayList<String> arrHiddenFields = new ArrayList<String>();
         dbSettings.Connect();
@@ -425,9 +462,9 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         } 
         return arrHiddenFields ;
     }
-  
+    */
     protected void getEnabledControlList_TextInsertion() {
-            ArrayList<String> arrHiddenFields = getInactiveControlsForMode("TEXT_INSERTION");
+            ArrayList<String> arrHiddenFields = getInactiveControlsForMode();
             //default is to enable all controls in text insertion
             Iterator<String> controlNames = theControlMap.keySet().iterator();
             while(controlNames.hasNext()) {
@@ -443,7 +480,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     }
     
     protected void getEnabledControlList_TextEdit(){
-        ArrayList<String> arrHiddenFields = getInactiveControlsForMode("TEXT_EDIT");
+        ArrayList<String> arrHiddenFields = getInactiveControlsForMode();
         Iterator<String> controlNames = theControlMap.keySet().iterator();
             while(controlNames.hasNext()) {
                 String controlName = controlNames.next();
@@ -460,6 +497,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     
     protected void getEnabledControlList_TextSelection() {
             //default in selection mode is to enabled controls listed in actions
+        /*
              String actionFields = theSubAction.action_fields().trim();
              if (actionFields.indexOf(";") != -1) {
                 String[] enabledFields =  actionFields.split(";");
@@ -469,6 +507,20 @@ public class selectorTemplatePanel extends javax.swing.JPanel
              } else {
                 enabledControlNameFromAction(actionFields);
              }
+         */
+           ArrayList<String> arrHiddenFields = getInactiveControlsForMode();
+        Iterator<String> controlNames = theControlMap.keySet().iterator();
+            while(controlNames.hasNext()) {
+                String controlName = controlNames.next();
+                if (arrHiddenFields.size() > 0 ) {
+                    if (!arrHiddenFields.contains(controlName)) {
+                         enabledControls.add(controlName); 
+                    }
+                } else {
+                    enabledControls.add(controlName);
+                }
+               
+            }
     }
     
     private void enabledControlNameFromAction (String actionField) {

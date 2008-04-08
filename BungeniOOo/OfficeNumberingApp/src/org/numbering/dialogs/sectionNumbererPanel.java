@@ -331,19 +331,30 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
        // Get an XNameAccess which refers to all inserted reference marks
        XNameAccess xMarks = (XNameAccess) UnoRuntime.queryInterface(XNameAccess.class,
                      xRefSupplier.getReferenceMarks());
-
+         
         // Put the names of each reference mark into an array of strings
          String[] aNames = xMarks.getElementNames();
          if (aNames.length > 0) {
             for(int i=0;i<aNames.length;i++){
-                // Output the name of the first reference mark ('TableHeader')
+                
                 System.out.println ("GetReference text field inserted for ReferenceMark : "  + aNames[i]);
-             
+                
                 try {
                     xFieldProps.setPropertyValue("SourceName", aNames[i]);
                     xFieldProps.setPropertyValue ("ReferenceFieldSource", new Short(ReferenceFieldSource.REFERENCE_MARK));
                   
-                   
+                 
+                 //identify broken references based on the macro code
+                 /*	if not oRefMarks.hasByName(oTextField.Sourcename) then
+				'orphan or broken reference found
+			end if
+                  *
+                  *
+                  *
+                  */
+                  if(!xMarks.hasByName(xFieldProps.getPropertyValue("SourceName").toString())){
+                        System.out.println("hello");
+                  }
                    
                     
                 } catch (UnknownPropertyException ex) {
@@ -427,6 +438,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                                         ooDocument.createInstance("com.sun.star.text.ReferenceMark"));
                                 
                                  xRefMark.setName("refText:" + aTextRange.getString());
+                                 
                                  System.out.println("refText:" + aTextRange.getString());
                                  XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, xRefMark);
                                  xRangeText.insertTextContent(xTextCursor,xContent,true);

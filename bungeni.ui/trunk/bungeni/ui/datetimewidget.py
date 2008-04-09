@@ -64,7 +64,7 @@ class SelectDateWidget( SimpleInputWidget):
         maxYear = self.maxYear
         if maxYear is None:
             maxYear = datetime.date.today().year + int(self.maxYearDelta)
-        return range( minYear, maxYear + 1 )                     
+        return range( maxYear, minYear, -1 )                     
     
     @property
     def _day_name(self):

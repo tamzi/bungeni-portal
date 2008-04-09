@@ -6,6 +6,7 @@
 
 package org.numbering.dialogs;
 
+import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.PropertyVetoException;
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
@@ -36,6 +37,10 @@ import com.sun.star.uno.XComponentContext;
 import com.sun.star.util.XNumberFormatTypes;
 import com.sun.star.util.XNumberFormats;
 import com.sun.star.util.XNumberFormatsSupplier;
+import com.sun.star.util.XPropertyReplace;
+import com.sun.star.util.XReplaceDescriptor;
+import com.sun.star.util.XReplaceable;
+import com.sun.star.util.XSearchDescriptor;
 import com.sun.star.view.XViewCursor;
 import com.sun.star.xforms.XModel;
 import java.awt.event.ItemEvent;
@@ -110,14 +115,14 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
   
         openofficeObject = new org.bungeni.ooo.BungenioOoHelper(xContext);
         openofficeObject.initoOo();
-        xComponent = openofficeObject.openDocument("/home/undesa/downloads/doc_with_sections.odt");
+        xComponent = openofficeObject.openDocument("/home/undesa/Documents/testsection4.odt");
         ooDocument = new OOComponentHelper(xComponent, xContext);
         try{
             if (!ooDocument.isXComponentValid()) return;
             
            
             if (!ooDocument.getTextSections().hasByName("root")) {
-                log.debug("no root section found");
+                System.out.println("no root section found");
                 return;
             }
             Object rootSection = ooDocument.getTextSections().getByName("root");
@@ -147,7 +152,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                         XNamed xSecName = ooQueryInterface.XNamed(sections[nSection]);
                         String childSectionName = (String) xSecName.getName();
                         sectionMetadataMap=ooDocument.getSectionMetadataAttributes(childSectionName);
-                        log.debug("SectionMetadataLoad childSectionName: " + childSectionName);
+                         System.out.println("SectionMetadataLoad childSectionName: " + childSectionName);
                        if(sectionMetadataMap.size()>0){
                             
                         Iterator metaIterator = sectionMetadataMap.keySet().iterator();
@@ -155,7 +160,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                                while(metaIterator.hasNext()){
                                         for(int i=0; i< sectionMetadataMap.size(); i++) {
                                             String metaName = (String) metaIterator.next();
-                                            log.debug("childSectionName: " + childSectionName + " metaName: "  + metaName + " attribute: " + sectionMetadataMap.get(metaName));
+                                            System.out.println("childSectionName: " + childSectionName + " metaName: "  + metaName + " attribute: " + sectionMetadataMap.get(metaName));
                                            
                                           if(metaName.startsWith("BungeniSectionType")){
                                                
@@ -200,7 +205,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
             
            
             if (!ooDocument.getTextSections().hasByName("root")) {
-                log.debug("no root section found");
+                 System.out.println("no root section found");
                 return;
             }
             Object rootSection = ooDocument.getTextSections().getByName("root");
@@ -243,7 +248,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                           
                         }
                         
-                        log.debug("recurseSectionsForSectionType: " + childSectionName);
+                         System.out.println("recurseSectionsForSectionType: " + childSectionName);
                         recurseSectionsForSectionType(sections[nSection],sectionType);
                        
                      }
@@ -614,6 +619,25 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         
     }
     
+    private void findAndReplace(){
+        XReplaceable xReplaceable = (XReplaceable) UnoRuntime.queryInterface(XReplaceable.class, ooDocument.getTextDocument()); 
+        XSearchDescriptor xSearchDesc = xReplaceable.createSearchDescriptor();
+        
+      
+         
+        
+  
+        
+        xRepDesc.setSearchString("i");
+        xRepDesc.setReplaceString("replaced numbers");
+        
+        long nResult = xReplaceable.replaceAll(xRepDesc); 
+        
+        
+
+        
+        
+    }
    
     
      private class NumberingSchemeListener implements ListSelectionListener{
@@ -628,7 +652,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         public void itemStateChanged(ItemEvent itemEvent) {
             int state = itemEvent.getStateChange();
             if (state == ItemEvent.SELECTED) {
-              System.out.println("selected checkbox");
+              System.out.println("apply parent prefix checkbox selected");
                 numParentPrefix="1";
               
             }
@@ -649,7 +673,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         cboNumberingScheme = new javax.swing.JComboBox();
         btnApplyNumberingScheme = new javax.swing.JButton();
         checkbxUseParentPrefix = new javax.swing.JCheckBox();
-        jButton1 = new javax.swing.JButton();
+        btnRenumberSections = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         listSectionTypes.setModel(new javax.swing.AbstractListModel() {
@@ -675,10 +699,10 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         checkbxUseParentPrefix.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         checkbxUseParentPrefix.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
-        jButton1.setText("Renumber Sections");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnRenumberSections.setText("Renumber Sections");
+        btnRenumberSections.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnRenumberSectionsActionPerformed(evt);
             }
         });
 
@@ -693,7 +717,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                     .add(txtSectionType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
                     .add(btnApplyNumberingScheme)
                     .add(checkbxUseParentPrefix)
-                    .add(jButton1))
+                    .add(btnRenumberSections))
                 .addContainerGap())
         );
         panelNumberingSchemeLayout.setVerticalGroup(
@@ -708,7 +732,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                 .add(20, 20, 20)
                 .add(btnApplyNumberingScheme)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 20, Short.MAX_VALUE)
-                .add(jButton1)
+                .add(btnRenumberSections)
                 .addContainerGap())
         );
 
@@ -739,10 +763,13 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnRenumberSectionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenumberSectionsActionPerformed
 // TODO add your handling code here:
+         sectionMetadataMap.clear();
+         readSections();
          findBrokenReferences();
-    }//GEN-LAST:event_jButton1ActionPerformed
+         findAndReplace();
+    }//GEN-LAST:event_btnRenumberSectionsActionPerformed
 
     private void btnApplyNumberingSchemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyNumberingSchemeActionPerformed
        
@@ -759,9 +786,9 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApplyNumberingScheme;
+    private javax.swing.JButton btnRenumberSections;
     private javax.swing.JComboBox cboNumberingScheme;
     private javax.swing.JCheckBox checkbxUseParentPrefix;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JList listSectionTypes;

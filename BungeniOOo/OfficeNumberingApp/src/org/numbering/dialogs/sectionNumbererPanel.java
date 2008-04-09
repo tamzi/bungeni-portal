@@ -621,7 +621,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     
     private void findAndReplace(){
         XReplaceable xReplaceable = (XReplaceable) UnoRuntime.queryInterface(XReplaceable.class, ooDocument.getTextDocument()); 
-      
+        XSearchDescriptor xSearchDesc = xReplaceable.createSearchDescriptor();
         
       
          
@@ -629,7 +629,17 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         XReplaceDescriptor xRepDesc = xReplaceable.createReplaceDescriptor(); 
         
         
-       
+        XPropertyReplace xPropRepl = (XPropertyReplace) UnoRuntime.queryInterface(
+                XPropertyReplace.class, xRepDesc);
+        
+         PropertyValue[] aReplaceArgs = new PropertyValue[1];
+                // create PropertyValue struct
+         aReplaceArgs[0] = new PropertyValue();
+         // CharWeight should be bold
+         aReplaceArgs[0].Name = "SearchRegularExpression";
+         aReplaceArgs[0].Value = true;
+
+  
         
         xRepDesc.setSearchString("i");
         xRepDesc.setReplaceString("replaced numbers");

@@ -143,6 +143,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     protected void init(){
         createContext();
         createCommandChain();
+        
     }
     
     //this is overriden from the derived class and invoked form the derived as super.createContext();
@@ -631,12 +632,26 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     protected boolean processCatalogCommand() {
         boolean bReturn = false;
         try {
-        BungeniCatalogCommand cmd = theCatalogCommands.get(getDialogMode());
-        BungeniCommandsCatalogLoader loader = new BungeniCommandsCatalogLoader(cmd.getCatalogSource());
-        Catalog selectedCatalog;
-        selectedCatalog = loader.getCatalog(cmd.getCommandCatalog());
-        Command selectedCatalogCommand  = selectedCatalog.getCommand(cmd.getCommandChain());
-        selectedCatalogCommand.execute(formContext);
+             if (theSubAction == null ) {
+                BungeniCatalogCommand cmd = theCatalogCommands.get(getDialogMode());
+                BungeniCommandsCatalogLoader loader = new BungeniCommandsCatalogLoader(cmd.getCatalogSource());
+                Catalog selectedCatalog;
+                selectedCatalog = loader.getCatalog(cmd.getCommandCatalog());
+                Command selectedCatalogCommand  = selectedCatalog.getCommand(cmd.getCommandChain());
+                selectedCatalogCommand.execute(formContext);
+            } else {
+                //theSubAciton is not null use the 
+                 if (theSubAction.action_command_chain().length() > 0 )  {
+                     BungeniCatalogCommand cmd = theCatalogCommands.get(getDialogMode());
+                     BungeniCommandsCatalogLoader loader = new BungeniCommandsCatalogLoader(cmd.getCatalogSource());
+                     Catalog selectedCatalog;
+                     selectedCatalog = loader.getCatalog(cmd.getCommandCatalog());
+                     //now load the command chain from the sub_action rather than from the catalogcommand object
+                     String commandChain = theSubAction.action_command_chain();
+                     Command selectedCatalogCommand  = selectedCatalog.getCommand(commandChain);
+                     selectedCatalogCommand.execute(formContext);
+                 }
+             }
         bReturn = true;
         } catch (Exception ex) {
             log.error("exception in  processCatalogCommand: "+ ex.getMessage());

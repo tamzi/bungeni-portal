@@ -163,6 +163,10 @@ public class SettingsQueryFactory {
                return query;
    }
   
+   public static String Q_FETCH_CATALOG_SOURCE(String formName) {
+       String query = "SELECT fcs.CATALOG_SOURCE FROM FORM_CATALOG_SOURCE fcs WHERE fcs.FORM_NAME='"+formName+"'";
+       return query;
+   }
    public static String Q_FETCH_CONDITIONAL_OPERATORS(){
        String query = "SELECT condition_name, condition_syntax, condition_class FROM CONDITIONAL_OPERATORS";
        return query;

@@ -525,8 +525,9 @@ public  class InitPapers extends selectorTemplatePanel implements IBungeniForm {
     public boolean processSelectInsert(){
         //System.out.println("theControlDataMap = " + theControlDataMap.keySet().size());
         //this.
-        
-        return true;
+         boolean bReturn = processCatalogCommand();
+        return bReturn; 
+       
     }
     
     

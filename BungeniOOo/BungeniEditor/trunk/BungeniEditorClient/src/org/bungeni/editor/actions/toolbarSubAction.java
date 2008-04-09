@@ -161,7 +161,13 @@ public class toolbarSubAction {
         return this.action_value;
     }
 
+    public String action_command_chain(){
+        return this.command_chain;
+    }
     
+    public String action_command_catalog(){
+        return this.command_catalog;
+    }
     public void setActionValue(String value) {
         this.action_value = value;
     }

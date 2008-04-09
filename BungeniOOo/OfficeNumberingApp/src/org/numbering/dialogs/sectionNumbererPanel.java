@@ -621,12 +621,15 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     
     private void findAndReplace(){
         XReplaceable xReplaceable = (XReplaceable) UnoRuntime.queryInterface(XReplaceable.class, ooDocument.getTextDocument()); 
-        XSearchDescriptor xSearchDesc = xReplaceable.createSearchDescriptor();
+      
         
       
          
+         
+        XReplaceDescriptor xRepDesc = xReplaceable.createReplaceDescriptor(); 
         
-  
+        
+       
         
         xRepDesc.setSearchString("i");
         xRepDesc.setReplaceString("replaced numbers");

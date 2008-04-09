@@ -265,6 +265,7 @@ public  class InitPapers extends selectorTemplatePanel implements IBungeniForm {
             checkFieldsMessages.add("You must enter a title! ");
             return false;
        }
+        theControlDataMap.put(field.getName(), fieldValue);
         return true;
     }
 
@@ -489,7 +490,7 @@ public  class InitPapers extends selectorTemplatePanel implements IBungeniForm {
     }
  
     
-    public void getTableSelection() {
+    public HashMap<String,ArrayList<String>> getTableSelection() {
          int[] selectedRows = tbl_tabledDocs.getSelectedRows();
          ArrayList<String> docTitles = new ArrayList<String>();
           ArrayList<String> docURIs = new ArrayList<String>();
@@ -501,20 +502,47 @@ public  class InitPapers extends selectorTemplatePanel implements IBungeniForm {
                  docURIs.add(docURI);
              }
      
-        String[] arrDocTitles = docTitles.toArray(new String[docTitles.size()]); 
-        String[] arrDocURI = docURIs.toArray(new String[docURIs.size()]);
-        
-        thePreInsertMap.put("tabled_document_titles", arrDocTitles);
-        thePreInsertMap.put("tabled_document_uris", arrDocURI);
+        HashMap<String,ArrayList<String>> tblData = new HashMap<String,ArrayList<String>>();
+        tblData.put("tabled_document_titles", docTitles);
+        tblData.put("tabled_document_uris", docURIs);
+        return tblData;
         
     }
     
+
+    public boolean preSelectInsert(){
+        //gets table into preInserMap
+        HashMap<String, ArrayList<String>> tblData = getTableSelection();
+        thePreInsertMap.put("tabled_document_titles", 
+                tblData.get("tabled_document_titles").toArray(new String[tblData.get("tabled_document_titles").size()]));
+        thePreInsertMap.put("tabled_document_uris", 
+                tblData.get("tabled_document_uris").toArray(new String[tblData.get("tabled_document_uris").size()]));
+    
+        return true;
+    }
+    
+    
+    public boolean processSelectInsert(){
+        //System.out.println("theControlDataMap = " + theControlDataMap.keySet().size());
+        //this.
+        
+        return true;
+    }
+    
+    
+    
     public boolean preFullInsert(){
-        getTableSelection();
+        HashMap<String, ArrayList<String>> tblData = getTableSelection();
+        thePreInsertMap.put("tabled_document_titles", 
+                tblData.get("tabled_document_titles").toArray(new String[tblData.get("tabled_document_titles").size()]));
+        thePreInsertMap.put("tabled_document_uris", 
+                tblData.get("tabled_document_uris").toArray(new String[tblData.get("tabled_document_uris").size()]));
+       
         /* the above adds : 
          *         thePreInsertMap.put("tabled_document_titles", arrDocTitles);
          *         thePreInsertMap.put("tabled_document_urs", arrDocURI);
          */
+        
         thePreInsertMap.put("current_section", theAction.action_naming_convention());
         thePreInsertMap.put("target_section",  getParentSection());
         thePreInsertMap.put("container_section", thePreInsertMap.get("target_section"));

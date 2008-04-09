@@ -35,6 +35,8 @@ public class toolbarSubAction {
     private String validator_class;
     private String router_class;
     private String dialog_class;
+    private String command_chain;
+    private String command_catalog;
     private SelectorDialogModes theMode=null;
     /** Creates a new instance of toolbarSubAction */
     public toolbarSubAction(Vector<String> actionDesc, HashMap action_mapping) {
@@ -52,6 +54,7 @@ public class toolbarSubAction {
         this.validator_class = (String)safeGet(actionDesc, action_mapping, "VALIDATOR_CLASS");
         this.router_class = (String)safeGet(actionDesc, action_mapping, "ROUTER_CLASS");
         this.dialog_class = (String)safeGet(actionDesc, action_mapping, "DIALOG_CLASS");
+        buildCommandChain((String)safeGet(actionDesc, action_mapping, "COMMAND_CHAIN"));
     }
     
     public String toString() {
@@ -77,7 +80,26 @@ public class toolbarSubAction {
     }
     
 
-
+    private void buildCommandChain(String chain ) {
+        if (chain == null ) {
+            this.command_catalog = "";
+            this.command_chain = "";
+            return;
+        } 
+        if (chain.length() == 0 ) {
+            this.command_catalog = "";
+            this.command_chain = "";
+            return;
+        }
+        if (chain.indexOf(":") != -1) {
+            String[] arrChain = chain.split("[:]");
+            this.command_catalog = arrChain[0];
+            this.command_chain = arrChain[1];
+        }   else {
+            this.command_catalog = "";
+            this.command_chain = "";
+        } 
+    }
     
     public String doc_type() {
         return doc_type;

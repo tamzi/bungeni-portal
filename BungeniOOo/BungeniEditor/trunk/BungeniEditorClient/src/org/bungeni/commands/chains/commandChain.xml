@@ -55,7 +55,11 @@
         <chain name="debateRecordFullSelectedEditPapers">
         </chain>
         <chain name="debateRecordFullSelectedInsertPapers">
-        </chain>        
+        </chain>    
+        <chain name="importTabledDocuments">
+        <command   id="importTabledDocuments.insertArrayAsBulletList"
+                   className="org.bungeni.commands.insertArrayAsBulletListAtCursor" /> 
+        </chain>
     </catalog>
     <catalog name="testCatalog">
         <chain name="testChain">

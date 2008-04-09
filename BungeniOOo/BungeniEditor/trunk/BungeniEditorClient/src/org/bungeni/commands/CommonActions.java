@@ -210,6 +210,20 @@ public class CommonActions {
      }
     
      
+     public static boolean action_InsertArrayAsBulletListAtCurrentCursor(OOComponentHelper ooDoc, String[] titles, String[] uris) {
+         boolean bState = false;
+         try{
+                ExternalMacro InsertArrayAsBulletListAtCurrentCursor = ExternalMacroFactory.getMacroDefinition("action_InsertArrayAsBulletListAtCurrentCursor");
+                InsertArrayAsBulletListAtCurrentCursor.addParameter(ooDoc.getComponent());
+                InsertArrayAsBulletListAtCurrentCursor.addParameter(titles);
+                InsertArrayAsBulletListAtCurrentCursor.addParameter(uris);
+                ooDoc.executeMacro(InsertArrayAsBulletListAtCurrentCursor.toString(), InsertArrayAsBulletListAtCurrentCursor.getParams());
+                  } catch(Exception ex) {
+             
+         } finally {
+             return bState;
+         }
+     }
      public static boolean action_insertArrayAsBulletList(OOComponentHelper ooDoc, String bookmarkName, String[] titles, String[] uris) {
         boolean bState = false; 
         try {

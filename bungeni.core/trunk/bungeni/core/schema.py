@@ -157,7 +157,7 @@ groups = rdb.Table(
    rdb.Column( "group_id", rdb.Integer, PrincipalSequence,  primary_key=True ),
    rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),
    rdb.Column( "full_name", rdb.Unicode(80) ),   
-   rdb.Column( "description", rdb.Unicode ),
+   rdb.Column( "description", rdb.UnicodeText ),
    rdb.Column( "status", rdb.Unicode(12) ), # workflow for groups
    rdb.Column( "start_date", rdb.Date, nullable=False ),
    rdb.Column( "end_date", rdb.Date ),  #
@@ -209,7 +209,7 @@ committee_type = rdb.Table(
     metadata,
     rdb.Column("committee_type_id", rdb.Integer,  primary_key=True),
     rdb.Column("committee_type", rdb.Unicode(80), nullable=False),
-    rdb.Column("description", rdb.Unicode,),
+    rdb.Column("description", rdb.UnicodeText),
     rdb.Column("life_span", rdb.Unicode(16)),
     rdb.Column("status", rdb.String(1),             
        rdb.CheckConstraint("status in ('P','T')"),  # Indicate whether this type of committees are: ‘P' - Permanent, ‘T' - Temporary 
@@ -270,7 +270,7 @@ user_group_memberships = rdb.Table(
    rdb.Column( "title", rdb.Integer, rdb.ForeignKey('user_role_types.user_role_type_id')), # title of user's group role
    rdb.Column( "start_date", rdb.Date, default=datetime.now),
    rdb.Column( "end_date", rdb.Date ),
-   rdb.Column( "notes", rdb.Unicode ),   
+   rdb.Column( "notes", rdb.UnicodeText ),   
    # we use this as an easier query to end_date in queries, needs to be set by
    # a cron process against end_date < current_time
    rdb.Column( "active_p", rdb.Boolean, default=False ),
@@ -290,7 +290,7 @@ group_item_assignments = rdb.Table(
    rdb.Column( "start_date", rdb.Date, default=datetime.now),
    rdb.Column( "end_date", rdb.Date ),   
    rdb.Column( "due_date", rdb.Date ),    
-   rdb.Column( "notes", rdb.Unicode ),
+   rdb.Column( "notes", rdb.UnicodeText ),
    )
 
 ##################
@@ -305,7 +305,7 @@ parliament_sessions = rdb.Table(
    rdb.Column( "full_name", rdb.Unicode(32) ),      
    rdb.Column( "start_date", rdb.Date),
    rdb.Column( "end_date", rdb.Date),
-   rdb.Column( "notes", rdb.Unicode )   
+   rdb.Column( "notes", rdb.UnicodeText )   
    )
 
 # sittings = rdb.Table(
@@ -384,8 +384,8 @@ def make_changes_table( table, metadata ):
             rdb.Column( "content_id", rdb.Integer, rdb.ForeignKey( table.c[ fk_id ] ) ),
             rdb.Column( "action", rdb.Unicode(16) ),
             rdb.Column( "date", rdb.Date, default=datetime.now),
-            rdb.Column( "description", rdb.Unicode),
-            rdb.Column( "notes", rdb.Unicode),
+            rdb.Column( "description", rdb.UnicodeText),
+            rdb.Column( "notes", rdb.UnicodeText),
             rdb.Column( "user_id", rdb.Unicode(32) ) # Integer, rdb.ForeignKey('users.user_id') ),
     )
     
@@ -433,7 +433,7 @@ item_votes = rdb.Table(
 #   rdb.Column( "division_p",  rdb.Boolean ), # isn't a division implied by the vote?
    rdb.Column( "affirmative_votes", rdb.Integer),
    rdb.Column( "negative_votes", rdb.Integer ),
-   rdb.Column( "remarks", rdb.Unicode  ),   
+   rdb.Column( "remarks", rdb.UnicodeText  ),   
    )
 
 item_member_votes = rdb.Table(
@@ -459,9 +459,9 @@ subscriptions = rdb.Table(
    metadata,
    rdb.Column( "subscriptions_id", rdb.Integer, primary_key=True ),
    rdb.Column( "object_id",  rdb.Integer, nullable=False ),
-   rdb.Column( "object_type", rdb.Unicode, nullable=False ),
+   rdb.Column( "object_type", rdb.String(32), nullable=False ),
    rdb.Column( "party_id",  rdb.Integer, nullable=False ),
-   rdb.Column( "party_type", rdb.Unicode, nullable=False ),
+   rdb.Column( "party_type", rdb.String(32), nullable=False ),
    rdb.Column( "last_delivery", rdb.Date, nullable=False ),   
    # delivery period
    # rdb.Column( "delivery_period",  rdb.Integer ),
@@ -488,7 +488,7 @@ questions = rdb.Table(
    rdb.Column( "parliament_id", rdb.Integer),#, nullable=False ),
    #rdb.ForeignKeyConstraint(['owner', 'parliament_id'], ['parliament_members.member_id', 'parliament_members.parliament_id']),
    rdb.Column( "subject", rdb.Unicode(80)),#, nullable=False ),
-   rdb.Column( "question_text", rdb.Unicode),#, nullable=False ),
+   rdb.Column( "question_text", rdb.UnicodeText),#, nullable=False ),
    # Workflow State
    rdb.Column( "status", rdb.Unicode(16) ),
    
@@ -515,7 +515,7 @@ responses = rdb.Table(
    metadata,
    rdb.Column( "response_id", rdb.Integer, primary_key=True ),
    rdb.Column( "question_id", rdb.Integer, rdb.ForeignKey('questions.question_id') ),
-   rdb.Column( "response_text", rdb.Unicode ),
+   rdb.Column( "response_text", rdb.UnicodeText ),
    rdb.Column( "response_type", rdb.String(1), rdb.CheckConstraint("response_type in ('I','S')"), default=u"I"), # (I)nitial (S)ubsequent
    # 
 # for attachment to the debate record, but not actually scheduled on the floor
@@ -534,7 +534,7 @@ motions = rdb.Table(
    rdb.Column( "identifier", rdb.Integer),
    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),
    rdb.Column( "seconder_id", rdb.Integer, rdb.ForeignKey('users.user_id') ), 
-   rdb.Column( "body_text", rdb.Unicode ),
+   rdb.Column( "body_text", rdb.UnicodeText ),
    rdb.Column( "received_date", rdb.Date ),
    rdb.Column( "entered_by", rdb.Integer, rdb.ForeignKey('users.user_id') ),   
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('political_parties.party_id')  ), # if the motion was sponsored by a party
@@ -551,10 +551,10 @@ motion_amendments = rdb.Table(
    rdb.Column( "amendment_id", rdb.Integer, primary_key=True ),
    rdb.Column( "motion_id", rdb.Integer, rdb.ForeignKey('motions.motion_id')  ),
    rdb.Column( "amended_id", rdb.Integer,  ),
-   rdb.Column( "body_text", rdb.Unicode ),  
+   rdb.Column( "body_text", rdb.UnicodeText ),  
    rdb.Column( "submission_date", rdb.Date ),    
    rdb.Column( "accepted_p", rdb.Boolean ),
-   rdb.Column( "title", rdb.Unicode ), 
+   rdb.Column( "title", rdb.UnicodeText ), 
    rdb.Column( "vote_date", rdb.Date ),   
    )
 
@@ -564,9 +564,9 @@ bills = rdb.Table(
    rdb.Column( "bill_id", rdb.Integer, ItemSequence, primary_key=True ),
    rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('ministries.ministry_id') ),
    rdb.Column( "identifier",  rdb.Integer),
-   rdb.Column( "preamble", rdb.Unicode ),   
-   rdb.Column( "title", rdb.Unicode ), 
-   rdb.Column( "body_text",  rdb.Unicode ),
+   rdb.Column( "preamble", rdb.UnicodeText ),   
+   rdb.Column( "title", rdb.UnicodeText ), 
+   rdb.Column( "body_text",  rdb.UnicodeText ),
    rdb.Column( "submission_date", rdb.Date ),
    rdb.Column( "publication_date", rdb.Date ),
    rdb.Column( "status", rdb.Unicode(12) ),
@@ -590,7 +590,7 @@ rotas = rdb.Table(
    metadata,
    rdb.Column( "rota_id", rdb.Integer, primary_key=True ),
    rdb.Column( "reporter_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),
-   rdb.Column( "identifier", rdb.Unicode ),
+   rdb.Column( "identifier", rdb.Unicode(60) ),
    rdb.Column( "start_date", rdb.Date ),
    rdb.Column( "end_date", rdb.Date )
    )

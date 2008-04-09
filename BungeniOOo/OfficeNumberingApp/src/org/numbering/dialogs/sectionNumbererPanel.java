@@ -79,7 +79,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     private int testCount=1;
     DefaultListModel model=new DefaultListModel();
     private IGeneralNumberingScheme inumScheme;
-    
+    String numParentPrefix="";
     
     Set attributeSet=new HashSet();
    
@@ -333,15 +333,10 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         
    }
    
-   private void removeNumber(XTextRange aTextRange, int testCount){
-       //this function will delete the numbers next to each heading and regenerate based on the numbering
-       //scheme again
-       
-   }
-   
+  
    private void findBrokenReferences(){
     
-        
+        String sourceName=null;
        try {
     //dim oDoc as object
     //oDoc=thisComponent
@@ -365,6 +360,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     int nCount = 0;
     while (xFields.hasMoreElements()) {
         Object oField = xFields.nextElement();
+        
         /*
       	If oTextField.supportsService("com.sun.star.text.TextField.GetReference") then
         */
@@ -393,11 +389,12 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                 */
                
                short refSourceRefMark = AnyConverter.toShort(xFieldProperties.getPropertyValue("ReferenceFieldSource")); 
-               String sourceName = AnyConverter.toString(xFieldProperties.getPropertyValue("SourceName"));
+               sourceName = AnyConverter.toString(xFieldProperties.getPropertyValue("SourceName"));
                switch (refSourceRefMark) {
                    case com.sun.star.text.ReferenceFieldSource.REFERENCE_MARK :
                        if (!xRefMarks.hasByName(sourceName)) 
                            nCount++;
+                          
                        break;
                    default:
                        break;
@@ -406,7 +403,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
       
                 
       }
-    System.out.println("DEAD LINKS FOUND = " + nCount);
+   System.out.println("DEAD LINKS FOUND = " + nCount + " " + sourceName);
         
     } catch (Exception ex) {
         
@@ -423,10 +420,8 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
      
        String numberingScheme =cboNumberingScheme.getSelectedItem().toString();
        int numberingSchemeIndex=cboNumberingScheme.getSelectedIndex();
-       log.debug("numbering scheme selected " + numberingScheme);
-       
+       System.out.println("numbering scheme selected " + numberingScheme);
        inumScheme =NumberingSchemeFactory.getNumberingScheme(numberingScheme);
-
        
        XText xRangeText=aTextRange.getText();
        XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
@@ -437,7 +432,9 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
        
        inumScheme.setRange (new NumberRange(testCount, testCount));
      
-       
+       if(!numParentPrefix.equals("")){
+            inumScheme.setParentPrefix(numParentPrefix);
+       }
        inumScheme.generateSequence();
        ArrayList<String> seq = inumScheme.getGeneratedSequence();
         Iterator<String> iter = seq.iterator();
@@ -632,7 +629,8 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
             int state = itemEvent.getStateChange();
             if (state == ItemEvent.SELECTED) {
               System.out.println("selected checkbox");
-             // inumScheme.setParentPrefix("1");
+                numParentPrefix="1";
+              
             }
         }
         
@@ -747,7 +745,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnApplyNumberingSchemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyNumberingSchemeActionPerformed
-       // countElems=1;
+       
          readSections();
          applyNumberingScheme();
          getHeadingInSection();

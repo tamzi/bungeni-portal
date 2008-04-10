@@ -213,7 +213,7 @@ public class CommonActions {
      public static boolean action_InsertArrayAsBulletListAtCurrentCursor(OOComponentHelper ooDoc, String[] titles, String[] uris) {
          boolean bState = false;
          try{
-                ExternalMacro InsertArrayAsBulletListAtCurrentCursor = ExternalMacroFactory.getMacroDefinition("action_InsertArrayAsBulletListAtCurrentCursor");
+                ExternalMacro InsertArrayAsBulletListAtCurrentCursor = ExternalMacroFactory.getMacroDefinition("InsertArrayAsBulletListAtCurrentCursor");
                 InsertArrayAsBulletListAtCurrentCursor.addParameter(ooDoc.getComponent());
                 InsertArrayAsBulletListAtCurrentCursor.addParameter(titles);
                 InsertArrayAsBulletListAtCurrentCursor.addParameter(uris);

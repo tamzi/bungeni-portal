@@ -41,6 +41,7 @@ import com.sun.star.util.XPropertyReplace;
 import com.sun.star.util.XReplaceDescriptor;
 import com.sun.star.util.XReplaceable;
 import com.sun.star.util.XSearchDescriptor;
+import com.sun.star.util.SearchOptions;
 import com.sun.star.view.XViewCursor;
 import com.sun.star.xforms.XModel;
 import java.awt.event.ItemEvent;
@@ -65,6 +66,7 @@ import org.bungeni.ooo.ooUserDefinedAttributes;
 import numberingscheme.schemes.*;
 import org.bungeni.utils.CommonExceptionUtils;
 
+
 /**
  *
  * @author  undesa
@@ -80,6 +82,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
    
     private HashMap<String,String> metadata = new HashMap();
     private ArrayList<String> sectionTypeMatchedSections = new ArrayList<String>();
+    private ArrayList<String> sectionTypeMatchedSectionsNumbered = new ArrayList<String>();
     private int countElems=1;
     private int testCount=1;
     DefaultListModel model=new DefaultListModel();
@@ -422,6 +425,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     private void insertNumber(XTextRange aTextRange, int testCount){
        
         
+      
      
        String numberingScheme =cboNumberingScheme.getSelectedItem().toString();
        int numberingSchemeIndex=cboNumberingScheme.getSelectedIndex();
@@ -429,6 +433,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
        inumScheme =NumberingSchemeFactory.getNumberingScheme(numberingScheme);
        
        XText xRangeText=aTextRange.getText();
+       String heading=aTextRange.getString();
        XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
        xTextCursor.gotoRange(aTextRange.getEnd(), true);
        
@@ -444,8 +449,10 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
        ArrayList<String> seq = inumScheme.getGeneratedSequence();
         Iterator<String> iter = seq.iterator();
         while (iter.hasNext()) {
+           Object insertedNumber=(String)iter.next();
+            xRangeText.insertString(xTextCursor,insertedNumber + ") ",false);
            
-            xRangeText.insertString(xTextCursor,iter.next() + ") ",false);
+            
             
         }
        
@@ -454,12 +461,71 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     }
     
      
+    private void getNumberedHeadings() {
+       Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
+         while(typedMatchSectionItr.hasNext()){
+           
+            Object matchedSectionElem=typedMatchSectionItr.next();
+            System.out.println("getNumberedHeadings " + matchedSectionElem);
+            
+           try{
+               
+                Object sectionName = ooDocument.getTextSections().getByName(matchedSectionElem.toString());
+                XTextSection theSection = ooQueryInterface.XTextSection(sectionName);
+                XTextRange range = theSection.getAnchor();
+
+                XEnumerationAccess enumAcc  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, range);
+                XEnumeration xEnum = enumAcc.createEnumeration();
+
+
+              while (xEnum.hasMoreElements()) {
+                  Object elem = xEnum.nextElement();
+                   XServiceInfo xInfo = (XServiceInfo)UnoRuntime.queryInterface(XServiceInfo.class, elem);
+                   if(xInfo.supportsService("com.sun.star.text.Paragraph")){
+                        XPropertySet objProps = ooQueryInterface.XPropertySet(xInfo);
+                    
+                         short nLevel = -1;
+                         nLevel = com.sun.star.uno.AnyConverter.toShort(objProps.getPropertyValue("ParaChapterNumberingLevel"));
+                           if(nLevel>=0){
+                            XTextContent xContent = ooDocument.getTextContent(elem);
+                            XTextRange aTextRange =   xContent.getAnchor();
+                            String strHeading = aTextRange.getString();
+                            
+                            System.out.println("getNumberedHeadings: heading found " + strHeading);
+                            getReferenceMark(aTextRange,elem);
+                            break;
+                         }
+                   
+                   }
+
+                }
+        
+            }catch (NoSuchElementException ex) {
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            } catch (WrappedTargetException ex) {
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            }catch(UnknownPropertyException ex){
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            }catch(com.sun.star.lang.IllegalArgumentException ex){
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            }
+            
+       }
+       
+    }
     
+    
+   
     
     //method to get reference mark from heading
     private void getReferenceMark(XTextRange aTextRange, Object elem){
       
         XText xRangeText=aTextRange.getText();
+       
         XEnumerationAccess xRangeAccess = (XEnumerationAccess)UnoRuntime.queryInterface(com.sun.star.container.XEnumerationAccess.class,elem);
          XEnumeration portionEnum =  xRangeAccess.createEnumeration();
          while (portionEnum.hasMoreElements()){
@@ -479,14 +545,14 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                                 System.out.println("no reference mark found ");
                                 //insert reference mark
                                
-                                XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
-                                xTextCursor.gotoRange(aTextRange.getEnd(), true);
-                                XNamed xRefMark = (XNamed) UnoRuntime.queryInterface(XNamed.class,
+                           XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
+                               xTextCursor.gotoRange(aTextRange.getEnd(), true);
+                               XNamed xRefMark = (XNamed) UnoRuntime.queryInterface(XNamed.class,
                                         ooDocument.createInstance("com.sun.star.text.ReferenceMark"));
-                                
+                              
                                  xRefMark.setName("refText:" + aTextRange.getString());
                                  
-                                 System.out.println("refText:" + aTextRange.getString());
+                                 //System.out.println("refText:" + aTextRange.getString());
                                  XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, xRefMark);
                                  xRangeText.insertTextContent(xTextCursor,xContent,true);
                                 
@@ -511,6 +577,12 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
          
         
     }
+    
+    
+    
+    
+   
+   
     //method to get heading from section with selected sectionType
     private void getHeadingInSection() {
         
@@ -569,6 +641,9 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                               }
                              insertNumber(aTextRange, testCount);
                              insertAppliedNumberToMetadata(matchedSectionElem,testCount);
+                             
+                             
+                             
                          }else{
                              //continue numbering
                             testCount++;
@@ -581,12 +656,12 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                               }
                             insertNumber(aTextRange, testCount);                 
                             insertAppliedNumberToMetadata(matchedSectionElem,testCount);
+                            
                          }
                          
                         prevParent=(String)xParentSecName.getName();
-                                                
-                        getReferenceMark(aTextRange,elem);
-                        
+                                              
+                      
                       
                         break;
                         
@@ -619,30 +694,16 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         
     }
     
+    
+    
+    
     private void findAndReplace(){
         XReplaceable xReplaceable = (XReplaceable) UnoRuntime.queryInterface(XReplaceable.class, ooDocument.getTextDocument()); 
-        XSearchDescriptor xSearchDesc = xReplaceable.createSearchDescriptor();
-        
-      
-         
-         
         XReplaceDescriptor xRepDesc = xReplaceable.createReplaceDescriptor(); 
         
+        xRepDesc.setSearchString("iii)");
+        xRepDesc.setReplaceString(" ");
         
-        XPropertyReplace xPropRepl = (XPropertyReplace) UnoRuntime.queryInterface(
-                XPropertyReplace.class, xRepDesc);
-        
-         PropertyValue[] aReplaceArgs = new PropertyValue[1];
-                // create PropertyValue struct
-         aReplaceArgs[0] = new PropertyValue();
-         // CharWeight should be bold
-         aReplaceArgs[0].Name = "SearchRegularExpression";
-         aReplaceArgs[0].Value = true;
-
-  
-        
-        xRepDesc.setSearchString("i");
-        xRepDesc.setReplaceString("replaced numbers");
         
         long nResult = xReplaceable.replaceAll(xRepDesc); 
         
@@ -712,7 +773,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         checkbxUseParentPrefix.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         checkbxUseParentPrefix.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
-        btnRenumberSections.setText("Renumber Sections");
+        btnRenumberSections.setText("Renumber Headings");
         btnRenumberSections.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRenumberSectionsActionPerformed(evt);
@@ -778,10 +839,12 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
 
     private void btnRenumberSectionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenumberSectionsActionPerformed
 // TODO add your handling code here:
-         sectionMetadataMap.clear();
+         
          readSections();
          findBrokenReferences();
-         findAndReplace();
+     // getNumberedHeadings2();
+       findAndReplace();
+       
     }//GEN-LAST:event_btnRenumberSectionsActionPerformed
 
     private void btnApplyNumberingSchemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyNumberingSchemeActionPerformed
@@ -789,7 +852,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
          readSections();
          applyNumberingScheme();
          getHeadingInSection();
-       
+         getNumberedHeadings();
        
          
      

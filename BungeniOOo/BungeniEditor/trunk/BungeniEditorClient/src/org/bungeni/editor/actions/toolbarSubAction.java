@@ -82,16 +82,19 @@ public class toolbarSubAction {
 
     private void buildCommandChain(String chain ) {
         if (chain == null ) {
+            log.debug("buildCommandChain: chain is null");
             this.command_catalog = "";
             this.command_chain = "";
             return;
         } 
         if (chain.length() == 0 ) {
+            log.debug("buildCommandChain: chain length is 0");
             this.command_catalog = "";
             this.command_chain = "";
             return;
         }
         if (chain.indexOf(":") != -1) {
+            log.debug("buildCommandChain: chain has index :");
             String[] arrChain = chain.split("[:]");
             this.command_catalog = arrChain[0];
             this.command_chain = arrChain[1];

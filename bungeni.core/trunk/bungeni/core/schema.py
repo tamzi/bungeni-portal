@@ -17,9 +17,6 @@ PrincipalSequence = rdb.Sequence('principal_sequence') # for users and groups be
 #######################
 # 
 
-
-
-
 users = rdb.Table(
    "users",
    metadata,
@@ -31,10 +28,10 @@ users = rdb.Table(
    rdb.Column( "middle_name", rdb.Unicode(80) ),
    rdb.Column( "email", rdb.String(32), nullable=False ),
    rdb.Column( "gender", rdb.String(1),
-        rdb.CheckConstraint("gender in ('M', 'F')"), nullable=False,
+        rdb.CheckConstraint("gender in ('M', 'F')")
         ), # (M)ale (F)emale    ),   
    rdb.Column( "date_of_birth", rdb.Date ),
-   rdb.Column( "birth_country", rdb.String(2), nullable=False ),
+   rdb.Column( "birth_country", rdb.String(2) ),
    rdb.Column( "date_of_death", rdb.Date ),
    rdb.Column( "national_id", rdb.Unicode(32) ),
    rdb.Column( "password", rdb.String(36)), # we store salted md5 hash hexdigests

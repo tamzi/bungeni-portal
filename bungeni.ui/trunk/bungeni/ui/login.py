@@ -13,7 +13,8 @@ from ore.alchemist import Session
 from alchemist.ui.core import BaseForm
 
 from bungeni.core.i18n import _
-from bungeni.core import User
+
+from bungeni.core import User, vocabulary
 
 class ILoginForm( interface.Interface ):
     login = schema.TextLine( title=_(u"Username"))
@@ -43,6 +44,7 @@ class ISignupForm(interface.Interface):
     first_name = schema.TextLine(title=_(u"First Name"), min_length=3)
     last_name = schema.TextLine(title=_(u"Last Name"), min_length=3)
     email = schema.TextLine(title=_(u"Email Address"), constraint=check_email )
+    gender = schema.Choice( title=_("Gender"), required=False, vocabulary=vocabulary.Gender )
     password = schema.Password(title=_(u"Password"), min_length=5)
     password_repeat = schema.Password(title=_(u"Repeat password"))
 

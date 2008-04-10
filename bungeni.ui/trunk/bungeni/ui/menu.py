@@ -12,7 +12,7 @@ class LoginAction( item.SiteMenuItem ):
     def available( self ):
         available = IUnauthenticatedPrincipal.providedBy( self.request.principal )
         return available
-        
+
 class LogoutAction( item.SiteMenuItem ):
     
     @property

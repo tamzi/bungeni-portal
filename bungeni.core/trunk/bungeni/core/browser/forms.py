@@ -5,7 +5,7 @@ from alchemist.ui.content import ContentAddForm
 from alchemist.ui.viewlet import EditFormViewlet
 from zope.formlib import form
 from zope import schema, interface
-
+from zope.formlib.namedtemplate import NamedTemplate
 
 from ore.alchemist.vocabulary import DatabaseSource
 import bungeni.core.vocabulary as vocabulary
@@ -93,16 +93,15 @@ class GroupSittingAttendanceEdit( EditFormViewlet ):
     override the Edit Form for GroupSittingAttendance
     """
     form_fields = form.Fields( IGroupSittingAttendanceEdit )
-       
+    template = NamedTemplate('alchemist.subform')   
 
     def update( self ):
         """
         adapt the custom fields to our object
         """
-        #self.adapters = [ interfaces.IGroupSittingAttendanceAdd ] = self.context
-        self.adapters = { IGroupSittingAttendanceEdit : self.context }
-        #self.status = self.request.get('portal_status_message','')       
-        
+        self.adapters = { IGroupSittingAttendanceEdit : self.context }        
+        super( GroupSittingAttendanceEdit, self).update()
+                   
 
 
  

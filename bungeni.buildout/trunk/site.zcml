@@ -49,7 +49,6 @@
   
   <!-- Application Configuration -->
   <include package="bungeni.core" />
-  <include package="bungeni.messaging" />
 
   <!-- Application Theme -->
   <include package="ploned.ui" />

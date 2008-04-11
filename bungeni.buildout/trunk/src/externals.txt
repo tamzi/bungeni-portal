@@ -1,7 +1,6 @@
 bungeni.server    https://bungeni-portal.googlecode.com/svn/bungeni.server/trunk/ 
 bungeni.core      https://bungeni-portal.googlecode.com/svn/bungeni.core/trunk/
 bungeni.ui        https://bungeni-portal.googlecode.com/svn/bungeni.ui/trunk/
-bungeni.messaging https://bungeni-portal.googlecode.com/svn/bungeni.messaging/trunk/
 
 # plone 3 skin
 ploned.ui      https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/

@@ -229,7 +229,7 @@
      descriptor=".descriptor.AttendanceDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
-     echo="True"
+     echo="False"
     />  
       
   <db:catalyst

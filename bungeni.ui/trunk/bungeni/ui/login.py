@@ -8,6 +8,7 @@ from zope.publisher.browser import BrowserView
 from zope.traversing.browser import absoluteURL
 from zope.app.authentication.interfaces import IAuthenticatorPlugin
 from zope.app.security.interfaces import IUnauthenticatedPrincipal
+from zope.securitypolicy.interfaces import IPrincipalRoleMap
 
 from ore.alchemist import Session
 from alchemist.ui.core import BaseForm
@@ -72,7 +73,9 @@ class SignUp( BaseForm ):
         u.setPassword( data['password'] )
         s = Session()
         s.save(u)
-        
+
+        prm = IPrincipalRoleMap( self.context )
+        prm.assignRoleToPrincipal( u"zope.Member", u.login)
         # todo - add registration event notification
         # see zope.authentication.interfaces.IPrincipalCreatedEvent
         msg = _(u"Registration+Successful")

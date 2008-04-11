@@ -6,6 +6,7 @@ from copy import deepcopy
 from zope import schema, interface
 from zc.table import column
 
+
 from bungeni.ui.datetimewidget import SelectDateWidget, SelectDateTimeWidget
 
 
@@ -549,12 +550,12 @@ class AttendanceDescriptor( ModelDescriptor ):
                          )
                     ORDER BY "users"."last_name"                    
                     '''
-    membersVocab = vocabulary.SQLQuerySource(sql_members, 'user_name', 'user_id')                                                                        
+    #membersVocab = vocabulary.SQLQuerySource(sql_members, 'user_name', 'user_id')                                                                        
     fields = [
         dict( name="sitting_id", omit=True ),
-        dict( name="member_id", listing=True,
-                property = schema.Choice(title=_(u"Attendance"), source=membersVocab, ),
-              listing_column=member_fk_column("member_id", _(u"Member of Parliament") ) ),
+#        dict( name="member_id", listing=True,
+#                property = schema.Choice(title=_(u"Attendance"), source=membersVocab, ),
+#              listing_column=member_fk_column("member_id", _(u"Member of Parliament") ) ),
         dict( name="attendance_id", listing=True, 
                 property = schema.Choice( title=_(u"Attendance"), source=attendanceVocab, required=True),
                 listing_column = vocab_column("attendance_id", _(u"Attendance"), attendanceVocab )),            

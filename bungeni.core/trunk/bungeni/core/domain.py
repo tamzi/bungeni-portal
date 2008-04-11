@@ -319,5 +319,9 @@ class GroupTypes( object):
 class MemberTitle( object ):
     """ Titles for members in groups"""
     pass
+    
+class Keyword( object ):
+    """ Keywords for groups """
+        
         
     

@@ -11,14 +11,16 @@
      class=".domain.Group"
      descriptor=".descriptor.GroupDescriptor"
      interface_module=".interfaces"
-     ui_module="bungeni.ui.content"     
+     ui_module="bungeni.ui.content"   
+     echo="False"  
      />     
 
   <db:catalyst
      class=".domain.Government"
      descriptor=".descriptor.GovernmentDescriptor"
      interface_module=".interfaces"
-     ui_module="bungeni.ui.content"     
+     ui_module="bungeni.ui.content"
+     echo="False"     
      /> 
           
   <db:catalyst
@@ -26,6 +28,7 @@
      descriptor=".descriptor.ParliamentDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
+     echo="False"
      />     
 
   <db:catalyst
@@ -33,6 +36,7 @@
      descriptor=".descriptor.CommitteeDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
+     echo="False"
      />     
      
   <db:catalyst
@@ -40,6 +44,7 @@
      descriptor=".descriptor.CommitteeMemberDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
+     echo="False"
      />          
      
    <db:catalyst
@@ -47,6 +52,7 @@
      descriptor=".descriptor.PolitcalPartyDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="False"
     />
    
    <db:catalyst
@@ -54,12 +60,14 @@
      descriptor=".descriptor.MinistryDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="False"
     />
   <!--db:catalyst
      class=".domain.ExtensionGroup"
      descriptor=".descriptor.ExtensionGroupDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="False"
     /-->
         
   <db:catalyst
@@ -67,6 +75,7 @@
      descriptor=".descriptor.MinisterDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="False"
     />
     
   <!--db:catalyst
@@ -74,6 +83,7 @@
      descriptor=".descriptor.ExtensionMemberDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="False"
     /-->    
     
   <db:catalyst
@@ -81,6 +91,7 @@
      descriptor=".descriptor.SessionDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="False"
      />     
      
   <db:catalyst
@@ -88,6 +99,7 @@
      descriptor=".descriptor.GroupMembershipDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="False"
      />
           
   <db:catalyst
@@ -95,6 +107,7 @@
      descriptor=".descriptor.SittingDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
+     echo="False"
      />
 
   <!-- Content -->
@@ -103,6 +116,7 @@
      descriptor=".descriptor.BillDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="False"
      />
      
   <db:catalyst
@@ -116,7 +130,8 @@
     class=".domain.Question"
     descriptor=".descriptor.QuestionDescriptor"
     interface_module=".interfaces"
-    ui_module="bungeni.ui.content"    
+    ui_module="bungeni.ui.content" 
+    echo="False"   
     />
     
   <!-- Domain Model -->
@@ -125,6 +140,7 @@
      descriptor=".descriptor.ConstituencyDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="False"
     />
     
     <db:catalyst
@@ -132,6 +148,7 @@
      descriptor=".descriptor.RegionDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="False"
     />
        
     <db:catalyst
@@ -139,6 +156,7 @@
      descriptor=".descriptor.ProvinceDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="False"
     />
     
     <db:catalyst
@@ -146,6 +164,7 @@
      descriptor=".descriptor.CountryDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="False"
     />
     
     <db:catalyst
@@ -153,6 +172,7 @@
      descriptor=".descriptor.ConstituencyDetailDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="False"
     />
   
   <!-- User -->
@@ -161,6 +181,7 @@
      descriptor=".descriptor.UserDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="False"
     />
     
   <db:catalyst
@@ -168,6 +189,7 @@
      descriptor=".descriptor.MemberDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
+     echo="False"
      />
      
   <db:catalyst
@@ -175,6 +197,7 @@
      descriptor=".descriptor.PartyMemberDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
+     echo="False"
      />     
    
   <!--db:catalyst
@@ -182,6 +205,7 @@
      descriptor=".descriptor.SittingTypeDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
+     echo="False"
      /-->
               
   <db:catalyst
@@ -189,6 +213,7 @@
      descriptor=".descriptor.MpDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
+     echo="False"
      />  
     
   <db:catalyst
@@ -196,6 +221,7 @@
      descriptor=".descriptor.HansardReporterDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="False"
     />
 
   <db:catalyst
@@ -203,6 +229,7 @@
      descriptor=".descriptor.AttendanceDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="True"
     />  
       
   <db:catalyst
@@ -210,6 +237,7 @@
      descriptor=".descriptor.AttendanceTypeDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="False"
     />   
 
     <!--db:catalyst
@@ -217,6 +245,7 @@
      descriptor=".descriptor.ResponseDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
+     echo="False"
     /-->
 
   

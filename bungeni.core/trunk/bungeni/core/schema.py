@@ -290,6 +290,26 @@ group_item_assignments = rdb.Table(
    rdb.Column( "notes", rdb.UnicodeText ),
    )
 
+#############
+# Keywords
+#############
+
+keywords = rdb.Table(
+    "keywords",
+    metadata,
+    rdb.Column( "keyword_id", rdb.Integer, primary_key=True),
+    rdb.Column( "keyword_name", rdb.Unicode(32), unique=True),
+    )
+
+groups_keywords = rdb.Table(
+    "groups_keywords",
+    metadata,
+    rdb.Column( "keyword_id", rdb.Integer, rdb.ForeignKey('keywords.keyword_id'), primary_key=True),
+    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
+    )    
+
+
+
 ##################
 # Activity 
 # 

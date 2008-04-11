@@ -37,6 +37,8 @@
   
   <!-- Setup Domain Model Versioning Feature-->
   <include file="version.zcml"/>
+
+
   
   <!-- Searching -->
   <utility component=".index.searcher" />
@@ -52,6 +54,9 @@
 
   <!-- Workflow -->
   <include package=".workflows" />
+  
+  <!-- Custom forms-->
+  <include package=".browser"/>
       
   <!-- Pluggable Traversal for Parliamentary Content -->
   <adapter

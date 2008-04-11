@@ -12,14 +12,24 @@ mapper( domain.User, schema.users,
         polymorphic_on=schema.users.c.type,
         polymorphic_identity='user')
 
+mapper (domain.Keyword, schema.keywords)
 # Groups
 mapper( domain.Group, schema.groups,
         properties={
-            'members': relation( domain.GroupMembership )
+            'members': relation( domain.GroupMembership ),
+#            'keywords': relation( domain.Keyword,  secondary=schema.groups_keywords,  )            
             },
         polymorphic_on=schema.groups.c.type,
         polymorphic_identity='group'
         )
+
+# Keywords for groups
+#mapper (domain.Keyword, schema.keywords,
+#         properties = {
+#                'groups': relation(domain.Group, secondary=schema.groups_keywords, backref='keywords'),
+#                
+#                   })
+
 
 # do we really need a primary key on group memberships to map?
 

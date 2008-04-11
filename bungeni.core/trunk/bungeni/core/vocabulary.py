@@ -11,6 +11,7 @@ from ore.alchemist.container import valueKey
 from sqlalchemy.orm import mapper,  column_property 
 import sqlalchemy as rdb
 import schema, domain
+import pdb
 
 
 #ModelTypeSource = ObjectSource( model.DataModelType, 'short_name', 'id')
@@ -191,6 +192,16 @@ mapper( _TmpSqlQuery, schema.parliaments )
 class SQLQuerySource ( object ):
     """ call with a SQL Statement and the rows which make up the vocabulary
     note that a % wildcard for sql LIKEs must be escaped as %%
+   
+    Values passed in the filter dictionary can be either constant strings or they can refer
+    to an attribute of the object. To denote the attribute pass the attributes name with
+    a leading dollar sign i.e: $(member_id)s
+     
+    The value of the primary key of the *parent(!)* can be accessed with %(primary_key)s
+       
+    You can call this function without filters on any object, if you need filters the object 
+    needs to have a context i.e, you can call it on edit/view for any object. If you want to add an object
+    it must be a childobject of something.
     """
     interface.implements( IContextSourceBinder )   
 
@@ -206,17 +217,41 @@ class SQLQuerySource ( object ):
                 value_key = self.getValueKey( context.__parent__)
         return value_key          
     
-    def __init__( self, sql_statement, token_field, value_field, title_field=None ):
+    def __init__( self, sql_statement, token_field, value_field, filter = {}, title_field=None ):
         self.sql_statement = sql_statement
         self.token_field = token_field
         self.value_field = value_field
         self.title_field = title_field
-        #self.filter_values = filter_values
+        self.filter = filter
+    
+    def constructFilterDict( self, filter_dict, context ):
+        """
+        replace the variable filtervalues with attribute values of the 
+        current context object
+        """
+        trusted=removeSecurityProxy(context)
+        filter = {}
+        for key in filter_dict.keys():
+            if str(filter_dict[key]).startswith('$'):              
+                value =filter_dict[key][1:]
+                filter_dict[key] = trusted.__dict__[value]                
+        return filter_dict                
+        
+        
         
     def constructQuery( self, context ):        
-        session = Session()    
-        pfk = self.getValueKey(context)   
-        sql_statement =  (self.sql_statement % {'primary_key' : pfk} )   
+        session = Session()            
+        if  self.sql_statement.find('%(primary_key)s') > 1:
+            #if the keyword primary key is present in the sql replace it with the parent pk  
+            pfk = self.getValueKey(context)
+            filter_dict = {'primary_key' : pfk}            
+        else:
+            filter_dict = {}            
+        filter_dict.update(self.filter)
+        filter_dict = self.constructFilterDict( filter_dict, context )
+        # the actual replacing of the filtervalues in the string
+        sql_statement =  ( self.sql_statement % filter_dict )   
+        #get the connection from a known mapper so we can execute our raw sql query 
         connection = session.connection(_TmpSqlQuery)      
         query = connection.execute(sql_statement)        
         return query

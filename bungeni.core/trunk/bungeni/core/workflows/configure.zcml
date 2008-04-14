@@ -33,7 +33,10 @@
      for="..domain.Question"
      provides="ore.workflow.interfaces.IWorkflowInfo"
      factory="ore.workflow.workflow.WorkflowInfo"/>
-  
+
+  <subscriber
+     handler=".question.workflowTransitionEventDispatcher" />
+
   <!-- silly versioning thingy for wf runtime-->
 
   <utility

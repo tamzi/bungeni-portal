@@ -22,6 +22,24 @@ Setup
   ...    ore.workflow.workflow.WorkflowInfo,
   ...    (Question,))
 
+  >>> component.provideHandler(
+  ...    bungeni.core.workflows.question.workflowTransitionEventDispatcher)
+
+Transition events
+-----------------
+
+We set up event subscribers to make sure all registered transition
+events are called.
+
+  >>> map = bungeni.core.workflows.question.workflow_transition_event_map
+  >>> check_transition_events = dict((states, False) for states in map.keys())
+
+  >>> for states, iface in map.items():
+  ...     @component.adapter(iface)
+  ...     def handler(event):
+  ...         check_transition_events[states] = True
+  ...     component.provideHandler(handler)
+  
 Workflow
 --------
 
@@ -60,3 +78,9 @@ Received:
 
   >>> transitions(question)
   ()
+
+Transition events check
+-----------------------
+
+  >>> print check_transition_events
+  {(u'submitted', u'received'): True}

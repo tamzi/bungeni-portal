@@ -1,5 +1,12 @@
+from zope import interface
+from zope import component
+from zope.event import notify
+from zope.component.interfaces import ObjectEvent
+
 from ore.workflow import interfaces as iworkflow
 from ore.workflow import workflow
+
+import interfaces
 
 from bungeni.core.i18n import _
 
@@ -35,6 +42,21 @@ def create_question_workflow( ):
         ) )    
 
     return transitions
+
+workflow_transition_event_map = {
+    (states.submitted, states.received): interfaces.IQuestionReceivedEvent,
+    }
+
+@component.adapter(iworkflow.IWorkflowTransitionEvent)
+def workflowTransitionEventDispatcher(event):
+    source = event.source
+    destination = event.destination
+    
+    iface = workflow_transition_event_map.get((source, destination))
+    if iface is not None:
+        transition_event = ObjectEvent(event.object)
+        interface.alsoProvides(transition_event, iface)
+        notify(transition_event)
 
 class QuestionWorkflow( workflow.Workflow ):
 

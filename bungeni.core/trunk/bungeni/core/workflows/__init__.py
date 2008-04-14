@@ -2,16 +2,18 @@
 $Id: $
 """
 from zope import interface
-from ore.workflow import interfaces, workflow
+from ore.workflow import workflow
+from ore.workflow.interfaces import IWorkflowInfo
+from ore.workflow.interfaces import IWorkflowState
 
 def initializeWorkflow( object, event):
     """ in response to object created events """
-    workflow = interfaces.IWorkflowInfo( object )
+    workflow = IWorkflowInfo( object )
     workflow.fireAutomatic()
 
 def fireAutomaticTransitions( object, event ):
     """ fire automatic transitions for a new state """
-    workflow = interfaces.IWorkflowInfo( object )
+    workflow = IWorkflowInfo( object )
     workflow.fireAutomatic()
 
 class NullVersions( workflow.WorkflowVersions ):
@@ -20,7 +22,7 @@ class NullVersions( workflow.WorkflowVersions ):
 
 class WorkflowState( object ):
 
-    interface.implements( interfaces.IWorkflowState )
+    interface.implements( IWorkflowState )
     
     __slots__ = ('context',)
     

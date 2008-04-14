@@ -459,6 +459,61 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
       
     }
     
+    private void removeNumbering(XTextRange aTextRange, Object elem){
+        XText xRangeText=aTextRange.getText();
+       
+        XEnumerationAccess xRangeAccess = (XEnumerationAccess)UnoRuntime.queryInterface(com.sun.star.container.XEnumerationAccess.class,elem);
+         XEnumeration portionEnum =  xRangeAccess.createEnumeration();
+         while (portionEnum.hasMoreElements()){
+             try{
+                 Object textPortion =  portionEnum.nextElement();  
+                  XServiceInfo xTextPortionService= ooDocument.getServiceInfo(textPortion);
+                   if (xTextPortionService.supportsService( "com.sun.star.text.TextPortion")){
+                      XPropertySet xTextPortionProps = (XPropertySet)UnoRuntime.queryInterface(XPropertySet.class, textPortion);
+                      String textPortionType="";
+                      
+                        
+                            textPortionType = AnyConverter.toString(xTextPortionProps.getPropertyValue("TextPortionType"));
+                            if (textPortionType.equals("ReferenceMark")){
+                                String refHeading=aTextRange.getString();
+                                String refHeadingCleared="";
+                               XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
+                               
+                               Pattern p = Pattern.compile("[mdclxvi]+\\)");
+      
+                                Matcher m = p.matcher(refHeading);
+                                while (m.find()) {
+                                        // Get the matching string
+                                        String match = m.group();
+                                        System.out.println(match + " length " + match.length());
+                                        refHeadingCleared = refHeading.substring(match.length());
+                                       
+                                }
+                               System.out.println("getReferenceMarkOnRenumbering " + refHeadingCleared.trim());
+                               aTextRange.setString(refHeadingCleared.trim());
+                               
+                              
+                               //System.out.println("reference found"  + aTextRange.getString());
+                               break;
+                          } 
+                             
+                     
+                   }
+                  
+             }catch(NoSuchElementException ex){
+                 log.error(ex.getMessage());
+             }catch (WrappedTargetException ex) {
+                log.error(ex.getMessage());
+             }catch (com.sun.star.lang.IllegalArgumentException ex) {
+                  log.error(ex.getMessage());
+             }catch (UnknownPropertyException ex) {
+                  log.error(ex.getMessage());
+             }
+             
+             
+         } 
+    }
+    
      
     private void getNumberedHeadings() {
        Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
@@ -493,6 +548,67 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                             //System.out.println("getNumberedHeadings: heading found " + strHeading);
                       
                             getReferenceMark(aTextRange,elem);
+                            break;
+                         }
+                   
+                   }
+
+                }
+        
+            }catch (NoSuchElementException ex) {
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            } catch (WrappedTargetException ex) {
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            }catch(UnknownPropertyException ex){
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            }catch(com.sun.star.lang.IllegalArgumentException ex){
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            }
+            
+       }
+       
+    }
+    
+    
+    private void getNumberedHeadingsOnRenumbering() {
+       Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
+         while(typedMatchSectionItr.hasNext()){
+           
+            Object matchedSectionElem=typedMatchSectionItr.next();
+            System.out.println("getNumberedHeadings " + matchedSectionElem);
+            
+           try{
+               
+                Object sectionName = ooDocument.getTextSections().getByName(matchedSectionElem.toString());
+                XTextSection theSection = ooQueryInterface.XTextSection(sectionName);
+                XTextRange range = theSection.getAnchor();
+
+                XEnumerationAccess enumAcc  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, range);
+                XEnumeration xEnum = enumAcc.createEnumeration();
+
+
+              while (xEnum.hasMoreElements()) {
+                  Object elem = xEnum.nextElement();
+                   XServiceInfo xInfo = (XServiceInfo)UnoRuntime.queryInterface(XServiceInfo.class, elem);
+                   if(xInfo.supportsService("com.sun.star.text.Paragraph")){
+                        XPropertySet objProps = ooQueryInterface.XPropertySet(xInfo);
+                    
+                         short nLevel = -1;
+                         nLevel = com.sun.star.uno.AnyConverter.toShort(objProps.getPropertyValue("ParaChapterNumberingLevel"));
+                           if(nLevel>=0){
+                            XTextContent xContent = ooDocument.getTextContent(elem);
+                            XTextRange aTextRange =   xContent.getAnchor();
+                            String strHeading = aTextRange.getString();
+                            
+                            //System.out.println("getNumberedHeadings: heading found " + strHeading);
+                      
+                         
+                           
+                            setReferenceMarkOnRenumbering(aTextRange,elem);
                             break;
                          }
                    
@@ -584,9 +700,10 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     
     
      //method to get reference mark from heading
-    private void getReferenceMark2(XTextRange aTextRange, Object elem){
+    private void setReferenceMarkOnRenumbering(XTextRange aTextRange, Object elem){
       
-        XText xRangeText=aTextRange.getText();
+         XText xRangeText=aTextRange.getText();
+         Iterator refIterator = docListReferences.iterator();
        
         XEnumerationAccess xRangeAccess = (XEnumerationAccess)UnoRuntime.queryInterface(com.sun.star.container.XEnumerationAccess.class,elem);
          XEnumeration portionEnum =  xRangeAccess.createEnumeration();
@@ -601,27 +718,42 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                         
                             textPortionType = AnyConverter.toString(xTextPortionProps.getPropertyValue("TextPortionType"));
                             if (textPortionType.equals("ReferenceMark")){
-                                String refHeading=aTextRange.getString();
-                                String refHeadingCleared="";
-                               XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
-                               
-                               Pattern p = Pattern.compile("[mdclxvi]+\\)");
-      
-                                    Matcher m = p.matcher(refHeading);
-                                    while (m.find()) {
-                                        // Get the matching string
-                                        String match = m.group();
-                                        System.out.println(match + " length " + match.length());
-                                        refHeadingCleared = refHeading.substring(match.length());
-                                       
-                                    }
-                                System.out.println(refHeadingCleared.trim());
-                               aTextRange.setString(refHeadingCleared.trim());
-                               
+                                return;
+                          } else{
                               
-                               //System.out.println("reference found"  + aTextRange.getString());
-                               break;
-                          } 
+                                System.out.println("no reference mark found ");
+                                //insert reference mark
+                               
+                               
+                               
+                                 while(refIterator.hasNext()){
+                                 
+                                   XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
+                                   xTextCursor.gotoRange(aTextRange.getEnd(), true);
+
+                                   XNamed xRefMark = (XNamed) UnoRuntime.queryInterface(XNamed.class,
+                                            ooDocument.createInstance("com.sun.star.text.ReferenceMark"));
+
+                                        Object ref=(String)refIterator.next();
+
+                                        xRefMark.setName(ref.toString());
+
+                                        
+                                        XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, xRefMark);
+                                        xRangeText.insertTextContent(xTextCursor,xContent,true);
+
+                                 } 
+                                
+                                
+                              
+                                /* xRefMark.setName("refText:" + aTextRange.getString());
+                                 
+                                 //System.out.println("refText:" + aTextRange.getString());
+                                 XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, xRefMark);
+                                 xRangeText.insertTextContent(xTextCursor,xContent,true);
+                               */
+                                
+                          }
                              
                      
                    }
@@ -810,7 +942,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                                  insertParentPrefix(matchedSectionElem, parentPrefix);
                               }
                              insertNumber(aTextRange, testCount);
-                             //insertAppliedNumberToMetadata(matchedSectionElem,testCount);
+                            
                              
                              
                              
@@ -825,7 +957,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                                  insertParentPrefix(matchedSectionElem, parentPrefix);
                               }
                             insertNumber(aTextRange, testCount);                 
-                           // insertAppliedNumberToMetadata(matchedSectionElem,testCount);
+                          
                             
                          }
                          
@@ -934,9 +1066,9 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                             String strHeading = aTextRange.getString();
                             
                            // System.out.println("referencesList: heading found " + strHeading);
-                            docListReferences.add(strHeading);
-                            getReferenceMark2(aTextRange, elem);
-                            
+                            docListReferences.add("refText:" + strHeading);
+                          //  getReferenceMarkOnRenumbering(aTextRange, elem);
+                            removeNumbering(aTextRange, elem);
                             break;
                          }
                    
@@ -1070,23 +1202,17 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
          readSections();
          findBrokenReferences();
          referencesList();
+         //insert number by calling insertNumber method within the getHeadingInSectionOnRenumbering() method
          getHeadingInSectionOnRenumbering();
-         getNumberedHeadings();
-         /*Pattern p = Pattern.compile("[mdclxvi]+\\)");
+         //get the numbered headings and insert the references again since they were broken during the renumbering
+        getNumberedHeadingsOnRenumbering();  
       
-        Iterator refIterator = docListReferences.iterator();
+        /*Iterator refIterator = docListReferences.iterator();
          while(refIterator.hasNext()){
            
             Object ref=(String)refIterator.next();
-                 
-            Matcher m = p.matcher(ref.toString());
-            while (m.find()) {
-                // Get the matching string
-                String match = m.group();
-                System.out.println(match + " length " + match.length());
-               
-               
-            }
+            System.out.println("ref " + ref);
+            
          }*/
         
         

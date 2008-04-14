@@ -45,13 +45,14 @@ def create_question_workflow( ):
 
 workflow_transition_event_map = {
     (states.submitted, states.received): interfaces.IQuestionReceivedEvent,
+    (states.draft, states.submitted): interfaces.IQuestionSubmittedEvent,
     }
 
 @component.adapter(iworkflow.IWorkflowTransitionEvent)
 def workflowTransitionEventDispatcher(event):
     source = event.source
     destination = event.destination
-    
+
     iface = workflow_transition_event_map.get((source, destination))
     if iface is not None:
         transition_event = ObjectEvent(event.object)

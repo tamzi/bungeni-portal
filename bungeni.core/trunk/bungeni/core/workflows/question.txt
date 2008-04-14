@@ -35,10 +35,11 @@ events are called.
   >>> check_transition_events = dict((states, False) for states in map.keys())
 
   >>> for states, iface in map.items():
-  ...     @component.adapter(iface)
-  ...     def handler(event):
-  ...         check_transition_events[states] = True
-  ...     component.provideHandler(handler)
+  ...     def generate(key):
+  ...         def handler(event):
+  ...             check_transition_events[key] = True
+  ...         return handler
+  ...     component.provideHandler(generate(states), adapts=(iface,))
   
 Workflow
 --------
@@ -83,4 +84,5 @@ Transition events check
 -----------------------
 
   >>> print check_transition_events
-  {(u'submitted', u'received'): True}
+  {(u'submitted', u'received'): True,
+   (u'draft', u'submitted'): True}

@@ -42,9 +42,16 @@ Questions
   >>> question = Question()
   >>> question.subject = u"My subject"
   >>> question.owner_id = user.user_id
+  >>> question.receive_notification = False
   
 Question received.
   
+  >>> notification.sendNotificationToMemberUponReceipt(ObjectEvent(question))
+
+Let's change our setting for receive notification so an email message
+is dispatched.
+
+  >>> question.receive_notification = True
   >>> notification.sendNotificationToMemberUponReceipt(ObjectEvent(question))
   From: Bungeni Portal <bungeni@localhost>
   To: "John Doe" <john.doe@localhost>...

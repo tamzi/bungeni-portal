@@ -15,6 +15,9 @@ portal_from_address = "Bungeni Portal <bungeni@localhost>"
 def sendNotificationToMemberUponReceipt(event):
     question = event.object
 
+    if not question.receive_notification:
+        return
+    
     session = Session()
     owner = session.query(User).get(question.owner_id)
     

@@ -7,6 +7,7 @@ from ore.workflow import interfaces as iworkflow
 from ore.workflow import workflow
 
 import interfaces
+import utils
 
 from bungeni.core.i18n import _
 
@@ -31,7 +32,9 @@ def create_question_workflow( ):
         transition_id = 'submit-to-clerk',
         title=_(u'Submit to Clerk'),
         source = states.draft,
-        destination = states.submitted
+        action = utils.createVersion,
+        destination = states.submitted,
+        permission = 'bungeni.SubmitQuestion',
         ) )    
 
     add( workflow.Transition(

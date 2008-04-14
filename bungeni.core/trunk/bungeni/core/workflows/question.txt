@@ -25,6 +25,12 @@ Setup
   >>> component.provideHandler(
   ...    bungeni.core.workflows.question.workflowTransitionEventDispatcher)
 
+  >>> import bungeni.core.version
+  >>> component.provideAdapter(
+  ...    bungeni.core.version.ContextVersioned,
+  ...    (bungeni.core.interfaces.IVersionable,),
+  ...    bungeni.core.interfaces.IVersioned)
+  
 Transition events
 -----------------
 
@@ -54,19 +60,40 @@ Workflow
 
     >>> question = Question()
 
-Initialization:
+First we initialize the workflow.
   
   >>> transitions(question)
   ('create',)
 
   >>> IWorkflowInfo(question).fireTransition('create')
 
-Draft:
+The question is now in a draft state.
 
   >>> transitions(question)
   ('submit-to-clerk',)
 
-  >>> IWorkflowInfo(question).fireTransition('submit-to-clerk')
+When we submit the question, a new version is created.
+  
+  >>> result = IWorkflowInfo(question).fireTransition('submit-to-clerk')
+
+The transition action returns None, indicating that the the current
+instance is still active.
+
+  >>> result is None
+  True
+
+Verify that a new version was issued.
+
+  >>> from bungeni.core.interfaces import IVersioned
+  >>> versions = IVersioned(question)
+  >>> len(list(versions.values()))
+  1
+
+Let's examine the version.
+
+  >>> version = list(versions.values())[0]
+  >>> version.status
+  u'draft'
 
 Submitted:
 

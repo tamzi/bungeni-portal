@@ -12,6 +12,8 @@
 
   <include package="ore.xapian" />
   <include package="ore.xapian" file="meta.zcml" />
+
+  <include package="bungeni.core.workflows" />
   
   <!-- Setup Database Connection -->
   <db:engine

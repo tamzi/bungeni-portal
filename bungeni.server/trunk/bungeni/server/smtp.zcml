@@ -3,6 +3,8 @@
    xmlns:mail="http://namespaces.zope.org/mail"
    i18n_domain="bungeni.messaging">
 
+  <adapter factory="collective.singing.mail.Dispatch" />
+  
   <!-- ``zope.sendmail`` is a dependency for sending mail -->
   <include package="zope.sendmail" file="meta.zcml" />
   <include package="zope.sendmail" />

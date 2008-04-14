@@ -29,6 +29,9 @@
      factory=".app.BungeniApp"
      />
 
+  <!-- Custom permissions -->
+  <include file="permissions.zcml" />
+  
   <!-- Catalyze Domain Models -->
   <include file="catalyst.zcml"/>
 
@@ -39,7 +42,6 @@
   <include file="version.zcml"/>
 
   <!-- Notifications -->
-
   <include file="notification.zcml" />
   
   <!-- Searching -->

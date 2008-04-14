@@ -1,0 +1,35 @@
+Notifications
+=============
+
+  >>> from bungeni.core import notification
+  >>> from zope.component.interfaces import ObjectEvent
+
+Setup mock delivery component.
+
+  >>> import zope.sendmail.interfaces
+  
+  >>> class MockMailDelivery(object):
+  ...     interface.implements(zope.sendmail.interfaces.IMailDelivery)
+  ...
+  ...     def send(self, *args):
+  ...         print "From: %s\nTo: %s\n\n%s" % args
+
+  >>> component.provideUtility(MockMailDelivery())
+
+Register dispatcher.
+
+  >>> from collective.singing.mail import Dispatch
+  >>> component.provideAdapter(Dispatch)
+
+Questions
+---------
+
+  >>> from bungeni.core.domain import Question
+  >>> question = Question()
+  >>> question.subject = u"My subject"
+
+Question received.
+  
+  >>> notification.sendNotificationToMemberUponReceipt(ObjectEvent(question))
+  From: Bungeni Portal <bungeni@localhost>...
+  Subject: Question received: My subject...

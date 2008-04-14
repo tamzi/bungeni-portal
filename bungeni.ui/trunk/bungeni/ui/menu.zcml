@@ -147,6 +147,35 @@
      viewName="logout"
      weight="20"
      />
-         
+
+   <!-- task actions -->
+
+   <browser:menu
+      id="task_actions"
+      title="Tasks"
+      class=".menu.TaskMenu"
+      />
+   
+   <browser:menuItem
+      menu="task_actions"
+      for="*"
+      action="/motions/add"
+      title="Create motion"
+      />
+   
+   <browser:menuItem
+      menu="task_actions"
+      for="*"
+      action="/questions/add"
+      title="Create question"
+      />
+   
+   <browser:menuItem
+      menu="task_actions"
+      for="*"
+      action="/bills/add"
+      title="Create bill"
+      />
+
 </configure>
 

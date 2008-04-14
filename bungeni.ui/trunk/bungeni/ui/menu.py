@@ -5,6 +5,7 @@ from zope.location.interfaces import ILocation
 from zope.viewlet import interfaces
 from zope.security.management import getInteraction
 from zope.app.security.interfaces import IUnauthenticatedPrincipal
+from zope.app.publisher.browser.menu import BrowserMenu, getMenu
 
 class LoginAction( item.SiteMenuItem ):
     
@@ -36,6 +37,13 @@ class AdminAction( item.SiteMenuItem ):
     def getURLContext( self ):
         site = getSite()
         return site['admin']
+
+class TaskMenu(BrowserMenu):
+    def getMenuItems(self, object, request):
+        spec = self.getMenuItemType()
+        return [item for name, item in \
+                component.getAdapters((object, request), spec)]
+    
 # 
 # class TaskMenu( managr.MenuManager ):
 #     

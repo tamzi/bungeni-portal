@@ -21,15 +21,31 @@ Register dispatcher.
   >>> from collective.singing.mail import Dispatch
   >>> component.provideAdapter(Dispatch)
 
+Set up a user.
+
+  >>> from bungeni.core.domain import User
+  >>> user = User()
+  >>> user.first_name = 'John'
+  >>> user.last_name = 'Doe'
+  >>> user.email = 'john.doe@localhost'
+  >>> user.owner_id = 1
+  
+  >>> from ore.alchemist import Session
+  >>> session = Session()
+  >>> session.save(user)
+  >>> session.flush()
+  
 Questions
 ---------
 
   >>> from bungeni.core.domain import Question
   >>> question = Question()
   >>> question.subject = u"My subject"
-
+  >>> question.owner_id = user.user_id
+  
 Question received.
   
   >>> notification.sendNotificationToMemberUponReceipt(ObjectEvent(question))
-  From: Bungeni Portal <bungeni@localhost>...
+  From: Bungeni Portal <bungeni@localhost>
+  To: "John Doe" <john.doe@localhost>...
   Subject: Question received: My subject...

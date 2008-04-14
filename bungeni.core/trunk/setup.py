@@ -22,6 +22,7 @@ setup(
                          'SQLAlchemy',
                          'zope.schema',
                          'zope.interface',
+                         'zope.i18n',
                          'ore.alchemist'],
     zip_safe = False,
     )

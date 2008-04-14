@@ -38,7 +38,9 @@
   <!-- Setup Domain Model Versioning Feature-->
   <include file="version.zcml"/>
 
+  <!-- Notifications -->
 
+  <include file="notification.zcml" />
   
   <!-- Searching -->
   <utility component=".index.searcher" />

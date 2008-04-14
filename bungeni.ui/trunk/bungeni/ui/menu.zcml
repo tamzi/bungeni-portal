@@ -50,7 +50,14 @@
      action="/motions"
      title="Motions"
      />
-     
+
+  <browser:menuItem
+     menu="site_actions"
+     for="*"
+     action="/questions"
+     title="Questions"
+     />
+
   <browser:menuItem
      menu="site_actions"
      for="*"

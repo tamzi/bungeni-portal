@@ -37,7 +37,7 @@ class WorkflowState( object ):
             self.context.status = state
             
     def setId( self, id ):
-        print "setting id", id
+        pass # print "setting id", id
         
     def getState( self ):
         return self.context.status

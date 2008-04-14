@@ -2,6 +2,7 @@ from zope import component
 from zope.i18n import translate
 
 from bungeni.core.workflows.interfaces import IQuestionReceivedEvent
+from bungeni.core.workflows.interfaces import IQuestionSubmittedEvent
 from bungeni.core.domain import User
 
 from email.mime.text import MIMEText
@@ -37,3 +38,13 @@ def sendNotificationToMemberUponReceipt(event):
 
     dispatcher = IDispatch(msg)
     status, messaage = dispatcher()
+
+@component.adapter(IQuestionSubmittedEvent)
+def sendNotificationToClerkUponSubmit(event):
+    """Send notification to Clerk's office upon submit.
+
+    We need to settings from a global registry to determine whether to
+    send this notification and where to send it to.
+    """
+
+        

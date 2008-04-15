@@ -59,8 +59,6 @@
   <!-- Workflow -->
   <include package=".workflows" />
   
-  <!-- Custom forms-->
-  <include package=".browser"/>
       
   <!-- Pluggable Traversal for Parliamentary Content -->
   <adapter

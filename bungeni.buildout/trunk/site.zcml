@@ -50,14 +50,22 @@
   <!-- Application Configuration -->
   <include package="bungeni.core" />
 
+  <include package="ploned.ui" file="meta.zcml" />
+
   <!-- Application Theme -->
   <include package="ploned.ui" />
 
   <!-- Application UI -->
   <include package="bungeni.ui" />
 
+  <!-- Application Theme -->
+  <include package="bungeni.theme.private" />
+
   <!-- Setup Default Skin For Application -->
   <browser:defaultSkin name="bungeni"/>
+  <!-- 
+    <browser:defaultSkin name="bungeni.theme.private"/> 
+    -->
 
   <!-- AppServer Security Settings -->
   <include package="zope.app.securitypolicy" file="meta.zcml" />

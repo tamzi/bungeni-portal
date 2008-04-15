@@ -20,6 +20,7 @@ import com.sun.star.container.XNamed;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XServiceInfo;
+import com.sun.star.text.ReferenceFieldPart;
 import com.sun.star.text.ReferenceFieldSource;
 import com.sun.star.text.XReferenceMarksSupplier;
 import com.sun.star.text.XSimpleText;
@@ -112,6 +113,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         panelNumberingScheme.setVisible(false);
         checkbxUseParentPrefix.setSelected(false);
         checkbxUseParentPrefix.addItemListener(new ParentSchemeListener());
+        insertCrossReference();
     }
     
   
@@ -655,7 +657,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     private void getReferenceMark(XTextRange aTextRange, Object elem){
       
         XText xRangeText=aTextRange.getText();
-       
+        
         XEnumerationAccess xRangeAccess = (XEnumerationAccess)UnoRuntime.queryInterface(com.sun.star.container.XEnumerationAccess.class,elem);
          XEnumeration portionEnum =  xRangeAccess.createEnumeration();
          while (portionEnum.hasMoreElements()){
@@ -758,13 +760,6 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                                  } 
                                 
                                 
-                              
-                                /* xRefMark.setName("refText:" + aTextRange.getString());
-                                 
-                                 //System.out.println("refText:" + aTextRange.getString());
-                                 XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, xRefMark);
-                                 xRangeText.insertTextContent(xTextCursor,xContent,true);
-                               */
                                 
                           }
                              
@@ -941,34 +936,15 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                        
                          System.out.println("currentParent " + currentParent);
                          
-                     
-                        
                        
                          if(!currentParent.equalsIgnoreCase(prevParent)){
                              //restart numbering here
                              testCount=1;
-                              if(currentParent.equals("root")){
-                                  insertParentPrefix(matchedSectionElem, testCount);
-                                  
-                              }else{
-                                 parentPrefix=testCount;
-                                 insertParentPrefix(matchedSectionElem, parentPrefix);
-                              }
                              insertNumber(aTextRange, testCount);
                             
-                             
-                             
-                             
                          }else{
                              //continue numbering
                             testCount++;
-                            if(currentParent.equals("root")){
-                                  insertParentPrefix(matchedSectionElem, testCount);
-                                  
-                              }else{
-                                parentPrefix=testCount;
-                                 insertParentPrefix(matchedSectionElem, parentPrefix);
-                              }
                             insertNumber(aTextRange, testCount);                 
                           
                             
@@ -1027,6 +1003,59 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         
     }
    
+    private void insertCrossReference(){
+       
+        
+        String sourceName=null;
+       try {
+           
+            XTextDocument xDoc = ooDocument.getTextDocument();
+         
+            XReferenceMarksSupplier xRefSupplier = (XReferenceMarksSupplier) UnoRuntime.queryInterface(
+                             XReferenceMarksSupplier.class, xDoc);
+            XNameAccess xRefMarks = xRefSupplier.getReferenceMarks();
+         
+            XEnumerationAccess xEnumFieldsAccess = ooDocument.getTextFields();
+            XEnumeration xFields = xEnumFieldsAccess.createEnumeration();
+          
+  
+    while (xFields.hasMoreElements()) {
+        Object oField = xFields.nextElement();
+       
+        
+        XServiceInfo xService = ooQueryInterface.XServiceInfo(oField);
+       if (xService.supportsService("com.sun.star.text.TextField.GetReference")){
+            
+               XViewCursor viewCursor= (XViewCursor) UnoRuntime.queryInterface(
+                             XViewCursor.class, xDoc);
+                
+              
+               XTextField xField =  (XTextField) UnoRuntime.queryInterface(XTextField.class, oField ) ;
+               XPropertySet xFieldProperties = ooQueryInterface.XPropertySet(xField);
+               XPropertySetInfo xFieldPropsInfo  = xFieldProperties.getPropertySetInfo();
+
+             
+               short refSourceRefMark = AnyConverter.toShort(xFieldProperties.getPropertyValue("ReferenceFieldSource"));
+               sourceName = AnyConverter.toString(xFieldProperties.getPropertyValue("SourceName"));
+               short referenceFieldPart= AnyConverter.toShort(xFieldProperties.getPropertyValue("ReferenceFieldPart"));
+               
+               refSourceRefMark=com.sun.star.text.ReferenceFieldSource.REFERENCE_MARK;
+               referenceFieldPart=com.sun.star.text.ReferenceFieldPart.TEXT;
+               
+               
+       }
+      
+                
+      }
+   
+        
+    } catch (Exception ex) {
+        
+    }
+           
+
+          
+    }
     
      private class NumberingSchemeListener implements ListSelectionListener{
         public void valueChanged(ListSelectionEvent listSelectionEvent) {
@@ -1043,7 +1072,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
               System.out.println("apply parent prefix checkbox selected");
                 numParentPrefix="1";
               
-            }
+            }   
         }
         
     }
@@ -1220,7 +1249,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
          //get the numbered headings and insert the references again since they were broken during the renumbering
         getNumberedHeadingsOnRenumbering();  
       
-       
+      
        
         
         

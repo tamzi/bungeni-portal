@@ -1,6 +1,8 @@
 import smtplib
+import email.Message
 
 import zope.interface
+import zope.component
 import zope.sendmail.interfaces
 
 class SMTPMailer(object):
@@ -21,3 +23,7 @@ class SMTPMailer(object):
 
         connection.sendmail(fromaddr, toaddrs, message)
         connection.quit()
+
+def dispatch(msg):
+    delivery = zope.component.getUtility(zope.sendmail.interfaces.IMailDelivery)
+    delivery.send(msg['From'], msg['To'], msg.as_string())

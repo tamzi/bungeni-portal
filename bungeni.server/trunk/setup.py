@@ -46,7 +46,6 @@ setup(name='bungeni.server',
                         'zope.app.testing',
                         'zope.app.securitypolicy',
                         'zope.sendmail',
-                        'collective.singing==0.1dev-r62028',
                         ],
       entry_points = """
       [paste.app_factory]

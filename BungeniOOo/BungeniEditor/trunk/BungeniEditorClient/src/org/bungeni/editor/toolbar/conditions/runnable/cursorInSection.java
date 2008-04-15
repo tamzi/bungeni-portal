@@ -44,7 +44,7 @@ public class cursorInSection implements IBungeniToolbarCondition {
            String activeDoc =  BungeniEditorProperties.getEditorProperty("activeDocumentMode");
            sectionToActUpon = BungeniEditorProperties.getEditorProperty("root:"+activeDoc);
         }
-        if (ooDocument.currentSectionName().equalsIgnoreCase(sectionToActUpon)) {
+        if (ooDocument.currentSectionName().matches(sectionToActUpon)) {
          bReturn = true;
         } else {
          bReturn = false;

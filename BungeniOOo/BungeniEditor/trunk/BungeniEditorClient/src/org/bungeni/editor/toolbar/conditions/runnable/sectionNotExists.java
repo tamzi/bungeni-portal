@@ -52,6 +52,15 @@ public class sectionNotExists implements IBungeniToolbarCondition {
             log.debug("sectionNotExists : xcomponent valid");
         }
         log.debug("sectionNotExists, after xcomponent validity");
+        String[] sections = ooDocument.getTextSections().getElementNames();
+        bResult = true;
+        for (String thesection : sections) {
+            if (thesection.matches(sectionToActUpon)) {
+                bResult = false;
+                break;
+            }
+        }
+        /*
         if (ooDocument.hasSection(sectionToActUpon)) {
             log.debug("sectionNotExists, sectionToActUpon :  "+sectionToActUpon + " exists" );
             bResult= false;
@@ -59,6 +68,7 @@ public class sectionNotExists implements IBungeniToolbarCondition {
             log.debug("sectionNotExists, sectionToActUpon :  "+sectionToActUpon + " does not exists" );
             bResult= true;
         }
+         */
         } catch (Exception ex) {
             log.error("check_sectionNotExists:"+ ex.getMessage());
             log.error("check_sectionNotExists, stack:" + CommonExceptionUtils.getStackTrace(ex));

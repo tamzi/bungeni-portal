@@ -33,7 +33,14 @@ public class sectionExists implements IBungeniToolbarCondition {
     }
 
     synchronized boolean check_sectionExists (BungeniToolbarCondition condition) {
-        
+        sectionNotExists secNotExists = new sectionNotExists();
+        secNotExists.setOOoComponentHelper(ooDocument);
+        if (secNotExists.processCondition(condition)){
+            return false;
+        } else {
+            return true;
+        }
+        /*
         String sectionToActUpon =  condition.getConditionValue();
         if (sectionToActUpon.equals("root")) {
            String activeDoc =  BungeniEditorProperties.getEditorProperty("activeDocumentMode");
@@ -44,7 +51,7 @@ public class sectionExists implements IBungeniToolbarCondition {
         } else {
          return false;
         }
-        
+        */
         
         
     }
@@ -52,7 +59,8 @@ public class sectionExists implements IBungeniToolbarCondition {
     synchronized public boolean processCondition(BungeniToolbarCondition condition) {
         return check_sectionExists(condition);
     }
-        
+
+ 
 
 
  }

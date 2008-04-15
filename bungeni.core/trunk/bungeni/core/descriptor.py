@@ -6,9 +6,7 @@ from copy import deepcopy
 from zope import schema, interface
 from zc.table import column
 
-
 from bungeni.ui.datetimewidget import SelectDateWidget, SelectDateTimeWidget
-
 
 from alchemist.ui import widgets
 from bungeni.ui.login import check_email
@@ -97,7 +95,7 @@ def ActiveAndSubstituted( obj ):
 
 def SubstitudedEndDate( obj ):
     """ If a person is substituted he must have an end date"""
-    if not (obj.end_date) and obj.replaced_id:
+    if not (obj.end_date) and obj.replaced_id:    
         raise interface.Invalid(_("If a person is substituted End Date must be set"))
         
 
@@ -224,12 +222,13 @@ class GroupMembershipDescriptor( ModelDescriptor ):
             edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         dict( name="end_date", label=_(u"End Date"), listing=True,
             listing_column=day_column("end_date", _(u"End Date")), 
-            edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
+            edit_widget=SelectDateWidget, add = False ),
         dict( name="active_p", label=_(u"Active") ),
         dict( name="notes", label=_(u"Notes") ),
-        dict( name="substitution_type", label=_(u"Type of Substitution") ),
+        dict( name="substitution_type", label=_(u"Type of Substitution"), add = False ),
         dict( name="replaced_id", 
                 property=schema.Choice( title=_(u"Substituted by"), source=SubstitutionSource, required=False),
+                add = False
                 ),
 # the Member that is selectable depends on the context (group she/he is in)          
 #        dict( name="user_id",
@@ -277,16 +276,16 @@ class PartyMemberDescriptor( ModelDescriptor ):
             ),
             ])
 
-#class ExtensionMemberDescriptor( ModelDescriptor ):
-#    display_name =_(u"Additional members")
-#    fields = deepcopy(GroupMembershipDescriptor.fields)
-#    fields.extend([
-#         dict( name="user_id",
-#              property=schema.Choice( title=_(u"Person"), 
-#                                      source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
-#              listing_column=member_fk_column("user_id", _(u"Person") )
-#            ),
-#           ])
+class ExtensionMemberDescriptor( ModelDescriptor ):
+    display_name =_(u"Additional members")
+    fields = deepcopy(GroupMembershipDescriptor.fields)
+    fields.extend([
+         dict( name="user_id",
+              property=schema.Choice( title=_(u"Person"), 
+                                      source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
+              listing_column=member_fk_column("user_id", _(u"Person") )
+            ),
+           ])
 
 
 class GroupDescriptor( ModelDescriptor ):
@@ -319,7 +318,6 @@ class ParliamentDescriptor( GroupDescriptor ):
               listing=True,
               listing_column=name_column("full_name", "Name") ),
         dict( name="description", property=schema.Text(title=_(u"Description"), required=False )),
-        #dict( name="identifier", label=_(u"Parliament Number"), listing=True ),
         dict( name="election_date", label=_(u"Election Date"), description=_(u"Date the of the election"), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),        
         dict( name="start_date", label=_(u"In power from"), 
               listing_column=day_column("start_date", _(u"In power from") ), listing=True, 
@@ -384,14 +382,14 @@ class PolitcalPartyDescriptor( GroupDescriptor ):
      
     schema_invariants = [EndAfterStart]
     
-#class ExtensionGroupDescriptor( GroupDescriptor ):
-#    display_name = _(u"Group extensions")
-#    fields = deepcopy( GroupDescriptor.fields )    
-#    fields.extend([
-#        dict(name="group_type", listing=True,
-#        property = schema.Choice(title=_(u"Extension for"), source=DatabaseSource(domain.GroupTypes,'group_type_desc','group_type_id'))
-#        ),
-#    ])   
+class ExtensionGroupDescriptor( GroupDescriptor ):
+    display_name = _(u"Group extensions")
+    fields = deepcopy( GroupDescriptor.fields )    
+    fields.extend([
+        dict(name="group_type", listing=True,
+        property = schema.Choice(title=_(u"Extension for"), values=['ministry', 'committee',])
+        ),
+    ])   
      
 class MinistryDescriptor( GroupDescriptor ):
     display_name = _(u"Ministry")

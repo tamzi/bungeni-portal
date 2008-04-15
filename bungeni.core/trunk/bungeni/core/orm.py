@@ -84,11 +84,11 @@ mapper( domain.Committee, schema.committees,
         polymorphic_identity='committee'
         )    
         
-#mapper( domain.ExtensionGroup, schema.extension_groups,
-#        inherits=domain.Group,
-#        polymorphic_on=schema.groups.c.type,
-#        polymorphic_identity='extension'
-#        )                         
+mapper( domain.ExtensionGroup, schema.extension_groups,
+        inherits=domain.Group,
+        polymorphic_on=schema.groups.c.type,
+        polymorphic_identity='extension'
+        )                         
 
 
 
@@ -131,7 +131,7 @@ mapper ( domain.MemberOfParliament , _mp,
 # ministry or committee (group)        
 mapper( domain.Minister, schema.user_group_memberships )
 mapper( domain.CommitteeMember, schema.user_group_memberships )
-#mapper( domain.ExtensionMember, schema.user_group_memberships )
+mapper( domain.ExtensionMember, schema.user_group_memberships )
 mapper( domain.PartyMember, schema.user_group_memberships )
 
 

@@ -172,7 +172,7 @@ parliaments = rdb.Table(
    "parliaments",
    metadata,
    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),   
-   rdb.Column( "election_date", rdb.Date ),
+   rdb.Column( "election_date", rdb.Date , nullable=False ),
    )
 
 ministries = rdb.Table(

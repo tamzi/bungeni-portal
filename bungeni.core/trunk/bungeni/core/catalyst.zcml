@@ -62,13 +62,13 @@
      ui_module="bungeni.ui.content"
      echo="False"
     />
-  <!--db:catalyst
+  <db:catalyst
      class=".domain.ExtensionGroup"
      descriptor=".descriptor.ExtensionGroupDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-    /-->
+    />
         
   <db:catalyst
      class=".domain.Minister"
@@ -78,13 +78,13 @@
      echo="False"
     />
     
-  <!--db:catalyst
+  <db:catalyst
      class=".domain.ExtensionMember"
      descriptor=".descriptor.ExtensionMemberDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-    /-->    
+    />    
     
   <db:catalyst
      class=".domain.ParliamentSession"

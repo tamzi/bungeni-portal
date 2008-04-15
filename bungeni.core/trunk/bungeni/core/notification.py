@@ -6,7 +6,7 @@ from bungeni.core.workflows.interfaces import IQuestionSubmittedEvent
 from bungeni.core.domain import User
 
 from email.mime.text import MIMEText
-from collective.singing.interfaces import IDispatch
+from bungeni.server.smtp import dispatch
 
 from ore.alchemist import Session
 
@@ -36,8 +36,7 @@ def sendNotificationToMemberUponReceipt(event):
     msg['From'] = portal_from_address
     msg['To'] = recipient_address
 
-    dispatcher = IDispatch(msg)
-    status, messaage = dispatcher()
+    dispatch(msg)
 
 @component.adapter(IQuestionSubmittedEvent)
 def sendNotificationToClerkUponSubmit(event):

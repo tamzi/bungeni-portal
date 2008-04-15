@@ -16,11 +16,6 @@ Setup mock delivery component.
 
   >>> component.provideUtility(MockMailDelivery())
 
-Register dispatcher.
-
-  >>> from collective.singing.mail import Dispatch
-  >>> component.provideAdapter(Dispatch)
-
 Set up a user.
 
   >>> from bungeni.core.domain import User

@@ -35,7 +35,7 @@ import org.safehaus.uuid.UUIDGenerator;
  *
  * @author  Administrator
  */
-public class InitQAsection extends selectorTemplatePanel {
+public class InitQAsection extends selectorTemplatePanel implements IBungeniForm {
      registryQueryDialog rqs;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(InitQAsection.class.getName());
     String txtURI = "";

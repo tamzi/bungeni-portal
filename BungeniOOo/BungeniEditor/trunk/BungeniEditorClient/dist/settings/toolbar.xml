@@ -29,9 +29,17 @@
                 </action>
             </blockAction>
             <blockAction name="QA" tooltip="Create a QA Section" title="QA" target="null" visible="true" condition="none" >
-                <action name="QA.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQASection.section_creation" condition="sectionNotExists:qa. :and: textSelected:true" visible="true" showChildren="true" >
+                <action name="QA.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makeQASection" visible="true" condition="sectionNotExists:qa." />
+                 <action name="QA.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQASection.section_creation" condition="sectionNotExists:qa. :and: textSelected:true" visible="true" showChildren="true" >
                     <subaction name="QA.selection.title" tooltip="Markup selection as title" title="Markup Title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQASection.apply_style:qa-title" visible="true" condition="cursorInSection:qa. :and: textSelected:true" />
                  </action>
+            </blockAction>
+            <blockAction name="Questions" tooltip="Create a Questions Section" title="Questions" target="null" visible="true" condition="none" >
+                <action name="Questions.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makeQuestionBlockSection" visible="true" condition="cursorInSection:qa." />
+                <action name="Questions.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQuestionBlockSection.section_creation" condition="cursorInSection:qa. :and: textSelected:true" visible="true" showChildren="true" >
+                    <subaction name="Questions.selection.title" tooltip="Markup selection as title" title="Markup Title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQuestionBlockSection.apply_style:question-title" visible="true" condition="cursorInSection:question. :and: textSelected:true" />
+                    <subaction name="Questions.selection.text" tooltip="Markup selection as text" title="Markup Text" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQuestionBlockSection.apply_style:question-text" visible="true" condition="cursorInSection:question. :and: textSelected:true" />
+                </action>
             </blockAction>
         </actionGroup>
     </root>

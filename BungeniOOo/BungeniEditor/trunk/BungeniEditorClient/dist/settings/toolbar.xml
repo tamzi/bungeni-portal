@@ -28,6 +28,11 @@
                     <subaction name="Papers.selection.import_tabled_documents" tooltip="Select tabled documents and insert into document" title="Import Tabled Documents" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.import_tabled_documents" visible="true" condition="cursorInSection:papers" />
                 </action>
             </blockAction>
+            <blockAction name="QA" tooltip="Create a QA Section" title="QA" target="null" visible="true" condition="none" >
+                <action name="QA.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQASection.section_creation" condition="sectionNotExists:qa. :and: textSelected:true" visible="true" showChildren="true" >
+                    <subaction name="QA.selection.title" tooltip="Markup selection as title" title="Markup Title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQASection.apply_style:qa-title" visible="true" condition="cursorInSection:qa. :and: textSelected:true" />
+                 </action>
+            </blockAction>
         </actionGroup>
     </root>
 </toolbar>

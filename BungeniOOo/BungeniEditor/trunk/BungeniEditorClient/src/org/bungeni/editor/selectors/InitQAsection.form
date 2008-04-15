@@ -58,10 +58,14 @@
   </Layout>
   <SubComponents>
     <Component class="javax.swing.JTextField" name="txt_title">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="txt_qa_text"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lbl_title">
       <Properties>
         <Property name="text" type="java.lang.String" value="Question Title "/>
+        <Property name="name" type="java.lang.String" value="lbl_qa_title"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnApply">

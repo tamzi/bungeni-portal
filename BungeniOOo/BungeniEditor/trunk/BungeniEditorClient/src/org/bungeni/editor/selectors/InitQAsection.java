@@ -80,8 +80,10 @@ public class InitQAsection extends selectorTemplatePanel implements IBungeniForm
         txtMessageArea = new javax.swing.JTextArea();
 
         setPreferredSize(new java.awt.Dimension(299, 200));
+        txt_title.setName("txt_qa_text");
 
         lbl_title.setText("Question Title ");
+        lbl_title.setName("lbl_qa_title");
 
         btnApply.setText("Apply");
         btnApply.addActionListener(new java.awt.event.ActionListener() {

@@ -460,6 +460,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     }
     
     private void removeNumbering(XTextRange aTextRange, Object elem){
+        Matcher m=null;
         XText xRangeText=aTextRange.getText();
        
         XEnumerationAccess xRangeAccess = (XEnumerationAccess)UnoRuntime.queryInterface(com.sun.star.container.XEnumerationAccess.class,elem);
@@ -479,9 +480,21 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                                 String refHeadingCleared="";
                                XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
                                
-                               Pattern p = Pattern.compile("[mdclxvi]+\\)");
-      
-                                Matcher m = p.matcher(refHeading);
+                               if(cboNumberingScheme.getSelectedItem().toString()=="Base Numbering"){
+                                    //create a pattern for base numbering
+                                   Pattern p = Pattern.compile("[0-9]+\\)");
+                                   m = p.matcher(refHeading);
+                               }else if(cboNumberingScheme.getSelectedItem().toString()=="ALPHA"){
+                                   //create a patter for alphabet
+                                   Pattern p = Pattern.compile("[A-Za-z]+\\)");
+                                   m = p.matcher(refHeading);
+                               }else if(cboNumberingScheme.getSelectedItem().toString()=="ROMAN"){
+                                   //pattern for roman numerals
+                                   Pattern p = Pattern.compile("[mdclxvi]+\\)");
+                                   m = p.matcher(refHeading);
+                               }
+                              
+                             
                                 while (m.find()) {
                                         // Get the matching string
                                         String match = m.group();
@@ -493,7 +506,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                                aTextRange.setString(refHeadingCleared.trim());
                                
                               
-                               //System.out.println("reference found"  + aTextRange.getString());
+                              
                                break;
                           } 
                              
@@ -1207,13 +1220,8 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
          //get the numbered headings and insert the references again since they were broken during the renumbering
         getNumberedHeadingsOnRenumbering();  
       
-        /*Iterator refIterator = docListReferences.iterator();
-         while(refIterator.hasNext()){
-           
-            Object ref=(String)refIterator.next();
-            System.out.println("ref " + ref);
-            
-         }*/
+       
+       
         
         
         

@@ -1,0 +1,28 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser" >
+  <!-- Add Form -->
+   <browser:view
+      name="add"
+      for="bungeni.core.interfaces.IGroupSittingAttendanceContainer"
+      class=".forms.GroupSittingAttendanceAdd"              
+      permission="zope.View"
+      />
+
+    
+  <!-- Edit Form -->
+    <browser:viewlet
+      name="alchemist.attributes.edit"
+      manager="alchemist.ui.interfaces.IContentEditManager"
+      class=".forms.GroupSittingAttendanceEdit"
+      for="bungeni.core.interfaces.IGroupSittingAttendance"
+      permission="zope.View"
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+      />
+      
+      
+  <!--browser:view      
+      layer="bungeni.ui.interfaces.IBungeniSkin"       
+      permission="zope.Public"
+      /-->      
+
+</configure>

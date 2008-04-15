@@ -34,6 +34,12 @@
   <!-- Include Workflow UI -->
   <include file="workflow.zcml" />
   
+  <!-- Custom forms-->
+  <include package=".browser"/>
+  
+
+  
+  
   <!-- Application UI -->
   <browser:page
      for="bungeni.core.interfaces.IBungeniApplication"
@@ -100,6 +106,6 @@
      name="workspace"
      class=".workspace.Workspace"
      />
-
+ 
   
 </configure>

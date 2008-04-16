@@ -266,6 +266,10 @@ public class ooQueryInterface {
         return (XNumberFormatTypes) UnoRuntime.queryInterface( XNumberFormatTypes.class, obj );
     }
    
+    static public XRefreshable XRefreshable( Object obj ) {
+        return (XRefreshable) UnoRuntime.queryInterface( XRefreshable.class, obj );
+    }
+    
     //--------------------------------------------------
     //  View                    com.sun.star.view.*
     //--------------------------------------------------

@@ -87,7 +87,11 @@ public  class OOComponentHelper {
     private static long MARGIN_MEASURE_BASE = 254;
     private boolean isXComponentNull = true;
     private xComponentListener xEventListener;
-    /** Creates a new instance of OOComponentHelper */
+    /**
+     * Creates a new instance of OOComponentHelper
+     * @param xComponent XComponent handle of open document
+     * @param xComponentContext XComponentContext handle of openoffice controller
+     */
     public OOComponentHelper(XComponent xComponent, XComponentContext xComponentContext) {
           try {
             isXComponentNull = false;
@@ -130,6 +134,8 @@ public  class OOComponentHelper {
     
     /**
      * Queries an input Object for an XServiceInfo interface, if found, returns the interface.
+     * @param  
+     * @return 
      */
      public XServiceInfo getServiceInfo(Object obj){
              XServiceInfo xInfo = ooQueryInterface.XServiceInfo(obj); // UnoRuntime.queryInterface(XServiceInfo.class, obj);
@@ -1232,7 +1238,12 @@ public boolean setSelectedTextStyle(String styleName) {
         return strTitle;
     }
  
- public static String getFrameTitle(XTextDocument xDoc) {
+    public void textFieldsRefresh(){
+        XEnumerationAccess enumFields = this.getTextFields();
+        ooQueryInterface.XRefreshable(enumFields).refresh();
+    }
+    
+    public static String getFrameTitle(XTextDocument xDoc) {
    String strTitle = "";
      try {
             XFrame xframe = xDoc.getCurrentController().getFrame();
@@ -1249,4 +1260,6 @@ public boolean setSelectedTextStyle(String styleName) {
         return strTitle;
         }
  }
+ 
+ 
 }

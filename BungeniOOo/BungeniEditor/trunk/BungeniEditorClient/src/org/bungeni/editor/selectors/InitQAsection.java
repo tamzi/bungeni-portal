@@ -6,6 +6,7 @@
 
 package org.bungeni.editor.selectors;
 
+import java.awt.Component;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -15,6 +16,7 @@ import java.util.Set;
 import java.util.Vector;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JTextField;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.BungeniRegistryFactory;
 import org.bungeni.db.DefaultInstanceFactory;
@@ -154,9 +156,45 @@ public class InitQAsection extends selectorTemplatePanel implements IBungeniForm
         btnCancel.setEnabled(state);
          return;
     }
+    public boolean preFullInsert() {
+        long sectionBackColor = 0xeeffff;
+        float sectionLeftMargin = (float).1;
+        thePreInsertMap.set("container_section", ooDocument.currentSectionName());
+        thePreInsertMap.set("current_section", getActionSectionName());
+        thePreInsertMap.set("section_back_color", new Long(sectionBackColor));
+        thePreInsertMap.set("section_left_margin", new Float(sectionLeftMargin));
+        
+       
+        /* the above adds : 
+         *         thePreInsertMap.put("tabled_document_titles", arrDocTitles);
+         *         thePreInsertMap.put("tabled_document_urs", arrDocURI);
+         */
+        /*
+        thePreInsertMap.put("current_section", theAction.action_naming_convention());
+        thePreInsertMap.put("target_section",  getParentSection());
+        thePreInsertMap.put("container_section", thePreInsertMap.get("target_section"));
+        thePreInsertMap.put("document_fragment", FragmentsFactory.getFragment("hansard_papers"));
+        thePreInsertMap.put("search_for", "[[PAPER_TITLE]]");
+        thePreInsertMap.put("replacement_text", txt_title.getText());
+        thePreInsertMap.put("bullet_list_begin_bookmark", new String("begin_tabled_documents_list"));
+        //in insert mode this is always INSIDE_SECTION
+        thePreInsertMap.put("selected_section_action_command",  "INSIDE_SECTION");
+        return true;
+        */
+        return true;
+    }
+    
+    public boolean processFullInsert(){
+        return true;
+    }
+    
+    public boolean postFullInsert(){
+        return true;
+    }
     
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt)  {//GEN-FIRST:event_btnApplyActionPerformed
 // TODO add your handling code here:
+        super.formApply();
         returnError(false);
 
        if (txt_title.getText().trim().length() == 0 ) {
@@ -236,8 +274,25 @@ public class InitQAsection extends selectorTemplatePanel implements IBungeniForm
            String newSectionName = "";
            //must check for action type too, but for testing purposes ignored...
         
-        
+        f
     }
+
+    public boolean validateFieldValue(Component field, Object fieldValue) {
+        boolean bFailure = true;
+        String formFieldName = field.getName();
+        
+         if (formFieldName.equals("txt_qa_text")) {
+               JTextField txtField = (JTextField) field; 
+                 if (txtField.getText().trim().length() == 0 ) {
+                        checkFieldsMessages.add("You must enter a title! ");
+                    return false;
+                   }
+         theControlDataMap.put(field.getName(), fieldValue);
+        }
+        return bFailure;
+    }
+
+ 
     
     
     

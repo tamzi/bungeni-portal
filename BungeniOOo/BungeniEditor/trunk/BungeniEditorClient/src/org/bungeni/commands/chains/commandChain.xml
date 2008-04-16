@@ -60,6 +60,16 @@
         <command   id="importTabledDocuments.insertArrayAsBulletList"
                    className="org.bungeni.commands.insertArrayAsBulletListAtCursor" /> 
         </chain>
+        <chain name="debateRecordFullInsertQA">
+            <command   id="drfiQA.addSectionIntoSectionWithStyling"
+                       className="org.bungeni.commands.addSectionIntoSectionWithStyling"/>
+            <command   id="drfiQA.setSectionMetadataForAction"
+                       className="org.bungeni.commands.setSectionMetadataForAction"/>
+            <command   id="drfiQA.addDocumentIntoSection"
+                       className="org.bungeni.commands.addDocumentIntoSection"/>
+            <command   id="drfiQA.searchAndReplace" 
+                        className="org.bungeni.commands.searchAndReplace" />
+        </chain>
     </catalog>
     <catalog name="testCatalog">
         <chain name="testChain">

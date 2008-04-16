@@ -693,7 +693,19 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         }
     }
     
-    
+    public String getActionSectionName() {
+        //get the action naming convention
+        String numberingConvention = theAction.action_numbering_convention();
+        if (numberingConvention.equals("none") || numberingConvention.equals("single")) {
+            return theAction.action_naming_convention();
+        } else if (numberingConvention.equals("serial")) {
+            //get highest section name possible
+            int iStart = 1;
+            for (; ooDocument.hasSection(theAction.action_naming_convention()+iStart); iStart++ );
+            return theAction.action_naming_convention()+iStart; 
+        } else
+            return theAction.action_naming_convention();
+    }
     public String getParentSection(){
       String parentSection = "";
       dbSettings.Connect();

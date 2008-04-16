@@ -134,8 +134,8 @@ public  class OOComponentHelper {
     
     /**
      * Queries an input Object for an XServiceInfo interface, if found, returns the interface.
-     * @param  
-     * @return 
+     * @param obj An object for which the XServiceInfo interface will be returned
+     * @return The XServiceInfo interface of object passed into the function.
      */
      public XServiceInfo getServiceInfo(Object obj){
              XServiceInfo xInfo = ooQueryInterface.XServiceInfo(obj); // UnoRuntime.queryInterface(XServiceInfo.class, obj);
@@ -144,6 +144,7 @@ public  class OOComponentHelper {
     
     /**
      * Gets the XTextContent from the input Object. Input object is queried for XTextContent.
+     * @param element Input object to getTextContent()
      */
     public XTextContent getTextContent(Object element){
         XTextContent xContent = ooQueryInterface.XTextContent(element);//(XTextContent) UnoRuntime.queryInterface(XTextContent.class, element);
@@ -631,6 +632,11 @@ public  class OOComponentHelper {
         }
     }
 
+    /**
+     * Determines if any text has been selected in the currently active document
+     * @return true - if text was selected
+     * false - if text was not selected.
+     */
     public boolean isTextSelected() {
         HashMap<String, Object> rangeMap = null;
         rangeMap = getSingleSelectionRange();

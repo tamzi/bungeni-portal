@@ -265,7 +265,7 @@ user_group_memberships = rdb.Table(
    rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey( 'users.user_id')),
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey( 'groups.group_id')),
    rdb.Column( "title", rdb.Integer, rdb.ForeignKey('user_role_types.user_role_type_id')), # title of user's group role
-   rdb.Column( "start_date", rdb.Date, default=datetime.now),
+   rdb.Column( "start_date", rdb.Date, default=datetime.now, nullable=False ),
    rdb.Column( "end_date", rdb.Date ),
    rdb.Column( "notes", rdb.UnicodeText ),   
    # we use this as an easier query to end_date in queries, needs to be set by
@@ -320,7 +320,7 @@ parliament_sessions = rdb.Table(
    rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id')),
    rdb.Column( "short_name", rdb.Unicode(32) ),
    rdb.Column( "full_name", rdb.Unicode(32) ),      
-   rdb.Column( "start_date", rdb.Date),
+   rdb.Column( "start_date", rdb.Date, nullable=False),
    rdb.Column( "end_date", rdb.Date),
    rdb.Column( "notes", rdb.UnicodeText )   
    )
@@ -340,8 +340,8 @@ sittings = rdb.Table(
    rdb.Column( "sitting_id", rdb.Integer,  primary_key=True ),
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
-   rdb.Column( "start_date", rdb.DateTime( timezone=False )),
-   rdb.Column( "end_date", rdb.DateTime( timezone=False )), 
+   rdb.Column( "start_date", rdb.DateTime( timezone=False ), nullable=False),
+   rdb.Column( "end_date", rdb.DateTime( timezone=False ), nullable=False), 
    rdb.Column( "sitting_type", rdb.Integer, rdb.ForeignKey('sitting_type.sitting_type_id')),
    )   
 
@@ -366,14 +366,14 @@ sitting_attendance = rdb.Table(
    metadata,
    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id'),  primary_key=True  ),
    rdb.Column( "member_id",  rdb.Integer, rdb.ForeignKey('users.user_id'),  primary_key=True  ),
-   rdb.Column( "attendance_id", rdb.Integer, rdb.ForeignKey('attendance_type.attendance_id')), 
+   rdb.Column( "attendance_id", rdb.Integer, rdb.ForeignKey('attendance_type.attendance_id'), nullable=False ), 
    )
    
 attendance_type = rdb.Table(
    "attendance_type",
    metadata,
    rdb.Column ("attendance_id", rdb.Integer, primary_key=True ),
-   rdb.Column ("attendance_type", rdb.Unicode(40) ),
+   rdb.Column ("attendance_type", rdb.Unicode(40), nullable=False ),
    )
 # 
 

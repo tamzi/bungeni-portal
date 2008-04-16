@@ -36,7 +36,7 @@
      descriptor=".descriptor.CommitteeDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"     
-     echo="False"
+     echo="True"
      />     
      
   <db:catalyst

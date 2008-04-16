@@ -1,0 +1,38 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+    
+  <!-- Authentication Utility -->
+  <adapter
+     factory=".auth.authUser"
+     />
+          
+  <utility
+     provides="zope.app.authentication.interfaces.IAuthenticatorPlugin"
+     factory="alchemist.security.auth.DatabaseAuthentication"
+     name="rdb-auth"
+     />
+     
+ <!-- Global/Local Role/Permission/Principal Maps -->
+ <adapter
+     for=".interfaces.IBungeniApplication"
+     provides="zope.securitypolicy.interfaces.IPrincipalRoleMap"
+     factory="alchemist.security.role.GlobalPrincipalRoleMap"
+     />
+     
+ <adapter
+     for=".interfaces.IBungeniApplication"
+     provides="zope.securitypolicy.interfaces.IRolePermissionMap"
+     factory="alchemist.security.permission.GlobalRolePermissionMap"
+     />     
+
+ <adapter
+     for=".interfaces.IBungeniContent"
+     provides="zope.securitypolicy.interfaces.IPrincipalRoleMap"
+     factory="alchemist.security.role.LocalPrincipalRoleMap"
+     />
+     
+ <adapter
+     for=".interfaces.IBungeniContent"
+     provides="zope.securitypolicy.interfaces.IRolePermissionMap"
+     factory="alchemist.security.permission.LocalRolePermissionMap"
+     />   
+</configure>     

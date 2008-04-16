@@ -223,6 +223,9 @@ div.error {
 .error .fieldRequired {
    color: #d00;
 }
+.invariant-errors {
+   color: #d00;
+}
 
 
 /* Styles to make the editing widgets look more like their view counterparts */

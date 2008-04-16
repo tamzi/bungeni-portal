@@ -26,8 +26,51 @@
       class=".forms.GroupSittingAdd"              
       permission="zope.View"
       />      
+
+  <!-- Session Add Form -->
+   <browser:view
+      name="add"
+      for="bungeni.core.interfaces.IParliamentSessionContainer"
+      class=".forms.SessionAdd"              
+      permission="zope.View"
+      />    
+
+  <!-- MP Add Form -->
+   <browser:view
+      name="add"
+      for="bungeni.core.interfaces.IMemberOfParliamentContainer"
+      class=".forms.MemberOfParliamentAdd"              
+      permission="zope.View"
+      />          
+
+<!-- Committee Add Form -->  
+   <browser:view
+      name="add"
+      for="bungeni.core.interfaces.ICommitteeContainer"
+      class=".forms.CommitteeAdd"              
+      permission="zope.View"
+      />          
+
+<!-- Committee Member Add Form -->  
+          
+<!-- Government Add Form -->
+
+<!-- Ministry Add Form -->
+<!-- Minister Add Form -->
+<!-- Extension Add Form -->
+<!-- Extension Group Member Add Form -->
+            
+  <!-- GroupSitting Edit Form -->
+    <browser:viewlet
+      name="alchemist.attributes.edit"
+      manager="alchemist.ui.interfaces.IContentEditManager"
+      class=".forms.GroupSittingEdit"
+      for="bungeni.core.interfaces.IGroupSitting"
+      permission="zope.View"
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+      />      
       
-      
+    
       
   <!--browser:view      
       layer="bungeni.ui.interfaces.IBungeniSkin"       

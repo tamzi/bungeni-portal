@@ -64,9 +64,16 @@ import javax.swing.DefaultListModel;
 import javax.swing.Timer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
 import numberingscheme.impl.IGeneralNumberingScheme;
 import numberingscheme.impl.NumberRange;
 import numberingscheme.impl.NumberingSchemeFactory;
+import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.ooo.OOComponentHelper;
 import org.apache.log4j.Logger;
@@ -74,6 +81,7 @@ import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.ooo.ooUserDefinedAttributes;
 import numberingscheme.schemes.*;
 import org.bungeni.utils.CommonExceptionUtils;
+import org.bungeni.utils.CommonTreeFunctions;
 
 
 /**
@@ -103,7 +111,15 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     Set attributeSet=new HashSet();
      private Timer sectionNameTimer;
     private String currentSelectedSectionName = "";
-    
+    private String selectSection="";
+   
+    private DefaultMutableTreeNode sectionRootNode = null;
+    private String m_selectedSection = "";
+    private String m_selectedActionCommand = "";
+    private boolean emptyRootNode = false;
+    private boolean cancelClicked = false;
+    private String[] m_validParentSections;
+    private String selectedNodeName="";;
     /** Creates new form sectionNumbererPanel */
     public sectionNumbererPanel() {
        
@@ -120,10 +136,12 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         loadJlist();
         listSectionTypes.addListSelectionListener(new NumberingSchemeListener());
         panelNumberingScheme.setVisible(false);
+      // panelSectionTree.setVisible(false);
         checkbxUseParentPrefix.setSelected(false);
         checkbxUseParentPrefix.addItemListener(new ParentSchemeListener());
         packReferences();
-      
+       initTree();
+       initSectionList();
        
     }
     
@@ -1179,6 +1197,10 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
          
     }
     
+    private String getNodeName(String nodeName){
+        selectSection=nodeName;
+        return selectSection;
+    }
     
     private void crossRef(){
         //get parent section first
@@ -1191,18 +1213,19 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
       //  }
         
         String strSection="";
-            strSection = currentSectionName();
-            if (strSection.trim().length() == 0){
-                //self().lbl_SectionName.setText("Cursor not in section");
+          //  strSection = currentSectionName(selectedNodeName);
+            selectSection= currentSectionName(selectedNodeName);
+            if (selectSection.trim().length() == 0){
+               
                 System.out.println("Cursor not in section");
-            } else{
-                //self().lbl_SectionName.setText(strSection);
-                 System.out.println(strSection);
+          } else{
+               
+                 System.out.println("selectSection " +selectSection);
                  
-            }
+           }
             
             
-            String[] results = strSection.split(">");
+           String[] results = selectSection.split(">");
             for(int i=0;i<results.length;i++){
                 if(results[i].equalsIgnoreCase("root")){
                     
@@ -1219,6 +1242,7 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
         public void valueChanged(ListSelectionEvent listSelectionEvent) {
             txtSectionType.setText(listSectionTypes.getSelectedValue().toString());
             panelNumberingScheme.setVisible(true);
+            panelSectionTree.setVisible(true);
         }
         
     }
@@ -1311,13 +1335,17 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
        
         
         
-        public String currentSectionName() {
+        public String currentSectionName(String sectionName) {
             XTextSection loXTextSection;
             XTextViewCursor loXTextCursor;
             XPropertySet loXPropertySet;
             String lstrSectionName = "";
+            //String Sectionname="article4";
 
-         try
+            XTextSection currentSection = ooDocument.getSection(sectionName);
+            lstrSectionName = getSectionHierarchy(currentSection);
+        
+         /* try
          {
             if (ooDocument.isXComponentValid() ) {
                 loXTextCursor = ooDocument.getViewCursor();
@@ -1343,10 +1371,114 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
               
              return lstrSectionName; 
              
-          }
+          }*/
+            return lstrSectionName; 
         }
 
+     private void initTree(){
+     //   treeSectionStructure.setCellRenderer(new treeSectionStructureCellRenderer());
+       // treeSectionStructure.addTreeSelectionListener(new treeSectionStructureSelectionListener());
+         treeSectionStructure.addTreeSelectionListener(new treeSectionStructureSelectionListener());
+       
+    }
+  
+        private void initSectionList() {
+         initTreeSectionsArray();   
+         treeSectionStructure.setModel(new DefaultTreeModel(sectionRootNode));
+         treeSectionStructure.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
+         //-tree-deprecated--CommonTreeFunctions.expandAll(treeSectionStructure, true);
+         CommonTreeFunctions.expandAll(treeSectionStructure);
+      }
     
+
+    private void initTreeSectionsArray() {
+        try {
+            if (!ooDocument.isXComponentValid()) return;
+            
+            treeSectionStructure.removeAll();
+            if (!ooDocument.getTextSections().hasByName("root")) {
+                log.debug("no root section found");
+                return;
+            }
+            Object rootSection = ooDocument.getTextSections().getByName("root");
+            XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
+            if (theSection.getChildSections().length == 0) {
+                //root is empty and has no children. 
+                //set empty status 
+                this.emptyRootNode = true;
+            }
+            sectionRootNode = new DefaultMutableTreeNode(new String("root"));
+            
+            recurseSections (theSection, sectionRootNode);
+            
+            //-tree-deprecated--CommonTreeFunctions.expandAll(treeSectionStructure, true);
+            CommonTreeFunctions.expandAll(treeSectionStructure);
+            
+        } catch (NoSuchElementException ex) {
+            log.error(ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.error(ex.getMessage());
+        }
+    }
+    
+    
+    private void recurseSections (XTextSection theSection, DefaultMutableTreeNode node ) {
+        try {
+        //recurse children
+        XTextSection[] sections = theSection.getChildSections();
+        if (sections != null ) {
+            if (sections.length > 0 ) {
+                //start from last index and go to first
+                for (int nSection = sections.length - 1 ; nSection >=0 ; nSection--) {
+                    log.debug ("section name = "+sections[nSection] );
+                    //get the name for the section and add it to the root node.
+                    XPropertySet childSet = ooQueryInterface.XPropertySet(sections[nSection]);
+                    String childSectionName = (String) childSet.getPropertyValue("LinkDisplayName");
+                    //if (!childSectionName.trim().equals(theAction.action_naming_convention())) {
+                     DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(childSectionName);
+                     node.add(newNode);
+                     recurseSections (sections[nSection], newNode);
+                   // }
+                }
+            } else 
+                return;
+        } else 
+            return;
+        } catch (UnknownPropertyException ex) {
+            log.error(ex.getMessage());
+        } catch (WrappedTargetException ex ) {
+            log.error(ex.getMessage());
+        }
+    }
+     
+     class treeSectionStructureSelectionListener implements TreeSelectionListener {
+         DefaultMutableTreeNode selNode;
+         
+        String oldSelectedNodeName;
+        public void valueChanged(TreeSelectionEvent e) {
+            selNode=(DefaultMutableTreeNode)treeSectionStructure.getLastSelectedPathComponent();
+            if (selNode == null) return;
+            Object nodeInfo = selNode.getUserObject();
+            if(selNode.isLeaf()){
+             selectedNodeName=nodeInfo.toString();
+             System.out.println("selectedNodeName " + selectedNodeName);
+             getNodeName(selectedNodeName);
+             //pass the node name to function to get tree
+            }else{
+                 System.out.println("error");
+            }
+         /* TreePath selectionPath = e.getNewLeadSelectionPath();
+            TreePath oldSelectionPath = e.getOldLeadSelectionPath();
+            if (selectionPath != null ) {
+              selNode = (DefaultMutableTreeNode) selectionPath.getLastPathComponent();
+              selectedNodeName = (String) selNode.getUserObject();
+            }*/
+            
+           
+        }
+         
+     }
+       
     /*
     
      class CurrentSectionNameUpdater implements ActionListener {
@@ -1437,6 +1569,9 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
         btnRenumberSections = new javax.swing.JButton();
         btnInsertCrossReference = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        panelSectionTree = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        treeSectionStructure = new javax.swing.JTree();
 
         listSectionTypes.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -1511,6 +1646,23 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
 
         jLabel1.setText("Bungeni Section Types");
 
+        jScrollPane2.setViewportView(treeSectionStructure);
+
+        org.jdesktop.layout.GroupLayout panelSectionTreeLayout = new org.jdesktop.layout.GroupLayout(panelSectionTree);
+        panelSectionTree.setLayout(panelSectionTreeLayout);
+        panelSectionTreeLayout.setHorizontalGroup(
+            panelSectionTreeLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(panelSectionTreeLayout.createSequentialGroup()
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelSectionTreeLayout.setVerticalGroup(
+            panelSectionTreeLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(panelSectionTreeLayout.createSequentialGroup()
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -1519,20 +1671,23 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                    .add(panelNumberingScheme, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 194, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                        .add(panelNumberingScheme, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 194, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(panelSectionTree, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(15, 15, 15)
                 .add(panelNumberingScheme, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 216, Short.MAX_VALUE)
+                .add(panelSectionTree, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1582,8 +1737,11 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
     private javax.swing.JCheckBox checkbxUseParentPrefix;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList listSectionTypes;
     private javax.swing.JPanel panelNumberingScheme;
+    private javax.swing.JPanel panelSectionTree;
+    private javax.swing.JTree treeSectionStructure;
     private javax.swing.JTextField txtSectionType;
     // End of variables declaration//GEN-END:variables
 

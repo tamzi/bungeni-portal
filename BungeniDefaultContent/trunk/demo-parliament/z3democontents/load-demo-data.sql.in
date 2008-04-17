@@ -13,7 +13,8 @@ copy public.provinces from '%(directory)s/data/demodata/provinces.csv' csv ;
 
 copy public.regions from '%(directory)s/data/demodata/regions.csv' csv ;
 
-copy public.constituencies (constituency_id, name, province, region, start_date) from '%(directory)s/data/demodata/constituencies.csv' csv ;
+copy public.constituencies (constituency_id, name, province, region, start_date) 
+from '%(directory)s/data/demodata/constituencies.csv' csv ;
 
 copy public.constituency_details (constituency_id, voters, "date", population) from
 '%(directory)s/data/demodata/constituency_details.csv' csv ;
@@ -48,6 +49,38 @@ with delimiter ';' csv;
 copy public.groups ( group_id, short_name, full_name, start_date, end_date, type) 
 from '%(directory)s/data/demodata/government_group.csv'
 csv ;
+
+copy public.groups ( short_name,  start_date, end_date, type, group_id) 
+from '%(directory)s/data/demodata/extension_groups.csv'
+csv ;
+
+copy public.extension_groups( parliament_id, group_type, extension_type_id)
+from '%(directory)s/data/demodata/extensions.csv'
+csv ;
+
+INSERT INTO user_group_memberships ( group_id, user_id, start_date, end_date) 
+SELECT DISTINCT 304 as no , "user_group_memberships"."user_id", "groups"."start_date", "groups"."end_date" 
+FROM "public"."user_group_memberships", "public"."committees", "public"."groups" 
+WHERE ( "user_group_memberships"."group_id" = "committees"."committee_id" 
+    AND "committees"."parliament_id" = "groups"."group_id" ) 
+    AND ( ( "user_group_memberships"."user_id" 
+    NOT IN ( SELECT "user_group_memberships"."user_id" 
+            FROM "public"."user_group_memberships" 
+            WHERE ( "group_id" = "committees"."parliament_id" ) ) ) )
+AND  "committees"."parliament_id" = 6;
+
+INSERT INTO user_group_memberships ( group_id, user_id, start_date, end_date) 
+SELECT DISTINCT 305 as no , "user_group_memberships"."user_id", "groups"."start_date", "groups"."end_date" 
+FROM "public"."user_group_memberships", "public"."committees", "public"."groups" 
+WHERE ( "user_group_memberships"."group_id" = "committees"."committee_id" 
+    AND "committees"."parliament_id" = "groups"."group_id" ) 
+    AND ( ( "user_group_memberships"."user_id" 
+    NOT IN ( SELECT "user_group_memberships"."user_id" 
+            FROM "public"."user_group_memberships" 
+            WHERE ( "group_id" = "committees"."parliament_id" ) ) ) )
+AND  "committees"."parliament_id" = 7;
+
+
 
 copy public.government from  '%(directory)s/data/demodata/governments.csv'
 csv ;

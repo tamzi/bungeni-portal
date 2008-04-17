@@ -52,12 +52,44 @@
       />          
 
 <!-- Committee Member Add Form -->  
+   <browser:view
+      name="add"
+      for="bungeni.core.interfaces.ICommitteeMemberContainer"
+      class=".forms.CommitteeMemberAdd"              
+      permission="zope.View"
+      />                    
           
 <!-- Government Add Form -->
+   <browser:view
+      name="add"
+      for="bungeni.core.interfaces.IGovernmentContainer"
+      class=".forms.GovernmentAdd"              
+      permission="zope.View"
+      />                    
+
 
 <!-- Ministry Add Form -->
+   <browser:view
+      name="add"
+      for="bungeni.core.interfaces.IMinistryContainer"
+      class=".forms.MinistryAdd"              
+      permission="zope.View"
+      />               
+      
 <!-- Minister Add Form -->
+ <browser:view
+      name="add"
+      for="bungeni.core.interfaces.IMinisterContainer"
+      class=".forms.MinistersAdd"              
+      permission="zope.View"
+      /> 
 <!-- Extension Add Form -->
+   <browser:view
+      name="add"
+      for="bungeni.core.interfaces.IExtensionGroupContainer"
+      class=".forms.ExtensionGroupAdd"              
+      permission="zope.View"
+      />    
 <!-- Extension Group Member Add Form -->
             
   <!-- GroupSitting Edit Form -->

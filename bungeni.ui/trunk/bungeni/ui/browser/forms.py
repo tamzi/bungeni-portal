@@ -13,7 +13,9 @@ from zope.formlib.namedtemplate import NamedTemplate
 import bungeni.core.vocabulary as vocabulary
 import bungeni.core.domain as domain
 from bungeni.core.i18n import _
-from bungeni.core.interfaces import IGroupSitting, IParliamentSession, IMemberOfParliament, ICommittee
+from bungeni.core.interfaces import IGroupSitting, IParliamentSession, IMemberOfParliament, \
+    ICommittee, ICommitteeMember, IGovernment, IMinistry, IExtensionGroup, IMinister
+
 
 from bungeni.ui.datetimewidget import  SelectDateTimeWidget, SelectDateWidget
 
@@ -21,6 +23,331 @@ import pdb
 
 ###########
 # Add forms
+
+# ministries
+def CheckMinistryDatesInsideGovernmentDatesAdd( context, data ):
+    """
+    start date must be >= parents start date
+    end date must be <= parents end date (if parents end date is set)
+    """
+    errors =[]
+    if context.__parent__.start_date > data['start_date']:
+        errors.append( interface.Invalid(_("Start date must start after the swearing in of the government (%s)" % context.__parent__.start_date )) )
+    if (context.__parent__.end_date is not None) and (data['end_date'] is not None):
+        if data['end_date'] > context.__parent__.end_date:
+            errors.append(  interface.Invalid(_("End date cannot be after the governments dissolution (%s)" % context.__parent__.end_date )) )
+    return errors
+
+class MinistryAdd( ContentAddForm ):
+    """
+    custom Add form for ministries
+    """
+    form_fields = form.Fields( IMinistry )
+    form_fields["start_date"].custom_widget = SelectDateWidget
+    form_fields["end_date"].custom_widget = SelectDateWidget    
+                      
+    def update(self):
+        """
+        Called by formlib after __init__ for every page update. This is
+        the method you can use to update form fields from your class
+        """        
+        self.status = self.request.get('portal_status_message','')        
+        form.AddForm.update( self )
+ 
+    def finishConstruction( self, ob ):
+        """
+        adapt the custom fields to the object
+        """
+        self.adapters = { IMinistry : ob }
+        
+    def validate(self, action, data):    
+        """
+        validation that require context must be called here,
+        invariants may be defined in the descriptor
+        """                                       
+        return (form.getWidgetsData(self.widgets, self.prefix, data) +
+                 form.checkInvariants(self.form_fields, data) +
+                 CheckMinistryDatesInsideGovernmentDatesAdd( self.context, data))  
+                 
+#ministers
+def CheckMinisterDatesInsideMinistryDatesAdd( context, data ):
+    """
+    start date must be >= parents start date
+    end date must be <= parents end date (if parents end date is set)
+    """
+    errors =[]
+    if context.__parent__.start_date > data['start_date']:
+        errors.append( interface.Invalid(_("Start date must start after the ministry start date (%s)" % context.__parent__.start_date )) )
+    if (context.__parent__.end_date is not None) and (data['end_date'] is not None):
+        if data['end_date'] > context.__parent__.end_date:
+            errors.append(  interface.Invalid(_("End date cannot be after the ministries end date (%s)" % context.__parent__.end_date )) )
+    return errors
+
+
+sql_addMinister = """
+                SELECT DISTINCT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as fullname, 
+                        "users"."user_id", "users"."last_name" 
+                FROM "public"."ministries", "public"."government", "public"."parliaments", 
+                    "public"."user_group_memberships", "public"."users" 
+                WHERE ( "ministries"."government_id" = "government"."government_id" 
+                    AND "government"."parliament_id" = "parliaments"."parliament_id" 
+                    AND "user_group_memberships"."group_id" = "parliaments"."parliament_id" 
+                    AND "user_group_memberships"."user_id" = "users"."user_id" ) 
+                    AND ( "user_group_memberships"."active_p" = True AND "ministries"."ministry_id" = %(primary_key)s )
+                    AND ( "users"."user_id" NOT IN ( SELECT "user_id" 
+                                                                FROM "public"."user_group_memberships" 
+                                                                WHERE ( "group_id"  = %(primary_key)s 
+                                                                        AND "active_p" = True) 
+                                                                )                                           
+                                    ) 
+                UNION
+                SELECT DISTINCT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as fullname, 
+                        "users"."user_id", "users"."last_name" 
+                FROM "public"."ministries", "public"."government", "public"."groups", 
+                    "public"."extension_groups", "public"."user_group_memberships", "public"."users" 
+                WHERE ( "ministries"."government_id" = "government"."government_id" 
+                    AND "ministries"."ministry_id" = "groups"."group_id" 
+                    AND "extension_groups"."group_type" = "groups"."type" 
+                    AND "extension_groups"."extension_type_id" = "user_group_memberships"."group_id" 
+                    AND "user_group_memberships"."user_id" = "users"."user_id" 
+                    AND "extension_groups"."parliament_id" = "government"."parliament_id" ) 
+                    AND ( "user_group_memberships"."active_p" = True AND "ministries"."ministry_id" = %(primary_key)s )
+                    AND ( "users"."user_id" NOT IN ( SELECT "user_id" 
+                                                                FROM "public"."user_group_memberships" 
+                                                                WHERE ( "group_id"  = %(primary_key)s 
+                                                                        AND "active_p" = True) 
+                                                                )                                           
+                                    )                                     
+                ORDER BY "last_name"
+                """
+
+qryAddMinisterVocab = vocabulary.SQLQuerySource(sql_addMinister, 'fullname', 'user_id')
+
+class IMinisterAdd( IMinister ):
+    """
+    override some fields with custom schema
+    """
+    user_id = schema.Choice(title=_(u"Minister"),  
+                                source=qryAddMinisterVocab, 
+                                required=True,
+                                )
+    
+    
+class MinistersAdd( ContentAddForm ):
+    """
+    custom Add form for ministries
+    """
+    form_fields = form.Fields( IMinisterAdd ).omit( "replaced_id", "substitution_type" )
+    form_fields["start_date"].custom_widget = SelectDateWidget
+    form_fields["end_date"].custom_widget = SelectDateWidget    
+                      
+    def update(self):
+        """
+        Called by formlib after __init__ for every page update. This is
+        the method you can use to update form fields from your class
+        """        
+        self.status = self.request.get('portal_status_message','')        
+        form.AddForm.update( self )
+ 
+    def finishConstruction( self, ob ):
+        """
+        adapt the custom fields to the object
+        """
+        self.adapters = { IMinisterAdd : ob }
+        
+    def validate(self, action, data):    
+        """
+        validation that require context must be called here,
+        invariants may be defined in the descriptor
+        """                                       
+        return (form.getWidgetsData(self.widgets, self.prefix, data) +
+                 form.checkInvariants(self.form_fields, data) +
+                 CheckMinisterDatesInsideMinistryDatesAdd( self.context, data))  
+    
+# government
+def CheckGovernmentsDateInsideParliamentsDatesAdd( context, data ):
+    """
+    start date must be >= parents start date
+    """
+    errors =[]
+    if context.__parent__.start_date > data['start_date']:
+        errors.append( interface.Invalid(_("Start date must start after the swearing in of the parliament (%s)" % context.__parent__.start_date )) )    
+    return errors
+
+class GovernmentAdd ( ContentAddForm ):
+    """
+    custom Add form for government
+    """
+    form_fields = form.Fields( IGovernment )
+    form_fields["start_date"].custom_widget = SelectDateWidget
+    form_fields["end_date"].custom_widget = SelectDateWidget    
+                      
+    def update(self):
+        """
+        Called by formlib after __init__ for every page update. This is
+        the method you can use to update form fields from your class
+        """        
+        self.status = self.request.get('portal_status_message','')        
+        form.AddForm.update( self )
+ 
+    def finishConstruction( self, ob ):
+        """
+        adapt the custom fields to the object
+        """
+        self.adapters = { IGovernment : ob }
+        
+    def validate(self, action, data):    
+        """
+        validation that require context must be called here,
+        invariants may be defined in the descriptor
+        """                                       
+        return (form.getWidgetsData(self.widgets, self.prefix, data) +
+                 form.checkInvariants(self.form_fields, data) +
+                 CheckGovernmentsDateInsideParliamentsDatesAdd( self.context, data))  
+
+
+
+
+# Extension groups
+def CheckExtensionGroupDatesInsideParentDatesAdd( context, data ):
+    """
+    start date must be >= parents start date
+    end date must be <= parents end date (if parents end date is set)
+    """
+    errors =[]
+    if context.__parent__.start_date > data['start_date']:
+        errors.append( interface.Invalid(_("Start date must start after the swearing in of the parliament (%s)" % context.__parent__.start_date )) )
+    if (context.__parent__.end_date is not None) and (data['end_date'] is not None):
+        if data['end_date'] > context.__parent__.end_date:
+            errors.append(  interface.Invalid(_("End date cannot be after the parliaments dissolution (%s)" % context.__parent__.end_date )) )
+    return errors
+
+class ExtensionGroupAdd( ContentAddForm ):
+    """
+    override the AddForm for GroupSittingAttendance
+    """
+    form_fields = form.Fields( IExtensionGroup )
+    form_fields["start_date"].custom_widget = SelectDateWidget
+    form_fields["end_date"].custom_widget = SelectDateWidget    
+                      
+    def update(self):
+        """
+        Called by formlib after __init__ for every page update. This is
+        the method you can use to update form fields from your class
+        """        
+        self.status = self.request.get('portal_status_message','')        
+        form.AddForm.update( self )
+ 
+    def finishConstruction( self, ob ):
+        """
+        adapt the custom fields to the object
+        """
+        self.adapters = { IExtensionGroup : ob }
+        
+    def validate(self, action, data):    
+        """
+        validation that require context must be called here,
+        invariants may be defined in the descriptor
+        """                                       
+        return (form.getWidgetsData(self.widgets, self.prefix, data) +
+                 form.checkInvariants(self.form_fields, data) +
+                 CheckExtensionGroupDatesInsideParentDatesAdd( self.context, data))
+
+
+# CommitteeMemberAdd
+# TODO select members for add shold be the same for ministers 
+
+def CheckCommitteeMembersDatesInsideParentDatesAdd( context, data ):
+    """
+    start date must be >= parents start date
+    end date must be <= parents end date (if parents end date is set)
+    """
+    errors =[]
+    if context.__parent__.start_date > data['start_date']:
+        errors.append( interface.Invalid(_("Start date must start after the start date of the committee (%s)" % context.__parent__.start_date )) )
+    if (context.__parent__.end_date is not None) and (data['end_date'] is not None):
+        if data['end_date'] > context.__parent__.end_date:
+            errors.append(  interface.Invalid(_("End date cannot be after the committees dissolution (%s)" % context.__parent__.end_date )) )
+    return errors
+
+sql_AddCommitteeMember = """
+                        SELECT DISTINCT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as fullname, 
+                        "users"."user_id", "users"."last_name" 
+                        FROM "public"."user_group_memberships", "public"."users", 
+                             "public"."extension_groups", "public"."groups", 
+                             "public"."committees", "public"."parliaments" 
+                        WHERE ( "user_group_memberships"."user_id" = "users"."user_id" 
+                                AND "extension_groups"."extension_type_id" = "user_group_memberships"."group_id" 
+                                AND "extension_groups"."group_type" = "groups"."type" 
+                                AND "committees"."committee_id" = "groups"."group_id" 
+                                AND "committees"."parliament_id" = "parliaments"."parliament_id" 
+                                AND "extension_groups"."parliament_id" = "parliaments"."parliament_id" ) 
+                                AND ( "committees"."committee_id" = %(primary_key)s  AND "user_group_memberships"."active_p" = True )
+                                AND ( "users"."user_id" NOT IN ( SELECT "user_id" 
+                                                                FROM "public"."user_group_memberships" 
+                                                                WHERE ( "group_id"  = %(primary_key)s 
+                                                                        AND "active_p" = True) 
+                                                                )                                           
+                                    ) 
+                        UNION
+                        SELECT DISTINCT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as fullname,  
+                        "users"."user_id", "users"."last_name" 
+                        FROM "public"."committees", "public"."parliaments", "public"."groups", 
+                            "public"."user_group_memberships", "public"."users" 
+                        WHERE ( "committees"."parliament_id" = "parliaments"."parliament_id" 
+                                AND "parliaments"."parliament_id" = "groups"."group_id" 
+                                AND "user_group_memberships"."group_id" = "groups"."group_id" 
+                                AND "user_group_memberships"."user_id" = "users"."user_id" ) 
+                                AND ( "user_group_memberships"."active_p" = True AND "committees"."committee_id" = %(primary_key)s )
+                                AND ( "users"."user_id" NOT IN ( SELECT "user_id" 
+                                                                FROM "public"."user_group_memberships" 
+                                                                WHERE ( "group_id"  = %(primary_key)s 
+                                                                        AND "active_p" = True) 
+                                                                )                                           
+                                    )
+                        ORDER BY "last_name"
+                        """
+
+qryAddCommitteeMemberVocab = vocabulary.SQLQuerySource(sql_AddCommitteeMember, 'fullname', 'user_id')
+
+class ICommitteeMemberAdd ( ICommitteeMember ):
+    """
+    override some fields with custom schema
+    """
+    user_id = schema.Choice(title=_(u"Member of Parliament"),  
+                                source=qryAddCommitteeMemberVocab, 
+                                required=True,
+                                )
+class CommitteeMemberAdd( ContentAddForm ):
+    """
+    override the AddForm for GroupSittingAttendance
+    """
+    form_fields = form.Fields( ICommitteeMemberAdd ).omit( "replaced_id", "substitution_type" )
+    form_fields["start_date"].custom_widget = SelectDateWidget
+    form_fields["end_date"].custom_widget = SelectDateWidget    
+                      
+    def update(self):
+        """
+        Called by formlib after __init__ for every page update. This is
+        the method you can use to update form fields from your class
+        """        
+        self.status = self.request.get('portal_status_message','')        
+        form.AddForm.update( self )
+ 
+    def finishConstruction( self, ob ):
+        """
+        adapt the custom fields to the object
+        """
+        self.adapters = { ICommitteeMember : ob }
+        
+    def validate(self, action, data):    
+        """
+        validation that require context must be called here,
+        invariants may be defined in the descriptor
+        """                                       
+        return (form.getWidgetsData(self.widgets, self.prefix, data) +
+                 form.checkInvariants(self.form_fields, data) +
+                 CheckCommitteeMembersDatesInsideParentDatesAdd( self.context, data))  
 
 # Committees
 
@@ -84,13 +411,40 @@ def CheckMPsDatesInsideParentDatesAdd( context, data ):
             errors.append(  interface.Invalid(_("End date cannot be after the parliaments dissolution (%s)" % context.__parent__.end_date )) )
     return errors
 
+
+sql_AddMemberOfParliament = """
+                            SELECT "titles" ||' ' || "first_name" || ' ' || "middle_name" || ' ' || "last_name" as fullname, "user_id" 
+                            FROM "public"."users" 
+                            WHERE ( ( "active_p" = 'A' ) 
+                                AND ( "users"."user_id" NOT IN ( SELECT "user_id" 
+                                                                FROM "public"."user_group_memberships" 
+                                                                WHERE ( "group_id"  = %(primary_key)s 
+                                                                        AND "active_p" = True) 
+                                                                )                                           
+                                    )
+                                )
+                            ORDER BY "users"."last_name"  
+                            """
+qryAddMemberOfParliamentVocab = vocabulary.SQLQuerySource(sql_AddMemberOfParliament, 'fullname', 'user_id')  
+
+class IMemberOfParliamentAdd ( IMemberOfParliament ):
+    """ Custom schema to override some autogenerated fields"""
+    user_id = schema.Choice(title=_(u"Member of Parliament"),  
+                                source=qryAddMemberOfParliamentVocab, 
+                                required=True,
+                                )
+
+
 class MemberOfParliamentAdd( ContentAddForm ):
     """
     override the AddForm for GroupSittingAttendance
     """
-    form_fields = form.Fields( IMemberOfParliament )
+    form_fields = form.Fields( IMemberOfParliamentAdd ).omit( "replaced_id", "substitution_type" )
     form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget    
+    form_fields["end_date"].custom_widget = SelectDateWidget 
+    
+    
+    #pdb.set_trace()
                       
     def update(self):
         """
@@ -104,7 +458,7 @@ class MemberOfParliamentAdd( ContentAddForm ):
         """
         adapt the custom fields to the object
         """
-        self.adapters = { IMemberOfParliament : ob }
+        self.adapters = { IMemberOfParliamentAdd : ob }
         
     def validate(self, action, data):    
         """

@@ -13,12 +13,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Component id="jLabel1" alignment="0" pref="218" max="32767" attributes="0"/>
-                  <Component id="panelNumberingScheme" alignment="1" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" alignment="0" pref="218" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="jLabel1" alignment="0" pref="206" max="32767" attributes="0"/>
+                  <Component id="panelNumberingScheme" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" alignment="0" min="-2" pref="194" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -27,13 +27,13 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="85" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" pref="15" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="panelNumberingScheme" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <Component id="panelNumberingScheme" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -70,11 +70,14 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="cboNumberingScheme" alignment="0" pref="194" max="32767" attributes="0"/>
-                      <Component id="txtSectionType" alignment="0" pref="194" max="32767" attributes="0"/>
-                      <Component id="btnApplyNumberingScheme" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtSectionType" alignment="0" pref="174" max="32767" attributes="0"/>
                       <Component id="checkbxUseParentPrefix" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="btnRenumberSections" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                          <Component id="cboNumberingScheme" alignment="0" max="32767" attributes="1"/>
+                          <Component id="btnApplyNumberingScheme" alignment="0" min="0" pref="0" max="32767" attributes="1"/>
+                          <Component id="btnInsertCrossReference" alignment="0" max="32767" attributes="1"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -91,9 +94,11 @@
                   <Component id="checkbxUseParentPrefix" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   <Component id="btnApplyNumberingScheme" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="20" max="32767" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnRenumberSections" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
+                  <Component id="btnInsertCrossReference" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="27" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -138,10 +143,18 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnRenumberSections">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Renumber Sections"/>
+            <Property name="text" type="java.lang.String" value="Renumber Headings"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRenumberSectionsActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnInsertCrossReference">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Insert Cross Reference"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnInsertCrossReferenceActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

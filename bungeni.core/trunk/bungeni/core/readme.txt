@@ -93,7 +93,7 @@ different table. Bungeni uses this feature to model parliaments, committees,
 political parties, etc. Let's create some groups in the system to examine how
 they work.
 
-  >>> parliament = model.Parliament( short_name=u"p_1", start_date=datetime.now())
+  >>> parliament = model.Parliament( short_name=u"p_1", start_date=datetime.now(), election_date=datetime.now())
   >>> political_party_a = model.PoliticalParty(short_name=u"pp_1", start_date=datetime.now())
   >>> political_party_b = model.PoliticalParty(short_name=u"pp_2", start_date=datetime.now())
   >>> committee_a = model.Committee(short_name=u"commitee_1", start_date=datetime.now())

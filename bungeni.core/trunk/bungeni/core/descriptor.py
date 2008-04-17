@@ -80,7 +80,7 @@ def lookup_fk_column(name, title, domain_model, field, default=""):
 
 def ElectionAfterStart(obj):
     """ Start Date must be after Election Date"""        
-    if obj.election_date > obj.start_date:
+    if obj.election_date >= obj.start_date:
         raise interface.Invalid(_("A parliament has to be elected before it can be sworn in"))
    
 def EndAfterStart(obj):

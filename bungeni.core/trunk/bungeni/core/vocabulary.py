@@ -11,7 +11,7 @@ from ore.alchemist.container import valueKey
 from sqlalchemy.orm import mapper,  column_property 
 import sqlalchemy as rdb
 import schema, domain
-import pdb
+
 
 
 #ModelTypeSource = ObjectSource( model.DataModelType, 'short_name', 'id')

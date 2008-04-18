@@ -270,7 +270,7 @@ user_group_memberships = rdb.Table(
    rdb.Column( "notes", rdb.UnicodeText ),   
    # we use this as an easier query to end_date in queries, needs to be set by
    # a cron process against end_date < current_time
-   rdb.Column( "active_p", rdb.Boolean, default=False ),
+   rdb.Column( "active_p", rdb.Boolean, default=True ),
    # these fields are only present when a membership is a result of substitution   
    rdb.Column( "replaced_id", rdb.Integer, rdb.ForeignKey('user_group_memberships.membership_id') ),
    rdb.Column( "substitution_type", rdb.Unicode(100) ),

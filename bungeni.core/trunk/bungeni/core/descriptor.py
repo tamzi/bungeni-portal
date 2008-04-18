@@ -342,6 +342,8 @@ class ParliamentDescriptor( GroupDescriptor ):
         dict( name="end_date", label=_(u"In power till"),  description=_(u"Date the of the dissolution"), 
               listing_column=day_column("end_date", _(u"In power till")), listing=True,
               edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
+        dict( name="status", omit=True),
+        dict( name="type", omit=True),
         ]
     schema_invariants = [EndAfterStart, ElectionAfterStart]
             

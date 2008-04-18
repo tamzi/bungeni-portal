@@ -1,5 +1,4 @@
 # encoding: utf-8
-import datetime
 
 from ore.alchemist.vocabulary import DatabaseSource
 
@@ -14,29 +13,56 @@ import bungeni.core.vocabulary as vocabulary
 import bungeni.core.domain as domain
 from bungeni.core.i18n import _
 from bungeni.core.interfaces import IGroupSitting, IParliamentSession, IMemberOfParliament, \
-    ICommittee, ICommitteeMember, IGovernment, IMinistry, IExtensionGroup, IMinister
+    ICommittee, ICommitteeMember, IGovernment, IMinistry, IExtensionGroup, IMinister, \
+    IExtensionMember, IParliament
 
 
 from bungeni.ui.datetimewidget import  SelectDateTimeWidget, SelectDateWidget
+
+import validations
 
 import pdb
 
 ###########
 # Add forms
 
+#parliaments
+IParliament
+
+
 # ministries
-def CheckMinistryDatesInsideGovernmentDatesAdd( context, data ):
+
+class ParliamentAdd( ContentAddForm ):
     """
-    start date must be >= parents start date
-    end date must be <= parents end date (if parents end date is set)
+    custom Add form for ministries
     """
-    errors =[]
-    if context.__parent__.start_date > data['start_date']:
-        errors.append( interface.Invalid(_("Start date must start after the swearing in of the government (%s)" % context.__parent__.start_date )) )
-    if (context.__parent__.end_date is not None) and (data['end_date'] is not None):
-        if data['end_date'] > context.__parent__.end_date:
-            errors.append(  interface.Invalid(_("End date cannot be after the governments dissolution (%s)" % context.__parent__.end_date )) )
-    return errors
+    form_fields = form.Fields( IParliament )
+    form_fields["start_date"].custom_widget = SelectDateWidget
+    form_fields["end_date"].custom_widget = SelectDateWidget  
+    form_fields["election_date"].custom_widget = SelectDateWidget    
+                      
+    def update(self):
+        """
+        Called by formlib after __init__ for every page update. This is
+        the method you can use to update form fields from your class
+        """        
+        self.status = self.request.get('portal_status_message','')        
+        form.AddForm.update( self )
+ 
+    def finishConstruction( self, ob ):
+        """
+        adapt the custom fields to the object
+        """
+        self.adapters = { IParliament : ob }
+        
+    def validate(self, action, data):    
+        """
+        validation that require context must be called here,
+        invariants may be defined in the descriptor
+        """                                       
+        return (form.getWidgetsData(self.widgets, self.prefix, data) +
+                 form.checkInvariants(self.form_fields, data) +
+                 validations.CheckParliamentDatesAdd( self.context, data))  
 
 class MinistryAdd( ContentAddForm ):
     """
@@ -67,21 +93,9 @@ class MinistryAdd( ContentAddForm ):
         """                                       
         return (form.getWidgetsData(self.widgets, self.prefix, data) +
                  form.checkInvariants(self.form_fields, data) +
-                 CheckMinistryDatesInsideGovernmentDatesAdd( self.context, data))  
+                 validations.CheckMinistryDatesInsideGovernmentDatesAdd( self.context, data))  
                  
 #ministers
-def CheckMinisterDatesInsideMinistryDatesAdd( context, data ):
-    """
-    start date must be >= parents start date
-    end date must be <= parents end date (if parents end date is set)
-    """
-    errors =[]
-    if context.__parent__.start_date > data['start_date']:
-        errors.append( interface.Invalid(_("Start date must start after the ministry start date (%s)" % context.__parent__.start_date )) )
-    if (context.__parent__.end_date is not None) and (data['end_date'] is not None):
-        if data['end_date'] > context.__parent__.end_date:
-            errors.append(  interface.Invalid(_("End date cannot be after the ministries end date (%s)" % context.__parent__.end_date )) )
-    return errors
 
 
 sql_addMinister = """
@@ -162,17 +176,9 @@ class MinistersAdd( ContentAddForm ):
         """                                       
         return (form.getWidgetsData(self.widgets, self.prefix, data) +
                  form.checkInvariants(self.form_fields, data) +
-                 CheckMinisterDatesInsideMinistryDatesAdd( self.context, data))  
+                 validations.CheckMinisterDatesInsideMinistryDatesAdd( self.context, data))  
     
 # government
-def CheckGovernmentsDateInsideParliamentsDatesAdd( context, data ):
-    """
-    start date must be >= parents start date
-    """
-    errors =[]
-    if context.__parent__.start_date > data['start_date']:
-        errors.append( interface.Invalid(_("Start date must start after the swearing in of the parliament (%s)" % context.__parent__.start_date )) )    
-    return errors
 
 class GovernmentAdd ( ContentAddForm ):
     """
@@ -203,24 +209,12 @@ class GovernmentAdd ( ContentAddForm ):
         """                                       
         return (form.getWidgetsData(self.widgets, self.prefix, data) +
                  form.checkInvariants(self.form_fields, data) +
-                 CheckGovernmentsDateInsideParliamentsDatesAdd( self.context, data))  
+                 validations.CheckGovernmentsDateInsideParliamentsDatesAdd( self.context, data))  
 
 
 
 
 # Extension groups
-def CheckExtensionGroupDatesInsideParentDatesAdd( context, data ):
-    """
-    start date must be >= parents start date
-    end date must be <= parents end date (if parents end date is set)
-    """
-    errors =[]
-    if context.__parent__.start_date > data['start_date']:
-        errors.append( interface.Invalid(_("Start date must start after the swearing in of the parliament (%s)" % context.__parent__.start_date )) )
-    if (context.__parent__.end_date is not None) and (data['end_date'] is not None):
-        if data['end_date'] > context.__parent__.end_date:
-            errors.append(  interface.Invalid(_("End date cannot be after the parliaments dissolution (%s)" % context.__parent__.end_date )) )
-    return errors
 
 class ExtensionGroupAdd( ContentAddForm ):
     """
@@ -251,24 +245,80 @@ class ExtensionGroupAdd( ContentAddForm ):
         """                                       
         return (form.getWidgetsData(self.widgets, self.prefix, data) +
                  form.checkInvariants(self.form_fields, data) +
-                 CheckExtensionGroupDatesInsideParentDatesAdd( self.context, data))
+                 validations.CheckExtensionGroupDatesInsideParentDatesAdd( self.context, data))
+
+
+
+#XXX currently filters by "type" = 'memberofparliament' -> has to be replaced with all electable usertypes
+sql_addExtensionMember = """
+                        SELECT DISTINCT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as fullname, 
+                        "users"."user_id", "users"."last_name" 
+                        FROM "public"."users" 
+                        WHERE ( ( "active_p" = 'A' AND "type" = 'memberofparliament' )
+                                AND ( "users"."user_id" NOT IN ( SELECT "user_id" 
+                                                                FROM "public"."user_group_memberships" 
+                                                                WHERE ( "group_id"  = %(primary_key)s 
+                                                                        AND "active_p" = True) 
+                                                                )                                           
+                                    )
+                                AND ( "users"."user_id" NOT IN (SELECT "user_group_memberships"."user_id" 
+                                                                FROM "public"."user_group_memberships", "public"."extension_groups" 
+                                                                WHERE ( "user_group_memberships"."group_id" = "extension_groups"."parliament_id" ) 
+                                                                AND ( "extension_groups"."extension_type_id" = %(primary_key)s  
+                                                                        AND "active_p" = True) 
+                                                                )
+                                    )         
+                               )                    
+                        ORDER BY "last_name"
+                        """
+qryAddExtensionMemberVocab = vocabulary.SQLQuerySource(sql_addExtensionMember, 'fullname', 'user_id')
+
+class IExtensionMemberAdd( IExtensionMember ):
+    """
+    override some fields for extension group members
+    """
+    user_id = schema.Choice(title=_(u"Person"),  
+                                source=qryAddExtensionMemberVocab, 
+                                required=True,
+                                )
+                                
+                                
+# Members of extension Groups
+class ExtensionMemberAdd( ContentAddForm ):
+    """
+    override the AddForm for GroupSittingAttendance
+    """
+    form_fields = form.Fields( IExtensionMemberAdd ).omit( "replaced_id", "substitution_type" )
+    form_fields["start_date"].custom_widget = SelectDateWidget
+    form_fields["end_date"].custom_widget = SelectDateWidget    
+                      
+    def update(self):
+        """
+        Called by formlib after __init__ for every page update. This is
+        the method you can use to update form fields from your class
+        """        
+        self.status = self.request.get('portal_status_message','')        
+        form.AddForm.update( self )
+ 
+    def finishConstruction( self, ob ):
+        """
+        adapt the custom fields to the object
+        """
+        self.adapters = { IExtensionMemberAdd : ob }
+        
+    def validate(self, action, data):    
+        """
+        validation that require context must be called here,
+        invariants may be defined in the descriptor
+        """                                       
+        return (form.getWidgetsData(self.widgets, self.prefix, data) +
+                 form.checkInvariants(self.form_fields, data) +
+                 validations.CheckExtensionMemberDatesInsideParentDatesAdd( self.context, data))
 
 
 # CommitteeMemberAdd
-# TODO select members for add shold be the same for ministers 
 
-def CheckCommitteeMembersDatesInsideParentDatesAdd( context, data ):
-    """
-    start date must be >= parents start date
-    end date must be <= parents end date (if parents end date is set)
-    """
-    errors =[]
-    if context.__parent__.start_date > data['start_date']:
-        errors.append( interface.Invalid(_("Start date must start after the start date of the committee (%s)" % context.__parent__.start_date )) )
-    if (context.__parent__.end_date is not None) and (data['end_date'] is not None):
-        if data['end_date'] > context.__parent__.end_date:
-            errors.append(  interface.Invalid(_("End date cannot be after the committees dissolution (%s)" % context.__parent__.end_date )) )
-    return errors
+
 
 sql_AddCommitteeMember = """
                         SELECT DISTINCT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as fullname, 
@@ -347,23 +397,11 @@ class CommitteeMemberAdd( ContentAddForm ):
         """                                       
         return (form.getWidgetsData(self.widgets, self.prefix, data) +
                  form.checkInvariants(self.form_fields, data) +
-                 CheckCommitteeMembersDatesInsideParentDatesAdd( self.context, data))  
+                 validations.CheckCommitteeMembersDatesInsideParentDatesAdd( self.context, data))  
 
 # Committees
 
-def CheckCommitteesDatesInsideParentDatesAdd( context, data ):
-    """
-    start date must be >= parents start date
-    end date must be <= parents end date (if parents end date is set)
-    """
-    errors =[]
-    if context.__parent__.start_date > data['start_date']:
-        errors.append( interface.Invalid(_("Start date must start after the swearing in of the parliament (%s)" % context.__parent__.start_date )) )
-    if (context.__parent__.end_date is not None) and (data['end_date'] is not None):
-        if data['end_date'] > context.__parent__.end_date:
-            errors.append(  interface.Invalid(_("End date cannot be after the parliaments dissolution (%s)" % context.__parent__.end_date )) )
-    return errors
-    
+
 class CommitteeAdd( ContentAddForm ):
     """
     override the AddForm for GroupSittingAttendance
@@ -395,21 +433,10 @@ class CommitteeAdd( ContentAddForm ):
         """                                       
         return (form.getWidgetsData(self.widgets, self.prefix, data) +
                  form.checkInvariants(self.form_fields, data) +
-                 CheckCommitteesDatesInsideParentDatesAdd( self.context, data))    
+                 validations.CheckCommitteesDatesInsideParentDatesAdd( self.context, data))    
 
 # Members of Parliament
-def CheckMPsDatesInsideParentDatesAdd( context, data ):
-    """
-    start date must be >= parents start date
-    end date must be <= parents end date (if parents end date is set)
-    """
-    errors =[]
-    if context.__parent__.start_date > data['start_date']:
-        errors.append( interface.Invalid(_("Start date must start after the swearing in of the parliament (%s)" % context.__parent__.start_date )) )
-    if (context.__parent__.end_date is not None) and (data['end_date'] is not None):
-        if data['end_date'] > context.__parent__.end_date:
-            errors.append(  interface.Invalid(_("End date cannot be after the parliaments dissolution (%s)" % context.__parent__.end_date )) )
-    return errors
+
 
 
 sql_AddMemberOfParliament = """
@@ -467,22 +494,11 @@ class MemberOfParliamentAdd( ContentAddForm ):
         """                                       
         return (form.getWidgetsData(self.widgets, self.prefix, data) +
                  form.checkInvariants(self.form_fields, data) +
-                 CheckMPsDatesInsideParentDatesAdd( self.context, data))
+                 validations.CheckMPsDatesInsideParentDatesAdd( self.context, data))
 
 
 # Sessions
-def CheckSessionDatesInsideParentDatesAdd( context, data ):
-    """
-    start date must be >= parents start date
-    end date must be <= parents end date (if parents end date is set)
-    """
-    errors =[]
-    if context.__parent__.start_date > data['start_date']:
-        errors.append( interface.Invalid(_("A Session must start after the swearing in of the parliament (%s)" % context.__parent__.start_date )) )
-    if (context.__parent__.end_date is not None) and (data['end_date'] is not None):
-        if data['end_date'] > context.__parent__.end_date:
-            errors.append(  interface.Invalid(_("A Session cannot take place after the parliaments dissolution (%s)" % context.__parent__.end_date )) )
-    return errors
+
     
 class SessionAdd( ContentAddForm ):
     """
@@ -513,23 +529,12 @@ class SessionAdd( ContentAddForm ):
         """                                       
         return (form.getWidgetsData(self.widgets, self.prefix, data) +
                  form.checkInvariants(self.form_fields, data) +
-                 CheckSessionDatesInsideParentDatesAdd( self.context, data))   
+                 validations.CheckSessionDatesInsideParentDatesAdd( self.context, data))   
                  
 
 # Sittings
 
-def CheckSittingDatesInsideParentDatesAdd( context, data ):
-    """
-    start date must be >= parents start date
-    end date must be <= parents end date (if parents end date is set)
-    """
-    errors =[]
-    if context.__parent__.start_date > data['start_date'].date():
-        errors.append( interface.Invalid(_("Start must be after Session Start Date (%s)" % context.__parent__.start_date )) )
-    if context.__parent__.end_date is not None:
-        if data['end_date'].date() > context.__parent__.end_date:
-            errors.append(  interface.Invalid(_("End must be before Session End Date (%s)" % context.__parent__.end_date )) )
-    return errors
+
 
 class GroupSittingAdd( ContentAddForm ):
     """
@@ -560,7 +565,7 @@ class GroupSittingAdd( ContentAddForm ):
         """                                       
         return (form.getWidgetsData(self.widgets, self.prefix, data) +
                  form.checkInvariants(self.form_fields, data) +
-                 CheckSittingDatesInsideParentDatesAdd( self.context, data))         
+                 validations.CheckSittingDatesInsideParentDatesAdd( self.context, data))         
      
 
 sql_add_members ='''SELECT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as user_name, 
@@ -568,14 +573,14 @@ sql_add_members ='''SELECT "users"."titles" || ' ' || "users"."first_name" || ' 
                     FROM "public"."group_sittings", "public"."sessions", 
                     "public"."user_group_memberships", "public"."users" 
                     WHERE ( "group_sittings"."session_id" = "sessions"."session_id" 
-                    AND "user_group_memberships"."group_id" = "sessions"."parliament_id" 
-                    AND "user_group_memberships"."user_id" = "users"."user_id" )
-                    AND ( "user_group_memberships"."active_p" = True )
-                    AND ("group_sittings"."sitting_id" = %(primary_key)s)
-                    AND ( "users"."user_id" NOT IN (SELECT member_id 
-                                                    FROM sitting_attendance 
-                                                    WHERE sitting_id = %(primary_key)s)                                           
-                         )
+                        AND "user_group_memberships"."group_id" = "sessions"."parliament_id" 
+                        AND "user_group_memberships"."user_id" = "users"."user_id" )
+                        AND ( "user_group_memberships"."active_p" = True )
+                        AND ("group_sittings"."sitting_id" = %(primary_key)s)
+                        AND ( "users"."user_id" NOT IN (SELECT member_id 
+                                                        FROM sitting_attendance 
+                                                        WHERE sitting_id = %(primary_key)s )                                           
+                            )
                     ORDER BY "users"."last_name"                    
                     '''
 membersAddVocab = vocabulary.SQLQuerySource(sql_add_members, 'user_name', 'user_id')      
@@ -656,18 +661,6 @@ class GroupSittingAttendanceEdit( EditFormViewlet ):
         super( GroupSittingAttendanceEdit, self).update()
 
 # Sittings                    
-def CheckSittingDatesInsideParentDatesEdit( context, data ):
-    """
-    start date must be >= parents start date
-    end date must be <= parents end date (if parents end date is set)
-    """
-    errors =[]
-    if context.__parent__.__parent__.start_date > data['start_date'].date():
-        errors.append( interface.Invalid(_("Start must be after Session Start Date (%s)" % context.__parent__.__parent__.start_date )) )
-    if context.__parent__.__parent__.end_date is not None:
-        if data['end_date'].date() > context.__parent__.__parent__.end_date:
-            errors.append(  interface.Invalid(_("End must be before Session End Date (%s)" % context.__parent__.__parent__.end_date ) ) )
-    return errors
 
 
 class GroupSittingEdit( EditFormViewlet ):
@@ -693,7 +686,7 @@ class GroupSittingEdit( EditFormViewlet ):
         """                                       
         return (form.getWidgetsData(self.widgets, self.prefix, data) +
                  form.checkInvariants(self.form_fields, data) +
-                 CheckSittingDatesInsideParentDatesEdit( self.context, data))  
+                 validations.CheckSittingDatesInsideParentDatesEdit( self.context, data))  
                  
         
         

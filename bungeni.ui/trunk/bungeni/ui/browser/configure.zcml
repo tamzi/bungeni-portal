@@ -91,6 +91,19 @@
       permission="zope.View"
       />    
 <!-- Extension Group Member Add Form -->
+   <browser:view
+      name="add"
+      for="bungeni.core.interfaces.IExtensionMemberContainer"
+      class=".forms.ExtensionMemberAdd"              
+      permission="zope.View"
+      />    
+<!-- Parliament Add Form -->
+   <browser:view
+      name="add"
+      for="bungeni.core.interfaces.IParliamentContainer"
+      class=".forms.ParliamentAdd"              
+      permission="zope.View"
+      />      
             
   <!-- GroupSitting Edit Form -->
     <browser:viewlet

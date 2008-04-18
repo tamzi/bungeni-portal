@@ -58,27 +58,6 @@ copy public.extension_groups( parliament_id, group_type, extension_type_id)
 from '%(directory)s/data/demodata/extensions.csv'
 csv ;
 
-INSERT INTO user_group_memberships ( group_id, user_id, start_date, end_date) 
-SELECT DISTINCT 304 as no , "user_group_memberships"."user_id", "groups"."start_date", "groups"."end_date" 
-FROM "public"."user_group_memberships", "public"."committees", "public"."groups" 
-WHERE ( "user_group_memberships"."group_id" = "committees"."committee_id" 
-    AND "committees"."parliament_id" = "groups"."group_id" ) 
-    AND ( ( "user_group_memberships"."user_id" 
-    NOT IN ( SELECT "user_group_memberships"."user_id" 
-            FROM "public"."user_group_memberships" 
-            WHERE ( "group_id" = "committees"."parliament_id" ) ) ) )
-AND  "committees"."parliament_id" = 6;
-
-INSERT INTO user_group_memberships ( group_id, user_id, start_date, end_date) 
-SELECT DISTINCT 305 as no , "user_group_memberships"."user_id", "groups"."start_date", "groups"."end_date" 
-FROM "public"."user_group_memberships", "public"."committees", "public"."groups" 
-WHERE ( "user_group_memberships"."group_id" = "committees"."committee_id" 
-    AND "committees"."parliament_id" = "groups"."group_id" ) 
-    AND ( ( "user_group_memberships"."user_id" 
-    NOT IN ( SELECT "user_group_memberships"."user_id" 
-            FROM "public"."user_group_memberships" 
-            WHERE ( "group_id" = "committees"."parliament_id" ) ) ) )
-AND  "committees"."parliament_id" = 7;
 
 
 
@@ -166,6 +145,28 @@ csv;
 copy public.user_group_memberships ( user_id, group_id, start_date, end_date)
 from '%(directory)s/data/demodata/partymembers.csv'
 csv;
+
+INSERT INTO user_group_memberships ( group_id, user_id, start_date, end_date) 
+SELECT DISTINCT 304 as no , "user_group_memberships"."user_id", "groups"."start_date", "groups"."end_date" 
+FROM "public"."user_group_memberships", "public"."committees", "public"."groups" 
+WHERE ( "user_group_memberships"."group_id" = "committees"."committee_id" 
+    AND "committees"."parliament_id" = "groups"."group_id" ) 
+    AND ( ( "user_group_memberships"."user_id" 
+    NOT IN ( SELECT "user_group_memberships"."user_id" 
+            FROM "public"."user_group_memberships" 
+            WHERE ( "group_id" = "committees"."parliament_id" ) ) ) )
+AND  "committees"."parliament_id" = 6;
+
+INSERT INTO user_group_memberships ( group_id, user_id, start_date, end_date) 
+SELECT DISTINCT 305 as no , "user_group_memberships"."user_id", "groups"."start_date", "groups"."end_date" 
+FROM "public"."user_group_memberships", "public"."committees", "public"."groups" 
+WHERE ( "user_group_memberships"."group_id" = "committees"."committee_id" 
+    AND "committees"."parliament_id" = "groups"."group_id" ) 
+    AND ( ( "user_group_memberships"."user_id" 
+    NOT IN ( SELECT "user_group_memberships"."user_id" 
+            FROM "public"."user_group_memberships" 
+            WHERE ( "group_id" = "committees"."parliament_id" ) ) ) )
+AND  "committees"."parliament_id" = 7;
 
 
 /* set the active flags to something sane */

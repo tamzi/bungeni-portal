@@ -29,6 +29,10 @@ zcml_slug = """
      engine="bungeni-db"
      metadata="bungeni.core.metadata" />
 
+  <db:bind
+     engine="bungeni-db"
+     metadata="alchemist.security.metadata" />     
+
   <!-- Setup Core Model --> 
   <include package="bungeni.core" file="catalyst.zcml"/>
  

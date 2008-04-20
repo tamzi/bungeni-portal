@@ -1,0 +1,90 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"           
+           xmlns:db="http://namespaces.objectrealms.net/rdb"
+           xmlns:xapian="http://namespaces.objectrealms.net/xapian"
+           i18n_domain="bungeni">
+
+  <include package="ore.xapian" />
+  <include package="ore.xapian" file="meta.zcml" />
+
+  <!-- Setup Database Connection -->	  
+  <db:engine
+     name="bungeni-db"
+     url="postgres://localhost/bungeni"
+     />
+
+  <!-- Bind Application Model to Database -->
+  <db:bind
+     engine="bungeni-db"
+     metadata=".schema.metadata" />
+  
+  <!-- Bind Security Model to Database (role, permission maps) -->
+  <db:bind
+     engine="bungeni-db"
+     metadata="alchemist.security.schema.metadata" />
+     
+  <class class=".document.SimpleDocument">
+    <implements
+        interface=".interfaces.IAnnotatable"
+        />
+    <require
+        permission="zope.View"
+        interface=".interfaces.ISimpleDocument"
+        />
+    <require
+        permission="zope.ManageContent"
+        set_schema=".interfaces.ISimpleDocument"
+        />
+  </class>
+
+  <class class=".tools.annotation.Annotation">
+    <require
+        permission="zope.View"
+        interface=".interfaces.IAnnotation"
+        />
+    <require
+        permission="zope.ManageContent"
+        set_schema=".interfaces.IAnnotation"
+        />
+  </class>
+
+  <class class=".tools.annotations.AnnotationsFolder">
+    <implements
+        interface="zope.annotation.interfaces.IAttributeAnnotatable
+                   zope.app.container.interfaces.IContainerNamesContainer"
+        />
+    <require
+        permission="zope.View"
+        interface="zope.app.container.interfaces.IReadContainer"
+        />
+    <require
+        permission="zope.ManageContent"
+        interface="zope.app.container.interfaces.IWriteContainer"
+        />
+  </class>
+
+  <interface 
+      interface=".interfaces.ISimpleDocument"
+      type="zope.app.content.interfaces.IContentType"
+      /> 
+
+  <interface 
+      interface=".interfaces.IAnnotation"
+      type="zope.app.content.interfaces.IContentType"
+      /> 
+
+  <utility
+      component=".document.documentFactory"
+      name="marginalia.SimpleDocument"
+      permission="zope.Public"
+      />
+
+  <utility
+      component=".tools.annotation.annotationFactory"
+      name="marginalia.Annotation"
+      permission="zope.Public"
+      />
+
+  <include package=".browser" />
+
+</configure>

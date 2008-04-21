@@ -54,7 +54,7 @@ public class CommonRouterActions {
              returnState = new BungeniValidatorState(true, new BungeniMsg("SUCCESS")); 
              } catch (Exception ex) {
                  log.error("displayFilteredDialog : " + ex.getMessage());
-                 log.error("displayFilteredDialog: stack trace :  \n" + org.bungeni.utils.CommonExceptionUtils.getStackTrace(ex));
+                 log.error("displayFilteredDialog: stack trace :  \n" + org.bungeni.ooo.utils.CommonExceptionUtils.getStackTrace(ex));
                  returnState = new BungeniValidatorState(true, new BungeniMsg("EXCEPTION_FAILURE")); 
                  
              } finally {

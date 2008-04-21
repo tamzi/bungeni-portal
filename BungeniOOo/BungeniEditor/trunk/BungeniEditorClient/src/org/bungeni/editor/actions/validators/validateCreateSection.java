@@ -19,7 +19,7 @@ import org.bungeni.error.BungeniMessage;
 import org.bungeni.error.BungeniMsg;
 import org.bungeni.error.BungeniValidatorState;
 import org.bungeni.ooo.OOComponentHelper;
-import org.bungeni.utils.CommonExceptionUtils;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.CommonPropertyFunctions;
 
 /**

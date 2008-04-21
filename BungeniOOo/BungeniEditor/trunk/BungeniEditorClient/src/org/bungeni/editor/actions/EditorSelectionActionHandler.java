@@ -39,7 +39,7 @@ import org.bungeni.error.BungeniValidatorState;
 import org.bungeni.error.ErrorMessages;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
-import org.bungeni.utils.CommonExceptionUtils;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.CommonPropertyFunctions;
 import org.bungeni.utils.MessageBox;
 
@@ -412,7 +412,7 @@ if markupSelectedText():
              initDebaterecord.setAlwaysOnTop(true);   
              } catch (Exception ex) {
                  log.error("displayFilteredDialog : " + ex.getMessage());
-                 log.error("displayFilteredDialog: stack trace :  \n" + org.bungeni.utils.CommonExceptionUtils.getStackTrace(ex));
+                 log.error("displayFilteredDialog: stack trace :  \n" + org.bungeni.ooo.utils.CommonExceptionUtils.getStackTrace(ex));
              }
     }
     

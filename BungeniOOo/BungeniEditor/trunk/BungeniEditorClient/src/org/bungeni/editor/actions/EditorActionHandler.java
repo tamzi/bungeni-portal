@@ -23,6 +23,8 @@ import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 import org.apache.log4j.Logger;
 import org.bungeni.editor.actions.toolbarAction;
+import org.bungeni.editor.selectors.DialogSelectorFactory;
+import org.bungeni.editor.selectors.IDialogSelector;
 import org.bungeni.editor.selectors.InitDebateRecord;
 import org.bungeni.editor.selectors.InitPapers;
 import org.bungeni.editor.selectors.InitQAsection;
@@ -193,6 +195,23 @@ public class EditorActionHandler implements IEditorActionEvent {
          return validSections;
      }
      
+         private void doMakePrayerSection(toolbarAction action) {
+             JDialog dlg;
+             dlg= new JDialog();
+             dlg.setTitle("Enter Settings for Document");
+             dlg.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+             //initDebaterecord.setPreferredSize(new Dimension(420, 300));
+             IDialogSelector panel = DialogSelectorFactory.getDialogClass("org.bungeni.editor.selectors.InitDebateRecord");
+             panel.initObject(ooDocument, dlg, action, null);
+             dlg.getContentPane().add(panel.getPanel());
+             dlg.pack();
+             dlg.setLocationRelativeTo(null);
+             dlg.setVisible(true);
+             dlg.setAlwaysOnTop(true);   
+            // returnState = new BungeniValidatorState(true, new BungeniMsg("SUCCESS")); 
+    }
+         
+         /*
      private void doMakePrayerSection(toolbarAction action) {
       
             //section was added now prompt for dialog information
@@ -214,8 +233,25 @@ public class EditorActionHandler implements IEditorActionEvent {
              initDebaterecord.setAlwaysOnTop(true);
        
      }
-     
-     private void doMakeQuestionBlockSection(toolbarAction action) {
+          */
+         
+          private void doMakeQuestionBlockSection(toolbarAction action) {
+             JDialog dlg;
+             dlg= new JDialog();
+             dlg.setTitle("Enter Settings for Document");
+             dlg.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+             //initDebaterecord.setPreferredSize(new Dimension(420, 300));
+             IDialogSelector panel = DialogSelectorFactory.getDialogClass("org.bungeni.editor.selectors.InitQuestionBlock");
+             panel.initObject(ooDocument, dlg, action, null);
+             dlg.getContentPane().add(panel.getPanel());
+             dlg.pack();
+             dlg.setLocationRelativeTo(null);
+             dlg.setVisible(true);
+             dlg.setAlwaysOnTop(true);   
+              
+          }
+          /*
+         private void doMakeQuestionBlockSection(toolbarAction action) {
             //section was added now prompt for dialog information
              log.debug("makeQuestionBlockSection: invoke");
              JDialog makeQuestionBlock;
@@ -231,7 +267,7 @@ public class EditorActionHandler implements IEditorActionEvent {
              makeQuestionBlock.setVisible(true);
              makeQuestionBlock.setAlwaysOnTop(true);   
      }
-     
+     */
      
      private void doMakeSpeechBlockSection(toolbarAction action) {
             //section was added now prompt for dialog information
@@ -336,6 +372,25 @@ public class EditorActionHandler implements IEditorActionEvent {
     }
 
     private void doMakeQASection(toolbarAction action) {
+             JDialog dlg;
+             dlg= new JDialog();
+             dlg.setTitle("Enter Settings for Document");
+             dlg.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+             //initDebaterecord.setPreferredSize(new Dimension(420, 300));
+             IDialogSelector panel = DialogSelectorFactory.getDialogClass("org.bungeni.editor.selectors.InitQAsection");
+             panel.initObject(ooDocument, dlg, action, null);
+             //panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
+             //panel.setBackground(new Color(255, 255, 153));
+             //initDebaterecord.setTitle("Selection Mode");
+             dlg.getContentPane().add(panel.getPanel());
+             dlg.pack();
+             dlg.setLocationRelativeTo(null);
+             dlg.setVisible(true);
+             dlg.setAlwaysOnTop(true);   
+            // returnState = new BungeniValidatorState(true, new BungeniMsg("SUCCESS")); 
+    }
+    /*
+    private void doMakeQASection(toolbarAction action) {
             JDialog makeQASection;
             makeQASection = new JDialog();
              makeQASection.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -359,7 +414,7 @@ public class EditorActionHandler implements IEditorActionEvent {
              makeQASection.setVisible(true);
              makeQASection.setAlwaysOnTop(true); 
     }
-
+    */
     private void doMakePaperSection(toolbarAction action) {
                //section was added now prompt for dialog information
              JDialog makePaperSection;

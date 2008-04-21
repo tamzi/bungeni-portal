@@ -24,7 +24,7 @@ sqlalchemy.orm.mapper( _TmpSqlQuery, bungeni.core.schema.parliaments )
 
 def checkDateInInterval( pp_key, checkDate, sql_statement):
     """
-    check if the checkDate ...
+    check if the checkDate is inside one of its 'peers'
     the passed sql statement must follow the restrictions:
     %(date)s is the date to check (must be present!)
     %(parent_key)s is usually the parents primary key (can be omitted to check all)
@@ -87,7 +87,14 @@ def CheckParliamentDatesAdd( context, data ):
     errors =[]    
     overlaps = checkDateInInterval(None, data['start_date'], sql_checkParliamentInterval)
     if overlaps is not None:
-        errors.append( interface.Invalid(_("The Parliament overlaps with (%s)" % overlaps)) )
+        errors.append( interface.Invalid(_("The Parliament start date overlaps with (%s)" % overlaps)) )
+    if data['end_date'] is not None:        
+        overlaps = checkDateInInterval(None, data['end_date'], sql_checkParliamentInterval)
+        if overlaps is not None:
+            errors.append( interface.Invalid(_("The Parliament end date overlaps with (%s)" % overlaps)) )  
+    overlaps = checkDateInInterval(None, data['election_date'], sql_checkParliamentInterval)
+    if overlaps is not None:
+        errors.append( interface.Invalid(_("The election date overlaps with (%s)" % overlaps)) )                  
     return errors
     
 #ministries

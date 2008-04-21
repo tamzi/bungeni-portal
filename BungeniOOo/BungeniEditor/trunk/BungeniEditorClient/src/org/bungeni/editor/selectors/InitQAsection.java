@@ -25,6 +25,7 @@ import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.db.registryQueryDialog;
 import org.bungeni.editor.actions.toolbarAction;
+import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.editor.fragments.FragmentsFactory;
 import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
@@ -47,11 +48,30 @@ public class InitQAsection extends selectorTemplatePanel implements IBungeniForm
     }
     public InitQAsection(OOComponentHelper ooDocument, JDialog parentDlg, toolbarAction theAction) {
         super(ooDocument, parentDlg, theAction);
-        initComponents();
-        initFields();
-      
+        init();
     }
    
+      public void initObject(OOComponentHelper ooDoc, JDialog dlg, toolbarAction act, toolbarSubAction subAct) {
+        super.initObject( ooDoc, dlg, act, subAct);
+        init();
+        setControlModes();
+        // setControlData();
+    }
+      
+    public void init(){
+        super.init();
+        initComponents();
+        initFields();
+    }
+    
+    public void createContext(){
+          super.createContext();
+          formContext.setBungeniForm(this);
+      }
+    public String getClassName(){
+        return this.getClass().getName();
+    }
+           
     private void initFields() {
 
         if (theMode == SelectorDialogModes.TEXT_INSERTION) {
@@ -159,12 +179,16 @@ public class InitQAsection extends selectorTemplatePanel implements IBungeniForm
     public boolean preFullInsert() {
         long sectionBackColor = 0xeeffff;
         float sectionLeftMargin = (float).1;
-        thePreInsertMap.set("container_section", ooDocument.currentSectionName());
-        thePreInsertMap.set("current_section", getActionSectionName());
-        thePreInsertMap.set("section_back_color", new Long(sectionBackColor));
-        thePreInsertMap.set("section_left_margin", new Float(sectionLeftMargin));
-        
-       
+        String actionSectionName = "";
+        actionSectionName = getActionSectionName();
+        thePreInsertMap.put("container_section", ooDocument.currentSectionName());
+        thePreInsertMap.put("current_section", actionSectionName);
+        thePreInsertMap.put("new_section", actionSectionName);
+        thePreInsertMap.put("section_back_color", Long.toHexString(sectionBackColor));
+        thePreInsertMap.put("section_left_margin", Float.toString(sectionLeftMargin));
+        thePreInsertMap.put("document_fragment", FragmentsFactory.getFragment("hansard_qa"));
+        thePreInsertMap.put("search_for", new String("[[QA_TITLE]]"));
+        thePreInsertMap.put("replacement_text", txt_title.getText());
         /* the above adds : 
          *         thePreInsertMap.put("tabled_document_titles", arrDocTitles);
          *         thePreInsertMap.put("tabled_document_urs", arrDocURI);
@@ -185,16 +209,21 @@ public class InitQAsection extends selectorTemplatePanel implements IBungeniForm
     }
     
     public boolean processFullInsert(){
-        return true;
+        boolean bReturn = processCatalogCommand();
+        return bReturn;
     }
     
     public boolean postFullInsert(){
         return true;
     }
     
+    
+    
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt)  {//GEN-FIRST:event_btnApplyActionPerformed
 // TODO add your handling code here:
         super.formApply();
+        parent.dispose();
+        /*
         returnError(false);
 
        if (txt_title.getText().trim().length() == 0 ) {
@@ -261,7 +290,8 @@ public class InitQAsection extends selectorTemplatePanel implements IBungeniForm
             
             returnError(true);
             parent.dispose();
-        }   
+        } */
+        
     }//GEN-LAST:event_btnApplyActionPerformed
 
     private void fillDocument(){
@@ -274,7 +304,7 @@ public class InitQAsection extends selectorTemplatePanel implements IBungeniForm
            String newSectionName = "";
            //must check for action type too, but for testing purposes ignored...
         
-        f
+
     }
 
     public boolean validateFieldValue(Component field, Object fieldValue) {

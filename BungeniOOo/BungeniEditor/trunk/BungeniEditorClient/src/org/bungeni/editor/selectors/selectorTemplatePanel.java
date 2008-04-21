@@ -5,8 +5,56 @@
  *
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
+ *
+ *   
+
+ *
+ *
+ *
+ *
+ *
+ *
+
+ *
+ *
+ *
+ *Mandatory methods to override in derived class
+
+public String getClassName(){
+	return this.getClass().getName();
+}
+
+protected void createContext(){
+
+     super.createContext();
+
+     formContext.setBungeniForm(this);
+
+ }
+   
+   
+ public void initObject(OOComponentHelper ooDoc, JDialog dlg, toolbarAction act, toolbarSubAction subAct) {
+
+    super.initObject( ooDoc, dlg, act, subAct);
+
+    init();
+
+    setControlModes();
+
+    // setControlData();
+
+}
+
+ *
+ *
+ *
+ *
+ *
  */
 
+
+   
+    
 package org.bungeni.editor.selectors;
 
 import java.awt.Color;
@@ -380,7 +428,6 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     dbSettings.Connect();
     String formName = getClassName();
     String cmdsByForm = SettingsQueryFactory.Q_FETCH_COMMANDS_BY_FORM(formName);
-    System.out.println("createCommandChain: " + cmdsByForm);
     log.debug("createCommandChain: " + cmdsByForm);
     QueryResults qr = dbSettings.QueryResults(cmdsByForm);
     dbSettings.EndConnect();

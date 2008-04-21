@@ -144,7 +144,7 @@ import org.bungeni.ooo.ooDocNotes;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.ooo.ooUserDefinedAttributes;
 import org.bungeni.utils.BungeniDataReader;
-import org.bungeni.utils.CommonExceptionUtils;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.CommonTreeFunctions;
 import org.bungeni.utils.DocStructureElement;
 import org.bungeni.utils.MessageBox;
@@ -570,7 +570,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      }
      catch (Exception e){
          log.error("InitCollapsiblePane: exception : "+ e.getMessage());
-         log.error("InitCollapsiblePane: stacktrace: " + org.bungeni.utils.CommonExceptionUtils.getStackTrace(e));
+         log.error("InitCollapsiblePane: stacktrace: " + org.bungeni.ooo.utils.CommonExceptionUtils.getStackTrace(e));
      }
      
     }

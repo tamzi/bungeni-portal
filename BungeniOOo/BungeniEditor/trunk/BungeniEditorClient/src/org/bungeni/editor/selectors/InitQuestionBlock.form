@@ -82,34 +82,45 @@
     <Component class="javax.swing.JLabel" name="lblQuestionText">
       <Properties>
         <Property name="text" type="java.lang.String" value="Question Text"/>
+        <Property name="name" type="java.lang.String" value="lbl_question_text"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnSelectQuestion">
       <Properties>
         <Property name="text" type="java.lang.String" value="Select a Question..."/>
         <Property name="actionCommand" type="java.lang.String" value="Select a Question"/>
+        <Property name="name" type="java.lang.String" value="btn_select_question"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSelectQuestionActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtQuestionTitle">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="txt_question_title"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblQuestionTitle">
       <Properties>
         <Property name="text" type="java.lang.String" value="Question Title "/>
+        <Property name="name" type="java.lang.String" value="lbl_question_title"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtPersonName">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="txt_person_name"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblNameOfPersonFrom">
       <Properties>
         <Property name="text" type="java.lang.String" value="Edit name of Person asking Question"/>
+        <Property name="name" type="java.lang.String" value="lbl_person_name"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnApply">
       <Properties>
         <Property name="text" type="java.lang.String" value="Apply"/>
+        <Property name="name" type="java.lang.String" value="btn_apply"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnApplyActionPerformed"/>
@@ -118,16 +129,21 @@
     <Component class="javax.swing.JButton" name="btnCancel">
       <Properties>
         <Property name="text" type="java.lang.String" value="Close"/>
+        <Property name="name" type="java.lang.String" value="btn_cancel"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCancelActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtAddressedTo">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="txt_question_to"/>
+      </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblQuestionAddressedTo">
       <Properties>
         <Property name="text" type="java.lang.String" value="Question Addressed To :"/>
+        <Property name="name" type="java.lang.String" value="lbl_question_to"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSeparator" name="separatorLine1">
@@ -161,9 +177,13 @@
     <Component class="javax.swing.JLabel" name="lblPersonURI">
       <Properties>
         <Property name="text" type="java.lang.String" value="URI of Person"/>
+        <Property name="name" type="java.lang.String" value="lbl_person_uri"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="txtPersonURI">
+      <Properties>
+        <Property name="name" type="java.lang.String" value="txt_person_uri"/>
+      </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="scrollQuestionText">
       <AuxValues>
@@ -173,6 +193,9 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
         <Component class="javax.swing.JTextPane" name="txtQuestionText">
+          <Properties>
+            <Property name="name" type="java.lang.String" value="txt_question_text"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>

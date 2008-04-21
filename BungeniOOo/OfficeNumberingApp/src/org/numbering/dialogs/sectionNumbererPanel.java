@@ -689,9 +689,9 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     }
     
     //another
-     private void getNumberedHeadingsOnRenumberingProto(String results) {
+    
+     private void getNumberedHeadingsInsertCrossRef(String results) {
      
-      
            
            try{
                
@@ -715,10 +715,9 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                             XTextContent xContent = ooDocument.getTextContent(elem);
                             XTextRange aTextRange =   xContent.getAnchor();
                             String strHeading = aTextRange.getString();
-                            
-                           // System.out.println("getNumberedHeadings: heading found " + strHeading);
+                           
                            insertCrossReference(strHeading);
-                           // setReferenceMarkOnRenumbering(aTextRange,elem,refMark);
+                           
                             break;
                          }
                    
@@ -1057,17 +1056,13 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
     private void findAndReplace(){
         XReplaceable xReplaceable = (XReplaceable) UnoRuntime.queryInterface(XReplaceable.class, ooDocument.getTextDocument()); 
         XReplaceDescriptor xRepDesc = xReplaceable.createReplaceDescriptor(); 
-        
+       
         xRepDesc.setSearchString("iii)");
         xRepDesc.setReplaceString(" ");
         
         
         long nResult = xReplaceable.replaceAll(xRepDesc); 
-        
-        
-
-        
-        
+      
     }
    
     private void insertCrossReference(Object elem){
@@ -1126,54 +1121,7 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
    
     }
     
-    private void docReferences(){
-           int i=0;
-     XTextDocument xDoc = ooDocument.getTextDocument();
-         XTextViewCursor xViewCursor=ooDocument.getViewCursor();
-         Object oRefField=ooDocument.createInstance("com.sun.star.text.TextField.GetReference");
-         
-         XReferenceMarksSupplier xRefSupplier = (XReferenceMarksSupplier) UnoRuntime.queryInterface(
-             XReferenceMarksSupplier.class, xDoc);
-         
-         // Get an XNameAccess which refers to all inserted reference marks
-         XNameAccess xMarks = (XNameAccess) UnoRuntime.queryInterface(XNameAccess.class,
-             xRefSupplier.getReferenceMarks());
-         
-        String[] aNames = xMarks.getElementNames();
-        XPropertySet oFieldSet = ooQueryInterface.XPropertySet(oRefField);
-        
-       try { 
-                 
-          while(i<aNames.length){
-           
-             oFieldSet.setPropertyValue("SourceName", aNames[i]);
-             oFieldSet.setPropertyValue("ReferenceFieldSource",com.sun.star.text.ReferenceFieldSource.REFERENCE_MARK); 
-             oFieldSet.setPropertyValue("ReferenceFieldPart",com.sun.star.text.ReferenceFieldPart.TEXT);  
-
-
-             XTextContent xRefContent = (XTextContent) UnoRuntime.queryInterface(
-                     XTextContent.class, oFieldSet);
-              xDoc.getText().insertTextContent(xViewCursor , xRefContent, true);
-               xDoc.getText().insertString(xViewCursor , " , ", false);
-            
-            
-              XRefreshable xRefresh = (XRefreshable) UnoRuntime.queryInterface(
-                XRefreshable.class, xDoc);
-           xRefresh.refresh();   
-            i++;
-            }
-          
-        
-          } catch (UnknownPropertyException ex) {
-                ex.printStackTrace();
-            } catch (WrappedTargetException ex) {
-                ex.printStackTrace();
-            } catch (PropertyVetoException ex) {
-                ex.printStackTrace();
-            } catch (com.sun.star.lang.IllegalArgumentException ex) {
-                ex.printStackTrace();
-            } 
-    }
+    
     
     private void packReferences(){
            int i=0;
@@ -1236,7 +1184,7 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
                 if(refs[i].equalsIgnoreCase("root")){
                     
                 }else{
-                    getNumberedHeadingsOnRenumberingProto(refs[i]);
+                    getNumberedHeadingsInsertCrossRef(refs[i]);
                 }
                
                 
@@ -1442,12 +1390,7 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
             }else{
                  System.out.println("error");
             }
-         /* TreePath selectionPath = e.getNewLeadSelectionPath();
-            TreePath oldSelectionPath = e.getOldLeadSelectionPath();
-            if (selectionPath != null ) {
-              selNode = (DefaultMutableTreeNode) selectionPath.getLastPathComponent();
-              selectedNodeName = (String) selNode.getUserObject();
-            }*/
+        
             
            
         }
@@ -1472,7 +1415,7 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
         checkbxUseParentPrefix = new javax.swing.JCheckBox();
         btnRenumberSections = new javax.swing.JButton();
         btnInsertCrossReference = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        lblSectionTypes = new javax.swing.JLabel();
         panelSectionTree = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         treeSectionStructure = new javax.swing.JTree();
@@ -1548,7 +1491,7 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
                 .addContainerGap(27, Short.MAX_VALUE))
         );
 
-        jLabel1.setText("Bungeni Section Types");
+        lblSectionTypes.setText("Bungeni Section Types");
 
         jScrollPane2.setViewportView(treeSectionStructure);
 
@@ -1574,7 +1517,7 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                    .add(lblSectionTypes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                         .add(panelNumberingScheme, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(panelSectionTypes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 194, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -1585,7 +1528,7 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(lblSectionTypes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(panelSectionTypes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(15, 15, 15)
@@ -1612,11 +1555,6 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
         getNumberedHeadingsOnRenumbering();  
       
       
-     
-        
-       // insertCrossReference();
-       // docReferences();
-       
       
        
     }//GEN-LAST:event_btnRenumberSectionsActionPerformed
@@ -1639,8 +1577,8 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
     private javax.swing.JButton btnRenumberSections;
     private javax.swing.JComboBox cboNumberingScheme;
     private javax.swing.JCheckBox checkbxUseParentPrefix;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblSectionTypes;
     private javax.swing.JList listSectionTypes;
     private javax.swing.JPanel panelNumberingScheme;
     private javax.swing.JPanel panelSectionTree;

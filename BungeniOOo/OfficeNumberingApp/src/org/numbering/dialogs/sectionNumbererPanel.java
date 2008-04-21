@@ -85,6 +85,7 @@ import org.bungeni.ooo.ooUserDefinedAttributes;
 import numberingscheme.schemes.*;
 import org.bungeni.utils.CommonExceptionUtils;
 import org.bungeni.utils.CommonTreeFunctions;
+import org.bungeni.utils.MessageBox;
 
 
 /**
@@ -526,16 +527,21 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                                    m = p.matcher(refHeading);
                                }
                               
-                             
-                                while (m.find()) {
+                             //check if pattern is found
+                               
+                                 // MessageBox.OK("The selected scheme does not exist in the section");
+                                
+                                    while (m.find()) {
                                         // Get the matching string
                                         String match = m.group();
                                         System.out.println(match + " length " + match.length());
                                         refHeadingCleared = refHeading.substring(match.length());
                                        
-                                }
-                               System.out.println("getReferenceMarkOnRenumbering " + refHeadingCleared.trim());
-                               aTextRange.setString(refHeadingCleared.trim());
+                                    }
+                                   System.out.println("getReferenceMarkOnRenumbering " + refHeadingCleared.trim());
+                                   aTextRange.setString(refHeadingCleared.trim());
+                              
+                               
                                
                               
                               
@@ -804,12 +810,11 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
     
     
     
-     //method to get reference mark from heading
+     //method to get reference mark from heading when renumbering
     private void setReferenceMarkOnRenumbering(XTextRange aTextRange, Object elem, Object refMark){
       
        XText xRangeText=aTextRange.getText();
-      //
-       
+            
         XEnumerationAccess xRangeAccess = (XEnumerationAccess)UnoRuntime.queryInterface(com.sun.star.container.XEnumerationAccess.class,elem);
          XEnumeration portionEnum =  xRangeAccess.createEnumeration();
      
@@ -1185,10 +1190,6 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
          
         String[] aNames = xMarks.getElementNames();
         XPropertySet oFieldSet = ooQueryInterface.XPropertySet(oRefField);
-        
-       
-       
-        
        
            
           while(i<aNames.length){
@@ -1338,52 +1339,22 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
             return sectionName;    
         }
        
-        
+        //copied from SelectSection
         
         public String currentSectionName(String sectionName) {
             XTextSection loXTextSection;
             XTextViewCursor loXTextCursor;
             XPropertySet loXPropertySet;
             String lstrSectionName = "";
-            //String Sectionname="article4";
-
             XTextSection currentSection = ooDocument.getSection(sectionName);
             lstrSectionName = getSectionHierarchy(currentSection);
         
-         /* try
-         {
-            if (ooDocument.isXComponentValid() ) {
-                loXTextCursor = ooDocument.getViewCursor();
-                loXPropertySet = ooQueryInterface.XPropertySet(loXTextCursor);
-                loXTextSection = (XTextSection)((Any)loXPropertySet.getPropertyValue("TextSection")).getObject();
-                if (loXTextSection != null)
-                {
-                    //loXPropertySet = ooQueryInterface.XPropertySet(loXTextSection);
-                    //XNamed objSectProps = ooQueryInterface.XNamed(loXTextSection);
-                    //lstrSectionName =  objSectProps.getName(); // (String)loXPropertySet.getPropertyValue("LinkDisplayName");
-                    self().currentSelectedSectionName  = ooQueryInterface.XNamed(loXTextSection).getName();
-                    lstrSectionName = getSectionHierarchy(loXTextSection);
-                } else{
-                    self().currentSelectedSectionName = "";
-                }
-            }
-          }
-          catch (java.lang.Exception poException)
-            {
-                log.error("currentSectionName:" + poException.getLocalizedMessage());
-            }
-          finally {  
-              
-             return lstrSectionName; 
-             
-          }*/
+         
             return lstrSectionName; 
         }
 
      private void initTree(){
-     //   treeSectionStructure.setCellRenderer(new treeSectionStructureCellRenderer());
-       // treeSectionStructure.addTreeSelectionListener(new treeSectionStructureSelectionListener());
-         treeSectionStructure.addTreeSelectionListener(new treeSectionStructureSelectionListener());
+        treeSectionStructure.addTreeSelectionListener(new treeSectionStructureSelectionListener());
        
     }
   
@@ -1391,7 +1362,6 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
          initTreeSectionsArray();   
          treeSectionStructure.setModel(new DefaultTreeModel(sectionRootNode));
          treeSectionStructure.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
-         //-tree-deprecated--CommonTreeFunctions.expandAll(treeSectionStructure, true);
          CommonTreeFunctions.expandAll(treeSectionStructure);
       }
     
@@ -1484,78 +1454,7 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
          
      }
        
-    /*
-    
-     class CurrentSectionNameUpdater implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-           
-            String strSection="";
-            strSection = currentSectionName();
-            if (strSection.trim().length() == 0){
-                //self().lbl_SectionName.setText("Cursor not in section");
-                System.out.println("Cursor not in section");
-            } else{
-                //self().lbl_SectionName.setText(strSection);
-                 System.out.println(strSection);
-            }
-        }
-
-        public String getSectionHierarchy(XTextSection thisSection) {
-            String sectionName = "";
-            sectionName = ooQueryInterface.XNamed(thisSection).getName();
-            if (thisSection.getParentSection() != null) {
-                sectionName = getSectionHierarchy(thisSection.getParentSection()) + ">" + sectionName;
-                
-            } else
-                return sectionName;
-            return sectionName;    
-        }
-       
-        
-        
-        public String currentSectionName() {
-            XTextSection loXTextSection;
-            XTextViewCursor loXTextCursor;
-            XPropertySet loXPropertySet;
-            String lstrSectionName = "";
-
-         try
-         {
-            if (ooDocument.isXComponentValid() ) {
-                loXTextCursor = ooDocument.getViewCursor();
-                loXPropertySet = ooQueryInterface.XPropertySet(loXTextCursor);
-                loXTextSection = (XTextSection)((Any)loXPropertySet.getPropertyValue("TextSection")).getObject();
-                if (loXTextSection != null)
-                {
-                    //loXPropertySet = ooQueryInterface.XPropertySet(loXTextSection);
-                    //XNamed objSectProps = ooQueryInterface.XNamed(loXTextSection);
-                    //lstrSectionName =  objSectProps.getName(); // (String)loXPropertySet.getPropertyValue("LinkDisplayName");
-                    self().currentSelectedSectionName  = ooQueryInterface.XNamed(loXTextSection).getName();
-                    lstrSectionName = getSectionHierarchy(loXTextSection);
-                } else{
-                    self().currentSelectedSectionName = "";
-                }
-            }
-          }
-          catch (java.lang.Exception poException)
-            {
-                log.error("currentSectionName:" + poException.getLocalizedMessage());
-            }
-          finally {  
-             return lstrSectionName; 
-          }
-        }
-
-        
-
-        
-  }
-     
-     private synchronized void initTimers(){
-          sectionNameTimer = new Timer(1000, new CurrentSectionNameUpdater());
-          sectionNameTimer.start();
-     }
-    */
+   
     
     /** This method is called from within the constructor to
      * initialize the form.
@@ -1564,7 +1463,7 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        jScrollPane1 = new javax.swing.JScrollPane();
+        panelSectionTypes = new javax.swing.JScrollPane();
         listSectionTypes = new javax.swing.JList();
         panelNumberingScheme = new javax.swing.JPanel();
         txtSectionType = new javax.swing.JTextField();
@@ -1584,7 +1483,7 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
             public Object getElementAt(int i) { return strings[i]; }
         });
         listSectionTypes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        jScrollPane1.setViewportView(listSectionTypes);
+        panelSectionTypes.setViewportView(listSectionTypes);
 
         txtSectionType.setEditable(false);
 
@@ -1678,7 +1577,7 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
                     .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                     .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                         .add(panelNumberingScheme, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 194, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                        .add(panelSectionTypes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 194, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                     .add(panelSectionTree, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
@@ -1688,7 +1587,7 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
                 .addContainerGap()
                 .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(panelSectionTypes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(15, 15, 15)
                 .add(panelNumberingScheme, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 216, Short.MAX_VALUE)
@@ -1741,11 +1640,11 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
     private javax.swing.JComboBox cboNumberingScheme;
     private javax.swing.JCheckBox checkbxUseParentPrefix;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList listSectionTypes;
     private javax.swing.JPanel panelNumberingScheme;
     private javax.swing.JPanel panelSectionTree;
+    private javax.swing.JScrollPane panelSectionTypes;
     private javax.swing.JTree treeSectionStructure;
     private javax.swing.JTextField txtSectionType;
     // End of variables declaration//GEN-END:variables

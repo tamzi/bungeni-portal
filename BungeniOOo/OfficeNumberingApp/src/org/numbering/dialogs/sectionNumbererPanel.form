@@ -19,7 +19,7 @@
                   <Component id="jLabel1" alignment="0" pref="206" max="32767" attributes="0"/>
                   <Group type="103" alignment="0" groupAlignment="1" attributes="0">
                       <Component id="panelNumberingScheme" alignment="1" min="-2" max="-2" attributes="1"/>
-                      <Component id="jScrollPane1" alignment="1" min="-2" pref="194" max="-2" attributes="0"/>
+                      <Component id="panelSectionTypes" alignment="1" min="-2" pref="194" max="-2" attributes="0"/>
                   </Group>
                   <Component id="panelSectionTree" alignment="0" min="-2" max="-2" attributes="1"/>
               </Group>
@@ -33,7 +33,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" pref="15" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="85" max="-2" attributes="0"/>
+              <Component id="panelSectionTypes" min="-2" pref="85" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
               <Component id="panelNumberingScheme" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="216" max="32767" attributes="0"/>
@@ -43,7 +43,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+    <Container class="javax.swing.JScrollPane" name="panelSectionTypes">
       <AuxValues>
         <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
       </AuxValues>

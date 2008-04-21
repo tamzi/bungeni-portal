@@ -53,9 +53,12 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -1202,17 +1205,16 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
         return selectSection;
     }
     
+    public static Object[] reverse(Object[] arr)
+    {
+        List<Object> list = Arrays.asList(arr);
+        Collections.reverse(list);
+        return list.toArray();
+    }
+    
     private void crossRef(){
-        //get parent section first
-        
-       // Iterator docRefIterator=docReferences.iterator();
-       // while(docRefIterator.hasNext()){
-         //   Object refMark=docRefIterator.next();
-          //  System.out.println("crossRef: refMark " + refMark);
-          //  insertCrossReference(refMark);
-      //  }
-        
-        String strSection="";
+           
+          String strSection="";
           //  strSection = currentSectionName(selectedNodeName);
             selectSection= currentSectionName(selectedNodeName);
             if (selectSection.trim().length() == 0){
@@ -1225,12 +1227,15 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
            }
             
             
-           String[] results = selectSection.split(">");
-            for(int i=0;i<results.length;i++){
-                if(results[i].equalsIgnoreCase("root")){
+           String[] sectionTree = selectSection.split(">");
+           //we have to reverse the array in order to have Child,Parent
+           String [] refs=(String[]) this.reverse(sectionTree);
+           
+            for(int i=0;i<refs.length;i++){
+                if(refs[i].equalsIgnoreCase("root")){
                     
                 }else{
-                    getNumberedHeadingsOnRenumberingProto(results[i]);
+                    getNumberedHeadingsOnRenumberingProto(refs[i]);
                 }
                
                 
@@ -1263,8 +1268,8 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
          Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
          while(typedMatchSectionItr.hasNext()){
            
-            Object matchedSectionElem=typedMatchSectionItr.next();
-           // System.out.println("getNumberedHeadings " + matchedSectionElem);
+         Object matchedSectionElem=typedMatchSectionItr.next();
+          
             
            try{
                

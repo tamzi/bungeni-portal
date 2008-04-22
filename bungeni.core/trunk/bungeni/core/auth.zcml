@@ -1,5 +1,7 @@
 <configure xmlns="http://namespaces.zope.org/zope">
-    
+
+  <include package="zope.component" file="meta.zcml" />
+  
   <!-- Authentication Utility -->
   <adapter
      factory=".auth.authUser"

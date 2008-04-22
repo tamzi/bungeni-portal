@@ -6,14 +6,22 @@
 
   <include package="zope.component" file="meta.zcml" />
   <include package="zope.app.component" file="meta.zcml" />
-  
+
   <include package="ore.alchemist" file="meta.zcml"/>
+  <include package="ore.alchemist" />
+
   <include package="alchemist.catalyst" file="meta.zcml"/>
 
   <include package="ore.xapian" />
   <include package="ore.xapian" file="meta.zcml" />
 
   <include package="bungeni.core.workflows" />
+
+  <!-- Authentication Utility -->
+  
+  <include file="auth.zcml" />
+  <include file="version.zcml"/>
+  <include file="catalyst.zcml"/>
   
   <!-- Setup Database Connection -->
   <db:engine
@@ -29,12 +37,6 @@
   <db:bind
      engine="bungeni-db"
      metadata="alchemist.security.schema.metadata" />
-
-  <!-- Setup Core Model --> 
-  <include package="bungeni.core" file="catalyst.zcml"/>
-
-  <!-- Catalyze Domain Models -->
-  <include file="catalyst.zcml"/>
 
   <!-- Searching -->
   <utility component=".testing.searcher" />
@@ -54,23 +56,6 @@
            zope.publisher.interfaces.IPublisherRequest"
       factory="z3c.traverser.traverser.PluggableTraverser"
       provides="zope.publisher.interfaces.IPublishTraverse"/>
-
-  <!-- Authentication Utility -->
-  <adapter
-     factory=".auth.authUser"
-     />
-     
- <adapter
-     for=".interfaces.IBungeniApplication"
-     provides="zope.securitypolicy.interfaces.IPrincipalRoleMap"
-     factory="alchemist.security.role.adaptprm"
-     />
-          
-  <utility
-     provides="zope.app.authentication.interfaces.IAuthenticatorPlugin"
-     factory="alchemist.security.auth.DatabaseAuthentication"
-     name="rdb-auth"
-     />
 
   <!-- Application setup -->
   <class 

@@ -12,6 +12,7 @@ package org.bungeni.editor.selectors;
 import java.util.ArrayList;
 import java.util.HashMap;
 import org.apache.commons.chain.impl.ContextBase;
+import org.apache.log4j.Logger;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.ooo.OOComponentHelper;
@@ -23,11 +24,15 @@ import org.bungeni.ooo.ooDocMetadataFieldSet;
  * @author Administrator
  */
 public class BungeniFormContext extends ContextBase implements IBungeniFormContext{
+    private static org.apache.log4j.Logger log = Logger.getLogger(BungeniFormContext.class.getName());
+   
+    
     private toolbarAction theAction;
     private toolbarSubAction theSubAction;
     private OOComponentHelper ooDocument;
     private IBungeniForm bungeniForm;
-    private ArrayList<ooDocFieldSet> fieldSets = new ArrayList<ooDocFieldSet>(0);
+    private HashMap<String, ArrayList<Object>> fieldSets = new HashMap<String,ArrayList<Object>>();
+    //private ArrayList<ooDocFieldSet> fieldSets = new ArrayList<ooDocFieldSet>(0);
     private ArrayList<ooDocMetadataFieldSet> metadataFieldSets = new ArrayList<ooDocMetadataFieldSet>(0);
     private HashMap<String,Object> preInsertMap = new HashMap<String, Object>();
     /** Creates a new instance of BungeniFormContext */
@@ -75,12 +80,40 @@ public class BungeniFormContext extends ContextBase implements IBungeniFormConte
         this.bungeniForm = frm;
     }
 
+    public void addFieldSet(String fieldKey) {
+        if (fieldSets.containsKey(fieldKey)) {
+            return;
+        } else {
+            fieldSets.put(fieldKey, new ArrayList<Object>(0));
+        }
+    }
+            
+    public ArrayList<Object> getFieldSets(String fieldKey) {
+        ArrayList<Object> theSet = null;
+        try {
+            theSet = fieldSets.get(fieldKey);
+        } catch (Exception ex) {
+            log.error("getFieldSets exception:"+ ex.getMessage());
+        } finally {
+            return theSet;
+        }
+    }
+    
+    public Object popObjectFromFieldSet(String fieldKey) {
+        ArrayList<Object> fieldsets = getFieldSets(fieldKey);
+        if( fieldsets == null ) return null;
+        Object retObject = fieldsets.get(0);
+        fieldsets.remove(0);
+        return retObject;
+    }
+    /*
     public ArrayList<ooDocFieldSet> getFieldSets() {
         return fieldSets;
     }
-
-    public void setFieldSets(ArrayList<ooDocFieldSet> fieldSets) {
-        this.fieldSets = fieldSets;
+    */
+    
+    public void setFieldSets(String key, ArrayList<Object> arrFieldSets) {
+        this.fieldSets.put(key, arrFieldSets);
     }
 
     public ArrayList<ooDocMetadataFieldSet> getMetadataFieldSets() {

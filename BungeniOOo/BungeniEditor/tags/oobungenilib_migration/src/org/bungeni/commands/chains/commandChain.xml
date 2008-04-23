@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : commandChain.xml.xml
+    Created on : December 20, 2007, 12:53 PM
+    Author     : Administrator
+    Description:
+        Purpose of the document follows.
+-->
+<catalogs>
+    <catalog name="debaterecord">
+        <chain name="debateRecordFullInsertMasthead">
+            <command   id="addSectionIntoSectionWithStyling"
+                       className="org.bungeni.commands.addSectionIntoSectionWithStyling"/>
+            <command   id="setSectionMetadataForAction"
+                       className="org.bungeni.commands.setSectionMetadataForAction"/>
+            <command   id="addImageIntoSection"
+                       className="org.bungeni.commands.addImageIntoSection"/>
+            <command   id="addDocumentIntoSection"
+                       className="org.bungeni.commands.addDocumentIntoSection"/>
+            <command   id="setInputFieldValue"
+                       className="org.bungeni.commands.setInputFieldValue"/>
+            <command   id="setInputFieldValue2"
+                       className="org.bungeni.commands.setInputFieldValue"/>
+            <command   id="addDocumentMetadata"
+                       className="org.bungeni.commands.addDocumentMetadata"/>
+        </chain>
+        <chain name="debateRecordFullEditMasthead">
+            <command   id="debateRecordFullEditMasthead.setInputFieldValue"
+                       className="org.bungeni.commands.setInputFieldValue"/>
+            <command   id="debateRecordFullEditMasthead.setInputFieldValue2"
+                       className="org.bungeni.commands.setInputFieldValue"/>
+            <command   id="debateRecordFullEditMasthead.addDocumentMetadata"
+                       className="org.bungeni.commands.addDocumentMetadata"/>
+        </chain>
+        <chain name="debateRecordFullSelectedEditMasthead">
+
+        </chain>
+        <chain name="debateRecordFullSelectedInsertMasthead">
+        </chain>
+        <chain name="debateRecordFullInsertPapers">
+            <command   id="debateRecordFullInsertPapers.condAddSectionInsideSection"
+                   className="org.bungeni.commands.addSectionInsideSection" />   
+            <command   id="debateRecordFullInsertPapers.condAddSectionAfterSection"
+                   className="org.bungeni.commands.insertSectionAfterSection" />
+            <command   id="debateRecordFullInsertPapers.addDocIntoSection"
+                   className="org.bungeni.commands.addDocumentIntoSection" />
+            <command   id="debateRecordFullInsertPapers.searchAndReplace"
+                   className="org.bungeni.commands.searchAndReplace" />   
+            <command   id="debateRecordFullInsertPapers.insertArrayAsBulletList"
+                   className="org.bungeni.commands.insertArrayAsBulletList" />   
+       </chain>
+        <chain name="debateRecordFullEditPapers">
+        </chain>
+        <chain name="debateRecordFullSelectedEditPapers">
+        </chain>
+        <chain name="debateRecordFullSelectedInsertPapers">
+        </chain>    
+        <chain name="importTabledDocuments">
+        <command   id="importTabledDocuments.insertArrayAsBulletList"
+                   className="org.bungeni.commands.insertArrayAsBulletListAtCursor" /> 
+        </chain>
+        <chain name="debateRecordFullInsertQA">
+            <command   id="drfiQA.addSectionIntoSectionWithStyling"
+                       className="org.bungeni.commands.addSectionIntoSectionWithStyling"/>
+            <command   id="drfiQA.setSectionMetadataForAction"
+                       className="org.bungeni.commands.setSectionMetadataForAction"/>
+            <command   id="drfiQA.addDocumentIntoSection"
+                       className="org.bungeni.commands.addDocumentIntoSection"/>
+            <command   id="drfiQA.searchAndReplace" 
+                        className="org.bungeni.commands.searchAndReplace" />
+        </chain>
+        <chain name="debateRecordFullInsertQuestionBlock">
+            <command   id="drfiQB.addSectionIntoSectionWithStyling"
+                       className="org.bungeni.commands.addSectionIntoSectionWithStyling"/>
+            <command   id="drfiQB.setSectionMetadata"
+                       className="org.bungeni.commands.setSectionMetadata"/>
+            <command   id="drfiQB.addDocumentIntoSection"
+                       className="org.bungeni.commands.addDocumentIntoSection"/>
+            <command   id="drfiQB.searchAndReplace"
+                       className="org.bungeni.commands.searchAndReplace"/>
+                       <!--USE FIELDSETS--->
+            <command   id="drfiQB.addSectionIntoSectionWithStyling2"
+                       className="org.bungeni.commands.addSectionIntoSectionWithStyling"/>
+            <command   id="drfiQB.importHtmlIntoSection"
+                       className="org.bungeni.commands.importHtmlIntoSection"/>
+                       <!---USE FIELDSETS--->
+            <command   id="drfiQB.searchAndReplace2"
+                       className="org.bungeni.commands.searchAndReplace"/>
+            <command   id="drfiQB.renameSection"
+                       className="org.bungeni.commands.renameSection"/>
+         
+        </chain>        
+    </catalog>
+    <catalog name="testCatalog">
+        <chain name="testChain">
+            <command id="testCommand" className="org.bungeni.commands.testCommand" />
+        </chain>   
+    </catalog>
+</catalogs>
+

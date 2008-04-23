@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="BungeniEditorClient-uno-impl" default="default" basedir="..">
+    <description>Builds, tests, and runs an UNO project.</description>
+
+    <import file="build-impl.xml"/>
+
+    <target name="-uno-project-init" depends="-do-init">
+        <property file="nbproject/project-uno.properties"/>
+        <fileset id="bootstrap.glue.code" dir="${oo.sdk.home}${file.separator}classes">
+            <patternset>
+                <include name="com/sun/star/lib/loader/*.class"/>
+                <include name="win/unowinreg.dll"/>
+            </patternset>
+        </fileset>        
+    </target>
+       
+    <target name="jar" depends="-uno-project-init,compile,-pre-jar,-do-jar-with-manifest,-do-jar-without-manifest,-do-jar-with-mainclass,-do-jar-with-libraries,-post-jar">
+
+        <jar basedir="${build.classes.dir}" compress="true" jarfile="${dist.jar}">
+            <fileset refid="bootstrap.glue.code"/>
+            
+            <manifest>
+                <attribute name="Main-Class" value="com.sun.star.lib.loader.Loader"/>
+                <section name="com/sun/star/lib/loader/Loader.class">
+                    <attribute name="Application-Class" value="${main.class}"/>
+                </section>
+            </manifest>
+            
+        </jar>
+        
+    </target>
+        
+</project>

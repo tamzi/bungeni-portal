@@ -87,7 +87,7 @@ import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.ooo.OOComponentHelper;
-import org.bungeni.utils.CommonExceptionUtils;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.CommonPropertyFunctions;
 import org.bungeni.utils.MessageBox;
 import org.jdesktop.swingx.JXDatePicker;

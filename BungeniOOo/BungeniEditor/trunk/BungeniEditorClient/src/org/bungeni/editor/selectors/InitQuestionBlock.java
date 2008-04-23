@@ -9,6 +9,7 @@ package org.bungeni.editor.selectors;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.text.XTextSection;
 import com.sun.star.uno.AnyConverter;
+import java.awt.Component;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -20,6 +21,7 @@ import java.util.Set;
 import java.util.Vector;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import org.apache.commons.collections.functors.TruePredicate;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.BungeniRegistryFactory;
 import org.bungeni.db.DefaultInstanceFactory;
@@ -28,6 +30,7 @@ import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.db.registryQueryDialog;
 import org.bungeni.editor.actions.toolbarAction;
+import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.editor.fragments.FragmentsFactory;
 import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
@@ -42,7 +45,7 @@ import org.safehaus.uuid.UUIDGenerator;
  *
  * @author  Administrator
  */
-public class InitQuestionBlock extends selectorTemplatePanel  {
+public class InitQuestionBlock extends selectorTemplatePanel implements IBungeniForm  {
   
     registryQueryDialog rqs;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(InitQuestionBlock.class.getName());
@@ -55,7 +58,8 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
     private String sourceSectionName;
     /** Creates new form InitQuestionBlock */
     public InitQuestionBlock() {
-        initComponents();
+      //  initComponents();
+        super();
     }
     public InitQuestionBlock(OOComponentHelper ooDocument, JDialog parentDlg, toolbarAction theAction) {
         super(ooDocument, parentDlg, theAction);
@@ -65,7 +69,28 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
 
     }
    
-    
+  public void initObject(OOComponentHelper ooDoc, JDialog dlg, toolbarAction act, toolbarSubAction subAct) {
+    super.initObject( ooDoc, dlg, act, subAct);
+    init();
+    //setControlModes();
+}
+
+  
+  public void init(){
+      super.init();
+      initComponents();
+  }
+
+  public void createContext(){
+      super.createContext();
+      formContext.setBungeniForm(this);
+  }
+
+public String getClassName(){
+    return this.getClass().getName();
+}
+
+  
     private void xinit() {
         txtQuestionText.setContentType("text/html");
         setControlModes();
@@ -202,20 +227,29 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
         txtQuestionText = new javax.swing.JTextPane();
 
         lblQuestionText.setText("Question Text");
+        lblQuestionText.setName("lbl_question_text");
 
         btnSelectQuestion.setText("Select a Question...");
         btnSelectQuestion.setActionCommand("Select a Question");
+        btnSelectQuestion.setName("btn_select_question");
         btnSelectQuestion.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSelectQuestionActionPerformed(evt);
             }
         });
 
+        txtQuestionTitle.setName("txt_question_title");
+
         lblQuestionTitle.setText("Question Title ");
+        lblQuestionTitle.setName("lbl_question_title");
+
+        txtPersonName.setName("txt_person_name");
 
         lblNameOfPersonFrom.setText("Edit name of Person asking Question");
+        lblNameOfPersonFrom.setName("lbl_person_name");
 
         btnApply.setText("Apply");
+        btnApply.setName("btn_apply");
         btnApply.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnApplyActionPerformed(evt);
@@ -223,13 +257,17 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
         });
 
         btnCancel.setText("Close");
+        btnCancel.setName("btn_cancel");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnCancelActionPerformed(evt);
             }
         });
 
+        txtAddressedTo.setName("txt_question_to");
+
         lblQuestionAddressedTo.setText("Question Addressed To :");
+        lblQuestionAddressedTo.setName("lbl_question_to");
 
         txtMessageArea.setBackground(new java.awt.Color(204, 204, 204));
         txtMessageArea.setColumns(20);
@@ -241,7 +279,11 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
         scrollMessageArea.setViewportView(txtMessageArea);
 
         lblPersonURI.setText("URI of Person");
+        lblPersonURI.setName("lbl_person_uri");
 
+        txtPersonURI.setName("txt_person_uri");
+
+        txtQuestionText.setName("txt_question_text");
         scrollQuestionText.setViewportView(txtQuestionText);
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
@@ -319,8 +361,165 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
         return;
     }
     
+    public boolean preFullInsert(){
+        /*
+            UUIDGenerator gen = UUIDGenerator.getInstance();
+            UUID uuid = gen.generateTimeBasedUUID();
+            String tmpFileName = uuid.toString().replaceAll("-", "")+".html";
+            String pathToFile = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH() + File.separator+ "tmp" + File.separator;
+                BufferedWriter out;
+                    out = new BufferedWriter(new FileWriter(new File(pathToFile + tmpFileName)));
+            out.write(QuestionText);
+            out.close();
+            log.debug("tmpFile Name = " + pathToFile+tmpFileName);
+            //selection mode
+            //insert mode
+       */
+            //now add the section
+            // commented on 13 Sep 2007
+            //ooDocument.addViewSection(QuestionId, new Integer(0xffffe1));
+            /*
+             *Add question section into the QA section
+             */
+             
+            log.debug("adding section inside section");
+            long sectionBackColor = 0xffffff;
+            float sectionLeftMargin = (float).2;
+            
+            String AddressedTo = txtAddressedTo.getText();
+            String PersonName = txtPersonName.getText();
+            String QuestionText = txtQuestionText.getText();
+            String QuestionTitle = txtQuestionTitle.getText();
+            String URI = selectionData.get("QUESTION_FROM");
+            String QuestionId = selectionData.get("ID");
+            HashMap<String,String> mainQuestionmeta = new HashMap<String,String>();
+            mainQuestionmeta.put("Bungeni_QuestionID", QuestionId);
+            mainQuestionmeta.put("Bungeni_QuestionTitle", QuestionTitle);
+            mainQuestionmeta.put("Bungeni_QuestionMemberFrom", PersonName);
+            mainQuestionmeta.put("Bungeni_QuestionMemberFromURI", URI);
+            mainQuestionmeta.put("Bungeni_QuestionAddressedTo", AddressedTo);
+            mainQuestionmeta.put("BungeniSectionType", theAction.action_section_type());
+            
+            String strActionSectionName = getActionSectionName();
+            formContext.addFieldSet("section_back_color");
+            formContext.getFieldSets("section_back_color").add(Long.toHexString(sectionBackColor));
+         
+            formContext.addFieldSet("section_left_margin");
+            formContext.getFieldSets("section_left_margin").add(Float.toString(sectionLeftMargin));
+            
+            formContext.addFieldSet("container_section");
+            formContext.getFieldSets("container_section").add(ooDocument.currentSectionName());
+            
+            formContext.addFieldSet("current_section");
+            formContext.getFieldSets("current_section").add(strActionSectionName);
+            
+            /*
+            thePreInsertMap.put("section_back_color", Long.toHexString(sectionBackColor));
+            thePreInsertMap.put("section_left_margin", Float.toString(sectionLeftMargin));
+            thePreInsertMap.put("container_section", ooDocument.currentSectionName());
+            thePreInsertMap.put("current_section", strActionSectionName);
+            */
+             /*used for setting metadata*/
+            formContext.addFieldSet("new_section");
+            formContext.getFieldSets("new_section").add(strActionSectionName);
+            
+            /*
+            formContext.getFieldSets().add(new ooDocFieldSet(new String("debaterecord_official_date"),
+                                            (String) theControlDataMap.get("dt_initdebate_hansarddate"),
+                                             new String("int:masthead_datetime")));
+            formContext.getFieldSets().add(new ooDocFieldSet(new String("debaterecord_official_time"),
+                                            (String) theControlDataMap.get("dt_initdebate_timeofhansard"),
+                                             new String("int:masthead_datetime")));            
+            */
+
+            formContext.addFieldSet("document_section_metadata");
+            formContext.getFieldSets("document_section_metadata").add(mainQuestionmeta);
+            /*
+            thePreInsertMap.put("document_section_metadata", mainQuestionmeta);
+            */
+            
+            formContext.addFieldSet("document_fragment");
+            formContext.getFieldSets("document_fragment").add(FragmentsFactory.getFragment("hansard_question"));
+            //thePreInsertMap.put("document_fragment" , FragmentsFactory.getFragment("hansard_question"));
+            formContext.addFieldSet("search_for");
+            formContext.getFieldSets("search_for").add("[[QUESTION_TITLE]]");
+            //thePreInsertMap.put("search_for", "[[QUESTION_TITLE]]");
+            formContext.addFieldSet("replacement_text");
+            formContext.getFieldSets("replacement_text").add(QuestionTitle );
+            /*
+            thePreInsertMap.put("replacement_text", QuestionTitle );
+            */
+            //generate new section name
+            String newSectionName = strActionSectionName + "-que1" ;
+            int nCounter = 1;
+            while (ooDocument.getTextSections().hasByName(newSectionName) ) {
+                nCounter++;
+                newSectionName = strActionSectionName + "-que"+nCounter;
+            }
+   
+            formContext.getFieldSets("section_back_color").add(Long.toHexString(0xffffff));
+            formContext.getFieldSets("section_left_margin").add(Float.toString((float).4));
+            formContext.getFieldSets("container_section").add(strActionSectionName);
+            formContext.getFieldSets("current_section").add(newSectionName);
+            HashMap<String,String> subQuestionMeta = new HashMap<String,String>();
+            subQuestionMeta.put("BungeniSectionType", "Question");
+            formContext.getFieldSets("document_section_metadata").add(subQuestionMeta);
+            
+            //add document into section
+            formContext.getFieldSets("current_section").add(newSectionName);
+            formContext.getFieldSets("document_fragment").add(FragmentsFactory.getFragment("hansard_question_text"));
+            //search and replace
+            formContext.getFieldSets("search_for").add("[[QUESTION_FROM]]");
+            formContext.getFieldSets("replacement_text").add(PersonName);
+            formContext.addFieldSet("bookmark_range");
+            String[] bookmarkRanges = {"begin-question_from", "end-question_from"};
+            formContext.getFieldSets("bookmark_range").add(bookmarkRanges);
+            formContext.addFieldSet("url_name");
+            formContext.addFieldSet("url_hyperlink");
+            formContext.getFieldSets("url_hyperlink").add("Name: "+PersonName+ ";URI: "+selectionData.get("QUESTION_FROM"));
+            formContext.getFieldSets("url_name").add("member_url");
+            
+            
+        return true;
+    }
+    
+    public boolean processFullInsert() {
+        return true;
+    }
+   
+    public boolean postFullInsert(){
+        return true;
+    }
+    
+    public boolean preValidationFullInsert(){
+        //http://www.fastcompany.com/node/798964/print
+        //check if question exists in document.
+        return true;
+    }
+    
+   public boolean validateFieldValue(Component field, Object fieldValue ) {
+        String formFieldName = field.getName();
+        //by default always succeed
+        boolean bFailure=true;
+      //table validations need to be handled directly.
+        if (formFieldName.equals("txt_question_title")) {
+            bFailure = validateSelectedQuestion(field);
+        }
+     return bFailure;
+     }
+    
+   private boolean validateSelectedQuestion(Component field) {
+      if (selectionData.size() == 0 ) {
+             checkFieldsMessages.add("Please select a question first!");
+            return false;            
+        }
+        return true;
+   }
+   
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt)  {//GEN-FIRST:event_btnApplyActionPerformed
 // TODO add your handling code here:
+        super.formApply();
+        
         returnError(false);
         
         String AddressedTo = txtAddressedTo.getText();
@@ -579,32 +778,9 @@ public class InitQuestionBlock extends selectorTemplatePanel  {
             String renamedSectionName = "meta-mp-"+uuid.toString();
             RenameSection.addParameter(renamedSectionName);
             ooDocument.executeMacro(RenameSection.toString(), RenameSection.getParams());
-            /**** commented by ashok on nov 13 2007 *****
-            String[] attrNames = new String[5];
-            String[] attrValues = new String[5];
-            attrNames[0] = "Bungeni_QuestionMemberFrom";
-            attrNames[1] = "Bungeni_QuestionMemberFromURI" ;
-            attrNames[2] = "Bungeni_QuestionID";
-            attrNames[3] = "Bungeni_QuestionAddressedTo";
-            attrNames[4] = "Bungeni_QuestionTitle";
-            
-            attrValues[0] = PersonName;
-            attrValues[1] = URI;
-            attrValues[2] = QuestionId;
-            attrValues[3] = AddressedTo;
-            attrValues[4] = QuestionTitle;
-             ***** november 13 2007 *****/
             /*
              *Set metadata into section
              */
-            /***nove 13*****
-            ExternalMacro SetSectionMetadata = ExternalMacroFactory.getMacroDefinition("SetSectionMetadata");
-            SetSectionMetadata.addParameter(ooDocument.getComponent());
-            SetSectionMetadata.addParameter(newSectionName );
-            SetSectionMetadata.addParameter(attrNames);
-            SetSectionMetadata.addParameter(attrValues);
-            ooDocument.executeMacro(SetSectionMetadata.toString(), SetSectionMetadata.getParams());
-            *****/
             /*
              *Import html document framgment 
              */

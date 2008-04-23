@@ -49,7 +49,7 @@ import org.bungeni.editor.toolbar.BungeniToolbarXMLAdapterNode;
 import org.bungeni.editor.toolbar.BungeniToolbarXMLTreeNodeProcessor;
 import org.bungeni.editor.toolbar.conditions.BungeniToolbarConditionProcessor;
 import org.bungeni.ooo.OOComponentHelper;
-import org.bungeni.utils.CommonExceptionUtils;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.CommonTreeFunctions;
 
 /**
@@ -174,7 +174,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         treeGeneralEditor.setRootVisible(false);
         } catch (Exception ex) {
             log.error("InitTree: exception: " + ex.getMessage());
-            log.error("InitTree: stacktrace : " + org.bungeni.utils.CommonExceptionUtils.getStackTrace(ex));
+            log.error("InitTree: stacktrace : " + org.bungeni.ooo.utils.CommonExceptionUtils.getStackTrace(ex));
         }
     }
     
@@ -209,7 +209,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
         }
         } catch (Exception ex) {
             log.error ("createSelecitonNodes, Exception : "+ ex.getMessage());
-            log.error("createSelecitonNodes, StackTrace : "+ org.bungeni.utils.CommonExceptionUtils.getStackTrace(ex));
+            log.error("createSelecitonNodes, StackTrace : "+ org.bungeni.ooo.utils.CommonExceptionUtils.getStackTrace(ex));
         }
     }
    
@@ -939,7 +939,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                 
                 } catch (Exception ex) {
                     log.error("cellRender error: " + ex.getMessage());
-                    log.error("cellRender stackTrace: "+ org.bungeni.utils.CommonExceptionUtils.getStackTrace(ex));
+                    log.error("cellRender stackTrace: "+ org.bungeni.ooo.utils.CommonExceptionUtils.getStackTrace(ex));
                 } finally {
                 return this;
                 }
@@ -1091,7 +1091,7 @@ class treeGeneralEditorCellRenderer extends JLabel implements TreeCellRenderer {
                 
                 } catch (Exception ex) {
                     log.error("cellRender error: " + ex.getMessage());
-                    log.error("cellRender stackTrace: "+ org.bungeni.utils.CommonExceptionUtils.getStackTrace(ex));
+                    log.error("cellRender stackTrace: "+ org.bungeni.ooo.utils.CommonExceptionUtils.getStackTrace(ex));
                 } finally {
                 return this;
                 }

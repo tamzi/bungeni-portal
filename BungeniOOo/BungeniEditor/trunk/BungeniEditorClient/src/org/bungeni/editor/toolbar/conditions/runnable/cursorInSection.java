@@ -13,7 +13,7 @@ import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.toolbar.conditions.BungeniToolbarCondition;
 import org.bungeni.editor.toolbar.conditions.IBungeniToolbarCondition;
 import org.bungeni.ooo.OOComponentHelper;
-import org.bungeni.utils.CommonExceptionUtils;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 
 /**
  * 

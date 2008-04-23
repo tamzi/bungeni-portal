@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import org.bungeni.editor.toolbar.conditions.operators.baseOperator;
 import org.bungeni.ooo.OOComponentHelper;
-import org.bungeni.utils.CommonExceptionUtils;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 
 /**
  *

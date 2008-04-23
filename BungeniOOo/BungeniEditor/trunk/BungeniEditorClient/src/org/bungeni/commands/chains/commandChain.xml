@@ -71,7 +71,25 @@
                         className="org.bungeni.commands.searchAndReplace" />
         </chain>
         <chain name="debateRecordFullInsertQuestionBlock">
-
+            <command   id="drfiQB.addSectionIntoSectionWithStyling"
+                       className="org.bungeni.commands.addSectionIntoSectionWithStyling"/>
+            <command   id="drfiQB.setSectionMetadata"
+                       className="org.bungeni.commands.setSectionMetadata"/>
+            <command   id="drfiQB.addDocumentIntoSection"
+                       className="org.bungeni.commands.addDocumentIntoSection"/>
+            <command   id="drfiQB.searchAndReplace"
+                       className="org.bungeni.commands.searchAndReplace"/>
+                       <!--USE FIELDSETS--->
+            <command   id="drfiQB.addSectionIntoSectionWithStyling2"
+                       className="org.bungeni.commands.addSectionIntoSectionWithStyling"/>
+            <command   id="drfiQB.importHtmlIntoSection"
+                       className="org.bungeni.commands.importHtmlIntoSection"/>
+                       <!---USE FIELDSETS--->
+            <command   id="drfiQB.searchAndReplace2"
+                       className="org.bungeni.commands.searchAndReplace"/>
+            <command   id="drfiQB.renameSection"
+                       className="org.bungeni.commands.renameSection"/>
+         
         </chain>        
     </catalog>
     <catalog name="testCatalog">

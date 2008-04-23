@@ -48,6 +48,7 @@ import com.sun.star.util.XSearchDescriptor;
 import com.sun.star.util.SearchOptions;
 import com.sun.star.view.XViewCursor;
 import com.sun.star.xforms.XModel;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -64,6 +65,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.Timer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -77,6 +79,10 @@ import numberingscheme.impl.IGeneralNumberingScheme;
 import numberingscheme.impl.NumberRange;
 import numberingscheme.impl.NumberingSchemeFactory;
 import org.bungeni.editor.BungeniEditorProperties;
+import org.bungeni.editor.actions.EditorActionFactory;
+import org.bungeni.editor.actions.IEditorActionEvent;
+import org.bungeni.editor.actions.toolbarAction;
+import org.bungeni.editor.panels.ICollapsiblePanel;
 import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.ooo.OOComponentHelper;
 import org.apache.log4j.Logger;
@@ -92,7 +98,7 @@ import org.bungeni.utils.MessageBox;
  *
  * @author  undesa
  */
-public class sectionNumbererPanel extends javax.swing.JPanel {
+public class sectionNumbererPanel extends javax.swing.JPanel implements ICollapsiblePanel{
     private XComponentContext xContext;
     private OOComponentHelper ooDocument;
     private XComponent xComponent;
@@ -123,7 +129,8 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     private boolean emptyRootNode = false;
     private boolean cancelClicked = false;
     private String[] m_validParentSections;
-    private String selectedNodeName="";;
+    private String selectedNodeName="";
+     private JFrame parentFrame;
     /** Creates new form sectionNumbererPanel */
     public sectionNumbererPanel() {
        
@@ -140,12 +147,11 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         loadJlist();
         listSectionTypes.addListSelectionListener(new NumberingSchemeListener());
         panelNumberingScheme.setVisible(false);
-      // panelSectionTree.setVisible(false);
         checkbxUseParentPrefix.setSelected(false);
         checkbxUseParentPrefix.addItemListener(new ParentSchemeListener());
         packReferences();
-       initTree();
-       initSectionList();
+        initTree();
+        initSectionList();
        
     }
     
@@ -165,10 +171,16 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                 System.out.println("no root section found");
                 return;
             }
+            
+             
             Object rootSection = ooDocument.getTextSections().getByName("root");
             XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
             
-           recurseSections (theSection);
+            //create the tree here
+             sectionRootNode = new DefaultMutableTreeNode(new String("root"));
+             CommonTreeFunctions.expandAll(treeSectionStructure);
+            
+           recurseSections (theSection,sectionRootNode);
             
             
          }catch (NoSuchElementException ex) {
@@ -180,7 +192,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         
     }
     
-    private void recurseSections(XTextSection theSection){
+    private void recurseSections(XTextSection theSection,DefaultMutableTreeNode node){
        
        
           //recurse children
@@ -192,7 +204,12 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                         XNamed xSecName = ooQueryInterface.XNamed(sections[nSection]);
                         String childSectionName = (String) xSecName.getName();
                         sectionMetadataMap=ooDocument.getSectionMetadataAttributes(childSectionName);
-                         System.out.println("SectionMetadataLoad childSectionName: " + childSectionName);
+                        System.out.println("SectionMetadataLoad childSectionName: " + childSectionName);
+                         
+                        //build section tree here also 
+                        DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(childSectionName);
+                        node.add(newNode);
+                         
                        if(sectionMetadataMap.size()>0){
                             
                         Iterator metaIterator = sectionMetadataMap.keySet().iterator();
@@ -213,7 +230,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                                  }  
                                  
                             }
-                             recurseSections(sections[nSection]);
+                             recurseSections(sections[nSection],newNode);
                        
                      }
                    
@@ -274,6 +291,8 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                         
                         String childSectionName = (String) xSecName.getName();
                         //String currentParentSectionName = (String) xParentSecName.getName();
+                        
+                        
                         
                         
                         sectionMetadataMap=ooDocument.getSectionMetadataAttributes(childSectionName);
@@ -1163,7 +1182,7 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
     
     private void crossRef(){
            
-          String strSection="";
+           String strSection="";
           //  strSection = currentSectionName(selectedNodeName);
             selectSection= currentSectionName(selectedNodeName);
             if (selectSection.trim().length() == 0){
@@ -1175,7 +1194,7 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
                  
            }
             
-            
+           //split the section hierarchy into an array
            String[] sectionTree = selectSection.split(">");
            //we have to reverse the array in order to have Child,Parent
            String [] refs=(String[]) this.reverse(sectionTree);
@@ -1307,13 +1326,13 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
     }
   
         private void initSectionList() {
-         initTreeSectionsArray();   
+        // initTreeSectionsArray();   
          treeSectionStructure.setModel(new DefaultTreeModel(sectionRootNode));
          treeSectionStructure.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
          CommonTreeFunctions.expandAll(treeSectionStructure);
       }
     
-
+/*
     private void initTreeSectionsArray() {
         try {
             if (!ooDocument.isXComponentValid()) return;
@@ -1373,7 +1392,7 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
             log.error(ex.getMessage());
         }
     }
-     
+     */
      class treeSectionStructureSelectionListener implements TreeSelectionListener {
          DefaultMutableTreeNode selNode;
          
@@ -1570,6 +1589,24 @@ private void getReferenceFromSection(XTextRange aTextRange, Object elem){
      
         
     }//GEN-LAST:event_btnApplyNumberingSchemeActionPerformed
+
+    public void setOOComponentHandle(OOComponentHelper ooComponent) {
+        ooDocument = ooComponent;
+    }
+
+    public Component getObjectHandle() { 
+        return this;
+        
+    }
+
+    public IEditorActionEvent getEventClass(toolbarAction action) {
+        IEditorActionEvent event = EditorActionFactory.getEventClass(action);
+        return event;
+    }
+
+    public void setParentWindowHandle(JFrame c) {
+        this.parentFrame = c;
+    }
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApplyNumberingScheme;

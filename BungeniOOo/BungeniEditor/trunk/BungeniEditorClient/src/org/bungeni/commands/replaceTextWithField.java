@@ -27,9 +27,9 @@ public class replaceTextWithField implements Command {
     public boolean execute(Context context) throws Exception {
         BungeniFormContext formContext = (BungeniFormContext) context;
         //IBungeniForm iForm = formContext.getBungeniForm();
-        ooDocFieldSet fieldSet = formContext.getFieldSets().get(0);
+        ooDocFieldSet fieldSet = (ooDocFieldSet) formContext.getFieldSets("document_field_set").get(0);
         boolean bRet = CommonActions.action_replaceTextWithField(formContext.getOoDocument(), fieldSet.getFieldName(), fieldSet.getFieldValue());
-        formContext.getFieldSets().remove(fieldSet);
+        formContext.getFieldSets("document_field_set").remove(fieldSet);
         return false;
     }
     

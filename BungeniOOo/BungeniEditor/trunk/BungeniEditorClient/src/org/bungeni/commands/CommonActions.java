@@ -172,6 +172,30 @@ public class CommonActions {
          }
     }  
 
+    public static boolean action_searchAndReplace2(OOComponentHelper ooDoc, String searchFor, String replaceWith, String[] arrBookmarkRange, String urlString, String urlName) {
+        boolean bState = false; 
+       try {
+           ExternalMacro searchAndReplace= ExternalMacroFactory.getMacroDefinition("SearchAndReplace2");
+            searchAndReplace.addParameter(ooDoc.getComponent());
+            searchAndReplace.addParameter(searchFor);
+            searchAndReplace.addParameter(replaceWith);
+            searchAndReplace.addParameter(arrBookmarkRange);
+            searchAndReplace.addParameter(urlString);
+            searchAndReplace.addParameter(urlName);
+            
+            ooDoc.executeMacro( searchAndReplace.toString(),  searchAndReplace.getParams());
+            bState= true;
+        } catch (Exception ex) {
+            log.error("action_searchAndReplace2: error : " + ex.getMessage());
+            log.error("in action_searchAndReplace2:" + CommonExceptionUtils.getStackTrace(ex));
+            //checkFieldsMessages.add(ex.getLocalizedMessage());
+            bState=false;
+         }   finally {
+             return bState;
+         }
+    }  
+
+    
     public static boolean action_createRootSection(OOComponentHelper ooDoc, String sectionName) {
         boolean bResult = false;
         try {
@@ -237,6 +261,25 @@ public class CommonActions {
         } catch (Exception ex) {
             log.error("action_insertArrayAsBulletList: error : " + ex.getMessage());
             log.error("in action_insertArrayAsBulletList:" + CommonExceptionUtils.getStackTrace(ex));
+            //checkFieldsMessages.add(ex.getLocalizedMessage());
+            bState=false;
+         }   finally {
+             return bState;
+         }
+     }
+     
+     public static boolean action_renameSection(OOComponentHelper ooDoc, String oldName, String newName) {
+        boolean bState = false; 
+        try {
+            ExternalMacro RenameSection = ExternalMacroFactory.getMacroDefinition("RenameSection");
+            RenameSection.addParameter(ooDoc.getComponent());
+            RenameSection.addParameter(oldName);
+            RenameSection.addParameter(newName);
+            ooDoc.executeMacro(RenameSection.toString(), RenameSection.getParams());
+             bState= true;
+        } catch (Exception ex) {
+            log.error("action_renameSection: error : " + ex.getMessage());
+            log.error("in action_renameSection:" + CommonExceptionUtils.getStackTrace(ex));
             //checkFieldsMessages.add(ex.getLocalizedMessage());
             bState=false;
          }   finally {

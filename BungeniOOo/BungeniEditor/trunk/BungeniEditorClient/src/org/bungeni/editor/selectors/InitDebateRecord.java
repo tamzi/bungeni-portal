@@ -429,12 +429,19 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
             thePreInsertMap.put("new_section", newSectionName);
             thePreInsertMap.put("selected_logo", (String) theControlDataMap.get("txt_initdebate_selectlogo"));
             thePreInsertMap.put("document_fragment", (String) FragmentsFactory.getFragment("hansard_masthead"));
-            formContext.getFieldSets().add(new ooDocFieldSet(new String("debaterecord_official_date"),
+            
+            formContext.addFieldSet("document_field_set");
+            formContext.getFieldSets("document_field_set").add(
+                    new ooDocFieldSet(new String("debaterecord_official_date"),
                                             (String) theControlDataMap.get("dt_initdebate_hansarddate"),
-                                             new String("int:masthead_datetime")));
-            formContext.getFieldSets().add(new ooDocFieldSet(new String("debaterecord_official_time"),
+                                             new String("int:masthead_datetime"))
+                    );
+            formContext.getFieldSets("document_field_set").add(
+                     new ooDocFieldSet(new String("debaterecord_official_time"),
                                             (String) theControlDataMap.get("dt_initdebate_timeofhansard"),
-                                             new String("int:masthead_datetime")));
+                                             new String("int:masthead_datetime"))                    
+                   );
+
             formContext.getMetadataFieldSets().add(new ooDocMetadataFieldSet("Bungeni_DebateOfficialDate", (String) theControlDataMap.get("dt_initdebate_hansarddate")));
             formContext.getMetadataFieldSets().add(new ooDocMetadataFieldSet("Bungeni_DebateOfficialTime", (String) theControlDataMap.get("dt_initdebate_timeofhansard")));
             
@@ -554,11 +561,11 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
      String containerSection = theAction.getSelectedSectionToActUpon();
      String datetimeContainerSection = "int:masthead_datetime";
      if (ooDocument.hasSection(containerSection) && ooDocument.hasSection(datetimeContainerSection)) {
-     
-           formContext.getFieldSets().add(new ooDocFieldSet(new String("debaterecord_official_date"),
+           formContext.addFieldSet("document_field_set");
+           formContext.getFieldSets("document_field_set").add(new ooDocFieldSet(new String("debaterecord_official_date"),
                                             (String) theControlDataMap.get("dt_initdebate_hansarddate"),
                                             datetimeContainerSection));
-           formContext.getFieldSets().add(new ooDocFieldSet(new String("debaterecord_official_time"),
+           formContext.getFieldSets("document_field_set").add(new ooDocFieldSet(new String("debaterecord_official_time"),
                                             (String) theControlDataMap.get("dt_initdebate_timeofhansard"),
                                             datetimeContainerSection));
            thePreInsertMap.put("container_section", containerSection);

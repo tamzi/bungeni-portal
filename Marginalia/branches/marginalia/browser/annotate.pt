@@ -77,26 +77,39 @@
   <!-- Page and Context Specific -->
 
 <script type="text/javascript" tal:content="string:
-    function show_annotations_on_load() 
-    {
-    var serviceRoot = '${request/getApplicationURL}/annotations';
+function show_annotations_on_load() {
+    var serviceRoot = '${context/@@absolute_url}';
+    // var oldServiceRoot = '${request/getApplicationURL}/annotations';
 	var username = '${request/principal/id}';
 	var url = '${context/@@absolute_url}';
 	bungeniMarginaliaInit( username, url, serviceRoot );
-	}
-	addEventHandler(window, 'load', show_annotations_on_load, window);
-		
-	/*
-	 * Called when the margin button is clicked to create an annotation.
-	 * There are two choices for editor:
-	 * 1. SelectAnnotationNoteEditor - select an edit action
-	 * 2. BungeniNoteEditor - create a simple margin note
-	 */
-	function bungeniClickCreateAnnotation( event, id )
-	{
-		clickCreateAnnotation( event, id, new SelectActionNoteEditor( ) );
-	}
-	">
+}
+
+function addLoadEvent(func) {
+  var oldonload = window.onload;
+  if (typeof window.onload != 'function') {
+    window.onload = func;
+  } else {
+    window.onload = function() {
+      if (oldonload) {
+        oldonload();
+      }
+      func();
+    }
+  }
+}
+
+addLoadEvent(show_annotations_on_load);
+/*
+ * Called when the margin button is clicked to create an annotation.
+ * There are two choices for editor:
+ * 1. SelectAnnotationNoteEditor - select an edit action
+ * 2. BungeniNoteEditor - create a simple margin note
+ */
+function bungeniClickCreateAnnotation( event, id ) {
+	clickCreateAnnotation(event, id, new SelectActionNoteEditor());
+}
+">
 </script>
 
 <link rel="stylesheet" type="text/css" media="all" href="bookstore.css"

@@ -17,6 +17,7 @@ class ISimpleDocument(Interface):
         description=u"Description of the document",
         required=True
         )
+    
 
 class IAnnotatable(Interface):
     '''Annotatable Marker Interface'''
@@ -31,6 +32,9 @@ class IAnnotatableAdaptor(Interface):
 
     def getAnnotatedUrl():
         """Returns the annotated url """
+
+    def getBodyText(self):
+        """Returns the body text."""
 
 class IAnnotation(IContained):
     """Stores details relating to the Annotation."""

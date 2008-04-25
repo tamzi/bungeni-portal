@@ -464,14 +464,23 @@ public class selectorTemplatePanel extends javax.swing.JPanel
       
       ArrayList<String> getInactiveControlsForMode(){
           String currentMode = getDialogMode().toString();
+          String sQuery ="";
+
+          if (theSubAction == null )
+            sQuery = SettingsQueryFactory.Q_HIDDEN_FIELDS_FOR_ACTION_MODE(theAction.action_name(), currentMode);
+          else
+            sQuery = SettingsQueryFactory.Q_HIDDEN_FIELDS_FOR_ACTION_MODE(theAction.action_name(), theSubAction.sub_action_name(), currentMode);    
+          
           dbSettings.Connect();
-           QueryResults qr = dbSettings.QueryResults("select mode_hidden_field from action_modes " +
-                    "where action_name='"+theAction.action_name()+"' and action_mode='"+ currentMode +"'");
-          dbSettings.EndConnect();
+           QueryResults qr = dbSettings.QueryResults(sQuery);
+          log.info("getInactiveControlsForMode : " + sQuery);
+           dbSettings.EndConnect();
           String[] hiddenFields = null;
             try {
             hiddenFields = qr.getSingleColumnResult("MODE_HIDDEN_FIELD");
             } catch (NullPointerException ex) {
+                log.info("getInactiveControlsForMode: " + ex.getMessage());
+                log.info("getInactiveControlsForMode: " + CommonExceptionUtils.getStackTrace(ex));
                 hiddenFields = null;
             }
             if (hiddenFields != null ) {
@@ -480,7 +489,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
           
           if (inactiveControlsForMode.size() > 0 ) {
               for (String inact: inactiveControlsForMode) {
-                  log.debug("inactive controls for this mode ("+getDialogMode().toString()+") " + inact);
+                  log.info("inactive controls for this mode ("+getDialogMode().toString()+") " + inact);
               }
           }
           return inactiveControlsForMode ;

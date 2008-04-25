@@ -71,22 +71,22 @@
                         className="org.bungeni.commands.searchAndReplace" />
         </chain>
         <chain name="debateRecordFullInsertQuestionBlock">
-            <command   id="drfiQB.addSectionIntoSectionWithStyling"
+            <command   id="drfiQB01.addSectionIntoSectionWithStyling"
                        className="org.bungeni.commands.addSectionIntoSectionWithStyling"/>
-            <command   id="drfiQB.setSectionMetadata"
+            <command   id="drfiQB02.setSectionMetadata"
                        className="org.bungeni.commands.setSectionMetadata"/>
-            <command   id="drfiQB.addDocumentIntoSection"
+            <command   id="drfiQB03.addDocumentIntoSection"
                        className="org.bungeni.commands.addDocumentIntoSection"/>
-            <command   id="drfiQB.searchAndReplace"
+            <command   id="drfiQB04.searchAndReplace"
                        className="org.bungeni.commands.searchAndReplace"/>
-                       <!--USE FIELDSETS--->
-            <command   id="drfiQB.addSectionIntoSectionWithStyling2"
+            <command   id="drfiQB05.addSectionIntoSectionWithStyling2"
                        className="org.bungeni.commands.addSectionIntoSectionWithStyling"/>
-            <command   id="drfiQB.importHtmlIntoSection"
-                       className="org.bungeni.commands.importHtmlIntoSection"/>
-                       <!---USE FIELDSETS--->
+            <command   id="drfiQB06.setSectionMetadata"
+                       className="org.bungeni.commands.setSectionMetadata"/>
+            <command   id="drfiQB07.addDocumentIntoSection"
+                       className="org.bungeni.commands.addDocumentIntoSection"/>
             <command   id="drfiQB.searchAndReplace2"
-                       className="org.bungeni.commands.searchAndReplace"/>
+                       className="org.bungeni.commands.searchAndReplace2"/>
             <command   id="drfiQB.renameSection"
                        className="org.bungeni.commands.renameSection"/>
          

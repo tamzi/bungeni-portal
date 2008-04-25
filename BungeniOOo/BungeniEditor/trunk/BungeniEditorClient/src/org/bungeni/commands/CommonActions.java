@@ -268,18 +268,41 @@ public class CommonActions {
          }
      }
      
-     public static boolean action_renameSection(OOComponentHelper ooDoc, String oldName, String newName) {
+     
+     
+     
+     public static boolean action_insertHtmlDocumentIntoSection(OOComponentHelper ooDoc, String sectionName, String pathToFile,  String strStyle) {
+        boolean bState = false; 
+        try {
+            ExternalMacro insertHtmlDocumentIntoSection = ExternalMacroFactory.getMacroDefinition("InsertHTMLDocumentIntoSection");
+            insertHtmlDocumentIntoSection.addParameter(ooDoc.getComponent());
+            insertHtmlDocumentIntoSection.addParameter(sectionName);
+            insertHtmlDocumentIntoSection.addParameter(pathToFile);
+            insertHtmlDocumentIntoSection.addParameter(strStyle);
+            ooDoc.executeMacro(insertHtmlDocumentIntoSection.toString(), insertHtmlDocumentIntoSection.getParams() );
+             bState= true;
+        } catch (Exception ex) {
+            log.error("action_renameSection: error : " + ex.getMessage());
+            log.error("in action_insertHtmlDocumentIntoSection:" + CommonExceptionUtils.getStackTrace(ex));
+            //checkFieldsMessages.add(ex.getLocalizedMessage());
+            bState=false;
+         }   finally {
+             return bState;
+         }
+     }
+
+      public static boolean action_renameSection(OOComponentHelper ooDoc, String fromSection, String toSection) {
         boolean bState = false; 
         try {
             ExternalMacro RenameSection = ExternalMacroFactory.getMacroDefinition("RenameSection");
             RenameSection.addParameter(ooDoc.getComponent());
-            RenameSection.addParameter(oldName);
-            RenameSection.addParameter(newName);
+            RenameSection.addParameter(fromSection);
+            RenameSection.addParameter(toSection);
             ooDoc.executeMacro(RenameSection.toString(), RenameSection.getParams());
              bState= true;
         } catch (Exception ex) {
             log.error("action_renameSection: error : " + ex.getMessage());
-            log.error("in action_renameSection:" + CommonExceptionUtils.getStackTrace(ex));
+            log.error("action_renameSection:" + CommonExceptionUtils.getStackTrace(ex));
             //checkFieldsMessages.add(ex.getLocalizedMessage());
             bState=false;
          }   finally {
@@ -287,6 +310,8 @@ public class CommonActions {
          }
      }
      
+    
+
      
      
  }

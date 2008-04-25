@@ -32,10 +32,10 @@ public class addSectionIntoSectionWithStyling implements Command {
         //IBungeniForm iForm = formContext.getBungeniForm();
   
         //"container_section", "current_section", "section_back_color", "section_left_margin"
-        String parentSection = (String)formContext.getPreInsertMap().get("container_section");
-        String currentSection = (String)formContext.getPreInsertMap().get("current_section");
-        String section_back_color = (String)formContext.getPreInsertMap().get("section_back_color");
-        String section_left_margin = (String)formContext.getPreInsertMap().get("section_left_margin");
+        String parentSection = (String)formContext.popObjectFromFieldSet("container_section"); //formContext.getPreInsertMap().get("container_section");
+        String currentSection = (String)formContext.popObjectFromFieldSet("current_section"); //getPreInsertMap().get("current_section");
+        String section_back_color = (String)formContext.popObjectFromFieldSet("section_back_color");//getPreInsertMap().get("section_back_color");
+        String section_left_margin = (String)formContext.popObjectFromFieldSet("section_left_margin"); //getPreInsertMap().get("section_left_margin");
         //section_back_color = 
         long sectionBackColor = Long.parseLong(section_back_color, 16);
         float sectionLeftMargin = Float.parseFloat(section_left_margin);

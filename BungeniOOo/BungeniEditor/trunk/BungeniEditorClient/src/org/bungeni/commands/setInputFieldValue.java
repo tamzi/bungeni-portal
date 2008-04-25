@@ -30,10 +30,10 @@ public class setInputFieldValue implements Command {
      public boolean execute(Context context) throws Exception {
         BungeniFormContext formContext = (BungeniFormContext) context;
         //IBungeniForm iForm = formContext.getBungeniForm();
-        ooDocFieldSet fieldSet = (ooDocFieldSet) formContext.getFieldSets("document_field_set").get(0);
+        ooDocFieldSet fieldSet = (ooDocFieldSet) formContext.popObjectFromFieldSet("document_field_set");
         boolean bRet = CommonActions.action_setInputFieldValue(formContext.getOoDocument(), fieldSet.getFieldName(), 
                 fieldSet.getFieldValue(), fieldSet.getFieldContainer());
-        formContext.getFieldSets("document_field_set").remove(fieldSet);
+        //formContext.getFieldSets("document_field_set").remove(fieldSet);
         
         return false;
      }

@@ -34,7 +34,7 @@ public class setSectionMetadataForAction implements Command {
           try {
             BungeniFormContext formContext = (BungeniFormContext) context;
             //IBungeniForm iForm = formContext.getBungeniForm();
-            String newSectionname = (String) formContext.getPreInsertMap().get("new_section");
+            String newSectionname = (String) formContext.popObjectFromFieldSet("new_section"); //getPreInsertMap().get("new_section");
             HashMap<String,String> sectionMeta = new HashMap<String,String>();
             sectionMeta.put("BungeniSectionType", formContext.getTheAction().action_section_type());
             formContext.getOoDocument().setSectionMetadataAttributes(newSectionname, sectionMeta);

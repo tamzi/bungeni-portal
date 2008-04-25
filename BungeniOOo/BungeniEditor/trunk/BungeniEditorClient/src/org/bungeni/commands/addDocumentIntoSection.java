@@ -34,8 +34,8 @@ public class addDocumentIntoSection implements Command {
       //  IBungeniForm iForm = formContext.getBungeniForm();
         
             boolean bAddDocintoSection = CommonActions.action_addDocIntoSection(formContext.getOoDocument(), 
-                   (String) formContext.getPreInsertMap().get("current_section"),
-                   (String) formContext.getPreInsertMap().get("document_fragment"));
+                   (String) formContext.popObjectFromFieldSet("document_import_section") /*getPreInsertMap().get("current_section")*/,
+                   (String) formContext.popObjectFromFieldSet("document_fragment") /*getPreInsertMap().get("document_fragment")*/ );
             
         return false;
      }

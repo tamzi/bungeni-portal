@@ -31,23 +31,23 @@ public class insertSectionAfterSection implements Command {
             BungeniFormContext formContext = (BungeniFormContext) context;
             log.debug("executing command : insertSectionAfterSection");
             String selSectionActionCommand = "";
-            if (formContext.getPreInsertMap().containsKey("selected_section_action_command")) {
-                selSectionActionCommand = (String) formContext.getPreInsertMap().get("selected_section_action_command");
+            if (formContext.hasFieldSet("selected_section_action_command")) {
+                selSectionActionCommand = (String) formContext.popObjectFromFieldSet("selected_section_action_command");
             }
 
             if (selSectionActionCommand.length() > 0 ) { // then we need to check execution condition
                 if (selSectionActionCommand.equals("AFTER_SECTION")) {        
                          bRet = CommonActions.action_insertSectionAfterSection(formContext.getOoDocument(), 
-                                (String) formContext.getPreInsertMap().get("current_section"), 
-                                (String) formContext.getPreInsertMap().get("target_section") );
+                                (String) formContext.popObjectFromFieldSet("current_section"), 
+                                (String) formContext.popObjectFromFieldSet("target_section") );
                 } else {
                     //set bRet to true to simulate a successful api return
                     bRet = true;
                 }
             } else {
                          bRet = CommonActions.action_insertSectionAfterSection(formContext.getOoDocument(), 
-                                (String) formContext.getPreInsertMap().get("current_section"), 
-                                (String) formContext.getPreInsertMap().get("target_section") );
+                                (String) formContext.popObjectFromFieldSet("current_section"), 
+                                (String) formContext.popObjectFromFieldSet("target_section") );
             }
         } catch (Exception ex) {
             log.error("insertSectionAfterSection : "+ ex.getMessage());            

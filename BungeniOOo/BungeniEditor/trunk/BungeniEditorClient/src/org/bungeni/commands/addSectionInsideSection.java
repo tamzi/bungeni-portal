@@ -33,12 +33,12 @@ public class addSectionInsideSection implements Command {
         //IBungeniForm iForm = formContext.getBungeniForm();
         //ooDocFieldSet fieldSet = formContext.getFieldSets().get(0);
         log.debug("executing addSectionInsideSection");
-        String targetSection = (String) formContext.getPreInsertMap().get("container_section");
-        String currentSection =  (String) formContext.getPreInsertMap().get("current_section");
+        String targetSection = (String) formContext.popObjectFromFieldSet("container_section");
+        String currentSection =  (String) formContext.popObjectFromFieldSet("current_section");
         System.out.println(" target = " + targetSection + " current = " + currentSection);
         String selSectionActionCommand = "";
-        if (formContext.getPreInsertMap().containsKey("selected_section_action_command")) {
-            selSectionActionCommand = (String) formContext.getPreInsertMap().get("selected_section_action_command");
+        if (formContext.hasFieldSet("selected_section_action_command")) {
+            selSectionActionCommand = (String) formContext.popObjectFromFieldSet("selected_section_action_command");
         }                                                                         
 
         if (selSectionActionCommand.length() > 0 ) { // then we need to check execution condition

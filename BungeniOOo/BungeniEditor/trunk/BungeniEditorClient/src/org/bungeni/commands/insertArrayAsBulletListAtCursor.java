@@ -31,8 +31,8 @@ public class insertArrayAsBulletListAtCursor implements Command {
         try {
             BungeniFormContext formContext = (BungeniFormContext) context;
             log.debug("executing command : "+ this.getClass().getName());
-            String[] titles = (String[])formContext.getPreInsertMap().get("tabled_document_titles");
-            String[] uris  =  (String[])formContext.getPreInsertMap().get("tabled_document_uris");
+            String[] titles = (String[])formContext.popObjectFromFieldSet("tabled_document_titles");
+            String[] uris  =  (String[])formContext.popObjectFromFieldSet("tabled_document_uris");
           
             bRet = CommonActions.action_InsertArrayAsBulletListAtCurrentCursor(formContext.getOoDocument(), 
                                                                 titles,

@@ -32,8 +32,8 @@ public class searchAndReplace implements Command {
         log.debug("executing: searchAndReplace");
         //IBungeniForm iForm = formContext.getBungeniForm();
         //ooDocFieldSet fieldSet = formContext.getFieldSets().get(0);
-        String searchFor = (String)formContext.getPreInsertMap().get("search_for");
-        String replaceWith = (String) formContext.getPreInsertMap().get("replacement_text");
+        String searchFor = (String)formContext.popObjectFromFieldSet("search_for");
+        String replaceWith = (String) formContext.popObjectFromFieldSet("replacement_text");
         bRet = CommonActions.action_searchAndReplace(formContext.getOoDocument(), searchFor, replaceWith);
         } catch (Exception ex) {
             log.error("Command:searchAndReplace : "+ ex.getMessage());

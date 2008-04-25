@@ -30,9 +30,9 @@ public class insertArrayAsBulletList implements Command {
         try {
             BungeniFormContext formContext = (BungeniFormContext) context;
             log.debug("executing command : insertArrayAsBulletList");
-            String bookmarkAnchor = (String)formContext.getPreInsertMap().get("bullet_list_begin_bookmark");
-            String[] titles = (String[])formContext.getPreInsertMap().get("tabled_document_titles");
-            String[] uris  =  (String[])formContext.getPreInsertMap().get("tabled_document_uris");
+            String bookmarkAnchor = (String) formContext.popObjectFromFieldSet("bullet_list_begin_bookmark");
+            String[] titles = (String[]) formContext.popObjectFromFieldSet("tabled_document_titles");
+            String[] uris  =  (String[]) formContext.popObjectFromFieldSet("tabled_document_uris");
           
             bRet = CommonActions.action_insertArrayAsBulletList(formContext.getOoDocument(), 
                                                                 bookmarkAnchor,

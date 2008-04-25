@@ -177,6 +177,18 @@ public class SettingsQueryFactory {
                 "where condition_name = '"+conditionName+"' and doctype = '"+doctype+"'";
                 return query;
    }
+
+    public static String Q_HIDDEN_FIELDS_FOR_ACTION_MODE(String actionName, String currentMode) {
+            return  "Select mode_hidden_field from action_modes " +
+                    "Where action_name='"+actionName+"' " +
+                    "and action_mode='"+ currentMode +"'";
+    }
+
+    public static String Q_HIDDEN_FIELDS_FOR_ACTION_MODE(String actionName, String subActionName, String currentMode) {
+            return  "Select mode_hidden_field from action_modes " +
+                    "Where action_name='"+actionName+"' " +
+                    "and action_mode='"+ currentMode +"' " +
+                    "and sub_action_name = '"+subActionName+"'";    }
 }
 
         

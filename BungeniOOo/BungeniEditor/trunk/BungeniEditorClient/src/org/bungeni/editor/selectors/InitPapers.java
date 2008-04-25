@@ -513,10 +513,17 @@ public  class InitPapers extends selectorTemplatePanel implements IBungeniForm {
     public boolean preSelectInsert(){
         //gets table into preInserMap
         HashMap<String, ArrayList<String>> tblData = getTableSelection();
-        thePreInsertMap.put("tabled_document_titles", 
-                tblData.get("tabled_document_titles").toArray(new String[tblData.get("tabled_document_titles").size()]));
-        thePreInsertMap.put("tabled_document_uris", 
-                tblData.get("tabled_document_uris").toArray(new String[tblData.get("tabled_document_uris").size()]));
+        formContext.addFieldSet("tabled_document_titles");
+        formContext.addFieldSet("tabled_document_uris");
+        
+        formContext.getFieldSets("tabled_document_titles").add(tblData.get("tabled_document_titles").toArray(new String[tblData.get("tabled_document_titles").size()]));
+        
+        //thePreInsertMap.put("tabled_document_titles", 
+          //      tblData.get("tabled_document_titles").toArray(new String[tblData.get("tabled_document_titles").size()]));
+      
+        formContext.getFieldSets("tabled_document_uris").add( tblData.get("tabled_document_uris").toArray(new String[tblData.get("tabled_document_uris").size()]));
+       // thePreInsertMap.put("tabled_document_uris", 
+         //       tblData.get("tabled_document_uris").toArray(new String[tblData.get("tabled_document_uris").size()]));
     
         return true;
     }
@@ -534,6 +541,22 @@ public  class InitPapers extends selectorTemplatePanel implements IBungeniForm {
     
     public boolean preFullInsert(){
         HashMap<String, ArrayList<String>> tblData = getTableSelection();
+        formContext.addFieldSet("tabled_document_titles");
+        formContext.addFieldSet("tabled_document_uris");
+        formContext.addFieldSet("current_section");
+        formContext.addFieldSet("target_section");
+        formContext.addFieldSet("container_section");
+        formContext.addFieldSet("document_fragment");
+        formContext.addFieldSet("document_fragment");
+        formContext.addFieldSet("document_import_section");
+        formContext.addFieldSet("search_for");
+        formContext.addFieldSet("replacement_text");
+        formContext.addFieldSet("bullet_list_begin_bookmark");
+        formContext.addFieldSet("selected_section_action_command");
+        
+        formContext.getFieldSets("tabled_document_titles").add(tblData.get("tabled_document_titles").toArray(new String[tblData.get("tabled_document_titles").size()]));
+        formContext.getFieldSets("tabled_document_uris").add( tblData.get("tabled_document_uris").toArray(new String[tblData.get("tabled_document_uris").size()]));
+ 
         thePreInsertMap.put("tabled_document_titles", 
                 tblData.get("tabled_document_titles").toArray(new String[tblData.get("tabled_document_titles").size()]));
         thePreInsertMap.put("tabled_document_uris", 
@@ -543,16 +566,25 @@ public  class InitPapers extends selectorTemplatePanel implements IBungeniForm {
          *         thePreInsertMap.put("tabled_document_titles", arrDocTitles);
          *         thePreInsertMap.put("tabled_document_urs", arrDocURI);
          */
-        
-        thePreInsertMap.put("current_section", theAction.action_naming_convention());
-        thePreInsertMap.put("target_section",  getParentSection());
-        thePreInsertMap.put("container_section", thePreInsertMap.get("target_section"));
-        thePreInsertMap.put("document_fragment", FragmentsFactory.getFragment("hansard_papers"));
-        thePreInsertMap.put("search_for", "[[PAPER_TITLE]]");
-        thePreInsertMap.put("replacement_text", txt_title.getText());
-        thePreInsertMap.put("bullet_list_begin_bookmark", new String("begin_tabled_documents_list"));
+        formContext.getFieldSets("current_section").add(theAction.action_naming_convention());
+        //thePreInsertMap.put("current_section", theAction.action_naming_convention());
+        String parentSection = getParentSection();
+        formContext.getFieldSets("target_section").add(parentSection);
+        //thePreInsertMap.put("target_section",  getParentSection());
+        formContext.getFieldSets("container_section").add(parentSection);
+        //thePreInsertMap.put("container_section", thePreInsertMap.get("target_section"));
+        formContext.getFieldSets("document_import_section").add(theAction.action_naming_convention());
+        formContext.getFieldSets("document_fragment").add(FragmentsFactory.getFragment("hansard_papers"));
+        //thePreInsertMap.put("document_fragment", FragmentsFactory.getFragment("hansard_papers"));
+        formContext.getFieldSets("search_for").add( "[[PAPER_TITLE]]");
+        //thePreInsertMap.put("search_for", "[[PAPER_TITLE]]");
+        formContext.getFieldSets("replacement_text").add( txt_title.getText());
+        //thePreInsertMap.put("replacement_text", txt_title.getText());
+        formContext.getFieldSets("bullet_list_begin_bookmark").add( new String("begin_tabled_documents_list"));
+        //thePreInsertMap.put("bullet_list_begin_bookmark", new String("begin_tabled_documents_list"));
         //in insert mode this is always INSIDE_SECTION
-        thePreInsertMap.put("selected_section_action_command",  "INSIDE_SECTION");
+        formContext.getFieldSets("selected_section_action_command").add( new String("INSIDE_SECTION"));
+       // thePreInsertMap.put("selected_section_action_command",  "INSIDE_SECTION");
         return true;
     }
     

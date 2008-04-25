@@ -421,14 +421,32 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
             log.debug("preFullInsert() : getNewSectionName()" + newSectionName );
             
             /** seeding pre insert map that will be used by the commands chain **/
+            formContext.addFieldSet("section_back_color");
+            formContext.addFieldSet("section_left_margin");
+            formContext.addFieldSet("container_section");
+            formContext.addFieldSet("current_section");
+            formContext.addFieldSet("new_section");
+            formContext.addFieldSet("selected_logo");
+            formContext.addFieldSet("document_fragment");
+            formContext.addFieldSet("image_import_section");
+            formContext.addFieldSet("document_import_section");
             
-            thePreInsertMap.put("section_back_color", Long.toHexString(sectionBackColor));
-            thePreInsertMap.put("section_left_margin", Float.toString(sectionLeftMargin));
-            thePreInsertMap.put("container_section", parentSection);
-            thePreInsertMap.put("current_section", newSectionName);
-            thePreInsertMap.put("new_section", newSectionName);
-            thePreInsertMap.put("selected_logo", (String) theControlDataMap.get("txt_initdebate_selectlogo"));
-            thePreInsertMap.put("document_fragment", (String) FragmentsFactory.getFragment("hansard_masthead"));
+            formContext.getFieldSets("section_back_color").add(Long.toHexString(sectionBackColor));
+            //thePreInsertMap.put("section_back_color", Long.toHexString(sectionBackColor));
+            formContext.getFieldSets("section_left_margin").add(Float.toString(sectionLeftMargin));
+            //thePreInsertMap.put("section_left_margin", Float.toString(sectionLeftMargin));
+            formContext.getFieldSets("container_section").add(parentSection);
+            //thePreInsertMap.put("container_section", parentSection);
+            formContext.getFieldSets("current_section").add(newSectionName);
+            formContext.getFieldSets("document_import_section").add(newSectionName);
+            //thePreInsertMap.put("current_section", newSectionName);
+            formContext.getFieldSets("new_section").add(newSectionName);
+            //thePreInsertMap.put("new_section", newSectionName);
+            formContext.getFieldSets("selected_logo").add((String) theControlDataMap.get("txt_initdebate_selectlogo"));
+            //thePreInsertMap.put("selected_logo", (String) theControlDataMap.get("txt_initdebate_selectlogo"));
+            formContext.getFieldSets("document_fragment").add((String) FragmentsFactory.getFragment("hansard_masthead"));
+            //thePreInsertMap.put("document_fragment", (String) FragmentsFactory.getFragment("hansard_masthead"));
+            formContext.getFieldSets("image_import_section").add(newSectionName);
             
             formContext.addFieldSet("document_field_set");
             formContext.getFieldSets("document_field_set").add(
@@ -568,7 +586,9 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
            formContext.getFieldSets("document_field_set").add(new ooDocFieldSet(new String("debaterecord_official_time"),
                                             (String) theControlDataMap.get("dt_initdebate_timeofhansard"),
                                             datetimeContainerSection));
-           thePreInsertMap.put("container_section", containerSection);
+           formContext.addFieldSet("container_section");
+           formContext.getFieldSets("container_section").add(containerSection);
+           //thePreInsertMap.put("container_section", containerSection);
 
            formContext.getMetadataFieldSets().add(new ooDocMetadataFieldSet("Bungeni_DebateOfficialDate",
                    (String) theControlDataMap.get("dt_initdebate_hansarddate")));

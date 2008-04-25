@@ -400,6 +400,7 @@ public String getClassName(){
             mainQuestionmeta.put("Bungeni_QuestionAddressedTo", AddressedTo);
             mainQuestionmeta.put("BungeniSectionType", theAction.action_section_type());
             
+           // 01 - addSectionIntoSectionWithStyling
             String strActionSectionName = getActionSectionName();
             formContext.addFieldSet("section_back_color");
             formContext.getFieldSets("section_back_color").add(Long.toHexString(sectionBackColor));
@@ -420,6 +421,7 @@ public String getClassName(){
             thePreInsertMap.put("current_section", strActionSectionName);
             */
              /*used for setting metadata*/
+           // 02 - setSectionmetadata
             formContext.addFieldSet("new_section");
             formContext.getFieldSets("new_section").add(strActionSectionName);
             
@@ -437,10 +439,12 @@ public String getClassName(){
             /*
             thePreInsertMap.put("document_section_metadata", mainQuestionmeta);
             */
-            
+           // 03 - addDocumentIntoSection
             formContext.addFieldSet("document_fragment");
             formContext.getFieldSets("document_fragment").add(FragmentsFactory.getFragment("hansard_question"));
             //thePreInsertMap.put("document_fragment" , FragmentsFactory.getFragment("hansard_question"));
+            
+          // 04 - searchAndReplace  
             formContext.addFieldSet("search_for");
             formContext.getFieldSets("search_for").add("[[QUESTION_TITLE]]");
             //thePreInsertMap.put("search_for", "[[QUESTION_TITLE]]");
@@ -456,19 +460,20 @@ public String getClassName(){
                 nCounter++;
                 newSectionName = strActionSectionName + "-que"+nCounter;
             }
-   
+          // 05 - addSectionIntoSectionWithStyling
             formContext.getFieldSets("section_back_color").add(Long.toHexString(0xffffff));
             formContext.getFieldSets("section_left_margin").add(Float.toString((float).4));
             formContext.getFieldSets("container_section").add(strActionSectionName);
             formContext.getFieldSets("current_section").add(newSectionName);
+          // 06 - setSectionmetadata
+            formContext.getFieldSets("new_section").add(newSectionName);
             HashMap<String,String> subQuestionMeta = new HashMap<String,String>();
             subQuestionMeta.put("BungeniSectionType", "Question");
             formContext.getFieldSets("document_section_metadata").add(subQuestionMeta);
-            
-            //add document into section
+          // 07 - addDocumentIntoSection
             formContext.getFieldSets("current_section").add(newSectionName);
             formContext.getFieldSets("document_fragment").add(FragmentsFactory.getFragment("hansard_question_text"));
-            //search and replace
+            //08 - searchAndReplace2
             formContext.getFieldSets("search_for").add("[[QUESTION_FROM]]");
             formContext.getFieldSets("replacement_text").add(PersonName);
             formContext.addFieldSet("bookmark_range");
@@ -478,6 +483,9 @@ public String getClassName(){
             formContext.addFieldSet("url_hyperlink");
             formContext.getFieldSets("url_hyperlink").add("Name: "+PersonName+ ";URI: "+selectionData.get("QUESTION_FROM"));
             formContext.getFieldSets("url_name").add("member_url");
+            //09 - renameSection
+            
+            //10 importHtml
             
             
         return true;

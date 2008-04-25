@@ -87,6 +87,14 @@ public class BungeniFormContext extends ContextBase implements IBungeniFormConte
             fieldSets.put(fieldKey, new ArrayList<Object>(0));
         }
     }
+
+    public boolean hasFieldSet(String key) {
+        if (fieldSets.containsKey(key)) {
+            return true;
+        } else
+            return false;
+    }
+            
             
     public ArrayList<Object> getFieldSets(String fieldKey) {
         ArrayList<Object> theSet = null;

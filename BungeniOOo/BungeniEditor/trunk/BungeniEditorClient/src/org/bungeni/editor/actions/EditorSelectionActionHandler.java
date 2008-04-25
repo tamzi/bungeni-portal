@@ -31,6 +31,8 @@ import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.actions.routers.routerFactory;
 import org.bungeni.editor.actions.validators.validatorFactory;
+import org.bungeni.editor.selectors.DialogSelectorFactory;
+import org.bungeni.editor.selectors.IDialogSelector;
 import org.bungeni.editor.selectors.InitDebateRecord;
 import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.error.BungeniError;
@@ -387,8 +389,24 @@ if markupSelectedText():
      }
      
     
-    
-    
+    private void displayFilteredDialog(){
+              JDialog dlg;
+             dlg= new JDialog();
+             dlg.setTitle(m_subAction.action_display_text());
+             dlg.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+             //initDebaterecord.setPreferredSize(new Dimension(420, 300));
+             IDialogSelector panel = DialogSelectorFactory.getDialogClass(m_subAction.dialog_class());
+             panel.initObject(ooDocument, dlg, m_parentAction, m_subAction);
+             //panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
+             //panel.setBackground(new Color(255, 255, 153));
+             //initDebaterecord.setTitle("Selection Mode");
+             dlg.getContentPane().add(panel.getPanel());
+             dlg.pack();
+             dlg.setLocationRelativeTo(null);
+             dlg.setVisible(true);
+             dlg.setAlwaysOnTop(true);   
+    }
+    /*
     private void displayFilteredDialog() {
              try {
              log.debug("displayFilteredDialog: subAction name = "+ this.m_subAction.sub_action_name());
@@ -415,7 +433,7 @@ if markupSelectedText():
                  log.error("displayFilteredDialog: stack trace :  \n" + org.bungeni.ooo.utils.CommonExceptionUtils.getStackTrace(ex));
              }
     }
-    
+    */
     
     private toolbarAction get_parentAction(){
         Vector<Vector<String>> resultRows = new Vector<Vector<String>>();

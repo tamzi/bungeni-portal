@@ -24,6 +24,7 @@ Class-Path: lib/juh.jar
   lib/commons-collections-3.2.jar lib/commons-beanutils.jar 
   lib/commons-chain-1.1.jar  
                 lib/commons-digester-1.8.jar
+                lib/ooobungenilib.jar
 
 Name: com/sun/star/lib/loader/Loader.class
 Application-Class: org.bungeni.editor.BungeniEditorClient

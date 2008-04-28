@@ -81,35 +81,35 @@ def lookup_fk_column(name, title, domain_model, field, default=""):
 def ElectionAfterStart(obj):
     """ Start Date must be after Election Date"""        
     if obj.election_date >= obj.start_date:
-        raise interface.Invalid(_("A parliament has to be elected before it can be sworn in"))
+        raise interface.Invalid(_("A parliament has to be elected before it can be sworn in"), "election_date", "start_date")
    
 def EndAfterStart(obj):
     """ End Date must be after Start Date"""    
     if obj.end_date is None: return
     if obj.end_date <= obj.start_date:
-        raise interface.Invalid(_("End Date must be after Start Date"))
+        raise interface.Invalid(_("End Date must be after Start Date"), "start_date", "end_date")
 
 def DissolutionAfterReinstatement( obj ):       
     """ A committee must be disolved before it can be reinstated """   
     if (obj.dissolution_date is None) or (obj.reinstatement_date is None): return
     if obj.dissolution_date > obj.reinstatement_date:
-        raise interface.Invalid(_("A committee must be disolved before it can be reinstated"))
+        raise interface.Invalid(_("A committee must be disolved before it can be reinstated"), "dissolution_date", "reinstatement_date" )
 
 def ActiveAndSubstituted( obj ):
     """ A person cannot be active and substituted at the same time"""
     if obj.active_p and obj.replaced_id:
-        raise interface.Invalid(_("A person cannot be active and substituted at the same time"))
+        raise interface.Invalid(_("A person cannot be active and substituted at the same time"), "active_p", "replaced_id")
 
 def SubstitudedEndDate( obj ):
     """ If a person is substituted he must have an end date"""
     if not (obj.end_date) and obj.replaced_id:    
-        raise interface.Invalid(_("If a person is substituted End Date must be set"))
+        raise interface.Invalid(_("If a person is substituted End Date must be set"), "replaced_id", "end_date")
         
 def InactiveNoEndDate( obj ):
     """ If you set a person inactive you must provide an end date """
     if obj.active_p:
         if not (obj.end_date):
-            raise interface.Invalid(_("If a person is inactive End Date must be set"))
+            raise interface.Invalid(_("If a person is inactive End Date must be set"), "end_date", "active_p")
         
                 
         
@@ -118,7 +118,7 @@ def DeathBeforeLife(User):
     """Check if date of death is after date of birth"""
     if User.date_of_death is None: return
     if User.date_of_death < User.date_of_birth:       
-        raise interface.Invalid(_(u"One cannot die before being born"))
+        raise interface.Invalid(_(u"One cannot die before being born"), "date_of_death", "date_of_birth")
     
 def IsDeceased(User):
     """If a user is deceased a date of death must be given"""
@@ -126,13 +126,13 @@ def IsDeceased(User):
         if User.date_of_death is None: 
             return
         else: 
-            raise interface.Invalid(_(u"If a user is deceased he must have the status 'D'"))
+            raise interface.Invalid(_(u"If a user is deceased he must have the status 'D'"), "date_of_death", "active_p" )
     if User.active_p == 'D':
         if User.date_of_death is None:
-            raise interface.Invalid(_(u"A Date of Death must be given if a user is deceased"))
+            raise interface.Invalid(_(u"A Date of Death must be given if a user is deceased"), "date_of_death", "active_p" )
     else:
         if User.date_of_death is not None:
-            raise interface.Invalid(_(u"If a user is deceased he must have the status 'D'"))
+            raise interface.Invalid(_(u"If a user is deceased he must have the status 'D'"), "date_of_death", "active_p" )
             
 ####
 # Descriptors

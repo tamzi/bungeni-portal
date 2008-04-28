@@ -26,6 +26,20 @@ import validations
 ###########
 # Add forms
 
+
+####
+# Display invariant errors /  custom validation errors in the context of the field
+# that raised the error.
+
+def set_widget_errors(widgets, errors):
+    for widget in widgets:
+        name = widget.context.getName()
+        for error in errors:
+            if isinstance(error, interface.Invalid) and name in error.args[1:]:
+                if widget._error is None:
+                    widget._error = error
+
+
 #parliaments
 
 
@@ -46,7 +60,9 @@ class ParliamentAdd( ContentAddForm ):
         the method you can use to update form fields from your class
         """        
         self.status = self.request.get('portal_status_message','')        
-        form.AddForm.update( self )
+        # to display errors from invariants, pass the field names when raising Invalid
+        super(ParliamentAdd, self).update()
+        set_widget_errors(self.widgets, self.errors) 
  
     def finishConstruction( self, ob ):
         """
@@ -62,6 +78,13 @@ class ParliamentAdd( ContentAddForm ):
         return (form.getWidgetsData(self.widgets, self.prefix, data) +
                  form.checkInvariants(self.form_fields, data) +
                  validations.CheckParliamentDatesAdd( self.context, data))  
+
+    def invariantErrors( self ):        
+        errors = []       
+        return errors
+                         
+
+
 
 
 # ministries

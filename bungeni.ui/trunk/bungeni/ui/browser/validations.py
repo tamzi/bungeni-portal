@@ -73,6 +73,47 @@ sql_checkParliamentInterval = """
                                 AND ( '%(date)s' 
                                     BETWEEN "start_date" AND "end_date") )
                         """
+sql_checkForOpenParliamentInterval = """
+                            SELECT "groups"."short_name" 
+                            FROM "public"."parliaments", "public"."groups" 
+                            WHERE ( ( "parliaments"."parliament_id" = "groups"."group_id" )
+                                    AND "end_date" IS NULL )
+                        """
+
+
+###################
+# Date validations
+
+def checkStartDate( parent, data ):
+    """ Check that the start date is inside the restrictictions.
+    It must not start before the contextParents start date or end
+    after the contextsParents end date"""
+    errors =[]   
+    if data['start_date'] is not None:
+        if parent.start_date is not None:
+            if data['start_date'] < parent.start_date:
+                errors.append( interface.Invalid( _(u"Start date must be after (%s)") % parent.start_date , "start_date" ))
+        if parent.end_date is not None:
+            if data['start_date'] > parent.end_date:
+                errors.append( interface.Invalid( _(u"Start date must be prior to (%s)") % parent.end_date , "start_date" ))     
+    return errors               
+    
+def checkEndDate ( parent, data ):
+    """
+    Check that the end date is inside the restrictictions.
+    It must not end before the contextParents start date or end
+    after the contextsParents end date    
+    """    
+    errors =[]   
+    if data['end_date'] is not None:
+        if parent.start_date is not None:
+            if data['end_date'] < parent.start_date:
+                errors.append( interface.Invalid( _(u"End date must be after (%s)")  % parent.start_date , "end_date" ))
+        if parent.end_date is not None:
+            if data['end_date'] > parent.end_date:
+                errors.append( interface.Invalid( _(u"End date must be prior to (%s)") % parent.end_date , "end_date" ))  
+    return errors
+
 
 
 #############
@@ -87,14 +128,14 @@ def CheckParliamentDatesAdd( context, data ):
     errors =[]    
     overlaps = checkDateInInterval(None, data['start_date'], sql_checkParliamentInterval)
     if overlaps is not None:
-        errors.append( interface.Invalid(_("The Parliament start date overlaps with (%s)" % overlaps)) )
+        errors.append( interface.Invalid(_("The Parliament start date overlaps with (%s)" % overlaps), "start_date" ))
     if data['end_date'] is not None:        
         overlaps = checkDateInInterval(None, data['end_date'], sql_checkParliamentInterval)
         if overlaps is not None:
-            errors.append( interface.Invalid(_("The Parliament end date overlaps with (%s)" % overlaps)) )  
+            errors.append( interface.Invalid(_("The Parliament end date overlaps with (%s)" % overlaps), "end_date" ))  
     overlaps = checkDateInInterval(None, data['election_date'], sql_checkParliamentInterval)
     if overlaps is not None:
-        errors.append( interface.Invalid(_("The election date overlaps with (%s)" % overlaps)) )                  
+        errors.append(interface.Invalid(_("The election date overlaps with (%s)" % overlaps), "election_date" ))                  
     return errors
     
 #ministries

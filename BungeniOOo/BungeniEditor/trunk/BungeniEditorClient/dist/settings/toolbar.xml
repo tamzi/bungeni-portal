@@ -22,15 +22,15 @@
             </blockAction>
             <blockAction name="Papers" tooltip="Actions to create and manage the papers section" title="Papers" target="null" visible="true" condition="none" >
                 <action name="Papers.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makePaperSection" visible="true" condition="sectionNotExists:papers" />
-                <action name="Papers.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.section_creation" condition="sectionNotExists:papers :and: textSelected:true" visible="true" showChildren="true" >
+                <action name="Papers.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.section_creation" condition="cursorInSection:root :and: sectionNotExists:papers :and: textSelected:true" visible="true" showChildren="true" >
                     <subaction name="Papers.selection.title" tooltip="Markup selection as title" title="Markup Title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.apply_style:papers" visible="true" condition="cursorInSection:papers :and: textSelected:true" />
                     <subaction name="Papers.selection.details" tooltip="Markup selection as details" title="Markup Details" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.apply_style:paper-details" visible="true" condition="cursorInSection:papers :and: textSelected:true" />
                     <subaction name="Papers.selection.import_tabled_documents" tooltip="Select tabled documents and insert into document" title="Import Tabled Documents" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.import_tabled_documents" visible="true" condition="cursorInSection:papers" />
                 </action>
             </blockAction>
             <blockAction name="QA" tooltip="Create a QA Section" title="QA" target="null" visible="true" condition="none" >
-                <action name="QA.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makeQASection" visible="true" condition="sectionNotExists:qa." />
-                 <action name="QA.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQASection.section_creation" condition="sectionNotExists:qa. :and: textSelected:true" visible="true" showChildren="true" >
+                <action name="QA.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makeQASection" visible="true" condition="cursorInSection:root :and: sectionNotExists:qa." />
+                 <action name="QA.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQASection.section_creation" condition="cursorInSection:root :and: sectionNotExists:qa. :and: textSelected:true" visible="true" showChildren="true" >
                     <subaction name="QA.selection.title" tooltip="Markup selection as title" title="Markup Title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQASection.apply_style:qa-title" visible="true" condition="cursorInSection:qa. :and: textSelected:true" />
                  </action>
             </blockAction>

@@ -80,7 +80,7 @@
 function show_annotations_on_load() {
     var serviceRoot = '${context/@@absolute_url}';
     // var oldServiceRoot = '${request/getApplicationURL}/annotations';
-	var username = '${request/principal/id}';
+	var username = '${view/getAuthenticatedUser}';
 	var url = '${context/@@absolute_url}';
 	bungeniMarginaliaInit( username, url, serviceRoot );
 }

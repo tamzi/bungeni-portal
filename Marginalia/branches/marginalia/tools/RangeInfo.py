@@ -8,10 +8,10 @@ class RangeInfo:
 	self.annotations = annotations
 
     def fromAnnotation( self, annotation ):
-	self.url = annotation.getUrl( )
+	self.url = annotation.url
 	self.sequenceRange = annotation.getSequenceRange( )
 	self.xpathRange = annotation.getXPathRange( )
-	self.annotations = [ annotation ]
+	self.annotations = [annotation]
 
     def addAnnotation( self, annotation ):
 	self.annotations.append( annotation )
@@ -20,13 +20,13 @@ class RangeInfo:
 	users = { }
 	# I'm sure there's a more Pythonic way to do this, but I'm tired and don't know it
 	for annotation in self.annotations:
-            username = annotation.getUserName( )
-	    if not users.has_key( username ):
-                users[ username ] = RangeInfoUser( username )
-	    if 'edit' == annotation.getAction( ):
-                users[ username ].edits += 1
+            username = annotation.quote_author
+	    if not users.has_key(username):
+                users[username] = RangeInfoUser(username)
+	    if 'edit' == annotation.action:
+                users[username].edits += 1
 	    else:
-                users[ username ].notes += 1
+                users[username].notes += 1
 	return users.values( )
 		
 class RangeInfoUser:

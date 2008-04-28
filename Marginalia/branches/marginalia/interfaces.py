@@ -1,7 +1,5 @@
 from zope.interface import Interface
 from zope.schema import List, Text, TextLine, Int
-from zope.app.container.interfaces import IContainer, IContained
-from zope.app.container.constraints import contains, containers
 
 class ISimpleDocument(Interface):
     """Simple Document."""
@@ -19,12 +17,12 @@ class ISimpleDocument(Interface):
         )
     
 
-class IAnnotatable(Interface):
+class IMarginaliaAnnotatable(Interface):
     '''Annotatable Marker Interface'''
 
     # Acts as a marker interface    
     
-class IAnnotatableAdaptor(Interface):
+class IMarginaliaAnnotatableAdaptor(Interface):
     '''Annotatable Adaptor Interface'''
 
     def isAnnotatable():
@@ -36,9 +34,8 @@ class IAnnotatableAdaptor(Interface):
     def getBodyText(self):
         """Returns the body text."""
 
-class IAnnotation(IContained):
+class IMarginaliaAnnotation(Interface):
     """Stores details relating to the Annotation."""
-    containers('marginalia.interfaces.IAnnotationsContainer')
 
     url = TextLine(
         title=u"Url",
@@ -171,6 +168,3 @@ class IAnnotation(IContained):
     def getXPathRange():
         """Returns XPath Range."""
         
-class IAnnotationsContainer(IContainer):
-    """Annotation Container and Utility."""    
-    contains('marginalia.interfaces.IAnnotation')

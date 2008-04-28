@@ -43,44 +43,42 @@
   <tal:repeat repeat="feedentry results">
 
     <entry tal:define="
-		action feedentry/getAction;
-		note feedentry/getNote;
-		quote feedentry/getQuote">
+		action feedentry/action;
+		note feedentry/note;
+		quote feedentry/quote">
     <ptr:range format="sequence" tal:content="feedentry/getSequenceRange">/2/15.0;/2/17.7</ptr:range>
     <ptr:range format="xpath" tal:content="feedentry/getXPathRange">p[2]/word(15)/char(0);p[2]/word(17)/char(7)</ptr:range>
-    <ptr:access tal:content="feedentry/getAccess">private</ptr:access>
+    <ptr:access tal:content="feedentry/access">private</ptr:access>
 	<ptr:action tal:content="action">edit</ptr:action>
 
-      <title tal:content="feedentry/Title">
+      <title tal:content="feedentry/note">
         The Netherlands wins the world cup
       </title>
 
-      <link rel="self" 
-      type="application/xml"
-      tal:attributes="href feedentry/absolute_url" />
+      <link rel="self" type="application/xml" tal:attributes="href string:${view/getBaseUrl}/${feedentry/id}" />
 
       <link rel="alternate" 
             type="text/html"
             href=""
             title="Plone marginalia"
-            tal:attributes="href feedentry/getUrl" />
+            tal:attributes="href feedentry/url" />
 
-	<link rel='related' type='text/html' title="" href=""
-		tal:attributes="title feedentry/getLink_title;
-						 href feedentry/getLink"/>
+	<link rel="related" type="text/html" title="" href=""
+		tal:attributes="title feedentry/link_title;
+						href feedentry/link"/>
 
-	<id tal:content="feedentry/UID">
+	<id tal:content="feedentry/id">
         tag:localhost:12345678
       </id>
 
-      <updated tal:content="python:toLocalizedTime(feedentry.ModificationDate(),long_format=1)">2002-10-02T10:00:00-05:00</updated>
+      <updated tal:content="feedentry/modification_date">2002-10-02T10:00:00-05:00</updated>
 
-      <summary tal:condition="feedentry/getQuote"
-               tal:content="feedentry/getQuote"/>
+      <summary tal:condition="feedentry/quote"
+               tal:content="feedentry/quote"/>
 
       <author>
-        <name tal:content="feedentry/getUserName">username</name>
-        <contributor tal:content="feedentry/getQuote_author">
+        <name tal:content="feedentry/quote_author">username</name>
+        <contributor tal:content="feedentry/quote_author">
         source of commented text
         </contributor>
       </author>
@@ -90,8 +88,8 @@
             <p class="quote">
 				<del tal:condition="python:action=='edit'"><q tal:content="quote">strikethrough text</q></del>
 				<q tal:condition="python:action!='edit'" tal:content="quote">quoted text</q>
-				&#x2015; <span class="quoteAuthor" tal:content="feedentry/getQuote_author">author</span>,
-				<cite><a href="cited-url" tal:attributes="href feedentry/getUrl" tal:content="feedentry/getQuote_title">
+				&#x2015; <span class="quoteAuthor" tal:content="feedentry/quote_author">author</span>,
+				<cite><a href="cited-url" tal:attributes="href feedentry/url" tal:content="feedentry/quote_title">
 					title of annotated document
 				</a></cite>
 			</p>
@@ -103,12 +101,7 @@
 			
 			<p class="see-also" tal:condition="feedentry/getLink">
 				<cite>
-                                        <span tal:condition="python:hasattr(feedentry.getLink(),'UID')" tal:omit-tag="">
-					<a href="" tal:attributes="href python:feedentry.getLink().UID()" tal:content="feedentry/getLink_title">link</a>
-                                        </span>
-                                        <span tal:condition="python:not hasattr(feedentry.getLink(),'UID')" tal:omit-tag="">
-					<a href="" tal:attributes="href python:feedentry.getLink()" tal:content="feedentry/getLink_title">link</a>
-                                        </span>
+					<a href="" tal:attributes="href python:feedentry.getLink()" tal:content="feedentry/link_title">link</a>
 				</cite>
 			</p>			
         </div>

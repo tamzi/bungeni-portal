@@ -7,20 +7,11 @@ from cgi import parse_qsl
 from marginalia.tools.SequenceRange import SequenceRange, SequencePoint
 from marginalia.tools.XPathRange import XPathRange, XPathPoint
 from marginalia.tools.RangeInfo import RangeInfo, mergeRangeInfos
+from marginalia.schema import annotations_table, AnnotationMaster
 
+class MarginaliaPage(BrowserPage):
+    """All the methods required by Marginalia."""
 
-class ViewAnnotation(BrowserPage):
-
-    __call__ = ViewPageTemplateFile('annotationview.pt')
-
-    def renderQuote(self):
-        plaintext = createObject('zope.source.plaintext',
-                                 self.context.quote)
-        view = getMultiAdapter((plaintext, self.request), name=u'')
-        return view.render()
-
-
-class AnnotationQuery(BrowserPage):
     def getTitle(self):
         return 'Annotation Utility'
 
@@ -38,6 +29,13 @@ class AnnotationQuery(BrowserPage):
     def getFeedUID(self):
         return 'tag:marginalia:annotation'
 
+    def getAnnotation(self, id):
+        """Returns the annotation object."""
+        session = Session()
+        annotations = session.query(AnnotationMaster).filter(AnnotationMaster.id==id).all()
+        if annotations:
+            return annotations[0]
+
     def _listAnnotations(self):
         """Returns a list of Annotations."""
         params = { 'format' : 'atom' }
@@ -47,15 +45,16 @@ class AnnotationQuery(BrowserPage):
         response = self.request.response
                                 
         if 'atom' == format:
-            #jacob - Check encoding
             response.setHeader('Content-Type', 'application/atom+xml')                        
             return str(ViewPageTemplateFile('listAnnotations.pt')(self))
+
         elif 'blocks' == format:
             response.setHeader('Content-Type', 'application/xml')            
             return str(ViewPageTemplateFile('listBlocks.pt')(self))
         
     def _createAnnotation(self):
         """Create an annotation from the POST request."""
+        session = Session()
         # TODO: do something useful with 'access'. Plone already
         # enforces security based on ownership, so access is 'private'
         # by default. 'public' access could mean sharing the annotation
@@ -79,71 +78,88 @@ class AnnotationQuery(BrowserPage):
         # parameters in the body should specify the action to take.
         params.update(self.request)
         params.update(parse_qsl(self.request['QUERY_STRING']))
-        sequenceRange = SequenceRange( params[ 'sequence-range' ] )
-        xpathRange = XPathRange( params[ 'xpath-range' ] )
-        print params.get("edit_type", "")
-        params[ 'start_block' ] = sequenceRange.start.getPaddedPathStr( )
-        params[ 'start_xpath' ] = xpathRange.start.getPathStr( )
-        params[ 'start_word' ] = xpathRange.start.words
-        params[ 'start_char' ] = xpathRange.start.chars
-        params[ 'end_block' ] = sequenceRange.end.getPaddedPathStr( )
-        params[ 'end_xpath' ] = xpathRange.end.getPathStr( )
-        params[ 'end_word' ] = xpathRange.end.words
-        params[ 'end_char' ] = xpathRange.end.chars
-        del params[ 'sequence-range' ]
-        del params[ 'xpath-range' ]
-        plone = getToolByName(self, 'portal_url').getPortalObject()
-        obj_id = plone.generateUniqueId('Annotation')
+        sequenceRange = SequenceRange(params['sequence-range'])
+        xpathRange = XPathRange(params['xpath-range'])
+        params['start_block'] = sequenceRange.start.getPaddedPathStr()
+        params['start_xpath'] = xpathRange.start.getPathStr()
+        params['start_word'] = xpathRange.start.words
+        params['start_char'] = xpathRange.start.chars
+        params['end_block'] = sequenceRange.end.getPaddedPathStr()
+        params['end_xpath'] = xpathRange.end.getPathStr()
+        params['end_word'] = xpathRange.end.words
+        params['end_char'] = xpathRange.end.chars
+        del params['sequence-range']
+        del params['xpath-range']
+
+        params['quote_author'] = self.request.principal.getLogin()
+
+        annotation = AnnotationMaster()
+        for key in annotations_table.c.keys():
+            value = params.get(key, None)
+            if value == None:
+                continue
+            setattr(annotation, key, value)        
+        session.save(annotation)
+        session.commit()
+
+        unique_id = str(annotation.id)
         
-        #new_id = self.invokeFactory('Annotation', id=obj_id, **params)
-
-        new_id = self.invokeFactory('Annotation', id=obj_id)        
-        annotation = getattr(self, new_id)
-        annotation.update(**params)
-
-        self.request['RESPONSE'].setStatus('Created')
-        location = annotation.absolute_url()
-        self.request['RESPONSE'].setHeader("location", location)
-        return new_id
+        self.request.response.setStatus('Created')
+        self.request.response.setHeader('location', unique_id)
+        return unique_id
 
     def _updateAnnotation(self):
         """Updates an annotation."""
         params = {}
         params.update(self.request)
         params.update(parse_qsl(self.request['QUERY_STRING']))
-        annotation = self.get(params['id'], None)
+        
+        annotation = self.getAnnotation(params['id'])
         if not annotation:
-            self.request['RESPONSE'].setStatus('BadRequest')
+            self.request.response.setStatus('BadRequest')
             return
+
+        session = Session()
+        
         if params.has_key('link'):
             if  params['link'].startswith("http://"):
                 annotation.hyper_link = params['link']
                 params.pop('link')
             else:
-                if hasattr(annotation, 'hyper_link'):
-                    del annotation.hyper_link
+                if annotation.hyper_link:
+                    annotation.hyper_link = ''
+
+        for key in annotations_table.c.keys():
+            value = params.get(key, None)
+            if not value:
+                continue
+            setattr(annotation, key, value)        
+        session.commit()
+
+#         if params.has_key("access"):
+#             workflow = getToolByName(self, 'portal_workflow')
+#             annotation_workflow = workflow.getWorkflowsFor(annotation)[0]
+#             status = workflow.getStatusOf("annotation_workflow", annotation)
+#             if params['access'] == "public" and status['review_state']=="private":
+#                 annotation_workflow.doActionFor(annotation, "publish")
+#             elif params['access'] == "private" and status['review_state']=="published":
+#                 annotation_workflow.doActionFor(annotation, "retract")
+#             annotation.reindexObject()
             
-        annotation.edit(**params)
-        if params.has_key("access"):
-            workflow = getToolByName(self, 'portal_workflow')
-            annotation_workflow = workflow.getWorkflowsFor(annotation)[0]
-            status = workflow.getStatusOf("annotation_workflow", annotation)
-            if params['access'] == "public" and status['review_state']=="private":
-                annotation_workflow.doActionFor(annotation, "publish")
-            elif params['access'] == "private" and status['review_state']=="published":
-                annotation_workflow.doActionFor(annotation, "retract")
-            annotation.reindexObject()
-            
-        self.request['RESPONSE'].setStatus('NoContent')
+        self.request.response.setStatus('NoContent')
 
     def _deleteAnnotation(self):
         """Deletes an Annotation."""
-        name, value = self.request['QUERY_STRING'].split('=')
-        if value:
-            self.manage_delObjects(value)
-            self.request['RESPONSE'].setStatus('NoContent')
+        params = {}
+        params.update(parse_qsl(self.request['QUERY_STRING']))
+        annotation_id = params.get('id', None)
+        annotation = self.getAnnotation(annotation_id)
+        if annotation:
+            session = Session()
+            session.delete(annotation)
+            self.request.response.setStatus('NoContent')
             return
-        self.request['RESPONSE'].setStatus('BadRequest') # No id
+        self.request.response.setStatus('BadRequest') # No id
 
     def __call__(self):
         rest_verb_map = {
@@ -171,44 +187,34 @@ class AnnotationQuery(BrowserPage):
         To query per fragment identifier, filter the returned
         annotations by looking at their 'url' field.
         """
-        return []
-        catalog = getToolByName(self, 'portal_catalog')
-			
-        query = {
-            'portal_type': 'Annotation',
-            'getIndexed_url': url
-            }
+        session = Session()
+        query = session.query(AnnotationMaster)
+        
+        query = query.filter(AnnotationMaster.url == url)
         if search_string:
-            query['SearchableText'] = search_string
+            query = query.filter(AnnotationMaster.quote == search_string)
 
-        public_annotations = catalog(query)
+        annotation_list = query.all()
+        #if user:
+        #    query = query.filter(AnnotationMaster.quote_author == user)            
                     
-        if user:
-            query['Creator'] = user
-            
-        ps = catalog(query) + public_annotations
-
         # Filter by position (if block was specified )
         annotations = [ ]
         uids = []
         if block is not None and block != '':
-            block = SequencePoint( block );
-            for p in ps:
-                annotation = p.getObject( )
-                
-                if annotation.UID() in uids:
+            block = SequencePoint(block);
+            for annotation in annotation_list:
+                if annotation.id in uids:
                     continue
-                uids.append(annotation.UID())
-                
+                uids.append(annotation.id)                
                 arange = annotation.getSequenceRange( )
                 if arange.start.compareInclusive( block ) <= 0 and arange.end.compareInclusive( block ) >= 0:
                     annotations.append( annotation )
         else:
-            for p in ps:
-                annotation = p.getObject( )
-                if annotation.UID() in uids:
+            for annotation in annotation_list:
+                if annotation.id in uids:
                     continue
-                uids.append(annotation.UID())                
+                uids.append(annotation.id)                
                 annotations.append(annotation)
 
         if filter_name and "select_all" in filter_name:
@@ -218,15 +224,15 @@ class AnnotationQuery(BrowserPage):
 
         if filter_name:
             filter_name = filter_name.split(",")
-            annotations = [annotation for annotation in annotations if annotation.Creator() in filter_name]
+            annotations = [annotation for annotation in annotations if annotation.quote_author in filter_name]
 
         if filter_type:
             filter_type = filter_type.split(",")
-            annotations = [annotation for annotation in annotations if annotation.getEditType() in filter_type]
+            annotations = [annotation for annotation in annotations if annotation.edit_type in filter_type]
 
-        auth_member = self._getUser()        
-        
-        return  [annotation for annotation in annotations if auth_member.has_permission("View", annotation)]
+        return annotations
+        #auth_member = self._getUser()        
+        #return  [annotation for annotation in annotations if auth_member.has_permission("View", annotation)]
 
     def getRangeInfos(self, user, url):
         """ As with getSortedFeedEntries, but instead of returning individual
@@ -239,31 +245,11 @@ class AnnotationQuery(BrowserPage):
             infos.append(info)
         return mergeRangeInfos(infos)
 
-from zope.formlib.form import EditForm, AddForm, Fields, applyChanges
-from zope.formlib.namedtemplate import NamedTemplate
-from zope.formlib.namedtemplate import NamedTemplateImplementation
-from marginalia.interfaces import IAnnotation, IAnnotatable, IAnnotatableAdaptor
+from marginalia.interfaces import IMarginaliaAnnotation, IMarginaliaAnnotatable, IMarginaliaAnnotatableAdaptor
 from zope.interface import implements
 from zope.component import adapts
 
-class AnnotationEditForm(EditForm):
-    form_fields = Fields(IAnnotation).omit('__parent__', '__name__')
-    label = u"Edit annotation"
-
-    template = NamedTemplate('annotation.form')
-
-class AnnotationAddForm(AddForm):
-    form_fields = Fields(IAnnotation).omit('__parent__', '__name__')
-    label = u"Add annotation"
-
-    template = NamedTemplate('annotation.form')
-
-    def create(self, data):
-        annotation = createObject(u'marginalia.Annotation')
-        applyChanges(annotation, self.form_fields, data)
-        return annotation
-
-class AnnotationView(BrowserView):
+class MarginaliaAnnotationView(BrowserView):
     """Annotation View Class. """
     def getOwnerList(self, request):
         """Return a list of members who have added annotations."""
@@ -271,29 +257,29 @@ class AnnotationView(BrowserView):
 
     def getAuthenticatedUser(self):
         """Returns the currently authenticated member."""
-        return "test"
+        return self.request.principal.getLogin()
 
     def getAnnotatedUrl(self, url):
         """Returns annotated url."""
-        obj = IAnnotatableAdaptor(self.context)
+        obj = IMarginaliaAnnotatableAdaptor(self.context)
         return obj.getAnnotatedUrl(url)
 
     def getBodyText(self):
         """Returns annotated url."""
-        obj = IAnnotatableAdaptor(self.context)
+        obj = IMarginaliaAnnotatableAdaptor(self.context)
         return obj.getBodyText()
 
     def isAnnotatable(self):
         """
         """
-        obj = IAnnotatableAdaptor(self.context)
+        obj = IMarginaliaAnnotatableAdaptor(self.context)
         return obj.isAnnotatable()
 
-class AnnotationAdaptor(object):
+class MarginaliaAnnotationAdaptor(object):
     """
     """
-    implements(IAnnotatable)
-    adapts(IAnnotatableAdaptor)
+    implements(IMarginaliaAnnotatable)
+    adapts(IMarginaliaAnnotatableAdaptor)
 
     def __init__(self, context):
         self.context = context
@@ -314,5 +300,3 @@ class AnnotationAdaptor(object):
         return True
 
 
-form_template = NamedTemplateImplementation(
-    ViewPageTemplateFile('form.pt'))

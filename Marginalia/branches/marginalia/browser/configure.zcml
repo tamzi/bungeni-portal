@@ -54,104 +54,36 @@
       name="simpledocument.form"
       />
 
-  <!-- Annotation -->
-
-  <browser:page
-      for="marginalia.interfaces.IAnnotation"
-      name="index.html"
-      class=".annotation.ViewAnnotation"
-      permission="zope.View"
-      />
-
-  <configure package="zope.app.preview">
-    <browser:page
-        for="marginalia.interfaces.IAnnotation"
-        name="preview.html"
-        template="preview.pt"
-        permission="zope.ManageContent"
-        menu="zmi_views" title="Preview"
-        />
-  </configure>
-
-  <browser:page
-      for="marginalia.interfaces.IAnnotation"
-      name="edit.html"
-      class=".annotation.AnnotationEditForm"
-      permission="zope.ManageContent" 
-      menu="zmi_views" title="Edit"
-      />
-
-  <adapter
-      factory=".annotation.form_template"
-      for=".annotation.AnnotationEditForm"
-      name="annotation.form"
-      />
-
-  <browser:addMenuItem
-      title="Annotation"
-      factory="marginalia.Annotation"
-      view="marginalia.Annotation"
-      permission="zope.ManageContent"
-      />
-
-  <browser:page
-      for="zope.app.container.interfaces.IAdding"
-      name="marginalia.Annotation"
-      class=".annotation.AnnotationAddForm"
-      permission="zope.ManageContent" 
-      />
-
-  <adapter
-      factory=".annotation.form_template"
-      for=".annotation.AnnotationAddForm"
-      name="annotation.form"
-      />
-
-  <!-- Annotation Folder -->
-
-  <browser:addMenuItem
-      title="Annotation Folder"
-      class="marginalia.tools.annotations.AnnotationsFolder"
-      permission="zope.ManageContent"
-      />
-
-  <browser:containerViews
-       for="marginalia.interfaces.IAnnotationsContainer"
-       contents="zope.ManageContent"
-       index="zope.View"
-       add="zope.ManageContent"
-       />
-
   <!-- Annotatable -->
   <browser:page
-      for="marginalia.interfaces.IAnnotatable"
+      for="marginalia.interfaces.IMarginaliaAnnotatable"
       name="zmiannotate.html"
-      template="zmiannotate.pt"
-      class="marginalia.browser.annotation.AnnotationView"
+      template="marginalia_zmi.pt"
+      class="marginalia.browser.templates.MarginaliaAnnotationView"
       permission="zope.View"
       menu="zmi_views" title="Annotate"
       />
 
   <browser:page
-      for="marginalia.interfaces.IAnnotatable"
+      for="marginalia.interfaces.IMarginaliaAnnotatable"
       name="annotate.html"
-      template="annotate.pt"
-      class="marginalia.browser.annotation.AnnotationView"
+      template="marginalia.pt"
+      class="marginalia.browser.templates.MarginaliaAnnotationView"
       permission="zope.View"
       menu="zmi_views" title="Annotate FullScreen"
       />
 
   <browser:page
-      for="marginalia.interfaces.IAnnotatable"
+      for="marginalia.interfaces.IMarginaliaAnnotatable"
       name="annotate"
-      class="marginalia.browser.annotation.AnnotationQuery"
+      class="marginalia.browser.templates.MarginaliaPage"
       permission="zope.View"
       />
 
    <adapter
-       for="marginalia.interfaces.IAnnotatable"
-       provides="marginalia.interfaces.IAnnotatableAdaptor"
-       factory="marginalia.browser.annotation.AnnotationAdaptor"
+       for="marginalia.interfaces.IMarginaliaAnnotatable"
+       provides="marginalia.interfaces.IMarginaliaAnnotatableAdaptor"
+       factory="marginalia.browser.templates.MarginaliaAnnotationAdaptor"
        />
 
   <!-- Style Sheet -->
@@ -200,5 +132,13 @@
   <browser:resource name="marginalia-config.js" file="js/marginalia-config.js" />
   <browser:resource name="marginalia-strings.js" file="js/marginalia-strings.js" />
   <browser:resource name="bungeni-annotate.js" file="js/bungeni-annotate.js" />
+
+  <publisher
+      name="MARGINALIA"
+      factory="zope.app.publication.requestpublicationfactories.BrowserFactory"
+      methods="PUT DELETE"
+      mimetypes="*"
+      priority="10"
+      />
 
 </configure>

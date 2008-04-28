@@ -25,7 +25,7 @@
      
   <class class=".document.SimpleDocument">
     <implements
-        interface=".interfaces.IAnnotatable"
+        interface=".interfaces.IMarginaliaAnnotatable"
         />
     <require
         permission="zope.View"
@@ -37,51 +37,19 @@
         />
   </class>
 
-  <class class=".tools.annotation.Annotation">
-    <require
-        permission="zope.View"
-        interface=".interfaces.IAnnotation"
-        />
-    <require
-        permission="zope.ManageContent"
-        set_schema=".interfaces.IAnnotation"
-        />
-  </class>
-
-  <class class=".tools.annotations.AnnotationsFolder">
-    <implements
-        interface="zope.annotation.interfaces.IAttributeAnnotatable
-                   zope.app.container.interfaces.IContainerNamesContainer"
-        />
-    <require
-        permission="zope.View"
-        interface="zope.app.container.interfaces.IReadContainer"
-        />
-    <require
-        permission="zope.ManageContent"
-        interface="zope.app.container.interfaces.IWriteContainer"
-        />
-  </class>
-
   <interface 
       interface=".interfaces.ISimpleDocument"
       type="zope.app.content.interfaces.IContentType"
       /> 
 
   <interface 
-      interface=".interfaces.IAnnotation"
+      interface=".interfaces.IMarginaliaAnnotation"
       type="zope.app.content.interfaces.IContentType"
       /> 
 
   <utility
       component=".document.documentFactory"
       name="marginalia.SimpleDocument"
-      permission="zope.Public"
-      />
-
-  <utility
-      component=".tools.annotation.annotationFactory"
-      name="marginalia.Annotation"
       permission="zope.Public"
       />
 

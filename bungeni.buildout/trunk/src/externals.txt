@@ -1,3 +1,4 @@
+# core software
 bungeni.server    https://bungeni-portal.googlecode.com/svn/bungeni.server/trunk/ 
 bungeni.core      https://bungeni-portal.googlecode.com/svn/bungeni.core/trunk/
 bungeni.ui        https://bungeni-portal.googlecode.com/svn/bungeni.ui/trunk/
@@ -5,6 +6,9 @@ bungeni.theme.private        https://bungeni-portal.googlecode.com/svn/bungeni.t
 
 # plone 3 skin
 ploned.ui      https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/
+
+# yui ajax libraries
+ore.yui        https://svn.objectrealms.net/svn/public/ore.yui/trunk
 
 # relational database support
 ore.alchemist  http://zope-alchemist.googlecode.com/svn/ore.alchemist/trunk

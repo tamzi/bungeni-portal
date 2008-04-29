@@ -652,6 +652,7 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
                    //based on the target information we need to create the action objectr
                    
                    String strTarget = nodeProc.getTarget();
+                   log.info("target = " + strTarget);
                    BungeniToolbarTargetProcessor targetObj = new BungeniToolbarTargetProcessor(strTarget);
                    
           //         String[] arrTargetObj = strTarget.split("[.]");
@@ -724,7 +725,8 @@ public class generalEditorPanel4 extends templatePanel implements ICollapsiblePa
            
             instance.Connect();
             String actionQuery = SettingsQueryFactory.Q_FETCH_SUB_ACTIONS(documentType, targetObj.actionName, targetObj.subActionName);
-             QueryResults qr = instance.QueryResults(actionQuery);
+            log.info("processSelection: "+ actionQuery); 
+            QueryResults qr = instance.QueryResults(actionQuery);
              instance.EndConnect();
              if (qr == null ) {
                  log.debug("processSelection : queryResults :" + actionQuery + " were null");

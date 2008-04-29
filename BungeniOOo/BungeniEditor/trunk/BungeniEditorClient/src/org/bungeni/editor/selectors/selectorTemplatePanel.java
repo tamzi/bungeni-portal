@@ -428,7 +428,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     dbSettings.Connect();
     String formName = getClassName();
     String cmdsByForm = SettingsQueryFactory.Q_FETCH_COMMANDS_BY_FORM(formName);
-    log.debug("createCommandChain: " + cmdsByForm);
+    log.info("createCommandChain: " + cmdsByForm);
     QueryResults qr = dbSettings.QueryResults(cmdsByForm);
     dbSettings.EndConnect();
     if (qr.hasResults()) {
@@ -690,6 +690,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         try {
              if (theSubAction == null ) {
                 BungeniCatalogCommand cmd = theCatalogCommands.get(getDialogMode());
+                log.info("processCatalogCommand, cmd is : "+ ((cmd == null)?"null":"not null"));
                 BungeniCommandsCatalogLoader loader = new BungeniCommandsCatalogLoader(cmd.getCatalogSource());
                 Catalog selectedCatalog;
                 selectedCatalog = loader.getCatalog(cmd.getCommandCatalog());

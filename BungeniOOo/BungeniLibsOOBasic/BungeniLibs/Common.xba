@@ -3,109 +3,12 @@
 <script:module xmlns:script="http://openoffice.org/2000/script" script:name="Common" script:language="StarBasic">REM  *****  BASIC  *****
 Option Explicit 
 
-Sub Main
-
-
-rem AddSectionInsideSection &quot;Section1&quot;, &quot;Section2&quot;
-rem EmbedGraphic ThisComponent, &quot;file:///e:/default_logo.jpg&quot;
-
-rem AddImageIntoSection &quot;prayers&quot;, &quot;e:\default_logo.jpg&quot; 
-
-
-rem SetReferenceInputFieldValue(&quot;debaterecord_official_date&quot;, &quot;2033-03-01&quot;, &quot;root&quot;)
-rem	AddTextToSection &quot;prayers&quot;, &quot;some text&quot;, &quot;Heading 1&quot;
-rem	AddTextToSection &quot;prayers&quot;, &quot;&lt;parabreak&gt;&quot;, &quot;Heading 1&quot;
-rem	AddTextToSection &quot;prayers&quot;, &quot;some text 2&quot;, &quot;Heading 2&quot;
-rem	AddTextToSection &quot;prayers&quot;, &quot;&lt;parabreak&gt;&quot;, &quot;Heading 2&quot;
-	rem SetInputFieldValue &quot;test_field&quot;, &quot;new value&quot;
-	rem SetDocumentProperty &quot;bungeni_document_type&quot;, &quot;debaterecord&quot;
-	
-rem Dim vCurs
-rem vCurs = ThisComponent.CurrentController.getViewCursor()
-rem Dim oTCurs
-rem oTCurs = ThisComponent.getText().createTextCursorByRange(vCurs.getStart())
-rem oTCurs.CharWeight = com.sun.star.awt.FontWeight.BOLD
-
-rem ThisComponent.getText().InsertString(oTCurs, &quot;THIS IS SOME TEXT&quot;, FALSE)
-	
-rem	AddTextToSection &quot;question-1&quot;, &quot;Banditry Menace in Galole&quot;, &quot;agenda&quot;
-rem	AddTextToSection &quot;question-1&quot;, &quot;&lt;parabreak&gt;&quot;, &quot;&quot;
-rem	AddTextToSectionWithCharStyle &quot;question-1&quot;, &quot;Mr.Kofa&quot;, &quot;question&quot;, com.sun.star.awt.FontWeight.BOLD 
-rem	AddTextToSection &quot;question-1&quot;, &quot; : Ministry of Tourism&quot;, &quot;question&quot;
-
-rem SearchAndReplace &quot;Some Text&quot;, &quot;This Text&quot;
-rem AddSectionInsideSection &quot;qa&quot;, &quot;question4&quot;
-rem InsertHTMLDocumentIntoSection &quot;Section1&quot;, &quot;e:\htmlFragment.html&quot;, &quot;Heading 1&quot;
-rem dim oSect
-rem oSect = ThisComponent.getTextSections().getByName(&quot;Section1&quot;)
-
-rem  	InsertDocumentIntoSection &quot;Section1&quot;, &quot;E:\projects\WorkingProjects\BungeniEditorClient\dist\settings\fragments\new_hansard_question.odt&quot;
-rem  	SearchAndReplace2 &quot;[[QUESTION_TITLE]]&quot;, &quot;new text&quot;
-  	
-rem AddAttributesToContainer (oSect.UserDefinedAttributes, ArrNames(), ArrValues() )
-
-rem SearchAndReplace2 &quot;less&quot;, &quot;more&quot;, arr(), &quot;myurl&quot;
-
-rem section metadata tests
- dim arrAttrNames(), arrAttrValues()
-
-rem arrAttrNames = Array (&quot;mpName&quot;, &quot;mpURI&quot;, &quot;mpStatus&quot;)
-rem arrAttrValues = Array (&quot;Kumar Sekar&quot;, &quot;ken.mp.1989-02-02&quot;, &quot;Deceased&quot;)
-
-rem SetSectionMetadata &quot;NewName&quot;, arrAttrNames, arrAttrValues
-
-rem arrAttrNames = Array (&quot;mpName&quot;, &quot;mpURI&quot;, &quot;mpStatus&quot;)
-rem arrAttrValues = Array (&quot;Raila Odinga&quot;, &quot;ken.mp.1993-02-1&quot;, &quot;Alive&quot;)
-
-
-rem SetSectionMetadata &quot;NewName2&quot;, arrAttrNames, arrAttrValues
-
-rem  arrAttrNames = Array (&quot;Bungeni_QuestionMemberFrom&quot;)
-rem  arrAttrValues = Array (&quot;Mp Inside Another MP&quot;)
-
-
-rem SetSectionMetadata thisComponent, &quot;question3-que1&quot;, arrAttrNames, arrAttrValues
-rem Dim props
-
-rem props = MakePropertyValue (&quot;One&quot;, &quot;Two&quot;)
-rem XRay props
-
-rem InsertDocumentIntoSection thisComponent, &quot;qa&quot;, &quot;E:\projects\WorkingProjects\BungeniEditorClient\dist\settings\fragments\hansard_qa.odt&quot;
-rem msgbox &quot;ok&quot;
-rem SearchAndReplace thisComponent, &quot;[[QA_TITLE]]&quot;, &quot;Question Answer Title&quot;
-
-End Sub
-
       
-Sub Main2 
-	rem AddTextToSection &quot;prayers&quot;, &quot;text&quot;, &quot;myStyle&quot;
-	Dim strValue as string
-	strValue = ThisComponent.DocumentInfo.getPropertyValue(&quot;MyPropertyName&quot;)
-	Msgbox strValue
-	
-Dim vEnum
-  Dim vVal
-  Dim s1$, s2$
-  Dim sFieldName$, sFieldValue$, sInstanceName$, sHint$, sContent$
-  
-  vEnum = thisComponent.getTextFields().createEnumeration()
-  If Not IsNull(vEnum) Then
-    Do While vEnum.hasMoreElements()
-      vVal = vEnum.nextElement()
-      If vVal.supportsService(&quot;com.sun.star.text.TextField.Input&quot;) Then
-      		XRay vVal
-      		Msgbox &quot;Hint = &quot;+ vVal.Hint
-      		Msgbox &quot;Content = &quot; + vVal.Content
-      end If
-    Loop
-  End if
-   
-End Sub
 
-Function CursorInSection () as String
+Function CursorInSection (docComponent) as String
 	Dim oVCurs
 	CursorInSection = &quot;&quot;
-  	oVCurs = ThisComponent.getCurrentController().getViewCursor()
+  	oVCurs = docComponent.getCurrentController().getViewCursor()
 
   	If IsEmpty(oVCurs.TextSection) Then
    		&apos;cursor not in a section...
@@ -340,36 +243,6 @@ Sub AddSectionInsideSection (docComponent, innerSection as String,  newSection a
 End Sub
 
 
-
-Sub AddSectionInsideSection_OLD ( innerSection as String,  newSection as String )
-  Dim oSect
-  If ThisComponent.getTextSections().hasByName(innerSection) Then
-  	  oSect = ThisComponent.getTextSections().getByName(innerSection)
-       rem XRay oSect
-  	    Dim sectionText , sectionCurs
-    	sectionCurs = ThisComponent.getText().createTextCursor()
-        sectionCurs.gotoRange(oSect.getAnchor(), false)
-        Dim endRange, endCursor
-        endRange = sectionCurs.getEnd()
-      
-        endCursor = endRange.getText().createTextCursorByRange(endRange.getStart())
-        Dim newSect, oCols
-        newSect = ThisComponent.createInstance(&quot;com.sun.star.text.TextSection&quot;)
-   		newSect.setName(newSection)
-   		REM Now, create the columns...
-     	oCols = ThisComponent.createInstance(&quot;com.sun.star.text.TextColumns&quot;)
-    	oCols.setColumnCount(1)
-    	newSect.TextColumns = oCols
-        endCursor.getText().insertTextContent( endCursor, newSect, false)
-        
-        Dim oPar
-        oPar = ThisComponent.createInstance(&quot;com.sun.star.text.Paragraph&quot;) 
-        
-        endCursor.getText().insertTextContentAfter (oPar, newSect)
-  End If
-
-End Sub
-
 Sub AddSectionInsideSectionWithStyle ( docComponent, innerSection as String,  newSection as String, backgroundColor as Long, sectionLeftIndentInches as Single )
    		AddSectionInsideSection docComponent, innerSection, newSection
    		Dim newSect 
@@ -381,20 +254,20 @@ End Sub
 
 
 
-Sub InsertHTMLDocumentIntoSection(sName$, sFileUrl$ , sStyleApply$)
+Sub InsertHTMLDocumentIntoSection(docComponent, sName$, sFileUrl$ , sStyleApply$)
  sFileUrl = ConvertToURL(sFileUrl)
    rem now iterate through the section 
   Dim oSect
   Dim viewCur 
   
-  viewCur = ThisComponent.currentcontroller.getviewcursor
+  viewCur = docComponent.currentcontroller.getviewcursor
   
-  If ThisComponent.getTextSections().hasByName(sName) Then
-  	  oSect = ThisComponent.getTextSections().getByName(sName)
+  If docComponent.getTextSections().hasByName(sName) Then
+  	  oSect = docComponent.getTextSections().getByName(sName)
        rem XRay oSect
        
   	    Dim sectionText , sectionCurs
-    	sectionCurs = ThisComponent.getText().createTextCursor()
+    	sectionCurs = docComponent.getText().createTextCursor()
         sectionCurs.gotoRange(oSect.getAnchor(), false)
         Dim endRange, endCursor
         endRange = sectionCurs.getEnd()
@@ -463,9 +336,9 @@ End Sub
 
 
 
-Sub RenameSection (renameThisSection as String, renameToSection as String)
+Sub RenameSection (docComponent, renameThisSection as String, renameToSection as String)
 	Dim oDoc 
-	oDoc = ThisComponent
+	oDoc = docComponent
 	
 	Dim sectRename
 	sectRename = oDoc.getTextSections().getByName(renameThisSection)
@@ -677,11 +550,64 @@ Sub SearchAndReplace2 (docComponent, searchFor as string, replaceWith as String,
     
 End Sub
 
-Sub InsertArrayAsBulletList (bookmarkAnchor as String, selectItemsArray() , listItemURIs()  )
+
+
+Sub InsertArrayAsBulletListAtCurrentCursor (docComponent, selectItemsArray() , listItemURIs()  )
+
+	Dim oDoc,  oText, oCur, oStart
+	oDoc = docComponent
+
+	oStart = docComponent.currentcontroller.getViewCursor().getStart()
+    oText = docComponent.currentController.getviewcursor().getText()
+    oCur=oText.createTextCursorByRange(docComponent.currentcontroller.getViewCursor().getStart())
+
+	Dim i 
+	
+	For i=LBound(selectItemsArray) to UBound(selectItemsArray)
+	  oCur.HyperLinkURL=&quot;http://akomantoso.org/resolver/&quot;+ listItemURIs(i)
+	  oText.insertString(oCur,  selectItemsArray(i) , False)
+	  &apos;oCur.CharWeight = com.sun.star.awt.FontWeight.BOLD
+	  &apos;oCur.gotoEndOfSentence(False)
+	  &apos;oCur.CharWeight = com.sun.star.awt.FontWeight.NORMAL 
+ 	  oText.insertControlCharacter(oCur, com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, False)
+	Next i
+	
+	Dim oNumRules
+	
+	oNumRules = ThisComponent.createInstance(&quot;com.sun.star.text.NumberingRules&quot;)
+
+	Dim mLevel, k, vProperty
+	
+	mLevel = oNumRules.getByIndex(0)
+	For k = LBound(mLevel) To UBound(mLevel)
+          vProperty = mLevel(k)
+          If (vProperty.Name = &quot;NumberingType&quot;) Then
+            &apos;and give it the passed Format
+            vProperty.Value = com.sun.star.style.NumberingType.CHAR_SPECIAL
+            oNumRules.replaceByIndex(0, mLevel)
+          End If 
+          &apos;mLevel(k) = vProperty
+	next
+
+oCur.gotoPreviousParagraph(False)
+	
+oCur.gotoRange(oStart, true)
+rem	Dim l
+rem	For l=LBound(selectItemsArray) to UBound(selectItemsArray)
+rem		oCur.gotoPreviousParagraph(True)
+rem	Next l
+oCur.setPropertyValue(&quot;NumberingRules&quot;, oNumRules)	
+
+
+End Sub
+
+
+
+Sub InsertArrayAsBulletList (docComponent, bookmarkAnchor as String, selectItemsArray() , listItemURIs()  )
 
 	Dim oDoc,  oText, oCur
 	Dim bookmarkBegin, beginAnchor
-	oDoc = ThisComponent
+	oDoc = docComponent
 	bookmarkBegin = oDoc.getBookmarks().getByName(bookmarkAnchor)
 	beginAnchor = bookmarkBegin.getAnchor()
 	

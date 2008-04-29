@@ -24,6 +24,7 @@ class WorkflowSubMenuItem(BrowserSubMenuItem):
     def __init__(self, context, request):
         BrowserSubMenuItem.__init__(self, context, request)
         self.context = context
+        self.url = absoluteURL(context, request)
         
     @property
     def extra(self):
@@ -37,25 +38,11 @@ class WorkflowSubMenuItem(BrowserSubMenuItem):
 
     @property
     def description(self):
-        """TODO: Migrate to ore.workflow."""
-        
-        #if self._manageSettings() or len(self._transitions()) > 0:
-        #    return _(u'title_change_state_of_item', default=u'Change the state of this item')
-        #else:
-        #    return u''
-
         return u''
 
     @property
     def action(self):
-        """TODO: Migrate."""
-
-        #if self._manageSettings() or len(self._transitions()) > 0:
-        #    return self.context.absolute_url() + '/content_status_history'
-        #else:
-        #    return ''
-
-        return u''
+        return self.url + '/workflow'
     
     @memoize
     def available(self):
@@ -81,7 +68,7 @@ class WorkflowMenu(BrowserMenu):
         for transition in transitions:
 
             tid = transition.transition_id
-            transition_url = url + '/change_workflow_state?transition_id=%s' % tid
+            transition_url = url + '/@@%s' % tid
 
             extra = {'id': 'workflow-transition-%s' % tid,
                      'separator': None,
@@ -96,4 +83,4 @@ class WorkflowMenu(BrowserMenu):
                      extra=extra,
                      submenu=None))
                      
-        return results
+            return results

@@ -25,6 +25,7 @@ setup(
                          'zope.app.cache',
                          'plone.memoize',
                          'alchemist.ui',
+                         'z3c.difftool',
                          'zope.formlib'],
     zip_safe = False,
     )

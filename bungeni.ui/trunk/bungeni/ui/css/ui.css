@@ -11,3 +11,7 @@ table.diff {
 table.diff td {
     padding: 3px;
 }
+
+label.discreet {
+    line-height: 2em;
+}

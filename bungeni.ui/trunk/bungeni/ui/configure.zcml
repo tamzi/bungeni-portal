@@ -3,13 +3,14 @@
            i18n_domain="bungeni">
 
   <include package="plone.memoize" />
+  <include package="z3c.difftool" />
   
   <!-- TimeZone Definition -->
   <adapter factory=".tz.tzinfo" />
 
   <!-- Site Skin Definition -->
   <include file="skin.zcml"/>  
-  
+
   <!-- Site Menus Definition -->
   <include file="menu.zcml"/>
 
@@ -30,12 +31,12 @@
 
   <!-- Include Versioning UI -->
   <include file="version.zcml" />
-  
+
   <!-- Include Workflow UI -->
   <include file="workflow.zcml" />
   
   <!-- Custom forms-->
-  <include package=".browser"/>
+  <include package=".browser"/>  
   
   <!-- Javascript -->
   <include package="ore.yui"/>
@@ -106,6 +107,5 @@
      name="workspace"
      class=".workspace.Workspace"
      />
- 
-  
+   
 </configure>

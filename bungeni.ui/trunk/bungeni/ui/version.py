@@ -14,7 +14,9 @@ from zope.viewlet import viewlet
 from bungeni.core.interfaces import IVersioned
 from bungeni.core.i18n import _
 
+from ore.alchemist.interfaces import IIModelInterface
 
+import z3c.difftool.browser
 
 class VersionViewletManager( WeightOrderedViewletManager ):
     """
@@ -27,14 +29,13 @@ class IVersionEntry( interface.Interface ):
     
     commit_message = schema.Text(title=_("Change Message") )
 
-class VersionLogViewlet( BaseForm , viewlet.ViewletBase ):
-    """  
-    """
-
+class VersionLogViewlet(BaseForm , viewlet.ViewletBase ):
     form_fields = form.Fields( IVersionEntry )
     formatter_factory = batching.Formatter
     render = ViewPageTemplateFile ('templates/version_viewlet.pt')
 
+    extra = None
+    
     columns = [
         column.SelectionColumn( lambda item: str(item.version_id), name="selection"),
         column.GetterColumn( title=_(u"version"), getter=lambda i,f:i.version_id ),    
@@ -44,7 +45,7 @@ class VersionLogViewlet( BaseForm , viewlet.ViewletBase ):
         ]    
     
     selection_column = columns[0]
-    
+
     def listing( self ):
         columns = self.columns
         formatter = self.formatter_factory( self.context,
@@ -57,28 +58,15 @@ class VersionLogViewlet( BaseForm , viewlet.ViewletBase ):
         formatter.cssClasses['table'] = 'listing'
         formatter.updateBatching()
         return formatter()
-    
-        
-    def setUpWidgets( self, ignore_request=False):
-        # setup widgets in data entry mode not bound to context
-        self.adapters = {}
-        self.widgets = form.setUpDataWidgets(
-            self.form_fields, self.prefix, self.context, self.request,
-            ignore_request = ignore_request )
-                
+            
     @form.action(label=_("New Version") )
     def handle_new_version( self, action, data ):
         self._versions.create( message = data['commit_message'] )        
         self.status = _(u"New Version Created")
 
     #def validate_diff_version( self, ):
-        
-    #@form.action( label=_("Show Differences") )
-    def handle_diff_version( self, action, data ):
-        selected = getSelected( self.selection_column, self.request )
-        self.status = _("Display Differences")
-        
     #def validate_revert_version( self )
+
     @form.action(label=_("Revert To") )
     def handle_revert_version( self, action, data):
         selected = getSelected( self.selection_column, self.request )        
@@ -86,9 +74,37 @@ class VersionLogViewlet( BaseForm , viewlet.ViewletBase ):
         message = data['commit_message']
         self._versions.revert( version, message )
         self.status = (_(u"Reverted to Previous Version %s") %(version.version_id))
+
+    @form.action(
+        label=_("Show Differences"), name="diff", validator=lambda form, action, data: ())
+    def handle_diff_version( self, action, data):
+        self.status = _("Displaying differences.")
+
+        selected = getSelected(self.selection_column, self.request)
         
-    def getVersions( self ):
-        return self._versions.values()
+        if len(selected) not in (1, 2):
+            self.status = _("Select one or two items to show differences.")
+            return
+
+        context = removeSecurityProxy(self.context)
+        source = self._versions.get( selected[0] )
+                
+        try:
+            target = self._versions.get( selected[1] )
+        except:
+            target = context
+            
+        view = z3c.difftool.browser.DiffView(source, target, self.request)
+
+        self.extra = view(
+            *filter(IIModelInterface.providedBy, interface.providedBy(context)))
+
+    def setUpWidgets( self, ignore_request=False):
+        # setup widgets in data entry mode not bound to context
+        self.adapters = {}
+        self.widgets = form.setUpDataWidgets(
+            self.form_fields, self.prefix, self.context, self.request,
+            ignore_request = ignore_request )
         
     @property
     def _versions( self ):
@@ -96,6 +112,7 @@ class VersionLogViewlet( BaseForm , viewlet.ViewletBase ):
         versions = IVersioned( instance )
         return versions
         
+
 class VersionLog( BrowserPage ):
     
     __call__ = ViewPageTemplateFile('templates/version.pt')

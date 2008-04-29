@@ -1,5 +1,47 @@
-    <div metal:use-macro="context/@@standard_macros/form">
-        <div metal:fill-slot="pre-fieldset">
-            <div tal:replace="structure view/listing"></div>     
-        </div>
+<div metal:use-macro="context/@@standard_macros/form">
+  <div metal:fill-slot="pre-fieldset">
+    <div tal:replace="structure view/listing"></div>
+    <div id="actionsView">
+      <span class="actionButtons"
+            tal:condition="view/availableActions">
+        <tal:loop tal:repeat="action view/actions">
+
+          <tal:diff condition="python: action.__name__ == 'form.actions.diff'">
+            <label class="discreet"
+                   for="form.actions.diff"
+                   i18n:domain="bungeni"
+                   i18n:translate="">
+              Select a version to compare to the current working copy, or make two selections to compare historic versions.
+            </label>
+            <br />
+            
+	    <input type="submit" class="context"
+	           id="" name="" value=""
+	           tal:attributes="id action/__name__;
+			           name action/__name__;
+			   	   value python:str(action.label);"
+		   i18n:attributes="value" />
+            </tal:diff>
+	</tal:loop>						
+      </span>
     </div>
+    <div tal:replace="structure view/extra" />
+  </div>
+  
+  <div metal:fill-slot="actions">
+    <div id="actionsView">
+      <span class="actionButtons"
+            tal:condition="view/availableActions">
+        <tal:loop tal:repeat="action view/actions">
+	  <input type="submit" class="context"
+	         id="" name="" value=""
+                 tal:condition="python: action.__name__ != 'form.actions.diff'"
+	         tal:attributes="id action/__name__;
+			         name action/__name__;
+			   	 value python:str(action.label);"
+		 i18n:attributes="value" />
+	</tal:loop>						
+      </span>
+    </div>
+  </div>
+</div>

@@ -44,6 +44,10 @@
   <include package="zope.i18n.locales" />
   <include package="zope.app.authentication" />
   
+  <include package="zc.resourcelibrary" file="meta.zcml"/>
+  <include package="zc.resourcelibrary"/>
+  <include package="zc.table"/>  
+      
   <!--
       <include package="zope.annotation" />
       <include package="zope.app.intid" />

@@ -37,8 +37,8 @@
   <!-- Custom forms-->
   <include package=".browser"/>
   
-
-  
+  <!-- Javascript -->
+  <include package="ore.yui"/>
   
   <!-- Application UI -->
   <browser:page

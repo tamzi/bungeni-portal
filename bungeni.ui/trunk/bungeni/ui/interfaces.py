@@ -2,8 +2,9 @@
 from zope.viewlet.interfaces import IViewletManager
 
 from ploned.ui.interfaces import IPlonedSkin
+from ore.yui.interfaces import IYUILayer
 
-class IBungeniSkin( IPlonedSkin ):
+class IBungeniSkin( IPlonedSkin, IYUILayer ):
     """ skin for bungeni """
     
 class IWorkflowViewletManager( IViewletManager ):

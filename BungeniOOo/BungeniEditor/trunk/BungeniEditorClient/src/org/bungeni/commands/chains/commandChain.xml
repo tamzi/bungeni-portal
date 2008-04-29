@@ -89,7 +89,8 @@
                        className="org.bungeni.commands.searchAndReplace2"/>
             <command   id="drfiQB.renameSection"
                        className="org.bungeni.commands.renameSection"/>
-         
+            <command   id="drfiQB.insertHtmlDocumentIntoSection"
+                       className="org.bungeni.commands.insertHtmlDocumentIntoSection"/>
         </chain>        
     </catalog>
     <catalog name="testCatalog">

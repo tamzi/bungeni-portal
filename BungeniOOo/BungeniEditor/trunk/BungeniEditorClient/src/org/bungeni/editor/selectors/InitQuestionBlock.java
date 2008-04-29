@@ -362,26 +362,30 @@ public String getClassName(){
     }
     
     public boolean preFullInsert(){
-        /*
-            UUIDGenerator gen = UUIDGenerator.getInstance();
-            UUID uuid = gen.generateTimeBasedUUID();
-            String tmpFileName = uuid.toString().replaceAll("-", "")+".html";
-            String pathToFile = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH() + File.separator+ "tmp" + File.separator;
-                BufferedWriter out;
-                    out = new BufferedWriter(new FileWriter(new File(pathToFile + tmpFileName)));
-            out.write(QuestionText);
-            out.close();
-            log.debug("tmpFile Name = " + pathToFile+tmpFileName);
-            //selection mode
-            //insert mode
-       */
-            //now add the section
-            // commented on 13 Sep 2007
-            //ooDocument.addViewSection(QuestionId, new Integer(0xffffe1));
-            /*
-             *Add question section into the QA section
-             */
-             
+                /*
+                 *
+           <command   id="drfiQB01.addSectionIntoSectionWithStyling"
+                       className="org.bungeni.commands.addSectionIntoSectionWithStyling"/>
+            <command   id="drfiQB02.setSectionMetadata"
+                       className="org.bungeni.commands.setSectionMetadata"/>
+            <command   id="drfiQB03.addDocumentIntoSection"
+                       className="org.bungeni.commands.addDocumentIntoSection"/>
+            <command   id="drfiQB04.searchAndReplace"
+                       className="org.bungeni.commands.searchAndReplace"/>
+            <command   id="drfiQB05.addSectionIntoSectionWithStyling2"
+                       className="org.bungeni.commands.addSectionIntoSectionWithStyling"/>
+            <command   id="drfiQB06.setSectionMetadata"
+                       className="org.bungeni.commands.setSectionMetadata"/>
+            <command   id="drfiQB07.addDocumentIntoSection"
+                       className="org.bungeni.commands.addDocumentIntoSection"/>
+            <command   id="drfiQB.searchAndReplace2"
+                       className="org.bungeni.commands.searchAndReplace2"/>
+            <command   id="drfiQB.renameSection"
+                       className="org.bungeni.commands.renameSection"/>
+            <command   id="drfiQB.insertHtmlDocumentIntoSection"
+                       className="org.bungeni.commands.insertHtmlDocumentIntoSection"/>                 
+                 */
+            
             log.debug("adding section inside section");
             long sectionBackColor = 0xffffff;
             float sectionLeftMargin = (float).2;
@@ -392,6 +396,7 @@ public String getClassName(){
             String QuestionTitle = txtQuestionTitle.getText();
             String URI = selectionData.get("QUESTION_FROM");
             String QuestionId = selectionData.get("ID");
+            String importHtmlFile = "";
             HashMap<String,String> mainQuestionmeta = new HashMap<String,String>();
             mainQuestionmeta.put("Bungeni_QuestionID", QuestionId);
             mainQuestionmeta.put("Bungeni_QuestionTitle", QuestionTitle);
@@ -400,7 +405,24 @@ public String getClassName(){
             mainQuestionmeta.put("Bungeni_QuestionAddressedTo", AddressedTo);
             mainQuestionmeta.put("BungeniSectionType", theAction.action_section_type());
             
-           // 01 - addSectionIntoSectionWithStyling
+            UUIDGenerator gen = UUIDGenerator.getInstance();
+            UUID uuid = gen.generateTimeBasedUUID();
+            String tmpFileName = uuid.toString().replaceAll("-", "")+".html";
+            String pathToFile = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH() + File.separator+ "tmp" + File.separator;
+            try {
+                BufferedWriter out;
+                importHtmlFile = pathToFile + tmpFileName;
+                out = new BufferedWriter(new FileWriter(new File(importHtmlFile)));
+                out.write(QuestionText);
+                out.close();
+            } catch (IOException ioEx) {
+                log.error("preFullInsert: error writing to output file : " + ioEx.getMessage() );
+            }
+            
+            
+           /*<command   id="drfiQB01.addSectionIntoSectionWithStyling"
+                       className="org.bungeni.commands.addSectionIntoSectionWithStyling"/> */
+    
             String strActionSectionName = getActionSectionName();
             formContext.addFieldSet("section_back_color");
             formContext.getFieldSets("section_back_color").add(Long.toHexString(sectionBackColor));
@@ -413,46 +435,30 @@ public String getClassName(){
             
             formContext.addFieldSet("current_section");
             formContext.getFieldSets("current_section").add(strActionSectionName);
-            
+
             /*
-            thePreInsertMap.put("section_back_color", Long.toHexString(sectionBackColor));
-            thePreInsertMap.put("section_left_margin", Float.toString(sectionLeftMargin));
-            thePreInsertMap.put("container_section", ooDocument.currentSectionName());
-            thePreInsertMap.put("current_section", strActionSectionName);
-            */
-             /*used for setting metadata*/
-           // 02 - setSectionmetadata
+             *       <command   id="drfiQB02.setSectionMetadata"
+                       className="org.bungeni.commands.setSectionMetadata"/>
+                       */
             formContext.addFieldSet("new_section");
             formContext.getFieldSets("new_section").add(strActionSectionName);
-            
-            /*
-            formContext.getFieldSets().add(new ooDocFieldSet(new String("debaterecord_official_date"),
-                                            (String) theControlDataMap.get("dt_initdebate_hansarddate"),
-                                             new String("int:masthead_datetime")));
-            formContext.getFieldSets().add(new ooDocFieldSet(new String("debaterecord_official_time"),
-                                            (String) theControlDataMap.get("dt_initdebate_timeofhansard"),
-                                             new String("int:masthead_datetime")));            
-            */
+            formContext.addFieldSet("section_metadata_map");
+            formContext.getFieldSets("section_metadata_map").add(mainQuestionmeta);
 
-            formContext.addFieldSet("document_section_metadata");
-            formContext.getFieldSets("document_section_metadata").add(mainQuestionmeta);
-            /*
-            thePreInsertMap.put("document_section_metadata", mainQuestionmeta);
-            */
-           // 03 - addDocumentIntoSection
+            /*<command   id="drfiQB03.addDocumentIntoSection"
+                       className="org.bungeni.commands.addDocumentIntoSection"/>*/
             formContext.addFieldSet("document_fragment");
             formContext.getFieldSets("document_fragment").add(FragmentsFactory.getFragment("hansard_question"));
-            //thePreInsertMap.put("document_fragment" , FragmentsFactory.getFragment("hansard_question"));
+            formContext.addFieldSet("document_import_section");
+            formContext.getFieldSets("document_import_section").add(strActionSectionName);
             
-          // 04 - searchAndReplace  
+              /** <command   id="drfiQB04.searchAndReplace"
+                       className="org.bungeni.commands.searchAndReplace"/>**/
             formContext.addFieldSet("search_for");
             formContext.getFieldSets("search_for").add("[[QUESTION_TITLE]]");
-            //thePreInsertMap.put("search_for", "[[QUESTION_TITLE]]");
             formContext.addFieldSet("replacement_text");
             formContext.getFieldSets("replacement_text").add(QuestionTitle );
-            /*
-            thePreInsertMap.put("replacement_text", QuestionTitle );
-            */
+
             //generate new section name
             String newSectionName = strActionSectionName + "-que1" ;
             int nCounter = 1;
@@ -460,20 +466,29 @@ public String getClassName(){
                 nCounter++;
                 newSectionName = strActionSectionName + "-que"+nCounter;
             }
-          // 05 - addSectionIntoSectionWithStyling
+            /* 
+             <command   id="drfiQB05.addSectionIntoSectionWithStyling2"
+                       className="org.bungeni.commands.addSectionIntoSectionWithStyling"/>            
+            ***/
             formContext.getFieldSets("section_back_color").add(Long.toHexString(0xffffff));
             formContext.getFieldSets("section_left_margin").add(Float.toString((float).4));
             formContext.getFieldSets("container_section").add(strActionSectionName);
             formContext.getFieldSets("current_section").add(newSectionName);
-          // 06 - setSectionmetadata
+            /*** <command   id="drfiQB06.setSectionMetadata"
+                       className="org.bungeni.commands.setSectionMetadata"/> ***/
             formContext.getFieldSets("new_section").add(newSectionName);
             HashMap<String,String> subQuestionMeta = new HashMap<String,String>();
             subQuestionMeta.put("BungeniSectionType", "Question");
-            formContext.getFieldSets("document_section_metadata").add(subQuestionMeta);
-          // 07 - addDocumentIntoSection
-            formContext.getFieldSets("current_section").add(newSectionName);
+            formContext.getFieldSets("section_metadata_map").add(subQuestionMeta);
+
+            /*** <command   id="drfiQB07.addDocumentIntoSection"
+                       className="org.bungeni.commands.addDocumentIntoSection"/> ***/
+            formContext.getFieldSets("document_import_section").add(newSectionName);
             formContext.getFieldSets("document_fragment").add(FragmentsFactory.getFragment("hansard_question_text"));
-            //08 - searchAndReplace2
+
+            /** <command   id="drfiQB.searchAndReplace2"
+                       className="org.bungeni.commands.searchAndReplace2"/> **/
+            
             formContext.getFieldSets("search_for").add("[[QUESTION_FROM]]");
             formContext.getFieldSets("replacement_text").add(PersonName);
             formContext.addFieldSet("bookmark_range");
@@ -483,16 +498,29 @@ public String getClassName(){
             formContext.addFieldSet("url_hyperlink");
             formContext.getFieldSets("url_hyperlink").add("Name: "+PersonName+ ";URI: "+selectionData.get("QUESTION_FROM"));
             formContext.getFieldSets("url_name").add("member_url");
-            //09 - renameSection
-            
-            //10 importHtml
-            
+
+            /** <command   id="drfiQB.renameSection"
+                       className="org.bungeni.commands.renameSection"/> **/
+            formContext.addFieldSet("from_section");
+            formContext.getFieldSets("from_section").add("mp_name");
+            formContext.addFieldSet("to_section");
+            formContext.getFieldSets("to_section").add("meta-mp-"+uuid.toString());
+
+            /** <command   id="drfiQB.insertHtmlDocumentIntoSection"
+                       className="org.bungeni.commands.insertHtmlDocumentIntoSection"/> **/                 
+            formContext.addFieldSet("import_html_section");
+            formContext.addFieldSet("import_html_file");
+            formContext.addFieldSet("import_html_style");
+            formContext.getFieldSets("import_html_section").add(newSectionName);
+            formContext.getFieldSets("import_html_file").add(importHtmlFile);
+            formContext.getFieldSets("import_html_style").add("question-text");
             
         return true;
     }
     
     public boolean processFullInsert() {
-        return true;
+        boolean bReturn = processCatalogCommand();
+        return bReturn;
     }
    
     public boolean postFullInsert(){
@@ -527,288 +555,6 @@ public String getClassName(){
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt)  {//GEN-FIRST:event_btnApplyActionPerformed
 // TODO add your handling code here:
         super.formApply();
-        
-        returnError(false);
-        
-        String AddressedTo = txtAddressedTo.getText();
-        String PersonName = txtPersonName.getText();
-        String QuestionText = txtQuestionText.getText();
-        String QuestionTitle = txtQuestionTitle.getText();
-        String URI = selectionData.get("QUESTION_FROM");
-        
-        String QuestionId = theAction.action_naming_convention() +  selectionData.get("ID");
-        log.debug("In Current Mode = " + theMode);
-        //if (URI == null) URI = "";
-        if (selectionData.size() == 0 ) {
-            if ((theMode == SelectorDialogModes.TEXT_INSERTION)|| (theMode == SelectorDialogModes.TEXT_SELECTED_INSERT)) {
-                
-            MessageBox.OK(parent, "Please select a question first!");
-             returnError(true);
-            return;
-            }
-        }
-       // if (URI.length() == 0 ) {
-        //    MessageBox.OK(parent, "Please select a question first !");
-         //   return;
-       // }
-        
-        try {
-        if (this.theMode == SelectorDialogModes.TEXT_SELECTED_INSERT) {
-            //insert mode
-            log.debug("in selection mode");
-            //check if section by that name exists, fail immediately if true
-            if (ooDocument.getTextSections().hasByName(QuestionId)) {
-                MessageBox.OK(parent, "The Question: " + QuestionId+" already exists in the document !");
-                returnError(true);
-                return;
-            }
-            //now check if inside a question-section, if so fail immediately
-            ExternalMacro cursorInSection = ExternalMacroFactory.getMacroDefinition("CursorInSection");
-            Object retValue = ooDocument.executeMacro(cursorInSection.toString(), cursorInSection.getParams());
-            String sectionNameExists = (String)retValue;
-            
-            dbSettings.Connect();
-            QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_GET_SECTION_PARENT(theAction.action_name()));
-            dbSettings.EndConnect();
-            String[] validParentSections = qr.getSingleColumnResult("ACTION_NAMING_CONVENTION");
-            
-            boolean wrongSection = true;
-            int validCounter = 0;
-            for ( ; validCounter < validParentSections.length; validCounter++ ) {
-                if (sectionNameExists.equals(validParentSections[validCounter])) {
-                    wrongSection = false;
-                    break;
-                }
-            }
-        
-            
-            if (wrongSection) {
-                String message = "You cannot insert a question in this section, \n Please place the cursor in a different part of the document, valid sections are: ";
-                for (int i=0; i < validParentSections.length; i++) {
-                    message+=validParentSections[i]+ ", ";
-                }
-                MessageBox.OK(parent, message);
-                returnError(true);
-                return;
-            }
-            //now add the section
-            ooDocument.addViewSection(QuestionId, new Integer(0xffffff));
-            //now add the section Content
-            MessageBox.OK(parent, "The selected text was placed in a section , and marked up " +
-                    "as: " + QuestionId + "\n Please highlight the name of the person making the speech to assigne their metadata");
-            returnError(true);
-            
-        } else if (this.theMode == SelectorDialogModes.TEXT_EDIT) {
-            
-            //only name can be edited nothing else....
-            String sectionName = ooDocument.currentSectionName();
-            //unprotect any child sections if neccessary, and reprotect them at the end
-            //1 change the metadata in the parent section
-            //2 change he display text in the inner section
-            String childSection = ooDocument.getMatchingChildSection(sectionName, "meta-mp-");
-            boolean wasProtected = false;
-            if (ooDocument.isSectionProtected(childSection))
-                wasProtected = true;
-                
-            ExternalMacro ReplaceLinkInSectionByName = ExternalMacroFactory.getMacroDefinition("ReplaceLinkInSectionByName");
-            ReplaceLinkInSectionByName.addParameter(ooDocument.getComponent());
-            ReplaceLinkInSectionByName.addParameter(childSection);
-            ReplaceLinkInSectionByName.addParameter(new String("member_url"));
-            ReplaceLinkInSectionByName.addParameter(PersonName);
-            ReplaceLinkInSectionByName.addParameter( "Name: "+PersonName+ ";URI: "+this.txtPersonURI.getText());
-            ReplaceLinkInSectionByName.addParameter(wasProtected);
-            
-            ooDocument.executeMacro(ReplaceLinkInSectionByName.toString(), ReplaceLinkInSectionByName.getParams());
-
-            
-            /////now set the section metadata///
-            
-            String[] attrNames = new String[1];
-            String[] attrValues = new String[1];
-            attrNames[0] = "Bungeni_QuestionMemberFrom";
-            
-            attrValues[0] = PersonName;
-            log.debug("Updating person name = " + PersonName);
-            /*
-             *Set metadata into section
-             */
-            ExternalMacro SetSectionMetadata = ExternalMacroFactory.getMacroDefinition("SetSectionMetadata");
-            SetSectionMetadata.addParameter(ooDocument.getComponent());
-            SetSectionMetadata.addParameter(sectionName );
-            SetSectionMetadata.addParameter(attrNames);
-            SetSectionMetadata.addParameter(attrValues);
-            ooDocument.executeMacro(SetSectionMetadata.toString(), SetSectionMetadata.getParams());
-            
-           
-            MessageBox.OK(parent, "Metadata for the section was updated");
-            returnError(true);
-            parent.dispose();
-            
-        } else if (this.theMode == SelectorDialogModes.TEXT_INSERTION) {
-            log.debug("in insert mode");
-             if (ooDocument.getTextSections().hasByName(QuestionId)) {
-                MessageBox.OK(parent, "The Question: " + QuestionId+" already exists in the document !");
-                returnError(true);
-                return;
-            }
-         
-            /*
-             *Import of Question in XHTML Format is done in the following way..
-             *Question text is dumped into a temporary html file
-             *the temporary html file is loaded (using loadComponentFromFile() ) into
-             *the section, the OOo html importer takes care of formatting the html.
-             */
-             
-            UUIDGenerator gen = UUIDGenerator.getInstance();
-            UUID uuid = gen.generateTimeBasedUUID();
-            String tmpFileName = uuid.toString().replaceAll("-", "")+".html";
-            String pathToFile = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH() + File.separator+ "tmp" + File.separator;
-                BufferedWriter out;
-                    out = new BufferedWriter(new FileWriter(new File(pathToFile + tmpFileName)));
-            out.write(QuestionText);
-            out.close();
-            log.debug("tmpFile Name = " + pathToFile+tmpFileName);
-            //selection mode
-            //insert mode
-       
-            //now add the section
-            // commented on 13 Sep 2007
-            //ooDocument.addViewSection(QuestionId, new Integer(0xffffe1));
-            /*
-             *Add question section into the QA section
-             */
-            log.debug("adding section inside section");
-            long sectionBackColor = 0xffffff;
-            float sectionLeftMargin = (float).2;
-            log.debug("section left margin : "+ sectionLeftMargin);
-
-            ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
-            AddSectionInsideSection.addParameter(ooDocument.getComponent());
-            AddSectionInsideSection.addParameter("qa");
-            AddSectionInsideSection.addParameter(QuestionId);
-            AddSectionInsideSection.addParameter(sectionBackColor);
-            AddSectionInsideSection.addParameter(sectionLeftMargin);
-            ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
-           
-            //new code for setting section metadata in  a hierarhical manner
-            //first set question id, question title at main question block level
-            //second set questionFrom and questionTo at nested question element level...
-            
-            /*** new code *****/
-            HashMap<String,String> mainQuestionmeta = new HashMap<String,String>();
-            mainQuestionmeta.put("Bungeni_QuestionID", QuestionId);
-            mainQuestionmeta.put("Bungeni_QuestionTitle", QuestionTitle);
-            mainQuestionmeta.put("Bungeni_QuestionMemberFrom", PersonName);
-            mainQuestionmeta.put("Bungeni_QuestionMemberFromURI", URI);
-            mainQuestionmeta.put("Bungeni_QuestionAddressedTo", AddressedTo);
-            mainQuestionmeta.put("BungeniSectionType", "QuestionContainer");
-            
-            HashMap<String,String> questionHoldermeta = new HashMap<String,String>();
-            questionHoldermeta.put("BungeniSectionType", "Question");
-            
-            ooDocument.setSectionMetadataAttributes(QuestionId, mainQuestionmeta );
-            //now add the section Content
-            //add question title into section
-            /*
-             *Add hansard_question document fragment to import the question header into the 
-             *document, question header - which sets question title and brief writeup about question
-             */
-            ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
-            insertDocIntoSection.addParameter(ooDocument.getComponent());
-            insertDocIntoSection.addParameter(QuestionId)   ;
-            insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_question"));
-            ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
-            //search replace title into question title marker
-            /*
-             *SearchAndReplace question_title with actual question title from the swing dialog
-             */
-            ExternalMacro SearchAndReplace = ExternalMacroFactory.getMacroDefinition("SearchAndReplace");
-            SearchAndReplace.addParameter(ooDocument.getComponent());
-            SearchAndReplace.addParameter("[[QUESTION_TITLE]]");
-            SearchAndReplace.addParameter(QuestionTitle);
-            ooDocument.executeMacro(SearchAndReplace.toString(), SearchAndReplace.getParams());
-            //add sub section (numbered serially) and 
-            /*
-             *Generate incrementally numbered question section, generate it based on 
-             *current maximum question no. in document + 1
-             */
-            String newSectionName = QuestionId + "-que1" ;
-            int nCounter = 1;
-            while (ooDocument.getTextSections().hasByName(newSectionName) ) {
-                nCounter++;
-                newSectionName = QuestionId+"-que"+nCounter;
-            }
-            
-            log.debug("addingSectionInsideSection : queston id="+QuestionId+" , new section name="+newSectionName+" , sectionBackColor="+sectionBackColor+", "+sectionLeftMargin);
-            /*
-             *add a question section named based on the generated name above
-             *add it inside the qa section
-             */
-            AddSectionInsideSection.clearParams();
-            sectionBackColor = 0xffffff;
-            sectionLeftMargin = (float).4;
-            AddSectionInsideSection.addParameter(ooDocument.getComponent());
-            AddSectionInsideSection.addParameter(QuestionId);
-            AddSectionInsideSection.addParameter(newSectionName);
-            AddSectionInsideSection.addParameter(sectionBackColor);
-            AddSectionInsideSection.addParameter(sectionLeftMargin);
-            ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
-            ooDocument.setSectionMetadataAttributes(newSectionName, questionHoldermeta );
-            
-            //import sub section fragment
-            /*
-             *Import hansard_question_text fragment into newly created section
-             */
-            insertDocIntoSection.clearParams();
-            insertDocIntoSection.addParameter(ooDocument.getComponent());
-            insertDocIntoSection.addParameter(newSectionName);
-            insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_question_text"));
-            ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
-            //search and replace into fragment
-            /*
-             *Search and replace "question by" from between the beginnign and ending bookmarks
-             */
-            String[] arrBookmarkRanges = { "begin-question_from", "end-question_from" };
-            ExternalMacro SearchAndReplace2 = ExternalMacroFactory.getMacroDefinition("SearchAndReplace2");
-            SearchAndReplace2.addParameter(ooDocument.getComponent());
-            SearchAndReplace2.addParameter("[[QUESTION_FROM]]");
-            SearchAndReplace2.addParameter(PersonName);
-            SearchAndReplace2.addParameter(arrBookmarkRanges);
-            SearchAndReplace2.addParameter("Name: "+PersonName+ ";URI: "+selectionData.get("QUESTION_FROM"));
-            SearchAndReplace2.addParameter("member_url");
-            ooDocument.executeMacro(SearchAndReplace2.toString(), SearchAndReplace2.getParams());
-            /*
-             *Imported section has section called mp_name that contains the default name "mp_name"
-             *rename it to the UUID based name
-             */
-            ExternalMacro RenameSection = ExternalMacroFactory.getMacroDefinition("RenameSection");
-            RenameSection.addParameter("mp_name");
-            String renamedSectionName = "meta-mp-"+uuid.toString();
-            RenameSection.addParameter(renamedSectionName);
-            ooDocument.executeMacro(RenameSection.toString(), RenameSection.getParams());
-            /*
-             *Set metadata into section
-             */
-            /*
-             *Import html document framgment 
-             */
-            ExternalMacro insertHtmlDocumentIntoSection = ExternalMacroFactory.getMacroDefinition("InsertHTMLDocumentIntoSection");
-            insertHtmlDocumentIntoSection.addParameter(newSectionName);
-            insertHtmlDocumentIntoSection.addParameter(pathToFile+tmpFileName);
-            insertHtmlDocumentIntoSection.addParameter(new String("question-text"));
-            ooDocument.executeMacro(insertHtmlDocumentIntoSection.toString(), insertHtmlDocumentIntoSection.getParams() );
-            
-            //MessageBox.OK(parent, "Finished Importing !");
-            returnError(true);
-            parent.dispose();
-        }   
-        
-    // End of variables declaration                      
-            } catch (IOException ex) {
-                    log.error("InitQuestionBlock: " +ex.getMessage());
-                 returnError(true);
-            }
-           
     }//GEN-LAST:event_btnApplyActionPerformed
 
     private void btnSelectQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectQuestionActionPerformed

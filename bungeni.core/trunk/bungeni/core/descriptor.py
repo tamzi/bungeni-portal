@@ -7,6 +7,7 @@ from zope import schema, interface
 from zc.table import column
 
 from bungeni.ui.datetimewidget import SelectDateWidget, SelectDateTimeWidget
+from bungeni.ui import widget
 
 from alchemist.ui import widgets
 from bungeni.ui.login import check_email
@@ -140,7 +141,9 @@ def IsDeceased(User):
 class UserDescriptor( ModelDescriptor ):
     fields = [
         dict( name="user_id", omit=True),
-        dict( name="titles", label=_(u"Title(s)"), description=_(u"Indicate any titles the person may hold")),
+        dict( name="titles", 
+              label=_(u"Title(s)"), 
+              description=_(u"Indicate any titles the person may hold")),
         dict( name="first_name", label=_(u"First Name"), listing=True),
         dict( name="last_name", label=_(u"Last Name"), listing=True),
         dict( name="middle_name", label=_(u"Middle Name")),
@@ -155,14 +158,20 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="national_id", label=_(u"National Id")),
         dict( name="gender", 
               property = schema.Choice( title=_(u"Gender"), values=['M', 'F'] ) ),
-        dict( name="date_of_birth", label=_(u"Date of Birth"), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+        dict( name="date_of_birth", 
+              label=_(u"Date of Birth"), 
+              edit_widget=SelectDateWidget, 
+              add_widget=SelectDateWidget),
         dict( name="birth_country", 
               property = schema.Choice( title=_(u"Country of Birth"), 
-                                        source=DatabaseSource(domain.Country, 'country_name', 'country_id' ),
+                                        source=DatabaseSource(domain.Country, 'country_name',
+                                                             'country_id' ),
                                         required=True )
             ),
-        dict( name="date_of_death", label=_(u"Date of Death"), view_permission="bungeni.AdminUsers", 
-                edit_permission="bungeni.AdminUsers", edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+        dict( name="date_of_death", label=_(u"Date of Death"),
+              view_permission="bungeni.AdminUsers", 
+              edit_permission="bungeni.AdminUsers",
+              edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
         dict( name="password", omit=True ),
         dict( name="salt", omit=True),
         dict( name="active_p", label=_(u"Active"), 
@@ -334,14 +343,34 @@ class ParliamentDescriptor( GroupDescriptor ):
               description=_(u"Parliament name"), 
               listing=True,
               listing_column=name_column("full_name", "Name") ),
-        dict( name="description", property=schema.Text(title=_(u"Description"), required=False )),
-        dict( name="election_date", label=_(u"Election Date"), description=_(u"Date the of the election"), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),        
-        dict( name="start_date", label=_(u"In power from"), 
-              listing_column=day_column("start_date", _(u"In power from") ), listing=True, 
-              description=_(u"Date the of the swearing in"), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
-        dict( name="end_date", label=_(u"In power till"),  description=_(u"Date the of the dissolution"), 
-              listing_column=day_column("end_date", _(u"In power till")), listing=True,
-              edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
+        dict( name="description", 
+              property=schema.Text(title=_(u"Description"), required=False),
+#              view_widget=widget.HTMLDisplay,
+#              edit_widget=widget.RichTextEditor, 
+#              add_widget=widget.RichTextEditor 
+               ),
+        dict( name="election_date",
+              label=_(u"Election Date"), 
+              description=_(u"Date the of the election"),
+              edit_widget=SelectDateWidget, 
+              add_widget=SelectDateWidget 
+              ),        
+        dict( name="start_date",
+              label=_(u"In power from"), 
+              description=_(u"Date the of the swearing in"),
+              listing_column=day_column("start_date", _(u"In power from") ), 
+              listing=True, 
+              edit_widget=SelectDateWidget,
+              add_widget=SelectDateWidget 
+              ),
+        dict( name="end_date", 
+              label=_(u"In power till"),
+              description=_(u"Date the of the dissolution"), 
+              listing_column=day_column("end_date", _(u"In power till")),
+              listing=True,
+              edit_widget=SelectDateWidget,
+              add_widget=SelectDateWidget 
+              ),
         dict( name="status", omit=True),
         dict( name="type", omit=True),
         ]

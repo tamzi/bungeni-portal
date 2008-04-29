@@ -345,9 +345,9 @@ class ParliamentDescriptor( GroupDescriptor ):
               listing_column=name_column("full_name", "Name") ),
         dict( name="description", 
               property=schema.Text(title=_(u"Description"), required=False),
-#              view_widget=widget.HTMLDisplay,
-#              edit_widget=widget.RichTextEditor, 
-#              add_widget=widget.RichTextEditor 
+              view_widget=widget.HTMLDisplay,
+              edit_widget=widget.RichTextEditor, 
+              add_widget=widget.RichTextEditor 
                ),
         dict( name="election_date",
               label=_(u"Election Date"), 

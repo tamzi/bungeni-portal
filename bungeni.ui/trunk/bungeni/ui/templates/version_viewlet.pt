@@ -2,27 +2,28 @@
   <div metal:fill-slot="pre-fieldset">
     <div tal:replace="structure view/listing"></div>
     <div id="actionsView">
+      <label class="discreet"
+             for="form.actions.diff"
+             i18n:domain="bungeni"
+             i18n:translate="">
+        Select a version to compare to the current working copy, or make two selections to compare historic versions.
+      </label>
+      <br />
+     
       <span class="actionButtons"
             tal:condition="view/availableActions">
-        <tal:loop tal:repeat="action view/actions">
 
-          <tal:diff condition="python: action.__name__ == 'form.actions.diff'">
-            <label class="discreet"
-                   for="form.actions.diff"
-                   i18n:domain="bungeni"
-                   i18n:translate="">
-              Select a version to compare to the current working copy, or make two selections to compare historic versions.
-            </label>
-            <br />
-            
+        <tal:loop tal:repeat="action view/actions">
+          <tal:buttons condition="python: action.__name__ in ('form.actions.diff', 'form.actions.view')">
+
 	    <input type="submit" class="context"
 	           id="" name="" value=""
 	           tal:attributes="id action/__name__;
 			           name action/__name__;
 			   	   value python:str(action.label);"
 		   i18n:attributes="value" />
-            </tal:diff>
-	</tal:loop>						
+            </tal:buttons>
+        </tal:loop>						
       </span>
     </div>
     <div tal:replace="structure view/extra" />
@@ -35,7 +36,7 @@
         <tal:loop tal:repeat="action view/actions">
 	  <input type="submit" class="context"
 	         id="" name="" value=""
-                 tal:condition="python: action.__name__ != 'form.actions.diff'"
+                 tal:condition="python: action.__name__ not in ('form.actions.diff', 'form.actions.view')"
 	         tal:attributes="id action/__name__;
 			         name action/__name__;
 			   	 value python:str(action.label);"

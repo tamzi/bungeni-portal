@@ -1,0 +1,10 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+       xmlns:metal="http://xml.zope.org/namespaces/metal">
+
+  <form metal:use-macro="context/@@alchemist-form/form">
+    <p metal:fill-slot="top-fieldset">
+      <span tal:content="view/description" />
+    </p>
+  </form>
+
+</html>

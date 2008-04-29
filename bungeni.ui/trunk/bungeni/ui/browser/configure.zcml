@@ -114,9 +114,16 @@
       permission="zope.View"
       allowed_interface="zope.formlib.interfaces.ISubPageForm"      
       />      
-      
     
-      
+    <browser:page
+       name="index.html"
+       for="bungeni.core.interfaces.IVersion"
+       class=".versions.BaseView"
+       permission="zope.View"
+       />
+
+
+    
   <!--browser:view      
       layer="bungeni.ui.interfaces.IBungeniSkin"       
       permission="zope.Public"

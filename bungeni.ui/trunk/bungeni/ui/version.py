@@ -2,7 +2,7 @@
 User interface for Content Versioning.
 """
 from alchemist.ui.core import BaseForm, getSelected
-from zope import interface, schema
+from zope import interface, component, schema
 from zope.security.proxy import removeSecurityProxy
 from zope.formlib import form
 from zope.publisher.browser import  BrowserPage
@@ -15,6 +15,7 @@ from bungeni.core.interfaces import IVersioned
 from bungeni.core.i18n import _
 
 from ore.alchemist.interfaces import IIModelInterface
+from zope.app.publisher.browser import queryDefaultViewName
 
 import z3c.difftool.browser
 
@@ -75,6 +76,17 @@ class VersionLogViewlet(BaseForm , viewlet.ViewletBase ):
         self._versions.revert( version, message )
         self.status = (_(u"Reverted to Previous Version %s") %(version.version_id))
 
+    @form.action(
+        label=_("View"), name="view", validator=lambda form, action, data: ())
+    def handle_view_version( self, action, data):
+        selected = getSelected(self.selection_column, self.request)
+        context = self._versions.get( selected[0] )
+
+        view = component.getMultiAdapter((context, self.request),
+                                         name=queryDefaultViewName(context, self.request))
+
+        self.extra = view()
+        
     @form.action(
         label=_("Show Differences"), name="diff", validator=lambda form, action, data: ())
     def handle_diff_version( self, action, data):

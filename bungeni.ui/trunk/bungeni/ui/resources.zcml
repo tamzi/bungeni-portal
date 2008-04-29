@@ -1,0 +1,22 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"           
+           i18n_domain="plone">
+
+  <!-- Skin CSS -->
+  <browser:resourceDirectory
+     name="bungeni-css"
+     directory="css"
+     layer="ploned.ui.interfaces.IPlonedSkin"
+     />
+
+  <browser:viewlet
+     name="bungeni-ui"
+     for="*"
+     class=".resources.UserInterfaceCSS"
+     manager="ploned.ui.interfaces.ICSSManager"
+     permission="zope.Public"
+     layer="ploned.ui.interfaces.IPlonedSkin"
+     weight="15"
+     />
+  
+</configure>

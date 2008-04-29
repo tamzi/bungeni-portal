@@ -11,6 +11,9 @@
   <!-- Site Skin Definition -->
   <include file="skin.zcml"/>  
 
+  <!-- Site Resource Viewlets -->
+  <include file="resources.zcml" />
+  
   <!-- Site Menus Definition -->
   <include file="menu.zcml"/>
 

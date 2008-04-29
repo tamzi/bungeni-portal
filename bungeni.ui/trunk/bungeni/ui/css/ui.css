@@ -1,0 +1,13 @@
+#version-history table.listingdescription {
+    margin-bottom: 0.5em;
+}
+
+table.diff {
+    display: block;
+    overflow: auto;
+    border: 1px solid #ccc;
+}
+
+table.diff td {
+    padding: 3px;
+}

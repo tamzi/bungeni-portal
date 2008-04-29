@@ -34,10 +34,17 @@ class RichTextEditor( TextAreaWidget ):
                       dompath:false, 
                       focusAtStart:false};
             var %s_editor = new YAHOO.widget.SimpleEditor('%s', options); 
+            YAHOO.util.Event.on(
+                %s_editor.get('element').form, 
+                'submit', 
+                function( ev ) { 
+                    %s_editor.saveHTML(); 
+                    }
+                );            
             %s_editor._defaultToolbar.titlebar = false;
             %s_editor.render();     
         </script>    
-        """%(jsid, self.name, jsid, jsid)
+        """%(jsid, self.name, jsid, jsid, jsid, jsid)
         
         # return the rendered input widget
         return input_widget

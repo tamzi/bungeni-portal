@@ -1,3 +1,4 @@
+
 # encoding: utf-8
 
 from ore.alchemist.vocabulary import DatabaseSource
@@ -61,7 +62,8 @@ class ParliamentAdd( ContentAddForm ):
         """        
         self.status = self.request.get('portal_status_message','')        
         # to display errors from invariants, pass the field names when raising Invalid
-        super(ParliamentAdd, self).update()
+        #super(ParliamentAdd, self).update()
+        form.AddForm.update( self )
         set_widget_errors(self.widgets, self.errors) 
  
     def finishConstruction( self, ob ):
@@ -103,6 +105,7 @@ class MinistryAdd( ContentAddForm ):
         """        
         self.status = self.request.get('portal_status_message','')        
         form.AddForm.update( self )
+        set_widget_errors(self.widgets, self.errors)        
  
     def finishConstruction( self, ob ):
         """
@@ -186,6 +189,7 @@ class MinistersAdd( ContentAddForm ):
         """        
         self.status = self.request.get('portal_status_message','')        
         form.AddForm.update( self )
+        set_widget_errors(self.widgets, self.errors)        
  
     def finishConstruction( self, ob ):
         """
@@ -219,6 +223,7 @@ class GovernmentAdd ( ContentAddForm ):
         """        
         self.status = self.request.get('portal_status_message','')        
         form.AddForm.update( self )
+        set_widget_errors(self.widgets, self.errors)        
  
     def finishConstruction( self, ob ):
         """
@@ -255,6 +260,7 @@ class ExtensionGroupAdd( ContentAddForm ):
         """        
         self.status = self.request.get('portal_status_message','')        
         form.AddForm.update( self )
+        set_widget_errors(self.widgets, self.errors)        
  
     def finishConstruction( self, ob ):
         """
@@ -323,6 +329,7 @@ class ExtensionMemberAdd( ContentAddForm ):
         """        
         self.status = self.request.get('portal_status_message','')        
         form.AddForm.update( self )
+        set_widget_errors(self.widgets, self.errors)        
  
     def finishConstruction( self, ob ):
         """
@@ -407,6 +414,7 @@ class CommitteeMemberAdd( ContentAddForm ):
         """        
         self.status = self.request.get('portal_status_message','')        
         form.AddForm.update( self )
+        set_widget_errors(self.widgets, self.errors)        
  
     def finishConstruction( self, ob ):
         """
@@ -443,6 +451,7 @@ class CommitteeAdd( ContentAddForm ):
         """        
         self.status = self.request.get('portal_status_message','')        
         form.AddForm.update( self )
+        set_widget_errors(self.widgets, self.errors)        
  
     def finishConstruction( self, ob ):
         """
@@ -504,6 +513,7 @@ class MemberOfParliamentAdd( ContentAddForm ):
         """        
         self.status = self.request.get('portal_status_message','')        
         form.AddForm.update( self )
+        set_widget_errors(self.widgets, self.errors)        
  
     def finishConstruction( self, ob ):
         """
@@ -539,7 +549,9 @@ class SessionAdd( ContentAddForm ):
         """        
         self.status = self.request.get('portal_status_message','')        
         form.AddForm.update( self )
- 
+        set_widget_errors(self.widgets, self.errors)
+        
+         
     def finishConstruction( self, ob ):
         """
         adapt the custom fields to the object
@@ -575,6 +587,7 @@ class GroupSittingAdd( ContentAddForm ):
         """        
         self.status = self.request.get('portal_status_message','')        
         form.AddForm.update( self )
+        set_widget_errors(self.widgets, self.errors)        
  
     def finishConstruction( self, ob ):
         """
@@ -638,7 +651,8 @@ class GroupSittingAttendanceAdd( ContentAddForm ):
         """        
         self.status = self.request.get('portal_status_message','')        
         form.AddForm.update( self )
- 
+        set_widget_errors(self.widgets, self.errors)
+         
     def finishConstruction( self, ob ):
         """
         adapt the custom fields to the object
@@ -683,6 +697,7 @@ class GroupSittingAttendanceEdit( EditFormViewlet ):
         """
         self.adapters = { IGroupSittingAttendanceEdit : self.context }        
         super( GroupSittingAttendanceEdit, self).update()
+        set_widget_errors(self.widgets, self.errors)
 
 # Sittings                    
 
@@ -702,7 +717,9 @@ class GroupSittingEdit( EditFormViewlet ):
         """
         self.adapters = { IGroupSitting : self.context }        
         super( GroupSittingEdit, self).update()
-
+        set_widget_errors(self.widgets, self.errors)
+        
+        
     def validate(self, action, data):    
         """
         validation that require context must be called here,

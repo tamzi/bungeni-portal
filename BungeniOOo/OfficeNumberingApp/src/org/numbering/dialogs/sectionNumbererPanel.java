@@ -35,6 +35,7 @@ import com.sun.star.text.XTextViewCursor;
 import com.sun.star.text.XTextViewCursorSupplier;
 import com.sun.star.uno.Any;
 import com.sun.star.uno.AnyConverter;
+import com.sun.star.uno.Type;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 import com.sun.star.util.XNumberFormatTypes;
@@ -62,6 +63,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultListModel;
@@ -114,6 +116,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
     private ArrayList<String> docReferences = new ArrayList<String>();
     private ArrayList<String> insertedNumbers = new ArrayList<String>();
      private ArrayList<String> sectionHierarchy = new ArrayList<String>();
+     
     private int countElems=1;
     private int testCount=1;
     DefaultListModel model=new DefaultListModel();
@@ -134,12 +137,23 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
     private String selectedNodeName="";
      private JFrame parentFrame;
      private BungeniUUID bungeniUUID;
+    // private ArrayList<Object> arrPortions = new ArrayList<Object>(0);
+     ArrayList<Object> arrHeadings = new ArrayList<Object>(0);
+    // private Set arrPortions = new HashSet();
+     private HashMap<String,String> arrPortions = new HashMap();
+     
+     TreeMap<String, sectionHeadingReferenceMarks> refMarksMap = new TreeMap<String, sectionHeadingReferenceMarks>();
+
+    
+   
     /** Creates new form sectionNumbererPanel */
     public sectionNumbererPanel() {
        
     }
     
     public sectionNumbererPanel(XComponentContext xContext){
+        
+        
         this.xContext=xContext;
         initComponents();
         init();
@@ -779,10 +793,11 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
        
     }
     
-    //another
+    //Returns 1st heading in the section
     
-     private void getNumberedHeadingsInsertCrossRef(String results) {
+     private Object getNumberedHeadingsInsertCrossRef(String results) {
      
+           Object objHeading = null;
            
            try{
                
@@ -807,10 +822,10 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
                             XTextRange aTextRange =   xContent.getAnchor();
                             String strHeading = aTextRange.getString();
                             System.out.println("strHeading " + strHeading);
-                           
                           // insertCrossReference(strHeading);
                           // insertCrossReference();
-                            getReferenceMarksOnCross(aTextRange,elem,strHeading);
+                         //   getReferenceMarksOnCross(aTextRange,elem,strHeading);
+                            objHeading = elem;
                            break;
                          }
                    
@@ -830,64 +845,37 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
             }catch(com.sun.star.lang.IllegalArgumentException ex){
                 log.error(ex.getClass().getName() + " - " + ex.getMessage());
                 log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            } finally {
+                return objHeading;
             }
-            
-      
-    
-       
     }
     
-   private void getReferenceMarksOnCross(XTextRange aTextRange, Object elem, String refHeading){
+   private ArrayList<String> getReferenceMarksOnCross(Object elem){
+        ArrayList<String> referenceMarkNames = new ArrayList<String>(0);
+        String textPortionType="";
+        XEnumerationAccess xRangeAccess  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, elem);
       
- XReferenceMarksSupplier xRefSupplier = (XReferenceMarksSupplier) UnoRuntime.queryInterface(
-                     XReferenceMarksSupplier.class, ooDocument.getTextDocument());
-    XNameAccess xRefMarks = xRefSupplier.getReferenceMarks();
-    
-       int nCount=0;
-       String []refMarks = null;
-        XText xRangeText=aTextRange.getText();
-        Object oRefName=null;
-        
-        
-        XEnumerationAccess xRangeAccess = (XEnumerationAccess)UnoRuntime.queryInterface(com.sun.star.container.XEnumerationAccess.class,elem);
-         XEnumeration portionEnum =  xRangeAccess.createEnumeration();
+        XEnumeration portionEnum =  xRangeAccess.createEnumeration();
+         
          while (portionEnum.hasMoreElements()){
              try{
                  Object textPortion =  portionEnum.nextElement();  
                   XServiceInfo xTextPortionService= ooDocument.getServiceInfo(textPortion);
                    if (xTextPortionService.supportsService( "com.sun.star.text.TextPortion")){
                       XPropertySet xTextPortionProps = (XPropertySet)UnoRuntime.queryInterface(XPropertySet.class, textPortion);
-                      String textPortionType="";
-                            
-                             
+                      
                           textPortionType = AnyConverter.toString(xTextPortionProps.getPropertyValue("TextPortionType"));
+                         
                             if (textPortionType.equals("ReferenceMark")){
-                             // Create a new ReferenceMark and get it's XNamed interface
                            
-                              XNamed xRefMark = (XNamed) UnoRuntime.queryInterface(XNamed.class, 
-                              ooDocument.createInstance("com.sun.star.text.ReferenceMark"));
-                            
-                            XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(
-                             XTextContent.class, xRefMark);
-                           
-                            
-      
-                           
-                              //Object oPortion=xRefMarks.getByName("refHeading");
-                              //String strHeading=(String) xRefMarks.getByName(aNames[0]);
-                   
-                             
-                 
-                             
-                          } else{
-                              
-                                
-                                
-                                
-                          }
-                          
-                             
-                     
+                                XPropertySet xPortionProps = ooQueryInterface.XPropertySet(textPortion);
+                                Object oRefMark =  xPortionProps.getPropertyValue("ReferenceMark");
+                                XNamed xRefMark= (XNamed) AnyConverter.toObject(new Type(XNamed.class), oRefMark);
+                                System.out.println("refmark " + xRefMark.getName());
+                                if (!referenceMarkNames.contains(xRefMark.getName().toString())) {
+                                    referenceMarkNames.add(xRefMark.getName().toString());
+                                }
+                          } 
                    }
                   
              }catch(NoSuchElementException ex){
@@ -898,11 +886,14 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
                   log.error(ex.getMessage());
              }catch(UnknownPropertyException ex){
                  log.error(ex.getMessage());
+             } finally {
+                 
+                 
              }
              
-             nCount++;
+             
          }
-         
+        return referenceMarkNames;
    }
      
     
@@ -1304,7 +1295,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
       
     }
    
-    private void insertCrossReference(){
+    private void insertCrossReference(String sourceName){
       int i=0;
     
        try { 
@@ -1329,7 +1320,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
         
              oFieldSet.setPropertyValue("ReferenceFieldSource",com.sun.star.text.ReferenceFieldSource.REFERENCE_MARK); 
             
-         oFieldSet.setPropertyValue("SourceName", "headRef_ecce991c-11dd-11dd-a015-19cf48b6f0ab");
+         oFieldSet.setPropertyValue("SourceName", sourceName);
              oFieldSet.setPropertyValue("ReferenceFieldPart",com.sun.star.text.ReferenceFieldPart.TEXT);
 
 
@@ -1401,41 +1392,100 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
         return list.toArray();
     }
     
+    class sectionHeadingReferenceMarks {
+        public String sectionName = "";
+        public Integer nOrder = 0;
+        public Object containedHeading = null;
+        public ArrayList<String> refMarks = new ArrayList<String>(0);
+      
+        public sectionHeadingReferenceMarks() {
+            sectionName = "";
+            nOrder = 0;
+            refMarks = new ArrayList<String>(0);
+        }
+        
+        public sectionHeadingReferenceMarks(String sectionName, int order , Object heading) {
+            this.sectionName = sectionName;
+            this.nOrder = order;
+            this.refMarks = new ArrayList<String>(0);
+            this.containedHeading = heading;
+        }
+        
+        
+        public String toString(){
+            return sectionName;
+        }
+    }
+    
     private void crossRef(){
-           
+           String sectionHierarchy = "";
+        // String sectionName="";
+           arrHeadings.clear();
+           arrPortions.clear();
            String strSection="";
-          //  strSection = currentSectionName(selectedNodeName);
-            selectSection= currentSectionName(selectedNodeName);
-            if (selectSection.trim().length() == 0){
+           //get the full hierarchy of the section selected by the user
+            sectionHierarchy = currentSectionName(selectedNodeName);
+            if (sectionHierarchy.trim().length() == 0){
                
                 System.out.println("Cursor not in section");
           } else{
-               
-                 System.out.println("selectSection " +selectSection);
-                 
+                 System.out.println("selectSection " + sectionHierarchy );
            }
-            
+           ArrayList<String> arrSectionTree = new ArrayList();
            //split the section hierarchy into an array
-           String[] sectionTree = selectSection.split(">");
-           /*We need to write code to get the heading and
-            *reference marks at the selected section
-            *
-            *
-            *
-            */
-           //we have to reverse the array in order to have Child,Parent
-           String [] refs=(String[]) this.reverse(sectionTree);
+          String[] sectionHeads=sectionHierarchy.split(">");
+          for(int i=0;i<sectionHeads.length;i++){
+              arrSectionTree.add(sectionHeads[i]);
+          }
+           //ArrayList<String> arrSectionTree = new ArrayList(sectionHierarchy.split(">"));
+          
+           arrSectionTree.remove(new String("root"));
+           Collections.reverse(arrSectionTree);
+           System.out.println("section hierarchy = " + arrSectionTree);
+          //we have to reverse the array in order to have Child,Parent
+           //String [] refs=(String[]) this.reverse(sectionTree);
+            //String [] refs= sectionTree;
            
-           /* for(int i=0;i<refs.length;i++){
-                if(refs[i].equalsIgnoreCase("root")){
-                    
-                }else{
-                    getNumberedHeadingsInsertCrossRef(refs[i]);
-                }
+           //get the section hierarchy and populate a treemap with the order of the sections,
+            //and container for the reference marks
+            for(int i=0;i<arrSectionTree.size();i++){
+                    //refObj.sectionName=refs[i].toString();
+                    String sectionName = arrSectionTree.get(i).toString();
+                    //get headings contained in section
+                Object sectHeading= getNumberedHeadingsInsertCrossRef(sectionName);
+                refMarksMap.put(sectionName, new sectionHeadingReferenceMarks(sectionName, i , sectHeading));
+           }
+           
+
+           //now we get the ReferenceMark objects in each heading for each section
+           
+           Iterator<String> sectionIter = refMarksMap.keySet().iterator();
+           while (sectionIter.hasNext()){
+               String sectionKey = sectionIter.next();
+               //add not null check for heading
+               Object elem = refMarksMap.get(sectionKey).containedHeading;
+               XTextRange xRange = ooQueryInterface.XTextRange(elem);
+               System.out.println("portion " + xRange.getString());
+               ArrayList<String> refMarksInHeading = getReferenceMarksOnCross(elem);
+               refMarksMap.get(sectionKey).refMarks = refMarksInHeading;
                
-                
-            }*/
-           getNumberedHeadingsInsertCrossRef("article2");
+               //iterate through the reference marks and insert into the document
+               Iterator<String> refMarksIterator = refMarksInHeading.iterator();
+               while(refMarksIterator.hasNext()){
+                   Object refMark=refMarksIterator.next();
+                    System.out.println("refMarksIterator " + refMark);
+                    insertCrossReference(refMark.toString());
+               }
+               
+           }
+           
+           
+          
+           
+          
+           
+         
+           
          
     }
     

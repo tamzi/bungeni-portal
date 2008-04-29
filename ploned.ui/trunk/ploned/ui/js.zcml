@@ -9,25 +9,5 @@
       permission="zope.Public"
       class=".viewlet.WeightBasedSorter"
       />
-  
-  <browser:viewlet
-     name="jquery"
-     for="*"
-     class=".js.JQuery"
-     manager=".interfaces.IJavaScriptManager"
-     permission="zope.Public"
-     layer=".interfaces.IPlonedSkin"
-     weight="100"
-     />
-
-  <browser:viewlet
-     name="plone-dropdown"
-     for="*"
-     class=".js.Dropdown"
-     manager=".interfaces.IJavaScriptManager"
-     permission="zope.Public"
-     layer=".interfaces.IPlonedSkin"
-     weight="15"
-     />
 
 </configure>

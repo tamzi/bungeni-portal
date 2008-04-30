@@ -62,8 +62,76 @@ Note that the date yesterday is well ouside our p_2 so it does not matter.
    >>> validations.checkDateInInterval( None, yesterday, validations.sql_checkForOpenParliamentInterval)
    'p_2'
    
+Add a governmemt:
+
+   >>> gov = model.Government(short_name=u"gov_1", start_date=today, end_date=tomorrow )
+   >>> gov.parliament_id = parliament.parliament_id  
+   >>> session.save( gov )
+   >>> session.flush() 
+ 
+   >>> validations.checkDateInInterval( parliament.parliament_id, yesterday, validations.sql_checkGovernmentInterval)
    
+   >>> validations.checkDateInInterval( parliament.parliament_id, today, validations.sql_checkGovernmentInterval)
+   'gov_1'
+
+   >>> validations.checkDateInInterval( parliament.parliament_id, tomorrow, validations.sql_checkGovernmentInterval)
+   'gov_1'
+
+   >>> validations.checkDateInInterval( parliament.parliament_id, dayat, validations.sql_checkGovernmentInterval)       
       
+
+Sessions
+-----------
+A parliamentary Session
+
+   >>> sess = model.ParliamentSession()
+   >>> sess.parliament_id = parliament.parliament_id
+   >>> sess.short_name = u"First Session"
+   >>> sess.start_date = today
+   >>> sess.end_date = tomorrow
+   >>> session.save(sess)
+   >>> session.flush() 
+ 
+   >>> sess.session_id
+   1L
+ 
+   >>> validations.checkDateInInterval( parliament.parliament_id, yesterday, validations.sql_checkSessionInterval)
+   
+   >>> validations.checkDateInInterval( parliament.parliament_id, today, validations.sql_checkSessionInterval)
+   'First Session'
+
+   >>> validations.checkDateInInterval( parliament.parliament_id, tomorrow, validations.sql_checkSessionInterval)
+   'First Session'
+
+   >>> validations.checkDateInInterval( parliament.parliament_id, dayat, validations.sql_checkSessionInterval) 
+ 
+ 
+Sittings
+---------
+ 
+    >>> ssit = model.GroupSitting()
+    >>> ssit.session_id = sess.session_id
+    >>> ssit.start_date = today
+    >>> ssit.end_date = tomorrow
+    >>> session.save(ssit)
+    >>> session.flush()    
+
+Just check if we get something back because the return value depends on the times
+
+   >>> validations.checkDateInInterval( sess.session_id, yesterday, validations.sql_checkSittingInterval) == None
+   True
+   
+   >>> validations.checkDateInInterval( sess.session_id, today, validations.sql_checkSittingInterval) == None
+   False
+
+   >>> validations.checkDateInInterval( sess.session_id, tomorrow, validations.sql_checkSittingInterval) == None
+   False
+
+   >>> validations.checkDateInInterval( sess.session_id, dayat, validations.sql_checkSittingInterval) 
+
+      
+clean up commit open transactions
+   >>> session.flush()   
          
          
    

@@ -30,6 +30,9 @@ Note that we only test the overlap of 'peers' here.
 refer to test_dates.py to test  that contained objects are inside
 their parents dates   
    
+Parliaments
+-----------   
+   
    >>> parliament = model.Parliament( short_name=u"p_1", start_date=today, election_date=yesterday, end_date=tomorrow)  
    >>> session.save( parliament)
    >>> session.flush()
@@ -54,13 +57,34 @@ Before you can add a new parliament all others must be closed
    >>> validations.checkDateInInterval( None, dayat, validations.sql_checkForOpenParliamentInterval)      
    
 Add a new (open ended) parliament
-   >>> parliament = model.Parliament( short_name=u"p_2", start_date=tomorrow, election_date=today, end_date=None)  
-   >>> session.save( parliament)
+   >>> parliament2 = model.Parliament( short_name=u"p_2", start_date=tomorrow, election_date=today, end_date=None)  
+   >>> session.save( parliament2)
    >>> session.flush()   
    
 Note that the date yesterday is well ouside our p_2 so it does not matter.   
    >>> validations.checkDateInInterval( None, yesterday, validations.sql_checkForOpenParliamentInterval)
    'p_2'
+ 
+give the 2nd parliament an end date and save   
+   >>> parliament2.end_date = dayat   
+   >>> session.flush() 
+   
+No open parliaments  anymore 
+   >>> validations.checkDateInInterval( None, today, validations.sql_checkForOpenParliamentInterval)
+   
+Now check for overlapping dates but not for the current (edited) parliament   
+   
+   >>> validations.checkDateInInterval( parliament2.parliament_id , today, validations.sql_checkMyParliamentInterval)   
+   'p_1'
+   
+   >>> validations.checkDateInInterval( parliament2.parliament_id , dayat, validations.sql_checkMyParliamentInterval)  
+   
+   >>> validations.checkDateInInterval( parliament.parliament_id , dayat, validations.sql_checkMyParliamentInterval)   
+   'p_2'
+   
+   >>> validations.checkDateInInterval( parliament.parliament_id , yesterday, validations.sql_checkMyParliamentInterval) 
+   
+   >>> validations.checkDateInInterval( parliament.parliament_id , today, validations.sql_checkMyParliamentInterval)    
    
 Add a governmemt:
 
@@ -79,6 +103,27 @@ Add a governmemt:
 
    >>> validations.checkDateInInterval( parliament.parliament_id, dayat, validations.sql_checkGovernmentInterval)       
       
+Add a second government
+
+   >>> gov2 = model.Government(short_name=u"gov_2", start_date=tomorrow, end_date=dayat )
+   >>> gov2.parliament_id = parliament.parliament_id  
+   >>> session.save( gov2 )
+   >>> session.flush()       
+
+   >>> validations.checkDateInInterval( gov2.government_id, yesterday, validations.sql_checkMyGovernmentInterval)
+   
+   >>> validations.checkDateInInterval( gov.government_id, yesterday, validations.sql_checkMyGovernmentInterval)
+   
+   >>> validations.checkDateInInterval( gov.government_id, today, validations.sql_checkMyGovernmentInterval)
+
+   >>> validations.checkDateInInterval( gov2.government_id, dayat, validations.sql_checkMyGovernmentInterval)      
+
+   >>> validations.checkDateInInterval( gov.government_id, dayat, validations.sql_checkMyGovernmentInterval)
+   'gov_2'
+
+   >>> validations.checkDateInInterval( gov2.government_id, today, validations.sql_checkMyGovernmentInterval)   
+   'gov_1'
+
 
 Sessions
 -----------
@@ -87,8 +132,8 @@ A parliamentary Session
    >>> sess = model.ParliamentSession()
    >>> sess.parliament_id = parliament.parliament_id
    >>> sess.short_name = u"First Session"
-   >>> sess.start_date = today
-   >>> sess.end_date = tomorrow
+   >>> sess.start_date = yesterday
+   >>> sess.end_date = today
    >>> session.save(sess)
    >>> session.flush() 
  
@@ -96,15 +141,45 @@ A parliamentary Session
    1L
  
    >>> validations.checkDateInInterval( parliament.parliament_id, yesterday, validations.sql_checkSessionInterval)
-   
+   'First Session'
+      
    >>> validations.checkDateInInterval( parliament.parliament_id, today, validations.sql_checkSessionInterval)
    'First Session'
 
    >>> validations.checkDateInInterval( parliament.parliament_id, tomorrow, validations.sql_checkSessionInterval)
-   'First Session'
+
 
    >>> validations.checkDateInInterval( parliament.parliament_id, dayat, validations.sql_checkSessionInterval) 
  
+A second session
+ 
+   >>> sess2 = model.ParliamentSession()
+   >>> sess2.parliament_id = parliament.parliament_id
+   >>> sess2.short_name = u"2nd Session"
+   >>> sess2.start_date = tomorrow
+   >>> sess2.end_date = dayat
+   >>> session.save(sess2)
+   >>> session.flush()  
+ 
+   >>> validations.checkDateInInterval( sess.session_id, yesterday, validations.sql_checkMySessionInterval) 
+
+   >>> validations.checkDateInInterval( sess.session_id, today, validations.sql_checkMySessionInterval) 
+   
+   >>> validations.checkDateInInterval( sess.session_id, dayat, validations.sql_checkMySessionInterval)     
+   '2nd Session'
+   
+   >>> validations.checkDateInInterval( sess.session_id, tomorrow, validations.sql_checkMySessionInterval)     
+   '2nd Session'   
+   
+   >>> validations.checkDateInInterval( sess2.session_id, yesterday, validations.sql_checkMySessionInterval) 
+   'First Session'
+   
+   >>> validations.checkDateInInterval( sess2.session_id, today, validations.sql_checkMySessionInterval)  
+   'First Session'
+            
+   >>> validations.checkDateInInterval( sess2.session_id, tomorrow, validations.sql_checkMySessionInterval)              
+   
+   >>> validations.checkDateInInterval( sess2.session_id, dayat, validations.sql_checkMySessionInterval)   
  
 Sittings
 ---------
@@ -118,19 +193,51 @@ Sittings
 
 Just check if we get something back because the return value depends on the times
 
-   >>> validations.checkDateInInterval( sess.session_id, yesterday, validations.sql_checkSittingInterval) == None
-   True
+    >>> validations.checkDateInInterval( sess.session_id, yesterday, validations.sql_checkSittingInterval) == None
+    True
    
-   >>> validations.checkDateInInterval( sess.session_id, today, validations.sql_checkSittingInterval) == None
-   False
+    >>> validations.checkDateInInterval( sess.session_id, today, validations.sql_checkSittingInterval) == None
+    False
 
-   >>> validations.checkDateInInterval( sess.session_id, tomorrow, validations.sql_checkSittingInterval) == None
-   False
+    >>> validations.checkDateInInterval( sess.session_id, tomorrow, validations.sql_checkSittingInterval) == None
+    False
 
-   >>> validations.checkDateInInterval( sess.session_id, dayat, validations.sql_checkSittingInterval) 
+    >>> validations.checkDateInInterval( sess.session_id, dayat, validations.sql_checkSittingInterval) 
+   
+   
+For Edit we need to be sure we do not check for the current data itself.
+   
+    >>> ssit2 = model.GroupSitting()
+    >>> ssit2.session_id = sess.session_id
+    >>> ssit2.start_date = yesterday
+    >>> ssit2.end_date = today
+    >>> session.save(ssit2)
+    >>> session.flush()    
+   
+Just a quick check that the above validation for yesterday now fails   
+
+    >>> validations.checkDateInInterval( sess.session_id, yesterday, validations.sql_checkSittingInterval) == None
+    False
+
+and the real check
+            
+    >>> validations.checkDateInInterval( ssit2.sitting_id, yesterday, validations.sql_checkMySittingInterval) == None
+    True
+   
+    >>> validations.checkDateInInterval( ssit2.sitting_id, today, validations.sql_checkMySittingInterval) == None
+    False
+
+    >>> validations.checkDateInInterval( ssit2.sitting_id, tomorrow, validations.sql_checkMySittingInterval) == None
+    False
+
+    >>> validations.checkDateInInterval( ssit2.sitting_id, dayat, validations.sql_checkMySittingInterval)
 
       
+      
+      
 clean up commit open transactions
+---------------------------------
+
    >>> session.flush()   
          
          

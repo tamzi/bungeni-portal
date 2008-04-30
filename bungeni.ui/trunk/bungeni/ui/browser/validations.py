@@ -278,7 +278,7 @@ def CheckSittingDatesInsideParentDatesAdd( context, data ):
 ##################
 # Edit forms specific validation
 
-sql_checkSittingIntervalEdit = """
+sql_checkMySittingInterval = """
                             SELECT "group_sittings_1"."start_date"  || ' - ' ||  "group_sittings_1"."end_date" AS interval
                             FROM "public"."group_sittings" ,  "public"."group_sittings" AS  "group_sittings_1"
                             WHERE ((( "group_sittings_1"."group_id" = "group_sittings"."group_id" 
@@ -289,6 +289,41 @@ sql_checkSittingIntervalEdit = """
                                         BETWEEN  "group_sittings_1"."start_date" AND  "group_sittings_1"."end_date"))
                            """
 
+sql_checkMySessionInterval = """
+                         SELECT "sessions_1"."short_name"  
+                         FROM "public"."sessions", "public"."sessions"  AS "sessions_1"
+                         WHERE ( ( "sessions_1"."parliament_id" = "sessions"."parliament_id" )
+                                AND ( "sessions"."session_id" = %(parent_key)s )
+                                AND ( "sessions_1"."session_id" != %(parent_key)s )
+                                AND ( '%(date)s' 
+                                    BETWEEN "sessions_1"."start_date" AND "sessions_1"."end_date") )
+                        """
+
+                        
+sql_checkMyGovernmentInterval = """
+                            SELECT "groups"."short_name" 
+                            FROM "public"."government", "public"."groups" 
+                            WHERE ( ( "government"."government_id" = "groups"."group_id" )
+                                AND ( "government"."government_id" != %(parent_key)s )
+                                AND ( '%(date)s' 
+                                    BETWEEN "start_date" AND "end_date") )
+                        """
+    
+sql_checkMyParliamentInterval = """
+                            SELECT "groups"."short_name" 
+                            FROM "public"."parliaments", "public"."groups" 
+                            WHERE ( ( "parliaments"."parliament_id" = "groups"."group_id" )
+                                AND ( "parliaments"."parliament_id" != %(parent_key)s )
+                                AND ( '%(date)s' 
+                                    BETWEEN "start_date" AND "end_date") )
+                        """
+                        
+sql_checkForMyOpenParliamentInterval = """
+                            SELECT "groups"."short_name" 
+                            FROM "public"."parliaments", "public"."groups" 
+                            WHERE ( ( "parliaments"."parliament_id" = "groups"."group_id" )
+                                    AND "end_date" IS NULL )
+                        """
 
 # sittings
 

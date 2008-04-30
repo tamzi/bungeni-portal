@@ -91,7 +91,13 @@
                        className="org.bungeni.commands.renameSection"/>
             <command   id="drfiQB.insertHtmlDocumentIntoSection"
                        className="org.bungeni.commands.insertHtmlDocumentIntoSection"/>
-        </chain>        
+        </chain> 
+        <chain name="debateRecordFullEditQuestionBlock">
+            <command   id="drfeQB.replaceLinkInSectionByName"
+                       className="org.bungeni.commands.replaceLinkInSectionByName"/>
+            <command   id="drfeQB.setSectionMetadata"
+                       className="org.bungeni.commands.setSectionMetadata"/>
+        </chain>
     </catalog>
     <catalog name="testCatalog">
         <chain name="testChain">

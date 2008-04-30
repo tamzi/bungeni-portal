@@ -310,8 +310,31 @@ public class CommonActions {
          }
      }
      
-    
+     /*(docComponent, sectionName as String, hyperLinkName as String, hyperLinkText as String, hyperLinkURL as String, isProtected as boolean) */
+      public static boolean action_replaceLinkInSectionByName(OOComponentHelper ooDoc, String sectionName, String hyperLinkName, String hyperLinkText, String hyperLinkUrl, boolean isProtected) {
+        boolean bState = false; 
+        try {
+            ExternalMacro ReplaceLinkInSectionByName = ExternalMacroFactory.getMacroDefinition("ReplaceLinkInSectionByName");
+            ReplaceLinkInSectionByName.addParameter(ooDoc.getComponent());
+            ReplaceLinkInSectionByName.addParameter(sectionName);
+            ReplaceLinkInSectionByName.addParameter(hyperLinkName);
+            ReplaceLinkInSectionByName.addParameter(hyperLinkText);
+            ReplaceLinkInSectionByName.addParameter(hyperLinkUrl);
+            ReplaceLinkInSectionByName.addParameter(isProtected);
+            ooDoc.executeMacro(ReplaceLinkInSectionByName.toString(), ReplaceLinkInSectionByName.getParams());
 
+             bState= true;
+        } catch (Exception ex) {
+            log.error("action_replaceLinkInSectionByName: error : " + ex.getMessage());
+            log.error("action_replaceLinkInSectionByName:" + CommonExceptionUtils.getStackTrace(ex));
+            //checkFieldsMessages.add(ex.getLocalizedMessage());
+            bState=false;
+         }   finally {
+             return bState;
+         }
+     }
+     
+    
      
      
  }

@@ -576,7 +576,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
                                         refHeadingCleared = refHeading.substring(match.length());
                                        
                                     }
-                                   System.out.println("getReferenceMarkOnRenumbering " + refHeadingCleared.trim());
+                                   System.out.println("removeNumberFromHeading " + refHeadingCleared.trim());
                                    aTextRange.setString(refHeadingCleared.trim());
                             
                               

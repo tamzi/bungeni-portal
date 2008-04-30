@@ -48,7 +48,7 @@ def set_widget_errors(widgets, errors):
 
 class ParliamentAdd( ContentAddForm ):
     """
-    custom Add form for ministries
+    custom Add form for parliaments
     """
     form_fields = form.Fields( IParliament )
     form_fields["start_date"].custom_widget = SelectDateWidget
@@ -662,7 +662,63 @@ class GroupSittingAttendanceAdd( ContentAddForm ):
         
 ##############
 # Edit forms      
-             
+  
+# Parliament
+class ParliamentEdit( EditFormViewlet ):
+    """
+    Edit a parliament
+    """
+    form_fields = form.Fields( IParliament )
+    form_fields["start_date"].custom_widget = SelectDateWidget
+    form_fields["end_date"].custom_widget = SelectDateWidget  
+    form_fields["election_date"].custom_widget = SelectDateWidget    
+    template = NamedTemplate('alchemist.subform')   
+
+    def update( self ):
+        """
+        adapt the custom fields to our object
+        """
+        self.adapters = { IParliament : self.context }        
+        super( ParliamentEdit, self).update()
+        set_widget_errors(self.widgets, self.errors)    
+        
+    def validate(self, action, data):    
+        """
+        validation that require context must be called here,
+        invariants may be defined in the descriptor
+        """                                       
+        return (form.getWidgetsData(self.widgets, self.prefix, data) +
+                 form.checkInvariants(self.form_fields, data) +
+                 validations.CheckParliamentDatesEdit( self.context, data))          
+       
+
+                              
+
+class GovernmentEdit( EditFormViewlet ): 
+    """
+    Edit a government
+    """
+    form_fields = form.Fields( IGovernment )
+    form_fields["start_date"].custom_widget = SelectDateWidget
+    form_fields["end_date"].custom_widget = SelectDateWidget    
+    template = NamedTemplate('alchemist.subform')   
+
+    def update( self ):
+        """
+        adapt the custom fields to our object
+        """
+        self.adapters = { IGovernment : self.context }        
+        super( GovernmentEdit, self).update()
+        set_widget_errors(self.widgets, self.errors)    
+        
+    def validate(self, action, data):    
+        """
+        validation that require context must be called here,
+        invariants may be defined in the descriptor
+        """                                       
+        return (form.getWidgetsData(self.widgets, self.prefix, data) +
+                 form.checkInvariants(self.form_fields, data) +
+                 validations.CheckGovernmentsDateInsideParliamentsDatesEdit( self.context, data))  
 
 # Sitting Attendance
              

@@ -278,7 +278,7 @@ def CheckSittingDatesInsideParentDatesAdd( context, data ):
 ##################
 # Edit forms specific validation
 
-sql_checkSittingInterval = """
+sql_checkSittingIntervalEdit = """
                             SELECT "group_sittings_1"."start_date"  || ' - ' ||  "group_sittings_1"."end_date" AS interval
                             FROM "public"."group_sittings" ,  "public"."group_sittings" AS  "group_sittings_1"
                             WHERE ((( "group_sittings_1"."group_id" = "group_sittings"."group_id" 
@@ -297,7 +297,7 @@ def CheckSittingDatesInsideParentDatesEdit( context, data ):
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)
     """
-    errors = checkStartEndDatesInInterval(context.sitting_id, data, sql_checkSittingInterval)
+    errors = checkStartEndDatesInIntervalEdit(context.sitting_id, data, sql_checkSittingInterval)
     
     if context.__parent__.__parent__.start_date > data['start_date'].date():
         errors.append( interface.Invalid(_("Start must be after Session Start Date (%s)" % context.__parent__.__parent__.start_date )) )

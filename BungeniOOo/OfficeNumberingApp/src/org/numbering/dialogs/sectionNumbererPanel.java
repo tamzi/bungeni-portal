@@ -115,16 +115,13 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
     private ArrayList<String> docListReferences = new ArrayList<String>();
     private ArrayList<String> docReferences = new ArrayList<String>();
     private ArrayList<String> insertedNumbers = new ArrayList<String>();
-     private ArrayList<String> sectionHierarchy = new ArrayList<String>();
-     
-    private int countElems=1;
-    private int testCount=1;
+    private ArrayList<String> sectionHierarchy = new ArrayList<String>();
+    private int headCount=1;
     DefaultListModel model=new DefaultListModel();
     private IGeneralNumberingScheme inumScheme;
-    String numParentPrefix="";
-    
-    Set attributeSet=new HashSet();
-     private Timer sectionNameTimer;
+    private String numParentPrefix="";
+    private Set attributeSet=new HashSet();
+    private Timer sectionNameTimer;
     private String currentSelectedSectionName = "";
     private String selectSection="";
    
@@ -137,9 +134,6 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
     private String selectedNodeName="";
      private JFrame parentFrame;
      private BungeniUUID bungeniUUID;
-    // private ArrayList<Object> arrPortions = new ArrayList<Object>(0);
-     ArrayList<Object> arrHeadings = new ArrayList<Object>(0);
-    // private Set arrPortions = new HashSet();
      private HashMap<String,String> arrPortions = new HashMap();
      
      TreeMap<String, sectionHeadingReferenceMarks> refMarksMap = new TreeMap<String, sectionHeadingReferenceMarks>();
@@ -346,16 +340,14 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
                      String currentParent=(String)xParentSecName.getName();
                      if(!currentParent.equalsIgnoreCase(prevParent)){
                          //restart numbering here
-                         testCount=1;
-                        
-                         System.out.println("different parent" + "testCount " + testCount);
-                        
-                        
+                         headCount=1;
+                         System.out.println("different parent" + "testCount " + headCount);
+                       
                      }else{
                          //continue numbering
-                        testCount++;
+                        headCount++;
                                      
-                        System.out.println("same parent" + "testCount " + testCount);
+                        System.out.println("same parent" + "testCount " + headCount);
                      }
                     prevParent=(String)xParentSecName.getName();
 
@@ -527,7 +519,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
             xRangeText.insertString(xTextCursor,num,false);
             //insertedNumbers.add(num);
        
-            insertReferenceMarkOnNumber(aTextRange, elem, numLength);
+           // insertReferenceMarkOnNumber(aTextRange, elem, numLength);
           
         }
         
@@ -538,7 +530,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
     }
     
     
-    private void removeNumbering(XTextRange aTextRange, Object elem){
+    private void removeNumberFromHeading(XTextRange aTextRange, Object elem){
         Matcher m=null;
         XText xRangeText=aTextRange.getText();
        
@@ -586,10 +578,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
                                     }
                                    System.out.println("getReferenceMarkOnRenumbering " + refHeadingCleared.trim());
                                    aTextRange.setString(refHeadingCleared.trim());
-                              
-                               
-                               
-                              
+                            
                               
                                break;
                           } 
@@ -612,65 +601,6 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
     }
     
     
-    private void getNumberedHeadings2() {
-       Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
-         while(typedMatchSectionItr.hasNext()){
-           
-            Object matchedSectionElem=typedMatchSectionItr.next();
-           // System.out.println("getNumberedHeadings " + matchedSectionElem);
-            
-           try{
-               
-                Object sectionName = ooDocument.getTextSections().getByName(matchedSectionElem.toString());
-                XTextSection theSection = ooQueryInterface.XTextSection(sectionName);
-                XTextRange range = theSection.getAnchor();
-
-                XEnumerationAccess enumAcc  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, range);
-                XEnumeration xEnum = enumAcc.createEnumeration();
-
-
-              while (xEnum.hasMoreElements()) {
-                  Object elem = xEnum.nextElement();
-                   XServiceInfo xInfo = (XServiceInfo)UnoRuntime.queryInterface(XServiceInfo.class, elem);
-                   if(xInfo.supportsService("com.sun.star.text.Paragraph")){
-                        XPropertySet objProps = ooQueryInterface.XPropertySet(xInfo);
-                    
-                         short nLevel = -1;
-                         nLevel = com.sun.star.uno.AnyConverter.toShort(objProps.getPropertyValue("ParaChapterNumberingLevel"));
-                           if(nLevel>=0){
-                            XTextContent xContent = ooDocument.getTextContent(elem);
-                            XTextRange aTextRange =   xContent.getAnchor();
-                            String strHeading = aTextRange.getString();
-                            
-                            System.out.println("getNumberedHeadings2: heading found " + strHeading);
-                      
-                            getReferenceMark(aTextRange,elem,strHeading.trim());
-                            break;
-                         }
-                   
-                   }
-
-                }
-        
-            }catch (NoSuchElementException ex) {
-                log.error(ex.getClass().getName() + " - " + ex.getMessage());
-                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
-            } catch (WrappedTargetException ex) {
-                log.error(ex.getClass().getName() + " - " + ex.getMessage());
-                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
-            }catch(UnknownPropertyException ex){
-                log.error(ex.getClass().getName() + " - " + ex.getMessage());
-                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
-            }catch(com.sun.star.lang.IllegalArgumentException ex){
-                log.error(ex.getClass().getName() + " - " + ex.getMessage());
-                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
-            }
-            
-       }
-       
-    }
-    
-     
     private void getNumberedHeadings() {
        Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
          while(typedMatchSectionItr.hasNext()){
@@ -703,7 +633,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
                             
                             System.out.println("getNumberedHeadings: heading found " + strHeading);
                       
-                           // getReferenceMark(aTextRange,elem);
+                            getReferenceMark(aTextRange,elem,strHeading.trim());
                             break;
                          }
                    
@@ -729,6 +659,8 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
        
     }
     
+     
+   
     
     private void getNumberedHeadingsOnRenumbering() {
      
@@ -822,9 +754,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
                             XTextRange aTextRange =   xContent.getAnchor();
                             String strHeading = aTextRange.getString();
                             System.out.println("strHeading " + strHeading);
-                          // insertCrossReference(strHeading);
-                          // insertCrossReference();
-                         //   getReferenceMarksOnCross(aTextRange,elem,strHeading);
+                        
                             objHeading = elem;
                            break;
                          }
@@ -1120,37 +1050,37 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
                        
                          if(!currentParent.equalsIgnoreCase(prevParent)){
                              //restart numbering here
-                             testCount=1;
+                             headCount=1;
                               if(currentParent.equals("root")){
-                                  insertParentPrefix(matchedSectionElem, testCount);
+                                  insertParentPrefix(matchedSectionElem, headCount);
                                   
                               }else{
-                                 parentPrefix=testCount;
+                                 parentPrefix=headCount;
                                  insertParentPrefix(matchedSectionElem, parentPrefix);
                               }
                             
                              //getReferenceMark(aTextRange, elem);
-                             insertNumber(aTextRange, testCount,elem);
+                             insertNumber(aTextRange, headCount,elem);
                              
-                             insertAppliedNumberToMetadata(matchedSectionElem,testCount);
+                             insertAppliedNumberToMetadata(matchedSectionElem,headCount);
                              
                              
                              
                          }else{
                              //continue numbering
-                            testCount++;
+                            headCount++;
                             if(currentParent.equals("root")){
-                                  insertParentPrefix(matchedSectionElem, testCount);
+                                  insertParentPrefix(matchedSectionElem, headCount);
                                   
                               }else{
-                                parentPrefix=testCount;
+                                parentPrefix=headCount;
                                  insertParentPrefix(matchedSectionElem, parentPrefix);
                               }
                             
                             //getReferenceMark(aTextRange, elem);
-                            insertNumber(aTextRange, testCount,elem); 
+                            insertNumber(aTextRange, headCount,elem); 
                            
-                            insertAppliedNumberToMetadata(matchedSectionElem,testCount);
+                            insertAppliedNumberToMetadata(matchedSectionElem,headCount);
                             
                          }
                          
@@ -1235,13 +1165,13 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
                        
                          if(!currentParent.equalsIgnoreCase(prevParent)){
                              //restart numbering here
-                             testCount=1;
-                             insertNumber(aTextRange, testCount,elem);
+                             headCount=1;
+                             insertNumber(aTextRange, headCount,elem);
                             
                          }else{
                              //continue numbering
-                            testCount++;
-                            insertNumber(aTextRange, testCount,elem);                 
+                            headCount++;
+                            insertNumber(aTextRange, headCount,elem);                 
                           
                             
                          }
@@ -1419,12 +1349,11 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
     
     private void crossRef(){
            String sectionHierarchy = "";
-        // String sectionName="";
-           arrHeadings.clear();
-           arrPortions.clear();
+           //clear the refMarks Map
+           refMarksMap.clear();
            String strSection="";
            //get the full hierarchy of the section selected by the user
-            sectionHierarchy = currentSectionName(selectedNodeName);
+            sectionHierarchy = currentSectionNameHierarchy(selectedNodeName);
             if (sectionHierarchy.trim().length() == 0){
                
                 System.out.println("Cursor not in section");
@@ -1480,10 +1409,6 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
            }
            
            
-          
-           
-          
-           
          
            
          
@@ -1510,7 +1435,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
         
     }
     
-    private void referencesList(){
+private void getHeadingFromMatchedSection(){
          Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
          while(typedMatchSectionItr.hasNext()){
            
@@ -1538,12 +1463,12 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
                            if(nLevel>=0){
                             XTextContent xContent = ooDocument.getTextContent(elem);
                             XTextRange aTextRange =   xContent.getAnchor();
-                            String strHeading = aTextRange.getString();
+                           // String strHeading = aTextRange.getString();
                             
-                           // System.out.println("referencesList: heading found " + strHeading);
-                            docListReferences.add(strHeading);
+                          
+                          //  docListReferences.add(strHeading);
                          
-                            removeNumbering(aTextRange, elem);
+                            removeNumberFromHeading(aTextRange, elem);
                             break;
                          }
                    
@@ -1586,7 +1511,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
        
         //copied from SelectSection
         
-        public String currentSectionName(String sectionName) {
+        public String currentSectionNameHierarchy(String sectionName) {
             XTextSection loXTextSection;
             XTextViewCursor loXTextCursor;
             XPropertySet loXPropertySet;
@@ -1845,12 +1770,12 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
          
          readSections();
          findBrokenReferences();
-         referencesList();
+         getHeadingFromMatchedSection();
          //insert number by calling insertNumber method within the getHeadingInSectionOnRenumbering() method
          getHeadingInSectionOnRenumbering();
          //get the numbered headings and insert the references again since they were broken during the renumbering
        // getNumberedHeadingsOnRenumbering(); 
-         getNumberedHeadings2();
+         getNumberedHeadings();
       
       
       
@@ -1862,7 +1787,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
          readSections();
          applyNumberingScheme();
          getHeadingInSection();
-         getNumberedHeadings2();
+         getNumberedHeadings();
        
          
      

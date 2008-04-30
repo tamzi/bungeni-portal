@@ -267,7 +267,9 @@ Rota Preparation
 ----------------
  
 
-
+Clean up commit outstanding transactions
+-----------------------------------------
+ >>> session.flush() 
  
 
  

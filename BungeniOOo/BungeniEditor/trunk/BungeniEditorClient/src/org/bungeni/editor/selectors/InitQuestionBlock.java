@@ -533,6 +533,73 @@ public String getClassName(){
         return true;
     }
     
+    public boolean preFullEdit(){
+        
+            /*** variable setting for function ***/
+        
+            //only name can be edited nothing else....
+            String sectionName = ooDocument.currentSectionName();
+            //unprotect any child sections if neccessary, and reprotect them at the end
+            //1 change the metadata in the parent section
+            //2 change he display text in the inner section
+            String childSection = ooDocument.getMatchingChildSection(sectionName, "meta-mp-");
+            boolean wasProtected = false;
+            if (ooDocument.isSectionProtected(childSection))
+                wasProtected = true;
+            
+            String PersonName = txtPersonName.getText();
+            HashMap<String, String> questionMeta = new HashMap<String,String>();
+            questionMeta.put("Bungeni_QuestionMemberFrom", PersonName);
+            
+            /*** end variable setting for function ****/
+     
+            /*<command   id="drfeQB.replaceLinkInSectionByName"
+                       className="org.bungeni.commands.replaceLinkInSectionByName"/> */
+ 
+            /*** add field sets ****/
+            
+            formContext.addFieldSet("inside_section");
+            formContext.addFieldSet("hyperlink_name");
+            formContext.addFieldSet("hyperlink_text");
+            formContext.addFieldSet("hyperlink_url");
+            formContext.addFieldSet("is_protected");
+            
+            /**** end add field sets ****/
+            
+            /*** setting field sets ***/
+     
+            formContext.getFieldSets("inside_section").add(childSection);
+            formContext.getFieldSets("hyperlink_name").add("member_url");
+            formContext.getFieldSets("hyperlink_text").add(PersonName);
+            formContext.getFieldSets("hyperlink_url").add("Name: "+PersonName+ ";URI: "+this.txtPersonURI.getText());
+            formContext.getFieldSets("is_protected").add(wasProtected);
+  
+            /*** end setting field sets ***/
+     
+            /*<command   id="drfeQB.setSectionMetadata"
+                       className="org.bungeni.commands.setSectionMetadata"/>*/
+ 
+            /*** add field sets ****/
+            
+            formContext.addFieldSet("new_section");
+            formContext.addFieldSet("section_metadata_map");
+            
+            /**** end add field sets ****/
+    
+            /*** setting field sets ***/
+            formContext.getFieldSets("new_section").add(sectionName);
+            formContext.getFieldSets("section_metadata_map").add(questionMeta);
+            
+             /*** end setting field sets ***/
+        return true;
+    }
+    
+    
+    public boolean processFullEdit() {
+        boolean bReturn = processCatalogCommand();
+        return bReturn;
+    }
+    
    public boolean validateFieldValue(Component field, Object fieldValue ) {
         String formFieldName = field.getName();
         //by default always succeed

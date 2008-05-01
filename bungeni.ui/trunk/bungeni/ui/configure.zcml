@@ -3,7 +3,7 @@
            i18n_domain="bungeni">
 
   <include package="plone.memoize" />
-  <include package="z3c.difftool" />
+  <include package="z3c.schemadiff" />
   
   <!-- TimeZone Definition -->
   <adapter factory=".tz.tzinfo" />

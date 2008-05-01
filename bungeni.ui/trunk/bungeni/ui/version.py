@@ -17,7 +17,7 @@ from bungeni.core.i18n import _
 from ore.alchemist.interfaces import IIModelInterface
 from zope.app.publisher.browser import queryDefaultViewName
 
-import z3c.difftool.browser
+import z3c.schemadiff.browser
 
 class VersionViewletManager( WeightOrderedViewletManager ):
     """
@@ -106,7 +106,7 @@ class VersionLogViewlet(BaseForm , viewlet.ViewletBase ):
         except:
             target = context
             
-        view = z3c.difftool.browser.DiffView(source, target, self.request)
+        view = z3c.schemadiff.browser.DiffView(source, target, self.request)
 
         self.extra = view(
             *filter(IIModelInterface.providedBy, interface.providedBy(context)))

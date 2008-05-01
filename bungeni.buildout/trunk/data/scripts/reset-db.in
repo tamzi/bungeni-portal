@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# start the database server
-%(bin-directory)s/pg_ctl start 
-
-# we sleep so the database can finish starting
-echo "Sleeping for Database Server Startup"
-sleep 2
-
 # create the app database
 echo "Dropping Bungeni Database"
 %(parts-directory)s/postgresql/bin/dropdb bungeni

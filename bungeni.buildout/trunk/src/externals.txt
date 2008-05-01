@@ -25,17 +25,14 @@ alchemist.traversal http://zope-alchemist.googlecode.com/svn/alchemist.traversal
 # zope.securitypolicy rdb implementation
 alchemist.security http://zope-alchemist.googlecode.com/svn/alchemist.security/trunk
 
-# workflow support
-ore.workflow   https://svn.objectrealms.net/svn/public/ore.workflow/trunk
-
 # wsgi app support
 ore.wsgiapp    https://svn.objectrealms.net/svn/public/ore.wsgiapp/trunk
 
-# indexing support
-ore.xapian     https://svn.objectrealms.net/svn/public/ore.xapian/trunk
-
 # pluggable traversal support for domain objects ( foreign key traversal for example )
 z3c.traverser svn://svn.zope.org/repos/main/z3c.traverser/trunk
+
+# schema diff 
+z3c.schemadiff svn://svn.zope.org/repos/main/z3c.schemadiff/trunk
 
 # display / title names across content, breadcrumbs support
 zc.displayname svn://svn.zope.org/repos/main/zc.displayname/trunk

@@ -118,8 +118,7 @@ function bungeniClickCreateAnnotation( event, id ) {
 </head>
 <body>
 
-<metal:main tal:define="absoluteUrl string:${context/@@absolute_url};
-	                    annotatedUrl python:view.getAnnotatedUrl(absoluteUrl);
+<metal:main tal:define="annotatedUrl string:${context/@@absolute_url};
                         text python:view.getBodyText();
                         authenticateduser python:view.getAuthenticatedUser();">
 
@@ -134,16 +133,20 @@ function bungeniClickCreateAnnotation( event, id ) {
       <table border="1" style="width: 100%">
          <tr><td><div class="markers"></div></td>
            <td>
-             <h3 class="entry-title">Annotation demo</h3>
+             <h3 class="entry-title"></h3>
              <div class="entry-content" tal:content="structure text" />
-             <a rel="bookmark"
-                tal:attributes="href annotatedUrl"
+             <a rel="bookmark" tal:attributes="href annotatedUrl"
                 href="http://www.geof.net/code/annotation/demo/#m1">#</a>
            </td>
            <td>
-             <div class="notes" tal:define="member_names python:view.getOwnerList(request)">
+             <div class="notes" tal:define="member_names python:view.getOwnerList()">
+		       <div id="loader" style="float:right;display:none;">
+                 <img width="10" height="10" title="Loader" alt="" src="loader.jpg" tal:attributes="src context/++resource++images/loader.gif" />
+               </div>
                <button class="createAnnotation" onclick="bungeniClickCreateAnnotation(event,'m1')" title="Click here to create an annotation">&gt;</button>
                <a href="javascript:toggle_visibility('fields');"><p class="plink">Filter annotations by owner, type or query string. (show/hide)</p></a>
+               <a href="javascript:hideAnnotations();"><p class="plink">Clear all annotations</p></a>
+               <p id="noresults" class="plink" style="display:none;">No Annotations Found</p>
 		       <div id="fields" style="display:none;">
                  <select class="select_field" name="filter_owner" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
                    <option value="select_all" selected>All</option>

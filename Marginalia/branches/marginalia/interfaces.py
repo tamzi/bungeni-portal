@@ -1,5 +1,5 @@
 from zope.interface import Interface
-from zope.schema import List, Text, TextLine, Int
+from zope.schema import List, Text, TextLine, Int, URI
 
 class ISimpleDocument(Interface):
     """Simple Document."""
@@ -15,7 +15,6 @@ class ISimpleDocument(Interface):
         description=u"Description of the document",
         required=True
         )
-    
 
 class IMarginaliaAnnotatable(Interface):
     '''Annotatable Marker Interface'''
@@ -28,10 +27,10 @@ class IMarginaliaAnnotatableAdaptor(Interface):
     def isAnnotatable():
         """Returns True if the object is annotatable """
 
-    def getAnnotatedUrl():
+    def getAnnotatedUrl(request):
         """Returns the annotated url """
 
-    def getBodyText(self):
+    def getBodyText():
         """Returns the body text."""
 
 class IMarginaliaAnnotation(Interface):

@@ -110,6 +110,7 @@ function RestAnnotationService( serviceUrl, features )
  */
 RestAnnotationService.prototype.listBlocks = function( url, f )
 {
+    rest_loader('loader', 1);
 	var serviceUrl = this.serviceUrl + '?format=blocks&url=' + encodeURIParameter( url );
 	
 	// For demo debugging only
@@ -121,6 +122,7 @@ RestAnnotationService.prototype.listBlocks = function( url, f )
 	//xmlhttp.setRequestHeader( 'Accept', 'application/xml' );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
+            rest_loader('loader', 0);
 			if ( xmlhttp.status == 200 ) {
 				if ( null != f )
 				{
@@ -144,9 +146,10 @@ RestAnnotationService.prototype.listBlocks = function( url, f )
 /**
  * Fetch a list of annotations from the server
  */
-    RestAnnotationService.prototype.listAnnotations = function( url, username, block, f, filter_name, filter_type, search_string)
+RestAnnotationService.prototype.listAnnotations = function( url, username, block, f, filter_name, filter_type, search_string)
 {
 	// exclude content to lighten the size across the wire
+    rest_loader('loader', 1);
 	var serviceUrl = this.serviceUrl;
 	serviceUrl += '?format=atom';
 	if ( block )
@@ -170,6 +173,7 @@ RestAnnotationService.prototype.listBlocks = function( url, f )
 	//xmlhttp.setRequestHeader( 'Accept', 'application/xml' );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
+            rest_loader('loader', 0);
 			if ( xmlhttp.status == 200 ) {
 				if ( null != f )
 				{
@@ -194,27 +198,24 @@ RestAnnotationService.prototype.listBlocks = function( url, f )
  */
 RestAnnotationService.prototype.createAnnotation = function( annotation, f )
 {
+    rest_loader('loader', 1);
+
 	var serviceUrl = this.serviceUrl;
 		
 	// For demo debugging only
 	if ( window.marginalia && window.marginalia.userInRequest )
 		serviceUrl += '?curuser=' + encodeURIParameter( window.marginalia.username );
 	
-        var edit_type = '';
-	if ( annotation.getAction() == 'edit' )
-	    {
-		if ( annotation.getNote() )
-		    {
-			if ( annotation.getQuote() )
-			    edit_type = 'replace';
-			else
-			    edit_type = 'insert';
-		    }
-		else
-		    edit_type = 'delete';
-	    }
-	else
+    var edit_type = bungeni.editType(annotation);
+
+    if ( edit_type == "Comment:" )
 	    edit_type = 'comment';
+	else if ( edit_type == "Replace:" )
+        edit_type = 'replace';
+    else if ( edit_type == "Insert:" )
+        edit_type = 'insert';
+	else if ( edit_type == "Delete" )
+	    edit_type = 'delete';
 
 	var body
 		= 'url=' + encodeURIParameter( annotation.getUrl() )
@@ -255,6 +256,8 @@ RestAnnotationService.prototype.createAnnotation = function( annotation, f )
 	xmlhttp.setRequestHeader( 'Content-length', body.length );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
+            rest_loader('loader', 0);
+
 			// No need for Safari hack, since Safari can't create annotations anyway.
 			if ( xmlhttp.status == 201 ) {
 				var url = xmlhttp.getResponseHeader( 'Location' );
@@ -280,6 +283,8 @@ RestAnnotationService.prototype.createAnnotation = function( annotation, f )
  */
 RestAnnotationService.prototype.updateAnnotation = function( annotation, f )
 {
+    rest_loader('loader', 1);
+
 	var serviceUrl = this.serviceUrl;
 	serviceUrl += this.niceUrls ? ( '/' + annotation.getId() ) : ( '?id=' + annotation.getId() );
 	
@@ -321,6 +326,8 @@ RestAnnotationService.prototype.updateAnnotation = function( annotation, f )
 	xmlhttp.setRequestHeader( 'Content-length', body.length );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
+            rest_loader('loader', 0);
+
 			// Safari is braindead here:  any status code other than 200 is converted to undefined
 			// IE invents its own 1223 status code
 			// See http://www.trachtenberg.com/blog/?p=74
@@ -346,6 +353,8 @@ RestAnnotationService.prototype.updateAnnotation = function( annotation, f )
  */
 RestAnnotationService.prototype.bulkUpdate = function( oldNote, newNote, f )
 {
+    rest_loader('loader', 1);
+
 	var serviceUrl = this.serviceUrl;
 		
 	var body
@@ -375,6 +384,7 @@ RestAnnotationService.prototype.bulkUpdate = function( oldNote, newNote, f )
 	xmlhttp.setRequestHeader( 'Content-length', body.length );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
+            rest_loader('loader', 0);
 			// No need for Safari hack, since Safari can't create annotations anyway.
 			if ( xmlhttp.status == 201 ) {
 				var url = xmlhttp.getResponseHeader( 'Location' );
@@ -400,6 +410,8 @@ RestAnnotationService.prototype.bulkUpdate = function( oldNote, newNote, f )
  */
 RestAnnotationService.prototype.deleteAnnotation = function( annotationId, f )
 {
+    rest_loader('loader', 1);
+
 	var serviceUrl = this.serviceUrl;
 	var hasParams = false;
 	
@@ -441,6 +453,8 @@ RestAnnotationService.prototype.deleteAnnotation = function( annotationId, f )
 	//xmlhttp.setRequestHeader( 'Accept', 'application/xml' );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
+            rest_loader('loader', 0);
+
 			// Safari is braindead here:  any status code other than 200 is converted to undefined
 			// IE invents its own 1223 status code
 			if ( 204 == xmlhttp.status || xmlhttp.status == null || xmlhttp.status == 1223 ) {
@@ -454,5 +468,13 @@ RestAnnotationService.prototype.deleteAnnotation = function( annotationId, f )
 	}
 	trace( 'annotation-service', "AnnotationService.deleteAnnotation " + decodeURI( serviceUrl ) );
 	xmlhttp.send( null );
+}
+
+function rest_loader(id, display) {
+    var loader_div = document.getElementById(id);
+    if(display)
+        loader_div.style.display = 'block';
+    else
+        loader_div.style.display = 'none';
 }
 

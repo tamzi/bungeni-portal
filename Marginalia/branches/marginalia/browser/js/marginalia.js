@@ -324,6 +324,7 @@ Marginalia.prototype.showBlockAnnotations = function( url, block )
 	// TODO: Push down calculations must be repaired where new annotations are added.
 	// Ideally this would happen automatically.
 	var marginalia = this;
+	marginalia.hideAnnotations( );
 	this.annotationService.listAnnotations( url, null, block,
 		function(xmldoc) { _showAnnotationsCallback( marginalia, url, xmldoc, false, true ) } );
 }
@@ -377,6 +378,11 @@ function _annotationDisplayCallback( marginalia, callbackUrl, doBlockMarkers, no
 	// Do this by merging the new annotations with those already displayed
 	// For this to work, annotations must be sorted by URL
 	var annotations = marginalia.annotationCache;
+    if ( annotations.length == 0 )
+        visibility_handler("noresults", 1);
+    else
+        visibility_handler("noresults", 0);
+
 	if ( annotations )
 	{
 		var url = null;			// there may be annotations for multiple URLs;  this is the current one
@@ -629,9 +635,9 @@ PostMicro.prototype.flagAnnotation = function( marginalia, annotation, className
 {
 	// Activate the note
 	var noteNode = document.getElementById( AN_ID_PREFIX + annotation.getId() );
-	if ( flag )
+	if ( noteNode && flag )
 		domutil.addClass( noteNode, className );
-	else
+	else if ( noteNode)
 		domutil.removeClass( noteNode, className );
 
 	// Activate the highlighted areas
@@ -722,10 +728,18 @@ PostMicro.prototype.saveAnnotation = function( marginalia, annotation )
 		marginalia.noteEditor.save( );
 	
 	// ---- Validate the annotation ----
-
+    // Validates an empty note
+    var edit_type = bungeni.editType(annotation);
+	if ( (edit_type == "Replace:" || edit_type == "Comment:") && annotation.getNote().replace(new RegExp(/^\s+/),"").length == 0 )
+	{
+		alert( getLocalized( 'blank note' ) );
+		marginalia.noteEditor.focus( );
+		return false;
+	}
 	// Check the length of the note.  If it's too long, do nothing, but restore focus to the note
 	// (which is awkward, but we can't save a note that's too long, we can't allow the note
-	// to appear saved, and truncating it automatically strikes me as an even worse solution.) 
+	// to appear saved, and truncating it automatically strikes me as an even
+	// worse solution.) 
 	if ( marginalia.noteEditor.annotation.getNote().length > MAX_NOTE_LENGTH )
 	{
 		alert( getLocalized( 'note too long' ) );
@@ -743,7 +757,7 @@ PostMicro.prototype.saveAnnotation = function( marginalia, annotation )
 	
 	// Note and quote length cannot both be zero
 	var sequenceRange = annotation.getRange( SEQUENCE_RANGE );
-	if ( sequenceRange.start.compare( sequenceRange.end ) == 0 && annotation.getNote( ).length == 0 )
+	if ( sequenceRange.start.compare( sequenceRange.end ) == 0 && annotation.getNote().replace(new RegExp(/^\s+/),"").length == 0  )
 	{
 		alert( getLocalized( 'blank quote and note' ) );
 		marginalia.noteEditor.focus( );
@@ -1194,6 +1208,11 @@ function createAnnotation( postId, warn, editor )
 	return true;
 }
 
+function hideAnnotations()
+{
+  marginalia.hideAnnotations();
+}
+
 function filterAnnotations(form_field)
 {
   var parent_node = form_field.parentNode;
@@ -1216,7 +1235,7 @@ function filterAnnotations(form_field)
       if (select_obj_type.options[i].selected)
 	  {
 	  type = type +','+ select_obj_type.options[i].value;
-          }
+      }
       }
   //removing first character from the string(i.e. removing',')
   if (type.length > 0)
@@ -1227,9 +1246,7 @@ function filterAnnotations(form_field)
   var filter_name = owner;
   var filter_type = type;
   var search_string = input_obj.value;
-  var post = marginalia.listPosts();
-  var p = post.posts[0];
-  p.hideAllAnnotations(marginalia);
+  marginalia.hideAnnotations();
   this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, filter_type, search_string);
   document.location.hash = "#filter_name=" + filter_name+"&filter_type=" + filter_type+"&search_string="+search_string;
 }
@@ -1243,37 +1260,35 @@ function filterAnnotationsFromBookmark(){
 	filter_name = filter_name.split(",");
 	filter_type = filter_type.split(",");
 	var search_string= hash_string.substring((hash_string.indexOf('search_string')) + 14);
-        var post = marginalia.listPosts();
-        var p = post.posts[0];
-        p.hideAllAnnotations(marginalia);
-        this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, filter_type, search_string);
-        var select_name = domutil.childrenByTagClass(this.document.documentElement, null, 'select_field', null, null )[0];
-        var select_type = domutil.childrenByTagClass(this.document.documentElement, null, 'select_field', null, null )[1];
-        var input_child = domutil.childrenByTagClass(this.document.documentElement, null, 'input_field', null, null )[0];
-        input_child.value = search_string;
-        for (i=0;i<select_name.options.length;i++)
+    marginalia.hideAnnotations();
+    this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, filter_type, search_string);
+    var select_name = domutil.childrenByTagClass(this.document.documentElement, null, 'select_field', null, null )[0];
+    var select_type = domutil.childrenByTagClass(this.document.documentElement, null, 'select_field', null, null )[1];
+    var input_child = domutil.childrenByTagClass(this.document.documentElement, null, 'input_field', null, null )[0];
+    input_child.value = search_string;
+    for (i=0;i<select_name.options.length;i++)
         {
-           var option = select_name.options[i];
-           if (filter_name.contains(option.value))
-           {
-               option.selected = true;
-           }
-           else
-           {
-               option.selected = false;
-           }
+            var option = select_name.options[i];
+            if (filter_name.contains(option.value))
+                {
+                    option.selected = true;
+                }
+            else
+                {
+                    option.selected = false;
+                }
         } 
-        for (i=0;i<select_type.options.length;i++)
+    for (i=0;i<select_type.options.length;i++)
         {
-           var option = select_type.options[i];
-           if (filter_type.contains(option.value))
-           {
-               option.selected = true;
-           }
-           else
-           {
-               option.selected = false;
-           }
+            var option = select_type.options[i];
+            if (filter_type.contains(option.value))
+                {
+                    option.selected = true;
+                }
+            else
+                {
+                    option.selected = false;
+                }
         } 
   }
 }
@@ -1285,6 +1300,15 @@ function toggle_visibility(id) {
     else
 	e.style.display = 'block';
 }
+
+function visibility_handler(id, display) {
+    var loader_div = document.getElementById(id);
+    if(display)
+        loader_div.style.display = 'block';
+    else
+        loader_div.style.display = 'none';
+}
+
 
 function onEnterKey (obj, e) {
     var press;

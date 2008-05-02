@@ -232,18 +232,6 @@
 	background: none !important;
 }
 
-.hentry .notes li.hover {
-	border-color: orange;
-}
-
-.hentry .notes li.editing-note {
-	border-color: red;
-}
-
-.hentry .entry-content em.editing-note {
-	outline: red 2px solid;
-}
-
 .hentry .notes li button.expand-edit {
 	position: absolute;
 	top: 0;
@@ -437,13 +425,8 @@ ol#articles {
 
 .hentry .notes li.dummy,
 .hentry .notes li li {
-        background: none;
+     background: none;
 	border: none;
-}
-
-.hentry .notes li.hover p,
-.hentry .notes li.hover .note-type {
-	color: black;
 }
 
 .hentry .notes li .note-type {
@@ -458,10 +441,9 @@ ol#articles {
 }
 
 .hentry .notes li.other-user {
-        background: none;
+    background: #eee;
 	color: #555;
 }
-
 
 .hentry .notes li.quote-error p:before {
 	content: '!';
@@ -494,9 +476,6 @@ ol#articles {
 	/*display: none;*/
 }
 /*
-.hentry .notes li:hover {
-	background: #ddd;
-}
 
 .hentry .notes li:hover .controls {
 	display: block;
@@ -628,4 +607,27 @@ ol#articles {
 .input_field {
     margin-top: 5px;
     font-size: 9px;
+}
+
+.hentry .notes li.hover {
+    background: black;
+	border-color: orange;
+}
+
+.hentry .notes li.hover p,
+.hentry .notes li.hover .note-type {
+	color: orange;
+}
+
+.hentry .notes li.editing-note {
+    background: #fff;
+	border-color: red;
+}
+
+.hentry .notes li.editing-note .note-type {
+	color: black;
+}
+
+.hentry .entry-content em.editing-note {
+	outline: red 2px solid;
 }

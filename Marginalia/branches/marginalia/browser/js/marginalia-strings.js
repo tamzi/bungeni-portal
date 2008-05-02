@@ -71,6 +71,7 @@ LocalizedAnnotationStrings = {
 	
 	'blank quote and note' : 'You must enter some note text',
 
+	'blank note' : 'You must enter some note text',
 	
 	'lang' : 'en'
 };

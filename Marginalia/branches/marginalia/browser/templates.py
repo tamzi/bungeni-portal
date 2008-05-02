@@ -8,6 +8,7 @@ from marginalia.tools.SequenceRange import SequenceRange, SequencePoint
 from marginalia.tools.XPathRange import XPathRange, XPathPoint
 from marginalia.tools.RangeInfo import RangeInfo, mergeRangeInfos
 from marginalia.schema import annotations_table, AnnotationMaster
+from marginalia.interfaces import IMarginaliaAnnotatableAdaptor
 
 class MarginaliaPage(BrowserPage):
     """All the methods required by Marginalia."""
@@ -19,8 +20,8 @@ class MarginaliaPage(BrowserPage):
         return ''
 
     def getBaseUrl(self):
-        view = getMultiAdapter((self.context, self.request), name=u'absolute_url')
-        return view()
+        obj = IMarginaliaAnnotatableAdaptor(self.context)
+        return obj.getAnnotatedUrl(self.request)
 
     def getModificationDate(self):
         from datetime import datetime
@@ -35,6 +36,13 @@ class MarginaliaPage(BrowserPage):
         annotations = session.query(AnnotationMaster).filter(AnnotationMaster.id==id).all()
         if annotations:
             return annotations[0]
+
+    def getAuthenticatedUser(self):
+        """Returns the currently authenticated member."""
+        if hasattr(self.request.principal, 'getLogin'):        
+            return self.request.principal.getLogin()
+        else:
+            return self.request.principal.title            
 
     def _listAnnotations(self):
         """Returns a list of Annotations."""
@@ -91,7 +99,7 @@ class MarginaliaPage(BrowserPage):
         del params['sequence-range']
         del params['xpath-range']
 
-        params['quote_author'] = self.request.principal.getLogin()
+        params['quote_author'] = self.getAuthenticatedUser()
 
         annotation = AnnotationMaster()
         for key in annotations_table.c.keys():
@@ -115,7 +123,8 @@ class MarginaliaPage(BrowserPage):
         params.update(parse_qsl(self.request['QUERY_STRING']))
         
         annotation = self.getAnnotation(params['id'])
-        if not annotation:
+        if not annotation or annotation.quote_author != \
+               self.getAuthenticatedUser():
             self.request.response.setStatus('BadRequest')
             return
 
@@ -136,16 +145,6 @@ class MarginaliaPage(BrowserPage):
             setattr(annotation, key, value)        
         session.commit()
 
-#         if params.has_key("access"):
-#             workflow = getToolByName(self, 'portal_workflow')
-#             annotation_workflow = workflow.getWorkflowsFor(annotation)[0]
-#             status = workflow.getStatusOf("annotation_workflow", annotation)
-#             if params['access'] == "public" and status['review_state']=="private":
-#                 annotation_workflow.doActionFor(annotation, "publish")
-#             elif params['access'] == "private" and status['review_state']=="published":
-#                 annotation_workflow.doActionFor(annotation, "retract")
-#             annotation.reindexObject()
-            
         self.request.response.setStatus('NoContent')
 
     def _deleteAnnotation(self):
@@ -154,7 +153,7 @@ class MarginaliaPage(BrowserPage):
         params.update(parse_qsl(self.request['QUERY_STRING']))
         annotation_id = params.get('id', None)
         annotation = self.getAnnotation(annotation_id)
-        if annotation:
+        if annotation and annotation.quote_author == self.getAuthenticatedUser():
             session = Session()
             session.delete(annotation)
             self.request.response.setStatus('NoContent')
@@ -189,14 +188,32 @@ class MarginaliaPage(BrowserPage):
         """
         session = Session()
         query = session.query(AnnotationMaster)
+
+        if filter_name and "select_all" in filter_name:
+            filter_name = None
+        if filter_type and "select_all" in filter_type:
+            filter_type = None
+
+        if filter_name:
+            filter_name = filter_name.split(",")
+        if filter_type:
+            filter_type = filter_type.split(",")
         
         query = query.filter(AnnotationMaster.url == url)
         if search_string:
             query = query.filter(AnnotationMaster.quote == search_string)
+        if filter_type:
+            query = query.filter(AnnotationMaster.edit_type.in_(filter_type))
+        if filter_name:
+            query = query.filter(AnnotationMaster.quote_author.in_(filter_name))
+                                 
+        user = self.getAuthenticatedUser()
 
-        annotation_list = query.all()
-        #if user:
-        #    query = query.filter(AnnotationMaster.quote_author == user)            
+        annotation_list = []
+        public_annotations = query.filter(AnnotationMaster.access == 'public').all()
+        users_annotations =  query.filter(AnnotationMaster.quote_author == user).all()                        
+        annotation_list.extend(public_annotations)
+        annotation_list.extend(users_annotations)
                     
         # Filter by position (if block was specified )
         annotations = [ ]
@@ -208,31 +225,18 @@ class MarginaliaPage(BrowserPage):
                     continue
                 uids.append(annotation.id)                
                 arange = annotation.getSequenceRange( )
-                if arange.start.compareInclusive( block ) <= 0 and arange.end.compareInclusive( block ) >= 0:
+                if arange.start.compareInclusive(block) <= 0 and \
+                       arange.end.compareInclusive(block) >= 0:            
                     annotations.append( annotation )
-        else:
-            for annotation in annotation_list:
-                if annotation.id in uids:
-                    continue
-                uids.append(annotation.id)                
-                annotations.append(annotation)
+            return annotations
 
-        if filter_name and "select_all" in filter_name:
-            filter_name = None
-        if filter_type and "select_all" in filter_type:
-            filter_type = None
-
-        if filter_name:
-            filter_name = filter_name.split(",")
-            annotations = [annotation for annotation in annotations if annotation.quote_author in filter_name]
-
-        if filter_type:
-            filter_type = filter_type.split(",")
-            annotations = [annotation for annotation in annotations if annotation.edit_type in filter_type]
-
+        for annotation in annotation_list:
+            if annotation.id in uids:
+                continue
+            uids.append(annotation.id)                
+            annotations.append(annotation)
+                
         return annotations
-        #auth_member = self._getUser()        
-        #return  [annotation for annotation in annotations if auth_member.has_permission("View", annotation)]
 
     def getRangeInfos(self, user, url):
         """ As with getSortedFeedEntries, but instead of returning individual
@@ -245,24 +249,22 @@ class MarginaliaPage(BrowserPage):
             infos.append(info)
         return mergeRangeInfos(infos)
 
-from marginalia.interfaces import IMarginaliaAnnotation, IMarginaliaAnnotatable, IMarginaliaAnnotatableAdaptor
-from zope.interface import implements
-from zope.component import adapts
-
 class MarginaliaAnnotationView(BrowserView):
     """Annotation View Class. """
-    def getOwnerList(self, request):
+    def getOwnerList(self):
         """Return a list of members who have added annotations."""
-        return []
+        user = self.getAuthenticatedUser()
+        view = getMultiAdapter((self.context, self.request), name=u'annotate')
+        url = view.getBaseUrl()
+        annotations = view.getSortedFeedEntries(user, url)
+        return set([annotation.quote_author for annotation in annotations] )
 
     def getAuthenticatedUser(self):
         """Returns the currently authenticated member."""
-        return self.request.principal.getLogin()
-
-    def getAnnotatedUrl(self, url):
-        """Returns annotated url."""
-        obj = IMarginaliaAnnotatableAdaptor(self.context)
-        return obj.getAnnotatedUrl(url)
+        if hasattr(self.request.principal, 'getLogin'):        
+            return self.request.principal.getLogin()
+        else:
+            return self.request.principal.title            
 
     def getBodyText(self):
         """Returns annotated url."""
@@ -270,33 +272,12 @@ class MarginaliaAnnotationView(BrowserView):
         return obj.getBodyText()
 
     def isAnnotatable(self):
-        """
-        """
+        """Returns a boolean True"""
         obj = IMarginaliaAnnotatableAdaptor(self.context)
         return obj.isAnnotatable()
 
-class MarginaliaAnnotationAdaptor(object):
-    """
-    """
-    implements(IMarginaliaAnnotatable)
-    adapts(IMarginaliaAnnotatableAdaptor)
-
-    def __init__(self, context):
-        self.context = context
-
-    def getBodyText(self):
-        return self.context.description
-        
-    def getAnnotatedUrl(self, url ):
-        """Returns annotated url."""        
-        x = url.find( '/annotate' )
-        if -1 != x:
-            url = url[ : x ]
-        return url
-
-    def isAnnotatable(self):
-        """
-        """
-        return True
-
+    def getAnnotatedUrl(self):
+        """Returns a boolean True"""
+        obj = IMarginaliaAnnotatableAdaptor(self.context)
+        return obj.getAnnotatedUrl(self.request)
 

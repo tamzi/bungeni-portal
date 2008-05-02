@@ -80,12 +80,6 @@
       permission="zope.View"
       />
 
-   <adapter
-       for="marginalia.interfaces.IMarginaliaAnnotatable"
-       provides="marginalia.interfaces.IMarginaliaAnnotatableAdaptor"
-       factory="marginalia.browser.templates.MarginaliaAnnotationAdaptor"
-       />
-
   <!-- Style Sheet -->
   <browser:resource name="marginalia.css" file="js/marginalia.css" />
 
@@ -132,7 +126,7 @@
   <browser:resource name="marginalia-config.js" file="js/marginalia-config.js" />
   <browser:resource name="marginalia-strings.js" file="js/marginalia-strings.js" />
   <browser:resource name="bungeni-annotate.js" file="js/bungeni-annotate.js" />
-
+  
   <publisher
       name="MARGINALIA"
       factory="zope.app.publication.requestpublicationfactories.BrowserFactory"

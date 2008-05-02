@@ -47,6 +47,12 @@
       type="zope.app.content.interfaces.IContentType"
       /> 
 
+  <adapter
+       for="marginalia.interfaces.ISimpleDocument"
+       provides="marginalia.interfaces.IMarginaliaAnnotatableAdaptor"
+       factory="marginalia.document.SimpleDocumentAnnotationAdaptor"
+       />
+
   <utility
       component=".document.documentFactory"
       name="marginalia.SimpleDocument"
@@ -54,5 +60,10 @@
       />
 
   <include package=".browser" />
+
+  <browser:resourceDirectory
+     name="images"
+     directory="images"
+     />
 
 </configure>

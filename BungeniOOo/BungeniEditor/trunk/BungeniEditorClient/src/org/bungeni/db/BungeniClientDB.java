@@ -117,8 +117,8 @@ public class BungeniClientDB {
         HashMap<String,Vector<Vector<String>>> qResults = Query(expression);
         
         QueryResults qr = null;
-        if (qResults.containsKey("results")) {
-             qr = new QueryResults(qResults);
+        if (qResults != null ) {
+         qr = new QueryResults(qResults);
              return qr;
         } else 
             return null;

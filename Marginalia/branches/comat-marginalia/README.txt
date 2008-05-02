@@ -17,3 +17,11 @@ Connections to Plone from marginalia correspond to four operations:
 - updateAnnotation
 - deleteAnnotation
 
+Install
+=======
+
+In the skins folder link the javascript files from the marginalia Zope3
+migration branch.
+
+$ cd Marginalia/skins/
+$ svn co https://bungeni-portal.googlecode.com/svn/Marginalia/branches/comat-marginalia/branches/marginalia/browser/js marginalia 

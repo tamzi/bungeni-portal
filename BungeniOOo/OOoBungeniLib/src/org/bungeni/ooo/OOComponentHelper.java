@@ -145,6 +145,7 @@ public  class OOComponentHelper {
     /**
      * Gets the XTextContent from the input Object. Input object is queried for XTextContent.
      * @param element Input object to getTextContent()
+     * @return return an XTextContent object
      */
     public XTextContent getTextContent(Object element){
         XTextContent xContent = ooQueryInterface.XTextContent(element);//(XTextContent) UnoRuntime.queryInterface(XTextContent.class, element);
@@ -240,6 +241,12 @@ public  class OOComponentHelper {
         }
     }
    
+    /**
+     * Creates a section in the document, and returns an XTextSection object.
+     * @param sectionName Name of the section to be crea
+     * @param numberOfColumns Number of columns for the new section
+     * @return returns an XTextContent object of the newly created section
+     */
     public XTextContent createTextSection(String sectionName, short numberOfColumns){
        XNamed xNamedSection = null;
        XTextContent xSectionContent = null;
@@ -509,6 +516,11 @@ public  class OOComponentHelper {
         }
     }
     
+    /**
+     * Checks if the document has a section, section name is passed as parameter.
+     * @param sectionName The name of the section to be checked for existence
+     * @return returns true if section exists, otherwise returns false
+     */
     public synchronized boolean hasSection(String sectionName) {
         boolean bResult = false;
         try {
@@ -1084,7 +1096,54 @@ public XTextSection getSection(String sectionName) {
           
 }
        
-public String getMatchingChildSection(String sectionName, String childPrefix) {
+    public String getFirstMatchingDescendantSection(String parentSection, String childPrefix) {
+        String matching = "";
+        try {
+        boolean bMatched = false;
+        XTextSection xParentSection = null;
+        String[] allSections = this.getTextSections().getElementNames();
+        for (String aSection: allSections) {
+           if (aSection.startsWith(childPrefix)) {
+                //check if parent is actually the parentSection .. 
+               XTextSection aNamedSection = ooQueryInterface.XTextSection(this.getTextSections().getByName(aSection));
+               while (1==1) {
+                   //get the parent section of the namedsection
+                   xParentSection = aNamedSection.getParentSection();
+                   //if the parent exists
+                   if (xParentSection != null ) {
+                       XNamed parentNamed = ooQueryInterface.XNamed(xParentSection);
+                       String parentName = parentNamed.getName();
+                       if (parentName.equals(parentSection)) {
+                           //parentName is the name of the parent of the matched section
+                           bMatched = true;
+                           break;
+                       } else { //parent name was not matched, go up one level again...
+                           aNamedSection = xParentSection;
+                       }
+                   }   else {
+                       //nothing matched yet
+                       bMatched = false;
+                       //break from while loop
+                       break;
+                   }
+                }
+               //check if bMatched was true when it exited loop
+               if (bMatched) { //matching parent was found , so return success 
+                   matching = aSection; 
+                   return matching;
+               } 
+           }
+      }
+    } catch (WrappedTargetException ex) {
+            log.error(ex.getMessage());
+    } catch (NoSuchElementException ex) {
+            log.error(ex.getMessage());
+    } finally {
+          return matching;
+    }
+   }     
+
+    public String getMatchingChildSection(String sectionName, String childPrefix) {
         String matching = "";
         try {
              XTextSection section = getSection(sectionName);
@@ -1100,7 +1159,7 @@ public String getMatchingChildSection(String sectionName, String childPrefix) {
          } finally {
             return matching;
         }
-}
+    }
 
 public void protectSection(String sectionName, boolean toState) {
       try {
@@ -1249,6 +1308,11 @@ public boolean setSelectedTextStyle(String styleName) {
         ooQueryInterface.XRefreshable(enumFields).refresh();
     }
     
+    /**
+     * Gets the title of an openoffice document being viewed in the editor
+     * @param xDoc XTextDocument handle of the document being viewed in the editor
+     * @return returns a String containing the title of the docuemnt.
+     */
     public static String getFrameTitle(XTextDocument xDoc) {
    String strTitle = "";
      try {

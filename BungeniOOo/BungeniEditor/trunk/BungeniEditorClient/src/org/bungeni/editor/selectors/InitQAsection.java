@@ -62,6 +62,7 @@ public class InitQAsection extends selectorTemplatePanel implements IBungeniForm
         super.init();
         initComponents();
         initFields();
+        buildComponentsArray();
     }
     
     public void createContext(){

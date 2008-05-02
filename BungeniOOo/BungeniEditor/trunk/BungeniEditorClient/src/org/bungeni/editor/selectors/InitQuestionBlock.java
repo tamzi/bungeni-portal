@@ -79,6 +79,8 @@ public class InitQuestionBlock extends selectorTemplatePanel implements IBungeni
   public void init(){
       super.init();
       initComponents();
+      buildComponentsArray();
+      setControlData();
   }
 
   public void createContext(){
@@ -156,25 +158,14 @@ public String getClassName(){
            try {
         //only in edit mode, only if the metadata properties exist
         if (theMode == SelectorDialogModes.TEXT_EDIT) {
-                goEditMode();
-                btnApply.setEnabled(true);
-                btnCancel.setEnabled(true);
-                
-            }
-        } catch (Exception ex) {
-            log.error("SetControlData: "+ ex.getMessage());
-        }
-    }
-    
-    private boolean goEditMode() {
-          String currentSectionName = "";
+              String currentSectionName = "";
            currentSectionName = this.theAction.getSelectedSectionToActUpon();
             //currentSectionName = ooDocument.currentSectionName();
             ///do stuff for speech sections retrieve from section metadata////
             ///we probably need a associative metadata attribute factory that
             ///retrieves valid metadata elements for specific seciton types.
             ///how do you identify section types ? probably by naming convention....
-            if (currentSectionName.startsWith(theAction.action_naming_convention())) {
+            //if (currentSectionName.startsWith(theAction.action_naming_convention())) {
                 //this section stores MP specific metadata
                 //get attribute names for mp specific metadata
                 //Bungeni_SpeechMemberName
@@ -189,17 +180,52 @@ public String getClassName(){
                     this.txtQuestionTitle.setText(attribMap.get("Bungeni_QuestionTitle"));
                     this.txtPersonName.setText(attribMap.get("Bungeni_QuestionMemberFrom"));
                     this.txtPersonURI.setText(attribMap.get("Bungeni_QuestionMemberFromURI"));
-                 
+                } else {
+                    MessageBox.OK(parent, "No metadata has been set for this section!");
+                    parent.dispose();
+                }
+                return;
+        }
+        } catch (Exception ex) {
+            log.error("SetControlData: "+ ex.getMessage());
+        }
+    }
+    
+    private boolean goEditMode() {
+          String currentSectionName = "";
+           currentSectionName = this.theAction.getSelectedSectionToActUpon();
+            //currentSectionName = ooDocument.currentSectionName();
+            ///do stuff for speech sections retrieve from section metadata////
+            ///we probably need a associative metadata attribute factory that
+            ///retrieves valid metadata elements for specific seciton types.
+            ///how do you identify section types ? probably by naming convention....
+            //if (currentSectionName.startsWith(theAction.action_naming_convention())) {
+                //this section stores MP specific metadata
+                //get attribute names for mp specific metadata
+                //Bungeni_SpeechMemberName
+                //Bungeni_SpeechMemberURI
+                //the basic macro for adding attributes takes two arrays as a parameter
+                //one fr attribute names , one for attribute values
+                HashMap<String,String> attribMap = ooDocument.getSectionMetadataAttributes(currentSectionName);
+                this.sourceSectionName = currentSectionName;
+                if (attribMap.size() > 0 ) {
+                  
+                    this.txtAddressedTo.setText(attribMap.get("Bungeni_QuestionAddressedTo"));
+                    this.txtQuestionTitle.setText(attribMap.get("Bungeni_QuestionTitle"));
+                    this.txtPersonName.setText(attribMap.get("Bungeni_QuestionMemberFrom"));
+                    this.txtPersonURI.setText(attribMap.get("Bungeni_QuestionMemberFromURI"));
+                    parent.dispose();
                   return true;
                 } else {
                     MessageBox.OK(parent, "No metadata has been set for this section!");
+                    parent.dispose();
                     return false;
                 }
-            } else {
-                MessageBox.OK(this.parent, "The Current section, "+currentSectionName + ", does not have any Speech related metadata !");
-                parent.dispose();
-                return false;
-            }
+            //} else {
+            //    MessageBox.OK(this.parent, "The Current section, "+currentSectionName + ", does not have any Speech related metadata !");
+            //    parent.dispose();
+            //    return false;
+            //}
     }
     /** This method is called from within the constructor to
      * initialize the form.
@@ -283,6 +309,7 @@ public String getClassName(){
 
         txtPersonURI.setName("txt_person_uri");
 
+        scrollQuestionText.setName("scroll_question_text");
         txtQuestionText.setName("txt_question_text");
         scrollQuestionText.setViewportView(txtQuestionText);
 

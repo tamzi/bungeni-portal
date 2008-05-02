@@ -110,17 +110,26 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     protected BungeniClientDB dbInstance=null;
     protected BungeniClientDB dbSettings = null;
     protected HashMap<String,String> theSerializationMap = new HashMap<String,String>();
+    /*List of metadata in the document*/
     protected HashMap<String,String> theMetadataMap = new HashMap<String,String>();
-    protected HashMap<String,Component> theControlMap = new HashMap<String,Component>();
-    protected HashMap<String, Object> theControlDataMap = new HashMap<String, Object>();
+    /*Map that stores variables to be passed to command chain handler*/
     protected HashMap<String,Object> thePreInsertMap = new HashMap<String, Object>();  
+    /*Stores the command chain for the form*/
     protected HashMap<SelectorDialogModes,BungeniCatalogCommand> theCatalogCommands = new HashMap<SelectorDialogModes,BungeniCatalogCommand>();
+    /*Title of the window*/
     protected String windowTitle;
+    /*Form context object used by the command chain*/
     protected BungeniFormContext formContext;    
-   //for selection mode apis 
-   protected ArrayList<String> enabledControls = new ArrayList<String>(); 
  
-    
+    /*List of all named controls in the document*/
+    protected HashMap<String,Component> theControlMap = new HashMap<String,Component>();
+    /*List of enabled controls in the form - a subset of theControlMap*/
+    protected ArrayList<String> enabledControls = new ArrayList<String>(); 
+    /*Controls and the corresponding data in the controls */
+    protected HashMap<String, Object> theControlDataMap = new HashMap<String, Object>();
+    /*Map of controls to be disabled or to set as readonly - used to generate the enabled controls map*/
+    protected HashMap<String, controlState> controlStateMap = new HashMap<String, controlState>();
+
     class dlgBackgrounds {
         Color background;
         String windowTitle = "";
@@ -393,7 +402,17 @@ public class selectorTemplatePanel extends javax.swing.JPanel
                  if (!enabledControls.contains(controlname)) {
                      //disable all these controls
                      if (theControlMap.containsKey(controlname)) {
-                         theControlMap.get(controlname).setVisible(false);
+                         controlState ctlState = controlStateMap.get(controlname);
+                         switch (ctlState.controlMode) {
+                             case hidden:
+                                theControlMap.get(controlname).setVisible(false);     
+                                break;
+                             case readonly:
+                                if (theControlMap.getClass() == s)
+                                break; 
+                         }
+                         //if (ctlState.controlMode == enum_controlMode.hidden )
+                            
                      }
                  }
              }
@@ -456,12 +475,53 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         return selectorTemplatePanel.class.getName();
   }
   
+  
+  
+  static enum enum_controlMode {hidden, readonly};
+  class controlState {
+        String controlName;
+        enum_controlMode controlMode;
+        controlState (String name, String mode) {
+            controlName = name;
+            controlMode = enum_controlMode.valueOf(mode);
+        }
+  };
+    
+    
   private class controlsForActionMode {
-      ArrayList<String> inactiveControlsForMode = new ArrayList<String>();
+      HashMap<String, controlState> inactiveControlsForMode = new HashMap<String, controlState>(0);
        
       controlsForActionMode() {
       }
-      
+  
+      HashMap<String, controlState> getInactiveControlsForMode(){
+          String currentMode = getDialogMode().toString();
+          String sQuery ="";
+          if (theSubAction == null )
+            sQuery = SettingsQueryFactory.Q_HIDDEN_FIELDS_FOR_ACTION_MODE(theAction.action_name(), currentMode);
+          else
+            sQuery = SettingsQueryFactory.Q_HIDDEN_FIELDS_FOR_ACTION_MODE(theAction.action_name(), theSubAction.sub_action_name(), currentMode);    
+          
+          dbSettings.Connect();
+          QueryResults qr = dbSettings.QueryResults(sQuery);
+          log.info("getInactiveControlsForMode : " + sQuery);
+           dbSettings.EndConnect();
+          if (qr.hasResults() ) {
+            Vector<Vector<String>> theResults = qr.theResults();
+             for (int i = 0; i< theResults.size(); i++ ) {
+                Vector<String> tableRow = theResults.elementAt(i);
+                String fieldName = tableRow.elementAt(qr.getColumnIndex("MODE_HIDDEN_FIELD")-1);
+                String fieldMode = tableRow.elementAt(qr.getColumnIndex("CONTROL_MODE")-1);
+                controlState ctlState = new controlState(fieldName, fieldMode);
+                inactiveControlsForMode.put(fieldName, ctlState);
+             }
+                
+          }  
+          return inactiveControlsForMode ;
+      }
+  }
+  
+  /*
       ArrayList<String> getInactiveControlsForMode(){
           String currentMode = getDialogMode().toString();
           String sQuery ="";
@@ -493,13 +553,13 @@ public class selectorTemplatePanel extends javax.swing.JPanel
               }
           }
           return inactiveControlsForMode ;
-      }
-  }
-  
-  private ArrayList<String> getInactiveControlsForMode(){
+      } */
+
+  private HashMap<String, controlState> getInactiveControlsForMode(){
     controlsForActionMode actionMode = new controlsForActionMode();
     return actionMode.getInactiveControlsForMode();
   }
+  
 
   /*
   private ArrayList<String> getInactiveControlsForMode(String currentMode) {
@@ -520,74 +580,37 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         return arrHiddenFields ;
     }
     */
-    protected void getEnabledControlList_TextInsertion() {
-            ArrayList<String> arrHiddenFields = getInactiveControlsForMode();
+  
+    protected void getEnabledControlListCommon() {
+        //we filter the list of controls
+        //contains the list of hidden and readonly fields
+            HashMap<String, controlState> arrHiddenFields = getInactiveControlsForMode();
             //default is to enable all controls in text insertion
             Iterator<String> controlNames = theControlMap.keySet().iterator();
             while(controlNames.hasNext()) {
                 String controlName = controlNames.next();
                 if (arrHiddenFields.size() > 0 ) {
-                    if (!arrHiddenFields.contains(controlName)) {
+                    if (!arrHiddenFields.containsKey(controlName)) {
                          enabledControls.add(controlName); 
                     }
                 } else {
                     enabledControls.add(controlName);
                 }
             }
+    }
+    
+    protected void getEnabledControlList_TextInsertion() {
+        getEnabledControlListCommon();
     }
     
     protected void getEnabledControlList_TextEdit(){
-        ArrayList<String> arrHiddenFields = getInactiveControlsForMode();
-        Iterator<String> controlNames = theControlMap.keySet().iterator();
-            while(controlNames.hasNext()) {
-                String controlName = controlNames.next();
-                if (arrHiddenFields.size() > 0 ) {
-                    if (!arrHiddenFields.contains(controlName)) {
-                         enabledControls.add(controlName); 
-                    }
-                } else {
-                    enabledControls.add(controlName);
-                }
-               
-            }
+        getEnabledControlListCommon();
     }
     
     protected void getEnabledControlList_TextSelection() {
-            //default in selection mode is to enabled controls listed in actions
-        /*
-             String actionFields = theSubAction.action_fields().trim();
-             if (actionFields.indexOf(";") != -1) {
-                String[] enabledFields =  actionFields.split(";");
-                for (int i=0; i < enabledFields.length; i++ ) {
-                    enabledControlNameFromAction(enabledFields[i]);
-                }
-             } else {
-                enabledControlNameFromAction(actionFields);
-             }
-         */
-           ArrayList<String> arrHiddenFields = getInactiveControlsForMode();
-        Iterator<String> controlNames = theControlMap.keySet().iterator();
-            while(controlNames.hasNext()) {
-                String controlName = controlNames.next();
-                if (arrHiddenFields.size() > 0 ) {
-                    if (!arrHiddenFields.contains(controlName)) {
-                         enabledControls.add(controlName); 
-                    }
-                } else {
-                    enabledControls.add(controlName);
-                }
-               
-            }
-    }
+        getEnabledControlListCommon();
+     }
     
-    private void enabledControlNameFromAction (String actionField) {
-                 String[] control_and_name = actionField.split(":");
-                 String controlName = control_and_name[0].trim()+"_"+control_and_name[1].trim();
-                 this.enabledControls.add(controlName);
-                 String labelName = "lbl_" + control_and_name[1];
-                 this.enabledControls.add(labelName);
-      }
- 
     
     //full insert events
     

@@ -61,7 +61,8 @@ public class QueryResults {
     }
     
     private void buildMetadataInfo (Vector<String> metadataRow) {
-         if (theResults.size() > 0 )  {
+        if (hasResults) 
+        if (theResults.size() > 0 )  {
            //build metadata column map
                     for (int n=0; n < metadataRow.size(); n++ ) {
                      String column_name= "";

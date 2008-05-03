@@ -391,6 +391,31 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         }
         return false;
     }
+    
+    public void makeFieldReadOnly(Component field){
+            if (field.getClass() == org.jdesktop.swingx.JXDatePicker.class ){
+               JXDatePicker dateField = (JXDatePicker)field;
+               dateField.setEditable(false);
+            } else if (field.getClass() == javax.swing.JTextField.class) {
+                JTextField textField = (JTextField) field;
+                textField.setEditable(false);
+            } else if (field.getClass() == javax.swing.JComboBox.class)  {
+                JComboBox comboField = (JComboBox) field;
+                comboField.setEditable(false);
+           } else if (field.getClass() == javax.swing.JTextArea.class) {
+                JTextArea textareaField = (JTextArea) field;
+                textareaField.setEditable(false);
+           } else if (field.getClass() == javax.swing.JSpinner.class ) {
+                JSpinner spinnerField = (JSpinner) field;
+                spinnerField.getEditor().getComponent(0).setEnabled(false);
+           } else if (field.getClass() == javax.swing.JTable.class) {
+                javax.swing.JTable tableField = (javax.swing.JTable) field;
+                tableField.removeEditor();
+                tableField.setEnabled(false);   
+           } else {
+                field.setEnabled(false);
+           }
+    }
 
  public void setControlModes() {
         //set selection mode control modes
@@ -408,11 +433,10 @@ public class selectorTemplatePanel extends javax.swing.JPanel
                                 theControlMap.get(controlname).setVisible(false);     
                                 break;
                              case readonly:
-                                if (theControlMap.getClass() == s)
+                                 Component field = theControlMap.get(controlname);
+                                makeFieldReadOnly(field);
                                 break; 
                          }
-                         //if (ctlState.controlMode == enum_controlMode.hidden )
-                            
                      }
                  }
              }
@@ -483,7 +507,15 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         enum_controlMode controlMode;
         controlState (String name, String mode) {
             controlName = name;
-            controlMode = enum_controlMode.valueOf(mode);
+            setControlMode(mode);
+        }
+        
+        void setControlMode(String mode) {
+            try {
+            this.controlMode = enum_controlMode.valueOf(mode);
+            } catch (Exception ex) {
+                log.error("enum_controlmode, setControlMode = " + ex.getMessage());
+            }
         }
   };
     
@@ -557,29 +589,10 @@ public class selectorTemplatePanel extends javax.swing.JPanel
 
   private HashMap<String, controlState> getInactiveControlsForMode(){
     controlsForActionMode actionMode = new controlsForActionMode();
-    return actionMode.getInactiveControlsForMode();
+    this.controlStateMap = actionMode.getInactiveControlsForMode();
+    return this.controlStateMap;
   }
   
-
-  /*
-  private ArrayList<String> getInactiveControlsForMode(String currentMode) {
-        ArrayList<String> arrHiddenFields = new ArrayList<String>();
-        dbSettings.Connect();
-        QueryResults qr = dbSettings.QueryResults("select mode_hidden_field from action_modes " +
-                "where action_name='"+theAction.action_name()+"' and action_mode='"+ currentMode +"'");
-        dbSettings.EndConnect();
-        String[] hiddenFields = null;
-        try {
-        hiddenFields = qr.getSingleColumnResult("MODE_HIDDEN_FIELD");
-        } catch (NullPointerException ex) {
-            hiddenFields = null;
-        }
-        if (hiddenFields != null ) {
-            arrHiddenFields = new ArrayList<String>(Arrays.asList(hiddenFields));
-        } 
-        return arrHiddenFields ;
-    }
-    */
   
     protected void getEnabledControlListCommon() {
         //we filter the list of controls

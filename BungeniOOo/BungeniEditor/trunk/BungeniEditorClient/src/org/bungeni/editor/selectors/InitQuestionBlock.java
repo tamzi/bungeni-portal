@@ -80,6 +80,7 @@ public class InitQuestionBlock extends selectorTemplatePanel implements IBungeni
       super.init();
       initComponents();
       buildComponentsArray();
+      setControlModes();
       setControlData();
   }
 
@@ -106,7 +107,7 @@ public String getClassName(){
         }
     }
     
-   
+   /*
     
     
     public void setControlModes() {
@@ -153,7 +154,7 @@ public String getClassName(){
                    
         }
     }
-    
+    */
     public void setControlData(){
            try {
         //only in edit mode, only if the metadata properties exist
@@ -565,11 +566,11 @@ public String getClassName(){
             /*** variable setting for function ***/
         
             //only name can be edited nothing else....
-            String sectionName = ooDocument.currentSectionName();
+            String sectionName = theAction.getSelectedSectionToActUpon();
             //unprotect any child sections if neccessary, and reprotect them at the end
             //1 change the metadata in the parent section
             //2 change he display text in the inner section
-            String childSection = ooDocument.getMatchingChildSection(sectionName, "meta-mp-");
+            String childSection = ooDocument.getFirstMatchingDescendantSection(sectionName, "Question", "meta-mp-");
             boolean wasProtected = false;
             if (ooDocument.isSectionProtected(childSection))
                 wasProtected = true;

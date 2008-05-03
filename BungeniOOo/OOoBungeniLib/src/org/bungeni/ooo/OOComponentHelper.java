@@ -354,6 +354,14 @@ public  class OOComponentHelper {
         }    
     }
     
+    public String getSectionType(String sectionName) {
+        HashMap<String,String> metamap = getSectionMetadataAttributes(sectionName);
+        if (metamap.containsKey("BungeniSectionType")) {
+            return metamap.get("BungeniSectionType");
+        } else 
+            return null;
+    }
+    
     public HashMap<String, String> getSectionMetadataAttributes(String sectionName){
         HashMap<String,String> metadata = new HashMap<String,String>(); 
         try {
@@ -1095,7 +1103,72 @@ public XTextSection getSection(String sectionName) {
         }
           
 }
-       
+    /**
+     * Function that matches a descendant section, and uses two filters to match the descendant section : 
+     * 1) the section type containing the descendant section 
+     * 2) a name prefix for the section to match
+     * @param parentSection name of section whose children need to be searched for the immediateParentType and childPrefix
+     * @param immediateParentType Section type "BungeniSectionType" attribute for a containing section
+     * @param childPrefix prefix of section name to match
+     * @return The name of the matched section
+     */
+    public String getFirstMatchingDescendantSection(String parentSection, String immediateParentType, String childPrefix) {
+        String matching = "";
+        try {
+        boolean bMatchedOriginSection = false;
+        boolean bMatchedImmediateParent = false;
+        XTextSection xParentSection = null;
+        String[] allSections = this.getTextSections().getElementNames();
+        for (String aSection: allSections) {
+           if (aSection.startsWith(childPrefix)) {
+                //check if parent is actually the parentSection .. 
+               XTextSection aNamedSection = ooQueryInterface.XTextSection(this.getTextSections().getByName(aSection));
+               while (1==1) {
+                   //get the parent section of the namedsection
+                   xParentSection = aNamedSection.getParentSection();
+                   //if the parent exists
+                   if (xParentSection != null ) {
+                       XNamed parentNamed = ooQueryInterface.XNamed(xParentSection);
+                       String parentName = parentNamed.getName();
+                       String sectionType = getSectionType(parentName);
+                       if (parentName.equals(parentSection)) {
+                           //parentName is the name of the parent of the matched section
+                           bMatchedOriginSection = true;
+                       } 
+                       if (sectionType != null ) {
+                           if (sectionType.equals(immediateParentType)) {
+                               bMatchedImmediateParent =  true;
+                           }
+                       }    
+                       if (bMatchedOriginSection && bMatchedImmediateParent) { //exit condition was satisifed... 
+                                break;
+                       } else {  
+                           //parent name was not matched, go up one level again...
+                           aNamedSection = xParentSection;
+                       }
+                   }   else {
+                       //nothing matched yet
+                        //break from while loop
+                       break;
+                   }
+                }
+               //check if bMatched was true when it exited loop
+               if (bMatchedOriginSection && bMatchedImmediateParent) { //matching parent was found , so return success 
+                   matching = aSection; 
+                   return matching;
+               } 
+           }
+      }
+    } catch (WrappedTargetException ex) {
+            log.error(ex.getMessage());
+    } catch (NoSuchElementException ex) {
+            log.error(ex.getMessage());
+    } finally {
+          return matching;
+    }
+        
+    }   
+    
     public String getFirstMatchingDescendantSection(String parentSection, String childPrefix) {
         String matching = "";
         try {

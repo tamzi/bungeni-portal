@@ -1,0 +1,183 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="marginalia">
+<head>
+  <title tal:content="context/title/title">recipe name goes here</title>
+  <!-- 3rd Party -->
+<script type="text/javascript" src="3rd-party.js"        
+     tal:attributes="src context/++resource++3rd-party.js"></script>
+<script type="text/javascript" src="shortcut.js"        
+     tal:attributes="src context/++resource++shortcut.js"></script>
+<script type="text/javascript" src="cssQuery.js"        
+     tal:attributes="src context/++resource++cssQuery.js"></script>
+<script type="text/javascript" src="cssQuery-level2.js"        
+     tal:attributes="src context/++resource++cssQuery-level2.js"></script>
+<script type="text/javascript" src="cssQuery-standard.js"        
+     tal:attributes="src context/++resource++cssQuery-standard.js"></script>
+
+  <!-- Libraries -->
+<script type="text/javascript" src="log.js"        
+     tal:attributes="src context/++resource++log.js"></script>
+<script type="text/javascript" src="prefs.js"        
+     tal:attributes="src context/++resource++prefs.js"></script>
+<script type="text/javascript" src="html-model.js"        
+     tal:attributes="src context/++resource++html-model.js"></script>
+<script type="text/javascript" src="domutil.js"        
+     tal:attributes="src context/++resource++domutil.js"></script>
+<script type="text/javascript" src="ranges.js"        
+     tal:attributes="src context/++resource++ranges.js"></script>
+<script type="text/javascript" src="SequenceRange.js"        
+     tal:attributes="src context/++resource++SequenceRange.js"></script>
+<script type="text/javascript" src="XPathRange.js"        
+     tal:attributes="src context/++resource++XPathRange.js"></script>
+<script type="text/javascript" src="annotation.js"        
+     tal:attributes="src context/++resource++annotation.js"></script>
+<script type="text/javascript" src="post-micro.js"        
+     tal:attributes="src context/++resource++post-micro.js"></script>
+<script type="text/javascript" src="linkable.js"        
+     tal:attributes="src context/++resource++linkable.js"></script>
+
+  <!-- Marginalia -->
+<script type="text/javascript" src="marginalia.js"        
+     tal:attributes="src context/++resource++marginalia.js"></script>
+<script type="text/javascript" src="blockmarker-ui.js"        
+     tal:attributes="src context/++resource++blockmarker-ui.js"></script>
+<script type="text/javascript" src="highlight-ui.js"        
+     tal:attributes="src context/++resource++highlight-ui.js"></script>
+<script type="text/javascript" src="link-ui.js"        
+     tal:attributes="src context/++resource++link-ui.js"></script>
+<script type="text/javascript" src="note-ui.js"        
+     tal:attributes="src context/++resource++note-ui.js"></script>
+<script type="text/javascript" src="link-ui-simple.js"        
+     tal:attributes="src context/++resource++link-ui-simple.js"></script>
+<script type="text/javascript" src="track-changes.js"        
+     tal:attributes="src context/++resource++track-changes.js"></script>
+
+  <!-- Rest -->
+<script type="text/javascript" src="RangeInfo.js"        
+     tal:attributes="src context/++resource++RangeInfo.js"></script>
+<script type="text/javascript" src="rest-annotate.js"        
+     tal:attributes="src context/++resource++rest-annotate.js"></script>
+<script type="text/javascript" src="rest-prefs.js"        
+     tal:attributes="src context/++resource++rest-prefs.js"></script>
+<script type="text/javascript" src="rest-keywords.js"        
+     tal:attributes="src context/++resource++rest-keywords.js"></script>
+<script type="text/javascript" src="marginalia-direct.js"        
+     tal:attributes="src context/++resource++marginalia-direct.js"></script>
+
+  <!-- Others -->
+<script type="text/javascript" src="marginalia-config.js"        
+     tal:attributes="src context/++resource++marginalia-config.js"></script>
+<script type="text/javascript" src="marginalia-strings.js"        
+     tal:attributes="src context/++resource++marginalia-strings.js"></script>
+<script type="text/javascript" src="bungeni-annotate.js"        
+     tal:attributes="src context/++resource++bungeni-annotate.js"></script>
+
+  <!-- Page and Context Specific -->
+
+<script type="text/javascript" tal:content="string:
+function show_annotations_on_load() {
+    var serviceRoot = '${context/@@absolute_url}';
+    // var oldServiceRoot = '${request/getApplicationURL}/annotations';
+	var username = '${view/getAuthenticatedUser}';
+	var url = '${context/@@absolute_url}';
+	bungeniMarginaliaInit( username, url, serviceRoot );
+}
+
+function addLoadEvent(func) {
+  var oldonload = window.onload;
+  if (typeof window.onload != 'function') {
+    window.onload = func;
+  } else {
+    window.onload = function() {
+      if (oldonload) {
+        oldonload();
+      }
+      func();
+    }
+  }
+}
+
+addLoadEvent(show_annotations_on_load);
+/*
+ * Called when the margin button is clicked to create an annotation.
+ * There are two choices for editor:
+ * 1. SelectAnnotationNoteEditor - select an edit action
+ * 2. BungeniNoteEditor - create a simple margin note
+ */
+function bungeniClickCreateAnnotation( event, id ) {
+	clickCreateAnnotation(event, id, new SelectActionNoteEditor());
+}
+">
+</script>
+
+<link rel="stylesheet" type="text/css" media="all" href="bookstore.css"
+      tal:attributes="href context/++resource++marginalia.css" />
+
+</head>
+<body>
+
+<metal:main tal:define="annotatedUrl string:${context/@@absolute_url};
+                        text python:view.getBodyText();
+                        authenticateduser python:view.getAuthenticatedUser();">
+
+<h1> Annotate Document </h1>
+ <!-- Marginalia .. -->
+<ul id="debug" style="display:none">
+   <li></li>
+</ul>
+
+<div class="plain" tal:condition="text">
+   <div class="hentry" id="m1">
+      <table border="1" style="width: 100%">
+         <tr><td><div class="markers"></div></td>
+           <td>
+             <h3 class="entry-title"></h3>
+             <div class="entry-content" tal:content="structure text" />
+             <a rel="bookmark" tal:attributes="href annotatedUrl"
+                href="http://www.geof.net/code/annotation/demo/#m1">#</a>
+           </td>
+           <td>
+             <div class="notes" tal:define="member_names python:view.getOwnerList()">
+		       <div id="loader" style="float:right;display:none;">
+                 <img width="10" height="10" title="Loader" alt="" src="loader.jpg" tal:attributes="src context/++resource++images/loader.gif" />
+               </div>
+               <button class="createAnnotation" onclick="bungeniClickCreateAnnotation(event,'m1')" title="Click here to create an annotation">&gt;</button>
+               <a href="javascript:toggle_visibility('fields');"><p class="plink">Filter annotations by owner, type or query string. (show/hide)</p></a>
+               <a href="javascript:hideAnnotations();"><p class="plink">Clear all annotations</p></a>
+               <p id="noresults" class="plink" style="display:none;">No Annotations Found</p>
+		       <div id="fields" style="display:none;">
+                 <select class="select_field" name="filter_owner" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
+                   <option value="select_all" selected>All</option>
+                   <option value="" tal:attributes="value authenticateduser">Self</option>
+                   <optgroup LABEL="Member Names">
+                     <span tal:repeat="name member_names" tal:omit-tag="">
+                       <span tal:condition="python:name!=authenticateduser" tal:omit-tag="">
+                         <option value="" tal:attributes="value name" tal:content="name">Second</option>
+                       </span>
+                     </span>
+                   </optgroup> 
+                 </select><br/>
+                 <select class="select_field" name="filter_type" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
+                   <option value="select_all" selected>All</option>
+                   <option value="comment">Comment</option>
+                   <option value="insert">Insert</option>
+                   <option value="replace">Replace</option>
+                   <option value="delete">Delete</option>
+                 </select><br/>
+                 <input class="input_field" type="text" name="annotation_search" value="" onChange="filterAnnotations(this);" onkeypress="return onEnterKey(this, event);"/>
+               </div>
+               <ol><li></li></ol>
+             </div>
+           </td>
+         </tr>
+      </table>
+   </div>   
+</div>
+
+</metal:main>
+
+</body>
+</html>
+

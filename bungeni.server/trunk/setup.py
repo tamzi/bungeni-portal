@@ -46,6 +46,7 @@ setup(name='bungeni.server',
                         'zope.app.testing',
                         'zope.app.securitypolicy',
                         'zope.sendmail',
+                        'ore.wsgiapp',
                         ],
       entry_points = """
       [paste.app_factory]

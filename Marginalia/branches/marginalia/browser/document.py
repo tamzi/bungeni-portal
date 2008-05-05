@@ -1,6 +1,12 @@
-from zope.component import createObject, getMultiAdapter
-from zope.publisher.browser import BrowserPage
+
 from zope.app.pagetemplate import ViewPageTemplateFile
+from zope.component import createObject, getMultiAdapter
+from zope.formlib.form import EditForm, AddForm, Fields, applyChanges
+from zope.formlib.namedtemplate import NamedTemplate
+from zope.formlib.namedtemplate import NamedTemplateImplementation
+from zope.publisher.browser import BrowserPage
+
+from marginalia.interfaces import ISimpleDocument
 
 class ViewDocument(BrowserPage):
 
@@ -11,11 +17,6 @@ class ViewDocument(BrowserPage):
                                  self.context.description)
         view = getMultiAdapter((plaintext, self.request), name=u'')
         return view.render()
-
-from zope.formlib.form import EditForm, AddForm, Fields, applyChanges
-from zope.formlib.namedtemplate import NamedTemplate
-from zope.formlib.namedtemplate import NamedTemplateImplementation
-from marginalia.interfaces import ISimpleDocument
 
 class DocumentEditForm(EditForm):
     form_fields = Fields(ISimpleDocument)

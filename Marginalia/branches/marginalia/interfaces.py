@@ -1,5 +1,5 @@
 from zope.interface import Interface
-from zope.schema import List, Text, TextLine, Int, URI
+from zope.schema import Text, TextLine
 
 class ISimpleDocument(Interface):
     """Simple Document."""

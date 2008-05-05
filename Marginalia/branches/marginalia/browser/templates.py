@@ -1,11 +1,11 @@
 from zope.component import createObject, getMultiAdapter
 from zope.publisher.browser import BrowserPage, BrowserView
 from zope.app.pagetemplate import ViewPageTemplateFile
-from ore.alchemist.vocabulary import DatabaseSource, ObjectSource, Session
+from ore.alchemist import Session
 from cgi import parse_qsl
 
 from marginalia.tools.SequenceRange import SequenceRange, SequencePoint
-from marginalia.tools.XPathRange import XPathRange, XPathPoint
+from marginalia.tools.XPathRange import XPathRange
 from marginalia.tools.RangeInfo import RangeInfo, mergeRangeInfos
 from marginalia.schema import annotations_table, AnnotationMaster
 from marginalia.interfaces import IMarginaliaAnnotatableAdaptor

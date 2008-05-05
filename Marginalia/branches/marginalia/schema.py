@@ -1,8 +1,5 @@
 import sqlalchemy as rdb
-from datetime import datetime
-from sqlalchemy.orm import mapper, relation, column_property
-from zope.interface import implements
-from marginalia.interfaces import IMarginaliaAnnotation
+from sqlalchemy.orm import mapper
 from marginalia.tools.SequenceRange import SequenceRange, SequencePoint
 from marginalia.tools.XPathRange import XPathRange, XPathPoint
 

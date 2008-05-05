@@ -26,6 +26,7 @@ setup(
                          'plone.memoize',
                          'alchemist.ui',
                          'marginalia',
+                         'ore.yui',
                          'z3c.menu.ready2go',			
                          'zc.displayname',
                          'z3c.schemadiff',

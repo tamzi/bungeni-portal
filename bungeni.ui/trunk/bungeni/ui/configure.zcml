@@ -4,7 +4,8 @@
 
   <include package="plone.memoize" />
   <include package="z3c.schemadiff" />
-  
+  <include package="marginalia" />
+
   <!-- TimeZone Definition -->
   <adapter factory=".tz.tzinfo" />
 
@@ -38,9 +39,9 @@
   <!-- Include Workflow UI -->
   <include file="workflow.zcml" />
   
-  <!-- Custom forms-->
+  <!-- Custom forms -->
   <include package=".browser"/>  
-  
+
   <!-- Javascript -->
   <include package="ore.yui"/>
   

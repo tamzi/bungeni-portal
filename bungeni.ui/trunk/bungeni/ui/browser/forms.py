@@ -41,9 +41,6 @@ def set_widget_errors(widgets, errors):
                     widget._error = error
 
 
-#parliaments
-
-
 
 
 class ParliamentAdd( ContentAddForm ):
@@ -54,7 +51,7 @@ class ParliamentAdd( ContentAddForm ):
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget  
     form_fields["election_date"].custom_widget = SelectDateWidget    
-                      
+    
     def update(self):
         """
         Called by formlib after __init__ for every page update. This is

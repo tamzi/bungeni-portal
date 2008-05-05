@@ -1,15 +1,7 @@
 """
 need workflow viewlet for current transition, and current state?
 """
-
-from zope import interface, component, event
-
-from ore.workflow import interfaces as iworkflow
 from ore.workflow import workflow
-
-#import interfaces
-#import utils
-
 from bungeni.core.i18n import _
 
 class states:
@@ -20,6 +12,10 @@ class states:
     submitted = "submitted"
     first_reading = "first_reading"
     first_committee = "first_committee"
+
+    # after a committee, there is an option to
+    # present the finding directly to the house.
+    report_reading = "report_reading"
     
     second_pending = "second_pending"
     second_reading = "second_reading"
@@ -51,11 +47,11 @@ def create_bill_workflow( ):
         ) )
 
     add( workflow.Transition(
-        transition_id = 'minister-submit',
+        transition_id = 'ministry-submit',
         title=_(u"Submit"),
         source = states.ministry_draft,
         destination = states.submitted,
-        permission = "bungeni.bill.MinisterSubmit",
+        permission = "bungeni.bill.MinistrySubmit",
         ) )
 
     add( workflow.Transition(
@@ -73,6 +69,22 @@ def create_bill_workflow( ):
         destination = states.first_committee,
         permission = "bungeni.bill.SelectCommittee",
         ) )
+
+    add( workflow.Transition(
+        transition_id = 'schedule-first-report-reading',
+        title = _(u"Schedule Report Reading"),
+        source = states.first_committee,
+        destination = states.report_reading,
+        permission = "bungeni.bill.Schedule"
+        ))
+
+    add( workflow.Transition(
+        transition_id = 'schedule-second-from-first-committee',
+        title = _(u"Schedule Second Reading"),
+        source = states.first_committee,
+        destination = states.second_reading,
+        permission = "bungeni.bill.Schedule"
+        ))    
 
     add( workflow.Transition(
         transition_id = 'schedule-second',
@@ -98,13 +110,13 @@ def create_bill_workflow( ):
         permission = "bungeni.bill.Schedule",
         ) )
 
-    add( workflow.Transition(
-        transition_id = 'recommitted',
-        title=_(u"Recommit Bill"),
-        source = states.second_reading,
-        destination = states.whole_house,
-        permission = "bungeni.bill.Recommit",
-        ) )
+##     add( workflow.Transition(
+##         transition_id = 'recommital',
+##         title=_(u"Recommit Bill"),
+##         source = states.second_reading,
+##         destination = states.whole_house,
+##         permission = "bungeni.bill.Recommit",
+##         ) )
 
     add( workflow.Transition(
         transition_id = 'schedule-third-reading',
@@ -131,24 +143,6 @@ def create_bill_workflow( ):
         ) )    
     
     return transitions
-
-workflow_transition_event_map = {
-#    (states.submitted, states.received): interfaces.IQuestionReceivedEvent,
-#    (states.draft, states.submitted): interfaces.IQuestionSubmittedEvent,
-    }
-
-@component.adapter(iworkflow.IWorkflowTransitionEvent)
-def workflowTransitionEventDispatcher( event ):
-    source = event.source
-    destination = event.destination
-
-    iface = workflow_transition_event_map.get((source, destination))
-    if iface is None:
-        return
-    
-    transition_event = ObjectEvent(event.object)
-    interface.alsoProvides(transition_event, iface)
-    event.notify(transition_event)
  
 class BillWorkflow( workflow.Workflow ):
 

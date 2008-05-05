@@ -108,6 +108,18 @@ class IBungeniContent( IIndexable, IAuditable, IVersionable ):
     parliamentary content
     """
 
+class IQuestion( interface.Interface ):
+    """ Parliamentary Question
+    """
+
+class IBill( interface.Interface ):
+    """ Parliamentary Bill
+    """
+
+class IMotion( interface.Interface ):
+    """ Parliamentary Motion
+    """
+
 class IBungeniSetup( interface.Interface ):
 
     def setUp( app ):

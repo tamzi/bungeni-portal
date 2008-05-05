@@ -49,8 +49,7 @@ def tearDown( test ):
     metadata.drop_all( checkfirst=True )
 
 def test_suite():
-    doctests = ('readme.txt', 'notification.txt', 'workflows/question.txt')
-
+    doctests = ('readme.txt', 'notification.txt', 'workflows/question.txt', 'workflows/bill.txt')
     globs = dict(interface=interface, component=component)
     
     return unittest.TestSuite((

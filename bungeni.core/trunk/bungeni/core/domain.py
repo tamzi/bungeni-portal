@@ -9,10 +9,10 @@ Created by Kapil Thangavelu on 2007-11-22.
 
 import md5, random, string
 
-from zope import interface, location
+from zope import interface, location, component
 from ore.alchemist import model
+from ore.workflow.interfaces import IWorkflowInfo
 from alchemist.traversal.managed import one2many
-
 
 import logging
 import interfaces
@@ -144,8 +144,10 @@ class Parliament( Group ):
     committees = one2many("comittees", "bungeni.core.domain.CommitteeContainer", "parliament_id")
     mps = one2many("mps","bungeni.core.domain.GroupMembershipContainer", "group_id")
     governments = one2many("governments","bungeni.core.domain.GovernmentContainer", "parliament_id")
-    parliamentmembers = one2many("parliamentmembers", "bungeni.core.domain.MemberOfParliamentContainer", "group_id") 
-    extensionmembers = one2many("extensionmembers", "bungeni.core.domain.ExtensionGroupContainer", "parliament_id")
+    parliamentmembers = one2many("parliamentmembers", 
+                                 "bungeni.core.domain.MemberOfParliamentContainer", "group_id")
+    extensionmembers = one2many("extensionmembers", "bungeni.core.domain.ExtensionGroupContainer",
+                                 "parliament_id")
     
 class PoliticalParty( Group ):
     """ a political party
@@ -222,25 +224,31 @@ class ParliamentaryItem( object ):
     # object log
 
     # versions
-    pass
+
     
+    @property
+    def workflow( self ):
+        return component.getAdapter( self, IWorkflowInfo )
 
 class Question( ParliamentaryItem ):
-    pass
 
+    interface.implements( interfaces.IQuestion )
 
 QuestionChange = ItemLog.makeLogFactory( "QuestionChange")
 QuestionVersion = ItemVersions.makeVersionFactory("QuestionVersion")
 
 
 class Motion( ParliamentaryItem ):
-    pass
+    
+    interface.implements( interfaces.IMotion )
 
 MotionChange = ItemLog.makeLogFactory( "MotionChange")
 MotionVersion = ItemVersions.makeVersionFactory("MotionVersion")
 
 class Bill( ParliamentaryItem ):
-    pass
+
+    interface.implements( interfaces.IBill )
+
 
 BillChange = ItemLog.makeLogFactory( "BillChange")
 BillVersion = ItemVersions.makeVersionFactory("BillVersion")

@@ -1,0 +1,113 @@
+Bill Workflow
+=============
+
+The default bill workflow models the Westminister Tradition.
+
+Setup
+-----
+
+  >>> from bungeni.core.domain import Bill
+  >>> from bungeni.core.workflows.bill import states
+  >>> import bungeni.core.interfaces
+  >>> from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
+  >>> import ore.workflow
+  
+  >>> component.provideAdapter(
+  ...    bungeni.core.workflows.WorkflowState,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    bungeni.core.workflows.bill.BillWorkflowAdapter,
+  ...    (Bill,))
+
+  >>> component.provideAdapter(
+  ...    ore.workflow.workflow.WorkflowInfo,
+  ...    (Bill,))
+  
+  >>> def transitions(content):
+  ...     wf = IWorkflow(content)
+  ...     return tuple(transition.transition_id for transition in wf.getTransitions( content.status ) )
+
+Drafting A Bill
+---------------
+
+A bill can be submitted by either a private member or a ministry, we've labled these below as a private
+or public bill respectively.
+
+  >>> private_bill = Bill()
+  >>> public_bill  = Bill()
+
+The application is responsible for transition bills to their initial state, depending on their method
+of creation.
+  
+  >>> public_bill.status = states.ministry_draft
+  >>> transitions( public_bill )
+  ('ministry-submit',)
+
+A ministry member can then submit a bill, as long as they have the corresponding 
+'bungeni.bill.MinistrySubmit' permission.
+
+  >>> public_bill.workflow.fireTransition('ministry-submit')
+  >>> public_bill.status
+  'submitted'
+
+The process is simliar to for a private member submitting a bill, although with different transition
+names ( the ui labels on these are the same).
+
+  >>> private_bill.status = states.member_draft
+  >>> transitions(private_bill)
+  ('member-submit',)
+  >>> private_bill.workflow.fireTransition('member-submit')
+  >>> private_bill.status
+  'submitted'
+
+From this point the workflow for the two types of bills is the same.
+
+First Reading
+-------------
+First step for a bill is to be scheduled for a public reading, the user interface
+presents a transition specific ui viewlet to be used for scheduling the reading.
+
+  >>> private_bill.workflow.fireTransition('schedule-first')
+  >>> transitions( private_bill )
+  ('schedule-second', 'select-first-committee')
+ 
+  >>> public_bill.workflow.fireTransition('schedule-first')
+  >>> transitions( public_bill )
+  ('schedule-second', 'select-first-committee')
+
+Committees
+----------
+
+Next step, optionally is to send the bill to a committee. After a bill is 
+sent to committee, it can either be scheduled for a second reading, or
+for the committee's report to be read.
+  
+  >>> public_bill.workflow.fireTransition('select-first-committee')
+  >>> transitions( public_bill )
+  ('schedule-first-report-reading', 'schedule-second-from-first-committee')
+  
+
+Second Reading
+--------------
+
+We can then schedule a second reading, again in the ui, this presents a workflow
+viewlet for scheduling the bill.
+ 
+  >>> private_bill.workflow.fireTransition('schedule-second')
+  >>> transitions( private_bill )
+  ('select-second-committee', 'schedule-whole-house')
+
+
+Committee of the Whole House
+----------------------------
+
+
+
+Third Reading
+-------------
+
+Vote - Approved/Rejected
+------------------------
+
+

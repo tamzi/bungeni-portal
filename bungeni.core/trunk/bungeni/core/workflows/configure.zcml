@@ -1,7 +1,6 @@
 <configure xmlns="http://namespaces.zope.org/zope">
 
   <!-- content workflow -->
-  
   <adapter
      for="..interfaces.IBungeniContent"
      provides="ore.workflow.interfaces.IWorkflowState"
@@ -17,54 +16,41 @@
      provides="ore.workflow.interfaces.IWorkflowInfo"
      factory="ore.workflow.workflow.WorkflowInfo"/>
 
-  <!-- questions workflow -->
-
+  <!-- bill workflow -->
   <adapter
-     for="..domain.Question"
-     provides="ore.workflow.interfaces.IWorkflowState"
-     factory=".WorkflowState" />
-  
+     for="..interfaces.IBill"
+     provides="ore.workflow.interfaces.IWorkflow"
+     factory=".bill.BillWorkflowAdapter" />     
+
+  <!-- questions workflow -->
   <adapter
      for="..domain.Question"
      provides="ore.workflow.interfaces.IWorkflow"
      factory=".question.QuestionWorkflowAdapter" />
 
-  <adapter
-     for="..domain.Question"
-     provides="ore.workflow.interfaces.IWorkflowInfo"
-     factory="ore.workflow.workflow.WorkflowInfo"/>
-
   <subscriber
      handler=".question.workflowTransitionEventDispatcher" />
 
-  <!-- silly versioning thingy for wf runtime-->
-
-  <utility
-     provides="ore.workflow.interfaces.IWorkflowVersions"
-     factory=".NullVersions"
-     />
-     
-  <!-- Audit Workflow 
-  <subscriber
-     handler=".order.recordOrderWorkflow"
-     for="bungeni.core.interfaces.IBungeniContent
-          ore.workflow.interfaces.IWorkflowTransitionEvent"
-     />
-    -->
-
+  <!-- Generic Workflow Initialization For Content -->
   <subscriber
      handler=".initializeWorkflow"
      for="bungeni.core.interfaces.IBungeniContent
           zope.lifecycleevent.IObjectCreatedEvent"
      />
      
-  <!-- automatic transitioning -->
-
+  <!-- Cascade for Automatic Transitions on Content -->
   <subscriber
      handler=".fireAutomaticTransitions"
      for="bungeni.core.interfaces.IBungeniContent
           ore.workflow.interfaces.IWorkflowTransitionEvent"
      />
+
+  <!-- silly versioning thingy for wf runtime-->
+  <utility
+     provides="ore.workflow.interfaces.IWorkflowVersions"
+     factory=".NullVersions"
+     />
+     
 
 
 </configure>    

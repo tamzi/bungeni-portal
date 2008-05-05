@@ -17,7 +17,7 @@ setup(
           'Topic :: Internet :: WWW/HTTP',
           'Framework :: Zope3'],    
     packages=find_packages(),
-    package_data = { '': ['*.txt', '*.zcml', '*.pt'] },
+    include_package_data=True,
     install_requires = [ 'setuptools',
                          'bungeni.core',
                          'zope.formlib'],

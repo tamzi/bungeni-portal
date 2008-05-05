@@ -23,6 +23,8 @@ setup(
                          'zope.schema',
                          'zope.interface',
                          'zope.i18n',
+                         'alchemist.catalyst',
+                         'alchemist.security',
                          'ore.alchemist'],
     zip_safe = False,
     )

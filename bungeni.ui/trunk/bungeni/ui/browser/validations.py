@@ -140,8 +140,8 @@ def checkDates( parent, data ):
     combine checks for start and end date       
     """
     errors = checkStartDate( parent, data )
-    errors.append(checkEndDate( parent, data ))
-    
+    errors = errors + checkEndDate( parent, data )
+    return errors
     
 
 #############
@@ -157,7 +157,10 @@ def CheckParliamentDatesAdd( context, data ):
     #for parliaments we have to check election date as well
     overlaps = checkDateInInterval(None, data['election_date'], sql_checkParliamentInterval)
     if overlaps is not None:
-        errors.append(interface.Invalid(_("The election date overlaps with (%s)" % overlaps), "election_date" ))                  
+        errors.append(interface.Invalid(_("The election date overlaps with (%s)" % overlaps), "election_date" ))   
+    overlaps = checkDateInInterval(None, data['election_date'], sql_checkForOpenParliamentInterval )   
+    if overlaps is not None:
+        errors.append(interface.Invalid(_("Another parliament is not yet dissolved (%s)" % overlaps), "election_date" ))            
     return errors
     
 #ministries
@@ -253,7 +256,8 @@ def CheckSessionDatesInsideParentDatesAdd( context, data ):
     end date must be <= parents end date (if parents end date is set)
     """
     errors = checkStartEndDatesInInterval(context.__parent__.parliament_id, data , sql_checkSessionInterval)     
-    return errors.append(checkDates(context.__parent__ , data ))
+    errors = errors + checkDates(context.__parent__ , data )
+    return errors
     
    
     
@@ -322,12 +326,13 @@ sql_checkForMyOpenParliamentInterval = """
                             SELECT "groups"."short_name" 
                             FROM "public"."parliaments", "public"."groups" 
                             WHERE ( ( "parliaments"."parliament_id" = "groups"."group_id" )
+                                    AND ( "parliaments"."parliament_id" != %(parent_key)s )
                                     AND "end_date" IS NULL )
                         """
 
 #Parliament
 
-def CheckParliamentDatesEdit( context, data ):
+def CheckParliamentDatesEdit( self, context, data ):
     """
     Parliaments must not overlap
     """       
@@ -335,7 +340,10 @@ def CheckParliamentDatesEdit( context, data ):
     #for parliaments we have to check election date as well
     overlaps = checkDateInInterval(context.parliament_id, data['election_date'], sql_checkMyParliamentInterval)
     if overlaps is not None:
-        errors.append(interface.Invalid(_("The election date overlaps with (%s)" % overlaps), "election_date" ))                  
+        errors.append(interface.Invalid(_("The election date overlaps with (%s)" % overlaps), "election_date" ))   
+    overlaps = checkDateInInterval(context.parliament_id, data['election_date'], sql_checkForMyOpenParliamentInterval )   
+    if overlaps is not None:
+        errors.append(interface.Invalid(_("Another parliament is not yet dissolved (%s)") % overlaps ), "election_date" )                        
     return errors
 
 # Governments
@@ -343,7 +351,7 @@ def CheckGovernmentsDateInsideParliamentsDatesEdit( context, data ):
     """
     start date must be >= parents start date
     """
-    errors = checkStartEndDatesInInterval( context.government_id, data, sql_checkGovernmentInterval)
+    errors = checkStartEndDatesInInterval( context.government_id, data, sql_checkMyGovernmentInterval)
     #### check dates in interval    
     if (context.__parent__.__parent__.end_date is not None):
         if data['start_date'] > context.__parent__.__parent__.end_date:
@@ -360,7 +368,7 @@ def CheckSittingDatesInsideParentDatesEdit( context, data ):
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)
     """
-    errors = checkStartEndDatesInIntervalEdit(context.sitting_id, data, sql_checkSittingInterval)
+    errors = checkStartEndDatesInInterval(context.sitting_id, data, sql_checkMySittingInterval)
     
     if context.__parent__.__parent__.start_date > data['start_date'].date():
         errors.append( interface.Invalid(_("Start must be after Session Start Date (%s)" % context.__parent__.__parent__.start_date )) )
@@ -370,5 +378,41 @@ def CheckSittingDatesInsideParentDatesEdit( context, data ):
         if data['start_date'].date() > context.__parent__.__parent__.end_date:
             errors.append(  interface.Invalid(_("Start must be before Session End Date (%s)" % context.__parent__.__parent__.end_date )) )            
     return errors
+
+def CheckSessionDatesEdit( self, context, data ):
+    """
+    start date must be >= parents start date
+    end date must be <= parents end date (if parents end date is set)
+    """
+    errors = checkStartEndDatesInInterval(context.session_id , data , sql_checkMySessionInterval)     
+    errors = errors + checkDates(context.__parent__.__parent__ , data )       
+    return errors
     
+def CheckMemberDatesEdit( self, context, data ):
+    errors = checkDates(context.__parent__.__parent__ , data )       
+    return errors
+    
+def CheckCommitteeDatesEdit( self, context, data ):
+    errors = checkDates(context.__parent__.__parent__ , data )       
+    return errors
+    
+def CommitteeMemberDatesEdit( self, context, data ):
+    errors = checkDates(context.__parent__.__parent__ , data )       
+    return errors      
                         
+def MinistryDatesEdit( self, context, data ):
+    errors = checkDates(context.__parent__.__parent__ , data )       
+    return errors                               
+                       
+def MinisterDatesEdit( self, context, data ):
+    errors = checkDates(context.__parent__.__parent__ , data )       
+    return errors                               
+                        
+def ExtensionGroupDatesEdit( self, context, data ):
+    errors = checkDates(context.__parent__.__parent__ , data )       
+    return errors                                  
+    
+def ExtensionMemberDatesEdit( self, context, data ):
+    errors = checkDates(context.__parent__.__parent__ , data )       
+    return errors               
+        

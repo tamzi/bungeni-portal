@@ -1,5 +1,17 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser" >
+           
+    
+ <!-- Expose form for use as macro -->
+  <browser:page
+    for="*"
+    name="alchemist-form"
+    permission="zope.Public"
+    template="templates/form.pt"
+    layer="bungeni.ui"
+    />
+ 
+                 
   <!-- GroupSittingAttendance Add Form -->
    <browser:view
       name="add"
@@ -27,6 +39,14 @@
       permission="zope.View"
       />      
   <!-- Session Edit Form -->
+    <browser:viewlet
+      name="alchemist.attributes.edit"
+      manager="alchemist.ui.interfaces.IContentEditManager"
+      class=".forms.SessionsEdit"
+      for="bungeni.core.interfaces.IParliamentSession"
+      permission="zope.View"
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+      />      
   <!-- Session Add Form -->
    <browser:view
       name="add"
@@ -36,6 +56,14 @@
       />    
   
   <!-- MP Edit Form -->
+    <browser:viewlet
+      name="alchemist.attributes.edit"
+      manager="alchemist.ui.interfaces.IContentEditManager"
+      class=".forms.MemberOfParliamenEdit"
+      for="bungeni.core.interfaces.IMemberOfParliament"
+      permission="zope.View"
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+      />        
   <!-- MP Add Form -->
    <browser:view
       name="add"
@@ -44,6 +72,14 @@
       permission="zope.View"
       />          
   <!-- Committee Edit Form --> 
+    <browser:viewlet
+      name="alchemist.attributes.edit"
+      manager="alchemist.ui.interfaces.IContentEditManager"
+      class=".forms.CommitteeEdit"
+      for="bungeni.core.interfaces.ICommittee"
+      permission="zope.View"
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+      />          
   <!-- Committee Add Form -->  
    <browser:view
       name="add"
@@ -51,7 +87,15 @@
       class=".forms.CommitteeAdd"              
       permission="zope.View"
       />          
-<!-- Committee Member Edit Form -->  
+<!-- Committee Member Edit Form --> 
+    <browser:viewlet
+      name="alchemist.attributes.edit"
+      manager="alchemist.ui.interfaces.IContentEditManager"
+      class=".forms.CommitteeMemberEdit"
+      for="bungeni.core.interfaces.ICommitteeMember"
+      permission="zope.View"
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+      />   
 <!-- Committee Member Add Form -->  
    <browser:view
       name="add"
@@ -77,6 +121,14 @@
       />                    
 
 <!-- Ministry Edit Form -->
+    <browser:viewlet
+      name="alchemist.attributes.edit"
+      manager="alchemist.ui.interfaces.IContentEditManager"
+      class=".forms.MinistryEdit"
+      for="bungeni.core.interfaces.IMinistry"
+      permission="zope.View"
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+      />    
 <!-- Ministry Add Form -->
    <browser:view
       name="add"
@@ -84,7 +136,15 @@
       class=".forms.MinistryAdd"              
       permission="zope.View"
       />               
-<!-- Minister Edit Form -->      
+<!-- Minister Edit Form -->  
+    <browser:viewlet
+      name="alchemist.attributes.edit"
+      manager="alchemist.ui.interfaces.IContentEditManager"
+      class=".forms.MinisterEdit"
+      for="bungeni.core.interfaces.IMinister"
+      permission="zope.View"
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+      />        
 <!-- Minister Add Form -->
  <browser:view
       name="add"
@@ -92,7 +152,16 @@
       class=".forms.MinistersAdd"              
       permission="zope.View"
       /> 
-<!-- Extension Group Edit Form -->      
+<!-- Extension Group Edit Form -->  
+    <browser:viewlet
+      name="alchemist.attributes.edit"
+      manager="alchemist.ui.interfaces.IContentEditManager"
+      class=".forms.ExtensionGroupEdit"
+      for="bungeni.core.interfaces.IExtensionGroup"
+      permission="zope.View"
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+      />    
+    
 <!-- Extension Add Form -->
    <browser:view
       name="add"
@@ -101,7 +170,15 @@
       permission="zope.View"
       />  
       
-<!-- Extension Group Member Edit Form -->        
+<!-- Extension Group Member Edit Form -->   
+    <browser:viewlet
+      name="alchemist.attributes.edit"
+      manager="alchemist.ui.interfaces.IContentEditManager"
+      class=".forms.ExtensionMemberEdit"
+      for="bungeni.core.interfaces.IExtensionMember"
+      permission="zope.View"
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+      />         
 <!-- Extension Group Member Add Form -->
    <browser:view
       name="add"

@@ -25,11 +25,7 @@ import validations
 
 import pdb
 
-########
-# Adapter for custom form template
-FormTemplate = NamedTemplateImplementation(
-    ViewPageTemplateFile('templates/form.pt')
-    )
+
 
 ####
 # Display invariant errors /  custom validation errors in the context of the field

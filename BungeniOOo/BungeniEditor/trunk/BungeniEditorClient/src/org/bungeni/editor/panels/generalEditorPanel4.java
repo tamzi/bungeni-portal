@@ -56,7 +56,7 @@ import org.bungeni.utils.CommonTreeFunctions;
  *
  * @author  Administrator
  */
-public class generalEditorPanel4 extends templatePanel implements ICollapsiblePanel , ActionListener {
+public class generalEditorPanel4 extends templatePanel implements IFloatingPanel , ActionListener {
 
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(generalEditorPanel4.class.getName());
     private OOComponentHelper ooDocument;    

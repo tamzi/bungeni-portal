@@ -188,7 +188,14 @@ public class SettingsQueryFactory {
             return  "Select mode_hidden_field, control_mode from action_modes " +
                     "Where action_name='"+actionName+"' " +
                     "and action_mode='"+ currentMode +"' " +
-                    "and sub_action_name = '"+subActionName+"'";    }
+                    "and sub_action_name = '"+subActionName+"'";    
+    }
+    
+    public static String Q_FETCH_PANEL_BY_TYPE (String panelName, String panelType) {
+        return "SELECT panel_type, panel_name, panel_desc, panel_class, panel_width, panel_height, panel_x, panel_y " +
+               " from PLUGIN_DIALOGS where PANEL_TYPE = '"+panelType+"' and panel_name = '"+panelName+"'";
+    }    
+  
 }
 
         

@@ -136,7 +136,9 @@ import org.bungeni.editor.metadata.DocumentMetadataEditInvoke;
 import org.bungeni.editor.metadata.DocumentMetadataSupplier;
 import org.bungeni.editor.metadata.DocumentMetadataTableModel;
 import org.bungeni.editor.panels.CollapsiblePanelFactory;
+import org.bungeni.editor.panels.FloatingPanelFactory;
 import org.bungeni.editor.panels.ICollapsiblePanel;
+import org.bungeni.editor.panels.IFloatingPanel;
 import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooDocNoteStructure;
@@ -194,7 +196,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private DocumentMetadataTableModel docMetadataTableModel;
     
     private HashMap<String, ICollapsiblePanel> dynamicPanelMap = new HashMap<String,ICollapsiblePanel>();
-
+    private HashMap<String, IFloatingPanel> floatingPanelMap = new HashMap<String,IFloatingPanel>();
+    
     private metadataTabbedPanel metadataTabbedPanel = null;
 
     private JFrame metadataPanelParentFrame = null;
@@ -244,7 +247,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        //initListDocuments();
        initFields();
        initializeValues();
-       initCollapsiblePane();
+       initFloatingPane();
+        //initCollapsiblePane();
        initNotesPanel();
        initBodyMetadataPanel();
        initTimers();
@@ -543,6 +547,35 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         
     }
     
+    private void initFloatingPane() {
+            //load the map here 
+            javax.swing.JFrame floatingFrame = new javax.swing.JFrame();
+            IFloatingPanel floatingPanel = FloatingPanelFactory.getPanelClass("generalEditorPanel4");
+            floatingPanel.setOOComponentHandle(ooDocument);
+            floatingPanel.setParentWindowHandle(parentFrame);
+            floatingFrame.setTitle(FloatingPanelFactory.panelDescription);
+            floatingPanelMap.put("generalEditorPanel4", floatingPanel);
+           //panel.setOOoHelper(this.openofficeObject);
+            floatingFrame.add(floatingPanel.getObjectHandle());
+            //frame.setSize(243, 650);
+            floatingFrame.setSize(Integer.parseInt(FloatingPanelFactory.panelWidth), Integer.parseInt(FloatingPanelFactory.panelHeight));
+            floatingFrame.setResizable(false);
+           
+            floatingFrame.setAlwaysOnTop(true);
+            floatingFrame.setVisible(true);
+            //position frame
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            Dimension windowSize = floatingFrame.getSize();
+            log.debug("screen size = "+ screenSize);
+            log.debug("window size = "+ windowSize);
+           
+            int windowX = 5;
+            int windowY = (screenSize.height - floatingFrame.getHeight())/3;
+            floatingFrame.setLocation(windowX, windowY);  // Don't use "f." inside constructor.
+            floatingFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    }
+    
+    
     private void initCollapsiblePane(){
      try {
      
@@ -575,10 +608,22 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      
     }
     
+    private void updateFloatingPanels(){
+        if (!floatingPanelMap.isEmpty()){
+            Iterator<String> panelNames = floatingPanelMap.keySet().iterator();
+                         while (panelNames.hasNext  ()) {
+                             
+                             IFloatingPanel panelObj = floatingPanelMap.get(panelNames.next());
+                             panelObj.setOOComponentHandle(ooDocument);
+                         }
+        }
+    }
+    
     private void updateCollapsiblePanels(){
                   if (!dynamicPanelMap.isEmpty()) {
                          Iterator<String> panelNames = dynamicPanelMap.keySet().iterator();
-                         while (panelNames.hasNext()) {
+                         while (panelNames.hasNext  ()) {
+                             
                              ICollapsiblePanel panelObj = dynamicPanelMap.get(panelNames.next());
                              panelObj.setOOComponentHandle(ooDocument);
                          }
@@ -2568,7 +2613,8 @@ private void displayUserMetadata(XTextRange xRange) {
                    
                     // removed call to collapsiblepane function
                     //retrieve the list of dynamic panels from the the dynamicPanelMap and update their component handles
-                    updateCollapsiblePanels();
+                    //updateCollapsiblePanels();
+                    updateFloatingPanels();
                     initNotesPanel();
                     initBodyMetadataPanel();
                     initDialogListeners();

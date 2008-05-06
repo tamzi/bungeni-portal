@@ -2,6 +2,16 @@
            xmlns:browser="http://namespaces.zope.org/browser" >
            
     
+    
+    
+  <!-- Expose form for use as macro -->
+  <browser:page
+    for="*"
+    name="alchemist-form"
+    permission="zope.Public"
+    template="templates/form.pt"
+    layer="bungeni.ui.interfaces.IBungeniSkin"
+    />   
                  
   <!-- GroupSittingAttendance Add Form -->
    <browser:view

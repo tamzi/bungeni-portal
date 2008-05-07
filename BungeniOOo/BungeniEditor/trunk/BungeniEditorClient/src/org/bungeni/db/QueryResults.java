@@ -87,6 +87,10 @@ public class QueryResults {
         return arrayColumns;
     }
     
+    public String getField (Vector<String> row, String fieldName) {
+        return row.elementAt(getColumnIndex(fieldName) - 1);
+    }
+    
     public Vector<String> getColumnsAsVector(){
         return theColumns;
     }

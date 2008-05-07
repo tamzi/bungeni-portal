@@ -196,6 +196,24 @@ public class SettingsQueryFactory {
                " from PLUGIN_DIALOGS where PANEL_TYPE = '"+panelType+"' and panel_name = '"+panelName+"'";
     }    
   
+    public static String Q_FETCH_TOOLBAR_CONFIG_FILE (String documentType ) {
+        String query = "SELECT doc_type, toolbar_xml  FROM TOOLBAR_XML_CONFIG " +
+                "where DOC_TYPE = '"+documentType+"'";
+    return query;
+    }
+    
+    public static String Q_FETCH_ALL_DOCUMENT_TYPES () {
+        String query = "Select doc_type, description, template_path from DOCUMENT_TYPES ";
+        return query;
+                
+    }
+
+    public static String Q_SET_EDITOR_PROPERTY(String propertyName, String propertyValue) {
+        String query = "update general_editor_properties set property_value ='"+propertyValue+"' where property_name ='"+propertyName+"'";
+        return query;
+    }
+
 }
+
 
         

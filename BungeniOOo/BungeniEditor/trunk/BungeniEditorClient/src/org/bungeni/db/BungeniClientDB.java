@@ -124,6 +124,22 @@ public class BungeniClientDB {
             return null;
     }
     
+    public synchronized int Update(String expression) {
+            Statement st = null;
+            int nReturns = 0;
+            try {
+                st = db_connection.createStatement();         // statement objects can be reused with
+                // repeated calls to execute but we
+                // choose to make a new one each time
+                nReturns = st.executeUpdate(expression);    // run the query
+                st.close();
+            } catch (SQLException ex) {
+                log.error("Update: "+ ex.getMessage());
+            } finally {
+                return nReturns;
+            }
+    }
+    
     public synchronized HashMap<String,Vector<Vector<String>>> Query(String expression) {
             Statement st = null;
             ResultSet rs = null;

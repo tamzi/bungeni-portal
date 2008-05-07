@@ -78,22 +78,19 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
-import numberingscheme.impl.IGeneralNumberingScheme;
-import numberingscheme.impl.NumberRange;
-import numberingscheme.impl.NumberingSchemeFactory;
+
 import org.bungeni.editor.BungeniEditorProperties;
-import org.bungeni.editor.actions.EditorActionFactory;
-import org.bungeni.editor.actions.IEditorActionEvent;
-import org.bungeni.editor.actions.toolbarAction;
-import org.bungeni.editor.panels.ICollapsiblePanel;
+import org.bungeni.numbering.impl.IGeneralNumberingScheme;
+import org.bungeni.numbering.impl.NumberRange;
+import org.bungeni.numbering.impl.NumberingSchemeFactory;
+
 import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.ooo.OOComponentHelper;
 import org.apache.log4j.Logger;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.ooo.ooUserDefinedAttributes;
-import numberingscheme.schemes.*;
 import org.bungeni.utils.BungeniUUID;
-import org.bungeni.utils.CommonExceptionUtils;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.CommonTreeFunctions;
 import org.bungeni.utils.MessageBox;
 
@@ -102,12 +99,12 @@ import org.bungeni.utils.MessageBox;
  *
  * @author  undesa
  */
-public class sectionNumbererPanel extends javax.swing.JPanel implements ICollapsiblePanel{
+public class sectionNumbererPanel extends javax.swing.JPanel {
     private XComponentContext xContext;
     private OOComponentHelper ooDocument;
     private XComponent xComponent;
     private BungenioOoHelper openofficeObject;
-    HashMap<String, String> sectionMetadataMap=new HashMap<String, String>();
+   //  HashMap<String, String> sectionMetadataMap=new HashMap<String, String>();
    //HashMap<String, String> sectionTypeMetadataMap=new HashMap<String, String>();
     private static org.apache.log4j.Logger log = Logger.getLogger(sectionNumbererPanel.class.getName());
    
@@ -173,7 +170,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
   
         openofficeObject = new org.bungeni.ooo.BungenioOoHelper(xContext);
         openofficeObject.initoOo();
-        xComponent = openofficeObject.openDocument("/home/undesa/Documents/testsection4.odt");
+        xComponent = openofficeObject.openDocument("file:///E:/projects/WorkingProjects/OfficeNumberingApp/testsection4.odt");
         ooDocument = new OOComponentHelper(xComponent, xContext);
         try{
             if (!ooDocument.isXComponentValid()) return;
@@ -215,14 +212,14 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
                     for (int nSection = sections.length - 1 ; nSection >=0 ; nSection--) {
                         XNamed xSecName = ooQueryInterface.XNamed(sections[nSection]);
                         String childSectionName = (String) xSecName.getName();
-                        sectionMetadataMap=ooDocument.getSectionMetadataAttributes(childSectionName);
+                        HashMap<String,String> sectionMetadataMap=ooDocument.getSectionMetadataAttributes(childSectionName);
                         System.out.println("SectionMetadataLoad childSectionName: " + childSectionName);
                          
                         //build section tree here also 
                         DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(childSectionName);
                         node.add(newNode);
                          
-                       if(sectionMetadataMap.size()>0){
+                        if(sectionMetadataMap.size()>0){
                             
                         Iterator metaIterator = sectionMetadataMap.keySet().iterator();
 
@@ -265,23 +262,20 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
         listSectionTypes.setModel(model);
     }
     
-     private void readSections(){
-         String sectionType=listSectionTypes.getSelectedValue().toString();
+     private void readSections(String sectionType ){
        try{
-            if (!ooDocument.isXComponentValid()) return;
-            
-           
             if (!ooDocument.getTextSections().hasByName("root")) {
                  System.out.println("no root section found");
                 return;
             }
+            //start from the root section
             Object rootSection = ooDocument.getTextSections().getByName("root");
             XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
+            //clear the arraylist that holds the list of sections matching the type
             this.sectionTypeMatchedSections.clear();
+            //recurse through section hierarchy for sections of type sectionType
             recurseSectionsForSectionType(theSection,sectionType);
            
-            //now the arraylist should have been populated
-            //now iterate through the arraylist and apply the numbering scheme across the matched sections.
          }catch (NoSuchElementException ex) {
             log.error(ex.getMessage());
         } catch (WrappedTargetException ex) {
@@ -304,7 +298,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel implements ICollaps
                         String childSectionName = (String) xSecName.getName();
                         //String currentParentSectionName = (String) xParentSecName.getName();
                                                 
-                        sectionMetadataMap=ooDocument.getSectionMetadataAttributes(childSectionName);
+                        HashMap<String,String> sectionMetadataMap=ooDocument.getSectionMetadataAttributes(childSectionName);
                         if (sectionMetadataMap.containsKey("BungeniSectionType") ) {
                             String matchedSectionType= sectionMetadataMap.get("BungeniSectionType");
                             if(matchedSectionType.equalsIgnoreCase(sectionType)){
@@ -1932,8 +1926,12 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
     }//GEN-LAST:event_btnRenumberSectionsActionPerformed
 
     private void btnApplyNumberingSchemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyNumberingSchemeActionPerformed
-       
-         readSections();
+        //get section type selected for numbering 
+        String sectionType=listSectionTypes.getSelectedValue().toString();            
+        //find all sections matching that section type
+         readSections(sectionType);
+         
+         
          applyNumberingScheme();
          getHeadingInSection();
          getNumberedHeadings();
@@ -1952,10 +1950,6 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
         
     }
 
-    public IEditorActionEvent getEventClass(toolbarAction action) {
-        IEditorActionEvent event = EditorActionFactory.getEventClass(action);
-        return event;
-    }
 
     public void setParentWindowHandle(JFrame c) {
         this.parentFrame = c;

@@ -105,7 +105,7 @@ public class selectorTemplatePanel extends javax.swing.JPanel
     protected JDialog parent;
     protected toolbarAction theAction =null ;
     protected toolbarSubAction theSubAction = null;
-
+    protected boolean FORM_APPLY_NO_ERROR = false;
     protected SelectorDialogModes theMode;
     protected BungeniClientDB dbInstance=null;
     protected BungeniClientDB dbSettings = null;
@@ -304,6 +304,8 @@ public class selectorTemplatePanel extends javax.swing.JPanel
             //if any of the fields fails the checks, record it as a global failure
             if (tmpCheck == false) fieldCheck = false;
         }
+        //validations passed with flying colors
+        if (fieldCheck) this.FORM_APPLY_NO_ERROR = true;
         return fieldCheck;
     }
     

@@ -377,8 +377,10 @@ public  class InitPapers extends selectorTemplatePanel implements IBungeniForm {
     
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyActionPerformed
 // TODO add your handling code here:
+     FORM_APPLY_NO_ERROR = false;   
      super.formApply();
-     parent.dispose();
+     if (FORM_APPLY_NO_ERROR)
+        parent.dispose();
         /*
         returnError(false);
 

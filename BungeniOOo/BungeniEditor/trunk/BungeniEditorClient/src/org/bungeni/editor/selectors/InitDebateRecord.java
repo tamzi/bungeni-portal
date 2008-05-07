@@ -824,8 +824,10 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
 // TODO add your handling code here:
         //get field values :
         //apply functions work up the hierarchy
+        this.FORM_APPLY_NO_ERROR = false;
         super.formApply();
-   
+        if (FORM_APPLY_NO_ERROR)
+            parent.dispose();
   /*
     enableButtons(false);    
     //validate fields

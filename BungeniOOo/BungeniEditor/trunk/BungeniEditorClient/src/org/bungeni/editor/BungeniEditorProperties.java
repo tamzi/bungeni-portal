@@ -31,6 +31,19 @@ public class BungeniEditorProperties {
 
     private static int PROPERTY_NAME_COLUMN=0;
     private static int PROPERTY_VALUE_COLUMN=1;
+    
+    public static void setEditorProperty(String propertyName, String propertyValue ) {
+        BungeniClientDB instance = new BungeniClientDB (DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
+        String query = SettingsQueryFactory.Q_FETCH_ALL_DOCUMENT_TYPES();
+        instance.Connect();
+        int nRow = instance.Update(SettingsQueryFactory.Q_SET_EDITOR_PROPERTY(propertyName, propertyValue));
+        instance.EndConnect();
+        if (nRow > 0 ) {
+            //update was successful
+            propertiesMap.put(propertyName, propertyValue);
+        }
+    }
+    
     public static String getEditorProperty(String propertyName) {
         String propertyValue = "";
         if (propertiesMap.containsKey(propertyName) ) {

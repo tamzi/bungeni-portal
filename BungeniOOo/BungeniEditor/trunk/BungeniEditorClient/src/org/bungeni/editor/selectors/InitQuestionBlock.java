@@ -649,7 +649,10 @@ public String getClassName(){
    
     private void btnApplyActionPerformed(java.awt.event.ActionEvent evt)  {//GEN-FIRST:event_btnApplyActionPerformed
 // TODO add your handling code here:
+        this.FORM_APPLY_NO_ERROR=false;
         super.formApply();
+        if (this.FORM_APPLY_NO_ERROR) 
+            parent.dispose();
     }//GEN-LAST:event_btnApplyActionPerformed
 
     private void btnSelectQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectQuestionActionPerformed

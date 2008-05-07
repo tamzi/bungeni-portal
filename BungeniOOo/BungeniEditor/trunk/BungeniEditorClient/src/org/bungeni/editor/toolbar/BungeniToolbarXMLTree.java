@@ -19,7 +19,10 @@ import javax.swing.JTree;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.DefaultInstanceFactory;
+import org.bungeni.db.QueryResults;
+import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.jdom.Document;
 import org.jdom.JDOMException;
@@ -45,7 +48,14 @@ public class BungeniToolbarXMLTree {
     /** Creates a new instance of BungeniToolbarXMLTree */
     public BungeniToolbarXMLTree(JTree tree) {
         this.saxBuilder = new SAXBuilder(validate);
-        String xmlConfigRelativePath = BungeniEditorProperties.getEditorProperty("toolbarXmlConfig");
+        String activeDocumentMode = BungeniEditorProperties.getEditorProperty("activeDocumentMode");
+        String toolbarquery = SettingsQueryFactory.Q_FETCH_TOOLBAR_CONFIG_FILE(activeDocumentMode);
+        BungeniClientDB instance = new BungeniClientDB (DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
+        instance.Connect();
+        QueryResults qr = instance.QueryResults(toolbarquery);
+        instance.EndConnect();
+        String[] toolbarXml = qr.getSingleColumnResult("TOOLBAR_XML");
+        String xmlConfigRelativePath =         toolbarXml[0];
         xmlConfigRelativePath = xmlConfigRelativePath.replace('/', File.separatorChar);
         this.TOOLBAR_XML_FILE = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH() + File.separator + xmlConfigRelativePath;       
         this.theTree = tree;

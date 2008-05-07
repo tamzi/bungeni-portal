@@ -14,15 +14,15 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jLabel1" alignment="0" pref="604" max="32767" attributes="0"/>
+          <Component id="jLabel1" alignment="0" pref="669" max="32767" attributes="0"/>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="213" max="-2" attributes="0"/>
               <Component id="btnMainOk" min="-2" pref="68" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
               <Component id="btnMainCancel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="218" max="32767" attributes="0"/>
+              <EmptySpace pref="283" max="32767" attributes="0"/>
           </Group>
-          <Component id="editorAppTabbedPane" alignment="1" pref="604" max="32767" attributes="0"/>
+          <Component id="editorAppTabbedPane" alignment="1" pref="669" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -49,8 +49,8 @@
         <Container class="javax.swing.JPanel" name="tabCurrentFile">
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
-              <JTabbedPaneConstraints tabName="Current File">
-                <Property name="tabTitle" type="java.lang.String" value="Current File"/>
+              <JTabbedPaneConstraints tabName="Quick Actions">
+                <Property name="tabTitle" type="java.lang.String" value="Quick Actions"/>
               </JTabbedPaneConstraints>
             </Constraint>
           </Constraints>
@@ -61,11 +61,16 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblCurrentTemplate" alignment="0" min="-2" pref="455" max="-2" attributes="0"/>
-                          <Component id="lblCurrentTemplateText" alignment="0" min="-2" pref="405" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Component id="cboDocumentTypes" min="-2" pref="235" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="lblCurrentTemplateText" min="-2" pref="405" max="-2" attributes="0"/>
+                          </Group>
                           <Component id="createNewDocument" alignment="0" min="-2" pref="230" max="-2" attributes="0"/>
+                          <Component id="lblCurrentTemplate" alignment="0" min="-2" pref="455" max="-2" attributes="0"/>
+                          <Component id="lblDocumentTypes" alignment="0" min="-2" pref="259" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="134" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -73,12 +78,24 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblDocumentTypes" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="lblCurrentTemplateText" min="-2" pref="20" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace pref="19" max="32767" attributes="0"/>
+                              <Component id="cboDocumentTypes" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                       <Component id="lblCurrentTemplate" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lblCurrentTemplateText" min="-2" pref="20" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="createNewDocument" min="-2" pref="66" max="-2" attributes="0"/>
-                      <EmptySpace pref="180" max="32767" attributes="0"/>
+                      <Component id="createNewDocument" min="-2" pref="33" max="-2" attributes="0"/>
+                      <EmptySpace pref="165" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -99,10 +116,32 @@
                     <Font name="Tahoma" size="11" style="1"/>
                   </FontInfo>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Current Template"/>
+                <Property name="text" type="java.lang.String" value="Create a new document from selected template"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblCurrentTemplateText">
+            </Component>
+            <Component class="javax.swing.JComboBox" name="cboDocumentTypes">
+              <Properties>
+                <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                  <StringArray count="4">
+                    <StringItem index="0" value="Item 1"/>
+                    <StringItem index="1" value="Item 2"/>
+                    <StringItem index="2" value="Item 3"/>
+                    <StringItem index="3" value="Item 4"/>
+                  </StringArray>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblDocumentTypes">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
+                  <FontInfo relative="false">
+                    <Font name="Tahoma" size="11" style="1"/>
+                  </FontInfo>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Set Active Document mode for editor"/>
+              </Properties>
             </Component>
           </SubComponents>
         </Container>
@@ -121,8 +160,8 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="lblTemplatePath" alignment="0" pref="579" max="32767" attributes="0"/>
-                          <Component id="jScrollPane1" alignment="0" pref="579" max="32767" attributes="0"/>
+                          <Component id="lblTemplatePath" alignment="0" pref="644" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" alignment="0" pref="644" max="32767" attributes="0"/>
                           <Component id="lblSelectedTemplate" alignment="0" min="-2" pref="367" max="-2" attributes="0"/>
                           <Component id="btnSetCurrentTemplate" alignment="1" min="-2" pref="191" max="-2" attributes="0"/>
                       </Group>
@@ -197,7 +236,7 @@
                   <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="jScrollPane2" alignment="0" pref="579" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" alignment="0" pref="644" max="32767" attributes="0"/>
                           <Component id="lblSelectedFile" alignment="0" min="-2" pref="367" max="-2" attributes="0"/>
                           <Component id="btnEditWorkspaceDocument" alignment="1" min="-2" pref="197" max="-2" attributes="0"/>
                       </Group>
@@ -290,11 +329,11 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                          <Component id="txtServerIp" alignment="0" pref="244" max="32767" attributes="1"/>
+                                          <Component id="txtServerIp" alignment="0" pref="276" max="32767" attributes="1"/>
                                       </Group>
                                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                                       <Component id="jSeparator1" min="-2" pref="11" max="-2" attributes="0"/>
-                                      <EmptySpace pref="27" max="32767" attributes="0"/>
+                                      <EmptySpace pref="60" max="32767" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="txtServerPort" alignment="0" min="-2" pref="107" max="-2" attributes="0"/>
                                           <Component id="lblServerPort" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -306,10 +345,10 @@
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Component id="lblServerHomeDir" min="-2" pref="186" max="-2" attributes="1"/>
-                              <EmptySpace pref="403" max="32767" attributes="0"/>
+                              <EmptySpace pref="468" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="txtServerHomeDir" pref="201" max="32767" attributes="1"/>
+                              <Component id="txtServerHomeDir" pref="266" max="32767" attributes="1"/>
                               <EmptySpace min="-2" pref="388" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -317,7 +356,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="208" max="-2" attributes="0"/>
                       <Component id="btnSaveSettings" min="-2" pref="145" max="-2" attributes="0"/>
-                      <EmptySpace pref="246" max="32767" attributes="0"/>
+                      <EmptySpace pref="311" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -467,8 +506,8 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="progressServerFiles" alignment="0" pref="579" max="32767" attributes="0"/>
-                          <Component id="jScrollPane3" alignment="0" pref="579" max="32767" attributes="0"/>
+                          <Component id="progressServerFiles" alignment="0" pref="644" max="32767" attributes="0"/>
+                          <Component id="jScrollPane3" alignment="0" pref="644" max="32767" attributes="0"/>
                           <Component id="btnBackOneFolder" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -535,7 +574,7 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <EmptySpace min="0" pref="599" max="32767" attributes="0"/>
+                  <EmptySpace min="0" pref="664" max="32767" attributes="0"/>
               </Group>
             </DimensionLayout>
             <DimensionLayout dim="1">

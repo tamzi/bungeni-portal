@@ -569,8 +569,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             log.debug("screen size = "+ screenSize);
             log.debug("window size = "+ windowSize);
            
-            int windowX = 5;
-            int windowY = (screenSize.height - floatingFrame.getHeight())/3;
+            int windowX = screenSize.width - floatingFrame.getWidth();
+            int windowY = (screenSize.height - floatingFrame.getHeight())/2;
             floatingFrame.setLocation(windowX, windowY);  // Don't use "f." inside constructor.
             floatingFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }

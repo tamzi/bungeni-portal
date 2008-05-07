@@ -122,7 +122,7 @@ csv;
  SELECT setval('user_group_memberships_membership_id_seq', 2000);
 
 copy public.user_group_memberships ( group_id, user_id, title, start_date, end_date)
-from '%(directory)s/data/demodata/committees_membership.csv'
+from '%(directory)s/data/demodata/committee_members.csv'
 csv;
 
 
@@ -168,6 +168,27 @@ WHERE ( "user_group_memberships"."group_id" = "committees"."committee_id"
             WHERE ( "group_id" = "committees"."parliament_id" ) ) ) )
 AND  "committees"."parliament_id" = 7;
 
+INSERT INTO user_group_memberships ( group_id, user_id, start_date, end_date) 
+SELECT DISTINCT 306 as no , "user_group_memberships"."user_id", "groups"."start_date", "groups"."end_date" 
+FROM "public"."user_group_memberships", "public"."committees", "public"."groups" 
+WHERE ( "user_group_memberships"."group_id" = "committees"."committee_id" 
+    AND "committees"."parliament_id" = "groups"."group_id" ) 
+    AND ( ( "user_group_memberships"."user_id" 
+    NOT IN ( SELECT "user_group_memberships"."user_id" 
+            FROM "public"."user_group_memberships" 
+            WHERE ( "group_id" = "committees"."parliament_id" ) ) ) )
+AND  "committees"."parliament_id" = 8;
+
+INSERT INTO user_group_memberships ( group_id, user_id, start_date, end_date) 
+SELECT DISTINCT 307 as no , "user_group_memberships"."user_id", "groups"."start_date", "groups"."end_date" 
+FROM "public"."user_group_memberships", "public"."committees", "public"."groups" 
+WHERE ( "user_group_memberships"."group_id" = "committees"."committee_id" 
+    AND "committees"."parliament_id" = "groups"."group_id" ) 
+    AND ( ( "user_group_memberships"."user_id" 
+    NOT IN ( SELECT "user_group_memberships"."user_id" 
+            FROM "public"."user_group_memberships" 
+            WHERE ( "group_id" = "committees"."parliament_id" ) ) ) )
+AND  "committees"."parliament_id" = 9;
 
 /* set the active flags to something sane */
 

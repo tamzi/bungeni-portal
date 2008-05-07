@@ -54,19 +54,12 @@ class CustomAddForm( ContentAddForm ):
     CustomValidation = None
 
 
-#    def finishConstruction( self, ob ):
-#        """
-##        adapt the custom fields to the object
-#        """
-#        self.adapters = {self.Adapts  : self.context }    
-        
-    def update( self ):
+    def finishConstruction( self, ob ):
         """
-        adapt the custom fields to our object
+        adapt the custom fields to the object
         """
-        self.adapters = {self.Adapts  : self.context }    
-        super( CustomAddForm, self).update()
-        set_widget_errors(self.widgets, self.errors)           
+        self.adapters = { self.Adapts : ob }
+               
              
     def validate(self, action, data):    
         """
@@ -77,14 +70,10 @@ class CustomAddForm( ContentAddForm ):
                  form.checkInvariants(self.form_fields, data) +
                  self.CustomValidation( self.context, data ) )  
     
-#    def invariantErrors( self ):        
-#        """ All invariant errors should be hanled by the fields that raised them """
-#        return []    
-
         
 #parliaments
 
-class zzzParliamentAdd( CustomAddForm ):
+class ParliamentAdd( CustomAddForm ):
     """
     custom Add form for parliaments
     """
@@ -94,36 +83,6 @@ class zzzParliamentAdd( CustomAddForm ):
     form_fields["election_date"].custom_widget = SelectDateWidget  
     Adapts = IParliament
     CustomValidation = validations.CheckParliamentDatesAdd1 
-
-class ParliamentAdd( ContentAddForm ):
-    """
-    custom Add form for parliaments
-    """
-    form_fields = form.Fields( IParliament )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget  
-    form_fields["election_date"].custom_widget = SelectDateWidget    
-    
-
- 
-    def finishConstruction( self, ob ):
-        """
-        adapt the custom fields to the object
-        """
-        self.adapters = { IParliament : ob }
-        
-    def validate(self, action, data):    
-        """
-        validation that require context must be called here,
-        invariants may be defined in the descriptor
-        """                                       
-        return (form.getWidgetsData(self.widgets, self.prefix, data) +
-                 form.checkInvariants(self.form_fields, data) +
-                 validations.CheckParliamentDatesAdd( self.context, data))  
-
-
-                         
-
 
 
 

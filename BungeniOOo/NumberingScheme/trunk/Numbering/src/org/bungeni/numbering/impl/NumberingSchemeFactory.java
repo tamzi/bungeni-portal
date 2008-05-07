@@ -27,14 +27,15 @@ public class NumberingSchemeFactory {
      */
      public static IGeneralNumberingScheme getNumberingScheme(String schemeName) {
       IGeneralNumberingScheme scheme = null;
+      String schemeClassPrefix = "org.bungeni.numbering.schemes.";
       String schemeClass = null;
        try {
            if (schemeName.equals("ROMAN")) {
-               schemeClass = "numberingscheme.schemes.schemeRoman";
+               schemeClass = schemeClassPrefix + "schemeRoman";
            } else if (schemeName.equals("ALPHA")) {
-               schemeClass = "numberingscheme.schemes.schemeAlphabetical";
+               schemeClass = schemeClassPrefix + "schemeAlphabetical";
            } else
-               schemeClass = "numberingscheme.schemes.schemeNumeric";
+               schemeClass = schemeClassPrefix + "schemeNumeric";
            
              Class clsScheme;
              clsScheme = Class.forName(schemeClass);

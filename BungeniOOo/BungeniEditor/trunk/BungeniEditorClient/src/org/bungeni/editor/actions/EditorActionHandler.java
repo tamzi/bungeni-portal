@@ -51,6 +51,7 @@ public class EditorActionHandler implements IEditorActionEvent {
         //main action handler class 
         //can be implemented by any class that implements IEditorActionEvent]
         this.ooDocument = ooDocument;
+        String currentSection = ooDocument.currentSectionName();
         String cmd = action.action_name();
         if (action.action_type().equals("section")) {
             if (action.getSelectorDialogMode() == SelectorDialogModes.TEXT_EDIT) {
@@ -92,7 +93,11 @@ public class EditorActionHandler implements IEditorActionEvent {
                     }
                 }
                 
+                action.setSelectedActionToActUpon(currentSection);
+                action.setSelectedSectionActionCommand("INSIDE_SECTION");
+                
                 //so we prompt for target section
+                /*
                 if (SelectSection.Launchable(ooDocument)) {
                     JDialog dlg;
                     dlg = SelectSection.Launch(ooDocument, action);
@@ -106,7 +111,7 @@ public class EditorActionHandler implements IEditorActionEvent {
                     action.setSelectedActionToActUpon(selSection);
                     action.setSelectedSectionActionCommand(selAction);
                     System.out.println( "Selected Action = " + selAction+" , " + selSection);
-                }
+                } */
             }
         }
         

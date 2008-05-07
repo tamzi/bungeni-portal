@@ -108,7 +108,7 @@ def SubstitudedEndDate( obj ):
         
 def InactiveNoEndDate( obj ):
     """ If you set a person inactive you must provide an end date """
-    if obj.active_p:
+    if not obj.active_p:
         if not (obj.end_date):
             raise interface.Invalid(_("If a person is inactive End Date must be set"), "end_date", "active_p")
         
@@ -227,12 +227,13 @@ class GroupMembershipDescriptor( ModelDescriptor ):
                                           filter_field='group_id', 
                                           filter_value= None, #'group_id', 
                                           order_by_field='user_role_name')   
-   SubstitutionSource = vocabulary.QuerySource(vocabulary.substitution_member,
-                                          token_field='fullname', 
-                                          value_field='membership_id', 
-                                          filter_field='group_id', 
-                                          filter_value= None, #'group_id', 
-                                          order_by_field='last_name')      
+#   SubstitutionSource = vocabulary.QuerySource(vocabulary.substitution_member,
+#                                          token_field='fullname', 
+#                                          value_field='membership_id', 
+#                                          filter_field='group_id', 
+#                                          filter_value= None, #'group_id', 
+#                                          order_by_field='last_name')  
+   SubstitutionSource = DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')                                          
    fields = [
 #        dict( name="title", label=_(u"Title") ),
         dict( name="title", 
@@ -240,7 +241,12 @@ class GroupMembershipDescriptor( ModelDescriptor ):
                                        source=TitleSource),
                 listing_column = lookup_fk_column( "title", _(u"Title"), domain.MemberTitle, 'user_role_name' ), 
                 listing=True,                                      
-           ),                    
+           ),   
+        dict( name="user_id",
+              property=schema.Choice( title=_(u"Member of Parliament"), 
+                                      source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
+              listing_column=member_fk_column("user_id", _(u"Member of Parliament")), listing=True,
+            ),                 
         dict( name="start_date", label=_(u"Start Date"), 
             listing_column=day_column("start_date", _(u"Start Date") ), listing=True,
             edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
@@ -273,11 +279,6 @@ class MpDescriptor ( ModelDescriptor ):
     constituencySource=DatabaseSource(domain.Constituency,  'name', 'constituency_id')
     #mpTypeSource= ['E', 'N', 'O']
     fields.extend([
-        dict( name="user_id",
-              property=schema.Choice( title=_(u"Member of Parliament"), 
-                                      source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
-              listing_column=member_fk_column("user_id", _(u"Member of Parliament")), listing=True,
-            ),
         dict( name="constituency_id",
             property=schema.Choice( title=_(u"Constituency"), source=constituencySource,),
             listing_column=vocab_column( "constituency_id" , _(u"Constituency"), constituencySource, ),
@@ -292,24 +293,24 @@ class MpDescriptor ( ModelDescriptor ):
 class PartyMemberDescriptor( ModelDescriptor ):
     display_name=_(u"Party Member")
     fields = deepcopy(GroupMembershipDescriptor.fields)
-    fields.extend([
-         dict( name="user_id",
-              property=schema.Choice( title=_(u"Person"), 
-                                      source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
-              listing_column=member_fk_column("user_id", _(u"Person")), listing=True,
-            ),
-            ])
+    #fields.extend([
+    #     dict( name="user_id",
+    #          property=schema.Choice( title=_(u"Person"), 
+    #                                  source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
+    #          listing_column=member_fk_column("user_id", _(u"Person")), listing=True,
+    #        ),
+    #        ])
 
 class ExtensionMemberDescriptor( ModelDescriptor ):
     display_name =_(u"Additional members")
     fields = deepcopy(GroupMembershipDescriptor.fields)
-    fields.extend([
-         dict( name="user_id",
-              property=schema.Choice( title=_(u"Person"), 
-                                      source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
-              listing_column=member_fk_column("user_id", _(u"Person") ),
-              listing=True,),
-           ])
+    #fields.extend([
+    #     dict( name="user_id",
+    #          property=schema.Choice( title=_(u"Person"), 
+    #                                  source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
+    #          listing_column=member_fk_column("user_id", _(u"Person") ),
+    #          listing=True,),
+    #       ])
 
 
 class GroupDescriptor( ModelDescriptor ):
@@ -406,18 +407,19 @@ class CommitteeDescriptor( GroupDescriptor ):
 class CommitteeMemberDescriptor( ModelDescriptor ):
     display_name = _(u"Committee Members")
     fields = deepcopy(GroupMembershipDescriptor.fields)
-    membersVocab = vocabulary.QuerySource(vocabulary.mp_committees, 
-                                          token_field='fullname', 
-                                          value_field='user_id', 
-                                          filter_field='committee_id', 
-                                          filter_value= None, #'group_id', 
-                                          order_by_field='last_name',
-                                          title_field='fullname' )      
-    fields.extend([
-            dict( name="user_id", listing=True,
-                property = schema.Choice(title=_(u"Committee member"), source=membersVocab, ),
-                listing_column=member_fk_column("user_id", _(u"Committee Member") ) ),
-    ])   
+#    membersVocab = vocabulary.QuerySource(vocabulary.mp_committees, 
+#                                          token_field='fullname', 
+#                                          value_field='user_id', 
+#                                          filter_field='committee_id', 
+#                                          filter_value= None, #'group_id', 
+#                                          order_by_field='last_name',
+#                                          title_field='fullname' )  
+#    membersVocab = DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')                                                 
+#    fields.extend([
+#            dict( name="user_id", listing=True,
+#                property = schema.Choice(title=_(u"Committee member"), source=membersVocab, ),
+#                listing_column=member_fk_column("user_id", _(u"Committee Member") ) ),
+#    ])   
     
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, SubstitudedEndDate, InactiveNoEndDate]
      
@@ -456,18 +458,19 @@ class MinistryDescriptor( GroupDescriptor ):
 class MinisterDescriptor( ModelDescriptor ):    
     display_name = _(u"Minister")
     fields = deepcopy(GroupMembershipDescriptor.fields)
-    membersVocab = vocabulary.QuerySource(vocabulary.mp_ministers, 
-                                          token_field='fullname', 
-                                          value_field='user_id', 
-                                          filter_field='ministry_id', 
-                                          filter_value=None, 
-                                          order_by_field='last_name',
-                                          title_field='fullname' )      
-    fields.extend([
-            dict( name="user_id", listing=True,
-                property = schema.Choice(title=_(u"Minister"), source=membersVocab, ),
-                listing_column=member_fk_column("user_id", _(u"Minister") ) ),
-    ])   
+   # membersVocab = vocabulary.QuerySource(vocabulary.mp_ministers, 
+   #                                       token_field='fullname', 
+   #                                       value_field='user_id', 
+   #                                       filter_field='ministry_id', 
+   #                                       filter_value=None, 
+   #                                       order_by_field='last_name',
+   #                                       title_field='fullname' ) 
+#    membersVocab = DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')                                               
+#    fields.extend([
+#            dict( name="user_id", listing=True,
+#                property = schema.Choice(title=_(u"Minister"), source=membersVocab, ),
+#                listing_column=member_fk_column("user_id", _(u"Minister") ) ),
+#    ])   
     
     schema_invariants = [ActiveAndSubstituted,SubstitudedEndDate,InactiveNoEndDate]
     

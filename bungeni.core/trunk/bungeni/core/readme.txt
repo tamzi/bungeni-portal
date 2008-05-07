@@ -123,6 +123,14 @@ Check that we can access the membership through the containment object
   >>> len( list( parliament.users.values() ) )
   3
 
+Government
+----------
+  >>> gov = model.Government(short_name=u"gov_1", start_date=datetime.now())
+  >>> gov.parliament_id = parliament.parliament_id
+  >>> session.save(gov)
+  >>> session.flush()  
+
+
 Constituencies
 -----------------
 Constituencies have a fk on regions and provinces:

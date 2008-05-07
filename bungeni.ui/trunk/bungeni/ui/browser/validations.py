@@ -157,12 +157,26 @@ def CheckParliamentDatesAdd( context, data ):
     #for parliaments we have to check election date as well
     overlaps = checkDateInInterval(None, data['election_date'], sql_checkParliamentInterval)
     if overlaps is not None:
-        errors.append(interface.Invalid(_("The election date overlaps with (%s)" % overlaps), "election_date" ))   
+        errors.append(interface.Invalid(_("The election date overlaps with (%s)") % overlaps, "election_date" ))   
     overlaps = checkDateInInterval(None, data['election_date'], sql_checkForOpenParliamentInterval )   
     if overlaps is not None:
-        errors.append(interface.Invalid(_("Another parliament is not yet dissolved (%s)" % overlaps), "election_date" ))            
+        errors.append(interface.Invalid(_("Another parliament is not yet dissolved (%s)") % overlaps, "election_date" ))            
     return errors
-    
+
+def CheckParliamentDatesAdd1( self, context, data ):
+    """
+    Parliaments must not overlap
+    """       
+    errors = checkStartEndDatesInInterval(None, data, sql_checkParliamentInterval)
+    #for parliaments we have to check election date as well
+    overlaps = checkDateInInterval(None, data['election_date'], sql_checkParliamentInterval)
+    if overlaps is not None:
+        errors.append(interface.Invalid(_("The election date overlaps with (%s)") % overlaps, "election_date" ))   
+    overlaps = checkDateInInterval(None, data['election_date'], sql_checkForOpenParliamentInterval )   
+    if overlaps is not None:
+        errors.append(interface.Invalid(_("Another parliament is not yet dissolved (%s)") % overlaps, "election_date" ))            
+    return errors
+        
 #ministries
 def CheckMinistryDatesInsideGovernmentDatesAdd( context, data ):
     """
@@ -340,14 +354,14 @@ def CheckParliamentDatesEdit( self, context, data ):
     #for parliaments we have to check election date as well
     overlaps = checkDateInInterval(context.parliament_id, data['election_date'], sql_checkMyParliamentInterval)
     if overlaps is not None:
-        errors.append(interface.Invalid(_("The election date overlaps with (%s)" % overlaps), "election_date" ))   
+        errors.append(interface.Invalid(_("The election date overlaps with (%s)") % overlaps, "election_date" ))   
     overlaps = checkDateInInterval(context.parliament_id, data['election_date'], sql_checkForMyOpenParliamentInterval )   
     if overlaps is not None:
-        errors.append(interface.Invalid(_("Another parliament is not yet dissolved (%s)") % overlaps ), "election_date" )                        
+        errors.append(interface.Invalid(_("Another parliament is not yet dissolved (%s)") % overlaps , "election_date" ))                        
     return errors
 
 # Governments
-def CheckGovernmentsDateInsideParliamentsDatesEdit( context, data ):
+def CheckGovernmentsDateInsideParliamentsDatesEdit( self, context, data ):
     """
     start date must be >= parents start date
     """
@@ -355,15 +369,15 @@ def CheckGovernmentsDateInsideParliamentsDatesEdit( context, data ):
     #### check dates in interval    
     if (context.__parent__.__parent__.end_date is not None):
         if data['start_date'] > context.__parent__.__parent__.end_date:
-            errors.append(  interface.Invalid(_("Start date cannot be after the parliaments dissolution (%s)" % context.__parent__.__parent__.end_date ), "start_date") )
+            errors.append(  interface.Invalid(_("Start date cannot be after the parliaments dissolution (%s)") % context.__parent__.__parent__.end_date , "start_date") )
     if context.__parent__.__parent__.start_date > data['start_date']:
-        errors.append( interface.Invalid(_("Start date must start after the swearing in of the parliament (%s)" % context.__parent__.__parent__.start_date ), "start_date") )    
+        errors.append( interface.Invalid(_("Start date must start after the swearing in of the parliament (%s)") % context.__parent__.__parent__.start_date , "start_date") )    
     return errors
 #Extension groups
 
 # sittings
 
-def CheckSittingDatesInsideParentDatesEdit( context, data ):
+def CheckSittingDatesInsideParentDatesEdit( self, context, data ):
     """
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)

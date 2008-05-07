@@ -81,14 +81,16 @@
                tal:content="description"
                tal:condition="description"
                >field description</div>
-          <div tal:condition="error" tal:content="structure error">               
-            The Error
-          </div>
           </td>
           <td>
-          <div class="widget" tal:content="structure widget">
+          <div tal:attributes="class python:'widget'+(error and ' error' or '')">
+          <div class="widget" tal:content="structure widget"  >
             <input type="text" />
-	  </div>
+	      </div>
+	      <div tal:condition="error" tal:content="structure error" >               
+            The Error
+          </div>
+	      </div>
 	  </td>
     </tr>
    </tal:block>

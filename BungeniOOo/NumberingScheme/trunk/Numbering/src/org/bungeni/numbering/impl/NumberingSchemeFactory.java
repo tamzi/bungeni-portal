@@ -10,6 +10,7 @@
 package org.bungeni.numbering.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 /**
@@ -17,6 +18,15 @@ import java.util.Iterator;
  * @author Ashok
  */
 public class NumberingSchemeFactory {
+    public static HashMap<String, String> numberingSchemes =
+            new HashMap<String,String>()  {
+                {
+                    put("ROMAN", "org.bungeni.numbering.schemes.schemeRoman" );
+                    put("NUMERIC", "org.bungeni.numbering.schemes.schemeNumeric" );
+                    put("ALPHABETICAL", "org.bungeni.numbering.schemes.schemeAlphabetical" );
+                    put("DEFAULT", "org.bungeni.numbering.schemes.schemeNumeric" );
+                }
+    };
     
     /** Creates a new instance of NumberingSchemeFactory */
     public NumberingSchemeFactory() {
@@ -27,16 +37,13 @@ public class NumberingSchemeFactory {
      */
      public static IGeneralNumberingScheme getNumberingScheme(String schemeName) {
       IGeneralNumberingScheme scheme = null;
-      String schemeClassPrefix = "org.bungeni.numbering.schemes.";
+      //String schemeClassPrefix = "org.bungeni.numbering.schemes.";
       String schemeClass = null;
        try {
-           if (schemeName.equals("ROMAN")) {
-               schemeClass = schemeClassPrefix + "schemeRoman";
-           } else if (schemeName.equals("ALPHA")) {
-               schemeClass = schemeClassPrefix + "schemeAlphabetical";
-           } else
-               schemeClass = schemeClassPrefix + "schemeNumeric";
-           
+             if (numberingSchemes.containsKey(schemeName)) 
+                  schemeClass =  numberingSchemes.get(schemeName);
+             else
+                  schemeClass =  numberingSchemes.get("DEFAULT"); 
              Class clsScheme;
              clsScheme = Class.forName(schemeClass);
              scheme = (IGeneralNumberingScheme) clsScheme.newInstance();

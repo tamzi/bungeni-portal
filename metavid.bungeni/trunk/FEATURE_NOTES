@@ -1,0 +1,211 @@
+/*
+
+@name michael dale 
+@email dale@ucsc.edu
+
+these are some unorganized feature notes eventually will be transformed into documentation :)
+
+
+ 
+ABOUT
+metavid wiki extension manages the real-time broadcast, archival, and metadata for 
+audio/video streams in the mediaWiki framework
+
+
+good limits to one additional namespace (keep it simple) n dimensional  
+also makes the query space the same as the edit space. 
+(all transcripts go to ht_en (hyper transcript English language) )
+one can include categories or 
+
+
+Metavid:Stream_name/Fish
+	pulls marker named fish if exist displays all segments in MVD:fish:stream_name
+
+Metavid:Stream_name/ss:ss:ss/ee:ee:ee 	
+	list the first few ht_en's or mvd
+	non-editable... but pointers to editable regions & meta data chunks
+
+MVD:ht_en:stream_name/ss:ss:ss/ee:ee:ee
+	Descriptive text about what was said
+	[[Debating_bill::hr247]]
+	[[Debate Mode::One Minute Speeches]]
+
+MVD:irc:stream_name/ss:ss:ss/ee:ee:ee
+	a chat log dump for this time
+or
+MVD:stream_name/fish
+	a identified point in the stream marker
+	optional tag:
+	[[At Time:=ss:ss:ss/ee:ee:ee]]
+	(or it could just be describing page type like /irc_log or /jabber (with no time) 
+	for which each sub page will have time identifiers 
+
+TABLES:
+
+stream table: mv_streams
+	id  		- the stream id int auto increment used for relations 
+	name 		- the stream wiki name: also corresponds to file on disk.
+	formats 	- the end of the file on disk ... ie '.HQ.ogg', '.ogg', '.flv' etc
+	state		- describes the stream state:
+		'available','available_more_otw','live', 'otw', 'failed'
+				'available' -	means a normal archived file all is normal and the stream is available 
+				'available_more_otw' - means at least one version is available but more versions are on the way
+				'live' - 	means the stream is currently being received from a live broadcast
+				'live_otw' - means metavid is ready to start receiving the stream but it has not come in yet. 
+				'otw' - is on its way (ie in the jobs table)
+					could be downloading, transcoding or in queue
+				'failed' - a failed stream not availible for mv_job reason
+
+		-- indexed data about the stream --
+	adj_start_time	- the start UTC standard time of stream (used for finding streams in a given data range) 
+	adj_end_time 	- the end UTC time 
+
+table:
+mv_jobs:
+	id 		- job id
+	type		- 'download stream', 'transcode',  job type or name
+	state		- 'done','processing', 'in_queue', 'failed'
+	state_status	- percent done or downloaded or error details
+	
+	
+anonymous 
+ADDING STREAMS
+form:
+type: 	[metavid_file] -- used for pointing to an existing file on the server
+				* input: stream_name
+				(all other parameters are handled via config)
+
+	[metavid_live] -- used for the setting up the scripts for a live stream. 
+				*
+
+	[upload file]	-- used for file uploads  
+	
+	[external file] -- used to add external files (such as a file from archive.org)
+				* input: high quality source file url: the url of the mpeg2 or web streamable ogg
+				(best to use the HQ file so that a low quality and High quality ogg can be generated) 
+				* updates state in DB: 
+
+form: stream_media_name
+
+
+
+
+	
+//we will extend semantic mediaWiki to be able to find all streams in a given range 
+
+MVD:stream_name/ss:ss:ss/ee:ee:ee
+	Actual text spoken can by [[hyper annotated]] and [[relationships::can be added]] 
+	but the display text must match the spoken text
+[[Spoken_by::Kerry]] //(double parsing for now)
+
+
+
+implemented later
+MVD:marker/stream_name/marker_name
+	<mv_time>ss:ss:ss/ee:ee:ee</mv_time>
+
+
+
+manages indexes for articles in a given namespace and makes that indexed data available 
+(or if the user prefers uses tags to manage structured data)
+
+mv_type is raw data not to be edited directly
+
+Metavid: is a Special interpreted namespace 
+	it generates ajax edit links that do edit the raw mv_type data
+	it has ajax type controls for adjusting the display set
+	its driven by a few {{magicWord}} calls 
+		(ie people can create their own metavid views )
+
+
+
+
+NAMESPACE:
+Wiki integration a not so simple problem. 
+Views are easy they can pull from structured data indexes. no problem
+
+meta data storage more complex a few potential solutions: 
+
+every time reference is its own article. 
+* we can have overlapping info
+* we can have only one mv_text & mv_person per set
+* if running semantic wiki very open ended meta data per media segment
+
+the Special:Metavid: namespace is where you interface with the MVD temporal data. not editable and is a special page
+
+Metavid: 
+	gives links to the various pages
+
+Metavid:list streams
+	= list all the streams
+
+Metavid:stream_name:
+	= the base page display consolidated view of a stream can not be edited
+
+Metavid:stream_name?t=ss:ss:ss/ee:ee:ee
+	= web based display of that offset similar to: video_player/webview
+
+for example Metavid:stream_name_date/search/Query
+	= runs a search for Query in the given stream 
+
+Metavid:search 
+	= presents the search interface
+
+<essentially write the ask syntax directly into the url>
+Metavid:search/"Person:Clinton" AND between march 1st 07 to April 20th 07
+	= runs a query for all available streams (we are shifting advanced queries over to English) so 
+	to search for "iraq war" AND Person:Kerry OR Person:Clinton will be a valid "query"
+	(we will still port over our Advanced search functionality for building these strings
+
+Metavid:search/Query?rendertype=rss|xml|xspf
+
+NAMESPACE: MVD & Metavid
+
+important thing to remember with the MVD: (metavid data) namespace titles are data type and position
+not a traditional wiki title identifier that describes the content.
+
+But they are open MVD:arbitrary_type:stream_name/start time/optional end time
+
+Metavid interface will be based on the following conventions but new ones can be created as well..
+
+it updates search index on save
+
+	#interpreted like a tag ... maybe put in table for tag/category vis.
+	title: MVD:sub_namespace:stream_name_date/ss:ss:ss/ee:ee:ee
+		Here they discuss Immigration
+		[[Cateogries:Immigration]]
+		[[Cateogries:Interesting Clip]]
+
+	# nessesary because Metavid:calls are not editable SO describe a stream here: meta about the stream
+	title: MVD:description:stream_name_date
+		no temporal 
+	
+	#strip html, insert into stream_search table.
+	title: MVD:ht_en:stream_name_date/ss:ss:ss.ss/ee:ee:ee.ee
+		Spoken Text here with [[hyperlinks]]
+
+	title: MVD:ht_en_espanol:stream_name_date/ss:ss:ss.ss/ee:ee:ee.ee
+	Metavid:stream_name/en_espanol/ss:ss:ss
+
+	mvd should link to the stream at the top of the 
+	mvd:sub_ns/stream_name/
+
+	mvd:ht_en 
+		description of English language hyper transcript
+		
+Cons: almost every piece of metadata has an article page (lots of articles) 
+the interface would generate page titles as to not confuse the hell out of people and 
+the actual data pages would rarely be directly engaged. 
+
+alternative page title has no effect on metadata rather its driven by tags: 
+	title: stream_name_date
+	 <Mv_annotation>, <mv_person>, <mv_transcript> 
+or do it semantic wiki style: 
+[[person speaking::Person Name]] [[spoken text::Spoken text]] [[about bill::hr.247]] 
+
+
+
+
+
+
+*/

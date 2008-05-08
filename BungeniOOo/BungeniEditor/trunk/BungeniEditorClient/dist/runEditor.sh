@@ -1,4 +1,4 @@
 export JAVA_HOME=/usr/java/jdk1.5.0_11
-export BUNGENI_EDITOR_HOME=.
-export LOG4J_HOME=$BUNGENI_EDITOR_HOME/lib
-$JAVA_HOME/bin/java -Dlog4j.ignoreTCL=true -jar BungeniEditorClient.jar
+export BUNGENI_EDITOR_HOME=${PWD
+export LOG4J_PROPS=$BUNGENI_EDITOR_HOME/settings/log4j.properties
+$JAVA_HOME/bin/java -Dlog4j.ignoreTCL=true -Dlog4j.configuration=$LOG4J_PROPS -jar BungeniEditorClient.jar

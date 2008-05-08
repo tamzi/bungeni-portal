@@ -21,27 +21,57 @@ import org.bungeni.editor.selectors.BungeniFormContext;
  * @author Administrator
  */
 public class BungeniCommandsCatalogLoader {
+
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniCommandsCatalogLoader.class.getName());
+
 	private static  String CONFIG_FILE = 
 		"/org/bungeni/commands/chains/commandChain.xml";
-	private ConfigParser parser;
-	private Catalog catalog;
-	
+	/* parser used to parse the commandChain file*/
+        private ConfigParser parser;
+	/* command catalog object */
+        private Catalog catalog;
+        /* catalog command object describing the command to be loaded and executed*/
+        private BungeniCatalogCommand catalogCommand ;
+        
 	public BungeniCommandsCatalogLoader() {
-		parser = new ConfigParser();
+            initParser();
 	}
 
-        public BungeniCommandsCatalogLoader(String catalogSource) {
-                parser = new ConfigParser();
-                CONFIG_FILE = catalogSource;
+        public BungeniCommandsCatalogLoader(BungeniCatalogCommand cmd) {
+                initParser();
+                catalogCommand = cmd;
         }
-        public Catalog getCatalog() throws Exception {
-		if (catalog == null) {
-                    parser.parse(this.getClass().getResource(CONFIG_FILE));		
-		}
-		catalog = CatalogFactoryBase.getInstance().getCatalog();
-		return catalog;
-	}
         
+        private void initParser(){
+                parser = new ConfigParser();
+                parser.setUseContextClassLoader(false);
+        }
+        /*
+        public Catalog getCatalog() {
+            try {
+                parser.parse(this.catalogCommand.getCatalogSourceURL());		
+		catalog = CatalogFactoryBase.getInstance().getCatalog();
+            } catch (Exception ex) {
+                log.error("getCatalog = " + ex.getMessage());
+            } finally {
+                return catalog;
+            }
+           }
+        */
+        public Catalog getCatalog() {
+            log.info("getCatalog for: " + this.catalogCommand.getCommandCatalog());
+            log.info("getCatalog for path : " + this.catalogCommand.getCatalogSourceURL().toString());
+            try {
+            parser.parse(this.catalogCommand.getCatalogSourceURL());
+            catalog = CatalogFactoryBase.getInstance().getCatalog(this.catalogCommand.getCommandCatalog());
+            } catch (Exception ex) {
+                log.error("getCatalog (" + catalogCommand.getCommandCatalog() + ") = " + ex.getMessage());
+            } finally {
+            return catalog;
+            }
+        }
+        
+        /*
         public Catalog getCatalog(String catalogName) throws Exception {
 		if (catalog == null) {
                     parser.parse(this.getClass().getResource(CONFIG_FILE));		
@@ -49,12 +79,13 @@ public class BungeniCommandsCatalogLoader {
 		catalog = CatalogFactoryBase.getInstance().getCatalog(catalogName);
 		return catalog;
 	}
-        
+        */
         
 	public static void main(String[] args) throws Exception {
+                //move to unit tests...
 		BungeniCommandsCatalogLoader loader = new BungeniCommandsCatalogLoader();
-		Catalog sampleCatalog = loader.getCatalog("debaterecord");
-		Command command = sampleCatalog.getCommand("debateRecordInsertMasthead");
+		/*Catalog sampleCatalog = loader.getCatalog("debaterecord");
+		Command command = sampleCatalog.getCommand("debateRecordInsertMasthead"); */
                 //Context ctx = new BungeniFormContext();
 		//command.execute(ctx);
 	}

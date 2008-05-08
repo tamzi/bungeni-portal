@@ -9,7 +9,10 @@
 
 package org.bungeni.commands.chains;
 
+import java.io.File;
+import java.net.URL;
 import java.util.HashMap;
+import org.bungeni.db.DefaultInstanceFactory;
 
 /**
  *
@@ -17,10 +20,11 @@ import java.util.HashMap;
  */
 public class BungeniCatalogCommand {
 
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniCatalogCommand.class.getName());
 
      private String formName;
      private String catalogSource;
-    
+     private URL catalogSourceURL;
      private String formMode ;
      private String commandCatalog;
      private String commandChain;
@@ -51,8 +55,27 @@ public class BungeniCatalogCommand {
         return catalogSource;
     }
 
-    public void setCatalogSource(String catalogSource) {
-        this.catalogSource = catalogSource;
+    public URL getCatalogSourceURL() {
+        return catalogSourceURL;
+    }
+    
+    
+    public void setCatalogSource(String cSource) {
+        //convert the relative path to absolute path
+        if (cSource.startsWith("/"))
+            this.catalogSource = cSource;
+        else {
+            String normalizedPath = cSource.replace('/', File.separatorChar);
+            this.catalogSource =  DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH() + File.separator + normalizedPath ;                    
+            File newFile = new File(this.catalogSource);
+            try {
+                this.catalogSourceURL = newFile.toURL();
+            } catch (java.net.MalformedURLException urlEx) {
+                log.error("setCatalogSource = " + urlEx.getMessage());
+            }    
+            log.info("setCatalogSource: was set = " + catalogSource);
+            log.info("setCatalogSourceURL: was set = " + catalogSourceURL.toString());
+        }
     }
 
     public org.bungeni.editor.selectors.SelectorDialogModes getFormMode() {

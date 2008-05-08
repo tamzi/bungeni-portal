@@ -97,7 +97,7 @@
     z-index: 2;
 }
 .date {
-    font-weight: bold;
+    font-weight: normal;
 }
 .portletCalendar {
     width: 100%;

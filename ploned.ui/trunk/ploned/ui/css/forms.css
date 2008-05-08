@@ -220,6 +220,16 @@ div.error {
     margin: 0 0 1em 0;
     width: 95%;
 }
+
+div.error.changed {
+    /* Class for error indication in forms */
+    background-color: #ff4422; 
+    border: 1px solid #d00;
+    padding: 0.5em;
+    margin: 0 0 1em 0;
+    width: 95%;
+}
+
 .error .fieldRequired {
    color: #d00;
 }

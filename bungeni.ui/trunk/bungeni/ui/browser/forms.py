@@ -16,7 +16,7 @@ import bungeni.core.domain as domain
 from bungeni.core.i18n import _
 from bungeni.core.interfaces import IGroupSitting, IParliamentSession, IMemberOfParliament, \
     ICommittee, ICommitteeMember, IGovernment, IMinistry, IExtensionGroup, IMinister, \
-    IExtensionMember, IParliament
+    IExtensionMember, IParliament, IGroupSittingAttendance
 
 
 from bungeni.ui.datetimewidget import  SelectDateTimeWidget, SelectDateWidget
@@ -24,19 +24,6 @@ from bungeni.ui.datetimewidget import  SelectDateTimeWidget, SelectDateWidget
 import validations
 
 
-
-
-####
-# Display invariant errors /  custom validation errors in the context of the field
-# that raised the error.
-
-def set_widget_errors(widgets, errors):
-    for widget in widgets:
-        name = widget.context.getName()
-        for error in errors:
-            if isinstance(error, interface.Invalid) and name in error.args[1:]:
-                if widget._error is None:
-                    widget._error = error
 
 
 
@@ -71,8 +58,6 @@ class CustomAddForm( ContentAddForm ):
                  self.CustomValidation( self.context, data ) )  
     
         
-#parliaments
-
 class ParliamentAdd( CustomAddForm ):
     """
     custom Add form for parliaments
@@ -82,34 +67,24 @@ class ParliamentAdd( CustomAddForm ):
     form_fields["end_date"].custom_widget = SelectDateWidget  
     form_fields["election_date"].custom_widget = SelectDateWidget  
     Adapts = IParliament
-    CustomValidation = validations.CheckParliamentDatesAdd1 
+    CustomValidation = validations.CheckParliamentDatesAdd  
+    
+
+
 
 
 
 # ministries
-class MinistryAdd( ContentAddForm ):
+class MinistryAdd( CustomAddForm ):
     """
     custom Add form for ministries
     """
     form_fields = form.Fields( IMinistry )
     form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget    
+    form_fields["end_date"].custom_widget = SelectDateWidget
+    Adapts = IMinistry
+    CustomValidation =  validations.CheckMinistryDatesInsideGovernmentDatesAdd     
                       
-
-    def finishConstruction( self, ob ):
-        """
-        adapt the custom fields to the object
-        """
-        self.adapters = { IMinistry : ob }
-        
-    def validate(self, action, data):    
-        """
-        validation that require context must be called here,
-        invariants may be defined in the descriptor
-        """                                       
-        return (form.getWidgetsData(self.widgets, self.prefix, data) +
-                 form.checkInvariants(self.form_fields, data) +
-                 validations.CheckMinistryDatesInsideGovernmentDatesAdd( self.context, data)) 
 
                  
 #ministers
@@ -164,85 +139,42 @@ class IMinisterAdd( IMinister ):
                                 )
     
     
-class MinistersAdd( ContentAddForm ):
+class MinistersAdd( CustomAddForm ):
     """
     custom Add form for ministries
     """
     form_fields = form.Fields( IMinisterAdd ).omit( "replaced_id", "substitution_type" )
     form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget    
-                      
-
-    def finishConstruction( self, ob ):
-        """
-        adapt the custom fields to the object
-        """
-        self.adapters = { IMinisterAdd : ob }
-        
-    def validate(self, action, data):    
-        """
-        validation that require context must be called here,
-        invariants may be defined in the descriptor
-        """                                       
-        return (form.getWidgetsData(self.widgets, self.prefix, data) +
-                 form.checkInvariants(self.form_fields, data) +
-                 validations.CheckMinisterDatesInsideMinistryDatesAdd( self.context, data))  
+    form_fields["end_date"].custom_widget = SelectDateWidget
+    Adapts = IMinisterAdd
+    CustomValidation =   validations.CheckMinisterDatesInsideMinistryDatesAdd    
+                       
     
 # government
 
-class GovernmentAdd ( ContentAddForm ):
+class GovernmentAdd ( CustomAddForm ):
     """
     custom Add form for government
     """
     form_fields = form.Fields( IGovernment )
     form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget    
+    form_fields["end_date"].custom_widget = SelectDateWidget 
+    Adapts = IGovernment
+    CustomValidation =  validations.CheckGovernmentsDateInsideParliamentsDatesAdd    
                       
-     
- 
-    def finishConstruction( self, ob ):
-        """
-        adapt the custom fields to the object
-        """
-        self.adapters = { IGovernment : ob }
-        
-    def validate(self, action, data):    
-        """
-        validation that require context must be called here,
-        invariants may be defined in the descriptor
-        """                                       
-        return (form.getWidgetsData(self.widgets, self.prefix, data) +
-                 form.checkInvariants(self.form_fields, data) +
-                 validations.CheckGovernmentsDateInsideParliamentsDatesAdd( self.context, data))  
-
-
-
+   
 
 # Extension groups
 
-class ExtensionGroupAdd( ContentAddForm ):
+class ExtensionGroupAdd( CustomAddForm ):
     """
     override the AddForm for GroupSittingAttendance
     """
     form_fields = form.Fields( IExtensionGroup )
     form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget    
-                      
-
-    def finishConstruction( self, ob ):
-        """
-        adapt the custom fields to the object
-        """
-        self.adapters = { IExtensionGroup : ob }
-        
-    def validate(self, action, data):    
-        """
-        validation that require context must be called here,
-        invariants may be defined in the descriptor
-        """                                       
-        return (form.getWidgetsData(self.widgets, self.prefix, data) +
-                 form.checkInvariants(self.form_fields, data) +
-                 validations.CheckExtensionGroupDatesInsideParentDatesAdd( self.context, data))
+    form_fields["end_date"].custom_widget = SelectDateWidget 
+    Adapts = IExtensionGroup
+    CustomValidation =   validations.CheckExtensionGroupDatesInsideParentDatesAdd   
  
 
 
@@ -282,30 +214,16 @@ class IExtensionMemberAdd( IExtensionMember ):
                                 
                                 
 # Members of extension Groups
-class ExtensionMemberAdd( ContentAddForm ):
+class ExtensionMemberAdd( CustomAddForm ):
     """
     override the AddForm for GroupSittingAttendance
     """
     form_fields = form.Fields( IExtensionMemberAdd ).omit( "replaced_id", "substitution_type" )
     form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget    
+    form_fields["end_date"].custom_widget = SelectDateWidget 
+    Adapts = IExtensionMemberAdd
+    CustomValidation =  validations.CheckExtensionMemberDatesInsideParentDatesAdd    
                       
-
-    def finishConstruction( self, ob ):
-        """
-        adapt the custom fields to the object
-        """
-        self.adapters = { IExtensionMemberAdd : ob }
-        
-    def validate(self, action, data):    
-        """
-        validation that require context must be called here,
-        invariants may be defined in the descriptor
-        """                                       
-        return (form.getWidgetsData(self.widgets, self.prefix, data) +
-                 form.checkInvariants(self.form_fields, data) +
-                 validations.CheckExtensionMemberDatesInsideParentDatesAdd( self.context, data))
-
 
 # CommitteeMemberAdd
 
@@ -359,34 +277,21 @@ class ICommitteeMemberAdd ( ICommitteeMember ):
                                 source=qryAddCommitteeMemberVocab, 
                                 required=True,
                                 )
-class CommitteeMemberAdd( ContentAddForm ):
+class CommitteeMemberAdd( CustomAddForm ):
     """
     override the AddForm for GroupSittingAttendance
     """
     form_fields = form.Fields( ICommitteeMemberAdd ).omit( "replaced_id", "substitution_type" )
     form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget    
+    form_fields["end_date"].custom_widget = SelectDateWidget
+    Adapts = ICommitteeMemberAdd
+    CustomValidation =  validations.CheckCommitteeMembersDatesInsideParentDatesAdd     
                       
-
-    def finishConstruction( self, ob ):
-        """
-        adapt the custom fields to the object
-        """
-        self.adapters = { ICommitteeMember : ob }
-        
-    def validate(self, action, data):    
-        """
-        validation that require context must be called here,
-        invariants may be defined in the descriptor
-        """                                       
-        return (form.getWidgetsData(self.widgets, self.prefix, data) +
-                 form.checkInvariants(self.form_fields, data) +
-                 validations.CheckCommitteeMembersDatesInsideParentDatesAdd( self.context, data))  
 
 # Committees
 
 
-class CommitteeAdd( ContentAddForm ):
+class CommitteeAdd( CustomAddForm ):
     """
     override the AddForm for GroupSittingAttendance
     """
@@ -394,24 +299,9 @@ class CommitteeAdd( ContentAddForm ):
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget    
     form_fields["dissolution_date"].custom_widget = SelectDateWidget
-    form_fields["reinstatement_date"].custom_widget = SelectDateWidget    
-                      
-
-    def finishConstruction( self, ob ):
-        """
-        adapt the custom fields to the object
-        """
-        self.adapters = { ICommittee : ob }
-        
-    def validate(self, action, data):    
-        """
-        validation that require context must be called here,
-        invariants may be defined in the descriptor
-        """                                       
-        return (form.getWidgetsData(self.widgets, self.prefix, data) +
-                 form.checkInvariants(self.form_fields, data) +
-                 validations.CheckCommitteesDatesInsideParentDatesAdd( self.context, data))    
-   
+    form_fields["reinstatement_date"].custom_widget = SelectDateWidget 
+    Adapts = ICommittee
+    CustomValidation = validations.CheckCommitteesDatesInsideParentDatesAdd     
                       
 
 # Members of Parliament
@@ -439,159 +329,50 @@ class IMemberOfParliamentAdd ( IMemberOfParliament ):
                                 source=qryAddMemberOfParliamentVocab, 
                                 required=True,
                                 )
-class MemberOfParliamentAdd( ContentAddForm ):
+
+
+class MemberOfParliamentAdd( CustomAddForm ):
     """
     override the AddForm for GroupSittingAttendance
     """
     form_fields = form.Fields( IMemberOfParliamentAdd ).omit( "replaced_id", "substitution_type" )
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget 
+    Adapts = IMemberOfParliamentAdd
+    CustomValidation = validations.CheckMPsDatesInsideParentDatesAdd  
     
-          
- 
-    def finishConstruction( self, ob ):
-        """
-        adapt the custom fields to the object
-        """
-        self.adapters = { IMemberOfParliamentAdd : ob }
-        
-    def validate(self, action, data):    
-        """
-        validation that require context must be called here,
-        invariants may be defined in the descriptor
-        """                                       
-        return (form.getWidgetsData(self.widgets, self.prefix, data) +
-                 form.checkInvariants(self.form_fields, data) +
-                 validations.CheckMPsDatesInsideParentDatesAdd( self.context, data))
+    
 
+# Sessions
 
-
-class CommitteeMemberAdd( ContentAddForm ):
-    """
-    override the AddForm for GroupSittingAttendance
-    """
-    form_fields = form.Fields( ICommitteeMemberAdd ).omit( "replaced_id", "substitution_type" )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget    
-                      
-    def update(self):
-        """
-        Called by formlib after __init__ for every page update. This is
-        the method you can use to update form fields from your class
-        """        
-        self.status = self.request.get('portal_status_message','')        
-        form.AddForm.update( self )
-        set_widget_errors(self.widgets, self.errors)        
- 
-    def finishConstruction( self, ob ):
-        """
-        adapt the custom fields to the object
-        """
-        self.adapters = { ICommitteeMember : ob }
-        
-    def validate(self, action, data):    
-        """
-        validation that require context must be called here,
-        invariants may be defined in the descriptor
-        """                                       
-        return (form.getWidgetsData(self.widgets, self.prefix, data) +
-                 form.checkInvariants(self.form_fields, data) +
-                 validations.CheckCommitteeMembersDatesInsideParentDatesAdd( self.context, data))  
-
-# Committees
-
-
-class CommitteeAdd( ContentAddForm ):
-    """
-    override the AddForm for GroupSittingAttendance
-    """
-    form_fields = form.Fields( ICommittee )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget    
-    form_fields["dissolution_date"].custom_widget = SelectDateWidget
-    form_fields["reinstatement_date"].custom_widget = SelectDateWidget    
-                      
-    def update(self):
-        """
-        Called by formlib after __init__ for every page update. This is
-        the method you can use to update form fields from your class
-        """        
-        self.status = self.request.get('portal_status_message','')        
-        form.AddForm.update( self )
-        set_widget_errors(self.widgets, self.errors)        
- 
-    def finishConstruction( self, ob ):
-        """
-        adapt the custom fields to the object
-        """
-        self.adapters = { ICommittee : ob }
-        
-    def validate(self, action, data):    
-        """
-        validation that require context must be called here,
-        invariants may be defined in the descriptor
-        """                                       
-        return (form.getWidgetsData(self.widgets, self.prefix, data) +
-                 form.checkInvariants(self.form_fields, data) +
-                 validations.CheckCommitteesDatesInsideParentDatesAdd( self.context, data))    
-
-class SessionAdd( ContentAddForm ):
+    
+class SessionAdd( CustomAddForm ):
     """
     override the AddForm for GroupSittingAttendance
     """
     form_fields = form.Fields( IParliamentSession )
     form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget    
+    form_fields["end_date"].custom_widget = SelectDateWidget 
+    Adapts = IParliamentSession
+    CustomValidation =  validations.CheckSessionDatesInsideParentDatesAdd    
                       
-    def update(self):
-        """
-        Called by formlib after __init__ for every page update. This is
-        the method you can use to update form fields from your class
-        """        
-        self.status = self.request.get('portal_status_message','')        
-        form.AddForm.update( self )
-        set_widget_errors(self.widgets, self.errors)
-        
-         
-    def finishConstruction( self, ob ):
-        """
-        adapt the custom fields to the object
-        """
-        self.adapters = { IParliamentSession : ob }
-        
-    def validate(self, action, data):    
-        """
-        validation that require context must be called here,
-        invariants may be defined in the descriptor
-        """                                       
-        return (form.getWidgetsData(self.widgets, self.prefix, data) +
-                 form.checkInvariants(self.form_fields, data) +
-                 validations.CheckSessionDatesInsideParentDatesAdd( self.context, data))   
-                 
-                      
-class GroupSittingAdd( ContentAddForm ):
+ 
+
+# Sittings
+
+
+
+class GroupSittingAdd( CustomAddForm ):
     """
     override the AddForm for GroupSittingAttendance
     """
     form_fields = form.Fields( IGroupSitting )
     form_fields["start_date"].custom_widget = SelectDateTimeWidget
     form_fields["end_date"].custom_widget = SelectDateTimeWidget
+    Adapts = IGroupSitting
+    CustomValidation =  validations.CheckSittingDatesInsideParentDatesAdd 
                       
-
-    def finishConstruction( self, ob ):
-        """
-        adapt the custom fields to the object
-        """
-        self.adapters = { IGroupSitting : ob }
         
-    def validate(self, action, data):    
-        """
-        validation that require context must be called here,
-        invariants may be defined in the descriptor
-        """                                       
-        return (form.getWidgetsData(self.widgets, self.prefix, data) +
-                 form.checkInvariants(self.form_fields, data) +
-                 validations.CheckSittingDatesInsideParentDatesAdd( self.context, data))         
      
 
 sql_add_members ='''SELECT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as user_name, 
@@ -647,6 +428,10 @@ class GroupSittingAttendanceAdd( ContentAddForm ):
         adapt the custom fields to the object
         """
         self.adapters = { IGroupSittingAttendanceAdd : ob }
+          
+     
+
+
         
 ##############
 # Edit forms      
@@ -655,6 +440,33 @@ class GroupSittingAttendanceAdd( ContentAddForm ):
 ##############
 #Generic Custom Edit form   
 
+####
+# Display invariant errors /  custom validation errors in the context of the field
+# that raised the error.
+
+def set_widget_errors(widgets, errors):
+    for widget in widgets:
+        name = widget.context.getName()
+        for error in errors:
+            if isinstance(error, interface.Invalid) and name in error.args[1:]:
+                if widget._error is None:
+                    widget._error = error
+
+
+
+
+def flag_changed_widgets( widgets, context, data):
+    for widget in widgets:
+        name = widget.context.getName()
+        # If the field is not in the data, then go on to the next one
+        if name not in data:
+            widget.changed = False
+            continue
+        if data[name] == getattr(context, name):
+            widget.changed = False
+        else:
+            widget.changed = True  
+    return []                  
 
 class CustomEditForm ( EditFormViewlet ):
     """
@@ -670,16 +482,18 @@ class CustomEditForm ( EditFormViewlet ):
         adapt the custom fields to our object
         """
         self.adapters = {self.Adapts  : self.context }    
-        super( CustomEditForm, self).update()
+        super( CustomEditForm, self).update()        
         set_widget_errors(self.widgets, self.errors)    
         
     def validate(self, action, data):    
         """
         validation that require context must be called here,
         invariants may be defined in the descriptor
-        """                                       
+        """       
+                                   
         return (form.getWidgetsData(self.widgets, self.prefix, data) +
                  form.checkInvariants(self.form_fields, data) +
+                 flag_changed_widgets( self.widgets, self.context, data) +     
                  self.CustomValidations( self.context, data) )  
 
     def invariantErrors( self ):        

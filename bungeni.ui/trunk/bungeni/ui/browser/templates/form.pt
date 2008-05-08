@@ -62,7 +62,8 @@
     <tr class="field"
 	 tal:condition="widget/visible"
          tal:define="description widget/hint;
-                     error widget/error"
+                     error widget/error;
+                     changed widget/changed | nothing"
          tal:attributes="class python:'field'+(error and ' error' or '')">
          <td>
           <label tal:attributes="for widget/name">
@@ -83,14 +84,14 @@
                >field description</div>
           </td>
           <td>
-          <div tal:attributes="class python:'widget'+(error and ' error' or '')">
+          <div tal:attributes="class python:'widget'+(error and ' error' or '') + (changed and ' changed' or '')">
           <div class="widget" tal:content="structure widget"  >
             <input type="text" />
 	      </div>
-	      <div tal:condition="error" tal:content="structure error" >               
+	      <div tal:condition="error" tal:content="structure error" tal:attributes="class python:(changed and ' changed' or '')">               
             The Error
-          </div>
-	      </div>
+          </div>                    
+	      </div>	      
 	  </td>
     </tr>
    </tal:block>

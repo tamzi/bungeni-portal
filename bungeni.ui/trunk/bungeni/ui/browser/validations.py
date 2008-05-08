@@ -149,7 +149,7 @@ def checkDates( parent, data ):
 
 #Parliament
 
-def CheckParliamentDatesAdd( context, data ):
+def CheckParliamentDatesAdd( self,  context, data ):
     """
     Parliaments must not overlap
     """       
@@ -178,7 +178,7 @@ def CheckParliamentDatesAdd1( self, context, data ):
     return errors
         
 #ministries
-def CheckMinistryDatesInsideGovernmentDatesAdd( context, data ):
+def CheckMinistryDatesInsideGovernmentDatesAdd( self,  context, data ):
     """
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)
@@ -187,7 +187,7 @@ def CheckMinistryDatesInsideGovernmentDatesAdd( context, data ):
 
     
 #ministers
-def CheckMinisterDatesInsideMinistryDatesAdd( context, data ):
+def CheckMinisterDatesInsideMinistryDatesAdd( self,  context, data ):
     """
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)
@@ -197,7 +197,7 @@ def CheckMinisterDatesInsideMinistryDatesAdd( context, data ):
     
 #gov
 
-def CheckGovernmentsDateInsideParliamentsDatesAdd( context, data ):
+def CheckGovernmentsDateInsideParliamentsDatesAdd( self,  context, data ):
     """
     start date must be >= parents start date
     """
@@ -211,7 +211,7 @@ def CheckGovernmentsDateInsideParliamentsDatesAdd( context, data ):
     return errors
 #Extension groups
 
-def CheckExtensionGroupDatesInsideParentDatesAdd( context, data ):
+def CheckExtensionGroupDatesInsideParentDatesAdd( self,  context, data ):
     """
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)
@@ -221,7 +221,7 @@ def CheckExtensionGroupDatesInsideParentDatesAdd( context, data ):
 
 #Extension members
 
-def CheckExtensionMemberDatesInsideParentDatesAdd( context, data ):
+def CheckExtensionMemberDatesInsideParentDatesAdd( self,  context, data ):
     """
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)
@@ -231,7 +231,7 @@ def CheckExtensionMemberDatesInsideParentDatesAdd( context, data ):
 
     
 # committee members
-def CheckCommitteeMembersDatesInsideParentDatesAdd( context, data ):
+def CheckCommitteeMembersDatesInsideParentDatesAdd( self,  context, data ):
     """
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)
@@ -242,7 +242,7 @@ def CheckCommitteeMembersDatesInsideParentDatesAdd( context, data ):
     
 #committees
 
-def CheckCommitteesDatesInsideParentDatesAdd( context, data ):
+def CheckCommitteesDatesInsideParentDatesAdd( self,  context, data ):
     """
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)
@@ -253,7 +253,7 @@ def CheckCommitteesDatesInsideParentDatesAdd( context, data ):
     
 #MPs
 
-def CheckMPsDatesInsideParentDatesAdd( context, data ):
+def CheckMPsDatesInsideParentDatesAdd( self,  context, data ):
     """
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)
@@ -264,7 +264,7 @@ def CheckMPsDatesInsideParentDatesAdd( context, data ):
     
 #sessions
 
-def CheckSessionDatesInsideParentDatesAdd( context, data ):
+def CheckSessionDatesInsideParentDatesAdd( self,  context, data ):
     """
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)
@@ -277,7 +277,7 @@ def CheckSessionDatesInsideParentDatesAdd( context, data ):
     
 #sittings
 
-def CheckSittingDatesInsideParentDatesAdd( context, data ):
+def CheckSittingDatesInsideParentDatesAdd( self,  context, data ):
     """
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)

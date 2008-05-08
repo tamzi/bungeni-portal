@@ -21,7 +21,7 @@
                  <action name="MastHead.edit" title="Edit Metadata" mode="TEXT_EDIT" target="toolbarAction.makePrayerSection" visible="false" />                
             </blockAction>
             <blockAction name="Papers" tooltip="Actions to create and manage the papers section" title="Papers" target="null" visible="true" condition="none" >
-                <action name="Papers.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makePaperSection" visible="true" condition="sectionNotExists:papers" />
+                <action name="Papers.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makePaperSection" visible="true" condition="cursorInSection:root :and: sectionNotExists:papers" />
                 <action name="Papers.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.section_creation" condition="cursorInSection:root :and: sectionNotExists:papers :and: textSelected:true" visible="true" showChildren="true" >
                     <subaction name="Papers.selection.title" tooltip="Markup selection as title" title="Markup Title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.apply_style:papers" visible="true" condition="cursorInSection:papers :and: textSelected:true" />
                     <subaction name="Papers.selection.details" tooltip="Markup selection as details" title="Markup Details" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.apply_style:paper-details" visible="true" condition="cursorInSection:papers :and: textSelected:true" />

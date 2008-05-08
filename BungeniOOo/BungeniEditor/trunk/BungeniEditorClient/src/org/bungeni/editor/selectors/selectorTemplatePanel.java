@@ -727,20 +727,27 @@ public class selectorTemplatePanel extends javax.swing.JPanel
         boolean bReturn = false;
         try {
              if (theSubAction == null ) {
+                 //get the current catalog command object for the mode.
                 BungeniCatalogCommand cmd = theCatalogCommands.get(getDialogMode());
                 log.info("processCatalogCommand, cmd is : "+ ((cmd == null)?"null":"not null"));
-                BungeniCommandsCatalogLoader loader = new BungeniCommandsCatalogLoader(cmd.getCatalogSource());
+                ///load the required catalog for the mode, getCatalogSource refers to the full path fo the command catalog
+                log.debug("processCatalogCommand : loading catalog");
+                BungeniCommandsCatalogLoader loader = new BungeniCommandsCatalogLoader(cmd);
                 Catalog selectedCatalog;
-                selectedCatalog = loader.getCatalog(cmd.getCommandCatalog());
+                //selectedCatalog = loader.getCatalog(cmd.getCommandCatalog());
+
+                selectedCatalog = loader.getCatalog();
+                log.debug("processCatalogCommand : getting commandChain from catalog =  " + cmd.getCommandChain());
                 Command selectedCatalogCommand  = selectedCatalog.getCommand(cmd.getCommandChain());
+                log.debug("processCatalogCommand : executing command ");
                 selectedCatalogCommand.execute(formContext);
             } else {
                 //theSubAciton is not null use the 
                  if (theSubAction.action_command_chain().length() > 0 )  {
                      BungeniCatalogCommand cmd = theCatalogCommands.get(getDialogMode());
-                     BungeniCommandsCatalogLoader loader = new BungeniCommandsCatalogLoader(cmd.getCatalogSource());
+                     BungeniCommandsCatalogLoader loader = new BungeniCommandsCatalogLoader(cmd /*.getCatalogSource()*/);
                      Catalog selectedCatalog;
-                     selectedCatalog = loader.getCatalog(cmd.getCommandCatalog());
+                     selectedCatalog = loader.getCatalog(/*cmd.getCommandCatalog()*/);
                      //now load the command chain from the sub_action rather than from the catalogcommand object
                      String commandChain = theSubAction.action_command_chain();
                      Command selectedCatalogCommand  = selectedCatalog.getCommand(commandChain);

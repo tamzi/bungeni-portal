@@ -1,0 +1,11 @@
+<div class="breadcrumbs">
+
+  <ul>
+    <li> You are here: </li>
+    <tal:loop tal:repeat="item view/path">
+        <li tal:content="item"> dir </li>
+    </tal:loop>
+  </ul>  
+
+
+</div>

@@ -35,5 +35,14 @@
      class=".question.Archive"
      permission="zope.View"
      />
+     
+  <!-- Navigation Viewlets -->
+  <browser:viewlet
+    name="bungeni.navigation.breadcrumbs"
+    for="*"
+    manager="ploned.ui.interfaces.IAboveContentManager"
+    class=".navigation.BreadCrumbsViewlet"
+    permission="zope.View"
+    />     
 
 </configure>

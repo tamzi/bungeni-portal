@@ -200,6 +200,11 @@ update users set active_p = 'I' where user_id not in (select user_id from user_g
 
 update users set active_p = 'D' where date_of_death is not null;
 
+update "user_group_memberships" SET "title" = 4 WHERE "membership_id"  IN (
+    SELECT "user_group_memberships"."membership_id" 
+    FROM "public"."parliaments", "public"."groups", "public"."user_group_memberships" 
+    WHERE ( "parliaments"."parliament_id" = "groups"."group_id" AND "user_group_memberships"."group_id" = "groups"."group_id" ));
+
 copy public.sitting_attendance( sitting_id, member_id, attendance_id)
 from '%(directory)s/data/demodata/sitting_attendance.csv'
 csv;

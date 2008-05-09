@@ -67,6 +67,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.Timer;
@@ -108,14 +109,16 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
    //HashMap<String, String> sectionTypeMetadataMap=new HashMap<String, String>();
     private static org.apache.log4j.Logger log = Logger.getLogger(sectionNumbererPanel.class.getName());
    
-    private HashMap<String,String> metadata = new HashMap();
+    private boolean m_useParentPrefix = false;
+    
+    //private HashMap<String,String> metadata = new HashMap();
     private ArrayList<String> sectionTypeMatchedSections = new ArrayList<String>();
     private ArrayList<String> docListReferences = new ArrayList<String>();
     private ArrayList<String> docReferences = new ArrayList<String>();
     private ArrayList<String> insertedNumbers = new ArrayList<String>();
     private ArrayList<String> sectionHierarchy = new ArrayList<String>();
     private int headCount=1;
-    DefaultListModel model=new DefaultListModel();
+    //DefaultListModel model=new DefaultListModel();
     private IGeneralNumberingScheme inumScheme;
     private String numParentPrefix="";
     private Set attributeSet=new HashSet();
@@ -144,54 +147,78 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     }
     
     public sectionNumbererPanel(XComponentContext xContext){
-        
-        
         this.xContext=xContext;
         initComponents();
         init();
     }
     
     private void init(){
-        initSectionsArray();
-        loadJlist();
-        listSectionTypes.addListSelectionListener(new NumberingSchemeListener());
-        panelNumberingScheme.setVisible(false);
+        oooInit();
+        fetchSectionTypesAndInitTree();
+        initSectionTypesListBox();
+       // listSectionTypes.addListSelectionListener(new NumberingSchemeListener());
+        //panelNumberingScheme.setVisible(false);
+        /*init parent prefix checkbox */
         checkbxUseParentPrefix.setSelected(false);
-        checkbxUseParentPrefix.addItemListener(new ParentSchemeListener());
-        packReferences();
-        initTree();
-        initSectionList();
-        findBrokenReferences();
+        checkbxUseParentPrefix.addActionListener(
+                new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        javax.swing.AbstractButton btn = (javax.swing.AbstractButton) evt.getSource();
+                        m_useParentPrefix = btn.getModel().isSelected();
+                    }
+        } );
+        //all commented below ... not required ??
+        //checkbxUseParentPrefix.addItemListener(new ParentSchemeListener());
+        //packReferences();
+        //initTree();
+        initSectionTree();
+        initNumberingSchemesCombo();
+        //the following is commented becuase its definitely not required !
+        //findBrokenReferences();
     }
     
   
-    
-    private void initSectionsArray(){
-  
+    private void oooInit(){
         openofficeObject = new org.bungeni.ooo.BungenioOoHelper(xContext);
         openofficeObject.initoOo();
         xComponent = openofficeObject.openDocument("file:///E:/projects/WorkingProjects/OfficeNumberingApp/testsection4.odt");
         ooDocument = new OOComponentHelper(xComponent, xContext);
+    }
+    
+    class numberingSchemeSelection extends Object {
+        String schemeName;
+        String schemeDesc;
+        String schemeClass;
+        public String toString(){
+            return schemeName;
+        }
+    }
+    
+    private void initNumberingSchemesCombo(){
+        Iterator<String> schemeIterator = NumberingSchemeFactory.numberingSchemes.keySet().iterator();
+        numberingSchemeSelection[] sels = new numberingSchemeSelection[NumberingSchemeFactory.numberingSchemes.size()];
+        int i = 0;
+        while (schemeIterator.hasNext()) {
+            sels[i] = new numberingSchemeSelection();
+            sels[i].schemeName = schemeIterator.next();
+            sels[i].schemeClass = NumberingSchemeFactory.numberingSchemes.get(sels[i].schemeName);
+            i++;
+        }
+        this.cboNumberingScheme.setModel(new DefaultComboBoxModel(sels));
+    }
+    
+    private void fetchSectionTypesAndInitTree(){
         try{
-            if (!ooDocument.isXComponentValid()) return;
-            
-           
             if (!ooDocument.getTextSections().hasByName("root")) {
                 System.out.println("no root section found");
                 return;
             }
-            
-             
             Object rootSection = ooDocument.getTextSections().getByName("root");
             XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
-            
             //create the tree here
              sectionRootNode = new DefaultMutableTreeNode(new String("root"));
              CommonTreeFunctions.expandAll(treeSectionStructure);
-            
-           recurseSections (theSection,sectionRootNode);
-            
-            
+             recurseSectionTypesAndInitTree (theSection,sectionRootNode);
          }catch (NoSuchElementException ex) {
             log.error(ex.getMessage());
         } catch (WrappedTargetException ex) {
@@ -201,9 +228,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         
     }
     
-    private void recurseSections(XTextSection theSection,DefaultMutableTreeNode node){
-       
-       
+    private void recurseSectionTypesAndInitTree(XTextSection theSection,DefaultMutableTreeNode node){
           //recurse children
             XTextSection[] sections = theSection.getChildSections();
             if (sections != null ) {
@@ -212,70 +237,45 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
                     for (int nSection = sections.length - 1 ; nSection >=0 ; nSection--) {
                         XNamed xSecName = ooQueryInterface.XNamed(sections[nSection]);
                         String childSectionName = (String) xSecName.getName();
-                        HashMap<String,String> sectionMetadataMap=ooDocument.getSectionMetadataAttributes(childSectionName);
-                        System.out.println("SectionMetadataLoad childSectionName: " + childSectionName);
-                         
                         //build section tree here also 
                         DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(childSectionName);
                         node.add(newNode);
-                         
-                        if(sectionMetadataMap.size()>0){
-                            
-                        Iterator metaIterator = sectionMetadataMap.keySet().iterator();
-
-                               while(metaIterator.hasNext()){
-                                        for(int i=0; i< sectionMetadataMap.size(); i++) {
-                                            String metaName = (String) metaIterator.next();
-                                            System.out.println("childSectionName: " + childSectionName + " metaName: "  + metaName + " attribute: " + sectionMetadataMap.get(metaName));
-                                           
-                                          if(metaName.startsWith("BungeniSectionType")){
-                                           
-                                               attributeSet.add(sectionMetadataMap.get(metaName).trim());
-                                               
-                                           }
-                                            
-                                           
-                                        }
-                                 }  
-                                 
-                            }
-                             recurseSections(sections[nSection],newNode);
-                       
+                        HashMap<String,String> sectionMetadataMap=ooDocument.getSectionMetadataAttributes(childSectionName);
+                        if (sectionMetadataMap.containsKey("BungeniSectionType"))
+                            attributeSet.add(sectionMetadataMap.get("BungeniSectionType").trim());
+                        recurseSectionTypesAndInitTree(sections[nSection],newNode);
                      }
                    
                 } 
-                
             }
-            
-            
-           
             
     }
     
-    private void loadJlist(){
+    private void initSectionTypesListBox(){
+         DefaultListModel listModel = new DefaultListModel();
          Iterator attributeSetIterator = attributeSet.iterator();
               while (attributeSetIterator.hasNext()) {
-               
-               Object element = attributeSetIterator.next();
-               model.addElement(element);
+                 Object element = attributeSetIterator.next();
+                 listModel.addElement(element);
             }
-        listSectionTypes.setModel(model);
+        this.listSectionTypes.setModel(listModel);
     }
     
-     private void readSections(String sectionType ){
-       try{
+     private void findSectionsMatchingSectionType(String sectionType ){
+         try{
+           //change this check later to get the root section from the editor properties
             if (!ooDocument.getTextSections().hasByName("root")) {
-                 System.out.println("no root section found");
+                 log.info("readSections by type "+ sectionType + " no root section found, returning");
                 return;
             }
             //start from the root section
             Object rootSection = ooDocument.getTextSections().getByName("root");
             XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
-            //clear the arraylist that holds the list of sections matching the type
+            /*clear the arraylist that holds the list of sections matching the type*/
             this.sectionTypeMatchedSections.clear();
-            //recurse through section hierarchy for sections of type sectionType
+            /*recurse through section hierarchy for sections of type sectionType*/
             recurseSectionsForSectionType(theSection,sectionType);
-           
+           /*now the arraylist for sectionTypematchdSections should have matching sections */
          }catch (NoSuchElementException ex) {
             log.error(ex.getMessage());
         } catch (WrappedTargetException ex) {
@@ -284,44 +284,35 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
    }
     
    private void recurseSectionsForSectionType(XTextSection theSection, String sectionType){
-       
+            /*get all child sections of the incoming section */
             XTextSection[] sections = theSection.getChildSections();
             if (sections != null ) {
                 if (sections.length > 0 ) {
-                    
                     //start from last index and go to first
                     for (int nSection = sections.length - 1 ; nSection >=0 ; nSection--) {
-                        
-                        XNamed xSecName = ooQueryInterface.XNamed(sections[nSection]);
-                         XNamed xParentSecName= ooQueryInterface.XNamed(sections[nSection].getParentSection());
-                        
-                        String childSectionName = (String) xSecName.getName();
-                        //String currentParentSectionName = (String) xParentSecName.getName();
-                                                
-                        HashMap<String,String> sectionMetadataMap=ooDocument.getSectionMetadataAttributes(childSectionName);
-                        if (sectionMetadataMap.containsKey("BungeniSectionType") ) {
+                        /*get the name of the child section*/
+                         XNamed xSecName = ooQueryInterface.XNamed(sections[nSection]);
+                         String childSectionName = (String) xSecName.getName();
+                         /*get the section metadata*/
+                         HashMap<String,String> sectionMetadataMap=ooDocument.getSectionMetadataAttributes(childSectionName);
+                         /*check if the section has a sectionType property*/
+                         if (sectionMetadataMap.containsKey("BungeniSectionType") ) {
+                            /*get the sectionType of the current section*/
                             String matchedSectionType= sectionMetadataMap.get("BungeniSectionType");
+                            /*if section type of the section matches the section type we are looking for*/
                             if(matchedSectionType.equalsIgnoreCase(sectionType)){
+                                /*add the child section to the list of matching sections array list*/
                               sectionTypeMatchedSections.add(childSectionName);
-                                
                             }
-                          
                         }
-                        
-                         System.out.println("recurseSectionsForSectionType: " + childSectionName);
+                        log.debug("recurseSectionsForSectionType: recursive call: " + childSectionName);
                         recurseSectionsForSectionType(sections[nSection],sectionType);
-                       
-                     }
-                   
-                } 
-                
-            }
-            
-           
-           
-   }
+                     } /*end of for() */ 
+                }  /*end of if (sections.length > 0)*/
+            }  /*end of if (sections != null)*/
+  }
    
-   private void getParentFromSection(XTextRange aTextRange){
+  private void getParentFromSection(XTextRange aTextRange){
       
        String prevParent="";
         Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
@@ -358,23 +349,11 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         
    }
     
-   private void applyNumberingScheme(){
-       metadata.put("NumberingScheme",cboNumberingScheme.getSelectedItem().toString());
-       Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
-       while(typedMatchSectionItr.hasNext()){
-            Object matchedSectionElem=typedMatchSectionItr.next();
-           System.out.println("applyNumberingScheme function " + metadata + " to " + matchedSectionElem.toString());
-            ooDocument.setSectionMetadataAttributes(matchedSectionElem.toString(),metadata);
-       }
-       
-       
-      
-   }
-   
-   private void insertAppliedNumberToMetadata(Object sectionElement, int appliedNumber){
+
+   private void insertAppliedNumberToMetadata(String sectionElement, int appliedNumber){
         String strAppliedNumber="" + appliedNumber + "";
         //clear the metadata map
-        metadata.clear();
+        HashMap<String,String> metadata = new HashMap<String,String>();
         //insert key=>value attribute into metadata map
         metadata.put("AppliedNumber",strAppliedNumber);
         System.out.println("insertAppliedNumberToMetadata function " + metadata + " to " + sectionElement.toString());
@@ -383,18 +362,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         
    }
     
-  
-   private void insertParentPrefix(Object sectionElement, int parentPrefix){
-        String strParentPrefix="" + parentPrefix + "";
-        //clear the metadata map
-        metadata.clear();
-        //insert key=>value attribute into metadata map
-        metadata.put("ParentPrefix",strParentPrefix);
-        System.out.println("insertParentPrefix function " + metadata + " to " + sectionElement.toString());
-        //insert the applied number into the metadata
-        //ooDocument.setSectionMetadataAttributes(sectionElement.toString(),metadata);
-        
-   }
+
    
   
    private void findBrokenReferences(){
@@ -1107,67 +1075,66 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
                 
     }
    
+
     //method to get heading from section with selected sectionType
-    private void getHeadingInSection() {
+     ///variable sectionName added below for compilation success
+    private void getHeadingInSection( ) throws NoSuchElementException, WrappedTargetException, UnknownPropertyException, com.sun.star.lang.IllegalArgumentException {
         
         String prevParent="";
         int parentPrefix=0;;
-        //iterate through the sectionTypeMatchedSections and look for heading in section
-       Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
-       while(typedMatchSectionItr.hasNext()){
-           
-            Object matchedSectionElem=typedMatchSectionItr.next();
-            
-            try{
-               
-            Object sectionName = ooDocument.getTextSections().getByName(matchedSectionElem.toString());
-            XTextSection theSection = ooQueryInterface.XTextSection(sectionName);
+        /*iterate through the sectionTypeMatchedSections and look for heading in section*/
+        Iterator<String> typedMatchSectionItr = sectionTypeMatchedSections.iterator();
+        while(typedMatchSectionItr.hasNext()){
+            String sectionName = typedMatchSectionItr.next();
+            Object sectionObject = ooDocument.getTextSections().getByName(sectionName);
+            /*get the XTextSection object of the matching section*/
+            XTextSection theSection = ooQueryInterface.XTextSection(sectionObject);
+            /*get the anchor of the matching section*/
             XTextRange range = theSection.getAnchor();
+            /*get the enumeration object of the section */
+         //   enumerateSectionContent (range, theSection, prevParent);
             
             XEnumerationAccess enumAcc  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, range);
             XEnumeration xEnum = enumAcc.createEnumeration();
-           
-           
+            /*enumerate the elements in the section */
             while (xEnum.hasMoreElements()) {
+                /*get the next enumerated element*/
                 Object elem = xEnum.nextElement();
+                /*query the matching element for its service info */
                 XServiceInfo xInfo = (XServiceInfo)UnoRuntime.queryInterface(XServiceInfo.class, elem);
+                /*match only paragraphs*/
                 if(xInfo.supportsService("com.sun.star.text.Paragraph")){
-                   
+                    /*get the properties of the paragraph */
                     XPropertySet objProps = ooQueryInterface.XPropertySet(xInfo);
-                    
-                     short nLevel = -1;
-                     nLevel = com.sun.star.uno.AnyConverter.toShort(objProps.getPropertyValue("ParaChapterNumberingLevel"));
-                     if(nLevel>=0){
+                    short nLevel = -1;
+                    /*get the paragraphs numbering level */
+                    nLevel = com.sun.star.uno.AnyConverter.toShort(objProps.getPropertyValue("ParaChapterNumberingLevel"));
+                    /*check if the paragraph is a heading type nLevel >= 0 */
+                    if(nLevel >= 0) {
+                        /* get the textcontent object of the matching enumerated element*/
                         XTextContent xContent = ooDocument.getTextContent(elem);
+                        /*get the heading text of the matching heading */
                         XTextRange aTextRange =   xContent.getAnchor();
                         String strHeading = aTextRange.getString();
-                                              
-                       
                          log.debug("getHeadingInSection: heading found " + strHeading);
-                          //insert number here
+                         /*get the parent section of the section containing the heading */
                          XNamed xParentSecName= ooQueryInterface.XNamed(theSection.getParentSection());
                          String currentParent=(String)xParentSecName.getName();
-                       
-                         System.out.println("currentParent " + currentParent);
-                         
-                     
-                        
-                       
+                         log.debug("getHeadingInSection" + currentParent);
+                         /*check if the currentParent of the seciton is equal to the previous matching parent */
                          if(!currentParent.equalsIgnoreCase(prevParent)){
-                             //restart numbering here
+                             /* If not equals, restart numbering here */
                              headCount=1;
-                              if(currentParent.equals("root")){
-                                  insertParentPrefix(matchedSectionElem, headCount);
-                                  
+                             /*if currentParent is "root" use 1 as the starting point for numbering*/
+                             if(currentParent.equals("root")){
+                                  insertParentPrefix(sectionName, headCount);
                               }else{
                                  parentPrefix=headCount;
-                                 insertParentPrefix(matchedSectionElem, parentPrefix);
+                                 insertParentPrefix(sectionName, parentPrefix);
                               }
-                            
-                             //getReferenceMark(aTextRange, elem);
                              insertNumber(aTextRange, headCount,elem);
                              
-                             insertAppliedNumberToMetadata(matchedSectionElem,headCount);
+                             // insertAppliedNumberToMetadata(matchedSectionElem,headCount);
                              
                              
                              
@@ -1175,19 +1142,19 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
                              //continue numbering
                             headCount++;
                             if(currentParent.equals("root")){
-                                  insertParentPrefix(matchedSectionElem, headCount);
+                                 // insertParentPrefix(matchedSectionElem, headCount);
                                   
                               }else{
                                 parentPrefix=headCount;
-                                 insertParentPrefix(matchedSectionElem, parentPrefix);
+                                 //insertParentPrefix(matchedSectionElem, parentPrefix);
                               }
                             
                             //getReferenceMark(aTextRange, elem);
                             insertNumber(aTextRange, headCount,elem); 
                            
-                            insertAppliedNumberToMetadata(matchedSectionElem,headCount);
+                            //insertAppliedNumberToMetadata(matchedSectionElem,headCount);
                             
-                         }
+                         } // if (currentParent....)
                          
                         prevParent=(String)xParentSecName.getName();
                                               
@@ -1196,13 +1163,13 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
                         break;
                         
                          
-                      }
+                      }//if nLevel 
                 }
                 
             }
            
              
-        
+            /*
             }catch (NoSuchElementException ex) {
                 log.error(ex.getClass().getName() + " - " + ex.getMessage());
                 log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
@@ -1215,7 +1182,7 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
             }catch(com.sun.star.lang.IllegalArgumentException ex){
                 log.error(ex.getClass().getName() + " - " + ex.getMessage());
                 log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
-            }
+            } */
             
        }
        
@@ -1223,8 +1190,120 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
         
         
     }
+
+    private void getHeadingInMatchingSections() throws NoSuchElementException, WrappedTargetException, UnknownPropertyException, com.sun.star.lang.IllegalArgumentException {
+        String prevParent="";
+        int parentPrefix=0;;
+        /*iterate through the sectionTypeMatchedSections and look for heading in section*/
+        Iterator<String> typedMatchSectionItr = sectionTypeMatchedSections.iterator();
+        while(typedMatchSectionItr.hasNext()){
+            String sectionName = typedMatchSectionItr.next();
+            Object sectionObject = ooDocument.getTextSections().getByName(sectionName);
+            /*get the XTextSection object of the matching section*/
+            XTextSection theSection = ooQueryInterface.XTextSection(sectionObject);
+            /*get the parent section of the current setion */
+            XTextSection theSectionsParent = theSection.getParentSection();
+            /*get the anchor of the matching section*/
+            XTextRange range = theSection.getAnchor();
+            enumerateSectionContent (range, theSection, prevParent);
+            /*set prevparent to the name of the previous parent section */
+            prevParent = ooQueryInterface.XNamed(theSectionsParent).getName();
+        }
+    }
     
+    private String enumerateSectionContent (XTextRange sectionRange, XTextSection theSection, String prevParent ) throws NoSuchElementException, WrappedTargetException, UnknownPropertyException, com.sun.star.lang.IllegalArgumentException {
+            XEnumerationAccess enumAcc  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, sectionRange);
+            XEnumeration xEnum = enumAcc.createEnumeration();
+            /*enumerate the elements in the section */
+            while (xEnum.hasMoreElements()) {
+                /*get the next enumerated element*/
+                Object elem = xEnum.nextElement();
+                /*query the matching element for its service info */
+                XServiceInfo xInfo = (XServiceInfo)UnoRuntime.queryInterface(XServiceInfo.class, elem);
+                /*if paragraph */
+                boolean breakFromLoop = false;
+                if(xInfo.supportsService("com.sun.star.text.Paragraph")){
+                    breakFromLoop = enumerateParagraphInSectionContent(xInfo, elem, theSection, prevParent);
+                } /*for the future ... else if ("com.sun.star.text.TextTable*/
+                if (breakFromLoop)
+                    break;
+                //
+                //prevParent=(String)xParentSecName.getName();
+                //break;
+           }
+            return new String("");
+      }
+   
+    private boolean enumerateParagraphInSectionContent(XServiceInfo xInfo, Object elemParagraph, XTextSection theSection, String previousParent) throws UnknownPropertyException, com.sun.star.lang.IllegalArgumentException, WrappedTargetException {
+                boolean bMatched = false;
+                    /*get the properties of the paragraph */
+                    XPropertySet objProps = ooQueryInterface.XPropertySet(xInfo);
+                    short nLevel = -1;
+                    /*get the paragraphs numbering level */
+                    nLevel = com.sun.star.uno.AnyConverter.toShort(objProps.getPropertyValue("ParaChapterNumberingLevel"));
+                    /*check if the paragraph is a heading type nLevel >= 0 */
+                    if(nLevel >= 0) {
+                            bMatched = true;
+                            XTextContent xContent = ooDocument.getTextContent(elemParagraph);
+                            //enumerateHeadingInParagraph(xContent, theSection, previousParent);
+                    }
+                return bMatched;
+      }
+/*
+   private String enumerateHeadingInParagraph(XTextContent xContent, XTextSection theSection, String previousParent) {
+       // get the current section name 
+       int parentPrefix = 0; int headCount = 0;
+       String sectionName = ooQueryInterface.XNamed(theSection).getName() ;
+       // get the heading text of the matching heading 
+        XTextRange aTextRange =   xContent.getAnchor();
+        String strHeading = aTextRange.getString();
+         log.debug("getHeadingInSection: heading found " + strHeading);
+         // get the parent section of the section containing the heading 
+         XNamed xParentSecName= ooQueryInterface.XNamed(theSection.getParentSection());
+         String currentParent=(String)xParentSecName.getName();
+         log.debug("getHeadingInSection" + currentParent);
+         // check if the currentParent of the seciton is equal to the previous matching parent 
+         if(!currentParent.equalsIgnoreCase(previousParent)){
+             // If not equals, restart numbering here 
+             headCount=1;
+             // if currentParent is "root" use 1 as the starting point for numbering
+             if(currentParent.equals("root")){
+                  insertParentPrefix(sectionName, headCount);
+              }else{
+                 parentPrefix=headCount;
+                 insertParentPrefix(sectionName, parentPrefix);
+              }
+             //getReferenceMark(aTextRange, elem);
+             insertNumber(aTextRange, headCount,elem);
+             insertAppliedNumberToMetadata(matchedSectionElem,headCount);
+         } else {
+             //continue numbering
+            headCount++;
+            if(currentParent.equals("root")){
+                  insertParentPrefix(matchedSectionElem, headCount);
+              }else{
+                parentPrefix=headCount;
+                 insertParentPrefix(matchedSectionElem, parentPrefix);
+              }
+            //getReferenceMark(aTextRange, elem);
+            insertNumber(aTextRange, headCount,elem); 
+            insertAppliedNumberToMetadata(matchedSectionElem,headCount);
+            }
+   }
+  */  
     
+   private void insertParentPrefix(String sectionElement, int parentPrefix){
+        String strParentPrefix="" + parentPrefix + "";
+        //clear the metadata map
+        HashMap<String,String> metadata = new HashMap<String,String>();
+        //insert key=>value attribute into metadata map
+        metadata.put("ParentPrefix",strParentPrefix);
+        System.out.println("insertParentPrefix function " + metadata + " to " + sectionElement.toString());
+        //insert the applied number into the metadata
+        //ooDocument.setSectionMetadataAttributes(sectionElement.toString(),metadata);
+        
+   }
+   
      private void getHeadingInSectionOnRenumbering() {
         Iterator refIterator = refMarksForHeading.iterator();
         String prevParent="";
@@ -1387,7 +1466,7 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
    
     }
     
-    
+    /*
     
     private void packReferences(){
            int i=0;
@@ -1414,6 +1493,8 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
         
          
     }
+    */
+    
     
     private String getNodeName(String nodeName){
         selectSection=nodeName;
@@ -1519,14 +1600,6 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
          
     }
     
-     private class NumberingSchemeListener implements ListSelectionListener{
-        public void valueChanged(ListSelectionEvent listSelectionEvent) {
-            txtSectionType.setText(listSectionTypes.getSelectedValue().toString());
-            panelNumberingScheme.setVisible(true);
-            panelSectionTree.setVisible(true);
-        }
-        
-    }
      
     private class ParentSchemeListener implements ItemListener{
         public void itemStateChanged(ItemEvent itemEvent) {
@@ -1633,7 +1706,7 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
        
     }
   
-        private void initSectionList() {
+        private void initSectionTree() {
         // initTreeSectionsArray();   
          treeSectionStructure.setModel(new DefaultTreeModel(sectionRootNode));
          treeSectionStructure.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -1735,17 +1808,14 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
     private void initComponents() {
         panelSectionTypes = new javax.swing.JScrollPane();
         listSectionTypes = new javax.swing.JList();
-        panelNumberingScheme = new javax.swing.JPanel();
-        txtSectionType = new javax.swing.JTextField();
-        cboNumberingScheme = new javax.swing.JComboBox();
-        btnApplyNumberingScheme = new javax.swing.JButton();
-        checkbxUseParentPrefix = new javax.swing.JCheckBox();
-        btnRenumberSections = new javax.swing.JButton();
-        btnInsertCrossReference = new javax.swing.JButton();
-        lblSectionTypes = new javax.swing.JLabel();
-        panelSectionTree = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         treeSectionStructure = new javax.swing.JTree();
+        cboNumberingScheme = new javax.swing.JComboBox();
+        checkbxUseParentPrefix = new javax.swing.JCheckBox();
+        btnApplyNumberingScheme = new javax.swing.JButton();
+        btnRenumberSections = new javax.swing.JButton();
+        btnInsertCrossReference = new javax.swing.JButton();
 
         listSectionTypes.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -1755,9 +1825,15 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
         listSectionTypes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         panelSectionTypes.setViewportView(listSectionTypes);
 
-        txtSectionType.setEditable(false);
+        jLabel1.setText("Bungeni Section Types");
+
+        jScrollPane2.setViewportView(treeSectionStructure);
 
         cboNumberingScheme.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Base Numbering", "ROMAN", "ALPHA" }));
+
+        checkbxUseParentPrefix.setText("Use Parent Prefix");
+        checkbxUseParentPrefix.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        checkbxUseParentPrefix.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
         btnApplyNumberingScheme.setText("Apply Numbering Scheme");
         btnApplyNumberingScheme.addActionListener(new java.awt.event.ActionListener() {
@@ -1765,10 +1841,6 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
                 btnApplyNumberingSchemeActionPerformed(evt);
             }
         });
-
-        checkbxUseParentPrefix.setText("Use Parent Prefix");
-        checkbxUseParentPrefix.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        checkbxUseParentPrefix.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
         btnRenumberSections.setText("Renumber Headings");
         btnRenumberSections.addActionListener(new java.awt.event.ActionListener() {
@@ -1784,59 +1856,6 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
             }
         });
 
-        org.jdesktop.layout.GroupLayout panelNumberingSchemeLayout = new org.jdesktop.layout.GroupLayout(panelNumberingScheme);
-        panelNumberingScheme.setLayout(panelNumberingSchemeLayout);
-        panelNumberingSchemeLayout.setHorizontalGroup(
-            panelNumberingSchemeLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelNumberingSchemeLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(panelNumberingSchemeLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(txtSectionType, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                    .add(checkbxUseParentPrefix)
-                    .add(panelNumberingSchemeLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                        .add(org.jdesktop.layout.GroupLayout.LEADING, cboNumberingScheme, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(org.jdesktop.layout.GroupLayout.LEADING, btnApplyNumberingScheme, 0, 0, Short.MAX_VALUE)
-                        .add(org.jdesktop.layout.GroupLayout.LEADING, btnInsertCrossReference, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .add(btnRenumberSections, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        panelNumberingSchemeLayout.setVerticalGroup(
-            panelNumberingSchemeLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelNumberingSchemeLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(txtSectionType, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(14, 14, 14)
-                .add(cboNumberingScheme, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(18, 18, 18)
-                .add(checkbxUseParentPrefix)
-                .add(20, 20, 20)
-                .add(btnApplyNumberingScheme)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnRenumberSections)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnInsertCrossReference)
-                .addContainerGap(27, Short.MAX_VALUE))
-        );
-
-        lblSectionTypes.setText("Bungeni Section Types");
-
-        jScrollPane2.setViewportView(treeSectionStructure);
-
-        org.jdesktop.layout.GroupLayout panelSectionTreeLayout = new org.jdesktop.layout.GroupLayout(panelSectionTree);
-        panelSectionTree.setLayout(panelSectionTreeLayout);
-        panelSectionTreeLayout.setHorizontalGroup(
-            panelSectionTreeLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelSectionTreeLayout.createSequentialGroup()
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 174, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        panelSectionTreeLayout.setVerticalGroup(
-            panelSectionTreeLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelSectionTreeLayout.createSequentialGroup()
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -1844,24 +1863,37 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(lblSectionTypes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
-                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                        .add(panelNumberingScheme, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(panelSectionTypes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 194, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(panelSectionTree, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                    .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                    .add(checkbxUseParentPrefix)
+                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, btnApplyNumberingScheme, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, cboNumberingScheme, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, panelSectionTypes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, btnRenumberSections, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, btnInsertCrossReference, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(lblSectionTypes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(panelSectionTypes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(15, 15, 15)
-                .add(panelNumberingScheme, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 216, Short.MAX_VALUE)
-                .add(panelSectionTree, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(cboNumberingScheme, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(14, 14, 14)
+                .add(checkbxUseParentPrefix)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnApplyNumberingScheme)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnRenumberSections)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnInsertCrossReference)
+                .add(16, 16, 16)
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 203, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1877,7 +1909,7 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
         sectionHeadings.clear();
         refMarksInHeadingMatched.clear();
          Object sectHeading=null;
-         readSections();
+         ////-- commented for compile success readSections();
          findBrokenReferences();
         
          
@@ -1924,23 +1956,45 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
       
        
     }//GEN-LAST:event_btnRenumberSectionsActionPerformed
-
+    
+   private HashMap<String, String> defaultSectionMetadata  = new HashMap<String,String>();
+    
     private void btnApplyNumberingSchemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyNumberingSchemeActionPerformed
         //get section type selected for numbering 
+        try {
         String sectionType=listSectionTypes.getSelectedValue().toString();            
-        //find all sections matching that section type
-         readSections(sectionType);
-         
-         
-         applyNumberingScheme();
+        /*find all sections matching that section type, and populate arraylist*/
+        /*was called readSection()*/
+        findSectionsMatchingSectionType(sectionType);
+        /*iterate through arraylist and set numberingscheme metadata to matching sections*/
+        /*was called applyNumberingScheme() */
+        setNumberingSchemeMetadataIntoMatchingSections();
+        /*why is the above being done...when the same section is iterated over again ??? */
          getHeadingInSection();
          getNumberedHeadings();
-       
+        } catch (Exception ex) {
+            
+        }
          
      
         
     }//GEN-LAST:event_btnApplyNumberingSchemeActionPerformed
 
+   private void setNumberingSchemeMetadataIntoMatchingSections(){
+       /*map to store section metadata apply to section*/
+       HashMap<String,String> sectionMetadata = new HashMap<String,String>();
+       /*set metadata into section identifying numbering scheme*/
+       sectionMetadata.put("NumberingScheme",cboNumberingScheme.getSelectedItem().toString());
+       /*iterate through matching sections */
+       Iterator<String> typedMatchSectionItr = sectionTypeMatchedSections.iterator();
+       while(typedMatchSectionItr.hasNext()){
+            String matchedSection=typedMatchSectionItr.next();
+            log.debug("applyNumberingScheme " + sectionMetadata + " to " + matchedSection);
+            ooDocument.setSectionMetadataAttributes(matchedSection, sectionMetadata);
+       }
+   }
+   
+    
     public void setOOComponentHandle(OOComponentHelper ooComponent) {
         ooDocument = ooComponent;
     }
@@ -1961,14 +2015,11 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
     private javax.swing.JButton btnRenumberSections;
     private javax.swing.JComboBox cboNumberingScheme;
     private javax.swing.JCheckBox checkbxUseParentPrefix;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JLabel lblSectionTypes;
     private javax.swing.JList listSectionTypes;
-    private javax.swing.JPanel panelNumberingScheme;
-    private javax.swing.JPanel panelSectionTree;
     private javax.swing.JScrollPane panelSectionTypes;
     private javax.swing.JTree treeSectionStructure;
-    private javax.swing.JTextField txtSectionType;
     // End of variables declaration//GEN-END:variables
 
    

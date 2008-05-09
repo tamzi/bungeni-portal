@@ -42,4 +42,9 @@ public interface IGeneralNumberingScheme {
      * @return Returns an ArrayList of generated numbers as a string
      */
     public ArrayList<String> getGeneratedSequence();
+    
+    public void setSchemeDescription(String desc);
+    
+    public String getSchemeDescription();
+    
 }

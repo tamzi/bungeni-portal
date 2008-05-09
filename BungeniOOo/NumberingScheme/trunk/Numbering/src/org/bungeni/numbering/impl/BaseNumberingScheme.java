@@ -34,6 +34,8 @@ public class BaseNumberingScheme   {
     protected String parentPrefix ;
     protected String parentPrefixSeparator = DEFAULT_SEPARATOR;
     
+    protected String schemeDescription;
+    
     /**
      * base class constructor, needs to be explicitly invoked with super() from the derived class
      */
@@ -108,6 +110,14 @@ public class BaseNumberingScheme   {
        } else {
             generatedSequence.add(number);
        }
+   }
+   
+   public void setSchemeDescription(String desc) {
+       this.schemeDescription = desc;
+   }
+   
+   public String getSchemeDescription(){
+       return this.schemeDescription;
    }
    
 }

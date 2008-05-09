@@ -10,7 +10,8 @@ import domain
 # Users
 mapper( domain.User, schema.users,
         polymorphic_on=schema.users.c.type,
-        polymorphic_identity='user')
+        polymorphic_identity='user',
+       )
 
 mapper (domain.Keyword, schema.keywords)
 # Groups

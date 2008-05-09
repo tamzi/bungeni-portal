@@ -65,9 +65,6 @@ class User( Entity ):
         attempt = self.encode( password_attempt )
         return attempt == self.password
 
-    @property
-    def name( self ):
-        return u"%s %s"%( self.first_name, self.last_name )
 
 class ParliamentMember( User ):
     """ an MP
@@ -79,7 +76,9 @@ class ParliamentMember( User ):
 
     # ministries
 
-
+    @property
+    def short_name( self ):
+        return u"%s %s"%( self.first_name, self.last_name )
 
 class MemberOfParliament ( object ):    
     """
@@ -113,6 +112,10 @@ class GroupSitting( Entity ):
     """
     attendance = one2many( "attendance", "bungeni.core.domain.GroupSittingAttendanceContainer", "sitting_id" )
     
+    @property
+    def short_name( self ):
+        return u"%s - %s"%( self.start_date, self.end_date )
+    
 class SittingType( object ):
     """ Type of sitting
     morning/afternoon/... """    
@@ -139,7 +142,7 @@ class Government( Group ):
     
 class Parliament( Group ):
     """ a parliament
-    """
+    """    
     sessions = one2many("sessions", "bungeni.core.domain.ParliamentSessionContainer", "parliament_id")
     committees = one2many("comittees", "bungeni.core.domain.CommitteeContainer", "parliament_id")
     mps = one2many("mps","bungeni.core.domain.GroupMembershipContainer", "group_id")
@@ -148,6 +151,8 @@ class Parliament( Group ):
                                  "bungeni.core.domain.MemberOfParliamentContainer", "group_id")
     extensionmembers = one2many("extensionmembers", "bungeni.core.domain.ExtensionGroupContainer",
                                  "parliament_id")
+    
+
     
 class PoliticalParty( Group ):
     """ a political party

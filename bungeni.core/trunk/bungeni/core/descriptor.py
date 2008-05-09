@@ -183,7 +183,8 @@ class UserDescriptor( ModelDescriptor ):
         
     schema_invariants = [DeathBeforeLife, IsDeceased]
 
-        
+
+
 
 class MemberDescriptor( UserDescriptor ):
 
@@ -252,7 +253,7 @@ class GroupMembershipDescriptor( ModelDescriptor ):
             edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         dict( name="end_date", label=_(u"End Date"), listing=True,
             listing_column=day_column("end_date", _(u"End Date")), 
-            edit_widget=SelectDateWidget, add = False ),
+            edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         dict( name="active_p", label=_(u"Active") ),
         dict( name="notes", label=_(u"Notes") ),
         dict( name="substitution_type", label=_(u"Type of Substitution"), add = False ),
@@ -321,7 +322,10 @@ class GroupDescriptor( ModelDescriptor ):
         dict( name="short_name", label=_(u"Name"), listing=True),
         dict( name="full_name", label=_(u"Full Name"), listing=True,
               listing_column=name_column("full_name", _(u"Full Name"))),
-        dict( name="description", property=schema.Text(title=_(u"Description") , required=False )),
+        dict( name="description", property=schema.Text(title=_(u"Description") , required=False ),
+              view_widget=widget.HTMLDisplay,
+              edit_widget=widget.RichTextEditor,
+              add_widget=widget.RichTextEditor),
         dict( name="start_date", label=_(u"Start Date"), listing=True, 
               listing_column=day_column("start_date", _(u"Start Date")), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
         dict( name="end_date", label=_(u"End Date"), listing=True, 

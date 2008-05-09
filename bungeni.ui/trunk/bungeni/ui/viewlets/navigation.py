@@ -20,16 +20,17 @@ class BreadCrumbsViewlet( viewlet.ViewletBase ):
         self.path = []
 
 
-    def _get_path( self, context): 
+    def _get_path( self, context, url = '' ): 
         """
         Return the current path as a list
         """
         path = []
         context = proxy.removeSecurityProxy( context )
-        if context.__parent__ is not None:
-            path = path + self._get_path(context.__parent__)        
+        if context.__parent__ is not None:            
+            path = path + self._get_path(context.__parent__, '../' + url )
+        #if context != self.context:           
         if  IAlchemistContent.providedBy(context):
-            path.append( getattr(context, 'short_name', None ))
+            path.append( {'name' : getattr(context, 'short_name', None ), 'url' : url})
         if IAlchemistContainer.providedBy(context):                        
             domain_model = context._class 
             descriptor = queryModelDescriptor( domain_model )
@@ -37,7 +38,7 @@ class BreadCrumbsViewlet( viewlet.ViewletBase ):
                 name = getattr( descriptor, 'display_name', None)
             if not name:
                 name = getattr( context, '__name__', None)  
-            path.append(name)                         
+            path.append({'name' : name, 'url' : url} )                         
         return path
         
         

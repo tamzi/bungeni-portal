@@ -2,9 +2,9 @@
 
   <ul>
     <li> You are here: </li>
-    <tal:loop tal:repeat="item view/path">
-        <li tal:content="item"> dir </li>
-    </tal:loop>
+    <li tal:repeat="item view/path">
+        <a tal:content="item/name" tal:attributes="href item/url"> dir </a>
+    </li>
   </ul>  
 
 

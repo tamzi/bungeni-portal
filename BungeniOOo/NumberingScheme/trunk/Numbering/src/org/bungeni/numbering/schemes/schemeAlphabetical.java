@@ -17,19 +17,19 @@ import org.bungeni.numbering.impl.GeneralNumberer;
 import org.bungeni.numbering.impl.IGeneralNumberingScheme;
 
 /**
- *
+ * Generates an Alphbetical sequence.
  * @author Administrator
  */
 public class schemeAlphabetical extends BaseNumberingScheme implements IGeneralNumberingScheme {
    
     
-    class NumToAlpha extends GeneralNumberer {
+    private class NumToAlpha extends GeneralNumberer {
         public String toAlpha(long number){
             return toAlphaSequence(number, "ABCDEFGHIJKLMOPQRSTUVWXYZ" );
         }
     } ;
     
-    NumToAlpha numberer ;
+    private NumToAlpha numberer ;
     
     /** Creates a new instance of newNumbersToAlphabet */
     /**default constructor required**/

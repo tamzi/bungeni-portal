@@ -11,6 +11,7 @@ package org.bungeni.numbering.impl;
 
 import com.sun.org.apache.bcel.internal.classfile.JavaClass;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Base class for numbering schemes, all numbering schemes extend this class
@@ -91,6 +92,20 @@ public class BaseNumberingScheme   {
        return generatedSequence;
    }
    
+   private Iterator<String> generatedSequenceIterator ;
+   
+   public Iterator<String> sequence_initIterator(){
+       generatedSequenceIterator = generatedSequence.iterator();
+       return this.generatedSequenceIterator;
+   }
+   
+   public boolean sequence_hasNext() {
+        return this.generatedSequenceIterator.hasNext();
+   }
+   
+   public String sequence_next(){
+        return this.generatedSequenceIterator.next();
+   }
    
    public String getNextInSequence(String sequenceNumber) {
         if (generatedSequence.contains(sequenceNumber)) {

@@ -13,7 +13,19 @@ import java.util.ArrayList;
 
 /**
  * General numbering scheme interface, all numbering scheme classes need to implement this interface (apart form extending BaseNumberingScheme)
- * @author Ashok
+ * Example :
+ * <PRE>   
+ *    IGeneralNumberingScheme inumScheme = null;
+ *    inumScheme = NumberingSchemeFactory.getNumberingScheme("ROMAN");
+ *    inumScheme.setRange(new NumberRange((long)12, (long)26));
+ *    inumScheme.generateSequence();
+ *    ArrayList<String> seq = inumScheme.getGeneratedSequence();
+ *    Iterator<String> iter = seq.iterator();
+ *    while (iter.hasNext()) {
+ *            System.out.println(iter.next().toString());
+ *        }
+ *  </PRE>
+ * @author Ashok Hariharan
  */
 public interface IGeneralNumberingScheme {
     /**
@@ -64,4 +76,13 @@ public interface IGeneralNumberingScheme {
      */
     public String getNextInSequence (String getTheNumberAfterThis);
     
+    /**
+     * Initialize the iterator for the number sequence
+     * @return returns an Iterator<String>, but the Iterator is a member variable of the class, and hence should be iterated using the class methods.
+     */
+    public java.util.Iterator<String> sequence_initIterator();
+   
+    public boolean sequence_hasNext() ;
+   
+    public String sequence_next();
 }

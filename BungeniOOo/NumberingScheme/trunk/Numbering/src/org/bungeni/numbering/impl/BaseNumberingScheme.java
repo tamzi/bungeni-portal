@@ -9,6 +9,7 @@
 
 package org.bungeni.numbering.impl;
 
+import com.sun.org.apache.bcel.internal.classfile.JavaClass;
 import java.util.ArrayList;
 
 /**
@@ -88,6 +89,23 @@ public class BaseNumberingScheme   {
      */
    public ArrayList<String> getGeneratedSequence(){
        return generatedSequence;
+   }
+   
+   
+   public String getNextInSequence(String sequenceNumber) {
+        if (generatedSequence.contains(sequenceNumber)) {
+            int indexofSequenceNumber = generatedSequence.indexOf(sequenceNumber);
+            java.util.ListIterator<String> iterSequence = generatedSequence.listIterator(indexofSequenceNumber);
+            iterSequence.next();
+            if (iterSequence.hasNext()) {
+                return iterSequence.next();
+            } else {
+                throw new java.lang.ArrayIndexOutOfBoundsException(sequenceNumber + " is at the end of the sequence ");
+            }
+            
+        } else {
+            throw new java.util.NoSuchElementException(sequenceNumber + " is not a member of the generatedSequence ");
+        }
    }
    
    public boolean hasParentPrefix() {

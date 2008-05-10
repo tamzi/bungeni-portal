@@ -43,8 +43,25 @@ public interface IGeneralNumberingScheme {
      */
     public ArrayList<String> getGeneratedSequence();
     
+    /**
+     * set descriptive text to describe the numbering scheme
+     * @param desc Description string to be set 
+     */
     public void setSchemeDescription(String desc);
     
+    /**
+     * Returns the scheme description
+     * @return Returns a string description of the scheme
+     */
     public String getSchemeDescription();
+    
+    /**
+     * Returns the next number in the generated numbering scheme sequence
+     * @param getTheNumberAfterThis if a sequence has one, two, three and four, the input parameter "two" should return "three" as the next number in the sequence.
+     * @return The next number in the sequence. If the input parameter is already the last number
+     * in the sequence, the function throws ArrayIndexOutOfBoundsException.
+     * If the input parameter is not found in the sequence the function throws NoSuchElementException.
+     */
+    public String getNextInSequence (String getTheNumberAfterThis);
     
 }

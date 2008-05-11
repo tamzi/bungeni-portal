@@ -110,7 +110,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
     private static org.apache.log4j.Logger log = Logger.getLogger(sectionNumbererPanel.class.getName());
    
     private boolean m_useParentPrefix = false;
-    
+    private IGeneralNumberingScheme m_selectedNumberingScheme ;
     //private HashMap<String,String> metadata = new HashMap();
     private ArrayList<String> sectionTypeMatchedSections = new ArrayList<String>();
     private ArrayList<String> docListReferences = new ArrayList<String>();
@@ -160,6 +160,7 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         //panelNumberingScheme.setVisible(false);
         /*init parent prefix checkbox */
         checkbxUseParentPrefix.setSelected(false);
+        m_useParentPrefix = false;
         checkbxUseParentPrefix.addActionListener(
                 new java.awt.event.ActionListener() {
                     public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -194,6 +195,25 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
         }
     }
     
+    /*
+     *gets the selected numbering scheme in the numbering scheme combo box 
+     */
+    private numberingSchemeSelection getSelectedNumberingScheme() {
+       numberingSchemeSelection schemeSelection = (numberingSchemeSelection) cboNumberingScheme.getSelectedItem();
+       return schemeSelection;
+    }
+    
+    /*
+     *create a numbering scheme object from the selected scheme 
+     */
+    private IGeneralNumberingScheme createSchemeFromSelection() {
+        numberingSchemeSelection schemeSelection = getSelectedNumberingScheme();
+        IGeneralNumberingScheme inumScheme = NumberingSchemeFactory.getNumberingScheme(schemeSelection.schemeName);
+        return inumScheme;
+    }
+    /*
+     *initiliazes the numbering scheme combo by setting values in it
+     */
     private void initNumberingSchemesCombo(){
         Iterator<String> schemeIterator = NumberingSchemeFactory.numberingSchemes.keySet().iterator();
         numberingSchemeSelection[] sels = new numberingSchemeSelection[NumberingSchemeFactory.numberingSchemes.size()];
@@ -451,7 +471,8 @@ public class sectionNumbererPanel extends javax.swing.JPanel {
          
    }
     
-    private void insertNumber(XTextRange aTextRange, int testCount, Object elem){
+  
+   private void insertNumber(XTextRange aTextRange, int testCount, Object elem){
        
      
        String numberingScheme =cboNumberingScheme.getSelectedItem().toString();
@@ -1078,163 +1099,114 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
 
     //method to get heading from section with selected sectionType
      ///variable sectionName added below for compilation success
-    private void getHeadingInSection( ) throws NoSuchElementException, WrappedTargetException, UnknownPropertyException, com.sun.star.lang.IllegalArgumentException {
-        
-        String prevParent="";
-        int parentPrefix=0;;
-        /*iterate through the sectionTypeMatchedSections and look for heading in section*/
-        Iterator<String> typedMatchSectionItr = sectionTypeMatchedSections.iterator();
-        while(typedMatchSectionItr.hasNext()){
-            String sectionName = typedMatchSectionItr.next();
-            Object sectionObject = ooDocument.getTextSections().getByName(sectionName);
-            /*get the XTextSection object of the matching section*/
-            XTextSection theSection = ooQueryInterface.XTextSection(sectionObject);
-            /*get the anchor of the matching section*/
-            XTextRange range = theSection.getAnchor();
-            /*get the enumeration object of the section */
-         //   enumerateSectionContent (range, theSection, prevParent);
-            
-            XEnumerationAccess enumAcc  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, range);
-            XEnumeration xEnum = enumAcc.createEnumeration();
-            /*enumerate the elements in the section */
-            while (xEnum.hasMoreElements()) {
-                /*get the next enumerated element*/
-                Object elem = xEnum.nextElement();
-                /*query the matching element for its service info */
-                XServiceInfo xInfo = (XServiceInfo)UnoRuntime.queryInterface(XServiceInfo.class, elem);
-                /*match only paragraphs*/
-                if(xInfo.supportsService("com.sun.star.text.Paragraph")){
-                    /*get the properties of the paragraph */
-                    XPropertySet objProps = ooQueryInterface.XPropertySet(xInfo);
-                    short nLevel = -1;
-                    /*get the paragraphs numbering level */
-                    nLevel = com.sun.star.uno.AnyConverter.toShort(objProps.getPropertyValue("ParaChapterNumberingLevel"));
-                    /*check if the paragraph is a heading type nLevel >= 0 */
-                    if(nLevel >= 0) {
-                        /* get the textcontent object of the matching enumerated element*/
-                        XTextContent xContent = ooDocument.getTextContent(elem);
-                        /*get the heading text of the matching heading */
-                        XTextRange aTextRange =   xContent.getAnchor();
-                        String strHeading = aTextRange.getString();
-                         log.debug("getHeadingInSection: heading found " + strHeading);
-                         /*get the parent section of the section containing the heading */
-                         XNamed xParentSecName= ooQueryInterface.XNamed(theSection.getParentSection());
-                         String currentParent=(String)xParentSecName.getName();
-                         log.debug("getHeadingInSection" + currentParent);
-                         /*check if the currentParent of the seciton is equal to the previous matching parent */
-                         if(!currentParent.equalsIgnoreCase(prevParent)){
-                             /* If not equals, restart numbering here */
-                             headCount=1;
-                             /*if currentParent is "root" use 1 as the starting point for numbering*/
-                             if(currentParent.equals("root")){
-                                  insertParentPrefix(sectionName, headCount);
-                              }else{
-                                 parentPrefix=headCount;
-                                 insertParentPrefix(sectionName, parentPrefix);
-                              }
-                             insertNumber(aTextRange, headCount,elem);
-                             
-                             // insertAppliedNumberToMetadata(matchedSectionElem,headCount);
-                             
-                             
-                             
-                         }else{
-                             //continue numbering
-                            headCount++;
-                            if(currentParent.equals("root")){
-                                 // insertParentPrefix(matchedSectionElem, headCount);
-                                  
-                              }else{
-                                parentPrefix=headCount;
-                                 //insertParentPrefix(matchedSectionElem, parentPrefix);
-                              }
-                            
-                            //getReferenceMark(aTextRange, elem);
-                            insertNumber(aTextRange, headCount,elem); 
-                           
-                            //insertAppliedNumberToMetadata(matchedSectionElem,headCount);
-                            
-                         } // if (currentParent....)
-                         
-                        prevParent=(String)xParentSecName.getName();
-                                              
-                      
-                      
-                        break;
-                        
-                         
-                      }//if nLevel 
-                }
-                
+    private void matchHeadingsInTypedSections() {
+   //  private void getHeadingInSection( ) {
+        try {
+            String prevParent="";
+           //set member variable that stores current numbering scheme
+            //and then generate sequence.. with the upper range set to number of matched sections
+            initializeNumberingSchemeGenerator((long)1, (long) sectionTypeMatchedSections.size() );
+            /*iterate through the sectionTypeMatchedSections and look for heading in section*/
+            Iterator<String> typedMatchSectionItr = sectionTypeMatchedSections.iterator();
+            while(typedMatchSectionItr.hasNext()){
+                String sectionName = typedMatchSectionItr.next();
+                Object sectionObject = ooDocument.getTextSections().getByName(sectionName);
+                /*get the XTextSection object of the matching section*/
+                XTextSection theSection = ooQueryInterface.XTextSection(sectionObject);
+                /*get the parent of the matching section*/
+                 XTextSection theSectionsParent = theSection.getParentSection();
+                /*get the anchor of the matching section*/
+                XTextRange range = theSection.getAnchor();
+                /*get the enumeration object of the section */
+                enumerateSectionContent (range, theSection, prevParent);
+                 /*set prevparent to the name of the previous parent section */
+                prevParent = ooQueryInterface.XNamed(theSectionsParent).getName();
             }
-           
-             
-            /*
-            }catch (NoSuchElementException ex) {
-                log.error(ex.getClass().getName() + " - " + ex.getMessage());
-                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
-            } catch (WrappedTargetException ex) {
-                log.error(ex.getClass().getName() + " - " + ex.getMessage());
-                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
-            } catch(UnknownPropertyException ex){
-                log.error(ex.getClass().getName() + " - " + ex.getMessage());
-                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
-            }catch(com.sun.star.lang.IllegalArgumentException ex){
-                log.error(ex.getClass().getName() + " - " + ex.getMessage());
-                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
-            } */
-            
-       }
-       
-         
-        
-        
+        } catch (NoSuchElementException ex) {
+            log.error("getHeadingInSection:" + ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.error("getHeadingInSection:" + ex.getMessage());
+        }    
     }
+   
 
+/*
+ *section1
+ *  section1.1
+ *  section1.2
+ *  section1.3
+ *section2
+ *  section2.1
+ *  section2.2
+ *
+ *the above sections ... section1 and section will be numbered 1 & 2
+ *section1.1, section1.2 and section1.3 will be numbered serially
+ */
+    /*
     private void getHeadingInMatchingSections() throws NoSuchElementException, WrappedTargetException, UnknownPropertyException, com.sun.star.lang.IllegalArgumentException {
         String prevParent="";
         int parentPrefix=0;;
-        /*iterate through the sectionTypeMatchedSections and look for heading in section*/
+        ///iterate through the sectionTypeMatchedSections and look for heading in section
         Iterator<String> typedMatchSectionItr = sectionTypeMatchedSections.iterator();
+        
+
+        //set member variable that stores current numbering scheme
+        //and then generate sequence.. with the upper range set to number of matched sections
+        initializeNumberingSchemeGenerator((long)1, (long) sectionTypeMatchedSections.size() );
+   
+        
         while(typedMatchSectionItr.hasNext()){
             String sectionName = typedMatchSectionItr.next();
             Object sectionObject = ooDocument.getTextSections().getByName(sectionName);
-            /*get the XTextSection object of the matching section*/
-            XTextSection theSection = ooQueryInterface.XTextSection(sectionObject);
-            /*get the parent section of the current setion */
+             XTextSection theSection = ooQueryInterface.XTextSection(sectionObject);
             XTextSection theSectionsParent = theSection.getParentSection();
-            /*get the anchor of the matching section*/
             XTextRange range = theSection.getAnchor();
             enumerateSectionContent (range, theSection, prevParent);
-            /*set prevparent to the name of the previous parent section */
             prevParent = ooQueryInterface.XNamed(theSectionsParent).getName();
         }
     }
+    */
+            
+            
+    private void initializeNumberingSchemeGenerator(long startRange, long endRange) {
+        m_selectedNumberingScheme = createSchemeFromSelection();
+        m_selectedNumberingScheme.setRange(new NumberRange(startRange, endRange));
+        m_selectedNumberingScheme.generateSequence();
+        m_selectedNumberingScheme.sequence_initIterator();
+    }
     
-    private String enumerateSectionContent (XTextRange sectionRange, XTextSection theSection, String prevParent ) throws NoSuchElementException, WrappedTargetException, UnknownPropertyException, com.sun.star.lang.IllegalArgumentException {
-            XEnumerationAccess enumAcc  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, sectionRange);
-            XEnumeration xEnum = enumAcc.createEnumeration();
-            /*enumerate the elements in the section */
-            while (xEnum.hasMoreElements()) {
-                /*get the next enumerated element*/
-                Object elem = xEnum.nextElement();
-                /*query the matching element for its service info */
-                XServiceInfo xInfo = (XServiceInfo)UnoRuntime.queryInterface(XServiceInfo.class, elem);
-                /*if paragraph */
-                boolean breakFromLoop = false;
-                if(xInfo.supportsService("com.sun.star.text.Paragraph")){
-                    breakFromLoop = enumerateParagraphInSectionContent(xInfo, elem, theSection, prevParent);
-                } /*for the future ... else if ("com.sun.star.text.TextTable*/
-                if (breakFromLoop)
-                    break;
-                //
-                //prevParent=(String)xParentSecName.getName();
-                //break;
-           }
+    private String enumerateSectionContent (XTextRange sectionRange, XTextSection theSection, String prevParent )  {
+            try {
+                    XEnumerationAccess enumAcc  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, sectionRange);
+                    XEnumeration xEnum = enumAcc.createEnumeration();
+                    /*enumerate the elements in the section */
+                    while (xEnum.hasMoreElements()) {
+                        /*get the next enumerated element*/
+                        Object elem = xEnum.nextElement();
+                        /*query the matching element for its service info */
+                        XServiceInfo xInfo = (XServiceInfo)UnoRuntime.queryInterface(XServiceInfo.class, elem);
+                        /*if paragraph */
+                        boolean breakFromLoop = false;
+                        //enumerate the paragraph to get the heading
+                        if(xInfo.supportsService("com.sun.star.text.Paragraph")){
+                            //call paragraph enumerator
+                            breakFromLoop = enumerateParagraphInSectionContent(xInfo, elem, theSection, prevParent);
+                        } /*for the future ... else if ("com.sun.star.text.TextTable*/
+                        if (breakFromLoop)
+                            break;
+                        //
+                        //prevParent=(String)xParentSecName.getName();
+                        //break;
+                    }
+            } catch(WrappedTargetException ex) {
+                
+            } finally {
             return new String("");
-      }
+            }
+    }
    
-    private boolean enumerateParagraphInSectionContent(XServiceInfo xInfo, Object elemParagraph, XTextSection theSection, String previousParent) throws UnknownPropertyException, com.sun.star.lang.IllegalArgumentException, WrappedTargetException {
+    private boolean enumerateParagraphInSectionContent(XServiceInfo xInfo, Object elemParagraph, XTextSection theSection, String previousParent) {
+               //we want to match only the first heading
                 boolean bMatched = false;
                     /*get the properties of the paragraph */
                     XPropertySet objProps = ooQueryInterface.XPropertySet(xInfo);
@@ -1243,13 +1215,15 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
                     nLevel = com.sun.star.uno.AnyConverter.toShort(objProps.getPropertyValue("ParaChapterNumberingLevel"));
                     /*check if the paragraph is a heading type nLevel >= 0 */
                     if(nLevel >= 0) {
+                            //first heading has been matched
                             bMatched = true;
+                            //get the content object we want to enumerate
                             XTextContent xContent = ooDocument.getTextContent(elemParagraph);
-                            //enumerateHeadingInParagraph(xContent, theSection, previousParent);
+                            enumerateHeadingInParagraph(xContent, theSection, previousParent);
                     }
                 return bMatched;
       }
-/*
+
    private String enumerateHeadingInParagraph(XTextContent xContent, XTextSection theSection, String previousParent) {
        // get the current section name 
        int parentPrefix = 0; int headCount = 0;
@@ -1263,7 +1237,17 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
          String currentParent=(String)xParentSecName.getName();
          log.debug("getHeadingInSection" + currentParent);
          // check if the currentParent of the seciton is equal to the previous matching parent 
+         // if they are not equal we need to restart numbering
+         // else we continue numbering
          if(!currentParent.equalsIgnoreCase(previousParent)){
+            restartNumbering(aTextRange);
+         } else {
+            continueNumbering(aTextRange); 
+         }
+             
+         /*
+         if(!currentParent.equalsIgnoreCase(previousParent)){
+             restartNumbering ();
              // If not equals, restart numbering here 
              headCount=1;
              // if currentParent is "root" use 1 as the starting point for numbering
@@ -1277,6 +1261,7 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
              insertNumber(aTextRange, headCount,elem);
              insertAppliedNumberToMetadata(matchedSectionElem,headCount);
          } else {
+             continueNumbering();
              //continue numbering
             headCount++;
             if(currentParent.equals("root")){
@@ -1288,10 +1273,68 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
             //getReferenceMark(aTextRange, elem);
             insertNumber(aTextRange, headCount,elem); 
             insertAppliedNumberToMetadata(matchedSectionElem,headCount);
-            }
+            } */
    }
-  */  
+
+   private void restartNumbering(XTextRange aRange){
+            //get the current numbering
+            //restart numbering, by resetting the iterator
+            this.m_selectedNumberingScheme.sequence_initIterator();
+            //get the next number in the sequence
+            String theNumber = this.m_selectedNumberingScheme.sequence_next();
+             // if currentParent is "root" use 1 as the starting point for numbering
+            /*
+            if(currentParent.equals("root")){
+                  insertParentPrefix(sectionName, headCount);
+              }else{
+                 parentPrefix=headCount;
+                 insertParentPrefix(sectionName, parentPrefix);
+              }
+             */
+             //getReferenceMark(aTextRange, elem);
+            // we want insert  number + space before heading
+            // and set a reference mark over the number
+             insertNumber(aRange, headCount,elem);
+             insertAppliedNumberToMetadata(matchedSectionElem,headCount);
+   }
     
+   private static String NUMBER_SPACE = " ";
+   
+   private void insertNumberBeforeHeading (XTextRange aRange, XTextContent theContent, String theNumber) {
+       XText xRangeText =    aRange.getText();
+       String strHeading   =  aRange.getString();
+       String theNumberPlusSpace = theNumber+NUMBER_SPACE;
+       XTextCursor headingCur = xRangeText.createTextCursorByRange(aRange.getStart());
+       xRangeText.insertString(xRangeText.getStart(), theNumberPlusSpace, false);
+       //cross the space
+       headingCur.goLeft((short)0, false);
+       headingCur.goLeft((short)NUMBER_SPACE.length(), false);
+       //span the number
+       headingCur.goLeft((short)theNumber.length(), true);
+       //now insert the reference mark
+       //call insertrefmark
+       headingCur.goRight((short)0, false);
+       headingCur.goRight((short)theNumberPlusSpace.length(), false);
+       //now at start of main heading
+       headingCur.gotoEnd(true);
+       //now spanning the heading.
+       //call insertrefmark
+       /*
+         oCur.goLeft(0, false)
+        oCur.goLeft(1, true)
+       headingCur.gotoRange(aRange.getEnd(), true);
+       XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, headingCur);
+       xRangeText.insertString(headingCur,theNumber ,false);
+       // xRangeText.insertString(xTextCursor," ",false);
+       //insertedNumbers.add(num);
+       insertReferenceMarkOnNumber(aTextRange, elem, refLength);
+        */
+   }
+
+   private void continueNumbering(){
+       
+   }
+   
    private void insertParentPrefix(String sectionElement, int parentPrefix){
         String strParentPrefix="" + parentPrefix + "";
         //clear the metadata map
@@ -1970,7 +2013,8 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
         /*was called applyNumberingScheme() */
         setNumberingSchemeMetadataIntoMatchingSections();
         /*why is the above being done...when the same section is iterated over again ??? */
-         getHeadingInSection();
+         matchHeadingsInTypedSections();
+         
          getNumberedHeadings();
         } catch (Exception ex) {
             
@@ -1994,6 +2038,7 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
        }
    }
    
+  
     
     public void setOOComponentHandle(OOComponentHelper ooComponent) {
         ooDocument = ooComponent;

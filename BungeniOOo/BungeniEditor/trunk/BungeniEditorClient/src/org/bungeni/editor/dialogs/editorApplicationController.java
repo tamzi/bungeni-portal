@@ -745,6 +745,8 @@ private void initFrame(XComponent component){
             frame.setResizable(false);
             frame.setAlwaysOnTop(true);
             frame.setVisible(true);
+            //prevent closing of main editor panel
+            frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             //position frame
             Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             Dimension windowSize = frame.getSize();

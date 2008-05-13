@@ -23,7 +23,7 @@ import org.bungeni.editor.dialogs.editorApplicationController;
  */
 public class BungeniEditorClient {
     private static XComponentContext m_xContext;
-    private static String __WINDOW_TITLE__="Bungeni Editor Client";
+    private static String __WINDOW_TITLE__="BungeniEditor Launcher";
     private static JFrame frame;
     /** Creates a new instance of BungeniEditorClient */
     public BungeniEditorClient() {

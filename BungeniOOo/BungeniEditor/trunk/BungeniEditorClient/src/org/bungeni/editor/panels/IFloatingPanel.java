@@ -37,4 +37,5 @@ public interface IFloatingPanel  {
   public IEditorActionEvent getEventClass(toolbarAction action);
 
   public void setParentWindowHandle(JFrame c);
+  public JFrame getParentWindowHandle();
 }

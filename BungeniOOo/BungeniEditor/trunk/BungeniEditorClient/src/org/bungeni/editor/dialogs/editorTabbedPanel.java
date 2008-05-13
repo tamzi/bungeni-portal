@@ -552,7 +552,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             javax.swing.JFrame floatingFrame = new javax.swing.JFrame();
             IFloatingPanel floatingPanel = FloatingPanelFactory.getPanelClass("generalEditorPanel4");
             floatingPanel.setOOComponentHandle(ooDocument);
-            floatingPanel.setParentWindowHandle(parentFrame);
+            floatingPanel.setParentWindowHandle(floatingFrame);
             floatingFrame.setTitle(FloatingPanelFactory.panelDescription);
             floatingPanelMap.put("generalEditorPanel4", floatingPanel);
            //panel.setOOoHelper(this.openofficeObject);
@@ -2805,6 +2805,10 @@ private void displayUserMetadata(XTextRange xRange) {
         
     
     
+    }
+
+    public HashMap<String, IFloatingPanel> getFloatingPanelMap() {
+        return this.floatingPanelMap;
     }
     
     public static void main(String args[]) {

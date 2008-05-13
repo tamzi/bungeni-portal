@@ -24,6 +24,7 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
@@ -31,6 +32,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Properties;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
@@ -734,12 +736,41 @@ private void initProperties(java.io.File currentFolder) {
 }
         
 private void initFrame(XComponent component){
-            javax.swing.JFrame frame = new javax.swing.JFrame("Editor Palette");
+            javax.swing.JFrame frame = new javax.swing.JFrame("BungeniEditor Control Panel");
             
             panel = new org.bungeni.editor.dialogs.editorTabbedPanel(component, this.openofficeObject, frame);
             //panel.setOOoHelper(this.openofficeObject);
             frame.add(panel);
-            frame.addWindowListener(new editorTabbedPanelFrameWindowListener());
+            WindowListener tabbedPanelListener = new WindowAdapter(){
+                  
+                public void windowDeiconified(WindowEvent e) {
+                        panel.bringEditorWindowToFront();
+                        //deiconize all floating panels
+                        HashMap<String,org.bungeni.editor.panels.IFloatingPanel> panelMap = panel.getFloatingPanelMap();
+                        java.util.Iterator<String> iterPanels = panelMap.keySet().iterator();
+                        while (iterPanels.hasNext()) {
+                            org.bungeni.editor.panels.IFloatingPanel p = panelMap.get(iterPanels.next());
+                            JFrame f= p.getParentWindowHandle();
+                            System.out.println("maximizing  other window");
+                            f.setExtendedState(f.NORMAL);
+                        }
+                    }
+                    
+                    public void windowIconified(WindowEvent e) {
+                        System.out.println("panel minimized....");
+                        HashMap<String,org.bungeni.editor.panels.IFloatingPanel> panelMap = panel.getFloatingPanelMap();
+                        java.util.Iterator<String> iterPanels = panelMap.keySet().iterator();
+                        while (iterPanels.hasNext()) {
+                            org.bungeni.editor.panels.IFloatingPanel p = panelMap.get(iterPanels.next());
+                            JFrame f= p.getParentWindowHandle();
+                            System.out.println("minimizing other window");
+                            f.setExtendedState(f.ICONIFIED);
+                        }
+
+                    }
+  
+            };
+            frame.addWindowListener(tabbedPanelListener);
             //frame.setSize(243, 650);
             frame.setSize(275, 650);
             frame.setResizable(false);

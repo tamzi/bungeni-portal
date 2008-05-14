@@ -13,13 +13,13 @@
       allowed_interface="zope.contentprovider.interfaces.IContentProvider"
       />
 
-  <browser:viewlet
+  <!--browser:viewlet
      name="bungeni.taskmenu"
      for="*"
      layer="..interfaces.IBungeniSkin"
      permission="zope.View"
      manager="ploned.ui.interfaces.ILeftColumnManager"
      class=".taskmenu.TaskMenuViewlet"
-     />  
+     /-->  
 
 </configure>

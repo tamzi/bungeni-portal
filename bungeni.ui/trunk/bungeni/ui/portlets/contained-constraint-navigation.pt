@@ -3,7 +3,7 @@
 
     <dt class="portletHeader">
         <span class="portletTopLeft"></span>
-        <span tal:content="view/context/__class__/__name__"></span>
+        <span><a href=".." tal:content="view/context/__class__/__name__"> Title </a> </span>
         <span class="portletTopRight"></span>
     </dt>
 

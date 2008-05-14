@@ -1,11 +1,13 @@
-<div class="breadcrumbs">
+<div id="portal-breadcrumbs">
 
-  <ul>
-    <li> You are here: </li>
-    <li tal:repeat="item view/path">
+    <span id="breadcrumbs-you-are-here" i18n:translate="you_are_here">You are here:</span>
+    <a i18n:translate="tabs_home" tal:attributes="href view/navigation_root_url">Home</a>
+    <span tal:condition="view/path" class="breadcrumbSeparator"> &rarr; </span>
+    <span tal:repeat="item view/path">
+      <tal:last tal:define="is_last repeat/item/end">
         <a tal:content="item/name" tal:attributes="href item/url"> dir </a>
-    </li>
-  </ul>  
-
-
+        <span class="breadcrumbSeparator" tal:condition="not: is_last" > &rarr; </span>
+      </tal:last>
+    </span>
+  
 </div>

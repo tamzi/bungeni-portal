@@ -40,9 +40,17 @@
   <browser:viewlet
     name="bungeni.navigation.breadcrumbs"
     for="*"
-    manager="ploned.ui.interfaces.IAboveContentManager"
+    manager="ploned.ui.interfaces.IPortalHeaderManager"
     class=".navigation.BreadCrumbsViewlet"
     permission="zope.View"
     />     
+    
+  <browser:viewlet
+    name="bungeni.navigation.navtree"
+    for="*"
+    manager="ploned.ui.interfaces.ILeftColumnManager"
+    class=".navigation.NavigationTreeViewlet"
+    permission="zope.View"
+    />         
 
 </configure>

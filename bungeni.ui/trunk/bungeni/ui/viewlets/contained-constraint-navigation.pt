@@ -1,0 +1,23 @@
+<dl class="portlet"
+    i18n:domain="bungeni" tal:condition="view/menu" >
+
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        <span tal:content="view/name"></span>
+        <span class="portletTopRight"></span>
+    </dt>
+
+   <tal:loop tal:repeat="item view/menu" >
+    <dd class="portletItem" tal:attributes="class string:portletItem ${item/current}">
+     <a href="" tal:attributes="href item/url" 
+                tal:content="item/name"></a>
+    </dd>
+   </tal:loop>
+
+    <dd class="portletFooter">
+        <span class="portletBottomLeft"></span>
+        &nbsp;
+        <span class="portletBottomRight"></span>
+    </dd>
+
+</dl>  

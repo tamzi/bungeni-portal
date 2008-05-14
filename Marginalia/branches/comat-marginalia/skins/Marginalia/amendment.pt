@@ -15,9 +15,10 @@
 			var serviceRoot = '${request/base}/${utool/getPortalPath}/portal_annotations';
 			var username = '${user/getUserName}';
 			var url = '${annotatedUrl}';
-            var restService = '/annotate';
+            var restService = '/amendment';
 			bungeniMarginaliaInit( username, url, serviceRoot, restService );
 		}
+
         function addLoadEvent(func) {
           var oldonload = window.onload;
           if (typeof window.onload != 'function') {
@@ -33,7 +34,7 @@
         }
 
         addLoadEvent(show_annotations_on_load);
-
+		
 		/*
 		 * Called when the margin button is clicked to create an annotation.
 		 * There are two choices for editor:
@@ -42,7 +43,7 @@
 		 */
 		function bungeniClickCreateAnnotation( event, id )
 		{
-			clickCreateAnnotation(event, id, false);
+			clickCreateAnnotation( event, id, new SelectActionNoteEditor( ) );
 		}
 		">
     </script>
@@ -107,9 +108,9 @@
                        <img width="10" height="10" title="Loader" alt="" src="loader.gif" />
                     </div>
                       <button class="createAnnotation" onclick="bungeniClickCreateAnnotation(event,'m1')" title="Click here to create an annotation">&gt;</button>
-                      <a href="javascript:toggle_visibility('fields');"><p class="plink">Filter annotations by owner, group or query string. (show/hide)</p></a>
-                      <a href="javascript:hideAnnotations();"><p class="plink">Clear all annotations</p></a>
-                      <p id="noresults" class="plink" style="display:none;">No Annotations Found</p>
+                      <a href="javascript:toggle_visibility('fields');"><p class="plink">Filter amendments by owner, group, type or query string. (show/hide)</p></a>
+                      <a href="javascript:hideAnnotations();"><p class="plink">Clear all amendments</p></a>
+                      <p id="noresults" class="plink" style="display:none;">No Amendments Found</p>
 		            <div id="fields" style="display:none;">
                       <select class="select_field" name="filter_owner" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
                          <option value="select_all" selected>All</option>
@@ -129,6 +130,13 @@
                          <option value="" tal:attributes="value python:group[0]" tal:content="python:group[1]">Managers</option>
                          </span>
                          </optgroup> 
+                      </select><br/>
+                      <select class="select_field" name="filter_type" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
+                         <option value="select_all" selected>All</option>
+                         <option value="comment">Comment</option>
+                         <option value="insert">Insert</option>
+                         <option value="replace">Replace</option>
+                         <option value="delete">Delete</option>
                       </select><br/>
                       <input class="input_field" type="text" name="annotation_search" value="" onChange="filterAnnotations(this);" onkeypress="return onEnterKey(this, event);"/>
                       </div>

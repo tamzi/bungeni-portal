@@ -17,6 +17,14 @@
       permission="zope2.View"
       />
 
+   <browser:page
+      for=".interfaces.IAnnotatable.IAnnotatable"
+      name="amendment"
+      template="skins/Marginalia/amendment.pt"
+      class=".content.AnnotationAdaptorAndView.AnnotationView"      
+      permission="zope2.View"
+      />
+
    <adapter
        for=".interfaces.IAnnotatable.IAnnotatable"
        provides=".interfaces.IAnnotatable.IAnnotatableAdaptor"

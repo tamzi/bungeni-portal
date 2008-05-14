@@ -1,7 +1,7 @@
 
-function bungeniMarginaliaInit( username, url, serviceRoot ) 
+function bungeniMarginaliaInit( username, url, serviceRoot, restService ) 
 {
-	var annotationService = new RestAnnotationService( serviceRoot + '/annotate', false );
+	var annotationService = new RestAnnotationService( serviceRoot + restService, false );
 	window.marginalia = new Marginalia( annotationService, username, username, {
 		preferences: new Preferences( new RestPreferenceService( serviceRoot + '/preference', true ) ),
 		baseUrl:  null,
@@ -48,6 +48,8 @@ bungeni = {
 			else
 				return getLocalized( 'note delete label' );
 		}
+        else if ( annotation.getAction() == 'annotate' )
+			return getLocalized( 'note annotate label' );	
 		else
 			return getLocalized( 'note note label' );	
 	},

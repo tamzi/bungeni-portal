@@ -24,11 +24,12 @@
       q_block request/block | nothing;
       q_user request/user | nothing;
       q_name request/filter_name | nothing;
+      q_group request/filter_group | nothing;
       q_type request/filter_type | nothing;
       q_search request/search_string | nothing;
       q_url request/url;
       feed nocall:context;
-      results python:feed.getSortedFeedEntries(q_user, q_url, q_block, q_name, q_type, q_search);"
+      results python:feed.getSortedFeedEntries(q_user, q_url, q_block, q_name, q_group, q_type, q_search);"
       tal:attributes="xml:base feed/getBaseURL"
       i18n:domain="marginalia"
       ptr:annotation-version='0.5'

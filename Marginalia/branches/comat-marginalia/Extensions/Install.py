@@ -154,7 +154,7 @@ def install(self, reinstall=False):
         ] + factory_tool.getFactoryTypes().keys()
     factory_tool.manage_setPortalFactoryTypes(listOfTypeIds=factory_types)
 
-    portal.portal_annotations.manage_permission("Add portal content", ["Member",], 1)
+    portal.portal_annotations.manage_permission("Add portal content", ["Member", "Anonymous"], 1)
 
     from Products.Marginalia.config import STYLESHEETS
     try:

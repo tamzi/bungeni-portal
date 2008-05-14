@@ -146,6 +146,26 @@ class Annotations(UniqueObject, BaseBTreeFolder):
     def annotate(self, REQUEST=None):
         """ Examine request for REST verbs.
         """
+        self.REQUEST['filter_type'] = 'annotate'
+        rest_verb_map = {
+            'GET': self._listAnnotations, # Finds listAnnotations.pt in skins
+            'POST': self._createAnnotation,
+            'PUT': self._updateAnnotation,
+            'DELETE': self._deleteAnnotation,
+            }
+        verb = rest_verb_map[self.REQUEST.REQUEST_METHOD]
+        return verb()
+
+    security.declarePublic('amendment')
+    def amendment(self, REQUEST=None):
+        """ Examine request for REST verbs.
+        """
+        # Manipulating the request to avoid a lot of duplicate code
+        if not self.REQUEST.has_key('filter_type'):
+            self.REQUEST['filter_type'] = 'comment,insert,replace,delete'
+        elif 'annotate' in self.REQUEST['filter_type']:
+            raise Exception, "Annotations are not displayed in the amendment view"
+
         rest_verb_map = {
             'GET': self._listAnnotations, # Finds listAnnotations.pt in skins
             'POST': self._createAnnotation,
@@ -185,8 +205,17 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         annotations = self.getSortedFeedEntries(user, url)
         return set([annotation.Creator() for annotation in annotations])
 
+    security.declarePublic('getOwnerList')
+    def getPortalGroups(self, REQUEST=None):
+        """Returns the list of portal wide groups."""
+        groups = []
+        for group in self.acl_users.getGroups():
+            groups.append((group.id, group.getGroupName()))
+        return groups
+
     security.declarePublic('getSortedFeedEntries')
-    def getSortedFeedEntries(self, user, url, block=None, filter_name=None, filter_type=None, search_string=None):
+    def getSortedFeedEntries(self, user, url, block=None, filter_name=None,\
+                             filter_group=None, filter_type=None, search_string=None):
         """ The incoming query specifies an URL like 
         http://server/somedocument/annotate/#*
         where the fragment identifier ('#*') specifies all annotations
@@ -240,6 +269,8 @@ class Annotations(UniqueObject, BaseBTreeFolder):
             filter_name = None
         if filter_type and "select_all" in filter_type:
             filter_type = None
+        if filter_group and "select_all" in filter_group:
+            filter_group = None
 
         if filter_name:
             filter_name = filter_name.split(",")
@@ -249,6 +280,18 @@ class Annotations(UniqueObject, BaseBTreeFolder):
             filter_type = filter_type.split(",")
             annotations = [annotation for annotation in annotations if annotation.getEditType() in filter_type]
 
+        if filter_group:
+            filter_group = set(filter_group.split(","))
+            group_annotations = []
+            for annotation in annotations:
+                member = self.acl_users.getUserById(annotation.Creator())
+                if not member:
+                    continue
+                if not set(member.getGroupIds()).intersection(filter_group):
+                    continue
+                group_annotations.append(annotation)
+            annotations = group_annotations
+            
         auth_member = self._getUser()        
         
         return  [annotation for annotation in annotations if auth_member.has_permission("View", annotation)]
@@ -330,7 +373,7 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         params.update(parse_qsl(self.REQUEST.QUERY_STRING))
         sequenceRange = SequenceRange( params[ 'sequence-range' ] )
         xpathRange = XPathRange( params[ 'xpath-range' ] )
-        print params.get("edit_type", "")
+
         params[ 'start_block' ] = sequenceRange.start.getPaddedPathStr( )
         params[ 'start_xpath' ] = xpathRange.start.getPathStr( )
         params[ 'start_word' ] = xpathRange.start.words

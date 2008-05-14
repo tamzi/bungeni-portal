@@ -146,7 +146,7 @@ RestAnnotationService.prototype.listBlocks = function( url, f )
 /**
  * Fetch a list of annotations from the server
  */
-RestAnnotationService.prototype.listAnnotations = function( url, username, block, f, filter_name, filter_type, search_string)
+    RestAnnotationService.prototype.listAnnotations = function( url, username, block, f, filter_name, filter_group, filter_type, search_string)
 {
 	// exclude content to lighten the size across the wire
     rest_loader('loader', 1);
@@ -158,6 +158,8 @@ RestAnnotationService.prototype.listAnnotations = function( url, username, block
 		serviceUrl += '&user=' + encodeURIParameter( username );
 	if ( filter_name )
 		serviceUrl += '&filter_name=' + encodeURIParameter(filter_name);
+	if ( filter_group )
+		serviceUrl += '&filter_group=' + encodeURIParameter(filter_group);
 	if ( filter_type )
 		serviceUrl += '&filter_type=' + encodeURIParameter(filter_type);
 	if ( search_string )
@@ -210,6 +212,8 @@ RestAnnotationService.prototype.createAnnotation = function( annotation, f )
 
     if ( edit_type == "Comment:" )
 	    edit_type = 'comment';
+	else if ( edit_type == "Annotate:" )
+        edit_type = 'annotate';
 	else if ( edit_type == "Replace:" )
         edit_type = 'replace';
     else if ( edit_type == "Insert:" )

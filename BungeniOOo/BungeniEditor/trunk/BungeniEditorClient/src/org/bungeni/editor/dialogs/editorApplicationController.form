@@ -15,13 +15,6 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Component id="jLabel1" alignment="0" pref="669" max="32767" attributes="0"/>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="213" max="-2" attributes="0"/>
-              <Component id="btnMainOk" min="-2" pref="68" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-              <Component id="btnMainCancel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="283" max="32767" attributes="0"/>
-          </Group>
           <Component id="editorAppTabbedPane" alignment="1" pref="669" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
@@ -31,12 +24,7 @@
               <Component id="jLabel1" min="-2" pref="23" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="editorAppTabbedPane" min="-2" pref="328" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnMainOk" alignment="3" min="-2" max="-2" attributes="1"/>
-                  <Component id="btnMainCancel" alignment="3" max="32767" attributes="1"/>
-              </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -586,19 +574,9 @@
         </Container>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="btnMainOk">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="OK"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Bungeni Editor Application 1.0"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnMainCancel">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Cancel"/>
+        <Property name="text" type="java.lang.String" value="Bungeni Editor Application 0.7"/>
       </Properties>
     </Component>
   </SubComponents>

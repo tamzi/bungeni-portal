@@ -170,9 +170,7 @@ public class editorApplicationController extends javax.swing.JPanel {
         progressServerFiles = new javax.swing.JProgressBar();
         btnBackOneFolder = new javax.swing.JButton();
         tabAbout = new javax.swing.JPanel();
-        btnMainOk = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        btnMainCancel = new javax.swing.JButton();
 
         createNewDocument.setText("Create New Document....");
         createNewDocument.addActionListener(new java.awt.event.ActionListener() {
@@ -481,23 +479,13 @@ public class editorApplicationController extends javax.swing.JPanel {
         );
         editorAppTabbedPane.addTab("About", tabAbout);
 
-        btnMainOk.setText("OK");
-
-        jLabel1.setText("Bungeni Editor Application 1.0");
-
-        btnMainCancel.setText("Cancel");
+        jLabel1.setText("Bungeni Editor Application 0.7");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)
-            .add(layout.createSequentialGroup()
-                .add(213, 213, 213)
-                .add(btnMainOk, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 68, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(38, 38, 38)
-                .add(btnMainCancel)
-                .addContainerGap(283, Short.MAX_VALUE))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, editorAppTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -506,11 +494,7 @@ public class editorApplicationController extends javax.swing.JPanel {
                 .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(editorAppTabbedPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 328, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(btnMainOk)
-                    .add(btnMainCancel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -957,8 +941,6 @@ private class tblServerFilesMouseAdapter implements MouseListener {
     private javax.swing.JButton btnBackOneFolder;
     private javax.swing.JButton btnBrowseWorkspacePath;
     private javax.swing.JButton btnEditWorkspaceDocument;
-    private javax.swing.JButton btnMainCancel;
-    private javax.swing.JButton btnMainOk;
     private javax.swing.JButton btnSaveSettings;
     private javax.swing.JButton btnSetCurrentTemplate;
     private javax.swing.JComboBox cboDocumentTypes;

@@ -28,7 +28,7 @@ function doSpecialEditStream(){
 SpecialPage::addPage( new SpecialPage('Mv_Add_Stream','',true,'doSpecialAddStream',false) );
 SpecialPage::addPage( new SpecialPage('Mv_Edit_Stream','',true,'doSpecialEditStream',false) );
 
-class MV_SpecialCRUDStream {
+class MV_SpecialCRUDStream extends UploadForm {
 	function __construct($mode){	
 		$this->mode = $mode;
 	}
@@ -111,6 +111,7 @@ class MV_SpecialCRUDStream {
 				$html.='Add a stream to Sitting '.$sittingLink;
 			}
 			$html.= '<form name="add_stream" action="' . $spectitle->escapeLocalURL() . '" method="post" enctype="multipart/form-data">';
+			
 			$html.= '<fieldset><legend>'.wfMsg('mv_add_stream').'</legend>' . "\n" .
 			         '<input type="hidden" name="title" value="' . $spectitle->getPrefixedText() . '"/>'.
 			         '<input type="hidden" name="sitting_id" value="' . $wgRequest->getVal('sitting_id') . '"/>' ;

@@ -68,7 +68,7 @@
 			$html.='</form>';
 		}
 		//add new stream: 
-		$html.='<form action="'.$wgRequest->getRequestURL().'" method="POST">';	
+		$html.='<form name="add_stream" action="'.$wgRequest->getRequestURL().'" method="POST">';	
 		$html.='<input type="hidden" name="mv_action" value="new_stream_file">';
 		$html.= '<fieldset><legend>'.wfMsg('mv_add_stream_file').'</legend>' . "\n";	
 		$html.= '<table width="600" border="0">';	
@@ -78,6 +78,7 @@
 			$html.='</td></tr>';			
 		$html .='</table></fieldset>';					
 		$html .='</form>';
+		
 		$wgOut->addHTML($html);
 		return true;
  	}
@@ -159,9 +160,26 @@
 			$sel=($sf['path_type']=='wiki_title')?' selected':''; 
 			$html.='<option value="wiki_title"'.$sel.'>'.wfMsg('mv_path_type_wiki_title').'</option>' . 							
 					'</select></td>';																		
-			$html.='<td><input type="text" name="sf_'.$sf['id'].'[path]" value="'.$sf['path'].'" maxlength="250" size="50" />' .
+			if ($sf['id']=='new')
+			{
+			$html.='<td><input readonly type="text" id="path" name="sf_'.$sf['id'].'[path]" value="'.$sf['path'].'" maxlength="250" size="50" />' .
+					'<input type="hidden" name="input_path" value="'.$sf['stream_id'].'">'.
+					'</td>';
+			}
+			else{
+			$html.='<td><input type="text" id="notpath" name="sf_'.$sf['id'].'[path]" value="'.$sf['path'].'" maxlength="250" size="50" />' .
 					'<input type="hidden" name="sf_'.$sf['id'].'[stream_id]" value="'.$sf['stream_id'].'">'.
 					'</td>';
+			}
+			$title = Title :: makeTitle(NS_SPECIAL,"Mv_special_upload");
+			$title2 = Title :: makeTitle(NS_SPECIAL,"Mv_list_unused_streams");
+			if ($sf['id']=='new')
+			{
+				$html .= '<td><input type="button" value="Upload File" name="upload" '; 
+				$html .= 'onclick=window.open("'.$title->getFullURL().'",\'_blank\',\'height=600,width=900\');></input></td>';
+				$html .= '<td><input type="button" value="Add file existing on server"' ;
+				$html .= 'name="existing" onclick=window.open("'.$title2->getFullURL().'",\'_blank\',\'height=600,width=800\')></input></td>';
+			}
 		$html.='</tr>';
 		return $html;
  	}

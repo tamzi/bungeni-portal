@@ -6,13 +6,16 @@ class MV_EditSittingPage extends EditPage{
 	var $sit;
 	function __construct($article)
 	{
+		//$wgRequest;
 		$this->name = $article->getTitle()->getText();
+		//$this->mode = 
 		parent::__construct($article);
 	}
 	function edit(){
 		global $wgOut, $wgUser, $wgHooks, $wgRequest;
  		//check permission if admin show 'edit sitting'
  		if( $wgUser->isAllowed('mv_edit_sitting') ){
+ 			//if $this->mode ==
  			$this->sit = new MV_Sitting(array('name'=>$this->name));
 			$this->sit->db_load_sitting();
 			$this->sit->db_load_streams();
@@ -39,7 +42,7 @@ class MV_EditSittingPage extends EditPage{
 		$this->sit->db_load_sitting();
 		$this->sit->db_load_streams();
 		$tit = Title::makeTitle(MV_NS_SITTING, $this->name);
-		$html="";
+		$html='';
 		$html.='<form action="'.$tit->getEditURL().'" method="POST">';
 		$html.='<input type="hidden" name="mv_action" value="edit_streams">';		
 		$html.= '<fieldset><legend>'.wfMsg('mv_remove_streams').'</legend>' . "\n";	

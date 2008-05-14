@@ -862,13 +862,15 @@
 $recreate
 {$commentsubject}
 {$subjectpreview}
-<textarea class="mv_ajax_textarea" tabindex='1' accesskey="," name="wpTextbox1" id="wpTextbox1" rows='{$rows}'
-cols='{$cols}' {$ew} $hidden>
+<textarea class="mv_ajax_textarea" tabindex='1' accesskey="," name="wpTextbox1" id="wpTextbox1" rows='{$rows}' cols='{$cols}' {$ew} $hidden>
 END
 . htmlspecialchars( $this->safeUnicodeOutput( $this->stripped_edit_text ) ) .
 "
 </textarea>
 		");
+		
+		//<textarea class="mv_ajax_textarea" tabindex='1' accesskey="," name="wpTextbox1" id="wpTextbox1" rows='{$rows}'
+//cols='{$cols}' {$ew} $hidden>
 		//my code
 		/*
 		$optionsarray = array('Incomplete','Revision 1','Revision 2','Complete');
@@ -994,7 +996,8 @@ END
 		$temp = array(
 			'id'        => 'wpSave',
 			'name'      => 'wpSave',
-			'type'      => ($button_action=='')?'submit':'button',			
+			//'type'      => ($button_action=='')?'submit':'button',			
+			'type'		=>	'submit',
 			'tabindex'  => ++$tabindex,
 			'value'     => wfMsg('savearticle'),
 			'accesskey' => wfMsg('accesskey-save'),
@@ -1003,8 +1006,8 @@ END
 		if($this->mvd_id=='seq')
 			$temp['value']=wfMsg('mv_save_sequence');
 		
-		if($button_action!='')
-			$temp['onMouseUp']= sprintf($button_action, 'save');
+		//if($button_action!='')
+		//	$temp['onMouseUp']= sprintf($button_action, 'save');
 			
 		$buttons['save'] = wfElement('input', $temp, '');
 

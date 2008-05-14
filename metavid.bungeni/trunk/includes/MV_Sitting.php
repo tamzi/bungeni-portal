@@ -34,9 +34,12 @@ class MV_Sitting
 		}
 		if ($dbr->numRows($result) == 0)
 			return false;
-		//load the the database values into the current object:
-		$this->__construct($dbr->fetchObject($result));
-		return true;
+		else
+		{
+			//load the the database values into the current object:
+			$this->__construct($dbr->fetchObject($result));
+			return true;
+		}
 	}
 	
 	function db_load_streams()

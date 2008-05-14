@@ -25,7 +25,6 @@ var org_vid_title = null; //stores the original title
 //store the original range request: 
 // @@todo could replace the above 4 globals as they are all org request derived
 var current_stream_context=''; 
-
 var org_height_vid_contain=false;
 var org_top_tool_contain=false;
 
@@ -283,15 +282,22 @@ function onLoadFCKeditor()
 	if ( document.getElementById('wpTextbox1') )
 	{
 		var height = 150;
-
+		
+		//var div = document.getElementById('wpTextbox');
+		
 		// Create the editor instance and replace the textarea.
-		var oFCKeditor = new FCKeditor('wpTextbox1') ;
+		var oFCKeditor;
+		oFCKeditor = new FCKeditor('wpTextbox1') ;
 		oFCKeditor.BasePath = '/metavidWiki/extensions/FCKeditor/fckeditor/' ;
 		oFCKeditor.Config['CustomConfigurationsPath'] = '/metavidWiki/extensions/FCKeditor/fckeditor_config.js' ;
 		oFCKeditor.Config['EditorAreaCSS'] = "/metavidWiki/extensions/FCKeditor/css/fckeditor.css" ;
 		oFCKeditor.Height = height ;
 		oFCKeditor.ToolbarSet = 'Basic' ;
 		oFCKeditor.ReplaceTextarea() ;
+		
+		
+		//div.innerHTML = oFCKeditor.CreateHtml();
+
 		
 		// Hide the default toolbar.
 		document.getElementById('toolbar').style.cssText = 'display:none;' ;
@@ -343,9 +349,9 @@ function mv_disp_add_mvd(mvdType){
 				add_adjust_hooks('new'); 
 			}
 			//add edit buttons 
-			//mwSetupToolbar();
-			onLoadFCKeditor();
-			//mwEditButtons = []; //empty edit buttons
+			mwSetupToolbar();
+			//onLoadFCKeditor();
+			mwEditButtons = []; //empty edit buttons
 		}
 	}
 }
@@ -368,9 +374,9 @@ function mv_edit_disp(titleKey, mvd_id){
 		add_autocomplete(mvd_id);     
 		add_adjust_hooks(mvd_id);            
 		//add buttons			
-		//mwSetupToolbar();
-		onLoadFCKeditor();
-		//mwEditButtons = []; //empty edit buttons
+		mwSetupToolbar();
+		//onLoadFCKeditor();
+		mwEditButtons = []; //empty edit buttons
 	  }
 }/* interface ajax actions */
 function mv_disp_mvd(titleKey, mvd_id){
@@ -618,7 +624,7 @@ function mv_do_ajax_form_submit(mvd_id, edit_action){
 		break;
 		case 'preview':					
 			mv_lock_vid_updates=true;		
-			var setHtmlId = '#wikiPreview_'+mvd_id
+			var setHtmlId = '#wikiPreview_'+mvd_id;
 			mv_adjust_preview(mvd_id);
 		break;
 	}	
@@ -644,7 +650,11 @@ function mv_do_ajax_form_submit(mvd_id, edit_action){
 			}
 		}	
 	}	
+	
+	//var oEditor = FCKeditorAPI.GetInstance( "oFCKeditor" ) ;
 
+	//post_vars['wpTextbox1'] = oEditor.GetXHTML();
+	
 	$j(setHtmlId).html( global_loading_txt);		
 		
 	mv_sajax_do_call('mv_edit_submit',args, f, post_vars);	

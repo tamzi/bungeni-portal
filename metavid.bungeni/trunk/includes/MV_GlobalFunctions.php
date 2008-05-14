@@ -98,7 +98,9 @@ function mvSetupExtension(){
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialMediaSearch.php');
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialListSittings.php');
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialAddSitting.php');
-
+	require_once( dirname(__FILE__) . '/specials/MV_SpecialEditSitting.php');
+	require_once( dirname(__FILE__) . '/specials/MV_SpecialUpload.php');
+	require_once( dirname(__FILE__) . '/specials/MV_SpecialUnusedStreamFiles.php');
 	/**********************************************/
 	/***** register hooks                     *****/
 	/**********************************************/
@@ -116,7 +118,7 @@ function mvSetupExtension(){
 	$wgHooks['CustomEditor'][] = 'mvCustomEditor';
 	$wgParser->setHook( 'sequence', 'mvSeqTag' );
 
-	$wgHooks['BeforePageDisplay'][] = 'mvDoSpecialPage';
+	//$wgHooks['BeforePageDisplay'][] = 'mvDoSpecialPage';
 	
 	
 	/**********************************************/
@@ -157,7 +159,9 @@ function mvSetupExtension(){
 				'type'  => 'text/css',
 				'media' => 'all',
 				'href'  => $mvCssUrl
-		));								
+		));		
+		$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.js\"></script>");
+		$wgOut->addStyle("dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.css");					
 	}
 	/**
 	*  This method is in charge of inserting additional CSS, JScript, and meta tags

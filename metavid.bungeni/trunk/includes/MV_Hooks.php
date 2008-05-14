@@ -137,12 +137,12 @@
 	/*
 	 * mvDoSpecialPage hanndles additional javascript for some special pages 	 
 	 */
-	 function mvDoSpecialPage($wgOut){
-	 	global $wgTitle;	
-	 	//if special semantic browse page (moved to all pages)  
- 		//if($wgTitle->getNamespace()==NS_SPECIAL && $wgTitle->getText()=='Browse'){
- 		//	mvfAddHTMLHeader('smw_ext');
- 		//}
+	 function mvDoSpecialPage(&$out, &$sk){
+	 	global $mvgScriptPath;
+	 	$html = '<script type="text/javascript" src="'.$mvgScriptPath.'/skins/dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.js"></script>';
+	 	$src = 'dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.css';
+	 	$out->addScript($html);
+		$out->addStyle($src); 	
 	 	return true;
 	 }
  	/*

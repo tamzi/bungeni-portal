@@ -47,7 +47,7 @@
     
   <browser:viewlet
     name="bungeni.navigation.navtree"
-    for="*"
+    for="ore.alchemist.interfaces.IAlchemistContainer"
     manager="ploned.ui.interfaces.ILeftColumnManager"
     class=".navigation.NavigationTreeViewlet"
     permission="zope.View"

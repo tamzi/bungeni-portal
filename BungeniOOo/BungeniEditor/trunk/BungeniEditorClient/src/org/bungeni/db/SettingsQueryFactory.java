@@ -78,7 +78,7 @@ public class SettingsQueryFactory {
                 " from document_metadata " +
                 "where metadata_type = 'document'" +
                 "and doc_type = '"+activeDocument+"' " +
-                "order by display_order asc";
+                "order by display_name asc";
         return query;        
     }
     public static String Q_CHECK_IF_ACTION_HAS_PARENT(String actionName) {

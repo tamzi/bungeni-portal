@@ -240,13 +240,21 @@
      echo="False"
     />   
 
-    <!--db:catalyst
+ <db:catalyst
      class=".domain.Response"
      descriptor=".descriptor.ResponseDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-    /-->
+    />
+    
+ <db:catalyst
+     class=".domain.MotionAmendment"
+     descriptor=".descriptor.MotionAmendmentDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+     echo="False"
+    />    
 
   
 </configure>

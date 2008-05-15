@@ -145,7 +145,7 @@ class Parliament( Group ):
     """    
     sessions = one2many("sessions", "bungeni.core.domain.ParliamentSessionContainer", "parliament_id")
     committees = one2many("comittees", "bungeni.core.domain.CommitteeContainer", "parliament_id")
-    mps = one2many("mps","bungeni.core.domain.GroupMembershipContainer", "group_id")
+    #mps = one2many("mps","bungeni.core.domain.GroupMembershipContainer", "group_id")
     governments = one2many("governments","bungeni.core.domain.GovernmentContainer", "parliament_id")
     parliamentmembers = one2many("parliamentmembers", 
                                  "bungeni.core.domain.MemberOfParliamentContainer", "group_id")
@@ -179,7 +179,7 @@ class Minister( Entity ):
 class Committee( Group ):
     """ a parliamentary committee of MPs
     """
-    sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "group_id")
+    #sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "group_id")
     committeemembers = one2many("committeemembers", "bungeni.core.domain.CommitteeMemberContainer", "group_id")
 
 class CommitteeMember( Entity ):
@@ -238,17 +238,30 @@ class ParliamentaryItem( object ):
 class Question( ParliamentaryItem ):
 
     interface.implements( interfaces.IQuestion )
+    #responses = one2many("responses", "bungeni.core.domain.ResponseContainer", "question_id")
 
 QuestionChange = ItemLog.makeLogFactory( "QuestionChange")
 QuestionVersion = ItemVersions.makeVersionFactory("QuestionVersion")
 
 
+class Response( Entity ):
+    """
+    Response to a Question
+    """
+
+
 class Motion( ParliamentaryItem ):
     
     interface.implements( interfaces.IMotion )
+    #motionamendment = one2many("motionamendment", "bungeni.core.domain.MotionAmendmentContainer", "motion_id")
 
 MotionChange = ItemLog.makeLogFactory( "MotionChange")
 MotionVersion = ItemVersions.makeVersionFactory("MotionVersion")
+
+class MotionAmendment( Entity ):
+    """
+    Amendment to a Motion
+    """
 
 class Bill( ParliamentaryItem ):
 

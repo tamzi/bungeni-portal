@@ -35,7 +35,8 @@ users = rdb.Table(
    rdb.Column( "date_of_death", rdb.Date ),
    rdb.Column( "national_id", rdb.Unicode(32) ),
    rdb.Column( "password", rdb.String(36)), # we store salted md5 hash hexdigests
-   rdb.Column( "salt", rdb.String(24)),    
+   rdb.Column( "salt", rdb.String(24)),  
+   rdb.Column( "description", rdb.UnicodeText ),  
    rdb.Column( "active_p", rdb.String(1),
                 rdb.CheckConstraint("active_p in ('A', 'I', 'D')"),
                 default="A", #activ/inactiv/deceased
@@ -218,7 +219,9 @@ political_parties = rdb.Table(
    "political_parties",
    metadata,
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),   
-   rdb.Column( "logo", rdb.Binary, ),
+   rdb.Column( "logo_data", rdb.Binary, ),
+   rdb.Column( "logo_name", rdb.String(40)),
+   rdb.Column( "logo_mimetype", rdb.String(40)),
    )
 
 ###
@@ -571,7 +574,7 @@ motion_amendments = rdb.Table(
    rdb.Column( "body_text", rdb.UnicodeText ),  
    rdb.Column( "submission_date", rdb.Date ),    
    rdb.Column( "accepted_p", rdb.Boolean ),
-   rdb.Column( "title", rdb.UnicodeText ), 
+   rdb.Column( "title", rdb.Unicode(80) ), 
    rdb.Column( "vote_date", rdb.Date ),   
    )
 
@@ -582,7 +585,7 @@ bills = rdb.Table(
    rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('ministries.ministry_id') ),
    rdb.Column( "identifier",  rdb.Integer),
    rdb.Column( "preamble", rdb.UnicodeText ),   
-   rdb.Column( "title", rdb.UnicodeText ), 
+   rdb.Column( "title", rdb.Unicode(80) ), 
    rdb.Column( "body_text",  rdb.UnicodeText ),
    rdb.Column( "submission_date", rdb.Date ),
    rdb.Column( "publication_date", rdb.Date ),

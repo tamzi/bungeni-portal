@@ -159,6 +159,8 @@ mapper( domain.Question, schema.questions,
              }
         )
 
+mapper( domain.Response, schema.responses)
+
 mapper( domain.MotionChange, schema.motion_changes )
 mapper( domain.MotionVersion, schema.motion_versions,
         properties= {'change':relation( domain.MotionChange, uselist=False)}
@@ -170,6 +172,8 @@ mapper( domain.Motion, schema.motions,
              'session':relation( domain.ParliamentSession )
              }
         )
+
+mapper( domain.MotionAmendment, schema.motion_amendments)
 
 mapper( domain.BillChange, schema.bill_changes )
 mapper( domain.BillVersion, schema.bill_versions, 

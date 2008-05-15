@@ -22,6 +22,7 @@ ParliamentMembers = ObjectSource( domain.ParliamentMember, 'name', 'member_id' )
 PoliticalParties  = ObjectSource( domain.PoliticalParty, 'full_name', "id")
 ParliamentSessions = ObjectSource( domain.ParliamentSession, 'short_name', 'session_id')
 QuestionType = vocabulary.SimpleVocabulary.fromItems( [("(O)rdinary", "O"), ("(P)rivate Notice", "P")] )
+ResponseType = vocabulary.SimpleVocabulary.fromItems( [("(O)ral", "O"), ("(W)ritten", "W")] )
 Gender = vocabulary.SimpleVocabulary.fromItems( [("Male", "M"), ("Female", "F")] )
 
 Constituencies = ObjectSource( domain.Constituency, 'name', 'constituency_id')

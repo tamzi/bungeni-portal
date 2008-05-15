@@ -6,6 +6,8 @@ from copy import deepcopy
 from zope import schema, interface
 from zc.table import column
 
+#from z3c.form.browser import image
+
 from bungeni.ui.datetimewidget import SelectDateWidget, SelectDateTimeWidget
 from bungeni.ui import widget
 
@@ -173,6 +175,12 @@ class UserDescriptor( ModelDescriptor ):
               edit_permission="bungeni.AdminUsers",
               edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
         dict( name="password", omit=True ),
+        dict( name="description", 
+              property=schema.Text(title=_(u"Description"), required=False),
+              view_widget=widget.HTMLDisplay,
+              edit_widget=widget.RichTextEditor, 
+              add_widget=widget.RichTextEditor 
+               ),
         dict( name="salt", omit=True),
         dict( name="active_p", label=_(u"Active"), 
               property = schema.Choice( title=_(u"Active"), values=['A', 'I', 'D'], default='A' ),
@@ -255,7 +263,10 @@ class GroupMembershipDescriptor( ModelDescriptor ):
             listing_column=day_column("end_date", _(u"End Date")), 
             edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         dict( name="active_p", label=_(u"Active") ),
-        dict( name="notes", label=_(u"Notes") ),
+        dict( name="notes", label=_(u"Notes"), view_widget=widget.HTMLDisplay,
+                                                edit_widget=widget.RichTextEditor,
+                                                add_widget=widget.RichTextEditor
+                                             ),
         dict( name="substitution_type", label=_(u"Type of Substitution"), add = False ),
         dict( name="replaced_id", 
                 property=schema.Choice( title=_(u"Substituted by"), source=SubstitutionSource, required=False),
@@ -432,8 +443,12 @@ class PolitcalPartyDescriptor( GroupDescriptor ):
     display_name = _(u"Political Party")     
     fields = deepcopy( GroupDescriptor.fields )    
     fields.extend([
-        dict( name='logo', label=_(u"Logo"))
+        dict( name='logo', label=_(u"Logo"),  )
      ])
+#        view_widget=image.ImageWidget,
+#        add_widget=image.ImageWidget,
+#        edit_widget=image.ImageWidget
+
      
     schema_invariants = [EndAfterStart]
     
@@ -485,7 +500,10 @@ class ParliamentSession( ModelDescriptor ):
         dict( name="session_id", omit=True ),
         dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
         dict( name="end_date", label=_(u"End Date"), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),                
-        dict( name="notes", property=schema.Text(title=_(u"Notes"), required=False ) )
+        dict( name="notes", property=schema.Text(title=_(u"Notes"), required=False ),
+                 view_widget=widget.HTMLDisplay,
+              edit_widget=widget.RichTextEditor,
+              add_widget=widget.RichTextEditor )
         ])
         
     schema_invariants = [EndAfterStart]        
@@ -501,7 +519,11 @@ class GovernmentDescriptor( ModelDescriptor ):
               listing_column=day_column("start_date", _(u"In power from")), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         dict( name="end_date", label=_(u"In power till"), listing=True,
               listing_column=day_column("end_date", _(u"In power till")), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
-        dict( name="description", property=schema.Text(title=_(u"Notes") , required=False)),
+        dict( name="description", property=schema.Text(title=_(u"Notes") , required=False),
+                view_widget=widget.HTMLDisplay,
+                edit_widget=widget.RichTextEditor,
+                add_widget=widget.RichTextEditor
+            ),
         dict( name="status", omit=True), # label=_(u"Status"), edit=False, add=False, listing=True ),
         dict( name="government_id", omit=True), 
         dict( name="parliament_id", omit=True),   
@@ -522,9 +544,9 @@ class MotionDescriptor( ModelDescriptor ):
               property = schema.Choice( title=_(u"Session"), source=DatabaseSource(domain.ParliamentSession, 'session_id', 'session_id', 'short_name'), 
               required=False )
               ),
-        dict( name="submission_date", label=_(u"Submission Date"), listing=True ),
-        dict( name="received_date", label=_(u"Received Date")),
-        dict( name="notice_date", label=_(u"Notice Date"), listing=True),        
+        dict( name="submission_date", label=_(u"Submission Date"), listing=True ,  edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+        dict( name="received_date", label=_(u"Received Date"),  edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+        dict( name="notice_date", label=_(u"Notice Date"), listing=True, edit_widget=SelectDateWidget, add_widget=SelectDateWidget),        
 #        dict( name="type", label=_(u"Public"),
 #              edit_widget = widgets.YesNoInputWidget,
 #              view_widget = widgets.YesNoDisplayWidget),
@@ -535,6 +557,9 @@ class MotionDescriptor( ModelDescriptor ):
 #              ),
         dict( name="body_text", label=_(u"Motion Text"),
               property = schema.Text( title=u"Motion" ),
+              view_widget=widget.HTMLDisplay,
+              edit_widget=widget.RichTextEditor, 
+              add_widget=widget.RichTextEditor
               ),
         # TODO omit for now
         dict( name="entered_by", label=_(u"Entered By"), omit=True ), 
@@ -546,6 +571,25 @@ class MotionDescriptor( ModelDescriptor ):
         ]
 
 
+class MotionAmendmentDescriptor( ModelDescriptor ):
+    
+    display_name = _(u"Motion Amendment")
+    fields = [
+        dict( name="amendment_id", omit=True ),
+        dict( name="motion_id", omit=True ),
+        dict( name="amended_id", omit=True ),
+        dict( name="title", label=_(u"Subject"), listing=True,
+              edit_widget = widgets.LongTextWidget),
+        dict( name="body_text", label=_(u"Motion Amendment Text"),
+              property = schema.Text( title=u"Motion Amendment" ),
+              view_widget=widget.HTMLDisplay,
+              edit_widget=widget.RichTextEditor, 
+              add_widget=widget.RichTextEditor
+              ),
+        dict( name="submission_date", label=_(u"Submission Date"),  edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+        dict( name="vote_date", label=_(u"Vote Date"),  edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+        dict( name="accepted_p",  label=_(u"Accepted")),
+        ]
 class SittingDescriptor( ModelDescriptor ):
     
     display_name = _(u"Parliamentary Sitting")
@@ -624,12 +668,20 @@ class BillDescriptor( ModelDescriptor ):
     fields = [
         dict( name="bill_id", omit=True ),
         dict( name="title", label=_(u"Title"), listing=True ),
-        dict( name="preamble", label=_(u"Preamble")),
+        dict( name="preamble", label=_(u"Preamble"), 
+                view_widget=widget.HTMLDisplay,
+                edit_widget=widget.RichTextEditor, 
+                add_widget=widget.RichTextEditor),
+        dict( name="body_text", label=_(u"Text"), 
+                view_widget=widget.HTMLDisplay,
+                edit_widget=widget.RichTextEditor, 
+                add_widget=widget.RichTextEditor),                
         dict( name="session_id", label=_(u"Session") ),
         dict( name="identifier", label=_(u"Identifer") ),
-        dict( name="submission_date", label=_(u"Submission Date"), listing=True, 
+        dict( name="submission_date", label=_(u"Submission Date"), listing=True,  
+              edit_widget=SelectDateWidget, add_widget=SelectDateWidget,
               listing_column=day_column("submission_date", _(u"Submission Date")) ),
-        dict( name="publication_date", label=_(u"Publication Date") ),        
+        dict( name="publication_date", label=_(u"Publication Date"),  edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),        
         dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True )        
         ]
 
@@ -647,12 +699,22 @@ class QuestionDescriptor( ModelDescriptor ):
               property=schema.Choice( title=_(u"Question Type"), 
                                       description=_("(O)rdinary or (P)rivate Notice"), 
                                       vocabulary=vocabulary.QuestionType) ),
-        dict( name="response_type", label=_(u"Response Type"), description=_("(O)ral or (W)ritten"), listing=True ),
+        dict( name="response_type",  listing=True,
+             property=schema.Choice( title=_(u"Response Type"), 
+                                      description=_("(O)ral or (W)ritten"), 
+                                      vocabulary=vocabulary.ResponseType),
+        
+             ),
         dict( name="owner_id", 
               property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, 'fullname', 'user_id' )), 
             ),
-        dict( name="subject", label=_(u"Subject"), description=_(u"Subject of the Question"), ),
-        dict( name="question_text", property=schema.Text(title=_(u"Question"), required=True )),
+        dict( name="subject", label=_(u"Subject"), description=_(u"Subject of the Question"), edit_widget = widgets.LongTextWidget ),
+        dict( name="question_text", property=schema.Text(title=_(u"Question"), required=True ),
+              view_widget=widget.HTMLDisplay,
+              edit_widget=widget.RichTextEditor, 
+              add_widget=widget.RichTextEditor
+        
+            ),
         #label=_("Question"), description=_(u"The Question submitted")),        
         dict( name="status", label=_(u"Status"), modes="listing"),
         dict( name="supplement_parent_id", omit=True), #XXX
@@ -666,9 +728,9 @@ class ResponseDescriptor( ModelDescriptor ):
     
     fields = [
         dict( name="response_id", omit=True ),
-        dict( name="question_id", label=_(u"Question") ), #XXX
+        dict( name="question_id", omit=True ), #XXX
         dict( name="response_text", label=_(u"Response"), description=_(u"Response to the Question") ),
-        dict( name="response_kind", label=_(u"Response Kind"), description=_(u"(I)nitial or (S)ubsequent Response"), listing=True ),		
+        dict( name="response_type", label=_(u"Response Kind"), description=_(u"(I)nitial or (S)ubsequent Response"), listing=True ),		
         dict( name="sitting_id", omit=True ), #XXX
         dict( name="sitting_time", label=_(u"Sitting Time"), description=_(u"Time of the Sitting"), listing=True ),
         ]        

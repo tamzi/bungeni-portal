@@ -15,7 +15,8 @@ import javax.swing.tree.TreeNode;
 import java.awt.*;
 import org.jdesktop.swingx.treetable.TreeTableNode;
 /**
- *
+ * 
+ * TreeTableNode implementation used by The section metadata view panel
  * @author undesa
  */
 public class sectionHiveNode implements TreeTableNode {

@@ -248,6 +248,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        initFields();
        initializeValues();
        initFloatingPane();
+       initTabbedPanes();
         //initCollapsiblePane();
        initNotesPanel();
        initBodyMetadataPanel();
@@ -258,6 +259,20 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        updateListDocuments();
        initTableDocMetadata();
        //metadataChecks();
+    }
+    
+    private void initTabbedPanes() {
+        org.bungeni.editor.panels.documentMetadataPanel panel = new org.bungeni.editor.panels.documentMetadataPanel(ooDocument, parentFrame);
+        this.jTabsContainer.insertTab(panel.getAccessibleContext().getAccessibleDescription(), 
+                null,
+                (Component) panel,  panel.getAccessibleContext().getAccessibleDescription(), 2 );
+        
+        org.bungeni.editor.panels.sectionMetadataPanel sectpanel = new org.bungeni.editor.panels.sectionMetadataPanel (ooDocument, parentFrame);
+        this.jTabsContainer.insertTab(sectpanel.getAccessibleContext().getAccessibleDescription(), 
+                null,
+                (Component) sectpanel,  sectpanel.getAccessibleContext().getAccessibleDescription(), 3 );
+
+        
     }
     
     private boolean checkTableDocMetadata(){

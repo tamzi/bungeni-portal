@@ -44,7 +44,8 @@ public class DocumentMetadataSupplier {
     }
    
     public int getVisibleCount(){
-        int counter = 0;
+        return metadataMap.size();
+        /*int counter = 0;
         Iterator keyIterator = metadataMap.keySet().iterator();
         while (keyIterator.hasNext()) {
              String key = (String) keyIterator.next();
@@ -52,13 +53,20 @@ public class DocumentMetadataSupplier {
              if (metadata.IsVisible())
                  counter++;
         }
-        return counter;
+        return counter;*/
     }
     
     public DocumentMetadata[] getDocumentMetadata(){
+        debug();
         return metadataMap.values().toArray(new DocumentMetadata[metadataMap.size()]);
     }
     
+    private void debug(){
+        Iterator<String> iter = metadataMap.keySet().iterator();
+        while (iter.hasNext()) {
+            log.debug("DocumentMetadataSupplier : keyset value = " + iter.next());
+        }
+    }
     
     /*
      *Set ooDocument OOComponentHelper Object
@@ -73,15 +81,17 @@ public class DocumentMetadataSupplier {
      */
     public void loadMetadataFromDocument(){
         try {
+        log.debug("loadMetadataFromDocument: begin");    
         if (!metadataMap.isEmpty()) {
             Iterator metaIterator = metadataMap.keySet().iterator();
             while (metaIterator.hasNext()) {
                 String metaName = (String) metaIterator.next();
                 DocumentMetadata metadata = metadataMap.get(metaName);
-                log.debug("metaName " + metaName);
+                log.debug("loadMetadataFromDocument: metaName " + metaName);
                 //if the property exists in the document, get the property value
                 if (ooDocument.propertyExists(metadata.getName())) {
                    metadata.setValue(ooDocument.getPropertyValue(metaName));
+                   log.debug("loadMetadataFromDocument : metaName:"+ metaName + ", value = "+ metadata.getValue());
                    metadataMap.put(metadata.getName(), metadata); 
                 } else {
                    metadata.setValue("ERROR_PROP_DOES_NOT_EXIST");

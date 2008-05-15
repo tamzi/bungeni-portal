@@ -13,11 +13,14 @@ package org.bungeni.editor.dialogs.treetable;
  *
  * @author undesa
  */
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
 /**
- *
+ * 
+ * sectionHive is a container class used by the TreeTableNode implementation 
+ * (sectionHiveNode) to capture information stored at treetablenode level.
  * @author undesa
  */
 public class sectionHive {
@@ -27,7 +30,7 @@ public class sectionHive {
     public String value;
     
     public HashMap<String, String> keyValueMap = new HashMap<String,String>();
-    public Vector<sectionHive> children = new Vector<sectionHive>();
+    public ArrayList<sectionHive> children = new ArrayList<sectionHive>();
     public sectionHive parentHive;
     /** Creates a new instance of sectionHive */
     public sectionHive(String sectionName) {
@@ -69,7 +72,7 @@ public class sectionHive {
         keyValueMap.put(key, value);
     }
     public void addChildren(sectionHive childObj) {
-        children.addElement(childObj);
+        children.add(childObj);
     }
     
     public void addChildrenAt(sectionHive childObj, int index) {
@@ -89,7 +92,7 @@ public class sectionHive {
         return this.getName();
     }
 
-    public Vector<sectionHive> getChildrenVector() {
+    public ArrayList<sectionHive> getChildrenVector() {
         return children;
     }
 }

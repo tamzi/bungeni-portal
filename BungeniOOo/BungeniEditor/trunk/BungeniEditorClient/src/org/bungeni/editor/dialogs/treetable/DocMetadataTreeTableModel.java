@@ -17,6 +17,7 @@ import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.text.XTextSection;
 import java.util.HashMap;
 import java.util.Iterator;
+import javax.swing.tree.TreePath;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
 import org.jdesktop.swingx.treetable.DefaultTreeTableModel;
@@ -55,6 +56,13 @@ public class DocMetadataTreeTableModel extends DefaultTreeTableModel {
         
     }
     
+    public void refreshModel(){
+        
+        initSectionsArray(rootHive);
+       
+        //modelSupport.
+    }
+    
     
      
      
@@ -91,6 +99,16 @@ public class DocMetadataTreeTableModel extends DefaultTreeTableModel {
                 }
 	}
     
+     public void setValueAt(Object value, Object node, int column) {
+            super.setValueAt(value,node,column);
+            
+            sectionHiveNode mynode = (sectionHiveNode)node;
+            for(sectionHiveNode ancestor = mynode; ancestor != null; ancestor = (sectionHiveNode)ancestor.getParent()){
+                  TreePath path = new TreePath(getPathToRoot(ancestor));
+                  modelSupport.firePathChanged(path);
+            }
+      }
+     
     public void buildTree(sectionHive root) {
         sectionHive Sect1 = new sectionHive("section1");
         sectionHive child0_Sect1 = new sectionHive("name", "Aesculapius");
@@ -134,7 +152,7 @@ public class DocMetadataTreeTableModel extends DefaultTreeTableModel {
         
     }
     
-    
+ 
     
     private void initSectionsArray(sectionHive root) {
         try {
@@ -142,7 +160,7 @@ public class DocMetadataTreeTableModel extends DefaultTreeTableModel {
             
            
             if (!ooDocument.getTextSections().hasByName("root")) {
-                log.debug("no root section found");
+                log.debug("initSectionsArray : no root section found");
                 return;
             }
             Object rootSection = ooDocument.getTextSections().getByName("root");
@@ -159,17 +177,14 @@ public class DocMetadataTreeTableModel extends DefaultTreeTableModel {
             
             
         } catch (NoSuchElementException ex) {
-            log.error(ex.getMessage());
+            log.error("initSectionsArray : " + ex.getMessage());
         } catch (WrappedTargetException ex) {
-            log.error(ex.getMessage());
+            log.error("initSectionsArray : " + ex.getMessage());
         }
     }
     
     private void recurseSections (XTextSection theSection, sectionHive root ) {
-       
-        
-         
-             //recurse children
+            //recurse children
             XTextSection[] sections = theSection.getChildSections();
             if (sections != null ) {
                 if (sections.length > 0 ) {

@@ -12,6 +12,7 @@
     template="templates/form.pt"
     layer="bungeni.ui.interfaces.IBungeniSkin"
     />   
+
                  
   <!-- GroupSittingAttendance Add Form -->
    <browser:view

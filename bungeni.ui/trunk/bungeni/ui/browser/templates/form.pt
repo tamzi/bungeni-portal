@@ -6,8 +6,11 @@
 <div metal:fill-slot="body">
 
 
+
 <metal:block define-macro="form"
              i18n:domain="alchemist">
+             
+         
   <form action="."
         tal:attributes="action request/URL" 
 	method="post"
@@ -88,7 +91,7 @@
           <div class="widget" tal:content="structure widget"  >
             <input type="text" />
 	      </div>
-	      <div tal:condition="error" tal:content="structure error" tal:attributes="class python:(changed and ' changed' or '')">               
+	      <div tal:condition="error" tal:content="structure error" tal:attributes="class python:'errormessage' + (changed and ' changed' or '')">               
             The Error
           </div>                    
 	      </div>	      

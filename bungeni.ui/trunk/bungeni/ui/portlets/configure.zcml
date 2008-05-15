@@ -5,7 +5,7 @@
   <browser:viewlet
       name="bungeni.parliament.navigation"
       manager="ploned.ui.interfaces.ILeftColumnManager"
-      for="ore.alchemist.interfaces.IAlchemistContent"
+          for="ore.alchemist.interfaces.IAlchemistContent"
       layer="..interfaces.IBungeniSkin"
       class=".constraintnav.ConstraintNavigation"
       template="contained-constraint-navigation.pt"
@@ -21,5 +21,14 @@
      manager="ploned.ui.interfaces.ILeftColumnManager"
      class=".taskmenu.TaskMenuViewlet"
      /-->  
+
+ <browser:viewlet
+     name="bungeni.taskmenu"
+     for="*"
+     layer="..interfaces.IBungeniSkin"
+     permission="zope.View"
+     manager="ploned.ui.interfaces.ILeftColumnManager"
+     class=".staticbungeninavigation.StaticViewletBungeniNavigation"
+     />  
 
 </configure>

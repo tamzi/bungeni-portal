@@ -460,8 +460,8 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
                                              new String("int:masthead_datetime"))                    
                    );
 
-            formContext.getMetadataFieldSets().add(new ooDocMetadataFieldSet("Bungeni_DebateOfficialDate", (String) theControlDataMap.get("dt_initdebate_hansarddate")));
-            formContext.getMetadataFieldSets().add(new ooDocMetadataFieldSet("Bungeni_DebateOfficialTime", (String) theControlDataMap.get("dt_initdebate_timeofhansard")));
+            formContext.getMetadataFieldSets().add(new ooDocMetadataFieldSet("BungeniDebateOfficialDate", (String) theControlDataMap.get("dt_initdebate_hansarddate")));
+            formContext.getMetadataFieldSets().add(new ooDocMetadataFieldSet("BungeniDebateOfficialTime", (String) theControlDataMap.get("dt_initdebate_timeofhansard")));
             
             return true;
     }

@@ -84,8 +84,8 @@ public class DocumentMetadataSupplier {
                    metadata.setValue(ooDocument.getPropertyValue(metaName));
                    metadataMap.put(metadata.getName(), metadata); 
                 } else {
-                  // metadata.setValue("ERROR_PROP_DOES_NOT_EXIST");
-                 //  metadataMap.put(metadata.getName(), metadata); 
+                   metadata.setValue("ERROR_PROP_DOES_NOT_EXIST");
+                   metadataMap.put(metadata.getName(), metadata); 
                 }
             }
         }

@@ -2619,10 +2619,10 @@ private void displayUserMetadata(XTextRange xRange) {
                     initBodyMetadataPanel();
                     initDialogListeners();
                     //check and see if the doctype property exists before you refresh the metadata table
-                    if(!ooDocument.propertyExists("doctype")){
+                    /*if(!ooDocument.propertyExists("doctype")){
                        JOptionPane.showMessageDialog(null,"This is not a bungeni document.","Document Type Error",JOptionPane.ERROR_MESSAGE);
                        
-                    } 
+                    } */
                     refreshTableDocMetadataModel();
                     
                                                                

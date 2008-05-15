@@ -1,0 +1,20 @@
+<?php
+
+function doSpecialUpload() {
+	global $wgRequest;
+	$form = new MV_SpecialUpload( $wgRequest );
+	$form->execute();
+}
+
+class MV_SpecialUpload extends UploadForm
+{
+	function MV_SpecialUpload($wgRequest)
+	{
+		parent :: MV_SpecialUpload($wgRequest);
+	}
+	
+	
+
+}
+
+?>

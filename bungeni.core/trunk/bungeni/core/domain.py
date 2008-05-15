@@ -219,7 +219,7 @@ class ItemVotes( object ):
     """
     """
     
-class ParliamentaryItem( object ):
+class ParliamentaryItem( Entity ):
 
     interface.implements( interfaces.IBungeniContent )
     # votes
@@ -238,7 +238,10 @@ class ParliamentaryItem( object ):
 class Question( ParliamentaryItem ):
 
     interface.implements( interfaces.IQuestion )
-    #responses = one2many("responses", "bungeni.core.domain.ResponseContainer", "question_id")
+    responses = one2many("responses", "bungeni.core.domain.ResponseContainer", "question_id")
+    @property
+    def short_name( self ):
+        return ( self.subject )
 
 QuestionChange = ItemLog.makeLogFactory( "QuestionChange")
 QuestionVersion = ItemVersions.makeVersionFactory("QuestionVersion")
@@ -248,13 +251,18 @@ class Response( Entity ):
     """
     Response to a Question
     """
-
+   
 
 class Motion( ParliamentaryItem ):
     
     interface.implements( interfaces.IMotion )
-    #motionamendment = one2many("motionamendment", "bungeni.core.domain.MotionAmendmentContainer", "motion_id")
-
+    motionamendment = one2many("motionamendment", "bungeni.core.domain.MotionAmendmentContainer", "motion_id")
+    @property
+    def short_name( self ):
+        return ( self.title ) 
+    @property
+    def subject( self ):
+        return ( self.title ) 
 MotionChange = ItemLog.makeLogFactory( "MotionChange")
 MotionVersion = ItemVersions.makeVersionFactory("MotionVersion")
 
@@ -262,11 +270,21 @@ class MotionAmendment( Entity ):
     """
     Amendment to a Motion
     """
+    @property
+    def short_name( self ):
+        return ( self.title )     
 
 class Bill( ParliamentaryItem ):
 
     interface.implements( interfaces.IBill )
 
+    @property
+    def short_name( self ):
+        return ( self.title ) 
+        
+    @property
+    def subject( self ):
+        return ( self.title ) 
 
 BillChange = ItemLog.makeLogFactory( "BillChange")
 BillVersion = ItemVersions.makeVersionFactory("BillVersion")

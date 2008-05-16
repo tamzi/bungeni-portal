@@ -64,7 +64,7 @@ public class sectionMetadataPanel extends javax.swing.JPanel {
         treeTableDocumentMetadata.setTreeTableModel(docMetadataTreeTableModel);
         */
         docMetadataTreeTableModel.refreshModel();
-        
+        this.treeTableDocumentMetadata.expandAll();
     }
     
     private void initTreeTableDocumentMetadata() {

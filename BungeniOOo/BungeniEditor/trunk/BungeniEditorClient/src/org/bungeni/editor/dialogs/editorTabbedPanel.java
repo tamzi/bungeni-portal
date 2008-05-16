@@ -267,7 +267,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                 null,
                 (Component) panel,  panel.getAccessibleContext().getAccessibleDescription(), 2 );
         
-        org.bungeni.editor.panels.sectionMetadataPanel sectpanel = new org.bungeni.editor.panels.sectionMetadataPanel (ooDocument, parentFrame);
+        org.bungeni.editor.panels.sectionTreeMetadataPanel sectpanel = new org.bungeni.editor.panels.sectionTreeMetadataPanel (ooDocument, parentFrame);
         this.jTabsContainer.insertTab(sectpanel.getAccessibleContext().getAccessibleDescription(), 
                 null,
                 (Component) sectpanel,  sectpanel.getAccessibleContext().getAccessibleDescription(), 3 );

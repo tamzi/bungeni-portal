@@ -57,9 +57,12 @@ public class DocMetadataTreeTableModel extends DefaultTreeTableModel {
     }
     
     public void refreshModel(){
-        
+        log.debug("refreshModel: calling initSectionsArray");
+        this.rootHive = new sectionHive("root");
         initSectionsArray(rootHive);
-       
+        this.setRoot((TreeTableNode)new sectionHiveNode(rootHive, null));
+        modelSupport.fireNewRoot();
+        
         //modelSupport.
     }
     
@@ -99,15 +102,7 @@ public class DocMetadataTreeTableModel extends DefaultTreeTableModel {
                 }
 	}
     
-     public void setValueAt(Object value, Object node, int column) {
-            super.setValueAt(value,node,column);
-            
-            sectionHiveNode mynode = (sectionHiveNode)node;
-            for(sectionHiveNode ancestor = mynode; ancestor != null; ancestor = (sectionHiveNode)ancestor.getParent()){
-                  TreePath path = new TreePath(getPathToRoot(ancestor));
-                  modelSupport.firePathChanged(path);
-            }
-      }
+
      
     public void buildTree(sectionHive root) {
         sectionHive Sect1 = new sectionHive("section1");

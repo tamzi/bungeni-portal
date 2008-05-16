@@ -106,7 +106,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnApply">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Apply to Document "/>
+        <Property name="text" type="java.lang.String" value="Apply "/>
         <Property name="name" type="java.lang.String" value="btn_apply"/>
       </Properties>
       <Events>

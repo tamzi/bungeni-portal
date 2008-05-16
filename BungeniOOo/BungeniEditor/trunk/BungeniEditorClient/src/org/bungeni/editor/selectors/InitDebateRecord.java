@@ -218,7 +218,7 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
         lbl_initdebate_timeofhansard.setText("Hansard Time");
         lbl_initdebate_timeofhansard.setName("lbl_initdebate_timeofhansard");
 
-        btnApply.setText("Apply to Document ");
+        btnApply.setText("Apply ");
         btnApply.setName("btn_apply");
         btnApply.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -986,9 +986,10 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
         logoPath = BungeniEditorProperties.getEditorProperty("logoPath");
         log.debug("logo path = " + logoPath);
         String strPath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH();
-        logoPath = strPath + File.separator + logoPath;
+        logoPath = strPath + File.separator + logoPath.replace('/', File.separatorChar);
         log.debug("logo path new = "+ logoPath);
         JFileChooser chooser = new JFileChooser();
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
         File fLogoPath = new File(logoPath);
         chooser.setCurrentDirectory(fLogoPath);
         int nReturnVal = chooser.showOpenDialog(this);

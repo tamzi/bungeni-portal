@@ -11,7 +11,7 @@
     <root lang="en" title="Editor Actions" visible="true" >
         <actionGroup name="blockActions" title="Block Actions" visible="true">
             <blockAction name="Root" title="Create Root Section" visible="true" condition="sectionNotExists:root" target="generalAction.createRootSection" />
-            <blockAction name="MastHead" tooltip="Use these actions to create and manage the Masthead" title="MastHead" target="null" visible="true" condition="none" >
+            <blockAction name="MastHead" tooltip="Use these actions to create and manage the Masthead" title="Preface" target="null" visible="true" condition="none" >
                 <action name="MastHead.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makePrayerSection" visible="true" condition="none" />
                 <action name="MastHead.selection" tooltip="Select some text in the document to mark it up as a MastHead." title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePrayerSection.section_creation" visible="true" condition="sectionNotExists:masthead :and: textSelected:true" showChildren="true" >
                     <subaction name="Masthead.selection.date" tooltip="Select some text to mark it up as a 'Document Date'" title="Markup Date" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePrayerSection.debatedate_entry" visible="true" condition="cursorInSection:masthead :and: textSelected:true :and: fieldNotExists:debaterecord_official_date" />
@@ -28,7 +28,7 @@
                     <subaction name="Papers.selection.import_tabled_documents" tooltip="Select tabled documents and insert into document" title="Import Tabled Documents" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.import_tabled_documents" visible="true" condition="cursorInSection:papers" />
                 </action>
             </blockAction>
-            <blockAction name="QA" tooltip="Create a QA Section" title="QA" target="null" visible="true" condition="none" >
+            <blockAction name="QA" tooltip="Create a QA Section" title="Question-Answer Container" target="null" visible="true" condition="none" >
                 <action name="QA.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makeQASection" visible="true" condition="cursorInSection:root :and: sectionNotExists:qa." />
                  <action name="QA.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQASection.section_creation" condition="cursorInSection:root :and: sectionNotExists:qa. :and: textSelected:true" visible="true" showChildren="true" >
                     <subaction name="QA.selection.title" tooltip="Markup selection as title" title="Markup Title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQASection.apply_style:qa-title" visible="true" condition="cursorInSection:qa. :and: textSelected:true" />

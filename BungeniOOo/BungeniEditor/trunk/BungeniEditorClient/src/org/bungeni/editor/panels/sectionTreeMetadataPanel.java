@@ -19,7 +19,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTree;
@@ -27,6 +29,7 @@ import javax.swing.Timer;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.BungeniEditorPropertiesHelper;
@@ -50,7 +53,8 @@ public class sectionTreeMetadataPanel extends javax.swing.JPanel {
     private boolean emptyRootNode= false;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(sectionTreeMetadataPanel.class.getName());
     private static final String ROOT_SECTION = BungeniEditorPropertiesHelper.getDocumentRoot();
-
+    private ArrayList<String> m_savedTreeState = new ArrayList<String>();
+    
     private Timer sectionMetadataRefreshTimer;
     /** Creates new form documentMetadataPanel */
     public sectionTreeMetadataPanel() {
@@ -133,16 +137,20 @@ public class sectionTreeMetadataPanel extends javax.swing.JPanel {
           sectionMetadataRefreshTimer= new Timer(4000, new ActionListener() {
               public void actionPerformed(ActionEvent e) {
                 //refreshSectionMetadataTreeTable();
+                 // captureTreeState();
                   refreshTree();
+                 // restoreTreeState();
               }
            });
            sectionMetadataRefreshTimer.start();
     }
 
    private void refreshTree(){
-       TreePath[] selections = this.treeSectionTreeMetadata.getSelectionPaths();
-       Enumeration expandedNodes = this.treeSectionTreeMetadata.getExpandedDescendants(new TreePath(this.treeSectionTreeMetadata.getModel().getRoot()));
+       //TreePath[] selections = this.treeSectionTreeMetadata.getSelectionPaths();
+       captureTreeState();
+       //Enumeration expandedNodes = this.treeSectionTreeMetadata.getExpandedDescendants(new TreePath(this.treeSectionTreeMetadata.getModel().getRoot()));
        refreshTreeModel();
+       /*
        if (expandedNodes != null  ) {
            log.debug("refreshTree: expandedNodes was NOT null");
            while (expandedNodes.hasMoreElements()) {
@@ -150,14 +158,77 @@ public class sectionTreeMetadataPanel extends javax.swing.JPanel {
            }
        } else
            log.debug("refreshTree: expandedNodes was null");
-       if (selections != null)  {
-             this.treeSectionTreeMetadata.setSelectionPaths(selections);
-            log.debug("refreshTree: selections was NOT null");
-       }  else
-            log.debug("refreshTree: selections was null");
-         CommonTreeFunctions.expandAll(treeSectionTreeMetadata);    
+       */
+       CommonTreeFunctions.expandAll(treeSectionTreeMetadata);    
+       restoreTreeState();
    }
 
+   private void captureTreeState(){
+        TreePath selPath = this.treeSectionTreeMetadata.getSelectionPath();
+        if (selPath != null) {
+            this.m_savedTreeState.clear();
+            this.m_savedTreeState.add(selPath.getLastPathComponent().toString());
+            TreePath parent = selPath.getParentPath();
+            while (parent != null) {
+                m_savedTreeState.add(parent.getLastPathComponent().toString());
+                parent = parent.getParentPath();
+            }
+          Collections.reverse(m_savedTreeState);
+        }
+   }
+   
+   private void restoreTreeState() {
+        if (this.m_savedTreeState.size() > 0 ) {
+            String[] treeState = m_savedTreeState.toArray(new String[m_savedTreeState.size()]);
+            TreePath foundPath = findByName(this.treeSectionTreeMetadata, treeState);
+            if (foundPath != null) {
+                this.treeSectionTreeMetadata.setSelectionPath(foundPath);
+                this.treeSectionTreeMetadata.scrollPathToVisible(foundPath);
+            }
+        }
+ }
+   
+   // Finds the path in tree as specified by the array of names. The names array is a
+    // sequence of names where names[0] is the root and names[i] is a child of names[i-1].
+    // Comparison is done using String.equals(). Returns null if not found.
+    public TreePath findByName(JTree tree, String[] names) {
+        TreeNode root = (TreeNode)tree.getModel().getRoot();
+        return findNode(tree, new TreePath(root), names, 0, true);
+    }
+    private TreePath findNode(JTree tree, TreePath parent, Object[] nodes, int depth, boolean byName) {
+        TreeNode node = (TreeNode)parent.getLastPathComponent();
+        Object o = node;
+    
+        // If by name, convert node to a string
+        if (byName) {
+            o = o.toString();
+        }
+    
+        // If equal, go down the branch
+        if (o.equals(nodes[depth])) {
+            // If at end, return match
+            if (depth == nodes.length-1) {
+                return parent;
+            }
+    
+            // Traverse children
+            if (node.getChildCount() >= 0) {
+                for (Enumeration e=node.children(); e.hasMoreElements(); ) {
+                    TreeNode n = (TreeNode)e.nextElement();
+                    TreePath path = parent.pathByAddingChild(n);
+                    TreePath result = findNode(tree, path, nodes, depth+1, byName);
+                    // Found a match
+                    if (result != null) {
+                        return result;
+                    }
+                }
+            }
+        }
+    
+        // No match at this branch
+        return null;
+    }
+   
    private void refreshTreeModel(){
          initSectionsArray();   
          ((DefaultTreeModel)this.treeSectionTreeMetadata.getModel()).setRoot(sectionRootNode);

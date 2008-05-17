@@ -102,6 +102,7 @@ public final class BungeniBTree {
             }
           return null;
         }
+   
         
         private BungeniBNode walkNodeByName(BungeniBNode n, String name) {
             if (n.getChildrenByName().size() == 0) {
@@ -165,6 +166,9 @@ public final class BungeniBTree {
         
       
         
+    /**
+     * Returns the BTree root(s)
+     */
         public TreeMap<Integer, BungeniBNode> getTree(){
             return this.roots;
         }

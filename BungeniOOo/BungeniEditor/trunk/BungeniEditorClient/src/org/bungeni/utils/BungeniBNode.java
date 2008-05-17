@@ -10,6 +10,7 @@
 package org.bungeni.utils;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.TreeMap;
 
 /**
@@ -19,7 +20,11 @@ import java.util.TreeMap;
     
  public class BungeniBNode {
             private String Name;
+            private Object nodeObject = null;
+            
+            /*Stores child nodes by order*/
             private TreeMap<Integer, BungeniBNode> childNodes = new TreeMap<Integer,BungeniBNode>();
+            /*Stores child nodes by name*/
             private HashMap<String, BungeniBNode> childNodeNames = new HashMap<String,BungeniBNode>();
             private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniBNode.class.getName());
                 
@@ -27,10 +32,21 @@ import java.util.TreeMap;
                 Name = n;
             }
             
+            public BungeniBNode(String n, Object obj) {
+                nodeObject = obj;
+            }
+            
             public String getName() {
                 return Name;
             }
             
+            public Object getNodeObject(){
+                return nodeObject;
+            }
+            
+            public boolean hasNodeObject(){
+                return ((nodeObject == null) ? false: true);
+            }
             public String toString(){
                 return getName();
             }
@@ -46,6 +62,23 @@ import java.util.TreeMap;
                 childNodes.put(childNodes.size()+1, node);
                 childNodeNames.put(node.getName(), node);
             }
+            
+            public void removeChild(BungeniBNode node) {
+                //remove from ordered map
+                if (childNodeNames.containsKey(node.getName())) {
+                    childNodeNames.remove(node.getName());
+                    Iterator<Integer> orderedNodeIterator = childNodes.keySet().iterator();
+                    while (orderedNodeIterator.hasNext()) {
+                        Integer iKey = orderedNodeIterator.next();
+                        BungeniBNode foundNode = childNodes.get(iKey);
+                        if (foundNode == node) {
+                            childNodes.remove(iKey);
+                        }
+                    }
+                }
+            }
+            
+           
             
             public int getChildCount(){
                 return childNodes.size();

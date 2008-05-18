@@ -19,6 +19,9 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+import org.bungeni.editor.toolbar.AbstractTreeModel;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
+import org.bungeni.utils.BungeniBNode;
 import org.bungeni.utils.BungeniBTree;
 import org.jdom.Attribute;
 import org.jdom.Document;
@@ -28,8 +31,7 @@ import org.jdom.Document;
  * @author Administrator
  */
 public class DocumentSectionAdapterTreeModel extends DefaultTreeModel {
-   // private BungeniBTree document;
-    private Timer treeModelTimer ;  
+   private Timer treeModelTimer ;  
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DocumentSectionAdapterTreeModel.class.getName());
  
 
@@ -37,11 +39,19 @@ public class DocumentSectionAdapterTreeModel extends DefaultTreeModel {
      * Creates a new instance of DocumentSectionAdapterTreeModel
      */
     public DocumentSectionAdapterTreeModel(DocumentSectionAdapterTreeNode rootNode) {
-       super(rootNode);
+      super(rootNode);
+     //  this.rootNode = rootNode;
+       
        treeModelTimer = new Timer(DocumentSectionProvider.TIMER_DELAY, new ActionListener(){
             public void actionPerformed(ActionEvent e) {
-                setRoot(new DocumentSectionAdapterTreeNode(DocumentSectionProvider.getTreeRoot()));
-                reload();
+                try {
+                setRoot(DocumentSectionAdapterTreeNode.create());
+                
+                } catch (Exception ex) {
+                    log.error("timer:actionperformed :" + ex.getMessage());
+                    log.error("timer:actionperformed :" + CommonExceptionUtils.getStackTrace(ex));
+                }
+                //reload();
             }
        });
        treeModelTimer.setInitialDelay(1000);
@@ -51,29 +61,34 @@ public class DocumentSectionAdapterTreeModel extends DefaultTreeModel {
     public static DocumentSectionAdapterTreeModel create(){
         return new DocumentSectionAdapterTreeModel(new DocumentSectionAdapterTreeNode(DocumentSectionProvider.getTreeRoot()));
     }
-    
+    /*
     public Object getRoot() {
-        return super.getRoot();
+        return this.rootNode;
         
     }
-
-    
+*/
+  /*  
     public void setRoot(DocumentSectionAdapterTreeNode root) {
-        super.setRoot(root);
+       this.rootNode = root;
     }
-   
+   */
+    /*
    public Object getChild(Object parent, int index) {
         DocumentSectionAdapterTreeNode node = (DocumentSectionAdapterTreeNode) parent;
+         log.debug("getChild : " + node.child(index));
         return node.child(index);
-   }
+   } */
 
+    /*
    public int getIndexOfChild(Object parent, Object child) {
         DocumentSectionAdapterTreeNode node = (DocumentSectionAdapterTreeNode) parent;
+          log.debug("getIndexofChild = " +  node.index((DocumentSectionAdapterTreeNode) child));
         return node.index((DocumentSectionAdapterTreeNode) child);
     }
    
     public int getChildCount(Object parent) {
         DocumentSectionAdapterTreeNode sectionNode = (DocumentSectionAdapterTreeNode)parent;
+        log.debug("getChildCount = " + sectionNode.childCount());
         return sectionNode.childCount();
     }
 
@@ -81,5 +96,5 @@ public class DocumentSectionAdapterTreeModel extends DefaultTreeModel {
     public boolean isLeaf(Object node) {
         DocumentSectionAdapterTreeNode sectionNode = (DocumentSectionAdapterTreeNode)node;
         return ((sectionNode.childCount() == 0) ? true: false);
-    }
+    } */
  }

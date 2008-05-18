@@ -11,6 +11,7 @@ package org.bungeni.editor.providers;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.BungeniBNode;
 import org.jdom.Element;
 
@@ -23,14 +24,22 @@ import org.jdom.Element;
  */
 public class DocumentSectionAdapterTreeNode extends DefaultMutableTreeNode {
    // public BungeniBNode node;
-  
+   private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DocumentSectionAdapterTreeNode.class.getName());
+ 
     /**
      * Creates a new instance of the DocumentSectionAdapterTreeNode class
      * 
      * @param Element node
      */
     public DocumentSectionAdapterTreeNode(BungeniBNode node) {
+        if (node == null) {
+            log.error("constructor node is null");
+        }
         setUserObject(node);
+    }
+    
+    public static DocumentSectionAdapterTreeNode create(){
+       return new DocumentSectionAdapterTreeNode(DocumentSectionProvider.getTreeRoot());
     }
     
     public BungeniBNode getSectionNode() {
@@ -61,8 +70,17 @@ public class DocumentSectionAdapterTreeNode extends DefaultMutableTreeNode {
      * @return the desired child
      */
     public DocumentSectionAdapterTreeNode child(int searchIndex) {
-        BungeniBNode child = getSectionNode().getChildrenByOrder().get(searchIndex);
-        return new DocumentSectionAdapterTreeNode(child);
+        BungeniBNode child = null;
+  
+        try {
+        child = getSectionNode().getChildrenByOrder().get(searchIndex);
+  
+        } catch (Exception ex) {
+            log.error("child = " + ex.getMessage());
+            log.error("child = " + CommonExceptionUtils.getStackTrace(ex));
+        }
+                     return new DocumentSectionAdapterTreeNode(child);
+ 
     }
 
     /**
@@ -71,6 +89,12 @@ public class DocumentSectionAdapterTreeNode extends DefaultMutableTreeNode {
      * @return int number of children
      */
     public int childCount() {
+        try {
+        log.debug("childCount = " + getSectionNode().getChildCount());
+        } catch (Exception ex) {
+            log.error("childCount = " + ex.getMessage());
+            log.error("childCount = " + CommonExceptionUtils.getStackTrace(ex));
+        }
         return getSectionNode().getChildCount();
     }
 

@@ -84,6 +84,7 @@ import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.numbering.impl.IGeneralNumberingScheme;
 import org.bungeni.numbering.impl.NumberRange;
 import org.bungeni.numbering.impl.NumberingSchemeFactory;
+import org.bungeni.numbering.ooo.OOoNumberingHelper;
 
 import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.ooo.OOComponentHelper;
@@ -854,6 +855,15 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
 
     //method to get heading from section with selected sectionType
      ///variable sectionName added below for compilation success
+    /*
+     *
+     *  1) initialize numbering scheme generator
+     *  2) enumerate sections matching sectionType attribute
+     *      2.1) for each section enumerate section content
+     *          call enumerateSectionContent()
+     *  3
+     *
+     */
     private void matchHeadingsInTypedSections() {
    //  private void getHeadingInSection( ) {
         try {
@@ -931,7 +941,13 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
         m_selectedNumberingScheme.generateSequence();
         m_selectedNumberingScheme.sequence_initIterator();
     }
-    
+    /*
+     * 1) within the section look for paragraphs
+     *  1.1) enumerate the paragrap
+     *      enumerateParagraphInSectionContent
+     *
+     *
+     */
     private String enumerateSectionContent (XTextRange sectionRange, XTextSection theSection, String prevParent )  {
             try {
                     XEnumerationAccess enumAcc  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, sectionRange);
@@ -1002,39 +1018,53 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
          // if they are not equal we need to restart numbering
          // else we continue numbering
          if(!currentParent.equalsIgnoreCase(previousParent)){
-            restartNumbering(aTextRange);
+            restartNumbering(aTextRange, theSection, currentParent);
          } else {
-            continueNumbering(aTextRange); 
+            continueNumbering(aTextRange, theSection, currentParent); 
          }
              
          return new String("");
    }
 
-   private void restartNumbering(XTextRange aRange){
+   private void restartNumbering(XTextRange aRange, XTextSection theCurrentSection, String parentSection){
             //get the current numbering
             //restart numbering, by resetting the iterator
             this.m_selectedNumberingScheme.sequence_initIterator();
             //get the next number in the sequence
             String theNumber = this.m_selectedNumberingScheme.sequence_next();
+            String parentPrefix = "";
             //if number has parent prefix
             if (this.m_useParentPrefix) {
                 //get parent prefix
-                
+                //attache the parent prefix to the number.
+                  parentPrefix =   getParentPrefix(theCurrentSection, parentSection);
             }
             // we want insert  number + space before heading
             // and set a reference mark over the number
-             insertNumberBeforeHeading(aRange, theNumber);
+             insertNumberBeforeHeading(aRange, theNumber, parentPrefix, theCurrentSection);
           //   insertAppliedNumberToMetadata(matchedSectionElem,headCount);
    }
   
-   private void continueNumbering(XTextRange aRange) {
+   private void continueNumbering(XTextRange aRange, XTextSection theCurrentSection, String parentSection ) {
             String theNumber = this.m_selectedNumberingScheme.sequence_next();
              // if currentParent is "root" use 1 as the starting point for numbering
             // we want insert  number + space before heading
             // and set a reference mark over the number
-             insertNumberBeforeHeading(aRange, theNumber);
+            String parentPrefix ="";
+             if (this.m_useParentPrefix) {
+                //get parent prefix
+                //attache the parent prefix to the number.
+                  parentPrefix =   getParentPrefix(theCurrentSection, parentSection);
+            }
+             insertNumberBeforeHeading(aRange, theNumber, parentPrefix, theCurrentSection);
    }
 
+   private String getParentPrefix ( XTextSection theCurrentSection, String parentSectionName) {
+        //get the parent
+        //get the number set in the parent.
+        return OOoNumberingHelper.getSectionAppliedNumber(ooDocument, parentSectionName);
+   }
+   
    /*******
     *
     **** OOBasic Unit test for the below function *****
@@ -1065,7 +1095,7 @@ end Sub
    
    private static String NUMBER_SPACE = " ";
    
-   private void insertNumberBeforeHeading (XTextRange aRange, String theNumber) {
+   private void insertNumberBeforeHeading (XTextRange aRange, String theNumber, String parentPrefix, XTextSection theCurrentSection) {
        XText xRangeText =    aRange.getText();
        String strHeading   =  aRange.getString();
        String theNumberPlusSpace = theNumber+NUMBER_SPACE;
@@ -1104,7 +1134,8 @@ end Sub
        //now spanning the heading.
        refMarkName = "headRef_" + BungeniUUID.getStringUUID();
        createReferenceMarkOverCursor(refMarkName, headingCur);
-       
+       XNamed namedSection = ooQueryInterface.XNamed(theCurrentSection);
+       updateSectionNumberingMetadata(namedSection.getName(), theNumber,  parentPrefix);
        //call insertrefmark
        /*
          oCur.goLeft(0, false)
@@ -1118,6 +1149,14 @@ end Sub
         */
    }
 
+   private void updateSectionNumberingMetadata(String sectionName, String theNumber, String parentPrefix){
+         HashMap<String,String> sectionMeta = new HashMap<String,String>();
+         sectionMeta.put(OOoNumberingHelper.numberingMetadata.get("APPLIED_NUMBER"), theNumber);
+         sectionMeta.put(OOoNumberingHelper.numberingMetadata.get("NUMBERING_SCHEME"), this.getSelectedNumberingScheme().schemeName);
+         sectionMeta.put(OOoNumberingHelper.numberingMetadata.get("PARENT_PREFIX_NUMBER"), parentPrefix);
+         ooDocument.setSectionMetadataAttributes(sectionName, sectionMeta);
+   }
+   
    private void createReferenceMarkOverCursor (String refName, XTextCursor thisCursor) {
        Object referenceMark = ooDocument.createInstance("com.sun.star.text.ReferenceMark");
        XNamed xRefMark = ooQueryInterface.XNamed(referenceMark);

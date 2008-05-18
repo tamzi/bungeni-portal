@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.TreeMap;
 import javax.swing.Timer;
+import javax.swing.tree.DefaultTreeModel;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.utils.BungeniBNode;
@@ -44,6 +45,9 @@ public class DocumentSectionProvider {
     private static BungeniBTree theSectionTree = new BungeniBTree();
     public static int TIMER_DELAY = 3000;
     static Timer sectionRefreshTimer;
+    private static ArrayList<DocumentSectionAdapterDefaultTreeModel> treeModelList = new ArrayList<DocumentSectionAdapterDefaultTreeModel>();
+    
+    
     /** Creates a new instance of DocumentSectionIterator */
     public DocumentSectionProvider() {
     }
@@ -57,12 +61,20 @@ public class DocumentSectionProvider {
         buildSectionTree();
     }
     
+    public static void subscribeModel(DocumentSectionAdapterDefaultTreeModel model) {
+        treeModelList.add(model);
+    }
+    
+    public static void unsubscribeModel(DocumentSectionAdapterDefaultTreeModel model) {
+        treeModelList.remove(model);
+    }
     
     public static BungeniBTree getTree(){
         return theSectionTree;
     }
     
     public static BungeniBNode getTreeRoot(){
+       
         if (theSectionTree.getTree().size() > 0 )
             return theSectionTree.getTree().get(theSectionTree.getTree().firstKey());
         else
@@ -78,21 +90,16 @@ public class DocumentSectionProvider {
     private static void initTimer(){
           sectionRefreshTimer = new Timer(TIMER_DELAY, new ActionListener() {
               public void actionPerformed(ActionEvent e) {
-                  System.out.println("In provider timer...");
+                  log.debug("DocumentSectionProvider: in timer");
                   final BungeniBTree tmpTreeRoot = generateSectionsTree();
-                  if (tmpTreeRoot == null )
-                    System.out.println("provider = treeRoot is null");
-                  else
-                    System.out.println("provider = treeRoot is not null");  
+                  log.debug("DocumentSectionProvider: in timer : generated size = " + tmpTreeRoot.getTree().size());
+                  log.debug("DocumentSectionProvider: in timer : tree brains = " + tmpTreeRoot.toString());
                   synchronized(theSectionTree) {
                     theSectionTree = tmpTreeRoot;
-                }
-                  BungeniBNode bNode = getTreeRoot();
-                if (bNode == null )
-                    System.out.println("root = treeRoot is null");
-                  else {
-                    System.out.println("root = treeRoot is not null = " + bNode.getChildCount());  
-                    
+                    }
+                  //refresh subscribed tree models
+                  for( DocumentSectionAdapterDefaultTreeModel model: treeModelList) {
+                      model.setRoot(DocumentSectionTreeModelProvider.newRootNode());
                   }
               }
            });

@@ -21,7 +21,7 @@ import java.util.TreeMap;
  public class BungeniBNode {
             private String Name;
             private Object nodeObject = null;
-            
+            private BungeniBNode nodeParent = null;
             /*Stores child nodes by order*/
             private TreeMap<Integer, BungeniBNode> childNodes = new TreeMap<Integer,BungeniBNode>();
             /*Stores child nodes by name*/
@@ -29,19 +29,50 @@ import java.util.TreeMap;
             private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniBNode.class.getName());
                 
             public BungeniBNode(String n) {
+               Name = n;
+            }
+            
+            public BungeniBNode (String n, BungeniBNode parent) {
                 Name = n;
+                nodeParent = parent;
             }
             
             public BungeniBNode(String n, Object obj) {
                 nodeObject = obj;
             }
             
+            
+            public String nodeSignature(){
+                //unique signature to idenfiy if node has changed.
+                //name + childCount + parentName + order_in_parent.
+                String orderInParent = "";
+                String parentName = "";
+                String sig = "";
+                if (hasParent()) {
+                    parentName = getParent().getName();
+                    orderInParent = Integer.toString(getParent().indexOfChild(this));
+                }
+                sig =  getName()+"-"+Integer.toString(getChildCount())+"-"+parentName+"-"+orderInParent;
+                return sig;
+            }
+            
             public String getName() {
                 return Name;
             }
             
+            public BungeniBNode getParent(){
+                return nodeParent;
+            }
+            
+            public void setParent(BungeniBNode parent) {
+                nodeParent = parent;
+            }
             public Object getNodeObject(){
                 return nodeObject;
+            }
+            
+            public boolean hasParent(){
+                return (nodeParent == null ) ? false: true;
             }
             
             public boolean hasNodeObject(){
@@ -56,6 +87,20 @@ import java.util.TreeMap;
             
             public TreeMap<Integer,BungeniBNode> getChildrenByOrder(){
                 return childNodes;
+            }
+            
+            public int indexOfChild(BungeniBNode node) {
+                if (containsNodeByName(node.getName())) {
+                    Iterator<Integer> orderedNodeIterator = this.getChildrenByOrder().keySet().iterator();
+                    while (orderedNodeIterator.hasNext()) {
+                        Integer iKey = orderedNodeIterator.next();
+                        BungeniBNode matchedNode = getChildrenByOrder().get(iKey);
+                        if (matchedNode.equals(node)){
+                            return iKey;
+                        }
+                    }
+                }
+                return -1;
             }
             
             public void addChild(BungeniBNode node) {

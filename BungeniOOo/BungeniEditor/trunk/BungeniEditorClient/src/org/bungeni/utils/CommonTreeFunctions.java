@@ -9,10 +9,13 @@
 
 package org.bungeni.utils;
 
+import java.net.URL;
 import java.util.Enumeration;
+import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
+import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.toolbar.BungeniToolbarXMLAdapterNode;
 
 /**
@@ -20,7 +23,9 @@ import org.bungeni.editor.toolbar.BungeniToolbarXMLAdapterNode;
  * @author Administrator
  */
 public class CommonTreeFunctions {
-    
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(CommonTreeFunctions.class.getName());
+ 
+    public static String IMAGE_LOCATION = BungeniEditorProperties.getEditorProperty("iconPath");
     /** Creates a new instance of CommonTreeFunctions */
     public CommonTreeFunctions() {
     }
@@ -32,6 +37,17 @@ public class CommonTreeFunctions {
             i++;
         }
     }
+    
+    public static ImageIcon loadIcon (String iconName) {
+               String imgLocation = IMAGE_LOCATION+ "/" + iconName;
+                URL imageURL = CommonTreeFunctions.class.getResource(imgLocation);
+                 //Create and initialize the icon.
+                if (imageURL != null)                     //image found
+                    return new ImageIcon(imageURL, "");
+                else 
+                    return null;
+    }
+    
     /*
     public static void expandAll(JTree tree, boolean expand) {
         TreeNode root = (TreeNode)tree.getModel().getRoot();

@@ -95,6 +95,7 @@ csv ;
 update public.sessions set full_name = short_name || ' ' || extract(year from start_date) 
 ;
 
+update public.sessions set short_name = full_name;
 
 /* political parties */
 copy public.groups( group_id, short_name, start_date, type )

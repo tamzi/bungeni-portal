@@ -52,7 +52,7 @@ import org.jdesktop.swingx.JXTreeTable;
  *
  * @author  Administrator
  */
-public class sectionTreeMetadataPanel extends javax.swing.JPanel {
+public class sectionTreeMetadataPanel extends javax.swing.JPanel implements ITabbedPanel {
     private OOComponentHelper ooDocument;
     private JFrame parentFrame;
     private DefaultMutableTreeNode sectionRootNode = null;
@@ -301,6 +301,25 @@ public class sectionTreeMetadataPanel extends javax.swing.JPanel {
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    /**
+     * Required functions for ITabbedPanel interface
+     **/
+    public void setOOComponentHandle(OOComponentHelper ooComponent) {
+        this.ooDocument = ooComponent;
+    }
+
+    public Component getObjectHandle() {
+        return this;
+    }
+
+    public void setParentWindowHandle(JFrame c) {
+        this.parentFrame = c;
+    }
+
+    public JFrame getParentWindowHandle() {
+        return this.parentFrame;
+    }
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

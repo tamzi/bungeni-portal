@@ -38,6 +38,8 @@ import org.bungeni.editor.dialogs.treetable.DocMetadataTreeTableModel;
 import org.bungeni.editor.dialogs.treetable.sectionHive;
 import org.bungeni.editor.metadata.DocumentMetadataTableModel;
 import org.bungeni.editor.providers.DocumentSectionAdapterTreeModel;
+import org.bungeni.editor.providers.DocumentSectionAdapterTreeModel2;
+import org.bungeni.editor.providers.DocumentSectionTreeModelProvider;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.utils.CommonTreeFunctions;
@@ -76,7 +78,7 @@ public class sectionProviderTreePanel extends javax.swing.JPanel {
     
     private void initTableDocumentMetadata() {
         // initSectionsArray();   
-         this.treeSectionTreeMetadata.setModel(DocumentSectionAdapterTreeModel.create());
+         this.treeSectionTreeMetadata.setModel(DocumentSectionTreeModelProvider.create());
          this.treeSectionTreeMetadata.addMouseListener(new treeDocStructureTreeMouseListener());
          updateTableMetadataModel(ROOT_SECTION);
          //-tree-deprecated--CommonTreeFunctions.expandAll(treeSectionStructure, true);

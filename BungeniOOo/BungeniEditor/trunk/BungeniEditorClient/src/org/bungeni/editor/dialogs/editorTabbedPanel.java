@@ -6,6 +6,7 @@
 
 package org.bungeni.editor.dialogs;
 
+import com.sun.corba.se.internal.iiop.ORB;
 import com.sun.star.animations.Event;
 import com.sun.star.beans.IllegalTypeException;
 import com.sun.star.beans.PropertyExistException;
@@ -191,7 +192,10 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private JPopupMenu popupMenuTreeStructure = new JPopupMenu();
     private boolean mouseOver_TreeDocStructureTree = false;
     private boolean program_refresh_documents = false;
-    private TreeMap<String, componentHandleContainer> editorMap;
+    
+    private  TreeMap<String, editorTabbedPanel.componentHandleContainer> editorMap;
+    
+    
     private String activeDocument; 
     private DocumentMetadataTableModel docMetadataTableModel;
     
@@ -220,7 +224,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        this.parentFrame = parentFrame;
        this.activeDocument = BungeniEditorProperties.getEditorProperty("activeDocumentMode");
        init();
-      
+   
     }
     
     /* we need three options,
@@ -244,12 +248,12 @@ public class editorTabbedPanel extends javax.swing.JPanel {
    
     private void init() {
        initComponents();   
+       hideUnusedPanels();
        //initListDocuments();
        initProviders();
        initFields();
        initializeValues();
        initFloatingPane();
-       initTabbedPanes();
        
         //initCollapsiblePane();
        initNotesPanel();
@@ -258,11 +262,21 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        initDialogListeners();
        log.debug("calling initOpenDOcuments");
        initOpenDocuments();
+       /***** control moved to other dialog... 
        updateListDocuments();
+        *****/
        initTableDocMetadata();
+       initTabbedPanes();
+   
        //metadataChecks();
+       
     }
     
+    private void hideUnusedPanels(){
+         this.panelMetadata.setEnabled(false); this.panelMetadata.setVisible(false);
+        this.panelBodyMetadata.setEnabled(false); this.panelBodyMetadata.setVisible(false);
+        this.panelMarkup.setEnabled(false); this.panelMarkup.setVisible(false);
+    }
     private void initProviders(){
         org.bungeni.editor.providers.DocumentSectionProvider.initialize(this.ooDocument);
     }
@@ -277,6 +291,12 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         this.jTabsContainer.insertTab(sectpanel.getAccessibleContext().getAccessibleDescription(), 
                 null,
                 (Component) sectpanel,  sectpanel.getAccessibleContext().getAccessibleDescription(), 3 );
+        
+        org.bungeni.editor.panels.documentNotesPanel docPanel = new org.bungeni.editor.panels.documentNotesPanel(ooDocument, parentFrame, this);
+        this.jTabsContainer.insertTab(docPanel.getAccessibleContext().getAccessibleDescription(), 
+                null,
+                (Component) docPanel,  docPanel.getAccessibleContext().getAccessibleDescription(), 1 );
+        
       /*
         org.bungeni.editor.panels.sectionProviderTreePanel providerPanel = new org.bungeni.editor.panels.sectionProviderTreePanel (ooDocument, parentFrame);
         this.jTabsContainer.insertTab(providerPanel.getAccessibleContext().getAccessibleDescription(), 
@@ -347,7 +367,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        tableDocMetadata.addMouseListener(new DocumentMetadataTableMouseListener());
        //the actionListener uses the tableDocMetadata's custom model in the refreshMetadata call
        //so we move the call to the addaction listener after the table model has been set.
+       /*** remove this for now since we are moving control to other dialog
        cboListDocuments.addActionListener(new cboListDocumentsActionListener());
+        *****/
        //cboListDocuments.addVetoableChangeListener(new cboListDocumentsVetoableChangeListener());
     }    
 
@@ -406,17 +428,19 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        //     String docKey = (String) docIterator.next();
           //  cboListDocuments.addItem(docKey);
        // }
+        /**** commment for now as we are moving control to other dialog ****
         String[] listDocuments = editorMap.keySet().toArray(new String[editorMap.keySet().size()]);
         cboListDocuments.setModel(new DefaultComboBoxModel(listDocuments));
-        cboListDocuments.updateUI();
+         ******/
+       // cboListDocuments.updateUI();
         //cboListDocuments.add
     }
-    
+    /**** commented because control has been moved***
     private void updateListDocuments(){
         XTextDocument xDoc = (XTextDocument)UnoRuntime.queryInterface(XTextDocument.class, this.Component);
         String strTitle = OOComponentHelper.getFrameTitle(xDoc);
         cboListDocuments.setSelectedItem(strTitle);
-    }
+    }*****/
     
     private void initOpenDocumentsList(){
              try {
@@ -517,7 +541,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         initList();
     }
     
-    public void uncheckEditModeButton() {
+    private void uncheckEditModeButton() {
         toggleEditSection.setSelected(false);
     }
     
@@ -536,7 +560,47 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         }
       }
    } 
-   
+       /**
+     * Static function invoked by JPanel containing document switcher.
+     * @param currentlySelectedDoc currently selected document in switched
+     * @param same
+     */
+    public void updateMain(String currentlySelectedDoc, boolean same) {
+                  if (same) {
+                    if (self().program_refresh_documents == true)
+                        return;
+                    else
+                         bringEditorWindowToFront();
+                } else {
+                    String key = currentlySelectedDoc;
+                    componentHandleContainer xComp = editorMap.get(key);
+                    if (xComp == null ) {
+                        log.debug("XComponent is invalid");
+                    }
+                   // ooDocument.detachListener();
+                    setOODocumentObject(new OOComponentHelper(xComp.getComponent(), ComponentContext));
+                    initFields();
+                    //initializeValues();
+                   
+                    // removed call to collapsiblepane function
+                    //retrieve the list of dynamic panels from the the dynamicPanelMap and update their component handles
+                    //updateCollapsiblePanels();
+                    updateFloatingPanels();
+                    //initNotesPanel();
+                    initBodyMetadataPanel();
+                    initDialogListeners();
+                    //check and see if the doctype property exists before you refresh the metadata table
+                    ///if(!ooDocument.propertyExists("doctype")){
+                    ///   JOptionPane.showMessageDialog(null,"This is not a bungeni document.","Document Type Error",JOptionPane.ERROR_MESSAGE);
+                    ///   
+                    ///} 
+                    refreshTableDocMetadataModel();
+                    if (self().program_refresh_documents == false)
+                        bringEditorWindowToFront();
+                    
+                }
+    }
+    
     /*
      *this is invoked on window closing, by the JFrame that contains the panel
      */
@@ -601,7 +665,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             floatingFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
     
-    
+    /*
     private void initCollapsiblePane(){
      try {
      
@@ -633,6 +697,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      }
      
     }
+    */
     
     private void updateFloatingPanels(){
         if (!floatingPanelMap.isEmpty()){
@@ -644,7 +709,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                          }
         }
     }
-    
+    /*
     private void updateCollapsiblePanels(){
                   if (!dynamicPanelMap.isEmpty()) {
                          Iterator<String> panelNames = dynamicPanelMap.keySet().iterator();
@@ -655,7 +720,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                          }
                     }
     }
-    
+    */
     private editorTabbedPanel self() {
         return this;
     }
@@ -1228,7 +1293,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             }
 }
    
-
+public TreeMap<String, editorTabbedPanel.componentHandleContainer> getCurrentlyOpenDocuments(){
+    return this.editorMap;
+}
 
      class treePopupMenu {
         TreeMap<String,String> popupMenuMap = new TreeMap<String, String>();
@@ -2425,6 +2492,10 @@ private void displayUserMetadata(XTextRange xRange) {
 // TODO add your handling code here:
     }//GEN-LAST:event_userMetadataLookup_Clicked
 
+    public void setProgrammaticRefreshOfDocumentListFlag (boolean bState) {
+        this.program_refresh_documents = bState;
+    }
+    
     private synchronized void componentHandlesTracker() {
                     log.debug("componentHandlesTracker: begin ");
                     //array list caches keys to be removed
@@ -2433,6 +2504,7 @@ private void displayUserMetadata(XTextRange xRange) {
                     //find the components that have been disposed
                     //and capture them in an array
                     log.debug("componentHandlesTracker: finding disposed documents ");
+                    /*** not needed since whole list is refreshed ****
                     Iterator iterKeys = editorMap.keySet().iterator();
                     while (iterKeys.hasNext()) {
                         String key = (String) iterKeys.next();
@@ -2441,15 +2513,17 @@ private void displayUserMetadata(XTextRange xRange) {
                             cont.removeListener();
                             keysToRemove.add(key);
                         }
-                    }
+                    }****/
                       log.debug("componentHandlesTracker: capturing selected item ");
                      //store the currently selected item to reset it back after refreshing the combo
+                      /***commented since combo is being moved to separate dlg 
                     String selectedItem = (String)cboListDocuments.getSelectedItem();
                     boolean selectedItemWasRemoved = false;
+                       *****/
                     //now remove the disposed components from the map
                     
                       log.debug("componentHandlesTracker: removing disposed components ");
-                  
+                      /**** not needed since the whole list is refreshed
                     ListIterator<String> iterKeysToRemove = keysToRemove.listIterator() ;
                     while (iterKeysToRemove.hasNext()) {
                        String key = iterKeysToRemove.next();
@@ -2457,7 +2531,7 @@ private void displayUserMetadata(XTextRange xRange) {
                            selectedItemWasRemoved = true;
                        }
                        editorMap.remove(key);
-                   }
+                   } */
                    
                    //some documents may have been opened in the meanwhile... we look for them and add them
                       log.debug("componentHandlesTracker: refreshing document open keyset map ");
@@ -2465,6 +2539,7 @@ private void displayUserMetadata(XTextRange xRange) {
                     initOpenDocumentsList();
                    
                    //now update the combo box... 
+                    /****combo being moved to different dlg... 
                    String[] listDocuments = editorMap.keySet().toArray(new String[editorMap.keySet().size()]);
                    cboListDocuments.setModel(new DefaultComboBoxModel(listDocuments));
                    this.program_refresh_documents = true;
@@ -2472,7 +2547,8 @@ private void displayUserMetadata(XTextRange xRange) {
                        cboListDocuments.setSelectedIndex(0);
                    else
                        cboListDocuments.setSelectedItem(selectedItem);
-                   this.program_refresh_documents = false;
+                   */
+                   //this.program_refresh_documents = false;
     }
     private void btnApplyDocMetadataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyDocMetadataActionPerformed
 // TODO add your handling code here:
@@ -2595,6 +2671,7 @@ private void displayUserMetadata(XTextRange xRange) {
     private javax.swing.JTextArea txtEditorNote;
     // End of variables declaration//GEN-END:variables
    // private static listDocumentsItemChanged = false;
+    /*
     class cboListDocumentsItemListener implements ItemListener {
         public void itemStateChanged(ItemEvent evt) {
             JComboBox listDocs = (JComboBox)evt.getSource();
@@ -2610,7 +2687,7 @@ private void displayUserMetadata(XTextRange xRange) {
             }
         }
         
-    }
+    } */
 /**
  * This action listener updates document handles when switching between documents
  * 
@@ -2740,7 +2817,7 @@ private void displayUserMetadata(XTextRange xRange) {
      *This is the class contained in the map of all open documents
      *Adds an eventListener()
      */
-    class componentHandleContainer {
+    public class componentHandleContainer {
         
         private String aName;
         private XComponent aComponent;
@@ -2786,6 +2863,7 @@ private void displayUserMetadata(XTextRange xRange) {
                 }
                 
                 public void notifyEvent(com.sun.star.document.EventObject eventObject) {
+                    /*
                     if (eventObject.EventName.equals("OnFocus")) {
                         log.error("xComponentListner : the document window OnFocus()" + getName());
                         //getName() for this document compare it with the current documetn in the editorTabbedPanel lis
@@ -2795,14 +2873,14 @@ private void displayUserMetadata(XTextRange xRange) {
                         if (selected != null) {
                             selectedDocument = (String) selected;
                             if (selectedDocument.trim().equals(getName().trim())) {
-                              /** commented below to prevent swing thread-sync bug **/
+                              /// commented below to prevent swing thread-sync bug 
                                // parentFrame.setAlwaysOnTop(true);
                               //  parentFrame.setAlwaysOnTop(false);
                               //   parentFrame.toFront();
                               //  parentFrame.setAlwaysOnTop(true);
                                
                             } else {
-                              /** commented below to prevent thread synchronization bug **/  
+                             ///// commented below to prevent thread synchronization bug 
                                 //parentFrame.setAlwaysOnTop(true);
                                // parentFrame.setAlwaysOnTop(false);
                                // parentFrame.toFront();
@@ -2813,7 +2891,7 @@ private void displayUserMetadata(XTextRange xRange) {
                         } else {
                             log.error("xComponentListner :  selected document object is null"  );
                         }
-                    }
+                    }*/
                 }
         
             }        

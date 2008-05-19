@@ -24,7 +24,7 @@
 
  <browser:viewlet
      name="bungeni.taskmenu"
-     for="*"
+     for="bungeni.core.interfaces.IGovernment"
      layer="..interfaces.IBungeniSkin"
      permission="zope.View"
      manager="ploned.ui.interfaces.ILeftColumnManager"

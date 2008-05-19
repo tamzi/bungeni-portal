@@ -22,11 +22,14 @@ import java.awt.event.MouseListener;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.ArrayList;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.Timer;
+import javax.swing.plaf.basic.BasicTreeUI;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeNode;
@@ -37,8 +40,11 @@ import org.bungeni.editor.dialogs.metadatapanel.SectionMetadataLoad;
 import org.bungeni.editor.dialogs.treetable.DocMetadataTreeTableModel;
 import org.bungeni.editor.dialogs.treetable.sectionHive;
 import org.bungeni.editor.metadata.DocumentMetadataTableModel;
+import org.bungeni.editor.providers.DocumentSectionProvider;
+import org.bungeni.editor.providers.DocumentSectionTreeModelProvider;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
+import org.bungeni.utils.BungeniBNode;
 import org.bungeni.utils.CommonTreeFunctions;
 import org.jdesktop.swingx.JXTreeTable;
 
@@ -53,7 +59,10 @@ public class sectionTreeMetadataPanel extends javax.swing.JPanel {
     private boolean emptyRootNode= false;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(sectionTreeMetadataPanel.class.getName());
     private static final String ROOT_SECTION = BungeniEditorPropertiesHelper.getDocumentRoot();
+    //arraylist capturing tree state.
     private ArrayList<String> m_savedTreeState = new ArrayList<String>();
+   //object storing selected section
+    private BungeniBNode m_selectedSection ;
     
     private Timer sectionMetadataRefreshTimer;
     /** Creates new form documentMetadataPanel */
@@ -74,64 +83,24 @@ public class sectionTreeMetadataPanel extends javax.swing.JPanel {
     }
     
     private void initTableDocumentMetadata() {
-         initSectionsArray();   
-         this.treeSectionTreeMetadata.setModel(new DefaultTreeModel(sectionRootNode));
+         //initSectionsArray();   
+         DefaultTreeCellRenderer sectionMetaRender = (DefaultTreeCellRenderer) this.treeSectionTreeMetadata.getCellRenderer();
+         sectionMetaRender.setOpenIcon(CommonTreeFunctions.loadIcon("treeMinus.gif"));
+         sectionMetaRender.setClosedIcon(CommonTreeFunctions.loadIcon("treePlus.gif"));
+         sectionMetaRender.setLeafIcon(null);
+         sectionMetaRender.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+         sectionMetaRender.setBorderSelectionColor(Color.DARK_GRAY);
+         this.treeSectionTreeMetadata.setModel(new DefaultTreeModel(DocumentSectionTreeModelProvider.newRootNode()));
          this.treeSectionTreeMetadata.addMouseListener(new treeDocStructureTreeMouseListener());
          updateTableMetadataModel(ROOT_SECTION);
          //-tree-deprecated--CommonTreeFunctions.expandAll(treeSectionStructure, true);
          CommonTreeFunctions.expandAll(treeSectionTreeMetadata);
     }
     
-      private void initSectionsArray() {
-        final OOComponentHelper ooDoc;
-        synchronized(ooDocument) {
-            ooDoc  = ooDocument;
-        }
-        try {
-            if (!ooDoc.isXComponentValid()) return;
-            if (!ooDoc.getTextSections().hasByName(ROOT_SECTION)) {
-                log.debug("no root section found");
-                return;
-            }
-            Object rootSection = ooDoc.getTextSections().getByName(ROOT_SECTION);
-            XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
-            if (theSection.getChildSections().length == 0) {
-                //root is empty and has no children. 
-                //set empty status 
-                this.emptyRootNode = true;
-            }
-            sectionRootNode = new DefaultMutableTreeNode(new String(ROOT_SECTION));
-            recurseSections (theSection, sectionRootNode);
-        } catch (NoSuchElementException ex) {
-            log.error("recurseSections :" + ex.getMessage());
-        } catch (WrappedTargetException ex) {
-            log.error("recurseSections :" + ex.getMessage());
-        }
-    }
+  
     
     
-    private void recurseSections (XTextSection theSection, DefaultMutableTreeNode node ) {
-        //recurse children
-        XTextSection[] sections = theSection.getChildSections();
-        if (sections != null ) {
-            if (sections.length > 0 ) {
-                //start from last index and go to first
-                for (int nSection = sections.length - 1 ; nSection >=0 ; nSection--) {
-                    log.debug ("section name = "+sections[nSection] );
-                    //get the name for the section and add it to the root node.
-                    XPropertySet childSet = ooQueryInterface.XPropertySet(sections[nSection]);
-                    XNamed xNamedSection = ooQueryInterface.XNamed(sections[nSection]);
-                    String childSectionName = xNamedSection.getName();
-                    DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(childSectionName);
-                    node.add(newNode);
-                    recurseSections (sections[nSection], newNode);
-                }
-            } else 
-                return;
-        } else 
-            return;
-
-    }
+ 
     
     private synchronized void initTimer(){
           sectionMetadataRefreshTimer= new Timer(4000, new ActionListener() {
@@ -230,8 +199,9 @@ public class sectionTreeMetadataPanel extends javax.swing.JPanel {
     }
    
    private void refreshTreeModel(){
-         initSectionsArray();   
-         ((DefaultTreeModel)this.treeSectionTreeMetadata.getModel()).setRoot(sectionRootNode);
+         //initSectionsArray();   
+       
+         ((DefaultTreeModel)this.treeSectionTreeMetadata.getModel()).setRoot(DocumentSectionTreeModelProvider.newRootNode());
          this.treeSectionTreeMetadata.setModel(this.treeSectionTreeMetadata.getModel());
          //this.treeSectionTreeMetadata.setModel(new DefaultTreeModel(sectionRootNode));
    }
@@ -242,7 +212,7 @@ public class sectionTreeMetadataPanel extends javax.swing.JPanel {
           this.tblSectionViewMetadata.setFont(new Font("Tahoma", Font.PLAIN, 11));   
    }
    
-   private String m_selectedSection = "";
+
    
   class treeDocStructureTreeMouseListener implements MouseListener {
        treeDocStructureTreeMouseListener() {
@@ -256,8 +226,8 @@ public class sectionTreeMetadataPanel extends javax.swing.JPanel {
                     TreePath selPath = treeSectionTreeMetadata.getPathForLocation(evt.getX(), evt.getY());
                      if (selRow != -1 ) {
                              DefaultMutableTreeNode node = (DefaultMutableTreeNode) selPath.getLastPathComponent();
-                             String m_selectedSection = (String)node.getUserObject();
-                             updateTableMetadataModel(m_selectedSection);
+                             m_selectedSection = (BungeniBNode)node.getUserObject();
+                             updateTableMetadataModel(m_selectedSection.getName());
                           return;
                      }
         }

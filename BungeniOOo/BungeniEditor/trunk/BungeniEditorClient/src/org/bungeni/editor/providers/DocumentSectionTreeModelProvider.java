@@ -24,6 +24,9 @@ public class DocumentSectionTreeModelProvider {
     /** Creates a new instance of DocumentSectionTreeModelProvider */
     public static DocumentSectionAdapterDefaultTreeModel theSectionTreeModel = null;
     
+    /**
+     * Returns a static instance of the section TreeModel
+     */
     public static DocumentSectionAdapterDefaultTreeModel create_static(){
         if (theSectionTreeModel == null ) {
             BungeniBNode bRootNode = DocumentSectionProvider.getTreeRoot();
@@ -34,6 +37,9 @@ public class DocumentSectionTreeModelProvider {
         return theSectionTreeModel;    
     }
     
+    /**
+     * returns a non-static instance of the section TreeModel which is updated directly by the documentsectionProvider
+     */
     public static DocumentSectionAdapterDefaultTreeModel create(){
         BungeniBNode bRootNode = DocumentSectionProvider.getTreeRoot();
         DefaultMutableTreeNode dmtRootNode = provideRootNode(bRootNode);
@@ -42,6 +48,20 @@ public class DocumentSectionTreeModelProvider {
         return model;
     }
     
+    /**
+     * creates a non-static section tree model which is not updated by the documentsectionprovider
+     */
+    public static DocumentSectionAdapterDefaultTreeModel create_without_subscription(){
+        BungeniBNode bRootNode = DocumentSectionProvider.getTreeRoot();
+        DefaultMutableTreeNode dmtRootNode = provideRootNode(bRootNode);
+        DocumentSectionAdapterDefaultTreeModel model = new DocumentSectionAdapterDefaultTreeModel(dmtRootNode);
+        //DocumentSectionProvider.subscribeModel(model);
+        return model;
+    }
+    
+    /**
+     * generates a newrootnode for the section model
+     */
     public static DefaultMutableTreeNode newRootNode(){
         BungeniBNode bRootNode = DocumentSectionProvider.getTreeRoot();
         return provideRootNode(bRootNode);

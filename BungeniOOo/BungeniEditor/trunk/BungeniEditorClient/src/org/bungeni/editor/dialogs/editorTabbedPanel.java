@@ -245,10 +245,12 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private void init() {
        initComponents();   
        //initListDocuments();
+       initProviders();
        initFields();
        initializeValues();
        initFloatingPane();
        initTabbedPanes();
+       
         //initCollapsiblePane();
        initNotesPanel();
        initBodyMetadataPanel();
@@ -261,17 +263,26 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        //metadataChecks();
     }
     
+    private void initProviders(){
+        org.bungeni.editor.providers.DocumentSectionProvider.initialize(this.ooDocument);
+    }
+    
     private void initTabbedPanes() {
         org.bungeni.editor.panels.documentMetadataPanel panel = new org.bungeni.editor.panels.documentMetadataPanel(ooDocument, parentFrame);
         this.jTabsContainer.insertTab(panel.getAccessibleContext().getAccessibleDescription(), 
                 null,
                 (Component) panel,  panel.getAccessibleContext().getAccessibleDescription(), 2 );
-        
+      
         org.bungeni.editor.panels.sectionTreeMetadataPanel sectpanel = new org.bungeni.editor.panels.sectionTreeMetadataPanel (ooDocument, parentFrame);
         this.jTabsContainer.insertTab(sectpanel.getAccessibleContext().getAccessibleDescription(), 
                 null,
                 (Component) sectpanel,  sectpanel.getAccessibleContext().getAccessibleDescription(), 3 );
-
+      /*
+        org.bungeni.editor.panels.sectionProviderTreePanel providerPanel = new org.bungeni.editor.panels.sectionProviderTreePanel (ooDocument, parentFrame);
+        this.jTabsContainer.insertTab(providerPanel.getAccessibleContext().getAccessibleDescription(), 
+                null,
+                (Component) providerPanel,  providerPanel.getAccessibleContext().getAccessibleDescription(), 4 );
+       */
         
     }
     
@@ -415,7 +426,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         log.debug("initOpenDocumentsList: enumerating components");
         int i=0;
         //cboListDocuments.removeAllItems();
-        
+        editorMap.clear(); //reset the map before adding things to it.
         while (enumComponents.hasMoreElements()) {
             Object nextElem = enumComponents.nextElement();
             log.debug("initOpenDocumentsList: getting model interface");
@@ -2415,11 +2426,13 @@ private void displayUserMetadata(XTextRange xRange) {
     }//GEN-LAST:event_userMetadataLookup_Clicked
 
     private synchronized void componentHandlesTracker() {
-        
+                    log.debug("componentHandlesTracker: begin ");
                     //array list caches keys to be removed
                     ArrayList<String> keysToRemove = new ArrayList<String>();
                     
                     //find the components that have been disposed
+                    //and capture them in an array
+                    log.debug("componentHandlesTracker: finding disposed documents ");
                     Iterator iterKeys = editorMap.keySet().iterator();
                     while (iterKeys.hasNext()) {
                         String key = (String) iterKeys.next();
@@ -2429,18 +2442,27 @@ private void displayUserMetadata(XTextRange xRange) {
                             keysToRemove.add(key);
                         }
                     }
+                      log.debug("componentHandlesTracker: capturing selected item ");
+                     //store the currently selected item to reset it back after refreshing the combo
+                    String selectedItem = (String)cboListDocuments.getSelectedItem();
+                    boolean selectedItemWasRemoved = false;
+                    //now remove the disposed components from the map
+                    
+                      log.debug("componentHandlesTracker: removing disposed components ");
                   
-                  String selectedItem = (String)cboListDocuments.getSelectedItem();
-                  boolean selectedItemWasRemoved = false;
-                  //now remove the disposed components from the map
-                   ListIterator<String> iterKeysToRemove = keysToRemove.listIterator() ;
-                   while (iterKeysToRemove.hasNext()) {
+                    ListIterator<String> iterKeysToRemove = keysToRemove.listIterator() ;
+                    while (iterKeysToRemove.hasNext()) {
                        String key = iterKeysToRemove.next();
                        if (key.equals(selectedItem)) {
                            selectedItemWasRemoved = true;
                        }
                        editorMap.remove(key);
                    }
+                   
+                   //some documents may have been opened in the meanwhile... we look for them and add them
+                      log.debug("componentHandlesTracker: refreshing document open keyset map ");
+                  
+                    initOpenDocumentsList();
                    
                    //now update the combo box... 
                    String[] listDocuments = editorMap.keySet().toArray(new String[editorMap.keySet().size()]);
@@ -2450,7 +2472,6 @@ private void displayUserMetadata(XTextRange xRange) {
                        cboListDocuments.setSelectedIndex(0);
                    else
                        cboListDocuments.setSelectedItem(selectedItem);
-                   cboListDocuments.updateUI();
                    this.program_refresh_documents = false;
     }
     private void btnApplyDocMetadataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyDocMetadataActionPerformed
@@ -2730,6 +2751,7 @@ private void displayUserMetadata(XTextRange xRange) {
             log.debug("componentHandleContainer: in constructor()");
             aName = name;
             aComponent = xComponent;
+            log.debug("componentHandleContainer: to string = " + aComponent.toString());
             aComponent.addEventListener(compListener);
             //add the event broadcaster to the same listener
             XEventBroadcaster xEventBroadcaster = (com.sun.star.document.XEventBroadcaster) UnoRuntime.queryInterface (com.sun.star.document.XEventBroadcaster.class, aComponent);

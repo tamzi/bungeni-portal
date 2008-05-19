@@ -729,7 +729,10 @@ class ResponseDescriptor( ModelDescriptor ):
     fields = [
         dict( name="response_id", omit=True ),
         dict( name="question_id", omit=True ), #XXX
-        dict( name="response_text", label=_(u"Response"), description=_(u"Response to the Question") ),
+        dict( name="response_text", label=_(u"Response"), description=_(u"Response to the Question"),
+              view_widget=widget.HTMLDisplay,
+              edit_widget=widget.RichTextEditor, 
+              add_widget=widget.RichTextEditor ),
         dict( name="response_type", label=_(u"Response Kind"), description=_(u"(I)nitial or (S)ubsequent Response"), listing=True ),		
         dict( name="sitting_id", omit=True ), #XXX
         dict( name="sitting_time", label=_(u"Sitting Time"), description=_(u"Time of the Sitting"), listing=True ),

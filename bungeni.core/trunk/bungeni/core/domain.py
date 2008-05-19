@@ -10,7 +10,7 @@ Created by Kapil Thangavelu on 2007-11-22.
 import md5, random, string
 
 from zope import interface, location, component
-from ore.alchemist import model
+from ore.alchemist import model, Session
 from ore.workflow.interfaces import IWorkflowInfo
 from alchemist.traversal.managed import one2many
 
@@ -20,6 +20,8 @@ import interfaces
 logger = logging.getLogger('bungeni.core')
 
 #####
+
+
 
 class Entity( object ):
 
@@ -76,15 +78,15 @@ class ParliamentMember( User ):
 
     # ministries
 
-    @property
-    def short_name( self ):
-        return u"%s %s"%( self.first_name, self.last_name )
+
+
+
+
 
 class MemberOfParliament ( object ):    
     """
     defined by groupmembership and aditional data
     """
-
 
 class HansardReporter( User ):
     """ a reporter who reports on parliamentary procedings
@@ -114,7 +116,7 @@ class GroupSitting( Entity ):
     
     @property
     def short_name( self ):
-        return u"%s - %s"%( self.start_date, self.end_date )
+        return u"%s"%( self.start_date )
     
 class SittingType( object ):
     """ Type of sitting
@@ -163,7 +165,7 @@ class PartyMember( Entity ):
     """ 
     Member of a political party, defined by its group membership 
     """
-        
+       
     
 class Ministry( Group ):
     """ a government ministry
@@ -176,6 +178,7 @@ class Minister( Entity ):
     defined by its user_group_membership in a ministry (group)
     """    
 
+
 class Committee( Group ):
     """ a parliamentary committee of MPs
     """
@@ -185,6 +188,7 @@ class Committee( Group ):
 class CommitteeMember( Entity ):
     """ A Member of a committee
     defined by its membership to a committee (group)""" 
+  
     
 class CommitteeType( object):
     """ Type of Committee """
@@ -195,7 +199,8 @@ class ExtensionGroup( Group ):
     
 class ExtensionMember( Entity ):
     """ Users for Extension group """    
-
+   
+        
 #############
 
 class ItemLog( object ):

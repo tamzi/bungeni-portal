@@ -101,6 +101,11 @@ mapper( domain.ParliamentMember,
                              (schema.users.c.first_name + u" " + 
                              schema.users.c.middle_name + u" " + 
                              schema.users.c.last_name).label('fullname')
+                                           ),
+           'short_name' : column_property(
+                             (schema.users.c.first_name + u" " + 
+                             #schema.users.c.middle_name + u" " +
+                             schema.users.c.last_name).label('short_name')
                                            )
                     },
         polymorphic_identity='memberofparliament'
@@ -125,15 +130,65 @@ _mp = rdb.join(schema.user_group_memberships, schema.parliament_members,
                 schema.user_group_memberships.c.membership_id == schema.parliament_members.c.membership_id)
                 
 mapper ( domain.MemberOfParliament , _mp,
-         primary_key=[schema.user_group_memberships.c.membership_id],         
+         primary_key=[schema.user_group_memberships.c.membership_id], 
+          properties={
+            'short_name' : column_property(
+                             rdb.sql.select(
+                             [(schema.users.c.first_name + u" " + 
+                             #schema.users.c.middle_name + u" " +
+                             schema.users.c.last_name)],
+                             schema.user_group_memberships.c.user_id==schema.users.c.user_id
+                                    ).label('short_name')
+                                           )
+          }        
         )
         
 # Ministers and Committee members are defined by their group membership in a 
 # ministry or committee (group)        
-mapper( domain.Minister, schema.user_group_memberships )
-mapper( domain.CommitteeMember, schema.user_group_memberships )
-mapper( domain.ExtensionMember, schema.user_group_memberships )
-mapper( domain.PartyMember, schema.user_group_memberships )
+mapper( domain.Minister, schema.user_group_memberships, 
+            properties={
+            'short_name' : column_property(
+                             rdb.sql.select(
+                             [(schema.users.c.first_name + u" " + 
+                             #schema.users.c.middle_name + u" " +
+                             schema.users.c.last_name)],
+                             schema.user_group_memberships.c.user_id==schema.users.c.user_id
+                                    ).label('short_name')
+                                           )
+          })
+mapper( domain.CommitteeMember, schema.user_group_memberships ,
+            properties={
+            'short_name' : column_property(
+                             rdb.sql.select(
+                             [(schema.users.c.first_name + u" " + 
+                             #schema.users.c.middle_name + u" " +
+                             schema.users.c.last_name)],
+                             schema.user_group_memberships.c.user_id==schema.users.c.user_id
+                                    ).label('short_name')
+                                           )
+          })
+mapper( domain.ExtensionMember, schema.user_group_memberships, 
+            properties={
+            'short_name' : column_property(
+                             rdb.sql.select(
+                             [(schema.users.c.first_name + u" " + 
+                             #schema.users.c.middle_name + u" " +
+                             schema.users.c.last_name)],
+                             schema.user_group_memberships.c.user_id==schema.users.c.user_id
+                                    ).label('short_name')
+                                           )
+          })
+mapper( domain.PartyMember, schema.user_group_memberships, 
+            properties={
+            'short_name' : column_property(
+                             rdb.sql.select(
+                             [(schema.users.c.first_name + u" " + 
+                             #schema.users.c.middle_name + u" " +
+                             schema.users.c.last_name)],
+                             schema.user_group_memberships.c.user_id==schema.users.c.user_id
+                                    ).label('short_name')
+                                           )
+          })
 
 
 mapper( domain.HansardReporter, schema.reporters,

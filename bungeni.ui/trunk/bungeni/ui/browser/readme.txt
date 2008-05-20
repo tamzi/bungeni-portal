@@ -193,16 +193,16 @@ Sittings
 
 Just check if we get something back because the return value depends on the times
 
-    >>> validations.checkDateInInterval( sess.session_id, yesterday, validations.sql_checkSittingInterval) == None
+    >>> validations.checkDateInInterval( sess.session_id, yesterday, validations.sql_checkSittingSessionInterval) == None
     True
    
-    >>> validations.checkDateInInterval( sess.session_id, today, validations.sql_checkSittingInterval) == None
+    >>> validations.checkDateInInterval( sess.session_id, today, validations.sql_checkSittingSessionInterval) == None
     False
 
-    >>> validations.checkDateInInterval( sess.session_id, tomorrow, validations.sql_checkSittingInterval) == None
+    >>> validations.checkDateInInterval( sess.session_id, tomorrow, validations.sql_checkSittingSessionInterval) == None
     False
 
-    >>> validations.checkDateInInterval( sess.session_id, dayat, validations.sql_checkSittingInterval) 
+    >>> validations.checkDateInInterval( sess.session_id, dayat, validations.sql_checkSittingSessionInterval) 
    
    
 For Edit we need to be sure we do not check for the current data itself.
@@ -216,21 +216,21 @@ For Edit we need to be sure we do not check for the current data itself.
    
 Just a quick check that the above validation for yesterday now fails   
 
-    >>> validations.checkDateInInterval( sess.session_id, yesterday, validations.sql_checkSittingInterval) == None
+    >>> validations.checkDateInInterval( sess.session_id, yesterday, validations.sql_checkSittingSessionInterval) == None
     False
 
 and the real check
             
-    >>> validations.checkDateInInterval( ssit2.sitting_id, yesterday, validations.sql_checkMySittingInterval) == None
+    >>> validations.checkDateInInterval( ssit2.sitting_id, yesterday, validations.sql_checkMySittingSessionInterval) == None
     True
    
-    >>> validations.checkDateInInterval( ssit2.sitting_id, today, validations.sql_checkMySittingInterval) == None
+    >>> validations.checkDateInInterval( ssit2.sitting_id, today, validations.sql_checkMySittingSessionInterval) == None
     False
 
-    >>> validations.checkDateInInterval( ssit2.sitting_id, tomorrow, validations.sql_checkMySittingInterval) == None
+    >>> validations.checkDateInInterval( ssit2.sitting_id, tomorrow, validations.sql_checkMySittingSessionInterval) == None
     False
 
-    >>> validations.checkDateInInterval( ssit2.sitting_id, dayat, validations.sql_checkMySittingInterval)
+    >>> validations.checkDateInInterval( ssit2.sitting_id, dayat, validations.sql_checkMySittingSessionInterval)
 
       
       

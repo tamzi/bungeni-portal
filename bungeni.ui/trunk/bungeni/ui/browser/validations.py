@@ -64,15 +64,21 @@ sql_checkSessionInterval = """
                                 AND ( '%(date)s' 
                                     BETWEEN "start_date" AND "end_date") )
                         """
-sql_checkSittingInterval = """
+sql_checkSittingSessionInterval = """
                         SELECT "start_date" || ' - ' || "end_date" AS interval
                         FROM "public"."group_sittings" 
-                        WHERE ( (( "session_id" = %(parent_key)s )
-                                 OR ( "group_id" = %(parent_key)s ))
+                        WHERE ( ( "session_id" = %(parent_key)s )
+                                 
                                 AND ( '%(date)s' 
                                     BETWEEN "start_date" AND "end_date") )
                         """
-                      
+sql_checkSittingGroupInterval = """
+                        SELECT "start_date" || ' - ' || "end_date" AS interval
+                        FROM "public"."group_sittings" 
+                        WHERE (  ( "group_id" = %(parent_key)s )
+                                AND ( '%(date)s' 
+                                    BETWEEN "start_date" AND "end_date") )
+                        """                      
                         
 sql_checkGovernmentInterval = """
                             SELECT "groups"."short_name" 
@@ -282,30 +288,41 @@ def CheckSittingDatesInsideParentDatesAdd( self,  context, data ):
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)
     """
-    errors = checkStartEndDatesInInterval(context.__parent__.session_id, data, sql_checkSittingInterval)
-
+    if getattr(context.__parent__, 'session_id', None):
+        errors = checkStartEndDatesInInterval(context.__parent__.session_id, data, sql_checkSittingSessionInterval)
+    elif getattr(context.__parent__, 'group_id', None):          
+        errors = checkStartEndDatesInInterval(context.__parent__.group_id, data, sql_checkSittingGroupInterval)
     if context.__parent__.start_date > data['start_date'].date():
-        errors.append( interface.Invalid(_("Start must be after Session Start Date (%s)" % context.__parent__.start_date )) )
+        errors.append( interface.Invalid(_("Start must be after Session Start Date (%s)") % context.__parent__.start_date, "start_date" ) )
     if context.__parent__.end_date is not None:
         if data['end_date'].date() > context.__parent__.end_date:
-            errors.append(  interface.Invalid(_("End must be before Session End Date (%s)" % context.__parent__.end_date )) )
+            errors.append(  interface.Invalid(_("End must be before Session End Date (%s)") % context.__parent__.end_date, "end_date" ) )
         if data['start_date'].date() > context.__parent__.end_date:
-            errors.append(  interface.Invalid(_("Start must be before Session End Date (%s)" % context.__parent__.end_date )) )
+            errors.append(  interface.Invalid(_("Start must be before Session End Date (%s)") % context.__parent__.end_date, "start_date" ) )
     return errors
 
 ##################
 # Edit forms specific validation
 
-sql_checkMySittingInterval = """
+sql_checkMySittingSessionInterval = """
                             SELECT "group_sittings_1"."start_date"  || ' - ' ||  "group_sittings_1"."end_date" AS interval
                             FROM "public"."group_sittings" ,  "public"."group_sittings" AS  "group_sittings_1"
-                            WHERE ((( "group_sittings_1"."group_id" = "group_sittings"."group_id" 
-                                        OR "group_sittings_1"."session_id" = "group_sittings"."session_id" ) 
+                            WHERE ((("group_sittings_1"."session_id" = "group_sittings"."session_id" ) 
                                         AND ( "group_sittings"."sitting_id" = %(parent_key)s ) )
                                     AND ( "group_sittings_1"."sitting_id" !=  %(parent_key)s )
                                     AND ( '%(date)s' 
                                         BETWEEN  "group_sittings_1"."start_date" AND  "group_sittings_1"."end_date"))
                            """
+sql_checkMySittingGroupInterval = """
+                            SELECT "group_sittings_1"."start_date"  || ' - ' ||  "group_sittings_1"."end_date" AS interval
+                            FROM "public"."group_sittings" ,  "public"."group_sittings" AS  "group_sittings_1"
+                            WHERE ((( "group_sittings_1"."group_id" = "group_sittings"."group_id" )
+                                        AND ( "group_sittings"."sitting_id" = %(parent_key)s ) )
+                                    AND ( "group_sittings_1"."sitting_id" !=  %(parent_key)s )
+                                    AND ( '%(date)s' 
+                                        BETWEEN  "group_sittings_1"."start_date" AND  "group_sittings_1"."end_date"))
+                           """
+                           
 
 sql_checkMySessionInterval = """
                          SELECT "sessions_1"."short_name"  
@@ -382,15 +399,19 @@ def CheckSittingDatesInsideParentDatesEdit( self, context, data ):
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)
     """
-    errors = checkStartEndDatesInInterval(context.sitting_id, data, sql_checkMySittingInterval)
+    #errors = checkStartEndDatesInInterval(context.sitting_id, data, sql_checkMySittingInterval)
+    if getattr(context.__parent__.__parent__, 'session_id', None):
+        errors = checkStartEndDatesInInterval(context.sitting_id, data, sql_checkMySittingSessionInterval)
+    elif getattr(context.__parent__.__parent__, 'group_id', None):          
+        errors = checkStartEndDatesInInterval(context.sitting_id, data, sql_checkMySittingGroupInterval)
     
     if context.__parent__.__parent__.start_date > data['start_date'].date():
-        errors.append( interface.Invalid(_("Start must be after Session Start Date (%s)" % context.__parent__.__parent__.start_date )) )
+        errors.append( interface.Invalid(_("Start must be after Session Start Date (%s)") % context.__parent__.__parent__.start_date, "start_date") )
     if context.__parent__.__parent__.end_date is not None:
         if data['end_date'].date() > context.__parent__.__parent__.end_date:
-            errors.append(  interface.Invalid(_("End must be before Session End Date (%s)" % context.__parent__.__parent__.end_date ) ) )
+            errors.append(  interface.Invalid(_("End must be before Session End Date (%s)") % context.__parent__.__parent__.end_date, "end_date" ) )
         if data['start_date'].date() > context.__parent__.__parent__.end_date:
-            errors.append(  interface.Invalid(_("Start must be before Session End Date (%s)" % context.__parent__.__parent__.end_date )) )            
+            errors.append(  interface.Invalid(_("Start must be before Session End Date (%s)") % context.__parent__.__parent__.end_date, "start_date") )            
     return errors
 
 def CheckSessionDatesEdit( self, context, data ):

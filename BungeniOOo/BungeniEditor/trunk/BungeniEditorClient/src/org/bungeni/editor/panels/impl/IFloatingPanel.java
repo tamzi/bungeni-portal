@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package org.bungeni.editor.panels;
+package org.bungeni.editor.panels.impl;
 
 import java.awt.Component;
 import javax.swing.JFrame;
@@ -22,7 +22,7 @@ import org.bungeni.ooo.OOComponentHelper;
  * @author Administrator
  * Interface to extend Panel UI
  */
-public interface ITabbedPanel  {
+public interface IFloatingPanel  {
     /**
      * Set the OpenOffice component handle in the Panel class
      */
@@ -34,7 +34,8 @@ public interface ITabbedPanel  {
     /**
      * get the handle of the class that manages toolbar events for all actions
      */
- public void setParentHandles(JFrame parentFrame, JPanel containerPanel);
- public JFrame getParentWindowHandle();
- public JPanel getParentPanelHandle();
+  public IEditorActionEvent getEventClass(toolbarAction action);
+
+  public void setParentWindowHandle(JFrame c);
+  public JFrame getParentWindowHandle();
 }

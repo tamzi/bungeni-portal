@@ -1,5 +1,5 @@
 /*
- * IFloatingPanel.java
+ * ICollapsiblePanel.java
  *
  * Created on July 31, 2007, 2:52 PM
  *
@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package org.bungeni.editor.panels;
+package org.bungeni.editor.panels.impl;
 
 import java.awt.Component;
 import javax.swing.JFrame;
@@ -22,7 +22,7 @@ import org.bungeni.ooo.OOComponentHelper;
  * @author Administrator
  * Interface to extend Panel UI
  */
-public interface IFloatingPanel  {
+public interface ICollapsiblePanel  {
     /**
      * Set the OpenOffice component handle in the Panel class
      */
@@ -37,5 +37,4 @@ public interface IFloatingPanel  {
   public IEditorActionEvent getEventClass(toolbarAction action);
 
   public void setParentWindowHandle(JFrame c);
-  public JFrame getParentWindowHandle();
 }

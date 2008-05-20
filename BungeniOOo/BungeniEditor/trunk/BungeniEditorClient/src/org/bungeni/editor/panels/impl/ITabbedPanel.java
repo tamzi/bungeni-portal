@@ -1,5 +1,5 @@
 /*
- * ICollapsiblePanel.java
+ * IFloatingPanel.java
  *
  * Created on July 31, 2007, 2:52 PM
  *
@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package org.bungeni.editor.panels;
+package org.bungeni.editor.panels.impl;
 
 import java.awt.Component;
 import javax.swing.JFrame;
@@ -22,7 +22,7 @@ import org.bungeni.ooo.OOComponentHelper;
  * @author Administrator
  * Interface to extend Panel UI
  */
-public interface ICollapsiblePanel  {
+public interface ITabbedPanel  {
     /**
      * Set the OpenOffice component handle in the Panel class
      */
@@ -34,7 +34,18 @@ public interface ICollapsiblePanel  {
     /**
      * get the handle of the class that manages toolbar events for all actions
      */
-  public IEditorActionEvent getEventClass(toolbarAction action);
-
-  public void setParentWindowHandle(JFrame c);
+  
+ public void setPanelTitle(String titleOfPanel);
+ public String getPanelTitle();
+ 
+ public Integer getPanelLoadOrder();
+ public void setPanelLoadOrder(Integer loadOrder);
+ 
+ public void setParentHandles(JFrame parentFrame, JPanel containerPanel);
+ public JFrame getParentWindowHandle();
+ public JPanel getParentPanelHandle();
+ /*** put all the panel initialization code here 
+  called just before adding the panel to the tab container
+  ***/
+ public void initialize();
 }

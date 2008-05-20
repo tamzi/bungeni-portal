@@ -7,7 +7,7 @@
  * and open the template in the editor.
  */
 
-package org.bungeni.editor.panels;
+package org.bungeni.editor.panels.impl;
 
 /**
  *

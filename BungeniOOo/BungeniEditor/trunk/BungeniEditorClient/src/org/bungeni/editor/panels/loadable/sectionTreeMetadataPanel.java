@@ -4,7 +4,7 @@
  * Created on May 15, 2008, 11:47 AM
  */
 
-package org.bungeni.editor.panels;
+package org.bungeni.editor.panels.loadable;
 
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTree;
 import javax.swing.Timer;
 import javax.swing.plaf.basic.BasicTreeUI;
@@ -36,10 +37,12 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.BungeniEditorPropertiesHelper;
+import org.bungeni.editor.dialogs.editorTabbedPanel;
 import org.bungeni.editor.dialogs.metadatapanel.SectionMetadataLoad;
 import org.bungeni.editor.dialogs.treetable.DocMetadataTreeTableModel;
 import org.bungeni.editor.dialogs.treetable.sectionHive;
 import org.bungeni.editor.metadata.DocumentMetadataTableModel;
+import org.bungeni.editor.panels.impl.ITabbedPanel;
 import org.bungeni.editor.providers.DocumentSectionProvider;
 import org.bungeni.editor.providers.DocumentSectionTreeModelProvider;
 import org.bungeni.ooo.OOComponentHelper;
@@ -53,8 +56,14 @@ import org.jdesktop.swingx.JXTreeTable;
  * @author  Administrator
  */
 public class sectionTreeMetadataPanel extends javax.swing.JPanel implements ITabbedPanel {
+    /*** interface impplmenentation varibales */
     private OOComponentHelper ooDocument;
     private JFrame parentFrame;
+    private editorTabbedPanel parentPanel;
+    private String panelTitle;
+    private Integer panelLoadOrder;
+    
+    
     private DefaultMutableTreeNode sectionRootNode = null;
     private boolean emptyRootNode= false;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(sectionTreeMetadataPanel.class.getName());
@@ -67,6 +76,7 @@ public class sectionTreeMetadataPanel extends javax.swing.JPanel implements ITab
     private Timer sectionMetadataRefreshTimer;
     /** Creates new form documentMetadataPanel */
     public sectionTreeMetadataPanel() {
+        log.debug("constructing sectionTreeMetadataPanel");
         initComponents();
     }
     
@@ -81,6 +91,7 @@ public class sectionTreeMetadataPanel extends javax.swing.JPanel implements ITab
         initTableDocumentMetadata();    
         initTimer();
     }
+    
     
     private void initTableDocumentMetadata() {
          //initSectionsArray();   
@@ -313,12 +324,39 @@ public class sectionTreeMetadataPanel extends javax.swing.JPanel implements ITab
         return this;
     }
 
-    public void setParentWindowHandle(JFrame c) {
-        this.parentFrame = c;
+    public void setPanelTitle(String titleOfPanel) {
+        this.panelTitle = titleOfPanel;
+    }
+
+    public String getPanelTitle() {
+        return this.panelTitle;
+    }
+
+    public Integer getPanelLoadOrder() {
+        return this.panelLoadOrder;
+    }
+
+    public void setPanelLoadOrder(Integer loadOrder) {
+        this.panelLoadOrder = loadOrder;
+    }
+    
+
+    public void setParentHandles(JFrame parentFrame, JPanel containerPanel) {
+        this.parentFrame = parentFrame;
+        this.parentPanel = (editorTabbedPanel) containerPanel;
+    }
+
+    public JPanel getParentPanelHandle() {
+        return this.parentPanel;
     }
 
     public JFrame getParentWindowHandle() {
         return this.parentFrame;
+    }
+
+    public void initialize() {
+        initTableDocumentMetadata();    
+        initTimer();
     }
     
     

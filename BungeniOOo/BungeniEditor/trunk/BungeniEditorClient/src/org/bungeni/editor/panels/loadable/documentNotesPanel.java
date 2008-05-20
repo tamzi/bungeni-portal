@@ -4,7 +4,7 @@
  * Created on May 15, 2008, 11:47 AM
  */
 
-package org.bungeni.editor.panels;
+package org.bungeni.editor.panels.loadable;
 
 
 import com.sun.star.text.XTextDocument;
@@ -31,6 +31,7 @@ import javax.swing.JTree;
 import javax.swing.ListModel;
 import javax.swing.Timer;
 import org.bungeni.editor.dialogs.editorTabbedPanel;
+import org.bungeni.editor.panels.impl.ITabbedPanel;
 
 
 import org.bungeni.ooo.OOComponentHelper;
@@ -44,11 +45,15 @@ import org.bungeni.utils.TextSizeFilter;
  * @author  Ashok Hariharan
  */
 public class documentNotesPanel extends javax.swing.JPanel implements ITabbedPanel {
+    
     private OOComponentHelper ooDocument;
     private JFrame parentFrame;
     private editorTabbedPanel parentPanel;
-    private Timer tList;
+    private String panelTitle;
+    private Integer panelLoadOrder;
 
+    
+    private Timer tList;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(documentNotesPanel.class.getName());
     //document notes
     private ooDocNotes m_ooNotes;
@@ -56,6 +61,7 @@ public class documentNotesPanel extends javax.swing.JPanel implements ITabbedPan
    
     /** Creates new form documentMetadataPanel */
     public documentNotesPanel() {
+        log.debug("constructing documentNotesPanel");
         initComponents();
     }
     
@@ -372,6 +378,29 @@ public class documentNotesPanel extends javax.swing.JPanel implements ITabbedPan
 
     public JPanel getParentPanelHandle() {
         return this.parentPanel;
+    }
+
+    public void setPanelTitle(String titleOfPanel) {
+        this.panelTitle = titleOfPanel;
+    }
+
+    public String getPanelTitle() {
+        return panelTitle;
+    }
+
+    public Integer getPanelLoadOrder() {
+        return panelLoadOrder;
+    }
+
+    public void setPanelLoadOrder(Integer loadOrder) {
+        this.panelLoadOrder = loadOrder;
+    }
+
+    public void initialize() {
+       cboListDocuments.addActionListener(new cboListDocumentsActionListener());
+       initListDocuments();
+       initNotesPanel();
+       initTimer();
     }
     
     

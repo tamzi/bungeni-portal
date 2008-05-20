@@ -213,6 +213,13 @@ public class SettingsQueryFactory {
         return query;
     }
 
+    public static String Q_FETCH_TABS_BY_DOC_TYPE(String docType) {
+        String query = "SELECT panel_class, panel_title, panel_load_order FROM EDITOR_PANELS " +
+                        "Where state = 1 and doctype = '"+docType +"' and panel_type = 'tabbed'  " + 
+                        "order by panel_load_order";
+        return query;
+    }
+
 }
 
 

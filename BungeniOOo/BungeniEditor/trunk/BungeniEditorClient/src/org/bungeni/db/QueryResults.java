@@ -60,6 +60,12 @@ public class QueryResults {
        return theResults;
     }
     
+    public java.util.Iterator<Vector<String>> theResultsIterator(){
+        return theResults.iterator();
+    }
+    
+
+    
     private void buildMetadataInfo (Vector<String> metadataRow) {
         if (hasResults) 
         if (theResults.size() > 0 )  {

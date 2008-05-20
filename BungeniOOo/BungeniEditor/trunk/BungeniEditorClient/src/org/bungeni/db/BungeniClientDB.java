@@ -124,6 +124,13 @@ public class BungeniClientDB {
             return null;
     }
     
+    public QueryResults ConnectAndQuery(String query) {
+        this.Connect();
+        QueryResults qr = QueryResults(query);
+        this.EndConnect();
+        return qr;
+    }
+    
     public synchronized int Update(String expression) {
             Statement st = null;
             int nReturns = 0;

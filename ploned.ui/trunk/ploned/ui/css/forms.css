@@ -230,6 +230,10 @@ div.error.changed {
     width: 95%;
 }
 
+div.errormessage.changed {
+    background-color: #fdc; 
+    font-weight: bold;
+}
 .error .fieldRequired {
    color: #d00;
 }

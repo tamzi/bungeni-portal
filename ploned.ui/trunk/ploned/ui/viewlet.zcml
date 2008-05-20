@@ -6,6 +6,7 @@
      name="plone.portalheader"
      provides=".interfaces.IPortalHeaderManager"
      layer=".interfaces.IPlonedSkin"
+     class=".viewlet.WeightBasedSorter"
      permission="zope.Public"
      />
 
@@ -60,6 +61,15 @@
       permission="zope.Public"
       weight="10"
       />
+         
+   <browser:viewlet
+      name="plone.content.personaltools"
+      for="*"
+      manager=".interfaces.IPortalHeaderManager"
+      template="templates/personaltools.pt"
+      permission="zope.Public"
+      weight="15"
+      />   
 
    <!-- TODO: The content actions viewlet should require zope.ManageContent -->
 

@@ -43,14 +43,9 @@
             </tal:views>
           </ul>      
       </div>
-      <div id="portal-personaltools-wrapper">
-          <h5 class="hiddenStructure">Personal tools</h5>
-          <ul id="portal-personaltools" class="visualInline">
-          <div tal:replace="structure provider:portal.personalbar.menu">
-          </div>
-          </ul>
-      </div>
       <tal:block replace="structure provider:plone.portalheader" />
+
+      
     </div>
 
     <div class="visualClear" id="clear-space-before-wrapper-table"><!-- --></div>      

@@ -8,6 +8,7 @@ package org.bungeni.editor.panels.loadable;
 
 
 import com.sun.star.text.XTextDocument;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,6 +32,7 @@ import javax.swing.JTree;
 import javax.swing.ListModel;
 import javax.swing.Timer;
 import org.bungeni.editor.dialogs.editorTabbedPanel;
+import org.bungeni.editor.panels.impl.BaseClassForITabbedPanel;
 import org.bungeni.editor.panels.impl.ITabbedPanel;
 
 
@@ -44,14 +46,8 @@ import org.bungeni.utils.TextSizeFilter;
  *
  * @author  Ashok Hariharan
  */
-public class documentNotesPanel extends javax.swing.JPanel implements ITabbedPanel {
+public class documentNotesPanel extends BaseClassForITabbedPanel {
     
-    private OOComponentHelper ooDocument;
-    private JFrame parentFrame;
-    private editorTabbedPanel parentPanel;
-    private String panelTitle;
-    private Integer panelLoadOrder;
-
     
     private Timer tList;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(documentNotesPanel.class.getName());
@@ -66,9 +62,9 @@ public class documentNotesPanel extends javax.swing.JPanel implements ITabbedPan
     }
     
    public documentNotesPanel(OOComponentHelper ooDocument, JFrame parentFrame, JPanel parentPanel){
-         this.parentFrame=parentFrame;
-         this.parentPanel = (editorTabbedPanel) parentPanel;
-         this.ooDocument=ooDocument;
+         parentFrame=parentFrame;
+         parentPanel = (editorTabbedPanel) parentPanel;
+         ooDocument=ooDocument;
          init();
      }
     
@@ -82,34 +78,42 @@ public class documentNotesPanel extends javax.swing.JPanel implements ITabbedPan
     
     private void initListDocuments(){
         log.debug("initListDocuments: init");
-        String[] listDocuments = parentPanel.getCurrentlyOpenDocuments().keySet().toArray(new String[parentPanel.getCurrentlyOpenDocuments().keySet().size()]);
+        String[] listDocuments = myParentPanel().getCurrentlyOpenDocuments().keySet().toArray(new String[myParentPanel().getCurrentlyOpenDocuments().keySet().size()]);
         cboListDocuments.setModel(new DefaultComboBoxModel(listDocuments));
+        cboListDocuments.setSelectedItem(ooDocument.getFrameTitle(ooDocument.getTextDocument()));
     }
     
+    private editorTabbedPanel myParentPanel(){
+        return (editorTabbedPanel)parentPanel;
+    }
     private void updateListDocuments(){
        /* String strTitle = ooDocument.getFrameTitle(ooDocument.getTextDocument());
         cboListDocuments.setSelectedItem(strTitle);*/
        
-          String[] listDocuments = parentPanel.getCurrentlyOpenDocuments().keySet().toArray(new String[parentPanel.getCurrentlyOpenDocuments().keySet().size()]);
+          String[] listDocuments = myParentPanel().getCurrentlyOpenDocuments().keySet().toArray(new String[myParentPanel().getCurrentlyOpenDocuments().keySet().size()]);
+          for (String listDoc : listDocuments ) {
+              System.out.print("listDoc = " + listDoc);
+          }
           String selectedItem = (String)cboListDocuments.getSelectedItem();
           
-          parentPanel.setProgrammaticRefreshOfDocumentListFlag(true);
+          myParentPanel().setProgrammaticRefreshOfDocumentListFlag(true);
           cboListDocuments.setModel(new DefaultComboBoxModel(listDocuments));
           
-          if (!parentPanel.getCurrentlyOpenDocuments().containsKey(selectedItem))
+          if (!myParentPanel().getCurrentlyOpenDocuments().containsKey(selectedItem))
                cboListDocuments.setSelectedIndex(0);
            else
                cboListDocuments.setSelectedItem(selectedItem);
-          parentPanel.setProgrammaticRefreshOfDocumentListFlag(false);
+          myParentPanel().setProgrammaticRefreshOfDocumentListFlag(false);
     }
        
     private void initTimer(){
-        tList = new Timer(5000, new ActionListener(){
+        tList = new Timer(15000, new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 updateListDocuments();
             }
         }   
         );
+        tList.start();
     }
     private void initNotesPanel() {
         try {
@@ -158,6 +162,18 @@ public class documentNotesPanel extends javax.swing.JPanel implements ITabbedPan
         
     }
     
+    public void updateEditorNoteField(boolean bState){
+        if (bState) {
+            this.txtEditorNote.setText("");
+            this.txtEditorNote.setEditable(true);
+            this.txtEditorNote.setBackground(Color.WHITE);
+        } else {
+            this.txtEditorNote.setText("");
+            this.txtEditorNote.setEditable(false);
+            this.txtEditorNote.setBackground(Color.LIGHT_GRAY);
+            this.txtEditorNote.setText("Click 'New Note' to start entering a new note");
+        }
+    }
     
     /**
  * This action listener updates document handles when switching between documents
@@ -173,7 +189,7 @@ public class documentNotesPanel extends javax.swing.JPanel implements ITabbedPan
             boolean same = newItem.equals(oldItem);
             oldItem = newItem;
             if ("comboBoxChanged".equals(e.getActionCommand())) {
-                parentPanel.updateMain((String)newItem, same);
+                myParentPanel().updateMain((String)newItem, same);
                 /*
                 if (same) {
                     if (self().program_refresh_documents == true)
@@ -250,6 +266,7 @@ public class documentNotesPanel extends javax.swing.JPanel implements ITabbedPan
         txtEditorNote.setLineWrap(true);
         txtEditorNote.setRows(5);
         txtEditorNote.setToolTipText("Type in your editor notes here.");
+        txtEditorNote.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         btnNewEditorNote.setText("New Note");
         btnNewEditorNote.addActionListener(new java.awt.event.ActionListener() {
@@ -287,14 +304,14 @@ public class documentNotesPanel extends javax.swing.JPanel implements ITabbedPan
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, listboxEditorNotes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, listboxEditorNotes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
                         .add(btnNewEditorNote)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 47, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 49, Short.MAX_VALUE)
                         .add(btnSaveEditorNote))
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, txtEditorNote, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, txtEditorNote)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, lblEditorNotes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 163, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, cboListDocuments, 0, 213, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, cboListDocuments, 0, 215, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, lblOpenDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 206, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 201, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
@@ -346,61 +363,27 @@ public class documentNotesPanel extends javax.swing.JPanel implements ITabbedPan
         ooDocNoteStructure ooNote = new ooDocNoteStructure(strNoteDate, strAuthor, strEditorNote);
         m_ooNotes.addNote(ooNote);
         initEditorNotesList();
-        txtEditorNote.setEditable(false);
+        this.updateEditorNoteField(false);
     }//GEN-LAST:event_btnSaveEditorNoteActionPerformed
 
     private void btnNewEditorNoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewEditorNoteActionPerformed
 // TODO add your handling code here:
-        txtEditorNote.setText("");
-        txtEditorNote.setEditable(true);
+    this.updateEditorNoteField(true);
     }//GEN-LAST:event_btnNewEditorNoteActionPerformed
 
-    /**
-     * Required functions for ITabbedPanel interface
-     **/
-    public void setOOComponentHandle(OOComponentHelper ooComponent) {
-        this.ooDocument = ooComponent;
-        this.initEditorNotesList();
-    }
-
-    public Component getObjectHandle() {
-        return this;
-    }
-
-    public void setParentHandles(JFrame c, JPanel containerPanel) {
-        this.parentFrame = c;
-        this.parentPanel = (editorTabbedPanel) containerPanel;
-    }
-
-    public JFrame getParentWindowHandle() {
-        return this.parentFrame;
-    }
-
-    public JPanel getParentPanelHandle() {
-        return this.parentPanel;
-    }
-
-    public void setPanelTitle(String titleOfPanel) {
-        this.panelTitle = titleOfPanel;
-    }
-
-    public String getPanelTitle() {
-        return panelTitle;
-    }
-
-    public Integer getPanelLoadOrder() {
-        return panelLoadOrder;
-    }
-
-    public void setPanelLoadOrder(Integer loadOrder) {
-        this.panelLoadOrder = loadOrder;
-    }
-
+  
+    
     public void initialize() {
        cboListDocuments.addActionListener(new cboListDocumentsActionListener());
        initListDocuments();
        initNotesPanel();
        initTimer();
+       updateEditorNoteField(false);
+    }
+
+    public void refreshPanel() {
+        initEditorNotesList();
+        this.updateEditorNoteField(false);
     }
     
     

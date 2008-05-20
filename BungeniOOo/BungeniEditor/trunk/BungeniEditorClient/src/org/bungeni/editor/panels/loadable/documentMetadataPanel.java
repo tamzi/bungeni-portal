@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 import org.bungeni.editor.dialogs.editorTabbedPanel;
 import org.bungeni.editor.metadata.DocumentMetadataTableModel;
+import org.bungeni.editor.panels.impl.BaseClassForITabbedPanel;
 import org.bungeni.editor.panels.impl.ITabbedPanel;
 import org.bungeni.ooo.OOComponentHelper;
 
@@ -21,14 +22,9 @@ import org.bungeni.ooo.OOComponentHelper;
  *
  * @author  Administrator
  */
-public class documentMetadataPanel extends javax.swing.JPanel implements ITabbedPanel {
+public class documentMetadataPanel extends BaseClassForITabbedPanel {
     
-    /*** interface impplmenentation varibales */
-    private OOComponentHelper ooDocument;
-    private JFrame parentFrame;
-    private editorTabbedPanel parentPanel;
-    private String panelTitle;
-    private Integer panelLoadOrder;
+
     
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(documentMetadataPanel.class.getName());
 
@@ -41,8 +37,8 @@ public class documentMetadataPanel extends javax.swing.JPanel implements ITabbed
     }
     
    public documentMetadataPanel(OOComponentHelper ooDocument, JFrame parentFrame){
-         this.parentFrame=parentFrame;
-         this.ooDocument=ooDocument;
+         parentFrame=parentFrame;
+         ooDocument=ooDocument;
          init();
      }
     
@@ -122,46 +118,14 @@ public class documentMetadataPanel extends javax.swing.JPanel implements ITabbed
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    public void setOOComponentHandle(OOComponentHelper ooComponent) {
-        this.ooDocument = ooComponent;
-    }
-
-    public Component getObjectHandle() {
-        return this;
-    }
-
-    public void setPanelTitle(String titleOfPanel) {
-        this.panelTitle = titleOfPanel;
-    }
-
-    public String getPanelTitle() {
-        return this.panelTitle;
-    }
-
-    public Integer getPanelLoadOrder() {
-        return this.panelLoadOrder;
-    }
-
-    public void setPanelLoadOrder(Integer loadOrder) {
-        this.panelLoadOrder = loadOrder;
-    }
-
-    public void setParentHandles(JFrame parentFrame, JPanel containerPanel) {
-        this.parentFrame = parentFrame;
-        this.parentPanel  = (editorTabbedPanel) containerPanel;
-    }
-
-    public JFrame getParentWindowHandle() {
-        return this.parentFrame;
-    }
-
-    public JPanel getParentPanelHandle() {
-        return this.parentPanel ;
-    }
 
     public void initialize() {
        initTableDocumentMetadata();    
        initTimer();
+    }
+
+    public void refreshPanel() {
+        initTableDocumentMetadata();
     }
     
     

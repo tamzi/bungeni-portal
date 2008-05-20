@@ -42,6 +42,7 @@ import org.bungeni.editor.dialogs.metadatapanel.SectionMetadataLoad;
 import org.bungeni.editor.dialogs.treetable.DocMetadataTreeTableModel;
 import org.bungeni.editor.dialogs.treetable.sectionHive;
 import org.bungeni.editor.metadata.DocumentMetadataTableModel;
+import org.bungeni.editor.panels.impl.BaseClassForITabbedPanel;
 import org.bungeni.editor.panels.impl.ITabbedPanel;
 import org.bungeni.editor.providers.DocumentSectionProvider;
 import org.bungeni.editor.providers.DocumentSectionTreeModelProvider;
@@ -55,13 +56,7 @@ import org.jdesktop.swingx.JXTreeTable;
  *
  * @author  Administrator
  */
-public class sectionTreeMetadataPanel extends javax.swing.JPanel implements ITabbedPanel {
-    /*** interface impplmenentation varibales */
-    private OOComponentHelper ooDocument;
-    private JFrame parentFrame;
-    private editorTabbedPanel parentPanel;
-    private String panelTitle;
-    private Integer panelLoadOrder;
+public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
     
     
     private DefaultMutableTreeNode sectionRootNode = null;
@@ -81,8 +76,8 @@ public class sectionTreeMetadataPanel extends javax.swing.JPanel implements ITab
     }
     
    public sectionTreeMetadataPanel(OOComponentHelper ooDocument, JFrame parentFrame){
-         this.parentFrame=parentFrame;
-         this.ooDocument=ooDocument;
+         parentFrame=parentFrame;
+         ooDocument=ooDocument;
          init();
      }
     
@@ -313,50 +308,14 @@ public class sectionTreeMetadataPanel extends javax.swing.JPanel implements ITab
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * Required functions for ITabbedPanel interface
-     **/
-    public void setOOComponentHandle(OOComponentHelper ooComponent) {
-        this.ooDocument = ooComponent;
-    }
-
-    public Component getObjectHandle() {
-        return this;
-    }
-
-    public void setPanelTitle(String titleOfPanel) {
-        this.panelTitle = titleOfPanel;
-    }
-
-    public String getPanelTitle() {
-        return this.panelTitle;
-    }
-
-    public Integer getPanelLoadOrder() {
-        return this.panelLoadOrder;
-    }
-
-    public void setPanelLoadOrder(Integer loadOrder) {
-        this.panelLoadOrder = loadOrder;
-    }
     
-
-    public void setParentHandles(JFrame parentFrame, JPanel containerPanel) {
-        this.parentFrame = parentFrame;
-        this.parentPanel = (editorTabbedPanel) containerPanel;
-    }
-
-    public JPanel getParentPanelHandle() {
-        return this.parentPanel;
-    }
-
-    public JFrame getParentWindowHandle() {
-        return this.parentFrame;
-    }
-
     public void initialize() {
         initTableDocumentMetadata();    
         initTimer();
+    }
+
+    public void refreshPanel() {
+        //nothing to do here... the timer refreshes itself....
     }
     
     

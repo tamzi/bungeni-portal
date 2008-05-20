@@ -48,4 +48,9 @@ public interface ITabbedPanel  {
   called just before adding the panel to the tab container
   ***/
  public void initialize();
+ /**
+  * put all the code to refresh the panels here
+  */
+ public void refreshPanel();
+ 
 }

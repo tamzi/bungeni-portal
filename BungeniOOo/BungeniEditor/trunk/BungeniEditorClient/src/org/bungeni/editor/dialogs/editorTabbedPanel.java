@@ -204,6 +204,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     
     private HashMap<String, ICollapsiblePanel> dynamicPanelMap = new HashMap<String,ICollapsiblePanel>();
     private HashMap<String, IFloatingPanel> floatingPanelMap = new HashMap<String,IFloatingPanel>();
+    private ArrayList<ITabbedPanel> m_tabbedPanelMap = new ArrayList<ITabbedPanel>();
+    
     
     private metadataTabbedPanel metadataTabbedPanel = null;
 
@@ -261,7 +263,6 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        //initNotesPanel();
        //initBodyMetadataPanel();
        initTimers();
-       initDialogListeners();
        log.debug("calling initOpenDOcuments");
        initOpenDocuments();
        /***** control moved to other dialog... 
@@ -283,10 +284,13 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         org.bungeni.editor.providers.DocumentSectionProvider.initialize(this.ooDocument);
     }
     
+    private void updateProviders() {
+        org.bungeni.editor.providers.DocumentSectionProvider.updateOOoHandle(this.ooDocument);
+    }
     private void initTabbedPanes() {
         log.debug("InitTabbedPanes: begin");
-        ArrayList<ITabbedPanel> tabbedPanels = TabbedPanelFactory.getPanelsByDocType(BungeniEditorProperties.getEditorProperty("activeDocumentMode"));
-        for (ITabbedPanel panel: tabbedPanels) {
+        m_tabbedPanelMap = TabbedPanelFactory.getPanelsByDocType(BungeniEditorProperties.getEditorProperty("activeDocumentMode"));
+        for (ITabbedPanel panel: m_tabbedPanelMap ) {
             panel.setOOComponentHandle(ooDocument);
             panel.setParentHandles(parentFrame, this);
             panel.initialize();
@@ -295,29 +299,20 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         log.debug("InitTabbedPanes: finished loading");
 
         
-/*        org.bungeni.editor.panels.documentNotesPanel docNotesPanel = new org.bungeni.editor.panels.documentNotesPanel(ooDocument, parentFrame, this);
-        this.jTabsContainer.add(docPanel.getAccessibleContext().getAccessibleDescription(), docPanel);
-   
-        org.bungeni.editor.panels.documentMetadataPanel docMetaPanel = new org.bungeni.editor.panels.documentMetadataPanel(ooDocument, parentFrame);
-        this.jTabsContainer.add(docPanel.getAccessibleContext().getAccessibleDescription(), docPanel);
-
-        this.jTabsContainer.insertTab(panel.getAccessibleContext().getAccessibleDescription(), 
-                null,
-                (Component) panel,  panel.getAccessibleContext().getAccessibleDescription(), 2 );
-      
+/*        
         org.bungeni.editor.panels.sectionTreeMetadataPanel sectpanel = new org.bungeni.editor.panels.sectionTreeMetadataPanel (ooDocument, parentFrame);
         this.jTabsContainer.insertTab(sectpanel.getAccessibleContext().getAccessibleDescription(), 
                 null,
                 (Component) sectpanel,  sectpanel.getAccessibleContext().getAccessibleDescription(), 3 );
         
                 */
-      /*
-        org.bungeni.editor.panels.sectionProviderTreePanel providerPanel = new org.bungeni.editor.panels.sectionProviderTreePanel (ooDocument, parentFrame);
-        this.jTabsContainer.insertTab(providerPanel.getAccessibleContext().getAccessibleDescription(), 
-                null,
-                (Component) providerPanel,  providerPanel.getAccessibleContext().getAccessibleDescription(), 4 );
-       */
-        
+    }
+
+    private void updateTabbedPanes(){
+        for (ITabbedPanel panel: m_tabbedPanelMap ) {
+            panel.setOOComponentHandle(ooDocument);
+            panel.refreshPanel();
+        }
     }
     
     private boolean checkTableDocMetadata(){
@@ -522,8 +517,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         initOpenDocuments();
     }
     
-    private void initDialogListeners() {
-    }
+  
     private void initFields(){
         //initTree();
         treeDocStructure.setModel(new DefaultListModel());
@@ -548,7 +542,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         initList();
     }
     
-    private void uncheckEditModeButton() {
+    public void uncheckEditModeButton() {
         toggleEditSection.setSelected(false);
     }
     
@@ -586,6 +580,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                     }
                    // ooDocument.detachListener();
                     setOODocumentObject(new OOComponentHelper(xComp.getComponent(), ComponentContext));
+                    updateProviders();
                     initFields();
                     //initializeValues();
                    
@@ -593,9 +588,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                     //retrieve the list of dynamic panels from the the dynamicPanelMap and update their component handles
                     //updateCollapsiblePanels();
                     updateFloatingPanels();
+                    updateTabbedPanes();
                     //initNotesPanel();
                     //initBodyMetadataPanel();
-                    initDialogListeners();
                     //check and see if the doctype property exists before you refresh the metadata table
                     ///if(!ooDocument.propertyExists("doctype")){
                     ///   JOptionPane.showMessageDialog(null,"This is not a bungeni document.","Document Type Error",JOptionPane.ERROR_MESSAGE);
@@ -1854,151 +1849,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
     private javax.swing.JCheckBox toggleEditSection;
     private javax.swing.JList treeDocStructure;
     // End of variables declaration//GEN-END:variables
-   // private static listDocumentsItemChanged = false;
-    /*
-    class cboListDocumentsItemListener implements ItemListener {
-        public void itemStateChanged(ItemEvent evt) {
-            JComboBox listDocs = (JComboBox)evt.getSource();
-            Object item= evt.getItem();
-            
-            if (evt.getStateChange() == ItemEvent.SELECTED) {
-               
-                //item was just selected
-              //  MessageBox.Confirm(parent, "This will switch the document context from the document \n" +
-                //        "titled :" + item.toString())
-            } else if (evt.getStateChange() == ItemEvent.DESELECTED) {
-                //item is no longer selected
-            }
-        }
-        
-    } */
-/**
- * This action listener updates document handles when switching between documents
- * 
- * @author  Administrator
- */
-    class cboListDocumentsActionListener implements ActionListener {
-        Object oldItem;
-        public void actionPerformed(ActionEvent e) {
-            JComboBox cb = (JComboBox) e.getSource();
-            Object newItem = cb.getSelectedItem();
-            boolean same = newItem.equals(oldItem);
-            oldItem = newItem;
-            
-            if ("comboBoxChanged".equals(e.getActionCommand())) {
-                if (same) {
-                    if (self().program_refresh_documents == true)
-                        return;
-                    else
-                        //check and see if the doctype property exists before you bring the window front
-                     //  if(ooDocument.propertyExists("doctype")){
-                            bringEditorWindowToFront();
-                      // }
-                        
-                    //return;
-                } else {
-                    String key = (String)newItem;
-                    componentHandleContainer xComp = editorMap.get(key);
-                    if (xComp == null ) {
-                        log.debug("XComponent is invalid");
-                    }
-                   // ooDocument.detachListener();
-                    setOODocumentObject(new OOComponentHelper(xComp.getComponent(), ComponentContext));
-                 
-                    initFields();
-                    //initializeValues();
-                   
-                    // removed call to collapsiblepane function
-                    //retrieve the list of dynamic panels from the the dynamicPanelMap and update their component handles
-                    //updateCollapsiblePanels();
-                    updateFloatingPanels();
-                    //initNotesPanel();
-                    //initBodyMetadataPanel();
-                    initDialogListeners();
-                    //check and see if the doctype property exists before you refresh the metadata table
-                    /*if(!ooDocument.propertyExists("doctype")){
-                       JOptionPane.showMessageDialog(null,"This is not a bungeni document.","Document Type Error",JOptionPane.ERROR_MESSAGE);
-                       
-                    } */
-                    /***** refreshTableDocMetadataModel();**/
-                    
-                                                               
-                    if (self().program_refresh_documents == false)
-                        bringEditorWindowToFront();
-                    
-                   
-                   
-                       
-                }
-            }
-            
-        }
-        
-    }
-    /*
-    private int currentMetadataSelectedRow = 0;
-    
-    public class DocumentMetadataTableMouseListener implements MouseListener {
-    
-    ////  Creates a new instance of DocumentMetadataTableMouseListener 
-    public DocumentMetadataTableMouseListener() {
-      }
 
-    public void mouseClicked(MouseEvent e) {
-           JTable tbl = (JTable) e.getSource();
-           
-          if (e.getClickCount() == 2){
-            Point p = e.getPoint();
-            int row = tbl.rowAtPoint(p);
-            DocumentMetadataTableModel mModel  = (DocumentMetadataTableModel) tbl.getModel();
-            DocumentMetadata metadataObj = mModel.getMetadataSupplier().getDocumentMetadata()[row];
-            currentMetadataSelectedRow = row;
-            //update the controls with the value
-            if (metadataObj.getDataType().equals("datetime")) {
-                try {
-                self().editStringLbl.setVisible(false);
-                self().editStringTxt.setVisible(false);
-                self().editDateLbl.setVisible(true);
-                self().editDateTxt.setVisible(true);
-                
-                String metaValue = metadataObj.getValue().trim();
-                SimpleDateFormat formatter = new SimpleDateFormat ("yyyy-MM-dd");
-                if (metaValue.length() == 0)
-                    self().editDateTxt.setDate(new Date());
-                else
-                    self().editDateTxt.setDate(formatter.parse(metaValue));
-                } catch (java.text.ParseException ex) {
-                    log.error("documentMetadataMouseListener error :" + ex.getMessage());
-                }
-            } else if (metadataObj.getDataType().equals("string")) {
-                self().editStringLbl.setVisible(true);
-                self().editStringTxt.setVisible(true);
-                self().editDateLbl.setVisible(false);
-                self().editDateTxt.setVisible(false);
-                
-                String metaValue = metadataObj.getValue();
-                self().editStringTxt.setText(metaValue);
-            }
-            self().panelEditDocumentMetadata.setVisible(true);
-                    
-        }
-    }
-
-    public void mousePressed(MouseEvent e) {
-    }
-
-    public void mouseReleased(MouseEvent e) {
-    }
-
-    public void mouseEntered(MouseEvent e) {
-    }
-
-    public void mouseExited(MouseEvent e) {
-    }
-    
-}
-     */
-    
     /*
      *This is the class contained in the map of all open documents
      *Adds an eventListener()

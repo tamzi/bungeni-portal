@@ -47,7 +47,7 @@ LocalizedAnnotationStrings = {
 	
 	'note delete label': 'Delete',
 
-	
+	'note annotate label': 'Annotate:',	
 	
 	'browser support of W3C range required for annotation creation' : 'Your browser does not support the W3C range standard, so you cannot create annotations.',
 	

@@ -1,3 +1,5 @@
+from zope.security.interfaces import IGroupAwarePrincipal
+from zope.app.security.principalregistry import principalRegistry
 from zope.component import createObject, getMultiAdapter
 from zope.publisher.browser import BrowserPage, BrowserView
 from zope.app.pagetemplate import ViewPageTemplateFile
@@ -11,7 +13,7 @@ from marginalia.schema import annotations_table, AnnotationMaster
 from marginalia.interfaces import IMarginaliaAnnotatableAdaptor
 
 class MarginaliaPage(BrowserPage):
-    """All the methods required by Marginalia."""
+    """All the methods required by Marginalia Annotation Tab."""
 
     def getTitle(self):
         return 'Annotation Utility'
@@ -130,13 +132,13 @@ class MarginaliaPage(BrowserPage):
 
         session = Session()
         
-        if params.has_key('link'):
-            if  params['link'].startswith("http://"):
-                annotation.hyper_link = params['link']
-                params.pop('link')
-            else:
-                if annotation.hyper_link:
-                    annotation.hyper_link = ''
+#         if params.has_key('link'):
+#             if  params['link'].startswith("http://"):
+#                 annotation.hyper_link = params['link']
+#                 params.pop('link')
+#             else:
+#                 if annotation.hyper_link:
+#                     annotation.hyper_link = ''
 
         for key in annotations_table.c.keys():
             value = params.get(key, None)
@@ -176,7 +178,7 @@ class MarginaliaPage(BrowserPage):
         view = getMultiAdapter((plaintext, self.request), name=u'')
         return view.render()
 
-    def getSortedFeedEntries(self, user, url, block=None, filter_name=None, filter_type=None, search_string=None):
+    def getSortedFeedEntries(self, user, url, block=None, filter_name=None, filter_group=None, filter_type=None, search_string=None):
         """ The incoming query specifies an URL like 
         http://server/somedocument/annotate/#*
         where the fragment identifier ('#*') specifies all annotations
@@ -191,13 +193,15 @@ class MarginaliaPage(BrowserPage):
 
         if filter_name and "select_all" in filter_name:
             filter_name = None
-        if filter_type and "select_all" in filter_type:
-            filter_type = None
+        if filter_group and "select_all" in filter_group:
+            filter_group = None
 
         if filter_name:
             filter_name = filter_name.split(",")
-        if filter_type:
-            filter_type = filter_type.split(",")
+        if filter_group:
+            filter_group = filter_group.split(",")
+
+        filter_type = ['annotate', ]
         
         query = query.filter(AnnotationMaster.url == url)
         if search_string:
@@ -235,7 +239,22 @@ class MarginaliaPage(BrowserPage):
                 continue
             uids.append(annotation.id)                
             annotations.append(annotation)
-                
+
+        if filter_group:
+            filter_group = set(filter_group)
+            group_annotations = []
+            for annotation in annotations:
+                principal = principalRegistry.getPrincipals(annotation.quote_author)
+                if not principal:
+                    continue
+                principal = principal[0]
+                groups = principal.groups
+                if not groups:
+                    groups = [principal.id,]
+                if not set(groups).intersection(filter_group):
+                    continue
+                group_annotations.append(annotation)
+            annotations = group_annotations
         return annotations
 
     def getRangeInfos(self, user, url):
@@ -249,8 +268,107 @@ class MarginaliaPage(BrowserPage):
             infos.append(info)
         return mergeRangeInfos(infos)
 
+
+class AmendmentPage(MarginaliaPage):
+    """All the methods required by Marginalia Amendment Tab."""
+    def __call__(self):
+        rest_verb_map = {
+            'GET': self._listAnnotations, # Finds listAnnotations.pt in skins
+            'POST': self._createAnnotation,
+            'PUT': self._updateAnnotation,
+            'DELETE': self._deleteAnnotation,
+            }
+        verb = rest_verb_map[self.request['REQUEST_METHOD']]
+        return verb()
+
+    def getSortedFeedEntries(self, user, url, block=None, filter_name=None, filter_group=None, filter_type=None, search_string=None):
+        """ Processes the  incoming query."""
+        session = Session()
+        query = session.query(AnnotationMaster)
+
+        if filter_name and "select_all" in filter_name:
+            filter_name = None
+        if filter_type and "select_all" in filter_type:
+            filter_type = None
+        if filter_group and "select_all" in filter_group:
+            filter_group = None
+
+        if filter_name:
+            filter_name = filter_name.split(",")
+        if filter_type:
+            filter_type = filter_type.split(",")
+        if filter_group:
+            filter_group = filter_group.split(",")
+
+        if not filter_type:
+            filter_type = ['comment', 'delete', 'insert', 'replace']
+        if 'annotate' in filter_type:
+            raise Exception, "Cannot display annotations on the amendment page"            
+        
+        query = query.filter(AnnotationMaster.url == url)
+        if search_string:
+            query = query.filter(AnnotationMaster.quote == search_string)
+        if filter_type:
+            query = query.filter(AnnotationMaster.edit_type.in_(filter_type))
+        if filter_name:
+            query = query.filter(AnnotationMaster.quote_author.in_(filter_name))
+                                 
+        user = self.getAuthenticatedUser()
+
+        annotation_list = []
+        public_annotations = query.filter(AnnotationMaster.access == 'public').all()
+        users_annotations =  query.filter(AnnotationMaster.quote_author == user).all()                        
+        annotation_list.extend(public_annotations)
+        annotation_list.extend(users_annotations)
+                    
+        # Filter by position (if block was specified )
+        annotations = [ ]
+        uids = []
+        if block is not None and block != '':
+            block = SequencePoint(block);
+            for annotation in annotation_list:
+                if annotation.id in uids:
+                    continue
+                uids.append(annotation.id)                
+                arange = annotation.getSequenceRange( )
+                if arange.start.compareInclusive(block) <= 0 and \
+                       arange.end.compareInclusive(block) >= 0:            
+                    annotations.append( annotation )
+            return annotations
+
+        for annotation in annotation_list:
+            if annotation.id in uids:
+                continue
+            uids.append(annotation.id)                
+            annotations.append(annotation)
+
+        if filter_group:
+            filter_group = set(filter_group)
+            group_annotations = []
+            for annotation in annotations:
+                principal = principalRegistry.getPrincipals(annotation.quote_author)
+                if not principal:
+                    continue
+                principal = principal[0]
+                groups = principal.groups
+                if not groups:
+                    groups = [principal.id,]                
+                if not set(groups).intersection(filter_group):
+                    continue
+                group_annotations.append(annotation)
+            annotations = group_annotations
+                
+        return annotations
+    
 class MarginaliaAnnotationView(BrowserView):
     """Annotation View Class. """
+    def getPortalGroups(self):
+        """Returns portal wide groups."""
+        for principal in principalRegistry.getPrincipals(''):
+            if IGroupAwarePrincipal.providedBy(principal):
+                continue
+            yield principal.id, principal.title
+    
     def getOwnerList(self):
         """Return a list of members who have added annotations."""
         user = self.getAuthenticatedUser()

@@ -10,7 +10,6 @@
       permission="zope.View"
       />
 
- <!--
   <configure package="zope.app.preview">
     <browser:page
         for="marginalia.interfaces.ISimpleDocument"
@@ -20,7 +19,6 @@
         menu="zmi_views" title="Preview"
         />
   </configure>
- -->
 
   <browser:page
       for="marginalia.interfaces.ISimpleDocument"
@@ -77,8 +75,33 @@
 
   <browser:page
       for="marginalia.interfaces.IMarginaliaAnnotatable"
+      name="zmiamendment.html"
+      template="amendment_zmi.pt"
+      class="marginalia.browser.templates.MarginaliaAnnotationView"
+      permission="zope.View"
+      menu="zmi_views" title="Amendment"
+      />
+
+  <browser:page
+      for="marginalia.interfaces.IMarginaliaAnnotatable"
+      name="amendment.html"
+      template="amendment.pt"
+      class="marginalia.browser.templates.MarginaliaAnnotationView"
+      permission="zope.View"
+      menu="zmi_views" title="Amendment FullScreen"
+      />
+
+  <browser:page
+      for="marginalia.interfaces.IMarginaliaAnnotatable"
       name="annotate"
       class="marginalia.browser.templates.MarginaliaPage"
+      permission="zope.View"
+      />
+
+  <browser:page
+      for="marginalia.interfaces.IMarginaliaAnnotatable"
+      name="amendment"
+      class="marginalia.browser.templates.AmendmentPage"
       permission="zope.View"
       />
 
@@ -86,49 +109,19 @@
   <browser:resource name="marginalia.css" file="js/marginalia.css" />
 
   <!-- Javascript files -->
-  <!-- Page and context specific -->
-  <!-- browser:resource name="page.js" file="js/page.js" /-->
 
-  <!-- 3rd Party -->
-  <browser:resource name="3rd-party.js" file="js/3rd-party.js" />
-  <browser:resource name="shortcut.js" file="js/3rd-party/shortcut.js" />
-  <browser:resource name="cssQuery.js" file="js/3rd-party/cssQuery.js" />
-  <browser:resource name="cssQuery-level2.js" file="js/3rd-party/cssQuery-level2.js" />
-  <browser:resource name="cssQuery-standard.js" file="js/3rd-party/cssQuery-standard.js" />
+  <browser:resourceDirectory
+     name="js"
+     directory="js"
+     />
 
-  <!-- Libraries -->
-  <browser:resource name="log.js" file="js/log.js" />
-  <browser:resource name="prefs.js" file="js/prefs.js" />
-  <browser:resource name="html-model.js" file="js/html-model.js" />
-  <browser:resource name="domutil.js" file="js/domutil.js" />
-  <browser:resource name="ranges.js" file="js/ranges.js" />
-  <browser:resource name="SequenceRange.js" file="js/SequenceRange.js" />
-  <browser:resource name="XPathRange.js" file="js/XPathRange.js" />
-  <browser:resource name="annotation.js" file="js/annotation.js" />
-  <browser:resource name="post-micro.js" file="js/post-micro.js" />
-  <browser:resource name="linkable.js" file="js/linkable.js" />
+  <browser:resourceDirectory
+     name="jsexternal"
+     directory="js/3rd-party"
+     />
 
-  <!-- Marginalia -->
-  <browser:resource name="marginalia.js" file="js/marginalia.js" />
-  <browser:resource name="blockmarker-ui.js" file="js/blockmarker-ui.js" />
-  <browser:resource name="highlight-ui.js" file="js/highlight-ui.js" />
-  <browser:resource name="link-ui.js" file="js/link-ui.js" />
-  <browser:resource name="note-ui.js" file="js/note-ui.js" />
-  <browser:resource name="link-ui-simple.js" file="js/link-ui-simple.js" />
-  <browser:resource name="track-changes.js" file="js/track-changes.js" />
-
-  <!-- Rest -->
-  <browser:resource name="RangeInfo.js" file="js/RangeInfo.js" />
-  <browser:resource name="rest-annotate.js" file="js/rest-annotate.js" />
-  <browser:resource name="rest-prefs.js" file="js/rest-prefs.js" />
-  <browser:resource name="rest-keywords.js" file="js/rest-keywords.js" />
-  <browser:resource name="marginalia-direct.js" file="js/marginalia-direct.js" />
-
-  <!-- Others -->
-  <browser:resource name="marginalia-config.js" file="js/marginalia-config.js" />
-  <browser:resource name="marginalia-strings.js" file="js/marginalia-strings.js" />
-  <browser:resource name="bungeni-annotate.js" file="js/bungeni-annotate.js" />
-  
+  <!-- Allowing PUT and DELETE requests -->
+    
   <publisher
       name="MARGINALIA"
       factory="zope.app.publication.requestpublicationfactories.BrowserFactory"

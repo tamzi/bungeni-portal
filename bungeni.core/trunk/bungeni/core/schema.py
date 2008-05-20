@@ -560,8 +560,9 @@ motions = rdb.Table(
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('political_parties.party_id')  ), # if the motion was sponsored by a party
    rdb.Column( "notice_date", rdb.Date ),
    rdb.Column( "status",  rdb.Unicode(12) ),
-   # nasty hack for demo in Cairo
-    #add sitting
+   #XXX nasty hack for demo in Cairo
+   #add sitting
+   rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id')  ),
    )
 
 motion_changes = make_changes_table( motions, metadata )
@@ -594,6 +595,7 @@ bills = rdb.Table(
    rdb.Column( "status", rdb.Unicode(12) ),
    #XXX nasty Hack for demo
    #add sitting
+   rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id')  ),
    )
    
 bill_changes = make_changes_table( bills, metadata )

@@ -567,7 +567,12 @@ class MotionDescriptor( ModelDescriptor ):
             property = schema.Choice( title=_(u"Political Party"), 
                                       source=DatabaseSource(domain.PoliticalParty, 'short_name', 'party_id' ), 
                                       required=False) ),
-        dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True )
+        dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True ),
+        #XXX Hack for Cairo
+        dict( name="sitting_id", 
+              property = schema.Choice( title=_(u"Sitting"), source=DatabaseSource(domain.GroupSitting, 'sitting_id', 'sitting_id', 'short_name'), 
+              required=False )
+              ),
         ]
 
 
@@ -682,7 +687,12 @@ class BillDescriptor( ModelDescriptor ):
               edit_widget=SelectDateWidget, add_widget=SelectDateWidget,
               listing_column=day_column("submission_date", _(u"Submission Date")) ),
         dict( name="publication_date", label=_(u"Publication Date"),  edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),        
-        dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True )        
+        dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True ),
+         #XXX Hack for Cairo
+        dict( name="sitting_id", 
+              property = schema.Choice( title=_(u"Sitting"), source=DatabaseSource(domain.GroupSitting, 'sitting_id', 'sitting_id', 'short_name'), 
+              required=False )
+              ),        
         ]
 
 class QuestionDescriptor( ModelDescriptor ):
@@ -718,7 +728,12 @@ class QuestionDescriptor( ModelDescriptor ):
         #label=_("Question"), description=_(u"The Question submitted")),        
         dict( name="status", label=_(u"Status"), modes="listing"),
         dict( name="supplement_parent_id", omit=True), #XXX
-        dict( name="sitting_id", omit=True), #XXX
+        #dict( name="sitting_id", omit=True), #XXX
+         #XXX Hack for Cairo
+        dict( name="sitting_id", 
+              property = schema.Choice( title=_(u"Sitting"), source=DatabaseSource(domain.GroupSitting, 'sitting_id', 'sitting_id', 'short_name'), 
+              required=False )
+              ),
         dict( name="sitting_time", label=_(u"Sitting Time"), listing=True ),
         dict( name="receive_notification", label=_(u"Receive notification"), description=_(u"Select this option to receive notifications for this question."), listing=True ),
         ]

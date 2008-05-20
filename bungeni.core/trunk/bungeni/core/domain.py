@@ -113,10 +113,15 @@ class GroupSitting( Entity ):
     """ a scheduled meeting for a group (parliament, committee, etc)
     """
     attendance = one2many( "attendance", "bungeni.core.domain.GroupSittingAttendanceContainer", "sitting_id" )
+    #XXX
+    #hack for Cairo demo
+    bills = one2many( "bills", "bungeni.core.domain.BillContainer", "sitting_id" )
+    questions = one2many( "questions", "bungeni.core.domain.QuestionContainer", "sitting_id" )
+    motions = one2many( "motions", "bungeni.core.domain.MotionContainer", "sitting_id" )
     
     @property
     def short_name( self ):
-        return u"%s"%( self.start_date )
+        return ( self.start_date ).strftime('%d %b %y %H:%M')
     
 class SittingType( object ):
     """ Type of sitting
@@ -182,7 +187,7 @@ class Minister( Entity ):
 class Committee( Group ):
     """ a parliamentary committee of MPs
     """
-    #sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "group_id")
+    sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "group_id")
     committeemembers = one2many("committeemembers", "bungeni.core.domain.CommitteeMemberContainer", "group_id")
 
 class CommitteeMember( Entity ):

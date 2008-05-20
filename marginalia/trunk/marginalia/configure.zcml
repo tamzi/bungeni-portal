@@ -4,25 +4,11 @@
            xmlns:xapian="http://namespaces.objectrealms.net/xapian"
            i18n_domain="bungeni">
 
-  <include package="ore.xapian" />
-  <include package="ore.xapian" file="meta.zcml" />
-
-  <!-- Setup Database Connection -->	  
-  <db:engine
-     name="bungeni-db"
-     url="postgres://localhost/bungeni"
-     />
-
   <!-- Bind Application Model to Database -->
   <db:bind
      engine="bungeni-db"
      metadata=".schema.metadata" />
   
-  <!-- Bind Security Model to Database (role, permission maps) -->
-  <db:bind
-     engine="bungeni-db"
-     metadata="alchemist.security.schema.metadata" />
-     
   <class class=".document.SimpleDocument">
     <implements
         interface=".interfaces.IMarginaliaAnnotatable"

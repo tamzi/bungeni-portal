@@ -289,7 +289,7 @@ margin-top:10px;
 }
 
 #portal-column-one .portletHeader {
-background: transparent url(&dtml-image_url;/header_back2.jpg) left top no-repeat;
+/*background: transparent url(&dtml-image_url;/header_back2.jpg) left top no-repeat;*/
 display: block;
 padding: 0.2em 0 0 0.3em;
 margin: 0;
@@ -377,14 +377,14 @@ background-color:transparent;
 
 dd.portletItem .navTreeItem a:hover
 {
-background: transparent url(&dtml-image_url;/bullet_curent1.gif) no-repeat top left;
+/*#background: transparent url(&dtml-image_url;/bullet_curent1.gif) no-repeat top left;*/
 color: #da5d0e!important;
 }
 
 dd.portletItem .navTreeItem .navTreeCurrentItem {
-background: transparent url(&dtml-image_url;/bullet_curent1.gif) no-repeat top left;
+/*background: transparent url(&dtml-image_url;/bullet_curent1.gif) no-repeat top left;*/
 color: #da5d0e !important;
-font-weight: bold;
+/*font-weight: bold;*/
 }
 
 .navTreeItem a:hover,
@@ -424,10 +424,10 @@ margin-left: 0 !important;
 padding: 0 0 0 0;
 }
 
-.navTreeLevel3 { display: none; }
+/*.navTreeLevel3 { display: none; }
 .navTreeLevel4 { display: none; }
 .navTreeLevel5 { display: none; }
-
+*/
 
 
 /* footer */

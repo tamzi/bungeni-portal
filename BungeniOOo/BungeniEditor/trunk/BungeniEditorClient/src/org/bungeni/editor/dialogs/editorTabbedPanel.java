@@ -128,6 +128,7 @@ import org.bungeni.db.BungeniRegistryFactory;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.GeneralQueryFactory;
 import org.bungeni.db.QueryResults;
+import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.dialogs.tree.NodeMoveTransferHandler;
 import org.bungeni.editor.dialogs.tree.TreeDropTarget;
 import org.bungeni.editor.macro.ExternalMacro;
@@ -136,10 +137,12 @@ import org.bungeni.editor.metadata.DocumentMetadata;
 import org.bungeni.editor.metadata.DocumentMetadataEditInvoke;
 import org.bungeni.editor.metadata.DocumentMetadataSupplier;
 import org.bungeni.editor.metadata.DocumentMetadataTableModel;
-import org.bungeni.editor.panels.CollapsiblePanelFactory;
-import org.bungeni.editor.panels.FloatingPanelFactory;
-import org.bungeni.editor.panels.ICollapsiblePanel;
-import org.bungeni.editor.panels.IFloatingPanel;
+import org.bungeni.editor.panels.impl.CollapsiblePanelFactory;
+import org.bungeni.editor.panels.impl.FloatingPanelFactory;
+import org.bungeni.editor.panels.impl.ICollapsiblePanel;
+import org.bungeni.editor.panels.impl.IFloatingPanel;
+import org.bungeni.editor.panels.impl.ITabbedPanel;
+import org.bungeni.editor.panels.impl.TabbedPanelFactory;
 import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooDocNoteStructure;
@@ -248,7 +251,6 @@ public class editorTabbedPanel extends javax.swing.JPanel {
    
     private void init() {
        initComponents();   
-       hideUnusedPanels();
        //initListDocuments();
        initProviders();
        initFields();
@@ -256,8 +258,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        initFloatingPane();
        
         //initCollapsiblePane();
-       initNotesPanel();
-       initBodyMetadataPanel();
+       //initNotesPanel();
+       //initBodyMetadataPanel();
        initTimers();
        initDialogListeners();
        log.debug("calling initOpenDOcuments");
@@ -265,24 +267,40 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        /***** control moved to other dialog... 
        updateListDocuments();
         *****/
-       initTableDocMetadata();
+       //initTableDocMetadata();
        initTabbedPanes();
    
        //metadataChecks();
        
     }
-    
+    /*
     private void hideUnusedPanels(){
          this.panelMetadata.setEnabled(false); this.panelMetadata.setVisible(false);
         this.panelBodyMetadata.setEnabled(false); this.panelBodyMetadata.setVisible(false);
         this.panelMarkup.setEnabled(false); this.panelMarkup.setVisible(false);
-    }
+    }*/
     private void initProviders(){
         org.bungeni.editor.providers.DocumentSectionProvider.initialize(this.ooDocument);
     }
     
     private void initTabbedPanes() {
-        org.bungeni.editor.panels.documentMetadataPanel panel = new org.bungeni.editor.panels.documentMetadataPanel(ooDocument, parentFrame);
+        log.debug("InitTabbedPanes: begin");
+        ArrayList<ITabbedPanel> tabbedPanels = TabbedPanelFactory.getPanelsByDocType(BungeniEditorProperties.getEditorProperty("activeDocumentMode"));
+        for (ITabbedPanel panel: tabbedPanels) {
+            panel.setOOComponentHandle(ooDocument);
+            panel.setParentHandles(parentFrame, this);
+            panel.initialize();
+            this.jTabsContainer.add(panel.getPanelTitle(), panel.getObjectHandle());
+        }
+        log.debug("InitTabbedPanes: finished loading");
+
+        
+/*        org.bungeni.editor.panels.documentNotesPanel docNotesPanel = new org.bungeni.editor.panels.documentNotesPanel(ooDocument, parentFrame, this);
+        this.jTabsContainer.add(docPanel.getAccessibleContext().getAccessibleDescription(), docPanel);
+   
+        org.bungeni.editor.panels.documentMetadataPanel docMetaPanel = new org.bungeni.editor.panels.documentMetadataPanel(ooDocument, parentFrame);
+        this.jTabsContainer.add(docPanel.getAccessibleContext().getAccessibleDescription(), docPanel);
+
         this.jTabsContainer.insertTab(panel.getAccessibleContext().getAccessibleDescription(), 
                 null,
                 (Component) panel,  panel.getAccessibleContext().getAccessibleDescription(), 2 );
@@ -292,11 +310,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                 null,
                 (Component) sectpanel,  sectpanel.getAccessibleContext().getAccessibleDescription(), 3 );
         
-        org.bungeni.editor.panels.documentNotesPanel docPanel = new org.bungeni.editor.panels.documentNotesPanel(ooDocument, parentFrame, this);
-        this.jTabsContainer.insertTab(docPanel.getAccessibleContext().getAccessibleDescription(), 
-                null,
-                (Component) docPanel,  docPanel.getAccessibleContext().getAccessibleDescription(), 1 );
-        
+                */
       /*
         org.bungeni.editor.panels.sectionProviderTreePanel providerPanel = new org.bungeni.editor.panels.sectionProviderTreePanel (ooDocument, parentFrame);
         this.jTabsContainer.insertTab(providerPanel.getAccessibleContext().getAccessibleDescription(), 
@@ -327,7 +341,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
           }
         return true;
     }
-
+/*
     private void initTableDocMetadata(){
         
         //document metadata table model is created
@@ -339,7 +353,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             docMetadataTableModel.getMetadataSupplier().updateMetadataToDocument("doctype");
             tableDocMetadata.setModel(docMetadataTableModel );
        }
-       /*
+       
          //DocumentMetadataTableModel mModel  = (DocumentMetadataTableModel) tableDocMetadata.getModel();
          DocumentMetadata [] m=docMetadataTableModel.getMetadataSupplier().getDocumentMetadata();
          
@@ -359,42 +373,35 @@ public class editorTabbedPanel extends javax.swing.JPanel {
          
          
         
-        */
+        
         
         //table model is set
         //tableDocMetadata.setModel(docMetadataTableModel );
         //various listeners are added 
-       tableDocMetadata.addMouseListener(new DocumentMetadataTableMouseListener());
-       //the actionListener uses the tableDocMetadata's custom model in the refreshMetadata call
-       //so we move the call to the addaction listener after the table model has been set.
-       /*** remove this for now since we are moving control to other dialog
-       cboListDocuments.addActionListener(new cboListDocumentsActionListener());
-        *****/
        //cboListDocuments.addVetoableChangeListener(new cboListDocumentsVetoableChangeListener());
     }    
-
+*/
     protected void setOODocumentObject (OOComponentHelper ooDoc) {
         this.ooDocument = ooDoc;
     }
     
+    /*
     private void refreshTableDocMetadataModel(){
        
         docMetadataTableModel = new DocumentMetadataTableModel(ooDocument);
         tableDocMetadata.setModel(docMetadataTableModel );
-        /*
-        DocumentMetadataTableModel tblModel = (DocumentMetadataTableModel) tableDocMetadata.getModel();
-        tblModel.setOOComponentHelper(this.ooDocument);
-        tblModel.refreshMetaData();
-        */
+
+        
         
     }
-    
+    */
   
     /*
      *
      *at this point the table model for the metadata table has already been set,
      *we are checking the metadata of the table
      */
+    /*
     private boolean metadataChecks(){
         try {
       DocumentMetadataTableModel mModel  = (DocumentMetadataTableModel) tableDocMetadata.getModel();
@@ -418,7 +425,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
       
        return true;
         }
-    }
+    } */
 	
     private void initListDocuments(){
         log.debug("initListDocuments: init");
@@ -530,7 +537,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         //initList();
         //initSectionList();
         //clear meatada listbox
-        listboxMetadata.setModel(new DefaultListModel());
+        //listboxMetadata.setModel(new DefaultListModel());
         //init combo change structure
         changeStructureItem[] items = initChangeStructureItems();
         for (int i=0; i < items.length; i++) {
@@ -587,14 +594,14 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                     //updateCollapsiblePanels();
                     updateFloatingPanels();
                     //initNotesPanel();
-                    initBodyMetadataPanel();
+                    //initBodyMetadataPanel();
                     initDialogListeners();
                     //check and see if the doctype property exists before you refresh the metadata table
                     ///if(!ooDocument.propertyExists("doctype")){
                     ///   JOptionPane.showMessageDialog(null,"This is not a bungeni document.","Document Type Error",JOptionPane.ERROR_MESSAGE);
                     ///   
                     ///} 
-                    refreshTableDocMetadataModel();
+                    /**** commented *** refreshTableDocMetadataModel();****/
                     if (self().program_refresh_documents == false)
                         bringEditorWindowToFront();
                     
@@ -725,52 +732,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         return this;
     }
     
-    private void initNotesPanel() {
-        try {
-        //restrict editor note text field
-        javax.swing.text.Document txtEditorNoteDoc = txtEditorNote.getDocument();
-        if (txtEditorNoteDoc instanceof javax.swing.text.AbstractDocument) {
-            javax.swing.text.AbstractDocument doc = (javax.swing.text.AbstractDocument)txtEditorNoteDoc;
-            doc.setDocumentFilter(new TextSizeFilter(100));
-        } else {
-            log.debug("initNotesPanel: not an AbstratDocument instance");
-        }
-        //populate editor notes list
-        initEditorNotesList();
-        
-        } catch (Exception ex) {
-            log.error("exception initNotesPanel:"+ ex.getMessage());
-            ex.printStackTrace();
-        }
-    }
     
-    private void initEditorNotesList() {
-        try {
-        m_ooNotes = new ooDocNotes (ooDocument);
-        Vector<ooDocNoteStructure> allNotes = new Vector<ooDocNoteStructure>();
-        log.debug("after initializing ooDocNotes");
-        allNotes = m_ooNotes.readNotes();
-        DefaultListModel notesList = new DefaultListModel();
-        log.debug("getting default listmodel");
-   
-        if (allNotes != null) {
-            log.debug("allNotes is not null = "+ allNotes.size());
-            for (int i=0; i < allNotes.size(); i++ ) {
-                ooDocNoteStructure docNote = null;
-                docNote = allNotes.elementAt(i);
-                notesList.addElement(docNote);
-                log.debug("docNote no."+ i + " , value = "+ docNote.getNoteDate());
-            }
-        } 
-        listboxEditorNotes.setModel(notesList);
-        log.debug("initEditorNotesList: size = "+ listboxEditorNotes.getModel().getSize());
-        listboxEditorNotes.ensureIndexIsVisible(listboxEditorNotes.getModel().getSize());
-        listboxEditorNotes.setSelectedIndex(listboxEditorNotes.getModel().getSize());
-        } catch (Exception e) {
-            log.error("initEditorNotesList: exception : " + e.getMessage());
-        }
-        
-    }
     
     private class selectMetadataModel {
         String query;
@@ -783,6 +745,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             return text;
         }
     }
+    /*
     private void initBodyMetadataPanel(){
         //initilize cboSelectBodyMetadata
         
@@ -790,6 +753,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         cboSelectBodyMetadata.addItem(new selectMetadataModel("Members of Parliament", GeneralQueryFactory.Q_FETCH_ALL_MPS()));;
         panelEditDocumentMetadata.setVisible(false);
     }
+     **/
+    
     public Component getComponentHandle(){
         return this;
     }
@@ -1244,16 +1209,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
              
         } 
         
-            /*
-           if (nHeadsFound > 0 ) {
-                 log.debug("size of headings array = "+ vHeadings.size());
-                DocStructureTreeNode[] docStruct = new DocStructureTreeNode[vHeadings.size()];
-                 for (int i=0; i < vHeadings.size(); i++) {
-                      log.debug("adding headings to array "+ i);
-                     docStruct[i] = (DocStructureTreeNode) vHeadings.elementAt(i);
-                 }
-             DocStructureTreeNode.makeRelation(mainNode, docStruct);
-             }*/
+  
         
              if (nHeadsFound > 0 ){
                 //iterate through the vector and add elemnts to list
@@ -1271,15 +1227,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                      treeDocStructure.addMouseListener(new DocStructureListMouseListener());
                   }
         
-             /*
-            For i = 0 to nHeadCount
-                    If mOutlines(i, 1) <= nDisplayLevel then
-                            nPosn = nPosn + 1
-                            SubAddItem(oListBox, i, nPosn, nDisplayLevel)
-                            mLinks(nPosn) = i
-                    End If
-            Next
-              */
+    
         
            } catch (NoSuchElementException ex) {
                 log.error(ex.getMessage());
@@ -1614,80 +1562,6 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
     }
 }
  
-private void displayUserMetadata(XTextRange xRange) {
-         try {
-       XTextCursor xRangeCursor = xRange.getText().createTextCursorByRange(xRange);
-       XText objText = xRangeCursor.getText();
-       
-       XEnumerationAccess objEnumAccess = (XEnumerationAccess) UnoRuntime.queryInterface( XEnumerationAccess.class, objText); 
-       XEnumeration paraEnum =  objEnumAccess.createEnumeration();
-    
-        // While there are paragraphs, do things to them 
-        //first we find the number of heading paragraphs
-        log.debug("Inside displayUserMetadata, entering, displayUserMetadata");
-        
-        while (paraEnum.hasMoreElements()) { 
-            //log.debug("Inside getDocumentTree, inside, hasMoreElements");
-            XServiceInfo xInfo;
-            xInfo = null;
-            Object objNextElement = null;
-       
-                objNextElement = paraEnum.nextElement();
-        
-            //get service info
-            xInfo = ooDocument.getServiceInfo(objNextElement); // UnoRuntime.queryInterface(XServiceInfo.class, objNextElement);
-            if (xInfo.supportsService("com.sun.star.text.Paragraph")) { 
-                // Access the paragraph's property set...the properties in this 
-                // property set are listed 
-                // in: com.sun.star.style.ParagraphProperties 
-                // log.debug("Inside getDocumentTree, supportsService paragraph");
-
-                XPropertySet xSet = ooQueryInterface.XPropertySet(objNextElement);
-                     // Set the justification to be center justified 
-                    //log.debug("Inside getDocumentTree, before , NumberingLevel");
-                XPropertySetInfo xSetInfo = xSet.getPropertySetInfo();     
-                if (xSetInfo.hasPropertyByName("TextUserDefinedAttributes")) {
-                    XNameContainer uda=null;
-                    Type t = AnyConverter.getType(xSet.getPropertyValue("TextUserDefinedAttributes"));
-                    log.debug("TypeName = "+ t.getTypeName());
-                    Object att = xSet.getPropertyValue("TextUserDefinedAttributes");
-                        try {
-                   // uda =  ooQueryInterface.XNameContainer(att);
-                            
-                            uda = (XNameContainer) AnyConverter.toObject(
-                                          new Type(XNameContainer.class),
-                                           att);
-                        } catch (com.sun.star.lang.IllegalArgumentException ex) {
-                            ex.printStackTrace();
-                        }
-                    if (uda != null ) {
-                    if (uda.hasElements()) {
-                        log.debug("uda has elements");
-                        String[] elements = uda.getElementNames();
-                        AttributeData[] adData = new AttributeData[elements.length];
-                        for (int i=0; i < elements.length; i++ ){
-                             adData[i] = (AttributeData) uda.getByName(elements[i]);
-                             log.debug("ns:"+adData[i].Namespace+" ; type:"+adData[i].Type+" ; value:"+adData[i].Value);
-                         } 
-                    }
-                    }
-                }
-            }    
-        else           
-                log.debug("Inside getDocumentTree, paragraph not supproted");
-        }
-            
-    } catch (NoSuchElementException ex) {
-                log.error("displayUserMetadata : "+ ex.getLocalizedMessage());
-    } catch (WrappedTargetException ex) {
-                log.error("displayUserMetadata : "+ ex.getLocalizedMessage());
-    } /*catch (com.sun.star.lang.IllegalArgumentException ex) {
-                log.error("displayUserMetadata : "+ ex.getLocalizedMessage());
-    } */ catch (UnknownPropertyException ex) {
-                log.error("displayUserMetadata : "+ ex.getLocalizedMessage());
-    }    
-}    
-
 
 
  /** This method is called from within the constructor to
@@ -1703,48 +1577,6 @@ private void displayUserMetadata(XTextRange xRange) {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTree2 = new javax.swing.JTree();
         jTabsContainer = new javax.swing.JTabbedPane();
-        panelMetadata = new javax.swing.JPanel();
-        scrollDocMetadata = new javax.swing.JScrollPane();
-        tableDocMetadata = new javax.swing.JTable();
-        cboListDocuments = new javax.swing.JComboBox();
-        panelEditDocumentMetadata = new javax.swing.JPanel();
-        btnApplyDocMetadata = new javax.swing.JButton();
-        btnMetadataCancel = new javax.swing.JButton();
-        editStringTxt = new javax.swing.JTextField();
-        editDateLbl = new javax.swing.JLabel();
-        editDateTxt = new org.jdesktop.swingx.JXDatePicker();
-        editStringLbl = new javax.swing.JLabel();
-        lblOpenDocuments = new javax.swing.JLabel();
-        check_floatingMetadataWindow = new javax.swing.JCheckBox();
-        panelBodyMetadata = new javax.swing.JPanel();
-        lblSelectBodyMetadata = new javax.swing.JLabel();
-        cboSelectBodyMetadata = new javax.swing.JComboBox();
-        lblEnterMetadataValue = new javax.swing.JLabel();
-        btnLookupMetadata = new javax.swing.JButton();
-        btnClearMetadataValue = new javax.swing.JButton();
-        btnApplyMetadata = new javax.swing.JButton();
-        radioSelectedText = new javax.swing.JRadioButton();
-        jLabel1 = new javax.swing.JLabel();
-        radioDocumentSection = new javax.swing.JRadioButton();
-        scrollListboxMetadata = new javax.swing.JScrollPane();
-        listboxMetadata = new javax.swing.JList();
-        panelMarkup = new javax.swing.JPanel();
-        panelHistory = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox();
-        jLabel5 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        panelNotes = new javax.swing.JPanel();
-        scroll_panelNotes = new javax.swing.JScrollPane();
-        listboxEditorNotes = new javax.swing.JList();
-        lblEditorNotes = new javax.swing.JLabel();
-        btnNewEditorNote = new javax.swing.JButton();
-        btnSaveEditorNote = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        txtEditorNote = new javax.swing.JTextArea();
         scrollPane_treeDocStructure = new javax.swing.JScrollPane();
         treeDocStructure = new javax.swing.JList();
         lbl_DocStructTitle = new javax.swing.JLabel();
@@ -1759,366 +1591,6 @@ private void displayUserMetadata(XTextRange xRange) {
         setFont(new java.awt.Font("Tahoma", 0, 10));
         jTabsContainer.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         jTabsContainer.setFont(new java.awt.Font("Tahoma", 0, 10));
-        panelMetadata.setFont(new java.awt.Font("Tahoma", 0, 10));
-        tableDocMetadata.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"DOC_AUTHOR", null},
-                {"DOC_TYPE", "debaterecord"},
-                {"PARLIAMENT_ID", null},
-                {"PARLIAMENT_SITTING", null}
-            },
-            new String [] {
-                "METADATA", "VALUE"
-            }
-        ));
-        scrollDocMetadata.setViewportView(tableDocMetadata);
-
-        btnApplyDocMetadata.setFont(new java.awt.Font("Tahoma", 0, 10));
-        btnApplyDocMetadata.setText("Apply");
-        btnApplyDocMetadata.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnApplyDocMetadataActionPerformed(evt);
-            }
-        });
-
-        btnMetadataCancel.setFont(new java.awt.Font("Tahoma", 0, 10));
-        btnMetadataCancel.setText("Cancel");
-        btnMetadataCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMetadataCancelActionPerformed(evt);
-            }
-        });
-
-        editStringTxt.setFont(new java.awt.Font("Tahoma", 0, 10));
-
-        editDateLbl.setFont(new java.awt.Font("Tahoma", 0, 10));
-        editDateLbl.setText("Edit Date Value");
-
-        editDateTxt.setFont(new java.awt.Font("SansSerif", 0, 10));
-
-        editStringLbl.setFont(new java.awt.Font("Tahoma", 0, 10));
-        editStringLbl.setText("Edit Text Value");
-
-        org.jdesktop.layout.GroupLayout panelEditDocumentMetadataLayout = new org.jdesktop.layout.GroupLayout(panelEditDocumentMetadata);
-        panelEditDocumentMetadata.setLayout(panelEditDocumentMetadataLayout);
-        panelEditDocumentMetadataLayout.setHorizontalGroup(
-            panelEditDocumentMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelEditDocumentMetadataLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(panelEditDocumentMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(panelEditDocumentMetadataLayout.createSequentialGroup()
-                        .add(panelEditDocumentMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, editDateTxt, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, panelEditDocumentMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                                .add(editStringTxt)
-                                .add(org.jdesktop.layout.GroupLayout.LEADING, panelEditDocumentMetadataLayout.createSequentialGroup()
-                                    .add(btnApplyDocMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 69, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .add(31, 31, 31)
-                                    .add(btnMetadataCancel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 69, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(29, Short.MAX_VALUE))
-                    .add(panelEditDocumentMetadataLayout.createSequentialGroup()
-                        .add(editDateLbl, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 139, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(69, Short.MAX_VALUE))
-                    .add(panelEditDocumentMetadataLayout.createSequentialGroup()
-                        .add(editStringLbl, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 121, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(87, Short.MAX_VALUE))))
-        );
-        panelEditDocumentMetadataLayout.setVerticalGroup(
-            panelEditDocumentMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, panelEditDocumentMetadataLayout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(editStringLbl, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 13, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(editStringTxt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(editDateLbl)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(editDateTxt, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 22, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(panelEditDocumentMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(btnMetadataCancel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(btnApplyDocMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-        );
-
-        lblOpenDocuments.setText("Open Documents:");
-
-        check_floatingMetadataWindow.setText("Show Floating Metadata Window");
-        check_floatingMetadataWindow.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        check_floatingMetadataWindow.setMargin(new java.awt.Insets(0, 0, 0, 0));
-        check_floatingMetadataWindow.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                check_floatingMetadataWindowActionPerformed(evt);
-            }
-        });
-
-        org.jdesktop.layout.GroupLayout panelMetadataLayout = new org.jdesktop.layout.GroupLayout(panelMetadata);
-        panelMetadata.setLayout(panelMetadataLayout);
-        panelMetadataLayout.setHorizontalGroup(
-            panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelMetadataLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(scrollDocMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 218, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, lblOpenDocuments, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 218, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(check_floatingMetadataWindow, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 210, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(panelEditDocumentMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
-        panelMetadataLayout.setVerticalGroup(
-            panelMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, panelMetadataLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(check_floatingMetadataWindow)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(scrollDocMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 79, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(panelEditDocumentMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 19, Short.MAX_VALUE)
-                .add(lblOpenDocuments)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-        jTabsContainer.addTab("Doc. Metadata", panelMetadata);
-
-        lblSelectBodyMetadata.setText("Select Metadata Element");
-
-        cboSelectBodyMetadata.setFont(new java.awt.Font("Tahoma", 0, 10));
-        cboSelectBodyMetadata.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Members Of Parliament", "Ontology", "Keywords", "Tabled Documents" }));
-
-        lblEnterMetadataValue.setText("Selected Metadata Value");
-
-        btnLookupMetadata.setText("Lookup...");
-        btnLookupMetadata.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                userMetadataLookup_Clicked(evt);
-            }
-        });
-
-        btnClearMetadataValue.setText("Clear");
-        btnClearMetadataValue.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnClearMetadata_Clicked(evt);
-            }
-        });
-
-        btnApplyMetadata.setText("Apply Metadata");
-        btnApplyMetadata.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnApplyMetadata_Clicked(evt);
-            }
-        });
-
-        btnGrpBodyMetadataTarget.add(radioSelectedText);
-        radioSelectedText.setSelected(true);
-        radioSelectedText.setText("Selected Text");
-        radioSelectedText.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        radioSelectedText.setMargin(new java.awt.Insets(0, 0, 0, 0));
-
-        jLabel1.setText("Select Target for Applying Metadata");
-
-        btnGrpBodyMetadataTarget.add(radioDocumentSection);
-        radioDocumentSection.setText("Current Document Section");
-        radioDocumentSection.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        radioDocumentSection.setMargin(new java.awt.Insets(0, 0, 0, 0));
-
-        listboxMetadata.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        scrollListboxMetadata.setViewportView(listboxMetadata);
-
-        org.jdesktop.layout.GroupLayout panelBodyMetadataLayout = new org.jdesktop.layout.GroupLayout(panelBodyMetadata);
-        panelBodyMetadata.setLayout(panelBodyMetadataLayout);
-        panelBodyMetadataLayout.setHorizontalGroup(
-            panelBodyMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelBodyMetadataLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(panelBodyMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(scrollListboxMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .add(cboSelectBodyMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 218, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(lblSelectBodyMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .add(lblEnterMetadataValue, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, panelBodyMetadataLayout.createSequentialGroup()
-                        .add(btnClearMetadataValue, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 52, Short.MAX_VALUE)
-                        .add(btnLookupMetadata))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, btnApplyMetadata, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .add(panelBodyMetadataLayout.createSequentialGroup()
-                        .add(10, 10, 10)
-                        .add(panelBodyMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(radioSelectedText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 156, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                            .add(radioDocumentSection))
-                        .add(52, 52, 52)))
-                .addContainerGap())
-        );
-        panelBodyMetadataLayout.setVerticalGroup(
-            panelBodyMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelBodyMetadataLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(lblSelectBodyMetadata)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(cboSelectBodyMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(lblEnterMetadataValue)
-                .add(3, 3, 3)
-                .add(scrollListboxMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 73, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(panelBodyMetadataLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(btnLookupMetadata)
-                    .add(btnClearMetadataValue))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(radioSelectedText)
-                .add(14, 14, 14)
-                .add(radioDocumentSection)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnApplyMetadata)
-                .addContainerGap(26, Short.MAX_VALUE))
-        );
-        jTabsContainer.addTab("Body Metadata", panelBodyMetadata);
-
-        org.jdesktop.layout.GroupLayout panelMarkupLayout = new org.jdesktop.layout.GroupLayout(panelMarkup);
-        panelMarkup.setLayout(panelMarkupLayout);
-        panelMarkupLayout.setHorizontalGroup(
-            panelMarkupLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 238, Short.MAX_VALUE)
-        );
-        panelMarkupLayout.setVerticalGroup(
-            panelMarkupLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 311, Short.MAX_VALUE)
-        );
-        jTabsContainer.addTab("Markup", panelMarkup);
-
-        jLabel3.setText("Transform Document");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AkomaNtoso XML", "XHTML - eXtensible HTML", "Marginalia-safe HTML export", "Portable Document Format (PDF)" }));
-
-        jLabel2.setText("Transformation Target");
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Export to Server", "Export to File-System path" }));
-
-        jLabel5.setText("Export To:");
-
-        jButton1.setText("Transform...");
-        jButton1.setEnabled(false);
-
-        org.jdesktop.layout.GroupLayout panelHistoryLayout = new org.jdesktop.layout.GroupLayout(panelHistory);
-        panelHistory.setLayout(panelHistoryLayout);
-        panelHistoryLayout.setHorizontalGroup(
-            panelHistoryLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelHistoryLayout.createSequentialGroup()
-                .add(panelHistoryLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(panelHistoryLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(panelHistoryLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                            .add(jComboBox1, 0, 209, Short.MAX_VALUE)
-                            .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .add(jLabel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
-                            .add(jLabel5)
-                            .add(jComboBox2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                    .add(panelHistoryLayout.createSequentialGroup()
-                        .add(53, 53, 53)
-                        .add(jButton1)))
-                .addContainerGap(19, Short.MAX_VALUE))
-        );
-        panelHistoryLayout.setVerticalGroup(
-            panelHistoryLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelHistoryLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(jLabel3)
-                .add(8, 8, 8)
-                .add(jLabel2)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel5)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jComboBox2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(23, 23, 23)
-                .add(jButton1)
-                .addContainerGap(142, Short.MAX_VALUE))
-        );
-        jTabsContainer.addTab("Transform", panelHistory);
-
-        listboxEditorNotes.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        listboxEditorNotes.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
-            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
-                listboxEditorNotesValueChanged(evt);
-            }
-        });
-
-        scroll_panelNotes.setViewportView(listboxEditorNotes);
-
-        lblEditorNotes.setText("Editor Note");
-
-        btnNewEditorNote.setText("New Note");
-        btnNewEditorNote.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNewEditorNoteActionPerformed(evt);
-            }
-        });
-
-        btnSaveEditorNote.setText("Save Note");
-        btnSaveEditorNote.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveEditorNoteActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setText("View Archived Notes");
-
-        txtEditorNote.setColumns(20);
-        txtEditorNote.setEditable(false);
-        txtEditorNote.setFont(new java.awt.Font("Tahoma", 0, 11));
-        txtEditorNote.setLineWrap(true);
-        txtEditorNote.setRows(5);
-        txtEditorNote.setToolTipText("Type in your editor notes here.");
-        jScrollPane1.setViewportView(txtEditorNote);
-
-        org.jdesktop.layout.GroupLayout panelNotesLayout = new org.jdesktop.layout.GroupLayout(panelNotes);
-        panelNotes.setLayout(panelNotesLayout);
-        panelNotesLayout.setHorizontalGroup(
-            panelNotesLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelNotesLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(panelNotesLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .add(scroll_panelNotes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                    .add(lblEditorNotes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 163, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(panelNotesLayout.createSequentialGroup()
-                        .add(btnNewEditorNote)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 52, Short.MAX_VALUE)
-                        .add(btnSaveEditorNote))
-                    .add(jLabel4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        panelNotesLayout.setVerticalGroup(
-            panelNotesLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(panelNotesLayout.createSequentialGroup()
-                .addContainerGap()
-                .add(lblEditorNotes)
-                .add(4, 4, 4)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(panelNotesLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(btnNewEditorNote)
-                    .add(btnSaveEditorNote))
-                .add(14, 14, 14)
-                .add(jLabel4)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(scroll_panelNotes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        jTabsContainer.addTab("Notes", panelNotes);
 
         treeDocStructure.setFont(new java.awt.Font("Tahoma", 0, 10));
         treeDocStructure.setModel(new javax.swing.AbstractListModel() {
@@ -2178,139 +1650,11 @@ private void displayUserMetadata(XTextRange xRange) {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void check_floatingMetadataWindowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_check_floatingMetadataWindowActionPerformed
-// TODO add your handling code here:
-        if (this.check_floatingMetadataWindow.isSelected()) {
-            log.debug("Show Doc Metadata button clicked " + evt.getActionCommand());
-            metadataPanelParentFrame = new javax.swing.JFrame("Document Metadata Panel");
-            if (metadataTabbedPanel == null) {
-                metadataTabbedPanel = new org.bungeni.editor.dialogs.metadataTabbedPanel(this.ooDocument, metadataPanelParentFrame);
-            } else {
-                metadataTabbedPanel.updateOOhandle(ooDocument, metadataPanelParentFrame);
-            }
-            //panel.setOOoHelper(this.openofficeObject);
-            metadataPanelParentFrame.add(metadataTabbedPanel);
-            //frame.setSize(243, 650);
-            metadataPanelParentFrame.setSize(320, 400);
-            metadataPanelParentFrame.setResizable(false);
-           
-            metadataPanelParentFrame.setAlwaysOnTop(true);
-            metadataPanelParentFrame.setVisible(true);
-            //position frame
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            Dimension windowSize = metadataPanelParentFrame.getSize();
-            log.debug("screen size = "+ screenSize);
-            log.debug("window size = "+ windowSize);
-           
-            int windowX = (screenSize.width  - metadataPanelParentFrame.getWidth())/2;
-            int windowY = (screenSize.height - metadataPanelParentFrame.getHeight())/2;
-            metadataPanelParentFrame.setLocation(windowX, windowY);  // Don't use "f." inside constructor.
-        } else {
-            if (metadataPanelParentFrame != null ) {
-                metadataPanelParentFrame.dispose();
-                metadataPanelParentFrame.setVisible(false);
-                metadataPanelParentFrame = null;
-            }
-        }
-    }//GEN-LAST:event_check_floatingMetadataWindowActionPerformed
-
 
    
-   private void btnMetadataCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMetadataCancelActionPerformed
-// TODO add your handling code here:
-       this.panelEditDocumentMetadata.setVisible(false);
-   }//GEN-LAST:event_btnMetadataCancelActionPerformed
-
-   private void listboxEditorNotesValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_listboxEditorNotesValueChanged
-// TODO add your handling code here:
-       JList listbox = (JList)evt.getSource();
-       ListModel model = listbox.getModel();
-       int index = listbox.getMaxSelectionIndex();
-       if (index != -1 ) {
-           ooDocNoteStructure ooNote = (ooDocNoteStructure) model.getElementAt(index);
-           String noteText = ooNote.getNoteText();
-           txtEditorNote.setText(noteText);
-       }
-   }//GEN-LAST:event_listboxEditorNotesValueChanged
-
-   private void btnSaveEditorNoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveEditorNoteActionPerformed
-// TODO add your handling code here:
-       Date current = new Date();
-       GregorianCalendar calendar = new GregorianCalendar();
-       calendar.setTime(current);
-       SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-       String strNoteDate = formatter.format(current);
-       String strAuthor= "Ashok";
-       String strEditorNote = txtEditorNote.getText();
-       log.debug("actionPerformed:saveEditorNote");
-       ooDocNoteStructure ooNote = new ooDocNoteStructure (strNoteDate, strAuthor, strEditorNote);
-       m_ooNotes.addNote(ooNote);
-       initEditorNotesList();
-       txtEditorNote.setEditable(false);
-   
-   }//GEN-LAST:event_btnSaveEditorNoteActionPerformed
-
-   private void btnNewEditorNoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewEditorNoteActionPerformed
-// TODO add your handling code here:
-   txtEditorNote.setText("");
-   txtEditorNote.setEditable(true);
-     
-   }//GEN-LAST:event_btnNewEditorNoteActionPerformed
 
 
-    private void btnApplyMetadata_Clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyMetadata_Clicked
-// TODO add your handling code here:
-       DefaultListModel model = (DefaultListModel) listboxMetadata.getModel();
-       int count = model.getSize();
-       log.debug("capacity:"+model.getSize());
-       if (count == 0) 
-       {
-           log.debug("apply_metadata: no attribute was selected");
-           MessageBox.OK("You have not selected any metadata values to set");
-           return;
-       }
-       String[] listContents = new String[count];
-       model.copyInto(listContents);
-   
-        try {
-            HashMap xmlAttribs = ooUserDefinedAttributes.make(listContents);
-            ooDocument.setAttributesToSelectedText(xmlAttribs, new Integer(0xECECEC));
-            
-           ooDocument.setSelectedTextBackColor(new Integer(0xECECEC));
-        } catch (Exception ex) {
-           log.error("adding_attribute : "+ex.getLocalizedMessage());
-        }
-       
-    }//GEN-LAST:event_btnApplyMetadata_Clicked
 
-    private void btnClearMetadata_Clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearMetadata_Clicked
-// TODO add your handling code here:
-        listboxMetadata.setModel(new DefaultListModel());
-    }//GEN-LAST:event_btnClearMetadata_Clicked
-
-  
-    private void btnSelectMP_Clicked(java.awt.event.ActionEvent evt){
-       int nRow =  mpTable.getSelectedRow();
-       if (nRow == -1 ) {
-          lblMessage.setForeground(new Color(255,0,0));
-           lblMessage.setText("You must select an MP");
-           return;
-       }
-      String mp_name = (String)  mpTable.getValueAt(nRow, 1)+ " "+ (String) mpTable.getValueAt(nRow, 2);
-      String mp_name_display = mp_name;
-      String mp_uri = (String) mpTable.getValueAt(nRow, 3);
-      String newLine = "\n";
-      listboxMetadata.setModel(new DefaultListModel());
-      DefaultListModel metadataModel = (DefaultListModel) listboxMetadata.getModel();
-      metadataModel.addElement("Name: "+ mp_name);
-      metadataModel.addElement("URI: "+mp_uri);
-     //set the MP data in parent list box
-       
-    }
- 
-  private void btnCloseMpDialog_Clicked(java.awt.event.ActionEvent evt){
-      mpDialog.dispose();
-  }
 
 /*
  *
@@ -2421,77 +1765,6 @@ private void displayUserMetadata(XTextRange xRange) {
     private JLabel lblMessage;
     private String colNames[] = {"id", "First Name", "Last Name", "URI"};
    
-    private void userMetadataLookup_Clicked(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_userMetadataLookup_Clicked
-     //collect the data
-      HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
-      BungeniClientDB dbReg = new BungeniClientDB(registryMap);
-      dbReg.Connect();
-      HashMap<String,Vector<Vector<String>>> results = dbReg.Query(GeneralQueryFactory.Q_FETCH_ALL_MPS());
-      dbReg.EndConnect();
-      QueryResults theResults = new QueryResults(results);
-      if (theResults.hasResults()) {
-          String[] columns = theResults.getColumns();
-          Vector<String> vMpColumns = new Vector<String>();
-          Vector<Vector<String>> vMps = new Vector<Vector<String>>();
-          Collections.addAll(vMpColumns, columns);
-          vMps = theResults.theResults();
-          
-           DefaultTableModel dtm = new DefaultTableModel(vMps,vMpColumns);
-             mpTable = new JTable() {
-                 public boolean isCellEditable(int rowIndex, int vColIndex) {
-                    return false;
-                    }
-             };
-             mpTable.setModel(dtm);
-             mpTable.setRowSelectionAllowed(true);
-             mpTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-             //mpTable.getSelectionModel().addListSelectionListener(new tblMembersOfParliamentListRowListener());
-
-             JScrollPane sp = new JScrollPane(mpTable);
-             sp.setPreferredSize(new Dimension(400,200));
-             JPanel panel = new JPanel(new FlowLayout());
-             panel.setPreferredSize(new Dimension(400,300));
-             panel.add(sp);
-             lblMessage = new JLabel();
-             lblMessage.setPreferredSize(new Dimension(400, 20));
-             lblMessage.setText("Please select an MP");
-
-             JButton btnSelectMp = new JButton();
-             JButton btnClose = new JButton();
-             btnClose.setText("Close");
-             btnClose.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        btnCloseMpDialog_Clicked(evt);
-                    }
-                });
-             btnSelectMp.setText("Select an MP");
-             btnSelectMp.addActionListener(new java.awt.event.ActionListener() {
-                    public void actionPerformed(java.awt.event.ActionEvent evt) {
-                        btnSelectMP_Clicked(evt);
-                    }
-                });
-             panel.add(lblMessage);
-             panel.add(btnSelectMp);
-             panel.add(btnClose);
-
-             mpDialog = new JDialog();
-             mpDialog.setLocationRelativeTo(null);
-             mpDialog.setTitle("Select an MP");
-             mpDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-             mpDialog.setPreferredSize(new Dimension(420, 300));
-             mpDialog.getContentPane().add(panel);
-             mpDialog.pack();
-             mpDialog.setVisible(true);
-             mpDialog.setAlwaysOnTop(true);
-          log.debug("there are results :" + columns[0] + "," + columns[1]);
-      } else {
-          log.debug("there are no results");
-      }
-      
-
-// TODO add your handling code here:
-    }//GEN-LAST:event_userMetadataLookup_Clicked
-
     public void setProgrammaticRefreshOfDocumentListFlag (boolean bState) {
         this.program_refresh_documents = bState;
     }
@@ -2549,54 +1822,7 @@ private void displayUserMetadata(XTextRange xRange) {
                        cboListDocuments.setSelectedItem(selectedItem);
                    */
                    //this.program_refresh_documents = false;
-    }
-    private void btnApplyDocMetadataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyDocMetadataActionPerformed
-// TODO add your handling code here:
-        DocumentMetadataSupplier dms = ((DocumentMetadataTableModel)tableDocMetadata.getModel()).getMetadataSupplier();
-        DocumentMetadata docMetadataSelectedRow = dms.getDocumentMetadata()[currentMetadataSelectedRow];
-        
-        if (docMetadataSelectedRow.getDataType().equals("datetime") ){
-             Date ctlValue = this.editDateTxt.getDate();
-             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-             docMetadataSelectedRow.setValue(formatter.format(ctlValue));
-        } else if (docMetadataSelectedRow.getDataType().equals("string") ) {
-             String ctlValue = this.editStringTxt.getText();
-             
-           //ctlValue.equals(activeDocument)
-             //check if selected row is the doctype row
-             if(docMetadataSelectedRow.getName().equals("doctype")){
-                
-                 log.debug("doctype row selected " +  tableDocMetadata.getValueAt(0,1) + " " + tableDocMetadata.getSelectedRow());
-                
-                //if row is selected ensure that textbox value and row value are equal to activeDocument
-                 //if(ctlValue.equals(activeDocument) && ooDocument.propertyExists("doctype")){
-                 if(ooDocument.propertyExists("doctype")){
-                     //row value is equal to activeDocument
-                     //set the value
-                     docMetadataSelectedRow.setValue(ctlValue);
-                 }else{
-                    log.debug("Invalid document type");
-                    
-                    //value is not equal to activeDocument so show error message
-                    JOptionPane.showMessageDialog(null,"This document does not have a document type.","Document Type Error",JOptionPane.ERROR_MESSAGE);
-                 }
-                
-             }else{
-               //another row was selected so skip the validation
-               docMetadataSelectedRow.setValue(ctlValue); 
-             }
-            
-              
-        }
-        
-        this.panelEditDocumentMetadata.setVisible(false);
-        dms.updateMetadataToDocument(docMetadataSelectedRow.getName());
-        this.tableDocMetadata.updateUI();
-     
-            //set the new values into the document
-     
-    }//GEN-LAST:event_btnApplyDocMetadataActionPerformed
-    
+    }    
     class changeStructureItem {
         String itemText;
         String itemIndex;
@@ -2615,60 +1841,18 @@ private void displayUserMetadata(XTextRange xRange) {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnApplyDocMetadata;
-    private javax.swing.JButton btnApplyMetadata;
-    private javax.swing.JButton btnClearMetadataValue;
     private javax.swing.ButtonGroup btnGrpBodyMetadataTarget;
-    private javax.swing.JButton btnLookupMetadata;
-    private javax.swing.JButton btnMetadataCancel;
-    private javax.swing.JButton btnNewEditorNote;
-    private javax.swing.JButton btnSaveEditorNote;
-    private javax.swing.JComboBox cboListDocuments;
-    private javax.swing.JComboBox cboSelectBodyMetadata;
-    private javax.swing.JCheckBox check_floatingMetadataWindow;
     private javax.swing.JComboBox comboChangeStructure;
-    private javax.swing.JLabel editDateLbl;
-    private org.jdesktop.swingx.JXDatePicker editDateTxt;
-    private javax.swing.JLabel editStringLbl;
-    private javax.swing.JTextField editStringTxt;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JComboBox jComboBox2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabsContainer;
     private javax.swing.JTree jTree1;
     private javax.swing.JTree jTree2;
-    private javax.swing.JLabel lblEditorNotes;
-    private javax.swing.JLabel lblEnterMetadataValue;
-    private javax.swing.JLabel lblOpenDocuments;
-    private javax.swing.JLabel lblSelectBodyMetadata;
     private javax.swing.JLabel lbl_DocStructTitle;
     private javax.swing.JTextField lbl_SectionName;
-    private javax.swing.JList listboxEditorNotes;
-    private javax.swing.JList listboxMetadata;
-    private javax.swing.JPanel panelBodyMetadata;
-    private javax.swing.JPanel panelEditDocumentMetadata;
-    private javax.swing.JPanel panelHistory;
-    private javax.swing.JPanel panelMarkup;
-    private javax.swing.JPanel panelMetadata;
-    private javax.swing.JPanel panelNotes;
-    private javax.swing.JRadioButton radioDocumentSection;
-    private javax.swing.JRadioButton radioSelectedText;
-    private javax.swing.JScrollPane scrollDocMetadata;
-    private javax.swing.JScrollPane scrollListboxMetadata;
     private javax.swing.JScrollPane scrollPane_treeDocStructure;
-    private javax.swing.JScrollPane scroll_panelNotes;
-    private javax.swing.JTable tableDocMetadata;
     private javax.swing.JCheckBox toggleEditSection;
     private javax.swing.JList treeDocStructure;
-    private javax.swing.JTextArea txtEditorNote;
     // End of variables declaration//GEN-END:variables
    // private static listDocumentsItemChanged = false;
     /*
@@ -2728,15 +1912,15 @@ private void displayUserMetadata(XTextRange xRange) {
                     //retrieve the list of dynamic panels from the the dynamicPanelMap and update their component handles
                     //updateCollapsiblePanels();
                     updateFloatingPanels();
-                    initNotesPanel();
-                    initBodyMetadataPanel();
+                    //initNotesPanel();
+                    //initBodyMetadataPanel();
                     initDialogListeners();
                     //check and see if the doctype property exists before you refresh the metadata table
                     /*if(!ooDocument.propertyExists("doctype")){
                        JOptionPane.showMessageDialog(null,"This is not a bungeni document.","Document Type Error",JOptionPane.ERROR_MESSAGE);
                        
                     } */
-                    refreshTableDocMetadataModel();
+                    /***** refreshTableDocMetadataModel();**/
                     
                                                                
                     if (self().program_refresh_documents == false)
@@ -2751,12 +1935,12 @@ private void displayUserMetadata(XTextRange xRange) {
         }
         
     }
-    
+    /*
     private int currentMetadataSelectedRow = 0;
     
     public class DocumentMetadataTableMouseListener implements MouseListener {
     
-    /** Creates a new instance of DocumentMetadataTableMouseListener */
+    ////  Creates a new instance of DocumentMetadataTableMouseListener 
     public DocumentMetadataTableMouseListener() {
       }
 
@@ -2813,6 +1997,8 @@ private void displayUserMetadata(XTextRange xRange) {
     }
     
 }
+     */
+    
     /*
      *This is the class contained in the map of all open documents
      *Adds an eventListener()

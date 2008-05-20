@@ -10,6 +10,7 @@
         manager="ploned.ui.interfaces.IPortalHeaderManager"
         class=".viewlets.LogoViewlet"
         layer="..interfaces.IBungeniPrivateTheme"
+        weight="10"
         permission="zope.Public"
         />
 

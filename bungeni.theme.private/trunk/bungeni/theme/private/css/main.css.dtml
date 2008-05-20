@@ -220,7 +220,13 @@ input {
 }
 
 
+
+
 #portal-personaltools {
+color:Black;
+background-color:transparent;
+border-bottom:none;
+border-top:none;
 height:12px;
 margin:0pt;
 padding:0pt;
@@ -239,6 +245,7 @@ z-index:2;
 #portal-personaltools li a {
     text-decoration: none;
     margin-right: 1em;
+    color:Black
 }
 
 .documentActions {

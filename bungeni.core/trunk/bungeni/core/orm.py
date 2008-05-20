@@ -259,7 +259,18 @@ mapper( domain.Country, schema.countries )
 mapper( domain.ConstituencyDetail, schema.constituency_details )
 mapper( domain.CommitteeType, schema.committee_type )   
 mapper( domain.SittingType, schema.sitting_type )     
-mapper( domain.GroupSittingAttendance, schema.sitting_attendance )
+mapper( domain.GroupSittingAttendance, schema.sitting_attendance,
+        properties={
+            'short_name' : column_property(
+                             rdb.sql.select(
+                             [(schema.users.c.first_name + u" " + 
+                             #schema.users.c.middle_name + u" " +
+                             schema.users.c.last_name)],
+                             schema.sitting_attendance.c.member_id==schema.users.c.user_id
+                                    ).distinct().label('short_name')
+                                           )
+                  }
+         )
 mapper( domain.AttendanceType, schema.attendance_type )
 mapper( domain.MemberTitle, schema.user_role_type )
 

@@ -730,10 +730,10 @@ private void initFrame(XComponent component){
                 public void windowDeiconified(WindowEvent e) {
                         panel.bringEditorWindowToFront();
                         //deiconize all floating panels
-                        HashMap<String,org.bungeni.editor.panels.IFloatingPanel> panelMap = panel.getFloatingPanelMap();
+                        HashMap<String,org.bungeni.editor.panels.impl.IFloatingPanel> panelMap = panel.getFloatingPanelMap();
                         java.util.Iterator<String> iterPanels = panelMap.keySet().iterator();
                         while (iterPanels.hasNext()) {
-                            org.bungeni.editor.panels.IFloatingPanel p = panelMap.get(iterPanels.next());
+                            org.bungeni.editor.panels.impl.IFloatingPanel p = panelMap.get(iterPanels.next());
                             JFrame f= p.getParentWindowHandle();
                             System.out.println("maximizing  other window");
                             f.setExtendedState(f.NORMAL);
@@ -742,10 +742,10 @@ private void initFrame(XComponent component){
                     
                     public void windowIconified(WindowEvent e) {
                         System.out.println("panel minimized....");
-                        HashMap<String,org.bungeni.editor.panels.IFloatingPanel> panelMap = panel.getFloatingPanelMap();
+                        HashMap<String,org.bungeni.editor.panels.impl.IFloatingPanel> panelMap = panel.getFloatingPanelMap();
                         java.util.Iterator<String> iterPanels = panelMap.keySet().iterator();
                         while (iterPanels.hasNext()) {
-                            org.bungeni.editor.panels.IFloatingPanel p = panelMap.get(iterPanels.next());
+                            org.bungeni.editor.panels.impl.IFloatingPanel p = panelMap.get(iterPanels.next());
                             JFrame f= p.getParentWindowHandle();
                             System.out.println("minimizing other window");
                             f.setExtendedState(f.ICONIFIED);

@@ -37,6 +37,7 @@ import org.bungeni.editor.dialogs.metadatapanel.SectionMetadataLoad;
 import org.bungeni.editor.dialogs.treetable.DocMetadataTreeTableModel;
 import org.bungeni.editor.dialogs.treetable.sectionHive;
 import org.bungeni.editor.metadata.DocumentMetadataTableModel;
+import org.bungeni.editor.panels.loadable.sectionTreeMetadataPanel;
 import org.bungeni.editor.providers.DocumentSectionAdapterTreeModel;
 import org.bungeni.editor.providers.DocumentSectionAdapterTreeModel2;
 import org.bungeni.editor.providers.DocumentSectionTreeModelProvider;

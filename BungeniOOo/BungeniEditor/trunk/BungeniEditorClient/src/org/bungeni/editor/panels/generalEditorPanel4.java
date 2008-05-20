@@ -43,6 +43,7 @@ import org.bungeni.editor.actions.EditorActionFactory;
 import org.bungeni.editor.actions.IEditorActionEvent;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
+import org.bungeni.editor.panels.impl.IFloatingPanel;
 import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.editor.toolbar.BungeniToolbarTargetProcessor;
 import org.bungeni.editor.toolbar.BungeniToolbarXMLAdapterNode;

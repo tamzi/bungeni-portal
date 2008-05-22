@@ -11,20 +11,20 @@
     <root lang="en" title="Editor Actions" visible="true" >
         <actionGroup name="blockActions" title="Block Actions" visible="true">
             <blockAction name="Root" title="Create Root Section" visible="true" condition="sectionNotExists:root" target="generalAction.createRootSection" />
-            <blockAction name="MastHead" title="MastHead" tooltip="Use these actions to create and manage the Masthead"  target="null" visible="true" condition="none" >
-                <action name="MastHead.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makePrayerSection" visible="true" condition="none" />
-                <action name="MastHead.selection" tooltip="Select some text in the document to mark it up as a MastHead." title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePrayerSection.section_creation" visible="true" condition="sectionNotExists:masthead :and: textSelected:true" showChildren="true" >
-                    <subaction name="Masthead.selection.date" tooltip="Select some text to mark it up as a 'Document Date'" title="Markup Date" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePrayerSection.debatedate_entry" visible="true" condition="cursorInSection:masthead :and: textSelected:true :and: fieldNotExists:debaterecord_official_date" />
-                    <subaction name="Masthead.selection.time" tooltip="Select some text to mark it up as 'Document Time'" title="Markup Time" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePrayerSection.debatetime_entry" visible="true" condition="cursorInSection:masthead :and: textSelected:true :and: fieldNotExists:debaterecord_official_time" />
-                    <subaction name="Masthead.selection.logo" tooltip="Mark image as logo" title="Markup logo" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePrayerSection.markup_logo:main_logo" visible="true" condition="imageSelectedIsNot:main_logo" />
+            <blockAction name="Preface" title="Preface" tooltip="Use these actions to create and manage the Preface" target="null" visible="true" condition="none" >
+                <action name="Preface.selection" tooltip="Select some text in the document to mark it up as a MastHead." title="From Selection"  target="null" visible="true" condition="sectionNotExists:preface :and: textSelected:true :and: cursorInSection:root" showChildren="true" >
+                    <subaction name="Preface.selection" tooltip="Select some text to mark it up as a Preface" title="Define Section" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillPrefaceSection.section_creation" visible="true" condition="sectionNotExists:preface :and: textSelected:true" />
                 </action>
-                 <action name="MastHead.edit" title="Edit Metadata" mode="TEXT_EDIT" target="toolbarAction.makePrayerSection" visible="false" />                
             </blockAction>
             <blockAction name="Article" tooltip="Create a Article Section" title="Article" target="null" visible="true" condition="none" >
+                <action name="Article.selection" tooltip="Select some text in the document to mark it up as a Article" title="From Selection"  target="null" visible="true" condition="cursorInSection:root :and: textSelected:true" showChildren="true" >
+                    <subaction name="Article.selection" title="Create Section" tooltip="Select some text to mark it up as a 'Document Date'" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillArticleSection.section_creation" visible="true" condition="cursorInSection:root :and: textSelected:true" />
+                </action>
             </blockAction>
             <blockAction name="Clause" tooltip="Create a Clause Section" title="Clause" target="null" visible="true" condition="none" >
-	    </blockAction>
-            <blockAction name="Part" tooltip="Create a Part Section" title="Part" target="null" visible="true" condition="none" >
+                <action name="Clause.selection" tooltip="Define a Clause" title="From Selection"  target="null" visible="true" condition="cursorInSection:article. :and: textSelected:true" showChildren="true" >
+                    <subaction name="Clause.selection" title="Create Section" tooltip="Select some text to mark it up as a Clause"  mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillClauseSection.section_creation" visible="true"  condition="cursorInSection:article. :and: textSelected:true" />
+                </action>
             </blockAction>
         </actionGroup>
     </root>

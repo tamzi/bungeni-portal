@@ -222,7 +222,18 @@
        permission="zope.View"
        />
 
-
+  <!-- Container UI -->
+  <browser:page
+     for="ore.alchemist.interfaces.IAlchemistContainer"
+     permission="zope.View"
+     name="index"
+     menu="context_actions"
+     title="Listing"
+     template="templates/generic-container.pt"
+     class=".container.ContainerListing"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
+    
     
   <!--browser:view      
       layer="bungeni.ui.interfaces.IBungeniSkin"       

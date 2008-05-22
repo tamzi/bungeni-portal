@@ -103,9 +103,9 @@ mapper( domain.ParliamentMember,
                              schema.users.c.last_name).label('fullname')
                                            ),
            'short_name' : column_property(
-                             (schema.users.c.first_name + u" " + 
+                             (schema.users.c.last_name + u", " + 
                              #schema.users.c.middle_name + u" " +
-                             schema.users.c.last_name).label('short_name')
+                             schema.users.c.first_name).label('short_name')
                                            )
                     },
         polymorphic_identity='memberofparliament'
@@ -134,12 +134,20 @@ mapper ( domain.MemberOfParliament , _mp,
           properties={
             'short_name' : column_property(
                              rdb.sql.select(
-                             [(schema.users.c.first_name + u" " + 
+                             [(schema.users.c.last_name + u", " + 
                              #schema.users.c.middle_name + u" " +
-                             schema.users.c.last_name)],
+                             schema.users.c.first_name)],
                              schema.user_group_memberships.c.user_id==schema.users.c.user_id
                                     ).label('short_name')
-                                           )
+                                           ),
+#XXX useful to sort by  constituency ?                                          
+#            'constituency' : column_property(
+#                             rdb.sql.select(
+#                             [schema.constituencies.c.name],
+#                             schema.parliament_members.c.constituency_id==schema.constituencies.c.constituency_id
+#                                    ).label('constituency')
+#                                           ),
+               
           }        
         )
         
@@ -160,9 +168,9 @@ mapper( domain.CommitteeMember, schema.user_group_memberships ,
             properties={
             'short_name' : column_property(
                              rdb.sql.select(
-                             [(schema.users.c.first_name + u" " + 
+                             [(schema.users.c.last_name + u", " + 
                              #schema.users.c.middle_name + u" " +
-                             schema.users.c.last_name)],
+                             schema.users.c.first_name)],
                              schema.user_group_memberships.c.user_id==schema.users.c.user_id
                                     ).label('short_name')
                                            )
@@ -171,9 +179,9 @@ mapper( domain.ExtensionMember, schema.user_group_memberships,
             properties={
             'short_name' : column_property(
                              rdb.sql.select(
-                             [(schema.users.c.first_name + u" " + 
+                             [(schema.users.c.last_name + u", " + 
                              #schema.users.c.middle_name + u" " +
-                             schema.users.c.last_name)],
+                             schema.users.c.first_name)],
                              schema.user_group_memberships.c.user_id==schema.users.c.user_id
                                     ).label('short_name')
                                            )
@@ -182,9 +190,9 @@ mapper( domain.PartyMember, schema.user_group_memberships,
             properties={
             'short_name' : column_property(
                              rdb.sql.select(
-                             [(schema.users.c.first_name + u" " + 
+                             [(schema.users.c.last_name + u", " + 
                              #schema.users.c.middle_name + u" " +
-                             schema.users.c.last_name)],
+                             schema.users.c.first_name)],
                              schema.user_group_memberships.c.user_id==schema.users.c.user_id
                                     ).label('short_name')
                                            )
@@ -263,9 +271,9 @@ mapper( domain.GroupSittingAttendance, schema.sitting_attendance,
         properties={
             'short_name' : column_property(
                              rdb.sql.select(
-                             [(schema.users.c.first_name + u" " + 
+                             [(schema.users.c.last_name + u", " + 
                              #schema.users.c.middle_name + u" " +
-                             schema.users.c.last_name)],
+                             schema.users.c.first_name)],
                              schema.sitting_attendance.c.member_id==schema.users.c.user_id
                                     ).distinct().label('short_name')
                                            )

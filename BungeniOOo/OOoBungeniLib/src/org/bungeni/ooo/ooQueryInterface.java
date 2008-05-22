@@ -309,4 +309,8 @@ public class ooQueryInterface {
         return (XTextGraphicObjectsSupplier)UnoRuntime.queryInterface(XTextGraphicObjectsSupplier.class, obj);
     }
 
+    static public XEnumerationAccess XEnumerationAccess(Object obj) {
+        return (XEnumerationAccess)UnoRuntime.queryInterface(XEnumerationAccess.class, obj);
+    }
+
 }

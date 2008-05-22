@@ -26,8 +26,9 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
         order_by = self.request.get('order_by', None)       
         query=context._query
         if order_by:
-            query=query.order_by(order_by)
-            pdb.set_trace()
+            if order_by in context._class.c._data._list:
+                query=query.order_by(order_by)            
+            #pdb.set_trace()
             
         formatter = table.AlternatingRowFormatter( context,
                                                    self.request,

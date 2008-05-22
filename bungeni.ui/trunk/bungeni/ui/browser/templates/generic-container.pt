@@ -13,7 +13,7 @@
         class="edit-form" enctype="multipart/form-data"
         id="alchemist.container.listing">
 
-   <div> Sort actions here! </div>
+   <div> Click on the table columns to sort </div>
    <div tal:content="structure view/listing">
      contents 
    </div>

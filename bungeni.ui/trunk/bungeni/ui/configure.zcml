@@ -111,5 +111,18 @@
      name="workspace"
      class=".workspace.Workspace"
      />
+
+   <!-- Marginalia Settings for bungeni types -->
+   <class class="bungeni.core.domain.Bill">
+    <implements
+        interface="marginalia.interfaces.IMarginaliaAnnotatable"
+        />
+   </class>
+
+   <adapter
+       for="bungeni.core.interfaces.IBill"
+       provides="marginalia.interfaces.IMarginaliaAnnotatableAdaptor"
+       factory="bungeni.ui.adaptors.BillAnnotationAdaptor"
+       />
    
 </configure>

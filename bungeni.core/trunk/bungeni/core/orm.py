@@ -141,12 +141,12 @@ mapper ( domain.MemberOfParliament , _mp,
                                     ).label('short_name')
                                            ),
 #XXX useful to sort by  constituency ?                                          
-#            'constituency' : column_property(
-#                             rdb.sql.select(
-#                             [schema.constituencies.c.name],
-#                             schema.parliament_members.c.constituency_id==schema.constituencies.c.constituency_id
-#                                    ).label('constituency')
-#                                           ),
+            'constituency' : column_property(
+                             rdb.sql.select(
+                             [schema.constituencies.c.name],
+                             schema.parliament_members.c.constituency_id==schema.constituencies.c.constituency_id
+                                    ).label('constituency')
+                                           ),
                
           }        
         )

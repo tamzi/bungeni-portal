@@ -293,7 +293,7 @@ class MpDescriptor ( ModelDescriptor ):
     fields.extend([
         dict( name="constituency_id",
             property=schema.Choice( title=_(u"Constituency"), source=constituencySource,),
-            listing_column=vocab_column( "constituency_id" , _(u"Constituency"), constituencySource, ),
+            listing_column=vocab_column( "constituency_id" , _(u'<a href="?order_by=constituency">Constituency</a>'), constituencySource, ),
             listing=True),   
         dict( name="elected_nominated", 
             property=schema.Choice( title=_(u"elected/nominated"), values=['E', 'N', 'O']), listing=True,

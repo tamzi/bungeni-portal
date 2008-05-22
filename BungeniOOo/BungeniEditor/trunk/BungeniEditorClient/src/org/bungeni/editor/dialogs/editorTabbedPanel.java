@@ -1557,6 +1557,17 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
     }
 }
  
+public void hidePanelControls(){
+    lbl_SectionName.setVisible(false);
+    scrollPane_treeDocStructure.setVisible(false);
+    lbl_DocStructTitle.setVisible(false);
+    comboChangeStructure.setVisible(false);
+    toggleEditSection.setVisible(false);
+    this.jTabsContainer.setSize(new Dimension(243, 600));
+    
+
+    
+}
 
 
  /** This method is called from within the constructor to

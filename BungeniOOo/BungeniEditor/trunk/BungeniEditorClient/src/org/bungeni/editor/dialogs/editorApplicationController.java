@@ -737,6 +737,7 @@ private void initFrame(XComponent component){
                             JFrame f= p.getParentWindowHandle();
                             System.out.println("maximizing  other window");
                             f.setExtendedState(f.NORMAL);
+                            f.setVisible(true);
                         }
                     }
                     
@@ -749,6 +750,7 @@ private void initFrame(XComponent component){
                             JFrame f= p.getParentWindowHandle();
                             System.out.println("minimizing other window");
                             f.setExtendedState(f.ICONIFIED);
+                            f.setVisible(false);
                         }
 
                     }

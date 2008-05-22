@@ -14,6 +14,7 @@ import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.text.XTextSection;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -87,6 +88,9 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
         initTimer();
     }
     
+    private sectionTreeMetadataPanel self(){
+        return this;
+    }
     
     private void initTableDocumentMetadata() {
          //initSectionsArray();   
@@ -103,9 +107,7 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
          CommonTreeFunctions.expandAll(treeSectionTreeMetadata);
     }
     
-  
-    
-    
+ 
  
     
     private synchronized void initTimer(){

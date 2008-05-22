@@ -52,6 +52,7 @@ import org.bungeni.editor.toolbar.conditions.BungeniToolbarConditionProcessor;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.CommonTreeFunctions;
+import org.bungeni.utils.MessageBox;
 
 /**
  *
@@ -326,7 +327,7 @@ public class generalEditorPanel4 extends templatePanel implements IFloatingPanel
     private javax.swing.JTree treeGeneralEditor;
     // End of variables declaration//GEN-END:variables
     
-    
+    /*
     class treePopupMenuAction extends AbstractAction {
         PopupTypeIdentifier treePopupMenuAction_popupType;
         
@@ -420,12 +421,12 @@ public class generalEditorPanel4 extends templatePanel implements IFloatingPanel
             //{CREATE_EDIT , APPLY_MARKUP, EDIT, SELECT_INSERT, SELECT_EDIT  };
                if (popId == PopupTypeIdentifier.CREATE_EDIT) {
                    // toolbarAction action =(toolbarAction)thisNode.getUserObject();
-                    /** commented for issue 108 ***
-                    if (!ooDocument.isTextSelected())
-                        action.setSelectorDialogMode(SelectorDialogModes.TEXT_INSERTION);
-                    else
-                        action.setSelectorDialogMode(SelectorDialogModes.TEXT_SELECTED);
-                     */
+                   // / * commented for issue 108 ***
+                   // if (!ooDocument.isTextSelected())
+                   //     action.setSelectorDialogMode(SelectorDialogModes.TEXT_INSERTION);
+                   // else
+                   //     action.setSelectorDialogMode(SelectorDialogModes.TEXT_SELECTED);
+                   //
                     action.setSelectorDialogMode(this.getDialogMode());
                     IEditorActionEvent event = getEventClass(action);
                     event.doCommand(ooDocument, action, parentFrame);
@@ -460,58 +461,8 @@ public class generalEditorPanel4 extends templatePanel implements IFloatingPanel
         }
         
         
-        private void processPopupSelection(){
-            //get selction path
-              TreePath path = treeGeneralEditor.getSelectionPath();
-              //get current node selected...
-              DefaultMutableTreeNode thisNode = (DefaultMutableTreeNode) path.getLastPathComponent();
-              if (treePopupMenuAction_popupType == PopupTypeIdentifier.CREATE_EDIT) {
-                    toolbarAction action =(toolbarAction)thisNode.getUserObject();
-                    /** commented for issue 108 ***
-                    if (!ooDocument.isTextSelected())
-                        action.setSelectorDialogMode(SelectorDialogModes.TEXT_INSERTION);
-                    else
-                        action.setSelectorDialogMode(SelectorDialogModes.TEXT_SELECTED);
-                     */
-                    action.setSelectorDialogMode(this.getDialogMode());
-                    IEditorActionEvent event = getEventClass(action);
-                    event.doCommand(ooDocument, action, parentFrame);
-              } else
-               if (treePopupMenuAction_popupType == PopupTypeIdentifier.EDIT) {
-                    //look for existing masthead section 
-                    //if it exists popup the edit screen for it.
-                    toolbarAction action =(toolbarAction)thisNode.getUserObject();
-                    //we look for sections matching this action type.
-                    action.setSelectorDialogMode(this.getDialogMode());
-                    IEditorActionEvent event = getEventClass(action);
-                    event.doCommand(ooDocument, action, parentFrame);
-               }
-              /*else 
-              if (popupType == PopupTypeIdentifier.VIEW_ACTIONS) {
-                   if (thisNode.isLeaf()) {
-                      log.debug("processPopupSelection : thisNode = leaf");
-                    instance.Connect();
-                    createTreeNodes(thisNode, false);
-                    instance.EndConnect();
-                    if (!thisNode.isLeaf()) {
-                     treeGeneralEditor.expandPath(path);
-                    } 
-                  }
-              }*/ else 
-              if (treePopupMenuAction_popupType == PopupTypeIdentifier.APPLY_MARKUP) {
-                    toolbarAction action =(toolbarAction)thisNode.getUserObject();
-                    action.setSelectorDialogMode(this.getDialogMode());
-                    IEditorActionEvent event = getEventClass(action);
-                    event.doCommand(ooDocument, action, parentFrame);
-              }
-                //get toolbar action     
-              //toolbarAction action = (toolbarAction) thisNode.getUserObject();
-              //add items only if it is a leaf node
-
-        }
-        
  
-    }
+    } */
     
     class treeGeneralEditorPaintTimerListener implements ActionListener{
         private JTree timedTree;
@@ -563,13 +514,15 @@ public class generalEditorPanel4 extends templatePanel implements IFloatingPanel
       
         }
         
-  
+  /*
        private void createPopupMenuItems(String[] arrGeneralAction) {
             popupMenu.removeAll();
             popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.GENERAL_ACTION), arrGeneralAction, PopupTypeIdentifier.GENERAL_ACTION));
        }
-       
-       private void createPopupMenuItems(toolbarSubAction subAction) {
+    */   
+      
+        /*
+        private void createPopupMenuItems(toolbarSubAction subAction) {
            // throw new UnsupportedOperationException("Not yet implemented");
             popupMenu.removeAll(); 
             if (subAction.action_type().equals("section_create"))  {
@@ -590,7 +543,9 @@ public class generalEditorPanel4 extends templatePanel implements IFloatingPanel
                 popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.APPLY_MARKUP), subAction, PopupTypeIdentifier.APPLY_MARKUP));
             }
         } 
+        */
         
+        /*
        private void createPopupMenuItems (toolbarAction baseNodeAction){
            //do not generate menu for top level actions 
            if (baseNodeAction.isTopLevelAction()) return ;
@@ -608,9 +563,136 @@ public class generalEditorPanel4 extends templatePanel implements IFloatingPanel
                 popupMenu.add(new treePopupMenuAction(popupMap.get(PopupTypeIdentifier.APPLY_MARKUP), baseNodeAction, PopupTypeIdentifier.APPLY_MARKUP));
             }
          }
-       
+       */
+        
        public void mousePressed(MouseEvent evt) {
-         
+            //get treepath for currennt mouse click
+            TreePath selPath = treeGeneralEditor.getPathForLocation(evt.getX(), evt.getY());
+            Object node = selPath.getLastPathComponent();
+            if (node.getClass() == org.bungeni.editor.toolbar.BungeniToolbarXMLAdapterNode.class ) {
+                BungeniToolbarXMLAdapterNode toolbarXmlNode = (BungeniToolbarXMLAdapterNode) node;
+                if (toolbarXmlNode.childCount() == 0 && evt.getClickCount() == 2) {
+                    processBungeniToolbarXmlAdapterNode(toolbarXmlNode); 
+                }
+            }  
+       }
+       
+       private void processAction(toolbarAction action) {
+           log.debug("processAction:" + action.action_name() );
+
+           if (action.isTopLevelAction()) {
+               log.info("toolbar: processAction: not processing topLevelAction type");
+               return;
+           }
+          IEditorActionEvent event = getEventClass(action);
+          event.doCommand(ooDocument, action, parentFrame);
+       }
+       
+       private void processSubAction(toolbarSubAction action) {
+           log.debug("processSubAction:" + action.sub_action_name() );
+                   
+              IEditorActionEvent event = getEventClass(action);
+              event.doCommand(ooDocument, action, parentFrame);
+       }
+       
+       private void processBungeniToolbarXmlAdapterNode (BungeniToolbarXMLAdapterNode adapterNode) {
+              try {
+              BungeniToolbarXMLTreeNodeProcessor nodeProc = new BungeniToolbarXMLTreeNodeProcessor(adapterNode);
+              Object nodeUserObject = adapterNode.getUserObject();
+                   //check if node is enabled or disabled
+                   if (nodeUserObject != null) {
+                       if (nodeUserObject.getClass() == treeGeneralEditorNodeState.class) {
+                           treeGeneralEditorNodeState thestate = (treeGeneralEditorNodeState)nodeUserObject;
+                           //if disabled, dont process, just return
+                           if (thestate == treeGeneralEditorNodeState.DISABLED) {
+                               log.debug("treeGeneralEditor, mousclick, node state was disabled ");
+                             return;  
+                           } 
+                       }
+                   }
+                   //blank target, so nothing to process, return
+                   if (nodeProc.getTarget() == null ){
+                       log.debug("treeGeneralEditor, mousclick, target was null");
+                       return;
+                   } 
+                   //if node is not visible, nothing to process, return
+                   if (nodeProc.getVisible() == null ) {
+                       return;
+                   }
+                   //based on the target information we need to create the action objectr
+                   
+                   String strTarget = nodeProc.getTarget();
+                   log.info("processBungeniToolbarXmlAdapterNode  target = " + strTarget);
+                   BungeniToolbarTargetProcessor targetObj = new BungeniToolbarTargetProcessor(strTarget);
+                   SelectorDialogModes selectedMode = SelectorDialogModes.valueOf(nodeProc.getMode());
+                   toolbarAction tbAction = null;
+                   toolbarSubAction tbSubAction = null;
+                   switch (targetObj.target_type) {
+                       case ACTION:
+                          tbAction =  processInsertion(targetObj);
+                          tbAction.setSelectorDialogMode(selectedMode);
+                          processAction (tbAction);
+                          break;
+                       case SUB_ACTION:
+                          tbSubAction =  processSelection(targetObj); 
+                          tbSubAction.setSelectorDialogMode(selectedMode);
+                          processSubAction(tbSubAction);
+                          break;
+                   } 
+                   /*
+                   switch (targetObj.target_type) {
+                       case GENERAL_ACTION :
+                            createPopupMenuItems(targetObj.strTarget);
+                            //popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                            break;
+                       case ACTION :
+                           if (nodeProc.getMode().equals("TEXT_INSERTION")) {
+                                tbAction =  processInsertion(targetObj);
+                               createPopupMenuItems(tbAction);
+                              // popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                           }
+                            break;
+                       case SUB_ACTION :
+                           if (nodeProc.getMode().equals("TEXT_SELECTED_INSERT")) {
+                               tbSubAction = processSelection(targetObj); 
+                                createPopupMenuItems(tbSubAction);
+                                //popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                           }
+                            break;
+                   } */
+                   /*
+                   if (targetObj.target_type == BungeniToolbarTargetProcessor.TARGET.GENERAL_ACTION) {
+                        createPopupMenuItems(arrTargetObj);
+                        popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                   } else if ((actionType.equals("toolbarAction")) || (actionType.equals("toolbarSubAction"))) {
+                       toolbarAction tbAction = null;
+                       toolbarSubAction tbSubAction = null;
+                       // arrTargetObj[0] is the action class, arrTargetObj[1] is the action class identifier
+                       if (nodeProc.getMode().equals("TEXT_INSERTION")) {
+                            tbAction =  processInsertion(arrTargetObj);
+                       } else if (nodeProc.getMode().equals("TEXT_SELECTED_INSERT")) {
+                            tbSubAction =  processSelection(arrTargetObj);
+                       }
+                       if (tbAction != null) {
+                           createPopupMenuItems(tbAction);
+                           popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                       }
+                       if (tbSubAction != null) {
+                           createPopupMenuItems(tbSubAction);
+                           popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
+                       }
+                   } */
+                   
+                } catch (Exception ex) {
+                    log.error("processBungeniToolbarXmlAdapterNode:"+ ex.getMessage());
+                    log.error("processBungeniToolbarXmlAdapterNode:"+ CommonExceptionUtils.getStackTrace(ex));
+                }
+           
+       }
+       
+       /**** Commented for acion migration **** 
+       public void mousePressed(MouseEvent evt) {
+                
                 //we dont want to process right click
                 if (SwingUtilities.isRightMouseButton(evt)) {
                     log.debug("mousePressed: Ignore right clicks");
@@ -628,7 +710,8 @@ public class generalEditorPanel4 extends templatePanel implements IFloatingPanel
                     processBungeniToolbarXmlAdapterNode(evt, pathComponent);
                }
         }
-        
+        */
+       /*
        private void processBungeniToolbarXmlAdapterNode(MouseEvent evt, Object pathComponent){
                 try {
                    BungeniToolbarXMLAdapterNode thenode = (BungeniToolbarXMLAdapterNode)pathComponent;
@@ -684,56 +767,24 @@ public class generalEditorPanel4 extends templatePanel implements IFloatingPanel
                            }
                             break;
                    }
-                   /*
-                   if (targetObj.target_type == BungeniToolbarTargetProcessor.TARGET.GENERAL_ACTION) {
-                        createPopupMenuItems(arrTargetObj);
-                        popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
-                   } else if ((actionType.equals("toolbarAction")) || (actionType.equals("toolbarSubAction"))) {
-                       toolbarAction tbAction = null;
-                       toolbarSubAction tbSubAction = null;
-                       // arrTargetObj[0] is the action class, arrTargetObj[1] is the action class identifier
-                       if (nodeProc.getMode().equals("TEXT_INSERTION")) {
-                            tbAction =  processInsertion(arrTargetObj);
-                       } else if (nodeProc.getMode().equals("TEXT_SELECTED_INSERT")) {
-                            tbSubAction =  processSelection(arrTargetObj);
-                       }
-                       if (tbAction != null) {
-                           createPopupMenuItems(tbAction);
-                           popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
-                       }
-                       if (tbSubAction != null) {
-                           createPopupMenuItems(tbSubAction);
-                           popupMenu.show(evt.getComponent(), evt.getX(), evt.getY());
-                       }
-                   } */
                    
                 } catch (Exception ex) {
                     log.error("processBungeniToolbarXmlAdapterNode:"+ ex.getMessage());
                     log.error("processBungeniToolbarXmlAdapterNode:"+ CommonExceptionUtils.getStackTrace(ex));
                 }
        }
-       
+*/       
       // private void processGeneralAction(String[] )
        private toolbarSubAction processSelection(BungeniToolbarTargetProcessor targetObj) {
          
             String documentType = BungeniEditorProperties.getEditorProperty("activeDocumentMode");
-            /*
-            int actionLength =  targetAction.length;
-            //toolbarSubAction.makePrayerSection.section_creation
-            String actionType = targetAction[0];
-            String actionMainAction = targetAction[1];
-            String actionSubAction = "";
-            if (actionLength == 3) {
-                actionSubAction = targetAction[2];
-            } */
-           
             instance.Connect();
             String actionQuery = SettingsQueryFactory.Q_FETCH_SUB_ACTIONS(documentType, targetObj.actionName, targetObj.subActionName);
             log.info("processSelection: "+ actionQuery); 
             QueryResults qr = instance.QueryResults(actionQuery);
              instance.EndConnect();
              if (qr == null ) {
-                 log.debug("processSelection : queryResults :" + actionQuery + " were null");
+                 log.info("processSelection : queryResults :" + actionQuery + " were null, metadata incorrectly setup");
                  return null;
              }
              if (qr.hasResults()) {
@@ -741,8 +792,10 @@ public class generalEditorPanel4 extends templatePanel implements IFloatingPanel
                  toolbarSubAction subActionObj =  new toolbarSubAction(qr.theResults().elementAt(0), qr.columnNameMap());
                  subActionObj.setActionValue(targetObj.actionValue);
                  return subActionObj;
-             } else
+             } else {
+                  log.info("processSelection : queryResults :" + actionQuery + " were null, metadata incorrectly setup");
                  return null;
+             }
        }
        private toolbarAction processInsertion(BungeniToolbarTargetProcessor targetAction) {
           // BungeniToolbarTargetProcessor targetObject = new BungeniToolbarTargetProcessor()
@@ -770,12 +823,15 @@ public class generalEditorPanel4 extends templatePanel implements IFloatingPanel
            QueryResults qr = instance.QueryResults(SettingsQueryFactory.Q_FETCH_ACTION_BY_NAME(documentType, targetAction.actionName));
              instance.EndConnect();
              if (qr == null ) {
+                 log.info("toolbar: processInsertion: the metadata has been setup incorrectly for action :" + targetAction.actionName);
                  return null;
              }
              if (qr.hasResults()) {
                  return new toolbarAction(qr.theResults().elementAt(0), qr.columnNameMap());
-             } else
+             } else {
+                 log.info("toolbar: processInsertion: the metadata has been setup incorrectly for action :" + targetAction.actionName);
                  return null;
+             }
        }
        
        /*

@@ -48,7 +48,7 @@
   <include package=".browser" />
 
   <browser:resourceDirectory
-     name="images"
+     name="imagesmarginalia"
      directory="images"
      />
 

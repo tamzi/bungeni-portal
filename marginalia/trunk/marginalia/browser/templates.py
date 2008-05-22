@@ -50,6 +50,8 @@ class MarginaliaPage(BrowserPage):
         """Returns a list of Annotations."""
         params = { 'format' : 'atom' }
         params.update(parse_qsl(self.request['QUERY_STRING']))
+        if self.request.environment.has_key('wsgi.input'):
+            params.update(parse_qsl(self.request.environment['wsgi.input'].read()))
         format = params['format']
 
         response = self.request.response
@@ -88,6 +90,8 @@ class MarginaliaPage(BrowserPage):
         # parameters in the body should specify the action to take.
         params.update(self.request)
         params.update(parse_qsl(self.request['QUERY_STRING']))
+        if self.request.environment.has_key('wsgi.input'):
+            params.update(parse_qsl(self.request.environment['wsgi.input'].read()))        
         sequenceRange = SequenceRange(params['sequence-range'])
         xpathRange = XPathRange(params['xpath-range'])
         params['start_block'] = sequenceRange.start.getPaddedPathStr()
@@ -123,6 +127,8 @@ class MarginaliaPage(BrowserPage):
         params = {}
         params.update(self.request)
         params.update(parse_qsl(self.request['QUERY_STRING']))
+        if self.request.environment.has_key('wsgi.input'):
+            params.update(parse_qsl(self.request.environment['wsgi.input'].read()))
         
         annotation = self.getAnnotation(params['id'])
         if not annotation or annotation.quote_author != \
@@ -153,6 +159,9 @@ class MarginaliaPage(BrowserPage):
         """Deletes an Annotation."""
         params = {}
         params.update(parse_qsl(self.request['QUERY_STRING']))
+        if self.request.environment.has_key('wsgi.input'):
+            params.update(parse_qsl(self.request.environment['wsgi.input'].read()))
+        
         annotation_id = params.get('id', None)
         annotation = self.getAnnotation(annotation_id)
         if annotation and annotation.quote_author == self.getAuthenticatedUser():

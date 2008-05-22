@@ -59,11 +59,20 @@
   <!-- Annotatable -->
   <browser:page
       for="marginalia.interfaces.IMarginaliaAnnotatable"
-      name="zmiannotate.html"
-      template="marginalia_zmi.pt"
+      name="annote.html"
+      template="annote.pt"
       class="marginalia.browser.templates.MarginaliaAnnotationView"
       permission="zope.View"
       menu="zmi_views" title="Annotate"
+      />
+
+  <browser:page
+      for="marginalia.interfaces.IMarginaliaAnnotatable"
+      name="amend.html"
+      template="amend.pt"
+      class="marginalia.browser.templates.MarginaliaAnnotationView"
+      permission="zope.View"
+      menu="zmi_views" title="Amendment"
       />
 
   <browser:page
@@ -77,21 +86,26 @@
 
   <browser:page
       for="marginalia.interfaces.IMarginaliaAnnotatable"
-      name="zmiamendment.html"
-      template="amendment_zmi.pt"
-      class="marginalia.browser.templates.MarginaliaAnnotationView"
-      permission="zope.View"
-      menu="zmi_views" title="Amendment"
-      />
-
-  <browser:page
-      for="marginalia.interfaces.IMarginaliaAnnotatable"
       name="amendment.html"
       template="amendment.pt"
       class="marginalia.browser.templates.MarginaliaAnnotationView"
       permission="zope.View"
       menu="zmi_views" title="Amendment FullScreen"
       />
+
+   <browser:menuItem
+     menu="context_actions"
+     for="marginalia.interfaces.IMarginaliaAnnotatable"
+     action="annote.html"
+     title="Annotate"
+     />       
+
+   <browser:menuItem
+     menu="context_actions"
+     for="marginalia.interfaces.IMarginaliaAnnotatable"
+     action="amend.html"
+     title="Amend"
+     />       
 
   <browser:page
       for="marginalia.interfaces.IMarginaliaAnnotatable"
@@ -112,8 +126,10 @@
 
   <!-- Javascript files -->
 
+  <browser:resource name="3rd-party.js" file="js/3rd-party.js" />
+
   <browser:resourceDirectory
-     name="js"
+     name="jsmarginalia"
      directory="js"
      />
 

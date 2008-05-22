@@ -9,7 +9,7 @@ annotations_table = rdb.Table(
     "annotations",
     metadata,
     rdb.Column('id', rdb.Integer, primary_key=True),  
-    rdb.Column("url", rdb.Unicode(), nullable=False),
+    rdb.Column("url", rdb.Unicode(240), nullable=False),
     rdb.Column("start_block", rdb.Unicode(80), nullable=False),
     rdb.Column("start_xpath", rdb.Unicode(80), nullable=False),
     rdb.Column("start_word", rdb.Unicode(80), nullable=False),
@@ -18,15 +18,15 @@ annotations_table = rdb.Table(
     rdb.Column("end_xpath", rdb.Unicode(80), nullable=False),
     rdb.Column("end_word", rdb.Unicode(80), nullable=False),
     rdb.Column("end_char", rdb.Unicode(80), nullable=False),
-    rdb.Column("note", rdb.Unicode()), 
+    rdb.Column("note", rdb.Text()), 
     rdb.Column("access", rdb.Unicode(80), nullable=False),
     rdb.Column("action", rdb.Unicode(80)),
     rdb.Column("edit_type", rdb.Unicode(80), nullable=False),
-    rdb.Column("quote", rdb.Unicode()),
-    rdb.Column("quote_title", rdb.Unicode()),
+    rdb.Column("quote", rdb.Text()),
+    rdb.Column("quote_title", rdb.Unicode(120)),
     rdb.Column("quote_author", rdb.Unicode(80), nullable=False),
     rdb.Column("link_title", rdb.Unicode(80)),
-    rdb.Column("link", rdb.Unicode()),
+    rdb.Column("link", rdb.Unicode(240)),
    )
    
 class AnnotationMaster(object):

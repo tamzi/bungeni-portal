@@ -1,3 +1,5 @@
+<metal:block define-macro="body">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
@@ -6,7 +8,7 @@
   <title tal:content="context/title/title">recipe name goes here</title>
   <!-- 3rd Party -->
 <script type="text/javascript" src="3rd-party.js"        
-     tal:attributes="src context/++resource++js/3rd-party.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/3rd-party.js"></script>
 <script type="text/javascript" src="shortcut.js"        
      tal:attributes="src context/++resource++jsexternal/shortcut.js"></script>
 <script type="text/javascript" src="cssQuery.js"        
@@ -18,61 +20,61 @@
 
   <!-- Libraries -->
 <script type="text/javascript" src="log.js"        
-     tal:attributes="src context/++resource++js/log.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/log.js"></script>
 <script type="text/javascript" src="prefs.js"        
-     tal:attributes="src context/++resource++js/prefs.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/prefs.js"></script>
 <script type="text/javascript" src="html-model.js"        
-     tal:attributes="src context/++resource++js/html-model.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/html-model.js"></script>
 <script type="text/javascript" src="domutil.js"        
-     tal:attributes="src context/++resource++js/domutil.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/domutil.js"></script>
 <script type="text/javascript" src="ranges.js"        
-     tal:attributes="src context/++resource++js/ranges.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/ranges.js"></script>
 <script type="text/javascript" src="SequenceRange.js"        
-     tal:attributes="src context/++resource++js/SequenceRange.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/SequenceRange.js"></script>
 <script type="text/javascript" src="XPathRange.js"        
-     tal:attributes="src context/++resource++js/XPathRange.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/XPathRange.js"></script>
 <script type="text/javascript" src="annotation.js"        
-     tal:attributes="src context/++resource++js/annotation.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/annotation.js"></script>
 <script type="text/javascript" src="post-micro.js"        
-     tal:attributes="src context/++resource++js/post-micro.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/post-micro.js"></script>
 <script type="text/javascript" src="linkable.js"        
-     tal:attributes="src context/++resource++js/linkable.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/linkable.js"></script>
 
   <!-- Marginalia -->
 <script type="text/javascript" src="marginalia.js"        
-     tal:attributes="src context/++resource++js/marginalia.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/marginalia.js"></script>
 <script type="text/javascript" src="blockmarker-ui.js"        
-     tal:attributes="src context/++resource++js/blockmarker-ui.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/blockmarker-ui.js"></script>
 <script type="text/javascript" src="highlight-ui.js"        
-     tal:attributes="src context/++resource++js/highlight-ui.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/highlight-ui.js"></script>
 <script type="text/javascript" src="link-ui.js"        
-     tal:attributes="src context/++resource++js/link-ui-z3.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/link-ui-z3.js"></script>
 <script type="text/javascript" src="note-ui.js"        
-     tal:attributes="src context/++resource++js/note-ui.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/note-ui.js"></script>
 <script type="text/javascript" src="link-ui-plain.js"        
-     tal:attributes="src context/++resource++js/link-ui-plain.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/link-ui-plain.js"></script>
 <script type="text/javascript" src="track-changes.js"        
-     tal:attributes="src context/++resource++js/track-changes.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/track-changes.js"></script>
 
   <!-- Rest -->
 <script type="text/javascript" src="RangeInfo.js"        
-     tal:attributes="src context/++resource++js/RangeInfo.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/RangeInfo.js"></script>
 <script type="text/javascript" src="rest-annotate.js"        
-     tal:attributes="src context/++resource++js/rest-annotate.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/rest-annotate.js"></script>
 <script type="text/javascript" src="rest-prefs.js"        
-     tal:attributes="src context/++resource++js/rest-prefs.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/rest-prefs.js"></script>
 <script type="text/javascript" src="rest-keywords.js"        
-     tal:attributes="src context/++resource++js/rest-keywords.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/rest-keywords.js"></script>
 <script type="text/javascript" src="marginalia-direct.js"        
-     tal:attributes="src context/++resource++js/marginalia-direct.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/marginalia-direct.js"></script>
 
   <!-- Others -->
 <script type="text/javascript" src="marginalia-config.js"        
-     tal:attributes="src context/++resource++js/marginalia-config.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/marginalia-config.js"></script>
 <script type="text/javascript" src="marginalia-strings.js"        
-     tal:attributes="src context/++resource++js/marginalia-strings.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/marginalia-strings.js"></script>
 <script type="text/javascript" src="bungeni-annotate.js"        
-     tal:attributes="src context/++resource++js/bungeni-annotate.js"></script>
+     tal:attributes="src context/++resource++jsmarginalia/bungeni-annotate.js"></script>
 
   <!-- Page and Context Specific -->
 
@@ -142,7 +144,7 @@ function bungeniClickCreateAnnotation( event, id ) {
              <div class="notes" tal:define="member_names python:view.getOwnerList();
                                             group_names python:view.getPortalGroups;">
 		       <div id="loader" style="float:right;display:none;">
-                 <img width="10" height="10" title="Loader" alt="" src="loader.jpg" tal:attributes="src context/++resource++images/loader.gif" />
+                 <img width="10" height="10" title="Loader" alt="" src="loader.jpg" tal:attributes="src context/++resource++imagesmarginalia/loader.gif" />
                </div>
                <button class="createAnnotation" onclick="bungeniClickCreateAnnotation(event,'m1')" title="Click here to create an annotation">&gt;</button>
                <a href="javascript:toggle_visibility('fields');"><p class="plink">Filter amendment by owner, group, type or query string. (show/hide)</p></a>
@@ -190,3 +192,4 @@ function bungeniClickCreateAnnotation( event, id ) {
 </body>
 </html>
 
+</metal:block>

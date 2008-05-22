@@ -48,13 +48,17 @@ public class cursorInSection implements IBungeniToolbarCondition {
     private String getSectionFromRange(XTextRange theRange ) {
         String theSectionName = ""; 
         try {
+            log.debug("cursorInSection:getSectionFromRange()");
             XPropertySet rangeProps= ooQueryInterface.XPropertySet(theRange);
             XTextSection sectionInRange;
             sectionInRange = (XTextSection) ((Any) rangeProps.getPropertyValue("TextSection")).getObject();
-             if ( sectionInRange != null) {
+            if ( sectionInRange != null) {
                  XNamed nameOfSection = ooQueryInterface.XNamed(sectionInRange);
                  theSectionName = nameOfSection.getName();       
-             }
+                 log.debug("cursorInSection:getSectionFromRange(), sectionRange is not null =  theSectionName = "+ theSectionName);
+            } else {
+                 log.debug("cursorInSection:getSectionFromRange(), sectionRange is null ");
+            }
         } catch (UnknownPropertyException ex) {
             log.error("getSectionFromRange: " + ex.getMessage());
         } catch (WrappedTargetException ex) {
@@ -65,6 +69,7 @@ public class cursorInSection implements IBungeniToolbarCondition {
     }
     
     private boolean check_condition(String sectionCurrent, String sectionCheck) {
+            log.debug("check_condition : sectionCurrent, sectionCheck : " + sectionCurrent + ", " + sectionCheck);
              if (sectionCurrent.matches(sectionCheck)) 
                      return true;
              else

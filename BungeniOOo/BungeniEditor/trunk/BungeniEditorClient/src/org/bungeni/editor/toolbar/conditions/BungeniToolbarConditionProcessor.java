@@ -47,6 +47,7 @@ public class BungeniToolbarConditionProcessor {
     protected void processOperators(String fullConditionValue) {
         //we split string by operators 
         //currently only a single type of operator identification is supported
+        log.debug("1. processOperators: "+ fullConditionValue );
         java.util.Iterator<String> keys = operators.keySet().iterator();
         while (keys.hasNext()) {
             String key = keys.next();
@@ -75,12 +76,15 @@ public class BungeniToolbarConditionProcessor {
           bResult = selectedOperator.result();
          } catch (InstantiationException ex) {
                log.error("evaluateWithOperator: " + ex.getMessage());
+               log.error("evaluateWithOperator : " + this.conditionValue);
                log.error("evaluateWithOperator: " + CommonExceptionUtils.getStackTrace(ex));
            } catch (IllegalAccessException ex) {
                log.error("evaluateWithOperator: " + ex.getMessage());
+               log.error("evaluateWithOperator : " + this.conditionValue);
                log.error("evaluateWithOperator: " + CommonExceptionUtils.getStackTrace(ex));
            }  catch (ClassNotFoundException ex) {
                log.error("evaluateWithOperator: " + ex.getMessage());
+               log.error("evaluateWithOperator : " + this.conditionValue);
                log.error("evaluateWithOperator: " + CommonExceptionUtils.getStackTrace(ex));
           }  finally {
             return bResult;
@@ -90,13 +94,15 @@ public class BungeniToolbarConditionProcessor {
     private boolean evaluateWithoutOperator(){
         boolean bResult = false;
         try {   
+            
             BungeniToolbarCondition toolbarCond =    new BungeniToolbarCondition(conditionValue);
             IBungeniToolbarCondition iCondition = baseOperator.getConditionObject(toolbarCond.getConditionClass());
             iCondition.setOOoComponentHelper(ooDocument);
             bResult = iCondition.processCondition(toolbarCond) ;
           } catch (Exception ex) {
-               log.error("evaluateWithOperator: " + ex.getMessage());
-               log.error("evaluateWithOperator: " + CommonExceptionUtils.getStackTrace(ex));
+               log.error("evaluateWithoutOperator: " + ex.getMessage());
+               log.error("evaluateWithoutOperator : " + this.conditionValue);
+               log.error("evaluateWithoutOperator: " + CommonExceptionUtils.getStackTrace(ex));
           } finally {
               return bResult;
         }

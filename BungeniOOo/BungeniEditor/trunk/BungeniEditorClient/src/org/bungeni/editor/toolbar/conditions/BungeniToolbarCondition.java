@@ -24,14 +24,22 @@ public class BungeniToolbarCondition {
     private String conditionValue;
     private String conditionClass;
     
+      private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniToolbarCondition.class.getName());
+ 
+
     /** Creates a new instance of BungeniToolbarCondition */
     public BungeniToolbarCondition(String fullCondition) {
         if (fullCondition.indexOf(":") != -1){
             String[] full = fullCondition.trim().split("[:]");
             conditionName = full[0].trim();
             conditionValue = full[1].trim();
-            setConditionClass(getConditionClassFromName(conditionName));
+            try {
+                setConditionClass(getConditionClassFromName(conditionName));
+            } catch (Exception ex) {
+                log.error("BungeniToolbarCondition constructor: possibly the toolbar condition has not been setup for this document type "  + ex.getMessage() );
+            }
         }
+        
     }
      
    private String getConditionClassFromName(String conditionName) {
@@ -76,4 +84,8 @@ public class BungeniToolbarCondition {
         this.conditionClass = conditionClass.trim();
     }
     
+    public static void main(String[] args) {
+        BungeniToolbarCondition cond = new BungeniToolbarCondition("sectionNotExists:root");
+        System.out.println(cond.getConditionName());
+    }
 }

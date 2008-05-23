@@ -24,4 +24,8 @@ public class BungeniEditorPropertiesHelper {
         String docRoot = BungeniEditorProperties.getEditorProperty("root:" + activeDoc.trim());
         return docRoot;
     }
+
+    public static String getCurrentDocType() {
+        return BungeniEditorProperties.getEditorProperty("activeDocumentMode");
+    }
 }

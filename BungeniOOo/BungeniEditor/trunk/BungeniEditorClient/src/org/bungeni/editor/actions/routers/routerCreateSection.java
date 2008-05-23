@@ -9,15 +9,26 @@
 
 package org.bungeni.editor.actions.routers;
 
+import com.sun.star.beans.PropertyVetoException;
+import com.sun.star.beans.UnknownPropertyException;
+import com.sun.star.beans.XPropertySet;
+import com.sun.star.container.XNamed;
+import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
+import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextViewCursor;
+import com.sun.star.uno.AnyConverter;
 import java.util.HashMap;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
+import org.bungeni.editor.document.DocumentSection;
+import org.bungeni.editor.document.DocumentSectionsContainer;
 import org.bungeni.error.BungeniMsg;
 import org.bungeni.error.BungeniValidatorState;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.ooo.ooQueryInterface;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 
 /**
  *
@@ -42,6 +53,7 @@ public class routerCreateSection extends defaultRouter {
             boolean bAction = action_createSystemContainerFromSelection(ooDocument, newSectionName);
             if (bAction ) {
                 //set section type metadata
+                setSectionProperties(action, newSectionName, ooDocument);
                 ooDocument.setSectionMetadataAttributes(newSectionName, get_newSectionMetadata(action));
             } else {
                 log.error("routeAction_TextSelectedInsertAction_CreateSection: error while creating section ");
@@ -100,4 +112,41 @@ public class routerCreateSection extends defaultRouter {
          metaMap.put("BungeniSectionType", pAction.action_section_type());
          return metaMap;
      }
+
+    private void setSectionProperties(toolbarAction pAction, String newSectionName, OOComponentHelper ooDocument) {
+        String sectionType = pAction.action_section_type();
+        DocumentSection secObj = DocumentSectionsContainer.getDocumentSectionByType(sectionType);
+        HashMap<String,Object> sectionProps = secObj.getSectionProperties();
+        XTextSection newSection = ooDocument.getSection(newSectionName);
+        XNamed namedSection = ooQueryInterface.XNamed(newSection);
+       
+        XPropertySet xProps = ooQueryInterface.XPropertySet(newSection);
+       /*
+        xProps.setPropertyValue("BackColor", new Integer(16711680));
+                            xProps.setPropertyValue("SectionLeftMargin", new Integer(762));
+    */
+        for (String propName: sectionProps.keySet()) {
+             try {
+                //Long margin = new Long(762);
+               
+                //Integer i = new Integer(0);
+                
+                log.debug("setSectionProperties : "+ propName + " value = " + sectionProps.get(propName).toString());
+                
+                //xProps.setPropertyValue(propName, sectionProps.get(propName));
+                Object propVal = sectionProps.get(propName);
+                if (propVal.getClass() == java.lang.Integer.class) {
+                      xProps.setPropertyValue(propName, (java.lang.Integer) sectionProps.get(propName));
+                } else if (propVal.getClass() == java.lang.Long.class) {
+                      xProps.setPropertyValue(propName, (java.lang.Long) sectionProps.get(propName));               
+                } else if (propVal.getClass() == java.lang.String.class) {
+                      xProps.setPropertyValue(propName, (java.lang.String) sectionProps.get(propName));
+                } else
+                      xProps.setPropertyValue(propName, (java.lang.String) sectionProps.get(propName));
+            } catch (Exception ex) {
+                log.error("setSectionProperties :"+ propName +" : "  +ex.getMessage());
+                log.error("setSectionProperties :"+ CommonExceptionUtils.getStackTrace(ex));
+            } 
+        }
+    }
 }

@@ -9,24 +9,163 @@
 
 package org.bungeni.editor.document;
 
+import com.sun.star.beans.Property;
+import java.util.HashMap;
+import java.util.Vector;
+import org.bungeni.db.QueryResults;
+
 /**
  *
  * @author Administrator
  */
 public class DocumentSection {
     
-    String documentType;
-    String sectionType;
-    String sectionNamePrefix;
-    String sectionNumberingStyle;
-    int sectionBackground;
-    long sectionLeftMargin;
-    long sectionRightMargin ;
-    boolean isProtected;
+    private String documentType;
+    private String sectionType;
+    private String sectionNamePrefix;
+    private String sectionNumberingStyle;
+    private int sectionBackground = 0xffffff;
+    private double sectionLeftMargin = 0;
+    private double sectionRightMargin = 0;
+    private boolean Protected = false;
     
     
     /** Creates a new instance of DocumentSection */
     public DocumentSection() {
     }
+
+    public DocumentSection(QueryResults qr, Vector<String> row) {
+        setDocumentType(qr.getField(row, "DOC_TYPE"));
+        setSectionType(qr.getField(row, "SECTION_TYPE_NAME"));
+        setSectionNamePrefix(qr.getField(row, "SECTION_NAME_PREFIX"));
+        setSectionNumberingStyle(qr.getField(row, "SECTION_NUMBERING_STYLE"));
+        setSectionBackground(qr.getField(row, "SECTION_BACKGROUND"));
+        setSectionLeftMargin(qr.getField(row, "SECTION_INDENT_LEFT"));
+        setSectionRightMargin(qr.getField(row, "SECTION_INDENT_RIGHT"));
+    }
+    public String getDocumentType() {
+        return documentType;
+    }
+
+    public void setDocumentType(String documentType) {
+        this.documentType = documentType;
+    }
+
+    public String getSectionType() {
+        return sectionType;
+    }
+
+    public void setSectionType(String sectionType) {
+        this.sectionType = sectionType;
+    }
+
+    public String getSectionNamePrefix() {
+        return sectionNamePrefix;
+    }
+
+    public void setSectionNamePrefix(String sectionNamePrefix) {
+        this.sectionNamePrefix = sectionNamePrefix;
+    }
+
+    public String getSectionNumberingStyle() {
+        return sectionNumberingStyle;
+    }
+
+    public void setSectionNumberingStyle(String sectionNumberingStyle) {
+        this.sectionNumberingStyle = sectionNumberingStyle;
+    }
+
+    public int getSectionBackground() {
+        return new Integer(sectionBackground);
+    }
+
+    public void setSectionBackground(int sectionBackground) {
+        this.sectionBackground = sectionBackground;
+    }
+
+    
+    public void setSectionBackground(String sectionBackground) {
+        try {
+
+        this.sectionBackground = Integer.decode(sectionBackground);
+       } catch (NumberFormatException ex) {
+            this.sectionBackground = 0xffffff;
+      }
+    }
+
+
+
+    public void setSectionLeftMargin(String sectionLeftMargin) {
+      try {
+        this.sectionLeftMargin = Double.parseDouble(sectionLeftMargin);
+       } catch (NumberFormatException ex) {
+            this.sectionLeftMargin = 0;
+      }
+    }
+    
+    public void setSectionLeftMargin(double sectionLeftMargin) {
+        this.sectionLeftMargin = sectionLeftMargin;
+    }
+
+    public Integer getSectionRightMargin(){
+        return marginDoubleToInteger(sectionRightMargin);
+    }
+    
+    
+    private Long marginDoubleToLong(Double margin) {
+        Double bigMargin = margin * 10 * 254;
+        return bigMargin.longValue();
+    }
+    
+    private Integer marginDoubleToInteger(Double margin) {
+         Double bigMargin = margin * 10 * 254;
+        return bigMargin.intValue();
+    }
+    
+    
+    public Integer getSectionLeftMargin(){
+        return marginDoubleToInteger(sectionLeftMargin);
+    }
+    
+   
+    public void setSectionRightMargin(String sectionRightMargin) {
+        try {
+            this.sectionRightMargin = Double.parseDouble(sectionRightMargin);
+        } catch (NumberFormatException ex) {
+            this.sectionRightMargin = 0;
+        }
+    }
+    
+    public void setSectionRightMargin(double sectionRightMargin) {
+        this.sectionRightMargin = sectionRightMargin;
+    }
+
+    public boolean isProtected() {
+        return Protected;
+    }
+
+    public void setProtected(boolean Protected) {
+        this.Protected = Protected;
+    }
+    
+    public HashMap<String,Object> getSectionProperties(){
+        HashMap<String,Object> propsMap = new HashMap<String,Object>();
+        propsMap.put ("BackColor", getSectionBackground());
+        propsMap.put ("SectionLeftMargin", getSectionLeftMargin());
+        propsMap.put ("SectionRightMargin", getSectionRightMargin());
+        return propsMap;
+    }
+    
+    public static void main(String[] args) {
+        DocumentSection s = new DocumentSection();
+        s.setSectionBackground("0xff");
+        s.setSectionLeftMargin(".3");
+        s.setSectionRightMargin(".5");
+        System.out.println(s.getSectionBackground());
+        System.out.println(s.getSectionLeftMargin());
+        System.out.println(s.getSectionRightMargin());
+        
+    }
     
 }
+

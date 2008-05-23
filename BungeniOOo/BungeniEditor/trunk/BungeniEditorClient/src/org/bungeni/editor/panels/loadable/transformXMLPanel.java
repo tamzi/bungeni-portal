@@ -6,11 +6,16 @@
 
 package org.bungeni.editor.panels.loadable;
 
+import java.util.HashMap;
+import org.bungeni.editor.document.DocumentSection;
+import org.bungeni.editor.document.DocumentSectionsContainer;
+import org.bungeni.editor.panels.impl.BaseClassForITabbedPanel;
+
 /**
  *
  * @author  Administrator
  */
-public class transformXMLPanel extends javax.swing.JPanel {
+public class transformXMLPanel extends BaseClassForITabbedPanel{
     
     /** Creates new form transformXMLPanel */
     public transformXMLPanel() {
@@ -28,6 +33,7 @@ public class transformXMLPanel extends javax.swing.JPanel {
         jComboBox2 = new javax.swing.JComboBox();
         jLabel5 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AkomaNtoso XML", "XHTML - eXtensible HTML", "Marginalia-safe HTML export", "Portable Document Format (PDF)" }));
 
@@ -37,17 +43,29 @@ public class transformXMLPanel extends javax.swing.JPanel {
 
         jLabel2.setText("Transformation Target");
 
+        jButton1.setText("jButton1");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 209, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jComboBox2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel5)
-                    .add(jLabel2))
+                    .add(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(jComboBox1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 209, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jComboBox2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(jLabel5)
+                            .add(jLabel2)))
+                    .add(layout.createSequentialGroup()
+                        .add(59, 59, 59)
+                        .add(jButton1)))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -61,12 +79,26 @@ public class transformXMLPanel extends javax.swing.JPanel {
                 .add(jLabel5)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jComboBox2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(205, Short.MAX_VALUE))
+                .add(56, 56, 56)
+                .add(jButton1)
+                .addContainerGap(126, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+// TODO add your handling code here:
+        HashMap<String,DocumentSection> map = DocumentSectionsContainer.getDocumentSectionsContainer();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    public void initialize() {
+    }
+
+    public void refreshPanel() {
+    }
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JComboBox jComboBox2;
     private javax.swing.JLabel jLabel2;

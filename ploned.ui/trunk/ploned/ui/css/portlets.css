@@ -45,7 +45,8 @@
     color: #436976;
 }
 .portletHeader {
-    background-color: #dee7ec;
+    background-color: transparent;
+    color: transparent;
     border: 1px solid #8cacbb;
     padding: 0em 1em;
     text-transform: none;

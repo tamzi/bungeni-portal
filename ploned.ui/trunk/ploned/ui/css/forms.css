@@ -276,5 +276,8 @@ tr.selected {
   right: 0;
   z-index: 999;
 }
+tr.field {
+vertical-align: top;
+}
 
 /*  */

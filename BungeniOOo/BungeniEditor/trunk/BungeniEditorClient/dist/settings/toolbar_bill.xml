@@ -13,7 +13,7 @@
             <blockAction name="Root" title="Create Root Section" visible="true" condition="sectionNotExists:root" target="generalAction.createRootSection" />
             <blockAction name="Preface" title="Preface" tooltip="Use these actions to create and manage the Preface" target="null" visible="true" condition="none" >
                 <action name="Preface.selection" tooltip="Select some text in the document to mark it up as a MastHead." title="From Selection"  target="null" visible="true" condition="sectionNotExists:preface :and: textSelected:true :and: cursorInSection:root" showChildren="true" >
-                    <subaction name="Preface.selection" tooltip="Select some text to mark it up as a Preface" title="Define Section" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillPrefaceSection.section_creation" visible="true" condition="sectionNotExists:preface :and: textSelected:true" />
+                    <subaction name="Preface.selection" tooltip="Select some text to mark it up as a Preface" title="Define Section" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillPrefaceSection.section_creation" visible="true" condition="cursorInSection:root :and: sectionNotExists:preface :and: textSelected:true" />
                 </action>
             </blockAction>
             <blockAction name="Article" tooltip="Create a Article Section" title="Article" target="null" visible="true" condition="none" >

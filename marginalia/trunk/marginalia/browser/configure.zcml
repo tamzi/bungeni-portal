@@ -142,7 +142,7 @@
     
   <publisher
       name="MARGINALIA"
-      factory="zope.app.publication.requestpublicationfactories.BrowserFactory"
+      factory="ore.wsgiapp.publication.BrowserFactory"
       methods="PUT DELETE"
       mimetypes="*"
       priority="10"

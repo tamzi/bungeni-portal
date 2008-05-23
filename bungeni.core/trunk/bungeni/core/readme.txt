@@ -14,6 +14,9 @@ some setup for tests
    >>> from bungeni import core as model
    >>> from datetime import datetime
 
+   >>> from sqlalchemy.orm import mapper
+   >>> from bungeni.core import domain, schema
+   
 Setting up Database Connection and Utilities:
 
    >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
@@ -274,6 +277,14 @@ Bill
 Rota Preparation
 ----------------
  
+Debates
+--------------
+
+ >>> debate = model.Debate()
+ >>> debate.short_name=u'Debate'
+ >>> debate.sitting_id = ssit.sitting_id
+ >>> session.save(debate)
+ >>> session.flush()
 
 Clean up commit outstanding transactions
 -----------------------------------------

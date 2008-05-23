@@ -86,8 +86,9 @@ class ParliamentMember( User ):
 class MemberOfParliament ( object ):    
     """
     defined by groupmembership and aditional data
-    """
-
+    """    
+    sort_on = 'short_name'
+        
 class HansardReporter( User ):
     """ a reporter who reports on parliamentary procedings
     """
@@ -118,6 +119,7 @@ class GroupSitting( Entity ):
     bills = one2many( "bills", "bungeni.core.domain.BillContainer", "sitting_id" )
     questions = one2many( "questions", "bungeni.core.domain.QuestionContainer", "sitting_id" )
     motions = one2many( "motions", "bungeni.core.domain.MotionContainer", "sitting_id" )
+    debates = one2many( "debates", "bungeni.core.domain.DebateContainer", "sitting_id" )
     
     @property
     def short_name( self ):
@@ -205,6 +207,12 @@ class ExtensionGroup( Group ):
 class ExtensionMember( Entity ):
     """ Users for Extension group """    
    
+   
+class Debate( Entity ):
+    """
+    Debates
+    """   
+    
         
 #############
 
@@ -305,6 +313,7 @@ BillVersion = ItemVersions.makeVersionFactory("BillVersion")
 class ParliamentSession( Entity ):
     """
     """
+    sort_on = 'start_date'
     sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "session_id")
     
 class Rota( object ):

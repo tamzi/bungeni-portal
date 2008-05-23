@@ -49,7 +49,7 @@
      
    <db:catalyst
      class=".domain.PoliticalParty"
-     descriptor=".descriptor.PolitcalPartyDescriptor"
+     descriptor=".descriptor.PoliticalPartyDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
@@ -255,6 +255,14 @@
      ui_module="bungeni.ui.content"
      echo="False"
     />    
+
+ <db:catalyst
+     class=".domain.Debate"
+     descriptor=".descriptor.DebateDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+     echo="False"
+    />   
 
   
 </configure>

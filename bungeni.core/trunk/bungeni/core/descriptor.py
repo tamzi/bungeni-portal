@@ -287,7 +287,7 @@ class GroupMembershipDescriptor( ModelDescriptor ):
 
 class MpDescriptor ( ModelDescriptor ):
     display_name = _(u"Member of Parliament")
-    fields = deepcopy(GroupMembershipDescriptor.fields)
+    fields = deepcopy(GroupMembershipDescriptor.fields)    
     constituencySource=DatabaseSource(domain.Constituency,  'name', 'constituency_id')
     #mpTypeSource= ['E', 'N', 'O']
     fields.extend([
@@ -331,17 +331,18 @@ class GroupDescriptor( ModelDescriptor ):
     fields = [
         dict( name="group_id", omit=True ),
         dict( name="type", omit=True ),
-        dict( name="short_name", label=_(u"Name"), listing=True),
+        dict( name="short_name", label=_(U"Name"), listing=True,
+              listing_column=name_column("short_name", _(u'<a href="?order_by=short_name">Name</a>'))),
         dict( name="full_name", label=_(u"Full Name"), listing=True,
-              listing_column=name_column("full_name", _(u"Full Name"))),
+              listing_column=name_column("full_name", _(u'<a href="?order_by=full_name">Full Name</a>'))),
         dict( name="description", property=schema.Text(title=_(u"Description") , required=False ),
               view_widget=widget.HTMLDisplay,
               edit_widget=widget.RichTextEditor,
               add_widget=widget.RichTextEditor),
         dict( name="start_date", label=_(u"Start Date"), listing=True, 
-              listing_column=day_column("start_date", _(u"Start Date")), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+              listing_column=day_column("start_date", _(u'<a href="?order_by=start_date">Start Date</a>')), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
         dict( name="end_date", label=_(u"End Date"), listing=True, 
-              listing_column=day_column('end_date', _(u"End Date")), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),        
+              listing_column=day_column('end_date', _(u'<a href="?order_by=end_date">End Date</a>')), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),        
         #dict( name="status",  label=_(u"Status"), edit=False, add=False, listing=True )        
         dict( name="status", omit=True),
         ]
@@ -440,7 +441,7 @@ class CommitteeMemberDescriptor( ModelDescriptor ):
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, SubstitudedEndDate, InactiveNoEndDate]
      
         
-class PolitcalPartyDescriptor( GroupDescriptor ):
+class PoliticalPartyDescriptor( GroupDescriptor ):
     display_name = _(u"Political Party")     
     fields = deepcopy( GroupDescriptor.fields )    
     fields.extend([
@@ -499,10 +500,14 @@ class ParliamentSession( ModelDescriptor ):
     fields = deepcopy( GroupDescriptor.fields )
     fields.extend([
         dict( name="session_id", omit=True ),
-        dict( name="start_date", label=_(u"Start Date"), listing_column=day_column("start_date", _(u"Start Date") ), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
-        dict( name="end_date", label=_(u"End Date"), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),                
+        dict( name="start_date", label=_(u"Start Date"), 
+            listing_column=day_column("start_date", _(u'<a href="?order_by=start_date">Start Date</a>')), 
+            edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+        dict( name="end_date", label=_(u"End Date"), 
+            listing_column=day_column('end_date', _(u'<a href="?order_by=end_date">End Date</a>')),
+            edit_widget=SelectDateWidget, add_widget=SelectDateWidget),                
         dict( name="notes", property=schema.Text(title=_(u"Notes"), required=False ),
-                 view_widget=widget.HTMLDisplay,
+              view_widget=widget.HTMLDisplay,
               edit_widget=widget.RichTextEditor,
               add_widget=widget.RichTextEditor )
         ])
@@ -604,8 +609,12 @@ class SittingDescriptor( ModelDescriptor ):
         dict( name="sitting_id", omit=True ),
         dict( name="group_id", omit=True ),
         dict( name="session_id", omit=True ),
-        dict( name="start_date", label=_(u"Start Date"),  edit_widget=SelectDateTimeWidget, add_widget=SelectDateTimeWidget),
-        dict( name="end_date", label=_(u"End Date"),  edit_widget=SelectDateTimeWidget, add_widget=SelectDateTimeWidget),
+        dict( name="start_date", label=_(u"Start Date"),  
+            listing_column=day_column("start_date", _(u'<a href="?order_by=start_date">Start Date</a>')),
+            edit_widget=SelectDateTimeWidget, add_widget=SelectDateTimeWidget),
+        dict( name="end_date", label=_(u"End Date"),  
+            listing_column=day_column("end_date", _(u'<a href="?order_by=end_date">End Date</a>')),
+            edit_widget=SelectDateTimeWidget, add_widget=SelectDateTimeWidget),
         dict( name="sitting_type", 
               listing_column = vocab_column( "sitting_type", _(u"Sitting Type"), vocabulary.SittingTypes ),
               property = schema.Choice( title=_(u"Sitting Type"), 
@@ -624,14 +633,30 @@ class SessionDescriptor( ModelDescriptor ):
         dict( name="parliament_id", omit=True),
         dict( name="short_name", label=_(u"Short Name"), listing=True ),
         dict( name="full_name", label=_(u"Full Name") ),
-        dict( name="start_date", label=_(u"Start Date"), listing=True, listing_column=day_column("start_date", _(u"Start Date")), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
-        dict( name="end_date", label=_(u"End Date"), listing=True, listing_column=day_column("end_date", _(u"End Date")), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+        dict( name="start_date", label=_(u"Start Date"), listing=True, 
+            listing_column=day_column("start_date", _(u'<a href="?order_by=start_date">Start Date</a>')),
+            edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+        dict( name="end_date", label=_(u"End Date"), listing=True, 
+            listing_column=day_column("end_date", _(u'<a href="?order_by=end_date">End Date</a>')),
+            edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
         dict( name="notes", label=_(u"Notes"), required=False)
         ]
     schema_invariants = [EndAfterStart]
             
-                
-            
+class DebateDescriptor ( ModelDescriptor ):
+    display_name = _(u"Debates")
+    fields = [
+        dict( name="sitting_id", omit=True ), 
+        dict( name="debate_id", omit=True ),                
+        dict( name="short_name", label=_(u"Short Name"), listing=True ), 
+        dict( name="body_text", label=_(u"Transcript"),
+              property = schema.Text( title=u"Transcript" ),
+              view_widget=widget.HTMLDisplay,
+              edit_widget=widget.RichTextEditor, 
+              add_widget=widget.RichTextEditor
+              ),   
+        ]             
+        
 class AttendanceDescriptor( ModelDescriptor ):
     display_name =_(u"Sitting Attendance")
     attendanceVocab = DatabaseSource(domain.AttendanceType, 'attendance_type', 'attendance_id' )

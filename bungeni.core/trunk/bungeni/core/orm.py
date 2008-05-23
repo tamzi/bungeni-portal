@@ -236,6 +236,8 @@ mapper( domain.Motion, schema.motions,
              }
         )
 
+mapper( domain.Debate, schema.debates )
+
 mapper( domain.MotionAmendment, schema.motion_amendments)
 
 mapper( domain.BillChange, schema.bill_changes )

@@ -380,6 +380,15 @@ attendance_type = rdb.Table(
    )
 # 
 
+debates = rdb.Table(
+    "debates",
+    metadata,
+    rdb.Column( "debate_id", rdb.Integer, primary_key=True ),
+    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id') ),
+    rdb.Column( "short_name", rdb.Unicode(40), nullable=False ),
+    rdb.Column( "body_text", rdb.UnicodeText),
+    )
+
 #######################
 # Parliament
 #######################   
@@ -602,7 +611,7 @@ bill_changes = make_changes_table( bills, metadata )
 bill_versions = make_versions_table( bills, metadata )
 
 committee_reports = ()
-debates = ()
+#debates = ()
 
 
 

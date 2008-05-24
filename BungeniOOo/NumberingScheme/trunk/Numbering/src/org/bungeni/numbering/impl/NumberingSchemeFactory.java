@@ -12,16 +12,18 @@ package org.bungeni.numbering.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.TreeMap;
 
 /**
  * Factory class to generate Numbering scheme objects
  * @author Ashok
  */
 public class NumberingSchemeFactory {
-    public static HashMap<String, String> numberingSchemes =
-            new HashMap<String,String>()  {
+    public static TreeMap<String, String> numberingSchemes =
+            new TreeMap<String,String>()  {
                 {
                     put("ROMAN", "org.bungeni.numbering.schemes.schemeRoman" );
+                    put("ROMAN-Upper", "org.bungeni.numbering.schemes.schemeRomanUpper" );
                     put("NUMERIC", "org.bungeni.numbering.schemes.schemeNumeric" );
                     put("ALPHABETICAL", "org.bungeni.numbering.schemes.schemeAlphabetical" );
                     put("DEFAULT", "org.bungeni.numbering.schemes.schemeNumeric" );

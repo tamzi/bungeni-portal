@@ -1041,7 +1041,7 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
             }
             // we want insert  number + space before heading
             // and set a reference mark over the number
-             insertNumberBeforeHeading(aRange, theNumber, parentPrefix, theCurrentSection);
+             insertNumberForHeading(aRange, theNumber, parentPrefix, theCurrentSection);
           //   insertAppliedNumberToMetadata(matchedSectionElem,headCount);
    }
   
@@ -1056,7 +1056,7 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
                 //attache the parent prefix to the number.
                   parentPrefix =   getParentPrefix(theCurrentSection, parentSection);
             }
-             insertNumberBeforeHeading(aRange, theNumber, parentPrefix, theCurrentSection);
+             insertNumberForHeading(aRange, theNumber, parentPrefix, theCurrentSection);
    }
 
    private String getParentPrefix ( XTextSection theCurrentSection, String parentSectionName) {
@@ -1095,6 +1095,64 @@ end Sub
    
    private static String NUMBER_SPACE = " ";
    
+   private void insertField (XTextRange range, String theNumber, String fieldname) {
+        Object refField = ooDocument.createInstance("com.sun.star.text.TextField.Input");
+        XPropertySet propSet = ooQueryInterface.XPropertySet(refField);
+        try {
+            propSet.setPropertyValue("Hint", fieldname );
+            propSet.setPropertyValue("Content", theNumber);
+            //insert the field into the document
+            XTextContent fieldContent = ooQueryInterface.XTextContent(refField);
+            range.getText().insertTextContent(range, (XTextContent) fieldContent , true);
+            
+        } catch (PropertyVetoException ex) {
+            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+        } catch (UnknownPropertyException ex) {
+            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+        } catch (com.sun.star.lang.IllegalArgumentException ex) {
+            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+        }
+   }
+   /*
+    * 
+    
+    insertField(oCur.getStart(), "myFieldRef")
+      oCur.goLeft(0,false)
+      oCur.getText().insertString(oCur, " ", true)
+      oCur.goLeft(0, false)
+      oCur.goLeft(1, true)
+      insertRef(oCur, "myNumRef")
+      oCur.goRight(2, false)
+      oCur.gotoEnd(true)
+    insertRef(oCur, "myHeadRef")
+    */
+   private void insertNumberForHeading(XTextRange aRange, String theNumber, String parentPrefix, XTextSection theCurrentSection) {
+      //get the text object of the heading range  
+       XText xRangeText =    aRange.getText();
+       //get the heading string
+       String strHeading   =  aRange.getString();
+       //String theNumberPlusSpace = theNumber+NUMBER_SPACE;
+       String uuidStr = BungeniUUID.getStringUUID();
+       //create a cursor to walk the heading
+       XTextCursor headingCur = ooDocument.getTextDocument().getText().createTextCursor();
+       //map the cursor to the heading range
+       headingCur.gotoRange(aRange, false);
+       insertField(headingCur.getStart(), theNumber, "numField_"+uuidStr);
+       headingCur.gotoRange(headingCur.getStart(), false);
+       //remmed headingCur.goRight((short)1, false);
+       //headingCur.goLeft((short)0, false);
+       headingCur.getText().insertString(headingCur, NUMBER_SPACE, true);
+       headingCur.goLeft((short) 0, false);
+       headingCur.goLeft((short) 1, true);
+       createReferenceMarkOverCursor("numRef_"+uuidStr , headingCur);
+       headingCur.goRight((short) 2, false);
+       headingCur.gotoEnd(true);
+       createReferenceMarkOverCursor("headRef_"+uuidStr , headingCur);
+  }
+  
+   /*
    private void insertNumberBeforeHeading (XTextRange aRange, String theNumber, String parentPrefix, XTextSection theCurrentSection) {
        XText xRangeText =    aRange.getText();
        String strHeading   =  aRange.getString();
@@ -1113,12 +1171,7 @@ end Sub
       //now spanc the number
       headingCur.goLeft((short)theNumber.length(), true);
       System.out.println("cursor length1 ='"+headingCur.getString()+"'");
-      //headingCur.goRight((short)theNumber.length(), true);
-      /*
-       headingCur.goLeft((short)NUMBER_SPACE.length(), false);
-       //span the number
-       headingCur.goLeft((short)theNumber.length(), true);
-       */
+
       
        //now insert the reference mark
        String refMarkName = "numRef_" + BungeniUUID.getStringUUID();
@@ -1137,18 +1190,8 @@ end Sub
        XNamed namedSection = ooQueryInterface.XNamed(theCurrentSection);
        updateSectionNumberingMetadata(namedSection.getName(), theNumber,  parentPrefix);
        //call insertrefmark
-       /*
-         oCur.goLeft(0, false)
-        oCur.goLeft(1, true)
-       headingCur.gotoRange(aRange.getEnd(), true);
-       XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, headingCur);
-       xRangeText.insertString(headingCur,theNumber ,false);
-       // xRangeText.insertString(xTextCursor," ",false);
-       //insertedNumbers.add(num);
-       insertReferenceMarkOnNumber(aTextRange, elem, refLength);
-        */
    }
-
+*/
    private void updateSectionNumberingMetadata(String sectionName, String theNumber, String parentPrefix){
          HashMap<String,String> sectionMeta = new HashMap<String,String>();
          sectionMeta.put(OOoNumberingHelper.numberingMetadata.get("APPLIED_NUMBER"), theNumber);

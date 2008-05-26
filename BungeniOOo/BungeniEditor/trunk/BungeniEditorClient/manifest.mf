@@ -25,6 +25,9 @@ Class-Path: lib/juh.jar
   lib/commons-chain-1.1.jar  
                 lib/commons-digester-1.8.jar
                 lib/ooobungenilib.jar
+      lib/numberingscheme.jar lib/l2fprod-common-all.jar    
+                  lib/l2fprod-common-shared.jar lib/l2fprod-common-tasks.jar
+            lib/saxon9.jar
 
 Name: com/sun/star/lib/loader/Loader.class
 Application-Class: org.bungeni.editor.BungeniEditorClient

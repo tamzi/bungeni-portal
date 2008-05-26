@@ -24,6 +24,7 @@ public class DocumentSection {
     private String sectionType;
     private String sectionNamePrefix;
     private String sectionNumberingStyle;
+    private String sectionVisibility;
     private int sectionBackground = 0xffffff;
     private double sectionLeftMargin = 0;
     private double sectionRightMargin = 0;
@@ -42,6 +43,7 @@ public class DocumentSection {
         setSectionBackground(qr.getField(row, "SECTION_BACKGROUND"));
         setSectionLeftMargin(qr.getField(row, "SECTION_INDENT_LEFT"));
         setSectionRightMargin(qr.getField(row, "SECTION_INDENT_RIGHT"));
+        setSectionVisibility(qr.getField(row, "SECTION_VISIBILITY"));
     }
     public String getDocumentType() {
         return documentType;
@@ -155,6 +157,14 @@ public class DocumentSection {
         propsMap.put ("SectionRightMargin", getSectionRightMargin());
         return propsMap;
     }
+
+    public String getSectionVisibilty() {
+        return this.sectionVisibility;
+    }
+    
+    public void setSectionVisibility(String visibility) {
+        this.sectionVisibility = visibility;
+    }
     
     public static void main(String[] args) {
         DocumentSection s = new DocumentSection();
@@ -166,6 +176,7 @@ public class DocumentSection {
         System.out.println(s.getSectionRightMargin());
         
     }
+
     
 }
 

@@ -1,0 +1,2001 @@
+/*
+ * sectionNumbererPanel.java
+ *
+ * Created on March 27, 2008, 6:39 PM
+ */
+
+package org.bungeni.editor.panels.loadable;
+
+import com.sun.star.beans.PropertyValue;
+import com.sun.star.beans.PropertyVetoException;
+import com.sun.star.beans.UnknownPropertyException;
+import com.sun.star.beans.XPropertySet;
+import com.sun.star.beans.XPropertySetInfo;
+import com.sun.star.container.NoSuchElementException;
+import com.sun.star.container.XContentEnumerationAccess;
+import com.sun.star.container.XEnumeration;
+import com.sun.star.container.XEnumerationAccess;
+import com.sun.star.container.XNameAccess;
+import com.sun.star.container.XNamed;
+import com.sun.star.lang.WrappedTargetException;
+import com.sun.star.lang.XComponent;
+import com.sun.star.lang.XServiceInfo;
+import com.sun.star.text.ReferenceFieldPart;
+import com.sun.star.text.ReferenceFieldSource;
+import com.sun.star.text.XReferenceMarksSupplier;
+import com.sun.star.text.XSimpleText;
+import com.sun.star.text.XText;
+import com.sun.star.text.XTextContent;
+import com.sun.star.text.XTextCursor;
+import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextField;
+import com.sun.star.text.XTextRange;
+import com.sun.star.text.XTextSection;
+import com.sun.star.text.XTextViewCursor;
+import com.sun.star.text.XTextViewCursorSupplier;
+import com.sun.star.text.XWordCursor;
+import com.sun.star.uno.Any;
+import com.sun.star.uno.AnyConverter;
+import com.sun.star.uno.Type;
+import com.sun.star.uno.UnoRuntime;
+import com.sun.star.uno.XComponentContext;
+import com.sun.star.util.XNumberFormatTypes;
+import com.sun.star.util.XNumberFormats;
+import com.sun.star.util.XNumberFormatsSupplier;
+import com.sun.star.util.XPropertyReplace;
+import com.sun.star.util.XRefreshable;
+import com.sun.star.util.XReplaceDescriptor;
+import com.sun.star.util.XReplaceable;
+import com.sun.star.util.XSearchDescriptor;
+import com.sun.star.util.SearchOptions;
+import com.sun.star.view.XViewCursor;
+import com.sun.star.xforms.XModel;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
+import javax.swing.Timer;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
+import javax.swing.tree.TreeSelectionModel;
+
+import org.bungeni.editor.BungeniEditorProperties;
+import org.bungeni.editor.panels.impl.BaseClassForITabbedPanel;
+import org.bungeni.numbering.impl.IGeneralNumberingScheme;
+import org.bungeni.numbering.impl.NumberRange;
+import org.bungeni.numbering.impl.NumberingSchemeFactory;
+import org.bungeni.numbering.ooo.OOoNumberingHelper;
+
+import org.bungeni.ooo.BungenioOoHelper;
+import org.bungeni.ooo.OOComponentHelper;
+import org.apache.log4j.Logger;
+import org.bungeni.ooo.ooQueryInterface;
+import org.bungeni.ooo.ooUserDefinedAttributes;
+import org.bungeni.utils.BungeniUUID;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
+import org.bungeni.utils.CommonTreeFunctions;
+import org.bungeni.utils.MessageBox;
+
+
+/**
+ *
+ * @author  undesa
+ */
+public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
+   //  HashMap<String, String> sectionMetadataMap=new HashMap<String, String>();
+   //HashMap<String, String> sectionTypeMetadataMap=new HashMap<String, String>();
+    private static org.apache.log4j.Logger log = Logger.getLogger(sectionNumbererPanel.class.getName());
+   
+    private boolean m_useParentPrefix = false;
+    private IGeneralNumberingScheme m_selectedNumberingScheme ;
+    //private HashMap<String,String> metadata = new HashMap();
+    private ArrayList<String> sectionTypeMatchedSections = new ArrayList<String>();
+  //  private ArrayList<String> docListReferences = new ArrayList<String>();
+ //    private ArrayList<String> docReferences = new ArrayList<String>();
+ //   private ArrayList<String> insertedNumbers = new ArrayList<String>();
+    private ArrayList<String> sectionHierarchy = new ArrayList<String>();
+    private int headCount=1;
+    //DefaultListModel model=new DefaultListModel();
+    private IGeneralNumberingScheme inumScheme;
+    private String numParentPrefix="";
+    private ArrayList<String> sectionTypesInDocument = new ArrayList<String>();
+    private String selectSection="";
+   
+    private DefaultMutableTreeNode sectionRootNode = null;
+    private String[] m_validParentSections;
+    private String selectedNodeName="";
+     
+     TreeMap<String, sectionHeadingReferenceMarks> refMarksMap = new TreeMap<String, sectionHeadingReferenceMarks>();
+     private ArrayList<Object> refMarksInHeadingMatched= new ArrayList<Object>(0);
+     private ArrayList<Object> refMarksForHeading= new ArrayList<Object>(0);
+
+
+     
+     private HashMap<String, String> defaultSectionMetadata  = new HashMap<String,String>();
+     private static String NUMBER_SPACE = " ";
+     private static String PARENT_PREFIX_SEPARATOR=".";
+
+    private Timer timerSectionTypes;
+
+     
+    /** Creates new form sectionNumbererPanel */
+    public sectionNumbererPanel() {
+       initComponents();
+    }
+    /*
+    public sectionNumbererPanel(XComponentContext xContext){
+        this.xContext=xContext;
+        initComponents();
+        init();
+    }
+    */
+    private void init(){
+        //initComponents();
+        initSectionTypesMap();
+        initSectionTypesListBox();
+       // listSectionTypes.addListSelectionListener(new NumberingSchemeListener());
+        //panelNumberingScheme.setVisible(false);
+        /*init parent prefix checkbox */
+        checkbxUseParentPrefix.setSelected(false);
+        m_useParentPrefix = false;
+        checkbxUseParentPrefix.addActionListener(
+                new java.awt.event.ActionListener() {
+                    public void actionPerformed(java.awt.event.ActionEvent evt) {
+                        javax.swing.AbstractButton btn = (javax.swing.AbstractButton) evt.getSource();
+                        m_useParentPrefix = btn.getModel().isSelected();
+                    }
+        } );
+        //all commented below ... not required ??
+        //checkbxUseParentPrefix.addItemListener(new ParentSchemeListener());
+        //packReferences();
+        //initTree();
+        initSectionTree();
+        initNumberingSchemesCombo();
+        initTimer();
+        //the following is commented becuase its definitely not required !
+        //findBrokenReferences();
+    }
+    
+     private synchronized void initTimer(){
+          timerSectionTypes = new Timer(4000, new ActionListener() {
+              public void actionPerformed(ActionEvent e) {
+                refreshSectionTypesList();
+              }
+           });
+           timerSectionTypes.start();
+    }
+    
+     private void refreshSectionTypesList(){
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                         String selectedItem = (String) listSectionTypes.getSelectedValue();
+                         initSectionTypesMap();
+                         initSectionTypesListBox();
+                         if (selectedItem != null )
+                            listSectionTypes.setSelectedValue(selectedItem, true);
+                    }
+            });
+     }
+     
+    class numberingSchemeSelection extends Object {
+        String schemeName;
+        String schemeDesc;
+        String schemeClass;
+        public String toString(){
+            return schemeName;
+        }
+    }
+    
+    /*
+     *gets the selected numbering scheme in the numbering scheme combo box 
+     */
+    private numberingSchemeSelection getSelectedNumberingScheme() {
+       numberingSchemeSelection schemeSelection = (numberingSchemeSelection) cboNumberingScheme.getSelectedItem();
+       return schemeSelection;
+    }
+    
+    /*
+     *create a numbering scheme object from the selected scheme 
+     */
+    private IGeneralNumberingScheme createSchemeFromSelection() {
+        numberingSchemeSelection schemeSelection = getSelectedNumberingScheme();
+        IGeneralNumberingScheme inumScheme = NumberingSchemeFactory.getNumberingScheme(schemeSelection.schemeName);
+        return inumScheme;
+    }
+    /*
+     *initiliazes the numbering scheme combo by setting values in it
+     */
+    private void initNumberingSchemesCombo(){
+        Iterator<String> schemeIterator = NumberingSchemeFactory.numberingSchemes.keySet().iterator();
+        numberingSchemeSelection[] sels = new numberingSchemeSelection[NumberingSchemeFactory.numberingSchemes.size()];
+        int i = 0;
+        while (schemeIterator.hasNext()) {
+            sels[i] = new numberingSchemeSelection();
+            sels[i].schemeName = schemeIterator.next();
+            sels[i].schemeClass = NumberingSchemeFactory.numberingSchemes.get(sels[i].schemeName);
+            i++;
+        }
+        this.cboNumberingScheme.setModel(new DefaultComboBoxModel(sels));
+    }
+    
+    private void initSectionTypesMap() {
+        this.sectionTypesInDocument.clear();
+       XNameAccess docSections = ooDocument.getTextSections();
+       String[] sectionNames = docSections.getElementNames();
+       for (String aSection : sectionNames) {
+            HashMap<String,String> sectionMeta = ooDocument.getSectionMetadataAttributes(aSection);
+            if (sectionMeta.containsKey("BungeniSectionType")) {
+                String sectionType = sectionMeta.get("BungeniSectionType");
+                if (!this.sectionTypesInDocument.contains(sectionType))
+                    this.sectionTypesInDocument.add(sectionType);
+            }
+       }
+       if (sectionTypesInDocument.size() > 0 )
+        Collections.sort(sectionTypesInDocument);
+    }
+    
+    /*
+    private void fetchSectionTypesAndInitTree(){
+        try{
+            if (!ooDocument.getTextSections().hasByName("root")) {
+                System.out.println("no root section found");
+                return;
+            }
+            Object rootSection = ooDocument.getTextSections().getByName("root");
+            XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
+            //create the tree here
+         //    sectionRootNode = new DefaultMutableTreeNode(new String("root"));
+         //    CommonTreeFunctions.expandAll(treeSectionStructure);
+             recurseSectionTypesAndInitTree (theSection,sectionRootNode);
+         }catch (NoSuchElementException ex) {
+            log.error(ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.error(ex.getMessage());
+        }
+        
+        
+    }
+    */
+    /*
+    private void recurseSectionTypesAndInitTree(XTextSection theSection,DefaultMutableTreeNode node){
+          //recurse children
+            XTextSection[] sections = theSection.getChildSections();
+            if (sections != null ) {
+                if (sections.length > 0 ) {
+                    //start from last index and go to first
+                    for (int nSection = sections.length - 1 ; nSection >=0 ; nSection--) {
+                        XNamed xSecName = ooQueryInterface.XNamed(sections[nSection]);
+                        String childSectionName = (String) xSecName.getName();
+                        //build section tree here also 
+                        DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(childSectionName);
+                        node.add(newNode);
+                        HashMap<String,String> sectionMetadataMap=ooDocument.getSectionMetadataAttributes(childSectionName);
+                        if (sectionMetadataMap.containsKey("BungeniSectionType"))
+                            attributeSet.add(sectionMetadataMap.get("BungeniSectionType").trim());
+                        recurseSectionTypesAndInitTree(sections[nSection],newNode);
+                     }
+                   
+                } 
+            }
+            
+    }
+    */
+    private void initSectionTypesListBox(){
+         DefaultListModel listModel = new DefaultListModel();
+         
+         for (String sectionType: sectionTypesInDocument ) {
+            listModel.addElement(sectionType);
+         }
+        this.listSectionTypes.setModel(listModel);
+    }
+    
+     private void applyNumberingScheme(){
+         m_bFoundHeading = false;
+         if (listSectionTypes.getSelectedIndex() == -1 ) {
+             MessageBox.OK(parentFrame, "Please select a section type to apply numbering upon !");
+             return;
+         }
+        String sectionType=listSectionTypes.getSelectedValue().toString();            
+        /*find all sections matching that section type, and populate arraylist*/
+        /*was called readSection()*/
+        findSectionsMatchingSectionType(sectionType);
+        /*iterate through arraylist and set numberingscheme metadata to matching sections*/
+        /*was called applyNumberingScheme() */
+        if (!checkIfSectionsHaveNumberingScheme()) {
+            MessageBox.OK(parentFrame, "The section type already has a numbering scheme ! \n If you wish you to re-number the sections, please use the 'Renumbering' button ");
+            return;
+        }
+        //setNumberingSchemeMetadataIntoMatchingSections();
+        /*why is the above being done...when the same section is iterated over again ??? */
+        matchHeadingsInTypedSections();
+        if (! m_bFoundHeading ) {
+            MessageBox.OK(parentFrame, "No headings were found to apply numbering upon !");
+            return;
+        }
+     }
+     
+     private void applyRenumberingScheme(){
+        String sectionType=listSectionTypes.getSelectedValue().toString();            
+        findSectionsMatchingSectionType(sectionType);
+        
+        
+       
+        
+     }
+    
+     private frameBrokenReferences brokenReferencesFrame;
+     private void applyFixBrokenReferences() {
+        this.orphanedReferences.clear();
+       
+        findBrokenReferences();
+        if (this.orphanedReferences.size() > 0  ) {
+               java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                            brokenReferencesFrame = frameBrokenReferences.Launch(ooDocument,  parentFrame, orphanedReferences);
+                    }
+               });
+        }
+         
+     }
+     
+     private boolean checkIfSectionsHaveNumberingScheme(){
+        for (String matchedSection: sectionTypeMatchedSections) {
+            if (ooDocument.getSectionMetadataAttributes(matchedSection).containsKey(
+                    OOoNumberingHelper.numberingMetadata.get("NUMBERING_SCHEME")
+                    )) {
+                return false;
+            }
+        }
+        return true;
+     }
+     
+     private void findSectionsMatchingSectionType(String sectionType ){
+         try{
+           //change this check later to get the root section from the editor properties
+            if (!ooDocument.getTextSections().hasByName("root")) {
+                 log.info("readSections by type "+ sectionType + " no root section found, returning");
+                return;
+            }
+            //start from the root section
+            Object rootSection = ooDocument.getTextSections().getByName("root");
+            XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
+            /*clear the arraylist that holds the list of sections matching the type*/
+            this.sectionTypeMatchedSections.clear();
+            /*recurse through section hierarchy for sections of type sectionType*/
+            recurseSectionsForSectionType(theSection,sectionType);
+           /*now the arraylist for sectionTypematchdSections should have matching sections */
+            log.debug("findSectionsMatchingSectionType : " + sectionTypeMatchedSections.size() );
+         }catch (NoSuchElementException ex) {
+            log.error(ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.error(ex.getMessage());
+        }
+   }
+    
+   private void recurseSectionsForSectionType(XTextSection theSection, String sectionType){
+            /*get all child sections of the incoming section */
+            XTextSection[] sections = theSection.getChildSections();
+            if (sections != null ) {
+                if (sections.length > 0 ) {
+                    //start from last index and go to first
+                    for (int nSection = sections.length - 1 ; nSection >=0 ; nSection--) {
+                        /*get the name of the child section*/
+                         XNamed xSecName = ooQueryInterface.XNamed(sections[nSection]);
+                         String childSectionName = (String) xSecName.getName();
+                         /*get the section metadata*/
+                         HashMap<String,String> sectionMetadataMap=ooDocument.getSectionMetadataAttributes(childSectionName);
+                         /*check if the section has a sectionType property*/
+                         if (sectionMetadataMap.containsKey("BungeniSectionType") ) {
+                            /*get the sectionType of the current section*/
+                            String matchedSectionType= sectionMetadataMap.get("BungeniSectionType");
+                            /*if section type of the section matches the section type we are looking for*/
+                            if(matchedSectionType.equalsIgnoreCase(sectionType)){
+                                /*add the child section to the list of matching sections array list*/
+                              sectionTypeMatchedSections.add(childSectionName);
+                            }
+                        }
+                        log.debug("recurseSectionsForSectionType: recursive call: " + childSectionName);
+                        recurseSectionsForSectionType(sections[nSection],sectionType);
+                     } /*end of for() */ 
+                }  /*end of if (sections.length > 0)*/
+            }  /*end of if (sections != null)*/
+  }
+   
+  private void getParentFromSection(XTextRange aTextRange){
+      
+       String prevParent="";
+        Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
+          while(typedMatchSectionItr.hasNext()){
+                Object matchedSectionElem=typedMatchSectionItr.next();
+            try {
+                    Object rootSection = ooDocument.getTextSections().getByName(matchedSectionElem.toString());
+                    XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
+
+                     XNamed xParentSecName= ooQueryInterface.XNamed(theSection.getParentSection());
+                     String currentParent=(String)xParentSecName.getName();
+                     if(!currentParent.equalsIgnoreCase(prevParent)){
+                         //restart numbering here
+                         headCount=1;
+                         System.out.println("different parent" + "testCount " + headCount);
+                       
+                     }else{
+                         //continue numbering
+                        headCount++;
+                                     
+                        System.out.println("same parent" + "testCount " + headCount);
+                     }
+                    prevParent=(String)xParentSecName.getName();
+
+                    } catch (NoSuchElementException ex) {
+                        ex.printStackTrace();
+                    } catch (WrappedTargetException ex) {
+                        ex.printStackTrace();
+                    }
+                
+                 
+          }
+     
+        
+   }
+    
+  private ArrayList<XTextField> orphanedReferences = new ArrayList<XTextField>();
+  private void findBrokenReferences(){
+      try {
+      XTextDocument oDoc = ooDocument.getTextDocument();
+      //get reference mark objects
+      XNameAccess refMarks = ooDocument.getReferenceMarks();
+      //get text fields
+      XEnumerationAccess refFields = ooDocument.getTextFields(); 
+      XEnumeration fieldEnum = refFields.createEnumeration();
+      while (fieldEnum.hasMoreElements()) {
+          Object objField = fieldEnum.nextElement();
+          XServiceInfo servInfo = ooDocument.getServiceInfo(objField);
+          if (servInfo.supportsService("com.sun.star.text.TextField.GetReference")) {
+              /*
+              	if oTextField.ReferenceFieldSource = com.sun.star.text.ReferenceFieldSource.REFERENCE_MARK then
+			if not oRefMarks.hasByName(oTextField.Sourcename) then
+				nCount = nCount + 1
+				subOrphan(oTextField)
+			end if
+		else*/
+              XTextField foundField = ooQueryInterface.XTextField(objField);
+              XPropertySet propSet = ooDocument.getObjectPropertySet(foundField);
+              short refFieldSource = AnyConverter.toShort(propSet.getPropertyValue("ReferenceFieldSource"));
+                    String refSourceName;
+                        refSourceName = AnyConverter.toString(propSet.getPropertyValue("SourceName"));
+              switch (refFieldSource) {
+                  case com.sun.star.text.ReferenceFieldSource.REFERENCE_MARK :
+                       if (!refMarks.hasByName(refSourceName)) {
+                            //this is a dead reference
+                           addOrphanedField(foundField);
+                       }
+                      break;
+                      
+                  case com.sun.star.text.ReferenceFieldSource.BOOKMARK :
+                      
+                      break;
+                      
+                  case com.sun.star.text.ReferenceFieldSource.SEQUENCE_FIELD :
+                      
+                      break;
+
+                      
+                  case com.sun.star.text.ReferenceFieldSource.FOOTNOTE :
+                      
+                      break;
+                      
+                  case com.sun.star.text.ReferenceFieldSource.ENDNOTE :
+                      
+                      break;
+                      
+                             
+                           
+              }
+               
+          }
+      }
+      } catch (WrappedTargetException ex) {
+            log.error(ex.getClass().getName() + " - " + ex.getMessage());
+      } catch (com.sun.star.lang.IllegalArgumentException ex) {
+            log.error(ex.getClass().getName() + " - " + ex.getMessage());
+      } catch (UnknownPropertyException ex) {
+            log.error(ex.getClass().getName() + " - " + ex.getMessage());
+      } catch (com.sun.star.container.NoSuchElementException ex) {
+            log.error(ex.getClass().getName() + " - " + ex.getMessage());
+      }
+  }
+  
+  private void addOrphanedField (XTextField field) {
+        orphanedReferences.add(field);
+  }
+  
+ /* 
+   private void findBrokenReferences2(){
+    
+        String sourceName=null;
+       try {
+    //dim oDoc as object
+    //oDoc=thisComponent
+    XTextDocument xDoc = ooDocument.getTextDocument();
+    //dim oRefMarks as object
+    //oRefMarks=oDoc.Referencemarks
+    XReferenceMarksSupplier xRefSupplier = (XReferenceMarksSupplier) UnoRuntime.queryInterface(
+                     XReferenceMarksSupplier.class, xDoc);
+    XNameAccess xRefMarks = xRefSupplier.getReferenceMarks();
+   
+    String[] refs=xRefMarks.getElementNames();
+    for(int i=0;i<refs.length;i++){
+        System.out.println(refs[i]);
+    }
+    
+    XEnumerationAccess xEnumFieldsAccess = ooDocument.getTextFields();
+    XEnumeration xFields = xEnumFieldsAccess.createEnumeration();
+    int nCount = 0;
+    while (xFields.hasMoreElements()) {
+        Object oField = xFields.nextElement();
+        
+        
+        XServiceInfo xService = ooQueryInterface.XServiceInfo(oField);
+       if (xService.supportsService("com.sun.star.text.TextField.GetReference")){
+              
+               XTextField xField =  (XTextField) UnoRuntime.queryInterface(XTextField.class, oField ) ;
+               XPropertySet xFieldProperties = ooQueryInterface.XPropertySet(xField);
+               XPropertySetInfo xFieldPropsInfo  = xFieldProperties.getPropertySetInfo();
+
+               
+               short refSourceRefMark = AnyConverter.toShort(xFieldProperties.getPropertyValue("ReferenceFieldSource")); 
+               sourceName = AnyConverter.toString(xFieldProperties.getPropertyValue("SourceName"));
+               switch (refSourceRefMark) {
+                   case com.sun.star.text.ReferenceFieldSource.REFERENCE_MARK :
+                       if (!xRefMarks.hasByName(sourceName)) 
+                           nCount++;
+                          
+                       break;
+                   default:
+                       break;
+               }
+       }
+      
+                
+      }
+   System.out.println("DEAD LINKS FOUND = " + nCount + " " + sourceName);
+        
+    } catch (Exception ex) {
+        
+    }
+       
+         
+         
+         
+   }
+ */   
+    
+private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Object elem, Object refMark){
+       
+     
+       String numberingScheme =cboNumberingScheme.getSelectedItem().toString();
+       int numberingSchemeIndex=cboNumberingScheme.getSelectedIndex();
+       System.out.println("numbering scheme selected " + numberingScheme);
+       inumScheme =NumberingSchemeFactory.getNumberingScheme(numberingScheme);
+       
+       XText xRangeText=aTextRange.getText();
+       String heading=aTextRange.getString();
+       XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
+       xTextCursor.gotoRange(aTextRange.getEnd(), true);
+       
+      
+       XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, xTextCursor);
+       
+       inumScheme.setRange (new NumberRange(testCount, testCount));
+     
+       if(!numParentPrefix.equals("")){
+            inumScheme.setParentPrefix(numParentPrefix);
+       }
+       inumScheme.generateSequence();
+       ArrayList<String> seq = inumScheme.getGeneratedSequence();
+        Iterator<String> iter = seq.iterator();
+        while (iter.hasNext()) {
+           Object insertedNumber=(String)iter.next();
+           String num=insertedNumber + ") ";
+           Short numLength=(short)num.length();
+           xRangeText.insertString(xTextCursor,num,false);
+            //insertedNumbers.add(num);
+           
+           
+       
+            insertReferenceMarkOnReNumbering(aTextRange, elem, numLength,refMark);
+          
+        }
+        
+        
+       
+     
+      
+    }
+    
+    private ArrayList getNumberReferenceFromHeading(Object elem){
+      ArrayList<Object> referenceMarkText = new ArrayList<Object>(0);
+             
+        XEnumerationAccess xRangeAccess = (XEnumerationAccess)UnoRuntime.queryInterface(com.sun.star.container.XEnumerationAccess.class,elem);
+         XEnumeration portionEnum =  xRangeAccess.createEnumeration();
+         while (portionEnum.hasMoreElements()){
+             try{
+                 Object textPortion =  portionEnum.nextElement();  
+                  XServiceInfo xTextPortionService= ooDocument.getServiceInfo(textPortion);
+                   if (xTextPortionService.supportsService( "com.sun.star.text.TextPortion")){
+                      XPropertySet xTextPortionProps = (XPropertySet)UnoRuntime.queryInterface(XPropertySet.class, textPortion);
+                      String textPortionType="";
+                      
+                        
+                            textPortionType = AnyConverter.toString(xTextPortionProps.getPropertyValue("TextPortionType"));
+                            if (textPortionType.equals("ReferenceMark")){
+                                XPropertySet xPortionProps = ooQueryInterface.XPropertySet(textPortion);
+                                Object oRefMark =  xPortionProps.getPropertyValue("ReferenceMark");
+                                XNamed xRefMark= (XNamed) AnyConverter.toObject(new Type(XNamed.class), oRefMark);
+                               // System.out.println("refmark " + xRefMark.getName());
+                                if (!referenceMarkText.contains(xRefMark)) {
+                                    if(xRefMark.getName().toString().startsWith("numRef_")){
+                                        //referenceMarkNames.add(xRefMark.getName().toString());
+                                        referenceMarkText.add(xRefMark);
+                                        refMarksForHeading.add(xRefMark.getName().toString());
+                                    }
+                                    
+                                }
+                                
+                                
+                                
+                          } 
+                             
+                     
+                   }
+                  
+             }catch(NoSuchElementException ex){
+                 log.error(ex.getMessage());
+             }catch (WrappedTargetException ex) {
+                log.error(ex.getMessage());
+             }catch (com.sun.star.lang.IllegalArgumentException ex) {
+                  log.error(ex.getMessage());
+             }catch (UnknownPropertyException ex) {
+                  log.error(ex.getMessage());
+             }finally{
+                
+             }
+             
+             
+         }   
+         return referenceMarkText;
+    }
+    
+    private void removeNumberFromHeading(XTextRange aTextRange, Object elem){
+        Matcher m=null;
+        XText xRangeText=aTextRange.getText();
+       
+        XEnumerationAccess xRangeAccess = (XEnumerationAccess)UnoRuntime.queryInterface(com.sun.star.container.XEnumerationAccess.class,elem);
+         XEnumeration portionEnum =  xRangeAccess.createEnumeration();
+         while (portionEnum.hasMoreElements()){
+             try{
+                 Object textPortion =  portionEnum.nextElement();  
+                  XServiceInfo xTextPortionService= ooDocument.getServiceInfo(textPortion);
+                   if (xTextPortionService.supportsService( "com.sun.star.text.TextPortion")){
+                      XPropertySet xTextPortionProps = (XPropertySet)UnoRuntime.queryInterface(XPropertySet.class, textPortion);
+                      String textPortionType="";
+                      
+                        
+                            textPortionType = AnyConverter.toString(xTextPortionProps.getPropertyValue("TextPortionType"));
+                            if (textPortionType.equals("ReferenceMark")){
+                                String refHeading=aTextRange.getString();
+                                String refHeadingCleared="";
+                               XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
+                               
+                               if(cboNumberingScheme.getSelectedItem().toString()=="Base Numbering"){
+                                    //create a pattern for base numbering
+                                   Pattern p = Pattern.compile("[0-9]+\\)");
+                                   m = p.matcher(refHeading);
+                               }else if(cboNumberingScheme.getSelectedItem().toString()=="ALPHA"){
+                                   //create a patter for alphabet
+                                   Pattern p = Pattern.compile("[A-Za-z]+\\)");
+                                   m = p.matcher(refHeading);
+                               }else if(cboNumberingScheme.getSelectedItem().toString()=="ROMAN"){
+                                   //pattern for roman numerals
+                                   Pattern p = Pattern.compile("[mdclxvi]+\\)");
+                                   m = p.matcher(refHeading);
+                               }
+                              
+                             //check if pattern is found
+                               
+                                 // MessageBox.OK("The selected scheme does not exist in the section");
+                                
+                                    while (m.find()) {
+                                        // Get the matching string
+                                        String match = m.group();
+                                        System.out.println(match + " length " + match.length());
+                                        refHeadingCleared = refHeading.substring(match.length());
+                                       
+                                    }
+                                   System.out.println("removeNumberFromHeading " + refHeadingCleared.trim());
+                                   aTextRange.setString(refHeadingCleared.trim());
+                            
+                              
+                               break;
+                          } 
+                             
+                     
+                   }
+                  
+             }catch(NoSuchElementException ex){
+                 log.error(ex.getMessage());
+             }catch (WrappedTargetException ex) {
+                log.error(ex.getMessage());
+             }catch (com.sun.star.lang.IllegalArgumentException ex) {
+                  log.error(ex.getMessage());
+             }catch (UnknownPropertyException ex) {
+                  log.error(ex.getMessage());
+             }
+             
+             
+         } 
+    }
+    
+
+     
+   
+    
+   
+    
+    //Returns 1st heading in the section
+    
+     private Object getNumberedHeadingsInsertCrossRef(String results) {
+     
+           Object objHeading = null;
+           
+           try{
+               
+                Object sectionName = ooDocument.getTextSections().getByName(results);
+                XTextSection theSection = ooQueryInterface.XTextSection(sectionName);
+                XTextRange range = theSection.getAnchor();
+
+                XEnumerationAccess enumAcc  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, range);
+                XEnumeration xEnum = enumAcc.createEnumeration();
+
+
+              while (xEnum.hasMoreElements()) {
+                  Object elem = xEnum.nextElement();
+                   XServiceInfo xInfo = (XServiceInfo)UnoRuntime.queryInterface(XServiceInfo.class, elem);
+                   if(xInfo.supportsService("com.sun.star.text.Paragraph")){
+                        XPropertySet objProps = ooQueryInterface.XPropertySet(xInfo);
+                    
+                         short nLevel = -1;
+                         nLevel = com.sun.star.uno.AnyConverter.toShort(objProps.getPropertyValue("ParaChapterNumberingLevel"));
+                           if(nLevel>=0){
+                            XTextContent xContent = ooDocument.getTextContent(elem);
+                            XTextRange aTextRange =   xContent.getAnchor();
+                            String strHeading = aTextRange.getString();
+                            System.out.println("strHeading " + strHeading);
+                        
+                            objHeading = elem;
+                           break;
+                         }
+                   
+                   }
+
+                }
+        
+            }catch (NoSuchElementException ex) {
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            } catch (WrappedTargetException ex) {
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            }catch(UnknownPropertyException ex){
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            }catch(com.sun.star.lang.IllegalArgumentException ex){
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            } finally {
+                return objHeading;
+            }
+    }
+    
+   private ArrayList<String> getReferenceMarksOnCross(Object elem){
+        ArrayList<String> referenceMarkNames = new ArrayList<String>(0);
+        String textPortionType="";
+        XEnumerationAccess xRangeAccess  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, elem);
+      
+        XEnumeration portionEnum =  xRangeAccess.createEnumeration();
+         
+         while (portionEnum.hasMoreElements()){
+             try{
+                 Object textPortion =  portionEnum.nextElement();  
+                  XServiceInfo xTextPortionService= ooDocument.getServiceInfo(textPortion);
+                   if (xTextPortionService.supportsService( "com.sun.star.text.TextPortion")){
+                      XPropertySet xTextPortionProps = (XPropertySet)UnoRuntime.queryInterface(XPropertySet.class, textPortion);
+                      
+                          textPortionType = AnyConverter.toString(xTextPortionProps.getPropertyValue("TextPortionType"));
+                         
+                            if (textPortionType.equals("ReferenceMark")){
+                           
+                                XPropertySet xPortionProps = ooQueryInterface.XPropertySet(textPortion);
+                                Object oRefMark =  xPortionProps.getPropertyValue("ReferenceMark");
+                                XNamed xRefMark= (XNamed) AnyConverter.toObject(new Type(XNamed.class), oRefMark);
+                                System.out.println("refmark " + xRefMark.getName());
+                                if (!referenceMarkNames.contains(xRefMark.getName().toString())) {
+                                    referenceMarkNames.add(xRefMark.getName().toString());
+                                }
+                          } 
+                   }
+                  
+             }catch(NoSuchElementException ex){
+                 log.error(ex.getMessage());
+             }catch (WrappedTargetException ex) {
+                log.error(ex.getMessage());
+             }catch (com.sun.star.lang.IllegalArgumentException ex) {
+                  log.error(ex.getMessage());
+             }catch(UnknownPropertyException ex){
+                 log.error(ex.getMessage());
+             } finally {
+                 
+                 
+             }
+             
+             
+         }
+        return referenceMarkNames;
+   }
+     
+    
+    
+    
+    
+    
+     //method to get reference mark from heading when renumbering
+    private void setReferenceMarkOnRenumbering(XTextRange aTextRange, Object elem, Object refMark){
+      
+       XText xRangeText=aTextRange.getText();
+            
+        XEnumerationAccess xRangeAccess = (XEnumerationAccess)UnoRuntime.queryInterface(com.sun.star.container.XEnumerationAccess.class,elem);
+         XEnumeration portionEnum =  xRangeAccess.createEnumeration();
+     
+                               
+           try {                       
+                               
+                   
+                           
+                        XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
+                        xTextCursor.gotoRange(aTextRange.getEnd(), true);
+
+                        XNamed xRefMark = (XNamed) UnoRuntime.queryInterface(XNamed.class,
+                        ooDocument.createInstance("com.sun.star.text.ReferenceMark"));
+
+                       xRefMark.setName(refMark.toString());
+                       System.out.println("new ref " + refMark.toString());    
+                       
+                       XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, xRefMark);
+           
+                      xRangeText.insertTextContent(xTextCursor,xContent,true);
+              
+                                 
+            } catch (com.sun.star.lang.IllegalArgumentException ex) {
+                ex.printStackTrace();
+            }
+
+        
+    }
+    
+    
+    private void insertReferenceMarkOnReNumbering(XTextRange aTextRange, Object elem, int refLength, Object refMark){
+      
+        XText xRangeText=aTextRange.getText();
+     
+        XEnumerationAccess xRangeAccess = (XEnumerationAccess)UnoRuntime.queryInterface(com.sun.star.container.XEnumerationAccess.class,elem);
+         XEnumeration portionEnum =  xRangeAccess.createEnumeration();
+         while (portionEnum.hasMoreElements()){
+            
+             try{
+                 Object textPortion =  portionEnum.nextElement();  
+                  XServiceInfo xTextPortionService= ooDocument.getServiceInfo(textPortion);
+                   if (xTextPortionService.supportsService( "com.sun.star.text.TextPortion")){
+                      XPropertySet xTextPortionProps = (XPropertySet)UnoRuntime.queryInterface(XPropertySet.class, textPortion);
+                      String textPortionType="";
+                      
+                        
+                            textPortionType = AnyConverter.toString(xTextPortionProps.getPropertyValue("TextPortionType"));
+                            if (textPortionType.equals("ReferenceMark")){
+                                return;
+                          } else{
+                              
+                                System.out.println("no reference mark found ");
+                                
+                                                         
+                                //insert reference mark
+                              XTextCursor xTextCursor = xRangeText.createTextCursorByRange(aTextRange.getStart());
+                          
+                               xTextCursor.goLeft((short)refLength, true);
+                               XNamed xRefMark = (XNamed) UnoRuntime.queryInterface(XNamed.class,
+                                        ooDocument.createInstance("com.sun.star.text.ReferenceMark"));
+                             
+                              
+                           
+                                 //xRefMark.setName("headRef:" + aTextRange.getString());
+                              
+                                 xRefMark.setName(refMark.toString());
+                                 
+                                 //System.out.println("refText:" + aTextRange.getString());
+                                 XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, xRefMark);
+                                 
+                                 xRangeText.insertTextContent(xTextCursor,xContent,true);
+                                
+                                
+                          }
+                             
+                     
+                   }
+                  
+             }catch(NoSuchElementException ex){
+                 log.error(ex.getMessage());
+             }catch (WrappedTargetException ex) {
+                log.error(ex.getMessage());
+             }catch (com.sun.star.lang.IllegalArgumentException ex) {
+                  log.error(ex.getMessage());
+             }catch (UnknownPropertyException ex) {
+                  log.error(ex.getMessage());
+             }
+             
+             
+        
+      }
+                
+    }
+    
+    
+    
+   
+
+    //method to get heading from section with selected sectionType
+     ///variable sectionName added below for compilation success
+    /*
+     *
+     *  1) initialize numbering scheme generator
+     *  2) enumerate sections matching sectionType attribute
+     *      2.1) for each section enumerate section content
+     *          call enumerateSectionContent()
+     *  3
+     *
+     */
+    private void matchHeadingsInTypedSections() {
+   //  private void getHeadingInSection( ) {
+        try {
+            String prevParent="";
+           //set member variable that stores current numbering scheme
+            //and then generate sequence.. with the upper range set to number of matched sections
+            initializeNumberingSchemeGenerator((long)1, (long) sectionTypeMatchedSections.size() );
+            //check if parent prefix was selected
+            
+            /*iterate through the sectionTypeMatchedSections and look for heading in section*/
+            Iterator<String> typedMatchSectionItr = sectionTypeMatchedSections.iterator();
+            while(typedMatchSectionItr.hasNext()){
+
+                String sectionName = typedMatchSectionItr.next();
+                Object sectionObject = ooDocument.getTextSections().getByName(sectionName);
+                /*get the XTextSection object of the matching section*/
+                XTextSection theSection = ooQueryInterface.XTextSection(sectionObject);
+                /*get the parent of the matching section*/
+                 XTextSection theSectionsParent = theSection.getParentSection();
+                /*get the anchor of the matching section*/
+                XTextRange range = theSection.getAnchor();
+                /*get the enumeration object of the section */
+                log.debug("matchHeadinsinTypedSection: enumerating section content for :" + theSection + ", prevParent = " + prevParent);
+                enumerateSectionContent (range, theSection, prevParent);
+                 /*set prevparent to the name of the previous parent section */
+                prevParent = ooQueryInterface.XNamed(theSectionsParent).getName();
+            }
+        } catch (Exception ex) {
+            log.error("matchHeadingsInTypedSections : " + ex.getMessage());
+            log.error("matchHeadingsInTypedSections : " + CommonExceptionUtils.getStackTrace(ex));
+        }    
+    }
+   
+
+/*
+ *section1
+ *  section1.1
+ *  section1.2
+ *  section1.3
+ *section2
+ *  section2.1
+ *  section2.2
+ *
+ *the above sections ... section1 and section will be numbered 1 & 2
+ *section1.1, section1.2 and section1.3 will be numbered serially
+ */
+    /*
+    private void getHeadingInMatchingSections() throws NoSuchElementException, WrappedTargetException, UnknownPropertyException, com.sun.star.lang.IllegalArgumentException {
+        String prevParent="";
+        int parentPrefix=0;;
+        ///iterate through the sectionTypeMatchedSections and look for heading in section
+        Iterator<String> typedMatchSectionItr = sectionTypeMatchedSections.iterator();
+        
+
+        //set member variable that stores current numbering scheme
+        //and then generate sequence.. with the upper range set to number of matched sections
+        initializeNumberingSchemeGenerator((long)1, (long) sectionTypeMatchedSections.size() );
+   
+        
+        while(typedMatchSectionItr.hasNext()){
+            String sectionName = typedMatchSectionItr.next();
+            Object sectionObject = ooDocument.getTextSections().getByName(sectionName);
+             XTextSection theSection = ooQueryInterface.XTextSection(sectionObject);
+            XTextSection theSectionsParent = theSection.getParentSection();
+            XTextRange range = theSection.getAnchor();
+            enumerateSectionContent (range, theSection, prevParent);
+            prevParent = ooQueryInterface.XNamed(theSectionsParent).getName();
+        }
+    }
+    */
+            
+            
+    private void initializeNumberingSchemeGenerator(long startRange, long endRange) {
+        m_selectedNumberingScheme = createSchemeFromSelection();
+        m_selectedNumberingScheme.setRange(new NumberRange(startRange, endRange));
+        m_selectedNumberingScheme.generateSequence();
+        m_selectedNumberingScheme.sequence_initIterator();
+    }
+    /*
+     * 1) within the section look for paragraphs
+     *  1.1) enumerate the paragrap
+     *      enumerateParagraphInSectionContent
+     *
+     *
+     */
+    private String enumerateSectionContent (XTextRange sectionRange, XTextSection theSection, String prevParent )  {
+            try {
+                    XEnumerationAccess enumAcc  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, sectionRange);
+                    XEnumeration xEnum = enumAcc.createEnumeration();
+                    /*enumerate the elements in the section */
+                    while (xEnum.hasMoreElements()) {
+                        /*get the next enumerated element*/
+                        Object elem = xEnum.nextElement();
+                        /*query the matching element for its service info */
+                        XServiceInfo xInfo = (XServiceInfo)UnoRuntime.queryInterface(XServiceInfo.class, elem);
+                        /*if paragraph */
+                        boolean breakFromLoop = false;
+                        //enumerate the paragraph to get the heading
+                        if(xInfo.supportsService("com.sun.star.text.Paragraph")){
+                            //call paragraph enumerator
+                            breakFromLoop = enumerateParagraphInSectionContent(xInfo, elem, theSection, prevParent);
+                        } /*for the future ... else if ("com.sun.star.text.TextTable*/
+                        if (breakFromLoop)
+                            break;
+                        //
+                        //prevParent=(String)xParentSecName.getName();
+                        //break;
+                    }
+            } catch(WrappedTargetException ex) {
+                log.error("enumerateSectionContent : " +  ex.getMessage()); 
+            } finally {
+            return new String("");
+            }
+    }
+   
+    private boolean m_bFoundHeading = false;
+    private boolean enumerateParagraphInSectionContent(XServiceInfo xInfo, Object elemParagraph, XTextSection theSection, String previousParent) {
+               //we want to match only the first heading
+                boolean bMatched = false;
+               // m_bFoundHeading = false;
+                try {
+                    /*get the properties of the paragraph */
+                    XPropertySet objProps = ooQueryInterface.XPropertySet(xInfo);
+                    short nLevel = -1;
+                    /*get the paragraphs numbering level */
+                    nLevel = com.sun.star.uno.AnyConverter.toShort(objProps.getPropertyValue("ParaChapterNumberingLevel"));
+                    /*check if the paragraph is a heading type nLevel >= 0 */
+                    if(nLevel >= 0) {
+                            //first heading has been matched
+                            bMatched = m_bFoundHeading = true;
+                            //get the content object we want to enumerate
+                            XTextContent xContent = ooDocument.getTextContent(elemParagraph);
+                            enumerateHeadingInParagraph(xContent, theSection, previousParent);
+                    }
+                } catch (UnknownPropertyException ex) {
+                    log.error("enumerateParagraphInSectionContent: " +  ex.getMessage()); 
+                } finally {
+                return bMatched;
+                }
+      }
+
+   private String enumerateHeadingInParagraph(XTextContent xContent, XTextSection theSection, String previousParent) {
+       // get the current section name 
+       int parentPrefix = 0; int headCount = 0;
+       String sectionName = ooQueryInterface.XNamed(theSection).getName() ;
+       // get the heading text of the matching heading 
+        XTextRange aTextRange =   xContent.getAnchor();
+        String strHeading = aTextRange.getString();
+         log.debug("getHeadingInSection: heading found " + strHeading);
+         // get the parent section of the section containing the heading 
+         XNamed xParentSecName= ooQueryInterface.XNamed(theSection.getParentSection());
+         String currentParent=(String)xParentSecName.getName();
+         log.debug("getHeadingInSection" + currentParent);
+         // check if the currentParent of the seciton is equal to the previous matching parent 
+         // if they are not equal we need to restart numbering
+         // else we continue numbering
+         if(!currentParent.equalsIgnoreCase(previousParent)){
+            restartNumbering(aTextRange, theSection, currentParent);
+         } else {
+            continueNumbering(aTextRange, theSection, currentParent); 
+         }
+             
+         return new String("");
+   }
+
+   private void restartNumbering(XTextRange aRange, XTextSection theCurrentSection, String parentSection){
+            //get the current numbering
+            //restart numbering, by resetting the iterator
+            this.m_selectedNumberingScheme.sequence_initIterator();
+            //get the next number in the sequence
+            String theNumber = this.m_selectedNumberingScheme.sequence_next();
+            String parentPrefix = "";
+            //if number has parent prefix
+            if (this.m_useParentPrefix) {
+                //get parent prefix
+                //attache the parent prefix to the number.
+                  parentPrefix =   getParentPrefix(theCurrentSection, parentSection);
+            }
+            // we want insert  number + space before heading
+            // and set a reference mark over the number
+             insertNumberForHeading(aRange, theNumber, parentPrefix, theCurrentSection);
+          //   insertAppliedNumberToMetadata(matchedSectionElem,headCount);
+   }
+  
+   private void continueNumbering(XTextRange aRange, XTextSection theCurrentSection, String parentSection ) {
+            String theNumber = this.m_selectedNumberingScheme.sequence_next();
+             // if currentParent is "root" use 1 as the starting point for numbering
+            // we want insert  number + space before heading
+            // and set a reference mark over the number
+            String parentPrefix ="";
+             if (this.m_useParentPrefix) {
+                //get parent prefix
+                //attache the parent prefix to the number.
+                  parentPrefix =   getParentPrefix(theCurrentSection, parentSection);
+            }
+             insertNumberForHeading(aRange, theNumber, parentPrefix, theCurrentSection);
+   }
+
+   private String getParentPrefix ( XTextSection theCurrentSection, String parentSectionName) {
+        //get the parent
+        //get the number set in the parent.
+    return OOoNumberingHelper.getSectionAppliedNumber(ooDocument, parentSectionName);
+   }
+   
+   /*******
+    *
+    **** OOBasic Unit test for the below function *****
+    *
+    *
+    Sub Main
+  Dim oSel: oSel =  thisComponent.getCurrentSelection().getByIndex(0)
+  Dim oCur: oCur = oSel.getText().createTextCursorByRange(oSel.getText().getStart())
+  oCur.getText().insertString(oSel.getText().getStart(), "IV ", false)
+
+       oCur.goLeft(1, false)
+       oCur.goLeft(2, true)
+       insertRef(oCur, "myNumRef")
+
+       oCur.goRight(3, false)
+       oCur.gotoEnd(true)
+       insertRef(oCur, "myHeadRef")
+
+End Sub
+
+Sub insertRef (oCur, nameRef )
+	Dim refMark
+	Set refMark = thisComponent.createInstance("com.sun.star.text.ReferenceMark")
+	refMark.setName(nameRef)
+	oCur.getText().insertTextContent(oCur,refMark, true)
+end Sub
+    ******/
+   
+   private void insertField (XTextRange range, String theNumber, String fieldname) {
+        Object refField = ooDocument.createInstance("com.sun.star.text.TextField.Input");
+        XPropertySet propSet = ooQueryInterface.XPropertySet(refField);
+        try {
+            propSet.setPropertyValue("Hint", fieldname );
+            propSet.setPropertyValue("Content", theNumber);
+            //insert the field into the document
+            XTextContent fieldContent = ooQueryInterface.XTextContent(refField);
+            range.getText().insertTextContent(range, (XTextContent) fieldContent , true);
+            
+        } catch (PropertyVetoException ex) {
+            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+        } catch (UnknownPropertyException ex) {
+            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+        } catch (com.sun.star.lang.IllegalArgumentException ex) {
+            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+        }
+   }
+   /*
+    * 
+    
+    insertField(oCur.getStart(), "myFieldRef")
+      oCur.goLeft(0,false)
+      oCur.getText().insertString(oCur, " ", true)
+      oCur.goLeft(0, false)
+      oCur.goLeft(1, true)
+      insertRef(oCur, "myNumRef")
+      oCur.goRight(2, false)
+      oCur.gotoEnd(true)
+    insertRef(oCur, "myHeadRef")
+    */
+   private void insertNumberForHeading(XTextRange aRange, String theNumber, String parentPrefix, XTextSection theCurrentSection) {
+      //get the text object of the heading range  
+       XText xRangeText =    aRange.getText();
+       //get the heading string
+       String strHeading   =  aRange.getString();
+       //String theNumberPlusSpace = theNumber+NUMBER_SPACE;
+       String uuidStr = BungeniUUID.getStringUUID();
+       //create a cursor to walk the heading
+       XTextCursor headingCur = ooDocument.getTextDocument().getText().createTextCursor();
+       //map the cursor to the heading range
+       headingCur.gotoRange(aRange, false);
+       if (this.m_useParentPrefix)  {
+            insertField(headingCur.getStart(), parentPrefix + PARENT_PREFIX_SEPARATOR + theNumber, "numField_"+uuidStr);
+       } else {
+            insertField(headingCur.getStart(), theNumber, "numField_"+uuidStr);
+       }
+       headingCur.gotoRange(headingCur.getStart(), false);
+       //remmed headingCur.goRight((short)1, false);
+       //headingCur.goLeft((short)0, false);
+       headingCur.getText().insertString(headingCur, NUMBER_SPACE, true);
+       headingCur.goLeft((short) 0, false);
+       headingCur.goLeft((short) 1, true);
+       createReferenceMarkOverCursor("numRef_"+uuidStr , headingCur);
+       headingCur.goRight((short) 2, false);
+       headingCur.gotoEnd(true);
+       createReferenceMarkOverCursor("headRef_"+uuidStr , headingCur);
+       updateSectionNumberingMetadata(ooQueryInterface.XNamed(theCurrentSection).getName(),  theNumber, parentPrefix);
+  }
+  
+
+   private void updateSectionNumberingMetadata(String sectionName, String theNumber, String parentPrefix){
+         HashMap<String,String> sectionMeta = new HashMap<String,String>();
+         sectionMeta.put(OOoNumberingHelper.numberingMetadata.get("APPLIED_NUMBER"), theNumber);
+         sectionMeta.put(OOoNumberingHelper.numberingMetadata.get("NUMBERING_SCHEME"), this.getSelectedNumberingScheme().schemeName);
+         sectionMeta.put(OOoNumberingHelper.numberingMetadata.get("PARENT_PREFIX_NUMBER"), parentPrefix);
+         ooDocument.setSectionMetadataAttributes(sectionName, sectionMeta);
+   }
+   
+   private void createReferenceMarkOverCursor (String refName, XTextCursor thisCursor) {
+       Object referenceMark = ooDocument.createInstance("com.sun.star.text.ReferenceMark");
+       XNamed xRefMark = ooQueryInterface.XNamed(referenceMark);
+       xRefMark.setName(refName);
+       XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, xRefMark);
+       try {
+       thisCursor.getText().insertTextContent(thisCursor, xContent, true);
+       } catch (com.sun.star.lang.IllegalArgumentException ex) {
+           log.error("createReferenceMarkOverCursor :" + ex.getMessage()); 
+       }
+   }
+   
+
+   private void insertParentPrefix(String sectionElement, int parentPrefix){
+        String strParentPrefix="" + parentPrefix + "";
+        //clear the metadata map
+        HashMap<String,String> metadata = new HashMap<String,String>();
+        //insert key=>value attribute into metadata map
+        metadata.put("ParentPrefix",strParentPrefix);
+        System.out.println("insertParentPrefix function " + metadata + " to " + sectionElement.toString());
+        //insert the applied number into the metadata
+        //ooDocument.setSectionMetadataAttributes(sectionElement.toString(),metadata);
+        
+   }
+   
+     private void getHeadingInSectionOnRenumbering() {
+        Iterator refIterator = refMarksForHeading.iterator();
+        String prevParent="";
+        int parentPrefix=0;;
+        //iterate through the sectionTypeMatchedSections and look for heading in section
+       Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
+       while(typedMatchSectionItr.hasNext()){
+           Object refMark=refIterator.next();
+            Object matchedSectionElem=typedMatchSectionItr.next();
+            
+            try{
+               
+            Object sectionName = ooDocument.getTextSections().getByName(matchedSectionElem.toString());
+            XTextSection theSection = ooQueryInterface.XTextSection(sectionName);
+            XTextRange range = theSection.getAnchor();
+            
+            XEnumerationAccess enumAcc  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, range);
+            XEnumeration xEnum = enumAcc.createEnumeration();
+           
+           
+            while (xEnum.hasMoreElements()) {
+                Object elem = xEnum.nextElement();
+                XServiceInfo xInfo = (XServiceInfo)UnoRuntime.queryInterface(XServiceInfo.class, elem);
+                if(xInfo.supportsService("com.sun.star.text.Paragraph")){
+                   
+                    XPropertySet objProps = ooQueryInterface.XPropertySet(xInfo);
+                    
+                     short nLevel = -1;
+                     nLevel = com.sun.star.uno.AnyConverter.toShort(objProps.getPropertyValue("ParaChapterNumberingLevel"));
+                     if(nLevel>=0){
+                        XTextContent xContent = ooDocument.getTextContent(elem);
+                        XTextRange aTextRange =   xContent.getAnchor();
+                        String strHeading = aTextRange.getString();
+                                              
+                       
+                         log.debug("getHeading: heading found " + strHeading);
+                          //insert number here
+                         XNamed xParentSecName= ooQueryInterface.XNamed(theSection.getParentSection());
+                         String currentParent=(String)xParentSecName.getName();
+                       
+                         System.out.println("currentParent " + currentParent);
+                         
+                       
+                         if(!currentParent.equalsIgnoreCase(prevParent)){
+                             //restart numbering here
+                             headCount=1;
+                             insertNumberOnRenumbering(aTextRange, headCount,elem,refMark);
+                            
+                         }else{
+                             //continue numbering
+                            headCount++;
+                            insertNumberOnRenumbering(aTextRange, headCount,elem,refMark);                 
+                          
+                            
+                         }
+                         
+                        prevParent=(String)xParentSecName.getName();
+                                              
+                      
+                      
+                        break;
+                        
+                         
+                      }
+                }
+                
+            }
+           
+             
+        
+            }catch (NoSuchElementException ex) {
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            } catch (WrappedTargetException ex) {
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            } catch(UnknownPropertyException ex){
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            }catch(com.sun.star.lang.IllegalArgumentException ex){
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            }
+            
+       }
+       
+         
+        
+        
+    }
+    
+    
+    
+    private void findAndReplace(){
+        XReplaceable xReplaceable = (XReplaceable) UnoRuntime.queryInterface(XReplaceable.class, ooDocument.getTextDocument()); 
+        XReplaceDescriptor xRepDesc = xReplaceable.createReplaceDescriptor(); 
+       
+        xRepDesc.setSearchString("iii)");
+        xRepDesc.setReplaceString(" ");
+        
+        
+        long nResult = xReplaceable.replaceAll(xRepDesc); 
+      
+    }
+   
+    private void insertCrossReference(String sourceName){
+      int i=0;
+    
+       try { 
+       
+         XTextDocument xDoc = ooDocument.getTextDocument();
+            
+         XTextViewCursor xViewCursor=ooDocument.getViewCursor();
+         Object oRefField=ooDocument.createInstance("com.sun.star.text.TextField.GetReference");
+         
+         XReferenceMarksSupplier xRefSupplier = (XReferenceMarksSupplier) UnoRuntime.queryInterface(
+             XReferenceMarksSupplier.class, xDoc);
+         
+         // Get an XNameAccess which refers to all inserted reference marks
+         XNameAccess xMarks = (XNameAccess) UnoRuntime.queryInterface(XNameAccess.class,
+             xRefSupplier.getReferenceMarks());
+         
+        String[] aNames = xMarks.getElementNames();
+        XPropertySet oFieldSet = ooQueryInterface.XPropertySet(oRefField);
+     
+           
+            
+        
+             oFieldSet.setPropertyValue("ReferenceFieldSource",com.sun.star.text.ReferenceFieldSource.REFERENCE_MARK); 
+            
+         oFieldSet.setPropertyValue("SourceName", sourceName);
+             oFieldSet.setPropertyValue("ReferenceFieldPart",com.sun.star.text.ReferenceFieldPart.TEXT);
+
+
+             XTextContent xRefContent = (XTextContent) UnoRuntime.queryInterface(
+                     XTextContent.class, oFieldSet);
+             
+              xDoc.getText().insertTextContent(xViewCursor , xRefContent, true);
+               xDoc.getText().insertString(xViewCursor , " , ", false);
+            
+            
+              XRefreshable xRefresh = (XRefreshable) UnoRuntime.queryInterface(
+                 XRefreshable.class, xDoc);
+            xRefresh.refresh();   
+            
+         
+          
+        
+          } catch (UnknownPropertyException ex) {
+                ex.printStackTrace();
+            } catch (WrappedTargetException ex) {
+                ex.printStackTrace();
+            } catch (PropertyVetoException ex) {
+                ex.printStackTrace();
+            } catch (com.sun.star.lang.IllegalArgumentException ex) {
+                ex.printStackTrace();
+            } 
+         
+        
+   
+    }
+    
+    /*
+    
+    private void packReferences(){
+           int i=0;
+     XTextDocument xDoc = ooDocument.getTextDocument();
+         XTextViewCursor xViewCursor=ooDocument.getViewCursor();
+         Object oRefField=ooDocument.createInstance("com.sun.star.text.TextField.GetReference");
+         
+         XReferenceMarksSupplier xRefSupplier = (XReferenceMarksSupplier) UnoRuntime.queryInterface(
+             XReferenceMarksSupplier.class, xDoc);
+         
+         // Get an XNameAccess which refers to all inserted reference marks
+         XNameAccess xMarks = (XNameAccess) UnoRuntime.queryInterface(XNameAccess.class,
+             xRefSupplier.getReferenceMarks());
+         
+        String[] aNames = xMarks.getElementNames();
+        XPropertySet oFieldSet = ooQueryInterface.XPropertySet(oRefField);
+       
+           
+          while(i<aNames.length){
+                docReferences.add(aNames[i].toString());
+             i++;
+            }
+          
+        
+         
+    }
+    */
+    
+    
+    private String getNodeName(String nodeName){
+        selectSection=nodeName;
+        return selectSection;
+    }
+    
+    public static Object[] reverse(Object[] arr)
+    {
+        List<Object> list = Arrays.asList(arr);
+        Collections.reverse(list);
+        return list.toArray();
+    }
+    
+    class sectionHeadingReferenceMarks {
+        public String sectionName = "";
+        public Integer nOrder = 0;
+        public Object containedHeading = null;
+        public ArrayList<String> refMarks = new ArrayList<String>(0);
+      
+        public sectionHeadingReferenceMarks() {
+            sectionName = "";
+            nOrder = 0;
+            refMarks = new ArrayList<String>(0);
+        }
+        
+        public sectionHeadingReferenceMarks(String sectionName, int order , Object heading) {
+            this.sectionName = sectionName;
+            this.nOrder = order;
+            this.refMarks = new ArrayList<String>(0);
+            this.containedHeading = heading;
+        }
+        
+        
+        public String toString(){
+            return sectionName;
+        }
+    }
+    
+    private void crossRef(){
+           String sectionHierarchy = "";
+           //clear the refMarks Map
+           refMarksMap.clear();
+           String strSection="";
+           //get the full hierarchy of the section selected by the user
+            sectionHierarchy = currentSectionNameHierarchy(selectedNodeName);
+            if (sectionHierarchy.trim().length() == 0){
+               
+                System.out.println("Cursor not in section");
+          } else{
+                 System.out.println("selectSection " + sectionHierarchy );
+           }
+           ArrayList<String> arrSectionTree = new ArrayList<String>();
+           //split the section hierarchy into an array
+          String[] sectionHeads=sectionHierarchy.split(">");
+          for(int i=0;i<sectionHeads.length;i++){
+              arrSectionTree.add(sectionHeads[i]);
+          }
+           //ArrayList<String> arrSectionTree = new ArrayList(sectionHierarchy.split(">"));
+          
+           arrSectionTree.remove(new String("root"));
+           Collections.reverse(arrSectionTree);
+           System.out.println("section hierarchy = " + arrSectionTree);
+          //we have to reverse the array in order to have Child,Parent
+           //String [] refs=(String[]) this.reverse(sectionTree);
+            //String [] refs= sectionTree;
+           
+           //get the section hierarchy and populate a treemap with the order of the sections,
+            //and container for the reference marks
+            for(int i=0;i<arrSectionTree.size();i++){
+                    //refObj.sectionName=refs[i].toString();
+                    String sectionName = arrSectionTree.get(i).toString();
+                    //get headings contained in section
+                Object sectHeading= getNumberedHeadingsInsertCrossRef(sectionName);
+                refMarksMap.put(sectionName, new sectionHeadingReferenceMarks(sectionName, i , sectHeading));
+           }
+           
+
+           //now we get the ReferenceMark objects in each heading for each section
+           
+           Iterator<String> sectionIter = refMarksMap.keySet().iterator();
+           while (sectionIter.hasNext()){
+               String sectionKey = sectionIter.next();
+               //add not null check for heading
+               Object elem = refMarksMap.get(sectionKey).containedHeading;
+               XTextRange xRange = ooQueryInterface.XTextRange(elem);
+               System.out.println("portion " + xRange.getString());
+               ArrayList<String> refMarksInHeading = getReferenceMarksOnCross(elem);
+               refMarksMap.get(sectionKey).refMarks = refMarksInHeading;
+               
+               //iterate through the reference marks and insert into the document
+               Iterator<String> refMarksIterator = refMarksInHeading.iterator();
+               while(refMarksIterator.hasNext()){
+                   Object refMark=refMarksIterator.next();
+                    System.out.println("refMarksIterator " + refMark);
+                    insertCrossReference(refMark.toString());
+               }
+               
+           }
+           
+           
+         
+           
+         
+    }
+    
+     
+    private class ParentSchemeListener implements ItemListener{
+        public void itemStateChanged(ItemEvent itemEvent) {
+            int state = itemEvent.getStateChange();
+            if (state == ItemEvent.SELECTED) {
+              System.out.println("apply parent prefix checkbox selected");
+                numParentPrefix="1";
+              
+            }   
+        }
+        
+    }
+    
+private Object getHeadingFromMatchedSection(Object matchedSectionElem){
+        
+           Object objHeading = null;
+            
+           try{
+               
+                Object sectionName = ooDocument.getTextSections().getByName(matchedSectionElem.toString());
+                XTextSection theSection = ooQueryInterface.XTextSection(sectionName);
+                XTextRange range = theSection.getAnchor();
+
+                XEnumerationAccess enumAcc  = (XEnumerationAccess) UnoRuntime.queryInterface(XEnumerationAccess.class, range);
+                XEnumeration xEnum = enumAcc.createEnumeration();
+
+
+              while (xEnum.hasMoreElements()) {
+                  Object elem = xEnum.nextElement();
+                   XServiceInfo xInfo = (XServiceInfo)UnoRuntime.queryInterface(XServiceInfo.class, elem);
+                   if(xInfo.supportsService("com.sun.star.text.Paragraph")){
+                        XPropertySet objProps = ooQueryInterface.XPropertySet(xInfo);
+                    
+                         short nLevel = -1;
+                         nLevel = com.sun.star.uno.AnyConverter.toShort(objProps.getPropertyValue("ParaChapterNumberingLevel"));
+                           if(nLevel>=0){
+                            //XTextContent xContent = ooDocument.getTextContent(elem);
+                            //XTextRange aTextRange =   xContent.getAnchor();
+                           // String strHeading = aTextRange.getString();
+                            
+                          
+                          //  docListReferences.add(strHeading);
+                         
+                           // removeNumberFromHeading2(aTextRange, elem);
+                             objHeading=elem;
+                            break;
+                         }
+                   
+                   }
+
+                }
+        
+            }catch (NoSuchElementException ex) {
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            } catch (WrappedTargetException ex) {
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            }catch(UnknownPropertyException ex){
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            }catch(com.sun.star.lang.IllegalArgumentException ex){
+                log.error(ex.getClass().getName() + " - " + ex.getMessage());
+                log.error(ex.getClass().getName() + " - " + CommonExceptionUtils.getStackTrace(ex));
+            }finally{
+                 return objHeading;
+            }
+            
+    
+    }
+    
+    private sectionNumbererPanel self() {
+            return this;
+        }
+    
+     public String getSectionHierarchy(XTextSection thisSection) {
+            String sectionName = "";
+            sectionName = ooQueryInterface.XNamed(thisSection).getName();
+            if (thisSection.getParentSection() != null) {
+                
+                sectionName = getSectionHierarchy(thisSection.getParentSection()) + ">" + sectionName;
+                
+            } else
+                return sectionName;
+            return sectionName;    
+        }
+       
+        //copied from SelectSection
+        
+        public String currentSectionNameHierarchy(String sectionName) {
+            XTextSection loXTextSection;
+            XTextViewCursor loXTextCursor;
+            XPropertySet loXPropertySet;
+            String lstrSectionName = "";
+            XTextSection currentSection = ooDocument.getSection(sectionName);
+            lstrSectionName = getSectionHierarchy(currentSection);
+        
+         
+            return lstrSectionName; 
+        }
+
+     private void initTree(){
+       // treeSectionStructure.addTreeSelectionListener(new treeSectionStructureSelectionListener());
+       
+    }
+  
+        private void initSectionTree() {
+        // initTreeSectionsArray();   
+      }
+    
+/*
+    private void initTreeSectionsArray() {
+        try {
+            if (!ooDocument.isXComponentValid()) return;
+            
+            treeSectionStructure.removeAll();
+            if (!ooDocument.getTextSections().hasByName("root")) {
+                log.debug("no root section found");
+                return;
+            }
+            Object rootSection = ooDocument.getTextSections().getByName("root");
+            XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
+            if (theSection.getChildSections().length == 0) {
+                //root is empty and has no children. 
+                //set empty status 
+                this.emptyRootNode = true;
+            }
+            sectionRootNode = new DefaultMutableTreeNode(new String("root"));
+            
+            recurseSections (theSection, sectionRootNode);
+            
+            //-tree-deprecated--CommonTreeFunctions.expandAll(treeSectionStructure, true);
+            CommonTreeFunctions.expandAll(treeSectionStructure);
+            
+        } catch (NoSuchElementException ex) {
+            log.error(ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.error(ex.getMessage());
+        }
+    }
+    
+    
+    private void recurseSections (XTextSection theSection, DefaultMutableTreeNode node ) {
+        try {
+        //recurse children
+        XTextSection[] sections = theSection.getChildSections();
+        if (sections != null ) {
+            if (sections.length > 0 ) {
+                //start from last index and go to first
+                for (int nSection = sections.length - 1 ; nSection >=0 ; nSection--) {
+                    log.debug ("section name = "+sections[nSection] );
+                    //get the name for the section and add it to the root node.
+                    XPropertySet childSet = ooQueryInterface.XPropertySet(sections[nSection]);
+                    String childSectionName = (String) childSet.getPropertyValue("LinkDisplayName");
+                    //if (!childSectionName.trim().equals(theAction.action_naming_convention())) {
+                     DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(childSectionName);
+                     node.add(newNode);
+                     recurseSections (sections[nSection], newNode);
+                   // }
+                }
+            } else 
+                return;
+        } else 
+            return;
+        } catch (UnknownPropertyException ex) {
+            log.error(ex.getMessage());
+        } catch (WrappedTargetException ex ) {
+            log.error(ex.getMessage());
+        }
+    }
+     */
+       
+ 
+    /** This method is called from within the constructor to
+     * initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is
+     * always regenerated by the Form Editor.
+     */
+    // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
+    private void initComponents() {
+        panelSectionTypes = new javax.swing.JScrollPane();
+        listSectionTypes = new javax.swing.JList();
+        jLabel1 = new javax.swing.JLabel();
+        cboNumberingScheme = new javax.swing.JComboBox();
+        checkbxUseParentPrefix = new javax.swing.JCheckBox();
+        btnApplyNumberingScheme = new javax.swing.JButton();
+        btnRenumberSections = new javax.swing.JButton();
+        btnInsertCrossReference = new javax.swing.JButton();
+        btnfixBrokenReferences = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+
+        listSectionTypes.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        listSectionTypes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        panelSectionTypes.setViewportView(listSectionTypes);
+
+        jLabel1.setText("Bungeni Section Types");
+
+        cboNumberingScheme.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Base Numbering", "ROMAN", "ALPHA" }));
+        cboNumberingScheme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboNumberingSchemeActionPerformed(evt);
+            }
+        });
+
+        checkbxUseParentPrefix.setText("Use Parent Prefix");
+        checkbxUseParentPrefix.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        checkbxUseParentPrefix.setMargin(new java.awt.Insets(0, 0, 0, 0));
+
+        btnApplyNumberingScheme.setText("Apply Numbering Scheme");
+        btnApplyNumberingScheme.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnApplyNumberingSchemeActionPerformed(evt);
+            }
+        });
+
+        btnRenumberSections.setText("Renumber Headings");
+        btnRenumberSections.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRenumberSectionsActionPerformed(evt);
+            }
+        });
+
+        btnInsertCrossReference.setText("Insert Cross Reference");
+        btnInsertCrossReference.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInsertCrossReferenceActionPerformed(evt);
+            }
+        });
+
+        btnfixBrokenReferences.setText("Fix Broken Reference");
+        btnfixBrokenReferences.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnfixBrokenReferencesActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setText("Select a Numbering Scheme");
+
+        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .add(layout.createSequentialGroup()
+                        .add(checkbxUseParentPrefix)
+                        .addContainerGap(124, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, btnInsertCrossReference, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, btnfixBrokenReferences, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, btnRenumberSections, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, btnApplyNumberingScheme, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, cboNumberingScheme, 0, 215, Short.MAX_VALUE)
+                            .add(panelSectionTypes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
+                        .addContainerGap())))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createSequentialGroup()
+                .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(panelSectionTypes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 62, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(5, 5, 5)
+                .add(cboNumberingScheme, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(checkbxUseParentPrefix)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnApplyNumberingScheme)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnRenumberSections)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnfixBrokenReferences)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnInsertCrossReference)
+                .addContainerGap(40, Short.MAX_VALUE))
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btnfixBrokenReferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnfixBrokenReferencesActionPerformed
+// TODO add your handling code here:
+        applyFixBrokenReferences();
+    }//GEN-LAST:event_btnfixBrokenReferencesActionPerformed
+
+    private void cboNumberingSchemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNumberingSchemeActionPerformed
+// TODO add your handling code here:
+    }//GEN-LAST:event_cboNumberingSchemeActionPerformed
+
+    private void btnInsertCrossReferenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertCrossReferenceActionPerformed
+// TODO add your handling code here:
+        crossRef();
+    }//GEN-LAST:event_btnInsertCrossReferenceActionPerformed
+
+    private void btnRenumberSectionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenumberSectionsActionPerformed
+// TODO add your handling code here:
+        applyRenumberingScheme();
+        
+        ArrayList<Object> sectionHeadings = new ArrayList<Object>(0);
+       // ArrayList<Object> refMarksInHeadingMatched= new ArrayList<Object>(0);
+        sectionHeadings.clear();
+        refMarksInHeadingMatched.clear();
+         Object sectHeading=null;
+         ////-- commented for compile success readSections();
+         findBrokenReferences();
+        
+         
+         Iterator typedMatchSectionItr = sectionTypeMatchedSections.iterator();
+         while(typedMatchSectionItr.hasNext()){
+           
+             Object matchedSectionElem=typedMatchSectionItr.next();
+             sectHeading=getHeadingFromMatchedSection(matchedSectionElem);
+             sectionHeadings.add(sectHeading);
+         }
+         //iterate through the headings arraylist and get the references marks
+         Iterator itrSectionHeads=sectionHeadings.iterator();
+         while(itrSectionHeads.hasNext()){
+             Object heading=itrSectionHeads.next();
+             refMarksInHeadingMatched=getNumberReferenceFromHeading(heading);
+              Iterator<Object> refMarksIterator = refMarksInHeadingMatched.iterator();
+              
+              while(refMarksIterator.hasNext()){
+                   Object refMark=refMarksIterator.next();
+                                   
+                   XTextContent xContent = ooDocument.getTextContent(refMark);
+                   XTextRange aTextRange =   xContent.getAnchor();
+                   String strRef = aTextRange.getString();
+                  
+                   System.out.println("strRef " + strRef);
+                   aTextRange.setString(" ");
+                   
+                    
+            }
+         }
+         
+         
+          getHeadingInSectionOnRenumbering();
+             
+          //iterate through the headings and apply references to the numbers now
+         
+         //insert number by calling insertNumber method within the getHeadingInSectionOnRenumbering() method
+        
+         //get the numbered headings and insert the references again since they were broken during the renumbering
+        //getNumberedHeadingsOnRenumbering(); 
+       //getNumberedHeadings();
+      
+      
+      
+       
+    }//GEN-LAST:event_btnRenumberSectionsActionPerformed
+    
+    
+    private void btnApplyNumberingSchemeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnApplyNumberingSchemeActionPerformed
+        //get section type selected for numbering 
+        applyNumberingScheme();
+    }//GEN-LAST:event_btnApplyNumberingSchemeActionPerformed
+
+    
+    public void initialize() {
+        init();
+    }
+
+    public void refreshPanel() {
+        //the timer does automatic refreshes....
+    }
+   
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnApplyNumberingScheme;
+    private javax.swing.JButton btnInsertCrossReference;
+    private javax.swing.JButton btnRenumberSections;
+    private javax.swing.JButton btnfixBrokenReferences;
+    private javax.swing.JComboBox cboNumberingScheme;
+    private javax.swing.JCheckBox checkbxUseParentPrefix;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JList listSectionTypes;
+    private javax.swing.JScrollPane panelSectionTypes;
+    // End of variables declaration//GEN-END:variables
+
+   
+    
+}

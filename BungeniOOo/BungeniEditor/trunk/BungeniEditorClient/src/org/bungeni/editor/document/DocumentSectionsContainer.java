@@ -35,6 +35,13 @@ public class DocumentSectionsContainer {
         } else
             return null;
     }
+    
+    /*
+     *
+     *  A sectionType is unique within a document type
+     *
+     *
+     */
     public static HashMap<String,DocumentSection> getDocumentSectionsContainer(){
        if (documentSections.size() == 0 ) { 
         String docType = BungeniEditorPropertiesHelper.getCurrentDocType();

@@ -82,6 +82,7 @@ import javax.swing.tree.TreeSelectionModel;
 
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.panels.impl.BaseClassForITabbedPanel;
+import org.bungeni.editor.providers.DocumentSectionProvider;
 import org.bungeni.numbering.impl.IGeneralNumberingScheme;
 import org.bungeni.numbering.impl.NumberRange;
 import org.bungeni.numbering.impl.NumberingSchemeFactory;
@@ -92,6 +93,7 @@ import org.bungeni.ooo.OOComponentHelper;
 import org.apache.log4j.Logger;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.ooo.ooUserDefinedAttributes;
+import org.bungeni.utils.BungeniBNode;
 import org.bungeni.utils.BungeniUUID;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.CommonTreeFunctions;
@@ -111,6 +113,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
     private IGeneralNumberingScheme m_selectedNumberingScheme ;
     //private HashMap<String,String> metadata = new HashMap();
     private ArrayList<String> sectionTypeMatchedSections = new ArrayList<String>();
+    private ArrayList<String> sectionTypeMatchedSectionsMissingNumbering = new ArrayList<String>();
   //  private ArrayList<String> docListReferences = new ArrayList<String>();
  //    private ArrayList<String> docReferences = new ArrayList<String>();
  //   private ArrayList<String> insertedNumbers = new ArrayList<String>();
@@ -310,6 +313,10 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         this.listSectionTypes.setModel(listModel);
     }
     
+    
+
+    
+   
      private void applyNumberingScheme(){
          m_bFoundHeading = false;
          if (listSectionTypes.getSelectedIndex() == -1 ) {
@@ -317,22 +324,62 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
              return;
          }
         String sectionType=listSectionTypes.getSelectedValue().toString();            
-        /*find all sections matching that section type, and populate arraylist*/
-        /*was called readSection()*/
-        findSectionsMatchingSectionType(sectionType);
-        /*iterate through arraylist and set numberingscheme metadata to matching sections*/
-        /*was called applyNumberingScheme() */
+        ////find all sections matching that section type, and populate arraylist
+        ///was called readSection()
+        initNumbering();
+        buildArrayOfSectionsMatchingType(sectionType);
+        System.out.println("matched sections =  " + this.sectionTypeMatchedSections);
+        //findSectionsMatchingSectionType(sectionType);
+       // iterate through arraylist and set numberingscheme metadata to matching sections
+       // was called applyNumberingScheme() 
         if (!checkIfSectionsHaveNumberingScheme()) {
             MessageBox.OK(parentFrame, "The section type already has a numbering scheme ! \n If you wish you to re-number the sections, please use the 'Renumbering' button ");
             return;
         }
         //setNumberingSchemeMetadataIntoMatchingSections();
-        /*why is the above being done...when the same section is iterated over again ??? */
+        ///why is the above being done...when the same section is iterated over again ??? 
+        this.IterateSectionTypesForNumberedHeadings();
+        /*
         matchHeadingsInTypedSections();
         if (! m_bFoundHeading ) {
             MessageBox.OK(parentFrame, "No headings were found to apply numbering upon !");
             return;
         }
+         */
+     }
+   
+     private void initNumbering(){
+
+         this.sectionTypeMatchedSections.clear();
+         this.sectionTypeMatchedSectionsMissingNumbering.clear();
+                 
+     }
+     
+     private void buildArrayOfSectionsMatchingType(String sectionType) {
+    
+         BungeniBNode bNode = DocumentSectionProvider.getTreeRoot();
+         recurseNodes(bNode, sectionType);
+    }
+         
+     private void recurseNodes(BungeniBNode theNode, String filterSectionType) {
+        BungeniBNode theBNode = theNode;
+        String sectionName = theBNode.getName();
+        String sectionType = ooDocument.getSectionType(sectionName);
+        if (sectionType != null ) {
+            if (sectionType.equals(filterSectionType)){
+                this.sectionTypeMatchedSections.add(sectionName);
+            }
+        }
+        if (theBNode.hasChildren()) {
+            TreeMap<Integer, BungeniBNode> children = theBNode.getChildrenByOrder();
+            Iterator<Integer> childIterator = children.keySet().iterator();
+            while (childIterator.hasNext()) {
+                Integer nodeKey = childIterator.next();
+                BungeniBNode childNode = children.get(nodeKey);
+                recurseNodes(childNode, filterSectionType);
+            }
+        }
+        
      }
      
      private void applyRenumberingScheme(){
@@ -968,10 +1015,157 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
                 
     }
     
+   private XTextSection getChildSectionByType(XTextSection parentSection) {
+       XTextSection[] childSections = parentSection.getChildSections();
+       for (XTextSection childSection: childSections) {
+            HashMap<String,String> childMeta = ooDocument.getSectionMetadataAttributes(childSection);
+            if (childMeta.containsKey("BungeniSectionType")){
+                String sectionType = childMeta.get("BungeniSectionType");
+                if (sectionType.equals("NumberedContainer")){
+                    return childSection;
+                }
+            }
+       }
+       return null;
+   }  
     
-    
-   
+   private void IterateSectionTypesForNumberedHeadings(){
+        try {
+            String prevParent="";
+           //set member variable that stores current numbering scheme
+            //and then generate sequence.. with the upper range set to number of matched sections
+            initializeNumberingSchemeGenerator((long)1, (long) sectionTypeMatchedSections.size() );
+            //check if parent prefix was selected
+            
+            /*iterate through the sectionTypeMatchedSections and look for heading in section*/
+            Iterator<String> typedMatchSectionItr = sectionTypeMatchedSections.iterator();
+            while(typedMatchSectionItr.hasNext()){
 
+                String sectionName = typedMatchSectionItr.next();
+                 /*get the XTextSection object of the matching section*/
+                XTextSection theSection = ooDocument.getSection(sectionName);
+                /*get the parent of the matching section*/
+                 XTextSection theSectionsParent = theSection.getParentSection();
+                 /*get the child numbered heading */
+                 XTextSection childSection = this.getChildSectionByType(theSection);
+                 if (childSection == null ) {
+                     this.sectionTypeMatchedSectionsMissingNumbering.add(sectionName);
+                 } else {
+                     //valid numbering header found
+                     //unprotect section
+                     ooDocument.protectSection(childSection, false);
+                     applyNumberToNumberContainer(theSection, theSectionsParent, childSection, prevParent );
+                     //prootct section again
+                     ooDocument.protectSection(childSection, true);
+                 }
+                 
+                /*get the anchor of the matching section*/
+    
+                prevParent = ooQueryInterface.XNamed(theSectionsParent).getName();
+            }
+        } catch (Exception ex) {
+            log.error("matchHeadingsInTypedSections : " + ex.getMessage());
+            log.error("matchHeadingsInTypedSections : " + CommonExceptionUtils.getStackTrace(ex));
+        }    
+       
+   }
+
+   private void applyNumberToNumberContainer(XTextSection theSection, XTextSection parentSection, XTextSection childSection, String prevParent) {
+       //get the name of the current parent
+       String currentParent ="";
+       XNamed parentName = ooQueryInterface.XNamed(parentSection);
+       currentParent  = parentName.getName();
+       if (!currentParent.equals(prevParent)) {
+           //reset iterator
+           this.m_selectedNumberingScheme.sequence_initIterator();
+       }
+       markHeadingAndContinueNumbering(theSection, parentSection, childSection, prevParent);
+
+   }
+   
+   
+      private void markHeadingAndContinueNumbering(XTextSection theCurrentSection, XTextSection parentSection, XTextSection childSection, String prevParent){
+            //get the current numbering
+            //restart numbering, by resetting the iterator
+            //this.m_selectedNumberingScheme.sequence_initIterator();
+            //get the next number in the sequence
+            String theNumber = this.m_selectedNumberingScheme.sequence_next();
+            String parentPrefix = "";
+            //if number has parent prefix
+            /*
+            if (this.m_useParentPrefix) {
+                //get parent prefix
+                //attache the parent prefix to the number.
+                  parentPrefix =   getParentPrefix(theCurrentSection, parentSection);
+            }*/
+            // we want insert  number + space before heading
+            // and set a reference mark over the number
+            HashMap<String, String> numberedHeadingMap = ooDocument.getSectionMetadataAttributes(childSection);
+            //get section UUID
+            String sectionUUID = numberedHeadingMap.get("BungeniSectionUUID");
+            //get the anchor to the numbered heading section
+            XTextRange sectionRange = childSection.getAnchor();
+            //get the text of the heading in the section
+            String headingInSection = sectionRange.getString();
+            //create a cursor to walk the heading
+            XTextCursor sectionCursor = ooDocument.getTextDocument().getText().createTextCursor();
+            //map the cursor to the heading range
+            sectionCursor.gotoRange(sectionRange, false);
+            //insert a field for the number
+            insertField(sectionCursor.getStart(), NUM_FIELD_PREFIX, sectionUUID, theNumber);
+            sectionCursor.goLeft( (short) 0,false);
+            sectionCursor.getText().insertString(sectionCursor, " ", true);
+            sectionCursor.goLeft((short) 0, false);
+            sectionCursor.goRight((short) 1, false);
+            sectionCursor.gotoRange(sectionRange.getEnd(), true);
+            //insert a field for the heading
+            insertField(sectionCursor, HEAD_FIELD_PREFIX, sectionUUID, headingInSection);
+            //finally create a reference for the complete heading
+            sectionCursor.gotoRange(childSection.getAnchor(), true);
+            insertReferenceMark(sectionCursor, sectionUUID);
+   }
+  
+      private static String NUM_FIELD_PREFIX = "fldnum_";
+      private static String HEAD_FIELD_PREFIX = "fldhead_";
+      private static String HEADING_REF_PREFIX = "headref_";
+      
+   private void insertField(XTextRange cursorRange, String fieldPrefix , String uuidOfField, String fieldContent) {   
+        String nameOfField =fieldPrefix + uuidOfField;
+        Object refField = ooDocument.createInstance("com.sun.star.text.TextField.Input");
+        XPropertySet propSet = ooQueryInterface.XPropertySet(refField);
+        try {
+            propSet.setPropertyValue("Hint", nameOfField );
+            propSet.setPropertyValue("Content", fieldContent);
+            //insert the field into the document
+            XTextContent fieldContentObject = ooQueryInterface.XTextContent(refField);
+            cursorRange.getText().insertTextContent(cursorRange, fieldContentObject, true);
+            
+        } catch (PropertyVetoException ex) {
+            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+        } catch (UnknownPropertyException ex) {
+            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+        } catch (com.sun.star.lang.IllegalArgumentException ex) {
+            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+        }
+   }
+   
+   
+   private void insertReferenceMark (XTextCursor thisCursor, String uuidStr) {
+       Object referenceMark = ooDocument.createInstance("com.sun.star.text.ReferenceMark");
+       XNamed xRefMark = ooQueryInterface.XNamed(referenceMark);
+       String refMarkName = HEADING_REF_PREFIX + uuidStr;
+       xRefMark.setName(refMarkName);
+       XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, xRefMark);
+       try {
+       thisCursor.getText().insertTextContent(thisCursor, xContent, true);
+       } catch (com.sun.star.lang.IllegalArgumentException ex) {
+           log.error("insertReferenceMark :" + ex.getMessage()); 
+       }
+   }
+   
+   
     //method to get heading from section with selected sectionType
      ///variable sectionName added below for compilation success
     /*
@@ -983,13 +1177,14 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
      *  3
      *
      */
+    
     private void matchHeadingsInTypedSections() {
    //  private void getHeadingInSection( ) {
         try {
             String prevParent="";
            //set member variable that stores current numbering scheme
             //and then generate sequence.. with the upper range set to number of matched sections
-            initializeNumberingSchemeGenerator((long)1, (long) sectionTypeMatchedSections.size() );
+                initializeNumberingSchemeGenerator((long)1, (long) sectionTypeMatchedSections.size() );
             //check if parent prefix was selected
             
             /*iterate through the sectionTypeMatchedSections and look for heading in section*/
@@ -1163,7 +1358,7 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
             }
             // we want insert  number + space before heading
             // and set a reference mark over the number
-             insertNumberForHeading(aRange, theNumber, parentPrefix, theCurrentSection);
+             /////COMMENTED TEMPORARILAY insertNumberForHeading(aRange, theNumber, parentPrefix, theCurrentSection);
           //   insertAppliedNumberToMetadata(matchedSectionElem,headCount);
    }
   
@@ -1178,7 +1373,7 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
                 //attache the parent prefix to the number.
                   parentPrefix =   getParentPrefix(theCurrentSection, parentSection);
             }
-             insertNumberForHeading(aRange, theNumber, parentPrefix, theCurrentSection);
+             /////COMMEnTED TEMPORARILY insertNumberForHeading(aRange, theNumber, parentPrefix, theCurrentSection);
    }
 
    private String getParentPrefix ( XTextSection theCurrentSection, String parentSectionName) {
@@ -1215,6 +1410,7 @@ Sub insertRef (oCur, nameRef )
 end Sub
     ******/
    
+   /*
    private void insertField (XTextRange range, String theNumber, String fieldname) {
         Object refField = ooDocument.createInstance("com.sun.star.text.TextField.Input");
         XPropertySet propSet = ooQueryInterface.XPropertySet(refField);
@@ -1235,6 +1431,8 @@ end Sub
             log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
         }
    }
+    */
+   
    /*
     * 
     
@@ -1248,6 +1446,7 @@ end Sub
       oCur.gotoEnd(true)
     insertRef(oCur, "myHeadRef")
     */
+   /*
    private void insertNumberForHeading(XTextRange aRange, String theNumber, String parentPrefix, XTextSection theCurrentSection) {
       //get the text object of the heading range  
        XText xRangeText =    aRange.getText();
@@ -1276,7 +1475,7 @@ end Sub
        createReferenceMarkOverCursor("headRef_"+uuidStr , headingCur);
        updateSectionNumberingMetadata(ooQueryInterface.XNamed(theCurrentSection).getName(),  theNumber, parentPrefix);
   }
-  
+  */
 
    private void updateSectionNumberingMetadata(String sectionName, String theNumber, String parentPrefix){
          HashMap<String,String> sectionMeta = new HashMap<String,String>();

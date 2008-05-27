@@ -36,21 +36,25 @@
      permission="zope.View"
      />
      
-  <!-- Navigation Viewlets -->
+
   <browser:viewlet
     name="bungeni.navigation.breadcrumbs"
     for="*"
     manager="ploned.ui.interfaces.IPortalHeaderManager"
     class=".navigation.BreadCrumbsViewlet"
     permission="zope.View"
+    weight="10"
     />     
-    
+
+  <!-- Navigation Viewlets 
   <browser:viewlet
     name="bungeni.navigation.navtree"
     for="*"
     manager="ploned.ui.interfaces.ILeftColumnManager"
     class=".navigation.NavigationTreeViewlet"
     permission="zope.View"
+    weight="30"
     />         
+   -->    
 
 </configure>

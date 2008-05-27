@@ -173,7 +173,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         //checkbxUseParentPrefix.addItemListener(new ParentSchemeListener());
         //packReferences();
         //initTree();
-        initSectionTree();
+        //initSectionTree();
         initNumberingSchemesCombo();
         initTimer();
         //the following is commented becuase its definitely not required !
@@ -348,6 +348,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
          */
      }
    
+     
      private void initNumbering(){
 
          this.sectionTypeMatchedSections.clear();
@@ -384,19 +385,24 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
      
      private void applyRenumberingScheme(){
         String sectionType=listSectionTypes.getSelectedValue().toString();            
-        findSectionsMatchingSectionType(sectionType);
+       /// findSectionsMatchingSectionType(sectionType);
         
         
        
         
      }
     
-     private frameBrokenReferences brokenReferencesFrame;
+     private frameBrokenReferences brokenReferencesFrame = null;
      private void applyFixBrokenReferences() {
         this.orphanedReferences.clear();
        
         findBrokenReferences();
         if (this.orphanedReferences.size() > 0  ) {
+               if (brokenReferencesFrame != null  ) {
+                   if (brokenReferencesFrame.getLaunchedState()){
+                       brokenReferencesFrame.dispose();
+                   }
+               }
                java.awt.EventQueue.invokeLater(new Runnable() {
                     public void run() {
                             brokenReferencesFrame = frameBrokenReferences.Launch(ooDocument,  parentFrame, orphanedReferences);
@@ -404,6 +410,20 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
                });
         }
          
+     }
+     
+     
+     private void applyInsertCrossReferences(){
+               if (brokenReferencesFrame != null  ) {
+                   if (brokenReferencesFrame.getLaunchedState()){
+                       brokenReferencesFrame.dispose();
+                   }
+               }
+               java.awt.EventQueue.invokeLater(new Runnable() {
+                    public void run() {
+                            brokenReferencesFrame = frameBrokenReferences.Launch2(ooDocument,  parentFrame, orphanedReferences);
+                    }
+               });     
      }
      
      private boolean checkIfSectionsHaveNumberingScheme(){
@@ -416,7 +436,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         }
         return true;
      }
-     
+/*     
      private void findSectionsMatchingSectionType(String sectionType ){
          try{
            //change this check later to get the root section from the editor properties
@@ -427,11 +447,8 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
             //start from the root section
             Object rootSection = ooDocument.getTextSections().getByName("root");
             XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
-            /*clear the arraylist that holds the list of sections matching the type*/
             this.sectionTypeMatchedSections.clear();
-            /*recurse through section hierarchy for sections of type sectionType*/
             recurseSectionsForSectionType(theSection,sectionType);
-           /*now the arraylist for sectionTypematchdSections should have matching sections */
             log.debug("findSectionsMatchingSectionType : " + sectionTypeMatchedSections.size() );
          }catch (NoSuchElementException ex) {
             log.error(ex.getMessage());
@@ -441,34 +458,28 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
    }
     
    private void recurseSectionsForSectionType(XTextSection theSection, String sectionType){
-            /*get all child sections of the incoming section */
             XTextSection[] sections = theSection.getChildSections();
             if (sections != null ) {
                 if (sections.length > 0 ) {
                     //start from last index and go to first
                     for (int nSection = sections.length - 1 ; nSection >=0 ; nSection--) {
-                        /*get the name of the child section*/
                          XNamed xSecName = ooQueryInterface.XNamed(sections[nSection]);
                          String childSectionName = (String) xSecName.getName();
-                         /*get the section metadata*/
                          HashMap<String,String> sectionMetadataMap=ooDocument.getSectionMetadataAttributes(childSectionName);
-                         /*check if the section has a sectionType property*/
                          if (sectionMetadataMap.containsKey("BungeniSectionType") ) {
-                            /*get the sectionType of the current section*/
                             String matchedSectionType= sectionMetadataMap.get("BungeniSectionType");
-                            /*if section type of the section matches the section type we are looking for*/
                             if(matchedSectionType.equalsIgnoreCase(sectionType)){
-                                /*add the child section to the list of matching sections array list*/
                               sectionTypeMatchedSections.add(childSectionName);
                             }
                         }
                         log.debug("recurseSectionsForSectionType: recursive call: " + childSectionName);
                         recurseSectionsForSectionType(sections[nSection],sectionType);
-                     } /*end of for() */ 
-                }  /*end of if (sections.length > 0)*/
-            }  /*end of if (sections != null)*/
+                     } //
+                }  //
+            }  //
   }
-   
+   */
+     
   private void getParentFromSection(XTextRange aTextRange){
       
        String prevParent="";
@@ -1079,12 +1090,12 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
            //reset iterator
            this.m_selectedNumberingScheme.sequence_initIterator();
        }
-       markHeadingAndContinueNumbering(theSection, parentSection, childSection, prevParent);
+       markHeadingAndApplyNumber(theSection, parentSection, childSection, prevParent);
 
    }
    
    
-      private void markHeadingAndContinueNumbering(XTextSection theCurrentSection, XTextSection parentSection, XTextSection childSection, String prevParent){
+      private void markHeadingAndApplyNumber(XTextSection theCurrentSection, XTextSection parentSection, XTextSection childSection, String prevParent){
             //get the current numbering
             //restart numbering, by resetting the iterator
             //this.m_selectedNumberingScheme.sequence_initIterator();
@@ -1123,6 +1134,7 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
             //finally create a reference for the complete heading
             sectionCursor.gotoRange(childSection.getAnchor(), true);
             insertReferenceMark(sectionCursor, sectionUUID);
+            updateSectionNumberingMetadata(theCurrentSection, childSection, theNumber);
    }
   
       private static String NUM_FIELD_PREFIX = "fldnum_";
@@ -1164,7 +1176,15 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
            log.error("insertReferenceMark :" + ex.getMessage()); 
        }
    }
+
    
+   private void updateSectionNumberingMetadata(XTextSection theSection, XTextSection childSection, String theNumber){
+         HashMap<String,String> sectionMeta = new HashMap<String,String>();
+         sectionMeta.put(OOoNumberingHelper.numberingMetadata.get("APPLIED_NUMBER"), theNumber);
+         sectionMeta.put(OOoNumberingHelper.numberingMetadata.get("NUMBERING_SCHEME"), this.getSelectedNumberingScheme().schemeName);
+         sectionMeta.put(OOoNumberingHelper.numberingMetadata.get("PARENT_PREFIX_NUMBER"), "");
+         ooDocument.setSectionMetadataAttributes(childSection, sectionMeta);
+   }
    
     //method to get heading from section with selected sectionType
      ///variable sectionName added below for compilation success
@@ -1477,13 +1497,6 @@ end Sub
   }
   */
 
-   private void updateSectionNumberingMetadata(String sectionName, String theNumber, String parentPrefix){
-         HashMap<String,String> sectionMeta = new HashMap<String,String>();
-         sectionMeta.put(OOoNumberingHelper.numberingMetadata.get("APPLIED_NUMBER"), theNumber);
-         sectionMeta.put(OOoNumberingHelper.numberingMetadata.get("NUMBERING_SCHEME"), this.getSelectedNumberingScheme().schemeName);
-         sectionMeta.put(OOoNumberingHelper.numberingMetadata.get("PARENT_PREFIX_NUMBER"), parentPrefix);
-         ooDocument.setSectionMetadataAttributes(sectionName, sectionMeta);
-   }
    
    private void createReferenceMarkOverCursor (String refName, XTextCursor thisCursor) {
        Object referenceMark = ooDocument.createInstance("com.sun.star.text.ReferenceMark");
@@ -1907,14 +1920,7 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
             return lstrSectionName; 
         }
 
-     private void initTree(){
-       // treeSectionStructure.addTreeSelectionListener(new treeSectionStructureSelectionListener());
-       
-    }
-  
-        private void initSectionTree() {
-        // initTreeSectionsArray();   
-      }
+
     
 /*
     private void initTreeSectionsArray() {
@@ -2107,13 +2113,14 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
 
     private void btnInsertCrossReferenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertCrossReferenceActionPerformed
 // TODO add your handling code here:
-        crossRef();
+       // crossRef();
+        applyInsertCrossReferences();
     }//GEN-LAST:event_btnInsertCrossReferenceActionPerformed
 
     private void btnRenumberSectionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenumberSectionsActionPerformed
 // TODO add your handling code here:
         applyRenumberingScheme();
-        
+        /*
         ArrayList<Object> sectionHeadings = new ArrayList<Object>(0);
        // ArrayList<Object> refMarksInHeadingMatched= new ArrayList<Object>(0);
         sectionHeadings.clear();
@@ -2162,7 +2169,7 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
         //getNumberedHeadingsOnRenumbering(); 
        //getNumberedHeadings();
       
-      
+      */
       
        
     }//GEN-LAST:event_btnRenumberSectionsActionPerformed

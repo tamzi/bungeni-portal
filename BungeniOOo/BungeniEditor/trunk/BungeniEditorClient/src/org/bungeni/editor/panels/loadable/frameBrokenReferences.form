@@ -2,7 +2,7 @@
 
 <Form version="1.3" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="0"/>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
@@ -46,16 +46,16 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                          <Component id="btnFindBroken" min="-2" pref="154" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                          <Component id="btnFixBroken" min="-2" pref="134" max="-2" attributes="0"/>
-                          <EmptySpace pref="64" max="32767" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
+                      <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="1" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="btnFindBroken" min="-2" pref="138" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btnFixBroken" min="-2" pref="123" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btnClose1" pref="134" max="32767" attributes="0"/>
+                              </Group>
                               <Component id="scrollBrowseBrokenReferences" alignment="0" pref="407" max="32767" attributes="1"/>
                               <Component id="scrollMessageArea" alignment="0" pref="407" max="32767" attributes="1"/>
                           </Group>
@@ -73,6 +73,7 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnFindBroken" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnFixBroken" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnClose1" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -111,6 +112,7 @@
                     <Component class="javax.swing.JTextArea" name="txtMessageArea">
                       <Properties>
                         <Property name="columns" type="int" value="20"/>
+                        <Property name="lineWrap" type="boolean" value="true"/>
                         <Property name="rows" type="int" value="5"/>
                       </Properties>
                     </Component>
@@ -129,6 +131,11 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFixBrokenActionPerformed"/>
                   </Events>
                 </Component>
+                <Component class="javax.swing.JButton" name="btnClose1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Close"/>
+                  </Properties>
+                </Component>
               </SubComponents>
             </Container>
           </SubComponents>
@@ -143,16 +150,18 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                          <Component id="btnFixBrokenReferences" min="-2" pref="164" max="-2" attributes="0"/>
-                          <EmptySpace pref="34" max="32767" attributes="0"/>
-                          <Component id="btnCloseFrame" min="-2" pref="175" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="scrollFixBrokenReferences" pref="412" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="btnFixBrokenReferences" min="-2" pref="138" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btnCloseFrame" min="-2" pref="129" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btnClose2" pref="133" max="32767" attributes="0"/>
+                              </Group>
+                              <Component id="scrollFixBrokenReferences" alignment="0" pref="412" max="32767" attributes="0"/>
+                          </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -164,8 +173,9 @@
                           <Component id="scrollFixBrokenReferences" pref="161" max="32767" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btnCloseFrame" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnFixBrokenReferences" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnClose2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnCloseFrame" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -188,14 +198,22 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Insert Cross Ref"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFixBrokenReferencesActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnCloseFrame">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Browse Broken References"/>
+                    <Property name="text" type="java.lang.String" value="Browse Broken "/>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnCloseFrameActionPerformed"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnClose2">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Close"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>

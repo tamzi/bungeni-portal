@@ -44,4 +44,22 @@ public class DocumentSectionAdapterDefaultTreeModel extends DefaultTreeModel {
        treeModelTimer.start();
     }
     
+    public DocumentSectionAdapterDefaultTreeModel(DefaultMutableTreeNode root , boolean bTimer ) {
+        super(root);
+        if (bTimer) {
+          treeModelTimer = new Timer(DocumentSectionProvider.TIMER_DELAY, new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                try {
+                setRoot(DocumentSectionTreeModelProvider.newRootNode());
+                
+                } catch (Exception ex) {
+                    log.error("timer:actionperformed :" + ex.getMessage());
+                    log.error("timer:actionperformed :" + CommonExceptionUtils.getStackTrace(ex));
+                }
+            }
+       });
+       treeModelTimer.setInitialDelay(1000);
+       treeModelTimer.start();
+        }
+    }
 }

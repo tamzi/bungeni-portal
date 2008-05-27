@@ -59,6 +59,14 @@ public class DocumentSectionTreeModelProvider {
         return model;
     }
     
+    public static DocumentSectionAdapterDefaultTreeModel create_non_refreshing_treemodel(){
+        BungeniBNode bRootNode = DocumentSectionProvider.getTreeRoot();
+        DefaultMutableTreeNode dmtRootNode = provideRootNode(bRootNode);
+        DocumentSectionAdapterDefaultTreeModel model = new DocumentSectionAdapterDefaultTreeModel(dmtRootNode, false);
+        //DocumentSectionProvider.subscribeModel(model);
+        return model;
+    }
+    
     /**
      * generates a newrootnode for the section model
      */

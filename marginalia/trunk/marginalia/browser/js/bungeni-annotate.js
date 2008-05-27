@@ -165,7 +165,10 @@ BungeniNoteEditor.prototype.show = function( )
 	// Create the edit box
 	this.editNode = document.createElement( "textarea" );
 	this.editNode.rows = 3;
-	this.editNode.appendChild( document.createTextNode( annotation.getNote() ) );
+    var note = annotation.getNote()
+    // Stripping white spaces
+    note = (note.replace(/^\W+/,'')).replace(/\W+$/,'')
+	this.editNode.appendChild( document.createTextNode( note ) );
 
 	// Set focus after making visible later (IE requirement; it would be OK to do it here for Gecko)
 	this.editNode.annotationId = this.annotation.getId();

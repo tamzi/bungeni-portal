@@ -471,6 +471,9 @@ Marginalia.prototype.hideAnnotations = function( )
 	for ( var i = 0;  i < posts.length;  ++i )
 	{
 		var post = posts[ i ];
+        post.hideAllAnnotations();
+        //post.hideAnnotations();
+
 		// Should also destruct each annotation
 		var annotations = post.removeAnnotations( marginalia );
 		for ( var j = 0;  j < annotations.length;  ++j )
@@ -724,8 +727,16 @@ PostMicro.prototype.saveAnnotation = function( marginalia, annotation )
 		return false;
 	
 	// Save any changes to the annotation
-	if ( marginalia.noteEditor.save )
+	if ( marginalia.noteEditor.save ) 
 		marginalia.noteEditor.save( );
+    else {
+        //Hides buttons when once one clicks outside the box
+		this.stopEditing( marginalia, annotation );
+        this.removeAnnotation(marginalia, annotation);
+        return false;
+    }
+        // 
+
 	
 	// ---- Validate the annotation ----
     // Validates an empty note

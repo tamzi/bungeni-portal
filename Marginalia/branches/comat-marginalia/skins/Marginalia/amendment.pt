@@ -113,9 +113,9 @@
                       <p id="noresults" class="plink" style="display:none;">No Amendments Found</p>
 		            <div id="fields" style="display:none;">
                       <select class="select_field" name="filter_owner" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
+                         <option value="" tal:attributes="value user/getUserName">Myself</option>
                          <option value="select_all" selected>All</option>
-                         <option value="" tal:attributes="value user/getUserName">Self</option>
-                         <optgroup LABEL="Member Names">
+                         <optgroup LABEL="Filter by User ">
                          <span tal:repeat="name member_names" tal:omit-tag="">
                             <span tal:condition="python:name!=user.getUserName()" tal:omit-tag="">
                             <option value="" tal:attributes="value name" tal:content="name">Second</option>
@@ -125,7 +125,7 @@
                       </select><br/>
                       <select class="select_field" name="filter_group" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
                          <option value="select_all" selected>All</option>
-                         <optgroup LABEL="Group Names">
+                         <optgroup LABEL="Filter by Group ">
                            <span tal:repeat="group group_names" tal:omit-tag="">
                          <option value="" tal:attributes="value python:group[0]" tal:content="python:group[1]">Managers</option>
                          </span>

@@ -36,25 +36,71 @@
      permission="zope.View"
      />
      
-
+  <!-- Navigation Viewlets -->
   <browser:viewlet
     name="bungeni.navigation.breadcrumbs"
     for="*"
     manager="ploned.ui.interfaces.IPortalHeaderManager"
     class=".navigation.BreadCrumbsViewlet"
     permission="zope.View"
-    weight="10"
+    weight="5"
     />     
-
-  <!-- Navigation Viewlets 
+    
   <browser:viewlet
     name="bungeni.navigation.navtree"
     for="*"
     manager="ploned.ui.interfaces.ILeftColumnManager"
     class=".navigation.NavigationTreeViewlet"
     permission="zope.View"
-    weight="30"
-    />         
-   -->    
+     weight="1"
+    />      
+  <!-- current -->    
 
+  <browser:page
+     for="bungeni.core.interfaces.IBungeniApplication"
+     permission="zope.Public"
+     name="current"
+     class=".current.Current"
+     />
+
+  <browser:viewletManager
+     name="bungeni.current"
+     provides=".interfaces.ICurrent"
+     class=".current.CurrentViewletManager"
+     permission="zope.View"
+     />
+    
+  <browser:viewlet
+    name="bungeni.current.parliament"   
+    manager=".interfaces.ICurrent"
+    class=".current.CurrentParliamentViewlet"
+    permission="zope.Public"
+    weight="1"
+    />
+
+  <browser:viewlet
+    name="bungeni.current.government"   
+    manager=".interfaces.ICurrent"
+    class=".current.CurrentGovernmentViewlet"
+    permission="zope.Public"
+    weight="3"
+    />
+    
+    
+  <browser:viewlet
+    name="bungeni.current.ministries"   
+    manager=".interfaces.ICurrent"
+    class=".current.CurrentMinistriesViewlet"
+    permission="zope.Public"
+    weight="4"
+    />    
+  
+  <browser:viewlet
+    name="bungeni.current.committees"   
+    manager=".interfaces.ICurrent"
+    class=".current.CurrentCommitteesViewlet"
+    permission="zope.Public"
+    weight="2"
+    />      
+  
 </configure>

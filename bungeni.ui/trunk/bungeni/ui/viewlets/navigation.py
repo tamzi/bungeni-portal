@@ -94,6 +94,8 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
         build the navigation tree
         """
         items = []
+        if len(path) == 0:
+            return items
         url = path[0]['url']
         if IAlchemistContent.providedBy(path[0]['obj']):                     
             item = {'name' : getattr(path[0]['obj'], 'short_name', None ), 'url' : url, 'current': 'navTreeCurrentNode'}
@@ -113,12 +115,13 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                         if descriptor:
                             name = getattr( descriptor, 'display_name', None)
                         if not name:
-                            name = domain_model.__name__
-                            
+                            name = domain_model.__name__                            
                         i = { 'name' : name,
                               'current' : '',
                               'url'  :  k, 
-                              'node' : None}
+                              'node' : None}                                          
+                        if domain_model == context_class: 
+                            i['current'] = 'navTreeCurrentItem'                              
                         citems.append( i )
                 item['node'] = citems
             items.append(item)
@@ -139,6 +142,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                     item['node'] = self._append_child(path[1:])
                 else:
                     item['node'] = None
+                    item['current'] = 'navTreeCurrentItem'
                 items.append(item)                     
                 return items
 
@@ -149,6 +153,10 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                 if isinstance( v, ManagedContainerDescriptor ):
                     domain_model = v.domain_container._class 
                     descriptor = queryModelDescriptor( domain_model )                    
+                    if len(path) == 1:
+                        current = 'navTreeCurrentNode'
+                    else:
+                        current = 'navTreeCurrentItem'
                     if descriptor:
                         name = getattr( descriptor, 'display_name', None)
                     if not name:
@@ -162,7 +170,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                             item['node'] = self._append_child(path[1:])
                         else:
                             item['node'] = None
-                            #item['current'] = 'navTreeCurrentItem' 
+                            item['current'] = 'navTreeCurrentItem' 
                     else:                            
                         item = { 'name' : name,
                               'current' : '',
@@ -171,8 +179,12 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                     items.append( item )  
         return items                                          
             
-    def _tree2html(self, items):
-        htmlstr = '<ul class="navTree">'
+    def _tree2html(self, items, level = 0):
+        level = level +1
+        if level > 1:
+            htmlstr = '<ul class="navTree navTreeLevel' + str(level) + '">'
+        else:
+           htmlstr = '' 
         for item in items:
             htmlstr = htmlstr + '<li class="navTreeItem ' + item['current'] +'" >'
             htmlstr = htmlstr + '<div><a href="' + item['url'] + '"' + ' class="'  + item['current'] +'" >'
@@ -180,9 +192,10 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             htmlstr = htmlstr + '</a></div>'
            
             if item['node']:
-                htmlstr = htmlstr + self._tree2html(item['node']) 
+                htmlstr = htmlstr + self._tree2html(item['node'], level) 
             htmlstr = htmlstr +  '</li>'           
-        htmlstr = htmlstr +  '</ul>'
+        if level > 1:
+            htmlstr = htmlstr +  '</ul>'
         return htmlstr
                     
     def _get_tree ( self, context, url = ''):
@@ -202,8 +215,8 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
         self.tree = self._get_tree(self.context)  
     
     
-    def render( self ):
-        return str(self.tree)
+    render = ViewPageTemplateFile( 'bungeni-navigation-tree.pt' )
+
         
 
         

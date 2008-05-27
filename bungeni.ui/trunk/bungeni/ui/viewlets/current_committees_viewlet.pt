@@ -1,0 +1,20 @@
+<div class="listing">
+  <h3> Committees </h3>
+  <table class="listing">
+    <thead>
+      <tr>
+        <th> Short name </th>
+        <th> Name </th>        
+        <th> Start date</th>
+        <th> End Date</th>                
+      </tr>
+    </thead>
+    <tbody>
+      <tr tal:repeat="data view/getData"> 
+        <td tal:content="data/short_name"/>
+        <td tal:content="data/full_name"/>        
+        <td tal:content="data/start_date" />
+        <td tal:content="data/end_date" />
+      </tr>
+    </tbody>  
+</div>

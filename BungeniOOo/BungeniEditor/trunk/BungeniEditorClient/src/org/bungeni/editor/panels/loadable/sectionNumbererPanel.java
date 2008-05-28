@@ -332,7 +332,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         //findSectionsMatchingSectionType(sectionType);
        // iterate through arraylist and set numberingscheme metadata to matching sections
        // was called applyNumberingScheme() 
-        if (!checkIfSectionsHaveNumberingScheme()) {
+        if (checkIfSectionsHaveNumberingScheme() == true ) {
             MessageBox.OK(parentFrame, "The section type already has a numbering scheme ! \n If you wish you to re-number the sections, please use the 'Renumbering' button ");
             return;
         }
@@ -397,6 +397,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         this.orphanedReferences.clear();
        
         findBrokenReferences();
+        
         if (this.orphanedReferences.size() > 0  ) {
                if (brokenReferencesFrame != null  ) {
                    if (brokenReferencesFrame.getLaunchedState()){
@@ -405,36 +406,41 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
                }
                java.awt.EventQueue.invokeLater(new Runnable() {
                     public void run() {
-                            brokenReferencesFrame = frameBrokenReferences.Launch(ooDocument,  parentFrame, orphanedReferences);
+                            frameBrokenReferences.LaunchMode mode = frameBrokenReferences.LaunchMode.BrowseBroken; 
+                            brokenReferencesFrame = frameBrokenReferences.Launch(ooDocument,  parentFrame, orphanedReferences, mode);
                     }
                });
+        } else {
+            MessageBox.OK(this, "No Broken references found !");
         }
          
      }
      
      
      private void applyInsertCrossReferences(){
-               if (brokenReferencesFrame != null  ) {
+        this.orphanedReferences.clear();
+        findBrokenReferences();
+        if (brokenReferencesFrame != null  ) {
                    if (brokenReferencesFrame.getLaunchedState()){
                        brokenReferencesFrame.dispose();
                    }
                }
                java.awt.EventQueue.invokeLater(new Runnable() {
                     public void run() {
-                            brokenReferencesFrame = frameBrokenReferences.Launch2(ooDocument,  parentFrame, orphanedReferences);
+                            frameBrokenReferences.LaunchMode mode = frameBrokenReferences.LaunchMode.CrossReferences; 
+                            brokenReferencesFrame = frameBrokenReferences.Launch(ooDocument,  parentFrame, orphanedReferences, mode);
                     }
                });     
      }
      
      private boolean checkIfSectionsHaveNumberingScheme(){
         for (String matchedSection: sectionTypeMatchedSections) {
-            if (ooDocument.getSectionMetadataAttributes(matchedSection).containsKey(
-                    OOoNumberingHelper.numberingMetadata.get("NUMBERING_SCHEME")
-                    )) {
-                return false;
-            }
+            XTextSection numberedSection =  ooDocument.getChildSectionByType(ooDocument.getSection(matchedSection),"NumberedContainer");
+           if (numberedSection != null ) { // it has a numbered heading  so fail     
+                return true;
+           } 
         }
-        return true;
+        return false;
      }
 /*     
      private void findSectionsMatchingSectionType(String sectionType ){
@@ -1137,9 +1143,9 @@ private void insertNumberOnRenumbering(XTextRange aTextRange, int testCount, Obj
             updateSectionNumberingMetadata(theCurrentSection, childSection, theNumber);
    }
   
-      private static String NUM_FIELD_PREFIX = "fldnum_";
-      private static String HEAD_FIELD_PREFIX = "fldhead_";
-      private static String HEADING_REF_PREFIX = "headref_";
+      public final static String NUM_FIELD_PREFIX = "fldnum_";
+      public final static String HEAD_FIELD_PREFIX = "fldhead_";
+      public final static String HEADING_REF_PREFIX = "headref_";
       
    private void insertField(XTextRange cursorRange, String fieldPrefix , String uuidOfField, String fieldContent) {   
         String nameOfField =fieldPrefix + uuidOfField;
@@ -1715,18 +1721,8 @@ end Sub
     */
     
     
-    private String getNodeName(String nodeName){
-        selectSection=nodeName;
-        return selectSection;
-    }
-    
-    public static Object[] reverse(Object[] arr)
-    {
-        List<Object> list = Arrays.asList(arr);
-        Collections.reverse(list);
-        return list.toArray();
-    }
-    
+  
+
     class sectionHeadingReferenceMarks {
         public String sectionName = "";
         public Integer nOrder = 0;
@@ -1820,17 +1816,7 @@ end Sub
     }
     
      
-    private class ParentSchemeListener implements ItemListener{
-        public void itemStateChanged(ItemEvent itemEvent) {
-            int state = itemEvent.getStateChange();
-            if (state == ItemEvent.SELECTED) {
-              System.out.println("apply parent prefix checkbox selected");
-                numParentPrefix="1";
-              
-            }   
-        }
-        
-    }
+   
     
 private Object getHeadingFromMatchedSection(Object matchedSectionElem){
         

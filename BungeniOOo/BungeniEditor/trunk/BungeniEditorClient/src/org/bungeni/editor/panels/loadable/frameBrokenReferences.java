@@ -6,21 +6,49 @@
 
 package org.bungeni.editor.panels.loadable;
 
+import com.sun.star.beans.PropertyVetoException;
 import com.sun.star.beans.UnknownPropertyException;
+import com.sun.star.beans.XPropertySet;
+import com.sun.star.container.XNameAccess;
 import com.sun.star.lang.WrappedTargetException;
+import com.sun.star.text.XTextContent;
+import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextField;
+import com.sun.star.text.XTextRange;
+import com.sun.star.text.XTextSection;
+import com.sun.star.text.XTextViewCursor;
 import com.sun.star.uno.AnyConverter;
+import com.sun.star.util.XRefreshable;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.TreeMap;
+import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTree;
+import javax.swing.ListSelectionModel;
+import javax.swing.Renderer;
+import javax.swing.border.Border;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+import org.bungeni.editor.providers.DocumentSectionProvider;
 import org.bungeni.editor.providers.DocumentSectionTreeModelProvider;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.utils.BungeniBNode;
 import org.bungeni.utils.CommonTreeFunctions;
 import org.bungeni.utils.MessageBox;
@@ -97,6 +125,11 @@ public class frameBrokenReferences extends javax.swing.JFrame {
         scrollMessageArea.setViewportView(txtMessageArea);
 
         btnFindBroken.setText("Find Broken");
+        btnFindBroken.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFindBrokenActionPerformed(evt);
+            }
+        });
 
         btnFixBroken.setText("Fix References");
         btnFixBroken.addActionListener(new java.awt.event.ActionListener() {
@@ -114,23 +147,24 @@ public class frameBrokenReferences extends javax.swing.JFrame {
             .add(panelBrowseBrokenReferencesLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(panelBrowseBrokenReferencesLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(scrollMessageArea, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
                     .add(panelBrowseBrokenReferencesLayout.createSequentialGroup()
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(btnFindBroken, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 138, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(btnFixBroken, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 123, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(btnClose1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE))
-                    .add(scrollBrowseBrokenReferences, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
-                    .add(scrollMessageArea, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE))
+                    .add(scrollBrowseBrokenReferences, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE))
                 .add(15, 15, 15))
         );
         panelBrowseBrokenReferencesLayout.setVerticalGroup(
             panelBrowseBrokenReferencesLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(panelBrowseBrokenReferencesLayout.createSequentialGroup()
-                .add(scrollMessageArea, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 83, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(scrollMessageArea, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 64, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(scrollBrowseBrokenReferences, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 13, Short.MAX_VALUE)
+                .add(14, 14, 14)
                 .add(panelBrowseBrokenReferencesLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnFindBroken)
                     .add(btnFixBroken)
@@ -207,6 +241,19 @@ public class frameBrokenReferences extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnFindBrokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindBrokenActionPerformed
+// TODO add your handling code here:
+            int nSelectedIndex = this.tblBrowseBrokenReferences.getSelectedRow();
+            if (nSelectedIndex != -1 ) {
+                XTextField field = this.orphanedReferences.get(nSelectedIndex);
+                XTextRange theRange = field.getAnchor();
+                XTextViewCursor viewCursor = ooDocument.getViewCursor();
+                viewCursor.gotoRange(theRange, false);
+            } else {
+                MessageBox.OK(this, "Please select a reference from the table !");
+            }
+    }//GEN-LAST:event_btnFindBrokenActionPerformed
+
     private void btnFixBrokenReferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFixBrokenReferencesActionPerformed
 // TODO add your handling code here:
         applyInsertCrossReference();
@@ -215,26 +262,37 @@ public class frameBrokenReferences extends javax.swing.JFrame {
     private void btnCloseFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseFrameActionPerformed
 // TODO add your handling code here:
         this.taskpaneGrpFixBrokenReferences.setExpanded(false);
+        this.taskpaneGrpFixBrokenReferences.setVisible(false);
         this.taskpaneGrpFindBrokenReferences.setExpanded(true);
+        this.taskpaneGrpFindBrokenReferences.setVisible(true);
         
     }//GEN-LAST:event_btnCloseFrameActionPerformed
 
     private void btnFixBrokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFixBrokenActionPerformed
 // TODO add your handling code here:
         this.taskpaneGrpFindBrokenReferences.setExpanded(false);
+        this.taskpaneGrpFindBrokenReferences.setVisible(false);
         this.taskpaneGrpFixBrokenReferences.setExpanded(true);
+        this.taskpaneGrpFixBrokenReferences.setVisible(true);
     }//GEN-LAST:event_btnFixBrokenActionPerformed
     
     public void findBrokenFrameSetExpanded (boolean bState) {
+        this.taskpaneGrpFindBrokenReferences.setVisible(bState);
         this.taskpaneGrpFindBrokenReferences.setExpanded(bState);
+        this.taskpaneGrpFixBrokenReferences.setVisible(!bState);
         this.taskpaneGrpFixBrokenReferences.setExpanded(!bState);
     }
     
     public void fixBrokenFrameSetExpanded (boolean bState) {
+           this.taskpaneGrpFixBrokenReferences.setVisible(bState);
            this.taskpaneGrpFixBrokenReferences.setExpanded(bState);
+           this.taskpaneGrpFindBrokenReferences.setVisible(!bState);
            this.taskpaneGrpFindBrokenReferences.setExpanded(!bState);
     }
     
+    public enum LaunchMode {BrowseBroken, CrossReferences};
+   
+    /*
     public static frameBrokenReferences Launch(OOComponentHelper ooDoc, JFrame parentFrame, ArrayList<XTextField> brokenReferences){
                 frameBrokenReferences f = new frameBrokenReferences( ooDoc,  parentFrame,  brokenReferences);
                 f.setAlwaysOnTop(true);
@@ -242,12 +300,19 @@ public class frameBrokenReferences extends javax.swing.JFrame {
                 f.setVisible(true);
                 return f;
     }
-        
-    public static frameBrokenReferences Launch2(OOComponentHelper ooDoc, JFrame parentFrame, ArrayList<XTextField> brokenReferences){
+      */  
+    
+    private static final String FRAME_TITLE = "References Manager";
+    public static frameBrokenReferences Launch(OOComponentHelper ooDoc, JFrame parentFrame, ArrayList<XTextField> brokenReferences, LaunchMode mode){
                 frameBrokenReferences f = new frameBrokenReferences( ooDoc,  parentFrame,  brokenReferences);
                 f.setAlwaysOnTop(true);
-                f.setSize(new Dimension(498, 380));
-                f.fixBrokenFrameSetExpanded(true);
+                f.setTitle(FRAME_TITLE);
+                f.setSize(new Dimension(498, 340));
+                if (mode == LaunchMode.BrowseBroken) {
+                    f.findBrokenFrameSetExpanded(true);    
+                } else {
+                    f.fixBrokenFrameSetExpanded(true);    
+                }
                 f.setVisible(true);
                 return f;
     }
@@ -256,13 +321,170 @@ public class frameBrokenReferences extends javax.swing.JFrame {
         TreePath selectedPath = this.treeFixBrokenReferences.getSelectionPath();
         if (selectedPath != null) {
             DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) selectedPath.getLastPathComponent();
-            BungeniBNode thenode = (BungeniBNode) selectedNode.getUserObject();
-            MessageBox.OK(this, thenode.getName());
+            numberedHeadingsNode thenode = (numberedHeadingsNode) selectedNode.getUserObject();
+            if (!thenode.numberedHeading) {
+                //no it is not a numbered heading
+                MessageBox.OK(this, "Please select a referenced heading ! (highlighted in green) ");
+                return;
+            } 
+            XTextSection selectedSection = ooDocument.getSection(thenode.sectionName);
+            //get the complete reference chain
+            ArrayList<String> referenceSourceChain = getReferenceSourceChain(selectedSection);
+            insertCrossRef(referenceSourceChain);
+            MessageBox.OK(this, "The reference was successfully inserted!");
+            
         } else {
             MessageBox.OK(this, "Please select a section in the tree to insert a cross reference to it");
             return;
         }
     }
+    
+    
+    /*
+     *
+     *The reference chain works like this:
+     *Article1
+     *  <article 1 numbered heading section>
+     *  Clause1
+     *      <clause 1 numbered heading section>
+     *
+     *To get the reference chain for clause 1, we go up 2 levels from clause -> article,
+     *and then back down one level to <article 1 numbered section>
+     *
+     *
+     */
+    private ArrayList<String> getReferenceSourceChain(XTextSection refSection){
+        //refSection has the insertable reference, we go up the chain to insert all parent references
+        ArrayList<String> numberReferencesList = new ArrayList<String>(0);
+        while (refSection != null ) {
+            String refSource = getNumberedReferenceSource(refSection);
+            if (refSource != null ) {
+                //found a number reference add it to our list
+                numberReferencesList.add(refSource);
+            }   //go up 2 levles and see if the grand parent is valid and has a numbered child container
+            refSection = getParentNumberedSection(refSection);
+         }
+         return numberReferencesList;
+    }
+    
+    private XTextSection getParentNumberedSection(XTextSection aChild){
+            XTextSection aGrandParent = getGrandParentSection(aChild);
+            XTextSection aNumberedSection = ooDocument.getChildSectionByType(aGrandParent, "NumberedContainer");
+            return aNumberedSection;
+    }
+    
+    private XTextSection getGrandParentSection(XTextSection aSection) {
+        XTextSection aParent = aSection.getParentSection();
+        if (aParent == null ) return null;
+        XTextSection aGrandParent = aParent.getParentSection();
+        return aGrandParent;
+    }
+    
+    private String getNumberedReferenceSource(XTextSection refSection) {
+        HashMap<String,String> refMeta = ooDocument.getSectionMetadataAttributes(refSection);
+        if (refMeta.containsKey("BungeniSectionUUID")) {
+            String uuidStr = refMeta.get("BungeniSectionUUID");
+            String referenceName = sectionNumbererPanel.HEADING_REF_PREFIX+uuidStr;
+            if (ooDocument.getReferenceMarks().hasByName(referenceName)) {
+                return referenceName;
+            }
+        }
+        return null;
+    }
+    
+    private final static String REFERENCE_SEPARATOR = " , ";
+    private boolean insertCrossRef(ArrayList<String> referenceChain) {
+          final int lastIndex = referenceChain.size() - 1;  
+          boolean bState = false;
+          XTextViewCursor viewCursor = ooDocument.getViewCursor();
+          XTextDocument xDoc = ooDocument.getTextDocument();
+
+          try {
+              for (int i = lastIndex ; i >= 0 ; i--) {
+                  Object oRefField=ooDocument.createInstance("com.sun.star.text.TextField.GetReference");
+                  XPropertySet refFieldProps = ooQueryInterface.XPropertySet(oRefField);
+                    refFieldProps.setPropertyValue("ReferenceFieldSource", com.sun.star.text.ReferenceFieldSource.REFERENCE_MARK);
+                    refFieldProps.setPropertyValue("SourceName", referenceChain.get(i));
+                    refFieldProps.setPropertyValue("ReferenceFieldPart", com.sun.star.text.ReferenceFieldPart.TEXT);
+                    XTextContent fieldContent = ooQueryInterface.XTextContent(oRefField);  
+                    xDoc.getText().insertTextContent(viewCursor, fieldContent, true);
+                    if (i > 0 ) { //no comma for 
+                        xDoc.getText().insertString(viewCursor, REFERENCE_SEPARATOR, false);
+                    }
+              }
+
+              XRefreshable xRefresh = ooQueryInterface.XRefreshable(xDoc);
+              xRefresh.refresh();
+              bState = true;
+            } catch (PropertyVetoException ex) {
+                log.error("insertCrossRef ("+ex.getClass().getName() +") " + ex.getMessage());
+            } catch (WrappedTargetException ex) {
+                log.error("insertCrossRef ("+ex.getClass().getName() +") " + ex.getMessage());
+            } catch (UnknownPropertyException ex) {
+                log.error("insertCrossRef ("+ex.getClass().getName() +") " + ex.getMessage());
+            } catch (com.sun.star.lang.IllegalArgumentException ex) {
+                log.error("insertCrossRef ("+ex.getClass().getName() +") " + ex.getMessage());
+            } finally {
+                return bState;
+            }
+    }
+    /*
+    private void insertCrossReference(String sourceName){
+      int i=0;
+    
+       try { 
+       
+         XTextDocument xDoc = ooDocument.getTextDocument();
+            
+         XTextViewCursor xViewCursor=ooDocument.getViewCursor();
+         Object oRefField=ooDocument.createInstance("com.sun.star.text.TextField.GetReference");
+         
+         XReferenceMarksSupplier xRefSupplier = (XReferenceMarksSupplier) UnoRuntime.queryInterface(
+             XReferenceMarksSupplier.class, xDoc);
+         
+         // Get an XNameAccess which refers to all inserted reference marks
+         XNameAccess xMarks = (XNameAccess) UnoRuntime.queryInterface(XNameAccess.class,
+             xRefSupplier.getReferenceMarks());
+         
+        String[] aNames = xMarks.getElementNames();
+        XPropertySet oFieldSet = ooQueryInterface.XPropertySet(oRefField);
+     
+           
+            
+        
+             oFieldSet.setPropertyValue("ReferenceFieldSource",com.sun.star.text.ReferenceFieldSource.REFERENCE_MARK); 
+            
+         oFieldSet.setPropertyValue("SourceName", sourceName);
+             oFieldSet.setPropertyValue("ReferenceFieldPart",com.sun.star.text.ReferenceFieldPart.TEXT);
+
+
+             XTextContent xRefContent = (XTextContent) UnoRuntime.queryInterface(
+                     XTextContent.class, oFieldSet);
+             
+              xDoc.getText().insertTextContent(xViewCursor , xRefContent, true);
+               xDoc.getText().insertString(xViewCursor , " , ", false);
+            
+            
+              XRefreshable xRefresh = (XRefreshable) UnoRuntime.queryInterface(
+                 XRefreshable.class, xDoc);
+            xRefresh.refresh();   
+            
+         
+          
+        
+          } catch (UnknownPropertyException ex) {
+                ex.printStackTrace();
+            } catch (WrappedTargetException ex) {
+                ex.printStackTrace();
+            } catch (PropertyVetoException ex) {
+                ex.printStackTrace();
+            } catch (com.sun.star.lang.IllegalArgumentException ex) {
+                ex.printStackTrace();
+            } 
+         
+        
+   
+    }*/
     
     /**
      * @param args the command line arguments
@@ -292,6 +514,8 @@ public class frameBrokenReferences extends javax.swing.JFrame {
     public boolean getLaunchedState(){
         return launchedState;
     }
+    
+    private String m_selectedReference = "";
     private void init() {
         initComponents();
         launchedState = true;
@@ -299,8 +523,32 @@ public class frameBrokenReferences extends javax.swing.JFrame {
                 "to the point in the the document where the broken reference appears, Use the 'fix reference' option to repair the reference ");
         BrokenReferencesTableModel model = new BrokenReferencesTableModel(this.ooDocument, this.orphanedReferences);
         this.tblBrowseBrokenReferences.setModel(model);
-        this.treeFixBrokenReferences.setModel(DocumentSectionTreeModelProvider.create_non_refreshing_treemodel());
+        this.tblBrowseBrokenReferences.setRowSelectionAllowed(true);
+        this.tblBrowseBrokenReferences.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        this.tblBrowseBrokenReferences.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+            public void valueChanged(ListSelectionEvent e) {
+                        if (e.getValueIsAdjusting()) {      
+                                return;
+                        }
+                        m_selectedReference = (String) tblBrowseBrokenReferences.getValueAt(tblBrowseBrokenReferences.getSelectedRow(), 0);
+            }
+            
+        });
+
+        
+        
+        
+        
+        DefaultTreeModel treeFixBrokenModel = new DefaultTreeModel(buildTreeModel());
+        this.treeFixBrokenReferences.setModel(treeFixBrokenModel);
+        DefaultTreeCellRenderer renderTree = new DefaultTreeCellRenderer();
+        this.treeFixBrokenReferences.setCellRenderer(
+                                         new treeBrokenReferencesCellRenderer(
+                                            renderTree.getOpenIcon(), 
+                                            renderTree.getClosedIcon(),
+                                            renderTree.getLeafIcon()));
         CommonTreeFunctions.expandAll(treeFixBrokenReferences);
+        
         this.btnClose1.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e) {
               shutdownFrame();
@@ -313,6 +561,104 @@ public class frameBrokenReferences extends javax.swing.JFrame {
             }
             
         });
+    }
+    
+    class treeBrokenReferencesCellRenderer extends JLabel implements TreeCellRenderer {
+        Icon openIcon,  closedIcon, leafIcon;
+        Color thisBackGround = Color.WHITE;
+        Color numberedBackGround = Color.GREEN;
+        Color thisforeGround = Color.BLACK;
+        Border selectionBorder = BorderFactory.createLineBorder(Color.MAGENTA, 2);
+        treeBrokenReferencesCellRenderer(Icon openIcon, Icon closedIcon, Icon leafIcon){
+            this.openIcon = openIcon;
+            this.closedIcon = closedIcon;
+            this.leafIcon = leafIcon;
+           // this.setForeground(thisforeGround);
+        }
+        
+        public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+                if (selected) {
+                   setOpaque(true);
+                } else {
+                   setOpaque(false); 
+                }
+
+            if (value instanceof DefaultMutableTreeNode) {
+                DefaultMutableTreeNode node  = (DefaultMutableTreeNode)value;
+                numberedHeadingsNode numberedNode = (numberedHeadingsNode)node.getUserObject();
+                if (numberedNode.numberedHeading) {
+                    setForeground(new java.awt.Color(0xFF, 0xCC,0xFF));
+                } else {
+                    setForeground(new java.awt.Color(0x00, 0x00,0x00));
+                }
+                if (expanded) {
+                    setIcon(openIcon);
+                } else if (leaf) {
+                    setIcon(leafIcon);
+                } else {
+                    setIcon(closedIcon);
+                }
+            }
+
+            setText(value.toString());
+            return this;
+        }
+        
+    }
+    
+    /*
+     *
+     *DefaultMutableTreeNode member that hides node name, and shows content for numbered headings
+     *
+     */
+    class numberedHeadingsNode {
+            public String nodeName;
+            public String sectionName;
+            public boolean numberedHeading = false;
+            numberedHeadingsNode (OOComponentHelper ooDoc, BungeniBNode aNode) {
+                XTextSection aSection = ooDoc.getSection(aNode.getName());
+                this.sectionName = aNode.getName();
+                HashMap<String,String> sectionMeta  = ooDoc.getSectionMetadataAttributes(aSection);
+                if (sectionMeta.containsKey("BungeniSectionType")){
+                    String sectionType = sectionMeta.get("BungeniSectionType");
+                    if (sectionType.equals("NumberedContainer")) {
+                        numberedHeading = true;
+                        nodeName = aSection.getAnchor().getString();
+                    } else {
+                        nodeName = aNode.getName();
+                    }
+                } else {
+                  nodeName = aNode.getName();  
+                }
+            }
+            public String toString(){
+                return nodeName;
+            }
+    }
+
+    private DefaultMutableTreeNode buildTreeModel(){
+       BungeniBNode bRootNode =  DocumentSectionProvider.getTreeRoot();
+       numberedHeadingsNode brf = new numberedHeadingsNode (ooDocument, bRootNode);
+       DefaultMutableTreeNode aNode = new DefaultMutableTreeNode(brf); 
+       recurseTreeNodes (aNode, bRootNode);
+       return aNode;
+    }
+    
+        
+    private void recurseTreeNodes(DefaultMutableTreeNode theNode, BungeniBNode theBNode) {
+       // BungeniBNode theBNode = (BungeniBNode) theNode.getUserObject();
+        if (theBNode.hasChildren()) {
+            TreeMap<Integer, BungeniBNode> children = theBNode.getChildrenByOrder();
+            Iterator<Integer> childIterator = children.keySet().iterator();
+            while (childIterator.hasNext()) {
+                Integer nodeKey = childIterator.next();
+                BungeniBNode newBNode = children.get(nodeKey);
+                numberedHeadingsNode brf = new numberedHeadingsNode(ooDocument, newBNode);
+                DefaultMutableTreeNode dmtChildNode = new DefaultMutableTreeNode(brf);
+                recurseTreeNodes(dmtChildNode, newBNode);
+                theNode.add(dmtChildNode );
+            }
+        }
     }
     
     private void shutdownFrame() {

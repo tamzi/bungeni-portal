@@ -13,6 +13,7 @@ import java.awt.Component;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.bungeni.editor.panels.loadable.frameBrokenReferences;
 
 
 public  class MessageBox extends Object {
@@ -44,7 +45,6 @@ public  class MessageBox extends Object {
         return ret;
     }
 
-   
 
  
 }

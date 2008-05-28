@@ -49,7 +49,9 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="scrollMessageArea" alignment="0" pref="407" max="32767" attributes="1"/>
                               <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btnFindBroken" min="-2" pref="138" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Component id="btnFixBroken" min="-2" pref="123" max="-2" attributes="0"/>
@@ -57,19 +59,18 @@
                                   <Component id="btnClose1" pref="134" max="32767" attributes="0"/>
                               </Group>
                               <Component id="scrollBrowseBrokenReferences" alignment="0" pref="407" max="32767" attributes="1"/>
-                              <Component id="scrollMessageArea" alignment="0" pref="407" max="32767" attributes="1"/>
                           </Group>
-                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                          <EmptySpace min="15" pref="15" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="scrollMessageArea" min="-2" pref="83" max="-2" attributes="0"/>
+                          <Component id="scrollMessageArea" min="-2" pref="64" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="scrollBrowseBrokenReferences" min="-2" pref="112" max="-2" attributes="0"/>
-                          <EmptySpace pref="13" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="btnFindBroken" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="btnFixBroken" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -122,6 +123,9 @@
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Find Broken"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFindBrokenActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="btnFixBroken">
                   <Properties>

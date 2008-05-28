@@ -2,7 +2,7 @@
            xmlns:browser="http://namespaces.zope.org/browser"           
 	   i18n_domain="bungeni">
 
-  <browser:viewlet
+  <!--browser:viewlet
       name="bungeni.parliament.navigation"
       manager="ploned.ui.interfaces.ILeftColumnManager"
           for="ore.alchemist.interfaces.IAlchemistContent"
@@ -11,7 +11,7 @@
       template="contained-constraint-navigation.pt"
       permission="zope.View"
       allowed_interface="zope.contentprovider.interfaces.IContentProvider"
-      />
+      /-->
 
   <!--browser:viewlet
      name="bungeni.taskmenu"
@@ -22,13 +22,13 @@
      class=".taskmenu.TaskMenuViewlet"
      /-->  
 
- <browser:viewlet
+ <!--browser:viewlet
      name="bungeni.taskmenu"
      for="bungeni.core.interfaces.IGovernment"
      layer="..interfaces.IBungeniSkin"
      permission="zope.View"
      manager="ploned.ui.interfaces.ILeftColumnManager"
      class=".staticbungeninavigation.StaticViewletBungeniNavigation"
-     />  
+     /-->  
 
 </configure>

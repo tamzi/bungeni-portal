@@ -17,8 +17,21 @@ import bungeni.core.domain as domain
 from ore.alchemist import Session
 
 from interfaces import ICurrent
+from bungeni.ui.utils import getDisplayDate, getFilter
+
 
 import pdb
+
+def getDateFilter(request):
+    displayDate = getDisplayDate(request) 
+    if not displayDate:
+        displayDate = datetime.date.today()       
+    if displayDate:
+        filter_by='?date=' + datetime.date.strftime(displayDate,'%Y-%m-%d')
+    else:
+        filter_by = ''
+    return filter_by        
+
 class Current(BrowserView):
     __call__ = ViewPageTemplateFile("current.pt")
 
@@ -28,37 +41,7 @@ class CurrentViewletManager( WeightOrderedViewletManager ):
     zope.interface.implements(ICurrent) 
 
        
-def getDisplayDate(request):   
-    """
-    get the date for which to display the data.
-    #SQL WHERE:
-    # displayDate BETWEEN start_date and end_date
-    # OR
-    # displayDate > start_date and end_date IS NULL   
-    """ 
-    filter_by = ''
-    DisplayDate = request.get('date', None)
-    if DisplayDate:
-        try:
-            y, m, d = (int(x) for x in DisplayDate.split('-'))
-            displayDate = datetime.date(y,m,d)
-        except:
-            displayDate = datetime.date.today()              
-    else:
-        displayDate = datetime.date.today() 
-        
-    return displayDate
-
-def getFilter(displayDate):                   
-    if displayDate:
-        filter_by = """
-        '%(displayDate)s' BETWEEN start_date AND end_date
-        OR
-        '%(displayDate)s' > start_date AND end_date IS NULL
-        """ % ({ 'displayDate' : displayDate})        
-    else:
-        filter_by = ""            
-    return filter_by        
+    
     
 def getOrder( request, context_class ):
     """
@@ -87,6 +70,8 @@ class CurrentParliamentViewlet( viewlet.ViewletBase ):
         """
         session = Session()
         self.Date = getDisplayDate(self.request)
+        if not self.Date:
+            self.Date = datetime.date.today()   
         self.query = session.query(domain.Parliament).filter(getFilter(self.Date))
         #.order_by( self.request, domain.Parliament )
         
@@ -95,10 +80,12 @@ class CurrentParliamentViewlet( viewlet.ViewletBase ):
         """
         return the data of the query
         """
-        data_list=[]        
+        data_list=[]
+        urlpf=getDateFilter(self.request)        
         results = self.query.all()
         for result in results:            
             data ={}
+            data['url']= '/parliament/obj-' + str(result.parliament_id) + urlpf
             data['short_name'] = result.short_name
             data['start_date'] = str(result.start_date)
             data['end_date'] = str(result.end_date)
@@ -123,6 +110,8 @@ class CurrentGovernmentViewlet( viewlet.ViewletBase ):
     def update(self):        
         session = Session()
         self.Date = getDisplayDate(self.request)
+        if not self.Date:
+            self.Date = datetime.date.today()
         self.query = session.query(domain.Government).filter(getFilter(self.Date))
         
 
@@ -132,13 +121,16 @@ class CurrentGovernmentViewlet( viewlet.ViewletBase ):
         return the data of the query
         """
         data_list=[]        
+        urlpf=getDateFilter(self.request)
         results = self.query.all()
         for result in results:            
             data ={}
+            data['url']= ('/parliament/obj-' + str(result.parliament_id) +
+                          '/governments/obj-' + str(result.government_id) + urlpf)
             data['short_name'] = result.short_name
             data['start_date'] = str(result.start_date)
             data['end_date'] = str(result.end_date)
-            data_list.append(data)
+            data_list.append(data)            
         return data_list
         
         
@@ -157,6 +149,8 @@ class CurrentMinistriesViewlet( viewlet.ViewletBase ):
     def update(self):        
         session = Session()
         self.Date = getDisplayDate(self.request)
+        if not self.Date:
+            self.Date = datetime.date.today()
         self.query = session.query(domain.Ministry).filter(getFilter(self.Date))
         
 
@@ -164,11 +158,23 @@ class CurrentMinistriesViewlet( viewlet.ViewletBase ):
     def getData(self):
         """
         return the data of the query
-        """
+        """   
+        session = Session()   
+        urlpf=getDateFilter(self.request)                  
         data_list=[]        
         results = self.query.all()
+        if results:
+            m_id= results[0].ministry_id
+            mpg_query = session.query(domain.MinistryInParliament).filter(domain.MinistryInParliament.c.ministry_id == m_id)
+            mpg_result = mpg_query.first()
+                    
+        #pdb.set_trace()
         for result in results:            
             data ={}
+            data['url']= ('/parliament/obj-' + str(mpg_result.parliament_id) +
+                          '/governments/obj-' + str(mpg_result.government_id) + 
+                          '/ministries/obj-' + str(mpg_result.ministry_id) + urlpf)
+            #pdb.set_trace()
             data['short_name'] = result.short_name
             data['full_name'] = result.full_name            
             data['start_date'] = str(result.start_date)
@@ -192,6 +198,8 @@ class CurrentCommitteesViewlet( viewlet.ViewletBase ):
     def update(self):        
         session = Session()
         self.Date = getDisplayDate(self.request)
+        if not self.Date:
+            self.Date = datetime.date.today()
         self.query = session.query(domain.Committee).filter(getFilter(self.Date))
         
 
@@ -201,9 +209,12 @@ class CurrentCommitteesViewlet( viewlet.ViewletBase ):
         return the data of the query
         """
         data_list=[]        
+        urlpf=getDateFilter(self.request)
         results = self.query.all()
         for result in results:            
             data ={}
+            data['url']= ('/parliament/obj-' + str(result.parliament_id) +
+                          '/committees/obj-' + str(result.committee_id) + urlpf)
             data['short_name'] = result.short_name
             data['full_name'] = result.full_name            
             data['start_date'] = str(result.start_date)
@@ -212,4 +223,11 @@ class CurrentCommitteesViewlet( viewlet.ViewletBase ):
         return data_list
         
         
-    render = ViewPageTemplateFile ('current_committees_viewlet.pt')        
+    render = ViewPageTemplateFile ('current_committees_viewlet.pt')    
+    
+class CurrentSitting( viewlet.ViewletBase ):
+    """
+    the current sittings are those closest to the given date.
+    """        
+    
+    

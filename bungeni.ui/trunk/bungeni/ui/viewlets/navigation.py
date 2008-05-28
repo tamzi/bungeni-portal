@@ -9,8 +9,8 @@ from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
 from ore.alchemist.model import queryModelDescriptor
 from alchemist.traversal.managed import ManagedContainerDescriptor
 from bungeni.core.app import BungeniApp
-
-import pdb
+from bungeni.ui.utils import getDisplayDate, getFilter
+import datetime
 
 class BreadCrumbsViewlet( viewlet.ViewletBase ):
     """
@@ -178,6 +178,19 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                               'url'  : url + '../' + k }
                     items.append( item )  
         return items                                          
+
+    def _appendSortFilter2URL(self, url):
+        """
+        get the filters from url and add them if applicable        
+        """
+        filter_by = ''
+        displayDate = getDisplayDate(self.request)        
+        if displayDate:
+            filter_by='?date=' + datetime.date.strftime(displayDate,'%Y-%m-%d')
+            return url + filter_by               
+        else:
+            return url                    
+
             
     def _tree2html(self, items, level = 0):
         level = level +1
@@ -187,7 +200,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
            htmlstr = '' 
         for item in items:
             htmlstr = htmlstr + '<li class="navTreeItem ' + item['current'] +'" >'
-            htmlstr = htmlstr + '<div><a href="' + item['url'] + '"' + ' class="'  + item['current'] +'" >'
+            htmlstr = htmlstr + '<div><a href="' + self._appendSortFilter2URL(item['url']) + '"' + ' class="'  + item['current'] +'" >'
             htmlstr = htmlstr + str( item['name'] )   
             htmlstr = htmlstr + '</a></div>'
            

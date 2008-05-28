@@ -10,7 +10,7 @@
     </thead>
     <tbody>
       <tr tal:repeat="data view/getData"> 
-        <td tal:content="data/short_name"/>
+        <td > <a tal:attributes="href data/url" tal:content="data/short_name"> X Parliament</a> 
         <td tal:content="data/start_date" />
         <td tal:content="data/end_date" />
       </tr>

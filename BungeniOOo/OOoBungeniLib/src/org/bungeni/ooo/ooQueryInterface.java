@@ -313,4 +313,7 @@ public class ooQueryInterface {
         return (XEnumerationAccess)UnoRuntime.queryInterface(XEnumerationAccess.class, obj);
     }
 
+    static public XReferenceMarksSupplier XReferenceMarksSupplier(Object obj) {
+        return (XReferenceMarksSupplier)UnoRuntime.queryInterface(XReferenceMarksSupplier.class, obj);
+    }
 }

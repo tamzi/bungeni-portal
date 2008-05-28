@@ -46,6 +46,7 @@ import com.sun.star.script.provider.XScript;
 import com.sun.star.script.provider.XScriptProvider;
 import com.sun.star.script.provider.XScriptProviderSupplier;
 import com.sun.star.style.XStyleFamiliesSupplier;
+import com.sun.star.text.XReferenceMarksSupplier;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextColumns;
 import com.sun.star.text.XTextContent;
@@ -313,6 +314,42 @@ public  class OOComponentHelper {
         return !isXComponentNull;
     }
     
+    public void setSectionMetadataAttributes (XTextSection theSection, HashMap<String,String>metadataMap) {
+        try {
+            //get the propertySet Handle for the section
+            XPropertySet theProperties = ooQueryInterface.XPropertySet(theSection);
+            XNameContainer attrContainer =  _getAttributeContainer(theProperties, ooProperties.SECTION_USERDEFINED_ATTRIBUTES);
+            //get attribute element names
+            String[] attributeNames = attrContainer.getElementNames();
+            Iterator keyIter = metadataMap.keySet().iterator();
+            while (keyIter.hasNext()) {
+                String mapkey = (String) keyIter.next();
+                String mapValue = metadataMap.get(mapkey);
+                if (attrContainer.hasByName(mapkey)) {
+                    AttributeData attrValue = (AttributeData) AnyConverter.toObject(new Type(AttributeData.class), 
+                                                    attrContainer.getByName(mapkey));
+                    attrValue.Type = "CDATA";
+                    attrValue.Value = mapValue;
+                    attrContainer.replaceByName(mapkey, attrValue);
+                } else {
+                    AttributeData attrNewAttribute = new AttributeData();
+                    attrNewAttribute.Type = "CDATA";
+                    attrNewAttribute.Value = mapValue;
+                    attrContainer.insertByName(mapkey, attrNewAttribute);
+                }
+            }
+            theProperties.setPropertyValue(ooProperties.SECTION_USERDEFINED_ATTRIBUTES, attrContainer);
+        } catch (NoSuchElementException ex) {
+           log.error(ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.error(ex.getMessage());
+        } catch (com.sun.star.lang.IllegalArgumentException ex){
+            log.error(ex.getMessage());
+        } finally {
+            return ;
+        }    
+    }
+    
     public void setSectionMetadataAttributes ( String sectionName, HashMap<String,String> metadataMap) {
        HashMap<String,String> metadata = null; 
         try {
@@ -362,14 +399,10 @@ public  class OOComponentHelper {
             return null;
     }
     
-    public HashMap<String, String> getSectionMetadataAttributes(String sectionName){
+    public HashMap<String,String> getSectionMetadataAttributes(XTextSection theSection) {
         HashMap<String,String> metadata = new HashMap<String,String>(); 
         try {
-            //get the section handle
-            Object section = this.getTextSections().getByName(sectionName);
-            XTextSection theSection = ooQueryInterface.XTextSection(section);
-            //get the propertySet Handle for the section
-            XPropertySet theProperties = ooQueryInterface.XPropertySet(theSection);
+           XPropertySet theProperties = ooQueryInterface.XPropertySet(theSection);
             XNameContainer attrContainer =  _getAttributeContainer(theProperties, ooProperties.SECTION_USERDEFINED_ATTRIBUTES);
             //get attribute element names
            if (attrContainer.getElementNames().length == 0) //no attributes available
@@ -386,7 +419,6 @@ public  class OOComponentHelper {
                 String strValue = attrValue.Value    ;
                 metadata.put(attributeNames[i], strValue); 
             }
-            
         } catch (NoSuchElementException ex) {
            log.error(ex.getMessage());
         } catch (WrappedTargetException ex) {
@@ -394,6 +426,45 @@ public  class OOComponentHelper {
         } catch (com.sun.star.lang.IllegalArgumentException ex){
             log.error(ex.getMessage());
         } finally {
+            return metadata;
+        }    
+    }
+    
+    public HashMap<String, String> getSectionMetadataAttributes(String sectionName){
+        HashMap<String,String> metadata = new HashMap<String,String>(); 
+        try {
+            //get the section handle
+            Object section = this.getTextSections().getByName(sectionName);
+            XTextSection theSection = ooQueryInterface.XTextSection(section);
+            //get the propertySet Handle for the section
+            /*
+            XPropertySet theProperties = ooQueryInterface.XPropertySet(theSection);
+            XNameContainer attrContainer =  _getAttributeContainer(theProperties, ooProperties.SECTION_USERDEFINED_ATTRIBUTES);
+            //get attribute element names
+           if (attrContainer.getElementNames().length == 0) //no attributes available
+           {
+                log.debug("getSectionMetadataAttributes: no attributes available in section metadata");
+                return metadata;
+           }
+            String[] attributeNames = attrContainer.getElementNames();
+            metadata = new HashMap<String,String>();
+            for (int i=0;  i < attributeNames.length; i++) {
+                //get values for each attribute name
+                AttributeData attrValue = (AttributeData) AnyConverter.toObject(new Type(AttributeData.class), 
+                        attrContainer.getByName(attributeNames[i]));
+                String strValue = attrValue.Value    ;
+                metadata.put(attributeNames[i], strValue); 
+            } */
+            
+            metadata = getSectionMetadataAttributes(theSection);
+            
+        } catch (NoSuchElementException ex) {
+           log.error(ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.error(ex.getMessage());
+        } /*catch (com.sun.star.lang.IllegalArgumentException ex){
+            log.error(ex.getMessage());
+        }*/ finally {
             return metadata;
         }
     }
@@ -1246,7 +1317,26 @@ public void protectSection(String sectionName, boolean toState) {
           }
 }
 
+  public XTextSection getChildSectionByType(XTextSection parentSection, String lookForSectionType) {
+       XTextSection[] childSections = parentSection.getChildSections();
+       for (XTextSection childSection: childSections) {
+            HashMap<String,String> childMeta = getSectionMetadataAttributes(childSection);
+            if (childMeta.containsKey("BungeniSectionType")){
+                String sectionType = childMeta.get("BungeniSectionType");
+                if (sectionType.equals(lookForSectionType)){
+                    return childSection;
+                }
+            }
+       }
+       return null;
+   }  
 
+
+public XNameAccess getReferenceMarks() {
+       XReferenceMarksSupplier refSupplier = ooQueryInterface.XReferenceMarksSupplier(getTextDocument());
+       XNameAccess nameAccess = refSupplier.getReferenceMarks();
+       return nameAccess;
+}
 public XEnumerationAccess getTextFields() {
     XTextFieldsSupplier txtSupplier = ooQueryInterface.XTextFieldsSupplier(this.m_xComponent);
     XEnumerationAccess fieldAccess = txtSupplier.getTextFields();
@@ -1404,5 +1494,6 @@ public boolean setSelectedTextStyle(String styleName) {
         }
  }
  
+  
  
 }

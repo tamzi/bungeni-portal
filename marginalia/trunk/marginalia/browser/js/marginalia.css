@@ -282,8 +282,7 @@ h2 {
 }
 
 p {
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-	margin: 1em 2em;
+	margin: 0.2px;
 }
 
 form {
@@ -337,12 +336,12 @@ ol#articles {
 .hentry {
 	position: relative;
 	padding: 0 ;
-	margin: 2em 0 ;
+	margin: 1em 0 ;
 }
 
 .hentry .entry-content {
 	width: 60% ;
-	margin-left: 3em;
+	margin-left: 2em;
 	font-size: medium;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
 }
@@ -396,6 +395,10 @@ ol#articles {
 
 .editing-note .hentry button.createAnnotation {
 	visibility: hidden;
+}
+
+.hentry table {
+    border: 1px solid #8CACBB;
 }
 
 .hentry table td {
@@ -590,11 +593,9 @@ ol#articles {
 }
 
 .notes div {
-    margin-left:15px;
 }
 
 .plink {
-    padding-left:15px;
     font-size: 9px;
     cursor: pointer;
 }
@@ -602,6 +603,15 @@ ol#articles {
 .select_field {
     margin-top: 5px;
     font-size: 9px;
+}
+
+.searchfields {
+  margin:0px;
+  padding:0px;
+}
+
+.searchfields select {
+  border: 1px solid #8CACBB;
 }
 
 .input_field {

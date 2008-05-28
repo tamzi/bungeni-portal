@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 import datetime
-
+import pdb
 def getDisplayDate(request):   
     """
     get the date for which to display the data.
@@ -12,6 +12,9 @@ def getDisplayDate(request):
     """ 
     filter_by = ''
     DisplayDate = request.get('date', None)
+    if not DisplayDate:
+        if request.has_key('display_date'):
+            DisplayDate = request['display_date']
     displayDate = None
     if DisplayDate:
         try:

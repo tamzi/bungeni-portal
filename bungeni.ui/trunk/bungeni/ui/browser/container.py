@@ -7,6 +7,7 @@ from zope.security import proxy
 from zc.table import  table
 from bungeni.ui.utils import getDisplayDate, getFilter
 
+
 def dateFilter( request ):
     filter_by = ''
     displayDate = getDisplayDate(request)
@@ -16,6 +17,9 @@ def dateFilter( request ):
     else:
         filter_by = ''          
     return filter_by            
+
+
+
 
 
 class ContainerListing( alchemist.ui.container.ContainerListing ):

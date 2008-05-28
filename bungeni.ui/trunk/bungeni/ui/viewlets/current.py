@@ -20,7 +20,8 @@ from interfaces import ICurrent
 from bungeni.ui.utils import getDisplayDate, getFilter
 
 
-import pdb
+
+
 
 def getDateFilter(request):
     displayDate = getDisplayDate(request) 
@@ -71,7 +72,8 @@ class CurrentParliamentViewlet( viewlet.ViewletBase ):
         session = Session()
         self.Date = getDisplayDate(self.request)
         if not self.Date:
-            self.Date = datetime.date.today()   
+            self.Date = datetime.date.today()
+            self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )
         self.query = session.query(domain.Parliament).filter(getFilter(self.Date))
         #.order_by( self.request, domain.Parliament )
         
@@ -168,13 +170,13 @@ class CurrentMinistriesViewlet( viewlet.ViewletBase ):
             mpg_query = session.query(domain.MinistryInParliament).filter(domain.MinistryInParliament.c.ministry_id == m_id)
             mpg_result = mpg_query.first()
                     
-        #pdb.set_trace()
+
         for result in results:            
             data ={}
             data['url']= ('/parliament/obj-' + str(mpg_result.parliament_id) +
                           '/governments/obj-' + str(mpg_result.government_id) + 
                           '/ministries/obj-' + str(mpg_result.ministry_id) + urlpf)
-            #pdb.set_trace()
+  
             data['short_name'] = result.short_name
             data['full_name'] = result.full_name            
             data['start_date'] = str(result.start_date)

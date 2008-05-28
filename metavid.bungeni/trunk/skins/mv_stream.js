@@ -66,6 +66,7 @@ function mv_load_interface_libs(){
 			'$j.ui.draggable':'jquery/plugins/ui.draggable.js',
 			'$j.fn.question':'jquery/plugins/jquery.question.js',
 			'$j.fn.answer':'jquery/plugins/jquery.answer.js'
+			//'$j.fn.managerandr':'jquery/plugins/jquery.managerandr.js'
 	  	},function(){   
 	  		//now extend draggable
 	  		mvJsLoader.doLoad({  	  			

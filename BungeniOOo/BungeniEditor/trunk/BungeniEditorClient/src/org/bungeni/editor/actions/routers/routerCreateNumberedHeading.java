@@ -19,6 +19,7 @@ import org.bungeni.editor.document.DocumentSection;
 import org.bungeni.editor.document.DocumentSectionsContainer;
 import org.bungeni.error.BungeniMsg;
 import org.bungeni.error.BungeniValidatorState;
+import org.bungeni.editor.numbering.ooo.OOoNumberingHelper;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.BungeniUUID;
 
@@ -33,7 +34,7 @@ public class routerCreateNumberedHeading extends defaultRouter {
     public routerCreateNumberedHeading() {
     }
  
-    private static final String NUMBERED_SECTION_TYPE = "NumberedContainer";
+    private static final String NUMBERED_SECTION_TYPE = OOoNumberingHelper.NUMBERING_SECTION_TYPE;
     /*
      *This router action marks a heading as a numbered heading and write protects it after applying the associated style
      * apply_numbered_heading:style_name

@@ -51,10 +51,9 @@ public class schemeRoman extends BaseNumberingScheme implements IGeneralNumberin
         numObj.setParentPrefix("1");
         numObj.generateSequence();
         ArrayList<String> seq = numObj.getGeneratedSequence();
-        Iterator<String> iter = seq.iterator();
-        while (iter.hasNext()) {
-            String elem = iter.next();
-            System.out.println(elem);
+        for (int i=0; i < seq.size() ; i++ ){
+            System.out.println("number in sequence = " + seq.get(i));
+            System.out.println("base number insequence = " + numObj.getSequence().get(i));
         }
             
     }

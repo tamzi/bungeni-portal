@@ -82,7 +82,21 @@ public interface IGeneralNumberingScheme {
      */
     public java.util.Iterator<String> sequence_initIterator();
    
+    /**
+     * Check if the iterator can iterate further
+     * @return returns true if the iterator has more elements
+     */
     public boolean sequence_hasNext() ;
    
+    /**
+     * Retrieves the next number in the number sequence
+     * @return returns a string representation of the generated number
+     */
     public String sequence_next();
+
+    /**
+     * Every generated number has an underlying long integer number (i.e iv --> underlying integer 4 , e --> underlying integer 5
+     * @return returns underlying long integer representing the input generated number
+     */
+    public long sequence_base_index (String item ) ;
 }

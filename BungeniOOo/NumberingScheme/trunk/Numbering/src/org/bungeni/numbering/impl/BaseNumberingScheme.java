@@ -107,6 +107,14 @@ public class BaseNumberingScheme   {
         return this.generatedSequenceIterator.next();
    }
    
+   public long sequence_base_index (String item ) {
+        int nIndex = this.generatedSequence.indexOf(item);
+        if (nIndex != -1 )
+            return this.baseSequence.get(nIndex);
+        else
+            return -1;
+   }
+   
    public String getNextInSequence(String sequenceNumber) {
         if (generatedSequence.contains(sequenceNumber)) {
             int indexofSequenceNumber = generatedSequence.indexOf(sequenceNumber);

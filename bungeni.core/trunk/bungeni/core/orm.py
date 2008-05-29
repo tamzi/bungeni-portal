@@ -285,6 +285,15 @@ mapper( domain.AttendanceType, schema.attendance_type )
 mapper( domain.MemberTitle, schema.user_role_type )
 
 
+###########################
+# Current Items
+
+# get the current gov and parliament for a ministry
+_ministry_gov_parliament = rdb.join ( schema.ministries, schema.governments,
+                                     schema.ministries.c.government_id == schema.governments.c.government_id)
+mapper(domain.MinistryInParliament, _ministry_gov_parliament)                                     
+                                    
+
         
 
     

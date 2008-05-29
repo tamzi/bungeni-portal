@@ -648,7 +648,8 @@ class DebateDescriptor ( ModelDescriptor ):
     fields = [
         dict( name="sitting_id", omit=True ), 
         dict( name="debate_id", omit=True ),                
-        dict( name="short_name", label=_(u"Short Name"), listing=True ), 
+        dict( name="short_name", label=_(u"Short Name"), listing=True,
+              listing_column=name_column("short_name", _(u'<a href="?order_by=short_name">Name</a>')) ), 
         dict( name="body_text", label=_(u"Transcript"),
               property = schema.Text( title=u"Transcript" ),
               view_widget=widget.HTMLDisplay,

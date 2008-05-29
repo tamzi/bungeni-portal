@@ -147,11 +147,13 @@ class GroupItemAssignment( object ):
 class Government( Group ):
     """ a government
     """
+    sort_on = 'start_date'
     ministries = one2many("ministries", "bungeni.core.domain.MinistryContainer", "government_id")
     
 class Parliament( Group ):
     """ a parliament
     """    
+    sort_on = 'start_date'
     sessions = one2many("sessions", "bungeni.core.domain.ParliamentSessionContainer", "parliament_id")
     committees = one2many("comittees", "bungeni.core.domain.CommitteeContainer", "parliament_id")
     #mps = one2many("mps","bungeni.core.domain.GroupMembershipContainer", "group_id")
@@ -381,6 +383,21 @@ class MemberTitle( object ):
     
 class Keyword( object ):
     """ Keywords for groups """
+    
+    
+#####################
+# current parliament/gov/ministers/mps...
+
+class CurrentParliament( Entity ):
+    """
+    the current parliament 
+    """
+
+class MinistryInParliament( object ):
+    """
+    auxilliary class to get the parliament and government for a ministry
+    """
+    
         
         
     

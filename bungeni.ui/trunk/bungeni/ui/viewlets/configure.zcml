@@ -57,9 +57,10 @@
   <!-- current -->    
 
   <browser:page
-     for="bungeni.core.interfaces.IBungeniApplication"
+     for="bungeni.core.interfaces.IParliamentContainer"
      permission="zope.Public"
-     name="current"
+     name="index"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
      class=".current.Current"
      />
 
@@ -79,11 +80,19 @@
     />
 
   <browser:viewlet
+    name="bungeni.all.parliament"   
+    manager=".interfaces.ICurrent"
+    class=".current.AllParliamentsViewlet"
+    permission="zope.Public"
+    weight="2"
+    />
+
+  <browser:viewlet
     name="bungeni.current.government"   
     manager=".interfaces.ICurrent"
     class=".current.CurrentGovernmentViewlet"
     permission="zope.Public"
-    weight="3"
+    weight="4"
     />
     
     
@@ -92,7 +101,7 @@
     manager=".interfaces.ICurrent"
     class=".current.CurrentMinistriesViewlet"
     permission="zope.Public"
-    weight="4"
+    weight="5"
     />    
   
   <browser:viewlet
@@ -100,7 +109,7 @@
     manager=".interfaces.ICurrent"
     class=".current.CurrentCommitteesViewlet"
     permission="zope.Public"
-    weight="2"
+    weight="3"
     />      
   
 </configure>

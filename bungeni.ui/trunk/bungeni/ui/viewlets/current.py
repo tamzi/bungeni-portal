@@ -52,6 +52,69 @@ def getOrder( request, context_class ):
     order_by = request.get('order_by', None)
     
     return order_list
+    
+class DateChooser( viewlet.ViewletBase ):
+    """
+    display a calendar to choose the date which to display the information for
+    """    
+    def __init__( self,  context, request, view, manager ):        
+        self.context = context
+        self.request = request
+        self.__parent__= view
+        self.manager = manager       
+        self.Date=datetime.date.today()
+
+    def update(self):
+        """
+        refresh the query
+        """
+        session = Session()
+        self.Date = getDisplayDate(self.request)
+        if not self.Date:
+            self.Date = datetime.date.today()
+            self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d'), path='/' )
+            
+class AllParliamentsViewlet( viewlet.ViewletBase ):
+    """
+    display all parliaments
+    """            
+    def __init__( self,  context, request, view, manager ):        
+        self.context = context
+        self.request = request
+        self.__parent__= view
+        self.manager = manager
+        self.query = None
+    def update(self):
+        """
+        refresh the query
+        """
+        session = Session()
+        self.query = session.query(domain.Parliament)     
+
+    def getData(self):
+        """
+        return the data of the query
+        """
+        data_list=[]
+        urlpf='' #getDateFilter(self.request)        
+        results = self.query.all()
+        for result in results:            
+            data ={}
+            if result.start_date and result.end_date:
+                diff = result.end_date - result.start_date
+                mid = result.start_date + diff/2
+                urlpf = '?date=' + datetime.date.strftime(mid,'%Y-%m-%d')
+            else:
+                urlpf ='?date=' + datetime.date.strftime(datetime.date.today(),'%Y-%m-%d')            
+            data['url']= '/parliament/obj-' + str(result.parliament_id) + urlpf
+            data['short_name'] = result.short_name
+            data['start_date'] = str(result.start_date)
+            data['end_date'] = str(result.end_date)
+            data_list.append(data)
+        return data_list
+                    
+    render = ViewPageTemplateFile ('current_parliament_viewlet.pt')
+
 
 class CurrentParliamentViewlet( viewlet.ViewletBase ):
     """

@@ -15,6 +15,13 @@ def getDisplayDate(request):
     if not DisplayDate:
         if request.has_key('display_date'):
             DisplayDate = request['display_date']
+    else:
+        if request.has_key('display_date'):
+            if DisplayDate != request['display_date']:         
+                request.response.setCookie('display_date', DisplayDate, path='/')
+                print DisplayDate
+        else:
+            request.response.setCookie('display_date', DisplayDate, path='/' )          
     displayDate = None
     if DisplayDate:
         try:

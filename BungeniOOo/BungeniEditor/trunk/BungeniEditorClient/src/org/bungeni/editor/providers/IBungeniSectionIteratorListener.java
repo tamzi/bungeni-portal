@@ -16,5 +16,5 @@ import org.bungeni.utils.BungeniBNode;
  * @author Administrator
  */
 public interface IBungeniSectionIteratorListener {
-    public void iteratorCallback(BungeniBNode bNode);
+    public boolean iteratorCallback(BungeniBNode bNode);
 }

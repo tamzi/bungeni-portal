@@ -28,7 +28,8 @@ public  class DocumentSectionIterator {
     }
     
     public void startIterator() {
-        callback.iteratorCallback(rootNode);
+        if (!callback.iteratorCallback(rootNode))
+            return;
         recurseAllNodes(rootNode);
     }
     
@@ -42,7 +43,8 @@ public  class DocumentSectionIterator {
             while (childIterator.hasNext()) {
                 Integer nodeKey = childIterator.next();
                 BungeniBNode newBNode = children.get(nodeKey);
-                callback.iteratorCallback(newBNode);
+                if (callback.iteratorCallback(newBNode) == false )
+                    return;
                 recurseAllNodes(newBNode);
             }
         }

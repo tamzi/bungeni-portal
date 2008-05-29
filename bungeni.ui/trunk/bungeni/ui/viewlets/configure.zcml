@@ -72,9 +72,9 @@
      />
     
   <browser:viewlet
-    name="bungeni.current.parliament"   
+    name="bungeni.current.date"   
     manager=".interfaces.ICurrent"
-    class=".current.CurrentParliamentViewlet"
+    class=".current.DateChooserViewlet"
     permission="zope.Public"
     weight="1"
     />

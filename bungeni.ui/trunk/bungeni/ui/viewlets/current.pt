@@ -6,7 +6,7 @@
 <body>
 
   <div metal:fill-slot="body">
-    <h1 i18n:translate="">Current</h1>
+    <h1 i18n:translate="">Choose the parliament to display its data</h1>
 
     <div tal:replace="structure provider:bungeni.current" />
     

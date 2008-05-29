@@ -18,8 +18,7 @@ def getDisplayDate(request):
     else:
         if request.has_key('display_date'):
             if DisplayDate != request['display_date']:         
-                request.response.setCookie('display_date', DisplayDate, path='/')
-                print DisplayDate
+                request.response.setCookie('display_date', DisplayDate, path='/')               
         else:
             request.response.setCookie('display_date', DisplayDate, path='/' )          
     displayDate = None

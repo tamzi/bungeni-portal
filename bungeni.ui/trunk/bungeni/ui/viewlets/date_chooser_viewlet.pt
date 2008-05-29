@@ -1,0 +1,12 @@
+<script type="text/javascript" src="dhtmlgoodies_calendar/dhtmlgoodies_calendar.js"
+           tal:attributes="src context/++resource++dhtmlgoodies_calendar.js" />
+<link type="text/css" rel="stylesheet" href="dhtmlgoodies_calendar/dhtmlgoodies_calendar.css" media="screen"
+         tal:attributes="href context/++resource++dhtmlgoodies_calendar.css" /> 
+<div>
+  <form action="@@index" >
+    <input name="date" type="text" tal:attributes="value view/DateStr" /> 
+    <input value="Cal" onclick="displayCalendar(document.forms[0].date,'yyyy-mm-dd',this)" type="button" />
+    <input type="submit" value="go" /> 
+  </form>
+</div>
+

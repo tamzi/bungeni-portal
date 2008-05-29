@@ -53,7 +53,7 @@ def getOrder( request, context_class ):
     
     return order_list
     
-class DateChooser( viewlet.ViewletBase ):
+class DateChooserViewlet( viewlet.ViewletBase ):
     """
     display a calendar to choose the date which to display the information for
     """    
@@ -67,12 +67,15 @@ class DateChooser( viewlet.ViewletBase ):
     def update(self):
         """
         refresh the query
-        """
-        session = Session()
+        """       
         self.Date = getDisplayDate(self.request)
-        if not self.Date:
-            self.Date = datetime.date.today()
-            self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d'), path='/' )
+        if self.Date:
+            self.DateStr=datetime.date.strftime(self.Date,'%Y-%m-%d')
+        else:
+            self.DateStr='all'
+            
+    render = ViewPageTemplateFile ('date_chooser_viewlet.pt')    
+            
             
 class AllParliamentsViewlet( viewlet.ViewletBase ):
     """
@@ -84,32 +87,52 @@ class AllParliamentsViewlet( viewlet.ViewletBase ):
         self.__parent__= view
         self.manager = manager
         self.query = None
+        self.current_query = None
+        self.Date=datetime.date.today()
+        
     def update(self):
         """
         refresh the query
         """
         session = Session()
-        self.query = session.query(domain.Parliament)     
+        self.query = session.query(domain.Parliament)
+        self.Date = getDisplayDate(self.request) 
+        #current
+        if not self.Date:
+            self.Date = datetime.date.today()
+            self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )
+        self.current_query = session.query(domain.Parliament).filter(getFilter(self.Date))    
 
     def getData(self):
         """
         return the data of the query
-        """
+        """        
         data_list=[]
-        urlpf='' #getDateFilter(self.request)        
+        curlpf=getDateFilter(self.request)  
+        current_results = self.current_query.all()      
         results = self.query.all()
         for result in results:            
             data ={}
             if result.start_date and result.end_date:
-                diff = result.end_date - result.start_date
-                mid = result.start_date + diff/2
-                urlpf = '?date=' + datetime.date.strftime(mid,'%Y-%m-%d')
+                #diff = result.end_date - result.start_date
+                #mid = result.start_date + diff/2
+                urlpf = '?date=' + datetime.date.strftime(result.end_date,'%Y-%m-%d')
             else:
                 urlpf ='?date=' + datetime.date.strftime(datetime.date.today(),'%Y-%m-%d')            
-            data['url']= '/parliament/obj-' + str(result.parliament_id) + urlpf
+            data['url']= '/parliament/' +urlpf
             data['short_name'] = result.short_name
+            data['election_date'] = result.election_date
             data['start_date'] = str(result.start_date)
             data['end_date'] = str(result.end_date)
+            data['mpurl']= '/parliament/obj-' + str(result.parliament_id) + '/parliamentmembers' + urlpf
+            if result in current_results:
+                data['current'] = 'even'
+                data['selector'] = '-->>'
+                data['mpurl']= '/parliament/obj-' + str(result.parliament_id) + '/parliamentmembers' + curlpf
+                data['url']= '/parliament/' + curlpf
+            else:
+                data['current'] = 'odd' 
+                data['selector'] = ''               
             data_list.append(data)
         return data_list
                     
@@ -154,6 +177,8 @@ class CurrentParliamentViewlet( viewlet.ViewletBase ):
             data['short_name'] = result.short_name
             data['start_date'] = str(result.start_date)
             data['end_date'] = str(result.end_date)
+            data['mpurl']= '/parliament/obj-' + str(result.parliament_id) + '/parliamentmembers' + urlpf
+            data['current'] = 'odd'
             data_list.append(data)
         return data_list
                     
@@ -238,7 +263,7 @@ class CurrentMinistriesViewlet( viewlet.ViewletBase ):
             data ={}
             data['url']= ('/parliament/obj-' + str(mpg_result.parliament_id) +
                           '/governments/obj-' + str(mpg_result.government_id) + 
-                          '/ministries/obj-' + str(mpg_result.ministry_id) + urlpf)
+                          '/ministries/obj-' + str(result.ministry_id) + urlpf)
   
             data['short_name'] = result.short_name
             data['full_name'] = result.full_name            

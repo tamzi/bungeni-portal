@@ -429,12 +429,13 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         }
     }
     
+   private static String MARKED_FOR_RENUMBERING="RENUMBERING...";
    private void applyNumberingMarkupToNonNumberedContainers(ArrayList<String> numberedContainers){
            for (String containerSection : numberedContainers) {
                 XTextSection numberedSection = ooDocument.getSection(containerSection);
                 if (!isSectionContainingAppliedNumber(numberedSection)) {
                     ooDocument.protectSection(numberedSection, false);
-                    this.markupNumberedHeading(numberedSection, "99999");
+                    this.markupNumberedHeading(numberedSection, MARKED_FOR_RENUMBERING);
                     ooDocument.protectSection(numberedSection, true);
                 }
            }
@@ -463,31 +464,85 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
                 add("Clause");
         }
     };
+    
     private void reApplyNumberingOnNumberedContainers(){
         //now iterate through the numbered sections and apply 
-        DocumentSectionIterator sectionIterator = new DocumentSectionIterator(
-                new IBungeniSectionIteratorListener(){
-                    HashSet<String> alreadyNumberedSectionTypes = new HashSet<String>(0) ;   
-                    public void iteratorCallback(BungeniBNode bNode) {
+        sectionRenumberingIteratorListener sril = new sectionRenumberingIteratorListener();
+        DocumentSectionIterator sectionIterator = new DocumentSectionIterator(sril);
+        sectionIterator.startIterator();
+        for (String numberedSectionType : sril.numberTheseSectionTypes) {
+            
+        }
+    }
+
+    class sectionRenumberingIteratorListener implements IBungeniSectionIteratorListener{
+             ArrayList<String> numberTheseSectionTypes = new ArrayList<String>(0) ;   
+                    //return tru to continue , false to break
+                    public boolean iteratorCallback(BungeniBNode bNode) {
                         String sectionName = bNode.getName();
                         log.debug("reApplyNumberingonNumberedContainers, iterator callback : "+ sectionName);
                         String sectionType = ooDocument.getSectionType(sectionName);
                         if (sectionType != null ) {
                             if (validNumberedSectionTypes.contains(sectionType)) {
                                 //this type of section can be numbered
-                                if (!alreadyNumberedSectionTypes.contains(sectionType)) { //has it been already numbered ?
+                                if (!numberTheseSectionTypes.contains(sectionType)) { //has it been already numbered ?
                                     log.debug("reApplyNumberingonNumberedContainers, iterator numbering "+ sectionType);
+                                    // renumberSectionType (sectionType);
+                                     numberTheseSectionTypes.add(sectionType);
                                 }
+                                if (numberTheseSectionTypes.size() == validNumberedSectionTypes.size())
+                                    return false;
                             }
                         }
-            }
-        });
+                        return true;
+                    }
+        }
+        
+    private void func(String sectionType){
+        ArrayList<String> sectionsMatchingType = getSectionsMatchingType(sectionType);
+        System.out.println("matched sections =  " + this.sectionTypeMatchedSections);
+        this.initializeNumberingSchemeGenerator(1, sectionsMatchingType.size());
+        //findSectionsMatchingSectionType(sectionType);
+        ///why is the above being done...when the same section is iterated over again ??? 
+        for (String matchingSection: sectionsMatchingType) {
+            XTextSection matchedSection = ooDocument.getSection(matchingSection);
+            XTextSection numberedChild = ooDocument.getChildSectionByType(matchedSection, OOoNumberingHelper.NUMBERING_SECTION_TYPE);
+            String theNumber = this.m_selectedNumberingScheme.sequence_next();
+            ooDocument.protectSection(numberedChild, false);
+            HashMap<String,String> childMeta = ooDocument.getSectionMetadataAttributes(numberedChild);
+            String sectionUUID = childMeta.get("BungeniSectionUUID");
+            ////update the field here ooDocument.getTextFields();
+        }  
         
     }
-
     
-   
-       
+    private ArrayList<String> getSectionsMatchingType (String sectionType){
+      //  ArrayList<String> sectionsMatchingType = new ArrayList<String>(0);
+        sectionTypeIteratorListener  typeIterator = new sectionTypeIteratorListener(sectionType);
+        DocumentSectionIterator sectionTypeIterator = new DocumentSectionIterator(typeIterator);
+        sectionTypeIterator.startIterator();
+        return typeIterator.sectionsMatchingType;
+    }
+    
+    class sectionTypeIteratorListener implements IBungeniSectionIteratorListener {
+        ArrayList<String> sectionsMatchingType = new ArrayList<String>(0);
+        String inputSectionType ;
+        
+        sectionTypeIteratorListener(String input) {
+            this.inputSectionType = input;
+        }
+        
+        public boolean iteratorCallback(BungeniBNode bNode) {
+            String foundsectionName = bNode.getName();
+            String foundsectionType =  ooDocument.getSectionType(foundsectionName);
+            if (foundsectionType.equals(inputSectionType)) {
+                sectionsMatchingType.add(foundsectionName);
+            }
+            return true;       
+        }
+        
+    }
+    
      private frameBrokenReferences brokenReferencesFrame = null;
      private void applyFixBrokenReferences() {
         this.orphanedReferences.clear();

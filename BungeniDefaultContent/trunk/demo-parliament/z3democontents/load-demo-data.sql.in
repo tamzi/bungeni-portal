@@ -247,6 +247,35 @@ where sequence_schema='public';
  SELECT setval('user_role_types_user_role_type_id_seq', 1000);
 
 
+/* set some descriptions */
+UPDATE users SET description =
+(SELECT
+ '<p>' || "users"."titles" || ' ' || "users"."first_name" ||' ' || "users"."middle_name" || ' ' || "users"."last_name" ||
+' (' ||  "users"."gender" || ')</p> ' ||
+'<p> born ' || "users"."date_of_birth" || ' in ' || "countries"."country_name" || '</p>' ||
+'<p> email: ' || "users"."email" || '</p>' 
+FROM "public"."countries", "public"."users" as users_1
+WHERE ( "countries"."country_id" = "users"."birth_country" )
+    AND users.user_id = users_1.user_id)
+;
+
+
+UPDATE users SET description =
+(SELECT
+ '<p>' || "users"."titles" || ' ' || "users"."first_name" ||' ' || "users"."middle_name" || ' ' || "users"."last_name" ||
+' (' ||  "users"."gender" || ')</p> ' ||
+'<p> born ' || "users"."date_of_birth" || ' in ' || "countries"."country_name" || '</p>' ||
+'<p> died ' || "users"."date_of_death" || '</p>'  
+FROM "public"."countries", "public"."users" as users_1
+WHERE ( "countries"."country_id" = "users"."birth_country" )
+    AND users.user_id = users_1.user_id)
+WHERE users.active_p = 'D'    
+;
+
+UPDATE "user_group_memberships" SET "notes" =
+(SELECT "description" FROM "public"."users"
+ WHERE ( "user_group_memberships"."user_id" = "users"."user_id" ))
+|| "notes" ; 
 
 
 

@@ -671,6 +671,7 @@ table.listing th,
     font-weight: normal;
     padding: 0.25em 0.5em;
     text-transform: none;
+    text-align : center;
 }
 table.listing .top {
     border-left: 1px solid White;
@@ -680,12 +681,13 @@ table.listing .top {
     padding: 0em 0em 1em 0em;
 }
 table.listing .listingCheckbox {
-    text-align: center;
+    text-align: center;    
 }
 table.listing td,
 .stx table td {
     border-right: 1px solid #8cacbb;
     padding: 0.25em 0.5em;
+    vertical-align : top;
 }
 table.listing a {
     text-decoration: none;
@@ -1171,5 +1173,12 @@ div.managedPortlet.portlet {
     padding-top:0.5em;
     padding-bottom:0.5em;
 }
+
+/* make tbody element scroll in Mozilla */
+
+/*.listing tbody {
+overflow: auto; 
+height: 400px;
+}*/
 
 /*  */

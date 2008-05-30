@@ -388,10 +388,10 @@ class Keyword( object ):
 #####################
 # current parliament/gov/ministers/mps...
 
-class CurrentParliament( Entity ):
-    """
-    the current parliament 
-    """
+#class CurrentParliament( Entity ):
+#    """
+#    the current parliament 
+#    """
 
 class MinistryInParliament( object ):
     """

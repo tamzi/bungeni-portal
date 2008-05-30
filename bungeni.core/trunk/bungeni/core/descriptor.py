@@ -603,7 +603,7 @@ class MotionAmendmentDescriptor( ModelDescriptor ):
         ]
 class SittingDescriptor( ModelDescriptor ):
     
-    display_name = _(u"Parliamentary Sitting")
+    display_name = _(u"Sittings")
     
     fields = [
         dict( name="sitting_id", omit=True ),

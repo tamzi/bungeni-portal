@@ -97,9 +97,14 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
                         year = self.Date.year - 1
                     else:
                         month = self.Date.month -1
-                        year = self.Date.year                        
+                        year = self.Date.year  
+                    try:
+                        prevdate = datetime.date(year,month,self.Date.day)
+                    except:
+                        # in case we try to move to Feb 31st (or so)                      
+                        prevdate = datetime.date(year,month,15)
                     return ('<a href="?date=' 
-                            + datetime.date.strftime(datetime.date(year,month,self.Date.day),'%Y-%m-%d') 
+                            + datetime.date.strftime(prevdate,'%Y-%m-%d') 
                             + '"> &lt;&lt; </a>' )
             else:
                 return ''    
@@ -121,14 +126,24 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
                 year = self.Date.year
             if ped:               
                 if ped >= datetime.date(year, month, 1):
-                   return ('<a href="?date=' 
-                            + datetime.date.strftime(datetime.date(year,month,self.Date.day),'%Y-%m-%d') 
+                    try:
+                        nextdate = datetime.date(year,month,self.Date.day)
+                    except:
+                        # if we try to move from 31 of jan to 31 of feb or so
+                        nextdate = datetime.date(year,month,15)
+                    return ('<a href="?date=' 
+                            + datetime.date.strftime(nextdate,'%Y-%m-%d') 
                             + '"> &gt;&gt; </a>' )
                 else:
                     return ''                
             else:
+                try:
+                    nextdate = datetime.date(year,month,self.Date.day)
+                except:
+                    # if we try to move from 31 of jan to 31 of feb or so
+                    nextdate = datetime.date(year,month,15)            
                 return ('<a href="?date=' 
-                        + datetime.date.strftime(datetime.date(year,month,self.Date.day),'%Y-%m-%d' )
+                        + datetime.date.strftime(nextdate,'%Y-%m-%d' )
                         + '"> &gt;&gt; </a>' )
         else:
             return ''

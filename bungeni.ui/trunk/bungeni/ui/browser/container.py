@@ -47,9 +47,11 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
         filter_by = dateFilter( self.request )
         if filter_by:  
             if 'start_date' in  context._class.c._data._list and 'end_date' in  context._class.c._data._list:                 
-                query=query.filter(filter_by).order_by(order_list)                           
+                query=query.filter(filter_by).order_by(order_list) 
+            else:
+                query=query.order_by(order_list)                                             
         else:            
-            query=query.order_by(order_list)                                                            
+            query=query.order_by(order_list)     
         formatter = table.AlternatingRowFormatter( context,
                                                    self.request,
                                                    query,

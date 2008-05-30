@@ -9,3 +9,6 @@ class ICurrent( IViewletManager ):
     
 class IDateChooser( IViewletManager ):    
     """ Date Chooser viewlet manager """    
+
+class ISittingCalendar( IViewletManager ):    
+    """ Sitting Calendar viewlet manager """     

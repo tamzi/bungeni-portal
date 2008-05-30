@@ -76,6 +76,7 @@ class DateChooserViewlet( viewlet.ViewletBase ):
             self.DateStr=datetime.date.strftime(self.Date,'%Y-%m-%d')
         else:
             self.DateStr='all'
+            self.request.response.setCookie('display_date','all')
             
     render = ViewPageTemplateFile ('date_chooser_viewlet.pt')    
             
@@ -163,8 +164,7 @@ class CurrentParliamentViewlet( viewlet.ViewletBase ):
         if not self.Date:
             self.Date = datetime.date.today()
             self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )
-        self.query = session.query(domain.Parliament).filter(getFilter(self.Date))
-        #.order_by( self.request, domain.Parliament )
+        self.query = session.query(domain.Parliament).filter(getFilter(self.Date))        
         
     
     def getData(self):

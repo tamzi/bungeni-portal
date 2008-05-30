@@ -127,5 +127,27 @@
     permission="zope.Public"
     weight="3"
     />      
+  <!-- sittings -->
+  <browser:page
+     for="bungeni.core.interfaces.IGroupSittingContainer"
+     permission="zope.Public"
+     name="index"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     class=".sittingcalendar.Calendar"
+     />    
+  <browser:viewletManager
+     name="bungeni.sitting-calendar.manager"
+     provides=".interfaces.ISittingCalendar"
+     class=".sittingcalendar.SittingCalendarViewletManager"
+     permission="zope.View"
+     />    
+     
+  <browser:viewlet
+    name="bungeni.sitting.caledar"   
+    manager=".interfaces.ISittingCalendar"
+    class=".sittingcalendar.SittingCalendarViewlet"
+    permission="zope.Public"
+    weight="3"
+    />        
   
 </configure>

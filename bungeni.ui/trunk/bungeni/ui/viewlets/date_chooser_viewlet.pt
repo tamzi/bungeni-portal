@@ -7,6 +7,7 @@
     <input name="date" type="text" tal:attributes="value view/DateStr" /> 
     <input value="Cal" onclick="displayCalendar(document.forms[0].date,'yyyy-mm-dd',this)" type="button" />
     <input type="submit" value="go" /> 
+    <a href="?date=all"> show all </a>
   </form>
 </div>
 

@@ -48,6 +48,7 @@ import com.sun.star.util.XReplaceDescriptor;
 import com.sun.star.util.XReplaceable;
 import com.sun.star.util.XSearchDescriptor;
 import com.sun.star.util.SearchOptions;
+import com.sun.star.util.XUpdatable;
 import com.sun.star.view.XViewCursor;
 import com.sun.star.xforms.XModel;
 import java.awt.Component;
@@ -395,20 +396,44 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
          //4) make another pass and apply numbering (finally apply numbering on the whole structure...)
          
          //1)
+         log.debug("applyRenumberingScheme : invoking findNumberedContainers");
          ArrayList<String>numberedContainers = findNumberedContainers();
          //2) & 3)
+         log.debug("applyRenumberingScheme : invoking applyNumberingMarkupToNonNumberedContainers");
          applyNumberingMarkupToNonNumberedContainers(numberedContainers);
          //4)
+         log.debug("applyRenumberingScheme : invoking reApplyNumberingOnNumberedContainers");
          reApplyNumberingOnNumberedContainers();
      }
     
      private ArrayList<String> findNumberedContainers(){
+         /*
         ArrayList<String> numberedContainers = new ArrayList<String>(0);
         BungeniBNode bRootNode = DocumentSectionProvider.getTreeRoot();
         recurseNumberedNodes(bRootNode, numberedContainers );
-        return numberedContainers;
+        return numberedContainers;*/
+         log.debug("findNumberedContainers : starting ");
+         findNumberedContainersListener findNumberedContainers = new findNumberedContainersListener();
+         DocumentSectionIterator iterateNumberedContainers = new DocumentSectionIterator(findNumberedContainers);
+         iterateNumberedContainers.startIterator();
+         log.debug("findNumberedContainers : returning numbered containers : " + findNumberedContainers.numberedContainers.toString() );
+         return findNumberedContainers.numberedContainers;
      }
-
+     
+     class findNumberedContainersListener implements IBungeniSectionIteratorListener{
+         ArrayList<String> numberedContainers = new ArrayList<String>(0);
+         public boolean iteratorCallback(BungeniBNode bNode) {
+             String sectionName = bNode.getName();
+             String matchingSectionType = ooDocument.getSectionType(sectionName);
+                if (matchingSectionType != null) {
+                    if (matchingSectionType.equals(OOoNumberingHelper.NUMBERING_SECTION_TYPE)) {
+                        numberedContainers.add(sectionName);
+                    }
+                }
+            return true;
+        }
+     }
+/*
        private void recurseNumberedNodes(BungeniBNode theBNode, ArrayList<String> numberedContainers) {
        // BungeniBNode theBNode = (BungeniBNode) theNode.getUserObject();
         if (theBNode.hasChildren()) {
@@ -427,16 +452,21 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
                 recurseNumberedNodes(newBNode, numberedContainers);
             }
         }
-    }
+    } */
     
    private static String MARKED_FOR_RENUMBERING="RENUMBERING...";
    private void applyNumberingMarkupToNonNumberedContainers(ArrayList<String> numberedContainers){
+        log.debug("applyNumberingMarkupToNonNumberedContainers : starting");
            for (String containerSection : numberedContainers) {
+               log.debug("applyNumberingMarkupToNonNumberedContainers : processing for : " + containerSection);
                 XTextSection numberedSection = ooDocument.getSection(containerSection);
                 if (!isSectionContainingAppliedNumber(numberedSection)) {
+                    log.debug("applyNumberingMarkupToNonNumberedContainers : "+ containerSection +" DOES NOT contain applied number ");
                     ooDocument.protectSection(numberedSection, false);
                     this.markupNumberedHeading(numberedSection, MARKED_FOR_RENUMBERING);
                     ooDocument.protectSection(numberedSection, true);
+                } else {
+                    log.debug("applyNumberingMarkupToNonNumberedContainers : "+ containerSection +" contains applied number ");
                 }
            }
    }
@@ -471,7 +501,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         DocumentSectionIterator sectionIterator = new DocumentSectionIterator(sril);
         sectionIterator.startIterator();
         for (String numberedSectionType : sril.numberTheseSectionTypes) {
-            
+            updateNumbersByType(numberedSectionType);
         }
     }
 
@@ -498,9 +528,8 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
                     }
         }
         
-    private void func(String sectionType){
+    private void updateNumbersByType(String sectionType){
         ArrayList<String> sectionsMatchingType = getSectionsMatchingType(sectionType);
-        System.out.println("matched sections =  " + this.sectionTypeMatchedSections);
         this.initializeNumberingSchemeGenerator(1, sectionsMatchingType.size());
         //findSectionsMatchingSectionType(sectionType);
         ///why is the above being done...when the same section is iterated over again ??? 
@@ -509,11 +538,33 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
             XTextSection numberedChild = ooDocument.getChildSectionByType(matchedSection, OOoNumberingHelper.NUMBERING_SECTION_TYPE);
             String theNumber = this.m_selectedNumberingScheme.sequence_next();
             ooDocument.protectSection(numberedChild, false);
-            HashMap<String,String> childMeta = ooDocument.getSectionMetadataAttributes(numberedChild);
-            String sectionUUID = childMeta.get("BungeniSectionUUID");
+            updateNumberInSection(numberedChild, theNumber);
             ////update the field here ooDocument.getTextFields();
+            ooDocument.protectSection(numberedChild, true);
         }  
         
+    }
+    
+    private void updateNumberInSection(XTextSection numberedChild, String theNumber) {
+        try {
+            HashMap<String,String> childMeta = ooDocument.getSectionMetadataAttributes(numberedChild);
+            String sectionUUID = childMeta.get("BungeniSectionUUID");
+            String fieldToUpdate= OOoNumberingHelper.NUM_FIELD_PREFIX + sectionUUID;
+            XTextField aField = ooDocument.getTextFieldByName(fieldToUpdate);
+            XPropertySet aFieldSet= ooQueryInterface.XPropertySet(aField);
+            aFieldSet.setPropertyValue("Content", theNumber);
+            this.updateSectionNumberingMetadata(numberedChild, theNumber);
+            ooDocument.refreshTextField(aField);
+        } catch (UnknownPropertyException ex) {
+            log.error(ex.getClass().getName() + " - " + ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.error(ex.getClass().getName() + " - " + ex.getMessage());
+        } catch (com.sun.star.lang.IllegalArgumentException ex) {
+            log.error(ex.getClass().getName() + " - " + ex.getMessage());
+        } catch (PropertyVetoException ex) {
+            log.error(ex.getClass().getName() + " - " + ex.getMessage());
+        }
+
     }
     
     private ArrayList<String> getSectionsMatchingType (String sectionType){
@@ -535,10 +586,12 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         public boolean iteratorCallback(BungeniBNode bNode) {
             String foundsectionName = bNode.getName();
             String foundsectionType =  ooDocument.getSectionType(foundsectionName);
-            if (foundsectionType.equals(inputSectionType)) {
-                sectionsMatchingType.add(foundsectionName);
-            }
-            return true;       
+            if (foundsectionType != null ) {
+                if (foundsectionType.equals(inputSectionType)) {
+                    sectionsMatchingType.add(foundsectionName);
+                }
+            }    
+           return true;       
         }
         
     }
@@ -1623,82 +1676,12 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
         }
        
         //copied from SelectSection
-        
-        public String currentSectionNameHierarchy(String sectionName) {
-            XTextSection loXTextSection;
-            XTextViewCursor loXTextCursor;
-            XPropertySet loXPropertySet;
-            String lstrSectionName = "";
-            XTextSection currentSection = ooDocument.getSection(sectionName);
-            lstrSectionName = getSectionHierarchy(currentSection);
-        
-         
-            return lstrSectionName; 
-        }
-
+        //was public String currentSectionNameHierarchy(String sectionName)
 
     
-/*
-    private void initTreeSectionsArray() {
-        try {
-            if (!ooDocument.isXComponentValid()) return;
-            
-            treeSectionStructure.removeAll();
-            if (!ooDocument.getTextSections().hasByName("root")) {
-                log.debug("no root section found");
-                return;
-            }
-            Object rootSection = ooDocument.getTextSections().getByName("root");
-            XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
-            if (theSection.getChildSections().length == 0) {
-                //root is empty and has no children. 
-                //set empty status 
-                this.emptyRootNode = true;
-            }
-            sectionRootNode = new DefaultMutableTreeNode(new String("root"));
-            
-            recurseSections (theSection, sectionRootNode);
-            
-            //-tree-deprecated--CommonTreeFunctions.expandAll(treeSectionStructure, true);
-            CommonTreeFunctions.expandAll(treeSectionStructure);
-            
-        } catch (NoSuchElementException ex) {
-            log.error(ex.getMessage());
-        } catch (WrappedTargetException ex) {
-            log.error(ex.getMessage());
-        }
-    }
+//was     private void initTreeSectionsArray() {
     
-    
-    private void recurseSections (XTextSection theSection, DefaultMutableTreeNode node ) {
-        try {
-        //recurse children
-        XTextSection[] sections = theSection.getChildSections();
-        if (sections != null ) {
-            if (sections.length > 0 ) {
-                //start from last index and go to first
-                for (int nSection = sections.length - 1 ; nSection >=0 ; nSection--) {
-                    log.debug ("section name = "+sections[nSection] );
-                    //get the name for the section and add it to the root node.
-                    XPropertySet childSet = ooQueryInterface.XPropertySet(sections[nSection]);
-                    String childSectionName = (String) childSet.getPropertyValue("LinkDisplayName");
-                    //if (!childSectionName.trim().equals(theAction.action_naming_convention())) {
-                     DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(childSectionName);
-                     node.add(newNode);
-                     recurseSections (sections[nSection], newNode);
-                   // }
-                }
-            } else 
-                return;
-        } else 
-            return;
-        } catch (UnknownPropertyException ex) {
-            log.error(ex.getMessage());
-        } catch (WrappedTargetException ex ) {
-            log.error(ex.getMessage());
-        }
-    }
-     */
+//was     private void recurseSections (XTextSection theSection, DefaultMutableTreeNode node ) {
        
  
     /** This method is called from within the constructor to

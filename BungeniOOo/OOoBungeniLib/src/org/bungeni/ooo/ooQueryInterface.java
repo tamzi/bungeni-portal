@@ -316,4 +316,8 @@ public class ooQueryInterface {
     static public XReferenceMarksSupplier XReferenceMarksSupplier(Object obj) {
         return (XReferenceMarksSupplier)UnoRuntime.queryInterface(XReferenceMarksSupplier.class, obj);
     }
+
+    public static XUpdatable XUpdatable(Object obj) {
+        return (XUpdatable) UnoRuntime.queryInterface(XUpdatable.class, obj);
+    }
 }

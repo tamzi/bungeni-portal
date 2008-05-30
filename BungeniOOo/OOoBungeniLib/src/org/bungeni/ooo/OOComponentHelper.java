@@ -21,6 +21,7 @@ import com.sun.star.comp.helper.Bootstrap;
 import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.container.ElementExistException;
 import com.sun.star.container.NoSuchElementException;
+import com.sun.star.container.XEnumeration;
 import com.sun.star.container.XEnumerationAccess;
 import com.sun.star.container.XIndexAccess;
 import com.sun.star.container.XNameAccess;
@@ -52,6 +53,7 @@ import com.sun.star.text.XTextColumns;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextField;
 import com.sun.star.text.XTextFieldsSupplier;
 import com.sun.star.text.XTextGraphicObjectsSupplier;
 import com.sun.star.text.XTextRange;
@@ -1317,7 +1319,18 @@ public void protectSection(String sectionName, boolean toState) {
           }
 }
 
-  public XTextSection getChildSectionByType(XTextSection parentSection, String lookForSectionType) {
+ public String getChildSectionByType(String sParentSection, String lookForSectionType) {
+       XTextSection parentSection = getSection(sParentSection);
+       if (parentSection == null) 
+           return null;
+       XTextSection childSection = getChildSectionByType(parentSection, lookForSectionType);
+       if (childSection == null) 
+           return null;
+       String childName = ooQueryInterface.XNamed(childSection).getName();
+       return childName;
+ } 
+ 
+ public XTextSection getChildSectionByType(XTextSection parentSection, String lookForSectionType) {
        XTextSection[] childSections = parentSection.getChildSections();
        for (XTextSection childSection: childSections) {
             HashMap<String,String> childMeta = getSectionMetadataAttributes(childSection);
@@ -1494,6 +1507,32 @@ public boolean setSelectedTextStyle(String styleName) {
         }
  }
  
-  
+public XTextField getTextFieldByName(String fieldName) {
+        XTextField returnField = null;
+        XEnumeration fieldEnumeration = getTextFields().createEnumeration();
+       try {
+        while (fieldEnumeration.hasMoreElements()){
+                Object aField = fieldEnumeration.nextElement();
+                XTextField foundField = ooQueryInterface.XTextField(aField);
+                XPropertySet fieldSet = ooQueryInterface.XPropertySet(foundField);
+                String foundFieldName = AnyConverter.toString(fieldSet.getPropertyValue("Hint"));
+                if (foundFieldName.equals(fieldName)) {
+                    returnField = foundField;
+                    break;
+                }
+        }
+     } catch (NoSuchElementException ex) {
+          log.debug("getTextFieldByName :("+ ex.getClass().getName() +") " + ex.getMessage());
+     } catch (WrappedTargetException ex) {
+          log.debug("getTextFieldByName :("+ ex.getClass().getName() +") " + ex.getMessage());
+     } finally {
+         return returnField;
+     }
+}  
+
+    public void refreshTextField(XTextField aField) {
+        com.sun.star.util.XUpdatable updateField = ooQueryInterface.XUpdatable(aField);
+        updateField.update();
+    }
  
 }

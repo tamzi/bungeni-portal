@@ -7,7 +7,7 @@ from zope import component
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.publisher.browser import BrowserView
 from zope.viewlet.manager import WeightOrderedViewletManager
-from zope.viewlet import viewlet
+from zope.viewlet import viewlet, interfaces
 import zope.interface
 import datetime
 
@@ -16,7 +16,7 @@ import bungeni.core.domain as domain
 
 from ore.alchemist import Session
 
-from interfaces import ICurrent
+from interfaces import ICurrent, IDateChooser
 from bungeni.ui.utils import getDisplayDate, getFilter
 
 
@@ -41,7 +41,10 @@ class CurrentViewletManager( WeightOrderedViewletManager ):
     """Current viewlet manager."""
     zope.interface.implements(ICurrent) 
 
-       
+class DateChooserViewletManager( interfaces.IViewletManager ):
+    """ Viewlet manager for Date chooser """
+    #zope.interface.implements(IDateChooser)
+          
     
     
 def getOrder( request, context_class ):

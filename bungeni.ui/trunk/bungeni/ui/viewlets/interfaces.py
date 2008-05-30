@@ -6,3 +6,6 @@ class IWorkspace(IViewletManager):
     
 class ICurrent( IViewletManager ):    
     """ Current Objects viewlet manager """
+    
+class IDateChooser( IViewletManager ):    
+    """ Date Chooser viewlet manager """    

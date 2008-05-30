@@ -53,7 +53,23 @@
     class=".navigation.NavigationTreeViewlet"
     permission="zope.View"
      weight="1"
-    />      
+    />    
+    
+  <!-- Date Chooser -->      
+  <browser:viewletManager
+     name="bungeni.datechooser.manager"
+     provides=".interfaces.IDateChooser"
+     
+     permission="zope.View"
+     />
+
+  <browser:viewlet
+    name="bungeni.datechooser.viewlet"   
+    manager=".interfaces.IDateChooser"
+    class=".current.DateChooserViewlet"
+    permission="zope.Public"
+    />     
+    
   <!-- current -->    
 
   <browser:page

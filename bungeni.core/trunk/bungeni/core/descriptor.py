@@ -350,7 +350,7 @@ class GroupDescriptor( ModelDescriptor ):
     schema_invariants = [EndAfterStart]
                         
 class ParliamentDescriptor( GroupDescriptor ):
-    display_name = _(u"Parliament")    
+    display_name = _(u"parliaments")    
     fields = [
         dict( name="group_id", omit=True ),
         dict( name="parliament_id", omit=True ),

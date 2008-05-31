@@ -85,3 +85,47 @@ li.navTreeCurrentItem a:hover {
 .navTreeLevel5 { margin-left: 0.75em; }
 
 /*  */
+
+#portal-column-one .portletHeader {
+background:#DF772F ;
+border:1px solid #DA5D0E;
+color:#FFFFFF;
+display:block;
+font-weight:bold;
+height:19px;
+margin:0pt;
+padding:0.2em 0pt 0pt 0.3em;
+text-align:left;
+text-transform:capitalize;
+}
+
+
+ul.navTreeLevel0 li.navTreeItemInPath {
+background-color:#F4E0B5;
+border:2px solid #FBAE0A;
+}
+
+ul.navTreeLevel0 li.navTreeItemInPath div {
+background-color:#FBAE0A;
+}
+
+ul.navTreeLevel0 li.navTreeItemInPath {
+background-color:#F4E0B5;
+border:2px solid #FBAE0A;
+}
+
+ul.navTreeLevel1 li.navTreeItemInPath {
+background-color:#F4E0B5;
+border:2px solid #F4E0B5;
+}
+
+ul.navTreeLevel1 li {
+background-color:#F4E0B5;
+}
+
+dd.portletItem .navTreeItem .navTreeCurrentItem {
+color:#6A0803 !important;
+}
+
+
+

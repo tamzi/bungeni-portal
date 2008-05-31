@@ -418,7 +418,7 @@ form.searchPage input.searchButton {
     border-bottom-color: #8cacbb;
     border-bottom-style: solid;
     border-bottom-width: 1px;
-    padding-left: 2em;
+    padding-left: 0.1em;
     padding-right: 2em;
     text-transform: none;
     line-height: 1.6em;
@@ -1180,5 +1180,9 @@ div.managedPortlet.portlet {
 overflow: auto; 
 height: 400px;
 }*/
+
+#portal-personaltools-wrapper {
+padding-bottom: 1em;
+}
 
 /*  */

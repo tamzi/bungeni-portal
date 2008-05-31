@@ -262,7 +262,7 @@ class GroupMembershipDescriptor( ModelDescriptor ):
         dict( name="end_date", label=_(u"End Date"), listing=True,
             listing_column=day_column("end_date", _(u'<a href="?order_by=end_date">End Date</a>')), 
             edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
-        dict( name="active_p", label=_(u"Active") ),
+        dict( name="active_p", label=_(u"Active"), view=False),
         dict( name="notes", label=_(u"Notes"), view_widget=widget.HTMLDisplay,
                                                 edit_widget=widget.RichTextEditor,
                                                 add_widget=widget.RichTextEditor

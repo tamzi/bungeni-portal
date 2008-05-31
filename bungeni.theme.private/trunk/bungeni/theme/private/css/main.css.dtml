@@ -11,7 +11,7 @@ body {
 
 /* The background + logo styles */
 body {
-    background-color: #f6ecd4; 
+    background-color: #3A3636; 
     
 }
 
@@ -292,8 +292,10 @@ margin-top:10px;
 
 #portal-column-one .visualPadding {
     margin-top: 0;
-    padding-top: 0;
+    padding: 0;
 }
+
+
 
 #portal-column-one .portletHeader {
 /*background: transparent url(&dtml-image_url;/header_back2.jpg) left top no-repeat;*/
@@ -308,11 +310,18 @@ color: #ffffff;
 font-weight: bold;
 }
 
-#portal-column-one .portlet{
+/*#portal-column-one .portlet{
 background-color: #ffffff;
 margin-bottom: 1em;
 margin-top: 0;
 border:1px solid #f7e2c7;
+}*/
+
+#portal-column-one .portlet {base-cachekey6450... (line 293)
+background-color:#FFFFFF;
+border:1px solid #DA5D0E;
+margin-bottom:1em;
+margin-top:0pt;
 }
 
 #portal-column-one .portletHeader a{
@@ -351,7 +360,7 @@ font-weight: bold;
 background-color: transparent;
 color: #000000;
 font-weight: normal;
-line-height: 1.3em;
+line-height: 1.5em;
 }
 
 .portletNavigationTree .portletItem {
@@ -361,9 +370,9 @@ margin: 0 0 0 0;
 
 .navTreeItem {
 padding: 0 0 0 0;
-margin: 0 0 0 0.2em;
+margin: 0 0 0 0;
 color: #000000;
-border-bottom: 1px solid #f7e2c7;
+#border-bottom: 1px solid #f7e2c7;
 }
 
 .navTreeItem a, dd.portletItem .navTreeItem a {
@@ -382,25 +391,34 @@ border: 0 !important;
 background-color:transparent;
 }
 
-dd.portletItem .navTreeItem a:hover
-{
-/*#background: transparent url(&dtml-image_url;/bullet_curent1.gif) no-repeat top left;*/
-color: #da5d0e!important;
-}
 
 dd.portletItem .navTreeItem .navTreeCurrentItem {
-/*background: transparent url(&dtml-image_url;/bullet_curent1.gif) no-repeat top left;*/
-color: #da5d0e !important;
-/*font-weight: bold;*/
+background:transparent;
+#color:#6A0803 !important;
+collor: Black;
 }
-
 .navTreeItem a:hover,
 dd.portletItem .navTreeItem a:hover {
 border: 0;
-color: #da5d0e;
+#color: #da5d0e;
+color: #000000;
+background-color: #EEEEEE;
 }
 
 .navTreeLevel1 { margin-left: 0.5em !important; padding-left: 0;}
+
+ul.navTreeLevel1 li {
+background-color:#F4E0B5;
+}
+
+ul.navTreeLevel0 li.navTreeItemInPath ul.navTreeLevel1 li.navTreeItem div {
+background-color:#F4E0B5;
+}
+
+ul.navTreeLevel1 li.navTreeItem div {
+background-color:#F4E0B5;
+}
+
 
 .navTreeLevel1 .navTreeItem a{
 background-image: none !important;
@@ -410,7 +428,7 @@ font-weight: normal;
 .navTreeLevel1 .navTreeItem{
 border: 0;
 border-top: 1px dotted #f7e2c7;
-background-color:white;
+#background-color:white;
 margin-left: 0 !important;
 padding-left: 0 !important;
 }
@@ -426,7 +444,7 @@ padding-left: 0;
 .navTreeLevel2 .navTreeItem{
 border: 0;
 border-top: 1px dotted #f7e2c7;
-background-color:white;
+#background-color:white;
 margin-left: 0 !important;
 padding: 0 0 0 0;
 }

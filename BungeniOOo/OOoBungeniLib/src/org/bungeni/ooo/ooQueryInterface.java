@@ -20,6 +20,7 @@ import com.sun.star.drawing.*;
 import com.sun.star.frame.*;
 import com.sun.star.lang.*;
 import com.sun.star.sheet.*;
+import com.sun.star.style.XStyle;
 import com.sun.star.style.XStyleFamiliesSupplier;
 //import com.sun.star.style.*;
 import com.sun.star.table.*;
@@ -319,5 +320,9 @@ public class ooQueryInterface {
 
     public static XUpdatable XUpdatable(Object obj) {
         return (XUpdatable) UnoRuntime.queryInterface(XUpdatable.class, obj);
+    }
+
+    public static XStyle XStyle(Object object) {
+        return (XStyle) UnoRuntime.queryInterface(XStyle.class, object);
     }
 }

@@ -46,6 +46,7 @@ import com.sun.star.lang.XServiceInfo;
 import com.sun.star.script.provider.XScript;
 import com.sun.star.script.provider.XScriptProvider;
 import com.sun.star.script.provider.XScriptProviderSupplier;
+import com.sun.star.style.XStyle;
 import com.sun.star.style.XStyleFamiliesSupplier;
 import com.sun.star.text.XReferenceMarksSupplier;
 import com.sun.star.text.XText;
@@ -663,7 +664,25 @@ public  class OOComponentHelper {
         return oSelection;
     }
     
-      public String currentSectionName() {
+    public XTextSection currentSection(){
+        XTextSection currentSection = null; 
+        try {
+        XTextViewCursor loXTextCursor = getViewCursor();
+        XPropertySet loXPropertySet = ooQueryInterface.XPropertySet(loXTextCursor);
+        if (loXPropertySet.getPropertySetInfo().hasPropertyByName("TextSection")) {
+               currentSection = (XTextSection)((Any)loXPropertySet.getPropertyValue("TextSection")).getObject();    
+           }
+        } catch (WrappedTargetException ex) {
+                log.error("curentSection :  " + ex.getMessage());
+        } catch (UnknownPropertyException ex) {
+                log.error("curentSection :  " + ex.getMessage());
+        } finally {   
+            return currentSection;
+        }
+    }
+ 
+
+     public String currentSectionName() {
             XTextSection loXTextSection;
             XTextViewCursor loXTextCursor;
             XPropertySet loXPropertySet;
@@ -1535,4 +1554,63 @@ public XTextField getTextFieldByName(String fieldName) {
         updateField.update();
     }
  
+        /*
+        Dim oPageStyles , oStandardPageStyles
+        oPageStyles= thisComponent.getStyleFamilies().getByName("PageStyles")
+        oStandardPageStyles = oPageStyles.getByName("Standard")
+        Dim oColumns
+        oColumns = oStandardPageStyles.TextColumns
+        oColumns.setColumnCount(2) 
+        oStandardPageStyles.TextColumns = oColumns
+         */
+
+    public short getPageColumns() {
+        short columns = 0;
+        try {
+              Object pageStyles = getStyleFamilies().getByName("PageStyles");
+              XNameContainer xStyleFamily = ooQueryInterface.XNameContainer(pageStyles);
+              Object objStyle = xStyleFamily.getByName("Standard");
+              XStyle theStyle = ooQueryInterface.XStyle(objStyle);
+              XPropertySet pageProps = ooQueryInterface.XPropertySet(theStyle);
+              XTextColumns pageColumns;
+              pageColumns = (XTextColumns) AnyConverter.toObject(XTextColumns.class, pageProps.getPropertyValue("TextColumns"));
+              columns = pageColumns.getColumnCount();
+        } catch (WrappedTargetException ex) {
+            log.error("setPageColumns : " + ex.getClass().getName() + " -- " + ex.getMessage());
+        } catch (NoSuchElementException ex) {
+            log.error("setPageColumns : " + ex.getClass().getName() + " -- " + ex.getMessage());
+        } catch (com.sun.star.lang.IllegalArgumentException ex) {
+            log.error("setPageColumns : " + ex.getClass().getName() + " -- " + ex.getMessage());
+         } catch (UnknownPropertyException ex) {
+            log.error("setPageColumns : " + ex.getClass().getName() + " -- " + ex.getMessage());
+         }  finally {
+             return columns;
+         }
+    }
+
+    public void setPageColumns (short nColumns) {
+        Object pageStyles=null;;
+        try {
+              pageStyles = getStyleFamilies().getByName("PageStyles");
+              XNameContainer xStyleFamily = ooQueryInterface.XNameContainer(pageStyles);
+              Object objStyle = xStyleFamily.getByName("Standard");
+              XStyle theStyle = ooQueryInterface.XStyle(objStyle);
+              XPropertySet pageProps = ooQueryInterface.XPropertySet(theStyle);
+              XTextColumns pageColumns;
+              pageColumns = (XTextColumns) AnyConverter.toObject(XTextColumns.class, pageProps.getPropertyValue("TextColumns"));
+              pageColumns.setColumnCount(nColumns);
+              pageProps.setPropertyValue("TextColumns", pageColumns);
+        } catch (WrappedTargetException ex) {
+            log.error("setPageColumns : " + ex.getClass().getName() + " -- " + ex.getMessage());
+        } catch (NoSuchElementException ex) {
+            log.error("setPageColumns : " + ex.getClass().getName() + " -- " + ex.getMessage());
+        } catch (com.sun.star.lang.IllegalArgumentException ex) {
+            log.error("setPageColumns : " + ex.getClass().getName() + " -- " + ex.getMessage());
+         } catch (UnknownPropertyException ex) {
+            log.error("setPageColumns : " + ex.getClass().getName() + " -- " + ex.getMessage());
+         }  catch (PropertyVetoException ex) {
+            log.error("setPageColumns : " + ex.getClass().getName() + " -- " + ex.getMessage());
+         }
+    }
+    
 }

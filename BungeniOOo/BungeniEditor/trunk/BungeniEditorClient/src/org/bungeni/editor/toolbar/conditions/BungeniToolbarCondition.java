@@ -23,6 +23,7 @@ public class BungeniToolbarCondition {
     private String conditionName;
     private String conditionValue;
     private String conditionClass;
+    private boolean negationCondition = false;
     
       private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniToolbarCondition.class.getName());
  
@@ -31,8 +32,8 @@ public class BungeniToolbarCondition {
     public BungeniToolbarCondition(String fullCondition) {
         if (fullCondition.indexOf(":") != -1){
             String[] full = fullCondition.trim().split("[:]");
-            conditionName = full[0].trim();
-            conditionValue = full[1].trim();
+            this.conditionName = extractConditionName(full[0].trim());
+            this.conditionValue = full[1].trim();
             try {
                 setConditionClass(getConditionClassFromName(conditionName));
             } catch (Exception ex) {
@@ -40,6 +41,17 @@ public class BungeniToolbarCondition {
             }
         }
         
+    }
+     
+    private final static String NEGATION_OPERATOR = "!";
+    
+    private String extractConditionName(String condition ) {
+        //look for prefix operators 
+        if (condition.startsWith(NEGATION_OPERATOR)) {
+            negationCondition = true;
+            condition  = condition.substring(1).trim();
+        } 
+        return condition;
     }
      
    private String getConditionClassFromName(String conditionName) {
@@ -79,13 +91,18 @@ public class BungeniToolbarCondition {
     public String getConditionClass() {
         return conditionClass;
     }
+    
+    public boolean hasNegationCondition(){
+        return this.negationCondition;
+    }
 
     public void setConditionClass(String conditionClass) {
         this.conditionClass = conditionClass.trim();
     }
     
     public static void main(String[] args) {
-        BungeniToolbarCondition cond = new BungeniToolbarCondition("sectionNotExists:root");
+        BungeniToolbarCondition cond = new BungeniToolbarCondition("! sectionNotExists:root");
         System.out.println(cond.getConditionName());
+        System.out.println(cond.hasNegationCondition());
     }
 }

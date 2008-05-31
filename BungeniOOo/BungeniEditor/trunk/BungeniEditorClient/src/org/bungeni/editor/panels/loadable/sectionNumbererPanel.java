@@ -158,8 +158,8 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
     */
     private void init(){
         //initComponents();
-        initSectionTypesMap();
-        initSectionTypesListBox();
+    //initSectionTypesMap();
+        //initSectionTypesListBox();
        // listSectionTypes.addListSelectionListener(new NumberingSchemeListener());
         //panelNumberingScheme.setVisible(false);
         /*init parent prefix checkbox */
@@ -178,11 +178,11 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         //initTree();
         //initSectionTree();
         initNumberingSchemesCombo();
-        initTimer();
+       // initTimer();
         //the following is commented becuase its definitely not required !
         //findBrokenReferences();
     }
-    
+    /*
      private synchronized void initTimer(){
           timerSectionTypes = new Timer(4000, new ActionListener() {
               public void actionPerformed(ActionEvent e) {
@@ -191,7 +191,8 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
            });
            timerSectionTypes.start();
     }
-    
+     */
+    /*
      private void refreshSectionTypesList(){
             java.awt.EventQueue.invokeLater(new Runnable() {
                     public void run() {
@@ -203,6 +204,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
                     }
             });
      }
+     */
      
     class numberingSchemeSelection extends Object {
         String schemeName;
@@ -229,7 +231,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         IGeneralNumberingScheme inumScheme = NumberingSchemeFactory.getNumberingScheme(schemeSelection.schemeName);
         return inumScheme;
     }
-    /*
+/*
      *initiliazes the numbering scheme combo by setting values in it
      */
     private void initNumberingSchemesCombo(){
@@ -244,7 +246,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         }
         this.cboNumberingScheme.setModel(new DefaultComboBoxModel(sels));
     }
-    
+    /*
     private void initSectionTypesMap() {
         this.sectionTypesInDocument.clear();
        XNameAccess docSections = ooDocument.getTextSections();
@@ -260,7 +262,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
        if (sectionTypesInDocument.size() > 0 )
         Collections.sort(sectionTypesInDocument);
     }
-    
+    */
     /*
     private void fetchSectionTypesAndInitTree(){
         try{
@@ -307,6 +309,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
             
     }
     */
+    /*
     private void initSectionTypesListBox(){
          DefaultListModel listModel = new DefaultListModel();
          
@@ -315,18 +318,19 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
          }
         this.listSectionTypes.setModel(listModel);
     }
-    
+    */
     
 
     
    
      private void applyNumberingScheme(){
          m_bFoundHeading = false;
-         if (listSectionTypes.getSelectedIndex() == -1 ) {
+      /**COMMEnTED   if (listSectionTypes.getSelectedIndex() == -1 ) {
              MessageBox.OK(parentFrame, "Please select a section type to apply numbering upon !");
              return;
-         }
-        String sectionType=listSectionTypes.getSelectedValue().toString();            
+         } *****/
+        
+         String sectionType= "" ; ///COMMMENTED  listSectionTypes.getSelectedValue().toString();            
         ////find all sections matching that section type, and populate arraylist
         ///was called readSection()
         initNumbering();
@@ -385,6 +389,8 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         }
         
      }
+     
+
      
      private void applyRenumberingScheme(){
        // String sectionType=listSectionTypes.getSelectedValue().toString();            
@@ -531,16 +537,28 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
     private void updateNumbersByType(String sectionType){
         ArrayList<String> sectionsMatchingType = getSectionsMatchingType(sectionType);
         this.initializeNumberingSchemeGenerator(1, sectionsMatchingType.size());
+         String parentSectionName = "", prevParentSectionName="";
         //findSectionsMatchingSectionType(sectionType);
         ///why is the above being done...when the same section is iterated over again ??? 
         for (String matchingSection: sectionsMatchingType) {
             XTextSection matchedSection = ooDocument.getSection(matchingSection);
+            XTextSection parentofMatchedSection = matchedSection.getParentSection();
+            XNamed parentSec = ooQueryInterface.XNamed(parentofMatchedSection);
+            parentSectionName = parentSec.getName();
+            
+            if (!parentSectionName.equals(prevParentSectionName)) {
+                    this.m_selectedNumberingScheme.sequence_initIterator();
+                }
+    
             XTextSection numberedChild = ooDocument.getChildSectionByType(matchedSection, OOoNumberingHelper.NUMBERING_SECTION_TYPE);
-            String theNumber = this.m_selectedNumberingScheme.sequence_next();
-            ooDocument.protectSection(numberedChild, false);
-            updateNumberInSection(numberedChild, theNumber);
-            ////update the field here ooDocument.getTextFields();
-            ooDocument.protectSection(numberedChild, true);
+            if (numberedChild != null ) {
+                String theNumber = this.m_selectedNumberingScheme.sequence_next();
+                ooDocument.protectSection(numberedChild, false);
+                updateNumberInSection(numberedChild, theNumber);
+                ////update the field here ooDocument.getTextFields();
+                ooDocument.protectSection(numberedChild, true);
+            }   
+           prevParentSectionName = parentSectionName;
         }  
         
     }
@@ -1691,8 +1709,6 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        panelSectionTypes = new javax.swing.JScrollPane();
-        listSectionTypes = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
         cboNumberingScheme = new javax.swing.JComboBox();
         checkbxUseParentPrefix = new javax.swing.JCheckBox();
@@ -1701,14 +1717,6 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
         btnInsertCrossReference = new javax.swing.JButton();
         btnfixBrokenReferences = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-
-        listSectionTypes.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        listSectionTypes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        panelSectionTypes.setViewportView(listSectionTypes);
 
         jLabel1.setText("Bungeni Section Types");
 
@@ -1760,30 +1768,21 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(layout.createSequentialGroup()
-                        .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .add(layout.createSequentialGroup()
-                        .add(checkbxUseParentPrefix)
-                        .addContainerGap(124, Short.MAX_VALUE))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, btnInsertCrossReference, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, btnfixBrokenReferences, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, btnRenumberSections, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, btnApplyNumberingScheme, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, cboNumberingScheme, 0, 215, Short.MAX_VALUE)
-                            .add(panelSectionTypes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
-                        .addContainerGap())))
+                    .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                    .add(checkbxUseParentPrefix)
+                    .add(btnInsertCrossReference, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                    .add(btnfixBrokenReferences, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                    .add(btnRenumberSections, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                    .add(btnApplyNumberingScheme, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                    .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                    .add(cboNumberingScheme, 0, 215, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(panelSectionTypes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 62, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(74, 74, 74)
                 .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(5, 5, 5)
                 .add(cboNumberingScheme, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -1845,8 +1844,6 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
     private javax.swing.JCheckBox checkbxUseParentPrefix;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList listSectionTypes;
-    private javax.swing.JScrollPane panelSectionTypes;
     // End of variables declaration//GEN-END:variables
 
    

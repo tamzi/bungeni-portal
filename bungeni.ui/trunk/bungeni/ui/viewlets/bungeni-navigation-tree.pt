@@ -1,12 +1,12 @@
 
   <dl class="portlet portletNavigationTree">
-    <dd>
-      <div class="tile" href=
-      "http://localhost:8180/bungeni-public/sitemap">
-        Bungeni Portal
-      </div>
-    </dd>
-
+   
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        
+       <div class="tile" href="http://localhost:8180/bungeni-public/sitemap">Bungeni Portal</div>
+        <span class="portletTopRight"></span>
+    </dt>
     <dd class="portletItem lastItem">
       <ul class="portletNavigationTree navTreeLevel0">
         <li class="navTreeItem visualNoMarker navTreeFolderish">

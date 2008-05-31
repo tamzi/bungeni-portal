@@ -11,6 +11,13 @@ from bungeni.core.app import BungeniApp
 from bungeni.ui.utils import getDisplayDate
 import datetime
 
+class SiteActionsViewlet( viewlet.ViewletBase ):
+    """
+    Siteactions copied 1 to 1 from plone 
+    return the pure html template only
+    """
+    render = ViewPageTemplateFile( 'siteactions.pt' )
+
 class BreadCrumbsViewlet( viewlet.ViewletBase ):
     """
     render the Breadcrumbs to show a user his current context
@@ -97,7 +104,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             return items
         url = path[0]['url']
         if IAlchemistContent.providedBy(path[0]['obj']):                     
-            item = {'name' : getattr(path[0]['obj'], 'short_name', None ), 'url' : url, 'current': 'navTreeCurrentNode'}
+            item = {'name' : getattr(path[0]['obj'], 'short_name', None ), 'url' : url, 'current': 'navTreeItemInPath'}
             if len(path) > 1:
                 item['node'] = self._append_child(path[1:])
             else: 
@@ -135,7 +142,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                     name = getattr( domain_model, '__name__', None) 
                 item = { 'name' : name,
                             'url'  : url ,
-                            'current': 'navTreeCurrentNode', 
+                            'current': 'navTreeItemInPath', 
                              } 
                 if len(path) > 1:
                     item['node'] = self._append_child(path[1:])
@@ -153,7 +160,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                     domain_model = v.domain_container._class 
                     descriptor = queryModelDescriptor( domain_model )                    
                     if len(path) == 1:
-                        current = 'navTreeCurrentNode'
+                        current = 'navTreeItemInPath'
                     else:
                         current = 'navTreeCurrentItem'
                     if descriptor:
@@ -163,7 +170,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                     if domain_model == path[0]['obj']._class:   
                         item = { 'name' : name,
                             'url'  : url + '../' + k,
-                            'current': 'navTreeCurrentNode', 
+                            'current': 'navTreeItemInPath', 
                              }
                         if len(path) > 1:
                             item['node'] = self._append_child(path[1:])
@@ -192,8 +199,8 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
 
             
     def _tree2html(self, items, level = 0):
-        level = level +1
-        if level > 1:
+        #level = level +1
+        if level >= 0:
             htmlstr = '<ul class="navTree navTreeLevel' + str(level) + '">'
         else:
            htmlstr = '' 
@@ -204,9 +211,9 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
             htmlstr = htmlstr + '</a></div>'
            
             if item['node']:
-                htmlstr = htmlstr + self._tree2html(item['node'], level) 
+                htmlstr = htmlstr + self._tree2html(item['node'], level + 1) 
             htmlstr = htmlstr +  '</li>'           
-        if level > 1:
+        if level >= 0:
             htmlstr = htmlstr +  '</ul>'
         return htmlstr
                     

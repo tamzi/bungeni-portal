@@ -5,16 +5,15 @@ import datetime
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.publisher.browser import BrowserView
 from zope.viewlet.manager import WeightOrderedViewletManager
-from zope.viewlet import viewlet, interfaces
+from zope.viewlet import viewlet
 import zope.interface
 from zope.security import proxy
 
-from sqlalchemy.sql import and_
 
 from ore.alchemist import Session
 
 from interfaces import ISittingCalendar
-from bungeni.ui.utils import getDisplayDate, getFilter
+from bungeni.ui.utils import getDisplayDate
 import bungeni.core.schema as schema
 import bungeni.core.domain as domain
 

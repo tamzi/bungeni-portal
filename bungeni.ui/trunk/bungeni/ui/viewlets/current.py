@@ -3,7 +3,6 @@
 # dislay the current parliament/government with its subitems
 # at a given date (defaults to current date)
 
-from zope import component
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.publisher.browser import BrowserView
 from zope.viewlet.manager import WeightOrderedViewletManager
@@ -16,7 +15,7 @@ import bungeni.core.domain as domain
 
 from ore.alchemist import Session
 
-from interfaces import ICurrent, IDateChooser
+from interfaces import ICurrent
 from bungeni.ui.utils import getDisplayDate, getFilter
 
 
@@ -66,7 +65,38 @@ class DateChooserViewlet( viewlet.ViewletBase ):
         self.__parent__= view
         self.manager = manager       
         self.Date=datetime.date.today()
+        self.error = None
+        self.error_message = None
+        
+    def _getDateConstraints(self):
+        """
+        get the start, end date of the parent
+        """     
+        if self.context.__parent__ is not None:
+            parent = self.context.__parent__
+            start_date = getattr( parent, 'start_date', None)
+            end_date = getattr( parent, 'end_date', None)
+            return start_date, end_date
+        else:
+            return None, None
 
+
+    def checkDateInConstraints(self):
+        """
+        check if the date is in the constraints of the parent
+        """
+        if self.Date:
+            start_date, end_date = self._getDateConstraints()
+            if start_date:
+                if self.Date < start_date:
+                    return start_date
+            if end_date:
+                if self.Date > end_date:
+                    return end_date                    
+        return None
+            
+
+    
     def update(self):
         """
         refresh the query
@@ -77,6 +107,14 @@ class DateChooserViewlet( viewlet.ViewletBase ):
         else:
             self.DateStr='all'
             self.request.response.setCookie('display_date','all')
+        minmaxdate= self.checkDateInConstraints()
+        if minmaxdate:                    
+            self.error = 'error' 
+            self.error_message = _("""
+                The date you requested (%(current)s) is not in the current restrictions. <br />
+                Either select <a href="?date=%(minmax)s"> %(minmax)s </a> 
+                or browse the data <a href="?date=all">for all dates</a>.
+                """) % ({'current': self.DateStr , 'minmax': minmaxdate})           
             
     render = ViewPageTemplateFile ('date_chooser_viewlet.pt')    
             

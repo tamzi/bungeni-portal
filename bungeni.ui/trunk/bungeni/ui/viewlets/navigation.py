@@ -2,14 +2,13 @@
 
 from zope.viewlet import viewlet
 from zope.app.pagetemplate import ViewPageTemplateFile
-from zope.interface.verify import verifyObject
 from zope.security import proxy
 
 from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
 from ore.alchemist.model import queryModelDescriptor
 from alchemist.traversal.managed import ManagedContainerDescriptor
 from bungeni.core.app import BungeniApp
-from bungeni.ui.utils import getDisplayDate, getFilter
+from bungeni.ui.utils import getDisplayDate
 import datetime
 
 class BreadCrumbsViewlet( viewlet.ViewletBase ):

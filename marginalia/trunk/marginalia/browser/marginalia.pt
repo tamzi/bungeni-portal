@@ -132,8 +132,12 @@ function bungeniClickCreateAnnotation( event, id ) {
         <div class="searchfields" tal:define="member_names python:view.getOwnerList();
                                             group_names python:view.getPortalGroups;">
                <a href="javascript:toggle_visibility('fields');"><p class="plink">Filter annotations by owner, group or query string. (show/hide)</p></a>
-               <a href="javascript:hideAnnotations();"><p class="plink">Clear all annotations</p></a>
+               <a id="togglevisibility" name="hide" href="javascript:hideAnnotations();"><p class="plink">Toggle hide/display annotations</p></a>
                <p id="noresults" class="plink" style="display:none;">No Annotations Found</p>
+		       <div id="loader" style="float:right;display:none;">
+                 <img title="Loader" alt="" src="loader.jpg" tal:attributes="src context/++resource++imagesmarginalia/loader.gif" />
+               </div>
+
 		       <div id="fields" style="display:block;">
                  <select class="select_field" name="filter_owner" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
                    <option value="" tal:attributes="value authenticateduser">Myself</option>
@@ -155,6 +159,7 @@ function bungeniClickCreateAnnotation( event, id ) {
                    </optgroup> 
                  </select>
                  <input class="input_field" type="text" name="annotation_search" value="" onChange="filterAnnotations(this);" onkeypress="return onEnterKey(this, event);"/>
+                 <input class="input_field" type="button" type="search" value="Search" onClick="filterAnnotations(this);" />
                </div>
                </div>
 
@@ -169,9 +174,6 @@ function bungeniClickCreateAnnotation( event, id ) {
            </td>
            <td>
              <div class="notes">
-		       <div id="loader" style="float:right;display:none;">
-                 <img width="10" height="10" title="Loader" alt="" src="loader.jpg" tal:attributes="src context/++resource++imagesmarginalia/loader.gif" />
-               </div>
                <button class="createAnnotation" onclick="bungeniClickCreateAnnotation(event,'m1')" title="Click here to create an annotation">&gt;</button>
                <ol><li></li></ol>
              </div>

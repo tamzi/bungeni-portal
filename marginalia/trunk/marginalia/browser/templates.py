@@ -214,7 +214,7 @@ class MarginaliaPage(BrowserPage):
         
         query = query.filter(AnnotationMaster.url == url)
         if search_string:
-            query = query.filter(AnnotationMaster.quote == search_string)
+            query = query.filter(AnnotationMaster.note.like("%"+search_string+"%"))            
         if filter_type:
             query = query.filter(AnnotationMaster.edit_type.in_(filter_type))
         if filter_name:
@@ -315,8 +315,8 @@ class AmendmentPage(MarginaliaPage):
             raise Exception, "Cannot display annotations on the amendment page"            
         
         query = query.filter(AnnotationMaster.url == url)
-        if search_string:
-            query = query.filter(AnnotationMaster.quote == search_string)
+        if search_string:            
+            query = query.filter(AnnotationMaster.note.like("%"+search_string+"%"))
         if filter_type:
             query = query.filter(AnnotationMaster.edit_type.in_(filter_type))
         if filter_name:

@@ -1224,7 +1224,19 @@ function createAnnotation( postId, warn, editor )
 
 function hideAnnotations()
 {
-  marginalia.hideAnnotations();
+  var toggle_tag = document.getElementById('togglevisibility');
+  if (toggle_tag.name=='hide')
+      {
+          marginalia.hideAnnotations();
+          toggle_tag.name = 'search';
+      }
+  else {
+      var search_button = document.getElementById('search');
+      filterAnnotations(search_button);            
+      toggle_tag.name = 'hide';
+
+      }
+
 }
 
 function filterAnnotations(form_field)

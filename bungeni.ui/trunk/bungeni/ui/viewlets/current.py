@@ -19,7 +19,7 @@ from interfaces import ICurrent
 from bungeni.ui.utils import getDisplayDate, getFilter
 
 
-
+import pdb
 
 
 def getDateFilter(request):
@@ -74,8 +74,13 @@ class DateChooserViewlet( viewlet.ViewletBase ):
         """     
         if self.context.__parent__ is not None:
             parent = self.context.__parent__
-            start_date = getattr( parent, 'start_date', None)
+            start_date = getattr( parent, 'start_date', None)   
+            if type(start_date) == datetime.datetime:
+                start_date = start_date.date()         
             end_date = getattr( parent, 'end_date', None)
+            if type(end_date) == datetime.datetime:
+                end_date = end_date.date()
+            #pdb.set_trace()
             return start_date, end_date
         else:
             return None, None

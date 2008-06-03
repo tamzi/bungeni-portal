@@ -6,20 +6,65 @@
 
 package org.bungeni.editor.panels.loadable;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import javax.swing.DefaultComboBoxModel;
+import org.apache.log4j.Logger;
+import org.bungeni.db.DefaultInstanceFactory;
+import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.document.DocumentSection;
 import org.bungeni.editor.document.DocumentSectionsContainer;
 import org.bungeni.editor.panels.impl.BaseClassForITabbedPanel;
+import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.ooo.transforms.impl.BungeniTransformationTarget;
+import org.bungeni.ooo.transforms.impl.BungeniTransformationTargetFactory;
+import org.bungeni.ooo.transforms.impl.IBungeniDocTransform;
+import org.bungeni.utils.MessageBox;
 
 /**
  *
  * @author  Administrator
  */
 public class transformXMLPanel extends BaseClassForITabbedPanel{
-    
+       private static org.apache.log4j.Logger log = Logger.getLogger(transformXMLPanel.class.getName());
+
     /** Creates new form transformXMLPanel */
     public transformXMLPanel() {
         initComponents();
+    }
+    
+    class exportDestination extends Object {
+        String exportDestName;
+        String exportDestDesc;
+        
+        exportDestination(String name, String desc) {
+            this.exportDestDesc = desc;
+            this.exportDestName = name;
+        }
+
+        public String toString(){
+            return this.exportDestDesc;
+        }
+    }
+    
+    private void initTransfromTargetCombo(){
+        ArrayList<BungeniTransformationTarget> transArr = new ArrayList<BungeniTransformationTarget>(0);
+        transArr.add(new BungeniTransformationTarget("PDF", "PDF (Portable Document Format)", "pdf" , "org.bungeni.ooo.transforms.loadable.PDFTransform"));
+        transArr.add(new BungeniTransformationTarget("HTML", "HTML (Hypertext Web Document)", "html", "org.bungeni.ooo.transforms.loadable.HTMLTransform"));
+        //transArr.add(new BungeniTransformationTarget("AN-XML", "AkomaNtoso Documents"));
+        DefaultComboBoxModel model = new DefaultComboBoxModel(transArr.toArray());
+        this.cboTransformFrom.setModel(model);
+    }
+    
+    private void initExportDestCombo(){
+        ArrayList<exportDestination> transArr = new ArrayList<exportDestination>(0);
+        transArr.add(new exportDestination("FileSystem", "Folder on your computer"));
+        transArr.add(new exportDestination("ToBungeniServer", "Export into a Bungeni Server"));
+        transArr.add(new exportDestination("FTP", "Export using FTP"));
+        DefaultComboBoxModel model = new DefaultComboBoxModel(transArr.toArray());
+        this.cboExportTo.setModel(model);
     }
     
     /** This method is called from within the constructor to
@@ -36,9 +81,9 @@ public class transformXMLPanel extends BaseClassForITabbedPanel{
         btnExport = new javax.swing.JButton();
         checkChangeColumns = new javax.swing.JCheckBox();
 
-        cboTransformFrom.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "AkomaNtoso XML", "XHTML - eXtensible HTML", "Marginalia-safe HTML export", "Portable Document Format (PDF)" }));
+        cboTransformFrom.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Portable Document Format (PDF)", "AkomaNtoso XML", "XHTML - eXtensible HTML", "Marginalia-safe HTML export" }));
 
-        cboExportTo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Export to Server", "Export to File-System path" }));
+        cboExportTo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Export to File-System path", "Export to Server" }));
 
         lblExportTo.setText("Export To:");
 
@@ -69,15 +114,11 @@ public class transformXMLPanel extends BaseClassForITabbedPanel{
                 .add(lblTransformFrom)
                 .addContainerGap(115, Short.MAX_VALUE))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, lblExportTo)
+                    .add(cboTransformFrom, 0, 213, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(lblExportTo))
-                    .add(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .add(cboTransformFrom, 0, 213, Short.MAX_VALUE))
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                        .addContainerGap()
                         .add(cboExportTo, 0, 213, Short.MAX_VALUE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)))
                 .addContainerGap())
@@ -125,10 +166,30 @@ public class transformXMLPanel extends BaseClassForITabbedPanel{
 
     private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
 // TODO add your handling code here:
-        HashMap<String,DocumentSection> map = DocumentSectionsContainer.getDocumentSectionsContainer();
+        BungeniTransformationTarget transform = (BungeniTransformationTarget) this.cboTransformFrom.getSelectedItem();
+        IBungeniDocTransform iTransform = BungeniTransformationTargetFactory.getTransformClass(transform);
+        
+        String exportPath = BungeniEditorProperties.getEditorProperty("defaultExportPath");
+        exportPath = exportPath.replace('/', File.separatorChar);
+        exportPath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH() + File.separator + exportPath;
+        exportPath = exportPath + File.separatorChar + OOComponentHelper.getFrameTitle(ooDocument.getTextDocument()).trim()+"."+transform.targetExt;
+        File fileExp = new File(exportPath);
+        String exportPathURL = "";
+            exportPathURL = fileExp.toURI().toString();
+        HashMap<String,Object> params = new HashMap<String,Object>();
+        params.put("StoreToUrl", exportPathURL);
+        
+        iTransform.setParams(params);
+        boolean bState= iTransform.transform(ooDocument);
+        if (bState ) {
+            MessageBox.OK(parentFrame, "Document was successfully Exported ");
+        } else
+            MessageBox.OK(parentFrame, "Document Export failed " );
     }//GEN-LAST:event_btnExportActionPerformed
 
     public void initialize() {
+        this.initTransfromTargetCombo();
+        this.initExportDestCombo();
     }
 
     public void refreshPanel() {

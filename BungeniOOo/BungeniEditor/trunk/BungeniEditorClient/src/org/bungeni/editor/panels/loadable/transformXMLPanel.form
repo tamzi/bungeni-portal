@@ -67,10 +67,10 @@
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
-            <StringItem index="0" value="AkomaNtoso XML"/>
-            <StringItem index="1" value="XHTML - eXtensible HTML"/>
-            <StringItem index="2" value="Marginalia-safe HTML export"/>
-            <StringItem index="3" value="Portable Document Format (PDF)"/>
+            <StringItem index="0" value="Portable Document Format (PDF)"/>
+            <StringItem index="1" value="AkomaNtoso XML"/>
+            <StringItem index="2" value="XHTML - eXtensible HTML"/>
+            <StringItem index="3" value="Marginalia-safe HTML export"/>
           </StringArray>
         </Property>
       </Properties>
@@ -79,8 +79,8 @@
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="2">
-            <StringItem index="0" value="Export to Server"/>
-            <StringItem index="1" value="Export to File-System path"/>
+            <StringItem index="0" value="Export to File-System path"/>
+            <StringItem index="1" value="Export to Server"/>
           </StringArray>
         </Property>
       </Properties>

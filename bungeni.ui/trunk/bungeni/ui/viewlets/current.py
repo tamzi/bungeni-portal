@@ -15,7 +15,7 @@ import bungeni.core.domain as domain
 
 from ore.alchemist import Session
 
-from interfaces import ICurrent
+from interfaces import ICurrent, ICurrentGovernment
 from bungeni.ui.utils import getDisplayDate, getFilter
 
 
@@ -35,6 +35,8 @@ def getDateFilter(request):
 class Current(BrowserView):
     __call__ = ViewPageTemplateFile("current.pt")
 
+class Government( BrowserView ):
+    __call__ = ViewPageTemplateFile("current-gov.pt")
 
 class CurrentViewletManager( WeightOrderedViewletManager ):
     """Current viewlet manager."""
@@ -43,7 +45,10 @@ class CurrentViewletManager( WeightOrderedViewletManager ):
 class DateChooserViewletManager( interfaces.IViewletManager ):
     """ Viewlet manager for Date chooser """
     #zope.interface.implements(IDateChooser)
-          
+ 
+class CurrentGovernmentViewletManager( WeightOrderedViewletManager ):
+    """Current viewlet manager."""
+    zope.interface.implements(ICurrentGovernment)           
     
     
 def getOrder( request, context_class ):
@@ -310,7 +315,10 @@ class CurrentMinistriesViewlet( viewlet.ViewletBase ):
             data['url']= ('/parliament/obj-' + str(mpg_result.parliament_id) +
                           '/governments/obj-' + str(mpg_result.government_id) + 
                           '/ministries/obj-' + str(result.ministry_id) + urlpf)
-  
+            data['minister_url']= ('/parliament/obj-' + str(mpg_result.parliament_id) +
+                          '/governments/obj-' + str(mpg_result.government_id) + 
+                          '/ministries/obj-' + str(result.ministry_id) + 
+                          '/ministers' + urlpf)
             data['short_name'] = result.short_name
             data['full_name'] = result.full_name            
             data['start_date'] = str(result.start_date)

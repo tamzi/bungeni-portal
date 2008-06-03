@@ -158,5 +158,46 @@
     permission="zope.Public"
     weight="3"
     />        
+
+  <!-- Government -->  
+  <browser:page
+     for="bungeni.core.interfaces.IGovernmentContainer"
+     permission="zope.Public"
+     name="index"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     class=".current.Government"
+     />    
+  
+    <browser:viewletManager
+     name="bungeni.current-government"
+     provides=".interfaces.ICurrentGovernment"
+     class=".current.CurrentGovernmentViewletManager"
+     permission="zope.View"
+     />
+  
+    <browser:viewlet
+    name="bungeni.current-gov.date"   
+    manager=".interfaces.ICurrentGovernment"
+    class=".current.DateChooserViewlet"
+    permission="zope.Public"
+    weight="1"
+    />
+    
+   <browser:viewlet
+    name="bungeni.current-gov.government"   
+    manager=".interfaces.ICurrentGovernment"
+    class=".current.CurrentGovernmentViewlet"
+    permission="zope.Public"
+    weight="4"
+    />
+    
+    
+  <browser:viewlet
+    name="bungeni.current-gov.ministries"   
+    manager=".interfaces.ICurrentGovernment"
+    class=".current.CurrentMinistriesViewlet"
+    permission="zope.Public"
+    weight="5"
+    />    
   
 </configure>

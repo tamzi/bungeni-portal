@@ -19,13 +19,13 @@
             <blockAction name="Article" tooltip="Create a Article Section" title="Article" target="null" visible="true" condition="none" >
                 <action name="Article.selection" tooltip="Select some text in the document to mark it up as a Article" title="From Selection"  target="null" visible="true" condition="cursorInSection:root :and: textSelected:true" showChildren="true" >
                     <subaction name="Article.selection" title="Create Section" tooltip="Select some text to mark it up as a 'Document Date'" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillArticleSection.section_creation" visible="true" condition="cursorInSection:root :and: textSelected:true" />
-                    <subaction name="Article.selection.title" title="Markup title" tooltip="Select some text to mark it up as a  Article title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillArticleSection.apply_numbered_heading:article_title" visible="true" condition="cursorInSection:article. :and: textSelected:true" />
+                    <subaction name="Article.selection.title" title="Markup title" tooltip="Select some text to mark it up as a  Article title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillArticleSection.apply_numbered_heading:article_title" visible="true" condition="cursorInSection:article. :and: textSelected:true :and: !sectionHasChildType:NumberedContainer" />
                 </action>
             </blockAction>
             <blockAction name="Clause" tooltip="Create a Clause Section" title="Clause" target="null" visible="true" condition="none" >
                 <action name="Clause.selection" tooltip="Define a Clause" title="From Selection"  target="null" visible="true" condition="cursorInSection:article. :and: textSelected:true" showChildren="true" >
                     <subaction name="Clause.selection" title="Create Section" tooltip="Select some text to mark it up as a Clause"  mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillClauseSection.section_creation" visible="true"  condition="cursorInSection:article. :and: textSelected:true" />
-                    <subaction name="Clause.selection.title" title="Markup title" tooltip="Select some text to mark it up as a Clause"  mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillClauseSection.apply_numbered_heading:clause_title" visible="true"  condition="cursorInSection:clause. :and: textSelected:true" />
+                    <subaction name="Clause.selection.title" title="Markup title" tooltip="Select some text to mark it up as a Clause"  mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillClauseSection.apply_numbered_heading:clause_title" visible="true"  condition="cursorInSection:clause. :and: textSelected:true :and: !sectionHasChildType:NumberedContainer" />
                 </action>
             </blockAction>
         </actionGroup>

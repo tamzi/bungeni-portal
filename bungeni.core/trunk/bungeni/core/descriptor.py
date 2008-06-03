@@ -714,7 +714,7 @@ class BillDescriptor( ModelDescriptor ):
               edit_widget=SelectDateWidget, add_widget=SelectDateWidget,
               listing_column=day_column("submission_date", _(u"Submission Date")) ),
         dict( name="publication_date", label=_(u"Publication Date"),  edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),        
-        dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True ),
+        dict( name="status", label=_(u"Status"), listing=True ), #  edit=False, add=False,
          #XXX Hack for Cairo
         dict( name="sitting_id", 
               property = schema.Choice( title=_(u"Sitting"), source=DatabaseSource(domain.GroupSitting, 'sitting_id', 'sitting_id', 'short_name'), 

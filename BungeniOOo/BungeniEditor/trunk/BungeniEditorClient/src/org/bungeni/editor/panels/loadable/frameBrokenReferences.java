@@ -45,6 +45,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
+import org.bungeni.editor.numbering.ooo.OOoNumberingHelper;
 import org.bungeni.editor.providers.DocumentSectionProvider;
 import org.bungeni.editor.providers.DocumentSectionTreeModelProvider;
 import org.bungeni.ooo.OOComponentHelper;
@@ -384,7 +385,7 @@ public class frameBrokenReferences extends javax.swing.JFrame {
         HashMap<String,String> refMeta = ooDocument.getSectionMetadataAttributes(refSection);
         if (refMeta.containsKey("BungeniSectionUUID")) {
             String uuidStr = refMeta.get("BungeniSectionUUID");
-            String referenceName = sectionNumbererPanel.HEADING_REF_PREFIX+uuidStr;
+            String referenceName = OOoNumberingHelper.HEADING_REF_PREFIX+uuidStr;
             if (ooDocument.getReferenceMarks().hasByName(referenceName)) {
                 return referenceName;
             }

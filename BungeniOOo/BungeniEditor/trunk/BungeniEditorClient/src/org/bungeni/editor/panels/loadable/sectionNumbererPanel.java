@@ -71,6 +71,7 @@ import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -94,6 +95,7 @@ import org.bungeni.editor.numbering.ooo.OOoNumberingHelper;
 import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.ooo.OOComponentHelper;
 import org.apache.log4j.Logger;
+import org.bungeni.ooo.ooDocMetadata;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.ooo.ooUserDefinedAttributes;
 import org.bungeni.utils.BungeniBNode;
@@ -158,8 +160,8 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
     */
     private void init(){
         //initComponents();
-    //initSectionTypesMap();
-        //initSectionTypesListBox();
+        initSectionTypesMap();
+        initSectionTypesListBox();
        // listSectionTypes.addListSelectionListener(new NumberingSchemeListener());
         //panelNumberingScheme.setVisible(false);
         /*init parent prefix checkbox */
@@ -182,8 +184,8 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         //the following is commented becuase its definitely not required !
         //findBrokenReferences();
     }
-    /*
-     private synchronized void initTimer(){
+
+    private synchronized void initTimer(){
           timerSectionTypes = new Timer(4000, new ActionListener() {
               public void actionPerformed(ActionEvent e) {
                 refreshSectionTypesList();
@@ -191,9 +193,8 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
            });
            timerSectionTypes.start();
     }
-     */
-    /*
-     private void refreshSectionTypesList(){
+    
+    private void refreshSectionTypesList(){
             java.awt.EventQueue.invokeLater(new Runnable() {
                     public void run() {
                          String selectedItem = (String) listSectionTypes.getSelectedValue();
@@ -204,12 +205,17 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
                     }
             });
      }
-     */
+    
      
     class numberingSchemeSelection extends Object {
         String schemeName;
         String schemeDesc;
         String schemeClass;
+        public numberingSchemeSelection (String name, String desc, String strClass) {
+            this.schemeName = name;
+            this.schemeDesc = desc;
+            this.schemeClass = strClass;
+        }
         public String toString(){
             return schemeName;
         }
@@ -239,14 +245,13 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         numberingSchemeSelection[] sels = new numberingSchemeSelection[NumberingSchemeFactory.numberingSchemes.size()];
         int i = 0;
         while (schemeIterator.hasNext()) {
-            sels[i] = new numberingSchemeSelection();
-            sels[i].schemeName = schemeIterator.next();
-            sels[i].schemeClass = NumberingSchemeFactory.numberingSchemes.get(sels[i].schemeName);
+            String aScheme = schemeIterator.next();
+            sels[i] = new numberingSchemeSelection(aScheme, "", NumberingSchemeFactory.numberingSchemes.get(aScheme));
             i++;
         }
         this.cboNumberingScheme.setModel(new DefaultComboBoxModel(sels));
     }
-    /*
+    
     private void initSectionTypesMap() {
         this.sectionTypesInDocument.clear();
        XNameAccess docSections = ooDocument.getTextSections();
@@ -262,7 +267,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
        if (sectionTypesInDocument.size() > 0 )
         Collections.sort(sectionTypesInDocument);
     }
-    */
+    
     /*
     private void fetchSectionTypesAndInitTree(){
         try{
@@ -309,7 +314,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
             
     }
     */
-    /*
+    
     private void initSectionTypesListBox(){
          DefaultListModel listModel = new DefaultListModel();
          
@@ -318,19 +323,18 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
          }
         this.listSectionTypes.setModel(listModel);
     }
-    */
     
 
     
    
      private void applyNumberingScheme(){
          m_bFoundHeading = false;
-      /**COMMEnTED   if (listSectionTypes.getSelectedIndex() == -1 ) {
+      if (listSectionTypes.getSelectedIndex() == -1 ) {
              MessageBox.OK(parentFrame, "Please select a section type to apply numbering upon !");
              return;
-         } *****/
+         } 
         
-         String sectionType= "" ; ///COMMMENTED  listSectionTypes.getSelectedValue().toString();            
+         String sectionType= listSectionTypes.getSelectedValue().toString();            
         ////find all sections matching that section type, and populate arraylist
         ///was called readSection()
         initNumbering();
@@ -404,14 +408,36 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
          //1)
          log.debug("applyRenumberingScheme : invoking findNumberedContainers");
          ArrayList<String>numberedContainers = findNumberedContainers();
+         if (numberedContainers.size() == 0 ) {
+             MessageBox.OK(parentFrame, "There are no headings marked for numbering!");
+             return;
+         }
+         //check if document has numbering scheme
+         //if it already does we use that otherwise we warn that a new scheme will be set
+         if (!ooDocument.propertyExists("BungeniDocNumberingScheme")) {
+                int nConfirm = MessageBox.Confirm(parentFrame, "If you proceed, the document numbering scheme will be fixed to :" + this.getSelectedNumberingScheme().schemeName, "Please confirm");
+                if (JOptionPane.YES_OPTION == nConfirm) {
+                    ooDocMetadata docmeta = new ooDocMetadata(ooDocument);
+                    docmeta.AddProperty("BungeniDocNumberingScheme", this.getSelectedNumberingScheme().schemeName);
+                    enableNumberingSchemeCombo (false);
+                } else 
+                    return;
+         }
+    
          //2) & 3)
-         log.debug("applyRenumberingScheme : invoking applyNumberingMarkupToNonNumberedContainers");
-         applyNumberingMarkupToNonNumberedContainers(numberedContainers);
-         //4)
-         log.debug("applyRenumberingScheme : invoking reApplyNumberingOnNumberedContainers");
-         reApplyNumberingOnNumberedContainers();
+             log.debug("applyRenumberingScheme : invoking applyNumberingMarkupToNonNumberedContainers");
+             applyNumberingMarkupToNonNumberedContainers(numberedContainers);
+             //4)
+             log.debug("applyRenumberingScheme : invoking reApplyNumberingOnNumberedContainers");
+             reApplyNumberingOnNumberedContainers();
      }
     
+     private void enableNumberingSchemeCombo (boolean bState) {
+                    this.cboNumberingScheme.setEnabled(bState);
+                    this.lblNumberingScheme.setEnabled(bState);
+     }
+     
+     
      private ArrayList<String> findNumberedContainers(){
          /*
         ArrayList<String> numberedContainers = new ArrayList<String>(0);
@@ -455,7 +481,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
                         numberedContainers.add(sectionName);
                     }
                 }
-                recurseNumberedNodes(newBNode, numberedContainers);
+            recurseNumberedNodes(newBNode, numberedContainers);
             }
         }
     } */
@@ -536,7 +562,8 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         
     private void updateNumbersByType(String sectionType){
         ArrayList<String> sectionsMatchingType = getSectionsMatchingType(sectionType);
-        this.initializeNumberingSchemeGenerator(1, sectionsMatchingType.size());
+        this.initNumberingSchemeGenerator(1, sectionsMatchingType.size());
+        //this.initializeNumberingSchemeGenerator(1, sectionsMatchingType.size());
          String parentSectionName = "", prevParentSectionName="";
         //findSectionsMatchingSectionType(sectionType);
         ///why is the above being done...when the same section is iterated over again ??? 
@@ -1075,7 +1102,21 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         }
     }
     */
-            
+   
+    private void initNumberingSchemeGenerator(long startRange, long endRange){
+        String schemeName;
+        try {
+            schemeName = ooDocument.getPropertyValue("BungeniDocNumberingScheme");
+      
+             m_selectedNumberingScheme = NumberingSchemeFactory.getNumberingScheme(schemeName);
+             m_selectedNumberingScheme.setRange(new NumberRange(startRange, endRange));
+             m_selectedNumberingScheme.generateSequence();
+             m_selectedNumberingScheme.sequence_initIterator();
+          } catch (UnknownPropertyException ex) {
+            log.error("initNumberingSchemeGenerator : " + ex.getMessage());
+        }
+        
+    }
             
     private void initializeNumberingSchemeGenerator(long startRange, long endRange) {
         m_selectedNumberingScheme = createSchemeFromSelection();
@@ -1709,16 +1750,28 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        jLabel1 = new javax.swing.JLabel();
+        panelSectionTypes = new javax.swing.JScrollPane();
+        listSectionTypes = new javax.swing.JList();
+        lblSectionTypes = new javax.swing.JLabel();
         cboNumberingScheme = new javax.swing.JComboBox();
         checkbxUseParentPrefix = new javax.swing.JCheckBox();
         btnApplyNumberingScheme = new javax.swing.JButton();
         btnRenumberSections = new javax.swing.JButton();
         btnInsertCrossReference = new javax.swing.JButton();
         btnfixBrokenReferences = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        lblNumberingScheme = new javax.swing.JLabel();
 
-        jLabel1.setText("Bungeni Section Types");
+        listSectionTypes.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        listSectionTypes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        listSectionTypes.setEnabled(false);
+        panelSectionTypes.setViewportView(listSectionTypes);
+
+        lblSectionTypes.setText("Bungeni Section Types");
+        lblSectionTypes.setEnabled(false);
 
         cboNumberingScheme.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Base Numbering", "ROMAN", "ALPHA" }));
         cboNumberingScheme.addActionListener(new java.awt.event.ActionListener() {
@@ -1731,14 +1784,15 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
         checkbxUseParentPrefix.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         checkbxUseParentPrefix.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
-        btnApplyNumberingScheme.setText("Apply Numbering Scheme");
+        btnApplyNumberingScheme.setText("Apply Numbering Scheme By Type");
+        btnApplyNumberingScheme.setEnabled(false);
         btnApplyNumberingScheme.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnApplyNumberingSchemeActionPerformed(evt);
             }
         });
 
-        btnRenumberSections.setText("Renumber Headings");
+        btnRenumberSections.setText("Number/Renumber All Headings");
         btnRenumberSections.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnRenumberSectionsActionPerformed(evt);
@@ -1759,7 +1813,7 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
             }
         });
 
-        jLabel2.setText("Select a Numbering Scheme");
+        lblNumberingScheme.setText("Select a Numbering Scheme");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -1768,22 +1822,25 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jLabel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                    .add(lblSectionTypes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                     .add(checkbxUseParentPrefix)
                     .add(btnInsertCrossReference, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                     .add(btnfixBrokenReferences, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                     .add(btnRenumberSections, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                     .add(btnApplyNumberingScheme, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                    .add(jLabel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                    .add(cboNumberingScheme, 0, 215, Short.MAX_VALUE))
+                    .add(lblNumberingScheme, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                    .add(cboNumberingScheme, 0, 215, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, panelSectionTypes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(jLabel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(74, 74, 74)
-                .add(jLabel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(lblSectionTypes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(panelSectionTypes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 62, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lblNumberingScheme, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(5, 5, 5)
                 .add(cboNumberingScheme, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -1833,7 +1890,26 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
 
     public void refreshPanel() {
         //the timer does automatic refreshes....
+        try {
+        if (ooDocument.propertyExists("BungeniDocNumberingScheme")) {
+              this.enableNumberingSchemeCombo(false);
+              String numScheme = ooDocument.getPropertyValue("BungeniDocNumberingScheme");
+              numberingSchemeSelection aSchemeSel = new numberingSchemeSelection(numScheme, "", NumberingSchemeFactory.numberingSchemes.get(numScheme));
+              this.cboNumberingScheme.setEnabled(true);
+              this.cboNumberingScheme.getModel().setSelectedItem(aSchemeSel);
+              this.cboNumberingScheme.setEnabled(false);
+        } else {
+            this.enableNumberingSchemeCombo(true);
+            //String numberingScheme = ooDocument.getPropertyValue("BungeniDocNumberingScheme");
+           // this.cboNumberingScheme.setSelectedItem()
+            
+        } 
+        } catch (UnknownPropertyException ex) {
+            log.error("refreshPanel : ("  + ex.getClass().getName() + ")" + ex.getMessage());
+        }
     }
+    
+    
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnApplyNumberingScheme;
@@ -1842,8 +1918,10 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
     private javax.swing.JButton btnfixBrokenReferences;
     private javax.swing.JComboBox cboNumberingScheme;
     private javax.swing.JCheckBox checkbxUseParentPrefix;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lblNumberingScheme;
+    private javax.swing.JLabel lblSectionTypes;
+    private javax.swing.JList listSectionTypes;
+    private javax.swing.JScrollPane panelSectionTypes;
     // End of variables declaration//GEN-END:variables
 
    

@@ -21,4 +21,5 @@
         <td tal:attributes="class data/current"> <a tal:attributes="href data/mpurl"> Members of Parliament </a> </td>
       </tr>
     </tbody>  
+  </table>
 </div>

@@ -19,4 +19,5 @@
         <td> <a tal:attributes="href data/minister_url"> Ministers </a> </td>
       </tr>
     </tbody>  
+  </table>
 </div>

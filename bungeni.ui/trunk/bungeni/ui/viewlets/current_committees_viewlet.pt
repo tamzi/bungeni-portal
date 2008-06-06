@@ -17,4 +17,5 @@
         <td tal:content="data/end_date" />
       </tr>
     </tbody>  
+  </table>
 </div>

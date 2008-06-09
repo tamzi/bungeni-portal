@@ -14,8 +14,11 @@ import javax.swing.DefaultComboBoxModel;
 import org.apache.log4j.Logger;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.editor.BungeniEditorProperties;
+import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.document.DocumentSection;
 import org.bungeni.editor.document.DocumentSectionsContainer;
+import org.bungeni.editor.macro.ExternalMacro;
+import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.editor.panels.impl.BaseClassForITabbedPanel;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.transforms.impl.BungeniTransformationTarget;
@@ -80,6 +83,7 @@ public class transformXMLPanel extends BaseClassForITabbedPanel{
         lblTransformFrom = new javax.swing.JLabel();
         btnExport = new javax.swing.JButton();
         checkChangeColumns = new javax.swing.JCheckBox();
+        checkboxMakePlain = new javax.swing.JCheckBox();
 
         cboTransformFrom.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Portable Document Format (PDF)", "AkomaNtoso XML", "XHTML - eXtensible HTML", "Marginalia-safe HTML export" }));
 
@@ -102,6 +106,15 @@ public class transformXMLPanel extends BaseClassForITabbedPanel{
         checkChangeColumns.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 checkChangeColumnsActionPerformed(evt);
+            }
+        });
+
+        checkboxMakePlain.setText("Make Document Plain");
+        checkboxMakePlain.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        checkboxMakePlain.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        checkboxMakePlain.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                checkboxMakePlainActionPerformed(evt);
             }
         });
 
@@ -128,7 +141,9 @@ public class transformXMLPanel extends BaseClassForITabbedPanel{
                 .add(33, 33, 33))
             .add(layout.createSequentialGroup()
                 .add(20, 20, 20)
-                .add(checkChangeColumns, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 180, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(checkboxMakePlain)
+                    .add(checkChangeColumns, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 180, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -136,7 +151,9 @@ public class transformXMLPanel extends BaseClassForITabbedPanel{
             .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .add(checkChangeColumns)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 153, Short.MAX_VALUE)
+                .add(24, 24, 24)
+                .add(checkboxMakePlain)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 114, Short.MAX_VALUE)
                 .add(lblTransformFrom)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(cboTransformFrom, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -149,6 +166,13 @@ public class transformXMLPanel extends BaseClassForITabbedPanel{
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void checkboxMakePlainActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkboxMakePlainActionPerformed
+// TODO add your handling code here:
+            ExternalMacro replaceStyle = ExternalMacroFactory.getMacroDefinition("StyleReplace");
+            replaceStyle.addParameter(ooDocument.getComponent());
+            ooDocument.executeMacro(replaceStyle.toString(), replaceStyle.getParams());
+    }//GEN-LAST:event_checkboxMakePlainActionPerformed
 
     private void checkChangeColumnsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_checkChangeColumnsActionPerformed
 // TODO add your handling code here:
@@ -190,6 +214,11 @@ public class transformXMLPanel extends BaseClassForITabbedPanel{
     public void initialize() {
         this.initTransfromTargetCombo();
         this.initExportDestCombo();
+        String docType = BungeniEditorPropertiesHelper.getCurrentDocType();
+        if (docType.equalsIgnoreCase("debaterecord")) {
+            this.checkboxMakePlain.setVisible(true);
+        } else
+            this.checkboxMakePlain.setVisible(false);
     }
 
     public void refreshPanel() {
@@ -201,6 +230,7 @@ public class transformXMLPanel extends BaseClassForITabbedPanel{
     private javax.swing.JComboBox cboExportTo;
     private javax.swing.JComboBox cboTransformFrom;
     private javax.swing.JCheckBox checkChangeColumns;
+    private javax.swing.JCheckBox checkboxMakePlain;
     private javax.swing.JLabel lblExportTo;
     private javax.swing.JLabel lblTransformFrom;
     // End of variables declaration//GEN-END:variables

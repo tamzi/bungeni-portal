@@ -23,6 +23,7 @@ public class OOoNumberingHelper {
                 {
                     put("APPLIED_NUMBER", "BungeniAppliedNumber" );
                     put("NUMBERING_SCHEME", "BungeniNumberingScheme" );
+                    put("APPLIED_TRUE_NUMBER", "BungeniAppliedTrueNumber");
                     put("PARENT_PREFIX_NUMBER", "BungeniParentPrefix");
                 }
     };

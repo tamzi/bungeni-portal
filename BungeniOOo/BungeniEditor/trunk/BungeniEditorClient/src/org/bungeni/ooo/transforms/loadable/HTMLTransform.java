@@ -21,7 +21,8 @@ import org.bungeni.ooo.transforms.impl.BungeniDocTransform;
  * @author Administrator
  */
 public class HTMLTransform extends BungeniDocTransform {
-    
+        private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(HTMLTransform.class.getName());
+ 
     /** Creates a new instance of HTMLTransform */
     public HTMLTransform() {
         super();
@@ -35,7 +36,7 @@ public class HTMLTransform extends BungeniDocTransform {
             docStore.storeToURL(urlString, getTransformProps().toArray(new PropertyValue[getTransformProps().size()]));
             bState= true;
         } catch (IOException ex) {
-            ex.printStackTrace();
+            log.error("transform : " + ex.getMessage());
         }
         return bState;
     }

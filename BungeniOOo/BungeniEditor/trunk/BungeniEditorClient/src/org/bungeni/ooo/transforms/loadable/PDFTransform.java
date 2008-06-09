@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.ooo.transforms.impl.BungeniDocTransform;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.MessageBox;
 import org.bungeni.utils.MessageBox;
 
@@ -43,6 +44,7 @@ public class PDFTransform extends BungeniDocTransform {
             bState= true;
        } catch (com.sun.star.io.IOException ex) {
             log.error("transform : "+ ex.getMessage());
+            log.error("transform : " + CommonExceptionUtils.getStackTrace(ex));
        }
         return bState;
     }
@@ -51,12 +53,12 @@ public class PDFTransform extends BungeniDocTransform {
         ArrayList<PropertyValue> props = new ArrayList<PropertyValue>();
         PropertyValue prop0 = new PropertyValue();
         prop0.Name  = "FilterName";
-        prop0.Value = "writer_pdf_export";
+        prop0.Value = "writer_pdf_Export";
         props.add(prop0);
-        PropertyValue prop1 = new PropertyValue();
-        prop1.Name = "CompressMode";
-        prop1.Value = 0;
-        props.add(prop1);
+   //     PropertyValue prop1 = new PropertyValue();
+   //     prop1.Name = "CompressMode";
+   //      prop1.Value = 0;
+  //      props.add(prop1);
         return props;
     }
     

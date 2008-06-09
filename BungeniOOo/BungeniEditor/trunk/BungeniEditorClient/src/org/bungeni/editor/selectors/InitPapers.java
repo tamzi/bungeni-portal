@@ -549,6 +549,7 @@ public  class InitPapers extends selectorTemplatePanel implements IBungeniForm {
         formContext.addFieldSet("current_section");
         formContext.addFieldSet("target_section");
         formContext.addFieldSet("container_section");
+        formContext.addFieldSet("new_section");
         formContext.addFieldSet("document_fragment");
         formContext.addFieldSet("document_fragment");
         formContext.addFieldSet("document_import_section");
@@ -570,6 +571,7 @@ public  class InitPapers extends selectorTemplatePanel implements IBungeniForm {
          *         thePreInsertMap.put("tabled_document_urs", arrDocURI);
          */
         formContext.getFieldSets("current_section").add(theAction.action_naming_convention());
+        formContext.getFieldSets("new_section").add(theAction.action_naming_convention());
         //thePreInsertMap.put("current_section", theAction.action_naming_convention());
         String parentSection = getParentSection();
         formContext.getFieldSets("target_section").add(parentSection);

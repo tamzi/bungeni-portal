@@ -34,6 +34,7 @@ import com.sun.star.frame.XDispatchHelper;
 import com.sun.star.frame.XDispatchProvider;
 import com.sun.star.frame.XFrame;
 import com.sun.star.frame.XModel;
+import com.sun.star.frame.XStorable;
 import com.sun.star.lang.EventObject;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
@@ -400,6 +401,15 @@ public  class OOComponentHelper {
             return metamap.get("BungeniSectionType");
         } else 
             return null;
+    }
+    
+    public String getSectionType (XTextSection sect) {
+        HashMap<String,String> metaMap = getSectionMetadataAttributes(sect);
+        if (metaMap.containsKey("BungeniSectionType")) {
+               return metaMap.get("BungeniSectionType");
+        }  else {
+            return null;
+        }
     }
     
     public HashMap<String,String> getSectionMetadataAttributes(XTextSection theSection) {
@@ -1553,7 +1563,13 @@ public XTextField getTextFieldByName(String fieldName) {
         com.sun.star.util.XUpdatable updateField = ooQueryInterface.XUpdatable(aField);
         updateField.update();
     }
- 
+
+    public XStorable getStorable(){
+            XComponent doc = getComponent();
+            XStorable docStore = ooQueryInterface.XStorable(doc);   
+            return docStore;
+    }
+   
         /*
         Dim oPageStyles , oStandardPageStyles
         oPageStyles= thisComponent.getStyleFamilies().getByName("PageStyles")

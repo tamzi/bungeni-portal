@@ -203,7 +203,7 @@ public class EditorActionHandler implements IEditorActionEvent {
          private void doMakePrayerSection(toolbarAction action) {
              JDialog dlg;
              dlg= new JDialog();
-             dlg.setTitle("Enter Settings for Document");
+             dlg.setTitle(action.action_display_text());
              dlg.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
              //initDebaterecord.setPreferredSize(new Dimension(420, 300));
              IDialogSelector panel = DialogSelectorFactory.getDialogClass("org.bungeni.editor.selectors.InitDebateRecord");
@@ -243,7 +243,7 @@ public class EditorActionHandler implements IEditorActionEvent {
           private void doMakeQuestionBlockSection(toolbarAction action) {
              JDialog dlg;
              dlg= new JDialog();
-             dlg.setTitle("Enter Settings for Document");
+             dlg.setTitle(action.action_display_text());
              dlg.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
              //initDebaterecord.setPreferredSize(new Dimension(420, 300));
              IDialogSelector panel = DialogSelectorFactory.getDialogClass("org.bungeni.editor.selectors.InitQuestionBlock");
@@ -379,7 +379,7 @@ public class EditorActionHandler implements IEditorActionEvent {
     private void doMakeQASection(toolbarAction action) {
              JDialog dlg;
              dlg= new JDialog();
-             dlg.setTitle("Enter Settings for Document");
+             dlg.setTitle(action.action_display_text());
              dlg.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
              //initDebaterecord.setPreferredSize(new Dimension(420, 300));
              IDialogSelector panel = DialogSelectorFactory.getDialogClass("org.bungeni.editor.selectors.InitQAsection");
@@ -424,6 +424,7 @@ public class EditorActionHandler implements IEditorActionEvent {
                //section was added now prompt for dialog information
              JDialog makePaperSection;
              makePaperSection = new JDialog();
+             makePaperSection.setTitle(action.action_display_text());
              makePaperSection.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
              InitPapers panel = new InitPapers(ooDocument,  makePaperSection, action);;
              System.out.println("size of panel : "+panel.getSize().height + " ," + panel.getSize().width  );
@@ -437,7 +438,7 @@ public class EditorActionHandler implements IEditorActionEvent {
               } else {
                 panel.setDialogMode(SelectorDialogModes.TEXT_INSERTION);
                 panel.setBackground(new Color(204, 255, 153));
-                makePaperSection.setTitle("Insertion Mode");
+                makePaperSection.setTitle(action.action_display_text());
               }
              makePaperSection.getContentPane().add(panel);
              makePaperSection.pack();

@@ -26,6 +26,7 @@ public class NumberingSchemeFactory {
                     put("ROMAN-Upper", "org.bungeni.numbering.schemes.schemeRomanUpper" );
                     put("NUMERIC", "org.bungeni.numbering.schemes.schemeNumeric" );
                     put("ALPHABETICAL", "org.bungeni.numbering.schemes.schemeAlphabetical" );
+                    put("AlPHABETICAL-Lower", "org.bungeni.numbering.schemes.schemeAlphabeticalLower" );
                     put("DEFAULT", "org.bungeni.numbering.schemes.schemeNumeric" );
                 }
     };

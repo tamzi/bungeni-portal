@@ -127,7 +127,7 @@ public class documentNotesPanel extends BaseClassForITabbedPanel {
         }
         //populate editor notes list
         initEditorNotesList();
-        
+        this.btnSaveEditorNote.setEnabled(false);
         } catch (Exception ex) {
             log.error("exception initNotesPanel:"+ ex.getMessage());
             ex.printStackTrace();
@@ -347,6 +347,7 @@ public class documentNotesPanel extends BaseClassForITabbedPanel {
             ooDocNoteStructure ooNote = (ooDocNoteStructure) model.getElementAt(index);
             String noteText = ooNote.getNoteText();
             txtEditorNote.setText(noteText);
+            this.btnSaveEditorNote.setEnabled(false);
         }
     }//GEN-LAST:event_listboxEditorNotesValueChanged
 
@@ -364,11 +365,13 @@ public class documentNotesPanel extends BaseClassForITabbedPanel {
         m_ooNotes.addNote(ooNote);
         initEditorNotesList();
         this.updateEditorNoteField(false);
+        this.btnSaveEditorNote.setEnabled(false);
     }//GEN-LAST:event_btnSaveEditorNoteActionPerformed
 
     private void btnNewEditorNoteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewEditorNoteActionPerformed
 // TODO add your handling code here:
     this.updateEditorNoteField(true);
+    this.btnSaveEditorNote.setEnabled(true);
     }//GEN-LAST:event_btnNewEditorNoteActionPerformed
 
   

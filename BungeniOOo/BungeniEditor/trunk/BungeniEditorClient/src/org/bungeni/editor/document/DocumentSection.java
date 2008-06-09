@@ -28,6 +28,7 @@ public class DocumentSection {
     private int sectionBackground = 0xffffff;
     private double sectionLeftMargin = 0;
     private double sectionRightMargin = 0;
+    private String sectionNumberingScheme = "";
     private boolean Protected = false;
     
     
@@ -44,6 +45,7 @@ public class DocumentSection {
         setSectionLeftMargin(qr.getField(row, "SECTION_INDENT_LEFT"));
         setSectionRightMargin(qr.getField(row, "SECTION_INDENT_RIGHT"));
         setSectionVisibility(qr.getField(row, "SECTION_VISIBILITY"));
+        setNumberingScheme(qr.getField(row, "NUMBERING_SCHEME"));
     }
     public String getDocumentType() {
         return documentType;
@@ -160,6 +162,14 @@ public class DocumentSection {
 
     public String getSectionVisibilty() {
         return this.sectionVisibility;
+    }
+    
+    public void setNumberingScheme(String scheme) {
+        this.sectionNumberingScheme = scheme;
+    }
+    
+    public String getNumberingScheme(){
+        return this.sectionNumberingScheme;
     }
     
     public void setSectionVisibility(String visibility) {

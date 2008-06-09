@@ -32,6 +32,8 @@
         <chain name="debateRecordFullInsertPapers">
             <command   id="debateRecordFullInsertPapers.condAddSectionInsideSection"
                    className="org.bungeni.commands.addSectionInsideSection" />   
+            <command   id="debateRecordFullInsertPapers.setSectionMetadata"
+                       className="org.bungeni.commands.setSectionMetadataForAction"/>                   
             <command   id="debateRecordFullInsertPapers.condAddSectionAfterSection"
                    className="org.bungeni.commands.insertSectionAfterSection" />
             <command   id="debateRecordFullInsertPapers.addDocIntoSection"

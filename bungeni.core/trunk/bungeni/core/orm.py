@@ -152,9 +152,10 @@ mapper ( domain.MemberOfParliament , _mp,
         )
         
 # Ministers and Committee members are defined by their group membership in a 
-# ministry or committee (group)        
-mapper( domain.Minister, schema.user_group_memberships, 
-            properties={
+# ministry or committee (group)     
+
+mapper( domain.UserGroupMembership, schema.user_group_memberships,
+        properties={
             'short_name' : column_property(
                              rdb.sql.select(
                              [(schema.users.c.first_name + u" " + 
@@ -163,45 +164,65 @@ mapper( domain.Minister, schema.user_group_memberships,
                              schema.user_group_memberships.c.user_id==schema.users.c.user_id
                                     ).label('short_name')
                                            )
-          })
-mapper( domain.CommitteeMember, schema.user_group_memberships ,
-            properties={
+          },
+        polymorphic_on=schema.user_group_memberships.c.membership_type,          
+        polymorphic_identity='member',
+      )
+   
+mapper( domain.Minister, 
+        inherits=domain.UserGroupMembership,
+        polymorphic_on=schema.user_group_memberships.c.membership_type,          
+        polymorphic_identity='minister',        
+        )        
+ 
+mapper( domain.CommitteeMember, 
+        inherits=domain.UserGroupMembership,
+        polymorphic_on=schema.user_group_memberships.c.membership_type,          
+        polymorphic_identity='comitteemember',
+                
+                )  
+
+mapper( domain.ExtensionMember, 
+        inherits=domain.UserGroupMembership,
+        polymorphic_on=schema.user_group_memberships.c.membership_type,          
+        polymorphic_identity='extensionmember',        
+        )                                
+
+mapper( domain.PartyMember, 
+        inherits=domain.UserGroupMembership,
+        polymorphic_on=schema.user_group_memberships.c.membership_type,          
+        polymorphic_identity='partymember',        
+        )  
+                
+# staff assigned to a group (committee, ...)
+
+mapper( domain.StaffGroupMembership, schema.user_group_memberships,
+        properties={
             'short_name' : column_property(
                              rdb.sql.select(
-                             [(schema.users.c.last_name + u", " + 
+                             [(schema.users.c.first_name + u" " + 
                              #schema.users.c.middle_name + u" " +
-                             schema.users.c.first_name)],
+                             schema.users.c.last_name)],
                              schema.user_group_memberships.c.user_id==schema.users.c.user_id
                                     ).label('short_name')
                                            )
-          })
-mapper( domain.ExtensionMember, schema.user_group_memberships, 
-            properties={
-            'short_name' : column_property(
-                             rdb.sql.select(
-                             [(schema.users.c.last_name + u", " + 
-                             #schema.users.c.middle_name + u" " +
-                             schema.users.c.first_name)],
-                             schema.user_group_memberships.c.user_id==schema.users.c.user_id
-                                    ).label('short_name')
-                                           )
-          })
-mapper( domain.PartyMember, schema.user_group_memberships, 
-            properties={
-            'short_name' : column_property(
-                             rdb.sql.select(
-                             [(schema.users.c.last_name + u", " + 
-                             #schema.users.c.middle_name + u" " +
-                             schema.users.c.first_name)],
-                             schema.user_group_memberships.c.user_id==schema.users.c.user_id
-                                    ).label('short_name')
-                                           )
-          })
+          },
+        polymorphic_on=schema.user_group_memberships.c.membership_type,          
+        polymorphic_identity='staff',
+      )
+
+mapper( domain.CommitteeStaff,
+        inherits=domain.StaffGroupMembership,
+        polymorphic_on=schema.user_group_memberships.c.membership_type,          
+        polymorphic_identity='committeestaff',        
+        )
 
 
+# Reporters XXX
 mapper( domain.HansardReporter, schema.reporters,
         inherits=domain.User,
         polymorphic_identity='reporter')
+                
 
 
 mapper( domain.ParliamentSession, schema.parliament_sessions )

@@ -76,10 +76,16 @@ parliament_members = rdb.Table(
 
    )   
 
+# staff assigned to a group ( committee clerks, researchers, ...)
+
+#staff_groupmember = rdb.Table(
+#    "staff_groupmember",
+#    metadata,
+#    rdb.Column( "membership_id", rdb.Integer, rdb.ForeignKey('user_group_memberships.membership_id'), primary_key=True ),
+#    # other stuff to be added here to describe staffs role etc for the group
+#    )
 
 
-
-   
 
 reporters = rdb.Table(
    "reporters",
@@ -277,6 +283,8 @@ user_group_memberships = rdb.Table(
    # these fields are only present when a membership is a result of substitution   
    rdb.Column( "replaced_id", rdb.Integer, rdb.ForeignKey('user_group_memberships.membership_id') ),
    rdb.Column( "substitution_type", rdb.Unicode(100) ),
+   # type of membership staff or member
+   rdb.Column( "membership_type", rdb.String(30), default ="member", nullable = False),
    )
   
 # a bill assigned to a committee, a question assigned to a ministry
@@ -292,6 +300,8 @@ group_item_assignments = rdb.Table(
    rdb.Column( "due_date", rdb.Date ),    
    rdb.Column( "notes", rdb.UnicodeText ),
    )
+
+
 
 #############
 # Keywords

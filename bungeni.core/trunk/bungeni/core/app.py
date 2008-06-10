@@ -90,6 +90,9 @@ class AppSetup( object ):
         countries = domain.CountryContainer()
         self.context['countries'] = countries
         
+        #titles = domain.MemberTitleContainer()
+        #self.context('titles') = titles
+        
         # todo separate out to url module
         #url.setupResolver( self.context )
         # 

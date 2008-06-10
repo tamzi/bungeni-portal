@@ -110,6 +110,21 @@ class GroupMembership( Entity ):
     """ a user's membership in a group
     """
         
+class UserGroupMembership( Entity ):
+    """ a user's membership in a group - abstract
+    basis for ministers, committeemembers, etc
+    """        
+    
+class StaffGroupMembership( Entity ):
+    """ 
+    staff assigned to groups (committees, ministries,...)
+    """    
+class CommitteeStaff( StaffGroupMembership ):
+    """
+    Comittee Staff
+    """
+    
+        
 class GroupSitting( Entity ):
     """ a scheduled meeting for a group (parliament, committee, etc)
     """
@@ -170,7 +185,7 @@ class PoliticalParty( Group ):
     """
     partymembers = one2many("partymembers","bungeni.core.domain.PartyMemberContainer", "group_id")
 
-class PartyMember( Entity ):
+class PartyMember( UserGroupMembership ):
     """ 
     Member of a political party, defined by its group membership 
     """
@@ -182,7 +197,7 @@ class Ministry( Group ):
     #sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "group_id")
     ministers = one2many("Ministers","bungeni.core.domain.MinisterContainer", "group_id")
     
-class Minister( Entity ):
+class Minister( UserGroupMembership ):
     """ A Minister
     defined by its user_group_membership in a ministry (group)
     """    
@@ -193,8 +208,9 @@ class Committee( Group ):
     """
     sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "group_id")
     committeemembers = one2many("committeemembers", "bungeni.core.domain.CommitteeMemberContainer", "group_id")
+    committeestaff = one2many("committeestaff", "bungeni.core.domain.CommitteeStaffContainer", "group_id")
 
-class CommitteeMember( Entity ):
+class CommitteeMember( UserGroupMembership ):
     """ A Member of a committee
     defined by its membership to a committee (group)""" 
   
@@ -206,7 +222,7 @@ class ExtensionGroup( Group ):
     """ Extend selectable users for a group membership """
     extmembers = one2many("extmembers", "bungeni.core.domain.ExtensionMemberContainer", "group_id") 
     
-class ExtensionMember( Entity ):
+class ExtensionMember( UserGroupMembership ):
     """ Users for Extension group """    
    
    

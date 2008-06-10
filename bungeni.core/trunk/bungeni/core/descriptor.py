@@ -10,6 +10,8 @@ from zc.table import column
 
 from bungeni.ui.datetimewidget import SelectDateWidget, SelectDateTimeWidget
 from bungeni.ui import widget
+from ore.yuiwidget import calendar
+
 
 from alchemist.ui import widgets
 from bungeni.ui.login import check_email
@@ -285,6 +287,7 @@ class GroupMembershipDescriptor( ModelDescriptor ):
         
    schema_invariants = [EndAfterStart,ActiveAndSubstituted,SubstitudedEndDate,InactiveNoEndDate]
 
+
 class MpDescriptor ( ModelDescriptor ):
     display_name = _(u"Member of Parliament")
     fields = deepcopy(GroupMembershipDescriptor.fields)    
@@ -340,7 +343,7 @@ class GroupDescriptor( ModelDescriptor ):
               edit_widget=widget.RichTextEditor,
               add_widget=widget.RichTextEditor),
         dict( name="start_date", label=_(u"Start Date"), listing=True, 
-              listing_column=day_column("start_date", _(u'<a href="?order_by=start_date">Start Date</a>')), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+              listing_column=day_column("start_date", _(u'<a href="?order_by=start_date">Start Date</a>')), edit_widget=calendar.CalendarWidget, add_widget=calendar.CalendarWidget),
         dict( name="end_date", label=_(u"End Date"), listing=True, 
               listing_column=day_column('end_date', _(u'<a href="?order_by=end_date">End Date</a>')), edit_widget=SelectDateWidget, add_widget=SelectDateWidget),        
         #dict( name="status",  label=_(u"Status"), edit=False, add=False, listing=True )        
@@ -370,8 +373,7 @@ class ParliamentDescriptor( GroupDescriptor ):
         dict( name="election_date",
               label=_(u"Election Date"), 
               description=_(u"Date the of the election"),
-              edit_widget=SelectDateWidget, 
-              add_widget=SelectDateWidget 
+              edit_widget=calendar.CalendarWidget, add_widget=calendar.CalendarWidget
               ),        
         dict( name="start_date",
               label=_(u"In power from"), 
@@ -440,6 +442,11 @@ class CommitteeMemberDescriptor( ModelDescriptor ):
     
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, SubstitudedEndDate, InactiveNoEndDate]
      
+class CommitteeStaffDescriptor( ModelDescriptor ):
+    display_name = _(u"Committee Staff")
+    fields = deepcopy(GroupMembershipDescriptor.fields)     
+    
+    schema_invariants = [EndAfterStart, ActiveAndSubstituted, SubstitudedEndDate, InactiveNoEndDate]     
         
 class PoliticalPartyDescriptor( GroupDescriptor ):
     display_name = _(u"Political Party")     

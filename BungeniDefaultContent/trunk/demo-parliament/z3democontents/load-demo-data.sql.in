@@ -278,7 +278,57 @@ UPDATE "user_group_memberships" SET "notes" =
 || "notes" ; 
 
 
+/* assign the correct types to usre_group_membership*/
 
+UPDATE user_group_memberships SET membership_type = 'comitteemember'
+WHERE user_id IN
+    (SELECT "user_group_memberships"."user_id" 
+    FROM "public"."user_group_memberships" as ugm, "public"."committees" 
+    WHERE ( "ugm"."group_id" = "committees"."committee_id" )
+    AND ("user_group_memberships"."group_id" = "ugm"."group_id"));
+    
 
+UPDATE user_group_memberships SET membership_type = 'minister'
+WHERE user_id IN    
+    (SELECT "ugm"."user_id"
+    FROM "public"."user_group_memberships" as ugm, "public"."ministries" 
+    WHERE ( "ugm"."group_id" = "ministries"."ministry_id" ) 
+    AND ("user_group_memberships"."group_id" = "ugm"."group_id"));   
+    
+    
+UPDATE user_group_memberships SET membership_type = 'extensionmember'
+WHERE user_id IN      
+    (SELECT "ugm"."user_id" 
+    FROM "public"."extension_groups", "public"."user_group_memberships" as ugm
+    WHERE ( "extension_groups"."extension_type_id" = "ugm"."group_id" )    
+    AND ("user_group_memberships"."group_id" = "ugm"."group_id"));       
 
+    
+UPDATE user_group_memberships SET membership_type = 'partymember'
+WHERE user_id IN      
+    (SELECT "ugm"."user_id" 
+    FROM "public"."user_group_memberships" as ugm, "public"."political_parties" 
+    WHERE ( "ugm"."group_id" = "political_parties"."party_id" )
+    AND ("user_group_memberships"."group_id" = "ugm"."group_id"));       
+    
+
+UPDATE user_group_memberships SET membership_type = 'committeestaff'
+WHERE user_id IN      
+    (SELECT "ugm"."user_id" 
+    FROM "public"."extension_groups", "public"."user_group_memberships" as ugm
+    WHERE ( "extension_groups"."extension_type_id" = "ugm"."group_id" )    
+    AND ("user_group_memberships"."group_id" = "ugm"."group_id"))       
+AND user_id NOT IN
+    (SELECT "user_group_memberships"."user_id" 
+    FROM "public"."user_group_memberships", "public"."parliaments" 
+    WHERE ( "user_group_memberships"."group_id" = "parliaments"."parliament_id" ));
+    
+UPDATE user_group_memberships SET membership_type = 'committeestaff'
+WHERE user_id IN      
+    (SELECT "ugm"."user_id"     
+    FROM "public"."user_group_memberships" as ugm
+    WHERE ( "ugm"."membership_type" = 'committeestaff' ));
+    
+    
+            
 

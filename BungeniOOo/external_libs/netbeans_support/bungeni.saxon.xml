@@ -5,7 +5,7 @@
 	<type>j2se</type>
 	<volume>
 		<type>classpath</type>
-		<resource>jar:file:lib_path/external_libs/saxon9.jar!/</resource>
+		<resource>jar:file:lib_path/external_libs/saxon/saxon9.jar!/</resource>
 	</volume>
 	<volume>
 		<type>src</type>

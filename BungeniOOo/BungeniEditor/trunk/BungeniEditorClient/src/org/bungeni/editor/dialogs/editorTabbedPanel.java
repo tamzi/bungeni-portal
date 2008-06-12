@@ -179,6 +179,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private ooDocNotes m_ooNotes;
     private JFrame parentFrame;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(editorTabbedPanel.class.getName());
+    private String ROOT_SECTION = BungeniEditorPropertiesHelper.getDocumentRoot();
     private String[] arrDocTypes = { "Acts" , "DebateRecords", "Bills" };
     //vector that houses the list of document headings used by the display tree
     private Vector<DocStructureElement> mvDocumentHeadings = new Vector<DocStructureElement>();
@@ -792,22 +793,22 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             /*
             do a basic check to see if the root section exists
             */
-            if (!ooDocument.getTextSections().hasByName("root")) {
+            if (!ooDocument.getTextSections().hasByName(ROOT_SECTION)) {
                 log.error("InitSectionsArray: no root section found");
                 return;
             }
             /*
             get the root section and it as the root node to the JTree
             */
-            Object root = ooDocument.getTextSections().getByName("root");
+            Object root = ooDocument.getTextSections().getByName(ROOT_SECTION);
             log.debug("InitSectionsArray: Adding root node");
-            treeRoot.addRootNode(new String("root"));
+            treeRoot.addRootNode(new String(ROOT_SECTION));
             /*
             now get the enumeration of the TextSection
             */
 
             int currentIndex = 0;
-            String parentObject = "root";
+            String parentObject = ROOT_SECTION;
             XTextSection theSection = ooQueryInterface.XTextSection(root);
             XTextRange range = theSection.getAnchor();
             XText xText = range.getText();
@@ -836,7 +837,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                          /*
                           *only enumerate non root sections
                           */ 
-                         if (!sectionName.equals("root")) {
+                         if (!sectionName.equals(ROOT_SECTION)) {
                              log.debug("InitSectionsArray: Found Section :"+ sectionName);
                               /*
                               *check if the node exists in the tree
@@ -915,7 +916,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
           while (1==1) {
               //go up the hierarchy until you reach root.
               //break upon reaching the parent
-              if (parentSectionname.equals("root")) {
+              if (parentSectionname.equals(ROOT_SECTION)) {
                   nodeHierarchy.add(parentSectionname);
                   log.debug("buildParentChain: nodeHierarchy: Adding "+ parentSectionname + " and breaking.");
                   break;
@@ -934,9 +935,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     
     private void convertBTreetoJTreeNodes(BungeniBTree theTree){
         //TreeMap<Integer,BungeniBNode> sectionMap = theTree.getTree();
-        BungeniBNode rootNode = theTree.getNodeByName("root");
+        BungeniBNode rootNode = theTree.getNodeByName(ROOT_SECTION);
         this.sectionsRootNode = null;
-        this.sectionsRootNode = new DefaultMutableTreeNode(new String("root"));
+        this.sectionsRootNode = new DefaultMutableTreeNode(new String(ROOT_SECTION));
         TreeMap<Integer,BungeniBNode> sectionMap = rootNode.getChildrenByOrder();
         Iterator<Integer> rootIter = sectionMap.keySet().iterator();
            int depth = 0;
@@ -981,15 +982,15 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             //this.sectionsRootNode = null ; //new DefaultMutableTreeNode(new String("root"));
             
             //mvSections.removeAllElements();
-            if (!ooDocument.getTextSections().hasByName("root")) {
+            if (!ooDocument.getTextSections().hasByName(ROOT_SECTION)) {
                 log.debug("no root section found");
                 return;
             }
             log.debug("InitSectionsArray = getting root section");
-            Object rootSection = ooDocument.getTextSections().getByName("root");
+            Object rootSection = ooDocument.getTextSections().getByName(ROOT_SECTION);
             XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
             sectionsRootNode = null;
-            sectionsRootNode = new DefaultMutableTreeNode(new String("root"));
+            sectionsRootNode = new DefaultMutableTreeNode(new String(ROOT_SECTION));
             log.debug("about to recurseSections()...");
             recurseSections (theSection, sectionsRootNode);
             

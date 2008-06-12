@@ -222,11 +222,16 @@ public class SettingsQueryFactory {
     
     public static String Q_FETCH_DOCUMENT_SECTION_TYPES(String docType){
         String query = "select doc_type, section_type_name, section_name_prefix, section_numbering_style, " +
-                "section_background, section_indent_left, section_indent_right, section_visibility, numbering_scheme from " +
+                "section_background, section_indent_left, section_indent_right, section_visibility, numbering_scheme, number_decorator from " +
                 "document_section_types where doc_type ='"+docType+"'";
         return query;
     }
 
+    public static String Q_FETCH_NUMBER_DECORATORS(){
+        String query = "select decorator_name, decorator_desc, decorator_class from " +
+                "number_decorators";
+        return query;
+    }
 }
 
 

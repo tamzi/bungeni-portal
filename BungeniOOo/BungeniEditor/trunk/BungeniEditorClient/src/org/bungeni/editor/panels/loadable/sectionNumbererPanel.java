@@ -90,6 +90,8 @@ import org.bungeni.editor.providers.DocumentSectionIterator;
 import org.bungeni.editor.providers.DocumentSectionProvider;
 import org.bungeni.editor.providers.IBungeniSectionIteratorListener;
 import org.bungeni.numbering.impl.IGeneralNumberingScheme;
+import org.bungeni.numbering.impl.INumberDecorator;
+import org.bungeni.numbering.impl.NumberDecoratorFactory;
 import org.bungeni.numbering.impl.NumberRange;
 import org.bungeni.numbering.impl.NumberingSchemeFactory;
 import org.bungeni.editor.numbering.ooo.OOoNumberingHelper;
@@ -118,16 +120,10 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
    
     private boolean m_useParentPrefix = false;
     private IGeneralNumberingScheme m_selectedNumberingScheme ;
-    //private HashMap<String,String> metadata = new HashMap();
     private ArrayList<String> sectionTypeMatchedSections = new ArrayList<String>();
     private ArrayList<String> sectionTypeMatchedSectionsMissingNumbering = new ArrayList<String>();
-  //  private ArrayList<String> docListReferences = new ArrayList<String>();
- //    private ArrayList<String> docReferences = new ArrayList<String>();
- //   private ArrayList<String> insertedNumbers = new ArrayList<String>();
     private ArrayList<String> sectionHierarchy = new ArrayList<String>();
     private int headCount=1;
-    //DefaultListModel model=new DefaultListModel();
-    private IGeneralNumberingScheme inumScheme;
     private String numParentPrefix="";
     private ArrayList<String> sectionTypesInDocument = new ArrayList<String>();
     private String selectSection="";
@@ -586,6 +582,11 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
     private void updateNumbersByType(String sectionType){
         ArrayList<String> sectionsMatchingType = getSectionsMatchingType(sectionType);
         String numberingSchemeForType = this.sectionTypesForDocumentType.get(sectionType).getNumberingScheme();
+        String numberDecoratorForType = this.sectionTypesForDocumentType.get(sectionType).getNumberDecorator();
+        INumberDecorator numDecor = null;
+        if (!numberDecoratorForType.equals("none")) {
+            numDecor = NumberDecoratorFactory.getNumberDecorator(numberDecoratorForType);
+        }
         this.initNumberingSchemeGenerator(numberingSchemeForType, 1, sectionsMatchingType.size());
         //this.initializeNumberingSchemeGenerator(1, sectionsMatchingType.size());
          String parentSectionName = "", prevParentSectionName="";
@@ -605,7 +606,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
             if (numberedChild != null ) {
                 String theNumber = this.m_selectedNumberingScheme.sequence_next();
                 ooDocument.protectSection(numberedChild, false);
-                updateNumberInSection(numberedChild, theNumber);
+                updateNumberInSection(numberedChild, theNumber, numDecor);
                 ////update the field here ooDocument.getTextFields();
                 ooDocument.protectSection(numberedChild, true);
             }   
@@ -614,13 +615,16 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         
     }
     
-    private void updateNumberInSection(XTextSection numberedChild, String theNumber) {
+    private void updateNumberInSection(XTextSection numberedChild, String theNumber, INumberDecorator numberDecorator) {
         try {
             HashMap<String,String> childMeta = ooDocument.getSectionMetadataAttributes(numberedChild);
             String sectionUUID = childMeta.get("BungeniSectionUUID");
             String fieldToUpdate= OOoNumberingHelper.NUM_FIELD_PREFIX + sectionUUID;
             XTextField aField = ooDocument.getTextFieldByName(fieldToUpdate);
             XPropertySet aFieldSet= ooQueryInterface.XPropertySet(aField);
+            if (numberDecorator != null ) {
+                theNumber = numberDecorator.decorate(theNumber);
+            }
             aFieldSet.setPropertyValue("Content", theNumber);
             XTextSection numberedParent = numberedChild.getParentSection();
             String numberedParentType = ooDocument.getSectionType(numberedParent);

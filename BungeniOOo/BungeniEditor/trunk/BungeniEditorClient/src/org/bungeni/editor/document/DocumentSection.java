@@ -29,6 +29,7 @@ public class DocumentSection {
     private double sectionLeftMargin = 0;
     private double sectionRightMargin = 0;
     private String sectionNumberingScheme = "";
+    private String sectionNumberDecorator = "";
     private boolean Protected = false;
     
     
@@ -46,6 +47,8 @@ public class DocumentSection {
         setSectionRightMargin(qr.getField(row, "SECTION_INDENT_RIGHT"));
         setSectionVisibility(qr.getField(row, "SECTION_VISIBILITY"));
         setNumberingScheme(qr.getField(row, "NUMBERING_SCHEME"));
+        setNumberDecorator(qr.getField(row, "NUMBER_DECORATOR"));
+        
     }
     public String getDocumentType() {
         return documentType;
@@ -187,6 +190,13 @@ public class DocumentSection {
         
     }
 
+    public void setNumberDecorator(String string) {
+        this.sectionNumberDecorator = string;
+    }
+
+    public String getNumberDecorator(){
+        return this.sectionNumberDecorator;
+    }
     
 }
 

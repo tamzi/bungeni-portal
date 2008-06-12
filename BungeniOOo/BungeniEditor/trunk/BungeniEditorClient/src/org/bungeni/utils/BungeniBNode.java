@@ -20,6 +20,7 @@ import java.util.TreeMap;
     
  public class BungeniBNode {
             private String Name;
+            private String displayText = "";
             private Object nodeObject = null;
             private BungeniBNode nodeParent = null;
             /*Stores child nodes by order*/
@@ -38,6 +39,7 @@ import java.util.TreeMap;
             }
             
             public BungeniBNode(String n, Object obj) {
+                Name = n;
                 nodeObject = obj;
             }
             
@@ -78,8 +80,12 @@ import java.util.TreeMap;
             public boolean hasNodeObject(){
                 return ((nodeObject == null) ? false: true);
             }
+    @Override
             public String toString(){
-                return getName();
+                if (displayText.length() == 0)
+                    return getName();
+                else
+                    return displayText;
             }
             public HashMap<String,BungeniBNode> getChildrenByName() {
                 return childNodeNames;
@@ -139,6 +145,14 @@ import java.util.TreeMap;
             public boolean containsNodeByName(String name) {
                 return childNodeNames.containsKey(name);
             }
+
+    public String getDisplayText() {
+        return displayText;
+    }
+
+    public void setDisplayText(String displayText) {
+        this.displayText = displayText;
+    }
             
         }
       

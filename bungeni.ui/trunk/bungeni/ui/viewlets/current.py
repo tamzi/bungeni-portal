@@ -7,6 +7,9 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.publisher.browser import BrowserView
 from zope.viewlet.manager import WeightOrderedViewletManager
 from zope.viewlet import viewlet, interfaces
+
+import zc.resourcelibrary
+
 import zope.interface
 import datetime
 
@@ -111,6 +114,10 @@ class DateChooserViewlet( viewlet.ViewletBase ):
         """
         refresh the query
         """       
+        zc.resourcelibrary.need("yui-calendar")
+        zc.resourcelibrary.need("yui-container")
+        zc.resourcelibrary.need("yui-button")
+        
         self.Date = getDisplayDate(self.request)
         if self.Date:
             self.DateStr=datetime.date.strftime(self.Date,'%Y-%m-%d')

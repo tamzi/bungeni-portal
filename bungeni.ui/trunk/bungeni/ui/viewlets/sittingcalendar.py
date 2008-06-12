@@ -187,7 +187,9 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
         context = proxy.removeSecurityProxy( self.context )         
         self.Date = getDisplayDate(self.request)
         if not self.Date:
-            self.Date = self.get_parent_endDate()            
+            self.Date = self.get_parent_endDate() 
+            if not self.Date:
+                self.Date=datetime.date.today()            
             self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )       
         query=context._query
         self.query=query.filter(self.get_filter()).order_by('start_date')

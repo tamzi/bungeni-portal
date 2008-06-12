@@ -105,6 +105,16 @@
       class=".forms.CommitteeMemberAdd"              
       permission="zope.View"
       />                    
+      
+<!-- Add Committee Staff  -->      
+   <browser:view
+      name="add"
+      for="bungeni.core.interfaces.ICommitteeStaffContainer"
+      class=".forms.CommitteeStaffAdd" 
+      permission="zope.View"
+      />       
+
+
 <!-- Government Edit Form -->     
     <browser:viewlet
       name="alchemist.attributes.edit"
@@ -235,9 +245,6 @@
      />
     
     
-  <!--browser:view      
-      layer="bungeni.ui.interfaces.IBungeniSkin"       
-      permission="zope.Public"
-      /-->      
+ 
 
 </configure>

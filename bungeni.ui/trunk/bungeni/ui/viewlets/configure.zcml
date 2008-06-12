@@ -152,7 +152,7 @@
      />    
      
   <browser:viewlet
-    name="bungeni.sitting.caledar"   
+    name="bungeni.sitting.calendar"   
     manager=".interfaces.ISittingCalendar"
     class=".sittingcalendar.SittingCalendarViewlet"
     permission="zope.Public"

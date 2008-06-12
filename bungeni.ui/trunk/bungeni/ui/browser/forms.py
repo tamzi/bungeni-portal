@@ -17,15 +17,17 @@ import bungeni.core.domain as domain
 from bungeni.core.i18n import _
 from bungeni.core.interfaces import IGroupSitting, IParliamentSession, IMemberOfParliament, \
     ICommittee, ICommitteeMember, IGovernment, IMinistry, IExtensionGroup, IMinister, \
-    IExtensionMember, IParliament, IGroupSittingAttendance
+    IExtensionMember, IParliament, IGroupSittingAttendance, ICommitteeStaff
 
 
 from bungeni.ui.datetimewidget import  SelectDateTimeWidget, SelectDateWidget
 from bungeni.ui import widget
 
+from ore.yuiwidget import calendar
+
+
 import validations
-
-
+import pdb
 
 
 #############
@@ -41,19 +43,23 @@ class CustomAddForm( ContentAddForm ):
     Adapts = {} 
     CustomValidation = None
 
+    def update( self ):
+         self.status = self.request.get('portal_status_message','')
+         form.AddForm.update( self )
+
 
     def finishConstruction( self, ob ):
         """
         adapt the custom fields to the object
         """
-        self.adapters = { self.Adapts : ob }
-               
+        self.adapters = { self.Adapts : ob }    
+         
              
     def validate(self, action, data):    
         """
         validation that require context must be called here,
         invariants may be defined in the descriptor
-        """                                       
+        """                                          
         return (form.getWidgetsData(self.widgets, self.prefix, data) +
                  form.checkInvariants(self.form_fields, data) +
                  self.CustomValidation( self.context, data ) )  
@@ -64,9 +70,9 @@ class ParliamentAdd( CustomAddForm ):
     custom Add form for parliaments
     """
     form_fields = form.Fields( IParliament )
-    form_fields["start_date"].custom_widget = SelectDateWidget
-    form_fields["end_date"].custom_widget = SelectDateWidget  
-    form_fields["election_date"].custom_widget = SelectDateWidget  
+    form_fields["start_date"].custom_widget = calendar.CalendarWidget
+    #form_fields["end_date"].custom_widget = SelectDateWidget  
+    form_fields["election_date"].custom_widget = calendar.CalendarWidget
     form_fields["description"].custom_widget=widget.RichTextEditor
     Adapts = IParliament
     CustomValidation = validations.CheckParliamentDatesAdd  
@@ -290,6 +296,44 @@ class CommitteeMemberAdd( CustomAddForm ):
     Adapts = ICommitteeMemberAdd
     CustomValidation =  validations.CheckCommitteeMembersDatesInsideParentDatesAdd     
                       
+# committee staff
+
+sql_AddCommitteeStaff = """                        
+                        SELECT DISTINCT "users"."titles" || ' ' || "users"."first_name" || ' ' || "users"."middle_name" || ' ' || "users"."last_name" as fullname, 
+                        "users"."user_id", "users"."last_name" 
+                        FROM "public"."users" 
+                        WHERE ( ( "active_p" = 'A' AND "type" = 'staff' )
+                                AND ( "users"."user_id" NOT IN ( SELECT "user_id" 
+                                                                FROM "public"."user_group_memberships" 
+                                                                WHERE ( "group_id"  = %(primary_key)s 
+                                                                        AND "active_p" = True) 
+                                                                )                                           
+                                    )                                   
+                               )                    
+                        ORDER BY "last_name"                       
+                        """
+                        
+qryAddCommitteeStaffVocab = vocabulary.SQLQuerySource(sql_AddCommitteeStaff, 'fullname', 'user_id')
+
+class ICommitteeStaffAdd ( ICommitteeStaff ):
+    """
+    override some fields with custom schema
+    """
+    user_id = schema.Choice(title=_(u"Staff Member"),  
+                                source=qryAddCommitteeStaffVocab, 
+                                required=True,
+                                )
+                                
+class CommitteeStaffAdd( CustomAddForm ):
+    """
+    override the AddForm 
+    """
+    form_fields = form.Fields( ICommitteeStaffAdd ) #.omit( "replaced_id", "substitution_type" )
+    form_fields["start_date"].custom_widget = SelectDateWidget
+    form_fields["end_date"].custom_widget = SelectDateWidget
+    Adapts = ICommitteeStaffAdd
+    CustomValidation =  validations.CheckCommitteeMembersDatesInsideParentDatesAdd   
+
 
 # Committees
 
@@ -486,7 +530,8 @@ class CustomEditForm ( EditFormViewlet ):
         """
         self.adapters = {self.Adapts  : self.context }    
         super( CustomEditForm, self).update()        
-        set_widget_errors(self.widgets, self.errors)    
+        set_widget_errors(self.widgets, self.errors)   
+                 
         
     def validate(self, action, data):    
         """

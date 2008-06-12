@@ -107,6 +107,7 @@ public class DocumentSectionAdapterTreeNode extends DefaultMutableTreeNode {
      * @return String
      */
    // @Override
+    @Override
     public String toString(){
        return getSectionNode().getName();
     }

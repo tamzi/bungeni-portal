@@ -14,15 +14,13 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
-import org.bungeni.editor.providers.DocumentSectionTreeModelProvider;
-import org.bungeni.editor.providers.DocumentSectionTreeModelProvider;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
 
 /**
  *
  * @author Administrator
  */
-public class DocumentSectionAdapterDefaultTreeModel extends DefaultTreeModel {
+public class DocumentSectionAdapterDefaultTreeModel extends DefaultTreeModel implements IRefreshableSectionTreeModel{
     Timer treeModelTimer ;
       private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DocumentSectionAdapterDefaultTreeModel.class.getName());
   
@@ -61,5 +59,9 @@ public class DocumentSectionAdapterDefaultTreeModel extends DefaultTreeModel {
        treeModelTimer.setInitialDelay(1000);
        treeModelTimer.start();
         }
+    }
+
+    public void newRootNode() {
+       setRoot(DocumentSectionTreeModelProvider.newRootNode());
     }
 }

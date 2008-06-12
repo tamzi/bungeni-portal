@@ -12,7 +12,6 @@ package org.bungeni.editor.providers;
 import java.util.Iterator;
 import java.util.TreeMap;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import org.bungeni.utils.BungeniBNode;
 
 /**
@@ -31,7 +30,8 @@ public class DocumentSectionTreeModelProvider {
         if (theSectionTreeModel == null ) {
             BungeniBNode bRootNode = DocumentSectionProvider.getTreeRoot();
             DefaultMutableTreeNode dmtRootNode = provideRootNode(bRootNode);
-            theSectionTreeModel = new DocumentSectionAdapterDefaultTreeModel(dmtRootNode);
+            //static model is always subscribed, so there is no internal timer required int the model
+            theSectionTreeModel = new DocumentSectionAdapterDefaultTreeModel(dmtRootNode, false);
             DocumentSectionProvider.subscribeModel(theSectionTreeModel);
             }
         return theSectionTreeModel;    
@@ -43,7 +43,7 @@ public class DocumentSectionTreeModelProvider {
     public static DocumentSectionAdapterDefaultTreeModel create(){
         BungeniBNode bRootNode = DocumentSectionProvider.getTreeRoot();
         DefaultMutableTreeNode dmtRootNode = provideRootNode(bRootNode);
-        DocumentSectionAdapterDefaultTreeModel model = new DocumentSectionAdapterDefaultTreeModel(dmtRootNode);
+        DocumentSectionAdapterDefaultTreeModel model = new DocumentSectionAdapterDefaultTreeModel(dmtRootNode, false);
         DocumentSectionProvider.subscribeModel(model);
         return model;
     }
@@ -54,7 +54,7 @@ public class DocumentSectionTreeModelProvider {
     public static DocumentSectionAdapterDefaultTreeModel create_without_subscription(){
         BungeniBNode bRootNode = DocumentSectionProvider.getTreeRoot();
         DefaultMutableTreeNode dmtRootNode = provideRootNode(bRootNode);
-        DocumentSectionAdapterDefaultTreeModel model = new DocumentSectionAdapterDefaultTreeModel(dmtRootNode);
+        DocumentSectionAdapterDefaultTreeModel model = new DocumentSectionAdapterDefaultTreeModel(dmtRootNode, true);
         //DocumentSectionProvider.subscribeModel(model);
         return model;
     }

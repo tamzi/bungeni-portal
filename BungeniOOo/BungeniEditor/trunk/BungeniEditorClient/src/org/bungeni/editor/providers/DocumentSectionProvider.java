@@ -45,8 +45,8 @@ public class DocumentSectionProvider {
     private static BungeniBTree theSectionTree = new BungeniBTree();
     public static int TIMER_DELAY = 3000;
     static Timer sectionRefreshTimer;
-    private static ArrayList<DocumentSectionAdapterDefaultTreeModel> treeModelList = new ArrayList<DocumentSectionAdapterDefaultTreeModel>();
-    
+    //private static ArrayList<DocumentSectionAdapterDefaultTreeModel> treeModelList = new ArrayList<DocumentSectionAdapterDefaultTreeModel>();
+    private static ArrayList<IRefreshableSectionTreeModel> treeModelList = new ArrayList<IRefreshableSectionTreeModel>();
     
     /** Creates a new instance of DocumentSectionIterator */
     public DocumentSectionProvider() {
@@ -61,14 +61,28 @@ public class DocumentSectionProvider {
         buildSectionTree();
     }
     
-    public static void subscribeModel(DocumentSectionAdapterDefaultTreeModel model) {
+    public static OOComponentHelper getOOoDocument(){
+        return ooDocument;
+    }
+     public static void subscribeModel(IRefreshableSectionTreeModel model) {
         treeModelList.add(model);
     }
     
+    /*
+     public static void subscribeModel(DocumentSectionAdapterDefaultTreeModel model) {
+        treeModelList.add(model);
+    }
+    */
+    /*
     public static void unsubscribeModel(DocumentSectionAdapterDefaultTreeModel model) {
         treeModelList.remove(model);
     }
-    
+    */
+     
+    public static void unsubscribeModel(IRefreshableSectionTreeModel model) {
+        treeModelList.remove(model);
+    }
+     
     public static BungeniBTree getTree(){
         return theSectionTree;
     }
@@ -98,8 +112,11 @@ public class DocumentSectionProvider {
                     theSectionTree = tmpTreeRoot;
                     }
                   //refresh subscribed tree models
-                  for( DocumentSectionAdapterDefaultTreeModel model: treeModelList) {
+                  /*for( DocumentSectionAdapterDefaultTreeModel model: treeModelList) {
                       model.setRoot(DocumentSectionTreeModelProvider.newRootNode());
+                  }*/
+                  for (IRefreshableSectionTreeModel model: treeModelList) {
+                      model.newRootNode();
                   }
               }
            });

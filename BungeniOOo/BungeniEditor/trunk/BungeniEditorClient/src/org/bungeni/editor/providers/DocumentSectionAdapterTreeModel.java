@@ -11,20 +11,9 @@ package org.bungeni.editor.providers;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Iterator;
 import javax.swing.Timer;
-import javax.swing.event.TreeModelEvent;
-import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
-import org.bungeni.editor.toolbar.AbstractTreeModel;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
-import org.bungeni.utils.BungeniBNode;
-import org.bungeni.utils.BungeniBTree;
-import org.jdom.Attribute;
-import org.jdom.Document;
 
 /**
  *

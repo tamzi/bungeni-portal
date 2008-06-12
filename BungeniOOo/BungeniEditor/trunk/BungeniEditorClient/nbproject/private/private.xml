@@ -3,10 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/1">
         <file>
             <url>src/org/bungeni/editor/panels/generalEditorPanel4.java</url>
-            <line>163</line>
-            <line>357</line>
-            <line>478</line>
-            <line>521</line>
+            <line>170</line>
+            <line>368</line>
+            <line>462</line>
+            <line>481</line>
         </file>
         <file>
             <url>src/org/bungeni/editor/selectors/InitSpeech.java</url>
@@ -26,20 +26,34 @@
         </file>
         <file>
             <url>src/org/bungeni/editor/selectors/InitQuestionBlock.java</url>
-            <line>325</line>
-            <line>477</line>
+            <line>352</line>
+            <line>651</line>
         </file>
         <file>
             <url>src/org/bungeni/editor/actions/EditorSelectionActionHandler.java</url>
-            <line>78</line>
+            <line>93</line>
+        </file>
+        <file>
+            <url>src/org/bungeni/editor/dialogs/editorApplicationController.java</url>
+            <line>504</line>
+        </file>
+        <file>
+            <url>src/org/bungeni/editor/panels/loadable/sectionNumbererPanel.java</url>
+            <line>0</line>
+            <line>0</line>
+            <line>0</line>
+            <line>0</line>
+            <line>0</line>
         </file>
         <file>
             <url>src/org/bungeni/ooo/OOComponentHelper.java</url>
-            <line>315</line>
+            <line>337</line>
         </file>
         <file>
             <url>src/org/bungeni/editor/selectors/selectorTemplatePanel.java</url>
-            <line>362</line>
+            <line>439</line>
+            <line>454</line>
+            <line>605</line>
         </file>
     </editor-bookmarks>
 </project-private>

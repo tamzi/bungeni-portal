@@ -1,7 +1,7 @@
 /*
- * squareDecorator.java
+ * parensDecorator.java
  *
- * Created on June 5, 2008, 12:12 PM
+ * Created on June 5, 2008, 11:51 AM
  *
  * To change this template, choose Tools | Template Manager
  * and open the template in the editor.
@@ -15,17 +15,19 @@ import org.bungeni.numbering.impl.BaseNumberDecorator;
  *
  * @author Administrator
  */
-public class squareDecorator extends BaseNumberDecorator {
-
-    public String getPrefix() {
+public class flowerBracketDecorator extends BaseNumberDecorator {
+    static String PREFIX = "{";
+    static String SUFFIX = "}";
+   
+    
+    public String getPrefix(){
         return PREFIX;
     }
-
-    public String getSuffix() {
+    
+    public String getSuffix(){
         return SUFFIX;
     }
-    static String PREFIX = "[";
-    static String SUFFIX = "]";
-
     
+    /** Creates a new instance of parensDecorator */
+
 }

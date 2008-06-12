@@ -9,7 +9,6 @@ package org.bungeni.editor.panels.loadable;
 import com.sun.star.beans.PropertyVetoException;
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
-import com.sun.star.container.XNameAccess;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextDocument;
@@ -34,7 +33,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
-import javax.swing.Renderer;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -43,11 +41,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
-import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreePath;
 import org.bungeni.editor.numbering.ooo.OOoNumberingHelper;
 import org.bungeni.editor.providers.DocumentSectionProvider;
-import org.bungeni.editor.providers.DocumentSectionTreeModelProvider;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.utils.BungeniBNode;
@@ -618,20 +614,31 @@ public class frameBrokenReferences extends javax.swing.JFrame {
             public boolean numberedHeading = false;
             numberedHeadingsNode (OOComponentHelper ooDoc, BungeniBNode aNode) {
                 XTextSection aSection = ooDoc.getSection(aNode.getName());
+                
                 this.sectionName = aNode.getName();
                 HashMap<String,String> sectionMeta  = ooDoc.getSectionMetadataAttributes(aSection);
+                String sectionType = "";
                 if (sectionMeta.containsKey("BungeniSectionType")){
-                    String sectionType = sectionMeta.get("BungeniSectionType");
+                    sectionType = sectionMeta.get("BungeniSectionType");
                     if (sectionType.equals("NumberedContainer")) {
                         numberedHeading = true;
-                        nodeName = aSection.getAnchor().getString();
-                    } else {
+                        //nodeName = aSection.getAnchor().getString();
+                    } /* else {
                         nodeName = aNode.getName();
-                    }
-                } else {
+                    }*/
+                    
+                } /*else {
                   nodeName = aNode.getName();  
-                }
+                }*/
+                    String dispText = aSection.getAnchor().getString();
+                    dispText = (dispText == null ) ? "" : dispText;
+                    dispText =  (dispText.length() > 15) ? dispText.substring(0,14) : dispText;
+                    dispText = (dispText.length() == 0) ? aNode.getName(): dispText;
+                    dispText = (sectionType.length() != 0) ? sectionType+"-"+dispText: dispText;
+                    
+                    nodeName = dispText + "..";
             }
+        @Override
             public String toString(){
                 return nodeName;
             }
@@ -706,10 +713,12 @@ public class frameBrokenReferences extends javax.swing.JFrame {
             return this.column_names.length;
         }
 
+        @Override
          public String getColumnName(int column) {
                 return this.column_names[column];
          }
          
+        @Override
          public Class getColumnClass(int col) { 
                 return String.class;
          }

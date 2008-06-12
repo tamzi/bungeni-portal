@@ -568,15 +568,17 @@ public class generalEditorPanel4 extends templatePanel implements IFloatingPanel
        public void mousePressed(MouseEvent evt) {
             //get treepath for currennt mouse click
             TreePath selPath = treeGeneralEditor.getPathForLocation(evt.getX(), evt.getY());
-            Object node = selPath.getLastPathComponent();
-            if (node.getClass() == org.bungeni.editor.toolbar.BungeniToolbarXMLAdapterNode.class ) {
-                BungeniToolbarXMLAdapterNode toolbarXmlNode = (BungeniToolbarXMLAdapterNode) node;
-                if (toolbarXmlNode.childCount() == 0 && evt.getClickCount() == 2) {
-                    processBungeniToolbarXmlAdapterNode(toolbarXmlNode); 
-                }
-            }  
+            if (selPath != null ) {
+                Object node = selPath.getLastPathComponent();
+                if (node == null ) return;
+                if (node.getClass() == org.bungeni.editor.toolbar.BungeniToolbarXMLAdapterNode.class ) {
+                    BungeniToolbarXMLAdapterNode toolbarXmlNode = (BungeniToolbarXMLAdapterNode) node;
+                    if (toolbarXmlNode.childCount() == 0 && evt.getClickCount() == 2) {
+                        processBungeniToolbarXmlAdapterNode(toolbarXmlNode); 
+                    }
+                }  
+            }
        }
-       
        private void processAction(toolbarAction action) {
            log.debug("processAction:" + action.action_name() );
 

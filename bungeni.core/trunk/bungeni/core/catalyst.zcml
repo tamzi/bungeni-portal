@@ -202,6 +202,13 @@
      />
      
   <db:catalyst
+     class=".domain.StaffMember"
+     descriptor=".descriptor.StaffMemberDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     echo="False"
+     />     
+  <db:catalyst
      class=".domain.PartyMember"
      descriptor=".descriptor.PartyMemberDescriptor"
      interface_module=".interfaces"

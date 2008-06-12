@@ -7,6 +7,9 @@ from sqlalchemy.orm import mapper, relation, column_property
 import schema
 import domain
 
+# general representation of a person
+mapper ( domain.Person, schema.users )
+
 # Users
 mapper( domain.User, schema.users,
         polymorphic_on=schema.users.c.type,
@@ -110,6 +113,24 @@ mapper( domain.ParliamentMember,
                     },
         polymorphic_identity='memberofparliament'
       )
+
+mapper( domain.StaffMember, 
+        inherits=domain.User,
+          properties={
+           'fullname' : column_property(
+                             (schema.users.c.first_name + u" " + 
+                             schema.users.c.middle_name + u" " + 
+                             schema.users.c.last_name).label('fullname')
+                                           ),
+           'short_name' : column_property(
+                             (schema.users.c.last_name + u", " + 
+                             #schema.users.c.middle_name + u" " +
+                             schema.users.c.first_name).label('short_name')
+                                           )
+                    },
+        polymorphic_identity='staff'
+      )
+
 
 # A parliament member is described by 
 # membership in the parliament (group + parliament_id)

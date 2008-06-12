@@ -67,6 +67,9 @@ class AppSetup( object ):
         parliament_members = domain.ParliamentMemberContainer()
         self.context['persons'] = parliament_members
         
+        staff_members = domain.StaffMemberContainer()
+        self.context['staff'] = staff_members        
+        
         #groups = domain.GroupContainer()       
         #self.context['groups'] = groups
         

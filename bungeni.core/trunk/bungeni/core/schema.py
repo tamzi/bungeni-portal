@@ -284,7 +284,7 @@ user_group_memberships = rdb.Table(
    rdb.Column( "replaced_id", rdb.Integer, rdb.ForeignKey('user_group_memberships.membership_id') ),
    rdb.Column( "substitution_type", rdb.Unicode(100) ),
    # type of membership staff or member
-   rdb.Column( "membership_type", rdb.String(30), default ="member", nullable = False),
+   rdb.Column( "membership_type", rdb.String(30), default ="member",) # nullable = False),
    )
   
 # a bill assigned to a committee, a question assigned to a ministry

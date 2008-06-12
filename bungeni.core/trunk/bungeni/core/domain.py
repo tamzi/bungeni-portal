@@ -80,15 +80,25 @@ class ParliamentMember( User ):
 
 
 
-
-
+class Person( User ):
+    """
+    general representation of a person
+    """
+    sort_on = 'short_name'
+    
+class StaffMember( Person ):
+    """
+    A staff member
+    """    
+            
 
 class MemberOfParliament ( object ):    
     """
     defined by groupmembership and aditional data
     """    
     sort_on = 'short_name'
-        
+    
+
 class HansardReporter( User ):
     """ a reporter who reports on parliamentary procedings
     """

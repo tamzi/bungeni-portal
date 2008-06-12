@@ -64,7 +64,7 @@ def member_fk_column( name, title, default=""):
         if not value:
             return default
         session = Session()
-        member = session.query( domain.ParliamentMember ).get( value )
+        member = session.query( domain.Person ).get( value )
         return u"%s %s"%(member.first_name, member.last_name)
     return column.GetterColumn( title, getter )
 
@@ -225,7 +225,9 @@ class MemberDescriptor( UserDescriptor ):
 #        dict( name="leave_reason", label=_(u"Leave Reason")  ),
 #        ])
 
-
+class StaffMemberDescriptor( UserDescriptor ):
+    display_name = _(u"Staff Members")
+    fields = deepcopy( UserDescriptor.fields )	        
         
 class HansardReporterDescriptor( UserDescriptor ):
 	
@@ -282,7 +284,8 @@ class GroupMembershipDescriptor( ModelDescriptor ):
 #            ),     
         dict( name="group_id", omit=True),
         dict( name="membership_id", omit=True),
-        dict( name="status", omit=True )
+        dict( name="status", omit=True ),
+        dict( name="membership_type", omit=True )
         ]
         
    schema_invariants = [EndAfterStart,ActiveAndSubstituted,SubstitudedEndDate,InactiveNoEndDate]

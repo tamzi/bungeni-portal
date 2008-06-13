@@ -46,6 +46,7 @@ class CustomAddForm( ContentAddForm ):
     def update( self ):
          self.status = self.request.get('portal_status_message','')
          form.AddForm.update( self )
+         set_widget_errors(self.widgets, self.errors)
 
 
     def finishConstruction( self, ob ):
@@ -230,6 +231,7 @@ class ExtensionMemberAdd( CustomAddForm ):
     form_fields = form.Fields( IExtensionMemberAdd ).omit( "replaced_id", "substitution_type" )
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget 
+    form_fields["notes"].custom_widget=widget.RichTextEditor
     Adapts = IExtensionMemberAdd
     CustomValidation =  validations.CheckExtensionMemberDatesInsideParentDatesAdd    
                       
@@ -293,6 +295,7 @@ class CommitteeMemberAdd( CustomAddForm ):
     form_fields = form.Fields( ICommitteeMemberAdd ).omit( "replaced_id", "substitution_type" )
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget
+    form_fields["notes"].custom_widget=widget.RichTextEditor
     Adapts = ICommitteeMemberAdd
     CustomValidation =  validations.CheckCommitteeMembersDatesInsideParentDatesAdd     
                       
@@ -328,9 +331,10 @@ class CommitteeStaffAdd( CustomAddForm ):
     """
     override the AddForm 
     """
-    form_fields = form.Fields( ICommitteeStaffAdd ) #.omit( "replaced_id", "substitution_type" )
+    form_fields = form.Fields( ICommitteeStaffAdd ).omit( "replaced_id", "substitution_type" )
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget
+    form_fields["notes"].custom_widget=widget.RichTextEditor
     Adapts = ICommitteeStaffAdd
     CustomValidation =  validations.CheckCommitteeMembersDatesInsideParentDatesAdd   
 
@@ -709,6 +713,31 @@ class CommitteeMemberEdit( CustomEditForm ):
     form_fields["end_date"].custom_widget = SelectDateWidget 
     form_fields["notes"].custom_widget=widget.RichTextEditor         
     CustomValidations = validations.CommitteeMemberDatesEdit
+
+class ICommitteeStaffEdit ( ICommitteeStaff ):
+    """
+    override some fields with custom schema
+    """
+    user_id = schema.Choice(title=_(u"Staff Member"),  
+                                source=membersEditVocab, 
+                                required=True,
+                                )
+    replaced_id = schema.Choice(title=_(u"substituted by"),  
+                                source=substitutionsEditVocab, 
+                                required=False,
+                                )
+                                
+class CommitteeStaffEdit( CustomEditForm ):
+    """
+    override the AddForm 
+    """
+    form_fields = form.Fields( ICommitteeStaffEdit ) #.omit( "replaced_id", "substitution_type" )
+    form_fields["start_date"].custom_widget = SelectDateWidget
+    form_fields["end_date"].custom_widget = SelectDateWidget
+    form_fields["notes"].custom_widget=widget.RichTextEditor 
+    Adapts = ICommitteeStaffEdit
+    CustomValidation =  validations.CommitteeMemberDatesEdit   
+
    
 class MinistryEdit( CustomEditForm ):
     Adapts = IMinistry   

@@ -98,6 +98,17 @@
       permission="zope.View"
       allowed_interface="zope.formlib.interfaces.ISubPageForm"      
       />   
+      
+<!-- Edit Committee Staff  -->   
+    <browser:viewlet
+      name="alchemist.attributes.edit"
+      manager="alchemist.ui.interfaces.IContentEditManager"
+      class=".forms.CommitteeStaffEdit"
+      for="bungeni.core.interfaces.ICommitteeStaff"
+      permission="zope.View"
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+      />   
+      
 <!-- Committee Member Add Form -->  
    <browser:view
       name="add"

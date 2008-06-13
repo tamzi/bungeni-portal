@@ -48,7 +48,6 @@ import org.bungeni.utils.MessageBox;
  */
 public class NodeMoveTransferHandler extends TransferHandler {
    private static org.apache.log4j.Logger log = Logger.getLogger(NodeMoveTransferHandler.class.getName());
-   private OOComponentHelper ooDocument;
    private org.bungeni.editor.dialogs.editorTabbedPanel parentPanel;
    private final Integer MOVE_BEFORE=0;
    private final Integer MOVE_AFTER=1;
@@ -62,9 +61,8 @@ public class NodeMoveTransferHandler extends TransferHandler {
     super();
   }
 
-  public NodeMoveTransferHandler(OOComponentHelper ooDoc, org.bungeni.editor.dialogs.editorTabbedPanel mainObj) {
+  public NodeMoveTransferHandler(org.bungeni.editor.dialogs.editorTabbedPanel mainObj) {
       super();
-      ooDocument = ooDoc;
       parentPanel = mainObj;
       BungeniPopupMenuHelper menuHelper = new BungeniPopupMenuHelper("MoveSectionsDropMenu");
       theMenu = menuHelper.getMenus();
@@ -76,6 +74,7 @@ public class NodeMoveTransferHandler extends TransferHandler {
    * @return  all selected paths in the given tree 
    * (or null if the given component is not a tree)
    */
+    @Override
   protected Transferable createTransferable(JComponent c) {
   	Transferable t = null;
 	  if(c instanceof JTree) {
@@ -285,6 +284,7 @@ public class NodeMoveTransferHandler extends TransferHandler {
           
           public void processPopupSelection(String sectionFrom, String sectionTo, String action_id ) {
               //go to selected range
+              final OOComponentHelper ooDocument = parentPanel.getOODocumentObject();
                if (action_id.equals("0_MOVE_BEFORE")) {
                 
                 org.bungeni.utils.Clipboard.clear();

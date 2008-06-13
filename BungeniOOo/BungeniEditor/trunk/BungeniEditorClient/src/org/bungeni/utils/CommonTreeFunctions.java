@@ -10,13 +10,9 @@
 package org.bungeni.utils;
 
 import java.net.URL;
-import java.util.Enumeration;
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
 import org.bungeni.editor.BungeniEditorProperties;
-import org.bungeni.editor.toolbar.BungeniToolbarXMLAdapterNode;
 
 /**
  *
@@ -36,6 +32,14 @@ public class CommonTreeFunctions {
             tree.expandRow(i);
             i++;
         }
+    }
+    
+    public static ImageIcon treeMinusIcon(){
+        return loadIcon("treeMinus.gif");
+    }
+    
+    public static ImageIcon treePlusIcon(){
+        return loadIcon("treePlus.gif");
     }
     
     public static ImageIcon loadIcon (String iconName) {

@@ -55,12 +55,12 @@ public class DocumentSectionFriendlyTreeModelProvider {
         String sectionType = ooDoc.getSectionType(aSect);
         if (sectionType != null ) {
             bDispTextFound = true;
-            retDisplayText = sectionType + " - ";
+            retDisplayText = sectionType + "-";
         }
         if (sectionText.length() > 0 ) {
             bDispTextFound = true;
-            if (sectionText.length() > 10 ) 
-                retDisplayText = retDisplayText + sectionText.substring(1, 10)+ "..";
+            if (sectionText.length() > 15 ) 
+                retDisplayText = retDisplayText + sectionText.substring(0, 14)+ "..";
             else
                 retDisplayText = retDisplayText + sectionText+ "..";
         }

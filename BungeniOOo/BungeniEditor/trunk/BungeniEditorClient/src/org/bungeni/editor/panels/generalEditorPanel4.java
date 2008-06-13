@@ -12,20 +12,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Vector;
-import javax.swing.AbstractAction;
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
-import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeWillExpandListener;
@@ -52,7 +46,6 @@ import org.bungeni.editor.toolbar.conditions.BungeniToolbarConditionProcessor;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.CommonTreeFunctions;
-import org.bungeni.utils.MessageBox;
 
 /**
  *

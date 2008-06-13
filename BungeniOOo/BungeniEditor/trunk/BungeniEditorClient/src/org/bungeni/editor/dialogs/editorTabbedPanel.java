@@ -49,6 +49,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -61,10 +62,14 @@ import javax.swing.JTree;
 import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
 import javax.swing.Timer;
+import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.basic.BasicTreeUI;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
@@ -90,6 +95,8 @@ import org.bungeni.utils.MessageBox;
 import org.bungeni.utils.BungeniBTree;
 import org.bungeni.utils.BungeniBNode;
 import org.bungeni.editor.BungeniEditorProperties;
+import org.bungeni.editor.providers.DocumentSectionFriendlyAdapterDefaultTreeModel;
+import org.bungeni.editor.providers.DocumentSectionFriendlyTreeModelProvider;
 /**
  *
  * @author  Administrator
@@ -119,6 +126,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private Thread tStructure;
     private changeStructureItem selectedChangeStructureItem;
     private JTree treeDocStructureTree;
+    private JTree treeSectionStructure;
     private JPopupMenu popupMenuTreeStructure = new JPopupMenu();
     private boolean mouseOver_TreeDocStructureTree = false;
     private boolean program_refresh_documents = false;
@@ -307,6 +315,10 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         this.ooDocument = ooDoc;
     }
     
+    public OOComponentHelper getOODocumentObject(){
+        return this.ooDocument;
+    }
+    
     /*
     private void refreshTableDocMetadataModel(){
        
@@ -448,25 +460,46 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private void initFields(){
         //initTree();
         treeDocStructure.setModel(new DefaultListModel());
-        treeDocStructureTree = new JTree();
-        treeDocStructureTree.setExpandsSelectedPaths(true);
-        treeDocStructureTree.addMouseListener(new treeDocStructureTreeMouseListener());
-        NodeMoveTransferHandler transferHandler = new NodeMoveTransferHandler(ooDocument, this);
-        treeDocStructureTree.setTransferHandler(transferHandler);
-        treeDocStructureTree.setDropTarget(new TreeDropTarget(transferHandler));
-        treeDocStructureTree.setDragEnabled(true);
+        this.initSectionTree();
+        this.initSectionStructureTree();
+       // treeSectionStructure = new JTree();
+        //treeSectionStructure.setExpandsSelectedPaths(true);
+        //treeDocStructureTree.addMouseListener(new treeDocStructureTreeMouseListener());
+
+        
+        
         //initList();
         //initSectionList();
         //clear meatada listbox
         //listboxMetadata.setModel(new DefaultListModel());
         //init combo change structure
         changeStructureItem[] items = initChangeStructureItems();
+        changeStructureItem itemDefault = null;
+        String defaultHierarchyView = BungeniEditorProperties.getEditorProperty("defaultHierarchyView");
         for (int i=0; i < items.length; i++) {
+            if (items[i].getIndex().equalsIgnoreCase(defaultHierarchyView)){
+                itemDefault = items[i];
+            }
             comboChangeStructure.addItem(items[i]);    
         }
         comboChangeStructure.addActionListener (new comboChangeStructureListener());
+        if (itemDefault != null)
+            comboChangeStructure.setSelectedItem(itemDefault);
         selectedChangeStructureItem = (changeStructureItem)comboChangeStructure.getSelectedItem();
+        
         initList();
+    }
+    
+    private void initSectionTree(){
+        treeDocStructureTree = new JTree();
+        treeDocStructureTree.setExpandsSelectedPaths(true);
+        treeDocStructureTree.addMouseListener(new treeDocStructureTreeMouseListener());
+        NodeMoveTransferHandler transferHandler = new NodeMoveTransferHandler(this);
+        treeDocStructureTree.setTransferHandler(transferHandler);
+        treeDocStructureTree.setDropTarget(new TreeDropTarget(transferHandler));
+        treeDocStructureTree.setDragEnabled(true);
+        treeDocStructureTreeCellRenderer render = new treeDocStructureTreeCellRenderer();
+        treeDocStructureTree.setCellRenderer(render);
     }
     
     public void uncheckEditModeButton() {
@@ -508,7 +541,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                    // ooDocument.detachListener();
                     setOODocumentObject(new OOComponentHelper(xComp.getComponent(), ComponentContext));
                     updateProviders();
-                    initFields();
+                    //initFields();
                     //initializeValues();
                    
                     // removed call to collapsiblepane function
@@ -550,9 +583,11 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private changeStructureItem[] initChangeStructureItems() {
         changeStructureItem itema = new changeStructureItem ("VIEW_PARAGRAPHS", "View Paragraphs");
         changeStructureItem itemb = new changeStructureItem ("VIEW_SECTIONS", "View Sections");
-        changeStructureItem[] items = new changeStructureItem[2];
+        changeStructureItem itemc = new changeStructureItem ("VIEW_PRETTY_SECTIONS", "View Structure");
+        changeStructureItem[] items = new changeStructureItem[3];
         items[0] = itemb;
         items[1] = itema;
+        items[2] = itemc;
         return items;
     }
     
@@ -663,6 +698,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             text = t;
             query = q;
         }
+        @Override
         public String toString() {
             return text;
         }
@@ -687,7 +723,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             log.debug("initList: initParagraphList");
             scrollPane_treeDocStructure.setViewportView(treeDocStructure);
             initParagraphList(); 
-        } else {
+        } else if (selectedChangeStructureItem.getIndex().equals("VIEW_SECTIONS")){
             log.debug("initList: initSectionList");
             scrollPane_treeDocStructure.setViewportView(treeDocStructureTree);
             //do not refresh if the mouse is over the tree
@@ -696,14 +732,21 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                 return;
             }
             initSectionList();
-        }    
+        } else if (selectedChangeStructureItem.getIndex().equals("VIEW_PRETTY_SECTIONS")){
+             scrollPane_treeDocStructure.setViewportView(treeSectionStructure);
+                      //   if (mouseOver_TreeDocStructureTree) {
+                      //      log.debug("initList: mouseOver treeDocStructure = true");
+                      //      return;
+                      //  }
+            initSectionStructureTreeModel();
+            //initSectionList();
+        }   
    }
         
     private void clearTree(){
         treeDocStructureTree.removeAll();
-        treeDocStructureTree.updateUI();
-        treeDocStructureTreeCellRenderer render = new treeDocStructureTreeCellRenderer();
-        treeDocStructureTree.setCellRenderer(render);
+       // treeDocStructureTree.updateUI();
+
     }
    
 
@@ -973,6 +1016,33 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         CommonTreeFunctions.expandAll(treeDocStructureTree);
       }
     
+    private void initSectionStructureTree(){
+         this.treeSectionStructure = new JTree();
+         treeSectionStructure.setExpandsSelectedPaths(true);
+         
+         DefaultTreeCellRenderer sectionTreeRender = (DefaultTreeCellRenderer) this.treeSectionStructure.getCellRenderer();
+         ImageIcon minusIcon = CommonTreeFunctions.treeMinusIcon();
+         ImageIcon plusIcon = CommonTreeFunctions.treePlusIcon();
+         sectionTreeRender.setOpenIcon(minusIcon);
+         sectionTreeRender.setClosedIcon(plusIcon);
+         UIManager.put("Tree.expandedIcon", minusIcon);
+         UIManager.put("Tree.collapsedIcon", plusIcon);
+         sectionTreeRender.setLeafIcon(null);
+         treeSectionStructure.setCellRenderer(sectionTreeRender);
+         //treeSectionStructure.setCellRenderer(new treeViewPrettySectionsTreeCellRenderer());
+         treeSectionStructure.setShowsRootHandles(false);
+         ComponentUI ui = treeSectionStructure.getUI();
+         if (ui instanceof BasicTreeUI){
+             ((BasicTreeUI)ui).setExpandedIcon(minusIcon);
+             ((BasicTreeUI)ui).setCollapsedIcon(plusIcon);
+         }
+ 
+    }
+    private void initSectionStructureTreeModel(){
+        DocumentSectionFriendlyAdapterDefaultTreeModel model = DocumentSectionFriendlyTreeModelProvider.create_without_subscription();
+        this.treeSectionStructure.setModel(model);
+        CommonTreeFunctions.expandAll(treeSectionStructure);
+    }
     
     private void initParagraphList(){
        
@@ -1767,6 +1837,7 @@ public void hidePanelControls(){
         public String getIndex() {
             return itemIndex;
         }
+        @Override
         public String toString(){
             return itemText;
         }
@@ -1872,6 +1943,15 @@ public void hidePanelControls(){
             }        
     }
     
+    class treeViewPrettySectionsTreeCellRenderer extends JLabel implements TreeCellRenderer {
+
+        public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+            setText(value.toString());
+            setIcon(null);
+            return this;
+        }
+        
+    }
     class treeDocStructureTreeCellRenderer extends JLabel implements TreeCellRenderer {
         public treeDocStructureTreeCellRenderer(){
 

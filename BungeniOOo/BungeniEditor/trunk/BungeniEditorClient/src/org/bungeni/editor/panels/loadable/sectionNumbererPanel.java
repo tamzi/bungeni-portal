@@ -6,83 +6,35 @@
 
 package org.bungeni.editor.panels.loadable;
 
-import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.PropertyVetoException;
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
-import com.sun.star.beans.XPropertySetInfo;
 import com.sun.star.container.NoSuchElementException;
-import com.sun.star.container.XContentEnumerationAccess;
 import com.sun.star.container.XEnumeration;
 import com.sun.star.container.XEnumerationAccess;
 import com.sun.star.container.XNameAccess;
 import com.sun.star.container.XNamed;
 import com.sun.star.lang.WrappedTargetException;
-import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XServiceInfo;
-import com.sun.star.text.ReferenceFieldPart;
-import com.sun.star.text.ReferenceFieldSource;
-import com.sun.star.text.XReferenceMarksSupplier;
-import com.sun.star.text.XSimpleText;
-import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextField;
 import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextSection;
-import com.sun.star.text.XTextViewCursor;
-import com.sun.star.text.XTextViewCursorSupplier;
-import com.sun.star.text.XWordCursor;
-import com.sun.star.uno.Any;
 import com.sun.star.uno.AnyConverter;
-import com.sun.star.uno.Type;
 import com.sun.star.uno.UnoRuntime;
-import com.sun.star.uno.XComponentContext;
-import com.sun.star.util.XNumberFormatTypes;
-import com.sun.star.util.XNumberFormats;
-import com.sun.star.util.XNumberFormatsSupplier;
-import com.sun.star.util.XPropertyReplace;
-import com.sun.star.util.XRefreshable;
-import com.sun.star.util.XReplaceDescriptor;
-import com.sun.star.util.XReplaceable;
-import com.sun.star.util.XSearchDescriptor;
-import com.sun.star.util.SearchOptions;
-import com.sun.star.util.XUpdatable;
-import com.sun.star.view.XViewCursor;
-import com.sun.star.xforms.XModel;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.Timer;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
-import javax.swing.tree.TreeSelectionModel;
 
-import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.document.DocumentSection;
 import org.bungeni.editor.document.DocumentSectionsContainer;
 import org.bungeni.editor.panels.impl.BaseClassForITabbedPanel;
@@ -96,16 +48,10 @@ import org.bungeni.numbering.impl.NumberRange;
 import org.bungeni.numbering.impl.NumberingSchemeFactory;
 import org.bungeni.editor.numbering.ooo.OOoNumberingHelper;
 
-import org.bungeni.ooo.BungenioOoHelper;
-import org.bungeni.ooo.OOComponentHelper;
 import org.apache.log4j.Logger;
-import org.bungeni.ooo.ooDocMetadata;
 import org.bungeni.ooo.ooQueryInterface;
-import org.bungeni.ooo.ooUserDefinedAttributes;
 import org.bungeni.utils.BungeniBNode;
-import org.bungeni.utils.BungeniUUID;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
-import org.bungeni.utils.CommonTreeFunctions;
 import org.bungeni.utils.MessageBox;
 
 
@@ -605,8 +551,9 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
             XTextSection numberedChild = ooDocument.getChildSectionByType(matchedSection, OOoNumberingHelper.NUMBERING_SECTION_TYPE);
             if (numberedChild != null ) {
                 String theNumber = this.m_selectedNumberingScheme.sequence_next();
+                long lBaseIndex = this.m_selectedNumberingScheme.sequence_base_index(theNumber);
                 ooDocument.protectSection(numberedChild, false);
-                updateNumberInSection(numberedChild, theNumber, numDecor);
+                updateNumberInSection(numberedChild, theNumber, numDecor, lBaseIndex);
                 ////update the field here ooDocument.getTextFields();
                 ooDocument.protectSection(numberedChild, true);
             }   
@@ -615,7 +562,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         
     }
     
-    private void updateNumberInSection(XTextSection numberedChild, String theNumber, INumberDecorator numberDecorator) {
+    private void updateNumberInSection(XTextSection numberedChild, String theNumber, INumberDecorator numberDecorator, long lNumBaseIndex) {
         try {
             HashMap<String,String> childMeta = ooDocument.getSectionMetadataAttributes(numberedChild);
             String sectionUUID = childMeta.get("BungeniSectionUUID");
@@ -628,7 +575,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
             aFieldSet.setPropertyValue("Content", theNumber);
             XTextSection numberedParent = numberedChild.getParentSection();
             String numberedParentType = ooDocument.getSectionType(numberedParent);
-            this.updateSectionNumberingMetadata(numberedChild, numberedParentType, theNumber);
+            this.updateSectionNumberingMetadata(numberedChild, numberedParentType, theNumber, lNumBaseIndex);
             ooDocument.refreshTextField(aField);
         } catch (UnknownPropertyException ex) {
             log.error(ex.getClass().getName() + " - " + ex.getMessage());
@@ -1005,7 +952,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
             //finally create a reference for the complete heading
             sectionCursor.gotoRange(childSection.getAnchor(), true);
             insertReferenceMark(sectionCursor, sectionUUID);
-            updateSectionNumberingMetadata(childSection, numberedParentType, theNumber);
+            updateSectionNumberingMetadata(childSection, numberedParentType, theNumber, -1);
       }
       
    private void insertField(XTextRange cursorRange, String fieldPrefix , String uuidOfField, String fieldContent) {   
@@ -1045,14 +992,14 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
    }
 
    
-   private void updateSectionNumberingMetadata(XTextSection childSection, String numberedParentType, String theNumber){
+   private void updateSectionNumberingMetadata(XTextSection childSection, String numberedParentType, String theNumber, long lTrueNumber){
          HashMap<String,String> sectionMeta = new HashMap<String,String>();
          sectionMeta.put(OOoNumberingHelper.numberingMetadata.get("APPLIED_NUMBER"), theNumber);
          sectionMeta.put(OOoNumberingHelper.numberingMetadata.get("NUMBERING_SCHEME"), /*this.getSelectedNumberingScheme().schemeName*/ getNumberingSchemeForSectionType(numberedParentType));
          sectionMeta.put(OOoNumberingHelper.numberingMetadata.get("PARENT_PREFIX_NUMBER"), "");
          String trueNumber = "";
          if (!theNumber.equals(MARKED_FOR_RENUMBERING))
-             trueNumber = (new Long(m_selectedNumberingScheme.sequence_base_index(theNumber))).toString();
+             trueNumber = (new Long(lTrueNumber)).toString();
          else
              trueNumber = "";
          sectionMeta.put(OOoNumberingHelper.numberingMetadata.get("APPLIED_TRUE_NUMBER"), trueNumber);

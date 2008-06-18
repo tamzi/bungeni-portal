@@ -169,7 +169,9 @@ mapper ( domain.MemberOfParliament , _mp,
                                     ).label('constituency')
                                            ),
                
-          }        
+          },      
+        polymorphic_on=schema.user_group_memberships.c.membership_type,          
+        polymorphic_identity='parliamentmember'  
         )
         
 # Ministers and Committee members are defined by their group membership in a 

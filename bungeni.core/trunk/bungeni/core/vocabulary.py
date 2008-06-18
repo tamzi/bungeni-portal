@@ -93,13 +93,11 @@ mapper( mp_committees, _mp_comittee,
                                            )
                     },)                                         
 
-class title_in_group( object ):
-     """ Titles for members in groups"""
-     
-_user_group_type = rdb.join(schema.groups, schema.user_role_type,
-                            schema.groups.c['type'] == schema.user_role_type.c.group_type)
-                            
-mapper( title_in_group, _user_group_type)
+#class title_in_group( object ):
+#     """ Titles for members in groups"""     
+#_user_group_type = rdb.join(schema.groups, schema.user_role_type,
+#                            schema.groups.c['type'] == schema.user_role_type.c.group_type)                            
+#mapper( title_in_group, _user_group_type)
 
 class substitution_member( object):
     """ replaced by this Member  """

@@ -5,7 +5,7 @@ from ore.alchemist.vocabulary import DatabaseSource
 from copy import deepcopy
 from zope import schema, interface
 from zc.table import column
-
+import zope.app.form.browser
 #from z3c.form.browser import image
 
 from bungeni.ui.datetimewidget import SelectDateWidget, SelectDateTimeWidget
@@ -144,13 +144,16 @@ def IsDeceased(User):
 
 class UserDescriptor( ModelDescriptor ):
     fields = [
-        dict( name="user_id", omit=True),
+        dict( name="user_id", listing_column=member_fk_column("user_id", _(u'<a href="?order_by=short_name">Name</a>')), 
+                listing=True, edit=False, add=False, view=False),
         dict( name="titles", 
-              label=_(u"Title(s)"), 
-              description=_(u"Indicate any titles the person may hold")),
-        dict( name="first_name", label=_(u"First Name"), listing=True),
-        dict( name="last_name", label=_(u"Last Name"), listing=True),
-        dict( name="middle_name", label=_(u"Middle Name")),
+              label=_(u"Salutation"), 
+              description=_(u"""How this person is addressed.
+                            Indicate any titles the person may hold. 
+                            Do not use 'functional' titles like Speaker, Member of parliament, etc.""")),
+        dict( name="first_name", label=_(u"First Name")),
+        dict( name="middle_name", label=_(u"Middle Name")),        
+        dict( name="last_name", label=_(u"Last Name")), 
         dict( name="email",
               property = schema.TextLine( title =_(u"Email"), 
                                           description=_(u"Email address"),
@@ -169,25 +172,26 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="birth_country", 
               property = schema.Choice( title=_(u"Country of Birth"), 
                                         source=DatabaseSource(domain.Country, 'country_name',
-                                                             'country_id' ),
-                                        required=True )
+                                                             'country_id' ),                                        
+                                        required=True ),             
+#             edit_widget=zope.app.form.browser.RadioWidget,                                         
             ),
         dict( name="date_of_death", label=_(u"Date of Death"),
               view_permission="bungeni.AdminUsers", 
               edit_permission="bungeni.AdminUsers",
               edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
         dict( name="password", omit=True ),
+                dict( name="active_p", label=_(u"Status"), 
+              property = schema.Choice( title=_(u"Status"), values=['A', 'I', 'D'], default='A' ),
+              view_permission="bungeni.AdminUsers", 
+              edit_permission="bungeni.AdminUsers",  listing=True),
         dict( name="description", 
-              property=schema.Text(title=_(u"Description"), required=False),
+              property=schema.Text(title=_(u"Notes"), required=False),
               view_widget=widget.HTMLDisplay,
               edit_widget=widget.RichTextEditor, 
               add_widget=widget.RichTextEditor 
                ),
         dict( name="salt", omit=True),
-        dict( name="active_p", label=_(u"Active"), 
-              property = schema.Choice( title=_(u"Active"), values=['A', 'I', 'D'], default='A' ),
-              view_permission="bungeni.AdminUsers", 
-              edit_permission="bungeni.AdminUsers",  listing=True),
         dict( name="type", omit=True ),
         ]
         
@@ -234,12 +238,12 @@ class HansardReporterDescriptor( UserDescriptor ):
     fields = deepcopy( UserDescriptor.fields )	        
 
 class GroupMembershipDescriptor( ModelDescriptor ):
-   TitleSource= vocabulary.QuerySource(vocabulary.title_in_group, 
-                                          token_field='user_role_name', 
-                                          value_field='user_role_type_id', 
-                                          filter_field='group_id', 
-                                          filter_value= None, #'group_id', 
-                                          order_by_field='user_role_name')   
+#   TitleSource= vocabulary.QuerySource(vocabulary.title_in_group, 
+#                                          token_field='user_role_name', 
+#                                          value_field='user_role_type_id', 
+#                                          filter_field='group_id', 
+#                                          filter_value= None, #'group_id', 
+#                                          order_by_field='user_role_name')   
 #   SubstitutionSource = vocabulary.QuerySource(vocabulary.substitution_member,
 #                                          token_field='fullname', 
 #                                          value_field='membership_id', 
@@ -249,12 +253,12 @@ class GroupMembershipDescriptor( ModelDescriptor ):
    SubstitutionSource = DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')                                          
    fields = [
 #        dict( name="title", label=_(u"Title") ),
-        dict( name="title", 
-               property=schema.Choice( title=_(u"Title"),
-                                       source=TitleSource),
-                listing_column = lookup_fk_column( "title", _(u'<a href="?order_by=title">Title</a>'), domain.MemberTitle, 'user_role_name' ), 
-                listing=True,                                      
-           ),   
+#        dict( name="title", 
+#               property=schema.Choice( title=_(u"Title"),
+#                                       source=TitleSource),
+#                listing_column = lookup_fk_column( "title", _(u'<a href="?order_by=title">Title</a>'), domain.MemberTitle, 'user_role_name' ), 
+#                listing=True,                                      
+#           ),   
         dict( name="user_id",
               property=schema.Choice( title=_(u"Member of Parliament"), 
                                       source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),

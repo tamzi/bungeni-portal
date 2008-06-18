@@ -29,9 +29,9 @@ users = rdb.Table(
    rdb.Column( "email", rdb.String(32), nullable=False ),
    rdb.Column( "gender", rdb.String(1),
         rdb.CheckConstraint("gender in ('M', 'F')")
-        ), # (M)ale (F)emale    ),   
+        ), # (M)ale (F)emale       
    rdb.Column( "date_of_birth", rdb.Date ),
-   rdb.Column( "birth_country", rdb.String(2) ),
+   rdb.Column( "birth_country", rdb.String(2), rdb.ForeignKey("countries.country_id") ),
    rdb.Column( "date_of_death", rdb.Date ),
    rdb.Column( "national_id", rdb.Unicode(32) ),
    rdb.Column( "password", rdb.String(36)), # we store salted md5 hash hexdigests
@@ -239,8 +239,9 @@ user_role_type = rdb.Table(
     "user_role_types",
     metadata,
     rdb.Column( "user_role_type_id", rdb.Integer, primary_key=True),
-    rdb.Column( "group_type", rdb.String(30),  nullable=False  ),
+    rdb.Column( "user_type", rdb.String(30),  nullable=False  ),
     rdb.Column( "user_role_name", rdb.Unicode(40), nullable=False),
+    rdb.Column( "sort_order", rdb.Integer(2), nullable=False),
     )
 
 ###
@@ -273,7 +274,6 @@ user_group_memberships = rdb.Table(
    rdb.Column( "membership_id", rdb.Integer,  primary_key=True),
    rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey( 'users.user_id')),
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey( 'groups.group_id')),
-   rdb.Column( "title", rdb.Integer, rdb.ForeignKey('user_role_types.user_role_type_id')), # title of user's group role
    rdb.Column( "start_date", rdb.Date, default=datetime.now, nullable=False ),
    rdb.Column( "end_date", rdb.Date ),
    rdb.Column( "notes", rdb.UnicodeText ),   
@@ -281,7 +281,8 @@ user_group_memberships = rdb.Table(
    # a cron process against end_date < current_time
    rdb.Column( "active_p", rdb.Boolean, default=True ),
    # these fields are only present when a membership is a result of substitution   
-   rdb.Column( "replaced_id", rdb.Integer, rdb.ForeignKey('user_group_memberships.membership_id') ),
+   # unique because you can only replace one specific group member.
+   rdb.Column( "replaced_id", rdb.Integer, rdb.ForeignKey('user_group_memberships.membership_id'), unique=True ),
    rdb.Column( "substitution_type", rdb.Unicode(100) ),
    # type of membership staff or member
    rdb.Column( "membership_type", rdb.String(30), default ="member",) # nullable = False),
@@ -294,12 +295,60 @@ group_item_assignments = rdb.Table(
    rdb.Column( "assignment_id", rdb.Integer,  primary_key=True ),
    rdb.Column( "object_id", rdb.Integer ), # any object placed here needs to have a class hierarchy sequence
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
-   rdb.Column( "title", rdb.Unicode(40)), # title of user's group role
+   #rdb.Column( "title", rdb.Unicode(40)), # title of user's group role
    rdb.Column( "start_date", rdb.Date, default=datetime.now),
    rdb.Column( "end_date", rdb.Date ),   
    rdb.Column( "due_date", rdb.Date ),    
    rdb.Column( "notes", rdb.UnicodeText ),
    )
+
+
+##############
+# Titles
+##############
+# To indicate the role a persons has in a specific context (Ministry, Committee, Parliament,...) 
+# and for what period (from - to)
+
+role_titles = rdb.Table(
+    "role_titles",
+    metadata,
+    rdb.Column( "role_title_id", rdb.Integer, primary_key=True ),
+    rdb.Column( "membership_id", rdb.Integer, rdb.ForeignKey('user_group_memberships.membership_id') ),
+    rdb.Column( "title_name_id", rdb.Integer, rdb.ForeignKey('user_role_types.user_role_type_id') ), # title of user's group role
+    rdb.Column( "start_date", rdb.Date, default=datetime.now),
+    rdb.Column( "end_date", rdb.Date ),   
+    )
+
+
+
+############
+# Addresses
+############
+# Adresses can be attached to a user or to a role title 
+# as the official address for this function
+
+addresses = rdb.Table(
+    "addresses",
+    metadata,
+    rdb.Column( "address_id", rdb.Integer, primary_key=True ),
+    rdb.Column( "role_title_id", rdb.Integer, rdb.ForeignKey('role_titles.role_title_id') ), # official address
+    rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey( 'users.user_id') ), # personal address
+    rdb.Column( "po_box", rdb.Unicode(40) ),
+    rdb.Column( "street", rdb.Unicode(80) ),
+    rdb.Column( "city", rdb.Unicode(80) ),
+    rdb.Column( "zipcode", rdb.Unicode(20) ),
+    rdb.Column( "country", rdb.String(2), rdb.ForeignKey("countries.country_id") ),
+    rdb.Column( "phone", rdb.Unicode(80) ),
+    rdb.Column( "fax", rdb.Unicode(40) ),
+    # Workflow State -> determins visibility
+    rdb.Column( "status", rdb.Unicode(16) ),
+    )
+
+
+
+
+
+
 
 
 

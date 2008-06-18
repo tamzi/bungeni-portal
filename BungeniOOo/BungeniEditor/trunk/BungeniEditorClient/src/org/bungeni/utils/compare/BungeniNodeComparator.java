@@ -1,36 +1,20 @@
 package org.bungeni.utils.compare;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
-import org.bungeni.utils.BungeniBNode;
+import simpleapp.*;
 
 public class BungeniNodeComparator {
+    
     private  TreeMap<Integer, BungeniNodeDifference> diffMapInsert = new TreeMap<Integer, BungeniNodeDifference>();
     private  TreeMap<Integer, BungeniNodeDifference> diffMapUpdate = new TreeMap<Integer, BungeniNodeDifference>();
     private  TreeMap<Integer, BungeniNodeDifference> diffMapDelete = new TreeMap<Integer, BungeniNodeDifference>();
-
-    class DifferenceChain {
-        BungeniNodeDifference diff;
-        DifferenceChain nextDifference = null;
-        DifferenceChain prevDifference = null;
-        
-        @Override
-        public String toString(){
-            String output = "--- BEGIN DIFF CHAIN --- \n";
-            output += "DIFF : " + diff.toString() + "\n";
-            DifferenceChain nextDiff = nextDifference;
-            while (nextDiff != null) {
-                output += "DIFF : " + nextDiff.diff.toString()  + "\n";
-                nextDiff = nextDiff.nextDifference;
-            }
-            output += " --- END DIFFERENCE CHAIN --- \n";
-            return output;
-        }
-        
-        
-    }
+    private  ArrayList<DifferenceChain> updateDifferenceChain = new ArrayList<DifferenceChain>(0);
+    
+   
         
     private void clearMaps(){
         diffMapInsert.clear();
@@ -63,21 +47,30 @@ public class BungeniNodeComparator {
         ArrayList<DifferenceChain> dcList = new ArrayList<DifferenceChain>();
         Iterator<Integer> iterKey = getDiffMapUpdate().keySet().iterator();
         while (iterKey.hasNext()) {
+            
            Integer nKey = iterKey.next();
+           //get the node difference objects sequentially
            BungeniNodeDifference n = getDiffMapUpdate().get(nKey);
+           System.out.println("DIFFS + " + n);
+           //create a chain object for it.
            DifferenceChain dc = new DifferenceChain();
            Integer changeTo = n.getUpdateFromIndex();
            String changeToName = n.getUpdateFromName();
            dc.diff = n;
-           if (!existsInChainList(dcList, n)) {
+           //check if the chain exists in the list for the original index,
+           boolean ifaddedToExistingChain = this.addToExistingChain(dcList, n);
+           
+           //if it doesnt we check if the original exists as a target index,
+           //   and we chain it at the next position of the matching object
+           //if the chain exists with the original we skip it and move to the 
+           //   next difference object
+           
+           if (!ifaddedToExistingChain) {
                dcList.add(dc);
                DifferenceChain dcPrev = dc;
                for  (;; ) {
                    if (getDiffMapUpdate().containsKey(changeTo)){
                         BungeniNodeDifference nchain = getDiffMapUpdate().get(changeTo);
-                        if (existsInChainList(dcList, nchain)) {
-                            break;
-                        }
                         DifferenceChain dcChain = new DifferenceChain();
                         dcChain.diff = nchain;
                         dcPrev.nextDifference = dcChain;
@@ -89,11 +82,94 @@ public class BungeniNodeComparator {
            }    
         }
         
-        for (DifferenceChain d: dcList) {
-            System.out.println(d);
-        }
+        this.updateDifferenceChain = dcList;
     }
     
+    
+    private ArrayList<DifferenceChain> buildDifferenceChain () {
+        //get the first element in the list
+    
+        int sizeOfList = getDiffMapUpdate().size();
+        ArrayList<DifferenceChain> diffChain = new ArrayList<DifferenceChain>(0);
+        ArrayList<String> runningKeys = new ArrayList<String>(0);
+        int runningSize = 0;
+        for (Integer nKey : getDiffMapUpdate().keySet()) {
+            
+            BungeniNodeDifference ndiff = getDiffMapUpdate().get(nKey);
+            //if already exists as a difference chain
+            if (!runningKeys.contains(ndiff.getDiffKey())) {
+                
+                DifferenceChain dStart = new DifferenceChain();
+                dStart.diff = ndiff;
+                runningKeys.add(ndiff.getDiffKey());
+                diffChain.add(dStart);
+                Integer startTarget = dStart.diff.getUpdateFromIndex();
+                DifferenceChain running = dStart;
+                Integer runningindice = startTarget;
+                //search for target as original  in list
+                for (;running != null ;) { //until chains are built
+                     running = findNextTarget (runningKeys, running, running.diff.getUpdateFromIndex());
+                }
+               runningSize = dStart.chainSize();
+        }
+       }
+       return diffChain; 
+    }
+    
+    private DifferenceChain findNextTarget (ArrayList<String> runningKeys, DifferenceChain dRun, Integer runIndice) {
+        for (Integer nKey :  getDiffMapUpdate().keySet()) {
+            //get the differnece key
+            BungeniNodeDifference ndiff = getDiffMapUpdate().get(nKey);
+            //check if diff object has been trapped
+            if (!runningKeys.contains(ndiff.getDiffKey())){
+                //check if it mataches current target
+                Integer searchOrigIndice = ndiff.getOriginalIndex();
+                if (runIndice == searchOrigIndice ) {
+                    //chain the two together... 
+                    DifferenceChain dnewDiff = new DifferenceChain();
+                    dnewDiff.diff = ndiff;
+                    dRun.nextDifference = dnewDiff;
+                    dnewDiff.prevDifference = dRun;
+                    runningKeys.add(ndiff.getDiffKey());
+                    return dnewDiff; //return the new next element in the difference chain
+                }
+            }
+        }
+        return null;
+    }
+    /*
+     * -1 - original exists in chain list
+     * index number of target - original exists as target index
+     * -2 - original does not exist as original or target index
+     */
+    private boolean addToExistingChain(ArrayList<DifferenceChain> dclist, BungeniNodeDifference nchain) {
+        for (DifferenceChain d : dclist) {
+            DifferenceChain drunning = d;
+                while (drunning != null) { 
+                     BungeniNodeDifference ncomp = drunning.diff;
+                     //original index from node diff exists in difference chain
+                     if (ncomp.getOriginalIndex().equals(nchain.getOriginalIndex())) {
+                        break; //exit from loop - earch further
+                     }
+                     //check if replacement index = the original of the nchain node... 
+                     //if equal we chain the nchain node to th stored node
+                     if (ncomp.getUpdateFromIndex().equals(nchain.getOriginalIndex())) {
+                         //original exists as a target index... we chain this difference object
+                         // to the current difference chain
+                         if (drunning.nextDifference != null ) {
+                             DifferenceChain newd = new DifferenceChain();
+                             newd.diff = nchain;
+                             drunning.nextDifference = newd;
+                             newd.prevDifference = drunning;
+                             return true;
+                         }
+                     }
+                     drunning = drunning.nextDifference; 
+                }
+        }
+        //does not exist in reference chain as original
+        return false;
+    }
     private boolean existsInChainList(ArrayList<DifferenceChain> dclist, BungeniNodeDifference nchain) {
         for (DifferenceChain d : dclist) {
             DifferenceChain drunning = d;
@@ -109,7 +185,13 @@ public class BungeniNodeComparator {
     }
     public void compareAndDiff(BungeniBNode root1, BungeniBNode root2){
         compare(root1, root2);
-        processUpdateChains();
+        for (Integer n : this.getDiffMapUpdate().keySet()) {
+            System.out.println(getDiffMapUpdate().get(n));
+        }
+        
+        this.updateDifferenceChain = this.buildDifferenceChain();
+        
+        //processUpdateChains();
     }
            public void compare (BungeniBNode root1, BungeniBNode root2){
                        
@@ -117,7 +199,6 @@ public class BungeniNodeComparator {
                         for (Integer root2child : root2children.keySet()) {
                             BungeniBNode aNode = root2children.get(root2child);
                             if (root1.containsNodeByName(aNode.getName())) { //root1 contains the child
-                                   System.out.println("root1 contains  " + aNode.getName());
                                    //check if index of node in root1 == index of node in root2
                                    BungeniBNode nNode = root1.getChildNodeByName(aNode.getName());
                                    Integer indexinroot1 = root1.indexOfChild(nNode);
@@ -167,5 +248,8 @@ public class BungeniNodeComparator {
         return diffMapDelete;
     }
     
+    public ArrayList<DifferenceChain> getUpdateDifferenceChain(){
+        return this.updateDifferenceChain;
+    }
     
 }

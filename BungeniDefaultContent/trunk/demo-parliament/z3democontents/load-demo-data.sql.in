@@ -147,7 +147,7 @@ copy public.user_group_memberships ( user_id, group_id, start_date, end_date)
 from '%(directory)s/data/demodata/partymembers.csv'
 csv;
 
-INSERT INTO user_group_memberships ( group_id, user_id, start_date, end_date) 
+/*INSERT INTO user_group_memberships ( group_id, user_id, start_date, end_date) 
 SELECT DISTINCT 304 as no , "user_group_memberships"."user_id", "groups"."start_date", "groups"."end_date" 
 FROM "public"."user_group_memberships", "public"."committees", "public"."groups" 
 WHERE ( "user_group_memberships"."group_id" = "committees"."committee_id" 
@@ -190,7 +190,7 @@ WHERE ( "user_group_memberships"."group_id" = "committees"."committee_id"
             FROM "public"."user_group_memberships" 
             WHERE ( "group_id" = "committees"."parliament_id" ) ) ) )
 AND  "committees"."parliament_id" = 9;
-
+*/
 /* set the active flags to something sane */
 
 update user_group_memberships set active_p =  false where end_date is not null;

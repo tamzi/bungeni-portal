@@ -61,7 +61,7 @@
 ## MySQL database
 
 table="mv_stream_images";
-db="mwWiki";
+db="newmvwiki";
 user="mvwiki";
 pw="123456";
 hostname="localhost";
@@ -81,6 +81,7 @@ filedir=`echo "../stream_images/"${dir}"/"${streamid}`
 mkdir -p ${filedir}
 
 duration=`ogginfo ${filename}  | grep -A 2 "^Vorbis stream" | grep "Playback length" | awk '{print $3}' | gawk -F 'm:' '{print "(" $1 "*60)+" $2}' | sed -e s/s//g | bc`
+
 
 ffmpeg -ss 1 -i ${filename} -vcodec mjpeg -vframes 1 -an -f rawvideo -y -s 80x60 ${filedir}/1_80x60.jpg
 convert ${filedir}/1_80x60.jpg ${filedir}/1_80x60.png

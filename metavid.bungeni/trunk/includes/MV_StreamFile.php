@@ -71,20 +71,32 @@
  	function deleteStreamFileDB(){
  		global $mvStreamFilesTable;
  		$dbw = & wfGetDB(DB_WRITE);
- 		$dbw->delete($mvStreamFilesTable, array('id'=>$this->id));
+ 		//$dbw->delete($mvStreamFilesTable, array('id'=>$this->id));
+ 		$sql = 'UPDATE '.$mvStreamFilesTable.' SET stream_id=-1 WHERE id='.$this->id;
+ 		$dbw->query($sql);
+ 		
  	}
  	function writeStreamFileDB(){
  		global $mvStreamFilesTable;
  		$dbw = & wfGetDB(DB_WRITE); 	
  		if($this->id==''){
-			$dbw->insert($mvStreamFilesTable, array(
+ 			 $result = $dbw->select($mvStreamFilesTable,'*',array('path'=>$this->path, 'id'=>-1));
+ 			if ($result->numRows() > 0)
+ 			{
+ 				$dbw->update($mvStreamFilesTable, array(	
+ 				'stream_id'=>$this->stream_id
+				), array('path'=>$this->path), __METHOD__);
+ 			}else
+ 			{
+				$dbw->insert($mvStreamFilesTable, array(
 				'stream_id'=>$this->stream_id,
 				'base_offset'=>$this->base_offset,
 				'duration'=>$this->duration,
 				'file_desc_msg'=>$this->file_desc_msg,
 				'path_type'=>$this->path_type,
 				'path'=>$this->path
-			), __METHOD__);
+				), __METHOD__);
+			}
  		}else{
  			//update: 
  			$dbw->update($mvStreamFilesTable, array(				

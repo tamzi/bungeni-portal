@@ -58,7 +58,7 @@
 	}
 	/*template for transcripts includes a person autocomplete on the left: */
 	function do_pre_htEdit(){
-		global $wgOut, $wgUser;
+		global $wgOut, $wgUser,$semantic_data;
 		$this->loadEditText();
 			
 		$MvOverlay = new MV_Overlay();
@@ -110,122 +110,7 @@
 		$wgOut->addHTML('</td>' .	
 			'<td>');
 	}
-//<<<<<<< .mine
-		/*template for Questions includes a person autocomplete on the left: */
-	function do_pre_answerEdit(){
-		global $wgOut, $wgUser;
-		$this->loadEditText();
-			
-		$MvOverlay = new MV_Overlay();
-		//strip semantic tags which are managed by the interface:
-		$semantic_data = $MvOverlay->get_and_strip_semantic_tags($this->stripped_edit_text);		
-		$out=$js_eval='';
-		//add a div for previews: 
-		$wgOut->addHTML('<div id="wikiPreview_' . $this->mvd_id .'"></div>');		
-		
-		//set the default action so save page: 
-		$wgOut->addHTML( $this->getAjaxForm() );
-		
-		//add in adjust html if present: 
-		$wgOut->addHTML($this->adj_html);				
 
-		//structure layout via tables (@@todo switch to class based css layout)		
-		$wgOut->addHTML('<table style="background: transparent;" width="100%"><tr><td valign="top" width="90">');
-			//output the person selector:
-			if(!isset($semantic_data['Spoken By']))$semantic_data['Spoken By']='';
-			$imgTitle = Title::makeTitle(NS_IMAGE, $semantic_data['Spoken By'] . '.jpg');
-			if($imgTitle->exists()){
-				$img= wfFindFile($imgTitle);
-				if ( !$img ) {
-					$img = wfLocalFile( $imgTitle );					
-				}																			
-			}else{
-				//assume 'Missing person.jpg' exist 
-				//@@todo put this into the install scripts 
-				
-				$imgTitle =  Title::makeTitle(NS_IMAGE, MV_MISSING_PERSON_IMG);
-				$img= wfFindFile($imgTitle);	
-				if ( !$img ) {
-					$img = wfLocalFile( $imgTitle );					
-				}
-			}
-			$wgOut->addHTML("<img id=\"mv_edit_im_{$this->mvd_id}\" style=\"display: block;margin-left: auto;margin-right: auto;\" src=\"{$img->getURL()}\" width=\"44\">");				
-				$wgOut->addHTML('<input style="font-size:x-small" 
-						value="'.$semantic_data['Spoken By'].'" 
-						name="smw_Spoken_By"
-						onClick="this.value=\'\';" 
-						type="text" id="auto_comp_'.$this->mvd_id.'" size="12" 
-						maxlength="125" autocomplete="off"/>');
-				//only add one auto_comp_choices_ per object/request pass
-				if(!isset($this->auto_comp_choices)){
-					$this->auto_comp_choices = true;
-					$wgOut->addHTML('<div id="auto_comp_choices_'.$this->mvd_id.'" class="autocomplete"></div>');
-				}
-		//add container formatting for MV_Overlay
-		$wgOut->addHTML('</td>' .	
-			'<td>');
-	}
-	/*template for Questions includes a person autocomplete on the left: */
-	function do_pre_questionEdit(){
-		global $wgOut, $wgUser;
-		$this->loadEditText();
-			
-		$MvOverlay = new MV_Overlay();
-		//strip semantic tags which are managed by the interface:
-		$semantic_data = $MvOverlay->get_and_strip_semantic_tags($this->stripped_edit_text);		
-		$out=$js_eval='';
-		//add a div for previews: 
-		$wgOut->addHTML('<div id="wikiPreview_' . $this->mvd_id .'"></div>');		
-		
-		//set the default action so save page: 
-		$wgOut->addHTML( $this->getAjaxForm() );
-		
-		//add in adjust html if present: 
-		$wgOut->addHTML($this->adj_html);				
-
-		//structure layout via tables (@@todo switch to class based css layout)		
-		$wgOut->addHTML('<table style="background: transparent;" width="100%"><tr><td valign="top" width="90">');
-			//output the person selector:
-			if(!isset($semantic_data['Spoken By']))$semantic_data['Spoken By']='';
-			$imgTitle = Title::makeTitle(NS_IMAGE, $semantic_data['Spoken By'] . '.jpg');
-			if($imgTitle->exists()){
-				$img= wfFindFile($imgTitle);
-				if ( !$img ) {
-					$img = wfLocalFile( $imgTitle );					
-				}																			
-			}else{
-				//assume 'Missing person.jpg' exist 
-				//@@todo put this into the install scripts 
-				
-				$imgTitle =  Title::makeTitle(NS_IMAGE, MV_MISSING_PERSON_IMG);
-				$img= wfFindFile($imgTitle);	
-				if ( !$img ) {
-					$img = wfLocalFile( $imgTitle );					
-				}
-			}
-			$wgOut->addHTML("<img id=\"mv_edit_im_{$this->mvd_id}\" style=\"display: block;margin-left: auto;margin-right: auto;\" src=\"{$img->getURL()}\" width=\"44\">");				
-				$wgOut->addHTML('<input style="font-size:x-small" 
-						value="'.$semantic_data['Spoken By'].'" 
-						name="smw_Spoken_By"
-						onClick="this.value=\'\';" 
-						type="text" id="auto_comp_'.$this->mvd_id.'" size="12" 
-						maxlength="125" autocomplete="off"/>');
-				//only add one auto_comp_choices_ per object/request pass
-				if(!isset($this->auto_comp_choices)){
-					$this->auto_comp_choices = true;
-					$wgOut->addHTML('<div id="auto_comp_choices_'.$this->mvd_id.'" class="autocomplete"></div>');
-				}
-		//add container formatting for MV_Overlay
-		$wgOut->addHTML('</td>' .	
-			'<td>');
-	}
-	/* copy of edit() from edit page (to overide empty page)*/
-//=======
-	/* copy of edit() from edit page (to override empty page)*/
-//<<<<<<< .mine
-//>>>>>>> .r31965
-//	function edit() {
-//=======
 	function edit( $textbox1_override=null) {
 //>>>>>>> .r32567
 		global $wgOut, $wgUser, $wgRequest, $wgTitle;
@@ -531,11 +416,11 @@
 				break;
 				//undesa patch
 				case 'question_en':
-					$this->do_pre_questionEdit();
+					$this->do_pre_htEdit();
 					$closeFormHtml=$this->do_post_questionEdit();
 				break;
 				case 'answer_en':
-					$this->do_pre_questionEdit();
+					$this->do_pre_htEdit();
 					$closeFormHtml=$this->do_post_questionEdit();
 				break;
 				//undesa patch
@@ -777,7 +662,74 @@
 			$summarypreview = $summarytext && $this->preview ? "<div class=\"mw-summary-preview\">".wfMsg('summary-preview').':'.$sk->commentBlock( $this->summary, $this->mTitle )."</div>\n" : '';
 			$subjectpreview = '';
 		}
-		if(!isset($semantic_data['Question_No']))$semantic_data['Question No']='';
+		//if(!isset($semantic_data['Question_No']))$semantic_data['Question No']='';
+		
+		if ($editFormType !='anno_en')
+        {
+        global $sitting_editor, $sitting_reporter, $sitting_reader, $semantic_data;
+        $dbr =& wfGetDB(DB_SLAVE);
+        $result = $dbr->select($dbr->tableName($sitting_editor),array());
+        $wgOut->addHTML('<table><tr><td>Editor</td><td>Reporter</td><td>Reader</td><td>Status</td></tr>');
+        //get editor names and id
+        $wgOut->addHTML('<tr><td><select name="smw_Edited_By">');
+        while($row = $dbr->fetchObject($result))
+        {
+        	$wgOut->addHTML('<option value="'.$row->name.'">'.$row->name.'</option>');
+        }
+        $wgOut->addHTMl('</select></td>');
+       
+        $wgOut->addHTML('<td><select name="smw_Read_By">');
+        $result = $dbr->select($dbr->tableName($readersTable),'*');
+        //get readers names and id
+        while($row = $dbr->fetchObject($result))
+        {
+        	$wgOut->addHTML('<option value="'.$row->name.'">'.$row->name.'</option>');
+        }
+        $wgOut->addHTMl('</select></td>');
+  		
+  		$wgOut->addHTML('<td><select name="smw_Reported_By">');
+        $result = $dbr->select($dbr->tableName($reportersTable),'*');
+        //get reporters names and id
+        
+        if(!(isset($semantic_data['Reported By'])))
+        {
+        	while($row = $dbr->fetchObject($result))
+        	{
+        		$wgOut->addHTML('<option ');
+        		if ( $row->next == 'next' )
+        		{
+        			$wgOut->addHTML(' selected="true" ');		 
+        		}
+        		$wgOut->addHTMl('value="'.$row->name.'">'.$row->name.'</option>');
+        	}
+        	$wgOut->addHTMl('</select></td></tr></table>');
+        }
+        else
+        {
+        	while($row = $dbr->fetchObject($result))
+        	{
+        		$wgOut->addHTML('<option ');
+        		if ( $semantic_data['Reported By'] == $row->name )
+        		{
+        			$wgOut->addHTML(' selected 3');		
+        		}
+        		$wgOut->addHTMl('value="'.$row->name.'">'.$row->name.'</option>');
+        	}
+        	$wgOut->addHTMl('</select></td>');
+        }	
+        
+        $wgOut->addHTML('<td><select name="smw_Status">');
+        $wgOut->addHTML('<option>Incomplete</option>');
+        $wgOut->addHTML('<option>Complete</option>');
+        $wgOut->addHTML('<option>Approved</option>');
+        $wgOut->addHTML('<option>Verified</option>');
+        $wgOut->addHTML('<option>Disputed</option>');
+        $wgOut->addHTML('<option>Final</option>');
+        $wgOut->addHTML('</select></td>');
+        $wgOut->addHTML('</tr></table>');
+        }
+        
+        
         if ($editFormType=='question_en')
         {
             $wgOut->addHTML('<p>Question Number<select name="smw_Question_No" id="smw_Question_No"></select>');

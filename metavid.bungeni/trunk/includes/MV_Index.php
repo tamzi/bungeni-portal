@@ -193,8 +193,7 @@ if ( !defined( 'MEDIAWIKI' ) )  die( 1 );
  		
  		list( $this->limit, $this->offset ) = $wgRequest->getLimitOffset( 20, 'searchlimit' );
  		if($this->limit > $mvMediaSearchResultsLimit)$this->limit = $mvMediaSearchResultsLimit;
- 		//print_r($filters);
- 		//print_r($_GET);
+
  		$group_spoken=true;
  		$categoryTable =  $dbr->tableName( 'categorylinks');
  		foreach($filters as $f){
@@ -359,14 +358,13 @@ if ( !defined( 'MEDIAWIKI' ) )  die( 1 );
 		 		$sql.="	MATCH ( $searchindexTable.`si_text` ) 
 		 			AGAINST('$ftq' IN BOOLEAN MODE) ";
 		 	}
-		 	//date range stuff is SLOW (pulls up matches for everything)
-		 	//@@todo 
-		 	if($snq!='' || $ftq!='')
+		 	//date range stuff is SLOW when its the only filter (pulls up matches for everything)
+		 	if($snq!='' || $ftq!='' && isset($date_range_andor))
 		 		$sql.=$date_range_andor;
 	 		$sql.=" $date_range_where ";	 		
 	 		$sql.="LIMIT {$this->offset}, {$this->limit} ";
  		}
-		//echo "SQL:".$sql;  			
+		//echo "SQL:".$sql." \n";  			
  		$result = $dbr->query($sql,  'MV_Index:doFiltersQuery_base');
  		
  		$this->numResults=$dbr->numRows($result);

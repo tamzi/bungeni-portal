@@ -109,6 +109,17 @@
 		}
 		return false;
 	}
+	
+	function getSittingId(){				
+		if($this->mvStream){
+			return $this->mvStream->getSittingId();
+		}else{
+			if($this->doesStreamExist()){				
+				return $this->mvStream->getSittingId();
+			}
+		}
+		return false;
+	}
 	function getTypeMarker() {return $this->type_marker;}
 	function getWikiTitle(){ return $this->wiki_title;}
 	function getStartTime(){ return $this->start_time;}
@@ -248,7 +259,10 @@
 		if(!$quality)$quality=$mvDefaultVideoQualityKey;
 		$anx_req='';
 		if( $this->getStartTime()!='' && $this->getEndTime()!=''){
-			$anx_req  ='.anx?t='. $this->getStartTime() . '/' . $this->getEndTime();
+		//undesa
+		//was $anx_req  ='.anx?t='. $this->getStartTime() . '/' . $this->getEndTime();
+			$anx_req  ='?t='. $this->getStartTime() . '/' . $this->getEndTime();
+		//undesa
 		}
 		if( $this->doesStreamExist() ){			
 			//@@todo cache this / have a more organized store for StreamFiles in streamTitle

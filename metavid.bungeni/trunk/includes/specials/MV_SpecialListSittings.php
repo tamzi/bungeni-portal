@@ -65,10 +65,10 @@ class MV_SpecialListSittings extends QueryPage {
 				
 	}
 	
-	//function getOrder() {
-	//	return ' ORDER BY `mv_streams`.`date_start_time` DESC ';
+	function getOrder() {
+		return ' ORDER BY `name`, `id`  ';
 			//($this->sortDescending() ? 'DESC' : '');
-	//}
+	}
 	
 	function sortDescending() {
 		return false;

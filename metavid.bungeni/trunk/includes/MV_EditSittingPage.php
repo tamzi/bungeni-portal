@@ -7,7 +7,7 @@ class MV_EditSittingPage extends EditPage{
 	function __construct($article)
 	{
 		//$wgRequest;
-		$this->name = $article->getTitle()->getText();
+		$this->name = $article->getTitle()->getPartialURL();
 		//$this->mode = 
 		parent::__construct($article);
 	}
@@ -43,6 +43,7 @@ class MV_EditSittingPage extends EditPage{
 		$this->sit->db_load_streams();
 		$tit = Title::makeTitle(MV_NS_SITTING, $this->name);
 		$html='';
+		$html.= '<h1>'.$tit.'</h1>';
 		$html.='<form action="'.$tit->getEditURL().'" method="POST">';
 		$html.='<input type="hidden" name="mv_action" value="edit_streams">';		
 		$html.= '<fieldset><legend>'.wfMsg('mv_remove_streams').'</legend>' . "\n";	

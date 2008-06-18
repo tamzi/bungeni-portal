@@ -118,9 +118,9 @@ wgUploadAutoFill = {$autofill};
 			$wgOut->addHTML( "<h2>{$sub}</h2>\n" .
 			  "<span class='error'>{$msg}</span>\n" );
 		}
-		$wgOut->addHTML( '<div id="uploadtext">' );
-		$wgOut->addWikiMsg( 'uploadtext', $this->mDesiredDestName );
-		$wgOut->addHTML( "</div>\n" );
+		//$wgOut->addHTML( '<div id="uploadtext">' );
+		//$wgOut->addWikiMsg( 'uploadtext', $this->mDesiredDestName );
+		//$wgOut->addHTML( "</div>\n" );
 
 		# Print a list of allowed file extensions, if so configured.  We ignore
 		# MIME type here, it's incomprehensible to most people and too long.
@@ -359,7 +359,7 @@ wgUploadAutoFill = {$autofill};
 	}
 	
 	function processUpload(){
-		global $wgUser, $wgOut, $wgFileExtensions;
+		global $wgUser, $wgOut, $wgFileExtensions,$wgScriptPath;
 	 	$details = null;
 	 	$value = null;
 	 	$value = $this->internalProcessUpload( $details );
@@ -367,7 +367,49 @@ wgUploadAutoFill = {$autofill};
 	 	switch($value) {
 			case self::SUCCESS:
 				$html ='File has been uploaded successfully<br/>';
-				$html .='<input type="button" name="Close" value="Close" Onclick="window.opener.document.getElementById(\'path\').value=\''.$this->mLocalFile->getPath().'\'; window.close()"></input>' ;
+				$file = ''.$this->mLocalFile->getPath(); 
+    			if (file_exists($file)) {
+					$f = fopen($file,"rb");
+					$header = fread($f, 512);
+					$page['serial'] = substr($header, 14, 4);
+					$page['segments'] = ord($header[26]);
+				 	$page['rate'] = ord($header[27+$page['segments']+15]);
+	  				$page['rate'] = ($page['rate'] << 8) | ord($header[27+$page['segments']+14]);
+          			$page['rate'] = ($page['rate'] << 8) | ord($header[27+$page['segments']+13]);
+          			$page['rate'] = ($page['rate'] << 8) | ord($header[27+$page['segments']+12]);
+					fseek($f, -6000, SEEK_END);
+					$end = fread($f, 6000);
+					$tail = strstr($end, "OggS");
+					if ($tail) {
+		 				$serial = substr($tail, 14, 4);
+	  					if ($serial == $page['serial']) {
+	  						$duration = 103;
+	    					$granulepos = ord($tail[6]);
+	    					$granulepos = $granulepos | (ord($tail[7]) << 8);
+	    					$granulepos = $granulepos | (ord($tail[8]) << 16);
+	    					$granulepos = $granulepos | (ord($tail[9]) << 24);
+	    					$granulepos = $granulepos | (ord($tail[10]) << 32);
+	    					$granulepos = $granulepos | (ord($tail[11]) << 40);
+	    					$granulepos = $granulepos | (ord($tail[12]) << 48);
+	    					$granulepos = $granulepos | (ord($tail[13]) << 56);
+	    					$duration = $granulepos/$page['rate'];
+	  					}
+					}
+					fclose($f);
+				}
+				global $mvStreamFilesTable;
+				$dbr =& wfGetDB(DB_WRITE);
+				$text = ''.$wgScriptPath.'/images/'.$this->mLocalFile->getUrlRel();
+				if ($dbr->insert($mvStreamFilesTable, array('path'=>$text, 'stream_id'=>'-1'))) {
+					$html .='<input type="button" name="Close" value="Close" Onclick="window.opener.document.getElementById(\'path\').value=\''.$wgScriptPath.'/images/'.$this->mLocalFile->getUrlRel().'\'; window.opener.document.getElementById(\'duration\').value='.floor($duration).'; window.close()"></input>' ;
+				} else {
+				$html .= 'Inserting file path into DB failed, Please notify the Administrator immediately';
+				
+				}
+				
+				
+				
+				
 				$wgOut->addHTML($html);
 				break;
 

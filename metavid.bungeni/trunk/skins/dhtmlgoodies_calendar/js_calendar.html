@@ -13,6 +13,8 @@
 <img src='http://www.dhtmlgoodies.com/images/heading3.gif'>
 <form>
 <p>Click on the "Cal" buttons to see how the calendar works</p>
+<div  style="position:absolute; top: 200px; left: -10px">asdfasdfa<div>
+<div style="position:relative; top: 46px; right: 80px">
 <table>
 	<tr><td>Date input 1(YYYY/MM/DD): </td><td><td><input type="text" value="2004/02/02" readonly name="theDate"><input type="button" value="Cal" onclick="displayCalendar(document.forms[0].theDate,'yyyy/mm/dd',this)"></td></tr>
 	<tr><td>Date input 2(DD.MM.YYYY): </td><td><td><input type="text" value="24.12.2000" readonly name="theDate2"><input type="button" value="Cal" onclick="displayCalendar(document.forms[0].theDate2,'dd.mm.yyyy',this)"></td></tr>
@@ -196,6 +198,7 @@
 				</select>			
 	<input type="button" value="Cal" onclick="displayCalendarSelectBox(document.forms[0].year2,document.forms[0].month2,document.forms[0].day2,document.forms[0].hour2,document.forms[0].minute2,this)"></td></tr>
 </table>
+</div>
 <div id="debug"></div>
 
 </body>

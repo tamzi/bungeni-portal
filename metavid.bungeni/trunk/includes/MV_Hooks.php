@@ -116,6 +116,11 @@
 				$editor->edit();
 				return false;
 			break;
+			//case NS_USER:
+			//	$editor = new MV_EditUser( $article );
+			//	$editor->edit();
+			//	return false;
+			//break;
 			default:
 				// continue proccessing (use default editor)
 				return true;
@@ -202,6 +207,110 @@
 	 * 
 	 * @@todo we could probably do a cleaner abstraction for ajax calls
 	*/	
+	//undesa
+	function mv_get_editors()
+	{
+		$MV_Editors = new MV_Editors();
+		return $MV_Editors->getAssigned();
+	}
+	
+	function mv_get_unassigned_readers()
+	{
+		$MV_Editors = new MV_Editors();
+		return $MV_Editors->getUnAssigned();
+	}
+	
+	function mv_save_editors()
+	{
+		$MV_Editors = new MV_Editors();
+		return $MV_Editors->save($_REQUEST['xmldata']);
+	}
+	
+	function mv_save_reporters()
+	{
+		$MV_Reporters = new MV_Reporters();
+		return $MV_Reporters->save($_REQUEST['data']);
+	}
+	
+	function mv_get_readers()
+	{
+		$MV_Readers = new MV_Readers();
+		return $MV_Readers->getAssigned();
+	}
+	
+	function mv_get_unassigned_reporters()
+	{
+		$MV_Readers = new MV_Readers();
+		return $MV_Readers->getUnAssigned();
+	}
+	
+	function mv_save_readers()
+	{
+		$MV_Readers = new MV_Readers();
+		return $MV_Readers->save($_REQUEST['xmldata']);
+	}
+	
+	function mv_get_available_editors($sitting_id)
+	{
+		$MV_Editors = new MV_Editors();
+		return $MV_Editors->get_available_editors($sitting_id);
+	}
+	
+	function mv_get_available_readers($sitting_id)
+	{
+		$MV_Readers = new MV_Readers();
+		return $MV_Readers->get_available_readers($sitting_id);
+	}
+	
+	function mv_get_available_reporters($sitting_id)
+	{
+		$MV_Reporters = new MV_Reporters();
+		return $MV_Reporters->get_available_reporters($sitting_id);
+	}
+	
+	function mv_get_assigned_editors($sitting_id)
+	{
+		$MV_Editors = new MV_Editors();
+		return $MV_Editors->get_assigned($sitting_id);
+	}
+	
+	function mv_get_assigned_readers($sitting_id)
+	{
+		$MV_Readers = new MV_Readers();
+		return $MV_Readers->get_assigned($sitting_id);
+	}
+	
+	function mv_get_assigned_reporters($sitting_id)
+	{
+		$MV_Reporters = new MV_Reporters();
+		return $MV_Reporters->get_assigned($sitting_id);
+	}
+	
+	function mv_save_staff()
+	{
+		$MV_Sitting = new MV_Sitting();
+		return $MV_Sitting->save_staff($_REQUEST['xmldata'], $_REQUEST['sitting_id']);
+	}	
+	function workload_reporter($id)
+	{
+		$MV_Reporters = new MV_Reporters();
+		return $MV_Reporters->get_workload($id);
+	}
+	
+	function workload_reader($id)
+	{
+		$MV_Readers = new MV_Readers();
+		return $MV_Readers->get_workload($id);
+	}
+	
+	function workload_editor($id)
+	{
+		$MV_Editors = new MV_Editors();
+		return $MV_Editors->get_workload($id);
+	}
+	//undesa
+	
+	
 	function mv_add_disp($baseTitle, $mvdType, $time_range){
 		$MV_Overlay = new MV_Overlay();
 		return $MV_Overlay->get_add_disp(strtolower($baseTitle), $mvdType, $time_range);
@@ -243,7 +352,8 @@
 		/*if($_POST['mvd_id']=='new'){
 			return $MV_Overlay->do_add_mvd();			
 		}*/
-		if(!isset($_POST['do_adjust']))$_POST['do_adjust']=false;		
+		if(!isset($_POST['do_adjust']))$_POST['do_adjust']=false;	
+		//$wgOut->clearHTML();	
 		if($_POST['do_adjust']=='true'){
 			//first edit then move
 			$outputMVD = $MV_Overlay->do_edit_submit($_POST['title'], $_POST['mvd_id']);
@@ -329,6 +439,57 @@
 		$MV_Overlay = new MV_Overlay();			
 		return $MV_Overlay->edit_preview_form_html($_POST['title'], $_POST['mvd_id']);
 	}*/
+ /*	
+ function ReplaceTabs ($content_actions) {  
+  	//unset( $content_actions['talk'] );    //only this to remove an action
+    global $wgTitle;
+    if 
+    $title = Title::newFromText('');
+    $action['staff'] = array(
+        'class' => false or 'selected',    //if the tab should be highlighted
+        'text' => wfMsg('mv_staff'),     //what the tab says
+        'href' => $title->getFullURL(),   //where it links to
+    );
+    $content_actions = array_merge( $content_actions , $main_action);   //add a new action
+    return true;
+ }
+ */
+ 	
  
+	$wgHooks['SkinTemplateTabs'][] = 'mvAddStaffTab';
  
+	function mvAddStaffTab(&$skin,&$actions) {
+		global $wgTitle,$wgRequest;
+		if ($wgTitle->getNameSpace() == MV_NS_SITTING)
+		{
+			$wgStaffAction = 'staff';
+			$selected = $wgRequest->getText('action') == $wgStaffAction ? 'selected' : false;
+			$url      = $wgTitle->getLocalURL("action=$wgStaffAction");
+			if (is_object($wgTitle)) {
+				$actions[$wgStaffAction] = array(
+					'text'  => $wgStaffAction, # should use wfMsg($wgExampleAction)
+					'class' => $selected,
+					'href'  => $url
+				);
+			}
+		}
+		return true;
+	}
+	
+	$wgHooks['UnknownAction'][] = 'mvStaff';
+	
+	function mvStaff($action, $article) {
+		if ($action == 'staff')
+		{
+			$manage_staff = new MV_ManageStaff($article);
+			$manage_staff->edit();
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+
 ?>

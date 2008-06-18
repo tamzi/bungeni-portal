@@ -152,7 +152,13 @@
 				 ' href="'.$wgRequest->getRequestURL().'&mv_action=rm_stream_file&rid='.$sf['id'].'"><img src="'.$mvgScriptPath.'/skins/images/delete.png"></a></td>';				
 			}
 			$html.='<td><input type="text" name="sf_'.$sf['id'].'[file_desc_msg]" value="'.$sf['file_desc_msg'].'" maxlength="60" size="20" /></td>';
-			$html.='<td><input type="text" name="sf_'.$sf['id'].'[duration]" value="'.$sf['duration'].'" maxlength="11" size="7" /></td>';					
+			if ($sf['id']=='new')
+			{
+			$html.='<td><input type="text" id="duration" name="sf_'.$sf['id'].'[duration]" value="'.$sf['duration'].'" maxlength="11" size="7" /></td>';			
+			}
+			else{
+			$html.='<td><input type="text" name="sf_'.$sf['id'].'[duration]" value="'.$sf['duration'].'" maxlength="11" size="7" /></td>';			
+			}		
 			$html.='<td><input type="text" name="sf_'.$sf['id'].'[base_offset]" value="'.$sf['base_offset'].'" maxlength="11" size="7" /></td>';
 			$html.='<td><select name="sf_'.$sf['id'].'[path_type]">';
 			$sel=($sf['path_type']=='url_anx')?' selected':'';
@@ -168,9 +174,12 @@
 			}
 			else{
 			$html.='<td><input type="text" id="notpath" name="sf_'.$sf['id'].'[path]" value="'.$sf['path'].'" maxlength="250" size="50" />' .
-					'<input type="hidden" name="sf_'.$sf['id'].'[stream_id]" value="'.$sf['stream_id'].'">'.
+//					'<input type="hidden" name="sf_'.$sf['id'].'[stream_id]" value="'.$sf['stream_id'].'">'.
 					'</td>';
 			}
+			$html.='<td>';
+			$html.='<input type="hidden" name="sf_'.$sf['id'].'[stream_id]" value="'.$sf['stream_id'].'">';
+			$html.='</td>';
 			$title = Title :: makeTitle(NS_SPECIAL,"Mv_special_upload");
 			$title2 = Title :: makeTitle(NS_SPECIAL,"Mv_list_unused_streams");
 			if ($sf['id']=='new')

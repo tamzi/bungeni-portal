@@ -14,15 +14,17 @@ SpecialPage::addPage( new SpecialPage('Mv_manage_readers','',true,'doSpecialMana
 
 class MV_SpecialManageReaders
 {
-
 	function execute()
 	{
-		global $wgOut;
-		$html='';
-		$html.='<form name=test>';
+		global $wgOut,$wgJsMimeType,$mvgScriptPath;
+		$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/managerandr.js\"></script>");
+		$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/mv_stream.js\"></script>");
+		$html='<div id="response"></div>';
+		$html.='<form name=test >';
 		$html.='<table>';
+		$html.='<tr><td>Editors</td><td></td><td>Readers assigned to the editor</td><td></td><td>Unassigned Readers</td></tr>';
 		$html.='<tr><td>';
-		$html.='<select name="editor" size=20 onchange=load(this.value)>';
+		$html.='<select name="editor" size=20 onchange=load()>';
 		$html.='</select>';
 		$html.='</td>';
 		$html.='<td>-></td>';
@@ -37,10 +39,12 @@ class MV_SpecialManageReaders
 		$html.='</td>';
 		$html.='</tr>';
 		$html.='<tr>';
-		$html.='<td><input type=submit value="Save Changes"></input><td>';
+		$html.='<td><a onclick="save()">Save Changes</a><td>';
 		$html.='</tr>';
 		$html.='</table>';
+		$html.='<input type="hidden" name="xmldata"></input>';
 		$html.='</form>';
+		$html .='<div id="test"></div>';
 		$wgOut->addHTML($html);
 	}
 }

@@ -1196,7 +1196,7 @@ function positionCalendar(inputObj)
 
 }
 
-function initCalendar()
+function initCalendar(thediv)
 {
 	if(MSIE){
 		iframeObj = document.createElement('IFRAME');
@@ -1221,10 +1221,12 @@ function initCalendar()
 	}
 	//calendarDiv = getElementByID('calendarDiv');
 	calendarDiv = document.createElement('DIV');
+	calendarDiv.position = 'absolute';
 	calendarDiv.id = 'calendarDiv';
 	calendarDiv.style.zIndex = 1000;
 	slideCalendarSelectBox();
 	document.body.appendChild(calendarDiv);
+	//document.getElementById(thediv).appendChild(calendarDiv);
 	writeBottomBar();
 	writeTopBar();
 
@@ -1266,7 +1268,7 @@ function calendarSortItems(a,b)
 }
 
 
-function displayCalendar(inputField,format,buttonObj,displayTime,timeInput)
+function displayCalendar(inputField,format,buttonObj,displayTime,thediv,timeInput)
 {
 	if(displayTime)calendarDisplayTime=true; else calendarDisplayTime = false;
 	
@@ -1359,7 +1361,7 @@ function displayCalendar(inputField,format,buttonObj,displayTime,timeInput)
 
 
 	if(!calendarDiv){
-		initCalendar();
+		initCalendar(thediv);
 	}else{
 		if(calendarDiv.style.display=='block'){
 			closeCalendar();
@@ -1412,7 +1414,7 @@ function displayCalendarSelectBox(yearInput,monthInput,dayInput,hourInput,minute
 	inputDay = dayInput.options[dayInput.selectedIndex].value/1;
 
 	if(!calendarDiv){
-		initCalendar();
+		initCalendar(thediv);
 	}else{
 		writeCalendarContent();
 	}

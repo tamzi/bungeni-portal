@@ -64,11 +64,11 @@
 		$this->page_title=wfMsg('mv_edit_sequence', $wgTitle->getText() );		
  	}
  	function setupStreamView(){
- 		global $mvgIP, $mvDefaultStreamViewLength, $wgOut,$mvgScriptPath,$wgUser; 	 		
+ 		global $mvgIP, $mvDefaultStreamViewLength, $wgOut,$mvgScriptPath,$wgUser,$mvSittingsTable,$wgSkin; 	 		
  			 	 	
  		//set default time range if null time range request
  		$this->article->mvTitle->setStartEndIfEmpty();
- 		//grab relevent article semantic properties (so far playback_resolution) for user overiting playback res
+ 		//grab relevent article semantic properties (so far playback_resolution) for user overwriting playback res
  		$this->grabSemanticProp();
  		
 		//set up the interface objects:
@@ -85,8 +85,19 @@
  		var mvTracks = '".$this->components['MV_Overlay']->getMVDReqString(). '\';
  		/*]]>*/</script>'."\n");
 		
+		//undesa
+		$dbr =& wfGetDB(DB_SLAVE);
+		$id = $this->article->mvTitle->getSittingId();
+		$result = $dbr->select($dbr->tableName($mvSittingsTable), '*' , array('id'=>$id));
+		$row = $dbr->fetchObject($result);
+		$tit = Title::makeTitle( MV_NS_SITTING, $row->name  );
+		$text =  $tit->getText();
+		$rlink = '<a href="'.$tit->getFullURL().'">'.'<b>Sitting: '.$text.'</a> ->Stream: </b>';	
+		//undesa
+		
+		$this->page_header = $rlink;
 		//also add prev next paging	 		
-		$this->page_header ='<span class="mv_stream_title">'.
+		$this->page_header .='<span class="mv_stream_title">'.
  			$this->article->mvTitle->getStreamNameText().
  			$this->components['MV_Tools']->stream_paging_links('prev') . 
 				' <span id="mv_stream_time">'.$this->article->mvTitle->getTimeDesc() . '</span>'.

@@ -17,6 +17,7 @@ if ( !defined( 'MEDIAWIKI' ) )  die( 1 );
 /* handles metavid stream config and updates mv_stream table*/
 class MV_Stream {
 	var $id = '';
+	//var $sitting_id = '';
 	var $name = '';
 	var $formats = '';
 	var $state = '';
@@ -91,6 +92,16 @@ class MV_Stream {
 			return $this->id;
 		}
 	}
+	
+	function getSittingId(){
+		if($this->id==''){
+			$this->db_load_stream();
+			return $this->sitting_id;
+		}else{
+			return $this->sitting_id;
+		}
+	}
+	
 	function getStreamName(){
 		if($this->name==''){
 			$this->db_load_stream();

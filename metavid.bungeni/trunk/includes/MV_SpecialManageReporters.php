@@ -17,12 +17,12 @@ class MV_SpecialManageReporters
 	function execute()
 	{
 		global $wgOut,$wgJsMimeType,$mvgScriptPath;
-		$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/manageReporters.js\"></script>");
+		$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/managerandr.js\"></script>");
 		$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/mv_stream.js\"></script>");
 		$html='<div id="response"></div>';
 		$html.='<form name=test >';
 		$html.='<table>';
-		$html.='<tr><td>Readers</td><td></td><td>Reporters assigned to a Reader</td><td></td><td>Unassigned Reporters</td></tr>';
+		$html.='<tr><td>Editors</td><td></td><td>Readers assigned to the editor</td><td></td><td>Unassigned Readers</td></tr>';
 		$html.='<tr><td>';
 		$html.='<select name="editor" size=20 onchange=load()>';
 		$html.='</select>';

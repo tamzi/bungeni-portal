@@ -48,7 +48,7 @@ $mvSpokenByInSearchResult = true;
 //if we should load images from an external server:  
 $mvExternalImages = false;
 //path to metavidWiki install that is serving images: 
-$mvExternalImgServerPath = 'http://localhost/mvWiki/index.php';
+$mvExternalImgServerPath = 'http://mvprime.cse.ucsc.edu/wiki/index.php';
 
 $mvWebImgLoc = $mvgScriptPath . '/stream_images';
 //full local path for images (if hosted locally) 
@@ -68,18 +68,13 @@ $mvImageGranularityRate = '600';
 $mvShellOggFrameGrab = '';
  
 #define the video media locations based on path/server names 
-//<<<<<<< .mine
-$mvVideoArchivePaths['mvprime']= 'http://localhost/metavid/';
-$mvVideoArchivePaths['cap1'] = 'http://localhost/metavid/';
-//=======
-//$mvVideoArchivePaths['mvprime']= 'http://metavid.ucsc.edu/media/';
-//$mvVideoArchivePaths['cap1'] = 'http://128.114.20.64/media/';
-//>>>>>>> .r31347
+$mvVideoArchivePaths['mvprime']= 'http://metavid.ucsc.edu/media/';
+$mvVideoArchivePaths['cap1'] = 'http://128.114.20.64/media/';
 
 $mvDefaultVideoQualityKey = 'mv_ogg_low_quality';
 
 #local path to video archive (if hosted locally)
-$mvLocalVideoLoc = '/metavid';
+$mvLocalVideoLoc = '/metavid/video_archive';
 
 #default clip length
 $mvDefaultClipLength = 30;
@@ -110,14 +105,14 @@ $mvDefaultVideoIconSize = '80x60';
  * Different languages should be in different tracks and documentation should be clear
  * to insure data goes into its associative layer.
  */
-$mvMVDTypeAllAvailable = array('anno_en','ht_en','thomas_en','question_en','answer_en','mp_names');
+$mvMVDTypeAllAvailable = array('ht_en','anno_en','thomas_en');
 
 /*
  * the default display set of layers (must be a subset of $mvMVDTypeAllAvaliable)
  * note: this is equivalent to ?mvd_tracks=ht_en,anno_en  in the url for the stream page.
  * this also dictates the default search layers
 */ 
-$mvMVDTypeDefaultDisp =array('anno_en','mp_names'); 
+$mvMVDTypeDefaultDisp =array('ht_en','anno_en'); 
 
 ###################
 # Special Pages with Interface functions
@@ -130,27 +125,13 @@ define('MV_MISSING_PERSON_IMG','Missing person.jpg');
 # the metavid table names:
 #######
 $mvStreamTable 		= 'mv_streams';
-$mvSittingsTable	= 'mv_sittings';
 $mvStreamFilesTable	= 'mv_stream_files';
 $mvIndexTableName 	= 'mv_mvd_index';
 $mvStreamImageTable = 'mv_stream_images';
 $mvUrlCacheTable 	= 'mv_url_cache';
-$editorsTable = 'mv_editors';
-$readersTable = 'mv_readers';
-$reportersTable='mv_reporters';
-$readersAssignmentTable = 'mv_readers_assignments';
-$reportersAssignmentTable = 'mv_reporters_assignments';
-$sitting_reporter = 'sitting_reporter';
-$sitting_reader = 'sitting_reader';
-$sitting_editor = 'sitting_editor';
 
 //whether to count found results (can take lots of time on big result sets)
 $mvDo_SQL_CALC_FOUND_ROWS = true;
-
-//undesa
-$queue[0] = '';
-$alreadyInitialised = false;
-//undesa
 
 
 #########
@@ -170,19 +151,9 @@ $mvStreamTypePermission['metavid_live']= array();
 $mvStreamTypePermission['upload_file']= array();
 $mvStreamTypePermission['external_file']=array();
 
-$mvSittingTypePermission['metavid_file']= array('sysop', 'bot');
-
 $wgGroupPermissions['user']['mv_delete_mvd'] = true;
 $wgGroupPermissions['sysop']['mv_edit_stream']=true;
 $wgGroupPermissions['bot']['mv_edit_stream']=true;
-
-$wgGroupPermissions['user']['mv_edit_sitting']=true;
-$wgGroupPermissions['sysop']['mv_edit_sitting']=true;
-$wgGroupPermissions['bot']['mv_edit_sitting']=true;
-
-$wgAvailableRights[] = 'mv_delete_mvd';
-$wgAvailableRights[] = 'mv_edit_stream';
-
 ###
 # If you already have custom namespaces on your site, insert
 # $mvNamespaceIndex = ???; in your config before including the settings

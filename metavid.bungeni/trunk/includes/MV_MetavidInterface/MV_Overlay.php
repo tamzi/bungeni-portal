@@ -285,7 +285,7 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		//$wgOut->addHTML('looking at: ' . strtolower($template_key));
 		
 		//pull up relevant template for given mvd type: 
-		//@@todo convert into automated template_key lookup
+		//@@todo convert into automated template_key lookup	
 		switch(strtolower($template_key)){
 			case 'ht_en':			
 				global $wgParser, $wgUser, $wgContLang;
@@ -315,21 +315,48 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 					if(isset($smw_attr['Spoken By'])){
 						$template_wiki_text.= '|PersonName='.$smw_attr['Spoken By']."\n";
 					}
-					if(isset($smw_attr['Question No'])){
-						$template_wiki_text.= '|QuestionNo='.$smw_attr['Question No']."\n";
-					}
 					$template_wiki_text.='|BodyText='.$text."\n".
 					'}}';										
 					$text =	$template_wiki_text;					
 				}									
 			break;
-			case 'answer_en':					
+			case 'answer_en':
+					global $wgParser, $wgUser, $wgContLang;
+					$templetTitle = Title::makeTitle(NS_TEMPLATE, $template_key );	
+					if($templetTitle->exists()){	
+					$smw_attr = $this->get_and_strip_semantic_tags($text);			
+					$template_wiki_text = '{{'.$template_key."|\n";		
+					
+					//@@todo lookup with attributes
+					if(isset($smw_attr['Spoken By'])){
+						$template_wiki_text.= '|PersonName='.$smw_attr['Spoken By']."\n";
+					}
+					$template_wiki_text.='|BodyText='.$text."\n".
+					'}}';										
+					$text =	$template_wiki_text;					
+				}						
 			break;
 			case 'anno_en':											
 			break;
+			case 'mp_names':
+					global $wgParser, $wgUser, $wgContLang;
+					$templetTitle = Title::makeTitle(NS_TEMPLATE, $template_key );	
+					if($templetTitle->exists()){	
+					$smw_attr = $this->get_and_strip_semantic_tags($text);			
+					$template_wiki_text = '{{'.$template_key."|\n";		
+					
+					//@@todo lookup with attributes
+					if(isset($smw_attr['Spoken By'])){
+						$template_wiki_text.= '|PersonName='.$smw_attr['Spoken By']."\n";
+					}
+					$template_wiki_text.='|BodyText='.$text."\n".
+					'}}';										
+					$text =	$template_wiki_text;					
+				}	
+			break;
 			default:					
 			break;
-		}
+		}		
 		//now add the text with categories if present:
 		$sk =& $wgUser->getSkin();
 		//run via parser to add in Category info: 
@@ -362,7 +389,16 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
  		//$mvd_page->end_time  = seconds2ntp( ntp2seconds($start_context) +  $mvDefaultClipLength);
  		$mvd_page->wiki_title = $mvdType.':'. strtolower($baseTitle).'/_new';
 		$this->get_edit_disp($mvd_page->wiki_title,'new');		
- 				
+ 		
+ 		
+ 		//undesa hack
+ 		//if ( ($mvdType=='ht_en') || ($mvdType=='question_en') || ($mvdType=='answer_en') )
+ 		//{
+			//$mvd_names = new MV_MVD();
+			//$mvd_names->id = 'new';
+ 			//$mvd_names->wiki_title = 'mp_names:'. strtolower($baseTitle).'/_new';
+ 		//}
+ 		//end undesa hack		
 		
 		return $wgOut->getHTML();
 		
@@ -415,10 +451,14 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		
 		//@@TODO set up conditional display: (view source if not logged on, protect, remove if given permission)  
 		$out.=$plink;
-		$out.="| $elink | $hlink | $dlink ";
-		if($wgUser->isAllowed('mv_delete_mvd')){
-			$rlink = '<a title="'.wfMsg('mv_remove_title').'" href="javascript:mv_disp_remove_mvd(\''.$mvd_page->wiki_title.'\', \''.$mvd_page->id.'\')">'.wfMsg('mv_remove').'</a>'; 
-			$out.=' | ' .  $rlink;
+		$mvdType = $mvd_page->mvd_type;
+		if ($mvdType !='Mp_names')
+		{
+			$out.="| $elink | $hlink | $dlink ";
+			if(($wgUser->isAllowed('mv_delete_mvd')) ){
+				$rlink = '<a title="'.wfMsg('mv_remove_title').'" href="javascript:mv_disp_remove_mvd(\''.$mvd_page->wiki_title.'\', \''.$mvd_page->id.'\')">'.wfMsg('mv_remove').'</a>'; 
+				$out.=' | ' .  $rlink;
+			}
 		}
 		return $out;
 	}
@@ -427,16 +467,23 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 	*/
 	function getMvdBgColor(& $mvd_page){
 		if(!isset($mvd_page->color)){
-			$color = substr(md5($mvd_page->id), 0, 6);
-			//make the color soft (dont include low values)
-			$soft=array('A','B','C','D','E','F');
-			for($i=0;$i<strlen($color);$i++){
-				if(is_numeric($color[$i])){					
-					$color[$i]=$soft[ceil($color[$i]/2)];
-				}else{
-					$color[$i]=strtoupper($color[$i]);
+			//if ($mvd_page->mvd_type != 'Anno_en')
+			{
+				$color = substr(md5($mvd_page->id), 0, 6);
+				//make the color soft (dont include low values)
+				$soft=array('A','B','C','D','E','F');
+				for($i=0;$i<strlen($color);$i++){
+					if(is_numeric($color[$i])){					
+						$color[$i]=$soft[ceil($color[$i]/2)];
+					}else{
+						$color[$i]=strtoupper($color[$i]);
+					}
 				}
-			}		
+			}
+			//else
+			//{
+				//$color="f0ffef";
+			//}		
 			$mvd_page->color=$color;
 		}
 		return $mvd_page->color;
@@ -555,11 +602,35 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		if($mvd_id=='new'){
 			$titleKey =substr($_REQUEST['title'],0,strpos($_REQUEST['title'],'/')).
 				'/'.$_REQUEST['mv_start_hr_new'].'/'.$_REQUEST['mv_end_hr_new'];
+			$pos2 = strpos($_REQUEST['title'],'/');
+			$pos1= strpos($_REQUEST['title'],':');
+			//$nameKey ='mp_names'.substr($_REQUEST['title'],$pos1,$pos2).$_REQUEST['mv_start_hr_new'].'/'.$_REQUEST['mv_end_hr_new'];
+			$nameKey = 'mp_names:'.$_REQUEST['wgTitle'].'/'.$_REQUEST['mv_start_hr_new'].'/'.$_REQUEST['mv_end_hr_new'];
 		}
-		
+		else
+		{
+		$nameKey = 'mp_names:'.$_REQUEST['wgTitle'].'/'.$_REQUEST['mv_start_hr_'.$mvd_id].'/'.$_REQUEST['mv_end_hr_'.$mvd_id];
+		}
+		$type = substr($_REQUEST['title'],0,strpos($_REQUEST['title'],':'));
+			
 		//set up the title /article
 		$wgTitle = Title::newFromText($titleKey, MV_NS_MVD);
 		$Article = new Article($wgTitle);
+		if ($type != 'Anno_en'){
+			$tit = Title::newFromText($nameKey, MV_NS_MVD);
+			$art = new Article($tit);
+			if (!$art->exists())
+			{
+				$art->doEdit($_REQUEST['smw_Spoken_By'],'MP names DO NOT EDIT',EDIT_NEW);
+			//$art->doPurge();
+			}
+			else
+			{
+				$art->doEdit($_REQUEST['smw_Spoken_By'],'MP names DO NOT EDIT',EDIT_UPDATE);
+			//$art->doPurge();
+			}
+		}
+		//xxxx
 		
 		//add all semantic form based attributes/relations to the posted body text
 		foreach($_POST as $key=>$val){
@@ -573,18 +644,49 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 						//@@todo update for other smw types: 
 						if($key=='smw_Spoken_By') {
 							//update the request wpTextBox:
-							$wgRequest->data['wpTextbox1']="[[".$swmTitle->getText().':='.$val.']] '.
+							$wgRequest->data['wpTextbox1']="[[".$swmTitle->getText().':='.$val.']]'.
 								trim($_REQUEST['wpTextbox1']);
 						}
 						else
 						{
-						    $wgRequest->data['wpTextbox1'] .= " [[".$swmTitle->getText().'::'.$val.'| ]] ';
+						    $wgRequest->data['wpTextbox1'] .= " [[".$swmTitle->getText().':='.$val.']] ';
 						}
 					}				
 				}
 				
 			}
-		}
+		}			
+		
+		global $reportersTable;
+		if (isset($wgRequest->data['smw_Reported_By']))
+		{
+			$name = $wgRequest->data['smw_Reported_By'];
+			$sql = 'SELECT * FROM '.$reportersTable.' WHERE name="'.$name.'"';
+			$dbr =& wfGetDB(DB_SLAVE);
+			$result = $dbr->query($sql);
+			$row = $dbr->fetchObject($result);
+			$number = $row->order_number;
+			if ($row->next == 'next')
+				{
+					$dbw =& wfGetDB(DB_WRITE);
+					$sql = 'UPDATE '.$reportersTable.' SET next="" WHERE name="'.$name.'"';
+					$result = $dbw->query($sql);
+					$sql = 'SELECT * FROM '.$reportersTable.' WHERE order_number='."$number+1";
+					$result = $dbr->query($sql);
+					$row = $dbr->numRows($result);
+					if ($row > 0)
+					{
+						$sql = 'UPDATE '.$reportersTable.' SET next="next" WHERE order_number='."$number+1";
+					}
+					else
+					{
+							$sql = 'UPDATE '.$reportersTable.' SET next="next" WHERE order_number=1';
+					}
+					$result = $dbw->query($sql);
+				}
+			
+		}	
+		
 		$editPageAjax = new MV_EditPageAjax( $Article);
 		$editPageAjax->mvd_id = $mvd_id;			
 		
@@ -596,12 +698,12 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 			//$wgOut->addHTML($out);			
 			$mvTitle = new MV_Title($_REQUEST['title']);
 				
-			$parserOutput = $this->parse_format_text($_REQUEST['wpTextbox1'], $mvTitle);	
+			$parserOutput = $this->parse_format_text($wgRequest->data['wpTextbox1'], $mvTitle);	
 			$wgOut->addParserOutput($parserOutput);		
 			return $wgOut->getHTML() . '<div style="clear:both;"><hr></div>';
 		}	
 						
-		if($editPageAjax->edit()==false){			
+		if($editPageAjax->edit($wgRequest->data['wpTextbox1'])==false){			
 			if($mvd_id=='new'){
 				//get context info to position timeline element: 
 				$rt = (isset($_REQUEST['wgTitle']))?$_REQUEST['wgTitle']:null;
@@ -612,9 +714,11 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 				$result = & MV_Index::getMVDbyTitle($titleKey, 'mv_page_id');			
 				$mvd_id = $result->id;															
 				
+				$result2 = & MV_Index::getMVDbyTitle($nameKey, 'mv_page_id');
+				
 				//purge cache for parent stream 
 				MV_MVD::onEdit($this->mvd_pages, $mvd_id);
-				
+				//MV_MVD::onEdit($this->mvd_pages, $result2->id);
 				//return Encapsulated (since its a new mvd)
 				$returnEncapsulated=true;
 			}else{
@@ -702,7 +806,40 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		$old_article = new Article($ot);
 		$this->preMoveArtileText = $old_article->getContent();
 		unset($old_article);
+		/*
+		$pos1 = strpos($titleKey,'/');
+		$pos2 = strpos($newTitle,'/');
+		$nameKey = 'Mp_names'.$wgTitle.substr($titleKey, $pos1);
+//		$newnamekey = 'Mp_names:'.$wgTitle.'/'.$_REQUEST['mv_start_hr_'.$mvd_id].'/'.$_REQUEST['mv_end_hr_'.$mvd_id];
+		$newnamekey = 'Mp_names:/'.$_REQUEST['mv_start_hr_'.$mvd_id].'/'.$_REQUEST['mv_end_hr_'.$mvd_id];
+		*/
+		//$newnameKey = 'Mp_names:'.$_REQUEST['wgTitle'].'/'.$_REQUEST['mv_start_hr_'.$mvd_id].'/'.$_REQUEST['mv_end_hr_'.$mvd_id];
 		
+		$oldnamekey = 'Mp_names'.substr($titleKey,strpos($titleKey,':'));
+		$newnamekey = 'Mp_names'.substr($newTitle,strpos($newTitle,':'));
+		
+		
+		//$nameKey = 'Mp_names'.substr($titleKey, strpos($titleKey,':'));
+		$tit = Title::newFromText($oldnamekey, MV_NS_MVD);
+		$tit2 = Title::newFromText($newnamekey, MV_NS_MVD);
+		
+		$art = new Article( $tit );
+		$art2 = new Article($tit2);
+		
+		$text = $_REQUEST['smw_Spoken_By'];
+		
+		$art2->doEdit($text,'MP names DO NOT EDIT',EDIT_NEW);
+		$art2->doPurge();
+		
+		$art->doDelete( $this->reason,true);
+		
+		//$error2 = $tit->moveTo( $tit2, true, $this->reason );
+		//$art = new Article($tit);
+		
+		//$tit2 = Title::newFromText($newnamekey, MV_NS_MVD);
+		$wgOut->clearHTML();
+		//$art = new Article($tit); 
+		//$art->doDelete("Article Moved");
 		//@@todo we should really just remove the old article (instead of putting a redirect there)
 		$error = $ot->moveTo( $nt, true, $this->reason );
 		
@@ -820,6 +957,13 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		$title = Title::newFromText($titleKey, MV_NS_MVD);
 		$article = new Article($title);
 		//purge parent article: 
+		
+		$nameKey = 'Mp_names'.substr($titleKey, strpos($titleKey,':'));
+		
+		$tit = Title::newFromText($nameKey, MV_NS_MVD);
+		$art = new Article($tit);
+		$art->doDelete( $_REQUEST['wpReason'] );
+		
 		MV_MVD::onEdit($this->mvd_pages, $mvd_id);
 		//run the delete function: 
 		$article->doDelete( $_REQUEST['wpReason'] );
@@ -859,6 +1003,8 @@ class MV_MVD{
 		$streamTitle = Title::newFromText($stream_name, MV_NS_STREAM); 
 		//clear the cache for the parent stream page: 
 		Article::onArticleEdit($streamTitle);
+		
+		
 	}
 	//updates the current version cached version of mvd
 	function onMove(&$mvd_pages_cache, $mvd_id){
@@ -871,6 +1017,7 @@ class MV_MVD{
 		$mvd_pages_cache[$mvd_id]->usePCache=false;
 	}*/
 }
+
 function mvParsePropertiesCallback($maches){
 	global $mvMatchesSST, $mv_smw_tag_arry;	
 	$mv_smw_tag_arry[$maches[2]]=$maches[3];

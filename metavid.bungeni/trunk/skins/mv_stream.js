@@ -131,6 +131,13 @@ var mv_init_interface = {
 		if(this.tool_key){
 			mv_proc_tool_result(this.tool_key, {'status':'ok','innerHTML':$j('#mv_tool_cont').html()} );
 		}
+		/* undesa
+		$j('#p-tb').css('display', 'none');
+		$j('#p-navigation').css('display', 'none');
+		$j('#p-search').css('display', 'none');
+		$j('#content').css('margin', '8.9em 0 0 1em')
+		*/
+		
 		
 		//unlock the interface updates once everything is setup: 
 		mv_lock_vid_updates=false;		
@@ -502,7 +509,6 @@ function add_autocomplete(mvd_id){
 }
 //submit the adjust 
 
-/*also needs some work: */
 //use start time of elements in the to position pieces.
 function mv_add_new_fd_mvd(titleKey, node_html){
 	//js_log('add: ' + mv_result['titleKey'] + node_html);
@@ -812,7 +818,7 @@ function scroll_to_pos(mvd_id){
 	}
 }
 function highlight_fd(mvd_id){	
-	$j('#mv_fd_mvd_'+mvd_id).css('border','1px solid #FF0000');
+	$j('#mv_fd_mvd_'+mvd_id).css('border','2px solid #000000');
 }
 function de_highlight_fd(mvd_id){
 	$j('#mv_fd_mvd_'+mvd_id).css('border', '1px solid #2F6FAB');
@@ -824,14 +830,14 @@ function highlight_tl_ts(mvd_id){
 		if($j('#mv_tl_mvd_'+mvd_id).css('background').indexOf("red")==-1)
 			mv_tl_mvd_org_color[mvd_id] = $j('#mv_tl_mvd_'+mvd_id).css('background');
 		//js_log(mvd_id + ' org color: ' + mv_tl_mvd_org_color[mvd_id]);
-		$j('#mv_tl_mvd_'+mvd_id).css({background:'red',opacity:.4}).css("z-index",10);
+		$j('#mv_tl_mvd_'+mvd_id).css('border','2px solid #000000').css("z-index",10);
 	}
 }
 function de_highlight_tl_ts(mvd_id){
 	if(mv_tl_mvd_org_color[mvd_id]){		
 		if($j('#mv_tl_mvd_'+mvd_id).get(0)){
 			//alert(mvd_id + ' restore ' + mv_tl_mvd_org_color[mvd_id] + ' ' + rgb2hex(mv_tl_mvd_org_color[mvd_id]));			
-			$j('#mv_tl_mvd_'+mvd_id).css({background:mv_tl_mvd_org_color[mvd_id],opacity:1}).css("z-index",0);
+			$j('#mv_tl_mvd_'+mvd_id).css({background:mv_tl_mvd_org_color[mvd_id],opacity:1}).css("z-index",0).css('border','none');
 		}
 	}
 }

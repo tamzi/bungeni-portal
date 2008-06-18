@@ -3,7 +3,7 @@
 mv_addLoadEvent(mv_setup_allpage); 	
 var mv_setup_allpage_flag=false;
 var base_roe_url = wgServer + wgScript + '?title=Special:MvExportStream&feed_format=roe&stream_name=';
-var gMvd={};
+var gMvd={}; 
 function mv_setup_allpage(){	
 	js_log("mv embed done loading now setup 'all page'");
 	//make sure we have jQuery and any base requried libs: 
@@ -156,7 +156,7 @@ function mv_setup_search_ac(){
 	//add the person choices div to searchInput
 	var obj = $j('#searchInput').get(0);
 	//base offset: 
-	var curleft=55;
+	var curleft=0;
 	var curtop=20;
 	//get pos of searchInput:
 	if (obj.offsetParent) {

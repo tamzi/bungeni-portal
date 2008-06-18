@@ -19,7 +19,7 @@ var numberofeditors;
 var previousValue = -1;
 window.onload = init;
                            
-function onReadyEditors( req ){
+function onReadyReaders( req ){
 	var ready=req.readyState;
 	var i = 0;
   	data=req.responseXML.documentElement;
@@ -60,7 +60,7 @@ function onReadyEditors( req ){
 	load();
 }
 
-function onReadyUnassignedReaders( req ){
+function onReadyUnassignedReporters( req ){
 	var ready=req.readyState;
   	data=req.responseXML.documentElement;
   	if (req.status!=200) {
@@ -151,8 +151,8 @@ function remove()
 function init()
 {
   	sajax_request_type='GET';
-  	sajax_do_call( 'mv_get_editors', [] , onReadyEditors ); 
-  	sajax_do_call( 'mv_get_unassigned_readers', [] , onReadyUnassignedReaders ); 
+  	sajax_do_call( 'mv_get_readers', [] , onReadyReaders ); 
+  	sajax_do_call( 'mv_get_unassigned_reporters', [] , onReadyUnassignedReporters ); 
 }
 
 function save()
@@ -183,23 +183,24 @@ function save()
 		var i=0;
 		while ( editorid_array[i] != undefined )
 		{
-			xml += '<editor id=\"'+editorid_array[i]+'\">';
+			xml += '<reader id=\"'+editorid_array[i]+'\">';
 			j=0;
 			while (id[i][j] != undefined)
 			{
-				xml += '<reader id=\"'+id[i][j]+'\"></reader>';
+				xml += '<reporter id=\"'+id[i][j]+'\"></reporter>';
 				j++;
 			}
-			xml += "</editor>";
+			xml += "</reader>";
 			i++;
 		}
 		xml+='</data>';
+		document.getElementById('response').innerHTML=xml;
 		var post_vars = new Object();
 		var args = new Object();
 		post_vars['xmldata'] = xml; 
 		sajax_request_type='POST';
 		//sajax_do_call('mv_save_editors',post_vars,onResponse);
-		mv_sajax_do_call('mv_save_editors',args, onResponse, post_vars);
+		mv_sajax_do_call('mv_save_readers',args, onResponse, post_vars);
 	}
 	else
 	{

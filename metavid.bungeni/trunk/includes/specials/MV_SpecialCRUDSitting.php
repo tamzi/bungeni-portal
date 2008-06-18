@@ -17,20 +17,40 @@ global $IP;
 require_once( "$IP/includes/SpecialPage.php" );
 
 function doSpecialAddSitting() {
-	$MV_SpecialAddSitting = new MV_SpecialAddSitting();
+	$MV_SpecialAddSitting = new MV_SpecialCRUDSitting('add');
+	$MV_SpecialAddSitting->execute();
+}
+function doSpecialEditSitting(){
+	$MV_SpecialAddSitting = new MV_SpecialCRUDSitting('edit');
 	$MV_SpecialAddSitting->execute();
 }
 
 SpecialPage::addPage( new SpecialPage('Mv_Add_Sitting','',true,'doSpecialAddSitting',false) );
+SpecialPage::addPage( new SpecialPage('Mv_Edit_Sitting','',true,'doSpecialEditSitting',false) );
 
-class MV_SpecialAddSitting {
+class MV_SpecialCRUDSitting {
+	function __construct($mode){	
+		$this->mode = $mode;
+	}
 	function execute() {
-		global $wgRequest, $wgOut, $wgUser, $mvSitting_name, $mvgIP, $wgJsMimeType, $mvgScriptPath;   
+		global $wgRequest, $wgOut, $wgUser, $mvSitting_name, $mvgIP;   
 		#init html output var:
 		$html='';                   
+
+        	# Get request data from, e.g.
         $title_str = $wgRequest->getVal('title');
-		$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.js\"></script>");
-		$wgOut->addStyle("dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.css?random=20060118");
+                      
+        	//get Mv_Title to normalize the sitting name:       
+        $this->sitting_name = ($wgRequest->getVal( 'sitting_name')=='')?'':
+        	 	MV_Title::normalizeTitle( $wgRequest->getVal( 'sitting_name') );
+        
+        	// data about the sitting 	 
+        $this->sitting_start_time = 	$wgRequest->getVal('sitting_start_time');                
+        $this->sitting_end_time = 	$wgRequest->getVal('sitting_end_time');
+        $this->sitting_session_number = 	$wgRequest->getVal('sitting_session_number');
+        $this->wpEditToken =	$wgRequest->getVal( 'wpEditToken');
+		$this->sitting_desc  = 	$wgRequest->getVal( 'sitting_desc');
+		//grab the desc from the wiki page if not in the POST req
 		
 		if($this->sitting_desc==''){			
 			$desTitle = Title::makeTitle(MV_NS_SITTING, $this->sitting_name );		
@@ -39,7 +59,7 @@ class MV_SpecialAddSitting {
 			if($curRevision)
 				$this->stream_desc = $curRevision->getText();
 		}		
-	
+		
         if($this->sitting_name==''){     
         	//default page request           	                
     		$parts = split('/',$title_str);
@@ -47,10 +67,22 @@ class MV_SpecialAddSitting {
     			//means we can use part 1 as a sitting name:
     			$this->sitting_name =$parts[1]; 
     		}
-		}else{	
-			//output add_ status to html
-			$html.=$this->add_sitting();						
+		}else{
+			if($this->mode=='add'){			
+				//output add_ status to html
+				$html.=$this->add_sitting();
+			}else{
+				//possible edit
+			}						
 		}
+					
+		//if edit check for sitting name:
+    	if($this->mode=='edit' && $this->sitting_name==''){
+    		$html.=wfMsg('edit_sitting_missing');	
+			$wgOut->addHTML( $html );
+    		return ;
+    	}
+    	
     	
     	$this->check_permissions();
     	
@@ -62,7 +94,7 @@ class MV_SpecialAddSitting {
     	}
     		   
     	//output the add sitting form	
-		$spectitle = Title::makeTitle( NS_SPECIAL, 'Mv_add_edit_sitting' );		
+		$spectitle = Title::makeTitle( NS_SPECIAL, 'Mv_Add_sitting' );		
 		$docutitle = Title::newFromText(wfMsg('mv_add_sitting'), NS_HELP);
 		if($this->mode=='edit'){
 			$mvSittingTitle = Title::makeTitle(MV_NS_SITTING,  $this->sitting_name);
@@ -79,37 +111,23 @@ class MV_SpecialAddSitting {
 		$html.= '<fieldset><legend>'.wfMsg('mv_add_sitting').'</legend>' . "\n" .
 		        '<input type="hidden" name="title" value="' . $spectitle->getPrefixedText() . '"/>' ;
 		$html.= '<table width="600" border="0">';
-		$html.='<tr>';			
-		$html.= '<td  width="300">';		
-		$html.= '<i>'.wfMsg('mv_label_sitting_of')."</i>:";
-		$html.= '</td>';
-		$html.= '<td>';
-		$html.='<select name="sitting_of">';
-		$html.= '<option value="Plenary">Plenary</option>';	
-		$html.= '<option value="Committee_on_Health">Committee on Health</option>';	
-		$html.= '<option value="Committee_on_Education">Committee on Education</option>';
-		$html.= '<option value="Committee_on_Government_Spending">Committee on Government Spending</option>';
-		$html.= '<option value="Etc">Etc...</option>';							
-		$html.= '</select></td>';				
-		$html.=	'</tr>'."\n";
-		$html.=	'<tr>';
-		$html.= '<td width="140">';		
-		$html.= '<i>'.wfMsg('mv_label_sitting_start_date_and_time')."</i>:";
+		$html.='"<tr><td width="600">TO DO</td></tr>"';
+		$html.='"<tr><td>1. Pretty Javascript calender for session date</td></tr>"';
+		$html.='"<tr><td>2. Name - Derived from bungeni perhaps</td></tr>"';
+		$html.='"<tr><td>3. Session Number - again Derived from bungeni perhaps</td></tr>"';
+		$html.='<tr>';
+					
+		$html.= '<td  width="140">';		
+		$html.= '<i>'.wfMsg('mv_label_sitting_name')."</i>:";
 		$html.= '</td><td>';			
-		//$html.= '<input type="text" name="sitting_start_date_and_time" value="" size="30" maxlength="1024"><br />' . "\n";	
-		$html.= '<input type="text" value="24.12.2007 12:55" readonly name="sitting_start_date_and_time"><input type="button" value="Cal" onclick="displayCalendar(document.add_sitting.sitting_start_date_and_time,\'yyyy/mm/dd hh:ii\',this,true)"><div id="cal1"></div>';			
+		$html.= '<input type="text" name="sitting_name" value="" size="30" maxlength="1024"><br />' . "\n";				
 		$html.= '</td>';				
 		$html.=	'</tr>'."\n";
-		
+			
 		$html.= '<td width="140">';		
-		$html.= '<i>'.wfMsg('mv_label_sitting_end_date_and_time')."</i>:";
+		$html.= '<i>'.wfMsg('mv_label_sitting_date')."</i>:";
 		$html.= '</td><td>';			
-		//$html.= '<input type="text" name="sitting_end_date_and_time" value="" size="30" maxlength="1024"><br />' . "\n";				
-		$html.= '<input type="text" value="24.12.2007 12:55" readonly name="sitting_end_date_and_time"><input type="button" value="Cal" onclick="displayCalendar(document.add_sitting.sitting_end_date_and_time,\'yyyy/mm/dd hh:ii\',this,true)"><div id="cal2"></div>';	
-		//$html.='<div id="select-wrapper"><input type="text" id="date-sel2-dd" name="date-sel2-dd"/>';
-		//$html.='<input type="text"id="date-sel2-mm" name="date-sel2-mm"/>';
-		//$html.='<input type="text" class="w3em highlight-days-67 disable-days-12 split-date no-transparency" id="date-sel2" name="date-sel2" />
-      //</div>';
+		$html.= '<input type="text" name="sitting_date" value="" size="30" maxlength="1024"><br />' . "\n";				
 		$html.= '</td>';				
 		$html.=	'</tr>'."\n";
 			
@@ -121,15 +139,19 @@ class MV_SpecialAddSitting {
 		$html.=	'</tr>'."\n";
 			
 		$html.= '<td  width="140">';		
-		$html.= '<i>'.wfMsg('mv_label_sitting_type')."</i>:";
-		$html.= '</td><td>';		
-		$html.= '<select name="sitting_type">';	
-		$html.= '<option value="Morning" size="30">Morning</option>';	
-		$html.= '<option value="Afternoon" size="30">Afternoon</option>';
-		$html.= '<option value="Emergency" size="30">Emergency</option>';			
-		$html.= '</select>';
+		$html.= '<i>'.wfMsg('mv_label_sitting_start_time')."</i>:";
+		$html.= '</td><td>';			
+		$html.= '<input type="text" name="sitting_start_time" value="" size="30" maxlength="1024"><br />' . "\n";				
 		$html.= '</td>';				
 		$html.=	'</tr>'."\n";
+			
+		$html.= '<td  width="140">';		
+		$html.= '<i>'.wfMsg('mv_label_sitting_end_time')."</i>:";
+		$html.= '</td><td>';			
+		$html.= '<input type="text" name="sitting_end_time" value="" size="30" maxlength="1024"><br />' . "\n";				
+		$html.= '</td>';				
+		$html.=	'</tr>'."\n";
+			
 		$html.=	'<tr><td valign="top"><i>' .wfMsg('mv_label_sitting_desc') .'</i>:</td><td>';
 		
 		//add an edit token (for the stream description)
@@ -154,6 +176,63 @@ class MV_SpecialAddSitting {
         //output the stream files list (if in edit mode)
         //if($this->mode=='edit')
     		//$this->list_streams();  	            
+	}
+	/* for now its just a list no edit allowed 
+	 * (all file management done via maintenance scripts )
+	 */
+	/*
+	function list_streams(){
+		global $wgOut;
+		$html='';
+		$stream =& mvGetMVStream(array('name'=>$this->stream_name));		
+		$stream->db_load_stream();
+		$stream_files = $stream->getFileList();
+		
+		if(count($stream_files)==0){
+			$html.=wfMsg('mv_no_stream_files');	
+			$wgOut->addHTML( $html );
+			return ;
+		}
+		//output filedset container: 
+		$html.= '<fieldset><legend>'.wfMsg('mv_file_list').'</legend>' . "\n";	
+		$html.= '<table width="600" border="0">';	
+		foreach($stream_files as $sf){
+				$html.='<tr>';
+					$html.='<td width="150">'.$sf->getFullURL().'</td>';
+					$html.='<td>'.$sf->get_desc().'</td>';											
+				$html.='</tr>';
+		}
+		$html .='</table></fieldset>';
+		$wgOut->addHTML( $html );
+		return '';	
+	}
+	*/
+	
+	function add_sitting(){	
+		$out='';		
+	
+		//get the stream pointer
+		$sitting = new MV_Sitting(array('name'=>$this->sitting_name));
+			
+		//if the stream is inserted procced with page insertion
+		if($sitting->insertSitting()){
+			global $wgUser;
+			$sk = $wgUser->getSkin();
+			
+			//insert page
+			$sittingTitle =Title::newFromText( $this->sitting_name, MV_NS_SITTING  );
+			$wgArticle = new Article( $sittingTitle );
+			$success = $wgArticle->doEdit( $this->sitting_desc, wfMsg('mv_summary_add_sitting') );
+			if ( $success ) {
+				//stream inserted succesfully report to output				
+				$sittingLink = $sk->makeLinkObj( $sittingTitle,  $this->sitting_name );		
+				$out='sitting '.$sittingLink.' added';													
+					 
+			} else {
+				$out=wfMsg('mv_error_sitting_insert');
+			}		
+		}	
+		return $out;
 	}
 	
 		

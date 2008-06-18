@@ -17,7 +17,7 @@
 .mv_fd_mvd{
 	float:left;
 	margin:4px;
-	width:90%;
+	width:95%;
 	min-width: 350px;
 }
 .mv_video_time_hr{
@@ -171,7 +171,7 @@ div.autocomplete ul li {
 	position:absolute;top:0px;bottom:30px;right:12px;overflow-x:hidden;overflow-y:auto;
 }
 #mv_time_line{
-	position:absolute;background:#DDDDDD;left:0px;height:94%;overflow:hidden;
+	position:absolute;background:#DDDDDD;left:0px;height:94%;overflow:visible;
 }
 #MV_Tools{
 	position:absolute;width:322px;top:312px;left:10px;bottom:10px;margin:4px;
@@ -370,6 +370,10 @@ a.dp-choose-date.dp-disabled {
  */
 input.dp-applied {
 	/*float: left;*/
+}
+
+.mv_adj_hr{
+	border:solid black thin;
 }
 
 

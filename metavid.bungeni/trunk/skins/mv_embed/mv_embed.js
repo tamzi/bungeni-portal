@@ -14,7 +14,7 @@
  * http://stevenlevithan.com/demo/parseuri/js/
  *
  * config values you can manually set the location of the mv_embed folder here
- * (in cases where media will be in a different place than the javascript)
+ * (in cases where media will be hosted in a different place than the embbeding page)
  *
  */
 var mv_embed_path = null;
@@ -53,11 +53,17 @@ gMsg['ogg-player-oggPlugin']='Generic Ogg Plugin';
 gMsg['ogg-player-quicktime-mozilla']='Quicktime Plugin';
 gMsg['ogg-player-quicktime-activex']='Quicktime ActiveX';
 gMsg['ogg-player-cortado']='Java Cortado';
+gMsg['ogg-player-flowplayer']='Flowplayer';
 gMsg['ogg-player-selected']=' (selected)';
 gMsg['generic_missing_plugin']='You don\'t appear to have a supported in browser playback method<br>' +
 		'visit the <a href="http://metavid.ucsc.edu/wiki/index.php/Client_Download">Playback Methods</a> page to download a player<br>';
 gMsg['add_to_end_of_sequence']='Add to End of Sequence';
 gMsg['missing_video_stream']='The video file for this stream is missing';
+
+gMsg['select_transcript_set']='Select Transcripts';
+gMsg['auto_scroll']='auto scroll';
+gMsg['close']='close';
+gMsg['improve_transcript']='Improve Transcript';
 
 //grabs from the globalMsg obj 
 //@@todo integrate msg serving into CMS
@@ -192,7 +198,7 @@ var embedTypes = {
 	 // List of players in order of preference
 	 playerType:false,
 	 // List of players in order of preference (vlc is pretty good on linux (but should not be installed in OSX) 
-	 players: ['videoElement','vlc-mozilla', 'vlc-activex', 'oggPlay', 'cortado', 'oggPlugin', 'quicktime-mozilla', 'quicktime-activex'],
+	 players: ['videoElement','vlc-mozilla', 'vlc-activex', 'oggPlay', 'cortado', 'oggPlugin', 'quicktime-mozilla', 'quicktime-activex', 'flowplayer'],
 	 init: function(){
 		//detect supported types
 		this.detect();
@@ -242,9 +248,10 @@ var embedTypes = {
 	 			return 'oggplay'; break;
 	 		case 'cortado':
 	 			return 'java';break;
+            case 'flowplayer':
+                return 'flash';
 	 		case 'oggPlugin':
-	 			return 'generic';
-	 		break;
+	 			return 'generic'; break;
 	 		default:
 	 			return null;
 	 	}
@@ -374,6 +381,10 @@ var embedTypes = {
 					this.clientSupports['quicktime-mozilla'] = true;
 					continue;
 				}
+   				if(type=='application/x-shockwave-flash'){
+					this.clientSupports['flowplayer']= true;
+					continue;
+				}
 			}
 		}
 		//@@The xiph quicktime component does not work well with annodex streams (temporarly disable)
@@ -494,7 +505,7 @@ function init_mv_embed(force){
  * this function allows for targeted rewriting (the host element does not have to be <video> tag)
  */
 function rewrite_by_id(vid_id){
-	//confirm the video nessesary libs are loaded. 
+	//confirm the nessesary libs are loaded. 
 	if(!mvEmbed.libs_loaded){
 		mvEmbed.load_libs(function(){
 			rewrite_by_id(vid_id);
@@ -510,7 +521,6 @@ function rewrite_by_id(vid_id){
 		}
 	}
 }
-
 
 //SET DOM Ready state:
 // for Mozilla browsers
@@ -550,7 +560,7 @@ if(embedTypes.safari){
 		//once jQuery is loaded set up no conflict: 
 		_global['$j'] = jQuery.noConflict();
 		init_mv_embed();
-	}				
+	}
 }
 /*
 * Coverts all occurrences of <video> tag into video object
@@ -684,13 +694,30 @@ function swapEmbedVideoElement(video_element, videoInterface){
 /* 
 *  The base embedVideo object constructor 
 */
+/*var textTrack = function(track){
+	return this.init(track);
+}
+textTrack.prototype ={
+	init:function(track){
+		for(i in track){
+			this[i]=track[i];
+		}
+	},
+	loadTrack:function(){
+		
+	}
+}*/
 var textInterface = function(parentEmbed){
 	return this.init(parentEmbed);	
 }
 textInterface.prototype = {	
 	text_lookahead_time:0,
 	body_ready:false,
-	request_length:5*60,
+	request_length:5*60, //5 min
+	transcript_set:null,
+	autoscroll:true,
+	scrollTimerId:0,
+	availableTracks:{},
 	init:function(parentEmbed){
 		this.pe=parentEmbed;
 		//parse roe if not already done: 
@@ -705,75 +732,116 @@ textInterface.prototype = {
 		}else{
 			this.getParseCMML();
 		}
-		
+		//start the autoscroll timer: 
+		this.setAutoScroll(true);		
 	},
+	//@@todo seperate out data loader & data display 
 	getParseCMML:function(){		
 		js_log("load cmml");
 		//read the current play head time (if embed object is playing)
 		
 		//look at avaliable layers and default layer set 
+		
 		//@@todo use user-language as key to select transcript layer.
 		_this = this;
 		$j.each(this.pe.roe_data.getElementsByTagName('mediaSource'), function(inx, n){
 			if(n.getAttribute('content-type')=='text/cmml'){
-				js_log('cmml available');						
-				cmml_available=true;
-				//add transcript to bodyHTML
-				var cmml_url = n.getAttribute('src');
-				var pcurl =  parseUri(cmml_url);
-				var req_time =pcurl.queryKey['t'].split('/');
-				req_time[0]=ntp2seconds(req_time[0]);
-				req_time[1]=ntp2seconds(req_time[1]);
-				if(req_time[1]-req_time[0]> _this.request_length){
-					//longer than 5 min will only issue a (request for 5 min)
-					req_time[1] = req_time[0]+_this.request_length;
+				_this.availableTracks[n.getAttribute('id')] = {
+					src:n.getAttribute('src'),
+					title:n.getAttribute('title'),
+					loaded:false,
+					display:false
 				}
-				//do request: 
-				url = pcurl.protocol+'://'+pcurl.authority+pcurl.path+'?';
-				for( i in pcurl.queryKey){
-					if(i!='t'){
-						url+=i+'='+pcurl.queryKey[i]+'&';
-					}else{
-						url+='t='+seconds2ntp(req_time[0])+'/'+seconds2ntp(req_time[1])+'&';
-					}
-				}
-				//only select the 
-				js_log('do request on url:' + url);				
-				$j('#mv_loading_icon').css('display','inline');
-				do_request(url, function(data){	
-					//hide loading icon:
-					$j('#mv_loading_icon').css('display','none');										
-					$j.each(data.getElementsByTagName('clip'), function(inx, n){
-						var text_clip = {
-							start:n.getAttribute('start').replace('ntp:', ''),
-							end:n.getAttribute('end').replace('ntp:', ''),
-							id:n.getAttribute('id')
-						}
-						$j.each(n.getElementsByTagName('body'), function(binx, bn){
-							text_clip.body = bn.textContent;
-						});
-						_this.add_merge_text_clip(text_clip);
-					});
-				});
+				//load or skip the track based on "default" attribute
+				if(n.getAttribute('default')!='true'){
+					return;
+				}else{
+					//load the track if its default track
+					_this.load_track(n.getAttribute('id'));
+				}			
 			}
-		});					
+		});
+	},
+	load_track:function(track_id){
+		var track = this.availableTracks[track_id];
+		js_log('cmml available');
+		//add transcript to bodyHTML
+		var pcurl =  parseUri(track.src);
+		var req_time =pcurl.queryKey['t'].split('/');
+		req_time[0]=ntp2seconds(req_time[0]);
+		req_time[1]=ntp2seconds(req_time[1]);
+		if(req_time[1]-req_time[0]> _this.request_length){
+			//longer than 5 min will only issue a (request 5 min)
+			req_time[1] = req_time[0]+_this.request_length;
+		}
+		//set up request url: 
+		url = pcurl.protocol+'://'+pcurl.authority+pcurl.path+'?';
+		for( i in pcurl.queryKey){
+			if(i!='t'){
+				url+=i+'='+pcurl.queryKey[i]+'&';
+			}else{
+				url+='t='+seconds2ntp(req_time[0])+'/'+seconds2ntp(req_time[1])+'&';
+			}
+		}
+		//js_log('do request on url:' + url);				
+		//$j('#mv_loading_icon').css('display','inline');			
+		do_request(url, function(data){
+			//js_log('wtf' + data.xml);
+			//js_log("load track data: "+ data.toString() );
+			//hide loading icon:
+			$j('#mv_loading_icon').css('display','none');				
+			$j.each(data.getElementsByTagName('clip'), function(inx, n){
+				var text_clip = {
+					start:n.getAttribute('start').replace('ntp:', ''),
+					end:n.getAttribute('end').replace('ntp:', ''),
+					type_id:track_id,
+					id:n.getAttribute('id')
+				}
+				$j.each(n.getElementsByTagName('body'), function(binx, bn){
+					if(bn.textContent){
+						text_clip.body = bn.textContent;
+					}else if(bn.text){
+						text_clip.body = bn.text;
+					}
+				});				
+				_this.add_merge_text_clip(text_clip);
+			});			
+			//done loading update availableTracks
+			_this.availableTracks[track_id].loaded=true;
+			_this.availableTracks[track_id].display=true;
+		});
 	},
 	add_merge_text_clip:function(text_clip){
 		//make sure the clip does not alreay exist: 
-		if($j('#tc_'+text_clip.id).length==0){
-			//@todo append in order (include start end time in div attr)
-			$j('#mmbody_'+this.pe.id).append('<div style="border:solid thin black;" id="tc_'+text_clip.id+'" ' +
-					'start="'+text_clip.start+'" end="'+text_clip.end+'">' +
-						'<div style="top:0px;left:0px;right:0px;height:20px;font-size:small">'+
-							'<img style="display:inline;" src="'+mv_embed_path+'/images/control_play_blue.png">'+
-							text_clip.start + ' to ' +text_clip.end+
-						'</div>'+
-						text_clip.body + 
-				'</div>');
+		if($j('#tc_'+text_clip.id).length==0){		
+			var inserted = false;	
+			var text_clip_start_time = ntp2seconds(text_clip.start);
+			var insertHTML = '<div style="border:solid thin black;" id="tc_'+text_clip.id+'" ' +
+				'start="'+text_clip.start+'" end="'+text_clip.end+'" class="mvtt '+text_clip.type_id+'">' +
+					'<div style="top:0px;left:0px;right:0px;height:20px;font-size:small">'+
+						'<img style="display:inline;" src="'+mv_embed_path+'/images/control_play_blue.png">'+
+						text_clip.start + ' to ' +text_clip.end+
+					'</div>'+
+					text_clip.body + 
+			'</div>';						
+			if($j('#mmbody_'+this.pe.id).length==0)this.show();			
+			$j('#mmbody_'+this.pe.id +' .mvtt').each(function(){
+				if(!inserted){
+					js_log( ntp2seconds($j(this).attr('start')) + ' > ' + text_clip_start_time);
+					if( ntp2seconds($j(this).attr('start')) > text_clip_start_time){
+						inserted=true;						
+						$j(this).before(insertHTML);
+					}
+				}
+			});
+			//js_log('should just append: '+insertHTML);
+			if(!inserted){
+				$j('#mmbody_'+this.pe.id ).append(insertHTML);
+			}			
 		}		
 	},
 	show:function(){
-		js_log("show text interface");
+		//js_log("show text interface");
 		/*fade out cc*/
 		$j('#metaText_'+this.pe.id).fadeOut('fast');		
 		/*slide in intefrace container*/
@@ -781,23 +849,22 @@ textInterface.prototype = {
 			//append it to body relative to offset of this.pe
 			var loc = $j(this.pe).position();
 			js_log('top ' +loc.top + ' left:'+loc.left );
-			var append ='<div style="position:absolute;z-index: 5001;' +
-						'top:'+(loc.top-4)+'px;' +
-						'left:'+(parseInt(loc.left)+parseInt(this.pe.width))+'px;' +
+			var mvboxHTML ='<div style="position:absolute;z-index: 5001;' +
+						'top:'+(loc.top)+'px;' +
+						'left:'+(parseInt(loc.left)+parseInt(this.pe.width)+10)+'px;' +
 						'height:'+this.pe.height+'px;width:400px;' +
 						'background:white;border:solid black;" ' +
-					'id="metaBox_'+this.pe.id+'">' +
+						'id="metaBox_'+this.pe.id+'">' +
 					this.getMenu() +
 					this.getBody() + 
-					'</div>';
-			$j(this.pe).after(append);
+						'</div>';
+			$j(this.pe).after(mvboxHTML);			
 			//$j('body').append();
 		}else{
+			//if($j('#metaBox_'+this.pe.id).css('display')!='none'){
 			$j('#metaBox_'+this.pe.id).fadeIn("fast");
-		}
-		/*start text timer*/
-		
-		/*fade in caption interface*/
+			//}
+		}	
 	},	
 	close:function(){
 		//the meta box: 
@@ -806,29 +873,109 @@ textInterface.prototype = {
 		$j('#metaText_'+this.pe.id).fadeIn('fast');	
 	},
 	getBody:function(){		
-		return '<div id="mmbody_'+this.pe.id+'" style="position:absolute;top:20px;left:0px;right:0px;bottom:0px;overflow:auto;"/>';
+		return '<div id="mmbody_'+this.pe.id+'" style="position:absolute;top:20px;left:0px;right:0px;bottom:0px;height:'+(this.pe.height-20)+'px;overflow:auto;"/>';
+	},
+	getTsSelect:function(){
+		js_log('getTsSelect');
+		//check if menu already present
+		if($j('mvtsel_'+this.pe.id).length!=0){
+			$j('mvtsel_'+this.pe.id).fadeIn('fast');
+		}else{
+			var selHTML = '<div id="mvtsel_'+this.pe.id+'" style="position:absolute;background:#FFF;top:20px;left:0px;right:0px;bottom:0px;overflow:auto;">';
+			selHTML+='<b>'+getMsg('select_transcript_set')+'</b><ul>';	
+			for(i in this.availableTracks){
+				var checked = (this.availableTracks[i].display)?'checked':'';
+				selHTML+='<li><input name="'+i+'" class="mvTsSelect" type="checkbox" '+checked+'>'+
+					this.availableTracks[i].title + '</li>';
+			}
+			selHTML+='</ul>' +
+						'<a href="#" onClick="document.getElementById(\''+this.pe.id+'\').textInterface.applyTsSelect();return false;">'+getMsg('close')+'</a>'+
+					'</div>';
+			$j('#metaBox_'+this.pe.id).append(selHTML);
+			js_log('appended: '+ selHTML);
+		}
+	},
+	applyTsSelect:function(){
+		//update availableTracks
+		var _this = this;
+		$j('#mvtsel_'+this.pe.id+' .mvTsSelect').each(function(){
+			if(this.checked){
+				//if not yet loaded now would be a good time
+				if(!_this.availableTracks[this.name].loaded){
+					_this.load_track( this.name);	//will load and dispaly
+				}else{
+					_this.availableTracks[this.name].display=true;
+					$j('#mmbody_'+_this.pe.id +' .'+this.name ).fadeIn("fast");
+				}
+			}else{
+				if(_this.availableTracks[this.name].display){
+					_this.availableTracks[this.name].display=false;
+					$j('#mmbody_'+_this.pe.id +' .'+this.name ).fadeOut("fast");
+				}
+			}			
+		});
+		$j('#mvtsel_'+this.pe.id).fadeOut('fast');
+	},
+	monitor:function(){
+		//grab the time from the video object 
+		var cur_time = parseInt( this.pe.currentTime() );			
+		if(cur_time!=0 && this.prevTimeScroll!=cur_time){
+			//search for current time:  flash red border trascript 
+			_this = this;
+			$j('#mmbody_'+this.pe.id +' .mvtt').each(function(){
+				if(ntp2seconds($j(this).attr('start')) == cur_time){		
+					_this.prevTimeScroll=cur_time;	
+					$j('#mmbody_'+_this.pe.id).animate({scrollTop: $j(this).position().top}, 'slow');					
+				}
+			});	
+		}		
+	},
+	setAutoScroll:function(timer){
+		this.autoscroll = timer;
+		if(this.autoscroll){
+			//start the timmer if its not alreay running
+			if(!this.scrollTimerId){
+				this.scrollTimerId = setInterval('document.getElementById(\''+this.pe.id+'\').textInterface.monitor()', 500);
+			}
+			//jump to the current position: 
+			var cur_time = parseInt (this.pe.currentTime());
+			js_log('cur time: '+ cur_time);
+						
+			_this = this;
+			$j('#mmbody_'+this.pe.id +' .mvtt').each(function(){
+				if(cur_time > ntp2seconds($j(this).attr('start'))  ){	
+					_this.prevTimeScroll=cur_time;	
+					$j('#mmbody_'+_this.pe.id).animate({scrollTop: $j(this).position().top}, 'slow');
+				}
+			});
+		}else{
+			//stop the timmer
+			clearInterval(this.scrollTimerId);
+			this.scrollTimerId=0;
+		}
 	},
 	getMenu:function(){
 		var out='';
 		//add in loading icon: 
+		/*
 		out+= '<div class="mv_loading_icon" style="background:url(\''+mv_embed_path+'images/indicator.gif\');display:';
 		out+= (this.roe_data)? 'none':'inline';
-		out+='"/>';
-		
+		out+='"/>';		
+		*/
+		var as_checked = (this.autoscroll)?'checked':'';
 		out+= '<div id="mmenu_'+this.pe.id+'" style="background:#AAF;font-size:small;position:absolute;top:0;height:20px;left:0px;right:0px;">' +
 				'<a style="font-color:#000;" title="'+getMsg('close')+'" href="#" onClick="document.getElementById(\''+this.pe.id+'\').closeTextInterface();return false;">'+
-					getMsg('close')+'</a> ' +
+					'<img border="0" width="16" height="16" src="'+mv_embed_path + 'images/cancel.png"></a> ' + 
 				'<a style="font-color:#000;" title="'+getMsg('select_transcript_set')+'" href="#"  onClick="document.getElementById(\''+this.pe.id+'\').textInterface.getTsSelect();return false;">'+
-					getMsg('select_transcript_set')+'</a> ';
+					getMsg('select_transcript_set')+'</a> | ' + 
+				'<input onClick="document.getElementById(\''+this.pe.id+'\').textInterface.setAutoScroll(this.checked);return false;" ' +
+				'type="checkbox" '+as_checked +'>'+getMsg('auto_scroll');
 		if(this.pe.linkback){
-			out+='<a style="font-color:#000;" title="'+getMsg('improve_transcript')+'" href="'+this.pe.linkback+'">'+
+			out+=' | <a style="font-color:#000;" title="'+getMsg('improve_transcript')+'" href="'+this.pe.linkback+'">'+
 				getMsg('improve_transcript')+'</a> ';
 		}	
 		out+='</div>';
 		return out;			
-	},
-	getTsSelect:function(){
-		var test = 'transcript select page';
 	}
 }
 
@@ -846,7 +993,7 @@ embedVideo.prototype = {
 	    "paused":true,
 	    "readyState":0,  //http://www.whatwg.org/specs/web-apps/current-work/#readystate
 	    "currentTime":0, //current playback position (should be overwritten by local functions) 
-	    "duration":NaN   //media duration (read from file)
+	    "duration":NaN   //media duration (read from file or anx temporal url)
 	},
 	//utility functions for property values: 
 	hx : function ( s ) {
@@ -931,6 +1078,7 @@ embedVideo.prototype = {
         	//parent method preservation for local overwritten methods
         	if(this[method])this['parent_' + method] = this[method];
             this[method]=embedObj[method];
+           
         }
         if(this.inheritEmbedOverride){
         	this.inheritEmbedOverride();
@@ -939,13 +1087,19 @@ embedVideo.prototype = {
 	//parse roe file and store data in this object
 	getParseROE: function(callback){
 		var _this = this;
-		do_request(this.roe, function(data){			
-			js_log("on: "+_this.id + " got data "+ data);
+		do_request(this.roe, function(data){	
+			js_log('got DATA!!!!!!!');
+			//$j.each(data.getElementsByTagName('mediaSource'), function(inx, n){
+			//	alert('found mediaSource');
+			//});
+			elm = data.getElementById('html_linkback');			
+			js_log("on: "+_this.id + " got data "+ data.length + ' test elm:' + elm.getAttribute('rel'));
 			if(typeof data == 'object' ){
-				js_log('type of data is object');
+				js_log('type of data is object, data:'+ data.toString());
 				_this.roe_data = data;
 				var cmml_available=false;
 				$j.each(_this.roe_data.getElementsByTagName('mediaSource'), function(inx, n){
+					js_log(' on element: ' + n.getAttribute('content-type'));
 					if(n.getAttribute('content-type')=='video/ogg' && n.getAttribute("default")=="true"){
 						js_log('set src to '+n.getAttribute("src"));						
 						_this['src'] = n.getAttribute("src");
@@ -984,19 +1138,19 @@ embedVideo.prototype = {
 						_this['linkback'] = n.getAttribute('href');
 					}
 				});
-			}
-			//could not find default video tag in roe: report video missing
+			}			
 			if(!_this['src']){
+				//could not find default video src for playback
 				$j(_this).html(getMsg('missing_video_stream'));				
 			}else{
 				//js_log("do callback roe data:"+_this['roe_data']+' '+ _this['src'] +' '+ _this['thumbnail'] + 'cb: '+ callback);
 				callback(_this.id);
 			}
 		});
-	},
+	},		
 	 /*
 	  * function getDuration in milliseconds 
-	  * special case derive duration from request url (in float seconds) @@todo should be milliseconds
+	  * special case derive duration from request url (in float seconds) @@todo should be float seconds
 	  * (for media_url?t=ntp_start/ntp_end url request format
 	  */  
 	 getDuration : function(){	 	
@@ -1161,7 +1315,7 @@ embedVideo.prototype = {
 	  	//not to be displayed in stream interface. 
 	  	if(this.show_meta_link){
 	  		thumb_html+='<div style="border:none;position:absolute;top:2px;right:2px;z-index:1">'+
-		     '<a title="text tracks" href="#" onClick="document.getElementById(\''+this.id+'\').showTextInterface();return false;">';
+		     '<a title="'+getMsg('select_transcript_set')+'" href="javascript:document.getElementById(\''+this.id+'\').showTextInterface();">';
 		    thumb_html+=getTransparentPng({id:'metaText_'+this.id, width:"40", height:"27", border:"0", 
 						src:mv_embed_path + 'images/cc_meta_sm.png' });
 			thumb_html+='</div>';    	
@@ -1287,7 +1441,7 @@ embedVideo.prototype = {
 		 var select_code = '<div id="blackbg_'+sel_id+'" ' +
 			 'style="overflow:auto;position:absolute;display:none;z-index:2;background:black;top:0px;left:0px;' +
 				 'height:'+parseInt(height)+'px;width:'+parseInt(width)+'px;">'+	
-			 '<span id="close_vl'+this.id+'" style="position:absolute:top:2px;left:2px;color:white;">'+close_link+'</sapn>'+
+			 '<span id="close_vl'+this.id+'" style="position:absolute:top:2px;left:2px;color:white;">'+close_link+'</span>'+
 			 '<span id="con_vl_'+this.id+'" style="position:absolute;top:20px;left:20px;color:white;">';			 	
 		var dl_list='';		
 		//set to loading if we don't have the roe data yet: 
@@ -1312,8 +1466,8 @@ embedVideo.prototype = {
 		out+='<span style="color:white"><blockquote>';
 		var dl_list=dl_txt_list='';
 		$j.each(this.roe_data.getElementsByTagName('mediaSource'), function(inx,n){	
-			var dl_line = '<a style="color:white" href="' + n.getAttribute("src") +'"> '+
-						n.getAttribute("title")+'</a><br>'+"\n";						
+			var dl_line = '<li><a style="color:white" href="' + n.getAttribute("src") +'"> '+
+						n.getAttribute("title")+'</a></li>'+"\n";						
 			if(n.getAttribute("content-type")=="video/ogg"){
 				out+=dl_line;
 			}if(n.getAttribute("content-type")=="text/cmml"){
@@ -1423,6 +1577,11 @@ embedVideo.prototype = {
 		}else{
 			return true;
 		}
+	},
+	//http://www.whatwg.org/specs/web-apps/current-work/#current0
+	//should return the current play time in seconds (default to zero)
+	currentTime:function(){
+		return 0;
 	},
 	//loads in the css and js for the extended interface (controls = true) 
 	get_interface_lib : function(doLoad){				
@@ -1639,7 +1798,7 @@ function ntp2seconds(ntp){
 function mv_addLoadEvent(func) {
 	mvEmbed.addLoadEvent(func);
 }
- function do_request(req_url,callback,mv_json_response){
+ function do_request(req_url, callback, mv_json_response){
  	js_log('do request: ' + req_url);
 		if( parseUri(document.URL).host == parseUri(req_url).host){
 			//no proxy at all do a direct request: 
@@ -1653,12 +1812,14 @@ function mv_addLoadEvent(func) {
 		}else{
 			//check if MV_embed path matches document.URL then we can use the local proxy: 
 			if(parseUri(document.URL).host == parseUri(mv_embed_path).host ){
-				js_log('use mv_embed_proxy : ' + parseUri(document.URL).host + ' != '+ parseUri(req_url).host);
+				js_log('use mv_embed_proxy : ' + parseUri(document.URL).host + ' != '+ parseUri(req_url).host);	
+				//alert("do ajax req:" +req_url);
 				$j.ajax({
 					type: "POST",
 					url:mv_embed_path + 'mv_data_proxy.php',
 					data:{url:req_url},
-					success:function(data){					
+					success:function(data){											
+						js_log("did ajax req:"+ typeof data);
 						callback(data);
 					}
 				});
@@ -1689,19 +1850,26 @@ function mv_jsdata_cb(response){
 	//switch on content type: 
 	switch(response['content-type']){
 		case 'text/plain':
-			//global_req_cb[response['cb_inx']](response['pay_load']);
 		break;
 		case 'text/xml':
 			if(typeof response['pay_load'] == 'string'){
-				//attempt to parse as xml 
-				var xmldata = (new DOMParser()).parseFromString(response['pay_load'], "text/xml");
+				js_log(response['pay_load']);				
+				//attempt to parse as xml for IE 
+				if(embedTypes.msie){
+					var xmldata=new ActiveXObject("Microsoft.XMLDOM");
+					xmldata.async="false";
+					xmldata.loadXML(response['pay_load']);					
+				}else{ //for others (firefox, safari etc) 
+					var xmldata = (new DOMParser()).parseFromString(response['pay_load'], "text/xml");				
+				}
+				//@@todo hanndle xml parser errors
 				if(xmldata)response['pay_load']=xmldata;
 			}
 		break
 	}			
 	global_req_cb[response['cb_inx']](response['pay_load']);
 }
-//load external via dom injection
+//load external js via dom injection
 function loadExternalJs(url){  
    	js_log('load js: '+ url);
 	var e = document.createElement("script");
@@ -1756,7 +1924,26 @@ function getMvEmbedPath(){
 		js_log('already absolute');
 	}
 }
+if (typeof DOMParser == "undefined") {
+   DOMParser = function () {}
 
+   DOMParser.prototype.parseFromString = function (str, contentType) {
+      if (typeof ActiveXObject != "undefined") {
+         var d = new ActiveXObject("MSXML.DomDocument");
+         d.loadXML(str);
+         return d;
+      } else if (typeof XMLHttpRequest != "undefined") {
+         var req = new XMLHttpRequest;
+         req.open("GET", "data:" + (contentType || "application/xml") +
+                         ";charset=utf-8," + encodeURIComponent(str), false);
+         if (req.overrideMimeType) {
+            req.overrideMimeType(contentType);
+         }
+         req.send(null);
+         return req.responseXML;
+      }
+   }
+}
 /*
 * utility functions:
 */
@@ -1764,12 +1951,12 @@ function getMvEmbedPath(){
 	function js_log(string){
 	  if( window.console ){
 	        console.log(string); 
-	   }else{   	 
+	  }else{   	 
 	     /*
 	      * IE and non-firebug debug:
 	      */	     
-	     /*var log_elm = document.getElementById('mv_js_log');
-	     if(!log_elm){
+	     var log_elm = document.getElementById('mv_js_log');
+	     /*if(!log_elm){
 	     	document.write('<div style="position:absolute;z-index:50;top:0px;left:0px;right:0px;height:150px;"><textarea id="mv_js_log" cols="80" rows="6"></textarea></div>');
 	     	var log_elm = document.getElementById('mv_js_log');
 	     }

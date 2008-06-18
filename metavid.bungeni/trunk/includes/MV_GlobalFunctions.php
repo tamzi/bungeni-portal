@@ -13,7 +13,7 @@ if ( !defined( 'MEDIAWIKI' ) )  die( 1 );
  * Switch on Metavid MediaWiki. This function must be called in LocalSettings.php
  *  its separated out to allow for overwriting semantic wiki hooks and functions
  * if semantic wiki is enabled for this wiki. 
- */
+ */ 
  
 //pre setup setup
 if ( !function_exists( 'extAddSpecialPage' ) ) {
@@ -42,7 +42,7 @@ $wgAutoloadClasses['MV_StreamPage'] = dirname(__FILE__)  .'/articlepages/MV_Stre
 $wgAutoloadClasses['MV_EditDataPage'] = $wgAutoloadClasses['MV_DataPage'] = 
 	dirname(__FILE__) . '/articlepages/MV_DataPage.php';
 $wgAutoloadClasses['MV_EditStreamPage']=dirname(__FILE__)  .'/MV_EditStreamPage.php';
-
+$wgAutoloadClasses['MV_EditUser']=dirname(__FILE__)  .'/MV_EditUser.php';
 
 $wgAutoloadClasses['MV_Title'] = dirname(__FILE__)  . '/MV_Title.php';
 $wgAutoloadClasses['MV_Index'] = dirname(__FILE__)  . '/MV_Index.php';
@@ -55,8 +55,11 @@ $wgAutoloadClasses['MV_ParserCache'] = dirname(__FILE__) . '/MV_ParserCache.php'
 	
 $wgAutoloadClasses['MV_Sitting'] =  dirname(__FILE__)  .'/MV_Sitting.php';
 $wgAutoloadClasses['MV_EditSittingPage'] =  dirname(__FILE__)  .'/MV_EditSittingPage.php';
-
-	
+$wgAutoloadClasses['MV_Editors'] =  dirname(__FILE__)  .'/MV_Editors.php';
+$wgAutoloadClasses['MV_AjaxResponse'] =  dirname(__FILE__)  .'/MV_AjaxResponse.php';	
+$wgAutoloadClasses['MV_Reporters'] =  dirname(__FILE__)  .'/MV_Reporters.php';
+$wgAutoloadClasses['MV_Readers'] =  dirname(__FILE__)  .'/MV_Readers.php';	
+$wgAutoloadClasses['MV_ManageStaff'] =  dirname(__FILE__)  .'/MV_ManageStaff.php';	
 $markerList = array(); 
 
 //override special search page: (requires ExtensionFunctions.php)
@@ -101,6 +104,11 @@ function mvSetupExtension(){
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialEditSitting.php');
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialUpload.php');
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialUnusedStreamFiles.php');
+	require_once( dirname(__FILE__) . '/specials/MV_SpecialManageReaders.php');
+	require_once( dirname(__FILE__) . '/specials/MV_SpecialOrderReporters.php');
+	require_once( dirname(__FILE__) . '/specials/MV_test.php');
+	require_once( dirname(__FILE__) . '/specials/MV_SpecialMVAdmin.php');
+	require_once( dirname(__FILE__) . '/specials/MV_SpecialManageReporters.php');
 	/**********************************************/
 	/***** register hooks                     *****/
 	/**********************************************/
@@ -135,6 +143,26 @@ function mvSetupExtension(){
 				'[http://metavid.ucsc.edu/wiki/index.php/System_Overview View Online Documentation]' .
 				'Custom modifications for UNDESA done by Miano Njoka mianonjoka@gmail.com'
 	);
+	
+	
+	//undesa patch
+	//setup global queue that is used to assign transcripts to reporters
+	//is there a better way of doing this??
+	
+	if (!$alreadyInitialised)
+	{
+		global $reportersTable, $queue;
+		$dbr =& wfGetDB(DB_SLAVE);
+		$sql = 'SELECT id, order_number FROM '.$reportersTable.' ORDER BY order_number ASC';
+		$result = $dbr->query($sql);
+		$i = 0;
+		while ($row=$dbr->fetchObject($result))
+		{
+			$queue[$i++] = $row->id;
+		}
+		$alreadyInitialised = true;	
+	}
+	//end undesa patch
 }	
 /**********************************************/
 /***** Header modifications               *****/
@@ -160,8 +188,12 @@ function mvSetupExtension(){
 				'media' => 'all',
 				'href'  => $mvCssUrl
 		));		
-		$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.js\"></script>");
-		$wgOut->addStyle("dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.css");					
+		//$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.js\"></script>");
+		//$wgOut->addStyle("dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.css?random=20060118");
+		//$wgOut->addStyle("date-picker/css/datepicker.css");
+		$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/date-picker/js/datepicker.js\"></script>");
+		
+						
 	}
 	/**
 	*  This method is in charge of inserting additional CSS, JScript, and meta tags
@@ -191,6 +223,7 @@ function mvSetupExtension(){
 				//already included for all pages to support autoComplete 
 				if(!($mvEnableAutoComplete || $mvEnableJSLinkBack ||$mvEnableJSMVDrewrite) ){
 					$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/mv_embed/jquery/jquery-1.2.1.js\"></script>");
+					
 					$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/mv_embed/jquery/plugins/jquery.autocomplete.js\"></script>");								 
 					$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/mv_embed/jquery/plugins/jquery.hoverIntent.js\"></script>");
 				}							
@@ -208,7 +241,7 @@ function mvSetupExtension(){
 			
 			} 
 //=======   
-$wgOut->addScript("<script type=\"text/javascript\" src=\"/mvWiki/extensions/FCKeditor/fckeditor/fckeditor.js\"></script>");
+//$wgOut->addScript("<script type=\"text/javascript\" src=\"/mvWiki/extensions/FCKeditor/fckeditor/fckeditor.js\"></script>");
 			if($head_set=='smw_ext')
 				$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/mv_smw_ext.js\" ></script>");
 //=======
@@ -256,6 +289,8 @@ if(navigator.userAgent.toLowerCase().indexOf('safari')!=-1){
 				$wgOut->addScript('<link rel="stylesheet" type="text/css" media="screen, projection" href="/mvWiki/extensions/SemanticMediaWiki/skins/SMW_custom.css" />');
 			$mvgHeadersInPlace=true;
 		}
+		
+		
 		return true; // always return true, in order not to stop MW's hook processing!
 	}
 /**
@@ -393,7 +428,23 @@ $wgAjaxExportList[] = 'mv_disp_remove_mvd';
 
 $wgAjaxExportList[] = 'mv_edit_disp';
 //undesa patch
-//$wgAjaxExportList[] = 'mv_edit_question';
+$wgAjaxExportList[] = 'mv_get_editors';
+$wgAjaxExportList[] = 'mv_get_unassigned_readers';
+$wgAjaxExportList[] = 'mv_save_editors';
+$wgAjaxExportList[] = 'mv_save_reporters';
+$wgAjaxExportList[] = 'mv_get_readers';
+$wgAjaxExportList[] = 'mv_get_unassigned_reporters';
+$wgAjaxExportList[] = 'mv_save_readers';
+$wgAjaxExportList[] = 'workload_reporter';
+$wgAjaxExportList[] = 'workload_reader';
+$wgAjaxExportList[] = 'workload_editor';
+$wgAjaxExportList[] = 'mv_get_available_editors';
+$wgAjaxExportList[] = 'mv_get_available_readers';
+$wgAjaxExportList[] = 'mv_get_available_reporters';
+$wgAjaxExportList[] = 'mv_get_assigned_editors';
+$wgAjaxExportList[] = 'mv_get_assigned_readers';
+$wgAjaxExportList[] = 'mv_get_assigned_reporters';
+$wgAjaxExportList[] = 'mv_save_staff';
 //undesa patch
 $wgAjaxExportList[] = 'mv_edit_preview';
 $wgAjaxExportList[] = 'mv_edit_submit';
@@ -412,6 +463,12 @@ $wgAjaxExportList[] = 'mv_date_obj';
 
 //media serving 
 $wgAjaxExportList[] = 'mv_frame_server';
+
+
+//other hook UNDESA
+//$wgHooks['SkinTemplateContentActions'][] = 'ReplaceTabs';
+//end other hook UNDESA
+
 
 /*
  * Utility functions:
@@ -614,7 +671,7 @@ function mvGetMVStream($stream_init){
 function mvDoMetavidSittingpage($title, $article)
 {
 	global $wgRequest;
-	$name = $title->getText();
+	$name = $title->getPartialURL();
 	$sit = new MV_Sitting(array('name'=>$name));
 	$sit->db_load_sitting();
 	if ($wgRequest->getVal('action') != 'edit')

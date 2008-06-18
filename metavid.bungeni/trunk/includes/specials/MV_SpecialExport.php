@@ -184,8 +184,13 @@ class MV_SpecialExport {
 		<? foreach($this->file_list as $file){ 				
 				$dAttr=($file->getNameKey()==$mvDefaultVideoQualityKey)?' default="true"':'';
 				$dSrc=($file->getPathType()=='url_anx')?$this->mvTitle->getWebStreamURL($file->getNameKey()):$file->getFullURL();
+				//if not ogg include start and end times in the attribute: 
+				//@@todo in the future support client side ogg seeking (and don't automaticly put .anx at the end)  
+				$startendattr= (htmlentities($file->getContentType())!='video/ogg')?
+					'start="ntp:'.htmlentities($this->mvTitle->getStartTime()).'"'. 
+					' end="ntp:'.htmlentities($this->mvTitle->getEndTime()).'"':'';				
 			?>
-				<mediaSource id="<?=htmlentities($file->getNameKey())?>"<?=$dAttr?> src="<?=$dSrc?>" title="<?=htmlentities($file->get_desc())?>" content-type="<?=htmlentities($file->getContentType())?>" />	
+				<mediaSource id="<?=htmlentities($file->getNameKey())?>"<?=$dAttr?> src="<?=$dSrc?>" title="<?=htmlentities($file->get_desc())?>" content-type="<?=htmlentities($file->getContentType())?>" <?=$startendattr?>/>	
 		<?}?>
 	</switch>
 		</track>
@@ -198,9 +203,10 @@ class MV_SpecialExport {
 					$query = 'stream_name='.$this->stream_name.'&t='.$this->req_time.'&feed_format=cmml&tracks='.strtolower($row->mvd_type);		
 					$clink = $sTitle->getFullURL($query);			
 					$inline = (in_array(strtolower($row->mvd_type), $this->mvcp->mvd_tracks))?'true':'false';
-					//for now make ht_en the default layer														
+					//for now make ht_en the default layer		
+					$default_attr = (strtolower($row->mvd_type)=='ht_en')?'default="true"':'';												
 ?>
-				<mediaSource id="<?=$row->mvd_type?>" title="<?=wfMsg($row->mvd_type)?>" inline="<?=$inline?>" lang="en" content-type="text/cmml" src="<?=htmlentities($clink)?>">
+				<mediaSource id="<?=$row->mvd_type?>" title="<?=wfMsg($row->mvd_type)?>" <?=$default_attr?> inline="<?=$inline?>" lang="en" content-type="text/cmml" src="<?=htmlentities($clink)?>">
 <?					//output inline cmml (if requested): 
 					if($inline=='true'){
 						$this->get_stream_cmml(true, $row->mvd_type);
@@ -247,7 +253,7 @@ class MV_SpecialExport {
 		if(!$inline)header('Content-Type: text/xml');
 		//print the header:
 		if(!$inline)print '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>'."\n";		
-		if(!$inline)print '<!DOCTYPE cmml SYSTEM "cmml.dtd">'."\n";		
+		//if(!$inline)print '<!DOCTYPE cmml SYSTEM "http://svn.annodex.net/standards/cmml_2_0.dtd">'."\n";		
 		$tracks=array();
 		if(count($dbr->numRows($mvd_res))!=0){ 
 			global $wgOut;

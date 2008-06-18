@@ -122,7 +122,7 @@ csv;
 
  SELECT setval('user_group_memberships_membership_id_seq', 2000);
 
-copy public.user_group_memberships ( group_id, user_id, title, start_date, end_date)
+copy public.user_group_memberships ( group_id, user_id , start_date, end_date)
 from '%(directory)s/data/demodata/committee_members.csv'
 csv;
 
@@ -201,14 +201,19 @@ update users set active_p = 'I' where user_id not in (select user_id from user_g
 
 update users set active_p = 'D' where date_of_death is not null;
 
-update "user_group_memberships" SET "title" = 4 WHERE "membership_id"  IN (
+/*update "user_group_memberships" SET "title" = 4 WHERE "membership_id"  IN (
     SELECT "user_group_memberships"."membership_id" 
     FROM "public"."parliaments", "public"."groups", "public"."user_group_memberships" 
     WHERE ( "parliaments"."parliament_id" = "groups"."group_id" AND "user_group_memberships"."group_id" = "groups"."group_id" ));
+*/
 
 copy public.sitting_attendance( sitting_id, member_id, attendance_id)
 from '%(directory)s/data/demodata/sitting_attendance.csv'
 csv;
+
+
+COPY "public"."role_titles" ("membership_id", "title_name_id", "start_date", "end_date") 
+FROM '%(directory)s/data/demodata/role_titles.csv' csv ;
 
 
 /*get all sequences */
@@ -329,6 +334,23 @@ WHERE user_id IN
     FROM "public"."user_group_memberships" as ugm
     WHERE ( "ugm"."membership_type" = 'committeestaff' ));
     
+UPDATE users SET type = 'staff'
+WHERE user_id IN      
+    (SELECT "ugm"."user_id"     
+    FROM "public"."user_group_memberships" as ugm
+    WHERE ( "ugm"."membership_type" = 'committeestaff' ));
     
+UPDATE user_group_memberships set "membership_type" = 'parliamentmember'
+where "user_group_memberships"."membership_id"
+IN
+(
+SELECT "user_group_memberships_1"."membership_id" 
+FROM "public"."user_group_memberships" AS "user_group_memberships_1", "public"."groups", "public"."parliaments" 
+WHERE ( "user_group_memberships_1"."group_id" = "groups"."group_id" AND "parliaments"."parliament_id" = "groups"."group_id" )
+);
+
+
+    
+        
             
 

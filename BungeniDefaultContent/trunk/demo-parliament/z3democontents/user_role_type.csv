@@ -1,24 +1,24 @@
-01,"parliament","Speaker"
-02,"parliament","President"
-03,"parliament","Attorney General"
-04,"parliament","Member"
-05,"ministry","Minister"
-06,"ministry","Deputy Minister"
-07,"ministry","Secretary"
-08,"ministry","Under Secretary"
-09,"ministry","Assistant Minister"
-10,"political-party","Speaker"
-11,"political-party","Deputy Speaker"
-12,"political-party","Chief Whip, Floor Leader"
-13,"political-party","Deputy Leader"
-14,"political-party","Spokesperson"
-15,"political-party","Secretary"
-16,"political-party","Member"
-17,"committee","Chairperson"
-18,"committee","Committee Clerk"
-19,"committee","Deputy Chairperson"
-20,"committee","Deputy Committee Clerk"
-21,"committee","Member"
-22,"committee","Secretary"
-23,"committee","Researcher"
-24,"extension","Additional Member"
+01,"parliamentmember","Speaker",20
+02,"parliamentmember","President",40
+03,"parliamentmember","Attorney General",30
+04,"parliamentmember","Member",10
+05,"minister","Minister",10
+06,"minister","Deputy Minister",20
+07,"minister","Secretary",30
+08,"minister","Under Secretary",40
+09,"minister","Assistant Minister",50
+10,"partymember","Speaker",20
+11,"partymember","Deputy Speaker",30
+12,"partymember","Chief Whip, Floor Leader",40
+13,"partymember","Deputy Leader",50
+14,"partymember","Spokesperson",60
+15,"partymember","Secretary",70
+16,"partymember","Member",10
+17,"comitteemember","Chairperson",20
+18,"committeestaff","Committee Clerk",10
+19,"comitteemember","Deputy Chairperson",30
+20,"committeestaff","Deputy Committee Clerk",20
+21,"comitteemember","Member",10
+22,"comitteemember","Secretary",40
+23,"committeestaff","Researcher",50
+24,"extensionmember","Additional Member",10

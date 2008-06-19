@@ -873,6 +873,7 @@ class ConstituencyDetailDescriptor( ModelDescriptor ):
         ]
         
 class AddressDescriptor ( ModelDescriptor ):
+    display_name = _(u"Address")     
     fields = [        
         dict( name="address_id", omit=True ),
         dict( name="role_title_id", omit=True ),

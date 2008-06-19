@@ -92,7 +92,7 @@ class StaffMember( Person ):
     """    
             
 
-class MemberOfParliament ( object ):    
+class MemberOfParliament ( Entity ):    
     """
     defined by groupmembership and aditional data
     """    
@@ -419,7 +419,7 @@ class MemberRoleTitle( Entity ):
     """
     The role title a member has in a specific context
     """    
-    #addresses = one2many( "addresses", "bungeni.core.domain.UserAddressContainer", "membership_id" )    
+    addresses = one2many( "addresses", "bungeni.core.domain.UserAddressContainer", "role_title_id" )    
     
 #####################
 # current parliament/gov/ministers/mps...

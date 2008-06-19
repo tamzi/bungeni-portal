@@ -116,8 +116,12 @@ def InactiveNoEndDate( obj ):
         if not (obj.end_date):
             raise interface.Invalid(_("If a person is inactive End Date must be set"), "end_date", "active_p")
         
-                
-        
+def MpStartBeforeElection( obj ):
+    """ For members of parliament start date must be after election """                
+    if obj.election_nomination_date > obj.start_date:
+        raise interface.Invalid(_("A parliament member has to be elected/nominated before she/he can be sworn in"), 
+                                    "election_nomination_date", "start_date")    
+            
 
 def DeathBeforeLife(User):
     """Check if date of death is after date of birth"""
@@ -138,6 +142,14 @@ def IsDeceased(User):
     else:
         if User.date_of_death is not None:
             raise interface.Invalid(_(u"If a user is deceased he must have the status 'D'"), "date_of_death", "active_p" )
+    
+def POBoxOrAddress( obj ):
+    """
+    An Address must have either an entry for a physical address or a P.O. Box    
+    """
+    if obj.po_box is None and  obj.address is None:
+        raise interface.Invalid(_(u"You have to enter either a P.O. Box or a Street Address"), "po_box", "address" )
+        
             
 ####
 # Descriptors
@@ -306,12 +318,13 @@ class MpDescriptor ( ModelDescriptor ):
             listing_column=vocab_column( "constituency_id" , _(u'<a href="?order_by=constituency">Constituency</a>'), constituencySource, ),
             listing=True),   
         dict( name="elected_nominated", 
-            property=schema.Choice( title=_(u"elected/nominated"), values=['E', 'N', 'O']), listing=True,
+            property=schema.Choice( title=_(u"elected/nominated"), source=vocabulary.ElectedNominated), listing=True,
             #u'<a href="?order_by=elected_nominated">elected/nominated</a>'
             ),
+        dict( name="election_nomination_date", label=_("Election/Nomination Date"), required=True, edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         dict( name="leave_reason", label=_("Leave Reason")),     
     ])
-    schema_invariants = [EndAfterStart, ActiveAndSubstituted, SubstitudedEndDate, InactiveNoEndDate]
+    schema_invariants = [EndAfterStart, ActiveAndSubstituted, SubstitudedEndDate, InactiveNoEndDate, MpStartBeforeElection]
     
 class PartyMemberDescriptor( ModelDescriptor ):
     display_name=_(u"Party Member")
@@ -421,10 +434,8 @@ class CommitteeDescriptor( GroupDescriptor ):
         dict( name='quorum', label=_(u"Quorum")),
         dict( name='no_clerks', label=_(u"Number of clerks")),
         dict( name='no_researchers', label=_(u"Number of researchers")),
-        dict( name='proportional_representation', label=_(u"Proportional reprensentation")),
-        dict( name='researcher_required', label=_(u"Researcher required")),
+        dict( name='proportional_representation', label=_(u"Proportional representation")),       
         dict( name='default_chairperson', label=_(u"Default chairperson")),
-        dict( name='default_position', label=_(u"Default Position")),
         dict( name='dissolution_date', label=_(u"Dissolution date"), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         dict( name='reinstatement_date', label=_(u"Reinstatement Date"), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),              
     ])
@@ -849,8 +860,47 @@ class ConstituencyDetailDescriptor( ModelDescriptor ):
         dict( name="voters", label=_(u"Voters"), description=_(u"Number of Voters registered in this Constituency"), listing=True ),
         ]
         
+class AddressDescriptor ( ModelDescriptor ):
+    fields = [        
+        dict( name="address_id", omit=True ),
+        dict( name="role_title_id", omit=True ),
+        dict( name="user_id", omit=True ),
+        dict( name="po_box", label=_(u"P.O. Box") ),
+        dict( name="address", property = schema.TextLine( title =_(u"Address"),required=False ),
+              edit_widget=zope.app.form.browser.TextAreaWidget, 
+              add_widget=zope.app.form.browser.TextAreaWidget,
+              view_widget=zope.app.form.browser.TextAreaWidget,
+              ),        
+        dict( name="city", label=_(u"City") ),
+        dict( name="zipcode", label=_(u"Zip Code") ),
+        dict( name="country",  property = schema.Choice( title=_(u"Country"), 
+                                        source=DatabaseSource(domain.Country, 'country_name',
+                                                             'country_id' ),                                        
+                                        required=True ), 
+             ),
+        dict( name="phone",  property = schema.Text( title=_(u"Phone Number(s)"), 
+                                                     description=_(u"Enter one phone number per line"), required=False ),
+              edit_widget=zope.app.form.browser.TextAreaWidget, 
+              add_widget=zope.app.form.browser.TextAreaWidget,
+              view_widget=zope.app.form.browser.TextAreaWidget,
+              ),
+        dict( name="fax", property = schema.Text( title=_(u"Fax Number(s)"),  
+                                                  description=_(u"Enter one fax number per line"), required=False ),
+              edit_widget=zope.app.form.browser.TextAreaWidget, 
+              add_widget=zope.app.form.browser.TextAreaWidget,
+              view_widget=zope.app.form.browser.TextAreaWidget,
+              ),
+        dict( name="email", 
+              property = schema.TextLine( title =_(u"Email"), 
+                                          description=_(u"Email address"),
+                                          constraint=check_email,
+                                          required=False
+                                          ),
+             ),
+        dict( name="status", omit=True ),
+        ]
         
-        		
+    schema_invariants = [POBoxOrAddress]		
 ################
 # Hansard
 ################

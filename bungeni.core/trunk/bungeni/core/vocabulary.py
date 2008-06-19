@@ -12,7 +12,7 @@ from sqlalchemy.orm import mapper,  column_property
 import sqlalchemy as rdb
 import schema, domain
 
-
+from i18n import _
 
 #ModelTypeSource = ObjectSource( model.DataModelType, 'short_name', 'id')
 #SecurityLevelSource = DatabaseSource( model.SecurityLevel, 'short_name', 'id' )
@@ -21,9 +21,10 @@ import schema, domain
 ParliamentMembers = ObjectSource( domain.ParliamentMember, 'name', 'member_id' )
 PoliticalParties  = ObjectSource( domain.PoliticalParty, 'full_name', "id")
 ParliamentSessions = ObjectSource( domain.ParliamentSession, 'short_name', 'session_id')
-QuestionType = vocabulary.SimpleVocabulary.fromItems( [("(O)rdinary", "O"), ("(P)rivate Notice", "P")] )
-ResponseType = vocabulary.SimpleVocabulary.fromItems( [("(O)ral", "O"), ("(W)ritten", "W")] )
-Gender = vocabulary.SimpleVocabulary.fromItems( [("Male", "M"), ("Female", "F")] )
+QuestionType = vocabulary.SimpleVocabulary.fromItems( [(_(u"Ordinary"), "O"), (_(u"Private Notice"), "P")] )
+ResponseType = vocabulary.SimpleVocabulary.fromItems( [(_("Oral"), "O"), (_(u"Written"), "W")] )
+Gender = vocabulary.SimpleVocabulary.fromItems( [(_(u"Male"), "M"), (_(u"Female"), "F")] )
+ElectedNominated = vocabulary.SimpleVocabulary.fromItems( [(_(u"elected"),'E'),(_(u"nominated") ,'N'), (_(u"ex officio"),'O')])
 
 Constituencies = ObjectSource( domain.Constituency, 'name', 'constituency_id')
 Parliaments = ObjectSource( domain.Parliament, 'identifier', 'parliament_id')

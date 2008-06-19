@@ -77,8 +77,8 @@ class ParliamentMember( User ):
     # committees
 
     # ministries
-
-
+    addresses = one2many( "addresses", "bungeni.core.domain.UserAddressContainer", "user_id" )
+    
 
 class Person( User ):
     """
@@ -240,6 +240,11 @@ class Debate( Entity ):
     """
     Debates
     """   
+
+class UserAddress( Entity ):    
+    """
+    addresses of a user or official addresses for a official role
+    """
     
         
 #############

@@ -32,7 +32,9 @@ users = rdb.Table(
         ), # (M)ale (F)emale       
    rdb.Column( "date_of_birth", rdb.Date ),
    rdb.Column( "birth_country", rdb.String(2), rdb.ForeignKey("countries.country_id") ),
+   rdb.Column( "birth_nationality", rdb.String(2), rdb.ForeignKey("countries.country_id") ),
    rdb.Column( "date_of_death", rdb.Date ),
+   rdb.Column( "type_of_id", rdb.String(1)),
    rdb.Column( "national_id", rdb.Unicode(32) ),
    rdb.Column( "password", rdb.String(36)), # we store salted md5 hash hexdigests
    rdb.Column( "salt", rdb.String(24)),  
@@ -70,7 +72,7 @@ parliament_members = rdb.Table(
    rdb.Column( "elected_nominated", rdb.String(1), # is the MP elected, nominated, ex officio member, ...
                 rdb.CheckConstraint("elected_nominated in ('E','O','N')"),
                 nullable=False ),
-
+   rdb.Column( "election_nomination_date", rdb.Date), # nullable=False ),
    rdb.Column( "leave_reason", rdb.Unicode(40) ),
 
 
@@ -201,10 +203,7 @@ committees = rdb.Table(
    rdb.Column( "no_clerks", rdb.Integer ),
    rdb.Column( "no_researchers", rdb.Integer ),
    rdb.Column( "proportional_representation", rdb.Boolean ),
-   rdb.Column( "researcher_required", rdb.Boolean ),
    rdb.Column( "default_chairperson", rdb.Boolean ),
-   rdb.Column( "default_position", rdb.Unicode(80) ),
-   rdb.Column( "dissolution_date", rdb.Date ),
    rdb.Column( "reinstatement_date", rdb.Date ),
    )
 
@@ -334,12 +333,13 @@ addresses = rdb.Table(
     rdb.Column( "role_title_id", rdb.Integer, rdb.ForeignKey('role_titles.role_title_id') ), # official address
     rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey( 'users.user_id') ), # personal address
     rdb.Column( "po_box", rdb.Unicode(40) ),
-    rdb.Column( "street", rdb.Unicode(80) ),
+    rdb.Column( "address", rdb.Unicode(80) ),
     rdb.Column( "city", rdb.Unicode(80) ),
     rdb.Column( "zipcode", rdb.Unicode(20) ),
     rdb.Column( "country", rdb.String(2), rdb.ForeignKey("countries.country_id") ),
     rdb.Column( "phone", rdb.Unicode(80) ),
     rdb.Column( "fax", rdb.Unicode(40) ),
+    rdb.Column( "email", rdb.String(40) ),
     # Workflow State -> determins visibility
     rdb.Column( "status", rdb.Unicode(16) ),
     )

@@ -280,5 +280,13 @@
      echo="False"
     />   
 
+ <db:catalyst
+     class=".domain.UserAddress"
+     descriptor=".descriptor.AddressDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+     echo="False"
+    />       
+
   
 </configure>

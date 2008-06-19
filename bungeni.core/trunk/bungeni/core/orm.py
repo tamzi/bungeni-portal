@@ -328,6 +328,7 @@ mapper( domain.GroupSittingAttendance, schema.sitting_attendance,
 mapper( domain.AttendanceType, schema.attendance_type )
 mapper( domain.MemberTitle, schema.user_role_type )
 
+mapper( domain.UserAddress, schema.addresses )
 
 ###########################
 # Current Items

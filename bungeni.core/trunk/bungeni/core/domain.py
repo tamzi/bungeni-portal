@@ -96,8 +96,8 @@ class MemberOfParliament ( object ):
     """
     defined by groupmembership and aditional data
     """    
-    sort_on = 'short_name'
-    
+    sort_on = 'short_name'    
+    titles = one2many( "titles", "bungeni.core.domain.MemberRoleTitleContainer", "membership_id" )
 
 class HansardReporter( User ):
     """ a reporter who reports on parliamentary procedings
@@ -415,6 +415,11 @@ class MemberTitle( object ):
 class Keyword( object ):
     """ Keywords for groups """
     
+class MemberRoleTitle( Entity ):
+    """
+    The role title a member has in a specific context
+    """    
+    #addresses = one2many( "addresses", "bungeni.core.domain.UserAddressContainer", "membership_id" )    
     
 #####################
 # current parliament/gov/ministers/mps...

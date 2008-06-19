@@ -459,6 +459,18 @@ class CommitteeMemberDescriptor( ModelDescriptor ):
 #    ])   
     
     schema_invariants = [EndAfterStart, ActiveAndSubstituted, SubstitudedEndDate, InactiveNoEndDate]
+    
+class MemberRoleTitleDescriptor( ModelDescriptor ):
+    display_name= _(u"Titles")
+    fields = [
+        dict( name='role_title_id', omit=True),
+        dict( name='membership_id', omit=True),
+        dict( name="start_date", label=_(u"Start Date"), listing=True, 
+              listing_column=day_column("start_date", _(u'<a href="?order_by=start_date">Start Date</a>')), edit_widget=calendar.CalendarWidget, add_widget=calendar.CalendarWidget),
+        dict( name="end_date", label=_(u"End Date"), listing=True, 
+              listing_column=day_column('end_date', _(u'<a href="?order_by=end_date">End Date</a>')), edit_widget=SelectDateWidget, add_widget=SelectDateWidget), 
+    ]
+       
      
 class CommitteeStaffDescriptor( ModelDescriptor ):
     display_name = _(u"Committee Staff")

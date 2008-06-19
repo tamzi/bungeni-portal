@@ -288,5 +288,11 @@
      echo="False"
     />       
 
-  
+ <db:catalyst
+     class=".domain.MemberRoleTitle"
+     descriptor=".descriptor.MemberRoleTitleDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+     echo="False"
+    />     
 </configure>

@@ -133,7 +133,7 @@ class CommitteeStaff( StaffGroupMembership ):
     """
     Comittee Staff
     """
-    
+    titles = one2many( "titles", "bungeni.core.domain.MemberRoleTitleContainer", "membership_id" )    
         
 class GroupSitting( Entity ):
     """ a scheduled meeting for a group (parliament, committee, etc)
@@ -199,7 +199,7 @@ class PartyMember( UserGroupMembership ):
     """ 
     Member of a political party, defined by its group membership 
     """
-       
+    titles = one2many( "titles", "bungeni.core.domain.MemberRoleTitleContainer", "membership_id" )       
     
 class Ministry( Group ):
     """ a government ministry
@@ -211,7 +211,7 @@ class Minister( UserGroupMembership ):
     """ A Minister
     defined by its user_group_membership in a ministry (group)
     """    
-
+    titles = one2many( "titles", "bungeni.core.domain.MemberRoleTitleContainer", "membership_id" )
 
 class Committee( Group ):
     """ a parliamentary committee of MPs
@@ -223,7 +223,7 @@ class Committee( Group ):
 class CommitteeMember( UserGroupMembership ):
     """ A Member of a committee
     defined by its membership to a committee (group)""" 
-  
+    titles = one2many( "titles", "bungeni.core.domain.MemberRoleTitleContainer", "membership_id" )  
     
 class CommitteeType( object):
     """ Type of Committee """

@@ -1,0 +1,126 @@
+ERROR   (2008-06-19) 12:43.55:902   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor24/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:43.55:906   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor23/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:44.01:241   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor24/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:44.01:260   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor23/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:44.03:813   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor24/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:44.03:821   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor23/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:44.07:207   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor23/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:44.07:215   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor24/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:44.08:769   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor23/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:44.08:813   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor24/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:44.10:753   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor23/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:44.10:776   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor24/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:44.16:862   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor23/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:44.16:870   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor24/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:45.23:419   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor24/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:45.23:419   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor22/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:45.27:468   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor22/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:45.27:478   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor24/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:45.33:033   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor24/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:45.33:047   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor22/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:45.41:587   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor22/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:45.41:597   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor24/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:45.43:341   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor24/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:45.43:352   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor22/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:45.44:687   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor22/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:45.44:698   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor24/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:48.55:263   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor23/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:48.55:268   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor24/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:48.57:885   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor24/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 12:48.57:892   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor23/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 15:25.24:103   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor22/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 15:25.24:104   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor23/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 15:25.25:381   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor22/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 15:25.25:394   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor23/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 15:26.40:194   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor24/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 15:26.40:196   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor23/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 15:26.44:064   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor23/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 15:26.44:088   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor24/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 16:40.59:401   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor22/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 16:40.59:423   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor23/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 16:41.02:461   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/manakin_logo.jpg) http-8090-Processor23/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90
+ERROR   (2008-06-19) 16:41.02:462   [sitemap.handled-errors] (/xmlui/themes/bungeni/images/trail.bmp) http-8090-Processor22/ErrorHandlerHelper: Error during resolving of the input stream
+	at <map:read> - file:/home/undesa/dspace/webapps/xmlui/themes/bungeni/sitemap.xmap:66:26
+	at <map:mount> - file:/home/undesa/dspace/webapps/xmlui/sitemap.xmap:319:90

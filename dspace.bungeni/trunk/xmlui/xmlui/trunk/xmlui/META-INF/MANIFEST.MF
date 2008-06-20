@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: undesa
+Build-Jdk: 1.6.0_03
+Specification-Title: DSpace XML-UI (Manakin) :: Web Application
+Specification-Version: 1.5.0
+Specification-Vendor: The DSpace Foundation
+Implementation-Title: DSpace XML-UI (Manakin) :: Web Application
+Implementation-Version: 1.5.0
+Implementation-Vendor-Id: org.dspace.modules
+Implementation-Vendor: The DSpace Foundation
+

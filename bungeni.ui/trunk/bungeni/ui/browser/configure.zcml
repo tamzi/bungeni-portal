@@ -236,6 +236,27 @@
       allowed_interface="zope.formlib.interfaces.ISubPageForm"      
       />      
     
+    
+  <!-- Member Role Title -->    
+  
+   <browser:view
+      name="add"
+      for="bungeni.core.interfaces.IMemberRoleTitleContainer"
+      class=".forms.MemberTitleAdd"              
+      permission="zope.View"
+      />    
+  
+    <browser:viewlet
+      name="alchemist.attributes.edit"
+      manager="alchemist.ui.interfaces.IContentEditManager"
+      class=".forms.MemberTitleEdit"
+      for="bungeni.core.interfaces.IMemberRoleTitle"
+      permission="zope.View"
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+      />    
+  
+  
+  
     <browser:page
        name="index.html"
        for="bungeni.core.interfaces.IVersion"

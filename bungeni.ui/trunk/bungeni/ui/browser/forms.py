@@ -17,7 +17,7 @@ import bungeni.core.domain as domain
 from bungeni.core.i18n import _
 from bungeni.core.interfaces import IGroupSitting, IParliamentSession, IMemberOfParliament, \
     ICommittee, ICommitteeMember, IGovernment, IMinistry, IExtensionGroup, IMinister, \
-    IExtensionMember, IParliament, IGroupSittingAttendance, ICommitteeStaff
+    IExtensionMember, IParliament, IGroupSittingAttendance, ICommitteeStaff, IMemberRoleTitle
 
 
 from bungeni.ui.datetimewidget import  SelectDateTimeWidget, SelectDateWidget
@@ -27,7 +27,7 @@ from ore.yuiwidget import calendar
 
 
 import validations
-import pdb
+
 
 
 #############
@@ -47,7 +47,7 @@ class CustomAddForm( ContentAddForm ):
          self.status = self.request.get('portal_status_message','')
          form.AddForm.update( self )
          set_widget_errors(self.widgets, self.errors)
-
+         
 
     def finishConstruction( self, ob ):
         """
@@ -349,7 +349,6 @@ class CommitteeAdd( CustomAddForm ):
     form_fields = form.Fields( ICommittee )
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget    
-    form_fields["dissolution_date"].custom_widget = SelectDateWidget
     form_fields["reinstatement_date"].custom_widget = SelectDateWidget 
     Adapts = ICommittee
     CustomValidation = validations.CheckCommitteesDatesInsideParentDatesAdd     
@@ -386,12 +385,25 @@ class MemberOfParliamentAdd( CustomAddForm ):
     """
     override the AddForm for GroupSittingAttendance
     """
-    form_fields = form.Fields( IMemberOfParliamentAdd ).omit( "replaced_id", "substitution_type" )
+    #form_fields = form.Fields( IMemberOfParliamentAdd ).omit( "replaced_id", "substitution_type" )
+    form_fields = form.Fields( IMemberOfParliamentAdd ).select( "user_id",    
+                    "elected_nominated", "start_date", "end_date", "leave_reason", "election_nomination_date")
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget 
+    form_fields["start_date"].field.description = _(u"Begin of the parliamentary mandate")
+    #form_fields["start_date"].field.title = _(u"Beginn of the parliamentary mandate")    
+    form_fields["election_nomination_date"].custom_widget = SelectDateWidget    
     Adapts = IMemberOfParliamentAdd
     CustomValidation = validations.CheckMPsDatesInsideParentDatesAdd  
     
+    def update( self ):      
+        edate = getattr(self.context.__parent__, 'election_date', None)       
+        if edate:
+            self.form_fields["election_nomination_date"].field.default = edate                    
+        sdate = getattr(self.context.__parent__, 'start_date', None)     
+        if sdate:
+            self.form_fields["start_date"].field.default = sdate                 
+        super( MemberOfParliamentAdd, self ).update()  
     
 
 # Sessions
@@ -479,9 +491,30 @@ class GroupSittingAttendanceAdd( ContentAddForm ):
         adapt the custom fields to the object
         """
         self.adapters = { IGroupSittingAttendanceAdd : ob }
-          
-     
 
+sql_addMemberTitle = '''
+                        SELECT "user_role_types"."sort_order" || ' - ' || "user_role_types"."user_role_name" AS "ordered_title", 
+                        "user_role_types"."user_role_type_id"
+                        FROM "public"."user_role_types", "public"."user_group_memberships" 
+                        WHERE ( "user_role_types"."user_type" = "user_group_memberships"."membership_type" ) 
+                            AND ( ( "user_group_memberships"."membership_id" = %(primary_key)s ) ) 
+                        ORDER BY "user_role_types"."sort_order" ASC
+                       '''
+                                  
+titleAddVocab =  vocabulary.SQLQuerySource(sql_addMemberTitle, 'ordered_title', 'user_role_type_id')
+     
+class IMemberRoleTitleAdd( IMemberRoleTitle ):
+    title_name_id = schema.Choice( title=_(u"Title"),  
+                                    source=titleAddVocab, 
+                                    required=True,
+                                    )  
+     
+class MemberTitleAdd( CustomAddForm ):
+    form_fields = form.Fields( IMemberRoleTitleAdd ).select('title_name_id', 'start_date', 'end_date')
+    form_fields["start_date"].custom_widget = SelectDateWidget
+    form_fields["end_date"].custom_widget = SelectDateWidget
+    Adapts = IMemberRoleTitleAdd
+    CustomValidation =  validations.CheckMemberTitleDateAdd 
 
         
 ##############
@@ -535,7 +568,7 @@ class CustomEditForm ( EditFormViewlet ):
         self.adapters = {self.Adapts  : self.context }    
         super( CustomEditForm, self).update()        
         set_widget_errors(self.widgets, self.errors)   
-                 
+       
         
     def validate(self, action, data):    
         """
@@ -681,6 +714,7 @@ class MemberOfParliamenEdit( CustomEditForm ):
     form_fields = form.Fields( IMemberOfParliamentEdit )
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget
+    form_fields["election_nomination_date"].custom_widget = SelectDateWidget
     form_fields["notes"].custom_widget=widget.RichTextEditor          
     CustomValidations = validations.CheckMemberDatesEdit         
 
@@ -689,7 +723,6 @@ class CommitteeEdit ( CustomEditForm ):
     form_fields = form.Fields( ICommittee )
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget     
-    form_fields["dissolution_date"].custom_widget = SelectDateWidget
     form_fields["reinstatement_date"].custom_widget = SelectDateWidget  
     form_fields["description"].custom_widget=widget.RichTextEditor            
     CustomValidations = validations.CheckCommitteeDatesEdit 
@@ -792,4 +825,31 @@ class ExtensionMemberEdit( CustomEditForm ):
     form_fields["end_date"].custom_widget = SelectDateWidget         
     form_fields["notes"].custom_widget=widget.RichTextEditor 
     CustomValidations = validations.ExtensionMemberDatesEdit    
+ 
+sql_EditMemberTitle = '''
+                        SELECT "user_role_types"."sort_order" || ' - ' || "user_role_types"."user_role_name" AS "ordered_title", 
+                        "user_role_types"."user_role_type_id"
+                        FROM "public"."user_role_types", "public"."user_group_memberships" 
+                        WHERE ( "user_role_types"."user_type" = "user_group_memberships"."membership_type" ) 
+                            AND ( ( "user_group_memberships"."membership_id" = %(primary_key)s ) ) 
+                        ORDER BY "user_role_types"."sort_order" ASC
+                       '''
+                                  
+titleEditVocab =  vocabulary.SQLQuerySource(sql_EditMemberTitle, 'ordered_title', 'user_role_type_id')
+     
+class IMemberRoleTitleEdit( IMemberRoleTitle ):
+    title_name_id = schema.Choice( title=_(u"Title"),  
+                                    source=titleEditVocab, 
+                                    required=True,
+                                    )  
+     
+class MemberTitleEdit( CustomEditForm ):
+    form_fields = form.Fields( IMemberRoleTitleEdit ).select('title_name_id', 'start_date', 'end_date')
+    form_fields["start_date"].custom_widget = SelectDateWidget
+    form_fields["end_date"].custom_widget = SelectDateWidget
+    Adapts = IMemberRoleTitleEdit
+    CustomValidation =  validations.CheckMemberTitleDateEdit
+        
+
+
             

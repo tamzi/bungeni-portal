@@ -301,6 +301,10 @@ def CheckSittingDatesInsideParentDatesAdd( self,  context, data ):
             errors.append(  interface.Invalid(_("Start must be before Session End Date (%s)") % context.__parent__.end_date, "start_date" ) )
     return errors
 
+def CheckMemberTitleDateAdd( self, context, data):
+    errors =  checkDates(context.__parent__ , data )
+    return errors
+
 ##################
 # Edit forms specific validation
 
@@ -449,5 +453,9 @@ def ExtensionGroupDatesEdit( self, context, data ):
     
 def ExtensionMemberDatesEdit( self, context, data ):
     errors = checkDates(context.__parent__.__parent__ , data )       
-    return errors               
+    return errors
+              
+def CheckMemberTitleDateEdit( self, context, data):
+    errors =  checkDates(context.__parent__ , data )
+    return errors         
         

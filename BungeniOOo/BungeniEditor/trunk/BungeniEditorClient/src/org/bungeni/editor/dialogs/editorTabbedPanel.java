@@ -1041,10 +1041,10 @@ public class editorTabbedPanel extends javax.swing.JPanel {
              ((BasicTreeUI)ui).setExpandedIcon(minusIcon);
              ((BasicTreeUI)ui).setCollapsedIcon(plusIcon);
          }
-         
+       initSectionStructureTreeModel();  
     }
     private void initSectionStructureTreeModel(){
-        DocumentSectionFriendlyAdapterDefaultTreeModel model = DocumentSectionFriendlyTreeModelProvider.create_static() ;//_without_subscription();
+        DocumentSectionFriendlyAdapterDefaultTreeModel model = DocumentSectionFriendlyTreeModelProvider.create() ;//_without_subscription();
         this.treeSectionStructure.setModel(model);
         CommonTreeFunctions.expandAll(treeSectionStructure);
     }
@@ -1743,7 +1743,7 @@ public void hidePanelControls(){
             Action DocStructureListRunner = new AbstractAction() {
                 public void actionPerformed (ActionEvent e) {
                     if (!structureInitialized) {
-                        initSectionStructureTreeModel();
+                        //initSectionStructureTreeModel();
                         structureInitialized = true;
                     }
                     initList();

@@ -500,6 +500,11 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         treeDocStructureTree.setDragEnabled(true);
         treeDocStructureTreeCellRenderer render = new treeDocStructureTreeCellRenderer();
         treeDocStructureTree.setCellRenderer(render);
+        ComponentUI ui = treeDocStructureTree.getUI();
+         if (ui instanceof BasicTreeUI){
+             ((BasicTreeUI)ui).setExpandedIcon(CommonTreeFunctions.treeMinusIcon());
+             ((BasicTreeUI)ui).setCollapsedIcon(CommonTreeFunctions.treePlusIcon());
+         }
     }
     
     public void uncheckEditModeButton() {
@@ -738,7 +743,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                       //      log.debug("initList: mouseOver treeDocStructure = true");
                       //      return;
                       //  }
-            initSectionStructureTreeModel();
+            //commented for section refresh changes / june 2007 / initSectionStructureTreeModel();
             //initSectionList();
         }   
    }
@@ -1020,26 +1025,26 @@ public class editorTabbedPanel extends javax.swing.JPanel {
          this.treeSectionStructure = new JTree();
          treeSectionStructure.setExpandsSelectedPaths(true);
          
-         DefaultTreeCellRenderer sectionTreeRender = (DefaultTreeCellRenderer) this.treeSectionStructure.getCellRenderer();
+        // DefaultTreeCellRenderer sectionTreeRender = (DefaultTreeCellRenderer) this.treeSectionStructure.getCellRenderer();
          ImageIcon minusIcon = CommonTreeFunctions.treeMinusIcon();
          ImageIcon plusIcon = CommonTreeFunctions.treePlusIcon();
-         sectionTreeRender.setOpenIcon(minusIcon);
-         sectionTreeRender.setClosedIcon(plusIcon);
-         UIManager.put("Tree.expandedIcon", minusIcon);
-         UIManager.put("Tree.collapsedIcon", plusIcon);
-         sectionTreeRender.setLeafIcon(null);
-         treeSectionStructure.setCellRenderer(sectionTreeRender);
-         //treeSectionStructure.setCellRenderer(new treeViewPrettySectionsTreeCellRenderer());
+       //  sectionTreeRender.setOpenIcon(minusIcon);
+       //  sectionTreeRender.setClosedIcon(plusIcon);
+     //    UIManager.put("Tree.expandedIcon", minusIcon);
+     //    UIManager.put("Tree.collapsedIcon", plusIcon);
+      //   sectionTreeRender.setLeafIcon(null);
+      //   treeSectionStructure.setCellRenderer(sectionTreeRender);
+         treeSectionStructure.setCellRenderer(new treeViewPrettySectionsTreeCellRenderer());
          treeSectionStructure.setShowsRootHandles(false);
          ComponentUI ui = treeSectionStructure.getUI();
          if (ui instanceof BasicTreeUI){
              ((BasicTreeUI)ui).setExpandedIcon(minusIcon);
              ((BasicTreeUI)ui).setCollapsedIcon(plusIcon);
          }
- 
+         
     }
     private void initSectionStructureTreeModel(){
-        DocumentSectionFriendlyAdapterDefaultTreeModel model = DocumentSectionFriendlyTreeModelProvider.create_without_subscription();
+        DocumentSectionFriendlyAdapterDefaultTreeModel model = DocumentSectionFriendlyTreeModelProvider.create_static() ;//_without_subscription();
         this.treeSectionStructure.setModel(model);
         CommonTreeFunctions.expandAll(treeSectionStructure);
     }
@@ -1729,20 +1734,24 @@ public void hidePanelControls(){
   
     
     
-    
+    private static boolean structureInitialized = false;
     private synchronized void initTimers(){
-   
+        
       //  synchronized(this);
         try {
             //structure list & tree structure refresh timer
             Action DocStructureListRunner = new AbstractAction() {
                 public void actionPerformed (ActionEvent e) {
+                    if (!structureInitialized) {
+                        initSectionStructureTreeModel();
+                        structureInitialized = true;
+                    }
                     initList();
                 }
             };
             docStructureTimer = new Timer(3000, DocStructureListRunner);
-            docStructureTimer.start();   
-            
+            docStructureTimer.setInitialDelay(2000);
+            docStructureTimer.start();
             //section name timer
             sectionNameTimer = new Timer(1000, new CurrentSectionNameUpdater());
             sectionNameTimer.start();
@@ -1944,10 +1953,26 @@ public void hidePanelControls(){
     }
     
     class treeViewPrettySectionsTreeCellRenderer extends JLabel implements TreeCellRenderer {
-
+        Border selBorder ;
+        treeViewPrettySectionsTreeCellRenderer(){
+            selBorder = BorderFactory.createLineBorder(Color.GREEN, 2);
+        }
         public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
             setText(value.toString());
-            setIcon(null);
+            if (value instanceof DefaultMutableTreeNode) {
+                  DefaultMutableTreeNode uo = (DefaultMutableTreeNode)value;
+                  Object uoObj = uo.getUserObject();
+                  if (uoObj.getClass() == org.bungeni.utils.BungeniBNode.class) {
+                      BungeniBNode aNode = (BungeniBNode) uoObj;
+                      if (aNode.getName().equals(self().currentSelectedSectionName)) {
+                          setBorder(selBorder);
+                          setBackground(new java.awt.Color(0,200,0));
+                      } else {
+                          setBorder(null);
+                          setBackground(null);
+                      }
+                  }
+            }
             return this;
         }
         

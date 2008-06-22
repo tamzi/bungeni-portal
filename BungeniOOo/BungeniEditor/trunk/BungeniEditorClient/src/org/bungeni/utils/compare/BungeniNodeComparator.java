@@ -3,9 +3,8 @@ package org.bungeni.utils.compare;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.TreeMap;
-import simpleapp.*;
+import org.bungeni.utils.BungeniBNode;
 
 public class BungeniNodeComparator {
     
@@ -14,7 +13,8 @@ public class BungeniNodeComparator {
     private  TreeMap<Integer, BungeniNodeDifference> diffMapDelete = new TreeMap<Integer, BungeniNodeDifference>();
     private  ArrayList<DifferenceChain> updateDifferenceChain = new ArrayList<DifferenceChain>(0);
     
-   
+     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniNodeComparator.class.getName());
+  
         
     private void clearMaps(){
         diffMapInsert.clear();
@@ -42,7 +42,7 @@ public class BungeniNodeComparator {
         map.put(nKey, diff);        
     }
         
-    
+    /*
     private void processUpdateChains() {
         ArrayList<DifferenceChain> dcList = new ArrayList<DifferenceChain>();
         Iterator<Integer> iterKey = getDiffMapUpdate().keySet().iterator();
@@ -51,7 +51,7 @@ public class BungeniNodeComparator {
            Integer nKey = iterKey.next();
            //get the node difference objects sequentially
            BungeniNodeDifference n = getDiffMapUpdate().get(nKey);
-           System.out.println("DIFFS + " + n);
+           log.debug("processUpdateChain = DIFFS + " + n);
            //create a chain object for it.
            DifferenceChain dc = new DifferenceChain();
            Integer changeTo = n.getUpdateFromIndex();
@@ -84,7 +84,7 @@ public class BungeniNodeComparator {
         
         this.updateDifferenceChain = dcList;
     }
-    
+    */
     
     private ArrayList<DifferenceChain> buildDifferenceChain () {
         //get the first element in the list
@@ -184,56 +184,51 @@ public class BungeniNodeComparator {
         return false;
     }
     public void compareAndDiff(BungeniBNode root1, BungeniBNode root2){
+        //build comparative difference maps
         compare(root1, root2);
         for (Integer n : this.getDiffMapUpdate().keySet()) {
-            System.out.println(getDiffMapUpdate().get(n));
+            log.debug("compareAndDiff  updateMap = " + getDiffMapUpdate().get(n));
         }
-        
+        //build update chain
         this.updateDifferenceChain = this.buildDifferenceChain();
-        
-        //processUpdateChains();
     }
-           public void compare (BungeniBNode root1, BungeniBNode root2){
-                       
-                       TreeMap<Integer, BungeniBNode> root2children = root2.getChildrenByOrder();
-                        for (Integer root2child : root2children.keySet()) {
-                            BungeniBNode aNode = root2children.get(root2child);
-                            if (root1.containsNodeByName(aNode.getName())) { //root1 contains the child
-                                   //check if index of node in root1 == index of node in root2
-                                   BungeniBNode nNode = root1.getChildNodeByName(aNode.getName());
-                                   Integer indexinroot1 = root1.indexOfChild(nNode);
-                                   //BungeniBNode nNodeInRoot2 = root2children.get(root2child);
-                                   //Integer indexinroot2 = root2.indexOfChild(nNodeInRoot2);
-                                   if (indexinroot1 != root2child) {
-                                     //  System.out.println("root1 contains " + aNode.getName() + " at unequal index (move " + aNode.getName() + " from " + indexinroot1 + " to "+ root2child+") or (insert "+aNode.getName() + " at " + root2child + ")");
-                                       BungeniNodeDifference nodeDiff = new BungeniNodeDifference ();
-                                       nodeDiff.diffUpdate(aNode.getName(), indexinroot1, aNode.getName(), root2child);
-                                       this.diffAdd(indexinroot1, nodeDiff);
-                                   }
-                               }  else {
-                                
-                               // System.out.println("root1 does not contain  " + aNode.getName() + " (add child to root1 at index : "+ root2child + " )");
-                                       BungeniNodeDifference nodeDiff = new BungeniNodeDifference ();
-                                       nodeDiff.diffInsert(aNode.getName(), root2child);
-                                       this.diffAdd(root2child, nodeDiff);
-                               }
-                           }
-                        
-                        //now look for deletions in the original map...
-                        final HashMap<String, BungeniBNode>root1children = root1.getChildrenByName();
-                        //final HashMap<String, BungeniBNode>root2childrenbyname = root2.getChildrenByName();
-                        for (String root1child: root1children.keySet()){
-                            if (!root2.containsNodeByName(root1child)) {
-                                BungeniBNode rChild = root1children.get(root1child);
-                                Integer indexofrChild = root1.indexOfChild(rChild);
-                                BungeniNodeDifference diff = new BungeniNodeDifference();
-                                diff.diffDelete(rChild.getName(), indexofrChild);
-                                this.diffAdd(indexofrChild, diff);
-                            }
-                        }
-           //     }
-           //} 
-           
+     private void compare (BungeniBNode root1, BungeniBNode root2){
+           TreeMap<Integer, BungeniBNode> root2children = root2.getChildrenByOrder();
+            for (Integer root2child : root2children.keySet()) {
+                BungeniBNode aNode = root2children.get(root2child);
+                if (root1.containsNodeByName(aNode.getName())) { //root1 contains the child
+                       //check if index of node in root1 == index of node in root2
+                       BungeniBNode nNode = root1.getChildNodeByName(aNode.getName());
+                       Integer indexinroot1 = root1.indexOfChild(nNode);
+                       //BungeniBNode nNodeInRoot2 = root2children.get(root2child);
+                       //Integer indexinroot2 = root2.indexOfChild(nNodeInRoot2);
+                       if (indexinroot1 != root2child) {
+                         //  System.out.println("root1 contains " + aNode.getName() + " at unequal index (move " + aNode.getName() + " from " + indexinroot1 + " to "+ root2child+") or (insert "+aNode.getName() + " at " + root2child + ")");
+                           BungeniNodeDifference nodeDiff = new BungeniNodeDifference ();
+                           nodeDiff.diffUpdate(aNode.getName(), indexinroot1, aNode.getName(), root2child);
+                           this.diffAdd(indexinroot1, nodeDiff);
+                       }
+                   }  else {
+
+                   // System.out.println("root1 does not contain  " + aNode.getName() + " (add child to root1 at index : "+ root2child + " )");
+                           BungeniNodeDifference nodeDiff = new BungeniNodeDifference ();
+                           nodeDiff.diffInsert(aNode.getName(), root2child);
+                           this.diffAdd(root2child, nodeDiff);
+                   }
+               }
+
+            //now look for deletions in the original map...
+            final HashMap<String, BungeniBNode>root1children = root1.getChildrenByName();
+            //final HashMap<String, BungeniBNode>root2childrenbyname = root2.getChildrenByName();
+            for (String root1child: root1children.keySet()){
+                if (!root2.containsNodeByName(root1child)) {
+                    BungeniBNode rChild = root1children.get(root1child);
+                    Integer indexofrChild = root1.indexOfChild(rChild);
+                    BungeniNodeDifference diff = new BungeniNodeDifference();
+                    diff.diffDelete(rChild.getName(), indexofrChild);
+                    this.diffAdd(indexofrChild, diff);
+                }
+            }
        }
 
     public TreeMap<Integer, BungeniNodeDifference> getDiffMapInsert() {

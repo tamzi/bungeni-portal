@@ -29,7 +29,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.TreeMap;
 import javax.swing.Timer;
-import javax.swing.tree.DefaultTreeModel;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.utils.BungeniBNode;
@@ -43,7 +42,7 @@ public class DocumentSectionProvider {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DocumentSectionProvider.class.getName());
     private static OOComponentHelper ooDocument;
     private static BungeniBTree theSectionTree = new BungeniBTree();
-    public static int TIMER_DELAY = 3000;
+    public static int TIMER_DELAY = 2000;
     static Timer sectionRefreshTimer;
     //private static ArrayList<DocumentSectionAdapterDefaultTreeModel> treeModelList = new ArrayList<DocumentSectionAdapterDefaultTreeModel>();
     private static ArrayList<IRefreshableSectionTreeModel> treeModelList = new ArrayList<IRefreshableSectionTreeModel>();
@@ -89,10 +88,12 @@ public class DocumentSectionProvider {
     
     public static BungeniBNode getTreeRoot(){
        
-        if (theSectionTree.getTree().size() > 0 )
-            return theSectionTree.getTree().get(theSectionTree.getTree().firstKey());
-        else
-            return new BungeniBNode("empty");
+        if (theSectionTree.getTree().size() == 0 ) {
+            theSectionTree = generateSectionsTree();
+        } 
+        
+        return theSectionTree.getTree().get(theSectionTree.getTree().firstKey());
+            
     }
     
     private static void buildSectionTree() {
@@ -108,16 +109,21 @@ public class DocumentSectionProvider {
                   final BungeniBTree tmpTreeRoot = generateSectionsTree();
                   log.debug("DocumentSectionProvider: in timer : generated size = " + tmpTreeRoot.getTree().size());
                   log.debug("DocumentSectionProvider: in timer : tree brains = " + tmpTreeRoot.toString());
-                  synchronized(theSectionTree) {
-                    theSectionTree = tmpTreeRoot;
-                    }
+                  BungeniBNode mergeNode = tmpTreeRoot.getTree().get(tmpTreeRoot.getTree().firstKey());
+                 // BungeniBNode origNode = theSectionTree.getTree().get(theSectionTree.getTree().firstKey());
+                //  synchronized(theSectionTree) {
+                    //theSectionTree = tmpTreeRoot;
+                  //  }
                   //refresh subscribed tree models
                   /*for( DocumentSectionAdapterDefaultTreeModel model: treeModelList) {
                       model.setRoot(DocumentSectionTreeModelProvider.newRootNode());
                   }*/
+                  //synchronized (theSectionTree) {
                   for (IRefreshableSectionTreeModel model: treeModelList) {
-                      model.newRootNode();
+                      log.debug("DocumentSectionProvider: in timer: updating Model " );
+                      model.updateTreeModel(mergeNode);
                   }
+                 //}
               }
            });
            sectionRefreshTimer.start();

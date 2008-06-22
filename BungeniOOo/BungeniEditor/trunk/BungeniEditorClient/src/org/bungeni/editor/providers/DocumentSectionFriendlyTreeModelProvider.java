@@ -35,6 +35,16 @@ public class DocumentSectionFriendlyTreeModelProvider {
         return model;
     }
     
+    public static DocumentSectionFriendlyAdapterDefaultTreeModel create_static(){
+       if (theSectionTreeModel == null ) {
+            BungeniBNode bRootNode = DocumentSectionProvider.getTreeRoot();
+            DefaultMutableTreeNode dmtRootNode = provideRootNode(bRootNode);
+            //static model is always subscribed, so there is no internal timer required int the model
+            theSectionTreeModel = new DocumentSectionFriendlyAdapterDefaultTreeModel(dmtRootNode, false);
+            DocumentSectionProvider.subscribeModel(theSectionTreeModel);
+            }
+       return theSectionTreeModel;    
+    }
     
 
     /**
@@ -73,6 +83,7 @@ public class DocumentSectionFriendlyTreeModelProvider {
     private static DefaultMutableTreeNode provideRootNode(BungeniBNode rootNode) {
         //walk nodes and build tree
         DefaultMutableTreeNode theRootNode = new DefaultMutableTreeNode(rootNode);
+        rootNode.setNodeObject(theRootNode);
         recurseNodes(theRootNode);
         return theRootNode;
     }
@@ -86,7 +97,8 @@ public class DocumentSectionFriendlyTreeModelProvider {
                 Integer nodeKey = childIterator.next();
                 BungeniBNode nodeChild  = children.get(nodeKey);
                 nodeChild.setDisplayText(getSectionDisplayText(nodeChild.getName()));
-                DefaultMutableTreeNode dmtChildNode = new DefaultMutableTreeNode( nodeChild);
+                    DefaultMutableTreeNode dmtChildNode = new DefaultMutableTreeNode( nodeChild);
+                    nodeChild.setNodeObject(dmtChildNode);
                 recurseNodes(dmtChildNode);
                 theNode.add(dmtChildNode );
             }

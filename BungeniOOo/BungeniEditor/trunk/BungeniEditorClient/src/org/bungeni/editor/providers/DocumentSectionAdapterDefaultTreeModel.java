@@ -15,6 +15,8 @@ import javax.swing.Timer;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
+import org.bungeni.utils.BungeniBNode;
+import org.bungeni.utils.compare.BungeniTreeRefactorTree;
 
 /**
  *
@@ -23,7 +25,7 @@ import org.bungeni.ooo.utils.CommonExceptionUtils;
 public class DocumentSectionAdapterDefaultTreeModel extends DefaultTreeModel implements IRefreshableSectionTreeModel{
     Timer treeModelTimer ;
       private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DocumentSectionAdapterDefaultTreeModel.class.getName());
-  
+   
     /** Creates a new instance of DocumentSectionAdapterDefaultTreeModel */
     public DocumentSectionAdapterDefaultTreeModel(DefaultMutableTreeNode root ) {
         super(root);
@@ -62,6 +64,21 @@ public class DocumentSectionAdapterDefaultTreeModel extends DefaultTreeModel imp
     }
 
     public void newRootNode() {
-       setRoot(DocumentSectionTreeModelProvider.newRootNode());
+       //setRoot(DocumentSectionTreeModelProvider.newRootNode());
     }
+
+    public void updateTreeModel(BungeniBNode refreshNode) {
+       log.debug("updateTreeModel : " + refreshNode);
+       DefaultMutableTreeNode dmtRoot = (DefaultMutableTreeNode) this.getRoot();
+       if (dmtRoot != null ) {
+           Object dmtObj =  dmtRoot.getUserObject();
+           if (dmtObj != null) {
+               BungeniBNode nodeRoot = (BungeniBNode) dmtObj;
+               BungeniTreeRefactorTree refactorTree = new BungeniTreeRefactorTree (this, nodeRoot, refreshNode);
+               refactorTree.doMerge();
+           }
+       }
+    }
+    
+    
 }

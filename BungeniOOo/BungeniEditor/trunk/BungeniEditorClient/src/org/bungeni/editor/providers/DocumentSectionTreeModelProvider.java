@@ -78,6 +78,7 @@ public class DocumentSectionTreeModelProvider {
     private static DefaultMutableTreeNode provideRootNode(BungeniBNode rootNode) {
         //walk nodes and build tree
         DefaultMutableTreeNode theRootNode = new DefaultMutableTreeNode(rootNode);
+        rootNode.setNodeObject(theRootNode);
         recurseNodes(theRootNode);
         return theRootNode;
     }
@@ -89,7 +90,9 @@ public class DocumentSectionTreeModelProvider {
             Iterator<Integer> childIterator = children.keySet().iterator();
             while (childIterator.hasNext()) {
                 Integer nodeKey = childIterator.next();
-                DefaultMutableTreeNode dmtChildNode = new DefaultMutableTreeNode( children.get(nodeKey));
+                BungeniBNode childNode  = children.get(nodeKey);
+                DefaultMutableTreeNode dmtChildNode = new DefaultMutableTreeNode( childNode);
+                childNode.setNodeObject(dmtChildNode);
                 recurseNodes(dmtChildNode);
                 theNode.add(dmtChildNode );
             }

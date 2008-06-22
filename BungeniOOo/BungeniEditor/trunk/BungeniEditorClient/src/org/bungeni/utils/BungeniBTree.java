@@ -26,7 +26,6 @@ package org.bungeni.utils;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
-import javax.swing.tree.DefaultMutableTreeNode;
 /**
  * <B>Class that implements a binary tree, used for tracking hierarchies within a Openoffice document
  * . Currently the section hierarchy is created by enumerating the document, and tracking the sections and their parents.
@@ -58,6 +57,11 @@ public final class BungeniBTree {
            //System.out.println("roots.size = key , " + newKey.toString() +", "+ roots.get(new Integer(2)));
         }
         
+        public void addRootNode(BungeniBNode aNode) {
+           Integer nKey = roots.size()+1;
+           roots.put(nKey, aNode );
+           rootsByName.put(aNode.getName(), aNode);
+        }
     /**
      * <B>Adds a child node, to an existing node identified by name</B>
      * @param parent Name of Node to which the node is to be added
@@ -173,6 +177,34 @@ public final class BungeniBTree {
             return this.roots;
         }
         
-        
+        public static BungeniBNode add(BungeniBNode p, String childname){
+                BungeniBNode newChild = new BungeniBNode (childname, p);
+                p.addChild(newChild);
+                return newChild;
+        }
+
+       public static void main(String[] args){
+            BungeniBTree aTree= new BungeniBTree();
+            aTree.addRootNode(new String("root"));
+            BungeniBNode nRoot = aTree.getTree().get(1) ;
+            add(nRoot, "child1");
+            add(nRoot, "child2");
+            
+            BungeniBTree aTree2= new BungeniBTree();
+            aTree2.addRootNode(new String("root"));
+            BungeniBNode nRoot2 = aTree2.getTree().get(1) ;
+           // add(nRoot2, "child1");
+            add(nRoot2, "child1.1");
+            add(nRoot2, "child4");
+           // add(nRoot2, "child2");
+            add(nRoot2, "child3");
+            
+            
+            System.out.println(aTree.toString());
+            
+            System.out.println(aTree2.toString());
+    }
+       
+
     }
     

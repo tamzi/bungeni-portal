@@ -73,6 +73,10 @@ import java.util.TreeMap;
                 return nodeObject;
             }
             
+            public void setNodeObject(Object obj){
+                this.nodeObject = obj;
+            }
+            
             public boolean hasParent(){
                 return (nodeParent == null ) ? false: true;
             }
@@ -89,6 +93,13 @@ import java.util.TreeMap;
             }
             public HashMap<String,BungeniBNode> getChildrenByName() {
                 return childNodeNames;
+            }
+            
+            public BungeniBNode getChildNodeByName(String aName) {
+                if (this.containsNodeByName(aName))  {
+                    return getChildrenByName().get(aName);
+                } else
+                    return null;
             }
             
             public TreeMap<Integer,BungeniBNode> getChildrenByOrder(){
@@ -116,6 +127,7 @@ import java.util.TreeMap;
             
             public void removeChild(BungeniBNode node) {
                 //remove from ordered map
+                Integer foundKey = null;
                 if (childNodeNames.containsKey(node.getName())) {
                     childNodeNames.remove(node.getName());
                     Iterator<Integer> orderedNodeIterator = childNodes.keySet().iterator();
@@ -123,13 +135,58 @@ import java.util.TreeMap;
                         Integer iKey = orderedNodeIterator.next();
                         BungeniBNode foundNode = childNodes.get(iKey);
                         if (foundNode == node) {
-                            childNodes.remove(iKey);
+                            foundKey = iKey;
+                            break;
                         }
                     }
                 }
+                if (foundKey != null) {
+                    childNodes.remove(foundKey);
+                }
             }
             
+            public void removeNodeOnlyByIndex(Integer nIndex) {
+                if (this.childNodes.containsKey(nIndex)) {
+                    childNodes.remove(nIndex);
+                }
+            }
            
+            public BungeniBNode moveNodeAtIndexFromTo(Integer fromIndex, Integer toIndex) {
+                BungeniBNode fromNode = null;
+                BungeniBNode toNode = null;
+                if (this.childNodes.containsKey(fromIndex)) {
+                    fromNode = childNodes.get(fromIndex);
+                }
+                if (fromNode != null) {
+                    if (childNodes.containsKey(toIndex)) {
+                        toNode = childNodes.get(toIndex);
+                    }
+                    childNodes.put(toIndex, fromNode);
+                    //free the from Index
+                    this.childNodes.remove(fromIndex);
+                }
+                return toNode;
+            }
+            
+            public BungeniBNode setNodeAtIndex(BungeniBNode anode, Integer iIndex){
+                BungeniBNode oldNode = null;
+                if (childNodes.containsKey(iIndex)) {
+                    oldNode = childNodes.get(iIndex);
+                }
+                childNodes.put(iIndex, anode);
+                if (!childNodeNames.containsKey(anode.getName())) {
+                    childNodeNames.put(anode.getName(), anode);
+                }
+                return oldNode;
+            }
+            
+            public BungeniBNode getNodeAtIndex(Integer iIndex) {
+                BungeniBNode ret = null;
+                if (childNodes.containsKey(iIndex)){
+                    ret = childNodes.get(iIndex);
+                }
+                return ret;
+            }
             
             public int getChildCount(){
                 return childNodes.size();
@@ -153,6 +210,18 @@ import java.util.TreeMap;
     public void setDisplayText(String displayText) {
         this.displayText = displayText;
     }
+
+    public int relativeIndexOfChild(BungeniBNode origNode) {
+       Integer n= this.indexOfChild(origNode);
+       int nIndex = -1;
+       for (Integer nKey : childNodes.keySet()) {
+           nIndex++; 
+           if (nKey == n) {
+               return nIndex;
+           }
+       }
+       return -1;
+    }
             
-        }
+   }
       

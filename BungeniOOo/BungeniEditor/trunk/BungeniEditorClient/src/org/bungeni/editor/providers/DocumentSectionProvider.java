@@ -42,7 +42,7 @@ public class DocumentSectionProvider {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DocumentSectionProvider.class.getName());
     private static OOComponentHelper ooDocument;
     private static BungeniBTree theSectionTree = new BungeniBTree();
-    public static int TIMER_DELAY = 2000;
+    public static int TIMER_DELAY = 4000;
     static Timer sectionRefreshTimer;
     //private static ArrayList<DocumentSectionAdapterDefaultTreeModel> treeModelList = new ArrayList<DocumentSectionAdapterDefaultTreeModel>();
     private static ArrayList<IRefreshableSectionTreeModel> treeModelList = new ArrayList<IRefreshableSectionTreeModel>();
@@ -95,6 +95,10 @@ public class DocumentSectionProvider {
         return theSectionTree.getTree().get(theSectionTree.getTree().firstKey());
             
     }
+    public static BungeniBTree getNewTree(){
+        BungeniBTree bnewTree = generateSectionsTree();
+        return bnewTree;
+    }
     
     private static void buildSectionTree() {
         initTimer();
@@ -111,9 +115,9 @@ public class DocumentSectionProvider {
                   log.debug("DocumentSectionProvider: in timer : tree brains = " + tmpTreeRoot.toString());
                   BungeniBNode mergeNode = tmpTreeRoot.getTree().get(tmpTreeRoot.getTree().firstKey());
                  // BungeniBNode origNode = theSectionTree.getTree().get(theSectionTree.getTree().firstKey());
-                //  synchronized(theSectionTree) {
-                    //theSectionTree = tmpTreeRoot;
-                  //  }
+                  synchronized(theSectionTree) {
+                    theSectionTree = tmpTreeRoot;
+                  }
                   //refresh subscribed tree models
                   /*for( DocumentSectionAdapterDefaultTreeModel model: treeModelList) {
                       model.setRoot(DocumentSectionTreeModelProvider.newRootNode());

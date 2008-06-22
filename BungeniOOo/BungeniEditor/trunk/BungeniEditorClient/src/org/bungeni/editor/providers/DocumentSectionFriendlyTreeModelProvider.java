@@ -35,6 +35,13 @@ public class DocumentSectionFriendlyTreeModelProvider {
         return model;
     }
     
+    public static DocumentSectionFriendlyAdapterDefaultTreeModel create(){
+        BungeniBNode bRootNode = DocumentSectionProvider.getNewTree().getFirstRoot();
+        DefaultMutableTreeNode dmtRootNode = provideRootNode(bRootNode);
+        DocumentSectionFriendlyAdapterDefaultTreeModel model = new DocumentSectionFriendlyAdapterDefaultTreeModel(dmtRootNode, false);
+        DocumentSectionProvider.subscribeModel(model);
+        return model;
+    }
     public static DocumentSectionFriendlyAdapterDefaultTreeModel create_static(){
        if (theSectionTreeModel == null ) {
             BungeniBNode bRootNode = DocumentSectionProvider.getTreeRoot();

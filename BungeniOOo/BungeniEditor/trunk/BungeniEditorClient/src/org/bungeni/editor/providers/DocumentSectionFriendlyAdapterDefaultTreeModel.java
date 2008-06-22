@@ -70,9 +70,9 @@ public class DocumentSectionFriendlyAdapterDefaultTreeModel extends DefaultTreeM
                log.debug("updateTreeModel : before state");
                viewDmtNodes(nodeRoot, dmtRoot);
                DefaultMutableTreeNode newdmt = (DefaultMutableTreeNode) nodeRoot.getNodeObject();
-               if (newdmt.getChildCount() != dmtRoot.getChildCount()) {
-                   this.setRoot(newdmt);
-               }
+            //   if (newdmt.getChildCount() != dmtRoot.getChildCount()) {
+            //       this.setRoot(newdmt);
+            //   }
                BungeniTreeRefactorTree refactorTree = new BungeniTreeRefactorTree (this, nodeRoot, refreshNode);
                refactorTree.doMerge();
                log.debug("updateTreeModel : after state");

@@ -177,6 +177,9 @@ public final class BungeniBTree {
             return this.roots;
         }
         
+        public BungeniBNode getFirstRoot(){
+            return this.roots.firstEntry().getValue();
+        }
         public static BungeniBNode add(BungeniBNode p, String childname){
                 BungeniBNode newChild = new BungeniBNode (childname, p);
                 p.addChild(newChild);

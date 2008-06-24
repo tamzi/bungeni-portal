@@ -77,6 +77,7 @@ class ParliamentMember( User ):
     # committees
 
     # ministries
+    sort_on = 'sort_by_name'    
     addresses = one2many( "addresses", "bungeni.core.domain.UserAddressContainer", "user_id" )
     
 
@@ -84,25 +85,25 @@ class Person( User ):
     """
     general representation of a person
     """
-    sort_on = 'short_name'
+    sort_on = 'sort_by_name'
     
 class StaffMember( Person ):
     """
     A staff member
     """    
-            
+    sort_on = 'sort_by_name'
 
 class MemberOfParliament ( Entity ):    
     """
     defined by groupmembership and aditional data
     """    
-    sort_on = 'short_name'    
+    sort_on = 'sort_by_name'
     titles = one2many( "titles", "bungeni.core.domain.MemberRoleTitleContainer", "membership_id" )
 
 class HansardReporter( User ):
     """ a reporter who reports on parliamentary procedings
     """
-
+    sort_on = 'sort_by_name'
     # rotas
 
     # takes
@@ -119,16 +120,20 @@ class Group( Entity ):
 class GroupMembership( Entity ):
     """ a user's membership in a group
     """
-        
+    sort_on = 'sort_by_name'
+            
 class UserGroupMembership( Entity ):
     """ a user's membership in a group - abstract
     basis for ministers, committeemembers, etc
     """        
-    
+    sort_on = 'sort_by_name'
+        
 class StaffGroupMembership( Entity ):
     """ 
     staff assigned to groups (committees, ministries,...)
     """    
+    sort_on = 'sort_by_name'
+        
 class CommitteeStaff( StaffGroupMembership ):
     """
     Comittee Staff

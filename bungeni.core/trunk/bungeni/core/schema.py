@@ -33,6 +33,8 @@ users = rdb.Table(
    rdb.Column( "date_of_birth", rdb.Date ),
    rdb.Column( "birth_country", rdb.String(2), rdb.ForeignKey("countries.country_id") ),
    rdb.Column( "birth_nationality", rdb.String(2), rdb.ForeignKey("countries.country_id") ),
+   rdb.Column( "current_nationality", rdb.String(2), rdb.ForeignKey("countries.country_id") ),
+   rdb.Column( "uri", rdb.String(120), unique=True),
    rdb.Column( "date_of_death", rdb.Date ),
    rdb.Column( "type_of_id", rdb.String(1)),
    rdb.Column( "national_id", rdb.Unicode(32) ),

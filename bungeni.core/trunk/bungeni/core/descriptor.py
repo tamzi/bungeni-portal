@@ -160,9 +160,10 @@ class UserDescriptor( ModelDescriptor ):
                 listing=True, edit=False, add=False, view=False),
         dict( name="titles", 
               label=_(u"Salutation"), 
-              description=_(u"""How this person is addressed.
-                            Indicate any titles the person may hold. 
-                            Do not use 'functional' titles like Speaker, Member of parliament, etc.""")),
+#              description=_(u"""How this person is addressed.
+#                            Indicate any titles the person may hold. 
+#                            Do not use 'functional' titles like Speaker, Member of parliament, etc.""")),
+                description=_(u"e.g. Mr. Mrs, Prof. etc.")),
         dict( name="first_name", label=_(u"First Name")),
         dict( name="middle_name", label=_(u"Middle Name")),        
         dict( name="last_name", label=_(u"Last Name")), 
@@ -187,6 +188,18 @@ class UserDescriptor( ModelDescriptor ):
                                                              'country_id' ),                                        
                                         required=True ),             
 #             edit_widget=zope.app.form.browser.RadioWidget,                                         
+            ),
+        dict( name="birth_nationality", 
+              property = schema.Choice( title=_(u"Nationality at Birth"), 
+                                        source=DatabaseSource(domain.Country, 'country_name',
+                                                             'country_id' ),                                        
+                                        required=True ),             
+            ),
+        dict( name="current_nationality", 
+              property = schema.Choice( title=_(u"Current Nationality"), 
+                                        source=DatabaseSource(domain.Country, 'country_name',
+                                                             'country_id' ),                                        
+                                        required=True ),             
             ),
         dict( name="date_of_death", label=_(u"Date of Death"),
               view_permission="bungeni.AdminUsers", 

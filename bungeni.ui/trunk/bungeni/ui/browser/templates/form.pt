@@ -66,8 +66,9 @@
 	 tal:condition="widget/visible"
          tal:define="description widget/hint;
                      error widget/error;
+                     odd repeat/widget/odd;
                      changed widget/changed | nothing"
-         tal:attributes="class python:'field'+(error and ' error' or '')">
+         tal:attributes="class python:'field'+(error and ' error' or '') + (odd and ' odd' or ' even')">
          <td>
           <label tal:attributes="for widget/name">
             <span i18n:translate=""

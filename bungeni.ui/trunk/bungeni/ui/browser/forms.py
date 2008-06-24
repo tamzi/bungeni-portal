@@ -386,13 +386,17 @@ class MemberOfParliamentAdd( CustomAddForm ):
     override the AddForm for GroupSittingAttendance
     """
     #form_fields = form.Fields( IMemberOfParliamentAdd ).omit( "replaced_id", "substitution_type" )
-    form_fields = form.Fields( IMemberOfParliamentAdd ).select( "user_id",    
-                    "elected_nominated", "start_date", "end_date", "leave_reason", "election_nomination_date")
+    form_fields = form.Fields( IMemberOfParliamentAdd ).select(
+                    'user_id', 'start_date', 
+                    'election_nomination_date', 'elected_nominated',  'constituency_id',
+                    'end_date', 'leave_reason',
+                    'notes')
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget 
     form_fields["start_date"].field.description = _(u"Begin of the parliamentary mandate")
     #form_fields["start_date"].field.title = _(u"Beginn of the parliamentary mandate")    
-    form_fields["election_nomination_date"].custom_widget = SelectDateWidget    
+    form_fields["election_nomination_date"].custom_widget = SelectDateWidget   
+    form_fields["notes"].custom_widget=widget.RichTextEditor 
     Adapts = IMemberOfParliamentAdd
     CustomValidation = validations.CheckMPsDatesInsideParentDatesAdd  
     
@@ -711,7 +715,11 @@ class IMemberOfParliamentEdit( IMemberOfParliament ):
     
 class MemberOfParliamenEdit( CustomEditForm ):     
     Adapts = IMemberOfParliamentEdit          
-    form_fields = form.Fields( IMemberOfParliamentEdit )
+    form_fields = form.Fields( IMemberOfParliamentEdit ).select(
+                    'user_id', 'start_date', 
+                    'election_nomination_date', 'elected_nominated',  'constituency_id',
+                    'end_date', 'leave_reason',
+                    'notes')
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget
     form_fields["election_nomination_date"].custom_widget = SelectDateWidget

@@ -75,6 +75,10 @@ class DateChooserViewlet( viewlet.ViewletBase ):
         self.Date=datetime.date.today()
         self.error = None
         self.error_message = None
+        self.StartDateStr =None
+        self.EndDateStr=None
+        
+               
         
     def _getDateConstraints(self):
         """
@@ -108,6 +112,90 @@ class DateChooserViewlet( viewlet.ViewletBase ):
                     return end_date                    
         return None
             
+    def getDateChooserJs(self):
+        js_string = """
+           YAHOO.util.Event.onDOMReady(function(){
+           var dialog, calendar;
+           var curdate = "%(curdate)s" //"1/1/2008" 
+           
+           pad = function (value, length) {
+              value = String(value);
+              length = parseInt(length) || 2;
+              while (value.length < length)
+                  value = "0" + value;
+                  return value;
+           };
+           
+           calendar = new YAHOO.widget.Calendar("select-dates-caldiv", {
+                    iframe:false,          // Turn iframe off, since container has iframe support.
+                    hide_blank_weeks:true,  // Enable, to demonstrate how we handle changing height, using changeContent                    
+                    mindate:"%(mindate)s",                    
+                    maxdate:"%(maxdate)s",
+                    selected:"%(curdate)s",
+                    navigator:true
+                    });
+           
+            function handle_cancel() {
+                this.hide();
+            }
+
+            function handle_ok() {
+                if ( calendar.getSelectedDates().length > 0) {
+                     var selDate = calendar.getSelectedDates()[0];
+                     var datestring = selDate.getFullYear() + "-" + pad( selDate.getMonth()+1, 2) + "-" + pad( selDate.getDate(), 2);
+                     document.getElementById("select-dates").value = datestring;
+                };
+                this.hide();
+            }
+
+            dialog = new YAHOO.widget.Dialog("select-dates-container", {
+                  context:["select-dates-btn", "tl", "bl"],
+                  buttons:[ {text:"Select", isDefault:true, handler: handle_ok },
+                            {text:"Cancel", handler: handle_cancel}],
+                  width:"16em",  // Sam Skin dialog needs to have a width defined (7*2em + 2*1em = 16em).
+                  draggable:false,
+                  close:true
+                  });        
+
+
+            // calendar.select( "<tal:omit-tag tal:replace="view/DateStr" />" );
+            calendar.render();
+            dialog.render();
+            
+            // Using dialog.hide() instead of visible:false is a workaround for an IE6/7 container known issue with border-collapse:collapse.
+            dialog.hide();
+            
+            calendar.renderEvent.subscribe(function() {
+               dialog.fireEvent("changeContent");
+               });
+            YAHOO.util.Event.on("select-dates-btn", "click", dialog.show, dialog, true);
+            });
+
+        """
+        # Set dates for calendar widget
+        # min, max, current
+        start_date, end_date = self._getDateConstraints()        
+        if start_date:            
+            mindate = datetime.date.strftime(start_date,'%m/%d/%Y')
+        else:
+            mindate=''
+        if end_date:                        
+            maxdate = datetime.date.strftime(end_date,'%m/%d/%Y')                        
+        else:
+            maxdate=''                    
+        if self.Date:
+            curdate = datetime.date.strftime(self.Date,'%m/%d/%Y')
+        else:
+            if end_date:
+                curdate = maxdate
+            else:
+                curdate = datetime.date.strftime(datetime.date.today(),'%d/%m/%Y')    
+        dates = {"curdate" : curdate,
+                "maxdate" : maxdate,
+                "mindate" : mindate}
+        return js_string % dates         
+    
+
 
     
     def update(self):
@@ -124,6 +212,7 @@ class DateChooserViewlet( viewlet.ViewletBase ):
         else:
             self.DateStr='all'
             self.request.response.setCookie('display_date','all')
+
         minmaxdate= self.checkDateInConstraints()
         if minmaxdate:                    
             self.error = 'error' 

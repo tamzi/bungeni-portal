@@ -13,6 +13,8 @@
     layer="bungeni.ui.interfaces.IBungeniSkin"
     />   
 
+
+
                  
   <!-- GroupSittingAttendance Add Form -->
    <browser:view
@@ -32,6 +34,17 @@
       permission="zope.View"
       allowed_interface="zope.formlib.interfaces.ISubPageForm"      
       />
+      
+<!-- view forms:
+  <browser:viewlet
+      name="alchemist.attributes.view"
+      manager=".interfaces.IContentViewManager"
+      class="XXX .viewlet.AttributesViewViewlet"
+      for="XXX ore.alchemist.interfaces.IAlchemistContent"
+      permission="zope.View"
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"
+      />
+-->      
       
   <!-- GroupSitting Add Form -->
    <browser:view

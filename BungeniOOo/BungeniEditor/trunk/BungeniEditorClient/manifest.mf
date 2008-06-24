@@ -7,7 +7,7 @@ Class-Path: lib/juh.jar
   lib/officebean.jar 
   lib/ridl.jar 
   lib/unoil.jar  
-  lib/swing-layout-1.0.1.jar   
+  lib/swing-layout-1.0.3.jar   
               lib/commons-httpclient.jar 
   lib/log4j.jar  
   lib/webdavlib2.2.jar 

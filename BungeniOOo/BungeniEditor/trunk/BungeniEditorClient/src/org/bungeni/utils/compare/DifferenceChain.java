@@ -1,8 +1,20 @@
 package org.bungeni.utils.compare;
-
+/** 
+ * DifferenceChain - stores a chain of related BungeniNodeDifference objects
+ * @author Ashok
+ */
  public class DifferenceChain {
+        /**
+         * the node difference object
+         */
         public BungeniNodeDifference diff;
+        /**
+         * next difference in chain
+         */
         public DifferenceChain nextDifference = null;
+        /**
+         * previous difference in chain
+         */
         public DifferenceChain prevDifference = null;
         
         @Override
@@ -19,6 +31,10 @@ package org.bungeni.utils.compare;
             return output;
         }
         
+/**
+ * Returns the chainSize of the current chain
+ * @return int
+ */
         public int chainSize(){
             int n=1;
             DifferenceChain nextDiff = nextDifference;

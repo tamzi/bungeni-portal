@@ -27,11 +27,14 @@ import javax.swing.tree.TreePath;
 import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.dialogs.metadatapanel.SectionMetadataLoad;
 import org.bungeni.editor.panels.impl.BaseClassForITabbedPanel;
+import org.bungeni.editor.providers.DocumentSectionFriendlyAdapterDefaultTreeModel;
 import org.bungeni.editor.providers.DocumentSectionFriendlyTreeModelProvider;
+import org.bungeni.editor.providers.DocumentSectionProvider;
 import org.bungeni.editor.providers.DocumentSectionTreeModelProvider;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.BungeniBNode;
 import org.bungeni.utils.CommonTreeFunctions;
+import org.bungeni.utils.compare.BungeniTreeRefactorTree;
 
 /**
  *
@@ -81,8 +84,11 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
          sectionMetaRender.setBorder(BorderFactory.createLineBorder(Color.GRAY));
          sectionMetaRender.setBorderSelectionColor(Color.DARK_GRAY);
         // this.treeSectionTreeMetadata.setModel(new DefaultTreeModel(DocumentSectionTreeModelProvider.newRootNode()));
-         this.treeSectionTreeMetadata.setModel(new DefaultTreeModel(DocumentSectionFriendlyTreeModelProvider.newRootNode()));
-         this.treeSectionTreeMetadata.addMouseListener(new treeDocStructureTreeMouseListener());
+         //this.treeSectionTreeMetadata.setModel(new DefaultTreeModel(DocumentSectionFriendlyTreeModelProvider.newRootNode()));
+        this.treeSectionTreeMetadata.addMouseListener(new treeDocStructureTreeMouseListener());
+        DocumentSectionFriendlyAdapterDefaultTreeModel model = DocumentSectionFriendlyTreeModelProvider.create() ;//_without_subscription();
+        this.treeSectionTreeMetadata.setModel(model);
+        //CommonTreeFunctions.expandAll(treeSectionStructure);
          updateTableMetadataModel(ROOT_SECTION);
          //-tree-deprecated--CommonTreeFunctions.expandAll(treeSectionStructure, true);
          CommonTreeFunctions.expandAll(treeSectionTreeMetadata);
@@ -103,24 +109,25 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
            sectionMetadataRefreshTimer.start();
     }
 
+    private void refreshTree(){
+            BungeniBNode newRootNode = DocumentSectionProvider.getNewTree().getFirstRoot();
+            DocumentSectionFriendlyAdapterDefaultTreeModel model = (DocumentSectionFriendlyAdapterDefaultTreeModel) this.treeSectionTreeMetadata.getModel();
+            DefaultMutableTreeNode mnode = (DefaultMutableTreeNode) model.getRoot();
+            BungeniBNode origNode = (BungeniBNode) mnode.getUserObject();
+            BungeniTreeRefactorTree refTree = new BungeniTreeRefactorTree (model, origNode, newRootNode);
+            refTree.doMerge();
+    }
+    
+    /*
    private void refreshTree(){
        //TreePath[] selections = this.treeSectionTreeMetadata.getSelectionPaths();
        captureTreeState();
        //Enumeration expandedNodes = this.treeSectionTreeMetadata.getExpandedDescendants(new TreePath(this.treeSectionTreeMetadata.getModel().getRoot()));
        refreshTreeModel();
-       /*
-       if (expandedNodes != null  ) {
-           log.debug("refreshTree: expandedNodes was NOT null");
-           while (expandedNodes.hasMoreElements()) {
-               this.treeSectionTreeMetadata.expandPath((TreePath)expandedNodes.nextElement());
-           }
-       } else
-           log.debug("refreshTree: expandedNodes was null");
-       */
        CommonTreeFunctions.expandAll(treeSectionTreeMetadata);    
        restoreTreeState();
    }
-
+ */
    private void captureTreeState(){
         TreePath selPath = this.treeSectionTreeMetadata.getSelectionPath();
         if (selPath != null) {
@@ -187,13 +194,7 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
         return null;
     }
    
-   private void refreshTreeModel(){
-         //initSectionsArray();   
-       
-         ((DefaultTreeModel)this.treeSectionTreeMetadata.getModel()).setRoot(DocumentSectionFriendlyTreeModelProvider.newRootNode());
-         this.treeSectionTreeMetadata.setModel(this.treeSectionTreeMetadata.getModel());
-         //this.treeSectionTreeMetadata.setModel(new DefaultTreeModel(sectionRootNode));
-   }
+
 
    public void updateTableMetadataModel(String sectionName){
           SectionMetadataLoad sectionMetadataTableModel = new SectionMetadataLoad(ooDocument,sectionName);

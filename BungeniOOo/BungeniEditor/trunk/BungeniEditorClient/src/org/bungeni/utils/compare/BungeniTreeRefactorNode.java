@@ -4,7 +4,10 @@ import java.util.TreeMap;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import org.bungeni.utils.BungeniBNode;
-
+/**
+ * Refactors a node in a tree
+ * @author undesa
+ */
 public class BungeniTreeRefactorNode {
     private DefaultTreeModel treeModel;
     private BungeniBNode originalRootNode;
@@ -19,7 +22,10 @@ public class BungeniTreeRefactorNode {
         originalDMTreeRootNode = (DefaultMutableTreeNode) originalRootNode.getNodeObject();
     }
     
-    
+    /**
+     * Activates a merge for the node. The original root node is updated in place 
+     * and merged with the merge root node 
+     */
     public void doMerge(){
         boolean bDeletions = false, bInserts = false, bUpdates = false;
         try {
@@ -49,7 +55,11 @@ public class BungeniTreeRefactorNode {
           log.debug("doMerge (states) for " + originalRootNode + " deletions ="+ bDeletions + ", inserts = " + bInserts + " , updates = " + bUpdates);
         }
     }
-    
+    /**
+     * Merges deletions between the original and the merge node
+     * @param a BungeniNodeComparator object
+     * @return
+     */
     private boolean doMergeDeletions(BungeniNodeComparator comp){
         boolean bState = false;
         try {

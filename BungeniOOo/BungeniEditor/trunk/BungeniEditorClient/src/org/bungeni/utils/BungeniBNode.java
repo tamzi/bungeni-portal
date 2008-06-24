@@ -86,11 +86,13 @@ import java.util.TreeMap;
             }
     @Override
             public String toString(){
-                if (displayText.length() == 0)
+               //return getName();
+               if (displayText.length() == 0)
                     return getName();
                 else
                     return displayText;
             }
+    
             public HashMap<String,BungeniBNode> getChildrenByName() {
                 return childNodeNames;
             }

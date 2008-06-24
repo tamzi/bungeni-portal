@@ -122,12 +122,12 @@ public class DocumentSectionProvider {
                   /*for( DocumentSectionAdapterDefaultTreeModel model: treeModelList) {
                       model.setRoot(DocumentSectionTreeModelProvider.newRootNode());
                   }*/
-                  //synchronized (theSectionTree) {
+                  synchronized (theSectionTree) {
                   for (IRefreshableSectionTreeModel model: treeModelList) {
                       log.debug("DocumentSectionProvider: in timer: updating Model " );
-                      model.updateTreeModel(mergeNode);
+                    //  model.updateTreeModel(mergeNode);
                   }
-                 //}
+                 }
               }
            });
            sectionRefreshTimer.start();

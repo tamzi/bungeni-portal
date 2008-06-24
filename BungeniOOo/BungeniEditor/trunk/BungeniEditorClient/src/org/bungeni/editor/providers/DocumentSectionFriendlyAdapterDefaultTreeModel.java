@@ -60,6 +60,7 @@ public class DocumentSectionFriendlyAdapterDefaultTreeModel extends DefaultTreeM
     public void updateTreeModel(BungeniBNode refreshNode) {
       //  throw new UnsupportedOperationException("Not supported yet.");
        log.debug("updateTreeModel for : " + refreshNode);
+  
        DefaultMutableTreeNode dmtRoot = (DefaultMutableTreeNode) this.getRoot();
        
        if (dmtRoot != null ) {

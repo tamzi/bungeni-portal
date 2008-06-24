@@ -51,7 +51,8 @@ public class BungeniTreeRefactorTree {
         nodeRefactor.doMerge();
         log.debug("doMerge : merging children ");
         doMergeChildren(this.getTreeRootNode(), this.getTreeMergeRootNode());
-          
+        log.debug("After doMergeChildren : ");
+        viewDmtNodes(getTreeRootNode());
         //at this point any new children now exist within the rootnode structure as BungeniNodes,
         //we need to create the corresponding UI defaultmutabletreenode structure for the 
         //empty bnode structures.
@@ -70,6 +71,9 @@ public class BungeniTreeRefactorTree {
             seedTreeWithUITreeNodes(getTreeRootNode().getNodeAtIndex(nKey));         
        }
        
+        log.debug("After seedTreeWithUITreeNodes : ");
+        viewDmtNodes(getTreeRootNode());
+       
        BungeniBTree tmpTree = new BungeniBTree();
        tmpTree.addRootNode(treeRootNode);
        log.debug("doMerge : original tree = " + tmpTree.toString());
@@ -80,7 +84,12 @@ public class BungeniTreeRefactorTree {
        
       
     }
-    
+
+    private void viewDmtNodes(BungeniBNode nodeRoot ) {
+        DefaultMutableTreeNode anode = (DefaultMutableTreeNode) nodeRoot.getNodeObject();
+        log.debug("dmt = " + anode.toString() + ", bbnode = " + nodeRoot.toString());
+        log.debug(" anode dmt count = " + anode.getChildCount() + " bnode count = " + nodeRoot.getChildCount());
+    } 
     
  private void seedTreeWithUITreeNodes(BungeniBNode nodeDMTnodes){
      //recurse children of rootnodes

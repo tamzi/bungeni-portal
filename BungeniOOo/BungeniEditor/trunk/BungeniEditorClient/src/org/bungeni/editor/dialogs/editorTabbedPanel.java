@@ -97,6 +97,8 @@ import org.bungeni.utils.BungeniBNode;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.providers.DocumentSectionFriendlyAdapterDefaultTreeModel;
 import org.bungeni.editor.providers.DocumentSectionFriendlyTreeModelProvider;
+import org.bungeni.editor.providers.DocumentSectionProvider;
+import org.bungeni.utils.compare.BungeniTreeRefactorTree;
 /**
  *
  * @author  Administrator
@@ -745,6 +747,12 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                       //  }
             //commented for section refresh changes / june 2007 / initSectionStructureTreeModel();
             //initSectionList();
+            BungeniBNode newRootNode = DocumentSectionProvider.getNewTree().getFirstRoot();
+            DocumentSectionFriendlyAdapterDefaultTreeModel model = (DocumentSectionFriendlyAdapterDefaultTreeModel) treeSectionStructure.getModel();
+            DefaultMutableTreeNode mnode = (DefaultMutableTreeNode) model.getRoot();
+            BungeniBNode origNode = (BungeniBNode) mnode.getUserObject();
+            BungeniTreeRefactorTree refTree = new BungeniTreeRefactorTree (model, origNode, newRootNode);
+            refTree.doMerge();
         }   
    }
         
@@ -1035,7 +1043,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
       //   sectionTreeRender.setLeafIcon(null);
       //   treeSectionStructure.setCellRenderer(sectionTreeRender);
          treeSectionStructure.setCellRenderer(new treeViewPrettySectionsTreeCellRenderer());
-         treeSectionStructure.setShowsRootHandles(false);
+         treeSectionStructure.setShowsRootHandles(true);
          ComponentUI ui = treeSectionStructure.getUI();
          if (ui instanceof BasicTreeUI){
              ((BasicTreeUI)ui).setExpandedIcon(minusIcon);

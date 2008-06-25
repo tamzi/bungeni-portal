@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.TreeMap;
 import javax.swing.Timer;
+import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.utils.BungeniBNode;
@@ -141,26 +142,27 @@ public class DocumentSectionProvider {
         }
         TreeMap<Integer,String> namesMap = new TreeMap<Integer,String>();
         try {
+                    String documentRoot = BungeniEditorPropertiesHelper.getDocumentRoot();
                     if (!localOoDoc.isXComponentValid()) return treeRoot;
                     /*
                     do a basic check to see if the root section exists
                     */
-                    if (!localOoDoc.getTextSections().hasByName("root")) {
+                    if (!localOoDoc.getTextSections().hasByName(documentRoot)) {
                         log.error("generateSectionsTree: no root section found");
                         return treeRoot;
                     }
                     /*
                     get the root section and it as the root node to the JTree
                     */
-                    Object root = localOoDoc.getTextSections().getByName("root");
+                    Object root = localOoDoc.getTextSections().getByName(documentRoot);
                     log.debug("generateSectionsTree: Adding root node");
-                    treeRoot.addRootNode(new String("root"));
+                    treeRoot.addRootNode(new String(documentRoot));
                     /*
                     now get the enumeration of the TextSection
                     */
 
                     int currentIndex = 0;
-                    String parentObject = "root";
+                    String parentObject = documentRoot;
                     XTextSection theSection = ooQueryInterface.XTextSection(root);
                     XTextRange range = theSection.getAnchor();
                     XText xText = range.getText();
@@ -189,7 +191,7 @@ public class DocumentSectionProvider {
                                  /*
                                   *only enumerate non root sections
                                   */ 
-                                 if (!sectionName.equals("root")) {
+                                 if (!sectionName.equals(documentRoot)) {
                                      log.debug("generateSectionsTree: Found Section :"+ sectionName);
                                       /*
                                       *check if the node exists in the tree

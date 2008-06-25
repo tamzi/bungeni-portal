@@ -11,7 +11,7 @@
     </button>
     
         <script language="javascript" tal:content="structure view/getDateChooserJs">
-        
+        YUI Javascript goes here
         </script>
 
     

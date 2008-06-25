@@ -116,7 +116,6 @@ class DateChooserViewlet( viewlet.ViewletBase ):
         js_string = """
            YAHOO.util.Event.onDOMReady(function(){
            var dialog, calendar;
-           var curdate = "%(curdate)s" //"1/1/2008" 
            
            pad = function (value, length) {
               value = String(value);
@@ -128,7 +127,8 @@ class DateChooserViewlet( viewlet.ViewletBase ):
            
            calendar = new YAHOO.widget.Calendar("select-dates-caldiv", {
                     iframe:false,          // Turn iframe off, since container has iframe support.
-                    hide_blank_weeks:true,  // Enable, to demonstrate how we handle changing height, using changeContent                    
+                    hide_blank_weeks:true,  // Enable, to demonstrate how we handle changing height, using changeContent 
+                    pagedate:"%(pagedate)s",                   
                     mindate:"%(mindate)s",                    
                     maxdate:"%(maxdate)s",
                     selected:"%(curdate)s",
@@ -158,7 +158,6 @@ class DateChooserViewlet( viewlet.ViewletBase ):
                   });        
 
 
-            // calendar.select( "<tal:omit-tag tal:replace="view/DateStr" />" );
             calendar.render();
             dialog.render();
             
@@ -185,14 +184,21 @@ class DateChooserViewlet( viewlet.ViewletBase ):
             maxdate=''                    
         if self.Date:
             curdate = datetime.date.strftime(self.Date,'%m/%d/%Y')
+            pagedate = datetime.date.strftime(self.Date,'%m/%Y')             
         else:
             if end_date:
-                curdate = maxdate
+                curdate = maxdate                
+                pagedate = datetime.date.strftime(end_date,'%m/%Y') 
             else:
-                curdate = datetime.date.strftime(datetime.date.today(),'%d/%m/%Y')    
+                curdate = datetime.date.strftime(datetime.date.today(),'%d/%m/%Y')  
+                pagedate = datetime.date.strftime(datetime.date.today(),'%m/%Y')    
+        minmaxdate= self.checkDateInConstraints()
+        if minmaxdate:
+            pagedate = datetime.date.strftime(minmaxdate,'%m/%Y')                                   
         dates = {"curdate" : curdate,
                 "maxdate" : maxdate,
-                "mindate" : mindate}
+                "mindate" : mindate,
+                "pagedate" : pagedate}
         return js_string % dates         
     
 

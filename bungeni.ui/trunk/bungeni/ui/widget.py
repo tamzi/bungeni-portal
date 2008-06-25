@@ -1,7 +1,11 @@
 
-from zope.app.form.browser.widget import UnicodeDisplayWidget
+from zope.app.form.browser.widget import UnicodeDisplayWidget, DisplayWidget
 from zope.app.form.browser.textwidgets import TextAreaWidget
 from zc.resourcelibrary import need
+
+class ImageDisplayWidget(DisplayWidget):
+    def __call__(self):
+        return '<img src="@@file-image/%s" />' % self.context.__name__
 
 class HTMLDisplay(UnicodeDisplayWidget):
     

@@ -289,7 +289,12 @@
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
     
-    
+  <browser:view
+    for="ore.alchemist.interfaces.IAlchemistContent"
+    permission="zope.View"
+    name="file-image"
+    class=".fileimage.RawView"
+  />    
  
 
 </configure>

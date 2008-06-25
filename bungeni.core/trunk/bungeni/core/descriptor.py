@@ -184,21 +184,21 @@ class UserDescriptor( ModelDescriptor ):
               add_widget=calendar.CalendarWidget),
         dict( name="birth_country", 
               property = schema.Choice( title=_(u"Country of Birth"), 
-                                        source=DatabaseSource(domain.Country, 'country_name',
-                                                             'country_id' ),                                        
+                                        source=DatabaseSource(domain.Country, token_field='country_id', title_field='country_name',
+                                                             value_field='country_id' ),                                        
                                         required=True ),             
 #             edit_widget=zope.app.form.browser.RadioWidget,                                         
             ),
         dict( name="birth_nationality", 
               property = schema.Choice( title=_(u"Nationality at Birth"), 
-                                        source=DatabaseSource(domain.Country, 'country_name',
-                                                             'country_id' ),                                        
+                                        source=DatabaseSource(domain.Country, token_field='country_id', title_field='country_name',
+                                                             value_field='country_id' ),                                        
                                         required=True ),             
             ),
         dict( name="current_nationality", 
               property = schema.Choice( title=_(u"Current Nationality"), 
-                                        source=DatabaseSource(domain.Country, 'country_name',
-                                                             'country_id' ),                                        
+                                        source=DatabaseSource(domain.Country, token_field='country_id', title_field='country_name',
+                                                             value_field='country_id' ),                                        
                                         required=True ),             
             ),
         dict( name="date_of_death", label=_(u"Date of Death"),
@@ -506,7 +506,8 @@ class PoliticalPartyDescriptor( GroupDescriptor ):
     #    dict( name='logo', label=_(u"Logo"),  )
     # ])
     fields.extend([
-        dict( name='logo_data', label=_(u"Logo"), edit=True, add=True, view=False, listing=False )
+        dict( name='logo_data', label=_(u"Logo"), edit=True, add=True, view=True, listing=False,
+                view_widget=widget.ImageDisplayWidget )
      ])
           
      

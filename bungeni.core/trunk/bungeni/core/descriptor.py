@@ -180,8 +180,8 @@ class UserDescriptor( ModelDescriptor ):
               property = schema.Choice( title=_(u"Gender"), values=['M', 'F'] ) ),
         dict( name="date_of_birth", 
               label=_(u"Date of Birth"), 
-              edit_widget=SelectDateWidget, 
-              add_widget=SelectDateWidget),
+              edit_widget=calendar.CalendarWidget, 
+              add_widget=calendar.CalendarWidget),
         dict( name="birth_country", 
               property = schema.Choice( title=_(u"Country of Birth"), 
                                         source=DatabaseSource(domain.Country, 'country_name',
@@ -204,7 +204,7 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="date_of_death", label=_(u"Date of Death"),
               view_permission="bungeni.AdminUsers", 
               edit_permission="bungeni.AdminUsers",
-              edit_widget=SelectDateWidget, add_widget=SelectDateWidget),
+              edit_widget=calendar.CalendarWidget, add_widget=calendar.CalendarWidget),
         dict( name="password", omit=True ),
                 dict( name="active_p", label=_(u"Status"), 
               property = schema.Choice( title=_(u"Status"), values=['A', 'I', 'D'], default='A' ),
@@ -502,9 +502,14 @@ class CommitteeStaffDescriptor( ModelDescriptor ):
 class PoliticalPartyDescriptor( GroupDescriptor ):
     display_name = _(u"Political Party")     
     fields = deepcopy( GroupDescriptor.fields )    
+    #fields.extend([
+    #    dict( name='logo', label=_(u"Logo"),  )
+    # ])
     fields.extend([
-        dict( name='logo', label=_(u"Logo"),  )
+        dict( name='logo_data', label=_(u"Logo"), edit=True, add=True, view=False, listing=False )
      ])
+          
+     
 #        view_widget=image.ImageWidget,
 #        add_widget=image.ImageWidget,
 #        edit_widget=image.ImageWidget

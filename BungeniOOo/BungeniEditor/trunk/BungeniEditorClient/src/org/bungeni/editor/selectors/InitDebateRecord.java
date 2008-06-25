@@ -48,6 +48,7 @@ import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.BungeniEditorProperties;
+import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.editor.dialogs.*;
 import org.bungeni.editor.fragments.FragmentsFactory;
@@ -934,7 +935,7 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
         
         ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
         AddSectionInsideSection.addParameter(ooDocument.getComponent());
-        AddSectionInsideSection.addParameter("root");
+        AddSectionInsideSection.addParameter(BungeniEditorPropertiesHelper.getDocumentRoot());
         AddSectionInsideSection.addParameter(theAction.action_naming_convention());
         AddSectionInsideSection.addParameter(sectionBackColor);
         AddSectionInsideSection.addParameter(sectionLeftMargin);

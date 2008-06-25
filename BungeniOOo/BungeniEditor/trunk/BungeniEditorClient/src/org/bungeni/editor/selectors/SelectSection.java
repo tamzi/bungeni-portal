@@ -12,9 +12,6 @@ import com.sun.star.container.NoSuchElementException;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.text.XTextSection;
 import java.awt.Component;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -26,12 +23,10 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
-import org.bungeni.db.BungeniClientDB;
-import org.bungeni.db.BungeniRegistryFactory;
-import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.BungeniEditorProperties;
+import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
@@ -50,6 +45,7 @@ public class SelectSection extends selectorTemplatePanel {
     private boolean emptyRootNode = false;
     private boolean cancelClicked = false;
     private String[] m_validParentSections;
+    private String m_documentRoot = BungeniEditorPropertiesHelper.getDocumentRoot();
     /** Creates new form SelectSection */
     public SelectSection() {
         initComponents();
@@ -97,7 +93,7 @@ public class SelectSection extends selectorTemplatePanel {
         } else {
             //no returned parent action means this a root action
             m_validParentSections = new String[1];
-            m_validParentSections[0] = "root";
+            m_validParentSections[0] = m_documentRoot;
         }
        } catch (Exception ex) {
            log.error("getAllowedSections:" + ex.getMessage());
@@ -122,18 +118,18 @@ public class SelectSection extends selectorTemplatePanel {
             if (!ooDocument.isXComponentValid()) return;
             
             treeSectionStructure.removeAll();
-            if (!ooDocument.getTextSections().hasByName("root")) {
+            if (!ooDocument.getTextSections().hasByName(m_documentRoot)) {
                 log.debug("no root section found");
                 return;
             }
-            Object rootSection = ooDocument.getTextSections().getByName("root");
+            Object rootSection = ooDocument.getTextSections().getByName(m_documentRoot);
             XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
             if (theSection.getChildSections().length == 0) {
                 //root is empty and has no children. 
                 //set empty status 
                 this.emptyRootNode = true;
             }
-            sectionRootNode = new DefaultMutableTreeNode(new String("root"));
+            sectionRootNode = new DefaultMutableTreeNode(new String(m_documentRoot));
             
             recurseSections (theSection, sectionRootNode);
             
@@ -301,7 +297,7 @@ public class SelectSection extends selectorTemplatePanel {
     public static boolean Launchable(OOComponentHelper ooDoc) {
         //launchable only when the root section has children
         if (ooDoc.getTextSections().getElementNames().length > 1 ) {
-            if (ooDoc.getTextSections().hasByName("root")) {
+            if (ooDoc.getTextSections().hasByName(BungeniEditorPropertiesHelper.getDocumentRoot())) {
                 return true;
             } else {
                 return false;

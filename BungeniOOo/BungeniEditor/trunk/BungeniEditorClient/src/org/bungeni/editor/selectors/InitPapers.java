@@ -6,38 +6,23 @@
 
 package org.bungeni.editor.selectors;
 
-import com.sun.star.xml.AttributeData;
 import java.awt.Component;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Set;
 import java.util.Vector;
 import javax.swing.JDialog;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-import org.bungeni.db.BungeniClientDB;
-import org.bungeni.db.BungeniRegistryFactory;
-import org.bungeni.db.DefaultInstanceFactory;
-import org.bungeni.db.GeneralQueryFactory;
 import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.db.registryQueryDialog;
+import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.editor.fragments.FragmentsFactory;
-import org.bungeni.editor.macro.ExternalMacro;
-import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.ooo.OOComponentHelper;
-import org.bungeni.utils.MessageBox;
-import org.safehaus.uuid.UUID;
-import org.safehaus.uuid.UUIDGenerator;
 
 /**
  *
@@ -49,6 +34,7 @@ public  class InitPapers extends selectorTemplatePanel implements IBungeniForm {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(InitPapers.class.getName());
  
     HashMap<String, ArrayList> selectionData = new HashMap<String,ArrayList>();
+    String m_documentRoot = BungeniEditorPropertiesHelper.getDocumentRoot();
     /** Creates new form InitQuestionBlock */
     public InitPapers() {
        // initComponents();
@@ -270,6 +256,7 @@ public  class InitPapers extends selectorTemplatePanel implements IBungeniForm {
     }
 
     
+    @Override
     public boolean preValidationFullInsert(){
       boolean bResult = true;
       try {
@@ -279,7 +266,7 @@ public  class InitPapers extends selectorTemplatePanel implements IBungeniForm {
       dbSettings.EndConnect();
       String[] results = qr.getSingleColumnResult("THE_COUNT");
       if (results[0].equals("0")) {
-        if (!ooDocument.hasSection("root")) {
+        if (!ooDocument.hasSection(m_documentRoot)) {
             checkFieldsMessages.add("The document does not have a root section!");
             bResult = false;
             return bResult;

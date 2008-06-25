@@ -12,6 +12,10 @@ import com.sun.star.comp.helper.Bootstrap;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -61,6 +65,7 @@ public class BungeniEditorClient {
                 }
         };
         frame.addWindowListener(panelListener);
+        preLaunch();
         editorApplicationController panel = new editorApplicationController(m_xContext);
        // frame.addWindowListener(new org.bungeni.editor.BungeniPanelFrameWindowListener(panel));
         frame.add(panel);
@@ -69,6 +74,22 @@ public class BungeniEditorClient {
         frame.pack();
         frame.setLocationRelativeTo(null); //center it
         frame.setVisible(true);
+    }
+    
+    private static void preLaunch(){
+       //do prelaunch stuff here... 
+        
+        //1 create the log file if it doesnt exist...
+        String curDir = System.getProperty("user.dir");
+        curDir = curDir + File.separator+ "logs" + File.separator + "log.txt";
+        File f = new File (curDir);
+        if (!f.exists()) {
+            try {
+                f.createNewFile();
+            } catch (IOException ex) {
+                System.out.println("Log file could not be created");
+            }
+        }
     }
     
     public static void main(String[] args) {

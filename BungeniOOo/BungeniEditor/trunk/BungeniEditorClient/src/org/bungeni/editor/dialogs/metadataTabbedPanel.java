@@ -33,6 +33,7 @@ import org.bungeni.editor.dialogs.metadatapanel.SectionMetadataLoad;
 import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.ooo.OOComponentHelper;
 import org.apache.log4j.Logger;
+import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.dialogs.treetable.sectionHive;
 import org.jdesktop.swingx.JXTreeTable;
 
@@ -239,7 +240,7 @@ public class metadataTabbedPanel extends javax.swing.JPanel {
     }
     
     private void initTreeTableDocMetadata(){
-        sectionHive rootHive = new sectionHive("root");
+        sectionHive rootHive = new sectionHive(BungeniEditorPropertiesHelper.getDocumentRoot());
       //  buildTree(rootHive);
         docMetadataTreeTable=new DocMetadataTreeTableModel(ooDocument, rootHive);
         treeTableDocumentMetadata.setTreeTableModel(docMetadataTreeTable);

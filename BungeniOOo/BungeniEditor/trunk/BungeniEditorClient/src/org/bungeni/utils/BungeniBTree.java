@@ -25,6 +25,7 @@ package org.bungeni.utils;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 /**
  * <B>Class that implements a binary tree, used for tracking hierarchies within a Openoffice document
@@ -178,8 +179,14 @@ public final class BungeniBTree {
         }
         
         public BungeniBNode getFirstRoot(){
-            return this.roots.firstEntry().getValue();
+            Entry<Integer,BungeniBNode> fEntry =roots.firstEntry();
+            if (fEntry != null) {
+                return fEntry.getValue();    
+            } else {
+                return null;
+            }
         }
+        
         public static BungeniBNode add(BungeniBNode p, String childname){
                 BungeniBNode newChild = new BungeniBNode (childname, p);
                 p.addChild(newChild);

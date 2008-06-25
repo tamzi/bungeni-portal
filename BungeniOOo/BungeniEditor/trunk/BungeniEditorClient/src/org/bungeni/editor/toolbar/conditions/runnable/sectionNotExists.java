@@ -10,6 +10,7 @@
 package org.bungeni.editor.toolbar.conditions.runnable;
 
 import org.bungeni.editor.BungeniEditorProperties;
+import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.toolbar.conditions.BungeniToolbarCondition;
 import org.bungeni.editor.toolbar.conditions.IBungeniToolbarCondition;
 import org.bungeni.ooo.OOComponentHelper;
@@ -36,7 +37,7 @@ public class sectionNotExists implements IBungeniToolbarCondition {
         try {
         
         String sectionToActUpon =  condition.getConditionValue();
-        if (sectionToActUpon.equals("root")) {
+        if (sectionToActUpon.equals(BungeniEditorPropertiesHelper.getDocumentRoot())) {
            log.debug("sectionNotExists: before activeDoc"); 
            String activeDoc =  BungeniEditorProperties.getEditorProperty("activeDocumentMode");
            log.debug("sectionNotExists: activeDocumentMode = " + activeDoc);

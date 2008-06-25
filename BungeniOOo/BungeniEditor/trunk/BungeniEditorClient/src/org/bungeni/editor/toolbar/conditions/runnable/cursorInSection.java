@@ -18,6 +18,7 @@ import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.uno.Any;
 import org.bungeni.editor.BungeniEditorProperties;
+import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.toolbar.conditions.BungeniToolbarCondition;
 import org.bungeni.editor.toolbar.conditions.IBungeniToolbarCondition;
 import org.bungeni.ooo.OOComponentHelper;
@@ -81,7 +82,7 @@ public class cursorInSection implements IBungeniToolbarCondition {
         boolean bReturn = true;
         try {
         String sectionToActUpon =  condition.getConditionValue();
-        if (sectionToActUpon.equals("root")) {
+        if (sectionToActUpon.equals(BungeniEditorPropertiesHelper.getDocumentRoot())) {
            String activeDoc =  BungeniEditorProperties.getEditorProperty("activeDocumentMode");
            sectionToActUpon = BungeniEditorProperties.getEditorProperty("root:"+activeDoc);
         }

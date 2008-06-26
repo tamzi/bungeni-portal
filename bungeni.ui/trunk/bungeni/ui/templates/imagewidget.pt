@@ -1,28 +1,59 @@
-<div xmlns:tal="http://xml.zope.org/namespaces/tal">
+<div xmlns:tal="http://xml.zope.org/namespaces/tal"
+     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+     i18:domain="bungeni">
+ <script> 
+  function showUploadInput(id)  
+    { 
+     var elm = document.getElementById(id) 
+     elm.style.display = ""
+    }
+  function hideUploadInput(id)
+   {
+     var elm = document.getElementById(id) 
+     elm.style.display = "none"    
+   }     
+  </script>
   <span tal:condition="not:view/empty_field">
       <img tal:attributes="src view/imageURL" />
-      <label for="form.gender.0">
+      <br/>
+      <label for="form.gender.0"
+             tal:attributes="for string:${view/update_action_name}.keep">
         <input  class="radioType" type="radio" value="keep"  checked="checked"
-                    tal:attributes="id view/update_action_name; name view/update_action_name"/>
-         Keep current image
-      </label>    
-      <label for="form.gender.1">
-        <input  class="radioType" type="radio" value="delete" 
-                    tal:attributes="id view/update_action_name; name view/update_action_name"/>
-         Delete image
+                tal:attributes="id string:${view/update_action_name}.keep; 
+                                name view/update_action_name;
+                                onclick string:hideUploadInput('${view/upload_name}')"/>
+        <span i18n:translate="keep-image"> Keep current image</span>
       </label>
-      <label for="form.gender.1">
+      <br/>    
+      <label for="form.gender.1"
+            tal:attributes="for string:${view/update_action_name}.delete">
+        <input  class="radioType" type="radio" value="delete" 
+                tal:attributes="id string:${view/update_action_name}.delete; 
+                                name view/update_action_name;
+                                onclick string:hideUploadInput('${view/upload_name}')"/>
+        <span i18n:translate="delete-image">  Delete image </span>
+      </label>
+      <br/>
+      <label for="form.gender.1"
+             tal:attributes="for string:${view/update_action_name}.update">
         <input  class="radioType" type="radio" value="update" 
-                    tal:attributes="id view/update_action_name; name view/update_action_name"/>
-         Replace image
+                tal:attributes="id string:${view/update_action_name}.update; 
+                                name view/update_action_name;
+                                onclick string:showUploadInput('${view/upload_name}')"/>
+        <span i18n:translate="replace-image">  Replace image </span>
       </label>
   </span>
-  <b tal:condition="view/empty_field"> upload an image </b>
+  <b tal:condition="view/empty_field" i18n:translate="upload-image" > upload an image </b>
   <br/>  
   <input type="hidden" tal:condition="view/empty_field" value="update"
-         tal:attributes="id view/update_action_name; name view/update_action_name"/>
-                      
+         tal:attributes="id view/update_action_name; name view/update_action_name"/> 
   <input id="form.logo_data" class="fileType" type="file" size="40" name="form.logo_data"
-            tal:attributes="id view/upload_name; name view/upload_name"/>
+         style="display:none"
+         tal:attributes="id view/upload_name; name view/upload_name"/>
+  <noscript>
+    <input id="form.logo_data" class="fileType" type="file" size="40" name="form.logo_data"
+         tal:attributes="id view/upload_name; name view/upload_name"/>
+  </noscript>
+
 
 </div>

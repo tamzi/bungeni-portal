@@ -31,7 +31,7 @@ class ImageInputWidget(FileWidget):
         
     @property
     def upload_name(self):
-        return self.name + '.file'
+        return self.name.replace(".","_") + '_file'
         
     @property    
     def imageURL(self):

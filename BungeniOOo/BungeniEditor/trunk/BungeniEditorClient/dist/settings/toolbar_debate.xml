@@ -10,9 +10,9 @@
 <toolbar>
     <root lang="en" title="Editor Actions" visible="true" >
         <actionGroup name="blockActions" title="Block Actions" visible="true">
-            <blockAction name="Root" title="Create Root Section" visible="true" condition="sectionNotExists:root" target="generalAction.createRootSection" />
+            <blockAction name="Root" title="Create Root Section" visible="true" condition="sectionNotExists:debaterecord" target="generalAction.createRootSection" />
             <blockAction name="MastHead" tooltip="Use these actions to create and manage the Masthead" title="Preface" target="null" visible="true" condition="none" >
-                <action name="MastHead.new" title="Create New" mode="TEXT_INSERTION" target="toolbarAction.makePrayerSection" visible="true" condition="sectionNotExists:masthead :and: cursorInSection:root" />
+                <action name="MastHead.new" title="Create New" mode="TEXT_INSERTION" target="toolbarAction.makePrayerSection" visible="true" condition="sectionNotExists:masthead :and: cursorInSection:debaterecord" />
                 <action name="MastHead.edit" title="Edit Existing" mode="TEXT_EDIT" target="toolbarAction.makePrayerSection" visible="true" condition="cursorInSection:masthead" />                
                 <action name="MastHead.selection" tooltip="Create a Preface by marking up existing text" title="Define From Selection" target="null" visible="true" condition="sectionNotExists:masthead :and: textSelected:true" showChildren="true" >
                     <subaction name="Masthead.selection" tooltip="Select some text to mark it up as Preface container" title="Define Section" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePrayerSection.section_creation" visible="true" condition="sectionNotExists:masthead :and: textSelected:true" />
@@ -22,17 +22,17 @@
                 </action>
             </blockAction>
             <blockAction name="Papers" tooltip="Actions to create and manage the papers section" title="Papers" target="null" visible="true" condition="none" >
-                <action name="Papers.new" title="Create New" mode="TEXT_INSERTION" target="toolbarAction.makePaperSection" visible="true" condition="cursorInSection:root :and: sectionNotExists:papers" />
-                <action name="Papers.selection" title="Define From Selection" target="null" condition="cursorInSection:root :and: sectionNotExists:papers :and: textSelected:true" visible="true" showChildren="true" >
-                    <subaction name="Papers.selection" tooltip="Select some text to mark it up as Papers container" title="Define Section" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.section_creation" visible="true" condition="cursorInSection:root :and: sectionNotExists:papers :and: textSelected:true" />
+                <action name="Papers.new" title="Create New" mode="TEXT_INSERTION" target="toolbarAction.makePaperSection" visible="true" condition="cursorInSection:debaterecord :and: sectionNotExists:papers" />
+                <action name="Papers.selection" title="Define From Selection" target="null" condition="cursorInSection:debaterecord :and: sectionNotExists:papers :and: textSelected:true" visible="true" showChildren="true" >
+                    <subaction name="Papers.selection" tooltip="Select some text to mark it up as Papers container" title="Define Section" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.section_creation" visible="true" condition="cursorInSection:debaterecord :and: sectionNotExists:papers :and: textSelected:true" />
                     <subaction name="Papers.selection.title" tooltip="Markup selection as Papers title" title="Markup Title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.apply_style:papers" visible="true" condition="cursorInSection:papers :and: textSelected:true" />
                     <subaction name="Papers.selection.details" tooltip="Markup selection as details" title="Markup Details" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.apply_style:paper-details" visible="true" condition="cursorInSection:papers :and: textSelected:true" />
                     <subaction name="Papers.selection.import_tabled_documents" tooltip="Select tabled documents and insert into document" title="Import Tabled Documents" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.import_tabled_documents" visible="true" condition="cursorInSection:papers" />
                 </action>
             </blockAction>
             <blockAction name="QA" tooltip="Create a QA Section" title="Question-Answer Container" target="null" visible="true" condition="none" >
-                <action name="QA.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makeQASection" visible="true" condition="cursorInSection:root :and: sectionNotExists:qa." />
-                 <action name="QA.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQASection.section_creation" condition="cursorInSection:root :and: sectionNotExists:qa. :and: textSelected:true" visible="true" showChildren="true" >
+                <action name="QA.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makeQASection" visible="true" condition="cursorInSection:debaterecord :and: sectionNotExists:qa." />
+                 <action name="QA.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQASection.section_creation" condition="cursorInSection:debaterecord :and: sectionNotExists:qa. :and: textSelected:true" visible="true" showChildren="true" >
                     <subaction name="QA.selection.title" tooltip="Markup selection as title" title="Markup Title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQASection.apply_style:qa-title" visible="true" condition="cursorInSection:qa. :and: textSelected:true" />
                  </action>
             </blockAction>

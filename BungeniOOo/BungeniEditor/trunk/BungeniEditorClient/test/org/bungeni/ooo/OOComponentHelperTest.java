@@ -8,30 +8,16 @@
 package org.bungeni.ooo;
 
 import junit.framework.*;
-import com.sun.star.beans.IllegalTypeException;
-import com.sun.star.beans.PropertyExistException;
-import com.sun.star.beans.PropertyVetoException;
-import com.sun.star.beans.UnknownPropertyException;
-import com.sun.star.beans.XPropertyContainer;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.XNameAccess;
-import com.sun.star.container.XNamed;
 import com.sun.star.document.XDocumentInfo;
-import com.sun.star.document.XDocumentInfoSupplier;
 import com.sun.star.frame.XModel;
-import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiServiceFactory;
 import com.sun.star.lang.XServiceInfo;
-import com.sun.star.text.XTextColumns;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.text.XTextViewCursor;
-import com.sun.star.text.XTextViewCursorSupplier;
-import com.sun.star.uno.Any;
-import com.sun.star.uno.AnyConverter;
-import com.sun.star.uno.UnoRuntime;
-import org.bungeni.editor.dialogs.editorTabbedPanel;
 
 /**
  *

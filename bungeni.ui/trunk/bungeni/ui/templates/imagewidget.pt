@@ -1,0 +1,28 @@
+<div xmlns:tal="http://xml.zope.org/namespaces/tal">
+  <span tal:condition="not:view/empty_field">
+      <img tal:attributes="src view/imageURL" />
+      <label for="form.gender.0">
+        <input  class="radioType" type="radio" value="keep"  checked="checked"
+                    tal:attributes="id view/update_action_name; name view/update_action_name"/>
+         Keep current image
+      </label>    
+      <label for="form.gender.1">
+        <input  class="radioType" type="radio" value="delete" 
+                    tal:attributes="id view/update_action_name; name view/update_action_name"/>
+         Delete image
+      </label>
+      <label for="form.gender.1">
+        <input  class="radioType" type="radio" value="update" 
+                    tal:attributes="id view/update_action_name; name view/update_action_name"/>
+         Replace image
+      </label>
+  </span>
+  <b tal:condition="view/empty_field"> upload an image </b>
+  <br/>  
+  <input type="hidden" tal:condition="view/empty_field" value="update"
+         tal:attributes="id view/update_action_name; name view/update_action_name"/>
+                      
+  <input id="form.logo_data" class="fileType" type="file" size="40" name="form.logo_data"
+            tal:attributes="id view/upload_name; name view/upload_name"/>
+
+</div>

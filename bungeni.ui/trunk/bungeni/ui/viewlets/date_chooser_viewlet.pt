@@ -7,7 +7,7 @@
     <input name="date" type="text" tal:attributes="value view/DateStr" id="select-dates" /> 
     <!--input value="Cal" onclick="displayCalendar(document.forms[0].date,'yyyy-mm-dd',this)" type="button" /-->
     <button type="button" id="select-dates-btn" title="Show Calendar">
-       <!--img src="/++resource++calbtn.gif" /-->
+       <img src="/++resource++calbtn.gif" />
     </button>
     
         <script language="javascript" tal:content="structure view/getDateChooserJs">

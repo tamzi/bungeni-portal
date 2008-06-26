@@ -40,18 +40,7 @@ public class sectionExists implements IBungeniToolbarCondition {
         } else {
             return true;
         }
-        /*
-        String sectionToActUpon =  condition.getConditionValue();
-        if (sectionToActUpon.equals("root")) {
-           String activeDoc =  BungeniEditorProperties.getEditorProperty("activeDocumentMode");
-           sectionToActUpon = BungeniEditorProperties.getEditorProperty("root:"+activeDoc);
-        }
-        if (ooDocument.hasSection(sectionToActUpon)) {
-         return true;
-        } else {
-         return false;
-        }
-        */
+
         
         
     }

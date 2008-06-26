@@ -608,6 +608,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         
     }
     
+    private static int  WIDTH_OOo_SCROLLBAR = 25;
+    // added for Issue 246, http://code.google.com/p/bungeni-portal/issues/details?id=246
     private void initFloatingPane() {
             //load the map here 
             javax.swing.JFrame floatingFrame = new javax.swing.JFrame();
@@ -629,8 +631,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             Dimension windowSize = floatingFrame.getSize();
             log.debug("screen size = "+ screenSize);
             log.debug("window size = "+ windowSize);
-           
-            int windowX = screenSize.width - floatingFrame.getWidth();
+            
+            int windowX = screenSize.width - floatingFrame.getWidth() - WIDTH_OOo_SCROLLBAR;
             int windowY = (screenSize.height - floatingFrame.getHeight())/2;
             floatingFrame.setLocation(windowX, windowY);  // Don't use "f." inside constructor.
             floatingFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -961,9 +963,6 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             log.debug("emptying treeDocStructureTree");
             treeDocStructureTree.removeAll();
             treeDocStructureTree.updateUI();
-            //this.sectionsRootNode = null ; //new DefaultMutableTreeNode(new String("root"));
-            
-            //mvSections.removeAllElements();
             if (!ooDocument.getTextSections().hasByName(ROOT_SECTION)) {
                 log.debug("no root section found");
                 return;
@@ -1023,7 +1022,6 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private void initSectionList() {
         initSectionsArray();  
         log.debug("setting defaultTreeModel to sectionsRootNode");
-        //sectionsRootNode = new DefaultMutableTreeNode ("root");
         treeDocStructureTree.setModel(new DefaultTreeModel(sectionsRootNode));
         //-tree-deprecated--CommonTreeFunctions.expandAll(treeDocStructureTree, true);
         CommonTreeFunctions.expandAll(treeDocStructureTree);
@@ -1961,9 +1959,10 @@ public void hidePanelControls(){
     }
     
     class treeViewPrettySectionsTreeCellRenderer extends JLabel implements TreeCellRenderer {
-        Border selBorder ;
+        Color bgColor = new java.awt.Color(232, 255, 175);
+        Color bgColorSelect = new java.awt.Color(207, 242, 255);
         treeViewPrettySectionsTreeCellRenderer(){
-            selBorder = BorderFactory.createLineBorder(Color.GREEN, 2);
+            setOpaque(true);
         }
         public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
             setText(value.toString());
@@ -1973,10 +1972,11 @@ public void hidePanelControls(){
                   if (uoObj.getClass() == org.bungeni.utils.BungeniBNode.class) {
                       BungeniBNode aNode = (BungeniBNode) uoObj;
                       if (aNode.getName().equals(self().currentSelectedSectionName)) {
-                          setBorder(selBorder);
-                          setBackground(new java.awt.Color(0,200,0));
-                      } else {
-                          setBorder(null);
+                          //setBorder(selBorder);
+                          setBackground(bgColor);
+                      } else if (selected) {
+                            setBackground(bgColorSelect);
+                      }  else {
                           setBackground(null);
                       }
                   }

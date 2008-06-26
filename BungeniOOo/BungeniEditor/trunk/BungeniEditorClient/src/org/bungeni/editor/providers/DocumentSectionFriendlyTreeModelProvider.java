@@ -10,8 +10,6 @@
 package org.bungeni.editor.providers;
 
 import com.sun.star.text.XTextSection;
-import java.util.Iterator;
-import java.util.TreeMap;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.BungeniBNode;
@@ -24,7 +22,8 @@ public class DocumentSectionFriendlyTreeModelProvider {
     
     /** Creates a new instance of DocumentSectionTreeModelProvider */
     public static DocumentSectionFriendlyAdapterDefaultTreeModel theSectionTreeModel = null;
-    
+     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DocumentSectionFriendlyTreeModelProvider.class.getName());
+           
     /**
      * returns a non-static instance of the section TreeModel which is updated directly by the documentsectionProvider
      */
@@ -62,10 +61,11 @@ public class DocumentSectionFriendlyTreeModelProvider {
         return provideRootNode(bRootNode);
     }
     
-    private static String getSectionDisplayText(String sectionName){
+    /*
+    private static String getSectionDisplayText(String sectionName, OOComponentHelper ooDoc){
         String retDisplayText = "";
         boolean bDispTextFound = false;
-        OOComponentHelper ooDoc = DocumentSectionProvider.getOOoDocument();
+        log.debug("getSectionDisplayText : for "+ sectionName);
         XTextSection aSect = ooDoc.getSection(sectionName);
         String sectionText = aSect.getAnchor().getString();
         sectionText = sectionText.trim();
@@ -86,16 +86,72 @@ public class DocumentSectionFriendlyTreeModelProvider {
         }
         return retDisplayText;
     }
+    */
     
     private static DefaultMutableTreeNode provideRootNode(BungeniBNode rootNode) {
         //walk nodes and build tree
         DefaultMutableTreeNode theRootNode = new DefaultMutableTreeNode(rootNode);
         rootNode.setNodeObject(theRootNode);
-        recurseNodes(theRootNode);
+        OOComponentHelper ooDoc = DocumentSectionProvider.getOOoDocument();
+       // recurseNodes(theRootNode, ooDoc);
+        FriendlyNodeIterator nodeIter = new FriendlyNodeIterator(ooDoc);
+        DocumentSectionIterator docIterate = new DocumentSectionIterator(rootNode, nodeIter);
+        docIterate.startIterator();
         return theRootNode;
     }
     
-    private static void recurseNodes(DefaultMutableTreeNode theNode) {
+    private static class FriendlyNodeIterator implements  IBungeniSectionIteratorListener {
+        private OOComponentHelper ooDoc;
+        FriendlyNodeIterator(OOComponentHelper ooDocument) {
+            this.ooDoc = ooDocument;
+        }
+
+        public boolean iteratorCallback(BungeniBNode bNode) {
+           boolean bState = true;
+           try {
+           String dispText = getSectionDisplayText(bNode.getName());
+           bNode.setDisplayText(dispText);
+           bState = true;
+           } catch (Exception ex) {
+               log.error ("IteratorCallBack = " + ex.getMessage());
+           }
+           return bState;
+        }
+        
+        private  String getSectionDisplayText(String sectionName){
+                    String retDisplayText = "";
+                    boolean bDispTextFound = false;
+                    log.debug("getSectionDisplayText : for "+ sectionName);
+                    try {
+                    XTextSection aSect = ooDoc.getSection(sectionName);
+                    String sectionText = aSect.getAnchor().getString();
+                    sectionText = sectionText.trim();
+                    String sectionType = ooDoc.getSectionType(aSect);
+                    if (sectionType != null ) {
+                        bDispTextFound = true;
+                        retDisplayText = sectionType + "-";
+                    }
+                    if (sectionText.length() > 0 ) {
+                        bDispTextFound = true;
+                        if (sectionText.length() > 15 ) 
+                            retDisplayText = retDisplayText + sectionText.substring(0, 14)+ "..";
+                        else
+                            retDisplayText = retDisplayText + sectionText+ "..";
+                    }
+                    if (!bDispTextFound ) {
+                        retDisplayText = sectionName;
+                    }
+                    } catch (Exception ex) {
+                        log.error("getSectionDisplayText" + ex.getMessage());
+                    } finally {
+                    return retDisplayText;
+                    }
+            }
+    
+    }
+    
+    /*
+    private static void recurseNodes(DefaultMutableTreeNode theNode, OOComponentHelper ooDoc) {
         BungeniBNode theBNode = (BungeniBNode) theNode.getUserObject();
         if (theBNode.hasChildren()) {
             TreeMap<Integer, BungeniBNode> children = theBNode.getChildrenByOrder();
@@ -103,12 +159,12 @@ public class DocumentSectionFriendlyTreeModelProvider {
             while (childIterator.hasNext()) {
                 Integer nodeKey = childIterator.next();
                 BungeniBNode nodeChild  = children.get(nodeKey);
-                nodeChild.setDisplayText(getSectionDisplayText(nodeChild.getName()));
+                nodeChild.setDisplayText(getSectionDisplayText(nodeChild.getName(), ooDoc));
                     DefaultMutableTreeNode dmtChildNode = new DefaultMutableTreeNode( nodeChild);
                     nodeChild.setNodeObject(dmtChildNode);
-                recurseNodes(dmtChildNode);
+                recurseNodes(dmtChildNode, ooDoc);
                 theNode.add(dmtChildNode );
             }
         }
-    }
+    } */
 }

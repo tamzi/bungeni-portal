@@ -214,61 +214,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         Collections.sort(sectionTypesInDocument);
     }
     
-    /*
-    private void fetchSectionTypesAndInitTree(){
-        try{
-            if (!ooDocument.getTextSections().hasByName("root")) {
-                System.out.println("no root section found");
-                return;
-            }
-            Object rootSection = ooDocument.getTextSections().getByName("root");
-            XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
-            //create the tree here
-         //    sectionRootNode = new DefaultMutableTreeNode(new String("root"));
-         //    CommonTreeFunctions.expandAll(treeSectionStructure);
-             recurseSectionTypesAndInitTree (theSection,sectionRootNode);
-         }catch (NoSuchElementException ex) {
-            log.error(ex.getMessage());
-        } catch (WrappedTargetException ex) {
-            log.error(ex.getMessage());
-        }
-        
-        
-    }
-    */
-    /*
-    private void recurseSectionTypesAndInitTree(XTextSection theSection,DefaultMutableTreeNode node){
-          //recurse children
-            XTextSection[] sections = theSection.getChildSections();
-            if (sections != null ) {
-                if (sections.length > 0 ) {
-                    //start from last index and go to first
-                    for (int nSection = sections.length - 1 ; nSection >=0 ; nSection--) {
-                        XNamed xSecName = ooQueryInterface.XNamed(sections[nSection]);
-                        String childSectionName = (String) xSecName.getName();
-                        //build section tree here also 
-                        DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(childSectionName);
-                        node.add(newNode);
-                        HashMap<String,String> sectionMetadataMap=ooDocument.getSectionMetadataAttributes(childSectionName);
-                        if (sectionMetadataMap.containsKey("BungeniSectionType"))
-                            attributeSet.add(sectionMetadataMap.get("BungeniSectionType").trim());
-                        recurseSectionTypesAndInitTree(sections[nSection],newNode);
-                     }
-                   
-                } 
-            }
-            
-    }
-    */
     
-    /*private void initSectionTypesListBox(){
-         DefaultListModel listModel = new DefaultListModel();
-         
-         for (String sectionType: sectionTypesInDocument ) {
-            listModel.addElement(sectionType);
-         }
-        this.listSectionTypes.setModel(listModel);
-    }*/
     
 
     
@@ -967,13 +913,13 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
             cursorRange.getText().insertTextContent(cursorRange, fieldContentObject, true);
             
         } catch (PropertyVetoException ex) {
-            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+            log.error("InsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
         } catch (WrappedTargetException ex) {
-            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+            log.error("InsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
         } catch (UnknownPropertyException ex) {
-            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+            log.error("InsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
         } catch (com.sun.star.lang.IllegalArgumentException ex) {
-            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+            log.error("InsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
         }
    }
    
@@ -1222,7 +1168,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
   
    private void continueNumbering(XTextRange aRange, XTextSection theCurrentSection, String parentSection ) {
             String theNumber = this.m_selectedNumberingScheme.sequence_next();
-             // if currentParent is "root" use 1 as the starting point for numbering
+             // if currentParent is document root use 1 as the starting point for numbering
             // we want insert  number + space before heading
             // and set a reference mark over the number
             String parentPrefix ="";
@@ -1280,13 +1226,13 @@ end Sub
             range.getText().insertTextContent(range, (XTextContent) fieldContent , true);
             
         } catch (PropertyVetoException ex) {
-            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+            log.error("ï¿½nsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
         } catch (WrappedTargetException ex) {
-            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+            log.error("ï¿½nsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
         } catch (UnknownPropertyException ex) {
-            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+            log.error("ï¿½nsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
         } catch (com.sun.star.lang.IllegalArgumentException ex) {
-            log.error("ïnsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
+            log.error("ï¿½nsertField :( " +ex.getClass().getName() + ")"+  ex.getMessage());
         }
    }
     */
@@ -1601,7 +1547,7 @@ end Sub
           }
            //ArrayList<String> arrSectionTree = new ArrayList(sectionHierarchy.split(">"));
           
-           arrSectionTree.remove(new String("root"));
+           arrSectionTree.remove(new String(BungeniEditorPropertiesHelper.getDocumentRoot()));
            Collections.reverse(arrSectionTree);
            System.out.println("section hierarchy = " + arrSectionTree);
           //we have to reverse the array in order to have Child,Parent

@@ -156,6 +156,7 @@ public final class BungeniBTree {
      * Returns a indented string representation of the tree structure
      * @return Returns a String
      */
+    @Override
         public String toString() {
            sbOut = new StringBuffer();
            Iterator<Integer> rootIter = roots.keySet().iterator();
@@ -179,10 +180,16 @@ public final class BungeniBTree {
         }
         
         public BungeniBNode getFirstRoot(){
+            /*Iterator<Integer> itr = roots.keySet().iterator();
+            Integer intKey = itr.next();
+            
+            return roots.get(intKey);*/
+            
             Entry<Integer,BungeniBNode> fEntry =roots.firstEntry();
             if (fEntry != null) {
                 return fEntry.getValue();    
             } else {
+                log.error("getFirstRoot : returned null");
                 return null;
             }
         }

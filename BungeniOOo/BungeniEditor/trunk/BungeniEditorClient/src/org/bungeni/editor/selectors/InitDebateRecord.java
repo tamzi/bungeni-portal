@@ -829,41 +829,7 @@ public class InitDebateRecord extends selectorTemplatePanel implements IBungeniF
         super.formApply();
         if (FORM_APPLY_NO_ERROR)
             parent.dispose();
-  /*
-    enableButtons(false);    
-    //validate fields
-    Date dtDebateDate = this.dt_initdebate_hansarddate.getDate();
-   
-    //order defines the nth sequence of this section
-    int nOrder = theAction.action_order();
-    
-    //do checks if doc does not have root section, faile
-    if (!ooDocument.hasSection("root")){
-        MessageBox.OK(parent, "The document does not have a root section, and cannot be used!" );
-        enableButtons(true);
-        return;
-    }
-    //if (!actionTypeCheck(theAction)) {
-    //    return;
-    //}
-     
-    //adding section
-    if (theSubAction == null ) {
-           if (theAction.action_type().equals("section")) {
-               if (!routeSectionAction()) {
-                   enableButtons(true);
-                   return;
-               }
-           }
-           else if (theAction.action_type().equals("markup")) 
-               markupAction();
-    } else {
-        processSelectionAction();
-    }
-    
-    
-     parent.dispose();
-    */   
+
       
     }//GEN-LAST:event_btnApplyActionPerformed
     

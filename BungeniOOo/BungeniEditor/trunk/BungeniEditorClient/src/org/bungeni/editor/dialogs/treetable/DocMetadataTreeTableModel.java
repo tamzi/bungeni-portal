@@ -9,23 +9,19 @@
 
 package org.bungeni.editor.dialogs.treetable;
 
-import com.sun.star.beans.UnknownPropertyException;
-import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.NoSuchElementException;
 import com.sun.star.container.XNamed;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.text.XTextSection;
 import java.util.HashMap;
 import java.util.Iterator;
-import javax.swing.tree.TreePath;
-import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
 import org.jdesktop.swingx.treetable.DefaultTreeTableModel;
 import org.jdesktop.swingx.treetable.TreeTableNode;
 import org.jdesktop.swingx.treetable.DefaultMutableTreeTableNode;
 import org.apache.log4j.Logger;
+import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.ooo.OOComponentHelper;
-import com.sun.star.beans.Property;
 
 /**
  *
@@ -58,7 +54,7 @@ public class DocMetadataTreeTableModel extends DefaultTreeTableModel {
     
     public void refreshModel(){
         log.debug("refreshModel: calling initSectionsArray");
-        this.rootHive = new sectionHive("root");
+        this.rootHive = new sectionHive(BungeniEditorPropertiesHelper.getDocumentRoot());
         initSectionsArray(rootHive);
         this.setRoot((TreeTableNode)new sectionHiveNode(rootHive, null));
         modelSupport.fireNewRoot();
@@ -154,19 +150,18 @@ public class DocMetadataTreeTableModel extends DefaultTreeTableModel {
             if (!ooDocument.isXComponentValid()) return;
             
            
-            if (!ooDocument.getTextSections().hasByName("root")) {
+            if (!ooDocument.getTextSections().hasByName(BungeniEditorPropertiesHelper.getDocumentRoot())) {
                 log.debug("initSectionsArray : no root section found");
                 return;
             }
-            Object rootSection = ooDocument.getTextSections().getByName("root");
+            Object rootSection = ooDocument.getTextSections().getByName(BungeniEditorPropertiesHelper.getDocumentRoot());
             XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
             if (theSection.getChildSections().length == 0) {
                 //root is empty and has no children. 
                 //set empty status 
                 this.emptyRootNode = true;
             }
-           // sectionRootNode = new DefaultMutableTreeTableNode(new String("root"));
-           root.sectionName = "root";
+          root.sectionName = BungeniEditorPropertiesHelper.getDocumentRoot();
            //root.addChildren(Sect1);
            recurseSections (theSection, root);
             

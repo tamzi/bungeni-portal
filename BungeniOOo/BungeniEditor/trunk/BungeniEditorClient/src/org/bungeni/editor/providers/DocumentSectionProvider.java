@@ -272,7 +272,7 @@ public class DocumentSectionProvider {
               while (1==1) {
                   //go up the hierarchy until you reach root.
                   //break upon reaching the parent
-                  if (parentSectionname.equals("root")) {
+                  if (parentSectionname.equals(BungeniEditorPropertiesHelper.getDocumentRoot())) {
                       nodeHierarchy.add(parentSectionname);
                       log.debug("buildParentChain: nodeHierarchy: Adding "+ parentSectionname + " and breaking.");
                       break;
@@ -288,40 +288,6 @@ public class DocumentSectionProvider {
                 Collections.reverse(nodeHierarchy);
          return nodeHierarchy;
     }
- /*
- private static void walkTree()
-  private void convertBTreetoJTreeNodes(BungeniBTree theTree){
-        //TreeMap<Integer,BungeniBNode> sectionMap = theTree.getTree();
-        BungeniBNode rootNode = theTree.getNodeByName("root");
-        this.sectionsRootNode = null;
-        this.sectionsRootNode = new DefaultMutableTreeNode(new String("root"));
-        TreeMap<Integer,BungeniBNode> sectionMap = rootNode.getChildrenByOrder();
-        Iterator<Integer> rootIter = sectionMap.keySet().iterator();
-           int depth = 0;
-           while (rootIter.hasNext()) {
-                Integer key = (Integer) rootIter.next();
-                BungeniBNode n = sectionMap.get(key);
-                DefaultMutableTreeNode n_child = new DefaultMutableTreeNode(n.getName());
-                sectionsRootNode.add(n_child);
-                //sbOut.append(padding(depth) + n.getName()+ "\n");
-                //walkNodeByOrder(n, depth);
-                walkBNodeTree(n , n_child);
-            }
-    }
-    
-    private void walkBNodeTree(BungeniBNode theNode, DefaultMutableTreeNode pNode){
-        if (theNode.hasChildren()) {
-           TreeMap<Integer, BungeniBNode> n_children = theNode.getChildrenByOrder();
-           Iterator<Integer> nodesByOrder = n_children.keySet().iterator();
-           while (nodesByOrder.hasNext()) {
-               Integer key = (Integer) nodesByOrder.next();
-               BungeniBNode n = n_children.get(key);
-               DefaultMutableTreeNode dmt_node = new DefaultMutableTreeNode(n.getName());
-               pNode.add(dmt_node);
-               walkBNodeTree(n, dmt_node);
-           }
-        } else
-            return;
-    } */
+ 
 
 }

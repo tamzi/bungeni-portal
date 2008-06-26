@@ -21,11 +21,20 @@ import org.bungeni.utils.BungeniBNode;
 public  class DocumentSectionIterator {
     BungeniBNode rootNode;
     IBungeniSectionIteratorListener callback;
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DocumentSectionIterator.class.getName());
+         
     /** Creates a new instance of DocumentSectionIterator */
     public DocumentSectionIterator(IBungeniSectionIteratorListener callback) {
         this.rootNode = DocumentSectionProvider.getTreeRoot();
         this.callback = callback;
     }
+
+    /** Creates a new instance of DocumentSectionIterator with custom root node*/
+    public DocumentSectionIterator(BungeniBNode myRootNode, IBungeniSectionIteratorListener callback) {
+        this.rootNode = myRootNode;
+        this.callback = callback;
+    }
+
     
     public void startIterator() {
         if (!callback.iteratorCallback(rootNode))
@@ -37,16 +46,23 @@ public  class DocumentSectionIterator {
     
     private void recurseAllNodes(BungeniBNode theBNode) {
        // BungeniBNode theBNode = (BungeniBNode) theNode.getUserObject();
-        if (theBNode.hasChildren()) {
-            TreeMap<Integer, BungeniBNode> children = theBNode.getChildrenByOrder();
-            Iterator<Integer> childIterator = children.keySet().iterator();
-            while (childIterator.hasNext()) {
-                Integer nodeKey = childIterator.next();
-                BungeniBNode newBNode = children.get(nodeKey);
-                if (callback.iteratorCallback(newBNode) == false )
-                    return;
-                recurseAllNodes(newBNode);
+        try {
+            if (theBNode.hasChildren()) {
+                log.debug("recurseAllNodes : iterating children = " + theBNode.getName());
+                TreeMap<Integer, BungeniBNode> children = theBNode.getChildrenByOrder();
+                Iterator<Integer> childIterator = children.keySet().iterator();
+                while (childIterator.hasNext()) {
+                    Integer nodeKey = childIterator.next();
+                    BungeniBNode newBNode = children.get(nodeKey);
+                    if (callback.iteratorCallback(newBNode) == false )
+                        return;
+                    recurseAllNodes(newBNode);
+                }
+            } else {
+                log.debug("recurseAllNodes : "+ theBNode.getName() + " has no children ");
             }
+        } catch (Exception ex) {
+            log.error("recurseAllNodes : " + ex.getMessage());
         }
-    }   
+        }   
 }

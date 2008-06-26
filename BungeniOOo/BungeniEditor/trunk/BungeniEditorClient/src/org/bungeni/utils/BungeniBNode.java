@@ -87,6 +87,7 @@ import java.util.TreeMap;
     @Override
             public String toString(){
                //return getName();
+               log.debug("toString : displayText = " + displayText);
                if (displayText.length() == 0)
                     return getName();
                 else
@@ -209,8 +210,8 @@ import java.util.TreeMap;
         return displayText;
     }
 
-    public void setDisplayText(String displayText) {
-        this.displayText = displayText;
+    public void setDisplayText(String dText) {
+        this.displayText = dText;
     }
 
     public int relativeIndexOfChild(BungeniBNode origNode) {

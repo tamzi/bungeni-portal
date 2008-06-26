@@ -246,74 +246,7 @@ public class InitQAsection extends selectorTemplatePanel implements IBungeniForm
         if (FORM_APPLY_NO_ERROR)
             parent.dispose();
 
-        /*
-        returnError(false);
 
-       if (txt_title.getText().trim().length() == 0 ) {
-            MessageBox.OK(parent, "You must enter a title! ");
-            returnError(true);
-            return;
-       }
-       
-      if (ooDocument.hasSection(theAction.action_naming_convention())) {
-            MessageBox.OK(parent, "The section: "+ theAction.action_naming_convention()+" already exists !");
-            returnError(true);
-            return;
-      }
-      
-      dbSettings.Connect();
-      QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_CHECK_IF_ACTION_HAS_PARENT(theAction.action_naming_convention()));
-      dbSettings.EndConnect();
-      String[] results = qr.getSingleColumnResult("THE_COUNT");
-      if (results[0].equals("0")) {
-        //no parent section
-        if (!ooDocument.hasSection("root")) {
-            MessageBox.OK(parent, "The document does not have a root section!");
-            returnError(true);
-            return;
-        }  
-      }
-   
-        if (this.theMode == SelectorDialogModes.TEXT_SELECTED_INSERT) {
-            //insert mode
-            //check if section by that name exists, fail immediately if true
-        
-            returnError(true);
-            
-        } else if (this.theMode == SelectorDialogModes.TEXT_INSERTION) {
-          
-           long sectionBackColor = 0xeeffff;
-            float sectionLeftMargin = (float).1;
-            ExternalMacro AddSectionInsideSection = ExternalMacroFactory.getMacroDefinition("AddSectionInsideSectionWithStyle");
-            AddSectionInsideSection.addParameter(ooDocument.getComponent());
-            AddSectionInsideSection.addParameter("root");
-            AddSectionInsideSection.addParameter(theAction.action_naming_convention());
-            AddSectionInsideSection.addParameter(sectionBackColor);
-            AddSectionInsideSection.addParameter(sectionLeftMargin);
-            ooDocument.executeMacro(AddSectionInsideSection.toString(), AddSectionInsideSection.getParams());
-            
-            HashMap<String,String> qaMetadata = new HashMap<String,String>();
-            qaMetadata.put("BungeniSectionType", theAction.action_section_type());
-            ooDocument.setSectionMetadataAttributes(theAction.action_naming_convention(), qaMetadata);
-            
-            ExternalMacro insertDocIntoSection = ExternalMacroFactory.getMacroDefinition("InsertDocumentIntoSection");
-            insertDocIntoSection.addParameter(ooDocument.getComponent());
-            insertDocIntoSection.addParameter(theAction.action_naming_convention())   ;
-            insertDocIntoSection.addParameter(FragmentsFactory.getFragment("hansard_qa"));
-            ooDocument.executeMacro(insertDocIntoSection.toString(), insertDocIntoSection.getParams());
-
-            ExternalMacro searchAndReplace = ExternalMacroFactory.getMacroDefinition("SearchAndReplace");
-            searchAndReplace.addParameter(ooDocument.getComponent());
-            searchAndReplace.addParameter(new String("[[QA_TITLE]]"));
-            searchAndReplace.addParameter(txt_title.getText());
-            ooDocument.executeMacro(searchAndReplace.toString(), searchAndReplace.getParams());
-
-            
-            //MessageBox.OK(parent, "Finished Importing !");
-            
-            returnError(true);
-            parent.dispose();
-        } */
         
     }//GEN-LAST:event_btnApplyActionPerformed
 

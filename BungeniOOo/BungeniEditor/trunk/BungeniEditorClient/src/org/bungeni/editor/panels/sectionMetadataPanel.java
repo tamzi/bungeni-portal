@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.Timer;
 import javax.swing.tree.TreeCellRenderer;
+import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.dialogs.treetable.DocMetadataTreeTableModel;
 import org.bungeni.editor.dialogs.treetable.sectionHive;
 import org.bungeni.editor.metadata.DocumentMetadataTableModel;
@@ -58,17 +59,13 @@ public class sectionMetadataPanel extends javax.swing.JPanel {
 
     private void refreshSectionMetadataTreeTable(){
         //
-        /*
-     sectionHive rootHive = new sectionHive("root");
-        docMetadataTreeTableModel = new DocMetadataTreeTableModel(ooDocument, rootHive);
-        treeTableDocumentMetadata.setTreeTableModel(docMetadataTreeTableModel);
-        */
+   
         docMetadataTreeTableModel.refreshModel();
         this.treeTableDocumentMetadata.expandAll();
     }
     
     private void initTreeTableDocumentMetadata() {
-        sectionHive rootHive = new sectionHive("root");
+        sectionHive rootHive = new sectionHive(BungeniEditorPropertiesHelper.getDocumentRoot());
         docMetadataTreeTableModel = new DocMetadataTreeTableModel(ooDocument, rootHive);
         treeTableDocumentMetadata.setTreeTableModel(docMetadataTreeTableModel);
         treeTableDocumentMetadata.setTreeCellRenderer(new treeTableDocumentMetadataCellRenderer());

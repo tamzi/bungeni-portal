@@ -44,6 +44,7 @@
 
   <!-- Javascript -->
   <include package="ore.yui"/>
+  <include package="ore.yuiwidget"/>
   
   <!-- Application UI -->
   <browser:page

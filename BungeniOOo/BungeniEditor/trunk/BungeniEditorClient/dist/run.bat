@@ -1,1 +1,0 @@
-java -Dlog4j.ignoreTCL -jar BungeniEditorClient.jar

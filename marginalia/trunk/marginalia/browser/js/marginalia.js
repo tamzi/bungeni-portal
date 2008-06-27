@@ -1405,3 +1405,15 @@ function onEnterKey (obj, e) {
 	    }
   return true
   }
+
+function downloadAnnotations(form_field)
+{
+    var toggle_tag = document.getElementById('togglevisibility');
+    var search_button = document.getElementById('search');
+    filterAnnotations(search_button);            
+    toggle_tag.name = 'hide';
+    var entrycontent = document.getElementById('entry-content');
+    var submitcontent = document.getElementById('content');
+    submitcontent.value = entrycontent.innerHTML;
+    return true
+}

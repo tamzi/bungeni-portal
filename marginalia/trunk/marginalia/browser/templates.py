@@ -368,6 +368,15 @@ class AmendmentPage(MarginaliaPage):
             annotations = group_annotations
                 
         return annotations
+
+class DownloadPage(MarginaliaPage):
+    """All the methods required by Marginalia Amendment Tab."""
+    def __call__(self):
+        response = self.request.response        
+        params = {'content':self.request['content']}
+        response.setHeader('Content-Type', 'text/html')
+        response.setHeader('Content-Disposition', 'attachment;filename="document.html"')
+        return str(ViewPageTemplateFile('document.pt')(self))
     
 class MarginaliaAnnotationView(BrowserView):
     """Annotation View Class. """

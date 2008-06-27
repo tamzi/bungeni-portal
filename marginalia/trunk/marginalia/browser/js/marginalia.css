@@ -299,6 +299,9 @@ form {
 	margin-left: 11em;
 }
 
+#filterform {
+	margin-left: 0em;
+}
 /* General layout */
 
 #sidebar {
@@ -647,4 +650,8 @@ ol#articles {
 
 .hentry .entry-content em.editing-note {
 	outline: red 2px solid;
+}
+
+#content {
+    display:none;
 }

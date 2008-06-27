@@ -139,7 +139,7 @@ function bungeniClickCreateAnnotation( event, id ) {
 		       <div id="loader" style="float:right;display:none;">
                  <img title="Loader" alt="" src="loader.jpg" tal:attributes="src context/++resource++imagesmarginalia/loader.gif" />
                </div>
-
+               <form id="filterform" action="download" method="post">
 		       <div id="fields" style="display:block;">
                  <select class="select_field" name="filter_owner" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
                    <option value="" tal:attributes="value authenticateduser" selected>Myself</option>
@@ -168,8 +168,11 @@ function bungeniClickCreateAnnotation( event, id ) {
                    <option value="delete">Delete</option>
                  </select>
                  <input class="input_field" type="text" name="annotation_search" value="" onChange="filterAnnotations(this);" onkeypress="return onEnterKey(this, event);"/>
-                 <input class="input_field" type="button" id="search" type="search" value="Search" onClick="filterAnnotations(this);" />
+                 <input class="input_field" type="button" id="search" type="search" value="Search" onClick="filterAnnotations(this);"/>
+                 <input class="input_field" type="submit" value="Download" onClick="downloadAnnotations(this);" />
                </div>
+               <textarea id="content" name="content"></textarea>
+               </form>
                </div>
 
 <div class="plain" tal:condition="text">
@@ -177,7 +180,7 @@ function bungeniClickCreateAnnotation( event, id ) {
       <table style="width: 100%">
          <tr><td><div class="markers"></div></td>
            <td>
-             <div class="entry-content" tal:content="structure text" />
+             <div id="entry-content" class="entry-content" tal:content="structure text" />
              <a rel="bookmark" tal:attributes="href annotatedUrl"
                 href="http://www.geof.net/code/annotation/demo/#m1">#</a>
            </td>

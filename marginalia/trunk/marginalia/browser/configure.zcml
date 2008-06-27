@@ -121,6 +121,13 @@
       permission="zope.View"
       />
 
+  <browser:page
+      for="marginalia.interfaces.IMarginaliaAnnotatable"
+      name="download"
+      class="marginalia.browser.templates.DownloadPage"
+      permission="zope.View"
+      />
+
   <!-- Style Sheet -->
   <browser:resource name="marginalia.css" file="js/marginalia.css" />
 

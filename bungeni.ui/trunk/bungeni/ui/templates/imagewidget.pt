@@ -5,12 +5,12 @@
   function showUploadInput(id)  
     { 
      var elm = document.getElementById(id) 
-     elm.style.display = ""
+     elm.disabled = false
     }
   function hideUploadInput(id)
    {
      var elm = document.getElementById(id) 
-     elm.style.display = "none"    
+     elm.disabled = true    
    }     
   </script>
   <span tal:condition="not:view/empty_field">
@@ -22,7 +22,7 @@
                 tal:attributes="id string:${view/update_action_name}.keep; 
                                 name view/update_action_name;
                                 onclick string:hideUploadInput('${view/upload_name}')"/>
-        <span i18n:translate="keep-image"> Keep current image</span>
+        <span i18n:translate="keep-image">Keep existing image</span>
       </label>
       <br/>    
       <label for="form.gender.1"
@@ -31,7 +31,7 @@
                 tal:attributes="id string:${view/update_action_name}.delete; 
                                 name view/update_action_name;
                                 onclick string:hideUploadInput('${view/upload_name}')"/>
-        <span i18n:translate="delete-image">  Delete image </span>
+        <span i18n:translate="delete-image">Delete current image</span>
       </label>
       <br/>
       <label for="form.gender.1"
@@ -40,25 +40,24 @@
                 tal:attributes="id string:${view/update_action_name}.update; 
                                 name view/update_action_name;
                                 onclick string:showUploadInput('${view/upload_name}')"/>
-        <span i18n:translate="replace-image">  Replace image </span>
+        <span i18n:translate="replace-image">Replace with new image:</span>
       </label>
   </span>
-  <b tal:condition="view/empty_field" i18n:translate="upload-image" > upload an image </b>
+  <b tal:condition="view/empty_field" i18n:translate="upload-image" >Upload image</b>
   <br/>  
   <input type="hidden" tal:condition="view/empty_field" value="update"
          tal:attributes="id view/update_action_name; name view/update_action_name"/> 
   <input id="form.logo_data" class="fileType" type="file" size="40" name="form.logo_data"
-         style="display:none"
+         disabled='true'
          tal:condition="not:view/empty_field"
          tal:attributes="id view/upload_name; name view/upload_name"/>
   <input id="form.logo_data" class="fileType" type="file" size="40" name="form.logo_data"
          tal:condition="view/empty_field"
          tal:attributes="id view/upload_name; name view/upload_name"/>
          
-  <noscript>
-    <input id="form.logo_data" class="fileType" type="file" size="40" name="form.logo_data"
-         tal:attributes="id view/upload_name; name view/upload_name"/>
-  </noscript>
+<!--script type="text/javascript">
+  document.getElementById('<tal:replace="view/upload_name;" />').disabled=true;
+</script-->
 
 
 </div>

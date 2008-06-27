@@ -52,7 +52,7 @@ public class BungeniTreeRefactorTree {
         log.debug("doMerge : merging children ");
         doMergeChildren(this.getTreeRootNode(), this.getTreeMergeRootNode());
         log.debug("After doMergeChildren : ");
-        viewDmtNodes(getTreeRootNode());
+        //viewDmtNodes(getTreeRootNode());
         //at this point any new children now exist within the rootnode structure as BungeniNodes,
         //we need to create the corresponding UI defaultmutabletreenode structure for the 
         //empty bnode structures.
@@ -70,7 +70,7 @@ public class BungeniTreeRefactorTree {
        for (Integer nKey : getTreeRootNode().getChildrenByOrder().keySet()) {
             seedTreeWithUITreeNodes(getTreeRootNode().getNodeAtIndex(nKey));         
        }
-       
+       /*
         log.debug("After seedTreeWithUITreeNodes : ");
         viewDmtNodes(getTreeRootNode());
        
@@ -81,7 +81,7 @@ public class BungeniTreeRefactorTree {
        BungeniBTree tmpCopyTree = new BungeniBTree();
        tmpCopyTree.addRootNode(this.treeMergeRootNode);
        log.debug("doMerge : merge tree = " + tmpCopyTree.toString());
-       
+       */
       
     }
 

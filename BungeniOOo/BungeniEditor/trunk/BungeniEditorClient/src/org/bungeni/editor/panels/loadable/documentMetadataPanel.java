@@ -37,8 +37,8 @@ public class documentMetadataPanel extends BaseClassForITabbedPanel {
     }
     
    public documentMetadataPanel(OOComponentHelper ooDocument, JFrame parentFrame){
-         parentFrame=parentFrame;
-         ooDocument=ooDocument;
+         this.parentFrame=parentFrame;
+         this.ooDocument=ooDocument;
          init();
      }
     
@@ -58,7 +58,8 @@ public class documentMetadataPanel extends BaseClassForITabbedPanel {
      private synchronized void initTimer(){
           docMetadataTimer = new Timer(4000, new ActionListener() {
               public void actionPerformed(ActionEvent e) {
-                refreshDocMetadataTable();
+                  if (isVisible())
+                    refreshDocMetadataTable();
               }
            });
            docMetadataTimer.start();

@@ -513,7 +513,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         toggleEditSection.setSelected(false);
     }
     
-    public void bringEditorWindowToFront(){
+    public synchronized void bringEditorWindowToFront(){
    	if (ooDocument.isXComponentValid()) {
         XFrame xDocFrame = ooDocument.getDocumentModel().getCurrentController().getFrame();
         Object docFrameWindow = xDocFrame.getContainerWindow();

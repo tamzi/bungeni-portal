@@ -99,6 +99,7 @@ import org.bungeni.editor.providers.DocumentSectionFriendlyAdapterDefaultTreeMod
 import org.bungeni.editor.providers.DocumentSectionFriendlyTreeModelProvider;
 import org.bungeni.editor.providers.DocumentSectionProvider;
 import org.bungeni.utils.compare.BungeniTreeRefactorTree;
+import org.bungeni.utils.compare.NodeDisplayTextSetter;
 /**
  *
  * @author  Administrator
@@ -749,12 +750,22 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                       //  }
             //commented for section refresh changes / june 2007 / initSectionStructureTreeModel();
             //initSectionList();
-            BungeniBNode newRootNode = DocumentSectionProvider.getNewTree().getFirstRoot();
-            DocumentSectionFriendlyAdapterDefaultTreeModel model = (DocumentSectionFriendlyAdapterDefaultTreeModel) treeSectionStructure.getModel();
-            DefaultMutableTreeNode mnode = (DefaultMutableTreeNode) model.getRoot();
-            BungeniBNode origNode = (BungeniBNode) mnode.getUserObject();
-            BungeniTreeRefactorTree refTree = new BungeniTreeRefactorTree (model, origNode, newRootNode);
-            refTree.doMerge();
+             synchronized (ooDocument) {
+                 //update the named callback - must be same as seter callback in original node
+                NodeDisplayTextSetter nsetter = new NodeDisplayTextSetter(ooDocument);
+                BungeniBNode.setINodeSetterCallback(nsetter);
+                
+                BungeniBTree newTree = DocumentSectionProvider.getNewTree();
+                log.debug("initList: refreshing tree : " + newTree.toString());
+                BungeniBNode newRootNode = newTree.getFirstRoot();
+                
+                DocumentSectionFriendlyAdapterDefaultTreeModel model = (DocumentSectionFriendlyAdapterDefaultTreeModel) treeSectionStructure.getModel();
+                DefaultMutableTreeNode mnode = (DefaultMutableTreeNode) model.getRoot();
+                BungeniBNode origNode = (BungeniBNode) mnode.getUserObject();
+                BungeniTreeRefactorTree refTree = new BungeniTreeRefactorTree (model, origNode, newRootNode);
+                refTree.doMerge();
+             }
+             //this.initSectionStructureTreeModel();
         }   
    }
         
@@ -1051,9 +1062,12 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     }
     private void initSectionStructureTreeModel(){
         DocumentSectionFriendlyAdapterDefaultTreeModel model = DocumentSectionFriendlyTreeModelProvider.create() ;//_without_subscription();
+        //DefaultTreeModel model = new DefaultTreeModel(buildTreeModel());
         this.treeSectionStructure.setModel(model);
         CommonTreeFunctions.expandAll(treeSectionStructure);
     }
+    
+        
     
     private void initParagraphList(){
        

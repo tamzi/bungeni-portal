@@ -12,6 +12,7 @@ package org.bungeni.utils;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
+import org.bungeni.utils.INodeSetterCallback;
 
 /**
  *
@@ -28,21 +29,70 @@ import java.util.TreeMap;
             /*Stores child nodes by name*/
             private HashMap<String, BungeniBNode> childNodeNames = new HashMap<String,BungeniBNode>();
             private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniBNode.class.getName());
-                
+            private static HashMap<String,INodeSetterCallback> nodeSetterCallbackList = new HashMap<String,INodeSetterCallback>(0);
+            private String runThisCallback;
+            
+            /**
+             * Creates a BungeniBNode object with a name
+             * @param n - name of the new BungeniBNode object
+             */
             public BungeniBNode(String n) {
                Name = n;
             }
             
+            /**
+             * Creates a BungeniBNode object with name, and a parent assignment
+             * @param n - name of the new node
+             * @param parent - parent BungeniBNode object
+             */
             public BungeniBNode (String n, BungeniBNode parent) {
                 Name = n;
                 nodeParent = parent;
             }
             
+            /**
+             * Creates a BungeniBNode object with name, and a node object
+             * @param n - name of the node
+             * @param obj - node object
+             */
             public BungeniBNode(String n, Object obj) {
                 Name = n;
                 nodeObject = obj;
             }
             
+            public void setCallbackName(String name) {
+                this.runThisCallback = name;
+            }
+            
+            public String getCallbackName(){
+                return runThisCallback;
+            }
+            
+            public void setAndRunNamedCallback(String name) {
+                if (name != null ) {
+                    this.runThisCallback = name;
+                    invokeCallback();
+                }
+            }
+            
+            public static synchronized void setINodeSetterCallback(INodeSetterCallback icallBack) {
+                nodeSetterCallbackList.put(icallBack.getName(), icallBack);
+            }
+
+            public static synchronized void removeAllCallbacks(){
+                nodeSetterCallbackList.clear();
+            }
+            
+            public static synchronized void removeCallback(String name) {
+                if (nodeSetterCallbackList.containsKey(name))
+                    nodeSetterCallbackList.remove(name);
+            }
+            
+            private void invokeCallback(){
+                INodeSetterCallback icall = nodeSetterCallbackList.get(runThisCallback);
+                if (icall != null)
+                    icall.nodeSetter(this);
+            }
             
             public String nodeSignature(){
                 //unique signature to idenfiy if node has changed.

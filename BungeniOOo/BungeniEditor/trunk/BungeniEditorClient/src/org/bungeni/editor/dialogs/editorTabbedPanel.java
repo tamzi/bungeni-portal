@@ -755,7 +755,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                 NodeDisplayTextSetter nsetter = new NodeDisplayTextSetter(ooDocument);
                 BungeniBNode.setINodeSetterCallback(nsetter);
                 
-                BungeniBTree newTree = DocumentSectionProvider.getNewTree();
+                BungeniBTree newTree = DocumentSectionProvider.getNewFriendlyTree();
                 log.debug("initList: refreshing tree : " + newTree.toString());
                 BungeniBNode newRootNode = newTree.getFirstRoot();
                 

@@ -472,6 +472,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         }
   */      
     private void updateNumbersByType(String sectionType){
+        try {
         ArrayList<String> sectionsMatchingType = getSectionsMatchingType(sectionType);
         String numberingSchemeForType = this.sectionTypesForDocumentType.get(sectionType).getNumberingScheme();
         String numberDecoratorForType = this.sectionTypesForDocumentType.get(sectionType).getNumberDecorator();
@@ -505,6 +506,10 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
             }   
            prevParentSectionName = parentSectionName;
         }  
+        } catch (Exception ex) {
+            log.error("updateNumbersByType : " + ex.getMessage());
+            log.error("updateNumbersByType : " + CommonExceptionUtils.getStackTrace(ex));
+        }
         
     }
     
@@ -531,6 +536,9 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
             log.error(ex.getClass().getName() + " - " + ex.getMessage());
         } catch (PropertyVetoException ex) {
             log.error(ex.getClass().getName() + " - " + ex.getMessage());
+        } catch (NullPointerException ex ){
+            log.error("updateNumberInSection - " + ex.getMessage());
+            log.error("updateNumberInSection - " + CommonExceptionUtils.getStackTrace(ex));
         }
 
     }

@@ -5,6 +5,15 @@
            i18n_domain="bungeni">
 
   <!-- Bind Application Model to Database -->
+  <include package="zope.app.zcmlfiles" />
+
+  <include package="ore.alchemist" file="meta.zcml" />
+  <include package="ore.alchemist" />  
+  <include package="alchemist.catalyst" file="meta.zcml" />
+  <include package="alchemist.ui" />
+
+  <include package="bungeni.core" />
+
   <db:bind
      engine="bungeni-db"
      metadata=".schema.metadata" />

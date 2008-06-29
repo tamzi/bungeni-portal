@@ -118,9 +118,10 @@ PostMicro.prototype.showHighlight = function( marginalia, annotation )
 				node.parentNode.insertBefore( newNode, node );
 			}
 			// replace node content with annotation
-			newNode = document.createElement( 'em' );
-			
+			newNode = document.createElement( 'em' );			
 			newNode.className = AN_HIGHLIGHT_CLASS + ' ' + AN_ID_PREFIX + annotation.getId();
+            newNode.setAttribute('author', annotation.quoteAuthor);
+            newNode.setAttribute('date', annotation.updated);
 			if ( marginalia.showActions && annotation.getAction() )
 				newNode.className += ' ' + AN_ACTIONPREFIX_CLASS + annotation.getAction();
 			newNode.onmouseover = _hoverAnnotation;
@@ -131,6 +132,9 @@ PostMicro.prototype.showHighlight = function( marginalia, annotation )
 			if ( marginalia.showActions && 'edit' == annotation.getAction() && annotation.getQuote() )
 			{
 				var delNode = document.createElement( 'del' );
+                delNode.setAttribute('author', annotation.quoteAuthor);
+                delNode.setAttribute('date', annotation.updated);
+                domutil.addClass( delNode, AN_ID_PREFIX + annotation.getId() );
 				delNode.appendChild( node );
 				newNode.appendChild( delNode );
 			}
@@ -182,6 +186,8 @@ PostMicro.prototype.showActionInsert = function( marginalia, annotation )
 			// TODO: should check whether <ins> is valid in this position
 			var lastHighlight = highlights[ i ];
 			var insNode = document.createElement( 'ins' );
+            insNode.setAttribute('author', annotation.quoteAuthor);
+            insNode.setAttribute('date', annotation.updated);
 			insNode.appendChild( document.createTextNode( annotation.getNote() ) );
 			lastHighlight.appendChild( insNode );
 			trace( 'actions', 'Insert text is ' + annotation.getNote() );

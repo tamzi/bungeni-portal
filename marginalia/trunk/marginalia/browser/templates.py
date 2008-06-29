@@ -11,6 +11,7 @@ from marginalia.tools.XPathRange import XPathRange
 from marginalia.tools.RangeInfo import RangeInfo, mergeRangeInfos
 from marginalia.schema import annotations_table, AnnotationMaster
 from marginalia.interfaces import IMarginaliaAnnotatableAdaptor
+from datetime import datetime
 
 class MarginaliaPage(BrowserPage):
     """All the methods required by Marginalia Annotation Tab."""
@@ -83,7 +84,7 @@ class MarginaliaPage(BrowserPage):
             'quote': '',
             'quote_title': '',
             'quote_author': '',
-            'link': '',
+            'link': '',            
             }
         # TODO: Don't treat query string and body parameters as equivalent.
         # Query string parameters should identify the resources, while
@@ -104,7 +105,7 @@ class MarginaliaPage(BrowserPage):
         params['end_char'] = xpathRange.end.chars
         del params['sequence-range']
         del params['xpath-range']
-
+        params['modified'] = datetime.now()
         params['quote_author'] = self.getAuthenticatedUser()
 
         annotation = AnnotationMaster()
@@ -129,6 +130,7 @@ class MarginaliaPage(BrowserPage):
         params.update(parse_qsl(self.request['QUERY_STRING']))
         if self.request.environment.has_key('wsgi.input'):
             params.update(parse_qsl(self.request.environment['wsgi.input'].read()))
+        params['modified'] = datetime.now()
         
         annotation = self.getAnnotation(params['id'])
         if not annotation or annotation.quote_author != \

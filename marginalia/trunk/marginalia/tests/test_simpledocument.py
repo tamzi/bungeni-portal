@@ -88,7 +88,7 @@ class SimpleDocumentAnnotationTestCase(FunctionalTestCase):
         view = getMultiAdapter((self.document, request), name=u'annotate.html')
         self.assertEquals(view.getBodyText(), u"body text",
                           "IAnnotatable views unable to access the description attribute.")
-        
+
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(SimpleDocumentTestCase))

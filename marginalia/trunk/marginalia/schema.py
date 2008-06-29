@@ -27,6 +27,7 @@ annotations_table = rdb.Table(
     rdb.Column("quote_author", rdb.Unicode(80), nullable=False),
     rdb.Column("link_title", rdb.Unicode(80)),
     rdb.Column("link", rdb.Unicode(240)),
+    rdb.Column("modified", rdb.DateTime(), nullable=False),
    )
    
 class AnnotationMaster(object):
@@ -36,17 +37,7 @@ class AnnotationMaster(object):
         return '<Annotation %s>'%(self.id)
 
     def modification_date(self):
-        return '2008/12/12 12:12:12'
-    #def getUserName(self):
-    #    # XXX haaaack replace with a view class ..
-    #    return self.getOwner().getUserName()
-
-    #def Title(self):
-    #    return self.getNote()
-
-    #def Description(self):
-    #    return '"%s" annotated this text:\n\n"%s"\n\nas follows:\n\n"%s"' % ( self.getUserName(), self.getQuote(), self.getNote() )
-
+        return self.modified.strftime("%Y/%m/%d %H:%M:%S")
 
     def indexed_url(self):
         """ There may be more than one annotatable area on a page,

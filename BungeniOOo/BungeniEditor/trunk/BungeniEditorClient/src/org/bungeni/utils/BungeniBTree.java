@@ -84,6 +84,25 @@ public final class BungeniBTree {
               
         }
         
+    /**
+     * <B>Adds a child node, to an existing node identified by name</B>
+     * @param parent Name of Node to which the node is to be added
+     * @param child BungeniBNode object to be added to parent.
+     */
+        public void addNodeToNamedNode(String parent, BungeniBNode child) {
+            BungeniBNode node = getNodeByName(parent);
+            if (node == null ) {
+                log.debug("unable to add node because parent:" + parent + " was null");
+                return;
+            }
+           if (node.containsNodeByName(child.getName()))
+                log.debug("Already contains child named "+ child);
+            else  {
+                //check if child exists in tree... if so then add 
+                node.addChild(child);
+            }
+        }
+                
         
     /**
      * Retrieves a node from the tree by name
@@ -179,6 +198,9 @@ public final class BungeniBTree {
             return this.roots;
         }
         
+        public int getRootCount(){
+            return roots.size();
+        }
         public BungeniBNode getFirstRoot(){
             /*Iterator<Integer> itr = roots.keySet().iterator();
             Integer intKey = itr.next();

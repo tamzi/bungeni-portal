@@ -10,6 +10,7 @@
 package org.bungeni.editor.providers;
 
 import com.sun.star.text.XTextSection;
+import java.util.HashMap;
 import javax.swing.tree.DefaultMutableTreeNode;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.BungeniBNode;
@@ -35,7 +36,7 @@ public class DocumentSectionFriendlyTreeModelProvider {
     }
     
     public static DocumentSectionFriendlyAdapterDefaultTreeModel create(){
-        BungeniBNode bRootNode = DocumentSectionProvider.getNewTree().getFirstRoot();
+        BungeniBNode bRootNode = DocumentSectionProvider.getNewFriendlyTree().getFirstRoot();
         DefaultMutableTreeNode dmtRootNode = provideRootNode(bRootNode);
         DocumentSectionFriendlyAdapterDefaultTreeModel model = new DocumentSectionFriendlyAdapterDefaultTreeModel(dmtRootNode, false);
         DocumentSectionProvider.subscribeModel(model);
@@ -92,62 +93,11 @@ public class DocumentSectionFriendlyTreeModelProvider {
         //walk nodes and build tree
         DefaultMutableTreeNode theRootNode = new DefaultMutableTreeNode(rootNode);
         rootNode.setNodeObject(theRootNode);
-        OOComponentHelper ooDoc = DocumentSectionProvider.getOOoDocument();
+       // OOComponentHelper ooDoc = DocumentSectionProvider.getOOoDocument();
        // recurseNodes(theRootNode, ooDoc);
-        FriendlyNodeIterator nodeIter = new FriendlyNodeIterator(ooDoc);
-        DocumentSectionIterator docIterate = new DocumentSectionIterator(rootNode, nodeIter);
+        DocumentSectionIterator docIterate = new DocumentSectionIterator(rootNode, new DefaultSectionIteratorListener());
         docIterate.startIterator();
         return theRootNode;
-    }
-    
-    private static class FriendlyNodeIterator implements  IBungeniSectionIteratorListener {
-        private OOComponentHelper ooDoc;
-        FriendlyNodeIterator(OOComponentHelper ooDocument) {
-            this.ooDoc = ooDocument;
-        }
-
-        public boolean iteratorCallback(BungeniBNode bNode) {
-           boolean bState = true;
-           try {
-           String dispText = getSectionDisplayText(bNode.getName());
-           bNode.setDisplayText(dispText);
-           bState = true;
-           } catch (Exception ex) {
-               log.error ("IteratorCallBack = " + ex.getMessage());
-           }
-           return bState;
-        }
-        
-        private  String getSectionDisplayText(String sectionName){
-                    String retDisplayText = "";
-                    boolean bDispTextFound = false;
-                    log.debug("getSectionDisplayText : for "+ sectionName);
-                    try {
-                    XTextSection aSect = ooDoc.getSection(sectionName);
-                    String sectionText = aSect.getAnchor().getString();
-                    sectionText = sectionText.trim();
-                    String sectionType = ooDoc.getSectionType(aSect);
-                    if (sectionType != null ) {
-                        bDispTextFound = true;
-                        retDisplayText = sectionType + "-";
-                    }
-                    if (sectionText.length() > 0 ) {
-                        bDispTextFound = true;
-                        if (sectionText.length() > 15 ) 
-                            retDisplayText = retDisplayText + sectionText.substring(0, 14)+ "..";
-                        else
-                            retDisplayText = retDisplayText + sectionText+ "..";
-                    }
-                    if (!bDispTextFound ) {
-                        retDisplayText = sectionName;
-                    }
-                    } catch (Exception ex) {
-                        log.error("getSectionDisplayText" + ex.getMessage());
-                    } finally {
-                    return retDisplayText;
-                    }
-            }
-    
     }
     
     /*

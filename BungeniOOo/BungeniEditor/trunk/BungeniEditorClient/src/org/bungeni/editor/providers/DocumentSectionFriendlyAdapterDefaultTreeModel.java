@@ -48,15 +48,14 @@ public class DocumentSectionFriendlyAdapterDefaultTreeModel extends DefaultTreeM
         }
     }
 
-    public void newRootNode() {
-       // setRoot(DocumentSectionFriendlyTreeModelProvider.newRootNode());
-    }
 
+/*
     private void viewDmtNodes(BungeniBNode nodeRoot, DefaultMutableTreeNode dmtRoot ) {
         DefaultMutableTreeNode anode = (DefaultMutableTreeNode) nodeRoot.getNodeObject();
         log.debug("dmt = " + anode.toString() + ", bbnode = " + nodeRoot.toString());
         log.debug("dmt count = " + dmtRoot.getChildCount() + " , anode dmt count = " + anode.getChildCount() + " bnode count = " + nodeRoot.getChildCount());
     } 
+ */ 
     public void updateTreeModel(BungeniBNode refreshNode) {
       //  throw new UnsupportedOperationException("Not supported yet.");
        log.debug("updateTreeModel for : " + refreshNode);
@@ -69,7 +68,7 @@ public class DocumentSectionFriendlyAdapterDefaultTreeModel extends DefaultTreeM
                log.debug("updateTreeModel refactoring tree");
                BungeniBNode nodeRoot = (BungeniBNode) dmtObj;
                log.debug("updateTreeModel : before state");
-               viewDmtNodes(nodeRoot, dmtRoot);
+               //viewDmtNodes(nodeRoot, dmtRoot);
                DefaultMutableTreeNode newdmt = (DefaultMutableTreeNode) nodeRoot.getNodeObject();
             //   if (newdmt.getChildCount() != dmtRoot.getChildCount()) {
             //       this.setRoot(newdmt);
@@ -77,7 +76,7 @@ public class DocumentSectionFriendlyAdapterDefaultTreeModel extends DefaultTreeM
                BungeniTreeRefactorTree refactorTree = new BungeniTreeRefactorTree (this, nodeRoot, refreshNode);
                refactorTree.doMerge();
                log.debug("updateTreeModel : after state");
-               viewDmtNodes(nodeRoot, dmtRoot);
+               //viewDmtNodes(nodeRoot, dmtRoot);
                
            } else {
                log.debug("updateTreeModel userObject of dmt node was null");
@@ -85,5 +84,9 @@ public class DocumentSectionFriendlyAdapterDefaultTreeModel extends DefaultTreeM
        } else {
            log.debug("updateTreeModel, dmtRoot was null");
        }
+    }
+
+    public void newRootNode() {
+       // throw new UnsupportedOperationException("Not supported yet.");
     }
 }

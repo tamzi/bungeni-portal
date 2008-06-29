@@ -132,6 +132,9 @@ public class editorApplicationController extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         lblCurrentActiveMode = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        lblCreateNewDoc = new javax.swing.JLabel();
+        lblOpenCurrentDoc = new javax.swing.JLabel();
+        lblLaunchAndAccquire = new javax.swing.JLabel();
         tabTemplates = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTemplatesList = new javax.swing.JTable();
@@ -177,17 +180,23 @@ public class editorApplicationController extends javax.swing.JPanel {
 
         cboDocumentTypes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        lblDocumentTypes.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        lblDocumentTypes.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblDocumentTypes.setText("Change Active Document mode for editor");
 
         jButton1.setText("Open Existing Document...");
 
         lblCurrentActiveMode.setBackground(java.awt.Color.green);
         lblCurrentActiveMode.setFont(lblCurrentActiveMode.getFont().deriveFont(lblCurrentActiveMode.getFont().getStyle() | java.awt.Font.BOLD, lblCurrentActiveMode.getFont().getSize()+4));
-        lblCurrentActiveMode.setText("jLabel3");
+        lblCurrentActiveMode.setText("CURRENT : %s");
         lblCurrentActiveMode.setOpaque(true);
 
         jButton2.setText("Start and Accquire");
+
+        lblCreateNewDoc.setText("Composes a blank document of type : %s");
+
+        lblOpenCurrentDoc.setText("Launches a file selector dialog to open an existing %s document");
+
+        lblLaunchAndAccquire.setText("Launches the Editor and accquires open %s documents");
 
         org.jdesktop.layout.GroupLayout tabCurrentFileLayout = new org.jdesktop.layout.GroupLayout(tabCurrentFile);
         tabCurrentFile.setLayout(tabCurrentFileLayout);
@@ -198,25 +207,29 @@ public class editorApplicationController extends javax.swing.JPanel {
                 .add(tabCurrentFileLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(tabCurrentFileLayout.createSequentialGroup()
                         .add(tabCurrentFileLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(tabCurrentFileLayout.createSequentialGroup()
-                                .add(tabCurrentFileLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(lblCurrentTemplate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 455, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .add(tabCurrentFileLayout.createSequentialGroup()
-                                        .add(cboDocumentTypes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 210, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                        .add(48, 48, 48)
-                                        .add(lblCurrentActiveMode, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
-                                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                        .add(lblCurrentTemplateText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 405, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .add(tabCurrentFileLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                .add(lblCurrentTemplate, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 455, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(tabCurrentFileLayout.createSequentialGroup()
+                                    .add(cboDocumentTypes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 210, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                    .add(48, 48, 48)
+                                    .add(lblCurrentActiveMode, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                                    .add(lblCurrentTemplateText, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 405, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .add(tabCurrentFileLayout.createSequentialGroup()
                                     .add(createNewDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 210, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                    .add(lblDocumentTypes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 245, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED))
+                                    .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                    .add(lblCreateNewDoc, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 311, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                                .add(lblDocumentTypes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 245, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                             .add(tabCurrentFileLayout.createSequentialGroup()
                                 .add(jButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 210, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 707, Short.MAX_VALUE)))
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(lblOpenCurrentDoc, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 418, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                         .add(250, 250, 250))
                     .add(tabCurrentFileLayout.createSequentialGroup()
                         .add(jButton2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 210, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(443, Short.MAX_VALUE))))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(lblLaunchAndAccquire, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 311, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(120, Short.MAX_VALUE))))
         );
         tabCurrentFileLayout.setVerticalGroup(
             tabCurrentFileLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -237,11 +250,17 @@ public class editorApplicationController extends javax.swing.JPanel {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lblCurrentTemplate)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(createNewDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 33, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(tabCurrentFileLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(lblCreateNewDoc, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(createNewDocument, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 31, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(tabCurrentFileLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 31, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(lblOpenCurrentDoc, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(jButton2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 33, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(tabCurrentFileLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jButton2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 33, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(lblLaunchAndAccquire, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
                 .add(95, 95, 95))
         );
 
@@ -681,7 +700,8 @@ private void initPanels(File currentDir){
     for (documentType dt : m_documentTypes) {
         if (dt.docType.equals(m_currentMode)){
                 this.cboDocumentTypes.getModel().setSelectedItem(dt);
-                this.lblCurrentActiveMode.setText("CURRENT : " + dt.typeDesc);
+                //this.lblCurrentActiveMode.setText("CURRENT : " + dt.typeDesc);
+                setLabelTexts(dt.typeDesc);
                 break;
         }
     }
@@ -841,6 +861,13 @@ public void initDataReader(){
  */
 }
 
+private void setLabelTexts (String desc) {
+   this.lblCurrentActiveMode.setText(lblCurrentActiveMode.getText().replaceAll("%s", desc));
+   this.lblOpenCurrentDoc.setText(lblOpenCurrentDoc.getText().replaceAll("%s", desc));
+   this.lblCreateNewDoc.setText(lblCreateNewDoc.getText().replaceAll("%s", desc));
+   this.lblLaunchAndAccquire.setText(lblLaunchAndAccquire.getText().replaceAll("%s", desc));
+}
+
 private void launchFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_launchFrameActionPerformed
             //use template defined in m_settings_CurrentTemplate
             //m_FullTemplatesPath
@@ -851,7 +878,13 @@ private void launchFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             BungeniEditorProperties.setEditorProperty("activeDocumentMode", selectedDocType.docType);
             for (documentType dt : m_documentTypes) {
                 if (dt.docType.equals(selectedDocType.docType)){
-                    this.lblCurrentActiveMode.setText(dt.typeDesc);
+                    setLabelTexts(dt.typeDesc);
+                    /*
+                    this.lblCurrentActiveMode.setText(lblCurrentActiveMode.getText().replaceAll("%s", dt.typeDesc));
+                    this.lblOpenCurrentDoc.setText(lblOpenCurrentDoc.getText().replaceAll("%s", dt.typeDesc));
+                    this.lblCreateNewDoc.setText(lblCreateNewDoc.getText().replaceAll("%s", dt.typeDesc));
+                    this.lblLaunchAndAccquire.setText(lblLaunchAndAccquire.getText().replaceAll("%s", dt.typeDesc));
+                     */
                 }
             }
             initoOoAndLaunchFrame(selectedDocType.templatePathNormalized(), true); 
@@ -999,11 +1032,14 @@ private class tblServerFilesMouseAdapter implements MouseListener {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblCreateNewDoc;
     private javax.swing.JLabel lblCurrentActiveMode;
     private javax.swing.JLabel lblCurrentDirectory;
     private javax.swing.JLabel lblCurrentTemplate;
     private javax.swing.JLabel lblCurrentTemplateText;
     private javax.swing.JLabel lblDocumentTypes;
+    private javax.swing.JLabel lblLaunchAndAccquire;
+    private javax.swing.JLabel lblOpenCurrentDoc;
     private javax.swing.JLabel lblSelectedFile;
     private javax.swing.JLabel lblSelectedTemplate;
     private javax.swing.JLabel lblServerHomeDir;

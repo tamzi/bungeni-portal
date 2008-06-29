@@ -108,10 +108,11 @@ public class DocumentSectionProvider {
         return bnewTree;
     }
     private static void buildSectionTree() {
-        initTimer();
+        //disable the global timer.s
+       //s initTimer();
     }
     
-    
+    /*
    
     private static void initTimer(){
           sectionRefreshTimer = new Timer(TIMER_DELAY, new ActionListener() {
@@ -135,9 +136,9 @@ public class DocumentSectionProvider {
                     theSectionTree = tmpTreeRoot;
                   }
                   //refresh subscribed tree models
-                  /*for( DocumentSectionAdapterDefaultTreeModel model: treeModelList) {
-                      model.setRoot(DocumentSectionTreeModelProvider.newRootNode());
-                  }*/
+                  //for( DocumentSectionAdapterDefaultTreeModel model: treeModelList) {
+                 //     model.setRoot(DocumentSectionTreeModelProvider.newRootNode());
+                 // }
                   synchronized (theSectionTree) {
                   for (IRefreshableSectionTreeModel model: treeModelList) {
                       log.debug("DocumentSectionProvider: in timer: updating Model " );
@@ -148,7 +149,7 @@ public class DocumentSectionProvider {
            });
            sectionRefreshTimer.start();
     }
-     
+     */
       private static BungeniBTree generateSectionsTree(String objCallback){
         BungeniBTree treeRoot = new BungeniBTree();
         final OOComponentHelper localOoDoc;
@@ -157,8 +158,9 @@ public class DocumentSectionProvider {
         }
         TreeMap<Integer,String> namesMap = new TreeMap<Integer,String>();
         try {
+                   if (!localOoDoc.isXComponentValid()) return treeRoot;
                     String documentRoot = BungeniEditorPropertiesHelper.getDocumentRoot();
-                    if (!localOoDoc.isXComponentValid()) return treeRoot;
+                 
                     /*
                     do a basic check to see if the root section exists
                     */

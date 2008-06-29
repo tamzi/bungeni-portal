@@ -25,7 +25,7 @@ public  class DocumentSectionIterator {
          
     /** Creates a new instance of DocumentSectionIterator */
     public DocumentSectionIterator(IBungeniSectionIteratorListener callback) {
-        this.rootNode = DocumentSectionProvider.getTreeRoot();
+        this.rootNode = DocumentSectionProvider.getNewTree().getFirstRoot();
         this.callback = callback;
     }
 

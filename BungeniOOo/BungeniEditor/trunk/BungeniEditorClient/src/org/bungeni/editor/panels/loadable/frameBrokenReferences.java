@@ -638,7 +638,8 @@ public class frameBrokenReferences extends javax.swing.JFrame {
                     
                     nodeName = dispText + "..";
             }
-        @Override
+
+            @Override
             public String toString(){
                 return nodeName;
             }

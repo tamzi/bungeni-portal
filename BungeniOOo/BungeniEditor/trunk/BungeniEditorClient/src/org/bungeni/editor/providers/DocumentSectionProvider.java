@@ -34,6 +34,7 @@ import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.utils.BungeniBNode;
 import org.bungeni.utils.BungeniBTree;
+import org.bungeni.utils.NodeDisplayTextSetter;
 
 /**
  *
@@ -47,7 +48,8 @@ public class DocumentSectionProvider {
     static Timer sectionRefreshTimer;
     //private static ArrayList<DocumentSectionAdapterDefaultTreeModel> treeModelList = new ArrayList<DocumentSectionAdapterDefaultTreeModel>();
     private static ArrayList<IRefreshableSectionTreeModel> treeModelList = new ArrayList<IRefreshableSectionTreeModel>();
-    
+
+ 
     /** Creates a new instance of DocumentSectionIterator */
     public DocumentSectionProvider() {
     }
@@ -90,17 +92,21 @@ public class DocumentSectionProvider {
     public static BungeniBNode getTreeRoot(){
        
         if (theSectionTree.getTree().size() == 0 ) {
-            theSectionTree = generateSectionsTree();
+            theSectionTree = generateSectionsTree(null);
         } 
         
         return theSectionTree.getTree().get(theSectionTree.getTree().firstKey());
             
     }
     public static BungeniBTree getNewTree(){
-        BungeniBTree bnewTree = generateSectionsTree();
+        BungeniBTree bnewTree = generateSectionsTree(null);
         return bnewTree;
     }
     
+    public static BungeniBTree getNewFriendlyTree(){
+        BungeniBTree bnewTree = generateFriendlySectionsTree();
+        return bnewTree;
+    }
     private static void buildSectionTree() {
         initTimer();
     }
@@ -111,7 +117,16 @@ public class DocumentSectionProvider {
           sectionRefreshTimer = new Timer(TIMER_DELAY, new ActionListener() {
               public void actionPerformed(ActionEvent e) {
                   log.debug("DocumentSectionProvider: in timer");
-                  final BungeniBTree tmpTreeRoot = generateSectionsTree();
+                  BungeniBTree tmpTreeRoot = generateSectionsTree(null);
+                  if (tmpTreeRoot == null) {
+                      log.debug("timer actionPerformed tree was null");
+                      return;
+                  }
+                  if (tmpTreeRoot.getRootCount() == 0 ) {
+                      log.debug("timer actionPerformed tree was empty");
+                      return;
+                  }
+                  
                   log.debug("DocumentSectionProvider: in timer : generated size = " + tmpTreeRoot.getTree().size());
                   log.debug("DocumentSectionProvider: in timer : tree brains = " + tmpTreeRoot.toString());
                   BungeniBNode mergeNode = tmpTreeRoot.getTree().get(tmpTreeRoot.getTree().firstKey());
@@ -134,7 +149,7 @@ public class DocumentSectionProvider {
            sectionRefreshTimer.start();
     }
      
-      private static BungeniBTree generateSectionsTree(){
+      private static BungeniBTree generateSectionsTree(String objCallback){
         BungeniBTree treeRoot = new BungeniBTree();
         final OOComponentHelper localOoDoc;
         synchronized(ooDocument) {
@@ -156,7 +171,10 @@ public class DocumentSectionProvider {
                     */
                     Object root = localOoDoc.getTextSections().getByName(documentRoot);
                     log.debug("generateSectionsTree: Adding root node");
-                    treeRoot.addRootNode(new String(documentRoot));
+                    BungeniBNode bnewRootnode = new BungeniBNode(documentRoot);
+                    bnewRootnode.setAndRunNamedCallback(objCallback);
+                    treeRoot.addRootNode(bnewRootnode);
+                    //treeRoot.addRootNode(new String(documentRoot));
                     /*
                     now get the enumeration of the TextSection
                     */
@@ -231,7 +249,11 @@ public class DocumentSectionProvider {
                                    if (currentNode == null ) {
                                        /* the node doesnt exist in the tree */
                                        if (previousNode != null ) {
-                                            treeRoot.addNodeToNamedNode(previousNode.getName(), hierSection);
+                                           BungeniBNode bhierNode = new BungeniBNode(hierSection);
+                                           bhierNode.setAndRunNamedCallback(objCallback);
+                                           treeRoot.addNodeToNamedNode(previousNode.getName(), bhierNode);
+                                           //changed for callback
+                                           // treeRoot.addNodeToNamedNode(previousNode.getName(), hierSection);
                                             previousNode = treeRoot.getNodeByName(hierSection);
                                             if (previousNode == null ) 
                                                 log.debug("previousNode was null");
@@ -290,4 +312,18 @@ public class DocumentSectionProvider {
     }
  
 
+    public static BungeniBTree generateFriendlySectionsTree() {
+        final OOComponentHelper localOoDoc;
+        synchronized(ooDocument) {
+            localOoDoc = ooDocument;
+        }
+        NodeDisplayTextSetter txtSetter = new NodeDisplayTextSetter(localOoDoc);
+        BungeniBNode.setINodeSetterCallback(txtSetter);
+        
+        BungeniBTree newTree = generateSectionsTree(txtSetter.getName());
+        return newTree;
+    }
+    
+ 
+ 
 }

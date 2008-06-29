@@ -12,7 +12,6 @@ package org.bungeni.utils;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
-import org.bungeni.utils.INodeSetterCallback;
 
 /**
  *
@@ -71,7 +70,11 @@ import org.bungeni.utils.INodeSetterCallback;
             public void setAndRunNamedCallback(String name) {
                 if (name != null ) {
                     this.runThisCallback = name;
+                    log.debug("setAndRunNamedCallback running for :" + this.Name);
                     invokeCallback();
+                    
+                } else {
+                    log.debug("setAndRunNamedCallback not running for :" + this.Name);
                 }
             }
             

@@ -99,7 +99,7 @@ import org.bungeni.editor.providers.DocumentSectionFriendlyAdapterDefaultTreeMod
 import org.bungeni.editor.providers.DocumentSectionFriendlyTreeModelProvider;
 import org.bungeni.editor.providers.DocumentSectionProvider;
 import org.bungeni.utils.compare.BungeniTreeRefactorTree;
-import org.bungeni.utils.compare.NodeDisplayTextSetter;
+import org.bungeni.utils.NodeDisplayTextSetter;
 /**
  *
  * @author  Administrator

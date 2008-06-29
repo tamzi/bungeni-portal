@@ -3,7 +3,6 @@ package org.bungeni.utils.compare;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import org.bungeni.utils.BungeniBNode;
-import org.bungeni.utils.BungeniBTree;
 
 public class BungeniTreeRefactorTree {
     private DefaultTreeModel treeModel;
@@ -120,7 +119,7 @@ public class BungeniTreeRefactorTree {
  
  private void doMergeChildren(BungeniBNode origNode, BungeniBNode mergeNode) {
       try {
-       for (String nodeName : origNode.getChildrenByName().keySet()) {
+        for (String nodeName : origNode.getChildrenByName().keySet()) {
            //this root node has an updated UI, but its children dont
            BungeniBNode childOfOriginal = origNode.getChildNodeByName(nodeName);
            BungeniBNode childOfMergeNode = mergeNode.getChildNodeByName(nodeName);

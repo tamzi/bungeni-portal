@@ -207,6 +207,9 @@ public class BungeniTreeRefactorNode {
                   Integer newindex = n.getUpdateFromIndex();
                   BungeniBNode newnode = this.getMergeRootNode().getChildrenByOrder().get(newindex);
                   newnode.setParent(this.getOriginalRootNode());
+                  //
+                  newnode.setAndRunNamedCallback(getOriginalRootNode().getCallbackName());
+                  //
                   getOriginalRootNode().setNodeAtIndex(newnode, newindex);
                   //create a dmt node for the newly added node
                   DefaultMutableTreeNode newDmt = new DefaultMutableTreeNode(newnode);

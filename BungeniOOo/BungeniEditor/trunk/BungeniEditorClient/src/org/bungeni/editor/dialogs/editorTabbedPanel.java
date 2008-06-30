@@ -1053,10 +1053,10 @@ public class editorTabbedPanel extends javax.swing.JPanel {
       //   treeSectionStructure.setCellRenderer(sectionTreeRender);
          treeSectionStructure.setCellRenderer(new treeViewPrettySectionsTreeCellRenderer());
          treeSectionStructure.setShowsRootHandles(true);
-         ComponentUI ui = treeSectionStructure.getUI();
-         if (ui instanceof BasicTreeUI){
-             ((BasicTreeUI)ui).setExpandedIcon(minusIcon);
-             ((BasicTreeUI)ui).setCollapsedIcon(plusIcon);
+         ComponentUI treeui = treeSectionStructure.getUI();
+         if (treeui instanceof BasicTreeUI){
+             ((BasicTreeUI)treeui).setExpandedIcon(minusIcon);
+             ((BasicTreeUI)treeui).setCollapsedIcon(plusIcon);
          }
        initSectionStructureTreeModel();  
     }

@@ -113,7 +113,7 @@
 				'<img style="width:28px;height:28px;" src="'.$mvgScriptPath . '/skins/images/Feed-icon_cmml_28x28.png">',
 				'feed_format=roe&stream_name='.$this->article->mvTitle->getStreamName().'&t='.$this->article->mvTitle->getTimeRequest(),
 				'','','title="'.wfMsg('mv_export_cmml').'"');
-		$this->page_header.='</span>';		
+		$this->page_header.='</span><div id="sitting_id" style="display:none;">'.$id.'</div>';		
 		$this->page_title = $this->article->mvTitle->getStreamNameText().' '.$this->article->mvTitle->getTimeDesc();
  	}
  	//grab semantic properties if availiable:  	

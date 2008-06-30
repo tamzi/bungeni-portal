@@ -60,6 +60,7 @@ $wgAutoloadClasses['MV_AjaxResponse'] =  dirname(__FILE__)  .'/MV_AjaxResponse.p
 $wgAutoloadClasses['MV_Reporters'] =  dirname(__FILE__)  .'/MV_Reporters.php';
 $wgAutoloadClasses['MV_Readers'] =  dirname(__FILE__)  .'/MV_Readers.php';	
 $wgAutoloadClasses['MV_ManageStaff'] =  dirname(__FILE__)  .'/MV_ManageStaff.php';	
+$wgAutoloadClasses['MV_Status'] =  dirname(__FILE__)  .'/MV_Status.php';
 $markerList = array(); 
 
 //override special search page: (requires ExtensionFunctions.php)
@@ -124,6 +125,8 @@ function mvSetupExtension(){
 	$wgHooks['ParserAfterTidy'][]='mvParserAfterTidy';	
 	
 	$wgHooks['CustomEditor'][] = 'mvCustomEditor';
+	//$wgHooks['AddNewAccount'][] = 'mv_add_user';
+	
 	$wgParser->setHook( 'sequence', 'mvSeqTag' );
 
 	//$wgHooks['BeforePageDisplay'][] = 'mvDoSpecialPage';
@@ -671,7 +674,7 @@ function mvGetMVStream($stream_init){
 function mvDoMetavidSittingpage($title, $article)
 {
 	global $wgRequest;
-	$name = $title->getPartialURL();
+	$name = $title->getDBKey();
 	$sit = new MV_Sitting(array('name'=>$name));
 	$sit->db_load_sitting();
 	if ($wgRequest->getVal('action') != 'edit')

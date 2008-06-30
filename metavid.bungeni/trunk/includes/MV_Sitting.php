@@ -81,37 +81,35 @@ class MV_Sitting
 		$xmlsd = "".html_entity_decode($xmldata);
 		$dbr =& wfGetDB(DB_WRITE);
 		$xml = new SimpleXMLElement($xmlsd);
-		
+		$result = $dbr->delete($dbr->tableName(sitting_assignment), array('sitting_id'=>$sitting_id));
 		foreach($xml->children() as $child)
 		{
 			$name = $child->getName();
 			if ($name=='AssignedEditors')
 			{	
-				$result = $dbr->delete($sitting_editor, array('sitting_id'=>$sitting_id));
+				
 				foreach($child->children() as $editor)
 				{
 				 	$editor_id = $editor['id'];
-				 	$sql2 = 'INSERT INTO '.$sitting_editor.' (editor_id, sitting_id) VALUES ('.$editor_id.','.$sitting_id.')';
+				 	$sql2 = 'INSERT INTO sitting_assignment (user_id, sitting_id) VALUES ('.$editor_id.','.$sitting_id.')';
 				 	$result = $dbr->query($sql2);
 				}
 			}
 			else if ($name=='AssignedReaders')
 			{
-				$result = $dbr->delete($sitting_reader, array('sitting_id'=>$sitting_id));
 				foreach($child->children() as $reader)
 				{
 				 	$reader_id = $reader['id'];
-				 	$sql2 = 'INSERT INTO '.$sitting_reader.' (reader_id, sitting_id) VALUES ('.$reader_id.','.$sitting_id.')';
+				 	$sql2 = 'INSERT INTO sitting_assignment (user_id, sitting_id) VALUES ('.$reader_id.','.$sitting_id.')';
 				 	$result = $dbr->query($sql2);
 				}
 			}
 			else if ($name=='AssignedReporters')
 			{
-				$result = $dbr->delete($sitting_reporter, array('sitting_id'=>$sitting_id));
 				foreach($child->children() as $reporter)
 				{
 				 	$reporter_id = $reporter['id'];
-				 	$sql2 = 'INSERT INTO '.$sitting_reporter.' (reporter_id, sitting_id) VALUES ('.$reporter_id.','.$sitting_id.')';
+				 	$sql2 = 'INSERT INTO sitting_assignment (user_id, sitting_id) VALUES ('.$reporter_id.','.$sitting_id.')';
 				 	$result = $dbr->query($sql2);
 				}
 			}

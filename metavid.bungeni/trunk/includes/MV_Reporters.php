@@ -2,6 +2,7 @@
 
 class MV_Reporters
 {
+	/*
 	function save($str)
 	{
 		global $reportersTable;
@@ -29,12 +30,12 @@ class MV_Reporters
 			return 'An error occured. REPORT THIS TO THE ADMINISTRATOR IMMEDIATELY';
 		}
 	}
-	
+	*/
 	function get_workload($id)
 	{
 		global $sitting_reporter, $mvSittingsTable;
 		$dbr =& wfGetDB(DB_SLAVE);
-		$sittings = $dbr->select($sitting_reporter, '*', array('reporter_id'=>$id));
+		$sittings = $dbr->select($dbr->tableName(sitting_assignment), '*', array('user_id'=>$id));
 		$xml = new AjaxResponse();
 		$xml->setContentType('text/xml');
 		$xml->addtext('<'.'?xml version="1.0" encoding="utf-8" ?'.">"); 
@@ -54,7 +55,8 @@ class MV_Reporters
 	{
 		global $reportersTable, $sitting_reporter;
 		$dbr =& wfGetDB(DB_SLAVE);
-		$sql = 'SELECT * FROM '.$reportersTable.' WHERE id NOT IN ( SELECT reporter_id FROM '.$sitting_reporter.' WHERE sitting_id='.$sitting_id.')';
+		//$sql = 'SELECT * FROM '.$reportersTable.' WHERE id NOT IN ( SELECT reporter_id FROM '.$sitting_reporter.' WHERE sitting_id='.$sitting_id.')';
+		$sql = 'SELECT ug_user FROM user_groups WHERE ug_user NOT IN (SELECT user_id FROM sitting_assignment WHERE sitting_id='.$sitting_id.') and ug_group="reporter"';
 		$reporters  = $dbr->query($sql);
 		$xml = new AjaxResponse();
 		$xml->setContentType('text/xml');
@@ -62,7 +64,9 @@ class MV_Reporters
 		$xml->addtext('<Response>'."");
 		while ($rowReporters = $dbr->fetchobject($reporters))
 		{
-			$xml->addtext('<Reporter id="'.$rowReporters->id.'" name="'.$rowReporters->name.'">');
+			$user = User::newFromId($rowReporters->ug_user);
+			$name = $user->getRealName();
+			$xml->addtext('<Reporter id="'.$rowReporters->ug_user.'" name="'.$name.'">');
 			$xml->addtext('</Reporter>');
 		} 
 		$xml->addtext('</Response>');
@@ -73,7 +77,8 @@ class MV_Reporters
 	{
 		global $reportersTable, $sitting_reporter;
 		$dbr =& wfGetDB(DB_SLAVE);
-		$sql = 'SELECT * FROM '.$reportersTable.' WHERE id IN ( SELECT reporter_id FROM '.$sitting_reporter.' WHERE sitting_id='.$sitting_id.')';
+		//$sql = 'SELECT * FROM '.$reportersTable.' WHERE id IN ( SELECT reporter_id FROM '.$sitting_reporter.' WHERE sitting_id='.$sitting_id.')';
+		$sql = 'SELECT ug_user FROM user_groups WHERE ug_user IN (SELECT user_id FROM sitting_assignment WHERE sitting_id='.$sitting_id.') and ug_group="reporter"';
 		$reporters  = $dbr->query($sql);
 		$xml = new AjaxResponse();
 		$xml->setContentType('text/xml');
@@ -81,7 +86,9 @@ class MV_Reporters
 		$xml->addtext('<Response>'."");
 		while ($rowReporters = $dbr->fetchobject($reporters))
 		{
-			$xml->addtext('<Reporter id="'.$rowReporters->id.'" name="'.$rowReporters->name.'">');
+			$user = User::newFromId($rowReporters->ug_user);
+			$name = $user->getRealName();
+			$xml->addtext('<Reporter id="'.$rowReporters->ug_user.'" name="'.$name.'">');
 			$xml->addtext('</Reporter>');
 		} 
 		$xml->addtext('</Response>');

@@ -310,10 +310,16 @@
 	}
 	//undesa
 	
+	//users
+	//function mv_add_user( $u, $byEmail)
+	//{
+		
+	//}
 	
-	function mv_add_disp($baseTitle, $mvdType, $time_range){
+	
+	function mv_add_disp($baseTitle, $mvdType, $time_range, $sitting_id){
 		$MV_Overlay = new MV_Overlay();
-		return $MV_Overlay->get_add_disp(strtolower($baseTitle), $mvdType, $time_range);
+		return $MV_Overlay->get_add_disp(strtolower($baseTitle), $mvdType, $time_range, $sitting_id);
 	}
 	function mv_disp_mvd($titleKey, $mvd_id){		
 		$MV_Overlay = new MV_Overlay();
@@ -456,13 +462,91 @@
  */
  	
  
-	$wgHooks['SkinTemplateTabs'][] = 'mvAddStaffTab';
+	$wgHooks['SkinTemplateTabs'][] = 'mvAddTab';
  
-	function mvAddStaffTab(&$skin,&$actions) {
+	function mvAddTab(&$skin,&$actions) {
 		global $wgTitle,$wgRequest;
 		if ($wgTitle->getNameSpace() == MV_NS_SITTING)
 		{
 			$wgStaffAction = 'staff';
+			$selected = $wgRequest->getText('action') == $wgStaffAction ? 'selected' : false;
+			$url      = $wgTitle->getLocalURL("action=$wgStaffAction");
+			if (is_object($wgTitle)) {
+				$actions[$wgStaffAction] = array(
+					'text'  => $wgStaffAction, # should use wfMsg($wgExampleAction)
+					'class' => $selected,
+					'href'  => $url
+				);
+			}
+		}
+		if ($wgTitle->getNameSpace() == 2)
+		{
+			$wgStaffAction = 'incomplete';
+			$selected = $wgRequest->getText('action') == $wgStaffAction ? 'selected' : false;
+			$url      = $wgTitle->getLocalURL("action=$wgStaffAction");
+			if (is_object($wgTitle)) {
+				$actions[$wgStaffAction] = array(
+					'text'  => $wgStaffAction, # should use wfMsg($wgExampleAction)
+					'class' => $selected,
+					'href'  => $url
+				);
+			}
+		}
+		if ($wgTitle->getNameSpace() == 2)
+		{
+			$wgStaffAction = 'complete';
+			$selected = $wgRequest->getText('action') == $wgStaffAction ? 'selected' : false;
+			$url      = $wgTitle->getLocalURL("action=$wgStaffAction");
+			if (is_object($wgTitle)) {
+				$actions[$wgStaffAction] = array(
+					'text'  => $wgStaffAction, # should use wfMsg($wgExampleAction)
+					'class' => $selected,
+					'href'  => $url
+				);
+			}
+		}
+		if ($wgTitle->getNameSpace() == 2)
+		{
+			$wgStaffAction = 'approved';
+			$selected = $wgRequest->getText('action') == $wgStaffAction ? 'selected' : false;
+			$url      = $wgTitle->getLocalURL("action=$wgStaffAction");
+			if (is_object($wgTitle)) {
+				$actions[$wgStaffAction] = array(
+					'text'  => $wgStaffAction, # should use wfMsg($wgExampleAction)
+					'class' => $selected,
+					'href'  => $url
+				);
+			}
+		}
+		if ($wgTitle->getNameSpace() == 2)
+		{
+			$wgStaffAction = 'verified';
+			$selected = $wgRequest->getText('action') == $wgStaffAction ? 'selected' : false;
+			$url      = $wgTitle->getLocalURL("action=$wgStaffAction");
+			if (is_object($wgTitle)) {
+				$actions[$wgStaffAction] = array(
+					'text'  => $wgStaffAction, # should use wfMsg($wgExampleAction)
+					'class' => $selected,
+					'href'  => $url
+				);
+			}
+		}
+		if ($wgTitle->getNameSpace() == 2)
+		{
+			$wgStaffAction = 'disputed';
+			$selected = $wgRequest->getText('action') == $wgStaffAction ? 'selected' : false;
+			$url      = $wgTitle->getLocalURL("action=$wgStaffAction");
+			if (is_object($wgTitle)) {
+				$actions[$wgStaffAction] = array(
+					'text'  => $wgStaffAction, # should use wfMsg($wgExampleAction)
+					'class' => $selected,
+					'href'  => $url
+				);
+			}
+		}
+		if ($wgTitle->getNameSpace() == 2)
+		{
+			$wgStaffAction = 'final';
 			$selected = $wgRequest->getText('action') == $wgStaffAction ? 'selected' : false;
 			$url      = $wgTitle->getLocalURL("action=$wgStaffAction");
 			if (is_object($wgTitle)) {
@@ -483,6 +567,42 @@
 		{
 			$manage_staff = new MV_ManageStaff($article);
 			$manage_staff->edit();
+			return false;
+		}
+		else if ($action == 'complete')
+		{
+			$status_page = new MV_Status($action, $article);
+			$status_page->display();
+			return false;
+		}
+		else if ($action == 'incomplete')
+		{
+			$status_page = new MV_Status($action, $article);
+			$status_page->display();
+			return false;
+		}
+		else if ($action == 'approved')
+		{
+			$status_page = new MV_Status($action, $article);
+			$status_page->display();
+			return false;
+		}
+		else if ($action == 'verified')
+		{
+			$status_page = new MV_Status($action, $article);
+			$status_page->display();
+			return false;
+		}
+		else if ($action == 'final')
+		{
+			$status_page = new MV_Status($action, $article);
+			$status_page->display();
+			return false;
+		}
+		else if ($action == 'disputed')
+		{
+			$status_page = new MV_Status($action, $article);
+			$status_page->display();
 			return false;
 		}
 		else

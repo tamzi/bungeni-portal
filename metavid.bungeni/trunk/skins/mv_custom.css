@@ -16,10 +16,18 @@
 }
 .mv_fd_mvd{
 	float:left;
+	margin:25px;
+	width:93%;
+	min-width: 350px;
+}
+
+.Anno_en{
+	float:left;
 	margin:4px;
 	width:95%;
 	min-width: 350px;
 }
+
 .mv_video_time_hr{
  	position:absolute;
  	top:10px;

@@ -159,7 +159,7 @@ function onReadyAssignedReporters( req ){
   			document.staff.assigned_reporters.options[i] = new Option(reportername,  reporterid, false, false);
 		}
 	}
-	document.staff.assigned_reporters.options[0].selected = true;
+	
 }
 
 function onReadyAssignedReaders( req ){
@@ -178,7 +178,6 @@ function onReadyAssignedReaders( req ){
   			document.staff.assigned_readers.options[i] = new Option(readername,  readerid, false, false);
 		}
 	}
-	document.staff.assigned_readers.options[0].selected = true;
 }
 
 function onReadyReporters( req ){
@@ -197,7 +196,7 @@ function onReadyReporters( req ){
   			document.staff.available_reporters.options[i] = new Option(reportername,  reporterid, false, false);
 		}
 	}
-	document.staff.available_reporters.options[0].selected = true;
+	
 }
 
 function add_editor()

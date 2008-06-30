@@ -48,7 +48,7 @@ class MV_SpecialListStreams extends QueryPage {
 	function isSyndicated() { return true; }
 
 	function getPageHeader() {		
-		return '<div name="user-tab">Users</div><p>' . wfMsg('mv_list_streams_docu') . "</p><br />\n";
+		return '<div name="user-tab"></div><p>' . wfMsg('mv_list_streams_docu') . "</p><br />\n";
 	}
 	function getSQL() {
 		global $mvStreamTable;

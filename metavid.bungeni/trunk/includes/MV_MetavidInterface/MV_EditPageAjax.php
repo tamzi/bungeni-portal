@@ -20,7 +20,7 @@
  
  class MV_EditPageAjax extends EditPage{	
 	 var $adj_html='';
- 	 
+ 	 var $sitting_id = '';
  	 function __construct( $article ) {
 		$this->mArticle =& $article;		
 		$this->mTitle =& $article->mTitle;		
@@ -260,7 +260,7 @@
 			if( !$this->mTitle->getArticleId() ) 
 				wfRunHooks( 'EditFormPreloadText', array( &$this->textbox1, &$this->mTitle ) );
 		}
-
+		
 		$this->showEditForm();
 		wfProfileOut( "$fname-business-end" );
 		wfProfileOut( $fname );
@@ -377,7 +377,7 @@
 //>>>>>>> .r31965
 		parent::internalAttemptSave( &$result, $bot = false );
 	}	
-	function showEditForm( $formCallback=null ) {
+	function showEditForm( $formCallback=null) {
 		global $wgOut, $wgUser, $wgLang, $wgContLang, $wgMaxArticleSize;
 		
 		//print "call SHOW EDIT FORM";
@@ -569,7 +569,7 @@
 		//$rows = $wgUser->getIntOption( 'rows' );
 		//$cols = $wgUser->getIntOption( 'cols' );
 		//for ajax short edit area:
-		$rows = 3;
+		$rows = 10;
 		$cols= 30;
 
 		$ew = $wgUser->getOption( 'editwidth' );
@@ -663,34 +663,62 @@
 			$subjectpreview = '';
 		}
 		//if(!isset($semantic_data['Question_No']))$semantic_data['Question No']='';
-		
-		if ($editFormType !='anno_en')
+		$MV_Title = new MV_Title($this->mTitle);
+		$this->sitting_id = $MV_Title->getSittingId();
+		if (($editFormType !='anno_en') && ($wgUser->isAllowed('managestaff')))
         {
-        global $sitting_editor, $sitting_reporter, $sitting_reader, $semantic_data;
+        global $sitting_editor, $sitting_reporter, $sitting_reader, $semantic_data, $editorsTable, $readersTable, $reportersTable;
+       
         $dbr =& wfGetDB(DB_SLAVE);
-        $result = $dbr->select($dbr->tableName($sitting_editor),array());
-        $wgOut->addHTML('<table><tr><td>Editor</td><td>Reporter</td><td>Reader</td><td>Status</td></tr>');
+        //$result = $dbr->select(array($dbr->tableName($sitting_assignments), $dbr->tableName($user_group)),'*',array('sitting_id'=>$this->sitting_id));
+        $sql = 'SELECT ug_user FROM user_groups WHERE ug_user IN (SELECT user_id FROM sitting_assignment WHERE sitting_id='.$this->sitting_id.') and ug_group="editor"';
+        $result = $dbr->query($sql);
+        $wgOut->addHTML('<table><tr><td>Editor</td><td>Reader</td><td>Reporter</td><td>Status</td></tr>');
         //get editor names and id
         $wgOut->addHTML('<tr><td><select name="smw_Edited_By">');
+        
         while($row = $dbr->fetchObject($result))
         {
-        	$wgOut->addHTML('<option value="'.$row->name.'">'.$row->name.'</option>');
+        	//$result2 = $dbr->select($dbr->tableName($editorsTable),'*',array('id'=>$row->editor_id));
+        	//$row2 = $dbr->fetchObject($result2);
+        	$user = User::newFromId($row->ug_user);
+        	$name = $user->getRealName();
+        	$wgOut->addHTML('<option value="'.$row->ug_user.'">'.$name.'</option>');
         }
+        
         $wgOut->addHTMl('</select></td>');
        
         $wgOut->addHTML('<td><select name="smw_Read_By">');
-        $result = $dbr->select($dbr->tableName($readersTable),'*');
+        //$result = $dbr->select($dbr->tableName($sitting_reader),'*', array('sitting_id'=>$this->sitting_id));
         //get readers names and id
+         $sql = 'SELECT ug_user FROM user_groups WHERE ug_user IN (SELECT user_id FROM sitting_assignment WHERE sitting_id='.$this->sitting_id.') and ug_group="reader"';
+        $result = $dbr->query($sql);
         while($row = $dbr->fetchObject($result))
         {
-        	$wgOut->addHTML('<option value="'.$row->name.'">'.$row->name.'</option>');
+        	//$result2 = $dbr->select($dbr->tableName($readersTable),'*',array('id'=>$row->reader_id));
+        	//$row2 = $dbr->fetchObject($result2);
+        	$user = User::newFromId($row->ug_user);
+        	$name = $user->getRealName();
+        	$wgOut->addHTML('<option value="'.$row->ug_user.'">'.$name.'</option>');
         }
         $wgOut->addHTMl('</select></td>');
   		
   		$wgOut->addHTML('<td><select name="smw_Reported_By">');
-        $result = $dbr->select($dbr->tableName($reportersTable),'*');
-        //get reporters names and id
+        //$result = $dbr->select($dbr->tableName($sitting_reporter),'*', array('sitting_id'=>$this->sitting_id));
+        $sql = 'SELECT ug_user FROM user_groups WHERE ug_user IN (SELECT user_id FROM sitting_assignment WHERE sitting_id='.$this->sitting_id.') and ug_group="reporter"';
+        $result = $dbr->query($sql);
+        while($row = $dbr->fetchObject($result))
+        {
+        	//$result2 = $dbr->select($dbr->tableName($reportersTable),'*',array('id'=>$row->reporter_id));
+        	//$row2 = $dbr->fetchObject($result2);
+        	$user = User::newFromId($row->ug_user);
+        	$name = $user->getRealName();
+        	$wgOut->addHTML('<option value="'.$row->ug_user.'">'.$name.'</option>');
+        }
+        $wgOut->addHTMl('</select></td>');
         
+        //get reporters names and id
+        /*
         if(!(isset($semantic_data['Reported By'])))
         {
         	while($row = $dbr->fetchObject($result))
@@ -702,7 +730,7 @@
         		}
         		$wgOut->addHTMl('value="'.$row->name.'">'.$row->name.'</option>');
         	}
-        	$wgOut->addHTMl('</select></td></tr></table>');
+        	$wgOut->addHTMl('</select>');
         }
         else
         {
@@ -711,13 +739,13 @@
         		$wgOut->addHTML('<option ');
         		if ( $semantic_data['Reported By'] == $row->name )
         		{
-        			$wgOut->addHTML(' selected 3');		
+        			$wgOut->addHTML(' selected ');		
         		}
         		$wgOut->addHTMl('value="'.$row->name.'">'.$row->name.'</option>');
         	}
         	$wgOut->addHTMl('</select></td>');
         }	
-        
+        */
         $wgOut->addHTML('<td><select name="smw_Status">');
         $wgOut->addHTML('<option>Incomplete</option>');
         $wgOut->addHTML('<option>Complete</option>');
@@ -726,10 +754,16 @@
         $wgOut->addHTML('<option>Disputed</option>');
         $wgOut->addHTML('<option>Final</option>');
         $wgOut->addHTML('</select></td>');
-        $wgOut->addHTML('</tr></table>');
+        
         }
-        
-        
+        else
+        {
+        	$wgOut->addHTML('<td>Status <select name="smw_Status">');
+        	$wgOut->addHTML('<option>Incomplete</option>');
+       	 	$wgOut->addHTML('<option>Complete</option>');
+        	$wgOut->addHTML('</select></td>');
+        	$wgOut->addHTML('</tr></table>');
+        }
         if ($editFormType=='question_en')
         {
             $wgOut->addHTML('<p>Question Number<select name="smw_Question_No" id="smw_Question_No"></select>');
@@ -743,6 +777,7 @@
             $options = '<option selected></option><option>Opening Prayer</option><option>Schedule</option>';
             $wgOut->addHTML('<p>Category<select name="smw_Category" id="smw_Category">'.$options.'</select>');
         }
+        $wgOut->addHTML('</td><tr><td colspan="2">');
 		# Set focus to the edit box on load, except on preview or diff, where it would interfere with the display
 		/*if( !$this->preview && !$this->diff ) {
 			$wgOut->setOnloadHandler( 'document.editform.wpTextbox1.focus()' );

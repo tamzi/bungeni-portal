@@ -17,6 +17,7 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
  	var $req = 'stream_transcripts'; 
  	var $tl_width = '16';
  	var $parserOutput = null;
+ 	var $sitting_id = '';
  	/*structures the component output and call html code generation */
  	function getHTML(){ 	 		
  		switch($this->req){
@@ -51,18 +52,26 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 	}
 
 	function render_menu(){
+		global $wgUser;
 		$base_title='';
 		//set the base title to the stream name: 
 		if(isset($this->mv_interface->article->mvTitle)){
 			$base_title = $this->mv_interface->article->mvTitle->getStreamName();
 		}
 		//'<a title="'.wfMsg('mv_search_stream_title').'" href="javascript:mv_tool_disp(\'search\')">'.wfMsg('mv_search_stream').'</a>'
+		if ($wgUser->isAllowed('newtranscript'))
+		{
 		return '<a title="'.wfMsg('mv_mang_layers_title').'" href="javascript:mv_tool_disp(\'mang_layers\')">'.wfMsg('mv_mang_layers').'</a>' .
 			' | ' .	'<a title="'.wfMsg('mv_new_ht_en').'" href="javascript:mv_disp_add_mvd(\'ht_en\')">'.wfMsg('mv_new_ht_en').'</a>' . 
 			' | ' . '<a href="javascript:mv_disp_add_mvd(\'anno_en\')">'.wfMsg('mv_new_anno_en').'</a>'. 
 			' | ' . '<a href="javascript:mv_disp_add_mvd(\'question_en\')">'.wfMsg('mv_new_question_en').'</a>'.
 			' | ' . '<a href="javascript:mv_disp_add_mvd(\'answer_en\')">'.wfMsg('mv_new_answer_en').'</a>'
 			;
+		}
+		else
+		{
+			return '<a title="'.wfMsg('mv_mang_layers_title').'" href="javascript:mv_tool_disp(\'mang_layers\')">'.wfMsg('mv_mang_layers').'</a>' ;
+		}
 	}
 	/* output caption div links */ 
 	function get_video_timeline(){
@@ -131,11 +140,10 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		}else{
 			$img_url = MV_StreamImage::getStreamImageURL($mvd_page->stream_id, $mvd_page->start_time, 'medium', true); 
 		}
-		
-		$wgOut->addHTML("<fieldset class=\"mv_fd_mvd\" style=\"background:#".$this->getMvdBgColor($mvd_page)."\" " .
+		$type = substr($mvd_page->wiki_title,0,strpos($mvd_page->wiki_title,':'));
+		$wgOut->addHTML("<fieldset class=\"mv_fd_mvd $type\" style=\"background:#".$this->getMvdBgColor($mvd_page)."\" " .
 					"id=\"mv_fd_mvd_{$mvd_page->id}\" name=\"{$mvd_page->wiki_title}\" " .
 					"image_url=\"{$img_url}\" >" );
-
 		$wgOut->addHTML("<legend id=\"mv_ld_{$mvd_page->id}\">" .  
 				$this->get_mvd_menu($mvd_page) . 
 				"</legend>");			
@@ -372,7 +380,7 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		$parserOutput->mCategories=null;
 		return $parserOutput;
 	}
-	function get_add_disp($baseTitle, $mvdType, $time_range){
+	function get_add_disp($baseTitle, $mvdType, $time_range, $sitting_id){
 		global $wgUser, $wgOut, $mvDefaultClipLength,$mvMVDTypeAllAvailable, $wgRequest;					
 		
 		list( $this->start_context, $this->end_context) = split('/', $time_range);
@@ -383,7 +391,7 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		
 		$mvd_page = new MV_MVD();
 		$mvd_page->id = 'new';
-		
+		$this->sitting_id = $sitting_id;
 		//print 'st ' . $this->start_context . "<br />" ;		
 		//$mvd_page->start_time = $start_context; //seconds2ntp(0);		
  		//$mvd_page->end_time  = seconds2ntp( ntp2seconds($start_context) +  $mvDefaultClipLength);
@@ -599,6 +607,7 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 	function do_edit_submit($titleKey, $mvd_id, $returnEncapsulated=false){
 		global $wgOut, $wgScriptPath, $wgUser, $wgTitle, $wgRequest;			
 		
+		
 		if($mvd_id=='new'){
 			$titleKey =substr($_REQUEST['title'],0,strpos($_REQUEST['title'],'/')).
 				'/'.$_REQUEST['mv_start_hr_new'].'/'.$_REQUEST['mv_end_hr_new'];
@@ -612,7 +621,48 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		$nameKey = 'mp_names:'.$_REQUEST['wgTitle'].'/'.$_REQUEST['mv_start_hr_'.$mvd_id].'/'.$_REQUEST['mv_end_hr_'.$mvd_id];
 		}
 		$type = substr($_REQUEST['title'],0,strpos($_REQUEST['title'],':'));
-			
+		//undesa
+		global $mvgIP;
+		$pages_start = array();
+		$pages_end = array();
+		$overlap = false;
+		
+		$streamTitle = new MV_Title($_REQUEST['title']);
+		$transcript_title = new MV_Title($titleKey);
+		$start = $transcript_title->getStartTimeSeconds();
+		$end = $transcript_title->getEndTimeSeconds();
+		require_once($mvgIP . '/includes/MV_Index.php');
+		$dbr =& wfGetDB(DB_SLAVE);	
+		
+		$result = & MV_Index::getMVDInRange($streamTitle->getStreamId(), 
+							$streamTitle->getStartTimeSeconds(), 
+							$streamTitle->getEndTimeSeconds(), 
+							'Ht_en');													
+
+		if($dbr->numRows($result) == 0){
+			$pages_start=array();
+			$pages_end=array();	
+		}else{
+			while(($row = $dbr->fetchObject($result)) && ($overlap==false)){
+				$pages_start[$row->id]=$row->start_time;
+				$pages_end[$row->id]=$row->end_time;
+				if ((($row->start_time < $start) && ($start <$row->end_time)) || (($row->start_time < $end) && ($end < $row->end_time)))
+				{
+					$overlap = true;
+				}
+			}
+		}
+		$overlap = true;
+		if($overlap)
+		{
+			//$mvTitle = new MV_Title($_REQUEST['title']);
+			//$parserOutput = $this->parse_format_text("hello world", $mvTitle);	
+			//$wgOut->addParserOutput($parserOutput);	
+			//$wgOut->addHTML("Hello World");
+			//. '<div style="clear:both;"><hr></div>'
+			//return $wgOut->getHTML();
+		}
+		//undesa	
 		//set up the title /article
 		$wgTitle = Title::newFromText($titleKey, MV_NS_MVD);
 		$Article = new Article($wgTitle);
@@ -642,13 +692,27 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 					//make sure the person is not empty: 
 					if(trim($val)!=''){
 						//@@todo update for other smw types: 
+						//$wgRequest->data['wpTextbox1'] = trim($_REQUEST['wpTextbox1']);
 						if($key=='smw_Spoken_By') {
 							//update the request wpTextBox:
-							$wgRequest->data['wpTextbox1']="[[".$swmTitle->getText().':='.$val.']]'.
-								trim($_REQUEST['wpTextbox1']);
+							$wgRequest->data['wpTextbox1'] .= "[[".$swmTitle->getText().':='.$val.']]';
 						}
-						else
-						{
+						else if($key=='smw_Edited_By') {
+							$user = User::newFromId($val);
+							$user->addWatch($wgTitle);
+							$wgRequest->data['wpTextbox1'] .= " [[".$swmTitle->getText().':='.$user->getRealName().']] ';
+						}
+						else if($key=='smw_Read_By') {
+							$user = User::newFromId($val);
+							$user->addWatch($wgTitle);
+						    $wgRequest->data['wpTextbox1'] .= " [[".$swmTitle->getText().':='.$user->getRealName().']] ';
+						}
+						else if($key=='smw_Reported_By') {
+							$user = User::newFromId($val);
+							$user->addWatch($wgTitle);
+						    $wgRequest->data['wpTextbox1'] .= " [[".$swmTitle->getText().':='.$user->getRealName().']] ';
+						}
+						else if($key=='smw_Status') {
 						    $wgRequest->data['wpTextbox1'] .= " [[".$swmTitle->getText().':='.$val.']] ';
 						}
 					}				
@@ -929,6 +993,7 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		//set ts id: 
 		$editPageAjax->mvd_id = $mvd_id;		
 		//fill wgOUt with edit form: 
+		$editPageAjax->sitting_id = $this->sitting_id;
 		$editPageAjax->edit();
 		return $wgOut->getHTML();
 		//@@todo base edit display off of template (some how?)

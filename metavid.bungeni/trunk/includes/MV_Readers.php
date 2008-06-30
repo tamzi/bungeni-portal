@@ -85,7 +85,8 @@ class MV_Readers
 	{
 		global $readersTable, $sitting_reader;
 		$dbr =& wfGetDB(DB_SLAVE);
-		$sql = 'SELECT * FROM '.$readersTable.' WHERE id NOT IN ( SELECT reader_id FROM '.$sitting_reader.' WHERE sitting_id='.$sitting_id.')';
+		//$sql = 'SELECT * FROM '.$readersTable.' WHERE id NOT IN ( SELECT reader_id FROM '.$sitting_reader.' WHERE sitting_id='.$sitting_id.')';
+		$sql = 'SELECT ug_user FROM user_groups WHERE ug_user NOT IN (SELECT user_id FROM sitting_assignment WHERE sitting_id='.$sitting_id.') and ug_group="reader"';
 		$readers  = $dbr->query($sql);
 		$xml = new AjaxResponse();
 		$xml->setContentType('text/xml');
@@ -93,8 +94,10 @@ class MV_Readers
 		$xml->addtext('<Response>'."");
 		while ($rowReaders = $dbr->fetchobject($readers))
 		{
-			$xml->addtext('<Editor id="'.$rowReaders->id.'" name="'.$rowReaders->name.'">');
-			$xml->addtext('</Editor>');
+			$user = User::newFromId($rowReaders->ug_user);
+			$name = $user->getRealName();
+			$xml->addtext('<Reader id="'.$rowReaders->ug_user.'" name="'.$name.'">');
+			$xml->addtext('</Reader>');
 		} 
 		$xml->addtext('</Response>');
 		return $xml;
@@ -104,7 +107,8 @@ class MV_Readers
 	{
 		global $readersTable, $sitting_reader;
 		$dbr =& wfGetDB(DB_SLAVE);
-		$sql = 'SELECT * FROM '.$readersTable.' WHERE id IN ( SELECT reader_id FROM '.$sitting_reader.' WHERE sitting_id='.$sitting_id.')';
+		//$sql = 'SELECT * FROM '.$readersTable.' WHERE id IN ( SELECT reader_id FROM '.$sitting_reader.' WHERE sitting_id='.$sitting_id.')';
+		$sql = 'SELECT ug_user FROM user_groups WHERE ug_user IN (SELECT user_id FROM sitting_assignment WHERE sitting_id='.$sitting_id.') and ug_group="reader"';
 		$readers  = $dbr->query($sql);
 		$xml = new AjaxResponse();
 		$xml->setContentType('text/xml');
@@ -112,8 +116,10 @@ class MV_Readers
 		$xml->addtext('<Response>'."");
 		while ($rowReaders = $dbr->fetchobject($readers))
 		{
-			$xml->addtext('<Editor id="'.$rowReaders->id.'" name="'.$rowReaders->name.'">');
-			$xml->addtext('</Editor>');
+			$user = User::newFromId($rowReaders->ug_user);
+			$name = $user->getRealName();
+			$xml->addtext('<Reader id="'.$rowReaders->ug_user.'" name="'.$name.'">');
+			$xml->addtext('</Reader>');
 		} 
 		$xml->addtext('</Response>');
 		return $xml;
@@ -122,7 +128,7 @@ class MV_Readers
 	{
 		global $sitting_reader, $mvSittingsTable;
 		$dbr =& wfGetDB(DB_SLAVE);
-		$sittings = $dbr->select($sitting_reader, '*', array('reader_id'=>$id));
+		$sittings = $dbr->select($dbr->tableName(sitting_assignment), '*', array('user_id'=>$id));
 		$xml = new AjaxResponse();
 		$xml->setContentType('text/xml');
 		$xml->addtext('<'.'?xml version="1.0" encoding="utf-8" ?'.">"); 

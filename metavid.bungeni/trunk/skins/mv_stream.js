@@ -317,9 +317,10 @@ function mv_disp_add_mvd(mvdType){
 		return ;
 	}
 	mv_open_edit_mvd=mvdType;
+	var sitting_id = document.getElementById("sitting_id").innerHTML;
 	sajax_request_type='GET';	
 	time_range = org_vid_src.substr( org_vid_src.indexOf('?t=')+3 );
-	sajax_do_call( "mv_add_disp",[wgTitle, mvdType, time_range], f );
+	sajax_do_call( "mv_add_disp",[wgTitle, mvdType, time_range, sitting_id], f );
 	//insert before the first mvd:
 	//if($j('#mv_fd_mvd_new').get(0)){
 	//	$j('#mv_fd_mvd_new').html(global_loading_txt);
@@ -663,7 +664,7 @@ function mv_do_ajax_form_submit(mvd_id, edit_action){
 	//post_vars['wpTextbox1'] = oEditor.GetXHTML();
 	
 	$j(setHtmlId).html( global_loading_txt);		
-		
+	sajax_request_type='POST';
 	mv_sajax_do_call('mv_edit_submit',args, f, post_vars);	
 	//js_log('mv_sajax_do_call ' + fajax +' ' +  args);
 	function f( request ) {

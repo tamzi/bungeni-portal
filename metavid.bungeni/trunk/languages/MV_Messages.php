@@ -72,7 +72,7 @@ Or you many want to <a href="$3">Add the stream</a>.',
 	'mv_redirect_and_delete_reason' => 'removed redirect page',
 	'mv_remove_reason'              => 'Reason for deletion:',
 	'mv_stream_delete_warrning'     => '<b>Removing this Stream will also remove $1 pieces of assocative metadata</b><br />',
-	
+	'mv_staff_permission'	=>		'You lack permission to manage staff',
 	'mp_names'	=> 	'Names',
 	#editors,readers,reporters
 	'mv_manage_readers'	=>		'Manage Readers',

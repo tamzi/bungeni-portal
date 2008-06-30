@@ -474,6 +474,10 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
     private void updateNumbersByType(String sectionType){
         try {
         ArrayList<String> sectionsMatchingType = getSectionsMatchingType(sectionType);
+        //no sections found matching type, so return 
+        
+        if (sectionsMatchingType.size() == 0 ) return;
+        
         String numberingSchemeForType = this.sectionTypesForDocumentType.get(sectionType).getNumberingScheme();
         String numberDecoratorForType = this.sectionTypesForDocumentType.get(sectionType).getNumberDecorator();
         INumberDecorator numDecor = null;
@@ -519,6 +523,10 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
             String sectionUUID = childMeta.get("BungeniSectionUUID");
             String fieldToUpdate= OOoNumberingHelper.NUM_FIELD_PREFIX + sectionUUID;
             XTextField aField = ooDocument.getTextFieldByName(fieldToUpdate);
+            if (aField == null) {
+                log.error("updateNumberInSection :field object found was null");
+                return;
+            }
             XPropertySet aFieldSet= ooQueryInterface.XPropertySet(aField);
             if (numberDecorator != null ) {
                 theNumber = numberDecorator.decorate(theNumber);

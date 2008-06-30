@@ -118,7 +118,15 @@ public class BungeniTreeRefactorTree {
  
  
  private void doMergeChildren(BungeniBNode origNode, BungeniBNode mergeNode) {
-      try {
+     try {
+        //check if node's display text has changed .. if it has changed
+        //set the new display text from the merged node.
+        String root1DispText  = origNode.getDisplayText();
+        String root2DispText = mergeNode.getDisplayText();
+        if (!root1DispText.equalsIgnoreCase(root2DispText)) {
+            origNode.setDisplayText(root2DispText);
+        }
+                                      
         for (String nodeName : origNode.getChildrenByName().keySet()) {
            //this root node has an updated UI, but its children dont
            BungeniBNode childOfOriginal = origNode.getChildNodeByName(nodeName);

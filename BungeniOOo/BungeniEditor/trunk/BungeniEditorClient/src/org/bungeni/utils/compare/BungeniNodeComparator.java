@@ -205,7 +205,7 @@ public class BungeniNodeComparator {
                        if (indexinroot1 != root2child) {
                          //  System.out.println("root1 contains " + aNode.getName() + " at unequal index (move " + aNode.getName() + " from " + indexinroot1 + " to "+ root2child+") or (insert "+aNode.getName() + " at " + root2child + ")");
                            BungeniNodeDifference nodeDiff = new BungeniNodeDifference ();
-                           nodeDiff.diffUpdate(aNode.getName(), indexinroot1, aNode.getName(), root2child);
+                           nodeDiff.diffUpdate(aNode.getName(), indexinroot1, aNode.getName(), root2child);                       
                            this.diffAdd(indexinroot1, nodeDiff);
                        }
                    }  else {

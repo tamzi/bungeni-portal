@@ -628,7 +628,9 @@ function mv_do_ajax_form_submit(mvd_id, edit_action){
 	//do edit action specific calls: 
 	switch(edit_action){
 		case 'save':
+		
 			var setHtmlId ='#mv_fcontent_'+mvd_id;
+			
 		break;
 		case 'preview':					
 			mv_lock_vid_updates=true;		

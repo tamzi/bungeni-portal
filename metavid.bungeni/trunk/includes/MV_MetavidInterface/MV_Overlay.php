@@ -621,48 +621,7 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		$nameKey = 'mp_names:'.$_REQUEST['wgTitle'].'/'.$_REQUEST['mv_start_hr_'.$mvd_id].'/'.$_REQUEST['mv_end_hr_'.$mvd_id];
 		}
 		$type = substr($_REQUEST['title'],0,strpos($_REQUEST['title'],':'));
-		//undesa
-		global $mvgIP;
-		$pages_start = array();
-		$pages_end = array();
-		$overlap = false;
 		
-		$streamTitle = new MV_Title($_REQUEST['title']);
-		$transcript_title = new MV_Title($titleKey);
-		$start = $transcript_title->getStartTimeSeconds();
-		$end = $transcript_title->getEndTimeSeconds();
-		require_once($mvgIP . '/includes/MV_Index.php');
-		$dbr =& wfGetDB(DB_SLAVE);	
-		
-		$result = & MV_Index::getMVDInRange($streamTitle->getStreamId(), 
-							$streamTitle->getStartTimeSeconds(), 
-							$streamTitle->getEndTimeSeconds(), 
-							'Ht_en');													
-
-		if($dbr->numRows($result) == 0){
-			$pages_start=array();
-			$pages_end=array();	
-		}else{
-			while(($row = $dbr->fetchObject($result)) && ($overlap==false)){
-				$pages_start[$row->id]=$row->start_time;
-				$pages_end[$row->id]=$row->end_time;
-				if ((($row->start_time < $start) && ($start <$row->end_time)) || (($row->start_time < $end) && ($end < $row->end_time)))
-				{
-					$overlap = true;
-				}
-			}
-		}
-		$overlap = true;
-		if($overlap)
-		{
-			//$mvTitle = new MV_Title($_REQUEST['title']);
-			//$parserOutput = $this->parse_format_text("hello world", $mvTitle);	
-			//$wgOut->addParserOutput($parserOutput);	
-			//$wgOut->addHTML("Hello World");
-			//. '<div style="clear:both;"><hr></div>'
-			//return $wgOut->getHTML();
-		}
-		//undesa	
 		//set up the title /article
 		$wgTitle = Title::newFromText($titleKey, MV_NS_MVD);
 		$Article = new Article($wgTitle);
@@ -753,7 +712,55 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		
 		$editPageAjax = new MV_EditPageAjax( $Article);
 		$editPageAjax->mvd_id = $mvd_id;			
+		//undesa
 		
+		global $mvgIP;
+		$pages_start = array();
+		$pages_end = array();
+		$overlap = false;
+		$start_hour = substr($_REQUEST['mv_start_hr_new'],0,1);
+		$start_min = substr($_REQUEST['mv_start_hr_new'],2,2);
+		$start_sec = substr($_REQUEST['mv_start_hr_new'],5,2);
+		
+		$start_time_in_sec = ($start_hour * 3600) + ($start_min * 60) + ($start_sec);
+		$end_hour = substr($_REQUEST['mv_end_hr_new'],0,1);
+		$end_min = substr($_REQUEST['mv_end_hr_new'],2,2);
+		$end_sec = substr($_REQUEST['mv_end_hr_new'],5,2);
+		
+		$end_time_in_sec = ($start_hour * 3600) + ($start_min * 60) + ($start_sec);
+		
+		$streamTitle = new MV_Title($_REQUEST['title']);
+		//$transcript_title = new MV_Title($titleKey);
+		//$start = $transcript_title->getStartTimeSeconds();
+		//$end = $transcript_title->getEndTimeSeconds();
+		
+		require_once($mvgIP . '/includes/MV_Index.php');
+		$dbr =& wfGetDB(DB_SLAVE);	
+				$result = & MV_Index::getMVDInRange($streamTitle->getStreamId(), 
+							$streamTitle->getStartTimeSeconds(), 
+							$streamTitle->getEndTimeSeconds(), 
+							'Ht_en');													
+
+		if($dbr->numRows($result) == 0){
+			$pages_start=array();
+			$pages_end=array();	
+		}else{
+			while(($row = $dbr->fetchObject($result)) && ($overlap==false)){
+				$pages_start[$row->id]=$row->start_time;
+				$pages_end[$row->id]=$row->end_time;
+				if ((($row->start_time <= $start_time_in_sec) && ($start_time_in_sec <= $row->end_time)) || (($row->start_time <= $end_time_in_sec) && ($end_time_in_sec <= $row->end_time)))
+				{
+					$overlap = true;
+				}
+			}
+		}
+		//$overlap = true;
+		if(($overlap == true) && (!isset($_POST['wpPreview'])) )
+		{
+			return "alert(\"The transcript you are trying to save overlaps with another.\");".$wgOut->getHTML();
+		}
+		
+		//undesa	
 		//if preview just return the parsed preview 
 		//@@todo refactor to use as much EditPage code as possible
 		// use the "livePreview" functionality of Edit page. 

@@ -580,9 +580,9 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         
         if (this.orphanedReferences.size() > 0  ) {
                if (brokenReferencesFrame != null  ) {
-                   if (brokenReferencesFrame.getLaunchedState()){
+                  // if (brokenReferencesFrame.getLaunchedState()){
                        brokenReferencesFrame.dispose();
-                   }
+                  // }
                }
                java.awt.EventQueue.invokeLater(new Runnable() {
                     public void run() {

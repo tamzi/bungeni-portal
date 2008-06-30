@@ -410,8 +410,9 @@ public class frameBrokenReferences extends javax.swing.JFrame {
                     }
               }
 
-              XRefreshable xRefresh = ooQueryInterface.XRefreshable(xDoc);
-              xRefresh.refresh();
+              //XRefreshable xRefresh = ooQueryInterface.XRefreshable(xDoc);
+              //xRefresh.refresh();
+              ooDocument.textFieldsRefresh();
               bState = true;
             } catch (PropertyVetoException ex) {
                 log.error("insertCrossRef ("+ex.getClass().getName() +") " + ex.getMessage());
@@ -630,11 +631,17 @@ public class frameBrokenReferences extends javax.swing.JFrame {
                 } /*else {
                   nodeName = aNode.getName();  
                 }*/
-                    String dispText = aSection.getAnchor().getString();
-                    dispText = (dispText == null ) ? "" : dispText;
-                    dispText =  (dispText.length() > 15) ? dispText.substring(0,14) : dispText;
-                    dispText = (dispText.length() == 0) ? aNode.getName(): dispText;
-                    dispText = (sectionType.length() != 0) ? sectionType+"-"+dispText: dispText;
+                    String dispText = "";
+                    if (aSection != null ) {
+                        if (aSection.getAnchor() != null) {
+                            dispText = aSection.getAnchor().getString();
+                            dispText = (dispText == null ) ? "" : dispText;
+                            dispText =  (dispText.length() > 15) ? dispText.substring(0,14) : dispText;
+                            dispText = (dispText.length() == 0) ? aNode.getName(): dispText;
+                            dispText = (sectionType.length() != 0) ? sectionType+"-"+dispText: dispText;
+                            
+                        }
+                    }
                     
                     nodeName = dispText + "..";
             }
@@ -646,7 +653,7 @@ public class frameBrokenReferences extends javax.swing.JFrame {
     }
 
     private DefaultMutableTreeNode buildTreeModel(){
-       BungeniBNode bRootNode =  DocumentSectionProvider.getTreeRoot();
+       BungeniBNode bRootNode =  DocumentSectionProvider.getNewTree().getFirstRoot();
        numberedHeadingsNode brf = new numberedHeadingsNode (ooDocument, bRootNode);
        DefaultMutableTreeNode aNode = new DefaultMutableTreeNode(brf); 
        recurseTreeNodes (aNode, bRootNode);

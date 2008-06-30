@@ -122,6 +122,7 @@ PostMicro.prototype.showHighlight = function( marginalia, annotation )
 			newNode.className = AN_HIGHLIGHT_CLASS + ' ' + AN_ID_PREFIX + annotation.getId();
             newNode.setAttribute('author', annotation.quoteAuthor);
             newNode.setAttribute('date', annotation.updated);
+            newNode.setAttribute('identifier', AN_ID_PREFIX + annotation.getId());
 			if ( marginalia.showActions && annotation.getAction() )
 				newNode.className += ' ' + AN_ACTIONPREFIX_CLASS + annotation.getAction();
 			newNode.onmouseover = _hoverAnnotation;
@@ -134,7 +135,7 @@ PostMicro.prototype.showHighlight = function( marginalia, annotation )
 				var delNode = document.createElement( 'del' );
                 delNode.setAttribute('author', annotation.quoteAuthor);
                 delNode.setAttribute('date', annotation.updated);
-                domutil.addClass( delNode, AN_ID_PREFIX + annotation.getId() );
+                delNode.setAttribute('identifier', AN_ID_PREFIX + annotation.getId());
 				delNode.appendChild( node );
 				newNode.appendChild( delNode );
 			}
@@ -188,6 +189,7 @@ PostMicro.prototype.showActionInsert = function( marginalia, annotation )
 			var insNode = document.createElement( 'ins' );
             insNode.setAttribute('author', annotation.quoteAuthor);
             insNode.setAttribute('date', annotation.updated);
+            insNode.setAttribute('identifier', AN_ID_PREFIX + annotation.getId());
 			insNode.appendChild( document.createTextNode( annotation.getNote() ) );
 			lastHighlight.appendChild( insNode );
 			trace( 'actions', 'Insert text is ' + annotation.getNote() );

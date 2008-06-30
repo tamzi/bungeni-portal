@@ -311,7 +311,7 @@ Marginalia.prototype.showAnnotations = function( url, block )
 		function(xmldoc) { _showAnnotationsCallback( marginalia, url, xmldoc, true ) } );
 }
 
-    Marginalia.prototype.redrawAnnotations = function( url, filter_name, filter_group, filter_type, search_string, block )
+Marginalia.prototype.redrawAnnotations = function( url, filter_name, filter_group, filter_type, search_string, block )
 {
 	var marginalia = this;
 	marginalia.hideAnnotations( );
@@ -1256,7 +1256,7 @@ function filterAnnotations(form_field)
   for(i=0; i<select_obj_owner.length; i++)  {
       if (select_obj_owner.options[i].selected)
 	  {
-	  owner = owner +','+ select_obj_owner.options[i].value;
+	  owner = owner +';'+ select_obj_owner.options[i].value;
           }
       }
   //removing first character from the string(i.e. removing',')
@@ -1268,7 +1268,7 @@ function filterAnnotations(form_field)
   for(i=0; i<select_obj_group.length; i++)  {
       if (select_obj_group.options[i].selected)
 	  {
-	  group = group +','+ select_obj_group.options[i].value;
+	  group = group +';'+ select_obj_group.options[i].value;
           }
       }
   //removing first character from the string(i.e. removing',')
@@ -1280,7 +1280,7 @@ function filterAnnotations(form_field)
   for(i=0; i<select_obj_type.length; i++)  {
       if (select_obj_type.options[i].selected)
 	  {
-	  type = type +','+ select_obj_type.options[i].value;
+	  type = type +';'+ select_obj_type.options[i].value;
       }
       }
   //removing first character from the string(i.e. removing',')
@@ -1305,9 +1305,9 @@ function filterAnnotationsFromBookmark(){
 	var filter_name= hash_string.substring((hash_string.indexOf('filter_name')) + 12, hash_string.indexOf('&filter_group'));
 	var filter_group= hash_string.substring((hash_string.indexOf('filter_group')) + 13, hash_string.indexOf('&filter_type'));
 	var filter_type= hash_string.substring((hash_string.indexOf('filter_type')) + 12, hash_string.indexOf('&search_string'));
-	filter_name = filter_name.split(",");
-	filter_group = filter_group.split(",");
-	filter_type = filter_type.split(",");
+	filter_name = filter_name.split(";");
+	filter_group = filter_group.split(";");
+	filter_type = filter_type.split(";");
 	var search_string= hash_string.substring((hash_string.indexOf('search_string')) + 14);
     marginalia.hideAnnotations();
     this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, filter_group, filter_type, search_string);
@@ -1414,6 +1414,35 @@ function downloadAnnotations(form_field)
     toggle_tag.name = 'hide';
     var entrycontent = document.getElementById('entry-content');
     var submitcontent = document.getElementById('content');
-    submitcontent.value = entrycontent.innerHTML;
+    var comments = ''
+    if (marginalia.posts.posts.length > 0) {
+        post = marginalia.posts.posts[0]; 
+        var annotations = post.listAnnotations();
+        var divNode = document.createElement( 'div' );			
+
+		for ( var annotation_i = 0;  annotation_i < annotations.length;  ++annotation_i )
+		{
+			// Don't want to fail completely just because one or more annotations are malformed
+			if ( null != annotations[ annotation_i ] )
+			{
+				var annotation = annotations[ annotation_i ];
+                var spanNode = document.createElement( 'span' );			
+                spanNode.setAttribute('author', annotation.quoteAuthor);
+                spanNode.setAttribute('date', annotation.updated);
+                spanNode.setAttribute('identifier', "annot" + annotation.getId());
+                // domutil.addClass( spanNode, "annot" + annotation.getId() );
+                var x = annotation.getNote();
+                spanNode.innerHTML= (x.replace(/^\W+/,'')).replace(/\W+$/,'');
+                // spanNode.innerHTML = annotation.getNote().replace(new RegExp(/^\s+/),"");
+                divNode.appendChild(spanNode)
+            }
+        }
+    }
+    var commentDivNode = document.createElement( 'div' );			
+    // var entryDivNode = document.createElement( 'div' );			
+
+    commentDivNode.appendChild(divNode);
+    // entryDivNode.appendChild(entrycontent);
+    submitcontent.value = entrycontent.innerHTML + commentDivNode.innerHTML;    
     return true
 }

@@ -8,7 +8,7 @@
  <title>Bungeni Document</title>
  </head>
  <body>
- <span tal:replace="structure request/content"></span>
+ <span tal:replace="structure view/getDocumentBody"></span>
  </body>
 </html>
 

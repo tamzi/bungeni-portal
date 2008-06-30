@@ -13,6 +13,12 @@ from marginalia.schema import annotations_table, AnnotationMaster
 from marginalia.interfaces import IMarginaliaAnnotatableAdaptor
 from datetime import datetime
 
+def crude_parser(document):
+    """A temporary crude parser."""
+    document = document.replace("<em", "<span")
+    document = document.replace("/em>", "/span>")    
+    return document
+
 class MarginaliaPage(BrowserPage):
     """All the methods required by Marginalia Annotation Tab."""
 
@@ -208,9 +214,9 @@ class MarginaliaPage(BrowserPage):
             filter_group = None
 
         if filter_name:
-            filter_name = filter_name.split(",")
+            filter_name = filter_name.split(";")
         if filter_group:
-            filter_group = filter_group.split(",")
+            filter_group = filter_group.split(";")
 
         filter_type = ['annotate', ]
         
@@ -305,11 +311,11 @@ class AmendmentPage(MarginaliaPage):
             filter_group = None
 
         if filter_name:
-            filter_name = filter_name.split(",")
+            filter_name = filter_name.split(";")
         if filter_type:
-            filter_type = filter_type.split(",")
+            filter_type = filter_type.split(";")
         if filter_group:
-            filter_group = filter_group.split(",")
+            filter_group = filter_group.split(";")
 
         if not filter_type:
             filter_type = ['comment', 'delete', 'insert', 'replace']
@@ -374,11 +380,14 @@ class AmendmentPage(MarginaliaPage):
 class DownloadPage(MarginaliaPage):
     """All the methods required by Marginalia Amendment Tab."""
     def __call__(self):
-        response = self.request.response        
-        params = {'content':self.request['content']}
+        response = self.request.response
         response.setHeader('Content-Type', 'text/html')
         response.setHeader('Content-Disposition', 'attachment;filename="document.html"')
         return str(ViewPageTemplateFile('document.pt')(self))
+
+    def getDocumentBody(self):
+        """Returns the downloadable representation of the annotated document."""        
+        return crude_parser(self.request['content'])
     
 class MarginaliaAnnotationView(BrowserView):
     """Annotation View Class. """

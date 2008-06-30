@@ -17,8 +17,6 @@ import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertyContainer;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.beans.XPropertySetInfo;
-import com.sun.star.comp.helper.Bootstrap;
-import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.container.ElementExistException;
 import com.sun.star.container.NoSuchElementException;
 import com.sun.star.container.XEnumeration;
@@ -40,9 +38,6 @@ import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
 import com.sun.star.lang.XMultiServiceFactory;
-import com.sun.star.lang.XServiceInfo;
-import com.sun.star.lang.XServiceInfo;
-import com.sun.star.lang.XServiceInfo;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.script.provider.XScript;
 import com.sun.star.script.provider.XScriptProvider;
@@ -70,8 +65,6 @@ import com.sun.star.uno.Type;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 import com.sun.star.xml.AttributeData;
-import java.awt.Color;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -1536,6 +1529,9 @@ public boolean setSelectedTextStyle(String styleName) {
         }
  }
  
+    
+    
+    
 public XTextField getTextFieldByName(String fieldName) {
         XTextField returnField = null;
         XEnumeration fieldEnumeration = getTextFields().createEnumeration();
@@ -1544,16 +1540,18 @@ public XTextField getTextFieldByName(String fieldName) {
                 Object aField = fieldEnumeration.nextElement();
                 XTextField foundField = ooQueryInterface.XTextField(aField);
                 XPropertySet fieldSet = ooQueryInterface.XPropertySet(foundField);
-                String foundFieldName = AnyConverter.toString(fieldSet.getPropertyValue("Hint"));
-                if (foundFieldName.equals(fieldName)) {
-                    returnField = foundField;
-                    break;
+                if (fieldSet.getPropertySetInfo().hasPropertyByName("Hint")) {
+                    String foundFieldName = AnyConverter.toString(fieldSet.getPropertyValue("Hint"));
+                    if (foundFieldName.equals(fieldName)) {
+                        returnField = foundField;
+                        break;
+                    }
                 }
         }
-     } catch (NoSuchElementException ex) {
+     } catch (Exception ex) {
           log.debug("getTextFieldByName :("+ ex.getClass().getName() +") " + ex.getMessage());
-     } catch (WrappedTargetException ex) {
-          log.debug("getTextFieldByName :("+ ex.getClass().getName() +") " + ex.getMessage());
+          log.debug("getTextFieldByName : " + CommonExceptionUtils.getStackTrace(ex));
+
      } finally {
          return returnField;
      }

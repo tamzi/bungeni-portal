@@ -16,9 +16,12 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.ArrayList;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTree;
 import javax.swing.Timer;
+import javax.swing.plaf.ComponentUI;
+import javax.swing.plaf.basic.BasicTreeUI;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeNode;
@@ -65,7 +68,8 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
     
     private void init() {
         initComponents();
-        initTableDocumentMetadata();    
+        initTreeStructure();
+       // initTableDocumentMetadata();    
         initTimer();
     }
     
@@ -74,13 +78,12 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
     }
     
     private void initTableDocumentMetadata() {
-         //initSectionsArray();   
-         DefaultTreeCellRenderer sectionMetaRender = (DefaultTreeCellRenderer) this.treeSectionTreeMetadata.getCellRenderer();
+ /*        DefaultTreeCellRenderer sectionMetaRender = (DefaultTreeCellRenderer) this.treeSectionTreeMetadata.getCellRenderer();
          sectionMetaRender.setOpenIcon(CommonTreeFunctions.loadIcon("treeMinus.gif"));
          sectionMetaRender.setClosedIcon(CommonTreeFunctions.loadIcon("treePlus.gif"));
          sectionMetaRender.setLeafIcon(null);
          sectionMetaRender.setBorder(null);
-         sectionMetaRender.setBackgroundSelectionColor( new java.awt.Color(207, 242, 255));
+         sectionMetaRender.setBackgroundSelectionColor( new java.awt.Color(207, 242, 255)); */
          //sectionMetaRender.setBorderSelectionColor(Color.DARK_GRAY);
         // this.treeSectionTreeMetadata.setModel(new DefaultTreeModel(DocumentSectionTreeModelProvider.newRootNode()));
          //this.treeSectionTreeMetadata.setModel(new DefaultTreeModel(DocumentSectionFriendlyTreeModelProvider.newRootNode()));
@@ -93,7 +96,31 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
          CommonTreeFunctions.expandAll(treeSectionTreeMetadata);
     }
     
- 
+    private void initTreeStructure(){
+         treeSectionTreeMetadata.setExpandsSelectedPaths(true);
+         
+         DefaultTreeCellRenderer sectionTreeRender = (DefaultTreeCellRenderer) this.treeSectionTreeMetadata.getCellRenderer();
+         ImageIcon minusIcon = CommonTreeFunctions.treeMinusIcon();
+         ImageIcon plusIcon = CommonTreeFunctions.treePlusIcon();
+         sectionTreeRender.setOpenIcon(null);
+         sectionTreeRender.setClosedIcon(null);
+     //    UIManager.put("Tree.expandedIcon", minusIcon);
+     //    UIManager.put("Tree.collapsedIcon", plusIcon);
+         sectionTreeRender.setLeafIcon(null);
+      //   treeSectionStructure.setCellRenderer(sectionTreeRender);
+        // treeSectionTreeMetadata.setCellRenderer(new treeViewPrettySectionsTreeCellRenderer());
+         treeSectionTreeMetadata.setShowsRootHandles(true);
+         ComponentUI treeUI = treeSectionTreeMetadata.getUI();
+         if (treeUI instanceof BasicTreeUI){
+             ((BasicTreeUI)treeUI).setExpandedIcon(minusIcon);
+             ((BasicTreeUI)treeUI).setCollapsedIcon(plusIcon);
+         }
+        this.treeSectionTreeMetadata.addMouseListener(new treeDocStructureTreeMouseListener());
+        DocumentSectionFriendlyAdapterDefaultTreeModel model = DocumentSectionFriendlyTreeModelProvider.create() ;//_without_subscription();
+        this.treeSectionTreeMetadata.setModel(model);
+        updateTableMetadataModel(ROOT_SECTION);
+        CommonTreeFunctions.expandAll(treeSectionTreeMetadata);
+    }
  
     
     private synchronized void initTimer(){
@@ -110,7 +137,7 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
     }
 
     private void refreshTree(){
-            BungeniBNode newRootNode = DocumentSectionProvider.getNewTree().getFirstRoot();
+            BungeniBNode newRootNode = DocumentSectionProvider.getNewFriendlyTree().getFirstRoot();
             DocumentSectionFriendlyAdapterDefaultTreeModel model = (DocumentSectionFriendlyAdapterDefaultTreeModel) this.treeSectionTreeMetadata.getModel();
             DefaultMutableTreeNode mnode = (DefaultMutableTreeNode) model.getRoot();
             BungeniBNode origNode = (BungeniBNode) mnode.getUserObject();
@@ -296,7 +323,8 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
 
     
     public void initialize() {
-        initTableDocumentMetadata();    
+        //initTableDocumentMetadata();    
+        initTreeStructure();
         initTimer();
     }
 

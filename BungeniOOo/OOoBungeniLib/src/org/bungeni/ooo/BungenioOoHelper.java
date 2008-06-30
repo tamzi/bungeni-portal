@@ -24,6 +24,7 @@ import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -76,7 +77,9 @@ public class BungenioOoHelper {
         String strURL = "";
         URL url = null;
         try {
-            url = file.toURL();
+            //file.toURL() was deprecated for JDK 1.6
+            URI fileURI = file.toURI();
+            url = fileURI.toURL();
             strURL = url.toString();
             strURL = strURL.replace("file:/", "file:///");
         } catch (MalformedURLException ex) {

@@ -15,4 +15,6 @@ class ISittingCalendar( IViewletManager ):
     
 class ICurrentGovernment( IViewletManager ):    
     """ Current Government """
-        
+
+class ITabManager( IViewletManager ):
+    """ Create YUI Tabs """        

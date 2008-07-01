@@ -64,11 +64,41 @@
      weight="1"
     />    
     
+  <!--YUI Tabs -->
+  <browser:viewletManager
+     name="bungeni.yui-tab.manager"
+     provides=".interfaces.ITabManager"     
+     permission="zope.View"
+     />   
+     
+  <!--browser:menu
+    id="bungeni-yui-tabs"
+    title="Tabbed navigation"
+    /-->
+    
+   <!--browser:viewlet
+     name="bungeni.yui-tabs"
+     for="*"
+     manager=".interfaces.ITabManager"
+     template="yui-tab-menu.pt"
+     permission="zope.View"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+    /-->
+ <browser:viewlet
+     name="bungeni.yui-tabs"
+     for="*"
+     manager=".interfaces.ITabManager"
+     class=".current.YUITabView"
+     permission="zope.View"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+    />     
+     
+     
+        
   <!-- Date Chooser -->      
   <browser:viewletManager
      name="bungeni.datechooser.manager"
-     provides=".interfaces.IDateChooser"
-     
+     provides=".interfaces.IDateChooser"     
      permission="zope.View"
      />
 
@@ -79,7 +109,7 @@
     permission="zope.Public"
     />     
     
-  <!-- current -->    
+  <!-- current parliament -->    
 
   <browser:page
      for="bungeni.core.interfaces.IParliamentContainer"
@@ -96,13 +126,13 @@
      permission="zope.View"
      />
     
-  <browser:viewlet
+  <!--browser:viewlet
     name="bungeni.current.date"   
     manager=".interfaces.ICurrent"
     class=".current.DateChooserViewlet"
     permission="zope.Public"
     weight="1"
-    />
+    /-->
 
   <browser:viewlet
     name="bungeni.all.parliament"   
@@ -175,13 +205,22 @@
      permission="zope.View"
      />
   
-    <browser:viewlet
+    <!--browser:viewlet
     name="bungeni.current-gov.date"   
     manager=".interfaces.ICurrentGovernment"
     class=".current.DateChooserViewlet"
     permission="zope.Public"
     weight="1"
-    />
+    /-->
+    
+   <browser:viewlet
+     name="bungeni.yui-tabs.government"
+     for="bungeni.core.interfaces.IGovernmentContainer"
+     manager=".interfaces.ITabManager"
+     template="yui-tab-menu-government.pt"
+     permission="zope.View"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+    />    
     
    <browser:viewlet
     name="bungeni.current-gov.government"   

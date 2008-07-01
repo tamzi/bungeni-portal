@@ -18,7 +18,7 @@ import bungeni.core.domain as domain
 
 from ore.alchemist import Session
 
-from interfaces import ICurrent, ICurrentGovernment
+from interfaces import ICurrent, ICurrentGovernment, ITabManager
 from bungeni.ui.utils import getDisplayDate, getFilter
 
 
@@ -47,12 +47,27 @@ class CurrentViewletManager( WeightOrderedViewletManager ):
 
 class DateChooserViewletManager( interfaces.IViewletManager ):
     """ Viewlet manager for Date chooser """
-    #zope.interface.implements(IDateChooser)
+    #zope.interface.implements(IDateChooser)        
  
 class CurrentGovernmentViewletManager( WeightOrderedViewletManager ):
     """Current viewlet manager."""
     zope.interface.implements(ICurrentGovernment)           
     
+class TabManager( WeightOrderedViewletManager ):
+    """YUI Tab manager."""
+    zope.interface.implements(ITabManager) 
+    
+class YUITabView( viewlet.ViewletBase ):       
+    """
+    dummy to get the JS into the form
+    """
+    def render( self ):
+        zc.resourcelibrary.need("yui-tab")   
+        yuijs ="""
+           <script type="text/javascript"> 
+        	 var bungeniViewTabs = new YAHOO.widget.TabView("bungeni-tabbed-nav"); 
+	       </script>"""     
+        return ""
     
 def getOrder( request, context_class ):
     """

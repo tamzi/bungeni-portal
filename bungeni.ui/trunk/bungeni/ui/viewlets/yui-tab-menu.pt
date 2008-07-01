@@ -1,0 +1,8 @@
+<ul class="yui-nav">
+    <li tal:repeat="item context/@@view_get_menu/bungeni-yui-tabs">
+        <a href="#"
+            tal:attributes="href item/action;
+                            title item/description"
+            tal:content="item/title"> Name of Tab </a>
+    </li>
+</ul>                                

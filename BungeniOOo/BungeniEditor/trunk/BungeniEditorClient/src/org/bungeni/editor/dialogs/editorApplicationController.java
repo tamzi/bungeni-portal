@@ -17,11 +17,15 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
@@ -31,6 +35,8 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileSystemView;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.QueryResults;
@@ -114,6 +120,37 @@ public class editorApplicationController extends javax.swing.JPanel {
         
     }
     
+   
+ 
+    class ODTFileFilter extends FileFilter {
+
+        @Override
+        public boolean accept(File arg0) {
+            if (arg0.isDirectory()) return true;
+       
+            String extension = getExtension(arg0);
+            if (extension.equals("odt")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        @Override
+        public String getDescription() {
+           return "OpenDocument files";
+        }
+        
+        private String getExtension(File fname){
+            String filename = fname.getName();
+            int i = filename.lastIndexOf(".");
+            if (i > 0 && i < filename.length() - 1)
+                return filename.substring(i+1).toLowerCase();
+            return "";
+        }
+       
+        
+    }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -129,7 +166,7 @@ public class editorApplicationController extends javax.swing.JPanel {
         lblCurrentTemplateText = new javax.swing.JLabel();
         cboDocumentTypes = new javax.swing.JComboBox();
         lblDocumentTypes = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnOpenExisting = new javax.swing.JButton();
         lblCurrentActiveMode = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         lblCreateNewDoc = new javax.swing.JLabel();
@@ -183,7 +220,12 @@ public class editorApplicationController extends javax.swing.JPanel {
         lblDocumentTypes.setFont(new java.awt.Font("Tahoma", 1, 11));
         lblDocumentTypes.setText("Change Active Document mode for editor");
 
-        jButton1.setText("Open Existing Document...");
+        btnOpenExisting.setText("Open Existing Document...");
+        btnOpenExisting.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOpenExistingActionPerformed(evt);
+            }
+        });
 
         lblCurrentActiveMode.setBackground(java.awt.Color.green);
         lblCurrentActiveMode.setFont(lblCurrentActiveMode.getFont().deriveFont(lblCurrentActiveMode.getFont().getStyle() | java.awt.Font.BOLD, lblCurrentActiveMode.getFont().getSize()+4));
@@ -221,7 +263,7 @@ public class editorApplicationController extends javax.swing.JPanel {
                                     .add(lblCreateNewDoc, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 311, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                                 .add(lblDocumentTypes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 245, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                             .add(tabCurrentFileLayout.createSequentialGroup()
-                                .add(jButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 210, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(btnOpenExisting, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 210, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                 .add(lblOpenCurrentDoc, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 418, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                         .add(250, 250, 250))
@@ -255,7 +297,7 @@ public class editorApplicationController extends javax.swing.JPanel {
                     .add(createNewDocument, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(tabCurrentFileLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jButton1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 31, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(btnOpenExisting, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 31, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(lblOpenCurrentDoc, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 33, Short.MAX_VALUE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(tabCurrentFileLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
@@ -897,6 +939,26 @@ private void launchFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             
 }//GEN-LAST:event_launchFrameActionPerformed
 
+private void btnOpenExistingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenExistingActionPerformed
+// TODO add your handling code here:
+        String currentPath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH()+File.separator+"workspace"+File.separator+"files";
+        final JFileChooser fc = new JFileChooser(currentPath);
+        fc.setFileFilter(new ODTFileFilter());
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int nReturnVal = fc.showOpenDialog(this);
+        
+        if (nReturnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+                //This is where a real application would open the file.
+               //log.info("Opening: " + file.getName() + ".\n");
+               txtWorkspacePath.setText(file.getName());
+            } else {
+                //log.info("Open command cancelled by user.\n");
+            }
+    
+    
+}//GEN-LAST:event_btnOpenExistingActionPerformed
+
 
 /**
  * Listener Classes Listed below
@@ -1018,13 +1080,13 @@ private class tblServerFilesMouseAdapter implements MouseListener {
     private javax.swing.JButton btnBackOneFolder;
     private javax.swing.JButton btnBrowseWorkspacePath;
     private javax.swing.JButton btnEditWorkspaceDocument;
+    private javax.swing.JButton btnOpenExisting;
     private javax.swing.JButton btnSaveSettings;
     private javax.swing.JButton btnSetCurrentTemplate;
     private javax.swing.JComboBox cboDocumentTypes;
     private javax.swing.JCheckBox checkBoxConnectOnStartup;
     private javax.swing.JButton createNewDocument;
     private javax.swing.JTabbedPane editorAppTabbedPane;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -614,16 +614,17 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     private void initFloatingPane() {
             //load the map here 
             javax.swing.JFrame floatingFrame = new javax.swing.JFrame();
-            IFloatingPanel floatingPanel = FloatingPanelFactory.getPanelClass("generalEditorPanel4");
+            IFloatingPanel floatingPanel = FloatingPanelFactory.getPanelClass("toolbarUIPanel");
             floatingPanel.setOOComponentHandle(ooDocument);
             floatingPanel.setParentWindowHandle(floatingFrame);
+            floatingPanel.initUI();
             floatingFrame.setTitle(FloatingPanelFactory.panelDescription);
-            floatingPanelMap.put("generalEditorPanel4", floatingPanel);
+            floatingPanelMap.put("toolbarUIPanel", floatingPanel);
            //panel.setOOoHelper(this.openofficeObject);
             floatingFrame.add(floatingPanel.getObjectHandle());
             //frame.setSize(243, 650);
             floatingFrame.setSize(Integer.parseInt(FloatingPanelFactory.panelWidth), Integer.parseInt(FloatingPanelFactory.panelHeight));
-            floatingFrame.setResizable(false);
+           // floatingFrame.setResizable(false);
            
             floatingFrame.setAlwaysOnTop(true);
             floatingFrame.setVisible(true);

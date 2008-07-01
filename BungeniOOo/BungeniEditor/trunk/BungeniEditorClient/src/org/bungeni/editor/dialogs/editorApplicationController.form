@@ -69,7 +69,7 @@
                                       <Component id="lblDocumentTypes" alignment="0" min="-2" pref="245" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jButton1" min="-2" pref="210" max="-2" attributes="1"/>
+                                      <Component id="btnOpenExisting" min="-2" pref="210" max="-2" attributes="1"/>
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Component id="lblOpenCurrentDoc" min="-2" pref="418" max="-2" attributes="0"/>
                                   </Group>
@@ -116,7 +116,7 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jButton1" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
+                          <Component id="btnOpenExisting" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                           <Component id="lblOpenCurrentDoc" alignment="3" pref="33" max="32767" attributes="1"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -168,10 +168,13 @@
                 <Property name="text" type="java.lang.String" value="Change Active Document mode for editor"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="jButton1">
+            <Component class="javax.swing.JButton" name="btnOpenExisting">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Open Existing Document..."/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOpenExistingActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="lblCurrentActiveMode">
               <Properties>

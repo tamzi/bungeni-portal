@@ -38,4 +38,5 @@ public interface IFloatingPanel  {
 
   public void setParentWindowHandle(JFrame c);
   public JFrame getParentWindowHandle();
+  public void initUI();
 }

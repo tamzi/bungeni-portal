@@ -14,6 +14,7 @@ import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 
 /**
  *
@@ -27,7 +28,8 @@ public class FloatingPanelFactory {
        public static String panelY;
        public static String panelWidth;
       public  static String panelHeight;
-    
+     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(FloatingPanelFactory.class.getName());
+   
     /** Creates a new instance of FloatingPanelFactory */
     public FloatingPanelFactory() {
     }
@@ -64,11 +66,14 @@ public class FloatingPanelFactory {
               return newPanel;
           
            } catch (InstantiationException ex) {
-            ex.printStackTrace();
+             log.error("getPanelClass : "+ ex.getMessage());
            } catch (IllegalAccessException ex) {
-            ex.printStackTrace();
+             log.error("getPanelClass : "+ ex.getMessage());
            }  catch (ClassNotFoundException ex) {
-            ex.printStackTrace();
+             log.error("getPanelClass : "+ ex.getMessage());
+          } catch (NullPointerException ex) {
+             log.error("getPanelClass : "+ ex.getMessage());
+             log.error("getPanelClass : " + CommonExceptionUtils.getStackTrace(ex));
           }
         finally {
             return newPanel;

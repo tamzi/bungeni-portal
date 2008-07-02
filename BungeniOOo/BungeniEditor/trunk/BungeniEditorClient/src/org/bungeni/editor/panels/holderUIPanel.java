@@ -15,10 +15,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.HashMap;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
@@ -40,9 +43,12 @@ import org.bungeni.editor.actions.IEditorActionEvent;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.editor.panels.impl.IFloatingPanel;
+import org.bungeni.editor.providers.DocumentSectionAdapterDefaultTreeModel;
+import org.bungeni.editor.providers.DocumentSectionAdapterTreeModel;
 import org.bungeni.editor.providers.DocumentSectionFriendlyAdapterDefaultTreeModel;
 import org.bungeni.editor.providers.DocumentSectionFriendlyTreeModelProvider;
 import org.bungeni.editor.providers.DocumentSectionProvider;
+import org.bungeni.editor.providers.DocumentSectionTreeModelProvider;
 import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.editor.toolbar.BungeniToolbarTargetProcessor;
 import org.bungeni.editor.toolbar.BungeniToolbarXMLAdapterNode;
@@ -69,6 +75,17 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
     private org.bungeni.editor.toolbar.BungeniToolbarXMLTree toolbarXmlTree ;    
     private BungeniClientDB instance;
     private Timer timerSectionTree;
+    
+    private changeStructureItem[] m_comboChangeStructureItems = {
+ //      new changeStructureItem ("VIEW_PARAGRAPHS", "View Paragraphs"),
+       new changeStructureItem ("VIEW_SECTIONS", "View Sections"),
+       new changeStructureItem ("VIEW_PRETTY_SECTIONS", "View Structure")
+    };
+    
+    private changeStructureItem m_selectedChangeStructureItem = null;
+    
+    private JTree sectionInternalStructureTree;
+    
     /** Creates new form holderUIPanel */
     public holderUIPanel() {
         initComponents();
@@ -94,7 +111,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
         //for note above about firenodeschanged, this has been implemented but works for model refresh ==> tree update.
         //but does not reflect in case of document cursor changes ==> reflecting back to the tree, as this requires a full iteration 
         //of the tree again. so for now implemented both as a treeTimer and fireNodeschanged event refresh
-        ToolTipManager.sharedInstance().registerComponent(toolbarTree);
+        ToolTipManager.sharedInstance().registerComponent(toolbarTree);       
         } catch (Exception ex) {
             log.error("initTree: "+ ex.getMessage());
         }
@@ -112,14 +129,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
              ((BasicTreeUI)treeui).setCollapsedIcon(plusIcon);
          }
         initSectionStructureTreeModel();     
-        Action sectionViewRefreshRunner = new AbstractAction() {
-                public void actionPerformed (ActionEvent e) {
-                    updateSectionTree();
-                }
-            };
-        timerSectionTree = new Timer(3000, sectionViewRefreshRunner);
-        timerSectionTree.setInitialDelay(2000);
-        timerSectionTree.start();
+
     }
 
     private void initSectionStructureTreeModel(){
@@ -133,6 +143,42 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
         }
     }
     
+    private void initSectionInternalStructureTree(){
+        this.sectionInternalStructureTree = new JTree();
+        sectionInternalStructureTree.setExpandsSelectedPaths(true);
+         ImageIcon minusIcon = CommonTreeFunctions.treeMinusIcon();
+         ImageIcon plusIcon = CommonTreeFunctions.treePlusIcon();
+         //sectionInternalStructureTree.setCellRenderer(new treeViewPrettySectionsTreeCellRenderer());
+         sectionInternalStructureTree.setShowsRootHandles(true);
+         ComponentUI treeui = sectionInternalStructureTree.getUI();
+         if (treeui instanceof BasicTreeUI){
+             ((BasicTreeUI)treeui).setExpandedIcon(minusIcon);
+             ((BasicTreeUI)treeui).setCollapsedIcon(plusIcon);
+         }
+         initSectionInternalStructureTreeModel();     
+    }
+    
+    private void initSectionInternalStructureTreeModel(){
+         try {
+        DocumentSectionAdapterDefaultTreeModel model = DocumentSectionTreeModelProvider.create();//_without_subscription();
+        this.sectionInternalStructureTree.setModel(model);
+        CommonTreeFunctions.expandAll(sectionInternalStructureTree);
+        } catch (Exception ex) {
+            log.error ("initSectionStructureTreeModel : " + ex.getMessage());
+            log.error ("initSectionStructureTreeModel : " + CommonExceptionUtils.getStackTrace(ex));
+        }
+    }
+    
+    private void initTimers(){
+         Action sectionViewRefreshRunner = new AbstractAction() {
+                public void actionPerformed (ActionEvent e) {
+                    updateSectionTree();
+                }
+            };
+        timerSectionTree = new Timer(3000, sectionViewRefreshRunner);
+        timerSectionTree.setInitialDelay(2000);
+        timerSectionTree.start();
+    }
     private holderUIPanel self(){
         return this;
     }
@@ -177,6 +223,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
        
     
     private void initMouseListener(){
+        //first move focus to frame on mouse over
         parentFrame.addMouseListener(new MouseListener(){
             public void mouseClicked(MouseEvent arg0) {
             }
@@ -191,25 +238,92 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
             public void mouseExited(MouseEvent arg0) {
             }
         });
+        //after moving focus to frame, shift focus to the toolbar tree
+        parentFrame.addWindowFocusListener(new WindowAdapter() {
+            @Override
+            public void windowGainedFocus(WindowEvent e) {
+                toolbarTree.requestFocusInWindow();
+            }
+        });
+
     }
  
+    private void initComboChangeStructure(){
+        changeStructureItem itemDefault = null;
+        cboChangeStructure.removeAllItems();
+        String defaultHierarchyView = BungeniEditorProperties.getEditorProperty("defaultHierarchyView");
+        for (int i=0; i < this.m_comboChangeStructureItems.length; i++) {
+            if (m_comboChangeStructureItems[i].getIndex().equalsIgnoreCase(defaultHierarchyView)){
+                itemDefault = m_comboChangeStructureItems[i];
+            }
+            cboChangeStructure.addItem(m_comboChangeStructureItems[i]);    
+        }
+        
+        //add a change listener to the combobox...
+        cboChangeStructure.addActionListener (new ActionListener(){
+            public void actionPerformed(ActionEvent arg0) {
+             JComboBox box = (JComboBox) arg0.getSource();
+             changeStructureItem theItem = (changeStructureItem) box.getSelectedItem();
+             m_selectedChangeStructureItem = theItem;
+             updateViewPortForTree();
+             updateSectionTree();
+            }
+        });
+
+        if (itemDefault != null)
+            cboChangeStructure.setSelectedItem(itemDefault);
+        m_selectedChangeStructureItem = (changeStructureItem)cboChangeStructure.getSelectedItem();        
+    }
+    
     private void updatePanelonComponentChange(){
         updateSectionTree();
     }
     
+    private void updateViewPortForTree(){
+        if (this.m_selectedChangeStructureItem.itemIndex.equals("VIEW_SECTIONS")) {
+            this.scrollTreeView.setViewportView(sectionInternalStructureTree);
+        } else if (this.m_selectedChangeStructureItem.itemIndex.equals("VIEW_PRETTY_SECTIONS")) {
+            this.scrollTreeView.setViewportView(sectionStructureTree);
+        }
+    }
+    
     private synchronized void updateSectionTree() {
-        NodeDisplayTextSetter nsetter = new NodeDisplayTextSetter(ooDocument);
-        BungeniBNode.setINodeSetterCallback(nsetter);
+        log.debug("updateSectionTree : "+ m_selectedChangeStructureItem);
+        if (this.m_selectedChangeStructureItem.itemIndex.equals("VIEW_SECTIONS")) {
+            //do this only if the tree is visible 
+            if (sectionInternalStructureTree.isShowing()) {
+                 log.debug("updateSectionTree : refreshing section_internal_structure tree");
+                 BungeniBTree newTree = DocumentSectionProvider.getNewTree();
+                 BungeniBNode newRootNode = newTree.getFirstRoot();
+                 DocumentSectionAdapterDefaultTreeModel model = (DocumentSectionAdapterDefaultTreeModel) this.sectionInternalStructureTree.getModel();
+                 DefaultMutableTreeNode mnode = (DefaultMutableTreeNode) model.getRoot();
+                 BungeniBNode origNode = (BungeniBNode) mnode.getUserObject();
+                 BungeniTreeRefactorTree refTree = new BungeniTreeRefactorTree (model, origNode, newRootNode);
+                 refTree.setMergeDisplayText(false);
+                 refTree.doMerge();
+            } else {
+                 log.debug("updateSectionTree : section internal structure tree is not visible");
+            }
+                
+        } else if (this.m_selectedChangeStructureItem.itemIndex.equals("VIEW_PRETTY_SECTIONS")) {
+            if (sectionStructureTree.isShowing()) {
+                 log.debug("updateSectionTree : refreshing section friendly structur tree");
+                 NodeDisplayTextSetter nsetter = new NodeDisplayTextSetter(ooDocument);
+                 BungeniBNode.setINodeSetterCallback(nsetter);
 
-        BungeniBTree newTree = DocumentSectionProvider.getNewFriendlyTree();
-        log.debug("initList: refreshing tree : " + newTree.toString());
-         BungeniBNode newRootNode = newTree.getFirstRoot();
+                 BungeniBTree newTree = DocumentSectionProvider.getNewFriendlyTree();
+                 BungeniBNode newRootNode = newTree.getFirstRoot();
 
-         DocumentSectionFriendlyAdapterDefaultTreeModel model = (DocumentSectionFriendlyAdapterDefaultTreeModel) this.sectionStructureTree.getModel();
-         DefaultMutableTreeNode mnode = (DefaultMutableTreeNode) model.getRoot();
-         BungeniBNode origNode = (BungeniBNode) mnode.getUserObject();
-         BungeniTreeRefactorTree refTree = new BungeniTreeRefactorTree (model, origNode, newRootNode);
-         refTree.doMerge();
+                 DocumentSectionFriendlyAdapterDefaultTreeModel model = (DocumentSectionFriendlyAdapterDefaultTreeModel) this.sectionStructureTree.getModel();
+                 DefaultMutableTreeNode mnode = (DefaultMutableTreeNode) model.getRoot();
+                 BungeniBNode origNode = (BungeniBNode) mnode.getUserObject();
+                 BungeniTreeRefactorTree refTree = new BungeniTreeRefactorTree (model, origNode, newRootNode);
+                 refTree.doMerge();
+            } else {
+                 log.debug("updateSectionTree : section friendly structure tree is not visible");
+            }
+        }
+     
     }
     
     class treeViewPrettySectionsTreeCellRenderer extends JLabel implements TreeCellRenderer {
@@ -572,9 +686,26 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
 
             return bAction;
         }
-
-
        }        
+    
+    class changeStructureItem {
+        String itemText;
+        String itemIndex;
+        changeStructureItem(String itemIndex, String itemText) {
+            this.itemText = itemText;
+            this.itemIndex = itemIndex;
+        }
+        
+        public String getIndex() {
+            return itemIndex;
+        }
+        @Override
+        public String toString(){
+            return itemText;
+        }
+        
+    }
+        
        
     /** This method is called from within the constructor to
      * initialize the form.
@@ -713,7 +844,10 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
     public void initUI() {
         this.initToolbarTree();
         this.initSectionStructureTree();
+        this.initSectionInternalStructureTree();
         this.initButtonListeners();
         this.initMouseListener();
+        this.initComboChangeStructure();
+        this.initTimers();
     }
 }

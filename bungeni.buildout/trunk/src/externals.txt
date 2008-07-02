@@ -10,6 +10,7 @@ ploned.ui      https://bungeni-portal.googlecode.com/svn/ploned.ui/trunk/
 
 # yui ajax libraries
 ore.yui        https://svn.objectrealms.net/svn/public/ore.yui/trunk
+ore.yuiwidget  https://svn.objectrealms.net/svn/public/ore.yuiwidget/trunk/
 
 # relational database support
 ore.alchemist  http://zope-alchemist.googlecode.com/svn/ore.alchemist/trunk

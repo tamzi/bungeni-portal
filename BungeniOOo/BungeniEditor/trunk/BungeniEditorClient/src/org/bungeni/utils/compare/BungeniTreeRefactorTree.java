@@ -8,6 +8,7 @@ public class BungeniTreeRefactorTree {
     private DefaultTreeModel treeModel;
     private BungeniBNode treeRootNode;
     private BungeniBNode treeMergeRootNode;
+    private boolean bMergeDisplayText = true;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniTreeRefactorTree.class.getName());
            
     public BungeniTreeRefactorTree(DefaultTreeModel model, BungeniBNode rootNode, BungeniBNode newRootNode){
@@ -16,6 +17,14 @@ public class BungeniTreeRefactorTree {
         this.treeMergeRootNode = newRootNode;
     }
 
+    public void setMergeDisplayText(boolean bState){
+        bMergeDisplayText = bState;
+    }
+    
+    public boolean getMergeDisplayText(){
+        return this.bMergeDisplayText;
+    }
+    
     public void doMerge() {
         //do a recursive merge of the tree
         //step1 do a merge for the rootnodes
@@ -121,10 +130,12 @@ public class BungeniTreeRefactorTree {
      try {
         //check if node's display text has changed .. if it has changed
         //set the new display text from the merged node.
-        String root1DispText  = origNode.getDisplayText();
-        String root2DispText = mergeNode.getDisplayText();
-        if (!root1DispText.equalsIgnoreCase(root2DispText)) {
-            origNode.setDisplayText(root2DispText);
+        if (getMergeDisplayText())  {
+            String root1DispText  = origNode.getDisplayText();
+            String root2DispText = mergeNode.getDisplayText();
+            if (!root1DispText.equalsIgnoreCase(root2DispText)) {
+                origNode.setDisplayText(root2DispText);
+            }
         }
                                       
         for (String nodeName : origNode.getChildrenByName().keySet()) {

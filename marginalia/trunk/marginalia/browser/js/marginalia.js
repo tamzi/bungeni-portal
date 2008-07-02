@@ -1408,10 +1408,10 @@ function onEnterKey (obj, e) {
 
 function downloadAnnotations(form_field)
 {
-    var toggle_tag = document.getElementById('togglevisibility');
-    var search_button = document.getElementById('search');
-    filterAnnotations(search_button);            
-    toggle_tag.name = 'hide';
+    //    var toggle_tag = document.getElementById('togglevisibility');
+    //    var search_button = document.getElementById('search');
+    //    filterAnnotations(search_button);            
+    //    toggle_tag.name = 'hide';
     var entrycontent = document.getElementById('entry-content');
     var submitcontent = document.getElementById('content');
     var comments = ''

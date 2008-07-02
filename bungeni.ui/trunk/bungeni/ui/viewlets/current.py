@@ -64,10 +64,27 @@ class YUITabView( viewlet.ViewletBase ):
     def render( self ):
         zc.resourcelibrary.need("yui-tab")   
         yuijs ="""
-           <script type="text/javascript"> 
-        	 var bungeniViewTabs = new YAHOO.widget.TabView("bungeni-tabbed-nav"); 
-	       </script>"""     
-        return ""
+             <script type="text/javascript">
+                (function() {
+                     var bungeni_tabView = new YAHOO.widget.TabView();
+                   	 //var bungeniViewTabs = new YAHOO.widget.TabView("bungeni-tabbed-nav"); 
+                   	 var elements = YAHOO.util.Dom.getElementsByClassName('listing', 'div', 'bungeni-tabbed-nav' ); 
+                   	 
+                   	 for (i=0; i < elements.length; i++) 
+                   	    {
+                   	        tab_label = YAHOO.util.Dom.getFirstChild(elements[i])
+                   	        bungeni_tabView.addTab( new YAHOO.widget.Tab({ 
+                   	            labelEl : tab_label,
+                   	            contentEl : elements[i]
+                   	            }));
+                   	    };
+                   	        	    
+                   	 bungeni_tabView.appendTo('bungeni-tabbed-nav');    
+                   	 bungeni_tabView.set('activeTab', bungeni_tabView.getTab(0));
+                   	 })();
+             </script>    
+	       """     
+        return yuijs
     
 def getOrder( request, context_class ):
     """

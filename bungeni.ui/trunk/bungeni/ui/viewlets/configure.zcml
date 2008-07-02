@@ -70,7 +70,16 @@
      provides=".interfaces.ITabManager"     
      permission="zope.View"
      />   
-     
+
+   <!--browser:viewlet
+     name="bungeni.yui-tabs"
+     for="*"
+     manager=".interfaces.ITabManager"
+     template="yui-tab-menu.pt"
+     permission="zope.View"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+    /-->    
+         
   <!--browser:menu
     id="bungeni-yui-tabs"
     title="Tabbed navigation"
@@ -213,14 +222,7 @@
     weight="1"
     /-->
     
-   <browser:viewlet
-     name="bungeni.yui-tabs.government"
-     for="bungeni.core.interfaces.IGovernmentContainer"
-     manager=".interfaces.ITabManager"
-     template="yui-tab-menu-government.pt"
-     permission="zope.View"
-     layer="bungeni.ui.interfaces.IBungeniSkin"
-    />    
+
     
    <browser:viewlet
     name="bungeni.current-gov.government"   

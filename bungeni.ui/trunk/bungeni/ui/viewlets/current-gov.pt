@@ -8,13 +8,10 @@
   <div metal:fill-slot="body">
     <h1 i18n:translate="">Government</h1>
     <div tal:replace="structure provider:bungeni.datechooser.manager" />
-    <script type="text/javascript"> 
-   	 var bungeniViewTabs = new YAHOO.widget.TabView("bungeni-tabbed-nav"); 
-    </script>   
-    <div id ="bungeni-tabbed-nav" class="yiu-navset">
-        <ul class="yui-nav" tal:replace="structure provider:bungeni.yui-tab.manager" />    
-        <div class="yui-content" tal:content="structure provider:bungeni.current-government" />    
-    </div>        
+    <div id ="bungeni-tabbed-nav" class="yui-navset">
+        <div class="bungeni-yui-content" tal:content="structure provider:bungeni.current-government" />    
+    </div>      
+    <div class="yui-nav" tal:replace="structure provider:bungeni.yui-tab.manager" />    
   </div>
  </body>
 </html>

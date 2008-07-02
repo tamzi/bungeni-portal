@@ -479,6 +479,21 @@
 				);
 			}
 		}
+		/*
+		if ($wgTitle->getText() == 'Grouppermissions')
+		{
+			$text = 'Group Permissions';
+			//$selected = $wgRequest->getText('action') == $wgStaffAction ? 'selected' : false;
+			$url      = $wgTitle->getLocalURL("action=$wgStaffAction");
+			if (is_object($wgTitle)) {
+				$actions[$wgStaffAction] = array(
+					'text'  => $wgStaffAction, # should use wfMsg($wgExampleAction)
+					'class' => $selected,
+					'href'  => $url
+				);
+			}
+		}
+		*/
 		if ($wgTitle->getNameSpace() == 2)
 		{
 			$wgStaffAction = 'incomplete';
@@ -609,6 +624,38 @@
 		{
 			return true;
 		}
+	}
+	
+	$wgHooks['SpecialListusersFormatRow'][] = 'listusers';
+	
+	function listusers(&$item, $row)
+	{
+		global $wgUser;
+		$userPage = Title::makeTitle( NS_USER, $row->user_name );
+		$user = User::newFromID($row->user_id);
+		$real_name = $user->getRealName();
+		$name = $wgUser->getSkin()->makeKnownLinkObj( $userPage, $real_name );
+		$groups = $user->getEffectiveGroups();
+		
+		if (count($groups) > 1)
+		{
+			$g = '(';
+			foreach ($groups as $group)
+			{
+				if (($group!='*') && ($group!='autoconfirmed')&& ($group!='user'))
+				{ 
+					$g .= ' '.$group.',';
+				}
+			}
+			$g.=')';
+		}
+		else
+		{
+			$g ='';
+		}
+
+		$item = $name.'  '.$g;
+		return false;
 	}
 
 

@@ -877,8 +877,8 @@ END
         $wgOut->addHTML("</select>");
         */
         //end my code
-        $overlap = "<input type=\"checkbox\" name=\"overlap\" value=\"1\"/><label for=\"overlap\">Ignore Overlap</label>";
-        
+        //$overlap = "<input type=checkbox name=overlap value=true>Ignore Overlap";
+        $overlap = 'Ignore Overlap<select name="overlap"><option value="yes">Yes</option><option value="no" selected=true>No</option></select>';
 		$wgOut->addWikiText( $copywarn );
 		$wgOut->addHTML( $this->editFormTextAfterWarn );
 		$wgOut->addHTML( "

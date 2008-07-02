@@ -754,10 +754,10 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 				}
 			}
 		}
-		//$overlap = true;
-		if(($overlap == true) && (!isset($_POST['wpPreview'])) )
+		$val = $wgRequest->getVal('overlap');
+		if(($overlap == true) && (!isset($_POST['wpPreview'])) && ($val=='no'))
 		{
-			return "alert(\"The transcript you are trying to save overlaps with another.\");".$wgOut->getHTML();
+			return "alert(\"The transcript you are trying to save".$val." overlaps with another\");".$wgOut->getHTML();
 		}
 		
 		//undesa	

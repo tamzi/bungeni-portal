@@ -41,7 +41,7 @@ public class DocumentSectionTreeModelProvider {
      * returns a non-static instance of the section TreeModel which is updated directly by the documentsectionProvider
      */
     public static DocumentSectionAdapterDefaultTreeModel create(){
-        BungeniBNode bRootNode = DocumentSectionProvider.getTreeRoot();
+        BungeniBNode bRootNode = DocumentSectionProvider.getNewTree().getFirstRoot();
         DefaultMutableTreeNode dmtRootNode = provideRootNode(bRootNode);
         DocumentSectionAdapterDefaultTreeModel model = new DocumentSectionAdapterDefaultTreeModel(dmtRootNode, false);
         DocumentSectionProvider.subscribeModel(model);

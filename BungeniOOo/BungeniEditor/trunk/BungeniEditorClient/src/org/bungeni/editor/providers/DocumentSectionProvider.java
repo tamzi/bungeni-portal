@@ -112,44 +112,7 @@ public class DocumentSectionProvider {
        //s initTimer();
     }
     
-    /*
-   
-    private static void initTimer(){
-          sectionRefreshTimer = new Timer(TIMER_DELAY, new ActionListener() {
-              public void actionPerformed(ActionEvent e) {
-                  log.debug("DocumentSectionProvider: in timer");
-                  BungeniBTree tmpTreeRoot = generateSectionsTree(null);
-                  if (tmpTreeRoot == null) {
-                      log.debug("timer actionPerformed tree was null");
-                      return;
-                  }
-                  if (tmpTreeRoot.getRootCount() == 0 ) {
-                      log.debug("timer actionPerformed tree was empty");
-                      return;
-                  }
-                  
-                  log.debug("DocumentSectionProvider: in timer : generated size = " + tmpTreeRoot.getTree().size());
-                  log.debug("DocumentSectionProvider: in timer : tree brains = " + tmpTreeRoot.toString());
-                  BungeniBNode mergeNode = tmpTreeRoot.getTree().get(tmpTreeRoot.getTree().firstKey());
-                 // BungeniBNode origNode = theSectionTree.getTree().get(theSectionTree.getTree().firstKey());
-                  synchronized(theSectionTree) {
-                    theSectionTree = tmpTreeRoot;
-                  }
-                  //refresh subscribed tree models
-                  //for( DocumentSectionAdapterDefaultTreeModel model: treeModelList) {
-                 //     model.setRoot(DocumentSectionTreeModelProvider.newRootNode());
-                 // }
-                  synchronized (theSectionTree) {
-                  for (IRefreshableSectionTreeModel model: treeModelList) {
-                      log.debug("DocumentSectionProvider: in timer: updating Model " );
-                    //  model.updateTreeModel(mergeNode);
-                  }
-                 }
-              }
-           });
-           sectionRefreshTimer.start();
-    }
-     */
+
       private static BungeniBTree generateSectionsTree(String objCallback){
         BungeniBTree treeRoot = new BungeniBTree();
         final OOComponentHelper localOoDoc;

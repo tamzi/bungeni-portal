@@ -25,7 +25,7 @@ public class BungeniClientDB {
     private  String DEFAULT_DB = "settings.db";
     private  String USER_NAME = "sa";
     private  String PASS_WORD = "";
-    
+    private  String TRACE_LEVEL_FILE="TRACE_LEVEL_FILE=0";
     private String current_database;
     private String path_to_database;
     private Connection db_connection;
@@ -43,7 +43,7 @@ public class BungeniClientDB {
         else
             current_database = dbName;
         path_to_database = pathToDb;
-        connection_string = JDBC_PREFIX + path_to_database + current_database;
+        connection_string = JDBC_PREFIX + path_to_database + current_database + ";"+TRACE_LEVEL_FILE;
         log.debug("connection string = "+ connection_string);
     }
    

@@ -41,6 +41,7 @@ users = rdb.Table(
    rdb.Column( "password", rdb.String(36)), # we store salted md5 hash hexdigests
    rdb.Column( "salt", rdb.String(24)),  
    rdb.Column( "description", rdb.UnicodeText ),  
+   rdb.Column( "image", rdb.Binary),
    rdb.Column( "active_p", rdb.String(1),
                 rdb.CheckConstraint("active_p in ('A', 'I', 'D')"),
                 default="A", #activ/inactiv/deceased

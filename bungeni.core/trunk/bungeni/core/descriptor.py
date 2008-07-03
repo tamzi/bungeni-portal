@@ -177,7 +177,8 @@ class UserDescriptor( ModelDescriptor ):
         dict( name="login", label=_(u"Login Name")),
         dict( name="national_id", label=_(u"National Id")),
         dict( name="gender", 
-              property = schema.Choice( title=_(u"Gender"), values=['M', 'F'] ) ),
+              property = schema.Choice( title=_(u"Gender"), source=vocabulary.Gender ),
+              edit_widget=widget.CustomRadioWidget ),
         dict( name="date_of_birth", 
               label=_(u"Date of Birth"), 
               edit_widget=calendar.CalendarWidget, 
@@ -207,15 +208,20 @@ class UserDescriptor( ModelDescriptor ):
               edit_widget=calendar.CalendarWidget, add_widget=calendar.CalendarWidget),
         dict( name="password", omit=True ),
                 dict( name="active_p", label=_(u"Status"), 
-              property = schema.Choice( title=_(u"Status"), values=['A', 'I', 'D'], default='A' ),
+              property = schema.Choice( title=_(u"Status"), source=vocabulary.InActiveDead, default='A' ),
               view_permission="bungeni.AdminUsers", 
-              edit_permission="bungeni.AdminUsers",  listing=True),
+              edit_permission="bungeni.AdminUsers",  listing=True,
+              edit_widget=widget.CustomRadioWidget),
         dict( name="description", 
               property=schema.Text(title=_(u"Notes"), required=False),
               view_widget=widget.HTMLDisplay,
               edit_widget=widget.RichTextEditor, 
               add_widget=widget.RichTextEditor 
                ),
+        dict( name ="image", label=_(u"Image"), description=_(u"Picture of the person"),
+                view_widget=widget.ImageDisplayWidget,
+                edit_widget = widget.ImageInputWidget,
+                listing=False),       
         dict( name="salt", omit=True),
         dict( name="type", omit=True ),
         ]
@@ -350,6 +356,38 @@ class PartyMemberDescriptor( ModelDescriptor ):
     #        ),
     #        ])
 
+class MemberOfPartyDescriptor( ModelDescriptor ):
+    """ describes the partymembership of a user rather then the 
+    membership of a user in a party """
+    display_name=_(u"Partymembership")
+    partySource=DatabaseSource(domain.PoliticalParty,  'short_name', 'party_id')
+    fields = [
+        dict( name="user_id", omit=True),                 
+        dict( name="group_id",
+            property=schema.Choice( title=_(u"Political Party"), source=partySource,),
+            listing_column=vocab_column( "group_id" , _(u'<a href="?order_by=group_id">Party</a>'), partySource, ),  
+            listing=True,
+            ),
+        dict( name="start_date", label=_(u"Start Date"), 
+            listing_column=day_column("start_date", _(u'<a href="?order_by=start_date">Start Date</a>') ), listing=True,
+            edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
+        dict( name="end_date", label=_(u"End Date"), listing=True,
+            listing_column=day_column("end_date", _(u'<a href="?order_by=end_date">End Date</a>')), 
+            edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
+        dict( name="active_p", label=_(u"Active"), view=False),
+        dict( name="notes", label=_(u"Notes"), view_widget=widget.HTMLDisplay,
+                                                edit_widget=widget.RichTextEditor,
+                                                add_widget=widget.RichTextEditor
+                                             ),
+        dict( name="substitution_type", omit=True),
+        dict( name="replaced_id", omit=True),
+        dict( name="membership_id", omit=True),
+        dict( name="status", omit=True ),
+        dict( name="membership_type", omit=True )
+        ]
+        
+    schema_invariants = [EndAfterStart]
+
 class ExtensionMemberDescriptor( ModelDescriptor ):
     display_name =_(u"Additional members")
     fields = deepcopy(GroupMembershipDescriptor.fields)
@@ -480,7 +518,7 @@ class MemberRoleTitleDescriptor( ModelDescriptor ):
         dict( name='membership_id', omit=True),
         dict( name='title_name_id', label=_(u"Title"),
                 property=schema.Choice( title=_(u"Title"), 
-                                      source=DatabaseSource(domain.MemberTitle,  'user_role_type_id', 'user_role_type_id')
+                                      source=DatabaseSource(domain.MemberTitle,  token_field='user_role_type_id', title_field='user_role_name', value_field='user_role_type_id')
                                       ),
                                       listing_column = lookup_fk_column( "title_name_id", _(u'<a href="?order_by=title_name_id">Title</a>'), domain.MemberTitle, 'user_role_name' ),
                                       listing=True,
@@ -507,7 +545,8 @@ class PoliticalPartyDescriptor( GroupDescriptor ):
     # ])
     fields.extend([
         dict( name='logo_data', label=_(u"Logo"), edit=True, add=True, view=True, listing=False,
-                view_widget=widget.ImageDisplayWidget )
+                view_widget=widget.ImageDisplayWidget,
+                edit_widget = widget.ImageInputWidget)
      ])
           
      
@@ -738,7 +777,7 @@ class AttendanceDescriptor( ModelDescriptor ):
                        FROM  "public"."users" 
                        WHERE  "users"."user_id" = %(member_id)s                                                                  
                     '''
-    membersVocab = vocabulary.SQLQuerySource( sql_members, 'user_name', 'user_id', {'member_id':'$member_id'} )                                                                        
+    membersVocab = vocabulary.SQLQuerySource( sql_members, 'user_id', 'user_name', 'user_id', {'member_id':'$member_id'} )                                                                        
     fields = [
         dict( name="sitting_id", omit=True ),
         dict( name="member_id", listing=True,
@@ -807,7 +846,7 @@ class QuestionDescriptor( ModelDescriptor ):
         
              ),
         dict( name="owner_id", 
-              property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, 'fullname', 'user_id' )), 
+              property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, title_field='fullname', token_field='user_id', value_field = 'user_id' )), 
             ),
         dict( name="subject", label=_(u"Subject"), description=_(u"Subject of the Question"), edit_widget = widgets.LongTextWidget ),
         dict( name="question_text", property=schema.Text(title=_(u"Question"), required=True ),
@@ -822,7 +861,7 @@ class QuestionDescriptor( ModelDescriptor ):
         #dict( name="sitting_id", omit=True), #XXX
          #XXX Hack for Cairo
         dict( name="sitting_id", 
-              property = schema.Choice( title=_(u"Sitting"), source=DatabaseSource(domain.GroupSitting, 'sitting_id', 'sitting_id', 'short_name'), 
+              property = schema.Choice( title=_(u"Sitting"), source=DatabaseSource(domain.GroupSitting, token_field='sitting_id', value_field='sitting_id', title_field='short_name'), 
               required=False )
               ),
         dict( name="sitting_time", label=_(u"Sitting Time"), listing=True ),
@@ -913,8 +952,8 @@ class AddressDescriptor ( ModelDescriptor ):
         dict( name="city", label=_(u"City") ),
         dict( name="zipcode", label=_(u"Zip Code") ),
         dict( name="country",  property = schema.Choice( title=_(u"Country"), 
-                                        source=DatabaseSource(domain.Country, 'country_name',
-                                                             'country_id' ),                                        
+                                        source=DatabaseSource(domain.Country, title_field='country_name',
+                                                             token_field='country_id', value_field='country_id' ),                                        
                                         required=True ), 
              ),
         dict( name="phone",  property = schema.Text( title=_(u"Phone Number(s)"), 

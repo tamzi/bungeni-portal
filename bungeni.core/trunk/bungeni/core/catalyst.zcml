@@ -215,6 +215,14 @@
      ui_module="bungeni.ui.content"     
      echo="False"
      />     
+
+  <db:catalyst
+     class=".domain.MemberOfParty"
+     descriptor=".descriptor.MemberOfPartyDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"     
+     echo="False"
+     />        
    
   <!--db:catalyst
      class=".domain.SittingType"
@@ -293,6 +301,6 @@
      descriptor=".descriptor.MemberRoleTitleDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
-     echo="True"
+     echo="False"
     />     
 </configure>

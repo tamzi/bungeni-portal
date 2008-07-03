@@ -240,6 +240,12 @@ mapper( domain.PartyMember,
         polymorphic_on=schema.user_group_memberships.c.membership_type,          
         polymorphic_identity='partymember',        
         )  
+        
+mapper( domain.MemberOfParty, 
+        inherits=domain.UserGroupMembership,
+        polymorphic_on=schema.user_group_memberships.c.membership_type,          
+        polymorphic_identity='partymember',        
+        )          
                 
 # staff assigned to a group (committee, ...)
 

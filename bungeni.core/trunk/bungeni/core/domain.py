@@ -79,7 +79,7 @@ class ParliamentMember( User ):
     # ministries
     sort_on = 'sort_by_name'    
     addresses = one2many( "addresses", "bungeni.core.domain.UserAddressContainer", "user_id" )
-    
+    party = one2many( "parties", "bungeni.core.domain.MemberOfPartyContainer", "user_id" )
 
 class Person( User ):
     """
@@ -99,6 +99,7 @@ class MemberOfParliament ( Entity ):
     """    
     sort_on = 'sort_by_name'
     titles = one2many( "titles", "bungeni.core.domain.MemberRoleTitleContainer", "membership_id" )
+    party = one2many( "party", "bungeni.core.domain.MemberOfPartyContainer", "user_id" )
 
 class HansardReporter( User ):
     """ a reporter who reports on parliamentary procedings
@@ -204,7 +205,13 @@ class PartyMember( UserGroupMembership ):
     """ 
     Member of a political party, defined by its group membership 
     """
-    titles = one2many( "titles", "bungeni.core.domain.MemberRoleTitleContainer", "membership_id" )       
+    titles = one2many( "titles", "bungeni.core.domain.MemberRoleTitleContainer", "membership_id" )   
+    
+class MemberOfParty( UserGroupMembership ):
+    """
+    Membership of a user in a political party 
+    """         
+    
     
 class Ministry( Group ):
     """ a government ministry

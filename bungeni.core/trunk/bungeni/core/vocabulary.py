@@ -25,6 +25,7 @@ QuestionType = vocabulary.SimpleVocabulary.fromItems( [(_(u"Ordinary"), "O"), (_
 ResponseType = vocabulary.SimpleVocabulary.fromItems( [(_("Oral"), "O"), (_(u"Written"), "W")] )
 Gender = vocabulary.SimpleVocabulary.fromItems( [(_(u"Male"), "M"), (_(u"Female"), "F")] )
 ElectedNominated = vocabulary.SimpleVocabulary.fromItems( [(_(u"elected"),'E'),(_(u"nominated") ,'N'), (_(u"ex officio"),'O')])
+InActiveDead = vocabulary.SimpleVocabulary.fromItems([(_(u"active"),'A'),(_(u"inactive"), 'I'),(_(u"deceased"), 'D')])
 
 Constituencies = ObjectSource( domain.Constituency, 'name', 'constituency_id')
 Parliaments = ObjectSource( domain.Parliament, 'identifier', 'parliament_id')
@@ -137,7 +138,7 @@ class QuerySource( object ):
         return value_key         
         
         
-    def __init__( self, domain_model, token_field, value_field, filter_field, filter_value=None, order_by_field=None, title_field=None ):
+    def __init__( self, domain_model, token_field, title_field, value_field, filter_field, filter_value=None, order_by_field=None,  ):
         self.domain_model = domain_model
         self.token_field = token_field
         self.value_field = value_field

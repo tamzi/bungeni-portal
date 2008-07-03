@@ -6,6 +6,10 @@
 
 package org.bungeni.editor.panels;
 
+import com.sun.star.beans.XPropertySet;
+import com.sun.star.text.XTextSection;
+import com.sun.star.text.XTextViewCursor;
+import com.sun.star.uno.Any;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -44,7 +48,6 @@ import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.editor.panels.impl.IFloatingPanel;
 import org.bungeni.editor.providers.DocumentSectionAdapterDefaultTreeModel;
-import org.bungeni.editor.providers.DocumentSectionAdapterTreeModel;
 import org.bungeni.editor.providers.DocumentSectionFriendlyAdapterDefaultTreeModel;
 import org.bungeni.editor.providers.DocumentSectionFriendlyTreeModelProvider;
 import org.bungeni.editor.providers.DocumentSectionProvider;
@@ -55,12 +58,14 @@ import org.bungeni.editor.toolbar.BungeniToolbarXMLAdapterNode;
 import org.bungeni.editor.toolbar.BungeniToolbarXMLTreeNodeProcessor;
 import org.bungeni.editor.toolbar.conditions.BungeniToolbarConditionProcessor;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.BungeniBNode;
 import org.bungeni.utils.BungeniBTree;
 import org.bungeni.utils.CommonTreeFunctions;
 import org.bungeni.utils.NodeDisplayTextSetter;
 import org.bungeni.utils.compare.BungeniTreeRefactorTree;
+
 
 /**
  *
@@ -85,7 +90,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
     private changeStructureItem m_selectedChangeStructureItem = null;
     
     private JTree sectionInternalStructureTree;
-    
+    private String m_currentSelectedSectionName ;
     /** Creates new form holderUIPanel */
     public holderUIPanel() {
         initComponents();
@@ -172,6 +177,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
     private void initTimers(){
          Action sectionViewRefreshRunner = new AbstractAction() {
                 public void actionPerformed (ActionEvent e) {
+                    updateCurrentSectionName();
                     updateSectionTree();
                 }
             };
@@ -274,6 +280,54 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
             cboChangeStructure.setSelectedItem(itemDefault);
         m_selectedChangeStructureItem = (changeStructureItem)cboChangeStructure.getSelectedItem();        
     }
+    
+    private void updateCurrentSectionName(){
+       String sectionHier = currentSectionName();
+       this.txtCurrentSectionName.setText(sectionHier);
+    }
+    
+        public String getSectionHierarchy(XTextSection thisSection) {
+                String sectionName = "";
+                sectionName = ooQueryInterface.XNamed(thisSection).getName();
+                if (thisSection.getParentSection() != null) {
+                    sectionName = getSectionHierarchy(thisSection.getParentSection()) + ">" + sectionName;
+                } else
+                    return sectionName;
+                return sectionName;    
+            }
+       
+        
+        
+        public String currentSectionName() {
+            XTextSection loXTextSection;
+            XTextViewCursor loXTextCursor;
+            XPropertySet loXPropertySet;
+            String lstrSectionName = "";
+             try
+             {
+                if (ooDocument.isXComponentValid() ) {
+                    loXTextCursor = ooDocument.getViewCursor();
+                    loXPropertySet = ooQueryInterface.XPropertySet(loXTextCursor);
+                    loXTextSection = (XTextSection)((Any)loXPropertySet.getPropertyValue("TextSection")).getObject();
+                    if (loXTextSection != null)
+                    {
+                        //loXPropertySet = ooQueryInterface.XPropertySet(loXTextSection);
+                        //XNamed objSectProps = ooQueryInterface.XNamed(loXTextSection);
+                        //lstrSectionName =  objSectProps.getName(); // (String)loXPropertySet.getPropertyValue("LinkDisplayName");
+                        m_currentSelectedSectionName  = ooQueryInterface.XNamed(loXTextSection).getName();
+                        lstrSectionName = getSectionHierarchy(loXTextSection);
+                    } else
+                        m_currentSelectedSectionName = "";
+                }
+              }
+              catch (java.lang.Exception poException)
+                {
+                    log.error("currentSectionName:" + poException.getLocalizedMessage());
+                }
+              finally {  
+                 return lstrSectionName; 
+              }
+           }
     
     private void updatePanelonComponentChange(){
         updateSectionTree();
@@ -725,6 +779,8 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
         btnHideToolbarTree = new javax.swing.JRadioButton();
         btnHideTreeView = new javax.swing.JRadioButton();
         btnViewDefault = new javax.swing.JRadioButton();
+        lblCurrentSectionName = new javax.swing.JLabel();
+        txtCurrentSectionName = new javax.swing.JTextField();
 
         scrollToolbarTree.setViewportView(toolbarTree);
 
@@ -741,12 +797,14 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
         btnGroupSwitchView.add(btnViewDefault);
         btnViewDefault.setText("Switch to Default View");
 
+        lblCurrentSectionName.setText("Current Section Name:");
+
+        txtCurrentSectionName.setEditable(false);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollTreeView, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
-            .addComponent(scrollToolbarTree, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
             .addComponent(cboChangeStructure, 0, 221, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -760,14 +818,22 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
                 .addContainerGap()
                 .addComponent(btnHideTreeView)
                 .addContainerGap(37, Short.MAX_VALUE))
+            .addComponent(scrollToolbarTree, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+            .addComponent(scrollTreeView, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+            .addComponent(lblCurrentSectionName, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+            .addComponent(txtCurrentSectionName, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(scrollToolbarTree, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(scrollToolbarTree, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollTreeView, javax.swing.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
+                .addComponent(scrollTreeView, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblCurrentSectionName)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtCurrentSectionName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
                 .addComponent(cboChangeStructure, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnHideToolbarTree)
@@ -785,10 +851,12 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
     private javax.swing.JRadioButton btnHideTreeView;
     private javax.swing.JRadioButton btnViewDefault;
     private javax.swing.JComboBox cboChangeStructure;
+    private javax.swing.JLabel lblCurrentSectionName;
     private javax.swing.JScrollPane scrollToolbarTree;
     private javax.swing.JScrollPane scrollTreeView;
     private javax.swing.JTree sectionStructureTree;
     private javax.swing.JTree toolbarTree;
+    private javax.swing.JTextField txtCurrentSectionName;
     // End of variables declaration//GEN-END:variables
 
     public static void main (String[] args){

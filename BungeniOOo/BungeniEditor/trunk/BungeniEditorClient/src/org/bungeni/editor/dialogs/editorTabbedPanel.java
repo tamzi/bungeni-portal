@@ -13,6 +13,8 @@ import com.sun.star.container.NoSuchElementException;
 import com.sun.star.container.XEnumeration;
 import com.sun.star.container.XEnumerationAccess;
 import com.sun.star.container.XNamed;
+import com.sun.star.document.XDocumentInfo;
+import com.sun.star.document.XDocumentInfoSupplier;
 import com.sun.star.document.XEventBroadcaster;
 import com.sun.star.frame.XFrame;
 import com.sun.star.frame.XModel;
@@ -28,9 +30,10 @@ import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.uno.Any;
 import com.sun.star.uno.AnyConverter;
+import com.sun.star.uno.Type;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
-import java.awt.Color;
+import com.sun.star.util.DateTime;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -47,38 +50,25 @@ import java.util.TreeMap;
 import java.util.Vector;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.BorderFactory;
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-import javax.swing.JTable;
 import javax.swing.JTree;
-import javax.swing.ListCellRenderer;
 import javax.swing.ListSelectionModel;
+import javax.swing.SingleSelectionModel;
 import javax.swing.Timer;
-import javax.swing.UIManager;
-import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.basic.BasicTreeUI;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 import org.bungeni.editor.BungeniEditorPropertiesHelper;
-import org.bungeni.editor.dialogs.tree.NodeMoveTransferHandler;
-import org.bungeni.editor.dialogs.tree.TreeDropTarget;
 import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
-import org.bungeni.editor.metadata.DocumentMetadata;
 import org.bungeni.editor.metadata.DocumentMetadataTableModel;
 import org.bungeni.editor.panels.impl.FloatingPanelFactory;
 import org.bungeni.editor.panels.impl.ICollapsiblePanel;
@@ -89,17 +79,12 @@ import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooDocNotes;
 import org.bungeni.ooo.ooQueryInterface;
-import org.bungeni.utils.CommonTreeFunctions;
 import org.bungeni.utils.DocStructureElement;
 import org.bungeni.utils.MessageBox;
 import org.bungeni.utils.BungeniBTree;
 import org.bungeni.utils.BungeniBNode;
 import org.bungeni.editor.BungeniEditorProperties;
-import org.bungeni.editor.providers.DocumentSectionFriendlyAdapterDefaultTreeModel;
-import org.bungeni.editor.providers.DocumentSectionFriendlyTreeModelProvider;
-import org.bungeni.editor.providers.DocumentSectionProvider;
-import org.bungeni.utils.compare.BungeniTreeRefactorTree;
-import org.bungeni.utils.NodeDisplayTextSetter;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 /**
  *
  * @author  Administrator
@@ -194,7 +179,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        //initListDocuments();
        initProviders();
        initFields();
-       initializeValues();
+       //();
        initFloatingPane();
        
         //initCollapsiblePane();
@@ -203,12 +188,14 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        initTimers();
        log.debug("calling initOpenDOcuments");
        initOpenDocuments();
+      
        /***** control moved to other dialog... 
        updateListDocuments();
         *****/
        //initTableDocMetadata();
        initTabbedPanes();
-   
+       initModeLabel();
+       initSwitchTabs();
        //metadataChecks();
        
     }
@@ -251,28 +238,6 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             panel.setOOComponentHandle(ooDocument);
             panel.refreshPanel();
         }
-    }
-    
-    private boolean checkTableDocMetadata(){
-        DocumentMetadata [] mMetaData=docMetadataTableModel.getMetadataSupplier().getDocumentMetadata();
-        for(int i=0;i<mMetaData.length;i++){
-              if ((mMetaData[i].getName().equals("doctype") && mMetaData[i].getValue().equals("")))
-              {
-                  log.debug("Setting document type value from document metadata");
-                  try{
-                       
-                       mMetaData[i].setValue(ooDocument.getPropertyValue("doctype"));
-                  }catch(UnknownPropertyException ex){
-                      log.debug("Property bungeni_document_type does not exist" + ex.getMessage());
-                  }
-                 
-                 
-                 // docMetadataTableModel.getMetadataSupplier().updateMetadataToDocument("doctype");
-             } else if (mMetaData[i].getValue().equals("")) {
-                     mMetaData[i].setValue("test_value");
-              }
-          }
-        return true;
     }
 /*
     private void initTableDocMetadata(){
@@ -366,25 +331,11 @@ public class editorTabbedPanel extends javax.swing.JPanel {
 	
     private void initListDocuments(){
         log.debug("initListDocuments: init");
-        //this.cboListDocuments.removeAll();
-       // Iterator docIterator = editorMap.keySet().iterator();
-       // while (docIterator.hasNext()) {
-       //     String docKey = (String) docIterator.next();
-          //  cboListDocuments.addItem(docKey);
-       // }
-        /**** commment for now as we are moving control to other dialog ****
-        String[] listDocuments = editorMap.keySet().toArray(new String[editorMap.keySet().size()]);
-        cboListDocuments.setModel(new DefaultComboBoxModel(listDocuments));
-         ******/
-       // cboListDocuments.updateUI();
-        //cboListDocuments.add
+        //String[] listDocuments = getCurrentlyOpenDocuments().keySet().toArray(new String[getCurrentlyOpenDocuments().keySet().size()]);
+        ArrayList<componentHandleContainer> listDocuments = this.getDocumentsComboModel();
+        this.cboListDocuments.setModel(new DefaultComboBoxModel(listDocuments.toArray()));
     }
-    /**** commented because control has been moved***
-    private void updateListDocuments(){
-        XTextDocument xDoc = (XTextDocument)UnoRuntime.queryInterface(XTextDocument.class, this.Component);
-        String strTitle = OOComponentHelper.getFrameTitle(xDoc);
-        cboListDocuments.setSelectedItem(strTitle);
-    }*****/
+
     
     private void initOpenDocumentsList(){
              try {
@@ -416,7 +367,8 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                     String strTitle = OOComponentHelper.getFrameTitle(xDoc);
                     XComponent xComponent = (XComponent)UnoRuntime.queryInterface(XComponent.class, nextElem);
                     componentHandleContainer compContainer = new componentHandleContainer(strTitle, xComponent);
-                    editorMap.put(compContainer.toString(), compContainer);
+                    if (!editorMap.containsKey(compContainer.componentKey()))
+                        editorMap.put(compContainer.componentKey(), compContainer);
                    // this.cboOpenDocuments.addItem(i+ " - " + strTitle);
                 }
             }
@@ -451,6 +403,46 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        // cboListDocuments.addActionListener(new cboListDocumentsActionListener());
         initOpenDocumentsList();
         initListDocuments();
+        initListDocumentsListener();
+        initSelectionInOpenDocuments();
+    }
+    
+    private void initSelectionInOpenDocuments(){
+        componentHandleContainer currentDoc = new componentHandleContainer (ooDocument.getDocumentTitle(), ooDocument.getComponent());
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboListDocuments.getModel();
+        for (int i=0 ; i < model.getSize(); i++ ){
+            componentHandleContainer foundchc = (componentHandleContainer) model.getElementAt(i);
+            if (foundchc.componentKey().equals(currentDoc.componentKey())) {
+                model.setSelectedItem(foundchc);
+                break;
+            }
+        }
+    }
+    
+    private void initListDocumentsListener(){
+        this.cboListDocuments.addActionListener(new cboListDocumentsActionListener());
+    }
+    
+    private void initModeLabel(){
+        String labelText =  this.lblCurrentMode.getText();
+        labelText = labelText.replaceAll("%s", BungeniEditorPropertiesHelper.getCurrentDocType());
+        this.lblCurrentMode.setText(labelText);
+    }
+    
+    private void initSwitchTabs(){
+        int iTabs = jTabsContainer.getTabCount();
+        String[] tabs = new String[iTabs];
+        for (int i=0; i < iTabs; i++) {
+            tabs[i] = jTabsContainer.getTitleAt(i);
+        }
+        this.cboSwitchTabs.setModel(new DefaultComboBoxModel(tabs));
+        cboSwitchTabs.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent arg0) {
+               int iSelect = cboSwitchTabs.getSelectedIndex();
+               jTabsContainer.setSelectedIndex(iSelect);
+            }
+        });
+        
     }
     
     public void setOOoHelper(BungenioOoHelper helper) {
@@ -462,9 +454,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
   
     private void initFields(){
         //initTree();
-        treeDocStructure.setModel(new DefaultListModel());
-        this.initSectionTree();
-        this.initSectionStructureTree();
+       //rem treeDocStructure.setModel(new DefaultListModel());
+       //rem  this.initSectionTree();
+       //rem  this.initSectionStructureTree();
        // treeSectionStructure = new JTree();
         //treeSectionStructure.setExpandsSelectedPaths(true);
         //treeDocStructureTree.addMouseListener(new treeDocStructureTreeMouseListener());
@@ -476,6 +468,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         //clear meatada listbox
         //listboxMetadata.setModel(new DefaultListModel());
         //init combo change structure
+        /*
         changeStructureItem[] items = initChangeStructureItems();
         changeStructureItem itemDefault = null;
         String defaultHierarchyView = BungeniEditorProperties.getEditorProperty("defaultHierarchyView");
@@ -489,10 +482,10 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         if (itemDefault != null)
             comboChangeStructure.setSelectedItem(itemDefault);
         selectedChangeStructureItem = (changeStructureItem)comboChangeStructure.getSelectedItem();
-        
-        initList();
+        */
+        //rem initList();
     }
-    
+    /*
     private void initSectionTree(){
         treeDocStructureTree = new JTree();
         treeDocStructureTree.setExpandsSelectedPaths(true);
@@ -509,9 +502,10 @@ public class editorTabbedPanel extends javax.swing.JPanel {
              ((BasicTreeUI)ui).setCollapsedIcon(CommonTreeFunctions.treePlusIcon());
          }
     }
+    */
     
     public void uncheckEditModeButton() {
-        toggleEditSection.setSelected(false);
+        //toggleEditSection.setSelected(false);
     }
     
     public synchronized void bringEditorWindowToFront(){
@@ -534,20 +528,18 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      * @param currentlySelectedDoc currently selected document in switched
      * @param same
      */
-    public void updateMain(String currentlySelectedDoc, boolean same) {
+    public void updateMain(componentHandleContainer currentlySelectedDoc, boolean same) {
                   if (same) {
                     if (self().program_refresh_documents == true)
                         return;
                     else
                          bringEditorWindowToFront();
                 } else {
-                    String key = currentlySelectedDoc;
-                    componentHandleContainer xComp = editorMap.get(key);
-                    if (xComp == null ) {
+                    if (currentlySelectedDoc == null ) {
                         log.debug("XComponent is invalid");
                     }
                    // ooDocument.detachListener();
-                    setOODocumentObject(new OOComponentHelper(xComp.getComponent(), ComponentContext));
+                    setOODocumentObject(new OOComponentHelper(currentlySelectedDoc.getComponent(), ComponentContext));
                     updateProviders();
                     //initFields();
                     //initializeValues();
@@ -636,7 +628,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             
             int windowX = screenSize.width - floatingFrame.getWidth() - WIDTH_OOo_SCROLLBAR;
             int windowY = (screenSize.height - floatingFrame.getHeight())/2;
-            floatingFrame.setLocation(windowX, windowY);  // Don't use "f." inside constructor.
+            floatingFrame.setLocation(windowX, windowY + editorApplicationController.OPENOFFICE_HEIGHT_OFFSET);  // Don't use "f." inside constructor.
             floatingFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
     
@@ -727,7 +719,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     public Component getComponentHandle(){
         return this;
     }
-    
+    /*
     private void initList() {
         if (!ooDocument.isXComponentValid()) return;
         if (selectedChangeStructureItem.getIndex().equals("VIEW_PARAGRAPHS")) {
@@ -742,7 +734,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                 log.debug("initList: mouseOver treeDocStructure = true");
                 return;
             }
-            initSectionList();
+           //rem  initSectionList();
         } else if (selectedChangeStructureItem.getIndex().equals("VIEW_PRETTY_SECTIONS")){
              scrollPane_treeDocStructure.setViewportView(treeSectionStructure);
                       //   if (mouseOver_TreeDocStructureTree) {
@@ -769,6 +761,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
              //this.initSectionStructureTreeModel();
         }   
    }
+     */ 
         
     private void clearTree(){
         treeDocStructureTree.removeAll();
@@ -968,35 +961,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      * see http://www.openoffice.org/issues/show_bug.cgi?id=82420
      *****/
     
-    private void initSectionsArray__Old() {
-        try {
-            log.debug("initSectionsArray....");
-            if (!ooDocument.isXComponentValid()) return;
-            log.debug("emptying treeDocStructureTree");
-            treeDocStructureTree.removeAll();
-            treeDocStructureTree.updateUI();
-            if (!ooDocument.getTextSections().hasByName(ROOT_SECTION)) {
-                log.debug("no root section found");
-                return;
-            }
-            log.debug("InitSectionsArray = getting root section");
-            Object rootSection = ooDocument.getTextSections().getByName(ROOT_SECTION);
-            XTextSection theSection = ooQueryInterface.XTextSection(rootSection);
-            sectionsRootNode = null;
-            sectionsRootNode = new DefaultMutableTreeNode(new String(ROOT_SECTION));
-            log.debug("about to recurseSections()...");
-            recurseSections (theSection, sectionsRootNode);
-            
-            //-tree-deprecated--CommonTreeFunctions.expandAll(treeDocStructureTree, true);
-            CommonTreeFunctions.expandAll(treeDocStructureTree);
-            
-        } catch (NoSuchElementException ex) {
-            log.error(ex.getMessage());
-        } catch (WrappedTargetException ex) {
-            log.error(ex.getMessage());
-        }
-    }
-    
+/*    
     private void recurseSections (XTextSection theSection, DefaultMutableTreeNode node ) {
         try {
      
@@ -1029,8 +994,10 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         } catch (WrappedTargetException ex ) {
             log.error(ex.getMessage());
         }
-    }
     
+    }
+  */  
+    /*
     private void initSectionList() {
         initSectionsArray();  
         log.debug("setting defaultTreeModel to sectionsRootNode");
@@ -1038,7 +1005,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         //-tree-deprecated--CommonTreeFunctions.expandAll(treeDocStructureTree, true);
         CommonTreeFunctions.expandAll(treeDocStructureTree);
       }
+    */
     
+    /*
     private void initSectionStructureTree(){
          this.treeSectionStructure = new JTree();
          treeSectionStructure.setExpandsSelectedPaths(true);
@@ -1067,197 +1036,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         this.treeSectionStructure.setModel(model);
         CommonTreeFunctions.expandAll(treeSectionStructure);
     }
-    
+    */
         
-    
-    private void initParagraphList(){
-       
-       try { 
-     
-       mvDocumentHeadings.removeAllElements();
-       XText objText = ooDocument.getTextDocument().getText();//getTextDocument().getText();
-       
-       XEnumerationAccess objEnumAccess = (XEnumerationAccess) UnoRuntime.queryInterface( XEnumerationAccess.class, objText); 
-       XEnumeration paraEnum =  objEnumAccess.createEnumeration();
-       int nHeadsFound = 0;
-       int nMaxLevel = 0;
-       int nPrevLevel = 0;
-       DocStructureElement previousElement = null;
-                
-       
-        // While there are paragraphs, do things to them 
-        //first we find the number of heading paragraphs
-        //log.debug("Inside getDocumentTree, entering, hasMoreElements");
-        
-        while (paraEnum.hasMoreElements()) { 
-            log.debug("Inside getDocumentTree, inside, hasMoreElements");
-
-            XServiceInfo xInfo;
-            xInfo = null;
-            Object objNextElement = null;
-     
-                objNextElement = paraEnum.nextElement();
-       
-                    //get service info
-             xInfo = ooDocument.getServiceInfo(objNextElement); // UnoRuntime.queryInterface(XServiceInfo.class, objNextElement);
-            if (xInfo.supportsService("com.sun.star.text.Paragraph")) { 
-                // Access the paragraph's property set...the properties in this 
-                // property set are listed 
-                // in: com.sun.star.style.ParagraphProperties 
-                log.debug("Inside getDocumentTree, supportsService paragraph");
-
-                XPropertySet xSet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, xInfo);
-                     // Set the justification to be center justified 
-                    log.debug("Inside getDocumentTree, before , NumberingLevel");
-                    short nLevel = -1;
-                    nLevel = AnyConverter.toShort(xSet.getPropertyValue("ParaChapterNumberingLevel"));
-                    log.debug("Inside getDocumentTree, after , NumberingLevel = "+ nLevel);
-                    /*
-                     *count total headings >= level 0
-                     *iterate through all the headings again
-                     *for each heading add the level information for the heading
-                     */
-                    if (nLevel >= 0 ){
-                        nHeadsFound++;
-                        XTextContent xContent = ooDocument.getTextContent(objNextElement);
-                        XTextRange aTextRange =   xContent.getAnchor();
-                        String strHeading = aTextRange.getString();
-                        if (nLevel > nMaxLevel)
-                            nMaxLevel = nLevel;
-                        DocStructureElement element = new DocStructureElement(strHeading, nLevel, nHeadsFound, aTextRange );
-                        if (previousElement == null  ){ 
-                            previousElement = element;
-                        }
-                        else{
-                            int currentVectorIndex = nHeadsFound - 1;
-                            //get prev index
-                            DocStructureElement prev = (DocStructureElement) mvDocumentHeadings.elementAt(currentVectorIndex - 1);
-                             
-                            //get element at previous index
-                            if (previousElement.getLevel() <  element.getLevel()) {
-                                prev.hasChildren(true);
-                                mvDocumentHeadings.setElementAt(prev, currentVectorIndex - 1);
-                            }
-                            else {
-                                prev.hasChildren(false);
-                                mvDocumentHeadings.setElementAt(prev, currentVectorIndex - 1);
-                            }
-                        }
-                           
-                        log.debug("adding heading level =" + nLevel + " and heading count = "+nHeadsFound);
-                        mvDocumentHeadings.addElement(element);
-                        
-                        //TextRange can be used to getText()
-                        // XText xRangeText = aTextRange.getText();
-                        /*
-                        XEnumerationAccess xRangeAccess = (XEnumerationAccess)UnoRuntime.queryInterface(com.sun.star.container.XEnumerationAccess.class,
-                                                                                                        objNextElement);
-                        if (xRangeAccess == null) {
-                            log.debug("RangeAccess was null");
-                        }                                                                                
-                        XEnumeration portionEnum =  xRangeAccess.createEnumeration();
-                        while (portionEnum.hasMoreElements()){
-                            Object textPortion =  portionEnum.nextElement();  
-                            XServiceInfo xTextPortionService= getServiceInfo(textPortion);
-                            if (xTextPortionService.supportsService( "com.sun.star.text.TextPortion")){
-                                XPropertySet xTextPortionProps = (XPropertySet)UnoRuntime.queryInterface(XPropertySet.class, textPortion);
-                                String textPortionType="";
-                                textPortionType = AnyConverter.toString(xTextPortionProps.getPropertyValue("TextPortionType"));
-                                if (textPortionType.equals("ReferenceMark"){
-                                    if ()
-                                }
-                            }
-                        }*/
-                 
-                    }
-            }
-            else           log.debug("Inside getDocumentTree, paragraph not supproted");
-            
-
-           
-          
-             //now we look for subheadings of headings....
-             /*
-             int nHeadCounter = 0;
-             int iCounter = 0;
-             XEnumerationAccess objEnumAccess2 = (XEnumerationAccess) UnoRuntime.queryInterface( XEnumerationAccess.class, objText); 
-             paraEnum =  objEnumAccess2.createEnumeration();
-             while ((nHeadCounter < nHeadsFounds ) && paraEnum.hasMoreElements() ) {
-                 XServiceInfo xInfo;
-                 xInfo = null;
-                Object objNextElement = null;
-                objNextElement = paraEnum.nextElement();
-                        //get service info
-                  xInfo = getServiceInfo(objNextElement);
-                if (xInfo.supportsService("com.sun.star.text.Paragraph")) { 
-                       iCounter++;
-                       XPropertySet xSet = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class, xInfo);
-                     // Set the justification to be center justified 
-                        Integer nLevel =  (Integer)xSet.getPropertyValue("NumberingLevel");
-                        if (nLevel >= 0) {
-                            nHeadCounter++;
-                            XTextContent xContent = getTextContent(objNextElement);
-                            
-                        }
-                    }
-             }
-             
-            */
-            
-             /*
-            else if (xInfo.supportsService("com.sun.star.TextTable")){
-                    ///get texttable object
-                    XTextTable xTable = (XTextTable)UnoRuntime.queryInterface(XTextTable.class, objNextElement); 
-                    String[] cellNames = xTable.getCellNames();
-                    for (int i=0; i < cellNames.length; i++) {
-                        XCell tableCell = xTable.getCellByName(cellNames[i]);
-                        XText xCellText = (XText) UnoRuntime.queryInterface(XText.class, tableCell); 
-                        XTextCursor xCellCurs = xCellText.createTextCursor();
-                        XPropertySet xCursorProps = (XPropertySet) UnoRuntime.queryInterface(XPropertySet.class,xCellCurs );
-                        Integer iNumbering;
-                            iNumbering = (Integer) xCursorProps.getPropertyValue("NumberingLevel");
-                        if (iNumbering > 0 ) {
-                            nHeadsFound++;
-                        }
-                    }               
-                 }  */
-             
-             //Fill an array with hedings and heading levels....
-             
-             
-        } 
-        
-  
-        
-             if (nHeadsFound > 0 ){
-                //iterate through the vector and add elemnts to list
-                DefaultListModel model = new DefaultListModel();
-                for (int i=0 ; i < mvDocumentHeadings.size(); i++)
-                     {               
-                        DocStructureElement elem = (DocStructureElement)mvDocumentHeadings.elementAt(i);
-                        model.addElement(elem);
-                     }
-                    // ListSelectionModel selectionModel = treeDocStructure.getSelectionModel();
-                    // selectionModel.addListSelectionListener(new DocStructureListSelectionHandler());
-                        
-                     treeDocStructure.setModel(model);
-                     treeDocStructure.setCellRenderer(new DocStructureListElementRenderer());
-                     treeDocStructure.addMouseListener(new DocStructureListMouseListener());
-                  }
-        
-    
-        
-           } catch (NoSuchElementException ex) {
-                log.error(ex.getMessage());
-            } catch (WrappedTargetException ex) {
-                log.error(ex.getMessage());           }
-            catch (com.sun.star.lang.IllegalArgumentException ex) {
-               log.error(ex.getMessage());
-            } 
-            catch (UnknownPropertyException ex) {
-               log.error(ex.getMessage());
-            }
-}
+   
    
 public TreeMap<String, editorTabbedPanel.componentHandleContainer> getCurrentlyOpenDocuments(){
     return this.editorMap;
@@ -1286,7 +1067,7 @@ public TreeMap<String, editorTabbedPanel.componentHandleContainer> getCurrentlyO
         
         
     }
-    
+    /*
    class treeDocStructureTreeMouseListener implements MouseListener {
        private treePopupMenu theMenu ; 
        treeDocStructureTreeMouseListener() {
@@ -1344,7 +1125,7 @@ public TreeMap<String, editorTabbedPanel.componentHandleContainer> getCurrentlyO
                
            }
    }
-    
+    */
    /*
     *Drag and Drop handlers for JTree - treeDocStructureTree
     * available under the tree package
@@ -1514,6 +1295,7 @@ public TreeMap<String, editorTabbedPanel.componentHandleContainer> getCurrentlyO
     /**
      * Class that handles rendering of List cell elements, in the Document Structure listbox
      */
+    /*
 public class DocStructureListElementRenderer extends JLabel implements ListCellRenderer {
     private  final Color HIGHLIGHT_COLOR = new Color(0, 0, 128);
     private Color [] COLOR_LEVELS = {
@@ -1526,9 +1308,6 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                         new Color(224, 224,224)
     };
     private Border raisedEtched, lineBorder;
-        /**
-         * Constructor for List cell renderer class
-         */
     public DocStructureListElementRenderer( ) {
         setOpaque(true);
         setIconTextGap(12);
@@ -1556,17 +1335,6 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         this.setIconTextGap(0);
         setText(entry.toString());
         setFont(new java.awt.Font("Tahoma", 0, 10));
-        /*
-        if (entry.hasChildren()) {
-        String imgLocation = "/gui/"
-                             + "icon-list"
-                             + ".png";
-            URL imageURL = editorTabbedPanel.class.getResource(imgLocation);
-        //Create and initialize the button.
-        if (imageURL != null)                     //image found
-           setIcon(new ImageIcon(imageURL, entry.toString()));
-        }
-         */
         setIcon(null);
         //setIcon(entry.getImage());
         if(isSelected) {
@@ -1579,18 +1347,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         return this;
     }
 }
- 
-public void hidePanelControls(){
-    lbl_SectionName.setVisible(false);
-    scrollPane_treeDocStructure.setVisible(false);
-    lbl_DocStructTitle.setVisible(false);
-    comboChangeStructure.setVisible(false);
-    toggleEditSection.setVisible(false);
-    this.jTabsContainer.setSize(new Dimension(243, 600));
-    
-
-    
-}
+*/ 
 
 
  /** This method is called from within the constructor to
@@ -1598,86 +1355,101 @@ public void hidePanelControls(){
     * WARNING: Do NOT modify this code. The content of this method is
     * always regenerated by the Form Editor.
     */
-    // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+
         btnGrpBodyMetadataTarget = new javax.swing.ButtonGroup();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTree2 = new javax.swing.JTree();
         jTabsContainer = new javax.swing.JTabbedPane();
-        scrollPane_treeDocStructure = new javax.swing.JScrollPane();
-        treeDocStructure = new javax.swing.JList();
-        lbl_DocStructTitle = new javax.swing.JLabel();
-        comboChangeStructure = new javax.swing.JComboBox();
-        toggleEditSection = new javax.swing.JCheckBox();
-        lbl_SectionName = new javax.swing.JTextField();
+        cboListDocuments = new javax.swing.JComboBox();
+        lblCurrentlyOpenDocuments = new javax.swing.JLabel();
+        btnBringToFront = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        lblCurrentMode = new javax.swing.JLabel();
+        cboSwitchTabs = new javax.swing.JComboBox();
+        lblSwitchTag = new javax.swing.JLabel();
 
         jScrollPane2.setViewportView(jTree1);
 
         jScrollPane3.setViewportView(jTree2);
 
         setFont(new java.awt.Font("Tahoma", 0, 10));
+
         jTabsContainer.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         jTabsContainer.setFont(new java.awt.Font("Tahoma", 0, 10));
 
-        treeDocStructure.setFont(new java.awt.Font("Tahoma", 0, 10));
-        treeDocStructure.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+        cboListDocuments.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblCurrentlyOpenDocuments.setText("Currently Open Documents");
+
+        btnBringToFront.setText("Bring to Front");
+        btnBringToFront.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBringToFrontActionPerformed(evt);
+            }
         });
-        scrollPane_treeDocStructure.setViewportView(treeDocStructure);
 
-        lbl_DocStructTitle.setText("Current Section Name:");
+        jButton2.setText("Open...");
 
-        toggleEditSection.setText("Edit Section");
-        toggleEditSection.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        toggleEditSection.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        lblCurrentMode.setForeground(java.awt.Color.red);
+        lblCurrentMode.setText("CURRENT MODE : %s");
 
-        lbl_SectionName.setEditable(false);
+        cboSwitchTabs.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblSwitchTag.setText("Switch Tabs :");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jTabsContainer, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 243, Short.MAX_VALUE)
+            .add(lblCurrentlyOpenDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 267, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
             .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(toggleEditSection)
-                .add(14, 14, 14)
-                .add(comboChangeStructure, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 136, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(8, 8, 8)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 247, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, lblCurrentMode, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                    .add(layout.createSequentialGroup()
+                        .add(btnBringToFront, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 122, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jButton2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 119, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(scrollPane_treeDocStructure, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+                .add(8, 8, 8)
+                .add(lblSwitchTag, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 91, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(18, 18, 18)
+                .add(cboSwitchTabs, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 138, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
-            .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(lbl_SectionName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 223, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(lbl_DocStructTitle, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
-                .add(91, 91, 91))
+            .add(jTabsContainer, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 267, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap()
-                .add(jTabsContainer, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 335, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(lblCurrentlyOpenDocuments)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(lbl_DocStructTitle)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 10, Short.MAX_VALUE)
-                .add(lbl_SectionName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(scrollPane_treeDocStructure, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 183, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(comboChangeStructure, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(toggleEditSection)))
+                    .add(jButton2)
+                    .add(btnBringToFront))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(lblCurrentMode)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblSwitchTag)
+                    .add(cboSwitchTabs, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jTabsContainer, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 394, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+private void btnBringToFrontActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBringToFrontActionPerformed
+// TODO add your handling code here:
+    this.bringEditorWindowToFront();
+}//GEN-LAST:event_btnBringToFrontActionPerformed
 
 
    
@@ -1692,65 +1464,10 @@ public void hidePanelControls(){
  *
  *
  */  
-  class CurrentSectionNameUpdater implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            
-            String strSection="";
-            strSection = currentSectionName();
-            if (strSection.trim().length() == 0)
-                self().lbl_SectionName.setText("Cursor not in section");
-            else
-                self().lbl_SectionName.setText(strSection);
-            
-        }
-
-        public String getSectionHierarchy(XTextSection thisSection) {
-            String sectionName = "";
-            sectionName = ooQueryInterface.XNamed(thisSection).getName();
-            if (thisSection.getParentSection() != null) {
-                sectionName = getSectionHierarchy(thisSection.getParentSection()) + ">" + sectionName;
-            } else
-                return sectionName;
-            return sectionName;    
-        }
-       
+  
         
         
-        public String currentSectionName() {
-            XTextSection loXTextSection;
-            XTextViewCursor loXTextCursor;
-            XPropertySet loXPropertySet;
-            String lstrSectionName = "";
 
-         try
-         {
-            if (ooDocument.isXComponentValid() ) {
-                loXTextCursor = ooDocument.getViewCursor();
-                loXPropertySet = ooQueryInterface.XPropertySet(loXTextCursor);
-                loXTextSection = (XTextSection)((Any)loXPropertySet.getPropertyValue("TextSection")).getObject();
-                if (loXTextSection != null)
-                {
-                    //loXPropertySet = ooQueryInterface.XPropertySet(loXTextSection);
-                    //XNamed objSectProps = ooQueryInterface.XNamed(loXTextSection);
-                    //lstrSectionName =  objSectProps.getName(); // (String)loXPropertySet.getPropertyValue("LinkDisplayName");
-                    self().currentSelectedSectionName  = ooQueryInterface.XNamed(loXTextSection).getName();
-                    lstrSectionName = getSectionHierarchy(loXTextSection);
-                } else
-                    self().currentSelectedSectionName = "";
-            }
-          }
-          catch (java.lang.Exception poException)
-            {
-                log.error("currentSectionName:" + poException.getLocalizedMessage());
-            }
-          finally {  
-             return lstrSectionName; 
-          }
-        }
-
-        
-  }
-    
     
   
     
@@ -1761,6 +1478,7 @@ public void hidePanelControls(){
       //  synchronized(this);
         try {
             //structure list & tree structure refresh timer
+            /*
             Action DocStructureListRunner = new AbstractAction() {
                 public void actionPerformed (ActionEvent e) {
                     if (!structureInitialized) {
@@ -1772,19 +1490,23 @@ public void hidePanelControls(){
             };
             docStructureTimer = new Timer(3000, DocStructureListRunner);
             docStructureTimer.setInitialDelay(2000);
-            docStructureTimer.start();
+            docStructureTimer.start(); */
             //section name timer
+            /*
             sectionNameTimer = new Timer(1000, new CurrentSectionNameUpdater());
             sectionNameTimer.start();
-          
+            */
             //component handle tracker timer
             Action componentsTrackingRunner = new AbstractAction(){
                 public void actionPerformed(ActionEvent e) {
                   componentHandlesTracker();
+                  updateListDocuments();
                 }
             };
             componentsTrackingTimer = new Timer(5000, componentsTrackingRunner);
             componentsTrackingTimer.start();
+
+    
             
             //docStructureTimer = new java.util.Timer();
             //docStructureTimer.schedule(task, 0, 3000);
@@ -1793,11 +1515,69 @@ public void hidePanelControls(){
         }
     }
     
-    private JTable mpTable;
-    private JDialog mpDialog;
-    private JLabel lblMessage;
-    private String colNames[] = {"id", "First Name", "Last Name", "URI"};
-   
+     private ArrayList<componentHandleContainer> getDocumentsComboModel(){
+
+         ArrayList<componentHandleContainer> listDocuments = new ArrayList<componentHandleContainer>();
+         for (String docKey : getCurrentlyOpenDocuments().keySet()){
+             componentHandleContainer compHandle = getCurrentlyOpenDocuments().get(docKey);
+             listDocuments.add(compHandle);
+         }
+         
+         return listDocuments;
+     }
+     
+     private boolean existsInComboModel(String compKey) {
+         boolean bFound = false;
+          DefaultComboBoxModel model = (DefaultComboBoxModel) cboListDocuments.getModel();
+          for (int i=0; i < model.getSize(); i++ ) {
+              componentHandleContainer foundCHC = (componentHandleContainer) model.getElementAt(i);
+              if (foundCHC.componentKey().equals(compKey)){
+                  bFound = true;
+              }
+          }
+          return bFound;
+     }
+     
+     private void updateListDocuments(){
+         //new refreshed list of component handles 
+         synchronized(editorMap) {
+             ArrayList<componentHandleContainer> componentHandles = getDocumentsComboModel();
+             //capture currentlySelected item
+             componentHandleContainer selectedItem = (componentHandleContainer) cboListDocuments.getModel().getSelectedItem();
+             //add newly opened documents to model
+              DefaultComboBoxModel model = (DefaultComboBoxModel) cboListDocuments.getModel();
+              for (String compKey : getCurrentlyOpenDocuments().keySet()) {
+                  if (!existsInComboModel(compKey)) {
+                      model.addElement(getCurrentlyOpenDocuments().get(compKey));
+                  }
+              }
+              ArrayList<Integer> modelIndexesToRemove = new ArrayList<Integer>();
+              //remove closed documents from model
+              for (int i=0; i < model.getSize(); i++ ){
+                  componentHandleContainer compMatch = (componentHandleContainer) model.getElementAt(i);
+                  //check if model component handle exists in newly generate component map
+                  //if it doesnt we delete the componenth handle from them model
+                  if (!getCurrentlyOpenDocuments().containsKey(compMatch.componentKey())){
+                      modelIndexesToRemove.add(i);
+                  }
+              }
+              //finally remove all missingindexes
+              for (Integer iRemove : modelIndexesToRemove) {
+                  model.removeElementAt(iRemove);
+              }
+              //String selectedItem = (String)cboListDocuments.getSelectedItem();
+          
+                  /*setProgrammaticRefreshOfDocumentListFlag(true);
+                  cboListDocuments.setModel(new DefaultComboBoxModel(componentHandles.toArray()));
+
+                  if (!getCurrentlyOpenDocuments().containsValue(selectedItem))
+                       cboListDocuments.setSelectedIndex(0);
+                   else
+                       cboListDocuments.setSelectedItem(selectedItem);
+                  setProgrammaticRefreshOfDocumentListFlag(false);*/
+         }
+    }
+    
     public void setProgrammaticRefreshOfDocumentListFlag (boolean bState) {
         this.program_refresh_documents = bState;
     }
@@ -1810,34 +1590,13 @@ public void hidePanelControls(){
                     //find the components that have been disposed
                     //and capture them in an array
                     log.debug("componentHandlesTracker: finding disposed documents ");
-                    /*** not needed since whole list is refreshed ****
-                    Iterator iterKeys = editorMap.keySet().iterator();
-                    while (iterKeys.hasNext()) {
-                        String key = (String) iterKeys.next();
-                        componentHandleContainer cont = editorMap.get(key);
-                        if (cont.isComponentDisposed()) {
-                            cont.removeListener();
-                            keysToRemove.add(key);
-                        }
-                    }****/
+
                       log.debug("componentHandlesTracker: capturing selected item ");
-                     //store the currently selected item to reset it back after refreshing the combo
-                      /***commented since combo is being moved to separate dlg 
-                    String selectedItem = (String)cboListDocuments.getSelectedItem();
-                    boolean selectedItemWasRemoved = false;
-                       *****/
+
                     //now remove the disposed components from the map
                     
                       log.debug("componentHandlesTracker: removing disposed components ");
-                      /**** not needed since the whole list is refreshed
-                    ListIterator<String> iterKeysToRemove = keysToRemove.listIterator() ;
-                    while (iterKeysToRemove.hasNext()) {
-                       String key = iterKeysToRemove.next();
-                       if (key.equals(selectedItem)) {
-                           selectedItemWasRemoved = true;
-                       }
-                       editorMap.remove(key);
-                   } */
+
                    
                    //some documents may have been opened in the meanwhile... we look for them and add them
                       log.debug("componentHandlesTracker: refreshing document open keyset map ");
@@ -1845,15 +1604,7 @@ public void hidePanelControls(){
                     initOpenDocumentsList();
                    
                    //now update the combo box... 
-                    /****combo being moved to different dlg... 
-                   String[] listDocuments = editorMap.keySet().toArray(new String[editorMap.keySet().size()]);
-                   cboListDocuments.setModel(new DefaultComboBoxModel(listDocuments));
-                   this.program_refresh_documents = true;
-                   if (selectedItemWasRemoved)
-                       cboListDocuments.setSelectedIndex(0);
-                   else
-                       cboListDocuments.setSelectedItem(selectedItem);
-                   */
+
                    //this.program_refresh_documents = false;
     }    
     class changeStructureItem {
@@ -1875,18 +1626,19 @@ public void hidePanelControls(){
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBringToFront;
     private javax.swing.ButtonGroup btnGrpBodyMetadataTarget;
-    private javax.swing.JComboBox comboChangeStructure;
+    private javax.swing.JComboBox cboListDocuments;
+    private javax.swing.JComboBox cboSwitchTabs;
+    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabsContainer;
     private javax.swing.JTree jTree1;
     private javax.swing.JTree jTree2;
-    private javax.swing.JLabel lbl_DocStructTitle;
-    private javax.swing.JTextField lbl_SectionName;
-    private javax.swing.JScrollPane scrollPane_treeDocStructure;
-    private javax.swing.JCheckBox toggleEditSection;
-    private javax.swing.JList treeDocStructure;
+    private javax.swing.JLabel lblCurrentMode;
+    private javax.swing.JLabel lblCurrentlyOpenDocuments;
+    private javax.swing.JLabel lblSwitchTag;
     // End of variables declaration//GEN-END:variables
 
     /*
@@ -1899,13 +1651,14 @@ public void hidePanelControls(){
         private XComponent aComponent;
         private boolean componentDisposed = false;
         private xComponentListener compListener = new xComponentListener();
-        
+        private String componentKey = "";
         componentHandleContainer(String name, XComponent xComponent) {
             log.debug("componentHandleContainer: in constructor()");
             aName = name;
             aComponent = xComponent;
             log.debug("componentHandleContainer: to string = " + aComponent.toString());
             aComponent.addEventListener(compListener);
+            componentKey = generateComponentKey();
             //add the event broadcaster to the same listener
             XEventBroadcaster xEventBroadcaster = (com.sun.star.document.XEventBroadcaster) UnoRuntime.queryInterface (com.sun.star.document.XEventBroadcaster.class, aComponent);
             xEventBroadcaster.addEventListener (compListener); 
@@ -1918,6 +1671,42 @@ public void hidePanelControls(){
         public String toString(){
             return getName();
         }
+        
+        public String componentKey(){
+            return componentKey;
+        }
+        
+        private String generateComponentKey(){
+            String compKey = "";
+            try {
+               XTextDocument xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, this.aComponent);
+               XDocumentInfoSupplier xdisInfoProvider =  (XDocumentInfoSupplier) UnoRuntime.queryInterface(XDocumentInfoSupplier.class, xTextDoc );
+               XDocumentInfo xDocInfo = xdisInfoProvider.getDocumentInfo();
+               XPropertySet xDocProperties = ooQueryInterface.XPropertySet(xDocInfo);
+               DateTime docCreationDate = (DateTime) AnyConverter.toObject(new Type(DateTime.class), xDocProperties.getPropertyValue("CreationDate"));
+               DateTime docTemplateDate = (DateTime) AnyConverter.toObject(new Type(DateTime.class), xDocProperties.getPropertyValue("TemplateDate"));
+               compKey = getName()+UnoDateTimeToStr(docCreationDate)+UnoDateTimeToStr(docTemplateDate);
+            } catch (Exception ex) {
+                log.error("generateComponentKey : " + ex.getMessage());
+            } finally {
+                return compKey;
+            }
+        }
+        
+        private String UnoDateTimeToStr(DateTime dt){
+            String returnDate = "";
+            if (dt != null) {
+                returnDate = Short.toString(dt.Year);
+                returnDate += Short.toString(dt.Month);
+                returnDate += Short.toString(dt.Day);
+                returnDate += Short.toString(dt.Hours);
+                returnDate += Short.toString(dt.Minutes);
+                returnDate += Short.toString(dt.Seconds);
+                returnDate += Short.toString(dt.HundredthSeconds);
+            }
+            return returnDate;
+        }
+        
         
         public String getName(){
             return aName;
@@ -1972,58 +1761,29 @@ public void hidePanelControls(){
         
             }        
     }
-    
-    class treeViewPrettySectionsTreeCellRenderer extends JLabel implements TreeCellRenderer {
-        Color bgColor = new java.awt.Color(232, 255, 175);
-        Color bgColorSelect = new java.awt.Color(207, 242, 255);
-        treeViewPrettySectionsTreeCellRenderer(){
-            setOpaque(true);
-        }
-        public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
-            setText(value.toString());
-            if (value instanceof DefaultMutableTreeNode) {
-                  DefaultMutableTreeNode uo = (DefaultMutableTreeNode)value;
-                  Object uoObj = uo.getUserObject();
-                  if (uoObj.getClass() == org.bungeni.utils.BungeniBNode.class) {
-                      BungeniBNode aNode = (BungeniBNode) uoObj;
-                      if (aNode.getName().equals(self().currentSelectedSectionName)) {
-                          //setBorder(selBorder);
-                          setBackground(bgColor);
-                      } else if (selected) {
-                            setBackground(bgColorSelect);
-                      }  else {
-                          setBackground(null);
-                      }
-                  }
-            }
-            return this;
-        }
-        
-    }
-    class treeDocStructureTreeCellRenderer extends JLabel implements TreeCellRenderer {
-        public treeDocStructureTreeCellRenderer(){
 
-        }
-        public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
-            setText(value.toString());
-            if (value instanceof DefaultMutableTreeNode) {
-                  DefaultMutableTreeNode uo = (DefaultMutableTreeNode)value;
-                  String act = (String) uo.getUserObject();
-                  if (act.trim().equals(self().currentSelectedSectionName)) {
-                      setBorder( BorderFactory.createRaisedBevelBorder());
-                      setBackground(new java.awt.Color(0,200,0));
-                  } else {
-                      setBorder(null);
-                      setBackground(null);
-                  }
-                      
+      class cboListDocumentsActionListener implements ActionListener {
+        componentHandleContainer oldItem;
+        public void actionPerformed(ActionEvent e) {
+          try {
+            JComboBox cb = (JComboBox) e.getSource();
+            componentHandleContainer newItem = (componentHandleContainer)cb.getSelectedItem();
+            boolean same= false;
+            if (oldItem != null )
+                same = newItem.componentKey().equals(oldItem.componentKey());
+            oldItem = newItem;
+            if ("comboBoxChanged".equals(e.getActionCommand())) {
+                updateMain((componentHandleContainer)newItem, same);
             }
-            return this;
+          } catch (Exception ex) {
+              log.error ("cboListDocuments.actionPerformed = " + ex.getMessage()) ;
+              log.error("cboListDocuments.actionPerformed = " + CommonExceptionUtils.getStackTrace(ex));
+          }
+            
         }
         
-    
-    
     }
+    
 
     public HashMap<String, IFloatingPanel> getFloatingPanelMap() {
         return this.floatingPanelMap;

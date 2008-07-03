@@ -17,15 +17,12 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.io.File;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.DefaultComboBoxModel;
@@ -36,7 +33,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileSystemView;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.QueryResults;
@@ -816,7 +812,9 @@ private void initProperties(java.io.File currentFolder) {
             }
 
 }
-        
+
+public static int OPENOFFICE_HEIGHT_OFFSET =80;
+
 private void initFrame(XComponent component){
             javax.swing.JFrame frame = new javax.swing.JFrame("BungeniEditor Control Panel");
             
@@ -857,7 +855,7 @@ private void initFrame(XComponent component){
             };
             frame.addWindowListener(tabbedPanelListener);
             //frame.setSize(243, 650);
-            frame.setSize(275, 650);
+            frame.setSize(270, 540);
             frame.setResizable(false);
             frame.setAlwaysOnTop(true);
             frame.setVisible(true);
@@ -871,7 +869,7 @@ private void initFrame(XComponent component){
             
             int windowX = 5; //Math.max(0, (screenSize.width  - windowSize.width));
             int windowY = Math.max(0, (screenSize.height - windowSize.height) / 2);
-            frame.setLocation(windowX, windowY);  // Don't use "f." inside constructor.
+            frame.setLocation(windowX, windowY + OPENOFFICE_HEIGHT_OFFSET);  // Don't use "f." inside constructor.
 }
 
 private void initoOoAndLaunchFrame(String templatePath, boolean isTemplate){

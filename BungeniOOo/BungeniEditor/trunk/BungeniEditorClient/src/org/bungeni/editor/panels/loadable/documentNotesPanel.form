@@ -17,21 +17,18 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="listboxEditorNotes" alignment="0" pref="215" max="32767" attributes="0"/>
-                  <Component id="jLabel4" alignment="0" min="-2" pref="201" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="btnNewEditorNote" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="71" max="32767" attributes="0"/>
-                      <Component id="btnSaveEditorNote" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="txtEditorNote" alignment="0" max="32767" attributes="0"/>
                   <Component id="lblEditorNotes" alignment="0" min="-2" pref="163" max="-2" attributes="0"/>
-                  <Component id="lblOpenDocuments" alignment="0" pref="215" max="32767" attributes="0"/>
-                  <Component id="cboListDocuments" alignment="0" pref="215" max="32767" attributes="0"/>
-                  <Component id="btnBringToFront" alignment="0" pref="215" max="32767" attributes="0"/>
+                  <Component id="txtEditorNote" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="btnNewEditorNote" max="32767" attributes="0"/>
+                      <EmptySpace pref="71" max="32767" attributes="0"/>
+                      <Component id="btnSaveEditorNote" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="lblArchivedNotes" alignment="0" min="-2" pref="201" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -40,12 +37,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Component id="lblOpenDocuments" min="-2" pref="14" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="cboListDocuments" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="btnBringToFront" min="-2" pref="15" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
               <Component id="lblEditorNotes" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="txtEditorNote" min="-2" pref="90" max="-2" attributes="0"/>
@@ -54,10 +46,10 @@
                   <Component id="btnNewEditorNote" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnSaveEditorNote" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="lblArchivedNotes" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="listboxEditorNotes" min="-2" pref="66" max="-2" attributes="0"/>
+              <Component id="listboxEditorNotes" min="-2" pref="112" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -102,7 +94,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSaveEditorNoteActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel4">
+    <Component class="javax.swing.JLabel" name="lblArchivedNotes">
       <Properties>
         <Property name="text" type="java.lang.String" value="Archived Notes"/>
       </Properties>
@@ -121,26 +113,6 @@
       </Properties>
       <Events>
         <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="listboxEditorNotesValueChanged"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="cboListDocuments">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="0"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="lblOpenDocuments">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Open Documents"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnBringToFront">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Bring Editor window to front"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBringToFrontActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

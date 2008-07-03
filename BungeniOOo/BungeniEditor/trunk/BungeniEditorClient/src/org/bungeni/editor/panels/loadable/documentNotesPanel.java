@@ -15,7 +15,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import java.util.Vector;
-import javax.swing.DefaultComboBoxModel;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JComboBox;
@@ -61,51 +60,15 @@ public class documentNotesPanel extends BaseClassForITabbedPanel {
     
     private void init() {
         initComponents();
-       cboListDocuments.addActionListener(new cboListDocumentsActionListener());
-       initListDocuments();
+      //cboListDocuments.addActionListener(new cboListDocumentsActionListener());
+      // initListDocuments();
        initNotesPanel();
-       initTimer();
+       //initTimer();
     }
     
-    private void initListDocuments(){
-        log.debug("initListDocuments: init");
-        String[] listDocuments = myParentPanel().getCurrentlyOpenDocuments().keySet().toArray(new String[myParentPanel().getCurrentlyOpenDocuments().keySet().size()]);
-        cboListDocuments.setModel(new DefaultComboBoxModel(listDocuments));
-        cboListDocuments.setSelectedItem(OOComponentHelper.getFrameTitle(ooDocument.getTextDocument()));
-    }
-    
-    private editorTabbedPanel myParentPanel(){
-        return (editorTabbedPanel)parentPanel;
-    }
-    private void updateListDocuments(){
-       /* String strTitle = ooDocument.getFrameTitle(ooDocument.getTextDocument());
-        cboListDocuments.setSelectedItem(strTitle);*/
-       
-          String[] listDocuments = myParentPanel().getCurrentlyOpenDocuments().keySet().toArray(new String[myParentPanel().getCurrentlyOpenDocuments().keySet().size()]);
-          for (String listDoc : listDocuments ) {
-              System.out.print("listDoc = " + listDoc);
-          }
-          String selectedItem = (String)cboListDocuments.getSelectedItem();
-          
-          myParentPanel().setProgrammaticRefreshOfDocumentListFlag(true);
-          cboListDocuments.setModel(new DefaultComboBoxModel(listDocuments));
-          
-          if (!myParentPanel().getCurrentlyOpenDocuments().containsKey(selectedItem))
-               cboListDocuments.setSelectedIndex(0);
-           else
-               cboListDocuments.setSelectedItem(selectedItem);
-          myParentPanel().setProgrammaticRefreshOfDocumentListFlag(false);
-    }
-       
-    private void initTimer(){
-        tList = new Timer(15000, new ActionListener(){
-            public void actionPerformed(ActionEvent e) {
-                updateListDocuments();
-            }
-        }   
-        );
-        tList.start();
-    }
+ 
+
+
     private void initNotesPanel() {
         try {
         //restrict editor note text field
@@ -180,7 +143,7 @@ public class documentNotesPanel extends BaseClassForITabbedPanel {
             boolean same = newItem.equals(oldItem);
             oldItem = newItem;
             if ("comboBoxChanged".equals(e.getActionCommand())) {
-                myParentPanel().updateMain((String)newItem, same);
+            //    myParentPanel().updateMain((String)newItem, same);
                 /*
                 if (same) {
                     if (self().program_refresh_documents == true)
@@ -244,11 +207,8 @@ public class documentNotesPanel extends BaseClassForITabbedPanel {
         txtEditorNote = new javax.swing.JTextArea();
         btnNewEditorNote = new javax.swing.JButton();
         btnSaveEditorNote = new javax.swing.JButton();
-        jLabel4 = new javax.swing.JLabel();
+        lblArchivedNotes = new javax.swing.JLabel();
         listboxEditorNotes = new javax.swing.JList();
-        cboListDocuments = new javax.swing.JComboBox();
-        lblOpenDocuments = new javax.swing.JLabel();
-        btnBringToFront = new javax.swing.JButton();
 
         lblEditorNotes.setText("Editor Note");
 
@@ -274,7 +234,7 @@ public class documentNotesPanel extends BaseClassForITabbedPanel {
             }
         });
 
-        jLabel4.setText("Archived Notes");
+        lblArchivedNotes.setText("Archived Notes");
 
         listboxEditorNotes.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
@@ -287,44 +247,27 @@ public class documentNotesPanel extends BaseClassForITabbedPanel {
             }
         });
 
-        lblOpenDocuments.setText("Open Documents");
-
-        btnBringToFront.setText("Bring Editor window to front");
-        btnBringToFront.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBringToFrontActionPerformed(evt);
-            }
-        });
-
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(listboxEditorNotes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                    .add(jLabel4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 201, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(layout.createSequentialGroup()
-                        .add(btnNewEditorNote)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, listboxEditorNotes, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, lblEditorNotes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 163, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, txtEditorNote)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
+                        .add(btnNewEditorNote, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 71, Short.MAX_VALUE)
-                        .add(btnSaveEditorNote))
-                    .add(txtEditorNote)
-                    .add(lblEditorNotes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 163, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(lblOpenDocuments, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                    .add(cboListDocuments, 0, 215, Short.MAX_VALUE)
-                    .add(btnBringToFront, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
+                        .add(btnSaveEditorNote, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, lblArchivedNotes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 201, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .add(lblOpenDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 14, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnBringToFront, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
                 .add(lblEditorNotes)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(txtEditorNote, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 90, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -332,10 +275,10 @@ public class documentNotesPanel extends BaseClassForITabbedPanel {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnNewEditorNote)
                     .add(btnSaveEditorNote))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(lblArchivedNotes)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel4)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(listboxEditorNotes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 66, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(listboxEditorNotes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 112, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -378,18 +321,13 @@ public class documentNotesPanel extends BaseClassForITabbedPanel {
     this.btnSaveEditorNote.setEnabled(true);
     }//GEN-LAST:event_btnNewEditorNoteActionPerformed
 
-private void btnBringToFrontActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBringToFrontActionPerformed
-// TODO add your handling code here:
-   this.myParentPanel().bringEditorWindowToFront();
-}//GEN-LAST:event_btnBringToFrontActionPerformed
-
   
     
     public void initialize() {
-       cboListDocuments.addActionListener(new cboListDocumentsActionListener());
-       initListDocuments();
+      // cboListDocuments.addActionListener(new cboListDocumentsActionListener());
+     //  initListDocuments();
        initNotesPanel();
-       initTimer();
+     //  initTimer();
        updateEditorNoteField(false);
     }
 
@@ -400,13 +338,10 @@ private void btnBringToFrontActionPerformed(java.awt.event.ActionEvent evt) {//G
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBringToFront;
     private javax.swing.JButton btnNewEditorNote;
     private javax.swing.JButton btnSaveEditorNote;
-    private javax.swing.JComboBox cboListDocuments;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel lblArchivedNotes;
     private javax.swing.JLabel lblEditorNotes;
-    private javax.swing.JLabel lblOpenDocuments;
     private javax.swing.JList listboxEditorNotes;
     private javax.swing.JTextArea txtEditorNote;
     // End of variables declaration//GEN-END:variables

@@ -21,6 +21,20 @@ class _TmpSqlQuery( object):
     pass    
 sqlalchemy.orm.mapper( _TmpSqlQuery, bungeni.core.schema.parliaments )
 
+def checkBySQL( sql_statement, check_dict):
+    """
+    run SQL with variables in the dict
+    """
+    sql_text = sql_statement % (check_dict)
+    connection = session.connection(_TmpSqlQuery)      
+    query = connection.execute(sql_text)
+    result = query.fetchone()
+    if result is None:
+        return result
+    else:
+        return result[0]            
+
+
 def checkDateInInterval( pp_key, checkDate, sql_statement):
     """
     check if the checkDate is inside one of its 'peers'
@@ -31,14 +45,7 @@ def checkDateInInterval( pp_key, checkDate, sql_statement):
     if (type(checkDate) is datetime.datetime or type(checkDate) is datetime.date):
         session = Session()
         checkDict = { 'date': checkDate, 'parent_key': pp_key }
-        sql_text = sql_statement % (checkDict)
-        connection = session.connection(_TmpSqlQuery)      
-        query = connection.execute(sql_text)
-        result = query.fetchone()
-        if result is None:
-            return result
-        else:
-            return result[0]            
+        return checkBySQL( sql_statement, checkDict)
     else:
         raise TypeError        
 
@@ -101,9 +108,26 @@ sql_checkForOpenParliamentInterval = """
                             WHERE ( ( "parliaments"."parliament_id" = "groups"."group_id" )
                                     AND "end_date" IS NULL )
                         """
-
-
-
+#XXX
+sql_checkPartymembershipInterval = """
+                            SELECT "groups"."short_name" 
+                            FROM "public"."user_group_memberships", "public"."groups", "public"."political_parties" 
+                            WHERE ( "user_group_memberships"."group_id" = "groups"."group_id" 
+                                   AND "political_parties"."party_id" = "groups"."group_id" ) 
+                              AND ( ( "user_group_memberships"."user_id" = %(user_id)s
+                                    AND "user_group_memberships"."end_date" IS NULL ) )
+                            
+                        """
+#XXX                        
+sql_checkForOpenPartymembership = """
+                            SELECT "groups"."short_name" 
+                            FROM "public"."user_group_memberships", "public"."groups", "public"."political_parties" 
+                            WHERE ( "user_group_memberships"."group_id" = "groups"."group_id" 
+                                   AND "political_parties"."party_id" = "groups"."group_id" ) 
+                              AND ( ( "user_group_memberships"."user_id" = %(user_id)s
+                                    AND ( '%(date)s' 
+                                         BETWEEN "user_group_memberships"."start_date" AND "user_group_memberships"."end_date" ) )
+                        """
 
 
 ###################
@@ -279,7 +303,27 @@ def CheckSessionDatesInsideParentDatesAdd( self,  context, data ):
     errors = errors + checkDates(context.__parent__ , data )
     return errors
     
-   
+#party membership
+def checkPartyMembershipDates( self, context, data ):
+    """
+    A user can be member of only one party at a time
+    """
+    errors=[]
+    check_dict = {'user_id' : context.__parent__.user_id}
+    overlap = checkBySQL( sql_checkForOpenPartymembership, check_dict)
+    if overlaps is not None:
+        errors.append(interface.Invalid(_("The person is still a member in (%s)") % overlaps, "start_date" ))    
+    if data['start_date']:    
+        check_dict['date'] = data['start_date']       
+        overlap = checkBySQL( sql_checkPartymembershipInterval, check_dict)
+        if overlaps is not None:
+            errors.append(interface.Invalid(_("The person is a member in (%s) at that date") % overlaps, "start_date" ))           
+    if data['end_date']:    
+        check_dict['date'] = data['end_date']       
+        overlap = checkBySQL( sql_checkPartymembershipInterval, check_dict)
+        if overlaps is not None:
+            errors.append(interface.Invalid(_("The person is a member in (%s) at that date") % overlaps, "end_date" ))           
+    return errors
     
 #sittings
 

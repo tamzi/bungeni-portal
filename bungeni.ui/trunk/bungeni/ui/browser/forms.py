@@ -59,7 +59,7 @@ class BungeniAttributeDisplay( DynamicFields, DisplayFormViewlet ):
         if descriptor:
             name = getattr( descriptor, 'display_name', None)
         if not name:
-            name = getattr( self.context.domain_model, '__name__', None)                
+            name = getattr( self.context.__parent__.domain_model, '__name__', None)                
         return name #"%s %s"%(name, self.mode.title())
         
 #############
@@ -97,7 +97,8 @@ class CustomAddForm( ContentAddForm ):
                  form.checkInvariants(self.form_fields, data) +
                  self.CustomValidation( self.context, data ) )  
     
-        
+
+#parliament        
 class ParliamentAdd( CustomAddForm ):
     """
     custom Add form for parliaments
@@ -112,7 +113,20 @@ class ParliamentAdd( CustomAddForm ):
     
 
 
+# party membership
 
+class PartyMemberAdd( CustomAddForm ):
+    """
+    add a person to a party
+    """
+    #XXX
+
+class MemberOfPartyAdd( CustomAddForm ):
+    """
+    add a partymembership to a person
+    """
+    #XXX
+    CustomValidation = validations.checkPartyMembershipDates
 
 
 # ministries

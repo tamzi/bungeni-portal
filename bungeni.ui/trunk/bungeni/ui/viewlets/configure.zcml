@@ -71,28 +71,7 @@
      permission="zope.View"
      />   
 
-   <!--browser:viewlet
-     name="bungeni.yui-tabs"
-     for="*"
-     manager=".interfaces.ITabManager"
-     template="yui-tab-menu.pt"
-     permission="zope.View"
-     layer="bungeni.ui.interfaces.IBungeniSkin"
-    /-->    
-         
-  <!--browser:menu
-    id="bungeni-yui-tabs"
-    title="Tabbed navigation"
-    /-->
-    
-   <!--browser:viewlet
-     name="bungeni.yui-tabs"
-     for="*"
-     manager=".interfaces.ITabManager"
-     template="yui-tab-menu.pt"
-     permission="zope.View"
-     layer="bungeni.ui.interfaces.IBungeniSkin"
-    /-->
+
  <browser:viewlet
      name="bungeni.yui-tabs"
      for="*"
@@ -135,13 +114,7 @@
      permission="zope.View"
      />
     
-  <!--browser:viewlet
-    name="bungeni.current.date"   
-    manager=".interfaces.ICurrent"
-    class=".current.DateChooserViewlet"
-    permission="zope.Public"
-    weight="1"
-    /-->
+
 
   <browser:viewlet
     name="bungeni.all.parliament"   
@@ -214,13 +187,6 @@
      permission="zope.View"
      />
   
-    <!--browser:viewlet
-    name="bungeni.current-gov.date"   
-    manager=".interfaces.ICurrentGovernment"
-    class=".current.DateChooserViewlet"
-    permission="zope.Public"
-    weight="1"
-    /-->
     
 
     

@@ -2,14 +2,16 @@
 # encoding: utf-8
 
 from ore.alchemist.vocabulary import DatabaseSource
+from ore.alchemist.model import queryModelDescriptor
+from alchemist.ui.content import ContentAddForm, ContentDisplayForm
+from alchemist.ui.viewlet import EditFormViewlet, AttributesViewViewlet, DisplayFormViewlet
+from alchemist.ui.core import DynamicFields
 
-from alchemist.ui.content import ContentAddForm
-from alchemist.ui.viewlet import EditFormViewlet
-
-from zope.formlib import form
+from zope.formlib import form, namedtemplate
 from zope import schema, interface
 from zope.formlib.namedtemplate import NamedTemplate
-
+from zope.app.pagetemplate import ViewPageTemplateFile
+ 
 
 
 import bungeni.core.vocabulary as vocabulary
@@ -25,11 +27,41 @@ from bungeni.ui import widget
 
 from ore.yuiwidget import calendar
 
-
 import validations
 
+import pdb
+#############
+## VIEW
 
 
+#############
+# Generic Custom View form
+
+
+        
+class BungeniAttributeDisplay( DynamicFields, DisplayFormViewlet ):
+    
+    mode = "view"
+    template = ViewPageTemplateFile('templates/display_form.pt')        
+    form_name = _(u"General")    
+
+    def update( self ):
+        #pdb.set_trace()
+        #form_fields = form.Fields( ICommittee )
+        #self.adapters = {self.Adapts  : self.context } 
+        self.form_name = self.getform_name()
+        super( BungeniAttributeDisplay, self).update() 
+
+
+   
+    def getform_name( self ):
+        descriptor = queryModelDescriptor( self.context.__parent__.domain_model )
+        if descriptor:
+            name = getattr( descriptor, 'display_name', None)
+        if not name:
+            name = getattr( self.context.domain_model, '__name__', None)                
+        return name #"%s %s"%(name, self.mode.title())
+        
 #############
 ## ADD 
 

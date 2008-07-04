@@ -99,7 +99,7 @@ class MemberOfParliament ( Entity ):
     """    
     sort_on = 'sort_by_name'
     titles = one2many( "titles", "bungeni.core.domain.MemberRoleTitleContainer", "membership_id" )
-    party = one2many( "party", "bungeni.core.domain.MemberOfPartyContainer", "user_id" )
+    #XXX party = one2many( "party", "bungeni.core.domain.MemberOfPartyContainer", "user_id" )
 
 class HansardReporter( User ):
     """ a reporter who reports on parliamentary procedings
@@ -235,8 +235,9 @@ class Committee( Group ):
 class CommitteeMember( UserGroupMembership ):
     """ A Member of a committee
     defined by its membership to a committee (group)""" 
+
     titles = one2many( "titles", "bungeni.core.domain.MemberRoleTitleContainer", "membership_id" )  
-    
+
 class CommitteeType( object):
     """ Type of Committee """
         

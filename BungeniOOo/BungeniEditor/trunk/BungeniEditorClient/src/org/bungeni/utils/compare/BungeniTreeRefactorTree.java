@@ -4,13 +4,38 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import org.bungeni.utils.BungeniBNode;
 
+/**
+ * Refactors two BungeniBTree objects by merging one tree into another
+ * The class synchronizes deletions, inserts and updates from one tree into another.
+ * Updates include movemement of a node in a tree from one position to another.
+ * 
+ * @author undesa
+ */
 public class BungeniTreeRefactorTree {
+    /**
+     * The UI tree model that is being updated
+     */
     private DefaultTreeModel treeModel;
+    /**
+     * the root node of the tree that requires update
+     */
     private BungeniBNode treeRootNode;
+    /**
+     * The root node of the tree that is updating the original tree
+     * 
+     */
     private BungeniBNode treeMergeRootNode;
+    /**
+     * Condition that determines whether dispay text is to be merged or not 
+     */
     private boolean bMergeDisplayText = true;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniTreeRefactorTree.class.getName());
-           
+    /**
+     * Constructor to instantiate a Refactoring object
+     * @param model - input tree model
+     * @param rootNode  - BungeniBNode root of tree model
+     * @param newRootNode - Update root of a BungeniBTree that reflects the new tree structure
+     */       
     public BungeniTreeRefactorTree(DefaultTreeModel model, BungeniBNode rootNode, BungeniBNode newRootNode){
         this.treeModel  = model;
         this.treeRootNode = rootNode;
@@ -144,6 +169,7 @@ public class BungeniTreeRefactorTree {
            BungeniBNode childOfMergeNode = mergeNode.getChildNodeByName(nodeName);
            //check if nodeNewChild has children, if it doesnt we wipe out the children of the orignal node
            BungeniTreeRefactorNode childnodesRefactor = new BungeniTreeRefactorNode(getDefaultTreeModel(), childOfOriginal, childOfMergeNode);
+           //the child nodes are merged inside a swingworker thread for better UI performances
            childnodesRefactor.doMerge();
            doMergeChildren(childOfOriginal, childOfMergeNode);
        }

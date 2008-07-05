@@ -14,8 +14,6 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -54,6 +52,7 @@ public class BungeniEditorClient {
        //force prompting of exit message 
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         WindowListener panelListener = new WindowAdapter() {
+            @Override
                 public void windowClosing(WindowEvent e) {
                     int confirm = JOptionPane.showOptionDialog(frame, "Really Exit? This will close all Editor panels", "Exit Confirmation",
                                             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,

@@ -30,6 +30,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
@@ -586,7 +587,13 @@ public class editorApplicationController extends javax.swing.JPanel {
 // TODO add your handling code here:
         
         //JOptionPane.showMessageDialog(null, m_currentSelectedWorkspaceFile);
-        initoOoAndLaunchFrame(m_currentSelectedWorkspaceFile, false);
+        SwingUtilities.invokeLater(new Runnable(){
+       
+            public void run() {
+                  initoOoAndLaunchFrame(m_currentSelectedWorkspaceFile, false);
+            }
+
+        });
         
     }//GEN-LAST:event_btnEditWorkspaceDocumentActionPerformed
 
@@ -813,10 +820,23 @@ private void initProperties(java.io.File currentFolder) {
 
 }
 
-public static int OPENOFFICE_HEIGHT_OFFSET =80;
+public static int OPENOFFICE_HEIGHT_OFFSET =60;
 
 private void initFrame(XComponent component){
             javax.swing.JFrame frame = new javax.swing.JFrame("BungeniEditor Control Panel");
+            //set the dimensions for the frame;
+            frame.setSize(270, 540);
+            //frame position information
+            //position frame
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            Dimension windowSize = frame.getSize();
+            log.debug("screen size = "+ screenSize);
+            log.debug("window size = "+ windowSize);
+            
+            int windowX = 5; //Math.max(0, (screenSize.width  - windowSize.width));
+            int windowY = Math.max(0, (screenSize.height - windowSize.height) / 2) + OPENOFFICE_HEIGHT_OFFSET;
+            WINDOW_X = windowX;
+            WINDOW_Y = windowY;
             
             panel = new org.bungeni.editor.dialogs.editorTabbedPanel(component, this.openofficeObject, frame);
             //panel.setOOoHelper(this.openofficeObject);
@@ -830,24 +850,34 @@ private void initFrame(XComponent component){
                         HashMap<String,org.bungeni.editor.panels.impl.IFloatingPanel> panelMap = panel.getFloatingPanelMap();
                         java.util.Iterator<String> iterPanels = panelMap.keySet().iterator();
                         while (iterPanels.hasNext()) {
-                            org.bungeni.editor.panels.impl.IFloatingPanel p = panelMap.get(iterPanels.next());
-                            JFrame f= p.getParentWindowHandle();
-                            System.out.println("maximizing  other window");
-                            f.setExtendedState(JFrame.NORMAL);
-                            f.setVisible(true);
+                            final org.bungeni.editor.panels.impl.IFloatingPanel p = panelMap.get(iterPanels.next());
+                            SwingUtilities.invokeLater(new Runnable(){
+                            public void run() {
+                                    JFrame fr= p.getParentWindowHandle();
+                                    System.out.println("maximizing  other window");
+                                    fr.setExtendedState(JFrame.NORMAL);
+                                    fr.setVisible(true);                        
+                            }
+
+                            });
                         }
                     }
                     
+            @Override
                     public void windowIconified(WindowEvent e) {
                         System.out.println("panel minimized....");
                         HashMap<String,org.bungeni.editor.panels.impl.IFloatingPanel> panelMap = panel.getFloatingPanelMap();
                         java.util.Iterator<String> iterPanels = panelMap.keySet().iterator();
                         while (iterPanels.hasNext()) {
-                            org.bungeni.editor.panels.impl.IFloatingPanel p = panelMap.get(iterPanels.next());
-                            JFrame f= p.getParentWindowHandle();
-                            System.out.println("minimizing other window");
-                            f.setExtendedState(JFrame.ICONIFIED);
-                            f.setVisible(false);
+                            final org.bungeni.editor.panels.impl.IFloatingPanel p = panelMap.get(iterPanels.next());
+                            SwingUtilities.invokeLater(new Runnable(){
+                                public void run() {
+                                    JFrame fr= p.getParentWindowHandle();
+                                    System.out.println("minimizing other window");
+                                    fr.setExtendedState(JFrame.ICONIFIED);
+                                    fr.setVisible(false);                                }
+                            });
+
                         }
 
                     }
@@ -855,22 +885,24 @@ private void initFrame(XComponent component){
             };
             frame.addWindowListener(tabbedPanelListener);
             //frame.setSize(243, 650);
-            frame.setSize(270, 540);
+
             frame.setResizable(false);
             frame.setAlwaysOnTop(true);
             frame.setVisible(true);
             //prevent closing of main editor panel
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            //position frame
-            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-            Dimension windowSize = frame.getSize();
-            log.debug("screen size = "+ screenSize);
-            log.debug("window size = "+ windowSize);
-            
-            int windowX = 5; //Math.max(0, (screenSize.width  - windowSize.width));
-            int windowY = Math.max(0, (screenSize.height - windowSize.height) / 2);
-            frame.setLocation(windowX, windowY + OPENOFFICE_HEIGHT_OFFSET);  // Don't use "f." inside constructor.
+           
+            frame.setLocation(windowX, windowY );  // Don't use "f." inside constructor.
 }
+
+private static int WINDOW_X = 0;
+private static int WINDOW_Y = 0;
+
+public static Point getFrameWindowDimension(){
+    return new Point(WINDOW_X, WINDOW_Y);
+}
+
+
 
 private void initoOoAndLaunchFrame(String templatePath, boolean isTemplate){
             openofficeObject = new org.bungeni.ooo.BungenioOoHelper(m_xContext);
@@ -886,7 +918,14 @@ private void initoOoAndLaunchFrame(String templatePath, boolean isTemplate){
             //XTextDocument xTextDocument = (XTextDocument)UnoRuntime.queryInterface(XTextDocument.class, xComponent); 
             //XText xText = xTextDocument.getText();    
             //xText.setString("Hello World!!!!!!!");
-            initFrame(xComponent);
+            final XComponent passToFrameComponent = xComponent;
+           SwingUtilities.invokeLater(new Runnable() {
+                              public void run() {
+                                 initFrame(passToFrameComponent);
+                              }
+                            });
+
+        
 }
 
 public void initDataReader(){
@@ -927,7 +966,15 @@ private void launchFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                      */
                 }
             }
-            initoOoAndLaunchFrame(selectedDocType.templatePathNormalized(), true); 
+            final String templatePathNormalized = selectedDocType.templatePathNormalized();
+            SwingUtilities.invokeLater(new Runnable(){
+
+            public void run() {
+                initoOoAndLaunchFrame(templatePathNormalized, true); 
+            }
+                
+            });
+            
             //dispatchObject.executeDispatch(xDispatchProvider, ".uno:FullScreen", "", 0, args); 
        
            // xController.getFrame().getContainerWindow().setPosSize(0, 0, 100, 100, com.sun.star.awt.PosSize.POS);

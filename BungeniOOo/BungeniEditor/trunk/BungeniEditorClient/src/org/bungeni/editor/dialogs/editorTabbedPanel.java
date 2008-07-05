@@ -59,6 +59,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.SingleSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -180,7 +181,14 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        initProviders();
        initFields();
        //();
-       initFloatingPane();
+       SwingUtilities.invokeLater(new Runnable(){
+
+            public void run() {
+                initFloatingPane();
+            }
+           
+       });
+       //initFloatingPane();
        
         //initCollapsiblePane();
        //initNotesPanel();
@@ -627,8 +635,11 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             log.debug("window size = "+ windowSize);
             
             int windowX = screenSize.width - floatingFrame.getWidth() - WIDTH_OOo_SCROLLBAR;
-            int windowY = (screenSize.height - floatingFrame.getHeight())/2;
-            floatingFrame.setLocation(windowX, windowY + editorApplicationController.OPENOFFICE_HEIGHT_OFFSET);  // Don't use "f." inside constructor.
+            //int windowY = (screenSize.height - floatingFrame.getHeight())/2;
+            int windowY = editorApplicationController.getFrameWindowDimension().y;
+            log.debug("initFloatingPane : Window Y =  "+ windowY);
+           
+            floatingFrame.setLocation(windowX, windowY);  // Don't use "f." inside constructor.
             floatingFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
     

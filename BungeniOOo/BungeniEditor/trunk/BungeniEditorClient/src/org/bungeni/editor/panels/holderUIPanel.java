@@ -30,6 +30,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JRadioButton;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.ToolTipManager;
 import javax.swing.plaf.ComponentUI;
@@ -177,10 +178,10 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
     private void initTimers(){
          Action sectionViewRefreshRunner = new AbstractAction() {
                 public void actionPerformed (ActionEvent e) {
-                    updateCurrentSectionName();
-                    updateSectionTree();
-                }
-            };
+                        updateCurrentSectionName();
+                        updateSectionTree();
+                    };
+       };
         timerSectionTree = new Timer(3000, sectionViewRefreshRunner);
         timerSectionTree.setInitialDelay(2000);
         timerSectionTree.start();
@@ -334,11 +335,18 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
     }
     
     private void updateViewPortForTree(){
-        if (this.m_selectedChangeStructureItem.itemIndex.equals("VIEW_SECTIONS")) {
-            this.scrollTreeView.setViewportView(sectionInternalStructureTree);
-        } else if (this.m_selectedChangeStructureItem.itemIndex.equals("VIEW_PRETTY_SECTIONS")) {
-            this.scrollTreeView.setViewportView(sectionStructureTree);
-        }
+        SwingUtilities.invokeLater(new Runnable(){
+
+            public void run() {
+                if (m_selectedChangeStructureItem.itemIndex.equals("VIEW_SECTIONS")) {
+                    scrollTreeView.setViewportView(sectionInternalStructureTree);
+                } else if (m_selectedChangeStructureItem.itemIndex.equals("VIEW_PRETTY_SECTIONS")) {
+                    scrollTreeView.setViewportView(sectionStructureTree);
+                }
+            }
+            
+        });
+
     }
     
     private synchronized void updateSectionTree() {
@@ -565,9 +573,13 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
         }
         
         public void actionPerformed(ActionEvent e) {
-            if (timedTree.isShowing()) {
-                this.timedTree.repaint();
-            }
+            SwingUtilities.invokeLater(new Runnable(){
+                public void run() {
+                if (timedTree.isShowing()) {
+                    timedTree.repaint();
+                }
+                }
+            });
         }
 
  

@@ -21,19 +21,19 @@ import org.bungeni.ooo.utils.CommonExceptionUtils;
  */
 public class BungeniToolbarConditionProcessor {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniToolbarConditionProcessor.class.getName());
- 
+
     protected OOComponentHelper ooDocument;
     protected BungeniToolbarConditionOperator matchedCondition = null;
     protected String conditionValue;
     protected String[] individualConditions;
-    protected HashMap<String, BungeniToolbarConditionOperator> operators = new HashMap<String, BungeniToolbarConditionOperator>();
+    protected final static HashMap<String, BungeniToolbarConditionOperator> operators = BungeniToolbarConditionOperatorFactory.getObjects();
 
     
     /** Creates a new instance of BungeniToolbarConditionProcessor */
     public BungeniToolbarConditionProcessor(OOComponentHelper ooDoc, String conditionVal) {
         this.ooDocument = ooDoc;
         this.conditionValue = conditionVal;
-        operators = BungeniToolbarConditionOperatorFactory.getObjects();
+        // operators = BungeniToolbarConditionOperatorFactory.getObjects();
         processOperators(conditionVal);
     }
     
@@ -62,11 +62,52 @@ public class BungeniToolbarConditionProcessor {
         
     }
     
+    /**
+     * This map caches condition operator objects.  The evaluate is repeatedly called by the editor based on the 
+     * cursor position, whicn means these objects are repeatedly created and garbage collected.
+     * By caching the objects we simply reload an already created object from memory and return that.
+     */
+    private static HashMap<String, IBungeniToolbarConditionOperator> toolbarConditionOperatorMap = new HashMap<String, IBungeniToolbarConditionOperator>();
+    
+    private static boolean conditionProcessorClassExists(String className) {
+        if (toolbarConditionOperatorMap.containsKey(className)) {
+            return true;
+        } else  {
+            return false;
+        }
+    }
+    
+    private static void setConditionOperator (String className, IBungeniToolbarConditionOperator operatorObj){
+        toolbarConditionOperatorMap.put(className, operatorObj);
+    }
+    
+    private static IBungeniToolbarConditionOperator getConditionOperator(String className) {
+        return toolbarConditionOperatorMap.get(className);
+    }
+    
     private boolean evaluateWithOperator(){
         boolean bResult = false;
         try {
         //use the matched condition to evaluate the condition
           String conditionProcessorClass = matchedCondition.getConditionProcessorClass();
+          //check if condition operator object was cached
+          if (conditionProcessorClassExists(conditionProcessorClass)){
+              IBungeniToolbarConditionOperator selectedOperator = getConditionOperator(conditionProcessorClass);
+              selectedOperator.setOOoComponentHelper(ooDocument);
+              selectedOperator.setOperatingCondition(matchedCondition, individualConditions);
+              bResult = selectedOperator.result();
+          } else {
+              IBungeniToolbarConditionOperator selectedOperator;
+              Class processorClassRef;
+              processorClassRef = Class.forName(conditionProcessorClass);
+              selectedOperator = (IBungeniToolbarConditionOperator)processorClassRef.newInstance();
+              //cache the newly created condition operator object
+              setConditionOperator(conditionProcessorClass, selectedOperator);
+              selectedOperator.setOOoComponentHelper(ooDocument);
+              selectedOperator.setOperatingCondition(matchedCondition, individualConditions);
+              bResult = selectedOperator.result();
+          }
+          /*
           IBungeniToolbarConditionOperator selectedOperator;
           Class processorClassRef;
           processorClassRef = Class.forName(conditionProcessorClass);
@@ -74,6 +115,7 @@ public class BungeniToolbarConditionProcessor {
           selectedOperator.setOOoComponentHelper(ooDocument);
           selectedOperator.setOperatingCondition(matchedCondition, individualConditions);
           bResult = selectedOperator.result();
+           */ 
          } catch (InstantiationException ex) {
                log.error("evaluateWithOperator: " + ex.getMessage());
                log.error("evaluateWithOperator : " + this.conditionValue);
@@ -91,14 +133,44 @@ public class BungeniToolbarConditionProcessor {
         }
     }
     
+    private static HashMap<String, IBungeniToolbarCondition> toolbarConditionMap = new HashMap<String, IBungeniToolbarCondition>();
+    
+    private static boolean conditionExists (String cClass) {
+        if (toolbarConditionMap.containsKey(cClass)){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    private static void setCondition (String conditionName, IBungeniToolbarCondition conditionObj) {
+        toolbarConditionMap.put(conditionName, conditionObj);
+    }
+    
+    private static IBungeniToolbarCondition getCondition(String conditionName) {
+        return toolbarConditionMap.get(conditionName);
+    }
+    
+    
     private boolean evaluateWithoutOperator(){
         boolean bResult = false;
         try {   
             
             BungeniToolbarCondition toolbarCond =    new BungeniToolbarCondition(conditionValue);
-            IBungeniToolbarCondition iCondition = baseOperator.getConditionObject(toolbarCond.getConditionClass());
-            iCondition.setOOoComponentHelper(ooDocument);
-            bResult = iCondition.processCondition(toolbarCond) ;
+            String conditionClass = toolbarCond.getConditionClass();
+            //check if condition already exists in cached map
+            if (conditionExists(conditionClass)) {
+                //if exists..retrieve cached object
+                IBungeniToolbarCondition iCondition = getCondition(conditionClass);
+                iCondition.setOOoComponentHelper(ooDocument);
+                bResult = iCondition.processCondition(toolbarCond);
+            } else {
+                //otherwise create condition object and cache it
+                IBungeniToolbarCondition iCondition = baseOperator.getConditionObject(conditionClass);
+                setCondition(conditionClass, iCondition);
+                iCondition.setOOoComponentHelper(ooDocument);
+                bResult = iCondition.processCondition(toolbarCond) ;
+            }
           } catch (Exception ex) {
                log.error("evaluateWithoutOperator: " + ex.getMessage());
                log.error("evaluateWithoutOperator : " + this.conditionValue);

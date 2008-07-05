@@ -25,24 +25,33 @@ public class BungeniToolbarConditionOperatorFactory {
     /** Creates a new instance of BungeniToolbarConditionOperatorFactory */
     public BungeniToolbarConditionOperatorFactory() {
     }
+    private static HashMap<String, BungeniToolbarConditionOperator> conditionOperatorMap= new HashMap<String,BungeniToolbarConditionOperator>();
     
     public static HashMap<String, BungeniToolbarConditionOperator> getObjects(){
-        HashMap<String,BungeniToolbarConditionOperator> toolMap = new HashMap<String,BungeniToolbarConditionOperator>();
-        BungeniClientDB db =  new BungeniClientDB(DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
-        db.Connect();
-        QueryResults qr = db.QueryResults(SettingsQueryFactory.Q_FETCH_CONDITIONAL_OPERATORS());
-        if (qr.hasResults()) {
-           Vector<Vector<String>> resultRows  = new Vector<Vector<String>>();
-           resultRows = qr.theResults();
-           for (Vector<String> resultRow: resultRows) {
-               String conditionName = resultRow.elementAt(qr.getColumnIndex("CONDITION_NAME")-1);
-               String conditionSyntax = resultRow.elementAt(qr.getColumnIndex("CONDITION_SYNTAX")-1);
-               String conditionClass = resultRow.elementAt(qr.getColumnIndex("CONDITION_CLASS")-1);
-               toolMap.put(conditionName, new BungeniToolbarConditionOperator(conditionName, conditionSyntax, conditionClass ));
-           } 
+        if (conditionOperatorMap.isEmpty()) {
+            HashMap<String,BungeniToolbarConditionOperator> toolMap = new HashMap<String,BungeniToolbarConditionOperator>();
+            BungeniClientDB db =  new BungeniClientDB(DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
+            db.Connect();
+            QueryResults qr = db.QueryResults(SettingsQueryFactory.Q_FETCH_CONDITIONAL_OPERATORS());
+            if (qr.hasResults()) {
+               Vector<Vector<String>> resultRows  = new Vector<Vector<String>>();
+               resultRows = qr.theResults();
+               for (Vector<String> resultRow: resultRows) {
+                   String conditionName = resultRow.elementAt(qr.getColumnIndex("CONDITION_NAME")-1);
+                   String conditionSyntax = resultRow.elementAt(qr.getColumnIndex("CONDITION_SYNTAX")-1);
+                   String conditionClass = resultRow.elementAt(qr.getColumnIndex("CONDITION_CLASS")-1);
+                   toolMap.put(conditionName, new BungeniToolbarConditionOperator(conditionName, conditionSyntax, conditionClass ));
+               } 
+            }
+            db.EndConnect();
+            //cache the operator map
+            conditionOperatorMap = toolMap;
+            return conditionOperatorMap;
+        } else {
+            //operator map was already cached, return the cached map
+            return conditionOperatorMap;
         }
-        db.EndConnect();
-        return toolMap;
+            
     }       
    
    public static void main(String[] args) {

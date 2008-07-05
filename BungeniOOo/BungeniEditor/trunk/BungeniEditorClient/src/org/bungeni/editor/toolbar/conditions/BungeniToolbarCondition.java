@@ -9,6 +9,7 @@
 
 package org.bungeni.editor.toolbar.conditions;
 
+import java.util.HashMap;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.db.QueryResults;
@@ -24,8 +25,8 @@ public class BungeniToolbarCondition {
     private String conditionValue;
     private String conditionClass;
     private boolean negationCondition = false;
-    
-      private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniToolbarCondition.class.getName());
+    private static HashMap<String,String> conditionNameforClassMap = new HashMap<String,String>();
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniToolbarCondition.class.getName());
  
 
     /** Creates a new instance of BungeniToolbarCondition */
@@ -55,16 +56,22 @@ public class BungeniToolbarCondition {
     }
      
    private String getConditionClassFromName(String conditionName) {
-        BungeniClientDB db =  new BungeniClientDB(DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
-        db.Connect();
-        QueryResults qr = db.QueryResults(SettingsQueryFactory.Q_FETCH_CONDITION_CLASS_BY_NAME(conditionName, BungeniEditorProperties.getEditorProperty("activeDocumentMode")));
-        db.EndConnect();
-        String[] conditionClass = null;
-        if (qr.hasResults()) {
-            conditionClass = qr.getSingleColumnResult("CONDITION_CLASS");
-            return conditionClass[0];
+        if (conditionNameforClassMap.containsKey(conditionName)) {
+            return conditionNameforClassMap.get(conditionName);
         } else {
-            return null;
+            BungeniClientDB db =  new BungeniClientDB(DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
+            db.Connect();
+            QueryResults qr = db.QueryResults(SettingsQueryFactory.Q_FETCH_CONDITION_CLASS_BY_NAME(conditionName, BungeniEditorProperties.getEditorProperty("activeDocumentMode")));
+            db.EndConnect();
+            String[] mconditionClass = null;
+            if (qr.hasResults()) {
+                mconditionClass = qr.getSingleColumnResult("CONDITION_CLASS");
+                //cache class and condition name combination
+                conditionNameforClassMap.put(conditionName, mconditionClass[0]);
+                return mconditionClass[0];
+            } else {
+                return null;
+            }
         }
    } 
     public BungeniToolbarCondition(String name, String value ) {

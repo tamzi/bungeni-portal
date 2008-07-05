@@ -17,10 +17,11 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="progressNumbering" alignment="0" pref="215" max="32767" attributes="0"/>
                   <Component id="checkbxUseParentPrefix" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="btnRenumberSections" alignment="0" pref="215" max="32767" attributes="1"/>
-                  <Component id="btnfixBrokenReferences" alignment="1" pref="215" max="32767" attributes="0"/>
                   <Component id="btnInsertCrossReference" alignment="0" pref="215" max="32767" attributes="1"/>
+                  <Component id="btnfixBrokenReferences" alignment="0" pref="215" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -34,10 +35,12 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btnRenumberSections" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="btnfixBrokenReferences" min="-2" max="-2" attributes="0"/>
+              <Component id="progressNumbering" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btnInsertCrossReference" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="174" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="btnfixBrokenReferences" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="150" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -76,6 +79,8 @@
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnfixBrokenReferencesActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JProgressBar" name="progressNumbering">
     </Component>
   </SubComponents>
 </Form>

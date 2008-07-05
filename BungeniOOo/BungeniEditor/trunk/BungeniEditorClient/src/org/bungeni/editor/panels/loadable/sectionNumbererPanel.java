@@ -24,6 +24,8 @@ import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextSection;
 import com.sun.star.uno.AnyConverter;
 import com.sun.star.uno.UnoRuntime;
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -32,7 +34,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
+import javax.swing.SwingWorker;
 import javax.swing.Timer;
+import javax.swing.UIManager;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.bungeni.editor.document.DocumentSection;
@@ -1707,6 +1711,7 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
         btnRenumberSections = new javax.swing.JButton();
         btnInsertCrossReference = new javax.swing.JButton();
         btnfixBrokenReferences = new javax.swing.JButton();
+        progressNumbering = new javax.swing.JProgressBar();
 
         checkbxUseParentPrefix.setText("Use Parent Prefix");
         checkbxUseParentPrefix.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -1739,10 +1744,11 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(progressNumbering, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                     .add(checkbxUseParentPrefix)
                     .add(btnRenumberSections, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, btnfixBrokenReferences, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                    .add(btnInsertCrossReference, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
+                    .add(btnInsertCrossReference, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                    .add(btnfixBrokenReferences, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -1753,10 +1759,12 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnRenumberSections)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(btnfixBrokenReferences)
+                .add(progressNumbering, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnInsertCrossReference)
-                .addContainerGap(174, Short.MAX_VALUE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnfixBrokenReferences)
+                .addContainerGap(150, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1773,7 +1781,20 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
 
     private void btnRenumberSectionsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRenumberSectionsActionPerformed
 // TODO add your handling code here:
-        applyRenumberingScheme();
+      UIManager.put("ProgressBar.selectionBackground", Color.black);
+      UIManager.put("ProgressBar.selectionForeground", Color.white);
+      UIManager.put("ProgressBar.foreground", new Color(8,32,128));
+      parentFrame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+      progressNumbering.setMinimum(0);
+      progressNumbering.setMinimum(100);
+      progressNumbering.setIndeterminate(true);
+      //  progressNumbering.setStringPainted(true);
+     // progressNumbering.setString("Processing...");
+      RenumberingAgent agent = new RenumberingAgent();
+      agent.execute();
+      //  progressNumbering.setIndeterminate(false);
+      //  progressNumbering.setString("Completed!");
+      //  parentFrame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_btnRenumberSectionsActionPerformed
     
     
@@ -1786,13 +1807,38 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
         //the timer does automatic refreshes....
     }
     
-    
+    class RenumberingAgent extends SwingWorker<Boolean, Void>{
+
+
+        @Override
+        protected Boolean doInBackground()  {
+            boolean bState = true;
+            try {
+           applyRenumberingScheme();
+            } catch (Exception ex) {
+                log.error("applyRenumberingScheme :" + ex.getMessage());
+                log.error("applyRenumberingScheme : " + CommonExceptionUtils.getStackTrace(ex));
+            } finally {
+           return bState;
+             }
+        }
+        
+        @Override
+        protected void done(){
+            progressNumbering.setIndeterminate(false);
+            progressNumbering.setValue(100);
+            progressNumbering.setString(("Completed !"));
+            parentFrame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+        }
+        
+    }
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInsertCrossReference;
     private javax.swing.JButton btnRenumberSections;
     private javax.swing.JButton btnfixBrokenReferences;
     private javax.swing.JCheckBox checkbxUseParentPrefix;
+    private javax.swing.JProgressBar progressNumbering;
     // End of variables declaration//GEN-END:variables
 
    

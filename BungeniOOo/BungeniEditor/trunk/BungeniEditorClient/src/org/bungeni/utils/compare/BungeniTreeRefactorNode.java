@@ -1,6 +1,8 @@
 package org.bungeni.utils.compare;
 
 import java.util.TreeMap;
+import java.util.concurrent.ExecutionException;
+import javax.swing.SwingWorker;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import org.bungeni.utils.BungeniBNode;
@@ -23,9 +25,71 @@ public class BungeniTreeRefactorNode {
     }
     
     /**
-     * Activates a merge for the node. The original root node is updated in place 
-     * and merged with the merge root node 
+     * SwingWorker class that does the actual merge of the trees
      */
+     class NodeMergeAgent extends SwingWorker<BungeniNodeComparator, Void>{
+        /**
+         * Runs the non-UI bits of the tree merge code
+         * @return a BungeniNodeComparator object
+         */
+        @Override
+        protected BungeniNodeComparator doInBackground()  {
+                 //create a node comparator object
+                 BungeniNodeComparator comp = new BungeniNodeComparator();
+                 try {
+                 //compare the nodes and generate the difference maps
+                 comp.compareAndDiff(getOriginalRootNode(), getMergeRootNode());
+                 } catch (Exception ex) {
+                     log.error("BungeniNodeComparator.doInBackground : " + ex.getMessage());
+                 } finally {
+                 return comp;
+                 }
+        }
+        
+        /**
+         * Is invoked after doInBackground() and runs the UI bits of the merge -
+         * adding, deleting updating nodes from the tree models
+         * The call to get() returns the output of doInBackground()s
+         */
+       @Override
+        protected void done(){
+            try {
+                BungeniNodeComparator compObj = get();
+                boolean bDeletions = doMergeDeletions(compObj);
+                //process the update difference chain
+                //we process each chain as one atomic unit of change
+                //for processing updates we dont use the update map, instead
+                //we use the udpate difference chain since it provides a connected 
+                //chain of changes i.e. if index 1 => 2 and 2 => 3 and 3 => 8 and so on...
+                boolean bUpdates = doMergeUpdates(compObj);
+                //process insert differences
+                boolean bInserts = doMergeInserts(compObj);               
+                
+            } catch (InterruptedException ex) {
+               log.error("NodeMergeAgent : done() : " + ex.getMessage());
+            } catch (ExecutionException ex) {
+               log.error("NodeMergeAgent : done() : " + ex.getMessage());
+            }
+        }
+
+    
+    
+    
+    }
+    /**
+     * Activates a merge for the node. The original root node is updated in place 
+     * and merged with the merge root node.
+     * This function runs on the EDT, and so we use a swingworker thread to run the non-gui bits.
+     */
+    public void doMerge(){
+       try {
+            NodeMergeAgent nodeMerger = new NodeMergeAgent();
+            nodeMerger.execute();
+        } catch (Exception ex) {
+            log.error("doMerge : " + ex.getMessage());
+        }
+    }
+    /*
     public void doMerge(){
         boolean bDeletions = false, bInserts = false, bUpdates = false;
         try {
@@ -55,6 +119,8 @@ public class BungeniTreeRefactorNode {
           log.debug("doMerge (states) for " + originalRootNode + " deletions ="+ bDeletions + ", inserts = " + bInserts + " , updates = " + bUpdates);
         }
     }
+     */
+    
     /**
      * Merges deletions between the original and the merge node
      * @param a BungeniNodeComparator object

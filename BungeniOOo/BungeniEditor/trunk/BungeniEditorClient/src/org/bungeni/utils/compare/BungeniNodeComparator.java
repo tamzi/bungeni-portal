@@ -186,9 +186,9 @@ public class BungeniNodeComparator {
     public void compareAndDiff(BungeniBNode root1, BungeniBNode root2){
         //build comparative difference maps
         compare(root1, root2);
-        for (Integer n : this.getDiffMapUpdate().keySet()) {
-            log.debug("compareAndDiff  updateMap = " + getDiffMapUpdate().get(n));
-        }
+     //   for (Integer n : this.getDiffMapUpdate().keySet()) {
+     //     log.debug("compareAndDiff  updateMap = " + getDiffMapUpdate().get(n));
+     // }
         //build update chain
         this.updateDifferenceChain = this.buildDifferenceChain();
     }

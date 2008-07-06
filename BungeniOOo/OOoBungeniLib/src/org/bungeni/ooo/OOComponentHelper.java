@@ -9,6 +9,8 @@
 
 package org.bungeni.ooo;
 
+import com.sun.star.awt.Rectangle;
+import com.sun.star.awt.XWindow;
 import com.sun.star.beans.IllegalTypeException;
 import com.sun.star.beans.PropertyExistException;
 import com.sun.star.beans.PropertyValue;
@@ -65,6 +67,7 @@ import com.sun.star.uno.Type;
 import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 import com.sun.star.xml.AttributeData;
+import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -1627,4 +1630,51 @@ public XTextField getTextFieldByName(String fieldName) {
          }
     }
     
+
+    /**
+     * Function that opens an Openoffice document from a specific path.
+     * This function must be run from a SwingWorker thread to avoid hanging the Swing event queue.
+     * @param documentPath - path to the openoffice document.
+     * @return
+     */
+    public static XComponent openExistingDocument(String documentPath) {
+          XComponent xComponent = null;
+          try {
+            documentPath = BungenioOoHelper.convertPathToURL(documentPath);
+            if (documentPath.length() > 0 ) {
+                PropertyValue[] loadProps = new com.sun.star.beans.PropertyValue[1];
+                PropertyValue xOpenProperty = new com.sun.star.beans.PropertyValue();
+                xOpenProperty.Name = "MacroExecutionMode";
+                xOpenProperty.Value = com.sun.star.document.MacroExecMode.ALWAYS_EXECUTE ;
+                loadProps[0] = xOpenProperty;
+                xComponent =  BungenioOoHelper.getComponentLoader().loadComponentFromURL(documentPath, "_blank", 0, loadProps);
+            }
+          } catch (Exception ex) {
+              log.error ("openExistingDocument : " + ex.getMessage());
+              log.error("openExistingDocument : " + CommonExceptionUtils.getStackTrace(ex));
+          } finally {
+              return xComponent;
+          }
+    }
+   
+   /**
+    * Maximises a openoffice document window frame 
+    * @param aComponent component handle of the window frame to be maximized.
+    */ 
+   public static void positionOOoWindow(XComponent aComponent, Dimension screenSize){
+       try {
+            XModel aModel = ooQueryInterface.XModel(aComponent);
+            XFrame aFrame = aModel.getCurrentController().getFrame();
+            XWindow xWind =  aFrame.getContainerWindow();
+            Rectangle rect = xWind.getPosSize();
+            int intXPos = rect.X;
+            int intYPos = rect.Y; 
+            int intHeight = screenSize.height - 30; //712;
+            int intWidth = screenSize.width ; //
+            short nSetpos=15;
+            xWind.setPosSize(intXPos, intYPos, intWidth, intHeight, nSetpos); 
+       } catch (Exception ex) {
+            log.error ("positionoOoWinow : " + ex.getMessage());
+       }
+      }
 }

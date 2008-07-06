@@ -18,9 +18,6 @@ import com.sun.star.io.IOException;
 import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
-import com.sun.star.text.XText;
-import com.sun.star.text.XTextDocument;
-import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 import java.io.File;
 import java.net.MalformedURLException;
@@ -35,10 +32,10 @@ import java.util.logging.Logger;
  */
 public class BungenioOoHelper {
 
-       private XDesktop m_ooDesktop = null;
-       private XMultiComponentFactory m_ooMCF = null;
+       private static XDesktop m_ooDesktop = null;
+       private static XMultiComponentFactory m_ooMCF = null;
        private XComponentContext m_ooContext = null;
-       private XComponentLoader m_ooComponentLoader = null;
+       private static XComponentLoader m_ooComponentLoader = null;
        private XComponent m_ooComponent = null;
        private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungenioOoHelper.class.getName());
        
@@ -46,12 +43,12 @@ public class BungenioOoHelper {
         m_ooContext = context;
     }
     
-    public XDesktop getDesktop(){
+    public static XDesktop getDesktop(){
         return m_ooDesktop;
     }
     
     
-    public XMultiComponentFactory getMultiComponentFactory(){
+    public static XMultiComponentFactory getMultiComponentFactory(){
         return m_ooMCF;
     }
     
@@ -61,7 +58,7 @@ public class BungenioOoHelper {
     }
     
     
-    public XComponentLoader getComponentLoader(){
+    public static XComponentLoader getComponentLoader(){
         return m_ooComponentLoader;
     }
     
@@ -72,7 +69,7 @@ public class BungenioOoHelper {
     /*
      * Returns component handle to newly opened document
      */
-    public String convertPathToURL(String path){
+    public static String convertPathToURL(String path){
         File file = new File(path);
         String strURL = "";
         URL url = null;

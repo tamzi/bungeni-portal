@@ -13,6 +13,7 @@ package org.bungeni.utils;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
 
 /**
@@ -54,14 +55,15 @@ public  static String  getClassName()
 public static File getFileFromChooser(String basePath, FileFilter filter, int fileSelectionMode, JFrame pFrame) {
         File returnFile = null;
         try {
-        final JFileChooser fc = new JFileChooser(basePath);
-        fc.setFileFilter(filter);
-        fc.setFileSelectionMode(fileSelectionMode);
-        int nReturnVal = fc.showOpenDialog(pFrame);
-        if (nReturnVal == JFileChooser.APPROVE_OPTION) {
-                returnFile = fc.getSelectedFile();
-                return returnFile; 
-            } 
+            UIManager.put("FileChooser.readOnly", Boolean.TRUE);
+            final JFileChooser fc = new JFileChooser(basePath);
+            fc.setFileFilter(filter);
+            fc.setFileSelectionMode(fileSelectionMode);
+            int nReturnVal = fc.showOpenDialog(pFrame);
+            if (nReturnVal == JFileChooser.APPROVE_OPTION) {
+                    returnFile = fc.getSelectedFile();
+                    return returnFile; 
+                } 
         } catch (Exception ex) {
             log.error("getFileFromChooser :" + ex.getMessage());
         } finally {

@@ -10,7 +10,6 @@
 package org.bungeni.editor.toolbar;
 
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
 import org.jdom.Element;
 
 /**
@@ -81,6 +80,7 @@ public class BungeniToolbarXMLAdapterNode extends DefaultMutableTreeNode {
      * @return String
      */
    // @Override
+    @Override
     public String toString(){
         org.jdom.Attribute nodeAttrib = node.getAttribute("title");
         if (nodeAttrib == null )

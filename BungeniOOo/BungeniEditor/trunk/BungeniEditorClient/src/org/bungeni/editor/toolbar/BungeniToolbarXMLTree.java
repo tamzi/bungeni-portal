@@ -47,7 +47,7 @@ public class BungeniToolbarXMLTree {
  
     /** Creates a new instance of BungeniToolbarXMLTree */
     public BungeniToolbarXMLTree(JTree tree) {
-        this.saxBuilder = new SAXBuilder(validate);
+        saxBuilder = new SAXBuilder(validate);
         String activeDocumentMode = BungeniEditorProperties.getEditorProperty("activeDocumentMode");
         String toolbarquery = SettingsQueryFactory.Q_FETCH_TOOLBAR_CONFIG_FILE(activeDocumentMode);
         BungeniClientDB instance = new BungeniClientDB (DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());

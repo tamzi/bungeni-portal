@@ -9,31 +9,26 @@
 
 package org.bungeni.editor.toolbar;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import javax.swing.event.TreeModelEvent;
-import javax.swing.event.TreeModelListener;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreePath;
-import org.jdom.Attribute;
 import org.jdom.Document;
 
 /**
  *
  * @author Administrator
  */
-public class BungeniToolbarXMLModelAdapter extends AbstractTreeModel {
+public class BungeniToolbarXMLModelAdapter extends DefaultTreeModel {
     private Document document;
       private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniToolbarXMLModelAdapter.class.getName());
  
     /** Creates a new instance of BungeniToolbarXMLModelAdapter */
-    public BungeniToolbarXMLModelAdapter() {
+    public BungeniToolbarXMLModelAdapter(BungeniToolbarXMLAdapterNode node) {
+        super(node);
     }
 
     
     /** Creates a new instance of BungeniToolbarXMLModelAdapter */
     public BungeniToolbarXMLModelAdapter(Document doc) {
+        super(new BungeniToolbarXMLAdapterNode(doc.getRootElement().getChild("root")));
         this.document = doc;
     }
  

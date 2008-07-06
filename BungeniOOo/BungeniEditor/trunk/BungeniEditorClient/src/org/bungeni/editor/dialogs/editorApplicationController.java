@@ -40,6 +40,7 @@ import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.BungeniEditorPropertiesHelper;
+import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.utils.CommonFileFunctions;
 import org.bungeni.utils.FileTableModel;
 import org.bungeni.utils.Installation;
@@ -103,7 +104,7 @@ public class editorApplicationController extends javax.swing.JPanel {
         initComponents();
         CommonFileFunctions cfsObject=new CommonFileFunctions();
          m_installObject = new Installation();
-        File dir =m_installObject.getInstallDirectory(this.getClass());
+        File dir =Installation.getInstallDirectory(this.getClass());
         //code to read properties file
         
         initDocumentTypesModel();
@@ -660,6 +661,7 @@ public class editorApplicationController extends javax.swing.JPanel {
         String typeDesc;
         String templatePath;
         
+        @Override
         public String toString(){
             return typeDesc;
         }
@@ -704,7 +706,7 @@ public class editorApplicationController extends javax.swing.JPanel {
     tblWorkspaceFolder.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     tblWorkspaceFolder.getSelectionModel().addListSelectionListener(new tblWorkspaceFolderRowListener());
     
-    String filesFolder = dirStruct.getAbsolutePath()+dirStruct.separator+m_settings_WorkspacePath+dirStruct.separator+"files";
+    String filesFolder = dirStruct.getAbsolutePath()+File.separator+m_settings_WorkspacePath+File.separator+"files";
     m_FullFilesPath= filesFolder;
 //   m_FullWorkspacePath = dirStruct.getAbsolutePath()+dirStruct.separator+m_settings_WorkspacePath;
     log.debug("files folder = "+filesFolder);
@@ -722,9 +724,9 @@ private void initFileTableModels(File dirStruct ) {
         tblTemplatesList.getSelectionModel().addListSelectionListener(new tblTemplatesListRowListener());
         /*******set up table models******/ 
         // build path to templates file
-        String templatesFolder = dirStruct.getAbsolutePath()+dirStruct.separator+m_settings_WorkspacePath+dirStruct.separator+"templates";
+        String templatesFolder = dirStruct.getAbsolutePath()+File.separator+m_settings_WorkspacePath+File.separator+"templates";
         m_FullTemplatesPath = templatesFolder;
-        m_FullWorkspacePath = dirStruct.getAbsolutePath()+dirStruct.separator+m_settings_WorkspacePath;
+        m_FullWorkspacePath = dirStruct.getAbsolutePath()+File.separator+m_settings_WorkspacePath;
         log.debug("templates folder = "+templatesFolder);
         File fileTemplateFolder = new File(templatesFolder);
         FileTableModel dirModel = new FileTableModel(fileTemplateFolder);
@@ -793,7 +795,7 @@ private void initWebdavTableModel(){
 
 private void initProperties(java.io.File currentFolder) {
         try {
-            String iniFilePath = currentFolder.getAbsolutePath()+currentFolder.separator+"settings" +currentFolder.separator +"settings.properties";
+            String iniFilePath = currentFolder.getAbsolutePath()+File.separator+"settings" +File.separator +"settings.properties";
             m_iniFilePath = iniFilePath;
             log.debug("Inifile path ="+ iniFilePath);
             FileInputStream fsi = new FileInputStream(iniFilePath);
@@ -908,7 +910,7 @@ private void initoOoAndLaunchFrame(String templatePath, boolean isTemplate){
             openofficeObject = new org.bungeni.ooo.BungenioOoHelper(m_xContext);
             openofficeObject.initoOo();
             
-            String templateURL = openofficeObject.convertPathToURL(templatePath);
+            String templateURL = BungenioOoHelper.convertPathToURL(templatePath);
             XComponent xComponent;
             log.debug("template URL= "+ templateURL);
             if (isTemplate)

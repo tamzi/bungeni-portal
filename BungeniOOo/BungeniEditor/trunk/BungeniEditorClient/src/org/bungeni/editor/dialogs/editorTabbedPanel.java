@@ -42,16 +42,23 @@ import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.Vector;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -60,6 +67,7 @@ import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
 import javax.swing.SingleSelectionModel;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.Timer;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -67,6 +75,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
+import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
@@ -86,6 +95,7 @@ import org.bungeni.utils.BungeniBTree;
 import org.bungeni.utils.BungeniBNode;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
+import org.bungeni.utils.CommonFileFunctions;
 /**
  *
  * @author  Administrator
@@ -345,10 +355,10 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     }
 
     
-    private void initOpenDocumentsList(){
+    private synchronized void initOpenDocumentsList(){
              try {
         log.debug("initOpenDocumentsList: getting components");
-        XEnumerationAccess enumComponentsAccess = ooHelper.getDesktop().getComponents();
+        XEnumerationAccess enumComponentsAccess = BungenioOoHelper.getDesktop().getComponents();
         XEnumeration enumComponents = enumComponentsAccess.createEnumeration();
         log.debug("initOpenDocumentsList: enumerating components");
         int i=0;
@@ -375,8 +385,10 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                     String strTitle = OOComponentHelper.getFrameTitle(xDoc);
                     XComponent xComponent = (XComponent)UnoRuntime.queryInterface(XComponent.class, nextElem);
                     componentHandleContainer compContainer = new componentHandleContainer(strTitle, xComponent);
-                    if (!editorMap.containsKey(compContainer.componentKey()))
+                    if (!editorMap.containsKey(compContainer.componentKey())) {
+                        compContainer.setEventBroadcastListener();
                         editorMap.put(compContainer.componentKey(), compContainer);
+                    }
                    // this.cboOpenDocuments.addItem(i+ " - " + strTitle);
                 }
             }
@@ -1051,7 +1063,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         
    
    
-public TreeMap<String, editorTabbedPanel.componentHandleContainer> getCurrentlyOpenDocuments(){
+public synchronized TreeMap<String, editorTabbedPanel.componentHandleContainer> getCurrentlyOpenDocuments(){
     return this.editorMap;
 }
 
@@ -1378,7 +1390,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         cboListDocuments = new javax.swing.JComboBox();
         lblCurrentlyOpenDocuments = new javax.swing.JLabel();
         btnBringToFront = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnOpenDocument = new javax.swing.JButton();
         lblCurrentMode = new javax.swing.JLabel();
         cboSwitchTabs = new javax.swing.JComboBox();
         lblSwitchTag = new javax.swing.JLabel();
@@ -1403,7 +1415,12 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
             }
         });
 
-        jButton2.setText("Open...");
+        btnOpenDocument.setText("Open...");
+        btnOpenDocument.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOpenDocumentActionPerformed(evt);
+            }
+        });
 
         lblCurrentMode.setForeground(java.awt.Color.red);
         lblCurrentMode.setText("CURRENT MODE : %s");
@@ -1425,7 +1442,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                     .add(layout.createSequentialGroup()
                         .add(btnBringToFront, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 122, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jButton2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 119, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(btnOpenDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 119, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .add(layout.createSequentialGroup()
                 .add(8, 8, 8)
@@ -1444,7 +1461,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                 .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jButton2)
+                    .add(btnOpenDocument)
                     .add(btnBringToFront))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lblCurrentMode)
@@ -1462,7 +1479,85 @@ private void btnBringToFrontActionPerformed(java.awt.event.ActionEvent evt) {//G
     this.bringEditorWindowToFront();
 }//GEN-LAST:event_btnBringToFrontActionPerformed
 
+private void btnOpenDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenDocumentActionPerformed
+// TODO add your handling code here:
+    String basePath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH()+File.separator+"workspace"+File.separator+"files";
+    File openFile = CommonFileFunctions.getFileFromChooser(basePath, new org.bungeni.utils.fcfilter.ODTFileFilter(), JFileChooser.FILES_ONLY, parentFrame);
+    if (openFile != null) {
+        boolean bActive = false;
+        int nConfirm = MessageBox.Confirm(parentFrame, "Make this document the active document ?", "Change active document");
+        if (JOptionPane.YES_OPTION == nConfirm) {
+            bActive=true;
+        }
+        String fullPathToFile = openFile.getAbsolutePath();
+        //we calculate the screen dimension in advance and pass it to the open document agent
+        //as the awt toolkit executes in the EDT while the swingworker thread is an independent thread,
+        //and thus it is unsafe to make awt call from the swing worker thread.
+        Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        OpenDocumentAgent openDocAgent = new OpenDocumentAgent(fullPathToFile, screenSize, bActive);
+        openDocAgent.execute();
+    }
+}//GEN-LAST:event_btnOpenDocumentActionPerformed
 
+/**
+ * Opens an OOo document in the swingworker thread.
+ * The agent opens the document and positions 
+ * an option to make the document the currently edited document (active document)
+ * The functionality to make the OOo document the active document is executed in the EDT,
+ * the event dispatch thread.
+ */
+class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
+        String documentToOpen = "";
+        boolean makeActiveDocument = false;
+        Dimension screenDimension = null;
+        public OpenDocumentAgent (String documentPath, Dimension screenSize, boolean makeActive) {
+            documentToOpen = documentPath;
+            makeActiveDocument = makeActive ;
+            screenDimension = screenSize;
+        }
+    
+        @Override
+        protected XComponent doInBackground() {
+            XComponent xComp = OOComponentHelper.openExistingDocument(documentToOpen);
+            if (xComp != null ) {
+                OOComponentHelper.positionOOoWindow(xComp, screenDimension);
+            }
+            return xComp;
+        }
+    
+        @Override
+        protected void done(){
+            try {
+                if (makeActiveDocument) {
+                cboListDocuments.setEnabled(false);
+                XComponent xComp = get();
+                    if (xComp != null) {
+                        XTextDocument doc = ooQueryInterface.XTextDocument(xComp);
+                        String strTitle = OOComponentHelper.getFrameTitle(doc);
+                        componentHandleContainer chc = new componentHandleContainer(strTitle, xComp);
+                        synchronized(editorMap) {
+                            if (!editorMap.containsKey(chc.componentKey())){
+                                chc.setEventBroadcastListener();
+                                editorMap.put(chc.componentKey(), chc);
+                            }
+                            DefaultComboBoxModel model = (DefaultComboBoxModel) cboListDocuments.getModel();
+                            if (!existsInComboModel(chc.componentKey())){
+                                model.addElement(editorMap.get(chc.componentKey()));
+                            }
+                            model.setSelectedItem(chc);
+                        }
+                    }
+                }
+            } catch (InterruptedException ex) {
+                log.error("openDocumentAgent : done: " + ex.getMessage());
+            } catch (ExecutionException ex) {
+                log.error("openDocumentAgent : done: " + ex.getMessage());            
+            } finally {
+                cboListDocuments.setEnabled(true);
+                return;
+            }
+        }
+}
    
 
 
@@ -1639,9 +1734,9 @@ private void btnBringToFrontActionPerformed(java.awt.event.ActionEvent evt) {//G
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBringToFront;
     private javax.swing.ButtonGroup btnGrpBodyMetadataTarget;
+    private javax.swing.JButton btnOpenDocument;
     private javax.swing.JComboBox cboListDocuments;
     private javax.swing.JComboBox cboSwitchTabs;
-    private javax.swing.JButton jButton2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabsContainer;
@@ -1671,6 +1766,9 @@ private void btnBringToFrontActionPerformed(java.awt.event.ActionEvent evt) {//G
             aComponent.addEventListener(compListener);
             componentKey = generateComponentKey();
             //add the event broadcaster to the same listener
+        }
+        
+        public void setEventBroadcastListener(){
             XEventBroadcaster xEventBroadcaster = (com.sun.star.document.XEventBroadcaster) UnoRuntime.queryInterface (com.sun.star.document.XEventBroadcaster.class, aComponent);
             xEventBroadcaster.addEventListener (compListener); 
         }

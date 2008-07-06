@@ -9,21 +9,28 @@
 
 package org.bungeni.utils;
 
+
+import java.io.File;
+import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.filechooser.FileFilter;
+
 /**
  *
  * @author Administrator
  */
 public class CommonFileFunctions {
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(CommonFileFunctions.class.getName());
 
     public CommonFileFunctions() {
     }
 
- public  String getLocalDirName()
+ public static String getLocalDirName()
    {
       String localDirName;     
 
       //Use that name to get a URL to the directory we are
-      java.net.URL myURL = this.getClass().getResource(getClassName());  //Open a URL to the our .class file     
+      java.net.URL myURL = CommonFileFunctions.class.getClass().getResource(getClassName());  //Open a URL to the our .class file     
 
       localDirName = myURL.getPath();  //Strip path to URL object
       localDirName = myURL.getPath().replaceAll("%20", "");  //change %20 chars to spaces     
@@ -32,16 +39,35 @@ public class CommonFileFunctions {
       return localDirName;
    }
  
-public  String  getClassName()
+public  static String  getClassName()
    {
        String thisClassName="";     
 
       //Build a string with executing class's name
-      thisClassName = this.getClass().getName();
+      thisClassName = CommonFileFunctions.class.getName();
       thisClassName = thisClassName.substring(thisClassName.lastIndexOf(".") + 1,thisClassName.length());
       thisClassName += ".class";  
 
       return thisClassName;
    }
+
+public static File getFileFromChooser(String basePath, FileFilter filter, int fileSelectionMode, JFrame pFrame) {
+        File returnFile = null;
+        try {
+        final JFileChooser fc = new JFileChooser(basePath);
+        fc.setFileFilter(filter);
+        fc.setFileSelectionMode(fileSelectionMode);
+        int nReturnVal = fc.showOpenDialog(pFrame);
+        if (nReturnVal == JFileChooser.APPROVE_OPTION) {
+                returnFile = fc.getSelectedFile();
+                return returnFile; 
+            } 
+        } catch (Exception ex) {
+            log.error("getFileFromChooser :" + ex.getMessage());
+        } finally {
+            return returnFile;
+        }
+}
+
 
 }

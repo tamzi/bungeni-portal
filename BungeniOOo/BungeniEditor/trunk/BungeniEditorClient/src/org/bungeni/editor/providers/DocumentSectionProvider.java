@@ -22,12 +22,14 @@ import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextSection;
 import com.sun.star.uno.Any;
 import com.sun.star.uno.UnoRuntime;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.SwingWorker;
 import javax.swing.Timer;
 import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.ooo.OOComponentHelper;
@@ -101,11 +103,60 @@ public class DocumentSectionProvider {
     public static BungeniBTree getNewTree(){
         BungeniBTree bnewTree = generateSectionsTree(null);
         return bnewTree;
+         /* 
+        NewTreeAgent newTree = new NewTreeAgent(0);
+        newTree.execute();
+        return newTree.theTree;*/
     }
     
+   static class NewTreeAgent extends SwingWorker<BungeniBTree, Void> {
+        BungeniBTree theTree = null;
+        /**
+         * 0 for normal section generation
+         * 1 for friendly section generation
+         */
+        int friendlyFlag = 0;
+        
+        NewTreeAgent(int nFlag0forNormal1forFriendly){
+            friendlyFlag = nFlag0forNormal1forFriendly;
+        }
+        
+        @Override
+        protected BungeniBTree doInBackground()  {
+            BungeniBTree bTree = null;
+            try {
+                if (friendlyFlag == 1 ) {
+                    bTree = generateFriendlySectionsTree(); 
+                } else {
+                    bTree = generateSectionsTree(null);
+                }
+            } catch (Exception ex) {
+                log.error("NewTreeAgent: do : " + ex.getMessage());
+            } finally {
+                return bTree;
+            }
+        }
+        
+        @Override
+        protected void done(){
+            try {
+                theTree = get();
+            } catch (InterruptedException ex) {
+                log.error("NewTreeAgent: done : " + ex.getMessage());
+            } catch (ExecutionException ex) {
+               log.error("NewTreeAgent: done : " + ex.getMessage());
+            }
+        }
+        
+    }
     public static BungeniBTree getNewFriendlyTree(){
         BungeniBTree bnewTree = generateFriendlySectionsTree();
         return bnewTree;
+        /*
+        NewTreeAgent newTree = new NewTreeAgent(1);
+        newTree.execute();
+        return newTree.theTree;
+         */ 
     }
     private static void buildSectionTree() {
         //disable the global timer.s

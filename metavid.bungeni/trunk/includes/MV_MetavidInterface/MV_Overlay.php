@@ -61,17 +61,18 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		//'<a title="'.wfMsg('mv_search_stream_title').'" href="javascript:mv_tool_disp(\'search\')">'.wfMsg('mv_search_stream').'</a>'
 		if ($wgUser->isAllowed('newtranscript'))
 		{
-		return '<a title="'.wfMsg('mv_mang_layers_title').'" href="javascript:mv_tool_disp(\'mang_layers\')">'.wfMsg('mv_mang_layers').'</a>' .
-			' | ' .	'<a title="'.wfMsg('mv_new_ht_en').'" href="javascript:mv_disp_add_mvd(\'ht_en\')">'.wfMsg('mv_new_ht_en').'</a>' . 
+		//return '<a title="'.wfMsg('mv_mang_layers_title').'" href="javascript:mv_tool_disp(\'mang_layers\')">'.wfMsg('mv_mang_layers').'</a>' .
+		//	' | ' 
+		return '<a title="'.wfMsg('mv_new_ht_en').'" href="javascript:mv_disp_add_mvd(\'ht_en\')">'.wfMsg('mv_new_ht_en').'</a>' . 
 			' | ' . '<a href="javascript:mv_disp_add_mvd(\'anno_en\')">'.wfMsg('mv_new_anno_en').'</a>'. 
 			' | ' . '<a href="javascript:mv_disp_add_mvd(\'question_en\')">'.wfMsg('mv_new_question_en').'</a>'.
 			' | ' . '<a href="javascript:mv_disp_add_mvd(\'answer_en\')">'.wfMsg('mv_new_answer_en').'</a>'
 			;
 		}
-		else
-		{
-			return '<a title="'.wfMsg('mv_mang_layers_title').'" href="javascript:mv_tool_disp(\'mang_layers\')">'.wfMsg('mv_mang_layers').'</a>' ;
-		}
+		//else
+		//{
+			//return '<a title="'.wfMsg('mv_mang_layers_title').'" href="javascript:mv_tool_disp(\'mang_layers\')">'.wfMsg('mv_mang_layers').'</a>' ;
+		//}
 	}
 	/* output caption div links */ 
 	function get_video_timeline(){
@@ -475,7 +476,7 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 	*/
 	function getMvdBgColor(& $mvd_page){
 		if(!isset($mvd_page->color)){
-			//if ($mvd_page->mvd_type != 'Anno_en')
+			if ($mvd_page->mvd_type != 'Anno_en')
 			{
 				$color = substr(md5($mvd_page->id), 0, 6);
 				//make the color soft (dont include low values)
@@ -488,10 +489,10 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 					}
 				}
 			}
-			//else
-			//{
-				//$color="f0ffef";
-			//}		
+			else
+			{
+				$color="efefef";
+			}		
 			$mvd_page->color=$color;
 		}
 		return $mvd_page->color;

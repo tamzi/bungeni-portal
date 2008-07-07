@@ -37,7 +37,7 @@ class MV_SpecialEditSitting extends SpecialPage{
 			
 			if ($wgArticle->exists())
 			{
-				$wgOut->redirect($title->getEditURL());		
+				$wgOut->redirect($title->getLocalURL("action=staff"));		
 			}
 			else
 			{

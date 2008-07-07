@@ -610,7 +610,7 @@
 				$wgRightsText ) . "\n</div>";
 		*/
 		if( $wgUser->getOption('showtoolbar') and !$this->isCssJsSubpage ) {
-			$toolbar = $this->getEditToolbar();
+			$toolbar = EditPage::getEditToolbar();
 		} else {
 			$toolbar = '';
 		}		

@@ -24,11 +24,51 @@ function doSpecialAddSitting() {
 SpecialPage::addPage( new SpecialPage('Mv_Add_Sitting','',true,'doSpecialAddSitting',false) );
 
 class MV_SpecialAddSitting {
+	
 	function execute() {
-		global $wgRequest, $wgOut, $wgUser, $mvSitting_name, $mvgIP, $wgJsMimeType, $mvgScriptPath;   
-		#init html output var:
+		global $wgRequest, $wgOut, $wgUser, $mvSitting_name, $mvgIP, $wgJsMimeType, $mvgScriptPath, $wgArticle, $sittingTypesTable;   
+	
+		$sitting_of = $wgRequest->getVal('sitting_of');	
+		$session_number = $wgRequest->getVal('session_number');
+		$sitting_start_date_time = 	$wgRequest->getVal('sitting_start_date_and_time');                
+        $sitting_end_date_time = 	$wgRequest->getVal('sitting_end_time');
+        $sitting_session_number = 	$wgRequest->getVal('sitting_session_number');
+        $wpEditToken =	$wgRequest->getVal( 'wpEditToken');
+		$sitting_desc  = 	$wgRequest->getVal( 'sitting_desc');
+		
+		
+		//$sitting_of.'-'.$sitting_start_date_time.'-'
+		if ($sitting_of != '')
+		{
+				
+				$sitting_name = $sitting_of.'-'.$sitting_start_date_time;
+				$title = Title::newFromText( $sitting_name, MV_NS_SITTING  );
+				$wgArticle = new Article($title);
+				$wgArticle->doEdit( $sitting_desc, wfMsg('mv_summary_add_sitting') );
+				$dbkey = $title->getDBKey();
+				$sitting = new MV_Sitting(array('name'=>$dbkey));
+				//$sitting->db_load_sitting();
+				//$sitting->db_load_streams();
+				$sitting->insertSitting();
+				if ($wgArticle->exists())
+				{
+					$wgOut->redirect($title->getLocalURL("action=staff"));	
+				}
+				else
+				{
+					$html.= 'Article '.$sitting_name.' does not exist';
+					$wgOut->addHtml($html);
+				}
+		}
+		
+			
+		
+
+		
+		
 		$html='';                   
         $title_str = $wgRequest->getVal('title');
+        $wgOut->addScript('<script type="text/javascript">/*<![CDATA[*/'."var mvgScriptPath = '$mvgScriptPath';/*]]>*/</script>'"."\n");
 		$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.js\"></script>");
 		$wgOut->addStyle("dhtmlgoodies_calendar/dhtmlgoodies_calendar/dhtmlgoodies_calendar.css?random=20060118");
 		
@@ -80,37 +120,83 @@ class MV_SpecialAddSitting {
 		        '<input type="hidden" name="title" value="' . $spectitle->getPrefixedText() . '"/>' ;
 		$html.= '<table width="600" border="0">';
 		$html.='<tr>';			
-		$html.= '<td  width="300">';		
+		$html.= '<td  width="500">';		
 		$html.= '<i>'.wfMsg('mv_label_sitting_of')."</i>:";
 		$html.= '</td>';
 		$html.= '<td>';
 		$html.='<select name="sitting_of">';
-		$html.= '<option value="Plenary">Plenary</option>';	
-		$html.= '<option value="Committee_on_Health">Committee on Health</option>';	
-		$html.= '<option value="Committee_on_Education">Committee on Education</option>';
-		$html.= '<option value="Committee_on_Government_Spending">Committee on Government Spending</option>';
-		$html.= '<option value="Etc">Etc...</option>';							
+		$dbr = wfGetDB(DB_SLAVE);
+		$result = $dbr->select($sittingTypesTable, '*');
+		while ($row = $dbr->fetchobject($result))
+		{
+			$html.= "<option value=\"$row->type\">$row->type</option>";	
+		}						
 		$html.= '</select></td>';				
 		$html.=	'</tr>'."\n";
 		$html.=	'<tr>';
 		$html.= '<td width="140">';		
-		$html.= '<i>'.wfMsg('mv_label_sitting_start_date_and_time')."</i>:";
+		$html.= '<i>'.wfMsg('mv_label_sitting_start_date')."</i>:";
 		$html.= '</td><td>';			
 		//$html.= '<input type="text" name="sitting_start_date_and_time" value="" size="30" maxlength="1024"><br />' . "\n";	
-		$html.= '<input type="text" value="24.12.2007 12:55" readonly name="sitting_start_date_and_time"><input type="button" value="Cal" onclick="displayCalendar(document.add_sitting.sitting_start_date_and_time,\'dd.mm.yyyy hh:ii\',this,true)"><div id="cal1"></div>';			
-		$html.= '</td>';				
+		$html.= '<input type="text" value="24.12.2008" readonly name="sitting_start_date_and_time" onchange="document.add_sitting.sitting_end_date_and_time.value=this.value"><input type="button" value="Cal" onclick="displayCalendar(document.add_sitting.sitting_start_date_and_time,\'dd.mm.yyyy\',this)"><div id="cal1"></div>';			
+		$html.= '</td>';	
+		$html.='<td>';
+		$html.='Time</td><td><select name="start_hour">';
+		for ($i=1; $i<=12; $i++)
+		{
+			$html.='<option value='.$i.'>'.$i.'</option>';
+		}
+		$html.='</select>';	
+		$html.='</td><td>';
+		$html.='<select name="start_min">';
+		for ($i=0; $i<=11; $i++)
+		{
+			$j = $i * 5;	
+			$html.='<option value='.$j.'>'.$j.'</option>';
+		}
+		$html.='</select>';
+		$html.='</td>';	
+		$html.='<td>';	
+		$html.='<select name="start_am_pm">';
+		$html.='<option value="am">am</option>';
+		$html.='<option value="pm">pm</option>';
+		$html .= '</select>';
+		$html.='</td>';	
 		$html.=	'</tr>'."\n";
 		
 		$html.= '<td width="140">';		
-		$html.= '<i>'.wfMsg('mv_label_sitting_end_date_and_time')."</i>:";
+		$html.= '<i>'.wfMsg('mv_label_sitting_end_date')."</i>:";
 		$html.= '</td><td>';			
 		//$html.= '<input type="text" name="sitting_end_date_and_time" value="" size="30" maxlength="1024"><br />' . "\n";				
-		$html.= '<input type="text" value="24.12.2007 12:55" readonly name="sitting_end_date_and_time"><input type="button" value="Cal" onclick="displayCalendar(document.add_sitting.sitting_end_date_and_time,\'dd.mm.yyyy hh:ii\',this,true)"><div id="cal2"></div>';	
+		$html.= '<input type="text" value="24.12.2008" readonly name="sitting_end_date_and_time"><input type="button" value="Cal" onclick="displayCalendar(document.add_sitting.sitting_end_date_and_time,\'dd.mm.yyyy\',this)"><div id="cal2"></div>';	
 		//$html.='<div id="select-wrapper"><input type="text" id="date-sel2-dd" name="date-sel2-dd"/>';
 		//$html.='<input type="text"id="date-sel2-mm" name="date-sel2-mm"/>';
 		//$html.='<input type="text" class="w3em highlight-days-67 disable-days-12 split-date no-transparency" id="date-sel2" name="date-sel2" />
       //</div>';
 		$html.= '</td>';				
+		$html.='<td>';
+		$html.='Time</td><td><select name=end_hour>';
+		for ($i=1; $i<=12; $i++)
+		{
+			$html.='<option value='.$i.'>'.$i.'</option>';
+		}
+		$html.='</select>';
+		$html.='</td><td>';	
+		$html.='<select name="end_min">';
+		for ($i=0; $i<=11; $i++)
+		{
+			$j = $i * 5;	
+			$html.='<option value='.$j.'>'.$j.'</option>';
+		}
+	
+		$html.='</td>';	
+			$html.='</select>';
+		$html.='<td>';	
+		$html.='<select name="start_am_pm">';
+		$html.='<option value="am">am</option>';
+		$html.='<option value="pm">pm</option>';
+		$html .= '</select>';
+		$html.='</td>';		
 		$html.=	'</tr>'."\n";
 			
 		$html.= '<td  width="140">';		

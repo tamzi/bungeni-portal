@@ -143,6 +143,7 @@ $reportersAssignmentTable = 'mv_reporters_assignments';
 $sitting_reporter = 'sitting_reporter';
 $sitting_reader = 'sitting_reader';
 $sitting_editor = 'sitting_editor';
+$sittingTypesTable = 'sitting_types';
 
 //whether to count found results (can take lots of time on big result sets)
 $mvDo_SQL_CALC_FOUND_ROWS = true;

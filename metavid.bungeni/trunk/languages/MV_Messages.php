@@ -28,18 +28,26 @@ $messages['en'] = array(
 
 	#add/edit stream text:
 	'mv_stream_meta'                => 'Stream page',
+//<<<<<<< .mine
 	'mv_add_stream'                 => 'Add Stream',
 	'mv_edit_stream'                => 'Metavid Edit Stream',
 	'mvexportsearch'                => 'Metavid Export',
 	'mvexportsequence'              => 'Metavid Export Sequence',
 	'mvexportstream'                => 'Metavid Export Stream',
+//=======
+//	'mv_add_stream'                 => 'Metavid add Stream',
+//	'mv_edit_stream'                => 'Metavid edit Stream',
+//	'mvexportsearch'                => 'Metavid export',
+//	'mvexportsequence'              => 'Metavid export sequence',
+//	'mvexportstream'                => 'Metavid export stream',
+//>>>>>>> .r37235
 	'mv_remove_streams'				=>	'Remove Stream from Sitting',
-	'mv_add_stream_page'            => 'Mv Add Stream',
+	'mv_add_stream_page'            => 'Mv add stream',
 	'mv_edit_strea_docu'            => '<p>Edit stream <b>admin</b><br />for normal user view/edit see $1 page',
 	'mv_add_stream_docu'            => '<p>Add a new Stream with the fields below.</p>
 <p>More information is given on the <a href="$1">help page for add stream</a>.</p>',
 	'mv_add_stream_submit'          => 'Add stream',
-	'mv_no_stream_files'            => 'No Existing Stream files',
+	'mv_no_stream_files'            => 'No existing stream files',
 	'mv_edit_stream_files'          => 'Edit stream files',
 	'mv_path_type_url_anx'          => 'full media url',
 	'mv_path_type_wiki_title'       => 'wiki media title',
@@ -50,8 +58,8 @@ $messages['en'] = array(
 	'mv_delete_stream_file'         => 'delete stream file reference',
 	'mv_save_changes'               => 'Save changes',
 	'mv_file_with_same_desc'        => 'Error: stream file with same description key <i>$1</i> already present',
-	'mv_updated_stream_files'       => 'Updated Stream Files Record',
-	'mv_removed_file_stream'        => 'Removed Stream file: $1',
+	'mv_updated_stream_files'       => 'Updated stream files record',
+	'mv_removed_file_stream'        => 'Removed stream file: $1',
 	'mv_missing_stream_text'        => 'The stream you requested <b>$1</b> is not available.<br />
 You may want to check the <a href="$2">Stream list</a><br />
 Or you many want to <a href="$3">Add the stream</a>.',
@@ -93,12 +101,13 @@ Or you many want to <a href="$3">Add the stream</a>.',
 	'edit_sitting_missing'			=>	'Missing Sitting Name',
 	'add_sitting_permission'         => 'You lack permission to add a new sitting',
 	'mv_label_sitting_of'			=>	'Sitting of',
-	'mv_label_sitting_start_date_and_time'	=>	'Sitting Start Date and Time',
-	'mv_label_sitting_end_date_and_time'	=>	'Sitting End Date and Time',
+	'mv_label_sitting_start_date'	=>	'Sitting Start Date',
+	'mv_label_sitting_end_date'	=>	'Sitting End Date',
 	'mv_label_sitting_type'					=>	'Sitting Type',
 	'mv_add_edit_sitting'		=> 'Add Streams to new Sitting',
 	'mv_special_upload'			=>	'Upload Stream File',
 	'mv_list_unused_streams'	=>	'List of Unused Stream Files',
+	'mv_sitting_types'	=> 'Sitting Types',
 	#stream type
 	'mv_label_stream_type'     => 'Stream type',
 	'mv_metavid_file'          => 'Existing file on server',
@@ -109,7 +118,7 @@ Or you many want to <a href="$3">Add the stream</a>.',
 
 	#tools
 	'mv_tool_search'            => 'Search',
-	'mv_tool_search_title'      => 'Search within this Stream',
+	'mv_tool_search_title'      => 'Search within this stream',
 	'mv_search_transcripts_for' => 'Search transcripts for',
 	'mv_tool_navigate'          => 'Navigate',
 	'mv_tool_navigate_title'    => 'Navigate the full stream',
@@ -118,19 +127,19 @@ Or you many want to <a href="$3">Add the stream</a>.',
 	'mv_tool_embed'             => 'Embed',
 	'mv_tool_embed_title'       => 'Embed options for the current requested segment',
 	'mv_tool_overlay'           => 'Template overlays',
-	'mv_tool_overlay_title'     => 'Template based metadata Overlays',
+	'mv_tool_overlay_title'     => 'Template based metadata overlays',
 	'mv_results_found_for'      => 'Search results <b>$1</b> to <b>$2</b> of <b>$3</b> for:',
 	'mv_tool_mang_layers'       => 'Manage layers',
 	'mv_update_layers'          => 'Update layers',
-	'mv_watch_clip'				=> 'Watch Clip',
-	'mv_close_clip'				=> 'Close Clip',
-	'mv_improve_transcript'		=> 'Improve Transcript',
+	'mv_watch_clip'				=> 'Watch clip',
+	'mv_close_clip'				=> 'Close clip',
+	'mv_improve_transcript'		=> 'Improve transcript',
 
 	#mvd types:
 
 	'ht_en'         => 'Transcript',
 	'ht_en_desc'    => 'English transcripts. This overlay type is for spoken text',
-	'anno_en'       => 'Annotations and Categories',
+	'anno_en'       => 'Agenda Items',
 	#undesa
 	'question_en'   => 'Question',
 	'answer_en' => 'Answer',
@@ -140,8 +149,13 @@ Or you many want to <a href="$3">Add the stream</a>.',
 	'thomas_en_desc'=> 'Official Thomas Transcript from the governments THOMAS record service. Source time synced by C-SPAN\'s c-spanarchives.org',
 
 	'ht_en'          => 'Transcript',
+<<<<<<< .mine
 	'ht_en_desc'     => 'English transcripts. This overlay type is for spoken text',
-	'anno_en'        => 'Annotations and Categories',
+=======
+	'ht_en_desc'     => 'English transcripts.
+This overlay type is for spoken text',
+	'anno_en'        => 'Annotations and categories',
+>>>>>>> .r37235
 	'anno_en_desc'   => 'English categorizations and annotations.
 This overlay can be used to categorize sections of video or to add annotative information that is not spoken text',
 	'thomas_en'      => 'Official transcript',
@@ -169,7 +183,7 @@ $mvMVDTypeDefaultDisp should be a subset of $mvMVDTypeAllAvailable',
 	
 	#messages for metavid export feed:
 	'mvvideofeed'        => 'Metavid video feed export',	
-	'mvexportask'		 => 'Semantic Video Feed Export',
+	'mvexportask'		 => 'Semantic video feed export',
 	'video_feed_cat'     => 'Video feed for category:',
 	'mv_cat_search_note' => 'Note: Categories only lists top level categories.
 For all metadata in category ranges search for $1',
@@ -241,7 +255,7 @@ Jump to stream view: $2',
 	'mv_edit_sequence'            => 'Editing sequence:$1',
 	'mv_sequence_player_title'    => 'sequence player',
 
-	'mv_save_sequence'            => 'Save Sequence',
+	'mv_save_sequence'            => 'Save sequence',
 	'mv_sequence_page_desc'       => 'Save the current sequence',
 	'mv_sequence_add'             => 'Add clips',
 	'mv_sequence_add_manual'      => 'Add by Name',
@@ -272,22 +286,39 @@ Jump to stream view: $2',
 	'mv_search_stream'       => 'Search Stream',
 	'mv_search_stream_title' => 'Search the Current Stream',
 	'mv_new_ht_en'           => 'New Transcript',
-	'mv_new_anno_en'         => 'New Tag or Annotation',
+	'mv_new_anno_en'         => 'New Agenda Item',
 	'mv_new_question_en'     => 'New Question',
 	'mv_new_answer_en'       => 'New Answer',
 	'mv_mang_layers'         => 'Manage Layers',
 	'mv_mang_layers_title'   => 'Manage the Layer Display Set for the current stream',
 //=======
-	'mv_search_stream'       => 'Search stream',
-	'mv_search_stream_title' => 'Search the current stream',
-	'mv_new_ht_en'           => 'New transcript',
-	'mv_new_anno_en'         => 'New tag or annotation',
-	'mv_mang_layers'         => 'Manage layers',
-	'mv_mang_layers_title'   => 'Manage the layer display set for the current stream',
+//	'mv_search_stream'       => 'Search stream',
+//	'mv_search_stream_title' => 'Search the current stream',/
+//	'mv_new_ht_en'           => 'New transcript',
+//	'mv_new_anno_en'         => 'New tag or annotation',
+//	'mv_mang_layers'         => 'Manage layers',
+//	'mv_mang_layers_title'   => 'Manage the layer display set for the current stream',
 //>>>>>>> .r32567
 
 	#msg for bots and maintance
 	'mv_protect_source_material'=> 'Original source material protected from edits'
+);
+
+/** Faeag Rotuma (Faeag Rotuma)
+ * @author Jose77
+ */
+$messages['rtm'] = array(
+	'mv_upload_file' => 'Upload ou file',
+	'mv_edit'        => "A'tū'ạki",
+);
+
+/** Tarifit (Tarifit)
+ * @author Jose77
+ */
+$messages['rif'] = array(
+	'mv_tool_search' => 'Tarzzut',
+	'mv_edit'        => 'Arri',
+	'mv_history'     => 'Amzruy',
 );
 
 /** Karelian (Karjala)
@@ -305,6 +336,16 @@ $messages['mhr'] = array(
 	'mv_tool_search' => 'Кычал',
 );
 
+/** Niuean (native name missing)
+ * @author Jose77
+ */
+$messages['niu'] = array(
+	'mv_upload_file' => 'Fakafano e faila',
+	'mv_tool_search' => 'Kumi',
+	'mv_edit'        => 'Fakahakohako',
+	'mv_history'     => 'Liu onoono atu ki tua',
+);
+
 /** Afrikaans (Afrikaans)
  * @author Arnobarnard
  */
@@ -320,6 +361,7 @@ $messages['af'] = array(
 
 /** Arabic (العربية)
  * @author Meno25
+ * @author OsamaK
  * @author Siebrand
  * @author Alnokta
  */
@@ -394,6 +436,8 @@ $messages['ar'] = array(
 	'mv_results_found_for'           => 'نتائج البحث <b>$1</b> إلى <b>$2</b> ل <b>$3</b> ل:',
 	'mv_tool_mang_layers'            => 'التحكم بالطبقات',
 	'mv_update_layers'               => 'تحديث عرض الطبقات',
+	'mv_watch_clip'                  => 'مشاهدة القصاصة',
+	'mv_close_clip'                  => 'إغلاق القصاصة',
 	'ht_en'                          => 'ترانسكريبت',
 	'ht_en_desc'                     => 'ترانسكريبتات إنجليزية. نوع التغطية هذا للنص المنطوق في ستريم الفيديو. الوصلات يمكن إضافتها، لكن كل النص ينبغي أن يكون ما هو منطوق في ستريم الفيديو.',
 	'anno_en'                        => 'الأنوتاشنات والتصنيفات',
@@ -555,6 +599,13 @@ $messages['ch'] = array(
 	'mv_edit'        => 'Tulaika',
 );
 
+/** Church Slavic (Словѣ́ньскъ / ⰔⰎⰑⰂⰡⰐⰠⰔⰍⰟ)
+ * @author ОйЛ
+ */
+$messages['cu'] = array(
+	'mv_tool_search' => 'ищи́',
+);
+
 /** Welsh (Cymraeg)
  * @author Lloffiwr
  */
@@ -630,6 +681,7 @@ $messages['es'] = array(
 /** French (Français)
  * @author Grondin
  * @author Urhixidur
+ * @author Verdy p
  * @author Siebrand
  */
 $messages['fr'] = array(
@@ -638,9 +690,11 @@ $messages['fr'] = array(
 	'mv_ogg_low_quality'             => 'Flux ogg utilisable en ligne, hébergé sur metavid',
 	'mv_ogg_high_quality'            => 'Flux ogg de haute qualité, hébergé sur metavid.',
 	'mv_archive_org_link'            => 'Liens vers les originaux mpeg2 dans Archive.org',
-	'ao_file_64Kb_MPEG4'             => 'Archive.org - mpeg4 64 kb/s',
-	'ao_file_256Kb_MPEG4'            => 'Archive.org - mpeg4 256 kb/s',
-	'ao_file_flash_flv'              => 'Archive.org - flash vidéo',
+	'ao_file_64Kb_MPEG4'             => 'Archive.org - MPEG4 64 kb/s',
+	'ao_file_256Kb_MPEG4'            => 'Archive.org - MPEG4 256 kb/s',
+	'ao_file_MPEG1'                  => 'Archive.org - MPEG1',
+	'ao_file_MPEG2'                  => 'Archive.org - MPEG2 original',
+	'ao_file_flash_flv'              => 'Archive.org - vidéo Flash',
 	'mv_error_stream_missing'        => '<span class="error">Erreur : il n\'existe aucun fichier vidéo associé avec ce flux.</span><br /> Vous êtes prié de reporter ceci sur le site d\'administration.',
 	'mv_stream_meta'                 => 'Page de flux',
 	'mv_add_stream'                  => "Ajout d'un flux metavid",
@@ -805,6 +859,14 @@ $messages['fr'] = array(
 	'mv_protect_source_material'     => 'Original protégé en écriture',
 );
 
+/** Western Frisian (Frysk)
+ * @author Snakesteuben
+ */
+$messages['fy'] = array(
+	'mv_search_category' => 'Kategory',
+	'mv_category'        => 'kategory',
+);
+
 /** Irish (Gaeilge)
  * @author Moilleadóir
  */
@@ -814,72 +876,185 @@ $messages['ga'] = array(
 );
 
 /** Galician (Galego)
- * @author Alma
  * @author Toliño
+ * @author Alma
  */
 $messages['gl'] = array(
-	'mv_duration_label'             => 'duración',
-	'mv_save_changes'               => 'Gardar Cambios',
-	'mv_user_cant_edit'             => 'Precisará $1 para editar, $2',
-	'mv_missing_cat'                => 'Falta o nome da categoría',
-	'mv_redirect_and_delete_reason' => 'eliminar páxina de redirección',
-	'mv_remove_reason'              => 'Razón Para a eliminación:',
-	'mv_metavid_file'               => 'Arquivo Existente no Servidor',
-	'mv_upload_file'                => 'Cargar ficheiro',
-	'mv_external_file'              => 'Arquivo Externo',
-	'mv_tool_search'                => 'Procurar',
-	'mv_tool_navigate'              => 'Navegar',
-	'mv_tool_export'                => 'Exportar',
-	'mv_results_found_for'          => 'Procurar resultados <b>$1</b> a <b>$2</b> de <b>$3</b> para:',
-	'mv_watch_clip'                 => 'Ver o fragmento',
-	'mv_close_clip'                 => 'Pechar o fragmento',
-	'anno_en'                       => 'Anotacións e Categorías',
-	'mv_data_page_title'            => '$1 para $2 de $3',
-	'mv_time_separator'             => '$1 a $2',
-	'mv_play'                       => 'Reproducir',
-	'mv_edit'                       => 'Editar',
-	'mv_history'                    => 'Historial',
-	'mv_edit_title'                 => 'Editar Texto',
-	'mv_remove'                     => 'eliminar',
-	'mv_adjust'                     => 'axustar',
-	'mv_adjust_submit'              => 'Gardar Axuste',
-	'mv_adjust_title'               => 'Axustar Comezo e Fin do tempo',
-	'mv_adjust_preview'             => 'Axuste da vista previa',
-	'mv_adjust_preview_stop'        => 'Parar Vista previa',
-	'mv_adjust_old_title_missing'   => 'A páxina que está tentando mover desde ($1) non existe',
-	'mv_start_desc'                 => 'Comezar Tempo',
-	'mv_end_desc'                   => 'Finalizar Tempo',
-	'mv_of'                         => '&#32;de&#32;',
-	'mediasearch'                   => 'Busca multimedia',
-	'mv_search_sel_t'               => 'Seleccionar o tipo de busca',
-	'mv_run_search'                 => 'Busca rápida',
-	'mv_add_filter'                 => 'Engadir Filtro',
-	'mv_search_match'               => 'Procurar Texto',
-	'mv_search_category'            => 'Categoría',
-	'mv_search_smw_property'        => 'Propiedades Semánticas',
-	'mv_search_and'                 => 'e',
-	'mv_search_or'                  => 'ou',
-	'mv_category'                   => 'categoría',
-	'mv_search_no_results'          => 'Ningunha coincidencia multimedia',
-	'mv_media_matches'              => 'Coincidencias multimedia',
-	'mv_remove_filter'              => 'eliminar filtro',
-	'mv_advaced_search'             => 'Busca multimedia avanzada',
-	'mv_view_wiki_page'             => 'Ver páxina wiki',
-	'mv_match_text'                 => '~  $1 coincidencias',
-	'mv_match_text_one'             => '~ 1 coincidencia',
-	'mv_edit_sequence'              => 'Editando a secuencia:$1',
-	'mv_sequence_player_title'      => 'reprodutor da secuencia',
-	'mv_save_sequence'              => 'Gardar a secuencia',
-	'mv_sequence_page_desc'         => 'Gardar a secuencia actual',
-	'mv_sequence_add'               => 'Engadir clips',
-	'mv_sequence_add_manual'        => 'Engadir polo Nome',
-	'mv_sequence_timeline'          => 'Liña de tempo da secuencia:',
-	'mv_edit_sequence_desc_help'    => 'Descrición da secuencia',
-	'mv_edithelpsequence'           => 'Help:Editando_a_secuencia',
-	'mv_seq_summary'                => 'Resumo de edición da secuencia',
-	'mv_add_clip_by_name'           => 'Engadir Clip polo Nome',
-	'mv_tool_missing'               => 'a ferramenta solicitada ($1) non existe',
-	'mv_new_anno_en'                => 'Nova Etiqueta ou Anotación',
+	'metavid'                        => 'Páxina Metavid',
+	'mv_missing_stream'              => 'Secuencia perdida: $1',
+	'mv_ogg_low_quality'             => 'Fluxo da páxina web - Ogg Theora 300kbs',
+	'mv_ogg_high_quality'            => 'Alta calidade - Ogg Theora 900kbs',
+	'mv_archive_org_link'            => 'Liga con mpeg2 orixinais de Archive.org',
+	'mv_error_stream_missing'        => '<span class="error">Erro: non hai ningún ficheiro de vídeo asociado a esta secuencia.</span><br />Por favor, comuníquello a un administrador do sitio.',
+	'mv_stream_meta'                 => 'Páxina de secuencia',
+	'mv_add_stream'                  => 'Engadir unha secuencia Metavid',
+	'mv_edit_stream'                 => 'Editar unha secuencia Metavid',
+	'mvexportsearch'                 => 'Exportar Metavid',
+	'mvexportsequence'               => 'Exportar unha secuencia Metavid',
+	'mvexportstream'                 => 'Exportar un fluxo Metavid',
+	'mv_add_stream_page'             => 'Engadir un fluxo Metavid',
+	'mv_edit_strea_docu'             => '<p>Editar a <b>administración</b> do fluxo<br />para a visualización/edición dos usuarios, vexa a páxina $1',
+	'mv_add_stream_docu'             => '<p>Engadir unha nova secuencia co campo de embaixo.</p>
+<p>Máis información na <a href="$1">páxina de axuda para engadir secuencias</a>.</p>',
+	'mv_add_stream_submit'           => 'Engadir a secuencia',
+	'mv_no_stream_files'             => 'Non existe ningún ficheiro de fluxo',
+	'mv_edit_stream_files'           => 'Editar os ficheiros de fluxo',
+	'mv_path_type_url_anx'           => 'url enteiro da multimedia',
+	'mv_path_type_wiki_title'        => 'título multimedia do wiki',
+	'mv_path_type_label'             => 'tipo de camiño',
+	'mv_base_offset_label'           => 'desvío da base',
+	'mv_duration_label'              => 'duración',
+	'mv_file_desc_label'             => 'mensaxe de descrición do fluxo',
+	'mv_delete_stream_file'          => 'borrar a referencia aos ficheiros de fluxo',
+	'mv_save_changes'                => 'Gardar Cambios',
+	'mv_file_with_same_desc'         => 'Erro: xa hai outro ficheiro de fluxo que presenta a mesma clave de descrición <i>$1</i>',
+	'mv_updated_stream_files'        => 'Gravación de ficheiros de fluxo actualizados',
+	'mv_removed_file_stream'         => 'Nome do fluxo eliminado: $1',
+	'mv_missing_stream_text'         => 'A secuencia que solicitou, <b>$1</b>, non está dispoñible.<br />
+Pode que queira comprobar a <a href="$2">lista de secuencias</a>.<br />
+Ou quizais queira <a href="$3">engadir a secuencia</a>.',
+	'mv_user_cant_edit'              => 'Precisará $1 para editar, $2',
+	'mv_add_stream_file'             => 'Engadir un ficheiro de fluxo',
+	'mv_media_path'                  => 'camiño multimedia',
+	'mv_file_list'                   => 'Ficheiros de fluxo',
+	'mv_label_stream_name'           => 'Nome do fluxo',
+	'mv_label_stream_desc'           => 'Descrición da secuencia',
+	'add_stream_permission'          => 'Fáltanlle permisos para engadir unha nova secuencia',
+	'edit_stream_missing'            => 'Falta o nome do fluxo',
+	'mv_missing_req_time'            => 'Falta a solicitude do tempo',
+	'mv_missing_cat'                 => 'Falta o nome da categoría',
+	'mv_stream_already_exists'       => 'A secuencia <a href="$2">$1</a> xa existe',
+	'mv_summary_add_stream'          => 'secuencia engadida mediante un formulario',
+	'mv_error_stream_insert'         => 'fallou ao inserir o fluxo',
+	'mv_redirect_and_delete_reason'  => 'eliminar páxina de redirección',
+	'mv_remove_reason'               => 'Razón Para a eliminación:',
+	'mv_stream_delete_warrning'      => '<b>Ao eliminar este fluxo eliminaranse tamén $1 pezas de datos meta asociados</b><br />',
+	'mv_label_stream_type'           => 'Tipo de secuencia',
+	'mv_metavid_file'                => 'Arquivo Existente no Servidor',
+	'mv_metavid_live'                => 'Instalar o fluxo en vivo',
+	'mv_upload_file'                 => 'Cargar ficheiro',
+	'mv_external_file'               => 'Arquivo Externo',
+	'mv_stream_delete_warning'       => 'Ao borrar este fluxo eliminaranse tamén $1 páxinas dos datos meta',
+	'mv_tool_search'                 => 'Procurar',
+	'mv_tool_search_title'           => 'Procurar nesta secuencia',
+	'mv_search_transcripts_for'      => 'Procurar as transcricións de',
+	'mv_tool_navigate'               => 'Navegar',
+	'mv_tool_navigate_title'         => 'Navegar por todo o fluxo',
+	'mv_tool_export'                 => 'Exportar',
+	'mv_tool_export_title'           => 'Exportar os datos meta do fluxo',
+	'mv_tool_embed'                  => 'Incorporar',
+	'mv_tool_embed_title'            => 'Incorporar opcións para o segmento actual solicitado',
+	'mv_tool_overlay'                => 'Presentacións do modelo',
+	'mv_tool_overlay_title'          => 'Presentacións do modelo baseado en datos meta',
+	'mv_results_found_for'           => 'Procurar resultados <b>$1</b> a <b>$2</b> de <b>$3</b> para:',
+	'mv_tool_mang_layers'            => 'Xestionar as capas',
+	'mv_update_layers'               => 'actualizar a vista das capas',
+	'mv_watch_clip'                  => 'Ver o fragmento',
+	'mv_close_clip'                  => 'Pechar o fragmento',
+	'mv_improve_transcript'          => 'Mellorar a transcrición',
+	'ht_en'                          => 'Transcrición',
+	'ht_en_desc'                     => 'Transcrición en inglés. Este tipo de presentación é para texto falado',
+	'anno_en'                        => 'Anotacións e Categorías',
+	'anno_en_desc'                   => 'Clasificacións e anotacións en inglés.
+Esta presentación pode ser usada para categorizar as seccións dun vídeo ou para engadir información que non é texto falado',
+	'thomas_en'                      => 'Transcrición oficial',
+	'thomas_en_desc'                 => 'Transcrición oficial de Thomas do servizo THOMAS de rexistro do goberno.
+Fonte da sincronización da hora por c-spanarchives.org de C-SPAN',
+	'mvd_default_mismatch'           => 'Erro nos parámetros do ficheiro',
+	'mvd_default_mismatch_text'      => 'Hai un erro nos parámetros do seu ficheiro.
+$mvMVDTypeDefaultDisp deber ser un subgrupo de $mvMVDTypeAllAvailable',
+	'mv_data_page_title'             => '$1 para $2 de $3',
+	'mv_time_separator'              => '$1 a $2',
+	'mv_list_streams'                => 'Lista de fluxos Metavid',
+	'mv_list_streams_page'           => 'Lista de fluxos Metavid',
+	'mv_list_streams_docu'           => 'Existen as seguintes secuencias:',
+	'mv_list_streams_none'           => 'Non existe ningunha secuencia',
+	'mvvideofeed'                    => 'Alimentación da exportación do vídeo metavid',
+	'mvexportask'                    => 'Alimentación da exportación do vídeo semántico',
+	'video_feed_cat'                 => 'Alimentación do vídeo para a catagoría:',
+	'mv_cat_search_note'             => 'Nota: as categorías só listan as categorías dos niveis superiores.
+Para todos os datos meta nos rexistros de categoría busque por $1',
+	'mv_mvd_linkback'                => 'Parte do fluxo $1 <br />
+Saltar á vista do fluxo: $2',
+	'mvBadMVDtitle'                  => 'falta o tipo, o fluxo ou o formato de tempo é inválido',
+	'mvMVDFormat'                    => 'O título Metavid debería ter o formato: mvd:tipo:nome_do_fluxo/inicio/fin',
+	'mv_play'                        => 'Reproducir',
+	'mv_edit'                        => 'Editar',
+	'mv_history'                     => 'Historial',
+	'mv_history_title'               => 'Historial das edicións e dos aliñamentos do vídeo',
+	'mv_edit_title'                  => 'Editar o texto',
+	'mv_edit_adjust_title'           => 'Editar a aliñación do texto e mais do vídeo',
+	'mv_remove'                      => 'eliminar',
+	'mv_remove_title'                => 'borrar este segmento de datos meta',
+	'mv_adjust'                      => 'axustar',
+	'mv_adjust_submit'               => 'Gardar o axuste',
+	'mv_adjust_title'                => 'Axustar o tempo do comezo e da fin',
+	'mv_adjust_preview'              => 'Axuste da vista previa',
+	'mv_adjust_preview_stop'         => 'Parar a vista previa',
+	'mv_adjust_default_reason'       => 'axuste da interface do metavid',
+	'mv_adjust_old_title_missing'    => 'A páxina que está tentando mover desde ($1) non existe',
+	'mv_adjust_ok_move'              => 'Exitoso, axustando...',
+	'mv_start_desc'                  => 'Tempo do comezo',
+	'mv_end_desc'                    => 'Tempo da fin',
+	'mv_of'                          => '&#32;de&#32;',
+	'mediasearch'                    => 'Busca multimedia',
+	'mv_search_sel_t'                => 'Seleccionar o tipo de busca',
+	'mv_run_search'                  => 'Busca rápida',
+	'mv_add_filter'                  => 'Engadir un filtro',
+	'mv_search_match'                => 'Procurar un texto',
+	'mv_search_spoken_by'            => 'Falado por',
+	'mv_search_category'             => 'Categoría',
+	'mv_search_smw_property'         => 'Propiedades semánticas',
+	'mv_search_smw_property_numeric' => 'Valor semántico numérico',
+	'mv_search_and'                  => 'e',
+	'mv_search_or'                   => 'ou',
+	'mv_search_not'                  => 'non',
+	'mv_search_stream_name'          => 'Nome do fluxo',
+	'mv_search_date_range'           => 'Rexistro de data',
+	'mv_stream_name'                 => 'nome do fluxo',
+	'mv_date_range'                  => 'rexistro de data',
+	'mv_match'                       => 'coincidir',
+	'mv_spoken_by'                   => 'falado por',
+	'mv_category'                    => 'categoría',
+	'mv_search_no_results'           => 'Ningunha coincidencia multimedia',
+	'mv_media_matches'               => 'Coincidencias multimedia',
+	'mv_remove_filter'               => 'eliminar filtro',
+	'mv_advaced_search'              => 'Busca multimedia avanzada',
+	'mv_expand_play'                 => 'Expandir e reproducir en liña',
+	'mv_view_in_stream_interface'    => 'Ver na interface da secuencia',
+	'mv_view_wiki_page'              => 'Ver páxina wiki',
+	'mv_error_mvd_not_found'         => 'Erro, non se atopou o metavid',
+	'mv_match_text'                  => '~  $1 coincidencias',
+	'mv_match_text_one'              => '~ 1 coincidencia',
+	'mv_edit_sequence'               => 'Editando a secuencia:$1',
+	'mv_sequence_player_title'       => 'reprodutor da secuencia',
+	'mv_save_sequence'               => 'Gardar a secuencia',
+	'mv_sequence_page_desc'          => 'Gardar a secuencia actual',
+	'mv_sequence_add'                => 'Engadir clips',
+	'mv_sequence_add_manual'         => 'Engadir polo Nome',
+	'mv_sequence_add_manual_desc'    => 'Engadir fragmentos polo nome da secuencia',
+	'mv_sequence_add_search'         => 'Engadir por procura',
+	'mv_sequence_add_search_desc'    => 'Engadir fragmentos pola busca multimedia',
+	'mv_seq_add_end'                 => 'Engadir ao final da secuencia',
+	'mv_sequence_timeline'           => 'Liña de tempo da secuencia:',
+	'mv_edit_sequence_desc_help'     => 'Descrición da secuencia',
+	'mv_edithelpsequence'            => 'Help:Editando_a_secuencia',
+	'mv_seq_summary'                 => 'Resumo de edición da secuencia',
+	'mv_add_clip_by_name'            => 'Engadir Clip polo Nome',
+	'mv_export_cmml'                 => 'exportar cmml',
+	'mv_search_stream'               => 'Procurar unha secuencia',
+	'mv_navigate_stream'             => 'Navegar por toda a secuencia',
+	'mv_embed_options'               => 'Incrustar opcións',
+	'mv_overlay'                     => 'Controis de superposición',
+	'mv_stream_tool_heading'         => 'Ferramentas do fluxo',
+	'mv_tool_missing'                => 'a ferramenta solicitada ($1) non existe',
+	'mv_bad_tool_request'            => 'liña de ferramenta incorrecta; debería ser: nome_da_ferramenta|nome_para_amosar_a_ferramenta',
+	'mv_search_stream_title'         => 'Procurar pola secuencia actual',
+	'mv_new_ht_en'                   => 'Nova transcrición',
+	'mv_new_anno_en'                 => 'Nova Etiqueta ou Anotación',
+	'mv_mang_layers'                 => 'Xestionar presentacións',
+	'mv_mang_layers_title'           => 'Xestionar a presentación fixada do fluxo actual',
+	'mv_protect_source_material'     => 'A fonte orixinal do material está protexida fronte ás edicións',
 );
 
 /** Manx (Gaelg)
@@ -895,12 +1070,25 @@ $messages['gv'] = array(
 	'mv_category'        => 'ronney',
 );
 
+/** Hakka (Hak-kâ-fa)
+ * @author Hakka
+ */
+$messages['hak'] = array(
+	'mv_upload_file' => 'Sông-chhòn tóng-on',
+	'mv_tool_search' => 'Chhìm-cháu',
+	'mv_edit'        => 'Phiên-chho',
+);
+
 /** Hawaiian (Hawai`i)
+ * @author Singularity
  * @author Kalani
  */
 $messages['haw'] = array(
-	'mv_edit'    => 'E ho‘opololei',
-	'mv_history' => 'He aha i ho‘ololi ‘ia ai',
+	'mv_edit'            => 'E ho‘opololei',
+	'mv_history'         => 'Mo‘olelo',
+	'mv_remove'          => 'kāpae',
+	'mv_search_category' => 'Mahele',
+	'mv_category'        => 'mahele',
 );
 
 /** Hindi (हिन्दी)
@@ -1281,6 +1469,30 @@ $messages['hu'] = array(
 	'mv_search_not'           => 'nem',
 );
 
+/** Armenian (Հայերեն)
+ * @author Togaed
+ */
+$messages['hy'] = array(
+	'mv_tool_search' => 'Որոնում',
+);
+
+/** Interlingua (Interlingua)
+ * @author McDutchie
+ */
+$messages['ia'] = array(
+	'mv_edit' => 'Modificar',
+);
+
+/** Indonesian (Bahasa Indonesia)
+ * @author Irwangatot
+ * @author Rex
+ */
+$messages['id'] = array(
+	'mv_search_category' => 'Kategori',
+	'mv_search_and'      => 'dan',
+	'mv_category'        => 'kategori',
+);
+
 /** Icelandic (Íslenska)
  * @author S.Örvarr.S
  */
@@ -1425,6 +1637,7 @@ $messages['ku-latn'] = array(
  */
 $messages['lb'] = array(
 	'metavid'                       => 'Metavid-Säit',
+	'mv_duration_label'             => 'Dauer',
 	'mv_save_changes'               => 'Ännerunge späicheren',
 	'mv_missing_cat'                => 'Den Numm vun der Kategorie feelt',
 	'mv_redirect_and_delete_reason' => 'Viruleedungssäit ass ewech geholl ginn',
@@ -1442,6 +1655,7 @@ $messages['lb'] = array(
 	'mv_history'                    => 'Versiounen',
 	'mv_edit_title'                 => 'Text änneren',
 	'mv_remove'                     => 'ewech huelen',
+	'mv_adjust'                     => 'upassen',
 	'mv_start_desc'                 => 'Ufankszäit',
 	'mv_search_spoken_by'           => 'Geschwat vum',
 	'mv_search_category'            => 'Kategorie',
@@ -1450,8 +1664,16 @@ $messages['lb'] = array(
 	'mv_search_not'                 => 'net',
 	'mv_spoken_by'                  => 'Geschwat vum',
 	'mv_category'                   => 'Kategorie',
+	'mv_remove_filter'              => 'Filter ewechhuelen',
 	'mv_view_wiki_page'             => 'Wiki-Säit gesinn',
 	'mv_save_sequence'              => 'Sequenz späicheren',
+);
+
+/** Lithuanian (Lietuvių)
+ * @author Tomasdd
+ */
+$messages['lt'] = array(
+	'mv_tool_search' => 'Paieška',
 );
 
 /** Malayalam (മലയാളം)
@@ -1680,6 +1902,13 @@ $mvMVDTypeDefaultDisp हा $mvMVDTypeAllAvailable चा सबसेट अ�
 	'mv_mang_layers'                 => 'स्तर व्यवस्थापन',
 	'mv_mang_layers_title'           => 'सद्य स्ट्रीम साठीच्या स्तर-प्रदर्शन प्रणालीचे व्यवस्थापन करा',
 	'mv_protect_source_material'     => 'मूळ स्रोत साहित्य संपादनांपासून सुरक्षित केले',
+);
+
+/** Nedersaksisch (Nedersaksisch)
+ * @author Servien
+ */
+$messages['nds-nl'] = array(
+	'mv_edit' => 'Bewark',
 );
 
 /** Dutch (Nederlands)
@@ -2796,6 +3025,24 @@ $messages['sr-ec'] = array(
 	'mv_remove'      => 'уклони',
 );
 
+/** Sundanese (Basa Sunda)
+ * @author Irwangatot
+ */
+$messages['su'] = array(
+	'mv_data_page_title' => '$1 keur $2 ti $3',
+	'mv_time_separator'  => '$1 ka $2',
+	'mv_edit'            => 'Édit',
+	'mv_history'         => 'Jujutan',
+	'mv_search_category' => 'Kategori',
+	'mv_search_and'      => 'jeung',
+	'mv_search_or'       => 'atawa',
+	'mv_search_not'      => 'lain',
+	'mv_match'           => 'sarua',
+	'mv_category'        => 'kategori',
+	'mv_match_text'      => '~  $1 sarua',
+	'mv_match_text_one'  => '~ 1 sarua',
+);
+
 /** Swedish (Svenska)
  * @author M.M.S.
  * @author Lejonel
@@ -3043,6 +3290,7 @@ $messages['te'] = array(
 	'mv_match_text'                 => '~  $1 పోలికలు',
 	'mv_match_text_one'             => '~ 1 పోలిక',
 	'mv_sequence_add_manual'        => 'పేరు ద్వారా చేర్చండి',
+	'mv_sequence_add_search'        => 'వెతికి చేర్చండి',
 	'mv_embed_options'              => 'ఎంబెడ్ ఎంపికలు',
 );
 
@@ -3126,6 +3374,14 @@ $messages['tg-cyrl'] = array(
 	'mv_search_stream'            => 'Ҷустуҷӯи ҷараён',
 	'mv_stream_tool_heading'      => 'Абзорҳои ҷараён',
 	'mv_new_ht_en'                => 'Рӯнавишти ҷадид',
+);
+
+/** Turkish (Türkçe)
+ * @author Karduelis
+ */
+$messages['tr'] = array(
+	'mv_edit'   => 'Değiştir',
+	'mv_remove' => 'kaldır',
 );
 
 /** Vietnamese (Tiếng Việt)

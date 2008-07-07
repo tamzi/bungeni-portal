@@ -43,8 +43,7 @@ $sample_embed[2]['tag'] = '<video roe="http://metavid.ucsc.edu/wiki/index.php?ti
 $sample_embed[2]['desc'] = 'Demo2  of json ROE attribute';
 
 
-//$sample_embed[2]['tag'] = '<video id="v2" controls="true" style="width:400px;height:400px"
-//roe="http://mammoth.dnip.net/wiki/index.php?title=Special:MvExportStream&feed_format=roe&stream_name=senate_11-14-05&t=0:42:14/0:42:56"/>';		
+//$sample_embed[2]['tag'] = '<video id="v2" controls="true" roe="http://mammoth.dnip.net/mvWiki/index.php?title=Special:MvExportStream&feed_format=roe&stream_name=senate_11-14-05&t=0:42:14/0:42:56"/>';		
 //$sample_embed[2]['desc'] = 'video with controls and thumbnail';		
  
 

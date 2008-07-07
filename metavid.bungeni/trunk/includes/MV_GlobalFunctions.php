@@ -110,6 +110,7 @@ function mvSetupExtension(){
 	require_once( dirname(__FILE__) . '/specials/MV_test.php');
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialMVAdmin.php');
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialManageReporters.php');
+	require_once( dirname(__FILE__) . '/specials/MV_SpecialSittingTypes.php');
 	/**********************************************/
 	/***** register hooks                     *****/
 	/**********************************************/

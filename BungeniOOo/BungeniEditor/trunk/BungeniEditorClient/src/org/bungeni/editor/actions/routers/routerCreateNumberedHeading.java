@@ -39,6 +39,7 @@ public class routerCreateNumberedHeading extends defaultRouter {
      *This router action marks a heading as a numbered heading and write protects it after applying the associated style
      * apply_numbered_heading:style_name
      */
+    @Override
     public BungeniValidatorState route_TextSelectedInsert(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) {
       String sectionUUID = BungeniUUID.getStringUUID();
       //get the section properties for the numbered container type

@@ -29,6 +29,7 @@ import com.sun.star.container.XNameContainer;
 import com.sun.star.container.XNamed;
 import com.sun.star.document.XDocumentInfo;
 import com.sun.star.document.XDocumentInfoSupplier;
+import com.sun.star.frame.XComponentLoader;
 import com.sun.star.frame.XController;
 import com.sun.star.frame.XDispatchHelper;
 import com.sun.star.frame.XDispatchProvider;
@@ -184,7 +185,7 @@ public  class OOComponentHelper {
      * Get the DocumentFactory interface.
      */
     public XMultiServiceFactory getDocumentFactory(){
-        XMultiServiceFactory xFactory = (XMultiServiceFactory) UnoRuntime.queryInterface(XMultiServiceFactory.class, this.m_xComponent);
+        XMultiServiceFactory xFactory = (XMultiServiceFactory) UnoRuntime.queryInterface(XMultiServiceFactory.class, getTextDocument());
         return xFactory;
     }
     
@@ -1606,7 +1607,7 @@ public XTextField getTextFieldByName(String fieldName) {
     }
 
     public void setPageColumns (short nColumns) {
-        Object pageStyles=null;;
+        Object pageStyles=null;
         try {
               pageStyles = getStyleFamilies().getByName("PageStyles");
               XNameContainer xStyleFamily = ooQueryInterface.XNameContainer(pageStyles);
@@ -1657,7 +1658,26 @@ public XTextField getTextFieldByName(String fieldName) {
           }
     }
    
-   /**
+    public static XComponent openExistingDocument(String documentPath, XComponentLoader loader) {
+          XComponent xComponent = null;
+          try {
+            documentPath = BungenioOoHelper.convertPathToURL(documentPath);
+            if (documentPath.length() > 0 ) {
+                PropertyValue[] loadProps = new com.sun.star.beans.PropertyValue[1];
+                PropertyValue xOpenProperty = new com.sun.star.beans.PropertyValue();
+                xOpenProperty.Name = "MacroExecutionMode";
+                xOpenProperty.Value = com.sun.star.document.MacroExecMode.ALWAYS_EXECUTE ;
+                loadProps[0] = xOpenProperty;
+                xComponent =  loader.loadComponentFromURL(documentPath, "_blank", 0, loadProps);
+            }
+          } catch (Exception ex) {
+              log.error ("openExistingDocument : " + ex.getMessage());
+              log.error("openExistingDocument : " + CommonExceptionUtils.getStackTrace(ex));
+          } finally {
+              return xComponent;
+          }
+    }
+    /**
     * Maximises a openoffice document window frame 
     * @param aComponent component handle of the window frame to be maximized.
     */ 

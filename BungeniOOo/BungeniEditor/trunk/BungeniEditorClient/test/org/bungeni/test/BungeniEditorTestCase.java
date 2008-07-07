@@ -30,10 +30,25 @@ public class BungeniEditorTestCase extends TestCase {
     
     public BungeniEditorTestCase(String name) {
         super(name);
+        initoOo();
+        File fileName=org.bungeni.utils.CommonFileFunctions.getFileFromChooser("/home/undesa/Documents", new ODTFileFilter(), JFileChooser.FILES_ONLY, null);
+        if (fileName == null) {
+            fail("Document file handle was null");
+        }
+        XComponent xComp = OOComponentHelper.openExistingDocument(fileName.getAbsolutePath(), m_ooComponentLoader);
+        if (xComp == null) {
+            fail("XComponent was null for : "+ fileName.getAbsolutePath());
+        }
+        ooDoc = new OOComponentHelper(xComp, m_xContext);
+        assertNotNull("OOComponentHandle was not initialized", ooDoc);
     }
     
     private void initoOo() {
         try {
+            m_xContext = Bootstrap.bootstrap();
+            if (m_xContext == null) {
+                fail("OpenOffice wasnt initialized");
+            }
             if (m_ooMCF == null) {
                 m_ooMCF = m_xContext.getServiceManager();
             }
@@ -51,25 +66,5 @@ public class BungeniEditorTestCase extends TestCase {
             e.printStackTrace();
         }
     }
-    
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        m_xContext = Bootstrap.bootstrap();
-        if (m_xContext == null) {
-            fail("OpenOffice wasnt initialized");
-        }
-        initoOo();
-        File fileName=org.bungeni.utils.CommonFileFunctions.getFileFromChooser("/home/undesa/Documents", new ODTFileFilter(), JFileChooser.FILES_ONLY, null);
-        if (fileName == null) {
-            fail("Document file handle was null");
-        }
-        XComponent xComp = OOComponentHelper.openExistingDocument(fileName.getAbsolutePath(), m_ooComponentLoader);
-        if (xComp == null) {
-            fail("XComponent was null for : "+ fileName.getAbsolutePath());
-        }
-        ooDoc = new OOComponentHelper(xComp, m_xContext);
-        assertNotNull("OOComponentHandle was not initialized", ooDoc);
-    }
-    
+
 }

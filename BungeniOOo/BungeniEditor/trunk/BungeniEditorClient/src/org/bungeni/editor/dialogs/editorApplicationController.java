@@ -76,8 +76,9 @@ public class editorApplicationController extends javax.swing.JPanel {
     private String m_currentSelectedWorkspaceFile;
     private String m_settings_CurrentTemplate;
     private String m_currentMode ;
-            
-    private org.bungeni.editor.dialogs.editorTabbedPanel panel;
+    private static String normalizedTemplatePath = "";
+           
+    private org.bungeni.editor.dialogs.editorTabbedPanel panel = null;
     private String m_FullFilesPath;
     private org.bungeni.ooo.BungenioOoHelper openofficeObject;
     private documentType[] m_documentTypes = null;
@@ -690,6 +691,7 @@ public class editorApplicationController extends javax.swing.JPanel {
                     dtArr[i].docType =  qr.getField(resultRow, "DOC_TYPE");
                     dtArr[i].typeDesc = qr.getField(resultRow, "DESCRIPTION");
                     dtArr[i].templatePath = qr.getField(resultRow, "TEMPLATE_PATH");
+                    BungeniEditorProperties.setPropertyInMap(dtArr[i].docType+"_template", dtArr[i].templatePathNormalized());
                     i++;
                 }
         }
@@ -953,56 +955,48 @@ private void launchFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             //use template defined in m_settings_CurrentTemplate
             //m_FullTemplatesPath
             //m_settings_CurrentTemplate = "hansard.ott";
-            String templateURL = "";
-            log.debug("Current Template file :" + m_FullTemplatesPath+File.separatorChar+m_settings_CurrentTemplate);
-            documentType selectedDocType = (documentType) cboDocumentTypes.getSelectedItem();
-            BungeniEditorProperties.setEditorProperty("activeDocumentMode", selectedDocType.docType);
-            for (documentType dt : m_documentTypes) {
-                if (dt.docType.equals(selectedDocType.docType)){
-                    setLabelTexts(dt.typeDesc);
-                    /*
-                    this.lblCurrentActiveMode.setText(lblCurrentActiveMode.getText().replaceAll("%s", dt.typeDesc));
-                    this.lblOpenCurrentDoc.setText(lblOpenCurrentDoc.getText().replaceAll("%s", dt.typeDesc));
-                    this.lblCreateNewDoc.setText(lblCreateNewDoc.getText().replaceAll("%s", dt.typeDesc));
-                    this.lblLaunchAndAccquire.setText(lblLaunchAndAccquire.getText().replaceAll("%s", dt.typeDesc));
-                     */
+            if (panel == null ) {
+                String templateURL = "";
+                log.debug("Current Template file :" + m_FullTemplatesPath+File.separatorChar+m_settings_CurrentTemplate);
+                documentType selectedDocType = (documentType) cboDocumentTypes.getSelectedItem();
+                BungeniEditorProperties.setEditorProperty("activeDocumentMode", selectedDocType.docType);
+                for (documentType dt : m_documentTypes) {
+                    if (dt.docType.equals(selectedDocType.docType)){
+                        setLabelTexts(dt.typeDesc);
+                        /*
+                        this.lblCurrentActiveMode.setText(lblCurrentActiveMode.getText().replaceAll("%s", dt.typeDesc));
+                        this.lblOpenCurrentDoc.setText(lblOpenCurrentDoc.getText().replaceAll("%s", dt.typeDesc));
+                        this.lblCreateNewDoc.setText(lblCreateNewDoc.getText().replaceAll("%s", dt.typeDesc));
+                        this.lblLaunchAndAccquire.setText(lblLaunchAndAccquire.getText().replaceAll("%s", dt.typeDesc));
+                         */
+                    }
                 }
-            }
-            final String templatePathNormalized = selectedDocType.templatePathNormalized();
-            SwingUtilities.invokeLater(new Runnable(){
+                final String templatePathNormalized = selectedDocType.templatePathNormalized();
+                this.createNewDocument.setEnabled(false);
+                SwingUtilities.invokeLater(new Runnable(){
 
-            public void run() {
-                initoOoAndLaunchFrame(templatePathNormalized, true); 
-            }
-                
-            });
-            
-            //dispatchObject.executeDispatch(xDispatchProvider, ".uno:FullScreen", "", 0, args); 
-       
-           // xController.getFrame().getContainerWindow().setPosSize(0, 0, 100, 100, com.sun.star.awt.PosSize.POS);
-            
-            
-        
+                public void run() {
+                    
+                    initoOoAndLaunchFrame(templatePathNormalized, true); 
+                }
+
+                });
+            } 
             
 }//GEN-LAST:event_launchFrameActionPerformed
 
 private void btnOpenExistingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenExistingActionPerformed
 // TODO add your handling code here:
-        String currentPath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH()+File.separator+"workspace"+File.separator+"files";
-        final JFileChooser fc = new JFileChooser(currentPath);
-        fc.setFileFilter(new ODTFileFilter());
-        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        int nReturnVal = fc.showOpenDialog(this);
-        
-        if (nReturnVal == JFileChooser.APPROVE_OPTION) {
-                File file = fc.getSelectedFile();
-                //This is where a real application would open the file.
-               //log.info("Opening: " + file.getName() + ".\n");
-               txtWorkspacePath.setText(file.getName());
-            } else {
-                //log.info("Open command cancelled by user.\n");
+     if (panel == null) {
+            String basePath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH()+File.separator+"workspace"+File.separator+"files";
+            File openFile = CommonFileFunctions.getFileFromChooser(basePath, new org.bungeni.utils.fcfilter.ODTFileFilter(), JFileChooser.FILES_ONLY, null);
+            if (openFile != null) {
+                String fullPathToFile = openFile.getAbsolutePath();        
+                initoOoAndLaunchFrame(fullPathToFile, false);
             }
-    
+     } else {
+        panel.loadDocumentInPanel();
+     }
     
 }//GEN-LAST:event_btnOpenExistingActionPerformed
 

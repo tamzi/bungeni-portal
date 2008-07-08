@@ -53,9 +53,11 @@
                   <Component id="cboListDocuments" alignment="1" min="-2" pref="247" max="-2" attributes="0"/>
                   <Component id="lblCurrentMode" alignment="1" pref="247" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="btnBringToFront" min="-2" pref="122" max="-2" attributes="0"/>
+                      <Component id="btnBringToFront" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnOpenDocument" min="-2" pref="119" max="-2" attributes="0"/>
+                      <Component id="btnOpenDocument" min="-2" pref="68" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="btnNewDocument" min="-2" pref="62" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -73,14 +75,15 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="15" max="32767" attributes="0"/>
               <Component id="lblCurrentlyOpenDocuments" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="cboListDocuments" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnOpenDocument" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnBringToFront" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnOpenDocument" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnNewDocument" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="lblCurrentMode" min="-2" max="-2" attributes="0"/>
@@ -108,6 +111,9 @@
     </Container>
     <Component class="javax.swing.JComboBox" name="cboListDocuments">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="11" style="0"/>
+        </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
             <StringItem index="0" value="Item 1"/>
@@ -120,11 +126,17 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblCurrentlyOpenDocuments">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="11" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Currently Open Documents"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnBringToFront">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="10" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Bring to Front"/>
       </Properties>
       <Events>
@@ -133,7 +145,10 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnOpenDocument">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Open..."/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="10" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Open"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnOpenDocumentActionPerformed"/>
@@ -161,8 +176,22 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblSwitchTag">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="11" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Switch Tabs :"/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnNewDocument">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="10" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="New"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNewDocumentActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

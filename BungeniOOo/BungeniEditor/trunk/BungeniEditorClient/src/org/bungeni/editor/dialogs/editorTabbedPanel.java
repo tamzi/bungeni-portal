@@ -1394,6 +1394,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         lblCurrentMode = new javax.swing.JLabel();
         cboSwitchTabs = new javax.swing.JComboBox();
         lblSwitchTag = new javax.swing.JLabel();
+        btnNewDocument = new javax.swing.JButton();
 
         jScrollPane2.setViewportView(jTree1);
 
@@ -1404,10 +1405,13 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         jTabsContainer.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         jTabsContainer.setFont(new java.awt.Font("Tahoma", 0, 10));
 
+        cboListDocuments.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         cboListDocuments.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        lblCurrentlyOpenDocuments.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         lblCurrentlyOpenDocuments.setText("Currently Open Documents");
 
+        btnBringToFront.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         btnBringToFront.setText("Bring to Front");
         btnBringToFront.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1415,7 +1419,8 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
             }
         });
 
-        btnOpenDocument.setText("Open...");
+        btnOpenDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        btnOpenDocument.setText("Open");
         btnOpenDocument.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOpenDocumentActionPerformed(evt);
@@ -1427,7 +1432,16 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
 
         cboSwitchTabs.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        lblSwitchTag.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         lblSwitchTag.setText("Switch Tabs :");
+
+        btnNewDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        btnNewDocument.setText("New");
+        btnNewDocument.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewDocumentActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -1440,9 +1454,11 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 247, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, lblCurrentMode, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
-                        .add(btnBringToFront, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 122, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(btnBringToFront)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnOpenDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 119, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(btnOpenDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 68, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(btnNewDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 62, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .add(layout.createSequentialGroup()
                 .add(8, 8, 8)
@@ -1455,14 +1471,15 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(15, Short.MAX_VALUE)
                 .add(lblCurrentlyOpenDocuments)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(btnBringToFront)
                     .add(btnOpenDocument)
-                    .add(btnBringToFront))
+                    .add(btnNewDocument))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lblCurrentMode)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -1481,6 +1498,26 @@ private void btnBringToFrontActionPerformed(java.awt.event.ActionEvent evt) {//G
 
 private void btnOpenDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenDocumentActionPerformed
 // TODO add your handling code here:
+    loadDocumentInPanel();
+}//GEN-LAST:event_btnOpenDocumentActionPerformed
+
+private void btnNewDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewDocumentActionPerformed
+// TODO add your handling code here:
+    newDocumentInPanel();
+}//GEN-LAST:event_btnNewDocumentActionPerformed
+
+public synchronized void newDocumentInPanel(){
+    String templatePath = BungeniEditorProperties.getEditorProperty(BungeniEditorPropertiesHelper.getCurrentDocType()+"_template");
+    Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+    boolean bActive = false;
+    int nConfirm = MessageBox.Confirm(parentFrame, "Make this document the active document ?", "Change active document");
+    if (JOptionPane.YES_OPTION == nConfirm) {
+            bActive=true;
+    }
+    OpenDocumentAgent openDocAgent = new OpenDocumentAgent(templatePath, screenSize, bActive, true);
+    openDocAgent.execute();
+}
+public synchronized void loadDocumentInPanel(){
     String basePath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH()+File.separator+"workspace"+File.separator+"files";
     File openFile = CommonFileFunctions.getFileFromChooser(basePath, new org.bungeni.utils.fcfilter.ODTFileFilter(), JFileChooser.FILES_ONLY, parentFrame);
     if (openFile != null) {
@@ -1494,10 +1531,11 @@ private void btnOpenDocumentActionPerformed(java.awt.event.ActionEvent evt) {//G
         //as the awt toolkit executes in the EDT while the swingworker thread is an independent thread,
         //and thus it is unsafe to make awt call from the swing worker thread.
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        OpenDocumentAgent openDocAgent = new OpenDocumentAgent(fullPathToFile, screenSize, bActive);
+        OpenDocumentAgent openDocAgent = new OpenDocumentAgent(fullPathToFile, screenSize, bActive, false);
         openDocAgent.execute();
     }
-}//GEN-LAST:event_btnOpenDocumentActionPerformed
+    
+}
 
 /**
  * Opens an OOo document in the swingworker thread.
@@ -1510,15 +1548,21 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
         String documentToOpen = "";
         boolean makeActiveDocument = false;
         Dimension screenDimension = null;
-        public OpenDocumentAgent (String documentPath, Dimension screenSize, boolean makeActive) {
+        boolean isTemplate= false;
+        public OpenDocumentAgent (String documentPath, Dimension screenSize, boolean makeActive, boolean fromTemplate) {
             documentToOpen = documentPath;
             makeActiveDocument = makeActive ;
             screenDimension = screenSize;
+            isTemplate = fromTemplate;
         }
     
         @Override
         protected XComponent doInBackground() {
-            XComponent xComp = OOComponentHelper.openExistingDocument(documentToOpen);
+            XComponent xComp = null;
+            if (isTemplate)
+                xComp = OOComponentHelper.newDocument(documentToOpen);
+            else
+                xComp = OOComponentHelper.openExistingDocument(documentToOpen);
             if (xComp != null ) {
                 OOComponentHelper.positionOOoWindow(xComp, screenDimension);
             }
@@ -1528,7 +1572,6 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
         @Override
         protected void done(){
             try {
-                if (makeActiveDocument) {
                 cboListDocuments.setEnabled(false);
                 XComponent xComp = get();
                     if (xComp != null) {
@@ -1544,9 +1587,11 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
                             if (!existsInComboModel(chc.componentKey())){
                                 model.addElement(editorMap.get(chc.componentKey()));
                             }
-                            model.setSelectedItem(chc);
+                            if (makeActiveDocument)
+                                model.setSelectedItem(chc);
+                            else 
+                                bringEditorWindowToFront();
                         }
-                    }
                 }
             } catch (InterruptedException ex) {
                 log.error("openDocumentAgent : done: " + ex.getMessage());
@@ -1734,6 +1779,7 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBringToFront;
     private javax.swing.ButtonGroup btnGrpBodyMetadataTarget;
+    private javax.swing.JButton btnNewDocument;
     private javax.swing.JButton btnOpenDocument;
     private javax.swing.JComboBox cboListDocuments;
     private javax.swing.JComboBox cboSwitchTabs;

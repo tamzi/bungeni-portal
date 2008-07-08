@@ -1657,6 +1657,32 @@ public XTextField getTextFieldByName(String fieldName) {
               return xComponent;
           }
     }
+    
+    public static XComponent newDocument(String templatePath) {
+        XComponent xComponent = null;
+        
+        try {
+            PropertyValue[] loadProps = new com.sun.star.beans.PropertyValue[2];
+            PropertyValue xTemplateProperty = new com.sun.star.beans.PropertyValue();
+            xTemplateProperty.Name = "Template";
+            xTemplateProperty.Value = true;
+            loadProps[0] = xTemplateProperty;
+            com.sun.star.beans.PropertyValue xMacroExecProperty = new com.sun.star.beans.PropertyValue();
+            xMacroExecProperty.Name = "MacroExecutionMode";
+            xMacroExecProperty.Value = com.sun.star.document.MacroExecMode.ALWAYS_EXECUTE;
+            loadProps[1] = xMacroExecProperty;
+            if (templatePath.equals(""))
+                templatePath = "private:factory/swriter";
+            else 
+                templatePath = BungenioOoHelper.convertPathToURL(templatePath);
+            //launch window
+             xComponent = BungenioOoHelper.getComponentLoader().loadComponentFromURL(templatePath, "_blank", 0, loadProps);
+        } catch (Exception ex) {
+            log.error("newDocument : " + ex.getMessage());
+        } finally {
+            return xComponent;
+        }
+     }
    
     public static XComponent openExistingDocument(String documentPath, XComponentLoader loader) {
           XComponent xComponent = null;

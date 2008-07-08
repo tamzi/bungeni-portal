@@ -214,12 +214,13 @@ public class documentNotesPanel extends BaseClassForITabbedPanel {
 
         txtEditorNote.setColumns(20);
         txtEditorNote.setEditable(false);
-        txtEditorNote.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
+        txtEditorNote.setFont(new java.awt.Font("Tahoma", 0, 11));
         txtEditorNote.setLineWrap(true);
         txtEditorNote.setRows(5);
         txtEditorNote.setToolTipText("Type in your editor notes here.");
         txtEditorNote.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
+        btnNewEditorNote.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         btnNewEditorNote.setText("New Note");
         btnNewEditorNote.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -227,6 +228,7 @@ public class documentNotesPanel extends BaseClassForITabbedPanel {
             }
         });
 
+        btnSaveEditorNote.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         btnSaveEditorNote.setText("Save Note");
         btnSaveEditorNote.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -258,9 +260,9 @@ public class documentNotesPanel extends BaseClassForITabbedPanel {
                     .add(org.jdesktop.layout.GroupLayout.LEADING, lblEditorNotes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 163, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, txtEditorNote)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
-                        .add(btnNewEditorNote, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 71, Short.MAX_VALUE)
-                        .add(btnSaveEditorNote, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .add(btnNewEditorNote, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 66, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 73, Short.MAX_VALUE)
+                        .add(btnSaveEditorNote, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE))
                     .add(org.jdesktop.layout.GroupLayout.LEADING, lblArchivedNotes, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 201, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );

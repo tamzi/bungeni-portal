@@ -44,6 +44,10 @@ public class BungeniEditorProperties {
         }
     }
     
+    public static void setPropertyInMap(String propName, String propValue) {
+        propertiesMap.put(propName, propValue);
+    }
+    
     public static String getEditorProperty(String propertyName) {
         String propertyValue = "";
         if (propertiesMap.containsKey(propertyName) ) {

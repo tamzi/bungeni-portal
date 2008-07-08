@@ -331,9 +331,12 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
            }
     
     private void updatePanelonComponentChange(){
-        updateSectionTree();
+        //refresh the tree model
+        this.timerSectionTree.stop();
+       // refreshTreeModel();
+        this.timerSectionTree.start();
     }
-    
+
     private void updateViewPortForTree(){
         SwingUtilities.invokeLater(new Runnable(){
 

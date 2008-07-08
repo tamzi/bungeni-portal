@@ -10,11 +10,19 @@ import java.util.Iterator;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 /**
- *
+ *A utility class to aid in the determination of the type of response dspace or koha
+ *  and to define some reference constants for the various types of responses
  * @author undesa
  */
 public class ResponseTypeDecoder {
     
+    /**
+     * Utility method that returns an integer indicating the response type of a response
+     * .The retur value is one of the constants for response types defined in the <code>ResponseConstants</code>
+     * class
+     * @param document
+     * @return int
+     */
     public static int getResponseTypeForDocument(Document document)
     {
         ArrayList fields=new ArrayList(document.getFields());

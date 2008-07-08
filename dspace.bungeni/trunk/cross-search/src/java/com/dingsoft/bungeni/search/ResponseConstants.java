@@ -7,6 +7,8 @@ package com.dingsoft.bungeni.search;
 
 /**
  *
+ * Class defining the constants that govern the rules on how to decode responses from 
+ * the lucene search results
  * @author undesa
  */
 public class ResponseConstants {

@@ -508,7 +508,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
                 String theNumber = this.m_selectedNumberingScheme.sequence_next();
                 long lBaseIndex = this.m_selectedNumberingScheme.sequence_base_index(theNumber);
                 ooDocument.protectSection(numberedChild, false);
-                updateNumberInSection(numberedChild, theNumber, numDecor, lBaseIndex);
+                updateNumberInSection2(numberedChild, theNumber, numDecor, lBaseIndex);
                 ////update the field here ooDocument.getTextFields();
                 ooDocument.protectSection(numberedChild, true);
             }   
@@ -521,6 +521,41 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         
     }
     
+    private static String NUMBERED_PREFIX = "<";
+    private static String NUMBERED_SUFFIX = ">";
+    private static String NUMBER_HEADING_BOUNDARY="~";
+    
+    private void updateNumberInSection2(XTextSection numberedChild, String theNumber, INumberDecorator numberDecorator, long lNumBaseIndex) {
+        try {
+           
+         //   HashMap<String,String> childMeta = ooDocument.getSectionMetadataAttributes(numberedChild);
+         //   String sectionUUID = childMeta.get("BungeniSectionUUID");
+         //   String fieldToUpdate= OOoNumberingHelper.NUM_FIELD_PREFIX + sectionUUID;
+         //   XTextField aField = ooDocument.getTextFieldByName(fieldToUpdate);
+        //    if (aField == null) {
+        //        log.error("updateNumberInSection :field object found was null");
+        //        return;
+        //    }
+            XTextRange numberRange = numberedChild.getAnchor();
+            if (numberDecorator != null ) {
+                theNumber = numberDecorator.decorate(theNumber);
+            }
+      
+            String fullHeading = numberRange.getString();
+            int nHeadStart = fullHeading.indexOf(NUMBER_HEADING_BOUNDARY);
+            int nHeadEnd = fullHeading.lastIndexOf(NUMBER_HEADING_BOUNDARY);
+            String headingText = fullHeading.substring(nHeadStart, nHeadEnd+1);
+            String newNumber = NUMBERED_PREFIX + theNumber + NUMBERED_SUFFIX;
+            numberRange.setString(newNumber + " " + headingText);
+            XTextSection numberedParent = numberedChild.getParentSection();
+            String numberedParentType = ooDocument.getSectionType(numberedParent);
+            this.updateSectionNumberingMetadata(numberedChild, numberedParentType, theNumber, lNumBaseIndex);
+        }  catch (NullPointerException ex ){
+            log.error("updateNumberInSection - " + ex.getMessage());
+            log.error("updateNumberInSection - " + CommonExceptionUtils.getStackTrace(ex));
+        }
+        
+    }
     private void updateNumberInSection(XTextSection numberedChild, String theNumber, INumberDecorator numberDecorator, long lNumBaseIndex) {
         try {
             HashMap<String,String> childMeta = ooDocument.getSectionMetadataAttributes(numberedChild);
@@ -676,6 +711,9 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
    }
     
   private ArrayList<XTextField> orphanedReferences = new ArrayList<XTextField>();
+  
+  
+  
   private void findBrokenReferences(){
       try {
       XTextDocument oDoc = ooDocument.getTextDocument();
@@ -907,20 +945,32 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
             //map the cursor to the heading range
             sectionCursor.gotoRange(sectionRange, false);
             //insert a field for the number
-            insertField(sectionCursor.getStart(), OOoNumberingHelper.NUM_FIELD_PREFIX, sectionUUID, theNumber);
+            insertMarkedText(sectionCursor.getStart(), theNumber, true);
+            //insertField(sectionCursor.getStart(), OOoNumberingHelper.NUM_FIELD_PREFIX, sectionUUID, theNumber);
             sectionCursor.goLeft( (short) 0,false);
             sectionCursor.getText().insertString(sectionCursor, " ", true);
             sectionCursor.goLeft((short) 0, false);
             sectionCursor.goRight((short) 1, false);
             sectionCursor.gotoRange(sectionRange.getEnd(), true);
             //insert a field for the heading
-            insertField(sectionCursor, OOoNumberingHelper.HEAD_FIELD_PREFIX, sectionUUID, headingInSection);
+            insertMarkedText(sectionCursor, headingInSection, false);
+            //insertField(sectionCursor, OOoNumberingHelper.HEAD_FIELD_PREFIX, sectionUUID, headingInSection);
             //finally create a reference for the complete heading
             sectionCursor.gotoRange(childSection.getAnchor(), true);
             insertReferenceMark(sectionCursor, sectionUUID);
             updateSectionNumberingMetadata(childSection, numberedParentType, theNumber, -1);
       }
       
+   private void insertMarkedText(XTextRange cursorRange, String fieldContent, boolean isNumber) {
+       String numberMarkerPrefix = "<", numberMarkerSuffix = ">";
+       String headingMarker="~";
+       if (isNumber) {
+           fieldContent = NUMBERED_PREFIX + fieldContent + NUMBERED_SUFFIX;
+       } else {
+           fieldContent = NUMBER_HEADING_BOUNDARY + fieldContent + NUMBER_HEADING_BOUNDARY;
+       }
+       cursorRange.getText().insertString(cursorRange, fieldContent, true);
+   }
    private void insertField(XTextRange cursorRange, String fieldPrefix , String uuidOfField, String fieldContent) {   
         String nameOfField =fieldPrefix + uuidOfField;
         Object refField = ooDocument.createInstance("com.sun.star.text.TextField.Input");

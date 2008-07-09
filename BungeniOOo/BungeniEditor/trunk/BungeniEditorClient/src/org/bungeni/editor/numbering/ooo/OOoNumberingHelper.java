@@ -34,6 +34,8 @@ public class OOoNumberingHelper {
     public final static String NUM_FIELD_PREFIX = "fldnum_";
     public final static String HEAD_FIELD_PREFIX = "fldhead_";
     public final static String HEADING_REF_PREFIX = "headref_";
+    public final static String NUMBER_REF_PREFIX = "nrf_";
+    
 
     /** Creates a new instance of OOoNumberingHelper */
     public OOoNumberingHelper() {

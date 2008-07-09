@@ -34,6 +34,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.logging.Level;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
 import javax.swing.UIManager;
@@ -53,6 +54,7 @@ import org.bungeni.numbering.impl.NumberingSchemeFactory;
 import org.bungeni.editor.numbering.ooo.OOoNumberingHelper;
 
 import org.apache.log4j.Logger;
+import org.bungeni.editor.metadata.DocumentMetadata;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.utils.BungeniBNode;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
@@ -508,7 +510,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
                 String theNumber = this.m_selectedNumberingScheme.sequence_next();
                 long lBaseIndex = this.m_selectedNumberingScheme.sequence_base_index(theNumber);
                 ooDocument.protectSection(numberedChild, false);
-                updateNumberInSection2(numberedChild, theNumber, numDecor, lBaseIndex);
+                updateNumberInSection3(numberedChild, theNumber, numDecor, lBaseIndex);
                 ////update the field here ooDocument.getTextFields();
                 ooDocument.protectSection(numberedChild, true);
             }   
@@ -525,11 +527,48 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
     private static String NUMBERED_SUFFIX = ">";
     private static String NUMBER_HEADING_BOUNDARY="~";
     
+    private void updateNumberInSection3 (XTextSection numberedChild, String theNumber, INumberDecorator numberDecorator, long lNumBaseIndex) {
+        try {
+           
+            HashMap<String,String> childMeta = ooDocument.getSectionMetadataAttributes(numberedChild);
+            String sectionUUID = childMeta.get("BungeniSectionUUID");
+            String thisRefMark = OOoNumberingHelper.NUMBER_REF_PREFIX+sectionUUID;
+            if (numberDecorator != null ) {
+                    theNumber = numberDecorator.decorate(theNumber);
+                }
+            XNameAccess refMarks = ooDocument.getReferenceMarks();
+            if (refMarks.hasByName(thisRefMark)) {
+                Object oRefMark = refMarks.getByName(thisRefMark);
+                XTextContent oRefContent = ooQueryInterface.XTextContent(oRefMark);
+                XTextRange refInternalRange = oRefContent.getAnchor();
+                int nReferenceMarkLength = refInternalRange.getString().length();
+                XTextCursor refCursor = ooDocument.getTextDocument().getText().createTextCursor();
+                refCursor.gotoRange(refInternalRange.getEnd(), false);
+                refCursor.setString(theNumber);
+                refCursor.gotoRange(refInternalRange.getStart(), false);
+                refCursor.goRight( (short) nReferenceMarkLength, true);
+                refCursor.setString("");
+                XTextSection numberedParent = numberedChild.getParentSection();
+                String numberedParentType = ooDocument.getSectionType(numberedParent);
+                
+                //update the OOo Metadata witht the numbering value 
+                this.updateSectionNumberingMetadata(numberedChild, numberedParentType, theNumber, lNumBaseIndex);
+            }
+        } catch (NoSuchElementException ex) {
+            log.error("updateNumberInSection - " + ex.getMessage());
+        } catch (WrappedTargetException ex) {
+            log.error("updateNumberInSection - " + ex.getMessage());
+        }  catch (NullPointerException ex ){
+            log.error("updateNumberInSection - " + ex.getMessage());
+            log.error("updateNumberInSection - " + CommonExceptionUtils.getStackTrace(ex));
+        }
+        
+    }
     private void updateNumberInSection2(XTextSection numberedChild, String theNumber, INumberDecorator numberDecorator, long lNumBaseIndex) {
         try {
            
-         //   HashMap<String,String> childMeta = ooDocument.getSectionMetadataAttributes(numberedChild);
-         //   String sectionUUID = childMeta.get("BungeniSectionUUID");
+            HashMap<String,String> childMeta = ooDocument.getSectionMetadataAttributes(numberedChild);
+            String sectionUUID = childMeta.get("BungeniSectionUUID");
          //   String fieldToUpdate= OOoNumberingHelper.NUM_FIELD_PREFIX + sectionUUID;
          //   XTextField aField = ooDocument.getTextFieldByName(fieldToUpdate);
         //    if (aField == null) {
@@ -537,16 +576,37 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         //        return;
         //    }
             XTextRange numberRange = numberedChild.getAnchor();
+            String fullHeading = numberRange.getString();
             if (numberDecorator != null ) {
                 theNumber = numberDecorator.decorate(theNumber);
             }
-      
+            //the text is covered by a reference so we update just the number...
+            //position cursor at start
+            XTextCursor refHeadCursor = ooDocument.getTextDocument().getText().createTextCursor();
+            refHeadCursor.gotoRange(numberRange.getStart(), true);
+            refHeadCursor.goRight ((short) 0, false);
+            //first find boundary of number 
+            int nStartNum = fullHeading.indexOf(NUMBERED_PREFIX);
+            int nEndNum = fullHeading.indexOf(NUMBERED_SUFFIX);
+            //first we go to endnum, then we insert the new number there,
+            refHeadCursor.goRight((short) nEndNum, false);
+            
+            //then we move left = length of new number
+            //then we move left = endnum -1 
+            //we setstring(0) for that range
+            //found index is 1 less than cursor movement index... 
+             refHeadCursor.goRight((short) (nStartNum+1), false);
+            refHeadCursor.goRight((short) (nEndNum -  (nStartNum+1)) , true);
+            //update number over cursor
+            refHeadCursor.setString(theNumber);
+            /*
             String fullHeading = numberRange.getString();
             int nHeadStart = fullHeading.indexOf(NUMBER_HEADING_BOUNDARY);
             int nHeadEnd = fullHeading.lastIndexOf(NUMBER_HEADING_BOUNDARY);
             String headingText = fullHeading.substring(nHeadStart, nHeadEnd+1);
             String newNumber = NUMBERED_PREFIX + theNumber + NUMBERED_SUFFIX;
             numberRange.setString(newNumber + " " + headingText);
+             */ 
             XTextSection numberedParent = numberedChild.getParentSection();
             String numberedParentType = ooDocument.getSectionType(numberedParent);
             this.updateSectionNumberingMetadata(numberedChild, numberedParentType, theNumber, lNumBaseIndex);
@@ -556,6 +616,9 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         }
         
     }
+    
+    
+    
     private void updateNumberInSection(XTextSection numberedChild, String theNumber, INumberDecorator numberDecorator, long lNumBaseIndex) {
         try {
             HashMap<String,String> childMeta = ooDocument.getSectionMetadataAttributes(numberedChild);
@@ -956,8 +1019,10 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
             insertMarkedText(sectionCursor, headingInSection, false);
             //insertField(sectionCursor, OOoNumberingHelper.HEAD_FIELD_PREFIX, sectionUUID, headingInSection);
             //finally create a reference for the complete heading
-            sectionCursor.gotoRange(childSection.getAnchor(), true);
-            insertReferenceMark(sectionCursor, sectionUUID);
+          //  sectionCursor.gotoRange(childSection.getAnchor(), false);
+          //  sectionCursor.gotoRange(childSection.getAnchor(), true);
+            insertReferenceMarkOnNumberedHeading(childSection.getAnchor(), sectionUUID);
+            //insertReferenceMark(sectionCursor, sectionUUID);
             updateSectionNumberingMetadata(childSection, numberedParentType, theNumber, -1);
       }
       
@@ -993,7 +1058,47 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         }
    }
    
+   private void insertReferenceMarkOnNumberedHeading (XTextRange xRange, String uuidStr) {
+       String headingText = xRange.getString();
+       XTextCursor refHeadCursor = ooDocument.getTextDocument().getText().createTextCursor();
+       refHeadCursor.gotoRange(xRange.getStart(), true);
+       refHeadCursor.goRight ((short) 0, false);
+       //first find boundary of number 
+       int nStartNum = headingText.indexOf(NUMBERED_PREFIX);
+       int nEndNum = headingText.indexOf(NUMBERED_SUFFIX);
+       //found index is 1 less than cursor movement index... 
+       refHeadCursor.goRight((short) (nStartNum+1), false);
+       refHeadCursor.goRight((short) (nEndNum -  (nStartNum+1)) , true);
+       //create reference mark over number boundary
+       insertReferenceMark2(refHeadCursor, OOoNumberingHelper.NUMBER_REF_PREFIX + uuidStr);
+       
+       refHeadCursor.goRight ( (short) 0, false);
+       refHeadCursor.goRight ( (short) 1, false);
+       //second find boundary of heading without number
+       
+       
+       //first find boundary of number 
+       int nStartHead = headingText.indexOf(NUMBER_HEADING_BOUNDARY);
+       int nEndHead = headingText.lastIndexOf(NUMBER_HEADING_BOUNDARY);
+       //found index is 1 less than cursor movement index... 
+       refHeadCursor.goRight((short) (nStartHead - nEndNum), false);
+       refHeadCursor.goRight((short) (nEndHead -  (nStartHead + 1)) , true);
+       //create reference mark over heading boundary
+       insertReferenceMark2(refHeadCursor, OOoNumberingHelper.HEADING_REF_PREFIX + uuidStr);
+       
+   }
    
+   private void insertReferenceMark2 (XTextCursor thisCursor, String referenceName ) {
+       Object referenceMark = ooDocument.createInstance("com.sun.star.text.ReferenceMark");
+       XNamed xRefMark = ooQueryInterface.XNamed(referenceMark);
+       xRefMark.setName(referenceName);
+       XTextContent xContent = (XTextContent) UnoRuntime.queryInterface(XTextContent.class, xRefMark);
+       try {
+       thisCursor.getText().insertTextContent(thisCursor, xContent, true);
+       } catch (Exception ex) {
+           log.error("insertReferenceMark :" + ex.getMessage()); 
+       }
+   }
    private void insertReferenceMark (XTextCursor thisCursor, String uuidStr) {
        Object referenceMark = ooDocument.createInstance("com.sun.star.text.ReferenceMark");
        XNamed xRefMark = ooQueryInterface.XNamed(referenceMark);

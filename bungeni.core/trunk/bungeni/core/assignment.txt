@@ -1,0 +1,34 @@
+Group Assignments
+-----------------
+
+A facility for assigning a content item to a group, possibly with workflow to 
+the assignment.
+
+To demonstrate let's first create some groups and a content object.
+
+  >>> from bungeni.core import domain, interfaces
+  >>> from datetime import datetime
+  >>> bill = domain.Bill()
+  >>> committee = domain.Commitee(short_name="Committee", start_date=datetime.now())
+  >>> committee = domain.Commitee(short_name="Committee 2", start_date=datetime.now())
+
+Now we can assign the bill to a committee.
+
+  >>> factory = interfaces.IAssignmentFactory( bill, committee ).new()
+  >>> assignment = factory.new() # also takes kw args for constructor
+
+  >>> factory = interfaces.IAssignmentFactory( bill, committee2 ).new()
+  >>> factory = interfaces.IAssignmentFactory( bill2, committee ).new()
+
+We can now utilize the content assignments adapter to find all the assignments of this
+content to any group.
+
+ >>> list( interfaces.IContentAssignments( bill ) )
+ [ <Commitee ...>, <Committee ..>] 
+
+Or use the context assignments adapter to find all the assignments of a particular
+group.
+
+ >>> list( interfaces.IContextAssignments( committee ) )
+ [ <Bill ...>, <Bill ..>] 
+

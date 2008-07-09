@@ -296,11 +296,13 @@ group_item_assignments = rdb.Table(
    metadata,
    rdb.Column( "assignment_id", rdb.Integer,  primary_key=True ),
    rdb.Column( "object_id", rdb.Integer ), # any object placed here needs to have a class hierarchy sequence
+   rdb.Column( "object_type", rdb.String(128), nullable=False ),
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
    #rdb.Column( "title", rdb.Unicode(40)), # title of user's group role
    rdb.Column( "start_date", rdb.Date, default=datetime.now),
    rdb.Column( "end_date", rdb.Date ),   
-   rdb.Column( "due_date", rdb.Date ),    
+   rdb.Column( "due_date", rdb.Date ),
+   rdb.Column( "status", rdb.String(16) ),    
    rdb.Column( "notes", rdb.UnicodeText ),
    )
 

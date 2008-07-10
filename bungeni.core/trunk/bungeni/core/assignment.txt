@@ -1,34 +1,47 @@
 Group Assignments
 -----------------
 
-A facility for assigning a content item to a group, possibly with workflow to 
+A facility for assigning a content item to a group, possibly with a workflow to 
 the assignment.
 
-To demonstrate let's first create some groups and a content object.
+First some setup code..
 
   >>> from bungeni.core import domain, interfaces
+  >>> from zope.component import getMultiAdapter
+  >>> from ore.alchemist import Session
   >>> from datetime import datetime
-  >>> bill = domain.Bill()
-  >>> committee = domain.Commitee(short_name="Committee", start_date=datetime.now())
-  >>> committee = domain.Commitee(short_name="Committee 2", start_date=datetime.now())
+  >>> import transaction
+
+To demonstrate let's create some groups and a content object.
+
+  >>> bill = domain.Bill( title=u"terra")
+  >>> bill2 = domain.Bill( title=u"firma")
+  >>> committee = domain.Committee(short_name=u"Committee", start_date=datetime.now())
+  >>> committee2 = domain.Committee(short_name=u"Committee 2", start_date=datetime.now())
+  >>> stored = map( Session().save, ( bill, bill2, committee, committee2 ) )
+  >>> transaction.commit()
 
 Now we can assign the bill to a committee.
 
-  >>> factory = interfaces.IAssignmentFactory( bill, committee ).new()
-  >>> assignment = factory.new() # also takes kw args for constructor
+  >>> getMultiAdapter( (bill, committee ), interfaces.IAssignmentFactory).new()
+  <bungeni.core.assignment.GroupAssignment object at ...>
 
-  >>> factory = interfaces.IAssignmentFactory( bill, committee2 ).new()
-  >>> factory = interfaces.IAssignmentFactory( bill2, committee ).new()
+  >>> getMultiAdapter( (bill, committee2 ), interfaces.IAssignmentFactory).new()
+  <bungeni.core.assignment.GroupAssignment object at ...>
+
+  >>> getMultiAdapter( (bill2, committee ), interfaces.IAssignmentFactory).new()
+  <bungeni.core.assignment.GroupAssignment object at ...>
 
 We can now utilize the content assignments adapter to find all the assignments of this
 content to any group.
 
  >>> list( interfaces.IContentAssignments( bill ) )
- [ <Commitee ...>, <Committee ..>] 
+ [<bungeni.core.assignment.GroupAssignment object at ...>, <bungeni.core.assignment.GroupAssignment object at ...>]
 
 Or use the context assignments adapter to find all the assignments of a particular
 group.
 
- >>> list( interfaces.IContextAssignments( committee ) )
- [ <Bill ...>, <Bill ..>] 
+  >>> list( interfaces.IContextAssignments( committee ) )
+  [<bungeni.core.assignment.GroupAssignment object at ...>, <bungeni.core.assignment.GroupAssignment object at ...>]
+
 

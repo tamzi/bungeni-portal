@@ -18,7 +18,7 @@ public class ResponseTypeDecoder {
     
     /**
      * Utility method that returns an integer indicating the response type of a response
-     * .The retur value is one of the constants for response types defined in the <code>ResponseConstants</code>
+         * .The return value is one of the constants for response types defined in the <code>ResponseConstants</code>
      * class
      * @param document
      * @return int

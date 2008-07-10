@@ -37,8 +37,8 @@ import org.dspace.search.DSAnalyzer;
  */
 public class SearchServlet extends HttpServlet {
    
-    private String dspaceBase="http://192.168.1.10:8090/xmlui/";
-    private String kohaBase="http://192.168.1.10:80/";
+    private String dspaceBase="http://192.168.1.10:8090/xmlui";
+    private String kohaBase="http://192.168.1.10:80";
     /** 
     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
     * @param request servlet request
@@ -108,14 +108,14 @@ public class SearchServlet extends HttpServlet {
                             "</li>\n" +
                             "<li>\n" +
                             "<h4 class=\"ds-sublist-head\">\n" +
-                            "<a title=\"The Bungeni Dspace Project for management of Parliaments documents\" href=\"http://192.168.1.10:8090/xmlui/\">\n" +
+                            "<a title=\"The Bungeni Dspace Project for management of Parliaments documents\" href=\""+dspaceBase+"/\">\n" +
                             "Bungeni Dspace\n" +
                             "</a>\n" +
                             "</h4>\n" +
                             "</li>\n" +
                             "<li>\n" +
                             "<h4 class=\"ds-sublist-head\">\n" +
-                            " <a title=\"The bungeni Library project\" href=\"http://192.168.1.10\">\n" +
+                            " <a title=\"The bungeni Library project\" href=\""+kohaBase+"/\">\n" +
                             "Bungeni Koha\n" +
                             "</a>\n" +
                             "</h4>\n" +
@@ -180,6 +180,18 @@ public class SearchServlet extends HttpServlet {
         MultiSearcher compoundSearcher=null;
         String results="";
         boolean test=true;
+        boolean merge=request.getParameter("merge").equals("yes");
+        boolean dspace=false;
+        boolean koha=false;
+        if(request.getParameter("dspace")!=null)
+        {
+            dspace=request.getParameter("dspace").equals("on");
+        }
+        if(request.getParameter("koha")!=null)
+        {
+            koha=request.getParameter("koha").equals("on");
+        }
+       
         try
         {
             String query=request.getParameter("query");
@@ -213,7 +225,24 @@ public class SearchServlet extends HttpServlet {
 
             IndexSearcher searchers[]={dspaceSeacher,kohaSearcher};
             Query []queries={kohaQuery,dspaceQuery};
-            Query combinedQuery=kohaQuery.combine(queries);
+            Query combinedQuery=null;
+            if(koha && dspace)
+            {
+                combinedQuery=kohaQuery.combine(queries);
+            }
+            else if(koha && !dspace)
+            {
+                combinedQuery=kohaQuery;
+            }
+            else if(dspace && !koha)
+            {
+                combinedQuery=dspaceQuery;
+            }
+            else
+            {
+                return "No Repository Selected. Please Select at " +
+                        "least one repository to search above by checking the corresponding box.";
+            }
 
             compoundSearcher=new MultiSearcher(searchers);
             Hits hits=compoundSearcher.search(combinedQuery);
@@ -259,187 +288,265 @@ public class SearchServlet extends HttpServlet {
                     }
                 }
                 int kohares=numResults-dspres;
-                int indecies=(kohares/respp >dspres/respp)?((kohares/respp)+((kohares%respp >0)?1:0)):((dspres/respp)+((dspres%respp>0)?1:0));
-                results+="\n<div class=\"pagination-masked top\">"+
-                        "<p class=\"pagination-info\">Click a page below to view its results</p>"+
-                        "<ul class=\"pagination-links\">"+
-                        "<li class=\"current-page-link\">";
-                for(int j=0;j<indecies;j++)
+                if(!merge)
                 {
-                    results+="\n<a href=\"javascript:showResForPage(\'"+(j+1)+"\')\">"+(j+1)+"</a>";
-                }
-                        
-                results+="\n</li>"+
-                         "</ul>"+
-                         "</div>"; 
-                results+="\n<div id=\"divexpand\"class=\"pagination-masked top\">"+
-                        "<p class=\"pagination-info\" style=\"font-size: 11px;\"><a href=\"javascript:expandAll()\">Expand All>></a></p>"+
-                        "</div>";
-                results+="\n<div id=\"divcollapse\" class=\"pagination-masked top\" style=\"width: 0px; height: 0px; visibility: hidden;\">"+
-                        "<p class=\"pagination-info\" style=\"font-size: 11px;\"><a href=\"javascript:collapseAll()\">&lt;&lt;Collapse All</a></p>"+
-                        "</div>";
-                
-                results+="<div id=\"aspect_artifactbrowser_SimpleSearch_div_search-results\" class=\"ds-static-div primary\" style=\"width: 100%;\">\n" +
-                        "<ul class=\"ds-artifact-list\">";
-            }
-            int dspaceTrack=0;
-            int kohaTrack=0;
-            int largestIndex=0;
-            
-            /* Fetch Dspace Results and Display Them first depending on the 
-             * number of results per page 
-             */
-            for(int i=0;i<numResults;i++)
-            {
-                Document doc=hits.doc(i);
-                int docType=ResponseTypeDecoder.getResponseTypeForDocument(doc);
-                DCValue []descriptionMeta=null;
-                DCValue []authorMeta=null;
-                DCValue []dateMeta=null;
-                Bundle []bundles=null;
-                switch(docType)
-                {
-                    case ResponseConstants.DSPACE_RESPONSE:
+                    int indecies=(kohares/respp >dspres/respp)?((kohares/respp)+((kohares%respp >0)?1:0)):((dspres/respp)+((dspres%respp>0)?1:0));
+                    results+="\n<div class=\"pagination-masked top\">"+
+                            "<p class=\"pagination-info\">Click a page below to view its results</p>"+
+                            "<ul class=\"pagination-links\">"+
+                            "<li class=\"current-page-link\">";
+                    for(int j=0;j<indecies;j++)
                     {
-                        String handle=doc.getField("handle").stringValue();
-                        String link=dspaceBase+"/handle/"+handle;
-                        String title="";
-                        String type="Other";
-                        String owningCollection="";
-        
-                        try
-                        {
-                            Context context=new Context();
-                            DSpaceObject dspaceObject=HandleManager.resolveToObject(context, handle);
-                            if(dspaceObject instanceof Item)
-                            {
-                                type="Item";
-                                Item item=(Item)dspaceObject;
-                                title+=item.getName();
-                                descriptionMeta=item.getMetadata("dc.description");
-                                authorMeta=item.getMetadata("dc.contributor.author");
-                                dateMeta=item.getMetadata("dc.date.issued");
-                                owningCollection=item.getOwningCollection().getName();
-                                bundles=item.getBundles();
-                            }
-                            else if(dspaceObject instanceof Collection)
-                            {
-                                type="Collection";
-                                Collection col=(Collection)dspaceObject;
-                                title+=col.getName();
-                            }
-                            else if(dspaceObject instanceof Community)
-                            {
-                                type="Community";
-                                Community com=(Community)dspaceObject;
-                                title+=com.getName();
-                            }
-                            context.complete();
+                        results+="\n<a href=\"javascript:showResForPage(\'"+(j+1)+"\')\">"+(j+1)+"</a>";
+                    }
 
-                        }
-                        catch(Throwable thr)
-                        {
-                        }
-                        try
-                        {
-                            String visibility=(dspaceTrack>=Integer.parseInt(request.getParameter("respp")))?"hidden":"visible";
-                            String width=visibility.equals("hidden")?"0px;":"100%;";
-                            String height=visibility.equals("hidden")?"0px;":"auto;";
-                            results+="<li class=\"ds-artifact-item odd\">\n" +
-                                "<div id=\"divmds_"+(dspaceTrack+1)+"\" style=\"visibility: "+visibility+"; width: "+width+" height: "+height+" overflow: hidden;\" >\n" +
-                                "<p>\n" +
-                                title+"<br>Available in <a href=\""+dspaceBase+"\" title=\"Bungeni Dspace\">Bungeni Dspace</a>"+
-                                "<br><a href=\"javascript:showDiv('divds_"+(dspaceTrack+1)+"','divmds_"+(dspaceTrack+1)+"')\" title=\"full details\" >more>></a>\n"+
-                                "</div>" +
-                                "<div id=\"divds_"+(dspaceTrack+1)+"\" style=\"visibility: hidden; width: 0px; height:0px; overflow: hidden;\">\n" +
-                                title+"<br />"+
-                                "<b>Type:</b> "+type+"<br>" +((authorMeta != null)?"<b>Author:</b> "+authorMeta[0].value +"<br>":"") +
-                                ((descriptionMeta != null)?"<b>Description :</b> "+descriptionMeta[0].value +"<br>":"")+
-                                ((dateMeta != null)?"<b>Issue Date :</b> "+dateMeta[0].value +"<br>":"")+
-                                ((type.equals("Item"))?"<b>Owning Collection :</b> "+owningCollection +"<br>":"")+
-                                ((bundles!=null && bundles.length>0)?"<b>Bitstream 1 :</b> "+bundles[0].getBitstreams()[0].getName()+"<br>":"")+
-                                ((bundles!=null && bundles.length>0)?"<b>Bitstream Format :</b> "+bundles[0].getBitstreams()[0].getFormatDescription()+"<br>":"")+
-                                "<a href=\""+link+"\" title=\"Clicking this link will navigate you out of the portal\">Go to Bungeni Dspace and view Item</a><br />"+
-                                 "<br><a href=\"javascript:showDiv('divmds_"+(dspaceTrack+1)+"','divds_"+(dspaceTrack+1)+"')\" title=\"Collapse Details\" >&lt;&lt;collapse</a>\n"+
-                                "</div></li>\n"; 
-                            dspaceTrack++;
-                        }
-                        catch(Throwable thr)
-                        {
-                            results+=thr.toString();
-                        }
-                        
-                        break;
+                    results+="\n</li>"+
+                             "</ul>"+
+                             "</div>"; 
+                    results+="\n<div id=\"divexpand\"class=\"pagination-masked top\">"+
+                            "<p class=\"pagination-info\" style=\"font-size: 11px;\"><a href=\"javascript:expandAll()\">Expand All>></a></p>"+
+                            "</div>";
+                    results+="\n<div id=\"divcollapse\" class=\"pagination-masked top\" style=\"width: 0px; height: 0px; visibility: hidden;\">"+
+                            "<p class=\"pagination-info\" style=\"font-size: 11px;\"><a href=\"javascript:collapseAll()\">&lt;&lt;Collapse All</a></p>"+
+                            "</div>";
+
+                    results+="<div id=\"aspect_artifactbrowser_SimpleSearch_div_search-results\" class=\"ds-static-div primary\" style=\"width: 100%;\">\n" +
+                            "<ul class=\"ds-artifact-list\">";
+                    if(dspres>0)
+                    {
+                        results+="\n<div id=\"dspacereshead\" class=\"pagination-masked top\" style=\"width: 100%; height: auto; visibility: visible;\">"+
+                            "<p class=\"pagination-info\" style=\"font-size: 13px;\">Digital Repository/DSpace Results</p>"+
+                            "</div>";
                     }
+                    int dspaceTrack=0;
+                    int kohaTrack=0;
+                    int largestIndex=0;
+                    /* Fetch Dspace Results and Display Them first depending on the 
+                     * number of results per page 
+                     */
+                    for(int i=0;i<numResults;i++)
+                    {
+                        Document doc=hits.doc(i);
+                        int docType=ResponseTypeDecoder.getResponseTypeForDocument(doc);
+                        DCValue []descriptionMeta=null;
+                        DCValue []authorMeta=null;
+                        DCValue []dateMeta=null;
+                        Bundle []bundles=null;
+                        switch(docType)
+                        {
+                            case ResponseConstants.DSPACE_RESPONSE:
+                            {
+                                String handle=doc.getField("handle").stringValue();
+                                String link=dspaceBase+"/handle/"+handle;
+                                String title="";
+                                String type="Other";
+                                String owningCollection="";
+
+                                try
+                                {
+                                    Context context=new Context();
+                                    DSpaceObject dspaceObject=HandleManager.resolveToObject(context, handle);
+                                    if(dspaceObject instanceof Item)
+                                    {
+                                        type="Item";
+                                        Item item=(Item)dspaceObject;
+                                        title+=item.getName();
+                                        descriptionMeta=item.getMetadata("dc.description");
+                                        authorMeta=item.getMetadata("dc.contributor.author");
+                                        dateMeta=item.getMetadata("dc.date.issued");
+                                        owningCollection=item.getOwningCollection().getName();
+                                        bundles=item.getBundles();
+                                    }
+                                    else if(dspaceObject instanceof Collection)
+                                    {
+                                        type="Collection";
+                                        Collection col=(Collection)dspaceObject;
+                                        title+=col.getName();
+                                    }
+                                    else if(dspaceObject instanceof Community)
+                                    {
+                                        type="Community";
+                                        Community com=(Community)dspaceObject;
+                                        title+=com.getName();
+                                    }
+                                    context.complete();
+
+                                }
+                                catch(Throwable thr)
+                                {
+                                }
+                                try
+                                {
+                                    String visibility=(dspaceTrack>=Integer.parseInt(request.getParameter("respp")))?"hidden":"visible";
+                                    String width=visibility.equals("hidden")?"0px;":"100%;";
+                                    String height=visibility.equals("hidden")?"0px;":"auto;";
+                                    results+="<li class=\"ds-artifact-item odd\">\n" +
+                                        "<div id=\"divmds_"+(dspaceTrack+1)+"\" style=\"visibility: "+visibility+"; width: "+width+" height: "+height+" overflow: hidden;\" >\n" +
+                                        "<p>\n" +
+                                        title+"<br>Available in <a href=\""+dspaceBase+"\" title=\"Bungeni Dspace\">Bungeni Dspace</a>"+
+                                        "<br><a href=\"javascript:showDiv('divds_"+(dspaceTrack+1)+"','divmds_"+(dspaceTrack+1)+"')\" title=\"full details\" >more>></a>\n"+
+                                        "</div>" +
+                                        "<div id=\"divds_"+(dspaceTrack+1)+"\" style=\"visibility: hidden; width: 0px; height:0px; overflow: hidden;\">\n" +
+                                        title+"<br />"+
+                                        "<b>Type:</b> "+type+"<br>" +((authorMeta != null)?"<b>Author:</b> "+authorMeta[0].value +"<br>":"") +
+                                        ((descriptionMeta != null)?"<b>Description :</b> "+descriptionMeta[0].value +"<br>":"")+
+                                        ((dateMeta != null)?"<b>Issue Date :</b> "+dateMeta[0].value +"<br>":"")+
+                                        ((type.equals("Item"))?"<b>Owning Collection :</b> "+owningCollection +"<br>":"")+
+                                        ((bundles!=null && bundles.length>0)?"<b>Bitstream 1 :</b> "+bundles[0].getBitstreams()[0].getName()+"<br>":"")+
+                                        ((bundles!=null && bundles.length>0)?"<b>Bitstream Format :</b> "+bundles[0].getBitstreams()[0].getFormatDescription()+"<br>":"")+
+                                        "<a href=\""+link+"\" title=\"Clicking this link will navigate you out of the portal\">Go to Bungeni Dspace and view Item</a><br />"+
+                                         "<br><a href=\"javascript:showDiv('divmds_"+(dspaceTrack+1)+"','divds_"+(dspaceTrack+1)+"')\" title=\"Collapse Details\" >&lt;&lt;collapse</a>\n"+
+                                        "</div></li>\n"; 
+                                    dspaceTrack++;
+                                }
+                                catch(Throwable thr)
+                                {
+                                    results+=thr.toString();
+                                }
+
+                                break;
+                            }
+                        }
+                    }
+
+                    /*Package the koha results if there are any under the dspace results
+                     * /
+                     */
+                    if(kohares>0)
+                    {
+                        results+="</ul></div>";
+                        results+="<div id=\"aspect_artifactbrowser_SimpleSearch_div_search-results\" class=\"ds-static-div primary\" style=\"width: 100%;\">\n" +
+                            "<ul class=\"ds-artifact-list\">";
+                        results+="\n<div id=\"kohareshead\" class=\"pagination-masked top\" style=\"width: 100%; height: auto; visibility: visible;\">"+
+                            "<p class=\"pagination-info\" style=\"font-size: 13px;\">Library/Koha Results</p>"+
+                            "</div>";
+                    }
+
+                    /* Fetch Koha Results and Display Them each result in a separate div depending on the 
+                     * number of results per page 
+                     */
+                    for(int i=0;i<numResults;i++)
+                    {
+                        Document doc=hits.doc(i);
+                        int docType=ResponseTypeDecoder.getResponseTypeForDocument(doc);
+                        switch(docType)
+                        {
+                            case ResponseConstants.KOHARESPONSE:
+                            {
+                                String biblioNumber="";
+                                String link="";
+                                String title="";
+                                String type="";
+                                String author="";
+                                String publisher="";
+                                String description="";
+                                 String date="";
+                                try
+                                {
+                                    biblioNumber=doc.getField("dc.kohabiblionumber").stringValue();
+                                    link=kohaBase+"cgi-bin/koha/opac-detail.pl?biblionumber="+biblioNumber;
+                                }
+                                catch(NullPointerException npe)
+                                {
+                                    
+                                }
+                                try
+                                {
+                                    title=doc.getField("dc.title").stringValue();
+                                    if(title.charAt(title.length()-1)==':')
+                                    {
+                                        title+=" "+doc.getField("dc.title").stringValue();
+                                    }
+                                }
+                                catch(NullPointerException npe)
+                                {
+                                    
+                                }
+                                try
+                                {
+                                    type=doc.getField("dc.itemtypename").stringValue();
+                                }
+                                catch(NullPointerException npe)
+                                {
+                                    
+                                }
+                                try
+                                {
+                                    author=doc.getField("dc.creator").stringValue();
+                                }
+                                catch(NullPointerException npe)
+                                {
+                                    
+                                }
+                                try
+                                {
+                                    publisher=doc.getField("dc.publisher").stringValue();
+                                    if(publisher.charAt(publisher.length()-1)==':')
+                                    {
+                                        publisher+=" "+doc.getField("dc.publisher");
+                                    }
+                                }
+                                catch(NullPointerException npe)
+                                {
+                                    
+                                }
+                                try
+                                {
+                                    description=doc.getField("dc.description").stringValue();
+                                }
+                                catch(NullPointerException npe)
+                                {
+                                    
+                                }
+                                try
+                                {
+                                    date=doc.getField("dc.date").stringValue();
+                                }
+                                catch(NullPointerException npe)
+                                {
+                                    
+                                }
+                                String visibility=(kohaTrack>=Integer.parseInt(request.getParameter("respp")))?"hidden":"visible";
+                                String width=visibility.equals("hidden")?"0px;":"100%;";
+                                String height=visibility.equals("hidden")?"0px;":"auto;";
+                                results+="<li class=\"ds-artifact-item odd\">\n" +
+                                        "<div id=\"divmkh_"+(dspaceTrack+1)+"\" style=\"visibility: "+visibility+"; width: "+width+" height: "+height+" overflow: hidden;\" >\n" +
+                                        "<p>\n" +
+                                        title+"<br>Available in <a href=\""+kohaBase+"\" title=\"Bungeni Koha\">Bungeni Koha</a>"+
+                                        "<br><a href=\"javascript:showDiv('divkh_"+(kohaTrack+1)+"','divmkh_"+(kohaTrack+1)+"')\" title=\"full details\" >more>></a>\n"+
+                                        "</div>" +
+                                        "<div id=\"divkh_"+(kohaTrack+1)+"\" style=\"visibility: hidden; width: 0px; height:0px; overflow: hidden;\">\n" +
+                                        title+"<br />"+
+                                        "<b>Type:</b> "+type+"<b>Author: </b>"+author+"<br>" +
+                                        "<b>Publisher :</b> "+publisher+"<br>"+
+                                        "<b>Description :</b> "+description+"<br>"+
+                                        "<b>Publishing Date :</b> "+date+"<br>"+
+                                        "<a href=\""+link+"\" title=\"Clicking this link will navigate you out of the portal\">Go to Bungeni Koha and view Item</a><br />"+
+                                         "<br><a href=\"javascript:showDiv('divmkh_"+(kohaTrack+1)+"','divkh_"+(kohaTrack+1)+"')\" title=\"Collapse Details\" >&lt;&lt;collapse</a>\n"+
+                                        "</div></li>\n"; 
+                                    kohaTrack++;
+                                break;
+                            }
+                        }
+                    }
+
+                    if(dspaceSeacher!=null)
+                    {
+                        dspaceSeacher.close();
+                    }
+                    if(kohaSearcher!=null)
+                    {
+                        kohaSearcher.close();
+                    }
+                    if(compoundSearcher!=null)
+                    {
+                        compoundSearcher.close();
+                    }
+                    
                 }
+                
             }
             
-            /* Fetch Koha Results and Display Them first depending on the 
-             * number of results per page 
-             */
-            for(int i=0;i<numResults;i++)
-            {
-                Document doc=hits.doc(i);
-                int docType=ResponseTypeDecoder.getResponseTypeForDocument(doc);
-                DCValue []descriptionMeta=null;
-                DCValue []authorMeta=null;
-                DCValue []dateMeta=null;
-                Bundle []bundles=null;
-                switch(docType)
-                {
-                    case ResponseConstants.KOHARESPONSE:
-                    {
-                        if(true)
-                        {
-                            break;
-                        }
-                        String biblioNumber=doc.getField("dc.kohabiblionumber").stringValue();
-                        String link=kohaBase+"cgi-bin/koha/opac-detail.pl?biblionumber="+biblioNumber;
-                        String title=doc.getField("dc.title").stringValue();
-                        results+="<li class=\"ds-artifact-item odd\">\n" +
-                                "<div>\n" +
-                                "<p>\n" +
-                                 "<a href=\""+link+"\" title=\""+title+"\">"+title+"</a>"+
-                                "<br>Available in <a href=\""+kohaBase+"\" title=\"Bungeni Koha\">Bungeni Koha</a>"+
-                                "</div></li>";
-                        break;
-                    }
-                }
-            }
-            if(numResults>0)
-            {
-                int respp=Integer.parseInt(request.getParameter("respp"));
-                int dspres=0;
-                for(int i=0;i<numResults;i++)
-                {
-                    if(ResponseTypeDecoder.getResponseTypeForDocument(hits.doc(i))==ResponseConstants.DSPACE_RESPONSE)
-                    {
-                        ++dspres;
-                    }
-                }
-                int kohares=numResults-dspres;
-                int indecies=(kohares/respp >dspres/respp)?((kohares/respp)+((kohares%respp >0)?1:0)):((dspres/respp)+((dspres%respp>0)?1:0));
-               /* results+="\n<div class=\"pagination-masked bottom\">"+
-                        "<p class=\"pagination-info\">Click a page below to view its results</p>"+
-                        "<ul class=\"pagination-links\">"+
-                        "<li class=\"current-page-link\">";
-                for(int j=0;j<indecies;j++)
-                {
-                    results+="\n<a href=\"javascript:showResForPage(\'"+(j+1)+"\')\">"+(j+1)+"</a>";
-                }
-                results+="\n</li>"+
-                         "</ul>"+
-                         "</div>"; 
-                results+="\n<div id=\"divexpandbot\"class=\"pagination-masked top\">"+
-                        "<p class=\"pagination-info\" style=\"font-size: 11px;\"><a href=\"javascript:expandAll()\">Expand All>></a></p>"+
-                        "</div>";
-                results+="\n<div id=\"divcollapsebot\" class=\"pagination-masked top\" style=\"width: 0px; height: 0px; visibility: hidden;\">"+
-                        "<p class=\"pagination-info\" style=\"font-size: 11px;\"><a href=\"javascript:collapseAll()\">&lt;&lt;Collapse All</a></p>"+
-                        "</div>"; */
-            }
-            dspaceSeacher.close();
-            kohaSearcher.close();
-            compoundSearcher.close();
         }
         catch(ParseException pe)
         {

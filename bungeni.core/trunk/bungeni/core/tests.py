@@ -8,9 +8,10 @@ from zope import component
 import unittest
 
 from zope.testing import doctest, doctestunit
-from zope.app.testing import placelesssetup
+from zope.app.testing import placelesssetup, ztapi
 from zope.configuration import xmlconfig
-from bungeni.core import metadata
+
+from bungeni.core import metadata, interfaces
 
 zcml_slug = """
 <configure xmlns="http://namespaces.zope.org/zope"
@@ -48,18 +49,51 @@ def tearDown( test ):
     placelesssetup.tearDown()
     metadata.drop_all( checkfirst=True )
 
-def test_suite():
-    doctests = ('readme.txt', 'notification.txt', 'workflows/question.txt', 'workflows/bill.txt')
-    globs = dict(interface=interface, component=component)
+def assignment_tests( ):
+    import assignment
+    def _setUp( test ):
+        setUp( test )
+        ztapi.provideAdapter( (interfaces.IBungeniContent, interfaces.IBungeniGroup ),
+                              interfaces.IAssignmentFactory,
+                              assignment.GroupAssignmentFactory )
+
+        ztapi.provideAdapter( interfaces.IBungeniContent,
+                              interfaces.IContentAssignments,
+                              assignment.ContentAssignments )
+
+        ztapi.provideAdapter( interfaces.IBungeniGroup,
+                              interfaces.IContextAssignments,
+                              assignment.GroupContextAssignments )
+        
+    return doctestunit.DocFileSuite('assignment.txt',
+                                    setUp = _setUp,
+                                    tearDown = tearDown,
+                                    optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
+                                    )
+
     
-    return unittest.TestSuite((
-        doctestunit.DocFileSuite(filename,
-                                 setUp = setUp,
-                                 tearDown = tearDown,
-                                 globs = globs,
-                                 optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
-                                 ) for filename in doctests
-        ))
+
+def test_suite():
+    doctests = ('readme.txt', 
+                'notification.txt', 
+                'assignment.txt',
+                'workflows/question.txt', 
+                'workflows/bill.txt')
+    doctests = ()#('assignment.txt',)
+    globs = dict(interface=interface, component=component)
+
+    test_suites = []
+    for filename in doctests:
+        test_suite = doctestunit.DocFileSuite(filename,
+                                              setUp = setUp,
+                                              tearDown = tearDown,
+                                              globs = globs,
+                                              optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS )
+        test_suites.append( test_suite )
+        
+    test_suites.append( assignment_tests() )
+    
+    return unittest.TestSuite( test_suites )
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

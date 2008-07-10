@@ -1,4 +1,6 @@
 """
+Group Item Assignment Infrastructure
+
 $Id: $
 """
 
@@ -7,6 +9,7 @@ from ore.alchemist import Session
 from zope.security.proxy import removeSecurityProxy
 from zope.dottedname.resolve import resolve
 from sqlalchemy import orm
+from datetime import datetime
 
 import interfaces, schema
     
@@ -32,11 +35,33 @@ class ContentAssignments( object ):
         unwrapped = removeSecurityProxy( self.context )
         mapper = orm.object_mapper( unwrapped )
         primary_key = mapper.primary_key_from_instance( unwrapped )[0]
+
+        assignments =  Session().query( GroupAssignment ).filter_by(
+            object_id = primary_key,
+            object_type = unwrapped.__class__.__name__ )
+            
+        for i in assignments:
+            yield i
+
+class GroupAssignmentFactory( object ):
+
+    def __init__( self, content, group ):
+        self.content = content
+        self.group = group
+
+    def new( self, **kw ):
+        assignment = GroupAssignment()
+        assignment.group_id = self.group.group_id
+
+        unwrapped = removeSecurityProxy( self.content )
+        mapper = orm.object_mapper( unwrapped )
+        primary_key = mapper.primary_key_from_instance( unwrapped )[0]
         
-        for i in Session().query( GroupAssignment ).filter_by( 
-                object_id = primary_key,
-                object_type = unwrapped.__class__.__name__ ):
-                yield i
+        assignment.object_id = primary_key
+        assignment.object_type = unwrapped.__class__.__name__
+        assignment.start_date = datetime.now()
+        Session().save( assignment )
+        return assignment
     
 class GroupAssignment( object ):
 

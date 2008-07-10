@@ -6,7 +6,9 @@
 
   <include package="ore.xapian" />
   <include package="ore.xapian" file="meta.zcml" />
-
+  <!--
+  <include package="ore.library" />
+    -->
   <!-- Setup Database Connection -->	  
   <db:engine
      name="bungeni-db"
@@ -46,7 +48,10 @@
 
   <!-- Security Components -->
   <include file="auth.zcml"/>
-        
+
+  <!-- Assignment Infrastructure -->
+  <include file="assignment.zcml"/>
+
   <!-- Searching -->
   <utility component=".index.searcher" />
   

@@ -375,6 +375,7 @@ mapper( domain.AttendanceType, schema.attendance_type )
 mapper( domain.MemberTitle, schema.user_role_type )
 mapper( domain.MemberRoleTitle, schema.role_titles )
 
+mapper( domain.AddressType, schema.address_types )
 mapper( domain.UserAddress, schema.addresses )
 
 ###########################

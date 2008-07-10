@@ -331,12 +331,20 @@ role_titles = rdb.Table(
 # Adresses can be attached to a user or to a role title 
 # as the official address for this function
 
+address_types = rdb.Table (
+    "address_types",
+    metadata,
+    rdb.Column( "address_type_id", rdb.Integer, primary_key = True ),
+    rdb.Column( "address_type_name", rdb.Unicode(40) ),
+    )
+
 addresses = rdb.Table(
     "addresses",
     metadata,
     rdb.Column( "address_id", rdb.Integer, primary_key=True ),
     rdb.Column( "role_title_id", rdb.Integer, rdb.ForeignKey('role_titles.role_title_id') ), # official address
     rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey( 'users.user_id') ), # personal address
+    rdb.Column( "address_type_id", rdb.Integer, rdb.ForeignKey ( 'address_types.address_type_id') ),
     rdb.Column( "po_box", rdb.Unicode(40) ),
     rdb.Column( "address", rdb.Unicode(80) ),
     rdb.Column( "city", rdb.Unicode(80) ),
@@ -345,6 +353,7 @@ addresses = rdb.Table(
     rdb.Column( "phone", rdb.Unicode(80) ),
     rdb.Column( "fax", rdb.Unicode(40) ),
     rdb.Column( "email", rdb.String(40) ),
+    rdb.Column( "im_id", rdb.String(40) ),
     # Workflow State -> determins visibility
     rdb.Column( "status", rdb.Unicode(16) ),
     )

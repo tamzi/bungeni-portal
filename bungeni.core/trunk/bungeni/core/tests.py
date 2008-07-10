@@ -76,10 +76,10 @@ def assignment_tests( ):
 def test_suite():
     doctests = ('readme.txt', 
                 'notification.txt', 
-                'assignment.txt',
+                #'assignment.txt',
                 'workflows/question.txt', 
                 'workflows/bill.txt')
-    doctests = ()#('assignment.txt',)
+    #doctests = ()#('assignment.txt',)
     globs = dict(interface=interface, component=component)
 
     test_suites = []

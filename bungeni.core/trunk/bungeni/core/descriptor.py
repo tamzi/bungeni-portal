@@ -937,6 +937,13 @@ class ConstituencyDetailDescriptor( ModelDescriptor ):
         dict( name="population", label=_(u"Population"), description=_(u"Total Number of People living in this Constituency"), listing=True ),                
         dict( name="voters", label=_(u"Voters"), description=_(u"Number of Voters registered in this Constituency"), listing=True ),
         ]
+
+class AddressTypeDescriptor( ModelDescriptor ):
+    display_name =_(u"Address Type")
+    fields = [
+        dict( name="address_type_id", omit=True ),
+        dict( name="address_type_name", label=_(u"Address Type") ),
+    ]
         
 class AddressDescriptor ( ModelDescriptor ):
     display_name = _(u"Address")     
@@ -944,6 +951,13 @@ class AddressDescriptor ( ModelDescriptor ):
         dict( name="address_id", omit=True ),
         dict( name="role_title_id", omit=True ),
         dict( name="user_id", omit=True ),
+        dict( name="address_type_id", property = schema.Choice(
+                                        title =_(u"Address Type"),
+                                        source=DatabaseSource(domain.AddressType, title_field='address_type_name',
+                                                                token_field='address_type_id',
+                                                                value_field='address_type_id'),
+                                                                )
+             ),                                                                
         dict( name="po_box", label=_(u"P.O. Box") ),
         dict( name="address", property = schema.TextLine( title =_(u"Address"),required=False ),
               edit_widget=zope.app.form.browser.TextAreaWidget, 

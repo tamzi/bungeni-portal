@@ -254,6 +254,11 @@ class Debate( Entity ):
     Debates
     """   
 
+class AddressType( object ):
+    """
+    Address Types
+    """
+
 class UserAddress( Entity ):    
     """
     addresses of a user or official addresses for a official role

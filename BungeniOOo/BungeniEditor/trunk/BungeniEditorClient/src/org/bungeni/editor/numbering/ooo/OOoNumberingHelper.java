@@ -30,12 +30,19 @@ public class OOoNumberingHelper {
     
     public final static String NUMBERING_SEPARATOR_DEFAULT=".";
     public final static String NUMBERING_SECTION_TYPE ="NumberedContainer";
+    public final static String SECTION_IDENTIFIER = "BungeniSectionUUID";
     
     public final static String NUM_FIELD_PREFIX = "fldnum_";
     public final static String HEAD_FIELD_PREFIX = "fldhead_";
-    public final static String HEADING_REF_PREFIX = "headref_";
+    public final static String HEADING_REF_PREFIX = "hdrf_";
     public final static String NUMBER_REF_PREFIX = "nrf_";
     
+    public final static String NUMBERED_PREFIX = "<";
+    public final static String NUMBERED_SUFFIX = ">";
+    public final static String NUMBER_HEADING_BOUNDARY="~";
+    public final static String INTERNAL_REF_PREFIX="rf:";
+    public final static String META_PREFIX_NUMBER = INTERNAL_REF_PREFIX + NUMBER_REF_PREFIX;
+    public final static String META_PREFIX_HEAD = INTERNAL_REF_PREFIX + HEADING_REF_PREFIX;
 
     /** Creates a new instance of OOoNumberingHelper */
     public OOoNumberingHelper() {

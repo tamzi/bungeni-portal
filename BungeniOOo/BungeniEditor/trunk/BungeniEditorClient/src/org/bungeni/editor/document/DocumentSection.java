@@ -9,7 +9,6 @@
 
 package org.bungeni.editor.document;
 
-import com.sun.star.beans.Property;
 import java.util.HashMap;
 import java.util.Vector;
 import org.bungeni.db.QueryResults;

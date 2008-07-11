@@ -55,6 +55,7 @@ import org.bungeni.editor.numbering.ooo.OOoNumberingHelper;
 
 import org.apache.log4j.Logger;
 import org.bungeni.editor.metadata.DocumentMetadata;
+import org.bungeni.ooo.ooDocMetadata;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.utils.BungeniBNode;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
@@ -93,7 +94,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
      private HashMap<String, String> defaultSectionMetadata  = new HashMap<String,String>();
      private static String NUMBER_SPACE = " ";
      private static String PARENT_PREFIX_SEPARATOR=".";
-
+     private ooDocMetadata documentMetadata ;
     private Timer timerSectionTypes;
 
      
@@ -127,6 +128,8 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
                         m_useParentPrefix = btn.getModel().isSelected();
                     }
         } );
+        
+        documentMetadata = new org.bungeni.ooo.ooDocMetadata(ooDocument);
         //all commented below ... not required ??
         //checkbxUseParentPrefix.addItemListener(new ParentSchemeListener());
         //packReferences();
@@ -523,9 +526,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         
     }
     
-    private static String NUMBERED_PREFIX = "<";
-    private static String NUMBERED_SUFFIX = ">";
-    private static String NUMBER_HEADING_BOUNDARY="~";
+
     
     private void updateNumberInSection3 (XTextSection numberedChild, String theNumber, INumberDecorator numberDecorator, long lNumBaseIndex) {
         try {
@@ -550,8 +551,10 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
                 refCursor.setString("");
                 XTextSection numberedParent = numberedChild.getParentSection();
                 String numberedParentType = ooDocument.getSectionType(numberedParent);
-                
-                //update the OOo Metadata witht the numbering value 
+                    
+                //update the OOo Metadata witht the numbering value
+                documentMetadata.setOODocument(ooDocument);
+                documentMetadata.AddProperty(OOoNumberingHelper.META_PREFIX_NUMBER+sectionUUID, theNumber);                            
                 this.updateSectionNumberingMetadata(numberedChild, numberedParentType, theNumber, lNumBaseIndex);
             }
         } catch (NoSuchElementException ex) {
@@ -586,8 +589,8 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
             refHeadCursor.gotoRange(numberRange.getStart(), true);
             refHeadCursor.goRight ((short) 0, false);
             //first find boundary of number 
-            int nStartNum = fullHeading.indexOf(NUMBERED_PREFIX);
-            int nEndNum = fullHeading.indexOf(NUMBERED_SUFFIX);
+            int nStartNum = fullHeading.indexOf(OOoNumberingHelper.NUMBERED_PREFIX);
+            int nEndNum = fullHeading.indexOf(OOoNumberingHelper.NUMBERED_SUFFIX);
             //first we go to endnum, then we insert the new number there,
             refHeadCursor.goRight((short) nEndNum, false);
             
@@ -682,7 +685,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         
     }
     
-     private frameBrokenReferences brokenReferencesFrame = null;
+     private frameBrokenReferences2 brokenReferencesFrame = null;
      private void applyFixBrokenReferences() {
         this.orphanedReferences.clear();
        
@@ -696,8 +699,8 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
                }
                java.awt.EventQueue.invokeLater(new Runnable() {
                     public void run() {
-                            frameBrokenReferences.LaunchMode mode = frameBrokenReferences.LaunchMode.BrowseBroken; 
-                            brokenReferencesFrame = frameBrokenReferences.Launch(ooDocument,  parentFrame, orphanedReferences, mode);
+                            frameBrokenReferences2.LaunchMode mode = frameBrokenReferences2.LaunchMode.BrowseBroken; 
+                            brokenReferencesFrame = frameBrokenReferences2.Launch(ooDocument,  parentFrame, orphanedReferences, mode);
                     }
                });
         } else {
@@ -717,8 +720,8 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
                }
                java.awt.EventQueue.invokeLater(new Runnable() {
                     public void run() {
-                            frameBrokenReferences.LaunchMode mode = frameBrokenReferences.LaunchMode.CrossReferences; 
-                            brokenReferencesFrame = frameBrokenReferences.Launch(ooDocument,  parentFrame, orphanedReferences, mode);
+                            frameBrokenReferences2.LaunchMode mode = frameBrokenReferences2.LaunchMode.CrossReferences; 
+                            brokenReferencesFrame = frameBrokenReferences2.Launch(ooDocument,  parentFrame, orphanedReferences, mode);
                     }
                });     
      }
@@ -775,6 +778,19 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
     
   private ArrayList<XTextField> orphanedReferences = new ArrayList<XTextField>();
   
+  class BrokenRefsAgent extends SwingWorker<Object,Void>{
+
+        @Override
+        protected Object doInBackground() throws Exception {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+        
+        @Override
+        protected void done(){
+            
+        }
+      
+  }
   
   
   private void findBrokenReferences(){
@@ -1030,9 +1046,9 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
        String numberMarkerPrefix = "<", numberMarkerSuffix = ">";
        String headingMarker="~";
        if (isNumber) {
-           fieldContent = NUMBERED_PREFIX + fieldContent + NUMBERED_SUFFIX;
+           fieldContent = OOoNumberingHelper.NUMBERED_PREFIX + fieldContent + OOoNumberingHelper.NUMBERED_SUFFIX;
        } else {
-           fieldContent = NUMBER_HEADING_BOUNDARY + fieldContent + NUMBER_HEADING_BOUNDARY;
+           fieldContent = OOoNumberingHelper.NUMBER_HEADING_BOUNDARY + fieldContent + OOoNumberingHelper.NUMBER_HEADING_BOUNDARY;
        }
        cursorRange.getText().insertString(cursorRange, fieldContent, true);
    }
@@ -1064,8 +1080,8 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
        refHeadCursor.gotoRange(xRange.getStart(), true);
        refHeadCursor.goRight ((short) 0, false);
        //first find boundary of number 
-       int nStartNum = headingText.indexOf(NUMBERED_PREFIX);
-       int nEndNum = headingText.indexOf(NUMBERED_SUFFIX);
+       int nStartNum = headingText.indexOf(OOoNumberingHelper.NUMBERED_PREFIX);
+       int nEndNum = headingText.indexOf(OOoNumberingHelper.NUMBERED_SUFFIX);
        //found index is 1 less than cursor movement index... 
        refHeadCursor.goRight((short) (nStartNum+1), false);
        refHeadCursor.goRight((short) (nEndNum -  (nStartNum+1)) , true);
@@ -1078,12 +1094,14 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
        
        
        //first find boundary of number 
-       int nStartHead = headingText.indexOf(NUMBER_HEADING_BOUNDARY);
-       int nEndHead = headingText.lastIndexOf(NUMBER_HEADING_BOUNDARY);
+       int nStartHead = headingText.indexOf(OOoNumberingHelper.NUMBER_HEADING_BOUNDARY);
+       int nEndHead = headingText.lastIndexOf(OOoNumberingHelper.NUMBER_HEADING_BOUNDARY);
        //found index is 1 less than cursor movement index... 
        refHeadCursor.goRight((short) (nStartHead - nEndNum), false);
        refHeadCursor.goRight((short) (nEndHead -  (nStartHead + 1)) , true);
-       //create reference mark over heading boundary
+       //create reference mark over heading boundar
+       documentMetadata.setOODocument(ooDocument);
+       documentMetadata.AddProperty(OOoNumberingHelper.META_PREFIX_HEAD+uuidStr, refHeadCursor.getString());
        insertReferenceMark2(refHeadCursor, OOoNumberingHelper.HEADING_REF_PREFIX + uuidStr);
        
    }
@@ -1868,9 +1886,11 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
         btnfixBrokenReferences = new javax.swing.JButton();
         progressNumbering = new javax.swing.JProgressBar();
 
+        checkbxUseParentPrefix.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         checkbxUseParentPrefix.setText("Use Parent Prefix");
         checkbxUseParentPrefix.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
+        btnRenumberSections.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         btnRenumberSections.setText("Number/Renumber All Headings");
         btnRenumberSections.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1878,6 +1898,7 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
             }
         });
 
+        btnInsertCrossReference.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         btnInsertCrossReference.setText("Insert Cross Reference");
         btnInsertCrossReference.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1885,6 +1906,7 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
             }
         });
 
+        btnfixBrokenReferences.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         btnfixBrokenReferences.setText("Fix Broken Reference");
         btnfixBrokenReferences.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1919,7 +1941,7 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
                 .add(btnInsertCrossReference)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnfixBrokenReferences)
-                .addContainerGap(150, Short.MAX_VALUE))
+                .addContainerGap(154, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

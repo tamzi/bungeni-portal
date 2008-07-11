@@ -40,7 +40,7 @@
               <Component id="btnInsertCrossReference" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btnfixBrokenReferences" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="150" max="32767" attributes="0"/>
+              <EmptySpace pref="154" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -48,6 +48,9 @@
   <SubComponents>
     <Component class="javax.swing.JCheckBox" name="checkbxUseParentPrefix">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="11" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Use Parent Prefix"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -58,6 +61,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnRenumberSections">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="11" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Number/Renumber All Headings"/>
       </Properties>
       <Events>
@@ -66,6 +72,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnInsertCrossReference">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="11" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Insert Cross Reference"/>
       </Properties>
       <Events>
@@ -74,6 +83,9 @@
     </Component>
     <Component class="javax.swing.JButton" name="btnfixBrokenReferences">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="11" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Fix Broken Reference"/>
       </Properties>
       <Events>

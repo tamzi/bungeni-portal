@@ -2,6 +2,7 @@ package org.bungeni.utils.compare;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.BungeniBNode;
 
 /**
@@ -146,6 +147,7 @@ public class BungeniTreeRefactorTree {
      }
      } catch (Exception ex) {
          log.error("seedTreeWithUITreeNodes : " + ex.getMessage());
+         log.error("seedTreeWithUITreeNodes : " + CommonExceptionUtils.getStackTrace(ex));
      }
  }   
     

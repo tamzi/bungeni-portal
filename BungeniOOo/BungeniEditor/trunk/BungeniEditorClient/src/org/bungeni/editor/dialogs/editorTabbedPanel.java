@@ -43,7 +43,6 @@ import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -51,13 +50,10 @@ import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.Vector;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
@@ -65,16 +61,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.ListSelectionModel;
-import javax.swing.SingleSelectionModel;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreePath;
 import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.macro.ExternalMacro;
@@ -154,9 +146,11 @@ public class editorTabbedPanel extends javax.swing.JPanel {
      * Constructor for main Tabbed panel interface
      */
     public editorTabbedPanel(XComponent impComponent, BungenioOoHelper helperObj, JFrame parentFrame){
-        
+       log.debug("constructor:editortabbedpanel");  
        this.Component = impComponent;
+       if (impComponent == null) log.debug("constructor:editortabbedpanel impComponent was null");  
        this.ooHelper = helperObj;
+       if (helperObj == null) log.debug("constructor:editortabbedpanel helperObj was null");  
        this.ComponentContext = ooHelper.getComponentContext();
        editorMap = new TreeMap<String, componentHandleContainer>();
        ooDocument = new OOComponentHelper(impComponent, ComponentContext);
@@ -1839,10 +1833,19 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
                XDocumentInfo xDocInfo = xdisInfoProvider.getDocumentInfo();
                XPropertySet xDocProperties = ooQueryInterface.XPropertySet(xDocInfo);
                DateTime docCreationDate = (DateTime) AnyConverter.toObject(new Type(DateTime.class), xDocProperties.getPropertyValue("CreationDate"));
-               DateTime docTemplateDate = (DateTime) AnyConverter.toObject(new Type(DateTime.class), xDocProperties.getPropertyValue("TemplateDate"));
-               compKey = getName()+UnoDateTimeToStr(docCreationDate)+UnoDateTimeToStr(docTemplateDate);
+               Object objTemplateDate = xDocProperties.getPropertyValue("TemplateDate");
+               Type foundType = AnyConverter.getType(objTemplateDate);
+               log.debug("generateComponentkey template foundtype = " + foundType.getTypeName());
+               Type reqdType = new Type(DateTime.class);
+               if (foundType.getTypeName().equals(reqdType.getTypeName())) {
+                    DateTime docTemplateDate = (DateTime) AnyConverter.toObject(new Type(DateTime.class), xDocProperties.getPropertyValue("TemplateDate"));
+                    compKey = getName()+UnoDateTimeToStr(docCreationDate)+UnoDateTimeToStr(docTemplateDate);
+               } else {
+                    compKey = getName()+UnoDateTimeToStr(docCreationDate);
+               }   
             } catch (Exception ex) {
                 log.error("generateComponentKey : " + ex.getMessage());
+                log.error("generateComponentKey : " + CommonExceptionUtils.getStackTrace(ex));
             } finally {
                 return compKey;
             }

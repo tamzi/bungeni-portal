@@ -23,8 +23,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -44,6 +47,7 @@ import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.utils.CommonFileFunctions;
 import org.bungeni.utils.FileTableModel;
 import org.bungeni.utils.Installation;
+import org.bungeni.utils.MessageBox;
 import org.bungeni.utils.WebDavStore;
 import org.bungeni.utils.WebDavTableModel;
 import org.bungeni.utils.WorkspaceFolderTableModel;
@@ -919,17 +923,30 @@ private void initoOoAndLaunchFrame(String templatePath, boolean isTemplate){
                 xComponent = openofficeObject.newDocument(templateURL);
             else
                 xComponent = openofficeObject.openDocument(templateURL);
-            //XTextDocument xTextDocument = (XTextDocument)UnoRuntime.queryInterface(XTextDocument.class, xComponent); 
-            //XText xText = xTextDocument.getText();    
-            //xText.setString("Hello World!!!!!!!");
-            final XComponent passToFrameComponent = xComponent;
-           SwingUtilities.invokeLater(new Runnable() {
-                              public void run() {
-                                 initFrame(passToFrameComponent);
-                              }
-                            });
+               initFrame(xComponent);
+}
 
-        
+class RunOpenOffice implements Runnable {
+        XComponent returnComponent = null;
+        boolean isTemplate = false;
+        BungenioOoHelper helper;
+        String urlToFile;
+        public RunOpenOffice(BungenioOoHelper obj, String openURL, boolean bState) {
+            isTemplate = bState;
+            helper = obj;
+            urlToFile = openURL;
+        }
+        public void run() {
+            try {
+            if (isTemplate)
+                returnComponent = helper.newDocument(urlToFile);
+            else
+                returnComponent = helper.openDocument(urlToFile);
+            } catch (Exception ex) {
+                log.error("RunOpenOffice: run : " + ex.getMessage());
+            }
+        }
+    
 }
 
 public void initDataReader(){
@@ -972,6 +989,8 @@ private void launchFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                     }
                 }
                 final String templatePathNormalized = selectedDocType.templatePathNormalized();
+                MessageBox.OK(null, templatePathNormalized);
+                
                 this.createNewDocument.setEnabled(false);
                 SwingUtilities.invokeLater(new Runnable(){
 
@@ -992,6 +1011,7 @@ private void btnOpenExistingActionPerformed(java.awt.event.ActionEvent evt) {//G
             File openFile = CommonFileFunctions.getFileFromChooser(basePath, new org.bungeni.utils.fcfilter.ODTFileFilter(), JFileChooser.FILES_ONLY, null);
             if (openFile != null) {
                 String fullPathToFile = openFile.getAbsolutePath();        
+                MessageBox.OK(null, fullPathToFile);
                 initoOoAndLaunchFrame(fullPathToFile, false);
             }
      } else {

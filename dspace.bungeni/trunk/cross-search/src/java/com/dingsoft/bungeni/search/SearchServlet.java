@@ -510,7 +510,7 @@ public class SearchServlet extends HttpServlet {
                                 String width=visibility.equals("hidden")?"0px;":"100%;";
                                 String height=visibility.equals("hidden")?"0px;":"auto;";
                                 results+="<li class=\"ds-artifact-item odd\">\n" +
-                                        "<div id=\"divmkh_"+(dspaceTrack+1)+"\" style=\"visibility: "+visibility+"; width: "+width+" height: "+height+" overflow: hidden;\" >\n" +
+                                        "<div id=\"divmkh_"+(kohaTrack+1)+"\" style=\"visibility: "+visibility+"; width: "+width+" height: "+height+" overflow: hidden;\" >\n" +
                                         "<p>\n" +
                                         title+"<br>Available in <a href=\""+kohaBase+"\" title=\"Bungeni Koha\">Bungeni Koha</a>"+
                                         "<br><a href=\"javascript:showDiv('divkh_"+(kohaTrack+1)+"','divmkh_"+(kohaTrack+1)+"')\" title=\"full details\" >more>></a>\n"+
@@ -654,7 +654,7 @@ public class SearchServlet extends HttpServlet {
                 "div1ds.style.height= \"0px\";\n" +
                 "div1ds.style.visibility= \"hidden\";\n" +
                 "}\n" +
-                /* Now for the full blown divs
+                /* Now hide the full blown divs
                  */               
                 "div2ds=document.getElementById(divDS);\n" +
                 "if(null !== div2ds)\n" +
@@ -697,6 +697,10 @@ public class SearchServlet extends HttpServlet {
                 "var div2ds='';\n" +
                 "var divmDS='div';\n" +
                 "var divDS='div';\n" +
+                "var div1kh='';\n" +
+                "var div2kh='';\n" +
+                "var divmKH='div';\n" +
+                "var divKH='div';\n" +
                 "var i=0;\n" +
                 /* Hide the main divs
                  */
@@ -721,6 +725,31 @@ public class SearchServlet extends HttpServlet {
                 "div2ds.style.height= \"auto\";\n" +
                 "div2ds.style.visibility= \"visible\";\n" +
                 "}\n" +
+                
+                /*
+                 * Deal with Koha divs now
+                 */
+                "divmKH= 'divmkh_'+parseInt(i+parseInt(currentIndex)*parseInt(respp)-parseInt(respp)+1);\n" +
+                "divKH= 'divkh_'+(i+parseInt(currentIndex)*parseInt(respp)-parseInt(respp)+1);\n" +
+                "div2mKH= 'divmkh_'+parseInt(i+startIndex);\n"+
+                "div1kh=document.getElementById(divmKH);\n" +
+                "if(null !== div1kh)\n" +
+                "{\n" +
+                "div1kh.style.width= \"0px\";\n" +
+                "div1kh.style.height= \"0px\";\n" +
+                "div1kh.style.visibility= \"hidden\";\n" +
+                "}\n" +
+                /* Now for the full blown koha divs
+                 */               
+                "div2kh=document.getElementById(divKH);\n" +
+                "if(null !== div2kh)\n" +
+                "{\n" +
+                "div2kh.style.width= \"100%\";\n" +
+                "div2kh.style.height= \"auto\";\n" +
+                "div2kh.style.visibility= \"visible\";\n" +
+                "}\n" +
+                
+                
                 "}\n" +
                 /* Show the collapse All div and hide the expand all div
                  */
@@ -741,11 +770,20 @@ public class SearchServlet extends HttpServlet {
                 "var div2ds='';\n" +
                 "var divmDS='div';\n" +
                 "var divDS='div';\n" +
+                //The variables for koha divs goes here
+                "var div1kh='';\n" +
+                "var div2kh='';\n" +
+                "var divmKH='div';\n" +
+                "var divKH='div';\n" +
+                
                 "var i=0;\n" +
-                /* Hide the main divs
-                 */
+                
                 "for(i=0;i<parseInt(respp);i++)\n" +
                 "{\n" +
+                
+                /* Hide the full blown divs for dspace
+                 */
+                
                 "divmDS= 'divmds_'+parseInt(i+parseInt(currentIndex)*parseInt(respp)-parseInt(respp)+1);\n" +
                 "divDS= 'divds_'+(i+parseInt(currentIndex)*parseInt(respp)-parseInt(respp)+1);\n" +
                 "div2mDS= 'divmds_'+parseInt(i+startIndex);\n"+
@@ -756,7 +794,7 @@ public class SearchServlet extends HttpServlet {
                 "div1ds.style.height= \"auto\";\n" +
                 "div1ds.style.visibility= \"visible\";\n" +
                 "}\n" +
-                /* Now for the full blown divs
+                /* Now show the main divs for dspace
                  */               
                 "div2ds=document.getElementById(divDS);\n" +
                 "if(null !== div2ds)\n" +
@@ -765,8 +803,34 @@ public class SearchServlet extends HttpServlet {
                 "div2ds.style.height= \"0px\";\n" +
                 "div2ds.style.visibility= \"hidden\";\n" +
                 "}\n" +
+                
+                // Now deal with the koha divs
+                //Hide the full blown divs for koha
+                "divmKH= 'divmkh_'+parseInt(i+parseInt(currentIndex)*parseInt(respp)-parseInt(respp)+1);\n" +
+                "divKH= 'divkh_'+(i+parseInt(currentIndex)*parseInt(respp)-parseInt(respp)+1);\n" +
+                "div2mKH= 'divmkh_'+parseInt(i+startIndex);\n"+
+                "div1kh=document.getElementById(divmKH);\n" +
+                "if(null !== div1kh)\n" +
+                "{\n" +
+                "div1kh.style.width= \"100%\";\n" +
+                "div1kh.style.height= \"auto\";\n" +
+                "div1kh.style.visibility= \"visible\";\n" +
                 "}\n" +
-                /* Show the collapse All div and hide the expand all div
+                /* Now show the main divs for koha
+                 */               
+                "div2kh=document.getElementById(divKH);\n" +
+                "if(null !== div2kh)\n" +
+                "{\n" +
+                "div2kh.style.width= \"0px\";\n" +
+                "div2kh.style.height= \"0px\";\n" +
+                "div2kh.style.visibility= \"hidden\";\n" +
+                "}\n" +
+                
+                
+                "}\n" +
+                
+                
+                /* Show the expand All div and hide the collapse all div
                  */
                 "document.getElementById('divexpand').style.width=\"100%\";\n"+
                 "document.getElementById('divexpand').style.height=\"auto\";\n"+

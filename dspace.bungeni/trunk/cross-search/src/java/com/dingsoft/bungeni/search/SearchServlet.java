@@ -295,9 +295,22 @@ public class SearchServlet extends HttpServlet {
                             "<p class=\"pagination-info\">Click a page below to view its results</p>"+
                             "<ul class=\"pagination-links\">"+
                             "<li class=\"current-page-link\">";
+                    /*create the indecies links for different search result page */
                     for(int j=0;j<indecies;j++)
                     {
-                        results+="\n<a href=\"javascript:showResForPage(\'"+(j+1)+"\')\">"+(j+1)+"</a>";
+                        String finalURL=request.getRequestURL().toString()+"?";
+                        String queryString=request.getQueryString();
+                        if(queryString.indexOf("index")!=-1)
+                        {
+                            finalURL+=queryString.substring(0, queryString.indexOf("index"));
+                        }
+                        else
+                        {
+                            finalURL+=queryString+"&";
+                        }
+                        
+                        finalURL+="index="+(j+1);
+                        results+="\n<a href=\""+finalURL+"\">"+(j+1)+"</a>";
                     }
 
                     results+="\n</li>"+
@@ -624,66 +637,6 @@ public class SearchServlet extends HttpServlet {
                 "{\n" +
                 "var argv = hideDiv.arguments;" +
                 "document.getElementById(arg[0]).style.visibility = \"hidden\";\n" +
-                "}\n" +
-                "function showResForPage()\n" +
-                "{\n" +
-                "var argv = showResForPage.arguments;\n" +
-                "var currentIndex= document.getElementById('curp').innerHTML;\n" +
-                "var page= argv[0];\n" +
-                "var respp= document.getElementById('resppdiv').innerHTML;\n" +
-                "var startIndex= (parseInt(page)-1)*parseInt(respp)+1;\n" +
-                "var numres= document.getElementById('numresdiv').innerHTML;\n" +
-                "var div1ds='';\n" +
-                "var div2ds='';\n" +
-                "var div3ds='';\n" +
-                "var divmDS='div';\n" +
-                "var div2mDS='div';\n" +
-                "var divDS='div';\n" +
-                "var i=0;\n" +
-                /* Hide the main divs
-                 */
-                "for(i=0;i<parseInt(respp);i++)\n" +
-                "{\n" +
-                "divmDS= 'divmds_'+parseInt(i+parseInt(currentIndex)*parseInt(respp)-parseInt(respp)+1);\n" +
-                "divDS= 'divds_'+(i+parseInt(currentIndex)*parseInt(respp)-parseInt(respp)+1);\n" +
-                "div2mDS= 'divmds_'+parseInt(i+startIndex);\n"+
-                "div1ds=document.getElementById(divmDS);\n" +
-                "if(null !== div1ds)\n" +
-                "{\n" +
-                "div1ds.style.width= \"0px\";\n" +
-                "div1ds.style.height= \"0px\";\n" +
-                "div1ds.style.visibility= \"hidden\";\n" +
-                "}\n" +
-                /* Now hide the full blown divs
-                 */               
-                "div2ds=document.getElementById(divDS);\n" +
-                "if(null !== div2ds)\n" +
-                "{\n" +
-                "div2ds.style.width= \"0px\";\n" +
-                "div2ds.style.height= \"0px\";\n" +
-                "div2ds.style.visibility= \"hidden\";\n" +
-                "}\n" +
-               /* Finally show the main divs for the new page
-                */
-                "div3ds=document.getElementById(div2mDS);\n" +
-                "if(null !== div3ds)\n" +
-                "{\n" +
-                "div3ds.style.width= \"100%\";\n" +
-                "div3ds.style.height= \"auto\";\n" +
-                "div3ds.style.visibility= \"visible\";\n" +
-                "}\n" +
-                "}\n" +
-                /* Set the value of the current index div to the new div
-                 */
-                "document.getElementById('curp').innerHTML=page;\n"+
-                /* Show the expand All div and hide the collapse all div
-                 */
-                "document.getElementById('divexpand').style.width=\"100%\";\n"+
-                "document.getElementById('divexpand').style.height=\"auto\";\n"+
-                "document.getElementById('divexpand').style.visibility=\"visible\";\n"+
-                "document.getElementById('divcollapse').style.width=\"0px\";\n"+
-                "document.getElementById('divcollapse').style.height=\"0px\";\n"+
-                "document.getElementById('divcollapse').style.visibility=\"hidden\";\n"+
                 "}\n" +
                 /* The function that will expand all divs in the current display
                  * */

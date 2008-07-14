@@ -151,11 +151,15 @@ public class BungeniTreeRefactorNode {
     }
    
         private void deleteNodeFromTree(BungeniBNode nNode) {
+            try {
                DefaultMutableTreeNode dmt = (DefaultMutableTreeNode) nNode.getNodeObject();
                   dmt.setUserObject(new BungeniBNode ("deleting"));
                   nNode.setNodeObject(null);
                   this.getTreeModel().removeNodeFromParent(dmt);
                   this.getOriginalRootNode().removeChild(nNode);
+            } catch(Exception ex) {
+                log.error("deleteNodeFromTree : " + ex.getMessage());
+            }
         }
   
     private boolean doMergeUpdates(BungeniNodeComparator comp) {

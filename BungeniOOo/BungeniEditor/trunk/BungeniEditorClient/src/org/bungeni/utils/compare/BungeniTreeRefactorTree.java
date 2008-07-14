@@ -102,7 +102,13 @@ public class BungeniTreeRefactorTree {
        //BNodes is examined (3), if it is null, a DetaultMutableTreeNode object
        //is  created and set into the NodeObject field of the BungeniBNode
        for (Integer nKey : getTreeRootNode().getChildrenByOrder().keySet()) {
-            seedTreeWithUITreeNodes(getTreeRootNode().getNodeAtIndex(nKey));         
+           BungeniBNode foundNode = getTreeRootNode().getNodeAtIndex(nKey);
+           /*Object nodeObj = foundNode.getNodeObject();
+           if (nodeObj == null) {
+               DefaultMutableTreeNode dmt = new DefaultMutableTreeNode(foundNode);
+               foundNode.setNodeObject(dmt);
+           }*/
+           seedTreeWithUITreeNodes(foundNode);         
        }
        /*
         log.debug("After seedTreeWithUITreeNodes : ");

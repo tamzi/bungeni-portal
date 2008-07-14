@@ -6,6 +6,7 @@
 package com.dingsoft.bungeni.search;
 
 import com.dingsoft.bungeni.search.util.ConfigsLoader;
+import com.dingsoft.bungeni.search.util.LoggingFactory;
 import com.dingsoft.bungeni.search.util.ResponseTypeDecoder;
 import java.io.*;
 import java.net.*;
@@ -47,8 +48,8 @@ import org.dspace.search.DSAnalyzer;
  */
 public class SearchServlet extends HttpServlet {
    
-    private String dspaceBase="http://192.168.1.10:8090/xmlui";
-    private String kohaBase="http://192.168.1.10:80";
+    private String dspaceBase="";
+    private String kohaBase="";
     /** 
     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
     * @param request servlet request
@@ -64,6 +65,8 @@ public class SearchServlet extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         ConfigurationInfo configInfo=ConfigsLoader.getConfigurationInfo();
+        dspaceBase=configInfo.getProperty("bungeni.dspace.xmlui.base.url");
+        kohaBase=configInfo.getProperty("bungeni.koha.base.url");
             try {
                 /*If the request is empty or simply blank spaces, the servlet redirects you to the home 
                  page of the repository from where you can do another search
@@ -116,6 +119,19 @@ public class SearchServlet extends HttpServlet {
                             "<option value=\"20\">20</option>" +
                             "<option value=\"30\">30</option>" +
                             "</select>" +
+                            "<p class=\"ds-paragraph\">" +
+                            "Sort Items By" +
+                            "<select style=\"margin: 3px 2px 1px 1px ;\" class=\"ds-button-field\" name=\"orderby\">" +
+                            "<option value=\"relevance\">Relevance</option>" +
+                            "<option value=\"title\">Title</option>" +
+                            "<option value=\"pubdate\">Issue Date</option>" +
+                            "</select>" +
+                            "In Order" +
+                            "<select style=\"margin: 3px 2px 1px 1px ;\" class=\"ds-button-field\" name=\"orderby\">" +
+                            "<option value=\"desc\">Descending</option>" +
+                            "<option value=\"asc\">Asceding</option>" +
+                            "</select>" +
+                            "</p>" +
                             "</form>" +
                             " <h1 style=\"font-size: 158%;\" class=\"ds-div-head\">Search Results</h1>\n" +
                             "<p class=\"ds-paragraph\" style=\"font-size: 90%;\">\n" +
@@ -673,6 +689,12 @@ public class SearchServlet extends HttpServlet {
                         compoundSearcher.close();
                     }
                     
+                }
+                /*Format the response to return merged 
+                 */
+                else
+                {
+                    //Process response for merged results
                 }
                 
             }

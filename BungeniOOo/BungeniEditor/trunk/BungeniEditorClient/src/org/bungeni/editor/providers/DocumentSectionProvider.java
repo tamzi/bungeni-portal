@@ -27,8 +27,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
 import org.bungeni.editor.BungeniEditorPropertiesHelper;
@@ -150,8 +148,14 @@ public class DocumentSectionProvider {
         
     }
     public static BungeniBTree getNewFriendlyTree(){
-        BungeniBTree bnewTree = generateFriendlySectionsTree();
+        BungeniBTree bnewTree = null;
+        try {
+            bnewTree = generateFriendlySectionsTree();
+        } catch (Exception ex) {
+            log.error("exception getNewFriendlyTree() " + ex.getMessage() );
+        } finally {
         return bnewTree;
+        }
         /*
         NewTreeAgent newTree = new NewTreeAgent(1);
         newTree.execute();
@@ -335,7 +339,7 @@ public class DocumentSectionProvider {
         }
         NodeDisplayTextSetter txtSetter = new NodeDisplayTextSetter(localOoDoc);
         BungeniBNode.setINodeSetterCallback(txtSetter);
-        
+        ////check this code
         BungeniBTree newTree = generateSectionsTree(txtSetter.getName());
         return newTree;
     }

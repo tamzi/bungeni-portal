@@ -12,12 +12,7 @@ from marginalia.tools.RangeInfo import RangeInfo, mergeRangeInfos
 from marginalia.schema import annotations_table, AnnotationMaster
 from marginalia.interfaces import IMarginaliaAnnotatableAdaptor
 from datetime import datetime
-
-def crude_parser(document):
-    """A temporary crude parser."""
-    document = document.replace("<em", "<span")
-    document = document.replace("/em>", "/span>")    
-    return document
+from marginalia.browser import parser
 
 class MarginaliaPage(BrowserPage):
     """All the methods required by Marginalia Annotation Tab."""
@@ -383,11 +378,13 @@ class DownloadPage(MarginaliaPage):
         response = self.request.response
         response.setHeader('Content-Type', 'text/html')
         response.setHeader('Content-Disposition', 'attachment;filename="document.html"')
-        return str(ViewPageTemplateFile('document.pt')(self))
+        contents = str(ViewPageTemplateFile('document.pt')(self))
+        contents = parser.physical_representation(contents)
+        return contents
 
     def getDocumentBody(self):
-        """Returns the downloadable representation of the annotated document."""        
-        return crude_parser(self.request['content'])
+        """Returns the downloadable representation of the annotated document."""
+        return self.request['content']
     
 class MarginaliaAnnotationView(BrowserView):
     """Annotation View Class. """

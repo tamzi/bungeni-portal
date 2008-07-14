@@ -12,7 +12,7 @@ from marginalia.tools.RangeInfo import RangeInfo, mergeRangeInfos
 from marginalia.schema import annotations_table, AnnotationMaster
 from marginalia.interfaces import IMarginaliaAnnotatableAdaptor
 from datetime import datetime
-from marginalia.browser import parser
+#from marginalia.browser import parser
 
 class MarginaliaPage(BrowserPage):
     """All the methods required by Marginalia Annotation Tab."""
@@ -379,7 +379,7 @@ class DownloadPage(MarginaliaPage):
         response.setHeader('Content-Type', 'text/html')
         response.setHeader('Content-Disposition', 'attachment;filename="document.html"')
         contents = str(ViewPageTemplateFile('document.pt')(self))
-        contents = parser.physical_representation(contents)
+        #contents = parser.physical_representation(contents)
         return contents
 
     def getDocumentBody(self):

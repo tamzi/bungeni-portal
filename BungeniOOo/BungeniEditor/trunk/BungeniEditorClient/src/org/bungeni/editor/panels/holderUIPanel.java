@@ -141,7 +141,9 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
     private void initSectionStructureTreeModel(){
         try {
         DocumentSectionFriendlyAdapterDefaultTreeModel model = DocumentSectionFriendlyTreeModelProvider.create() ;//_without_subscription();
-        this.sectionStructureTree.setModel(model);
+        //change later
+            //DocumentSectionAdapterDefaultTreeModel model = DocumentSectionTreeModelProvider.create();//_without_subscription();
+            this.sectionStructureTree.setModel(model);
         CommonTreeFunctions.expandAll(sectionStructureTree);
         } catch (Exception ex) {
             log.error ("initSectionStructureTreeModel : " + ex.getMessage());
@@ -353,6 +355,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
     }
     
     private synchronized void updateSectionTree() {
+        try {
         log.debug("updateSectionTree : "+ m_selectedChangeStructureItem);
         if (this.m_selectedChangeStructureItem.itemIndex.equals("VIEW_SECTIONS")) {
             //do this only if the tree is visible 
@@ -380,6 +383,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
                  BungeniBNode newRootNode = newTree.getFirstRoot();
 
                  DocumentSectionFriendlyAdapterDefaultTreeModel model = (DocumentSectionFriendlyAdapterDefaultTreeModel) this.sectionStructureTree.getModel();
+                 //DocumentSectionAdapterDefaultTreeModel model = (DocumentSectionAdapterDefaultTreeModel) this.sectionStructureTree.getModel();
                  DefaultMutableTreeNode mnode = (DefaultMutableTreeNode) model.getRoot();
                  BungeniBNode origNode = (BungeniBNode) mnode.getUserObject();
                  BungeniTreeRefactorTree refTree = new BungeniTreeRefactorTree (model, origNode, newRootNode);
@@ -388,7 +392,9 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
                  log.debug("updateSectionTree : section friendly structure tree is not visible");
             }
         }
-     
+        } catch (Exception ex){
+            log.error("exception updateSectionTree : " + ex.getMessage());
+        }
     }
     
     class treeViewPrettySectionsTreeCellRenderer extends JLabel implements TreeCellRenderer {

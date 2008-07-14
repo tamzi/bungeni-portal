@@ -4,7 +4,8 @@
  */
 
 package com.dingsoft.bungeni.search.util;
- import com.dingsoft.bungeni.search.*;
+
+import com.dingsoft.bungeni.search.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.apache.lucene.document.Document;
@@ -18,10 +19,12 @@ public class ResponseTypeDecoder {
     
     /**
      * Utility method that returns an integer indicating the response type of a response
-         * .The return value is one of the constants for response types defined in the <code>ResponseConstants</code>
+     * .The return value is one of the constants for response types defined in the <code>ResponseConstants</code>
      * class
-     * @param document
-     * @return int
+     * @param document The Document object representing the search result
+     * @return int A value representing the type of response.
+     * <p>Utility method that returns an integer indicating the response type of a response
+     * .The return value is one of the constants for response types defined in the <code>ResponseConstants</code>
      */
     public static int getResponseTypeForDocument(Document document)
     {

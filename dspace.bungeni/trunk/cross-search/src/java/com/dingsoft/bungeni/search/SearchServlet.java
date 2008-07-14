@@ -5,14 +5,18 @@
 
 package com.dingsoft.bungeni.search;
 
+import com.dingsoft.bungeni.search.util.ConfigsLoader;
 import com.dingsoft.bungeni.search.util.ResponseTypeDecoder;
 import java.io.*;
 import java.net.*;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import javax.servlet.*;
 import javax.servlet.http.*;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
 import org.apache.lucene.index.CorruptIndexException;
 import org.apache.lucene.queryParser.ParseException;
 import org.apache.lucene.queryParser.QueryParser;
@@ -32,8 +36,14 @@ import org.dspace.search.DSAnalyzer;
 
 
 /**
- *
- * @author undesa
+ *This is the Servlet that handles the general search requests for the repository
+ * @author Solomon Kariri
+ * 
+ * <p>This is the Servlet that handles the general search requests for the repository.
+ * This class gets the parameters from the request URL and does some processing to produce
+ * the results that match a particular query and for a specific page.
+ * This classes uses the static methods of Configs loader to get info about the different properties
+ * of the system as well as locating of the resources used by the repository
  */
 public class SearchServlet extends HttpServlet {
    
@@ -43,23 +53,39 @@ public class SearchServlet extends HttpServlet {
     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
     * @param request servlet request
     * @param response servlet response
+     * 
+     * <p>This is the main method in this class. It does all the necessary invocations on other methods
+     * to create the response page for a search request. This class adds the overall layout of the page
+     * adding the static features like links and the like that do not vary per page.
+     * The rest of the information is added through the invocation of other methods.
     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
+        ConfigurationInfo configInfo=ConfigsLoader.getConfigurationInfo();
             try {
+                /*If the request is empty or simply blank spaces, the servlet redirects you to the home 
+                 page of the repository from where you can do another search
+                 */
                 if(request.getParameter("query").trim().equals(""))
                 {
                     response.sendRedirect("index.jsp");
                 }
+                
+                /* If the request query is not empty then add the static data to the page*/
                 out.println("<html>\n" +
                             "<head>\n" +
                             "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n" +
                             "<title>Bungeni Digital Repository</title>\n" +
                             "<link rel=\"shortcut icon\" href=\"/digitalrepository/favicon.ico\" type=\"image/x-icon\"/>\n" +
                             "<link type=\"text/css\" rel=\"stylesheet\" media=\"screen\" href=\"/digitalrepository/style/style.css\" />\n" +
+                            /* This method call calls the method that inserts the ajax code used in the response page
+                             * for processing features like expanding and collapsing of serach results divs
+                             */
                             insertJavaScript(request)+
+                            /*Then continue with adding the static stuff
+                             */
                             "</head>\n" +
                             "<body>\n" +
                             "<div id=\"ds-main\">\n" +
@@ -93,7 +119,12 @@ public class SearchServlet extends HttpServlet {
                             "</form>" +
                             " <h1 style=\"font-size: 158%;\" class=\"ds-div-head\">Search Results</h1>\n" +
                             "<p class=\"ds-paragraph\" style=\"font-size: 90%;\">\n" +
+                            /*This method call is the actual call that inserts the search results in the result
+                             * page in divs. See the method below for details of its functionality
+                             */
                             getSearchResults(request)+
+                            /*Continue with adding the static stuff
+                             */
                             "</div>\n" +
                             " <div id=\"ds-options\">\n" +
                             " <h3 class=\"ds-option-set-head\">Browse</h3>\n" +
@@ -172,16 +203,33 @@ public class SearchServlet extends HttpServlet {
             out.close();
         }
     } 
-    
+    /**
+     * This is the method that does the actual searching and addition of the search results to the response
+     * page
+     * 
+     * @param request The hHttpServletRequest method associated with this pages request
+     * @return A string in html format that is concatenated to the main results to give 
+     * the search results for a search request
+     * 
+     * <p>This is the method that does the actual searching and addition of the search results to the response
+     * page. This method uses the dspace API functions to get information about search result items as well as
+     * manage to perform  the query on the dspace 
+     */
     private String getSearchResults(HttpServletRequest request)
     {
+        /*Declare variables that are going to be used for searching both dspace and koha
+         * and the multisearcher or compound searcher that combines the two in order to perform a consolidated and compound search on the two indecies
+         */
         IndexSearcher kohaSearcher=null;
         IndexSearcher dspaceSeacher=null;
         MultiSearcher compoundSearcher=null;
+        //The String that holds all the information to be appendend to the response page
         String results="";
-        boolean test=true;
+        //boolean variable showing whether the results are to be merged or separated on repository basis
         boolean merge=request.getParameter("merge").equals("yes");
+        //boolean value showing wheteher we are going to include dspace in the search
         boolean dspace=false;
+        //boolean value showing wheteher we are going to include kohathe search
         boolean koha=false;
         if(request.getParameter("dspace")!=null)
         {
@@ -194,7 +242,11 @@ public class SearchServlet extends HttpServlet {
        
         try
         {
+            //get the search query from the request
             String query=request.getParameter("query");
+            /*reate a compund dspace query to be used for searching all the possible fields in the 
+             * dspace repository
+             */
             Analyzer dspaceAnalyzer=new DSAnalyzer();
             Query subDspaceQueries[]=new Query[10];
             subDspaceQueries[0]=new QueryParser("keyword",dspaceAnalyzer).parse(query);
@@ -208,9 +260,14 @@ public class SearchServlet extends HttpServlet {
             subDspaceQueries[8]=new QueryParser("identifier",dspaceAnalyzer).parse(query);
             subDspaceQueries[9]=new QueryParser("default",dspaceAnalyzer).parse(query);
             Query dspaceQuery=new QueryParser("title", dspaceAnalyzer).parse(query).combine(subDspaceQueries);
+            /*nitialize the dspace searcher giving it a parameter of the directory where the 
+             dspace index is located 
+             */
             dspaceSeacher=new IndexSearcher("/home/undesa/dspace/search");
 
 
+            /*Perform the same actions for koha as for dspace above
+             */
             Query []subKohaQueries=new Query[7];
             subKohaQueries[0]=new QueryParser("dc.creator", dspaceAnalyzer).parse(query);
             subKohaQueries[1]=new QueryParser("dc.publisher", dspaceAnalyzer).parse(query);
@@ -225,19 +282,27 @@ public class SearchServlet extends HttpServlet {
 
             IndexSearcher searchers[]={dspaceSeacher,kohaSearcher};
             Query []queries={kohaQuery,dspaceQuery};
+            /*Declare the combined query variable to be used for creating the compound query for searching both 
+             * repositories
+             */
+                    
             Query combinedQuery=null;
+            //If we are to search both repositories
             if(koha && dspace)
             {
                 combinedQuery=kohaQuery.combine(queries);
             }
+            //If we are to search koha alone
             else if(koha && !dspace)
             {
                 combinedQuery=kohaQuery;
             }
+            //If we are to search dspace alone
             else if(dspace && !koha)
             {
                 combinedQuery=dspaceQuery;
             }
+            //If non of the repositories is selected for search
             else
             {
                 return "No Repository Selected. Please Select at " +
@@ -245,11 +310,16 @@ public class SearchServlet extends HttpServlet {
             }
 
             compoundSearcher=new MultiSearcher(searchers);
+            //Submit the query and store the results in the Hits object
             Hits hits=compoundSearcher.search(combinedQuery);
             
+            //Get the number of results in the response
             int numResults=hits.length();
             /*Define the divs that will hold information about the page to enable
-             * javascript perfor its manouvers regarding showing different contents
+             * javascript perfor its manouvers regarding showing different contents.
+             * This divs are used as stores for variables whose values have been initialized 
+             * at the server e.g. results per page resppdiv. The div names are indicative of 
+             the variable stored by the div
              * */
             results+="<div id=\"resppdiv\" style=\"width: 0px; height: 0px; visibility: hidden;\">"+
                     request.getParameter("respp")+
@@ -264,6 +334,7 @@ public class SearchServlet extends HttpServlet {
                     1+
                     "</div>"; 
             
+            //If no results then give the necessary response
             if(numResults==0)
             {
                 results+="<p>Your query \""+query+"\" produced no results"+
@@ -275,10 +346,15 @@ public class SearchServlet extends HttpServlet {
                         "<br>No Results To Display"+
                         "</div></li>";
             }
+            //If there are results then go a head and design their layout
             else
             {
                 results+="<p>Your query \""+query+"\" produced "+numResults+" result(s)\n";
                 int respp=Integer.parseInt(request.getParameter("respp"));
+                /*Compute the number of dspace and koha requests by iterating over the results and
+                 * keeping track of the available dspace responses through a variable dspres
+                 */
+                
                 int dspres=0;
                 for(int i=0;i<numResults;i++)
                 {
@@ -287,9 +363,12 @@ public class SearchServlet extends HttpServlet {
                         ++dspres;
                     }
                 }
+                //Calculate the number of koha results
                 int kohares=numResults-dspres;
+                //If the results are to be merged
                 if(!merge)
                 {
+                    //Create the outer covering divs
                     int indecies=(kohares/respp >dspres/respp)?((kohares/respp)+((kohares%respp >0)?1:0)):((dspres/respp)+((dspres%respp>0)?1:0));
                     results+="\n<div class=\"pagination-masked top\">"+
                             "<p class=\"pagination-info\">Click a page below to view its results</p>"+
@@ -312,7 +391,8 @@ public class SearchServlet extends HttpServlet {
                         finalURL+="index="+(j+1);
                         results+="\n<a href=\""+finalURL+"\">"+(j+1)+"</a>";
                     }
-
+                    /*Create the guiding and actions divs at the top of the page
+                     */
                     results+="\n</li>"+
                              "</ul>"+
                              "</div>"; 
@@ -331,6 +411,8 @@ public class SearchServlet extends HttpServlet {
                             "<p class=\"pagination-info\" style=\"font-size: 13px;\">Digital Repository/DSpace Results</p>"+
                             "</div>";
                     }
+                    /*variables to keep track of the responses processed and the number of pages available for the results
+                     */
                     int dspaceTrack=0;
                     int kohaTrack=0;
                     int largestIndex=0;
@@ -356,6 +438,9 @@ public class SearchServlet extends HttpServlet {
                         Bundle []bundles=null;
                         switch(docType)
                         {
+                            /*If it is a dspace response then process it ccordingly and 
+                             * add the necessary divs for the response to the results
+                             */
                             case ResponseConstants.DSPACE_RESPONSE:
                             {
                                 if(counter>=startIndex && counter<endIndex)
@@ -401,6 +486,8 @@ public class SearchServlet extends HttpServlet {
                                     }
                                     try
                                     {
+                                        /* Create the actual divs that contain the results and add them to the response
+                                         */
                                         String visibility=(dspaceTrack>=Integer.parseInt(request.getParameter("respp")))?"hidden":"visible";
                                         String width=visibility.equals("hidden")?"0px;":"100%;";
                                         String height=visibility.equals("hidden")?"0px;":"auto;";
@@ -419,14 +506,16 @@ public class SearchServlet extends HttpServlet {
                                             ((bundles!=null && bundles.length>0)?"<b>Bitstream 1 :</b> "+bundles[0].getBitstreams()[0].getName()+"<br>":"")+
                                             ((bundles!=null && bundles.length>0)?"<b>Bitstream Format :</b> "+bundles[0].getBitstreams()[0].getFormatDescription()+"<br>":"")+
                                             "<a href=\""+link+"\" title=\"Clicking this link will navigate you out of the portal\">Go to Bungeni Dspace and view Item</a><br />"+
-                                             "<br><a href=\"javascript:showDiv('divmds_"+(dspaceTrack+1)+"','divds_"+(dspaceTrack+1)+"')\" title=\"Collapse Details\" >&lt;&lt;collapse</a>\n"+
-                                            "</div></li>\n"; 
+                                             "<a href=\"javascript:showDiv('divmds_"+(dspaceTrack+1)+"','divds_"+(dspaceTrack+1)+"')\" title=\"Collapse Details\" >&lt;&lt;collapse</a><br>\n"+
+                                            "</div></li>\n";
+                                        //Increment the number of dspace responses processed so far
                                         dspaceTrack++;
                                     }
                                     catch(Throwable thr)
                                     {
                                         results+=thr.toString();
                                     }
+                                    //Update other counters and status flags accordingly
                                     counter++;
                                     added=true;
                                     break;
@@ -440,10 +529,15 @@ public class SearchServlet extends HttpServlet {
                             }
                         }
                     }
+                    //If no dspace results were found and dspace had been included in the search then gine the necessary message
                     if(!added && dspace)
                     {
                         results+="<div>No Digital Repository/Dspace results for this page</div>";
                     }
+                    
+                    /* Initialize the track keeping variables for koha results to be manufactured now in the same
+                     * manner the dspace results were. This code is similar to the one shown above for dspace
+                     */
                     startIndex=(currentPage*respp)-respp;
                     endIndex=startIndex+respp;
                     counter=0;
@@ -481,71 +575,52 @@ public class SearchServlet extends HttpServlet {
                                     String publisher="";
                                     String description="";
                                     String date="";
-                                    try
+                                    /* Store the documents fields in an arraylist and iterate 
+                                     over each adding the necessary info to the display messages*/
+                                    ArrayList fields=new ArrayList(doc.getFields());
+                                    int fieldsCount=fields.size();
+                                    Iterator itor=fields.iterator();
+                                    while(itor.hasNext())
                                     {
-                                        biblioNumber=doc.getField("dc.kohabiblionumber").stringValue();
-                                        link=kohaBase+"cgi-bin/koha/opac-detail.pl?biblionumber="+biblioNumber;
-                                    }
-                                    catch(NullPointerException npe)
-                                    {
-
-                                    }
-                                    try
-                                    {
-                                        title=doc.getField("dc.title").stringValue();
-                                        if(title.charAt(title.length()-1)==':')
+                                        Field fie=(Field)itor.next();
+                                        String fieldName=fie.name();
+                                        if(fieldName.equalsIgnoreCase("dc.kohabiblionumber"))
                                         {
-                                            title+=" "+doc.getField("dc.title").stringValue();
+                                            biblioNumber=fie.stringValue();
+                                            link="";
+                                        }
+                                        if(fieldName.equalsIgnoreCase("dc.title"))
+                                        {
+                                            title+=fie.stringValue();
+                                        }
+                                        if(fieldName.equalsIgnoreCase("dc.itemtypename"))
+                                        {
+                                            type=fie.stringValue();
+                                        }
+                                        if(fieldName.equalsIgnoreCase("dc.creator"))
+                                        {
+                                            author+=fie.stringValue();
+                                        }
+                                        if(fieldName.equalsIgnoreCase("dc.description"))
+                                        {
+                                            description+=fie.stringValue();
+                                        }
+                                        if(fieldName.equalsIgnoreCase("dc.publisher"))
+                                        {
+                                            publisher+=fie.stringValue();
+                                        }
+                                        if(fieldName.equalsIgnoreCase("dc.description"))
+                                        {
+                                            publisher+=fie.stringValue();
+                                        }
+                                        if(fieldName.equalsIgnoreCase("dc.date"))
+                                        {
+                                            date=fie.stringValue();
                                         }
                                     }
-                                    catch(NullPointerException npe)
-                                    {
-
-                                    }
-                                    try
-                                    {
-                                        type=doc.getField("dc.itemtypename").stringValue();
-                                    }
-                                    catch(NullPointerException npe)
-                                    {
-
-                                    }
-                                    try
-                                    {
-                                        author=doc.getField("dc.creator").stringValue();
-                                    }
-                                    catch(NullPointerException npe)
-                                    {
-
-                                    }
-                                    try
-                                    {
-                                        publisher=doc.getField("dc.publisher").stringValue();
-                                        if(publisher.charAt(publisher.length()-1)==':')
-                                        {
-                                            publisher+=" "+doc.getField("dc.publisher");
-                                        }
-                                    }
-                                    catch(NullPointerException npe)
-                                    {
-
-                                    }
-                                    try
-                                    {
-                                        description=doc.getField("dc.description").stringValue();
-                                    }
-                                    catch(NullPointerException npe)
-                                    {
-
-                                    }
-                                    try
-                                    {
-                                        date=doc.getField("dc.date").stringValue();
-                                    }
-                                    catch(NullPointerException npe)
-                                    {
-
-                                    }
+                                    
+                                    /* The actual divs containing the koha results
+                                     */
                                     String visibility=(kohaTrack>=Integer.parseInt(request.getParameter("respp")))?"hidden":"visible";
                                     String width=visibility.equals("hidden")?"0px;":"100%;";
                                     String height=visibility.equals("hidden")?"0px;":"auto;";
@@ -557,12 +632,13 @@ public class SearchServlet extends HttpServlet {
                                             "</div>" +
                                             "<div id=\"divkh_"+(kohaTrack+1)+"\" style=\"visibility: hidden; width: 0px; height:0px; overflow: hidden;\">\n" +
                                             title+"<br />"+
-                                            "<b>Type:</b> "+type+"<b>Author: </b>"+author+"<br>" +
-                                            "<b>Publisher :</b> "+publisher+"<br>"+
-                                            "<b>Description :</b> "+description+"<br>"+
-                                            "<b>Publishing Date :</b> "+date+"<br>"+
+                                            "<b>Type:</b> "+type+"<br />"+
+                                            "<b>Author: </b>"+author+"<br />" +
+                                            "<b>Publisher :</b> "+publisher+"<br />"+
+                                            "<b>Description :</b> "+description+"<br />"+
+                                            "<b>Publishing Date :</b> "+date+"<br />"+
                                             "<a href=\""+link+"\" title=\"Clicking this link will navigate you out of the portal\">Go to Bungeni Koha and view Item</a><br />"+
-                                             "<br><a href=\"javascript:showDiv('divmkh_"+(kohaTrack+1)+"','divkh_"+(kohaTrack+1)+"')\" title=\"Collapse Details\" >&lt;&lt;collapse</a>\n"+
+                                             "<a href=\"javascript:showDiv('divmkh_"+(kohaTrack+1)+"','divkh_"+(kohaTrack+1)+"')\" title=\"Collapse Details\" >&lt;&lt;collapse</a><br>\n"+
                                             "</div></li>\n"; 
                                       kohaTrack++;
                                       counter++;
@@ -582,7 +658,8 @@ public class SearchServlet extends HttpServlet {
                     {
                         results+="<div>No Library/Koha results for this page</div>";
                     }
-
+                    /* Close all the searchers if any had been initialized sucessfully
+                     */
                     if(dspaceSeacher!=null)
                     {
                         dspaceSeacher.close();
@@ -646,13 +723,22 @@ public class SearchServlet extends HttpServlet {
                 }
             }
         }
+        /*Terminate the outer div for search results after adding the results to the inner divs
+         */
         results+="</ul></div>";
         return results;
     }
     
+    /**
+     * This method adds the ajax code necessary to process the search results in the browser
+     * @param request The request object for this request from the browser
+     * @return the javascript code for dealing with ajax behavoir in the response page
+     * <p>This method adds the ajax code necessary to process the search results in the browser
+     */
     private String insertJavaScript(HttpServletRequest request)
     {
         String script="<script type=\"text/javascript\" >\n" +
+                //Function for expanding a certain div
                 "function showDiv()\n" +
                 "{\n" +
                 "var argv = showDiv.arguments;" +
@@ -663,6 +749,7 @@ public class SearchServlet extends HttpServlet {
                 "document.getElementById(argv[1]).style.width = \"0px\";\n" +
                 "document.getElementById(argv[1]).style.height = \"0px\";\n" +
                 "}\n" +
+                //Function for collapsing a certain div
                 "function collapseDiv()\n" +
                 "{\n" +
                 "var argv = showDiv.arguments;" +
@@ -861,7 +948,7 @@ public class SearchServlet extends HttpServlet {
     * Returns a short description of the servlet.
     */
     public String getServletInfo() {
-        return "Short description";
+        return "This is the servlet that deals with general search requests";
     }
     // </editor-fold>
 }

@@ -16,6 +16,8 @@ some setup for tests
 
    >>> from sqlalchemy.orm import mapper
    >>> from bungeni.core import domain, schema
+
+   
    
 Setting up Database Connection and Utilities:
 
@@ -154,11 +156,17 @@ check the pk if it was saved and pk sequence is working
  
 
  
-Titles of Members
-------------------
-Members have a title in their groups
 
- 
+Role title names
+
+  >>> mrt1 = model.MemberTitle()
+  >>> mrt1.user_type = 'memberofparliament'   
+  >>> mrt1.user_role_name = u"President"
+  >>> mrt1.user_unique = True
+  >>> mrt1.sort_order = 10
+  >>> session.save(mrt1)
+  >>> session.flush()
+    
  
 Members of parliament
 ----------------------
@@ -176,6 +184,16 @@ the parliaments group and additional attributes.
   >>> mp4.membership_id
   7L            
 
+Titles of Members
+------------------
+Members have a title in their groups
+
+  >>> mt1 = model.MemberRoleTitle()
+  >>> mt1.membership_id = mp4.membership_id
+  >>> mt1.title_name_id = 1
+  >>> mt1.start_date = datetime.now()
+  >>> mt1.title_name_id = mrt1.user_role_type_id   
+  >>> session.save(mt1)
       
   
 Sittings

@@ -243,6 +243,7 @@ user_role_type = rdb.Table(
     rdb.Column( "user_role_type_id", rdb.Integer, primary_key=True),
     rdb.Column( "user_type", rdb.String(30),  nullable=False  ),
     rdb.Column( "user_role_name", rdb.Unicode(40), nullable=False),
+    rdb.Column( "user_unique", rdb.Boolean, default=False,),# nullable=False ),
     rdb.Column( "sort_order", rdb.Integer(2), nullable=False),
     )
 

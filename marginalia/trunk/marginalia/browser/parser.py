@@ -2,7 +2,7 @@ from xml.dom.minidom import parse
 from xml.sax.saxutils import XMLGenerator
 from xml.sax import saxutils, handler, make_parser
 from StringIO import StringIO
-from xml.sax.saxutils import writeattr
+from xml.sax.saxutils import quoteattr
 from xml.dom.minidom import parseString
 
 class AnnotationFilter(XMLGenerator):
@@ -20,11 +20,11 @@ class AnnotationFilter(XMLGenerator):
         tag = StringIO()
         
         tag.write('<' + name)
-        for (attrname, value) in attrs.items():            
+
+        for (attrname, value) in attrs.items():
             if flag and attrname == 'class':
-                continue
-            tag.write(' %s=' % attrname)
-            writeattr(tag, value)
+                continue            
+            tag.write(' %s=%s' % (attrname, quoteattr(value)))
         tag.write('>')
 
         if flag:
@@ -32,7 +32,8 @@ class AnnotationFilter(XMLGenerator):
 
         tag.seek(0)
         data = tag.read()
-        self._out.write(data)
+
+        self._write(data)
 
         if flag:
             self._tags.append((True, data))
@@ -42,10 +43,10 @@ class AnnotationFilter(XMLGenerator):
     def endElement(self, name):
         replace, data = self._tags.pop()
         if replace:
-            self._out.write(data)
+            self._write(data)
         else:
-            self._out.write('</%s>' % name)
-
+            self._write('</%s>' % name)
+        
 def physical_representation(contents):
     """Creates a physical representation of an annotated document."""
 

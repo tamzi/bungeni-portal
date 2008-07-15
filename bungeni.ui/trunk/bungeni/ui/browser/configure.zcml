@@ -98,6 +98,7 @@
       class=".forms.MemberOfParliamentAdd"              
       permission="zope.View"
       />          
+      
   <!-- Committee Edit Form --> 
     <browser:viewlet
       name="alchemist.attributes.edit"
@@ -279,6 +280,21 @@
       permission="zope.View"
       allowed_interface="zope.formlib.interfaces.ISubPageForm"      
       />    
+  
+  <!-- Partymembership -->
+     <browser:view
+      name="add"
+      for="bungeni.core.interfaces.IMemberOfPartyContainer"
+      class=".forms.MemberOfPartyAdd"              
+      permission="zope.View"
+      /> 
+   
+     <!--browser:view
+      name="add"
+      for="bungeni.core.interfaces.I....Container"
+      class=".forms.PartyMemberAdd"              
+      permission="zope.View"
+      /-->   
   
   <!-- Version -->
   

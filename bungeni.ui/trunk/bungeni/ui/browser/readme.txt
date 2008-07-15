@@ -232,10 +232,152 @@ and the real check
 
     >>> validations.checkDateInInterval( ssit2.sitting_id, dayat, validations.sql_checkMySittingSessionInterval)
 
+Parliament members
+Regions and provinces get their primary key with a db sequence:
+ 
+ >>> region = model.Region()
+ >>> region.region = u"Nairobi"
+ >>> session.save(region)
+ >>> session.flush() 
+
+ >>> province = model.Province()
+ >>> province.province= u"Central"
+ >>> session.save(province)
+ >>> session.flush()
+
+ >>> constituency = model.Constituency()
+ >>> constituency.name = u"Nairobi/Westlands"
+ >>> constituency.region = 1
+ >>> constituency.province = 1
+ >>> constituency.start_date = today
+
+ >>> session.save(constituency)
+ >>> session.flush()
+
+add some users:
+    >>> mp_1 = model.ParliamentMember(u"mp_1", 
+    ...        first_name=u"a", 
+    ...        last_name=u'ab', 
+    ...        email=u"mp1@example.com", 
+    ...        date_of_birth=today,
+    ...        gender='M')
+    >>> mp_2 = model.ParliamentMember(u"mp_2", 
+    ...        first_name=u"b", 
+    ...        last_name=u"bc", 
+    ...        date_of_birth=today,
+    ...        email=u"mp2@example.com",
+    ...        gender='M')
+    >>> session.save(mp_1)
+    >>> session.save(mp_2)
+    >>> session.flush()
+    
+    >>> mp1 = model.MemberOfParliament()
+    >>> mp1.group_id = parliament.group_id
+    >>> mp1.user_id = mp_1.user_id
+    >>> mp1.start_date = today
+    >>> mp1.constituency_id = 1
+    >>> mp1.elected_nominated = "E"
+    >>> session.save(mp1)
+    >>> session.flush()
+    
+    >>> mp2 = model.MemberOfParliament()
+    >>> mp2.group_id = parliament.group_id
+    >>> mp2.user_id = mp_2.user_id
+    >>> mp2.start_date = today
+    >>> mp2.constituency_id = 1
+    >>> mp2.elected_nominated = "N"
+    >>> session.save(mp2)
+    >>> session.flush()
+
+titles     
+--------------
+
+    >>> mrt1 = model.MemberTitle()
+    >>> mrt1.user_type = 'memberofparliament'   
+    >>> mrt1.user_role_name = u"President"
+    >>> mrt1.user_unique = True
+    >>> mrt1.sort_order = 10
+    >>> session.save(mrt1)
+    >>> session.flush()
+    
+    >>> mrt2 = model.MemberTitle()
+    >>> mrt2.user_type = 'memberofparliament'   
+    >>> mrt2.user_role_name = u"Member"
+    >>> mrt2.user_unique = False
+    >>> mrt2.sort_order = 20
+    >>> session.save(mrt2)
+    >>> session.flush()
+    
+    
+    
+    >>> mt1 = model.MemberRoleTitle()
+    >>> mt1.membership_id = mp1.membership_id
+    >>> mt1.title_name_id = mrt1.user_role_type_id
+    >>> mt1.start_date = today
+    >>> mt1.title_name_id = mrt1.user_role_type_id   
+    >>> session.save(mt1)
+    >>> session.flush()
+
+A (group) member can only hold the same title once at a time
+-------------------------------------------------------------
+
+    >>> validations.checkBySQL(validations.sql_checkMemberTitleDuplicates, { 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : today})
+    'President'
+
+    >>> mt1.end_date = tomorrow
+    >>> session.flush()    
+    >>> validations.checkBySQL(validations.sql_checkMemberTitleDuplicates, { 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : dayat})
+    
+    >>> validations.checkBySQL(validations.sql_checkMemberTitleDuplicates, { 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : today})    
+    'President'
+    
+    >>> validations.checkBySQL(validations.sql_checkMemberTitleDuplicates, { 'title_name_id' : mrt2.user_role_type_id , 'membership_id' : mt1.membership_id , 'date' : today})
+
+exclude data with role_title_id when editing the record
+
+    >>> validations.checkBySQL(validations.sql_checkMyMemberTitleDuplicates, { 'title_name_id' : mt1.title_name_id , 'membership_id' : mt1.membership_id , 'date' : today, 'role_title_id' : mt1.role_title_id})    
+
+    >>> validations.checkBySQL(validations.sql_checkMyMemberTitleUnique, { 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : today, 'role_title_id' : mt1.role_title_id})    
+
+
+Some titles must be unique inside a group
+-----------------------------------------
+    
+    >>> mt2 = model.MemberRoleTitle()
+    >>> mt2.membership_id = mp1.membership_id
+    >>> mt2.title_name_id = mrt2.user_role_type_id
+    >>> mt2.start_date = today
+    >>> session.save(mt2)
+    >>> session.flush()     
+   
+second check for same title at a time
+    >>> validations.checkBySQL(validations.sql_checkMemberTitleDuplicates, { 'title_name_id' : mt2.title_name_id , 'membership_id' : mt2.membership_id , 'date' : today})   
+    'Member'
+
+A president is allready there   
+    >>> validations.checkBySQL(validations.sql_checkMemberTitleUnique, { 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : today})    
+    'President'
+
+Members do not have to be unique    
+    >>> validations.checkBySQL(validations.sql_checkMemberTitleUnique, { 'title_name_id' : mt2.title_name_id , 'group_id' : parliament.group_id , 'date' : today})        
+
+And the day after tomorrow there is no more president
+    >>> validations.checkBySQL(validations.sql_checkMemberTitleUnique, { 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : dayat})    
+
+when editing exclude self
+    >>> validations.checkBySQL(validations.sql_checkMyMemberTitleDuplicates, { 'title_name_id' : mt2.title_name_id , 'membership_id' : mt2.membership_id , 'date' : today, 'role_title_id' : mt2.role_title_id})    
+    
+    >>> validations.checkBySQL(validations.sql_checkMyMemberTitleUnique, { 'title_name_id' : mt1.title_name_id , 'group_id' : parliament.group_id , 'date' : today, 'role_title_id' : mt2.role_title_id})        
+    'President'
+
+
+Membership in a political group      
+---------------------------   
+
+
       
       
-      
-clean up commit open transactions
+clean up - commit open transactions
 ---------------------------------
 
    >>> session.flush()   

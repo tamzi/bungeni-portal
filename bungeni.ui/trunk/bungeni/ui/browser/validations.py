@@ -25,6 +25,7 @@ def checkBySQL( sql_statement, check_dict):
     """
     run SQL with variables in the dict
     """
+    session = Session()
     sql_text = sql_statement % (check_dict)
     connection = session.connection(_TmpSqlQuery)      
     query = connection.execute(sql_text)
@@ -43,7 +44,6 @@ def checkDateInInterval( pp_key, checkDate, sql_statement):
     %(parent_key)s is usually the parents primary key (can be omitted to check all)
     """
     if (type(checkDate) is datetime.datetime or type(checkDate) is datetime.date):
-        session = Session()
         checkDict = { 'date': checkDate, 'parent_key': pp_key }
         return checkBySQL( sql_statement, checkDict)
     else:
@@ -108,8 +108,8 @@ sql_checkForOpenParliamentInterval = """
                             WHERE ( ( "parliaments"."parliament_id" = "groups"."group_id" )
                                     AND "end_date" IS NULL )
                         """
-#XXX
-sql_checkPartymembershipInterval = """
+
+sql_checkForOpenPartymembership = """
                             SELECT "groups"."short_name" 
                             FROM "public"."user_group_memberships", "public"."groups", "public"."political_parties" 
                             WHERE ( "user_group_memberships"."group_id" = "groups"."group_id" 
@@ -118,17 +118,40 @@ sql_checkPartymembershipInterval = """
                                     AND "user_group_memberships"."end_date" IS NULL ) )
                             
                         """
-#XXX                        
-sql_checkForOpenPartymembership = """
+                       
+sql_checkPartymembershipInterval = """
                             SELECT "groups"."short_name" 
                             FROM "public"."user_group_memberships", "public"."groups", "public"."political_parties" 
                             WHERE ( "user_group_memberships"."group_id" = "groups"."group_id" 
                                    AND "political_parties"."party_id" = "groups"."group_id" ) 
-                              AND ( ( "user_group_memberships"."user_id" = %(user_id)s
+                              AND ( ( "user_group_memberships"."user_id" = %(user_id)s )
                                     AND ( '%(date)s' 
                                          BETWEEN "user_group_memberships"."start_date" AND "user_group_memberships"."end_date" ) )
                         """
 
+# check that a member has the title only once
+sql_checkMemberTitleDuplicates = """
+                        SELECT "user_role_types"."user_role_name", "role_titles"."start_date", "role_titles"."end_date" 
+                        FROM "public"."role_titles", "public"."user_role_types" 
+                        WHERE ( "role_titles"."title_name_id" = "user_role_types"."user_role_type_id" ) 
+                        AND ( ( "role_titles"."title_name_id" = %(title_name_id)s AND "role_titles"."membership_id" = %(membership_id)s ) )
+                        AND (('%(date)s' BETWEEN "role_titles"."start_date" AND "role_titles"."end_date")
+                             OR (('%(date)s' >= "role_titles"."start_date" AND "role_titles"."end_date" IS NULL)))
+                        """
+# some member title must be unique at a given time
+# in a given group ministery, parliament, ...
+# only one minister, speaker, ...
+sql_checkMemberTitleUnique = """
+                        SELECT "user_role_types"."user_role_name", "role_titles"."start_date", "role_titles"."end_date" 
+                        FROM "public"."role_titles", "public"."user_role_types", "public"."user_group_memberships" 
+                        WHERE ( "role_titles"."title_name_id" = "user_role_types"."user_role_type_id" 
+                            AND "role_titles"."membership_id" = "user_group_memberships"."membership_id" ) 
+                        AND ( ( "role_titles"."title_name_id" = %(title_name_id)s 
+                                AND "user_group_memberships"."group_id" = %(group_id)s
+                                AND "user_role_types"."user_unique" = True ) )
+                        AND  ( ('%(date)s' BETWEEN "role_titles"."start_date" AND "role_titles"."end_date")
+                             OR (('%(date)s' >= "role_titles"."start_date" AND "role_titles"."end_date" IS NULL)) ) 
+                        """
 
 ###################
 # Date validations
@@ -310,17 +333,17 @@ def checkPartyMembershipDates( self, context, data ):
     """
     errors=[]
     check_dict = {'user_id' : context.__parent__.user_id}
-    overlap = checkBySQL( sql_checkForOpenPartymembership, check_dict)
+    overlaps = checkBySQL( sql_checkForOpenPartymembership, check_dict)
     if overlaps is not None:
         errors.append(interface.Invalid(_("The person is still a member in (%s)") % overlaps, "start_date" ))    
     if data['start_date']:    
         check_dict['date'] = data['start_date']       
-        overlap = checkBySQL( sql_checkPartymembershipInterval, check_dict)
+        overlaps = checkBySQL( sql_checkPartymembershipInterval, check_dict)
         if overlaps is not None:
             errors.append(interface.Invalid(_("The person is a member in (%s) at that date") % overlaps, "start_date" ))           
     if data['end_date']:    
         check_dict['date'] = data['end_date']       
-        overlap = checkBySQL( sql_checkPartymembershipInterval, check_dict)
+        overlaps = checkBySQL( sql_checkPartymembershipInterval, check_dict)
         if overlaps is not None:
             errors.append(interface.Invalid(_("The person is a member in (%s) at that date") % overlaps, "end_date" ))           
     return errors
@@ -344,9 +367,34 @@ def CheckSittingDatesInsideParentDatesAdd( self,  context, data ):
         if data['start_date'].date() > context.__parent__.end_date:
             errors.append(  interface.Invalid(_("Start must be before Session End Date (%s)") % context.__parent__.end_date, "start_date" ) )
     return errors
-
+#Titles for group members
 def CheckMemberTitleDateAdd( self, context, data):
     errors =  checkDates(context.__parent__ , data )
+    checkdict= { 'title_name_id' : data['title_name_id'] , 
+                 'membership_id' : context.__parent__.membership_id}  
+    if data['start_date'] is not None:
+        checkdict['date'] = data['start_date']                             
+        overlaps = checkBySQL(sql_checkMemberTitleDuplicates, checkdict)
+        if overlaps:
+            errors.append( interface.Invalid(_(u"This persons allready has the title %s") % overlaps, "start_date" ))
+    if data['end_date'] is not None:
+        checkdict['date'] = data['end_date']                             
+        overlaps = checkBySQL(sql_checkMemberTitleDuplicates, checkdict)
+        if overlaps:
+            errors.append( interface.Invalid(_(u"This persons allready has the title %s") % overlaps, "end_date" ))     
+    checkdict = { 'title_name_id' : data['title_name_id'] , 
+                  'group_id' : context.__parent__.group_id }
+    if data['start_date'] is not None:
+        checkdict['date'] = data['start_date']               
+        overlaps = checkBySQL(sql_checkMemberTitleUnique, checkdict)
+        if overlaps:        
+            errors.append( interface.Invalid(_(u"A person with the title %s allready exists") % overlaps, "start_date" ))        
+    if data['end_date'] is not None:
+        checkdict['date'] = data['end_date'] 
+        overlaps=checkBySQL(sql_checkMemberTitleUnique, checkdict)
+        if overlaps:     
+            errors.append( interface.Invalid(_(u"A person with the title %s allready exists") % overlaps, "end_date" ))                          
+                       
     return errors
 
 ##################
@@ -408,6 +456,57 @@ sql_checkForMyOpenParliamentInterval = """
                                     AND ( "parliaments"."parliament_id" != %(parent_key)s )
                                     AND "end_date" IS NULL )
                         """
+
+#XXX
+sql_checkForMyOpenPartymembership = """
+                            SELECT "groups"."short_name" 
+                            FROM "public"."user_group_memberships", "public"."groups", "public"."political_parties" 
+                            WHERE ( "user_group_memberships"."group_id" = "groups"."group_id" 
+                                   AND "political_parties"."party_id" = "groups"."group_id" ) 
+                              AND ( ( "user_group_memberships"."user_id" = %(user_id)s
+                                    AND "user_group_memberships"."end_date" IS NULL ) )
+                              AND ( "user_group_memberships"."membership_id" != %(parent_key)s )                            
+                        """
+#XXX                        
+sql_checkMyPartymembershipInterval = """
+                            SELECT "groups"."short_name" 
+                            FROM "public"."user_group_memberships", "public"."groups", "public"."political_parties" 
+                            WHERE ( "user_group_memberships"."group_id" = "groups"."group_id" 
+                                   AND "political_parties"."party_id" = "groups"."group_id" ) 
+                              AND ( ( "user_group_memberships"."user_id" = %(user_id)s )
+                                    AND ( '%(date)s' 
+                                         BETWEEN "user_group_memberships"."start_date" AND "user_group_memberships"."end_date" ) )
+                              AND ( "user_group_memberships"."membership_id" != %(parent_key)s )                                                                     
+                        """
+
+# check that a member has the title only once
+sql_checkMyMemberTitleDuplicates = """
+                        SELECT "user_role_types"."user_role_name", "role_titles"."start_date", "role_titles"."end_date" 
+                        FROM "public"."role_titles", "public"."user_role_types" 
+                        WHERE ( "role_titles"."title_name_id" = "user_role_types"."user_role_type_id" ) 
+                        AND ( ( "role_titles"."title_name_id" = %(title_name_id)s AND "role_titles"."membership_id" = %(membership_id)s ) )
+                        AND (('%(date)s' BETWEEN "role_titles"."start_date" AND "role_titles"."end_date")
+                             OR (('%(date)s' >= "role_titles"."start_date" AND "role_titles"."end_date" IS NULL)))
+                        AND ( "role_titles"."role_title_id" != %(role_title_id)s )
+                        """
+# some member title must be unique at a given time
+# in a given group ministery, parliament, ...
+# only one minister, speaker, ...
+sql_checkMyMemberTitleUnique = """
+                        SELECT "user_role_types"."user_role_name", "role_titles"."start_date", "role_titles"."end_date" 
+                        FROM "public"."role_titles", "public"."user_role_types", "public"."user_group_memberships" 
+                        WHERE ( "role_titles"."title_name_id" = "user_role_types"."user_role_type_id" 
+                            AND "role_titles"."membership_id" = "user_group_memberships"."membership_id" ) 
+                        AND ( ( "role_titles"."title_name_id" = %(title_name_id)s 
+                                AND "user_group_memberships"."group_id" = %(group_id)s
+                                AND "user_role_types"."user_unique" = True ) )
+                        AND  ( ('%(date)s' BETWEEN "role_titles"."start_date" AND "role_titles"."end_date")
+                             OR (('%(date)s' >= "role_titles"."start_date" AND "role_titles"."end_date" IS NULL)) ) 
+                        AND ( "role_titles"."role_title_id" != %(role_title_id)s )                             
+                        """
+
+
+
 
 #Parliament
 
@@ -500,6 +599,35 @@ def ExtensionMemberDatesEdit( self, context, data ):
     return errors
               
 def CheckMemberTitleDateEdit( self, context, data):
-    errors =  checkDates(context.__parent__ , data )
+    errors =  checkDates(context.__parent__.__parent__ , data )
+    checkdict= { 'title_name_id' : data['title_name_id'] , 
+                 'role_title_id' : context.role_title_id,
+                 'membership_id' : context.__parent__.__parent__.membership_id}  
+    if data['start_date'] is not None:
+        checkdict['date'] = data['start_date']                             
+        overlaps = checkBySQL(sql_checkMyMemberTitleDuplicates, checkdict)
+        if overlaps:
+            errors.append( interface.Invalid(_(u"This persons allready has the title %s") % overlaps, "start_date" ))
+    if data['end_date'] is not None:
+        checkdict['date'] = data['end_date']                             
+        overlaps = checkBySQL(sql_checkMyMemberTitleDuplicates, checkdict)
+        if overlaps:
+            errors.append( interface.Invalid(_(u"This persons allready has the title %s") % overlaps, "end_date" ))     
+    checkdict = { 'title_name_id' : data['title_name_id'] , 
+                  'role_title_id' : context.role_title_id ,   
+                  'group_id' : context.__parent__.__parent__.group_id }
+    if data['start_date'] is not None:
+        checkdict['date'] = data['start_date']               
+        overlaps = checkBySQL(sql_checkMyMemberTitleUnique, checkdict)
+        if overlaps:        
+            errors.append( interface.Invalid(_(u"A person with the title %s allready exists") % overlaps, "start_date" ))        
+    if data['end_date'] is not None:
+        checkdict['date'] = data['end_date'] 
+        overlaps=checkBySQL(sql_checkMyMemberTitleUnique, checkdict)
+        if overlaps:     
+            errors.append( interface.Invalid(_(u"A person with the title %s allready exists") % overlaps, "end_date" ))                          
+
     return errors         
+
+
         

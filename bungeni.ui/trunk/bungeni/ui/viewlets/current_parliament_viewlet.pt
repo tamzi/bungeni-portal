@@ -1,25 +1,30 @@
-<div class="listing">
-  <em> Parliament </em>
-  <table class="listing">
-    <thead>
-      <tr>
-        <th/>
-        <th> Name </th>
-        <th> Election date</th>
-        <th> In power from</th>
-        <th> In power till</th>              
-        <th> Members of Parliament</th>      
-      </tr>
-    </thead>
-    <tbody>
-      <tr tal:repeat="data view/getData"> 
-        <td tal:attributes="class data/current" tal:content="data/selector" />
-        <td tal:attributes="class data/current"> <a tal:attributes="href data/url" tal:content="data/short_name"> X Parliament</a> </td>
-        <td tal:attributes="class data/current" tal:content="data/election_date" />
-        <td tal:attributes="class data/current" tal:content="data/start_date" />
-        <td tal:attributes="class data/current" tal:content="data/end_date" />
-        <td tal:attributes="class data/current"> <a tal:attributes="href data/mpurl"> Members of Parliament </a> </td>
-      </tr>
-    </tbody>  
-  </table>
+<div>
+    <h3 tal:define="data view/getCurrentData" tal:content="data/short_name"> Current Parliament </h3>
+
+    <div class="listing">
+      <em> Parliament </em>
+      <table class="listing">
+        <thead>
+          <tr>
+            <th/>
+            <th> Name </th>
+            <th> Election date</th>
+            <th> In power from</th>
+            <th> In power till</th>              
+            <th> Members of Parliament</th>      
+          </tr>
+        </thead>
+        <tbody>
+          <tr tal:repeat="data view/getData"> 
+            <td tal:attributes="class data/current" tal:content="data/selector" />
+            <td tal:attributes="class data/current"> <a tal:attributes="href data/url" tal:content="data/short_name"> X Parliament</a> </td>
+            <td tal:attributes="class data/current" tal:content="data/election_date" />
+            <td tal:attributes="class data/current" tal:content="data/start_date" />
+            <td tal:attributes="class data/current" tal:content="data/end_date" />
+            <td tal:attributes="class data/current"> <a tal:attributes="href data/mpurl"> Members of Parliament </a> </td>
+          </tr>
+        </tbody>  
+      </table>
+    </div>
 </div>
+

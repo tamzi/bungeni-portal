@@ -6,7 +6,6 @@ from zc.resourcelibrary import need
 from zope.app.form.browser.itemswidgets import  RadioWidget
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from bungeni.core.i18n import _
-import pdb
 
 def CustomRadioWidget( field, request ):
     """ to replace the default combo box widget for a schema.choice field"""

@@ -59,7 +59,7 @@ class TabManager( WeightOrderedViewletManager ):
     
 class YUITabView( viewlet.ViewletBase ):       
     """
-    dummy to get the JS into the form
+    get the JS into the form
     """
     def render( self ):
         zc.resourcelibrary.need("yui-tab")   
@@ -289,14 +289,38 @@ class AllParliamentsViewlet( viewlet.ViewletBase ):
             self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )
         self.current_query = session.query(domain.Parliament).filter(getFilter(self.Date))    
 
+    def _getCurrentData( self ):
+        """
+        return the data filtered for the current date.
+        """
+        return self.current_query.all() 
+
+    def getCurrentData( self ):
+        """
+        return current data in a dict for use in pt
+        """
+        #data_list=[]
+        results =  self._getCurrentData()
+        for result in results:            
+            data ={}
+            data['url']= '/parliament/' 
+            data['short_name'] = result.short_name
+            data['election_date'] = result.election_date
+            data['start_date'] = str(result.start_date)
+            data['end_date'] = str(result.end_date)
+            data['mpurl']= '/parliament/obj-' + str(result.parliament_id) + '/parliamentmembers' 
+            #data_list.append(data)
+        return data #_list             
+                    
     def getData(self):
         """
         return the data of the query
         """        
         data_list=[]
         curlpf=getDateFilter(self.request)  
-        current_results = self.current_query.all()      
+        current_results = self._getCurrentData()   
         results = self.query.all()
+        results.reverse()
         for result in results:            
             data ={}
             if result.start_date and result.end_date:

@@ -19,7 +19,8 @@ import bungeni.core.domain as domain
 from bungeni.core.i18n import _
 from bungeni.core.interfaces import IGroupSitting, IParliamentSession, IMemberOfParliament, \
     ICommittee, ICommitteeMember, IGovernment, IMinistry, IExtensionGroup, IMinister, \
-    IExtensionMember, IParliament, IGroupSittingAttendance, ICommitteeStaff, IMemberRoleTitle
+    IExtensionMember, IParliament, IGroupSittingAttendance, ICommitteeStaff, IMemberRoleTitle, \
+    IMemberOfParty
 
 
 from bungeni.ui.datetimewidget import  SelectDateTimeWidget, SelectDateWidget
@@ -46,9 +47,6 @@ class BungeniAttributeDisplay( DynamicFields, DisplayFormViewlet ):
     form_name = _(u"General")    
 
     def update( self ):
-        #pdb.set_trace()
-        #form_fields = form.Fields( ICommittee )
-        #self.adapters = {self.Adapts  : self.context } 
         self.form_name = self.getform_name()
         super( BungeniAttributeDisplay, self).update() 
 
@@ -126,6 +124,11 @@ class MemberOfPartyAdd( CustomAddForm ):
     add a partymembership to a person
     """
     #XXX
+    form_fields = form.Fields( IMemberOfParty )
+    form_fields["start_date"].custom_widget = SelectDateWidget
+    form_fields["end_date"].custom_widget = SelectDateWidget
+    form_fields["notes"].custom_widget=widget.RichTextEditor
+    Adapts = IMemberOfParty    
     CustomValidation = validations.checkPartyMembershipDates
 
 
@@ -198,7 +201,10 @@ class MinistersAdd( CustomAddForm ):
     """
     custom Add form for ministries
     """
-    form_fields = form.Fields( IMinisterAdd ).omit( "replaced_id", "substitution_type" )
+    form_fields = form.Fields( IMinisterAdd ).select(
+                    'user_id', 
+                    'start_date', 'end_date',
+                    'notes')
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget
     form_fields["notes"].custom_widget=widget.RichTextEditor
@@ -338,7 +344,10 @@ class CommitteeMemberAdd( CustomAddForm ):
     """
     override the AddForm for GroupSittingAttendance
     """
-    form_fields = form.Fields( ICommitteeMemberAdd ).omit( "replaced_id", "substitution_type" )
+    form_fields = form.Fields( ICommitteeMemberAdd ).select(
+                    'user_id', 
+                    'start_date', 'end_date',
+                    'notes')
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget
     form_fields["notes"].custom_widget=widget.RichTextEditor
@@ -377,7 +386,10 @@ class CommitteeStaffAdd( CustomAddForm ):
     """
     override the AddForm 
     """
-    form_fields = form.Fields( ICommitteeStaffAdd ).omit( "replaced_id", "substitution_type" )
+    form_fields = form.Fields( ICommitteeStaffAdd ).select(
+                    'user_id', 
+                    'start_date', 'end_date',
+                    'notes')
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget
     form_fields["notes"].custom_widget=widget.RichTextEditor
@@ -552,6 +564,9 @@ sql_addMemberTitle = '''
                        '''
                                   
 titleAddVocab =  vocabulary.SQLQuerySource(sql_addMemberTitle, 'ordered_title', 'user_role_type_id')
+
+# Titles / Roles
+
      
 class IMemberRoleTitleAdd( IMemberRoleTitle ):
     title_name_id = schema.Choice( title=_(u"Title"),  
@@ -795,7 +810,10 @@ class ICommitteeMemberEdit( ICommitteeMember ):
         
 class CommitteeMemberEdit( CustomEditForm ):
     Adapts = ICommitteeMemberEdit          
-    form_fields = form.Fields( ICommitteeMemberEdit )
+    form_fields = form.Fields( ICommitteeMemberEdit ).select(
+                    'user_id', 
+                    'start_date', 'end_date',
+                    'notes')
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget 
     form_fields["notes"].custom_widget=widget.RichTextEditor         
@@ -818,7 +836,10 @@ class CommitteeStaffEdit( CustomEditForm ):
     """
     override the AddForm 
     """
-    form_fields = form.Fields( ICommitteeStaffEdit ) #.omit( "replaced_id", "substitution_type" )
+    form_fields = form.Fields( ICommitteeStaffEdit ).select(
+                    'user_id', 
+                    'start_date', 'end_date',
+                    'notes')
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget
     form_fields["notes"].custom_widget=widget.RichTextEditor 
@@ -847,7 +868,10 @@ class IMinisterEdit( IMinister ):
 
 class MinisterEdit( CustomEditForm ):
     Adapts = IMinisterEdit   
-    form_fields = form.Fields( IMinisterEdit )
+    form_fields = form.Fields( IMinisterEdit ).select(
+                    'user_id', 
+                    'start_date', 'end_date',
+                    'notes')
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget 
     form_fields["notes"].custom_widget=widget.RichTextEditor         
@@ -874,7 +898,10 @@ class IExtensionMemberEdit( IExtensionMember ):
        
 class ExtensionMemberEdit( CustomEditForm ):
     Adapts = IExtensionMemberEdit   
-    form_fields = form.Fields( IExtensionMemberEdit )
+    form_fields = form.Fields( IExtensionMemberEdit ).select(
+                    'user_id', 
+                    'start_date', 'end_date',
+                    'notes')
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget         
     form_fields["notes"].custom_widget=widget.RichTextEditor 
@@ -902,7 +929,7 @@ class MemberTitleEdit( CustomEditForm ):
     form_fields["start_date"].custom_widget = SelectDateWidget
     form_fields["end_date"].custom_widget = SelectDateWidget
     Adapts = IMemberRoleTitleEdit
-    CustomValidation =  validations.CheckMemberTitleDateEdit
+    CustomValidations =  validations.CheckMemberTitleDateEdit
         
 
 

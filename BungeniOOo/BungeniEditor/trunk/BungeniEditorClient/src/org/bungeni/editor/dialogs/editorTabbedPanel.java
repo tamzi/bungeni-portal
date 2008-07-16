@@ -1399,10 +1399,10 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         jTabsContainer.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
         jTabsContainer.setFont(new java.awt.Font("Tahoma", 0, 10));
 
-        cboListDocuments.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        cboListDocuments.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         cboListDocuments.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        lblCurrentlyOpenDocuments.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        lblCurrentlyOpenDocuments.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         lblCurrentlyOpenDocuments.setText("Currently Open Documents");
 
         btnBringToFront.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
@@ -1424,9 +1424,10 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         lblCurrentMode.setForeground(java.awt.Color.red);
         lblCurrentMode.setText("CURRENT MODE : %s");
 
+        cboSwitchTabs.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         cboSwitchTabs.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        lblSwitchTag.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        lblSwitchTag.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         lblSwitchTag.setText("Switch Tabs :");
 
         btnNewDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 10));

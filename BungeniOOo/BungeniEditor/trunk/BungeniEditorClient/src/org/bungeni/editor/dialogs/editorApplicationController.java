@@ -208,6 +208,9 @@ public class editorApplicationController extends javax.swing.JPanel {
         tabAbout = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
 
+        editorAppTabbedPane.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+
+        createNewDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         createNewDocument.setText("Create New Document....");
         createNewDocument.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -215,14 +218,16 @@ public class editorApplicationController extends javax.swing.JPanel {
             }
         });
 
-        lblCurrentTemplate.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblCurrentTemplate.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         lblCurrentTemplate.setText("Create a new document from selected template");
 
+        cboDocumentTypes.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         cboDocumentTypes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        lblDocumentTypes.setFont(new java.awt.Font("Tahoma", 1, 11));
+        lblDocumentTypes.setFont(new java.awt.Font("Tahoma", 0, 11)); // NOI18N
         lblDocumentTypes.setText("Change Active Document mode for editor");
 
+        btnOpenExisting.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         btnOpenExisting.setText("Open Existing Document...");
         btnOpenExisting.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -235,12 +240,16 @@ public class editorApplicationController extends javax.swing.JPanel {
         lblCurrentActiveMode.setText("CURRENT : %s");
         lblCurrentActiveMode.setOpaque(true);
 
+        jButton2.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         jButton2.setText("Start and Accquire");
 
+        lblCreateNewDoc.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         lblCreateNewDoc.setText("Composes a blank document of type : %s");
 
+        lblOpenCurrentDoc.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         lblOpenCurrentDoc.setText("Launches a file selector dialog to open an existing %s document");
 
+        lblLaunchAndAccquire.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         lblLaunchAndAccquire.setText("Launches the Editor and accquires open %s documents");
 
         org.jdesktop.layout.GroupLayout tabCurrentFileLayout = new org.jdesktop.layout.GroupLayout(tabCurrentFile);
@@ -355,7 +364,7 @@ public class editorApplicationController extends javax.swing.JPanel {
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 154, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnSetCurrentTemplate)
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
 
         editorAppTabbedPane.addTab("Templates", tabTemplates);
@@ -401,7 +410,7 @@ public class editorApplicationController extends javax.swing.JPanel {
                 .add(jScrollPane2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 177, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnEditWorkspaceDocument)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
 
         editorAppTabbedPane.addTab("Workspace", tabWorkspace);
@@ -506,7 +515,7 @@ public class editorApplicationController extends javax.swing.JPanel {
                     .add(checkBoxConnectOnStartup))
                 .add(31, 31, 31)
                 .add(btnSaveSettings)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
 
         editorAppTabbedPane.addTab("Settings", tabSettings);
@@ -552,7 +561,7 @@ public class editorApplicationController extends javax.swing.JPanel {
                 .add(jScrollPane3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 175, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(progressServerFiles, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         editorAppTabbedPane.addTab("Server", tabServer);
@@ -565,11 +574,12 @@ public class editorApplicationController extends javax.swing.JPanel {
         );
         tabAboutLayout.setVerticalGroup(
             tabAboutLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(0, 299, Short.MAX_VALUE)
+            .add(0, 300, Short.MAX_VALUE)
         );
 
         editorAppTabbedPane.addTab("About", tabAbout);
 
+        jLabel1.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         jLabel1.setText("Bungeni Editor Application 0.7");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
@@ -972,6 +982,8 @@ private void launchFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             //use template defined in m_settings_CurrentTemplate
             //m_FullTemplatesPath
             //m_settings_CurrentTemplate = "hansard.ott";
+            createNewDocument.setEnabled(false);
+
             if (panel == null ) {
                 String templateURL = "";
                 log.debug("Current Template file :" + m_FullTemplatesPath+File.separatorChar+m_settings_CurrentTemplate);
@@ -989,7 +1001,6 @@ private void launchFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                     }
                 }
                 final String templatePathNormalized = selectedDocType.templatePathNormalized();
-                MessageBox.OK(null, templatePathNormalized);
                 
                 this.createNewDocument.setEnabled(false);
                 SwingUtilities.invokeLater(new Runnable(){
@@ -997,27 +1008,31 @@ private void launchFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
                 public void run() {
                     
                     initoOoAndLaunchFrame(templatePathNormalized, true); 
+                    
                 }
 
                 });
-            } 
+            } else {
+                panel.newDocumentInPanel();
+            }
+           createNewDocument.setEnabled(true);
             
 }//GEN-LAST:event_launchFrameActionPerformed
 
 private void btnOpenExistingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOpenExistingActionPerformed
 // TODO add your handling code here:
-     if (panel == null) {
+    this.btnOpenExisting.setEnabled(false);
+    if (panel == null) {
             String basePath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH()+File.separator+"workspace"+File.separator+"files";
             File openFile = CommonFileFunctions.getFileFromChooser(basePath, new org.bungeni.utils.fcfilter.ODTFileFilter(), JFileChooser.FILES_ONLY, null);
             if (openFile != null) {
                 String fullPathToFile = openFile.getAbsolutePath();        
-                MessageBox.OK(null, fullPathToFile);
                 initoOoAndLaunchFrame(fullPathToFile, false);
             }
      } else {
         panel.loadDocumentInPanel();
      }
-    
+    this.btnOpenExisting.setEnabled(true);
 }//GEN-LAST:event_btnOpenExistingActionPerformed
 
 

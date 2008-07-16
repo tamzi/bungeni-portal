@@ -26,6 +26,7 @@ import com.sun.star.uno.AnyConverter;
 import com.sun.star.uno.UnoRuntime;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Level;
+import javax.swing.JFrame;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
 import javax.swing.UIManager;
@@ -55,10 +57,12 @@ import org.bungeni.editor.numbering.ooo.OOoNumberingHelper;
 
 import org.apache.log4j.Logger;
 import org.bungeni.editor.metadata.DocumentMetadata;
+import org.bungeni.editor.panels.loadable.refmgr.referenceManager;
 import org.bungeni.ooo.ooDocMetadata;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.utils.BungeniBNode;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
+import org.bungeni.utils.FrameLauncher;
 import org.bungeni.utils.MessageBox;
 
 
@@ -711,6 +715,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
      
      
      private void applyInsertCrossReferences(){
+         /*
         this.orphanedReferences.clear();
         findBrokenReferences();
         if (brokenReferencesFrame != null  ) {
@@ -724,6 +729,16 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
                             brokenReferencesFrame = frameBrokenReferences2.Launch(ooDocument,  parentFrame, orphanedReferences, mode);
                     }
                });     
+          */
+                referenceManager mgr = new referenceManager();
+                JFrame f = FrameLauncher.InitializeFrame(referenceManager.FRAME_TITLE, mgr, referenceManager.FRAME_DIMENSION);
+                
+                mgr.setParentWindowHandle(f);
+                mgr.setOOComponentHandle(ooDocument);
+                mgr.initUI();
+                
+                FrameLauncher.LaunchFrame(f, true, true);
+                
      }
      
      private boolean checkIfSectionsHaveNumberingScheme(){

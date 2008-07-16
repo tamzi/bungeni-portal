@@ -7,7 +7,7 @@ copy public.countries from '%(directory)s/data/demodata/countries.csv' csv ;
 /* workaround for now because vocabulary source does not accept unicode */
 /* XXX */
 
-delete from countries where country_id not in ('AO', 'KE', 'UG', 'ZA');
+/*delete from countries where country_id not in ('AO', 'KE', 'UG', 'ZA');*/
 
 copy public.provinces from '%(directory)s/data/demodata/provinces.csv' csv ;
 
@@ -18,6 +18,10 @@ from '%(directory)s/data/demodata/constituencies.csv' csv ;
 
 copy public.constituency_details (constituency_id, voters, "date", population) from
 '%(directory)s/data/demodata/constituency_details.csv' csv ;
+
+copy public.address_types ( address_type_id, address_type_name)
+from '%(directory)s/data/demodata/address_types.csv' csv ;
+
 
 /*copy public.user_types 
 from '%(directory)s/data/demodata/user_types.csv' csv;
@@ -127,9 +131,9 @@ from '%(directory)s/data/demodata/committee_members.csv'
 csv;
 
 
-copy public.user_group_memberships ( group_id, user_id, start_date, end_date, notes)
+/*copy public.user_group_memberships ( group_id, user_id, start_date, end_date, notes)
 from '%(directory)s/data/demodata/ministers.csv'
-csv;
+csv;*/
 
 copy public.sitting_type (sitting_type_id, sitting_type)
 from '%(directory)s/data/demodata/sitting_type.csv'
@@ -143,9 +147,9 @@ copy public.attendance_type( attendance_id, attendance_type)
 from '%(directory)s/data/demodata/attendance_type.csv'
 csv;
 
-copy public.user_group_memberships ( user_id, group_id, start_date, end_date)
+/*copy public.user_group_memberships ( user_id, group_id, start_date, end_date)
 from '%(directory)s/data/demodata/partymembers.csv'
-csv;
+csv;*/
 
 /*INSERT INTO user_group_memberships ( group_id, user_id, start_date, end_date) 
 SELECT DISTINCT 304 as no , "user_group_memberships"."user_id", "groups"."start_date", "groups"."end_date" 

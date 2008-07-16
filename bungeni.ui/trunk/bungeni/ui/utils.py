@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 import datetime
-import pdb
+
 def getDisplayDate(request):   
     """
     get the date for which to display the data.

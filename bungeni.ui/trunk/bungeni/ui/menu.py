@@ -1,11 +1,8 @@
 
-from z3c.menu.ready2go import item, manager
-from zope import interface, component
-from zope.location.interfaces import ILocation
-from zope.viewlet import interfaces
-from zope.security.management import getInteraction
+from z3c.menu.ready2go import item
+from zope import component
 from zope.app.security.interfaces import IUnauthenticatedPrincipal
-from zope.app.publisher.browser.menu import BrowserMenu, getMenu
+from zope.app.publisher.browser.menu import BrowserMenu
 
 class LoginAction( item.SiteMenuItem ):
     

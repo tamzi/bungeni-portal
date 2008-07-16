@@ -113,7 +113,7 @@ class MarginaliaPage(BrowserPage):
             value = params.get(key, None)
             if value == None:
                 continue
-            setattr(annotation, key, value)        
+            setattr(annotation, key, unicode(value))        
         session.save(annotation)
         session.commit()
 
@@ -212,9 +212,9 @@ class MarginaliaPage(BrowserPage):
         if filter_group:
             filter_group = filter_group.split(";")
 
-        filter_type = ['annotate', ]
+        filter_type = [u'annotate', ]
         
-        query = query.filter(AnnotationMaster.url == url)
+        query = query.filter(AnnotationMaster.url == unicode(url))
         if search_string:
             query = query.filter(AnnotationMaster.note.like("%"+search_string+"%"))            
         if filter_type:
@@ -225,7 +225,7 @@ class MarginaliaPage(BrowserPage):
         user = self.getAuthenticatedUser()
 
         annotation_list = []
-        public_annotations = query.filter(AnnotationMaster.access == 'public').all()
+        public_annotations = query.filter(AnnotationMaster.access == u'public').all()
         users_annotations =  query.filter(AnnotationMaster.quote_author == user).all()                        
         annotation_list.extend(public_annotations)
         annotation_list.extend(users_annotations)
@@ -312,11 +312,11 @@ class AmendmentPage(MarginaliaPage):
             filter_group = filter_group.split(";")
 
         if not filter_type:
-            filter_type = ['comment', 'delete', 'insert', 'replace']
+            filter_type = [u'comment', u'delete', u'insert', u'replace']
         if 'annotate' in filter_type:
             raise Exception, "Cannot display annotations on the amendment page"            
         
-        query = query.filter(AnnotationMaster.url == url)
+        query = query.filter(AnnotationMaster.url == unicode(url))
         if search_string:            
             query = query.filter(AnnotationMaster.note.like("%"+search_string+"%"))
         if filter_type:
@@ -327,7 +327,7 @@ class AmendmentPage(MarginaliaPage):
         user = self.getAuthenticatedUser()
 
         annotation_list = []
-        public_annotations = query.filter(AnnotationMaster.access == 'public').all()
+        public_annotations = query.filter(AnnotationMaster.access == u'public').all()
         users_annotations =  query.filter(AnnotationMaster.quote_author == user).all()                        
         annotation_list.extend(public_annotations)
         annotation_list.extend(users_annotations)

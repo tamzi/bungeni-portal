@@ -273,10 +273,13 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
         tblSectionViewMetadata = new javax.swing.JTable();
         lblSectionTreeMetadataView = new javax.swing.JLabel();
 
+        lblSectionMetadata.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         lblSectionMetadata.setText("Section Metadata");
 
+        treeSectionTreeMetadata.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         jScrollPane1.setViewportView(treeSectionTreeMetadata);
 
+        tblSectionViewMetadata.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         tblSectionViewMetadata.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -290,6 +293,7 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
         ));
         jScrollPane2.setViewportView(tblSectionViewMetadata);
 
+        lblSectionTreeMetadataView.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         lblSectionTreeMetadataView.setText("Click on a section to view its Metadata");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);

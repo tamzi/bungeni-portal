@@ -82,6 +82,7 @@ public class documentMetadataPanel extends BaseClassForITabbedPanel {
         tableDocumentMetadata = new javax.swing.JTable();
         lblDescDocMetadata = new javax.swing.JLabel();
 
+        tableDocumentMetadata.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         tableDocumentMetadata.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -95,6 +96,7 @@ public class documentMetadataPanel extends BaseClassForITabbedPanel {
         ));
         scrollTableDocumentMetadata.setViewportView(tableDocumentMetadata);
 
+        lblDescDocMetadata.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
         lblDescDocMetadata.setText("Document Metadata");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
@@ -115,7 +117,7 @@ public class documentMetadataPanel extends BaseClassForITabbedPanel {
                 .add(lblDescDocMetadata)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(scrollTableDocumentMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 268, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         getAccessibleContext().setAccessibleDescription("Doc Metadata");

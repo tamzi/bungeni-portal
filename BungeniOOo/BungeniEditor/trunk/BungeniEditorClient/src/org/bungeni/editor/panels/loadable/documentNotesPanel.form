@@ -58,6 +58,9 @@
   <SubComponents>
     <Component class="javax.swing.JLabel" name="lblEditorNotes">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="11" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Editor Note"/>
       </Properties>
     </Component>
@@ -102,11 +105,17 @@
     </Component>
     <Component class="javax.swing.JLabel" name="lblArchivedNotes">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="11" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Archived Notes"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JList" name="listboxEditorNotes">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="11" style="0"/>
+        </Property>
         <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
           <StringArray count="5">
             <StringItem index="0" value="Item 1"/>

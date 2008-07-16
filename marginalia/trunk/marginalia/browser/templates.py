@@ -55,7 +55,6 @@ class MarginaliaPage(BrowserPage):
         if self.request.environment.has_key('wsgi.input'):
             params.update(parse_qsl(self.request.environment['wsgi.input'].read()))
         format = params['format']
-
         response = self.request.response
                                 
         if 'atom' == format:
@@ -376,10 +375,26 @@ class DownloadPage(MarginaliaPage):
     """All the methods required by Marginalia Amendment Tab."""
     def __call__(self):
         response = self.request.response
-        response.setHeader('Content-Type', 'text/html')
-        response.setHeader('Content-Disposition', 'attachment;filename="document.html"')
         contents = str(ViewPageTemplateFile('document.pt')(self))
-        contents = parser.physical_representation(contents)
+        response.setHeader('Content-Type', 'text/html')
+
+        if self.request.has_key('filter_type'):
+            page = u'amend.html'
+        else:
+            page = u'annote.html'
+            
+        try:
+            contents = parser.physical_representation(contents)
+        except IndexError, err:
+            view = getMultiAdapter((self.context, self.request), name=page)
+            view.statusmessage = "Click on the 'Search' button to refresh the page before using the 'Download' button"
+            return view()
+        except Exception, err:
+            view = getMultiAdapter((self.context, self.request), name=page)
+            view.statusmessage = str(err)
+            return view()
+            
+        response.setHeader('Content-Disposition', 'attachment;filename="document.html"')        
         return contents
 
     def getDocumentBody(self):

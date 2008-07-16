@@ -125,6 +125,19 @@ function bungeniClickCreateAnnotation( event, id ) {
                         authenticateduser python:view.getAuthenticatedUser();">
 
 <h2> Annotate Document </h2>
+
+  <dl class="portalMessage error"                                                                                                              
+      tal:condition="view/statusmessage | nothing"
+      tal:attributes="class string:portalMessage error;">                                                                                  
+      <dt i18n:translate="">                                                                                                                  
+         Error                                                                                                                                
+      </dt>                                                                                                                                   
+      <dd tal:content="view/statusmessage | nothing"                                                                                             
+           i18n:translate="">                                                                                                                  
+           The status message.                                                                                                                 
+      </dd>                                                                                                                                   
+  </dl>        
+
  <!-- Marginalia .. -->
 <ul id="debug" style="display:none">
    <li></li>

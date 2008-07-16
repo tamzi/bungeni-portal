@@ -115,6 +115,12 @@
         
       </form>    
       </div>
+      <div tal:replace="structure provider:bungeni.subform.manager"> <!-- replace with subforms --> 
+        <div class="listing">
+        <em>Subform Title</em>
+         subform contents
+        </div>
+      </div>
     </div>
   </div>
   <div tal:replace="structure provider:bungeni.yui-tab.manager" />  

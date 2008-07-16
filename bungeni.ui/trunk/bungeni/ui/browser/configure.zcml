@@ -13,6 +13,29 @@
     layer="bungeni.ui.interfaces.IBungeniSkin"
     />   
 
+ <!-- Viewlet manager for subform -->
+  
+  <browser:viewletManager
+     name="bungeni.subform.manager"
+     provides=".interfaces.ISubFormViewletManager"
+     permission="zope.View"
+     />
+
+ <browser:viewlet
+      name="bungeni.subform.mp-titles"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.MPTitleViewlet"
+      for="bungeni.core.interfaces.IMemberOfParliament"
+      permission="zope.View"
+      weight="10"
+      />
+
+<!--
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"
+      layer="bungeni.ui.interfaces.IBungeniSkin"            
+-->  
+
+
 <!-- View -->
   <browser:viewlet
       name="alchemist.attributes.view"

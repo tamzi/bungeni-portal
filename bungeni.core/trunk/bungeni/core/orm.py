@@ -176,7 +176,13 @@ mapper ( domain.MemberOfParliament , _mp,
                              schema.user_group_memberships.c.user_id==schema.users.c.user_id
                                     ).label('sort_by_name')
                                            ),
-                                           
+            'image' : column_property(
+                             rdb.sql.select(
+                             [(schema.users.c.image)],
+                             schema.user_group_memberships.c.user_id==schema.users.c.user_id
+                                    ).label('image')
+                                           ),
+                                                                                      
 #XXX useful to sort by  constituency ?                                          
             'constituency' : column_property(
                              rdb.sql.select(
@@ -373,10 +379,19 @@ mapper( domain.GroupSittingAttendance, schema.sitting_attendance,
          )
 mapper( domain.AttendanceType, schema.attendance_type )
 mapper( domain.MemberTitle, schema.user_role_type )
-mapper( domain.MemberRoleTitle, schema.role_titles )
+mapper( domain.MemberRoleTitle, schema.role_titles,
+         properties={
+            'short_name' : column_property(
+                             rdb.sql.select(
+                             [(schema.user_role_type.c.user_role_name)],
+                             schema.role_titles.c.title_name_id==schema.user_role_type.c.user_role_type_id
+                                    ).distinct().label('short_name') )
+                    }
+
+       )
 
 mapper( domain.AddressType, schema.address_types )
-mapper( domain.UserAddress, schema.addresses )
+mapper( domain.UserAddress, schema.addresses)
 
 ###########################
 # Current Items

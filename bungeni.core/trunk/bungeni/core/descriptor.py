@@ -530,7 +530,8 @@ class MemberRoleTitleDescriptor( ModelDescriptor ):
               listing_column=day_column('end_date', _(u'<a href="?order_by=end_date">End Date</a>')), edit_widget=SelectDateWidget, add_widget=SelectDateWidget), 
     ]
        
-     
+    schema_invariants = [EndAfterStart]     
+    
 class CommitteeStaffDescriptor( ModelDescriptor ):
     display_name = _(u"Committee Staff")
     fields = deepcopy(GroupMembershipDescriptor.fields)     
@@ -777,7 +778,7 @@ class AttendanceDescriptor( ModelDescriptor ):
                        FROM  "public"."users" 
                        WHERE  "users"."user_id" = %(member_id)s                                                                  
                     '''
-    membersVocab = vocabulary.SQLQuerySource( sql_members, 'user_id', 'user_name', 'user_id', {'member_id':'$member_id'} )                                                                        
+    membersVocab = vocabulary.SQLQuerySource( sql_members, 'user_name', 'user_id', {'member_id':'$member_id'} )                                                                        
     fields = [
         dict( name="sitting_id", omit=True ),
         dict( name="member_id", listing=True,
@@ -988,6 +989,7 @@ class AddressDescriptor ( ModelDescriptor ):
                                           required=False
                                           ),
              ),
+        dict( name="im_id", label=_(u"Instant Messenger Id"), description=_(u"ICQ, AOL IM, GoogleTalk...")),
         dict( name="status", omit=True ),
         ]
         

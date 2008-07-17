@@ -53,7 +53,10 @@ class BungeniAttributeDisplay( DynamicFields, DisplayFormViewlet ):
 
    
     def getform_name( self ):
-        descriptor = queryModelDescriptor( self.context.__parent__.domain_model )
+        if self.context.__parent__:
+            descriptor = queryModelDescriptor( self.context.__parent__.domain_model )
+        else:
+            return self.form_name
         if descriptor:
             name = getattr( descriptor, 'display_name', None)
         if not name:

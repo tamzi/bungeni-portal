@@ -61,7 +61,7 @@
     manager="ploned.ui.interfaces.ILeftColumnManager"
     class=".navigation.NavigationTreeViewlet"
     permission="zope.View"
-     weight="1"
+    weight="1"
     />    
     
   <!--YUI Tabs -->

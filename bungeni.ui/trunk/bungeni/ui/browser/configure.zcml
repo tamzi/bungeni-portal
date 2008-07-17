@@ -30,6 +30,16 @@
       weight="10"
       />
 
+ <browser:viewlet
+      name="bungeni.subform.mp-personal-info"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.PersonInfo"
+      for="bungeni.core.interfaces.IMemberOfParliament"
+      permission="zope.View"
+      weight="20"
+      />
+
+
 <!--
       allowed_interface="zope.formlib.interfaces.ISubPageForm"
       layer="bungeni.ui.interfaces.IBungeniSkin"            

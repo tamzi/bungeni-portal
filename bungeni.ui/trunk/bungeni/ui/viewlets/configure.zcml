@@ -114,6 +114,11 @@
      permission="zope.View"
      />
     
+  <browser:viewletManager
+     name="bungeni.current-ministries"
+     provides=".interfaces.ICurrentMinistries"    
+     permission="zope.View"
+     />
 
 
   <browser:viewlet
@@ -127,7 +132,7 @@
   <browser:viewlet
     name="bungeni.current.government"   
     manager=".interfaces.ICurrent"
-    class=".current.CurrentGovernmentViewlet"
+    class=".current.CurrentParliamentGovernmentViewlet"
     permission="zope.Public"
     weight="4"
     />
@@ -135,7 +140,7 @@
     
   <browser:viewlet
     name="bungeni.current.ministries"   
-    manager=".interfaces.ICurrent"
+    manager=".interfaces.ICurrentMinistries"
     class=".current.CurrentMinistriesViewlet"
     permission="zope.Public"
     weight="5"

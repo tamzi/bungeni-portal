@@ -1,4 +1,4 @@
-<div class="listing">
+<div class="listing" tal:define="skip view/skiptag" tal:omit-tag="skip">
   <em> Ministries </em>
   <table class="listing">
     <thead>

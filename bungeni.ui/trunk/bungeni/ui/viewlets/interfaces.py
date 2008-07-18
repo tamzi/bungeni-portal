@@ -7,6 +7,9 @@ class IWorkspace(IViewletManager):
 class ICurrent( IViewletManager ):    
     """ Current Objects viewlet manager """
     
+class ICurrentMinistries( IViewletManager ):  
+    """ Ministries in current government """      
+    
 class IDateChooser( IViewletManager ):    
     """ Date Chooser viewlet manager """    
 

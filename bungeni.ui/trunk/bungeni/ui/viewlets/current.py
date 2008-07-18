@@ -434,6 +434,9 @@ class CurrentGovernmentViewlet( viewlet.ViewletBase ):
         
         
     render = ViewPageTemplateFile ('current_government_viewlet.pt')
+    
+class CurrentParliamentGovernmentViewlet( CurrentGovernmentViewlet ):     
+    render = ViewPageTemplateFile ('current_parliament_government_viewlet.pt')    
 
 class CurrentMinistriesViewlet( viewlet.ViewletBase ):
     
@@ -452,7 +455,11 @@ class CurrentMinistriesViewlet( viewlet.ViewletBase ):
             self.Date = datetime.date.today()
         self.query = session.query(domain.Ministry).filter(getFilter(self.Date))
         
-
+    def skiptag( self ):
+        """
+        skip the tag to be included in yui tabs
+        """
+        return self.__name__ != 'bungeni.current-gov.ministries'
 
     def getData(self):
         """

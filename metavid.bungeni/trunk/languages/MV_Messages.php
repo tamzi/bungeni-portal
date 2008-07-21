@@ -85,8 +85,10 @@ Or you many want to <a href="$3">Add the stream</a>.',
 	#editors,readers,reporters
 	'mv_manage_readers'	=>		'Manage Readers',
 	'mv_manage_reporters'	=> 'Manage Reporters',
-	'mv_order_reporters' =>		'Order in which Reporters are assigned transcripts by default',
+	'mv_order_staff' =>		'Order Staff',
 	'mv_staff'	=>	'Staff',
+	#categories
+	'mv_categories' 	=> 'Categories',
 	#sittings
 	'mv_add_sitting'				=>	'Metavid Add Sitting',
 	'mv_edit_sitting'				=>	'Metavid Edit Sitting',
@@ -143,19 +145,20 @@ Or you many want to <a href="$3">Add the stream</a>.',
 	#undesa
 	'question_en'   => 'Question',
 	'answer_en' => 'Answer',
+	'take_en' => 'Take',
 	#undesa
 	'anno_en_desc'  => 'English categorizations and annotations. This overlay can be used to Categorize sections of video or to add annotative information that is not spoken text',
 	'thomas_en'     => 'Official Transcript',
 	'thomas_en_desc'=> 'Official Thomas Transcript from the governments THOMAS record service. Source time synced by C-SPAN\'s c-spanarchives.org',
 
 	'ht_en'          => 'Transcript',
-<<<<<<< .mine
+//<<<<<<< .mine
 	'ht_en_desc'     => 'English transcripts. This overlay type is for spoken text',
-=======
-	'ht_en_desc'     => 'English transcripts.
-This overlay type is for spoken text',
+//=======
+//	'ht_en_desc'     => 'English transcripts.
+//This overlay type is for spoken text',
 	'anno_en'        => 'Annotations and categories',
->>>>>>> .r37235
+//>>>>>>> .r37235
 	'anno_en_desc'   => 'English categorizations and annotations.
 This overlay can be used to categorize sections of video or to add annotative information that is not spoken text',
 	'thomas_en'      => 'Official transcript',
@@ -289,6 +292,7 @@ Jump to stream view: $2',
 	'mv_new_anno_en'         => 'New Agenda Item',
 	'mv_new_question_en'     => 'New Question',
 	'mv_new_answer_en'       => 'New Answer',
+	'mv_new_take_en'		 => 'New Take',
 	'mv_mang_layers'         => 'Manage Layers',
 	'mv_mang_layers_title'   => 'Manage the Layer Display Set for the current stream',
 //=======
@@ -312,15 +316,6 @@ $messages['rtm'] = array(
 	'mv_edit'        => "A'tū'ạki",
 );
 
-/** Tarifit (Tarifit)
- * @author Jose77
- */
-$messages['rif'] = array(
-	'mv_tool_search' => 'Tarzzut',
-	'mv_edit'        => 'Arri',
-	'mv_history'     => 'Amzruy',
-);
-
 /** Karelian (Karjala)
  * @author Flrn
  */
@@ -329,14 +324,14 @@ $messages['krl'] = array(
 	'mv_edit'        => 'Muokkaus',
 );
 
-/** Eastern Mari (Олык Марий йылме)
+/** Eastern Mari (Олык Марий)
  * @author Сай
  */
 $messages['mhr'] = array(
 	'mv_tool_search' => 'Кычал',
 );
 
-/** Niuean (native name missing)
+/** Niuean (ko e vagahau Niuē)
  * @author Jose77
  */
 $messages['niu'] = array(
@@ -348,9 +343,11 @@ $messages['niu'] = array(
 
 /** Afrikaans (Afrikaans)
  * @author Arnobarnard
+ * @author Naudefj
  */
 $messages['af'] = array(
 	'mv_tool_search'     => 'Soek',
+	'mv_play'            => 'Speel',
 	'mv_edit'            => 'Wysig',
 	'mv_history'         => 'Geskiedenis',
 	'mv_remove'          => 'skrap',
@@ -535,6 +532,14 @@ $messages['ar'] = array(
 	'mv_mang_layers'                 => 'التحكم بالطبقات',
 	'mv_mang_layers_title'           => 'التحكم بمجموعة عرض الطبقة للستريم الحالي',
 	'mv_protect_source_material'     => 'المادة المصدر الأصلية محمية من التعديلات',
+);
+
+/** Belarusian (Taraškievica orthography) (Беларуская (тарашкевіца))
+ * @author EugeneZelenko
+ */
+$messages['be-tarask'] = array(
+	'mv_search_category' => 'Катэгорыя',
+	'mv_category'        => 'катэгорыя',
 );
 
 /** Bulgarian (Български)
@@ -1480,7 +1485,10 @@ $messages['hy'] = array(
  * @author McDutchie
  */
 $messages['ia'] = array(
-	'mv_edit' => 'Modificar',
+	'mv_remove_reason' => 'Motivo pro deletion:',
+	'mv_tool_search'   => 'Cercar',
+	'mv_tool_export'   => 'Exportar',
+	'mv_edit'          => 'Modificar',
 );
 
 /** Indonesian (Bahasa Indonesia)
@@ -1593,7 +1601,7 @@ $messages['km'] = array(
 	'mv_search_or'           => 'ឬ',
 	'mv_search_not'          => 'អត់',
 	'mv_search_date_range'   => 'ដែនកំណត់ នៃ ថ្ងៃ ខែ ឆ្នាំ',
-	'mv_category'            => 'ចំណាត់ក្រុម',
+	'mv_category'            => 'ចំនាត់ថ្នាក់ក្រុម',
 	'mv_remove_filter'       => 'ដកចេញ តំរង',
 	'mv_view_wiki_page'      => 'មើលទំព័រវិគី',
 	'mv_mang_layers'         => 'គ្រប់គ្រង ស្រទាប់',
@@ -1625,8 +1633,9 @@ $messages['ksh'] = array(
 	'mv_search_and'  => ', un',
 );
 
-/** Kurdish (Kurdî / كوردی)
+/** Kurdish (Latin) (Kurdî / كوردی (Latin))
  * @author Bangin
+ * @author Siebrand
  */
 $messages['ku-latn'] = array(
 	'mv_tool_search' => 'Lêbigere',
@@ -2475,6 +2484,7 @@ $messages['os'] = array(
 /** Polish (Polski)
  * @author McMonster
  * @author Sp5uhe
+ * @author Maikking
  */
 $messages['pl'] = array(
 	'mv_add_stream_submit'   => 'Dodaj strumień',
@@ -2485,7 +2495,25 @@ $messages['pl'] = array(
 	'mv_label_stream_desc'   => 'Opis strumienia',
 	'mv_remove_reason'       => 'Powód usunięcia',
 	'mv_label_stream_type'   => 'Typ strumienia',
+	'mv_upload_file'         => 'Prześlij plik',
+	'mv_external_file'       => 'Zewnętrzny plik',
+	'mv_tool_search'         => 'Szukaj',
+	'mv_tool_export'         => 'Eksport',
+	'mv_results_found_for'   => 'Wyniki wyszukiwania <b>$1</b> do <b>$2</b> z <b>$3</b> dla:',
+	'mv_play'                => 'Odtwórz',
+	'mv_edit'                => 'Edytuj',
+	'mv_history'             => 'Historia',
+	'mv_edit_title'          => 'Edytuj opis',
 	'mv_remove'              => 'usuń',
+	'mv_start_desc'          => 'Czas rozpoczęcia',
+	'mv_end_desc'            => 'Czas zakończenia',
+	'mv_of'                  => '&#32;z&#32;',
+	'mv_search_category'     => 'Kategoria',
+	'mv_search_and'          => 'i',
+	'mv_search_or'           => 'lub',
+	'mv_category'            => 'kategoria',
+	'mv_match_text'          => '~  $1 trafień',
+	'mv_match_text_one'      => '~ 1 trafienie',
 );
 
 /** Pashto (پښتو)
@@ -2662,6 +2690,16 @@ Para todos os metadados no intervalo de categorias, procure por $1",
 	'mv_mang_layers'                 => 'Gerir Camadas',
 	'mv_mang_layers_title'           => "Gerir o conjunto de visualização de camadas para a 'stream' actual",
 	'mv_protect_source_material'     => 'Material fonte original protegido contra edições',
+);
+
+/** Tarifit (Tarifit)
+ * @author Jose77
+ */
+$messages['rif'] = array(
+	'mv_upload_file' => 'Sili afaylu',
+	'mv_tool_search' => 'Tarzzut',
+	'mv_edit'        => 'Arri',
+	'mv_history'     => 'Amzruy',
 );
 
 /** Russian (Русский)
@@ -3222,7 +3260,7 @@ Hoppa till dataflödesvisning: $2',
 	'mv_protect_source_material'     => 'Orginalt källmaterial beskyddat mot redigeringar',
 );
 
-/** Silesian (ślůnski)
+/** Silesian (Ślůnski)
  * @author Pimke
  * @author Herr Kriss
  */

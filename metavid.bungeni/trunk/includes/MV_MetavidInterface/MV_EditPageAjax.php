@@ -110,7 +110,30 @@
 		$wgOut->addHTML('</td>' .	
 			'<td>');
 	}
+	
+	function do_pre_takeEdit(){
+		global $wgOut, $wgUser,$semantic_data;
+		$this->loadEditText();
+			
+		$MvOverlay = new MV_Overlay();
+		//strip semantic tags which are managed by the interface:
+		$semantic_data = $MvOverlay->get_and_strip_semantic_tags($this->stripped_edit_text);		
+		$out=$js_eval='';
+		//add a div for previews: 
+		$wgOut->addHTML('<div id="wikiPreview_' . $this->mvd_id .'"></div>');		
+		
+		//set the default action so save page: 
+		$wgOut->addHTML( $this->getAjaxForm() );
+		
+		//add in adjust html if present: 
+		$wgOut->addHTML($this->adj_html);				
 
+		//structure layout via tables (@@todo switch to class based css layout)		
+		$wgOut->addHTML('<table style="background: transparent;" width="100%"><tr>');
+		//add container formatting for MV_Overlay
+		$wgOut->addHTML('<td>');
+	}
+	
 	function edit( $textbox1_override=null) {
 //>>>>>>> .r32567
 		global $wgOut, $wgUser, $wgRequest, $wgTitle;
@@ -423,6 +446,10 @@
 					$this->do_pre_htEdit();
 					$closeFormHtml=$this->do_post_questionEdit();
 				break;
+				case 'take_en':
+					$this->do_pre_takeEdit();
+					$closeFormHtml=$this->do_post_HtEdit();
+				break;
 				//undesa patch
 				case 'seq':
 					$wgOut->addHTML( wfMsg('mv_edit_sequence_desc_help'));
@@ -673,7 +700,7 @@
         //$result = $dbr->select(array($dbr->tableName($sitting_assignments), $dbr->tableName($user_group)),'*',array('sitting_id'=>$this->sitting_id));
         $sql = 'SELECT ug_user FROM user_groups WHERE ug_user IN (SELECT user_id FROM sitting_assignment WHERE sitting_id='.$this->sitting_id.') and ug_group="editor"';
         $result = $dbr->query($sql);
-        $wgOut->addHTML('<table><tr><td>Editor</td><td>Reader</td><td>Reporter</td><td>Status</td></tr>');
+        $wgOut->addHTML('<table><tr><td width="50">Editor</td><td width="50">Reader</td><td width="50">Reporter</td><td width="50">Status</td></tr>');
         //get editor names and id
         $wgOut->addHTML('<tr><td><select name="smw_Edited_By">');
         
@@ -753,7 +780,7 @@
         $wgOut->addHTML('<option>Verified</option>');
         $wgOut->addHTML('<option>Disputed</option>');
         $wgOut->addHTML('<option>Final</option>');
-        $wgOut->addHTML('</select></td>');
+        $wgOut->addHTML('</select></td></tr></table>');
         
         }
         else
@@ -777,7 +804,7 @@
             $options = '<option selected></option><option>Opening Prayer</option><option>Schedule</option>';
             $wgOut->addHTML('<p>Category<select name="smw_Category" id="smw_Category">'.$options.'</select>');
         }
-        $wgOut->addHTML('</td><tr><td colspan="2">');
+        $wgOut->addHTML('</td><tr><td colspan="4">');
 		# Set focus to the edit box on load, except on preview or diff, where it would interfere with the display
 		/*if( !$this->preview && !$this->diff ) {
 			$wgOut->setOnloadHandler( 'document.editform.wpTextbox1.focus()' );

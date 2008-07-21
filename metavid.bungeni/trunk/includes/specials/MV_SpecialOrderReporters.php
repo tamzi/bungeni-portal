@@ -5,14 +5,14 @@ if (!defined('MEDIAWIKI')) die();
 global $IP;
 require_once( "$IP/includes/SpecialPage.php" );
 
-function doSpecialOrderReporters() {
-	$MV_SpecialOrderReporters = new MV_SpecialOrderReporters();
-	$MV_SpecialOrderReporters->execute();
+function doSpecialOrderStaff() {
+	$MV_SpecialOrderStaff = new MV_SpecialOrderStaff();
+	$MV_SpecialOrderStaff->execute();
 }
 
-SpecialPage::addPage( new SpecialPage('Mv_order_reporters','',true,'doSpecialOrderReporters',false) );
+SpecialPage::addPage( new SpecialPage('Mv_order_staff','',true,'doSpecialOrderStaff',false) );
 
-class MV_SpecialOrderReporters
+class MV_SpecialOrderStaff
 {
 	function execute()
 	{
@@ -20,7 +20,7 @@ class MV_SpecialOrderReporters
 		$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/orderReporters.js\"></script>");
 		$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/mv_stream.js\"></script>");
 		$html .= "<div id=\"success\"></div>";
-		$html.='<form name=test >';
+		$html.='<form name=staff >';
 		$html.='<table>';
 		$html.='<tr><td colspan=2>Available Reporters</td></tr>';
 		$html.='<tr><td rowspan=2><select name=reporters size=20>';
@@ -36,8 +36,8 @@ class MV_SpecialOrderReporters
 		}
 		
 		$html.='</select></td><td>';  
-		$html.="<img src=\"{$mvgScriptPath}/skins/images/up.png\" onclick=up()>";
-		$html.="</td></tr><tr><td> <img src=\"{$mvgScriptPath}/skins/images/down.png\" onclick=down()></td></tr>";
+		$html.="<img src=\"{$mvgScriptPath}/skins/images/arrows/sortup.png\" onclick=up()>";
+		$html.="</td></tr><tr><td> <img src=\"{$mvgScriptPath}/skins/images/arrows/sortdown.png\" onclick=down()></td></tr>";
 		$html.='</table>';
 		$html.='<input type="hidden" name="xmldata"></input>';
 		$html.='</form>';

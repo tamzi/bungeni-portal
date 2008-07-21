@@ -208,6 +208,12 @@
 	 * @@todo we could probably do a cleaner abstraction for ajax calls
 	*/	
 	//undesa
+	function mv_save_order()
+	{
+		$MV_Staff = new MV_Staff();
+		return $MV_Staff->saveOrder($_REQUEST['xmldata']);
+	}
+	
 	function mv_get_editors()
 	{
 		$MV_Editors = new MV_Editors();

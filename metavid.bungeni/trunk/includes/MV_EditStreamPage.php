@@ -93,12 +93,12 @@
  			$newSf = new MV_StreamFile($this->mArticle->mvTitle->mvStream, $_POST['sf_new']); 			
  			//check against existing stream files:
  			$doAdd=true; 
- 			foreach($streamFiles as $sf){
- 				if($sf->file_desc_msg== $newSf->file_desc_msg){
- 					$this->status_error = wfMsg('mv_file_with_same_desc', $newSf->file_desc_msg);
- 					$doAdd=false;
- 				}
- 			}
+ 		//	foreach($streamFiles as $sf){
+ 		//		if($sf->file_desc_msg== $newSf->file_desc_msg){
+ 		//			$this->status_error = wfMsg('mv_file_with_same_desc', $newSf->file_desc_msg);
+ 		//			$doAdd=false;
+ 		//		}
+ 		//	}
  			if($doAdd){
  				$newSf->writeStreamFileDB();
  				$streamFiles[]=$newSf;

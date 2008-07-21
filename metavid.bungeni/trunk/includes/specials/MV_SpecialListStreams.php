@@ -47,8 +47,44 @@ class MV_SpecialListStreams extends QueryPage {
 
 	function isSyndicated() { return true; }
 
-	function getPageHeader() {		
-		return '<div name="user-tab"></div><p>' . wfMsg('mv_list_streams_docu') . "</p><br />\n";
+	function getPageHeader() {
+			global $SittingAssignmentsTable;
+			$dbr =& wfGetDB( DB_SLAVE );
+			$sql = 'SELECT ug_user FROM user_groups WHERE ug_user IN (SELECT user_id FROM sitting_assignment WHERE sitting_id='.$this->sitting_id.') and ug_group="editor"';
+		$editors  = $dbr->query($sql);
+			$sql = 'SELECT ug_user FROM user_groups WHERE ug_user IN (SELECT user_id FROM sitting_assignment WHERE sitting_id='.$this->sitting_id.') and ug_group="reader"';
+		$readers  = $dbr->query($sql);
+		$sql = 'SELECT ug_user FROM user_groups WHERE ug_user IN (SELECT user_id FROM sitting_assignment WHERE sitting_id='.$this->sitting_id.') and ug_group="reporter"';
+		$reporters  = $dbr->query($sql);
+			$html = '';
+			$html .= '<table border=1><thead>Staff assigned to this sitting</thead><tr><td>Editors</td><td>Readers</td><td>Reporters</td></tr>';
+			$html .= '<tr><td><table>';
+			while ($rowEditors = $dbr->fetchobject($editors))
+			{
+				$user = User::newFromId($rowEditors->ug_user);
+				$name = $user->getRealName();
+				$html .= "<tr><td>$name</td></tr>";	
+			}
+			$html .= '</table></td>';
+			$html .='<td><table>';
+			while ($rowReaders = $dbr->fetchobject($readers))
+			{
+				$user = User::newFromId($rowReaders->ug_user);
+				$name = $user->getRealName();
+				$html .= "<tr><td>$name</td></tr>";	
+			}
+			$html .= '</table></td>';
+			$html .= '<td><table>';
+			while ($rowReporters = $dbr->fetchobject($reporters))
+			{
+				$user = User::newFromId($rowReporters->ug_user);
+				$name = $user->getRealName();
+				$html .= "<tr><td>$name</td></tr>";	
+			}
+			$html .= '</table></td>';
+			$html .= '</tr></table>';
+			return $html;
+		//return '<div name="user-tab"></div><p>' . wfMsg('mv_list_streams_docu') . "</p><br />\n";
 	}
 	function getSQL() {
 		global $mvStreamTable;

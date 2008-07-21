@@ -28,7 +28,7 @@ function doSpecialEditStream(){
 SpecialPage::addPage( new SpecialPage('Mv_Add_Stream','',true,'doSpecialAddStream',false) );
 SpecialPage::addPage( new SpecialPage('Mv_Edit_Stream','',true,'doSpecialEditStream',false) );
 
-class MV_SpecialCRUDStream extends UploadForm {
+class MV_SpecialCRUDStream{
 	function __construct($mode){	
 		$this->mode = $mode;
 	}
@@ -69,7 +69,19 @@ class MV_SpecialCRUDStream extends UploadForm {
 		}else{
 			if($this->mode=='add'){			
 				//output add_ status to html
-				$html.=$this->add_stream();
+				//$html.=
+				if ($this->add_stream())
+				{
+					$streamTitle =Title::newFromText( $this->stream_name, MV_NS_STREAM  );
+					$wgOut->redirect($streamTitle->getLocalURL("action=edit"));
+					return;
+				}
+				else
+				{
+					$html="Error adding stream. Please Nofity Administrator";
+					$wgOut->addHTML( $html );	
+					return ;
+				}
 			}else{
 				//possible edit
 			}						
@@ -215,19 +227,21 @@ class MV_SpecialCRUDStream extends UploadForm {
 				$success = $wgArticle->doEdit( $this->stream_desc, wfMsg('mv_summary_add_stream') );
 				if ( $success ) {
 					//stream inserted succesfully report to output				
-					$streamLink = $sk->makeLinkObj( $streamTitle,  $this->stream_name );		
-					$out='stream '.$streamLink.' added';													
-					 
+					//$streamLink = $sk->makeLinkObj( $streamTitle,  $this->stream_name );		
+					//$out='stream '.$streamLink.' added';													
+					 return true;	
 				} else {
-					$out=wfMsg('mv_error_stream_insert');
+					//$out=wfMsg('mv_error_stream_insert');
+					return false;
 				}
 							
 			}else{
 				//stream failed insert
+				return false;
 			}
 					
 		}	
-		return $out;
+		//return $out;
 	}	
 	/*
 	 * Returns an array of stream types the current user can add

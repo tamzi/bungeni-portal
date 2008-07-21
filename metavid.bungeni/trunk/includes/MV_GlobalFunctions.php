@@ -61,6 +61,8 @@ $wgAutoloadClasses['MV_Reporters'] =  dirname(__FILE__)  .'/MV_Reporters.php';
 $wgAutoloadClasses['MV_Readers'] =  dirname(__FILE__)  .'/MV_Readers.php';	
 $wgAutoloadClasses['MV_ManageStaff'] =  dirname(__FILE__)  .'/MV_ManageStaff.php';	
 $wgAutoloadClasses['MV_Status'] =  dirname(__FILE__)  .'/MV_Status.php';
+$wgAutoloadClasses['MV_Staff'] =  dirname(__FILE__)  .'/MV_Staff.php';
+
 $markerList = array(); 
 
 //override special search page: (requires ExtensionFunctions.php)
@@ -106,11 +108,12 @@ function mvSetupExtension(){
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialUpload.php');
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialUnusedStreamFiles.php');
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialManageReaders.php');
-	require_once( dirname(__FILE__) . '/specials/MV_SpecialOrderReporters.php');
+	require_once( dirname(__FILE__) . '/specials/MV_SpecialOrderStaff.php');
 	require_once( dirname(__FILE__) . '/specials/MV_test.php');
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialMVAdmin.php');
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialManageReporters.php');
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialSittingTypes.php');
+	require_once( dirname(__FILE__) . '/specials/MV_SpecialCategories.php');
 	/**********************************************/
 	/***** register hooks                     *****/
 	/**********************************************/
@@ -464,7 +467,7 @@ $wgAjaxExportList[] = 'mv_expand_wt';
 $wgAjaxExportList[] = 'mv_submit_remove';
 $wgAjaxExportList[] = 'mv_tool_disp';
 $wgAjaxExportList[] = 'mv_date_obj';
-
+$wgAjaxExportList[] = 'mv_save_order';
 //media serving 
 $wgAjaxExportList[] = 'mv_frame_server';
 

@@ -344,6 +344,10 @@ function mv_disp_add_mvd(mvdType){
 				add_autocomplete('new'); 
 				add_adjust_hooks('new'); 
 			}
+			if(mvdType=='take_en'){
+				add_autocomplete('new'); 
+				add_adjust_hooks('new'); 
+			}
 			if(mvdType=='question_en'){
 				add_autocomplete('new'); 
 				add_adjust_hooks('new');

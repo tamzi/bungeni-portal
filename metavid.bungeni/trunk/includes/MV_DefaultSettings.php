@@ -110,7 +110,7 @@ $mvDefaultVideoIconSize = '80x60';
  * Different languages should be in different tracks and documentation should be clear
  * to insure data goes into its associative layer.
  */
-$mvMVDTypeAllAvailable = array('anno_en','ht_en','thomas_en','question_en','answer_en','mp_names');
+$mvMVDTypeAllAvailable = array('anno_en','ht_en','thomas_en','question_en','answer_en','mp_names', 'take_en');
 
 /*
  * the default display set of layers (must be a subset of $mvMVDTypeAllAvaliable)
@@ -144,7 +144,10 @@ $sitting_reporter = 'sitting_reporter';
 $sitting_reader = 'sitting_reader';
 $sitting_editor = 'sitting_editor';
 $sittingTypesTable = 'sitting_types';
-
+$reporterOrderTable = 'mv_order_reporter';
+$readerOrderTable = 'mv_order_reader';
+$editorOrderTable = 'mv_order_editor';
+$categoriesTable = 'mv_category';
 //whether to count found results (can take lots of time on big result sets)
 $mvDo_SQL_CALC_FOUND_ROWS = true;
 

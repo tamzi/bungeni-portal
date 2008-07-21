@@ -1,0 +1,52 @@
+This document gives the details of what needs to be done in order to obtain, install, and configure the bungeni digital repository cross-search web application.
+
+OBTAINING
+You should do an svn checkout of this application together with Bungeni Dspace xmlui at this link
+http://bungeni-portal.googlecode.com/svn/dspace.bungeni/trunk
+After you have done the checkout to a directory which will be referred to as svn-checkout-dir from now on, you will get the source code as well as the binaries including the netbeans project fot this application under the svn-checkout-dir/trunk/netbeans-project/
+
+The xmlui binaries and source are located in the xmlui dir under the svn-checkout-dir/xmlui/ directory.
+A description on how to install and configure dspace and the xmlui are given under the svn-checkout-dir/xmlui-documentation dir
+
+PREREQUISITES
+Before you can install this application you need to have the following installations done and sucessfully configured
+1. Bungeni DSpace
+This is the dspace repository for the bungeni project. Details of how to install this are available under the svn-checkout-dir.
+Follow the instructions to the end and make sure that the installation as working properly as specified in the installation manual
+for the application
+
+2. You will also need to install Bungeni Koha. Installation details for koha and how to export the dataset are given under the
+sv-checkout-dir/koha. 
+
+
+INSTALLATION
+To Install the application follow the following steps.
+The application is a web application given as a .war file. You need a servlet container such as tomcat in order to deploy the application.
+assuming you are using tomcat, you will need to copy the digital repository.war file into the webapps dir of your tomcat installation.
+
+On copying the war file to the dir, the servlet container will automatically deploy the application so that it is accessible through a browser
+by using a link similar to this
+http://192.168.1.10:8080/digitalrepository
+
+Before the search functionality can work you need to create an index for the koha marc records available under the svn-checkout-dir/koha as the koha.mrc file
+Details on how to index and specify the index directory for the records are given in the installation guide available in the svn-checkout-dir/koha directory.
+The index directory used is important since you will need to specify the same dir for the cross search application in the configuration file so that it is possible to include search results fro the koha installation.
+
+In the digital repository dir under the webapps dir of your tomcat installation go to the conf directory and edit the repository.cfg file providing the correct details for the different parameters in the file. A good description of the values and the expected values is given as comments within the configuraton file. 
+
+After setting up the values correctly you should restart your tomcat installation so that the new configurations can take effect.
+
+Alternatively, you can take the following steps for installation which doesn't give restrictions on where to locate the application.
+
+1. Extract the digitalrepository.war archive into an installation dir of your choice hereafter referred to as install-dir.
+2. Under the install-dir set up the values corretly in the repository.cfg file just like you did above
+3. Go to your tomcat installtion dir and edit the server.xml file adding the following inside the <host></host> element
+      <!-- DEFINE A CONTEXT PATH FOR Cross Search Application -->
+	<Context path="/digitalrepository" docBase="<install-dir>" debug="0" reloadable="true" cachingAllowed="false" allowLinking="true"/> 
+4. Restart tomcat and navigate to http://192.168.1.10:8080/digitalrepository/
+
+You should see digital repository interface like you had seen with the other installation procedure.
+
+
+
+

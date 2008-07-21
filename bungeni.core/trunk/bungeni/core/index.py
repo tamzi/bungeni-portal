@@ -9,7 +9,11 @@ from ore.alchemist import container
 from sqlalchemy.orm.session import Session
 from ore.xapian import queue, search, interfaces as iindex
 
+import logging
 import domain
+import interfaces
+
+log = logging.getLogger('bungeni.index')
 
 # we store indexes in buildout/parts/index
 # 
@@ -67,6 +71,9 @@ class ContentIndexer( object ):
              xappy.Field( "object_type", self.context.__class__.__name__ )
              )
 
+        if interfaces.ENABLE_LOGGING:
+            log.warning("Indexing Document %r"%self.context )
+            
         # object kind
         doc.fields.append( 
              xappy.Field( "object_kind", domain.object_hierarchy_type( self.context ) )
@@ -75,18 +82,38 @@ class ContentIndexer( object ):
         # schema fields one by one
         for iface in interface.providedBy( self.context ):
             for field in schema.getFields( iface ).values():
+                #log.warning("  processing %s %r"%( field.__name__, field) )
                 if not isinstance( field, ( schema.Text, schema.ASCII ) ):
                     continue
                 value = field.query( self.context, '' )
                 if value is None:
                     value = u''
+                #if interfaces.ENABLE_LOGGING:
+                #    log.warning("  field %s %r %r"%( field.__name__, field, value ) )
+                    
                 if not isinstance( value, (str, unicode)):
                     value = unicode( value )
                 doc.fields.append(  xappy.Field(field.__name__, value ) )
 
         return doc
 
+    def fields( self, indexer ):
+        self.specified_fields( indexer )
+        action_fields = ('resolver', 'object_type', 'object_kind', 'status', 'path', 'title')
+        
+        for iface in interface.providedBy( self.context ):
+            for field in schema.getFields( iface ).values():
+                if field.__name__ in action_fields:
+                    continue
+                if not isinstance( field, ( schema.Text, schema.ASCII ) ):
+                    continue
+                indexer.add_field_action( field.__name__, xappy.FieldActions.INDEX_FREETEXT, language='en' )
 
+
+    def specified_fields( self, indexer ):
+        pass
+        
+        
 ####################
 ## Field Definitions
 #
@@ -118,6 +145,17 @@ def setupFieldDefinitions(indexer):
     # find a solution for this
     indexer.add_field_action('title', xappy.FieldActions.INDEX_FREETEXT, weight=5, language='en', spell=True )
     indexer.add_field_action('title', xappy.FieldActions.STORE_CONTENT )
+
+    ContentIndexer( domain.Bill()  ).fields( indexer )
+    ContentIndexer( domain.Motion()  ).fields( indexer )
+    ContentIndexer( domain.Question()  ).fields( indexer )        
+    ContentIndexer( domain.User()  ).fields( indexer )
+    ContentIndexer( domain.Group()  ).fields( indexer )
+    ContentIndexer( domain.Committee()  ).fields( indexer )            
+    ContentIndexer( domain.Parliament()  ).fields( indexer )        
+    ContentIndexer( domain.ParliamentMember()  ).fields( indexer )
+    ContentIndexer( domain.HansardReporter()  ).fields( indexer )            
+    
 
 # storage directory
 store_dir = setupStorageDirectory() 

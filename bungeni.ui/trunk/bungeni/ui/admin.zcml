@@ -6,7 +6,7 @@
   <!-- Reset Container UI on Users back to default-->
   <browser:page
      for="bungeni.core.interfaces.IAdminUserContainer"
-     permission="zope.View"
+     permission="zope.ManageSite"
      name="index"
      class=".admin.UserListing"
      layer="bungeni.ui.interfaces.IBungeniSkin"

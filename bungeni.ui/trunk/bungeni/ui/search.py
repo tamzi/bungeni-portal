@@ -5,9 +5,40 @@ User interface for Content Search
 Todo - Canonical URL on index of results, tuple,
        AbsoluteURL adapter for results
        mark result class with interface
+
+
+Supported xapian query operators
+ |  OP_AND = 0
+ |  
+ |  OP_AND_MAYBE = 4
+ |  
+ |  OP_AND_NOT = 2
+ |  
+ |  OP_ELITE_SET = 10
+ |  
+ |  OP_FILTER = 5
+ |  
+ |  OP_NEAR = 6
+ |  
+ |  OP_OR = 1
+ |  
+ |  OP_PHRASE = 7
+ |  
+ |  OP_SCALE_WEIGHT = 9
+ |  
+ |  OP_SYNONYM = 13
+ |  
+ |  OP_VALUE_GE = 11
+ |  
+ |  OP_VALUE_LE = 12
+ |  
+ |  OP_VALUE_RANGE = 8
+ |  
+ |  OP_XOR = 3
+ |         
 """
 
-import time
+import time, simplejson
 from alchemist.ui.core import BaseForm
 from ore.xapian import interfaces
 
@@ -92,6 +123,78 @@ class Search( BaseForm, ResultListing ):
         suggestion = searcher.spell_correct( search_term )
         self.spelling_suggestion = (search_term != suggestion and suggestion or None)
         self.doc_count = searcher.get_doccount()
+
+class ConstraintQueryJSON( BrowserView ):
+
+    
+    def __call__( self ):
+        search_term = self.request.form.get( 'q_user_name' )
+        if not search_term:
+            return simplejson.dumps(None)
+        self.searcher = component.getUtility( interfaces.IIndexSearch )()
+        results = self.query( search_term )
+        return simplejson.dumps( results )
+    
+    def query( self, search_term, spell_correct=False ):
+        # result
+        d = {}
+        
+        # compose and execute query
+        t = time.time()
+        start, limit = self.getOffsets()
+        query = self.composeQuery( search_term )
+        results = self.searcher.search( query, start, start+limit) 
+        
+        # prepare results
+        d['results'] = self.marshalResults( results )
+        d['search_time'] = time.time()-t
+        d['doc_count'] = self.searcher.get_doccount()
+
+        return d
+
+    def composeQuery( self, search_term ):
+        query = self.searcher.query_parse( search_term )
+        constraint = self.getConstraintQuery()
+        if constraint:
+            query = self.searcher.query_multweight( query, 3.0 )
+            if isinstance( constraint, list ):
+                constraint.insert(0, query )
+                query = constraint
+            else:
+                query = self.searcher.query_composite(
+                    self.searcher.OP_AND, ( query, constraint )
+                    )
+        return query
+    
+    def getConstraintQuery( self ):
+        raise NotImplemented
+    
+    def getOffsets( self, limit_default=30 ):
+        nodes = []
+        start, limit = self.request.get('start',0), self.request.get('limit', 25)
+        try:
+            limit_default = int( limit_default )
+            start, limit = int( start ), int( limit )
+            if not limit:
+                limit = limit_default
+        except ValueError:
+            start, limit = 0, 30
+        # xapian end range is not inclusive
+        return start, limit + 1
+    
+    def marshallResults( self, results ):
+        r = []
+        for i in results:
+            r.append(
+                dict( rank=i.rank,
+                      type=i.data.get('object_type'),
+                      title=i.data.get('title'),
+                      weight = i.weight,
+                      percent = i.percent )
+                )
+        return r
+                      
+            
     
 class Similar( BrowserView, ResultListing ):
     

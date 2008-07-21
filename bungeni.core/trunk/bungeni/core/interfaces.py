@@ -12,6 +12,14 @@ class IBungeniApplication( IApplication ):
     Bungeni Application
     """
 
+class IBungeniAdmin( IContainer ):
+    """
+    Admin Container
+    """
+
+class IAdminUserContainer( interface.Interface ):
+    pass
+
 ####################
 # Feature - Marker Interfaces 
 # 

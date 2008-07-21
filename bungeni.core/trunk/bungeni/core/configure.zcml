@@ -96,4 +96,10 @@
      <allow interface="zope.app.container.interfaces.IReadContainer" />
   </class>
 
+  <class 
+     class=".app.BungeniAdmin">
+     <allow interface="zope.app.container.interfaces.IReadContainer" />
+  </class>
+
+
 </configure>

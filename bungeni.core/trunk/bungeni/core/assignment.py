@@ -45,6 +45,8 @@ class ContentAssignments( object ):
 
 class GroupAssignmentFactory( object ):
 
+    interface.implements( interfaces.IAssignmentFactory )
+    
     def __init__( self, content, group ):
         self.content = content
         self.group = group

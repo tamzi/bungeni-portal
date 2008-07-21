@@ -39,6 +39,10 @@ class AppSetup( object ):
         self.context = context
         
     def setUp( self ):
+
+        # ensure indexing facilities are setup ( lazy )
+        import index
+        
         sm = site.LocalSiteManager( self.context )
         self.context.setSiteManager( sm )
 
@@ -109,6 +113,7 @@ class AppSetup( object ):
         self.context['admin'] = admin = BungeniAdmin()
         admin['users'] = admin_user = domain.UserContainer()
         interface.directlyProvides( admin_user, interfaces.IAdminUserContainer )
+
         admin['groups'] = domain.GroupContainer()
         ##########
         

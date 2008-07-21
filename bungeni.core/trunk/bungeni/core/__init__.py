@@ -6,7 +6,7 @@ __init__.py
 Created by Kapil Thangavelu on 2007-11-22.
 """
 
-import orm, index
+import orm
 
 from schema import metadata
 

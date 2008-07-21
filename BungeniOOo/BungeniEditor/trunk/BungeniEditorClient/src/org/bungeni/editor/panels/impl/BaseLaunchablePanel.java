@@ -27,6 +27,8 @@ public abstract class BaseLaunchablePanel extends JPanel implements ILaunchableP
     
     public abstract void initUI();
 
+    public abstract String getPanelTitle();
+    
     public void setParentWindowHandle(JFrame c) {
         this.parentFrame = c;
     }
@@ -34,5 +36,6 @@ public abstract class BaseLaunchablePanel extends JPanel implements ILaunchableP
     public JFrame getParentWindowHandle() {
         return this.parentFrame;
     }
+  
 
 }

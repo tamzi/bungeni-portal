@@ -21,10 +21,10 @@ public interface ILaunchablePanel {
     /**
      * Get the current object handle as a "Component" type object
      */
-  public abstract Component getObjectHandle();
-  public abstract void initUI();
+  public Component getObjectHandle();
+  public void initUI();
   public void setParentWindowHandle(JFrame c);
-  
+  public String getPanelTitle();
   public JFrame getParentWindowHandle();
   
 

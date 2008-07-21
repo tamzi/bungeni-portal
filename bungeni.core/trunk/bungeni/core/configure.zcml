@@ -58,11 +58,20 @@
   <adapter 
       for=".interfaces.IBungeniContent"
       factory=".index.ContentIndexer"/>
+
+  <adapter 
+      for=".interfaces.IBungeniUser"
+      factory=".index.ContentIndexer"/>
+
+  <adapter 
+      for=".interfaces.IBungeniGroup"
+      factory=".index.ContentIndexer"/>
       
   <utility factory=".index.ContentResolver" />
 
   <xapian:queue
-     indexer=".index.indexer" />
+     indexer=".index.indexer"
+     />
 
   <!-- Workflow -->
   <include package=".workflows" />

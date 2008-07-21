@@ -7,6 +7,9 @@ from ore.wsgiapp.interfaces import IApplication
 from ore.xapian.interfaces import IIndexable
 from i18n import _
 
+
+ENABLE_LOGGING = True
+
 class IBungeniApplication( IApplication ):
     """
     Bungeni Application
@@ -40,13 +43,12 @@ class IVersionable( interface.Interface ):
     marker interface to apply versioning feature ( requires iauditable / object log)
     """
 
-    
-class IBungeniUser( interface.Interface ):
+class IBungeniUser( IIndexable, interface.Interface ):
     """
     a user in bungeni
     """     
     
-class IBungeniGroup( interface.Interface ):
+class IBungeniGroup( IIndexable, interface.Interface ):
     """
     a group in bungeni
     """

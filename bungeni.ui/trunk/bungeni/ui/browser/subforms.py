@@ -7,6 +7,7 @@ from ore.alchemist import Session
 from ore.alchemist.model import queryModelDescriptor
 from bungeni.core.i18n import _
 from forms import BungeniAttributeDisplay
+from container import ContainerListing
 
 
 from alchemist.ui.viewlet import EditFormViewlet, AttributesViewViewlet, DisplayFormViewlet
@@ -14,7 +15,30 @@ from alchemist.ui.viewlet import EditFormViewlet, AttributesViewViewlet, Display
 
 from zope.formlib import form
 
+class TitleViewlet ( ContainerListing ):
+
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.titles #get the containers contained in this and return                      
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+        #self.form_name = _(u"Titles")
+
+    render = ViewPageTemplateFile ('templates/generic-sub-container.pt')                
+
+
 class MPTitleViewlet( viewlet.ViewletBase ):
+    """
+    special viewlet for titles
+    """
+##XXX
+## refactor this:
+## use standard container view
+## set context to titles container
+## context.parent = self.context
+
 
     def __init__( self,  context, request, view, manager ):        
         self.context = context
@@ -22,7 +46,7 @@ class MPTitleViewlet( viewlet.ViewletBase ):
         self.__parent__= view
         self.manager = manager
         self.query = None
-
+        pdb.set_trace()
 
     def getData(self):
         """
@@ -53,7 +77,7 @@ class MPTitleViewlet( viewlet.ViewletBase ):
 
     render = ViewPageTemplateFile ('templates/mp_title_viewlet.pt')                
     
-class PersonInfo( BungeniAttributeDisplay):
+class PersonInfo( BungeniAttributeDisplay ):
     """
     Bio Info / personal data about the MP
     """

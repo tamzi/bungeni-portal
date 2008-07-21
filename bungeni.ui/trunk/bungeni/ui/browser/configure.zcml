@@ -24,7 +24,7 @@
  <browser:viewlet
       name="bungeni.subform.mp-titles"
       manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.MPTitleViewlet"
+      class=".subforms.TitleViewlet"
       for="bungeni.core.interfaces.IMemberOfParliament"
       permission="zope.View"
       weight="10"

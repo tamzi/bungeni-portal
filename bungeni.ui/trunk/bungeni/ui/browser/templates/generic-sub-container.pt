@@ -1,12 +1,6 @@
-<html xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
-      metal:use-macro="context/@@standard_macros/page">
+<div class="listing">
 
-<body>
-
-<div metal:fill-slot="body">
-
-   <h1 class="title" tal:content="view/form_name">Container   Listing</h1>
+  <em class="title" tal:content="view/form_name">Container   Listing</em>
 
   <form action="."
         tal:attributes="action request/URL" method="post"
@@ -35,5 +29,3 @@
 
 </div>
 
-</body>
-</html>

@@ -1,6 +1,20 @@
 """
-xapian indexing adapters
+xapian indexing adapters. we utilize a queue processor (ore.xapian )
+using the xappy api ontop of the xapian python bindings. functionally
+its basically an equivalent api to lucene, however the syntax is
+different. the full capabilities exposed by xapian are best documented
+in the doctests contained in its source ( indexerconnnection.rst, and
+searchconnection.rst ) as well as docs/introduction.rst. Those
+documents are the best guide to understanding and utilizing the
+features of xapian.
+
+the search module components in bungeni.ui exercise the xappy api to
+perform basic search, spellchecking, similiarity, and batching json
+queries.
+
+$Id: $
 """
+
 from zope import interface, schema
 from zope.dottedname import resolve
 import xappy, os, os.path as path

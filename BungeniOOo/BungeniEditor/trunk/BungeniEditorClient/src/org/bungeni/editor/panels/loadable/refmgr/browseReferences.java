@@ -6,10 +6,21 @@
 
 package org.bungeni.editor.panels.loadable.refmgr;
 
+import com.sun.star.beans.UnknownPropertyException;
+import com.sun.star.beans.XPropertySet;
+import com.sun.star.container.NoSuchElementException;
+import com.sun.star.container.XNameAccess;
 import com.sun.star.container.XNamed;
+import com.sun.star.lang.WrappedTargetException;
+import com.sun.star.text.XTextContent;
+import com.sun.star.text.XTextDocument;
+import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextSection;
+import com.sun.star.text.XTextViewCursor;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
@@ -17,7 +28,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
 import org.bungeni.editor.document.DocumentSectionsContainer;
+import org.bungeni.editor.document.ReferencesSyntax;
+import org.bungeni.editor.document.ReferencesSyntax.QuerySyntax;
+import org.bungeni.editor.document.ReferencesSyntaxFactory;
 import org.bungeni.editor.numbering.ooo.OOoNumberingHelper;
 import org.bungeni.editor.panels.impl.BaseLaunchablePanel;
 import org.bungeni.editor.providers.DocumentSectionIterator;
@@ -26,6 +41,7 @@ import org.bungeni.ooo.ooDocMetadata;
 import org.bungeni.ooo.ooDocMetadataFieldSet;
 import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.utils.BungeniBNode;
+import org.bungeni.utils.MessageBox;
 
 /**
  *
@@ -33,11 +49,15 @@ import org.bungeni.utils.BungeniBNode;
  */
 public class browseReferences extends BaseLaunchablePanel {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(browseReferences.class.getName());
-          
+    private final static String __TITLE__ = "Browse References";      
+    
+    private int m_tableSelectedRow = -1;
+    
     /** Creates new form browseReferences */
     public browseReferences() {
        // initComponents();
     }
+
 
     private void init(){
         initTableModel();
@@ -48,6 +68,49 @@ public class browseReferences extends BaseLaunchablePanel {
         //lazy load of tree....
         ReferencesTableModelAgent rtmAgent = new ReferencesTableModelAgent(this.tblAllReferences);
         rtmAgent.execute();
+        tblAllReferences.addMouseListener(new MouseAdapter(){
+            @Override
+            public void mouseClicked(MouseEvent evt) {
+                if (evt.getClickCount() == 2) {
+                    //doublic clicked
+                    int nRow = tblAllReferences.getSelectedRow();
+                    if (nRow != -1) {
+                        ReferencesTableModel model = (ReferencesTableModel)tblAllReferences.getModel();
+                        DocumentInternalReference ref = model.getRowData(nRow);
+                        String refName = ref.getActualReferenceName();
+                        //move the cursor lazily
+                        MoveCursorToRefRangeAgent moveAgent = new MoveCursorToRefRangeAgent(refName);
+                        moveAgent.execute();
+                    }
+                }
+            }
+        });
+    }
+    
+    
+    class MoveCursorToRefRangeAgent extends SwingWorker<Boolean, Void>{
+        String thisRange ;
+        MoveCursorToRefRangeAgent (String refname) {
+            thisRange = refname;
+        }
+        @Override
+        protected Boolean doInBackground() throws Exception{
+              XNameAccess refMarks = ooDocument.getReferenceMarks();
+              if (refMarks.hasByName(thisRange)){
+                  try {
+                    Object oRefMark = refMarks.getByName(thisRange);
+                    XTextContent xRefContent = ooQueryInterface.XTextContent(oRefMark);
+                    XTextRange refMarkRange = xRefContent.getAnchor();
+                    ooDocument.getViewCursor().gotoRange(refMarkRange, false);
+                  } catch (NoSuchElementException ex) {
+                     log.error("tblAllReferences:double_click : " + ex.getMessage());
+                  } catch (WrappedTargetException ex) {
+                     log.error("tblAllReferences:double_click : " + ex.getMessage());
+                  } 
+           }
+           return true;
+        }
+        
     }
     
     class FilterSettings {
@@ -67,11 +130,150 @@ public class browseReferences extends BaseLaunchablePanel {
     
     private void initFilter(){
         ArrayList<FilterSettings> filterSettings=new ArrayList<FilterSettings>(0);
-        filterSettings.add(new FilterSettings("by-container", "By Containers"));
+        filterSettings.add(new FilterSettings("by-container", "By Ref To"));
         filterSettings.add(new FilterSettings("by-type", "By Type"));
+        filterSettings.add(new FilterSettings("by-reftext", "By Ref Text"));
+        
         cboFilterSettings.setModel(new DefaultComboBoxModel(filterSettings.toArray()));
     }
-        /**
+
+    
+    private void applyInsertCrossReference() {
+        final int nSelectedRow = this.tblAllReferences.getSelectedRow();
+        if (nSelectedRow !=  -1) { //nothing was selected
+            int nRow = tblAllReferences.getSelectedRow();
+            final ReferencesTableModel model = (ReferencesTableModel) tblAllReferences.getModel();
+            final DocumentInternalReference ref = model.getRowData(nRow);
+             XTextSection selectedSection = ooDocument.getSection(ref.ContainerSection);
+            //get the complete reference chain
+           ///build an arraylist of documentinternl referecnes  
+           // ArrayList<String> referenceSourceChain = getReferenceSourceChain(selectedSection);
+           ArrayList<DocumentInternalReference> referenceSourceChain = getReferenceSourceChain(ref.ReferenceType, selectedSection);
+             insertCrossRef(referenceSourceChain);
+            MessageBox.OK(this, "The reference was successfully inserted!");
+            
+          //  insertCrossRef (new ArrayList<String>() {
+          //          {  add(ref.getActualReferenceName()) ;}
+          //      });
+        }
+    }
+    
+       private ArrayList<DocumentInternalReference> getReferenceSourceChain(String refType, XTextSection refSection){
+        //refSection has the insertable reference, we go up the chain to insert all parent references
+        //ArrayList<String> numberReferencesList = new ArrayList<String>(0);
+           ArrayList<DocumentInternalReference> numberReferencesList = new ArrayList<DocumentInternalReference>(0);
+          while (refSection != null ) {
+            String refSource = getNumberedReferenceSource(refType, refSection);
+            ReferencesTableModel refModel = (ReferencesTableModel) this.tblAllReferences.getModel();
+            DocumentInternalReference dInternalRef = refModel.findMatchingRef(refSource);
+            //if (refSource != null ) {
+            if (dInternalRef != null) {
+                //found a number reference add it to our list
+                //numberReferencesList.add(refSource);
+                numberReferencesList.add(dInternalRef);
+            }   //go up 2 levles and see if the grand parent is valid and has a numbered child container
+            refSection = getParentNumberedSection(refSection);
+          }
+         return numberReferencesList;
+    }
+    
+       
+    private XTextSection getParentNumberedSection(XTextSection aChild){
+            XTextSection aGrandParent = getGrandParentSection(aChild);
+            XTextSection aNumberedSection = ooDocument.getChildSectionByType(aGrandParent, "NumberedContainer");
+            return aNumberedSection;
+    }
+    
+        
+    private XTextSection getGrandParentSection(XTextSection aSection) {
+        XTextSection aParent = aSection.getParentSection();
+        if (aParent == null ) return null;
+        XTextSection aGrandParent = aParent.getParentSection();
+        return aGrandParent;
+    }
+    
+ 
+    private String getNumberedReferenceSource(String refType, XTextSection refSection) {
+        HashMap<String,String> refMeta = ooDocument.getSectionMetadataAttributes(refSection);
+        if (refMeta.containsKey("BungeniSectionUUID")) {
+            String uuidStr = refMeta.get("BungeniSectionUUID");
+            //get both heading and number references for this match
+            //conditionally use heading or number prefix
+          //  String referenceName = OOoNumberingHelper.HEADING_REF_PREFIX+uuidStr;
+            String referenceName = "";
+            if (refType.toLowerCase().equals("number")) {
+                referenceName = OOoNumberingHelper.NUMBER_REF_PREFIX + uuidStr;
+            } else if (refType.toLowerCase().equals("heading")){
+                referenceName = OOoNumberingHelper.HEADING_REF_PREFIX + uuidStr;
+            } else {
+                referenceName = OOoNumberingHelper.HEADING_REF_PREFIX + uuidStr;
+            }
+            //String referenceName = OOoNumberingHelper.NUMBER_REF_PREFIX+uuidStr;
+            if (ooDocument.getReferenceMarks().hasByName(referenceName)) {
+                return referenceName;
+            }
+        }
+        return null;
+    }
+ 
+ 
+    private boolean insertCrossRef(ArrayList<DocumentInternalReference> referenceChain) {
+          final int lastIndex = referenceChain.size() - 1;  
+          boolean bState = false;
+          XTextViewCursor viewCursor = ooDocument.getViewCursor();
+          XTextDocument xDoc = ooDocument.getTextDocument();
+
+          try {
+              if (lastIndex > 0) {
+                  xDoc.getText().insertString(viewCursor, "[[", false);
+              }
+              for (int i = lastIndex ; i >= 0 ; i--) {
+                  //for every item in the array we insert on the basic of referencessyntax
+                  ReferencesSyntax billRefSyntax = ReferencesSyntaxFactory.getSyntaxObject("bill-format-1");
+                   ArrayList<ReferencesSyntax.QuerySyntax> qs = 
+                      new ArrayList<ReferencesSyntax.QuerySyntax>(){
+                       {  
+                        add(ReferencesSyntax.newQS("articleTypePrefix", ""));
+                        add(ReferencesSyntax.newQS("articleTypeSuffix", " "));
+                        add(ReferencesSyntax.newQS("referencePrefix", ""));
+                        add(ReferencesSyntax.newQS("referenceSuffix", ""));
+                       }
+                   };
+                  String billRef = billRefSyntax.getSyntax(QuerySyntax.toArray(qs));
+                  DocumentInternalReference iRef = referenceChain.get(i);
+                  Object oRefField=ooDocument.createInstance("com.sun.star.text.TextField.GetReference");
+                  XPropertySet refFieldProps = ooQueryInterface.XPropertySet(oRefField);
+                    refFieldProps.setPropertyValue("ReferenceFieldSource", com.sun.star.text.ReferenceFieldSource.REFERENCE_MARK);
+                    refFieldProps.setPropertyValue("SourceName", iRef.getActualReferenceName());
+                    refFieldProps.setPropertyValue("ReferenceFieldPart", com.sun.star.text.ReferenceFieldPart.TEXT);
+                    XTextContent fieldContent = ooQueryInterface.XTextContent(oRefField);  
+                    xDoc.getText().insertString(viewCursor, iRef.ParentType, false);
+                    if (iRef.ReferenceType.equals("number"))
+                        xDoc.getText().insertString(viewCursor, " " , false);
+                    else
+                        xDoc.getText().insertString(viewCursor, ":", false);
+                    xDoc.getText().insertTextContent(viewCursor, fieldContent, true);
+                    if (i > 0 ) { //no comma for 
+                        xDoc.getText().insertString(viewCursor, ",", false);
+                    }
+              }
+              xDoc.getText().insertString(viewCursor, "]]", false);
+              //XRefreshable xRefresh = ooQueryInterface.XRefreshable(xDoc);
+              //xRefresh.refresh();
+              ooDocument.textFieldsRefresh();
+              bState = true;
+            } catch (WrappedTargetException ex) {
+                log.error("insertCrossRef ("+ex.getClass().getName() +") " + ex.getMessage());
+            } catch (UnknownPropertyException ex) {
+                log.error("insertCrossRef ("+ex.getClass().getName() +") " + ex.getMessage());
+            } catch (com.sun.star.lang.IllegalArgumentException ex) {
+                log.error("insertCrossRef ("+ex.getClass().getName() +") " + ex.getMessage());
+            } finally {
+                return bState;
+            }
+    }
+
+    /**
      * SwingWorker agent to do a lazy load of the references tree...
      * The document references are gathered using threaded agent
      * and the tree is loaded once all the references have been gathered.
@@ -120,7 +322,7 @@ public class browseReferences extends BaseLaunchablePanel {
                          String foundSectionType = ooDocument.getSectionType(foundSection);
                          XNamed secName = ooQueryInterface.XNamed(foundSection);
                          String visibility = DocumentSectionsContainer.getDocumentSectionsContainer().get(foundSectionType).getSectionVisibilty();
-                         DocumentInternalReference refObj = new DocumentInternalReference(metaField.getMetadataName(), metaField.getMetadataValue());
+                         DocumentInternalReference refObj = new DocumentInternalReference(metaField.getMetadataName(), metaField.getMetadataValue(), secName.getName());
                        //  MessageBox.OK("Section : " + secName.getName() + " , visiblity = " + visibility);
                          if (visibility.equals("user")) {
                             refObj.setParentType(foundSectionType);
@@ -191,9 +393,22 @@ public class browseReferences extends BaseLaunchablePanel {
         
          public void resetModel() {
             synchronized(filteredDocumentReferences) {
-                filteredDocumentReferences = documentReferences;
+                filteredDocumentReferences = (ArrayList<DocumentInternalReference>) documentReferences.clone();
             }
             fireTableDataChanged();
+         }
+         
+         public DocumentInternalReference findMatchingRef(String refName) {
+             refName = OOoNumberingHelper.INTERNAL_REF_PREFIX + refName;
+             DocumentInternalReference foundRef = null;
+             for (DocumentInternalReference dref : documentReferences) {
+                 if (dref.Name.toLowerCase().equals(refName.toLowerCase())) {
+                     //matched 
+                     foundRef = dref;
+                     break;
+                 }
+             }
+             return foundRef;
          }
          
          public void filterByType(String filterRefTo) {
@@ -207,9 +422,10 @@ public class browseReferences extends BaseLaunchablePanel {
                      String matchWithThis = "";
                       if (filterBy.Name.equals("by-container")) {
                          matchWithThis = dref.ParentType.toLowerCase();
-                          
                       } else if (filterBy.Name.equals("by-type")) {
                          matchWithThis = dref.ReferenceType.toLowerCase();  
+                      } else if (filterBy.Name.equals("by-reftext")) {
+                         matchWithThis = dref.ReferenceText.toLowerCase();
                       }
                     log.debug("filterByType : filter by : " + matchWithThis);
                     if (matchWithThis.contains(filterRefTo)) {
@@ -259,13 +475,20 @@ public class browseReferences extends BaseLaunchablePanel {
            }
         }
          
+        public DocumentInternalReference getRowData (int row) {
+            return this.filteredDocumentReferences.get(row);
+        } 
+        
+ 
      }
 
-     class DocumentInternalReference {
+     class DocumentInternalReference implements Cloneable {
+         //name of the reference preceded by rf:
          String Name;
          String ReferenceText;
          String ReferenceType;
          String ParentType;
+         String ContainerSection;
          
          private String getReferenceType(String name) {
              if (name.startsWith(OOoNumberingHelper.INTERNAL_REF_PREFIX + OOoNumberingHelper.HEADING_REF_PREFIX)) {
@@ -277,11 +500,26 @@ public class browseReferences extends BaseLaunchablePanel {
                  return "other";
          }
          
-         DocumentInternalReference(String name, String refText) {
+         DocumentInternalReference(String name, String refText, String cSection) {
              Name = name;
              ReferenceText = refText;
              ReferenceType =  getReferenceType(name);
+             ContainerSection = cSection;
             // ParentType = parentType;
+         }
+         
+         public String getActualReferenceName(){
+             int nNameIndex = Name.indexOf(":");
+             if (nNameIndex != -1)
+                return Name.substring(nNameIndex+1);
+             else
+                 return Name;
+         }
+         
+        @Override
+         protected Object clone() throws CloneNotSupportedException{
+             DocumentInternalReference cloneRef = (DocumentInternalReference) super.clone();
+             return cloneRef;
          }
          
          public void setParentType(String ppType) {
@@ -305,8 +543,8 @@ public class browseReferences extends BaseLaunchablePanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        btnFixBrokenReferences = new javax.swing.JButton();
-        btnCloseFrame = new javax.swing.JButton();
+        btnInsertCrossRef = new javax.swing.JButton();
+        btnBrowseBroken = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAllReferences = new javax.swing.JTable();
@@ -315,19 +553,19 @@ public class browseReferences extends BaseLaunchablePanel {
         cboFilterSettings = new javax.swing.JComboBox();
         btnRefresh = new javax.swing.JButton();
 
-        btnFixBrokenReferences.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
-        btnFixBrokenReferences.setText("Insert Cross Ref");
-        btnFixBrokenReferences.addActionListener(new java.awt.event.ActionListener() {
+        btnInsertCrossRef.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        btnInsertCrossRef.setText("Insert Cross Ref");
+        btnInsertCrossRef.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFixBrokenReferencesActionPerformed(evt);
+                btnInsertCrossRefActionPerformed(evt);
             }
         });
 
-        btnCloseFrame.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
-        btnCloseFrame.setText("Browse Broken ");
-        btnCloseFrame.addActionListener(new java.awt.event.ActionListener() {
+        btnBrowseBroken.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        btnBrowseBroken.setText("Browse Broken ");
+        btnBrowseBroken.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCloseFrameActionPerformed(evt);
+                btnBrowseBrokenActionPerformed(evt);
             }
         });
 
@@ -351,6 +589,7 @@ public class browseReferences extends BaseLaunchablePanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tblAllReferences.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tblAllReferences);
 
         txtFilterReferences.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
@@ -360,7 +599,7 @@ public class browseReferences extends BaseLaunchablePanel {
             }
         });
 
-        lblFilterReferences.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        lblFilterReferences.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         lblFilterReferences.setText("Filter References");
 
         cboFilterSettings.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
@@ -382,9 +621,9 @@ public class browseReferences extends BaseLaunchablePanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnFixBrokenReferences, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnInsertCrossRef, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnCloseFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnBrowseBroken, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnClose, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
                         .addContainerGap())
@@ -395,11 +634,11 @@ public class browseReferences extends BaseLaunchablePanel {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtFilterReferences, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtFilterReferences, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboFilterSettings, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cboFilterSettings, 0, 114, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
+                        .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -410,28 +649,28 @@ public class browseReferences extends BaseLaunchablePanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtFilterReferences, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboFilterSettings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnRefresh))
+                    .addComponent(btnRefresh)
+                    .addComponent(cboFilterSettings, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnFixBrokenReferences)
-                    .addComponent(btnCloseFrame)
-                    .addComponent(btnClose))
+                    .addComponent(btnClose)
+                    .addComponent(btnInsertCrossRef)
+                    .addComponent(btnBrowseBroken))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-private void btnFixBrokenReferencesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFixBrokenReferencesActionPerformed
+private void btnInsertCrossRefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertCrossRefActionPerformed
 // TODO add your handling code here:
-    //    applyInsertCrossReference();
-}//GEN-LAST:event_btnFixBrokenReferencesActionPerformed
+     applyInsertCrossReference();
+}//GEN-LAST:event_btnInsertCrossRefActionPerformed
 
-private void btnCloseFrameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseFrameActionPerformed
+private void btnBrowseBrokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseBrokenActionPerformed
 // TODO add your handling code here:
-
-}//GEN-LAST:event_btnCloseFrameActionPerformed
+   // parentFrame.dispose();
+}//GEN-LAST:event_btnBrowseBrokenActionPerformed
 
 private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
 // TODO add your handling code here:
@@ -454,9 +693,9 @@ private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnBrowseBroken;
     private javax.swing.JButton btnClose;
-    private javax.swing.JButton btnCloseFrame;
-    private javax.swing.JButton btnFixBrokenReferences;
+    private javax.swing.JButton btnInsertCrossRef;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JComboBox cboFilterSettings;
     private javax.swing.JScrollPane jScrollPane1;
@@ -474,6 +713,11 @@ private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     public void initUI() {
         initComponents();
         init();
+    }
+
+    @Override
+    public String getPanelTitle() {
+        return __TITLE__;
     }
 
 }

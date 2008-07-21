@@ -19,9 +19,9 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="btnInsertCrossRef" min="-2" pref="132" max="-2" attributes="0"/>
+                      <Component id="btnFixBroken" min="-2" pref="132" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnBrowseBroken" min="-2" pref="135" max="-2" attributes="0"/>
+                      <Component id="btnViewAll" min="-2" pref="135" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnClose" pref="97" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -35,10 +35,8 @@
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="txtFilterReferences" pref="187" max="32767" attributes="1"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cboFilterSettings" pref="114" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="txtFilterReferences" pref="301" max="32767" attributes="1"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="btnRefresh" pref="63" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -53,17 +51,16 @@
               <Component id="lblFilterReferences" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtFilterReferences" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnRefresh" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="cboFilterSettings" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtFilterReferences" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="228" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnClose" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnInsertCrossRef" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnBrowseBroken" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnFixBroken" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnViewAll" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="13" max="32767" attributes="0"/>
           </Group>
@@ -71,26 +68,26 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="btnInsertCrossRef">
+    <Component class="javax.swing.JButton" name="btnFixBroken">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="DejaVu Sans" size="11" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Insert Cross Ref"/>
+        <Property name="text" type="java.lang.String" value="Fix Broken..."/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnInsertCrossRefActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnFixBrokenActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnBrowseBroken">
+    <Component class="javax.swing.JButton" name="btnViewAll">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="DejaVu Sans" size="11" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Browse Broken "/>
+        <Property name="text" type="java.lang.String" value="View All References"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBrowseBrokenActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnViewAllActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnClose">
@@ -111,7 +108,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="tblAllReferences">
+        <Component class="javax.swing.JTable" name="tblBrokenReferences">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="DejaVu Sans" size="11" style="0"/>
@@ -146,22 +143,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="DejaVu Sans" size="11" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Filter References"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="cboFilterSettings">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="DejaVu Sans" size="11" style="0"/>
-        </Property>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
-        </Property>
+        <Property name="text" type="java.lang.String" value="Filter Broken References"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="btnRefresh">

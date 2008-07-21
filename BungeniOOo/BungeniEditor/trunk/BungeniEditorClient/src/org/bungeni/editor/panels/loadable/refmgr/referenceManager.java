@@ -23,17 +23,22 @@ public class referenceManager extends BaseLaunchablePanel {
     
     ArrayList<JTaskPaneGroup> paneGroups = new ArrayList<JTaskPaneGroup>(0);
     
-    public final static String FRAME_TITLE = "Reference Manager";
+    public final static String __TITLE__ = "Reference Manager";
     public final static Dimension FRAME_DIMENSION = new Dimension(498, 440);
     
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(referenceManager.class.getName());
-
+    private String launchModeClass = "browseReferences";
     private final static String[] launchablePanelClasses = {
-        "browseReferences"
+        "browseReferences",
+        "brokenReferences"
     };
     /** Creates new form referenceManager */
     public referenceManager() {
        // initComponents();
+    }
+    
+    public void setLaunchMode(String launchMode) {
+        this.launchModeClass = launchMode;
     }
     
     private void initPaneGroups(){
@@ -48,9 +53,15 @@ public class referenceManager extends BaseLaunchablePanel {
             panel.initUI();
             
             jtpGrp.add(panel.getObjectHandle());
-            
+            jtpGrp.setTitle(panel.getPanelTitle());
             this.taskPane.add(jtpGrp);
             paneGroups.add(jtpGrp);
+            if (this.launchModeClass.equals(launchablePane)) {
+                //expand this window
+                jtpGrp.setExpanded(true);
+            } else {
+                jtpGrp.setExpanded(false);
+            }
         
         }
         } catch (Exception ex) {
@@ -115,5 +126,10 @@ public class referenceManager extends BaseLaunchablePanel {
     public void initUI() {
       initComponents();
       init();
+    }
+
+    @Override
+    public String getPanelTitle() {
+        return __TITLE__;
     }
 }

@@ -15,7 +15,7 @@ class SMTPMailer(object):
         port = 25
         username = password = None
 
-        connection = smtp.SMTP(hostname, port)
+        connection = smtplib.SMTP(hostname, port)
 
         # authenticate if needed
         if username is not None and password is not None:

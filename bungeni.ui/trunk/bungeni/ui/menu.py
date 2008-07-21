@@ -1,24 +1,31 @@
 
 from z3c.menu.ready2go import item
 from zope import component
+from zope.app.component.hooks import getSite
 from zope.app.security.interfaces import IUnauthenticatedPrincipal
 from zope.app.publisher.browser.menu import BrowserMenu
 
-class LoginAction( item.SiteMenuItem ):
+class GlobalMenuItem( item.GlobalMenuItem ):
+    #cssActive = "menubarSelected"
+    #cssInactive = "menubar"
+    #css = "menubar"
+    pass
+    
+class LoginAction( GlobalMenuItem ):
     
     @property
     def available( self ):
         available = IUnauthenticatedPrincipal.providedBy( self.request.principal )
         return available
 
-class LogoutAction( item.SiteMenuItem ):
+class LogoutAction( GlobalMenuItem ):
     
     @property
     def available( self ):
         authenticated = not IUnauthenticatedPrincipal.providedBy( self.request.principal )
         return authenticated
         
-class DashboardAction( item.SiteMenuItem ):
+class DashboardAction( GlobalMenuItem ):
     
     @property
     def title( self ):
@@ -29,7 +36,7 @@ class DashboardAction( item.SiteMenuItem ):
         authenticated = not IUnauthenticatedPrincipal.providedBy( self.request.principal )
         return authenticated
 
-class AdminAction( item.SiteMenuItem ):
+class AdminAction( GlobalMenuItem ):
     
     def getURLContext( self ):
         site = getSite()

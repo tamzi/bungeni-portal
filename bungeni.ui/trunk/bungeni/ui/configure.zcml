@@ -6,6 +6,7 @@
   <include package="z3c.schemadiff" />
   <include package="marginalia" />
 
+
   <!-- TimeZone Definition -->
   <adapter factory=".tz.tzinfo" />
 
@@ -38,6 +39,9 @@
 
   <!-- Include Workflow UI -->
   <include file="workflow.zcml" />
+
+  <!-- Admin UI -->
+  <include file="admin.zcml"/>
   
   <!-- Custom forms -->
   <include package=".browser"/>  

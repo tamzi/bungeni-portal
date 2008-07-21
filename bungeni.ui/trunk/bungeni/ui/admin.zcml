@@ -1,0 +1,16 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+	   xmlns:z3c="http://namespaces.zope.org/z3c"
+           i18n_domain="bungeni">
+
+  <!-- Reset Container UI on Users back to default-->
+  <browser:page
+     for="bungeni.core.interfaces.IAdminUserContainer"
+     permission="zope.View"
+     name="index"
+     class=".admin.UserListing"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
+
+</configure>
+

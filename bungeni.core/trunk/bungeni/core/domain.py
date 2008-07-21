@@ -21,6 +21,14 @@ logger = logging.getLogger('bungeni.core')
 
 #####
 
+def object_hierarchy_type( object ):
+    if isinstance( object.__class__, User ):
+        return "user"
+    if isinstance( object.__class__, Group ):
+        return "group"
+    if isinstance( object.__class__, ParliamentaryItem ):
+        return "item"
+    return ""
 
 
 class Entity( object ):

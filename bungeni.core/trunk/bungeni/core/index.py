@@ -9,6 +9,8 @@ from ore.alchemist import container
 from sqlalchemy.orm.session import Session
 from ore.xapian import queue, search, interfaces as iindex
 
+import domain
+
 # we store indexes in buildout/parts/index
 # 
 def setupStorageDirectory( ):
@@ -65,6 +67,11 @@ class ContentIndexer( object ):
              xappy.Field( "object_type", self.context.__class__.__name__ )
              )
 
+        # object kind
+        doc.fields.append( 
+             xappy.Field( "object_kind", domain.object_hierarchy_type( self.context ) )
+             )        
+
         # schema fields one by one
         for iface in interface.providedBy( self.context ):
             for field in schema.getFields( iface ).values():
@@ -89,13 +96,19 @@ def setupFieldDefinitions(indexer):
     indexer.add_field_action('resolver', xappy.FieldActions.INDEX_EXACT )
     indexer.add_field_action('resolver', xappy.FieldActions.STORE_CONTENT )
 
-    # content type
-    indexer.add_field_action('object_type', xappy.FieldActions.INDEX_FREETEXT )
+    # content type / object class
+    indexer.add_field_action('object_type', xappy.FieldActions.INDEX_EXACT )
     indexer.add_field_action('object_type', xappy.FieldActions.STORE_CONTENT )
+    indexer.add_field_action('object_type', xappy.FieldActions.FACET, type='string')
 
+    # object class hierarchy (user, group, etc)
+    indexer.add_field_action('object_kind', xappy.FieldActions.INDEX_EXACT )
+    indexer.add_field_action('object_kind', xappy.FieldActions.STORE_CONTENT )
+    
     # workflow status
     indexer.add_field_action('status', xappy.FieldActions.INDEX_EXACT )
     indexer.add_field_action('status', xappy.FieldActions.STORE_CONTENT )
+    indexer.add_field_action('status', xappy.FieldActions.FACET, type='string')
 
     # site relative path
     indexer.add_field_action('path', xappy.FieldActions.STORE_CONTENT )
@@ -103,7 +116,7 @@ def setupFieldDefinitions(indexer):
     # fields for parliamentary items
     # XXX xapian stores language codes at the field level, need to
     # find a solution for this
-    indexer.add_field_action('title', xappy.FieldActions.INDEX_FREETEXT, weight=5, language='en' )
+    indexer.add_field_action('title', xappy.FieldActions.INDEX_FREETEXT, weight=5, language='en', spell=True )
     indexer.add_field_action('title', xappy.FieldActions.STORE_CONTENT )
 
 # storage directory

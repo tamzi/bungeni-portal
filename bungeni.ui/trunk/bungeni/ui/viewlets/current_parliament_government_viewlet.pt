@@ -1,0 +1,20 @@
+<div class="listing">
+  <em> Government </em>
+  <table class="listing">
+    <thead>
+      <tr>
+        <th> Name </th>
+        <th> Start date</th>
+        <th> End Date</th>                
+      </tr>
+    </thead>
+    <tbody>
+      <tr tal:repeat="data view/getData"> 
+        <td> <a tal:attributes="href data/url" tal:content="data/short_name"> Gov XXX </a></td>
+        <td tal:content="data/start_date" />
+        <td tal:content="data/end_date" />
+      </tr>
+    </tbody> 
+   </table> 
+   <div tal:replace="structure provider:bungeni.current-ministries"> Ministries </div>
+</div>

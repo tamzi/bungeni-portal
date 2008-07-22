@@ -7,6 +7,7 @@ package org.bungeni.utils;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 /**
@@ -33,5 +34,11 @@ public class FrameLauncher {
             f.toFront();
             f.setAlwaysOnTop(alwaysOnTop);
         }
+    }
+    
+    public static void CenterFrame (JFrame frame) {
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Dimension screenSize = tk.getScreenSize();
+        frame.setLocation(screenSize.width/4, screenSize.height/4);
     }
 }

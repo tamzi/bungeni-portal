@@ -115,7 +115,7 @@
                          </optgroup> 
                       </select>
                       <input class="input_field" type="text" name="annotation_search" value="" onChange="filterAnnotations(this);" onkeypress="return onEnterKey(this, event);"/>
-                      <input class="input_field" type="button" type="search" value="Search" onClick="filterAnnotations(this);" />        
+                      <input class="input_field" type="button" id="search" type="search" value="Search" onClick="filterAnnotations(this);" />        
                       </div>
                     </div>
     

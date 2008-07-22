@@ -20,6 +20,7 @@ public class LaunchablePanelFactory {
                                        {
                                            put("browseReferences", "org.bungeni.editor.panels.loadable.refmgr.browseReferences");
                                            put("brokenReferences", "org.bungeni.editor.panels.loadable.refmgr.brokenReferences");
+                                           put("externalReferences", "org.bungeni.editor.panels.loadable.refmgr.externalReferences");
                                        }
 
                                    };

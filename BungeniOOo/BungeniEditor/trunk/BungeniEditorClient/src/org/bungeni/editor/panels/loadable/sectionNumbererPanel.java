@@ -26,7 +26,6 @@ import com.sun.star.uno.AnyConverter;
 import com.sun.star.uno.UnoRuntime;
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -35,7 +34,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.logging.Level;
 import javax.swing.JFrame;
 import javax.swing.SwingWorker;
 import javax.swing.Timer;
@@ -56,7 +54,6 @@ import org.bungeni.numbering.impl.NumberingSchemeFactory;
 import org.bungeni.editor.numbering.ooo.OOoNumberingHelper;
 
 import org.apache.log4j.Logger;
-import org.bungeni.editor.metadata.DocumentMetadata;
 import org.bungeni.editor.panels.loadable.refmgr.referenceManager;
 import org.bungeni.ooo.ooDocMetadata;
 import org.bungeni.ooo.ooQueryInterface;
@@ -691,7 +688,8 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
     
      private frameBrokenReferences2 brokenReferencesFrame = null;
      private void applyFixBrokenReferences() {
-        this.orphanedReferences.clear();
+        /*
+         this.orphanedReferences.clear();
        
         findBrokenReferences();
         
@@ -710,7 +708,8 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         } else {
             MessageBox.OK(this, "No Broken references found !");
         }
-         
+         */
+         launchReferenceManager("brokenReferences");
      }
      
      
@@ -730,15 +729,27 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
                     }
                });     
           */
-                referenceManager mgr = new referenceManager();
-                JFrame f = FrameLauncher.InitializeFrame(referenceManager.FRAME_TITLE, mgr, referenceManager.FRAME_DIMENSION);
+            launchReferenceManager("browseReferences");
+                
+     }
+     
+     
+    private void applyInsertExternalReference() {
+        launchReferenceManager("externalReferences");
+    }
+    
+     private void launchReferenceManager(String sMode) {
+                referenceManager mgr = new referenceManager(); 
+                mgr.setLaunchMode(sMode);
+                JFrame f = FrameLauncher.InitializeFrame(referenceManager.__TITLE__, mgr, referenceManager.FRAME_DIMENSION);
                 
                 mgr.setParentWindowHandle(f);
                 mgr.setOOComponentHandle(ooDocument);
                 mgr.initUI();
                 
                 FrameLauncher.LaunchFrame(f, true, true);
-                
+                FrameLauncher.CenterFrame(f);
+         
      }
      
      private boolean checkIfSectionsHaveNumberingScheme(){
@@ -1900,12 +1911,13 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
         btnInsertCrossReference = new javax.swing.JButton();
         btnfixBrokenReferences = new javax.swing.JButton();
         progressNumbering = new javax.swing.JProgressBar();
+        btnExternalReference = new javax.swing.JButton();
 
-        checkbxUseParentPrefix.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        checkbxUseParentPrefix.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         checkbxUseParentPrefix.setText("Use Parent Prefix");
         checkbxUseParentPrefix.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
-        btnRenumberSections.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        btnRenumberSections.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         btnRenumberSections.setText("Number/Renumber All Headings");
         btnRenumberSections.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1913,7 +1925,7 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
             }
         });
 
-        btnInsertCrossReference.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        btnInsertCrossReference.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         btnInsertCrossReference.setText("Insert Cross Reference");
         btnInsertCrossReference.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1929,6 +1941,14 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
             }
         });
 
+        btnExternalReference.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        btnExternalReference.setText("Insert External Reference");
+        btnExternalReference.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExternalReferenceActionPerformed(evt);
+            }
+        });
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -1940,7 +1960,8 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
                     .add(checkbxUseParentPrefix)
                     .add(btnRenumberSections, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                     .add(btnInsertCrossReference, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
-                    .add(btnfixBrokenReferences, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
+                    .add(btnExternalReference, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, btnfixBrokenReferences, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -1954,9 +1975,11 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
                 .add(progressNumbering, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(btnInsertCrossReference)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(btnExternalReference)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(btnfixBrokenReferences)
-                .addContainerGap(154, Short.MAX_VALUE))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1988,6 +2011,12 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
       //  progressNumbering.setString("Completed!");
       //  parentFrame.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_btnRenumberSectionsActionPerformed
+
+private void btnExternalReferenceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExternalReferenceActionPerformed
+// TODO add your handling code here:
+    applyInsertExternalReference();
+    
+}//GEN-LAST:event_btnExternalReferenceActionPerformed
     
     
     
@@ -2026,6 +2055,7 @@ private Object getHeadingFromMatchedSection(Object matchedSectionElem){
     }
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnExternalReference;
     private javax.swing.JButton btnInsertCrossReference;
     private javax.swing.JButton btnRenumberSections;
     private javax.swing.JButton btnfixBrokenReferences;

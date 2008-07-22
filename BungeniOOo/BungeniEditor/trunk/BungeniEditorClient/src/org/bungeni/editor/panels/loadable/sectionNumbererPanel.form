@@ -21,7 +21,8 @@
                   <Component id="checkbxUseParentPrefix" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="btnRenumberSections" alignment="0" pref="215" max="32767" attributes="1"/>
                   <Component id="btnInsertCrossReference" alignment="0" pref="215" max="32767" attributes="1"/>
-                  <Component id="btnfixBrokenReferences" alignment="0" pref="215" max="32767" attributes="0"/>
+                  <Component id="btnExternalReference" alignment="0" pref="215" max="32767" attributes="0"/>
+                  <Component id="btnfixBrokenReferences" alignment="1" pref="215" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -38,9 +39,11 @@
               <Component id="progressNumbering" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="btnInsertCrossReference" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="btnExternalReference" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="btnfixBrokenReferences" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="154" max="32767" attributes="0"/>
+              <EmptySpace pref="112" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -93,6 +96,17 @@
       </Events>
     </Component>
     <Component class="javax.swing.JProgressBar" name="progressNumbering">
+    </Component>
+    <Component class="javax.swing.JButton" name="btnExternalReference">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="11" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Insert External Reference"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnExternalReferenceActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

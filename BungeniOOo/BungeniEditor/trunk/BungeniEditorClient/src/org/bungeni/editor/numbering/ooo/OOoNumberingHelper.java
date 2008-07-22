@@ -40,7 +40,11 @@ public class OOoNumberingHelper {
     public final static String NUMBERED_PREFIX = "<";
     public final static String NUMBERED_SUFFIX = ">";
     public final static String NUMBER_HEADING_BOUNDARY="~";
+    
     public final static String INTERNAL_REF_PREFIX="rf:";
+    public final static String EXTERNAL_REF_PREFIX="erf:";
+    public final static String URI_REF_PREFIX="uri:";
+    
     public final static String META_PREFIX_NUMBER = INTERNAL_REF_PREFIX + NUMBER_REF_PREFIX;
     public final static String META_PREFIX_HEAD = INTERNAL_REF_PREFIX + HEADING_REF_PREFIX;
 

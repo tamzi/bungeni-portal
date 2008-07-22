@@ -6,26 +6,36 @@
 
 package org.bungeni.editor.panels.loadable.refmgr;
 
+import com.sun.star.beans.PropertyVetoException;
+import com.sun.star.beans.UnknownPropertyException;
+import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.NoSuchElementException;
 import com.sun.star.container.XNameAccess;
+import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.text.XTextContent;
+import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextRange;
+import com.sun.star.text.XTextViewCursor;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import javax.swing.JTable;
 import javax.swing.SwingWorker;
 import javax.swing.table.AbstractTableModel;
+import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.numbering.ooo.OOoNumberingHelper;
 import org.bungeni.editor.panels.impl.BaseLaunchablePanel;
+import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooDocMetadata;
 import org.bungeni.ooo.ooDocMetadataFieldSet;
 import org.bungeni.ooo.ooQueryInterface;
+import org.bungeni.utils.BungeniUUID;
 
 /**
  *
@@ -113,10 +123,43 @@ public class externalReferences extends BaseLaunchablePanel {
     }
     
     
-    private void applyInsertCrossReference() {
+    private void applyInsertExternalReference() {
         final int nSelectedRow = this.tblExternalReferences.getSelectedRow();
         if (nSelectedRow !=  -1) { //nothing was selected
-            int nRow = tblExternalReferences.getSelectedRow();
+            
+            try {
+                //nothing was selected
+                final ExtReferencesTableModel model = (ExtReferencesTableModel) tblExternalReferences.getModel();
+                final DocumentExternalReference ref = model.getRowData(nSelectedRow);
+
+                XTextViewCursor xtextCursor = ooDocument.getViewCursor();
+                XTextCursor hrefCursor = ooDocument.getTextDocument().getText().createTextCursor();
+                hrefCursor.gotoRange(xtextCursor.getStart(), false);
+                hrefCursor.goRight((short) 0, true);
+
+                hrefCursor.setString("[[" + ref.DisplayText + "]]");
+                XPropertySet hrefProps = ooQueryInterface.XPropertySet(hrefCursor);
+                if (ref.ReferenceType.equals("external")) {
+                    hrefProps.setPropertyValue("HyperLinkTarget", ref.Href);
+                    hrefProps.setPropertyValue("HyperLinkURL", ref.Href);
+                } else {
+                    hrefProps.setPropertyValue("HyperLinkTarget",  "http://uriresolver.bungeni.org?q="+ ref.URItext);
+                    hrefProps.setPropertyValue("HyperLinkURL", "http://uriresolver.bungeni.org?q="+ ref.URItext);
+                }   
+
+                ////continue from here////
+            } catch (UnknownPropertyException ex) {
+                log.error("applyExternalReference :" + ex.getMessage());
+            } catch (PropertyVetoException ex) {
+                log.error("applyExternalReference :" + ex.getMessage());
+            } catch (IllegalArgumentException ex) {
+                log.error("applyExternalReference :" + ex.getMessage());
+            } catch (WrappedTargetException ex) {
+                log.error("applyExternalReference :" + ex.getMessage());
+            }
+            
+            
+            ////continue from here////
         }
     }
     
@@ -157,11 +200,16 @@ public class externalReferences extends BaseLaunchablePanel {
     
      private ExtReferencesTableModel buildExtReferencesTableModel(){
         //we can get all the references from the document properties
-         ArrayList<ooDocMetadataFieldSet> metadataFieldSets = ooDocMetadata.getMetadataObjectsByType(ooDocument, OOoNumberingHelper.INTERNAL_REF_PREFIX);
-        //but they are not in document sequential order
+         ArrayList<ooDocMetadataFieldSet> metadataFieldSets = ooDocMetadata.getMetadataObjectsByType(ooDocument, OOoNumberingHelper.EXTERNAL_REF_PREFIX);
+         ArrayList<DocumentExternalReference> docExtRefs = new ArrayList<DocumentExternalReference>(0);
+
+         //but they are not in document sequential order
          //add them sequentially to our table with their contained text
         //the contained text can be retrieved form the cached document metadata
-         ArrayList<DocumentExternalReference> docExtRefs = new ArrayList<DocumentExternalReference>(0);
+         for (ooDocMetadataFieldSet field : metadataFieldSets) {
+             DocumentExternalReference extRef = DocumentExternalReference.createFromDocMeta(ooDocument, field.getMetadataName(), (String)field.getMetadataValue());
+             docExtRefs.add(extRef);
+         }
          ExtReferencesTableModel rtm = new ExtReferencesTableModel(docExtRefs);
          return rtm;
     }
@@ -184,6 +232,18 @@ public class externalReferences extends BaseLaunchablePanel {
             }
             fireTableDataChanged();
          }
+         
+         public boolean containsRef (String refValue) {
+             boolean bState = false;
+             for (DocumentExternalReference dref: documentReferences) {
+                 if (dref.Href.equals(refValue)) {
+                     bState = true;
+                     break;
+                 }
+             }
+             return bState;
+         }
+         
          
          public DocumentExternalReference findMatchingRef(String refName) {
              refName = OOoNumberingHelper.INTERNAL_REF_PREFIX + refName;
@@ -225,8 +285,8 @@ public class externalReferences extends BaseLaunchablePanel {
              fireTableDataChanged();
          }
          
-        private String[] columns = {"Ref Name", "Reference To", "Reference Type", "Reference Text" };
-        private Class[] column_class = {String.class, String.class, String.class, String.class };
+        private String[] columns = {"URL", "Display Text", "Reference Type",  };
+        private Class[] column_class = {String.class, String.class, String.class };
         
         @Override
         public String getColumnName(int col) {
@@ -245,21 +305,51 @@ public class externalReferences extends BaseLaunchablePanel {
         public int getColumnCount() {
             return columns.length;
         }
-
+            
+        @Override
+        public boolean isCellEditable(int row, int col) {
+            if (col == 1) {
+                return true;
+            } else {
+                return false;
+            }
+        }
         public Object getValueAt(int row, int col) {
            DocumentExternalReference rfObj = filteredDocumentReferences.get(row);
-           //DocumentInternalReference rfObj = documentReferences.get(keys[row]);
-           return rfObj.Name;
+          
+           switch(col){
+               case 0 :
+                if (rfObj.ReferenceType.equals("external"))   
+                    return rfObj.Href;
+                else 
+                    return rfObj.URItext;
+               case 1 :
+                return rfObj.DisplayText;   
+               case 2:
+                return rfObj.ReferenceType;
+               default :
+                return rfObj.Href;
+           }    
         }
          
         public DocumentExternalReference getRowData (int row) {
             return this.filteredDocumentReferences.get(row);
-        } 
+        }
+
+        private void addToModel(DocumentExternalReference dextRef) {
+            synchronized(documentReferences) {
+                documentReferences.add(dextRef);
+            }
+            synchronized (filteredDocumentReferences) {
+                filteredDocumentReferences.add(dextRef);
+            }
+            fireTableDataChanged();
+        }
         
  
      }
 
-     class DocumentExternalReference implements Cloneable {
+     static class DocumentExternalReference implements Cloneable {
          //name of the reference preceded by rf:
          String Name;
          String Href;
@@ -269,26 +359,33 @@ public class externalReferences extends BaseLaunchablePanel {
          
          
          DocumentExternalReference(String name, String refText, String displayText) {
-             Name = name;
+             Name = makeName(name);
              Href = refText;
              DisplayText = displayText;
              ReferenceType =  "external";
              URItext="";
              // ParentType = parentType;
          }
+         
+         private String makeName (String n) {
+             return OOoNumberingHelper.EXTERNAL_REF_PREFIX + n;
+         }
 
-
-         DocumentExternalReference(String  name, Date dt, String docType, String docIdentifier, String displayText) {
-             Name = name;
+         DocumentExternalReference(String  name, Date dt, String docType, String langCode, String countryCode, String docIdentifier, String displayText) {
+             Name = makeName(name);
              Href = "";
              DisplayText = displayText;
              ReferenceType =  "uri";
-             URItext = makeURI (dt, docType, docIdentifier);
+             URItext = makeURI (dt, docType, langCode, countryCode, docIdentifier);
              // ParentType = parentType;
          }
          
-         private String makeURI (Date dt, String docType, String docId){
-             return new String();
+         private String makeURI (Date dt, String docType, String langISO, String countryISO, String docId){
+               Date selectedDate = dt;
+               SimpleDateFormat df = new SimpleDateFormat("yyyy/MM/dd");
+               String formattedURIdate = df.format(selectedDate);
+               String URIseparator = "/";
+               return  URIseparator + countryISO + URIseparator + docType + URIseparator + formattedURIdate + URIseparator  + langISO + URIseparator + docId;
          }
                   
          
@@ -306,7 +403,22 @@ public class externalReferences extends BaseLaunchablePanel {
              DocumentExternalReference cloneRef = (DocumentExternalReference) super.clone();
              return cloneRef;
          }
-         
+
+        private void update(OOComponentHelper ooDoc) {
+            ooDocMetadata docMeta = new ooDocMetadata(ooDoc);
+            if (ReferenceType.equals("external")) {
+                docMeta.AddProperty(this.Name, this.Href + "~~" + this.DisplayText);
+            }
+            else if (ReferenceType.equals("uri")) {
+                docMeta.AddProperty(this.Name, this.URItext + "~~" + this.DisplayText );
+            }
+        }
+
+        public static DocumentExternalReference createFromDocMeta(OOComponentHelper ooDoc, String refName, String refValue) {
+            //split into meta name and meta value;
+            String[] referenceComponents = refValue.split("~~");
+            return new DocumentExternalReference(refName, referenceComponents[0], referenceComponents[1]);
+        }
 
      }
 
@@ -327,7 +439,7 @@ public class externalReferences extends BaseLaunchablePanel {
     private void initComponents() {
 
         btnInsertCrossRef = new javax.swing.JButton();
-        btnBrowseBroken = new javax.swing.JButton();
+        btnViewAll = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblExternalReferences = new javax.swing.JTable();
@@ -342,8 +454,13 @@ public class externalReferences extends BaseLaunchablePanel {
         txtDocId = new javax.swing.JTextField();
         btnAddURI = new javax.swing.JButton();
         lblDocId = new javax.swing.JLabel();
+        txtRefDisplayText = new javax.swing.JTextField();
+        lblExtRef = new javax.swing.JLabel();
+        lblExtRefText = new javax.swing.JLabel();
+        lblURIlabel = new javax.swing.JLabel();
+        txtURIlabel = new javax.swing.JTextField();
 
-        btnInsertCrossRef.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        btnInsertCrossRef.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         btnInsertCrossRef.setText("Insert External Ref");
         btnInsertCrossRef.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -351,15 +468,15 @@ public class externalReferences extends BaseLaunchablePanel {
             }
         });
 
-        btnBrowseBroken.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
-        btnBrowseBroken.setText("Browse Broken ");
-        btnBrowseBroken.addActionListener(new java.awt.event.ActionListener() {
+        btnViewAll.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        btnViewAll.setText("View All");
+        btnViewAll.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBrowseBrokenActionPerformed(evt);
+                btnViewAllActionPerformed(evt);
             }
         });
 
-        btnClose.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        btnClose.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         btnClose.setText("Close");
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -382,17 +499,17 @@ public class externalReferences extends BaseLaunchablePanel {
         tblExternalReferences.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tblExternalReferences);
 
-        txtExternalReference.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        txtExternalReference.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         txtExternalReference.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtExternalReferenceKeyPressed(evt);
             }
         });
 
-        lblNewReference.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        lblNewReference.setFont(new java.awt.Font("DejaVu Sans", 2, 11));
         lblNewReference.setText("New External Reference");
 
-        btnAddRef.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        btnAddRef.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         btnAddRef.setText("Add..");
         btnAddRef.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -400,27 +517,55 @@ public class externalReferences extends BaseLaunchablePanel {
             }
         });
 
-        lblUriReference.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        lblUriReference.setFont(new java.awt.Font("DejaVu Sans", 2, 11));
+        lblUriReference.setForeground(java.awt.Color.blue);
         lblUriReference.setText("New URI reference");
 
-        dtURIdate.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        dtURIdate.setForeground(java.awt.Color.blue);
+        dtURIdate.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
 
-        lblDate.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        lblDate.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
+        lblDate.setForeground(java.awt.Color.blue);
         lblDate.setText("Date");
 
-        cboDocType.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        cboDocType.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
+        cboDocType.setForeground(java.awt.Color.blue);
         cboDocType.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Act", "Bill", "Debaterecord" }));
 
-        lblType.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        lblType.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
+        lblType.setForeground(java.awt.Color.blue);
         lblType.setText("Type");
 
-        txtDocId.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        txtDocId.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
+        txtDocId.setForeground(java.awt.Color.blue);
 
-        btnAddURI.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        btnAddURI.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
+        btnAddURI.setForeground(java.awt.Color.blue);
         btnAddURI.setText("Add..");
+        btnAddURI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddURIActionPerformed(evt);
+            }
+        });
 
-        lblDocId.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        lblDocId.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
+        lblDocId.setForeground(java.awt.Color.blue);
         lblDocId.setText("Identifier");
+
+        txtRefDisplayText.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
+
+        lblExtRef.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
+        lblExtRef.setText("Reference URL");
+
+        lblExtRefText.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
+        lblExtRefText.setText("Reference Label");
+
+        lblURIlabel.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
+        lblURIlabel.setForeground(java.awt.Color.blue);
+        lblURIlabel.setText("URI Label");
+
+        txtURIlabel.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
+        txtURIlabel.setForeground(java.awt.Color.blue);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -430,40 +575,52 @@ public class externalReferences extends BaseLaunchablePanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnInsertCrossRef, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBrowseBroken, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnViewAll, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnClose, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                        .addComponent(btnClose, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblNewReference, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
+                        .addComponent(lblNewReference, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
                         .addGap(136, 136, 136))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dtURIdate, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblDate, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(cboDocType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblType))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblDocId)
+                            .addComponent(txtDocId, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblUriReference, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
+                        .addContainerGap(121, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(dtURIdate, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblDate, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cboDocType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblType))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblDocId)
-                                    .addComponent(txtDocId, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(txtExternalReference, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE))
-                        .addGap(12, 12, 12)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(lblExtRefText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblExtRef, javax.swing.GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnAddRef, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
-                            .addComponent(btnAddURI, javax.swing.GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(txtRefDisplayText, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btnAddRef, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE))
+                            .addComponent(txtExternalReference, javax.swing.GroupLayout.DEFAULT_SIZE, 265, Short.MAX_VALUE))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(lblURIlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(46, 46, 46)
+                        .addComponent(txtURIlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnAddURI, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(
@@ -471,13 +628,18 @@ public class externalReferences extends BaseLaunchablePanel {
             .addGroup(layout.createSequentialGroup()
                 .addGap(5, 5, 5)
                 .addComponent(lblNewReference)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(7, 7, 7)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAddRef)
+                    .addComponent(lblExtRef)
                     .addComponent(txtExternalReference, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtRefDisplayText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblExtRefText)
+                    .addComponent(btnAddRef))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblUriReference)
-                .addGap(3, 3, 3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblDate)
                     .addComponent(lblType)
@@ -486,28 +648,32 @@ public class externalReferences extends BaseLaunchablePanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dtURIdate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cboDocType, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtDocId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAddURI))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(7, 7, 7)
+                    .addComponent(txtDocId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnClose)
+                    .addComponent(btnAddURI)
+                    .addComponent(txtURIlabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblURIlabel))
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnInsertCrossRef)
-                    .addComponent(btnBrowseBroken))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(btnViewAll)
+                    .addComponent(btnClose))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 private void btnInsertCrossRefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertCrossRefActionPerformed
 // TODO add your handling code here:
-     applyInsertCrossReference();
+     applyInsertExternalReference();
 }//GEN-LAST:event_btnInsertCrossRefActionPerformed
 
-private void btnBrowseBrokenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBrowseBrokenActionPerformed
+private void btnViewAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewAllActionPerformed
 // TODO add your handling code here:
    // parentFrame.dispose();
-}//GEN-LAST:event_btnBrowseBrokenActionPerformed
+}//GEN-LAST:event_btnViewAllActionPerformed
 
 private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
 // TODO add your handling code here:
@@ -521,31 +687,63 @@ private void txtExternalReferenceKeyPressed(java.awt.event.KeyEvent evt) {//GEN-
     }
     
 }//GEN-LAST:event_txtExternalReferenceKeyPressed
-
+final static String REF_SEPARATOR = "~~";
 private void btnAddRefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddRefActionPerformed
 // TODO add your handling code here:
-    ExtReferencesTableModel model = (ExtReferencesTableModel) this.tblExternalReferences.getModel();
-    model.resetModel();
+   String eRef = this.txtExternalReference.getText();
+   String eRefText = this.txtRefDisplayText.getText();
+   if (!eRef.startsWith("http://")) {
+       eRef = "http://" + eRef;
+   }
+   //String refMetaName = OOoNumberingHelper.EXTERNAL_REF_PREFIX + BungeniUUID.getStringUUID();
+   DocumentExternalReference dextRef = new DocumentExternalReference(BungeniUUID.getStringUUID() , eRef, eRefText);
+   dextRef.update(ooDocument);
+   ExtReferencesTableModel model = (ExtReferencesTableModel) this.tblExternalReferences.getModel();
+   if (!model.containsRef(eRef)) {
+       model.addToModel(dextRef);
+   }
 }//GEN-LAST:event_btnAddRefActionPerformed
+
+private void btnAddURIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddURIActionPerformed
+// TODO add your handling code here:
+   String buildURI = "";
+   Date selectedDate = dtURIdate.getDate();
+   String docType = ((String)cboDocType.getSelectedItem()).toLowerCase();
+   String langISO = BungeniEditorProperties.getEditorProperty("langISO");
+   String countryISO = BungeniEditorProperties.getEditorProperty("countryISO");
+   String docIdentifier = this.txtDocId.getText();
+   String refId = BungeniUUID.getStringUUID();
+   DocumentExternalReference extRef = new DocumentExternalReference (refId, selectedDate, docType, langISO, countryISO, docIdentifier, txtURIlabel.getText());
+   ExtReferencesTableModel model = (ExtReferencesTableModel) this.tblExternalReferences.getModel();
+   extRef.update(ooDocument);
+   if (!model.containsRef(extRef.URItext)) {
+       model.addToModel(extRef);
+   }
+}//GEN-LAST:event_btnAddURIActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddRef;
     private javax.swing.JButton btnAddURI;
-    private javax.swing.JButton btnBrowseBroken;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnInsertCrossRef;
+    private javax.swing.JButton btnViewAll;
     private javax.swing.JComboBox cboDocType;
     private org.jdesktop.swingx.JXDatePicker dtURIdate;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDate;
     private javax.swing.JLabel lblDocId;
+    private javax.swing.JLabel lblExtRef;
+    private javax.swing.JLabel lblExtRefText;
     private javax.swing.JLabel lblNewReference;
     private javax.swing.JLabel lblType;
+    private javax.swing.JLabel lblURIlabel;
     private javax.swing.JLabel lblUriReference;
     private javax.swing.JTable tblExternalReferences;
     private javax.swing.JTextField txtDocId;
     private javax.swing.JTextField txtExternalReference;
+    private javax.swing.JTextField txtRefDisplayText;
+    private javax.swing.JTextField txtURIlabel;
     // End of variables declaration//GEN-END:variables
 
     @Override

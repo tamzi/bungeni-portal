@@ -23,23 +23,23 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnBrowseBroken" min="-2" pref="135" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnClose" pref="97" max="32767" attributes="0"/>
+                      <Component id="btnClose" pref="116" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="lblFilterReferences" pref="252" max="32767" attributes="1"/>
+                      <Component id="lblFilterReferences" pref="271" max="32767" attributes="1"/>
                       <EmptySpace min="-2" pref="136" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jScrollPane1" pref="376" max="32767" attributes="0"/>
+                      <Component id="jScrollPane1" pref="395" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="txtFilterReferences" pref="187" max="32767" attributes="1"/>
+                      <Component id="txtFilterReferences" pref="191" max="32767" attributes="1"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cboFilterSettings" pref="114" max="32767" attributes="0"/>
+                      <Component id="cboFilterSettings" pref="119" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnRefresh" pref="63" max="32767" attributes="0"/>
+                      <Component id="btnRefresh" pref="73" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>

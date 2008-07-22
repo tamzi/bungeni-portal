@@ -24,13 +24,14 @@ public class referenceManager extends BaseLaunchablePanel {
     ArrayList<JTaskPaneGroup> paneGroups = new ArrayList<JTaskPaneGroup>(0);
     
     public final static String __TITLE__ = "Reference Manager";
-    public final static Dimension FRAME_DIMENSION = new Dimension(498, 440);
+    public final static Dimension FRAME_DIMENSION = new Dimension(498, 480);
     
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(referenceManager.class.getName());
     private String launchModeClass = "browseReferences";
     private final static String[] launchablePanelClasses = {
         "browseReferences",
-        "brokenReferences"
+        "brokenReferences",
+        "externalReferences"
     };
     /** Creates new form referenceManager */
     public referenceManager() {

@@ -437,8 +437,8 @@ public class browseReferences extends BaseLaunchablePanel {
              fireTableDataChanged();
          }
          
-        private String[] columns = {"Ref Name", "Reference To", "Reference Type", "Reference Text" };
-        private Class[] column_class = {String.class, String.class, String.class, String.class };
+        private String[] columns = { /*"Ref Name" ,*/ "Reference To", "Reference Type", "Reference Text" };
+        private Class[] column_class = { /*String.class,*/ String.class, String.class, String.class };
         
         @Override
         public String getColumnName(int col) {
@@ -462,13 +462,13 @@ public class browseReferences extends BaseLaunchablePanel {
            DocumentInternalReference rfObj = filteredDocumentReferences.get(row);
            //DocumentInternalReference rfObj = documentReferences.get(keys[row]);
            switch (col) {
-               case 0: 
-                   return rfObj.Name;
-               case 1:
+              // case 0: 
+              //     return rfObj.Name;
+               case 0:
                    return rfObj.ParentType;
-               case 2:
+               case 1:
                    return rfObj.ReferenceType;
-               case 3:
+               case 2:
                    return rfObj.ReferenceText;
                default:
                    return rfObj.Name;
@@ -553,7 +553,7 @@ public class browseReferences extends BaseLaunchablePanel {
         cboFilterSettings = new javax.swing.JComboBox();
         btnRefresh = new javax.swing.JButton();
 
-        btnInsertCrossRef.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        btnInsertCrossRef.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         btnInsertCrossRef.setText("Insert Cross Ref");
         btnInsertCrossRef.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -561,7 +561,7 @@ public class browseReferences extends BaseLaunchablePanel {
             }
         });
 
-        btnBrowseBroken.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        btnBrowseBroken.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         btnBrowseBroken.setText("Browse Broken ");
         btnBrowseBroken.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -569,7 +569,7 @@ public class browseReferences extends BaseLaunchablePanel {
             }
         });
 
-        btnClose.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        btnClose.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         btnClose.setText("Close");
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -577,7 +577,7 @@ public class browseReferences extends BaseLaunchablePanel {
             }
         });
 
-        tblAllReferences.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        tblAllReferences.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         tblAllReferences.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -592,7 +592,7 @@ public class browseReferences extends BaseLaunchablePanel {
         tblAllReferences.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(tblAllReferences);
 
-        txtFilterReferences.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        txtFilterReferences.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         txtFilterReferences.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtFilterReferencesKeyPressed(evt);
@@ -602,10 +602,10 @@ public class browseReferences extends BaseLaunchablePanel {
         lblFilterReferences.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         lblFilterReferences.setText("Filter References");
 
-        cboFilterSettings.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        cboFilterSettings.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         cboFilterSettings.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        btnRefresh.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        btnRefresh.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         btnRefresh.setText("Refresh");
         btnRefresh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -625,20 +625,20 @@ public class browseReferences extends BaseLaunchablePanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBrowseBroken, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnClose, javax.swing.GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+                        .addComponent(btnClose, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblFilterReferences, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                        .addComponent(lblFilterReferences, javax.swing.GroupLayout.DEFAULT_SIZE, 271, Short.MAX_VALUE)
                         .addGap(136, 136, 136))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtFilterReferences, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                        .addComponent(txtFilterReferences, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cboFilterSettings, 0, 114, Short.MAX_VALUE)
+                        .addComponent(cboFilterSettings, 0, 119, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, 63, Short.MAX_VALUE)
+                        .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, 73, Short.MAX_VALUE)
                         .addContainerGap())))
         );
         layout.setVerticalGroup(

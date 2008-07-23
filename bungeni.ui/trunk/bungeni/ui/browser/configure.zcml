@@ -18,26 +18,18 @@
   <browser:viewletManager
      name="bungeni.subform.manager"
      provides=".interfaces.ISubFormViewletManager"
+     class=".viewlet.SubFormViewletManager"
      permission="zope.View"
      />
 
- <browser:viewlet
-      name="bungeni.subform.mp-titles"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.TitleViewlet"
-      for="bungeni.core.interfaces.IMemberOfParliament"
-      permission="zope.View"
-      weight="10"
-      />
 
- <browser:viewlet
-      name="bungeni.subform.mp-personal-info"
-      manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.PersonInfo"
-      for="bungeni.core.interfaces.IMemberOfParliament"
-      permission="zope.View"
-      weight="20"
-      />
+  <browser:viewlet
+    name="bungeni.subform.datechooser.viewlet"   
+    manager=".interfaces.ISubFormViewletManager"
+    class="bungeni.ui.viewlets.current.DateChooserViewlet"
+    permission="zope.Public"
+    weight="5"
+    />     
 
 
 <!--
@@ -106,7 +98,18 @@
       for="bungeni.core.interfaces.IParliamentSession"
       permission="zope.View"
       allowed_interface="zope.formlib.interfaces.ISubPageForm"      
-      />      
+      />     
+      
+ <browser:viewlet
+      name="bungeni.subform.sittings"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.CommitteeSittingsViewlet"
+      for="bungeni.core.interfaces.IParliamentSession"
+      permission="zope.View"
+      weight="10"
+      />
+            
+       
   <!-- Session Add Form -->
    <browser:view
       name="add"
@@ -132,6 +135,26 @@
       permission="zope.View"
       />          
       
+ <browser:viewlet
+      name="bungeni.subform.mp-titles"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.TitleViewlet"
+      for="bungeni.core.interfaces.IMemberOfParliament"
+      permission="zope.View"
+      weight="10"
+      />
+
+ <browser:viewlet
+      name="bungeni.subform.mp-personal-info"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.PersonInfo"
+      for="bungeni.core.interfaces.IMemberOfParliament"
+      permission="zope.View"
+      weight="20"
+      />
+
+
+      
   <!-- Committee Edit Form --> 
     <browser:viewlet
       name="alchemist.attributes.edit"
@@ -147,7 +170,36 @@
       for="bungeni.core.interfaces.ICommitteeContainer"
       class=".forms.CommitteeAdd"              
       permission="zope.View"
-      />          
+      />    
+      
+ <browser:viewlet
+      name="bungeni.subform.committee-members"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.CommitteeMemberViewlet"
+      for="bungeni.core.interfaces.ICommittee"
+      permission="zope.View"
+      weight="10"
+      />
+      
+ <browser:viewlet
+      name="bungeni.subform.committee-staff"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.CommitteeStaffViewlet"
+      for="bungeni.core.interfaces.ICommittee"
+      permission="zope.View"
+      weight="20"
+      />      
+      
+ <browser:viewlet
+      name="bungeni.subform.comittee-sittings"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.CommitteeSittingsViewlet"
+      for="bungeni.core.interfaces.ICommittee"
+      permission="zope.View"
+      weight="30"
+      />
+      
+            
 <!-- Committee Member Edit Form --> 
     <browser:viewlet
       name="alchemist.attributes.edit"
@@ -184,6 +236,26 @@
       permission="zope.View"
       />       
 
+ <browser:viewlet
+      name="bungeni.subform.committee-member-titles"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.TitleViewlet"
+      for="bungeni.core.interfaces.ICommitteeMember"
+      permission="zope.View"
+      weight="10"
+      />
+
+ <browser:viewlet
+      name="bungeni.subform.comittee-member-personal-info"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.PersonInfo"
+      for="bungeni.core.interfaces.ICommitteeMember"
+      permission="zope.View"
+      weight="20"
+      />
+
+
+
 
 <!-- Government Edit Form -->     
     <browser:viewlet
@@ -202,6 +274,15 @@
       permission="zope.View"
       />                    
 
+ <browser:viewlet
+      name="bungeni.subform.minstries"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.MinistriesViewlet"
+      for="bungeni.core.interfaces.IGovernment"
+      permission="zope.View"
+      weight="10"
+      />   
+
 <!-- Ministry Edit Form -->
     <browser:viewlet
       name="alchemist.attributes.edit"
@@ -218,6 +299,17 @@
       class=".forms.MinistryAdd"              
       permission="zope.View"
       />               
+      
+      
+ <browser:viewlet
+      name="bungeni.subform.minsters"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.MinistersViewlet"
+      for="bungeni.core.interfaces.IMinistry"
+      permission="zope.View"
+      weight="10"
+      />   
+            
 <!-- Minister Edit Form -->  
     <browser:viewlet
       name="alchemist.attributes.edit"
@@ -234,6 +326,27 @@
       class=".forms.MinistersAdd"              
       permission="zope.View"
       /> 
+      
+      
+ <browser:viewlet
+      name="bungeni.subform.minister-titles"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.TitleViewlet"
+      for="bungeni.core.interfaces.IMinister"
+      permission="zope.View"
+      weight="10"
+      />
+
+ <browser:viewlet
+      name="bungeni.subform.minister-personal-info"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.PersonInfo"
+      for="bungeni.core.interfaces.IMinister"
+      permission="zope.View"
+      weight="20"
+      />      
+
+      
 <!-- Extension Group Edit Form -->  
     <browser:viewlet
       name="alchemist.attributes.edit"
@@ -284,7 +397,45 @@
       class=".forms.ParliamentAdd"              
       permission="zope.View"
       />      
-            
+ 
+ 
+ <browser:viewlet
+      name="bungeni.subform.committees"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.CommitteesViewlet"
+      for="bungeni.core.interfaces.IParliament"
+      permission="zope.View"
+      weight="10"
+      />      
+      
+ <browser:viewlet
+      name="bungeni.subform.member-of-parliament"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.MemberOfParliamentViewlet"
+      for="bungeni.core.interfaces.IParliament"
+      permission="zope.View"
+      weight="20"
+      />            
+                 
+ <browser:viewlet
+      name="bungeni.subform.government"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.GovernmentViewlet"
+      for="bungeni.core.interfaces.IParliament"
+      permission="zope.View"
+      weight="30"
+      />                  
+
+ <browser:viewlet
+      name="bungeni.subform.session"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.SessionViewlet"
+      for="bungeni.core.interfaces.IParliament"
+      permission="zope.View"
+      weight="30"
+      />                  
+
+                  
   <!-- GroupSitting Edit Form -->
     <browser:viewlet
       name="alchemist.attributes.edit"

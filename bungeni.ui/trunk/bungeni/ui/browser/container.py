@@ -52,9 +52,7 @@ def viewEditLinks( item, formatter ):
 
 
 class ContainerListing( alchemist.ui.container.ContainerListing ):
-    
-#    def update(self):           
-#        super( ContainerListing, self ).update()
+
 
     def update( self ):
         super( ContainerListing, self).update()
@@ -66,7 +64,6 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
             )
         self.columns = columns
         
-        #super( ContainerListing, self).update()
 
         
     @property

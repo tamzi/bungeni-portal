@@ -16,7 +16,7 @@ marker = object()
 class QuestionsListingViewletBase(object):
     """Renders a listing of questions."""
     
-    render = ViewPageTemplateFile("questions.pt")
+    render = ViewPageTemplateFile("templates/questions.pt")
 
     name = title = description = None
     count = 5

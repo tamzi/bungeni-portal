@@ -16,7 +16,7 @@ class Manager(object):
 class QuestionsListingViewletbase(object):
     """Renders a listing of questions."""
     
-    render = ViewPageTemplateFile("questions.pt")
+    render = ViewPageTemplateFile("templates/questions.pt")
 
     title = description = state = None
 

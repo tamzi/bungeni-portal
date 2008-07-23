@@ -1,4 +1,5 @@
-<div>
+<div class="listing">
+  <em> Sittings </em>
   <table class="listing grid">
     <thead>
       <tr>        
@@ -31,7 +32,8 @@
     </tr>
     </tbody>
   </table>
-  <form action="add">
+  <form action="add"
+    tal:attributes="action string:${view/fullPath}add">
      <input type="submit" value=" Add " />
   </form>
 </div>

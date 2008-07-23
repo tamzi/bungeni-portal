@@ -16,7 +16,7 @@ class SiteActionsViewlet( viewlet.ViewletBase ):
     Siteactions copied 1 to 1 from plone 
     return the pure html template only
     """
-    render = ViewPageTemplateFile( 'siteactions.pt' )
+    render = ViewPageTemplateFile( 'templates/siteactions.pt' )
 
 class BreadCrumbsViewlet( viewlet.ViewletBase ):
     """
@@ -59,14 +59,14 @@ class BreadCrumbsViewlet( viewlet.ViewletBase ):
         """
         self.path = self._get_path(self.context)       
         
-    render = ViewPageTemplateFile( 'breadcrumbs.pt' )        
+    render = ViewPageTemplateFile( 'templates/breadcrumbs.pt' )        
     
 class NavigationTreeViewlet( viewlet.ViewletBase ):
     """
     render a navigation tree
     
     """ 
-    template = ViewPageTemplateFile('contained-constraint-navigation.pt')
+    template = ViewPageTemplateFile('templates/contained-constraint-navigation.pt')
         
     def __init__( self,  context, request, view, manager ):        
         self.context = context
@@ -234,7 +234,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
         self.tree = self._get_tree(self.context)  
     
     
-    render = ViewPageTemplateFile( 'bungeni-navigation-tree.pt' )
+    render = ViewPageTemplateFile( 'templates/bungeni-navigation-tree.pt' )
 
         
 

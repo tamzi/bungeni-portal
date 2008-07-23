@@ -8,7 +8,7 @@ from zope.viewlet.manager import WeightOrderedViewletManager
 from zope.viewlet import viewlet
 import zope.interface
 from zope.security import proxy
-
+from ore.alchemist.container import stringKey
 
 from ore.alchemist import Session
 
@@ -16,6 +16,7 @@ from interfaces import ISittingCalendar
 from bungeni.ui.utils import getDisplayDate
 import bungeni.core.schema as schema
 import bungeni.core.domain as domain
+from bungeni.ui.browser import container
 
 
 def start_DateTime( Date ):
@@ -41,7 +42,7 @@ def end_DateTime( Date ):
                 
 
 class Calendar(BrowserView):
-    __call__ = ViewPageTemplateFile("sittings.pt")
+    __call__ = ViewPageTemplateFile("templates/sittings.pt")
 
 
 class SittingCalendarViewletManager( WeightOrderedViewletManager ):
@@ -147,6 +148,9 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
         else:
             return ''
 
+    def fullPath(self):
+        return container.getFullPath(self.context)   
+        
     def getData(self):
         """
         return the data of the query
@@ -155,11 +159,12 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
         type_results = self.type_query.all()
         for sit_type in type_results:
             sit_types[sit_type.sitting_type_id] = sit_type.sitting_type
-        data_list=[]                
+        data_list=[]      
+        path = self.fullPath()       
         results = self.query.all()
         for result in results:            
             data ={}
-            data['url']= ('obj-' + str(result.sitting_id) )                         
+            data['url']= ( path + 'obj-' + str(result.sitting_id) )                         
             data['short_name'] = ( datetime.datetime.strftime(result.start_date,'%H:%M')
                                     + ' (' + sit_types[result.sitting_type] + ')')
             data['start_date'] = str(result.start_date)
@@ -198,5 +203,5 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
         self.monthname = datetime.date.strftime(self.Date,'%B %Y')
         self.Data = self.getData()
     
-    render = ViewPageTemplateFile ('sitting_calendar_viewlet.pt')
+    render = ViewPageTemplateFile ('templates/sitting_calendar_viewlet.pt')
     

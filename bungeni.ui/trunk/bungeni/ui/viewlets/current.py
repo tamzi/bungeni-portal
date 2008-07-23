@@ -186,29 +186,36 @@ class DateChooserViewlet( viewlet.ViewletBase ):
                      var selDate = calendar.getSelectedDates()[0];
                      var datestring = selDate.getFullYear() + "-" + pad( selDate.getMonth()+1, 2) + "-" + pad( selDate.getDate(), 2);
                      document.getElementById("select-dates").value = datestring;
+                     OKButton.set('disabled', true);
+                     location.href='?date=' + datestring;
                 };
                 this.hide();
             }
 
             dialog = new YAHOO.widget.Dialog("select-dates-container", {
                   context:["select-dates-btn", "tl", "bl"],
-                  buttons:[ {text:"Select", isDefault:true, handler: handle_ok },
+                  buttons:[ {text:"Select", isDefault:false, handler: handle_ok },
                             {text:"Cancel", handler: handle_cancel}],
                   width:"16em",  // Sam Skin dialog needs to have a width defined (7*2em + 2*1em = 16em).
                   draggable:false,
                   close:true
                   });        
-
-
+                       
             calendar.render();
-            dialog.render();
-            
+            dialog.render();            
+            OKButton = dialog.getButtons()[0];
+            OKButton.set('disabled', true);
             // Using dialog.hide() instead of visible:false is a workaround for an IE6/7 container known issue with border-collapse:collapse.
             dialog.hide();
             
             calendar.renderEvent.subscribe(function() {
                dialog.fireEvent("changeContent");
                });
+               
+            calendar.selectEvent.subscribe(function () {
+                OKButton.set('disabled', false);
+            });
+               
             YAHOO.util.Event.on("select-dates-btn", "click", dialog.show, dialog, true);
             });
 

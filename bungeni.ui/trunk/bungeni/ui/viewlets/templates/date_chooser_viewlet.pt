@@ -19,8 +19,9 @@
        </div>
     </div>
 
-    <input type="submit" value="go" /> 
-    <a href="?date=all"> show all </a>
+    <!--input type="submit" value="go" /-->
+     
+    <button type="button" onclick="location.href='?date=all'"> Show all </button>
     <div tal:condition="view/error" tal:content="structure view/error_message" />      
   </form>
   

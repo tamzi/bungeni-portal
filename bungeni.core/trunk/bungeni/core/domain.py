@@ -194,14 +194,14 @@ class Parliament( Group ):
     """    
     sort_on = 'start_date'
     sessions = one2many("sessions", "bungeni.core.domain.ParliamentSessionContainer", "parliament_id")
-    committees = one2many("comittees", "bungeni.core.domain.CommitteeContainer", "parliament_id")
+    committees = one2many("committees", "bungeni.core.domain.CommitteeContainer", "parliament_id")
     #mps = one2many("mps","bungeni.core.domain.GroupMembershipContainer", "group_id")
     governments = one2many("governments","bungeni.core.domain.GovernmentContainer", "parliament_id")
     parliamentmembers = one2many("parliamentmembers", 
                                  "bungeni.core.domain.MemberOfParliamentContainer", "group_id")
     extensionmembers = one2many("extensionmembers", "bungeni.core.domain.ExtensionGroupContainer",
                                  "parliament_id")
-    
+    politicalparties = one2many("politicalparties", "bungeni.core.domain.PoliticalPartyContainer", "parliament_id")
 
     
 class PoliticalParty( Group ):
@@ -225,7 +225,7 @@ class Ministry( Group ):
     """ a government ministry
     """
     #sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "group_id")
-    ministers = one2many("Ministers","bungeni.core.domain.MinisterContainer", "group_id")
+    ministers = one2many("ministers","bungeni.core.domain.MinisterContainer", "group_id")
     
 class Minister( UserGroupMembership ):
     """ A Minister

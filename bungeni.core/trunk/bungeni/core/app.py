@@ -98,8 +98,8 @@ class AppSetup( object ):
         #ministries = domain.MinistryContainer()
         #self.context['ministries'] = ministries
         
-        parties = domain.PoliticalPartyContainer()
-        self.context['politicalparties'] = parties
+        #parties = domain.PoliticalPartyContainer()
+        #self.context['politicalparties'] = parties
         
         self.context['sessions'] = domain.ParliamentSessionContainer()
         

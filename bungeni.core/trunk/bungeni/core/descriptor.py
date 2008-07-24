@@ -424,7 +424,7 @@ class GroupDescriptor( ModelDescriptor ):
     schema_invariants = [EndAfterStart]
                         
 class ParliamentDescriptor( GroupDescriptor ):
-    display_name = _(u"parliaments")    
+    display_name = _(u"Parliament")    
     fields = [
         dict( name="group_id", omit=True ),
         dict( name="parliament_id", omit=True ),
@@ -490,7 +490,7 @@ class CommitteeDescriptor( GroupDescriptor ):
         dict( name='dissolution_date', label=_(u"Dissolution date"), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
         dict( name='reinstatement_date', label=_(u"Reinstatement Date"), edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),              
     ])
-    schema_invariants = [EndAfterStart, DissolutionAfterReinstatement]
+    schema_invariants = [EndAfterStart,] # DissolutionAfterReinstatement]
     
 class CommitteeMemberDescriptor( ModelDescriptor ):
     display_name = _(u"Committee Members")
@@ -547,7 +547,9 @@ class PoliticalPartyDescriptor( GroupDescriptor ):
     fields.extend([
         dict( name='logo_data', label=_(u"Logo"), edit=True, add=True, view=True, listing=False,
                 view_widget=widget.ImageDisplayWidget,
-                edit_widget = widget.ImageInputWidget)
+                edit_widget = widget.ImageInputWidget),
+        dict(name="parliament_id", omit=True),   
+        dict(name="party_id", omit=True),                           
      ])
           
      

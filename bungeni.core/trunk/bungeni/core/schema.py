@@ -230,6 +230,7 @@ political_parties = rdb.Table(
    rdb.Column( "logo_data", rdb.Binary, ),
    rdb.Column( "logo_name", rdb.String(40)),
    rdb.Column( "logo_mimetype", rdb.String(40)),
+   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id')),   
    )
 
 ###

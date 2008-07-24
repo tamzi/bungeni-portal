@@ -108,7 +108,7 @@ function mvSetupExtension(){
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialUpload.php');
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialUnusedStreamFiles.php');
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialManageReaders.php');
-	require_once( dirname(__FILE__) . '/specials/MV_SpecialOrderStaff.php');
+	//require_once( dirname(__FILE__) . '/specials/MV_SpecialOrderStaff.php');
 	require_once( dirname(__FILE__) . '/specials/MV_test.php');
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialMVAdmin.php');
 	require_once( dirname(__FILE__) . '/specials/MV_SpecialManageReporters.php');
@@ -251,22 +251,7 @@ function mvSetupExtension(){
 //$wgOut->addScript("<script type=\"text/javascript\" src=\"/mvWiki/extensions/FCKeditor/fckeditor/fckeditor.js\"></script>");
 			if($head_set=='smw_ext')
 				$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/mv_smw_ext.js\" ></script>");
-//=======
-			//if($head_set=='smw_ext')
-			//	$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/mv_smw_ext.js\" ></script>");
-//>>>>>>> .r31753
-//<<<<<<< .mine
-			 
-//>>>>>>> .r31347
-			$mvCssUrl = $mvgScriptPath . '/skins/mv_custom.css';
-			$wgOut->addLink(array(
-				'rel'   => 'stylesheet',
-				'type'  => 'text/css',
-				'media' => 'all',
-				'href'  => $mvCssUrl
-			));				
-//=======
-			
+
 			if(!($mvEnableAutoComplete || $mvEnableJSLinkBack) ){
 				$mvCssUrl = $mvgScriptPath . '/skins/mv_custom.css';
 				$wgOut->addLink(array(

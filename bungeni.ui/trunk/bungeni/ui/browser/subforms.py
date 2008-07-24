@@ -59,9 +59,23 @@ class MemberOfParliamentViewlet( SubformViewlet ):
         self.query = None
 
 
+class SittingsCalendarViewlet( SittingCalendarViewlet ):
+    """
+    sittingcalendar displayed for a sitting
+    """
+    def __init__( self,  context, request, view, manager ):        
 
-class CommitteeSittingsViewlet( SittingCalendarViewlet ):
+        self.context = context.__parent__                  
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+        super( SittingsCalendarViewlet, self).__init__(self.context, request, view, manager)
 
+class SittingsViewlet( SittingCalendarViewlet ):
+    """
+    sittingcalendar for a session or group
+    """
     def __init__( self,  context, request, view, manager ):        
 
         self.context = context.sittings                  
@@ -73,9 +87,9 @@ class CommitteeSittingsViewlet( SittingCalendarViewlet ):
 #        self.Data = []
 #        session = Session()
 #        self.type_query = session.query(domain.SittingType)
-        super( CommitteeSittingsViewlet, self).__init__(self.context, request, view, manager)
+        super( SittingsViewlet, self).__init__(self.context, request, view, manager)
 
-class MinistersViewlet( ContainerListing ):
+class MinistersViewlet( SubformViewlet ):
 
 
     def __init__( self,  context, request, view, manager ):        
@@ -87,9 +101,9 @@ class MinistersViewlet( ContainerListing ):
         self.query = None
 
 
-    render = ViewPageTemplateFile ('templates/generic-sub-container.pt')  
 
-class MinistriesViewlet( ContainerListing ):
+
+class MinistriesViewlet( SubformViewlet ):
 
 
     def __init__( self,  context, request, view, manager ):        
@@ -101,10 +115,10 @@ class MinistriesViewlet( ContainerListing ):
         self.query = None
 
 
-    render = ViewPageTemplateFile ('templates/generic-sub-container.pt')  
 
 
-class CommitteesViewlet( ContainerListing ):
+
+class CommitteesViewlet( SubformViewlet ):
 
     def __init__( self,  context, request, view, manager ):        
 
@@ -115,9 +129,8 @@ class CommitteesViewlet( ContainerListing ):
         self.query = None
 
 
-    render = ViewPageTemplateFile ('templates/generic-sub-container.pt')  
 
-class CommitteeStaffViewlet( ContainerListing ):
+class CommitteeStaffViewlet( SubformViewlet ):
 
     def __init__( self,  context, request, view, manager ):        
 
@@ -128,10 +141,9 @@ class CommitteeStaffViewlet( ContainerListing ):
         self.query = None
 
 
-    render = ViewPageTemplateFile ('templates/generic-sub-container.pt')  
 
 
-class CommitteeMemberViewlet( ContainerListing ):
+class CommitteeMemberViewlet( SubformViewlet ):
 
     def __init__( self,  context, request, view, manager ):        
 
@@ -142,9 +154,8 @@ class CommitteeMemberViewlet( ContainerListing ):
         self.query = None
 
 
-    render = ViewPageTemplateFile ('templates/generic-sub-container.pt')                
     
-class TitleViewlet ( ContainerListing ):
+class TitleViewlet ( SubformViewlet ):
 
     def __init__( self,  context, request, view, manager ):        
 
@@ -154,9 +165,23 @@ class TitleViewlet ( ContainerListing ):
         self.manager = manager
         self.query = None
 
-    render = ViewPageTemplateFile ('templates/generic-sub-container.pt')                
+class PoliticalPartyViewlet( SubformViewlet ):
+    def __init__( self,  context, request, view, manager ):        
 
+        self.context = context.politicalparties
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
 
+class PartyMemberViewlet( SubformViewlet ):
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.partymembers
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
     
 class PersonInfo( BungeniAttributeDisplay ):
     """

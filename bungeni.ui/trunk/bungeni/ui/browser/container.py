@@ -109,7 +109,7 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
             name = getattr( descriptor, 'display_name', None)
         if not name:
             name = getattr( self.context.domain_model, '__name__', None)                
-        return "%s %s"%(name, self.mode.title())
+        return name #"%s %s"%(name, self.mode.title())
         
     @form.action(_(u"Add") )
     def handle_add( self, action, data ):

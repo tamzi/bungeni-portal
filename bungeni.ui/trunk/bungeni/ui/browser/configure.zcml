@@ -90,6 +90,17 @@
       class=".forms.GroupSittingAdd"              
       permission="zope.View"
       />      
+      
+ <browser:viewlet
+      name="bungeni.subform.sittingscalendar"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.SittingsCalendarViewlet"
+      for="bungeni.core.interfaces.IGroupSitting"
+      permission="zope.View"
+      weight="10"
+      />      
+
+      
   <!-- Session Edit Form -->
     <browser:viewlet
       name="alchemist.attributes.edit"
@@ -103,7 +114,7 @@
  <browser:viewlet
       name="bungeni.subform.sittings"
       manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.CommitteeSittingsViewlet"
+      class=".subforms.SittingsViewlet"
       for="bungeni.core.interfaces.IParliamentSession"
       permission="zope.View"
       weight="10"
@@ -193,7 +204,7 @@
  <browser:viewlet
       name="bungeni.subform.comittee-sittings"
       manager=".interfaces.ISubFormViewletManager"
-      class=".subforms.CommitteeSittingsViewlet"
+      class=".subforms.SittingsViewlet"
       for="bungeni.core.interfaces.ICommittee"
       permission="zope.View"
       weight="30"
@@ -416,6 +427,16 @@
       permission="zope.View"
       weight="20"
       />            
+
+ <browser:viewlet
+      name="bungeni.subform.political-parties"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.PoliticalPartyViewlet"
+      for="bungeni.core.interfaces.IParliament"
+      permission="zope.View"
+      weight="30"
+      />                  
+
                  
  <browser:viewlet
       name="bungeni.subform.government"
@@ -423,7 +444,7 @@
       class=".subforms.GovernmentViewlet"
       for="bungeni.core.interfaces.IParliament"
       permission="zope.View"
-      weight="30"
+      weight="40"
       />                  
 
  <browser:viewlet
@@ -432,7 +453,7 @@
       class=".subforms.SessionViewlet"
       for="bungeni.core.interfaces.IParliament"
       permission="zope.View"
-      weight="30"
+      weight="50"
       />                  
 
                   
@@ -471,6 +492,15 @@
       class=".forms.PoliticalPartyAdd"              
       permission="zope.View"
       /> 
+
+ <browser:viewlet
+      name="bungeni.subform.party-members"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.PartyMemberViewlet"
+      for="bungeni.core.interfaces.IPoliticalParty"
+      permission="zope.View"
+      weight="10"
+      />    
   
   <!-- Partymembership -->
      <browser:view
@@ -486,6 +516,16 @@
       class=".forms.PartyMemberAdd"              
       permission="zope.View"
       /-->   
+  
+   <browser:viewlet
+      name="bungeni.subform.party-member-titles"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.TitleViewlet"
+      for="bungeni.core.interfaces.IPartyMember"
+      permission="zope.View"
+      weight="10"
+      />
+  
   
   <!-- Version -->
   

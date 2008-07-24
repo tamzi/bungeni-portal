@@ -8,7 +8,15 @@ import schema
 import domain
 
 # general representation of a person
-mapper ( domain.Person, schema.users )
+mapper ( domain.Person, schema.users,
+          properties={
+           'fullname' : column_property(
+                             (schema.users.c.first_name + u" " + 
+                             schema.users.c.middle_name + u" " + 
+                             schema.users.c.last_name).label('fullname')
+                                           ),
+                       },
+ )
 
 # Users
 mapper( domain.User, schema.users,
@@ -247,11 +255,11 @@ mapper( domain.PartyMember,
         polymorphic_identity='partymember',        
         )  
         
-mapper( domain.MemberOfParty, 
-        inherits=domain.UserGroupMembership,
-        polymorphic_on=schema.user_group_memberships.c.membership_type,          
-        polymorphic_identity='partymember',        
-        )          
+#mapper( domain.MemberOfParty, 
+#        inherits=domain.UserGroupMembership,
+#        polymorphic_on=schema.user_group_memberships.c.membership_type,          
+#        polymorphic_identity='partymember',        
+#        )          
                 
 # staff assigned to a group (committee, ...)
 

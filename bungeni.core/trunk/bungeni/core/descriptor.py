@@ -292,7 +292,7 @@ class GroupMembershipDescriptor( ModelDescriptor ):
 #           ),   
         dict( name="user_id",
               property=schema.Choice( title=_(u"Member of Parliament"), 
-                                      source=DatabaseSource(domain.ParliamentMember,  'fullname', 'user_id')),
+                                      source=DatabaseSource(domain.Person,  'fullname', 'user_id')),
               listing_column=member_fk_column("user_id", _(u'<a href="?order_by=short_name">Member of Parliament</a>')), listing=True,
             ),                 
         dict( name="start_date", label=_(u"Start Date"), 

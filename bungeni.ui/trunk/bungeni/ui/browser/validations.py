@@ -325,6 +325,13 @@ def CheckSessionDatesInsideParentDatesAdd( self,  context, data ):
     errors = checkStartEndDatesInInterval(context.__parent__.parliament_id, data , sql_checkSessionInterval)     
     errors = errors + checkDates(context.__parent__ , data )
     return errors
+
+#political parties
+def checkPartyDates( self, context, data):
+    """
+    political groups exist inside a parliament
+    """
+    return checkDates(context.__parent__ , data )
     
 #party membership
 def checkPartyMembershipDates( self, context, data ):

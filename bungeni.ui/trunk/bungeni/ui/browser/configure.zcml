@@ -464,6 +464,13 @@
       permission="zope.View"
       allowed_interface="zope.formlib.interfaces.ISubPageForm"      
       />    
+  <!-- Political Party -->
+    <browser:view
+      name="add"
+      for="bungeni.core.interfaces.IPoliticalPartyContainer"
+      class=".forms.PoliticalPartyAdd"              
+      permission="zope.View"
+      /> 
   
   <!-- Partymembership -->
      <browser:view

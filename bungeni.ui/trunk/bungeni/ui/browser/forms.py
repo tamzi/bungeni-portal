@@ -20,7 +20,7 @@ from bungeni.core.i18n import _
 from bungeni.core.interfaces import IGroupSitting, IParliamentSession, IMemberOfParliament, \
     ICommittee, ICommitteeMember, IGovernment, IMinistry, IExtensionGroup, IMinister, \
     IExtensionMember, IParliament, IGroupSittingAttendance, ICommitteeStaff, IMemberRoleTitle, \
-    IMemberOfParty
+    IMemberOfParty, IPoliticalParty
 
 
 from bungeni.ui.datetimewidget import  SelectDateTimeWidget, SelectDateWidget
@@ -112,9 +112,20 @@ class ParliamentAdd( CustomAddForm ):
     Adapts = IParliament
     CustomValidation = validations.CheckParliamentDatesAdd  
     
-
+class PoliticalPartyAdd( CustomAddForm ):
+    """
+    custom Add form for parliaments
+    """
+    form_fields = form.Fields( IPoliticalParty )
+    form_fields["start_date"].custom_widget = SelectDateWidget
+    form_fields["end_date"].custom_widget = SelectDateWidget  
+    form_fields["description"].custom_widget=widget.RichTextEditor
+    Adapts = IPoliticalParty
+    CustomValidation = validations.checkPartyDates
 
 # party membership
+
+
 
 class PartyMemberAdd( CustomAddForm ):
     """

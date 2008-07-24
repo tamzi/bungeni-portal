@@ -11,6 +11,8 @@ package org.bungeni.editor.toolbar.conditions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.bungeni.editor.toolbar.conditions.operators.baseOperator;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
@@ -44,6 +46,55 @@ public class BungeniToolbarConditionProcessor {
             this.ooDocument = ooIncoming;
         }
     }
+    
+    class groupBoundary {
+        int start;
+        int end;
+        groupBoundary(int s, int e) {
+            start = s;
+            end = e;
+        }
+        
+    }
+    
+    private static String GROUP_BEGIN="{";
+    private static String GROUP_END="}";
+    /**
+     * 
+     * match bracket groups ... find th
+     * @param conditionValue
+     */
+    protected void processGroups(String conditionValue) {
+        ArrayList<groupBoundary> foundGroups = new ArrayList<groupBoundary>();
+        
+        if (conditionValue.contains(GROUP_BEGIN) && conditionValue.contains(GROUP_END)) {
+            Pattern pGroup = Pattern.compile("\\{(.+?)\\}");
+            Matcher m =pGroup.matcher(conditionValue);
+            while (m.find()) {
+                int ns = m.start();
+                int ne = m.end();
+                foundGroups.add(new groupBoundary(ns, ne));
+                //conditionValue.substring(ns+e, ne-1)
+            }
+            processFoundGroups(foundGroups, conditionValue);
+        } else {
+            processOperators(conditionValue);
+        }
+        
+    }
+    
+    private void processFoundGroups(ArrayList<groupBoundary> foundGroups, String conditionVal) {
+        
+    }
+    /**
+     * processes conditions of the type :
+     * cursorInSection:clause([0-9]*) :and: textSelected:true
+     * currently grouping of conditions is not supported.
+     * 23 July 2008 - to be added grouping of conditions  e.g.
+     * {cursorInSection:clause([0-9]*) :or: cursorInSection:article([0-9]*)} :and: textSelected:true
+     * 
+     * @param fullConditionValue
+     */
     protected void processOperators(String fullConditionValue) {
         //we split string by operators 
         //currently only a single type of operator identification is supported

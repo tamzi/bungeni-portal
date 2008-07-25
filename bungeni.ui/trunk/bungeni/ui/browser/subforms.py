@@ -165,6 +165,16 @@ class TitleViewlet ( SubformViewlet ):
         self.manager = manager
         self.query = None
 
+class AddressesViewlet( SubformViewlet ):
+
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.addresses
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+
 class PoliticalPartyViewlet( SubformViewlet ):
     def __init__( self,  context, request, view, manager ):        
 

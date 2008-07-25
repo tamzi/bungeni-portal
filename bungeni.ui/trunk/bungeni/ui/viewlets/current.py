@@ -15,6 +15,7 @@ import datetime
 
 from bungeni.ui.i18n import MessageFactory as _
 import bungeni.core.domain as domain
+from bungeni.core.interfaces import IGroupSitting, IGroupSittingAttendance, IGroupSittingAttendanceContainer
 
 from ore.alchemist import Session
 from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
@@ -262,6 +263,13 @@ class DateChooserViewlet( viewlet.ViewletBase ):
         zc.resourcelibrary.need("yui-button")
         
         self.Date = getDisplayDate(self.request)
+        if IGroupSitting.providedBy(self.context):
+            # group sittings last only a part of a day, get rid of the error message
+            Date = getattr( self.context, 'start_date', None)
+            if type(Date) == datetime.datetime:
+                self.Date= Date.date()
+            elif type(Date) == datetime.date:
+                self.Date= Date 
         if self.Date:
             self.DateStr=datetime.date.strftime(self.Date,'%Y-%m-%d')
         else:
@@ -275,8 +283,12 @@ class DateChooserViewlet( viewlet.ViewletBase ):
                 The date you requested (%(current)s) is not in the current restrictions. <br />
                 Either select <a href="?date=%(minmax)s"> %(minmax)s </a> 
                 or browse the data <a href="?date=all">for all dates</a>.
-                """) % ({'current': self.DateStr , 'minmax': minmaxdate})           
-            
+                """) % ({'current': self.DateStr , 'minmax': minmaxdate})     
+        if (IGroupSittingAttendance.providedBy(self.context) 
+            or IGroupSittingAttendanceContainer.providedBy(self.context)):
+            # group sitting attendance does not have start - end
+            self.error = None
+        
     render = ViewPageTemplateFile ('templates/date_chooser_viewlet.pt')    
             
             
@@ -320,14 +332,17 @@ class AllParliamentsViewlet( viewlet.ViewletBase ):
         results =  self._getCurrentData()
         for result in results:            
             data ={}
-            data['url']= '/parliament/' 
+            data['url']= '/parliament/obj-'  + str(result.parliament_id) 
             data['short_name'] = result.short_name
             data['election_date'] = result.election_date
             data['start_date'] = str(result.start_date)
             data['end_date'] = str(result.end_date)
             data['mpurl']= '/parliament/obj-' + str(result.parliament_id) + '/parliamentmembers' 
             #data_list.append(data)
-        return data #_list             
+        if results:    
+            return data #_list             
+        else:
+            return {'url' : '/parliament/', 'short_name': 'N/A', 'start_date':'', 'end_date':'', 'election_date':''}    
                     
     def getData(self):
         """
@@ -346,7 +361,8 @@ class AllParliamentsViewlet( viewlet.ViewletBase ):
                 urlpf = '?date=' + datetime.date.strftime(result.end_date,'%Y-%m-%d')
             else:
                 urlpf ='?date=' + datetime.date.strftime(datetime.date.today(),'%Y-%m-%d')            
-            data['url']= '/parliament/' +urlpf
+            #data['url']= '/parliament/' +urlpf
+            data['url']= '/parliament/obj-'  + str(result.parliament_id) +urlpf            
             data['short_name'] = result.short_name
             data['election_date'] = result.election_date
             data['start_date'] = str(result.start_date)
@@ -356,7 +372,8 @@ class AllParliamentsViewlet( viewlet.ViewletBase ):
                 data['current'] = 'even'
                 data['selector'] = '-->>'
                 data['mpurl']= '/parliament/obj-' + str(result.parliament_id) + '/parliamentmembers' + curlpf
-                data['url']= '/parliament/' + curlpf
+                #data['url']= '/parliament/' + curlpf
+                data['purl']= '/parliament/obj-' + str(result.parliament_id)  + curlpf                
             else:
                 data['current'] = 'odd' 
                 data['selector'] = ''               

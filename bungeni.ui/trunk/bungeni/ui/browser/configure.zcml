@@ -52,6 +52,16 @@
 
 
 <!-- /View -->
+
+ <browser:viewlet
+      name="bungeni.subform.member-addresses"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.AddressesViewlet"
+      for="bungeni.core.interfaces.IParliamentMember"
+      permission="zope.View"
+      weight="10"
+      /> 
+
                  
   <!-- GroupSittingAttendance Add Form -->
    <browser:view
@@ -265,7 +275,14 @@
       weight="20"
       />
 
-
+ <browser:viewlet
+      name="bungeni.subform.committe-staff-titles"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.TitleViewlet"
+      for="bungeni.core.interfaces.ICommitteeStaff"
+      permission="zope.View"
+      weight="10"
+      />
 
 
 <!-- Government Edit Form -->     
@@ -485,6 +502,18 @@
       permission="zope.View"
       allowed_interface="zope.formlib.interfaces.ISubPageForm"      
       />    
+
+ <browser:viewlet
+      name="bungeni.subform.title-addresses"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.AddressesViewlet"
+      for="bungeni.core.interfaces.IMemberRoleTitle"
+      permission="zope.View"
+      weight="10"
+      />         
+      
+
+      
   <!-- Political Party -->
     <browser:view
       name="add"

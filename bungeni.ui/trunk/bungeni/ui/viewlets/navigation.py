@@ -125,7 +125,8 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                         i = { 'name' : name,
                               'current' : '',
                               'url'  :  k, 
-                              'node' : None}                                          
+                              'node' : None,
+                              'script': True }                                          
                         if domain_model == context_class: 
                             i['current'] = 'navTreeCurrentItem'                              
                         citems.append( i )
@@ -143,6 +144,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                 item = { 'name' : name,
                             'url'  : url ,
                             'current': 'navTreeItemInPath', 
+                            'script': False,
                              } 
                 if len(path) > 1:
                     item['node'] = self._append_child(path[1:])
@@ -171,6 +173,7 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                         item = { 'name' : name,
                             'url'  : url + '../' + k,
                             'current': 'navTreeItemInPath', 
+                            'script': False,
                              }
                         if len(path) > 1:
                             item['node'] = self._append_child(path[1:])
@@ -181,7 +184,8 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
                         item = { 'name' : name,
                               'current' : '',
                               'node' : None,
-                              'url'  : url + '../' + k }
+                              'url'  : url + '../' + k,
+                              'script': False, }
                     items.append( item )  
         return items                                          
 
@@ -203,13 +207,15 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
         if level >= 0:
             htmlstr = '<ul class="navTree navTreeLevel' + str(level) + '">'
         else:
-           htmlstr = '' 
+            #if item['script']:
+            #    htmlstr = '<noscript>'
+            #else:                
+            htmlstr = '' 
         for item in items:
             htmlstr = htmlstr + '<li class="navTreeItem ' + item['current'] +'" >'
             htmlstr = htmlstr + '<div><a href="' + self._appendSortFilter2URL(item['url']) + '"' + ' class="'  + item['current'] +'" >'
             htmlstr = htmlstr + str( item['name'] )   
-            htmlstr = htmlstr + '</a></div>'
-           
+            htmlstr = htmlstr + '</a></div>'           
             if item['node']:
                 htmlstr = htmlstr + self._tree2html(item['node'], level + 1) 
             htmlstr = htmlstr +  '</li>'           

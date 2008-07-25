@@ -363,11 +363,12 @@ class MemberOfPartyDescriptor( ModelDescriptor ):
     partySource=DatabaseSource(domain.PoliticalParty,  'short_name', 'party_id')
     fields = [
         dict( name="user_id", omit=True),                 
-        dict( name="group_id",
-            property=schema.Choice( title=_(u"Political Party"), source=partySource,),
-            listing_column=vocab_column( "group_id" , _(u'<a href="?order_by=group_id">Party</a>'), partySource, ),  
-            listing=True,
-            ),
+ #       dict( name="group_id",
+ #           property=schema.Choice( title=_(u"Political Party"), source=partySource,),
+ #           listing_column=vocab_column( "group_id" , _(u'<a href="?order_by=group_id">Party</a>'), partySource, ),  
+ #           listing=True,
+ #           ),
+        dict( name='short_name', label=_(u"Political Party"), listing=True),
         dict( name="start_date", label=_(u"Start Date"), 
             listing_column=day_column("start_date", _(u'<a href="?order_by=start_date">Start Date</a>') ), listing=True,
             edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),

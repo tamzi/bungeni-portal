@@ -1,6 +1,4 @@
 
-
-
 import sqlalchemy as rdb
 from sqlalchemy.orm import mapper, relation, column_property, deferred
 
@@ -260,6 +258,32 @@ mapper( domain.PartyMember,
 #        polymorphic_on=schema.user_group_memberships.c.membership_type,          
 #        polymorphic_identity='partymember',        
 #        )          
+
+_ugm_party = rdb.alias(schema.user_group_memberships)
+_ugm_parliament = rdb.alias(schema.user_group_memberships)
+
+_pmp = rdb.join(schema.political_parties, schema.groups,
+                schema.political_parties.c.party_id == schema.groups.c.group_id).join(
+                   _ugm_party,
+                  schema.groups.c.group_id == _ugm_party.c.group_id)
+                 
+_mpm = rdb.join(_ugm_parliament, _pmp,
+                rdb.and_(_ugm_parliament.c.user_id == _ugm_party.c.user_id,
+                     _ugm_parliament.c.group_id == schema.political_parties.c.parliament_id)
+                     )
+                     
+mapper( domain.MemberOfParty, _mpm,
+        properties={
+           'membership_id' : column_property(_ugm_parliament.c.membership_id.label('membership_id')),
+           'party_membership_id' : column_property(_ugm_party.c.membership_id.label('party_membership_id')),           
+           'start_date' : column_property(_ugm_party.c.start_date.label('start_date')),
+           'end_date' : column_property(_ugm_party.c.end_date.label('end_date')),
+           'short_name' : column_property(schema.groups.c.short_name.label('short_name')),
+           },
+         include_properties=['membership_id', 'short_name', 'start_date', 'end_date', 'group_id'],                      
+       )                                       
+ 
+ 
                 
 # staff assigned to a group (committee, ...)
 

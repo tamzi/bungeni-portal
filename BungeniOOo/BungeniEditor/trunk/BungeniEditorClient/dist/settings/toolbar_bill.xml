@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-    Document   : toolbar.xml.xml
+    Document   : toolbar.xml
     Created on : January 9, 2008, 1:52 PM
     Author     : Administrator
     Description:
@@ -9,38 +9,36 @@
 -->
 <toolbar>
     <root lang="en" title="Editor Actions" visible="true" >
-        <actionGroup name="blockActions" title="Block Actions" visible="true">
+        <actionGroup name="blockActions" title="Bill Actions" visible="true">
             <blockAction name="Root" title="Create Root Section" visible="true" condition="sectionNotExists:bill" target="generalAction.createRootSection" />
-            <blockAction name="Preface" title="Preface" tooltip="Use these actions to create and manage the Preface" target="null" visible="true" condition="none" >
-                <action name="Preface.selection" tooltip="Select some text in the document to mark it up as a MastHead." title="From Selection"  target="null" visible="true" condition="sectionNotExists:preface :and: textSelected:true :and: cursorInSection:bill" showChildren="true" >
-                    <subaction name="Preface.selection" tooltip="Select some text to mark it up as a Preface" title="Define" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillPrefaceSection.section_creation" visible="true" condition="cursorInSection:bill :and: sectionNotExists:preface :and: textSelected:true" />
+          
+	    <action name="Part.selection" tooltip="Parts can be created as top-level containers in a document" title="Part"  target="null" visible="true" condition="cursorInSection:bill :and: textSelected:true" showChildren="true" >
+                    <subaction name="Part.selection" title="Create from Selection" tooltip="Select some text to mark it up as a Part" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillPartSection.section_creation" visible="true" condition="cursorInSection:bill :and: textSelected:true" />
+                    <subaction name="Part.selection.title" title="Markup title" tooltip="Select some text to mark it up as a  Part title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillPartSection.apply_numbered_heading:part_title" visible="true" condition="cursorInSection:part([0-9]*) :and: textSelected:true :and: !sectionHasChildType:NumberedContainer" />
                 </action>
-            </blockAction>
-            <blockAction name="Article" tooltip="Create a Article Section" title="Article" target="null" visible="true" condition="none" >
-                <action name="Article.selection" tooltip="Articles can be created as top-level containers in a document" title="From Selection"  target="null" visible="true" condition="cursorInSection:bill :and: textSelected:true" showChildren="true" >
-                    <subaction name="Article.selection" title="Define" tooltip="Select some text to mark it up as a Article" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillArticleSection.section_creation" visible="true" condition="cursorInSection:bill :and: textSelected:true" />
-                    <subaction name="Article.selection.title" title="Markup title" tooltip="Select some text to mark it up as a  Article title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillArticleSection.apply_numbered_heading:article_title" visible="true" condition="cursorInSection:article([0-9]*) :and: textSelected:true :and: !sectionHasChildType:NumberedContainer" />
+
+              <action name="Chapter.selection" tooltip="Chapter can be created inside Parts" title="Chapter"  target="null" visible="true" condition="cursorInSection:part([0-9]*) :and: textSelected:true" showChildren="true" >
+                    <subaction name="Chapter.selection" title="Create from Selection" tooltip="Select some text to mark it up as a Part" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillChapterSection.section_creation" visible="true" condition="cursorInSection:part([0-9]*) :and: textSelected:true" />
+                    <subaction name="Chapter.selection.title" title="Markup title" tooltip="Select some text to mark it up as a  Part title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillChapterSection.apply_numbered_heading:chapter_title" visible="true" condition="cursorInSection:chapter([0-9]*) :and: textSelected:true :and: !sectionHasChildType:NumberedContainer" />
                 </action>
-            </blockAction>
-            <blockAction name="Clause" tooltip="Create a Clause" title="Clause" target="null" visible="true" condition="none" >
-                <action name="Clause.selection" tooltip="Define a Clause" title="From Selection"  target="null" visible="true" condition="cursorInSection:article([0-9]*) :and: textSelected:true" showChildren="true" >
-                    <subaction name="Clause.selection.create" title="Define" tooltip="Clause can created inside articles"  mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillClauseSection.section_creation" visible="true"  condition="cursorInSection:article([0-9]*) :and: textSelected:true" />
-                    <subaction name="Clause.selection.title" title="Markup title" tooltip="Select some text to mark it up as a Clause"  mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillClauseSection.apply_numbered_heading:clause_title" visible="true"  condition="cursorInSection:clause([0-9]*) :and: textSelected:true :and: !sectionHasChildType:NumberedContainer" />
+
+              <action name="SubChapter.selection" tooltip="SubChapter can be created inside a chapter" title="SubChapter"  target="null" visible="true" condition="cursorInSection:chapter([0-9]*) :or: cursorInSection:part([0-9]*) :and: textSelected:true" showChildren="true" >
+                    <subaction name="SubChapter.selection" title="Create from Selection" tooltip="Select some text to mark it up as a SubChapter" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillSubChapterSection.section_creation" visible="true" condition="cursorInSection:chapter([0-9]*) :and: textSelected:true" />
+                    <subaction name="Chapter.selection.title" title="Markup title" tooltip="Select some text to mark it up as a  Part title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillSubChapterSection.apply_numbered_heading:subchapter_title" visible="true" condition="cursorInSection:subchapter([0-9]*) :and: textSelected:true :and: !sectionHasChildType:NumberedContainer" />
                 </action>
-            </blockAction>
-            <blockAction name="Section" tooltip="Create a Section" title="Section" target="null" visible="true" condition="none" >
-                <action name="Section.selection" tooltip="" title="From Selection"  target="null" visible="true" condition="cursorInSection:clause([0-9]*) :and: textSelected:true" showChildren="true" >
-                    <subaction name="Section.selection.create" title="Define" tooltip="Section can be created as a main container"  mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillSectionSection.section_creation" visible="true"  condition="cursorInSection:clause([0-9]*) :and: textSelected:true" />
-                    <subaction name="Section.selection.title" title="Markup title" tooltip="Select some text and mark it up as a heading"  mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillSectionSection.apply_numbered_heading:section_title" visible="true"  condition="cursorInSection:section([0-9]*) :and: textSelected:true :and: !sectionHasChildType:NumberedContainer" />
+
+
+              <action name="Section.selection" tooltip="Section can be created inside a SubChapter or a Part" title="Section"  target="null" visible="true" condition="cursorInSection:subchapter([0-9]*) :or: cursorInSection:part([0-9]*) :and: textSelected:true" showChildren="true" >
+                    <subaction name="Section.selection" title="Create from Selection" tooltip="Select some text to mark it up as a Section" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillSectionSection.section_creation" visible="true" condition="cursorInSection:(subchapter|part)([0-9]*) :and: textSelected:true" />
+                    <subaction name="Section.selection.title" title="Markup title" tooltip="Select some text to mark it up as a  Part title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillSectionSection.apply_numbered_heading:section_title" visible="true" condition="cursorInSection:section([0-9]*) :and: textSelected:true :and: !sectionHasChildType:NumberedContainer" />
                 </action>
-            </blockAction>
-            <blockAction name="Part" tooltip="Create a Part Section" title="Part" target="null" visible="true" condition="none" >
-                <action name="Part.selection" tooltip="" title="From Selection"  target="null" visible="true" condition="cursorInSection:part([0-9]*) :and: textSelected:true" showChildren="true" >
-                    <subaction name="Part.selection.create" title="Define" tooltip="Part can be created inside Section"  mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillPartSection.section_creation" visible="true"  condition="cursorInSection:section([0-9]*) :and: textSelected:true" />
-                    <subaction name="Part.selection.title" title="Markup title" tooltip="Select some text to mark it up as a Part"  mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillPartSection.apply_numbered_heading:part_title" visible="true"  condition="cursorInSection:part([0-9]*) :and: textSelected:true :and: !sectionHasChildType:NumberedContainer" />
-                </action>
-            </blockAction>
-            
+
+
+              <action name="SubSection.selection" tooltip="SubSection can be created inside a Section" title="SubSection"  target="null" visible="true" condition="cursorInSection:section([0-9]*) :and: textSelected:true" showChildren="true" >
+                    <subaction name="SubSection.selection" title="Create from Selection" tooltip="Select some text to mark it up as a SubSection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillSubSectionSection.section_creation" visible="true" condition="cursorInSection:section([0-9]*) :and: textSelected:true" />
+                    <subaction name="SubSection.selection.title" title="Markup title" tooltip="Select some text to mark it up as a  SubSection title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeBillSubSectionSection.apply_numbered_heading:subsection_title" visible="true" condition="cursorInSection:subsection([0-9]*) :and: textSelected:true :and: !sectionHasChildType:NumberedContainer" />
+             </action>
+
         </actionGroup>
     </root>
 </toolbar>

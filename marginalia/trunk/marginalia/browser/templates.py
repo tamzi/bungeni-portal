@@ -41,6 +41,10 @@ class MarginaliaPage(BrowserPage):
         if annotations:
             return annotations[0]
 
+    def getAuthenticatedUserId(self):
+        """Returns the currently authenticated member."""
+        return self.request.principal.id
+
     def getAuthenticatedUser(self):
         """Returns the currently authenticated member."""
         if hasattr(self.request.principal, 'getLogin'):        
@@ -84,6 +88,7 @@ class MarginaliaPage(BrowserPage):
             'quote': '',
             'quote_title': '',
             'quote_author': '',
+            'quote_authorid': '',            
             'link': '',            
             }
         # TODO: Don't treat query string and body parameters as equivalent.
@@ -107,6 +112,7 @@ class MarginaliaPage(BrowserPage):
         del params['xpath-range']
         params['modified'] = datetime.now()
         params['quote_author'] = self.getAuthenticatedUser()
+        params['quote_authorid'] = self.getAuthenticatedUserId()
 
         annotation = AnnotationMaster()
         for key in annotations_table.c.keys():
@@ -417,6 +423,10 @@ class MarginaliaAnnotationView(BrowserView):
         url = view.getBaseUrl()
         annotations = view.getSortedFeedEntries(user, url)
         return set([annotation.quote_author for annotation in annotations] )
+
+    def getAuthenticatedUserId(self):
+        """Returns the currently authenticated member."""
+        return self.request.principal.id
 
     def getAuthenticatedUser(self):
         """Returns the currently authenticated member."""

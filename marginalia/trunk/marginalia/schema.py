@@ -25,6 +25,7 @@ annotations_table = rdb.Table(
     rdb.Column("quote", rdb.Text()),
     rdb.Column("quote_title", rdb.Unicode(120)),
     rdb.Column("quote_author", rdb.Unicode(80), nullable=False),
+    rdb.Column("quote_authorid", rdb.Unicode(80), nullable=False),    
     rdb.Column("link_title", rdb.Unicode(80)),
     rdb.Column("link", rdb.Unicode(240)),
     rdb.Column("modified", rdb.DateTime(), nullable=False),

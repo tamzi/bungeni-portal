@@ -126,6 +126,8 @@
 }
 .hentry .notes .username {
 	font-style: italic;
+    text-align:right;
+    display:block;
 }
 
 

@@ -477,7 +477,7 @@ RestAnnotationService.prototype.deleteAnnotation = function( annotationId, f )
 function rest_loader(id, display) {
     var loader_div = document.getElementById(id);
     if(display)
-        loader_div.style.display = 'block';
+        loader_div.style.display = '';
     else
         loader_div.style.display = 'none';
 }

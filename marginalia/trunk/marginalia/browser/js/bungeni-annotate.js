@@ -118,15 +118,17 @@ bungeni = {
 		if ( titleText )
 			noteText.setAttribute( 'title', titleText );
 		
-		// If this doesn't belong to the current user, add the name of the owning user
+		// If this doesn't belong to the current user, add the name of the
+		// owning user
+		noteText.appendChild( document.createTextNode( annotation.getNote() ) );
+
 		if ( ! params.isCurrentUser )
 		{
 			domutil.addClass( noteElement, 'other-user' );
 			noteText.appendChild( domutil.element( 'span', {
 				className:  'username',
-				content:  annotation.getUserId( ) + ': ' } ) );
+				content:  'author: ' + annotation.getUserId( ) } ) );
 		}
-		noteText.appendChild( document.createTextNode( annotation.getNote() ) );
 		noteElement.appendChild( noteText );
 		
 		// Return behavior mappings

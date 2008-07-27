@@ -331,7 +331,7 @@ Marginalia.defaultDisplayNote = function( marginalia, annotation, noteElement, p
 		domutil.addClass( noteElement, 'other-user' );
 		noteText.insertBefore( domutil.element( 'span', {
 			className:  'username',
-			content:  annotation.getUserId( ) + ': ' } ), noteText.firstChild );
+			content:  'author: ' + annotation.getUserId( ) } ), noteText.firstChild );
 	}
 	noteElement.appendChild( noteText );
 	

@@ -1239,6 +1239,7 @@ function hideAnnotations()
 
 }
 
+
 function filterAnnotations(form_field)
 {
   var parent_node = form_field.parentNode;
@@ -1298,6 +1299,41 @@ function filterAnnotations(form_field)
   document.location.hash = "#filter_name=" + filter_name+"&filter_group=" + filter_group+"&filter_type=" + filter_type+"&search_string="+search_string;
 }
 
+function clearSearch(form_field) {
+  var parent_node = form_field.parentNode;
+  var selectNodes = domutil.childrenByTagClass( parent_node, null, 'select_field', null, null );
+  var select_obj_owner = [];
+  var select_obj_group = [];
+  var select_obj_type = [];
+  if (selectNodes.length>=1)
+    var select_obj_owner = selectNodes[0];
+  if (selectNodes.length>=2)
+    var select_obj_group = selectNodes[1];
+  if (selectNodes.length>=3)
+    var select_obj_type = selectNodes[2];
+  for(i=0; i<select_obj_owner.length; i++)  {
+      if (select_obj_owner.options[i].value == "select_all") 
+          select_obj_owner.options[i].selected = true;
+      else
+          select_obj_owner.options[i].selected = false;
+      }
+  for(i=0; i<select_obj_group.length; i++)  {
+      if (select_obj_group.options[i].value == "select_all") 
+          select_obj_group.options[i].selected = true;
+      else
+          select_obj_group.options[i].selected = false;
+      }
+  for(i=0; i<select_obj_type.length; i++)  {
+      if (select_obj_type.options[i].value == "select_all") 
+          select_obj_type.options[i].selected = true;
+      else
+          select_obj_type.options[i].selected = false;
+      }
+  var input_obj = domutil.childrenByTagClass( parent_node, null, 'input_field', null, null )[0];
+  input_obj.value = "";
+  filterAnnotations(form_field);
+}
+
 function filterAnnotationsFromBookmark(){
   var hash_string = document.location.hash;  
   if (hash_string.search("filter_name") > -1)
@@ -1328,7 +1364,7 @@ function filterAnnotationsFromBookmark(){
     for (i=0;i<select_name.options.length;i++)
         {
             var option = select_name.options[i];
-            if (filter_name.contains(option.value))
+            if (option.value in filter_name)
                 {
                     option.selected = true;
                 }
@@ -1343,7 +1379,7 @@ function filterAnnotationsFromBookmark(){
     for (i=0;i<select_group.options.length;i++)
         {
             var option = select_group.options[i];
-            if (filter_group.contains(option.value))
+            if (option.value in filter_group)
                 {
                     option.selected = true;
                 }
@@ -1358,7 +1394,7 @@ function filterAnnotationsFromBookmark(){
     for (i=0;i<select_type.options.length;i++)
         {
             var option = select_type.options[i];
-            if (filter_type.contains(option.value))
+            if (option.value in filter_type)
                 {
                     option.selected = true;
                 }
@@ -1374,9 +1410,9 @@ function filterAnnotationsFromBookmark(){
 function toggle_visibility(id) {
     var e = document.getElementById(id);
     if(e.style.display == 'block')
-	e.style.display = 'none';
+        e.style.display = 'none';
     else
-	e.style.display = 'block';
+        e.style.display = 'block';
 }
 
 function visibility_handler(id, display) {

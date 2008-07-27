@@ -71,6 +71,7 @@ public class frameBrokenReferences extends javax.swing.JFrame {
         setOrphanedReferences(brokenReferences);
         setParentFrame(parentFrame);
         init();
+        
     }
     
     /** This method is called from within the constructor to

@@ -162,10 +162,12 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         """
         # Manipulating the request to avoid a lot of duplicate code
         if not self.REQUEST.has_key('filter_type'):
-            self.REQUEST['filter_type'] = 'comment,insert,replace,delete'
+            self.REQUEST['filter_type'] = 'comment;insert;replace;delete'
+        elif 'select_all' in self.REQUEST['filter_type']:
+            self.REQUEST['filter_type'] = 'comment;insert;replace;delete'
         elif 'annotate' in self.REQUEST['filter_type']:
             raise Exception, "Annotations are not displayed in the amendment view"
-
+        
         rest_verb_map = {
             'GET': self._listAnnotations, # Finds listAnnotations.pt in skins
             'POST': self._createAnnotation,
@@ -225,7 +227,6 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         To query per fragment identifier, filter the returned
         annotations by looking at their 'url' field.
         """
-
         catalog = getToolByName(self, 'portal_catalog')
 			
         query = {
@@ -273,15 +274,15 @@ class Annotations(UniqueObject, BaseBTreeFolder):
             filter_group = None
 
         if filter_name:
-            filter_name = filter_name.split(",")
+            filter_name = filter_name.split(";")
             annotations = [annotation for annotation in annotations if annotation.Creator() in filter_name]
 
         if filter_type:
-            filter_type = filter_type.split(",")
+            filter_type = filter_type.split(";")
             annotations = [annotation for annotation in annotations if annotation.getEditType() in filter_type]
 
         if filter_group:
-            filter_group = set(filter_group.split(","))
+            filter_group = set(filter_group.split(";"))
             group_annotations = []
             for annotation in annotations:
                 member = self.acl_users.getUserById(annotation.Creator())
@@ -388,9 +389,13 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         obj_id = plone.generateUniqueId('Annotation')
         
         #new_id = self.invokeFactory('Annotation', id=obj_id, **params)
-
         new_id = self.invokeFactory('Annotation', id=obj_id)        
         annotation = getattr(self, new_id)
+        annotation.manage_permission("Modify portal content", ["Member", "Anonymous"], 1)
+        annotation.Schema()['creators'].set(annotation, self._getUserName())
+        if self._getUserName() == 'Anonymous User':
+            annotation._owner = (['acl_users'], None)
+        annotation.getOwner()
         annotation.update(**params)
 
         self.REQUEST.RESPONSE.setStatus('Created')

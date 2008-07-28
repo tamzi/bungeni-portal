@@ -12,5 +12,14 @@
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
 
+
+  <browser:page
+     for="bungeni.core.interfaces.IGroupContainer"
+     permission="zope.ManageSite"
+     name="index"
+     class=".admin.GroupListing"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     />
+
 </configure>
 

@@ -29,7 +29,10 @@ class GroupFormatter( common.AjaxTableFormatter ):
     def getFields( self ):
         return self.fields
 
-class UserQueryJSON( search.ConstraintQueryJSON ):
+class GroupListing( common.AjaxContainerListing ):
+    formatter_factory = GroupFormatter
+
+class GroupQueryJSON( search.ConstraintQueryJSON ):
     def getConstraintQuery( self ):
         return self.searcher.query_field("object_kind", domain.Group.__name__ )
 

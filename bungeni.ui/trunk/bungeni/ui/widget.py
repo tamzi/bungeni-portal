@@ -84,6 +84,8 @@ class ImageInputWidget(FileWidget):
             action = self.request.form.get(self.update_action_name, self._missing) 
             if action == u'keep':
                 return False
+            elif action == u'delete':
+                return True
             else:
                 return self.upload_name  in self.request.form   
  

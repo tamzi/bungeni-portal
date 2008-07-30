@@ -24,7 +24,7 @@ class UserQueryJSON( search.ConstraintQueryJSON ):
 
 class GroupFormatter( common.AjaxTableFormatter ):
     i = interfaces.IGroup
-    fields = [i['short_name'], i['start_date'], i['end_date'], 
+    fields = [i['short_name'],i['full_name'], i['start_date'], i['end_date'], 
               schema.TextLine(title=u"Type", __name__='type' )]
     def getFields( self ):
         return self.fields

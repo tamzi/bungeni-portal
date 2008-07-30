@@ -9,6 +9,8 @@ from ore.alchemist.model import queryModelDescriptor
 import alchemist.ui.container
 import alchemist.ui.core
 from ore.alchemist.container import stringKey
+#from ore import yuiwidget
+from zope.traversing.browser import absoluteURL
 
 from bungeni.core.i18n import _
 from bungeni.ui.utils import getDisplayDate, getFilter
@@ -26,6 +28,7 @@ def dateFilter( request ):
 
 
 def getFullPath( context):
+    #BBB use absoluteURL
     """
     traverse up to get the full path
     """
@@ -39,11 +42,13 @@ def getFullPath( context):
     return path        
 
 def viewLink( item, formatter ):
-    path = getFullPath(formatter.context)
+    path = absoluteURL( formatter.context, formatter.request ) + '/'
+    #path = getFullPath(formatter.context)
     return u'<a class="button-link" href="%s">View</a>'%( path + stringKey( item ) )
 
 def editLink( item, formatter ):
-    path = getFullPath(formatter.context)
+    #path = getFullPath(formatter.context)
+    path = absoluteURL( formatter.context, formatter.request ) + '/'
     return u'<a class="button-link" href="%s/edit">Edit</a>'%( path + stringKey( item ) )
 
 def viewEditLinks( item, formatter ):
@@ -52,7 +57,8 @@ def viewEditLinks( item, formatter ):
 
 
 class ContainerListing( alchemist.ui.container.ContainerListing ):
-
+    #formatter_factory = yuiwidget.ContainerDataTableFormatter
+    addLink = None
 
     def update( self ):
         super( ContainerListing, self).update()
@@ -63,7 +69,7 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
                                  getter = viewEditLinks )
             )
         self.columns = columns
-        
+        self.actionUrl = '%s/' % ( absoluteURL( self.context, self.request ) )
 
         
     @property
@@ -91,6 +97,7 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
                 query=query.order_by(order_list)                                             
         else:            
             query=query.order_by(order_list)     
+        # self.formatter_factory    
         formatter = table.AlternatingRowFormatter( context,
                                                    self.request,
                                                    query,
@@ -113,7 +120,9 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
         
     @form.action(_(u"Add") )
     def handle_add( self, action, data ):
-        addurl = '%s/add' %( getFullPath(self.context) )
+        #p1 = getFullPath(self.context)
+        path = absoluteURL( self.context, self.request ) 
+        addurl = '%s/add' %( path ) 
         self.request.response.redirect(addurl)
         
 

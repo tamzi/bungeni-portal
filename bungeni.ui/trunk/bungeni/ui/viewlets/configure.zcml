@@ -177,7 +177,7 @@
     />        
 
   <!-- Government -->  
-  <browser:page
+  <!--browser:page
      for="bungeni.core.interfaces.IGovernmentContainer"
      permission="zope.Public"
      name="index"
@@ -210,6 +210,6 @@
     class=".current.CurrentMinistriesViewlet"
     permission="zope.Public"
     weight="5"
-    />    
+    /-->    
   
 </configure>

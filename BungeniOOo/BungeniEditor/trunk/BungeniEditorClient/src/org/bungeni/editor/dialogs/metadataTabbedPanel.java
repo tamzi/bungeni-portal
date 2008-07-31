@@ -273,7 +273,7 @@ public class metadataTabbedPanel extends javax.swing.JPanel {
         }
         
     }
-    private synchronized void initTimers(){
+    private  void initTimers(){
        try{
               sectionNameTimer= new Timer(1000, new ActionListener() {
               public void actionPerformed(ActionEvent e) {

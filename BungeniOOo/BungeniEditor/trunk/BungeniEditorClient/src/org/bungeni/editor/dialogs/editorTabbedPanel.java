@@ -349,7 +349,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     }
 
     
-    private synchronized void initOpenDocumentsList(){
+    private void initOpenDocumentsList(){
              try {
         log.debug("initOpenDocumentsList: getting components");
         XEnumerationAccess enumComponentsAccess = BungenioOoHelper.getDesktop().getComponents();
@@ -522,7 +522,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         //toggleEditSection.setSelected(false);
     }
     
-    public synchronized void bringEditorWindowToFront(){
+    public void bringEditorWindowToFront(){
    	if (ooDocument.isXComponentValid()) {
         XFrame xDocFrame = ooDocument.getDocumentModel().getCurrentController().getFrame();
         Object docFrameWindow = xDocFrame.getContainerWindow();
@@ -553,6 +553,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                         log.debug("XComponent is invalid");
                     }
                    // ooDocument.detachListener();
+                    log.debug("updateMain : setting new OODocument handle");
                     setOODocumentObject(new OOComponentHelper(currentlySelectedDoc.getComponent(), ComponentContext));
                     updateProviders();
                     //initFields();
@@ -1057,7 +1058,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         
    
    
-public synchronized TreeMap<String, editorTabbedPanel.componentHandleContainer> getCurrentlyOpenDocuments(){
+public TreeMap<String, editorTabbedPanel.componentHandleContainer> getCurrentlyOpenDocuments(){
     return this.editorMap;
 }
 
@@ -1501,7 +1502,7 @@ private void btnNewDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GE
     newDocumentInPanel();
 }//GEN-LAST:event_btnNewDocumentActionPerformed
 
-public synchronized void newDocumentInPanel(){
+public void newDocumentInPanel(){
     String templatePath = BungeniEditorProperties.getEditorProperty(BungeniEditorPropertiesHelper.getCurrentDocType()+"_template");
     Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
     boolean bActive = false;
@@ -1619,7 +1620,7 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
     
     
     private static boolean structureInitialized = false;
-    private synchronized void initTimers(){
+    private  void initTimers(){
         
       //  synchronized(this);
         try {
@@ -1643,6 +1644,7 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
             sectionNameTimer.start();
             */
             //component handle tracker timer
+      
             Action componentsTrackingRunner = new AbstractAction(){
                 public void actionPerformed(ActionEvent e) {
                   componentHandlesTracker();
@@ -1652,7 +1654,6 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
             componentsTrackingTimer = new Timer(5000, componentsTrackingRunner);
             componentsTrackingTimer.start();
 
-    
             
             //docStructureTimer = new java.util.Timer();
             //docStructureTimer.schedule(task, 0, 3000);
@@ -1728,7 +1729,7 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
         this.program_refresh_documents = bState;
     }
     
-    private synchronized void componentHandlesTracker() {
+    private  void componentHandlesTracker() {
                     log.debug("componentHandlesTracker: begin ");
                     //array list caches keys to be removed
                     ArrayList<String> keysToRemove = new ArrayList<String>();

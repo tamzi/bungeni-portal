@@ -55,7 +55,7 @@ public class documentMetadataPanel extends BaseClassForITabbedPanel {
         this.tableDocumentMetadata.setModel(docMetadataTableModel);
     }
     
-     private synchronized void initTimer(){
+     private  void initTimer(){
           docMetadataTimer = new Timer(4000, new ActionListener() {
               public void actionPerformed(ActionEvent e) {
                   if (isVisible())

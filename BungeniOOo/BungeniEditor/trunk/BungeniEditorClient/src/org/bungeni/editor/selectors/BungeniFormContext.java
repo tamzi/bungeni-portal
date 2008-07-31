@@ -16,7 +16,6 @@ import org.apache.log4j.Logger;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.ooo.OOComponentHelper;
-import org.bungeni.ooo.ooDocFieldSet;
 import org.bungeni.ooo.ooDocMetadataFieldSet;
 
 /**

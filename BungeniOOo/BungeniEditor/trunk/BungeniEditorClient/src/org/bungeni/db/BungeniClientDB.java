@@ -131,7 +131,7 @@ public class BungeniClientDB {
         return qr;
     }
     
-    public synchronized int Update(String expression) {
+    public int Update(String expression) {
             Statement st = null;
             int nReturns = 0;
             try {
@@ -147,7 +147,7 @@ public class BungeniClientDB {
             }
     }
     
-    public synchronized HashMap<String,Vector<Vector<String>>> Query(String expression) {
+    public  HashMap<String,Vector<Vector<String>>> Query(String expression) {
             Statement st = null;
             ResultSet rs = null;
             HashMap<String,Vector<Vector<String>>> query_results = new HashMap<String,Vector<Vector<String>>>();

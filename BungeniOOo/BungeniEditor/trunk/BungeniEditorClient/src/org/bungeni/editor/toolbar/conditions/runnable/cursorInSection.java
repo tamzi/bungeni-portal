@@ -120,7 +120,6 @@ public class cursorInSection implements IBungeniToolbarCondition {
              log.debug("check_cursorInSection: matchedSection was null");
              bReturn = false;
          }
-            
         } catch (UnknownPropertyException ex) {
             log.error("check_cursorInSection: " + ex.getMessage());
         } catch (WrappedTargetException ex) {
@@ -132,7 +131,14 @@ public class cursorInSection implements IBungeniToolbarCondition {
     
     public boolean processCondition(BungeniToolbarCondition condition) {
        // System.out.println("processing condition: "+ ooDocument.getDocumentTitle());
-        return check_cursorInSection(condition);
+        boolean bResult = false;
+        try {
+        bResult = check_cursorInSection(condition);
+        } catch (Exception ex) {
+            
+        } finally {
+            return bResult;
+        }
     }
         
  

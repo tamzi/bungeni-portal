@@ -32,10 +32,10 @@ public class sectionNotExists implements IBungeniToolbarCondition {
         this.ooDocument = ooDocument;
     }
 
-    synchronized boolean check_sectionNotExists (BungeniToolbarCondition condition) {
+    boolean check_sectionNotExists (BungeniToolbarCondition condition) {
         boolean bResult = false;
         try {
-        
+        //synchronized(ooDocument) {
         String sectionToActUpon =  condition.getConditionValue();
         if (sectionToActUpon.equals(BungeniEditorPropertiesHelper.getDocumentRoot())) {
            log.debug("sectionNotExists: before activeDoc"); 
@@ -53,6 +53,8 @@ public class sectionNotExists implements IBungeniToolbarCondition {
             log.debug("sectionNotExists : xcomponent valid");
         }
         log.debug("sectionNotExists, after xcomponent validity");
+        if (ooDocument.getTextSections() == null )
+            return false;
         String[] sections = ooDocument.getTextSections().getElementNames();
         bResult = true;
         for (String thesection : sections) {
@@ -70,6 +72,7 @@ public class sectionNotExists implements IBungeniToolbarCondition {
             bResult= true;
         }
          */
+        //}
         } catch (Exception ex) {
             log.error("check_sectionNotExists:"+ ex.getMessage());
             log.error("check_sectionNotExists, stack:" + CommonExceptionUtils.getStackTrace(ex));
@@ -78,8 +81,15 @@ public class sectionNotExists implements IBungeniToolbarCondition {
         }
     }
     
-    synchronized public boolean processCondition(BungeniToolbarCondition condition) {
-        return check_sectionNotExists(condition);
+    public boolean processCondition(BungeniToolbarCondition condition) {
+        boolean bResult = false;
+        try  {
+         bResult =  check_sectionNotExists(condition);
+        } catch (Exception ex) {
+            
+        } finally {
+            return bResult;
+        }
     }
         
 

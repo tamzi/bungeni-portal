@@ -119,7 +119,9 @@ public class cursorInSectionType extends baseRunnableCondition {
     }
      
     public boolean runCondition(BungeniToolbarCondition condition) {
+     //   synchronized(ooDocument) {
         return check_cursorInSectionType(condition);
+      //  }
     }
     
 }

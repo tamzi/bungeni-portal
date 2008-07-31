@@ -32,7 +32,7 @@ public class sectionExists implements IBungeniToolbarCondition {
         this.ooDocument = ooDocument;
     }
 
-    synchronized boolean check_sectionExists (BungeniToolbarCondition condition) {
+    boolean check_sectionExists (BungeniToolbarCondition condition) {
         sectionNotExists secNotExists = new sectionNotExists();
         secNotExists.setOOoComponentHelper(ooDocument);
         if (secNotExists.processCondition(condition)){
@@ -45,9 +45,16 @@ public class sectionExists implements IBungeniToolbarCondition {
         
     }
     
-    synchronized public boolean processCondition(BungeniToolbarCondition condition) {
-        return check_sectionExists(condition);
-    }
+    public boolean processCondition(BungeniToolbarCondition condition) {
+        boolean bResult = false;
+        try {
+            bResult =  check_sectionExists(condition);
+        } catch (Exception ex) {
+            
+        } finally {
+            return bResult;
+        }
+      }
 
  
 

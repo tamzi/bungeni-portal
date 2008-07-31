@@ -30,10 +30,17 @@ public abstract class baseRunnableCondition implements IBungeniToolbarCondition 
     public abstract boolean runCondition(BungeniToolbarCondition condition);
     
     public boolean processCondition(BungeniToolbarCondition condition) {
+        boolean bResult = false;
+        try {
         if (condition.hasNegationCondition())
-            return !runCondition(condition);
+            bResult =  !runCondition(condition);
         else
-            return runCondition(condition);
+            bResult = runCondition(condition);
+        } catch (Exception ex) {
+            
+        } finally {
+            return bResult;
+        }
     }
     
 }

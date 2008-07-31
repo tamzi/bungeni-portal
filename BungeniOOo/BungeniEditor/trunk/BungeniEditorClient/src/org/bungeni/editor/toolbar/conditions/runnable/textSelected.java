@@ -9,10 +9,7 @@
 
 package org.bungeni.editor.toolbar.conditions.runnable;
 
-import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.toolbar.conditions.BungeniToolbarCondition;
-import org.bungeni.editor.toolbar.conditions.IBungeniToolbarCondition;
-import org.bungeni.ooo.OOComponentHelper;
 
 /**
  * 
@@ -32,8 +29,12 @@ public class textSelected extends baseRunnableCondition {
 
  
      boolean check_textSelected(BungeniToolbarCondition condition) {
-         String conditionValue = condition.getConditionValue();
-         boolean bSelected = ooDocument.isTextSelected();
+         String conditionValue = "";
+         boolean bSelected = false;
+         //synchronized (ooDocument) {
+          conditionValue = condition.getConditionValue();
+          bSelected = ooDocument.isTextSelected();
+         //}
          if (bSelected) {
              if (conditionValue.equalsIgnoreCase("true"))
                  return true;

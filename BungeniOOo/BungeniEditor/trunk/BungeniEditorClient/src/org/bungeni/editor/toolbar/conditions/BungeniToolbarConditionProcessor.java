@@ -232,7 +232,7 @@ public class BungeniToolbarConditionProcessor {
     }
     
     
-    synchronized public boolean evaluate() {
+    public boolean evaluate() {
         boolean bResult = false;
         if (matchedCondition == null) {
             //singular condition

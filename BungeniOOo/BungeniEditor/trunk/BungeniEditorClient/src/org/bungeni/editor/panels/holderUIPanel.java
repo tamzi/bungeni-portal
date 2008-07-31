@@ -47,6 +47,7 @@ import org.bungeni.editor.actions.EditorActionFactory;
 import org.bungeni.editor.actions.IEditorActionEvent;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
+import org.bungeni.editor.dialogs.editorTabbedPanel;
 import org.bungeni.editor.panels.impl.IFloatingPanel;
 import org.bungeni.editor.providers.DocumentSectionAdapterDefaultTreeModel;
 import org.bungeni.editor.providers.DocumentSectionFriendlyAdapterDefaultTreeModel;
@@ -74,6 +75,8 @@ import org.bungeni.utils.compare.BungeniTreeRefactorTree;
  */
 public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel {
     private OOComponentHelper ooDocument;
+    
+   
     private JFrame parentFrame;
     
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(holderUIPanel.class.getName());
@@ -309,7 +312,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
              try
              {
                 if (ooDocument.isXComponentValid() ) {
-                    loXTextCursor = ooDocument.getViewCursor();
+                    loXTextCursor = getOODocument().getViewCursor();
                     loXPropertySet = ooQueryInterface.XPropertySet(loXTextCursor);
                     loXTextSection = (XTextSection)((Any)loXPropertySet.getPropertyValue("TextSection")).getObject();
                     if (loXTextSection != null)
@@ -376,7 +379,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
         } else if (this.m_selectedChangeStructureItem.itemIndex.equals("VIEW_PRETTY_SECTIONS")) {
             if (sectionStructureTree.isShowing()) {
                  log.debug("updateSectionTree : refreshing section friendly structur tree");
-                 NodeDisplayTextSetter nsetter = new NodeDisplayTextSetter(ooDocument);
+                 NodeDisplayTextSetter nsetter = new NodeDisplayTextSetter(getOODocument());
                  BungeniBNode.setINodeSetterCallback(nsetter);
 
                  BungeniBTree newTree = DocumentSectionProvider.getNewFriendlyTree();
@@ -455,14 +458,14 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
                return;
            }
           IEditorActionEvent event = getEventClass(action);
-          event.doCommand(ooDocument, action, parentFrame);
+          event.doCommand(getOODocument(), action, parentFrame);
        }
        
        private void processSubAction(toolbarSubAction action) {
            log.debug("processSubAction:" + action.sub_action_name() );
                    
               IEditorActionEvent event = getEventClass(action);
-              event.doCommand(ooDocument, action, parentFrame);
+              event.doCommand(getOODocument(), action, parentFrame);
        }
        
        private void processBungeniToolbarXmlAdapterNode (BungeniToolbarXMLAdapterNode adapterNode) {
@@ -599,17 +602,22 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
     /*Static declarations used by toolbar classes */
     static HashMap<String, toolbarIcon> toolbarIconMap = new HashMap<String,toolbarIcon>();
     static int BLOCK_ICON = 0, METADATA_ICON = 1, ACTION_ICON = 2;
-    static String[] icons = { "block", "block_action", "metadata", "action", "subaction"};
+    static String[] icons = { "block", "block_action", "metadata", "null"/* "action" */, "subaction"};
        
     class toolbarIcon {
             public String iconName;
             public ImageIcon enabledIcon;
             public ImageIcon disabledIcon;
             public toolbarIcon(String icon, String pathPrefix) {
+                    if (icon.equals("null")) {
+                     enabledIcon = null;
+                     disabledIcon = null;
+                    } else {
                    String imgPathEnabled = pathPrefix + icon + "_enabled.png" ;
                    String imgPathDisabled = pathPrefix + icon +"_disabled.png" ;
                    enabledIcon = new ImageIcon(getClass().getResource(imgPathEnabled), "");
                    disabledIcon = new ImageIcon(getClass().getResource(imgPathDisabled), "");
+                    }
             }
     
     }
@@ -647,7 +655,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
             } else if (elementName.equals("blockAction")) {
                 return toolbarIconMap.get("block_action");
             } else if (elementName.equals("action")) {
-                return toolbarIconMap.get("action");
+                return toolbarIconMap.get("null");
             } else if (elementName.equals("subaction")) {
                 return toolbarIconMap.get("subaction");
             } else
@@ -659,7 +667,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
                 int objectType = -1;
                 toolbarIcon currentIcon;
                 Object userObj;
-                if (ooDocument == null) {
+                if (getOODocument() == null) {
                     return this;
                 }
                 try {
@@ -753,9 +761,9 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
             String conditionValue =  conditionAttrib.getValue().trim();
             if (conditionMap.containsKey(conditionValue)) {
                 //already has conditionprocessor object, get cached object and reset...
-                conditionMap.get(conditionValue).setOOComponentHandle(ooDocument);
+                conditionMap.get(conditionValue).setOOComponentHandle(getOODocument());
             } else {
-                BungeniToolbarConditionProcessor condProc = new BungeniToolbarConditionProcessor(ooDocument, conditionValue);
+                BungeniToolbarConditionProcessor condProc = new BungeniToolbarConditionProcessor(getOODocument(), conditionValue);
                 conditionMap.put(conditionValue, condProc);
             }
              bAction = conditionMap.get(conditionValue).evaluate();
@@ -898,11 +906,15 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
             floatingFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
-    public void setOOComponentHandle(OOComponentHelper ooComponent) {
-       
-              
+    public synchronized void setOOComponentHandle(OOComponentHelper ooComponent) {
+            String currentHandleKey = "", newHandleKey = "";
             if (ooDocument != null ) {
+                currentHandleKey = editorTabbedPanel.componentHandleContainer.generateComponentKey(ooDocument.getDocumentTitle(), ooDocument.getComponent());
+                newHandleKey = editorTabbedPanel.componentHandleContainer.generateComponentKey(ooComponent.getDocumentTitle(), ooComponent.getComponent());
+                //update only when the incoming handle changes....
+                if (!currentHandleKey.equalsIgnoreCase(newHandleKey)) {
                     this.ooDocument = ooComponent;
+                }
                     //updatePanelonComponentChange();
             } else {
                 this.ooDocument = ooComponent;
@@ -910,6 +922,10 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
                 log.debug("setOOComponenthHandle: starting timer");            
     }
 
+    private synchronized OOComponentHelper getOODocument(){
+        return this.ooDocument;
+    }
+    
     public Component getObjectHandle() {
         return this;
     }

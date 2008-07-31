@@ -170,13 +170,11 @@ public class DocumentSectionProvider {
 
       private static BungeniBTree generateSectionsTree(String objCallback){
         BungeniBTree treeRoot = new BungeniBTree();
-        final OOComponentHelper localOoDoc;
-        synchronized(ooDocument) {
-            localOoDoc = ooDocument;
-        }
+        OOComponentHelper localOoDoc;
         TreeMap<Integer,String> namesMap = new TreeMap<Integer,String>();
         try {
-                   if (!localOoDoc.isXComponentValid()) return treeRoot;
+            localOoDoc = ooDocument;
+            if (!localOoDoc.isXComponentValid()) return treeRoot;
                     String documentRoot = BungeniEditorPropertiesHelper.getDocumentRoot();
                  
                     /*

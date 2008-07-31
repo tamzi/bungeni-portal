@@ -1793,7 +1793,7 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
      *This is the class contained in the map of all open documents
      *Adds an eventListener()
      */
-    public class componentHandleContainer {
+    public static class componentHandleContainer {
         
         private String aName;
         private XComponent aComponent;
@@ -1819,6 +1819,7 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
             return aComponent;
         }
         
+        @Override
         public String toString(){
             return getName();
         }
@@ -1827,10 +1828,15 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
             return componentKey;
         }
         
-        private String generateComponentKey(){
+        private String generateComponentKey() {
+            String ckey = generateComponentKey(getName(), this.aComponent);
+            return ckey;
+        }
+        
+        public static String generateComponentKey(String iName, XComponent component){
             String compKey = "";
             try {
-               XTextDocument xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, this.aComponent);
+               XTextDocument xTextDoc = (XTextDocument) UnoRuntime.queryInterface(XTextDocument.class, component);
                XDocumentInfoSupplier xdisInfoProvider =  (XDocumentInfoSupplier) UnoRuntime.queryInterface(XDocumentInfoSupplier.class, xTextDoc );
                XDocumentInfo xDocInfo = xdisInfoProvider.getDocumentInfo();
                XPropertySet xDocProperties = ooQueryInterface.XPropertySet(xDocInfo);
@@ -1841,9 +1847,9 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
                Type reqdType = new Type(DateTime.class);
                if (foundType.getTypeName().equals(reqdType.getTypeName())) {
                     DateTime docTemplateDate = (DateTime) AnyConverter.toObject(new Type(DateTime.class), xDocProperties.getPropertyValue("TemplateDate"));
-                    compKey = getName()+UnoDateTimeToStr(docCreationDate)+UnoDateTimeToStr(docTemplateDate);
+                    compKey = iName+UnoDateTimeToStr(docCreationDate)+UnoDateTimeToStr(docTemplateDate);
                } else {
-                    compKey = getName()+UnoDateTimeToStr(docCreationDate);
+                    compKey = iName+UnoDateTimeToStr(docCreationDate);
                }   
             } catch (Exception ex) {
                 log.error("generateComponentKey : " + ex.getMessage());
@@ -1853,7 +1859,7 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
             }
         }
         
-        private String UnoDateTimeToStr(DateTime dt){
+        private static String UnoDateTimeToStr(DateTime dt){
             String returnDate = "";
             if (dt != null) {
                 returnDate = Short.toString(dt.Year);

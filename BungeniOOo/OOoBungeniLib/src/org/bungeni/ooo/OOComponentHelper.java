@@ -100,12 +100,10 @@ public  class OOComponentHelper {
             m_xComponent = xComponent;
             //add listener to listen for document closing events.
             /*
-             *disabled temporarily
             xEventListener = new xComponentListener();
             m_xComponent.addEventListener(xEventListener);
-             *disabled temporarily
-             */
             m_xComponentContext = xComponentContext;
+             */ 
         } catch (Exception ex) {
             log.error(ex.getLocalizedMessage(), ex);
         }
@@ -610,7 +608,7 @@ public  class OOComponentHelper {
      * @param sectionName The name of the section to be checked for existence
      * @return returns true if section exists, otherwise returns false
      */
-    public synchronized boolean hasSection(String sectionName) {
+    public boolean hasSection(String sectionName) {
         boolean bResult = false;
         try {
         if (getTextSections().hasByName(sectionName.trim())) {
@@ -626,7 +624,7 @@ public  class OOComponentHelper {
             return bResult;
         }
     }
-    public XComponent getComponent(){
+    public synchronized XComponent getComponent(){
         return this.m_xComponent;
     }
     public XMultiComponentFactory getRemoteServiceManager() {
@@ -709,6 +707,7 @@ public  class OOComponentHelper {
           catch (java.lang.Exception poException)
             {
                 log.error("currentSectionName:" + poException.getLocalizedMessage());
+                log.error("currentSectionName : " + CommonExceptionUtils.getStackTrace(poException) );
             }
           finally {  
              return lstrSectionName; 

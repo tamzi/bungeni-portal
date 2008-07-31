@@ -48,7 +48,7 @@ public class sectionMetadataPanel extends javax.swing.JPanel {
         initTimer();
     }
     
-    private synchronized void initTimer(){
+    private  void initTimer(){
           sectionMetadataRefreshTimer= new Timer(4000, new ActionListener() {
               public void actionPerformed(ActionEvent e) {
                 refreshSectionMetadataTreeTable();

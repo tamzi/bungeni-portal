@@ -354,7 +354,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
 
     }
     
-    private synchronized void updateSectionTree() {
+    private void updateSectionTree() {
         try {
         log.debug("updateSectionTree : "+ m_selectedChangeStructureItem);
         if (this.m_selectedChangeStructureItem.itemIndex.equals("VIEW_SECTIONS")) {
@@ -411,7 +411,8 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
                   Object uoObj = uo.getUserObject();
                   if (uoObj.getClass() == org.bungeni.utils.BungeniBNode.class) {
                       BungeniBNode aNode = (BungeniBNode) uoObj;
-                      if (aNode.getName().equals(ooDocument.currentSectionName())) {
+                      
+                      if (aNode.getName().equals(m_currentSelectedSectionName)) {
                           //setBorder(selBorder);
                           setBackground(bgColor);
                       } else if (selected) {
@@ -598,7 +599,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
     /*Static declarations used by toolbar classes */
     static HashMap<String, toolbarIcon> toolbarIconMap = new HashMap<String,toolbarIcon>();
     static int BLOCK_ICON = 0, METADATA_ICON = 1, ACTION_ICON = 2;
-    static String[] icons = { "block", "block_action", "metadata", "action"};
+    static String[] icons = { "block", "block_action", "metadata", "action", "subaction"};
        
     class toolbarIcon {
             public String iconName;
@@ -648,7 +649,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
             } else if (elementName.equals("action")) {
                 return toolbarIconMap.get("action");
             } else if (elementName.equals("subaction")) {
-                return toolbarIconMap.get("action");
+                return toolbarIconMap.get("subaction");
             } else
                 return toolbarIconMap.get("block");
         }
@@ -898,14 +899,15 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
     }
 
     public void setOOComponentHandle(OOComponentHelper ooComponent) {
+       
+              
             if (ooDocument != null ) {
-                synchronized (ooDocument) {
                     this.ooDocument = ooComponent;
-                    updatePanelonComponentChange();
-                }
+                    //updatePanelonComponentChange();
             } else {
                 this.ooDocument = ooComponent;
             }
+                log.debug("setOOComponenthHandle: starting timer");            
     }
 
     public Component getObjectHandle() {

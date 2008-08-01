@@ -52,14 +52,16 @@ public class NodeDisplayTextSetter implements INodeSetterCallback {
                     dispText = (dispText == null ) ? "" : dispText;
                     dispText =  (dispText.length() > 15) ? dispText.substring(0,14) : dispText;
                     dispText = (dispText.length() == 0) ? sectionName : dispText;
-                    dispText = (sectionType.length() != 0) ? sectionType+"-"+dispText: dispText;
+                    dispText = "<font color=green>"+dispText+"</font>";
+                    dispText = (sectionType.length() != 0) ? "<i>"+sectionType+"</i><span> - </span>"+dispText: dispText;
                    
                    // dispText = (sectionType.length() != 0) ? sectionType : dispText;
                     
                     //dispText = dispText + "..";
                 }    
-                    return dispText;
+                    return "<html>"+dispText+"</html>";
         }
+        
 
     public void setName(String name) {
         setterName = name;

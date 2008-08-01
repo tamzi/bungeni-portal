@@ -389,6 +389,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
         }
         } catch (Exception ex) {
            log.error("InitOpenDocumentsList error :" + ex.getMessage());
+           log.error("InitOpenDocumentsList stacktrace : " + CommonExceptionUtils.getStackTrace(ex));
         }
     }
     /*

@@ -13,6 +13,15 @@
     layer="bungeni.ui.interfaces.IBungeniSkin"
     />   
 
+
+<!-- json view -->
+  <browser:page
+     for="ore.alchemist.interfaces.IAlchemistContainer"
+     permission="zope.View"
+     name="jsonlisting"
+     class=".container.ContainerJSONListing"
+     />
+
  <!-- Viewlet manager for subform -->
   
   <browser:viewletManager

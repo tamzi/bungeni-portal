@@ -4,8 +4,13 @@ import datetime
 from zope.security import proxy
 from zc.table import  table, column
 from zope.formlib import form
+from zope import schema
+from zope.publisher.browser import BrowserView
+import simplejson
 
-from ore.alchemist.model import queryModelDescriptor
+import pdb
+
+from ore.alchemist.model import queryModelDescriptor, queryModelInterface
 import alchemist.ui.container
 import alchemist.ui.core
 from ore.alchemist.container import stringKey
@@ -125,4 +130,106 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
         addurl = '%s/add' %( path ) 
         self.request.response.redirect(addurl)
         
+
+class ContainerJSONListing( BrowserView ):
+    """
+    paging, batching, sorting, json contents of a container
+    """
+
+    def getSort( self ):
+        """ server side sort,
+        @web_parameter sort - request variable for sort column
+        @web_parameter dir  - direction of the sort, only once acceptable value 'desc'
+        """
+        sort_key, sort_dir = self.request.get('sort'), self.request.get('dir')
+        domain_model = proxy.removeSecurityProxy( self.context.domain_model )
+        # get sort in sqlalchemy form
+        if sort_key and ( sort_key in domain_model.c ):
+            column = domain_model.c[sort_key]
+            if sort_dir == 'desc':
+                return column.desc()
+            return column
+        return None
+    
+    def getOffsets( self ):
+        nodes = []
+        start, limit = self.request.get('start',0), self.request.get('limit', 25)
+        try:
+            start, limit = int( start ), int( limit )
+            if not limit:
+                limit = 100
+        except ValueError:
+            start, limit = 0, 100
+        return start, limit 
+
+    def getBatch( self, start, limit, order_by=None):
+
+        # fetch the nodes from the container
+        nodes = self.context.batch( offset=start,
+                                    limit=limit,
+                                    order_by=order_by )
+
+        fields = list( getFields( self.context )  )
+        batch = self._jsonValues( nodes, fields, self.context )
+        return batch
+
+    def _jsonValues( self, nodes, fields, context):
+        """
+        filter values from the nodes to respresent in json, currently
+        that means some footwork around, probably better as another
+        set of adapters.
+        """
+        values = []
+        #domain_annotation.fields[0].listing_column.getter()
+
+        domain_model = proxy.removeSecurityProxy( context.domain_model )
+        domain_interface = queryModelInterface( domain_model )
+        domain_annotation = queryModelDescriptor( domain_interface )
+        
+        pdb.set_trace()
+        for n in nodes:
+            d = {}
+            # field to dictionaries
+            for field in fields:
+                f = field.__name__
+                getter = field.query
+                for anno_field in domain_annotation.fields:
+                    if anno_field.name == f:
+                        if getattr(anno_field.listing_column, 'getter', None):
+                            getter=anno_field.listing_column.getter
+                            d[ f ] = v = getter( n , field)
+                        else:
+                            d[ f ] = v = field.query( n )    
+                #d[ f ] = v = getter(n) #field.query( n )
+                if isinstance( v, datetime.datetime ):
+                    d[f] = v.strftime('%F %I:%M %p')
+                elif isinstance( v, datetime.date ):
+                    d[f] = v.strftime('%F')
+                    
+            values.append( d )
+        return values
+        
+    def __call__( self ):
+        start, limit = self.getOffsets( )
+        sort_clause = self.getSort()
+        batch = self.getBatch( start, limit, sort_clause )
+        set_size = len( self.context )
+        data = dict( length=set_size,
+                     start=start,
+                     recordsReturned=len(batch),
+                     sort = self.request.get('sort'),
+                     dir  = self.request.get('dir', "asc"),
+                     nodes=batch )
+        return simplejson.dumps( data )
+
+
+def getFields( context ):
+    domain_model = proxy.removeSecurityProxy( context.domain_model )
+    domain_interface = queryModelInterface( domain_model )
+    domain_annotation = queryModelDescriptor( domain_interface )
+    #field_names = schema.getFieldNamesInOrder( domain_interface )
+    #columns = alchemist.ui.core.setUpColumns(domain_model)    
+    for column in  domain_annotation.listing_columns:   
+        field = domain_interface[column]     
+        yield field
 

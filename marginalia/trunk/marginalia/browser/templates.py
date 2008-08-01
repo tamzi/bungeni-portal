@@ -14,6 +14,22 @@ from marginalia.interfaces import IMarginaliaAnnotatableAdaptor
 from datetime import datetime
 from marginalia.browser import parser
 
+from zope.app.authentication.interfaces import IAuthenticatorPlugin
+from zope.app.security.interfaces import IUnauthenticatedPrincipal
+from zope.securitypolicy.interfaces import IPrincipalRoleMap
+from zope import interface, schema, component
+
+from bungeni.core import domain
+
+def distictgroups_for_membernames(usernames):
+    groups = {}
+    query =  Session.query(domain.GroupMembership).add_entity(domain.User).join('user')
+    query = query.add_entity(domain.Group).join('group')
+    membership = query.filter(domain.User.login.in_(usernames)).all()
+    for groupmembership, user, group in membership:
+        groups[str(group.group_id)] = group.full_name
+    return groups
+
 class MarginaliaPage(BrowserPage):
     """All the methods required by Marginalia Annotation Tab."""
 
@@ -139,8 +155,8 @@ class MarginaliaPage(BrowserPage):
         params['modified'] = datetime.now()
         
         annotation = self.getAnnotation(params['id'])
-        if not annotation or annotation.quote_author != \
-               self.getAuthenticatedUser():
+        if not annotation or annotation.quote_authorid != \
+               self.getAuthenticatedUserId():
             self.request.response.setStatus('BadRequest')
             return
 
@@ -172,7 +188,7 @@ class MarginaliaPage(BrowserPage):
         
         annotation_id = params.get('id', None)
         annotation = self.getAnnotation(annotation_id)
-        if annotation and annotation.quote_author == self.getAuthenticatedUser():
+        if annotation and annotation.quote_authorid == self.getAuthenticatedUserId():
             session = Session()
             session.delete(annotation)
             self.request.response.setStatus('NoContent')
@@ -221,18 +237,18 @@ class MarginaliaPage(BrowserPage):
         filter_type = [u'annotate', ]
         
         query = query.filter(AnnotationMaster.url == unicode(url))
+        query = query.filter(AnnotationMaster.edit_type.in_(filter_type))
+        
         if search_string:
             query = query.filter(AnnotationMaster.note.like("%"+search_string+"%"))            
-        if filter_type:
-            query = query.filter(AnnotationMaster.edit_type.in_(filter_type))
         if filter_name:
-            query = query.filter(AnnotationMaster.quote_author.in_(filter_name))
+            query = query.filter(AnnotationMaster.quote_authorid.in_(filter_name))
                                  
-        user = self.getAuthenticatedUser()
+        user = self.getAuthenticatedUserId()
 
         annotation_list = []
         public_annotations = query.filter(AnnotationMaster.access == u'public').all()
-        users_annotations =  query.filter(AnnotationMaster.quote_author == user).all()                        
+        users_annotations =  query.filter(AnnotationMaster.quote_authorid == user).all()                        
         annotation_list.extend(public_annotations)
         annotation_list.extend(users_annotations)
                     
@@ -258,20 +274,18 @@ class MarginaliaPage(BrowserPage):
             annotations.append(annotation)
 
         if filter_group:
+            author_groups = {}
             filter_group = set(filter_group)
             group_annotations = []
             for annotation in annotations:
-                principal = principalRegistry.getPrincipals(annotation.quote_author)
-                if not principal:
-                    continue
-                principal = principal[0]
-                groups = principal.groups
-                if not groups:
-                    groups = [principal.id,]
-                if not set(groups).intersection(filter_group):
+                author = annotation.quote_authorid
+                if not author_groups.has_key(author):
+                    author_groups[author] = distictgroups_for_membernames([author,]).keys()
+                if not set(author_groups[author]).intersection(filter_group):
                     continue
                 group_annotations.append(annotation)
             annotations = group_annotations
+
         return annotations
 
     def getRangeInfos(self, user, url):
@@ -328,13 +342,13 @@ class AmendmentPage(MarginaliaPage):
         if filter_type:
             query = query.filter(AnnotationMaster.edit_type.in_(filter_type))
         if filter_name:
-            query = query.filter(AnnotationMaster.quote_author.in_(filter_name))
+            query = query.filter(AnnotationMaster.quote_authorid.in_(filter_name))
                                  
-        user = self.getAuthenticatedUser()
+        user = self.getAuthenticatedUserId()
 
         annotation_list = []
         public_annotations = query.filter(AnnotationMaster.access == u'public').all()
-        users_annotations =  query.filter(AnnotationMaster.quote_author == user).all()                        
+        users_annotations =  query.filter(AnnotationMaster.quote_authorid == user).all()                        
         annotation_list.extend(public_annotations)
         annotation_list.extend(users_annotations)
                     
@@ -360,17 +374,14 @@ class AmendmentPage(MarginaliaPage):
             annotations.append(annotation)
 
         if filter_group:
+            author_groups = {}
             filter_group = set(filter_group)
             group_annotations = []
             for annotation in annotations:
-                principal = principalRegistry.getPrincipals(annotation.quote_author)
-                if not principal:
-                    continue
-                principal = principal[0]
-                groups = principal.groups
-                if not groups:
-                    groups = [principal.id,]                
-                if not set(groups).intersection(filter_group):
+                author = annotation.quote_authorid
+                if not author_groups.has_key(author):
+                    author_groups[author] = distictgroups_for_membernames([author,]).keys()
+                if not set(author_groups[author]).intersection(filter_group):
                     continue
                 group_annotations.append(annotation)
             annotations = group_annotations
@@ -409,20 +420,37 @@ class DownloadPage(MarginaliaPage):
     
 class MarginaliaAnnotationView(BrowserView):
     """Annotation View Class. """
-    def getPortalGroups(self):
+    def getAnnotationOwnerGroups(self):
         """Returns portal wide groups."""
-        for principal in principalRegistry.getPrincipals(''):
-            if IGroupAwarePrincipal.providedBy(principal):
-                continue
-            yield principal.id, principal.title
-    
-    def getOwnerList(self):
-        """Return a list of members who have added annotations."""
-        user = self.getAuthenticatedUser()
+        user = self.getAuthenticatedUserId()
         view = getMultiAdapter((self.context, self.request), name=u'annotate')
         url = view.getBaseUrl()
         annotations = view.getSortedFeedEntries(user, url)
-        return set([annotation.quote_author for annotation in annotations] )
+        return distictgroups_for_membernames([annotation.quote_authorid for annotation in annotations]).items()
+
+    def getAmendmentOwnerGroups(self):
+        """Returns portal wide groups."""
+        user = self.getAuthenticatedUserId()
+        view = getMultiAdapter((self.context, self.request), name=u'amendment')
+        url = view.getBaseUrl()
+        annotations = view.getSortedFeedEntries(user, url)
+        return distictgroups_for_membernames([annotation.quote_authorid for annotation in annotations]).items()
+
+    def getAnnotationOwnerList(self):
+        """Return a list of members who have added annotations."""
+        user = self.getAuthenticatedUserId()
+        view = getMultiAdapter((self.context, self.request), name=u'annotate')
+        url = view.getBaseUrl()
+        annotations = view.getSortedFeedEntries(user, url)
+        return set([(annotation.quote_authorid, annotation.quote_author) for annotation in annotations] )
+    
+    def getAmendmentOwnerList(self):
+        """Return a list of members who have added annotations."""
+        user = self.getAuthenticatedUserId()
+        view = getMultiAdapter((self.context, self.request), name=u'amendment')
+        url = view.getBaseUrl()
+        annotations = view.getSortedFeedEntries(user, url)
+        return set([(annotation.quote_authorid, annotation.quote_author) for annotation in annotations] )
 
     def getAuthenticatedUserId(self):
         """Returns the currently authenticated member."""
@@ -430,6 +458,7 @@ class MarginaliaAnnotationView(BrowserView):
 
     def getAuthenticatedUser(self):
         """Returns the currently authenticated member."""
+        
         if hasattr(self.request.principal, 'getLogin'):        
             return self.request.principal.getLogin()
         else:

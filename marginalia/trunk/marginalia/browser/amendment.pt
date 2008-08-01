@@ -124,7 +124,8 @@ function bungeniClickCreateAnnotation( event, id ) {
 
 <metal:main tal:define="annotatedUrl string:${context/@@absolute_url};
                         text python:view.getBodyText();
-                        authenticateduser python:view.getAuthenticatedUser();">
+                        authenticateduser python:view.getAuthenticatedUser();
+                        authenticateduserid python:view.getAuthenticatedUserId();">
 
 <h2> Amend Document </h2>
   <dl class="portalMessage error"                                                                                                              
@@ -143,20 +144,20 @@ function bungeniClickCreateAnnotation( event, id ) {
 <ul id="debug" style="display:none">
    <li></li>
 </ul>
-        <div class="searchfields" tal:define="member_names python:view.getOwnerList();
-                                            group_names python:view.getPortalGroups;">
+        <div class="searchfields" tal:define="member_names python:view.getAmendmentOwnerList();
+                                            group_names python:view.getAmendmentOwnerGroups;">
                <a href="javascript:toggle_visibility('fields');"><p class="plink">Filter amendment by owner, group, type or query string. (show/hide)</p></a>
                <a id="togglevisibility" name="hide" href="javascript:hideAnnotations();"><p class="plink">Toggle hide/display amendments</p></a>
                <p id="noresults" class="plink" style="display:none;">No Amendments Found</p>
                <form id="filterform" action="download" method="post">
 		       <div id="fields" style="display:block;">
                  <select class="select_field" name="filter_owner" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
-                   <option value="" tal:attributes="value authenticateduser" selected>Myself</option>
+                   <option value="" tal:attributes="value authenticateduserid" selected>Myself</option>
                    <option value="select_all">All</option>
                    <optgroup LABEL="Filter by User ">
-                     <span tal:repeat="name member_names" tal:omit-tag="">
-                       <span tal:condition="python:name!=authenticateduser" tal:omit-tag="">
-                         <option value="" tal:attributes="value name" tal:content="name">Second</option>
+                     <span tal:repeat="member member_names" tal:omit-tag="">
+                       <span tal:condition="python:member[0]!=authenticateduserid" tal:omit-tag="">
+                         <option value="" tal:attributes="value python:member[0]" tal:content="python:member[1]">Second</option>
                        </span>
                      </span>
                    </optgroup> 

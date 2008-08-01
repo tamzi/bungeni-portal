@@ -52,9 +52,9 @@ public class NodeDisplayTextSetter implements INodeSetterCallback {
                     dispText = (dispText == null ) ? "" : dispText;
                     dispText =  (dispText.length() > 15) ? dispText.substring(0,14) : dispText;
                     dispText = (dispText.length() == 0) ? sectionName : dispText;
-                    dispText = "<font color=green>"+dispText+"</font>";
+                    dispText = "<font color=green>"+dispText.replaceAll("\\>|\\<|~", "")+"</font>";
                     dispText = (sectionType.length() != 0) ? "<i>"+sectionType+"</i><span> - </span>"+dispText: dispText;
-                   
+                   // dispText = (sectionType.length() != 0) ? sectionType+"-"+dispText: dispText;
                    // dispText = (sectionType.length() != 0) ? sectionType : dispText;
                     
                     //dispText = dispText + "..";

@@ -24,17 +24,12 @@ import org.bungeni.ooo.OOComponentHelper;
  * will evaluate to false if no image has been selected.
  * @author Administrator
  */
-public class imageSelectedIsNot implements IBungeniToolbarCondition {
-    private OOComponentHelper ooDocument;
+public class imageSelectedIsNot extends baseRunnableCondition {
     /** Creates a new instance of imageSelected */
     public imageSelectedIsNot() {
     }
 
-    public void setOOoComponentHelper(OOComponentHelper ooDocument) {
-        this.ooDocument = ooDocument;
-    }
-
-    boolean check_imageSelectedisNot (BungeniToolbarCondition condition) {
+    boolean check_imageSelectedisNot (OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
         String imageName =  condition.getConditionValue();
         boolean bObjSelected = ooDocument.isTextGraphicObjectSelected();
         if (bObjSelected) {
@@ -49,8 +44,9 @@ public class imageSelectedIsNot implements IBungeniToolbarCondition {
         }
     }
     
-    public boolean processCondition(BungeniToolbarCondition condition) {
-        return check_imageSelectedisNot(condition);
+    @Override
+    public boolean runCondition(OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
+        return check_imageSelectedisNot(ooDocument, condition);
     }
         
 

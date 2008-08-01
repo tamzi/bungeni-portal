@@ -22,20 +22,19 @@ import org.bungeni.ooo.OOComponentHelper;
  * will evaluate to false if a section called section_name does not exist the document
  * @author Administrator
  */
-public class sectionExists implements IBungeniToolbarCondition {
-    private OOComponentHelper ooDocument;
+public class sectionExists extends baseRunnableCondition {
     /** Creates a new instance of sectionExists */
     public sectionExists() {
     }
 
+    /*
     public void setOOoComponentHelper(OOComponentHelper ooDocument) {
         this.ooDocument = ooDocument;
-    }
+    }*/
 
-    boolean check_sectionExists (BungeniToolbarCondition condition) {
+    boolean check_sectionExists (OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
         sectionNotExists secNotExists = new sectionNotExists();
-        secNotExists.setOOoComponentHelper(ooDocument);
-        if (secNotExists.processCondition(condition)){
+        if (secNotExists.processCondition(ooDocument, condition)){
             return false;
         } else {
             return true;
@@ -45,16 +44,11 @@ public class sectionExists implements IBungeniToolbarCondition {
         
     }
     
-    public boolean processCondition(BungeniToolbarCondition condition) {
-        boolean bResult = false;
-        try {
-            bResult =  check_sectionExists(condition);
-        } catch (Exception ex) {
-            
-        } finally {
-            return bResult;
-        }
-      }
+
+    @Override
+    public boolean runCondition(OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
+        return check_sectionExists(ooDocument, condition);
+    }
 
  
 

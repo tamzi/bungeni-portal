@@ -10,6 +10,7 @@
 package org.bungeni.editor.toolbar.conditions.runnable;
 
 import org.bungeni.editor.toolbar.conditions.BungeniToolbarCondition;
+import org.bungeni.ooo.OOComponentHelper;
 
 /**
  * 
@@ -28,7 +29,7 @@ public class textSelected extends baseRunnableCondition {
     }
 
  
-     boolean check_textSelected(BungeniToolbarCondition condition) {
+     boolean check_textSelected(OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
          String conditionValue = "";
          boolean bSelected = false;
          //synchronized (ooDocument) {
@@ -49,8 +50,8 @@ public class textSelected extends baseRunnableCondition {
      }
     
 
-    public boolean runCondition(BungeniToolbarCondition condition) {
-        return check_textSelected(condition);
+    public boolean runCondition(OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
+        return check_textSelected(ooDocument, condition);
     }
  
  }

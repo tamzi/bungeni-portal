@@ -12,7 +12,6 @@ package org.bungeni.editor.toolbar.conditions.runnable;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.toolbar.conditions.BungeniToolbarCondition;
-import org.bungeni.editor.toolbar.conditions.IBungeniToolbarCondition;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
 
@@ -20,19 +19,16 @@ import org.bungeni.ooo.utils.CommonExceptionUtils;
  *
  * @author Administrator
  */
-public class sectionNotExists implements IBungeniToolbarCondition {
-    private OOComponentHelper ooDocument;
+public class sectionNotExists  extends baseRunnableCondition {
+//    private OOComponentHelper ooDocument;
       private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(sectionNotExists.class.getName());
         
     /** Creates a new instance of sectionExists */
     public sectionNotExists() {
     }
 
-    public void setOOoComponentHelper(OOComponentHelper ooDocument) {
-        this.ooDocument = ooDocument;
-    }
 
-    boolean check_sectionNotExists (BungeniToolbarCondition condition) {
+    boolean check_sectionNotExists (OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
         boolean bResult = false;
         try {
         //synchronized(ooDocument) {
@@ -81,15 +77,10 @@ public class sectionNotExists implements IBungeniToolbarCondition {
         }
     }
     
-    public boolean processCondition(BungeniToolbarCondition condition) {
-        boolean bResult = false;
-        try  {
-         bResult =  check_sectionNotExists(condition);
-        } catch (Exception ex) {
-            
-        } finally {
-            return bResult;
-        }
+
+    @Override
+    public boolean runCondition(OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
+        return check_sectionNotExists(ooDocument, condition);
     }
         
 

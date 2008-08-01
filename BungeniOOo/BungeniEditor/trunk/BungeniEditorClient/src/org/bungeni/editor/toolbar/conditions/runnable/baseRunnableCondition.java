@@ -18,24 +18,24 @@ import org.bungeni.ooo.OOComponentHelper;
  * @author Administrator
  */
 public abstract class baseRunnableCondition implements IBungeniToolbarCondition {
-    protected OOComponentHelper ooDocument;
+    //protected OOComponentHelper ooDocument;
     /** Creates a new instance of baseRunnableCondition */
     public baseRunnableCondition() {
     }
-
+/*
     public void setOOoComponentHelper(OOComponentHelper ooDocument) {
         this.ooDocument = ooDocument;
     }
-
-    public abstract boolean runCondition(BungeniToolbarCondition condition);
+*/
+    public abstract boolean runCondition(OOComponentHelper ooDocument, BungeniToolbarCondition condition);
     
-    public boolean processCondition(BungeniToolbarCondition condition) {
+    public boolean processCondition(OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
         boolean bResult = false;
         try {
         if (condition.hasNegationCondition())
-            bResult =  !runCondition(condition);
+            bResult =  !runCondition(ooDocument, condition);
         else
-            bResult = runCondition(condition);
+            bResult = runCondition(ooDocument, condition);
         } catch (Exception ex) {
             
         } finally {

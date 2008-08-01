@@ -9,17 +9,8 @@
 
 package org.bungeni.editor.toolbar.conditions.runnable;
 
-import com.sun.star.beans.XPropertySet;
-import com.sun.star.container.NoSuchElementException;
-import com.sun.star.container.XEnumeration;
-import com.sun.star.container.XEnumerationAccess;
-import com.sun.star.lang.XServiceInfo;
-import com.sun.star.text.XTextField;
-import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.toolbar.conditions.BungeniToolbarCondition;
-import org.bungeni.editor.toolbar.conditions.IBungeniToolbarCondition;
 import org.bungeni.ooo.OOComponentHelper;
-import org.bungeni.ooo.ooQueryInterface;
 
 /**
  * 
@@ -29,21 +20,17 @@ import org.bungeni.ooo.ooQueryInterface;
  * will evaluate to false if the field_name does not exist in the document
  * @author Administrator
  */
-public class fieldNotExists implements IBungeniToolbarCondition {
-    private OOComponentHelper ooDocument;
+public class fieldNotExists extends baseRunnableCondition {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(fieldExists.class.getName());
     /** Creates a new instance of sectionExists */
     public fieldNotExists() {
     }
 
-    public void setOOoComponentHelper(OOComponentHelper ooDocument) {
-        this.ooDocument = ooDocument;
-    }
 
-    boolean check_fieldNotExists (BungeniToolbarCondition condition) {
+    boolean check_fieldNotExists (OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
         fieldExists fldExists = new fieldExists();
-        fldExists.setOOoComponentHelper(ooDocument);
-        if (fldExists.processCondition(condition)) {
+        ////fldExists.setOOoComponentHelper(ooDocument);
+        if (fldExists.processCondition(ooDocument, condition)) {
             log.debug("fieldNotExists = false");
             return false;
         } else {
@@ -52,9 +39,10 @@ public class fieldNotExists implements IBungeniToolbarCondition {
         }
     }
     
-    public boolean processCondition(BungeniToolbarCondition condition) {
-        log.debug("processing fieldNotExists");
-        return check_fieldNotExists(condition);
+
+    @Override
+    public boolean runCondition(OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
+         return check_fieldNotExists(ooDocument, condition);
     }
         
 

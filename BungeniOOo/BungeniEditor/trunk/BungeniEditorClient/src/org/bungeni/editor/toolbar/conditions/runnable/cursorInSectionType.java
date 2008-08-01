@@ -17,8 +17,8 @@ import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextViewCursor;
 import com.sun.star.uno.Any;
-import java.util.HashMap;
 import org.bungeni.editor.toolbar.conditions.BungeniToolbarCondition;
+import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
 
 /**
@@ -41,7 +41,7 @@ public class cursorInSectionType extends baseRunnableCondition {
                      return false;
     }
         
-   boolean check_cursorInSectionType (BungeniToolbarCondition condition) {
+   boolean check_cursorInSectionType (OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
         boolean bReturn = true;
         try {
         String sectionTypeToActUpon =  condition.getConditionValue();
@@ -118,10 +118,10 @@ public class cursorInSectionType extends baseRunnableCondition {
         }
     }
      
-    public boolean runCondition(BungeniToolbarCondition condition) {
-     //   synchronized(ooDocument) {
-        return check_cursorInSectionType(condition);
-      //  }
+
+    @Override
+    public boolean runCondition(OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
+         return check_cursorInSectionType(ooDocument, condition);
     }
     
 }

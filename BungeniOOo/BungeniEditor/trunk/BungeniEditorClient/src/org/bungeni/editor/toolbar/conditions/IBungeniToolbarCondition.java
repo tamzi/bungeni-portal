@@ -16,6 +16,6 @@ import org.bungeni.ooo.OOComponentHelper;
  * @author Administrator
  */
 public interface IBungeniToolbarCondition {
-    public void setOOoComponentHelper(OOComponentHelper ooDocument);
-    public boolean processCondition(BungeniToolbarCondition condition);
+   // public void setOOoComponentHelper(OOComponentHelper ooDocument);
+    public boolean processCondition(OOComponentHelper ooDocument, BungeniToolbarCondition condition);
 }

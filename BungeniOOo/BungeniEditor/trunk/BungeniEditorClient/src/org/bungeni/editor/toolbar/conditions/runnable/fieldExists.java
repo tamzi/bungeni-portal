@@ -15,9 +15,7 @@ import com.sun.star.container.XEnumeration;
 import com.sun.star.container.XEnumerationAccess;
 import com.sun.star.lang.XServiceInfo;
 import com.sun.star.text.XTextField;
-import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.toolbar.conditions.BungeniToolbarCondition;
-import org.bungeni.editor.toolbar.conditions.IBungeniToolbarCondition;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
 
@@ -29,18 +27,14 @@ import org.bungeni.ooo.ooQueryInterface;
  * will evaluate to false if the field_name does not exist in the document
  * @author Administrator
  */
-public class fieldExists implements IBungeniToolbarCondition {
-    private OOComponentHelper ooDocument;
+public class fieldExists extends baseRunnableCondition {
+
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(fieldExists.class.getName());
     /** Creates a new instance of sectionExists */
     public fieldExists() {
     }
 
-    public void setOOoComponentHelper(OOComponentHelper ooDocument) {
-        this.ooDocument = ooDocument;
-    }
-
-    boolean check_fieldExists (BungeniToolbarCondition condition) {
+    boolean check_fieldExists (OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
         boolean bReturn = false;
         try {
         String fieldName  =  condition.getConditionValue();
@@ -76,8 +70,10 @@ public class fieldExists implements IBungeniToolbarCondition {
         }
     }
     
-    public boolean processCondition(BungeniToolbarCondition condition) {
-        return check_fieldExists(condition);
+
+    @Override
+    public boolean runCondition(OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
+      return check_fieldExists(ooDocument, condition);
     }
         
   

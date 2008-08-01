@@ -20,10 +20,8 @@ import com.sun.star.uno.Any;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.toolbar.conditions.BungeniToolbarCondition;
-import org.bungeni.editor.toolbar.conditions.IBungeniToolbarCondition;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
-import org.bungeni.ooo.utils.CommonExceptionUtils;
 
 /**
  * 
@@ -34,17 +32,17 @@ import org.bungeni.ooo.utils.CommonExceptionUtils;
  * will evaluate to false if the cursor is not placed in a section.
  * @author Administrator
  */
-public class cursorInSection implements IBungeniToolbarCondition {
-    private OOComponentHelper ooDocument;
+public class cursorInSection extends baseRunnableCondition {
+   // private OOComponentHelper ooDocument;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(cursorInSection.class.getName());
  
     /** Creates a new instance of sectionExists */
     public cursorInSection() {
     }
-
-    public void setOOoComponentHelper(OOComponentHelper ooDocument) {
-        this.ooDocument = ooDocument;
-    }
+//
+//    public void setOOoComponentHelper(OOComponentHelper ooDocument) {
+//        this.ooDocument = ooDocument;
+//    }
 
     private String getSectionFromRange(XTextRange theRange ) {
         String theSectionName = ""; 
@@ -78,7 +76,7 @@ public class cursorInSection implements IBungeniToolbarCondition {
     }
     
     
-    boolean check_cursorInSection (BungeniToolbarCondition condition) {
+    boolean check_cursorInSection (OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
         boolean bReturn = true;
         try {
         String sectionToActUpon =  condition.getConditionValue();
@@ -129,19 +127,14 @@ public class cursorInSection implements IBungeniToolbarCondition {
         }
     }
     
-    public boolean processCondition(BungeniToolbarCondition condition) {
-       // System.out.println("processing condition: "+ ooDocument.getDocumentTitle());
-        boolean bResult = false;
-        try {
-        bResult = check_cursorInSection(condition);
-        } catch (Exception ex) {
-            
-        } finally {
-            return bResult;
+    
+    public boolean runCondition(OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
+            return check_cursorInSection(ooDocument, condition);
         }
-    }
+    
+}
         
  
 
 
- }
+ 

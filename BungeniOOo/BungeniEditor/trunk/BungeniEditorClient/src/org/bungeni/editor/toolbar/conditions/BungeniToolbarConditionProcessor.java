@@ -24,7 +24,7 @@ import org.bungeni.ooo.utils.CommonExceptionUtils;
 public class BungeniToolbarConditionProcessor {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniToolbarConditionProcessor.class.getName());
 
-    protected OOComponentHelper ooDocument;
+ //   protected OOComponentHelper ooDocument;
     protected BungeniToolbarConditionOperator matchedCondition = null;
     protected String conditionValue;
     protected String[] individualConditions;
@@ -32,13 +32,13 @@ public class BungeniToolbarConditionProcessor {
 
     
     /** Creates a new instance of BungeniToolbarConditionProcessor */
-    public BungeniToolbarConditionProcessor(OOComponentHelper ooDoc, String conditionVal) {
-        this.ooDocument = ooDoc;
+    public BungeniToolbarConditionProcessor(/*OOComponentHelper ooDoc,*/ String conditionVal) {
+        //this.ooDocument = ooDoc;
         this.conditionValue = conditionVal;
         // operators = BungeniToolbarConditionOperatorFactory.getObjects();
         processOperators(conditionVal);
     }
-    
+    /*
     public void setOOComponentHandle(OOComponentHelper ooIncoming) {
         if (ooDocument == ooIncoming) { //incoming ooDoc handle = cached ooDoc handle
             return;
@@ -46,7 +46,7 @@ public class BungeniToolbarConditionProcessor {
             this.ooDocument = ooIncoming;
         }
     }
-    
+    */
     class groupBoundary {
         int start;
         int end;
@@ -136,7 +136,7 @@ public class BungeniToolbarConditionProcessor {
         return toolbarConditionOperatorMap.get(className);
     }
     
-    private boolean evaluateWithOperator(){
+    private boolean evaluateWithOperator(OOComponentHelper ooDocument){
         boolean bResult = false;
         try {
         //use the matched condition to evaluate the condition
@@ -144,9 +144,9 @@ public class BungeniToolbarConditionProcessor {
           //check if condition operator object was cached
           if (conditionProcessorClassExists(conditionProcessorClass)){
               IBungeniToolbarConditionOperator selectedOperator = getConditionOperator(conditionProcessorClass);
-              selectedOperator.setOOoComponentHelper(ooDocument);
+            //  selectedOperator.setOOoComponentHelper(ooDocument);
               selectedOperator.setOperatingCondition(matchedCondition, individualConditions);
-              bResult = selectedOperator.result();
+              bResult = selectedOperator.result(ooDocument);
           } else {
               IBungeniToolbarConditionOperator selectedOperator;
               Class processorClassRef;
@@ -154,9 +154,9 @@ public class BungeniToolbarConditionProcessor {
               selectedOperator = (IBungeniToolbarConditionOperator)processorClassRef.newInstance();
               //cache the newly created condition operator object
               setConditionOperator(conditionProcessorClass, selectedOperator);
-              selectedOperator.setOOoComponentHelper(ooDocument);
+              //selectedOperator.setOOoComponentHelper(ooDocument);
               selectedOperator.setOperatingCondition(matchedCondition, individualConditions);
-              bResult = selectedOperator.result();
+              bResult = selectedOperator.result(ooDocument);
           }
           /*
           IBungeniToolbarConditionOperator selectedOperator;
@@ -203,7 +203,7 @@ public class BungeniToolbarConditionProcessor {
     }
     
     
-    private boolean evaluateWithoutOperator(){
+    private boolean evaluateWithoutOperator(OOComponentHelper ooDocument){
         boolean bResult = false;
         try {   
             
@@ -213,14 +213,14 @@ public class BungeniToolbarConditionProcessor {
             if (conditionExists(conditionClass)) {
                 //if exists..retrieve cached object
                 IBungeniToolbarCondition iCondition = getCondition(conditionClass);
-                iCondition.setOOoComponentHelper(ooDocument);
-                bResult = iCondition.processCondition(toolbarCond);
+              //  iCondition.setOOoComponentHelper(ooDocument);
+                bResult = iCondition.processCondition(ooDocument, toolbarCond);
             } else {
                 //otherwise create condition object and cache it
                 IBungeniToolbarCondition iCondition = baseOperator.getConditionObject(conditionClass);
                 setCondition(conditionClass, iCondition);
-                iCondition.setOOoComponentHelper(ooDocument);
-                bResult = iCondition.processCondition(toolbarCond) ;
+                //iCondition.setOOoComponentHelper(ooDocument);
+                bResult = iCondition.processCondition(ooDocument, toolbarCond) ;
             }
           } catch (Exception ex) {
                log.error("evaluateWithoutOperator: " + ex.getMessage());
@@ -232,13 +232,13 @@ public class BungeniToolbarConditionProcessor {
     }
     
     
-    public boolean evaluate() {
+    public boolean evaluate(OOComponentHelper ooDocument) {
         boolean bResult = false;
         if (matchedCondition == null) {
             //singular condition
-           bResult = evaluateWithoutOperator();
+           bResult = evaluateWithoutOperator(ooDocument);
         } else {
-           bResult =  evaluateWithOperator();
+           bResult =  evaluateWithOperator(ooDocument);
         }
         return bResult;
     }

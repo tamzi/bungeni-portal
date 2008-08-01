@@ -10,9 +10,7 @@
 package org.bungeni.editor.toolbar.conditions.runnable;
 
 import com.sun.star.text.XTextSection;
-import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.toolbar.conditions.BungeniToolbarCondition;
-import org.bungeni.editor.toolbar.conditions.IBungeniToolbarCondition;
 import org.bungeni.ooo.OOComponentHelper;
 
 /**
@@ -28,7 +26,7 @@ public class sectionHasChildType extends baseRunnableCondition {
     public sectionHasChildType() {
     }
 
-    synchronized boolean check_sectionHasChildWithType (BungeniToolbarCondition condition) {
+    synchronized boolean check_sectionHasChildWithType (OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
         boolean hasChildWithType = false;
         String childWithType =  condition.getConditionValue();
         XTextSection currentSection = ooDocument.currentSection();
@@ -41,7 +39,8 @@ public class sectionHasChildType extends baseRunnableCondition {
         return hasChildWithType;
     }
 
-    public boolean runCondition(BungeniToolbarCondition condition) {
-        return check_sectionHasChildWithType (condition);
+    @Override
+    public boolean runCondition(OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
+        return check_sectionHasChildWithType (ooDocument, condition);
     }
  }

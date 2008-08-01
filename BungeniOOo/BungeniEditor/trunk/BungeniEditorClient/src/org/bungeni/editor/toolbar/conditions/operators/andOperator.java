@@ -23,27 +23,27 @@ public class andOperator extends baseOperator implements IBungeniToolbarConditio
       private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(andOperator.class.getName());
  
     private String[] conditionValues;
-    private OOComponentHelper ooDocument;
+ //   private OOComponentHelper ooDocument;
     private BungeniToolbarConditionOperator conditionOperator;
     /** Creates a new instance of andOperator */
     public andOperator() {
     }
-
+/*
     public void setOOoComponentHelper(OOComponentHelper ooDocument) {
         this.ooDocument = ooDocument;
-    }
+    }*/
     public void setOperatingCondition(BungeniToolbarConditionOperator operator, String[] conditions) {
         conditionValues = conditions;
         conditionOperator = operator;
     }
      
-    public boolean result() {
+    public boolean result(OOComponentHelper ooDocument) {
         //if any of the conditions fails return false
         for (int i=0; i < conditionValues.length; i++) {
             BungeniToolbarCondition toolbarCond =    new BungeniToolbarCondition(conditionValues[i]);
             IBungeniToolbarCondition iCondition = getConditionObject(toolbarCond.getConditionClass());
-            iCondition.setOOoComponentHelper(ooDocument);
-            if (iCondition.processCondition(toolbarCond) == false)
+            //iCondition.setOOoComponentHelper(ooDocument);
+            if (iCondition.processCondition(ooDocument, toolbarCond) == false)
                 return false;
         }
         return true;

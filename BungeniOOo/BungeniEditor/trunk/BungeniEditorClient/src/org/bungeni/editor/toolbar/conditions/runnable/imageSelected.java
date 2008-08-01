@@ -9,9 +9,7 @@
 
 package org.bungeni.editor.toolbar.conditions.runnable;
 
-import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.toolbar.conditions.BungeniToolbarCondition;
-import org.bungeni.editor.toolbar.conditions.IBungeniToolbarCondition;
 import org.bungeni.ooo.OOComponentHelper;
 
 /**
@@ -22,24 +20,21 @@ import org.bungeni.ooo.OOComponentHelper;
  * evaluates to false if an image has not been selected in the document
  * @author Administrator
  */
-public class imageSelected implements IBungeniToolbarCondition {
-    private OOComponentHelper ooDocument;
-    /** Creates a new instance of imageSelected */
+public class imageSelected extends baseRunnableCondition {
+   /** Creates a new instance of imageSelected */
     public imageSelected() {
     }
 
-    public void setOOoComponentHelper(OOComponentHelper ooDocument) {
-        this.ooDocument = ooDocument;
-    }
-
-    boolean check_imageSelected (BungeniToolbarCondition condition) {
+    boolean check_imageSelected (OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
         String actionState =  condition.getConditionValue();
         boolean bObjSelected = ooDocument.isTextGraphicObjectSelected();
       return bObjSelected;
     }
     
-    public boolean processCondition(BungeniToolbarCondition condition) {
-        return check_imageSelected(condition);
+
+    @Override
+    public boolean runCondition(OOComponentHelper ooDocument, BungeniToolbarCondition condition) {
+        return check_imageSelected(ooDocument, condition);
     }
         
 

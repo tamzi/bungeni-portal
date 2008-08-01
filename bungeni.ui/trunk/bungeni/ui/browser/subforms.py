@@ -193,6 +193,16 @@ class PartyMemberViewlet( SubformViewlet ):
         self.manager = manager
         self.query = None
     
+class PartyMembershipViewlet( SubformViewlet ):
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.party
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+            
+    
 class PersonInfo( BungeniAttributeDisplay ):
     """
     Bio Info / personal data about the MP

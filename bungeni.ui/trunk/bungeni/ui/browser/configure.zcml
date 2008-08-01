@@ -183,6 +183,14 @@
       weight="20"
       />
 
+ <!--browser:viewlet
+      name="bungeni.subform.mp-partymembership"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.PartyMembershipViewlet"
+      for="bungeni.core.interfaces.IMemberOfParliament"
+      permission="zope.View"
+      weight="30"
+      /-->
 
       
   <!-- Committee Edit Form --> 

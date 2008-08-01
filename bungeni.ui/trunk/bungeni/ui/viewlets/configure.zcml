@@ -212,4 +212,13 @@
     weight="5"
     /-->    
   
+ <browser:viewlet
+    name="bungeni.current.partymembership"   
+    manager="bungeni.ui.browser.interfaces.ISubFormViewletManager"
+    class=".current.CurrentPartymemberships"
+    permission="zope.Public"
+    weight="40"
+    />
+  
+  
 </configure>

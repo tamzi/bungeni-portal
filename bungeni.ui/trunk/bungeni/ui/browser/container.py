@@ -198,7 +198,7 @@ class ContainerJSONListing( BrowserView ):
                             d[ f ] = v = getter( n , field)
                         else:
                             d[ f ] = v = field.query( n )    
-                #d[ f ] = v = getter(n) #field.query( n )
+                #d[ f ] = v = field.query( n )
                 if isinstance( v, datetime.datetime ):
                     d[f] = v.strftime('%F %I:%M %p')
                 elif isinstance( v, datetime.date ):
@@ -224,9 +224,7 @@ class ContainerJSONListing( BrowserView ):
 def getFields( context ):
     domain_model = proxy.removeSecurityProxy( context.domain_model )
     domain_interface = queryModelInterface( domain_model )
-    domain_annotation = queryModelDescriptor( domain_interface )
-    #field_names = schema.getFieldNamesInOrder( domain_interface )
-    #columns = alchemist.ui.core.setUpColumns(domain_model)    
+    domain_annotation = queryModelDescriptor( domain_interface )   
     for column in  domain_annotation.listing_columns:   
         field = domain_interface[column]     
         yield field

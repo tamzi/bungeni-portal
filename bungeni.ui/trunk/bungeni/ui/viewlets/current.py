@@ -7,6 +7,7 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.publisher.browser import BrowserView
 from zope.viewlet.manager import WeightOrderedViewletManager
 from zope.viewlet import viewlet, interfaces
+from zope.security import proxy
 
 import zc.resourcelibrary
 
@@ -16,6 +17,7 @@ import datetime
 from bungeni.ui.i18n import MessageFactory as _
 import bungeni.core.domain as domain
 from bungeni.core.interfaces import IGroupSitting, IGroupSittingAttendance, IGroupSittingAttendanceContainer
+from bungeni.core.orm import _ugm_party
 
 from ore.alchemist import Session
 from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
@@ -23,6 +25,7 @@ from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
 from interfaces import ICurrent, ICurrentGovernment, ITabManager
 from bungeni.ui.utils import getDisplayDate, getFilter
 
+import sqlalchemy.sql.expression as sql
 
 import pdb
 
@@ -572,5 +575,60 @@ class CurrentSitting( viewlet.ViewletBase ):
     """
     the current sittings are those closest to the given date.
     """        
+    
+class CurrentPartymemberships( viewlet.ViewletBase ):
+    """
+    the partymembership of a MP does have multiple start/end dates so we have to
+    explictly define which one is to be used
+    """
+
+    def __init__( self,  context, request, view, manager ):        
+        self.context = context.party
+        self.request = request
+        self.__parent__= view
+        self.manager = manager
+        self.Date=datetime.date.today()  
+        self.query = None                  
+
+    def getFilter(self):
+        return sql.or_(
+            sql.between(self.Date, _ugm_party.c.start_date, _ugm_party.c.end_date),
+            sql.and_( _ugm_party.c.start_date <= self.Date, _ugm_party.c.end_date == None)
+            )
+        
+        
+        
+    def update(self):        
+        session = Session()
+        self.Date = getDisplayDate(self.request)  
+        context = proxy.removeSecurityProxy( self.context )                   
+        query = context._query   
+        if self.Date:        
+            # append between start and end date clause
+            self.query = query.filter( self.getFilter() )
+        else:
+            self.query=query
+            
+
+    def getData(self):
+        """
+        return the data of the query
+        """
+        data_list=[]        
+        urlpf=getDateFilter(self.request)
+        results = self.query.all()
+        for result in results:            
+            data ={}
+#            data['url']= ('/parliament/obj-' + str(result.parliament_id) +
+#                          '/committees/obj-' + str(result.committee_id) + urlpf)
+            data['short_name'] = result.short_name
+#            data['full_name'] = result.full_name            
+            data['start_date'] = str(result.start_date)
+            data['end_date'] = str(result.end_date)
+            data_list.append(data)
+        return data_list
+
+    
+    render = ViewPageTemplateFile ('templates/current_partymembership_viewlet.pt')    
     
     

@@ -8,7 +8,6 @@ from zope import schema
 from zope.publisher.browser import BrowserView
 import simplejson
 
-import pdb
 
 from ore.alchemist.model import queryModelDescriptor, queryModelInterface
 import alchemist.ui.container
@@ -186,7 +185,6 @@ class ContainerJSONListing( BrowserView ):
         domain_interface = queryModelInterface( domain_model )
         domain_annotation = queryModelDescriptor( domain_interface )
         
-        pdb.set_trace()
         for n in nodes:
             d = {}
             # field to dictionaries

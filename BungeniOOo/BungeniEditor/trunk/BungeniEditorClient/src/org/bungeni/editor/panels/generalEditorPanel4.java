@@ -1038,15 +1038,15 @@ public class generalEditorPanel4 extends templatePanel implements IFloatingPanel
             boolean bAction = true;
 
             String conditionValue =  conditionAttrib.getValue().trim();
-            if (conditionMap.containsKey(conditionValue)) {
+            if (!conditionMap.containsKey(conditionValue)) {
                 //already has conditionprocessor object, get cached object and reset...
-                conditionMap.get(conditionValue).setOOComponentHandle(ooDocument);
-            } else {
-                BungeniToolbarConditionProcessor condProc = new BungeniToolbarConditionProcessor(ooDocument, conditionValue);
+                //conditionMap.get(conditionValue).setOOComponentHandle(ooDocument);
+            //} else {
+                BungeniToolbarConditionProcessor condProc = new BungeniToolbarConditionProcessor(conditionValue);
                 conditionMap.put(conditionValue, condProc);
             }
             //BungeniToolbarConditionProcessor condProc = new BungeniToolbarConditionProcessor(ooDocument, conditionValue);
-            bAction = conditionMap.get(conditionValue).evaluate();
+            bAction = conditionMap.get(conditionValue).evaluate(ooDocument);
             //condProc.evaluate();
             /*
             //first split multiple conditions by -and- or -or- 

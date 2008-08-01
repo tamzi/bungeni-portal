@@ -142,7 +142,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         //findBrokenReferences();
     }
 
-    private synchronized void initTimer(){
+    private void initTimer(){
           timerSectionTypes = new Timer(4000, new ActionListener() {
               public void actionPerformed(ActionEvent e) {
                 refreshSectionTypesList();

@@ -110,6 +110,11 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
         toolbarXmlTree.loadToolbar();
         toolbarTree.addMouseListener(new toolbarTreeMouseListener());
         toolbarTree.setCellRenderer(new toolbarTreeCellRenderer());
+         ComponentUI treeui = toolbarTree.getUI();
+         if (treeui instanceof BasicTreeUI){
+             ((BasicTreeUI)treeui).setExpandedIcon(CommonTreeFunctions.treeMinusIcon());
+             ((BasicTreeUI)treeui).setCollapsedIcon(CommonTreeFunctions.treePlusIcon());
+         }        
         //-tree-deprecated--CommonTreeFunctions.expandAll(toolbarTree, true);
        // toolbarTree.addTreeWillExpandListener(new toolbarTreeWillExpandListener());
         CommonTreeFunctions.expandAll(toolbarTree);
@@ -759,14 +764,14 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
             boolean bAction = true;
 
             String conditionValue =  conditionAttrib.getValue().trim();
-            if (conditionMap.containsKey(conditionValue)) {
+            if (!conditionMap.containsKey(conditionValue)) {
                 //already has conditionprocessor object, get cached object and reset...
-                conditionMap.get(conditionValue).setOOComponentHandle(getOODocument());
-            } else {
-                BungeniToolbarConditionProcessor condProc = new BungeniToolbarConditionProcessor(getOODocument(), conditionValue);
+               //disabled conditionMap.get(conditionValue).setOOComponentHandle(getOODocument());
+            //} else {
+                BungeniToolbarConditionProcessor condProc = new BungeniToolbarConditionProcessor(conditionValue);
                 conditionMap.put(conditionValue, condProc);
             }
-             bAction = conditionMap.get(conditionValue).evaluate();
+             bAction = conditionMap.get(conditionValue).evaluate(getOODocument());
 
             return bAction;
         }
@@ -913,10 +918,12 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
                 newHandleKey = editorTabbedPanel.componentHandleContainer.generateComponentKey(ooComponent.getDocumentTitle(), ooComponent.getComponent());
                 //update only when the incoming handle changes....
                 if (!currentHandleKey.equalsIgnoreCase(newHandleKey)) {
+                    log.debug("holderUIPanel, setOOComponentHandle : updating component handle" );
                     this.ooDocument = ooComponent;
                 }
                     //updatePanelonComponentChange();
             } else {
+                log.debug("holderUIPanel, setOOComponentHandle : ooDocument was null updating component handle" );
                 this.ooDocument = ooComponent;
             }
                 log.debug("setOOComponenthHandle: starting timer");            

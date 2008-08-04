@@ -17,8 +17,12 @@ from zope.formlib import form
 
 from bungeni.ui.viewlets.sittingcalendar import SittingCalendarViewlet
 
-class SubformViewlet ( ContainerListing ):
+from table import AjaxContainerListing
 
+class SubformViewlet ( AjaxContainerListing ):
+    """
+    
+    """
     render = ViewPageTemplateFile ('templates/generic-sub-container.pt')  
 
 

@@ -12,13 +12,14 @@ import simplejson
 from ore.alchemist.model import queryModelDescriptor, queryModelInterface
 import alchemist.ui.container
 import alchemist.ui.core
-from ore.alchemist.container import stringKey
+from ore.alchemist.container import stringKey, contained
 #from ore import yuiwidget
 from zope.traversing.browser import absoluteURL
 
 from bungeni.core.i18n import _
 from bungeni.ui.utils import getDisplayDate, getFilter
 
+import pdb
 
 def dateFilter( request ):
     filter_by = ''
@@ -108,7 +109,6 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
                                                    prefix="form",
                                                    columns = self.columns )
         formatter.cssClasses['table'] = 'listing'
-        #formatter.cssClasses['tbody'] = 'scrollingtable'
         formatter.table_id = "datacontents"
         return formatter        
         
@@ -161,12 +161,21 @@ class ContainerJSONListing( BrowserView ):
             start, limit = 0, 100
         return start, limit 
 
-    def getBatch( self, start, limit, order_by=None):
-
+    def getBatch( self, start=0, limit=20, order_by=None):
+        context = proxy.removeSecurityProxy( self.context )    
+        query=context._query            
         # fetch the nodes from the container
-        nodes = self.context.batch( offset=start,
-                                    limit=limit,
-                                    order_by=order_by )
+        filter_by = dateFilter( self.request )
+        if filter_by:  
+            if 'start_date' in  context._class.c and 'end_date' in  context._class.c :                 
+                query=query.filter(filter_by)
+        query = query.limit( limit ).offset( start )                
+        if order_by:
+            query = query.order_by( order_by )  
+        nodes = []                                       
+        for ob in query:
+            ob = contained( ob, self, stringKey(ob) )
+            nodes.append(ob)    
 
         fields = list( getFields( self.context )  )
         batch = self._jsonValues( nodes, fields, self.context )

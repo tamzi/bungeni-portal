@@ -1,0 +1,22 @@
+<div>
+    <div class="listing">
+      <em> Partymembership </em>
+      <table class="listing">
+        <thead>
+          <tr>
+            <th> Party </th>
+            <th> from</th>
+            <th> till</th>                          
+          </tr>
+        </thead>
+        <tbody>
+          <tr tal:repeat="data view/getData"> 
+            <td tal:content="data/short_name"> party name </td>
+            <td tal:content="data/start_date" > </td>
+            <td tal:content="data/end_date" > </td>
+          </tr>
+        </tbody>  
+      </table>
+    </div>
+</div>
+

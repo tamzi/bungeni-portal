@@ -113,6 +113,9 @@
 	
 	function do_pre_takeEdit(){
 		global $wgOut, $wgUser,$semantic_data;
+	
+		
+		
 		$this->loadEditText();
 			
 		$MvOverlay = new MV_Overlay();
@@ -138,6 +141,9 @@
 //>>>>>>> .r32567
 		global $wgOut, $wgUser, $wgRequest, $wgTitle;
 
+
+		
+		
 		$fname = 'MV_EditPage::edit';
 		wfProfileIn( $fname );
 		wfDebug( "$fname: enter\n" );
@@ -287,6 +293,8 @@
 		$this->showEditForm();
 		wfProfileOut( "$fname-business-end" );
 		wfProfileOut( $fname );
+		
+		
 	}
 	/********would not have to override if they where not "private" functions 
 		/**
@@ -468,9 +476,9 @@
 			}				
 		$sk = $wgUser->getSkin();
 
-		//wfRunHooks( 'EditPage::showEditForm:initial', array( &$this ) ) ;
+		wfRunHooks( 'EditPage::showEditForm:initial', array( &$this ) ) ;
 
-		//$wgOut->setRobotpolicy( 'noindex,nofollow' );
+		//$wgOut->setRobotPolicy( 'noindex,nofollow' );
 
 		# Enabled article-related sidebar, top links, etc.
 		$wgOut->setArticleRelated( true );

@@ -9,7 +9,10 @@ class MV_Sitting
 	//var $state = '';
 	//var $date_start_time = '';
 	//var $duration = '';
-
+	var $start_date = '';
+	var $start_time = '';
+	var $end_date = '';
+	var $end_time = '';
 	function __construct($initVal=array())
 	{
 		if (is_object($initVal))
@@ -61,7 +64,7 @@ class MV_Sitting
 		global $mvSittingsTable;
 		$insAry = array ();
 		foreach ($this as $key => $val) {
-			if($key=='name'){
+			if($key!='sitting_streams'){
 					$insAry[$key] = $val;
 			}
 		}

@@ -347,6 +347,7 @@ $messages['niu'] = array(
  */
 $messages['af'] = array(
 	'mv_tool_search'     => 'Soek',
+	'mv_tool_export'     => 'Eksporteer',
 	'mv_play'            => 'Speel',
 	'mv_edit'            => 'Wysig',
 	'mv_history'         => 'Geskiedenis',
@@ -397,7 +398,9 @@ $messages['ar'] = array(
 	'mv_file_with_same_desc'         => 'خطأ: ملف ستريم بنفس مفتاح الوصف <i>$1</i> موجود بالفعل',
 	'mv_updated_stream_files'        => 'سجل ملفات الستريم المحدث',
 	'mv_removed_file_stream'         => 'أزال ملف الستريم: $1',
-	'mv_missing_stream_text'         => 'الستريم الذي طلبته <b>$1</b> غير متوفر.<br />ربما تريد فحص <a href="$2">قائمة الستريم</a><br />أو ربما ترغب في <a href="$3">إضافة الستريم</a>.',
+	'mv_missing_stream_text'         => 'الستريم الذي طلبته <b>$1</b> غير متوفر.<br />
+ربما تريد فحص <a href="$2">قائمة الستريم</a><br />
+أو ربما ترغب في <a href="$3">إضافة الستريم</a>.',
 	'mv_user_cant_edit'              => 'ربما ينبغي عليك $1 للتعديل، $2',
 	'mv_add_stream_file'             => 'أضف ملف ستريم',
 	'mv_media_path'                  => 'مسار الميديا',
@@ -422,8 +425,9 @@ $messages['ar'] = array(
 	'mv_stream_delete_warning'       => 'حذف هذا الستريم سيزيل أيضا $1 صفحة من بيانات الميتا',
 	'mv_tool_search'                 => 'بحث',
 	'mv_tool_search_title'           => 'ابحث في هذا الستريم',
+	'mv_search_transcripts_for'      => 'ابحث في الترانس سكريبتات عن',
 	'mv_tool_navigate'               => 'إبحار',
-	'mv_tool_navigate_title'         => 'تصفح الستريم الكامل',
+	'mv_tool_navigate_title'         => 'إبحار في الستريم الكامل',
 	'mv_tool_export'                 => 'تصدير',
 	'mv_tool_export_title'           => 'صدر بيانات ميتا الستريم',
 	'mv_tool_embed'                  => 'إدراج',
@@ -435,14 +439,19 @@ $messages['ar'] = array(
 	'mv_update_layers'               => 'تحديث عرض الطبقات',
 	'mv_watch_clip'                  => 'مشاهدة القصاصة',
 	'mv_close_clip'                  => 'إغلاق القصاصة',
+	'mv_improve_transcript'          => 'حسن الترانس سكريبت',
 	'ht_en'                          => 'ترانسكريبت',
-	'ht_en_desc'                     => 'ترانسكريبتات إنجليزية. نوع التغطية هذا للنص المنطوق في ستريم الفيديو. الوصلات يمكن إضافتها، لكن كل النص ينبغي أن يكون ما هو منطوق في ستريم الفيديو.',
+	'ht_en_desc'                     => 'ترانسكريبتات إنجليزية.
+نوع التغطية هذا للنص المنطوق.',
 	'anno_en'                        => 'الأنوتاشنات والتصنيفات',
-	'anno_en_desc'                   => 'التصنيفات والأنوتاشنتات الإنجليزية. هذه التغطية يمكن استخدامها لتصنيف أقسام من الفيديو أو لإضافة معلومات أنوتاشن ليست نصا منطوقا',
+	'anno_en_desc'                   => 'التصنيفات والأنوتاشنتات الإنجليزية.
+هذه التغطية يمكن استخدامها لتصنيف أقسام من الفيديو أو لإضافة معلومات أنوتاشن ليست نصا منطوقا',
 	'thomas_en'                      => 'ترانس سكريبت رسمي',
-	'thomas_en_desc'                 => "ترانس سكريبت توماس الرسمي من خدمة تسجيل THOMAS الرسمية. وقت المصدر معدل بواسطة C-SPAN's c-spanarchives.org",
+	'thomas_en_desc'                 => "ترانس سكريبت توماس الرسمي من خدمة تسجيل THOMAS الرسمية.
+وقت المصدر معدل بواسطة C-SPAN's c-spanarchives.org",
 	'mvd_default_mismatch'           => 'خطأ في ملف الإعدادات',
-	'mvd_default_mismatch_text'      => 'هناك خطأ في ملف إعداداتك، $mvMVDTypeDefaultDisp يجب أن تكون جزء من $mvMVDTypeAllAvailable',
+	'mvd_default_mismatch_text'      => 'هناك خطأ في ملف إعداداتك. 
+$mvMVDTypeDefaultDisp يجب أن تكون جزء من $mvMVDTypeAllAvailable',
 	'mv_data_page_title'             => '$1 ل$2 من $3',
 	'mv_time_separator'              => '$1 إلى $2',
 	'mv_list_streams'                => 'عرض ستريمات ميتافيد',
@@ -450,9 +459,12 @@ $messages['ar'] = array(
 	'mv_list_streams_docu'           => 'الستريمات التالية موجودة:',
 	'mv_list_streams_none'           => 'لا ستريمات موجودة',
 	'mvvideofeed'                    => 'تصدير تلقيم فيديو ميتافيد',
+	'mvexportask'                    => 'تصدير تلقيم فيديو سيمانتيك',
 	'video_feed_cat'                 => 'تلقيم فيديو للتصنيف:',
-	'mv_cat_search_note'             => 'ملاحظة: التصنيفات تعرض فقط التصنيفات العليا، لكل بيانات الميتا في بحث نطاقات التصنيف عن $1',
-	'mv_mvd_linkback'                => 'جزء من الستريم $1 <br />القفز إلى عرض الستريم: $2<br />',
+	'mv_cat_search_note'             => 'ملاحظة: التصنيفات تعرض فقط التصنيفات العليا.
+لكل بيانات الميتا في بحث نطاقات التصنيف عن $1',
+	'mv_mvd_linkback'                => 'جزء من الستريم $1 <br />
+القفز إلى عرض الستريم: $2',
 	'mvBadMVDtitle'                  => 'نوع مفقود، ستريم مفقود، أو صيغة وقت غير صحيحة',
 	'mvMVDFormat'                    => 'عنوان إم في دي ينبغي أن يكون بالصيغة: mvd:نوع:اسم_الستريم/وقت_البداية/وقت_النهاية',
 	'mv_play'                        => 'عرض',
@@ -481,8 +493,8 @@ $messages['ar'] = array(
 	'mv_search_match'                => 'بحث النص',
 	'mv_search_spoken_by'            => 'قيل بواسطة',
 	'mv_search_category'             => 'تصنيف',
-	'mv_search_smw_property'         => 'خصائص سيمناتيك',
-	'mv_search_smw_property_numeric' => 'قيمة سيمناتيك رقمية',
+	'mv_search_smw_property'         => 'خصائص سيمانتيك',
+	'mv_search_smw_property_numeric' => 'قيمة سيمانتيك رقمية',
 	'mv_search_and'                  => 'و',
 	'mv_search_or'                   => 'أو',
 	'mv_search_not'                  => 'ليس',
@@ -556,6 +568,7 @@ $messages['bg'] = array(
 	'mv_tool_embed'          => 'Вграждане',
 	'mv_tool_embed_title'    => 'Настройки за вграждане за заявения сегмент',
 	'mv_results_found_for'   => 'Резултати от търсенето от <b>$1</b> до <b>$2</b> от общо <b>$3</b> за:',
+	'mv_tool_mang_layers'    => 'Управление на слоевете',
 	'anno_en'                => 'Анотации и категории',
 	'mvd_default_mismatch'   => 'Грешка във файла с настройките',
 	'mv_data_page_title'     => '$1 за $2 от $3',
@@ -845,7 +858,7 @@ $messages['fr'] = array(
 	'mv_seq_add_end'                 => 'Ajouter à la fin de la séquence',
 	'mv_sequence_timeline'           => 'Séquence chronologique :',
 	'mv_edit_sequence_desc_help'     => 'Description de la séquence',
-	'mv_edithelpsequence'            => 'Aide:Édition_de_séquence',
+	'mv_edithelpsequence'            => 'Help:Édition_de_séquence',
 	'mv_seq_summary'                 => 'Édition du sommaire de la séquence',
 	'mv_add_clip_by_name'            => 'Ajouter un clip par nom',
 	'mv_export_cmml'                 => 'exporter cmml',
@@ -868,6 +881,10 @@ $messages['fr'] = array(
  * @author Snakesteuben
  */
 $messages['fy'] = array(
+	'mv_remove_reason'   => 'Reden foar it wiskjen:',
+	'mv_tool_search'     => 'Sykje',
+	'mv_tool_export'     => 'Eksportearje',
+	'mv_edit'            => 'Wizigje',
 	'mv_search_category' => 'Kategory',
 	'mv_category'        => 'kategory',
 );
@@ -1419,7 +1436,7 @@ $messages['hsb'] = array(
 	'mv_seq_add_end'                 => 'Kóncej sekwency přidać',
 	'mv_sequence_timeline'           => 'Časowa lajsta sekwency:',
 	'mv_edit_sequence_desc_help'     => 'Wopisanje sekwency',
-	'mv_edithelpsequence'            => 'Pomoc:Wobdźěłanje_sekwency',
+	'mv_edithelpsequence'            => 'Help:Wobdźěłanje_sekwency',
 	'mv_seq_summary'                 => 'Zjeće wobdźěłanja sekwency',
 	'mv_add_clip_by_name'            => 'Klip po mjenje přidać',
 	'mv_export_cmml'                 => 'cmml eksportować',
@@ -1507,6 +1524,15 @@ $messages['id'] = array(
 $messages['is'] = array(
 	'mv_search_category' => 'Flokkur',
 	'mv_category'        => 'flokkur',
+);
+
+/** Italian (Italiano)
+ * @author Darth Kule
+ * @author Melos
+ */
+$messages['it'] = array(
+	'mv_remove_reason' => 'Motivo della cancellazione:',
+	'mv_tool_search'   => 'Ricerca',
 );
 
 /** Lojban (Lojban)
@@ -1630,6 +1656,7 @@ $messages['krj'] = array(
  */
 $messages['ksh'] = array(
 	'mv_tool_search' => 'Sööke',
+	'mv_edit'        => 'Ändere',
 	'mv_search_and'  => ', un',
 );
 
@@ -1894,7 +1921,7 @@ $mvMVDTypeDefaultDisp हा $mvMVDTypeAllAvailable चा सबसेट अ�
 	'mv_seq_add_end'                 => 'सिक्वेन्सच्या शेवटी वाढवा',
 	'mv_sequence_timeline'           => 'सिक्वेन्स वेळरेषा (timeline):',
 	'mv_edit_sequence_desc_help'     => 'सिक्वेन्स माहिती',
-	'mv_edithelpsequence'            => 'साहाय्य:सिक्वेन्स_संपादन',
+	'mv_edithelpsequence'            => 'Help:सिक्वेन्स_संपादन',
 	'mv_seq_summary'                 => 'सिक्वेन्स संपादन संक्षिप्त माहिती',
 	'mv_add_clip_by_name'            => 'नावानुसार क्लीप वाढवा',
 	'mv_export_cmml'                 => 'cmml निर्यात करा',
@@ -1911,6 +1938,19 @@ $mvMVDTypeDefaultDisp हा $mvMVDTypeAllAvailable चा सबसेट अ�
 	'mv_mang_layers'                 => 'स्तर व्यवस्थापन',
 	'mv_mang_layers_title'           => 'सद्य स्ट्रीम साठीच्या स्तर-प्रदर्शन प्रणालीचे व्यवस्थापन करा',
 	'mv_protect_source_material'     => 'मूळ स्रोत साहित्य संपादनांपासून सुरक्षित केले',
+);
+
+/** Nahuatl (Nahuatl)
+ * @author Fluence
+ */
+$messages['nah'] = array(
+	'mv_remove_reason'   => 'Tlapololiztli īxtlamatiliztli:',
+	'mv_upload_file'     => 'Tlahcuilōlquetza',
+	'mv_tool_export'     => 'Ticnamacāz',
+	'mv_edit'            => 'Ticpatlāz',
+	'mv_history'         => 'Tlahcuilōlloh',
+	'mv_search_category' => 'Neneuhcāyōtl',
+	'mv_category'        => 'neneuhcāyōtl',
 );
 
 /** Nedersaksisch (Nedersaksisch)
@@ -2453,7 +2493,7 @@ $messages['oc'] = array(
 	'mv_seq_add_end'                 => 'Apondre a la fin de la sequéncia',
 	'mv_sequence_timeline'           => 'Sequéncia cronologica :',
 	'mv_edit_sequence_desc_help'     => 'Descripcion de la sequéncia',
-	'mv_edithelpsequence'            => 'Ajuda:Edicion_de_sequéncia',
+	'mv_edithelpsequence'            => 'Help:Edicion_de_sequéncia',
 	'mv_seq_summary'                 => 'Edicion del somari de la sequéncia',
 	'mv_add_clip_by_name'            => 'Apondre un clip per nom',
 	'mv_export_cmml'                 => 'exportar cmml',
@@ -2499,7 +2539,7 @@ $messages['pl'] = array(
 	'mv_external_file'       => 'Zewnętrzny plik',
 	'mv_tool_search'         => 'Szukaj',
 	'mv_tool_export'         => 'Eksport',
-	'mv_results_found_for'   => 'Wyniki wyszukiwania <b>$1</b> do <b>$2</b> z <b>$3</b> dla:',
+	'mv_results_found_for'   => 'Wyniki wyszukiwania od <b>$1</b> do <b>$2</b> z <b>$3</b> dla',
 	'mv_play'                => 'Odtwórz',
 	'mv_edit'                => 'Edytuj',
 	'mv_history'             => 'Historia',
@@ -2702,6 +2742,19 @@ $messages['rif'] = array(
 	'mv_history'     => 'Amzruy',
 );
 
+/** Romanian (Română)
+ * @author KlaudiuMihaila
+ */
+$messages['ro'] = array(
+	'mv_remove_reason'   => 'Motiv pentru ştergere:',
+	'mv_tool_search'     => 'Caută',
+	'mv_edit'            => 'Modifică',
+	'mv_history'         => 'Istoric',
+	'mv_remove'          => 'elimină',
+	'mv_search_category' => 'Categorie',
+	'mv_category'        => 'categorie',
+);
+
 /** Russian (Русский)
  * @author Александр Сигачёв
  * @author Siebrand
@@ -2855,7 +2908,7 @@ $mvMVDTypeDefaultDisp должен быть подмножеством $mvMVDTyp
 	'mv_seq_add_end'                 => 'Добавить в конец последовательности',
 	'mv_sequence_timeline'           => 'Шкала времени последовательности:',
 	'mv_edit_sequence_desc_help'     => 'Описание последовательности',
-	'mv_edithelpsequence'            => 'Справка:Правка последовательности',
+	'mv_edithelpsequence'            => 'Help:Правка последовательности',
 	'mv_seq_summary'                 => 'Описание правки последовательности',
 	'mv_add_clip_by_name'            => 'Добавление клипа по имени',
 	'mv_export_cmml'                 => 'экспорт cmml',
@@ -3033,7 +3086,7 @@ Alebo môžete <a href="$3">Pridať stream</a>.',
 	'mv_seq_add_end'                 => 'Pridať na koniec sekvencie',
 	'mv_sequence_timeline'           => 'Časový prehľad sekvencie:',
 	'mv_edit_sequence_desc_help'     => 'Popis sekvencie',
-	'mv_edithelpsequence'            => 'Pomoc:Upravovanie_sekvencie',
+	'mv_edithelpsequence'            => 'Help:Upravovanie_sekvencie',
 	'mv_seq_summary'                 => 'Zhrnutie úprav sekvencie',
 	'mv_add_clip_by_name'            => 'Pridať klip podľa názvu',
 	'mv_export_cmml'                 => 'exportovať cmml',
@@ -3585,7 +3638,7 @@ Nhảy đến cảnh luồng: $2',
 	'mv_seq_add_end'                 => 'Thêm vào cuối chuỗi',
 	'mv_sequence_timeline'           => 'Thời gian chuỗi:',
 	'mv_edit_sequence_desc_help'     => 'Mô tả chuỗi',
-	'mv_edithelpsequence'            => 'Trợ giúp:Sửa đổi chuỗi',
+	'mv_edithelpsequence'            => 'Help:Sửa đổi chuỗi',
 	'mv_seq_summary'                 => 'Tóm tắt sửa đổi chuỗi',
 	'mv_add_clip_by_name'            => 'Thêm clip theo tên',
 	'mv_export_cmml'                 => 'xuất cmml',

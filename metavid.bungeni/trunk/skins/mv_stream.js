@@ -363,7 +363,7 @@ function mv_disp_add_mvd(mvdType){
 			}
 			//add edit buttons 
 			mwSetupToolbar();
-			//onLoadFCKeditor();
+			onLoadFCKeditor();
 			mwEditButtons = []; //empty edit buttons
 		}
 	}
@@ -388,7 +388,7 @@ function mv_edit_disp(titleKey, mvd_id){
 		add_adjust_hooks(mvd_id);            
 		//add buttons			
 		mwSetupToolbar();
-		//onLoadFCKeditor();
+		onLoadFCKeditor();
 		mwEditButtons = []; //empty edit buttons
 	  }
 }/* interface ajax actions */

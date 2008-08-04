@@ -135,11 +135,12 @@ class MV_SpecialAddSitting {
 		$html.=	'</tr>'."\n";
 		$html.=	'<tr>';
 		$html.= '<td width="140">';		
-		$html.= '<i>'.wfMsg('mv_label_sitting_start_date')."</i>:";
+		$html.= '<i>'.wfMsg('mv_label_sitting_start_date')."(YYYY-MM-DD)</i>:";
 		$html.= '</td><td>';			
 		//$html.= '<input type="text" name="sitting_start_date_and_time" value="" size="30" maxlength="1024"><br />' . "\n";	
-		$html.= '<input type="text" value="24.12.2008" readonly name="sitting_start_date_and_time" onchange="document.add_sitting.sitting_end_date_and_time.value=this.value"><input type="button" value="Cal" onclick="displayCalendar(document.add_sitting.sitting_start_date_and_time,\'dd.mm.yyyy\',this)"><div id="cal1"></div>';			
+		$html.= '<input type="text" value="2008/07/24 14:00" readonly name="sitting_start_date_and_time" onchange="document.add_sitting.sitting_end_date_and_time.value=this.value"><input type="button" value="Cal" onclick="displayCalendar(document.add_sitting.sitting_start_date_and_time,\'yyyy-mm-dd hh:ii\',this, true)"><div id="cal1"></div>';			
 		$html.= '</td>';	
+		/*
 		$html.='<td>';
 		$html.='Time</td><td><select name="start_hour">';
 		for ($i=1; $i<=12; $i++)
@@ -162,18 +163,20 @@ class MV_SpecialAddSitting {
 		$html.='<option value="pm">pm</option>';
 		$html .= '</select>';
 		$html.='</td>';	
+		*/
 		$html.=	'</tr>'."\n";
 		
 		$html.= '<td width="140">';		
-		$html.= '<i>'.wfMsg('mv_label_sitting_end_date')."</i>:";
+		$html.= '<i>'.wfMsg('mv_label_sitting_end_date')."(YYYY-MM-DD)</i>:";
 		$html.= '</td><td>';			
 		//$html.= '<input type="text" name="sitting_end_date_and_time" value="" size="30" maxlength="1024"><br />' . "\n";				
-		$html.= '<input type="text" value="24.12.2008" readonly name="sitting_end_date_and_time"><input type="button" value="Cal" onclick="displayCalendar(document.add_sitting.sitting_end_date_and_time,\'dd.mm.yyyy\',this)"><div id="cal2"></div>';	
+		$html.= '<input type="text" value="2008/07/24 14:00" readonly name="sitting_end_date_and_time"><input type="button" value="Cal" onclick="displayCalendar(document.add_sitting.sitting_end_date_and_time,\'yyyy-mm-dd hh:ii\',this, true)"><div id="cal2"></div>';	
 		//$html.='<div id="select-wrapper"><input type="text" id="date-sel2-dd" name="date-sel2-dd"/>';
 		//$html.='<input type="text"id="date-sel2-mm" name="date-sel2-mm"/>';
 		//$html.='<input type="text" class="w3em highlight-days-67 disable-days-12 split-date no-transparency" id="date-sel2" name="date-sel2" />
       //</div>';
 		$html.= '</td>';				
+		/*
 		$html.='<td>';
 		$html.='Time</td><td><select name=end_hour>';
 		for ($i=1; $i<=12; $i++)
@@ -197,6 +200,8 @@ class MV_SpecialAddSitting {
 		$html.='<option value="pm">pm</option>';
 		$html .= '</select>';
 		$html.='</td>';		
+		
+		*/
 		$html.=	'</tr>'."\n";
 			
 		$html.= '<td  width="140">';		

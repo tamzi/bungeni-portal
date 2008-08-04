@@ -62,7 +62,7 @@ $wgAutoloadClasses['MV_Readers'] =  dirname(__FILE__)  .'/MV_Readers.php';
 $wgAutoloadClasses['MV_ManageStaff'] =  dirname(__FILE__)  .'/MV_ManageStaff.php';	
 $wgAutoloadClasses['MV_Status'] =  dirname(__FILE__)  .'/MV_Status.php';
 $wgAutoloadClasses['MV_Staff'] =  dirname(__FILE__)  .'/MV_Staff.php';
-
+$wgAutoloadClasses['MV_Takes'] =  dirname(__FILE__)  .'/MV_Takes.php';
 $markerList = array(); 
 
 //override special search page: (requires ExtensionFunctions.php)
@@ -248,7 +248,7 @@ function mvSetupExtension(){
 			
 			} 
 //=======   
-//$wgOut->addScript("<script type=\"text/javascript\" src=\"/mvWiki/extensions/FCKeditor/fckeditor/fckeditor.js\"></script>");
+$wgOut->addScript("<script type=\"text/javascript\" src=\"/metavidWiki/extensions/FCKeditor/fckeditor/fckeditor.js\"></script>");
 			if($head_set=='smw_ext')
 				$wgOut->addScript("<script type=\"{$wgJsMimeType}\" src=\"{$mvgScriptPath}/skins/mv_smw_ext.js\" ></script>");
 

@@ -49,6 +49,9 @@ class MV_SpecialListStreams extends QueryPage {
 
 	function getPageHeader() {
 			global $SittingAssignmentsTable;
+			
+			if ($this->sitting_id == false)
+			{
 			$dbr =& wfGetDB( DB_SLAVE );
 			$sql = 'SELECT ug_user FROM user_groups WHERE ug_user IN (SELECT user_id FROM sitting_assignment WHERE sitting_id='.$this->sitting_id.') and ug_group="editor"';
 		$editors  = $dbr->query($sql);
@@ -84,6 +87,11 @@ class MV_SpecialListStreams extends QueryPage {
 			$html .= '</table></td>';
 			$html .= '</tr></table>';
 			return $html;
+			}
+			else
+			{
+				return '';
+			}
 		//return '<div name="user-tab"></div><p>' . wfMsg('mv_list_streams_docu') . "</p><br />\n";
 	}
 	function getSQL() {

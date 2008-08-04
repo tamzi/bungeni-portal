@@ -485,6 +485,21 @@
 				);
 			}
 		}
+		
+		if ($wgTitle->getNameSpace() == MV_NS_STREAM)
+		{
+			$wgTakesAction = 'takes';
+			$selected = $wgRequest->getText('action') == $wgTakesAction ? 'selected' : false;
+			$url      = $wgTitle->getLocalURL("action=$wgTakesAction");
+			if (is_object($wgTitle)) {
+				$actions[$wgTakesAction] = array(
+					'text'  => $wgTakesAction, # should use wfMsg($wgExampleAction)
+					'class' => $selected,
+					'href'  => $url
+				);
+			}
+		}
+		
 		/*
 		if ($wgTitle->getText() == 'Grouppermissions')
 		{
@@ -584,7 +599,13 @@
 	$wgHooks['UnknownAction'][] = 'mvStaff';
 	
 	function mvStaff($action, $article) {
-		if ($action == 'staff')
+		if ($action == 'takes')
+		{
+			$takes = new MV_Takes($article);
+			$takes->edit();
+			return false;
+		}
+		else if ($action == 'staff')
 		{
 			$manage_staff = new MV_ManageStaff($article);
 			$manage_staff->edit();

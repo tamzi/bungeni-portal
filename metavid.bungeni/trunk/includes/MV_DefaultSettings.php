@@ -117,7 +117,7 @@ $mvMVDTypeAllAvailable = array('anno_en','ht_en','thomas_en','question_en','answ
  * note: this is equivalent to ?mvd_tracks=ht_en,anno_en  in the url for the stream page.
  * this also dictates the default search layers
 */ 
-$mvMVDTypeDefaultDisp =array('anno_en','mp_names'); 
+$mvMVDTypeDefaultDisp =array('anno_en','mp_names','ht_en', 'take_en'); 
 
 ###################
 # Special Pages with Interface functions
@@ -151,6 +151,9 @@ $categoriesTable = 'mv_category';
 //whether to count found results (can take lots of time on big result sets)
 $mvDo_SQL_CALC_FOUND_ROWS = true;
 
+
+
+$mv_default_take_duration = 600;
 //undesa
 $queue[0] = '';
 $alreadyInitialised = false;

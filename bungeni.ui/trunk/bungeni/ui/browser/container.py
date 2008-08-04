@@ -176,7 +176,7 @@ class ContainerJSONListing( BrowserView ):
         for ob in query:
             ob = contained( ob, self, stringKey(ob) )
             nodes.append(ob)    
-
+            
         fields = list( getFields( self.context )  )
         batch = self._jsonValues( nodes, fields, self.context )
         return batch
@@ -212,7 +212,7 @@ class ContainerJSONListing( BrowserView ):
                     d[f] = v.strftime('%F %I:%M %p')
                 elif isinstance( v, datetime.date ):
                     d[f] = v.strftime('%F')
-                    
+                d['object_id'] =   stringKey(n)  
             values.append( d )
         return values
         

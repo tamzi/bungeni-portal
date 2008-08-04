@@ -6,6 +6,8 @@
 
 package org.bungeni.editor.dialogs;
 
+import com.sun.star.comp.helper.Bootstrap;
+import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.uno.XComponentContext;
 import java.awt.Component;
@@ -89,17 +91,22 @@ public class editorApplicationController extends javax.swing.JPanel {
     /**
      * Constructor for editorApplicationController Class
      */
+    /*
     public editorApplicationController() {
         initComponents();
-    }
+    }*/
     
     /**
      * Main constructor for the class, initializes Panels and oOo environment
      * @param context Openoffice component context
      */
-    public editorApplicationController(XComponentContext context) {
+    public editorApplicationController() {
         log.debug("in constructor");
-        m_xContext = context;
+        try {
+            m_xContext = Bootstrap.bootstrap();
+        } catch (BootstrapException ex) {
+           log.error("editorApplicationController bootstrap : " + ex.getMessage());
+        }
         m_FullWorkspacePath = "";
         m_FullTemplatesPath = "";
         m_currentSelectedWorkspaceFile = "";

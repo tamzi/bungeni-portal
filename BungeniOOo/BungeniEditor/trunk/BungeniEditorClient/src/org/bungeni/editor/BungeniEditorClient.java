@@ -24,7 +24,7 @@ import org.bungeni.editor.dialogs.editorApplicationController;
  * @author Administrator
  */
 public class BungeniEditorClient {
-    private static XComponentContext m_xContext;
+ //   private static XComponentContext m_xContext;
     private static String __WINDOW_TITLE__="BungeniEditor Launcher";
     private static JFrame frame;
     /** Creates a new instance of BungeniEditorClient */
@@ -65,7 +65,7 @@ public class BungeniEditorClient {
         };
         frame.addWindowListener(panelListener);
         preLaunch();
-        editorApplicationController panel = new editorApplicationController(m_xContext);
+        editorApplicationController panel = new editorApplicationController();
        // frame.addWindowListener(new org.bungeni.editor.BungeniPanelFrameWindowListener(panel));
         frame.add(panel);
         frame.setSize(615,400);
@@ -94,7 +94,7 @@ public class BungeniEditorClient {
     public static void main(String[] args) {
         try {
             // get the remote office component context
-            m_xContext = Bootstrap.bootstrap();
+           // m_xContext = Bootstrap.bootstrap();
             javax.swing.SwingUtilities.invokeLater(
                         new Runnable() {
                                 public void run() {

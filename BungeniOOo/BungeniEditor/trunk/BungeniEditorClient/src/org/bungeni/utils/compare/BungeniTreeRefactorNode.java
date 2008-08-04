@@ -89,37 +89,6 @@ public class BungeniTreeRefactorNode {
             log.error("doMerge : " + ex.getMessage());
         }
     }
-    /*
-    public void doMerge(){
-        boolean bDeletions = false, bInserts = false, bUpdates = false;
-        try {
-        //create a node comparator object
-        BungeniNodeComparator comp = new BungeniNodeComparator();
-        //compare the nodes and generate the difference maps
-        comp.compareAndDiff(this.getOriginalRootNode(), this.getMergeRootNode());
-        //process deletions
-        //get the map of deleted nodes
-     
-        //System.out.println("view root nodes after deletion");
-        //     viewRootNodes();
-        bDeletions = this.doMergeDeletions(comp);
-        //process the update difference chain
-        //we process each chain as one atomic unit of change
-        //for processing updates we dont use the update map, instead
-        //we use the udpate difference chain since it provides a connected 
-        //chain of changes i.e. if index 1 => 2 and 2 => 3 and 3 => 8 and so on...
-        bUpdates = this.doMergeUpdates(comp);
-        //process insert differences
-        bInserts = this.doMergeInserts(comp);
-        //System.out.println("view root nodes after INSERT");
-        } catch (Exception ex) {
-            log.error("doMerge : for " + originalRootNode + " msg = " + ex.getMessage());
-            log.error("doMerge (states) deletions = " + bDeletions + ", inserts = " + bInserts + " , updates = " + bUpdates);
-        } finally {
-          log.debug("doMerge (states) for " + originalRootNode + " deletions ="+ bDeletions + ", inserts = " + bInserts + " , updates = " + bUpdates);
-        }
-    }
-     */
     
     /**
      * Merges deletions between the original and the merge node
@@ -191,12 +160,10 @@ public class BungeniTreeRefactorNode {
                 try {
 
                     for (DifferenceChain dc : comp.getUpdateDifferenceChain()) {
-                    log.debug("doMergeUpdatesinBungeniTree - processing chain : " + dc);
                     DifferenceChain diffNext = dc;
                     BungeniBNode cachedNode = null;
                     while (diffNext != null ) {
                         //process the first chain
-                        //System.out.println(diffNext);
                         BungeniNodeDifference diff = diffNext.diff;
                         //cache the object at the next index ,
                         //replace the next index with the current index
@@ -220,7 +187,6 @@ public class BungeniTreeRefactorNode {
                         }
                         diffNext = diffNext.nextDifference;
                     }
-                   log.debug("doMergeUpdatesinBungeniTree finished processing chain " + dc);
                     bState = true;
                 }         
 
@@ -273,7 +239,7 @@ public class BungeniTreeRefactorNode {
             TreeMap<Integer,BungeniNodeDifference> diffIns = comp.getDiffMapInsert();
             for (Integer diffnode: diffIns.keySet()) {
                   BungeniNodeDifference n =  diffIns.get(diffnode);
-                  System.out.println(n);
+               //   System.out.println(n);
                   Integer newindex = n.getUpdateFromIndex();
                   BungeniBNode newnode = this.getMergeRootNode().getChildrenByOrder().get(newindex);
                   newnode.setParent(this.getOriginalRootNode());

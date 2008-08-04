@@ -80,10 +80,10 @@ public class BungeniTreeRefactorTree {
         // hierarchies, movement and update is handled only within the same sibling hierarchy,
         // a node moving to a new hierarchy is treated as a deletion from the original, and 
         // a subsequent addition to a different hierarchy
-        log.debug("doMerge : starting for orig : " + getTreeRootNode() + " , merge : " + this.getTreeMergeRootNode());
+       // log.debug("doMerge : starting for orig : " + getTreeRootNode() + " , merge : " + this.getTreeMergeRootNode());
         BungeniTreeRefactorNode nodeRefactor = new BungeniTreeRefactorNode(getDefaultTreeModel(),getTreeRootNode(),getTreeMergeRootNode());
         nodeRefactor.doMerge();
-        log.debug("doMerge : merging children ");
+        //log.debug("doMerge : merging children ");
         doMergeChildren(this.getTreeRootNode(), this.getTreeMergeRootNode());
         log.debug("After doMergeChildren : ");
         //viewDmtNodes(getTreeRootNode());
@@ -103,34 +103,19 @@ public class BungeniTreeRefactorTree {
        //is  created and set into the NodeObject field of the BungeniBNode
        for (Integer nKey : getTreeRootNode().getChildrenByOrder().keySet()) {
            BungeniBNode foundNode = getTreeRootNode().getNodeAtIndex(nKey);
-           /*Object nodeObj = foundNode.getNodeObject();
-           if (nodeObj == null) {
-               DefaultMutableTreeNode dmt = new DefaultMutableTreeNode(foundNode);
-               foundNode.setNodeObject(dmt);
-           }*/
+
            seedTreeWithUITreeNodes(foundNode);         
        }
-       /*
-        log.debug("After seedTreeWithUITreeNodes : ");
-        viewDmtNodes(getTreeRootNode());
-       
-       BungeniBTree tmpTree = new BungeniBTree();
-       tmpTree.addRootNode(treeRootNode);
-       log.debug("doMerge : original tree = " + tmpTree.toString());
-       
-       BungeniBTree tmpCopyTree = new BungeniBTree();
-       tmpCopyTree.addRootNode(this.treeMergeRootNode);
-       log.debug("doMerge : merge tree = " + tmpCopyTree.toString());
-       */
+
       
     }
-
+/*
     private void viewDmtNodes(BungeniBNode nodeRoot ) {
         DefaultMutableTreeNode anode = (DefaultMutableTreeNode) nodeRoot.getNodeObject();
         log.debug("dmt = " + anode.toString() + ", bbnode = " + nodeRoot.toString());
         log.debug(" anode dmt count = " + anode.getChildCount() + " bnode count = " + nodeRoot.getChildCount());
     } 
-    
+  */  
  private void seedTreeWithUITreeNodes(BungeniBNode nodeDMTnodes){
      //recurse children of rootnodes
      try {
@@ -166,9 +151,11 @@ public class BungeniTreeRefactorTree {
         if (getMergeDisplayText())  {
             String root1DispText  = origNode.getDisplayText();
             String root2DispText = mergeNode.getDisplayText();
-            if (!root1DispText.equalsIgnoreCase(root2DispText)) {
-                origNode.setDisplayText(root2DispText);
-            }
+            //added null check to avoid null pointer crash
+            if (root2DispText != null)
+                if (!root1DispText.equalsIgnoreCase(root2DispText)) {
+                    origNode.setDisplayText(root2DispText);
+                }
         }
                                       
         for (String nodeName : origNode.getChildrenByName().keySet()) {
@@ -181,8 +168,13 @@ public class BungeniTreeRefactorTree {
            childnodesRefactor.doMerge();
            doMergeChildren(childOfOriginal, childOfMergeNode);
        }
+       } catch (NullPointerException ex) {
+           log.error("doMergeChildren : "+ex.getMessage());
+           log.error("doMergeChildren : " + CommonExceptionUtils.getStackTrace(ex));
+           
        } catch (Exception ex) {
            log.error("doMergeChildren : "+ex.getMessage());
+           log.error("doMergeChildren : " + CommonExceptionUtils.getStackTrace(ex));
        }
  }
  

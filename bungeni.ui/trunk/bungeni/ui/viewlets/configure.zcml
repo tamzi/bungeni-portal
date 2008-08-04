@@ -216,6 +216,7 @@
     name="bungeni.current.partymembership"   
     manager="bungeni.ui.browser.interfaces.ISubFormViewletManager"
     class=".current.CurrentPartymemberships"
+    for="bungeni.core.interfaces.IMemberOfParliament"
     permission="zope.Public"
     weight="40"
     />

@@ -35,6 +35,8 @@ import com.sun.star.view.*;
  * @author Administrator
  */
 public class ooQueryInterface {
+
+
     
     /** Creates a new instance of ooQueryInterface */
     public ooQueryInterface() {
@@ -324,5 +326,10 @@ public class ooQueryInterface {
 
     public static XStyle XStyle(Object object) {
         return (XStyle) UnoRuntime.queryInterface(XStyle.class, object);
+    }
+    
+    
+    public static XParagraphCursor XParagraphCursor(Object object) {
+        return (XParagraphCursor) UnoRuntime.queryInterface(XParagraphCursor.class, object);
     }
 }

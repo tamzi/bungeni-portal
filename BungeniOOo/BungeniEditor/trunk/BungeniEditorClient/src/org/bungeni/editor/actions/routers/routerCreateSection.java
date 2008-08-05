@@ -9,16 +9,12 @@
 
 package org.bungeni.editor.actions.routers;
 
-import com.sun.star.beans.PropertyVetoException;
-import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.XNamed;
-import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextViewCursor;
-import com.sun.star.uno.AnyConverter;
 import java.util.HashMap;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
@@ -44,6 +40,7 @@ public class routerCreateSection extends defaultRouter {
         
     }
     
+    @Override
     public BungeniValidatorState route_TextSelectedInsert(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) {
      String newSectionName = "";
       newSectionName = get_newSectionNameForAction(action, ooDocument);

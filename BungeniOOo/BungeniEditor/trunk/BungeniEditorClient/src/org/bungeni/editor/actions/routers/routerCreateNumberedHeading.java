@@ -52,7 +52,7 @@ public class routerCreateNumberedHeading extends defaultRouter {
       return new BungeniValidatorState(true, new BungeniMsg("SUCCESS")); 
     }
 
-    private boolean createSection(OOComponentHelper ooDoc, String sectionName) {
+    private static boolean createSection(OOComponentHelper ooDoc, String sectionName) {
       boolean bRet = false;
         try {
         XTextViewCursor xCursor = ooDoc.getViewCursor();
@@ -69,11 +69,11 @@ public class routerCreateNumberedHeading extends defaultRouter {
         
     }
     
-    private void applyStyleToSection(OOComponentHelper ooDoc, String applyStyle) {
+    private static void applyStyleToSection(OOComponentHelper ooDoc, String applyStyle) {
         ooDoc.setSelectedTextStyle(applyStyle);
     }
     
-    private void applySectionMetadata(OOComponentHelper ooDoc, DocumentSection aSection, String sectionName, String sectionUUID) {
+    private static void applySectionMetadata(OOComponentHelper ooDoc, DocumentSection aSection, String sectionName, String sectionUUID) {
         HashMap<String,String> sectionMeta = new HashMap<String,String>();
         sectionMeta.put("BungeniSectionType", NUMBERED_SECTION_TYPE);
         sectionMeta.put("BungeniSectionVisibility", aSection.getSectionVisibilty());
@@ -81,7 +81,7 @@ public class routerCreateNumberedHeading extends defaultRouter {
         ooDoc.setSectionMetadataAttributes(sectionName, sectionMeta);
     }
     
-    private boolean action_markSelectionAsNumbered(OOComponentHelper ooDoc, DocumentSection aSection, String sectionName, String applyStyle, String sectionUUID ){
+    public static boolean action_markSelectionAsNumbered(OOComponentHelper ooDoc, DocumentSection aSection, String sectionName, String applyStyle, String sectionUUID ){
         boolean bResult = false; 
         try {
         //first insert the section

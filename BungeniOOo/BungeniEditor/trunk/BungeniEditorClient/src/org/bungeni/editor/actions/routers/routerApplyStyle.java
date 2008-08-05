@@ -30,6 +30,7 @@ public class routerApplyStyle extends defaultRouter {
         
     }
     
+    @Override
     public BungeniValidatorState route_TextSelectedInsert(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) {
       String styleName = subAction.action_value();
       boolean bState = ooDocument.setSelectedTextStyle(styleName);

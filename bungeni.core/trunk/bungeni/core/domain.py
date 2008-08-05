@@ -178,6 +178,8 @@ class SittingType( object ):
 class GroupSittingAttendance( object ):
     """ a record of attendance at a meeting 
     """
+    sort_on = 'sort_by_name'
+    sort_replace = {'member_id': 'sort_by_name'}
     
 class AttendanceType( object ):
     """

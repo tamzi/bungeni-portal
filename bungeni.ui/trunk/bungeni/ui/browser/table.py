@@ -5,7 +5,7 @@ import container
 from zope.traversing.browser import absoluteURL
 from zope.security import proxy
 from zc.resourcelibrary import need
-
+import pdb
 
 table_js_template ="""
 <script type="text/javascript">
@@ -15,14 +15,14 @@ table_js_template ="""
 
 //
 
-	        this.myCustomFormatter = function(elCell, oRecord, oColumn, oData) { 
+	        this.%(context_name)sCustomFormatter = function(elCell, oRecord, oColumn, oData) { 
 	           var object_id = oRecord.getData("object_id");
 	           elCell.innerHTML = "<a href=\" +  '%(link_url)s/' + object_id + \">" + oData + "</a>"; 
 	           
 	        }; 
 	         
 	        // Add the custom formatter to the shortcuts 
-	        YAHOO.widget.DataTable.Formatter.myCustom = this.myCustomFormatter; 
+	        YAHOO.widget.DataTable.Formatter.%(context_name)sCustom = this.%(context_name)sCustomFormatter; 
 
 //
 
@@ -112,7 +112,7 @@ class ContextDataTableFormatter( BaseDataTableFormatter ):
         for field in self.getFields( ):
             key = field.__name__
             column_model.append(
-                '{key:"%s", label:"%s", formatter:"myCustom", sortable:true}'%( key, field.title )
+                '{key:"%s", label:"%s", formatter:"%sCustom", sortable:true}'%( key, field.title, self.context.__name__ )
                 )
             field_model.append(
                 '{key:"%s"}'%( key )               
@@ -134,6 +134,7 @@ class ContextDataTableFormatter( BaseDataTableFormatter ):
         config['paginator'] = self.paginator
         #config['sort_field'] = self.columns[0].name.replace(' ', '_').lower()
         config['link_url'] = absoluteURL( self.context, self.request ) 
+        config['context_name'] = self.context.__name__
         return config
 
     def renderExtra( self ):

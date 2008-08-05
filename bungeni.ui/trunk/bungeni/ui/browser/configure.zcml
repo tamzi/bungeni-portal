@@ -118,6 +118,17 @@
       permission="zope.View"
       weight="10"
       />      
+      
+ <browser:viewlet
+      name="bungeni.subform.sittingattendance"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.SittingAttendanceViewlet"
+      for="bungeni.core.interfaces.IGroupSitting"
+      permission="zope.View"
+      weight="10"
+      />          
+      
+      
 
       
   <!-- Session Edit Form -->
@@ -500,6 +511,8 @@
       permission="zope.View"
       allowed_interface="zope.formlib.interfaces.ISubPageForm"      
       />      
+    
+    
     
     
   <!-- Member Role Title -->    

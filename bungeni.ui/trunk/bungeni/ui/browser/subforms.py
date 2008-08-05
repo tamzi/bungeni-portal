@@ -93,6 +93,19 @@ class SittingsViewlet( SittingCalendarViewlet ):
 #        self.type_query = session.query(domain.SittingType)
         super( SittingsViewlet, self).__init__(self.context, request, view, manager)
 
+
+class SittingAttendanceViewlet( SubformViewlet ):
+
+
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.attendance                  
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+
+
 class MinistersViewlet( SubformViewlet ):
 
 

@@ -113,7 +113,7 @@ class MarginaliaPage(BrowserPage):
         params.update(self.request)
         params.update(parse_qsl(self.request['QUERY_STRING']))
         if self.request.environment.has_key('wsgi.input'):
-            params.update(parse_qsl(self.request.environment['wsgi.input'].read()))        
+            params.update(parse_qsl(self.request.environment['wsgi.input'].read()))                    
         sequenceRange = SequenceRange(params['sequence-range'])
         xpathRange = XPathRange(params['xpath-range'])
         params['start_block'] = sequenceRange.start.getPaddedPathStr()
@@ -129,6 +129,8 @@ class MarginaliaPage(BrowserPage):
         params['modified'] = datetime.now()
         params['quote_author'] = self.getAuthenticatedUser()
         params['quote_authorid'] = self.getAuthenticatedUserId()
+        if params['quote_authorid'] == 'zope.anybody':
+            params['access'] = 'public'
 
         annotation = AnnotationMaster()
         for key in annotations_table.c.keys():

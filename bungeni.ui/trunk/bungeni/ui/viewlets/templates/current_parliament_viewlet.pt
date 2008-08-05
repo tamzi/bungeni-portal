@@ -40,6 +40,10 @@
           </tr>
         </tbody>  
       </table>
+     <form action="add"
+       tal:attributes="action string:add">
+     <input type="submit" value=" Add " />
+  </form>
     </div>
 </div>
 

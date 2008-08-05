@@ -7,7 +7,7 @@ from zope.formlib import form
 from zope import schema
 from zope.publisher.browser import BrowserView
 import simplejson
-
+import sqlalchemy.sql.expression as sql
 
 from ore.alchemist.model import queryModelDescriptor, queryModelInterface
 import alchemist.ui.container
@@ -134,21 +134,41 @@ class ContainerJSONListing( BrowserView ):
     """
     paging, batching, sorting, json contents of a container
     """
+    
+    def appendSort( self, sort_key, columns):
+        if sort_key and ( sort_key in columns ):
+            column = domain_model.c[sort_key]
+            return column
+        
 
     def getSort( self ):
         """ server side sort,
         @web_parameter sort - request variable for sort column
         @web_parameter dir  - direction of the sort, only once acceptable value 'desc'
         """
+        columns = []
+        default_sort = None
         sort_key, sort_dir = self.request.get('sort'), self.request.get('dir')
         domain_model = proxy.removeSecurityProxy( self.context.domain_model )
+        if getattr(domain_model,'sort_replace',None):            
+            if sort_key in domain_model.sort_replace.keys():
+                sort_key = domain_model.sort_replace[sort_key]                           
         # get sort in sqlalchemy form
         if sort_key and ( sort_key in domain_model.c ):
-            column = domain_model.c[sort_key]
+            #column = domain_model.c[sort_key]
             if sort_dir == 'desc':
-                return column.desc()
-            return column
-        return None
+                columns.append( sql.desc(sort_key) )
+            else:
+                columns.append( sort_key )
+        if getattr(domain_model,'sort_on',None):
+            if domain_model.sort_on in domain_model.c and domain_model.sort_on != sort_key:
+                default_sort = domain_model.sort_on
+                columns.append( default_sort )
+        if getattr(domain_model,'short_name',None):            
+            if 'short_name' in domain_model.c and 'short_name' != sort_key and 'short_name' != default_sort:
+                columns.append('short_name')
+                        
+        return columns
     
     def getOffsets( self ):
         nodes = []

@@ -554,9 +554,6 @@ class PoliticalPartyDescriptor( GroupDescriptor ):
      ])
           
      
-#        view_widget=image.ImageWidget,
-#        add_widget=image.ImageWidget,
-#        edit_widget=image.ImageWidget
 
      
     schema_invariants = [EndAfterStart]

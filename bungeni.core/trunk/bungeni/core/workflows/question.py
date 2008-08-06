@@ -23,6 +23,7 @@ class states:
     scheduled =_(u"scheduled")
     deferred = _(u"deferred")
     postponed =_(u"postponed")
+    responded = _(u"responded")
     answered =_(u"answered")
     
 
@@ -135,12 +136,26 @@ def create_question_workflow( ):
     #Questions when “admissible” are made available for “scheduling”
     #Questions with the “require a Written response” flag do not appear as questions available for scheduling.
 
+
+
+
     add( workflow.Transition(
         transition_id = 'schedule',
         title=_(u'Schedule'),
         #trigger = iworkflow. , #triggered by scheduling ?        
         source = states.admissible,
         destination = states.scheduled,
+        permission = 'bungeni.question.schedule',        
+        ) )         
+    
+    # questions which are flagged as “requiring written response” are never scheduled,
+    # but are answered directly by the ministry 
+
+    add( workflow.Transition(
+        transition_id = 'respond-writing',
+        title=_(u'Respond'),
+        source = states.admissible,
+        destination = states.responded,
         permission = 'bungeni.question.schedule',        
         ) )         
     
@@ -181,11 +196,11 @@ def create_question_workflow( ):
         ) )      
         
     add( workflow.Transition(
-        transition_id = 'answer',
-        title=_(u'Answer'),
+        transition_id = 'respond-sitting',
+        title=_(u'Respond'),
         source = states.scheduled,
-        destination = states.answered,
-        permission = 'bungeni.question.schedule',        
+        destination = states.responded,
+        permission = 'bungeni.question.respond',        
         ) )      
         
     # postponed questions are rescheduled
@@ -198,6 +213,15 @@ def create_question_workflow( ):
         permission = 'bungeni.question.schedule',        
         ) )      
 
+    #The response is sent to the Clerk's office, before being sent to the MP.
+    #XXX come up with something better than answered
+    add( workflow.Transition(
+        transition_id = 'answer',
+        title=_(u'Answer'),
+        source = states.responded,
+        destination = states.answered,
+        permission = 'bungeni.question.answer',        
+        ) )       
 
 
     return transitions

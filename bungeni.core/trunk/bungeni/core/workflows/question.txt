@@ -174,7 +174,16 @@ Appove the question
   >>> result = IWorkflowInfo(question).fireTransition('approve')  
   
   >>> transitions(question)
-  ('defer', 'schedule')
+  ('defer', 'respond-writing', 'schedule')
+
+A written response to the question
+
+  >>> question_written_response = copy.deepcopy(question)
+
+  >>> result = IWorkflowInfo(question_written_response).fireTransition('respond-writing')  
+  
+  >>> transitions(question_written_response)
+  ('answer',)  
 
 defer the question
 
@@ -186,14 +195,14 @@ defer the question
 
   >>> result = IWorkflowInfo(question_defer).fireTransition('schedule-deferred')   
   >>> transitions(question_defer)     
-  ('answer', 'postpone')
+  ('postpone', 'respond-sitting')
 
 schedule the question
 
   >>> result = IWorkflowInfo(question).fireTransition('schedule')  
   
   >>> transitions(question)
-  ('answer', 'postpone')
+  ('postpone', 'respond-sitting')
 
 postpone the question
   
@@ -206,15 +215,20 @@ and reschedule it
   >>> result = IWorkflowInfo(question).fireTransition('schedule-postponed')  
   
   >>> transitions(question)
-  ('answer', 'postpone')
+  ('postpone', 'respond-sitting')
 
 
-answer the question
+respond to the question
 
-  >>> result = IWorkflowInfo(question).fireTransition('answer')  
+  >>> result = IWorkflowInfo(question).fireTransition('respond-sitting')  
   >>> transitions(question)
-  ()
-      
+  ('answer',)
+
+the question gets marked as answered
+
+ >>> result = IWorkflowInfo(question).fireTransition('answer')  
+  >>> transitions(question)
+  ()      
 
   
 Transition events check

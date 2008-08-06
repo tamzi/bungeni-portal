@@ -19,6 +19,8 @@ import interfaces
 
 logger = logging.getLogger('bungeni.core')
 
+
+
 #####
 
 def object_hierarchy_type( object ):
@@ -85,10 +87,20 @@ class ParliamentMember( User ):
     # committees
 
     # ministries
-    sort_on = 'sort_by_name'    
+    
     addresses = one2many( "addresses", "bungeni.core.domain.UserAddressContainer", "user_id" )
-    #party = one2many( "parties", "bungeni.core.domain.MemberOfPartyContainer", "user_id" )
+    sort_on = 'sort_by_name'
     sort_replace = {'user_id': 'sort_by_name'}
+    
+#
+# sort_on is the column the query is sorted on by default
+# sort_replace is a dictionary that maps one column to another
+# so when the key is requested in a sort the value gets sorted
+# eg: {'user_id':'sort_name'} when the sort on user_id is requested the 
+# query gets sorted by sort_name
+#
+
+    
 class Person( User ):
     """
     general representation of a person
@@ -108,7 +120,7 @@ class MemberOfParliament ( Entity ):
     defined by groupmembership and aditional data
     """    
     sort_on = 'sort_by_name'
-    sort_replace = {'user_id': 'sort_by_name'}    
+    sort_replace = {'user_id': 'sort_by_name', 'constituency_id':'constituency'}    
     titles = one2many( "titles", "bungeni.core.domain.MemberRoleTitleContainer", "membership_id" )
     party = one2many( "party", "bungeni.core.domain.MemberOfPartyContainer", "membership_id" )
 
@@ -162,10 +174,10 @@ class GroupSitting( Entity ):
     attendance = one2many( "attendance", "bungeni.core.domain.GroupSittingAttendanceContainer", "sitting_id" )
     #XXX
     #hack for Cairo demo
-    bills = one2many( "bills", "bungeni.core.domain.BillContainer", "sitting_id" )
-    questions = one2many( "questions", "bungeni.core.domain.QuestionContainer", "sitting_id" )
-    motions = one2many( "motions", "bungeni.core.domain.MotionContainer", "sitting_id" )
-    debates = one2many( "debates", "bungeni.core.domain.DebateContainer", "sitting_id" )
+    #bills = one2many( "bills", "bungeni.core.domain.BillContainer", "sitting_id" )
+    #questions = one2many( "questions", "bungeni.core.domain.QuestionContainer", "sitting_id" )
+    #motions = one2many( "motions", "bungeni.core.domain.MotionContainer", "sitting_id" )
+    #debates = one2many( "debates", "bungeni.core.domain.DebateContainer", "sitting_id" )
     
     @property
     def short_name( self ):

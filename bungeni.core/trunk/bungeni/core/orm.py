@@ -182,7 +182,7 @@ mapper ( domain.MemberOfParliament , _mp,
                              schema.user_group_memberships.c.user_id==schema.users.c.user_id
                                     ).label('sort_by_name')
                                            ),
-            'image' :  column_property(
+            'image' :  column_property( 
                              rdb.sql.select(
                              [(schema.users.c.image)],
                              schema.user_group_memberships.c.user_id==schema.users.c.user_id

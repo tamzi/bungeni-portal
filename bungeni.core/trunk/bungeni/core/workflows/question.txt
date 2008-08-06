@@ -9,6 +9,7 @@ Setup
   >>> import bungeni.core.workflows.question
   >>> import bungeni.core.interfaces
   >>> import ore.workflow
+  >>> import copy
   
   >>> component.provideAdapter(
   ...    bungeni.core.workflows.WorkflowState,
@@ -102,14 +103,126 @@ Submitted:
 
   >>> IWorkflowInfo(question).fireTransition('received-by-clerk')
 
+
 Received:
 
   >>> transitions(question)
-  ()
+  ('require-edit-by-mp', 'complete')
+  
+  >>> result = IWorkflowInfo(question).fireTransition('require-edit-by-mp')
+  
+this sets it back to draft and it must be submitted again  
 
+  >>> transitions(question)
+  ('submit-to-clerk',)
+    
+  >>> result = IWorkflowInfo(question).fireTransition('submit-to-clerk')
+  
+versioned again
+  
+  >>> len(list(versions.values()))
+  2    
+    
+  >>> IWorkflowInfo(question).fireTransition('received-by-clerk')
+    
+complete the question
+
+  >>> result = IWorkflowInfo(question).fireTransition('complete')  
+  
+The speakers office now has to review the question
+
+  >>> transitions(question)
+  ('approve', 'require-amendment', 'reject')
+
+Reject the question
+
+  >>> question_reject = copy.deepcopy(question)
+  >>> transitions(question_reject)
+  ('approve', 'require-amendment', 'reject')
+
+  >>> result = IWorkflowInfo(question_reject).fireTransition('reject') 
+
+  >>> transitions(question_reject)
+  ()     
+
+If the questions requires amendment it is sent back to the owner
+and has to be resubmitted 
+
+  >>> transitions(question)
+  ('approve', 'require-amendment', 'reject')
+
+  >>> question_amend = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_amend).fireTransition('require-amendment')   
+  
+it gets versioned before amendment
+  >>> len(list(versions.values()))
+  3  
+  
+  >>> transitions(question_amend)
+  ('resubmit-clerk',)
+
+  >>> result = IWorkflowInfo(question_amend).fireTransition('resubmit-clerk')  
+
+  >>> transitions(question_amend)   
+  ('received-by-clerk',)
+  
+Appove the question
+
+  >>> transitions(question)
+  ('approve', 'require-amendment', 'reject')
+
+  >>> result = IWorkflowInfo(question).fireTransition('approve')  
+  
+  >>> transitions(question)
+  ('defer', 'schedule')
+
+defer the question
+
+  >>> question_defer = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_defer).fireTransition('defer')   
+  
+  >>> transitions(question_defer)     
+  ('schedule-deferred',)
+
+  >>> result = IWorkflowInfo(question_defer).fireTransition('schedule-deferred')   
+  >>> transitions(question_defer)     
+  ('answer', 'postpone')
+
+schedule the question
+
+  >>> result = IWorkflowInfo(question).fireTransition('schedule')  
+  
+  >>> transitions(question)
+  ('answer', 'postpone')
+
+postpone the question
+  
+  >>> result = IWorkflowInfo(question).fireTransition('postpone')  
+  >>> transitions(question)
+  ('schedule-postponed',)
+
+and reschedule it
+
+  >>> result = IWorkflowInfo(question).fireTransition('schedule-postponed')  
+  
+  >>> transitions(question)
+  ('answer', 'postpone')
+
+
+answer the question
+
+  >>> result = IWorkflowInfo(question).fireTransition('answer')  
+  >>> transitions(question)
+  ()
+      
+
+  
 Transition events check
 -----------------------
 
   >>> print check_transition_events
   {(u'submitted', u'received'): True,
    (u'draft', u'submitted'): True}
+
+
+

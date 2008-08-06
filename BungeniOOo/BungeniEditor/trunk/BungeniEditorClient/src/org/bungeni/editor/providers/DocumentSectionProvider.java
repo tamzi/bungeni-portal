@@ -167,6 +167,20 @@ public class DocumentSectionProvider {
        //s initTimer();
     }
     
+    private static final ArrayList<String> excludeTheseSections = new ArrayList<String>(){
+        {
+            add("num_");
+        }
+    };
+    
+    private static boolean inSectionExclusions(String checkSection){
+        for (String secName : excludeTheseSections) {
+           if (checkSection.startsWith(secName)) {
+               return true;
+           }
+        }
+        return false;
+    }
 
       private static BungeniBTree generateSectionsTree(String objCallback){
         BungeniBTree treeRoot = new BungeniBTree();
@@ -229,12 +243,15 @@ public class DocumentSectionProvider {
                                   */ 
                                  if (!sectionName.equals(documentRoot)) {
                                      log.debug("generateSectionsTree: Found Section :"+ sectionName);
-                                      /*
-                                      *check if the node exists in the tree
-                                      */
-                                      if (!namesMap.containsValue(sectionName)) {
-                                                namesMap.put(currentIndex++, sectionName);
-                                      }
+                                     //if section is among exclusions don't add to the names map
+                                     if (inSectionExclusions(sectionName) == false) {
+                                          /*
+                                          *check if the node exists in the tree
+                                          */
+                                          if (!namesMap.containsValue(sectionName)) {
+                                                    namesMap.put(currentIndex++, sectionName);
+                                          }
+                                     }
                                  } // if (!sectionName...)     
                              } // if (xConSection !=...)
                          } // if (objPropsInfo.hasProper....)

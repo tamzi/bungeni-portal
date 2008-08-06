@@ -150,12 +150,15 @@ public class BungeniTreeRefactorTree {
         //set the new display text from the merged node.
         if (getMergeDisplayText())  {
             String root1DispText  = origNode.getDisplayText();
-            String root2DispText = mergeNode.getDisplayText();
-            //added null check to avoid null pointer crash
-            if (root2DispText != null)
-                if (!root1DispText.equalsIgnoreCase(root2DispText)) {
-                    origNode.setDisplayText(root2DispText);
-                }
+            if (mergeNode != null) {
+                String root2DispText = mergeNode.getDisplayText();
+                //added null check to avoid null pointer crash
+                if (root2DispText != null)
+                    if (!root1DispText.equalsIgnoreCase(root2DispText)) {
+                        origNode.setDisplayText(root2DispText);
+                    }
+            } else
+                log.debug("doMergeChildren : mergeNode was null");
         }
                                       
         for (String nodeName : origNode.getChildrenByName().keySet()) {

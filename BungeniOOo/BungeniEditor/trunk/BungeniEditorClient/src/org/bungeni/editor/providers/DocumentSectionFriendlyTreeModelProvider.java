@@ -114,18 +114,30 @@ public class DocumentSectionFriendlyTreeModelProvider {
         }
     }
     
+    
+    private static boolean excludeNode(BungeniBNode aNode) {
+        if (aNode.getName().startsWith("num_")) {
+            return true;
+        }
+        return false;
+    }
         private static void recurseNodes(DefaultMutableTreeNode theNode) {
         BungeniBNode theBNode = (BungeniBNode) theNode.getUserObject();
+        if (excludeNode(theBNode)) { //ignore numbered sections
+            return;
+        }
         if (theBNode.hasChildren()) {
             TreeMap<Integer, BungeniBNode> children = theBNode.getChildrenByOrder();
             Iterator<Integer> childIterator = children.keySet().iterator();
             while (childIterator.hasNext()) {
                 Integer nodeKey = childIterator.next();
                 BungeniBNode childNode  = children.get(nodeKey);
-                DefaultMutableTreeNode dmtChildNode = new DefaultMutableTreeNode( childNode);
-                childNode.setNodeObject(dmtChildNode);
-                recurseNodes(dmtChildNode);
-                theNode.add(dmtChildNode );
+                if (!excludeNode(childNode)) {
+                    DefaultMutableTreeNode dmtChildNode = new DefaultMutableTreeNode( childNode);
+                    childNode.setNodeObject(dmtChildNode);
+                    recurseNodes(dmtChildNode);
+                    theNode.add(dmtChildNode );
+                }
             }
         }
     }

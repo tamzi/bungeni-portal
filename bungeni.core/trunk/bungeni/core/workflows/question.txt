@@ -206,7 +206,7 @@ and has to be resubmitted
   >>> question_amend = copy.deepcopy(question)
   >>> result = IWorkflowInfo(question_amend).fireTransition('require-amendment')   
   
-it gets versioned after amendment
+it gets versioned before amendment
   >>> len(list(versions.values()))
   3  
   

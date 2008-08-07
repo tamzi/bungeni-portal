@@ -19,12 +19,13 @@ class states:
     complete = _(u"complete")
     admissible = _(u"admissible")
     inadmissible = _(u"inadmissible")
-    requires_amendment =_(u"requires_amendment")
+    requires_amend =_(u"requires_amend")
     scheduled =_(u"scheduled")
     deferred = _(u"deferred")
     postponed =_(u"postponed")
     responded = _(u"responded")
     answered =_(u"answered")
+    withdrawn =_(u"withdrawn")
     
 
 def create_question_workflow( ):
@@ -65,12 +66,23 @@ def create_question_workflow( ):
 
     add( workflow.Transition(
         transition_id = 'require-edit-by-mp',
-        title=_(u'Requires editing by MP'),
+        title=_(u'Needs Clarification by MP'),
         source = states.received,
         destination = states.draft,
         permission = 'bungeni.question.clerk.review',        
         ) )   
+    # the clerks office can reject a question directly
 
+    add( workflow.Transition(
+        transition_id = 'clerk-reject',
+        title=_(u'Reject'),
+        source = states.received,
+        destination = states.inadmissible,
+        permission = 'bungeni.question.clerk.review',        
+        ) ) 
+
+
+    
     #After the Clerk's Office is through with the Notices reviews and there are satisfied 
     #that the Questions have all the formal requirements – the question is marked as “complete” 
     #and is made available / forwarded to the Speaker's Office for reviewing and to make it 
@@ -116,7 +128,7 @@ def create_question_workflow( ):
         title=_(u'Requires Amendment'),
         source = states.complete,
         action = utils.createVersion,        
-        destination = states.requires_amendment,
+        destination = states.requires_amend,
         permission = 'bungeni.question.speaker.review',        
         ) )                    
     
@@ -124,9 +136,9 @@ def create_question_workflow( ):
     
     add( workflow.Transition(
         transition_id = 'resubmit-clerk',
-        title=_(u'Resubmit to Clerk'),
-        source = states.requires_amendment,
-#        action = utils.createVersion,
+        title=_(u'Resubmit to clerk'),
+        source = states.requires_amend,
+        action = utils.createVersion,
         destination = states.submitted,
         permission = 'bungeni.question.Submit',       
         ) )          
@@ -223,7 +235,76 @@ def create_question_workflow( ):
         permission = 'bungeni.question.answer',        
         ) )       
 
+    #the MP can withdraw his question at (almost) any stage
+    #i.e the stages where it can still be presented to the 
+    # ministry/house
 
+    add( workflow.Transition(
+        transition_id = 'withdraw-draft',
+        title=_(u'Withdraw'),
+        source = states.draft,
+        destination = states.withdrawn,
+        permission = 'bungeni.question.withdraw',        
+        ) )  
+
+    add( workflow.Transition(
+        transition_id = 'withdraw-submitted',
+        title=_(u'Withdraw'),
+        source = states.submitted,
+        destination = states.withdrawn,
+        permission = 'bungeni.question.withdraw',        
+        ) )   
+
+    add( workflow.Transition(
+        transition_id = 'withdraw-received',
+        title=_(u'Withdraw'),
+        source = states.received,
+        destination = states.withdrawn,
+        permission = 'bungeni.question.withdraw',        
+        ) )   
+    add( workflow.Transition(
+        transition_id = 'withdraw-complete',
+        title=_(u'Withdraw'),
+        source = states.complete,
+        destination = states.withdrawn,
+        permission = 'bungeni.question.withdraw',        
+        ) )   
+    add( workflow.Transition(
+        transition_id = 'withdraw-admissible',
+        title=_(u'Withdraw'),
+        source = states.admissible,
+        destination = states.withdrawn,
+        permission = 'bungeni.question.withdraw',        
+        ) )   
+    add( workflow.Transition(
+        transition_id = 'withdraw-amend',
+        title=_(u'Withdraw'),
+        source = states.requires_amend,
+        destination = states.withdrawn,
+        permission = 'bungeni.question.withdraw',        
+        ) )                           
+    add( workflow.Transition(
+        transition_id = 'withdraw-scheduled',
+        title=_(u'Withdraw'),
+        source = states.scheduled,
+        destination = states.withdrawn,
+        permission = 'bungeni.question.withdraw',        
+        ) )   
+    add( workflow.Transition(
+        transition_id = 'withdraw-deferred',
+        title=_(u'Withdraw'),
+        source = states.deferred,
+        destination = states.withdrawn,
+        permission = 'bungeni.question.withdraw',        
+        ) )   
+    add( workflow.Transition(
+        transition_id = 'withdraw-postponed',
+        title=_(u'Withdraw'),
+        source = states.postponed,
+        destination = states.withdrawn,
+        permission = 'bungeni.question.withdraw',        
+        ) )   
+                
     return transitions
 
 workflow_transition_event_map = {

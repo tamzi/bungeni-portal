@@ -71,7 +71,20 @@ First we initialize the workflow.
 The question is now in a draft state.
 
   >>> transitions(question)
-  ('submit-to-clerk',)
+  ('submit-to-clerk', 'withdraw-draft')
+  
+
+A question can be withdrawn at (almost) any stage  
+  
+  >>> question_withdraw = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-draft')   
+
+  >>> question_withdraw.status
+  u'withdrawn'
+  
+  >>> transitions(question_withdraw)
+  ()    
+
 
 When we submit the question, a new version is created.
   
@@ -99,7 +112,15 @@ Let's examine the version.
 Submitted:
 
   >>> transitions(question)
-  ('received-by-clerk',)
+  ('withdraw-submitted', 'received-by-clerk')
+
+A question can be withdrawn at (almost) any stage  
+  
+  >>> question_withdraw = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-submitted')   
+
+  >>> question_withdraw.status
+  u'withdrawn'  
 
   >>> IWorkflowInfo(question).fireTransition('received-by-clerk')
 
@@ -107,14 +128,35 @@ Submitted:
 Received:
 
   >>> transitions(question)
-  ('require-edit-by-mp', 'complete')
+  ('require-edit-by-mp', 'withdraw-received', 'clerk-reject', 'complete')
+
+A question can be withdrawn at (almost) any stage  
+  
+  >>> question_withdraw = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-received')   
+
+  >>> question_withdraw.status
+  u'withdrawn'  
+  
+the clerk can directly reject a question:
+
+  >>> question_reject = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_reject).fireTransition('clerk-reject')   
+
+  >>> question_reject.status
+  u'inadmissible'
+  
+  >>> transitions(question_reject)
+  ()  
+  
+If it needs clarification this sets it back to draft and it must be submitted again  
   
   >>> result = IWorkflowInfo(question).fireTransition('require-edit-by-mp')
   
-this sets it back to draft and it must be submitted again  
 
   >>> transitions(question)
-  ('submit-to-clerk',)
+  ('submit-to-clerk', 'withdraw-draft')
+
     
   >>> result = IWorkflowInfo(question).fireTransition('submit-to-clerk')
   
@@ -128,17 +170,27 @@ versioned again
 complete the question
 
   >>> result = IWorkflowInfo(question).fireTransition('complete')  
+    
   
 The speakers office now has to review the question
 
   >>> transitions(question)
-  ('approve', 'require-amendment', 'reject')
+  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
+
+A question can be withdrawn at (almost) any stage  
+  
+  >>> question_withdraw = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-complete')   
+
+  >>> question_withdraw.status
+  u'withdrawn'
+
 
 Reject the question
 
   >>> question_reject = copy.deepcopy(question)
   >>> transitions(question_reject)
-  ('approve', 'require-amendment', 'reject')
+  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
 
   >>> result = IWorkflowInfo(question_reject).fireTransition('reject') 
 
@@ -149,32 +201,60 @@ If the questions requires amendment it is sent back to the owner
 and has to be resubmitted 
 
   >>> transitions(question)
-  ('approve', 'require-amendment', 'reject')
+  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
 
   >>> question_amend = copy.deepcopy(question)
   >>> result = IWorkflowInfo(question_amend).fireTransition('require-amendment')   
   
-it gets versioned before amendment
+it gets versioned after amendment
   >>> len(list(versions.values()))
   3  
   
   >>> transitions(question_amend)
-  ('resubmit-clerk',)
+  ('resubmit-clerk', 'withdraw-amend')
+
+A question can be withdrawn at (almost) any stage  
+  
+  >>> question_withdraw = copy.deepcopy(question_amend)
+  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-amend')   
+
+  >>> question_withdraw.status
+  u'withdrawn'
+
 
   >>> result = IWorkflowInfo(question_amend).fireTransition('resubmit-clerk')  
 
+it gets versioned by resubmitting after amendment
+  >>> len(list(versions.values()))
+  4
+
   >>> transitions(question_amend)   
-  ('received-by-clerk',)
+  ('withdraw-submitted', 'received-by-clerk')
+
+clerks recieves it
+
+  >>> result = IWorkflowInfo(question_amend).fireTransition('received-by-clerk')  
+
+
   
 Appove the question
 
   >>> transitions(question)
-  ('approve', 'require-amendment', 'reject')
+  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
 
   >>> result = IWorkflowInfo(question).fireTransition('approve')  
   
   >>> transitions(question)
-  ('defer', 'respond-writing', 'schedule')
+  ('defer', 'respond-writing', 'withdraw-admissible', 'schedule')
+
+A question can be withdrawn at (almost) any stage  
+  
+  >>> question_withdraw = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-admissible')   
+
+  >>> question_withdraw.status
+  u'withdrawn'
+
 
 A written response to the question
 
@@ -191,31 +271,55 @@ defer the question
   >>> result = IWorkflowInfo(question_defer).fireTransition('defer')   
   
   >>> transitions(question_defer)     
-  ('schedule-deferred',)
+  ('schedule-deferred', 'withdraw-deferred')
+
+A question can be withdrawn at (almost) any stage  
+  
+  >>> question_withdraw = copy.deepcopy(question_defer)
+  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-deferred')   
+
+  >>> question_withdraw.status
+  u'withdrawn'  
 
   >>> result = IWorkflowInfo(question_defer).fireTransition('schedule-deferred')   
   >>> transitions(question_defer)     
-  ('postpone', 'respond-sitting')
+  ('postpone', 'withdraw-scheduled', 'respond-sitting')
 
 schedule the question
 
   >>> result = IWorkflowInfo(question).fireTransition('schedule')  
   
   >>> transitions(question)
-  ('postpone', 'respond-sitting')
+  ('postpone', 'withdraw-scheduled', 'respond-sitting')
+
+A question can be withdrawn at (almost) any stage  
+  
+  >>> question_withdraw = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-scheduled')   
+
+  >>> question_withdraw.status
+  u'withdrawn'
 
 postpone the question
   
   >>> result = IWorkflowInfo(question).fireTransition('postpone')  
   >>> transitions(question)
-  ('schedule-postponed',)
+  ('schedule-postponed', 'withdraw-postponed')
+
+A question can be withdrawn at (almost) any stage  
+  
+  >>> question_withdraw = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-postponed')   
+
+  >>> question_withdraw.status
+  u'withdrawn'
 
 and reschedule it
 
   >>> result = IWorkflowInfo(question).fireTransition('schedule-postponed')  
   
   >>> transitions(question)
-  ('postpone', 'respond-sitting')
+  ('postpone', 'withdraw-scheduled', 'respond-sitting')
 
 
 respond to the question

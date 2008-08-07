@@ -15,11 +15,11 @@ class AttributesEditViewlet( alchemist.ui.core.DynamicFields, alchemist.ui.viewl
     template = NamedTemplate('alchemist.subform')
     form_name = _(u"General")
     
-class AttributesViewViewlet( alchemist.ui.core.DynamicFields, alchemist.ui.viewlet.DisplayFormViewlet ):
+#class AttributesViewViewlet( alchemist.ui.core.DynamicFields, alchemist.ui.viewlet.DisplayFormViewlet ):
 
-    mode = "view"
-    template = NamedTemplate('alchemist.subform')    
-    form_name = _(u"General")
+#    mode = "view"
+#    template = NamedTemplate('alchemist.subform')    
+#    form_name = _(u"General")
     
 class SubFormViewletManager( manager.WeightOrderedViewletManager ):
     """

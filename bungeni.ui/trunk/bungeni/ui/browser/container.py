@@ -19,7 +19,7 @@ from zope.traversing.browser import absoluteURL
 from bungeni.core.i18n import _
 from bungeni.ui.utils import getDisplayDate, getFilter
 
-import pdb
+
 
 def dateFilter( request ):
     filter_by = ''
@@ -124,7 +124,6 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
         
     @form.action(_(u"Add") )
     def handle_add( self, action, data ):
-        #p1 = getFullPath(self.context)
         path = absoluteURL( self.context, self.request ) 
         addurl = '%s/add' %( path ) 
         self.request.response.redirect(addurl)
@@ -150,9 +149,11 @@ class ContainerJSONListing( BrowserView ):
         default_sort = None
         sort_key, sort_dir = self.request.get('sort'), self.request.get('dir')
         domain_model = proxy.removeSecurityProxy( self.context.domain_model )
+        # in the domain model you may replace the sort with another column
         if getattr(domain_model,'sort_replace',None):            
             if sort_key in domain_model.sort_replace.keys():
-                sort_key = domain_model.sort_replace[sort_key]                           
+                sort_key = domain_model.sort_replace[sort_key] 
+                #pdb.set_trace()                          
         # get sort in sqlalchemy form
         if sort_key and ( sort_key in domain_model.c ):
             #column = domain_model.c[sort_key]
@@ -162,10 +163,12 @@ class ContainerJSONListing( BrowserView ):
                 columns.append( sort_key )
         if getattr(domain_model,'sort_on',None):
             if domain_model.sort_on in domain_model.c and domain_model.sort_on != sort_key:
+                # if a default sort is defined append it here (this will also serve as secondary sort)
                 default_sort = domain_model.sort_on
                 columns.append( default_sort )
         if getattr(domain_model,'short_name',None):            
             if 'short_name' in domain_model.c and 'short_name' != sort_key and 'short_name' != default_sort:
+                # last if it has a short name sort by that
                 columns.append('short_name')
                         
         return columns
@@ -188,6 +191,7 @@ class ContainerJSONListing( BrowserView ):
         filter_by = dateFilter( self.request )
         if filter_by:  
             if 'start_date' in  context._class.c and 'end_date' in  context._class.c :                 
+                # apply date range resrictions
                 query=query.filter(filter_by)
         query = query.limit( limit ).offset( start )                
         if order_by:
@@ -208,8 +212,6 @@ class ContainerJSONListing( BrowserView ):
         set of adapters.
         """
         values = []
-        #domain_annotation.fields[0].listing_column.getter()
-
         domain_model = proxy.removeSecurityProxy( context.domain_model )
         domain_interface = queryModelInterface( domain_model )
         domain_annotation = queryModelDescriptor( domain_interface )

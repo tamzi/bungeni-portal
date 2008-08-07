@@ -83,4 +83,4 @@ class WorkflowMenu(BrowserMenu):
                      extra=extra,
                      submenu=None))
                      
-            return results
+        return results

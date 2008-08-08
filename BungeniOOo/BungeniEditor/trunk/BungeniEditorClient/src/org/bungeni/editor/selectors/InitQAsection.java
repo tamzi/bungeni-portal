@@ -7,32 +7,13 @@
 package org.bungeni.editor.selectors;
 
 import java.awt.Component;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.Vector;
-import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
-import org.bungeni.db.BungeniClientDB;
-import org.bungeni.db.BungeniRegistryFactory;
-import org.bungeni.db.DefaultInstanceFactory;
-import org.bungeni.db.GeneralQueryFactory;
-import org.bungeni.db.QueryResults;
-import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.db.registryQueryDialog;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.editor.fragments.FragmentsFactory;
-import org.bungeni.editor.macro.ExternalMacro;
-import org.bungeni.editor.macro.ExternalMacroFactory;
 import org.bungeni.ooo.OOComponentHelper;
-import org.bungeni.utils.MessageBox;
-import org.safehaus.uuid.UUID;
-import org.safehaus.uuid.UUIDGenerator;
 
 /**
  *

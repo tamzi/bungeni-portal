@@ -6,13 +6,9 @@
 
 package org.bungeni.editor.selectors;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import javax.swing.JDialog;
 import javax.swing.WindowConstants;
-import org.bungeni.editor.actions.toolbarAction;
-import org.bungeni.ooo.OOComponentHelper;
 
 /**
  *

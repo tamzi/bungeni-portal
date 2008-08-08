@@ -106,8 +106,8 @@ public class BungeniToolbarConditionProcessor {
                     bFoundBracketEval = evaluateCondition(sFoundBracket);
                 }
                 sFlattenedCondition.append(" "+Boolean.toString(bFoundBracketEval)+ " ");
-                System.out.println(sFoundBracket);
-                System.out.println("Non-Bracket Groups : ");
+               // System.out.println(sFoundBracket);
+               // System.out.println("Non-Bracket Groups : ");
 
                 //do a forward lookup...to find the gap text between this bracket and the next
                 //bracket group
@@ -143,7 +143,6 @@ public class BungeniToolbarConditionProcessor {
        boolean bReturn = false;
        
        ArrayList<bracketGroup> bg = new ArrayList<bracketGroup>();
-       //Pattern p = Pattern.compile ("\\{([^\\{\\}]|\\{[^\\{\\}]*\\})*\\}");
        bg = findMatchingBracketGroups(condition);
 
        if (bg.size() > 0) {
@@ -152,46 +151,7 @@ public class BungeniToolbarConditionProcessor {
        } else {
             bReturn = evaluateCondition(condition);
        }
-       
-       /*
-       if (bg.size() > 0) {
-            for (int i=0; i < bg.size(); i++) {
-                System.out.println("Bracket Groups : ");
-                String sFoundBracket = conditionValue.substring(bg.get(i).start+1, bg.get(i).end-1).trim();
-                System.out.println(sFoundBracket);
-                System.out.println("Non-Bracket Groups : ");
-
-                //do a forward lookup...to find the gap text between this bracket and the next
-                //bracket group
-                String sPostBracketText = "", sPreBracketText = "";
-                if (i+1 < bg.size()) { //if there are more bracket groups to iterate
-                    int forward_i = i+1;
-                    int nextStart = bg.get(forward_i).start;
-                    int currentEnd = bg.get(i).end;
-                    sPostBracketText = conditionValue.substring(currentEnd+1, nextStart -1 ).trim();
-                    if (i== 0) {
-                        //get non bracket group before bracket also
-                        int currentStart = bg.get(i).start;
-                        if (currentStart != 0) {
-                            sPreBracketText = conditionValue.substring(0, currentStart -1).trim();
-                        }
-                    }
-                    System.out.println("postBracket = " + sPostBracketText);
-                } else { //if there are no more bracket groups to iterate
-                    int currentEnd = bg.get(i).end;
-                    int eofStr = conditionValue.length();
-                    if (currentEnd != eofStr) {
-                        String snBg = conditionValue.substring(currentEnd+1).trim();
-                        System.out.println(snBg);
-                    }
-                }
-            }
-       } else {
-           System.out.println("process Operators no brackets");
-       } 
-        */   
-       //return bProcessGroup;
-       System.out.println("final result === " + bReturn);
+//       System.out.println("final result === " + bReturn);
        return bReturn;
     }
 
@@ -220,12 +180,12 @@ public class BungeniToolbarConditionProcessor {
             if ((0 == i) && (ns != i)) {
                 //1st condition, process left...
                 //System.out.println("1st condition = " + s.substring(0,ns));
-                cch.condition = condition.substring(0, ns).trim();
+                cch.setCondition (condition.substring(0, ns).trim());
             }
             if (i > 0) {
                 int nPrevEnd = bgOperatorGroup.get(i-1).end;
                 //System.out.println(" condition = " + s.substring(nPrevEnd, ns));
-                cch.condition = condition.substring(nPrevEnd, ns).trim();
+                cch.setCondition (condition.substring(nPrevEnd, ns).trim());
             }
             cch.operator = condition.substring(ns-1, ne+1).trim();
             conditionChain.add(cch);
@@ -237,7 +197,7 @@ public class BungeniToolbarConditionProcessor {
         
         if (lastEnd < condSize) {
             conditionChain cch = new conditionChain();
-            cch.condition = condition.substring(lastEnd).trim();
+            cch.setCondition(condition.substring(lastEnd).trim());
             cch.operator = ":end:";
             conditionChain.add(cch);
             //System.out.println(" condition = " + s.substring(lastEnd));
@@ -268,19 +228,24 @@ public class BungeniToolbarConditionProcessor {
         conditionChain prevCondition = null;
         for (int i=0; i< cChain.size() ; i++) {
             conditionChain ch = cChain.get(i);
+            boolean bCondition = false;
+            if (ch.isEvaluated) {
+                bCondition = ch.getEvaluatedCondition();
+            } else {
             BungeniToolbarCondition cond = new BungeniToolbarCondition(ch.condition);
-            IBungeniToolbarCondition iCondition = getConditionObject(cond.getConditionClass());
-            iCondition.setOOoComponentHelper(ooDocument);
-            boolean bCondition = iCondition.processCondition(cond);
+            IBungeniToolbarCondition iCondition = getConditionObject(m_conditions.get(cond.getConditionName()));//cond.getConditionClass());
+            //iCondition.setOOoComponentHelper(ooDocument);
+            bCondition = iCondition.processCondition(ooDocument, cond);
+            ch.setEvaluatedCondition (bCondition);
             //boolean bCondition = ch.getCondition();
-            
+            }
             if (i > 0) {
-                boolean bPrev = prevCondition.getCondition();
+                boolean bPrev = prevCondition.getEvaluatedCondition();
                 if (prevCondition.operator.trim().equals(":and:")) {
-                    finalCondition = bPrev & bCondition;
+                    finalCondition = bPrev & ch.getEvaluatedCondition();
                 } 
                 if (prevCondition.operator.trim().equals(":or:")) {
-                   finalCondition = bPrev | bCondition;
+                   finalCondition = bPrev | ch.getEvaluatedCondition();
                 }
             }
             prevCondition = ch;
@@ -289,83 +254,41 @@ public class BungeniToolbarConditionProcessor {
         
     }
     
+    
+    HashMap<String,String> m_conditions = new HashMap<String,String>(){
+        {
+            put("cursorInSection", "org.bungeni.editor.toolbar.conditions.runnable.cursorInSection");
+            put("textSelected", "org.bungeni.editor.toolbar.conditions.runnable.textSelected");
+            put("sectionExists", "org.bungeni.editor.toolbar.conditions.runnable.sectionExists");
+            put("sectionExists", "org.bungeni.editor.toolbar.conditions.runnable.sectionNotExists");
+            put("cursorInSectionType", "org.bungeni.editor.toolbar.conditions.runnable.cursorInSectionType");
+        }
+    };
+    
     protected boolean evaluateCondition(String condition) {
         condition  = condition.trim();
         ArrayList<bracketGroup> bg = new ArrayList<bracketGroup>();
         bg = buildOperatorGroup(condition);
-        /*
-        Pattern p = Pattern.compile("(\\:(and|or)\\:)");
-        String s = condition;
-        Matcher m = p.matcher(s);
-        while (m.find()) {
-            int ns = m.start();
-            int ne = m.end();
-            //System.out.println("found at : " + ns);
-            bg.add(new bracketGroup(ns, ne));
-        }
-         */ 
-        System.out.println("bracket groups processed = " + bg.size());
-        System.out.println("processing condition chain....");
-        
+
+//        log.debug("bracket groups processed = " + bg.size());
+//        log.debug("processing condition chain....");
         ArrayList<conditionChain> conds = new ArrayList<conditionChain>();
-        conds = buildConditionChain(condition, bg);
-        /*
-        for (int i=0; i< bg.size(); i++) {
-            int ns = bg.get(i).start;
-            int ne = bg.get(i).end;
-            conditionChain cch = new conditionChain();
-            
-            if ((0 == i) && (ns != i)) {
-                //1st condition, process left...
-                //System.out.println("1st condition = " + s.substring(0,ns));
-                cch.condition = s.substring(0, ns).trim();
+        boolean bFinal = false;
+        if (bg.size() > 0) { //operators were found
+             conds = buildConditionChain(condition, bg);
+             bFinal = processConditionChain(conds);
+        } else {
+            //operators were not found
+            if (condition.equals("true") || condition.equals("false")) {
+                bFinal = Boolean.parseBoolean(condition);
+            } else {
+             BungeniToolbarCondition cond = new BungeniToolbarCondition(condition);
+             IBungeniToolbarCondition iCondition = getConditionObject(m_conditions.get(cond.getConditionName()));
+            //iCondition.setOOoComponentHelper(ooDocument);
+             bFinal = iCondition.processCondition(ooDocument, cond);
             }
-            if (i > 0) {
-                int nPrevEnd = bg.get(i-1).end;
-                //System.out.println(" condition = " + s.substring(nPrevEnd, ns));
-                cch.condition = s.substring(nPrevEnd, ns).trim();
-            }
-            cch.operator = s.substring(ns-1, ne+1).trim();
-            conds.add(cch);
-            //System.out.println("operator = " + s.substring(ns-1, ne+1));
-            //System.out.println("start = "+ m.start() + " end = "+ m.end());
         }
-        int lastEnd = bg.get(bg.size()-1).end;
-        int condSize = s.length();
-        if (lastEnd < condSize) {
-            conditionChain cch = new conditionChain();
-            cch.condition = s.substring(lastEnd).trim();
-            cch.operator = ":end:";
-            conds.add(cch);
-            //System.out.println(" condition = " + s.substring(lastEnd));
-        }
-        //System.out.println("true | false = " + (true | false));
-       // System.out.println("true & false = " + (true & false));
-       // System.out.println("false | false = " + (false | false));
-       // System.out.println("true | true = " + (true | true));
         
-        */
-        
-        boolean bFinal = processConditionChain(conds);
-        /*
-        boolean finalCondition = false;
-        conditionChain prevCondition = null;
-        for (int i=0; i< conds.size() ; i++) {
-            conditionChain ch = conds.get(i);
-            if (i > 0) {
-                boolean bPrev = prevCondition.getCondition();
-                if (prevCondition.operator.trim().equals(":and:")) {
-                    finalCondition = bPrev & ch.getCondition();
-                } 
-                if (prevCondition.operator.trim().equals(":or:")) {
-                   finalCondition = bPrev | ch.getCondition();
-                }
-            }
-            prevCondition = ch;
-        }
-         */
-        
-        //System.out.println("Final Condition = " + finalCondition);
         return bFinal;
     }
     
@@ -384,7 +307,7 @@ public class BungeniToolbarConditionProcessor {
     protected void processOperators(String fullConditionValue) {
         //we split string by operators 
         //currently only a single type of operator identification is supported
-        log.debug("1. processOperators: "+ fullConditionValue );
+  //      log.debug("1. processOperators: "+ fullConditionValue );
         java.util.Iterator<String> keys = operators.keySet().iterator();
         while (keys.hasNext()) {
             String key = keys.next();
@@ -422,6 +345,7 @@ public class BungeniToolbarConditionProcessor {
         return toolbarConditionOperatorMap.get(className);
     }
     
+    /*
     private boolean evaluateWithOperator(){
         boolean bResult = false;
         try {
@@ -430,9 +354,9 @@ public class BungeniToolbarConditionProcessor {
           //check if condition operator object was cached
           if (conditionProcessorClassExists(conditionProcessorClass)){
               IBungeniToolbarConditionOperator selectedOperator = getConditionOperator(conditionProcessorClass);
-              selectedOperator.setOOoComponentHelper(ooDocument);
+              //selectedOperator.setOOoComponentHelper(ooDocument);
               selectedOperator.setOperatingCondition(matchedCondition, individualConditions);
-              bResult = selectedOperator.result();
+              bResult = selectedOperator.result(ooDocument);
           } else {
               IBungeniToolbarConditionOperator selectedOperator;
               Class processorClassRef;
@@ -440,19 +364,10 @@ public class BungeniToolbarConditionProcessor {
               selectedOperator = (IBungeniToolbarConditionOperator)processorClassRef.newInstance();
               //cache the newly created condition operator object
               setConditionOperator(conditionProcessorClass, selectedOperator);
-              selectedOperator.setOOoComponentHelper(ooDocument);
+              //selectedOperator.setOOoComponentHelper(ooDocument);
               selectedOperator.setOperatingCondition(matchedCondition, individualConditions);
-              bResult = selectedOperator.result();
+              bResult = selectedOperator.result(ooDocument);
           }
-          /*
-          IBungeniToolbarConditionOperator selectedOperator;
-          Class processorClassRef;
-          processorClassRef = Class.forName(conditionProcessorClass);
-          selectedOperator = (IBungeniToolbarConditionOperator)processorClassRef.newInstance();
-          selectedOperator.setOOoComponentHelper(ooDocument);
-          selectedOperator.setOperatingCondition(matchedCondition, individualConditions);
-          bResult = selectedOperator.result();
-           */ 
          } catch (InstantiationException ex) {
                log.error("evaluateWithOperator: " + ex.getMessage());
                log.error("evaluateWithOperator : " + this.conditionValue);
@@ -469,7 +384,7 @@ public class BungeniToolbarConditionProcessor {
             return bResult;
         }
     }
-    
+*/    
     private static HashMap<String, IBungeniToolbarCondition> toolbarConditionMap = new HashMap<String, IBungeniToolbarCondition>();
     
     private boolean conditionExists (String cClass) {
@@ -488,7 +403,8 @@ public class BungeniToolbarConditionProcessor {
         return toolbarConditionMap.get(conditionName);
     }
     
-    
+  
+    /*
     private boolean evaluateWithoutOperator(){
         boolean bResult = false;
         try {   
@@ -499,14 +415,14 @@ public class BungeniToolbarConditionProcessor {
             if (conditionExists(conditionClass)) {
                 //if exists..retrieve cached object
                 IBungeniToolbarCondition iCondition = getCondition(conditionClass);
-                iCondition.setOOoComponentHelper(ooDocument);
-                bResult = iCondition.processCondition(toolbarCond);
+                //iCondition.setOOoComponentHelper(ooDocument);
+                bResult = iCondition.processCondition(ooDocument, toolbarCond);
             } else {
                 //otherwise create condition object and cache it
                 IBungeniToolbarCondition iCondition = baseOperator.getConditionObject(conditionClass);
                 setCondition(conditionClass, iCondition);
-                iCondition.setOOoComponentHelper(ooDocument);
-                bResult = iCondition.processCondition(toolbarCond) ;
+                //iCondition.setOOoComponentHelper(ooDocument);
+                bResult = iCondition.processCondition(ooDocument, toolbarCond) ;
             }
           } catch (Exception ex) {
                log.error("evaluateWithoutOperator: " + ex.getMessage());
@@ -516,8 +432,9 @@ public class BungeniToolbarConditionProcessor {
               return bResult;
         }
     }
-    
-    synchronized public boolean evaluate(){
+*/    
+    synchronized public boolean evaluate(OOComponentHelper ooDoc){
+        this.ooDocument = ooDoc;
         return processGroups(this.conditionValue);
     }
     /*
@@ -534,28 +451,49 @@ public class BungeniToolbarConditionProcessor {
     
 
     public class conditionChain {
-        String condition;
-        String operator;
-        
+        private String condition;
+        private String operator;
+        private boolean evaluatedCondition;
+        private boolean isEvaluated;
         conditionChain(){
             condition =  operator = "";
+            evaluatedCondition = false;
+            isEvaluated = false;
         }
         
         conditionChain(String c, String o) {
             condition = c;
             operator = o;
+            checkEvaluatedCondition();
+        }
+        
+        private void checkEvaluatedCondition(){
+            if (condition.equals("true")) {
+                setEvaluatedCondition(true);
+            }
+            else if (condition.equals("false")) {
+                setEvaluatedCondition(false);
+            }
+            else 
+                evaluatedCondition = false;
         }
         
         @Override
         public String toString() {
-            return "condition = " + condition + " , operator = "+ operator;
+            return "condition = " + condition + " , operator = "+ operator + ", evaluatedCondition = " + evaluatedCondition;
         }
         
-        public boolean getCondition(){
-            if (condition.trim().equals("true")) {
-                return true;
-            } else
-                return false;
+        public void setEvaluatedCondition (boolean bState) {
+            this.evaluatedCondition = bState;
+            this.isEvaluated = true;
+        }
+        public boolean getEvaluatedCondition(){
+            return evaluatedCondition;
+        }
+        
+        public void setCondition(String cond) {
+            this.condition = cond;
+            checkEvaluatedCondition();
         }
     }
  

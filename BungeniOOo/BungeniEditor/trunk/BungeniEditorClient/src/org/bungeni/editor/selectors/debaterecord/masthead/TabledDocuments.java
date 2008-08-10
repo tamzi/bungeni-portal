@@ -6,11 +6,13 @@
 
 package org.bungeni.editor.selectors.debaterecord.masthead;
 
+import java.awt.Component;
+
 /**
  *
  * @author  undesa
  */
-public class TabledDocuments extends javax.swing.JPanel {
+public class TabledDocuments extends BaseMetadataPanel {
 
     /** Creates new form TabledDocuments */
     public TabledDocuments() {
@@ -74,5 +76,103 @@ public class TabledDocuments extends javax.swing.JPanel {
     private javax.swing.JLabel lbl_tabledDocs;
     private javax.swing.JTable tbl_tabledDocs;
     // End of variables declaration//GEN-END:variables
+
+    public String getPanelName() {
+        return "TabledDocuments";
+    }
+
+    public Component getPanelComponent() {
+        return this;
+    }
+
+    @Override
+    public boolean preFullEdit() {
+        return true;
+    }
+
+    @Override
+    public boolean processFullEdit() {
+        return true;
+    }
+
+    @Override
+    public boolean postFullEdit() {
+        return true;
+    }
+
+    @Override
+    public boolean preFullInsert() {
+        return true;
+    }
+
+    @Override
+    public boolean processFullInsert() {
+        return true;
+    }
+
+    @Override
+    public boolean postFullInsert() {
+        return true;
+    }
+
+    @Override
+    public boolean preSelectEdit() {
+        return true;
+    }
+
+    @Override
+    public boolean processSelectEdit() {
+        return true;
+    }
+
+    @Override
+    public boolean postSelectEdit() {
+        return true;
+    }
+
+    @Override
+    public boolean preSelectInsert() {
+        return true;
+    }
+
+    @Override
+    public boolean processSelectInsert() {
+        return true;
+    }
+
+    @Override
+    public boolean postSelectInsert() {
+        return true;
+    }
+
+    @Override
+    public boolean validateSelectedEdit() {
+        return true;
+    }
+
+    @Override
+    public boolean validateSelectedInsert() {
+        return true;
+    }
+
+    @Override
+    public boolean validateFullInsert() {
+        return true;
+    }
+
+    @Override
+    public boolean validateFullEdit() {
+        return true;
+    }
+
+    @Override
+    public boolean doCancel() {
+        return true;
+    }
+
+    @Override
+    public boolean doReset() {
+        return true;
+    }
 
 }

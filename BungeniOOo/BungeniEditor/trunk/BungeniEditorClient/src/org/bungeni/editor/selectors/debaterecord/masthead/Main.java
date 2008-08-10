@@ -6,34 +6,29 @@
 
 package org.bungeni.editor.selectors.debaterecord.masthead;
 
-import com.l2fprod.common.swing.JTaskPaneGroup;
+import java.util.ArrayList;
 import javax.swing.JFrame;
 
 /**
  *
  * @author  undesa
  */
-public class Main extends javax.swing.JPanel {
-
+public class Main extends BaseMetadataContainerPanel {
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(Main.class.getName());
+ 
+    
     /** Creates new form Main */
     public Main() {
-        initComponents();
-        init();
+        super();
+      //  initComponents();
+      //  init();
+        
     }
 
-    private void init(){
-        TabledDocuments td = new TabledDocuments();
-        Title t = new Title();
-  //      JTaskPaneGroup tpgTD = new JTaskPaneGroup();
-   //     tpgTD.add(td);
-        JTaskPaneGroup tpgT = new JTaskPaneGroup();
-        tpgT.add(t);
-       //  tpgT.add(td);
-          tpgT.setCollapsable(false);
-       
-        paneMain.add(tpgT);
-     //   paneMain.add(tpgTD);
-    }
+    
+    
+    
+
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -43,39 +38,17 @@ public class Main extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        paneMain = new com.l2fprod.common.swing.JTaskPane();
-        btnApply = new javax.swing.JButton();
-        btnCancel = new javax.swing.JButton();
-
-        com.l2fprod.common.swing.PercentLayout percentLayout2 = new com.l2fprod.common.swing.PercentLayout();
-        percentLayout2.setGap(14);
-        percentLayout2.setOrientation(1);
-        paneMain.setLayout(percentLayout2);
-
-        btnApply.setText("Apply");
-
-        btnCancel.setText("Cancel");
+        jFontChooser1 = new com.l2fprod.common.swing.JFontChooser();
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(80, 80, 80)
-                .addComponent(btnApply, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
-                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(86, 86, 86))
-            .addComponent(paneMain, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(paneMain, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancel)
-                    .addComponent(btnApply)))
+            .addGap(0, 101, Short.MAX_VALUE)
         );
 
         getAccessibleContext().setAccessibleName("Enter Masthead");
@@ -83,9 +56,7 @@ public class Main extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnApply;
-    private javax.swing.JButton btnCancel;
-    private com.l2fprod.common.swing.JTaskPane paneMain;
+    private com.l2fprod.common.swing.JFontChooser jFontChooser1;
     // End of variables declaration//GEN-END:variables
 
     public static void main(String[] args){
@@ -94,5 +65,22 @@ public class Main extends javax.swing.JPanel {
         f.add(m);
         f.pack();
         f.setVisible(true);
+    }
+
+    @Override
+    protected void setupPanels() {
+        m_allPanels = new ArrayList<panelInfo>(){
+                {
+                    add(new panelInfo("Title","org.bungeni.editor.selectors.debaterecord.masthead.Title"));
+                    add(new panelInfo("TabledDocuments", "org.bungeni.editor.selectors.debaterecord.masthead.TabledDocuments"));
+                }
+        };
+    
+       m_activePanels = new ArrayList<panelInfo>(){
+            {
+                add(new panelInfo("Title","org.bungeni.editor.selectors.debaterecord.masthead.Title"));
+                add(new panelInfo("TabledDocuments", "org.bungeni.editor.selectors.debaterecord.masthead.TabledDocuments"));
+            }
+         };
     }
 }

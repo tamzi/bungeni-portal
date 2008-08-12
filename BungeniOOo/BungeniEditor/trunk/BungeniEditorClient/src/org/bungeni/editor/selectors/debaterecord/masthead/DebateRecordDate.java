@@ -1,21 +1,25 @@
 /*
- * Title.java
+ * DebateRecordDate.java
  *
- * Created on August 8, 2008, 1:49 PM
+ * Created on August 11, 2008, 10:06 PM
  */
 
 package org.bungeni.editor.selectors.debaterecord.masthead;
 
 import java.awt.Component;
+import org.bungeni.editor.selectors.BaseMetadataPanel;
 
 /**
  *
  * @author  undesa
  */
-public class Title extends BaseMetadataPanel {
+public class DebateRecordDate extends BaseMetadataPanel {
 
-    /** Creates new form Title */
-    public Title() {
+      private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DebateRecordDate.class.getName());
+
+    /** Creates new form DebateRecordDate */
+    public DebateRecordDate() {
+        super();
         initComponents();
     }
 
@@ -28,13 +32,10 @@ public class Title extends BaseMetadataPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txt_title = new javax.swing.JTextField();
-        lbl_title = new javax.swing.JLabel();
+        lbl_initdebate_hansard = new javax.swing.JLabel();
+        dt_initdebate_hansard = new org.jdesktop.swingx.JXDatePicker();
 
-        txt_title.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
-
-        lbl_title.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
-        lbl_title.setText("Enter Title");
+        lbl_initdebate_hansard.setText("DebateRecord Date");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -43,98 +44,88 @@ public class Title extends BaseMetadataPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_title, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txt_title, javax.swing.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addComponent(lbl_initdebate_hansard, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dt_initdebate_hansard, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(82, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(lbl_title)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txt_title, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbl_initdebate_hansard)
+                .addGap(12, 12, 12)
+                .addComponent(dt_initdebate_hansard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        getAccessibleContext().setAccessibleName("DebateRecord Date");
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lbl_title;
-    private javax.swing.JTextField txt_title;
+    private org.jdesktop.swingx.JXDatePicker dt_initdebate_hansard;
+    private javax.swing.JLabel lbl_initdebate_hansard;
     // End of variables declaration//GEN-END:variables
 
+    @Override
     public String getPanelName() {
-        return "Title";
+        return this.getAccessibleContext().getAccessibleName();
     }
 
+    @Override
     public Component getPanelComponent() {
-        return this;
-    }
-
-
-    @Override
-    public boolean doCancel() {
-        return true;
-    }
-
-    @Override
-    public boolean doReset() {
-        return true;
+       return this;
     }
 
     @Override
     public boolean preFullEdit() {
-        return true;
+       return true;
     }
 
     @Override
     public boolean processFullEdit() {
-        return true;
-    }
+       return true;    }
 
     @Override
     public boolean postFullEdit() {
-        return true;
-    }
+       return true;    }
 
     @Override
     public boolean preFullInsert() {
-        return true;
-    }
+       return true;    }
 
     @Override
     public boolean processFullInsert() {
-        return true;
+       return true;
     }
 
     @Override
     public boolean postFullInsert() {
-        return true;
+       return true;
     }
 
     @Override
     public boolean preSelectEdit() {
-        return true;
+       return true;
     }
 
     @Override
     public boolean processSelectEdit() {
-        return true;
+       return true;
     }
 
     @Override
     public boolean postSelectEdit() {
-        return true;
+       return true;
     }
 
     @Override
     public boolean preSelectInsert() {
-        return true;
+       return true;
     }
 
     @Override
     public boolean processSelectInsert() {
-        return true;
+       return true;
     }
 
     @Override
@@ -144,22 +135,32 @@ public class Title extends BaseMetadataPanel {
 
     @Override
     public boolean validateSelectedEdit() {
-        return true;
+       return true;
     }
 
     @Override
     public boolean validateSelectedInsert() {
-        return true;
+       return true;
     }
 
     @Override
     public boolean validateFullInsert() {
-        return true;
+       return true;
     }
 
     @Override
     public boolean validateFullEdit() {
-        return true;
+       return true;
+    }
+
+    @Override
+    public boolean doCancel() {
+       return true;
+    }
+
+    @Override
+    public boolean doReset() {
+       return true;
     }
 
 }

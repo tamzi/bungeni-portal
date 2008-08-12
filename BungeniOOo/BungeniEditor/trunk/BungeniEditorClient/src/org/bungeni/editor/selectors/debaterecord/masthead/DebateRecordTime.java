@@ -1,21 +1,24 @@
 /*
- * TabledDocuments.java
+ * DebateRecordTime.java
  *
- * Created on August 8, 2008, 1:52 PM
+ * Created on August 11, 2008, 10:36 PM
  */
 
 package org.bungeni.editor.selectors.debaterecord.masthead;
 
 import java.awt.Component;
+import org.bungeni.editor.selectors.BaseMetadataPanel;
 
 /**
  *
  * @author  undesa
  */
-public class TabledDocuments extends BaseMetadataPanel {
+public class DebateRecordTime extends BaseMetadataPanel {
+   private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DebateRecordTime.class.getName());
 
-    /** Creates new form TabledDocuments */
-    public TabledDocuments() {
+    /** Creates new form DebateRecordTime */
+    public DebateRecordTime() {
+        super();
         initComponents();
     }
 
@@ -28,26 +31,15 @@ public class TabledDocuments extends BaseMetadataPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lbl_tabledDocs = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tbl_tabledDocs = new javax.swing.JTable();
+        dt_initdebate_timeofhansard = new javax.swing.JSpinner();
+        lbl_initdebate_timeofhansard = new javax.swing.JLabel();
 
-        lbl_tabledDocs.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
-        lbl_tabledDocs.setText("Select Tabled Documents");
+        setName("DebateRecord Time"); // NOI18N
 
-        tbl_tabledDocs.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
-        tbl_tabledDocs.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(tbl_tabledDocs);
+        dt_initdebate_timeofhansard.setName("dt_initdebate_timeofhansard"); // NOI18N
+
+        lbl_initdebate_timeofhansard.setText("Hansard Time");
+        lbl_initdebate_timeofhansard.setName("lbl_initdebate_timeofhansard"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -56,123 +48,127 @@ public class TabledDocuments extends BaseMetadataPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_tabledDocs, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(13, Short.MAX_VALUE))
+                    .addComponent(lbl_initdebate_timeofhansard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(dt_initdebate_timeofhansard, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(74, 74, 74))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(lbl_tabledDocs)
+                .addContainerGap()
+                .addComponent(lbl_initdebate_timeofhansard)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dt_initdebate_timeofhansard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lbl_tabledDocs;
-    private javax.swing.JTable tbl_tabledDocs;
+    private javax.swing.JSpinner dt_initdebate_timeofhansard;
+    private javax.swing.JLabel lbl_initdebate_timeofhansard;
     // End of variables declaration//GEN-END:variables
 
+    @Override
     public String getPanelName() {
-        return "TabledDocuments";
+        return getName();
     }
 
+    @Override
     public Component getPanelComponent() {
         return this;
     }
 
     @Override
     public boolean preFullEdit() {
-        return true;
+return true;
     }
 
     @Override
     public boolean processFullEdit() {
-        return true;
+return true;
     }
 
     @Override
     public boolean postFullEdit() {
-        return true;
+return true;
     }
 
     @Override
     public boolean preFullInsert() {
-        return true;
+return true;
     }
 
     @Override
     public boolean processFullInsert() {
-        return true;
+return true;
     }
 
     @Override
     public boolean postFullInsert() {
-        return true;
+return true;
     }
 
     @Override
     public boolean preSelectEdit() {
-        return true;
+return true;
     }
 
     @Override
     public boolean processSelectEdit() {
-        return true;
+return true;
     }
 
     @Override
     public boolean postSelectEdit() {
-        return true;
+return true;
     }
 
     @Override
     public boolean preSelectInsert() {
-        return true;
+return true;
     }
 
     @Override
     public boolean processSelectInsert() {
-        return true;
+return true;
     }
 
     @Override
     public boolean postSelectInsert() {
-        return true;
+return true;
     }
 
     @Override
     public boolean validateSelectedEdit() {
-        return true;
+return true;
     }
 
     @Override
     public boolean validateSelectedInsert() {
-        return true;
+return true;
     }
 
     @Override
     public boolean validateFullInsert() {
-        return true;
+return true;
     }
 
     @Override
     public boolean validateFullEdit() {
-        return true;
+return true;
     }
 
     @Override
     public boolean doCancel() {
-        return true;
+return true;
     }
 
     @Override
     public boolean doReset() {
-        return true;
+return true;
     }
 
 }

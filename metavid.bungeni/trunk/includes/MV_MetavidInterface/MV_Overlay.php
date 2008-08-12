@@ -681,7 +681,7 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 				
 			}
 		}			
-		
+		/*
 		global $reportersTable;
 		if (isset($wgRequest->data['smw_Reported_By']))
 		{
@@ -711,7 +711,7 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 				}
 			
 		}	
-		
+		*/
 		$editPageAjax = new MV_EditPageAjax( $Article);
 		$editPageAjax->mvd_id = $mvd_id;			
 		//undesa
@@ -729,7 +729,7 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		$end_min = substr($_REQUEST['mv_end_hr_new'],2,2);
 		$end_sec = substr($_REQUEST['mv_end_hr_new'],5,2);
 		
-		$end_time_in_sec = ($start_hour * 3600) + ($start_min * 60) + ($start_sec);
+		$end_time_in_sec = ($end_hour * 3600) + ($end_min * 60) + ($end_sec);
 		
 		$streamTitle = new MV_Title($_REQUEST['title']);
 		//$transcript_title = new MV_Title($titleKey);
@@ -799,12 +799,28 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 				MV_MVD::onEdit($this->mvd_pages, $mvd_id);				
 			}
 			if($returnEncapsulated){
-				return php2jsObj(array('status'=>'ok',	
+				if ($_REQUEST['saveandcreate'] == 'true')
+				{
+					$time_range = seconds2ntp($end_time_in_sec+1).'/'.seconds2ntp($end_time_in_sec+600);
+					$time_str = 'mv_disp_add_mvd("ht_en","'.$time_range.'")';
+					return php2jsObj(array('status'=>'ok',	
 						'mvd_id'=>$mvd_id,						
 						'titleKey'=>$titleKey,
 						'fd_mvd'=>$this->get_fd_mvd_request($titleKey, $mvd_id,'enclosed'),
-						'tl_mvd'=>$this->get_tl_mvd_request($titleKey, $mvd_id) 
-				));		
+						'tl_mvd'=>$this->get_tl_mvd_request($titleKey, $mvd_id),
+						'saveandcreate'=>$time_str 
+					));		
+				}
+				else
+				{
+					return php2jsObj(array('status'=>'ok',	
+						'mvd_id'=>$mvd_id,						
+						'titleKey'=>$titleKey,
+						'fd_mvd'=>$this->get_fd_mvd_request($titleKey, $mvd_id,'enclosed'),
+						'tl_mvd'=>$this->get_tl_mvd_request($titleKey, $mvd_id)
+					));		
+				}
+				
 			}else{
 				return $this->get_fd_mvd_request($titleKey, $mvd_id);
 			}

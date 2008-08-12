@@ -700,9 +700,11 @@
 		//if(!isset($semantic_data['Question_No']))$semantic_data['Question No']='';
 		$MV_Title = new MV_Title($this->mTitle);
 		$this->sitting_id = $MV_Title->getSittingId();
+		 global $sitting_editor, $sitting_reporter, $sitting_reader, $semantic_data, $editorsTable, $readersTable, $reportersTable;
+		
 		if (($editFormType !='anno_en') && ($wgUser->isAllowed('managestaff')))
         {
-        global $sitting_editor, $sitting_reporter, $sitting_reader, $semantic_data, $editorsTable, $readersTable, $reportersTable;
+       
        
         $dbr =& wfGetDB(DB_SLAVE);
         //$result = $dbr->select(array($dbr->tableName($sitting_assignments), $dbr->tableName($user_group)),'*',array('sitting_id'=>$this->sitting_id));
@@ -711,16 +713,21 @@
         $wgOut->addHTML('<table><tr><td width="50">Editor</td><td width="50">Reader</td><td width="50">Reporter</td><td width="50">Status</td></tr>');
         //get editor names and id
         $wgOut->addHTML('<tr><td><select name="smw_Edited_By">');
-        
+        //$MvOverlay = new MV_Overlay();
+        //$semantic_data = $MvOverlay->get_and_strip_semantic_tags($this->stripped_edit_text);
         while($row = $dbr->fetchObject($result))
         {
         	//$result2 = $dbr->select($dbr->tableName($editorsTable),'*',array('id'=>$row->editor_id));
         	//$row2 = $dbr->fetchObject($result2);
         	$user = User::newFromId($row->ug_user);
         	$name = $user->getRealName();
-        	$wgOut->addHTML('<option value="'.$row->ug_user.'">'.$name.'</option>');
+        	$html .= '<option value='.$row->ug_user;
+        	if ($semantic_data['Edited By'] == $name)
+        		$html .= ' selected';
+        	$html .='>'.$name.'</option>';
+        	
         }
-        
+        $wgOut->addHTML($html);
         $wgOut->addHTMl('</select></td>');
        
         $wgOut->addHTML('<td><select name="smw_Read_By">');
@@ -728,28 +735,40 @@
         //get readers names and id
          $sql = 'SELECT ug_user FROM user_groups WHERE ug_user IN (SELECT user_id FROM sitting_assignment WHERE sitting_id='.$this->sitting_id.') and ug_group="reader"';
         $result = $dbr->query($sql);
+        $html = '';
         while($row = $dbr->fetchObject($result))
         {
         	//$result2 = $dbr->select($dbr->tableName($readersTable),'*',array('id'=>$row->reader_id));
         	//$row2 = $dbr->fetchObject($result2);
         	$user = User::newFromId($row->ug_user);
         	$name = $user->getRealName();
-        	$wgOut->addHTML('<option value="'.$row->ug_user.'">'.$name.'</option>');
+        	
+        	$html .= '<option value='.$row->ug_user;
+        	if ($semantic_data['Read By'] == $name)
+        		$html .= ' selected';
+        	$html .='>'.$name.'</option>';
         }
+        $wgOut->addHTML($html);
         $wgOut->addHTMl('</select></td>');
   		
   		$wgOut->addHTML('<td><select name="smw_Reported_By">');
         //$result = $dbr->select($dbr->tableName($sitting_reporter),'*', array('sitting_id'=>$this->sitting_id));
         $sql = 'SELECT ug_user FROM user_groups WHERE ug_user IN (SELECT user_id FROM sitting_assignment WHERE sitting_id='.$this->sitting_id.') and ug_group="reporter"';
         $result = $dbr->query($sql);
+        $html = '';
         while($row = $dbr->fetchObject($result))
         {
         	//$result2 = $dbr->select($dbr->tableName($reportersTable),'*',array('id'=>$row->reporter_id));
         	//$row2 = $dbr->fetchObject($result2);
         	$user = User::newFromId($row->ug_user);
         	$name = $user->getRealName();
-        	$wgOut->addHTML('<option value="'.$row->ug_user.'">'.$name.'</option>');
+        	
+        	$html .= '<option value='.$row->ug_user;
+        	if ($semantic_data['Reported By'] == $name)
+        		$html .= ' selected';
+        	$html .='>'.$name.'</option>';
         }
+        $wgOut->addHTML($html);
         $wgOut->addHTMl('</select></td>');
         
         //get reporters names and id
@@ -1094,6 +1113,22 @@ END
 		if($button_action!='')
 				$temp['onMouseUp']= sprintf($button_action, 'diff');
 		$buttons['diff'] = wfElement('input', $temp, '');
+
+		
+		
+		$temp = array(
+			'id'        => 'wpSaveAndCreate',
+			'name'      => 'wpSaveAndCreate',
+			'type'      => 'button',	
+			'tabindex'  => ++$tabindex,
+			'value'     => 'Save And Create',
+			'accesskey' => 'Save And Create'
+			//'title'     => wfMsg( 'tooltip-diff' ).' ['.wfMsg( 'accesskey-diff' ).']',
+		);
+		if($button_action!='')
+			$temp['onMouseUp']= sprintf($button_action, 'saveandcreate');
+		$buttons['SaveAndCreate'] = wfElement('input', $temp, '');
+
 
 		return $buttons;
 	}

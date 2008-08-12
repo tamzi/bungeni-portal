@@ -643,6 +643,16 @@ $messages['da'] = array(
 	'mv_category'        => 'kategori',
 );
 
+/** German (Deutsch)
+ * @author Leithian
+ */
+$messages['de'] = array(
+	'mv_upload_file'   => 'Datei hochladen',
+	'mv_add_filter'    => 'Filter hinzufügen',
+	'mv_category'      => 'Kategorie',
+	'mv_remove_filter' => 'Filter entfernen',
+);
+
 /** Greek (Ελληνικά)
  * @author Consta
  */
@@ -941,7 +951,7 @@ Ou quizais queira <a href="$3">engadir a secuencia</a>.',
 	'mv_file_list'                   => 'Ficheiros de fluxo',
 	'mv_label_stream_name'           => 'Nome do fluxo',
 	'mv_label_stream_desc'           => 'Descrición da secuencia',
-	'add_stream_permission'          => 'Fáltanlle permisos para engadir unha nova secuencia',
+	'add_stream_permission'          => 'Fáltanlle permisos para engadir unha nova fluxo',
 	'edit_stream_missing'            => 'Falta o nome do fluxo',
 	'mv_missing_req_time'            => 'Falta a solicitude do tempo',
 	'mv_missing_cat'                 => 'Falta o nome da categoría',
@@ -1531,8 +1541,11 @@ $messages['is'] = array(
  * @author Melos
  */
 $messages['it'] = array(
-	'mv_remove_reason' => 'Motivo della cancellazione:',
-	'mv_tool_search'   => 'Ricerca',
+	'mv_remove_reason'   => 'Motivo della cancellazione:',
+	'mv_tool_search'     => 'Ricerca',
+	'mv_play'            => 'Riproduci',
+	'mv_search_category' => 'Categoria',
+	'mv_category'        => 'categoria',
 );
 
 /** Lojban (Lojban)
@@ -2384,7 +2397,7 @@ $messages['oc'] = array(
 	'mv_missing_req_time'            => 'Omission del temps de requèsta',
 	'mv_missing_cat'                 => 'Omission del nom de la categoria',
 	'mv_stream_already_exists'       => 'Lo flus <a href="$2">$1</a> existís ja',
-	'mv_summary_add_stream'          => 'flus ajustat per un formulari',
+	'mv_summary_add_stream'          => 'flus apondut per un formulari',
 	'mv_error_stream_insert'         => "fracàs per l'insercion del flus",
 	'mv_redirect_and_delete_reason'  => 'pagina de redireccion levada',
 	'mv_remove_reason'               => 'Motiu de la supression :',
@@ -2398,8 +2411,8 @@ $messages['oc'] = array(
 	'mv_tool_search'                 => 'Recercar',
 	'mv_tool_search_title'           => 'Recercar dins aqueste flus',
 	'mv_search_transcripts_for'      => 'Recercar de transcripcions per',
-	'mv_tool_navigate'               => 'Navegar',
-	'mv_tool_navigate_title'         => 'Navegar dins lo flus entièr',
+	'mv_tool_navigate'               => 'Navigar',
+	'mv_tool_navigate_title'         => 'Navigar dins lo flus entièr',
 	'mv_tool_export'                 => 'Exportar',
 	'mv_tool_export_title'           => 'Exportar las metadonadas del flus',
 	'mv_tool_embed'                  => 'Enclure',
@@ -2413,7 +2426,8 @@ $messages['oc'] = array(
 	'mv_close_clip'                  => 'Tampar lo clip',
 	'mv_improve_transcript'          => 'Melhorar la transcripcion',
 	'ht_en'                          => 'Transcriure',
-	'ht_en_desc'                     => "Transcripcions anglesas. Aqueste tipe de presentacion es pel tèxt qu'es parlat amb lo flus vidèo. De ligams pòdon èsser ajustats, mas tot tèxt deuriá èsser en correlacion amb çò qu'es dich dins lo flus vidèo.",
+	'ht_en_desc'                     => "Transcripcions anglesas.
+Aqueste tipe de presentacion es pel tèxt qu'es parlat amb lo flus vidèo. De ligams pòdon èsser aponduts, mas tot tèxt deuriá èsser en correlacion amb çò qu'es dich dins lo flus vidèo.",
 	'anno_en'                        => 'Anotacions e categorias',
 	'anno_en_desc'                   => "Anotacions e categorizacion anglesas. Aquesta presentacion pòt èsser utilizada per balisar o categorizar de seccions de vidèo o per apondre d'anotacions que son pas de tèxt parlat.",
 	'thomas_en'                      => 'Transcripcion oficiala',
@@ -2498,7 +2512,7 @@ $messages['oc'] = array(
 	'mv_add_clip_by_name'            => 'Apondre un clip per nom',
 	'mv_export_cmml'                 => 'exportar cmml',
 	'mv_search_stream'               => 'Recercar lo flus',
-	'mv_navigate_stream'             => 'Navegar dins lo flus entièr',
+	'mv_navigate_stream'             => 'Navigar dins lo flus entièr',
 	'mv_embed_options'               => "Opcion d'incrustacion",
 	'mv_overlay'                     => 'Contraròtles de cobertura',
 	'mv_stream_tool_heading'         => 'Espleches pels fluses',

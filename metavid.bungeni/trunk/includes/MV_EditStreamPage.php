@@ -168,7 +168,7 @@
 					'</select></td>';																		
 			if ($sf['id']=='new')
 			{
-			$html.='<td><input readonly type="text" id="path" name="sf_'.$sf['id'].'[path]" value="'.$sf['path'].'" maxlength="250" size="50" />' .
+			$html.='<td><input type="text" id="path" name="sf_'.$sf['id'].'[path]" value="'.$sf['path'].'" maxlength="250" size="50" />' .
 					'<input type="hidden" name="input_path" value="'.$sf['stream_id'].'">'.
 					'</td>';
 			}
@@ -185,9 +185,9 @@
 			if ($sf['id']=='new')
 			{
 				$html .= '<td><input type="button" value="Upload File" name="upload" '; 
-				$html .= 'onclick=window.open("'.$title->getFullURL().'",\'_blank\',\'height=600,width=900\');></input></td>';
+				$html .= 'onclick=window.open("'.$title->getFullURL().'",\'_self\');></input></td>';
 				$html .= '<td><input type="button" value="Add file existing on server"' ;
-				$html .= 'name="existing" onclick=window.open("'.$title2->getFullURL().'",\'_blank\',\'height=600,width=800\')></input></td>';
+				$html .= 'name="existing" onclick=window.open("'.$title2->getFullURL().'",\'_self\')></input></td>';
 			}
 		$html.='</tr>';
 		return $html;

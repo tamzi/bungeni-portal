@@ -311,7 +311,7 @@ function onLoadFCKeditor()
 		document.getElementById('toolbar').style.cssText = 'display:none;' ;
 	}
 }
-function mv_disp_add_mvd(mvdType){
+function mv_disp_add_mvd(mvdType, time_range){
 	if(mv_open_edit_mvd){
 		js_error(gMsg['mv_open_edit']);
 		return ;
@@ -319,7 +319,10 @@ function mv_disp_add_mvd(mvdType){
 	mv_open_edit_mvd=mvdType;
 	var sitting_id = document.getElementById("sitting_id").innerHTML;
 	sajax_request_type='GET';	
-	time_range = org_vid_src.substr( org_vid_src.indexOf('?t=')+3 );
+	if (time_range == null)
+		time_range = org_vid_src.substr( org_vid_src.indexOf('?t=')+3 );
+	js_log('time range = '+time_range);
+	
 	sajax_do_call( "mv_add_disp",[wgTitle, mvdType, time_range, sitting_id], f );
 	//insert before the first mvd:
 	//if($j('#mv_fd_mvd_new').get(0)){
@@ -363,7 +366,7 @@ function mv_disp_add_mvd(mvdType){
 			}
 			//add edit buttons 
 			mwSetupToolbar();
-			onLoadFCKeditor();
+			//onLoadFCKeditor();
 			mwEditButtons = []; //empty edit buttons
 		}
 	}
@@ -388,7 +391,7 @@ function mv_edit_disp(titleKey, mvd_id){
 		add_adjust_hooks(mvd_id);            
 		//add buttons			
 		mwSetupToolbar();
-		onLoadFCKeditor();
+		//onLoadFCKeditor();
 		mwEditButtons = []; //empty edit buttons
 	  }
 }/* interface ajax actions */
@@ -624,7 +627,14 @@ function mv_do_ajax_form_submit(mvd_id, edit_action){
 			if(form.elements[i].name.toLowerCase().indexOf( edit_action.toLowerCase() )!=-1){				
 				post_vars[ form.elements[i].name ]=form.elements[i].value;
 			}
-		}else{
+		}
+		else if(edit_action == 'saveandcreate')
+		{
+			post_vars['wpSave'] = 'Save page';
+			post_vars['saveandcreate'] = 'true';
+			edit_action = 'save';
+		}
+		else{
 			post_vars[ form.elements[i].name ]=form.elements[i].value;	
 		}
 		js_log(form.elements[i].name + ' = ' + form.elements[i].value);
@@ -699,6 +709,7 @@ function mv_do_ajax_form_submit(mvd_id, edit_action){
 		  		//scroll to the new mvd:
 		  		scroll_to_pos(mv_result['mvd_id']);			  		
   			}
+  			
 		}
         if(post_vars['do_adjust']){
          	//remove and add encapsulated mvd_fd 
@@ -732,6 +743,9 @@ function mv_do_ajax_form_submit(mvd_id, edit_action){
 		mv_lock_vid_updates=false;
 		//free the editor slot:
 		mv_open_edit_mvd=null;
+		if(mvd_id=='new' && edit_action=='save')
+  			eval(mv_result['saveandcreate']);
+		
 	}	
 	//return false to prevent the form being submitted
 	return false;

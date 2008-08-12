@@ -181,7 +181,7 @@ if ( !defined( 'MEDIAWIKI' ) )  die( 1 );
  		return true;
  	}
  	function doFiltersQuery(&$filters){
- 		global $mvIndexTableName,$mvStreamFilesTable, $mvDefaultClipLength,
+ 		global $mvIndexTableName,$mvMediaFilesTable, $mvDefaultClipLength,
  		 $wgRequest, $mvDo_SQL_CALC_FOUND_ROWS, $mvSpokenByInSearchResult, $mvMediaSearchResultsLimit; 		
  		$dbr =& wfGetDB(DB_SLAVE);
  		//organize the queries (group full-text searches and category/attributes)
@@ -272,7 +272,7 @@ if ( !defined( 'MEDIAWIKI' ) )  die( 1 );
  		$searchindexTable = $dbr->tableName( 'searchindex' );
  		$ret_ary = array();
  		//a join operation to restrict search results to streams with files
- 		$join_streams_with_low_ogg_sql = "JOIN `$mvStreamFilesTable` ON (`$mvIndexTableName`.`stream_id` = `$mvStreamFilesTable`.`stream_id` AND `$mvStreamFilesTable`.`file_desc_msg`='mv_ogg_low_quality') ";
+ 		$join_streams_with_low_ogg_sql = "JOIN `$mvStreamFilesTable` ON (`$mvIndexTableName`.`stream_id` = `$mvStreamFilesTable`.`stream_id`) JOIN `$mvMediaFilesTable` ON (`$mvStreamFilesTable`.`file_id`= `$mvMediaFilesTable`.`id` AND `$mvMediaFilesTable`.`file_desc_msg`='mv_ogg_low_quality') ";
  		//only run the top range query if we have no secondary query
  		if($toplq_cat!='' && $ftq==''){ 			
  			//@@todo unify top query with ranged query ... kind of tricky 			

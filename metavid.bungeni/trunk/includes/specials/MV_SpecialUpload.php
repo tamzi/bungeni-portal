@@ -397,10 +397,10 @@ wgUploadAutoFill = {$autofill};
 					}
 					fclose($f);
 				}
-				global $mvStreamFilesTable;
+				global $mvMediaFilesTable;
 				$dbr =& wfGetDB(DB_WRITE);
 				$text = ''.$wgScriptPath.'/images/'.$this->mLocalFile->getUrlRel();
-				if ($dbr->insert($mvStreamFilesTable, array('path'=>$text, 'stream_id'=>'-1'))) {
+				if ($dbr->insert($mvMediaFilesTable, array('path'=>$text))) {
 					$html .='<input type="button" name="Close" value="Close" Onclick="window.opener.document.getElementById(\'path\').value=\''.$wgScriptPath.'/images/'.$this->mLocalFile->getUrlRel().'\'; window.opener.document.getElementById(\'duration\').value='.floor($duration).'; window.close()"></input>' ;
 				} else {
 				$html .= 'Inserting file path into DB failed, Please notify the Administrator immediately';

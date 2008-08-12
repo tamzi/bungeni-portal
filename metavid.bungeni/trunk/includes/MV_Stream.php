@@ -135,11 +135,17 @@ class MV_Stream {
 	 * returns a list of files from the mv_stream_files table
 	 */
 	function getFileList(){
-		global $mvStreamFilesTable;
+		global $mvMediaFilesTable, $mvStreamFilesTable;
 		$dbr = & wfGetDB(DB_READ);
-		$result = $dbr->select($dbr->tableName($mvStreamFilesTable), '*', array (
-			'stream_id' => $this->getStreamId()
-		));
+		//$result = $dbr->select($dbr->tableName($mvMediaFilesTable), '*', array (
+		//	'stream_id' => $this->getStreamId()
+		//));
+		//$query = "SELECT * FROM `$mvStreamFilesTable` WHERE stream_id=". $this->getStreamId();
+		//$result = $dbr->query($query);
+		//$row = $dbr->fetchObject($result);
+		//$id = $row->_id;
+		$query = "SELECT * FROM `$mvMediaFilesTable` INNER JOIN `$mvStreamFilesTable` ON $mvMediaFilesTable.id = $mvStreamFilesTable.file_id AND $mvStreamFilesTable.stream_id=".$this->getStreamId();
+		$result = $dbr->query($query);
 		//print_r($result);		
 		$file_list = array();
 		while($row = $dbr->fetchObject($result)){

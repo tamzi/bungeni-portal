@@ -117,7 +117,7 @@ $mvMVDTypeAllAvailable = array('anno_en','ht_en','thomas_en','question_en','answ
  * note: this is equivalent to ?mvd_tracks=ht_en,anno_en  in the url for the stream page.
  * this also dictates the default search layers
 */ 
-$mvMVDTypeDefaultDisp =array('anno_en','mp_names','ht_en', 'take_en'); 
+$mvMVDTypeDefaultDisp =array('anno_en','ht_en'); 
 
 ###################
 # Special Pages with Interface functions
@@ -131,7 +131,7 @@ define('MV_MISSING_PERSON_IMG','Missing person.jpg');
 #######
 $mvStreamTable 		= 'mv_streams';
 $mvSittingsTable	= 'mv_sittings';
-$mvStreamFilesTable	= 'mv_stream_files';
+$mvMediaFilesTable	= 'mv_media_files';
 $mvIndexTableName 	= 'mv_mvd_index';
 $mvStreamImageTable = 'mv_stream_images';
 $mvUrlCacheTable 	= 'mv_url_cache';
@@ -148,6 +148,9 @@ $reporterOrderTable = 'mv_order_reporter';
 $readerOrderTable = 'mv_order_reader';
 $editorOrderTable = 'mv_order_editor';
 $categoriesTable = 'mv_category';
+
+$mvStreamFilesTable = 'mv_stream_files';
+
 //whether to count found results (can take lots of time on big result sets)
 $mvDo_SQL_CALC_FOUND_ROWS = true;
 

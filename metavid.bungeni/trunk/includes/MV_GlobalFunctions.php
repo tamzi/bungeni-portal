@@ -155,7 +155,7 @@ function mvSetupExtension(){
 	//undesa patch
 	//setup global queue that is used to assign transcripts to reporters
 	//is there a better way of doing this??
-	
+	/*
 	if (!$alreadyInitialised)
 	{
 		global $reportersTable, $queue;
@@ -169,6 +169,7 @@ function mvSetupExtension(){
 		}
 		$alreadyInitialised = true;	
 	}
+	*/
 	//end undesa patch
 }	
 /**********************************************/

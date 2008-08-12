@@ -71,35 +71,36 @@
  	function deleteStreamFileDB(){
  		global $mvStreamFilesTable;
  		$dbw = & wfGetDB(DB_WRITE);
- 		//$dbw->delete($mvStreamFilesTable, array('id'=>$this->id));
- 		$sql = 'UPDATE '.$mvStreamFilesTable.' SET stream_id=-1 WHERE id='.$this->id;
- 		$dbw->query($sql);
+ 		$dbw->delete($mvStreamFilesTable, array('id'=>$this->id));
+ 		//$sql = 'UPDATE '.$mvStreamFilesTable.' SET stream_id=-1 WHERE id='.$this->id;
+ 		//$dbw->query($sql);
  		
  	}
  	function writeStreamFileDB(){
- 		global $mvStreamFilesTable;
+ 		global $mvMediaFilesTable,$mvStreamFilesTable;
  		$dbw = & wfGetDB(DB_WRITE); 	
  		if($this->id==''){
- 			 $result = $dbw->select($mvStreamFilesTable,'*',array('path'=>$this->path, 'id'=>-1));
- 			if ($result->numRows() > 0)
- 			{
- 				$dbw->update($mvStreamFilesTable, array(	
- 				'stream_id'=>$this->stream_id
-				), array('path'=>$this->path), __METHOD__);
- 			}else
- 			{
 				$dbw->insert($mvStreamFilesTable, array(
-				'stream_id'=>$this->stream_id,
+				'stream_id'=>$this->stream_id
+				), __METHOD__);
+				$result = $dbw->select($mvStreamFilesTable, '*', array(
+				'stream_id'=>$this->stream_id
+				));
+				$row = $dbw->fetchObject($result);
+				$this->id = $row->file_id;
+				$dbw->insert($mvMediaFilesTable, array(
+				'id'=>$this->id,
 				'base_offset'=>$this->base_offset,
 				'duration'=>$this->duration,
 				'file_desc_msg'=>$this->file_desc_msg,
 				'path_type'=>$this->path_type,
 				'path'=>$this->path
 				), __METHOD__);
-			}
+				
+				
  		}else{
  			//update: 
- 			$dbw->update($mvStreamFilesTable, array(				
+ 			$dbw->update($mvMediaFilesTable, array(				
 				'base_offset'=>$this->base_offset,
 				'duration'=>$this->duration,
 				'file_desc_msg'=>$this->file_desc_msg,
@@ -109,13 +110,20 @@
  		}
  	}
  	function getStreamFileDB($quality=null){
-		global $mvDefaultVideoQualityKey, $mvStreamFilesTable;
+		global $mvDefaultVideoQualityKey, $mvMediaFilesTable, $mvStreamFilesTable;
 		if($quality==null)$quality=$mvDefaultVideoQualityKey;
 		$dbr = & wfGetDB(DB_READ);
-		$result = $dbr->select($dbr->tableName($mvStreamFilesTable), array('path'), array (			
-			'stream_id' => $this->_parent_stream->getStreamId(),
-			'file_desc_msg'=>$quality
-		));
+		$query = "SELECT * FROM `$mvMediaFilesTable` INNER JOIN `$mvStreamFilesTable` ON $mvMediaFilesTable.id = $mvStreamFilesTable.file_id AND $mvStreamFilesTable.stream_id=".$this->_parent_stream->getStreamId()." AND $mvMediaFilesTable.file_desc_msg=\"$quality\"";
+		//$result  = $dbr->select($dbr->tableName($mvStreamFilesTable), '*', array('stream_id'=>$this->stream_id));
+		//$row = $dbr->fetchObject($result);
+		//$this->id = $row->file_id;
+		
+		//$result = $dbr->select($dbr->tableName($mvMediaFilesTable), array('path'), array (			
+		//	'id' => $this->id,
+		//	'file_desc_msg'=>$quality
+		//));
+		$result = $dbr->query($query);
+		
 		$row  =$dbr->fetchObject($result);
 		if($row){
 			$ary = get_object_vars($row);

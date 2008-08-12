@@ -38,7 +38,7 @@ class MV_SpecialListUnusedStreamFiles extends QueryPage {
 	}
 	
 	function getSQL() {
-		global $mvStreamFilesTable;
+		global $mvStreamFilesTable, $mvMediaFilesTable;
 		$dbr =& wfGetDB( DB_SLAVE );
 		//$relations = $dbr->tableName( 'smw_relations' );
 		//$NSrel = SMW_NS_RELATION;
@@ -50,7 +50,7 @@ class MV_SpecialListUnusedStreamFiles extends QueryPage {
 					COUNT(*) as count
 					FROM $relations
 					GROUP BY relation_title";*/
-		$mvtable = $dbr->tableName( $mvStreamFilesTable );
+		$mvtable = $dbr->tableName( $mvMediaFilesTable );
 		/* @@todo replace with query that displays more info
 		 * such as 
 		 * date modified 
@@ -58,11 +58,11 @@ class MV_SpecialListUnusedStreamFiles extends QueryPage {
 		 * formats available
 		 * number of associative metadata chunks */
 		return "SELECT
-				`id` as `stream_id`,
+				`id` as `id`,
 				`path` as title,
 				`id` as value " . 
 				"FROM $mvtable ".
-				"WHERE stream_id=-1";
+				"WHERE id not in (SELECT file_id FROM $mvStreamFilesTable)";
 				
 	}
 	

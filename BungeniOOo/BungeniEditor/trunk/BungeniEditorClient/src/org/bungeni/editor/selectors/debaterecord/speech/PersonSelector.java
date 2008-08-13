@@ -63,7 +63,7 @@ public class PersonSelector extends  BaseMetadataPanel {
 
 private void btn_SpeechByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SpeechByActionPerformed
 // TODO add your handling code here:
-        rqs = new registryQueryDialog("Select A Person", "Select * from persons", parentFrame);
+        rqs = new registryQueryDialog("Select A Person", "Select * from persons", getParentFrame());
         rqs.show();
         log.debug("Moved on before closing child dialog");
         selectionData = rqs.getData();
@@ -179,4 +179,23 @@ private void btn_SpeechByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
     private javax.swing.JButton btn_SpeechBy;
     // End of variables declaration//GEN-END:variables
 
+    @Override
+    protected void initFieldsSelectedEdit() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsSelectedInsert() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsInsert() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsEdit() {
+        return;
+    }
 }

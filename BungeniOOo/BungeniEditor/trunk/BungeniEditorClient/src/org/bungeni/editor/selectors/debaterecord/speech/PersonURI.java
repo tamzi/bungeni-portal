@@ -158,4 +158,23 @@ public class PersonURI extends  BaseMetadataPanel {
     private javax.swing.JTextField txt_URIofPerson;
     // End of variables declaration//GEN-END:variables
 
+        @Override
+    protected void initFieldsSelectedEdit() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsSelectedInsert() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsInsert() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsEdit() {
+        return;
+    }
 }

@@ -159,5 +159,23 @@ public class SpeechBy extends  BaseMetadataPanel {
     private javax.swing.JLabel lbl_SpeechBy;
     private javax.swing.JTextField txt_SpeechBy;
     // End of variables declaration//GEN-END:variables
+    @Override
+    protected void initFieldsSelectedEdit() {
+        return;
+    }
 
+    @Override
+    protected void initFieldsSelectedInsert() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsInsert() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsEdit() {
+        return;
+    }
 }

@@ -161,5 +161,23 @@ public String getPanelName() {
     public boolean validateFullEdit() {
         return true;
     }
+    @Override
+    protected void initFieldsSelectedEdit() {
+        return;
+    }
 
+    @Override
+    protected void initFieldsSelectedInsert() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsInsert() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsEdit() {
+        return;
+    }
 }

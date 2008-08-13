@@ -70,7 +70,7 @@ public class QuestionSelect extends BaseMetadataPanel {
 private void btnSelectQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectQuestionActionPerformed
 // TODO add your handling code here:
     
-        rqs = new registryQueryDialog("Select A Question", "Select * from questions", this.parentFrame);
+        rqs = new registryQueryDialog("Select A Question", "Select * from questions", getParentFrame());
         rqs.show();
         log.debug("Moved on before closing child dialog");
         selectionData = rqs.getData();
@@ -209,5 +209,25 @@ private void btnSelectQuestionActionPerformed(java.awt.event.ActionEvent evt) {/
     @Override
     public boolean validateFullEdit() {
         return true;
+    }
+    
+        @Override
+    protected void initFieldsSelectedEdit() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsSelectedInsert() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsInsert() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsEdit() {
+        return;
     }
 }

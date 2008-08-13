@@ -41,20 +41,15 @@ public class DebateRecordDate extends BaseMetadataPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_initdebate_hansard, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dt_initdebate_hansard, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(82, Short.MAX_VALUE))
+            .addComponent(dt_initdebate_hansard, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(lbl_initdebate_hansard, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(lbl_initdebate_hansard)
-                .addGap(12, 12, 12)
-                .addComponent(dt_initdebate_hansard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addComponent(dt_initdebate_hansard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         getAccessibleContext().setAccessibleName("DebateRecord Date");
@@ -161,6 +156,26 @@ public class DebateRecordDate extends BaseMetadataPanel {
     @Override
     public boolean doReset() {
        return true;
+    }
+
+    @Override
+    protected void initFieldsSelectedEdit() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsSelectedInsert() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsInsert() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsEdit() {
+        return;
     }
 
 }

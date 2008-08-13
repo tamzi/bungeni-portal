@@ -201,5 +201,25 @@ private void btn_initdebate_selectlogoActionPerformed(java.awt.event.ActionEvent
     public boolean doReset() {
      return true;
     }
+    
+       @Override
+    protected void initFieldsSelectedEdit() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsSelectedInsert() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsInsert() {
+        return;
+    }
+
+    @Override
+    protected void initFieldsEdit() {
+        return;
+    }
 
 }

@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -36,8 +37,9 @@ public class registryQueryDialog {
     private String registryQuery;
     private String dialogTitle;
     private boolean applyClicked=false;
-    private JDialog parentDlg;
+    private JDialog parentDlg = null;
     JTable dataTable;
+    JFrame parentFrame = null;
     JDialog dataDialog;
     JLabel lblMessage;
     QueryResults theResults;
@@ -51,7 +53,15 @@ public class registryQueryDialog {
         dialogTitle = title;
         parentDlg = parent;
     }
-     private void btnSelectMP_Clicked(java.awt.event.ActionEvent evt){
+    
+    public registryQueryDialog(String title, String query, JFrame parent) {
+        
+        registryQuery =  query;
+        dialogTitle = title;
+        parentFrame = parent;
+    }
+    
+    private void btnSelectMP_Clicked(java.awt.event.ActionEvent evt){
        int nRow =  dataTable.getSelectedRow();
        log.debug("Select clicked: row : " + nRow);
        if (nRow == -1 ) {
@@ -138,9 +148,14 @@ public class registryQueryDialog {
              panel.add(lblMessage);
              panel.add(btnSelectMp);
              panel.add(btnClose);
-
-             dataDialog = new JDialog(parentDlg);
-             dataDialog.setLocationRelativeTo(parentDlg);
+             if (parentFrame == null) {
+                dataDialog = new JDialog(parentDlg);
+                dataDialog.setLocationRelativeTo(parentDlg);
+             } else {
+                dataDialog = new JDialog(parentFrame);
+                dataDialog.setLocationRelativeTo(parentFrame);
+                 
+             }
              dataDialog.setTitle(dialogTitle);
              dataDialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
              dataDialog.setPreferredSize(new Dimension(420, 300));

@@ -8,6 +8,10 @@ package org.bungeni.editor.selectors;
 
 import com.l2fprod.common.swing.JTaskPaneGroup;
 import java.util.ArrayList;
+import javax.swing.JFrame;
+import org.bungeni.editor.actions.toolbarAction;
+import org.bungeni.editor.actions.toolbarSubAction;
+import org.bungeni.ooo.OOComponentHelper;
 
 /**
  *
@@ -15,16 +19,64 @@ import java.util.ArrayList;
  */
 public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BaseMetadataContainerPanel.class.getName());
- 
+    private OOComponentHelper ooDocument;
+    private JFrame parentFrame;
+    private toolbarAction theAction = null;
+    private toolbarSubAction theSubAction = null;
+    private SelectorDialogModes dialogMode;
     
     /** Creates new form Main */
+    /**
+     *In the derived class, always call super(), and then execute initVariables to set the requireed parameters
+     */
     public BaseMetadataContainerPanel() {
         super();
         initComponents();
+    }
+    
+    /**
+     * The initvariables function sets the appropriate parameters used by the application. 
+     * @param ooDoc
+     * @param parentFrm
+     * @param aAction
+     * @param aSubAction
+     * @param dlgMode
+     */
+    public void initVariables(OOComponentHelper ooDoc, JFrame parentFrm, toolbarAction aAction, toolbarSubAction aSubAction, SelectorDialogModes dlgMode) {
+        this.ooDocument = ooDoc;
+        this.parentFrame = parentFrm;
+        this.theAction = aAction;
+        this.theSubAction = aSubAction;
+        this.dialogMode = dlgMode;
+    }
+
+    /**
+     * Call initialize() afte the constructor and after calling initvariabless
+     */
+    public void initialize(){
         setupPanels();
         init();
     }
 
+    public OOComponentHelper getOoDocument() {
+        return ooDocument;
+    }
+
+    public JFrame getParentFrame() {
+        return parentFrame;
+    }
+
+    public toolbarAction getTheAction() {
+        return theAction;
+    }
+
+    public toolbarSubAction getTheSubAction() {
+        return theSubAction;
+    }
+
+    public SelectorDialogModes getDialogMode() {
+        return dialogMode;
+    }
     
    public class panelInfo {
         String panelName;
@@ -100,6 +152,7 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel {
         
         for (panelInfo panelInf : getActivePanels()) {
             IMetadataPanel panel = panelInf.getPanelObject();
+            panel.initVariables(this);
             mainTPgroup.add(panel.getPanelComponent());
         }
         mainTPgroup.setCollapsable(false);
@@ -135,10 +188,10 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(80, 80, 80)
                 .addComponent(btnApply, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(86, 86, 86))
-            .addComponent(paneMain, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(paneMain, javax.swing.GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

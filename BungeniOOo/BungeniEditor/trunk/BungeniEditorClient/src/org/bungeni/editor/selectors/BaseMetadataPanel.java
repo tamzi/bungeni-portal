@@ -18,31 +18,82 @@ import org.bungeni.ooo.OOComponentHelper;
  */
 public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BaseMetadataPanel.class.getName());
- 
-    protected OOComponentHelper ooDocument;
-    protected JFrame parentFrame;
-    protected toolbarAction theAction =null ;
-    protected toolbarSubAction theSubAction = null;
-    protected SelectorDialogModes dialogMode;
+    private BaseMetadataContainerPanel containerPanel ;
+
     
     public BaseMetadataPanel(){
         super();
     }
-    
+    /*
     public void initVariables(OOComponentHelper ooDoc, JFrame pFrame, toolbarAction tAction, toolbarSubAction tSubAction, SelectorDialogModes smode) {
         ooDocument = ooDoc;
         parentFrame = pFrame;
         theAction = tAction;
         theSubAction = tSubAction;
         dialogMode = smode;
+    }*/
+    public void initVariables(BaseMetadataContainerPanel panel) {
+        this.containerPanel = panel;
+        initFields();
     }
+    
+    private void initFields(){
+        switch (getDialogMode()) {
+            case TEXT_SELECTED_EDIT:
+                initFieldsSelectedEdit();
+                return;
+            case TEXT_SELECTED_INSERT:
+                initFieldsSelectedInsert();
+                return;
+            case TEXT_INSERTION:
+                initFieldsInsert();
+                return;
+            case TEXT_EDIT:  
+                initFieldsEdit();
+                return;
+            default:
+                return;
+        }
+    }
+
+    /**
+     * The following functions are called upon initalization of the panel, depening on the current mode,
+     * the appropriate function is called.
+     */
+    abstract protected void initFieldsSelectedEdit();
+    abstract protected void initFieldsSelectedInsert();
+    abstract protected void initFieldsInsert();
+    abstract protected void initFieldsEdit();
+    
     abstract public String getPanelName() ;
 
     abstract public Component getPanelComponent() ;
     
-    private SelectorDialogModes getDialogMode(){
-        return dialogMode;
+    /** helper functions to get variables from parent container **/
+    public BaseMetadataContainerPanel getContainerPanel(){
+        return containerPanel;
     }
+    
+    public OOComponentHelper getOoDocument(){
+        return getContainerPanel().getOoDocument();
+    }
+    
+    public JFrame getParentFrame(){
+        return getContainerPanel().getParentFrame();
+    }
+    
+    public toolbarAction getTheAction(){
+        return getContainerPanel().getTheAction();
+    }
+    
+    public toolbarSubAction getTheSubAction(){
+        return getContainerPanel().getTheSubAction();
+    }
+    
+    public SelectorDialogModes getDialogMode(){
+        return getContainerPanel().getDialogMode();
+    }
+
     
     public boolean doApply(){
          switch (getDialogMode()) {

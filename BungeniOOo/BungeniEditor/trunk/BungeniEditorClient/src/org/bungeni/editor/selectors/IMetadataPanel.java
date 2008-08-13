@@ -5,13 +5,7 @@
 
 package org.bungeni.editor.selectors;
 
-import org.bungeni.editor.selectors.debaterecord.masthead.*;
 import java.awt.Component;
-import javax.swing.JFrame;
-import org.bungeni.editor.actions.toolbarAction;
-import org.bungeni.editor.actions.toolbarSubAction;
-import org.bungeni.editor.selectors.SelectorDialogModes;
-import org.bungeni.ooo.OOComponentHelper;
 
 /**
  *
@@ -20,6 +14,8 @@ import org.bungeni.ooo.OOComponentHelper;
 public interface IMetadataPanel {
     public String getPanelName();
     public Component getPanelComponent();
-    public void initVariables(OOComponentHelper ooDoc, JFrame pFrame, toolbarAction tAction, toolbarSubAction tSubAction, SelectorDialogModes smode) ;
+    //public BaseMetadataContainerPanel getContainerPanel();
+    public void initVariables(BaseMetadataContainerPanel panel);
+    //public void initVariables(OOComponentHelper ooDoc, JFrame pFrame, toolbarAction tAction, toolbarSubAction tSubAction, SelectorDialogModes smode) ;
 
 }

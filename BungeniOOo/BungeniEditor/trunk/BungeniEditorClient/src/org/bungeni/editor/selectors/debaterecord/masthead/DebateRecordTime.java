@@ -7,7 +7,17 @@
 package org.bungeni.editor.selectors.debaterecord.masthead;
 
 import java.awt.Component;
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
+import org.bungeni.db.DefaultInstanceFactory;
+import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
+import org.bungeni.ooo.ooDocMetadata;
 
 /**
  *
@@ -20,6 +30,7 @@ public class DebateRecordTime extends BaseMetadataPanel {
     public DebateRecordTime() {
         super();
         initComponents();
+        initCommon();
     }
 
     /** This method is called from within the constructor to
@@ -46,22 +57,17 @@ public class DebateRecordTime extends BaseMetadataPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_initdebate_timeofhansard, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 153, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(dt_initdebate_timeofhansard, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(74, 74, 74))
+                    .addComponent(dt_initdebate_timeofhansard, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_initdebate_timeofhansard, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addComponent(lbl_initdebate_timeofhansard)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dt_initdebate_timeofhansard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(dt_initdebate_timeofhansard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -187,6 +193,24 @@ return true;
 
     @Override
     protected void initFieldsEdit() {
+        dt_initdebate_timeofhansard.setModel(new SpinnerDateModel(new Date(), null, null, Calendar.HOUR));
+        dt_initdebate_timeofhansard.setEditor(new JSpinner.DateEditor(dt_initdebate_timeofhansard, "HH:mm"));
+       ((JSpinner.DefaultEditor)dt_initdebate_timeofhansard.getEditor()).getTextField().setEditable(false);
+        
+        if (getOoDocument().propertyExists("Bungeni_DebateOfficialTime")) {
+                    try {
+                        ooDocMetadata meta = new ooDocMetadata(getOoDocument());
+                        String strTime = meta.GetProperty("Bungeni_DebateOfficialTime");
+                         SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+                        dt_initdebate_timeofhansard.setValue(timeFormat.parse(strTime));
+                    } catch (ParseException ex) {
+                        log.error("initFieldsEdit : " + ex.getMessage());
+                    }
+                }
         return;
+    }
+    
+    private void initCommon(){
+
     }
 }

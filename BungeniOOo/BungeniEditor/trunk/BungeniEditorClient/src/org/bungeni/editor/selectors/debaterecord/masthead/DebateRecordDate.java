@@ -7,7 +7,16 @@
 package org.bungeni.editor.selectors.debaterecord.masthead;
 
 import java.awt.Component;
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import javax.swing.InputVerifier;
+import javax.swing.JComponent;
+import javax.swing.JFormattedTextField;
+import org.bungeni.db.DefaultInstanceFactory;
+import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
+import org.bungeni.ooo.ooDocMetadata;
 
 /**
  *
@@ -21,6 +30,7 @@ public class DebateRecordDate extends BaseMetadataPanel {
     public DebateRecordDate() {
         super();
         initComponents();
+        initCommon();
     }
 
     /** This method is called from within the constructor to
@@ -33,7 +43,7 @@ public class DebateRecordDate extends BaseMetadataPanel {
     private void initComponents() {
 
         lbl_initdebate_hansard = new javax.swing.JLabel();
-        dt_initdebate_hansard = new org.jdesktop.swingx.JXDatePicker();
+        dt_initdebate_hansarddate = new org.jdesktop.swingx.JXDatePicker();
 
         lbl_initdebate_hansard.setText("DebateRecord Date");
 
@@ -41,7 +51,7 @@ public class DebateRecordDate extends BaseMetadataPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(dt_initdebate_hansard, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(dt_initdebate_hansarddate, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
             .addComponent(lbl_initdebate_hansard, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
@@ -49,7 +59,7 @@ public class DebateRecordDate extends BaseMetadataPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addComponent(lbl_initdebate_hansard)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addComponent(dt_initdebate_hansard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(dt_initdebate_hansarddate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         getAccessibleContext().setAccessibleName("DebateRecord Date");
@@ -57,7 +67,7 @@ public class DebateRecordDate extends BaseMetadataPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private org.jdesktop.swingx.JXDatePicker dt_initdebate_hansard;
+    private org.jdesktop.swingx.JXDatePicker dt_initdebate_hansarddate;
     private javax.swing.JLabel lbl_initdebate_hansard;
     // End of variables declaration//GEN-END:variables
 
@@ -84,9 +94,15 @@ public class DebateRecordDate extends BaseMetadataPanel {
     public boolean postFullEdit() {
        return true;    }
 
+    /**
+     * Insert Api Functions 
+     * @return
+     */
     @Override
     public boolean preFullInsert() {
-       return true;    }
+        
+        return true;    
+    }
 
     @Override
     public boolean processFullInsert() {
@@ -175,7 +191,67 @@ public class DebateRecordDate extends BaseMetadataPanel {
 
     @Override
     protected void initFieldsEdit() {
+        //String strPath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH();
+        //m_strLogoPath = strPath + File.separator + logoPath + File.separator + "default_logo.jpg";
+        //log.debug("InitDebateRecord:" + m_strLogoPath);
+        //dt_initdebate_timeofhansard.setModel(new SpinnerDateModel(new Date(), null, null, Calendar.HOUR));
+        //dt_initdebate_timeofhansard.setEditor(new JSpinner.DateEditor(dt_initdebate_timeofhansard, "HH:mm"));
+        //((JSpinner.DefaultEditor)dt_initdebate_timeofhansard.getEditor()).getTextField().setEditable(false);
+        dt_initdebate_hansarddate.setInputVerifier(new DateVerifier());
+        
+        if (getOoDocument().propertyExists("Bungeni_DebateOfficialDate")) {
+            try {
+                ooDocMetadata meta = new ooDocMetadata(getOoDocument());
+                String strDate = meta.GetProperty("Bungeni_DebateOfficialDate");
+                //String strTime = meta.GetProperty("Bungeni_DebateOfficialTime");
+                SimpleDateFormat formatter = new SimpleDateFormat("MMMM dd yyyy");
+                this.dt_initdebate_hansarddate.setDate(formatter.parse(strDate));
+                //SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+                //this.dt_initdebate_timeofhansard.setValue(timeFormat.parse(strTime));
+            } catch (ParseException ex) {
+                log.error("initFieldsEdit : " + ex.getMessage());
+            }
+                //SimpleDateFormat timeFormat = new SimpleDateFormat("HH:mm");
+                //this.dt_initdebate_timeofhansard.setValue(timeFormat.parse(strTime));
+                }
+        //buildComponentsArray();
         return;
     }
 
+    private String m_logoPathProperty;
+    private String m_defaultInstallationPath;
+    private String m_strLogoPath;
+    private void initCommon(){
+               m_logoPathProperty = BungeniEditorProperties.getEditorProperty("logoPath");
+               m_defaultInstallationPath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH();
+               m_strLogoPath = m_defaultInstallationPath + File.separator + m_logoPathProperty + File.separator + "default_logo.jpg";
+
+    }
+    
+      public class DateVerifier extends InputVerifier {
+     
+        @Override
+        public boolean verify(JComponent input) {
+         if (input instanceof JFormattedTextField) {
+             JFormattedTextField ftf = (JFormattedTextField)input;
+             JFormattedTextField.AbstractFormatter formatter = ftf.getFormatter();
+             if (formatter != null) {
+                 String text = ftf.getText();
+                 try {
+                      formatter.stringToValue(text);
+                      return true;
+                  } catch (ParseException pe) {
+                      return false;
+                  }
+              }
+          }
+          return true;
+      }
+        @Override
+      public boolean shouldYieldFocus(JComponent input) {
+          return verify(input);
+      }
+
+     
+  }
 }

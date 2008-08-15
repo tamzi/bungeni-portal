@@ -19,12 +19,13 @@ import org.bungeni.editor.selectors.BaseMetadataPanel;
  */
 public class DebateRecordLogo extends BaseMetadataPanel {
    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DebateRecordLogo.class.getName());
-   private String m_strLogoPath; 
    private String m_strLogoFileName;
 
     /** Creates new form DebateRecordLogo */
     public DebateRecordLogo() {
+        super();
         initComponents();
+        initCommon();
     }
 
     /** This method is called from within the constructor to
@@ -129,6 +130,14 @@ private void btn_initdebate_selectlogoActionPerformed(java.awt.event.ActionEvent
 
     @Override
     public boolean preFullInsert() {
+            getFormContext().addFieldSet("section_back_color");
+            getFormContext().addFieldSet("section_left_margin");
+            getFormContext().addFieldSet("container_section");
+            getFormContext().addFieldSet("current_section");
+          //  getFormContext().addFieldSet("new_section");
+         //   getFormContext().addFieldSet("selected_logo");
+          //  getFormContext().addFieldSet("document_fragment");
+           // getFormContext().addFieldSet("image_import_section");
      return true;
     }
 
@@ -184,12 +193,35 @@ private void btn_initdebate_selectlogoActionPerformed(java.awt.event.ActionEvent
 
     @Override
     public boolean validateFullInsert() {
-     return true;
+        boolean bState= validateLogo();
+        return bState;
     }
 
     @Override
     public boolean validateFullEdit() {
      return true;
+    }
+
+    public boolean validateLogo(){
+        boolean bState= false;
+           String logoFieldValue = (String) this.txt_initdebate_selectlogo.getText();
+           boolean bError = false;
+           if (logoFieldValue.length() == 0) {
+               bError = true;
+           } else {
+              File f = new File(logoFieldValue);
+              if (f.exists() && f.isFile()) {
+                  bError = false;
+              } else {
+                  bError = true;
+              }
+           }
+           if (bError ) {
+               this.addErrorMessage(this.btn_initdebate_selectlogo, "You must select a logo !");
+               return false; 
+           } else {
+               return true;
+           }
     }
 
     @Override
@@ -222,4 +254,14 @@ private void btn_initdebate_selectlogoActionPerformed(java.awt.event.ActionEvent
         return;
     }
 
+    private String m_logoPathProperty;
+    private String m_defaultInstallationPath;
+    private String m_strLogoPath;
+    private void initCommon(){
+               m_logoPathProperty = BungeniEditorProperties.getEditorProperty("logoPath");
+               m_defaultInstallationPath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH();
+               m_strLogoPath = m_defaultInstallationPath + File.separator + m_logoPathProperty + File.separator + "default_logo.jpg";
+
+    }
+    
 }

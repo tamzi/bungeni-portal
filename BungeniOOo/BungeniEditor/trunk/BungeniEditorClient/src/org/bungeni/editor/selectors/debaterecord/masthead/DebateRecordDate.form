@@ -18,7 +18,7 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="dt_initdebate_hansard" alignment="0" min="-2" pref="194" max="-2" attributes="0"/>
+          <Component id="dt_initdebate_hansarddate" alignment="0" min="-2" pref="194" max="-2" attributes="0"/>
           <Component id="lbl_initdebate_hansard" alignment="0" min="-2" pref="176" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
@@ -27,7 +27,7 @@
           <Group type="102" alignment="1" attributes="0">
               <Component id="lbl_initdebate_hansard" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="12" max="32767" attributes="0"/>
-              <Component id="dt_initdebate_hansard" min="-2" max="-2" attributes="0"/>
+              <Component id="dt_initdebate_hansarddate" min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -38,7 +38,7 @@
         <Property name="text" type="java.lang.String" value="DebateRecord Date"/>
       </Properties>
     </Component>
-    <Component class="org.jdesktop.swingx.JXDatePicker" name="dt_initdebate_hansard">
+    <Component class="org.jdesktop.swingx.JXDatePicker" name="dt_initdebate_hansarddate">
     </Component>
   </SubComponents>
 </Form>

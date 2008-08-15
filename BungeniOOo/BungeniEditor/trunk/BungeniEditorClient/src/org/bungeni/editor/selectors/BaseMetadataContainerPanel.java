@@ -19,12 +19,18 @@ import org.bungeni.ooo.OOComponentHelper;
  */
 public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BaseMetadataContainerPanel.class.getName());
+    /**
+     * openoffice component handle
+     */
     private OOComponentHelper ooDocument;
     private JFrame parentFrame;
     private toolbarAction theAction = null;
     private toolbarSubAction theSubAction = null;
     private SelectorDialogModes dialogMode;
-    
+    /**
+     * error messages
+     */
+    private ArrayList<ErrorMessage> errorMessages = new ArrayList<ErrorMessage>(0);
     /** Creates new form Main */
     /**
      *In the derived class, always call super(), and then execute initVariables to set the requireed parameters
@@ -34,8 +40,47 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel {
         initComponents();
     }
     
+    public class ErrorMessage {
+        java.awt.Component focusField;
+        String errorMessage;
+        
+        ErrorMessage(java.awt.Component field, String msg) {
+            this.focusField = field;
+            this.errorMessage = msg;
+        }
+        
+        void setFocusOnField(){
+            if (focusField != null) {
+                focusField.requestFocus();
+            }
+        }
+        
+        @Override
+        public String toString(){
+            return errorMessage;
+        }
+    }
+    
+    public String ErrorMessagesAsString(){
+       StringBuilder sb = new StringBuilder();
+        int count = 0;
+        for (ErrorMessage msg : errorMessages) {
+             sb.append(msg.toString());
+             if (++count != errorMessages.size()) {
+                 sb.append("\n");
+             }
+        }
+        return sb.toString();
+    }
+
+    public void addErrorMessage(java.awt.Component comp, String msg){
+        errorMessages.add(new ErrorMessage(comp, msg));
+    }
+
+   
     /**
      * The initvariables function sets the appropriate parameters used by the application. 
+     * This function is called immediately after the constructor has been called.
      * @param ooDoc
      * @param parentFrm
      * @param aAction
@@ -51,13 +96,13 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel {
     }
 
     /**
-     * Call initialize() afte the constructor and after calling initvariabless
+     * Call initialize() afte the constructor and after calling initvariables
      */
     public void initialize(){
         setupPanels();
         init();
     }
-
+      
     public OOComponentHelper getOoDocument() {
         return ooDocument;
     }

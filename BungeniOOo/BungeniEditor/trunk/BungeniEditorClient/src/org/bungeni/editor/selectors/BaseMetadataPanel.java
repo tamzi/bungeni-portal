@@ -6,6 +6,7 @@
 package org.bungeni.editor.selectors;
 
 import java.awt.Component;
+import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import org.bungeni.editor.actions.toolbarAction;
@@ -19,7 +20,8 @@ import org.bungeni.ooo.OOComponentHelper;
 public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BaseMetadataPanel.class.getName());
     private BaseMetadataContainerPanel containerPanel ;
-
+    private BungeniFormContext formContext;
+    private HashMap<String,Object> thePreInsertMap = new HashMap<String,Object>();
     
     public BaseMetadataPanel(){
         super();
@@ -34,9 +36,18 @@ public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel
     }*/
     public void initVariables(BaseMetadataContainerPanel panel) {
         this.containerPanel = panel;
+        createContext();
         initFields();
     }
     
+     private void createContext(){
+        formContext = new BungeniFormContext();
+        getFormContext().setTheAction(getTheAction());
+        getFormContext().setTheSubAction(getTheSubAction());
+        getFormContext().setOoDocument(getOoDocument());
+        getFormContext().setPreInsertMap(getThePreInsertMap());
+    }
+     
     private void initFields(){
         switch (getDialogMode()) {
             case TEXT_SELECTED_EDIT:
@@ -94,7 +105,14 @@ public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel
         return getContainerPanel().getDialogMode();
     }
 
+    public void addErrorMessage(java.awt.Component p, String msg) {
+        getContainerPanel().addErrorMessage(p, msg);
+    }
     
+    public String ErrorMessagesAsString(){
+        return getContainerPanel().ErrorMessagesAsString();
+    }
+
     public boolean doApply(){
          switch (getDialogMode()) {
             case TEXT_SELECTED_EDIT :
@@ -238,6 +256,14 @@ public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel
     abstract public boolean doCancel();
     
     abstract public boolean doReset();
+
+    public BungeniFormContext getFormContext() {
+        return formContext;
+    }
+
+    public HashMap<String, Object> getThePreInsertMap() {
+        return thePreInsertMap;
+    }
             
     
     

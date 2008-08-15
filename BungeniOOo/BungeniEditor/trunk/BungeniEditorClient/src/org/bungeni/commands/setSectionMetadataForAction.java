@@ -20,7 +20,6 @@ import java.util.HashMap;
 import org.apache.commons.chain.Command;
 import org.apache.commons.chain.Context;
 import org.bungeni.editor.selectors.BungeniFormContext;
-import org.bungeni.editor.selectors.IBungeniForm;
 
 
 public class setSectionMetadataForAction implements Command {

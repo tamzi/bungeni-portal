@@ -734,6 +734,17 @@ function _editAnnotation( event )
 	if ( marginalia.noteEditor && marginalia.noteEditor.annotation != annotation )
 		return;
 
+    var edit_type = bungeni.editType(annotation);
+    var note_value = annotation.getNote();
+    if ( marginalia.noteEditor )
+        note_value = marginalia.noteEditor.editNode.value;
+	if ( (edit_type == "Annotate:" || edit_type == "Replace:" || edit_type == "Comment:") && note_value.replace(new RegExp(/^\s+/),"").length == 0 )
+	{
+		alert( getLocalized( 'blank note' ) );
+		marginalia.noteEditor.focus( );
+		return false;
+	}
+
 	event.stopPropagation( );
 	
 //	var nextNode = post.removeNote( marginalia, annotation );

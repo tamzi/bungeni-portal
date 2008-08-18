@@ -2,7 +2,7 @@
 
 if (!defined('MEDIAWIKI')) die();
 global $IP;
-require_once( "$IP/includes/SpecialUpload.php" );
+require_once( "$IP/includes/specials/SpecialUpload.php" );
 
 function doSpecialUpload() {
 	global $wgRequest;

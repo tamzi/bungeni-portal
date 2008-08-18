@@ -1242,6 +1242,9 @@ function hideAnnotations()
 
 function filterAnnotations(form_field)
 {
+  if ( marginalia.noteEditor )
+      return false;
+
   var parent_node = form_field.parentNode;
   var selectNodes = domutil.childrenByTagClass( parent_node, null, 'select_field', null, null );
   var select_obj_owner = [];
@@ -1300,6 +1303,9 @@ function filterAnnotations(form_field)
 }
 
 function clearSearch(form_field) {
+  if ( marginalia.noteEditor )
+      return false;
+
   var parent_node = form_field.parentNode;
   var selectNodes = domutil.childrenByTagClass( parent_node, null, 'select_field', null, null );
   var select_obj_owner = [];
@@ -1448,6 +1454,9 @@ function downloadAnnotations(form_field)
     //    var search_button = document.getElementById('search');
     //    filterAnnotations(search_button);            
     //    toggle_tag.name = 'hide';
+    if ( marginalia.noteEditor )
+        return false;
+
     var entrycontent = document.getElementById('entry-content');
     var submitcontent = document.getElementById('content');
     var comments = ''

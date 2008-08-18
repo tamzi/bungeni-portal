@@ -29,7 +29,7 @@
  			//$wgHooks['EditPage::showEditForm:fields'][] = array($this, 'displayEditStreamFiles');
  			$this->displayEditStreamFiles();				
  		} 		 	
- 		if($this->mv_action=='new_stream_file'|| $this->mv_action=='edit_stream_files'){
+ 		if($this->mv_action=='new_stream_file'|| $this->mv_action=='edit_stream_files' || $this->mv_action=='add_existing_stream_file'){
  			//make the request look like a GET
  			//that way we don't run importFormData with empty POST
  			$_SERVER['REQUEST_METHOD']='GET';
@@ -46,7 +46,7 @@
  		$this->proccessReq($streamFiles);  	
 		if($this->status_error!='')$html.='<span class="error">'.$this->status_error.'</span><br />';
 		if($this->status_ok!='')$html.=$this->status_ok . '<br />';		 		
-		
+		$streamFiles = $this->mArticle->mvTitle->mvStream->getFileList();
 		if(count($streamFiles)==0){
 			$html.='<b>'.wfMsg('mv_no_stream_files').'</b>';
 		}else{
@@ -73,9 +73,7 @@
 		$html.= '<fieldset><legend>'.wfMsg('mv_add_stream_file').'</legend>' . "\n";	
 		$html.= '<table width="600" border="0">';	
 		$html.= $this->getStreamFileForm(array('id'=>'new'));			
-			$html.='<tr><td>';
-		$html.='<input type="submit" value="'.wfMsg('mv_add_stream_file').'">';
-			$html.='</td></tr>';			
+						
 		$html .='</table></fieldset>';					
 		$html .='</form>';
 		
@@ -120,6 +118,18 @@
  					unset($streamFiles[$inx]);
  				}
  			}
+ 		}
+ 		else if($this->mv_action=='add_existing_stream_file')
+ 		{
+ 			//todo VALIDATE
+ 			global $mvStreamFilesTable;
+ 			$dbw = & wfGetDB(DB_WRITE);
+ 			$dbw->insert($mvStreamFilesTable, array('file_id'=>$_POST['sf_new']['id'],
+				'stream_id'=>$_POST['sf_new']['stream_id']
+				), __METHOD__);
+			//$newSf = new MV_StreamFile($this->mArticle->mvTitle->mvStream);
+		//	$newSf->getStreamFileDB();
+			//$streamFiles[]=$newSf;
  		}
  	}
  	function getStreamFileForm($sf, $output_header=true, $remove_link=false){
@@ -184,12 +194,21 @@
 			$title2 = Title :: makeTitle(NS_SPECIAL,"Mv_list_unused_streams");
 			if ($sf['id']=='new')
 			{
-				$html .= '<td><input type="button" value="Upload File" name="upload" '; 
-				$html .= 'onclick=window.open("'.$title->getFullURL().'",\'_self\');></input></td>';
-				$html .= '<td><input type="button" value="Add file existing on server"' ;
-				$html .= 'name="existing" onclick=window.open("'.$title2->getFullURL().'",\'_self\')></input></td>';
+				$html.='<td>';
+				$html.='<input type="submit" value="'.wfMsg('mv_add_stream_file').'">';
+				$html.='</td></tr>';
+				
 			}
-		$html.='</tr>';
+			if ($sf['id']=='new')
+			{
+				$html.="<table><tr><td><p>OR</td></tr>";
+				$html .= '<tr><td><input type="button" value="Upload File" name="upload" '; 
+				$html .= 'onclick=window.open("'.$title->getFullURL().'?stream_id='.$sf['stream_id'].'",\'_self\');></input></td>';
+				$html .= '<td><input type="button" value="Add file existing on server"' ;
+				$html .= 'name="existing" onclick=window.open("'.$title2->getFullURL().'?stream_id='.$sf['stream_id'].'",\'_self\')></input></td>';
+				$html.='</tr></table>';
+			}
+			
 		return $html;
  	}
  }

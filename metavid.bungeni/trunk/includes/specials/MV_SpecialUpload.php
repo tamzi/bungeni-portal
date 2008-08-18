@@ -258,10 +258,19 @@ wgUploadAutoFill = {$autofill};
 			</tr>
 			<tr>
 				<td class='mw-label'>
+					<label for='file_desc_msg'>stream desc msg</label>
+				</td>
+				<td class='mw-input'>
+					<input tabindex='3' type='text' name='file_desc_msg' id='file_desc_msg' size='60'
+						value=\"mv_ogg_low_quality\" />
+				</td>
+			</tr>
+			<tr>
+				<td class='mw-label'>
 					<label for='wpUploadDescription'>{$summary}</label>
 				</td>
 				<td class='mw-input'>
-					<textarea tabindex='3' name='wpUploadDescription' id='wpUploadDescription' rows='6'
+					<textarea tabindex='4' name='wpUploadDescription' id='wpUploadDescription' rows='6'
 						cols='{$cols}'{$width}>$encComment</textarea>
 					{$this->uploadFormTextAfterSummary}
 				</td>
@@ -342,6 +351,10 @@ wgUploadAutoFill = {$autofill};
 				<td></td>
 				<td class='mw-input'>"
 		);
+		//undesa
+		$stream_id = $wgRequest->getVal('stream_id');
+		$wgOut->addHTML("<input type=hidden name=stream_id value=$stream_id></input>");
+		//undesa
 		$wgOut->addWikiText( wfMsgForContent( 'edittools' ) );
 		$wgOut->addHTML( "
 				</td>
@@ -360,10 +373,35 @@ wgUploadAutoFill = {$autofill};
 	
 	function processUpload(){
 		global $wgUser, $wgOut, $wgFileExtensions,$wgScriptPath;
+	 	
 	 	$details = null;
 	 	$value = null;
-	 	$value = $this->internalProcessUpload( $details );
-
+	 	global $mvMediaFilesTable, $mvStreamFilesTable, $wgRequest;
+		$stream_id = $wgRequest->getVal('stream_id');
+			
+		$file_desc_msg =  $wgRequest->getVal('file_desc_msg');
+		
+		$newStream = MV_Stream::newStreamByID($stream_id);
+		$files = $newStream->getFileList();			
+ 		$doAdd=true; 
+ 		foreach($files as $sf){
+ 				if($sf->file_desc_msg == $file_desc_msg){
+ 					$doAdd=false;
+ 				}
+ 		}
+	 	if(!$doAdd)
+	 	{
+	 		$value = 99;
+	 	}
+	 	else
+	 	{
+	 		$value = $this->internalProcessUpload( $details );
+	 	}
+	 	
+ 			
+		
+		
+		
 	 	switch($value) {
 			case self::SUCCESS:
 				$html ='File has been uploaded successfully<br/>';
@@ -397,18 +435,54 @@ wgUploadAutoFill = {$autofill};
 					}
 					fclose($f);
 				}
-				global $mvMediaFilesTable;
+				
 				$dbr =& wfGetDB(DB_WRITE);
 				$text = ''.$wgScriptPath.'/images/'.$this->mLocalFile->getUrlRel();
-				if ($dbr->insert($mvMediaFilesTable, array('path'=>$text))) {
-					$html .='<input type="button" name="Close" value="Close" Onclick="window.opener.document.getElementById(\'path\').value=\''.$wgScriptPath.'/images/'.$this->mLocalFile->getUrlRel().'\'; window.opener.document.getElementById(\'duration\').value='.floor($duration).'; window.close()"></input>' ;
+				
+				if ($duration===null)$duration=0;
+				if ($dbr->insert($mvMediaFilesTable,  array('path'=>$text,'duration'=>$duration,'file_desc_msg'=>$file_desc_msg), __METHOD__))
+				{
+					$result = $dbr->query("SELECT LAST_INSERT_ID() AS id");
+					$row = $dbr->fetchObject($result);
+					$id = $row->id;
+					if ($dbr->insert($mvStreamFilesTable, array('file_id'=>$id,
+						'stream_id'=>$stream_id
+					), __METHOD__))
+					{
+						$stream_name = MV_Stream::getStreamNameFromId($stream_id);
+						$title = Title::newFromText( $stream_name, MV_NS_STREAM  );
+						$wgOut->redirect($title->getLocalURL("action=edit"));	
+					}
+					else {
+						$html .= 'Inserting file path into DB failed, Please notify the Administrator immediately';
+					}
+				} else {
+					$html .= 'Inserting file path into DB failed, Please notify the Administrator immediately';
+				}
+				
+				/*
+				
+				if ($dbr->insert($mvStreamFilesTable, array('stream_id'=>$stream_id))) {
+					$result = $dbr->query("SELECT LAST_INSERT_ID()");
+					$row = $dbr->fetchObject($result);
+					if ($duration===null)$duration=0;
+					if ($dbr->insert($mvMediaFilesTable, array('id'=>$row->id,'path'=>$text,'duration'=>$duration))) {
+					
+						//$html .='<input type="button" name="Close" value="Close" Onclick="window.opener.document.getElementById(\'path\').value=\''.$wgScriptPath.'/images/'.$this->mLocalFile->getUrlRel().'\'; window.opener.document.getElementById(\'duration\').value='.floor($duration).'; window.close()"></input>' ;
+						$stream_name = MV_Stream::getStreamNameFromId($stream_id);
+						$title = Title::newFromText( $stream_name, MV_NS_STREAM  );
+						$wgOut->redirect($title->getLocalURL("action=edit"));	
+						
+					}
+					else {
+						$html .= 'Inserting file path into DB failed, Please notify the Administrator immediately';
+					}
 				} else {
 				$html .= 'Inserting file path into DB failed, Please notify the Administrator immediately';
-				
 				}
 				
 				
-				
+				*/
 				
 				$wgOut->addHTML($html);
 				break;
@@ -480,7 +554,9 @@ wgUploadAutoFill = {$autofill};
 				$internal = $details['internal'];
 				$this->showError( $internal );
 				break;
-
+			case 99:
+				$this->mainUploadForm('Type '.$file_desc_msg.' already exists');
+				break;
 			default:
 				throw new MWException( __METHOD__ . ": Unknown value `{$value}`" );
 	 	}

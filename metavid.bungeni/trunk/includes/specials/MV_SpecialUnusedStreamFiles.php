@@ -60,7 +60,10 @@ class MV_SpecialListUnusedStreamFiles extends QueryPage {
 		return "SELECT
 				`id` as `id`,
 				`path` as title,
-				`id` as value " . 
+				`id` as value,
+				duration,
+				base_offset,
+				file_desc_msg " . 
 				"FROM $mvtable ".
 				"WHERE id not in (SELECT file_id FROM $mvStreamFilesTable)";
 				
@@ -76,7 +79,7 @@ class MV_SpecialListUnusedStreamFiles extends QueryPage {
 	}
 
 	function formatResult( $skin, $result ) {
-		global $wgUser, $wgLang, $mvImageArchive,$mvgScriptPath;
+		global $wgUser, $wgLang, $mvImageArchive,$mvgScriptPath, $wgRequest;
 		
 		#make sure the first letter is upper case (makeTitle() should do that)		
 		//$result->title = strtoupper($result->title[0]) . substr($result->title, 1);		
@@ -87,9 +90,25 @@ class MV_SpecialListUnusedStreamFiles extends QueryPage {
 				
 		//$title = Title::makeTitle( MV_NS_SITTING, $result->title  );
 		//$spec_list = Title::makeTitle(MV_NS_SPECIAL, "Special:Mv_List_Streams");
+		$stream_id = $wgRequest->getVal('stream_id');
+		$stream_name = MV_Stream :: getStreamNameFromId($stream_id);
+		//$stream_name = 'New';
+		$title = Title :: newFromText( $stream_name, MV_NS_STREAM  );
 		
 		$text =  $result->title;
-		$rlink = $text.' <a onclick="window.opener.document.getElementById(\'path\').value=\''.$result->title.'\'; window.close()">Add</a>';
+		
+		
+		$form = '<form method="post" action="'.$title->getEditURL().'">';
+		$form.='<input type="hidden" name="mv_action" value="add_existing_stream_file"></input>';
+		$form.='<input type="hidden" name="sf_new'.'[stream_id]" value="'.$stream_id.'"></input>';
+		$form.='<input type="hidden" name="sf_new'.'[id]" value="'.$result->id.'"></input>';
+		//$form.='<input type="hidden" name="sf_new'.'[duration]" value="'.$result->duration.'"></input>';
+		//$form.='<input type="hidden" name="sf_new'.'[base_offset]" value="'.$result->base_offset.'"></input>';
+		//$form.='<input type="hidden" name="sf_new'.'[path]" value="'.$text.'"></input>';
+		//$form.='<input type="hidden" name="sf_new'.'[file_desc_mesg]" value="'.$result->file_desc_mesg.'"></input>';
+		$form.= '<input type="submit" name="submit" value="Add"></input>';
+		$form.= '</form>';
+		$rlink = $text.$form;
 		return $rlink;
 	}
 }

@@ -71,7 +71,7 @@
  	function deleteStreamFileDB(){
  		global $mvStreamFilesTable;
  		$dbw = & wfGetDB(DB_WRITE);
- 		$dbw->delete($mvStreamFilesTable, array('id'=>$this->id));
+ 		$dbw->delete($mvStreamFilesTable, array('file_id'=>$this->id));
  		//$sql = 'UPDATE '.$mvStreamFilesTable.' SET stream_id=-1 WHERE id='.$this->id;
  		//$dbw->query($sql);
  		
@@ -80,22 +80,23 @@
  		global $mvMediaFilesTable,$mvStreamFilesTable;
  		$dbw = & wfGetDB(DB_WRITE); 	
  		if($this->id==''){
-				$dbw->insert($mvStreamFilesTable, array(
-				'stream_id'=>$this->stream_id
-				), __METHOD__);
-				$result = $dbw->select($mvStreamFilesTable, '*', array(
-				'stream_id'=>$this->stream_id
-				));
-				$row = $dbw->fetchObject($result);
-				$this->id = $row->file_id;
 				$dbw->insert($mvMediaFilesTable, array(
-				'id'=>$this->id,
 				'base_offset'=>$this->base_offset,
 				'duration'=>$this->duration,
 				'file_desc_msg'=>$this->file_desc_msg,
 				'path_type'=>$this->path_type,
 				'path'=>$this->path
 				), __METHOD__);
+				$result = $dbw->query("SELECT LAST_INSERT_ID() AS id");
+				$row = $dbw->fetchObject($result);
+				$id = $row->id;
+				$dbw->insert($mvStreamFilesTable, array('file_id'=>$id,
+				'stream_id'=>$this->stream_id
+				), __METHOD__);
+				//$result = $dbw->query("SELECT LAST_INSERT_ID() AS id");
+				//$row = $dbw->fetchObject($result);
+				//$this->id = $row->id;
+				
 				
 				
  		}else{

@@ -12,7 +12,6 @@ package org.bungeni.commands;
 import org.apache.commons.chain.Command;
 import org.apache.commons.chain.Context;
 import org.bungeni.editor.selectors.BungeniFormContext;
-import org.bungeni.editor.selectors.IBungeniForm;
 
 /**
  *

@@ -9,9 +9,13 @@ package org.bungeni.editor.selectors.debaterecord.masthead;
 import java.awt.Component;
 import java.io.File;
 import javax.swing.JFileChooser;
+import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.DefaultInstanceFactory;
+import org.bungeni.db.QueryResults;
+import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
+import org.bungeni.utils.CommonPropertyFunctions;
 
 /**
  *
@@ -130,11 +134,35 @@ private void btn_initdebate_selectlogoActionPerformed(java.awt.event.ActionEvent
 
     @Override
     public boolean preFullInsert() {
+            long sectionBackColor = 0xffffff;
+            float sectionLeftMargin = (float).2;
+            String parentSection = getParentSection();
+            String newSectionName = getNewSectionName();
+            //create field sets
+            //addSectionIntoSectionWithStyling
             getFormContext().addFieldSet("section_back_color");
             getFormContext().addFieldSet("section_left_margin");
             getFormContext().addFieldSet("container_section");
             getFormContext().addFieldSet("current_section");
-          //  getFormContext().addFieldSet("new_section");
+            //setSctionMetadataForAction
+            getFormContext().addFieldSet("new_section");
+            //addd image into section
+            getFormContext().addFieldSet("image_import_section");
+            getFormContext().addFieldSet("selected_logo");
+            
+              //addSectionIntoSectionWithStyling
+            getFormContext().getFieldSets("section_back_color").add((Long.toHexString(sectionBackColor)));
+            getFormContext().getFieldSets("section_left_margin").add(Float.toString(sectionLeftMargin));
+            getFormContext().getFieldSets("container_section").add(parentSection);
+            getFormContext().getFieldSets("current_section").add(newSectionName);
+             //setSectionMetadataForAction   
+            getFormContext().getFieldSets("new_section").add(newSectionName);
+            //addImageIntoSections
+            getFormContext().getFieldSets("image_import_section").add(newSectionName);
+            String selectedLogoText = this.txt_initdebate_selectlogo.getText();
+            getFormContext().getFieldSets("selected_logo").add((String) selectedLogoText);
+      
+            
          //   getFormContext().addFieldSet("selected_logo");
           //  getFormContext().addFieldSet("document_fragment");
            // getFormContext().addFieldSet("image_import_section");
@@ -143,6 +171,7 @@ private void btn_initdebate_selectlogoActionPerformed(java.awt.event.ActionEvent
 
     @Override
     public boolean processFullInsert() {
+        boolean bReturn = processCatalogCommand();
      return true;
     }
 
@@ -264,4 +293,50 @@ private void btn_initdebate_selectlogoActionPerformed(java.awt.event.ActionEvent
 
     }
     
+      public String getParentSection(){
+      String parentSection = "";
+      BungeniClientDB dbSettings = new BungeniClientDB(DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
+      dbSettings.Connect();
+      QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_CHECK_IF_ACTION_HAS_PARENT(getTheAction().action_naming_convention()));
+      dbSettings.EndConnect();
+      String[] results = qr.getSingleColumnResult("THE_COUNT");
+      if (results[0].equals("0")) {
+          //get the main root as the partn
+          parentSection = CommonPropertyFunctions.getDocumentRootSection();
+        } else {
+          //this needs to be patched to deal with non root parents..
+          parentSection = CommonPropertyFunctions.getDocumentRootSection();
+        }
+     return parentSection;
+    }
+  
+ 
+       
+  public String getNewSectionName() {
+        String newSectionName ="";
+        if (getTheAction().action_type().equals("section")) {
+            if (getTheAction().action_numbering_convention().equals("single")) {
+                return getTheAction().action_naming_convention();
+            } else {
+                String sectionPrefix = getTheAction().action_naming_convention();
+                log.debug("getNewSectionName: sectionPrefix = "+ sectionPrefix);
+                for (int i=1; ; i++) {
+                    newSectionName = sectionPrefix+i;
+                    if (getOoDocument() == null ) {
+                        //System.out.println("ooDocument is null in new section name");
+                    }
+                    if (getOoDocument().hasSection(newSectionName))
+                        continue;
+                    else
+                        break;
+                }
+            }
+            return newSectionName;
+        } else {
+            log.debug("getNewSectionName: the action type is not a section.");
+            return null;
+        }
+    }
+      
+      
 }

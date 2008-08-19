@@ -1,6 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <catalogs>
     <catalog name="debaterecord">
+	<chain name="debateRecordMastheadConditionalCreateContainer">
+            <!--precheck for section existence -->
+            <!--  section_back_color, section_left_margin, container_section, current_section -->
+            <command   id="debateRecordDateFullInsert.addSectionIntoSectionWithStyling" className="org.bungeni.commands.addSectionIntoSectionWithStyling" />
+  	    <!--new_section -->
+            <command   id="debateRecordDateFullInsert.setSectionMetadataForAction" className="org.bungeni.commands.setSectionMetadataForAction"/>
+	</chain>
+	<chain name="debateRecordLogoFullInsert">
+	    <!--pre check for section existence usig variable set 'section_exists' -->
+            <command className="org.bungeni.commands.SectionExistsConditionalLookupCommand" catalogName="debaterecord" name="debateRecordMastheadConditionalCreateContainer" optional="true"/>
+            <!-- image_import_section, selected_logo -->
+	    <command   id="debateRecordLogoFullInsert.addImageIntoSection" className="org.bungeni.commands.addImageIntoSection"/>
+	</chain>
+	<chain name="debateRecordDateFullInsert">
+	    <!--pre check for section existence using condition set 'section_exists' --->	
+            <command className="org.bungeni.commands.SectionExistsConditionalLookupCommand" catalogName="debaterecord" name="debateRecordMastheadConditionalCreateContainer" optional="true"/>
+            <command   id="debateRecordDateFullInsert.setInputFieldValue2"
+                       className="org.bungeni.commands.setInputFieldValue"/>
+            <command   id="debateRecordDateFullInsert.addDocumentMetadata"
+                       className="org.bungeni.commands.addDocumentMetadata"/>
+	</chain>
+
+	<chain name="debateRecordDateFullInsert">
+            <command   id="debateRecordDateFullInsert.addSectionIntoSectionWithStyling" className="org.bungeni.commands.addSectionIntoSectionWithStyling" />
+            <command   id="debateRecordDateFullInsert.setSectionMetadataForAction" className="org.bungeni.commands.setSectionMetadataForAction"/>
+            <command   id="debateRecordDateFullInsert.addImageIntoSection" className="org.bungeni.commands.addImageIntoSection"/>
+	</chain>
+
         <chain name="debateRecordFullInsertMasthead">
             <command   id="debateRecordFullInsertMasthead.addSectionIntoSectionWithStyling" className="org.bungeni.commands.addSectionIntoSectionWithStyling" />
             <command   id="debateRecordFullInsertMasthead.setSectionMetadataForAction"

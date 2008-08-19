@@ -153,6 +153,16 @@ PostMicro.prototype.hideBlockAnnotations = function( marginalia, pointStr )
 		this.repositionSubsequentNotes( marginalia, repositionNote );
 }
 
+function unique(a) {
+    var r = new Array();
+    o:for(var i = 0, n = a.length; i < n; i++) {
+        for(var x = 0, y = r.length; x < y; x++)
+            if(r[x]==a[i]) continue o;
+        r[r.length] = a[i];
+    }
+    return r;
+}
+
 PostMicro.prototype.showBlockMarker = function( marginalia, info, block, point )
 {
 	var markers = domutil.childByTagClass( this.element, null, AN_MARKERS_CLASS, marginalia.skipContent );
@@ -197,15 +207,22 @@ PostMicro.prototype.showBlockMarker = function( marginalia, info, block, point )
 				block.blockMarkerUsers[ block.blockMarkerUsers.length ] = user;
 		}
 		
-		var userStr = '';
-		for ( var i = 0;  i < block.blockMarkerUsers.length;  ++i )
-		{
+
+        var membernames = new Array;
+		for ( var i = 0;  i < block.blockMarkerUsers.length;  ++i ) {
 			var user = block.blockMarkerUsers[ i ];
-			userStr += userStr ? ', ' + user.userid : user.userid;
-		}
-			
-		countElement.setAttribute( 'title', userStr );
-		countElement.appendChild( document.createTextNode( String( block.blockMarkerUsers.length ) ) );
+            membernames[i] = user.userid;
+        }
+
+        var uniquearray = unique(membernames)
+        var userStr = '';
+		for ( var i = 0;  i < uniquearray.length;  ++i ) {
+			var user = uniquearray[ i ];
+            userStr += userStr ? ', ' + user : user;
+        }
+
+        countElement.setAttribute( 'title', userStr );
+        countElement.appendChild( document.createTextNode( String( block.blockMarkerUsers.length ) ) );
 	}
 }
 

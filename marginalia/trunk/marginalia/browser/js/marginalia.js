@@ -23,7 +23,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * $Id: marginalia.js 264 2007-11-06 16:32:07Z geof.glass $
+ * $Id: marginalia.js 300 2008-07-09 05:52:31Z geof.glass $
  */
 
 // Features that can be switched on and off
@@ -110,7 +110,7 @@ function Marginalia( service, username, anusername, features )
 			case 'action':
 				this.defaultAction = value;
 			
-			// The baseUrl should be stripped from annotatin URLs.  The server must also do this.
+			// The baseUrl should be stripped from annotation URLs.  The server must also do this.
 			case 'baseUrl':
 				this.baseUrl = value;
 				break;
@@ -336,7 +336,7 @@ Marginalia.prototype.showBlockAnnotations = function( url, block )
 function _showAnnotationsCallback( marginalia, url, xmldoc, doBlockMarkers )
 {
 	domutil.addClass( document.body, AN_ANNOTATED_CLASS );
-	if ( marginalia.username == marginalia.anusername )
+	if ( marginalia.username == marginalia.anusername || '' == marginalia.anusername )
 		domutil.addClass( document.body, AN_SELFANNOTATED_CLASS );
 	marginalia.annotationXmlCache = xmldoc;
 	_annotationDisplayCallback( marginalia, url, doBlockMarkers );
@@ -819,10 +819,10 @@ PostMicro.prototype.saveAnnotation = function( marginalia, annotation )
 		annotation.setUrl( this.url );
 		
 		// IE may have made a relative URL absolute, which could cause problems
-		if ( null != marginalia.urlBase
-			&& annotation.url.substring( 0, marginalia.urlBase.length ) == marginalia.UrlBase )
+		if ( null != marginalia.baseUrl
+			&& annotation.url.substring( 0, marginalia.baseUrl.length ) == marginalia.baseUrl )
 		{
-			annotation.setUrl( annotation.getUrl().substring( marginalia.urlBase.length ) );
+			annotation.setUrl( annotation.getUrl().substring( marginalia.baseUrl.length ) );
 		}
 
 		annotation.setQuoteTitle( this.title );
@@ -941,7 +941,7 @@ function _unhoverAnnotation( event )
 function _keyupCreateAnnotation( event )
 {
 	var marginalia = window.marginalia;
-	if ( null != marginalia.username && marginalia.username == marginalia.anusername )
+	if ( null != marginalia.username && ( marginalia.username == marginalia.anusername || '' == marginalia.anusername ) )
 	{
 		// Enter to create a regular note
 		if ( 13 == event.keyCode )

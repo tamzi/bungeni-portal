@@ -23,7 +23,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * $Id: domutil.js 240 2007-09-26 23:20:29Z geof.glass $
+ * $Id: domutil.js 297 2008-06-02 03:44:00Z geof.glass $
  */
 
 	
@@ -831,7 +831,7 @@ stripMarkup: function( node, test, doNormalize )
 			else if ( domutil.STRIP_TAG == testR )
 			{
 				domutil.stripMarkup( child, test, doNormalize );
-				domutil.unwrapElementChildren( child, doNormalize );
+				nextChild = domutil.unwrapElementChildren( child, doNormalize );
 			}
 		}
 		child = nextChild;

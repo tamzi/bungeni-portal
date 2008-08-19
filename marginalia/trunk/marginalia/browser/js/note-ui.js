@@ -23,7 +23,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * $Id: note-ui.js 270 2007-11-20 07:34:19Z geof.glass $
+ * $Id: note-ui.js 300 2008-07-09 05:52:31Z geof.glass $
  */
 
 AN_NOTES_CLASS = 'notes';			// the notes portion of a fragment
@@ -325,13 +325,17 @@ Marginalia.defaultDisplayNote = function( marginalia, annotation, noteElement, p
 	if ( titleText )
 		noteText.setAttribute( 'title', titleText );
 	
-	// If this doesn't belong to the current user, add the name of the owning user
+	// This doesn't belong to the current user, add the name of the owning user
 	if ( ! params.isCurrentUser )
 	{
 		domutil.addClass( noteElement, 'other-user' );
-		noteText.insertBefore( domutil.element( 'span', {
-			className:  'username',
-			content:  'author: ' + annotation.getUserId( ) } ), noteText.firstChild );
+		// If multiple users' notes are being displayed, show the owner's name
+//		if ( annotation.getUserId( ) != marginalia.anusername )
+//		{
+			noteText.insertBefore( domutil.element( 'span', {
+				className:  'username',
+   			    content:  'author: ' + annotation.getUserId( ) } ), noteText.firstChild );
+//		}
 	}
 	noteElement.appendChild( noteText );
 	

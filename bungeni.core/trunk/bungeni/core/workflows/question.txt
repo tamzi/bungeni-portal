@@ -59,12 +59,26 @@ Workflow
   ...     state = info.state().getState()
   ...     return tuple(transition.transition_id for transition in wf.getTransitions(state))
 
-    >>> question = Question()
+
+Permissions
+-----------
+  >>> def permission(question):
+  ...   wf = IWorkflow(question)
+  ...   info = IWorkflowInfo(question)
+  ...   state = info.state().getState()
+  ...   return tuple(transition.permission for transition in wf.getTransitions(state))
+
+
+
+  >>> question = Question()
 
 First we initialize the workflow.
   
   >>> transitions(question)
   ('create',)
+
+  >>> permission(question)
+  ('bungeni.question.Create',)
 
   >>> IWorkflowInfo(question).fireTransition('create')
 
@@ -73,6 +87,8 @@ The question is now in a draft state.
   >>> transitions(question)
   ('submit-to-clerk', 'withdraw-draft')
   
+  >>> permission(question)
+  ('bungeni.question.Submit', 'bungeni.question.Withdraw')
 
 A question can be withdrawn at (almost) any stage  
   

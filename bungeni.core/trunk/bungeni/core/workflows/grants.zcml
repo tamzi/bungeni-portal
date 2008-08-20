@@ -1,0 +1,11 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+  <!--grant permission="bungeni.question.Create" role="zope.Member" />
+  <grant permission="bungeni.question.Submit" role="zope.Member"/>
+  <grant permission="bungeni.question.Recieve" role="zope.Member"/>
+  <grant permission="bungeni.question.clerk.Review" role="zope.Member"/>
+  <grant permission="bungeni.question.speaker.Review"  role="zope.Member"/>
+  <grant permission="bungeni.question.Schedule" role="zope.Member"/>
+  <grant permission="bungeni.question.Respond" role="zope.Member"/>
+  <grant permission="bungeni.question.Answer" role="zope.Member"/>
+  <grant permission="bungeni.question.Withdraw" role="zope.Member"/-->
+</configure>

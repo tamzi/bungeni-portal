@@ -1,5 +1,12 @@
 <configure xmlns="http://namespaces.zope.org/zope">
 
+  <!-- workflow permissions -->
+  <include file="permissions.zcml" />
+  
+  <!-- grant workflow permissions to roles -->
+  <include file="grants.zcml" />
+
+
   <!-- content workflow -->
   <adapter
      for="..interfaces.IBungeniContent"

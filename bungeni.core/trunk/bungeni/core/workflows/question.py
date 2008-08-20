@@ -45,6 +45,7 @@ def create_question_workflow( ):
         transition_id = 'submit-to-clerk',
         title=_(u'Submit to Clerk'),
         source = states.draft,
+        trigger = iworkflow.MANUAL,        
         action = utils.createVersion,
         destination = states.submitted,
         permission = 'bungeni.question.Submit',
@@ -54,6 +55,7 @@ def create_question_workflow( ):
         transition_id = 'received-by-clerk',
         title=_(u'Receive'),
         source = states.submitted,
+        trigger = iworkflow.MANUAL,                
         destination = states.received,
         permission = 'bungeni.question.Recieve',        
         ) )    
@@ -68,8 +70,9 @@ def create_question_workflow( ):
         transition_id = 'require-edit-by-mp',
         title=_(u'Needs Clarification by MP'),
         source = states.received,
+        trigger = iworkflow.MANUAL,                
         destination = states.draft,
-        permission = 'bungeni.question.clerk.review',        
+        permission = 'bungeni.question.clerk.Review',        
         ) )   
     # the clerks office can reject a question directly
 
@@ -77,8 +80,9 @@ def create_question_workflow( ):
         transition_id = 'clerk-reject',
         title=_(u'Reject'),
         source = states.received,
+        trigger = iworkflow.MANUAL,                
         destination = states.inadmissible,
-        permission = 'bungeni.question.clerk.review',        
+        permission = 'bungeni.question.clerk.Review',        
         ) ) 
 
 
@@ -95,8 +99,9 @@ def create_question_workflow( ):
         transition_id = 'complete',
         title=_(u'Complete'),
         source = states.received,
+        trigger = iworkflow.MANUAL,                
         destination = states.complete,
-        permission = 'bungeni.question.clerk.review',        
+        permission = 'bungeni.question.clerk.Review',        
         ) ) 
 
     #the Speaker's office may decide that a proposed Question is “admissible”, “inadmissible” 
@@ -111,25 +116,28 @@ def create_question_workflow( ):
         transition_id = 'approve',
         title=_(u'Approve'),
         source = states.complete,
+        trigger = iworkflow.MANUAL,                
         destination = states.admissible,
-        permission = 'bungeni.question.speaker.review',        
+        permission = 'bungeni.question.speaker.Review',        
         ) )     
         
     add( workflow.Transition(
         transition_id = 'reject',
         title=_(u'Reject'),
         source = states.complete,
+        trigger = iworkflow.MANUAL,                
         destination = states.inadmissible,
-        permission = 'bungeni.question.speaker.review',        
+        permission = 'bungeni.question.speaker.Review',        
         ) )    
         
     add( workflow.Transition(
         transition_id = 'require-amendment',
         title=_(u'Requires Amendment'),
         source = states.complete,
+        trigger = iworkflow.MANUAL,                
         action = utils.createVersion,        
         destination = states.requires_amend,
-        permission = 'bungeni.question.speaker.review',        
+        permission = 'bungeni.question.speaker.Review',        
         ) )                    
     
     # after a question is amended it can be resubmitted to the clerks office
@@ -138,6 +146,7 @@ def create_question_workflow( ):
         transition_id = 'resubmit-clerk',
         title=_(u'Resubmit to clerk'),
         source = states.requires_amend,
+        trigger = iworkflow.MANUAL,                
         action = utils.createVersion,
         destination = states.submitted,
         permission = 'bungeni.question.Submit',       
@@ -156,8 +165,9 @@ def create_question_workflow( ):
         title=_(u'Schedule'),
         #trigger = iworkflow. , #triggered by scheduling ?        
         source = states.admissible,
+        trigger = iworkflow.MANUAL,                
         destination = states.scheduled,
-        permission = 'bungeni.question.schedule',        
+        permission = 'bungeni.question.Schedule',        
         ) )         
     
     # questions which are flagged as “requiring written response” are never scheduled,
@@ -167,8 +177,9 @@ def create_question_workflow( ):
         transition_id = 'respond-writing',
         title=_(u'Respond'),
         source = states.admissible,
+        trigger = iworkflow.MANUAL,                
         destination = states.responded,
-        permission = 'bungeni.question.schedule',        
+        permission = 'bungeni.question.Schedule',        
         ) )         
     
     
@@ -180,8 +191,9 @@ def create_question_workflow( ):
         transition_id = 'defer',
         title=_(u'Defer'),
         source = states.admissible,
+        trigger = iworkflow.MANUAL,                
         destination = states.deferred,
-        permission = 'bungeni.question.schedule',        
+        permission = 'bungeni.question.Schedule',        
         ) )  
 
     # A defered question can be rescheduled later
@@ -191,8 +203,9 @@ def create_question_workflow( ):
         title=_(u'Schedule'),
         source = states.deferred,
         #trigger = iworkflow. , #triggered by scheduling ?                
+        trigger = iworkflow.MANUAL,                
         destination = states.scheduled,
-        permission = 'bungeni.question.schedule',        
+        permission = 'bungeni.question.Schedule',        
         ) )  
 
 
@@ -203,16 +216,18 @@ def create_question_workflow( ):
         transition_id = 'postpone',
         title=_(u'Postpone'),
         source = states.scheduled,
+        trigger = iworkflow.MANUAL,                
         destination = states.postponed,
-        permission = 'bungeni.question.schedule',        
+        permission = 'bungeni.question.Schedule',        
         ) )      
         
     add( workflow.Transition(
         transition_id = 'respond-sitting',
         title=_(u'Respond'),
         source = states.scheduled,
+        trigger = iworkflow.MANUAL,                
         destination = states.responded,
-        permission = 'bungeni.question.respond',        
+        permission = 'bungeni.question.Respond',        
         ) )      
         
     # postponed questions are rescheduled
@@ -221,8 +236,9 @@ def create_question_workflow( ):
         transition_id = 'schedule-postponed',
         title=_(u'Postpone'),
         source = states.postponed,
+        trigger = iworkflow.MANUAL,                
         destination = states.scheduled,        
-        permission = 'bungeni.question.schedule',        
+        permission = 'bungeni.question.Schedule',        
         ) )      
 
     #The response is sent to the Clerk's office, before being sent to the MP.
@@ -231,8 +247,9 @@ def create_question_workflow( ):
         transition_id = 'answer',
         title=_(u'Answer'),
         source = states.responded,
+        trigger = iworkflow.MANUAL,                
         destination = states.answered,
-        permission = 'bungeni.question.answer',        
+        permission = 'bungeni.question.Answer',        
         ) )       
 
     #the MP can withdraw his question at (almost) any stage
@@ -243,66 +260,75 @@ def create_question_workflow( ):
         transition_id = 'withdraw-draft',
         title=_(u'Withdraw'),
         source = states.draft,
+        trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
-        permission = 'bungeni.question.withdraw',        
+        permission = 'bungeni.question.Withdraw',        
         ) )  
 
     add( workflow.Transition(
         transition_id = 'withdraw-submitted',
         title=_(u'Withdraw'),
         source = states.submitted,
+        trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
-        permission = 'bungeni.question.withdraw',        
+        permission = 'bungeni.question.Withdraw',        
         ) )   
 
     add( workflow.Transition(
         transition_id = 'withdraw-received',
         title=_(u'Withdraw'),
         source = states.received,
+        trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
-        permission = 'bungeni.question.withdraw',        
+        permission = 'bungeni.question.Withdraw',        
         ) )   
     add( workflow.Transition(
         transition_id = 'withdraw-complete',
         title=_(u'Withdraw'),
         source = states.complete,
+        trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
-        permission = 'bungeni.question.withdraw',        
+        permission = 'bungeni.question.Withdraw',        
         ) )   
     add( workflow.Transition(
         transition_id = 'withdraw-admissible',
         title=_(u'Withdraw'),
         source = states.admissible,
+        trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
-        permission = 'bungeni.question.withdraw',        
+        permission = 'bungeni.question.Withdraw',        
         ) )   
     add( workflow.Transition(
         transition_id = 'withdraw-amend',
         title=_(u'Withdraw'),
         source = states.requires_amend,
+        trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
-        permission = 'bungeni.question.withdraw',        
+        permission = 'bungeni.question.Withdraw',        
         ) )                           
     add( workflow.Transition(
         transition_id = 'withdraw-scheduled',
         title=_(u'Withdraw'),
         source = states.scheduled,
+        trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
-        permission = 'bungeni.question.withdraw',        
+        permission = 'bungeni.question.Withdraw',        
         ) )   
     add( workflow.Transition(
         transition_id = 'withdraw-deferred',
         title=_(u'Withdraw'),
         source = states.deferred,
+        trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
-        permission = 'bungeni.question.withdraw',        
+        permission = 'bungeni.question.Withdraw',        
         ) )   
     add( workflow.Transition(
         transition_id = 'withdraw-postponed',
         title=_(u'Withdraw'),
         source = states.postponed,
+        trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
-        permission = 'bungeni.question.withdraw',        
+        permission = 'bungeni.question.Withdraw',        
         ) )   
                 
     return transitions

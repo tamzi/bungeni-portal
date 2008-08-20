@@ -13,6 +13,8 @@ from zope.app.testing import placelesssetup
 from zope.configuration import xmlconfig
 from bungeni.core import metadata
 
+import browser.test_dates
+
 zcml_slug = """
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:db="http://namespaces.objectrealms.net/rdb">
@@ -53,15 +55,19 @@ def test_suite():
     doctests = ( 'browser/readme.txt',  )
 
     globs = dict(interface=interface, component=component)
+    test_suites = []
     
-    return unittest.TestSuite((
-        doctestunit.DocFileSuite(filename,
+    for filename in doctests:
+        test_suite = doctestunit.DocFileSuite(filename,
                                  setUp = setUp,
                                  tearDown = tearDown,
                                  globs = globs,
                                  optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
-                                 ) for filename in doctests
-        ))
+                                 )
+        test_suites.append( test_suite )                                 
+
+    test_suites.append(browser.test_dates.test_suite())                                
+    return unittest.TestSuite( test_suites )
 
 if __name__ == '__main__':
     unittest.main(defaultTest='test_suite')

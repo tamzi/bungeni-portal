@@ -38,7 +38,7 @@ def create_question_workflow( ):
         trigger = iworkflow.AUTOMATIC,
         source = None,
         destination = states.draft,
-        permission = "bungeni.question.Create",
+        #permission = "bungeni.question.Create",
         ) )
 
     add( workflow.Transition(

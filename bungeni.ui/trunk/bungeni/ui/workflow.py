@@ -19,7 +19,7 @@ from bungeni.core import audit
 from sqlalchemy import orm
 from zc.table import batching, column
 import sqlalchemy as rdb
-
+import pdb
 
 class WorkflowViewletManager( WeightOrderedViewletManager ):
     """
@@ -111,9 +111,9 @@ class TransitionHandler( object ):
         context = getattr( form.context, '_object', form.context )
 
         if self.wf_name:
-            info = component.getAdapter( context, interfaces.IWorkflowInfo, self.wf_name )
+            info = component.getAdapter( context, interfaces.IWorkflowInfo, self.wf_name )            
         else:
-            info = interfaces.IWorkflowInfo( context )
+            info = interfaces.IWorkflowInfo( context )           
         info.fireTransition( self.transition_id )        
         form.setupActions()
 
@@ -131,7 +131,7 @@ def bindTransitions( form_instance, transitions, wf_name=None, wf=None):
         if success_factory:
             d['success'] = success_factory( tid )
         if wf is not None:
-            action = form.Action( _(unicode(wf.getTransitionById( tid ).title) ) )
+            action = form.Action( _(unicode(wf.getTransitionById( tid ).title)), **d )
         else:
             action = form.Action( tid, **d )
         action.form = form_instance
@@ -170,7 +170,7 @@ class WorkflowActionViewlet( BaseForm, viewlet.ViewletBase ):
     def setupActions( self ):
         self.wf = interfaces.IWorkflowInfo( self.context )
         transitions = self.wf.getManualTransitionIds()
-        self.actions = bindTransitions( self, transitions )  
+        self.actions = bindTransitions( self, transitions, None, interfaces.IWorkflow( self.context ) )          
  
         
     def setUpWidgets( self , ignore_request=False):
@@ -197,6 +197,6 @@ class Workflow( BaseForm ):
     def setupActions( self ):
         self.wf = interfaces.IWorkflowInfo( self.context )
         transitions = self.wf.getManualTransitionIds()
-        self.actions = bindTransitions( self, transitions )
+        self.actions = bindTransitions( self, transitions, None, interfaces.IWorkflow( self.context ) )
 
         

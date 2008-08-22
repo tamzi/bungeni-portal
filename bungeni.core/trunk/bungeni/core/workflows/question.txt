@@ -78,7 +78,7 @@ First we initialize the workflow.
   ('create',)
 
   >>> permission(question)
-  ('bungeni.question.Create',)
+  (Global(CheckerPublic,zope.security.checker),)
 
   >>> IWorkflowInfo(question).fireTransition('create')
 

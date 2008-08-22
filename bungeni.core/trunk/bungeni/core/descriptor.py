@@ -839,7 +839,9 @@ class QuestionDescriptor( ModelDescriptor ):
         dict( name="question_type", listing=True, 
               property=schema.Choice( title=_(u"Question Type"), 
                                       description=_("(O)rdinary or (P)rivate Notice"), 
-                                      vocabulary=vocabulary.QuestionType) ),
+                                      vocabulary=vocabulary.QuestionType) ,
+             # listing_column=vocab_column('question_type', _(u"Question Type"),  vocabulary.QuestionType() ), 
+              ),                                    
         dict( name="response_type",  listing=True,
              property=schema.Choice( title=_(u"Response Type"), 
                                       description=_("(O)ral or (W)ritten"), 
@@ -848,8 +850,11 @@ class QuestionDescriptor( ModelDescriptor ):
              ),
         dict( name="owner_id", 
               property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, title_field='fullname', token_field='user_id', value_field = 'user_id' )), 
+              listing_column=vocab_column( "owner_id" , _(u'Owner'),
+               DatabaseSource(domain.ParliamentMember, title_field='fullname', token_field='user_id', value_field = 'user_id' ), ),              
+              listing = True 
             ),
-        dict( name="subject", label=_(u"Subject"), description=_(u"Subject of the Question"), edit_widget = widgets.LongTextWidget ),
+        dict( name="subject", label=_(u"Subject"), description=_(u"Subject of the Question"), edit_widget = widgets.LongTextWidget, listing=True ),
         dict( name="question_text", property=schema.Text(title=_(u"Question"), required=True ),
               view_widget=widget.HTMLDisplay,
               edit_widget=widget.RichTextEditor, 
@@ -866,7 +871,8 @@ class QuestionDescriptor( ModelDescriptor ):
               required=False )
               ),
         dict( name="sitting_time", label=_(u"Sitting Time"), listing=True ),
-        dict( name="receive_notification", label=_(u"Receive notification"), description=_(u"Select this option to receive notifications for this question."), listing=True ),
+        dict( name="receive_notification", label=_(u"Receive notification"), 
+              description=_(u"Select this option to receive notifications for this question."), listing=False ),
         ]
         
 class ResponseDescriptor( ModelDescriptor ):

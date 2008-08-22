@@ -10,6 +10,8 @@ from bungeni.server.smtp import dispatch
 
 from ore.alchemist import Session
 
+
+#XXX tto be moved into global registry
 portal_from_address = "Bungeni Portal <bungeni@localhost>"
 
 @component.adapter(IQuestionReceivedEvent)

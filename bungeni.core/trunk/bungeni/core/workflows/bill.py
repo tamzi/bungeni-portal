@@ -153,7 +153,7 @@ BillWorkflowAdapter = workflow.AdaptedWorkflow( BillWorkflow() )
 
 if __name__ == '__main__':
     wf = BillWorkflow()
-    print wf.toDot()
+    print wf.dot()
     
          
         

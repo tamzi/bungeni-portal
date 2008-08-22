@@ -7,8 +7,8 @@ from zope.component.interfaces import ObjectEvent
 from ore.workflow import interfaces as iworkflow
 from ore.workflow import workflow
 
-import interfaces
-import utils
+import bungeni.core.workflows.interfaces as interfaces
+import bungeni.core.workflows.utils as utils
 
 from bungeni.core.i18n import _
 
@@ -234,7 +234,7 @@ def create_question_workflow( ):
     
     add( workflow.Transition(
         transition_id = 'schedule-postponed',
-        title=_(u'Postpone'),
+        title=_(u'Schedule'),
         source = states.postponed,
         trigger = iworkflow.MANUAL,                
         destination = states.scheduled,        
@@ -358,7 +358,7 @@ QuestionWorkflowAdapter = workflow.AdaptedWorkflow( QuestionWorkflow() )
 
 if __name__ == '__main__':
     wf = QuestionWorkflow()
-    print wf.toDot()
+    print wf.dot()
 
 
     

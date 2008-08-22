@@ -171,10 +171,10 @@ If it needs clarification this sets it back to draft and it must be submitted ag
   
 
   >>> transitions(question)
-  ('submit-to-clerk', 'withdraw-draft')
+  ('resubmit-clerk', 'withdraw-amend')
 
     
-  >>> result = IWorkflowInfo(question).fireTransition('submit-to-clerk')
+  >>> result = IWorkflowInfo(question).fireTransition('resubmit-clerk')
   
 versioned again
   

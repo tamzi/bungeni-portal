@@ -71,7 +71,7 @@ def create_question_workflow( ):
         title=_(u'Needs Clarification by MP'),
         source = states.received,
         trigger = iworkflow.MANUAL,                
-        destination = states.draft,
+        destination = states.requires_amend,
         permission = 'bungeni.question.clerk.Review',        
         ) )   
     # the clerks office can reject a question directly
@@ -132,7 +132,7 @@ def create_question_workflow( ):
         
     add( workflow.Transition(
         transition_id = 'require-amendment',
-        title=_(u'Requires Amendment'),
+        title=_(u'Needs Clarification by MP'),
         source = states.complete,
         trigger = iworkflow.MANUAL,                
         action = utils.createVersion,        

@@ -602,8 +602,10 @@ questions = rdb.Table(
    # after the question is scheduled
    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id')  ),
    rdb.Column( "sitting_time", rdb.Date),
+   #
    # Receive Question Notifications -> triggers notification on workflow change
-   rdb.Column( "receive_notification", rdb.Boolean, default=True )
+   rdb.Column( "receive_notification", rdb.Boolean, default=True ),
+   rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('ministries.ministry_id')), 
    
    )
 

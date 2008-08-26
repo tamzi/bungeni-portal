@@ -12,7 +12,7 @@ class ConstraintNavigation( viewlet.ViewletBase ):
     for alchemist content not containers
     """
     
-    template = ViewPageTemplateFile('contained-constraint-navigation.pt')
+    template = ViewPageTemplateFile('templates/contained-constraint-navigation.pt')
     
     def render( self ):
         return self.template()

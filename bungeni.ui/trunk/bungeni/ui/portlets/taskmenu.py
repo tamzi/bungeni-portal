@@ -4,7 +4,7 @@ from zope.app.publisher.interfaces.browser import IBrowserMenu
 from zope.app.pagetemplate import ViewPageTemplateFile
 
 class TaskMenuViewlet(object):
-    render = ViewPageTemplateFile("taskmenu.pt")
+    render = ViewPageTemplateFile("templates/taskmenu.pt")
     
     def update(self):
         self.menu = component.getUtility(IBrowserMenu, name='task_actions')

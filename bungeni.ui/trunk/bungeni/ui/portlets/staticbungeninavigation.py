@@ -11,4 +11,4 @@ class StaticViewletBungeniNavigation( viewlet.ViewletBase ):
     for demo purposes
     """
 
-    render = ViewPageTemplateFile( 'static-bungeni-public-navtree.pt' )        
+    render = ViewPageTemplateFile( 'templates/static-bungeni-public-navtree.pt' )        

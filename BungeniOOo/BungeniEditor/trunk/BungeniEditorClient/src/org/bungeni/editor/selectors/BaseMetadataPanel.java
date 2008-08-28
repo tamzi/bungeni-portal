@@ -15,6 +15,7 @@ import org.bungeni.commands.chains.BungeniCatalogCommand;
 import org.bungeni.commands.chains.BungeniCommandsCatalogLoader;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
+import org.bungeni.editor.selectors.BaseMetadataContainerPanel.ConditionSet;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
 
@@ -53,6 +54,7 @@ public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel
         getFormContext().setTheSubAction(getTheSubAction());
         getFormContext().setOoDocument(getOoDocument());
         getFormContext().setPreInsertMap(getThePreInsertMap());
+        getFormContext().setConditionSet(getConditionSet());
     }
      
     private void initFields(){
@@ -112,6 +114,9 @@ public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel
         return getContainerPanel().getDialogMode();
     }
 
+    public ConditionSet getConditionSet(){
+        return getContainerPanel().getConditionSet();
+    }
     public void addErrorMessage(java.awt.Component p, String msg) {
         getContainerPanel().addErrorMessage(p, msg);
     }

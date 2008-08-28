@@ -15,6 +15,7 @@ import org.apache.commons.chain.impl.ContextBase;
 import org.apache.log4j.Logger;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
+import org.bungeni.editor.selectors.BaseMetadataContainerPanel.ConditionSet;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooDocMetadataFieldSet;
 
@@ -31,10 +32,12 @@ public class BungeniFormContext extends ContextBase implements IBungeniFormConte
     private OOComponentHelper ooDocument;
     private IBungeniForm bungeniForm;
     private HashMap<String, ArrayList<Object>> fieldSets = new HashMap<String,ArrayList<Object>>();
-    private HashMap<String,String> conditionSets = new HashMap<String,String>();
+    //move condition to container panel
+    //private HashMap<String,String> conditionSets = new HashMap<String,String>();
     //private ArrayList<ooDocFieldSet> fieldSets = new ArrayList<ooDocFieldSet>(0);
     private ArrayList<ooDocMetadataFieldSet> metadataFieldSets = new ArrayList<ooDocMetadataFieldSet>(0);
     private HashMap<String,Object> preInsertMap = new HashMap<String, Object>();
+    private ConditionSet conditionSet ;
     /** Creates a new instance of BungeniFormContext */
     public BungeniFormContext(){
         
@@ -52,35 +55,7 @@ public class BungeniFormContext extends ContextBase implements IBungeniFormConte
         return theAction;
     }
 
-    public HashMap<String,String> getConditionSet(){
-        return this.conditionSets;
-    }
-    
-    public boolean conditionalsExist(){
-        if (this.conditionSets.size() > 0 ) 
-            return true;
-        else 
-            return false;
-    }
-    
-    public void addConditionSet(String conditionName, String conditionValue) {
-        if (!conditionSets.containsKey(conditionName)) {
-            this.conditionSets.put(conditionName, conditionValue);
-        }
-    }
-    
-    public void setConditionSetValue(String conditionName, String conditionValue) {
-        if (this.conditionSets.containsKey(conditionName)) {
-            conditionSets.put(conditionName, conditionValue);
-        } 
-    }
-    
-    public String getConditionValue(String condName) {
-       if (conditionSets.containsKey(condName)) {
-           return conditionSets.get(condName); 
-       } else 
-           return null;
-    }
+
     
     
     public void setTheAction(toolbarAction theAction) {
@@ -111,6 +86,13 @@ public class BungeniFormContext extends ContextBase implements IBungeniFormConte
         this.bungeniForm = frm;
     }
 
+    public void setConditionSet(ConditionSet set){
+        this.conditionSet = set;
+    }
+    
+    public ConditionSet getConditionSet(){
+        return conditionSet;
+    }
     public void addFieldSet(String fieldKey) {
         if (fieldSets.containsKey(fieldKey)) {
             return;

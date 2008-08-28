@@ -8,6 +8,7 @@ package org.bungeni.editor.selectors;
 
 import com.l2fprod.common.swing.JTaskPaneGroup;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JFrame;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
@@ -27,6 +28,54 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel {
     private toolbarAction theAction = null;
     private toolbarSubAction theSubAction = null;
     private SelectorDialogModes dialogMode;
+    
+    public class ConditionSet {
+        
+        HashMap<String,String> conditionSet = new HashMap<String,String>();
+        
+        public ConditionSet(){
+            
+        }
+        
+        public HashMap<String,String> getConditionSet(){
+            return this.conditionSet;
+        }
+    
+        public boolean conditionalsExist(){
+            if (this.conditionSet.size() > 0 ) 
+                return true;
+            else 
+                return false;
+        }
+    
+        public void addConditionSet(String conditionName, String conditionValue) {
+            if (!conditionSet.containsKey(conditionName)) {
+                this.conditionSet.put(conditionName, conditionValue);
+            }
+        }
+
+        public void setConditionSetValue(String conditionName, String conditionValue) {
+            if (this.conditionSet.containsKey(conditionName)) {
+                conditionSet.put(conditionName, conditionValue);
+            } 
+        }
+
+        public String getConditionValue(String condName) {
+           if (conditionSet.containsKey(condName)) {
+               return conditionSet.get(condName); 
+           } else 
+               return null;
+        }
+
+    }
+    
+    private ConditionSet conditionSet = null;
+    
+    public ConditionSet getConditionSet() {
+        return conditionSet;
+    }
+    
+    
     /**
      * error messages
      */
@@ -38,6 +87,7 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel {
     public BaseMetadataContainerPanel() {
         super();
         initComponents();
+        conditionSet = new ConditionSet();
     }
     
     public class ErrorMessage {

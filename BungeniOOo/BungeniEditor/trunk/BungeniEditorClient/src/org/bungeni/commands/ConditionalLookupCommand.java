@@ -23,10 +23,10 @@ public abstract class ConditionalLookupCommand extends LookupCommand {
         String condition = getCondition();
         
         BungeniFormContext formContext = (BungeniFormContext) context;
-        
-        if (formContext.conditionalsExist()) {
+        //if the condition exists.. check the condition
+        if (formContext.getConditionSet().conditionalsExist()) {
             String conditionValue = "";
-            conditionValue = formContext.getConditionValue(condition);
+            conditionValue = formContext.getConditionSet().getConditionValue(condition);
             if (conditionValue == null ) {
                 return false;
             }
@@ -36,10 +36,13 @@ public abstract class ConditionalLookupCommand extends LookupCommand {
                 return false;
             } else {
                 boolean bReturn = super.execute(context);
+                if (!bReturn) formContext.getConditionSet().setConditionSetValue(getCondition(), "true");
                 return bReturn;
             }
         } else {
             boolean bCondition = super.execute(context);
+            if (!bCondition) formContext.getConditionSet().setConditionSetValue(getCondition(), "true");
+
             return bCondition;
         }
      //   formContext.getCondition()

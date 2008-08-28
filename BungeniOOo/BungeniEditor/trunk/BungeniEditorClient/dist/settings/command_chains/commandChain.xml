@@ -4,9 +4,9 @@
 	<chain name="debateRecordMastheadConditionalCreateContainer">
             <!--precheck for section existence -->
             <!--  section_back_color, section_left_margin, container_section, current_section -->
-            <command   id="debateRecordDateFullInsert.addSectionIntoSectionWithStyling" className="org.bungeni.commands.addSectionIntoSectionWithStyling" />
+            <command   id="debateRecordMastheadConditionalCreateContainer.addSectionIntoSectionWithStyling" className="org.bungeni.commands.addSectionIntoSectionWithStyling" />
   	    <!--new_section -->
-            <command   id="debateRecordDateFullInsert.setSectionMetadataForAction" className="org.bungeni.commands.setSectionMetadataForAction"/>
+            <command   id="debateRecordMastheadConditionalCreateContainer.setSectionMetadataForAction" className="org.bungeni.commands.setSectionMetadataForAction"/>
 	</chain>
 	<chain name="debateRecordLogoFullInsert">
 	    <!--pre check for section existence usig variable set 'section_exists' -->

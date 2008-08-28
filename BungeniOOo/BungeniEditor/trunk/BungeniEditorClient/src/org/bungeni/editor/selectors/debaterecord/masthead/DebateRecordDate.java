@@ -13,10 +13,15 @@ import java.text.SimpleDateFormat;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
+import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.DefaultInstanceFactory;
+import org.bungeni.db.QueryResults;
+import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
+import org.bungeni.ooo.ooDocFieldSet;
 import org.bungeni.ooo.ooDocMetadata;
+import org.bungeni.utils.CommonPropertyFunctions;
 
 /**
  *
@@ -100,12 +105,50 @@ public class DebateRecordDate extends BaseMetadataPanel {
      */
     @Override
     public boolean preFullInsert() {
-        
+           long sectionBackColor = 0xffffff;
+            float sectionLeftMargin = (float).2;
+            String parentSection = getParentSection();
+            
+            String newSectionName = getNewSectionName();
+            if (getOoDocument().hasSection(newSectionName)) {
+                getFormContext().getConditionSet().addConditionSet("section_exists", "true");
+            } else {
+                getFormContext().getConditionSet().addConditionSet("section_exists", "false");
+            }
+            //create field sets
+            //addSectionIntoSectionWithStyling
+            getFormContext().addFieldSet("section_back_color");
+            getFormContext().addFieldSet("section_left_margin");
+            getFormContext().addFieldSet("container_section");
+            getFormContext().addFieldSet("current_section");
+            //setSctionMetadataForAction
+            getFormContext().addFieldSet("new_section");
+            //addd image into section
+     
+            
+              //addSectionIntoSectionWithStyling
+            getFormContext().getFieldSets("section_back_color").add((Long.toHexString(sectionBackColor)));
+            getFormContext().getFieldSets("section_left_margin").add(Float.toString(sectionLeftMargin));
+            getFormContext().getFieldSets("container_section").add(parentSection);
+            getFormContext().getFieldSets("current_section").add(newSectionName);
+             //setSectionMetadataForAction   
+            getFormContext().getFieldSets("new_section").add(newSectionName);
+            //addImageIntoSections
+            SimpleDateFormat formatter = new SimpleDateFormat ("MMMM dd yyyy");
+            String strDebateDate = formatter.format( dt_initdebate_hansarddate.getDate());
+           getFormContext().addFieldSet("document_field_set");
+           getFormContext().getFieldSets("document_field_set").add(new ooDocFieldSet(new String("debaterecord_official_date"),
+                                            (String) strDebateDate,
+                                            newSectionName));
+           //getFormContext().addFieldSet("container_section");
+          // getFormContext().getFieldSets("container_section").add(containerSection);
+            
         return true;    
     }
 
     @Override
     public boolean processFullInsert() {
+       boolean bReturn = processCatalogCommand();
        return true;
     }
 
@@ -254,4 +297,50 @@ public class DebateRecordDate extends BaseMetadataPanel {
 
      
   }
+
+   public String getParentSection(){
+      String parentSection = "";
+      BungeniClientDB dbSettings = new BungeniClientDB(DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
+      dbSettings.Connect();
+      QueryResults qr = dbSettings.QueryResults(SettingsQueryFactory.Q_CHECK_IF_ACTION_HAS_PARENT(getTheAction().action_naming_convention()));
+      dbSettings.EndConnect();
+      String[] results = qr.getSingleColumnResult("THE_COUNT");
+      if (results[0].equals("0")) {
+          //get the main root as the partn
+          parentSection = CommonPropertyFunctions.getDocumentRootSection();
+        } else {
+          //this needs to be patched to deal with non root parents..
+          parentSection = CommonPropertyFunctions.getDocumentRootSection();
+        }
+     return parentSection;
+    }
+  
+ 
+       
+  public String getNewSectionName() {
+        String newSectionName ="";
+        if (getTheAction().action_type().equals("section")) {
+            if (getTheAction().action_numbering_convention().equals("single")) {
+                return getTheAction().action_naming_convention();
+            } else {
+                String sectionPrefix = getTheAction().action_naming_convention();
+                log.debug("getNewSectionName: sectionPrefix = "+ sectionPrefix);
+                for (int i=1; ; i++) {
+                    newSectionName = sectionPrefix+i;
+                    if (getOoDocument() == null ) {
+                        //System.out.println("ooDocument is null in new section name");
+                    }
+                    if (getOoDocument().hasSection(newSectionName))
+                        continue;
+                    else
+                        break;
+                }
+            }
+            return newSectionName;
+        } else {
+            log.debug("getNewSectionName: the action type is not a section.");
+            return null;
+        }
+    }
+
 }

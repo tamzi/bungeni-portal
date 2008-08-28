@@ -137,7 +137,13 @@ private void btn_initdebate_selectlogoActionPerformed(java.awt.event.ActionEvent
             long sectionBackColor = 0xffffff;
             float sectionLeftMargin = (float).2;
             String parentSection = getParentSection();
+            
             String newSectionName = getNewSectionName();
+            if (getOoDocument().hasSection(newSectionName)) {
+                getFormContext().getConditionSet().addConditionSet("section_exists", "true");
+            } else {
+                getFormContext().getConditionSet().addConditionSet("section_exists", "false");
+            }
             //create field sets
             //addSectionIntoSectionWithStyling
             getFormContext().addFieldSet("section_back_color");

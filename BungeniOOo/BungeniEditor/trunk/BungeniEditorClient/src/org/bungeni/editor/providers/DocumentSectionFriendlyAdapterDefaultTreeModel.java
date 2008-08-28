@@ -35,6 +35,8 @@ public class DocumentSectionFriendlyAdapterDefaultTreeModel extends DefaultTreeM
           treeModelTimer = new Timer(DocumentSectionProvider.TIMER_DELAY, new ActionListener(){
             public void actionPerformed(ActionEvent e) {
                 try {
+                DefaultMutableTreeNode nnode = DocumentSectionFriendlyTreeModelProvider.newRootNode();
+                
                 setRoot(DocumentSectionFriendlyTreeModelProvider.newRootNode());
                 
                 } catch (Exception ex) {

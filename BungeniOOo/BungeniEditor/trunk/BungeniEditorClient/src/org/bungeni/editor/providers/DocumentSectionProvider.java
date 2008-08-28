@@ -32,6 +32,7 @@ import javax.swing.Timer;
 import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooQueryInterface;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.BungeniBNode;
 import org.bungeni.utils.BungeniBTree;
 import org.bungeni.utils.NodeDisplayTextSetter;
@@ -92,15 +93,20 @@ public class DocumentSectionProvider {
     public static BungeniBNode getTreeRoot(){
        
         if (theSectionTree.getTree().size() == 0 ) {
-            theSectionTree = generateSectionsTree(null);
+            SectionTree aTree = new SectionTree(ooDocument);
+            theSectionTree = aTree.newTree();
         } 
         
         return theSectionTree.getTree().get(theSectionTree.getTree().firstKey());
             
     }
     public static BungeniBTree getNewTree(){
-        BungeniBTree bnewTree = generateSectionsTree(null);
-        return bnewTree;
+        SectionTree aTree = new SectionTree(ooDocument);
+        BungeniBTree bTree = aTree.newTree();
+        return bTree;
+        
+     //   BungeniBTree bnewTree = generateSectionsTree(null);
+     //   return bnewTree;
          /* 
         NewTreeAgent newTree = new NewTreeAgent(0);
         newTree.execute();
@@ -147,6 +153,12 @@ public class DocumentSectionProvider {
         }
         
     }
+   
+   public static BungeniBTree getNewFriendlyTree(){
+       SectionTree aTree = new SectionTree(ooDocument);
+       return aTree.newFriendlyTree();
+   }
+   /*
     public static BungeniBTree getNewFriendlyTree(){
         BungeniBTree bnewTree = null;
         try {
@@ -156,17 +168,216 @@ public class DocumentSectionProvider {
         } finally {
         return bnewTree;
         }
-        /*
-        NewTreeAgent newTree = new NewTreeAgent(1);
-        newTree.execute();
-        return newTree.theTree;
-         */ 
+      
     }
+    */ 
     private static void buildSectionTree() {
         //disable the global timer.s
        //s initTimer();
     }
     
+    
+   static  class SectionTree {
+        OOComponentHelper sectionTreeOpenDocument;
+          private final ArrayList<String> ignoreTheseSections = new ArrayList<String>(){
+        {
+            add("num_");
+        }
+    };
+    
+        public SectionTree(OOComponentHelper ooDoc) {
+            sectionTreeOpenDocument = ooDoc;
+        }
+        
+       private boolean sectionExclusions(String checkSection){
+        for (String secName : ignoreTheseSections) {
+           if (checkSection.startsWith(secName)) {
+               return true;
+           }
+        }
+        return false;
+    }
+       
+        private  ArrayList<String> getParentChain(String Sectionname, OOComponentHelper ooDoc){
+         ArrayList<String> nodeHierarchy = new ArrayList<String>();
+             XTextSection currentSection = ooDoc.getSection(Sectionname);
+              XTextSection sectionParent=currentSection.getParentSection();
+              XNamed parentProps = ooQueryInterface.XNamed(sectionParent);
+              String parentSectionname = parentProps.getName();
+              String currentSectionname = Sectionname;
+              //array list goes from child(0) to ancestors (n)
+              log.debug("getParentChain: nodeHierarchy: Adding "+ currentSectionname);
+              nodeHierarchy.add(currentSectionname);
+              while (1==1) {
+                  //go up the hierarchy until you reach root.
+                  //break upon reaching the parent
+                  if (parentSectionname.equals(BungeniEditorPropertiesHelper.getDocumentRoot())) {
+                      nodeHierarchy.add(parentSectionname);
+                      log.debug("getParentChain: nodeHierarchy: Adding "+ parentSectionname + " and breaking.");
+                      break;
+                  }
+                 nodeHierarchy.add(parentSectionname);
+                 log.debug("getParentChain: nodeHierarchy: Adding "+ parentSectionname + ".");
+                 currentSectionname = parentSectionname;
+                 sectionParent = sectionParent.getParentSection();
+                 parentProps = ooQueryInterface.XNamed(sectionParent);
+                 parentSectionname = parentProps.getName();
+              } //end while (1== 1)
+              if (nodeHierarchy.size() > 1 )
+                Collections.reverse(nodeHierarchy);
+         return nodeHierarchy;
+    }
+        
+        private BungeniBTree buildTree(String objCallback){
+                BungeniBTree treeRoot = new BungeniBTree();
+                OOComponentHelper localOoDoc;
+                TreeMap<Integer,String> namesMap = new TreeMap<Integer,String>();
+                try {
+                    localOoDoc = sectionTreeOpenDocument;
+                    if (!localOoDoc.isXComponentValid()) return treeRoot;
+                            String documentRoot = BungeniEditorPropertiesHelper.getDocumentRoot();
+
+                            /*
+                            do a basic check to see if the root section exists
+                            */
+                            if (!localOoDoc.getTextSections().hasByName(documentRoot)) {
+                                log.error("buildTree: no root section found");
+                                return treeRoot;
+                            }
+                            /*
+                            get the root section and it as the root node to the JTree
+                            */
+                            Object root = localOoDoc.getTextSections().getByName(documentRoot);
+                            log.debug("buildTree: Adding root node");
+                            BungeniBNode bnewRootnode = new BungeniBNode(documentRoot);
+                            bnewRootnode.setAndRunNamedCallback(objCallback);
+                            treeRoot.addRootNode(bnewRootnode);
+                            //treeRoot.addRootNode(new String(documentRoot));
+                            /*
+                            now get the enumeration of the TextSection
+                            */
+
+                            int currentIndex = 0;
+                            String parentObject = documentRoot;
+                            XTextSection theSection = ooQueryInterface.XTextSection(root);
+                            XTextRange range = theSection.getAnchor();
+                            XText xText = range.getText();
+                            XEnumerationAccess enumAccess =(XEnumerationAccess)UnoRuntime.queryInterface(XEnumerationAccess.class, xText);
+                            //namesMap.put(currentIndex++, parentObject);
+                            XEnumeration enumeration = enumAccess.createEnumeration();
+                             log.debug("buildTree: starting Enumeration ");
+                            /*
+                            start the enumeration of sections first
+                            */ 
+                             while (enumeration.hasMoreElements()) {
+                                 Object elem = enumeration.nextElement();
+                                 XPropertySet objProps = ooQueryInterface.XPropertySet(elem);
+                                 XPropertySetInfo objPropsInfo = objProps.getPropertySetInfo();
+                                 /*
+                                  *enumerate only TextSection objects
+                                  */
+                                 if (objPropsInfo.hasPropertyByName("TextSection")) {
+                                     XTextSection xConSection = (XTextSection) ((Any)objProps.getPropertyValue("TextSection")).getObject();
+                                     if (xConSection != null ) {
+                                         /*
+                                          *Get the section name 
+                                          */   
+                                         XNamed objSectProps = ooQueryInterface.XNamed(xConSection);
+                                         String sectionName = objSectProps.getName();
+                                         /*
+                                          *only enumerate non root sections
+                                          */ 
+                                         if (!sectionName.equals(documentRoot)) {
+                                             log.debug("buildTree: Found Section :"+ sectionName);
+                                             //if section is among exclusions don't add to the names map
+                                             if (sectionExclusions(sectionName) == false) {
+                                                  /*
+                                                  *check if the node exists in the tree
+                                                  */
+                                                  if (!namesMap.containsValue(sectionName)) {
+                                                            namesMap.put(currentIndex++, sectionName);
+                                                  }
+                                             }
+                                         } // if (!sectionName...)     
+                                     } // if (xConSection !=...)
+                                 } // if (objPropsInfo.hasProper....)
+                             } // while (enumeration.hasMore.... )
+
+                         /*
+                          *now scan through the enumerated list of sections
+                          */
+                         Iterator namesIterator = namesMap.keySet().iterator();
+                          while (namesIterator.hasNext()) {
+                              Integer iOrder = (Integer) namesIterator.next();
+                              String sectionName = namesMap.get(iOrder);
+                              /*
+                               *check if the sectionName exists in our section tree
+                               */
+                              BungeniBNode theNode = treeRoot.getNodeByName(sectionName);
+                              if (theNode == null ) {
+                                  /*
+                                   *the node does not exist, build its parent chain
+                                   */
+                                   ArrayList<String> parentChain = getParentChain(sectionName, localOoDoc);
+                                   /*
+                                    *now iterate through the paren->child hierarchy of sections
+                                    */
+                                   Iterator<String> sections = parentChain.iterator();
+                                   BungeniBNode currentNode = null, previousNode = null;
+                                   while (sections.hasNext()) {
+                                       String hierSection = sections.next();
+                                       currentNode =  treeRoot.getNodeByName(hierSection);
+                                       if (currentNode == null ) {
+                                           /* the node doesnt exist in the tree */
+                                           if (previousNode != null ) {
+                                               BungeniBNode bhierNode = new BungeniBNode(hierSection);
+                                               bhierNode.setAndRunNamedCallback(objCallback);
+                                               treeRoot.addNodeToNamedNode(previousNode.getName(), bhierNode);
+                                               //changed for callback
+                                               // treeRoot.addNodeToNamedNode(previousNode.getName(), hierSection);
+                                                previousNode = treeRoot.getNodeByName(hierSection);
+                                                if (previousNode == null ) 
+                                                    log.debug("previousNode was null");
+                                           } else {
+                                               log.info("The root section was not in the BungeniBTree hierarchy, this is an error condition");
+                                           }
+                                       } else {
+                                           /* the node already exists...*/
+                                           previousNode = currentNode;
+                                       }
+                                   }
+                              }
+
+
+                          }
+             //  convertBTreetoJTreeNodes(treeRoot);
+                } catch (NullPointerException ex) {
+                    log.error("buildTree : null pointer exception");
+                    log.error("buildTree: " + CommonExceptionUtils.getStackTrace(ex));
+            } catch (NoSuchElementException ex) {
+                log.error("buildTree :" + ex.getMessage());
+            } catch (UnknownPropertyException ex) {
+                log.error("buildTree :" + ex.getMessage());
+            } catch (WrappedTargetException ex) {
+                log.error("buildTree :" + ex.getMessage());
+            } finally {
+                return treeRoot;
+            }
+        }
+            
+        public BungeniBTree newTree(){
+              BungeniBTree bnewTree = buildTree(null);
+              return bnewTree;
+        }
+        
+        public BungeniBTree newFriendlyTree(){
+            NodeDisplayTextSetter txtSetter = new NodeDisplayTextSetter(this.sectionTreeOpenDocument);
+            BungeniBNode.setINodeSetterCallback(txtSetter);
+            BungeniBTree newTree = buildTree(txtSetter.getName());//txtSetter.getName());
+            return newTree;
+        }
+        
+    }
     private static final ArrayList<String> excludeTheseSections = new ArrayList<String>(){
         {
             add("num_");
@@ -348,14 +559,16 @@ public class DocumentSectionProvider {
  
 
     public static BungeniBTree generateFriendlySectionsTree() {
+        /*
         final OOComponentHelper localOoDoc;
         synchronized(ooDocument) {
             localOoDoc = ooDocument;
         }
-        NodeDisplayTextSetter txtSetter = new NodeDisplayTextSetter(localOoDoc);
-        BungeniBNode.setINodeSetterCallback(txtSetter);
+       NodeDisplayTextSetter txtSetter = new NodeDisplayTextSetter(localOoDoc);
+       BungeniBNode.setINodeSetterCallback(txtSetter);
         ////check this code
-        BungeniBTree newTree = generateSectionsTree(txtSetter.getName());
+       */
+         BungeniBTree newTree = generateSectionsTree(null);//txtSetter.getName());
         return newTree;
     }
     

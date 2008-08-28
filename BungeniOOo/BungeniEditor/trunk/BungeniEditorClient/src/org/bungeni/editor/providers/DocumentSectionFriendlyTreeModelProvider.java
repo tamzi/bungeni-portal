@@ -12,6 +12,7 @@ package org.bungeni.editor.providers;
 import java.util.Iterator;
 import java.util.TreeMap;
 import javax.swing.tree.DefaultMutableTreeNode;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.BungeniBNode;
 
 /**
@@ -39,9 +40,13 @@ public class DocumentSectionFriendlyTreeModelProvider {
         DocumentSectionFriendlyAdapterDefaultTreeModel model = null;
         try {
             BungeniBNode bRootNode = DocumentSectionProvider.getNewFriendlyTree().getFirstRoot();
+            if (bRootNode == null) log.error("create : bRootNode was null");
             DefaultMutableTreeNode dmtRootNode = provideRootNode(bRootNode);
             model = new DocumentSectionFriendlyAdapterDefaultTreeModel(dmtRootNode, false);
             DocumentSectionProvider.subscribeModel(model);
+        }  catch (NullPointerException ex) {
+          log.error("create : null pointer exception");
+          log.error("create : "+ CommonExceptionUtils.getStackTrace(ex));
         } catch (Exception ex) {
             log.error("exception create() :" + ex.getMessage());
         } finally {
@@ -122,6 +127,7 @@ public class DocumentSectionFriendlyTreeModelProvider {
         return false;
     }
         private static void recurseNodes(DefaultMutableTreeNode theNode) {
+        try {
         BungeniBNode theBNode = (BungeniBNode) theNode.getUserObject();
         if (excludeNode(theBNode)) { //ignore numbered sections
             return;
@@ -139,6 +145,10 @@ public class DocumentSectionFriendlyTreeModelProvider {
                     theNode.add(dmtChildNode );
                 }
             }
+        }
+        } catch (NullPointerException ex){
+            log.error("recurseNodes : null pointer exception");
+            log.error("recurseNodes:" + CommonExceptionUtils.getStackTrace(ex));
         }
     }
     /*

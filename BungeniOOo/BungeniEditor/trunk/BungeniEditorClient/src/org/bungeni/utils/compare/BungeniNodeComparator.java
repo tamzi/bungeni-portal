@@ -4,6 +4,7 @@ package org.bungeni.utils.compare;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.BungeniBNode;
 
 public class BungeniNodeComparator {
@@ -14,7 +15,7 @@ public class BungeniNodeComparator {
     private  ArrayList<DifferenceChain> updateDifferenceChain = new ArrayList<DifferenceChain>(0);
     
      private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BungeniNodeComparator.class.getName());
-  
+     public boolean NULL_CONDITION = false;
         
     private void clearMaps(){
         diffMapInsert.clear();
@@ -203,6 +204,12 @@ public class BungeniNodeComparator {
     }
     public void compareAndDiff(BungeniBNode root1, BungeniBNode root2){
         //build comparative difference maps
+        NULL_CONDITION = false;
+        if (root1 == null || root2 == null) {
+            log.error("compareAndDiff : either root1 or root2 was null");
+            NULL_CONDITION = true;
+            return ;
+        }
         compare(root1, root2);
      //   for (Integer n : this.getDiffMapUpdate().keySet()) {
      //     log.debug("compareAndDiff  updateMap = " + getDiffMapUpdate().get(n));
@@ -212,7 +219,7 @@ public class BungeniNodeComparator {
     }
      private void compare (BungeniBNode root1, BungeniBNode root2){
          try {
-           TreeMap<Integer, BungeniBNode> root2children = root2.getChildrenByOrder();
+          TreeMap<Integer, BungeniBNode> root2children = root2.getChildrenByOrder();
             for (Integer root2child : root2children.keySet()) {
                 BungeniBNode aNode = root2children.get(root2child);
                 if (root1.containsNodeByName(aNode.getName())) { //root1 contains the child
@@ -248,6 +255,9 @@ public class BungeniNodeComparator {
                     this.diffAdd(indexofrChild, diff);
                 }
             }
+         } catch (NullPointerException ex) {
+          log.error("compare : "+ ex.getMessage());
+          log.error("compare : "+ CommonExceptionUtils.getStackTrace(ex));
          } catch (Exception ex){
             log.error("compare : " + ex.getMessage());
          }

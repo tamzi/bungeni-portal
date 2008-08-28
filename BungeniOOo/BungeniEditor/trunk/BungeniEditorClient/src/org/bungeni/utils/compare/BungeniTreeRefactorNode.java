@@ -55,6 +55,10 @@ public class BungeniTreeRefactorNode {
         protected void done(){
             try {
                 BungeniNodeComparator compObj = get();
+                if (compObj.NULL_CONDITION) {
+                    log.error("NodeMergeAgent : null condition was returned");
+                    return;
+                }
                 boolean bDeletions = doMergeDeletions(compObj);
                 //process the update difference chain
                 //we process each chain as one atomic unit of change

@@ -146,8 +146,20 @@ public class BungeniTreeRefactorTree {
  
  private void doMergeChildren(BungeniBNode origNode, BungeniBNode mergeNode) {
      try {
+         if (origNode == null )
+             log.error("doMergeChildren : origNode was null");
+         else
+             log.debug("doMergeChildren : origNode.getName() = " + origNode.getName());
+         if (mergeNode == null ) {
+             log.error("doMergeChildren : mergeNode was null");
+             return;
+         }
+         else
+             log.debug("doMergeChildren : mergeNode.getName() = " + mergeNode.getName());
+         
         //check if node's display text has changed .. if it has changed
         //set the new display text from the merged node.
+         /*
         if (getMergeDisplayText())  {
             String root1DispText  = origNode.getDisplayText();
             if (mergeNode != null) {
@@ -159,7 +171,7 @@ public class BungeniTreeRefactorTree {
                     }
             } else
                 log.debug("doMergeChildren : mergeNode was null");
-        }
+        }*/
                                       
         for (String nodeName : origNode.getChildrenByName().keySet()) {
            //this root node has an updated UI, but its children dont

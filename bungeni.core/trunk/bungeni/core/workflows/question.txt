@@ -85,21 +85,24 @@ First we initialize the workflow.
 The question is now in a draft state.
 
   >>> transitions(question)
-  ('submit-to-clerk', 'withdraw-draft')
-  
+   ('make-private', 'submit-to-clerk')
+    
   >>> permission(question)
-  ('bungeni.question.Submit', 'bungeni.question.Withdraw')
+  ('bungeni.question.Submit', 'bungeni.question.Submit')
 
-A question can be withdrawn at (almost) any stage  
-  
-  >>> question_withdraw = copy.deepcopy(question)
-  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-draft')   
+The Question can be made a private draft
 
-  >>> question_withdraw.status
-  u'withdrawn'
+  >>> result = IWorkflowInfo(question).fireTransition('make-private')
   
-  >>> transitions(question_withdraw)
-  ()    
+  >>> transitions(question)
+  ('re-draft',)  
+
+and can be put into draft state at a later time
+
+  >>> result = IWorkflowInfo(question).fireTransition('re-draft')
+  
+  >>> transitions(question)
+   ('make-private', 'submit-to-clerk')
 
 
 When we submit the question, a new version is created.
@@ -261,7 +264,7 @@ Appove the question
   >>> result = IWorkflowInfo(question).fireTransition('approve')  
   
   >>> transitions(question)
-  ('defer', 'respond-writing', 'withdraw-admissible', 'schedule')
+  ('defer', 'withdraw-admissible', 'send-ministry', 'schedule')
 
 A question can be withdrawn at (almost) any stage  
   
@@ -276,6 +279,13 @@ A written response to the question
 
   >>> question_written_response = copy.deepcopy(question)
 
+
+  >>> result = IWorkflowInfo(question_written_response).fireTransition('send-ministry')  
+  
+  >>> transitions(question_written_response)
+  ('respond-writing',)  
+
+
   >>> result = IWorkflowInfo(question_written_response).fireTransition('respond-writing')  
   
   >>> transitions(question_written_response)
@@ -287,7 +297,24 @@ defer the question
   >>> result = IWorkflowInfo(question_defer).fireTransition('defer')   
   
   >>> transitions(question_defer)     
-  ('schedule-deferred', 'withdraw-deferred')
+  ('schedule-deferred', 'defer-ministry', 'withdraw-deferred')
+  
+A deferred question can be assigned to a ministry for a written response
+
+  >>> question_defer_response = copy.deepcopy(question_defer)
+
+
+  >>> result = IWorkflowInfo(question_defer_response).fireTransition('defer-ministry')  
+  
+  >>> transitions(question_defer_response)
+  ('respond-writing',)  
+
+
+  >>> result = IWorkflowInfo(question_defer_response).fireTransition('respond-writing')  
+  
+  >>> transitions(question_defer_response)
+  ('answer',)  
+  
 
 A question can be withdrawn at (almost) any stage  
   

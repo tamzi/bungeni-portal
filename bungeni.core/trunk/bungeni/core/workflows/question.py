@@ -14,6 +14,7 @@ from bungeni.core.i18n import _
 
 class states:
     draft = _(u"draft")
+    private = _("private")
     submitted = _(u"submitted")
     received = _(u"received")
     complete = _(u"complete")
@@ -21,11 +22,12 @@ class states:
     inadmissible = _(u"inadmissible")
     requires_amend =_(u"requires_amend")
     scheduled =_(u"scheduled")
+    resonse_pending = _(u"pending response")
     deferred = _(u"deferred")
-    postponed =_(u"postponed")
+    postponed = _(u"postponed")
     responded = _(u"responded")
-    answered =_(u"answered")
-    withdrawn =_(u"withdrawn")
+    answered = _(u"answered")
+    withdrawn = _(u"withdrawn")
     
 
 def create_question_workflow( ):
@@ -40,6 +42,25 @@ def create_question_workflow( ):
         destination = states.draft,
         #permission = "bungeni.question.Create",
         ) )
+
+    add( workflow.Transition(
+        transition_id = 'make-private',
+        title=_(u'Make private'),
+        source = states.draft,
+        trigger = iworkflow.MANUAL,        
+        destination = states.private,
+        permission = 'bungeni.question.Submit',
+        ) )    
+
+    add( workflow.Transition(
+        transition_id = 're-draft',
+        title=_(u'Re draft'),
+        source = states.private,
+        trigger = iworkflow.MANUAL,        
+        destination = states.draft,
+        permission = 'bungeni.question.Submit',
+        ) )    
+
 
     add( workflow.Transition(
         transition_id = 'submit-to-clerk',
@@ -174,9 +195,19 @@ def create_question_workflow( ):
     # but are answered directly by the ministry 
 
     add( workflow.Transition(
+        transition_id = 'send-ministry',
+        title=_(u'Send to ministry'),
+        source = states.admissible,
+        trigger = iworkflow.MANUAL,                
+        destination = states.resonse_pending,
+        permission = 'bungeni.question.Schedule',        
+        ) )  
+
+
+    add( workflow.Transition(
         transition_id = 'respond-writing',
         title=_(u'Respond'),
-        source = states.admissible,
+        source = states.resonse_pending,
         trigger = iworkflow.MANUAL,                
         destination = states.responded,
         permission = 'bungeni.question.Schedule',        
@@ -193,6 +224,17 @@ def create_question_workflow( ):
         source = states.admissible,
         trigger = iworkflow.MANUAL,                
         destination = states.deferred,
+        permission = 'bungeni.question.Schedule',        
+        ) )  
+
+    # a deferred question may be send to a ministry for a written response
+    
+    add( workflow.Transition(
+        transition_id = 'defer-ministry',
+        title=_(u'Send to ministry'),
+        source = states.deferred,
+        trigger = iworkflow.MANUAL,                
+        destination = states.resonse_pending,
         permission = 'bungeni.question.Schedule',        
         ) )  
 
@@ -256,14 +298,14 @@ def create_question_workflow( ):
     #i.e the stages where it can still be presented to the 
     # ministry/house
 
-    add( workflow.Transition(
-        transition_id = 'withdraw-draft',
-        title=_(u'Withdraw'),
-        source = states.draft,
-        trigger = iworkflow.MANUAL,                
-        destination = states.withdrawn,
-        permission = 'bungeni.question.Withdraw',        
-        ) )  
+#    add( workflow.Transition(
+#        transition_id = 'withdraw-draft',
+#        title=_(u'Withdraw'),
+#        source = states.draft,
+#        trigger = iworkflow.MANUAL,                
+#        destination = states.withdrawn,
+#        permission = 'bungeni.question.Withdraw',        
+#        ) )  
 
     add( workflow.Transition(
         transition_id = 'withdraw-submitted',

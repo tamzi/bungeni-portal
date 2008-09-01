@@ -239,7 +239,7 @@ def create_question_workflow( ):
         source = states.resonse_pending,
         trigger = iworkflow.MANUAL,                
         destination = states.responded,
-        permission = 'bungeni.question.write-answer',        
+        permission = 'bungeni.question.write_answer',        
         ) )         
     
     add( workflow.Transition(
@@ -248,7 +248,7 @@ def create_question_workflow( ):
         source = states.resonse_pending,
         trigger = iworkflow.MANUAL,                
         destination = states.elapsed,
-        permission = 'bungeni.question.write-answer',        
+        permission = 'bungeni.question.write_answer',        
         ) )            
     
     

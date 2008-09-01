@@ -216,7 +216,7 @@ RestAnnotationService.prototype.createAnnotation = function( annotation, f )
         edit_type = 'annotate';
 	else if ( edit_type == "Replace:" )
         edit_type = 'replace';
-    else if ( edit_type == "Insert:" )
+    else if ( edit_type == "Insert:" || edit_type == "Insert Before:" || edit_type == "Insert After:" )
         edit_type = 'insert';
 	else if ( edit_type == "Delete" )
 	    edit_type = 'delete';

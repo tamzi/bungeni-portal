@@ -43,6 +43,10 @@ LocalizedAnnotationStrings = {
 	
 	'note insert label': 'Insert:',
 	
+	'note insert before label': 'Insert Before:',
+
+	'note insert after label': 'Insert After:',
+
 	'note replace label': 'Replace:',
 	
 	'note delete label': 'Delete',
@@ -72,6 +76,8 @@ LocalizedAnnotationStrings = {
 	'blank quote and note' : 'You must enter some note text',
 
 	'blank note' : 'You must enter some note text',
+
+	'invalid text selection' : 'Please select a valid text range to annotate',
 	
 	'lang' : 'en'
 };

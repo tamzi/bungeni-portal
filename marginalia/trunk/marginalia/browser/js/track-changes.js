@@ -217,6 +217,7 @@ trackchanges = {
 	makeInsertBefore: function( annotation )
 	{
 		annotation.setAction( 'edit' );
+		annotation.setEditType( 'insert before' );
 		annotation.getRange( SEQUENCE_RANGE ).collapseToStart( );
 		annotation.getRange( XPATH_RANGE ).collapseToStart( );
 		annotation.setQuote( '' );
@@ -225,6 +226,7 @@ trackchanges = {
 	makeInsertAfter: function( annotation )
 	{
 		annotation.setAction( 'edit' );
+		annotation.setEditType( 'insert after' );
 		annotation.getRange( SEQUENCE_RANGE ).collapseToEnd( );
 		annotation.getRange( XPATH_RANGE ).collapseToEnd( );
 		annotation.setQuote( '' );

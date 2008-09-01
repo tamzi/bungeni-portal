@@ -65,6 +65,7 @@ function Annotation( url )
 	this.note = '';
 	this.access = ANNOTATION_ACCESS_DEFAULT;
 	this.action = '';
+	this.etype = '';
 	this.quote = '';
 	this.isLocal = false;
 	// this.editing = null; -- deleted when not needed
@@ -226,6 +227,14 @@ Annotation.prototype.setAction = function( action )
 	{
 		this.action = action;
 		this.changes[ 'action' ] = true;
+	}
+}
+
+Annotation.prototype.setEditType = function( etype )
+{
+	if ( this.etype != etype )
+	{
+		this.etype = etype;
 	}
 }
  

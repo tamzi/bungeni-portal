@@ -42,6 +42,10 @@ bungeni = {
 			{
 				if ( annotation.getQuote() )
 					return getLocalized( 'note replace label' );
+                else if (annotation.etype == 'insert before')
+                    return getLocalized( 'note insert before label' );
+                else if (annotation.etype == 'insert after')
+                    return getLocalized( 'note insert after label' );
 				else
 					return getLocalized( 'note insert label' );
 			}
@@ -83,7 +87,8 @@ bungeni = {
 				controls.appendChild( domutil.button( {
 					className:  AN_ACCESSBUTTON_CLASS,
 					title:  getLocalized( annotation.getAccess() == AN_PUBLIC_ACCESS ? 'public annotation' : 'private annotation' ),
-					content:  annotation.getAccess() == AN_PUBLIC_ACCESS ? AN_SUN_SYMBOL : AN_MOON_SYMBOL
+                    content:  annotation.getAccess() == AN_PUBLIC_ACCESS ? AN_SUN_SYMBOL : AN_MOON_SYMBOL,
+					id:  annotation.getAccess() == AN_PUBLIC_ACCESS ? 'public' : 'private'
 				} ) );
 			}
 			

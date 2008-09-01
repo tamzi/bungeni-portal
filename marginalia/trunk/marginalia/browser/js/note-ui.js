@@ -299,7 +299,8 @@ Marginalia.defaultDisplayNote = function( marginalia, annotation, noteElement, p
 			controls.appendChild( domutil.button( {
 				className:  AN_ACCESSBUTTON_CLASS,
 				title:  getLocalized( annotation.getAccess() == AN_PUBLIC_ACCESS ? 'public annotation' : 'private annotation' ),
-				content:  annotation.getAccess() == AN_PUBLIC_ACCESS ? AN_SUN_SYMBOL : AN_MOON_SYMBOL
+				content:  annotation.getAccess() == AN_PUBLIC_ACCESS ? AN_SUN_SYMBOL : AN_MOON_SYMBOL,
+                id:  annotation.getAccess() == AN_PUBLIC_ACCESS ? 'public' : 'private'
 			} ) );
 		}
 		
@@ -874,5 +875,7 @@ function _toggleAnnotationAccess( event )
 	accessButton.appendChild( document.createTextNode( annotation.getAccess() == 'public' ? AN_SUN_SYMBOL : AN_MOON_SYMBOL ) );
 	accessButton.setAttribute( 'title', annotation.getAccess() == 'public' ?
 		getLocalized( 'public annotation' ) : getLocalized( 'private annotation' ) );
+	accessButton.setAttribute( 'id', annotation.getAccess() == 'public' ? 'public' : 'private' );
+
 }
 

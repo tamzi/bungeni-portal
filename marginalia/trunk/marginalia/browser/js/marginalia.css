@@ -221,8 +221,26 @@
 }
 
 .hentry .notes li button.annotation-access {
-	heigh: 1.2em;
-	width: 1em;
+	height: 1.5em;
+	width: 1.5em;
+}
+
+.hentry .notes li button#public{
+    color: green;
+}
+
+.hentry .notes li button#private{
+    color: red;
+}
+
+.hentry .notes li button.annotation-delete {
+	height: 1.5em;
+	width: 1.5em;
+}
+
+.hentry .notes li button.annotation-link {
+	height: 1.5em;
+	width: 1.5em;
 }
 
 .hentry .notes li.hover,

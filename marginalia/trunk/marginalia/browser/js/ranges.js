@@ -454,8 +454,13 @@ function nodePointToWordPoint( container, offset, rel, fallForward, fskip )
 	var node = rel;
 	while ( STATE_DONE != state.state )
 	{
-		while ( ! node.nextSibling )
+		while ( ! node.nextSibling ){
 			node = node.parentNode;
+            if ( null == node )
+                {
+                    alert( getLocalized( 'invalid text selection' ) );
+                }
+        }
 		if ( null == node )
 		{
 			state.destroy( );

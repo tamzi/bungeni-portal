@@ -18,16 +18,16 @@ import org.bungeni.ooo.OOComponentHelper;
  *
  * @author  undesa
  */
-public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel {
+public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel implements IMetadataContainerPanel {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(BaseMetadataContainerPanel.class.getName());
     /**
      * openoffice component handle
      */
-    private OOComponentHelper ooDocument;
-    private JFrame parentFrame;
-    private toolbarAction theAction = null;
-    private toolbarSubAction theSubAction = null;
-    private SelectorDialogModes dialogMode;
+    protected OOComponentHelper ooDocument;
+    protected JFrame parentFrame;
+    protected toolbarAction theAction = null;
+    protected toolbarSubAction theSubAction = null;
+    protected SelectorDialogModes dialogMode;
     
     public class ConditionSet {
         
@@ -143,13 +143,14 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel {
         this.theAction = aAction;
         this.theSubAction = aSubAction;
         this.dialogMode = dlgMode;
+        setupPanels();
     }
 
     /**
      * Call initialize() afte the constructor and after calling initvariables
      */
     public void initialize(){
-        setupPanels();
+        //setupPanels();
         init();
     }
       
@@ -173,6 +174,25 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel {
         return dialogMode;
     }
     
+    
+    public static IMetadataContainerPanel getContainerPanelObject(String panelClass){
+            IMetadataContainerPanel panel = null;
+            try {
+                Class containerPanel = Class.forName(panelClass);
+                panel = (IMetadataContainerPanel) containerPanel.newInstance();
+             } catch (InstantiationException ex) {
+               log.debug("getContainerPanelObject :"+ ex.getMessage());
+               } catch (IllegalAccessException ex) {
+               log.debug("getContainerPanelObject :"+ ex.getMessage());
+               }  catch (ClassNotFoundException ex) {
+               log.debug("getContainerPanelObject :"+ ex.getMessage());
+              } catch (NullPointerException ex) {
+               log.debug("getContainerPanelObject :"+ ex.getMessage());
+              } finally {
+                  return panel;
+              }
+        }
+        
    public class panelInfo {
         String panelName;
         String panelClass;
@@ -187,6 +207,7 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel {
             return panelName;
         }
 
+      
         public IMetadataPanel getPanelObject() {
             IMetadataPanel panel = null;
             try {
@@ -208,6 +229,8 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel {
 
     
     }
+    
+    public abstract java.awt.Component getPanelComponent();
     
     protected ArrayList<panelInfo> m_allPanels = new ArrayList<panelInfo>(0);
     /*

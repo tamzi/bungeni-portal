@@ -1,4 +1,5 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       metal:use-macro="here/main_template/macros/master"
       i18n:domain="plone">
@@ -63,10 +64,10 @@
 
                     <div class="searchfields" tal:define="member_names python:context.portal_annotations.getOwnerList(request);
                                                    group_names python:context.portal_annotations.getPortalGroups();">
-                      <a href="javascript:toggle_visibility('fields');"><p class="plink">Filter annotations by owner, group or query string. (show/hide)</p></a>
-                      <p class="plink">Search text can include wildcard chartecters like '?' and '*'</p>
-                      <a id="togglevisibility" name="hide" href="javascript:hideAnnotations(this);"><p class="plink">Toggle hide/display annotations</p></a>
-                      <p id="noresults" class="plink" style="display:none;">No Annotations Found</p>
+                      <a href="javascript:toggle_visibility('fields');"><p class="plink" i18n:translate="filter-help">Filter annotations by owner, group or query string. (show/hide)</p></a>
+                      <p class="plink" i18n:translate="search-text">Search text can include wildcard chartecters like '?' and '*'</p>
+                      <a id="togglevisibility" name="hide" href="javascript:hideAnnotations(this);"><p class="plink" i18n:translate="toggle-text">Toggle hide/display annotations</p></a>
+                      <p id="noresults" class="plink" style="display:none;" i18n:translate="search-results">No Annotations Found</p>
 
 		            <div id="fields" style="display:block;">
                       <select class="select_field" name="filter_owner" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
@@ -128,7 +129,7 @@ bar and select the amendment option you wish to use.</div>
                   </td>
                   <td>
                     <div class="notes">
-                      <button class="createAnnotation" onclick="bungeniClickCreateAnnotation(event,'m1')" title="Click here to create an annotation">M e n u &nbsp; B a r</button>
+                      <button i18n:translate="menu-bar" class="createAnnotation" onclick="bungeniClickCreateAnnotation(event,'m1')" title="Click here to create an annotation">M e n u &nbsp; B a r</button>
                       <ol><li></li></ol>
                     </div>
                   </td>

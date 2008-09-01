@@ -64,29 +64,6 @@
             Document actions (print, sendto etc)
         </div>
 
-        <h1 tal:content="object_title" class="documentFirstHeading">
-          Title or id
-        </h1>
-
-        <!-- Marginalia .. -->
-        <ul id="debug" style="display:none">
-            <li></li>
-        </ul>
-    
-        <div metal:use-macro="here/document_byline/macros/byline">
-          Get the byline - contains details about author and modification date.
-        </div>
-
-        <p class="documentDescription"
-           tal:content="here/Description"
-           tal:condition="here/Description">
-            Description
-        </p>
-        <p tal:condition="python: not text and is_editable"
-           i18n:translate="no_body_text"
-           class="discreet">
-            This item does not have any body text, click the edit tab to change it.
-        </p>
                     <div class="searchfields" tal:define="member_names python:context.portal_annotations.getOwnerList(request);
                                                    group_names python:context.portal_annotations.getPortalGroups();">
                       <a href="javascript:toggle_visibility('fields');"><p class="plink">Filter amendments by owner, group, type or query string. (show/hide)</p></a>
@@ -130,6 +107,19 @@
                       </div>
 
                     </div>
+<div class="marginalia-usage" i18n:translate="marginalia-usage">To add an amendment, hightlight the text in the document and then click on the blue
+bar and select the amendment option you wish to use.</div>
+
+        <h3 tal:content="object_title" class="documentFirstHeading">
+          Title or id
+        </h3>
+
+        <!-- Marginalia .. -->
+        <ul id="debug" style="display:none">
+            <li></li>
+        </ul>
+    
+<div class="visualClear"><!-- --></div>
         <div class="stx"
              tal:condition="text"
              tal:attributes="class python:here.Format() in ('text/structured', 'text/x-rst', ) and 'stx' or 'plain'">
@@ -146,7 +136,7 @@
                   </td>
                   <td>
                     <div class="notes">
-                      <button class="createAnnotation" onclick="bungeniClickCreateAnnotation(event,'m1')" title="Click here to create an annotation">&gt;</button>
+                      <button class="createAnnotation" onclick="bungeniClickCreateAnnotation(event,'m1')" title="Click here to create an annotation">M e n u &nbsp; B a r</button>
                       <ol><li></li></ol>
                     </div>
                   </td>

@@ -13,21 +13,26 @@ import bungeni.core.workflows.utils as utils
 from bungeni.core.i18n import _
 
 class states:
-    draft = _(u"draft")
-    private = _("private")
-    submitted = _(u"submitted")
-    received = _(u"received")
-    complete = _(u"complete")
-    admissible = _(u"admissible")
-    inadmissible = _(u"inadmissible")
-    requires_amend =_(u"requires_amend")
-    scheduled =_(u"scheduled")
-    resonse_pending = _(u"pending response")
-    deferred = _(u"deferred")
-    postponed = _(u"postponed")
-    responded = _(u"responded")
-    answered = _(u"answered")
-    withdrawn = _(u"withdrawn")
+    draft = _(u"draft") # a draft question of a MP
+    private = _("private") # private draft of a MP
+    submitted = _(u"submitted") # submitted from MP to clerks office
+    received = _(u"received") # recieved by clerks office
+    complete = _(u"complete") # reviewed by clers office sent to speakers office
+    admissible = _(u"admissible") # reviewed by speakers office available for scheduling or to
+                                  # to be send to ministry for written response
+    inadmissible = _(u"inadmissible") # rejected by speakers office
+    clarify_mp = _(u"MP clarify") # clerks office needs clarification by MP
+    clarify_clerk = _("Clerk clarify") # speakers office needs clarification by clerks office
+    scheduled =_(u"scheduled") # is scheduled for debate at a sitting
+    resonse_pending = _(u"pending response") # ministry has to write a response
+    deferred = _(u"deferred") # admissable question that cannot be debated 
+    postponed = _(u"postponed") # question was scheduled for but not debated at the sitting
+    elapsed = _(u"elapsed") # defered or postponed question that were not answered
+                            # or questions that required a written answer by a ministry which were not answered
+    responded = _(u"responded") # a question was debated or a written answer was given by a ministry
+    answered = _(u"answered") # the written answer was reviewed by the clerks office
+                              # or debate reference input by clerks office
+    withdrawn = _(u"withdrawn") # the owner of the question can withdraw the question
     
 
 def create_question_workflow( ):
@@ -39,6 +44,7 @@ def create_question_workflow( ):
         title='Create',
         trigger = iworkflow.AUTOMATIC,
         source = None,
+ #       action = utils.setQuestionDefaults,        
         destination = states.draft,
         #permission = "bungeni.question.Create",
         ) )
@@ -92,19 +98,19 @@ def create_question_workflow( ):
         title=_(u'Needs Clarification by MP'),
         source = states.received,
         trigger = iworkflow.MANUAL,                
-        destination = states.requires_amend,
+        destination = states.clarify_mp,
         permission = 'bungeni.question.clerk.Review',        
         ) )   
     # the clerks office can reject a question directly
 
-    add( workflow.Transition(
-        transition_id = 'clerk-reject',
-        title=_(u'Reject'),
-        source = states.received,
-        trigger = iworkflow.MANUAL,                
-        destination = states.inadmissible,
-        permission = 'bungeni.question.clerk.Review',        
-        ) ) 
+    #add( workflow.Transition(
+    #    transition_id = 'clerk-reject',
+    #    title=_(u'Reject'),
+    #    source = states.received,
+    #    trigger = iworkflow.MANUAL,                
+    #    destination = states.inadmissible,
+    #    permission = 'bungeni.question.clerk.Review',        
+    #    ) ) 
 
 
     
@@ -153,20 +159,43 @@ def create_question_workflow( ):
         
     add( workflow.Transition(
         transition_id = 'require-amendment',
-        title=_(u'Needs Clarification by MP'),
+        title=_(u'Needs Clarification'),
         source = states.complete,
         trigger = iworkflow.MANUAL,                
         action = utils.createVersion,        
-        destination = states.requires_amend,
+        destination = states.clarify_clerk,
         permission = 'bungeni.question.speaker.Review',        
         ) )                    
+    
+    # a question that requires clarification/amendmends
+    # can be resubmitted by the clerks office
+    
+    add( workflow.Transition(
+        transition_id = 'complete-clarify',
+        title=_(u'Complete'),
+        source = states.clarify_clerk,
+        trigger = iworkflow.MANUAL,                
+        destination = states.complete,
+        permission = 'bungeni.question.clerk.Review',        
+        ) )     
+    
+    # or send to the mp for clarification     
+    add( workflow.Transition(
+        transition_id = 'mp-clarify',
+        title=_(u'Needs Clarification by MP'),
+        source = states.clarify_clerk,
+        trigger = iworkflow.MANUAL,                
+        destination = states.clarify_mp,
+        permission = 'bungeni.question.clerk.Review',        
+        ) )         
+    
     
     # after a question is amended it can be resubmitted to the clerks office
     
     add( workflow.Transition(
         transition_id = 'resubmit-clerk',
         title=_(u'Resubmit to clerk'),
-        source = states.requires_amend,
+        source = states.clarify_mp,
         trigger = iworkflow.MANUAL,                
         action = utils.createVersion,
         destination = states.submitted,
@@ -210,9 +239,17 @@ def create_question_workflow( ):
         source = states.resonse_pending,
         trigger = iworkflow.MANUAL,                
         destination = states.responded,
-        permission = 'bungeni.question.Schedule',        
+        permission = 'bungeni.question.write-answer',        
         ) )         
     
+    add( workflow.Transition(
+        transition_id = 'elapse-pending',
+        title=_(u'Elapse'),
+        source = states.resonse_pending,
+        trigger = iworkflow.MANUAL,                
+        destination = states.elapsed,
+        permission = 'bungeni.question.write-answer',        
+        ) )            
     
     
     #all admissible questions awaiting an oral response etc. and flag them for “scheduling” for a later day 
@@ -226,6 +263,17 @@ def create_question_workflow( ):
         destination = states.deferred,
         permission = 'bungeni.question.Schedule',        
         ) )  
+
+    add( workflow.Transition(
+        transition_id = 'elapse-defered',
+        title=_(u'Elapse'),
+        source = states.deferred,
+        trigger = iworkflow.MANUAL,                
+        destination = states.elapsed,
+        permission = 'bungeni.question.Schedule',        
+        ) )  
+
+
 
     # a deferred question may be send to a ministry for a written response
     
@@ -282,6 +330,29 @@ def create_question_workflow( ):
         destination = states.scheduled,        
         permission = 'bungeni.question.Schedule',        
         ) )      
+
+    # postponed question can elapse
+
+    add( workflow.Transition(
+        transition_id = 'elapse-postponed',
+        title=_(u'Elapse'),
+        source = states.postponed,
+        trigger = iworkflow.MANUAL,                
+        destination = states.elapsed,        
+        permission = 'bungeni.question.Schedule',        
+        ) )    
+        
+    # postponed question can be send to a ministry for a written response
+
+    add( workflow.Transition(
+        transition_id = 'postponed-ministry',
+        title=_(u'Send to Ministry'),
+        source = states.postponed,
+        trigger = iworkflow.MANUAL,                
+        destination = states.resonse_pending,        
+        permission = 'bungeni.question.Schedule',        
+        ) )    
+        
 
     #The response is sent to the Clerk's office, before being sent to the MP.
     #XXX come up with something better than answered
@@ -343,7 +414,7 @@ def create_question_workflow( ):
     add( workflow.Transition(
         transition_id = 'withdraw-amend',
         title=_(u'Withdraw'),
-        source = states.requires_amend,
+        source = states.clarify_mp,
         trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
         permission = 'bungeni.question.Withdraw',        

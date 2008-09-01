@@ -8,4 +8,5 @@
   <grant permission="bungeni.question.Respond" role="zope.Member"/>
   <grant permission="bungeni.question.Answer" role="zope.Member"/>
   <grant permission="bungeni.question.Withdraw" role="zope.Member"/>
+  <grant permission="bungeni.question.write_answer" role="zope.Member" />  
 </configure>

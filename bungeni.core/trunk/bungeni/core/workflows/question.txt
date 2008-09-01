@@ -147,7 +147,7 @@ A question can be withdrawn at (almost) any stage
 Received:
 
   >>> transitions(question)
-  ('require-edit-by-mp', 'withdraw-received', 'clerk-reject', 'complete')
+  ('require-edit-by-mp', 'complete', 'withdraw-received')
 
 A question can be withdrawn at (almost) any stage  
   
@@ -157,16 +157,8 @@ A question can be withdrawn at (almost) any stage
   >>> question_withdraw.status
   u'withdrawn'  
   
-the clerk can directly reject a question:
-
-  >>> question_reject = copy.deepcopy(question)
-  >>> result = IWorkflowInfo(question_reject).fireTransition('clerk-reject')   
-
-  >>> question_reject.status
-  u'inadmissible'
   
-  >>> transitions(question_reject)
-  ()  
+
   
 If it needs clarification this sets it back to draft and it must be submitted again  
   
@@ -230,7 +222,25 @@ it gets versioned before amendment
   3  
   
   >>> transitions(question_amend)
+  ('complete-clarify', 'mp-clarify')
+
+The clerks office can resubmit the question
+
+  >>> question_clerk_resubmit = copy.deepcopy(question_amend)
+  >>> result = IWorkflowInfo(question_clerk_resubmit).fireTransition('complete-clarify')    
+  >>> transitions(question_clerk_resubmit)
+  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
+
+
+or the question can be send back to the mp for further clarification
+
+  >>> result = IWorkflowInfo(question_amend).fireTransition('mp-clarify')  
+  >>> transitions(question_amend)
   ('resubmit-clerk', 'withdraw-amend')
+
+
+
+
 
 A question can be withdrawn at (almost) any stage  
   
@@ -283,8 +293,19 @@ A written response to the question
   >>> result = IWorkflowInfo(question_written_response).fireTransition('send-ministry')  
   
   >>> transitions(question_written_response)
-  ('respond-writing',)  
+   ('elapse-pending', 'respond-writing')
 
+A question can elapse if no answer is given
+
+  >>> question_written_response_elapse = copy.deepcopy(question_written_response)
+
+
+  >>> result = IWorkflowInfo(question_written_response_elapse).fireTransition('elapse-pending')  
+  
+  >>> transitions(question_written_response_elapse)
+   ()
+
+Or the question can be responded to in writing
 
   >>> result = IWorkflowInfo(question_written_response).fireTransition('respond-writing')  
   
@@ -297,7 +318,7 @@ defer the question
   >>> result = IWorkflowInfo(question_defer).fireTransition('defer')   
   
   >>> transitions(question_defer)     
-  ('schedule-deferred', 'defer-ministry', 'withdraw-deferred')
+  ('schedule-deferred', 'elapse-defered', 'defer-ministry', 'withdraw-deferred')
   
 A deferred question can be assigned to a ministry for a written response
 
@@ -307,14 +328,20 @@ A deferred question can be assigned to a ministry for a written response
   >>> result = IWorkflowInfo(question_defer_response).fireTransition('defer-ministry')  
   
   >>> transitions(question_defer_response)
-  ('respond-writing',)  
-
+  ('elapse-pending', 'respond-writing')
 
   >>> result = IWorkflowInfo(question_defer_response).fireTransition('respond-writing')  
   
   >>> transitions(question_defer_response)
   ('answer',)  
   
+  
+A queston can elapse if no answer is given
+  >>> question_elapse_defered = copy.deepcopy(question_defer)
+  
+  >>> result = IWorkflowInfo(question_elapse_defered).fireTransition('elapse-defered')    
+  >>> transitions(question_elapse_defered)
+  ()
 
 A question can be withdrawn at (almost) any stage  
   
@@ -347,8 +374,15 @@ postpone the question
   
   >>> result = IWorkflowInfo(question).fireTransition('postpone')  
   >>> transitions(question)
-  ('schedule-postponed', 'withdraw-postponed')
+  ('schedule-postponed', 'elapse-postponed', 'postponed-ministry', 'withdraw-postponed')
+ 
+A question can elapse without an answer 
 
+  >>> question_elapse_postponed = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_elapse_postponed).fireTransition('elapse-postponed')   
+  >>> transitions(question_elapse_postponed)
+  ()
+  
 A question can be withdrawn at (almost) any stage  
   
   >>> question_withdraw = copy.deepcopy(question)

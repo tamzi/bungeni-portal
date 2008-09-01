@@ -8,4 +8,5 @@
   <permission id="bungeni.question.Respond" title="Respond to a question" />
   <permission id="bungeni.question.Answer" title="Answer a question" />
   <permission id="bungeni.question.Withdraw" title="Withdraw a question" />
+  <permission id="bungeni.question.write_answer" title="Answer a question in writing" />
 </configure>

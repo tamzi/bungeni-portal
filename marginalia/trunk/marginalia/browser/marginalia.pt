@@ -125,24 +125,6 @@ function bungeniClickCreateAnnotation( event, id ) {
                         authenticateduser python:view.getAuthenticatedUser();
                         authenticateduserid python:view.getAuthenticatedUserId();">
 
-<h2> Annotate Document </h2>
-
-  <dl class="portalMessage error"                                                                                                              
-      tal:condition="view/statusmessage | nothing"
-      tal:attributes="class string:portalMessage error;">                                                                                  
-      <dt i18n:translate="">                                                                                                                  
-         Error                                                                                                                                
-      </dt>                                                                                                                                   
-      <dd tal:content="view/statusmessage | nothing"                                                                                             
-           i18n:translate="">                                                                                                                  
-           The status message.                                                                                                                 
-      </dd>                                                                                                                                   
-  </dl>        
-
- <!-- Marginalia .. -->
-<ul id="debug" style="display:none">
-   <li></li>
-</ul>
         <div class="searchfields" tal:define="member_names python:view.getAnnotationOwnerList();
                                             group_names python:view.getAnnotationOwnerGroups;">
                <a href="javascript:toggle_visibility('fields');"><p class="plink">Filter annotations by owner, group or query string. (show/hide)</p></a>
@@ -170,6 +152,7 @@ function bungeniClickCreateAnnotation( event, id ) {
                    </optgroup> 
                  </select>
                  <input class="input_field" type="text" name="annotation_search" value="" onChange="filterAnnotations(this);" onkeypress="return onEnterKey(this, event);"/>
+                 <br/>
                  <input class="input_field" type="button" id="search" type="search" value="Search" onClick="filterAnnotations(this);" />
                  <input class="input_field" type="button" id="clear" type="clear" value="Clear Search" onClick="clearSearch(this);"/>
                  <input class="input_field" type="submit" value="Download" onClick="downloadAnnotations(this);" />
@@ -180,7 +163,28 @@ function bungeniClickCreateAnnotation( event, id ) {
                <textarea id="content" name="content"></textarea>
                </form>
                </div>
+<div class="marginalia-usage" i18n:translate="marginalia-usage">To add an amendment, hightlight the text in the document and then click on the blue
+bar and select the amendment option you wish to use.</div>
+<h3 tal:content="view/getTitle"> Annotate Document </h3>
 
+  <dl class="portalMessage error"                                                                                                              
+      tal:condition="view/statusmessage | nothing"
+      tal:attributes="class string:portalMessage error;">                                                                                  
+      <dt i18n:translate="">                                                                                                                  
+         Error                                                                                                                                
+      </dt>                                                                                                                                   
+      <dd tal:content="view/statusmessage | nothing"                                                                                             
+           i18n:translate="">                                                                                                                  
+           The status message.                                                                                                                 
+      </dd>                                                                                                                                   
+  </dl>        
+
+ <!-- Marginalia .. -->
+<ul id="debug" style="display:none">
+   <li></li>
+</ul>
+
+<div class="visualClear"></div>
 <div class="plain" tal:condition="text">
    <div class="hentry" id="m1">
       <table style="width: 100%">
@@ -192,7 +196,7 @@ function bungeniClickCreateAnnotation( event, id ) {
            </td>
            <td>
              <div class="notes">
-               <button class="createAnnotation" onclick="bungeniClickCreateAnnotation(event,'m1')" title="Click here to create an annotation">&gt;</button>
+               <button i18n:translate="menu-button" class="createAnnotation" onclick="bungeniClickCreateAnnotation(event,'m1')" title="Click here to create an annotation">M e n u &nbsp; B a r</button>
                <ol><li></li></ol>
              </div>
            </td>

@@ -24,6 +24,10 @@ class SimpleDocumentAnnotationAdaptor(object):
     def getBodyText(self):
         """Returns the annotable text"""
         return self.context.description
+
+    def getTitle(self):
+        """Returns the annotable text"""
+        return self.context.title
         
     def isAnnotatable(self):
         """Returns a boolean True"""

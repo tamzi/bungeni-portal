@@ -81,9 +81,10 @@
 
 .hentry button.createAnnotation {
 	height: 100%;
-	width: 1em;
+	width: 2em;
 	position: absolute;
 	top: 0 ;
+    background-color:#96A9C2;
 }
 .editing-note .hentry button.createAnnotation {
 	visibility: hidden;
@@ -96,7 +97,7 @@
 
 .hentry .notes ol {
 	list-style-type: none;
-	margin: 0 0 0 1em ;
+	margin: 0 0 0 2em ;
 	padding: 0 .5ex ;
 	height: 100%;
     overflow: scroll;
@@ -375,7 +376,7 @@ ol#articles {
 }
 
 .hentry .entry-content {
-	width: 65% ;
+	width: 60% ;
 	margin-left: 1em;
 	font-size: medium;
 	font-family: Verdana, Arial, Helvetica, sans-serif;
@@ -414,22 +415,11 @@ ol#articles {
 	background: #eee;
 	position: absolute;
 	height: 100%;
-	width: 30%;
+	width: 35%;
 	top: 0;
 	right: 0 ;
 	margin: 0;
 	padding: 0;
-}
-
-.hentry button.createAnnotation {
-	height: 100%;
-	width: 1em;
-	position: absolute;
-	top: 0 ;
-}
-
-.editing-note .hentry button.createAnnotation {
-	visibility: hidden;
 }
 
 .hentry table {
@@ -438,13 +428,6 @@ ol#articles {
 
 .hentry table td {
 	vertical-align: top;
-}
-
-.hentry .notes ol {
-	list-style-type: none;
-	margin: 0 0 0 1em ;
-	padding: 2px .5ex ;
-	height: 100%;
 }
 
 .hentry .notes li {
@@ -640,6 +623,8 @@ ol#articles {
 .searchfields {
   margin:0px;
   padding:0px;
+  float:right;
+  width: 35%;
 }
 
 .searchfields select {
@@ -676,4 +661,10 @@ ol#articles {
 
 #content {
     display:none;
+}
+
+.marginalia-usage {
+	background-color: #efc486;
+    width: 63%;
+    padding: 0.2em;
 }

@@ -87,7 +87,7 @@ bungeni = {
 				controls.appendChild( domutil.button( {
 					className:  AN_ACCESSBUTTON_CLASS,
 					title:  getLocalized( annotation.getAccess() == AN_PUBLIC_ACCESS ? 'public annotation' : 'private annotation' ),
-                    content:  annotation.getAccess() == AN_PUBLIC_ACCESS ? AN_SUN_SYMBOL : AN_MOON_SYMBOL,
+                    content:  AN_MOON_SYMBOL,
 					id:  annotation.getAccess() == AN_PUBLIC_ACCESS ? 'public' : 'private'
 				} ) );
 			}

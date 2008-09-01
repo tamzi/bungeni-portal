@@ -33,6 +33,9 @@ class IMarginaliaAnnotatableAdaptor(Interface):
     def getBodyText():
         """Returns the body text."""
 
+    def getTitle():
+        """Returns the title."""
+
 class IMarginaliaAnnotation(Interface):
     """Stores details relating to the Annotation."""
 

@@ -471,6 +471,11 @@ class MarginaliaAnnotationView(BrowserView):
         obj = IMarginaliaAnnotatableAdaptor(self.context)
         return obj.getBodyText()
 
+    def getTitle(self):
+        """Returns annotated url."""
+        obj = IMarginaliaAnnotatableAdaptor(self.context)
+        return obj.getTitle()
+
     def isAnnotatable(self):
         """Returns a boolean True"""
         obj = IMarginaliaAnnotatableAdaptor(self.context)

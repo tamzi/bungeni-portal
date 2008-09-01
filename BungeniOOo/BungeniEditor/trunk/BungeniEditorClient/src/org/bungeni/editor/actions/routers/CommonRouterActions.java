@@ -10,11 +10,14 @@
 package org.bungeni.editor.actions.routers;
 
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.WindowConstants;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
+import org.bungeni.editor.selectors.BaseMetadataContainerPanel;
 import org.bungeni.editor.selectors.DialogSelectorFactory;
 import org.bungeni.editor.selectors.IDialogSelector;
+import org.bungeni.editor.selectors.IMetadataContainerPanel;
 import org.bungeni.error.BungeniMsg;
 import org.bungeni.error.BungeniValidatorState;
 import org.bungeni.ooo.OOComponentHelper;
@@ -29,6 +32,68 @@ public class CommonRouterActions {
     /** Creates a new instance of CommonRouterActions */
     public CommonRouterActions() {
     }
+    
+   static abstract class SwingRunner implements Runnable {
+        toolbarAction action;
+        toolbarSubAction subAction;
+        OOComponentHelper ooDocument;
+        JFrame parentFrame;
+        public SwingRunner(){
+            
+        }
+        public SwingRunner(toolbarAction a, toolbarSubAction sa, JFrame pf, OOComponentHelper ooDoc){
+            action = a;
+            subAction = sa;
+            parentFrame = pf;
+            ooDocument = ooDoc;
+        }
+        abstract public void run();
+    }
+    
+    static class displaySelectorFrameRunner extends SwingRunner {
+        public displaySelectorFrameRunner(toolbarAction a, toolbarSubAction sa, JFrame pf, OOComponentHelper ooDoc){
+            super (a, sa, pf, ooDoc);
+        }
+        @Override
+        public void run() {
+                try {
+                    String mainDialogClass = action.action_dialog_class();
+                    //sString subActionDialogClass = subAction.dialog_class();
+                    IMetadataContainerPanel containerPanel = null;
+                    if (mainDialogClass.length() > 0 ) {
+                        containerPanel = BaseMetadataContainerPanel.getContainerPanelObject(mainDialogClass);
+                    }
+                    //also calls setupPanels()
+                    containerPanel.initVariables(ooDocument, parentFrame, action, subAction, subAction.getSelectorDialogMode());
+                    containerPanel.initialize();
+                    // Main m = new Main();
+                  // m.initVariables(ooDoc, parentFrm, aAction, aSubAction, dlgMode);
+                    javax.swing.JFrame f = new javax.swing.JFrame(subAction.action_display_text());
+                    f.add(containerPanel.getPanelComponent());
+                    f.pack();
+                    f.setVisible(true);
+                } catch (Exception ex){
+                    log.error("displaySelectorFrameRunner exception :" + ex.getMessage());
+                }
+        }
+        
+    }
+    
+    public static BungeniValidatorState displaySelectorDialog(toolbarAction action, toolbarSubAction subAction, JFrame parentFrame, OOComponentHelper ooDocument) {
+               BungeniValidatorState returnState = null;
+                try {
+
+                    displaySelectorFrameRunner dsfRunner = new displaySelectorFrameRunner( action,  subAction, parentFrame, ooDocument);
+                    javax.swing.SwingUtilities.invokeLater(dsfRunner);
+                    returnState = new BungeniValidatorState(true, new BungeniMsg("SUCCESS")); 
+
+                } catch (Exception ex) {
+                   log.error("displaySelectorDialog : " + ex.getMessage());
+                   returnState = new BungeniValidatorState(true, new BungeniMsg("EXCEPTION_FAILURE")); 
+                } finally {
+                    return returnState;
+                }
+        }
     
         public static BungeniValidatorState displayFilteredDialog(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) {
             BungeniValidatorState returnState =  null;

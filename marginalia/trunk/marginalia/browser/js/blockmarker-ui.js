@@ -52,7 +52,7 @@ function _showPerBlockUserCountsCallback( xmldoc )
 		for ( var j = 0;  j < info.users.length;  ++j )
 		{
 			var user = info.users[ j ];
-			if ( user.noteCount > 0 && user.userid != marginalia.anusername )
+			if ( user.noteCount > 0 )
 			{
 				var post = marginalia.listPosts( ).getPostByUrl( info.url );
 				post.showPerBlockUserCount( marginalia, info );
@@ -127,9 +127,6 @@ PostMicro.prototype.hideBlockAnnotations = function( marginalia, pointStr )
 		var range = annotation.getRange( SEQUENCE_RANGE );
 		if ( range )
 		{
-			if ( annotation.getUserId( ) != marginalia.anusername )
-			{
-				// if we've run past the last relevant annotation, don't bother with the rest
 				if ( range.start.comparePath( point ) > 0 )
 					break;
 				else if ( range.end.comparePath( point ) >= 0 )
@@ -146,7 +143,6 @@ PostMicro.prototype.hideBlockAnnotations = function( marginalia, pointStr )
 							repositionNote = nextNote;
 					}
 				}
-			}
 		}
 	}
 	if ( repositionNote )
@@ -203,7 +199,7 @@ PostMicro.prototype.showBlockMarker = function( marginalia, info, block, point )
 		{
 			var user = info.users[ i ];
 			// Don't include the currently-displayed user
-			if ( user.noteCount > 0 && user.userid != marginalia.anusername )
+			if ( user.noteCount > 0 )
 				block.blockMarkerUsers[ block.blockMarkerUsers.length ] = user;
 		}
 		
@@ -218,7 +214,14 @@ PostMicro.prototype.showBlockMarker = function( marginalia, info, block, point )
         var userStr = '';
 		for ( var i = 0;  i < uniquearray.length;  ++i ) {
 			var user = uniquearray[ i ];
-            userStr += userStr ? ', ' + user : user;
+            var count = 0;
+            for ( var k = 0;  k < block.blockMarkerUsers.length;  ++k ) {
+                var userobj = block.blockMarkerUsers[ k ];
+                if (user == userobj.userid)
+                    count = count +1;
+            }
+            var user_repr = user + ' (' + count +')';
+            userStr += userStr ? ', ' + user_repr : user_repr;
         }
 
         countElement.setAttribute( 'title', userStr );

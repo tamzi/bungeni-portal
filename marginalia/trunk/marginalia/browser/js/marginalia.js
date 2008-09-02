@@ -378,10 +378,7 @@ function _annotationDisplayCallback( marginalia, callbackUrl, doBlockMarkers, no
 	// Do this by merging the new annotations with those already displayed
 	// For this to work, annotations must be sorted by URL
 	var annotations = marginalia.annotationCache;
-    if ( annotations.length == 0 )
-        visibility_handler("noresults", 1);
-    else
-        visibility_handler("noresults", 0);
+    display_count("noresults", 1, annotations.length);
 
 	if ( annotations )
 	{
@@ -1429,6 +1426,21 @@ function visibility_handler(id, display) {
         loader_div.style.display = 'none';
 }
 
+function display_count(id, display, number) {
+    var loader_div = document.getElementById(id);
+    if(display) {
+        loader_div.style.display = 'block';
+    }
+    else {
+        loader_div.style.display = 'none';
+    } 
+    if (number==0)
+        loader_div.textContent = "No Annotations Found";
+    else if (number==1)
+        loader_div.textContent = "1 Annotation Found";
+    else
+        loader_div.textContent = number + " Annotations Found";                
+}
 
 function onEnterKey (obj, e) {
     var press;

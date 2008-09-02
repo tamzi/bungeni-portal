@@ -40,7 +40,7 @@ public class routerCreateNumberedHeading extends defaultRouter {
      * apply_numbered_heading:style_name
      */
     @Override
-    public BungeniValidatorState route_TextSelectedInsert(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) {
+    public BungeniValidatorState route_TextSelectedInsert(toolbarAction action, toolbarSubAction subAction, javax.swing.JFrame pFrame, OOComponentHelper ooDocument) {
       String sectionUUID = BungeniUUID.getStringUUID();
       //get the section properties for the numbered container type
       DocumentSection numberedSection = DocumentSectionsContainer.getDocumentSectionByType(NUMBERED_SECTION_TYPE);

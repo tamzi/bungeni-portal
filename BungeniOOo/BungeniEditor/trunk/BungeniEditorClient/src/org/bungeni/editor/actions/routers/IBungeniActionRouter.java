@@ -19,11 +19,11 @@ import org.bungeni.ooo.OOComponentHelper;
  */
 public interface IBungeniActionRouter {
     
-    public  org.bungeni.error.BungeniValidatorState route(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDoc);
-    public org.bungeni.error.BungeniValidatorState route_DocumentLevelAction(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) ;
-    public org.bungeni.error.BungeniValidatorState route_TextSelectedInsert(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) ;
-    public org.bungeni.error.BungeniValidatorState route_TextSelectedEdit(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) ;
-    public org.bungeni.error.BungeniValidatorState route_FullInsert(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) ;
-    public org.bungeni.error.BungeniValidatorState route_FullEdit(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) ;
+    public  org.bungeni.error.BungeniValidatorState route(toolbarAction action, toolbarSubAction subAction, javax.swing.JFrame parentFrame, OOComponentHelper ooDoc);
+    public org.bungeni.error.BungeniValidatorState route_DocumentLevelAction(toolbarAction action, toolbarSubAction subAction, javax.swing.JFrame parentFrame, OOComponentHelper ooDocument) ;
+    public org.bungeni.error.BungeniValidatorState route_TextSelectedInsert(toolbarAction action, toolbarSubAction subAction, javax.swing.JFrame parentFrame, OOComponentHelper ooDocument) ;
+    public org.bungeni.error.BungeniValidatorState route_TextSelectedEdit(toolbarAction action, toolbarSubAction subAction, javax.swing.JFrame parentFrame, OOComponentHelper ooDocument) ;
+    public org.bungeni.error.BungeniValidatorState route_FullInsert(toolbarAction action, toolbarSubAction subAction, javax.swing.JFrame parentFrame, OOComponentHelper ooDocument) ;
+    public org.bungeni.error.BungeniValidatorState route_FullEdit(toolbarAction action, toolbarSubAction subAction, javax.swing.JFrame parentFrame, OOComponentHelper ooDocument) ;
 
 }

@@ -49,7 +49,7 @@ public class routerCreateCompositeSection extends defaultRouter {
    }
    
     @Override
-    public BungeniValidatorState route_TextSelectedInsert(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) {
+    public BungeniValidatorState route_TextSelectedInsert(toolbarAction action, toolbarSubAction subAction, javax.swing.JFrame pFrame, OOComponentHelper ooDocument) {
         //get the UUID for the  new numbered heading 
         sectionUUID = BungeniUUID.getStringUUID();
           //get the section properties for the numbered container type

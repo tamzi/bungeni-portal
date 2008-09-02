@@ -30,7 +30,7 @@ public class routerDebateDateEntry extends defaultRouter {
     }
     
     @Override
-    public BungeniValidatorState route_TextSelectedInsert(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) {
+    public BungeniValidatorState route_TextSelectedInsert(toolbarAction action, toolbarSubAction subAction, javax.swing.JFrame pFrame, OOComponentHelper ooDocument) {
         BungeniValidatorState stateObj = CommonRouterActions.displayFilteredDialog(action, subAction, ooDocument);
       return new BungeniValidatorState(true, new BungeniMsg("SUCCESS")); 
     }

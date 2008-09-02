@@ -31,7 +31,7 @@ public class routerMarkupLogo extends defaultRouter {
     }
     
     @Override
-    public BungeniValidatorState route_TextSelectedInsert(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) {
+    public BungeniValidatorState route_TextSelectedInsert(toolbarAction action, toolbarSubAction subAction, javax.swing.JFrame pFrame, OOComponentHelper ooDocument) {
       String imageName = subAction.action_value();
       int nRet  = ooDocument.setSelectedTextImageName(imageName);
       if (nRet == -1)

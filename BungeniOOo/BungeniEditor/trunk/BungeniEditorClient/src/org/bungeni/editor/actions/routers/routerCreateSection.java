@@ -41,7 +41,7 @@ public class routerCreateSection extends defaultRouter {
     }
     
     @Override
-    public BungeniValidatorState route_TextSelectedInsert(toolbarAction action, toolbarSubAction subAction, OOComponentHelper ooDocument) {
+    public BungeniValidatorState route_TextSelectedInsert(toolbarAction action, toolbarSubAction subAction, javax.swing.JFrame pFrame, OOComponentHelper ooDocument) {
      String newSectionName = "";
       newSectionName = get_newSectionNameForAction(action, ooDocument);
          if (newSectionName.length() == 0 ) {

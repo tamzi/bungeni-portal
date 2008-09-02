@@ -19,7 +19,7 @@ from bungeni.core import audit
 from sqlalchemy import orm
 from zc.table import batching, column
 import sqlalchemy as rdb
-import pdb
+
 class WorkflowViewletManager( WeightOrderedViewletManager ):
     """
     implements the Workflowviewlet
@@ -154,7 +154,6 @@ class WorkflowActionViewlet( BaseForm, viewlet.ViewletBase ):
     """
     form_name = "Workflow"
     form_fields = form.Fields(IWorkflowComment)
-    #form_fields = form.Fields()
     actions=()
     render = ViewPageTemplateFile ('templates/workflowaction_viewlet.pt')
     
@@ -186,7 +185,6 @@ class Workflow( BaseForm ):
     template = ViewPageTemplateFile('templates/workflow.pt')
     form_name = "Workflow"
     form_fields = form.Fields(IWorkflowComment)
-
     
     def update( self ):
         self.setupActions()   

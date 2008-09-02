@@ -300,7 +300,6 @@ group_item_assignments = rdb.Table(
    rdb.Column( "object_id", rdb.Integer ), # any object placed here needs to have a class hierarchy sequence
    rdb.Column( "object_type", rdb.String(128), nullable=False ),
    rdb.Column( "group_id", rdb.Integer, rdb.ForeignKey('groups.group_id') ),
-   #rdb.Column( "title", rdb.Unicode(40)), # title of user's group role
    rdb.Column( "start_date", rdb.Date, default=datetime.now, nullable=False),
    rdb.Column( "end_date", rdb.Date ),   
    rdb.Column( "due_date", rdb.Date ),
@@ -626,7 +625,7 @@ responses = rdb.Table(
    rdb.Column( "response_text", rdb.UnicodeText ),
    rdb.Column( "response_type", rdb.String(1), rdb.CheckConstraint("response_type in ('I','S')"), default=u"I"), # (I)nitial (S)ubsequent
    # 
-# for attachment to the debate record, but not actually scheduled on the floor
+   # for attachment to the debate record, but not actually scheduled on the floor
    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id') ),
    rdb.Column( "sitting_time", rdb.DateTime( timezone=False ) )
    )
@@ -648,9 +647,6 @@ motions = rdb.Table(
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('political_parties.party_id')  ), # if the motion was sponsored by a party
    rdb.Column( "notice_date", rdb.Date ),
    rdb.Column( "status",  rdb.Unicode(12) ),
-   #XXX nasty hack for demo in Cairo
-   #add sitting
-   rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id')  ),
    )
 
 motion_changes = make_changes_table( motions, metadata )
@@ -681,9 +677,6 @@ bills = rdb.Table(
    rdb.Column( "submission_date", rdb.Date ),
    rdb.Column( "publication_date", rdb.Date ),
    rdb.Column( "status", rdb.Unicode(12) ),
-   #XXX nasty Hack for demo
-   #add sitting
-   rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id')  ),
    )
    
 bill_changes = make_changes_table( bills, metadata )

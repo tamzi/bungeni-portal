@@ -172,12 +172,7 @@ class GroupSitting( Entity ):
     """ a scheduled meeting for a group (parliament, committee, etc)
     """
     attendance = one2many( "attendance", "bungeni.core.domain.GroupSittingAttendanceContainer", "sitting_id" )
-    #XXX
-    #hack for Cairo demo
-    #bills = one2many( "bills", "bungeni.core.domain.BillContainer", "sitting_id" )
-    #questions = one2many( "questions", "bungeni.core.domain.QuestionContainer", "sitting_id" )
-    #motions = one2many( "motions", "bungeni.core.domain.MotionContainer", "sitting_id" )
-    #debates = one2many( "debates", "bungeni.core.domain.DebateContainer", "sitting_id" )
+
     
     @property
     def short_name( self ):

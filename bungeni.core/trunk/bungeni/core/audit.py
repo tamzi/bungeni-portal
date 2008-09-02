@@ -76,11 +76,16 @@ class AuditorFactory( object ):
         return self._objectChanged(u'modified', object, description )
         
     def objectStateChanged( self, object, event):
-        description = _(u"""transition from %s to %s via %s - %s"""%( 
-                        event.source,
-                        event.destination,
-                        event.transition.title,
-                        event.comment ) )
+        comment = event.comment
+        if comment is None:
+            comment =u""
+        event_description={ 'source': event.source, 
+                            'destination': event.destination, 
+                            'transition': event.transition.title,
+                            'comment': comment }
+        
+        description = (_(u"""%(transition)s : %(comment)s [ transition from %(source)s to %(destination)s ]""")
+                      %event_description  )
         return self._objectChanged(u'workflow', object, description )
         #return self._objectChanged(u'workflow', object )
         

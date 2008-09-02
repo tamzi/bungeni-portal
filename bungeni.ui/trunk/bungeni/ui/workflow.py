@@ -20,7 +20,6 @@ from sqlalchemy import orm
 from zc.table import batching, column
 import sqlalchemy as rdb
 import pdb
-
 class WorkflowViewletManager( WeightOrderedViewletManager ):
     """
     implements the Workflowviewlet
@@ -109,12 +108,14 @@ class TransitionHandler( object ):
 
     def __call__( self, form, action, data ):
         context = getattr( form.context, '_object', form.context )
-
+        notes = None
         if self.wf_name:
             info = component.getAdapter( context, interfaces.IWorkflowInfo, self.wf_name )            
         else:
-            info = interfaces.IWorkflowInfo( context )           
-        info.fireTransition( self.transition_id )        
+            info = interfaces.IWorkflowInfo( context ) 
+        if 'notes' in data.keys():
+            notes = data['notes']             
+        info.fireTransition( self.transition_id, notes )        
         form.setupActions()
 
 def bindTransitions( form_instance, transitions, wf_name=None, wf=None):
@@ -144,7 +145,7 @@ class IWorkflowComment( zope.interface.Interface ):
     """
     a dummy to get the comment field into the form
     """           
-    notes = zope.schema.Text(title=_("Comment on workflow change") )
+    notes = zope.schema.Text(title=_("Comment on workflow change"), required=False )
 
     
 class WorkflowActionViewlet( BaseForm, viewlet.ViewletBase ):
@@ -184,7 +185,7 @@ class Workflow( BaseForm ):
     
     template = ViewPageTemplateFile('templates/workflow.pt')
     form_name = "Workflow"
-    form_fields = form.Fields()
+    form_fields = form.Fields(IWorkflowComment)
 
     
     def update( self ):

@@ -15,7 +15,6 @@ import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextViewCursor;
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
@@ -30,17 +29,13 @@ import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.actions.routers.routerFactory;
-import org.bungeni.editor.actions.validators.validatorFactory;
 import org.bungeni.editor.selectors.DialogSelectorFactory;
 import org.bungeni.editor.selectors.IDialogSelector;
-import org.bungeni.editor.selectors.InitDebateRecord;
-import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.error.BungeniError;
 import org.bungeni.error.BungeniMessage;
 import org.bungeni.error.BungeniValidatorState;
 import org.bungeni.error.ErrorMessages;
 import org.bungeni.ooo.OOComponentHelper;
-import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.CommonPropertyFunctions;
 import org.bungeni.utils.MessageBox;
@@ -105,9 +100,10 @@ public class EditorSelectionActionHandler implements IEditorActionEvent {
     }
     
      private BungeniValidatorState _routeAction(){
+         log.debug("_routeAction : calling _routeAction()");
          org.bungeni.editor.actions.routers.IBungeniActionRouter routerObject = null;
          routerObject = routerFactory.getRouterClass(m_subAction);
-         BungeniValidatorState validState = routerObject.route(m_parentAction, m_subAction, ooDocument);
+         BungeniValidatorState validState = routerObject.route(m_parentAction, m_subAction, parentFrame, ooDocument);
          return validState; 
      }
      

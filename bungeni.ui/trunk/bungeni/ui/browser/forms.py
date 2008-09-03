@@ -5,13 +5,13 @@ from ore.alchemist.vocabulary import DatabaseSource
 from ore.alchemist.model import queryModelDescriptor
 from alchemist.ui.content import ContentAddForm, ContentDisplayForm
 from alchemist.ui.viewlet import EditFormViewlet, AttributesViewViewlet, DisplayFormViewlet
-from alchemist.ui.core import DynamicFields
+from alchemist.ui.core import DynamicFields, null_validator, handle_edit_action
 
 from zope.formlib import form, namedtemplate
 from zope import schema, interface
 from zope.formlib.namedtemplate import NamedTemplate
 from zope.app.pagetemplate import ViewPageTemplateFile
- 
+from zope.traversing.browser import absoluteURL 
 
 
 import bungeni.core.vocabulary as vocabulary
@@ -30,7 +30,6 @@ from ore.yuiwidget import calendar
 
 import validations
 
-import pdb
 #############
 ## VIEW
 
@@ -98,6 +97,35 @@ class CustomAddForm( ContentAddForm ):
                  form.checkInvariants(self.form_fields, data) +
                  self.CustomValidation( self.context, data ) )  
     
+    
+    @form.action(_(u"Save"), condition=form.haveInputWidgets)
+    def handle_add_and_another(self, action, data ):
+        """
+        After succesfull creation of the content we are back at the listing
+        """
+        self.createAndAdd( data )
+        name = self.context.domain_model.__name__
+        self._next_url = absoluteURL( self.context, self.request ) + '?portal_status_message=%s Added'%name    
+        
+    @form.action(_(u"Cancel"), validator=null_validator )
+    def handle_cancel( self, action, data ):
+        """
+        takes us back to the listing
+        """
+        url = self.nextURL()
+        return self.request.response.redirect( url )
+        
+    @form.action(_(u"Save and continue editing"), condition=form.haveInputWidgets, validator='validateAdd')
+    def handle_add_edit( self, action, data ):
+        ob = self.createAndAdd( data )
+        name = self.context.domain_model.__name__
+        self._next_url = absoluteURL( ob, self.request ) + "/@@edit?portal_status_message=%s Added"%name
+        
+    @form.action(_(u"Save and add another"), condition=form.haveInputWidgets)
+    def handle_add_and_another(self, action, data ):
+        self.createAndAdd( data )
+        name = self.context.domain_model.__name__
+        self._next_url = absoluteURL( self.context, self.request ) + '/@@add?portal_status_message=%s Added'%name        
 
 #parliament        
 class ParliamentAdd( CustomAddForm ):
@@ -662,8 +690,30 @@ class CustomEditForm ( EditFormViewlet ):
     def invariantErrors( self ):        
         """ All invariant errors should be handled by the fields that raised them """
         return []    
-                                 
-                  
+    
+    
+    @form.action(_(u"Cancel"), condition=form.haveInputWidgets, validator=null_validator)
+    def handle_cancel_action( self, action, data ):
+        """ the cancel action will take us back to the display view"""
+        #return handle_edit_action( self, action, data )                    
+        url = absoluteURL( self.context, self.request )  
+        return self.request.response.redirect( url )
+        
+                
+        
+    @form.action(_(u"Save"), condition=form.haveInputWidgets)
+    def handle_edit_action( self, action, data ):
+        """ Save action will take us: 
+        If there were no errors to the display view
+        If there were Errors to the edit view
+        """
+        result = handle_edit_action( self, action, data )                                 
+        if self.errors: 
+            return result
+        else:
+            url = absoluteURL( self.context, self.request )  
+            return self.request.response.redirect( url )                    
+                      
 #################
 # return only current member
 # Members should not be editable (exchanged) once they were added

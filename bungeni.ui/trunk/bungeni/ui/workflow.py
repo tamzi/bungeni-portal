@@ -113,7 +113,7 @@ class TransitionHandler( object ):
             info = component.getAdapter( context, interfaces.IWorkflowInfo, self.wf_name )            
         else:
             info = interfaces.IWorkflowInfo( context ) 
-        if 'notes' in data.keys():
+        if data.has_key('notes'):
             notes = data['notes']             
         info.fireTransition( self.transition_id, notes )        
         form.setupActions()

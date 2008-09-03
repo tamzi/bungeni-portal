@@ -6,6 +6,7 @@
 
 package org.bungeni.editor.selectors.debaterecord.tableddocuments;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import org.bungeni.editor.selectors.BaseMetadataContainerPanel;
@@ -80,5 +81,10 @@ public class Main extends BaseMetadataContainerPanel {
                     add(new panelInfo("TabledDocuments", "org.bungeni.editor.selectors.debaterecord.tableddocuments.TabledDocuments"));
             }
          };
+    }
+
+    @Override
+    public Component getPanelComponent() {
+        return this;
     }
 }

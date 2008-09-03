@@ -5,6 +5,7 @@
 
 package org.bungeni.editor.selectors.debaterecord.speech;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import org.bungeni.editor.selectors.BaseMetadataContainerPanel;
@@ -43,6 +44,11 @@ public class Main extends BaseMetadataContainerPanel {
                     add(new panelInfo("SpeechBy", "org.bungeni.editor.selectors.debaterecord.speech.SpeechBy"));
             }
          };
+    }
+
+    @Override
+    public Component getPanelComponent() {
+       return this;
     }
 
 }

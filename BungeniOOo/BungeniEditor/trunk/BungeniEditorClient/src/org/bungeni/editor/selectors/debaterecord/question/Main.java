@@ -5,6 +5,7 @@
 
 package org.bungeni.editor.selectors.debaterecord.question;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import org.bungeni.editor.selectors.BaseMetadataContainerPanel;
@@ -49,6 +50,11 @@ public class Main extends BaseMetadataContainerPanel {
         f.add(m);
         f.pack();
         f.setVisible(true);
+    }
+
+    @Override
+    public Component getPanelComponent() {
+        return this;
     }
 
 }

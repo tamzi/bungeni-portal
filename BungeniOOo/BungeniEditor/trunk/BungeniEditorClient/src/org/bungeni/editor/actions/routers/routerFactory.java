@@ -30,6 +30,8 @@ public class routerFactory {
              Class routerClass;
              routerClass= Class.forName(subAction.router_class());
              router = (IBungeniActionRouter) routerClass.newInstance();
+       } catch (NullPointerException ex) {
+           log.error("getRouterClass:"+ ex.getMessage());
        } catch (ClassNotFoundException ex) {
            log.error("getRouterClass:"+ ex.getMessage());
         } finally {

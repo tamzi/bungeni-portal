@@ -71,7 +71,10 @@ public class CommonRouterActions {
                     javax.swing.JFrame f = new javax.swing.JFrame(subAction.action_display_text());
                     f.add(containerPanel.getPanelComponent());
                     f.pack();
+                    f.setLocationRelativeTo(null);
                     f.setVisible(true);
+                    f.setAlwaysOnTop(true);   
+                   // f.setVisible(true);
                 } catch (Exception ex){
                     log.error("displaySelectorFrameRunner exception :" + ex.getMessage());
                 }

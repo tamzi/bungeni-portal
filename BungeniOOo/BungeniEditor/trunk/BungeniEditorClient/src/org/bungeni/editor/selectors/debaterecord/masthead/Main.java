@@ -5,6 +5,7 @@
 
 package org.bungeni.editor.selectors.debaterecord.masthead;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import org.bungeni.editor.selectors.BaseMetadataContainerPanel;
 
@@ -22,19 +23,23 @@ public class Main extends BaseMetadataContainerPanel {
     protected void setupPanels() {
        m_allPanels = new ArrayList<panelInfo>(){
                 {
-                    add(new panelInfo("DebateRecordDate","org.bungeni.editor.selectors.debaterecord.masthead.DebateRecordDate"));
-                    add(new panelInfo("DebateRecordTime", "org.bungeni.editor.selectors.debaterecord.masthead.DebateRecordTime"));
-                    add(new panelInfo("DebateRecordLogo", "org.bungeni.editor.selectors.debaterecord.masthead.DebateRecordLogo"));
+                    add(new panelInfo("debatedate","org.bungeni.editor.selectors.debaterecord.masthead.DebateRecordDate"));
+                    add(new panelInfo("debatetime", "org.bungeni.editor.selectors.debaterecord.masthead.DebateRecordTime"));
+                    add(new panelInfo("debatelogo", "org.bungeni.editor.selectors.debaterecord.masthead.DebateRecordLogo"));
                 }
         };
-    
-       m_activePanels = new ArrayList<panelInfo>(){
-            {
-                    add(new panelInfo("DebateRecordDate","org.bungeni.editor.selectors.debaterecord.masthead.DebateRecordDate"));
-                    add(new panelInfo("DebateRecordTime", "org.bungeni.editor.selectors.debaterecord.masthead.DebateRecordTime"));
-                    add(new panelInfo("DebateRecordLogo", "org.bungeni.editor.selectors.debaterecord.masthead.DebateRecordLogo"));
-            }
-         };
+       if (this.theSubAction != null) {
+           m_activePanels = new ArrayList<panelInfo>(){
+                {
+                    add(new panelInfo(theSubAction.sub_action_name(), theSubAction.dialog_class()));        
+                   // add(new panelInfo("DebateRecordDate","org.bungeni.editor.selectors.debaterecord.masthead.DebateRecordDate"));
+                  //      add(new panelInfo("DebateRecordTime", "org.bungeni.editor.selectors.debaterecord.masthead.DebateRecordTime"));
+                  //      add(new panelInfo("DebateRecordLogo", "org.bungeni.editor.selectors.debaterecord.masthead.DebateRecordLogo"));
+                }
+             };
+       } else {
+            m_activePanels = new ArrayList<panelInfo>(0);
+       }
     }
 
      public static void main(String[] args){
@@ -46,4 +51,10 @@ public class Main extends BaseMetadataContainerPanel {
         f.pack();
         f.setVisible(true);
     }
+
+    @Override
+    public Component getPanelComponent() {
+        return this;
+    }
+
 }

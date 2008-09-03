@@ -15,10 +15,10 @@ import org.bungeni.ooo.OOComponentHelper;
  *
  * @author undesa
  */
-public class routerDebateRecordDateEntry extends defaultRouter {
-  private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(routerDebateRecordDateEntry.class.getName());
+public class routerDebateRecordTimeEntry extends defaultRouter {
+  private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(routerDebateRecordTimeEntry.class.getName());
  
-  public routerDebateRecordDateEntry(){
+  public routerDebateRecordTimeEntry(){
       super();
   }
       

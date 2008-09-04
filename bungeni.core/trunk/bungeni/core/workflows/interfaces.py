@@ -6,4 +6,8 @@ class IQuestionSubmittedEvent(IObjectEvent):
 class IQuestionReceivedEvent(IObjectEvent):
     """Issued when a question was received by Clerk's office."""
 
+class IMotionReceivedEvent(IObjectEvent):
+    """ Motion recieved by clerks office"""
 
+class IMotionSubmittedEvent(IObjectEvent):
+    """ Motion submitted to clerks office """

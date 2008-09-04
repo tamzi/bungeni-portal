@@ -1,4 +1,5 @@
 <configure xmlns="http://namespaces.zope.org/zope">
+  <!-- question workflow permissions -->
   <grant permission="bungeni.question.Create" role="zope.Member" />
   <grant permission="bungeni.question.Submit" role="zope.Member"/>
   <grant permission="bungeni.question.Recieve" role="zope.Member"/>
@@ -9,4 +10,14 @@
   <grant permission="bungeni.question.Answer" role="zope.Member"/>
   <grant permission="bungeni.question.Withdraw" role="zope.Member"/>
   <grant permission="bungeni.question.write_answer" role="zope.Member" />  
+  <!-- motion workflow permissions -->
+  <grant permission="bungeni.motion.Create" role="zope.Member" />
+  <grant permission="bungeni.motion.Submit" role="zope.Member"/>
+  <grant permission="bungeni.motion.Recieve" role="zope.Member"/>
+  <grant permission="bungeni.motion.clerk.Review" role="zope.Member"/>
+  <grant permission="bungeni.motion.speaker.Review"  role="zope.Member"/>
+  <grant permission="bungeni.motion.Schedule" role="zope.Member"/>
+  <grant permission="bungeni.motion.Debate" role="zope.Member"/>
+  <grant permission="bungeni.motion.Withdraw" role="zope.Member"/>
+
 </configure>

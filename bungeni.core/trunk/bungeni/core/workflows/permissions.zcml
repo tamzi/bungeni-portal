@@ -1,4 +1,5 @@
 <configure xmlns="http://namespaces.zope.org/zope">
+  <!-- Question Workflow permissions -->
   <permission id="bungeni.question.Create" title="Create a question" />
   <permission id="bungeni.question.Submit" title="Submit a question" />
   <permission id="bungeni.question.Recieve" title="Recieve a question" />
@@ -9,4 +10,14 @@
   <permission id="bungeni.question.Answer" title="Answer a question" />
   <permission id="bungeni.question.Withdraw" title="Withdraw a question" />
   <permission id="bungeni.question.write_answer" title="Answer a question in writing" />
+  <!-- Motion Workflow permissions -->
+  <permission id="bungeni.motion.Create" title="Create a motion" />
+  <permission id="bungeni.motion.Submit" title="Submit a motion" />
+  <permission id="bungeni.motion.Recieve" title="Recieve a motion" />
+  <permission id="bungeni.motion.clerk.Review" title="Review a motion" />
+  <permission id="bungeni.motion.speaker.Review"  title="Speaker review a motion" />
+  <permission id="bungeni.motion.Schedule" title="Schedule a motion" />
+  <permission id="bungeni.motion.Debate" title="Mark a motion as debated" />
+  <permission id="bungeni.motion.Withdraw" title="Withdraw a motion" />
+  
 </configure>

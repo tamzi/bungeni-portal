@@ -38,6 +38,16 @@
   <subscriber
      handler=".question.workflowTransitionEventDispatcher" />
 
+
+  <!-- motion workflow -->
+  <adapter
+     for="..domain.Motion"
+     provides="ore.workflow.interfaces.IWorkflow"
+     factory=".motion.MotionWorkflowAdapter" />
+
+  <subscriber
+     handler=".motion.workflowTransitionEventDispatcher" />
+
   <!-- Generic Workflow Initialization For Content -->
   <subscriber
      handler=".initializeWorkflow"

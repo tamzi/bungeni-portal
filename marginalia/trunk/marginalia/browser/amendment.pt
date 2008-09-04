@@ -129,7 +129,7 @@ function bungeniClickCreateAnnotation( event, id ) {
 
         <div class="searchfields" tal:define="member_names python:view.getAmendmentOwnerList();
                                             group_names python:view.getAmendmentOwnerGroups;">
-               <a href="javascript:toggle_visibility('fields');"><p class="plink" i18n:translate="">Filter amendment by owner, group, type or query string. (show/hide)</p></a>
+               <a href="javascript:toggle_visibility('fields');"><p class="plink" i18n:translate="">Filter amendments by owner, group, type or query string. (show/hide)</p></a>
                <a id="togglevisibility" name="hide" href="javascript:hideAnnotations();"><p class="plink" i18n:translate="">Toggle hide/display amendments</p></a>
                <p id="noresults" class="plink" style="display:none;" i18n:translate="">No Amendments Found</p>
                <form id="filterform" action="download" method="post">
@@ -175,7 +175,7 @@ function bungeniClickCreateAnnotation( event, id ) {
                </div>
 <div class="marginalia-usage" i18n:translate="marginalia-usage">To add an amendment, hightlight the text in the document and then click on the blue
 bar and select the amendment option you wish to use.</div>
-<h3 tal:content="view/getTitle"> Annotate Document </h3>
+<h3 tal:content="view/getTitle"> Comment Document </h3>
 
   <dl class="portalMessage error"                                                                                                              
       tal:condition="view/statusmessage | nothing"

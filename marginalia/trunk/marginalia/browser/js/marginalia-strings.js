@@ -17,11 +17,11 @@ function getLocalized( s )
 LocalizedAnnotationStrings = {
 
 	
-	'public annotation' : 'This annotation is public.',
+	'public annotation' : 'This comment is public.',
 	
-	'private annotation' : 'This annotation is private.',
+	'private annotation' : 'This comment is private.',
 		
-	'delete annotation button' : 'Delete this annotation.',
+	'delete annotation button' : 'Delete this comment.',
 	
 	'annotation link button' : 'Link to another document.',
 	
@@ -29,7 +29,7 @@ LocalizedAnnotationStrings = {
 	
 	'delete annotation link button' : 'Remove this link.',
 	
-	'action annotate button' : 'Annotate...',
+	'action annotate button' : 'Comment...',
 	
 	'action insert before button' : 'Insert before...',
 	
@@ -51,33 +51,33 @@ LocalizedAnnotationStrings = {
 	
 	'note delete label': 'Delete',
 
-	'note annotate label': 'Annotate:',	
+	'note annotate label': 'Comment:',	
 	
-	'browser support of W3C range required for annotation creation' : 'Your browser does not support the W3C range standard, so you cannot create annotations.',
+	'browser support of W3C range required for annotation creation' : 'Your browser does not support the W3C range standard, so you cannot create comments.',
 	
-	'select text to annotate' : 'You must select some text to annotate.',
+	'select text to annotate' : 'You must select some text to comment.',
 	
 	'invalid selection' : 'Selection range is not valid.',
 	
-	'corrupt XML from service' : 'An attempt to retrieve annotations from the server returned corrupt XML data.',
+	'corrupt XML from service' : 'An attempt to retrieve comments from the server returned corrupt XML data.',
 	
 	'note too long' : 'Please limit your margin note to 250 characters.',
 	
 	'quote too long' : 'The passage you have attempted to highlight is too long.  It may not exceed 1000 characters.',
 	
-	'zero length quote' : 'You must select some text to annotate.',
+	'zero length quote' : 'You must select some text to comment.',
 	
 	'quote not found' : 'The highlighted passage could not be found',
 	
 	'create overlapping edits' : 'You may not create overlapping edits',
 	
-	'warn delete' : 'Delete this annotation?',
+	'warn delete' : 'Delete this comment?',
 	
 	'blank quote and note' : 'You must enter some note text',
 
 	'blank note' : 'You must enter some note text',
 
-	'invalid text selection' : 'Please select a valid text range to annotate',
+	'invalid text selection' : 'Comments are not allowed on this text selection. Please make a different selection.',
 	
 	'lang' : 'en'
 };

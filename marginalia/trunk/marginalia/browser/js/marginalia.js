@@ -1435,11 +1435,11 @@ function display_count(id, display, number) {
         loader_div.style.display = 'none';
     } 
     if (number==0)
-        loader_div.textContent = "No Annotations Found";
+        loader_div.textContent = "No Comments Found";
     else if (number==1)
-        loader_div.textContent = "1 Annotation Found";
+        loader_div.textContent = "1 Comment Found";
     else
-        loader_div.textContent = number + " Annotations Found";                
+        loader_div.textContent = number + " Comments Found";                
 }
 
 function onEnterKey (obj, e) {

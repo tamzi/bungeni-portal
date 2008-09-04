@@ -49,16 +49,8 @@ function _showPerBlockUserCountsCallback( xmldoc )
 		var info = rangeInfos[ i ];
 		
 		// Only include markers for non-edit annotations by users other than the displayed one
-		for ( var j = 0;  j < info.users.length;  ++j )
-		{
-			var user = info.users[ j ];
-			if ( user.noteCount > 0 )
-			{
-				var post = marginalia.listPosts( ).getPostByUrl( info.url );
-				post.showPerBlockUserCount( marginalia, info );
-				break;
-			}
-		}
+        var post = marginalia.listPosts( ).getPostByUrl( info.url );
+        post.showPerBlockUserCount( marginalia, info );
 	}
 }
 
@@ -78,8 +70,8 @@ PostMicro.prototype.showPerBlockUserCount = function( marginalia, info )
 			var point = new SequencePoint( resolver.getPath() );
 			if ( point.compare( info.sequenceRange.end ) > 0 )
 				break;
-			if ( ELEMENT_NODE == node.nodeType )
-				this.showBlockMarker( marginalia, info, resolver.getNode(), point );
+			//if ( ELEMENT_NODE == node.nodeType )
+			this.showBlockMarker( marginalia, info, resolver.getNode(), point );
 		}
 		while ( resolver.next( ) );
 	}
@@ -199,8 +191,8 @@ PostMicro.prototype.showBlockMarker = function( marginalia, info, block, point )
 		{
 			var user = info.users[ i ];
 			// Don't include the currently-displayed user
-			if ( user.noteCount > 0 )
-				block.blockMarkerUsers[ block.blockMarkerUsers.length ] = user;
+			//if ( user.noteCount > 0 )
+            block.blockMarkerUsers[ block.blockMarkerUsers.length ] = user;
 		}
 		
 

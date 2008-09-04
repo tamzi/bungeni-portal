@@ -63,7 +63,7 @@
       template="annote.pt"
       class="marginalia.browser.templates.MarginaliaAnnotationView"
       permission="zope.View"
-      menu="zmi_views" title="Annotate"
+      menu="zmi_views" title="Comment"
       />
 
   <browser:page
@@ -81,7 +81,7 @@
       template="marginalia.pt"
       class="marginalia.browser.templates.MarginaliaAnnotationView"
       permission="zope.View"
-      menu="zmi_views" title="Annotate FullScreen"
+      menu="zmi_views" title="Comment FullScreen"
       />
 
   <browser:page
@@ -97,7 +97,7 @@
      menu="context_actions"
      for="marginalia.interfaces.IMarginaliaAnnotatable"
      action="annote.html"
-     title="Annotate"
+     title="Comment"
      />       
 
    <browser:menuItem

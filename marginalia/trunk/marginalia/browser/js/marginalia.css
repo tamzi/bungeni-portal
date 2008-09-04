@@ -240,8 +240,10 @@
 }
 
 .hentry .notes li button.annotation-link {
+    background-image:url(/@@/imagesmarginalia/link.gif);
+    background-repeat: no-repeat;
 	height: 1.5em;
-	width: 1.5em;
+	width: 2.5em;
 }
 
 .hentry .notes li.hover,
@@ -577,24 +579,23 @@ ol#articles {
 }
 
 .hentry .markers .annotation-user-count {
+    border: 1px solid #BBBBBB;    
 	cursor: pointer;
 	display:  block;
 	width: 1.5em;
 	text-align: center;
 	padding: .25ex .25ex;
-	background: #bbb;
 	font-family: sans-serif;
 	font-weight: bold;
-	color: white;
+	color: black;
 }
 
 .hentry .markers .marker.fetched .annotation-user-count {
-	background: transparent;
-	color: #bbb;
+	background: #96A9C2;
 }
 
 .hentry .markers .marker:hover .annotation-user-count {
-	background: #66f;
+	background: #eee;
 }
 
 #range-caret {

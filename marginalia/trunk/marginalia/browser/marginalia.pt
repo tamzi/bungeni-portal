@@ -127,9 +127,9 @@ function bungeniClickCreateAnnotation( event, id ) {
 
         <div class="searchfields" tal:define="member_names python:view.getAnnotationOwnerList();
                                             group_names python:view.getAnnotationOwnerGroups;">
-               <a href="javascript:toggle_visibility('fields');"><p class="plink" i18n:translate="">Filter annotations by owner, group or query string. (show/hide)</p></a>
-               <a id="togglevisibility" name="hide" href="javascript:hideAnnotations();"><p class="plink" i18n:translate="">Toggle hide/display annotations</p></a>
-               <p id="noresults" class="plink" style="display:none;" i18n:translate="">No Annotations Found</p>
+               <a href="javascript:toggle_visibility('fields');"><p class="plink" i18n:translate="">Filter comments by owner, group or query string. (show/hide)</p></a>
+               <a id="togglevisibility" name="hide" href="javascript:hideAnnotations();"><p class="plink" i18n:translate="">Toggle hide/display comments</p></a>
+               <p id="noresults" class="plink" style="display:none;" i18n:translate="">No Comments Found</p>
                <form id="filterform" action="download" method="post">
 		       <div id="fields" style="display:block;">
                  <select class="select_field" name="filter_owner" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
@@ -163,9 +163,9 @@ function bungeniClickCreateAnnotation( event, id ) {
                <textarea id="content" name="content"></textarea>
                </form>
                </div>
-<div class="marginalia-usage" i18n:translate="marginalia-usage">To add an amendment, hightlight the text in the document and then click on the blue
-bar and select the amendment option you wish to use.</div>
-<h3 tal:content="view/getTitle"> Annotate Document </h3>
+<div class="marginalia-usage" i18n:translate="marginalia-usage">To add a comment, hightlight the text in the document and then click on the blue
+bar.</div>
+<h3 tal:content="view/getTitle"> Comment Document </h3>
 
   <dl class="portalMessage error"                                                                                                              
       tal:condition="view/statusmessage | nothing"

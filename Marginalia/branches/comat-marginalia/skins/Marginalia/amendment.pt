@@ -50,6 +50,11 @@
 		}
 		">
     </script>
+<style type="text/css">
+.hentry .notes li button.annotation-link {
+    background-image:url(link.gif);
+}
+</style>
 </metal:block>
 
 <body>

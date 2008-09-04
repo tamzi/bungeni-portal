@@ -47,6 +47,11 @@
 		}
 		">
     </script>
+<style type="text/css">
+.hentry .notes li button.annotation-link {
+    background-image:url(link.gif);
+}
+</style>
 </metal:block>
 
 <body>
@@ -64,10 +69,10 @@
 
                     <div class="searchfields" tal:define="member_names python:context.portal_annotations.getOwnerList(request);
                                                    group_names python:context.portal_annotations.getPortalGroups();">
-                      <a href="javascript:toggle_visibility('fields');"><p class="plink" i18n:translate="filter-help">Filter annotations by owner, group or query string. (show/hide)</p></a>
+                      <a href="javascript:toggle_visibility('fields');"><p class="plink" i18n:translate="filter-help">Filter comments by owner, group or query string. (show/hide)</p></a>
                       <p class="plink" i18n:translate="search-text">Search text can include wildcard chartecters like '?' and '*'</p>
-                      <a id="togglevisibility" name="hide" href="javascript:hideAnnotations(this);"><p class="plink" i18n:translate="toggle-text">Toggle hide/display annotations</p></a>
-                      <p id="noresults" class="plink" style="display:none;" i18n:translate="search-results">No Annotations Found</p>
+                      <a id="togglevisibility" name="hide" href="javascript:hideAnnotations(this);"><p class="plink" i18n:translate="toggle-text">Toggle hide/display comments</p></a>
+                      <p id="noresults" class="plink" style="display:none;" i18n:translate="search-results">No Comments Found</p>
 
 		            <div id="fields" style="display:block;">
                       <select class="select_field" name="filter_owner" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
@@ -99,8 +104,8 @@
                       </div>
                     </div>
 
-<div class="marginalia-usage" i18n:translate="marginalia-usage">To add an amendment, hightlight the text in the document and then click on the blue
-bar and select the amendment option you wish to use.</div>
+<div class="marginalia-usage" i18n:translate="marginalia-usage">To add a comment, hightlight the text in the document and then click on the blue
+bar.</div>
 
         <h3 tal:content="object_title" class="documentFirstHeading">
           Title or id

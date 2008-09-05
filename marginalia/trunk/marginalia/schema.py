@@ -20,6 +20,7 @@ annotations_table = rdb.Table(
     rdb.Column("end_char", rdb.Unicode(80), nullable=False),
     rdb.Column("note", rdb.Text()), 
     rdb.Column("access", rdb.Unicode(80), nullable=False),
+    rdb.Column("status", rdb.Unicode(80), nullable=False),    
     rdb.Column("action", rdb.Unicode(80)),
     rdb.Column("edit_type", rdb.Unicode(80), nullable=False),
     rdb.Column("quote", rdb.Text()),

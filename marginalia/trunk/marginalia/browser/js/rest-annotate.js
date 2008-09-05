@@ -210,10 +210,10 @@ RestAnnotationService.prototype.createAnnotation = function( annotation, f )
 	
     var edit_type = bungeni.editType(annotation);
 
-    if ( edit_type == "Comment:" )
-	    edit_type = 'comment';
-	else if ( edit_type == "Annotate:" )
+    if ( edit_type == "Comment:" && serviceUrl.match('annotate$') )
         edit_type = 'annotate';
+    else if ( edit_type == "Comment:" )
+	    edit_type = 'comment';
 	else if ( edit_type == "Replace:" )
         edit_type = 'replace';
     else if ( edit_type == "Insert:" || edit_type == "Insert Before:" || edit_type == "Insert After:" )
@@ -225,6 +225,7 @@ RestAnnotationService.prototype.createAnnotation = function( annotation, f )
 		= 'url=' + encodeURIParameter( annotation.getUrl() )
 		+ '&note=' + encodeURIParameter( annotation.getNote() )
 		+ '&access=' + encodeURIParameter( annotation.getAccess() )
+		+ '&status=' + encodeURIParameter( annotation.getStatus() )
 		+ '&quote=' + encodeURIParameter( annotation.getQuote() )
 		+ '&quote_title=' + encodeURIParameter( annotation.getQuoteTitle() )
 		+ '&quote_author=' + encodeURIParameter( annotation.getQuoteAuthor() )
@@ -302,6 +303,8 @@ RestAnnotationService.prototype.updateAnnotation = function( annotation, f )
 		body = 'note=' + encodeURIParameter( annotation.getNote() );
 	if ( annotation.hasChanged( 'access' ) )
 		body += ( body == '' ? '' : '&' ) + 'access=' + encodeURIParameter( annotation.getAccess() );
+	if ( annotation.hasChanged( 'status' ) )
+		body += ( body == '' ? '' : '&' ) + 'status=' + encodeURIParameter( annotation.getStatus() );
 	if ( annotation.hasChanged( 'link' ) )
 		body += ( body == '' ? '' : '&' ) + 'link=' + encodeURIParameter( annotation.getLink() );
 	if ( annotation.hasChanged( 'linkTitle' ) )

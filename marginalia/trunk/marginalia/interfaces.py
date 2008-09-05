@@ -93,6 +93,11 @@ class IMarginaliaAnnotation(Interface):
         title=u"Access",
         description=u"Access",
         )
+
+    status = TextLine(
+        title=u"Status",
+        description=u"Status",
+        )
     
     action = TextLine(
         title=u"Action",

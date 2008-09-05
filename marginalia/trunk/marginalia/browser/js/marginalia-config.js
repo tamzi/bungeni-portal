@@ -33,6 +33,7 @@ ANNOTATION_EXTERNAL_LINKING = true;	// If true, link editor accepts any http/htt
 ANNOTATION_ACTIONS = true;		// If true, switch on support for actions (insert, substitute, delete)
 
 ANNOTATION_ACCESS_DEFAULT = 'private';	// default access
+ANNOTATION_STATUS_DEFAULT = 'pending';
 
 function initLogging( )
 {

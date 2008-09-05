@@ -61,6 +61,10 @@ class MarginaliaPage(BrowserPage):
         """Returns the currently authenticated member."""
         return self.request.principal.id
 
+    def isAdmin(self):
+        """Returns true if the registered user is an administrator."""
+        return True
+
     def getAuthenticatedUser(self):
         """Returns the currently authenticated member."""
         if hasattr(self.request.principal, 'getLogin'):        
@@ -100,6 +104,7 @@ class MarginaliaPage(BrowserPage):
             'xpath-range': '',
             'note': '',
             'access': '',
+            'status': '',            
             'action': '',
             'quote': '',
             'quote_title': '',
@@ -157,8 +162,12 @@ class MarginaliaPage(BrowserPage):
         params['modified'] = datetime.now()
         
         annotation = self.getAnnotation(params['id'])
-        if not annotation or annotation.quote_authorid != \
-               self.getAuthenticatedUserId():
+        if not annotation:
+            self.request.response.setStatus('BadRequest')
+            return
+
+        if annotation.quote_authorid != self.getAuthenticatedUserId() and \
+               not self.isAdmin():
             self.request.response.setStatus('BadRequest')
             return
 
@@ -458,6 +467,10 @@ class MarginaliaAnnotationView(BrowserView):
         """Returns the currently authenticated member."""
         return self.request.principal.id
 
+    def isAdmin(self):
+        """Returns true if the registered user is an administrator."""
+        return True
+    
     def getAuthenticatedUser(self):
         """Returns the currently authenticated member."""
         

@@ -73,11 +73,12 @@ AN_COOP_MAXTIME = 200;
  * cases, absolute URLs aren't desirable (e.g. because the annotated resources might be moved
  * to another host, in which case the URLs would all break).
  */
-function Marginalia( service, username, anusername, features )
+function Marginalia( service, username, superuser, anusername, features )
 {
 	this.annotationService = service;
 	this.username = username;
 	this.anusername = anusername;
+    this.superuser = superuser;
 	this.editing = null;	// annotation currently being edited (if any)
 	this.noteEditor = null;	// state for note currently being edited (if any) - should replace editing, above
 	

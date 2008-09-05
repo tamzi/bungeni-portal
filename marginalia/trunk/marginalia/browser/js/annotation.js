@@ -35,6 +35,11 @@ NS_XHTML = 'http://www.w3.org/1999/xhtml';
 AN_PUBLIC_ACCESS = 'public';
 AN_PRIVATE_ACCESS = 'private';
 
+// values for annotation.status
+AN_PENDING_STATUS = 'pending';
+AN_ACCEPT_STATUS = 'accept';
+AN_REJECT_STATUS = 'reject';
+
 // values for annotation.editing (field is deleted when not editing)
 AN_EDIT_NOTE_FREEFORM = 'note freeform';
 AN_EDIT_NOTE_KEYWORDS = 'note keywords';
@@ -64,6 +69,7 @@ function Annotation( url )
 	this.id = 0;
 	this.note = '';
 	this.access = ANNOTATION_ACCESS_DEFAULT;
+    this.status = ANNOTATION_STATUS_DEFAULT;
 	this.action = '';
 	this.etype = '';
 	this.quote = '';
@@ -209,6 +215,9 @@ Annotation.prototype.setQuote = function( quote )
 Annotation.prototype.getAccess = function( )
 { return this.access ? this.access : ''; }
 
+Annotation.prototype.getStatus = function( )
+{ return this.status ? this.status : 'pending'; }
+
 Annotation.prototype.setAccess = function( access )
 {
 	if ( this.access != access )
@@ -217,6 +226,16 @@ Annotation.prototype.setAccess = function( access )
 		this.changes[ 'access' ] = true;
 	}
 }
+
+Annotation.prototype.setStatus = function( status )
+{
+	if ( this.status != status )
+	{
+		this.status = status;
+		this.changes[ 'status' ] = true;
+	}
+}
+
 
 Annotation.prototype.getAction = function( )
 { return this.action ? this.action : ''; }
@@ -433,6 +452,8 @@ Annotation.prototype.fromAtom = function( entry )
 		}
 		else if ( field.namespaceURI == NS_PTR && domutil.getLocalName( field ) == 'access' )
 			this.access = null == field.firstChild ? 'private' : domutil.getNodeText( field );
+		else if ( field.namespaceURI == NS_PTR && domutil.getLocalName( field ) == 'status' )
+			this.status = null == field.firstChild ? 'pending' : domutil.getNodeText( field );
 		else if ( field.namespaceURI == NS_PTR && domutil.getLocalName( field ) == 'action' )
 			this.action = null == field.firstChild ? '' : domutil.getNodeText( field );
 		else if ( field.namespaceURI == NS_ATOM && domutil.getLocalName( field ) == 'updated' )

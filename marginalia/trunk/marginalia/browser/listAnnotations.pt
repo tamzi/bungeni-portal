@@ -50,6 +50,7 @@
     <ptr:range format="sequence" tal:content="feedentry/getSequenceRange">/2/15.0;/2/17.7</ptr:range>
     <ptr:range format="xpath" tal:content="feedentry/getXPathRange">p[2]/word(15)/char(0);p[2]/word(17)/char(7)</ptr:range>
     <ptr:access tal:content="feedentry/access">private</ptr:access>
+    <ptr:status tal:content="feedentry/status">pending</ptr:status>
 	<ptr:action tal:content="action">edit</ptr:action>
 
       <title tal:content="feedentry/note">

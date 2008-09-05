@@ -82,9 +82,14 @@
 function show_annotations_on_load() {
     var serviceRoot = '${context/@@absolute_url}';
 	var username = '${view/getAuthenticatedUser}';
+    var isadmin = '${view/isAdmin}';
+    var superuser = false;
+    if (isadmin == 'True'){
+        superuser = true;
+    }
 	var url = '${context/@@absolute_url}';
     var restService = '/annotate';
-	bungeniMarginaliaInit( username, url, serviceRoot, restService );
+	bungeniMarginaliaInit( username, superuser, url, serviceRoot, restService );
 }
 
 function addLoadEvent(func) {

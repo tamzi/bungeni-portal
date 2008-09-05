@@ -36,6 +36,7 @@ MAX_NOTE_LENGTH = 250;
 MAX_NOTEHOVER_LENGTH = 24;
 
 // Classes to identify specific controls
+AN_SELECT_CLASS = 'annotation-select';
 AN_LINKBUTTON_CLASS = 'annotation-link';
 AN_ACCESSBUTTON_CLASS = 'annotation-access';
 AN_DELETEBUTTON_CLASS = 'annotation-delete';
@@ -45,10 +46,10 @@ AN_KEYWORDSCONTROL_CLASS = 'keywords';
 AN_SUN_SYMBOL = '\u25cb'; //'\u263c';
 AN_MOON_SYMBOL = '\u25c6'; //'\u2641';
 AN_LINK_ICON = '\u263c'; //'\u238b'; circle-arrow // \u2318 (point of interest) \u2020 (dagger) \u203b (reference mark) \u238b (circle arrow)
-AN_LINK_EDIT_ICON = '\u263c'; //'\u238b'; circle-arrow// \u2021 (double dagger)
+AN_LINK_EDIT_ICON = ''; //'\u238b'; circle-arrow// \u2021 (double dagger)
 AN_COLLAPSED_ICON = '+'; // '\u25b7'; triangle
 AN_EXPANDED_ICON = '-'; // '\u25bd';
-AN_LINKEDIT_LABEL = '\u263c'; // '\u238b'; circle-arrow
+AN_LINKEDIT_LABEL = ''; // '\u238b'; circle-arrow
 
 
 /**
@@ -244,6 +245,7 @@ Marginalia.prototype.bindNoteBehavior = function( node, property, value )
 	// Functions to associate with events (click etc.)
 	var eventMappings = { 
 		access: _toggleAnnotationAccess,
+		'status': _toggleAnnotationStatus,
 		'delete': _deleteAnnotation,
 //		edit: _editAnnotation,
 		save: _saveAnnotation };
@@ -264,6 +266,13 @@ Marginalia.prototype.bindNoteBehavior = function( node, property, value )
 			}
 			if ( f )
 				addEvent( node, 'click', f );
+			else
+				logError( 'Unknown note click behavior: ' + value );
+			break;
+		case 'change':
+			var f = eventMappings[ value ];
+			if ( f )
+				addEvent( node, 'change', f );
 			else
 				logError( 'Unknown note click behavior: ' + value );
 			break;
@@ -877,5 +886,18 @@ function _toggleAnnotationAccess( event )
 		getLocalized( 'public annotation' ) : getLocalized( 'private annotation' ) );
 	accessButton.setAttribute( 'id', annotation.getAccess() == 'public' ? 'public' : 'private' );
 
+}
+
+function _toggleAnnotationStatus( event )
+{
+	event.stopPropagation( );
+	var target = domutil.getEventTarget( event );
+	
+	var annotation = domutil.nestedFieldValue( this, AN_ANNOTATION_FIELD );
+	var statusElement = target;
+    if (annotation.getStatus() != statusElement.value ) {
+        annotation.setStatus( statusElement.value );
+        window.marginalia.updateAnnotation( annotation, null );
+    }
 }
 

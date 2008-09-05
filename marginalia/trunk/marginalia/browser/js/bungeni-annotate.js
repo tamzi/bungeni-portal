@@ -1,8 +1,8 @@
 
-function bungeniMarginaliaInit( username, url, serviceRoot, restService ) 
+function bungeniMarginaliaInit( username, superuser, url, serviceRoot, restService ) 
 {
 	var annotationService = new RestAnnotationService( serviceRoot + restService, false );
-	window.marginalia = new Marginalia( annotationService, username, username, {
+	window.marginalia = new Marginalia( annotationService, username, superuser, username, {
 		preferences: new Preferences( new RestPreferenceService( serviceRoot + '/preference', true ) ),
 		baseUrl:  null,
                 annotationsUrl: serviceRoot,
@@ -26,7 +26,7 @@ function bungeniMarginaliaInit( username, url, serviceRoot, restService )
 //	initLogging();
 
 	window.marginalia.showAnnotations( url );
-        filterAnnotationsFromBookmark();
+    filterAnnotationsFromBookmark();
 }
 
 function bungeniClickCreateEdit( )
@@ -70,7 +70,6 @@ bungeni = {
 		{
 			var controls = domutil.element( 'div', { className: 'controls' } );
 			noteElement.appendChild( controls );
-
 			// add the link button
 			if ( params.linkingEnabled )
 			{
@@ -105,6 +104,27 @@ bungeni = {
 				[ 'button.annotation-delete', { click: 'delete' } ]
 			] );
 		}
+        if ( marginalia.superuser ) {
+			var newcontrols = domutil.element( 'div', { className: 'newcontrols' });
+            var select_element = domutil.element( 'select', {
+                        className: AN_SELECT_CLASS,
+                        content: [domutil.element( 'option', { value : 'pending', content : getLocalized( 'pending'),}),
+                                  domutil.element( 'option', { value : 'reject', content : getLocalized( 'reject'),}),
+                                  domutil.element( 'option', { value : 'accept', content : getLocalized( 'accept'),}),],
+                        } );
+            for(i=0; i<select_element.length; i++)  {
+                if (select_element.options[i].value == annotation.getStatus())
+                    select_element.options[i].selected = true;
+            }
+
+            newcontrols.appendChild( select_element );
+			noteElement.appendChild( newcontrols );            
+			marginalia.bindNoteBehaviors( annotation, newcontrols, [
+				[ 'select.annotation-select', { 'change': 'status' } ],
+			] );
+
+        }
+
 	},
 	
 	displayNote: function( marginalia, annotation, noteElement, params )

@@ -164,6 +164,7 @@ MarginaliaDirect.prototype.showAnnotation = function( annotation )
 		this.newInputField( null, 'md-annotation-sequence-range', 'Sequence Range', sequenceRange.toString(), true ),
 		this.newInputField( null, 'md-annotation-xpath-range', 'XPath Range', 
 			xpathRange ? xpathRange.toString() : '', true ),
+		this.newInputField( null, 'md-annotation-status', 'Status', annotation.getStatus(), true ),
 		this.newInputField( null, 'md-annotation-access', 'Access', annotation.getAccess(), true ),
 
 		// Quote, Note, Link

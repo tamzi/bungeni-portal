@@ -78,6 +78,12 @@ LocalizedAnnotationStrings = {
 	'blank note' : 'You must enter some note text',
 
 	'invalid text selection' : 'Comments are not allowed on this text selection. Please make a different selection.',
+
+	'accept' : 'accept',
+
+	'reject' : 'reject',
+
+	'pending' : 'pending',
 	
-	'lang' : 'en'
+	'lang' : 'en',
 };

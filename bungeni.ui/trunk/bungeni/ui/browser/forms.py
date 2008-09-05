@@ -696,7 +696,7 @@ class CustomEditForm ( EditFormViewlet ):
     def handle_cancel_action( self, action, data ):
         """ the cancel action will take us back to the display view"""
         #return handle_edit_action( self, action, data )                    
-        url = absoluteURL( self.context, self.request )  
+        url = absoluteURL( self.context, self.request )  + '?portal_status_message=No Changes'
         return self.request.response.redirect( url )
         
                 

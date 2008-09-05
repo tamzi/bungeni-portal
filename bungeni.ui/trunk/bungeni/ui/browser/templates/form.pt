@@ -117,8 +117,7 @@
 			   i18n:attributes="value" />
 	  </tal:loop>						
     </span>
-   </div>
-    
+   </div>   
   </form>
 </metal:block>
 

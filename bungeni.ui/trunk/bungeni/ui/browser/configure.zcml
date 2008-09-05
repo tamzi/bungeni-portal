@@ -46,6 +46,16 @@
       layer="bungeni.ui.interfaces.IBungeniSkin"            
 -->  
 
+  <!-- NavigateAwayWarningViewlet -->
+
+    <browser:viewlet
+      name="bungeni.navigate.away.warning"
+      manager="alchemist.ui.interfaces.IContentEditManager"
+      class=".viewlet.NavigateAwayWarningViewlet"
+      for="ore.alchemist.interfaces.IAlchemistContent"
+      permission="zope.View"
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+      />
 
 <!-- View -->
   <browser:viewlet

@@ -12,7 +12,7 @@ from plone.memoize.instance import memoize
 from interfaces import IWorkflowSubMenuItem
 from interfaces import IWorkflowMenu
 
-from bungeni.ui.i18n import MessageFactory as _
+from bungeni.ui.i18n import  _
 
 class WorkflowSubMenuItem(BrowserSubMenuItem):
     interface.implements(IWorkflowSubMenuItem)

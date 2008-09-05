@@ -298,10 +298,10 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         return  [annotation for annotation in annotations if auth_member.has_permission("View", annotation)]
 
     security.declarePublic('getRangeInfos')
-    def getRangeInfos(self, user, url):
+    def getRangeInfos(self, user, url, filter_type=None):
         """ As with getSortedFeedEntries, but instead of returning individual
         annotations, return BlockInfo entries. """
-        annotations = self.getSortedFeedEntries(user, url)
+        annotations = self.getSortedFeedEntries(user, url, filter_type = filter_type)
         infos = [ ]
         for annotation in annotations:
             info = RangeInfo( )

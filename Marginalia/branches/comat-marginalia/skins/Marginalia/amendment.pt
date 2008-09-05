@@ -15,9 +15,10 @@
         {
 			var serviceRoot = '${request/base}/${utool/getPortalPath}/portal_annotations';
 			var username = '${user/getUserName}';
+            var superuser = false;
 			var url = '${annotatedUrl}';
             var restService = '/amendment';
-			bungeniMarginaliaInit( username, url, serviceRoot, restService );
+	        bungeniMarginaliaInit( username, superuser, url, serviceRoot, restService );
             var search_button = document.getElementById('search');
             filterAnnotations(search_button);            
 		}

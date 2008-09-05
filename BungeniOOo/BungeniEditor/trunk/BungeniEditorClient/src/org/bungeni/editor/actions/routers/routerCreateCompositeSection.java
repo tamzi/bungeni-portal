@@ -69,7 +69,7 @@ public class routerCreateCompositeSection extends defaultRouter {
 
 
 
-                }
+               }
             }
             
             
@@ -109,28 +109,39 @@ public class routerCreateCompositeSection extends defaultRouter {
 
         //get properties for new section to create
         //the boundarySection object contains the template for the new section to be created
-        DocumentSection boundarySection = DocumentSectionsContainer.getDocumentSectionByType(action.action_section_type());
+        DocumentSection newBoundingSection = DocumentSectionsContainer.getDocumentSectionByType(action.action_section_type());
         //get the name for the new section
-        String boundarySectionName = this.newSectionNameForType(ooDocument, boundarySection);
-        if (boundarySectionName.length() > 0 ) {
+        String newBoundingSectionName = this.newSectionNameForType(ooDocument, newBoundingSection);
+        if (newBoundingSectionName.length() > 0 ) {
                 //valid boundary section name ...
                 //now create the section
                 //create cursor for full range
                 //starting point - beginning of selection range - end point : just before next section
-                XTextCursor rangeCursor = ooDocument.getTextDocument().getText().createTextCursor();
-                rangeCursor.gotoRange(foundSelection.startRange, false);
-                XTextRange boundaryAnchor = foundSelection.boundarySection.getAnchor();
-                //select the boundary range
-                rangeCursor.gotoRange(boundaryAnchor.getStart(), true);
-                rangeCursor.goLeft((short) 1, true);
+                 XTextCursor rangeCursor = ooDocument.getTextDocument().getText().createTextCursor();
+                //if the boundary section name is different we use the starting point
+                if (foundSelection.originSectionName.equals(foundSelection.boundarySectionName)) {
+                    //if the boundary section name is the same as the origin section name then its the
+                    //container section, so we have to use the end point
+                       rangeCursor.gotoRange(foundSelection.startRange, false);
+                       XTextRange boundaryAnchor = foundSelection.boundarySection.getAnchor();
+                       rangeCursor.gotoRange(boundaryAnchor.getEnd(), true);
+                       rangeCursor.goLeft((short)1, true);
+                } else {
+                       rangeCursor.gotoRange(foundSelection.startRange, false);
+                       XTextRange boundaryAnchor = foundSelection.boundarySection.getAnchor();
+                       //select the boundary range
+                       rangeCursor.gotoRange(boundaryAnchor.getStart(), true);
+                       rangeCursor.goLeft((short) 1, true);
+                }
+             
                 //now rangeCursor has the spanned range for creating a new section
                 //ADD the new section
                 log.debug("action_createBoundarySection : " + rangeCursor.getString());
                
-                XTextContent xSectionContent = ooDocument.createTextSection(boundarySectionName, (short) 1);
+                XTextContent xSectionContent = ooDocument.createTextSection(newBoundingSectionName, (short) 1);
                 ooDocument.getTextDocument().getText().insertTextContent(rangeCursor, xSectionContent, true);
-                setSectionProperties(ooDocument, boundarySection, boundarySectionName);
-                setSectionMetadata(ooDocument, boundarySection, boundarySectionName);
+                setSectionProperties(ooDocument, newBoundingSection, newBoundingSectionName);
+                setSectionMetadata(ooDocument, newBoundingSection, newBoundingSectionName);
                 bState = true;
         }
             } catch (NullPointerException ex) {
@@ -181,8 +192,11 @@ public class routerCreateCompositeSection extends defaultRouter {
         XTextRange endRange = null;
         XTextSection originSection = null;
         String originSectionName = "";
+        XTextSection originSectionParent = null;
+        String originSectionParentName = "";
         XTextSection boundarySection = null;
         String boundarySectionName = ""; 
+        
     }
     
     
@@ -210,6 +224,13 @@ public class routerCreateCompositeSection extends defaultRouter {
                         XNamed xOrigName = ooQueryInterface.XNamed(currentSelection.originSection);
                         String sOriginalName = xOrigName.getName();
                         currentSelection.originSectionName = sOriginalName;
+                        //get parent properties
+                        XTextSection originParentSection = currentSelection.originSection.getParentSection();
+                        if (originParentSection != null ) {
+                                currentSelection.originSectionParent = originParentSection;
+                                XNamed nameOriginParentSection = ooQueryInterface.XNamed(originParentSection);
+                                currentSelection.originSectionParentName = nameOriginParentSection.getName();
+                        }
                         //get the boundary selection for the found selection
                         getBoundarySelection(ooDoc, currentSelection);
                         processBoundarySelection(ooDoc, currentSelection);
@@ -259,15 +280,17 @@ public class routerCreateCompositeSection extends defaultRouter {
                     //do this fully
                     if (!currentSel.originSectionName.equals(strSectionName)) {
                         //check if it is the parent section
-                        XTextSection originParentSection = currentSel.originSection.getParentSection();
-                        XNamed nameOriginParentSection = ooQueryInterface.XNamed(originParentSection);
-                        String parentSectionName = nameOriginParentSection.getName();
+                       // XTextSection originParentSection = currentSel.originSection.getParentSection();
+                       // XNamed nameOriginParentSection = ooQueryInterface.XNamed(originParentSection);
+                       // String parentSectionName = nameOriginParentSection.getName();
                         //check if the found section is the parent section
-                        if (parentSectionName.equals(strSectionName)) {
+                        if (currentSel.originSectionParentName.equals(strSectionName)) {
+                            //boundary section is the origin section
                             currentSel.boundarySection = currentSel.originSection;
                             currentSel.boundarySectionName = currentSel.originSectionName;
                             break;
                         } else {
+                            //boundary section is another section
                             currentSel.boundarySection = aSection;
                             currentSel.boundarySectionName = strSectionName;
                             break;

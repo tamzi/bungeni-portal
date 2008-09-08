@@ -352,7 +352,7 @@ mapper( domain.Motion, schema.motions,
         properties = {
              'versions':relation( domain.MotionVersion, backref='motion'),
              'changes':relation( domain.MotionChange, backref='motion'),
-             'session':relation( domain.ParliamentSession )
+#             'session':relation( domain.ParliamentSession )
              }
         )
 

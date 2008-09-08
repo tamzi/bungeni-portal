@@ -678,11 +678,6 @@ class MotionDescriptor( ModelDescriptor ):
                                       source=DatabaseSource(domain.PoliticalParty, 'short_name', 'party_id' ), 
                                       required=False) ),
         dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True ),
-        #XXX Hack for Cairo
-        dict( name="sitting_id", 
-              property = schema.Choice( title=_(u"Sitting"), source=DatabaseSource(domain.GroupSitting, 'sitting_id', 'sitting_id', 'short_name'), 
-              required=False )
-              ),
         ]
 
 
@@ -723,7 +718,7 @@ class SittingDescriptor( ModelDescriptor ):
               listing_column = vocab_column( "sitting_type", _(u"Sitting Type"), vocabulary.SittingTypes ),
               property = schema.Choice( title=_(u"Sitting Type"), 
                                         source=vocabulary.SittingTypes,
-                                        required=False) ),
+                                        required=True) ),
         ]
 
     schema_invariants = [EndAfterStart]

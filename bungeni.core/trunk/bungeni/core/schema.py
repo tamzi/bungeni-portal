@@ -593,7 +593,7 @@ questions = rdb.Table(
    rdb.Column( "subject", rdb.Unicode(80)),#, nullable=False ),
    rdb.Column( "question_text", rdb.UnicodeText),#, nullable=False ),
    # Workflow State
-   rdb.Column( "status", rdb.Unicode(16) ),
+   rdb.Column( "status", rdb.Unicode(32) ),
    # the cerks office or speakers office may add a recommendation note
    rdb.Column( "note", rdb.UnicodeText),
    # if this is a supplementary question, this is the original/previous question
@@ -646,7 +646,9 @@ motions = rdb.Table(
    rdb.Column( "entered_by", rdb.Integer, rdb.ForeignKey('users.user_id') ),   
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('political_parties.party_id')  ), # if the motion was sponsored by a party
    rdb.Column( "notice_date", rdb.Date ),
-   rdb.Column( "status",  rdb.Unicode(12) ),
+   # Receive Question Notifications -> triggers notification on workflow change
+   #rdb.Column( "receive_notification", rdb.Boolean, default=True ),
+   rdb.Column( "status",  rdb.Unicode(32) ),
    )
 
 motion_changes = make_changes_table( motions, metadata )
@@ -676,7 +678,7 @@ bills = rdb.Table(
    rdb.Column( "body_text",  rdb.UnicodeText ),
    rdb.Column( "submission_date", rdb.Date ),
    rdb.Column( "publication_date", rdb.Date ),
-   rdb.Column( "status", rdb.Unicode(12) ),
+   rdb.Column( "status", rdb.Unicode(32) ),
    )
    
 bill_changes = make_changes_table( bills, metadata )

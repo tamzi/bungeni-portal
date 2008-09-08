@@ -19,6 +19,7 @@ import org.bungeni.ooo.OOComponentHelper;
 public interface IMetadataContainerPanel {
    public void initVariables(OOComponentHelper ooDoc, JFrame parentFrm, toolbarAction aAction, toolbarSubAction aSubAction, SelectorDialogModes dlgMode) ;
    public void initialize();
+   public void setContainerFrame (JFrame frame);
    public Component getPanelComponent();
   
 }

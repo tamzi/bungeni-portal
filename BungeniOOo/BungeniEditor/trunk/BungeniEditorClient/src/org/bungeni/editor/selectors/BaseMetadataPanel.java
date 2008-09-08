@@ -307,7 +307,8 @@ public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel
                      String commandChain = getTheSubAction().action_command_chain();
                      Command selectedCatalogCommand  = selectedCatalog.getCommand(commandChain);
                      selectedCatalogCommand.execute(formContext);
-                 }
+                 } else
+                     log.debug("processCatalogCommand : command chain length = 0 ");
              }
         bReturn = true;
         } catch (Exception ex) {

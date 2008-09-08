@@ -16,6 +16,7 @@ public interface IMetadataPanel {
     public Component getPanelComponent();
     //public BaseMetadataContainerPanel getContainerPanel();
     public void initVariables(BaseMetadataContainerPanel panel);
+    public boolean doApply();
     //public void initVariables(OOComponentHelper ooDoc, JFrame pFrame, toolbarAction tAction, toolbarSubAction tSubAction, SelectorDialogModes smode) ;
 
 }

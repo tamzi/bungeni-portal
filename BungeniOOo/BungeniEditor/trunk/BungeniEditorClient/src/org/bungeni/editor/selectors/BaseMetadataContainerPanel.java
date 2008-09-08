@@ -7,6 +7,8 @@
 package org.bungeni.editor.selectors;
 
 import com.l2fprod.common.swing.JTaskPaneGroup;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JFrame;
@@ -24,7 +26,14 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
      * openoffice component handle
      */
     protected OOComponentHelper ooDocument;
+    /**
+     * this is the parent JFrame
+     */
     protected JFrame parentFrame;
+    /**
+     * this is the container JFrame
+     */
+    protected JFrame containerFrame;
     protected toolbarAction theAction = null;
     protected toolbarSubAction theSubAction = null;
     protected SelectorDialogModes dialogMode;
@@ -87,6 +96,7 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
     public BaseMetadataContainerPanel() {
         super();
         initComponents();
+        initListeners();
         conditionSet = new ConditionSet();
     }
     
@@ -154,6 +164,34 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
         init();
     }
       
+    private void initListeners(){
+        btnApply.addActionListener(new ActionListener(){
+
+            public void actionPerformed(ActionEvent arg0) {
+                doApplies();
+            }
+            
+        });
+        
+        btnCancel.addActionListener(new ActionListener(){
+
+            public void actionPerformed(ActionEvent arg0) {
+                containerFrame.dispose();
+            }
+            
+        });
+    }
+    
+    private void doApplies(){
+       // getActivePanels()
+        for (panelInfo ppPanels : getActivePanels()) {
+            boolean bState = ppPanels.getPanelObject().doApply();
+            if (!bState) {
+                log.error("doApplies : Submission failed on:" + ppPanels.panelName);
+            }
+        }
+    }
+    
     public OOComponentHelper getOoDocument() {
         return ooDocument;
     }
@@ -196,6 +234,7 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
    public class panelInfo {
         String panelName;
         String panelClass;
+        IMetadataPanel panelObject = null;
         
         public panelInfo(String pname, String pclass){
             panelName = pname;
@@ -210,6 +249,9 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
       
         public IMetadataPanel getPanelObject() {
             IMetadataPanel panel = null;
+            if (panelObject != null ) 
+                panel = panelObject;
+            else {
             try {
                 Class metadataPanel = Class.forName(panelClass);
                 panel = (IMetadataPanel) metadataPanel.newInstance();
@@ -222,12 +264,15 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
               } catch (NullPointerException ex) {
                log.debug("getPanelObject :"+ ex.getMessage());
               } 
-            finally {
-                  return panel;
-              }
+            }
+            return panel;
         }
 
     
+    }
+    
+    public void setContainerFrame (JFrame contFrame) {
+        this.containerFrame = contFrame;
     }
     
     public abstract java.awt.Component getPanelComponent();
@@ -267,7 +312,7 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
         paneMain.setBorder(null);
         
         JTaskPaneGroup mainTPgroup = new JTaskPaneGroup();
-        
+        mainTPgroup.setTitle("Edit Metadata below ::");
         for (panelInfo panelInf : getActivePanels()) {
             IMetadataPanel panel = panelInf.getPanelObject();
             panel.initVariables(this);

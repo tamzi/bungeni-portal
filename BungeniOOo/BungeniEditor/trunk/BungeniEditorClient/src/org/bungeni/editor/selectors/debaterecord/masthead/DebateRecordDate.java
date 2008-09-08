@@ -148,6 +148,7 @@ public class DebateRecordDate extends BaseMetadataPanel {
 
     @Override
     public boolean processFullInsert() {
+       log.debug("processFullInsert : running");
        boolean bReturn = processCatalogCommand();
        return true;
     }

@@ -21,6 +21,7 @@ public class Main extends BaseMetadataContainerPanel {
     
     @Override
     protected void setupPanels() {
+        //to do : make this a base class function and move the usage to the the base class...
        m_allPanels = new ArrayList<panelInfo>(){
                 {
                     add(new panelInfo("debatedate","org.bungeni.editor.selectors.debaterecord.masthead.DebateRecordDate"));

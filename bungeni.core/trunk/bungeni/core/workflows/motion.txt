@@ -127,7 +127,7 @@ Let's examine the version.
 
   >>> version = list(versions.values())[0]
   >>> version.status
-  u'draft'
+  u'draft motion'
 
 Submitted:
 
@@ -313,14 +313,14 @@ A motion can be withdrawn at (almost) any stage
 
   >>> result = IWorkflowInfo(motion_defer).fireTransition('schedule-deferred')   
   >>> transitions(motion_defer)     
-  ('postpone', 'withdraw-scheduled', 'respond-sitting')
+  ('postpone', 'debate', 'withdraw-scheduled')
 
 schedule the motion
 
   >>> result = IWorkflowInfo(motion).fireTransition('schedule')  
   
   >>> transitions(motion)
-  ('postpone', 'withdraw-scheduled', 'respond-sitting')
+  ('postpone', 'debate', 'withdraw-scheduled')
 
 A motion can be withdrawn at (almost) any stage  
   
@@ -334,7 +334,7 @@ postpone the motion
   
   >>> result = IWorkflowInfo(motion).fireTransition('postpone')  
   >>> transitions(motion)
-  ('schedule-postponed', 'elapse-postponed', 'postponed-ministry', 'withdraw-postponed')
+  ('schedule-postponed', 'elapse-postponed', 'withdraw-postponed')
  
 A motion can elapse without an answer 
 
@@ -356,21 +356,15 @@ and reschedule it
   >>> result = IWorkflowInfo(motion).fireTransition('schedule-postponed')  
   
   >>> transitions(motion)
-  ('postpone', 'withdraw-scheduled', 'respond-sitting')
+  ('postpone', 'debate', 'withdraw-scheduled')
 
 
-respond to the motion
 
-  >>> result = IWorkflowInfo(motion).fireTransition('respond-sitting')  
+The motion was debated
+
+  >>> result = IWorkflowInfo(motion).fireTransition('debate')  
   >>> transitions(motion)
-  ('debate',)
-
-the motion gets marked as answered
-
- >>> result = IWorkflowInfo(motion).fireTransition('answer')  
-  >>> transitions(motion)
-  ()      
-
+  ()
 
 
 

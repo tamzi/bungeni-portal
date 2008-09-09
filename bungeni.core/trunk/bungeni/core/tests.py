@@ -78,6 +78,7 @@ def test_suite():
                 'notification.txt', 
                 #'assignment.txt',
                 'workflows/question.txt', 
+                'workflows/motion.txt',
                 'workflows/bill.txt')
     #doctests = ()#('assignment.txt',)
     globs = dict(interface=interface, component=component)

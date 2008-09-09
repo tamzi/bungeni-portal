@@ -32,3 +32,23 @@ class IMotionReceivedEvent(IObjectEvent):
 
 class IMotionSubmittedEvent(IObjectEvent):
     """ Motion submitted to clerks office """
+    
+class IMotionRejectedEvent(IObjectEvent):
+    """Issued when a Motion was rejected by the speakers office."""
+
+class IMotionClarifyEvent(IObjectEvent):
+    """Issued when a Motion needs clarification by the MP"""
+
+class IMotionDeferredEvent(IObjectEvent):
+    """Issued when a Motion was deferred by Clerk's office."""
+
+class IMotionScheduledEvent(IObjectEvent):
+    """Issued when a Motion was scheduled by Speakers office."""
+
+class IMotionPostponedEvent(IObjectEvent):
+    """Issued when a Motion was postponed by the speakers office."""
+
+class IMotionDebatededEvent(IObjectEvent):
+    """Issued when a Motions answer was debated"""
+    
+    

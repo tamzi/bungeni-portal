@@ -380,6 +380,14 @@ def create_motion_workflow( ):
 workflow_transition_event_map = {
     (states.submitted, states.received): interfaces.IMotionReceivedEvent,
     (states.draft, states.submitted): interfaces.IMotionSubmittedEvent,
+    (states.complete, states.inadmissible): interfaces.IMotionRejectedEvent,
+    (states.received, states.clarify_mp): interfaces.IMotionClarifyEvent,
+    (states.clarify_clerk, states.clarify_mp): interfaces.IMotionClarifyEvent,
+    (states.admissible, states.deferred): interfaces.IMotionDeferredEvent,
+    (states.admissible, states.scheduled): interfaces.IMotionScheduledEvent,
+    (states.postponed, states.scheduled): interfaces.IMotionScheduledEvent,    
+    (states.scheduled, states.postponed): interfaces.IMotionPostponedEvent,
+    (states.scheduled, states.debated): interfaces.IMotionDebatededEvent,
     }
 
 

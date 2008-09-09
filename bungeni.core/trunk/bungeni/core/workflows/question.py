@@ -13,26 +13,26 @@ import bungeni.core.workflows.utils as utils
 from bungeni.core.i18n import _
 
 class states:
-    draft = _(u"draft") # a draft question of a MP
-    private = _("private") # private draft of a MP
-    submitted = _(u"submitted") # submitted from MP to clerks office
-    received = _(u"received") # recieved by clerks office
-    complete = _(u"complete") # reviewed by clers office sent to speakers office
-    admissible = _(u"admissible") # reviewed by speakers office available for scheduling or to
+    draft = _(u"draft question") # a draft question of a MP
+    private = _("private question") # private draft of a MP
+    submitted = _(u"Question submitted to clerk") # submitted from MP to clerks office
+    received = _(u"Question received by clerk") # recieved by clerks office
+    complete = _(u"Question complete") # reviewed by clers office sent to speakers office
+    admissible = _(u"admissible Question") # reviewed by speakers office available for scheduling or to
                                   # to be send to ministry for written response
-    inadmissible = _(u"inadmissible") # rejected by speakers office
-    clarify_mp = _(u"MP clarify") # clerks office needs clarification by MP
-    clarify_clerk = _("Clerk clarify") # speakers office needs clarification by clerks office
-    scheduled =_(u"scheduled") # is scheduled for debate at a sitting
-    resonse_pending = _(u"pending response") # ministry has to write a response
-    deferred = _(u"deferred") # admissable question that cannot be debated 
-    postponed = _(u"postponed") # question was scheduled for but not debated at the sitting
-    elapsed = _(u"elapsed") # defered or postponed question that were not answered
+    inadmissible = _(u"inadmissible Questio") # rejected by speakers office
+    clarify_mp = _(u"Question needs MP clarification") # clerks office needs clarification by MP
+    clarify_clerk = _("Question needs Clerks clarification") # speakers office needs clarification by clerks office
+    scheduled =_(u"Question scheduled") # is scheduled for debate at a sitting
+    resonse_pending = _(u"Question pending response") # ministry has to write a response
+    deferred = _(u"Question deferred") # admissable question that cannot be debated 
+    postponed = _(u"Question postponed") # question was scheduled for but not debated at the sitting
+    elapsed = _(u"Question elapsed") # defered or postponed question that were not answered
                             # or questions that required a written answer by a ministry which were not answered
-    responded = _(u"responded") # a question was debated or a written answer was given by a ministry
-    answered = _(u"answered") # the written answer was reviewed by the clerks office
+    responded = _(u"Question responded") # a question was debated or a written answer was given by a ministry
+    answered = _(u"Question answered") # the written answer was reviewed by the clerks office
                               # or debate reference input by clerks office
-    withdrawn = _(u"withdrawn") # the owner of the question can withdraw the question
+    withdrawn = _(u"Question withdrawn") # the owner of the question can withdraw the question
     
 
 def create_question_workflow( ):

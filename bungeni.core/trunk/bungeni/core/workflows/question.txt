@@ -126,7 +126,7 @@ Let's examine the version.
 
   >>> version = list(versions.values())[0]
   >>> version.status
-  u'draft'
+  u'draft question'
 
 Submitted:
 
@@ -139,7 +139,7 @@ A question can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-submitted')   
 
   >>> question_withdraw.status
-  u'withdrawn'  
+  u'Question withdrawn'  
 
   >>> IWorkflowInfo(question).fireTransition('received-by-clerk')
 
@@ -155,7 +155,7 @@ A question can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-received')   
 
   >>> question_withdraw.status
-  u'withdrawn'  
+  u'Question withdrawn'  
   
   
 
@@ -194,7 +194,7 @@ A question can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-complete')   
 
   >>> question_withdraw.status
-  u'withdrawn'
+  u'Question withdrawn'
 
 
 Reject the question
@@ -248,7 +248,7 @@ A question can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-amend')   
 
   >>> question_withdraw.status
-  u'withdrawn'
+  u'Question withdrawn'
 
 
   >>> result = IWorkflowInfo(question_amend).fireTransition('resubmit-clerk')  
@@ -282,7 +282,7 @@ A question can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-admissible')   
 
   >>> question_withdraw.status
-  u'withdrawn'
+  u'Question withdrawn'
 
 
 A written response to the question
@@ -349,7 +349,7 @@ A question can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-deferred')   
 
   >>> question_withdraw.status
-  u'withdrawn'  
+  u'Question withdrawn'  
 
   >>> result = IWorkflowInfo(question_defer).fireTransition('schedule-deferred')   
   >>> transitions(question_defer)     
@@ -368,7 +368,7 @@ A question can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-scheduled')   
 
   >>> question_withdraw.status
-  u'withdrawn'
+  u'Question withdrawn'
 
 postpone the question
   
@@ -389,7 +389,7 @@ A question can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-postponed')   
 
   >>> question_withdraw.status
-  u'withdrawn'
+  u'Question withdrawn'
 
 and reschedule it
 
@@ -416,8 +416,9 @@ Transition events check
 -----------------------
 
   >>> print check_transition_events
-  {(u'submitted', u'received'): True,
-   (u'draft', u'submitted'): True}
+  {(u'draft question', u'Question submitted to clerk'): True, 
+   (u'Question submitted to clerk', u'Question received by clerk'): True}
+
 
 
 

@@ -416,8 +416,17 @@ Transition events check
 -----------------------
 
   >>> print check_transition_events
-  {(u'draft question', u'Question submitted to clerk'): True, 
-   (u'Question submitted to clerk', u'Question received by clerk'): True}
+  {(u'Question complete', u'inadmissible Question'): True, 
+  (u'admissible Question', u'Question scheduled'): True, 
+  (u'Question scheduled', u'Question postponed'): True, 
+  (u'admissible Question', u'Question deferred'): True, 
+  (u'Question deferred', u'Question pending response'): True, 
+  (u'admissible Question', u'Question pending response'): True, 
+  (u'Question postponed', u'Question pending response'): True, 
+  (u'draft question', u'Question submitted to clerk'): True, 
+  (u'Question received by clerk', u'Question needs MP clarification'): True, 
+  (u'Question submitted to clerk', u'Question received by clerk'): True, 
+  (u'Question responded', u'Question answered'): True}
 
 
 

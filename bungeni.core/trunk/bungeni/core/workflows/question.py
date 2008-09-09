@@ -20,7 +20,7 @@ class states:
     complete = _(u"Question complete") # reviewed by clers office sent to speakers office
     admissible = _(u"admissible Question") # reviewed by speakers office available for scheduling or to
                                   # to be send to ministry for written response
-    inadmissible = _(u"inadmissible Questio") # rejected by speakers office
+    inadmissible = _(u"inadmissible Question") # rejected by speakers office
     clarify_mp = _(u"Question needs MP clarification") # clerks office needs clarification by MP
     clarify_clerk = _("Question needs Clerks clarification") # speakers office needs clarification by clerks office
     scheduled =_(u"Question scheduled") # is scheduled for debate at a sitting
@@ -449,6 +449,15 @@ def create_question_workflow( ):
 workflow_transition_event_map = {
     (states.submitted, states.received): interfaces.IQuestionReceivedEvent,
     (states.draft, states.submitted): interfaces.IQuestionSubmittedEvent,
+    (states.complete, states.inadmissible): interfaces.IQuestionRejectedEvent,
+    (states.received, states.clarify_mp): interfaces.IQuestionClarifyEvent,
+    (states.admissible, states.deferred): interfaces.IQuestionDeferredEvent,
+    (states.admissible, states.scheduled): interfaces.IQuestionScheduledEvent,
+    (states.scheduled, states.postponed): interfaces.IQuestionPostponedEvent,
+    (states.deferred, states.resonse_pending): interfaces.IQuestionSentToMinistryEvent,
+    (states.admissible, states.resonse_pending): interfaces.IQuestionSentToMinistryEvent,    
+    (states.postponed, states.resonse_pending): interfaces.IQuestionSentToMinistryEvent,    
+    (states.responded, states.answered): interfaces.IQuestionAnsweredEvent,
     }
 
 @component.adapter(iworkflow.IWorkflowTransitionEvent)

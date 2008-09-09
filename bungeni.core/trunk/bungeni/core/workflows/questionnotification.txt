@@ -1,7 +1,7 @@
 Notifications
 =============
 
-  >>> from bungeni.core import notification
+  >>> from bungeni.core.workflows import questionnotification as notification
   >>> from zope.component.interfaces import ObjectEvent
 
 Setup mock delivery component.

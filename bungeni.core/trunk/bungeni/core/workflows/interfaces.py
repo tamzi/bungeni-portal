@@ -1,5 +1,8 @@
 from zope.component.interfaces import IObjectEvent
 
+###############
+# Questions
+###############
 class IQuestionSubmittedEvent(IObjectEvent):
     """Question was submitted to Clerk's office."""
 
@@ -27,6 +30,10 @@ class IQuestionSentToMinistryEvent(IObjectEvent):
 class IQuestionAnsweredEvent(IObjectEvent):
     """Issued when a questions answer was reviewed by Clerk's office."""
 
+###################
+# Motions
+###################
+
 class IMotionReceivedEvent(IObjectEvent):
     """ Motion recieved by clerks office"""
 
@@ -51,4 +58,9 @@ class IMotionPostponedEvent(IObjectEvent):
 class IMotionDebatededEvent(IObjectEvent):
     """Issued when a Motions answer was debated"""
     
+######################
+# Bills
+######################
+
+
     

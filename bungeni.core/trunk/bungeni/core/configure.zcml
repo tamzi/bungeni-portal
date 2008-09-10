@@ -44,7 +44,7 @@
   <include file="version.zcml"/>
 
   <!-- Notifications -->
-  <include file="notification.zcml" />
+  <!--include file="workflowsnotification.zcml" /-->
 
   <!-- Security Components -->
   <include file="auth.zcml"/>

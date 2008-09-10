@@ -38,6 +38,8 @@
   <subscriber
      handler=".question.workflowTransitionEventDispatcher" />
 
+  <!-- Notifications -->
+  <include file="questionnotification.zcml" />
 
   <!-- motion workflow -->
   <adapter

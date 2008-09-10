@@ -426,8 +426,8 @@ Transition events check
   (u'draft question', u'Question submitted to clerk'): True, 
   (u'Question received by clerk', u'Question needs MP clarification'): True, 
   (u'Question submitted to clerk', u'Question received by clerk'): True, 
+  (u'Question postponed', u'Question scheduled'): True, 
   (u'Question responded', u'Question answered'): True}
-
 
 
 

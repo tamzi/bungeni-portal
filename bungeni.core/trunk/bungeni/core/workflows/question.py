@@ -456,7 +456,8 @@ workflow_transition_event_map = {
     (states.scheduled, states.postponed): interfaces.IQuestionPostponedEvent,
     (states.deferred, states.resonse_pending): interfaces.IQuestionSentToMinistryEvent,
     (states.admissible, states.resonse_pending): interfaces.IQuestionSentToMinistryEvent,    
-    (states.postponed, states.resonse_pending): interfaces.IQuestionSentToMinistryEvent,    
+    (states.postponed, states.resonse_pending): interfaces.IQuestionSentToMinistryEvent, 
+    (states.postponed, states.scheduled): interfaces.IQuestionScheduledEvent,       
     (states.responded, states.answered): interfaces.IQuestionAnsweredEvent,
     }
 

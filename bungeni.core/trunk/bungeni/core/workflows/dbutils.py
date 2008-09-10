@@ -29,7 +29,7 @@ def getCurrentParliamentId(date = None):
     try:
         result = query.one()
     except:
-        pass #raise( _(u"inconsistent data more than one parliament found for this date"))       
+        pass #raise( _(u"inconsistent data: none or more than one parliament found for this date"))       
     if result:        
         return result.parliament_id
         

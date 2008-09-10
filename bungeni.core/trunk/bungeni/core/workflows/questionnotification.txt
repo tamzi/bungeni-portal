@@ -48,6 +48,9 @@ is dispatched.
 
   >>> question.receive_notification = True
   >>> notification.sendNotificationToMemberUponReceipt(ObjectEvent(question))
-  From: Bungeni Portal <bungeni@localhost>
+  From: clerks.office@parliament.gov.ke
   To: "John Doe" <john.doe@localhost>...
   Subject: Question received: My subject...
+  
+  
+  

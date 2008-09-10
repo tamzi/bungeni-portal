@@ -1,5 +1,14 @@
 <configure xmlns="http://namespaces.zope.org/zope">
 
-  <subscriber handler=".questionnotification.sendNotificationToMemberUponReceipt" />
+  <subscriber handler=".questionnotification.sendNotificationToMemberUponReceipt" /> 
+  <subscriber handler=".questionnotification.sendNotificationToClerkUponSubmit" />
+  <subscriber handler=".questionnotification.sendNotificationToMemberUponReject" />
+  <subscriber handler=".questionnotification.sendNotificationToMemberUponNeedsClarification" />
+  <subscriber handler=".questionnotification.sendNotificationToMemberUponDeferred" />
+  <subscriber handler=".questionnotification.sendNotificationToMemberUponSchedule" />    
+  <subscriber handler=".questionnotification.sendNotificationToMemberUponPostponed" />
+  <subscriber handler=".questionnotification.sendNotificationToMemberUponSentToMinistry" />
+  <subscriber handler=".questionnotification.sendNotificationToMemberUponAnswer" />                
+  
   
 </configure>

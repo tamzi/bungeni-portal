@@ -52,5 +52,60 @@ is dispatched.
   To: "John Doe" <john.doe@localhost>...
   Subject: Question received: My subject...
   
+Send notification to Clerk's office upon submit.
+Note that the notification setting for the clerks office are
+HARDCODED in the preferences #XXX
+    >>> notification.sendNotificationToClerkUponSubmit(ObjectEvent(question))
+    From: "John Doe" <john.doe@localhost>
+    To: clerks.office@parliament.gov.ke ...
+    Subject: Question submitted: My subject ...
+
+  
+A question was rejected by the speakers office.
+    >>> notification.sendNotificationToMemberUponReject(ObjectEvent(question))
+    From: speakers.office@parliament.gov.ke
+    To: "John Doe" <john.doe@localhost> ...
+    Subject: Question rejected: My subject ...
+  
+
+A question needs clarification by the MP
+    >>> notification.sendNotificationToMemberUponNeedsClarification(ObjectEvent(question))
+    From: clerks.office@parliament.gov.ke
+    To: "John Doe" <john.doe@localhost> ...
+    Subject: Question needs clarification: My subject ...
+
+
+A question was deferred by Clerk's office.
+    >>> notification.sendNotificationToMemberUponDeferred(ObjectEvent(question))
+    From: speakers.office@parliament.gov.ke
+    To: "John Doe" <john.doe@localhost> ...
+    Subject: Question deferred: My subject ...
+
+A question was scheduled by Speakers office.
+    >>> notification.sendNotificationToMemberUponSchedule(ObjectEvent(question))
+    From: clerks.office@parliament.gov.ke
+    To: "John Doe" <john.doe@localhost> ...
+    Subject: Question scheduled: My subject ...
+
+A question was postponed by the speakers office.
+    >>> notification.sendNotificationToMemberUponPostponed(ObjectEvent(question))  
+    From: clerks.office@parliament.gov.ke
+    To: "John Doe" <john.doe@localhost> ...
+    Subject: Question postponed: My subject ...
+  
+
+A question was sent to a ministry for written response.
+    >>> notification.sendNotificationToMemberUponSentToMinistry(ObjectEvent(question))
+    From: clerks.office@parliament.gov.ke
+    To: "John Doe" <john.doe@localhost> ...
+    Subject: Question sent to ministry: My subject ...
+  
+
+A questions answer was reviewed by Clerk's office.
+    >>> notification.sendNotificationToMemberUponAnswer(ObjectEvent(question))  
+    From: clerks.office@parliament.gov.ke
+    To: "John Doe" <john.doe@localhost> ...
+    Subject: Question answered: My subject ...
+  
   
   

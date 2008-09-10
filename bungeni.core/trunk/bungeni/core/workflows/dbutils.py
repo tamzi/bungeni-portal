@@ -14,6 +14,7 @@ import datetime
 def getCurrentParliamentId(date = None):
     """
     returns the current parliament_id for a given date
+    or for the current if the date is not given
     """
     def getFilter(date):
         return sql.or_(
@@ -29,7 +30,7 @@ def getCurrentParliamentId(date = None):
     try:
         result = query.one()
     except:
-        pass #raise( _(u"inconsistent data: none or more than one parliament found for this date"))       
+        pass #XXX raise( _(u"inconsistent data: none or more than one parliament found for this date"))       
     if result:        
         return result.parliament_id
         

@@ -126,7 +126,7 @@ bar.</div>
               <table style="width: 100%">
                 <tr>
 					<td>
-						<div class="markers"></div>
+						<div id="markers" class="markers"></div>
 					</td>
                   <td>
                     <div class="entry-content" tal:content="structure text" />

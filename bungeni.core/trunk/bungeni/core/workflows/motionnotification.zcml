@@ -1,0 +1,13 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <subscriber handler=".motionnotification.sendNotificationToMemberUponReceipt" /> 
+  <subscriber handler=".motionnotification.sendNotificationToClerkUponSubmit" />
+  <subscriber handler=".motionnotification.sendNotificationToMemberUponReject" />
+  <subscriber handler=".motionnotification.sendNotificationToMemberUponNeedsClarification" />
+  <subscriber handler=".motionnotification.sendNotificationToMemberUponDeferred" />
+  <subscriber handler=".motionnotification.sendNotificationToMemberUponSchedule" />    
+  <subscriber handler=".motionnotification.sendNotificationToMemberUponPostponed" />
+  <subscriber handler=".motionnotification.sendNotificationToMemberUponDebated" />                
+  
+  
+</configure>

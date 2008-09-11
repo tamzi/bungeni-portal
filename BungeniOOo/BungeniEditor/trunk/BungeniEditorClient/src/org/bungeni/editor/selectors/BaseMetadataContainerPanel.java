@@ -101,10 +101,12 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
     }
     
     public class ErrorMessage {
+        java.awt.Component originatingFrom;
         java.awt.Component focusField;
         String errorMessage;
         
-        ErrorMessage(java.awt.Component field, String msg) {
+        ErrorMessage(java.awt.Component originatingFrom, java.awt.Component field, String msg) {
+            this.originatingFrom = originatingFrom;
             this.focusField = field;
             this.errorMessage = msg;
         }
@@ -121,6 +123,10 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
         }
     }
     
+    public void clearErrorMessages() {
+        errorMessages.clear();
+    }
+    
     public String ErrorMessagesAsString(){
        StringBuilder sb = new StringBuilder();
         int count = 0;
@@ -133,8 +139,8 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
         return sb.toString();
     }
 
-    public void addErrorMessage(java.awt.Component comp, String msg){
-        errorMessages.add(new ErrorMessage(comp, msg));
+    public void addErrorMessage(java.awt.Component fromPanel, java.awt.Component comp, String msg){
+        errorMessages.add(new ErrorMessage(fromPanel, comp, msg));
     }
 
    
@@ -184,12 +190,33 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
     
     private void doApplies(){
        // getActivePanels()
+        boolean bValidate = true;
+        for (panelInfo valPanels : getActivePanels()) {
+            boolean bState = valPanels.getPanelObject().doValidate();
+            if (!bState) {
+                bValidate = false;
+            }
+        }
+        
+        if (!bValidate) {
+            log.error("doApplies : some Validations failed");
+            displayErrors();
+            return;
+        }
+        
         for (panelInfo ppPanels : getActivePanels()) {
             boolean bState = ppPanels.getPanelObject().doApply();
             if (!bState) {
                 log.error("doApplies : Submission failed on:" + ppPanels.panelName);
+                displayErrors();
+                return;
             }
         }
+    }
+    
+    public void displayErrors(){
+        org.bungeni.utils.MessageBox.OK(this, ErrorMessagesAsString());
+        clearErrorMessages();
     }
     
     public OOComponentHelper getOoDocument() {
@@ -255,6 +282,7 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
             try {
                 Class metadataPanel = Class.forName(panelClass);
                 panel = (IMetadataPanel) metadataPanel.newInstance();
+                panelObject = panel;
              } catch (InstantiationException ex) {
                log.debug("getPanelObject :"+ ex.getMessage());
                } catch (IllegalAccessException ex) {

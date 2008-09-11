@@ -118,7 +118,7 @@ public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel
         return getContainerPanel().getConditionSet();
     }
     public void addErrorMessage(java.awt.Component p, String msg) {
-        getContainerPanel().addErrorMessage(p, msg);
+        getContainerPanel().addErrorMessage(this, p, msg);
     }
     
     public String ErrorMessagesAsString(){
@@ -168,9 +168,9 @@ public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel
     
     public boolean applyFullInsert(){    
        
-        if (validateFields() == false) {
-                return false;
-        }
+        //if (validateFields() == false) {
+        //        return false;
+        //}
        
         if (preFullInsert() == false) {
             return false;
@@ -193,9 +193,9 @@ public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel
     
     public boolean applySelectEdit(){    
        
-        if (validateFields() == false) {
-             return false;
-        }
+       // if (validateFields() == false) {
+       //      return false;
+       // }
        
         if (preSelectEdit() == false) {
             return false;
@@ -218,9 +218,9 @@ public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel
     
         public boolean applySelectInsert(){    
        
-        if (validateFields() == false) {
-             return false;
-        }
+        ///if (validateFields() == false) {
+        //     return false;
+       // }
        
         if (preSelectInsert() == false) {
             return false;
@@ -241,8 +241,11 @@ public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel
     abstract public boolean processSelectInsert();
     abstract public boolean postSelectInsert();
     
+    public boolean doValidate(){
+        return validateFields();
+    }
     
-    public boolean validateFields(){
+    protected boolean validateFields(){
            switch (getDialogMode()) {
                 case TEXT_SELECTED_EDIT :
                     return validateSelectedEdit();

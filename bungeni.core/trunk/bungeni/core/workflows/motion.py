@@ -387,7 +387,7 @@ workflow_transition_event_map = {
     (states.admissible, states.scheduled): interfaces.IMotionScheduledEvent,
     (states.postponed, states.scheduled): interfaces.IMotionScheduledEvent,    
     (states.scheduled, states.postponed): interfaces.IMotionPostponedEvent,
-    (states.scheduled, states.debated): interfaces.IMotionDebatededEvent,
+    (states.scheduled, states.debated): interfaces.IMotionDebatedEvent,
     }
 
 

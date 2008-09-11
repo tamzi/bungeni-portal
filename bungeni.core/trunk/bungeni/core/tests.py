@@ -76,6 +76,7 @@ def assignment_tests( ):
 def test_suite():
     doctests = ('readme.txt', 
                 'workflows/questionnotification.txt', 
+                'workflows/motionnotification.txt',                 
                 #'assignment.txt',
                 'workflows/question.txt', 
                 'workflows/motion.txt',

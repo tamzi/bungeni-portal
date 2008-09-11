@@ -55,7 +55,7 @@ class IMotionScheduledEvent(IObjectEvent):
 class IMotionPostponedEvent(IObjectEvent):
     """Issued when a Motion was postponed by the speakers office."""
 
-class IMotionDebatededEvent(IObjectEvent):
+class IMotionDebatedEvent(IObjectEvent):
     """Issued when a Motions answer was debated"""
     
 ######################

@@ -661,10 +661,12 @@ class MotionDescriptor( ModelDescriptor ):
 #              edit_widget = widgets.YesNoInputWidget,
 #              view_widget = widgets.YesNoDisplayWidget),
         dict( name="identifier", label=_(u"Identifier")),
-        #XXX get the members of the current (same value as the motion) parliament only!
-#        dict( name="owner_id",
-#              property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, 'last_name', 'user_id' ), required=False )
-#              ),
+        dict( name="owner_id", 
+              property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, title_field='fullname', token_field='user_id', value_field = 'user_id' )), 
+              listing_column=vocab_column( "owner_id" , _(u'Owner'),
+               DatabaseSource(domain.ParliamentMember, title_field='fullname', token_field='user_id', value_field = 'user_id' ), ),              
+              listing = True 
+            ),
         dict( name="body_text", label=_(u"Motion Text"),
               property = schema.Text( title=u"Motion" ),
               view_widget=widget.HTMLDisplay,
@@ -678,6 +680,8 @@ class MotionDescriptor( ModelDescriptor ):
                                       source=DatabaseSource(domain.PoliticalParty, 'short_name', 'party_id' ), 
                                       required=False) ),
         dict( name="status", label=_(u"Status"), edit=False, add=False, listing=True ),
+        dict( name="receive_notification", label=_(u"Receive notification"), 
+              description=_(u"Select this option to receive notifications for this motion."), listing=False ),
         ]
 
 

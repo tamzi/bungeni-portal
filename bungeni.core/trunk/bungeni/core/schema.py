@@ -647,7 +647,7 @@ motions = rdb.Table(
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('political_parties.party_id')  ), # if the motion was sponsored by a party
    rdb.Column( "notice_date", rdb.Date ),
    # Receive Question Notifications -> triggers notification on workflow change
-   #rdb.Column( "receive_notification", rdb.Boolean, default=True ),
+   rdb.Column( "receive_notification", rdb.Boolean, default=True ),
    rdb.Column( "status",  rdb.Unicode(32) ),
    )
 

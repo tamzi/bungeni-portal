@@ -38,7 +38,7 @@
   <subscriber
      handler=".question.workflowTransitionEventDispatcher" />
 
-  <!-- Notifications -->
+  <!-- question Notifications -->
   <include file="questionnotification.zcml" />
 
   <!-- motion workflow -->
@@ -49,6 +49,11 @@
 
   <subscriber
      handler=".motion.workflowTransitionEventDispatcher" />
+
+  <!-- Motion Notifications -->
+  <include file="motionnotification.zcml" />
+
+
 
   <!-- Generic Workflow Initialization For Content -->
   <subscriber

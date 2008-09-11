@@ -3,11 +3,16 @@
 	   xmlns:z3c="http://namespaces.zope.org/z3c"
            i18n_domain="bungeni">
 
+  <browser:menu
+     id="context_actions"
+     title="Context Actions"
+     />
+
   <browser:menuItem
-     menu="site_actions"
-     for="*"
-     action="/index"
-     title="Home"
+     for="ore.alchemist.interfaces.IAlchemistContainer"
+     menu="context_actions"
+     title="Listing"
+     action="index"
      />
 
   <browser:menuItem

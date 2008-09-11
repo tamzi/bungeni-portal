@@ -2,10 +2,12 @@
            xmlns:browser="http://namespaces.zope.org/browser"           
            i18n_domain="bungeni">
 
+  <!-- Site Menus Definition -->
+  <include file="menu.zcml"/>
+
   <include package="plone.memoize" />
   <include package="z3c.schemadiff" />
   <include package="marginalia" />
-
 
   <!-- TimeZone Definition -->
   <adapter factory=".tz.tzinfo" />
@@ -16,9 +18,6 @@
   <!-- Site Resource Viewlets -->
   <include file="resources.zcml" />
   
-  <!-- Site Menus Definition -->
-  <include file="menu.zcml"/>
-
   <!-- Site Portlets -->
   <include package=".portlets" />
 

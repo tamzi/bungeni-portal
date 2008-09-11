@@ -95,6 +95,11 @@ PostMicro.prototype.getBlockMarkerClickFcn = function( marginalia, markerElement
 		}
 		else
 		{
+            var blockmarkers = document.getElementById("markers");
+            for ( var i = 0;  i < blockmarkers.childNodes.length;  ++i ) {
+                var blockmarker = blockmarkers.childNodes[i];
+                blockmarker.className = AN_MARKER_CLASS;            
+            }
 			domutil.addClass( markerElement, AN_ANNOTATIONSFETCHED_CLASS );
 			marginalia.showBlockAnnotations( url, pointStr );
 		}
@@ -165,6 +170,7 @@ PostMicro.prototype.showBlockMarker = function( marginalia, info, block, point )
 			block.blockMarkerUsers = [ ];
 
 			markerElement = domutil.element( 'div', {
+				id: AN_MARKER_CLASS,
 				className: AN_MARKER_CLASS,
 				blockElement: block
 			} );

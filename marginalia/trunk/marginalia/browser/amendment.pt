@@ -203,7 +203,7 @@ bar and select the amendment option you wish to use.</div>
 <div class="plain" tal:condition="text">
    <div class="hentry" id="m1">
       <table style="width: 100%">
-         <tr><td><div class="markers"></div></td>
+         <tr><td><div id="markers" class="markers"></div></td>
            <td>
              <div id="entry-content" class="entry-content" tal:content="structure text" />
              <a rel="bookmark" tal:attributes="href annotatedUrl"

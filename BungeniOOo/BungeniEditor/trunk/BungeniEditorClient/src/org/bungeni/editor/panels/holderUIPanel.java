@@ -150,7 +150,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
         try {
         DocumentSectionFriendlyAdapterDefaultTreeModel model = DocumentSectionFriendlyTreeModelProvider.create() ;//_without_subscription();
         //change later
-            //DocumentSectionAdapterDefaultTreeModel model = DocumentSectionTreeModelProvider.create();//_without_subscription();
+         //  DocumentSectionAdapterDefaultTreeModel model = DocumentSectionTreeModelProvider.create();//_without_subscription();
             this.sectionStructureTree.setModel(model);
         CommonTreeFunctions.expandAll(sectionStructureTree);
         } catch (Exception ex) {
@@ -384,10 +384,10 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
         } else if (this.m_selectedChangeStructureItem.itemIndex.equals("VIEW_PRETTY_SECTIONS")) {
             if (sectionStructureTree.isShowing()) {
                  log.debug("updateSectionTree : refreshing section friendly structur tree");
-                 NodeDisplayTextSetter nsetter = new NodeDisplayTextSetter(getOODocument());
-                 BungeniBNode.setINodeSetterCallback(nsetter);
+            //     NodeDisplayTextSetter nsetter = new NodeDisplayTextSetter(getOODocument());
+            //     BungeniBNode.setINodeSetterCallback(nsetter);
 
-                 BungeniBTree newTree = DocumentSectionProvider.getNewFriendlyTree();
+                 BungeniBTree newTree = DocumentSectionProvider.getNewFriendlyTree();//FriendlyTree();
                  BungeniBNode newRootNode = newTree.getFirstRoot();
 
                  DocumentSectionFriendlyAdapterDefaultTreeModel model = (DocumentSectionFriendlyAdapterDefaultTreeModel) this.sectionStructureTree.getModel();
@@ -395,6 +395,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
                  DefaultMutableTreeNode mnode = (DefaultMutableTreeNode) model.getRoot();
                  BungeniBNode origNode = (BungeniBNode) mnode.getUserObject();
                  BungeniTreeRefactorTree refTree = new BungeniTreeRefactorTree (model, origNode, newRootNode);
+                 refTree.setMergeDisplayText(false);
                  refTree.doMerge();
             } else {
                  log.debug("updateSectionTree : section friendly structure tree is not visible");

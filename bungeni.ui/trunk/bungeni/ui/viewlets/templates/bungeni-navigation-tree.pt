@@ -20,7 +20,7 @@
           </div>
         </li>
         <!-- this constructs the local navigationtree -->
-        <li tal:replace="structure view/tree"/>
+        <li tal:replace="structure view/tree" tal:on-error="nothing"/>
         <!--
         this was the code copied over from plone navigation tree
         li class="navTreeItem visualNoMarker navTreeFolderish">

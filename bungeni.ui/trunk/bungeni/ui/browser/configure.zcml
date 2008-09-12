@@ -456,6 +456,16 @@
       permission="zope.View"
       allowed_interface="zope.formlib.interfaces.ISubPageForm"      
       />          
+      
+<!-- Question Edit Form -->  
+    <browser:viewlet
+      name="alchemist.attributes.edit"
+      manager="alchemist.ui.interfaces.IContentEditManager"
+      class=".forms.QuestionEdit"
+      for="bungeni.core.interfaces.IQuestion"
+      permission="zope.View"
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+      />         
 <!-- Parliament Add Form -->
    <browser:view
       name="add"

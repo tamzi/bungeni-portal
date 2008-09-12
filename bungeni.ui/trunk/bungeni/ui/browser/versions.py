@@ -13,7 +13,7 @@ class BaseView(BrowserView):
         ifaces = filter(IIModelInterface.providedBy, interface.providedBy(context))
 
         class Form(form.DisplayForm):
-            template = ViewPageTemplateFile("baseform.pt")
+            template = ViewPageTemplateFile("templates/form.pt")
             form_fields = form.FormFields(*ifaces)
 
             form_name = _(u"View")

@@ -1,8 +1,13 @@
 
 # encoding: utf-8
 
+import pdb
+
 from ore.alchemist.vocabulary import DatabaseSource
 from ore.alchemist.model import queryModelDescriptor
+
+from ore.workflow import interfaces
+
 from alchemist.ui.content import ContentAddForm, ContentDisplayForm
 from alchemist.ui.viewlet import EditFormViewlet, AttributesViewViewlet, DisplayFormViewlet
 from alchemist.ui.core import DynamicFields, null_validator, handle_edit_action
@@ -12,7 +17,7 @@ from zope import schema, interface
 from zope.formlib.namedtemplate import NamedTemplate
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.traversing.browser import absoluteURL 
-
+from zope.security.proxy import removeSecurityProxy
 
 import bungeni.core.vocabulary as vocabulary
 import bungeni.core.domain as domain
@@ -20,15 +25,27 @@ from bungeni.core.i18n import _
 from bungeni.core.interfaces import IGroupSitting, IParliamentSession, IMemberOfParliament, \
     ICommittee, ICommitteeMember, IGovernment, IMinistry, IExtensionGroup, IMinister, \
     IExtensionMember, IParliament, IGroupSittingAttendance, ICommitteeStaff, IMemberRoleTitle, \
-    IMemberOfParty, IPoliticalParty
+    IMemberOfParty, IPoliticalParty, IQuestion
 
+import bungeni.core.workflows.utils
 
 from bungeni.ui.datetimewidget import  SelectDateTimeWidget, SelectDateWidget
 from bungeni.ui import widget
+from bungeni.ui.workflow import bindTransitions
+
 
 from ore.yuiwidget import calendar
 
 import validations
+
+from bungeni.core.interfaces import IVersioned 
+
+def createVersion(context):
+    """Create a new version of an object and return it."""
+    instance = removeSecurityProxy(context)
+    versions = IVersioned(instance)
+    versions.create('New version created upon edit.')
+
 
 #############
 ## VIEW
@@ -710,7 +727,7 @@ class CustomEditForm ( EditFormViewlet ):
         result = handle_edit_action( self, action, data )                                 
         if self.errors: 
             return result
-        else:
+        else:            
             url = absoluteURL( self.context, self.request )  
             return self.request.response.redirect( url )                    
                       
@@ -995,6 +1012,48 @@ class MemberTitleEdit( CustomEditForm ):
     Adapts = IMemberRoleTitleEdit
     CustomValidations =  validations.CheckMemberTitleDateEdit
         
-
-
+class QuestionEdit( CustomEditForm ):
+    form_fields = form.Fields( IQuestion )
+    Adapts = IQuestion
+    form_fields["note"].custom_widget=widget.RichTextEditor 
+    form_fields["question_text"].custom_widget=widget.RichTextEditor 
+    CustomValidations =  validations.QuestionEdit
+    
+    default_actions = form.Actions(
+             form.Action(_(u'Save'), success='handle_edit_action'),
+             form.Action(_(u'Cancel'), success= 'handle_cancel_action')
+             )
+    
+    def handle_cancel_action( self, action, data ):
+        """ the cancel action will take us back to the display view"""
+        url = absoluteURL( self.context, self.request )  + '?portal_status_message=No Changes'
+        return self.request.response.redirect( url )
             
+    def handle_edit_action( self, action, data ):
+        """ Save action will take us: 
+        If there were no errors to the display view
+        If there were Errors to the edit view
+        """
+        result = handle_edit_action( self, action, data )                                 
+        if self.errors: 
+            return result
+        else:            
+            url = absoluteURL( self.context, self.request ) 
+            #create a version on every edit ...
+            createVersion(self.context)
+            return self.request.response.redirect( url )        
+    
+    def setupActions( self ):
+        self.wf = interfaces.IWorkflowInfo( self.context )
+        transitions = self.wf.getManualTransitionIds()
+        self.actions = self.default_actions.actions + tuple(bindTransitions( self, transitions, None, interfaces.IWorkflow( self.context ) ) )       
+       
+
+    def update( self ):
+        self.setupActions()   
+        super( QuestionEdit, self).update()
+        self.setupActions()  # after we transition we have different actions      
+        wf_state =interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
+        self.wf_status = wf_state            
+        
+        

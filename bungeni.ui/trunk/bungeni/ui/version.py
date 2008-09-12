@@ -80,6 +80,10 @@ class VersionLogViewlet(BaseForm , viewlet.ViewletBase ):
         label=_("View"), name="view", validator=lambda form, action, data: ())
     def handle_view_version( self, action, data):
         selected = getSelected(self.selection_column, self.request)
+        if len(selected) != 1:
+            self.status = _(u"Select one item to display")
+            return
+            
         context = self._versions.get( selected[0] )
 
         view = component.getMultiAdapter((context, self.request),

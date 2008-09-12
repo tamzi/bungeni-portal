@@ -34,6 +34,8 @@ class BreadCrumbsViewlet( viewlet.ViewletBase ):
         """
         Return the current path as a list
         """
+        descriptor = None
+        name = None 
         path = []
         context = proxy.removeSecurityProxy( context )
         if context.__parent__ is not None:            
@@ -43,7 +45,11 @@ class BreadCrumbsViewlet( viewlet.ViewletBase ):
             path.append( {'name' : getattr(context, 'short_name', None ), 'url' : url})
         if IAlchemistContainer.providedBy(context):                        
             domain_model = context._class 
-            descriptor = queryModelDescriptor( domain_model )
+            try:
+                descriptor = queryModelDescriptor( domain_model )
+            except:
+                descriptor = None
+                name = ""                
             if descriptor:
                 name = getattr( descriptor, 'display_name', None)
             if not name:

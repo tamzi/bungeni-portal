@@ -878,7 +878,12 @@ class ResponseDescriptor( ModelDescriptor ):
               view_widget=widget.HTMLDisplay,
               edit_widget=widget.RichTextEditor, 
               add_widget=widget.RichTextEditor ),
-        dict( name="response_type", label=_(u"Response Kind"), description=_(u"(I)nitial or (S)ubsequent Response"), listing=True ),		
+        dict( name="response_type", label=_(u"Response Kind"), 
+              property = schema.Choice( title=_(u"Response Kind"), 
+                                        description=_(u"Initial or Subsequent Response"),
+                                        source=vocabulary.ISResponse),
+              listing=True,
+              edit_widget=widget.CustomRadioWidget),                        		
         dict( name="sitting_id", omit=True ), #XXX
         dict( name="sitting_time", label=_(u"Sitting Time"), description=_(u"Time of the Sitting"), listing=True ),
         ]        

@@ -25,7 +25,7 @@ from bungeni.core.i18n import _
 from bungeni.core.interfaces import IGroupSitting, IParliamentSession, IMemberOfParliament, \
     ICommittee, ICommitteeMember, IGovernment, IMinistry, IExtensionGroup, IMinister, \
     IExtensionMember, IParliament, IGroupSittingAttendance, ICommitteeStaff, IMemberRoleTitle, \
-    IMemberOfParty, IPoliticalParty, IQuestion
+    IMemberOfParty, IPoliticalParty, IQuestion, IResponse
 
 import bungeni.core.workflows.utils
 
@@ -81,6 +81,19 @@ class BungeniAttributeDisplay( DynamicFields, DisplayFormViewlet ):
         
 #############
 ## ADD 
+
+##################
+
+
+class AnswerAddForm( ContentAddForm ):
+    """
+    Answer a Question
+    UI for ministry to input response
+    Display the question when adding the answer.
+    """
+    pass
+
+
 
 #####################
 # Generic Custom Add Form
@@ -640,6 +653,18 @@ class MemberTitleAdd( CustomAddForm ):
     Adapts = IMemberRoleTitleAdd
     CustomValidation =  validations.CheckMemberTitleDateAdd 
 
+class ResponseAdd( CustomAddForm ):
+    """
+    Answer a Question
+    UI for ministry to input response
+    Display the question when adding the answer.
+    """
+    form_fields = form.Fields( IResponse ).select('response_text', 'response_type', 'sitting_time') 
+    Adapts = IResponse
+    form_fields["response_text"].custom_widget=widget.RichTextEditor 
+    form_fields["response_type"].custom_widget=widget.CustomRadioWidget
+    CustomValidation =  validations.ResponseAdd
+
         
 ##############
 # Edit forms      
@@ -1013,6 +1038,12 @@ class MemberTitleEdit( CustomEditForm ):
     CustomValidations =  validations.CheckMemberTitleDateEdit
         
 class QuestionEdit( CustomEditForm ):
+    """
+    Edit a question.
+    the workflow transitions are available as actions as well as the 
+    default save and cancel buttons
+    """
+    #XXX todo: bind the transitions to save + fire transaction
     form_fields = form.Fields( IQuestion )
     Adapts = IQuestion
     form_fields["note"].custom_widget=widget.RichTextEditor 
@@ -1056,4 +1087,18 @@ class QuestionEdit( CustomEditForm ):
         wf_state =interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
         self.wf_status = wf_state            
         
+
+class ResponseEdit ( CustomEditForm ):
+    """
+    Answer a Question
+    UI for ministry to input response
+    Display the question when adding the answer.
+    """
+    form_fields = form.Fields( IResponse ).select('response_text', 'response_type', 'sitting_time') 
+    Adapts = IResponse
+    form_fields["response_text"].custom_widget=widget.RichTextEditor 
+    form_fields["response_type"].custom_widget=widget.CustomRadioWidget
+    CustomValidations =  validations.ResponseEdit
+
+
         

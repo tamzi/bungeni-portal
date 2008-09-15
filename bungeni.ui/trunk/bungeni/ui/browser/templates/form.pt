@@ -103,8 +103,7 @@
   </metal:block>
   </fieldset>
 </metal:block>
-
-
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXxx
    <div id="actionsView">
     <span class="actionButtons"
           tal:condition="view/availableActions">

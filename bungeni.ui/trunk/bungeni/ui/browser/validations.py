@@ -638,5 +638,10 @@ def CheckMemberTitleDateEdit( self, context, data):
 
 def QuestionEdit( self, context, data ):
     return []
-    
+
+def ResponseEdit( self, context, data ):
+    return []
+
+def ResponseAdd ( self, context, data ):
+    return []      
         

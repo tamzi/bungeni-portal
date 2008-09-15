@@ -41,6 +41,19 @@
     />     
 
 
+
+
+ <!-- viewlet manager to display question in responses -->
+
+  <browser:viewletManager
+     name="bungeni.resopnse.question.manager"
+     provides=".interfaces.IResponeQuestionViewletManager"
+     class=".viewlet.ResponseQuestionViewletManager"
+     permission="zope.View"
+     />
+
+
+
 <!--
       allowed_interface="zope.formlib.interfaces.ISubPageForm"
       layer="bungeni.ui.interfaces.IBungeniSkin"            
@@ -466,6 +479,25 @@
       permission="zope.View"
       allowed_interface="zope.formlib.interfaces.ISubPageForm"      
       />         
+      
+<!-- Response Add Form -->        
+   <browser:view
+      name="add"
+      for="bungeni.core.interfaces.IResponseContainer"
+      class=".forms.ResponseAdd"              
+      permission="zope.View"
+      />      
+      
+<!-- Response Edit Form -->  
+    <browser:viewlet
+      name="alchemist.attributes.edit"
+      manager="alchemist.ui.interfaces.IContentEditManager"
+      class=".forms.ResponseEdit"
+      for="bungeni.core.interfaces.IResponse"
+      permission="zope.View"
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"      
+      />        
+            
 <!-- Parliament Add Form -->
    <browser:view
       name="add"

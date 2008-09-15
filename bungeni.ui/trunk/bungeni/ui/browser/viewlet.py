@@ -9,7 +9,7 @@ import alchemist.ui.core
 import alchemist.ui.viewlet
 
 from bungeni.ui.i18n import _
-from interfaces import ISubFormViewletManager
+from interfaces import ISubFormViewletManager, IResponeQuestionViewletManager
 
 class AttributesEditViewlet( alchemist.ui.core.DynamicFields, alchemist.ui.viewlet.EditFormViewlet ):
 
@@ -39,3 +39,17 @@ class NavigateAwayWarningViewlet( viewlet.ViewletBase ):
         </script>""" # % warningMessage
 
         return msg
+        
+class ResponseQuestionViewletManager( manager.WeightOrderedViewletManager ):
+    """
+    display subforms
+    """
+    interface.implements(IResponeQuestionViewletManager)         
+    
+
+class ResponseQuestionViewlet( viewlet.ViewletBase ):    
+    """
+    Display the question when adding/editing a response
+    """
+    
+    

@@ -38,6 +38,10 @@
         </ul>
     </div>
           
+    <div tal:replace="structure provider:bungeni.response.question.manager" /> 
+    Question...
+
+
   
 <metal:block define-macro="form-body">
 

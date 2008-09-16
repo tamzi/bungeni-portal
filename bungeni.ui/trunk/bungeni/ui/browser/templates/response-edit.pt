@@ -1,9 +1,9 @@
 <html xmlns:tal="http://xml.zope.org/namespaces/tal"
        xmlns:metal="http://xml.zope.org/namespaces/metal"
-       metal:use-macro="context/@@standard_macros/page">
+      >
 <body>
 
-<div metal:fill-slot="body">
+
 
 
 
@@ -37,8 +37,9 @@
             </li>
         </ul>
     </div>
-          
-  
+    <div tal:replace="structure provider:bungeni.response.question.manager" /> 
+    Question...
+    
 <metal:block define-macro="form-body">
 
   <metal:block define-slot="pre-fieldset">
@@ -119,6 +120,5 @@
   </form>
 </metal:block>
 
-</div>
 </body>
 </html>

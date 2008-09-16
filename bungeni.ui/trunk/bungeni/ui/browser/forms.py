@@ -85,14 +85,7 @@ class BungeniAttributeDisplay( DynamicFields, DisplayFormViewlet ):
 ##################
 
 
-class AnswerAddForm( ContentAddForm ):
-    """
-    Answer a Question
-    UI for ministry to input response
-    Display the question when adding the answer.
-    """
-    pass
-
+   
 
 
 #####################
@@ -156,6 +149,8 @@ class CustomAddForm( ContentAddForm ):
         self.createAndAdd( data )
         name = self.context.domain_model.__name__
         self._next_url = absoluteURL( self.context, self.request ) + '/@@add?portal_status_message=%s Added'%name        
+
+
 
 #parliament        
 class ParliamentAdd( CustomAddForm ):
@@ -664,7 +659,7 @@ class ResponseAdd( CustomAddForm ):
     form_fields["response_text"].custom_widget=widget.RichTextEditor 
     form_fields["response_type"].custom_widget=widget.CustomRadioWidget
     CustomValidation =  validations.ResponseAdd
-
+    template = ViewPageTemplateFile('templates/response-add.pt')     
         
 ##############
 # Edit forms      
@@ -1099,6 +1094,6 @@ class ResponseEdit ( CustomEditForm ):
     form_fields["response_text"].custom_widget=widget.RichTextEditor 
     form_fields["response_type"].custom_widget=widget.CustomRadioWidget
     CustomValidations =  validations.ResponseEdit
-
+    template = ViewPageTemplateFile('templates/response-edit.pt')        
 
         

@@ -46,12 +46,19 @@
  <!-- viewlet manager to display question in responses -->
 
   <browser:viewletManager
-     name="bungeni.resopnse.question.manager"
+     name="bungeni.response.question.manager"
      provides=".interfaces.IResponeQuestionViewletManager"
      class=".viewlet.ResponseQuestionViewletManager"
      permission="zope.View"
      />
 
+  <browser:viewlet
+    name="bungeni.response.question.viewlet"   
+    manager=".interfaces.IResponeQuestionViewletManager"
+    class=".viewlet.ResponseQuestionViewlet"
+    permission="zope.Public"
+    weight="5"
+    />     
 
 
 <!--

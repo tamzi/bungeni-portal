@@ -3,10 +3,14 @@ from zope import interface
 from zope.viewlet import viewlet, manager
 from zope.formlib import form
 from zope.formlib.namedtemplate import NamedTemplate
+from zope.app.pagetemplate import ViewPageTemplateFile
+
 from zc.resourcelibrary import need
 
 import alchemist.ui.core
 import alchemist.ui.viewlet
+
+from bungeni.core.domain import Question, Response
 
 from bungeni.ui.i18n import _
 from interfaces import ISubFormViewletManager, IResponeQuestionViewletManager
@@ -51,5 +55,23 @@ class ResponseQuestionViewlet( viewlet.ViewletBase ):
     """
     Display the question when adding/editing a response
     """
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+        self.subject = ''
+        self.question_text = ''
     
-    
+    def update(self):
+        if self.context.__class__ == Response:
+            self.subject = self.context.__parent__.__parent__.subject
+            self.question_text = self.context.__parent__.__parent__.question_text
+        else:
+            if self.context.__parent__.__class__ == Question:
+                self.subject = self.context.__parent__.subject
+                self.question_text = self.context.__parent__.question_text
+
+    render = ViewPageTemplateFile ('templates/question.pt')  

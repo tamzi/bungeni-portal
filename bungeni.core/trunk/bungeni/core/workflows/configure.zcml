@@ -41,6 +41,16 @@
   <!-- question Notifications -->
   <include file="questionnotification.zcml" />
 
+  <!-- responses workflow -->
+  <adapter
+     for="..domain.Response"
+     provides="ore.workflow.interfaces.IWorkflow"
+     factory=".response.ResponseWorkflowAdapter" />
+
+  <subscriber
+     handler=".response.workflowTransitionEventDispatcher" />
+
+
   <!-- motion workflow -->
   <adapter
      for="..domain.Motion"

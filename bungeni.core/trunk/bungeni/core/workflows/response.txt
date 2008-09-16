@@ -1,0 +1,108 @@
+Response workflow
+=================
+
+  >>> from bungeni.core.domain import Response
+
+Setup
+-----
+
+  >>> import bungeni.core.workflows.response
+  >>> import bungeni.core.interfaces
+  >>> import ore.workflow
+  >>> import copy
+  
+  >>> component.provideAdapter(
+  ...    bungeni.core.workflows.WorkflowState,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    bungeni.core.workflows.response.ResponseWorkflowAdapter,
+  ...    (Response,))
+
+  >>> component.provideAdapter(
+  ...    ore.workflow.workflow.WorkflowInfo,
+  ...    (Response,))
+
+  >>> component.provideHandler(
+  ...    bungeni.core.workflows.response.workflowTransitionEventDispatcher)
+
+  >>> import bungeni.core.version
+  >>> component.provideAdapter(
+  ...    bungeni.core.version.ContextVersioned,
+  ...    (bungeni.core.interfaces.IVersionable,),
+  ...    bungeni.core.interfaces.IVersioned)
+  
+Transition events
+-----------------
+
+We set up event subscribers to make sure all registered transition
+events are called.
+
+  >>> map = bungeni.core.workflows.response.workflow_transition_event_map
+  >>> check_transition_events = dict((states, False) for states in map.keys())
+
+  >>> for states, iface in map.items():
+  ...     def generate(key):
+  ...         def handler(event):
+  ...             check_transition_events[key] = True
+  ...         return handler
+  ...     component.provideHandler(generate(states), adapts=(iface,))
+  
+Workflow
+--------
+
+  >>> from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
+
+  >>> def transitions(response):
+  ...     wf = IWorkflow(response)
+  ...     info = IWorkflowInfo(response)
+  ...     state = info.state().getState()
+  ...     return tuple(transition.transition_id for transition in wf.getTransitions(state))
+
+
+Permissions
+-----------
+  >>> def permission(response):
+  ...   wf = IWorkflow(response)
+  ...   info = IWorkflowInfo(response)
+  ...   state = info.state().getState()
+  ...   return tuple(transition.permission for transition in wf.getTransitions(state))
+
+
+
+  >>> response = Response()
+
+First we initialize the workflow.
+  
+  >>> transitions(response)
+  ('create',)
+
+  >>> permission(response)
+  (Global(CheckerPublic,zope.security.checker),)
+
+  >>> IWorkflowInfo(response).fireTransition('create')
+
+The response is now in a draft state.
+
+
+  >>> transitions(response)
+   ('submit',)
+    
+  >>> permission(response)
+  ('bungeni.response.Submit',)
+
+
+The ministry sends the answer to the clerks office
+
+  >>> IWorkflowInfo(response).fireTransition('submit')
+  
+  >>> transitions(response)
+   ('complete',)
+
+The response is reviewed by the clerk and published
+
+  >>> IWorkflowInfo(response).fireTransition('complete')
+  
+  >>> transitions(response)
+  ()
+

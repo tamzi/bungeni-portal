@@ -78,7 +78,8 @@ def test_suite():
                 'workflows/questionnotification.txt', 
                 'workflows/motionnotification.txt',                 
                 #'assignment.txt',
-                'workflows/question.txt', 
+                'workflows/question.txt',
+                'workflows/response.txt',               
                 'workflows/motion.txt',
                 'workflows/bill.txt')
     #doctests = ()#('assignment.txt',)

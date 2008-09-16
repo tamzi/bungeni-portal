@@ -342,11 +342,12 @@ QuestionChange = ItemLog.makeLogFactory( "QuestionChange")
 QuestionVersion = ItemVersions.makeVersionFactory("QuestionVersion")
 
 
-class Response( Entity ):
+class Response( ParliamentaryItem ):
     """
     Response to a Question
     """
-   
+ResponseChange = ItemLog.makeLogFactory( "ResponseChange")
+ResponseVersion = ItemVersions.makeVersionFactory("ResponseVersion")   
 
 class Motion( ParliamentaryItem ):
     

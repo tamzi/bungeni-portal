@@ -29,6 +29,13 @@ class IQuestionSentToMinistryEvent(IObjectEvent):
 
 class IQuestionAnsweredEvent(IObjectEvent):
     """Issued when a questions answer was reviewed by Clerk's office."""
+#######################
+# Resonses to questions
+#######################
+class IResponseSubmittedEvent(IObjectEvent):
+    """Issued when a response was sent from a ministry to clerks office"""
+class IResponseCompletedEvent(IObjectEvent):
+    """Issued when a response was marked complete by the clerks office"""
 
 ###################
 # Motions

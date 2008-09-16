@@ -627,8 +627,13 @@ responses = rdb.Table(
    # 
    # for attachment to the debate record, but not actually scheduled on the floor
    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id') ),
-   rdb.Column( "sitting_time", rdb.DateTime( timezone=False ) )
+   rdb.Column( "sitting_time", rdb.DateTime( timezone=False ) ),
+   rdb.Column( "status",  rdb.Unicode(32) ),
    )
+
+response_changes = make_changes_table( responses, metadata )
+response_versions = make_versions_table( responses, metadata )
+
 
 motions = rdb.Table(
    "motions",

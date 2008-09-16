@@ -24,7 +24,7 @@ class states:
     clarify_mp = _(u"Question needs MP clarification") # clerks office needs clarification by MP
     clarify_clerk = _("Question needs Clerks clarification") # speakers office needs clarification by clerks office
     scheduled =_(u"Question scheduled") # is scheduled for debate at a sitting
-    resonse_pending = _(u"Question pending response") # ministry has to write a response
+    response_pending = _(u"Question pending response") # ministry has to write a response
     deferred = _(u"Question deferred") # admissable question that cannot be debated 
     postponed = _(u"Question postponed") # question was scheduled for but not debated at the sitting
     elapsed = _(u"Question elapsed") # defered or postponed question that were not answered
@@ -228,7 +228,7 @@ def create_question_workflow( ):
         title=_(u'Send to ministry'),
         source = states.admissible,
         trigger = iworkflow.MANUAL,                
-        destination = states.resonse_pending,
+        destination = states.response_pending,
         permission = 'bungeni.question.Schedule',        
         ) )  
 
@@ -236,7 +236,7 @@ def create_question_workflow( ):
     add( workflow.Transition(
         transition_id = 'respond-writing',
         title=_(u'Respond'),
-        source = states.resonse_pending,
+        source = states.response_pending,
         trigger = iworkflow.MANUAL,                
         destination = states.responded,
         permission = 'bungeni.question.write_answer',        
@@ -245,7 +245,7 @@ def create_question_workflow( ):
     add( workflow.Transition(
         transition_id = 'elapse-pending',
         title=_(u'Elapse'),
-        source = states.resonse_pending,
+        source = states.response_pending,
         trigger = iworkflow.MANUAL,                
         destination = states.elapsed,
         permission = 'bungeni.question.write_answer',        
@@ -282,7 +282,7 @@ def create_question_workflow( ):
         title=_(u'Send to ministry'),
         source = states.deferred,
         trigger = iworkflow.MANUAL,                
-        destination = states.resonse_pending,
+        destination = states.response_pending,
         permission = 'bungeni.question.Schedule',        
         ) )  
 
@@ -349,7 +349,7 @@ def create_question_workflow( ):
         title=_(u'Send to Ministry'),
         source = states.postponed,
         trigger = iworkflow.MANUAL,                
-        destination = states.resonse_pending,        
+        destination = states.response_pending,        
         permission = 'bungeni.question.Schedule',        
         ) )    
         
@@ -454,9 +454,9 @@ workflow_transition_event_map = {
     (states.admissible, states.deferred): interfaces.IQuestionDeferredEvent,
     (states.admissible, states.scheduled): interfaces.IQuestionScheduledEvent,
     (states.scheduled, states.postponed): interfaces.IQuestionPostponedEvent,
-    (states.deferred, states.resonse_pending): interfaces.IQuestionSentToMinistryEvent,
-    (states.admissible, states.resonse_pending): interfaces.IQuestionSentToMinistryEvent,    
-    (states.postponed, states.resonse_pending): interfaces.IQuestionSentToMinistryEvent, 
+    (states.deferred, states.response_pending): interfaces.IQuestionSentToMinistryEvent,
+    (states.admissible, states.response_pending): interfaces.IQuestionSentToMinistryEvent,    
+    (states.postponed, states.response_pending): interfaces.IQuestionSentToMinistryEvent, 
     (states.postponed, states.scheduled): interfaces.IQuestionScheduledEvent,       
     (states.responded, states.answered): interfaces.IQuestionAnsweredEvent,
     }

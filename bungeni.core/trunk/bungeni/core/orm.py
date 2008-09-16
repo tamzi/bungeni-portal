@@ -342,7 +342,16 @@ mapper( domain.Question, schema.questions,
              }
         )
 
-mapper( domain.Response, schema.responses)
+mapper( domain.ResponseChange, schema.response_changes )
+mapper( domain.ResponseVersion, schema.response_versions,
+        properties= {'change':relation( domain.ResponseChange, uselist=False ) }
+        )
+mapper( domain.Response, schema.responses,
+        properties = {
+             'versions':relation( domain.ResponseVersion, backref='question'),
+             'changes':relation( domain.ResponseChange, backref='question')
+             }
+        )
 
 mapper( domain.MotionChange, schema.motion_changes )
 mapper( domain.MotionVersion, schema.motion_versions,

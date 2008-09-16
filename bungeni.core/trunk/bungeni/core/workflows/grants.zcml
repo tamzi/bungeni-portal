@@ -10,6 +10,10 @@
   <grant permission="bungeni.question.Answer" role="zope.Member"/>
   <grant permission="bungeni.question.Withdraw" role="zope.Member"/>
   <grant permission="bungeni.question.write_answer" role="zope.Member" />  
+  <!-- response workflow permissions -->
+  <grant permission="bungeni.response.Create" role="zope.Member" />
+  <grant permission="bungeni.response.Submit" role="zope.Member"/>
+  <grant permission="bungeni.response.Complete" role="zope.Member"/>  
   <!-- motion workflow permissions -->
   <grant permission="bungeni.motion.Create" role="zope.Member" />
   <grant permission="bungeni.motion.Submit" role="zope.Member"/>

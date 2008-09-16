@@ -26,14 +26,20 @@
                 version="1.0">
     <xsl:output indent="yes" method="xml"/>
     <xsl:template match="/">
-        <akomantoso>
-            <xsl:apply-templates  select="//text:*"/>
+        <akomantoso xmlns="http://www.akomantoso.org/">
+            <xsl:apply-templates />
         </akomantoso>
     </xsl:template>
         
     <xsl:template match="text:*">
         <xsl:element name="{name()}">
-           <xsl:for-each select="@*">
+            <xsl:variable name="stylename" select="@text:style-name" />
+            <xsl:for-each select="@*">
+                <xsl:attribute name="{name(.)}">
+                    <xsl:value-of select="."/>
+                </xsl:attribute>
+            </xsl:for-each>
+            <xsl:for-each select="//style:*[@style:name=$stylename]//*/@*[contains(name(),'Bungeni')]">
                 <xsl:attribute name="{name(.)}">
                     <xsl:value-of select="."/>
                 </xsl:attribute>
@@ -45,14 +51,5 @@
     <xsl:template match="text()">
         <xsl:value-of select="normalize-space(.)"/>
     </xsl:template>
-    
-    <xsl:template match="text:soft-page-break">
-        <eol/>
-        <xsl:apply-templates />
-    </xsl:template>
-
-    <xsl:template match="text:tab">
-        <xsl:apply-templates />
-    </xsl:template>
-    
+        
 </xsl:stylesheet>

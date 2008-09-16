@@ -40,6 +40,6 @@ public interface ConfigurationInterface
 	/**
 	 * Add a step to the configuration file 
 	 * @param aStep the step that you want to add to the configuration object
-	 */
+	*/
 	public void writeStep(Step aStep);
 }

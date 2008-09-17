@@ -1,7 +1,8 @@
 package org.un.bungeni.translators.odttoakn.configurations;
 
 import java.util.HashMap;
-import org.un.bungeni.translator.odttoakn.steps.Step;
+
+import org.un.bungeni.translators.odttoakn.steps.Step;
 import org.w3c.dom.Document;
 
 public class Configuration implements ConfigurationInterface 

@@ -1,4 +1,4 @@
-package org.un.bungeni.translator.odttoakn.steps;
+package org.un.bungeni.translators.odttoakn.steps;
 
 /**
  * The Step Object is the basic unit of the translations. A configuration contains several steps

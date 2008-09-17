@@ -2,7 +2,7 @@ package org.un.bungeni.translators.odttoakn.configurations;
 
 import java.util.HashMap;
 
-import org.un.bungeni.translator.odttoakn.steps.Step;
+import org.un.bungeni.translators.odttoakn.steps.Step;
 
 /**
  * This is the interface for the configuration reader. A configuration reader has a singleton

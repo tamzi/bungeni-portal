@@ -1,4 +1,4 @@
-package org.un.bungeni.translator.odttoakn.steps;
+package org.un.bungeni.translators.odttoakn.steps;
 
 /**
  * This is the interface for the step objects of the ODTtoAKN translator. 

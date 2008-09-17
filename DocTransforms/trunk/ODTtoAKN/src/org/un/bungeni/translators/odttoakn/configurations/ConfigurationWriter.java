@@ -24,7 +24,7 @@ public class ConfigurationWriter implements ConfigurationWriterInterface
 	*/
 	public void writeStep(Step aStep)
 	{
-		
+		System.out.println(this.configXML.toString());
 	}
 
 }

@@ -33,6 +33,28 @@ Setup
   ...    (bungeni.core.interfaces.IVersionable,),
   ...    bungeni.core.interfaces.IVersioned)
   
+question setup
+
+  >>> from bungeni.core.domain import Question
+  >>> import bungeni.core.workflows.question
+  
+  >>> component.provideAdapter(
+  ...    bungeni.core.workflows.WorkflowState,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    bungeni.core.workflows.question.QuestionWorkflowAdapter,
+  ...    (Question,))
+
+  >>> component.provideAdapter(
+  ...    ore.workflow.workflow.WorkflowInfo,
+  ...    (Question,))
+
+  >>> component.provideHandler(
+  ...    bungeni.core.workflows.question.workflowTransitionEventDispatcher)
+  
+
+
   
 some setup for tests
 
@@ -94,6 +116,8 @@ Permissions
 
 
 Questions
+we need to have a question in this state (pending response) so that the actions that
+gets fired by the response transitions succeed.
 
   >>> question = domain.Question()
   >>> question.status = q_states.response_pending
@@ -136,10 +160,13 @@ The response is now in a draft state.
   >>> transitions(response)
    ('submit',)
     
+submit the response to the clerks office:
+    
   >>> permission(response)
   ('bungeni.response.Submit',)
 
   >>> session.flush()
+
   
 The ministry sends the answer to the clerks office
 
@@ -150,11 +177,21 @@ The ministry sends the answer to the clerks office
 
   >>> session.flush()
 
+submitting the response triggers a workflow transition of the question
+
+  >>> transitions(question)
+  ('answer',)
+
 The response is reviewed by the clerk and published
 
   >>> IWorkflowInfo(response).fireTransition('complete')
   
   >>> transitions(response)
+  ()
+
+reviewing the response triggers a workflow transition of the question
+
+  >>> transitions(question)
   ()
 
   >>> session.flush()

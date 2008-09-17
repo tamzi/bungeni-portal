@@ -81,7 +81,8 @@ def test_suite():
                 'workflows/question.txt',
                 'workflows/response.txt',               
                 'workflows/motion.txt',
-                'workflows/bill.txt')
+                'workflows/bill.txt',
+                'workflows/dbutils.txt')
     #doctests = ()#('assignment.txt',)
     globs = dict(interface=interface, component=component)
 

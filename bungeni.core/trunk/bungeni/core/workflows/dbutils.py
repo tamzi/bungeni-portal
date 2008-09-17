@@ -5,8 +5,8 @@
 import sqlalchemy.sql.expression as sql
 from ore.alchemist import Session
 
-from bungeni.core.domain import Parliament
-from bungeni.core.schema import groups
+import bungeni.core.domain as domain
+import bungeni.core.schema as schema
 from bungeni.core.i18n import _
 
 import datetime
@@ -18,14 +18,14 @@ def getCurrentParliamentId(date = None):
     """
     def getFilter(date):
         return sql.or_(
-            sql.between(date, groups.c.start_date, groups.c.end_date),
-            sql.and_( groups.c.start_date <= date, groups.c.end_date == None)
+            sql.between(date, schema.groups.c.start_date, schema.groups.c.end_date),
+            sql.and_( schema.groups.c.start_date <= date, schema.groups.c.end_date == None)
             )
     
     if not date:
         date = datetime.date.today()
     session = Session() 
-    query = session.query(Parliament).filter(getFilter(date))   
+    query = session.query(domain.Parliament).filter(getFilter(date))   
     result = None
     try:
         result = query.one()
@@ -41,4 +41,15 @@ def setQuestionParliamentId(question):
     session = Session()
     question.parliament_id = getCurrentParliamentId()
     session.flush()
+
+def getQuestion(question_id):
+    """
+    gets the question with id 
+    """
+    session = Session()
+    query = session.query(domain.Question).filter(schema.questions.c.question_id == question_id)
+    return query.one()
+    
+    
+    
     

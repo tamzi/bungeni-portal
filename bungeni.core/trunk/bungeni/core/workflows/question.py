@@ -237,7 +237,7 @@ def create_question_workflow( ):
         transition_id = 'respond-writing',
         title=_(u'Respond'),
         source = states.response_pending,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.AUTOMATIC,                
         destination = states.responded,
         permission = 'bungeni.question.write_answer',        
         ) )         
@@ -360,7 +360,7 @@ def create_question_workflow( ):
         transition_id = 'answer',
         title=_(u'Answer'),
         source = states.responded,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.AUTOMATIC,                
         destination = states.answered,
         permission = 'bungeni.question.Answer',        
         ) )       

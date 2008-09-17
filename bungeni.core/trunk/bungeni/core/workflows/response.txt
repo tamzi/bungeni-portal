@@ -7,6 +7,7 @@ Setup
 -----
 
   >>> import bungeni.core.workflows.response
+  >>> from bungeni.core.workflows.question import states as q_states  
   >>> import bungeni.core.interfaces
   >>> import ore.workflow
   >>> import copy
@@ -32,6 +33,27 @@ Setup
   ...    (bungeni.core.interfaces.IVersionable,),
   ...    bungeni.core.interfaces.IVersioned)
   
+  
+some setup for tests
+
+   >>> from zope import component
+   >>> from sqlalchemy import create_engine
+   >>> from ore.alchemist.interfaces import IDatabaseEngine
+   >>> from ore.alchemist import Session
+   >>> from bungeni import core as model
+   >>> from bungeni.core import domain, schema
+   >>> from bungeni.core.workflows import dbutils
+
+   
+   
+Setting up Database Connection and Utilities:
+
+   >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
+   >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
+   >>> model.metadata.bind = db   
+   >>> model.metadata.create_all() 
+   >>> session = Session()
+     
 Transition events
 -----------------
 
@@ -70,7 +92,31 @@ Permissions
 
 
 
-  >>> response = Response()
+
+Questions
+
+  >>> question = domain.Question()
+  >>> question.status = q_states.response_pending
+  >>> session.save(question)
+  >>> session.flush()
+  
+  >>> question.question_id
+  1L
+  
+Responses
+
+  >>> response = domain.Response()
+  >>> response.question_id = question.question_id
+  >>> session.save(response)
+  >>> session.flush()
+ 
+  >>> response.question_id
+  1L
+  
+  >>> response.response_id
+  1L
+  
+
 
 First we initialize the workflow.
   
@@ -82,6 +128,8 @@ First we initialize the workflow.
 
   >>> IWorkflowInfo(response).fireTransition('create')
 
+  >>> session.flush()
+
 The response is now in a draft state.
 
 
@@ -91,7 +139,8 @@ The response is now in a draft state.
   >>> permission(response)
   ('bungeni.response.Submit',)
 
-
+  >>> session.flush()
+  
 The ministry sends the answer to the clerks office
 
   >>> IWorkflowInfo(response).fireTransition('submit')
@@ -99,10 +148,15 @@ The ministry sends the answer to the clerks office
   >>> transitions(response)
    ('complete',)
 
+  >>> session.flush()
+
 The response is reviewed by the clerk and published
 
   >>> IWorkflowInfo(response).fireTransition('complete')
   
   >>> transitions(response)
   ()
+
+  >>> session.flush()
+  
 

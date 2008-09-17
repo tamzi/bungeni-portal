@@ -282,7 +282,26 @@ Questions
 Note that the questions workflow is tested separated (see workflows/question.txt).
 
   >>> question = model.Question()
-
+  
+  >>> session.save(question)
+  >>> session.flush()
+  
+  >>> question.question_id
+  1L
+  
+Responses
+---------
+  >>> response = model.Response()
+  >>> response.question_id = question.question_id
+  >>> session.save(response)
+  >>> session.flush()
+ 
+  >>> response.question_id
+  1L
+  
+  >>> response.response_id
+  1L
+  
 Assignment  
 ++++++++++  
 

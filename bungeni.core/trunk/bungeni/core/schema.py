@@ -621,7 +621,7 @@ responses = rdb.Table(
    "responses",
    metadata,
    rdb.Column( "response_id", rdb.Integer, primary_key=True ),
-   rdb.Column( "question_id", rdb.Integer, rdb.ForeignKey('questions.question_id') ),
+   rdb.Column( "question_id", rdb.Integer, rdb.ForeignKey('questions.question_id'), nullable=False ),
    rdb.Column( "response_text", rdb.UnicodeText ),
    rdb.Column( "response_type", rdb.String(1), rdb.CheckConstraint("response_type in ('I','S')"), default=u"I"), # (I)nitial (S)ubsequent
    # 

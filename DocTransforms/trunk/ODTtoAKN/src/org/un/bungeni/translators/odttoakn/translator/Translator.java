@@ -2,7 +2,6 @@ package org.un.bungeni.translators.odttoakn.translator;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -16,7 +15,6 @@ import org.un.bungeni.translators.xslttransformer.XSLTTransformer;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import javax.xml.transform.*;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 public class Translator implements TranslatorInterface
@@ -92,21 +90,7 @@ public class Translator implements TranslatorInterface
 			//start the transformation
 			iteratedDocument = XSLTTransformer.getInstance().transform(iteratedDocument, xsltStream);
 		}
-		
-		// create an instance of TransformerFactory
-	    /*TransformerFactory transFact = TransformerFactory.newInstance();
-	 
-	    //create a new transformer
-	    Transformer trans = transFact.newTransformer();
-	    
-	    //create the writer for the transformation
-	    StringWriter resultString = new StringWriter();
-	    
-	    //perform the transformation
-	    trans.transform(iteratedDocument, new StreamResult(resultString));*/
-
-	    //System.out.println(resultString.toString());
-	    
+			    
 		//return the Source of the new document
 	    return iteratedDocument;
 	}

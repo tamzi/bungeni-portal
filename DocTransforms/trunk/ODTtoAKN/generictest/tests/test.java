@@ -1,3 +1,4 @@
+package tests;
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -22,6 +23,7 @@ public class test {
 	{
 		Translator trans = Translator.getInstance();
 		trans.translate("resources/content.xml", "resources/configurations/debaterecord/common/DebateRecordCommon.xml");
+		System.out.println("great!");
 	}
 
 }

@@ -35,9 +35,9 @@ z3c.schemadiff svn://svn.zope.org/repos/main/z3c.schemadiff/trunk
 # z3c.securitytool svn://svn.zope.org/repos/main/z3c.securitytool/trunk
 
 # subversion support
-# ore.svn        https://svn.objectrealms.net/svn/public/ore.svn/trunk
+ore.svn        https://svn.objectrealms.net/svn/public/ore.svn/trunk
 # ui for svn files/directories with version browsing
-# ore.library    https://svn.objectrealms.net/svn/public/ore.library/trunk
+ore.library    https://svn.objectrealms.net/svn/public/ore.library/trunk
 
 # lovely memcached
 # lovely.memcached svn://svn.zope.org/repos/main/lovely.memcached/trunk/

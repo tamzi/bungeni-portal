@@ -52,6 +52,9 @@
   <!-- Assignment Infrastructure -->
   <include file="assignment.zcml"/>
 
+  <!-- Versioned File Infrastructure -->
+  <include file="files.zcml" />
+
   <!-- Searching -->
   <utility component=".index.searcher" />
   

@@ -6,7 +6,7 @@ from bungeni.core import interfaces, schema as dbschema
 from ore.alchemist import Session
 from sqlalchemy import orm
 from zope.security.proxy import removeSecurityProxy
-
+from ore.svn import SubversionContext
 
 
 class DefaultPathChooser( object ):
@@ -128,7 +128,6 @@ def create_path( root, path ):
 FileRepository = _FileRepository()
 
 def setupStorageDirectory( ):
-    print "fs called"
     # we start in buildout/src/bungeni.core/bungeni/core
     # we end in buildout/parts/index    
     store_dir = __file__
@@ -139,14 +138,15 @@ def setupStorageDirectory( ):
     store_dir = path.join( store_dir, 'parts', 'files')
     if path.exists( store_dir ):
         assert path.isdir( store_dir )
-    else:
-        os.mkdir( store_dir )
-    
+        assert path.exists( path.join( store_dir, 'format') )
     return store_dir
 
 def setup( ):
-    print "Called"
     from ore.svn import repos
     storage = setupStorageDirectory()
-    repo_context = repos.create( storage )
+    if os.path.exists( storage ):
+        repo_context = SubversionContext( storage )
+    else:
+        repo_context = repos.create( storage )
+    
     FileRepository.context = repo_context

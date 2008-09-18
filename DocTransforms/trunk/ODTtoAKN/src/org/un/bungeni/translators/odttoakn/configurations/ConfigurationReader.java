@@ -118,10 +118,10 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 			//create the Step 
 			Step resultStep = new Step( stepNode.getAttributes().getNamedItem("name").getNodeValue(),
 						  				stepNode.getAttributes().getNamedItem("href").getNodeValue(),
-						  				Integer.getInteger(stepNode.getAttributes().getNamedItem("step").getNodeValue()));
+						  				Integer.parseInt(stepNode.getAttributes().getNamedItem("step").getNodeValue()));
 			
 			//add the node to the hash map set its key as its position (step attribute)
-			resultMap.put(Integer.getInteger(stepNode.getAttributes().getNamedItem("step").getNodeValue()),resultStep);		
+			resultMap.put(Integer.parseInt(stepNode.getAttributes().getNamedItem("step").getNodeValue()),resultStep);		
 		}
 		
 		//return the hash map containing all the Steps

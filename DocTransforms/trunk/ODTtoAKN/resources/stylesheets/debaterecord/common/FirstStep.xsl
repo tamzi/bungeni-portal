@@ -23,7 +23,7 @@
                 xmlns:xforms="http://www.w3.org/2002/xforms" 
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                version="1.0">
+				version="1.0">
     <xsl:output indent="yes" method="xml"/>
     <xsl:template match="/">
         <akomantoso xmlns="http://www.akomantoso.org/">

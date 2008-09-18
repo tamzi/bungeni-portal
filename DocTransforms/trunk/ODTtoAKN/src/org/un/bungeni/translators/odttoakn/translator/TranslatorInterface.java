@@ -3,9 +3,10 @@ package org.un.bungeni.translators.odttoakn.translator;
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.Source;
+import javax.xml.transform.TransformerException;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 /**
@@ -24,6 +25,7 @@ public interface TranslatorInterface
 	 * @throws IOException 
 	 * @throws SAXException 
 	 * @throws XPathExpressionException 
+	 * @throws TransformerException 
 	 */
-	public Document translate(String aDocumentPath, String aConfigurationPath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException;
+	public Source translate(String aDocumentPath, String aConfigurationPath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException;
 }

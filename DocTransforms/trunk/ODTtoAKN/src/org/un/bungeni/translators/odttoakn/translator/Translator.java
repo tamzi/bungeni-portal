@@ -2,7 +2,9 @@ package org.un.bungeni.translators.odttoakn.translator;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -10,9 +12,12 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.un.bungeni.translators.odttoakn.configurations.Configuration;
 import org.un.bungeni.translators.odttoakn.steps.Step;
+import org.un.bungeni.translators.xslttransformer.XSLTTransformer;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import javax.xml.transform.*;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 
 public class Translator implements TranslatorInterface
 {
@@ -53,10 +58,11 @@ public class Translator implements TranslatorInterface
 	 * @throws IOException 
 	 * @throws SAXException 
 	 * @throws XPathExpressionException 
+	 * @throws TransformerException 
 	 */
-	public Document translate(String aDocumentPath, String aConfigurationPath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException
+	public Source translate(String aDocumentPath, String aConfigurationPath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException
 	{
-		//create the DOM of the configuration 
+		//get the File of the configuration 
 		Document configurationDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(aConfigurationPath);
 		
 		//create the configuration 
@@ -65,7 +71,44 @@ public class Translator implements TranslatorInterface
 		//get the steps from the configuration 
 		HashMap<Integer,Step> stepsMap = configuration.getSteps();
 		
-		return null;
+		//create an iterator on the hash map
+		Iterator<Step> mapIterator = stepsMap.values().iterator();
+		
+		//get the Document Stream
+		StreamSource iteratedDocument = new StreamSource(new File(aDocumentPath));
+		
+		//while the Iterator has steps ally the transformation
+		while(mapIterator.hasNext())
+		{
+			//get the next step
+			Step nextStep = (Step)mapIterator.next();
+			
+			//get the href from the step 
+			String stepHref = nextStep.getHref();
+			
+			//create a stream source by the href of the XSLT
+			StreamSource xsltStream = new StreamSource(new File(stepHref));
+			
+			//start the transformation
+			iteratedDocument = XSLTTransformer.getInstance().transform(iteratedDocument, xsltStream);
+		}
+		
+		// create an instance of TransformerFactory
+	    TransformerFactory transFact = TransformerFactory.newInstance();
+	 
+	    //create a new transformer
+	    Transformer trans = transFact.newTransformer();
+	    
+	    //create the writer for the transformation
+	    StringWriter resultString = new StringWriter();
+	    
+	    //perform the transformation
+	    trans.transform(iteratedDocument, new StreamResult(resultString));
+
+	    System.out.println(resultString.toString());
+	    
+		//return the Source of the new document
+	    return iteratedDocument;
 	}
 
 }

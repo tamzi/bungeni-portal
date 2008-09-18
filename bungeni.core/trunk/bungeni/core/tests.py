@@ -71,19 +71,59 @@ def assignment_tests( ):
                                     optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
                                     )
 
+
+def file_setup( ):
+    import files
+    files_store = files.setupStorageDirectory()
+    if files_store.endswith('test'):
+        return
     
+    def setupStorageDirectory( ):
+        return files_store + '-test'
+    files.setupStorageDirectory = setupStorageDirectory
+    
+def file_tests( ):
+    file_setup()
+    def _setUp( test ):
+        setUp( test )
+        import files
+        files.setup()
+        
+        ztapi.provideUtility( interfaces.IVersionedFileRepository, component=files.FileRepository )
+
+        ztapi.provideAdapter( interfaces.IBungeniContent,
+                              interfaces.IDirectoryLocation,
+                              files.location )
+
+        ztapi.provideAdapter( interfaces.IBungeniContent,
+                              interfaces.IFilePathChooser,
+                              files.DefaultPathChooser )
+
+    def _tearDown( test ):
+        import files, shutil
+        files.FileRepository.context.clear()
+        dir = files.setupStorageDirectory()
+        shutil.rmtree( dir )
+        tearDown( test )        
+
+    return doctestunit.DocFileSuite('files.txt',
+                                    setUp = _setUp,
+                                    tearDown = _tearDown,
+                                    optionflags=doctest.NORMALIZE_WHITESPACE|doctest.ELLIPSIS
+                                    )
 
 def test_suite():
+
     doctests = ('readme.txt', 
                 'workflows/questionnotification.txt', 
                 'workflows/motionnotification.txt',                 
-                #'assignment.txt',
                 'workflows/question.txt',
                 'workflows/response.txt',               
                 'workflows/motion.txt',
                 'workflows/bill.txt',
-                'workflows/dbutils.txt')
-    #doctests = ()#('assignment.txt',)
+                'workflows/dbutils.txt'
+                )
+    
     globs = dict(interface=interface, component=component)
 
     test_suites = []
@@ -96,6 +136,8 @@ def test_suite():
         test_suites.append( test_suite )
         
     test_suites.append( assignment_tests() )
+    test_suites.append( file_tests() )
+
     
     return unittest.TestSuite( test_suites )
 

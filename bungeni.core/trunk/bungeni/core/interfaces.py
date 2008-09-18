@@ -78,7 +78,7 @@ class IBungeniSetup( interface.Interface ):
         """
         
 #####################
-# Version Interfaces
+# Versioned Object Interfaces
 #     
 class IVersioned( IContainer ):
     """ a versioning system interface to an object, versioned is a container
@@ -176,5 +176,39 @@ class IAssignmentFactory( interface.Interface ):
         """
         create a new assignment
         """
+        
+########################
+# Versioned Files
+
+class IDirectoryLocation( interface.Interface ):
+
+    repo_path = schema.ASCIILine()
+    object_id = schema.Int()
+    object_type = schema.ASCIILine()
+    #directory = schema.Object( interfaces.I)
+
+class IVersionedFileRepository( interface.Interface ):
+
+    def locations( context ):
+        """
+        get all the directory locations for this content
+        """
+
+    def new( context, path=None):
+        """create a new directory location for context
+        """
+        
+    def get( path ):
+        """
+        fetch the versioned directory for the given repository
+        path
+        """
+
+class IFilePathChooser( interface.Interface ):
+
+    def path( ):
+        """
+        return the path to store a context's files within the repo 
+        """        
     
     

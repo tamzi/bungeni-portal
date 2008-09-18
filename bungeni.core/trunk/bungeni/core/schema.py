@@ -692,8 +692,18 @@ bill_versions = make_versions_table( bills, metadata )
 committee_reports = ()
 #debates = ()
 
+#######################
+# Files
+#######################
 
-
+directory_locations = rdb.Table(
+    "directory_locations",
+    metadata,
+    rdb.Column("location_id", rdb.Integer, primary_key=True ),
+    rdb.Column("repo_path", rdb.String(250), nullable=False ),
+    rdb.Column("object_id", rdb.Integer, nullable=False ),
+    rdb.Column("object_type", rdb.String(128), nullable=False ),
+    )
 
 #######################
 # Hansard

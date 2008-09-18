@@ -1,0 +1,20 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <utility
+     provides="interfaces.IVersionedFileRepository"
+     component=".files.FileRepository"
+     />
+
+  <adapter
+     for=".interfaces.IBungeniContent"
+     provides=".interfaces.IFilePathChooser"
+     factory=".files.DefaultPathChooser"
+     />
+
+  <adapter
+     for=".interfaces.IBungeniContent"
+     provides=".interfaces.IDirectoryLocation"
+     factory=".files.location"
+     />
+    
+</configure>

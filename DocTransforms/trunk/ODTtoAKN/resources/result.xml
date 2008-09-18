@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="UTF-8"?><akomantoso xmlns="http://www.akomantoso.org/">
+   <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect1" text:name="debaterecord">
+      <text:section text:style-name="Sect2" text:name="masthead" BungeniSectionType="MastHead" BungeniDebateOfficalDate="2000-05-02" BungeniDebateOfficalTime="14:30">
+         <text:h text:style-name="P21" text:outline-level="1">
+            <text:tab/>NATIONAL ASSEMBLY</text:h>
+         <p/>
+         <text:h text:style-name="P20" text:outline-level="2">
+            <text:tab/>OFFICIAL REPORT</text:h>
+         <p/>
+         <p>
+            <text:tab/>
+            <text:reference-mark-start text:name="BungeniDebateOfficialDate"/>Tuesday, 2nd May, 2000<text:reference-mark-end text:name="BungeniDebateOfficialDate"/>
+         </p>
+         <p/>
+         <p>
+            <text:tab/>The House met at<text:reference-mark-start text:name="BungeniDebateOfficalTime"/>2.30 p.m.<text:reference-mark-end text:name="BungeniDebateOfficalTime"/>
+         </p>
+      </text:section>
+      <p/>
+      <p>
+         <text:tab/>
+      </p>
+      <text:section text:style-name="Sect3" text:name="comment635267" BungeniSectionType="Observation">
+         <p>[Mr. Speaker in the Chair]</p>
+      </text:section>
+      <p/>
+      <text:h text:style-name="P20" text:outline-level="2">
+         <text:tab/>
+      </text:h>
+      <text:section text:style-name="Sect4" text:name="prayers637994" BungeniSectionType="GroupActivity">
+         <text:h text:style-name="P20" text:outline-level="2">PRAYERS</text:h>
+      </text:section>
+      <p/>
+      <text:section text:style-name="Sect5" text:name="speech75638" BungeniSectionType="Speech" BungeniSpeechType="CommunicationFromChair" BungeniSpeechBy="userSpeaker" BungeniSpeechID="3">
+         <text:h text:style-name="Heading_20_3" text:outline-level="3">
+            <text:tab/>COMMUNICATION FROM THE CHAIR</text:h>
+         <p/>
+         <p>
+            <text:tab/>Distinguished Guests</p>
+         <p>
+            <text:tab/>in the Speaker's Row</p>
+         <p/>
+         <text:section text:style-name="Sect6" text:name="heading99573" BungeniSectionType="Person" BungeniSpeechType="CommunicationFromChair" BungeniSpeechBy="userSpeaker" BungeniPersonID="userSpeaker">
+            <p>
+               <text:tab/>
+               <text:reference-mark-start text:name="BungeniSpeechAs:3"/>Mr. Speaker<text:reference-mark-end text:name="BungeniSpeechAs:3"/>:</p>
+         </text:section>
+         <p>
+            <text:span text:style-name="T2">
+               <text:s/>
+            </text:span>
+            <text:span text:style-name="T1">Members, before I go to Order No.6, I would like to make the following Communication:</text:span>
+         </p>
+         <p>
+            <text:tab/>It is with great pleasure that I welcome our distinguished guests from the Parliament of the Federal Republic of Germany who are seated in the Speaker's Row. The delegation is led by Mr. Carl-Dieter Spranger; Deputy Chairman of the Foreign Affairs Committee of the German Bundestag.</p>
+         <p>
+            <text:tab/>He is accompanied by Mr. Joachim Tappe MdB, Chairman of the Germany-African Parliamentary Group, Mrs. Erika Reinhardt, MdB, Member of the Committee of Foreign Affairs of the German Bundestag; and His Excellency Jurgen Weerth, Ambassador to Kenya.</p>
+         <p>
+            <text:tab/>The delegation arrived in the country on Friday, 28th April, 2000, and will be with us until tomorrow, Wednesday, 3rd May, 2000. We wish them a very enjoyable and fruitful stay in our country.</p>
+         <p/>
+         <p>
+            <text:tab/>
+         </p>
+         <text:section text:style-name="Sect7" text:name="comment637824" BungeniSectionType="Observation" BungeniSpeechType="CommunicationFromChair" BungeniSpeechBy="userSpeaker">
+            <p>(Applause)</p>
+         </text:section>
+         <p/>
+         <p>
+            <text:tab/>I also wish to welcome the delegation of the Ugandan Members of Parliamentary Sports Club who have been touring Kenya since 26th April, 2000, to play several football matches against our Bunge Football Club and to visit various projects in Western Kenya, Mombasa and Nairobi.</p>
+         <p>They are the following:</p>
+         <p>The Hon. Mrs. Mary Nsangi Kakembo, MP; Minister of State in Charge of Gender. She is the leader of the delegation.</p>
+         <p>The Hon. Wanjusi Wasieba, M.P.</p>
+         <p>The Hon. I. Timothy Mutesasira, M.P.</p>
+         <p>The Hon. Wagidoso Madibo, M.P.</p>
+         <p>The Hon. Clement Kandole, M.P.</p>
+         <p>The Hon. (Dr.) Apollo Karubag, M.P.</p>
+         <p>The Hon. Charles Egou, M.P.</p>
+         <p>The Hon. Selaiman Sembajja, M.P.</p>
+         <p/>
+         <p>The Hon. Ali Gabe, M.P.</p>
+         <p>The Hon. Aston Kajara, M.P.</p>
+         <p>
+            <text:soft-page-break/>The Hon. Adome Lokwi, M.P.</p>
+         <p>The Hon. Katwiremu Yerokamu, M.P.</p>
+         <p>The Hon. Reagan Okumu, M.P.</p>
+         <p>The Hon. Kabakumba Abwoli, M.P.</p>
+         <p>The Hon. Christine Mwebesa, M.P.</p>
+         <p>The Hon. Kakoba Onyango, M.P.</p>
+         <p>The Hon. Seth Wambede, M.P.</p>
+         <p>The Hon. Patrick Nabutaala, M.P.</p>
+         <p>The Hon. Ofory Rugethe, M.P.</p>
+         <p>The Hon. Akika Othieno, M.P.</p>
+         <p>The Hon. Robert Kakooza, M.P.; and,</p>
+         <p>The Hon. David Kamusalo, M.P.</p>
+         <p>
+            <text:tab/>Thank you.</p>
+         <p/>
+      </text:section>
+      <p>
+         <text:tab/>
+      </p>
+      <text:section text:style-name="Sect1" text:name="comment645284">
+         <p>(Applause)</p>
+      </text:section>
+      <p/>
+      <text:section text:style-name="Sect8" text:name="questions903084" BungeniSectionType="QuestionsContainer" BungeniQuestionsContainerType="OralAnswersToQuestions">
+         <p>
+            <text:tab/>ORAL ANSWERS TO QUESTIONS</p>
+         <p/>
+         <text:section text:style-name="Sect9" text:name="qa38499" BungeniSectionType="QuestionAnswer" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred">
+            <p>
+               <text:tab/>Question No<text:reference-mark-start text:name="BungeniQuestionNo:126"/>126<text:reference-mark-end text:name="BungeniQuestionNo:126"/>
+            </p>
+            <p/>
+            <p>
+               <text:span text:style-name="T1">
+                  <text:tab/>
+               </text:span>
+               <text:span text:style-name="T3">Number of City Residents</text:span>
+            </p>
+            <p>
+               <text:span text:style-name="T3">
+                  <text:tab/>Killed by Gangsters</text:span>
+               <text:span text:style-name="T1"/>
+            </p>
+            <p/>
+            <text:section text:style-name="Sect1" text:name="question38499">
+               <p>
+                  <text:span text:style-name="T2">
+                     <text:tab/>
+                  </text:span>
+                  <text:reference-mark-start text:name="BungeniQuestionBy:126"/>
+                  <text:span text:style-name="T2">Mr. Mwenje</text:span>
+                  <text:reference-mark-end text:name="BungeniQuestionBy:126"/>
+                  <text:span text:style-name="T2"/>
+                  <text:span text:style-name="T1">asked the</text:span>
+                  <text:reference-mark-start text:name="BungeniQuestionTo:126"/>
+                  <text:span text:style-name="T1">Minister of State, Office of the president</text:span>
+                  <text:reference-mark-end text:name="BungeniQuestionTo:126"/>
+                  <text:span text:style-name="T1">:-</text:span>
+               </p>
+               <p>
+                  <text:tab/>(a) whether he could inform the House how many people have been killed by gangsters in Nairobi during the last one year; and,</p>
+               <p>
+                  <text:tab/>(b) how many gangsters have been killed in Nairobi by security personnel within the same period.</p>
+            </text:section>
+            <p>
+               <text:tab/>
+            </p>
+            <text:section text:style-name="Sect10" text:name="speech993802" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechBy="userMadoka" BungeniSpeechID="1">
+               <text:section text:style-name="Sect11" text:name="heading883028" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechBy="userMadoka" BungeniSpeechID="1">
+                  <p>
+                     <text:reference-mark-start text:name="BungeniSpeechAs:1"/>The minister of state, Office of the president<text:reference-mark-end text:name="BungeniSpeechAs:1"/>(<text:reference-mark-start text:name="BungeniSpeechBy:1"/>Maj. Madoka<text:reference-mark-end text:name="BungeniSpeechBy:1"/>):</p>
+               </text:section>
+               <p>Mr. Speaker, Sir, I would like to request that I be allowed to answer this Question tomorrow. I got certain details which were not complete and I am doing some thorough investigation.</p>
+            </text:section>
+            <text:section text:style-name="Sect12" text:name="speech939004" BungeniSectionType="QuestionAnswer" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="2" BungeniSpeechBy="userSpeaker" BungeniSpeechTo="userMwenje">
+               <text:section text:style-name="Sect13" text:name="heading838209" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="2">
+                  <p>
+                     <text:span text:style-name="T2">
+                        <text:tab/>
+                     </text:span>
+                     <text:reference-mark-start text:name="BungeniSpeechAs:2"/>
+                     <text:span text:style-name="T2">Mr. Speaker</text:span>
+                     <text:reference-mark-end text:name="BungeniSpeechAs:2"/>
+                     <text:span text:style-name="T1">:</text:span>
+                  </p>
+               </text:section>
+               <p>What is your reaction, Mr. Mwenje?</p>
+            </text:section>
+            <p>
+               <text:tab/>
+            </p>
+            <text:section text:style-name="Sect14" text:name="speech993029" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniSpeechBy="userMwenje" BungeniSpeechTo="userSpeaker" BungeniSpeechID="4">
+               <text:section text:style-name="Sect15" text:name="heading927624" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="4" BungeniSpeechBy="userMwenje">
+                  <p>
+                     <text:reference-mark-start text:name="BungeniSpeechAs:4"/>
+                     <text:span text:style-name="T2">Mr. Mwenje</text:span>
+                     <text:reference-mark-end text:name="BungeniSpeechAs:4"/>
+                     <text:span text:style-name="T1">:</text:span>
+                  </p>
+               </text:section>
+               <p>
+                  <text:s/>Mr. Speaker, Sir, that is very interesting! This Question was among the first Questions that I sent immediately Parliament was opened. Iut has taken all this long to be brought before this House. I do not see the reason why the Minister should now come and tell us that he is still not ready. He has not given even the answer that he thinks is not right and it has not been passed over to me.</p>
+            </text:section>
+            <text:section text:style-name="Sect16" text:name="speech987363" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniSpeechTo="userMwenje" BungeniSpeechBy="userSpeaker" BungeniSpeechID="5">
+               <text:section text:style-name="Sect1" text:name="heading827947">
+                  <p>
+                     <text:span text:style-name="T2">
+                        <text:tab/>
+                     </text:span>
+                     <text:reference-mark-start text:name="BungeniSpeechAs:5"/>
+                     <text:span text:style-name="T2">Mr. Speaker</text:span>
+                     <text:reference-mark-end text:name="BungeniSpeechAs:5"/>
+                     <text:span text:style-name="T1">:</text:span>
+                  </p>
+               </text:section>
+               <p>Very well. What do you want me to do now, Mr. Mwenje?</p>
+               <p/>
+            </text:section>
+            <text:section text:style-name="Sect17" text:name="speech983702" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniSpeechBy="userMwenje" BungeniSpeechID="6">
+               <p>
+                  <text:tab/>
+               </p>
+               <text:section text:style-name="Sect1" text:name="heading892724">
+                  <p>
+                     <text:reference-mark-start text:name="BungeniSpeechAs:6"/>
+                     <text:span text:style-name="T2">Mr. Mwenje</text:span>
+                     <text:reference-mark-end text:name="BungeniSpeechAs:6"/>
+                     <text:span text:style-name="T1">:</text:span>
+                  </p>
+               </text:section>
+               <p>Mr. Speaker, Sir, first of all, could the Minister tell us what answer he has so that---</p>
+               <p/>
+            </text:section>
+            <text:section text:style-name="Sect18" text:name="comment082037" BungeniSectionType="Observation" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred">
+               <p>
+                  <text:tab/>(Loud consultations)</p>
+            </text:section>
+            <p/>
+            <p>
+               <text:tab/>
+            </p>
+            <text:section text:style-name="Sect19" text:name="speech918293" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniSpeechID="7" BungeniSpeechBy="userSpeaker">
+               <text:section text:style-name="Sect1" text:name="heading880208">
+                  <p>
+                     <text:reference-mark-start text:name="BungeniSpeechAs:7"/>
+                     <text:span text:style-name="T2">Mr. Speaker</text:span>
+                     <text:reference-mark-end text:name="BungeniSpeechAs:7"/>
+                     <text:span text:style-name="T1">:</text:span>
+                  </p>
+               </text:section>
+               <p>
+                  <text:span text:style-name="T1">Order! I consider it is best that we have an answer rather than take our time on preliminaries which will not help us in any way. But, Mr. Minister, you must be mindful of the fact that, you are duty-bound to come to this House</text:span>
+                  <text:soft-page-break/>
+                  <text:span text:style-name="T1">promptly and answer Questions.</text:span>
+               </p>
+               <p>
+                  <text:tab/>I will defer the Question to tomorrow afternoon.</p>
+            </text:section>
+            <p/>
+            <p>
+               <text:tab/>
+            </p>
+            <text:section text:style-name="Sect20" text:name="comment827497" BungeniSectionType="ActionEvent" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniActionEvent="QuestionDeferred">
+               <p>(Question deferred)</p>
+            </text:section>
+            <p/>
+         </text:section>
+         <p>
+            <text:tab/>
+         </p>
+         <text:section text:style-name="Sect21" text:name="speech899372" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechBy="userGatabaki" BungeniSpeechType="PointOfOrder" BungeniSpeechID="8">
+            <text:section text:style-name="Sect22" text:name="heading820817" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechBy="userGatabaki" BungeniSpeechType="Person" BungeniSpeechID="8">
+               <p>
+                  <text:reference-mark-start text:name="BungeniSpeechAs:8"/>
+                  <text:span text:style-name="T2">Mr. Gatabaki</text:span>
+                  <text:reference-mark-end text:name="BungeniSpeechAs:8"/>
+                  <text:span text:style-name="T1">:</text:span>
+               </p>
+            </text:section>
+            <p>On a point of order, Mr. Speaker, Sir. Is it in order for the Minister to be continuously following the President to the detriment of answering Questions?</p>
+         </text:section>
+         <text:section text:style-name="Sect23" text:name="speech890297" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechID="9" BungeniSpeechType="PointOfOrder" BungeniSpeechBy="userSpeaker">
+            <p>
+               <text:tab/>
+            </p>
+            <text:section text:style-name="Sect24" text:name="heading722863" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechID="9" BungeniSpeechType="Person">
+               <p>
+                  <text:reference-mark-start text:name="BungeniSpeechAs:9"/>
+                  <text:span text:style-name="T2">Mr. Speaker</text:span>
+                  <text:reference-mark-end text:name="BungeniSpeechAs:9"/>
+                  <text:span text:style-name="T1">:</text:span>
+               </p>
+            </text:section>
+            <p>Order! Order, hon. Gatabaki! Who would you wish rather he followed, anyway?</p>
+            <p>
+               <text:tab/>Next Question, Dr. Kulundu!</p>
+         </text:section>
+         <p/>
+         <p/>
+         <p/>
+      </text:section>
+      <p/>
+      <p/>
+      <p/>
+      <text:section text:style-name="Sect25" text:name="comment993827" BungeniSectionType="ActionEvent" BungeniActionEvent="Adjournment">
+         <p>
+            <text:tab/>ADJOURNMENT</p>
+      </text:section>
+      <p/>
+      <text:section text:style-name="Sect26" text:name="speech908727" BungeniSectionType="Speech" BungeniSpeechID="12" BungeniSpeechBy="userDySpeaker" BungeniSpeechType="ProceduralMotion" BungeniActionEvent="Adjournment">
+         <p>
+            <text:span text:style-name="T2">
+               <text:tab/>
+            </text:span>
+         </p>
+         <text:section text:style-name="Sect28" text:name="heading993728" BungeniSectionType="Person" BungeniSpeechID="12" BungeniSpeechBy="userDySpeaker" BungeniSpeechType="ProceduralMotion" BungeniActionEvent="Adjournment">
+            <p>
+               <text:reference-mark-start text:name="BungeniSpeechAs:12"/>
+               <text:span text:style-name="T2">The Temporary Deputy Speaker</text:span>
+               <text:span text:style-name="T1"/>
+               <text:reference-mark-end text:name="BungeniSpeechAs:12"/>
+               <text:span text:style-name="T1">(</text:span>
+               <text:reference-mark-start text:name="BungeniSpeechBy:12"/>
+               <text:span text:style-name="T1">Mr. Musila</text:span>
+               <text:reference-mark-end text:name="BungeniSpeechBy:12"/>
+               <text:span text:style-name="T1">):<text:s/>
+               </text:span>
+            </p>
+         </text:section>
+         <p>Hon. Kibaki, you will continue with your contribution tomorrow.</p>
+         <p>
+            <text:tab/>Hon. Members, it is now time to interrupt the business of today.<text:s/>The House, therefore, is adjourned until tomorrow Wednesday, the 3rd of May, 2000, at 9.00 a.m.</p>
+      </text:section>
+      <p/>
+      <text:section text:style-name="Sect27" text:name="comment883783" BungeniSectionType="ActionEvent" BungeniActionEvent="HouseClosing" BungeniHouseRisingTime="18:30">
+         <p>
+            <text:tab/>The House rose at<text:reference-mark-start text:name="BungeniHouseRisingTime"/>6.30 p.m<text:reference-mark-end text:name="BungeniHouseRisingTime"/>.</p>
+      </text:section>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p>
+         <text:soft-page-break/>
+      </p>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+      <p/>
+   </text:section>
+</akomantoso>

@@ -4,5 +4,6 @@
 	<stylesheets>
 		<xslt step="1" name="firststep" href="resources/stylesheets/debaterecord/common/FirstStep.xsl" />
 		<xslt step="2" name="secondstep" href="resources/stylesheets/debaterecord/common/SecondStep.xsl" />
+		<xslt step="3" name="thirdstep" href="resources/stylesheets/debaterecord/common/ThirdStep.xsl" />
 	</stylesheets>
 </config>

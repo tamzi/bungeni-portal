@@ -3,8 +3,8 @@ package org.un.bungeni.translators.odttoakn.translator;
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.stream.StreamSource;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.xml.sax.SAXException;
@@ -27,5 +27,5 @@ public interface TranslatorInterface
 	 * @throws XPathExpressionException 
 	 * @throws TransformerException 
 	 */
-	public Source translate(String aDocumentPath, String aConfigurationPath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException;
+	public StreamSource translate(String aDocumentPath, String aConfigurationPath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException;
 }

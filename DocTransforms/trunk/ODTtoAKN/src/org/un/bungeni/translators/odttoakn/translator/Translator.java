@@ -60,7 +60,7 @@ public class Translator implements TranslatorInterface
 	 * @throws XPathExpressionException 
 	 * @throws TransformerException 
 	 */
-	public Source translate(String aDocumentPath, String aConfigurationPath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException
+	public StreamSource translate(String aDocumentPath, String aConfigurationPath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException
 	{
 		//get the File of the configuration 
 		Document configurationDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(aConfigurationPath);
@@ -94,7 +94,7 @@ public class Translator implements TranslatorInterface
 		}
 		
 		// create an instance of TransformerFactory
-	    TransformerFactory transFact = TransformerFactory.newInstance();
+	    /*TransformerFactory transFact = TransformerFactory.newInstance();
 	 
 	    //create a new transformer
 	    Transformer trans = transFact.newTransformer();
@@ -103,9 +103,9 @@ public class Translator implements TranslatorInterface
 	    StringWriter resultString = new StringWriter();
 	    
 	    //perform the transformation
-	    trans.transform(iteratedDocument, new StreamResult(resultString));
+	    trans.transform(iteratedDocument, new StreamResult(resultString));*/
 
-	    System.out.println(resultString.toString());
+	    //System.out.println(resultString.toString());
 	    
 		//return the Source of the new document
 	    return iteratedDocument;

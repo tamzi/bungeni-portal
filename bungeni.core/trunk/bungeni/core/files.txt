@@ -1,0 +1,56 @@
+
+Files
+-----
+
+We store files in a subversion repository. A IVersionedFileUtility allows fetching files for a given
+object.
+
+
+First some setup code..
+
+  >>> from bungeni.core import domain, interfaces
+  >>> from zope.component import getMultiAdapter
+  >>> from ore.alchemist import Session
+  >>> from datetime import datetime, date
+  >>> from cStringIO import StringIO 
+  >>> import transaction
+
+To demonstrate let's create some groups and a content object which we'll attach files to.
+
+  >>> bill = domain.Bill( title=u"terra")
+  >>> bill2 = domain.Bill( title=u"firma")
+  >>> committee = domain.Committee(short_name=u"Committee", start_date=datetime.now())
+  >>> committee2 = domain.Committee(short_name=u"Committee 2", start_date=datetime.now())
+  >>> stored = map( Session().save, ( bill, bill2, committee, committee2 ) )
+  >>> transaction.commit()
+  >>> today = date.today()
+
+Now we can store attachements on some content
+
+  >>> files = interfaces.IDirectoryLocation( bill ).directory
+  >>> files
+  <ore.svn.directory.SubversionDirectory object at ...>
+  
+For testing purposes, we'll commit the changes to the repository now, so we can 
+demonstrate the transaction integration next.
+
+  >>> transaction.commit()
+  
+Let's add a simple attachment file.
+
+  >>> file = files.makeFile('rabbit.txt')
+  >>> stream = StringIO("Hello World")
+  >>> file.writeStream( stream )
+  >>> file.svn_path == "/bill/%s-%s/%s/rabbit.txt"%( today.year, today.month, today.day )
+  True
+  
+  >>> files.keys()
+  ['rabbit.txt']  
+  
+All changes are integrated with the zope transaction system, if we abort the transaction, our modifications are aborted.
+
+  >>> transaction.abort()
+  >>> files.keys()
+  []
+  
+The api (readme.txt) for ore.svn is recommended reading on working with versioned files/directories

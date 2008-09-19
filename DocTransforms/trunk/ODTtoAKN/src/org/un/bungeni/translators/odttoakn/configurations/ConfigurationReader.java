@@ -1,15 +1,20 @@
 package org.un.bungeni.translators.odttoakn.configurations;
 
+import java.io.IOException;
 import java.util.HashMap;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.un.bungeni.translators.odttoakn.map.Map;
 import org.un.bungeni.translators.odttoakn.steps.ConfigStep;
 import org.un.bungeni.translators.xpathresolver.XPathResolver;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * This is the reader of the configuration.
@@ -20,14 +25,24 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 	//the XML that contains the configurations
 	private Document configXML; 
 	
+	//this is the map object for this configuration reader 
+	private Map configMap;
+	
 	/**
 	 * Create a new Configuration reader object builded on the given Config XML file 
 	 * @param aConfigXML the XML file that contains the configuration 
+	 * @throws ParserConfigurationException 
+	 * @throws IOException 
+	 * @throws SAXException 
+	 * @throws XPathExpressionException 
 	 */
-	public ConfigurationReader(Document aConfigXML)
+	public ConfigurationReader(Document aConfigXML) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException
 	{
 		//save the config XML
 		this.configXML = aConfigXML;
+		
+		//create the map object 
+		this.configMap = this.createMap();
 	}
 	
 	/**
@@ -131,5 +146,42 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 		//return the hash map containing all the Steps
 		return resultMap;
 	}
-
+	
+	/**
+	 * Returns the Map object related to this Configuration object
+	 * @return the map object related to this configuration object
+	 */
+	public Map getConfigurationMap()
+	{
+		//copy the configMap object
+		Map aConfigMap = this.configMap;
+		//return the configMap object
+		return aConfigMap;
+	}
+	
+	/**
+	 * Private method that creates the Map object builded on the map referred in this configuration
+	 * @return the map object contained in this configuration
+	 * @throws XPathExpressionException 
+	 * @throws ParserConfigurationException 
+	 * @throws IOException 
+	 * @throws SAXException 
+	 */
+	private Map createMap() throws XPathExpressionException, SAXException, IOException, ParserConfigurationException
+	{
+		//retreive the XPath resolver instance 
+		XPathResolver xresolver = XPathResolver.getInstance();
+		
+		//get the step with the given nama in this configuration
+		String mapLocation = (String)xresolver.evaluate(this.configXML, "//map/@href", XPathConstants.STRING);
+		
+		//create the map DOM 
+		Document mapDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(mapLocation);
+		
+		//create the Map Object builded on the mapDoc
+		Map resultMap = new Map(mapDoc);
+		
+		//returns the map object
+		return resultMap;
+	}
 }

@@ -10,7 +10,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.un.bungeni.translators.odttoakn.configurations.Configuration;
+import org.un.bungeni.translators.odttoakn.map.Map;
 import org.un.bungeni.translators.odttoakn.steps.ConfigStep;
+import org.un.bungeni.translators.odttoakn.steps.MapStep;
 import org.un.bungeni.translators.xslttransformer.XSLTTransformer;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -75,7 +77,7 @@ public class Translator implements TranslatorInterface
 		//get the Document Stream
 		StreamSource iteratedDocument = new StreamSource(new File(aDocumentPath));
 		
-		//while the Iterator has steps ally the transformation
+		//while the Iterator has steps aplly the transformation
 		while(mapIterator.hasNext())
 		{
 			//get the next step
@@ -90,7 +92,37 @@ public class Translator implements TranslatorInterface
 			//start the transformation
 			iteratedDocument = XSLTTransformer.getInstance().transform(iteratedDocument, xsltStream);
 		}
-			    
+		
+		//get the map for this configuration 
+		Map configurationMap = configuration.getConfigurationMap();
+		
+		//get the map resolver from the map 
+		String mapResolverPath = configurationMap.getMapResolver();
+		
+		//create the stream source of the XSLT resolver
+		StreamSource mapResolverStream = new StreamSource(new File(mapResolverPath));
+
+		//get the map steps from the map 
+		HashMap<Integer,MapStep> mapSteps = configurationMap.getMapSteps();
+		
+		//create an iterator on the hash map
+		Iterator<MapStep> mapStepsIterator = mapSteps.values().iterator();
+		
+		//while the Iterator has steps aplly the transformation
+		while(mapStepsIterator.hasNext())
+		{
+			//get the next step
+			MapStep nextMapStep = (MapStep)mapStepsIterator.next();
+			
+			//get the map step info to create the params  
+			String paramType = "text:section";//nextMapStep.getType();
+			String paramName = "debaterecord";//nextMapStep.getName();
+			String paramBungeniSectionType = "debaterecord";//nextMapStep.getBungeniSectionType();
+			String paramResult = "debaterecord";//nextMapStep.getResult();
+						
+			//start the transformation
+			iteratedDocument = XSLTTransformer.getInstance().transform(iteratedDocument, mapResolverStream);
+		}
 		//return the Source of the new document
 	    return iteratedDocument;
 	}

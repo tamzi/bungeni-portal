@@ -3,6 +3,7 @@ import java.util.HashMap;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import org.un.bungeni.translators.odttoakn.map.Map;
 import org.un.bungeni.translators.odttoakn.steps.ConfigStep;
 
 /**
@@ -42,7 +43,13 @@ public interface ConfigurationInterface
 	 * @throws XPathExpressionException 
 	 */
 	public HashMap<Integer,ConfigStep> getSteps() throws XPathExpressionException;
-	
+		
+	/**
+	 * Returns the Map object related to this Configuration object
+	 * @return the map object related to this configuration object
+	 */
+	public Map getConfigurationMap();
+
 	/**
 	 * Add a step to the configuration file 
 	 * @param aStep the step that you want to add to the configuration object

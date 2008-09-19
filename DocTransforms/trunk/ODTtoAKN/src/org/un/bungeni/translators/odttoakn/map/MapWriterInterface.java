@@ -12,5 +12,5 @@ public interface MapWriterInterface
 	 * Add a step to the map file 
 	 * @param aMapStep the step that you want to add to the configuration object
 	*/
-	public void writeStep(MapStep aStep);
+	public void writeMapStep(MapStep aStep);
 }

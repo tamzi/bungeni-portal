@@ -1,11 +1,15 @@
 package org.un.bungeni.translators.odttoakn.configurations;
 
+import java.io.IOException;
 import java.util.HashMap;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.un.bungeni.translators.odttoakn.map.Map;
 import org.un.bungeni.translators.odttoakn.steps.ConfigStep;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 /**
  * This is the configuration object. 
@@ -22,8 +26,12 @@ public class Configuration implements ConfigurationInterface
 	/**
 	 * Create a new configuration based on a given Configuration XML file
 	 * @param aConfigXML the XML Document in witch the configuration is written 
+	 * @throws ParserConfigurationException 
+	 * @throws IOException 
+	 * @throws SAXException 
+	 * @throws XPathExpressionException 
 	 */
-	public Configuration(Document aConfigXML)
+	public Configuration(Document aConfigXML) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException
 	{
 		//create the writer
 		this.writer = new ConfigurationWriter(aConfigXML);
@@ -92,9 +100,22 @@ public class Configuration implements ConfigurationInterface
 		return resultSteps;
 	}
 
-	public void writeStep(ConfigStep step) {
-		// TODO Auto-generated method stub
+	/**
+	 * Returns the Map object related to this Configuration object
+	 * @return the map object related to this configuration object
+	 */
+	public Map getConfigurationMap()
+	{
+		//get the map object of this configuration
+		Map configurationMap = this.reader.getConfigurationMap();
+		
+		//return the map object of this configuration
+		return configurationMap;
+	}
 
+	public void writeStep(ConfigStep step) 
+	{
+		System.out.println(this.writer.toString());
 	}
 
 }

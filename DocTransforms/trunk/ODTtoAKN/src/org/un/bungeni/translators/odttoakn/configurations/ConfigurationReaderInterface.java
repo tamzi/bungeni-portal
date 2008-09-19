@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import javax.xml.xpath.XPathExpressionException;
 
+import org.un.bungeni.translators.odttoakn.map.Map;
 import org.un.bungeni.translators.odttoakn.steps.ConfigStep;
 
 /**
@@ -43,5 +44,11 @@ public interface ConfigurationReaderInterface
 	 * @throws XPathExpressionException 
 	 */
 	public HashMap<Integer,ConfigStep> getSteps() throws XPathExpressionException;
+	
+	/**
+	 * Returns the Map object related to this Configuration object
+	 * @return the map object related to this configuration object
+	 */
+	public Map getConfigurationMap();
 
 }

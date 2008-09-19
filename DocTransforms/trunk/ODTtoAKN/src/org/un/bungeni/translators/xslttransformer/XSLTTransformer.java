@@ -20,13 +20,11 @@ public class XSLTTransformer implements XSLTTransformerInterface
 	/* The instance of this XSLTTransformer*/
 	private static XSLTTransformer instance = null;
 	
-
 	/**
 	 * Private constructor used to create the XSLTTransformer instance
 	 */
 	private XSLTTransformer()
 	{
-		
 	}
 	
 	/**
@@ -54,15 +52,16 @@ public class XSLTTransformer implements XSLTTransformerInterface
 	 */
 	public StreamSource transform(StreamSource aDocumentSource, StreamSource anXSLTSource) throws TransformerException
 	{
+	    
 		//set the compilator to use SAXON
 		System.setProperty("javax.xml.transform.TransformerFactory","net.sf.saxon.TransformerFactoryImpl");
 		
-	   // create an instance of TransformerFactory
+	    //create an instance of TransformerFactory
 	    TransformerFactory transFact = TransformerFactory.newInstance();
 	 
 	    //create a new transformer
 	    Transformer trans = transFact.newTransformer(anXSLTSource);
-	    
+		
 	    //create the writer for the transformation
 	    StringWriter resultString = new StringWriter();
 	    

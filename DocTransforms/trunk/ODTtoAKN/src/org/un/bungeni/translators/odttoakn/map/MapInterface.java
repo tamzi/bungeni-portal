@@ -58,6 +58,12 @@ public interface MapInterface
 	 * @return the location (the path) of the resolver for this map
 	 * @throws XPathExpressionException 
 	 */
-	public String getMapMap() throws XPathExpressionException;
+	public String getMapResolver() throws XPathExpressionException;
+	/**
+	 * Add a step to the map file 
+	 * @param aMapStep the map step that you want to add to the configuration object
+	*/
+	public void writeMapStep(MapStep aStep);
+
 
 }

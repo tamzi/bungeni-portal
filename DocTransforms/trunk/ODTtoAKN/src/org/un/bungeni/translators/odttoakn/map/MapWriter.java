@@ -7,7 +7,7 @@ import org.w3c.dom.Document;
  * This is the map writer object
  * A map writer is used to write map xlm or to create a new map XML.
  */
-public class MapWriter 
+public class MapWriter implements MapWriterInterface
 {
 	//the XML that contains the map
 	private Document mapXML; 
@@ -26,7 +26,7 @@ public class MapWriter
 	 * Add a step to the map file 
 	 * @param aMapStep the step that you want to add to the configuration object
 	*/
-	public void writeStep(MapStep aStep)
+	public void writeMapStep(MapStep aStep)
 	{
 		System.out.println(this.mapXML.toString());
 	}

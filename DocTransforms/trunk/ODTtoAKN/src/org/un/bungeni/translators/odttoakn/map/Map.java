@@ -4,9 +4,6 @@ import java.util.HashMap;
 
 import javax.xml.xpath.XPathExpressionException;
 
-import org.un.bungeni.translators.odttoakn.configurations.ConfigurationReader;
-import org.un.bungeni.translators.odttoakn.configurations.ConfigurationWriter;
-import org.un.bungeni.translators.odttoakn.steps.ConfigStep;
 import org.un.bungeni.translators.odttoakn.steps.MapStep;
 import org.w3c.dom.Document;
 
@@ -122,7 +119,7 @@ public class Map implements MapInterface
 	 * @return the location (the path) of the resolver for this map
 	 * @throws XPathExpressionException 
 	 */
-	public String getMapMap() throws XPathExpressionException
+	public String getMapResolver() throws XPathExpressionException
 	{
 		//ask the reader to get all location of the resolver
 		String resolverLocation = this.reader.getMapResolver();
@@ -130,4 +127,14 @@ public class Map implements MapInterface
 		//return the gotten location of the resolver
 		return resolverLocation;
 	}
+	
+	/**
+	 * Add a step to the map file 
+	 * @param aMapStep the map step that you want to add to the configuration object
+	*/
+	public void writeMapStep(MapStep aStep)
+	{
+		System.out.println(this.writer.toString());
+	}
+
 }

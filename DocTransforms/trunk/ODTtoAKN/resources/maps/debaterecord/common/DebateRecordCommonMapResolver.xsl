@@ -41,11 +41,11 @@
             <xsl:when test="name(.) = $type and (@text:name=$name or @bungeniSectionType=$bungeniSectionType)">
                <xsl:element name="{$result}">
                    <xsl:for-each select="@*">
-                       <xsl:if test="name(.) != 'bungeniSectionType' and name(.) != text:*"> 
+                      <!-- <xsl:if test="name(.) != 'bungeniSectionType' and name(.) != text:*"> -->
                            <xsl:attribute name="{name(.)}">
                                <xsl:value-of select="."/>
                            </xsl:attribute>
-                       </xsl:if>
+                      <!-- </xsl:if> -->
                    </xsl:for-each>
                    <xsl:apply-templates />
                </xsl:element> 

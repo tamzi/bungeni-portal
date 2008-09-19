@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config name="DebateRecordCommon">
-	<map href="resources/maps/debaterecord/DebateRecordCommonMap.xml" />
+	<map href="resources/maps/debaterecord/common/DebateRecordCommonMap.xml" />
 	<stylesheets>
 		<xslt step="1" name="firststep" href="resources/stylesheets/debaterecord/common/FirstStep.xsl" />
 		<xslt step="2" name="secondstep" href="resources/stylesheets/debaterecord/common/SecondStep.xsl" />

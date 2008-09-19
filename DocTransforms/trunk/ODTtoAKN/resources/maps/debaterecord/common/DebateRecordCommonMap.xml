@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <map>
-	<mapresolver href="resources/maps/debaterecord/DebateRecordCommonMapResolver.xsl" />
+	<mapresolver href="resources/maps/debaterecord/common/DebateRecordCommonMapResolver.xsl" />
 	<elements>
 		<element id="1" type="text:section" name="debaterecord" bungeniSectionType="debaterecord" result="debaterecord" />
 		<element id="2" type="text:section" name="masthead" bungeniSectionType="MastHead" result="preface" /> 

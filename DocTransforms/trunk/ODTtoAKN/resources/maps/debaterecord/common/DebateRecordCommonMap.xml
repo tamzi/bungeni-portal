@@ -4,5 +4,13 @@
 	<elements>
 		<element id="1" type="text:section" name="debaterecord" bungeniSectionType="debaterecord" result="debaterecord" />
 		<element id="2" type="text:section" name="masthead" bungeniSectionType="MastHead" result="preface" /> 
+		<element id="3" type="text:section" name="Observation" bungeniSectionType="Observation" result="comment" /> 
+		<element id="4" type="text:section" name="GroupActivity" bungeniSectionType="GroupActivity" result="comment" /> 
+		<element id="5" type="text:section" name="Speech" bungeniSectionType="Speech" result="Communication" /> 
+		<element id="6" type="text:section" name="QuestionsContainer" bungeniSectionType="QuestionsContainer" result="subdivision" /> 
+		<element id="7" type="text:section" name="QuestionAnswer" bungeniSectionType="QuestionAnswer" result="Questions" /> 
+		<element id="8" type="text:section" name="Question" bungeniSectionType="Question" result="question" /> 
+		<element id="9" type="text:section" name="PointOfOrder" bungeniSectionType="PointOfOrder" result="PointOfOrder" /> 
+		<element id="10" type="text:section" name="ProceduralMotion" bungeniSectionType="ProceduralMotion" result="ProceduralMotions" /> 
 	</elements>
 </map>

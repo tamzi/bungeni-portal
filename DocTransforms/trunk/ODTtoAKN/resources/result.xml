@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?><akomantoso xmlns="http://www.akomantoso.org/">
-   <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect1" text:name="debaterecord">
-      <text:section text:style-name="Sect2" text:name="masthead" BungeniSectionType="MastHead" BungeniDebateOfficalDate="2000-05-02" BungeniDebateOfficalTime="14:30">
+   <debaterecord xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect1" text:name="debaterecord">
+      <preface text:style-name="Sect2" text:name="masthead" BungeniSectionType="MastHead" BungeniDebateOfficalDate="2000-05-02" BungeniDebateOfficalTime="14:30">
          <block>NATIONAL ASSEMBLY</block>
          <eol/>
          <block>OFFICIAL REPORT</block>
@@ -11,19 +11,19 @@
          <eol/>
          <p>The House met at<text:reference-mark-start text:name="BungeniDebateOfficalTime"/>2.30 p.m.<text:reference-mark-end text:name="BungeniDebateOfficalTime"/>
          </p>
-      </text:section>
+      </preface>
       <eol/>
       <p/>
-      <text:section text:style-name="Sect3" text:name="comment635267" BungeniSectionType="Observation">
+      <comment text:style-name="Sect3" text:name="comment635267" BungeniSectionType="Observation">
          <eol/>
-      </text:section>
+      </comment>
       <eol/>
       <block/>
-      <text:section text:style-name="Sect4" text:name="prayers637994" BungeniSectionType="GroupActivity">
+      <comment text:style-name="Sect4" text:name="prayers637994" BungeniSectionType="GroupActivity">
          <block>PRAYERS</block>
-      </text:section>
+      </comment>
       <eol/>
-      <text:section text:style-name="Sect5" text:name="speech75638" BungeniSectionType="Speech" BungeniSpeechType="CommunicationFromChair" BungeniSpeechBy="userSpeaker" BungeniSpeechID="3">
+      <Communication text:style-name="Sect5" text:name="speech75638" BungeniSectionType="Speech" BungeniSpeechType="CommunicationFromChair" BungeniSpeechBy="userSpeaker" BungeniSpeechID="3">
          <block>COMMUNICATION FROM THE CHAIR</block>
          <eol/>
          <p>Distinguished Guests</p>
@@ -44,9 +44,9 @@
          <p>The delegation arrived in the country on Friday, 28th April, 2000, and will be with us until tomorrow, Wednesday, 3rd May, 2000. We wish them a very enjoyable and fruitful stay in our country.</p>
          <eol/>
          <p/>
-         <text:section text:style-name="Sect7" text:name="comment637824" BungeniSectionType="Observation" BungeniSpeechType="CommunicationFromChair" BungeniSpeechBy="userSpeaker">
+         <comment text:style-name="Sect7" text:name="comment637824" BungeniSectionType="Observation" BungeniSpeechType="CommunicationFromChair" BungeniSpeechBy="userSpeaker">
             <eol/>
-         </text:section>
+         </comment>
          <eol/>
          <p>I also wish to welcome the delegation of the Ugandan Members of Parliamentary Sports Club who have been touring Kenya since 26th April, 2000, to play several football matches against our Bunge Football Club and to visit various projects in Western Kenya, Mombasa and Nairobi.</p>
          <eol/>
@@ -76,16 +76,16 @@
          <eol/>
          <p>Thank you.</p>
          <eol/>
-      </text:section>
+      </Communication>
       <p/>
       <text:section text:style-name="Sect1" text:name="comment645284">
          <eol/>
       </text:section>
       <eol/>
-      <text:section text:style-name="Sect8" text:name="questions903084" BungeniSectionType="QuestionsContainer" BungeniQuestionsContainerType="OralAnswersToQuestions">
+      <subdivision text:style-name="Sect8" text:name="questions903084" BungeniSectionType="QuestionsContainer" BungeniQuestionsContainerType="OralAnswersToQuestions">
          <p>ORAL ANSWERS TO QUESTIONS</p>
          <eol/>
-         <text:section text:style-name="Sect9" text:name="qa38499" BungeniSectionType="QuestionAnswer" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred">
+         <Questions text:style-name="Sect9" text:name="qa38499" BungeniSectionType="QuestionAnswer" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred">
             <p>Question No<text:reference-mark-start text:name="BungeniQuestionNo:126"/>126<text:reference-mark-end text:name="BungeniQuestionNo:126"/>
             </p>
             <eol/>
@@ -115,14 +115,14 @@
                <p>(b) how many gangsters have been killed in Nairobi by security personnel within the same period.</p>
             </text:section>
             <p/>
-            <text:section text:style-name="Sect10" text:name="speech993802" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechBy="userMadoka" BungeniSpeechID="1">
+            <Communication text:style-name="Sect10" text:name="speech993802" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechBy="userMadoka" BungeniSpeechID="1">
                <text:section text:style-name="Sect11" text:name="heading883028" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechBy="userMadoka" BungeniSpeechID="1">
                   <p>
                      <text:reference-mark-start text:name="BungeniSpeechAs:1"/>The minister of state, Office of the president<text:reference-mark-end text:name="BungeniSpeechAs:1"/>(<text:reference-mark-start text:name="BungeniSpeechBy:1"/>Maj. Madoka<text:reference-mark-end text:name="BungeniSpeechBy:1"/>):</p>
                </text:section>
                <eol/>
-            </text:section>
-            <text:section text:style-name="Sect12" text:name="speech939004" BungeniSectionType="QuestionAnswer" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="2" BungeniSpeechBy="userSpeaker" BungeniSpeechTo="userMwenje">
+            </Communication>
+            <Questions text:style-name="Sect12" text:name="speech939004" BungeniSectionType="QuestionAnswer" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="2" BungeniSpeechBy="userSpeaker" BungeniSpeechTo="userMwenje">
                <text:section text:style-name="Sect13" text:name="heading838209" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="2">
                   <p>
                      <span/>
@@ -133,9 +133,9 @@
                   </p>
                </text:section>
                <eol/>
-            </text:section>
+            </Questions>
             <p/>
-            <text:section text:style-name="Sect14" text:name="speech993029" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniSpeechBy="userMwenje" BungeniSpeechTo="userSpeaker" BungeniSpeechID="4">
+            <Communication text:style-name="Sect14" text:name="speech993029" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniSpeechBy="userMwenje" BungeniSpeechTo="userSpeaker" BungeniSpeechID="4">
                <text:section text:style-name="Sect15" text:name="heading927624" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="4" BungeniSpeechBy="userMwenje">
                   <p>
                      <text:reference-mark-start text:name="BungeniSpeechAs:4"/>
@@ -146,8 +146,8 @@
                </text:section>
                <p>
                   <text:s/>Mr. Speaker, Sir, that is very interesting! This Question was among the first Questions that I sent immediately Parliament was opened. Iut has taken all this long to be brought before this House. I do not see the reason why the Minister should now come and tell us that he is still not ready. He has not given even the answer that he thinks is not right and it has not been passed over to me.</p>
-            </text:section>
-            <text:section text:style-name="Sect16" text:name="speech987363" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniSpeechTo="userMwenje" BungeniSpeechBy="userSpeaker" BungeniSpeechID="5">
+            </Communication>
+            <Communication text:style-name="Sect16" text:name="speech987363" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniSpeechTo="userMwenje" BungeniSpeechBy="userSpeaker" BungeniSpeechID="5">
                <text:section text:style-name="Sect1" text:name="heading827947">
                   <p>
                      <span/>
@@ -159,8 +159,8 @@
                </text:section>
                <eol/>
                <eol/>
-            </text:section>
-            <text:section text:style-name="Sect17" text:name="speech983702" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniSpeechBy="userMwenje" BungeniSpeechID="6">
+            </Communication>
+            <Communication text:style-name="Sect17" text:name="speech983702" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniSpeechBy="userMwenje" BungeniSpeechID="6">
                <p/>
                <text:section text:style-name="Sect1" text:name="heading892724">
                   <p>
@@ -172,13 +172,13 @@
                </text:section>
                <eol/>
                <eol/>
-            </text:section>
-            <text:section text:style-name="Sect18" text:name="comment082037" BungeniSectionType="Observation" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred">
+            </Communication>
+            <comment text:style-name="Sect18" text:name="comment082037" BungeniSectionType="Observation" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred">
                <p>(Loud consultations)</p>
-            </text:section>
+            </comment>
             <eol/>
             <p/>
-            <text:section text:style-name="Sect19" text:name="speech918293" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniSpeechID="7" BungeniSpeechBy="userSpeaker">
+            <Communication text:style-name="Sect19" text:name="speech918293" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniSpeechID="7" BungeniSpeechBy="userSpeaker">
                <text:section text:style-name="Sect1" text:name="heading880208">
                   <p>
                      <text:reference-mark-start text:name="BungeniSpeechAs:7"/>
@@ -193,43 +193,43 @@
                   <eol/>
                </p>
                <p>I will defer the Question to tomorrow afternoon.</p>
-            </text:section>
+            </Communication>
             <eol/>
             <p/>
             <text:section text:style-name="Sect20" text:name="comment827497" BungeniSectionType="ActionEvent" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniActionEvent="QuestionDeferred">
                <eol/>
             </text:section>
             <eol/>
-         </text:section>
+         </Questions>
          <p/>
-         <text:section text:style-name="Sect21" text:name="speech899372" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechBy="userGatabaki" BungeniSpeechType="PointOfOrder" BungeniSpeechID="8">
-            <text:section text:style-name="Sect22" text:name="heading820817" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechBy="userGatabaki" BungeniSpeechType="Person" BungeniSpeechID="8">
+         <Communication text:style-name="Sect21" text:name="speech899372" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechBy="userGatabaki" BungeniSpeechType="PointOfOrder" BungeniSpeechID="8">
+            <Communication text:style-name="Sect22" text:name="heading820817" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechBy="userGatabaki" BungeniSpeechType="Person" BungeniSpeechID="8">
                <p>
                   <text:reference-mark-start text:name="BungeniSpeechAs:8"/>
                   <eol/>
                   <text:reference-mark-end text:name="BungeniSpeechAs:8"/>
                   <eol/>
                </p>
-            </text:section>
+            </Communication>
             <eol/>
-         </text:section>
-         <text:section text:style-name="Sect23" text:name="speech890297" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechID="9" BungeniSpeechType="PointOfOrder" BungeniSpeechBy="userSpeaker">
+         </Communication>
+         <Communication text:style-name="Sect23" text:name="speech890297" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechID="9" BungeniSpeechType="PointOfOrder" BungeniSpeechBy="userSpeaker">
             <p/>
-            <text:section text:style-name="Sect24" text:name="heading722863" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechID="9" BungeniSpeechType="Person">
+            <Communication text:style-name="Sect24" text:name="heading722863" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechID="9" BungeniSpeechType="Person">
                <p>
                   <text:reference-mark-start text:name="BungeniSpeechAs:9"/>
                   <eol/>
                   <text:reference-mark-end text:name="BungeniSpeechAs:9"/>
                   <eol/>
                </p>
-            </text:section>
+            </Communication>
             <eol/>
             <p>Next Question, Dr. Kulundu!</p>
-         </text:section>
+         </Communication>
          <eol/>
          <eol/>
          <eol/>
-      </text:section>
+      </subdivision>
       <eol/>
       <eol/>
       <eol/>
@@ -237,7 +237,7 @@
          <p>ADJOURNMENT</p>
       </text:section>
       <eol/>
-      <text:section text:style-name="Sect26" text:name="speech908727" BungeniSectionType="Speech" BungeniSpeechID="12" BungeniSpeechBy="userDySpeaker" BungeniSpeechType="ProceduralMotion" BungeniActionEvent="Adjournment">
+      <Communication text:style-name="Sect26" text:name="speech908727" BungeniSectionType="Speech" BungeniSpeechID="12" BungeniSpeechBy="userDySpeaker" BungeniSpeechType="ProceduralMotion" BungeniActionEvent="Adjournment">
          <p>
             <span/>
          </p>
@@ -257,7 +257,7 @@
          </text:section>
          <eol/>
          <p>Hon. Members, it is now time to interrupt the business of today.<text:s/>The House, therefore, is adjourned until tomorrow Wednesday, the 3rd of May, 2000, at 9.00 a.m.</p>
-      </text:section>
+      </Communication>
       <eol/>
       <text:section text:style-name="Sect27" text:name="comment883783" BungeniSectionType="ActionEvent" BungeniActionEvent="HouseClosing" BungeniHouseRisingTime="18:30">
          <p>The House rose at<text:reference-mark-start text:name="BungeniHouseRisingTime"/>6.30 p.m<text:reference-mark-end text:name="BungeniHouseRisingTime"/>.</p>
@@ -302,5 +302,5 @@
       <eol/>
       <eol/>
       <eol/>
-   </text:section>
+   </debaterecord>
 </akomantoso>

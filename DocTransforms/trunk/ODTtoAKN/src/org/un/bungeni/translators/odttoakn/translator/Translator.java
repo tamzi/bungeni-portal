@@ -114,14 +114,17 @@ public class Translator implements TranslatorInterface
 			//get the next step
 			MapStep nextMapStep = (MapStep)mapStepsIterator.next();
 			
-			//get the map step info to create the params  
-			String paramType = "text:section";//nextMapStep.getType();
-			String paramName = "debaterecord";//nextMapStep.getName();
-			String paramBungeniSectionType = "debaterecord";//nextMapStep.getBungeniSectionType();
-			String paramResult = "debaterecord";//nextMapStep.getResult();
-						
+			//the hash map that will contains the parametes
+			HashMap<String,Object> paramMap = new HashMap<String,Object>();
+			
+			//get the map step info and fill them into the params map  
+			paramMap.put("type", (String)nextMapStep.getType());
+			paramMap.put("name", (String)nextMapStep.getName());
+			paramMap.put("bungeniSectionType", (String)nextMapStep.getBungeniSectionType());
+			paramMap.put("result", (String)nextMapStep.getResult());
+			
 			//start the transformation
-			iteratedDocument = XSLTTransformer.getInstance().transform(iteratedDocument, mapResolverStream);
+			iteratedDocument = XSLTTransformer.getInstance().transformWithParam(iteratedDocument, mapResolverStream,paramMap);
 		}
 		//return the Source of the new document
 	    return iteratedDocument;

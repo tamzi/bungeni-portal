@@ -1,5 +1,7 @@
 package org.un.bungeni.translators.xslttransformer;
 
+import java.util.HashMap;
+
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 
@@ -17,4 +19,14 @@ public interface XSLTTransformerInterface
 	 * @throws TransformerException 
 	 */
 	public StreamSource transform(StreamSource aDocumentSource, StreamSource anXSLTSource) throws TransformerException;
+	
+	/**
+	 * This method applies the given XSLT with the given parameters to the given Document and returns the Document obtained after the transformation
+	 * @param aDocumentSource the stream source of the document to transform
+	 * @param anXSLTSource the stream source of the XSLT to apply to the document that you want to transform
+	 * @param aParamSet an Hash Map containing a set of pair (name, object) that are the parameters of the XSLT transformation
+	 * @return the new Document resulting applying the given XSLT to the given Docuement
+	 * @throws TransformerException 
+	 */
+	public StreamSource transformWithParam(StreamSource aDocumentSource, StreamSource anXSLTSource, HashMap<String,Object> aParamSet) throws TransformerException;
 }

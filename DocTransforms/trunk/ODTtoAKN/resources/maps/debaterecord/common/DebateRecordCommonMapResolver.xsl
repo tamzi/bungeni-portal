@@ -38,7 +38,7 @@
     
     <xsl:template match="*">
         <xsl:choose>
-            <xsl:when test="name(.) = $type and (@text:name=$name or @bungeniSectionType=$bungeniSectionType)">
+            <xsl:when test="name(.) = $type and (@text:name=$name or @BungeniSectionType=$bungeniSectionType)">
                <xsl:element name="{$result}">
                    <xsl:for-each select="@*">
                       <!-- <xsl:if test="name(.) != 'bungeniSectionType' and name(.) != text:*"> -->

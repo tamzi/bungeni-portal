@@ -4,9 +4,13 @@ import java.util.HashMap;
 
 import javax.xml.xpath.XPathExpressionException;
 
-import org.un.bungeni.translators.odttoakn.steps.Step;
+import org.un.bungeni.translators.odttoakn.steps.ConfigStep;
 import org.w3c.dom.Document;
 
+/**
+ * This is the configuration object. 
+ * It is used to read a configuration, write a configuration and to create a new configuration
+ */
 public class Configuration implements ConfigurationInterface 
 {
 	//the configuration reader
@@ -34,10 +38,10 @@ public class Configuration implements ConfigurationInterface
 	 * @return a Step with the given name
 	 * @throws XPathExpressionException 
 	 */
-	public Step getStepByName(String aName) throws XPathExpressionException 
+	public ConfigStep getStepByName(String aName) throws XPathExpressionException 
 	{
 		//ask the reader to get the step with the given name
-		Step resultStep = this.reader.getStepByName(aName);
+		ConfigStep resultStep = this.reader.getStepByName(aName);
 		
 		//return the gotten step 
 		return resultStep;
@@ -49,10 +53,10 @@ public class Configuration implements ConfigurationInterface
 	 * @return a Step with the given href
 	 * @throws XPathExpressionException 
 	 */
-	public Step getStepByHref(String aURI) throws XPathExpressionException 
+	public ConfigStep getStepByHref(String aURI) throws XPathExpressionException 
 	{
 		//ask the reader to get the step with the given URI
-		Step resultStep = this.reader.getStepByHref(aURI);
+		ConfigStep resultStep = this.reader.getStepByHref(aURI);
 		
 		//return the gotten step 
 		return resultStep;
@@ -64,10 +68,10 @@ public class Configuration implements ConfigurationInterface
 	 * @return a Step with the given position
 	 * @throws XPathExpressionException 
 	 */
-	public Step getStepByPosition(Integer aPosition) throws XPathExpressionException 
+	public ConfigStep getStepByPosition(Integer aPosition) throws XPathExpressionException 
 	{
 		//ask the reader to get the step with the given URI
-		Step resultStep = this.reader.getStepByPosition(aPosition);
+		ConfigStep resultStep = this.reader.getStepByPosition(aPosition);
 		
 		//return the gotten step 
 		return resultStep;
@@ -79,16 +83,16 @@ public class Configuration implements ConfigurationInterface
 	 * @return the HashMap containing all the Steps of the configuration
 	 * @throws XPathExpressionException 
 	 */
-	public HashMap<Integer, Step> getSteps() throws XPathExpressionException 
+	public HashMap<Integer, ConfigStep> getSteps() throws XPathExpressionException 
 	{
 		//ask the reader to get the steps of the configuration
-		HashMap<Integer, Step> resultSteps = this.reader.getSteps();
+		HashMap<Integer, ConfigStep> resultSteps = this.reader.getSteps();
 		
 		//return the gotten steps 
 		return resultSteps;
 	}
 
-	public void writeStep(Step step) {
+	public void writeStep(ConfigStep step) {
 		// TODO Auto-generated method stub
 
 	}

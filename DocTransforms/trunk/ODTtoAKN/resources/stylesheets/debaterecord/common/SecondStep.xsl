@@ -33,11 +33,40 @@
     </xsl:template>
     
     <xsl:template match="text:p" >
-         <p>
-             <xsl:apply-templates />
-         </p>
+		<xsl:choose>
+			<xsl:when test="count(.//*) > 0">
+		        <p>
+             		<xsl:apply-templates />
+         		</p>
+			</xsl:when>
+			<xsl:otherwise>
+				<eol/>
+			</xsl:otherwise>
+		</xsl:choose>
     </xsl:template>
     
+    <xsl:template match="text:h">
+         <block>
+             <xsl:apply-templates />
+         </block>
+    </xsl:template>
+
+    <xsl:template match="text:tab">
+    </xsl:template>
+
+    <xsl:template match="text:span">
+		<xsl:choose>
+			<xsl:when test="count(.//*) > 0">
+		        <span>
+             		<xsl:apply-templates />
+         		</span>
+			</xsl:when>
+			<xsl:otherwise>
+				<eol/>
+			</xsl:otherwise>
+		</xsl:choose>
+    </xsl:template>
+
     <xsl:template match="*">
         <xsl:element name="{name()}">
             <xsl:for-each select="@*">

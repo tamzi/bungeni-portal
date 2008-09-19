@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 import javax.xml.xpath.XPathExpressionException;
 
-import org.un.bungeni.translators.odttoakn.steps.Step;
+import org.un.bungeni.translators.odttoakn.steps.ConfigStep;
 
 /**
  * This is the interface for the configuration object of the ODTtoAKN translator. A configuration
@@ -17,7 +17,7 @@ public interface ConfigurationInterface
 	 * @return a Step with the given name
 	 * @throws XPathExpressionException 
 	 */
-	public Step getStepByName(String aName) throws XPathExpressionException;
+	public ConfigStep getStepByName(String aName) throws XPathExpressionException;
 
 	/**
 	 * Get the step of the configuration with the given href
@@ -25,7 +25,7 @@ public interface ConfigurationInterface
 	 * @return a Step with the given href
 	 * @throws XPathExpressionException 
 	 */
-	public Step getStepByHref(String aURI) throws XPathExpressionException;
+	public ConfigStep getStepByHref(String aURI) throws XPathExpressionException;
 
 	/**
 	 * Get the step of the configuration with the given position
@@ -33,7 +33,7 @@ public interface ConfigurationInterface
 	 * @return a Step with the given position
 	 * @throws XPathExpressionException 
 	 */
-	public Step getStepByPosition(Integer aPosition) throws XPathExpressionException;
+	public ConfigStep getStepByPosition(Integer aPosition) throws XPathExpressionException;
 	
 	/**
 	 * Used to get an HashMao containing all the Steps of the configuration with their position 
@@ -41,11 +41,11 @@ public interface ConfigurationInterface
 	 * @return the HashMap containing all the Steps of the configuration
 	 * @throws XPathExpressionException 
 	 */
-	public HashMap<Integer,Step> getSteps() throws XPathExpressionException;
+	public HashMap<Integer,ConfigStep> getSteps() throws XPathExpressionException;
 	
 	/**
 	 * Add a step to the configuration file 
 	 * @param aStep the step that you want to add to the configuration object
 	*/
-	public void writeStep(Step aStep);
+	public void writeStep(ConfigStep aStep);
 }

@@ -4,7 +4,7 @@ package org.un.bungeni.translators.odttoakn.steps;
  * The Step Object is the basic unit of the translations. A configuration contains several steps
  * that are performed sequentially.
 */
-public class Step implements StepInterface 
+public class ConfigStep implements ConfigStepInterface 
 {
 	//the name of the step 
 	private String name;
@@ -19,7 +19,7 @@ public class Step implements StepInterface
 	 * @param aURI the href of the Step 
 	 * @param aPosition the position of the Step 
 	 */
-	public Step(String aName, String aURI, Integer aPosition)
+	public ConfigStep(String aName, String aURI, Integer aPosition)
 	{
 		//set the name of the Step 
 		this.name = aName;

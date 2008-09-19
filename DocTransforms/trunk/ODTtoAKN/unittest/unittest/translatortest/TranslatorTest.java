@@ -73,7 +73,7 @@ public class TranslatorTest
 	public final void testTranslate() throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerException 
 	{
 		//perform a translation
-		StreamSource translation = (StreamSource)myTranslator.translate("resources/content.xml", "resources/configurations/debaterecord/common/DebateRecordCommon.xml");
+		StreamSource translation = (StreamSource)myTranslator.translate("resources/content.xml", "resources/configurations/debaterecord/common/DebateRecordCommonConfig.xml");
 		
 		//check if the translation is a Source type
 		assertEquals(StreamSource.class, translation.getClass());
@@ -81,8 +81,8 @@ public class TranslatorTest
 		//check if the translation is not null
 		assertNotNull(translation);
 		
-		// create an instance of TransformerFactory
-	   TransformerFactory transFact = TransformerFactory.newInstance();
+		//create an instance of TransformerFactory
+		TransformerFactory transFact = TransformerFactory.newInstance();
 	 
 	    //create a new transformer
 	    Transformer trans = transFact.newTransformer();

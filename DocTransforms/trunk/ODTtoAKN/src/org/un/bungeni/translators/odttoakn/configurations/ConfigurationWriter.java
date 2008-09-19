@@ -1,6 +1,6 @@
 package org.un.bungeni.translators.odttoakn.configurations;
 
-import org.un.bungeni.translators.odttoakn.steps.Step;
+import org.un.bungeni.translators.odttoakn.steps.ConfigStep;
 import org.w3c.dom.Document;
 
 public class ConfigurationWriter implements ConfigurationWriterInterface 
@@ -22,7 +22,7 @@ public class ConfigurationWriter implements ConfigurationWriterInterface
 	 * Add a step to the configuration file 
 	 * @param aStep the step that you want to add to the configuration object
 	*/
-	public void writeStep(Step aStep)
+	public void writeStep(ConfigStep aStep)
 	{
 		System.out.println(this.configXML.toString());
 	}

@@ -22,7 +22,7 @@ public class test {
 	public static void main(String[] args) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerException 
 	{
 		Translator trans = Translator.getInstance();
-		trans.translate("resources/content.xml", "resources/configurations/debaterecord/common/DebateRecordCommon.xml");
+		trans.translate("resources/content.xml", "resources/configurations/debaterecord/common/DebateRecordCommonConfig.xml");
 		System.out.println("great!");
 	}
 

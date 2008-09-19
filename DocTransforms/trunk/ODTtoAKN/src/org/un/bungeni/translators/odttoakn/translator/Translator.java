@@ -10,7 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.un.bungeni.translators.odttoakn.configurations.Configuration;
-import org.un.bungeni.translators.odttoakn.steps.Step;
+import org.un.bungeni.translators.odttoakn.steps.ConfigStep;
 import org.un.bungeni.translators.xslttransformer.XSLTTransformer;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -67,10 +67,10 @@ public class Translator implements TranslatorInterface
 		Configuration configuration = new Configuration(configurationDoc);
 		
 		//get the steps from the configuration 
-		HashMap<Integer,Step> stepsMap = configuration.getSteps();
+		HashMap<Integer,ConfigStep> stepsMap = configuration.getSteps();
 		
 		//create an iterator on the hash map
-		Iterator<Step> mapIterator = stepsMap.values().iterator();
+		Iterator<ConfigStep> mapIterator = stepsMap.values().iterator();
 		
 		//get the Document Stream
 		StreamSource iteratedDocument = new StreamSource(new File(aDocumentPath));
@@ -79,7 +79,7 @@ public class Translator implements TranslatorInterface
 		while(mapIterator.hasNext())
 		{
 			//get the next step
-			Step nextStep = (Step)mapIterator.next();
+			ConfigStep nextStep = (ConfigStep)mapIterator.next();
 			
 			//get the href from the step 
 			String stepHref = nextStep.getHref();

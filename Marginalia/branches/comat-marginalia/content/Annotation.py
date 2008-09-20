@@ -141,6 +141,15 @@ schema = Schema((
     ),
 
     StringField(
+        name='status',
+        widget=StringWidget(
+            label='Status',
+            label_msgid='Marginalia_label_status',
+            i18n_domain='Marginalia',
+        )
+    ),
+
+    StringField(
         name='action',
         widget=StringWidget(
             label='Action',

@@ -6,7 +6,9 @@
 
 <metal:block fill-slot="javascript_head_slot"
 	tal:define="absoluteUrl string:${here/absolute_url};
-	annotatedUrl python:view.getAnnotatedUrl(absoluteUrl)">
+	annotatedUrl python:view.getAnnotatedUrl(absoluteUrl);
+    isadmin python:context.portal_annotations.isAdmin(context);
+    ">
 
     <script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/referencebrowser.js"></script>
 
@@ -15,7 +17,11 @@
         {
 			var serviceRoot = '${request/base}/${utool/getPortalPath}/portal_annotations';
 			var username = '${user/getUserName}';
+            var isadmin = '${isadmin}';
             var superuser = false;
+            if (isadmin == 'True'){
+            superuser = true;
+            }
 			var url = '${annotatedUrl}';
             var restService = '/annotate';
 	        bungeniMarginaliaInit( username, superuser, url, serviceRoot, restService );

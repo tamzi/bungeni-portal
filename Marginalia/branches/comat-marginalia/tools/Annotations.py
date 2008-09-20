@@ -183,6 +183,13 @@ class Annotations(UniqueObject, BaseBTreeFolder):
         """
         return '\n'.join(self.Schema()['keywords'].get(self))
 
+    def isAdmin(self, context):
+        """Returns true if the registered user is an administrator."""
+        member  = self.portal_membership.getAuthenticatedMember()
+        if member and "Reviewer" in member.getRolesInContext(context):
+            return True
+        return False
+
     def _getUser(self):
         """Returns User"""
         return self.portal_membership.getAuthenticatedMember()
@@ -361,6 +368,7 @@ class Annotations(UniqueObject, BaseBTreeFolder):
             'xpath-range': '',
             'note': '',
             'access': '',
+            'status': '',                        
             'action': '',
             'quote': '',
             'quote_title': '',

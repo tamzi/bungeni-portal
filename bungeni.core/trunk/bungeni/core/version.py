@@ -54,10 +54,14 @@ class Versioned( container.PartialContainer ):
         """
         trusted_ctx = removeSecurityProxy( self.__parent__ )
         ctx_class = trusted_ctx.__class__        
-        
+        has_wf_status = getattr(trusted_ctx,'status',None)
+        if has_wf_status:
+            wf_status = trusted_ctx.status
         # set values on version from context
         self._copyFields(  version, self.__parent__,
                            model.queryModelInterface( ctx_class ) )                  
+        if has_wf_status:
+            trusted_ctx.status = wf_status                           
         msg = (_(u"reverted to previous version %s") %(version.version_id)) + u" - " + message        
         event.notify( interfaces.VersionReverted( self.__parent__, self, version, msg  ) )
         self.create( message=msg )

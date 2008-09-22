@@ -36,7 +36,8 @@ class NavigateAwayWarningViewlet( viewlet.ViewletBase ):
         #warningMessage = _(u"""'You have unsaved data on this page, leave this page? Clicking “yes” to continue will loose your changes forever.'""")
         msg = u"""<script>
         YAHOO.util.Event.addListener(window, 'beforeunload', function(e) {
-        if (e.target !='[object HTMLFormElement]') {		        
+        //confirm('navigate away: ' + e.target.tagName)
+        if (!e.target || (e.target.tagName.upperCase() != 'FORM')) {		        
 		        YAHOO.util.Event.stopEvent(e);
 	      }
         });    

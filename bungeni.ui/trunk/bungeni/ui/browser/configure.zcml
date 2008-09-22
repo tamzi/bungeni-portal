@@ -477,6 +477,28 @@
       allowed_interface="zope.formlib.interfaces.ISubPageForm"      
       />          
       
+<!-- Question view form -->
+  <!--browser:viewlet
+      name="bungeni.question.view"
+      manager="alchemist.ui.interfaces.IContentViewManager"
+      class=".forms.QuestionDisplay"
+      for="bungeni.core.interfaces.IQuestion"
+      permission="zope.View"
+      allowed_interface="zope.formlib.interfaces.ISubPageForm"
+      layer="bungeni.ui.interfaces.IBungeniSkin"      
+      /-->
+
+ <browser:viewlet
+      name="bungeni.subform.responses"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.ResponseViewlet"
+      for="bungeni.core.interfaces.IQuestion"
+      permission="zope.View"
+      weight="10"
+      />      
+      
+
+      
 <!-- Question Edit Form -->  
     <browser:viewlet
       name="alchemist.attributes.edit"

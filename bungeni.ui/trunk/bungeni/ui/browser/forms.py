@@ -28,10 +28,11 @@ from bungeni.core.interfaces import IGroupSitting, IParliamentSession, IMemberOf
     IMemberOfParty, IPoliticalParty, IQuestion, IResponse
 
 import bungeni.core.workflows.utils
+from bungeni.core.workflows.question import states as question_states
 
 from bungeni.ui.datetimewidget import  SelectDateTimeWidget, SelectDateWidget
 from bungeni.ui import widget
-from bungeni.ui.workflow import bindTransitions
+#from bungeni.ui.workflow import bindTransitions
 
 
 from ore.yuiwidget import calendar
@@ -78,6 +79,27 @@ class BungeniAttributeDisplay( DynamicFields, DisplayFormViewlet ):
         if not name:
             name = getattr( self.context.__parent__.domain_model, '__name__', None)                
         return name #"%s %s"%(name, self.mode.title())
+
+
+
+#questions
+#class QuestionDisplay( BungeniAttributeDisplay ):
+    
+#    respond_action = form.Actions( form.Action( _(u"Respond"), success='handle_respond_action'), )
+    
+#    def handle_respond_action( self, action, data ):
+#        """ the respond action will create a response to the question"""
+#        url = absoluteURL( self.context, self.request )  + '/responses/add'
+#        return self.request.response.redirect( url )
+    
+#    def update( self ):
+#        """
+#        if the question is in the state 'Question pending response' 
+#        display a create answer button
+#        """
+#        if self.context.status == question_states.response_pending :
+#            self.actions = self.respond_action
+#        super(QuestionDisplay, self).update()
         
 #############
 ## ADD 
@@ -1031,6 +1053,63 @@ class MemberTitleEdit( CustomEditForm ):
     form_fields["end_date"].custom_widget = SelectDateWidget
     Adapts = IMemberRoleTitleEdit
     CustomValidations =  validations.CheckMemberTitleDateEdit
+
+
+
+#################################
+# workflow transition 2 formlib action bindings
+class TransitionHandler( object ):
+
+    def __init__( self, transition_id, wf_name=None):
+        self.transition_id = transition_id
+        self.wf_name = wf_name
+
+
+    def __call__( self, form, action, data ):
+        """
+        save data make version and fire transition
+        """
+        context = getattr( form.context, '_object', form.context )
+        notes = None
+        if self.wf_name:
+            info = component.getAdapter( context, interfaces.IWorkflowInfo, self.wf_name )            
+        else:
+            info = interfaces.IWorkflowInfo( context ) 
+        if data.has_key('notes'):
+            notes = data['notes']     
+        result = handle_edit_action( form, action, data )
+        if form.errors: 
+            return result
+        else:         
+            createVersion(form.context)                                                        
+            info.fireTransition( self.transition_id, notes )        
+        form.setupActions()
+
+def bindTransitions( form_instance, transitions, wf_name=None, wf=None):
+    """ bind workflow transitions into formlib actions """
+
+    if wf_name:
+        success_factory = lambda tid: TransitionHandler( tid, wf_name )
+    else:
+        success_factory = TransitionHandler
+
+    actions = []
+    for tid in transitions:
+        d = {}
+        if success_factory:
+            d['success'] = success_factory( tid )
+        if wf is not None:
+            action = form.Action( _(unicode(wf.getTransitionById( tid ).title)), **d )
+        else:
+            action = form.Action( tid, **d )
+        action.form = form_instance
+        action.__name__ = "%s.%s"%(form_instance.prefix, action.__name__)
+        
+        actions.append( action )  
+    return actions
+
+
+
         
 class QuestionEdit( CustomEditForm ):
     """
@@ -1039,7 +1118,8 @@ class QuestionEdit( CustomEditForm ):
     default save and cancel buttons
     """
     #XXX todo: bind the transitions to save + fire transaction
-    form_fields = form.Fields( IQuestion )
+    form_fields = form.Fields( IQuestion ).select('question_type', 'response_type', 'owner_id',
+                                                    'subject', 'question_text', 'note', 'receive_notification' )
     Adapts = IQuestion
     form_fields["note"].custom_widget=widget.RichTextEditor 
     form_fields["question_text"].custom_widget=widget.RichTextEditor 

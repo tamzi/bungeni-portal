@@ -219,6 +219,15 @@ class PartyMembershipViewlet( SubformViewlet ):
         self.manager = manager
         self.query = None
             
+class ResponseViewlet( SubformViewlet ):
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.responses
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+
     
 class PersonInfo( BungeniAttributeDisplay ):
     """

@@ -39,7 +39,7 @@
     </div>
           
     <div tal:replace="structure provider:bungeni.response.question.manager" /> 
-    Question...
+    
 
 
   

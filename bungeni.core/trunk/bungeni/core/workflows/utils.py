@@ -1,3 +1,5 @@
+
+import datetime
 from zope.security.proxy import removeSecurityProxy
 from zope import component
 
@@ -22,7 +24,18 @@ def setQuestionDefaults(info, context):
     current parliament, ... """ 
     instance = removeSecurityProxy(context)
     dbutils.setQuestionParliamentId(instance)
-           
+
+def setSubmissionDate(info, context):
+    instance = removeSecurityProxy(context)
+    instance.clerk_submission_date = datetime.date.today()    
+    versions =  bungeni.core.interfaces.IVersioned(instance)
+    versions.create('New version created upon submission to clerks office')
+    
+def setApprovalDate(info, context):
+    instance = removeSecurityProxy(context)
+    instance.approval_date = datetime.date.today()  
+    versions =  bungeni.core.interfaces.IVersioned(instance)            
+    versions.create('New Version, Question approved by speakers office')
 
 def submitResponse( info, context ):
     """

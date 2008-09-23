@@ -73,7 +73,7 @@ def create_question_workflow( ):
         title=_(u'Submit to Clerk'),
         source = states.draft,
         trigger = iworkflow.MANUAL,        
-        action = utils.createVersion,
+        action = utils.setSubmissionDate,
         destination = states.submitted,
         permission = 'bungeni.question.Submit',
         ) )    
@@ -82,7 +82,8 @@ def create_question_workflow( ):
         transition_id = 'received-by-clerk',
         title=_(u'Receive'),
         source = states.submitted,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL, 
+        action = utils.createVersion,                       
         destination = states.received,
         permission = 'bungeni.question.Recieve',        
         ) )    
@@ -126,7 +127,7 @@ def create_question_workflow( ):
         transition_id = 'complete',
         title=_(u'Complete'),
         source = states.received,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL, 
         destination = states.complete,
         permission = 'bungeni.question.clerk.Review',        
         ) ) 
@@ -143,7 +144,8 @@ def create_question_workflow( ):
         transition_id = 'approve',
         title=_(u'Approve'),
         source = states.complete,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL, 
+        action = utils.setApprovalDate,                                     
         destination = states.admissible,
         permission = 'bungeni.question.speaker.Review',        
         ) )     
@@ -197,7 +199,7 @@ def create_question_workflow( ):
         title=_(u'Resubmit to clerk'),
         source = states.clarify_mp,
         trigger = iworkflow.MANUAL,                
-        action = utils.createVersion,
+        action = utils.setSubmissionDate,
         destination = states.submitted,
         permission = 'bungeni.question.Submit',       
         ) )          

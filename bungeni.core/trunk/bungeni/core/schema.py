@@ -580,7 +580,8 @@ questions = rdb.Table(
    rdb.Column( "question_id", rdb.Integer, ItemSequence, primary_key=True ),
    
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
-   rdb.Column( "clerk_submission_date", rdb.Date, default=datetime.now),
+   rdb.Column( "clerk_submission_date", rdb.Date,),
+   rdb.Column( "approval_date", rdb.Date,),   
    rdb.Column( "question_type", rdb.Unicode(1), 
                 rdb.CheckConstraint("question_type in ('O', 'P')"), default=u"O" ), # (O)rdinary (P)rivate Notice
    rdb.Column( "response_type", rdb.Unicode(1), 
@@ -610,6 +611,17 @@ questions = rdb.Table(
    )
 
 
+# if a scheduled question gets postponed we need to capture the sitting
+# and implicitly the date it was scheduled
+question_schedules = rdb.Table(
+    "question_schedules",
+    metadata,
+    rdb.Column( "question_id", rdb.Integer, rdb.ForeignKey('questions.question_id'), nullable=False ),
+    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id')  ),
+    )
+
+
+
 question_changes = make_changes_table( questions, metadata )
 question_versions = make_versions_table( questions, metadata )
 
@@ -623,7 +635,7 @@ responses = rdb.Table(
    rdb.Column( "response_id", rdb.Integer, primary_key=True ),
    rdb.Column( "question_id", rdb.Integer, rdb.ForeignKey('questions.question_id'), nullable=False ),
    rdb.Column( "response_text", rdb.UnicodeText ),
-   rdb.Column( "response_type", rdb.String(1), rdb.CheckConstraint("response_type in ('I','S')"), default=u"I"), # (I)nitial (S)ubsequent
+   #rdb.Column( "response_type", rdb.String(1), rdb.CheckConstraint("response_type in ('I','S')"), default=u"I"), # (I)nitial (S)ubsequent
    # 
    # for attachment to the debate record, but not actually scheduled on the floor
    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id') ),

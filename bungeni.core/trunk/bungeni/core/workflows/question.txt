@@ -10,6 +10,10 @@ Setup
   >>> import bungeni.core.interfaces
   >>> import ore.workflow
   >>> import copy
+  >>> import datetime
+  
+  >>> today = datetime.date.today()
+  
   
   >>> component.provideAdapter(
   ...    bungeni.core.workflows.WorkflowState,
@@ -104,7 +108,10 @@ and can be put into draft state at a later time
   >>> transitions(question)
    ('make-private', 'submit-to-clerk')
 
-
+the question does not yet have a submitted date
+   >>> question.clerk_submission_date 
+   
+   
 When we submit the question, a new version is created.
   
   >>> result = IWorkflowInfo(question).fireTransition('submit-to-clerk')
@@ -114,6 +121,10 @@ instance is still active.
 
   >>> result is None
   True
+
+and the date  was set to clerk_submission_date today
+   >>> question.clerk_submission_date == today
+   True
 
 Verify that a new version was issued.
 
@@ -143,6 +154,8 @@ A question can be withdrawn at (almost) any stage
 
   >>> IWorkflowInfo(question).fireTransition('received-by-clerk')
 
+  >>> len(list(versions.values()))
+  2    
 
 Received:
 
@@ -174,7 +187,7 @@ If it needs clarification this sets it back to draft and it must be submitted ag
 versioned again
   
   >>> len(list(versions.values()))
-  2    
+  3   
     
   >>> IWorkflowInfo(question).fireTransition('received-by-clerk')
     
@@ -182,6 +195,9 @@ complete the question
 
   >>> result = IWorkflowInfo(question).fireTransition('complete')  
     
+  >>> len(list(versions.values()))
+  4  
+      
   
 The speakers office now has to review the question
 
@@ -219,7 +235,7 @@ and has to be resubmitted
   
 it gets versioned before amendment
   >>> len(list(versions.values()))
-  3  
+  5  
   
   >>> transitions(question_amend)
   ('complete-clarify', 'mp-clarify')
@@ -255,7 +271,7 @@ A question can be withdrawn at (almost) any stage
 
 it gets versioned by resubmitting after amendment
   >>> len(list(versions.values()))
-  4
+  6
 
   >>> transitions(question_amend)   
   ('withdraw-submitted', 'received-by-clerk')
@@ -266,12 +282,17 @@ clerks recieves it
 
 
   
-Appove the question
+Appove the question and set the approval date
 
   >>> transitions(question)
   ('withdraw-complete', 'approve', 'require-amendment', 'reject')
 
+  >>> question.approval_date
+
   >>> result = IWorkflowInfo(question).fireTransition('approve')  
+  
+  >>> question.approval_date  == today 
+  True
   
   >>> transitions(question)
   ('defer', 'withdraw-admissible', 'send-ministry', 'schedule')

@@ -25,6 +25,8 @@
 			var url = '${annotatedUrl}';
             var restService = '/annotate';
 	        bungeniMarginaliaInit( username, superuser, url, serviceRoot, restService );
+            var search_button = document.getElementById('search');
+            filterAnnotations(search_button);            
 		}
         function addLoadEvent(func) {
           var oldonload = window.onload;
@@ -65,7 +67,8 @@
 
 <metal:main fill-slot="main"
 	tal:define="absoluteUrl string:${here/absolute_url};
-	annotatedUrl python:view.getAnnotatedUrl(absoluteUrl)">
+	annotatedUrl python:view.getAnnotatedUrl(absoluteUrl);
+    isadmin python:context.portal_annotations.isAdmin(context);">
 
     <tal:main-macro metal:define-macro="main"
            tal:define="text python: here.CookedBody(stx_level=2)">
@@ -83,8 +86,14 @@
 
 		            <div id="fields" style="display:block;">
                       <select class="select_field" name="filter_owner" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
+                        <tal:se tal:condition="isadmin">
                          <option value="" tal:attributes="value user/getUserName">Myself</option>
                          <option value="select_all" selected>All</option>
+                        </tal:se> 
+                        <tal:se tal:condition="not: isadmin">
+                         <option value="" tal:attributes="value user/getUserName" selected>Myself</option>
+                         <option value="select_all">All</option>
+                        </tal:se> 
                          <optgroup LABEL="Filter by User ">
                          <span tal:repeat="name member_names" tal:omit-tag="">
                             <span tal:condition="python:name!=user.getUserName()" tal:omit-tag="">

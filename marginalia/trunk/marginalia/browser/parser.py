@@ -55,7 +55,8 @@ def physical_representation(contents):
 
     contents = contents.replace("&nbsp;", " ")
     contents = contents.replace("<br>", "<br/> ")
-
+    contents = contents.encode( 'utf-8' )
+    
     parser = make_parser()
     parser.setContentHandler(AnnotationFilter(output_file))
 

@@ -403,7 +403,7 @@ class DownloadPage(MarginaliaPage):
     """All the methods required by Marginalia Amendment Tab."""
     def __call__(self):
         response = self.request.response
-        contents = str(ViewPageTemplateFile('document.pt')(self))
+        contents = ViewPageTemplateFile('document.pt')(self)
         response.setHeader('Content-Type', 'text/html')
 
         if self.request.has_key('filter_type'):

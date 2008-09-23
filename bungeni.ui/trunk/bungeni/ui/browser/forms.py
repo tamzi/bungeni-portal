@@ -676,10 +676,10 @@ class ResponseAdd( CustomAddForm ):
     UI for ministry to input response
     Display the question when adding the answer.
     """
-    form_fields = form.Fields( IResponse ).select('response_text', 'response_type', 'sitting_time') 
+    form_fields = form.Fields( IResponse ).select('response_text', 'sitting_time') 
     Adapts = IResponse
     form_fields["response_text"].custom_widget=widget.RichTextEditor 
-    form_fields["response_type"].custom_widget=widget.CustomRadioWidget
+    #form_fields["response_type"].custom_widget=widget.CustomRadioWidget
     CustomValidation =  validations.ResponseAdd
     template = ViewPageTemplateFile('templates/response-add.pt')     
         
@@ -1169,10 +1169,10 @@ class ResponseEdit ( CustomEditForm ):
     UI for ministry to input response
     Display the question when adding the answer.
     """
-    form_fields = form.Fields( IResponse ).select('response_text', 'response_type', 'sitting_time') 
+    form_fields = form.Fields( IResponse ).select('response_text', 'sitting_time') 
     Adapts = IResponse
     form_fields["response_text"].custom_widget=widget.RichTextEditor 
-    form_fields["response_type"].custom_widget=widget.CustomRadioWidget
+    #form_fields["response_type"].custom_widget=widget.CustomRadioWidget
     CustomValidations =  validations.ResponseEdit
     template = ViewPageTemplateFile('templates/response-edit.pt')        
 

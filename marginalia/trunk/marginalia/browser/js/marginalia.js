@@ -1338,6 +1338,15 @@ function clearSearch(form_field) {
   filterAnnotations(form_field);
 }
 
+function membership(member_str, member_list){
+    var i;
+    for (i=0;i<member_list.length;i++) {
+        if (member_list[i] == member_str)
+            return true;
+    }
+    return false
+}
+
 function filterAnnotationsFromBookmark(){
   var hash_string = document.location.hash;  
   if (hash_string.search("filter_name") > -1)
@@ -1368,7 +1377,7 @@ function filterAnnotationsFromBookmark(){
     for (i=0;i<select_name.options.length;i++)
         {
             var option = select_name.options[i];
-            if (option.value in filter_name)
+            if (membership(option.value, filter_name))
                 {
                     option.selected = true;
                 }
@@ -1383,7 +1392,7 @@ function filterAnnotationsFromBookmark(){
     for (i=0;i<select_group.options.length;i++)
         {
             var option = select_group.options[i];
-            if (option.value in filter_group)
+            if (membership(option.value, filter_group))
                 {
                     option.selected = true;
                 }
@@ -1398,7 +1407,7 @@ function filterAnnotationsFromBookmark(){
     for (i=0;i<select_type.options.length;i++)
         {
             var option = select_type.options[i];
-            if (option.value in filter_type)
+            if (membership(option.value, filter_type))
                 {
                     option.selected = true;
                 }

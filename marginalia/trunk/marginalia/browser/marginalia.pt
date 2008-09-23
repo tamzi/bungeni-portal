@@ -90,6 +90,8 @@ function show_annotations_on_load() {
 	var url = '${context/@@absolute_url}';
     var restService = '/annotate';
 	bungeniMarginaliaInit( username, superuser, url, serviceRoot, restService );
+    var search_button = document.getElementById('search');
+    filterAnnotations(search_button);
 }
 
 function addLoadEvent(func) {
@@ -138,8 +140,14 @@ function bungeniClickCreateAnnotation( event, id ) {
                <form id="filterform" action="download" method="post">
 		       <div id="fields" style="display:block;">
                  <select class="select_field" name="filter_owner" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
+                 <tal:se tal:condition="view/isAdmin">
                    <option value="" tal:attributes="value authenticateduserid">Myself</option>
                    <option value="select_all" selected>All</option>
+                 </tal:se>
+                 <tal:se tal:condition="not: view/isAdmin">
+                   <option value="" tal:attributes="value authenticateduserid" selected>Myself</option>
+                   <option value="select_all">All</option>
+                 </tal:se>
                    <optgroup LABEL="Filter by User ">
                      <span tal:repeat="member member_names" tal:omit-tag="">
                        <span tal:condition="python:member[0]!=authenticateduserid" tal:omit-tag="">

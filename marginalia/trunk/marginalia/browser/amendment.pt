@@ -139,9 +139,16 @@ function bungeniClickCreateAnnotation( event, id ) {
                <p id="noresults" class="plink" style="display:none;" i18n:translate="">No Amendments Found</p>
                <form id="filterform" action="download" method="post">
 		       <div id="fields" style="display:block;">
+                  <p tal:condition="python:view.isAdmin()"></p>
                  <select class="select_field" name="filter_owner" size="4" multiple="multiple" language="javascript" onChange="filterAnnotations(this);">
+                 <tal:search tal:condition="view/isAdmin">
+                   <option value="" tal:attributes="value authenticateduserid">Myself</option>
+                   <option value="select_all" selected>All</option>
+                 </tal:search>
+                 <tal:search tal:condition="not: view/isAdmin">
                    <option value="" tal:attributes="value authenticateduserid" selected>Myself</option>
                    <option value="select_all">All</option>
+                 </tal:search>
                    <optgroup LABEL="Filter by User ">
                      <span tal:repeat="member member_names" tal:omit-tag="">
                        <span tal:condition="python:member[0]!=authenticateduserid" tal:omit-tag="">

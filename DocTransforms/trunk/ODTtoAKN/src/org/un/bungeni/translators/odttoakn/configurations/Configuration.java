@@ -24,7 +24,7 @@ public class Configuration implements ConfigurationInterface
 	private ConfigurationWriter writer;
 	
 	/**
-	 * Create a new configuration based on a given Configuration XML file
+	 * Create the new configuration based on a given Configuration XML file
 	 * @param aConfigXML the XML Document in witch the configuration is written 
 	 * @throws ParserConfigurationException 
 	 * @throws IOException 

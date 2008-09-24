@@ -122,7 +122,8 @@ public class Translator implements TranslatorInterface
 			paramMap.put("name", (String)nextMapStep.getName());
 			paramMap.put("bungeniSectionType", (String)nextMapStep.getBungeniSectionType());
 			paramMap.put("result", (String)nextMapStep.getResult());
-			
+			paramMap.put("attributes", (String)nextMapStep.getAttributes());
+				
 			//start the transformation
 			iteratedDocument = XSLTTransformer.getInstance().transformWithParam(iteratedDocument, mapResolverStream,paramMap);
 		}

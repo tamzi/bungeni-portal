@@ -73,7 +73,7 @@ public class TranslatorTest
 	public final void testTranslate() throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerException 
 	{
 		//perform a translation
-		StreamSource translation = (StreamSource)myTranslator.translate("resources/content.xml", "resources/configurations/debaterecord/common/DebateRecordCommonConfig.xml");
+		StreamSource translation = (StreamSource)myTranslator.translate("resources/content2.xml", "resources/configurations/debaterecord/common/DebateRecordCommonConfig.xml");
 		
 		//check if the translation is a Source type
 		assertEquals(StreamSource.class, translation.getClass());

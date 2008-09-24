@@ -1,54 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?><akomantoso xmlns="http://www.akomantoso.org/">
-   <debaterecord xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect1" text:name="debaterecord">
-      <preface text:style-name="Sect2" text:name="masthead" BungeniSectionType="MastHead" BungeniDebateOfficalDate="2000-05-02" BungeniDebateOfficalTime="14:30">
-         <block>NATIONAL ASSEMBLY</block>
+   <debaterecord>
+      <preface date="" time="">
+         <block xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P21" text:outline-level="1">NATIONAL ASSEMBLY</block>
          <eol/>
-         <block>OFFICIAL REPORT</block>
+         <block xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P20" text:outline-level="2">OFFICIAL REPORT</block>
          <eol/>
-         <p>
-            <text:reference-mark-start text:name="BungeniDebateOfficialDate"/>Tuesday, 2nd May, 2000<text:reference-mark-end text:name="BungeniDebateOfficialDate"/>
-         </p>
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P5">
+            <reference-mark text:name="BungeniDebateOfficialDate">Tuesday, 2nd May, 2000</reference-mark>Tuesday, 2nd May, 2000</p>
          <eol/>
-         <p>The House met at<text:reference-mark-start text:name="BungeniDebateOfficalTime"/>2.30 p.m.<text:reference-mark-end text:name="BungeniDebateOfficalTime"/>
-         </p>
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P2">The House met at<reference-mark text:name="BungeniDebateOfficalTime">2.30 p.m.</reference-mark>2.30 p.m.</p>
       </preface>
       <eol/>
-      <p/>
-      <comment text:style-name="Sect3" text:name="comment635267" BungeniSectionType="Observation">
+      <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P11"/>
+      <comment type="" id="" by="" to="" status="">
          <eol/>
       </comment>
       <eol/>
-      <block/>
-      <comment text:style-name="Sect4" text:name="prayers637994" BungeniSectionType="GroupActivity">
-         <block>PRAYERS</block>
+      <block xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P20" text:outline-level="2"/>
+      <comment type="" id="" by="" to="" status="">
+         <block xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P20" text:outline-level="2">PRAYERS</block>
       </comment>
       <eol/>
-      <Communication text:style-name="Sect5" text:name="speech75638" BungeniSectionType="Speech" BungeniSpeechType="CommunicationFromChair" BungeniSpeechBy="userSpeaker" BungeniSpeechID="3">
-         <block>COMMUNICATION FROM THE CHAIR</block>
+      <Communication type="" id="" by="" to="" status="">
+         <block xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Heading_20_3" text:outline-level="3">COMMUNICATION FROM THE CHAIR</block>
          <eol/>
-         <p>Distinguished Guests</p>
-         <p>in the Speaker's Row</p>
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P17">Distinguished Guests</p>
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P17">in the Speaker's Row</p>
          <eol/>
-         <text:section text:style-name="Sect6" text:name="heading99573" BungeniSectionType="Person" BungeniSpeechType="CommunicationFromChair" BungeniSpeechBy="userSpeaker" BungeniPersonID="userSpeaker">
-            <p>
-               <text:reference-mark-start text:name="BungeniSpeechAs:3"/>Mr. Speaker<text:reference-mark-end text:name="BungeniSpeechAs:3"/>:</p>
+         <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect6" text:name="heading99573" BungeniSectionType="Person" BungeniSpeechType="CommunicationFromChair" BungeniSpeechBy="userSpeaker" BungeniPersonID="userSpeaker">
+            <p text:style-name="P6">
+               <reference-mark text:name="BungeniSpeechAs:3">Mr. Speaker:</reference-mark>Mr. Speaker:</p>
          </text:section>
-         <p>
-            <span>
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P15">
+            <span text:style-name="T2">
                <text:s/>
             </span>
-            <eol/>
+            <span text:style-name="T1">Members, before I go to Order No.6, I would like to make the following Communication:</span>
          </p>
-         <p>It is with great pleasure that I welcome our distinguished guests from the Parliament of the Federal Republic of Germany who are seated in the Speaker's Row. The delegation is led by Mr. Carl-Dieter Spranger; Deputy Chairman of the Foreign Affairs Committee of the German Bundestag.</p>
-         <p>He is accompanied by Mr. Joachim Tappe MdB, Chairman of the Germany-African Parliamentary Group, Mrs. Erika Reinhardt, MdB, Member of the Committee of Foreign Affairs of the German Bundestag; and His Excellency Jurgen Weerth, Ambassador to Kenya.</p>
-         <p>The delegation arrived in the country on Friday, 28th April, 2000, and will be with us until tomorrow, Wednesday, 3rd May, 2000. We wish them a very enjoyable and fruitful stay in our country.</p>
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">It is with great pleasure that I welcome our distinguished guests from the Parliament of the Federal Republic of Germany who are seated in the Speaker's Row. The delegation is led by Mr. Carl-Dieter Spranger; Deputy Chairman of the Foreign Affairs Committee of the German Bundestag.</p>
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">He is accompanied by Mr. Joachim Tappe MdB, Chairman of the Germany-African Parliamentary Group, Mrs. Erika Reinhardt, MdB, Member of the Committee of Foreign Affairs of the German Bundestag; and His Excellency Jurgen Weerth, Ambassador to Kenya.</p>
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">The delegation arrived in the country on Friday, 28th April, 2000, and will be with us until tomorrow, Wednesday, 3rd May, 2000. We wish them a very enjoyable and fruitful stay in our country.</p>
          <eol/>
-         <p/>
-         <comment text:style-name="Sect7" text:name="comment637824" BungeniSectionType="Observation" BungeniSpeechType="CommunicationFromChair" BungeniSpeechBy="userSpeaker">
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P9"/>
+         <comment type="" id="" by="" to="" status="">
             <eol/>
          </comment>
          <eol/>
-         <p>I also wish to welcome the delegation of the Ugandan Members of Parliamentary Sports Club who have been touring Kenya since 26th April, 2000, to play several football matches against our Bunge Football Club and to visit various projects in Western Kenya, Mombasa and Nairobi.</p>
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">I also wish to welcome the delegation of the Ugandan Members of Parliamentary Sports Club who have been touring Kenya since 26th April, 2000, to play several football matches against our Bunge Football Club and to visit various projects in Western Kenya, Mombasa and Nairobi.</p>
          <eol/>
          <eol/>
          <eol/>
@@ -61,7 +59,7 @@
          <eol/>
          <eol/>
          <eol/>
-         <p>
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P18">
             <text:soft-page-break/>The Hon. Adome Lokwi, M.P.</p>
          <eol/>
          <eol/>
@@ -74,157 +72,147 @@
          <eol/>
          <eol/>
          <eol/>
-         <p>Thank you.</p>
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">Thank you.</p>
          <eol/>
       </Communication>
-      <p/>
-      <text:section text:style-name="Sect1" text:name="comment645284">
+      <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P10"/>
+      <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect8" text:name="comment645284">
          <eol/>
       </text:section>
       <eol/>
-      <subdivision text:style-name="Sect8" text:name="questions903084" BungeniSectionType="QuestionsContainer" BungeniQuestionsContainerType="OralAnswersToQuestions">
-         <p>ORAL ANSWERS TO QUESTIONS</p>
+      <subdivision type="OralAnswersToQuestions" id="" by="" to="" status="">
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="questions_5f_title">ORAL ANSWERS TO QUESTIONS</p>
          <eol/>
-         <Questions text:style-name="Sect9" text:name="qa38499" BungeniSectionType="QuestionAnswer" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred">
-            <p>Question No<text:reference-mark-start text:name="BungeniQuestionNo:126"/>126<text:reference-mark-end text:name="BungeniQuestionNo:126"/>
+         <Questions type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
+            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="questions_5f_title">Question No<reference-mark text:name="BungeniQuestionNo:126">126</reference-mark>126</p>
+            <eol/>
+            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="questions_5f_subtitle">
+               <span text:style-name="T1"/>
+               <span text:style-name="T3">Number of City Residents</span>
+            </p>
+            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="questions_5f_subtitle">
+               <span text:style-name="T3">Killed by Gangsters</span>
+               <span text:style-name="T1"/>
             </p>
             <eol/>
-            <p>
-               <span/>
-               <eol/>
-            </p>
-            <p>
-               <span>Killed by Gangsters</span>
-               <eol/>
-            </p>
-            <eol/>
-            <text:section text:style-name="Sect1" text:name="question38499">
-               <p>
-                  <span/>
-                  <text:reference-mark-start text:name="BungeniQuestionBy:126"/>
-                  <eol/>
-                  <text:reference-mark-end text:name="BungeniQuestionBy:126"/>
-                  <eol/>
-                  <eol/>
-                  <text:reference-mark-start text:name="BungeniQuestionTo:126"/>
-                  <eol/>
-                  <text:reference-mark-end text:name="BungeniQuestionTo:126"/>
-                  <eol/>
+            <question type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
+               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P19">
+                  <span text:style-name="T2"/>
+                  <reference-mark text:name="BungeniQuestionBy:126"/>
+                  <span text:style-name="T2">Mr. Mwenje</span>
+                  <span text:style-name="T2"/>
+                  <span text:style-name="T1">asked the</span>
+                  <reference-mark text:name="BungeniQuestionTo:126"/>
+                  <span text:style-name="T1">Minister of State, Office of the president</span>
+                  <span text:style-name="T1">:-</span>
                </p>
-               <p>(a) whether he could inform the House how many people have been killed by gangsters in Nairobi during the last one year; and,</p>
-               <p>(b) how many gangsters have been killed in Nairobi by security personnel within the same period.</p>
-            </text:section>
-            <p/>
-            <Communication text:style-name="Sect10" text:name="speech993802" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechBy="userMadoka" BungeniSpeechID="1">
-               <text:section text:style-name="Sect11" text:name="heading883028" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechBy="userMadoka" BungeniSpeechID="1">
-                  <p>
-                     <text:reference-mark-start text:name="BungeniSpeechAs:1"/>The minister of state, Office of the president<text:reference-mark-end text:name="BungeniSpeechAs:1"/>(<text:reference-mark-start text:name="BungeniSpeechBy:1"/>Maj. Madoka<text:reference-mark-end text:name="BungeniSpeechBy:1"/>):</p>
+               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="question_5f_text">(a) whether he could inform the House how many people have been killed by gangsters in Nairobi during the last one year; and,</p>
+               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="question_5f_text">(b) how many gangsters have been killed in Nairobi by security personnel within the same period.</p>
+            </question>
+            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P6"/>
+            <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="">
+               <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect13" text:name="heading883028" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechBy="userMadoka" BungeniSpeechID="1">
+                  <p text:style-name="P1">
+                     <reference-mark text:name="BungeniSpeechAs:1">The minister of state, Office of the president(Maj. Madoka):</reference-mark>The minister of state, Office of the president(<reference-mark text:name="BungeniSpeechBy:1">Maj. Madoka):</reference-mark>Maj. Madoka):</p>
                </text:section>
                <eol/>
             </Communication>
-            <Questions text:style-name="Sect12" text:name="speech939004" BungeniSectionType="QuestionAnswer" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="2" BungeniSpeechBy="userSpeaker" BungeniSpeechTo="userMwenje">
-               <text:section text:style-name="Sect13" text:name="heading838209" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="2">
-                  <p>
-                     <span/>
-                     <text:reference-mark-start text:name="BungeniSpeechAs:2"/>
-                     <eol/>
-                     <text:reference-mark-end text:name="BungeniSpeechAs:2"/>
-                     <eol/>
+            <Questions type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="">
+               <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect15" text:name="heading838209" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="2">
+                  <p text:style-name="P15">
+                     <span text:style-name="T2"/>
+                     <reference-mark text:name="BungeniSpeechAs:2"/>
+                     <span text:style-name="T2">Mr. Speaker</span>
+                     <span text:style-name="T1">:</span>
                   </p>
                </text:section>
                <eol/>
             </Questions>
-            <p/>
-            <Communication text:style-name="Sect14" text:name="speech993029" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniSpeechBy="userMwenje" BungeniSpeechTo="userSpeaker" BungeniSpeechID="4">
-               <text:section text:style-name="Sect15" text:name="heading927624" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="4" BungeniSpeechBy="userMwenje">
-                  <p>
-                     <text:reference-mark-start text:name="BungeniSpeechAs:4"/>
-                     <eol/>
-                     <text:reference-mark-end text:name="BungeniSpeechAs:4"/>
-                     <eol/>
+            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P6"/>
+            <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
+               <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect17" text:name="heading927624" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="4" BungeniSpeechBy="userMwenje">
+                  <p text:style-name="P15">
+                     <reference-mark text:name="BungeniSpeechAs:4"/>
+                     <span text:style-name="T2">Mr. Mwenje</span>
+                     <span text:style-name="T1">:</span>
                   </p>
                </text:section>
-               <p>
+               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">
                   <text:s/>Mr. Speaker, Sir, that is very interesting! This Question was among the first Questions that I sent immediately Parliament was opened. Iut has taken all this long to be brought before this House. I do not see the reason why the Minister should now come and tell us that he is still not ready. He has not given even the answer that he thinks is not right and it has not been passed over to me.</p>
             </Communication>
-            <Communication text:style-name="Sect16" text:name="speech987363" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniSpeechTo="userMwenje" BungeniSpeechBy="userSpeaker" BungeniSpeechID="5">
-               <text:section text:style-name="Sect1" text:name="heading827947">
-                  <p>
-                     <span/>
-                     <text:reference-mark-start text:name="BungeniSpeechAs:5"/>
-                     <eol/>
-                     <text:reference-mark-end text:name="BungeniSpeechAs:5"/>
-                     <eol/>
+            <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
+               <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect8" text:name="heading827947">
+                  <p text:style-name="P15">
+                     <span text:style-name="T2"/>
+                     <reference-mark text:name="BungeniSpeechAs:5"/>
+                     <span text:style-name="T2">Mr. Speaker</span>
+                     <span text:style-name="T1">:</span>
                   </p>
                </text:section>
                <eol/>
                <eol/>
             </Communication>
-            <Communication text:style-name="Sect17" text:name="speech983702" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniSpeechBy="userMwenje" BungeniSpeechID="6">
-               <p/>
-               <text:section text:style-name="Sect1" text:name="heading892724">
-                  <p>
-                     <text:reference-mark-start text:name="BungeniSpeechAs:6"/>
-                     <eol/>
-                     <text:reference-mark-end text:name="BungeniSpeechAs:6"/>
-                     <eol/>
+            <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
+               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P6"/>
+               <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect8" text:name="heading892724">
+                  <p text:style-name="P15">
+                     <reference-mark text:name="BungeniSpeechAs:6"/>
+                     <span text:style-name="T2">Mr. Mwenje</span>
+                     <span text:style-name="T1">:</span>
                   </p>
                </text:section>
                <eol/>
                <eol/>
             </Communication>
-            <comment text:style-name="Sect18" text:name="comment082037" BungeniSectionType="Observation" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred">
-               <p>(Loud consultations)</p>
+            <comment type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
+               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P9">(Loud consultations)</p>
             </comment>
             <eol/>
-            <p/>
-            <Communication text:style-name="Sect19" text:name="speech918293" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniSpeechID="7" BungeniSpeechBy="userSpeaker">
-               <text:section text:style-name="Sect1" text:name="heading880208">
-                  <p>
-                     <text:reference-mark-start text:name="BungeniSpeechAs:7"/>
-                     <eol/>
-                     <text:reference-mark-end text:name="BungeniSpeechAs:7"/>
-                     <eol/>
+            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P6"/>
+            <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
+               <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect8" text:name="heading880208">
+                  <p text:style-name="P15">
+                     <reference-mark text:name="BungeniSpeechAs:7"/>
+                     <span text:style-name="T2">Mr. Speaker</span>
+                     <span text:style-name="T1">:</span>
                   </p>
                </text:section>
-               <p>
-                  <eol/>
+               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P15">
+                  <span text:style-name="T1">Order! I consider it is best that we have an answer rather than take our time on preliminaries which will not help us in any way. But, Mr. Minister, you must be mindful of the fact that, you are duty-bound to come to this House</span>
                   <text:soft-page-break/>
-                  <eol/>
+                  <span text:style-name="T1">promptly and answer Questions.</span>
                </p>
-               <p>I will defer the Question to tomorrow afternoon.</p>
+               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">I will defer the Question to tomorrow afternoon.</p>
             </Communication>
             <eol/>
-            <p/>
-            <text:section text:style-name="Sect20" text:name="comment827497" BungeniSectionType="ActionEvent" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniQuestionStatus="Deferred" BungeniActionEvent="QuestionDeferred">
+            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P9"/>
+            <subdivision>
                <eol/>
-            </text:section>
+            </subdivision>
             <eol/>
          </Questions>
-         <p/>
-         <Communication text:style-name="Sect21" text:name="speech899372" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechBy="userGatabaki" BungeniSpeechType="PointOfOrder" BungeniSpeechID="8">
-            <Communication text:style-name="Sect22" text:name="heading820817" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechBy="userGatabaki" BungeniSpeechType="Person" BungeniSpeechID="8">
-               <p>
-                  <text:reference-mark-start text:name="BungeniSpeechAs:8"/>
-                  <eol/>
-                  <text:reference-mark-end text:name="BungeniSpeechAs:8"/>
-                  <eol/>
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P6"/>
+         <Communication type="OralAnswersToQuestions" id="" by="" to="" status="">
+            <Communication type="OralAnswersToQuestions" id="" by="" to="" status="">
+               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P15">
+                  <reference-mark text:name="BungeniSpeechAs:8"/>
+                  <span text:style-name="T2">Mr. Gatabaki</span>
+                  <span text:style-name="T1">:</span>
                </p>
             </Communication>
             <eol/>
          </Communication>
-         <Communication text:style-name="Sect23" text:name="speech890297" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechID="9" BungeniSpeechType="PointOfOrder" BungeniSpeechBy="userSpeaker">
-            <p/>
-            <Communication text:style-name="Sect24" text:name="heading722863" BungeniSectionType="Speech" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechID="9" BungeniSpeechType="Person">
-               <p>
-                  <text:reference-mark-start text:name="BungeniSpeechAs:9"/>
-                  <eol/>
-                  <text:reference-mark-end text:name="BungeniSpeechAs:9"/>
-                  <eol/>
+         <Communication type="OralAnswersToQuestions" id="" by="" to="" status="">
+            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P6"/>
+            <Communication type="OralAnswersToQuestions" id="" by="" to="" status="">
+               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P15">
+                  <reference-mark text:name="BungeniSpeechAs:9"/>
+                  <span text:style-name="T2">Mr. Speaker</span>
+                  <span text:style-name="T1">:</span>
                </p>
             </Communication>
             <eol/>
-            <p>Next Question, Dr. Kulundu!</p>
+            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">Next Question, Dr. Kulundu!</p>
          </Communication>
          <eol/>
          <eol/>
@@ -233,35 +221,31 @@
       <eol/>
       <eol/>
       <eol/>
-      <text:section text:style-name="Sect25" text:name="comment993827" BungeniSectionType="ActionEvent" BungeniActionEvent="Adjournment">
-         <p>ADJOURNMENT</p>
-      </text:section>
+      <subdivision>
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P7">ADJOURNMENT</p>
+      </subdivision>
       <eol/>
-      <Communication text:style-name="Sect26" text:name="speech908727" BungeniSectionType="Speech" BungeniSpeechID="12" BungeniSpeechBy="userDySpeaker" BungeniSpeechType="ProceduralMotion" BungeniActionEvent="Adjournment">
-         <p>
-            <span/>
-         </p>
-         <text:section text:style-name="Sect28" text:name="heading993728" BungeniSectionType="Person" BungeniSpeechID="12" BungeniSpeechBy="userDySpeaker" BungeniSpeechType="ProceduralMotion" BungeniActionEvent="Adjournment">
-            <p>
-               <text:reference-mark-start text:name="BungeniSpeechAs:12"/>
-               <eol/>
-               <eol/>
-               <text:reference-mark-end text:name="BungeniSpeechAs:12"/>
-               <eol/>
-               <text:reference-mark-start text:name="BungeniSpeechBy:12"/>
-               <eol/>
-               <text:reference-mark-end text:name="BungeniSpeechBy:12"/>
-               <span>):<text:s/>
+      <Communication type="" id="" by="" to="" status="">
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P6"/>
+         <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect29" text:name="heading993728" BungeniSectionType="Person" BungeniSpeechID="12" BungeniSpeechBy="userDySpeaker" BungeniSpeechType="ProceduralMotion" BungeniActionEvent="Adjournment">
+            <p text:style-name="P15">
+               <reference-mark text:name="BungeniSpeechAs:12"/>
+               <span text:style-name="T2">The Temporary Deputy Speaker</span>
+               <span text:style-name="T1"/>
+               <span text:style-name="T1">(</span>
+               <reference-mark text:name="BungeniSpeechBy:12"/>
+               <span text:style-name="T1">Mr. Musila</span>
+               <span text:style-name="T1">):<text:s/>
                </span>
             </p>
          </text:section>
          <eol/>
-         <p>Hon. Members, it is now time to interrupt the business of today.<text:s/>The House, therefore, is adjourned until tomorrow Wednesday, the 3rd of May, 2000, at 9.00 a.m.</p>
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">Hon. Members, it is now time to interrupt the business of today.<text:s/>The House, therefore, is adjourned until tomorrow Wednesday, the 3rd of May, 2000, at 9.00 a.m.</p>
       </Communication>
       <eol/>
-      <text:section text:style-name="Sect27" text:name="comment883783" BungeniSectionType="ActionEvent" BungeniActionEvent="HouseClosing" BungeniHouseRisingTime="18:30">
-         <p>The House rose at<text:reference-mark-start text:name="BungeniHouseRisingTime"/>6.30 p.m<text:reference-mark-end text:name="BungeniHouseRisingTime"/>.</p>
-      </text:section>
+      <subdivision>
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P3">The House rose at<reference-mark text:name="BungeniHouseRisingTime">6.30 p.m.</reference-mark>6.30 p.m.</p>
+      </subdivision>
       <eol/>
       <eol/>
       <eol/>
@@ -291,7 +275,7 @@
       <eol/>
       <eol/>
       <eol/>
-      <p>
+      <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">
          <text:soft-page-break/>
       </p>
       <eol/>

@@ -29,25 +29,37 @@
     <xsl:output indent="yes" method="xml" />
     <xsl:param name="type" />
     <xsl:param name="name" />
-    <xsl:param name="bungeniSectionType" />
+	<xsl:param name="owner" />
+	<xsl:param name="bungeniSectionType" />
     <xsl:param name="result" />
-    <xsl:param name="mode" />
+    <xsl:param name="attributes" />
     <xsl:template match="/">
-        <xsl:apply-templates />
+		<xsl:apply-templates/>
     </xsl:template>
     
     <xsl:template match="*">
         <xsl:choose>
             <xsl:when test="name(.) = $type and (@text:name=$name or @BungeniSectionType=$bungeniSectionType)">
+               <xsl:variable name="currentElement" select="." />
                <xsl:element name="{$result}">
-                   <xsl:for-each select="@*">
-                      <!-- <xsl:if test="name(.) != 'bungeniSectionType' and name(.) != text:*"> -->
-                           <xsl:attribute name="{name(.)}">
-                               <xsl:value-of select="."/>
-                           </xsl:attribute>
-                      <!-- </xsl:if> -->
-                   </xsl:for-each>
-                   <xsl:apply-templates />
+               	   <!--<xsl:for-each select="@*">
+                   	   <xsl:attribute name="{name(.)}">
+                       		<xsl:value-of select="."/>
+                       </xsl:attribute>
+                   </xsl:for-each>-->
+                   <xsl:for-each select="tokenize($attributes,',')">
+               	   		<xsl:variable name="oldname" select="substring-before(.,'=')" />
+						<xsl:variable name="newname" select="substring-before(substring-after(.,'='),';')" />
+						<xsl:variable name="value" select="substring-after(substring-after(.,'='),';')" />
+						<xsl:choose>
+							<xsl:when test="$newname!='null'">
+								<xsl:attribute name="{$newname}">
+									<xsl:value-of select="$currentElement/@*[name(.)=$value]" />
+								</xsl:attribute>
+							</xsl:when>
+						</xsl:choose>
+				   </xsl:for-each>
+                   <xsl:apply-templates/>
                </xsl:element> 
             </xsl:when>
             <xsl:otherwise>
@@ -57,12 +69,12 @@
                             <xsl:value-of select="."/>
                         </xsl:attribute>
                     </xsl:for-each>
-                    <xsl:apply-templates />
+                    <xsl:apply-templates/>
                 </xsl:element> 
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-    
+	    
     <xsl:template match="text()">
         <xsl:value-of select="normalize-space(.)"/>
     </xsl:template>

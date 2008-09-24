@@ -28,6 +28,22 @@
         <xsl:apply-templates/>
     </xsl:template>
 
+	<xsl:template match='text:reference-mark-start'>
+    	<reference-mark>
+			<xsl:for-each select="@*">
+                <xsl:attribute name="{name(.)}">
+                    <xsl:value-of select="."/>
+                </xsl:attribute>
+            </xsl:for-each>
+    		<!--<xsl:value-of select="./following-sibling::text()"/> -->
+    	    <xsl:apply-templates select='following-sibling::*[following-sibling::text:reference-mark-end][1][@text:name=current()/@text:name]' />
+    	    <xsl:apply-templates select='./following-sibling::text()' />
+    	</reference-mark>
+	</xsl:template>
+    
+	<xsl:template match='text:reference-mark-end'>
+   </xsl:template>
+
     <xsl:template match="text:sequence-decls">
         <xsl:apply-templates/>
     </xsl:template>
@@ -46,8 +62,9 @@
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
-    
+      
     <xsl:template match="text()">
         <xsl:value-of select="normalize-space(.)"/>
     </xsl:template>
+
 </xsl:stylesheet>

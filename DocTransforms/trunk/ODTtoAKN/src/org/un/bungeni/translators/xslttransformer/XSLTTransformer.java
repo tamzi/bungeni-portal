@@ -107,6 +107,7 @@ public class XSLTTransformer implements XSLTTransformerInterface
 	    //create the writer for the transformation
 	    StringWriter resultString = new StringWriter();
 	    
+	    
 	    //perform the transformation
 	    trans.transform(aDocumentSource, new StreamResult(resultString));
 

@@ -42,13 +42,40 @@ public class MapReader implements MapReaderInterface
 		
 		//get the Map step with the given id in this Map XML
 		Node stepNode = (Node)xresolver.evaluate(this.mapXML, "//element[@id='" + anId.toString() + "]", XPathConstants.NODE);
+				
+		//get the MapSteps with the given type in this configuration
+		NodeList attributeNodes = (NodeList)xresolver.evaluate(this.mapXML, "//element[@id='" + stepNode.getAttributes().getNamedItem("id").getNodeValue() + "']//attribute" , XPathConstants.NODESET);
+		
+		//the string that will contain all the attributes mapping
+		String attributesList = ""; 
+		
+		//process all attributes and add them to the string
+		for (int k = 0; k < attributeNodes.getLength(); k++)
+		{
+			//the current node
+			Node currentNode = attributeNodes.item(k);
+			
+			//add all the information of the attribute node to the string
+			attributesList = attributesList + currentNode.getAttributes().getNamedItem("attname").getNodeValue() + "=";
+			attributesList = attributesList + currentNode.getAttributes().getNamedItem("attresult").getNodeValue() + ";";
+			attributesList = attributesList + currentNode.getAttributes().getNamedItem("attvalue").getNodeValue();
+			
+			//if is not the last child add a comma
+			if (k != attributeNodes.getLength() -1)
+			{
+				attributesList = attributesList + ",";
+			}
+			
+		}
 		
 		//create the Map Step 
 		MapStep resultMapStep = new MapStep( Integer.parseInt(stepNode.getAttributes().getNamedItem("id").getNodeValue()),
 						  					 stepNode.getAttributes().getNamedItem("type").getNodeValue(),
 						  					 stepNode.getAttributes().getNamedItem("name").getNodeValue(),
 						  					 stepNode.getAttributes().getNamedItem("bungeniSectionType").getNodeValue(),
-						  					 stepNode.getAttributes().getNamedItem("result").getNodeValue());
+						  					 stepNode.getAttributes().getNamedItem("result").getNodeValue(),
+						  					 attributesList);
+
 		//return the created Step
 		return resultMapStep;
 	}
@@ -74,14 +101,40 @@ public class MapReader implements MapReaderInterface
 		{
 			//get the step node
 			Node stepNode = stepNodes.item(i);
+						
+			//get the MapSteps with the given type in this configuration
+			NodeList attributeNodes = (NodeList)xresolver.evaluate(this.mapXML, "//element[@id='" + stepNode.getAttributes().getNamedItem("id").getNodeValue() + "']//attribute" , XPathConstants.NODESET);
+			
+			//the string that will contain all the attributes mapping
+			String attributesList = ""; 
+			
+			//process all attributes and add them to the string
+			for (int k = 0; k < attributeNodes.getLength(); k++)
+			{
+				//the current node
+				Node currentNode = attributeNodes.item(k);
+				
+				//add all the information of the attribute node to the string
+				attributesList = attributesList + currentNode.getAttributes().getNamedItem("attname").getNodeValue() + "=";
+				attributesList = attributesList + currentNode.getAttributes().getNamedItem("attresult").getNodeValue() + ";";
+				attributesList = attributesList + currentNode.getAttributes().getNamedItem("attvalue").getNodeValue();
+				
+				//if is not the last child add a comma
+				if (k != attributeNodes.getLength() -1)
+				{
+					attributesList = attributesList + ",";
+				}
+				
+			}
 			
 			//create the Map Step 
 			MapStep resultStep = new MapStep( Integer.parseInt(stepNode.getAttributes().getNamedItem("id").getNodeValue()),
  					 								 stepNode.getAttributes().getNamedItem("type").getNodeValue(),
  					 								 stepNode.getAttributes().getNamedItem("name").getNodeValue(),
  					 								 stepNode.getAttributes().getNamedItem("bungeniSectionType").getNodeValue(),
- 					 								 stepNode.getAttributes().getNamedItem("result").getNodeValue());
-			
+ 					 								 stepNode.getAttributes().getNamedItem("result").getNodeValue(),
+ 					 								 attributesList);
+
 			//add the node to the hash map set its key as its position (step attribute)
 			resultMap.put(Integer.parseInt(stepNode.getAttributes().getNamedItem("id").getNodeValue()),resultStep);		
 		}
@@ -111,14 +164,40 @@ public class MapReader implements MapReaderInterface
 		{
 			//get the step node
 			Node stepNode = stepNodes.item(i);
+						
+			//get the MapSteps with the given type in this configuration
+			NodeList attributeNodes = (NodeList)xresolver.evaluate(this.mapXML, "//element[@id='" + stepNode.getAttributes().getNamedItem("id").getNodeValue() + "']//attribute" , XPathConstants.NODESET);
+			
+			//the string that will contain all the attributes mapping
+			String attributesList = ""; 
+			
+			//process all attributes and add them to the string
+			for (int k = 0; k < attributeNodes.getLength(); k++)
+			{
+				//the current node
+				Node currentNode = attributeNodes.item(k);
+				
+				//add all the information of the attribute node to the string
+				attributesList = attributesList + currentNode.getAttributes().getNamedItem("attname").getNodeValue() + "=";
+				attributesList = attributesList + currentNode.getAttributes().getNamedItem("attresult").getNodeValue() + ";";
+				attributesList = attributesList + currentNode.getAttributes().getNamedItem("attvalue").getNodeValue();
+				
+				//if is not the last child add a comma
+				if (k != attributeNodes.getLength() -1)
+				{
+					attributesList = attributesList + ",";
+				}
+				
+			}
 			
 			//create the Map Step 
 			MapStep resultStep = new MapStep( Integer.parseInt(stepNode.getAttributes().getNamedItem("id").getNodeValue()),
  					 								 stepNode.getAttributes().getNamedItem("type").getNodeValue(),
  					 								 stepNode.getAttributes().getNamedItem("name").getNodeValue(),
  					 								 stepNode.getAttributes().getNamedItem("bungeniSectionType").getNodeValue(),
- 					 								 stepNode.getAttributes().getNamedItem("result").getNodeValue());
-			
+ 					 								 stepNode.getAttributes().getNamedItem("result").getNodeValue(),
+ 					 								 attributesList);
+
 			//add the node to the hash map set its key as its position (step attribute)
 			resultMap.put(Integer.parseInt(stepNode.getAttributes().getNamedItem("id").getNodeValue()),resultStep);		
 		}
@@ -149,14 +228,40 @@ public class MapReader implements MapReaderInterface
 		{
 			//get the step node
 			Node stepNode = stepNodes.item(i);
+						
+			//get the MapSteps with the given type in this configuration
+			NodeList attributeNodes = (NodeList)xresolver.evaluate(this.mapXML, "//element[@id='" + stepNode.getAttributes().getNamedItem("id").getNodeValue() + "']//attribute" , XPathConstants.NODESET);
+			
+			//the string that will contain all the attributes mapping
+			String attributesList = ""; 
+			
+			//process all attributes and add them to the string
+			for (int k = 0; k < attributeNodes.getLength(); k++)
+			{
+				//the current node
+				Node currentNode = attributeNodes.item(k);
+				
+				//add all the information of the attribute node to the string
+				attributesList = attributesList + currentNode.getAttributes().getNamedItem("attname").getNodeValue() + "=";
+				attributesList = attributesList + currentNode.getAttributes().getNamedItem("attresult").getNodeValue() + ";";
+				attributesList = attributesList + currentNode.getAttributes().getNamedItem("attvalue").getNodeValue();
+				
+				//if is not the last child add a comma
+				if (k != attributeNodes.getLength() -1)
+				{
+					attributesList = attributesList + ",";
+				}
+				
+			}
 			
 			//create the Map Step 
 			MapStep resultStep = new MapStep( Integer.parseInt(stepNode.getAttributes().getNamedItem("id").getNodeValue()),
  					 								 stepNode.getAttributes().getNamedItem("type").getNodeValue(),
  					 								 stepNode.getAttributes().getNamedItem("name").getNodeValue(),
  					 								 stepNode.getAttributes().getNamedItem("bungeniSectionType").getNodeValue(),
- 					 								 stepNode.getAttributes().getNamedItem("result").getNodeValue());
-			
+ 					 								 stepNode.getAttributes().getNamedItem("result").getNodeValue(),
+ 					 								 attributesList);
+
 			//add the node to the hash map set its key as its position (step attribute)
 			resultMap.put(Integer.parseInt(stepNode.getAttributes().getNamedItem("id").getNodeValue()),resultStep);		
 		}
@@ -187,14 +292,40 @@ public class MapReader implements MapReaderInterface
 		{
 			//get the step node
 			Node stepNode = stepNodes.item(i);
+						
+			//get the MapSteps with the given type in this configuration
+			NodeList attributeNodes = (NodeList)xresolver.evaluate(this.mapXML, "//element[@id='" + stepNode.getAttributes().getNamedItem("id").getNodeValue() + "']//attribute" , XPathConstants.NODESET);
+			
+			//the string that will contain all the attributes mapping
+			String attributesList = ""; 
+			
+			//process all attributes and add them to the string
+			for (int k = 0; k < attributeNodes.getLength(); k++)
+			{
+				//the current node
+				Node currentNode = attributeNodes.item(k);
+				
+				//add all the information of the attribute node to the string
+				attributesList = attributesList + currentNode.getAttributes().getNamedItem("attname").getNodeValue() + "=";
+				attributesList = attributesList + currentNode.getAttributes().getNamedItem("attresult").getNodeValue() + ";";
+				attributesList = attributesList + currentNode.getAttributes().getNamedItem("attvalue").getNodeValue();
+				
+				//if is not the last child add a comma
+				if (k != attributeNodes.getLength() -1)
+				{
+					attributesList = attributesList + ",";
+				}
+				
+			}
 			
 			//create the Map Step 
 			MapStep resultStep = new MapStep( Integer.parseInt(stepNode.getAttributes().getNamedItem("id").getNodeValue()),
  					 								 stepNode.getAttributes().getNamedItem("type").getNodeValue(),
  					 								 stepNode.getAttributes().getNamedItem("name").getNodeValue(),
  					 								 stepNode.getAttributes().getNamedItem("bungeniSectionType").getNodeValue(),
- 					 								 stepNode.getAttributes().getNamedItem("result").getNodeValue());
-			
+ 					 								 stepNode.getAttributes().getNamedItem("result").getNodeValue(),
+ 					 								 attributesList);
+
 			//add the node to the hash map set its key as its position (step attribute)
 			resultMap.put(Integer.parseInt(stepNode.getAttributes().getNamedItem("id").getNodeValue()),resultStep);		
 		}
@@ -225,14 +356,40 @@ public class MapReader implements MapReaderInterface
 		{
 			//get the step node
 			Node stepNode = stepNodes.item(i);
+						
+			//get the MapSteps with the given type in this configuration
+			NodeList attributeNodes = (NodeList)xresolver.evaluate(this.mapXML, "//element[@id='" + stepNode.getAttributes().getNamedItem("id").getNodeValue() + "']//attribute" , XPathConstants.NODESET);
+			
+			//the string that will contain all the attributes mapping
+			String attributesList = ""; 
+			
+			//process all attributes and add them to the string
+			for (int k = 0; k < attributeNodes.getLength(); k++)
+			{
+				//the current node
+				Node currentNode = attributeNodes.item(k);
+				
+				//add all the information of the attribute node to the string
+				attributesList = attributesList + currentNode.getAttributes().getNamedItem("attname").getNodeValue() + "=";
+				attributesList = attributesList + currentNode.getAttributes().getNamedItem("attresult").getNodeValue() + ";";
+				attributesList = attributesList + currentNode.getAttributes().getNamedItem("attvalue").getNodeValue();
+				
+				//if is not the last child add a comma
+				if (k != attributeNodes.getLength() -1)
+				{
+					attributesList = attributesList + ",";
+				}
+				
+			}
 			
 			//create the Map Step 
 			MapStep resultStep = new MapStep( Integer.parseInt(stepNode.getAttributes().getNamedItem("id").getNodeValue()),
  					 								 stepNode.getAttributes().getNamedItem("type").getNodeValue(),
  					 								 stepNode.getAttributes().getNamedItem("name").getNodeValue(),
  					 								 stepNode.getAttributes().getNamedItem("bungeniSectionType").getNodeValue(),
- 					 								 stepNode.getAttributes().getNamedItem("result").getNodeValue());
-			
+ 					 								 stepNode.getAttributes().getNamedItem("result").getNodeValue(),
+ 					 								 attributesList);
+
 			//add the node to the hash map set its key as its position (step attribute)
 			resultMap.put(Integer.parseInt(stepNode.getAttributes().getNamedItem("id").getNodeValue()),resultStep);		
 		}

@@ -32,8 +32,13 @@ public interface MapStepInterface
 	 */
 	public String getResult();
 	/**
+	 * This method is used to get the  attribute operations  of a map Step
+	 * @return the result attribute of a map Step
+	 */
+	public String getAttributes();
+	/**
 	 * Set the id attribute of a step to the given type. 
-	 * @param aStepId the new id of the step 
+	 * @return the string that contains all the operation to be done on the attributes of a particular element 
 	 */
 	public void setId(Integer anStepId);
 	/**
@@ -56,4 +61,9 @@ public interface MapStepInterface
 	 * @param aStepResult the new result of the step 
 	 */
 	public void setResult(String aStepResult);
+	/**
+	 * Set the operation that will be done on the attributes
+	 * @param aStepAttributes the string that contains all the operation to be done on the attributes of a particular element 
+	 */
+	public void setAttributes(String aStepAttributes);
 }

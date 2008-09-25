@@ -258,6 +258,17 @@ class PersonInfo( BungeniAttributeDisplay ):
         self.context.__parent__=None
         super( PersonInfo, self).update()
 
+class SupplementaryQuestionsViewlet( SubformViewlet ):
+    form_name = (u"Supplementary Questions")  
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.supplementaryquestions
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+        #self.form_name = (u"Supplementary Questions")    
+
 
 class ResponseViewlet( BungeniAttributeDisplay ):
     """

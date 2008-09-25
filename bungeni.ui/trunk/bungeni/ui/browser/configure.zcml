@@ -496,7 +496,15 @@
       permission="zope.View"
       weight="10"
       />      
-      
+
+<browser:viewlet
+      name="bungeni.subform.supplementaryquestions"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.SupplementaryQuestionsViewlet"
+      for="bungeni.core.interfaces.IQuestion"
+      permission="zope.View"
+      weight="20"
+      />           
 
       
 <!-- Question Edit Form -->  

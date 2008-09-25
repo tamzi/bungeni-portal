@@ -1113,7 +1113,9 @@ def bindTransitions( form_instance, transitions, wf_name=None, wf=None):
     return actions
 
 
-
+class IQuestionEdit( IQuestion ):
+    notes_display = schema.Text( title=_(u"Notes"),                                      
+                                    )  
         
 class QuestionEdit( CustomEditForm ):
     """
@@ -1123,10 +1125,19 @@ class QuestionEdit( CustomEditForm ):
     """
     #XXX todo: bind the transitions to save + fire transaction
     form_fields = form.Fields( IQuestion ).select('question_type', 'response_type', 'owner_id',
-                                                    'subject', 'question_text', 'note', 'receive_notification' )
+                                                    'subject', 'question_text', 
+                                                    'clerk_submission_date', 'approval_date',                                                    
+                                                    'note', 'receive_notification' )
+                    
+                                                    
+                                                    
     Adapts = IQuestion
-    form_fields["note"].custom_widget=widget.RichTextEditor 
-    form_fields["question_text"].custom_widget=widget.RichTextEditor 
+    form_fields["note"].custom_widget = widget.RichTextEditor 
+    form_fields["question_text"].custom_widget = widget.RichTextEditor 
+    form_fields['clerk_submission_date'].for_display = True
+    form_fields['approval_date'].for_display = True    
+#    form_fields['notes_display'].for_display = True  
+#    form_fields['notes_display'].custom_widget = widget.HTMLDisplay  
     CustomValidations =  validations.QuestionEdit
     
     default_actions = form.Actions(
@@ -1160,7 +1171,7 @@ class QuestionEdit( CustomEditForm ):
        
 
     def update( self ):
-        self.setupActions()   
+        self.setupActions()  
         super( QuestionEdit, self).update()
         self.setupActions()  # after we transition we have different actions      
         wf_state =interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()

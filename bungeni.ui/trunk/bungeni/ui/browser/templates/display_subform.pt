@@ -42,7 +42,7 @@
           
             <metal:block define-slot="top-fieldset">
             </metal:block>
-          <table>
+          <table tal:condition="view/has_data">
           <tal:block tal:repeat="widget widgets">
 
             <!--div tal:condition="python: not widget.visible">

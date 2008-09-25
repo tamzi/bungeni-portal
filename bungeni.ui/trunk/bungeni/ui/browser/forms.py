@@ -62,6 +62,7 @@ class BungeniAttributeDisplay( DynamicFields, DisplayFormViewlet ):
     mode = "view"
     template = ViewPageTemplateFile('templates/display_form.pt')        
     form_name = _(u"General")    
+    has_data = True
 
     def update( self ):
         self.form_name = self.getform_name()
@@ -70,10 +71,13 @@ class BungeniAttributeDisplay( DynamicFields, DisplayFormViewlet ):
 
    
     def getform_name( self ):
-        if self.context.__parent__:
-            descriptor = queryModelDescriptor( self.context.__parent__.domain_model )
-        else:
-            return self.form_name
+        try:
+            if self.context.__parent__:
+                descriptor = queryModelDescriptor( self.context.__parent__.domain_model )
+            else:
+                return self.form_name
+        except:
+            return self.form_name                        
         if descriptor:
             name = getattr( descriptor, 'display_name', None)
         if not name:
@@ -1075,8 +1079,8 @@ class TransitionHandler( object ):
             info = component.getAdapter( context, interfaces.IWorkflowInfo, self.wf_name )            
         else:
             info = interfaces.IWorkflowInfo( context ) 
-        if data.has_key('notes'):
-            notes = data['notes']     
+        if data.has_key('note'):
+            notes = data['note']     
         result = handle_edit_action( form, action, data )
         if form.errors: 
             return result

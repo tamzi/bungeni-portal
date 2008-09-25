@@ -1,6 +1,7 @@
 # utf-8
 from zope.viewlet import viewlet, interfaces
 from zope.app.pagetemplate import ViewPageTemplateFile
+from zope.traversing.browser import absoluteURL 
 import bungeni.core.domain as domain
 from bungeni.core.interfaces import IMemberOfParliament
 from ore.alchemist import Session
@@ -219,14 +220,14 @@ class PartyMembershipViewlet( SubformViewlet ):
         self.manager = manager
         self.query = None
             
-class ResponseViewlet( SubformViewlet ):
-    def __init__( self,  context, request, view, manager ):        
-
-        self.context = context.responses
-        self.request = request
-        self.__parent__= context
-        self.manager = manager
-        self.query = None
+#class ResponseViewlet( SubformViewlet ):
+#    def __init__( self,  context, request, view, manager ):        
+#
+#        self.context = context.responses
+#        self.request = request
+#        self.__parent__= context
+#        self.manager = manager
+#        self.query = None
 
     
 class PersonInfo( BungeniAttributeDisplay ):
@@ -258,7 +259,50 @@ class PersonInfo( BungeniAttributeDisplay ):
         super( PersonInfo, self).update()
 
 
+class ResponseViewlet( BungeniAttributeDisplay ):
+    """
+    Response to Question
+    """
+    mode = "view"
+    template = ViewPageTemplateFile('templates/display_subform.pt')        
+    form_name = _(u"Response")   
+    addurl = 'add'
+    add_action = form.Actions( form.Action(_(u'add'), success='handle_add_action'), )
+    
+    def __init__( self,  context, request, view, manager ):        
+        self.context = context
+        self.request = request
+        self.__parent__= view
+        self.manager = manager
+        self.query = None
+        md = queryModelDescriptor(domain.Response)          
+        self.form_fields=md.fields
 
+    def handle_add_action( self, action, data ):
+        self.request.response.redirect(self.addurl)
+
+ 
+        
+    def update(self):
+        """
+        refresh the query
+        """       
+        session = Session()
+        question_id = self.context.question_id
+        self.query = session.query(domain.Response).filter(domain.Response.c.response_id == question_id) 
+        results = self.query.all()
+        #self.context = self.query.all()[0]
+        path = absoluteURL( self.context, self.request ) 
+        self.addurl = '%s/responses/add' %( path )
+        if results:
+            self.context = results[0]
+            self.context.__parent__=None
+            self.has_data = True
+        else:
+            self.context =  domain.Response()
+            self.has_data = False             
+            self.actions = self.add_action.actions
+        super( ResponseViewlet, self).update()
     
             
     

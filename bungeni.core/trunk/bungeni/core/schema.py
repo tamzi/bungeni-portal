@@ -616,8 +616,8 @@ questions = rdb.Table(
 question_schedules = rdb.Table(
     "question_schedules",
     metadata,
-    rdb.Column( "question_id", rdb.Integer, rdb.ForeignKey('questions.question_id'), nullable=False ),
-    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id')  ),
+    rdb.Column( "question_id", rdb.Integer, rdb.ForeignKey('questions.question_id'), nullable=False, primary_key=True ),
+    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id'), nullable=False, primary_key=True  ),
     )
 
 

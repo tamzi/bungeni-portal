@@ -342,6 +342,11 @@ mapper( domain.Question, schema.questions,
              }
         )
 
+_question_schedules_history = rdb.join ( schema.question_schedules, schema.sittings,
+                            schema.question_schedules.c.sitting_id == schema.sittings.c.sitting_id )
+
+mapper( domain.QuestionScheduleHistory, _question_schedules_history )
+
 mapper( domain.ResponseChange, schema.response_changes )
 mapper( domain.ResponseVersion, schema.response_versions,
         properties= {'change':relation( domain.ResponseChange, uselist=False ) }

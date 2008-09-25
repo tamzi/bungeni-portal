@@ -31,12 +31,10 @@ Questions
 Responses
 
   >>> response = domain.Response()
-  >>> response.question_id = question.question_id
+  >>> response.response_id = question.question_id
   >>> session.save(response)
   >>> session.flush()
  
-  >>> response.question_id
-  1L
   
   >>> response.response_id
   1L
@@ -44,7 +42,7 @@ Responses
 Get question for response()
 ---------------------------
   
-  >>> q1 = dbutils.getQuestion(response.question_id)
+  >>> q1 = dbutils.getQuestion(response.response_id)
   
   >>> q1.__class__
   <class 'bungeni.core.domain.Question'>

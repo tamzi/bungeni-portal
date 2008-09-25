@@ -130,11 +130,11 @@ gets fired by the response transitions succeed.
 Responses
 
   >>> response = domain.Response()
-  >>> response.question_id = question.question_id
+  >>> response.response_id = question.question_id
   >>> session.save(response)
   >>> session.flush()
  
-  >>> response.question_id
+  >>> question.question_id
   1L
   
   >>> response.response_id

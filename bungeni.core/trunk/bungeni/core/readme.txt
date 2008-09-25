@@ -292,12 +292,10 @@ Note that the questions workflow is tested separated (see workflows/question.txt
 Responses
 ---------
   >>> response = model.Response()
-  >>> response.question_id = question.question_id
+  >>> response.response_id = question.question_id
   >>> session.save(response)
   >>> session.flush()
  
-  >>> response.question_id
-  1L
   
   >>> response.response_id
   1L

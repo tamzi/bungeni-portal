@@ -44,7 +44,7 @@ def submitResponse( info, context ):
     """
 
     instance = removeSecurityProxy(context)
-    question = dbutils.getQuestion(instance.question_id)
+    question = dbutils.getQuestion(instance.response_id)
     IWorkflowInfo(question).fireTransition('respond-writing')
 
 def publishResponse( info, context ):
@@ -53,6 +53,6 @@ def publishResponse( info, context ):
     status is set to answered
     """
     instance = removeSecurityProxy(context)
-    question = dbutils.getQuestion(instance.question_id)
+    question = dbutils.getQuestion(instance.response_id)
     IWorkflowInfo(question).fireTransition('answer')
     

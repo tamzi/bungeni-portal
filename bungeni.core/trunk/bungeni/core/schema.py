@@ -602,7 +602,7 @@ questions = rdb.Table(
      
    # after the question is scheduled
    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id')  ),
-   rdb.Column( "sitting_time", rdb.Date),
+   rdb.Column( "sitting_time", rdb.DateTime( timezone=False ) ),
    #
    # Receive Question Notifications -> triggers notification on workflow change
    rdb.Column( "receive_notification", rdb.Boolean, default=True ),
@@ -632,8 +632,8 @@ question_versions = make_versions_table( questions, metadata )
 responses = rdb.Table(
    "responses",
    metadata,
-   rdb.Column( "response_id", rdb.Integer, primary_key=True ),
-   rdb.Column( "question_id", rdb.Integer, rdb.ForeignKey('questions.question_id'), nullable=False ),
+   rdb.Column( "response_id", rdb.Integer, rdb.ForeignKey('questions.question_id'), primary_key=True ),
+   #rdb.Column( "question_id", rdb.Integer, rdb.ForeignKey('questions.question_id'), primary_key=True ),
    rdb.Column( "response_text", rdb.UnicodeText ),
    #rdb.Column( "response_type", rdb.String(1), rdb.CheckConstraint("response_type in ('I','S')"), default=u"I"), # (I)nitial (S)ubsequent
    # 

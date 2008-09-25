@@ -333,7 +333,8 @@ class ParliamentaryItem( Entity ):
 class Question( ParliamentaryItem ):
 
     interface.implements( interfaces.IQuestion )
-    responses = one2many("responses", "bungeni.core.domain.ResponseContainer", "question_id")
+    responses = one2many("responses", "bungeni.core.domain.ResponseContainer", "response_id")
+    supplementaryquestions = one2many("supplementaryquestions", "bungeni.core.domain.QuestionContainer", "supplement_parent_id")
     @property
     def short_name( self ):
         return ( self.subject )

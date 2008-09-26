@@ -1028,5 +1028,23 @@ class RotaDescriptor( ModelDescriptor ):
 
 #class TranscriptIdentifier( ModelDescriptor ):
  
+class QuestionScheduleHistoryDescriptor ( ModelDescriptor ):
+    fields = [
+        dict( name="question_id", omit=True),
+        dict( name="sitting_id", omit=True ),
+        dict( name="group_id", omit=True ),
+        dict( name="session_id", omit=True ),
+        dict( name="start_date", label=_(u"Start Date"),  
+            listing_column=day_column("start_date", _(u'Start Date')), listing=True),           
+        dict( name="end_date", omit=True),  
+        dict( name="sitting_type", 
+              listing_column = vocab_column( "sitting_type", _(u"Sitting Type"), vocabulary.SittingTypes ),
+              property = schema.Choice( title=_(u"Sitting Type"), 
+                                        source=vocabulary.SittingTypes,
+                                        required=True) ),
+        ]        
+
+
+ 
  
  

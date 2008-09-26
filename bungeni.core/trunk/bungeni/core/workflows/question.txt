@@ -12,6 +12,61 @@ Setup
   >>> import copy
   >>> import datetime
   
+  
+some setup for tests
+
+   >>> from zope import component
+   >>> from sqlalchemy import create_engine
+   >>> from ore.alchemist.interfaces import IDatabaseEngine
+   >>> from ore.alchemist import Session
+   >>> from bungeni import core as model
+   >>> from bungeni.core import domain, schema
+
+
+   
+   
+Setting up Database Connection and Utilities:
+
+   >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
+   >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
+   >>> model.metadata.bind = db   
+   >>> model.metadata.create_all() 
+   >>> session = Session()
+
+setup a sitting
+Sittings
+--------
+
+any group can schedule a sitting, a sitting is treated as a physical
+meeting of the group by the system. 
+
+ >>> st = model.SittingType()
+ >>> st.sitting_type = u"morning"
+ >>> session.save(st)
+ >>> session.flush()
+
+ >>> st.sitting_type_id
+ 1L
+ 
+ >>> sit1 = model.GroupSitting()
+ >>> sit1.start_date = datetime.datetime.now()
+ >>> sit1.end_date = datetime.datetime.now()
+ >>> sit1.sitting_type = st.sitting_type_id
+ >>> session.save(sit1)
+ >>> session.flush()   
+ 
+ >>> sit2 = model.GroupSitting()
+ >>> sit2.start_date = datetime.datetime.now()
+ >>> sit2.end_date = datetime.datetime.now()
+ >>> sit2.sitting_type = st.sitting_type_id
+ >>> session.save(sit2)
+ >>> session.flush()   
+ 
+ 
+   
+set up utilities
+---------------  
+  
   >>> today = datetime.date.today()
   
   
@@ -73,8 +128,14 @@ Permissions
   ...   return tuple(transition.permission for transition in wf.getTransitions(state))
 
 
+Add questio to db
+------------------
 
   >>> question = Question()
+  >>> question.subject = u"subject of the question"
+  >>> question.question_text = u"The question"
+  >>> session.save(question)
+  >>> session.flush()
 
 First we initialize the workflow.
   
@@ -85,6 +146,10 @@ First we initialize the workflow.
   (Global(CheckerPublic,zope.security.checker),)
 
   >>> IWorkflowInfo(question).fireTransition('create')
+
+  >>> question.question_id == None
+  False
+
 
 The question is now in a draft state.
 
@@ -378,6 +443,8 @@ A question can be withdrawn at (almost) any stage
 
 schedule the question
 
+  >>> question.sitting_id = sit1.sitting_id
+
   >>> result = IWorkflowInfo(question).fireTransition('schedule')  
   
   >>> transitions(question)
@@ -412,7 +479,9 @@ A question can be withdrawn at (almost) any stage
   >>> question_withdraw.status
   u'Question withdrawn'
 
-and reschedule it
+and reschedule it for the second sitting
+
+  >>> question.sitting_id = sit2.sitting_id
 
   >>> result = IWorkflowInfo(question).fireTransition('schedule-postponed')  
   
@@ -429,7 +498,7 @@ respond to the question
 the question gets marked as answered
 
  >>> result = IWorkflowInfo(question).fireTransition('answer')  
-  >>> transitions(question)
+ >>> transitions(question)
   ()      
 
   
@@ -451,4 +520,7 @@ Transition events check
   (u'Question responded', u'Question answered'): True}
 
 
-
+cleanup
+-------
+  >>> session.flush()
+  

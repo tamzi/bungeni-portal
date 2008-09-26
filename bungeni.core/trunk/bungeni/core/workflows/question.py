@@ -308,7 +308,8 @@ def create_question_workflow( ):
         transition_id = 'postpone',
         title=_(u'Postpone'),
         source = states.scheduled,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL, 
+        action = utils.setQuestionScheduleHistory,
         destination = states.postponed,
         permission = 'bungeni.question.Schedule',        
         ) )      

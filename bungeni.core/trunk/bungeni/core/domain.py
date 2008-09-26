@@ -479,6 +479,10 @@ class MinistryInParliament( object ):
     """
     auxilliary class to get the parliament and government for a ministry
     """
+class QuestionSchedule(object):
+    """
+    for which sitting was a question scheduled
+    """ 
     
 class QuestionScheduleHistory( object ):
     """

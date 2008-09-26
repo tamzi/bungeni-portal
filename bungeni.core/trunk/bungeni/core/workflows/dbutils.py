@@ -16,6 +16,16 @@ def getQuestion(question_id):
     query = session.query(domain.Question).filter(schema.questions.c.question_id == question_id)
     return query.one()
     
-    
+def insertQuestionScheduleHistory(question_id, sitting_id):
+    """
+    inserts question and sitting when a question was postponed
+    """
+    session = Session() 
+    question_schedule = domain.QuestionSchedule()
+    question_schedule.question_id = question_id
+    question_schedule.sitting_id = sitting_id
+    session.save(question_schedule)
+    session.flush()
+         
     
     

@@ -23,7 +23,7 @@ def setQuestionDefaults(info, context):
     """get the default values for a question.
     current parliament, ... """ 
     instance = removeSecurityProxy(context)
-    dbutils.setQuestionParliamentId(instance)
+    #dbutils.setQuestionParliamentId(instance)
 
 def setSubmissionDate(info, context):
     instance = removeSecurityProxy(context)
@@ -36,6 +36,14 @@ def setApprovalDate(info, context):
     instance.approval_date = datetime.date.today()  
     versions =  bungeni.core.interfaces.IVersioned(instance)            
     versions.create('New Version, Question approved by speakers office')
+
+def setQuestionScheduleHistory(info, context):
+    question_id = context.question_id
+    sitting_id = context.sitting_id
+    dbutils.insertQuestionScheduleHistory(question_id, sitting_id) 
+    instance = removeSecurityProxy(context)
+    instance.sitting_id = None       
+
 
 def submitResponse( info, context ):
     """

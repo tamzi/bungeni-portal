@@ -113,8 +113,8 @@ class TransitionHandler( object ):
             info = component.getAdapter( context, interfaces.IWorkflowInfo, self.wf_name )            
         else:
             info = interfaces.IWorkflowInfo( context ) 
-        if data.has_key('notes'):
-            notes = data['notes']             
+        if data.has_key('note'):
+            notes = data['note']             
         info.fireTransition( self.transition_id, notes )        
         form.setupActions()
 
@@ -145,7 +145,7 @@ class IWorkflowComment( zope.interface.Interface ):
     """
     a dummy to get the comment field into the form
     """           
-    notes = zope.schema.Text(title=_("Comment on workflow change"), required=False )
+    note = zope.schema.Text(title=_("Comment on workflow change"), required=False )
 
     
 class WorkflowActionViewlet( BaseForm, viewlet.ViewletBase ):

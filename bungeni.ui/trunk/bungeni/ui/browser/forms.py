@@ -41,11 +41,13 @@ import validations
 
 from bungeni.core.interfaces import IVersioned 
 
-def createVersion(context):
+def createVersion(context, comment = ''):
     """Create a new version of an object and return it."""
     instance = removeSecurityProxy(context)
     versions = IVersioned(instance)
-    versions.create('New version created upon edit.')
+    if not comment:
+        comment =''
+    versions.create(u'New version created upon edit.' + comment)
 
 
 #############
@@ -1081,11 +1083,13 @@ class TransitionHandler( object ):
             info = interfaces.IWorkflowInfo( context ) 
         if data.has_key('note'):
             notes = data['note']     
+        else:
+            notes=''            
         result = handle_edit_action( form, action, data )
         if form.errors: 
             return result
         else:         
-            createVersion(form.context)                                                        
+            createVersion(form.context, notes)                                                        
             info.fireTransition( self.transition_id, notes )        
         form.setupActions()
 
@@ -1132,7 +1136,7 @@ class QuestionEdit( CustomEditForm ):
                                                     
                                                     
     Adapts = IQuestion
-    form_fields["note"].custom_widget = widget.RichTextEditor 
+    form_fields["note"].custom_widget = widget.OneTimeEditor
     form_fields["question_text"].custom_widget = widget.RichTextEditor 
     form_fields['clerk_submission_date'].for_display = True
     form_fields['approval_date'].for_display = True    
@@ -1161,7 +1165,11 @@ class QuestionEdit( CustomEditForm ):
         else:            
             url = absoluteURL( self.context, self.request ) 
             #create a version on every edit ...
-            createVersion(self.context)
+            if data.has_key('note'):
+                notes = data['note']     
+            else:
+                notes= ''                
+            createVersion(self.context, notes)
             return self.request.response.redirect( url )        
     
     def setupActions( self ):

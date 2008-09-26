@@ -7,6 +7,8 @@ from zope.app.form.browser.itemswidgets import  RadioWidget
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from bungeni.core.i18n import _
 
+
+
 def CustomRadioWidget( field, request ):
     """ to replace the default combo box widget for a schema.choice field"""
     vocabulary = field.vocabulary
@@ -140,3 +142,14 @@ class RichTextEditor( TextAreaWidget ):
         
         # return the rendered input widget
         return input_widget
+        
+class OneTimeEditor( TextAreaWidget ):
+    """
+    a text area that is meant to be used once in between edit.
+    when you open an edit form it displays the last entry that
+    was made and an empty texarea input that will get stored.
+    
+    """
+    __call__ = ViewPageTemplateFile('templates/one-time-textinput-widget.pt')    
+
+        

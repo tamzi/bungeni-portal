@@ -130,6 +130,7 @@
 
   <!-- Style Sheet -->
   <browser:resource name="marginalia.css" file="js/marginalia.css" />
+  <browser:resource name="marginaliaadmin.css" file="js/marginaliaadmin.css" />
 
   <!-- Javascript files -->
 

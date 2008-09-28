@@ -124,6 +124,10 @@ function bungeniClickCreateAnnotation( event, id ) {
 <link rel="stylesheet" type="text/css" media="all" href="marginalia.css"
       tal:attributes="href context/++resource++marginalia.css" />
 
+<tal:cond tal:condition="view/isAdmin">
+<link rel="stylesheet" type="text/css" media="all" href="marginalia.css"
+      tal:attributes="href context/++resource++marginaliaadmin.css" />
+</tal:cond>
 </head>
 <body>
 

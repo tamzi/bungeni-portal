@@ -63,7 +63,7 @@ class MarginaliaPage(BrowserPage):
 
     def isAdmin(self):
         """Returns true if the registered user is an administrator."""
-        return True
+        return False
 
     def getAuthenticatedUser(self):
         """Returns the currently authenticated member."""
@@ -469,7 +469,7 @@ class MarginaliaAnnotationView(BrowserView):
 
     def isAdmin(self):
         """Returns true if the registered user is an administrator."""
-        return True
+        return False
     
     def getAuthenticatedUser(self):
         """Returns the currently authenticated member."""

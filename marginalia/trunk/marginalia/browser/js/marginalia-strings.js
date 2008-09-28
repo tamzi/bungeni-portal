@@ -86,4 +86,6 @@ LocalizedAnnotationStrings = {
 	'pending' : 'pending',
 	
 	'lang' : 'en',
+
+    'add settings': 'Comments/Amendments may be added only when the page displays Comments/Amendments added by self. Please try again.',
 };

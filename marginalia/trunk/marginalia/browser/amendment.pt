@@ -116,6 +116,13 @@ addLoadEvent(show_annotations_on_load);
  * 2. BungeniNoteEditor - create a simple margin note
  */
 function bungeniClickCreateAnnotation( event, id ) {
+    var button = document.getElementById('clear');
+    flag = myAnnotations(button);
+    if (flag!=true) {
+       alert( getLocalized( 'add settings' ) );
+       return false
+    }
+    
 	clickCreateAnnotation(event, id, new SelectActionNoteEditor());
 }
 ">

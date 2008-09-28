@@ -1338,6 +1338,53 @@ function clearSearch(form_field) {
   filterAnnotations(form_field);
 }
 
+function myAnnotations(form_field) {
+  if ( marginalia.noteEditor )
+      return false;
+  var parent_node = form_field.parentNode;
+  var selectNodes = domutil.childrenByTagClass( parent_node, null, 'select_field', null, null );
+  var select_obj_owner = [];
+  var select_obj_group = [];
+  var select_obj_type = [];
+  if (selectNodes.length>=1)
+    var select_obj_owner = selectNodes[0];
+  if (selectNodes.length>=2)
+    var select_obj_group = selectNodes[1];
+  if (selectNodes.length>=3)
+    var select_obj_type = selectNodes[2];
+
+  for(i=0; i<select_obj_owner.length; i++)  {
+      if ((select_obj_owner.options[i].text == "Myself") &&
+          (select_obj_owner.options[i].selected == true)) {
+          return true
+              }
+  }
+
+  for(i=0; i<select_obj_owner.length; i++)  {
+      if (select_obj_owner.options[i].text == "Myself") 
+          select_obj_owner.options[i].selected = true;
+      else
+          select_obj_owner.options[i].selected = false;
+      }
+  for(i=0; i<select_obj_group.length; i++)  {
+      if (select_obj_group.options[i].value == "select_all") 
+          select_obj_group.options[i].selected = true;
+      else
+          select_obj_group.options[i].selected = false;
+      }
+  for(i=0; i<select_obj_type.length; i++)  {
+      if (select_obj_type.options[i].value == "select_all") 
+          select_obj_type.options[i].selected = true;
+      else
+          select_obj_type.options[i].selected = false;
+      }
+  var input_obj = domutil.childrenByTagClass( parent_node, null, 'input_field', null, null )[0];
+  input_obj.value = "";
+  filterAnnotations(form_field);
+  return false
+}
+
+
 function membership(member_str, member_list){
     var i;
     for (i=0;i<member_list.length;i++) {

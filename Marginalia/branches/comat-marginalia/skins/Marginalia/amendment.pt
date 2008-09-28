@@ -61,6 +61,37 @@
     background-image:url(link.gif);
 }
 </style>
+<tal:con tal:condition="isadmin">
+<style type="text/css">
+.hentry em.annotation {
+   background: none;
+}
+
+.hentry em.annotation em.annotation {
+   background: none;     
+}
+
+.hentry em.annotation em.annotation em.annotation {
+   background: none;
+}
+
+.hentry em.annotation em.annotation em.annotation em.annotation {
+   background: none;
+}
+
+.hentry em.annotation em.annotation em.annotation em.annotation em.annotation {
+   background: none;
+}
+
+.hentry .entry-content em.annotation ins {
+   color:black;
+}
+
+.hentry .entry-content em.annotation del {
+   display:none;     
+}
+</style>
+</tal:con>
 </metal:block>
 
 <body>

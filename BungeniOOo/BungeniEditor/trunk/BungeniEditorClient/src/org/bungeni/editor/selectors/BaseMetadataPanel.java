@@ -323,5 +323,8 @@ public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel
         }
     }
     
-    
+    public boolean doUpdateEvent(){
+        
+        return true;
+    }
 }

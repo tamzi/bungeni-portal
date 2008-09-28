@@ -188,8 +188,15 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
         });
     }
     
+    public boolean preMainApply(){
+        return true;
+    }
+    
     private void doApplies(){
        // getActivePanels()
+        boolean bReturnMain = preMainApply();
+        if (!bReturnMain) 
+            return;
         boolean bValidate = true;
         for (panelInfo valPanels : getActivePanels()) {
             boolean bState = valPanels.getPanelObject().doValidate();

@@ -69,6 +69,7 @@ public class CommonRouterActions {
                     // Main m = new Main();
                   // m.initVariables(ooDoc, parentFrm, aAction, aSubAction, dlgMode);
                     javax.swing.JFrame f = new javax.swing.JFrame(action.action_display_text());
+                    containerPanel.setContainerFrame(f);
                     f.add(containerPanel.getPanelComponent());
                     f.pack();
                     f.setLocationRelativeTo(null);

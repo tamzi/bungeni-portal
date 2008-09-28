@@ -52,7 +52,13 @@
 		 */
 		function bungeniClickCreateAnnotation( event, id )
 		{
-			clickCreateAnnotation(event, id, false);
+           var button = document.getElementById('clear');
+           flag = myAnnotations(button);
+           if (flag!=true) {
+           alert( getLocalized( 'add settings' ) );
+               return false
+           }
+		   clickCreateAnnotation(event, id, false);
 		}
 		">
     </script>

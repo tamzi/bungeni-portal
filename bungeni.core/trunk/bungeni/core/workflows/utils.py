@@ -37,6 +37,10 @@ def setApprovalDate(info, context):
     versions =  bungeni.core.interfaces.IVersioned(instance)            
     versions.create('New Version, Question approved by speakers office')
 
+def setMinistrySubmissionDate(info, context):
+    instance = removeSecurityProxy(context)
+    instance.ministry_submit_date = datetime.date.today()  
+
 def setQuestionScheduleHistory(info, context):
     question_id = context.question_id
     sitting_id = context.sitting_id

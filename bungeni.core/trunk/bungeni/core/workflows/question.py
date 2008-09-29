@@ -229,7 +229,8 @@ def create_question_workflow( ):
         transition_id = 'send-ministry',
         title=_(u'Send to ministry'),
         source = states.admissible,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL,        
+        action = utils.setMinistrySubmissionDate,                
         destination = states.response_pending,
         permission = 'bungeni.question.Schedule',        
         ) )  
@@ -283,7 +284,8 @@ def create_question_workflow( ):
         transition_id = 'defer-ministry',
         title=_(u'Send to ministry'),
         source = states.deferred,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL,        
+        action = utils.setMinistrySubmissionDate,                
         destination = states.response_pending,
         permission = 'bungeni.question.Schedule',        
         ) )  
@@ -351,6 +353,7 @@ def create_question_workflow( ):
         transition_id = 'postponed-ministry',
         title=_(u'Send to Ministry'),
         source = states.postponed,
+        action = utils.setMinistrySubmissionDate,
         trigger = iworkflow.MANUAL,                
         destination = states.response_pending,        
         permission = 'bungeni.question.Schedule',        

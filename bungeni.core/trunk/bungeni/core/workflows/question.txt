@@ -375,8 +375,12 @@ A written response to the question
 
   >>> question_written_response = copy.deepcopy(question)
 
+  >>> question_written_response.ministry_submit_date
 
   >>> result = IWorkflowInfo(question_written_response).fireTransition('send-ministry')  
+  
+  >>> question_written_response.ministry_submit_date == today  
+  True
   
   >>> transitions(question_written_response)
    ('elapse-pending', 'respond-writing')
@@ -410,8 +414,12 @@ A deferred question can be assigned to a ministry for a written response
 
   >>> question_defer_response = copy.deepcopy(question_defer)
 
+  >>> question_defer_response.ministry_submit_date
 
   >>> result = IWorkflowInfo(question_defer_response).fireTransition('defer-ministry')  
+  
+  >>> question_defer_response.ministry_submit_date  == today
+  True
   
   >>> transitions(question_defer_response)
   ('elapse-pending', 'respond-writing')

@@ -6,6 +6,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.un.bungeni.translators.odttoakn.map.Map;
 import org.un.bungeni.translators.odttoakn.steps.ConfigStep;
+import org.un.bungeni.translators.odttoakn.steps.ReplaceStep;
 
 /**
  * This is the interface for the configuration reader. A configuration reader has a singleton
@@ -38,13 +39,20 @@ public interface ConfigurationReaderInterface
 	public ConfigStep getStepByPosition(Integer aPosition) throws XPathExpressionException;
 	
 	/**
-	 * Used to get an HashMao containing all the Steps of the configuration with their position 
+	 * Used to get an HashMap containing all the Steps of the configuration with their position 
 	 * as key 
 	 * @return the HashMap containing all the Steps of the configuration
 	 * @throws XPathExpressionException 
 	 */
 	public HashMap<Integer,ConfigStep> getSteps() throws XPathExpressionException;
-	
+
+	/**
+	 * Used to get an HashMap containing all the ReplaceStep of the configuration  
+	 * @return the HashMap containing all the ReplaceSteps of the configuration
+	 * @throws XPathExpressionException 
+	 */
+	public HashMap<Integer,ReplaceStep> getReplaceSteps() throws XPathExpressionException;
+
 	/**
 	 * Returns the Map object related to this Configuration object
 	 * @return the map object related to this configuration object

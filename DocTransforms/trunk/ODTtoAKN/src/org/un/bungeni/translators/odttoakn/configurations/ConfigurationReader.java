@@ -10,6 +10,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.un.bungeni.translators.odttoakn.map.Map;
 import org.un.bungeni.translators.odttoakn.steps.ConfigStep;
+import org.un.bungeni.translators.odttoakn.steps.ReplaceStep;
 import org.un.bungeni.translators.xpathresolver.XPathResolver;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -146,6 +147,41 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 		//return the hash map containing all the Steps
 		return resultMap;
 	}
+	
+	/**
+	 * Used to get an HashMap containing all the ReplaceStep of the configuration  
+	 * @return the HashMap containing all the ReplaceSteps of the configuration
+	 * @throws XPathExpressionException 
+	 */
+	public HashMap<Integer,ReplaceStep> getReplaceSteps() throws XPathExpressionException
+	{
+		//the HashMap to return 
+		HashMap<Integer,ReplaceStep> resultMap = new HashMap<Integer,ReplaceStep>();
+		
+		//retrieve the XPath resolver instance 
+		XPathResolver xresolver = XPathResolver.getInstance();
+		
+		//get the step with the given name in this configuration
+		NodeList stepNodes = (NodeList)xresolver.evaluate(this.configXML, "//replacement", XPathConstants.NODESET);
+		
+		//get all the steps and creates a Step object for each one of them
+		for (int i = 0; i < stepNodes.getLength(); i++) 
+		{
+			//get the replace step node
+			Node stepNode = stepNodes.item(i);
+			
+			//create the replace Step 
+			ReplaceStep resultStep = new ReplaceStep( stepNode.getAttributes().getNamedItem("replacement").getNodeValue(),
+						  				stepNode.getAttributes().getNamedItem("pattern").getNodeValue());
+			
+			//add the node to the hash map set its key as its position (step attribute)
+			resultMap.put(Integer.parseInt(stepNode.getAttributes().getNamedItem("step").getNodeValue()),resultStep);		
+		}
+		
+		//return the hash map containing all the Steps
+		return resultMap;
+	}
+
 	
 	/**
 	 * Returns the Map object related to this Configuration object

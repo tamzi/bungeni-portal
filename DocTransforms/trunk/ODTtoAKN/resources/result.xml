@@ -6,9 +6,11 @@
          <block xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P20" text:outline-level="2">OFFICIAL REPORT</block>
          <eol/>
          <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P5">
-            <reference-mark text:name="BungeniDebateOfficialDate">Tuesday, 2nd May, 2000</reference-mark>Tuesday, 2nd May, 2000</p>
+            <ref class="BungeniDebateOfficialDate">Tuesday, 2nd May, 2000</ref>
+         </p>
          <eol/>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P2">The House met at<reference-mark text:name="BungeniDebateOfficalTime">2.30 p.m.</reference-mark>2.30 p.m.</p>
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P2">The House met at<ref class="BungeniDebateOfficalTime">2.30 p.m.</ref>
+         </p>
       </preface>
       <eol/>
       <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P11"/>
@@ -29,7 +31,7 @@
          <eol/>
          <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect6" text:name="heading99573" BungeniSectionType="Person" BungeniSpeechType="CommunicationFromChair" BungeniSpeechBy="userSpeaker" BungeniPersonID="userSpeaker">
             <p text:style-name="P6">
-               <reference-mark text:name="BungeniSpeechAs:3">Mr. Speaker:</reference-mark>Mr. Speaker:</p>
+               <ref class="BungeniSpeechAs:3">Mr. Speaker</ref>:</p>
          </text:section>
          <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P15">
             <span text:style-name="T2">
@@ -84,7 +86,8 @@
          <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="questions_5f_title">ORAL ANSWERS TO QUESTIONS</p>
          <eol/>
          <Questions type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
-            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="questions_5f_title">Question No<reference-mark text:name="BungeniQuestionNo:126">126</reference-mark>126</p>
+            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="questions_5f_title">Question No<ref class="BungeniQuestionNo:126">126</ref>
+            </p>
             <eol/>
             <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="questions_5f_subtitle">
                <span text:style-name="T1"/>
@@ -98,12 +101,14 @@
             <question type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
                <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P19">
                   <span text:style-name="T2"/>
-                  <reference-mark text:name="BungeniQuestionBy:126"/>
+                  <ref class="BungeniQuestionBy:126">
                   <span text:style-name="T2">Mr. Mwenje</span>
+                  </ref>
                   <span text:style-name="T2"/>
                   <span text:style-name="T1">asked the</span>
-                  <reference-mark text:name="BungeniQuestionTo:126"/>
+                  <ref class="BungeniQuestionTo:126">
                   <span text:style-name="T1">Minister of State, Office of the president</span>
+                  </ref>
                   <span text:style-name="T1">:-</span>
                </p>
                <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="question_5f_text">(a) whether he could inform the House how many people have been killed by gangsters in Nairobi during the last one year; and,</p>
@@ -113,7 +118,7 @@
             <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="">
                <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect13" text:name="heading883028" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechBy="userMadoka" BungeniSpeechID="1">
                   <p text:style-name="P1">
-                     <reference-mark text:name="BungeniSpeechAs:1">The minister of state, Office of the president(Maj. Madoka):</reference-mark>The minister of state, Office of the president(<reference-mark text:name="BungeniSpeechBy:1">Maj. Madoka):</reference-mark>Maj. Madoka):</p>
+                     <ref class="BungeniSpeechAs:1">The minister of state, Office of the president</ref>(<ref class="BungeniSpeechBy:1">Maj. Madoka</ref>):</p>
                </text:section>
                <eol/>
             </Communication>
@@ -121,8 +126,9 @@
                <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect15" text:name="heading838209" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="2">
                   <p text:style-name="P15">
                      <span text:style-name="T2"/>
-                     <reference-mark text:name="BungeniSpeechAs:2"/>
+                     <ref class="BungeniSpeechAs:2">
                      <span text:style-name="T2">Mr. Speaker</span>
+                     </ref>
                      <span text:style-name="T1">:</span>
                   </p>
                </text:section>
@@ -132,8 +138,9 @@
             <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
                <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect17" text:name="heading927624" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="4" BungeniSpeechBy="userMwenje">
                   <p text:style-name="P15">
-                     <reference-mark text:name="BungeniSpeechAs:4"/>
+                     <ref class="BungeniSpeechAs:4">
                      <span text:style-name="T2">Mr. Mwenje</span>
+                     </ref>
                      <span text:style-name="T1">:</span>
                   </p>
                </text:section>
@@ -144,8 +151,9 @@
                <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect8" text:name="heading827947">
                   <p text:style-name="P15">
                      <span text:style-name="T2"/>
-                     <reference-mark text:name="BungeniSpeechAs:5"/>
+                     <ref class="BungeniSpeechAs:5">
                      <span text:style-name="T2">Mr. Speaker</span>
+                     </ref>
                      <span text:style-name="T1">:</span>
                   </p>
                </text:section>
@@ -156,8 +164,9 @@
                <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P6"/>
                <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect8" text:name="heading892724">
                   <p text:style-name="P15">
-                     <reference-mark text:name="BungeniSpeechAs:6"/>
+                     <ref class="BungeniSpeechAs:6">
                      <span text:style-name="T2">Mr. Mwenje</span>
+                     </ref>
                      <span text:style-name="T1">:</span>
                   </p>
                </text:section>
@@ -172,8 +181,9 @@
             <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
                <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect8" text:name="heading880208">
                   <p text:style-name="P15">
-                     <reference-mark text:name="BungeniSpeechAs:7"/>
+                     <ref class="BungeniSpeechAs:7">
                      <span text:style-name="T2">Mr. Speaker</span>
+                     </ref>
                      <span text:style-name="T1">:</span>
                   </p>
                </text:section>
@@ -195,8 +205,9 @@
          <Communication type="OralAnswersToQuestions" id="" by="" to="" status="">
             <Communication type="OralAnswersToQuestions" id="" by="" to="" status="">
                <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P15">
-                  <reference-mark text:name="BungeniSpeechAs:8"/>
+                  <ref class="BungeniSpeechAs:8">
                   <span text:style-name="T2">Mr. Gatabaki</span>
+                  </ref>
                   <span text:style-name="T1">:</span>
                </p>
             </Communication>
@@ -206,8 +217,9 @@
             <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P6"/>
             <Communication type="OralAnswersToQuestions" id="" by="" to="" status="">
                <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P15">
-                  <reference-mark text:name="BungeniSpeechAs:9"/>
+                  <ref class="BungeniSpeechAs:9">
                   <span text:style-name="T2">Mr. Speaker</span>
+                  </ref>
                   <span text:style-name="T1">:</span>
                </p>
             </Communication>
@@ -229,12 +241,14 @@
          <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P6"/>
          <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect29" text:name="heading993728" BungeniSectionType="Person" BungeniSpeechID="12" BungeniSpeechBy="userDySpeaker" BungeniSpeechType="ProceduralMotion" BungeniActionEvent="Adjournment">
             <p text:style-name="P15">
-               <reference-mark text:name="BungeniSpeechAs:12"/>
+               <ref class="BungeniSpeechAs:12">
                <span text:style-name="T2">The Temporary Deputy Speaker</span>
                <span text:style-name="T1"/>
+               </ref>
                <span text:style-name="T1">(</span>
-               <reference-mark text:name="BungeniSpeechBy:12"/>
+               <ref class="BungeniSpeechBy:12">
                <span text:style-name="T1">Mr. Musila</span>
+               </ref>
                <span text:style-name="T1">):<text:s/>
                </span>
             </p>
@@ -244,7 +258,7 @@
       </Communication>
       <eol/>
       <subdivision>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P3">The House rose at<reference-mark text:name="BungeniHouseRisingTime">6.30 p.m.</reference-mark>6.30 p.m.</p>
+         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P3">The House rose at<ref class="BungeniHouseRisingTime">6.30 p.m</ref>.</p>
       </subdivision>
       <eol/>
       <eol/>

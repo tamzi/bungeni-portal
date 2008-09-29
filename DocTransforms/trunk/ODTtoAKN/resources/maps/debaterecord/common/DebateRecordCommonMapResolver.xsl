@@ -42,20 +42,17 @@
             <xsl:when test="name(.) = $type and (@text:name=$name or @BungeniSectionType=$bungeniSectionType)">
                <xsl:variable name="currentElement" select="." />
                <xsl:element name="{$result}">
-               	   <!--<xsl:for-each select="@*">
-                   	   <xsl:attribute name="{name(.)}">
-                       		<xsl:value-of select="."/>
-                       </xsl:attribute>
-                   </xsl:for-each>-->
                    <xsl:for-each select="tokenize($attributes,',')">
                	   		<xsl:variable name="oldname" select="substring-before(.,'=')" />
 						<xsl:variable name="newname" select="substring-before(substring-after(.,'='),';')" />
 						<xsl:variable name="value" select="substring-after(substring-after(.,'='),';')" />
 						<xsl:choose>
 							<xsl:when test="$newname!='null'">
-								<xsl:attribute name="{$newname}">
-									<xsl:value-of select="$currentElement/@*[name(.)=$value]" />
-								</xsl:attribute>
+								<xsl:if test="not($currentElement/@*[name(.)=$value]='')">
+									<xsl:attribute name="{$newname}">
+										<xsl:value-of select="$currentElement/@*[name(.)=$value]" />
+									</xsl:attribute>
+								</xsl:if>
 							</xsl:when>
 						</xsl:choose>
 				   </xsl:for-each>

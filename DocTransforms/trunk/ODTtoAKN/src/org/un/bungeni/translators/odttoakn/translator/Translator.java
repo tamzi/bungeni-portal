@@ -1,7 +1,10 @@
 package org.un.bungeni.translators.odttoakn.translator;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -13,10 +16,12 @@ import org.un.bungeni.translators.odttoakn.configurations.Configuration;
 import org.un.bungeni.translators.odttoakn.map.Map;
 import org.un.bungeni.translators.odttoakn.steps.ConfigStep;
 import org.un.bungeni.translators.odttoakn.steps.MapStep;
+import org.un.bungeni.translators.odttoakn.steps.ReplaceStep;
 import org.un.bungeni.translators.xslttransformer.XSLTTransformer;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 import javax.xml.transform.*;
+import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 public class Translator implements TranslatorInterface
@@ -60,14 +65,14 @@ public class Translator implements TranslatorInterface
 	 * @throws XPathExpressionException 
 	 * @throws TransformerException 
 	 */
-	public StreamSource translate(String aDocumentPath, String aConfigurationPath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException
+	public File translate(String aDocumentPath, String aConfigurationPath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException
 	{
 		//get the File of the configuration 
 		Document configurationDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(aConfigurationPath);
 		
 		//create the configuration 
 		Configuration configuration = new Configuration(configurationDoc);
-		
+				  
 		//get the steps from the configuration 
 		HashMap<Integer,ConfigStep> stepsMap = configuration.getSteps();
 		
@@ -77,7 +82,7 @@ public class Translator implements TranslatorInterface
 		//get the Document Stream
 		StreamSource iteratedDocument = new StreamSource(new File(aDocumentPath));
 		
-		//while the Iterator has steps aplly the transformation
+		//while the Iterator has steps apply the transformation
 		while(mapIterator.hasNext())
 		{
 			//get the next step
@@ -127,8 +132,62 @@ public class Translator implements TranslatorInterface
 			//start the transformation
 			iteratedDocument = XSLTTransformer.getInstance().transformWithParam(iteratedDocument, mapResolverStream,paramMap);
 		}
+		
+		//get the replacement step from the configuration
+		HashMap<Integer,ReplaceStep> replaceSteps = configuration.getReplaceSteps();
+		
+		//create an iterator on the hash map
+		Iterator<ReplaceStep> replaceIterator = replaceSteps.values().iterator();
+
+		/*first reading of the document*/
+		//get the Document String
+		String iteratedStringDocument = new String();
+		
+		//create an instance of TransformerFactory
+		TransformerFactory transFact = TransformerFactory.newInstance();
+	 
+	    //create a new transformer
+	    Transformer trans = transFact.newTransformer();
+	    
+	    //create the writer for the transformation
+	    StringWriter resultString = new StringWriter();
+	    
+	    //perform the transformation
+	    trans.transform(iteratedDocument, new StreamResult(resultString));
+
+	    //copy the obtained string into the string to iterate
+	    iteratedStringDocument = resultString.toString();
+	    /*end of the first reading of the file into a string*/
+
+		//while the Iterator has replacement steps apply the replacement
+		while(replaceIterator.hasNext())
+		{
+			//get the next step
+			ReplaceStep nextStep = (ReplaceStep)replaceIterator.next();
+
+			//get the pattern of the replace
+			String pattern = nextStep.getPattern();
+			
+			//get the replacement of the step 
+			String replacement = nextStep.getReplacement();
+			
+			//apply the replacement
+			iteratedStringDocument = iteratedStringDocument.replaceAll(pattern, replacement);
+		}
+
+	    //create a file for the result  
+		File resultFile = File.createTempFile("result", ".xml");
+		
+		//delete the temp file on exit
+		resultFile.deleteOnExit();
+		
+		//write the result on the temporary file
+		BufferedWriter out = new BufferedWriter(new FileWriter(resultFile));
+	    out.write(iteratedStringDocument);
+	    out.close();
+	        
 		//return the Source of the new document
-	    return iteratedDocument;
+	    return resultFile;
 	}
 
 }

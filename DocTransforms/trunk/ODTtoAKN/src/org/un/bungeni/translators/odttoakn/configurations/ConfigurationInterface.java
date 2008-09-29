@@ -5,6 +5,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.un.bungeni.translators.odttoakn.map.Map;
 import org.un.bungeni.translators.odttoakn.steps.ConfigStep;
+import org.un.bungeni.translators.odttoakn.steps.ReplaceStep;
 
 /**
  * This is the interface for the configuration object of the ODTtoAKN translator. A configuration
@@ -43,7 +44,15 @@ public interface ConfigurationInterface
 	 * @throws XPathExpressionException 
 	 */
 	public HashMap<Integer,ConfigStep> getSteps() throws XPathExpressionException;
-		
+
+	/**
+	 * Used to get an HashMap containing all the Replace Steps of the configuration with their position 
+	 * as key 
+	 * @return the HashMap containing all the Replace Steps of the configuration
+	 * @throws XPathExpressionException 
+	 */
+	public HashMap<Integer,ReplaceStep> getReplaceSteps() throws XPathExpressionException;
+
 	/**
 	 * Returns the Map object related to this Configuration object
 	 * @return the map object related to this configuration object

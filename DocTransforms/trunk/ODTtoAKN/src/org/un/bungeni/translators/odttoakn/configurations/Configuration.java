@@ -8,6 +8,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.un.bungeni.translators.odttoakn.map.Map;
 import org.un.bungeni.translators.odttoakn.steps.ConfigStep;
+import org.un.bungeni.translators.odttoakn.steps.ReplaceStep;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -95,6 +96,21 @@ public class Configuration implements ConfigurationInterface
 	{
 		//ask the reader to get the steps of the configuration
 		HashMap<Integer, ConfigStep> resultSteps = this.reader.getSteps();
+		
+		//return the gotten steps 
+		return resultSteps;
+	}
+
+	/**
+	 * Used to get an HashMap containing all the Replace Steps of the configuration with their position 
+	 * as key 
+	 * @return the HashMap containing all the Replace Steps of the configuration
+	 * @throws XPathExpressionException 
+	 */
+	public HashMap<Integer,ReplaceStep> getReplaceSteps() throws XPathExpressionException
+	{
+		//ask the reader to get the replace steps of the configuration
+		HashMap<Integer, ReplaceStep> resultSteps = this.reader.getReplaceSteps();
 		
 		//return the gotten steps 
 		return resultSteps;

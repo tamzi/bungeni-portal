@@ -87,7 +87,7 @@
 			<attribute attname="text:style-name" attresult="null" attvalue="null"/>
 			<attribute attname="text:name" attresult="null" attvalue="null"/>
 		</element>
-		<element id="11" type="text:section" name="ActionEvent" bungeniSectionType="ActionEvent" result="subdivision">
+		<element id="12" type="text:section" name="ActionEvent" bungeniSectionType="ActionEvent" result="subdivision">
 			<attribute attname="text:style-name" attresult="null" attvalue="null"/>
 			<attribute attname="text:name" attresult="null" attvalue="null"/>
 		</element>

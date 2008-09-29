@@ -24,7 +24,7 @@ public class QuestionSelect extends BaseMetadataPanel {
  
     registryQueryDialog rqs;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(QuestionSelect.class.getName());
-    HashMap<String, String> selectionData = new HashMap<String,String>();
+   // HashMap<String, String> selectionData = new HashMap<String,String>();
   
     /** Creates new form QuestionSelect */
     public QuestionSelect() {
@@ -70,34 +70,22 @@ public class QuestionSelect extends BaseMetadataPanel {
 private void btnSelectQuestionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectQuestionActionPerformed
 // TODO add your handling code here:
     
-        rqs = new registryQueryDialog("Select A Question", "Select * from questions", getParentFrame());
+        rqs = new registryQueryDialog("Select A Question", "Select ID, QUESTION_TITLE, QUESTION_FROM, QUESTION_TO, QUESTON_TEXT as QUESTION_TEXT from questions", getParentFrame());
         rqs.show();
         log.debug("Moved on before closing child dialog");
-        selectionData = rqs.getData();
-        if (selectionData.size() > 0 ) {
+       // HashMap<String,String> selectionData = ((Main)getContainerPanel()).selectionData;
+        ((Main)getContainerPanel()).selectionData = rqs.getData();
+        if ( ((Main)getContainerPanel()).selectionData.size() > 0 ) {
             HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
             BungeniClientDB dbInstance = new BungeniClientDB(registryMap);
         
-            Set keyset = selectionData.keySet();
+            Set keyset =  ((Main)getContainerPanel()).selectionData.keySet();
             log.debug("selected keyset size = " + keyset.size());
         //    txtQuestionTitle.setText(selectionData.get("QUESTION_TITLE"));
         //    txtAddressedTo.setText(selectionData.get("QUESTION_TO"));
             //resolve person name URI to registry entry
-            dbInstance.Connect();
-            QueryResults rs = dbInstance.QueryResults(GeneralQueryFactory.Q_FETCH_PERSON_BY_URI(selectionData.get("QUESTION_FROM")));
-            dbInstance.EndConnect();
-            String fullName = "";
-            if (rs.hasResults()) {
-                
-                String[] firstName = rs.getSingleColumnResult("FIRST_NAME");
-                String[] lastName = rs.getSingleColumnResult("LAST_NAME");
-                if (firstName != null )
-                    fullName = firstName[0];
-                if (lastName != null ) 
-                    fullName += " " + lastName[0];
-                
-            }
-          //  txtPersonName.setText(fullName);
+            ((Main)getContainerPanel()).updateAllPanels();
+            //  txtPersonName.setText(fullName);
             
             //
            // txtQuestionText.setText(selectionData.get("QUESTON_TEXT"));

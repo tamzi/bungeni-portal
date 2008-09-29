@@ -7,6 +7,10 @@
 package org.bungeni.editor.selectors.debaterecord.question;
 
 import java.awt.Component;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.util.HashMap;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
 
 /**
@@ -134,6 +138,10 @@ public String getPanelName() {
 
     @Override
     public boolean processSelectInsert() {
+        String strText = this.txtQuestionText.getText();
+        Clipboard clipBrd = new Clipboard("Clipboard.QuestionText");
+        Transferable copyToClipboard = new StringSelection(strText);
+        clipBrd.setContents(copyToClipboard, null);
         return true;
     }
 
@@ -179,5 +187,12 @@ public String getPanelName() {
     @Override
     protected void initFieldsEdit() {
         return;
+    }
+    
+    @Override
+    public boolean doUpdateEvent(){
+        HashMap<String,String> selectionData = ((Main)getContainerPanel()).selectionData;   
+        this.txtQuestionText.setText(selectionData.get("QUESTION_TEXT"));
+        return true;
     }
 }

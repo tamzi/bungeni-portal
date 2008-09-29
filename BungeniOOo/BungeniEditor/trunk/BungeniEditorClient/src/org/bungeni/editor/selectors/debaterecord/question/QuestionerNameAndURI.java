@@ -7,6 +7,11 @@
 package org.bungeni.editor.selectors.debaterecord.question;
 
 import java.awt.Component;
+import java.util.HashMap;
+import org.bungeni.db.BungeniClientDB;
+import org.bungeni.db.BungeniRegistryFactory;
+import org.bungeni.db.GeneralQueryFactory;
+import org.bungeni.db.QueryResults;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
 
 /**
@@ -190,5 +195,29 @@ public String getPanelName() {
     @Override
     protected void initFieldsEdit() {
         return;
+    }
+    
+       @Override
+    public boolean doUpdateEvent(){
+        HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
+        BungeniClientDB dbInstance = new BungeniClientDB(registryMap);
+        String questionFrom = ((Main)getContainerPanel()).selectionData.get("QUESTION_FROM");
+        dbInstance.Connect();
+        QueryResults rs = dbInstance.QueryResults(GeneralQueryFactory.Q_FETCH_PERSON_BY_URI(questionFrom));
+        dbInstance.EndConnect();
+            String fullName = "";
+            if (rs.hasResults()) {
+                
+                String[] firstName = rs.getSingleColumnResult("FIRST_NAME");
+                String[] lastName = rs.getSingleColumnResult("LAST_NAME");
+                if (firstName != null )
+                    fullName = firstName[0];
+                if (lastName != null ) 
+                    fullName += " " + lastName[0];
+            }
+
+        this.txtPersonName.setText(fullName);
+        this.txtPersonURI.setText(questionFrom);
+        return true;
     }
 }

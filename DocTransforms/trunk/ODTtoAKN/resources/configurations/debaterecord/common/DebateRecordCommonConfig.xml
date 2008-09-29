@@ -3,8 +3,9 @@
 	<map href="resources/maps/debaterecord/common/DebateRecordCommonMap.xml" />
 	<replacements>
 		<replacement step="1" pattern="&lt;text:reference-mark-start([^\/]+)/&gt;" replacement="&lt;ref$1&gt;" />
-		<replacement step="2" pattern="&lt;text:reference-mark-end([^\/]+)/&gt;" replacement="&lt;/ref&gt;" /> 
-	</replacements>
+		<replacement step="2" pattern="&lt;text:reference-mark-end([^\/]+)/&gt;" replacement="&lt;/ref&gt;" />
+		<replacement step="3" replacement="">xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"</replacement>
+ 	</replacements>
 	<stylesheets>
 		<xslt step="1" name="firststep" href="resources/stylesheets/debaterecord/common/FirstStep.xsl" />
 		<xslt step="2" name="secondstep" href="resources/stylesheets/debaterecord/common/SecondStep.xsl" />

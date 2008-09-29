@@ -170,9 +170,22 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 			//get the replace step node
 			Node stepNode = stepNodes.item(i);
 			
+			//the result Step
+			ReplaceStep resultStep;
+			
 			//create the replace Step 
-			ReplaceStep resultStep = new ReplaceStep( stepNode.getAttributes().getNamedItem("replacement").getNodeValue(),
+			//if pattern attribute is not empty get the pattern from the attribute 
+			if (stepNode.getAttributes().getNamedItem("pattern") != null)
+			{
+				resultStep = new ReplaceStep( stepNode.getAttributes().getNamedItem("replacement").getNodeValue(),
 						  				stepNode.getAttributes().getNamedItem("pattern").getNodeValue());
+			}
+			//otherwise get the value from the textValue of the node
+			else
+			{
+				resultStep = new ReplaceStep( stepNode.getAttributes().getNamedItem("replacement").getNodeValue(),
+		  				stepNode.getFirstChild().getNodeValue());
+			}
 			
 			//add the node to the hash map set its key as its position (step attribute)
 			resultMap.put(Integer.parseInt(stepNode.getAttributes().getNamedItem("step").getNodeValue()),resultStep);		

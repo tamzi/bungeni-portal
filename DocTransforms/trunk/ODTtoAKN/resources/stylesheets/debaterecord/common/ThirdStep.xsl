@@ -28,6 +28,12 @@
         <xsl:apply-templates/>
     </xsl:template>
 
+	<xsl:template match="p">
+		<pippo>
+			<xsl:apply-templates />
+		</pippo>
+	</xsl:template>
+
    <xsl:template match="text:reference-mark-start">
    		<text:reference-mark-start>
    			<xsl:attribute name="class" select="@text:name" />
@@ -62,7 +68,21 @@
             <xsl:apply-templates/>
         </xsl:element>
     </xsl:template>
-      
+     
+	<xsl:template match="*[@text:style-name or @text:outline-level]">
+        <xsl:element name="{name()}">
+            <xsl:for-each select="@*[not(name(.)='text:style-name') and not(name(.)='text:outline-level')]">
+            	<xsl:if test="not(.='')">
+	                <xsl:attribute name="{name(.)}">
+	                    <xsl:value-of select="."/>
+	                </xsl:attribute>
+				</xsl:if>
+            </xsl:for-each>
+			<xsl:attribute name="class" select="@text:style-name" />
+            <xsl:apply-templates/>
+        </xsl:element>
+    </xsl:template>
+ 	  
     <xsl:template match="text()">
         <xsl:value-of select="normalize-space(.)"/>
     </xsl:template>

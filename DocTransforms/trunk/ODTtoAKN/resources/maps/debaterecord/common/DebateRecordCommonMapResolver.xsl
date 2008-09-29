@@ -48,7 +48,7 @@
 						<xsl:variable name="value" select="substring-after(substring-after(.,'='),';')" />
 						<xsl:choose>
 							<xsl:when test="$newname!='null'">
-								<xsl:if test="not($currentElement/@*[name(.)=$value]='')">
+								<xsl:if test="$currentElement/@*[name(.)=$value]">
 									<xsl:attribute name="{$newname}">
 										<xsl:value-of select="$currentElement/@*[name(.)=$value]" />
 									</xsl:attribute>

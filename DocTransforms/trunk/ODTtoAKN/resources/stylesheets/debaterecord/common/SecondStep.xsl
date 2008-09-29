@@ -33,21 +33,14 @@
     </xsl:template>
     
     <xsl:template match="text:p" >
-		<xsl:choose>
-			<xsl:when test="count(.//*) > 0">
-		        <p>
-		        	<xsl:for-each select="@*">
-                		<xsl:attribute name="{name(.)}">
-                    		<xsl:value-of select="."/>
-                		</xsl:attribute>
-            		</xsl:for-each>
-             		<xsl:apply-templates />
-         		</p>
-			</xsl:when>
-			<xsl:otherwise>
-				<eol/>
-			</xsl:otherwise>
-		</xsl:choose>
+		<p>
+			<xsl:for-each select="@*">
+            	<xsl:attribute name="{name(.)}">
+                	<xsl:value-of select="."/>
+                </xsl:attribute>
+            </xsl:for-each>
+            <xsl:apply-templates />
+         </p>
     </xsl:template>
     
     <xsl:template match="text:h">
@@ -57,6 +50,7 @@
                 	<xsl:value-of select="."/>
                 </xsl:attribute>
              </xsl:for-each>
+			 <xsl:attribute name="name" select="@text:style-name" />
              <xsl:apply-templates />
          </block>
     </xsl:template>
@@ -64,8 +58,16 @@
     <xsl:template match="text:tab">
     </xsl:template>
 
+    <xsl:template match="text:s">
+    </xsl:template>
+	
+	<xsl:template match="text:soft-page-break">
+		<eol/>
+    </xsl:template>
+
+
     <xsl:template match="text:span">
-		        <span>
+				<span>
 		        	<xsl:for-each select="@*">
                 		<xsl:attribute name="{name(.)}">
                     		<xsl:value-of select="."/>

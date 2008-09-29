@@ -395,7 +395,8 @@
             </style:section-properties>
         </style:style>
         <style:style style:name="Sect8" style:family="section">
-            <style:section-properties style:editable="false">
+            <style:section-properties BungeniSectionType="QuestionsContainer"
+                BungeniQuestionsContainerType="OralAnswersToQuestions" style:editable="false">
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>

@@ -1,304 +1,300 @@
 <?xml version="1.0" encoding="UTF-8"?><akomantoso xmlns="http://www.akomantoso.org/">
    <debaterecord>
-      <preface date="" time="">
-         <block xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P21" text:outline-level="1">NATIONAL ASSEMBLY</block>
-         <eol/>
-         <block xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P20" text:outline-level="2">OFFICIAL REPORT</block>
-         <eol/>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P5">
-            <ref class="BungeniDebateOfficialDate">Tuesday, 2nd May, 2000</ref>
+      <preface>
+         <block name="P21" class="P21">NATIONAL ASSEMBLY</block>
+         <p class="P1"/>
+         <block name="P20" class="P20">OFFICIAL REPORT</block>
+         <p class="P6"/>
+         <p class="P5">
+            <ref  class="BungeniDebateOfficialDate">Tuesday, 2nd May, 2000</ref>
          </p>
-         <eol/>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P2">The House met at<ref class="BungeniDebateOfficalTime">2.30 p.m.</ref>
+         <p class="P6"/>
+         <p class="P2">The House met at<ref  class="BungeniDebateOfficalTime">2.30 p.m.</ref>
          </p>
       </preface>
-      <eol/>
-      <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P11"/>
-      <comment type="" id="" by="" to="" status="">
-         <eol/>
+      <p class="P1"/>
+      <p class="P11"/>
+      <comment>
+         <p class="P12">[Mr. Speaker in the Chair]</p>
       </comment>
-      <eol/>
-      <block xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P20" text:outline-level="2"/>
-      <comment type="" id="" by="" to="" status="">
-         <block xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P20" text:outline-level="2">PRAYERS</block>
+      <p class="P1"/>
+      <block name="P20" class="P20"/>
+      <comment>
+         <block name="P20" class="P20">PRAYERS</block>
       </comment>
-      <eol/>
-      <Communication type="" id="" by="" to="" status="">
-         <block xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Heading_20_3" text:outline-level="3">COMMUNICATION FROM THE CHAIR</block>
-         <eol/>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P17">Distinguished Guests</p>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P17">in the Speaker's Row</p>
-         <eol/>
-         <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect6" text:name="heading99573" BungeniSectionType="Person" BungeniSpeechType="CommunicationFromChair" BungeniSpeechBy="userSpeaker" BungeniPersonID="userSpeaker">
-            <p text:style-name="P6">
-               <ref class="BungeniSpeechAs:3">Mr. Speaker</ref>:</p>
-         </text:section>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P15">
-            <span text:style-name="T2">
-               <text:s/>
-            </span>
-            <span text:style-name="T1">Members, before I go to Order No.6, I would like to make the following Communication:</span>
+      <p class="P1"/>
+      <Communication>
+         <block name="Heading_20_3" class="Heading_20_3">COMMUNICATION FROM THE CHAIR</block>
+         <p class="P16"/>
+         <p class="P17">Distinguished Guests</p>
+         <p class="P17">in the Speaker's Row</p>
+         <p class="P1"/>
+         <from>
+            <p class="P6">
+               <ref  class="BungeniSpeechAs:3">Mr. Speaker</ref>:</p>
+         </from>
+         <p class="P15">
+            <span class="T2"/>
+            <span class="T1">Members, before I go to Order No.6, I would like to make the following Communication:</span>
          </p>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">It is with great pleasure that I welcome our distinguished guests from the Parliament of the Federal Republic of Germany who are seated in the Speaker's Row. The delegation is led by Mr. Carl-Dieter Spranger; Deputy Chairman of the Foreign Affairs Committee of the German Bundestag.</p>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">He is accompanied by Mr. Joachim Tappe MdB, Chairman of the Germany-African Parliamentary Group, Mrs. Erika Reinhardt, MdB, Member of the Committee of Foreign Affairs of the German Bundestag; and His Excellency Jurgen Weerth, Ambassador to Kenya.</p>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">The delegation arrived in the country on Friday, 28th April, 2000, and will be with us until tomorrow, Wednesday, 3rd May, 2000. We wish them a very enjoyable and fruitful stay in our country.</p>
-         <eol/>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P9"/>
-         <comment type="" id="" by="" to="" status="">
-            <eol/>
+         <p class="P1">It is with great pleasure that I welcome our distinguished guests from the Parliament of the Federal Republic of Germany who are seated in the Speaker's Row. The delegation is led by Mr. Carl-Dieter Spranger; Deputy Chairman of the Foreign Affairs Committee of the German Bundestag.</p>
+         <p class="P1">He is accompanied by Mr. Joachim Tappe MdB, Chairman of the Germany-African Parliamentary Group, Mrs. Erika Reinhardt, MdB, Member of the Committee of Foreign Affairs of the German Bundestag; and His Excellency Jurgen Weerth, Ambassador to Kenya.</p>
+         <p class="P1">The delegation arrived in the country on Friday, 28th April, 2000, and will be with us until tomorrow, Wednesday, 3rd May, 2000. We wish them a very enjoyable and fruitful stay in our country.</p>
+         <p class="P1"/>
+         <p class="P9"/>
+         <comment>
+            <p class="P13">(Applause)</p>
          </comment>
-         <eol/>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">I also wish to welcome the delegation of the Ugandan Members of Parliamentary Sports Club who have been touring Kenya since 26th April, 2000, to play several football matches against our Bunge Football Club and to visit various projects in Western Kenya, Mombasa and Nairobi.</p>
-         <eol/>
-         <eol/>
-         <eol/>
-         <eol/>
-         <eol/>
-         <eol/>
-         <eol/>
-         <eol/>
-         <eol/>
-         <eol/>
-         <eol/>
-         <eol/>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P18">
-            <text:soft-page-break/>The Hon. Adome Lokwi, M.P.</p>
-         <eol/>
-         <eol/>
-         <eol/>
-         <eol/>
-         <eol/>
-         <eol/>
-         <eol/>
-         <eol/>
-         <eol/>
-         <eol/>
-         <eol/>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">Thank you.</p>
-         <eol/>
+         <p class="P1"/>
+         <p class="P1">I also wish to welcome the delegation of the Ugandan Members of Parliamentary Sports Club who have been touring Kenya since 26th April, 2000, to play several football matches against our Bunge Football Club and to visit various projects in Western Kenya, Mombasa and Nairobi.</p>
+         <p class="P18">They are the following:</p>
+         <p class="P18">The Hon. Mrs. Mary Nsangi Kakembo, MP; Minister of State in Charge of Gender. She is the leader of the delegation.</p>
+         <p class="P18">The Hon. Wanjusi Wasieba, M.P.</p>
+         <p class="P18">The Hon. I. Timothy Mutesasira, M.P.</p>
+         <p class="P18">The Hon. Wagidoso Madibo, M.P.</p>
+         <p class="P18">The Hon. Clement Kandole, M.P.</p>
+         <p class="P18">The Hon. (Dr.) Apollo Karubag, M.P.</p>
+         <p class="P18">The Hon. Charles Egou, M.P.</p>
+         <p class="P18">The Hon. Selaiman Sembajja, M.P.</p>
+         <p class="P18"/>
+         <p class="P18">The Hon. Ali Gabe, M.P.</p>
+         <p class="P18">The Hon. Aston Kajara, M.P.</p>
+         <p class="P18">
+            <eol/>The Hon. Adome Lokwi, M.P.</p>
+         <p class="P18">The Hon. Katwiremu Yerokamu, M.P.</p>
+         <p class="P18">The Hon. Reagan Okumu, M.P.</p>
+         <p class="P18">The Hon. Kabakumba Abwoli, M.P.</p>
+         <p class="P18">The Hon. Christine Mwebesa, M.P.</p>
+         <p class="P18">The Hon. Kakoba Onyango, M.P.</p>
+         <p class="P18">The Hon. Seth Wambede, M.P.</p>
+         <p class="P18">The Hon. Patrick Nabutaala, M.P.</p>
+         <p class="P18">The Hon. Ofory Rugethe, M.P.</p>
+         <p class="P18">The Hon. Akika Othieno, M.P.</p>
+         <p class="P18">The Hon. Robert Kakooza, M.P.; and,</p>
+         <p class="P18">The Hon. David Kamusalo, M.P.</p>
+         <p class="P1">Thank you.</p>
+         <p class="P1"/>
       </Communication>
-      <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P10"/>
-      <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect8" text:name="comment645284">
-         <eol/>
-      </text:section>
-      <eol/>
-      <subdivision type="OralAnswersToQuestions" id="" by="" to="" status="">
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="questions_5f_title">ORAL ANSWERS TO QUESTIONS</p>
-         <eol/>
+      <p class="P10"/>
+      <subdivision type="OralAnswersToQuestions">
+         <p class="P14">(Applause)</p>
+      </subdivision>
+      <p class="P1"/>
+      <subdivision type="OralAnswersToQuestions">
+         <p class="questions_5f_title">ORAL ANSWERS TO QUESTIONS</p>
+         <p class="P10"/>
          <Questions type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
-            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="questions_5f_title">Question No<ref class="BungeniQuestionNo:126">126</ref>
+            <p class="questions_5f_title">Question No<ref  class="BungeniQuestionNo:126">126</ref>
             </p>
-            <eol/>
-            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="questions_5f_subtitle">
-               <span text:style-name="T1"/>
-               <span text:style-name="T3">Number of City Residents</span>
+            <p class="P1"/>
+            <p class="questions_5f_subtitle">
+               <span class="T1"/>
+               <span class="T3">Number of City Residents</span>
             </p>
-            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="questions_5f_subtitle">
-               <span text:style-name="T3">Killed by Gangsters</span>
-               <span text:style-name="T1"/>
+            <p class="questions_5f_subtitle">
+               <span class="T3">Killed by Gangsters</span>
+               <span class="T1"/>
             </p>
-            <eol/>
+            <p class="P1"/>
             <question type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
-               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P19">
-                  <span text:style-name="T2"/>
-                  <ref class="BungeniQuestionBy:126">
-                  <span text:style-name="T2">Mr. Mwenje</span>
+               <p class="P19">
+                  <span class="T2"/>
+                  <ref  class="BungeniQuestionBy:126">
+                  <span class="T2">Mr. Mwenje</span>
                   </ref>
-                  <span text:style-name="T2"/>
-                  <span text:style-name="T1">asked the</span>
-                  <ref class="BungeniQuestionTo:126">
-                  <span text:style-name="T1">Minister of State, Office of the president</span>
+                  <span class="T2"/>
+                  <span class="T1">asked the</span>
+                  <ref  class="BungeniQuestionTo:126">
+                  <span class="T1">Minister of State, Office of the president</span>
                   </ref>
-                  <span text:style-name="T1">:-</span>
+                  <span class="T1">:-</span>
                </p>
-               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="question_5f_text">(a) whether he could inform the House how many people have been killed by gangsters in Nairobi during the last one year; and,</p>
-               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="question_5f_text">(b) how many gangsters have been killed in Nairobi by security personnel within the same period.</p>
+               <p class="question_5f_text">(a) whether he could inform the House how many people have been killed by gangsters in Nairobi during the last one year; and,</p>
+               <p class="question_5f_text">(b) how many gangsters have been killed in Nairobi by security personnel within the same period.</p>
             </question>
-            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P6"/>
-            <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="">
-               <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect13" text:name="heading883028" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechBy="userMadoka" BungeniSpeechID="1">
-                  <p text:style-name="P1">
-                     <ref class="BungeniSpeechAs:1">The minister of state, Office of the president</ref>(<ref class="BungeniSpeechBy:1">Maj. Madoka</ref>):</p>
-               </text:section>
-               <eol/>
+            <p class="P6"/>
+            <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP">
+               <from>
+                  <p class="P1">
+                     <ref  class="BungeniSpeechAs:1">The minister of state, Office of the president</ref>(<ref  class="BungeniSpeechBy:1">Maj. Madoka</ref>):</p>
+               </from>
+               <p class="P1">Mr. Speaker, Sir, I would like to request that I be allowed to answer this Question tomorrow. I got certain details which were not complete and I am doing some thorough investigation.</p>
             </Communication>
-            <Questions type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="">
-               <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect15" text:name="heading838209" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="2">
-                  <p text:style-name="P15">
-                     <span text:style-name="T2"/>
-                     <ref class="BungeniSpeechAs:2">
-                     <span text:style-name="T2">Mr. Speaker</span>
+            <Questions type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP">
+               <from>
+                  <p class="P15">
+                     <span class="T2"/>
+                     <ref  class="BungeniSpeechAs:2">
+                     <span class="T2">Mr. Speaker</span>
                      </ref>
-                     <span text:style-name="T1">:</span>
+                     <span class="T1">:</span>
                   </p>
-               </text:section>
-               <eol/>
+               </from>
+               <p class="P1">What is your reaction, Mr. Mwenje?</p>
             </Questions>
-            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P6"/>
+            <p class="P6"/>
             <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
-               <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect17" text:name="heading927624" BungeniSectionType="Person" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126" BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="4" BungeniSpeechBy="userMwenje">
-                  <p text:style-name="P15">
-                     <ref class="BungeniSpeechAs:4">
-                     <span text:style-name="T2">Mr. Mwenje</span>
+               <from>
+                  <p class="P15">
+                     <ref  class="BungeniSpeechAs:4">
+                     <span class="T2">Mr. Mwenje</span>
                      </ref>
-                     <span text:style-name="T1">:</span>
+                     <span class="T1">:</span>
                   </p>
-               </text:section>
-               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">
-                  <text:s/>Mr. Speaker, Sir, that is very interesting! This Question was among the first Questions that I sent immediately Parliament was opened. Iut has taken all this long to be brought before this House. I do not see the reason why the Minister should now come and tell us that he is still not ready. He has not given even the answer that he thinks is not right and it has not been passed over to me.</p>
+               </from>
+               <p class="P1">Mr. Speaker, Sir, that is very interesting! This Question was among the first Questions that I sent immediately Parliament was opened. Iut has taken all this long to be brought before this House. I do not see the reason why the Minister should now come and tell us that he is still not ready. He has not given even the answer that he thinks is not right and it has not been passed over to me.</p>
             </Communication>
             <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
-               <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect8" text:name="heading827947">
-                  <p text:style-name="P15">
-                     <span text:style-name="T2"/>
-                     <ref class="BungeniSpeechAs:5">
-                     <span text:style-name="T2">Mr. Speaker</span>
+               <subdivision type="OralAnswersToQuestions">
+                  <p class="P15">
+                     <span class="T2"/>
+                     <ref  class="BungeniSpeechAs:5">
+                     <span class="T2">Mr. Speaker</span>
                      </ref>
-                     <span text:style-name="T1">:</span>
+                     <span class="T1">:</span>
                   </p>
-               </text:section>
-               <eol/>
-               <eol/>
+               </subdivision>
+               <p class="P1">Very well. What do you want me to do now, Mr. Mwenje?</p>
+               <p class="P6"/>
             </Communication>
             <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
-               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P6"/>
-               <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect8" text:name="heading892724">
-                  <p text:style-name="P15">
-                     <ref class="BungeniSpeechAs:6">
-                     <span text:style-name="T2">Mr. Mwenje</span>
+               <p class="P6"/>
+               <subdivision type="OralAnswersToQuestions">
+                  <p class="P15">
+                     <ref  class="BungeniSpeechAs:6">
+                     <span class="T2">Mr. Mwenje</span>
                      </ref>
-                     <span text:style-name="T1">:</span>
+                     <span class="T1">:</span>
                   </p>
-               </text:section>
-               <eol/>
-               <eol/>
+               </subdivision>
+               <p class="P1">Mr. Speaker, Sir, first of all, could the Minister tell us what answer he has so that---</p>
+               <p class="P1"/>
             </Communication>
             <comment type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
-               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P9">(Loud consultations)</p>
+               <p class="P9">(Loud consultations)</p>
             </comment>
-            <eol/>
-            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P6"/>
+            <p class="P1"/>
+            <p class="P6"/>
             <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
-               <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect8" text:name="heading880208">
-                  <p text:style-name="P15">
-                     <ref class="BungeniSpeechAs:7">
-                     <span text:style-name="T2">Mr. Speaker</span>
+               <subdivision type="OralAnswersToQuestions">
+                  <p class="P15">
+                     <ref  class="BungeniSpeechAs:7">
+                     <span class="T2">Mr. Speaker</span>
                      </ref>
-                     <span text:style-name="T1">:</span>
+                     <span class="T1">:</span>
                   </p>
-               </text:section>
-               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P15">
-                  <span text:style-name="T1">Order! I consider it is best that we have an answer rather than take our time on preliminaries which will not help us in any way. But, Mr. Minister, you must be mindful of the fact that, you are duty-bound to come to this House</span>
-                  <text:soft-page-break/>
-                  <span text:style-name="T1">promptly and answer Questions.</span>
+               </subdivision>
+               <p class="P15">
+                  <span class="T1">Order! I consider it is best that we have an answer rather than take our time on preliminaries which will not help us in any way. But, Mr. Minister, you must be mindful of the fact that, you are duty-bound to come to this House</span>
+                  <eol/>
+                  <span class="T1">promptly and answer Questions.</span>
                </p>
-               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">I will defer the Question to tomorrow afternoon.</p>
+               <p class="P1">I will defer the Question to tomorrow afternoon.</p>
             </Communication>
-            <eol/>
-            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P9"/>
+            <p class="P1"/>
+            <p class="P9"/>
             <subdivision>
-               <eol/>
+               <p class="P13">(Question deferred)</p>
             </subdivision>
-            <eol/>
+            <p class="P1"/>
          </Questions>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P6"/>
-         <Communication type="OralAnswersToQuestions" id="" by="" to="" status="">
-            <Communication type="OralAnswersToQuestions" id="" by="" to="" status="">
-               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P15">
-                  <ref class="BungeniSpeechAs:8">
-                  <span text:style-name="T2">Mr. Gatabaki</span>
+         <p class="P6"/>
+         <Communication type="OralAnswersToQuestions">
+            <Communication type="OralAnswersToQuestions">
+               <p class="P15">
+                  <ref  class="BungeniSpeechAs:8">
+                  <span class="T2">Mr. Gatabaki</span>
                   </ref>
-                  <span text:style-name="T1">:</span>
+                  <span class="T1">:</span>
                </p>
             </Communication>
-            <eol/>
+            <p class="P1">On a point of order, Mr. Speaker, Sir. Is it in order for the Minister to be continuously following the President to the detriment of answering Questions?</p>
          </Communication>
-         <Communication type="OralAnswersToQuestions" id="" by="" to="" status="">
-            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P6"/>
-            <Communication type="OralAnswersToQuestions" id="" by="" to="" status="">
-               <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P15">
-                  <ref class="BungeniSpeechAs:9">
-                  <span text:style-name="T2">Mr. Speaker</span>
+         <Communication type="OralAnswersToQuestions">
+            <p class="P6"/>
+            <Communication type="OralAnswersToQuestions">
+               <p class="P15">
+                  <ref  class="BungeniSpeechAs:9">
+                  <span class="T2">Mr. Speaker</span>
                   </ref>
-                  <span text:style-name="T1">:</span>
+                  <span class="T1">:</span>
                </p>
             </Communication>
-            <eol/>
-            <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">Next Question, Dr. Kulundu!</p>
+            <p class="P1">Order! Order, hon. Gatabaki! Who would you wish rather he followed, anyway?</p>
+            <p class="P1">Next Question, Dr. Kulundu!</p>
          </Communication>
-         <eol/>
-         <eol/>
-         <eol/>
+         <p class="P1"/>
+         <p class="P8"/>
+         <p class="P8"/>
       </subdivision>
-      <eol/>
-      <eol/>
-      <eol/>
+      <p class="P4"/>
+      <p class="P1"/>
+      <p class="P1"/>
       <subdivision>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P7">ADJOURNMENT</p>
+         <p class="P7">ADJOURNMENT</p>
       </subdivision>
-      <eol/>
-      <Communication type="" id="" by="" to="" status="">
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P6"/>
-         <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="Sect29" text:name="heading993728" BungeniSectionType="Person" BungeniSpeechID="12" BungeniSpeechBy="userDySpeaker" BungeniSpeechType="ProceduralMotion" BungeniActionEvent="Adjournment">
-            <p text:style-name="P15">
-               <ref class="BungeniSpeechAs:12">
-               <span text:style-name="T2">The Temporary Deputy Speaker</span>
-               <span text:style-name="T1"/>
+      <p class="P1"/>
+      <Communication>
+         <p class="P6"/>
+         <from>
+            <p class="P15">
+               <ref  class="BungeniSpeechAs:12">
+               <span class="T2">The Temporary Deputy Speaker</span>
+               <span class="T1"/>
                </ref>
-               <span text:style-name="T1">(</span>
-               <ref class="BungeniSpeechBy:12">
-               <span text:style-name="T1">Mr. Musila</span>
+               <span class="T1">(</span>
+               <ref  class="BungeniSpeechBy:12">
+               <span class="T1">Mr. Musila</span>
                </ref>
-               <span text:style-name="T1">):<text:s/>
-               </span>
+               <span class="T1">):</span>
             </p>
-         </text:section>
-         <eol/>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">Hon. Members, it is now time to interrupt the business of today.<text:s/>The House, therefore, is adjourned until tomorrow Wednesday, the 3rd of May, 2000, at 9.00 a.m.</p>
+         </from>
+         <p class="P1">Hon. Kibaki, you will continue with your contribution tomorrow.</p>
+         <p class="P1">Hon. Members, it is now time to interrupt the business of today.The House, therefore, is adjourned until tomorrow Wednesday, the 3rd of May, 2000, at 9.00 a.m.</p>
       </Communication>
-      <eol/>
+      <p class="P1"/>
       <subdivision>
-         <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P3">The House rose at<ref class="BungeniHouseRisingTime">6.30 p.m</ref>.</p>
+         <p class="P3">The House rose at<ref  class="BungeniHouseRisingTime">6.30 p.m</ref>.</p>
       </subdivision>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <p xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:style-name="P1">
-         <text:soft-page-break/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1">
+         <eol/>
       </p>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
-      <eol/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
+      <p class="P1"/>
    </debaterecord>
 </akomantoso>

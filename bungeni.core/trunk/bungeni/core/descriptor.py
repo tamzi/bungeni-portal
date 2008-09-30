@@ -826,9 +826,12 @@ class QuestionDescriptor( ModelDescriptor ):
     
     fields = [
         dict( name="question_id", omit=True),
-#        dict( name="session_id", 
-#                property = schema.Choice( title=_(u"Session"), source=DatabaseSource(domain.ParliamentSession,'short_name' ,'session_id'), required=False )
-#            ),
+        dict( name="ministry_id", 
+                property = schema.Choice(title=_(u"Ministry"), source=DatabaseSource(domain.Ministry,title_field='short_name', token_field='ministry_id', value_field = 'ministry_id' ),required=False),
+                listing_column=vocab_column( "ministry_id" , _(u'Ministry'),
+                DatabaseSource(domain.Ministry,title_field='short_name', token_field='ministry_id', value_field = 'ministry_id' )),
+                listing=True,                 
+            ),
         dict( name="clerk_submission_date", label=_(u"Submission Date"), listing=True, add=False ),
         dict( name="approval_date", label=_(u"Date approved"),  listing=True, add=False ),     
         dict( name="ministry_submit_date"  , label=_(u"Submitted to ministry"),  listing=True, add=False ),   

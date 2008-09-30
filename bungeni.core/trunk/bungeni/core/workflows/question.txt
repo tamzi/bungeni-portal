@@ -33,6 +33,32 @@ Setting up Database Connection and Utilities:
    >>> model.metadata.create_all() 
    >>> session = Session()
 
+Get some standard dates for testing   
+   >>> today = datetime.date.today()
+   >>> yesterday = today - datetime.timedelta(1)
+   >>> tomorrow = today + datetime.timedelta(1)
+   >>> dayat = today + datetime.timedelta(2)
+
+
+setup parliament, gov and ministry
+----------------------------------
+  >>> parliament = model.Parliament( short_name=u"p_1", start_date=yesterday, election_date=yesterday)
+  >>> session.save(parliament)
+  >>> session.flush()
+  
+  >>> gov = model.Government(short_name=u"gov_1", start_date=yesterday)
+  >>> gov.parliament_id = parliament.parliament_id
+  >>> session.save(gov)
+  >>> session.flush()  
+  
+  >>> ministry = model.Ministry(short_name=u"ministry", start_date=yesterday)
+  >>> ministry.government_id = gov.government_id
+  >>> session.save(ministry)
+  >>> session.flush()
+
+
+
+
 setup a sitting
 Sittings
 --------
@@ -128,7 +154,7 @@ Permissions
   ...   return tuple(transition.permission for transition in wf.getTransitions(state))
 
 
-Add questio to db
+Add question to db
 ------------------
 
   >>> question = Question()
@@ -377,6 +403,9 @@ A written response to the question
 
   >>> question_written_response.ministry_submit_date
 
+  >>> question_written_response.ministry_id = ministry.ministry_id
+
+
   >>> result = IWorkflowInfo(question_written_response).fireTransition('send-ministry')  
   
   >>> question_written_response.ministry_submit_date == today  
@@ -415,6 +444,8 @@ A deferred question can be assigned to a ministry for a written response
   >>> question_defer_response = copy.deepcopy(question_defer)
 
   >>> question_defer_response.ministry_submit_date
+
+  >>> question_defer_response.ministry_id = ministry.ministry_id
 
   >>> result = IWorkflowInfo(question_defer_response).fireTransition('defer-ministry')  
   

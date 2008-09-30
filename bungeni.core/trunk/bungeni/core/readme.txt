@@ -136,6 +136,16 @@ Government
   >>> session.flush()  
 
 
+Ministries
+-----------
+  >>> ministry = model.Ministry(short_name=u"ministry", start_date=datetime.now())
+  >>> ministry.government_id = gov.government_id
+  >>> session.save(ministry)
+  >>> session.flush()
+  
+
+
+
 Constituencies
 -----------------
 Constituencies have a fk on regions and provinces:

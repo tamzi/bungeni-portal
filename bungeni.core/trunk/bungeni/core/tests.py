@@ -121,7 +121,8 @@ def test_suite():
                 'workflows/response.txt',               
                 'workflows/motion.txt',
                 'workflows/bill.txt',
-                'workflows/dbutils.txt'
+                'workflows/dbutils.txt',
+                'workflows/transitioncron.txt',
                 )
     
     globs = dict(interface=interface, component=component)

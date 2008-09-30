@@ -581,7 +581,8 @@ questions = rdb.Table(
    
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
    rdb.Column( "clerk_submission_date", rdb.Date,),
-   rdb.Column( "approval_date", rdb.Date,),   
+   rdb.Column( "approval_date", rdb.Date,),  
+   rdb.Column( "ministry_submit_date", rdb.Date, ), 
    rdb.Column( "question_type", rdb.Unicode(1), 
                 rdb.CheckConstraint("question_type in ('O', 'P')"), default=u"O" ), # (O)rdinary (P)rivate Notice
    rdb.Column( "response_type", rdb.Unicode(1), 

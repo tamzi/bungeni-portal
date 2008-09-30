@@ -830,7 +830,8 @@ class QuestionDescriptor( ModelDescriptor ):
 #                property = schema.Choice( title=_(u"Session"), source=DatabaseSource(domain.ParliamentSession,'short_name' ,'session_id'), required=False )
 #            ),
         dict( name="clerk_submission_date", label=_(u"Submission Date"), listing=True, add=False ),
-        dict( name="approval_date", label=_(u"Date approved"),  listing=True, add=False ),        
+        dict( name="approval_date", label=_(u"Date approved"),  listing=True, add=False ),     
+        dict( name="ministry_submit_date"  , label=_(u"Submitted to ministry"),  listing=True, add=False ),   
         dict( name="question_type", listing=True, 
               property=schema.Choice( title=_(u"Question Type"), 
                                       description=_("(O)rdinary or (P)rivate Notice"), 
@@ -861,7 +862,7 @@ class QuestionDescriptor( ModelDescriptor ):
         dict( name="supplement_parent_id", omit=True), #XXX
         dict( name="note", label=_(u"Notes"), description="Recommendation note", 
               property=schema.Text(title=_(u"Notes"),  description=_(u"Recommendation note"), required=False ),              
-              modes="edit",
+              edit = True, add = True,
               view_widget=widget.HTMLDisplay,
               edit_widget=widget.RichTextEditor, ),       
         dict( name="sitting_time", label=_(u"Sitting Time"), listing=True ),

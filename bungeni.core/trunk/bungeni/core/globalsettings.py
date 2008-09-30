@@ -77,3 +77,11 @@ def getAdministratorsEmail():
     return "webmaster@parliament.gov.ke"        
         
         
+def getDaysToDeferAdmissibleQuestions():
+    """
+    time after which admissible questions are automatically deferred
+    """        
+    return datetime.timedelta(10)    
+    
+    
+    

@@ -680,7 +680,7 @@ class MemberTitleAdd( CustomAddForm ):
 
 
 class QuestionAdd( CustomAddForm ):
-    form_fields = form.Fields( IQuestion ).select('question_type', 'response_type', 'owner_id',
+    form_fields = form.Fields( IQuestion ).select('question_type', 'response_type', 'owner_id', 'ministry_id',
                                                     'subject', 'question_text',                                                                  
                                                     'note', 'receive_notification' )
 
@@ -1183,7 +1183,7 @@ class QuestionEdit( CustomEditForm ):
     the workflow transitions are available as actions as well as the 
     default save and cancel buttons
     """
-    form_fields = form.Fields( IQuestion ).select('question_type', 'response_type', 'owner_id',
+    form_fields = form.Fields( IQuestion ).select('question_type', 'response_type', 'owner_id', 'ministry_id',
                                                     'subject', 'question_text', 
                                                     'clerk_submission_date', 'approval_date',                                                    
                                                     'note', 'receive_notification' )

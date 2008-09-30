@@ -22,6 +22,7 @@ from zope import component
 from sqlalchemy import create_engine
 from ore.alchemist.interfaces import IDatabaseEngine
 import ore.workflow.workflow
+import bungeni.core.interfaces
 import bungeni.core.workflows.question
 from bungeni import core as model
 
@@ -70,7 +71,7 @@ def main(argv=None):
     db = create_engine('postgres://localhost/bungeni', echo=False)
     component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
     model.metadata.bind = db
-    #session = Session()    
+    session = Session()    
     component.provideAdapter(
       bungeni.core.workflows.WorkflowState,
       (bungeni.core.interfaces.IBungeniContent,))
@@ -84,10 +85,15 @@ def main(argv=None):
       (domain.Question,))
 
     component.provideHandler(
-      bungeni.core.workflows.question.workflowTransitionEventDispatcher)    
+      bungeni.core.workflows.question.workflowTransitionEventDispatcher)  
+# add autitor for time based transitions     
+#    component.provideAdapter(
+#        bungeni.core.interfaces.IAuditable,
+#        (domain.Question))        
     
     deferAdmissibleQuestions() 
-    #session.flush()
+    session.flush()
+    session.commit()
     
 if __name__ == "__main__":
     sys.exit(main())

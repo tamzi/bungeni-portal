@@ -1237,6 +1237,13 @@ function hideAnnotations()
 
 }
 
+function pausecomp(millis)
+{
+    var date = new Date();
+    var curDate = null;
+    do { curDate = new Date(); }
+    while(curDate-date < millis);
+} 
 
 function filterAnnotations(form_field)
 {
@@ -1296,6 +1303,69 @@ function filterAnnotations(form_field)
   var filter_type = type;
   var search_string = input_obj.value;
   marginalia.hideAnnotations();
+  this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, filter_group, filter_type, search_string);
+  document.location.hash = "#filter_name=" + filter_name+"&filter_group=" + filter_group+"&filter_type=" + filter_type+"&search_string="+search_string;
+}
+
+function loadfilterAnnotations(form_field)
+{
+  if ( marginalia.noteEditor )
+      return false;
+
+  var parent_node = form_field.parentNode;
+  var selectNodes = domutil.childrenByTagClass( parent_node, null, 'select_field', null, null );
+  var select_obj_owner = [];
+  var select_obj_group = [];
+  var select_obj_type = [];
+  if (selectNodes.length>=1)
+    var select_obj_owner = selectNodes[0];
+  if (selectNodes.length>=2)
+    var select_obj_group = selectNodes[1];
+  if (selectNodes.length>=3)
+    var select_obj_type = selectNodes[2];
+  var owner='';
+  for(i=0; i<select_obj_owner.length; i++)  {
+      if (select_obj_owner.options[i].selected)
+	  {
+	  owner = owner +';'+ select_obj_owner.options[i].value;
+          }
+      }
+  //removing first character from the string(i.e. removing',')
+  if (owner.length > 0)
+      {
+	  owner=owner.substring(1,owner.length )
+      }
+  var group='';
+  for(i=0; i<select_obj_group.length; i++)  {
+      if (select_obj_group.options[i].selected)
+	  {
+	  group = group +';'+ select_obj_group.options[i].value;
+          }
+      }
+  //removing first character from the string(i.e. removing',')
+  if (group.length > 0)
+      {
+	  group=group.substring(1,group.length )
+      }
+  var type='';
+  for(i=0; i<select_obj_type.length; i++)  {
+      if (select_obj_type.options[i].selected)
+	  {
+	  type = type +';'+ select_obj_type.options[i].value;
+      }
+      }
+  //removing first character from the string(i.e. removing',')
+  if (type.length > 0)
+      {
+	  type=type.substring(1,type.length )
+      }
+  var input_obj = domutil.childrenByTagClass( parent_node, null, 'input_field', null, null )[0];
+  var filter_name = owner;
+  var filter_group = group;
+  var filter_type = type;
+  var search_string = input_obj.value;
+  marginalia.hideAnnotations();
+  alert("Loading Page. Click on 'Ok' to continue");
   this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, filter_group, filter_type, search_string);
   document.location.hash = "#filter_name=" + filter_name+"&filter_group=" + filter_group+"&filter_type=" + filter_type+"&search_string="+search_string;
 }

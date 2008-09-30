@@ -176,6 +176,9 @@ First we initialize the workflow.
   >>> question.question_id == None
   False
 
+  >>> question.parliament_id == None
+  False
+
 
 The question is now in a draft state.
 

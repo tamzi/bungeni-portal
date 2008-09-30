@@ -23,7 +23,7 @@ def setQuestionDefaults(info, context):
     """get the default values for a question.
     current parliament, ... """ 
     instance = removeSecurityProxy(context)
-    #dbutils.setQuestionParliamentId(instance)
+    dbutils.setQuestionParliamentId(instance)
 
 def setSubmissionDate(info, context):
     instance = removeSecurityProxy(context)

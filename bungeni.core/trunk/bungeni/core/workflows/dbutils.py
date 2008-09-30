@@ -6,7 +6,13 @@
 from ore.alchemist import Session
 import bungeni.core.domain as domain
 import bungeni.core.schema as schema
+import bungeni.core.globalsettings as prefs
 
+
+def setQuestionParliamentId(question):
+    if not question.parliament_id:
+        question.parliament_id = prefs.getCurrentParliamentId()
+        
         
 def getQuestion(question_id):
     """

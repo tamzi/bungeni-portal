@@ -44,7 +44,7 @@ def create_question_workflow( ):
         title='Create',
         trigger = iworkflow.AUTOMATIC,
         source = None,
- #       action = utils.setQuestionDefaults,        
+        action = utils.setQuestionDefaults,        
         destination = states.draft,
         #permission = "bungeni.question.Create",
         ) )
@@ -230,7 +230,7 @@ def create_question_workflow( ):
         title=_(u'Send to ministry'),
         source = states.admissible,
         trigger = iworkflow.MANUAL,   
-        condition = utils.getQuestionMinistry ,    
+        condition = utils.getQuestionMinistry,    
         action = utils.setMinistrySubmissionDate,                
         destination = states.response_pending,
         permission = 'bungeni.question.Schedule',        
@@ -287,7 +287,7 @@ def create_question_workflow( ):
         source = states.deferred,
         trigger = iworkflow.MANUAL,        
         action = utils.setMinistrySubmissionDate,         
-        condition = utils.getQuestionMinistry ,                   
+        condition = utils.getQuestionMinistry,                   
         destination = states.response_pending,
         permission = 'bungeni.question.Schedule',        
         ) )  

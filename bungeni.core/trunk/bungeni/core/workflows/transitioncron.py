@@ -2,7 +2,7 @@
 #Automatically transition Questions 
 #The system needs to provide a settable time-frame beyond which “Admissible” 
 #questions which are available for scheduling - change status to “Deferred”
-
+import sys
 import datetime
 import sqlalchemy.sql.expression as sql
 
@@ -16,7 +16,16 @@ import bungeni.core.globalsettings as prefs
 
 from ore.workflow.interfaces import IWorkflowInfo
 
+##############################
+# imports for main
+from zope import component
+from sqlalchemy import create_engine
+from ore.alchemist.interfaces import IDatabaseEngine
+import ore.workflow.workflow
+import bungeni.core.workflows.question
+from bungeni import core as model
 
+#import pdb
 
 def _getQuestionsBefore(date, status):
     """
@@ -37,10 +46,12 @@ def _deferAdmissibleQuestionsBefore(date):
     date to defered
     """    
     status = question_workflow.states.admissible
-    admissableQuestions = _getQuestionsBefore(date, status)
-    for question in admissableQuestions:
-        IWorkflowInfo(question).fireTransition('defer')        
-
+    admissibleQuestions = _getQuestionsBefore(date, status)
+    #session = Session()
+    for question in admissibleQuestions:
+        IWorkflowInfo(question).fireTransition('defer')   
+    #pdb.set_trace()             
+    #session.flush()
 
 def deferAdmissibleQuestions():
     """
@@ -51,5 +62,34 @@ def deferAdmissibleQuestions():
     deferDate = datetime.date.today() - timedelta
     _deferAdmissibleQuestionsBefore(deferDate)
     
+def main(argv=None):
+    """
+    run this as a cron job and execute all
+    time based transitions
+    """
+    db = create_engine('postgres://localhost/bungeni', echo=False)
+    component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
+    model.metadata.bind = db
+    #session = Session()    
+    component.provideAdapter(
+      bungeni.core.workflows.WorkflowState,
+      (bungeni.core.interfaces.IBungeniContent,))
+
+    component.provideAdapter(
+      bungeni.core.workflows.question.QuestionWorkflowAdapter,
+      (domain.Question,))
+
+    component.provideAdapter(
+      ore.workflow.workflow.WorkflowInfo,
+      (domain.Question,))
+
+    component.provideHandler(
+      bungeni.core.workflows.question.workflowTransitionEventDispatcher)    
+    
+    deferAdmissibleQuestions() 
+    #session.flush()
+    
+if __name__ == "__main__":
+    sys.exit(main())
 
 

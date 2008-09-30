@@ -48,6 +48,10 @@ def setQuestionScheduleHistory(info, context):
     instance = removeSecurityProxy(context)
     instance.sitting_id = None       
 
+def getQuestionMinistry(info, context):
+    ministry_id = context.ministry_id
+    return ministry_id != None
+
 
 def submitResponse( info, context ):
     """

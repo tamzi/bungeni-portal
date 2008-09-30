@@ -506,6 +506,16 @@
       weight="20"
       />           
 
+
+<!-- Question add form -->
+
+   <browser:view
+      name="add"
+      for="bungeni.core.interfaces.IQuestionContainer"
+      class=".forms.QuestionAdd"              
+      permission="zope.View"
+      />          
+      
       
 <!-- Question Edit Form -->  
     <browser:viewlet

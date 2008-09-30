@@ -3,6 +3,8 @@
 
 import pdb
 
+from zope import component
+
 from ore.alchemist.vocabulary import DatabaseSource
 from ore.alchemist.model import queryModelDescriptor
 
@@ -150,7 +152,7 @@ class CustomAddForm( ContentAddForm ):
     
     
     @form.action(_(u"Save"), condition=form.haveInputWidgets)
-    def handle_add_and_another(self, action, data ):
+    def handle_add_save(self, action, data ):
         """
         After succesfull creation of the content we are back at the listing
         """
@@ -676,6 +678,60 @@ class MemberTitleAdd( CustomAddForm ):
     Adapts = IMemberRoleTitleAdd
     CustomValidation =  validations.CheckMemberTitleDateAdd 
 
+
+class QuestionAdd( CustomAddForm ):
+    form_fields = form.Fields( IQuestion ).select('question_type', 'response_type', 'owner_id',
+                                                    'subject', 'question_text',                                                                  
+                                                    'note', 'receive_notification' )
+
+    Adapts = IQuestion
+    CustomValidation =  validations.QuestionAdd 
+    form_fields["note"].custom_widget = widget.OneTimeEditor
+    form_fields["question_text"].custom_widget = widget.RichTextEditor 
+
+
+    @form.action(_(u"Save"), condition=form.haveInputWidgets)
+    def handle_add_save(self, action, data ):
+        """
+        After succesfull creation of the content we are back at the listing
+        """
+        self.createAndAdd( data )
+        name = self.context.domain_model.__name__
+        self._next_url = absoluteURL( self.context, self.request ) + '?portal_status_message=%s Added'%name    
+        
+    @form.action(_(u"Cancel"), validator=null_validator )
+    def handle_cancel( self, action, data ):
+        """
+        takes us back to the listing
+        """
+        url = self.nextURL()
+        return self.request.response.redirect( url )
+        
+    @form.action(_(u"Save and continue editing"), condition=form.haveInputWidgets, validator='validateAdd')
+    def handle_add_edit( self, action, data ):
+        ob = self.createAndAdd( data )
+        name = self.context.domain_model.__name__
+        self._next_url = absoluteURL( ob, self.request ) + "/@@edit?portal_status_message=%s Added"%name
+        
+    @form.action(_(u"Save and add another"), condition=form.haveInputWidgets)
+    def handle_add_and_another(self, action, data ):
+        self.createAndAdd( data )
+        name = self.context.domain_model.__name__
+        self._next_url = absoluteURL( self.context, self.request ) + '/@@add?portal_status_message=%s Added'%name    
+        
+    @form.action(_(u"Save and submit to clerk"), condition=form.haveInputWidgets, validator='validateAdd')
+    def handle_add_submit( self, action, data ):
+        ob = self.createAndAdd( data )
+        info = component.getAdapter( ob,  interfaces.IWorkflowInfo)
+        if data.has_key('note'):
+            notes = data['note']     
+        else:
+            notes=''                   
+        createVersion(ob, notes)                                                                    
+        info.fireTransition( 'submit-to-clerk', notes )                          
+        name = self.context.domain_model.__name__
+        self._next_url = absoluteURL( ob, self.request ) + "/?portal_status_message=%s Added"%name        
+        
 class ResponseAdd( CustomAddForm ):
     """
     Answer a Question
@@ -1127,7 +1183,6 @@ class QuestionEdit( CustomEditForm ):
     the workflow transitions are available as actions as well as the 
     default save and cancel buttons
     """
-    #XXX todo: bind the transitions to save + fire transaction
     form_fields = form.Fields( IQuestion ).select('question_type', 'response_type', 'owner_id',
                                                     'subject', 'question_text', 
                                                     'clerk_submission_date', 'approval_date',                                                    

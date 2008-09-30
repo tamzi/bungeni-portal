@@ -636,6 +636,9 @@ def CheckMemberTitleDateEdit( self, context, data):
 
     return errors         
 
+def QuestionAdd( self, context, data ):
+    return []
+    
 def QuestionEdit( self, context, data ):
     return []
 

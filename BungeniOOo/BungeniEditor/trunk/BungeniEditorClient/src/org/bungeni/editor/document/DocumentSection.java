@@ -18,7 +18,8 @@ import org.bungeni.db.QueryResults;
  * @author Administrator
  */
 public class DocumentSection {
-    
+     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DocumentSection.class.getName());
+ 
     private String documentType;
     private String sectionType;
     private String sectionNamePrefix;
@@ -93,9 +94,10 @@ public class DocumentSection {
     public void setSectionBackground(String sectionBackground) {
         try {
 
-        this.sectionBackground = Integer.decode(sectionBackground);
+        this.sectionBackground = Integer.decode(sectionBackground.trim());
        } catch (NumberFormatException ex) {
             this.sectionBackground = 0xffffff;
+            log.error("setSectionBackground : there was an error parsing the section background");
       }
     }
 
@@ -103,9 +105,10 @@ public class DocumentSection {
 
     public void setSectionLeftMargin(String sectionLeftMargin) {
       try {
-        this.sectionLeftMargin = Double.parseDouble(sectionLeftMargin);
+        this.sectionLeftMargin = Double.parseDouble(sectionLeftMargin.trim());
        } catch (NumberFormatException ex) {
             this.sectionLeftMargin = 0;
+            log.error("setSectionLeftMargin : error while formatting number :" + sectionLeftMargin);
       }
     }
     
@@ -136,9 +139,10 @@ public class DocumentSection {
    
     public void setSectionRightMargin(String sectionRightMargin) {
         try {
-            this.sectionRightMargin = Double.parseDouble(sectionRightMargin);
+            this.sectionRightMargin = Double.parseDouble(sectionRightMargin.trim());
         } catch (NumberFormatException ex) {
             this.sectionRightMargin = 0;
+            log.error("setSectionRightMargin : error while formatting number:"+sectionRightMargin);
         }
     }
     

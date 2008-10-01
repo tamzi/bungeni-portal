@@ -79,6 +79,11 @@
   <!-- Page and Context Specific -->
 
 <script type="text/javascript" tal:content="string:
+function load() {
+    var search_button = document.getElementById('search');
+    filterAnnotations(search_button);
+}
+
 function show_annotations_on_load() {
     var serviceRoot = '${context/@@absolute_url}';
 	var username = '${view/getAuthenticatedUser}';
@@ -90,8 +95,7 @@ function show_annotations_on_load() {
 	var url = '${context/@@absolute_url}';
     var restService = '/amendment';
 	bungeniMarginaliaInit( username, superuser, url, serviceRoot, restService );
-    var search_button = document.getElementById('search');
-    loadfilterAnnotations(search_button);
+    setTimeout( 'load();', 500);    
 }
 
 function addLoadEvent(func) {
@@ -100,6 +104,7 @@ function addLoadEvent(func) {
     window.onload = func;
   } else {
     window.onload = function() {
+      pausecomp(50);
       if (oldonload) {
         oldonload();
       }

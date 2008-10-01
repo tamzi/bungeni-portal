@@ -12,6 +12,11 @@
     <script type="text/javascript" src="" tal:attributes="src string:${context/absolute_url}/referencebrowser.js"></script>
 
     <script type="text/javascript" tal:content="string:
+        function load() {
+            var search_button = document.getElementById('search');
+            filterAnnotations(search_button);
+        }
+
         function show_annotations_on_load() 
         {
 			var serviceRoot = '${request/base}/${utool/getPortalPath}/portal_annotations';
@@ -24,8 +29,7 @@
 			var url = '${annotatedUrl}';
             var restService = '/amendment';
 	        bungeniMarginaliaInit( username, superuser, url, serviceRoot, restService );
-            var search_button = document.getElementById('search');
-            loadfilterAnnotations(search_button);            
+            setTimeout( 'load();', 500);    
 		}
 
         function addLoadEvent(func) {

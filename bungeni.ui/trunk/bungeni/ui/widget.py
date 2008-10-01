@@ -2,12 +2,16 @@
 from zope.app.form.browser.widget import UnicodeDisplayWidget, DisplayWidget
 from zope.app.form.browser.textwidgets import TextAreaWidget, FileWidget
 from zope.app.form.interfaces import ConversionError
+from zope.security.proxy import removeSecurityProxy
 from zc.resourcelibrary import need
 from zope.app.form.browser.itemswidgets import  RadioWidget
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from bungeni.core.i18n import _
 
+#import bungeni.core.domain as domain
+#from ore.alchemist import Session
 
+import pdb
 
 def CustomRadioWidget( field, request ):
     """ to replace the default combo box widget for a schema.choice field"""
@@ -152,4 +156,19 @@ class OneTimeEditor( TextAreaWidget ):
     """
     __call__ = ViewPageTemplateFile('templates/one-time-textinput-widget.pt')    
 
-        
+
+class SupplementaryQuestionDisplay(DisplayWidget):
+    """
+    If a question has a parent i.e it is a supplementary question
+    this displays the subject of the parent, else it states that this is an
+    initial question
+    """
+    def __call__( self ):
+        if self._data is not None:
+            #session = Session()
+            #parent = session.query(domain.Question).get(self._data)
+            context = removeSecurityProxy (self.context.context)
+            parent = context.getParentQuestion()  
+            return _(u"Supplementary Question to: <br/> %s") % parent
+        else:
+            return _(u"Initial Question")

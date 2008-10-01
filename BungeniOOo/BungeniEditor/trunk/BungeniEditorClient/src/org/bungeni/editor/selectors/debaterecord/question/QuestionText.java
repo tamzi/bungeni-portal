@@ -138,6 +138,7 @@ public String getPanelName() {
 
     @Override
     public boolean processSelectInsert() {
+        //copy question text to clipboard
         String strText = this.txtQuestionText.getText();
         Clipboard clipBrd = new Clipboard("Clipboard.QuestionText");
         Transferable copyToClipboard = new StringSelection(strText);

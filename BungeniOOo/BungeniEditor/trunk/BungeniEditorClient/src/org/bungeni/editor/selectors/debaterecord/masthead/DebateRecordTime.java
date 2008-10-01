@@ -6,18 +6,23 @@
 
 package org.bungeni.editor.selectors.debaterecord.masthead;
 
+import com.sun.star.container.XNameAccess;
+import com.sun.star.container.XNamed;
+import com.sun.star.text.XTextContent;
+import com.sun.star.text.XTextCursor;
 import java.awt.Component;
-import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
-import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
+import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooDocMetadata;
+import org.bungeni.ooo.ooQueryInterface;
 
 /**
  *
@@ -25,6 +30,12 @@ import org.bungeni.ooo.ooDocMetadata;
  */
 public class DebateRecordTime extends BaseMetadataPanel {
    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DebateRecordTime.class.getName());
+
+   /**
+    * metadata variable declarations
+    */
+   
+    final String _debatetimeRefName_ = "BungeniDebateOfficialTime";
 
     /** Creates new form DebateRecordTime */
     public DebateRecordTime() {
@@ -137,9 +148,37 @@ return true;
 return true;
     }
 
+    private void insertRefMark (OOComponentHelper ooHandle, XTextCursor thisCursor, String referenceName ) {
+       Object referenceMark = ooHandle.createInstance("com.sun.star.text.ReferenceMark");
+       XNamed xRefMark = ooQueryInterface.XNamed(referenceMark);
+       xRefMark.setName(referenceName);
+       XTextContent xContent = ooQueryInterface.XTextContent(xRefMark);
+       try {
+       thisCursor.getText().insertTextContent(thisCursor, xContent, true);
+       } catch (Exception ex) {
+           log.error("insertReferenceMark :" + ex.getMessage()); 
+       }
+   }
+
     @Override
     public boolean processSelectInsert() {
-return true;
+           //1 check if reference exists .. if yes then fail... 
+        //if no markhighlighted text with named reference
+       //also store selected date to metadata 
+        //1 - add reference mark
+       OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
+       insertRefMark(ooDoc, ooDoc.getViewCursor(), this._debatetimeRefName_);
+       //2 - add metadata
+       SimpleDateFormat formatter = new SimpleDateFormat (BungeniEditorProperties.getEditorProperty("metadataTimeFormat"));
+       Object timeValue = this.dt_initdebate_timeofhansard.getValue();
+       Date hansardTime = (Date) timeValue;
+       final String strTimeOfHansard = formatter.format(hansardTime);
+       com.sun.star.text.XTextSection currentSection = ooDoc.currentSection();
+       HashMap<String,String> sectionMeta = new HashMap<String,String>() {{
+               put (_debatetimeRefName_, strTimeOfHansard);
+           }};
+       ooDoc.setSectionMetadataAttributes(currentSection, sectionMeta);     
+       return true;       
     }
 
     @Override
@@ -151,30 +190,39 @@ return true;
     public boolean validateSelectedEdit() {
 return true;
     }
-
+    
+ 
+     
     @Override
     public boolean validateSelectedInsert() {
-return true;
+        OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
+        XNameAccess refs = ooDoc.getReferenceMarks();
+        if (refs.hasByName(_debatetimeRefName_)){
+            this.addErrorMessage(null, "This item has already been marked up. Please use the 'Edit Metadata' option to modify it");
+            return false;
+        }
+        
+        return true;
     }
 
     @Override
     public boolean validateFullInsert() {
-return true;
+        return true;
     }
 
     @Override
     public boolean validateFullEdit() {
-return true;
+        return true;
     }
 
     @Override
     public boolean doCancel() {
-return true;
+        return true;
     }
 
     @Override
     public boolean doReset() {
-return true;
+        return true;
     }
     @Override
     protected void initFieldsSelectedEdit() {
@@ -211,6 +259,9 @@ return true;
     }
     
     private void initCommon(){
-
+        dt_initdebate_timeofhansard.setModel(new SpinnerDateModel(new Date(), null, null, Calendar.HOUR));
+        dt_initdebate_timeofhansard.setEditor(new JSpinner.DateEditor(dt_initdebate_timeofhansard, BungeniEditorProperties.getEditorProperty("metadataTimeFormat")));
+        ((JSpinner.DefaultEditor)dt_initdebate_timeofhansard.getEditor()).getTextField().setEditable(false);
+ 
     }
 }

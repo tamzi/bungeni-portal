@@ -135,7 +135,7 @@ public String getPanelName() {
         OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
         HashMap<String,String> sectionMeta = new HashMap<String,String>();
         String newSectionName = ((Main)getContainerPanel()).mainSectionName;
-        sectionMeta.put("QuestionAddressedTo", this.txtAddressedTo.getText());
+        sectionMeta.put("BungeniQuestionAddressedTo", this.txtAddressedTo.getText());
         ooDoc.setSectionMetadataAttributes(newSectionName, sectionMeta);
         //ooDoc.setSectionMetadataAttributes(TOOL_TIP_TEXT_KEY, metadataMap);
         return true;

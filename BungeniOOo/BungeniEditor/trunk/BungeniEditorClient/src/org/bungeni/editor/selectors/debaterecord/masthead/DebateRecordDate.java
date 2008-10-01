@@ -6,10 +6,15 @@
 
 package org.bungeni.editor.selectors.debaterecord.masthead;
 
+import com.sun.star.container.XNameAccess;
+import com.sun.star.container.XNamed;
+import com.sun.star.text.XTextContent;
+import com.sun.star.text.XTextCursor;
 import java.awt.Component;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
@@ -19,8 +24,10 @@ import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
+import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooDocFieldSet;
 import org.bungeni.ooo.ooDocMetadata;
+import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.utils.CommonPropertyFunctions;
 
 /**
@@ -30,6 +37,11 @@ import org.bungeni.utils.CommonPropertyFunctions;
 public class DebateRecordDate extends BaseMetadataPanel {
 
       private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DebateRecordDate.class.getName());
+    
+      /**
+       * Metadata variables
+       */
+      final String _debatedateRefName_ = "BungeniDebateOfficialDate";
 
     /** Creates new form DebateRecordDate */
     public DebateRecordDate() {
@@ -86,7 +98,8 @@ public class DebateRecordDate extends BaseMetadataPanel {
        return this;
     }
 
-    @Override
+
+   @Override
     public boolean preFullEdit() {
        return true;
     }
@@ -149,7 +162,7 @@ public class DebateRecordDate extends BaseMetadataPanel {
     @Override
     public boolean processFullInsert() {
        log.debug("processFullInsert : running");
-       boolean bReturn = processCatalogCommand();
+       // boolean bReturn = processCatalogCommand();
        return true;
     }
 
@@ -173,13 +186,40 @@ public class DebateRecordDate extends BaseMetadataPanel {
        return true;
     }
 
-    @Override
-    public boolean preSelectInsert() {
-       return true;
-    }
+    
 
     @Override
+    public boolean preSelectInsert() {
+        return true;
+    }
+
+       private void insertRefMark (OOComponentHelper ooHandle, XTextCursor thisCursor, String referenceName ) {
+       Object referenceMark = ooHandle.createInstance("com.sun.star.text.ReferenceMark");
+       XNamed xRefMark = ooQueryInterface.XNamed(referenceMark);
+       xRefMark.setName(referenceName);
+       XTextContent xContent = ooQueryInterface.XTextContent(xRefMark);
+       try {
+       thisCursor.getText().insertTextContent(thisCursor, xContent, true);
+       } catch (Exception ex) {
+           log.error("insertReferenceMark :" + ex.getMessage()); 
+       }
+   }
+    @Override
     public boolean processSelectInsert() {
+        //1 check if reference exists .. if yes then fail... 
+        //if no markhighlighted text with named reference
+       //also store selected date to metadata 
+        //1 - add reference mark
+       OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
+       insertRefMark(ooDoc, ooDoc.getViewCursor(), this._debatedateRefName_);
+       //2 - add metadata
+       SimpleDateFormat formatter = new SimpleDateFormat (BungeniEditorProperties.getEditorProperty("metadataDateFormat"));
+       final String strDebateDate = formatter.format( dt_initdebate_hansarddate.getDate());
+       com.sun.star.text.XTextSection currentSection = ooDoc.currentSection();
+       HashMap<String,String> sectionMeta = new HashMap<String,String>() {{
+               put (_debatedateRefName_, strDebateDate);
+           }};
+       ooDoc.setSectionMetadataAttributes(currentSection, sectionMeta);     
        return true;
     }
 
@@ -195,7 +235,13 @@ public class DebateRecordDate extends BaseMetadataPanel {
 
     @Override
     public boolean validateSelectedInsert() {
-       return true;
+        OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
+        XNameAccess refs = ooDoc.getReferenceMarks();
+        if (refs.hasByName(_debatedateRefName_)){
+            this.addErrorMessage(null, "This item has already been marked up. Please use the 'Edit Metadata' option to modify it");
+            return false;
+        }
+        return true;
     }
 
     @Override

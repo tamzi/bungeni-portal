@@ -13,6 +13,7 @@ import org.bungeni.db.BungeniRegistryFactory;
 import org.bungeni.db.GeneralQueryFactory;
 import org.bungeni.db.QueryResults;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
+import org.bungeni.ooo.OOComponentHelper;
 
 /**
  *
@@ -149,6 +150,12 @@ public String getPanelName() {
 
     @Override
     public boolean processSelectInsert() {
+        OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
+        HashMap<String,String> sectionMeta = new HashMap<String,String>();
+        String newSectionName = ((Main)getContainerPanel()).mainSectionName;
+        sectionMeta.put("BungeniQuestionBy", this.txtPersonName.getText());
+        sectionMeta.put("BungeniQuestionByURI", this.txtPersonURI.getText());
+        ooDoc.setSectionMetadataAttributes(newSectionName, sectionMeta);        
         return true;
     }
 

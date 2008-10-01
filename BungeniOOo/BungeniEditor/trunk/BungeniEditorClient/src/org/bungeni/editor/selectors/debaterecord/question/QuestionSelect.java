@@ -15,6 +15,7 @@ import org.bungeni.db.GeneralQueryFactory;
 import org.bungeni.db.QueryResults;
 import org.bungeni.db.registryQueryDialog;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
+import org.bungeni.ooo.OOComponentHelper;
 
 /**
  *
@@ -171,6 +172,12 @@ private void btnSelectQuestionActionPerformed(java.awt.event.ActionEvent evt) {/
 
     @Override
     public boolean processSelectInsert() {
+        String questionId = ((Main)getContainerPanel()).selectionData.get("ID");
+        OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
+        HashMap<String,String> sectionMeta = new HashMap<String,String>();
+        String newSectionName = ((Main)getContainerPanel()).mainSectionName;
+        sectionMeta.put("BungeniQuestionNo", questionId);
+        ooDoc.setSectionMetadataAttributes(newSectionName, sectionMeta);
         return true;
     }
 

@@ -826,6 +826,7 @@ class QuestionDescriptor( ModelDescriptor ):
     
     fields = [
         dict( name="question_id", omit=True),
+        dict( name="supplement_parent_id",label=_(u"Initial/supplementary question"), view_widget=widget.SupplementaryQuestionDisplay),
         dict( name="ministry_id", 
                 property = schema.Choice(title=_(u"Ministry"), source=DatabaseSource(domain.Ministry,title_field='short_name', token_field='ministry_id', value_field = 'ministry_id' ),required=False),
                 listing_column=vocab_column( "ministry_id" , _(u'Ministry'),
@@ -861,11 +862,10 @@ class QuestionDescriptor( ModelDescriptor ):
         
             ),
         #label=_("Question"), description=_(u"The Question submitted")),        
-        dict( name="status", label=_(u"Status"), modes="listing"),
-        dict( name="supplement_parent_id", omit=True), #XXX
+        dict( name="status", label=_(u"Status"), modes="listing"),         
         dict( name="note", label=_(u"Notes"), description="Recommendation note", 
               property=schema.Text(title=_(u"Notes"),  description=_(u"Recommendation note"), required=False ),              
-              edit = True, add = True,
+              edit = True, add = True, view = False, 
               view_widget=widget.HTMLDisplay,
               edit_widget=widget.RichTextEditor, ),       
         dict( name="sitting_time", label=_(u"Sitting Time"), listing=True ),

@@ -338,7 +338,8 @@ mapper( domain.QuestionVersion, schema.question_versions,
 mapper( domain.Question, schema.questions,
         properties = {
              'versions':relation( domain.QuestionVersion, backref='question'),
-             'changes':relation( domain.QuestionChange, backref='question')
+             'changes':relation( domain.QuestionChange, backref='question'),                                   
+             
              }
         )
 

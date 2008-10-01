@@ -339,6 +339,15 @@ class Question( ParliamentaryItem ):
     def short_name( self ):
         return ( self.subject )
 
+    
+    def getParentQuestion( self ):
+        if self.supplement_parent_id:
+            session = Session()
+            parent = session.query(Question).get(self.supplement_parent_id)   
+            return parent.subject
+            
+ 
+
 QuestionChange = ItemLog.makeLogFactory( "QuestionChange")
 QuestionVersion = ItemVersions.makeVersionFactory("QuestionVersion")
 

@@ -7,10 +7,12 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 
 from zc.resourcelibrary import need
 
+from ore.alchemist import Session
+import bungeni.core.domain as domain
+
 import alchemist.ui.core
 import alchemist.ui.viewlet
 
-from bungeni.core.domain import Question, Response
 
 from bungeni.ui.i18n import _
 from interfaces import ISubFormViewletManager, IResponeQuestionViewletManager
@@ -67,11 +69,16 @@ class ResponseQuestionViewlet( viewlet.ViewletBase ):
         self.question_text = ''
     
     def update(self):
-        if self.context.__class__ == Response:
+        if self.context.__class__ == domain.Response:
+            #edit response
+            question_id = context.response_id
+            session = Session()
+            return session.query(domain.Question).get(question_id)
             self.subject = self.context.__parent__.__parent__.subject
             self.question_text = self.context.__parent__.__parent__.question_text
         else:
-            if self.context.__parent__.__class__ == Question:
+            # add a response
+            if self.context.__parent__.__class__ == domain.Question:
                 self.subject = self.context.__parent__.subject
                 self.question_text = self.context.__parent__.question_text
 

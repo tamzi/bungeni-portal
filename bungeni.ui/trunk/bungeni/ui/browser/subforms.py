@@ -278,7 +278,7 @@ class ResponseViewlet( BungeniAttributeDisplay ):
     template = ViewPageTemplateFile('templates/display_subform.pt')        
     form_name = _(u"Response")   
     addurl = 'add'
-    add_action = form.Actions( form.Action(_(u'add'), success='handle_add_action'), )
+    add_action = form.Actions( form.Action(_(u'add response'), success='handle_response_add_action'), )
     
     def __init__( self,  context, request, view, manager ):        
         self.context = context
@@ -289,7 +289,7 @@ class ResponseViewlet( BungeniAttributeDisplay ):
         md = queryModelDescriptor(domain.Response)          
         self.form_fields=md.fields
 
-    def handle_add_action( self, action, data ):
+    def handle_response_add_action( self, action, data ):
         self.request.response.redirect(self.addurl)
 
  

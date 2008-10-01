@@ -6,8 +6,9 @@
        tal:define="results view/results"
        tal:attributes="id string:workspace-viewlet-${view/name}">
 
-    <h4 i18n:translate="" tal:content="view/title" />
-    
+    <!--h4 i18n:translate="" tal:content="view/title" /-->
+    <h4 i18n:translate="" tal:content="view/name" />
+    <!--p tal:content="view/description"> </p-->
     <ul tal:condition="results">
       <li tal:repeat="result results">
         <a tal:attributes="href result/url">

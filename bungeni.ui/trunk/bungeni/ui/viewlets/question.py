@@ -30,16 +30,18 @@ class QuestionsListingViewletBase(object):
         results = []
 
         for question in questions:
-            try:
-                url = absoluteURL(question, self.request)
-            except TypeError: # TODO: Not necessary after we have the proper adapter
-                              # set up.
-                url = '#'
-                
-            item = dict(title=question.subject,
-                        url=url)
+            if question:
+                #content remove by sql might result in None as searchresult
+                try:
+                    url = absoluteURL(question, self.request)
+                except TypeError: # TODO: Not necessary after we have the proper adapter
+                                  # set up.
+                    url = '#'
+                    
+                item = dict(title=question.subject,
+                            url=url)
 
-            results.append(item)
+                results.append(item)
 
         self.results = results
 
@@ -53,8 +55,14 @@ class QuestionsInParticularStateViewlet(QuestionsListingViewletBase):
         if self.state is marker:
             return NotImplementedError("Subclass must provide ``state``.")
     
-        searcher = component.getUtility(IIndexSearch)()
-        query = searcher.query_field('status', self.state)
+        searcher = component.getUtility(IIndexSearch)()        
+        #query = searcher.query_field('status', self.state)
+        
+        query_status = searcher.query_field('status', self.state)
+        query_type = searcher.query_field('object_type', 'Question')
+
+        query  = searcher.query_composite( searcher.OP_AND, [query_status, query_type] )        
+        
         brains = searcher.search(query, 0, self.count)
 
         return brains

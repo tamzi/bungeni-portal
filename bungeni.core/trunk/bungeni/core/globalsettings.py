@@ -83,5 +83,10 @@ def getDaysToDeferAdmissibleQuestions():
     """        
     return datetime.timedelta(10)    
     
-    
+def getDaysToNotifyMinistriesQuestionsPendingResponse():
+    """
+    timeframe after which the clerksoffice and the ministry is alerted that
+    questions that are pending response are not yet answered
+    """    
+    return datetime.timedelta(1)  
     

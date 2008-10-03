@@ -11,7 +11,7 @@ from bungeni.server.smtp import dispatch
 from ore.alchemist import Session
 
 
-def getQuesitionOwnerEmail(motion):
+def getMotionOwnerEmail(motion):
     session = Session()
     owner = session.query(User).get(motion.owner_id)
     return  '"%s %s" <%s>' % (owner.first_name, owner.last_name, owner.email)
@@ -30,7 +30,7 @@ def sendNotificationToMemberUponReceipt(event):
     
     msg = MIMEText(text)
 
-    recipient_address = getQuesitionOwnerEmail(motion)
+    recipient_address = getMotionOwnerEmail(motion)
 
     msg['Subject'] = u'Motion received: %s' % motion.title
     msg['From'] = prefs.getClerksOfficeEmail()
@@ -57,7 +57,7 @@ def sendNotificationToClerkUponSubmit(event):
     
     msg = MIMEText(text)
 
-    qowner_address =getQuesitionOwnerEmail(motion)         
+    qowner_address =getMotionOwnerEmail(motion)         
 
     msg['Subject'] = u'Motion submitted: %s' % motion.title
     msg['From'] = qowner_address
@@ -82,7 +82,7 @@ def sendNotificationToMemberUponReject(event):
     
     msg = MIMEText(text)
 
-    recipient_address = getQuesitionOwnerEmail(motion)
+    recipient_address = getMotionOwnerEmail(motion)
 
     msg['Subject'] = u'Motion rejected: %s' % motion.title
     msg['From'] = prefs.getSpeakersOfficeEmail()
@@ -108,7 +108,7 @@ def sendNotificationToMemberUponNeedsClarification(event):
     
     msg = MIMEText(text)
 
-    recipient_address = getQuesitionOwnerEmail(motion)
+    recipient_address = getMotionOwnerEmail(motion)
 
     msg['Subject'] = u'Motion needs clarification: %s' % motion.title
     msg['From'] = prefs.getClerksOfficeEmail()
@@ -133,7 +133,7 @@ def sendNotificationToMemberUponDeferred(event):
     
     msg = MIMEText(text)
 
-    recipient_address = getQuesitionOwnerEmail(motion)
+    recipient_address = getMotionOwnerEmail(motion)
 
     msg['Subject'] = u'Motion deferred: %s' % motion.title
     msg['From'] = prefs.getSpeakersOfficeEmail()
@@ -159,7 +159,7 @@ def sendNotificationToMemberUponSchedule(event):
     
     msg = MIMEText(text)
 
-    recipient_address = getQuesitionOwnerEmail(motion)
+    recipient_address = getMotionOwnerEmail(motion)
 
     msg['Subject'] = u'Motion scheduled: %s' % motion.title
     msg['From'] = prefs.getClerksOfficeEmail()
@@ -185,7 +185,7 @@ def sendNotificationToMemberUponPostponed(event):
     
     msg = MIMEText(text)
 
-    recipient_address = getQuesitionOwnerEmail(motion)
+    recipient_address = getMotionOwnerEmail(motion)
 
     msg['Subject'] = u'Motion postponed: %s' % motion.title
     msg['From'] = prefs.getClerksOfficeEmail()
@@ -209,7 +209,7 @@ def sendNotificationToMemberUponDebated(event):
     
     msg = MIMEText(text)
 
-    recipient_address = getQuesitionOwnerEmail(motion)
+    recipient_address = getMotionOwnerEmail(motion)
 
     msg['Subject'] = u'Motion was debated: %s' % motion.title
     msg['From'] = prefs.getClerksOfficeEmail()

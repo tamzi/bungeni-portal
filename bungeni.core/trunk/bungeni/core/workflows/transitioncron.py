@@ -4,12 +4,16 @@
 #questions which are available for scheduling - change status to “Deferred”
 import sys
 import datetime
+
+import zope.lifecycleevent
+
 import sqlalchemy.sql.expression as sql
 
 from ore.alchemist import Session
 
 import bungeni.core.domain as domain
 import bungeni.core.schema as schema
+import bungeni.core.audit as audit
 
 import bungeni.core.workflows.question as question_workflow
 import bungeni.core.globalsettings as prefs
@@ -48,12 +52,9 @@ def _deferAdmissibleQuestionsBefore(date):
     """    
     status = question_workflow.states.admissible
     admissibleQuestions = _getQuestionsBefore(date, status)
-    #session = Session()
     for question in admissibleQuestions:
         IWorkflowInfo(question).fireTransition('defer')   
-    #pdb.set_trace()             
-    #session.flush()
-
+    
 def deferAdmissibleQuestions():
     """
     get the timeframe and defer all questions 
@@ -86,10 +87,13 @@ def main(argv=None):
 
     component.provideHandler(
       bungeni.core.workflows.question.workflowTransitionEventDispatcher)  
-# add autitor for time based transitions     
-#    component.provideAdapter(
-#        bungeni.core.interfaces.IAuditable,
-#        (domain.Question))        
+    # add autitor for time based transitions     
+    #component.provideAdapter(
+    #    (bungeni.core.interfaces.IAuditable, bungeni.core.interfaces.IQuestion, ),
+    #    (domain.Question, ))        
+    #component.provideAdapter( audit.objectModified, 
+    #(domain.Question, bungeni.core.interfaces.IAuditable, ))
+    
     
     deferAdmissibleQuestions() 
     session.flush()

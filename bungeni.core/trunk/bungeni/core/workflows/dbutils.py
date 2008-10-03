@@ -21,8 +21,9 @@ def getQuestion(question_id):
     gets the question with id 
     """
     session = Session()
-    query = session.query(domain.Question).filter(schema.questions.c.question_id == question_id)
-    return query.one()
+    return session.query(domain.Question).get(question_id)
+    #query = session.query(domain.Question).filter(schema.questions.c.question_id == question_id)
+    #return query.one()
     
 def setQuestionMinistryId(question):
     if question.supplement_parent_id:

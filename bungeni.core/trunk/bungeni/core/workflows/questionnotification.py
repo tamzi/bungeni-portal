@@ -11,7 +11,7 @@ from bungeni.server.smtp import dispatch
 from ore.alchemist import Session
 
 
-def getQuesitionOwnerEmail(question):
+def getQuestionOwnerEmail(question):
     session = Session()
     owner = session.query(User).get(question.owner_id)
     return  '"%s %s" <%s>' % (owner.first_name, owner.last_name, owner.email)
@@ -30,7 +30,7 @@ def sendNotificationToMemberUponReceipt(event):
     
     msg = MIMEText(text)
 
-    recipient_address = getQuesitionOwnerEmail(question)
+    recipient_address = getQuestionOwnerEmail(question)
 
     msg['Subject'] = u'Question received: %s' % question.subject
     msg['From'] = prefs.getClerksOfficeEmail()
@@ -57,7 +57,7 @@ def sendNotificationToClerkUponSubmit(event):
     
     msg = MIMEText(text)
 
-    qowner_address =getQuesitionOwnerEmail(question)         
+    qowner_address =getQuestionOwnerEmail(question)         
 
     msg['Subject'] = u'Question submitted: %s' % question.subject
     msg['From'] = qowner_address
@@ -82,7 +82,7 @@ def sendNotificationToMemberUponReject(event):
     
     msg = MIMEText(text)
 
-    recipient_address = getQuesitionOwnerEmail(question)
+    recipient_address = getQuestionOwnerEmail(question)
 
     msg['Subject'] = u'Question rejected: %s' % question.subject
     msg['From'] = prefs.getSpeakersOfficeEmail()
@@ -108,7 +108,7 @@ def sendNotificationToMemberUponNeedsClarification(event):
     
     msg = MIMEText(text)
 
-    recipient_address = getQuesitionOwnerEmail(question)
+    recipient_address = getQuestionOwnerEmail(question)
 
     msg['Subject'] = u'Question needs clarification: %s' % question.subject
     msg['From'] = prefs.getClerksOfficeEmail()
@@ -133,7 +133,7 @@ def sendNotificationToMemberUponDeferred(event):
     
     msg = MIMEText(text)
 
-    recipient_address = getQuesitionOwnerEmail(question)
+    recipient_address = getQuestionOwnerEmail(question)
 
     msg['Subject'] = u'Question deferred: %s' % question.subject
     msg['From'] = prefs.getSpeakersOfficeEmail()
@@ -159,7 +159,7 @@ def sendNotificationToMemberUponSchedule(event):
     
     msg = MIMEText(text)
 
-    recipient_address = getQuesitionOwnerEmail(question)
+    recipient_address = getQuestionOwnerEmail(question)
 
     msg['Subject'] = u'Question scheduled: %s' % question.subject
     msg['From'] = prefs.getClerksOfficeEmail()
@@ -185,7 +185,7 @@ def sendNotificationToMemberUponPostponed(event):
     
     msg = MIMEText(text)
 
-    recipient_address = getQuesitionOwnerEmail(question)
+    recipient_address = getQuestionOwnerEmail(question)
 
     msg['Subject'] = u'Question postponed: %s' % question.subject
     msg['From'] = prefs.getClerksOfficeEmail()
@@ -210,7 +210,7 @@ def sendNotificationToMemberUponSentToMinistry(event):
     
     msg = MIMEText(text)
 
-    recipient_address = getQuesitionOwnerEmail(question)
+    recipient_address = getQuestionOwnerEmail(question)
 
     msg['Subject'] = u'Question sent to ministry: %s' % question.subject
     msg['From'] = prefs.getClerksOfficeEmail()
@@ -237,7 +237,7 @@ def sendNotificationToMemberUponAnswer(event):
     
     msg = MIMEText(text)
 
-    recipient_address = getQuesitionOwnerEmail(question)
+    recipient_address = getQuestionOwnerEmail(question)
 
     msg['Subject'] = u'Question answered: %s' % question.subject
     msg['From'] = prefs.getClerksOfficeEmail()

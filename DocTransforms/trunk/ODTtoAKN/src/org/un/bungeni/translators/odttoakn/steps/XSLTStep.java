@@ -4,7 +4,7 @@ package org.un.bungeni.translators.odttoakn.steps;
  * The Step Object is the basic unit of the translations. A configuration contains several steps
  * that are performed sequentially.
 */
-public class ConfigStep implements ConfigStepInterface 
+public class XSLTStep implements XSLTStepInterface 
 {
 	//the name of the step 
 	private String name;
@@ -19,44 +19,12 @@ public class ConfigStep implements ConfigStepInterface
 	 * @param aURI the href of the Step 
 	 * @param aPosition the position of the Step 
 	 */
-	public ConfigStep(String aName, String aURI, Integer aPosition)
+	public XSLTStep(String aName, String aURI, Integer aPosition)
 	{
 		//set the name of the Step 
 		this.name = aName;
 		//set the URI of the Step
 		this.URI = aURI;
-		//set the Position of the step
-		this.position = aPosition;
-	}
-	
-	/**
-	 * Set the name of a Step 
-	 * @param aName the name that you want to assign to a Step
-	 */
-	public void setName(String aName) 
-	{
-		//set the name of the Step 
-		this.name = aName;
-	}
-
-	/**
-	 * Set the URI of a step. 
-	 * @param aURI the path of the XSLT regarding the step to perform
-	 */
-	public void setHref(String aURI) 
-	{
-		//set the URI of the Step
-		this.URI = aURI;
-	}
-
-	/**
-	 * An integer containing the position of the step. 
-	 * @param aPosition the integer of the position of the step. The step of the configurations 
-	 * 		            are resolved performing all the Steps of the configurations. The step 
-	 * 					with the lowest position number is performed firstly.   
-	 */
-	public void setPosition(Integer aPosition) 
-	{
 		//set the Position of the step
 		this.position = aPosition;
 	}

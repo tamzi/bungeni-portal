@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.akomantoso.org/"
+<xsl:stylesheet xmlns="http://www.akomantoso.org/1.0"
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
@@ -56,6 +56,11 @@
 							</xsl:when>
 						</xsl:choose>
 				   </xsl:for-each>
+				   <xsl:for-each select="@*">
+                        <xsl:attribute name="{name(.)}">
+                            <xsl:value-of select="."/>
+                        </xsl:attribute>
+                    </xsl:for-each>
                    <xsl:apply-templates/>
                </xsl:element> 
             </xsl:when>
@@ -71,7 +76,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-	    
+		    
     <xsl:template match="text()">
         <xsl:value-of select="normalize-space(.)"/>
     </xsl:template>

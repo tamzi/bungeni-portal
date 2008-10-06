@@ -8,17 +8,11 @@ import static org.junit.Assert.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.xpath.XPathExpressionException;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.un.bungeni.translators.odttoakn.translator.Translator;
-import org.xml.sax.SAXException;
 
 
 /**
@@ -57,17 +51,13 @@ public class TranslatorTest
 
 	/**
 	 * Test method for {@link org.un.bungeni.translators.odttoakn.translator.Translator#translate(java.lang.String, java.lang.String)}.
-	 * @throws TransformerException 
-	 * @throws ParserConfigurationException 
-	 * @throws IOException 
-	 * @throws SAXException 
-	 * @throws XPathExpressionException 
+	 * @throws Exception 
 	 */
 	@Test
-	public final void testTranslate() throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerException 
+	public final void testTranslate() throws Exception 
 	{
 		//perform a translation
-		File translation = myTranslator.translate("resources/content2.xml", "resources/configurations/debaterecord/common/DebateRecordCommonConfig.xml");
+		File translation = myTranslator.translate("resources/ken_pdr_02052000p_en.odt", "resources/configurations/debaterecord/common/DebateRecordCommonConfig.xml");
 	
 		//input stream
 		FileInputStream fis  = new FileInputStream(translation);
@@ -93,6 +83,7 @@ public class TranslatorTest
 		        if (fis != null) fis.close();
 		        if (fos != null) fos.close();
 		}	
+		
 	}
 
 }

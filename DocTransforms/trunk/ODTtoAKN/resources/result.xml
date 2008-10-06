@@ -1,300 +1,298 @@
-<?xml version="1.0" encoding="UTF-8"?><akomantoso xmlns="http://www.akomantoso.org/">
-   <debaterecord>
-      <preface>
-         <block name="P21" class="P21">NATIONAL ASSEMBLY</block>
-         <p class="P1"/>
-         <block name="P20" class="P20">OFFICIAL REPORT</block>
-         <p class="P6"/>
-         <p class="P5">
-            <ref  class="BungeniDebateOfficialDate">Tuesday, 2nd May, 2000</ref>
-         </p>
-         <p class="P6"/>
-         <p class="P2">The House met at<ref  class="BungeniDebateOfficalTime">2.30 p.m.</ref>
-         </p>
-      </preface>
-      <p class="P1"/>
-      <p class="P11"/>
-      <comment>
-         <p class="P12">[Mr. Speaker in the Chair]</p>
-      </comment>
-      <p class="P1"/>
-      <block name="P20" class="P20"/>
-      <comment>
-         <block name="P20" class="P20">PRAYERS</block>
-      </comment>
-      <p class="P1"/>
-      <Communication>
-         <block name="Heading_20_3" class="Heading_20_3">COMMUNICATION FROM THE CHAIR</block>
-         <p class="P16"/>
-         <p class="P17">Distinguished Guests</p>
-         <p class="P17">in the Speaker's Row</p>
-         <p class="P1"/>
-         <from>
-            <p class="P6">
-               <ref  class="BungeniSpeechAs:3">Mr. Speaker</ref>:</p>
-         </from>
-         <p class="P15">
-            <span class="T2"/>
-            <span class="T1">Members, before I go to Order No.6, I would like to make the following Communication:</span>
-         </p>
-         <p class="P1">It is with great pleasure that I welcome our distinguished guests from the Parliament of the Federal Republic of Germany who are seated in the Speaker's Row. The delegation is led by Mr. Carl-Dieter Spranger; Deputy Chairman of the Foreign Affairs Committee of the German Bundestag.</p>
-         <p class="P1">He is accompanied by Mr. Joachim Tappe MdB, Chairman of the Germany-African Parliamentary Group, Mrs. Erika Reinhardt, MdB, Member of the Committee of Foreign Affairs of the German Bundestag; and His Excellency Jurgen Weerth, Ambassador to Kenya.</p>
-         <p class="P1">The delegation arrived in the country on Friday, 28th April, 2000, and will be with us until tomorrow, Wednesday, 3rd May, 2000. We wish them a very enjoyable and fruitful stay in our country.</p>
-         <p class="P1"/>
-         <p class="P9"/>
-         <comment>
-            <p class="P13">(Applause)</p>
-         </comment>
-         <p class="P1"/>
-         <p class="P1">I also wish to welcome the delegation of the Ugandan Members of Parliamentary Sports Club who have been touring Kenya since 26th April, 2000, to play several football matches against our Bunge Football Club and to visit various projects in Western Kenya, Mombasa and Nairobi.</p>
-         <p class="P18">They are the following:</p>
-         <p class="P18">The Hon. Mrs. Mary Nsangi Kakembo, MP; Minister of State in Charge of Gender. She is the leader of the delegation.</p>
-         <p class="P18">The Hon. Wanjusi Wasieba, M.P.</p>
-         <p class="P18">The Hon. I. Timothy Mutesasira, M.P.</p>
-         <p class="P18">The Hon. Wagidoso Madibo, M.P.</p>
-         <p class="P18">The Hon. Clement Kandole, M.P.</p>
-         <p class="P18">The Hon. (Dr.) Apollo Karubag, M.P.</p>
-         <p class="P18">The Hon. Charles Egou, M.P.</p>
-         <p class="P18">The Hon. Selaiman Sembajja, M.P.</p>
-         <p class="P18"/>
-         <p class="P18">The Hon. Ali Gabe, M.P.</p>
-         <p class="P18">The Hon. Aston Kajara, M.P.</p>
-         <p class="P18">
-            <eol/>The Hon. Adome Lokwi, M.P.</p>
-         <p class="P18">The Hon. Katwiremu Yerokamu, M.P.</p>
-         <p class="P18">The Hon. Reagan Okumu, M.P.</p>
-         <p class="P18">The Hon. Kabakumba Abwoli, M.P.</p>
-         <p class="P18">The Hon. Christine Mwebesa, M.P.</p>
-         <p class="P18">The Hon. Kakoba Onyango, M.P.</p>
-         <p class="P18">The Hon. Seth Wambede, M.P.</p>
-         <p class="P18">The Hon. Patrick Nabutaala, M.P.</p>
-         <p class="P18">The Hon. Ofory Rugethe, M.P.</p>
-         <p class="P18">The Hon. Akika Othieno, M.P.</p>
-         <p class="P18">The Hon. Robert Kakooza, M.P.; and,</p>
-         <p class="P18">The Hon. David Kamusalo, M.P.</p>
-         <p class="P1">Thank you.</p>
-         <p class="P1"/>
-      </Communication>
-      <p class="P10"/>
-      <subdivision type="OralAnswersToQuestions">
-         <p class="P14">(Applause)</p>
-      </subdivision>
-      <p class="P1"/>
-      <subdivision type="OralAnswersToQuestions">
-         <p class="questions_5f_title">ORAL ANSWERS TO QUESTIONS</p>
-         <p class="P10"/>
-         <Questions type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
-            <p class="questions_5f_title">Question No<ref  class="BungeniQuestionNo:126">126</ref>
-            </p>
-            <p class="P1"/>
-            <p class="questions_5f_subtitle">
-               <span class="T1"/>
-               <span class="T3">Number of City Residents</span>
-            </p>
-            <p class="questions_5f_subtitle">
-               <span class="T3">Killed by Gangsters</span>
-               <span class="T1"/>
-            </p>
-            <p class="P1"/>
-            <question type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
-               <p class="P19">
-                  <span class="T2"/>
-                  <ref  class="BungeniQuestionBy:126">
-                  <span class="T2">Mr. Mwenje</span>
-                  </ref>
-                  <span class="T2"/>
-                  <span class="T1">asked the</span>
-                  <ref  class="BungeniQuestionTo:126">
-                  <span class="T1">Minister of State, Office of the president</span>
-                  </ref>
-                  <span class="T1">:-</span>
-               </p>
-               <p class="question_5f_text">(a) whether he could inform the House how many people have been killed by gangsters in Nairobi during the last one year; and,</p>
-               <p class="question_5f_text">(b) how many gangsters have been killed in Nairobi by security personnel within the same period.</p>
-            </question>
-            <p class="P6"/>
-            <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP">
-               <from>
-                  <p class="P1">
-                     <ref  class="BungeniSpeechAs:1">The minister of state, Office of the president</ref>(<ref  class="BungeniSpeechBy:1">Maj. Madoka</ref>):</p>
-               </from>
-               <p class="P1">Mr. Speaker, Sir, I would like to request that I be allowed to answer this Question tomorrow. I got certain details which were not complete and I am doing some thorough investigation.</p>
-            </Communication>
-            <Questions type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP">
-               <from>
-                  <p class="P15">
-                     <span class="T2"/>
-                     <ref  class="BungeniSpeechAs:2">
-                     <span class="T2">Mr. Speaker</span>
-                     </ref>
-                     <span class="T1">:</span>
-                  </p>
-               </from>
-               <p class="P1">What is your reaction, Mr. Mwenje?</p>
-            </Questions>
-            <p class="P6"/>
-            <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
-               <from>
-                  <p class="P15">
-                     <ref  class="BungeniSpeechAs:4">
-                     <span class="T2">Mr. Mwenje</span>
-                     </ref>
-                     <span class="T1">:</span>
-                  </p>
-               </from>
-               <p class="P1">Mr. Speaker, Sir, that is very interesting! This Question was among the first Questions that I sent immediately Parliament was opened. Iut has taken all this long to be brought before this House. I do not see the reason why the Minister should now come and tell us that he is still not ready. He has not given even the answer that he thinks is not right and it has not been passed over to me.</p>
-            </Communication>
-            <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
-               <subdivision type="OralAnswersToQuestions">
-                  <p class="P15">
-                     <span class="T2"/>
-                     <ref  class="BungeniSpeechAs:5">
-                     <span class="T2">Mr. Speaker</span>
-                     </ref>
-                     <span class="T1">:</span>
-                  </p>
-               </subdivision>
-               <p class="P1">Very well. What do you want me to do now, Mr. Mwenje?</p>
-               <p class="P6"/>
-            </Communication>
-            <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
-               <p class="P6"/>
-               <subdivision type="OralAnswersToQuestions">
-                  <p class="P15">
-                     <ref  class="BungeniSpeechAs:6">
-                     <span class="T2">Mr. Mwenje</span>
-                     </ref>
-                     <span class="T1">:</span>
-                  </p>
-               </subdivision>
-               <p class="P1">Mr. Speaker, Sir, first of all, could the Minister tell us what answer he has so that---</p>
-               <p class="P1"/>
-            </Communication>
-            <comment type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
-               <p class="P9">(Loud consultations)</p>
-            </comment>
-            <p class="P1"/>
-            <p class="P6"/>
-            <Communication type="OralAnswersToQuestions" id="126" by="userMwenje" to="minMOS-OP" status="Deferred">
-               <subdivision type="OralAnswersToQuestions">
-                  <p class="P15">
-                     <ref  class="BungeniSpeechAs:7">
-                     <span class="T2">Mr. Speaker</span>
-                     </ref>
-                     <span class="T1">:</span>
-                  </p>
-               </subdivision>
-               <p class="P15">
-                  <span class="T1">Order! I consider it is best that we have an answer rather than take our time on preliminaries which will not help us in any way. But, Mr. Minister, you must be mindful of the fact that, you are duty-bound to come to this House</span>
-                  <eol/>
-                  <span class="T1">promptly and answer Questions.</span>
-               </p>
-               <p class="P1">I will defer the Question to tomorrow afternoon.</p>
-            </Communication>
-            <p class="P1"/>
-            <p class="P9"/>
-            <subdivision>
-               <p class="P13">(Question deferred)</p>
-            </subdivision>
-            <p class="P1"/>
-         </Questions>
-         <p class="P6"/>
-         <Communication type="OralAnswersToQuestions">
-            <Communication type="OralAnswersToQuestions">
-               <p class="P15">
-                  <ref  class="BungeniSpeechAs:8">
-                  <span class="T2">Mr. Gatabaki</span>
-                  </ref>
-                  <span class="T1">:</span>
-               </p>
-            </Communication>
-            <p class="P1">On a point of order, Mr. Speaker, Sir. Is it in order for the Minister to be continuously following the President to the detriment of answering Questions?</p>
-         </Communication>
-         <Communication type="OralAnswersToQuestions">
-            <p class="P6"/>
-            <Communication type="OralAnswersToQuestions">
-               <p class="P15">
-                  <ref  class="BungeniSpeechAs:9">
-                  <span class="T2">Mr. Speaker</span>
-                  </ref>
-                  <span class="T1">:</span>
-               </p>
-            </Communication>
-            <p class="P1">Order! Order, hon. Gatabaki! Who would you wish rather he followed, anyway?</p>
-            <p class="P1">Next Question, Dr. Kulundu!</p>
-         </Communication>
-         <p class="P1"/>
-         <p class="P8"/>
-         <p class="P8"/>
-      </subdivision>
-      <p class="P4"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <subdivision>
-         <p class="P7">ADJOURNMENT</p>
-      </subdivision>
-      <p class="P1"/>
-      <Communication>
-         <p class="P6"/>
-         <from>
-            <p class="P15">
-               <ref  class="BungeniSpeechAs:12">
-               <span class="T2">The Temporary Deputy Speaker</span>
-               <span class="T1"/>
-               </ref>
-               <span class="T1">(</span>
-               <ref  class="BungeniSpeechBy:12">
-               <span class="T1">Mr. Musila</span>
-               </ref>
-               <span class="T1">):</span>
-            </p>
-         </from>
-         <p class="P1">Hon. Kibaki, you will continue with your contribution tomorrow.</p>
-         <p class="P1">Hon. Members, it is now time to interrupt the business of today.The House, therefore, is adjourned until tomorrow Wednesday, the 3rd of May, 2000, at 9.00 a.m.</p>
-      </Communication>
-      <p class="P1"/>
-      <subdivision>
-         <p class="P3">The House rose at<ref  class="BungeniHouseRisingTime">6.30 p.m</ref>.</p>
-      </subdivision>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1">
-         <eol/>
-      </p>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-      <p class="P1"/>
-   </debaterecord>
-</akomantoso>
+<?xml version="1.0" encoding="UTF-8"?><pippo xmlns="http://www.akomantoso.org/1.0">
+   <pippo xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" id="debaterecord" text:name="debaterecord" text:style-name="Sect1" BungeniSectionType="body">
+      <pippo id="masthead" text:name="masthead" text:style-name="Sect2" BungeniDebateOfficalDate="2000-05-02" BungeniDebateOfficalTime="14:30" BungeniSectionType="MastHead">
+         <pippo text:outline-level="1" text:style-name="P21">NATIONAL ASSEMBLY</pippo>
+         <pippo text:style-name="P1"/>
+         <pippo text:outline-level="2" text:style-name="P20">OFFICIAL REPORT</pippo>
+         <pippo text:style-name="P6"/>
+         <pippo text:style-name="P5">
+            <pippo text:name="BungeniDebateOfficialDate">Tuesday, 2nd May, 2000</pippo>
+         </pippo>
+         <pippo text:style-name="P6"/>
+         <pippo text:style-name="P2">The House met at<pippo text:name="BungeniDebateOfficalTime">2.30 p.m.</pippo>
+         </pippo>
+      </pippo>
+      <pippo>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P11"/>
+         <pippo id="comment635267" text:name="comment635267" text:style-name="Sect3" BungeniSectionType="Observation">
+            <pippo text:style-name="P12">[Mr. Speaker in the Chair]</pippo>
+         </pippo>
+         <pippo text:style-name="P1"/>
+         <pippo text:outline-level="2" text:style-name="P20"/>
+         <pippo id="prayers637994" text:name="prayers637994" text:style-name="Sect4" BungeniSectionType="GroupActivity">
+            <pippo text:outline-level="2" text:style-name="P20">PRAYERS</pippo>
+         </pippo>
+         <pippo text:style-name="P1"/>
+         <pippo id="speech75638" text:name="speech75638" text:style-name="Sect5" BungeniSectionType="Speech" BungeniSpeechBy="userSpeaker" BungeniSpeechID="3" BungeniSpeechType="CommunicationFromChair">
+            <pippo text:outline-level="3" text:style-name="Heading_20_3">COMMUNICATION FROM THE CHAIR</pippo>
+            <pippo text:style-name="P16"/>
+            <pippo text:style-name="P17">Distinguished Guests</pippo>
+            <pippo text:style-name="P17">in the Speaker's Row</pippo>
+            <pippo text:style-name="P1"/>
+            <pippo id="heading99573" text:name="heading99573" text:style-name="Sect6" BungeniPersonID="userSpeaker" BungeniSectionType="Person" BungeniSpeechBy="userSpeaker" BungeniSpeechType="CommunicationFromChair">
+               <pippo text:style-name="P6">
+                  <pippo text:name="BungeniSpeechAs:3">Mr. Speaker</pippo>:</pippo>
+            </pippo>
+            <pippo text:style-name="P15">
+               <pippo text:style-name="T2"/>
+               <pippo text:style-name="T1">Members, before I go to Order No.6, I would like to make the following Communication:</pippo>
+            </pippo>
+            <pippo text:style-name="P1">It is with great pleasure that I welcome our distinguished guests from the Parliament of the Federal Republic of Germany who are seated in the Speaker's Row. The delegation is led by Mr. Carl-Dieter Spranger; Deputy Chairman of the Foreign Affairs Committee of the German Bundestag.</pippo>
+            <pippo text:style-name="P1">He is accompanied by Mr. Joachim Tappe MdB, Chairman of the Germany-African Parliamentary Group, Mrs. Erika Reinhardt, MdB, Member of the Committee of Foreign Affairs of the German Bundestag; and His Excellency Jurgen Weerth, Ambassador to Kenya.</pippo>
+            <pippo text:style-name="P1">The delegation arrived in the country on Friday, 28th April, 2000, and will be with us until tomorrow, Wednesday, 3rd May, 2000. We wish them a very enjoyable and fruitful stay in our country.</pippo>
+            <pippo text:style-name="P1"/>
+            <pippo text:style-name="P9"/>
+            <pippo id="comment637824" text:name="comment637824" text:style-name="Sect7" BungeniSectionType="Observation" BungeniSpeechBy="userSpeaker" BungeniSpeechType="CommunicationFromChair">
+               <pippo text:style-name="P13">(Applause)</pippo>
+            </pippo>
+            <pippo text:style-name="P1"/>
+            <pippo text:style-name="P1">I also wish to welcome the delegation of the Ugandan Members of Parliamentary Sports Club who have been touring Kenya since 26th April, 2000, to play several football matches against our Bunge Football Club and to visit various projects in Western Kenya, Mombasa and Nairobi.</pippo>
+            <pippo text:style-name="P18">They are the following:</pippo>
+            <pippo text:style-name="P18">The Hon. Mrs. Mary Nsangi Kakembo, MP; Minister of State in Charge of Gender. She is the leader of the delegation.</pippo>
+            <pippo text:style-name="P18">The Hon. Wanjusi Wasieba, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. I. Timothy Mutesasira, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. Wagidoso Madibo, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. Clement Kandole, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. (Dr.) Apollo Karubag, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. Charles Egou, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. Selaiman Sembajja, M.P.</pippo>
+            <pippo text:style-name="P18"/>
+            <pippo text:style-name="P18">The Hon. Ali Gabe, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. Aston Kajara, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. Adome Lokwi, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. Katwiremu Yerokamu, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. Reagan Okumu, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. Kabakumba Abwoli, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. Christine Mwebesa, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. Kakoba Onyango, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. Seth Wambede, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. Patrick Nabutaala, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. Ofory Rugethe, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. Akika Othieno, M.P.</pippo>
+            <pippo text:style-name="P18">The Hon. Robert Kakooza, M.P.; and,</pippo>
+            <pippo text:style-name="P18">The Hon. David Kamusalo, M.P.</pippo>
+            <pippo text:style-name="P1">Thank you.</pippo>
+            <pippo text:style-name="P1"/>
+         </pippo>
+         <pippo text:style-name="P10"/>
+         <pippo id="comment645284" text:name="comment645284" text:style-name="Sect8">
+            <pippo text:style-name="P14">(Applause)</pippo>
+         </pippo>
+         <pippo text:style-name="P1"/>
+         <pippo type="OralAnswersToQuestions" id="questions903084" text:name="questions903084" text:style-name="Sect9" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="QuestionsContainer">
+            <pippo text:style-name="questions_5f_title">ORAL ANSWERS TO QUESTIONS</pippo>
+            <pippo text:style-name="P10"/>
+            <pippo type="OralAnswersToQuestions" by="userMwenje" to="minMOS-OP" status="Deferred" id="qa38499" text:name="qa38499" text:style-name="Sect10" BungeniQuestionBy="userMwenje" BungeniQuestionNo="126" BungeniQuestionStatus="Deferred" BungeniQuestionTo="minMOS-OP" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="QuestionAnswer">
+               <pippo text:style-name="questions_5f_title">Question No<pippo text:name="BungeniQuestionNo:126">126</pippo>
+               </pippo>
+               <pippo text:style-name="P1"/>
+               <pippo text:style-name="questions_5f_subtitle">
+                  <pippo text:style-name="T1"/>
+                  <pippo text:style-name="T3">Number of City Residents</pippo>
+               </pippo>
+               <pippo text:style-name="questions_5f_subtitle">
+                  <pippo text:style-name="T3">Killed by Gangsters</pippo>
+                  <pippo text:style-name="T1"/>
+               </pippo>
+               <pippo text:style-name="P1"/>
+               <pippo type="OralAnswersToQuestions" by="userMwenje" to="minMOS-OP" status="Deferred" id="question38499" text:name="question38499" text:style-name="Sect11" BungeniQuestionBy="userMwenje" BungeniQuestionNo="126" BungeniQuestionStatus="Deferred" BungeniQuestionTo="minMOS-OP" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="Question">
+                  <pippo text:style-name="P19">
+                     <pippo text:style-name="T2"/>
+                     <pippo text:name="BungeniQuestionBy:126">
+                        <pippo text:style-name="T2">Mr. Mwenje</pippo>
+                     </pippo>
+                     <pippo text:style-name="T2"/>
+                     <pippo text:style-name="T1">asked the</pippo>
+                     <pippo text:name="BungeniQuestionTo:126">
+                        <pippo text:style-name="T1">Minister of State, Office of the president</pippo>
+                     </pippo>
+                     <pippo text:style-name="T1">:-</pippo>
+                  </pippo>
+                  <pippo text:style-name="question_5f_text">(a) whether he could inform the House how many people have been killed by gangsters in Nairobi during the last one year; and,</pippo>
+                  <pippo text:style-name="question_5f_text">(b) how many gangsters have been killed in Nairobi by security personnel within the same period.</pippo>
+               </pippo>
+               <pippo text:style-name="P6"/>
+               <pippo type="OralAnswersToQuestions" by="userMwenje" to="minMOS-OP" id="speech993802" text:name="speech993802" text:style-name="Sect12" BungeniQuestionBy="userMwenje" BungeniQuestionNo="126" BungeniQuestionTo="minMOS-OP" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="Speech" BungeniSpeechBy="userMadoka" BungeniSpeechID="1">
+                  <pippo id="heading883028" text:name="heading883028" text:style-name="Sect13" BungeniQuestionBy="userMwenje" BungeniQuestionNo="126" BungeniQuestionTo="minMOS-OP" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="Person" BungeniSpeechBy="userMadoka" BungeniSpeechID="1">
+                     <pippo text:style-name="P1">
+                        <pippo text:name="BungeniSpeechAs:1">The minister of state, Office of the president</pippo>(<pippo text:name="BungeniSpeechBy:1">Maj. Madoka</pippo>):</pippo>
+                  </pippo>
+                  <pippo text:style-name="P1">Mr. Speaker, Sir, I would like to request that I be allowed to answer this Question tomorrow. I got certain details which were not complete and I am doing some thorough investigation.</pippo>
+               </pippo>
+               <pippo type="OralAnswersToQuestions" by="userMwenje" to="minMOS-OP" id="speech939004" text:name="speech939004" text:style-name="Sect14" BungeniQuestionBy="userMwenje" BungeniQuestionNo="126" BungeniQuestionTo="minMOS-OP" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="QuestionAnswer" BungeniSpeechBy="userSpeaker" BungeniSpeechID="2" BungeniSpeechTo="userMwenje">
+                  <pippo id="heading838209" text:name="heading838209" text:style-name="Sect15" BungeniQuestionBy="userMwenje" BungeniQuestionNo="126" BungeniQuestionTo="minMOS-OP" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="Person" BungeniSpeechID="2">
+                     <pippo text:style-name="P15">
+                        <pippo text:style-name="T2"/>
+                        <pippo text:name="BungeniSpeechAs:2">
+                           <pippo text:style-name="T2">Mr. Speaker</pippo>
+                        </pippo>
+                        <pippo text:style-name="T1">:</pippo>
+                     </pippo>
+                  </pippo>
+                  <pippo text:style-name="P1">What is your reaction, Mr. Mwenje?</pippo>
+               </pippo>
+               <pippo text:style-name="P6"/>
+               <pippo type="OralAnswersToQuestions" by="userMwenje" to="minMOS-OP" status="Deferred" id="speech993029" text:name="speech993029" text:style-name="Sect16" BungeniQuestionBy="userMwenje" BungeniQuestionNo="126" BungeniQuestionStatus="Deferred" BungeniQuestionTo="minMOS-OP" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="Speech" BungeniSpeechBy="userMwenje" BungeniSpeechID="4" BungeniSpeechTo="userSpeaker">
+                  <pippo id="heading927624" text:name="heading927624" text:style-name="Sect17" BungeniQuestionBy="userMwenje" BungeniQuestionNo="126" BungeniQuestionTo="minMOS-OP" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="Person" BungeniSpeechBy="userMwenje" BungeniSpeechID="4">
+                     <pippo text:style-name="P15">
+                        <pippo text:name="BungeniSpeechAs:4">
+                           <pippo text:style-name="T2">Mr. Mwenje</pippo>
+                        </pippo>
+                        <pippo text:style-name="T1">:</pippo>
+                     </pippo>
+                  </pippo>
+                  <pippo text:style-name="P1">Mr. Speaker, Sir, that is very interesting! This Question was among the first Questions that I sent immediately Parliament was opened. Iut has taken all this long to be brought before this House. I do not see the reason why the Minister should now come and tell us that he is still not ready. He has not given even the answer that he thinks is not right and it has not been passed over to me.</pippo>
+               </pippo>
+               <pippo type="OralAnswersToQuestions" by="userMwenje" to="minMOS-OP" status="Deferred" id="speech987363" text:name="speech987363" text:style-name="Sect18" BungeniQuestionBy="userMwenje" BungeniQuestionNo="126" BungeniQuestionStatus="Deferred" BungeniQuestionTo="minMOS-OP" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="Speech" BungeniSpeechBy="userSpeaker" BungeniSpeechID="5" BungeniSpeechTo="userMwenje">
+                  <pippo id="heading827947" text:name="heading827947" text:style-name="Sect8">
+                     <pippo text:style-name="P15">
+                        <pippo text:style-name="T2"/>
+                        <pippo text:name="BungeniSpeechAs:5">
+                           <pippo text:style-name="T2">Mr. Speaker</pippo>
+                        </pippo>
+                        <pippo text:style-name="T1">:</pippo>
+                     </pippo>
+                  </pippo>
+                  <pippo text:style-name="P1">Very well. What do you want me to do now, Mr. Mwenje?</pippo>
+                  <pippo text:style-name="P6"/>
+               </pippo>
+               <pippo type="OralAnswersToQuestions" by="userMwenje" to="minMOS-OP" status="Deferred" id="speech983702" text:name="speech983702" text:style-name="Sect19" BungeniQuestionBy="userMwenje" BungeniQuestionNo="126" BungeniQuestionStatus="Deferred" BungeniQuestionTo="minMOS-OP" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="Speech" BungeniSpeechBy="userMwenje" BungeniSpeechID="6">
+                  <pippo text:style-name="P6"/>
+                  <pippo id="heading892724" text:name="heading892724" text:style-name="Sect8">
+                     <pippo text:style-name="P15">
+                        <pippo text:name="BungeniSpeechAs:6">
+                           <pippo text:style-name="T2">Mr. Mwenje</pippo>
+                        </pippo>
+                        <pippo text:style-name="T1">:</pippo>
+                     </pippo>
+                  </pippo>
+                  <pippo text:style-name="P1">Mr. Speaker, Sir, first of all, could the Minister tell us what answer he has so that---</pippo>
+                  <pippo text:style-name="P1"/>
+               </pippo>
+               <pippo type="OralAnswersToQuestions" by="userMwenje" to="minMOS-OP" status="Deferred" id="comment082037" text:name="comment082037" text:style-name="Sect20" BungeniQuestionBy="userMwenje" BungeniQuestionNo="126" BungeniQuestionStatus="Deferred" BungeniQuestionTo="minMOS-OP" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="Observation">
+                  <pippo text:style-name="P9">(Loud consultations)</pippo>
+               </pippo>
+               <pippo text:style-name="P1"/>
+               <pippo text:style-name="P6"/>
+               <pippo type="OralAnswersToQuestions" by="userMwenje" to="minMOS-OP" status="Deferred" id="speech918293" text:name="speech918293" text:style-name="Sect21" BungeniQuestionBy="userMwenje" BungeniQuestionNo="126" BungeniQuestionStatus="Deferred" BungeniQuestionTo="minMOS-OP" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="Speech" BungeniSpeechBy="userSpeaker" BungeniSpeechID="7">
+                  <pippo id="heading880208" text:name="heading880208" text:style-name="Sect8">
+                     <pippo text:style-name="P15">
+                        <pippo text:name="BungeniSpeechAs:7">
+                           <pippo text:style-name="T2">Mr. Speaker</pippo>
+                        </pippo>
+                        <pippo text:style-name="T1">:</pippo>
+                     </pippo>
+                  </pippo>
+                  <pippo text:style-name="P15">
+                     <pippo text:style-name="T1">Order! I consider it is best that we have an answer rather than take our time on preliminaries which will not help us in any way. But, Mr. Minister, you must be mindful of the fact that, you are duty-bound to come to this House</pippo>
+                     <pippo text:style-name="T1">promptly and answer Questions.</pippo>
+                  </pippo>
+                  <pippo text:style-name="P1">I will defer the Question to tomorrow afternoon.</pippo>
+               </pippo>
+               <pippo text:style-name="P1"/>
+               <pippo text:style-name="P9"/>
+               <pippo id="comment827497" text:name="comment827497" text:style-name="Sect22" BungeniActionEvent="QuestionDeferred" BungeniQuestionBy="userMwenje" BungeniQuestionNo="126" BungeniQuestionStatus="Deferred" BungeniQuestionTo="minMOS-OP" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="ActionEvent">
+                  <pippo text:style-name="P13">(Question deferred)</pippo>
+               </pippo>
+               <pippo text:style-name="P1"/>
+            </pippo>
+            <pippo text:style-name="P6"/>
+            <pippo type="OralAnswersToQuestions" id="speech899372" text:name="speech899372" text:style-name="Sect23" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="Speech" BungeniSpeechBy="userGatabaki" BungeniSpeechID="8" BungeniSpeechType="PointOfOrder">
+               <pippo type="OralAnswersToQuestions" id="heading820817" text:name="heading820817" text:style-name="Sect24" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="Speech" BungeniSpeechBy="userGatabaki" BungeniSpeechID="8" BungeniSpeechType="Person">
+                  <pippo text:style-name="P15">
+                     <pippo text:name="BungeniSpeechAs:8">
+                        <pippo text:style-name="T2">Mr. Gatabaki</pippo>
+                     </pippo>
+                     <pippo text:style-name="T1">:</pippo>
+                  </pippo>
+               </pippo>
+               <pippo text:style-name="P1">On a point of order, Mr. Speaker, Sir. Is it in order for the Minister to be continuously following the President to the detriment of answering Questions?</pippo>
+            </pippo>
+            <pippo type="OralAnswersToQuestions" id="speech890297" text:name="speech890297" text:style-name="Sect25" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="Speech" BungeniSpeechBy="userSpeaker" BungeniSpeechID="9" BungeniSpeechType="PointOfOrder">
+               <pippo text:style-name="P6"/>
+               <pippo type="OralAnswersToQuestions" id="heading722863" text:name="heading722863" text:style-name="Sect26" BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSectionType="Speech" BungeniSpeechID="9" BungeniSpeechType="Person">
+                  <pippo text:style-name="P15">
+                     <pippo text:name="BungeniSpeechAs:9">
+                        <pippo text:style-name="T2">Mr. Speaker</pippo>
+                     </pippo>
+                     <pippo text:style-name="T1">:</pippo>
+                  </pippo>
+               </pippo>
+               <pippo text:style-name="P1">Order! Order, hon. Gatabaki! Who would you wish rather he followed, anyway?</pippo>
+               <pippo text:style-name="P1">Next Question, Dr. Kulundu!</pippo>
+            </pippo>
+            <pippo text:style-name="P1"/>
+            <pippo text:style-name="P8"/>
+            <pippo text:style-name="P8"/>
+         </pippo>
+         <pippo text:style-name="P4"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo id="comment993827" text:name="comment993827" text:style-name="Sect27" BungeniActionEvent="Adjournment" BungeniSectionType="ActionEvent">
+            <pippo text:style-name="P7">ADJOURNMENT</pippo>
+         </pippo>
+         <pippo text:style-name="P1"/>
+         <pippo id="speech908727" text:name="speech908727" text:style-name="Sect28" BungeniActionEvent="Adjournment" BungeniSectionType="Speech" BungeniSpeechBy="userDySpeaker" BungeniSpeechID="12" BungeniSpeechType="ProceduralMotion">
+            <pippo text:style-name="P6"/>
+            <pippo id="heading993728" text:name="heading993728" text:style-name="Sect29" BungeniActionEvent="Adjournment" BungeniSectionType="Person" BungeniSpeechBy="userDySpeaker" BungeniSpeechID="12" BungeniSpeechType="ProceduralMotion">
+               <pippo text:style-name="P15">
+                  <pippo text:name="BungeniSpeechAs:12">
+                     <pippo text:style-name="T2">The Temporary Deputy Speaker</pippo>
+                     <pippo text:style-name="T1"/>
+                  </pippo>
+                  <pippo text:style-name="T1">(</pippo>
+                  <pippo text:name="BungeniSpeechBy:12">
+                     <pippo text:style-name="T1">Mr. Musila</pippo>
+                  </pippo>
+                  <pippo text:style-name="T1">):</pippo>
+               </pippo>
+            </pippo>
+            <pippo text:style-name="P1">Hon. Kibaki, you will continue with your contribution tomorrow.</pippo>
+            <pippo text:style-name="P1">Hon. Members, it is now time to interrupt the business of today.The House, therefore, is adjourned until tomorrow Wednesday, the 3rd of May, 2000, at 9.00 a.m.</pippo>
+         </pippo>
+         <pippo text:style-name="P1"/>
+         <pippo id="comment883783" text:name="comment883783" text:style-name="Sect30" BungeniActionEvent="HouseClosing" BungeniHouseRisingTime="18:30" BungeniSectionType="ActionEvent">
+            <pippo text:style-name="P3">The House rose at<pippo text:name="BungeniHouseRisingTime">6.30 p.m</pippo>.</pippo>
+         </pippo>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+         <pippo text:style-name="P1"/>
+      </pippo>
+   </pippo>
+</pippo>

@@ -7,23 +7,20 @@ package org.un.bungeni.translators.odttoakn.steps;
 public interface ReplaceStepInterface 
 {
 	/**
+	 * Return the name of this Replace Step
+	 * @return a String containing the name of this replace object 
+	 */
+	public String getName();
+
+	/**
 	 * Return the replacement of this Replace Step
 	 * @return a String containing the replacement of this replace object 
 	 */
 	public String getReplacement();
+	
 	/**
 	 * Return the pattern of this Replace Step
 	 * @return a String containing the pattern of this Replace Step
 	 */
 	public String getPattern();
-	/**
-	 * Set the Replacement of this Replace Step
-	 * @param aReplacement the String containing the Replacement of this  ReplaceStep
-	 */
-	public void setReplacement(String aReplacement);
-	/**
-	 * Set the pattern of this Replace Step
-	 * @param aPattern a String containing the pattern of this ReplaceStep 
-	 */
-	public void setPattern(String aPattern);
 }

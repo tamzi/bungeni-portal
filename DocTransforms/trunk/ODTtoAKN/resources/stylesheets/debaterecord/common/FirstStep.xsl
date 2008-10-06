@@ -23,33 +23,145 @@
                 xmlns:xforms="http://www.w3.org/2002/xforms" 
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-				version="1.0">
+				version="2.0">
     <xsl:output indent="yes" method="xml"/>
     <xsl:template match="/">
-        <akomantoso xmlns="http://www.akomantoso.org/">
+        <akomantoso>
             <xsl:apply-templates />
         </akomantoso>
     </xsl:template>
-        
-    <xsl:template match="text:*">
-        <xsl:element name="{name()}">
-            <xsl:variable name="stylename" select="@text:style-name" />
-            <xsl:for-each select="@*">
-                <xsl:attribute name="{name(.)}">
-                    <xsl:value-of select="."/>
-                </xsl:attribute>
-            </xsl:for-each>
+    
+	<xsl:template match="text:section">
+        <xsl:element name="subdivision">
+        	<xsl:variable name="stylename" select="@text:style-name" />
+			<xsl:attribute name="id" select="@text:name" />
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+		    </xsl:for-each>
             <xsl:for-each select="//style:*[@style:name=$stylename]//*/@*[contains(name(),'Bungeni')]">
                 <xsl:attribute name="{name(.)}">
                     <xsl:value-of select="."/>
                 </xsl:attribute>
             </xsl:for-each>
-            <xsl:apply-templates />
-        </xsl:element>    
-    </xsl:template>
-    
-    <xsl:template match="text()">
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+	
+	<xsl:template match="text:p">
+		<xsl:element name="block">
+        	<xsl:variable name="stylename" select="@text:style-name" />
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		       		<xsl:value-of select="."/>
+		       	</xsl:attribute>
+		   	</xsl:for-each>
+            <xsl:for-each select="//style:*[@style:name=$stylename]//*/@*[contains(name(),'Bungeni')]">
+                <xsl:attribute name="{name(.)}">
+                    <xsl:value-of select="."/>
+                </xsl:attribute>
+            </xsl:for-each>
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+	
+	<xsl:template match="text:p[contains(@text:style-name,'_title')]">
+		<xsl:choose>
+			<xsl:when test="./text:reference-mark-start[contains(@text:name,'BungeniQuestionNo')]">
+				<xsl:element name="num">
+					<xsl:for-each select="@*">
+				    	<xsl:attribute name="{name(.)}">
+				        	<xsl:value-of select="."/>
+				        </xsl:attribute>
+				    </xsl:for-each>
+					<xsl:apply-templates />
+				</xsl:element>    
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:element name="heading">
+					<xsl:for-each select="@*">
+				    	<xsl:attribute name="{name(.)}">
+				        	<xsl:value-of select="."/>
+				        </xsl:attribute>
+				    </xsl:for-each>
+					<xsl:apply-templates />
+				</xsl:element>    
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template match="text:p[contains(@text:style-name,'_subtitle')]">
+		<xsl:element name="subheading">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+		    </xsl:for-each>
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
+	<xsl:template match="text:h">
+		<xsl:element name="block">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+		   	</xsl:for-each>
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
+	<xsl:template match="text:h[contains(@text:style-name,'Heading_')]">
+		<xsl:element name="heading">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+		    </xsl:for-each>
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+	
+	<xsl:template match="text:span">
+		<xsl:element name="span">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+		    </xsl:for-each>
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+	
+	<xsl:template match="text:reference-mark-start">
+		<xsl:element name="{name(.)}">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+		    </xsl:for-each>
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
+	<xsl:template match="text:reference-mark-end">
+		<xsl:element name="{name(.)}">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+		    </xsl:for-each>
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
+	<xsl:template match="text:tab">
+	</xsl:template>
+    	
+	<xsl:template match="text()">
         <xsl:value-of select="normalize-space(.)"/>
     </xsl:template>
-        
+	
 </xsl:stylesheet>

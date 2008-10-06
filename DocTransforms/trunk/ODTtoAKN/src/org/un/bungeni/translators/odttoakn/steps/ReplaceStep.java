@@ -6,6 +6,9 @@ package org.un.bungeni.translators.odttoakn.steps;
  */
 public class ReplaceStep implements ReplaceStepInterface
 {
+	//the name of this replace step
+	private String name;
+	
 	//the replacement of this ReplaceStep
 	private String replacement;
 	
@@ -17,14 +20,31 @@ public class ReplaceStep implements ReplaceStepInterface
 	 * @param aReplacement the replacement String for the new ReplaceStep
 	 * @param aPattern the pattern String for the new ReplaceStep
 	 */
-	public ReplaceStep(String aReplacement, String aPattern)
+	public ReplaceStep(String aName,String aReplacement, String aPattern)
 	{
+		//set the name
+		this.name = aName;
+		
 		//set the replacement
 		this.replacement = aReplacement;
 		
 		//set the pattern
 		this.pattern = aPattern;
 	}
+
+	/**
+	 * Return the name of this Replace Step
+	 * @return a String containing the name of this replace object 
+	 */
+	public String getName()
+	{
+		//copy the replacement
+		String aName = this.name;
+		
+		//return the copy of the replacement
+		return aName;
+	}
+
 	/**
 	 * Return the replacement of this Replace Step
 	 * @return a String containing the replacement of this replace object 
@@ -37,6 +57,7 @@ public class ReplaceStep implements ReplaceStepInterface
 		//return the copy of the replacement
 		return aReplacement;
 	}
+
 	/**
 	 * Return the pattern of this Replace Step
 	 * @return a String containing the pattern of this Replace Step
@@ -49,23 +70,4 @@ public class ReplaceStep implements ReplaceStepInterface
 		//return the copy of the pattern 
 		return aPattern;
 	}
-	/**
-	 * Set the Replacement of this Replace Step
-	 * @param aReplacement the String containing the Replacement of this  ReplaceStep
-	 */
-	public void setReplacement(String aReplacement)
-	{
-		//set the replacement value
-		this.replacement = aReplacement;
-	}
-	/**
-	 * Set the pattern of this Replace Step
-	 * @param aPattern a String containing the pattern of this ReplaceStep 
-	 */
-	public void setPattern(String aPattern)
-	{
-		//set the pattern value
-		this.pattern = aPattern;
-	}
-
 }

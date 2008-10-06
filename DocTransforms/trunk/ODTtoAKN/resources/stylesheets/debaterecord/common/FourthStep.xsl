@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.akomantoso.org/1.0" 
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+<xsl:stylesheet xmlns="http://www.akomantoso.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
@@ -24,24 +23,5 @@
     exclude-result-prefixes="xsl xsd xsi text office style table draw fo xlink dc meta number svg chart dr3d math form script ooo ooow oooc dom xforms"
     version="2.0">
     <xsl:output indent="yes" method="xml"/>
-
-    <xsl:template match="/">
-        <xsl:apply-templates/>
-    </xsl:template>
     
-    <xsl:template match="*">
-        <xsl:element name="pippo">
-            <xsl:for-each select="@*">
-                <xsl:attribute name="{name(.)}">
-                    <xsl:value-of select="."/>
-                </xsl:attribute>
-            </xsl:for-each>
-            <xsl:apply-templates/>
-        </xsl:element>
-    </xsl:template> 
-	 	  
-    <xsl:template match="text()">
-        <xsl:value-of select="normalize-space(.)"/>
-    </xsl:template>
-
 </xsl:stylesheet>

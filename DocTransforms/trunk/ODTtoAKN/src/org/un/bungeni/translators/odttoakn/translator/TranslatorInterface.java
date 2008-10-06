@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.xml.sax.SAXException;
@@ -26,6 +27,8 @@ public interface TranslatorInterface
 	 * @throws SAXException 
 	 * @throws XPathExpressionException 
 	 * @throws TransformerException 
+	 * @throws Exception 
+	 * @throws TransformerFactoryConfigurationError 
 	 */
-	public File translate(String aDocumentPath, String aConfigurationPath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException;
+	public File translate(String aDocumentPath, String aConfigurationPath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException, TransformerFactoryConfigurationError, Exception;
 }

@@ -9,7 +9,8 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.un.bungeni.translators.odttoakn.map.Map;
-import org.un.bungeni.translators.odttoakn.steps.ConfigStep;
+import org.un.bungeni.translators.odttoakn.steps.MapStep;
+import org.un.bungeni.translators.odttoakn.steps.XSLTStep;
 import org.un.bungeni.translators.odttoakn.steps.ReplaceStep;
 import org.un.bungeni.translators.xpathresolver.XPathResolver;
 import org.w3c.dom.Document;
@@ -46,88 +47,23 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 		this.configMap = this.createMap();
 	}
 	
-	/**
-	 * Get the step of the configuration with the given name
-	 * @param aName the name of the step that you want to retreive
-	 * @return a Step with the given name
-	 * @throws XPathExpressionException if the XPath is not well formed 
-	 */
-	public ConfigStep getStepByName(String aName) throws XPathExpressionException
-	{
-		//retreive the XPath resolver instance 
-		XPathResolver xresolver = XPathResolver.getInstance();
-		
-		//get the step with the given name in this configuration
-		Node stepNode = (Node)xresolver.evaluate(this.configXML, "//xslt[@name='" + aName + "]", XPathConstants.NODE);
-		
-		//create the Step 
-		ConfigStep resultStep = new ConfigStep( stepNode.getAttributes().getNamedItem("name").getNodeValue(),
-						  			stepNode.getAttributes().getNamedItem("href").getNodeValue(),
-						  			Integer.parseInt(stepNode.getAttributes().getNamedItem("step").getNodeValue()));
-		//return the created Step
-		return resultStep;
-	}
-
-	/**
-	 * Get the step of the configuration with the given href
-	 * @param aURI the href of the step that you want to retreive
-	 * @return a Step with the given href
-	 * @throws XPathExpressionException 
-	 */
-	public ConfigStep getStepByHref(String aURI) throws XPathExpressionException
-	{
-		//retreive the XPath resolver instance 
-		XPathResolver xresolver = XPathResolver.getInstance();
-		
-		//get the step with the given uri in this configuration
-		Node stepNode = (Node)xresolver.evaluate(this.configXML, "//xslt[@href='" + aURI + "]", XPathConstants.NODE);
-		
-		//create the Step 
-		ConfigStep resultStep = new ConfigStep( stepNode.getAttributes().getNamedItem("name").getNodeValue(),
-						  			stepNode.getAttributes().getNamedItem("href").getNodeValue(),
-						  			Integer.parseInt(stepNode.getAttributes().getNamedItem("step").getNodeValue()));
-		//return the created Step
-		return resultStep;
-	}
-
-	/**
-	 * Get the step of the configuration with the given position
-	 * @param aPosition the position of the step that you want to retreive
-	 * @return a Step with the given position
-	 * @throws XPathExpressionException 
-	 */
-	public ConfigStep getStepByPosition(Integer aPosition) throws XPathExpressionException
-	{
-		//retreive the XPath resolver instance 
-		XPathResolver xresolver = XPathResolver.getInstance();
-		
-		//get the step with the given nama in this configuration
-		Node stepNode = (Node)xresolver.evaluate(this.configXML, "//xslt[@step='" + aPosition.toString() + "]", XPathConstants.NODE);
-		
-		//create the Step 
-		ConfigStep resultStep = new ConfigStep( stepNode.getAttributes().getNamedItem("name").getNodeValue(),
-						  			stepNode.getAttributes().getNamedItem("href").getNodeValue(),
-						  			Integer.parseInt(stepNode.getAttributes().getNamedItem("step").getNodeValue()));
-		//return the created Step
-		return resultStep;
-	}
 	
 	/**
-	 * Used to get an HashMao containing all the Steps of the configuration with their position 
+	 * Used to get an HashMap containing all the Steps of the configuration with their position 
 	 * as key 
 	 * @return the HashMap containing all the Steps of the configuration
 	 * @throws XPathExpressionException 
 	 */
-	public HashMap<Integer,ConfigStep> getSteps() throws XPathExpressionException
+	public HashMap<Integer,XSLTStep> getInputSteps() throws XPathExpressionException
 	{
 		//the HashMap to return 
-		HashMap<Integer,ConfigStep> resultMap = new HashMap<Integer,ConfigStep>();
+		HashMap<Integer,XSLTStep> resultMap = new HashMap<Integer,XSLTStep>();
 		
 		//retreive the XPath resolver instance 
 		XPathResolver xresolver = XPathResolver.getInstance();
 		
 		//get the step with the given nama in this configuration
-		NodeList stepNodes = (NodeList)xresolver.evaluate(this.configXML, "//xslt", XPathConstants.NODESET);
+		NodeList stepNodes = (NodeList)xresolver.evaluate(this.configXML, "//input/xslt", XPathConstants.NODESET);
 		
 		//get all the steps and creates a Step object for each one of them
 		for (int i = 0; i < stepNodes.getLength(); i++) 
@@ -136,7 +72,7 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 			Node stepNode = stepNodes.item(i);
 			
 			//create the Step 
-			ConfigStep resultStep = new ConfigStep( stepNode.getAttributes().getNamedItem("name").getNodeValue(),
+			XSLTStep resultStep = new XSLTStep( stepNode.getAttributes().getNamedItem("name").getNodeValue(),
 						  				stepNode.getAttributes().getNamedItem("href").getNodeValue(),
 						  				Integer.parseInt(stepNode.getAttributes().getNamedItem("step").getNodeValue()));
 			
@@ -148,6 +84,43 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 		return resultMap;
 	}
 	
+	/**
+	 * Used to get an HashMap containing all the OUTPUT XSLT Steps of the configuration with their position 
+	 * as key. The output step are applied to the document after the resolution of its names according to the map 
+	 * @return the HashMap containing all the Steps of the configuration
+	 * @throws XPathExpressionException 
+	 */
+	public HashMap<Integer,XSLTStep> getOutputSteps() throws XPathExpressionException
+	{
+		//the HashMap to return 
+		HashMap<Integer,XSLTStep> resultMap = new HashMap<Integer,XSLTStep>();
+		
+		//retreive the XPath resolver instance 
+		XPathResolver xresolver = XPathResolver.getInstance();
+		
+		//get the step with the given nama in this configuration
+		NodeList stepNodes = (NodeList)xresolver.evaluate(this.configXML, "//output/xslt", XPathConstants.NODESET);
+		
+		//get all the steps and creates a Step object for each one of them
+		for (int i = 0; i < stepNodes.getLength(); i++) 
+		{
+			//get the step node
+			Node stepNode = stepNodes.item(i);
+			
+			//create the Step 
+			XSLTStep resultStep = new XSLTStep( stepNode.getAttributes().getNamedItem("name").getNodeValue(),
+						  				stepNode.getAttributes().getNamedItem("href").getNodeValue(),
+						  				Integer.parseInt(stepNode.getAttributes().getNamedItem("step").getNodeValue()));
+			
+			//add the node to the hash map set its key as its position (step attribute)
+			resultMap.put(Integer.parseInt(stepNode.getAttributes().getNamedItem("step").getNodeValue()),resultStep);		
+		}
+		
+		//return the hash map containing all the Steps
+		return resultMap;
+		
+	}
+
 	/**
 	 * Used to get an HashMap containing all the ReplaceStep of the configuration  
 	 * @return the HashMap containing all the ReplaceSteps of the configuration
@@ -177,14 +150,16 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 			//if pattern attribute is not empty get the pattern from the attribute 
 			if (stepNode.getAttributes().getNamedItem("pattern") != null)
 			{
-				resultStep = new ReplaceStep( stepNode.getAttributes().getNamedItem("replacement").getNodeValue(),
-						  				stepNode.getAttributes().getNamedItem("pattern").getNodeValue());
+				resultStep = new ReplaceStep( 	stepNode.getAttributes().getNamedItem("name").getNodeValue(),
+												stepNode.getAttributes().getNamedItem("replacement").getNodeValue(),
+						  					  	stepNode.getAttributes().getNamedItem("pattern").getNodeValue());
 			}
 			//otherwise get the value from the textValue of the node
 			else
 			{
-				resultStep = new ReplaceStep( stepNode.getAttributes().getNamedItem("replacement").getNodeValue(),
-		  				stepNode.getFirstChild().getNodeValue());
+				resultStep = new ReplaceStep( 	stepNode.getAttributes().getNamedItem("name").getNodeValue(),
+												stepNode.getAttributes().getNamedItem("replacement").getNodeValue(),
+		  										stepNode.getFirstChild().getNodeValue());
 			}
 			
 			//add the node to the hash map set its key as its position (step attribute)
@@ -194,18 +169,33 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 		//return the hash map containing all the Steps
 		return resultMap;
 	}
-
 	
 	/**
-	 * Returns the Map object related to this Configuration object
-	 * @return the map object related to this configuration object
+	 * Return an HashMap containing all the step of the map indexed by their id 
+	 * @return the HashMap containing all the step of the map indexed by their id
+	 * @throws XPathExpressionException 
 	 */
-	public Map getConfigurationMap()
+	public HashMap<Integer, MapStep> getMapSteps() throws XPathExpressionException
 	{
-		//copy the configMap object
-		Map aConfigMap = this.configMap;
-		//return the configMap object
-		return aConfigMap;
+		//get the map steps from the map 
+		HashMap<Integer,MapStep> mapSteps = this.configMap.getMapSteps();
+		
+		//return the MapSteps hash map
+		return mapSteps;
+	}
+	
+	/**
+	 * Returns a String containing the path of the map resolver 
+	 * @return a String containing the path of the map resolver 
+	 * @throws XPathExpressionException
+	 */
+	public String getMapResolver() throws XPathExpressionException
+	{
+		//get the location of the map resovlver
+		String mapLocation = this.configMap.getMapResolver();
+		
+		//return the location of the map resolver
+		return mapLocation;
 	}
 	
 	/**

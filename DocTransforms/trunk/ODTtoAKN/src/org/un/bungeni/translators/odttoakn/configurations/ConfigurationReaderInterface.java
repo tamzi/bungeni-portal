@@ -3,9 +3,8 @@ package org.un.bungeni.translators.odttoakn.configurations;
 import java.util.HashMap;
 
 import javax.xml.xpath.XPathExpressionException;
-
-import org.un.bungeni.translators.odttoakn.map.Map;
-import org.un.bungeni.translators.odttoakn.steps.ConfigStep;
+import org.un.bungeni.translators.odttoakn.steps.MapStep;
+import org.un.bungeni.translators.odttoakn.steps.XSLTStep;
 import org.un.bungeni.translators.odttoakn.steps.ReplaceStep;
 
 /**
@@ -13,38 +12,22 @@ import org.un.bungeni.translators.odttoakn.steps.ReplaceStep;
  * pattern and is used to read a specific configuration 
  */
 public interface ConfigurationReaderInterface 
-{
+{	
 	/**
-	 * Get the step of the configuration with the given name
-	 * @param aName the name of the step that you want to retreive
-	 * @return a Step with the given name
-	 * @throws XPathExpressionException 
-	 */
-	public ConfigStep getStepByName(String aName) throws XPathExpressionException;
-
-	/**
-	 * Get the step of the configuration with the given href
-	 * @param aURI the href of the step that you want to retreive
-	 * @return a Step with the given href
-	 * @throws XPathExpressionException 
-	 */
-	public ConfigStep getStepByHref(String aURI) throws XPathExpressionException;
-
-	/**
-	 * Get the step of the configuration with the given position
-	 * @param aPosition the position of the step that you want to retreive
-	 * @return a Step with the given position
-	 * @throws XPathExpressionException 
-	 */
-	public ConfigStep getStepByPosition(Integer aPosition) throws XPathExpressionException;
-	
-	/**
-	 * Used to get an HashMap containing all the Steps of the configuration with their position 
-	 * as key 
+	 * Used to get an HashMap containing all the INPUT XSLT Steps of the configuration with their position 
+	 * as key. The input step are applied to the document before the resolution of its names according to the map 
 	 * @return the HashMap containing all the Steps of the configuration
 	 * @throws XPathExpressionException 
 	 */
-	public HashMap<Integer,ConfigStep> getSteps() throws XPathExpressionException;
+	public HashMap<Integer,XSLTStep> getInputSteps() throws XPathExpressionException;
+
+	/**
+	 * Used to get an HashMap containing all the OUTPUT XSLT Steps of the configuration with their position 
+	 * as key. The output step are applied to the document after the resolution of its names according to the map 
+	 * @return the HashMap containing all the Steps of the configuration
+	 * @throws XPathExpressionException 
+	 */
+	public HashMap<Integer,XSLTStep> getOutputSteps() throws XPathExpressionException;
 
 	/**
 	 * Used to get an HashMap containing all the ReplaceStep of the configuration  
@@ -52,11 +35,18 @@ public interface ConfigurationReaderInterface
 	 * @throws XPathExpressionException 
 	 */
 	public HashMap<Integer,ReplaceStep> getReplaceSteps() throws XPathExpressionException;
-
+	
 	/**
-	 * Returns the Map object related to this Configuration object
-	 * @return the map object related to this configuration object
+	 * Return an HashMap containing all the step of the map indexed by their id 
+	 * @return the HashMap containing all the step of the map indexed by their id
+	 * @throws XPathExpressionException 
 	 */
-	public Map getConfigurationMap();
-
+	public HashMap<Integer, MapStep> getMapSteps() throws XPathExpressionException;
+	
+	/**
+	 * Returns a String containing the path of the map resolver 
+	 * @return a String containing the path of the map resolver 
+	 * @throws XPathExpressionException
+	 */
+	public String getMapResolver() throws XPathExpressionException;
 }

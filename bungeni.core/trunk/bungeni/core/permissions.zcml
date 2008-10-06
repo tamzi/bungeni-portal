@@ -2,9 +2,36 @@
    xmlns="http://namespaces.zope.org/zope"
    i18n_domain="bungeni">
   
-  <permission
+  <!--permission
      id="bungeni.SubmitQuestion"
-     title="Submit question" />
-  
+     title="Submit question" /-->
+    
+    <permission id="bungeni.question.add" title="Add Question" />
+    <permission id="bungeni.question.edit" title="Edit Question" />
+    <permission id="bungeni.question.delete" title="Delete Question" />
+    <permission id="bungeni.question.view" title="View Question" />
+      
+    <permission id="bungeni.motion.add" title="Add Motion" />
+    <permission id="bungeni.motion.edit" title="Edit Motion" />
+    <permission id="bungeni.motion.delete" title="Delete Motion" />
+    <permission id="bungeni.motion.view" title="View Motion" />
+    
+    <permission id="bungeni.response.add" title="Add Response" />
+    <permission id="bungeni.response.edit" title="Edit Response" />
+    <permission id="bungeni.response.delete" title="Delete Response" />
+    <permission id="bungeni.response.view" title="View Response" />
+     
+    <permission id="bungeni.parliament.add" title="Add Parliament" />
+    <permission id="bungeni.parliament.edit" title="Edit Parliament" />
+    <permission id="bungeni.parliament.delete" title="Delete Parliament" />
+    <permission id="bungeni.parliament.view" title="View Parliament" />    
+    
+    <permission id="bungeni.bill.add" title="Add Bill" />
+    <permission id="bungeni.bill.edit" title="Edit Bill" />
+    <permission id="bungeni.bill.delete" title="Delete Bill" />
+    <permission id="bungeni.bill.view" title="View Bill" />  
+    
+              
+      
 </configure>
            

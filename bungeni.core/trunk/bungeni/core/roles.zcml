@@ -1,0 +1,36 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   i18n_domain="bungeni">
+   
+    <grant permission="bungeni.question.add" role="MemberOfParliament" />
+    <grant permission="bungeni.question.edit" role="Owner" />
+    <grant permission="bungeni.question.delete" role="Owner" />
+    <grant permission="bungeni.question.view" role="Owner" />
+      
+    <grant permission="bungeni.motion.add" role="MemberOfParliament" />
+    <grant permission="bungeni.motion.edit" role="Owner" />
+    <grant permission="bungeni.motion.delete" role="Owner" />
+    <grant permission="bungeni.motion.view" role="Owner" />
+    
+    <grant permission="bungeni.response.add" role="Minister" />
+    <grant permission="bungeni.response.edit" role="Owner" />
+    <grant permission="bungeni.response.delete" role="Owner" />
+    <grant permission="bungeni.response.view" role="Owner" />
+     
+    <grant permission="bungeni.parliament.add" role="Clerk" />
+    <grant permission="bungeni.parliament.edit" role="Clerk" />
+    <grant permission="bungeni.parliament.delete" role="Clerk" />
+    <grant permission="bungeni.parliament.view" role="Everbody" />    
+    
+    <grant permission="bungeni.bill.add" role="MemberOfParliament" />
+    <grant permission="bungeni.bill.edit" role="Owner" />
+    <grant permission="bungeni.bill.delete" role="Owner" />
+    <grant permission="bungeni.bill.view" role="Owner" />  
+    
+    <!--
+    TODO:
+    Roles for additional permissions
+    -->
+    
+    
+</configure>    

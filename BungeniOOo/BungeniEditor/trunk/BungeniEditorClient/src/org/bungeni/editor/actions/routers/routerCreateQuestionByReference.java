@@ -10,6 +10,7 @@ import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.error.BungeniValidatorState;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.utils.CommonStringFunctions;
 
 /**
  *
@@ -28,6 +29,7 @@ public class routerCreateQuestionByReference extends defaultRouter {
         String currentSection =  ooDocument.currentSectionName();
         HashMap<String,String> sectionMeta = ooDocument.getSectionMetadataAttributes(currentSection);
         String strQuestionNo = sectionMeta.get(_referencePrefix_);
+        strQuestionNo = CommonStringFunctions.makeReferenceFriendlyString(strQuestionNo);
         String newRefNo  = _referencePrefix_ + _referenceNameSeparator_ + strQuestionNo;
         int i = 1;
         while (ooDocument.getReferenceMarks().hasByName(newRefNo) ) {

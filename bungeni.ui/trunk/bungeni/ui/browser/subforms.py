@@ -25,7 +25,7 @@ class SubformViewlet ( AjaxContainerListing ):
     
     """
     render = ViewPageTemplateFile ('templates/generic-sub-container.pt')  
-
+    for_display = True
 
         
 
@@ -68,6 +68,8 @@ class SittingsCalendarViewlet( SittingCalendarViewlet ):
     """
     sittingcalendar displayed for a sitting
     """
+    for_display = True    
+    
     def __init__( self,  context, request, view, manager ):        
 
         self.context = context.__parent__                  
@@ -81,6 +83,8 @@ class SittingsViewlet( SittingCalendarViewlet ):
     """
     sittingcalendar for a session or group
     """
+    for_display = True
+        
     def __init__( self,  context, request, view, manager ):        
 
         self.context = context.sittings                  
@@ -234,6 +238,7 @@ class PersonInfo( BungeniAttributeDisplay ):
     """
     Bio Info / personal data about the MP
     """
+    for_display = True    
     mode = "view"
     template = ViewPageTemplateFile('templates/display_subform.pt')        
     form_name = _(u"Personal Info")   
@@ -260,6 +265,7 @@ class PersonInfo( BungeniAttributeDisplay ):
 
 class SupplementaryQuestionsViewlet( SubformViewlet ):
     form_name = (u"Supplementary Questions")  
+    for_display = True
     def __init__( self,  context, request, view, manager ):        
 
         self.context = context.supplementaryquestions
@@ -268,6 +274,41 @@ class SupplementaryQuestionsViewlet( SubformViewlet ):
         self.manager = manager
         self.query = None
         #self.form_name = (u"Supplementary Questions")    
+
+
+class InitialQuestionsViewlet( BungeniAttributeDisplay ):
+    form_name = (u"Initial Questions")
+    template = ViewPageTemplateFile('templates/display_subform.pt')    
+    
+    @property
+    def for_display(self):
+        return self.context.supplement_parent_id is not None            
+        
+    def update(self):
+        """
+        refresh the query
+        """    
+        if self.context.supplement_parent_id is None:
+            self.context = self.__parent__
+            #self.for_display = False
+            return
+               
+        session = Session()
+        results = session.query(domain.Question).get(self.context.supplement_parent_id) 
+
+        if results:
+            #parent = self.context.__parent__
+            self.context = results
+            #self.context.__parent__ = parent
+            self.form_name = (u"Initial Questions")
+            self.has_data = True
+            #self.for_display =True
+        else:
+            self.has_data = False
+            self.context = None
+            
+        super( InitialQuestionsViewlet, self).update()
+
 
 
 class ResponseViewlet( BungeniAttributeDisplay ):
@@ -279,7 +320,7 @@ class ResponseViewlet( BungeniAttributeDisplay ):
     form_name = _(u"Response")   
     addurl = 'add'
     add_action = form.Actions( form.Action(_(u'add response'), success='handle_response_add_action'), )
-    
+    for_display = True
     def __init__( self,  context, request, view, manager ):        
         self.context = context
         self.request = request
@@ -301,7 +342,7 @@ class ResponseViewlet( BungeniAttributeDisplay ):
         session = Session()
         question_id = self.context.question_id
         self.query = session.query(domain.Response).filter(domain.Response.c.response_id == question_id) 
-        results = self.query.all()
+        results = self.query.all() 
         #self.context = self.query.all()[0]
         path = absoluteURL( self.context, self.request ) 
         self.addurl = '%s/responses/add' %( path )

@@ -29,7 +29,18 @@ class SubFormViewletManager( manager.WeightOrderedViewletManager ):
     """
     display subforms
     """
-    interface.implements(ISubFormViewletManager)     
+    interface.implements(ISubFormViewletManager)   
+      
+    def filter(self, viewlets):
+         viewlets = super(SubFormViewletManager, self).filter(viewlets)
+         return [(name, viewlet)
+                 for name, viewlet in viewlets
+                 if viewlet.for_display == True]    
+    
+
+
+
+
     
 class NavigateAwayWarningViewlet( viewlet.ViewletBase ):
 

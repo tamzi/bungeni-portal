@@ -66,6 +66,7 @@ class YUITabView( viewlet.ViewletBase ):
     """
     get the JS into the form
     """
+    for_display = True
     def render( self ):
         zc.resourcelibrary.need("yui-tab")   
         yuijs ="""
@@ -104,6 +105,7 @@ class DateChooserViewlet( viewlet.ViewletBase ):
     """
     display a calendar to choose the date which to display the information for
     """    
+    for_display = True
     def __init__( self,  context, request, view, manager ):        
         self.context = context
         self.request = request
@@ -299,6 +301,7 @@ class AllParliamentsViewlet( viewlet.ViewletBase ):
     """
     display all parliaments
     """            
+    for_display = True
     def __init__( self,  context, request, view, manager ):        
         self.context = context
         self.request = request
@@ -390,6 +393,7 @@ class CurrentParliamentViewlet( viewlet.ViewletBase ):
     """
     display the current parliament.   
     """
+    for_display = True    
     def __init__( self,  context, request, view, manager ):        
         self.context = context
         self.request = request
@@ -435,6 +439,7 @@ class CurrentGovernmentViewlet( viewlet.ViewletBase ):
     """
     display the current Government
     """
+    for_display = True    
     def __init__( self,  context, request, view, manager ):        
         self.context = context
         self.request = request
@@ -473,10 +478,11 @@ class CurrentGovernmentViewlet( viewlet.ViewletBase ):
     render = ViewPageTemplateFile ('templates/current_government_viewlet.pt')
     
 class CurrentParliamentGovernmentViewlet( CurrentGovernmentViewlet ):     
+    for_display = True
     render = ViewPageTemplateFile ('templates/current_parliament_government_viewlet.pt')    
 
 class CurrentMinistriesViewlet( viewlet.ViewletBase ):
-    
+    for_display = True    
     def __init__( self,  context, request, view, manager ):        
         self.context = context
         self.request = request
@@ -532,7 +538,7 @@ class CurrentMinistriesViewlet( viewlet.ViewletBase ):
     render = ViewPageTemplateFile ('templates/current_ministries_viewlet.pt')    
     
 class CurrentCommitteesViewlet( viewlet.ViewletBase ):
-    
+    for_display = True    
     def __init__( self,  context, request, view, manager ):        
         self.context = context
         self.request = request
@@ -575,13 +581,14 @@ class CurrentSitting( viewlet.ViewletBase ):
     """
     the current sittings are those closest to the given date.
     """        
-    
+    for_display = True
+        
 class CurrentPartymemberships( viewlet.ViewletBase ):
     """
     the partymembership of a MP does have multiple start/end dates so we have to
     explictly define which one is to be used
     """
-
+    for_display = True
     def __init__( self,  context, request, view, manager ):        
         self.context = context.party
         self.request = request

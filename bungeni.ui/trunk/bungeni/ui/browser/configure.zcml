@@ -506,6 +506,16 @@
       weight="20"
       />           
 
+<browser:viewlet
+      name="bungeni.subform.initialquestion"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.InitialQuestionsViewlet"
+      for="bungeni.core.interfaces.IQuestion"
+      permission="zope.View"
+      weight="5"
+      />      
+
+
 
 <!-- Question add form -->
 

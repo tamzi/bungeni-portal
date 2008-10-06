@@ -41,11 +41,20 @@
             </blockAction>
   	-->
 	   <blockAction name="Questions" tooltip="Create a Questions Section" title="Questions" target="null" visible="true" condition="none" >
-                <action name="Questions.new" title="Create from Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionBlockSection.section_creation" visible="true" condition="textSelected:true :and: cursorInSection:debaterecord" />
-		<action name="Questions.markup" title="Markup Question No" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionBlockSection.markup_question_no" visible="true" condition="textSelected:true :and: cursorInSection:qa." />
-		<action name="QuestionsSection.Q.new" title="Mark Speech as Question" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionSection.section_creation"  condition="textSelected:true :and: cursorInSection:qa. :and: !sectionHasChildType:Question" />
-		<action name="QuestionsSection.S.new" title="Mark as Speech" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechSection.section_creation"  condition="textSelected:true :and: cursorInSection:qa. :and: !sectionHasChildType:Question" />
-		
+		<!--creates a question container --> 		
+		<action name="QuestionsGroup.new" title="Create a container for All the Questions / Answers" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionGroupSection.section_creation" visible="true" condition="textSelected:true :and: cursorInSection:debaterecord" />
+		<!-- pops up a selector dialog for a questions - creates a questionanswer container -->                
+		<action name="Questions.new" title="Add a new Question Container" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionBlockSection.section_creation" visible="true" condition="textSelected:true :and: cursorInSection:questions[0-9]*" />
+		<!-- creates a highlighted texts as question container-->
+		<action name="QuestionsSection.Q.new" title="Mark Speech as Question" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionSection.section_creation" visible="true" condition="textSelected:true :and: cursorInSection:qa[0-9]*" />
+		<!-- markup text as question no. -->		
+		<action name="Questions.markup" title="Markup Question No" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionBlockSection.markup_question_no" visible="true" condition="textSelected:true :and: cursorInSection:qa[0-9]*" />
+		<!-- markup question by-->
+		<action name="Questions.by.markup" title="Markup Question By" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionBlockSection.markup_question_by" visible="true" condition="textSelected:true :and: cursorInSection:qa[0-9]*" />
+		<!-- markup quetion to -->
+		<action name="Questions.to.markup" title="Markup Question To" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionBlockSection.markup_question_to" visible="true" condition="textSelected:true :and: cursorInSection:qa[0-9]*" />
+		<!-- markup question text -->
+		<action name="Questions.text.markup" title="Markup Question Text" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionBlockSection.apply_questiontext_style:question-text" visible="true" condition="textSelected:true :and: cursorInSection:question[0-9]*." />
 		<!--	                
 		<action name="Questions.edit" title="Edit Existing" mode="TEXT_EDIT" target="toolbarAction.makeQuestionBlockSection" visible="true" condition="cursorInSectionType:Question" />
                 <action name="Questions.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQuestionBlockSection.section_creation" condition="cursorInSection:qa. :and: textSelected:true" visible="true" showChildren="true" >

@@ -30,7 +30,7 @@
     </xsl:template>
     
     <xsl:template match="*">
-        <xsl:element name="pippo">
+        <xsl:element name="pappo">
             <xsl:for-each select="@*">
                 <xsl:attribute name="{name(.)}">
                     <xsl:value-of select="."/>

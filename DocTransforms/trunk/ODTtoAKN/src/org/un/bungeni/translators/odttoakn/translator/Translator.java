@@ -1,8 +1,6 @@
 package org.un.bungeni.translators.odttoakn.translator;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -61,7 +59,6 @@ public class Translator implements TranslatorInterface
 		Configuration configuration = new Configuration(configurationDoc);
 
 		//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
-		//StreamSource iteratedDocument = new StreamSource(ODFUtility.getInstance().mergeODF(aDocumentPath));
 		StreamSource ODFDocument = new StreamSource(ODFUtility.getInstance().mergeODF(aDocumentPath));
 
 		//applies the input steps to the StreamSource of the ODF document
@@ -71,41 +68,15 @@ public class Translator implements TranslatorInterface
 		iteratedDocument = MapStepsResolver.resolve(iteratedDocument, configuration);
 
 		//applies the map steps to the StreamSource of the ODF document
-		String iteratedStringDocument = ReplaceStepsResolver.resolve(iteratedDocument, configuration);
-
-	    //create a file for the result  
-		File tempFile = File.createTempFile("temp", ".xml");
-		
-		//delete the temp file on exit
-		tempFile.deleteOnExit();
-
-		//write the result on the temporary file
-		BufferedWriter out = new BufferedWriter(new FileWriter(tempFile));
-	    out.write(iteratedStringDocument);
-	    out.close();
-		
-		//create a new StremSource
-		StreamSource tempStreamSource = new StreamSource(tempFile);
+		iteratedDocument = ReplaceStepsResolver.resolve(iteratedDocument, configuration);
 
 		//apply the OUTPUT XSLT to the StreamSource
-		StreamSource resultStream = OutputStepsResolver.resolve(tempStreamSource, configuration);
+		StreamSource resultStream = OutputStepsResolver.resolve(iteratedDocument, configuration);
 		
-		//write the result stream to a string
-		String resultDocumentString = StreamSourceUtility.getInstance().writeToString(resultStream);
+		//write the source to a File
+		File resultFile = StreamSourceUtility.getInstance().writeToFile(resultStream);
 		
-	    //create a file for the result  
-		File resultFile = File.createTempFile("result", ".xml");
-		
-		//delete the temp file on exit
-		resultFile.deleteOnExit();
-
-		//write the result on the temporary file
-		BufferedWriter outresult = new BufferedWriter(new FileWriter(resultFile));
-	    outresult.write(resultDocumentString);
-	    outresult.close();
-		
-		
-	    //return the Source of the new document
+		//return the Source of the new document
 	    return resultFile;
 	}
 

@@ -1,5 +1,9 @@
 package org.un.bungeni.translators.odttoakn.translator;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -21,12 +25,13 @@ public final class ReplaceStepsResolver
 	 * configuration Document are applied to the given Stream source of the document
 	 * @param aDocument a Stream Source of an ODF DOM document
 	 * @param aConfiguration the configuration file that contains the MAP STEPS
-	 * @return a new Document in String format obtained applying all the steps of the configuration to the 
+	 * @return a new StreamSource obtained applying all the steps of the configuration to the 
 	 * 			given StreamSource
 	 * @throws XPathExpressionException 
 	 * @throws TransformerException 
+	 * @throws IOException 
 	 */
-	protected static String resolve(StreamSource anODFDocument, Configuration aConfiguration) throws XPathExpressionException, TransformerException
+	protected static StreamSource resolve(StreamSource anODFDocument, Configuration aConfiguration) throws XPathExpressionException, TransformerException, IOException
 	{
 		//get the replacement step from the configuration
 		HashMap<Integer,ReplaceStep> replaceSteps = aConfiguration.getReplaceSteps();
@@ -52,8 +57,22 @@ public final class ReplaceStepsResolver
 			//apply the replacement
 			iteratedStringDocument = iteratedStringDocument.replaceAll(pattern, replacement);
 		}
+
+		//create a file for the result  
+		File tempFile = File.createTempFile("temp", ".xml");
 		
+		//delete the temp file on exit
+		tempFile.deleteOnExit();
+
+		//write the result on the temporary file
+		BufferedWriter out = new BufferedWriter(new FileWriter(tempFile));
+	    out.write(iteratedStringDocument);
+	    out.close();
+	    
+		//create a new StremSource
+		StreamSource tempStreamSource = new StreamSource(tempFile);
+
 		//return the string of the new created document
-		return iteratedStringDocument;
+		return tempStreamSource;
 	}
 }

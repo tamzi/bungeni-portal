@@ -1,5 +1,9 @@
 package org.un.bungeni.translators.streams;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.StringWriter;
 
 import javax.xml.transform.Transformer;
@@ -71,6 +75,33 @@ public class StreamSourceUtility
 
 	    //return the string of the Stream Source
 	    return resultStringDocument;
+	}
+
+	/**
+	 * This method write a Stream Source to a File
+	 * @param aStreamSource the Stream Source to wrote to File
+	 * @return a File containing the given Stream Source
+	 * @throws TransformerException 
+	 * @throws IOException 
+	 */
+	public File writeToFile(StreamSource aStreamSource) throws TransformerException, IOException
+	{
+		//write the result stream to a string
+		String resultDocumentString = this.writeToString(aStreamSource);
+
+	    //create a file for the result  
+		File resultFile = File.createTempFile("result", ".xml");
+		
+		//write the result on the temporary file
+		BufferedWriter outresult = new BufferedWriter(new FileWriter(resultFile));
+	    outresult.write(resultDocumentString);
+	    outresult.close();
+
+	    //delete the result file on exit
+		resultFile.deleteOnExit();
+
+	    //return the string of the Stream Source
+	    return resultFile;
 	}
 
 }

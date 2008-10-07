@@ -321,6 +321,7 @@ class ResponseViewlet( BungeniAttributeDisplay ):
     addurl = 'add'
     add_action = form.Actions( form.Action(_(u'add response'), success='handle_response_add_action'), )
     for_display = True
+    
     def __init__( self,  context, request, view, manager ):        
         self.context = context
         self.request = request

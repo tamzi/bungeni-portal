@@ -284,11 +284,12 @@ class DateChooserViewlet( viewlet.ViewletBase ):
         minmaxdate= self.checkDateInConstraints()
         if minmaxdate:                    
             self.error = 'error' 
-            self.error_message = _("""
+            error_message = _(u"""
                 The date you requested (%(current)s) is not in the current restrictions. <br />
                 Either select <a href="?date=%(minmax)s"> %(minmax)s </a> 
                 or browse the data <a href="?date=all">for all dates</a>.
-                """) % ({'current': self.DateStr , 'minmax': minmaxdate})     
+                """)  
+            self.error_message = error_message() % ({'current': self.DateStr , 'minmax': minmaxdate})     
         if (IGroupSittingAttendance.providedBy(self.context) 
             or IGroupSittingAttendanceContainer.providedBy(self.context)):
             # group sitting attendance does not have start - end

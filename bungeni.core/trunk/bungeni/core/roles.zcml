@@ -2,30 +2,43 @@
    xmlns="http://namespaces.zope.org/zope"
    i18n_domain="bungeni">
    
-    <grant permission="bungeni.question.add" role="MemberOfParliament" />
-    <grant permission="bungeni.question.edit" role="Owner" />
-    <grant permission="bungeni.question.delete" role="Owner" />
-    <grant permission="bungeni.question.view" role="Owner" />
+    <role id="bungeni.MP" title="Member of parliament" />
+    <role id="bungeni.Owner" title="Owner" />
+    <role id="bungeni.Minister" title="Minister" />
+    <role id="bungeni.Clerk" title="Clerks Office" />
+    <role id="bungeni.Speaker" title="Speaker Office" />    
+    <role id="bungeni.Everybody" title="Everybody" />
+   
+    <grant role="bungeni.MP" principal="zope.Authenticated" />
+    <grant role="bungeni.Owner" principal="zope.Authenticated" />
+    <grant role="bungeni.Minister" principal="zope.Authenticated" />
+    <grant role="bungeni.Clerk" principal="zope.Authenticated" />
+    <grant role="bungeni.Everybody" principal="zope.anybody" />
+   
+    <grant permission="bungeni.question.add" role="bungeni.MP" />
+    <grant permission="bungeni.question.edit" role="bungeni.Owner" />
+    <grant permission="bungeni.question.delete" role="bungeni.Owner" />
+    <grant permission="bungeni.question.view" role="bungeni.Owner" />
       
-    <grant permission="bungeni.motion.add" role="MemberOfParliament" />
-    <grant permission="bungeni.motion.edit" role="Owner" />
-    <grant permission="bungeni.motion.delete" role="Owner" />
-    <grant permission="bungeni.motion.view" role="Owner" />
+    <grant permission="bungeni.motion.add" role="bungeni.MP" />
+    <grant permission="bungeni.motion.edit" role="bungeni.Owner" />
+    <grant permission="bungeni.motion.delete" role="bungeni.Owner" />
+    <grant permission="bungeni.motion.view" role="bungeni.Owner" />
     
-    <grant permission="bungeni.response.add" role="Minister" />
-    <grant permission="bungeni.response.edit" role="Owner" />
-    <grant permission="bungeni.response.delete" role="Owner" />
-    <grant permission="bungeni.response.view" role="Owner" />
+    <grant permission="bungeni.response.add" role="bungeni.Minister" />
+    <grant permission="bungeni.response.edit" role="bungeni.Owner" />
+    <grant permission="bungeni.response.delete" role="bungeni.Owner" />
+    <grant permission="bungeni.response.view" role="bungeni.Everybody" />
      
-    <grant permission="bungeni.parliament.add" role="Clerk" />
-    <grant permission="bungeni.parliament.edit" role="Clerk" />
-    <grant permission="bungeni.parliament.delete" role="Clerk" />
-    <grant permission="bungeni.parliament.view" role="Everbody" />    
+    <grant permission="bungeni.parliament.add" role="bungeni.Clerk" />
+    <grant permission="bungeni.parliament.edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.parliament.delete" role="bungeni.Clerk" />
+    <grant permission="bungeni.parliament.view" role="bungeni.Everybody" />    
     
-    <grant permission="bungeni.bill.add" role="MemberOfParliament" />
-    <grant permission="bungeni.bill.edit" role="Owner" />
-    <grant permission="bungeni.bill.delete" role="Owner" />
-    <grant permission="bungeni.bill.view" role="Owner" />  
+    <grant permission="bungeni.bill.add" role="bungeni.MP" />
+    <grant permission="bungeni.bill.edit" role="bungeni.Owner" />
+    <grant permission="bungeni.bill.delete" role="bungeni.Owner" />
+    <grant permission="bungeni.bill.view" role="bungeni.Owner" />  
     
     <!--
     TODO:

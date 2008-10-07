@@ -31,13 +31,87 @@ Setting up Database Connection and Utilities:
    >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
    >>> model.metadata.bind = db   
    >>> model.metadata.create_all() 
+   >>> from alchemist.security.schema import metadata  
+   >>> metadata.bind = db
+   >>> metadata.create_all()  
    >>> session = Session()
+
+
+
 
 Get some standard dates for testing   
    >>> today = datetime.date.today()
    >>> yesterday = today - datetime.timedelta(1)
    >>> tomorrow = today + datetime.timedelta(1)
    >>> dayat = today + datetime.timedelta(2)
+
+
+set up utilities
+---------------  
+  
+  >>> today = datetime.date.today()
+  
+  
+  >>> component.provideAdapter(
+  ...    bungeni.core.workflows.WorkflowState,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    bungeni.core.workflows.question.QuestionWorkflowAdapter,
+  ...    (Question,))
+
+  >>> component.provideAdapter(
+  ...    ore.workflow.workflow.WorkflowInfo,
+  ...    (Question,))
+
+  >>> component.provideHandler(
+  ...    bungeni.core.workflows.question.workflowTransitionEventDispatcher)
+
+  >>> import bungeni.core.version
+  >>> component.provideAdapter(
+  ...    bungeni.core.version.ContextVersioned,
+  ...    (bungeni.core.interfaces.IVersionable,),
+  ...    bungeni.core.interfaces.IVersioned)
+  
+Security Adapters
+
+  >>> import alchemist.security.permission
+  >>> import alchemist.security.role
+
+  
+  >>> component.provideAdapter(
+  ...    alchemist.security.role.GlobalPrincipalRoleMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.permission.GlobalRolePermissionMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.role.LocalPrincipalRoleMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.permission.LocalRolePermissionMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+
+
+  >>> from zope.security.interfaces import IPrincipal
+  >>> from zope.interface import implements
+  >>> class Bob:
+  ...     implements(IPrincipal)
+  ...     id = 'bob'
+  ...     title = description = ''
+  >>> bob = Bob()
+
+  >>> from zope.publisher.browser import TestRequest
+  >>> from zope.app.security.interfaces import IUnauthenticatedPrincipal  
+  >>> from zope.app.security.principalregistry import UnauthenticatedPrincipal
+  >>> request = TestRequest()
+  >>> request.setPrincipal(bob)
+
+  
 
 
 setup parliament, gov and ministry
@@ -90,32 +164,8 @@ meeting of the group by the system.
  
  
    
-set up utilities
----------------  
-  
-  >>> today = datetime.date.today()
-  
-  
-  >>> component.provideAdapter(
-  ...    bungeni.core.workflows.WorkflowState,
-  ...    (bungeni.core.interfaces.IBungeniContent,))
 
-  >>> component.provideAdapter(
-  ...    bungeni.core.workflows.question.QuestionWorkflowAdapter,
-  ...    (Question,))
-
-  >>> component.provideAdapter(
-  ...    ore.workflow.workflow.WorkflowInfo,
-  ...    (Question,))
-
-  >>> component.provideHandler(
-  ...    bungeni.core.workflows.question.workflowTransitionEventDispatcher)
-
-  >>> import bungeni.core.version
-  >>> component.provideAdapter(
-  ...    bungeni.core.version.ContextVersioned,
-  ...    (bungeni.core.interfaces.IVersionable,),
-  ...    bungeni.core.interfaces.IVersioned)
+    
   
 Transition events
 -----------------

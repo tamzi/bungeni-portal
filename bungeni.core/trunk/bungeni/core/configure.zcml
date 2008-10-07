@@ -48,6 +48,10 @@
 
   <!-- Security Components -->
   <include file="auth.zcml"/>
+  
+  <!-- Roles and permissions -->
+  <include file="permissions.zcml" />
+  <include file="roles.zcml" />
 
   <!-- Assignment Infrastructure -->
   <include file="assignment.zcml"/>

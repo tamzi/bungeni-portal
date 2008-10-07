@@ -3,9 +3,21 @@ from zope import interface
 from zope import component
 from zope.event import notify
 from zope.component.interfaces import ObjectEvent
+import zope.securitypolicy.interfaces
+from zope.security.proxy import removeSecurityProxy
+
+
+#from sqlalchemy.orm import mapper
+#import bungeni.core.schema as schema
+import bungeni.core
+#import bungeni.core.domain as domain
+
+
 
 from ore.workflow import interfaces as iworkflow
 from ore.workflow import workflow
+
+
 
 import bungeni.core.workflows.interfaces as interfaces
 import bungeni.core.workflows.utils as utils
@@ -34,6 +46,49 @@ class states:
                               # or debate reference input by clerks office
     withdrawn = _(u"Question withdrawn") # the owner of the question can withdraw the question
     
+#############
+# the actions that set the correct
+# roles and permissions to the workflowed object
+#
+
+def create(info,context):
+    utils.setQuestionDefaults(info, context)
+    user_id = utils.getUserId()
+    if not user_id:
+        user_id ='-'
+    zope.securitypolicy.interfaces.IPrincipalRoleMap( context ).assignRoleToPrincipal( u'bungeni.Owner', user_id) 
+        
+def makePrivate(info,context):
+    pass
+
+def reDraft(info, context):
+    pass
+
+def submitToClerk(info,context):      
+    utils.setSubmissionDate(info, context)
+    question = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
+    rpm.grantPermissionToRole( 'bungeni.question.view', u'bungeni.Clerk' )
+    rpm.denyPermissionToRole( 'bungeni.question.edit', u'bungeni.Owner' )
+    rpm.denyPermissionToRole( 'bungeni.question.delete', u'bungeni.Owner' )
+     
+    
+def recievedByClerk( info, context ):
+    utils.createVersion(info, context)   
+    question = removeSecurityProxy(context)     
+    zope.securitypolicy.interfaces.IRolePermissionMap( question ).grantPermissionToRole( 'bungeni.question.edit', u'bungeni.Clerk' )
+
+def withdraw( info, context ):
+    question = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
+    rpm.denyPermissionToRole( 'bungeni.question.edit', u'bungeni.Owner' )
+    rpm.denyPermissionToRole( 'bungeni.question.edit', u'bungeni.Clerk' )
+    rpm.denyPermissionToRole( 'bungeni.question.edit', u'bungeni.Speaker' )
+    
+    
+
+
+
 
 def create_question_workflow( ):
     transitions = []
@@ -43,8 +98,9 @@ def create_question_workflow( ):
         transition_id = 'create',
         title='Create',
         trigger = iworkflow.AUTOMATIC,
-        source = None,
-        action = utils.setQuestionDefaults,        
+        source = None,        
+        action = create, 
+        #action = utils.setQuestionDefaults,        
         destination = states.draft,
         #permission = "bungeni.question.Create",
         ) )
@@ -53,7 +109,8 @@ def create_question_workflow( ):
         transition_id = 'make-private',
         title=_(u'Make private'),
         source = states.draft,
-        trigger = iworkflow.MANUAL,        
+        trigger = iworkflow.MANUAL,  
+        action = makePrivate,      
         destination = states.private,
         permission = 'bungeni.question.Submit',
         ) )    
@@ -63,6 +120,7 @@ def create_question_workflow( ):
         title=_(u'Re draft'),
         source = states.private,
         trigger = iworkflow.MANUAL,        
+        action=reDraft,
         destination = states.draft,
         permission = 'bungeni.question.Submit',
         ) )    
@@ -73,7 +131,7 @@ def create_question_workflow( ):
         title=_(u'Submit to Clerk'),
         source = states.draft,
         trigger = iworkflow.MANUAL,        
-        action = utils.setSubmissionDate,
+        action = submitToClerk,
         destination = states.submitted,
         permission = 'bungeni.question.Submit',
         ) )    
@@ -83,7 +141,7 @@ def create_question_workflow( ):
         title=_(u'Receive'),
         source = states.submitted,
         trigger = iworkflow.MANUAL, 
-        action = utils.createVersion,                       
+        action = recievedByClerk,                       
         destination = states.received,
         permission = 'bungeni.question.Recieve',        
         ) )    

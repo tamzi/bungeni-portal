@@ -16,6 +16,12 @@ from bungeni.core.i18n import _
 
 import datetime
 
+
+
+
+                
+
+
 def getCurrentParliamentId(date = None):
     """
     returns the current parliament_id for a given date

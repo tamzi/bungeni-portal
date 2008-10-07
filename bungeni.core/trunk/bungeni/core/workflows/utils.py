@@ -3,6 +3,8 @@ import datetime
 from zope.security.proxy import removeSecurityProxy
 from zope import component
 
+from zope.security.management import getInteraction
+from zope.publisher.interfaces import IRequest
 
 from ore.workflow.interfaces import IWorkflowInfo
 import ore.workflow.workflow
@@ -11,6 +13,13 @@ import bungeni.core.interfaces
 import bungeni.core.domain as domain
 
 import dbutils
+
+def getUserId( ):
+    interaction = getInteraction()
+    for participation in interaction.participations:
+        if IRequest.providedBy(participation):
+            return participation.principal.id
+
 
 def createVersion(info, context):
     """Create a new version of an object and return it."""

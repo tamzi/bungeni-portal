@@ -22,8 +22,7 @@ def getQuestion(question_id):
     """
     session = Session()
     return session.query(domain.Question).get(question_id)
-    #query = session.query(domain.Question).filter(schema.questions.c.question_id == question_id)
-    #return query.one()
+
     
 def setQuestionMinistryId(question):
     if question.supplement_parent_id:

@@ -8,7 +8,7 @@ from zope.publisher.interfaces import IRequest
 
 from ore.workflow.interfaces import IWorkflowInfo
 import ore.workflow.workflow
-import bungeni.core.workflows.question
+
 import bungeni.core.interfaces
 import bungeni.core.domain as domain
 

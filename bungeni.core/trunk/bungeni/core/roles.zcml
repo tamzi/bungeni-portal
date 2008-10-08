@@ -9,6 +9,8 @@
     <role id="bungeni.Speaker" title="Speaker Office" />    
     <role id="bungeni.Everybody" title="Everybody" />
    
+    <!-- the role grants are for testing only! to be removed! -->
+   
     <grant role="bungeni.MP" principal="zope.Authenticated" />
     <grant role="bungeni.Owner" principal="zope.Authenticated" />
     <grant role="bungeni.Minister" principal="zope.Authenticated" />
@@ -16,8 +18,8 @@
     <grant role="bungeni.Everybody" principal="zope.anybody" />
    
     <grant permission="bungeni.question.add" role="bungeni.MP" />
-    <grant permission="bungeni.question.edit" role="bungeni.Owner" />
-    <grant permission="bungeni.question.delete" role="bungeni.Owner" />
+    <!--grant permission="bungeni.question.edit" role="bungeni.Owner" />
+    <grant permission="bungeni.question.delete" role="bungeni.Owner" /-->
     <grant permission="bungeni.question.view" role="bungeni.Owner" />
       
     <grant permission="bungeni.motion.add" role="bungeni.MP" />
@@ -26,8 +28,8 @@
     <grant permission="bungeni.motion.view" role="bungeni.Owner" />
     
     <grant permission="bungeni.response.add" role="bungeni.Minister" />
-    <grant permission="bungeni.response.edit" role="bungeni.Owner" />
-    <grant permission="bungeni.response.delete" role="bungeni.Owner" />
+    <!--grant permission="bungeni.response.edit" role="bungeni.Owner" />
+    <grant permission="bungeni.response.delete" role="bungeni.Owner" /-->
     <grant permission="bungeni.response.view" role="bungeni.Everybody" />
      
     <grant permission="bungeni.parliament.add" role="bungeni.Clerk" />

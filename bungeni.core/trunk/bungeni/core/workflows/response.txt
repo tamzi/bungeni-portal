@@ -194,6 +194,7 @@ reviewing the response triggers a workflow transition of the question
   >>> transitions(question)
   ()
 
+cleanup  
   >>> session.flush()
-  
+  >>> session.commit() 
 

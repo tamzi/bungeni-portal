@@ -51,7 +51,37 @@ class states:
 # roles and permissions to the workflowed object
 #
 
+# you may get all transition_ids by calling
+# wf =  bungeni.core.workflows.question.QuestionWorkflow()
+# wf.__dict__['_id_transitions'].keys()      
+#
+#'defer', 'withdraw-admissible', 'send-ministry', 'respond-writing', 'postponed-ministry', 
+#'withdraw-submitted', 'withdraw-complete', 'require-edit-by-mp', 'withdraw-scheduled', 
+#'withdraw-postponed', 'defer-ministry', 'elapse-pending', 'create', 'require-amendment', 
+#'reject', 'make-private', 'received-by-clerk', 'postpone', 'withdraw-amend', 'complete', 
+#'schedule', 'complete-clarify', 'respond-sitting', 'answer', 'elapse-postponed', 
+#'submit-to-clerk', 'elapse-defered', 'withdraw-deferred', 'schedule-postponed', 
+#'schedule-deferred', 're-draft', 'mp-clarify', 'withdraw-received', 'approve', 'resubmit-clerk'
+
+
+def denyAllWrites(question):
+    """
+    remove all rights to change the question from all involved roles
+    """
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
+    rpm.denyPermissionToRole( 'bungeni.question.edit', u'bungeni.Owner' )
+    rpm.denyPermissionToRole( 'bungeni.question.edit', u'bungeni.Clerk' )
+    rpm.denyPermissionToRole( 'bungeni.question.edit', u'bungeni.Speaker' )
+    rpm.denyPermissionToRole( 'bungeni.question.edit', u'bungeni.MP' )
+    rpm.denyPermissionToRole( 'bungeni.question.delete', u'bungeni.Owner' )
+    rpm.denyPermissionToRole( 'bungeni.question.delete', u'bungeni.Clerk' )
+    rpm.denyPermissionToRole( 'bungeni.question.delete', u'bungeni.Speaker' )
+    rpm.denyPermissionToRole( 'bungeni.question.delete', u'bungeni.MP' )    
+
 def create(info,context):
+    """
+    create a question -> state.draft, grant all rights to owner
+    """
     utils.setQuestionDefaults(info, context)
     user_id = utils.getUserId()
     if not user_id:
@@ -59,12 +89,26 @@ def create(info,context):
     zope.securitypolicy.interfaces.IPrincipalRoleMap( context ).assignRoleToPrincipal( u'bungeni.Owner', user_id) 
         
 def makePrivate(info,context):
+    """
+    a question that is not being asked
+    """
     pass
 
 def reDraft(info, context):
+    """
+    
+    """
     pass
 
+
+#def resubmitClerk(info,context):
+#    submitToClerk(info,context)
+
 def submitToClerk(info,context):      
+    """
+    a question submitted to the clerks office, the owner cannot edit it anymore
+    the clerk has no edit rights until it is recieved
+    """
     utils.setSubmissionDate(info, context)
     question = removeSecurityProxy(context)
     rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
@@ -74,18 +118,205 @@ def submitToClerk(info,context):
      
     
 def recievedByClerk( info, context ):
+    """
+    the question is recieved by the clerks office, 
+    the clerk can edit the question
+    """
     utils.createVersion(info, context)   
     question = removeSecurityProxy(context)     
     zope.securitypolicy.interfaces.IRolePermissionMap( question ).grantPermissionToRole( 'bungeni.question.edit', u'bungeni.Clerk' )
 
 def withdraw( info, context ):
+    """
+    a question can be withdrawn by the owner, it is than visible to
+    and cannot be edited by anyone
+    """
+    question = removeSecurityProxy(context)
+    denyAllWrites(question)
+
+#def withdrawAdmissible(info,context):
+#   withdraw( info, context )
+#def withdrawSubmitted(info,context):
+#    withdraw
+#def withdrawComplete(info,context):
+#   withdraw( info, context )
+#def withdrawAmend(info,context):
+#   withdraw( info, context )
+#def withdrawDeferred(info,context):
+#   withdraw( info, context )
+#def withdrawReceived(info,context):
+#    pass
+#def withdrawScheduled(info,context):
+#   withdraw( info, context )
+#def withdrawPostponed(info,context):
+#   withdraw( info, context )
+
+
+def elapse(info,context):
+    """
+    A question that could not be answered or debated, 
+    it is visible to ... and cannot be edited
+    """
+    question = removeSecurityProxy(context)
+    denyAllWrites(question)
+    
+#def elapsePending(info,context):
+#    elapse
+#def elapsePostponed(info,context):
+#    pass
+#def elapseDefered(info,context):
+#    elapse
+
+def defer(info,context):
+    """
+    A question that cannot be debated it is available for scheduling
+    but cannot be edited
+    """
+    pass
+#def deferMinistry(info,context):
+#    utils.setMinistrySubmissionDate(info, context)
+
+
+def sendToMinistry(info,context):
+    """
+    A question sent to a ministry for a written answer, 
+    it cannot be edited, the ministry can add a written response
+    """
+    utils.setMinistrySubmissionDate(info,context)
+    question = removeSecurityProxy(context)
+    denyAllWrites(question)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
+    rpm.grantPermissionToRole( 'bungeni.response.add', u'bungeni.Minister' )
+    
+#def postponedMinistry(info,context):
+#    pass    
+    
+def respondWriting(info,context):
+    """
+    A written response from a ministry
+    """
+    pass
+
+
+def requireEditByMp(info,context):
+    """
+    A question is unclear and requires edits/amendments by the MP
+    Only the MP is able to edit it, the clerks office looses edit rights
+    """
+    utils.createVersion(info,context)
     question = removeSecurityProxy(context)
     rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
-    rpm.denyPermissionToRole( 'bungeni.question.edit', u'bungeni.Owner' )
-    rpm.denyPermissionToRole( 'bungeni.question.edit', u'bungeni.Clerk' )
+    rpm.grantPermissionToRole( 'bungeni.question.edit', u'bungeni.Owner' )
+    rpm.denyPermissionToRole( 'bungeni.question.edit', u'bungeni.Clerk' )   
+    
+
+    
+def requireAmendment(info,context):
+    """
+    A question is send back from the speakers office 
+    the clerks office for clarification
+    """
+    utils.createVersion(info,context)
+    question = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
+    rpm.grantPermissionToRole( 'bungeni.question.edit', u'bungeni.Clerk' )
+    rpm.denyPermissionToRole( 'bungeni.question.edit', u'bungeni.Speaker' )   
+    
+def reject(info,context):
+    """
+    A question that is not admissible, 
+    Nobody is allowed to edit it
+    """
+    question = removeSecurityProxy(context)
+    denyAllWrites(question)
+    
+def postpone(info,context):
+    """
+    A question that was scheduled but could not be debated,
+    it is available for rescheduling.
+    """
+    utils.setQuestionScheduleHistory(info,context)
+    pass
+
+def complete(info,context):
+    """
+    A question is marked as complete by the clerks office, 
+    it is available to the speakers office for review
+    """
+    utils.createVersion(info,context)
+    question = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
+    rpm.grantPermissionToRole( 'bungeni.question.view', u'bungeni.Speaker' )
+    rpm.denyPermissionToRole( 'bungeni.question.edit', u'bungeni.Clerk' )     
+    
+    
+    
+def schedule(info,context):
+    """
+    the question gets scheduled no one can edit the question
+    """
+    question = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
     rpm.denyPermissionToRole( 'bungeni.question.edit', u'bungeni.Speaker' )
     
+
+#def schedulePostponed(info,context):
+#    schedule
+#def scheduleDeferred(info,context):
+#    schedule
+
+def completeClarify(info,context):
+    """
+    a question that requires clarification/amendmends
+    is  resubmitted by the clerks office to the speakers office
+    """
+    utils.createVersion(info,context)
+    question = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
+    rpm.grantPermissionToRole( 'bungeni.question.view', u'bungeni.Speaker' )
+    rpm.denyPermissionToRole( 'bungeni.question.edit', u'bungeni.Clerk' ) 
     
+def respondSitting(info,context):
+    """
+    A question was debated, the question cannot be edited, 
+    the clerks office can add a response
+    """
+    question = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )    
+    rpm.grantPermissionToRole( 'bungeni.response.add', u'bungeni.Clerk' )
+    
+def answer(info,context):
+    """
+    the response was reviewed by the clerks office, 
+    the question is visible 
+    """
+    pass
+
+def mpClarify(info,context):
+    """
+    send from the clerks office to the mp for clarification 
+    the MP can edit it the clerk cannot
+    """
+    utils.createVersion(info,context)
+    question = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
+    rpm.grantPermissionToRole( 'bungeni.question.edit', u'bungeni.Owner' )
+    rpm.denyPermissionToRole( 'bungeni.question.edit', u'bungeni.Clerk' ) 
+        
+    
+def approve(info,context):
+    """
+    the question is admissible and can be send to ministry,
+    or is available for scheduling in a sitting
+    """
+    question = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )    
+    rpm.grantPermissionToRole( 'bungeni.question.edit', u'bungeni.Speaker' )
+    utils.setApprovalDate(info,context)
+   
+
+
+
 
 
 
@@ -99,8 +330,7 @@ def create_question_workflow( ):
         title='Create',
         trigger = iworkflow.AUTOMATIC,
         source = None,        
-        action = create, 
-        #action = utils.setQuestionDefaults,        
+        action = create,               
         destination = states.draft,
         #permission = "bungeni.question.Create",
         ) )
@@ -156,7 +386,8 @@ def create_question_workflow( ):
         transition_id = 'require-edit-by-mp',
         title=_(u'Needs Clarification by MP'),
         source = states.received,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL,   
+        action = requireEditByMp,             
         destination = states.clarify_mp,
         permission = 'bungeni.question.clerk.Review',        
         ) )   
@@ -185,7 +416,8 @@ def create_question_workflow( ):
         transition_id = 'complete',
         title=_(u'Complete'),
         source = states.received,
-        trigger = iworkflow.MANUAL, 
+        trigger = iworkflow.MANUAL,
+        action = complete, 
         destination = states.complete,
         permission = 'bungeni.question.clerk.Review',        
         ) ) 
@@ -203,7 +435,7 @@ def create_question_workflow( ):
         title=_(u'Approve'),
         source = states.complete,
         trigger = iworkflow.MANUAL, 
-        action = utils.setApprovalDate,                                     
+        action = approve,                                     
         destination = states.admissible,
         permission = 'bungeni.question.speaker.Review',        
         ) )     
@@ -212,7 +444,8 @@ def create_question_workflow( ):
         transition_id = 'reject',
         title=_(u'Reject'),
         source = states.complete,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL,     
+        action=reject,           
         destination = states.inadmissible,
         permission = 'bungeni.question.speaker.Review',        
         ) )    
@@ -222,7 +455,7 @@ def create_question_workflow( ):
         title=_(u'Needs Clarification'),
         source = states.complete,
         trigger = iworkflow.MANUAL,                
-        action = utils.createVersion,        
+        action = requireAmendment,        
         destination = states.clarify_clerk,
         permission = 'bungeni.question.speaker.Review',        
         ) )                    
@@ -234,7 +467,8 @@ def create_question_workflow( ):
         transition_id = 'complete-clarify',
         title=_(u'Complete'),
         source = states.clarify_clerk,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL,   
+        action = completeClarify,             
         destination = states.complete,
         permission = 'bungeni.question.clerk.Review',        
         ) )     
@@ -244,7 +478,8 @@ def create_question_workflow( ):
         transition_id = 'mp-clarify',
         title=_(u'Needs Clarification by MP'),
         source = states.clarify_clerk,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL,
+        action = mpClarify,                
         destination = states.clarify_mp,
         permission = 'bungeni.question.clerk.Review',        
         ) )         
@@ -257,7 +492,7 @@ def create_question_workflow( ):
         title=_(u'Resubmit to clerk'),
         source = states.clarify_mp,
         trigger = iworkflow.MANUAL,                
-        action = utils.setSubmissionDate,
+        action = submitToClerk,
         destination = states.submitted,
         permission = 'bungeni.question.Submit',       
         ) )          
@@ -276,6 +511,7 @@ def create_question_workflow( ):
         #trigger = iworkflow. , #triggered by scheduling ?        
         source = states.admissible,
         trigger = iworkflow.MANUAL,                
+        action = schedule,
         destination = states.scheduled,
         permission = 'bungeni.question.Schedule',        
         ) )         
@@ -289,7 +525,7 @@ def create_question_workflow( ):
         source = states.admissible,
         trigger = iworkflow.MANUAL,   
         condition = utils.getQuestionMinistry,    
-        action = utils.setMinistrySubmissionDate,                
+        action = sendToMinistry,               
         destination = states.response_pending,
         permission = 'bungeni.question.Schedule',        
         ) )  
@@ -299,7 +535,8 @@ def create_question_workflow( ):
         transition_id = 'respond-writing',
         title=_(u'Respond'),
         source = states.response_pending,
-        trigger = iworkflow.SYSTEM,                
+        trigger = iworkflow.SYSTEM,   
+        action = respondWriting,             
         destination = states.responded,
         permission = 'bungeni.question.write_answer',        
         ) )         
@@ -309,6 +546,7 @@ def create_question_workflow( ):
         title=_(u'Elapse'),
         source = states.response_pending,
         trigger = iworkflow.MANUAL,                
+        action = elapse,
         destination = states.elapsed,
         permission = 'bungeni.question.write_answer',        
         ) )            
@@ -322,6 +560,7 @@ def create_question_workflow( ):
         title=_(u'Defer'),
         source = states.admissible,
         trigger = iworkflow.MANUAL,                
+        action = defer,
         destination = states.deferred,
         permission = 'bungeni.question.Schedule',        
         ) )  
@@ -331,6 +570,7 @@ def create_question_workflow( ):
         title=_(u'Elapse'),
         source = states.deferred,
         trigger = iworkflow.MANUAL,                
+        action = elapse,
         destination = states.elapsed,
         permission = 'bungeni.question.Schedule',        
         ) )  
@@ -344,7 +584,7 @@ def create_question_workflow( ):
         title=_(u'Send to ministry'),
         source = states.deferred,
         trigger = iworkflow.MANUAL,        
-        action = utils.setMinistrySubmissionDate,         
+        action = sendToMinistry,         
         condition = utils.getQuestionMinistry,                   
         destination = states.response_pending,
         permission = 'bungeni.question.Schedule',        
@@ -358,6 +598,7 @@ def create_question_workflow( ):
         source = states.deferred,
         #trigger = iworkflow. , #triggered by scheduling ?                
         trigger = iworkflow.MANUAL,                
+        action = schedule,
         destination = states.scheduled,
         permission = 'bungeni.question.Schedule',        
         ) )  
@@ -371,7 +612,7 @@ def create_question_workflow( ):
         title=_(u'Postpone'),
         source = states.scheduled,
         trigger = iworkflow.MANUAL, 
-        action = utils.setQuestionScheduleHistory,
+        action = postpone,
         destination = states.postponed,
         permission = 'bungeni.question.Schedule',        
         ) )      
@@ -381,6 +622,7 @@ def create_question_workflow( ):
         title=_(u'Respond'),
         source = states.scheduled,
         trigger = iworkflow.MANUAL,                
+        action = respondSitting,
         destination = states.responded,
         permission = 'bungeni.question.Respond',        
         ) )      
@@ -391,7 +633,8 @@ def create_question_workflow( ):
         transition_id = 'schedule-postponed',
         title=_(u'Schedule'),
         source = states.postponed,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL,            
+        action = schedule,    
         destination = states.scheduled,        
         permission = 'bungeni.question.Schedule',        
         ) )      
@@ -402,7 +645,8 @@ def create_question_workflow( ):
         transition_id = 'elapse-postponed',
         title=_(u'Elapse'),
         source = states.postponed,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL,  
+        action = elapse,              
         destination = states.elapsed,        
         permission = 'bungeni.question.Schedule',        
         ) )    
@@ -413,7 +657,7 @@ def create_question_workflow( ):
         transition_id = 'postponed-ministry',
         title=_(u'Send to Ministry'),
         source = states.postponed,
-        action = utils.setMinistrySubmissionDate,
+        action = sendToMinistry,
         condition = utils.getQuestionMinistry ,                           
         trigger = iworkflow.MANUAL,                
         destination = states.response_pending,        
@@ -428,6 +672,7 @@ def create_question_workflow( ):
         title=_(u'Answer'),
         source = states.responded,
         trigger = iworkflow.SYSTEM,                
+        action=answer,
         destination = states.answered,
         permission = 'bungeni.question.Answer',        
         ) )       
@@ -449,7 +694,8 @@ def create_question_workflow( ):
         transition_id = 'withdraw-submitted',
         title=_(u'Withdraw'),
         source = states.submitted,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL,         
+        action = withdraw,       
         destination = states.withdrawn,
         permission = 'bungeni.question.Withdraw',        
         ) )   
@@ -459,6 +705,7 @@ def create_question_workflow( ):
         title=_(u'Withdraw'),
         source = states.received,
         trigger = iworkflow.MANUAL,                
+        action = withdraw,
         destination = states.withdrawn,
         permission = 'bungeni.question.Withdraw',        
         ) )   
@@ -467,6 +714,7 @@ def create_question_workflow( ):
         title=_(u'Withdraw'),
         source = states.complete,
         trigger = iworkflow.MANUAL,                
+        action = withdraw,
         destination = states.withdrawn,
         permission = 'bungeni.question.Withdraw',        
         ) )   
@@ -475,6 +723,7 @@ def create_question_workflow( ):
         title=_(u'Withdraw'),
         source = states.admissible,
         trigger = iworkflow.MANUAL,                
+        action = withdraw,
         destination = states.withdrawn,
         permission = 'bungeni.question.Withdraw',        
         ) )   
@@ -483,6 +732,7 @@ def create_question_workflow( ):
         title=_(u'Withdraw'),
         source = states.clarify_mp,
         trigger = iworkflow.MANUAL,                
+        action = withdraw,
         destination = states.withdrawn,
         permission = 'bungeni.question.Withdraw',        
         ) )                           
@@ -491,6 +741,7 @@ def create_question_workflow( ):
         title=_(u'Withdraw'),
         source = states.scheduled,
         trigger = iworkflow.MANUAL,                
+        action = withdraw,
         destination = states.withdrawn,
         permission = 'bungeni.question.Withdraw',        
         ) )   
@@ -500,6 +751,7 @@ def create_question_workflow( ):
         source = states.deferred,
         trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
+        action = withdraw,
         permission = 'bungeni.question.Withdraw',        
         ) )   
     add( workflow.Transition(
@@ -507,6 +759,7 @@ def create_question_workflow( ):
         title=_(u'Withdraw'),
         source = states.postponed,
         trigger = iworkflow.MANUAL,                
+        action = withdraw,
         destination = states.withdrawn,
         permission = 'bungeni.question.Withdraw',        
         ) )   

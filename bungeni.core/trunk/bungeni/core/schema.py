@@ -595,7 +595,7 @@ questions = rdb.Table(
    rdb.Column( "subject", rdb.Unicode(80)),#, nullable=False ),
    rdb.Column( "question_text", rdb.UnicodeText),#, nullable=False ),
    # Workflow State
-   rdb.Column( "status", rdb.Unicode(32) ),
+   rdb.Column( "status", rdb.Unicode(48) ),
    # the cerks office or speakers office may add a recommendation note
    rdb.Column( "note", rdb.UnicodeText),
    # if this is a supplementary question, this is the original/previous question

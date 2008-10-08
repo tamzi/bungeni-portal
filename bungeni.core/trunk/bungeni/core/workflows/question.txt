@@ -96,20 +96,37 @@ Security Adapters
   ...    (bungeni.core.interfaces.IBungeniContent,))
 
 
+In order to create a participation, we need a principal:
 
-  >>> from zope.security.interfaces import IPrincipal
-  >>> from zope.interface import implements
+  >>> import zope.security.interfaces
+  >>> import zope.interface 
   >>> class Bob:
-  ...     implements(IPrincipal)
+  ...     zope.interface.implements(zope.security.interfaces.IPrincipal)
   ...     id = 'bob'
   ...     title = description = ''
   >>> bob = Bob()
 
+Now we can create a participation:
+
+  >>> import zope.publisher.interfaces
+  >>> class Participation(object):
+  ...     zope.interface.implements(
+  ...         zope.security.interfaces.IParticipation,
+  ...         zope.publisher.interfaces.IRequest)
+  ...     interaction = principal = None
+  ...
+  ...     def __init__(self, principal):
+  ...         self.principal = principal
+  ...
+  ...     def __repr__(self):
+  ...         return '<%s %r>' %(self.__class__.__name__, self.principal)
+
+
+  >>> import zope.securitypolicy.interfaces
+
   >>> from zope.publisher.browser import TestRequest
   >>> from zope.app.security.interfaces import IUnauthenticatedPrincipal  
   >>> from zope.app.security.principalregistry import UnauthenticatedPrincipal
-  >>> request = TestRequest()
-  >>> request.setPrincipal(bob)
 
   
 
@@ -163,8 +180,6 @@ meeting of the group by the system.
  >>> session.flush()   
  
  
-   
-
     
   
 Transition events
@@ -213,6 +228,16 @@ Add question to db
   >>> session.save(question)
   >>> session.flush()
 
+set up a security mapping
+#XXX permisssion as yet untested 
+
+  >>> rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
+ 
+  >>> import zope.security.management
+  >>> #zope.security.management.endInteraction()
+  >>> #zope.security.management.newInteraction(Participation(bob))
+ 
+  
 First we initialize the workflow.
   
   >>> transitions(question)
@@ -240,8 +265,11 @@ The question is now in a draft state.
 
 The Question can be made a private draft
 
-  >>> result = IWorkflowInfo(question).fireTransition('make-private')
+ 
+  >>> rpm.grantPermissionToRole( u'bungeni.question.Submit', Bob.id )
   
+  >>> result = IWorkflowInfo(question).fireTransition('make-private')
+    
   >>> transitions(question)
   ('re-draft',)  
 
@@ -615,4 +643,5 @@ Transition events check
 cleanup
 -------
   >>> session.flush()
+  >>> session.commit()
   

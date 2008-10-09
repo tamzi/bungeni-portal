@@ -81,12 +81,15 @@ def denyAllWrites(question):
 def create(info,context):
     """
     create a question -> state.draft, grant all rights to owner
+    deny right to add supplementary questions.
     """
     utils.setQuestionDefaults(info, context)
     user_id = utils.getUserId()
     if not user_id:
         user_id ='-'
-    zope.securitypolicy.interfaces.IPrincipalRoleMap( context ).assignRoleToPrincipal( u'bungeni.Owner', user_id) 
+    zope.securitypolicy.interfaces.IPrincipalRoleMap( context ).assignRoleToPrincipal( u'bungeni.Owner', user_id)     
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( context )    
+    rpm.denyPermissionToRole( 'bungeni.question.add', u'bungeni.MP' )
         
 def makePrivate(info,context):
     """
@@ -186,7 +189,9 @@ def sendToMinistry(info,context):
     question = removeSecurityProxy(context)
     denyAllWrites(question)
     rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
+    #XXX this should be assigned to a specific ministry group
     rpm.grantPermissionToRole( 'bungeni.response.add', u'bungeni.Minister' )
+    rpm.grantPermissionToRole( 'bungeni.response.view', u'bungeni.Minister' )
     
 #def postponedMinistry(info,context):
 #    pass    
@@ -236,6 +241,10 @@ def postpone(info,context):
     it is available for rescheduling.
     """
     utils.setQuestionScheduleHistory(info,context)
+    question = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )  
+    rpm.denyPermissionToRole( 'bungeni.response.add', u'bungeni.Clerk' )
+    rpm.denyPermissionToRole( 'bungeni.response.view', u'bungeni.Clerk' )        
     pass
 
 def complete(info,context):
@@ -253,12 +262,14 @@ def complete(info,context):
     
 def schedule(info,context):
     """
-    the question gets scheduled no one can edit the question
+    the question gets scheduled no one can edit the question,
+    a response may be added
     """
     question = removeSecurityProxy(context)
     rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
     rpm.denyPermissionToRole( 'bungeni.question.edit', u'bungeni.Speaker' )
-    
+    rpm.grantPermissionToRole( 'bungeni.response.add', u'bungeni.Clerk' )
+    rpm.grantPermissionToRole( 'bungeni.response.view', u'bungeni.Clerk' )    
 
 #def schedulePostponed(info,context):
 #    schedule
@@ -284,14 +295,19 @@ def respondSitting(info,context):
     question = removeSecurityProxy(context)
     rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )    
     rpm.grantPermissionToRole( 'bungeni.response.add', u'bungeni.Clerk' )
+    rpm.grantPermissionToRole( 'bungeni.response.view', u'bungeni.Clerk' )
     
 def answer(info,context):
     """
     the response was reviewed by the clerks office, 
-    the question is visible 
+    the question is visible, if the question was a written question
+    supplementary question now can be asked. 
     """
-    pass
-
+    question = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question ) 
+    rpm.grantPermissionToRole( 'bungeni.question.add', u'bungeni.MP' )
+    rpm.grantPermissionToRole( 'bungeni.question.view', u'bungeni.Everybody' )
+    
 def mpClarify(info,context):
     """
     send from the clerks office to the mp for clarification 
@@ -671,7 +687,8 @@ def create_question_workflow( ):
         transition_id = 'answer',
         title=_(u'Answer'),
         source = states.responded,
-        trigger = iworkflow.SYSTEM,                
+        #trigger = iworkflow.SYSTEM,
+        trigger = iworkflow.MANUAL,                
         action=answer,
         destination = states.answered,
         permission = 'bungeni.question.Answer',        

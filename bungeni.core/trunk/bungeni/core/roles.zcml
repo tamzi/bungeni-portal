@@ -18,8 +18,8 @@
     <grant role="bungeni.Everybody" principal="zope.anybody" />
    
     <grant permission="bungeni.question.add" role="bungeni.MP" />
-    <!--grant permission="bungeni.question.edit" role="bungeni.Owner" />
-    <grant permission="bungeni.question.delete" role="bungeni.Owner" /-->
+    <grant permission="bungeni.question.edit" role="bungeni.Owner" />
+    <grant permission="bungeni.question.delete" role="bungeni.Owner" />
     <grant permission="bungeni.question.view" role="bungeni.Owner" />
       
     <grant permission="bungeni.motion.add" role="bungeni.MP" />

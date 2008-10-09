@@ -12,6 +12,29 @@ import bungeni.core.workflows.utils as utils
 
 from bungeni.core.i18n import _
 
+def create( info, context ):
+    """
+    on creation the owner is given edit and view rights
+    """
+    pass
+    
+def submit( info, context ):   
+    """
+    the response is submitted to the clerks office for review
+    the clerks offic can edit the response, the owner looses
+    his edit rights.
+    """
+    utils.submitResponse(info,context)
+    pass
+    
+def complete( info, context ):
+    """
+    the response was reviewed and finalized by the clerks 
+    office, it is now published.    
+    """
+    utils.publishResponse(info,context)
+    pass    
+
 class states:
     draft = _(u"draft response") # a draft response of a Ministry
     submitted = _(u"response submitted") # response submitted to clerks office for review
@@ -26,7 +49,7 @@ def create_response_workflow( ):
         title='Create',
         trigger = iworkflow.AUTOMATIC,
         source = None,
- #       action = utils.setResponseDefaults,        
+        action = create,        
         destination = states.draft,
         #permission = "bungeni.response.Create",
         ) )
@@ -35,7 +58,7 @@ def create_response_workflow( ):
         transition_id = 'submit',
         title=_(u'Submit Response'),
         source = states.draft,
-        action = utils.submitResponse,
+        action = submit,
         trigger = iworkflow.MANUAL,        
         destination = states.submitted,
         permission = 'bungeni.response.Submit',
@@ -45,7 +68,7 @@ def create_response_workflow( ):
         transition_id = 'complete',
         title=_(u'Complete Response'),
         source = states.submitted,
-        action = utils.publishResponse,
+        action = complete,
         trigger = iworkflow.MANUAL,        
         destination = states.complete,
         permission = 'bungeni.response.Complete',

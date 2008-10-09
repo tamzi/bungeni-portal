@@ -493,7 +493,7 @@
       manager=".interfaces.ISubFormViewletManager"
       class=".subforms.ResponseViewlet"
       for="bungeni.core.interfaces.IQuestion"
-      permission="zope.View"
+      permission="bungeni.response.view"
       weight="10"
       />      
 
@@ -502,7 +502,7 @@
       manager=".interfaces.ISubFormViewletManager"
       class=".subforms.SupplementaryQuestionsViewlet"
       for="bungeni.core.interfaces.IQuestion"
-      permission="zope.View"
+      permission="bungeni.question.view"
       weight="20"
       />           
 
@@ -511,7 +511,7 @@
       manager=".interfaces.ISubFormViewletManager"
       class=".subforms.InitialQuestionsViewlet"
       for="bungeni.core.interfaces.IQuestion"
-      permission="zope.View"
+      permission="bungeni.question.view"
       weight="5"
       />      
 
@@ -523,7 +523,7 @@
       name="add"
       for="bungeni.core.interfaces.IQuestionContainer"
       class=".forms.QuestionAdd"              
-      permission="zope.View"
+      permission="bungeni.question.add"
       />          
       
       
@@ -533,7 +533,7 @@
       manager="alchemist.ui.interfaces.IContentEditManager"
       class=".forms.QuestionEdit"
       for="bungeni.core.interfaces.IQuestion"
-      permission="zope.View"
+      permission="bungeni.question.edit"
       allowed_interface="zope.formlib.interfaces.ISubPageForm"      
       />         
       

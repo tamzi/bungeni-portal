@@ -84,10 +84,17 @@ class Archive(QuestionsListingViewletBase):
     
     def query(self):
         searcher = component.getUtility(IIndexSearch)()
-
-        draft = searcher.query_field('status', states.draft)
-        all = searcher.query_all()
         
+        query_status = searcher.query_field('status',  states.draft)
+        query_type = searcher.query_field('object_type', 'Question')
+
+
+        #draft = searcher.query_field('status', states.draft)
+        draft =  searcher.query_composite( searcher.OP_AND, [query_status, query_type] ) 
+        
+        
+        #all = searcher.query_all()
+        all = searcher.query_field('object_type', 'Question')
         query = searcher.query_filter(all, draft, exclude=True)        
         brains = searcher.search(query, 0, self.count)
 

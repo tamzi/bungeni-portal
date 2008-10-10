@@ -34,7 +34,7 @@ class states:
                                   # to be send to ministry for written response
     inadmissible = _(u"inadmissible Question") # rejected by speakers office
     clarify_mp = _(u"Question needs MP clarification") # clerks office needs clarification by MP
-    clarify_clerk = _("Question needs Clerks clarification") # speakers office needs clarification by clerks office
+    clarify_clerk = _(u"Question needs Clerks clarification") # speakers office needs clarification by clerks office
     scheduled =_(u"Question scheduled") # is scheduled for debate at a sitting
     response_pending = _(u"Question pending response") # ministry has to write a response
     deferred = _(u"Question deferred") # admissable question that cannot be debated 
@@ -307,6 +307,7 @@ def answer(info,context):
     rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question ) 
     rpm.grantPermissionToRole( 'bungeni.question.add', u'bungeni.MP' )
     rpm.grantPermissionToRole( 'bungeni.question.view', u'bungeni.Everybody' )
+    rpm.grantPermissionToRole( 'bungeni.response.view',  u'bungeni.Everybody' )
     
 def mpClarify(info,context):
     """
@@ -637,7 +638,7 @@ def create_question_workflow( ):
         transition_id = 'respond-sitting',
         title=_(u'Respond'),
         source = states.scheduled,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.SYSTEM,        
         action = respondSitting,
         destination = states.responded,
         permission = 'bungeni.question.Respond',        
@@ -687,8 +688,7 @@ def create_question_workflow( ):
         transition_id = 'answer',
         title=_(u'Answer'),
         source = states.responded,
-        #trigger = iworkflow.SYSTEM,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.SYSTEM,        
         action=answer,
         destination = states.answered,
         permission = 'bungeni.question.Answer',        

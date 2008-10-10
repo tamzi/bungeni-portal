@@ -71,7 +71,10 @@ def submitResponse( info, context ):
 
     instance = removeSecurityProxy(context)
     question = dbutils.getQuestion(instance.response_id)
-    IWorkflowInfo(question).fireTransition('respond-writing')
+    if question.status == u"Question pending response":   
+        IWorkflowInfo(question).fireTransition('respond-writing')
+    if question.status ==  u"Question scheduled":
+        IWorkflowInfo(question).fireTransition('respond-sitting')
 
 def publishResponse( info, context ):
     """

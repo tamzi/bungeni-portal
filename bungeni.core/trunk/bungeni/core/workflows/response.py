@@ -3,6 +3,8 @@ from zope import interface
 from zope import component
 from zope.event import notify
 from zope.component.interfaces import ObjectEvent
+from zope.security.proxy import removeSecurityProxy
+import zope.securitypolicy.interfaces
 
 from ore.workflow import interfaces as iworkflow
 from ore.workflow import workflow
@@ -16,7 +18,11 @@ def create( info, context ):
     """
     on creation the owner is given edit and view rights
     """
-    pass
+    user_id = utils.getUserId()
+    if not user_id:
+        user_id ='-'    
+    zope.securitypolicy.interfaces.IPrincipalRoleMap( context ).assignRoleToPrincipal( u'bungeni.Owner', user_id)     
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( context )    
     
 def submit( info, context ):   
     """
@@ -25,7 +31,13 @@ def submit( info, context ):
     his edit rights.
     """
     utils.submitResponse(info,context)
-    pass
+    response = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( response )
+    rpm.grantPermissionToRole( 'bungeni.response.view', u'bungeni.Clerk' )
+    rpm.grantPermissionToRole( 'bungeni.response.edit', u'bungeni.Clerk' )    
+    rpm.denyPermissionToRole( 'bungeni.response.edit', u'bungeni.Owner' )
+    rpm.denyPermissionToRole( 'bungeni.response.delete', u'bungeni.Owner' )
+
     
 def complete( info, context ):
     """
@@ -33,7 +45,11 @@ def complete( info, context ):
     office, it is now published.    
     """
     utils.publishResponse(info,context)
-    pass    
+    response = removeSecurityProxy(context)    
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( response )
+    rpm.grantPermissionToRole( 'bungeni.response.view', u'bungeni.Everybody' )     
+    rpm.denyPermissionToRole( 'bungeni.response.edit', u'bungeni.Clerk' )       
+
 
 class states:
     draft = _(u"draft response") # a draft response of a Ministry

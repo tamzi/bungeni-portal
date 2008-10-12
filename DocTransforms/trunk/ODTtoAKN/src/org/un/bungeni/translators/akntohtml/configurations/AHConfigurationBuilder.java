@@ -1,14 +1,12 @@
 package org.un.bungeni.translators.akntohtml.configurations;
 
 import java.io.IOException;
-import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.un.bungeni.translators.odttoakn.steps.XSLTStep;
 import org.un.bungeni.translators.xpathresolver.XPathResolver;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -94,6 +92,7 @@ public class AHConfigurationBuilder
 			//the element in which the matching pattern will be transformed to 
 			Element newNode = emptyMiniXSLT.createElement(element.getAttributes().getNamedItem("name").getNodeValue());
 			
+			System.out.println(newNode.toString());
 		}	
 		
 	}

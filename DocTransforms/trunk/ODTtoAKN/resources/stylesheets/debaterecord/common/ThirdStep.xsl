@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.akomantoso.org/1.0" 
+<xsl:stylesheet
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
@@ -29,19 +29,114 @@
         <xsl:apply-templates/>
     </xsl:template>
     
-    <xsl:template match="*">
-        <xsl:element name="pappo">
-            <xsl:for-each select="@*">
-                <xsl:attribute name="{name(.)}">
-                    <xsl:value-of select="."/>
-                </xsl:attribute>
-            </xsl:for-each>
-            <xsl:apply-templates/>
-        </xsl:element>
-    </xsl:template> 
-	 	  
-    <xsl:template match="text()">
+	<xsl:template match="*">
+        <xsl:element name="{name()}">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+		    </xsl:for-each>
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
+<!--    <xsl:template match="text:section">
+        <xsl:element name="subdivision">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+		    </xsl:for-each>
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template> -->
+	
+	<xsl:template match="text:p">
+		<xsl:element name="p">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		       		<xsl:value-of select="."/>
+		       	</xsl:attribute>
+		   	</xsl:for-each>
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+	
+	<xsl:template match="text:p[contains(@text:style-name,'_title')]">
+		<xsl:choose>
+			<xsl:when test="./text:reference-mark-start[contains(@text:name,'BungeniQuestionNo')]">
+				<xsl:element name="num">
+					<xsl:for-each select="@*">
+				    	<xsl:attribute name="{name(.)}">
+				        	<xsl:value-of select="."/>
+				        </xsl:attribute>
+				    </xsl:for-each>
+					<xsl:apply-templates />
+				</xsl:element>    
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:element name="heading">
+					<xsl:for-each select="@*">
+				    	<xsl:attribute name="{name(.)}">
+				        	<xsl:value-of select="."/>
+				        </xsl:attribute>
+				    </xsl:for-each>
+					<xsl:apply-templates />
+				</xsl:element>    
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
+	<xsl:template match="text:p[contains(@text:style-name,'_subtitle')]">
+		<xsl:element name="subheading">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+		    </xsl:for-each>
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
+	<xsl:template match="text:h">
+		<xsl:element name="block">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+		   	</xsl:for-each>
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
+	<xsl:template match="text:h[contains(@text:style-name,'Heading_')]">
+		<xsl:element name="heading">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+		    </xsl:for-each>
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+	
+	<xsl:template match="text:span">
+		<xsl:element name="span">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+		    </xsl:for-each>
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+	
+	<xsl:template match="text:soft-page-break">
+		<eol />
+	</xsl:template>
+
+	<xsl:template match="text()">
         <xsl:value-of select="normalize-space(.)"/>
     </xsl:template>
-
+	
 </xsl:stylesheet>

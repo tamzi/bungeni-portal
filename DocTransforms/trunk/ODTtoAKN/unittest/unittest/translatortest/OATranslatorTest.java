@@ -19,7 +19,7 @@ import org.un.bungeni.translators.odttoakn.translator.Translator;
  * @author lucacervone
  *
  */
-public class TranslatorTest 
+public class OATranslatorTest 
 {
 	private Translator myTranslator;
 	/**

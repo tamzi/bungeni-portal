@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.akomantoso.org/1.0"
-				xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+<xsl:stylesheet xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 			    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 			    xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 			    xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
@@ -40,7 +39,7 @@
         </xsl:element>        
     </xsl:template>
 
-    <xsl:template match="subdivision[@text:name='debaterecord']">
+    <xsl:template match="text:section[@text:name='debaterecord']">
         <xsl:element name="{name()}">
             <xsl:for-each select="@*">
                 <xsl:attribute name="{name(.)}">
@@ -51,7 +50,7 @@
         </xsl:element>        
     </xsl:template>
 	
-    <xsl:template match="subdivision[@text:name='masthead']">
+    <xsl:template match="text:section[@text:name='masthead']">
         <xsl:element name="{name()}">
             <xsl:for-each select="@*">
                 <xsl:attribute name="{name(.)}">
@@ -68,7 +67,7 @@
 		  	</xsl:for-each>
         </xsl:element>
     </xsl:template>
-        
+      
 	<xsl:template match="text()">
     </xsl:template>
 	

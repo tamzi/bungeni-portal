@@ -4,15 +4,24 @@
 	<replacements>
 		<replacement step="1" name="replacerefmarkstart" pattern="&lt;text:reference-mark-start([^\/]+)/&gt;" replacement="&lt;ref$1&gt;" />
 		<replacement step="2" name="replacerefmarkend" pattern="&lt;text:reference-mark-end([^\/]+)/&gt;" replacement="&lt;/ref&gt;" />
-	<!--	<replacement step="3" replacement="">xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"</replacement> -->
+		<replacement step="3" name="replaceemptyp" pattern="&lt;text:p([^\/&gt;]+)/&gt;" replacement="" />
+		<replacement step="4" name="replaceemptyp" pattern="&lt;text:h([^\/&gt;]+)/&gt;" replacement="" />
+		<replacement step="5" name="replaceemptyp" pattern="&lt;text:span([^\/&gt;]+)/&gt;" replacement="" />
  	</replacements>
 	<stylesheets>
 		<input>
+			<!-- Extract the styles -->
 			<xslt step="1" name="firststep" href="resources/stylesheets/debaterecord/common/FirstStep.xsl" />
+			<!-- Insert the body of the debate -->
 			<xslt step="2" name="secondstep" href="resources/stylesheets/debaterecord/common/SecondStep.xsl" /> 
 		</input>
 		<output>
+			<!-- Translates the generic elements -->
 			<xslt step="1" name="thirdstep" href="resources/stylesheets/debaterecord/common/ThirdStep.xsl" /> 
+			<!-- Delete empty (useless) elements  -->
+			<xslt step="2" name="fourthstep" href="resources/stylesheets/debaterecord/common/FourthStep.xsl" /> 
+			<!-- Delete empty (useless) elements  -->
+			<xslt step="3" name="fifthstep" href="resources/stylesheets/debaterecord/common/FifthStep.xsl" /> 
 		</output>
 	</stylesheets>
 </config>

@@ -8,19 +8,27 @@
         <meta:initial-creator>roberta</meta:initial-creator>
         <meta:creation-date>2006-05-12T14:31:00</meta:creation-date>
         <dc:creator>ashok hariharan</dc:creator>
-        <dc:date>2008-09-24T10:48:27</dc:date>
-        <meta:editing-cycles>20</meta:editing-cycles>
-        <meta:editing-duration>P1DT0H17M40S</meta:editing-duration>
+        <dc:date>2008-10-07T14:29:43</dc:date>
+        <meta:editing-cycles>21</meta:editing-cycles>
+        <meta:editing-duration>P1DT0H36M1S</meta:editing-duration>
         <meta:user-defined meta:name="Info 1"/>
         <meta:user-defined meta:name="Info 2"/>
         <meta:user-defined meta:name="Info 3"/>
         <meta:user-defined meta:name="Info 4"/>
         <meta:user-defined meta:name="BungeniDocAuthor" meta:value-type="string">John Kamau</meta:user-defined>
         <meta:user-defined meta:name="BungeniDebateOfficalDate" meta:value-type="string">2000-05-02</meta:user-defined>
+        <meta:user-defined meta:name="BungeniDySpeaker" meta:value-type="string"
+            >userDySpeaker~ken.role.deputySpeaker</meta:user-defined>
         <meta:user-defined meta:name="BungeniParliamentSession" meta:value-type="string">23</meta:user-defined>
         <meta:user-defined meta:name="BungeniParliamentID" meta:value-type="string">36</meta:user-defined>
         <meta:user-defined meta:name="BungeniDebateOfficalTime" meta:value-type="string">14:30</meta:user-defined>
         <meta:user-defined meta:name="BungeniDocType" meta:value-type="string">debaterecord</meta:user-defined>
+        <meta:user-defined meta:name="BungeniSpeaker" meta:value-type="string"
+            >userSpeaker~ken.role.speaker</meta:user-defined>
+        <meta:user-defined meta:name="BungeniPerson_1" meta:value-type="string"
+            >userMwenje~ken.person.userMwenje</meta:user-defined>
+        <meta:user-defined meta:name="BungeniPerson_2" meta:value-type="string"
+            >userGatabaki~ken.person.userGatabaki</meta:user-defined>
         <meta:user-defined meta:name="BungeniParliamentSitting" meta:value-type="string">11</meta:user-defined>
         <meta:document-statistic meta:table-count="0" meta:image-count="0" meta:object-count="0"
             meta:page-count="4" meta:paragraph-count="85" meta:word-count="735"

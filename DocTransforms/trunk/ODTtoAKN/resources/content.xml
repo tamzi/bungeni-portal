@@ -317,21 +317,6 @@
             <style:paragraph-properties fo:text-align="center" style:justify-single-word="false"
                 style:page-number="69"/>
         </style:style>
-        <style:style style:name="P22" style:family="paragraph" style:parent-style-name="Standard">
-            <style:paragraph-properties style:line-height-at-least="0.1665in"
-                fo:text-align="justify" style:justify-single-word="false"
-                fo:hyphenation-ladder-count="no-limit">
-                <style:tab-stops>
-                    <style:tab-stop style:position="-0.5in"/>
-                </style:tab-stops>
-            </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB" fo:font-weight="bold"
-                style:font-size-asian="10pt" style:font-weight-asian="bold"
-                style:font-name-complex="Times New Roman" style:font-size-complex="10pt"
-                style:font-weight-complex="bold" fo:hyphenate="false"
-                fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
-        </style:style>
         <style:style style:name="T1" style:family="text">
             <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
                 fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB"
@@ -401,12 +386,6 @@
             </style:section-properties>
         </style:style>
         <style:style style:name="Sect9" style:family="section">
-            <style:section-properties BungeniSectionType="QuestionsContainer"
-                BungeniQuestionsContainerType="OralAnswersToQuestions" style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect10" style:family="section">
             <style:section-properties BungeniSectionType="QuestionAnswer"
                 BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
                 BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP"
@@ -414,7 +393,7 @@
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
-        <style:style style:name="Sect11" style:family="section">
+        <style:style style:name="Sect10" style:family="section">
             <style:section-properties BungeniSectionType="Question"
                 BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
                 BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP"
@@ -422,7 +401,7 @@
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
-        <style:style style:name="Sect12" style:family="section">
+        <style:style style:name="Sect11" style:family="section">
             <style:section-properties BungeniSectionType="Speech"
                 BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
                 BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP"
@@ -430,7 +409,7 @@
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
-        <style:style style:name="Sect13" style:family="section">
+        <style:style style:name="Sect12" style:family="section">
             <style:section-properties BungeniSectionType="Person"
                 BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
                 BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP"
@@ -438,7 +417,7 @@
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
-        <style:style style:name="Sect14" style:family="section">
+        <style:style style:name="Sect13" style:family="section">
             <style:section-properties BungeniSectionType="QuestionAnswer"
                 BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
                 BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="2"
@@ -446,7 +425,7 @@
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
-        <style:style style:name="Sect15" style:family="section">
+        <style:style style:name="Sect14" style:family="section">
             <style:section-properties BungeniSectionType="Person"
                 BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
                 BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="2"
@@ -454,7 +433,7 @@
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
-        <style:style style:name="Sect16" style:family="section">
+        <style:style style:name="Sect15" style:family="section">
             <style:section-properties BungeniSectionType="Speech"
                 BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
                 BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP"
@@ -463,7 +442,7 @@
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
-        <style:style style:name="Sect17" style:family="section">
+        <style:style style:name="Sect16" style:family="section">
             <style:section-properties BungeniSectionType="Person"
                 BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
                 BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="4"
@@ -471,12 +450,17 @@
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
-        <style:style style:name="Sect18" style:family="section">
+        <style:style style:name="Sect17" style:family="section">
             <style:section-properties BungeniSectionType="Speech"
                 BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
                 BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP"
                 BungeniQuestionStatus="Deferred" BungeniSpeechTo="userMwenje"
                 BungeniSpeechBy="userSpeaker" BungeniSpeechID="5" style:editable="false">
+                <style:columns fo:column-count="1" fo:column-gap="0in"/>
+            </style:section-properties>
+        </style:style>
+        <style:style style:name="Sect18" style:family="section">
+            <style:section-properties style:editable="false">
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
@@ -689,15 +673,15 @@
                 <text:p text:style-name="P10">
                     <text:tab/>
                 </text:p>
-                <text:section text:style-name="Sect8" text:name="comment645284">
+                <text:section text:style-name="Sect3" text:name="comment645284">
                     <text:p text:style-name="P14">(Applause)</text:p>
                 </text:section>
                 <text:p text:style-name="P1"/>
-                <text:section text:style-name="Sect9" text:name="questions903084">
+                <text:section text:style-name="Sect8" text:name="questions903084">
                     <text:p text:style-name="questions_5f_title"><text:tab/>ORAL ANSWERS TO
                         QUESTIONS</text:p>
                     <text:p text:style-name="P10"/>
-                    <text:section text:style-name="Sect10" text:name="qa38499">
+                    <text:section text:style-name="Sect9" text:name="qa38499">
                         <text:p text:style-name="questions_5f_title"><text:tab/>Question No
                                 <text:reference-mark-start text:name="BungeniQuestionNo:126"
                                 />126<text:reference-mark-end text:name="BungeniQuestionNo:126"/></text:p>
@@ -713,7 +697,7 @@
                             <text:span text:style-name="T1"> </text:span>
                         </text:p>
                         <text:p text:style-name="P1"/>
-                        <text:section text:style-name="Sect11" text:name="question38499">
+                        <text:section text:style-name="Sect10" text:name="question38499">
                             <text:p text:style-name="P19">
                                 <text:span text:style-name="T2">
                                     <text:tab/>
@@ -739,8 +723,8 @@
                         <text:p text:style-name="P6">
                             <text:tab/>
                         </text:p>
-                        <text:section text:style-name="Sect12" text:name="speech993802">
-                            <text:section text:style-name="Sect13" text:name="heading883028">
+                        <text:section text:style-name="Sect11" text:name="speech993802">
+                            <text:section text:style-name="Sect12" text:name="heading883028">
                                 <text:p text:style-name="P1"><text:reference-mark-start
                                         text:name="BungeniSpeechAs:1"/>The minister of state, Office
                                     of the president<text:reference-mark-end
@@ -754,8 +738,8 @@
                                 details which were not complete and I am doing some thorough
                                 investigation.</text:p>
                         </text:section>
-                        <text:section text:style-name="Sect14" text:name="speech939004">
-                            <text:section text:style-name="Sect15" text:name="heading838209">
+                        <text:section text:style-name="Sect13" text:name="speech939004">
+                            <text:section text:style-name="Sect14" text:name="heading838209">
                                 <text:p text:style-name="P15">
                                     <text:span text:style-name="T2">
                                         <text:tab/>
@@ -771,8 +755,8 @@
                         <text:p text:style-name="P6">
                             <text:tab/>
                         </text:p>
-                        <text:section text:style-name="Sect16" text:name="speech993029">
-                            <text:section text:style-name="Sect17" text:name="heading927624">
+                        <text:section text:style-name="Sect15" text:name="speech993029">
+                            <text:section text:style-name="Sect16" text:name="heading927624">
                                 <text:p text:style-name="P15">
                                     <text:reference-mark-start text:name="BungeniSpeechAs:4"/>
                                     <text:span text:style-name="T2">Mr. Mwenje</text:span>
@@ -788,8 +772,8 @@
                                 given even the answer that he thinks is not right and it has not
                                 been passed over to me.</text:p>
                         </text:section>
-                        <text:section text:style-name="Sect18" text:name="speech987363">
-                            <text:section text:style-name="Sect8" text:name="heading827947">
+                        <text:section text:style-name="Sect17" text:name="speech987363">
+                            <text:section text:style-name="Sect18" text:name="heading827947">
                                 <text:p text:style-name="P15">
                                     <text:span text:style-name="T2">
                                         <text:tab/>
@@ -808,7 +792,7 @@
                             <text:p text:style-name="P6">
                                 <text:tab/>
                             </text:p>
-                            <text:section text:style-name="Sect8" text:name="heading892724">
+                            <text:section text:style-name="Sect18" text:name="heading892724">
                                 <text:p text:style-name="P15">
                                     <text:reference-mark-start text:name="BungeniSpeechAs:6"/>
                                     <text:span text:style-name="T2">Mr. Mwenje</text:span>
@@ -828,7 +812,7 @@
                             <text:tab/>
                         </text:p>
                         <text:section text:style-name="Sect21" text:name="speech918293">
-                            <text:section text:style-name="Sect8" text:name="heading880208">
+                            <text:section text:style-name="Sect18" text:name="heading880208">
                                 <text:p text:style-name="P15">
                                     <text:reference-mark-start text:name="BungeniSpeechAs:7"/>
                                     <text:span text:style-name="T2">Mr. Speaker</text:span>

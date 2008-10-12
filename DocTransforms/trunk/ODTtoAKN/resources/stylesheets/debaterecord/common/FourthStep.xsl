@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.akomantoso.org/" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+<xsl:stylesheet  
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
@@ -22,6 +23,131 @@
     xmlns:xforms="http://www.w3.org/2002/xforms"
     exclude-result-prefixes="xsl xsd xsi text office style table draw fo xlink dc meta number svg chart dr3d math form script ooo ooow oooc dom xforms"
     version="2.0">
-    <xsl:output indent="yes" method="xml"/>
+    <xsl:output indent="yes" method="xml" xpath-default-namespace="http://www.akomantoso.org/1.0"/>
+
+    <xsl:template match="/">
+        <xsl:apply-templates />
+    </xsl:template>
+
+    <xsl:template match="*">
+        <xsl:element name="{name()}">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+			</xsl:for-each>
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
+    <xsl:template match="comment[not(name(./parent::node()) = 'Communication')]">
+        <subdivision>
+            <xsl:attribute name="name" select="concat('s_',@text:name)" />
+            <xsl:attribute name="id" select="concat('s_',@text:name)" />
+            <xsl:copy-of select="." />
+        </subdivision>
+    </xsl:template>
+    
+    <xsl:template match="block | span">
+        <xsl:element name="{name()}">
+	        <xsl:attribute name="name" select="@text:style-name" />
+            <xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
+    <xsl:template match="p">
+        <xsl:element name="{name()}">
+	        <xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
+    <xsl:template match="debaterecord">
+        <xsl:element name="{name()}">
+	        <xsl:apply-templates />
+		</xsl:element>    
+    </xsl:template>
+    
+    <xsl:template match="preface">
+        <xsl:element name="{name()}">
+	        <xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
+    <xsl:template match="Communication | AdministrationOfOath | DeclarationOfVote | Communication | petitions | Papers | NoticeOfMotions | Questions |  Address | ProceduralMotions | PointOfOrder">
+        <xsl:element name="{name()}">
+            <xsl:attribute name="id" select="@text:name" />
+	        <xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
+    <xsl:template match="ref">
+        <xsl:element name="{name()}">
+	        <xsl:attribute name="href" select="concat('#',@text:name)" />
+            <xsl:apply-templates />
+        </xsl:element>    
+	</xsl:template>
+
+    <xsl:template match="subdivision">
+        <subdivision>
+            <xsl:attribute name="id" select="@id" />
+            <xsl:attribute name="name" select="@name" />
+            <xsl:apply-templates />
+         </subdivision>
+    </xsl:template>
+    
+   <xsl:template match="speech | question | answer">
+        <xsl:element name="{name()}">
+            <xsl:attribute name="by" select="concat('#',@BungeniSpeechBy)" />
+            <xsl:attribute name="to" select="concat('#',@BungeniSpeechTo)" />
+            <xsl:apply-templates />
+        </xsl:element>    
+    </xsl:template>
+ 
+    <!--    <xsl:template match="*">
+        <xsl:element name="{name()}">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+        			<xsl:apply-templates />
+		        </xsl:attribute>
+			</xsl:for-each>
+            <xsl:apply-templates select="@text:name" />
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
+    <xsl:template match="@text:name">
+        <xsl:choose>
+            <xsl:when test="contains(.,':')">
+                <xsl:attribute name="id" select="substring-before(.,':')" />
+                <xsl:attribute name="href" select="concat('#',substring-after(.,':'))" />
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:attribute name="id" select="." />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:template>
+    
+    <xsl:template match="@BungeniSpeechBy">
+        <xsl:attribute name="by" select="." />
+    </xsl:template>
+
+    <xsl:template match="@BungeniSpeechTo">
+        <xsl:attribute name="to" select="." />
+    </xsl:template>
+
+    <xsl:template match="@BungeniQuestionStatus">
+        <xsl:attribute name="status" select="." />
+    </xsl:template>
+
+    <xsl:template match="@text:*">
+    </xsl:template>
+
+    <xsl:template match="@*:text">
+    </xsl:template> -->
+
+    <xsl:template match="text()">
+          <xsl:value-of select="normalize-space(.)"/>
+    </xsl:template> 
     
 </xsl:stylesheet>

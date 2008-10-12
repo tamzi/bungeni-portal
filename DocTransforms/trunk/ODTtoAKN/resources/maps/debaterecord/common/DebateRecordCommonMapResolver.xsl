@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns="http://www.akomantoso.org/1.0"
+<xsl:stylesheet 
     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
@@ -25,7 +25,7 @@
     xmlns:dom="http://www.w3.org/2001/xml-events"
     xmlns:xforms="http://www.w3.org/2002/xforms"
     exclude-result-prefixes="xsl xsd xsi text office style table draw fo xlink dc meta number svg chart dr3d math form script ooo ooow oooc dom xforms"
-    version="1.0">
+    version="2.0">
     <xsl:output indent="yes" method="xml" />
     <xsl:param name="type" />
     <xsl:param name="name" />
@@ -76,7 +76,7 @@
             </xsl:otherwise>
         </xsl:choose>
     </xsl:template>
-		    
+
     <xsl:template match="text()">
         <xsl:value-of select="normalize-space(.)"/>
     </xsl:template>

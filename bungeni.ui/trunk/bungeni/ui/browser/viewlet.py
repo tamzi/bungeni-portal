@@ -82,7 +82,7 @@ class ResponseQuestionViewlet( viewlet.ViewletBase ):
     def update(self):
         if self.context.__class__ == domain.Response:
             #edit response
-            question_id = context.response_id
+            question_id = self.context.response_id
             session = Session()
             return session.query(domain.Question).get(question_id)
             self.subject = self.context.__parent__.__parent__.subject

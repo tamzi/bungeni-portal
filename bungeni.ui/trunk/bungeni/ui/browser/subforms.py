@@ -10,6 +10,7 @@ from bungeni.core.i18n import _
 import bungeni.core.domain as domain
 from forms import BungeniAttributeDisplay
 from container import ContainerListing
+from bungeni.core.workflows.question import states as qw_state
 
 from alchemist.ui.viewlet import EditFormViewlet, AttributesViewViewlet, DisplayFormViewlet
 #from alchemist.ui.core import DynamicFields
@@ -264,8 +265,12 @@ class PersonInfo( BungeniAttributeDisplay ):
         super( PersonInfo, self).update()
 
 class SupplementaryQuestionsViewlet( SubformViewlet ):
-    form_name = (u"Supplementary Questions")  
-    for_display = True
+    form_name = (u"Supplementary Questions")    
+    
+    @property
+    def for_display(self):
+        return self.context.__parent__.status == qw_state.answered   
+    
     def __init__( self,  context, request, view, manager ):        
 
         self.context = context.supplementaryquestions

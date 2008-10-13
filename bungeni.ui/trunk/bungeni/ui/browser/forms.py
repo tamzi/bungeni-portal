@@ -52,6 +52,64 @@ def createVersion(context, comment = ''):
     versions.create(u'New version created upon edit.' + comment)
 
 
+#################################
+# workflow transition 2 formlib action bindings
+class TransitionHandler( object ):
+
+    def __init__( self, transition_id, wf_name=None):
+        self.transition_id = transition_id
+        self.wf_name = wf_name
+
+
+    def __call__( self, form, action, data ):
+        """
+        save data make version and fire transition
+        """
+        context = getattr( form.context, '_object', form.context )
+        notes = None
+        if self.wf_name:
+            info = component.getAdapter( context, interfaces.IWorkflowInfo, self.wf_name )            
+        else:
+            info = interfaces.IWorkflowInfo( context ) 
+        if data.has_key('note'):
+            notes = data['note']     
+        else:
+            notes=''            
+        result = handle_edit_action( form, action, data )
+        if form.errors: 
+            return result
+        else:         
+            createVersion(form.context, notes)                                                        
+            info.fireTransition( self.transition_id, notes )        
+        form.setupActions()
+
+def bindTransitions( form_instance, transitions, wf_name=None, wf=None):
+    """ bind workflow transitions into formlib actions """
+
+    if wf_name:
+        success_factory = lambda tid: TransitionHandler( tid, wf_name )
+    else:
+        success_factory = TransitionHandler
+
+    actions = []
+    for tid in transitions:
+        d = {}
+        if success_factory:
+            d['success'] = success_factory( tid )
+        if wf is not None:
+            action = form.Action( _(unicode(wf.getTransitionById( tid ).title)), **d )
+        else:
+            action = form.Action( tid, **d )
+        action.form = form_instance
+        action.__name__ = "%s.%s"%(form_instance.prefix, action.__name__)
+        
+        actions.append( action )  
+    return actions
+
+
+
+
+
 #############
 ## VIEW
 
@@ -68,12 +126,26 @@ class BungeniAttributeDisplay( DynamicFields, DisplayFormViewlet ):
     form_name = _(u"General")    
     has_data = True
 
+
+    def setupActions( self ):
+        try:
+            self.wf = interfaces.IWorkflowInfo( self.context )
+            transitions = self.wf.getManualTransitionIds()
+            self.actions = tuple(bindTransitions( self, transitions, None, interfaces.IWorkflow( self.context ) ) )  
+        except:
+            pass
+            
     def update( self ):
         self.form_name = self.getform_name()
+        self.setupActions() 
         super( BungeniAttributeDisplay, self).update() 
-
-
-   
+        self.setupActions()  # after we transition we have different actions  
+        try:
+            wf_state =interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
+            self.wf_status = wf_state  
+        except:
+            pass
+               
     def getform_name( self ):
         try:
             if self.context.__parent__:
@@ -108,6 +180,15 @@ class BungeniAttributeDisplay( DynamicFields, DisplayFormViewlet ):
 #        if self.context.status == question_states.response_pending :
 #            self.actions = self.respond_action
 #        super(QuestionDisplay, self).update()
+
+#    def update( self ):
+#        self.setupActions()  
+#        super( QuestionDisplay, self).update()
+#        self.setupActions()  # after we transition we have different actions      
+#        wf_state =interfaces.IWorkflowState( removeSecurityProxy(self.context) ).getState()
+#        self.wf_status = wf_state            
+        
+
         
 #############
 ## ADD 
@@ -1154,59 +1235,6 @@ class MemberTitleEdit( CustomEditForm ):
 
 
 
-#################################
-# workflow transition 2 formlib action bindings
-class TransitionHandler( object ):
-
-    def __init__( self, transition_id, wf_name=None):
-        self.transition_id = transition_id
-        self.wf_name = wf_name
-
-
-    def __call__( self, form, action, data ):
-        """
-        save data make version and fire transition
-        """
-        context = getattr( form.context, '_object', form.context )
-        notes = None
-        if self.wf_name:
-            info = component.getAdapter( context, interfaces.IWorkflowInfo, self.wf_name )            
-        else:
-            info = interfaces.IWorkflowInfo( context ) 
-        if data.has_key('note'):
-            notes = data['note']     
-        else:
-            notes=''            
-        result = handle_edit_action( form, action, data )
-        if form.errors: 
-            return result
-        else:         
-            createVersion(form.context, notes)                                                        
-            info.fireTransition( self.transition_id, notes )        
-        form.setupActions()
-
-def bindTransitions( form_instance, transitions, wf_name=None, wf=None):
-    """ bind workflow transitions into formlib actions """
-
-    if wf_name:
-        success_factory = lambda tid: TransitionHandler( tid, wf_name )
-    else:
-        success_factory = TransitionHandler
-
-    actions = []
-    for tid in transitions:
-        d = {}
-        if success_factory:
-            d['success'] = success_factory( tid )
-        if wf is not None:
-            action = form.Action( _(unicode(wf.getTransitionById( tid ).title)), **d )
-        else:
-            action = form.Action( tid, **d )
-        action.form = form_instance
-        action.__name__ = "%s.%s"%(form_instance.prefix, action.__name__)
-        
-        actions.append( action )  
-    return actions
 
 
 sql_select_question_ministry_edit = """

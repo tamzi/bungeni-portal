@@ -112,7 +112,6 @@
 	      </tal:loop>						
         </span>
        </div>
-        
       </form>    
       </div>
       <div tal:replace="structure provider:bungeni.subform.manager"> <!-- replace with subforms --> 

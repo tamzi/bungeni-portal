@@ -17,12 +17,12 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="element-to-replace">
-        <new-element>
-            <xsl:attribute name="class">element-class</xsl:attribute>
-other-attributes
+    <xsl:template match="other">
+        <div>
+            <xsl:attribute name="class">speech_other</xsl:attribute>
+ 
             <xsl:apply-templates />
-        </new-element>
+        </div>
     </xsl:template>
     
     <xsl:template match="text()">

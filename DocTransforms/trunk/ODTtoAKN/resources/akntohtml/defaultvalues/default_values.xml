@@ -1,68 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <defaultvalues>
     <element name="akomantoso" transformTo="div" class="main_container"/>
-    <element name="act" transformTo="div" class="doc_container"/>
-    <element name="bill" transformTo="div"  class="doc_container"/>
+    <element name="act" transformTo="div" class="act_container"/>
+    <element name="bill" transformTo="div"  class="bill_container"/>
     <element name="doc" transformTo="div"  class="doc_container"/>
-    <element name="report" transformTo="div"  class="doc_container"/>
-    <element name="debaterecord" transformTo="div"  class="doc_container"/>
-    <element name="judgment" transformTo="div"  class="doc_container"/>
+    <element name="report" transformTo="div"  class="report_container"/>
+    <element name="debaterecord" transformTo="div"  class="debaterecord_container"/>
+    <element name="judgment" transformTo="div"  class="judgment_container"/>
     <element name="preface" transformTo="div"  class="preface_container" />
     <element name="preamble" transformTo="div"  class="preamble_container"/>
     <element name="conclusions" transformTo="div"  class="conclusion_container"/>
     <element name="header" transformTo="div"  class="header_container"/>
     <element name="attachments" transformTo="div"  class="attachments_container"/>
-    <element name="attachment" transformTo="a"  class="attachment"/>
+    <element name="attachment" transformTo="a"  class="attachment" mantain="href"/>
     <element name="body" transformTo="div"  class="body_container"/>
-    <element name="debate" transformTo="div"  class="body_container"/>
-    <element name="maincontent" transformTo="div"  class="body_container"/>
-    <element name="judgmentBody" transformTo="div"  class="body_container"/>
-    <element name="section" transformTo="div"  class="hierarchy"/>
-    <element name="part" transformTo="div"  class="hierarchy"/>
-    <element name="paragraph" transformTo="div"  class="hierarchy"/>
-    <element name="chapter" transformTo="div"  class="hierarchy"/>
-    <element name="title" transformTo="div"  class="hierarchy"/>
-    <element name="book" transformTo="div"  class="hierarchy"/>
-    <element name="tome" transformTo="div"  class="hierarchy"/>
-    <element name="article" transformTo="div"  class="hierarchy"/>
-    <element name="clause" transformTo="div"  class="hierarchy"/>
+    <element name="debate" transformTo="div"  class="debate_container"/>
+    <element name="maincontent" transformTo="div"  class="maincontent_container"/>
+    <element name="judgmentBody" transformTo="div"  class="judgmentBody_container"/>
+    <element name="section" transformTo="div"  class="hierarchy" mantaind="id"/>
+    <element name="part" transformTo="div"  class="hierarchy" mantaind="id"/>
+    <element name="paragraph" transformTo="div"  class="hierarchy" mantaind="id"/>
+    <element name="chapter" transformTo="div"  class="hierarchy" mantaind="id"/>
+    <element name="title" transformTo="div"  class="hierarchy" mantaind="id"/>
+    <element name="book" transformTo="div"  class="hierarchy" mantaind="id"/>
+    <element name="tome" transformTo="div"  class="hierarchy" mantaind="id"/>
+    <element name="article" transformTo="div"  class="hierarchy" mantaind="id"/>
+    <element name="clause" transformTo="div"  class="hierarchy" mantaind="id"/>
     <element name="subsection" transformTo="div"  class="hierarchy"/>
-    <element name="subpart" transformTo="div"  class="hierarchy"/>
-    <element name="subparagraph" transformTo="div"  class="hierarchy"/>
-    <element name="subchapter" transformTo="div"  class="hierarchy"/>
-    <element name="subtitle" transformTo="div"  class="hierarchy"/>
-    <element name="subclause" transformTo="div"  class="hierarchy"/>
+    <element name="subpart" transformTo="div"  class="hierarchy" mantaind="id"/>
+    <element name="subparagraph" transformTo="div"  class="hierarchy" mantaind="id"/>
+    <element name="subchapter" transformTo="div"  class="hierarchy" mantaind="id"/>
+    <element name="subtitle" transformTo="div"  class="hierarchy" mantaind="id"/>
+    <element name="subclause" transformTo="div"  class="hierarchy" mantaind="id"/>
     <element name="content" transformTo="div"  class="heirarchy_content"/>
     <element name="num" transformTo="p"  class="hierarchy_num"/>
     <element name="heading" transformTo="p"  class="hierarchy_heading"/>
     <element name="subheading" transformTo="p"  class="hierarchy_subheading"/>
     <element name="sidenote" transformTo="p"  class="hierarchy_sidenote"/>
     <element name="from" transformTo="span"  class="speec_from"/>
-    <element name="AdministrationOfOath" transformTo="div"  class="speech_hierarchy"/>
-    <element name="DeclarationOfVote" transformTo="div"  class="speech_hierarchy"/>
-    <element name="Communication" transformTo="div"  class="speech_hierarchy"/>
-    <element name="Petitions" transformTo="div"  class="speech_hierarchy"/>
-    <element name="Papers" transformTo="div"  class="speech_hierarchy"/>
-    <element name="NoticesOfMotion" transformTo="div"  class="speech_hierarchy"/>
-    <element name="Questions" transformTo="div"  class="speech_hierarchy"/>
-    <element name="Address" transformTo="div"  class="speech_hierarchy"/>
-    <element name="ProceduralMotions" transformTo="div"  class="speech_hierarchy"/>
-    <element name="PointOfOrder" transformTo="div" class="speech_hierarchy"/>
-    <element name="subdivision" transformTo="div" class="speech_hierarchy"/>
+    <element name="AdministrationOfOath" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
+    <element name="DeclarationOfVote" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
+    <element name="Communication" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
+    <element name="Petitions" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
+    <element name="Papers" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
+    <element name="NoticesOfMotion" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
+    <element name="Questions" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
+    <element name="Address" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
+    <element name="ProceduralMotions" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
+    <element name="PointOfOrder" transformTo="div" class="speech_hierarchy" mantaind="id"/>
+    <element name="subdivision" transformTo="div" class="speech_hierarchy" mantaind="id"/>
     <element name="speech" transformTo="div" class="speech_speech"/>
     <element name="question" transformTo="div" class="speech_question"/>
     <element name="answer" transformTo="div" class="speech_answer"/>
     <element name="other" transformTo="div" class="speech_other"/>
     <element name="comment" transformTo="div" class="speech_comment"/>
     <element name="list" transformTo="ol"  class="akomantoso_list"/>
-    <element name="introduction" transformTo="div"  class="judgment_section"/>
-    <element name="background" transformTo="div"  class="judgment_section"/>
-    <element name="motivation" transformTo="div"  class="judgment_section"/>
-    <element name="decision" transformTo="div"  class="judgment_section"/>
-    <element name="tblock" transformTo="div"  class="title_block"/>
-    <element name="item" transformTo="li"  class="akomantoso_list_item"/>
+    <element name="introduction" transformTo="div"  class="introduction" mantaind="id"/>
+    <element name="background" transformTo="div"  class="background" mantaind="id"/>
+    <element name="motivation" transformTo="div"  class="motivation" mantaind="id"/>
+    <element name="decision" transformTo="div"  class="decision" mantaind="id"/>
+    <element name="tblock" transformTo="div"  class="title_block" mantaind="id"/>
+    <element name="item" transformTo="li"  class="akomantoso_list_item" mantaind="id"/>
     <element name="toc" transformTo="div"  class="toc"/>
-    <element name="tocitem" transformTo="p"  class="toc_item"/>
+    <element name="tocitem" transformTo="p"  class="toc_item" mantaind="href"/>
     <element name="ActType" transformTo="span"  class="inline_meta"/>
     <element name="ActTitle" transformTo="span"  class="inline_meta"/>
     <element name="ActNumber" transformTo="span"  class="inline_meta"/>
@@ -78,7 +78,7 @@
     <element name="judge" transformTo="span"  class="inline_meta"/>
     <element name="judgmentDate" transformTo="span"  class="inline_meta"/>
     <element name="mref" transformTo="div"  class="multipe_references_container"/>
-    <element name="ref" transformTo="a"  class="reference"/>
+    <element name="ref" transformTo="a"  class="reference" mantain="href"/>
     <element name="rref" transformTo="div"  class="range_references_container"/>
     <element name="mod" transformTo="div"  class="modification"/>
     <element name="mmod" transformTo="div"  class="multiple_modifications_container"/>
@@ -89,30 +89,30 @@
     <element name="ins" transformTo="span"  class="ins"/>
     <element name="del" transformTo="span"  class="del"/>
     <element name="omissis" transformTo="span"  class="omissis"/>
-    <element name="noteref" transformTo="span"  class="noteref"/>
+    <element name="noteref" transformTo="span"  class="noteref" mantain="href"/>
     <element name="recordedTime" transformTo="span"  class="time"/>
     <element name="eol" transformTo="br"  class="end_of_line"/>
     <element name="eop" transformTo=""  class=""/>
-    <element name="hcontainer" transformTo="div"  class="generic_hierarchy"/>
-    <element name="container" transformTo="div"  class="generic_container"/>
-    <element name="block" transformTo="div"  class="generic_block"/>
-    <element name="inline" transformTo="span"  class="generic_inline"/>
-    <element name="marker" transformTo="span"  class="generic_marker"/>
-    <element name="foreign" transformTo="div"  class="foreign_elements"/>
-    <element name="div" transformTo="div"  class="html_container"/>
+    <element name="hcontainer" transformTo="div"  class="generic_hierarchy" mantain="id"/>
+    <element name="container" transformTo="div"  class="generic_container" mantain="id"/>
+    <element name="block" transformTo="div"  class="generic_block" mantain="name"/>
+    <element name="inline" transformTo="span"  class="generic_inline" mantain="name"/>
+    <element name="marker" transformTo="span"  class="generic_marker" mantain="name"/>
+    <element name="foreign" transformTo="div"  class="foreign_elements" mantain="name"/>
+    <element name="div" transformTo="div"  class="html_container" mantain="id"/>
     <element name="p" transformTo="p"  class="html_paragraph"/>
     <element name="li" transformTo="li"  class="html_list_item"/>
-    <element name="span" transformTo="span"  class="html_inline"/>
+    <element name="span" transformTo="span"  class="html_inline" mantain="name"/>
     <element name="b" transformTo="b"  class="html_bold"/>
-    <element name="i" transformTo="i"  class="html_italic"/>
-    <element name="a" transformTo="a"  class="html_anchor"/>
-    <element name="img" transformTo="img"  class="html_img"/>
+    <element name="i" transformTo="i"  class="html_italic" />
+    <element name="a" transformTo="a"  class="html_anchor" mantain="href"/>
+    <element name="img" transformTo="img"  class="html_img" mantain="href"/>
     <element name="ul" transformTo="ul"  class="html_unordered_list"/>
     <element name="ol" transformTo="ol"  class="html_ordered_list"/>
-    <element name="table" transformTo="table"  class="html_table"/>
-    <element name="tr" transformTo="tr"  class="html_table_row"/>
-    <element name="th" transformTo="th"  class="html_table_heading_column"/>
-    <element name="td" transformTo="td"  class="html_table_column"/>
+    <element name="table" transformTo="table"  class="html_table" mantain="border,cellspacing,cellpadding"/>
+    <element name="tr" transformTo="tr"  class="html_table_row" />
+    <element name="th" transformTo="th"  class="html_table_heading_column" mantain="colspan,rowspan"/>
+    <element name="td" transformTo="td"  class="html_table_column" mantain="colspan,rowspan"/>
     <element name="meta" transformTo=""  class=""/>
     <element name="identification" transformTo=""  class=""/>
     <element name="FRBRWork" transformTo=""  class=""/>

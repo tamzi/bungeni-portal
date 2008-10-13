@@ -17,12 +17,12 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="element-to-replace">
-        <new-element>
-            <xsl:attribute name="class">element-class</xsl:attribute>
-other-attributes
+    <xsl:template match="ul">
+        <ul>
+            <xsl:attribute name="class">html_unordered_list</xsl:attribute>
+ 
             <xsl:apply-templates />
-        </new-element>
+        </ul>
     </xsl:template>
     
     <xsl:template match="text()">

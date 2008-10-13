@@ -17,12 +17,12 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="element-to-replace">
-        <new-element>
-            <xsl:attribute name="class">element-class</xsl:attribute>
-other-attributes
+    <xsl:template match="list">
+        <ol>
+            <xsl:attribute name="class">akomantoso_list</xsl:attribute>
+ 
             <xsl:apply-templates />
-        </new-element>
+        </ol>
     </xsl:template>
     
     <xsl:template match="text()">

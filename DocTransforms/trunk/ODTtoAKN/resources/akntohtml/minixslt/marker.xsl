@@ -17,12 +17,13 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="element-to-replace">
-        <new-element>
-            <xsl:attribute name="class">element-class</xsl:attribute>
-other-attributes
+    <xsl:template match="marker">
+        <span>
+            <xsl:attribute name="class">generic_marker</xsl:attribute>
+			<xsl:attribute name="name" select="@name" />
+
             <xsl:apply-templates />
-        </new-element>
+        </span>
     </xsl:template>
     
     <xsl:template match="text()">

@@ -1,10 +1,12 @@
 package unittest.translatortest;
 
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.un.bungeni.translators.akntohtml.configurations.AHConfigurationBuilder;
 
 public class AHTranslatorTest {
 
@@ -31,5 +33,7 @@ public class AHTranslatorTest {
 	@Test
 	public final void testTranslate() throws Exception 
 	{
-	}
+		//perform a translation
+		AHConfigurationBuilder.newInstance().createConfiguration("resources/akntohtml/minixslt/");
+	}	
 }

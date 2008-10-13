@@ -17,12 +17,13 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="element-to-replace">
-        <new-element>
-            <xsl:attribute name="class">element-class</xsl:attribute>
-other-attributes
+    <xsl:template match="attachment">
+        <a>
+            <xsl:attribute name="class">attachment</xsl:attribute>
+			<xsl:attribute name="href" select="@href" />
+
             <xsl:apply-templates />
-        </new-element>
+        </a>
     </xsl:template>
     
     <xsl:template match="text()">

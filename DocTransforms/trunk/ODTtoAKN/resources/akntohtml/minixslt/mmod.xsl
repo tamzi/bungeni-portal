@@ -17,12 +17,12 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="element-to-replace">
-        <new-element>
-            <xsl:attribute name="class">element-class</xsl:attribute>
-other-attributes
+    <xsl:template match="mmod">
+        <div>
+            <xsl:attribute name="class">multiple_modifications_container</xsl:attribute>
+ 
             <xsl:apply-templates />
-        </new-element>
+        </div>
     </xsl:template>
     
     <xsl:template match="text()">

@@ -17,12 +17,14 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="element-to-replace">
-        <new-element>
-            <xsl:attribute name="class">element-class</xsl:attribute>
-other-attributes
+    <xsl:template match="th">
+        <th>
+            <xsl:attribute name="class">html_table_heading_column</xsl:attribute>
+			<xsl:attribute name="colspan" select="@colspan" />
+			<xsl:attribute name="rowspan" select="@rowspan" />
+
             <xsl:apply-templates />
-        </new-element>
+        </th>
     </xsl:template>
     
     <xsl:template match="text()">

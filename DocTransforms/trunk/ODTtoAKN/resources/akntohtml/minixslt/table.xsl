@@ -17,12 +17,15 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="element-to-replace">
-        <new-element>
-            <xsl:attribute name="class">element-class</xsl:attribute>
-other-attributes
+    <xsl:template match="table">
+        <table>
+            <xsl:attribute name="class">html_table</xsl:attribute>
+			<xsl:attribute name="border" select="@border" />
+			<xsl:attribute name="cellspacing" select="@cellspacing" />
+			<xsl:attribute name="cellpadding" select="@cellpadding" />
+
             <xsl:apply-templates />
-        </new-element>
+        </table>
     </xsl:template>
     
     <xsl:template match="text()">

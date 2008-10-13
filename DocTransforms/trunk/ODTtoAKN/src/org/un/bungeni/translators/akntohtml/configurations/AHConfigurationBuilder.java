@@ -7,9 +7,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.un.bungeni.translators.files.FileUtility;
 import org.un.bungeni.translators.xpathresolver.XPathResolver;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -24,7 +24,10 @@ public class AHConfigurationBuilder
 	
 	//the path of the document that contains the empty mini XSLT
 	private String emptyMiniXSLTPath = new String("resources/akntohtml/defaultvalues/empty_mini_xslt.xsl");
-	
+
+	//the path of the document that contains the empty pipeline
+	private String emptyPipelinePath = new String("resources/akntohtml/defaultvalues/empty_pipeline.xsl");
+
 	/**
 	 * Protected constructor
 	 */
@@ -74,27 +77,68 @@ public class AHConfigurationBuilder
 		//get all the elements in the dafault_values XML
 		NodeList elements = (NodeList)xresolver.evaluate(defaultValuesDocument, "//element", XPathConstants.NODESET);
 
+		//get the empty XPROC string
+		String emptyXPROCPipeline = FileUtility.getInstance().FileToString(this.emptyPipelinePath); 
+		
+		//the pipeline steps to add
+		String pipelineSteps = "";
+		
 		//for each element create a MINI XSLT
 		for (int i = 0; i < elements.getLength(); i++) 
 		{
 			//get the element 
 			Node element = elements.item(i);
 			
-			//open the empty XSLT 
-			Document emptyMiniXSLT = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(this.emptyMiniXSLTPath);
-		
-			//create the new template
-			Element newTemplate = emptyMiniXSLT.createElement("xsl:template");
+			//if the element must be translated create the mini XSLT
+			if (element.getAttributes().getNamedItem("transformTo").getNodeValue().compareTo("") != 0)
+			{
+				//get the string of the mini XSLT
+				String emptyXSLTString = FileUtility.getInstance().FileToString(this.emptyMiniXSLTPath);
+								
+				//replace the value of the current Element into the emptyMiniXSLTFile
+				emptyXSLTString = emptyXSLTString.replaceAll("element-to-replace", element.getAttributes().getNamedItem("name").getNodeValue());
+				emptyXSLTString = emptyXSLTString.replaceAll("new-element", element.getAttributes().getNamedItem("transformTo").getNodeValue());
+				emptyXSLTString = emptyXSLTString.replaceAll("element-class", element.getAttributes().getNamedItem("class").getNodeValue());
+				
+				//add the attributes to mantain
+				if(element.getAttributes().getNamedItem("mantain") != null)
+				{
+					//get all the attribute to mantain
+					String[] attributesToMantain = element.getAttributes().getNamedItem("mantain").getNodeValue().split(",");
+					
+					//the string that will contain the XSLT expression of the mantain
+					String attributeStringXSLT = "";
+					
+					//for each attribute to mantain 
+					if (attributesToMantain.length != 0)
+					{
+						for(int k = 0; k < attributesToMantain.length; k++)
+						{
+							attributeStringXSLT = attributeStringXSLT + "\t\t\t<xsl:attribute name=\"" + attributesToMantain[k] + "\"" + " select=\"@" + attributesToMantain[k] + "\" />\n";
+						}
+					}
+					else
+						attributeStringXSLT = attributeStringXSLT + "\t\t\t<xsl:attribute name=\"" + element.getAttributes().getNamedItem("mantain").getNodeValue() + "\"" + " select=\"@" + element.getAttributes().getNamedItem("mantain").getNodeValue() + "\" />\n";
+						
+					//add the XSLT code for the translation of the attributes to mantain
+					emptyXSLTString = emptyXSLTString.replaceAll("other-attributes",attributeStringXSLT);
+				
+				}
+				//remove other-attribute in case there are no attributes to mantain
+				emptyXSLTString = emptyXSLTString.replaceAll("other-attributes"," ");
+
+				//write the string to the file in the path composed by the given outputDirectory and the name of the element
+				FileUtility.getInstance().StringToFile(outputDirectory + element.getAttributes().getNamedItem("name").getNodeValue() + ".xsl", emptyXSLTString);
 			
-			//set the match attribute
-			newTemplate.setAttribute("match", element.getAttributes().getNamedItem("name").getNodeValue());
-			
-			//the element in which the matching pattern will be transformed to 
-			Element newNode = emptyMiniXSLT.createElement(element.getAttributes().getNamedItem("name").getNodeValue());
-			
-			System.out.println(newNode.toString());
+				//create the pipelinestep 
+				pipelineSteps = pipelineSteps + "\t<xsl:template match=\"akn:" + element.getAttributes().getNamedItem("name").getNodeValue() +  "\">\n\t\t<xslt step=\"" + i +  "\" name=\"" + element.getAttributes().getNamedItem("name").getNodeValue() + "\" href=\"" + outputDirectory + element.getAttributes().getNamedItem("name").getNodeValue() + ".xsl" + "\" />\n\t\t<xsl:apply-templates />\n\t</xsl:template>\n\n"; 
+			}
 		}	
+		//fill the pipelines in the empty pipeline XSLT
+		emptyXPROCPipeline = emptyXPROCPipeline.replaceAll("<xsl:template match=\"to_replace\"><XSLT_steps /></xsl:template>", pipelineSteps);
 		
+		//write the pipeline to a file
+		FileUtility.getInstance().StringToFile(outputDirectory + "pipeline.xsl", emptyXPROCPipeline);
 	}
 	
 }

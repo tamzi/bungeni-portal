@@ -17,12 +17,13 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="element-to-replace">
-        <new-element>
-            <xsl:attribute name="class">element-class</xsl:attribute>
-other-attributes
+    <xsl:template match="hcontainer">
+        <div>
+            <xsl:attribute name="class">generic_hierarchy</xsl:attribute>
+			<xsl:attribute name="id" select="@id" />
+
             <xsl:apply-templates />
-        </new-element>
+        </div>
     </xsl:template>
     
     <xsl:template match="text()">

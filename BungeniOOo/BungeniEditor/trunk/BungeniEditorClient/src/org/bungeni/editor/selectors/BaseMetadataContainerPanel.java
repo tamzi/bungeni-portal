@@ -341,6 +341,11 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
         return m_activePanels;
     }
     
+     public void updateAllPanels(){
+        for (panelInfo p : getActivePanels()) {
+            p.getPanelObject().doUpdateEvent();
+        }
+    }
     protected void init(){
         //set null borders
         setBorder(null);

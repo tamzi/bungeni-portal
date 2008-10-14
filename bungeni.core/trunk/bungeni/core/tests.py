@@ -115,6 +115,7 @@ def file_tests( ):
 def test_suite():
 
     doctests = ('readme.txt', 
+                'audit.txt',
                 'workflows/questionnotification.txt', 
                 'workflows/motionnotification.txt',                 
                 'workflows/question.txt',
@@ -122,7 +123,7 @@ def test_suite():
                 'workflows/motion.txt',
                 'workflows/bill.txt',
                 'workflows/dbutils.txt',
-                'workflows/transitioncron.txt',
+                'workflows/transitioncron.txt',                
                 )
     
     globs = dict(interface=interface, component=component)

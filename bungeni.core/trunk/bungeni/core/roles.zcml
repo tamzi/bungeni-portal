@@ -15,7 +15,7 @@
     <grant role="bungeni.Owner" principal="zope.Authenticated" />
     <grant role="bungeni.Minister" principal="zope.Authenticated" />
     <grant role="bungeni.Clerk" principal="zope.Authenticated" /-->
-    <grant role="bungeni.Everybody" principal="zope.anybody" />
+    <grant role="bungeni.Everybody" principal="zope.Anybody" />
     <grant role="bungeni.Everybody" principal="zope.Authenticated" />
     
     <grant permission="bungeni.question.add" role="bungeni.MP" />

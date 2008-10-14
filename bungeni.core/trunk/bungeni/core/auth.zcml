@@ -6,11 +6,19 @@
   <adapter
      factory=".auth.authUser"
      />
-          
+       
+  <!-- Database Authentication Utility -->
   <utility
      provides="zope.app.authentication.interfaces.IAuthenticatorPlugin"
      factory="alchemist.security.auth.DatabaseAuthentication"
      name="rdb-auth"
+     />
+
+  <!-- Delegate Authenticator for ZCML Users-->
+  <utility
+     provides="zope.app.authentication.interfaces.IAuthenticatorPlugin"
+     factory=".auth.GlobalAuthDelegate"
+     name="global-auth"
      />
      
  <!-- Global/Local Role/Permission/Principal Maps -->

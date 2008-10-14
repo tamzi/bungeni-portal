@@ -53,8 +53,12 @@
 		<action name="Questions.by.markup" title="Markup Question By" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionBlockSection.markup_question_by" visible="true" condition="textSelected:true :and: cursorInSection:qa[0-9]*" />
 		<!-- markup quetion to -->
 		<action name="Questions.to.markup" title="Markup Question To" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionBlockSection.markup_question_to" visible="true" condition="textSelected:true :and: cursorInSection:qa[0-9]*" />
-		<!-- markup question text -->
-		<action name="Questions.text.markup" title="Markup Question Text" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionBlockSection.apply_questiontext_style:question-text" visible="true" condition="textSelected:true :and: cursorInSection:question[0-9]*." />
+		<!-- markup question heading -->
+		<action name="Questions.heading" title="Markup Question Heading" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionBlockSection.apply_questiontext_style:question-text" visible="true" condition="textSelected:true :and: cursorInSection:question[0-9]*." />
+		<!-- markup question subheading -->
+		<action name="Questions.subheading" title="Markup Question Sub-Heading" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionBlockSection.apply_questiontext_style:question-title" visible="true" condition="textSelected:true :and: cursorInSection:question[0-9]*." />
+		<!-- markup question text-->
+		<action name="Questions.text.markup" title="Markup Question Text" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionBlockSection.apply_questiontext_style:question-subtitle" visible="true" condition="textSelected:true :and: cursorInSection:question[0-9]*." />
 		<!--	                
 		<action name="Questions.edit" title="Edit Existing" mode="TEXT_EDIT" target="toolbarAction.makeQuestionBlockSection" visible="true" condition="cursorInSectionType:Question" />
                 <action name="Questions.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQuestionBlockSection.section_creation" condition="cursorInSection:qa. :and: textSelected:true" visible="true" showChildren="true" >
@@ -63,6 +67,15 @@
                 </action>
 		-->
             </blockAction>
+	    
+	    <blockAction>
+		<action name="Speech.create" title="Mark text Speech" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.section_creation" visible="true" condition="textSelected:true :and: cursorInSection:qa[0-9]*" />
+		<action name="Speech.SpeechBy" title="Identify Speech By" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.speech_by" visible="true" condition="textSelected:true :and: cursorInSection:speech[0-9]*" />
+		<action name="Speech.SpeechAs" title="Identify Speech As" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.speech_as" visible="true" condition="textSelected:true :and: cursorInSection:speech[0-9]*" />
+		<action name="Speech.lockHead" title="Lock Speech By" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebatSpeechBlockSection.lock" visible="true" condition="textSelected:true :and: cursorInSection:speech[0-9]*" />			
+		<action name="Speech.unlockHead" title="Unlock Speech By" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.unlock" visible="true" condition="textSelected:true :and: cursorInSection:speech[0-9]*" />		
+		<!--<action name="Speech.SpeechTo" title="Mark Speech To" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.speech_to" visible="true" conditiion="" />-->    
+	    </blockAction>
         	
 	<!--
             <blockAction name="QA" tooltip="Create a QA Section" title="Question-Answer Container" target="null" visible="true" condition="none" >

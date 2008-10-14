@@ -48,19 +48,28 @@ public class toolbarSubAction {
         this.sub_action_state = (String) safeGet(actionDesc, action_mapping, "SUB_ACTION_STATE");
         this.parent_action_name = (String) safeGet(actionDesc, action_mapping, "PARENT_ACTION_NAME");
         this.action_fields = (String) safeGet(actionDesc, action_mapping, "ACTION_FIELDS");
-        this.action_display_text = (String) safeGet(actionDesc, action_mapping, "ACTION_DISPLAY_TEXT");
-        this.action_class = (String) safeGet(actionDesc, action_mapping, "ACTION_CLASS");
-        this.system_container = (String) safeGet(actionDesc, action_mapping, "SYSTEM_CONTAINER");
-        this.validator_class = (String)safeGet(actionDesc, action_mapping, "VALIDATOR_CLASS");
-        this.router_class = (String)safeGet(actionDesc, action_mapping, "ROUTER_CLASS");
-        this.dialog_class = (String)safeGet(actionDesc, action_mapping, "DIALOG_CLASS");
+        this.action_display_text = (String) safeGetString(actionDesc, action_mapping, "ACTION_DISPLAY_TEXT");
+        this.action_class = (String) safeGetString(actionDesc, action_mapping, "ACTION_CLASS");
+        this.system_container = (String) safeGetString(actionDesc, action_mapping, "SYSTEM_CONTAINER");
+        this.validator_class = (String)safeGetString(actionDesc, action_mapping, "VALIDATOR_CLASS");
+        this.router_class = (String)safeGetString(actionDesc, action_mapping, "ROUTER_CLASS");
+        this.dialog_class = (String)safeGetString(actionDesc, action_mapping, "DIALOG_CLASS");
         buildCommandChain((String)safeGet(actionDesc, action_mapping, "COMMAND_CHAIN"));
     }
     
+    @Override
     public String toString() {
         return this.action_display_text();
     }
  
+    private String safeGetString(Vector<String> actions, HashMap map, String key) {
+        Object o = null;
+        o = safeGet(actions, map, key);
+        if (o == null) {
+            return null;
+        } else 
+            return ((String)o).trim();
+    }
     private Object safeGet (Vector<String> actions, HashMap map, String key){
         Object o = null ;
         if (map.containsKey(key)) 

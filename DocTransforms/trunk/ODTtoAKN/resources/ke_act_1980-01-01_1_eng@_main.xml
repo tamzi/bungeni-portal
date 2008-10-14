@@ -1,9 +1,6 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<?xml-stylesheet type="text/xsl" href="../../../../../../schemas/styles/kenya.xsl"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--Akoma_Ntoso document-->
-<akomantoso xmlns="http://www.akomantoso.org/1.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.akomantoso.org/1.0 ./akomantoso10.xsd ">
+<akomantoso xmlns="http://www.akomantoso.org/1.0">
 	<act contains="OriginalVersion">
 		<meta>
 			<identification source="#cirsfid">

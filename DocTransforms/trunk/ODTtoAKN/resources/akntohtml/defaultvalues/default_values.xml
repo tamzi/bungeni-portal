@@ -17,52 +17,52 @@
     <element name="debate" transformTo="div"  class="debate_container"/>
     <element name="maincontent" transformTo="div"  class="maincontent_container"/>
     <element name="judgmentBody" transformTo="div"  class="judgmentBody_container"/>
-    <element name="section" transformTo="div"  class="hierarchy" mantaind="id"/>
-    <element name="part" transformTo="div"  class="hierarchy" mantaind="id"/>
-    <element name="paragraph" transformTo="div"  class="hierarchy" mantaind="id"/>
-    <element name="chapter" transformTo="div"  class="hierarchy" mantaind="id"/>
-    <element name="title" transformTo="div"  class="hierarchy" mantaind="id"/>
-    <element name="book" transformTo="div"  class="hierarchy" mantaind="id"/>
-    <element name="tome" transformTo="div"  class="hierarchy" mantaind="id"/>
-    <element name="article" transformTo="div"  class="hierarchy" mantaind="id"/>
-    <element name="clause" transformTo="div"  class="hierarchy" mantaind="id"/>
+    <element name="section" transformTo="div"  class="hierarchy" mantain="id"/>
+    <element name="part" transformTo="div"  class="hierarchy" mantain="id"/>
+    <element name="paragraph" transformTo="div"  class="hierarchy" mantain="id"/>
+    <element name="chapter" transformTo="div"  class="hierarchy" mantain="id"/>
+    <element name="title" transformTo="div"  class="hierarchy" mantain="id"/>
+    <element name="book" transformTo="div"  class="hierarchy" mantain="id"/>
+    <element name="tome" transformTo="div"  class="hierarchy" mantain="id"/>
+    <element name="article" transformTo="div"  class="hierarchy" mantain="id"/>
+    <element name="clause" transformTo="div"  class="hierarchy" mantain="id"/>
     <element name="subsection" transformTo="div"  class="hierarchy"/>
-    <element name="subpart" transformTo="div"  class="hierarchy" mantaind="id"/>
-    <element name="subparagraph" transformTo="div"  class="hierarchy" mantaind="id"/>
-    <element name="subchapter" transformTo="div"  class="hierarchy" mantaind="id"/>
-    <element name="subtitle" transformTo="div"  class="hierarchy" mantaind="id"/>
-    <element name="subclause" transformTo="div"  class="hierarchy" mantaind="id"/>
+    <element name="subpart" transformTo="div"  class="hierarchy" mantain="id"/>
+    <element name="subparagraph" transformTo="div"  class="hierarchy" mantain="id"/>
+    <element name="subchapter" transformTo="div"  class="hierarchy" mantain="id"/>
+    <element name="subtitle" transformTo="div"  class="hierarchy" mantain="id"/>
+    <element name="subclause" transformTo="div"  class="hierarchy" mantain="id"/>
     <element name="content" transformTo="div"  class="heirarchy_content"/>
     <element name="num" transformTo="p"  class="hierarchy_num"/>
     <element name="heading" transformTo="p"  class="hierarchy_heading"/>
     <element name="subheading" transformTo="p"  class="hierarchy_subheading"/>
     <element name="sidenote" transformTo="p"  class="hierarchy_sidenote"/>
     <element name="from" transformTo="span"  class="speec_from"/>
-    <element name="AdministrationOfOath" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
-    <element name="DeclarationOfVote" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
-    <element name="Communication" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
-    <element name="Petitions" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
-    <element name="Papers" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
-    <element name="NoticesOfMotion" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
-    <element name="Questions" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
-    <element name="Address" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
-    <element name="ProceduralMotions" transformTo="div"  class="speech_hierarchy" mantaind="id"/>
-    <element name="PointOfOrder" transformTo="div" class="speech_hierarchy" mantaind="id"/>
-    <element name="subdivision" transformTo="div" class="speech_hierarchy" mantaind="id"/>
+    <element name="AdministrationOfOath" transformTo="div"  class="speech_hierarchy" mantain="id"/>
+    <element name="DeclarationOfVote" transformTo="div"  class="speech_hierarchy" mantain="id"/>
+    <element name="Communication" transformTo="div"  class="speech_hierarchy" mantain="id"/>
+    <element name="Petitions" transformTo="div"  class="speech_hierarchy" mantain="id"/>
+    <element name="Papers" transformTo="div"  class="speech_hierarchy" mantain="id"/>
+    <element name="NoticesOfMotion" transformTo="div"  class="speech_hierarchy" mantain="id"/>
+    <element name="Questions" transformTo="div"  class="speech_hierarchy" mantain="id"/>
+    <element name="Address" transformTo="div"  class="speech_hierarchy" mantain="id"/>
+    <element name="ProceduralMotions" transformTo="div"  class="speech_hierarchy" mantain="id"/>
+    <element name="PointOfOrder" transformTo="div" class="speech_hierarchy" mantain="id"/>
+    <element name="subdivision" transformTo="div" class="speech_hierarchy" mantain="id"/>
     <element name="speech" transformTo="div" class="speech_speech"/>
     <element name="question" transformTo="div" class="speech_question"/>
     <element name="answer" transformTo="div" class="speech_answer"/>
     <element name="other" transformTo="div" class="speech_other"/>
     <element name="comment" transformTo="div" class="speech_comment"/>
     <element name="list" transformTo="ol"  class="akomantoso_list"/>
-    <element name="introduction" transformTo="div"  class="introduction" mantaind="id"/>
-    <element name="background" transformTo="div"  class="background" mantaind="id"/>
-    <element name="motivation" transformTo="div"  class="motivation" mantaind="id"/>
-    <element name="decision" transformTo="div"  class="decision" mantaind="id"/>
-    <element name="tblock" transformTo="div"  class="title_block" mantaind="id"/>
-    <element name="item" transformTo="li"  class="akomantoso_list_item" mantaind="id"/>
+    <element name="introduction" transformTo="div"  class="introduction" mantain="id"/>
+    <element name="background" transformTo="div"  class="background" mantain="id"/>
+    <element name="motivation" transformTo="div"  class="motivation" mantain="id"/>
+    <element name="decision" transformTo="div"  class="decision" mantain="id"/>
+    <element name="tblock" transformTo="div"  class="title_block" mantain="id"/>
+    <element name="item" transformTo="li"  class="akomantoso_list_item" mantain="id"/>
     <element name="toc" transformTo="div"  class="toc"/>
-    <element name="tocitem" transformTo="p"  class="toc_item" mantaind="href"/>
+    <element name="tocitem" transformTo="p"  class="toc_item" mantain="href"/>
     <element name="ActType" transformTo="span"  class="inline_meta"/>
     <element name="ActTitle" transformTo="span"  class="inline_meta"/>
     <element name="ActNumber" transformTo="span"  class="inline_meta"/>

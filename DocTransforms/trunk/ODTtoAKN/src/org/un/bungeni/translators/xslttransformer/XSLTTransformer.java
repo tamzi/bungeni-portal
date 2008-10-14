@@ -3,6 +3,7 @@ package org.un.bungeni.translators.xslttransformer;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -61,8 +62,9 @@ public class XSLTTransformer implements XSLTTransformerInterface
 	 * @param anXSLTSource the stream source of the XSLT to apply to the document that you want to transform
 	 * @return the new StreamSource of the Document resulting applying the given XSLT to the given Document
 	 * @throws TransformerException 
+	 * @throws UnsupportedEncodingException 
 	 */
-	public StreamSource transform(StreamSource aDocumentSource, StreamSource anXSLTSource) throws TransformerException
+	public StreamSource transform(StreamSource aDocumentSource, StreamSource anXSLTSource) throws TransformerException, UnsupportedEncodingException
 	{
 	    
 	    //create a new transformer
@@ -75,7 +77,7 @@ public class XSLTTransformer implements XSLTTransformerInterface
 	    trans.transform(aDocumentSource, new StreamResult(resultString));
 	    
 	    //returns the obtained file
-	    return new StreamSource(((InputStream)new ByteArrayInputStream(resultString.toString().getBytes())));
+	    return new StreamSource(((InputStream)new ByteArrayInputStream(resultString.toString().getBytes("UTF-8"))));
 	}
 	
 	/**

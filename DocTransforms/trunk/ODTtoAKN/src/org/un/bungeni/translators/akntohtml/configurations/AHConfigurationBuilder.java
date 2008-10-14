@@ -96,7 +96,7 @@ public class AHConfigurationBuilder
 				String emptyXSLTString = FileUtility.getInstance().FileToString(this.emptyMiniXSLTPath);
 								
 				//replace the value of the current Element into the emptyMiniXSLTFile
-				emptyXSLTString = emptyXSLTString.replaceAll("element-to-replace", element.getAttributes().getNamedItem("name").getNodeValue());
+				emptyXSLTString = emptyXSLTString.replaceAll("element-to-replace","akn:" + element.getAttributes().getNamedItem("name").getNodeValue());
 				emptyXSLTString = emptyXSLTString.replaceAll("new-element", element.getAttributes().getNamedItem("transformTo").getNodeValue());
 				emptyXSLTString = emptyXSLTString.replaceAll("element-class", element.getAttributes().getNamedItem("class").getNodeValue());
 				
@@ -127,6 +127,25 @@ public class AHConfigurationBuilder
 				//remove other-attribute in case there are no attributes to mantain
 				emptyXSLTString = emptyXSLTString.replaceAll("other-attributes"," ");
 
+				//write the string to the file in the path composed by the given outputDirectory and the name of the element
+				FileUtility.getInstance().StringToFile(outputDirectory + element.getAttributes().getNamedItem("name").getNodeValue() + ".xsl", emptyXSLTString);
+			
+				//create the pipelinestep 
+				pipelineSteps = pipelineSteps + "\t<xsl:template match=\"akn:" + element.getAttributes().getNamedItem("name").getNodeValue() +  "\">\n\t\t<xslt step=\"" + i +  "\" name=\"" + element.getAttributes().getNamedItem("name").getNodeValue() + "\" href=\"" + outputDirectory + element.getAttributes().getNamedItem("name").getNodeValue() + ".xsl" + "\" />\n\t\t<xsl:apply-templates />\n\t</xsl:template>\n\n"; 
+			}
+			//otherwise the element will not be translated
+			else
+			{
+				//get the string of the mini XSLT
+				String emptyXSLTString = FileUtility.getInstance().FileToString(this.emptyMiniXSLTPath);
+								
+				//replace the value of the current Element into the emptyMiniXSLTFile
+				emptyXSLTString = emptyXSLTString.replaceAll("element-to-replace","akn:" + element.getAttributes().getNamedItem("name").getNodeValue());
+				emptyXSLTString = emptyXSLTString.replaceAll("<new-element>", "");
+				emptyXSLTString = emptyXSLTString.replaceAll("<xsl:attribute name=\"class\">element-class</xsl:attribute>", "");
+				emptyXSLTString = emptyXSLTString.replaceAll("other-attributes", "");
+				emptyXSLTString = emptyXSLTString.replaceAll("</new-element>", "");
+						
 				//write the string to the file in the path composed by the given outputDirectory and the name of the element
 				FileUtility.getInstance().StringToFile(outputDirectory + element.getAttributes().getNamedItem("name").getNodeValue() + ".xsl", emptyXSLTString);
 			

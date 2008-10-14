@@ -1,12 +1,17 @@
 package unittest.translatortest;
 
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.un.bungeni.translators.akntohtml.configurations.AHConfigurationBuilder;
+//import org.un.bungeni.translators.akntohtml.configurations.AHConfigurationBuilder;
+import org.un.bungeni.translators.akntohtml.translator.AHTranslator;
 
 public class AHTranslatorTest {
 
@@ -34,6 +39,33 @@ public class AHTranslatorTest {
 	public final void testTranslate() throws Exception 
 	{
 		//perform a translation
-		AHConfigurationBuilder.newInstance().createConfiguration("resources/akntohtml/minixslt/");
-	}	
+		//AHConfigurationBuilder.newInstance().createConfiguration("resources/akntohtml/minixslt/");
+		File translation = AHTranslator.getInstance().translate("resources/ke_act_1980-01-01_1_eng@_main.xml", "resources/akntohtml/minixslt/pipeline.xsl");
+	
+		//input stream
+		FileInputStream fis  = new FileInputStream(translation);
+		
+		//output stream 
+		FileOutputStream fos = new FileOutputStream("resources/AHresult.html");
+		
+		//copy the file
+		try 
+		{
+			byte[] buf = new byte[1024];
+		    int i = 0;
+		    while ((i = fis.read(buf)) != -1) 
+		    {
+		            fos.write(buf, 0, i);
+		    }
+		} 
+		catch (Exception e) 
+		{
+		}
+		finally 
+		{
+		        if (fis != null) fis.close();
+		        if (fos != null) fos.close();
+		}	
+		
+	}
 }

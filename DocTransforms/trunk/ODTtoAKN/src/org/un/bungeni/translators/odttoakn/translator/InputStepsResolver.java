@@ -1,6 +1,7 @@
 package org.un.bungeni.translators.odttoakn.translator;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -26,8 +27,9 @@ public final class InputStepsResolver
 	 * 			given StreamSource
 	 * @throws XPathExpressionException 
 	 * @throws TransformerException 
+	 * @throws UnsupportedEncodingException 
 	 */
-	protected static StreamSource resolve(StreamSource anODFDocument, Configuration aConfiguration) throws XPathExpressionException, TransformerException
+	protected static StreamSource resolve(StreamSource anODFDocument, Configuration aConfiguration) throws XPathExpressionException, TransformerException, UnsupportedEncodingException
 	{
 		//get the steps from the configuration 
 		HashMap<Integer,XSLTStep> stepsMap = aConfiguration.getInputSteps();

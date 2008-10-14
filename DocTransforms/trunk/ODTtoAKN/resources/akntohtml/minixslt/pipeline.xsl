@@ -477,6 +477,11 @@
 		<xsl:apply-templates />
 	</xsl:template>
 
+	<xsl:template match="akn:eop">
+		<xslt step="92" name="eop" href="resources/akntohtml/minixslt/eop.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
 	<xsl:template match="akn:hcontainer">
 		<xslt step="93" name="hcontainer" href="resources/akntohtml/minixslt/hcontainer.xsl" />
 		<xsl:apply-templates />
@@ -574,6 +579,306 @@
 
 	<xsl:template match="akn:td">
 		<xslt step="112" name="td" href="resources/akntohtml/minixslt/td.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:meta">
+		<xslt step="113" name="meta" href="resources/akntohtml/minixslt/meta.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:identification">
+		<xslt step="114" name="identification" href="resources/akntohtml/minixslt/identification.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:FRBRWork">
+		<xslt step="115" name="FRBRWork" href="resources/akntohtml/minixslt/FRBRWork.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:FRBRExpression">
+		<xslt step="116" name="FRBRExpression" href="resources/akntohtml/minixslt/FRBRExpression.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:FRBRManifestation">
+		<xslt step="117" name="FRBRManifestation" href="resources/akntohtml/minixslt/FRBRManifestation.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:FRBRItem">
+		<xslt step="118" name="FRBRItem" href="resources/akntohtml/minixslt/FRBRItem.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:this">
+		<xslt step="119" name="this" href="resources/akntohtml/minixslt/this.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:uri">
+		<xslt step="120" name="uri" href="resources/akntohtml/minixslt/uri.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:alias">
+		<xslt step="121" name="alias" href="resources/akntohtml/minixslt/alias.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:date">
+		<xslt step="122" name="date" href="resources/akntohtml/minixslt/date.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:author">
+		<xslt step="123" name="author" href="resources/akntohtml/minixslt/author.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:components">
+		<xslt step="124" name="components" href="resources/akntohtml/minixslt/components.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:component">
+		<xslt step="125" name="component" href="resources/akntohtml/minixslt/component.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:preservation">
+		<xslt step="126" name="preservation" href="resources/akntohtml/minixslt/preservation.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:publication">
+		<xslt step="127" name="publication" href="resources/akntohtml/minixslt/publication.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:classification">
+		<xslt step="128" name="classification" href="resources/akntohtml/minixslt/classification.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:keyword">
+		<xslt step="129" name="keyword" href="resources/akntohtml/minixslt/keyword.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:lifecycle">
+		<xslt step="130" name="lifecycle" href="resources/akntohtml/minixslt/lifecycle.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:event">
+		<xslt step="131" name="event" href="resources/akntohtml/minixslt/event.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:workflow">
+		<xslt step="132" name="workflow" href="resources/akntohtml/minixslt/workflow.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:action">
+		<xslt step="133" name="action" href="resources/akntohtml/minixslt/action.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:analysis">
+		<xslt step="134" name="analysis" href="resources/akntohtml/minixslt/analysis.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:ActiveModifications">
+		<xslt step="135" name="ActiveModifications" href="resources/akntohtml/minixslt/ActiveModifications.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:PassiveModifications">
+		<xslt step="136" name="PassiveModifications" href="resources/akntohtml/minixslt/PassiveModifications.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:TextualMod">
+		<xslt step="137" name="TextualMod" href="resources/akntohtml/minixslt/TextualMod.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:MeaningMod">
+		<xslt step="138" name="MeaningMod" href="resources/akntohtml/minixslt/MeaningMod.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:ScopeMod">
+		<xslt step="139" name="ScopeMod" href="resources/akntohtml/minixslt/ScopeMod.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:ForceMod">
+		<xslt step="140" name="ForceMod" href="resources/akntohtml/minixslt/ForceMod.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:EfficacyMod">
+		<xslt step="141" name="EfficacyMod" href="resources/akntohtml/minixslt/EfficacyMod.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:Legal">
+		<xslt step="142" name="Legal" href="resources/akntohtml/minixslt/Legal.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:source">
+		<xslt step="143" name="source" href="resources/akntohtml/minixslt/source.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:destination">
+		<xslt step="144" name="destination" href="resources/akntohtml/minixslt/destination.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:force">
+		<xslt step="145" name="force" href="resources/akntohtml/minixslt/force.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:efficacy">
+		<xslt step="146" name="efficacy" href="resources/akntohtml/minixslt/efficacy.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:application">
+		<xslt step="147" name="application" href="resources/akntohtml/minixslt/application.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:duration">
+		<xslt step="148" name="duration" href="resources/akntohtml/minixslt/duration.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:condition">
+		<xslt step="149" name="condition" href="resources/akntohtml/minixslt/condition.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:old">
+		<xslt step="150" name="old" href="resources/akntohtml/minixslt/old.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:new">
+		<xslt step="151" name="new" href="resources/akntohtml/minixslt/new.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:domain">
+		<xslt step="152" name="domain" href="resources/akntohtml/minixslt/domain.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:references">
+		<xslt step="153" name="references" href="resources/akntohtml/minixslt/references.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:Original">
+		<xslt step="154" name="Original" href="resources/akntohtml/minixslt/Original.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:PassiveRef">
+		<xslt step="155" name="PassiveRef" href="resources/akntohtml/minixslt/PassiveRef.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:ActiveRef">
+		<xslt step="156" name="ActiveRef" href="resources/akntohtml/minixslt/ActiveRef.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:Jurisprudence">
+		<xslt step="157" name="Jurisprudence" href="resources/akntohtml/minixslt/Jurisprudence.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:HasAttachment">
+		<xslt step="158" name="HasAttachment" href="resources/akntohtml/minixslt/HasAttachment.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:AttachmentOf">
+		<xslt step="159" name="AttachmentOf" href="resources/akntohtml/minixslt/AttachmentOf.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:TLCPerson">
+		<xslt step="160" name="TLCPerson" href="resources/akntohtml/minixslt/TLCPerson.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:TLCOrganization">
+		<xslt step="161" name="TLCOrganization" href="resources/akntohtml/minixslt/TLCOrganization.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:TLCConcept">
+		<xslt step="162" name="TLCConcept" href="resources/akntohtml/minixslt/TLCConcept.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:TLCObject">
+		<xslt step="163" name="TLCObject" href="resources/akntohtml/minixslt/TLCObject.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:TLCEvent">
+		<xslt step="164" name="TLCEvent" href="resources/akntohtml/minixslt/TLCEvent.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:TLCPlace">
+		<xslt step="165" name="TLCPlace" href="resources/akntohtml/minixslt/TLCPlace.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:TLCProcess">
+		<xslt step="166" name="TLCProcess" href="resources/akntohtml/minixslt/TLCProcess.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:TLCRole">
+		<xslt step="167" name="TLCRole" href="resources/akntohtml/minixslt/TLCRole.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:TLCTerm">
+		<xslt step="168" name="TLCTerm" href="resources/akntohtml/minixslt/TLCTerm.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:TLCReference">
+		<xslt step="169" name="TLCReference" href="resources/akntohtml/minixslt/TLCReference.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:notes">
+		<xslt step="170" name="notes" href="resources/akntohtml/minixslt/notes.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:note">
+		<xslt step="171" name="note" href="resources/akntohtml/minixslt/note.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="akn:proprietary">
+		<xslt step="172" name="proprietary" href="resources/akntohtml/minixslt/proprietary.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 

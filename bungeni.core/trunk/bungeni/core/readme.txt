@@ -346,6 +346,7 @@ Clean up commit outstanding transactions
 -----------------------------------------
  >>> session.flush() 
  >>> session.commit()
+ >>> session.close()
  
 
  

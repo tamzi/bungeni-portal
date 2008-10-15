@@ -52,6 +52,20 @@ test setup is creating a sqlite db:
 
   >>> session = Session()
 
+
+
+create an instance of the class:
+  >>> user = Users()
+  >>> user.name="jdoe"
+  >>> user.fullname ="John Doe"
+  >>> user.password ="passwd"
+  >>> session.save(user)
+  >>> session.flush()
+  
+  >>> user.user_id
+  1  
+  
+  
 check that our changes table acts as expected
 
   >>> len(list(session.query(UserChanges)))
@@ -61,10 +75,11 @@ check that our changes table acts as expected
   >>> change.user_id = 1
   >>> session.save(change)
   >>> session.flush()
+  
 
   >>> len(list(session.query(UserChanges)))
   1
-
+  
 
 setting up the event subscribers/adapters:
 
@@ -76,21 +91,9 @@ setting up the event subscribers/adapters:
   >>> #domain.ItemLog.makeLogFactory( "UsersChange")
 
 
-   >>> import zope.lifecycleevent
+  >>> import zope.lifecycleevent
+  >>> import zope.event
 
-   >>> import zope.event
-
-
-
-
-
-create an instance of the class:
-  >>> user = Users()
-  >>> user.name="jd"
-  >>> user.fullname ="John Doe"
-  >>> user.password ="passwd"
-  >>> session.save(user)
-  >>> session.flush()
   
   >>> auditor = bungeni.core.interfaces.IAuditable(user, UsersAuditor)  
 
@@ -104,15 +107,10 @@ create an instance of the class:
   >>> zope.component.provideHandler( audit.objectAdded,
   ...  [bungeni.core.interfaces.IAuditable , zope.lifecycleevent.IObjectCreatedEvent])
 
-
+  >>> zope.component.provideHandler( audit.objectModified,
+  ...  [bungeni.core.interfaces.IAuditable , zope.lifecycleevent.IObjectModifiedEvent])
 
   
-  >>> user.user_id
-  1
-    
-
-  >>> from zope.event import notify
-
 
 
 broadcast an event:
@@ -124,6 +122,18 @@ check the audit table:
 
   >>> len(list(session.query(UserChanges)))
   2
+
+broadcast an event:
+
+  >>> event = zope.lifecycleevent.IObjectModifiedEvent(user)  
+  >>> zope.component.event.objectEventNotify(event)
+
+
+check the audit table: 
+
+  >>> len(list(session.query(UserChanges)))
+  3
+
 
 Clean up:
   >>> session.flush()

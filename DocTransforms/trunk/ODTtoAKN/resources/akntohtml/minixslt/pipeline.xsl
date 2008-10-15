@@ -14,8 +14,8 @@
     </xsl:template>
 
     <xsl:template match="text()">
-        <xsl:apply-templates />
-    </xsl:template>
+       <xsl:value-of select="normalize-space(.)" />
+    </xsl:template> 
 
 	<xsl:template match="akn:akomantoso">
 		<xslt step="0" name="akomantoso" href="resources/akntohtml/minixslt/akomantoso.xsl" />

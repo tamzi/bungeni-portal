@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.xml.sax.SAXException;
@@ -27,4 +28,17 @@ public interface AHTranslatorInterface
 	 * @throws XPathExpressionException 
 	 */
 	public File translate(String aDocumentPath, String aPipelinePath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException;
+	
+	/**
+	 * Create and return an XSLT builded upon the instructions of the given pipeline. 
+	 * @param aPipelinePath the pipeline upon which the XSLT will be created
+	 * @return a File containing the created XSLT
+	 * @throws ParserConfigurationException 
+	 * @throws IOException 
+	 * @throws SAXException 
+	 * @throws XPathExpressionException 
+	 * @throws TransformerException 
+	 * @throws TransformerFactoryConfigurationError 
+	 */
+	public File buildXSLT(String aPipelinePath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerFactoryConfigurationError, TransformerException;
 }

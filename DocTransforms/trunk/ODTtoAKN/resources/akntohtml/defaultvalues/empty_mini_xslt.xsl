@@ -29,6 +29,6 @@ other-attributes
     
     <xsl:template match="text()">
         <xsl:value-of select="normalize-space(.)"/>
-    </xsl:template>
+    </xsl:template> 
 
 </xsl:stylesheet>

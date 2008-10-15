@@ -14,8 +14,8 @@
     </xsl:template>
 
     <xsl:template match="text()">
-        <xsl:apply-templates />
-    </xsl:template>
+       <xsl:value-of select="normalize-space(.)" />
+    </xsl:template> 
 
 <xsl:template match="to_replace"><XSLT_steps /></xsl:template>
 </xsl:stylesheet>

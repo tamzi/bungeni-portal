@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<akomantoso xmlns="http://www.akomantoso.org/1.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.akomantoso.org/1.0 file:/Users/lucacervone/Documents/Progetti%20di%20Lavoro/2008/AkomaNtoso%20Documentation/Akoma%20Ntoso%20schema%20releases/Tentative%20Release%2020080303/schemas/akomantoso10.xsd">
+    <report>
+        <meta>
+            <identification source="Bugeni">
+                <FRBRWork>
+                    <this value="/kn/report/2008-03-06/main"/>
+                    <uri value="/kn/report/2008-03-06/"/>
+                    <date date="2008-03-06" name="Generation"/>
+                    <author href="#parliament" as="#author"/>
+                    <components>
+						<component id="wmain" href="#wmain" name="main" showAs="Main document"/>
+					</components>
+                </FRBRWork>
+                <FRBRExpression>
+                    <this value="/kn/report/2008-03-06/eng@/main"/>
+                    <uri value="/kn/report/2008-03-06/eng@"/>
+                    <date date="2008-03-06" name="Generation"/>
+                    <author href="#Bungeni" as="#jurist"/>
+                    <components>
+						<component id="emain" href="#emain" name="main" showAs="Main document"/>
+					</components>
+                </FRBRExpression>
+                <FRBRManifestation>
+                    <this value="/kn/report/2008-03-06/eng@/main.xml"/>
+                    <uri value="/kn/report/2008-03-06/eng@.akn"/>
+                    <date date="2008-10-08" name="Generation"/>
+                    <author href="#Bungeni" as="#editor"/>
+                    <author href="#lc" as="#editor"/>
+                    <components>
+						<component id="mmain" href="#mmain" name="main.xml" showAs="Main document"/>
+					</components>
+                </FRBRManifestation>
+            </identification>
+            <publication date="2008-03-06" showAs="" name=""/>
+			<references source="#Bungeni">
+				<Original id="or1" href="/kn/report/2008-03-06/eng@/main" showAs="Original"/>
+				<TLCPerson id="lc" href="/ontology/person/editors/it.lc" showAs="Luca Cervone"/>
+				<TLCPerson id="mrspeaker" href="/ontology/person/speaker/kn.speaker" showAs="Mr. Speaker"/>
+				<TLCPerson id="mk" href="/ontology/person/kn.mk" showAs="Mwai Kibaki"/>
+			    <TLCPerson id="pnk" href="/ontology/person/kn.pnc" showAs="Peter Njenga Kariuki"/>
+			    <TLCPerson id="bps" href="/ontology/person/kn.bps" showAs="Bishop Philip Sulumeti"/>
+			    <TLCPerson id="dmg" href="/ontology/person/kn.dmg" showAs="David M. Githii"/>
+			    <TLCPerson id="kshk" href="/ontology/person/kn.kshk" showAs=" Kadhi Sheikh Hammad Kassim"/>
+			    <TLCPerson id="sl" href="/ontology/person/kn.sl" showAs="Siopin Lekolool"/>
+			    <TLCPerson id="mw" href="/ontology/person/kn.mw" showAs="Melitus Were "/>
+			    <TLCPerson id="dkt" href="/ontology/person/kn.dkt" showAs="David Kimutai Too"/>
+			    <TLCPerson id="m" href="/ontology/person/kn.m" showAs="Mr. Musyoka"/>
+				<TLCOrganization id="na" href="/ontology/concepts/assembly/kn.na" showAs="National Assembly"/>
+				<TLCOrganization id="Bungeni" href="/ontology/organization/kn/kn.Bungeni" showAs="Bungeni"/>
+				<TLCOrganization id="parliament" href="/ontology/organization/ke/ke.parliament" showAs="Parliament of Kenya"/>
+				<TLCObject id="mace" href="/ontology/objects/assembly/kn.mace" showAs="Mace"/>
+				<TLCRole id="editor" href="/ontology/roles/editor" showAs="Editor"/>
+				<TLCRole id="jurist" href="/ontology/roles/jurist" showAs="Jurist"/>
+				<TLCRole id="author" href="/ontology/roles/author" showAs="Author"/>
+				<TLCRole id="speaker" href="/ontology/roles/speaker" showAs="speaker"/>
+				<TLCRole id="president" href="/ontology/roles/president" showAs="His Excellency"/>
+			    <TLCRole id="vicepresident" href="/ontology/roles/ministers/homeaffairs/vicepresident" showAs="The Vice-President and Minister for social Affaris" />
+			</references>
+        </meta>
+        <preface>
+            <block name="preface_heading_1"><b>NATIONAL ASSEMBLY</b></block>
+            <block name="preface_heading_2"><b>OFFICIAL REPORT</b></block>
+            <block name="preface_heading_3"><b>Tenth Parliament - Second Session</b></block>
+            <p>
+            	<i>
+            	    (Tenth Parliament established by proclamation -
+	                 Legal Notice No.24 of 29.2.2008)
+                </i>
+	            <b>
+	                <ActDate date="2008-06-03">Thursday, 6th March, 2008</ActDate>
+                </b>
+            </p>
+        </preface>
+        <maincontent>
+            <subdivision name="introduction" id="sdi-1">
+                <heading>
+                    <b>STATE OPENING OF A NEW SESSION</b>
+                </heading>
+                <comment>
+                    <i>
+                    	The <span refersTo="na">National Assembly</span> met at Thirty minutes 
+                    	past Two o'clock at Parliament Buildings 
+                    	on Thursday, 6th March, 2008, it being 
+                    	the first day of the Second Session.
+                    </i>
+                </comment>
+            </subdivision>
+            <subdivision name="excellency_arrival" id="sdi-2">
+                <heading>
+                    <b>
+	                    ARRIVAL OF HIS EXCELLENCY <eol />
+   	                    THE PRESIDENT
+   	                </b>
+                </heading>
+                <comment >
+                	<i>
+                    	[His Excellency the <span refersTo="president">President</span> <span refersTo="mk">(Mr. Mwai Kibaki)</span>,
+                    	escorted by the Speaker and accompanied by the <span refersTo="mace">Mace</span> 
+                    	of the <span refersTo="na">National Assembly</span>, entered the Chamber 
+                    	at Thirty minutes past two o'clock]
+                	</i>
+                </comment>
+                <comment>
+                    <i>
+                    	[His Excellency the <span refersTo="president">President </span>, 
+                    	<span refersTo="mk">(Mr. Mwai Kibaki)</span> took his 
+                    	seat in the Chair of State]
+                    </i>
+                </comment>
+                <comment>
+                    <i>
+                    	(The <span refersTo="mace">Mace</span> of the National Assembly 
+                    	was placed on the Table)
+                    </i>
+                </comment>
+            </subdivision>
+            <subdivision name="prayers" id="sdi-3">
+                <heading>PRAYERS</heading>
+                <speech by="#mrspeaker" to="#na">
+                    <from>
+                        <span refersTo="mrspeaker"><b>Mr. Speaker</b></span>
+                    </from>
+                    <p>Your Excellency, hon. Members, may I call upon the Spiritual Leaders to offer prayers for this new Session.</p>
+                </speech>
+                <comment>
+                    <i>
+                        (Prayers were then said by the following: <eol/>
+                    	The <span refersTo="pnk">Rt. Rev. Peter Njenga Kariuki</span>; <eol/>
+                	    The <span refersTo="bps">Rt. Rev. Bishop Philip Sulumeti</span>; <eol/>
+                	    The <span refersTo="dmg">Rt. Rev. (Dr) David M. Githii</span>; <eol/>
+                	    The <span refersTo="kshk">Chief Kadhi Sheikh Hammad <eol/> 
+                	    Kassim</span> and <span refersTo="sl">Siopin Lekolool</span>) 
+                    </i>
+                </comment>
+            </subdivision>
+            <Communication id="com1">
+                <heading><b>COMMUNICATION FROM THE CHAIR</b></heading>
+                <subheading>
+                        WELCOME TO HIS EXCELLENCY <eol/> 
+                        THE PRESIDENT
+                </subheading>
+                <speech by="#speaker" to="#na">
+                    <from>
+                        <b><span refersTo="mrspeaker">Mr. Speaker</span></b>:
+                    </from>
+                    <p> Your Excellency the President, hon. Members, distinguished guests, ladies and gentlemen, 
+                        it is my pleasure, privilege and honour to address the House on this auspicious occasion 
+                        of the Official State Opening of the Tenth Parliament. 
+                        I must, however, hasten to note that the occasion is, unfortunately, clouded, coming against the backdrop 
+                        of the loss of two hon. Members, namely, the hon. Member for Embakasi, Mr. <span refersTo="mw">Melitus Were</span> and the hon. 
+                        Member for Ainamoi, Mr. <span refersTo="dkt">David Kimutai Too</span>, through murders most foul since the inauguration on 15th January, 2008.
+                    </p>
+                    <p>
+                    	It is regrettable that the two hon. Members lost their lives without addressing this House even for a single moment.
+                    	This House, and indeed the entire country, hopes that the two murders shall be fully investigated with speed so 
+                    	that the culprits are brought to book. This will go some way in helping law enforcement agencies regain public 
+                    	confidence in the ability to protect the people and their property. 
+                    </p>
+                    <p>
+                    	All of us are aware that this has been an exceptionally difficult year for our country. 
+                    	No sooner had the results of the last general elections been announced than unprecedented mayhem ensued 
+                    	in several parts of the country. Most, if not all of us, have thus not been able to enjoy and celebrate our victory 
+                    	at the polls as is typical of us. 
+                    </p>
+                    <p>
+                    	The irony of events as have taken place in Kenya is that several African countries which have had political 
+                    	upheavals were assisted by the international community to conduct credible general elections as a means of 
+                    	resolving their conflicts. It is because armed conflicts in Africa have tended to beset those countries 
+                    	where the leaders erroneously believe that seeking the mandate to govern from the governed 
+                    	is a luxury they can ill-afford. 
+                    	In contrast, the Kenyan conflict was triggered by events which took place after the people had successfully 
+                    	voted for their preferred candidates in the elections. 
+                    </p>
+                    <p>
+                        Hon. Members, it is for the foregoing reason that I would like to take this unique opportunity to congratulate 
+                        all of you for having won your seats in the most competitive and yet, divisive and acrimonious elections Kenya 
+                        has ever witnessed. For the first time in our history since 1963, the foundation of our nation faced a real threat. 
+                        It appeared at times as if the forces of disintegration and disunity were too powerful for us to manage and control. 
+                    </p>
+                    <p>
+                        That the worst did not happen is due mainly to the tenacity of our people and their true love for this beautiful 
+                        country which God created and bestowed upon us. We cannot also forget to commend our leaders, both temporal and 
+                        spiritual, for having stood firm to defend and protect our national integrity.
+                    </p>
+                    <p>
+                        Hon. Members, I have no appropriate words to commend our two heroes whose heads remain high above all the din and 
+                        dint that characterised our public life to stay the course steadily and make great sacrifices even at the expense 
+                        of disappointing their closest friends, supporters and admirers across the country.
+                    </p>
+                    <comment><i>(Applause)</i></comment>
+                </speech>
+            </Communication>
+            <NoticesOfMotion id="nom1">
+                <heading><b>NOTICE OF MOTIONS</b></heading>
+                <subheading>THANKS FOR THE PRESIDENTIAL ADDRESS</subheading>
+                <speech by="#m" as="#vicepresident" to="#mrspeaker">
+                    <from>
+                        <b>
+                            <span refersTo="vicepresident">The Vice-President and Minister for Home Affairs</span>
+                        </b>
+                        <span refersTo="m">(Mr. Musyoka):</span>
+                    </from>
+                    <block name="motion_to">
+                       <span refersTo="mrspeaker">Mr. Speaker</span>, <span refersTo="president">Sir,</span> 
+                        I beg to give notice of the following Motion:-
+                    </block>
+                    <block name="motion_content">
+                        THAT, the thanks of this House be recorded for the exposition 
+                        of public policy contained in His Excellency's Presidential Address 
+                        from the Chair on Thursday, 6th March, 2008.
+                    </block>
+                </speech>
+            </NoticesOfMotion>
+            <subdivision name="adjournment" id="sdi-4">
+                <heading><b>ADJOURNMENT</b></heading>
+                <speech by="#mrspeaker">
+                    <from>
+                        <span refersTo="mrspeaker">
+                            <b>Mr Speaker:</b>
+                        </span>
+                    </from>
+                    <p>
+                        Hon. Members, that concludes our business for today. 
+                        Therefore, the House stands adjourned until 
+                        Tuesday, 11th March, 2008 at <recordedTime time="02:30:00"/>2.30 p.m.
+                    </p>
+                </speech>
+            </subdivision>
+        </maincontent>
+        <conclusions>
+            <block name="rosetime">The House rose at 3.50 p.m.</block>
+        </conclusions>
+    </report>    
+</akomantoso>

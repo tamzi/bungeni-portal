@@ -7,7 +7,7 @@ from zope import component
 
 from ore.alchemist.vocabulary import DatabaseSource
 from ore.alchemist.model import queryModelDescriptor
-
+from ore.alchemist import Session
 from ore.workflow import interfaces
 
 from alchemist.ui.content import ContentAddForm, ContentDisplayForm
@@ -20,6 +20,8 @@ from zope.formlib.namedtemplate import NamedTemplate
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.traversing.browser import absoluteURL 
 from zope.security.proxy import removeSecurityProxy
+from zope.security.permission import checkPermission
+import zope.security.management
 
 import bungeni.core.vocabulary as vocabulary
 import bungeni.core.domain as domain
@@ -80,11 +82,14 @@ class TransitionHandler( object ):
             return result
         else:         
             createVersion(form.context, notes)                                                        
-            info.fireTransition( self.transition_id, notes )        
-        form.setupActions()
+            info.fireTransition( self.transition_id, notes )       
+            url = absoluteURL( form.context, form.request )  
+            return form.request.response.redirect( url )             
+        #form.setupActions()
 
 def bindTransitions( form_instance, transitions, wf_name=None, wf=None):
-    """ bind workflow transitions into formlib actions """
+    """ bind workflow transitions into formlib actions 
+    """
 
     if wf_name:
         success_factory = lambda tid: TransitionHandler( tid, wf_name )
@@ -1282,11 +1287,58 @@ class QuestionEdit( CustomEditForm ):
 #    form_fields['notes_display'].custom_widget = widget.HTMLDisplay  
     CustomValidations =  validations.QuestionEdit
     
-    default_actions = form.Actions(
-             form.Action(_(u'Save'), success='handle_edit_action'),
-             form.Action(_(u'Cancel'), success= 'handle_cancel_action')
-             )
+#    default_actions = form.Actions(
+#             form.Action(_(u'Save'), success='handle_edit_action'),
+#             form.Action(_(u'Cancel'), success= 'handle_cancel_action'), #, condition='can_delete'),
+#             form.Action(_(u'Delete'), success= 'handle_delete_action')
+#             )
     
+    
+
+    
+    def _can_delete(self):
+        interaction = zope.security.management.getInteraction()
+        return interaction.checkPermission('bungeni.question.delete', self.context)
+        
+    def _can_edit(self):
+        interaction = zope.security.management.getInteraction()
+        return interaction.checkPermission('bungeni.question.edit', self.context)    
+    
+    def _can_view(self):    
+        interaction = zope.security.management.getInteraction()
+        return interaction.checkPermission('bungeni.question.view', self.context)
+    
+    def _getDefaultActions(self):
+        actions = []
+        if self._can_edit():
+            action = form.Action(_(u'Save'), success='handle_edit_action')
+            action.form = self
+            actions.append(action)
+        #cancel is allways available... 
+        action = form.Action(_(u'Cancel'), success= 'handle_cancel_action')
+        action.form = self   
+        actions.append(action)
+
+        if self._can_delete():            
+            pdb.set_trace()        
+            action = form.Action(_(u'Delete'), success= 'handle_delete_action')
+            action.form = self
+            actions.append(action)   
+        return actions
+    
+    def handle_delete_action( self, action, data):
+        """ 
+        delete this object and return to container view
+        """
+        # we need a check here that the user has the rights to delete
+        # the content, otherwise it it should fail!
+        if self._can_delete():
+            context = removeSecurityProxy(self.context)
+            session = Session()
+            session.delete(context)
+            url = absoluteURL( self.context.__parent__, self.request )  + '?portal_status_message=Object deleted'
+            return self.request.response.redirect( url )
+        
     def handle_cancel_action( self, action, data ):
         """ the cancel action will take us back to the display view"""
         url = absoluteURL( self.context, self.request )  + '?portal_status_message=No Changes'
@@ -1313,7 +1365,7 @@ class QuestionEdit( CustomEditForm ):
     def setupActions( self ):
         self.wf = interfaces.IWorkflowInfo( self.context )
         transitions = self.wf.getManualTransitionIds()
-        self.actions = self.default_actions.actions + tuple(bindTransitions( self, transitions, None, interfaces.IWorkflow( self.context ) ) )       
+        self.actions = self._getDefaultActions() + bindTransitions( self, transitions, None, interfaces.IWorkflow( self.context ) ) 
        
 
     def update( self ):

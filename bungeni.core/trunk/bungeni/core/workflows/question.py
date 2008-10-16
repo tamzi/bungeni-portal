@@ -379,6 +379,7 @@ def create_question_workflow( ):
         source = states.draft,
         trigger = iworkflow.MANUAL,        
         action = submitToClerk,
+        condition = utils.getQuestionSubmissionAllowed,
         destination = states.submitted,
         permission = 'bungeni.question.Submit',
         ) )    
@@ -787,6 +788,7 @@ workflow_transition_event_map = {
     (states.submitted, states.received): interfaces.IQuestionReceivedEvent,
     (states.draft, states.submitted): interfaces.IQuestionSubmittedEvent,
     (states.complete, states.inadmissible): interfaces.IQuestionRejectedEvent,
+    (states.received, states.complete) : interfaces.IQuestionCompleteEvent,
     (states.received, states.clarify_mp): interfaces.IQuestionClarifyEvent,
     (states.admissible, states.deferred): interfaces.IQuestionDeferredEvent,
     (states.admissible, states.scheduled): interfaces.IQuestionScheduledEvent,

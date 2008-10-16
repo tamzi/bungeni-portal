@@ -9,6 +9,6 @@
   <subscriber handler=".questionnotification.sendNotificationToMemberUponPostponed" />
   <subscriber handler=".questionnotification.sendNotificationToMemberUponSentToMinistry" />
   <subscriber handler=".questionnotification.sendNotificationToMemberUponAnswer" />                
-  
+  <subscriber handler=".questionnotification.sendNotificationsUponComplete" /> 
   
 </configure>

@@ -2,7 +2,8 @@
 
 # db specific utilities to retrive values, restriction etc
 # from the db implementation
-
+import sqlalchemy as rdb
+from sqlalchemy.orm import mapper
 from ore.alchemist import Session
 import bungeni.core.domain as domain
 import bungeni.core.schema as schema
@@ -41,6 +42,26 @@ def insertQuestionScheduleHistory(question_id, sitting_id):
     question_schedule.sitting_id = sitting_id
     session.save(question_schedule)
     session.flush()
-         
-    
+
+class _Minister(object):
+    pass         
+def getMinsiteryEmails(ministry):
+    """
+    returns the emails of all persons who are members of that ministry
+    """    
+    session = Session()
+    ministers = rdb.join(schema.groups,schema.user_group_memberships, 
+                         schema.groups.c.group_id == schema.user_group_memberships.c.group_id
+                        ).join(
+                          schema.users,
+                          schema.user_group_memberships.c.user_id == schema.users.c.user_id)
+    mapper(_Minister, ministers)                       
+    query = session.query(_Minister).filter(_Minister.group_id == ministry.group_id)
+    results = query.all()
+    addresses = []
+    for result in results:
+        address = '"%s %s" <%s>' % (result.first_name, result.last_name, result.email)
+        addresses.append(address)
+    return ' ,'.join(addresses)
+        
     

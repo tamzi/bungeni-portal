@@ -191,14 +191,14 @@ ministries = rdb.Table(
    "ministries",
    metadata,
    rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
-   rdb.Column( "government_id", rdb.Integer, rdb.ForeignKey('government.government_id')),
+   rdb.Column( "government_id", rdb.Integer, rdb.ForeignKey('government.government_id'), nullable=False),
    )
 
 committees = rdb.Table(
    "committees",
    metadata,
    rdb.Column( "committee_id", rdb.Integer, rdb.ForeignKey('groups.group_id'), primary_key=True ),
-   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id')),
+   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id'), nullable=False),
    rdb.Column( "committee_type_id", rdb.Integer, rdb.ForeignKey( 'committee_types.committee_type_id')),
    rdb.Column( "no_members", rdb.Integer),
    rdb.Column( "min_no_members", rdb.Integer),

@@ -1,10 +1,11 @@
+# encoding: utf-8
 from zope import component
 from zope.i18n import translate
 
 import bungeni.core.workflows.interfaces as interfaces
-from bungeni.core.domain import User
+import bungeni.core.domain as domain
 import bungeni.core.globalsettings as prefs
-
+import bungeni.core.workflows.dbutils as dbutils
 from email.mime.text import MIMEText
 from bungeni.server.smtp import dispatch
 
@@ -13,7 +14,7 @@ from ore.alchemist import Session
 
 def getQuestionOwnerEmail(question):
     session = Session()
-    owner = session.query(User).get(question.owner_id)
+    owner = session.query(domain.User).get(question.owner_id)
     return  '"%s %s" <%s>' % (owner.first_name, owner.last_name, owner.email)
 
 @component.adapter(interfaces.IQuestionReceivedEvent)
@@ -193,6 +194,47 @@ def sendNotificationToMemberUponPostponed(event):
 
     dispatch(msg)
     #print msg
+
+@component.adapter(interfaces.IQuestionCompleteEvent)
+def sendNotificationsUponComplete(event):
+    """
+    the question is marked as “complete” and is made available / forwarded to the Speaker's Office 
+    for reviewing and to make it “admissible”. 
+    At the same time the question is also forwarded to the ministry. 
+    """
+    question = event.object
+    session = Session()
+    if question.ministry_id:
+        ministry = session.query(domain.Ministry).get(question.ministry_id)
+        recipient_address = dbutils.getMinsiteryEmails(ministry)
+        text = translate('notification_email_to_ministry_upon_complete_question',
+                         target_language='en',
+                         domain='bungeni.core',
+                         default="Question assigned to ministry")
+        
+        msg = MIMEText(text)
+        msg['Subject'] = u'Question asked to ministry: %s' % question.subject
+        msg['From'] = prefs.getClerksOfficeEmail()
+        msg['To'] = recipient_address
+
+        dispatch(msg)
+    if question.receive_notification:  
+        text = translate('notification_email_to_member_upon_complete_of_question',
+                         target_language='en',
+                         domain='bungeni.core',
+                         default="Question completed for review at the speakers office.")
+        
+        msg = MIMEText(text)
+
+        recipient_address = getQuestionOwnerEmail(question)
+
+        msg['Subject'] = u'Question forwarded to speakers office: %s' % question.subject
+        msg['From'] = prefs.getClerksOfficeEmail()
+        msg['To'] = recipient_address
+
+        dispatch(msg)      
+    
+    #XXX
     
 @component.adapter(interfaces.IQuestionSentToMinistryEvent)
 def sendNotificationToMemberUponSentToMinistry(event):

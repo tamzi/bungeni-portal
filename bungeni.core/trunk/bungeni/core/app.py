@@ -113,7 +113,7 @@ class AppSetup( object ):
         countries = domain.CountryContainer()
         self.context['countries'] = countries
 
-        #self.context['repository'] = Library( repository_storage )
+        self.context['repository'] = Library( repository_storage )
 
         ##########
         # Admin User Interface

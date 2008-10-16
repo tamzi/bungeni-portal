@@ -24,7 +24,7 @@ from email.mime.text import MIMEText
 import sqlalchemy.sql.expression as sql
 
 from ore.alchemist import Session
-
+import bungeni.core.workflow.dbutils as dbutils
 import bungeni.core.domain as domain
 import bungeni.core.schema as schema
 import bungeni.core.globalsettings as prefs
@@ -57,7 +57,6 @@ def _getQuestionsPendingResponse(date, ministry):
 
 
 
-
 def _getAllMinistries(date):
     """
     returns all ministries that are 
@@ -74,6 +73,40 @@ def _getAllMinistries(date):
     query = session.query(domain.Ministry).filter(mfilter)   
     return query.all()
     
+def _getMemberOfParliamentEmail(question):
+    user_id = question.owner_id
+    session = Session()
+    user = domain.Person.get(user_id)
+    return user.email
+    
+
+    
+def sendNotificationToMP(date):    
+    """
+    send a mail to the MP asking the question that the deadline 
+    of the question is aproaching
+    """
+    status = q_state.response_pending
+    text = translate('notification_email_to_mp_question_pending_response',
+                     target_language='en',
+                     domain='bungeni.core',
+                     default="Questions pending responses.")
+    session = Session()
+    qfilter=sql.and_(
+                (domain.Question.c.ministry_submit_date < date ),
+                (domain.Question.c.status == status),                
+                )
+    questions = session.query(domain.Question).filter(qfilter).all()  
+    for question in questions:
+        mailto = _getMemberOfParliamentEmail(question)
+        if mailto and question.receive_notification:
+            msg = MIMEText(text)
+            msg['Subject'] = u'Questions pending response'
+            msg['From'] = prefs.getAdministratorsEmail()
+            msg['To'] =  mailto
+            text = text + '\n' + question.subject + '\n'
+            print msg
+            #dispatch(msg)
     
 def sendNotificationToClerksOffice(date):
     """
@@ -121,12 +154,13 @@ def sendNotificationToMinistry(date):
         if questions: 
             text = text + '\n' + ministry.full_name +': \n'                    
             for question in questions:
-                 text = text + question.subject + '\n'                    
+                 text = text + question.subject + '\n'    
+            emails = dbutils.getMinsiteryEmails(ministry)                     
             msg = MIMEText(text)
             
             msg['Subject'] = u'Questions pending response'
             msg['From'] = prefs.getClerksOfficeEmail()
-            msg['To'] = 'ministry@gov'
+            msg['To'] = emails
             print msg    
             #dispatch(msg)
         
@@ -138,6 +172,7 @@ def sendAllNotifications():
     date = datetime.date.today()   
     sendNotificationToMinistry(date)
     sendNotificationToClerksOffice(date)
+    sendNotificationToMP(date)
             
 def main(argv=None):
     """

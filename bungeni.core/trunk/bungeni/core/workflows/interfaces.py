@@ -9,6 +9,9 @@ class IQuestionSubmittedEvent(IObjectEvent):
 class IQuestionReceivedEvent(IObjectEvent):
     """Issued when a question was received by Clerk's office."""
 
+class IQuestionCompleteEvent(IObjectEvent):    
+    """Issued when a question was reviewed by Clerk's office."""
+
 class IQuestionRejectedEvent(IObjectEvent):
     """Issued when a question was rejected by the speakers office."""
 
@@ -16,7 +19,7 @@ class IQuestionClarifyEvent(IObjectEvent):
     """Issued when a question needs clarification by the MP"""
 
 class IQuestionDeferredEvent(IObjectEvent):
-    """Issued when a question was deferred by Clerk's office."""
+    """Issued when a question was deferred by Clerk's office."""    
 
 class IQuestionScheduledEvent(IObjectEvent):
     """Issued when a question was scheduled by Speakers office."""

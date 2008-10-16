@@ -95,4 +95,9 @@ def getDaysToNotifyMinistriesQuestionsPendingResponse():
     questions that are pending response are not yet answered
     """    
     return datetime.timedelta(1)  
+  
+def getQuestionSubmissionAllowed():
+    return True
+    
+    
     

@@ -18,17 +18,83 @@ Setup mock delivery component.
 
 Set up a user.
 
+  >>> from bungeni import core as model
+  >>> from datetime import datetime
+
   >>> from bungeni.core.domain import User
   >>> user = User()
   >>> user.first_name = u'John'
   >>> user.last_name = u'Doe'
   >>> user.email = 'john.doe@localhost'
-  >>> user.owner_id = 1
+
   
   >>> from ore.alchemist import Session
   >>> session = Session()
   >>> session.save(user)
   >>> session.flush()
+
+we need a parliament, government ministry and ministers 
+to send the question notification to.
+
+  >>> from bungeni import core as model
+  >>> parliament = model.Parliament( short_name=u"p_1", start_date=datetime.now(), election_date=datetime.now())
+  >>> session.save(parliament)
+  >>> session.flush()
+  
+  >>> gov = model.Government(short_name=u"gov_1", start_date=datetime.now())
+  >>> gov.parliament_id = parliament.parliament_id
+  >>> session.save(gov)
+  >>> session.flush()  
+  
+  >>> country = model.Country()
+  >>> country.country_id = 'KE'
+  >>> country.country_name = u"Kenya"
+  >>> session.save(country)
+  >>> ministry = model.Ministry(short_name=u"A ministry", start_date=datetime.now())
+  >>> ministry.government_id = gov.government_id
+  >>> session.save(ministry)
+  >>> session.flush()
+
+
+  >>> mp_1 = model.ParliamentMember(u"minister 1", 
+  ...        first_name=u"a", 
+  ...        last_name=u'ab', 
+  ...        birth_country="KE",
+  ...        email=u"mp1@example.com", 
+  ...        date_of_birth=datetime.now(),
+  ...        gender='M')
+  >>> mp_2 = model.ParliamentMember(u"minister 2", 
+  ...        first_name=u"b", 
+  ...        last_name=u"bc", 
+  ...        birth_country="KE",  
+  ...        date_of_birth=datetime.now(),
+  ...        email=u"mp2@example.com",
+  ...        gender='M')
+  >>> mp_3 = model.ParliamentMember(u"No minister",
+  ...        first_name=u"c", 
+  ...        birth_country="KE",  
+  ...        last_name=u"cd",
+  ...        date_of_birth=datetime.now(),
+  ...        email=u"mp3@example.com", 
+  ...        gender='F')      
+
+  >>> session.save( mp_1 )
+  >>> session.save( mp_2 )
+  >>> session.save( mp_3 )      
+  >>> session.flush()
+
+  >>> minister = model.Minister()
+  >>> minister.group_id = ministry.group_id
+  >>> minister.user_id = mp_1.user_id
+  >>> session.save(minister)
+  >>> session.flush()
+  
+  
+  >>> minister2 = model.Minister()
+  >>> minister2.group_id = ministry.group_id
+  >>> minister2.user_id = mp_2.user_id
+  >>> session.save(minister2)
+  >>> session.flush()  
   
 Questions
 ---------
@@ -62,6 +128,26 @@ HARDCODED in the preferences so we cannot test this yet!
     To: clerks.office@parliament.gov.ke ...
     Subject: Question submitted: My subject ...
 
+the question is marked as “complete” and is made available / forwarded to the Speaker's Office 
+for reviewing and to make it “admissible”. 
+   
+
+   >>> notification.sendNotificationsUponComplete(ObjectEvent(question))
+    From: clerks.office@parliament.gov.ke
+    To: "John Doe" <john.doe@localhost>...
+    Question completed for review at the speakers office.
+
+At the same time the question is also forwarded to the ministry.
+
+   >>> question.ministry_id = ministry.group_id
+   >>> notification.sendNotificationsUponComplete(ObjectEvent(question))  
+    From: clerks.office@parliament.gov.ke
+    To: "a ab" <mp1@example.com> ,"b bc" <mp2@example.com> ...
+    Question assigned to ministry
+    From: clerks.office@parliament.gov.ke
+    To: "John Doe" <john.doe@localhost> ...
+    Question completed for review at the speakers office.
+   
   
 A question was rejected by the speakers office.
     >>> notification.sendNotificationToMemberUponReject(ObjectEvent(question))

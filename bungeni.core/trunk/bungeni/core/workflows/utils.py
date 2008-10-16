@@ -11,6 +11,8 @@ import ore.workflow.workflow
 
 import bungeni.core.interfaces
 import bungeni.core.domain as domain
+import bungeni.core.globalsettings as prefs
+
 
 import dbutils
 
@@ -63,6 +65,11 @@ def getQuestionMinistry(info, context):
     return ministry_id != None
 
 
+
+
+def getQuestionSubmissionAllowed(info, context):    
+    return prefs.getQuestionSubmissionAllowed()
+
 def submitResponse( info, context ):
     """
     A Response to a question is submitted to the clerks office,
@@ -84,4 +91,6 @@ def publishResponse( info, context ):
     instance = removeSecurityProxy(context)
     question = dbutils.getQuestion(instance.response_id)
     IWorkflowInfo(question).fireTransition('answer')
+    
+  
     

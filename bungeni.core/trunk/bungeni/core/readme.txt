@@ -101,8 +101,19 @@ they work.
   >>> parliament = model.Parliament( short_name=u"p_1", start_date=datetime.now(), election_date=datetime.now())
   >>> political_party_a = model.PoliticalParty(short_name=u"pp_1", start_date=datetime.now())
   >>> political_party_b = model.PoliticalParty(short_name=u"pp_2", start_date=datetime.now())
+  >>> session.save( parliament )
+  >>> session.save(political_party_a)
+  >>> session.save(political_party_b)
+  >>> session.save( mp_1 )
+  >>> session.save( mp_2 )
+  >>> session.save( mp_3 )      
+  >>> session.flush()
+  
   >>> committee_a = model.Committee(short_name=u"commitee_1", start_date=datetime.now())
-
+  >>> committee_a.parliament_id = parliament.parliament_id
+  >>> session.save(committee_a)
+  >>> session.flush()
+    
 A user is associated to a group via a membership, where we can store additional properties, such
 as a user's role/title in a group.
 
@@ -118,8 +129,8 @@ Let's create some memberships and see what we can do with them.
   ...    membership.group = political_party_a
   ...    session.save( membership )
   
-  >>> session.save( mp_1 )
-  >>> session.save( committee_a )
+
+
   >>> session.save( membership )
 
 Check that we can access the membership through the containment object

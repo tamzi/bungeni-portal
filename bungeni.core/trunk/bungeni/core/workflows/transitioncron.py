@@ -17,6 +17,7 @@ import bungeni.core.audit as audit
 
 import bungeni.core.workflows.question as question_workflow
 import bungeni.core.globalsettings as prefs
+import bungeni.core.workflows.dbutils as dbutils
 
 from ore.workflow.interfaces import IWorkflowInfo
 
@@ -32,7 +33,9 @@ from bungeni import core as model
 
 #import pdb
 
-def _getQuestionsBefore(date, status):
+
+
+def _getQuestionsApprovedBefore(date, status):
     """
     get all questions with the workflow status before date
     """
@@ -51,9 +54,11 @@ def _deferAdmissibleQuestionsBefore(date):
     date to defered
     """    
     status = question_workflow.states.admissible
-    admissibleQuestions = _getQuestionsBefore(date, status)
+    admissibleQuestions = _getQuestionsApprovedBefore(date, status)
     for question in admissibleQuestions:
         IWorkflowInfo(question).fireTransition('defer')   
+    
+    
     
 def deferAdmissibleQuestions():
     """

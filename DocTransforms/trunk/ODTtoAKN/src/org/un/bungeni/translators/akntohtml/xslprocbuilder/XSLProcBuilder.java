@@ -1,4 +1,4 @@
-package org.un.bungeni.translators.akntohtml.configurations;
+package org.un.bungeni.translators.akntohtml.xslprocbuilder;
 
 import java.io.IOException;
 
@@ -14,10 +14,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class AHConfigurationBuilder 
+public class XSLProcBuilder 
 {
 	//the instance of this Configuration Builder
-	private static AHConfigurationBuilder instance;
+	private static XSLProcBuilder instance;
 	
 	//the path of the document that contains the default values
 	private String defaultVauesPath = new String("resources/akntohtml/defaultvalues/default_values.xml");
@@ -31,7 +31,7 @@ public class AHConfigurationBuilder
 	/**
 	 * Protected constructor
 	 */
-	protected AHConfigurationBuilder()
+	protected XSLProcBuilder()
 	{
 	}
 	
@@ -39,7 +39,7 @@ public class AHConfigurationBuilder
 	 * Get a new instance of the Configuration Builder
 	 * @return the instance of the configuration builder
 	*/
-	public static AHConfigurationBuilder newInstance()
+	public static XSLProcBuilder newInstance()
 	{
 		//if there is already an active instance return the instance 
 		if(instance != null)
@@ -51,7 +51,7 @@ public class AHConfigurationBuilder
 		else
 		{
 			//create the instance
-			instance = new AHConfigurationBuilder();
+			instance = new XSLProcBuilder();
 			
 			//return the instance
 			return instance;

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:akn="http://www.akomantoso.org/1.0"
-    xmlns="http://www.akomantoso.org/1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     <xsl:output indent="yes" method="xhtml" encoding="UTF-8"/>
 
@@ -21,7 +20,7 @@
 
     <xsl:template match="akn:list">
         <ol>
-            <xsl:attribute name="class">akomantoso_list</xsl:attribute>
+            <xsl:attribute name="class">hierarchy list</xsl:attribute>
  
             <xsl:apply-templates />
         </ol>

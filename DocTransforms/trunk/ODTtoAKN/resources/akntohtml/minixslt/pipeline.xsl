@@ -183,9 +183,9 @@
 	</xsl:template>
 
 	<xsl:template match="akn:num">
-		<xslt step="33" name="num" href="resources/akntohtml/minixslt/num.xsl" />
-		<xsl:apply-templates />
-	</xsl:template>
+	     <xslt step="33" name="num" href="resources/akntohtml/minixslt/num.xsl" />
+		 <xsl:apply-templates />
+    </xsl:template>
 
 	<xsl:template match="akn:heading">
 		<xslt step="34" name="heading" href="resources/akntohtml/minixslt/heading.xsl" />

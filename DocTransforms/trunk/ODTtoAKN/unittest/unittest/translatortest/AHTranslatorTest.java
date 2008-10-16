@@ -40,7 +40,7 @@ public class AHTranslatorTest {
 	{
 		//perform a translation
 		//AHConfigurationBuilder.newInstance().createConfiguration("resources/akntohtml/minixslt/");
-		File translation = AHTranslator.getInstance().translate("resources/6th March, 2008.xml", "resources/akntohtml/minixslt/pipeline.xsl");
+		File translation = AHTranslator.getInstance().translate("resources/ke_act_1980-01-01_1_eng@_main.xml", "resources/akntohtml/minixslt/pipeline.xsl");
 	
 		//input stream
 		FileInputStream fis  = new FileInputStream(translation);
@@ -66,11 +66,13 @@ public class AHTranslatorTest {
 		        if (fis != null) fis.close();
 		        if (fos != null) fos.close();
 		}	
-		/*File translation = AHTranslator.getInstance().buildXSLT("resources/akntohtml/minixslt/pipeline.xsl");
-		FileInputStream fis  = new FileInputStream(translation);
+		
+		File xslt = AHTranslator.getInstance().buildXSLT("resources/akntohtml/minixslt/pipeline.xsl");
+		//input stream
+		fis  = new FileInputStream(xslt);
 		
 		//output stream 
-		FileOutputStream fos = new FileOutputStream("resources/XSLTResult.xsl");
+		fos = new FileOutputStream("resources/XSLTResult.xsl");
 		
 		//copy the file
 		try 
@@ -89,6 +91,7 @@ public class AHTranslatorTest {
 		{
 		        if (fis != null) fis.close();
 		        if (fos != null) fos.close();
-		}*/		
+		}	
+
 	}
 }

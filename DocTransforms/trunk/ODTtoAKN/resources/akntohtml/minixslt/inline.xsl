@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:akn="http://www.akomantoso.org/1.0"
-    xmlns="http://www.akomantoso.org/1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     <xsl:output indent="yes" method="xhtml" encoding="UTF-8"/>
 
@@ -21,9 +20,10 @@
 
     <xsl:template match="akn:inline">
         <span>
-            <xsl:attribute name="class">generic_inline</xsl:attribute>
-			<xsl:attribute name="name" select="@name" />
-
+            <xsl:attribute name="class">generic_inline inline </xsl:attribute>
+			<xsl:if test="@name">
+				<xsl:attribute name="name" select="@name" />
+			</xsl:if>
             <xsl:apply-templates />
         </span>
     </xsl:template>

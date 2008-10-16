@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:akn="http://www.akomantoso.org/1.0"
-    xmlns="http://www.akomantoso.org/1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     <xsl:output indent="yes" method="xhtml" encoding="UTF-8"/>
 
@@ -20,11 +19,19 @@
     </xsl:template>
 
     <xsl:template match="akn:akomantoso">
-        <div>
-            <xsl:attribute name="class">main_container</xsl:attribute>
- 
-            <xsl:apply-templates />
-        </div>
+        <html>
+            <head>
+                <title>
+                    AKOMA NTOSO document - HTML version
+                </title>
+            </head>
+            <body>
+                <div>
+                    <xsl:attribute name="class">main_container akomantoso</xsl:attribute>
+                    <xsl:apply-templates />
+                </div>
+            </body>
+        </html>
     </xsl:template>
     
     <xsl:template match="text()">

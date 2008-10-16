@@ -21,13 +21,14 @@ public interface AHTranslatorInterface
 	 * @param aDocumentPath the path of the document to translate 
 	 * @param aPipelinePath the path of the pipeline to apply to the document in order to translate it into HTML
 	 * @return a File containing the translated document
+	 * @throws TransformerException 
+	 * @throws TransformerFactoryConfigurationError 
 	 * @throws ParserConfigurationException 
 	 * @throws IOException 
 	 * @throws SAXException 
-	 * @throws TransformerException 
 	 * @throws XPathExpressionException 
 	 */
-	public File translate(String aDocumentPath, String aPipelinePath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException;
+	public File translate(String aDocumentPath, String aPipelinePath) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException;
 	
 	/**
 	 * Create and return an XSLT builded upon the instructions of the given pipeline. 
@@ -40,5 +41,5 @@ public interface AHTranslatorInterface
 	 * @throws TransformerException 
 	 * @throws TransformerFactoryConfigurationError 
 	 */
-	public File buildXSLT(String aPipelinePath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerFactoryConfigurationError, TransformerException;
+	public File buildXSLT(String aPipelinePath) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException;
 }

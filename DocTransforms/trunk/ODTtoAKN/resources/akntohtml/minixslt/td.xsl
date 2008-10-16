@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:akn="http://www.akomantoso.org/1.0"
-    xmlns="http://www.akomantoso.org/1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     <xsl:output indent="yes" method="xhtml" encoding="UTF-8"/>
 
@@ -21,10 +20,12 @@
 
     <xsl:template match="akn:td">
         <td>
-            <xsl:attribute name="class">html_table_column</xsl:attribute>
-			<xsl:attribute name="colspan" select="@colspan" />
-			<xsl:attribute name="rowspan" select="@rowspan" />
-
+            <xsl:attribute name="class">html_table_column td</xsl:attribute>
+			<xsl:if test="@colspan,rowspan">
+				<xsl:attribute name="colspan" select="@colspan" />
+			</xsl:if>			<xsl:if test="@colspan,rowspan">
+				<xsl:attribute name="rowspan" select="@rowspan" />
+			</xsl:if>
             <xsl:apply-templates />
         </td>
     </xsl:template>

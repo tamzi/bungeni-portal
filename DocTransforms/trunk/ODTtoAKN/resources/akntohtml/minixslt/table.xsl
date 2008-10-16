@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:akn="http://www.akomantoso.org/1.0"
-    xmlns="http://www.akomantoso.org/1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     <xsl:output indent="yes" method="xhtml" encoding="UTF-8"/>
 
@@ -21,11 +20,14 @@
 
     <xsl:template match="akn:table">
         <table>
-            <xsl:attribute name="class">html_table</xsl:attribute>
-			<xsl:attribute name="border" select="@border" />
-			<xsl:attribute name="cellspacing" select="@cellspacing" />
-			<xsl:attribute name="cellpadding" select="@cellpadding" />
-
+            <xsl:attribute name="class">html_table table</xsl:attribute>
+			<xsl:if test="@border,cellspacing,cellpadding">
+				<xsl:attribute name="border" select="@border" />
+			</xsl:if>			<xsl:if test="@border,cellspacing,cellpadding">
+				<xsl:attribute name="cellspacing" select="@cellspacing" />
+			</xsl:if>			<xsl:if test="@border,cellspacing,cellpadding">
+				<xsl:attribute name="cellpadding" select="@cellpadding" />
+			</xsl:if>
             <xsl:apply-templates />
         </table>
     </xsl:template>

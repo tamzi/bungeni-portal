@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:akn="http://www.akomantoso.org/1.0"
-    xmlns="http://www.akomantoso.org/1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     <xsl:output indent="yes" method="xhtml" encoding="UTF-8"/>
 
@@ -21,9 +20,10 @@
 
     <xsl:template match="akn:tocitem">
         <p>
-            <xsl:attribute name="class">toc_item</xsl:attribute>
-			<xsl:attribute name="href" select="@href" />
-
+            <xsl:attribute name="class">tocitem</xsl:attribute>
+			<xsl:if test="@href">
+				<xsl:attribute name="href" select="@href" />
+			</xsl:if>
             <xsl:apply-templates />
         </p>
     </xsl:template>

@@ -66,7 +66,7 @@ public class XSLProcBuilder
 	 * @throws ParserConfigurationException
 	 * @throws XPathExpressionException
 	 */
-	public void createConfiguration(String outputDirectory) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException
+	public void createXSLProc(String outputDirectory) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException
 	{
 		//get the default values container
 		Document defaultValuesDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(this.defaultVauesPath);

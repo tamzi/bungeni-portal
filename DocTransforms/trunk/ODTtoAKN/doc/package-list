@@ -1,0 +1,12 @@
+org.un.bungeni.translators.akntohtml.translator
+org.un.bungeni.translators.akntohtml.xslprocbuilder
+org.un.bungeni.translators.dom
+org.un.bungeni.translators.files
+org.un.bungeni.translators.odf
+org.un.bungeni.translators.odttoakn.configurations
+org.un.bungeni.translators.odttoakn.map
+org.un.bungeni.translators.odttoakn.steps
+org.un.bungeni.translators.odttoakn.translator
+org.un.bungeni.translators.streams
+org.un.bungeni.translators.xpathresolver
+org.un.bungeni.translators.xslttransformer

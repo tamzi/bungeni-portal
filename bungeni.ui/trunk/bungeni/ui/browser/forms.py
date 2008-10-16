@@ -33,6 +33,7 @@ from bungeni.core.interfaces import IGroupSitting, IParliamentSession, IMemberOf
 
 import bungeni.core.workflows.utils
 from bungeni.core.workflows.question import states as question_states
+import bungeni.core.globalsettings as prefs
 
 from bungeni.ui.datetimewidget import  SelectDateTimeWidget, SelectDateWidget
 from bungeni.ui import widget
@@ -810,7 +811,10 @@ class QuestionAdd( CustomAddForm ):
             self.form_fields = self.form_fields.omit("ministry_id")
         super( QuestionAdd, self ).update()  
 
-
+    def can_submit( self, action):
+        result = form.haveInputWidgets( self, action)
+        result = result and prefs.getQuestionSubmissionAllowed()
+        return result
 
     @form.action(_(u"Save"), condition=form.haveInputWidgets)
     def handle_add_save(self, action, data ):
@@ -841,7 +845,7 @@ class QuestionAdd( CustomAddForm ):
         name = self.context.domain_model.__name__
         self._next_url = absoluteURL( self.context, self.request ) + '/@@add?portal_status_message=%s Added'%name    
         
-    @form.action(_(u"Save and submit to clerk"), condition=form.haveInputWidgets, validator='validateAdd')
+    @form.action(_(u"Save and submit to clerk"), condition=can_submit, validator='validateAdd')
     def handle_add_submit( self, action, data ):
         ob = self.createAndAdd( data )
         info = component.getAdapter( ob,  interfaces.IWorkflowInfo)
@@ -1319,8 +1323,7 @@ class QuestionEdit( CustomEditForm ):
         action.form = self   
         actions.append(action)
 
-        if self._can_delete():            
-            pdb.set_trace()        
+        if self._can_delete():                  
             action = form.Action(_(u'Delete'), success= 'handle_delete_action')
             action.form = self
             actions.append(action)   

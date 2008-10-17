@@ -44,18 +44,21 @@ def insertQuestionScheduleHistory(question_id, sitting_id):
     session.flush()
 
 class _Minister(object):
-    pass         
-def getMinsiteryEmails(ministry):
-    """
-    returns the emails of all persons who are members of that ministry
-    """    
-    session = Session()
-    ministers = rdb.join(schema.groups,schema.user_group_memberships, 
+    pass     
+
+ministers = rdb.join(schema.groups,schema.user_group_memberships, 
                          schema.groups.c.group_id == schema.user_group_memberships.c.group_id
                         ).join(
                           schema.users,
                           schema.user_group_memberships.c.user_id == schema.users.c.user_id)
-    mapper(_Minister, ministers)                       
+
+mapper(_Minister, ministers)     
+        
+def getMinsiteryEmails(ministry):
+    """
+    returns the emails of all persons who are members of that ministry
+    """    
+    session = Session()                      
     query = session.query(_Minister).filter(_Minister.group_id == ministry.group_id)
     results = query.all()
     addresses = []

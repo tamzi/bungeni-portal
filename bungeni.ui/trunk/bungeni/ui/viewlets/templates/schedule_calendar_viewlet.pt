@@ -1,0 +1,39 @@
+<div class="listing">
+  <em> Sittings </em>
+  <table class="listing grid">
+    <thead>
+      <tr>        
+        <!--th colspan="1" tal:content="structure view/previous"> &lt;&lt; </th-->
+        <th colspan="7" tal:content="view/monthname"> month </th>
+        <!--th colspan="1" tal:content="structure view/next"> &gt;&gt; </th-->
+      </tr>
+      <tr>        
+        <th width="15%"> Mon </th>
+        <th width="15%"> Tue </th>
+        <th width="15%"> Wed </th>
+        <th width="15%"> Thu </th>
+        <th width="15%"> Fri </th>
+        <th width="15%"> Sat </th>
+        <th width="10%"> Sun </th>
+      </tr>
+    </thead>
+    <tbody>
+    <tr tal:repeat="week view/monthcalendar">
+      <td tal:repeat="day week"> 
+        <b tal:content="day" tal:condition="day" />
+        <br />
+        <div tal:condition="day">
+          <div tal:repeat="sitting python: view.GetSittings4Day(day)">
+            <h4 tal:content="sitting/short_name" />
+            <ol tal:attributes="id sitting/sittingid; class string:draglist" tal:define="sid sitting/sid">
+                <li tal:repeat="question python: view.getSittingQuestions(sid)" 
+                 tal:content="question/subject"
+                 tal:attributes="id question/qid" />
+            </ol>
+          </div>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

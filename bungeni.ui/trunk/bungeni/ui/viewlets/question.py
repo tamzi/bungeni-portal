@@ -77,6 +77,16 @@ class Submitted(QuestionsInParticularStateViewlet):
     title = _(u"Submitted")
     description = _(u"Questions submitted to Clerk's office.")
 
+class Admissible(QuestionsInParticularStateViewlet):
+    name = state = states.admissible
+    title = _(u"Admissible")
+    description = _(u"Admissible Questions for scheduling")
+
+class Postponed(QuestionsInParticularStateViewlet):
+    name = state = states.postponed
+    title = _(u"Postponed")
+    description = _(u"Postponed Questions for rescheduling")
+
 class Archive(QuestionsListingViewletBase):
     title = _(u"Archive")
     description = _(u"Past submitted questions.")

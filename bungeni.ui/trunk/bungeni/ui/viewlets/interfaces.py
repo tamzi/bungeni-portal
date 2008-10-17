@@ -15,6 +15,9 @@ class IDateChooser( IViewletManager ):
 
 class ISittingCalendar( IViewletManager ):    
     """ Sitting Calendar viewlet manager """     
+
+class IScheduleCalendar( IViewletManager ):    
+    """ Schedule Calendar viewlet manager """        
     
 class ICurrentGovernment( IViewletManager ):    
     """ Current Government """

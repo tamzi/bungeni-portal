@@ -2,6 +2,48 @@
            xmlns:browser="http://namespaces.zope.org/browser"           
            i18n_domain="bungeni">
 
+  <!-- Question Schedule -->
+  <browser:page
+     for="bungeni.core.interfaces.IBungeniApplication"
+     permission="zope.Public"
+     name="schedule"
+     class=".schedule.Calendar"
+     />
+     
+     
+     
+  <browser:viewletManager
+     name="bungeni.schedule-calendar.manager"
+     provides=".interfaces.IScheduleCalendar"
+     class=".schedule.ScheduleCalendarViewletManager"
+     permission="zope.View"
+     />    
+     
+  <browser:viewlet
+    name="bungeni.schedule.admissible-questions"   
+    manager=".interfaces.IScheduleCalendar"
+    class=".schedule.AdmissibleQuestionViewlet"
+    permission="zope.Public"
+    weight="10"
+    />       
+     
+  <browser:viewlet
+    name="bungeni.schedule.calendar"   
+    manager=".interfaces.IScheduleCalendar"
+    class=".schedule.ScheduleCalendarViewlet"
+    permission="zope.Public"
+    weight="30"
+    />    
+    
+    
+  <browser:viewlet
+    name="bungeni.schedule.yui-dragdrop"   
+    manager=".interfaces.IScheduleCalendar"
+    class=".schedule.YUIDragDropViewlet"
+    permission="zope.Public"
+    weight="50"
+    />        
+         
   <!-- managers -->
   
   <browser:viewletManager
@@ -175,6 +217,10 @@
     permission="zope.Public"
     weight="3"
     />        
+
+
+  
+
 
   <!-- Government -->  
   <!--browser:page

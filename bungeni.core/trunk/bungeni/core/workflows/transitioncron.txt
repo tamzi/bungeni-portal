@@ -70,11 +70,11 @@ Questions
   
 get the questions that are in the workflow state:
   
-  >>> questions = cron._getQuestionsBefore(datetime.date.today(), question_workflow.states.admissible)  
+  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), question_workflow.states.admissible)  
   >>> len(questions)
   2
   
-  >>> questions = cron._getQuestionsBefore(datetime.date.today(), question_workflow.states.complete)  
+  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), question_workflow.states.complete)  
   >>> len(questions)  
   1  
     
@@ -83,15 +83,15 @@ defer admissible question older than today
   >>> cron._deferAdmissibleQuestionsBefore(datetime.date.today()) 
   >>> session.flush()     
  
-  >>> questions = cron._getQuestionsBefore(datetime.date.today(), question_workflow.states.admissible)  
+  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), question_workflow.states.admissible)  
   >>> len(questions)
   0
   
-  >>> questions = cron._getQuestionsBefore(datetime.date.today(), question_workflow.states.complete)  
+  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), question_workflow.states.complete)  
   >>> len(questions)  
   1      
 
-  >>> questions = cron._getQuestionsBefore(datetime.date.today(), question_workflow.states.deferred)  
+  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), question_workflow.states.deferred)  
   >>> len(questions)  
   2        
   

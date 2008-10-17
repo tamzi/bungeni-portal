@@ -480,3 +480,41 @@ div.formControls input.hidden {
 }
 
 /*  */
+
+
+/* YUI drag drop */
+
+ol.draglist { 
+    position: relative;
+    background: #f7f7f7;
+    border: 1px solid gray;
+    margin:0;
+    padding-bottom:1em;
+
+}
+
+ol.draglist li {
+    margin: 1px;
+    cursor: move;
+    border: 1px solid black;
+    zoom: 1;
+}
+
+
+ul.draglist { 
+    position: relative;
+    background: #f7f7f7;
+    border: 1px solid gray;
+    list-style: none;
+    margin:0;    
+    padding-bottom:1em;
+}
+
+ul.draglist li {
+    margin: 1px;
+    cursor: move;
+    border: 1px solid black;
+    zoom: 1;
+}
+
+

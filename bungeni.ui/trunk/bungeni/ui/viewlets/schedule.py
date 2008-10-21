@@ -58,34 +58,47 @@ def current_sitting_query(date):
         sql.between(date, schema.parliament_sessions.c.start_date, schema.parliament_sessions.c.end_date),
         sql.and_( schema.parliament_sessions.c.start_date <= date, schema.parliament_sessions.c.end_date == None)
         )
-    query = session.query(domain.ParliamentSession).filter(cdfilter)[0]
+    try:    
+        query = session.query(domain.ParliamentSession).filter(cdfilter)[0]
+    except:
+        #No current session
+        query = None
     results = query
     if results:
         # we are in a session
         session_id = results.session_id
     else:
         # no current session, get the next one
-        query = session.query(Domain.ParliamentSession
+        try:                    
+            query = session.query(domain.ParliamentSession
                             ).filter(
                             schema.parliament_sessions.c.start_date >= date
                             ).order_by(
                             schema.parliament_sessions.c.start_date)[0]
+        except:
+            #No next session
+            query = None
         results = query                              
         if results:
             session_id = results.session_id
             date = results.start_date
         else:
             #no current and no next session so just get the last session
-            query = session.query(Domain.ParliamentSession
+            try:                                
+                query = session.query(domain.ParliamentSession
                                 ).order_by(
                                 schema.parliament_sessions.c.end_date.desc())[0]  
+            except:
+                #No last Session
+                query = None
             results = query                            
             if results:
                 session_id = results.session_id
                 date = results.start_date
             else:
                 # No session found
-                return
+                date = datetime.date.today()
+                session_id = -1 # None is not an option because group sittings (committees) do not have sessions                
     gsfilter = sql.and_(
                 schema.sittings.c.start_date.between(start_DateTime( date ), end_DateTime( date )),
                 schema.sittings.c.session_id == session_id)                                        
@@ -184,18 +197,20 @@ YAHOO.example.DDApp = {
     },
 
     showOrder: function() {
-        var parseList = function(ul, title) {
+        var parseList = function(ul) {
             var items = ul.getElementsByTagName("li");
-            var out = title + ": ";
+            var out =  ul.id + ": [";
             for (i=0;i<items.length;i=i+1) {
-                out += items[i].id + " ";
+                out += items[i].id + ", ";
             }
+            out += "] , "
             return out;
         };
 
-        var ul1=Dom.get("ul1"), ul2=Dom.get("ul2");
-        alert(parseList(ul1, "List 1") + "-" + parseList(ul2, "List 2"));
-
+        //var ul1=Dom.get("ul1"), ul2=Dom.get("ul2");
+        var %(targetList)s;
+        //alert(parseList(ul1, "List 1") + "-" + parseList(ul2, "List 2"));
+        alert( "{" + %(parseList)s + "}");
     },
 
     switchStyles: function() {
@@ -348,9 +363,21 @@ Event.onDOMReady(YAHOO.example.DDApp.init, YAHOO.example.DDApp, true);
         #add the hardcoded targets for postponed and admissable list
         DDTarget = DDTarget + 'new YAHOO.util.DDTarget("admissible_questions"); \n'
         #DDTarget = DDTarget + 'new YAHOO.util.DDTarget("postponed_questions"); \n'
+        t_list = ""
+        for sid in self.sitting_ids:
+            # var ul1=Dom.get("ul1"), ul2=Dom.get("ul2"); 
+            t_list = t_list + ' sid_'+ str(sid) +'=Dom.get("sid_' + str(sid) + '"),'
+        t_list = t_list + 'admissible_questions=Dom.get("admissible_questions")'
+        parseList ="( "
+        for sid in self.sitting_ids:
+            #parseList(ul1, "List 1") +
+            parseList = parseList + 'parseList(sid_'+ str(sid) + ') + '
+        parseList = parseList +  'parseList(admissible_questions) )'   
         js_inserts= {
             'DDList':DDList,
-            'DDTarget':DDTarget }
+            'DDTarget':DDTarget,
+            'targetList': t_list,
+            'parseList': parseList }
         return JScript % js_inserts           
         
         

@@ -160,8 +160,6 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         JScript = """
 <div id="user_actions">
   <input type="button" id="showButton" value="Show Current Order" />
-
-  <input type="button" id="switchButton" value="Remove List Background" />
 </div>
         
 <script type="text/javascript">
@@ -191,17 +189,15 @@ YAHOO.example.DDApp = {
         %(DDTarget)s
         %(DDList)s
 
-
-        Event.on("showButton", "click", this.showOrder);
-        Event.on("switchButton", "click", this.switchStyles);
+        Event.on("showButton", "click", this.showOrder);        
     },
 
     showOrder: function() {
         var parseList = function(ul) {
             var items = ul.getElementsByTagName("li");
-            var out =  ul.id + ": [";
+            var out = "\\"" + ul.id + "\\"" + ": [";
             for (i=0;i<items.length;i=i+1) {
-                out += items[i].id + ", ";
+                out += "\\"" + items[i].id + "\\"" + ", ";
             }
             out += "] , "
             return out;
@@ -209,14 +205,11 @@ YAHOO.example.DDApp = {
 
         //var ul1=Dom.get("ul1"), ul2=Dom.get("ul2");
         var %(targetList)s;
-        //alert(parseList(ul1, "List 1") + "-" + parseList(ul2, "List 2"));
+        //alert(parseList(ul1, "List 1") + "\\n" + parseList(ul2, "List 2"));
         alert( "{" + %(parseList)s + "}");
     },
 
-    switchStyles: function() {
-        Dom.get("ul1").className = "draglist_alt";
-        Dom.get("ul2").className = "draglist_alt";
-    }
+
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -371,7 +364,7 @@ Event.onDOMReady(YAHOO.example.DDApp.init, YAHOO.example.DDApp, true);
         parseList ="( "
         for sid in self.sitting_ids:
             #parseList(ul1, "List 1") +
-            parseList = parseList + 'parseList(sid_'+ str(sid) + ') + '
+            parseList = parseList + 'parseList(sid_'+ str(sid) + ') + "\\n" + '
         parseList = parseList +  'parseList(admissible_questions) )'   
         js_inserts= {
             'DDList':DDList,

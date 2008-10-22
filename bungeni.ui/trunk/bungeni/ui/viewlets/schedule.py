@@ -6,6 +6,7 @@
 
 import calendar
 import datetime
+from types import *
 
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.publisher.browser import BrowserView
@@ -13,9 +14,11 @@ from zope.viewlet.manager import WeightOrderedViewletManager
 from zope.viewlet import viewlet
 import zope.interface
 from zope.security import proxy
+from zope.formlib import form
 from ore.alchemist.container import stringKey
 from zc.resourcelibrary import need
 from ore.alchemist import Session
+from ore.workflow.interfaces import IWorkflowInfo
 
 from interfaces import IScheduleCalendar
 from bungeni.ui.utils import getDisplayDate
@@ -26,7 +29,7 @@ from bungeni.core.workflows.question import states
 
 import sqlalchemy.sql.expression as sql
 
-
+import pdb
 
 def start_DateTime( Date ):
     """
@@ -151,16 +154,21 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         scheduled_questions = session.query(domain.Question).filter(schema.questions.c.sitting_id.in_(self.sitting_ids)).distinct()
         results = scheduled_questions.all()
         for result in results:
-            #self.scheduled_question_ids.append(result.question_id)    
-            pass
+            self.scheduled_question_ids.append(result.question_id)    
+            
     
     def render(self):
         need('yui-dragdrop')
         need( 'yui-animation')        
         JScript = """
 <div id="user_actions">
-  <input type="button" id="showButton" value="Show Current Order" />
+ 
 </div>
+
+<form name="make_schedule" method="POST" action="" enctype="multipart/form-data">
+  <input type="button" id="saveButton" value="Save" />
+ <input id="form.actions.cancel" class="context" type="submit" value="Cancel" name="cancel"/>
+</form>
         
 <script type="text/javascript">
 (function() {
@@ -189,24 +197,35 @@ YAHOO.example.DDApp = {
         %(DDTarget)s
         %(DDList)s
 
-        Event.on("showButton", "click", this.showOrder);        
+        Event.on("saveButton", "click", this.showOrder);        
     },
 
     showOrder: function() {
         var parseList = function(ul) {
-            var items = ul.getElementsByTagName("li");
-            var out = "\\"" + ul.id + "\\"" + ": [";
-            for (i=0;i<items.length;i=i+1) {
-                out += "\\"" + items[i].id + "\\"" + ", ";
+            if (ul != null) {
+                var el_option;
+                var items = ul.getElementsByTagName("li");
+                var el_select = document.createElement('select');
+                el_select.multiple = "multiple";  
+                el_select.name = ul.id;                                 
+                
+                for (i=0;i<items.length;i=i+1) {
+                   
+                    el_option=document.createElement("option");
+                    el_option.selected = "selected";
+                    el_option.value = items[i].id;
+                    el_select.appendChild(el_option);
+                }
+               
+                document.make_schedule.appendChild(el_select)
+                return;            
             }
-            out += "] , "
-            return out;
         };
 
-        //var ul1=Dom.get("ul1"), ul2=Dom.get("ul2");
-        var %(targetList)s;
-        //alert(parseList(ul1, "List 1") + "\\n" + parseList(ul2, "List 2"));
-        alert( "{" + %(parseList)s + "}");
+       
+        var %(targetList)s;       
+         %(parseList)s           
+        document.make_schedule.submit("form.actions.save");
     },
 
 
@@ -361,11 +380,11 @@ Event.onDOMReady(YAHOO.example.DDApp.init, YAHOO.example.DDApp, true);
             # var ul1=Dom.get("ul1"), ul2=Dom.get("ul2"); 
             t_list = t_list + ' sid_'+ str(sid) +'=Dom.get("sid_' + str(sid) + '"),'
         t_list = t_list + 'admissible_questions=Dom.get("admissible_questions")'
-        parseList ="( "
+        parseList =""
         for sid in self.sitting_ids:
             #parseList(ul1, "List 1") +
-            parseList = parseList + 'parseList(sid_'+ str(sid) + ') + "\\n" + '
-        parseList = parseList +  'parseList(admissible_questions) )'   
+            parseList = parseList + 'parseList(sid_'+ str(sid) + '); \n'
+        parseList = parseList +  'parseList(admissible_questions);'   
         js_inserts= {
             'DDList':DDList,
             'DDTarget':DDTarget,
@@ -436,13 +455,21 @@ class AdmissibleQuestionViewlet( viewlet.ViewletBase ):
     
     
     
-class ScheduleCalendarViewlet( viewlet.ViewletBase ):
+class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
     """
     display a calendar with all sittings in a month
     """
     
-                         
+    @form.action((u"Save"), condition = None)                     
+    def handleSaveAction(self, action, data):
+        pdb.set_trace()    
         
+    @form.action((u"Cancel"))                     
+    def handleSaveAction(self, action, data):
+        pdb.set_trace()          
+    
+    
+    
         
     def __init__( self,  context, request, view, manager ):        
         self.context = context
@@ -523,11 +550,66 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase ):
         return day_data                
        
        
+    def schedule_question(self, question_id, sitting_id):
+        print question_id, sitting_id
+        session = Session()
+        question = session.query(domain.Question).get(question_id)
+        if question:
+            if sitting_id:
+                sitting = session.query(domain.GroupSitting).get(sitting_id)
+            else:
+                sitting = None                
+            if sitting:
+                if question.sitting_id != sitting_id:
+                    question.sitting_id = sitting_id
+                elif question.sitting_id is None:    
+                    #XXX check_security=True
+                    question.sitting_id = sitting_id
+                    IWorkflowInfo(question).fireTransition('schedule', check_security=False)
+                else:
+                    #sitting stays the same
+                    print question.sitting_id == sitting_id
+            else:
+                if question.sitting_id is not None: 
+                    #question.sitting_id = sitting_id
+                    if IWorkflowInfo(question).state().getState() == states.scheduled:
+                        IWorkflowInfo(question).fireTransition('postpone', check_security=False)
+                    
+    def insert_questions(self, form):
+        for sitting in form.keys():
+            if sitting[:4] == 'sid_':
+                qids = form[sitting]
+                sitting_id = long(sitting[4:])                
+                if type(qids) == ListType:
+                    for qid in qids:
+                        if qid[:2] == 'q_':
+                            question_id = long(qid[2:])
+                            self.schedule_question(question_id, sitting_id)
+                if type(qids) in StringTypes:
+                    if qids[:2] == 'q_':
+                        question_id = long(qids[2:])
+                        self.schedule_question(question_id, sitting_id)
+            else:
+                if sitting == 'admissible_questions':
+                    qids = form['admissible_questions']
+                    if type(qids) == ListType:
+                        for qid in qids:
+                            if qid[:2] == 'q_':
+                                question_id = long(qid[2:])
+                                self.schedule_question(question_id, None)
+                    if type(qids) in StringTypes:
+                        if qids[:2] == 'q_':
+                            question_id = long(qids[2:])
+                            self.schedule_question(question_id, None)
+       
     def update(self):
         """
         refresh the query
         """
-        
+    
+        if self.request.form:
+            if not self.request.form.has_key('cancel'):
+                self.insert_questions(self.request.form) 
                 
         self.Date = getDisplayDate(self.request)
         if not self.Date:

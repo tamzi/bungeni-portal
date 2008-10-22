@@ -27,7 +27,6 @@ from bungeni.ui.utils import getDisplayDate, getFilter
 
 import sqlalchemy.sql.expression as sql
 
-import pdb
 
 
 def getDateFilter(request):
@@ -132,7 +131,7 @@ class DateChooserViewlet( viewlet.ViewletBase ):
                 end_date = end_date.date()
             return start_date, end_date                
         if IAlchemistContainer.providedBy(self.context):                        
-            if self.context.__parent__ is not None:
+            if IAlchemistContent.providedBy(self.context.__parent__):
                 parent = self.context.__parent__
                 start_date = getattr( parent, 'start_date', None)   
                 if type(start_date) == datetime.datetime:
@@ -140,10 +139,8 @@ class DateChooserViewlet( viewlet.ViewletBase ):
                 end_date = getattr( parent, 'end_date', None)
                 if type(end_date) == datetime.datetime:
                     end_date = end_date.date()
-                #pdb.set_trace()
-                return start_date, end_date
-            else:
-                return None, None
+                return start_date, end_date            
+        return None, None #datetime.date(1900,1,1), datetime.date(2100,1,1)
 
 
     def checkDateInConstraints(self):

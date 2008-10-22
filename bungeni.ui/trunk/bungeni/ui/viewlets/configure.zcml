@@ -5,7 +5,7 @@
   <!-- Question Schedule -->
   <browser:page
      for="bungeni.core.interfaces.IBungeniApplication"
-     permission="zope.Public"
+     permission="bungeni.question.Schedule"
      name="schedule"
      class=".schedule.Calendar"
      />

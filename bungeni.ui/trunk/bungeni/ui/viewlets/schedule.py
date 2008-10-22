@@ -554,6 +554,7 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
         print question_id, sitting_id
         session = Session()
         question = session.query(domain.Question).get(question_id)
+        question.context = self.context
         if question:
             if sitting_id:
                 sitting = session.query(domain.GroupSitting).get(sitting_id)
@@ -565,7 +566,7 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                 elif question.sitting_id is None:    
                     #XXX check_security=True
                     question.sitting_id = sitting_id
-                    IWorkflowInfo(question).fireTransition('schedule', check_security=False)
+                    IWorkflowInfo(question).fireTransition('schedule', check_security=True)
                 else:
                     #sitting stays the same
                     print question.sitting_id == sitting_id
@@ -573,7 +574,7 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                 if question.sitting_id is not None: 
                     #question.sitting_id = sitting_id
                     if IWorkflowInfo(question).state().getState() == states.scheduled:
-                        IWorkflowInfo(question).fireTransition('postpone', check_security=False)
+                        IWorkflowInfo(question).fireTransition('postpone', check_security=True)
                     
     def insert_questions(self, form):
         for sitting in form.keys():

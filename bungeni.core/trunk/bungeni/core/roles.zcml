@@ -8,6 +8,8 @@
     <role id="bungeni.Clerk" title="Clerks Office" />
     <role id="bungeni.Speaker" title="Speaker Office" />    
     <role id="bungeni.Everybody" title="Everybody" />
+    <role id="bungeni.Admin" title="Bungeni Admin"/>
+
    
     <!-- the role grants are for testing only! to be removed! -->
    
@@ -47,6 +49,5 @@
     TODO:
     Roles for additional permissions
     -->
-    
     
 </configure>    

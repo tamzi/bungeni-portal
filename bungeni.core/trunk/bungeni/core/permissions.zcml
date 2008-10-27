@@ -5,7 +5,8 @@
   <!--permission
      id="bungeni.SubmitQuestion"
      title="Submit question" /-->
-    
+
+
     <permission id="bungeni.question.add" title="Add Question" />
     <permission id="bungeni.question.edit" title="Edit Question" />
     <permission id="bungeni.question.delete" title="Delete Question" />
@@ -30,8 +31,10 @@
     <permission id="bungeni.bill.edit" title="Edit Bill" />
     <permission id="bungeni.bill.delete" title="Delete Bill" />
     <permission id="bungeni.bill.view" title="View Bill" />  
-    
-              
-      
+
+    <permission id="bungeni.user.AdminRecord" title="Admin User Record" />
+
+
+
 </configure>
            

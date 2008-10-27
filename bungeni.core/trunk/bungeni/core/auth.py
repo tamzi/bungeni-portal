@@ -97,6 +97,8 @@ class GlobalAuthDelegate( object ):
             principal = root_auth.getPrincipalByLogin( credentials['login']  )
         except PrincipalLookupError:
             return None
+        except KeyError:
+            return None
         if principal.validate( credentials['password'] ):
             info = PrincipalInfo( principal.id, principal.getLogin(), principal.title, "")
             return info

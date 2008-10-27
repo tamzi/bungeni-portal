@@ -203,14 +203,14 @@ class UserDescriptor( ModelDescriptor ):
                                         required=True ),             
             ),
         dict( name="date_of_death", label=_(u"Date of Death"),
-              view_permission="bungeni.AdminUsers", 
-              edit_permission="bungeni.AdminUsers",
+              view_permission="bungeni.user.AdminRecord",
+              edit_permission="bungeni.user.AdminRecord",
               edit_widget=calendar.CalendarWidget, add_widget=calendar.CalendarWidget),
         dict( name="password", omit=True ),
                 dict( name="active_p", label=_(u"Status"), 
               property = schema.Choice( title=_(u"Status"), source=vocabulary.InActiveDead, default='A' ),
-              view_permission="bungeni.AdminUsers", 
-              edit_permission="bungeni.AdminUsers",  listing=True,
+              view_permission="bungeni.user.AdminRecord",
+              edit_permission="bungeni.user.AdminRecord",  listing=True,
               edit_widget=widget.CustomRadioWidget),
         dict( name="description", 
               property=schema.Text(title=_(u"Notes"), required=False),
@@ -228,8 +228,12 @@ class UserDescriptor( ModelDescriptor ):
         
     schema_invariants = [DeathBeforeLife, IsDeceased]
 
-
-
+    #view_permissions = {
+    #    'add':
+    #    'edit':
+    #    'view':
+    #    'listing':
+    #    }
 
 class MemberDescriptor( UserDescriptor ):
 

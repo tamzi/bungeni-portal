@@ -7,14 +7,14 @@
        tal:attributes="id string:workspace-viewlet-${view/name}">
     <h4 i18n:translate="" tal:content="view/name" />
   
-    <ul tal:condition="results" tal:attributes="id view/list_id; class string:draglist">
+    <ul tal:attributes="id view/list_id; class string:draglist">
       <li tal:repeat="result results" tal:attributes="id result/qid" tal:content="result/subject">
        
       </li>
     </ul>
 
-    <p tal:condition="not: results" i18n:translate="">
+    <!--p tal:condition="not: results" i18n:translate="">
       No items.
-    </p>
+    </p-->
   </div> 
 </html>

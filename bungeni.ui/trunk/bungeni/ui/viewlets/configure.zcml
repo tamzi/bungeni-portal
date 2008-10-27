@@ -26,6 +26,14 @@
     permission="zope.Public"
     weight="20"
     />       
+    
+  <browser:viewlet
+    name="bungeni.schedule.postponed-questions"   
+    manager=".interfaces.IScheduleCalendar"
+    class=".schedule.PostponedQuestionViewlet"
+    permission="zope.Public"
+    weight="21"
+    />        
      
   <browser:viewlet
     name="bungeni.schedule.calendar"   

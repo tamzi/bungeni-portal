@@ -26,10 +26,13 @@ import bungeni.core.schema as schema
 import bungeni.core.domain as domain
 from bungeni.ui.browser import container
 from bungeni.core.workflows.question import states
+import bungeni.core.globalsettings as prefs
 
 import sqlalchemy.sql.expression as sql
 
-import pdb
+
+### debug
+
 
 def start_DateTime( Date ):
     """
@@ -50,7 +53,43 @@ def end_DateTime( Date ):
     else:
         month = Date.month + 1
         year = Date.year    
-    return datetime.datetime(year, month, 1, 0, 0, 0)  - datetime.timedelta(seconds=1)                
+    return datetime.datetime(year, month, 1, 0, 0, 0)  - datetime.timedelta(seconds=1)       
+    
+    
+    
+#Among the “admissible” questions the Speaker or the Clerk's office will select questions for scheduling for a specific sitting 
+#(please note, in many parliaments only a fraction of the approved questions are scheduled to be addressed in a sitting).
+
+
+#For scheduling purposes, the system will retrieve the “admissible” but not yet scheduled questions 
+#according to the sequence they were approved by the Speaker's Office or by other criteria set by each parliament.
+
+#The system should not allow questions to be scheduled:
+
+#      on a day the House is not sitting or;
+
+#      on n days after the week in which the question was presented (with an override option)
+
+#      when a different question from the same MP has been scheduled for that particular House sitting 
+#      (exception may apply to this rule).
+
+#The system should also store the following parameters:
+
+#      maximum number of days ‘d' that can elapse between the time a question is sent to the relevant Ministry 
+#      and the time the question is placed on the Order Paper has to be parameterised;
+
+#      maximum number of questions ‘n' that can be asked in the House per sitting. 
+#     (i.e. appear on the Order Paper) will also be parameterised;
+
+#      maximum number of days that may elapse between the days a Minister receives a question and the day a written response 
+#      is submitted to the clerk;
+
+#      maximum number of days that may elapse between the day a question by private notice 
+#      (questions that in the opinion of the Speaker are of an urgent nature) is scheduled for reply.
+
+#       All scheduled Questions need to be printed/exported to then be forwarded on paper or electronically 
+#       to the various Ministries and the relevant offices informing them also of the day in which they are scheduled.
+#       Notifications will be sent to the Speaker and the Clerk listing all questions that have exceeded the limits stated above.              
   
 def current_sitting_query(date):
     """
@@ -147,6 +186,11 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         results = approved_questions.all()
         for result in results:
             self.approved_question_ids.append(result.question_id)
+        postponed_questions = session.query(domain.Question).filter(schema.questions.c.status == states.postponed).distinct()
+        results = postponed_questions.all()
+        for result in results:
+            self.postponed_question_ids.append(result.question_id)  
+                      
         sittings, self.Date = current_sitting_query(self.Date)    
         results = sittings.all()     
         for result in results:
@@ -159,23 +203,28 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
     
     def render(self):
         need('yui-dragdrop')
-        need( 'yui-animation')        
+        need('yui-animation')    
+        need('yui-logger')    
         JScript = """
 <div id="user_actions">
  
 </div>
-
+<b id="list-counter"> 0 </b>
 <form name="make_schedule" method="POST" action="" enctype="multipart/form-data">
   <input type="button" id="saveButton" value="Save" />
  <input id="form.actions.cancel" class="context" type="submit" value="Cancel" name="cancel"/>
 </form>
         
 <script type="text/javascript">
+<!--
 (function() {
 
 var Dom = YAHOO.util.Dom;
 var Event = YAHOO.util.Event;
 var DDM = YAHOO.util.DragDropMgr;
+var startPos;
+var liProxyEl = document.createElement('li');
+liProxyEl.id = "li_proxy_id";
 
 //////////////////////////////////////////////////////////////////////////////
 // example app
@@ -183,21 +232,12 @@ var DDM = YAHOO.util.DragDropMgr;
 YAHOO.example.DDApp = {
     init: function() {
 
-        //var rows=3,cols=2,i,j;
-        //for (i=1;i<cols+1;i=i+1) {
-        //    new YAHOO.util.DDTarget("ul"+i);
-        //}
-
-        //for (i=1;i<cols+1;i=i+1) {
-        //    for (j=1;j<rows+1;j=j+1) {
-        //        new YAHOO.example.DDList("li" + i + "_" + j);
-        //    }
-        //}
 
         %(DDTarget)s
-        %(DDList)s
-
-        Event.on("saveButton", "click", this.showOrder);        
+        %(DDList)s     
+        
+        Event.on("saveButton", "click", this.showOrder);     
+        YAHOO.widget.Logger.enableBrowserConsole();   
     },
 
     showOrder: function() {
@@ -245,30 +285,61 @@ YAHOO.example.DDList = function(id, sGroup, config) {
 
     this.goingUp = false;
     this.lastY = 0;
+    this.originalEl = document.createElement('li');
+    this.originalEl.id = "original_proxy_id";
+     
+    //var originalEl, originalParent;
 };
 
 YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
-
+    
+    
     startDrag: function(x, y) {
         this.logger.log(this.id + " startDrag");
-
         // make the proxy look like the source element
         var dragEl = this.getDragEl();
         var clickEl = this.getEl();
+        var parentEl = clickEl.parentNode;        
+        startPos = Dom.getXY(clickEl);  
+        // sometimes the proxy for the original element does
+        // not get removed properly onDragDrop :(
+        if (document.getElementById(this.originalEl.id) != null) {
+            var opEl = document.getElementById(this.originalEl.id);
+            var p_opEl = opEl.parentNode;
+            p_opEl.removeChild(opEl)
+            }
+        parentEl.insertBefore(this.originalEl, clickEl.nextSibling);         
+        this.logger.log("startPos" + startPos)
+                 
         Dom.setStyle(clickEl, "visibility", "hidden");
 
         dragEl.innerHTML = clickEl.innerHTML;
-
+    
         Dom.setStyle(dragEl, "color", Dom.getStyle(clickEl, "color"));
         Dom.setStyle(dragEl, "backgroundColor", Dom.getStyle(clickEl, "backgroundColor"));
-        Dom.setStyle(dragEl, "border", "2px solid gray");
+        Dom.setStyle(dragEl, "border", "2px solid gray");      
+        
     },
+
+
+//    onMouseUp: function(e) {
+//            var srcPEl = this.originalEl.parentNode;
+//            srcPEl.removeChild(this.originalEl);
+//        },
+
+
+    onInvalidDrop: function(e) {
+        var srcEl = this.getEl();
+        var srcPEl = this.originalEl.parentNode;
+        srcPEl.insertBefore(srcEl, this.originalEl);                
+        srcPEl.removeChild(this.originalEl); 
+        },
 
     endDrag: function(e) {
 
         var srcEl = this.getEl();
         var proxy = this.getDragEl();
-
+        //var srcPEl = this.originalEl.parentNode;
         // Show the proxy element and animate it to the src element's location
         Dom.setStyle(proxy, "visibility", "");
         var a = new YAHOO.util.Motion( 
@@ -281,14 +352,14 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
             YAHOO.util.Easing.easeOut 
         )
         var proxyid = proxy.id;
-        var thisid = this.id;
-
+        var thisid = this.id;      
         // Hide the proxy and show the source element when finished with the animation
         a.onComplete.subscribe(function() {
                 Dom.setStyle(proxyid, "visibility", "hidden");
                 Dom.setStyle(thisid, "visibility", "");
             });
         a.animate();
+        //srcPEl.removeChild(this.originalEl); 
     },
 
     onDragDrop: function(e, id) {
@@ -303,18 +374,42 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
             // The region occupied by the source element at the time of the drop
             var region = DDM.interactionInfo.sourceRegion; 
 
+            //
+            var srcEl = this.getEl();
+            var destEl = Dom.get(id);
+            var destDD = DDM.getDDById(id); 
+            var srcPEl = this.originalEl.parentNode;
+            //alert( srcEl.id + " -> " + destEl.id);
+            
+            if (destEl.nodeName.toLowerCase() == "ol") {
+                    Dom.removeClass(id, 'dragover');
+                }
+            if (destEl.nodeName.toLowerCase() == "li") {
+                var pEl = destEl.parentNode;
+                if (pEl.nodeName.toLowerCase() == "ol") {                   
+                    Dom.removeClass(pEl.id, 'dragover');
+                    }
+                }
+            if (destEl.id == "sid_3017") {
+                alert ("invalid target");
+                //this.onInvalidDrop(e)
+                //this.invalidDropEvent.fire()
+                //Dom.setXY(this.getEl(), startPos);                
+                this.logger.log("proxy parent: " + srcPEl.id);
+                srcPEl.insertBefore(srcEl, this.originalEl);                
+            }
             // Check to see if we are over the source element's location.  We will
             // append to the bottom of the list once we are sure it was a drop in
             // the negative space (the area of the list without any list items)
-            if (!region.intersect(pt)) {
-                var destEl = Dom.get(id);
-                var destDD = DDM.getDDById(id);
-                destEl.appendChild(this.getEl());
-                destDD.isEmpty = false;
-                DDM.refreshCache();
+            else {
+            if (!region.intersect(pt)) {               
+                destEl.appendChild(srcEl);
+                destDD.isEmpty = false;                
             }
-
+            }           
         }
+        srcPEl.removeChild(this.originalEl); 
+        DDM.refreshCache(); 
     },
 
     onDrag: function(e) {
@@ -331,21 +426,68 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
         this.lastY = y;
     },
 
+/////////////////////////////////////////////////
+/////////
+    setListCounter : function ( destEl ) {
+         // count the elements in the list
+         return;
+         var counterEl = Dom.get("list-counter");
+         var itemCount = destEl.getElementsByTagName("li").length;
+         counterEl.innerHTML = "- " + itemCount
+    },
+
+    onDragEnter: function(e, id) {
+        return;
+        var destEl = Dom.get(id);
+        //Dom.setStyle(liProxyEl.id, "visibility", "");
+        if (destEl.nodeName.toLowerCase() == "ol") {
+            this.setListCounter( destEl);
+            Dom.addClass(id, 'dragover');
+            }            
+        if (destEl.nodeName.toLowerCase() == "li") {
+            var pEl = destEl.parentNode;
+            if (pEl.nodeName.toLowerCase() == "ol") {
+                this.setListCounter(pEl);
+                //Dom.addClass(pEl.id, 'dragover');
+                }
+            }
+        
+    },
+
+   
+   
+   onDragOut: function(e, id) {
+        return;
+        var destEl = Dom.get(id);
+         //Dom.setStyle(liProxyEl.id, "visibility", "hidden");
+         if (destEl.nodeName.toLowerCase() == "ol") {
+             Dom.removeClass(id, 'dragover');
+            }            
+        if (destEl.nodeName.toLowerCase() == "li") {
+            var pEl = destEl.parentNode;
+            if (pEl.nodeName.toLowerCase() == "ol") {
+                 //Dom.removeClass(pEl.id, 'dragover');
+                }
+            }        
+    },
+
+////////////
+///////////////////////////////////////////////
+
     onDragOver: function(e, id) {
-    
+        
         var srcEl = this.getEl();
         var destEl = Dom.get(id);
-
+        
         // We are only concerned with list items, we ignore the dragover
         // notifications for the list.
         if (destEl.nodeName.toLowerCase() == "li") {
-            var orig_p = srcEl.parentNode;
             var p = destEl.parentNode;
 
             if (this.goingUp) {
                 p.insertBefore(srcEl, destEl); // insert above
             } else {
-                p.insertBefore(srcEl, destEl.nextSibling); // insert below
+               p.insertBefore(srcEl, destEl.nextSibling); // insert below
             }
 
             DDM.refreshCache();
@@ -357,7 +499,7 @@ Event.onDOMReady(YAHOO.example.DDApp.init, YAHOO.example.DDApp, true);
 
 })();
 
-        
+-->        
 </script>         
         """
         DDList = ""
@@ -374,63 +516,33 @@ Event.onDOMReady(YAHOO.example.DDApp.init, YAHOO.example.DDApp, true);
             DDTarget = DDTarget + 'new YAHOO.util.DDTarget("sid_'  + str(sid) +'"); \n'
         #add the hardcoded targets for postponed and admissable list
         DDTarget = DDTarget + 'new YAHOO.util.DDTarget("admissible_questions"); \n'
-        #DDTarget = DDTarget + 'new YAHOO.util.DDTarget("postponed_questions"); \n'
+        DDTarget = DDTarget + 'new YAHOO.util.DDTarget("postponed_questions"); \n'
         t_list = ""
         for sid in self.sitting_ids:
             # var ul1=Dom.get("ul1"), ul2=Dom.get("ul2"); 
             t_list = t_list + ' sid_'+ str(sid) +'=Dom.get("sid_' + str(sid) + '"),'
-        t_list = t_list + 'admissible_questions=Dom.get("admissible_questions")'
+        t_list = t_list + 'admissible_questions=Dom.get("admissible_questions"),'
+        t_list = t_list + 'postponed_questions=Dom.get("postponed_questions")'
         parseList =""
         for sid in self.sitting_ids:
             #parseList(ul1, "List 1") +
             parseList = parseList + 'parseList(sid_'+ str(sid) + '); \n'
-        parseList = parseList +  'parseList(admissible_questions);'   
+        parseList = parseList +  'parseList(admissible_questions); \n'   
+        parseList = parseList +  'parseList(postponed_questions);'
+        maxQuestionsPerSitting = prefs.getMaxQuestionsPerSitting()
         js_inserts= {
             'DDList':DDList,
             'DDTarget':DDTarget,
             'targetList': t_list,
-            'parseList': parseList }
+            'parseList': parseList,
+            'maxQuestionsPerSitting': maxQuestionsPerSitting }
         return JScript % js_inserts           
         
         
-        
-        
-class PostponedQuestionViewlet( viewlet.ViewletBase ):
-    """
-    display the postponed questions
-    """    
-    name = states.postponed
+class QuestionInStateViewlet( viewlet.ViewletBase ):
+    name = state = None
     render = ViewPageTemplateFile ('templates/schedule_question_viewlet.pt')    
-    list_id = "postponed_questions"
-    def getData(self):
-        """
-        return the data of the query
-        """      
-        results = self.query.all()
-        for result in results:            
-            data ={}
-            data['id']= ( path + 'q-' + str(result.question_id) )                         
-            data['subject'] = result.subject
-            data_list.append(data)            
-        return data_list
-    
-    
-    def update(self):
-        """
-        refresh the query
-        """
-        session = Session()
-        questions = session.query(domain.Question).filter(schema.questions.c.status == states.postponed)
-        self.query = questions
-    
-    
-class AdmissibleQuestionViewlet( viewlet.ViewletBase ):
-    """
-    display the admissible questions
-    """    
-    name = states.admissible
-    render = ViewPageTemplateFile ('templates/schedule_question_viewlet.pt')    
-    list_id = "admissible_questions"
+    list_id = "_questions"    
     def getData(self):
         """
         return the data of the query
@@ -450,8 +562,25 @@ class AdmissibleQuestionViewlet( viewlet.ViewletBase ):
         refresh the query
         """
         session = Session()
-        questions = session.query(domain.Question).filter(schema.questions.c.status == states.admissible)
-        self.query = questions
+        questions = session.query(domain.Question).filter(schema.questions.c.status == self.state)
+        self.query = questions        
+        
+class PostponedQuestionViewlet( QuestionInStateViewlet ):
+    """
+    display the postponed questions
+    """    
+    name = state = states.postponed   
+    list_id = "postponed_questions"    
+    
+    
+class AdmissibleQuestionViewlet( QuestionInStateViewlet ):
+    """
+    display the admissible questions
+    """    
+    name = state = states.admissible
+    render = ViewPageTemplateFile ('templates/schedule_question_viewlet.pt')    
+    list_id = "admissible_questions"
+    
     
     
     
@@ -550,23 +679,40 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
         return day_data                
        
        
-    def schedule_question(self, question_id, sitting_id):
-        print question_id, sitting_id
+    def schedule_question(self, question_id, sitting_id, sort_id):
+        print question_id, sitting_id, sort_id
         session = Session()
         question = session.query(domain.Question).get(question_id)
-        question.context = self.context
+        question.context = self.context    
+        question.request = self.request    
+        
         if question:
             if sitting_id:
                 sitting = session.query(domain.GroupSitting).get(sitting_id)
             else:
                 sitting = None                
             if sitting:
-                if question.sitting_id != sitting_id:
-                    question.sitting_id = sitting_id
-                elif question.sitting_id is None:    
+                if question.sitting_id is None:  
+                    # our question is either admissible, deferred or postponed  
                     #XXX check_security=True
                     question.sitting_id = sitting_id
-                    IWorkflowInfo(question).fireTransition('schedule', check_security=True)
+                    IWorkflowInfo(question).fireTransitionToward(states.scheduled, check_security=True)
+                    #if IWorkflowInfo(question).state().getState() == states.admissible:
+                    #    IWorkflowInfo(question).fireTransition('schedule', check_security=True)
+                    #elif IWorkflowInfo(question).state().getState() == states.deferred:
+                    #    IWorkflowInfo(question).fireTransition('schedule-deferred', check_security=True)
+                    #elif IWorkflowInfo(question).state().getState() == states.postponed:
+                    #    IWorkflowInfo(question).fireTransition('schedule-postponed', check_security=True)
+                    #else:
+                    #    print "invalid workflow state:", IWorkflowInfo(question).state().getState()
+                        
+                elif question.sitting_id != sitting_id:  
+                    # a question with a sitting id is scheduled
+                    assert IWorkflowInfo(question).state().getState() == states.scheduled                  
+                    IWorkflowInfo(question).fireTransition('postpone', check_security=True)
+                    assert question.sitting_id is None
+                    question.sitting_id = sitting_id
+                    IWorkflowInfo(question).fireTransition('schedule-postponed', check_security=True)
                 else:
                     #sitting stays the same
                     print question.sitting_id == sitting_id
@@ -577,31 +723,46 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                         IWorkflowInfo(question).fireTransition('postpone', check_security=True)
                     
     def insert_questions(self, form):
+        print form
         for sitting in form.keys():
             if sitting[:4] == 'sid_':
                 qids = form[sitting]
-                sitting_id = long(sitting[4:])                
+                sitting_id = long(sitting[4:])     
+                sort_id = 0           
                 if type(qids) == ListType:
-                    for qid in qids:
+                    for qid in qids:                        
                         if qid[:2] == 'q_':
+                            sort_id = sort_id + 1
                             question_id = long(qid[2:])
-                            self.schedule_question(question_id, sitting_id)
+                            self.schedule_question(question_id, sitting_id, sort_id)
                 if type(qids) in StringTypes:
                     if qids[:2] == 'q_':
                         question_id = long(qids[2:])
-                        self.schedule_question(question_id, sitting_id)
-            else:
-                if sitting == 'admissible_questions':
-                    qids = form['admissible_questions']
-                    if type(qids) == ListType:
-                        for qid in qids:
-                            if qid[:2] == 'q_':
-                                question_id = long(qid[2:])
-                                self.schedule_question(question_id, None)
-                    if type(qids) in StringTypes:
-                        if qids[:2] == 'q_':
-                            question_id = long(qids[2:])
-                            self.schedule_question(question_id, None)
+                        self.schedule_question(question_id, sitting_id, 1)
+            elif (sitting == 'admissible_questions') or (sitting == 'postponed_questions'):                
+                qids = form[sitting]
+                print sitting
+                if type(qids) == ListType:            
+                    for qid in qids:                            
+                        if qid[:2] == 'q_':                            
+                            question_id = long(qid[2:])
+                            self.schedule_question(question_id, None, 0)
+                if type(qids) in StringTypes:
+                    if qids[:2] == 'q_':
+                        question_id = long(qids[2:])
+                        self.schedule_question(question_id, None, 0)
+#            elif :
+#                qids = form['postponed_questions']
+#                if type(qids) == ListType:
+#                    for qid in qids:                            
+#                        if qid[:2] == 'q_':
+#                            sort_id = sort_id + 1
+#                            question_id = long(qid[2:])
+#                            self.schedule_question(question_id, None, 0)
+#                if type(qids) in StringTypes:
+#                    if qids[:2] == 'q_':
+#                        question_id = long(qids[2:])
+#                        self.schedule_question(question_id, None, 0)                        
        
     def update(self):
         """

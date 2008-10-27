@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.Set;
 import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.BungeniRegistryFactory;
-import org.bungeni.db.GeneralQueryFactory;
-import org.bungeni.db.QueryResults;
 import org.bungeni.db.registryQueryDialog;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
 import org.bungeni.ooo.OOComponentHelper;

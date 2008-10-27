@@ -10,6 +10,7 @@ import java.awt.Component;
 import java.util.HashMap;
 import org.bungeni.db.registryQueryDialog;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
+import org.bungeni.ooo.OOComponentHelper;
 
 /**
  *
@@ -18,7 +19,7 @@ import org.bungeni.editor.selectors.BaseMetadataPanel;
 public class PersonSelector extends  BaseMetadataPanel {
      registryQueryDialog rqs = null;
      private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(PersonSelector.class.getName());
-     HashMap<String, String> selectionData = new HashMap<String,String>();
+ //    HashMap<String, String> selectionData = new HashMap<String,String>();
     
     /** Creates new form PersonSelector */
     public PersonSelector() {
@@ -63,13 +64,14 @@ public class PersonSelector extends  BaseMetadataPanel {
 
 private void btn_SpeechByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_SpeechByActionPerformed
 // TODO add your handling code here:
-        rqs = new registryQueryDialog("Select A Person", "Select * from persons", getParentFrame());
+        rqs = new registryQueryDialog("Select A Person", "Select ID, FIRST_NAME, LAST_NAME, URI from persons", getParentFrame());
         rqs.show();
         log.debug("Moved on before closing child dialog");
-        selectionData = rqs.getData();
-        if (selectionData.size() > 0 ) {
+        ((Main)getContainerPanel()).selectionData = rqs.getData();
+        if (((Main)getContainerPanel()).selectionData.size() > 0 ) {
            // txt_SpeechBy.setText(selectionData.get("FIRST_NAME") + " " + selectionData.get("LAST_NAME"));
            // txt_URIofPerson.setText(selectionData.get("URI"));
+            getContainerPanel().updateAllPanels();
         } else {
             log.debug("selected keyset empty");
         }
@@ -146,6 +148,12 @@ private void btn_SpeechByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 
     @Override
     public boolean processSelectInsert() {
+        String questionId = ((Main)getContainerPanel()).selectionData.get("ID");
+        OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
+        HashMap<String,String> sectionMeta = new HashMap<String,String>();
+        String newSectionName = ((Main)getContainerPanel()).mainSectionName;
+        sectionMeta.put("BungeniQuestionNo", questionId);
+        ooDoc.setSectionMetadataAttributes(newSectionName, sectionMeta);
         return true;
     }
 

@@ -7,7 +7,9 @@
 package org.bungeni.editor.selectors.debaterecord.speech;
 
 import java.awt.Component;
+import java.util.HashMap;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
+import org.bungeni.ooo.OOComponentHelper;
 
 /**
  *
@@ -124,6 +126,19 @@ public class PersonURI extends  BaseMetadataPanel {
 
     @Override
     public boolean processSelectInsert() {
+        OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
+        HashMap<String,String> sectionMeta = new HashMap<String,String>();
+        String newSectionName = ((Main)getContainerPanel()).mainSectionName;
+        sectionMeta.put("BungeniSpeechByURI", this.txt_URIofPerson.getText());
+        //sectionMeta.put("BungeniQuestionByURI", this.txtPersonURI.getText());
+        ooDoc.setSectionMetadataAttributes(newSectionName, sectionMeta);   
+        return true;
+    }
+    
+    @Override
+    public boolean doUpdateEvent(){
+        HashMap<String,String> selectionData = ((Main)getContainerPanel()).selectionData;   
+        this.txt_URIofPerson.setText(selectionData.get("URI"));
         return true;
     }
 
@@ -177,4 +192,6 @@ public class PersonURI extends  BaseMetadataPanel {
     protected void initFieldsEdit() {
         return;
     }
+    
+   
 }

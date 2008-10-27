@@ -120,7 +120,10 @@ public class Main extends BaseMetadataContainerPanel {
                 log.error("setSectionProperties :"+ CommonExceptionUtils.getStackTrace(ex));
                 } 
             }
-             // ooDocument.c
+            HashMap<String,String> metaMap = new HashMap<String,String>();
+            metaMap.put("BungeniSectionType", theAction.action_section_type());
+            ooDocument.setSectionMetadataAttributes(xSection, metaMap);
+            // ooDocument.c
         }
         return true;
     }

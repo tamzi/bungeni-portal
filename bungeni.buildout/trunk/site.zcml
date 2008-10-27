@@ -62,40 +62,8 @@
   <everybodyGroup id="zope.Everybody"
                   title="All Users" />
 
-  <!-- Initial administrator account.  Disable this for production -->
-  <principal id="zope.manager"
-             title="Manager"
-             login="admin"
-             password_manager="Plain Text"
-             password="admin"
-             />
-
-  <!-- Replace the following directive if you don't want public access -->
-  <grant permission="zope.View"
-         principal="zope.anybody" />         
-
   <role id="zope.Manager" title="Site Manager" />
   <role id="zope.Member" title="Site Member" />
-  
-  <grant permission="zope.View"
-         role="zope.Member" />         
-
-  <!-- authenticated users are members -->
-  
-  <grant role="zope.Member"
-         principal="zope.Authenticated" />
-  
-  <grantAll role="zope.Manager" />
-  
-  <grant role="zope.Manager"
-         principal="zope.manager" />
-  <grant role="zope.Manager"
-	 principal="zope.anybody" />
-  <grant role="zope.Manager"
-	 principal="zope.Authenticated" />
-
-
-
   
   <!-- Application Configuration -->
   <include package="bungeni.core" />
@@ -114,8 +82,9 @@
   <!-- Setup Default Skin For Application -->
   <!--browser:defaultSkin name="bungeni"/-->
   
-    <browser:defaultSkin name="bungeni.theme.private"/> 
+  <browser:defaultSkin name="bungeni.theme.private"/> 
   
-
+  <!-- App Security -->
+  <include file="security.zcml"/>
 
 </configure>

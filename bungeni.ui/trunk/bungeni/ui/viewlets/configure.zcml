@@ -52,6 +52,14 @@
     weight="50"
     />        
          
+  <!-- JSON View to validate questions -->         
+  <browser:page
+     for="*"
+     permission="bungeni.question.Schedule"
+     name="json_validate_question"
+     class=".schedule.QuestionJSONValidation"
+     />
+         
   <!-- managers -->
   
   <browser:viewletManager

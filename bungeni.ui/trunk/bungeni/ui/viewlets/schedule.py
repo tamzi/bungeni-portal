@@ -30,33 +30,12 @@ import bungeni.core.globalsettings as prefs
 
 import sqlalchemy.sql.expression as sql
 
+import simplejson
 
 ### debug
+import pdb
 
 
-def start_DateTime( Date ):
-    """
-    return the start datetime for the query
-    i.e. first of month 00:00
-    """
-    return datetime.datetime(Date.year, Date.month, 1, 0, 0, 0)
-    
-    
-def end_DateTime( Date ):
-    """
-    return the end datetime for the query
-    i.e. last of month 23:59
-    """
-    if Date.month == 12:
-        month = 1
-        year = Date.year + 1
-    else:
-        month = Date.month + 1
-        year = Date.year    
-    return datetime.datetime(year, month, 1, 0, 0, 0)  - datetime.timedelta(seconds=1)       
-    
-    
-    
 #Among the “admissible” questions the Speaker or the Clerk's office will select questions for scheduling for a specific sitting 
 #(please note, in many parliaments only a fraction of the approved questions are scheduled to be addressed in a sitting).
 
@@ -89,7 +68,132 @@ def end_DateTime( Date ):
 
 #       All scheduled Questions need to be printed/exported to then be forwarded on paper or electronically 
 #       to the various Ministries and the relevant offices informing them also of the day in which they are scheduled.
-#       Notifications will be sent to the Speaker and the Clerk listing all questions that have exceeded the limits stated above.              
+#       Notifications will be sent to the Speaker and the Clerk listing all questions that have exceeded the limits stated above. 
+
+class QuestionJSONValidation( BrowserView ):
+    """
+    validate if a question can be scheduled for a sitting, 
+    """
+    
+    def sittingBeforeApproval(self, sitting, question ):
+        """
+        the sitting date is before the question was approved
+        so it cannot be scheduled for this sitting
+        """
+        if sitting.start_date.date() < question.approval_date:
+            return "Question cannot be scheduled before it was approved by the clerk"
+    
+    
+    def sittingToEarly(self, sitting, question):
+        """
+        A question cannot be scheduled on n days after the week in which the question was presented
+        """
+        noOfDaysBeforeQuestionSchedule = prefs.getNoOfDaysBeforeQuestionSchedule()
+        minScheduleDate = question.approval_date + datetime.timedelta(noOfDaysBeforeQuestionSchedule)
+        if sitting.start_date.date() < minScheduleDate:
+            return "The question may not be scheduled before %s" %( datetime.date.strftime(minScheduleDate,'%Y-%m-%d') )
+    
+    
+    def sittingToManyQuestions(self, question_id, sitting_questions):
+        """
+        the maximum number of questions in this sitting is exceeded
+        """
+        maxNoOfQuestions = prefs.getMaxQuestionsPerSitting()
+        if question_id in sitting_questions:
+            noOfQuestions = len(sitting_questions)
+        else:
+            noOfQuestions = len(sitting_questions) + 1
+        if noOfQuestions >  maxNoOfQuestions:
+            return "Maximum number of questions (%s) for this sitting exceeded" % noOfQuestions           
+                                    
+    def sittingToManyQuestionsByMP(self, question, questions ):
+        """
+        Maximum number of questions by a certain MP is exceeded
+        """      
+        maxNoOfQuestions = prefs.getMaxQuestionsByMpPerSitting()   
+        noOfQuestions = 0
+        memberOfParliament = u""
+        session = Session()
+        user_id = None
+        for q in questions:
+            if question.question_id != q.question_id:
+                # do not count self
+                if question.owner_id == q.owner_id:
+                    noOfQuestions = noOfQuestions + 1
+                    user_id =  q.owner_id
+        if noOfQuestions > maxNoOfQuestions:
+            session = Session()
+            user = session.query(domain.User).get(user_id)
+            username = u"%s %s" %( user.first_name, user.last_name )
+            return "%s asked %s questions, a maximum of %s questions is allowed per MP and sitting" % (username, noOfQuestions, maxNoOfQuestions)
+        
+        
+        
+    def __call__( self ):
+        """
+        the sitting, questions in that sitting and the question to be scheduled for that sitting
+        are passed as form parameters
+        """
+        errors = []
+        warnings = []        
+        form_data = self.request.form
+        sitting_questions = []
+        if form_data:
+            if form_data.has_key( 'sitting_id' ):
+                sitting_id = long(form_data['sitting_id'][4:])
+            if form_data.has_key( 'question_id'):   
+                question_id = long(form_data['question_id'][2:])
+            if form_data.has_key('q_id'):
+                sq_ids = form_data['q_id']
+                for qid in sq_ids:
+                    if qid[:2] == 'q_' :
+                        sitting_questions.append(long(qid[2:]))
+        session = Session()
+        questions = session.query(domain.Question).filter(schema.questions.c.question_id.in_(sitting_questions)).distinct().all()
+        sitting = session.query(domain.GroupSitting).get(sitting_id)
+        question = session.query(domain.Question).get(question_id)                
+            
+        result = self.sittingBeforeApproval( sitting, question )    
+        if result:
+            errors.append(result)
+        result = self.sittingToEarly( sitting, question)
+        if result:
+            warnings.append(result)
+        result = self.sittingToManyQuestions( question_id, sitting_questions)
+        if result:
+            warnings.append(result)
+        result = self.sittingToManyQuestionsByMP( question, questions )    
+        if result:
+            warnings.append(result)
+        pdb.set_trace()    
+        #data = {'errors':['to many quesitions','question scheduled to early'], 'warnings': ['more than 1 question by mp...',]}
+        data = {'errors':errors, 'warnings': warnings}
+        return simplejson.dumps( data )
+
+def start_DateTime( Date ):
+    """
+    return the start datetime for the query
+    i.e. first of month 00:00
+    """
+    return datetime.datetime(Date.year, Date.month, 1, 0, 0, 0)
+    
+    
+def end_DateTime( Date ):
+    """
+    return the end datetime for the query
+    i.e. last of month 23:59
+    """
+    if Date.month == 12:
+        month = 1
+        year = Date.year + 1
+    else:
+        month = Date.month + 1
+        year = Date.year    
+    return datetime.datetime(year, month, 1, 0, 0, 0)  - datetime.timedelta(seconds=1)       
+    
+    
+    
+             
   
 def current_sitting_query(date):
     """
@@ -204,7 +308,8 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
     def render(self):
         need('yui-dragdrop')
         need('yui-animation')    
-        need('yui-logger')    
+        #need('yui-logger')    #debug
+        need('yui-json')
         JScript = """
 <div id="user_actions">
  
@@ -294,6 +399,28 @@ YAHOO.example.DDList = function(id, sGroup, config) {
 YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
     
     
+     getQuestionValidation: function(url, passData) {
+          this.logger.log("data :" + passData);
+          if (window.XMLHttpRequest) {              
+            AJAX=new XMLHttpRequest();              
+          } else {                                  
+            AJAX=new ActiveXObject("Microsoft.XMLHTTP");
+          }
+          if (AJAX) {
+            // false for synchronus request!
+            //AJAX.open("POST", url, false);
+            AJAX.open("GET", url + "?"+passData, false);
+            AJAX.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            //AJAX.send(passData);
+            AJAX.send(null);
+            return AJAX.responseText;                                         
+          } else {
+             return false;
+          }                                             
+        },
+
+    
+    
     startDrag: function(x, y) {
         this.logger.log(this.id + " startDrag");
         // make the proxy look like the source element
@@ -336,7 +463,6 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
         },
 
     endDrag: function(e) {
-
         var srcEl = this.getEl();
         var proxy = this.getDragEl();
         //var srcPEl = this.originalEl.parentNode;
@@ -379,19 +505,54 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
             var destEl = Dom.get(id);
             var destDD = DDM.getDDById(id); 
             var srcPEl = this.originalEl.parentNode;
-            //alert( srcEl.id + " -> " + destEl.id);
-            
+            var valObject = { errors: [], warnings: []};
+            var hasErrors = false;
             if (destEl.nodeName.toLowerCase() == "ol") {
-                    Dom.removeClass(id, 'dragover');
+                    //Dom.removeClass(id, 'dragover');
+                    var queryStr="";
+                    var items = destEl.getElementsByTagName("li");
+                    var sitting = {
+                        sitting_id : destEl.id,
+                        question_id : srcEl.id,
+                        }
+                    queryStr="sitting_id=" + destEl.id + "&question_id=" + srcEl.id    
+                    var sitting_questions=new Array();
+                    for (i=0;i<items.length;i=i+1) {
+                        sitting_questions[i] = items[i].id;
+                        queryStr = queryStr + "&q_id=" + items[i].id;
+                        }
+                    sitting.questions = sitting_questions;  
+                    var jsonStr = YAHOO.lang.JSON.stringify(sitting);
+                    //alert(jsonStr); 
+                    var Validation=YAHOO.lang.JSON.parse(this.getQuestionValidation('./@@json_validate_question', queryStr));
+                    if (Validation.errors.length >0) {
+                        var errors = "" ;
+                        for (i=0;i<Validation.errors.length;i=i+1) {
+                            errors = errors + "\\n" + Validation.errors[i]
+                            }
+                        alert (errors);
+                        hasErrors = true;
+                        }
+                    if (!(hasErrors)) {
+                        if (Validation.warnings.length >0) {
+                            var errors = "" ;
+                            for (i=0;i<Validation.warnings.length;i=i+1) {
+                                errors = errors + "\\n" + Validation.warnings[i]
+                                }
+                            errors = errors + "\\n" + "schedule anyway?"    
+                            hasErrors = !(confirm (errors));
+                            }                      
+                        }    
                 }
             if (destEl.nodeName.toLowerCase() == "li") {
                 var pEl = destEl.parentNode;
+                alert( srcEl.id + " -> " + destEl.id);
                 if (pEl.nodeName.toLowerCase() == "ol") {                   
-                    Dom.removeClass(pEl.id, 'dragover');
+                    //Dom.removeClass(pEl.id, 'dragover');
                     }
                 }
-            if (destEl.id == "sid_3017") {
-                alert ("invalid target");
+            if (hasErrors) {
+                //alert ("invalid target");
                 //this.onInvalidDrop(e)
                 //this.invalidDropEvent.fire()
                 //Dom.setXY(this.getEl(), startPos);                
@@ -714,8 +875,9 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                     question.sitting_id = sitting_id
                     IWorkflowInfo(question).fireTransition('schedule-postponed', check_security=True)
                 else:
-                    #sitting stays the same
-                    print question.sitting_id == sitting_id
+                    #sitting stays the same - nothing to do
+                    #print question.sitting_id == sitting_id
+                    pass
             else:
                 if question.sitting_id is not None: 
                     #question.sitting_id = sitting_id

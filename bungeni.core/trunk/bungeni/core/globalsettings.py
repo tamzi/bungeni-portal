@@ -99,5 +99,14 @@ def getDaysToNotifyMinistriesQuestionsPendingResponse():
 def getQuestionSubmissionAllowed():
     return True
     
+def getMaxQuestionsPerSitting():
+    return 3
+        
+def getMaxQuestionsByMpPerSitting():
+    return 1
     
+def getNoOfDaysBeforeQuestionSchedule():
+    return 3
+        
+        
     

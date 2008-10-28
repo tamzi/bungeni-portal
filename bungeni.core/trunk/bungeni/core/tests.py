@@ -116,6 +116,7 @@ def test_suite():
 
     doctests = ('readme.txt', 
                 'audit.txt',
+                'settings.txt',
                 'workflows/questionnotification.txt', 
                 'workflows/motionnotification.txt',                 
                 'workflows/question.txt',

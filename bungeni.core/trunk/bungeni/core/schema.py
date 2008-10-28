@@ -719,6 +719,20 @@ directory_locations = rdb.Table(
     )
 
 #######################
+# Settings
+#######################
+
+settings = rdb.Table( "settings", metadata, 
+                      rdb.Column("setting_id", rdb.Integer, primary_key=True ),
+                      rdb.Column("object_id", rdb.Integer ), # scope
+                      rdb.Column("object_type", rdb.String(50) ),
+                      rdb.Column("propertysheet", rdb.String(50) ),                      
+                      rdb.Column("name", rdb.String(50) ),           
+                      rdb.Column("value", rdb.String(400) ),
+                      rdb.Column("type", rdb.String(40) ),           
+                      )	   
+
+#######################
 # Hansard
 #######################   
 

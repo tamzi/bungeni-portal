@@ -33,7 +33,7 @@ import sqlalchemy.sql.expression as sql
 import simplejson
 
 ### debug
-import pdb
+
 
 
 #Among the “admissible” questions the Speaker or the Clerk's office will select questions for scheduling for a specific sitting 
@@ -165,7 +165,7 @@ class QuestionJSONValidation( BrowserView ):
         result = self.sittingToManyQuestionsByMP( question, questions )    
         if result:
             warnings.append(result)
-        pdb.set_trace()    
+       
         #data = {'errors':['to many quesitions','question scheduled to early'], 'warnings': ['more than 1 question by mp...',]}
         data = {'errors':errors, 'warnings': warnings}
         return simplejson.dumps( data )

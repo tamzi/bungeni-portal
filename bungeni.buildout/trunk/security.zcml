@@ -26,9 +26,11 @@
   
   <grant role="zope.Manager"
          principal="zope.manager" />
+  <!--
   <grant role="zope.Manager"
 	 principal="zope.anybody" />
   <grant role="zope.Manager"
 	 principal="zope.Authenticated" />
+  -->
 
 </configure>

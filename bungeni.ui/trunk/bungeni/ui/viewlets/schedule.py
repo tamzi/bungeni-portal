@@ -837,7 +837,11 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
     def schedule_question(self, question_id, sitting_id, sort_id):
         print question_id, sitting_id, sort_id
         session = Session()
+        
         question = session.query(domain.Question).get(question_id)
+        # set the question's parent to the application for security checks
+        question.__parent__= self.context
+        
         question.context = self.context    
         question.request = self.request    
         

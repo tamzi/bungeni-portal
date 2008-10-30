@@ -70,6 +70,15 @@ def getQuestionMinistry(info, context):
 def getQuestionSubmissionAllowed(info, context):    
     return prefs.getQuestionSubmissionAllowed()
 
+
+def getPublicBillCondition(info, context): 
+    ministry_id = context.ministry_id
+    return ministry_id != None
+
+def getPrivateBillCondition(info, context): 
+    ministry_id = context.ministry_id
+    return ministry_id == None
+
 def submitResponse( info, context ):
     """
     A Response to a question is submitted to the clerks office,

@@ -123,6 +123,7 @@ provinces = rdb.Table(
     "provinces",
     metadata,
     rdb.Column( "province_id", rdb.Integer,  primary_key=True ),
+ #   rdb.Column( "region_id", rdb.Integer, rdb.ForeignKey('regions.region_id') ),    
     rdb.Column( "province", rdb.Unicode(80), nullable=False ),
     )
     
@@ -664,7 +665,7 @@ motions = rdb.Table(
    rdb.Column( "entered_by", rdb.Integer, rdb.ForeignKey('users.user_id') ),   
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('political_parties.party_id')  ), # if the motion was sponsored by a party
    rdb.Column( "notice_date", rdb.Date ),
-   # Receive Question Notifications -> triggers notification on workflow change
+   # Receive  Notifications -> triggers notification on workflow change
    rdb.Column( "receive_notification", rdb.Boolean, default=True ),
    rdb.Column( "status",  rdb.Unicode(32) ),
    )
@@ -690,6 +691,7 @@ bills = rdb.Table(
    metadata,
    rdb.Column( "bill_id", rdb.Integer, ItemSequence, primary_key=True ),
    rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('ministries.ministry_id') ),
+   rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),   
    rdb.Column( "identifier",  rdb.Integer),
    rdb.Column( "preamble", rdb.UnicodeText ),   
    rdb.Column( "title", rdb.Unicode(80) ), 

@@ -493,6 +493,10 @@ ol.draglist {
 
 }
 
+ol.draglist.dragover {
+    background-color: green;
+}
+
 ol.draglist li {
     margin: 1px;
     cursor: move;
@@ -509,6 +513,11 @@ ul.draglist {
     margin:0;    
     padding-bottom:1em;
 }
+
+ul.draglist.dragover {
+    background-color: green;
+}
+
 
 ul.draglist li {
     margin: 1px;

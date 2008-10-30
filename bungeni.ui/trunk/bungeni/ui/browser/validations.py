@@ -322,6 +322,10 @@ def CheckSessionDatesInsideParentDatesAdd( self,  context, data ):
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)
     """
+    #XXX check for open sessions: you may only add a session if all others are closed
+    
+    #XXX check for overlaps: sessions must not overlap
+    
     errors = checkStartEndDatesInInterval(context.__parent__.parliament_id, data , sql_checkSessionInterval)     
     errors = errors + checkDates(context.__parent__ , data )
     return errors
@@ -573,6 +577,10 @@ def CheckSessionDatesEdit( self, context, data ):
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)
     """
+    #XXX checkfor overlap: sessions must not overlap!
+    #XXX check for open sessions: a) if this session is open it must be the last otherwise it must have an enddate
+    # b) if there is another open session it must be later than this one.
+    
     errors = checkStartEndDatesInInterval(context.session_id , data , sql_checkMySessionInterval)     
     errors = errors + checkDates(context.__parent__.__parent__ , data )       
     return errors

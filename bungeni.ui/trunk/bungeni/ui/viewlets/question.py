@@ -19,7 +19,7 @@ class QuestionsListingViewletBase(object):
     render = ViewPageTemplateFile("templates/questions.pt")
 
     name = title = description = None
-    count = 5
+    count = 50
         
     def update(self):
         """Run query."""

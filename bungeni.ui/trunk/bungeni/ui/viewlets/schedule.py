@@ -317,7 +317,7 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
 <b id="list-counter"> 0 </b>
 <form name="make_schedule" method="POST" action="" enctype="multipart/form-data">
   <input type="button" id="saveButton" value="Save" />
- <input id="form.actions.cancel" class="context" type="submit" value="Cancel" name="cancel"/>
+  <input id="form.actions.cancel" class="context" type="submit" value="Cancel" name="cancel"/>
 </form>
         
 <script type="text/javascript">
@@ -327,7 +327,6 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
 var Dom = YAHOO.util.Dom;
 var Event = YAHOO.util.Event;
 var DDM = YAHOO.util.DragDropMgr;
-var startPos;
 var liProxyEl = document.createElement('li');
 liProxyEl.id = "li_proxy_id";
 
@@ -426,8 +425,7 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
         // make the proxy look like the source element
         var dragEl = this.getDragEl();
         var clickEl = this.getEl();
-        var parentEl = clickEl.parentNode;        
-        startPos = Dom.getXY(clickEl);  
+        var parentEl = clickEl.parentNode;          
         // sometimes the proxy for the original element does
         // not get removed properly onDragDrop :(
         if (document.getElementById(this.originalEl.id) != null) {
@@ -436,8 +434,7 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
             p_opEl.removeChild(opEl)
             }
         parentEl.insertBefore(this.originalEl, clickEl.nextSibling);         
-        this.logger.log("startPos" + startPos)
-                 
+                         
         Dom.setStyle(clickEl, "visibility", "hidden");
 
         dragEl.innerHTML = clickEl.innerHTML;
@@ -508,7 +505,7 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
             var valObject = { errors: [], warnings: []};
             var hasErrors = false;
             if (destEl.nodeName.toLowerCase() == "ol") {
-                    //Dom.removeClass(id, 'dragover');
+                    Dom.removeClass(id, 'dragover');
                     var queryStr="";
                     var items = destEl.getElementsByTagName("li");
                     var sitting = {
@@ -548,14 +545,13 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                 var pEl = destEl.parentNode;
                 alert( srcEl.id + " -> " + destEl.id);
                 if (pEl.nodeName.toLowerCase() == "ol") {                   
-                    //Dom.removeClass(pEl.id, 'dragover');
+                    Dom.removeClass(pEl.id, 'dragover');
                     }
                 }
             if (hasErrors) {
                 //alert ("invalid target");
                 //this.onInvalidDrop(e)
                 //this.invalidDropEvent.fire()
-                //Dom.setXY(this.getEl(), startPos);                
                 this.logger.log("proxy parent: " + srcPEl.id);
                 srcPEl.insertBefore(srcEl, this.originalEl);                
             }
@@ -597,19 +593,18 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
          counterEl.innerHTML = "- " + itemCount
     },
 
-    onDragEnter: function(e, id) {
-        return;
+    onDragEnter: function(e, id) {        
         var destEl = Dom.get(id);
         //Dom.setStyle(liProxyEl.id, "visibility", "");
         if (destEl.nodeName.toLowerCase() == "ol") {
-            this.setListCounter( destEl);
+            //this.setListCounter( destEl);
             Dom.addClass(id, 'dragover');
             }            
         if (destEl.nodeName.toLowerCase() == "li") {
             var pEl = destEl.parentNode;
             if (pEl.nodeName.toLowerCase() == "ol") {
-                this.setListCounter(pEl);
-                //Dom.addClass(pEl.id, 'dragover');
+                //this.setListCounter(pEl);
+                Dom.addClass(pEl.id, 'dragover');
                 }
             }
         
@@ -617,8 +612,7 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
 
    
    
-   onDragOut: function(e, id) {
-        return;
+   onDragOut: function(e, id) {        
         var destEl = Dom.get(id);
          //Dom.setStyle(liProxyEl.id, "visibility", "hidden");
          if (destEl.nodeName.toLowerCase() == "ol") {
@@ -856,16 +850,16 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                 if question.sitting_id is None:  
                     # our question is either admissible, deferred or postponed  
                     #XXX check_security=True
-                    question.sitting_id = sitting_id
-                    IWorkflowInfo(question).fireTransitionToward(states.scheduled, check_security=True)
-                    #if IWorkflowInfo(question).state().getState() == states.admissible:
-                    #    IWorkflowInfo(question).fireTransition('schedule', check_security=True)
-                    #elif IWorkflowInfo(question).state().getState() == states.deferred:
-                    #    IWorkflowInfo(question).fireTransition('schedule-deferred', check_security=True)
-                    #elif IWorkflowInfo(question).state().getState() == states.postponed:
-                    #    IWorkflowInfo(question).fireTransition('schedule-postponed', check_security=True)
-                    #else:
-                    #    print "invalid workflow state:", IWorkflowInfo(question).state().getState()
+                    #question.sitting_id = sitting_id
+                    #IWorkflowInfo(question).fireTransitionToward(states.scheduled, check_security=True)
+                    if IWorkflowInfo(question).state().getState() == states.admissible:
+                        IWorkflowInfo(question).fireTransition('schedule', check_security=True)
+                    elif IWorkflowInfo(question).state().getState() == states.deferred:
+                        IWorkflowInfo(question).fireTransition('schedule-deferred', check_security=True)
+                    elif IWorkflowInfo(question).state().getState() == states.postponed:
+                        IWorkflowInfo(question).fireTransition('schedule-postponed', check_security=True)
+                    else:
+                        print "invalid workflow state:", IWorkflowInfo(question).state().getState()
                         
                 elif question.sitting_id != sitting_id:  
                     # a question with a sitting id is scheduled

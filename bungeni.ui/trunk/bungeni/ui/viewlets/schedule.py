@@ -854,16 +854,16 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                 if question.sitting_id is None:  
                     # our question is either admissible, deferred or postponed  
                     #XXX check_security=True
-                    #question.sitting_id = sitting_id
-                    #IWorkflowInfo(question).fireTransitionToward(states.scheduled, check_security=True)
-                    if IWorkflowInfo(question).state().getState() == states.admissible:
-                        IWorkflowInfo(question).fireTransition('schedule', check_security=True)
-                    elif IWorkflowInfo(question).state().getState() == states.deferred:
-                        IWorkflowInfo(question).fireTransition('schedule-deferred', check_security=True)
-                    elif IWorkflowInfo(question).state().getState() == states.postponed:
-                        IWorkflowInfo(question).fireTransition('schedule-postponed', check_security=True)
-                    else:
-                        print "invalid workflow state:", IWorkflowInfo(question).state().getState()
+                    question.sitting_id = sitting_id
+                    IWorkflowInfo(question).fireTransitionToward(states.scheduled, check_security=True)
+                    #if IWorkflowInfo(question).state().getState() == states.admissible:
+                    #    IWorkflowInfo(question).fireTransition('schedule', check_security=True)
+                    #elif IWorkflowInfo(question).state().getState() == states.deferred:
+                    #    IWorkflowInfo(question).fireTransition('schedule-deferred', check_security=True)
+                    #elif IWorkflowInfo(question).state().getState() == states.postponed:
+                    #    IWorkflowInfo(question).fireTransition('schedule-postponed', check_security=True)
+                    #else:
+                    #    print "invalid workflow state:", IWorkflowInfo(question).state().getState()
                         
                 elif question.sitting_id != sitting_id:  
                     # a question with a sitting id is scheduled

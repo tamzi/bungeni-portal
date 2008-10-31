@@ -109,6 +109,14 @@ sql_checkForOpenParliamentInterval = """
                                     AND "end_date" IS NULL )
                         """
 
+sql_checkForOpenSessionInterval = """
+                           SELECT "full_name" FROM "public"."sessions" AS "sessions" 
+                           WHERE "end_date" IS NULL 
+                           AND "parliament_id" = %(parliament_id)s
+                        """
+
+
+
 sql_checkForOpenPartymembership = """
                             SELECT "groups"."short_name" 
                             FROM "public"."user_group_memberships", "public"."groups", "public"."political_parties" 
@@ -321,13 +329,18 @@ def CheckSessionDatesInsideParentDatesAdd( self,  context, data ):
     """
     start date must be >= parents start date
     end date must be <= parents end date (if parents end date is set)
-    """
-    #XXX check for open sessions: you may only add a session if all others are closed
-    
-    #XXX check for overlaps: sessions must not overlap
-    
+    if another session has an 'open end' you cannot add another session to this parliament
+    sessions must not overlap
+    """    
+    #check for overlaps: sessions must not overlap (in this parliament) 
     errors = checkStartEndDatesInInterval(context.__parent__.parliament_id, data , sql_checkSessionInterval)     
     errors = errors + checkDates(context.__parent__ , data )
+    #check for open sessions: you may only add a session if all others (in this parliament) are closed
+    check_dict = {'parliament_id' : context.__parent__.parliament_id}
+    open_session = checkBySQL(sql_checkForOpenSessionInterval , check_dict)
+    if open_session:
+        errors.append(interface.Invalid(_("The Session (%s) is not yet closed") % open_session, "start_date" ))
+      
     return errors
 
 #political parties

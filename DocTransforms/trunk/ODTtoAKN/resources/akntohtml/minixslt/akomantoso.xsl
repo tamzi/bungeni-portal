@@ -19,19 +19,11 @@
     </xsl:template>
 
     <xsl:template match="akn:akomantoso">
-        <html>
-            <head>
-                <title>
-                    AKOMA NTOSO document - HTML version
-                </title>
-            </head>
-            <body>
-                <div>
-                    <xsl:attribute name="class">main_container akomantoso</xsl:attribute>
-                    <xsl:apply-templates />
-                </div>
-            </body>
-        </html>
+        <div>
+            <xsl:attribute name="class">main_container akomantoso</xsl:attribute>
+ 
+            <xsl:apply-templates />
+        </div>
     </xsl:template>
     
     <xsl:template match="text()">

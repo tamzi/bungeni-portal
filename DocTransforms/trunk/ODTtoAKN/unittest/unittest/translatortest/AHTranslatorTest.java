@@ -12,6 +12,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 //import org.un.bungeni.translators.akntohtml.configurations.AHConfigurationBuilder;
 import org.un.bungeni.translators.akntohtml.translator.AHTranslator;
+//import org.un.bungeni.translators.akntohtml.xslprocbuilder.XSLProcBuilder;
 
 public class AHTranslatorTest {
 
@@ -39,14 +40,14 @@ public class AHTranslatorTest {
 	public final void testTranslate() throws Exception 
 	{
 		//perform a translation
-		//AHConfigurationBuilder.newInstance().createConfiguration("resources/akntohtml/minixslt/");
-		File translation = AHTranslator.getInstance().translate("resources/ke_act_1980-01-01_1_eng@_main.xml", "resources/akntohtml/minixslt/pipeline.xsl");
+		//XSLProcBuilder.newInstance().createXSLProc("resources/akntohtml/minixslt/");
+		File translation = AHTranslator.getInstance().translate("resources/ke_act_2003-12-10_8_eng@_main.xml", "resources/akntohtml/minixslt/pipeline.xsl");
 	
 		//input stream
 		FileInputStream fis  = new FileInputStream(translation);
 		
 		//output stream 
-		FileOutputStream fos = new FileOutputStream("resources/AHresult.html");
+		FileOutputStream fos = new FileOutputStream("resources/ke_act_2003-12-10_8_eng@_main.html");
 		
 		//copy the file
 		try 

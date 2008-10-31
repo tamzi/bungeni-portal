@@ -22,8 +22,9 @@
         <a>
             <xsl:attribute name="class">ref</xsl:attribute>
 			<xsl:if test="@href">
-				<xsl:attribute name="href" select="@href" />
+				<xsl:attribute name="href"><xsl:value-of select="@href" /></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates />
         </a>
     </xsl:template>

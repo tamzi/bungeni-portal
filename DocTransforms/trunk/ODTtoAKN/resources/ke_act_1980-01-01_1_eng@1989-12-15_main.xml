@@ -3,10 +3,10 @@
 <!--Akoma_Ntoso document-->
 <akomantoso xmlns="http://www.akomantoso.org/1.0" 
 			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-			xsi:schemaLocation="http://www.akomantoso.org/1.0 ./akomantoso10.xsd ">
+			xsi:schemaLocation="http://www.akomantoso.org/1.0 ../akomantoso10.xsd">
 	<act contains="SingleVersion">
 		<meta>
-			<identification source="#cirsfid">
+			<identification source="#bungeni">
 				<FRBRWork>
 					<this value="/ke/act/1980-01-01/1/main"/>
 					<uri value="/ke/act/1980-01-01/1"/>
@@ -20,7 +20,7 @@
 					<this value="/ke/act/1980-01-01/1/eng@1989-12-15/main"/>
 					<uri value="/ke/act/1980-01-01/1/eng@1989-12-15"/>
 					<date date="2007-11-23" name="Generation"/>
-					<author href="#cirsfid" as="#jurist"/>
+					<author href="#bungeni" as="#jurist"/>
 					<components>
 						<component id="emain" href="#mmain" name="main" showAs="Main document"/>
 					</components>
@@ -29,24 +29,186 @@
 					<this value="/ke/act/1980-01-01/1/eng@1989-12-15/main.xml"/>
 					<uri value="/ke/act/1980-01-01/1/eng@1989-12-15.akn"/>
 					<date date="2007-11-23" name="Generation"/>
-					<author href="#cirsfid" as="#editor"/>
-					<author href="#fb" as="#editor"/>
+					<author href="#bungeni" as="#editor"/>
+					<author href="#be" as="#editor"/>
 					<components>
 						<component id="mmain" href="main.xml" name="main" showAs="Main document"/>
 					</components>
 				</FRBRManifestation>
 			</identification>
 			<publication name="" date="1980-01-01" showAs=""/>
-			<lifecycle source="#cirsfid">
+			<lifecycle source="#bungeni">
 				<event id="e1" date="1980-01-01" source="#ro1" type="Generation"/>
 				<event id="e2" date="1989-12-15" source="#rp1" type="Amendment"/>
 				<event id="e3" date="1989-12-14" source="#rp1"/>
 			</lifecycle>
-			<references source="#cirsfid">
+			<analysis source="#bungeni">
+				<PassiveModifications>
+					<TextualMod type="Insertion" id="pm1">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref6"/>
+						<destination href="#sec3.e"/>
+					<!--	<new href="#mod14-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Repeal" id="pm2">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref15"/>
+						<destination href="#sec52-sub3"/>
+					</TextualMod>
+					<TextualMod type="Substitution" id="pm3">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref10"/>
+						<destination href="#sec50-sub2"/>
+					<!--	<new href="#mod1-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Repeal" id="pm4">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref2"/>
+						<destination href="#sec2-sub1"/>
+					<!--	<old href="#mod6-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Repeal" id="pm5">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref3"/>
+						<destination href="#sec2-sub1"/>
+					<!--	<old href="#mod11-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Substitution" id="pm6">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref4"/>
+						<destination href="#sec2-sub1"/>
+					<!--	<old href="#mod12-qtd1"/> -->
+					<!--	<new href="#mod12-qtd6"/> -->
+					</TextualMod>
+					<TextualMod type="Substitution" id="pm7">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref4"/>
+						<destination href="#sec2-sub1"/>
+					<!--	<old href="#mod12-qtd1"/> -->
+					<!--	<new href="#mod12-qtd6"/> -->
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm8">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref5"/>
+						<destination href="#sec2-sub1"/>
+					<!--	<new href="#mod13-qtd3"/> -->
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm9">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref5"/>
+						<destination href="#sec2-sub1"/>
+					<!--	<new href="#mod13-qtd3"/> -->
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm10">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref5"/>
+						<destination href="#sec2-sub1"/>
+					<!--	<new href="#mod13-qtd3"/> -->
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm11">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref6"/>
+						<destination href="#sec3.g"/>
+					<!--	<new href="#mod14-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Repeal" id="pm12">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref24"/>
+						<destination href="#sec60"/>
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm13" incomplete="true">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref8"/>
+						<destination href="#sec5.b"/>
+					<!--	<new href="#mod16-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm14">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref7"/>
+						<destination href="#prtII.a"/>
+					<!--	<new href="#mod15-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Substitution" id="pm15">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref4"/>
+						<destination href=""/>
+					<!--	<old href="#mod12-qtd1"/> -->
+					<!--	<new href="#mod12-qtd6"/> -->
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm16">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref6"/>
+						<destination href="#sec3.b"/>
+					<!--	<new href="#mod14-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm17">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref6"/>
+						<destination href="#sec3.j"/>
+					<!--	<new href="#mod14-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Substitution" id="pm18">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref14"/>
+						<destination href="#sec52-sub2"/>
+					<!--	<new href="#mod3-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm19">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref6"/>
+						<destination href="#sec3.d"/>
+					<!--	<new href="#mod14-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm20">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref6"/>
+						<destination href="#sec3"/>
+					<!--	<new href="#mod14-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Repeal" id="pm21">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref24"/>
+						<destination href="#sec58"/>
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm22">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref6"/>
+						<destination href="#sec3.h"/>
+					<!--	<new href="#mod14-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm23">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref6"/>
+						<destination href="#sec3.i"/>
+					<!--	<new href="#mod14-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm24">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref6"/>
+						<destination href="#sec3.c"/>
+					<!--	<new href="#mod14-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm25">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref6"/>
+						<destination href="#sec3.k"/>
+					<!--	<new href="#mod14-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Substitution" id="pm26">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref9"/>
+						<destination href="#sec49-sub1"/>
+					<!--	<new href="#mod17-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm27">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref20"/>
+						<destination href="#sec62"/>
+					<!--	<new href="#mod7-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm28">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref16"/>
+						<destination href="#sec57.a"/>
+					<!--	<new href="#mod5-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Repeal" id="pm29">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref24"/>
+						<destination href="#sec59"/>
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm30">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref6"/>
+						<destination href="#sec3.f"/>
+					<!--	<new href="#mod14-qtd1"/> -->
+					</TextualMod>
+					<TextualMod type="Repeal" id="pm31">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref11"/>
+						<destination href="#sec50-sub3-itmc"/>
+					</TextualMod>
+					<TextualMod type="Insertion" id="pm32">
+						<source href="/ke/act/1989-12-06/16/eng@/main#ref6"/>
+						<destination href="#sec3.a"/>
+					<!--	<new href="#mod14-qtd1"/> -->
+					</TextualMod>
+				</PassiveModifications>
+			</analysis>
+			<references source="#bungeni">
 				<Original id="ro1" href="/ke/act/1980-01-01/1/eng@/main" showAs="Original"/>
 				<PassiveRef id="rp1" href="/ke/act/1989-12-06/16/eng@/main" showAs=""/>
-				<TLCOrganization id="cirsfid" href="/ontology/organization/it/unibo/it.cirsfid" showAs="CIRSFID"/>
-				<TLCPerson id="fb" href="/ontology/person/editors/it.fb" showAs="Benigni"/>
+				<TLCOrganization id="bungeni" href="/ontology/organization/kn/kn.bungeni" showAs="Bungeni"/>
+				<TLCPerson id="so" href="/ontology/person/editors/kn.so" showAs="Some One"/>
 				<TLCOrganization id="parliament" href="/ontology/organization/ke/ke.parliament" showAs="Parliament of Kenya"/>
 				<TLCRole id="editor" href="/ontology/roles/editor" showAs="Editor"/>
 				<TLCRole id="jurist" href="/ontology/roles/jurist" showAs="Jurist"/>

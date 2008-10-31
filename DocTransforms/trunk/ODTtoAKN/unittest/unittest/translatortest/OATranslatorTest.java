@@ -57,7 +57,7 @@ public class OATranslatorTest
 	public final void testTranslate() throws Exception 
 	{
 		//perform a translation
-		File translation = myTranslator.translate("resources/ken_pdr_02052000p_en.odt", "resources/configurations/debaterecord/common/DebateRecordCommonConfig.xml");
+		File translation = myTranslator.translate("resources/debaterecord-2008-03-06.odt", "resources/configurations/debaterecord/common/DebateRecordCommonConfig.xml");
 	
 		//input stream
 		FileInputStream fis  = new FileInputStream(translation);

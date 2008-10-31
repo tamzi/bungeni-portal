@@ -115,14 +115,14 @@ public class XSLProcBuilder
 						for(int k = 0; k < attributesToMantain.length; k++)
 						{
 							attributeStringXSLT = 	attributeStringXSLT + 
-							 						"\t\t\t<xsl:if test=\"@" + element.getAttributes().getNamedItem("mantain").getNodeValue() +  "\">\n" +
+							 						"\t\t\t<xsl:if test=\"@" + attributesToMantain[k] /*element.getAttributes().getNamedItem("mantain").getNodeValue()*/ +  "\">\n" +
 							 						"\t\t\t\t<xsl:attribute name=\"" + 
 													attributesToMantain[k] + 
 													"\"" + 
-													" select=\"@" + 
-													attributesToMantain[k] +
-													"\" />\n" +
-													"\t\t\t</xsl:if>";
+													//" select=\"@" + 
+													//attributesToMantain[k] +
+													"><xsl:value-of select=\"@" + attributesToMantain[k] + "\" /></xsl:attribute>\n" +
+													"\t\t\t</xsl:if>\n";
 						}
 					}
 					else

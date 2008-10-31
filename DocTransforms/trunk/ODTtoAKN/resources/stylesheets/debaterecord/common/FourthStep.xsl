@@ -40,7 +40,7 @@
 		</xsl:element>    
 	</xsl:template>
 
-    <xsl:template match="comment[not(name(./parent::node()) = 'Communication')]">
+    <xsl:template match="comment[name(./parent::node()) = 'debate']">
         <subdivision>
             <xsl:attribute name="name" select="concat('s_',@text:name)" />
             <xsl:attribute name="id" select="concat('s_',@text:name)" />
@@ -48,10 +48,23 @@
         </subdivision>
     </xsl:template>
     
-    <xsl:template match="block | span">
+    <xsl:template match="block">
         <xsl:element name="{name()}">
 	        <xsl:attribute name="name" select="@text:style-name" />
             <xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
+    <xsl:template match="span">
+        <xsl:element name="{name()}">
+	        <xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
+    <xsl:template match="ul">
+        <xsl:element name="{name()}">
+            <xsl:attribute name="id" select="generate-id()" />
+	   	    <xsl:apply-templates />
 		</xsl:element>    
 	</xsl:template>
 
@@ -73,8 +86,21 @@
 		</xsl:element>    
 	</xsl:template>
 
+    <xsl:template match="conclusions">
+        <xsl:element name="{name()}">
+	        <xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
     <xsl:template match="Communication | AdministrationOfOath | DeclarationOfVote | Communication | petitions | Papers | NoticeOfMotions | Questions |  Address | ProceduralMotions | PointOfOrder">
         <xsl:element name="{name()}">
+            <xsl:attribute name="id" select="@text:name" />
+	        <xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
+    <xsl:template match="ActionEvent">
+        <xsl:element name="{@BungeniActionEvent}">
             <xsl:attribute name="id" select="@text:name" />
 	        <xsl:apply-templates />
 		</xsl:element>    

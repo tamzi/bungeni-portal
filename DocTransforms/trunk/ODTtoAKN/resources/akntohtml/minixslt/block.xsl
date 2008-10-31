@@ -22,8 +22,9 @@
         <div>
             <xsl:attribute name="class">generic_block block</xsl:attribute>
 			<xsl:if test="@name">
-				<xsl:attribute name="name" select="@name" />
+				<xsl:attribute name="name"><xsl:value-of select="@name" /></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates />
         </div>
     </xsl:template>

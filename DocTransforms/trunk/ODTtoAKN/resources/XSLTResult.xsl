@@ -14,19 +14,11 @@
     </xsl:template> 
 
 	<xsl:template match="akn:akomantoso">
-		<html>
-            <head>
-                <title>
-                    AKOMA NTOSO document - HTML version
-                </title>
-            </head>
-            <body>
-                <div>
-                    <xsl:attribute name="class">main_container akomantoso</xsl:attribute>
-                    <xsl:apply-templates/>
-                </div>
-            </body>
-        </html>
+		<div>
+            <xsl:attribute name="class">main_container akomantoso</xsl:attribute>
+ 
+            <xsl:apply-templates/>
+        </div>
 		
 	</xsl:template>
 
@@ -133,8 +125,9 @@
 		<a>
             <xsl:attribute name="class">attachment attachment</xsl:attribute>
 			<xsl:if test="@href">
-				<xsl:attribute name="href" select="@href"/>
+				<xsl:attribute name="href"><xsl:value-of select="@href"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </a>
 		
@@ -180,8 +173,9 @@
 		<div>
             <xsl:attribute name="class">hierarchy section</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -191,8 +185,9 @@
 		<div>
             <xsl:attribute name="class">hierarchy part</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -202,8 +197,9 @@
 		<div>
             <xsl:attribute name="class">hierarchy paragraph</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -213,8 +209,9 @@
 		<div>
             <xsl:attribute name="class">hierarchy chapter</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -224,8 +221,9 @@
 		<div>
             <xsl:attribute name="class">hierarchy title</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -235,8 +233,9 @@
 		<div>
             <xsl:attribute name="class">hierarchy book</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -246,8 +245,9 @@
 		<div>
             <xsl:attribute name="class">hierarchy tome</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -257,8 +257,9 @@
 		<div>
             <xsl:attribute name="class">hierarchy article</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -268,8 +269,9 @@
 		<div>
             <xsl:attribute name="class">hierarchy clause</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -279,8 +281,9 @@
 		<div>
             <xsl:attribute name="class">hierarchy subsection</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -290,8 +293,9 @@
 		<div>
             <xsl:attribute name="class">hierarchy subpart</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -301,8 +305,9 @@
 		<div>
             <xsl:attribute name="class">hierarchy subparagraph</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -312,8 +317,9 @@
 		<div>
             <xsl:attribute name="class">hierarchy subchapter</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -323,8 +329,9 @@
 		<div>
             <xsl:attribute name="class">hierarchy subtitle</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -334,8 +341,9 @@
 		<div>
             <xsl:attribute name="class">hierarchy subclause</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -351,13 +359,13 @@
 	</xsl:template>
 
 	<xsl:template match="akn:num">
-	     <p>
+		<p>
             <xsl:attribute name="class">hierarchy_num num</xsl:attribute>
  
             <xsl:apply-templates/>
         </p>
-		 
-    </xsl:template>
+		
+	</xsl:template>
 
 	<xsl:template match="akn:heading">
 		<p>
@@ -399,8 +407,9 @@
 		<div>
             <xsl:attribute name="class">speech_hierarchy AdministrationOfOath</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -410,8 +419,9 @@
 		<div>
             <xsl:attribute name="class">speech_hierarchy DeclarationOfVote</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -421,8 +431,9 @@
 		<div>
             <xsl:attribute name="class">speech_hierarchy Communication</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -432,8 +443,9 @@
 		<div>
             <xsl:attribute name="class">speech_hierarchy Petitions</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -443,8 +455,9 @@
 		<div>
             <xsl:attribute name="class">speech_hierarchy Papers</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -454,8 +467,9 @@
 		<div>
             <xsl:attribute name="class">speech_hierarchy NoticesOfMotion</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -465,8 +479,9 @@
 		<div>
             <xsl:attribute name="class">speech_hierarchy Questions</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -476,8 +491,9 @@
 		<div>
             <xsl:attribute name="class">speech_hierarchy Address</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -487,8 +503,9 @@
 		<div>
             <xsl:attribute name="class">speech_hierarchy ProceduralMotions</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -498,8 +515,9 @@
 		<div>
             <xsl:attribute name="class">speech_hierarchy PointOfOrder</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -509,8 +527,9 @@
 		<div>
             <xsl:attribute name="class">speech_hierarchy subdivision</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -574,8 +593,9 @@
 		<div>
             <xsl:attribute name="class">judgment_part introduction</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -585,8 +605,9 @@
 		<div>
             <xsl:attribute name="class">judgment_part background</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -596,8 +617,9 @@
 		<div>
             <xsl:attribute name="class">judgment_part motivation</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -607,8 +629,9 @@
 		<div>
             <xsl:attribute name="class">judgment_part decision</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -618,8 +641,9 @@
 		<div>
             <xsl:attribute name="class">generic_block tblock</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -629,8 +653,9 @@
 		<li>
             <xsl:attribute name="class">hierarchy item</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </li>
 		
@@ -649,8 +674,9 @@
 		<p>
             <xsl:attribute name="class">tocitem</xsl:attribute>
 			<xsl:if test="@href">
-				<xsl:attribute name="href" select="@href"/>
+				<xsl:attribute name="href"><xsl:value-of select="@href"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </p>
 		
@@ -795,8 +821,9 @@
 		<a>
             <xsl:attribute name="class">ref</xsl:attribute>
 			<xsl:if test="@href">
-				<xsl:attribute name="href" select="@href"/>
+				<xsl:attribute name="href"><xsl:value-of select="@href"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </a>
 		
@@ -896,8 +923,9 @@
 		<a>
             <xsl:attribute name="class">ref noteref</xsl:attribute>
 			<xsl:if test="@href">
-				<xsl:attribute name="href" select="@href"/>
+				<xsl:attribute name="href"><xsl:value-of select="@href"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </a>
 		
@@ -930,8 +958,9 @@
 		<div>
             <xsl:attribute name="class">generic_hierarchy hcontainer</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -941,8 +970,9 @@
 		<div>
             <xsl:attribute name="class">generic_container container</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -952,8 +982,9 @@
 		<div>
             <xsl:attribute name="class">generic_block block</xsl:attribute>
 			<xsl:if test="@name">
-				<xsl:attribute name="name" select="@name"/>
+				<xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -963,8 +994,9 @@
 		<span>
             <xsl:attribute name="class">generic_inline inline </xsl:attribute>
 			<xsl:if test="@name">
-				<xsl:attribute name="name" select="@name"/>
+				<xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </span>
 		
@@ -974,8 +1006,9 @@
 		<span>
             <xsl:attribute name="class">generic_marker marker</xsl:attribute>
 			<xsl:if test="@name">
-				<xsl:attribute name="name" select="@name"/>
+				<xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </span>
 		
@@ -985,8 +1018,9 @@
 		<div>
             <xsl:attribute name="class">foreign_elements foreign</xsl:attribute>
 			<xsl:if test="@name">
-				<xsl:attribute name="name" select="@name"/>
+				<xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -996,8 +1030,9 @@
 		<div>
             <xsl:attribute name="class">html_container div</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id"/>
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </div>
 		
@@ -1025,8 +1060,9 @@
 		<span>
             <xsl:attribute name="class">html_inline span</xsl:attribute>
 			<xsl:if test="@name">
-				<xsl:attribute name="name" select="@name"/>
+				<xsl:attribute name="name"><xsl:value-of select="@name"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </span>
 		
@@ -1054,8 +1090,9 @@
 		<a>
             <xsl:attribute name="class">html_anchor a</xsl:attribute>
 			<xsl:if test="@href">
-				<xsl:attribute name="href" select="@href"/>
+				<xsl:attribute name="href"><xsl:value-of select="@href"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </a>
 		
@@ -1065,8 +1102,9 @@
 		<img>
             <xsl:attribute name="class">html_img img</xsl:attribute>
 			<xsl:if test="@href">
-				<xsl:attribute name="href" select="@href"/>
+				<xsl:attribute name="href"><xsl:value-of select="@href"/></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates/>
         </img>
 		
@@ -1093,13 +1131,16 @@
 	<xsl:template match="akn:table">
 		<table>
             <xsl:attribute name="class">html_table table</xsl:attribute>
-			<xsl:if test="@border,cellspacing,cellpadding">
-				<xsl:attribute name="border" select="@border"/>
-			</xsl:if>			<xsl:if test="@border,cellspacing,cellpadding">
-				<xsl:attribute name="cellspacing" select="@cellspacing"/>
-			</xsl:if>			<xsl:if test="@border,cellspacing,cellpadding">
-				<xsl:attribute name="cellpadding" select="@cellpadding"/>
+			<xsl:if test="@border">
+				<xsl:attribute name="border"><xsl:value-of select="@border"/></xsl:attribute>
 			</xsl:if>
+			<xsl:if test="@cellspacing">
+				<xsl:attribute name="cellspacing"><xsl:value-of select="@cellspacing"/></xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@cellpadding">
+				<xsl:attribute name="cellpadding"><xsl:value-of select="@cellpadding"/></xsl:attribute>
+			</xsl:if>
+
             <xsl:apply-templates/>
         </table>
 		
@@ -1117,11 +1158,13 @@
 	<xsl:template match="akn:th">
 		<th>
             <xsl:attribute name="class">html_table_heading_column th</xsl:attribute>
-			<xsl:if test="@colspan,rowspan">
-				<xsl:attribute name="colspan" select="@colspan"/>
-			</xsl:if>			<xsl:if test="@colspan,rowspan">
-				<xsl:attribute name="rowspan" select="@rowspan"/>
+			<xsl:if test="@colspan">
+				<xsl:attribute name="colspan"><xsl:value-of select="@colspan"/></xsl:attribute>
 			</xsl:if>
+			<xsl:if test="@rowspan">
+				<xsl:attribute name="rowspan"><xsl:value-of select="@rowspan"/></xsl:attribute>
+			</xsl:if>
+
             <xsl:apply-templates/>
         </th>
 		
@@ -1130,11 +1173,13 @@
 	<xsl:template match="akn:td">
 		<td>
             <xsl:attribute name="class">html_table_column td</xsl:attribute>
-			<xsl:if test="@colspan,rowspan">
-				<xsl:attribute name="colspan" select="@colspan"/>
-			</xsl:if>			<xsl:if test="@colspan,rowspan">
-				<xsl:attribute name="rowspan" select="@rowspan"/>
+			<xsl:if test="@colspan">
+				<xsl:attribute name="colspan"><xsl:value-of select="@colspan"/></xsl:attribute>
 			</xsl:if>
+			<xsl:if test="@rowspan">
+				<xsl:attribute name="rowspan"><xsl:value-of select="@rowspan"/></xsl:attribute>
+			</xsl:if>
+
             <xsl:apply-templates/>
         </td>
 		

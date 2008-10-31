@@ -73,7 +73,11 @@
             <xsl:apply-templates />
         </from>
     </xsl:template>
-       
+
+    <xsl:template match="from/p">
+       <xsl:apply-templates />
+    </xsl:template>
+
     <xsl:template match="text()">
           <xsl:value-of select="normalize-space(.)"/>
     </xsl:template> 

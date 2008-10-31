@@ -20,12 +20,13 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <office:scripts/>
     <office:font-face-decls>
-        <style:font-face style:name="Courier"
-            svg:font-family="Courier, &apos;Courier New&apos;"
+        <style:font-face style:name="Courier" svg:font-family="Courier, Courier"
             style:font-family-generic="modern"/>
         <style:font-face style:name="Liberation Serif"
             svg:font-family="&apos;Liberation Serif&apos;" style:font-family-generic="roman"
             style:font-pitch="variable"/>
+        <style:font-face style:name="Times" svg:font-family="Times"
+            style:font-family-generic="roman" style:font-pitch="variable"/>
         <style:font-face style:name="Times New Roman"
             svg:font-family="&apos;Times New Roman&apos;, &apos;Times New Roman&apos;"
             style:font-family-generic="roman" style:font-pitch="variable"/>
@@ -44,27 +45,12 @@
                     <style:tab-stop style:position="-0.5in"/>
                 </style:tab-stops>
             </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB"
-                style:font-size-asian="10pt" style:font-name-complex="Times New Roman"
-                style:font-size-complex="10pt" fo:hyphenate="false"
-                fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
+            <style:text-properties style:font-name="Times New Roman" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" style:font-name-complex="Times New Roman"
+                fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
+                fo:hyphenation-push-char-count="2"/>
         </style:style>
         <style:style style:name="P2" style:family="paragraph" style:parent-style-name="Standard">
-            <style:paragraph-properties style:line-height-at-least="0.1665in"
-                fo:text-align="justify" style:justify-single-word="false"
-                fo:hyphenation-ladder-count="no-limit">
-                <style:tab-stops>
-                    <style:tab-stop style:position="3.1339in" style:type="center"/>
-                </style:tab-stops>
-            </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB"
-                style:font-size-asian="10pt" style:font-name-complex="Times New Roman"
-                style:font-size-complex="10pt" fo:hyphenate="false"
-                fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
-        </style:style>
-        <style:style style:name="P3" style:family="paragraph" style:parent-style-name="Standard">
             <style:paragraph-properties style:line-height-at-least="0.1665in"
                 fo:text-align="justify" style:justify-single-word="false"
                 fo:hyphenation-ladder-count="no-limit">
@@ -72,27 +58,12 @@
                     <style:tab-stop style:position="1.5091in" style:type="center"/>
                 </style:tab-stops>
             </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB"
-                style:font-size-asian="10pt" style:font-name-complex="Times New Roman"
-                style:font-size-complex="10pt" fo:hyphenate="false"
-                fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
+            <style:text-properties style:font-name="Times New Roman" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" style:font-name-complex="Times New Roman"
+                fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
+                fo:hyphenation-push-char-count="2"/>
         </style:style>
-        <style:style style:name="P4" style:family="paragraph" style:parent-style-name="Standard">
-            <style:paragraph-properties style:line-height-at-least="0.1665in"
-                fo:text-align="justify" style:justify-single-word="false"
-                fo:hyphenation-ladder-count="no-limit">
-                <style:tab-stops>
-                    <style:tab-stop style:position="1.6165in" style:type="center"/>
-                </style:tab-stops>
-            </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB"
-                style:font-size-asian="10pt" style:font-name-complex="Times New Roman"
-                style:font-size-complex="10pt" fo:hyphenate="false"
-                fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
-        </style:style>
-        <style:style style:name="P5" style:family="paragraph" style:parent-style-name="Standard">
+        <style:style style:name="P3" style:family="paragraph" style:parent-style-name="Standard">
             <style:paragraph-properties style:line-height-at-least="0.1665in"
                 fo:text-align="justify" style:justify-single-word="false"
                 fo:hyphenation-ladder-count="no-limit">
@@ -100,10 +71,36 @@
                     <style:tab-stop style:position="3.1339in" style:type="center"/>
                 </style:tab-stops>
             </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB" fo:font-weight="bold"
-                style:font-size-asian="10pt" style:font-weight-asian="bold"
-                style:font-name-complex="Times New Roman" style:font-size-complex="10pt"
+            <style:text-properties style:font-name="Times New Roman" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" style:font-name-complex="Times New Roman"
+                fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
+                fo:hyphenation-push-char-count="2"/>
+        </style:style>
+        <style:style style:name="P4" style:family="paragraph" style:parent-style-name="Standard">
+            <style:paragraph-properties style:line-height-at-least="0.1665in"
+                fo:text-align="justify" style:justify-single-word="false"
+                fo:hyphenation-ladder-count="no-limit">
+                <style:tab-stops>
+                    <style:tab-stop style:position="3.1339in" style:type="center"/>
+                </style:tab-stops>
+            </style:paragraph-properties>
+            <style:text-properties style:font-name="Times New Roman" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" fo:font-weight="bold"
+                style:font-weight-asian="bold" style:font-name-complex="Times New Roman"
+                style:font-weight-complex="bold" fo:hyphenate="false"
+                fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
+        </style:style>
+        <style:style style:name="P5" style:family="paragraph" style:parent-style-name="Standard">
+            <style:paragraph-properties style:line-height-at-least="0.1665in"
+                fo:text-align="justify" style:justify-single-word="false"
+                fo:hyphenation-ladder-count="no-limit">
+                <style:tab-stops>
+                    <style:tab-stop style:position="-0.5in"/>
+                </style:tab-stops>
+            </style:paragraph-properties>
+            <style:text-properties style:font-name="Times New Roman" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" fo:font-weight="bold"
+                style:font-weight-asian="bold" style:font-name-complex="Times New Roman"
                 style:font-weight-complex="bold" fo:hyphenate="false"
                 fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
         </style:style>
@@ -112,13 +109,12 @@
                 fo:text-align="justify" style:justify-single-word="false"
                 fo:hyphenation-ladder-count="no-limit">
                 <style:tab-stops>
-                    <style:tab-stop style:position="-0.5in"/>
+                    <style:tab-stop style:position="1.5091in" style:type="center"/>
                 </style:tab-stops>
             </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB" fo:font-weight="bold"
-                style:font-size-asian="10pt" style:font-weight-asian="bold"
-                style:font-name-complex="Times New Roman" style:font-size-complex="10pt"
+            <style:text-properties style:font-name="Times New Roman" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" fo:font-weight="bold"
+                style:font-weight-asian="bold" style:font-name-complex="Times New Roman"
                 style:font-weight-complex="bold" fo:hyphenate="false"
                 fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
         </style:style>
@@ -127,14 +123,13 @@
                 fo:text-align="justify" style:justify-single-word="false"
                 fo:hyphenation-ladder-count="no-limit">
                 <style:tab-stops>
-                    <style:tab-stop style:position="1.5091in" style:type="center"/>
+                    <style:tab-stop style:position="3.1339in" style:type="center"/>
                 </style:tab-stops>
             </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB" fo:font-weight="bold"
-                style:font-size-asian="10pt" style:font-weight-asian="bold"
-                style:font-name-complex="Times New Roman" style:font-size-complex="10pt"
-                style:font-weight-complex="bold" fo:hyphenate="false"
+            <style:text-properties style:font-name="Times New Roman" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" fo:font-style="italic"
+                style:font-style-asian="italic" style:font-name-complex="Times New Roman"
+                style:font-style-complex="italic" fo:hyphenate="false"
                 fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
         </style:style>
         <style:style style:name="P8" style:family="paragraph" style:parent-style-name="Standard">
@@ -142,14 +137,13 @@
                 fo:text-align="justify" style:justify-single-word="false"
                 fo:hyphenation-ladder-count="no-limit">
                 <style:tab-stops>
-                    <style:tab-stop style:position="1.6165in" style:type="center"/>
+                    <style:tab-stop style:position="1.5091in" style:type="center"/>
                 </style:tab-stops>
             </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB" fo:font-weight="bold"
-                style:font-size-asian="10pt" style:font-weight-asian="bold"
-                style:font-name-complex="Times New Roman" style:font-size-complex="10pt"
-                style:font-weight-complex="bold" fo:hyphenate="false"
+            <style:text-properties style:font-name="Times New Roman" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" fo:font-style="italic"
+                style:font-style-asian="italic" style:font-name-complex="Times New Roman"
+                style:font-style-complex="italic" fo:hyphenate="false"
                 fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
         </style:style>
         <style:style style:name="P9" style:family="paragraph" style:parent-style-name="Standard">
@@ -160,10 +154,9 @@
                     <style:tab-stop style:position="1.6165in" style:type="center"/>
                 </style:tab-stops>
             </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB"
-                fo:font-style="italic" style:font-size-asian="10pt" style:font-style-asian="italic"
-                style:font-name-complex="Times New Roman" style:font-size-complex="10pt"
+            <style:text-properties style:font-name="Times New Roman" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" fo:font-style="italic"
+                style:font-style-asian="italic" style:font-name-complex="Times New Roman"
                 style:font-style-complex="italic" fo:hyphenate="false"
                 fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
         </style:style>
@@ -172,14 +165,14 @@
                 fo:text-align="justify" style:justify-single-word="false"
                 fo:hyphenation-ladder-count="no-limit">
                 <style:tab-stops>
-                    <style:tab-stop style:position="1.5091in" style:type="center"/>
+                    <style:tab-stop style:position="3.1339in" style:type="center"/>
                 </style:tab-stops>
             </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB"
-                fo:font-style="italic" style:font-size-asian="10pt" style:font-style-asian="italic"
-                style:font-name-complex="Times New Roman" style:font-size-complex="10pt"
-                style:font-style-complex="italic" fo:hyphenate="false"
+            <style:text-properties style:font-name="Times New Roman" fo:font-size="14.5pt"
+                fo:letter-spacing="-0.002in" fo:language="en" fo:country="GB" fo:font-weight="bold"
+                style:font-size-asian="14.5pt" style:font-weight-asian="bold"
+                style:font-name-complex="Times New Roman" style:font-size-complex="14.5pt"
+                style:font-weight-complex="bold" fo:hyphenate="false"
                 fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
         </style:style>
         <style:style style:name="P11" style:family="paragraph" style:parent-style-name="Standard">
@@ -190,56 +183,10 @@
                     <style:tab-stop style:position="3.1339in" style:type="center"/>
                 </style:tab-stops>
             </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB"
-                fo:font-style="italic" style:font-size-asian="10pt" style:font-style-asian="italic"
-                style:font-name-complex="Times New Roman" style:font-size-complex="10pt"
-                style:font-style-complex="italic" fo:hyphenate="false"
-                fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
+            <style:text-properties fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
+                fo:hyphenation-push-char-count="2"/>
         </style:style>
         <style:style style:name="P12" style:family="paragraph" style:parent-style-name="Standard">
-            <style:paragraph-properties style:line-height-at-least="0.1665in" fo:text-align="center"
-                style:justify-single-word="false" fo:hyphenation-ladder-count="no-limit">
-                <style:tab-stops>
-                    <style:tab-stop style:position="3.1339in" style:type="center"/>
-                </style:tab-stops>
-            </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB"
-                fo:font-style="italic" style:font-size-asian="10pt" style:font-style-asian="italic"
-                style:font-name-complex="Times New Roman" style:font-size-complex="10pt"
-                style:font-style-complex="italic" fo:hyphenate="false"
-                fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
-        </style:style>
-        <style:style style:name="P13" style:family="paragraph" style:parent-style-name="Standard">
-            <style:paragraph-properties style:line-height-at-least="0.1665in" fo:text-align="center"
-                style:justify-single-word="false" fo:hyphenation-ladder-count="no-limit">
-                <style:tab-stops>
-                    <style:tab-stop style:position="1.6165in" style:type="center"/>
-                </style:tab-stops>
-            </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB"
-                fo:font-style="italic" style:font-size-asian="10pt" style:font-style-asian="italic"
-                style:font-name-complex="Times New Roman" style:font-size-complex="10pt"
-                style:font-style-complex="italic" fo:hyphenate="false"
-                fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
-        </style:style>
-        <style:style style:name="P14" style:family="paragraph" style:parent-style-name="Standard">
-            <style:paragraph-properties style:line-height-at-least="0.1665in" fo:text-align="center"
-                style:justify-single-word="false" fo:hyphenation-ladder-count="no-limit">
-                <style:tab-stops>
-                    <style:tab-stop style:position="1.5091in" style:type="center"/>
-                </style:tab-stops>
-            </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB"
-                fo:font-style="italic" style:font-size-asian="10pt" style:font-style-asian="italic"
-                style:font-name-complex="Times New Roman" style:font-size-complex="10pt"
-                style:font-style-complex="italic" fo:hyphenate="false"
-                fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
-        </style:style>
-        <style:style style:name="P15" style:family="paragraph" style:parent-style-name="Standard">
             <style:paragraph-properties style:line-height-at-least="0.1665in"
                 fo:text-align="justify" style:justify-single-word="false"
                 fo:hyphenation-ladder-count="no-limit">
@@ -250,22 +197,7 @@
             <style:text-properties fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
                 fo:hyphenation-push-char-count="2"/>
         </style:style>
-        <style:style style:name="P16" style:family="paragraph" style:parent-style-name="Standard">
-            <style:paragraph-properties style:line-height-at-least="0.1665in"
-                fo:text-align="justify" style:justify-single-word="false"
-                fo:hyphenation-ladder-count="no-limit">
-                <style:tab-stops>
-                    <style:tab-stop style:position="-0.5in"/>
-                </style:tab-stops>
-            </style:paragraph-properties>
-            <style:text-properties fo:font-variant="small-caps" style:font-name="Times New Roman"
-                fo:font-size="10pt" fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB"
-                fo:font-weight="bold" style:font-size-asian="10pt" style:font-weight-asian="bold"
-                style:font-name-complex="Times New Roman" style:font-size-complex="10pt"
-                style:font-weight-complex="bold" fo:hyphenate="false"
-                fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
-        </style:style>
-        <style:style style:name="P17" style:family="paragraph" style:parent-style-name="Standard">
+        <style:style style:name="P13" style:family="paragraph" style:parent-style-name="Standard">
             <style:paragraph-properties style:line-height-at-least="0.1665in"
                 fo:text-align="justify" style:justify-single-word="false"
                 fo:hyphenation-ladder-count="no-limit">
@@ -273,29 +205,10 @@
                     <style:tab-stop style:position="1.6165in" style:type="center"/>
                 </style:tab-stops>
             </style:paragraph-properties>
-            <style:text-properties fo:font-variant="small-caps" style:font-name="Times New Roman"
-                fo:font-size="10pt" fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB"
-                style:font-size-asian="10pt" style:font-name-complex="Times New Roman"
-                style:font-size-complex="10pt" fo:hyphenate="false"
-                fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
+            <style:text-properties fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
+                fo:hyphenation-push-char-count="2"/>
         </style:style>
-        <style:style style:name="P18" style:family="paragraph" style:parent-style-name="Standard">
-            <style:paragraph-properties fo:margin-left="0.5in" fo:margin-right="0in"
-                style:line-height-at-least="0.1665in" fo:text-align="justify"
-                style:justify-single-word="false" fo:hyphenation-ladder-count="no-limit"
-                fo:text-indent="-0.5in" style:auto-text-indent="false">
-                <style:tab-stops>
-                    <style:tab-stop style:position="-1in"/>
-                    <style:tab-stop style:position="-0.5in"/>
-                </style:tab-stops>
-            </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB"
-                style:font-size-asian="10pt" style:font-name-complex="Times New Roman"
-                style:font-size-complex="10pt" fo:hyphenate="false"
-                fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
-        </style:style>
-        <style:style style:name="P19" style:family="paragraph" style:parent-style-name="Standard">
+        <style:style style:name="P14" style:family="paragraph" style:parent-style-name="Standard">
             <style:paragraph-properties fo:margin-left="0.5in" fo:margin-right="0.5in"
                 style:line-height-at-least="0.1665in" fo:text-align="justify"
                 style:justify-single-word="false" fo:hyphenation-ladder-count="no-limit"
@@ -305,36 +218,107 @@
                     <style:tab-stop style:position="-0.5in"/>
                 </style:tab-stops>
             </style:paragraph-properties>
-            <style:text-properties fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
+            <style:text-properties style:font-name="Times New Roman" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" style:font-name-complex="Times New Roman"
+                fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
                 fo:hyphenation-push-char-count="2"/>
         </style:style>
-        <style:style style:name="P20" style:family="paragraph"
+        <style:style style:name="P15" style:family="paragraph"
             style:parent-style-name="Heading_20_2">
+            <style:text-properties style:font-name="Times" fo:font-size="12pt"
+                fo:font-style="normal" fo:font-weight="bold" style:font-size-asian="12pt"
+                style:font-style-asian="normal" style:font-weight-asian="bold"
+                style:font-size-complex="12pt" style:font-style-complex="normal"
+                style:font-weight-complex="bold"/>
+        </style:style>
+        <style:style style:name="P16" style:family="paragraph"
+            style:parent-style-name="Heading_20_1">
             <style:paragraph-properties fo:text-align="center" style:justify-single-word="false"/>
         </style:style>
-        <style:style style:name="P21" style:family="paragraph"
-            style:parent-style-name="Heading_20_1" style:master-page-name="Standard">
-            <style:paragraph-properties fo:text-align="center" style:justify-single-word="false"
-                style:page-number="69"/>
+        <style:style style:name="P17" style:family="paragraph"
+            style:parent-style-name="Heading_20_1">
+            <style:text-properties fo:font-size="12pt" style:font-size-asian="12pt"
+                style:font-size-complex="12pt"/>
+        </style:style>
+        <style:style style:name="P18" style:family="paragraph" style:parent-style-name="Standard"
+            style:master-page-name="Standard">
+            <style:paragraph-properties style:line-height-at-least="0.1665in"
+                fo:text-align="justify" style:justify-single-word="false"
+                fo:hyphenation-ladder-count="no-limit" style:page-number="37">
+                <style:tab-stops>
+                    <style:tab-stop style:position="3.1339in" style:type="center"/>
+                </style:tab-stops>
+            </style:paragraph-properties>
+            <style:text-properties style:font-name="Times New Roman" fo:font-size="24pt"
+                fo:letter-spacing="-0.0043in" fo:language="en" fo:country="GB" fo:font-weight="bold"
+                style:font-size-asian="24pt" style:font-weight-asian="bold"
+                style:font-name-complex="Times New Roman" style:font-size-complex="24pt"
+                style:font-weight-complex="bold" fo:hyphenate="false"
+                fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
+        </style:style>
+        <style:style style:name="P19" style:family="paragraph" style:parent-style-name="Standard">
+            <style:paragraph-properties style:line-height-at-least="0.1665in"
+                fo:text-align="justify" style:justify-single-word="false"
+                fo:hyphenation-ladder-count="no-limit">
+                <style:tab-stops>
+                    <style:tab-stop style:position="-0.5in"/>
+                </style:tab-stops>
+            </style:paragraph-properties>
+            <style:text-properties style:font-name="Times New Roman" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" style:font-name-complex="Times New Roman"
+                fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
+                fo:hyphenation-push-char-count="2"/>
+        </style:style>
+        <style:style style:name="P20" style:family="paragraph" style:parent-style-name="Standard"
+            style:list-style-name="L1">
+            <style:paragraph-properties style:line-height-at-least="0.1665in"
+                fo:text-align="justify" style:justify-single-word="false"
+                fo:hyphenation-ladder-count="no-limit">
+                <style:tab-stops>
+                    <style:tab-stop style:position="-0.5in"/>
+                </style:tab-stops>
+            </style:paragraph-properties>
+            <style:text-properties style:font-name="Times New Roman" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" style:font-name-complex="Times New Roman"
+                fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
+                fo:hyphenation-push-char-count="2"/>
+        </style:style>
+        <style:style style:name="P21" style:family="paragraph" style:parent-style-name="Standard">
+            <style:paragraph-properties style:line-height-at-least="0.1665in"
+                fo:text-align="justify" style:justify-single-word="false"
+                fo:hyphenation-ladder-count="no-limit">
+                <style:tab-stops>
+                    <style:tab-stop style:position="-0.5in"/>
+                </style:tab-stops>
+            </style:paragraph-properties>
+            <style:text-properties style:font-name="Times New Roman" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" fo:font-weight="bold"
+                style:font-weight-asian="bold" style:font-name-complex="Times New Roman"
+                style:font-weight-complex="bold" fo:hyphenate="false"
+                fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
         </style:style>
         <style:style style:name="T1" style:family="text">
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB"
-                style:font-size-asian="10pt" style:font-name-complex="Times New Roman"
-                style:font-size-complex="10pt"/>
+            <style:text-properties style:font-name="Times New Roman" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" style:font-name-complex="Times New Roman"/>
         </style:style>
         <style:style style:name="T2" style:family="text">
-            <style:text-properties style:font-name="Times New Roman" fo:font-size="10pt"
-                fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB" fo:font-weight="bold"
-                style:font-size-asian="10pt" style:font-weight-asian="bold"
-                style:font-name-complex="Times New Roman" style:font-size-complex="10pt"
+            <style:text-properties style:font-name="Times New Roman" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" fo:font-weight="bold"
+                style:font-weight-asian="bold" style:font-name-complex="Times New Roman"
                 style:font-weight-complex="bold"/>
         </style:style>
         <style:style style:name="T3" style:family="text">
-            <style:text-properties fo:font-variant="small-caps" style:font-name="Times New Roman"
-                fo:font-size="10pt" fo:letter-spacing="-0.0016in" fo:language="en" fo:country="GB"
-                style:font-size-asian="10pt" style:font-name-complex="Times New Roman"
-                style:font-size-complex="10pt"/>
+            <style:text-properties style:font-name="Times New Roman" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" fo:font-style="italic"
+                style:font-style-asian="italic" style:font-name-complex="Times New Roman"
+                style:font-style-complex="italic"/>
+        </style:style>
+        <style:style style:name="T4" style:family="text">
+            <style:text-properties style:font-name="Times" fo:font-size="12pt"
+                fo:font-style="normal" fo:font-weight="bold" style:font-size-asian="12pt"
+                style:font-style-asian="normal" style:font-weight-asian="bold"
+                style:font-size-complex="12pt" style:font-style-complex="normal"
+                style:font-weight-complex="bold"/>
         </style:style>
         <style:style style:name="Sect1" style:family="section">
             <style:section-properties BungeniSectionType="body" style:editable="false">
@@ -342,9 +326,7 @@
             </style:section-properties>
         </style:style>
         <style:style style:name="Sect2" style:family="section">
-            <style:section-properties BungeniSectionType="MastHead"
-                BungeniDebateOfficalDate="2000-05-02" BungeniDebateOfficalTime="14:30"
-                style:editable="false">
+            <style:section-properties BungeniSectionType="MastHead" style:editable="false">
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
@@ -359,204 +341,168 @@
             </style:section-properties>
         </style:style>
         <style:style style:name="Sect5" style:family="section">
-            <style:section-properties BungeniSectionType="Speech"
-                BungeniSpeechType="CommunicationFromChair" BungeniSpeechBy="userSpeaker"
-                BungeniSpeechID="3" style:editable="false">
+            <style:section-properties BungeniSectionType="Speech" style:editable="false">
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
         <style:style style:name="Sect6" style:family="section">
-            <style:section-properties BungeniSectionType="Person"
-                BungeniSpeechType="CommunicationFromChair" BungeniSpeechBy="userSpeaker"
+            <style:section-properties BungeniSectionType="Person" BungeniSpeechBy="userSpeaker"
                 BungeniPersonID="userSpeaker" style:editable="false">
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
         <style:style style:name="Sect7" style:family="section">
-            <style:section-properties BungeniSectionType="Observation"
-                BungeniSpeechType="CommunicationFromChair" BungeniSpeechBy="userSpeaker"
-                style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect8" style:family="section">
-            <style:section-properties BungeniSectionType="QuestionsContainer"
-                BungeniQuestionsContainerType="OralAnswersToQuestions" style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect9" style:family="section">
-            <style:section-properties BungeniSectionType="QuestionAnswer"
-                BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
-                BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP"
-                BungeniQuestionStatus="Deferred" style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect10" style:family="section">
-            <style:section-properties BungeniSectionType="Question"
-                BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
-                BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP"
-                BungeniQuestionStatus="Deferred" style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect11" style:family="section">
-            <style:section-properties BungeniSectionType="Speech"
-                BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
-                BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP"
-                BungeniSpeechBy="userMadoka" BungeniSpeechID="1" style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect12" style:family="section">
-            <style:section-properties BungeniSectionType="Person"
-                BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
-                BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP"
-                BungeniSpeechBy="userMadoka" BungeniSpeechID="1" style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect13" style:family="section">
-            <style:section-properties BungeniSectionType="QuestionAnswer"
-                BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
-                BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="2"
-                BungeniSpeechBy="userSpeaker" BungeniSpeechTo="userMwenje" style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect14" style:family="section">
-            <style:section-properties BungeniSectionType="Person"
-                BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
-                BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="2"
-                style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect15" style:family="section">
-            <style:section-properties BungeniSectionType="Speech"
-                BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
-                BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP"
-                BungeniQuestionStatus="Deferred" BungeniSpeechBy="userMwenje"
-                BungeniSpeechTo="userSpeaker" BungeniSpeechID="4" style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect16" style:family="section">
-            <style:section-properties BungeniSectionType="Person"
-                BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
-                BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP" BungeniSpeechID="4"
-                BungeniSpeechBy="userMwenje" style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect17" style:family="section">
-            <style:section-properties BungeniSectionType="Speech"
-                BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
-                BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP"
-                BungeniQuestionStatus="Deferred" BungeniSpeechTo="userMwenje"
-                BungeniSpeechBy="userSpeaker" BungeniSpeechID="5" style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect18" style:family="section">
             <style:section-properties style:editable="false">
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
+        <style:style style:name="Sect8" style:family="section">
+            <style:section-properties BungeniSectionType="Communication" style:editable="false">
+                <style:columns fo:column-count="1" fo:column-gap="0in"/>
+            </style:section-properties>
+        </style:style>
+        <style:style style:name="Sect9" style:family="section">
+            <style:section-properties BungeniSectionType="Speech" BungeniSpeechID="3882"
+                BungeniSpeechBy="userSpeaker" style:editable="false">
+                <style:columns fo:column-count="1" fo:column-gap="0in"/>
+            </style:section-properties>
+        </style:style>
+        <style:style style:name="Sect10" style:family="section">
+            <style:section-properties BungeniSectionType="Person" BungeniSpeechBy="userSpeaker"
+                BungeniPersonID="1" style:editable="false">
+                <style:columns fo:column-count="1" fo:column-gap="0in"/>
+            </style:section-properties>
+        </style:style>
+        <style:style style:name="Sect11" style:family="section">
+            <style:section-properties BungeniSectionType="Observation" BungeniSpeechID="3882"
+                BungeniSpeechBy="userSpeaker" style:editable="false">
+                <style:columns fo:column-count="1" fo:column-gap="0in"/>
+            </style:section-properties>
+        </style:style>
+        <style:style style:name="Sect12" style:family="section">
+            <style:section-properties BungeniSectionType="Speech" BungeniSpeechBy="userKibaki"
+                BungeniPersonID="33" style:editable="false">
+                <style:columns fo:column-count="1" fo:column-gap="0in"/>
+            </style:section-properties>
+        </style:style>
+        <style:style style:name="Sect13" style:family="section">
+            <style:section-properties BungeniSectionType="Person" BungeniPersonID="33"
+                BungeniSpeechBy="userKibaki" style:editable="false">
+                <style:columns fo:column-count="1" fo:column-gap="0in"/>
+            </style:section-properties>
+        </style:style>
+        <style:style style:name="Sect14" style:family="section">
+            <style:section-properties BungeniSectionType="Observation" BungeniSpeechBy="userKibaki"
+                BungeniPersonID="userKibaki" style:editable="false">
+                <style:columns fo:column-count="1" fo:column-gap="0in"/>
+            </style:section-properties>
+        </style:style>
+        <style:style style:name="Sect15" style:family="section">
+            <style:section-properties BungeniSectionType="ActionEvent"
+                BungeniActionEvent="NoticeOfMotion" style:editable="false">
+                <style:columns fo:column-count="1" fo:column-gap="0in"/>
+            </style:section-properties>
+        </style:style>
+        <style:style style:name="Sect16" style:family="section">
+            <style:section-properties BungeniSectionType="Speech" BungeniSpeechBy="userMusyoka"
+                BungeniSpeechID="883029" style:editable="false">
+                <style:columns fo:column-count="1" fo:column-gap="0in"/>
+            </style:section-properties>
+        </style:style>
+        <style:style style:name="Sect17" style:family="section">
+            <style:section-properties BungeniSectionType="Person" BungeniPersonID="34"
+                BungeniSpeechBy="userMusyoka" style:editable="false">
+                <style:columns fo:column-count="1" fo:column-gap="0in"/>
+            </style:section-properties>
+        </style:style>
+        <style:style style:name="Sect18" style:family="section">
+            <style:section-properties BungeniSectionType="Speech" BungeniSpeechBy="userSpeaker"
+                BungeniSpeechID="38821" style:editable="false">
+                <style:columns fo:column-count="1" fo:column-gap="0in"/>
+            </style:section-properties>
+        </style:style>
         <style:style style:name="Sect19" style:family="section">
-            <style:section-properties BungeniSectionType="Speech"
-                BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
-                BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP"
-                BungeniQuestionStatus="Deferred" BungeniSpeechBy="userMwenje" BungeniSpeechID="6"
-                style:editable="false">
+            <style:section-properties BungeniSectionType="Person" BungeniSpeechBy="userSpeaker"
+                BungeniSpeechID="38821" BungeniPersonID="1" style:editable="false">
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
         <style:style style:name="Sect20" style:family="section">
-            <style:section-properties BungeniSectionType="Observation"
-                BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
-                BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP"
-                BungeniQuestionStatus="Deferred" style:editable="false">
+            <style:section-properties BungeniSectionType="ActionEvent"
+                BungeniActionEvent="Adjournment" style:editable="false">
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
         <style:style style:name="Sect21" style:family="section">
-            <style:section-properties BungeniSectionType="Speech"
-                BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
-                BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP"
-                BungeniQuestionStatus="Deferred" BungeniSpeechID="7" BungeniSpeechBy="userSpeaker"
-                style:editable="false">
+            <style:section-properties BungeniSectionType="Speech" BungeniActionEvent="Adjournment"
+                BungeniSpeechBy="userSpeaker" BungeniSpeechID="38181" style:editable="false">
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
         <style:style style:name="Sect22" style:family="section">
-            <style:section-properties BungeniSectionType="ActionEvent"
-                BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniQuestionNo="126"
-                BungeniQuestionBy="userMwenje" BungeniQuestionTo="minMOS-OP"
-                BungeniQuestionStatus="Deferred" BungeniActionEvent="QuestionDeferred"
-                style:editable="false">
+            <style:section-properties BungeniSectionType="Person" BungeniActionEvent="Adjournment"
+                BungeniPersonID="1" BungeniSpeechBy="userSpeaker" style:editable="false">
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
         <style:style style:name="Sect23" style:family="section">
-            <style:section-properties BungeniSectionType="Speech"
-                BungeniQuestionsContainerType="OralAnswersToQuestions"
-                BungeniSpeechBy="userGatabaki" BungeniSpeechType="PointOfOrder" BungeniSpeechID="8"
+            <style:section-properties BungeniSectionType="Conclusion" BungeniHouseRisingTime="15:50"
                 style:editable="false">
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
             </style:section-properties>
         </style:style>
-        <style:style style:name="Sect24" style:family="section">
-            <style:section-properties BungeniSectionType="Speech"
-                BungeniQuestionsContainerType="OralAnswersToQuestions"
-                BungeniSpeechBy="userGatabaki" BungeniSpeechType="Person" BungeniSpeechID="8"
-                style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect25" style:family="section">
-            <style:section-properties BungeniSectionType="Speech"
-                BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechID="9"
-                BungeniSpeechType="PointOfOrder" BungeniSpeechBy="userSpeaker"
-                style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect26" style:family="section">
-            <style:section-properties BungeniSectionType="Speech"
-                BungeniQuestionsContainerType="OralAnswersToQuestions" BungeniSpeechID="9"
-                BungeniSpeechType="Person" style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect27" style:family="section">
-            <style:section-properties BungeniSectionType="ActionEvent"
-                BungeniActionEvent="Adjournment" style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect28" style:family="section">
-            <style:section-properties BungeniSectionType="Speech" BungeniSpeechID="12"
-                BungeniSpeechBy="userDySpeaker" BungeniSpeechType="ProceduralMotion"
-                BungeniActionEvent="Adjournment" style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect29" style:family="section">
-            <style:section-properties BungeniSectionType="Person" BungeniSpeechID="12"
-                BungeniSpeechBy="userDySpeaker" BungeniSpeechType="ProceduralMotion"
-                BungeniActionEvent="Adjournment" style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
-        <style:style style:name="Sect30" style:family="section">
-            <style:section-properties BungeniSectionType="ActionEvent"
-                BungeniActionEvent="HouseClosing" BungeniHouseRisingTime="18:30"
-                style:editable="false">
-                <style:columns fo:column-count="1" fo:column-gap="0in"/>
-            </style:section-properties>
-        </style:style>
+        <text:list-style style:name="L1">
+            <text:list-level-style-number text:level="1" text:style-name="Numbering_20_Symbols"
+                style:num-suffix="." style:num-format="1">
+                <style:list-level-properties text:space-before="0.25in"
+                    text:min-label-width="0.25in"/>
+            </text:list-level-style-number>
+            <text:list-level-style-number text:level="2" text:style-name="Numbering_20_Symbols"
+                style:num-suffix="." style:num-format="1">
+                <style:list-level-properties text:space-before="0.75in"
+                    text:min-label-width="0.25in"/>
+            </text:list-level-style-number>
+            <text:list-level-style-number text:level="3" text:style-name="Numbering_20_Symbols"
+                style:num-suffix="." style:num-format="1">
+                <style:list-level-properties text:space-before="1.25in"
+                    text:min-label-width="0.25in"/>
+            </text:list-level-style-number>
+            <text:list-level-style-number text:level="4" text:style-name="Numbering_20_Symbols"
+                style:num-suffix="." style:num-format="1">
+                <style:list-level-properties text:space-before="1.75in"
+                    text:min-label-width="0.25in"/>
+            </text:list-level-style-number>
+            <text:list-level-style-number text:level="5" text:style-name="Numbering_20_Symbols"
+                style:num-suffix="." style:num-format="1">
+                <style:list-level-properties text:space-before="2.25in"
+                    text:min-label-width="0.25in"/>
+            </text:list-level-style-number>
+            <text:list-level-style-number text:level="6" text:style-name="Numbering_20_Symbols"
+                style:num-suffix="." style:num-format="1">
+                <style:list-level-properties text:space-before="2.75in"
+                    text:min-label-width="0.25in"/>
+            </text:list-level-style-number>
+            <text:list-level-style-number text:level="7" text:style-name="Numbering_20_Symbols"
+                style:num-suffix="." style:num-format="1">
+                <style:list-level-properties text:space-before="3.25in"
+                    text:min-label-width="0.25in"/>
+            </text:list-level-style-number>
+            <text:list-level-style-number text:level="8" text:style-name="Numbering_20_Symbols"
+                style:num-suffix="." style:num-format="1">
+                <style:list-level-properties text:space-before="3.75in"
+                    text:min-label-width="0.25in"/>
+            </text:list-level-style-number>
+            <text:list-level-style-number text:level="9" text:style-name="Numbering_20_Symbols"
+                style:num-suffix="." style:num-format="1">
+                <style:list-level-properties text:space-before="4.25in"
+                    text:min-label-width="0.25in"/>
+            </text:list-level-style-number>
+            <text:list-level-style-number text:level="10" text:style-name="Numbering_20_Symbols"
+                style:num-suffix="." style:num-format="1">
+                <style:list-level-properties text:space-before="4.75in"
+                    text:min-label-width="0.25in"/>
+            </text:list-level-style-number>
+        </text:list-style>
     </office:automatic-styles>
     <office:body>
         <office:text text:use-soft-page-breaks="true">
@@ -569,392 +515,796 @@
             </text:sequence-decls>
             <text:section text:style-name="Sect1" text:name="debaterecord">
                 <text:section text:style-name="Sect2" text:name="masthead">
-                    <text:h text:style-name="P21" text:outline-level="1"><text:tab/>NATIONAL
-                        ASSEMBLY</text:h>
+                    <text:p text:style-name="P18"><text:tab/>NATIONAL ASSEMBLY</text:p>
                     <text:p text:style-name="P1"/>
-                    <text:h text:style-name="P20" text:outline-level="2"><text:tab/>OFFICIAL REPORT</text:h>
-                    <text:p text:style-name="P6"/>
-                    <text:p text:style-name="P5"><text:tab/><text:reference-mark-start
-                            text:name="BungeniDebateOfficialDate"/>Tuesday, 2nd May,
-                            2000<text:reference-mark-end text:name="BungeniDebateOfficialDate"/></text:p>
-                    <text:p text:style-name="P6"/>
-                    <text:p text:style-name="P2"><text:tab/>The House met
-                            at<text:reference-mark-start text:name="BungeniDebateOfficalTime"/> 2.30
-                            p.m.<text:reference-mark-end text:name="BungeniDebateOfficalTime"
-                    /></text:p>
+                    <text:p text:style-name="P10"><text:tab/>OFFICIAL REPORT</text:p>
+                    <text:p text:style-name="P1"/>
+                    <text:p text:style-name="P4"><text:tab/><text:reference-mark-start
+                            text:name="BungeniParliamentID:1"/>Tenth
+                            Parliament<text:reference-mark-end text:name="BungeniParliamentID:1"/> -
+                            <text:reference-mark-start text:name="BungeniParliamentSession:2"
+                        />Second Session<text:reference-mark-end
+                            text:name="BungeniParliamentSession:2"/></text:p>
+                    <text:p text:style-name="P1"/>
+                    <text:p text:style-name="P7"><text:tab/>(Tenth Parliament established by
+                        proclamation -</text:p>
+                    <text:p text:style-name="P7"><text:tab/>Legal Notice No.24 of 29.2.2008)</text:p>
+                    <text:p text:style-name="P1"/>
+                    <text:p text:style-name="P4"><text:tab/><text:reference-mark-start
+                            text:name="BungeniDebateOfficialDate:1"/>Thursday, 6th March,
+                            2008<text:reference-mark-end text:name="BungeniDebateOfficialDate:1"/></text:p>
+                    <text:p text:style-name="P1"/>
+                    <text:p text:style-name="P4"><text:tab/>STATE OPENING OF A NEW SESSION</text:p>
+                    <text:p text:style-name="P1"/>
+                    <text:p text:style-name="P7"><text:tab/>The National Assembly met at </text:p>
+                    <text:p text:style-name="P7"><text:tab/><text:reference-mark-start
+                            text:name="BungeniDebateOfficialTime:1"/>Thirty minutes past Two
+                            o&apos;clock<text:reference-mark-end
+                            text:name="BungeniDebateOfficialTime:1"/> at Parliament Buildings </text:p>
+                    <text:p text:style-name="P7"><text:tab/>on <text:reference-mark-start
+                            text:name="BungeniDebateOfficialDate:2"/>Thursday, 6th March,
+                            2008<text:reference-mark-end text:name="BungeniDebateOfficialDate:2"/>,
+                        it being </text:p>
+                    <text:p text:style-name="P7"><text:tab/>the first day of the
+                            <text:reference-mark-start text:name="BungeniParliamentSession:1"
+                        />Second Session<text:reference-mark-end
+                            text:name="BungeniParliamentSession:1"/>.</text:p>
                 </text:section>
                 <text:p text:style-name="P1"/>
-                <text:p text:style-name="P11">
+                <text:section text:style-name="Sect3" text:name="comment88272">
+                    <text:p text:style-name="P4"><text:tab/>ARRIVAL OF HIS EXCELLENCY </text:p>
+                    <text:p text:style-name="P4"><text:tab/>THE PRESIDENT</text:p>
+                    <text:p text:style-name="P1"/>
+                    <text:p text:style-name="P7"><text:tab/>[His Excellency the President (Mr. Mwai
+                        Kibaki),</text:p>
+                    <text:p text:style-name="P7"><text:tab/>escorted by the Speaker and accompanied
+                        by the Mace </text:p>
+                    <text:p text:style-name="P7"><text:tab/>of the National Assembly, entered the
+                        Chamber </text:p>
+                    <text:p text:style-name="P7"><text:tab/>at Thirty minutes past two
+                        o&apos;clock]</text:p>
+                    <text:p text:style-name="P1"/>
+                    <text:p text:style-name="P7"><text:tab/>[His Excellency the President, </text:p>
+                    <text:p text:style-name="P7"><text:tab/>(Mr. Mwai Kibaki) took his </text:p>
+                    <text:p text:style-name="P7"><text:tab/>seat in the Chair of State]</text:p>
+                    <text:p text:style-name="P1"/>
+                    <text:p text:style-name="P7"><text:tab/>(The Mace of the National Assembly </text:p>
+                    <text:p text:style-name="P7"><text:tab/>was placed on the Table)</text:p>
+                </text:section>
+                <text:p text:style-name="P1"/>
+                <text:p text:style-name="P3">
                     <text:tab/>
                 </text:p>
-                <text:section text:style-name="Sect3" text:name="comment635267">
-                    <text:p text:style-name="P12">[Mr. Speaker in the Chair]</text:p>
-                </text:section>
-                <text:p text:style-name="P1"/>
-                <text:h text:style-name="P20" text:outline-level="2">
-                    <text:tab/>
-                </text:h>
-                <text:section text:style-name="Sect4" text:name="prayers637994">
-                    <text:h text:style-name="P20" text:outline-level="2">PRAYERS</text:h>
-                </text:section>
-                <text:p text:style-name="P1"/>
-                <text:section text:style-name="Sect5" text:name="speech75638">
-                    <text:h text:style-name="Heading_20_3" text:outline-level="3"
-                        ><text:tab/>COMMUNICATION FROM THE CHAIR</text:h>
-                    <text:p text:style-name="P16"/>
-                    <text:p text:style-name="P17"><text:tab/>Distinguished Guests </text:p>
-                    <text:p text:style-name="P17"><text:tab/>in the Speaker&apos;s Row</text:p>
+                <text:section text:style-name="Sect4" text:name="prayers28882">
+                    <text:h text:style-name="P16" text:outline-level="1">PRAYERS</text:h>
                     <text:p text:style-name="P1"/>
-                    <text:section text:style-name="Sect6" text:name="heading99573">
-                        <text:p text:style-name="P6"><text:tab/><text:reference-mark-start
-                                text:name="BungeniSpeechAs:3"/>Mr. Speaker<text:reference-mark-end
-                                text:name="BungeniSpeechAs:3"/>:</text:p>
-                    </text:section>
-                    <text:p text:style-name="P15">
-                        <text:span text:style-name="T2">
-                            <text:s/>
-                        </text:span>
-                        <text:span text:style-name="T1">Members, before I go to Order No.6, I would
-                            like to make the following Communication:</text:span>
-                    </text:p>
-                    <text:p text:style-name="P1"><text:tab/>It is with great pleasure that I welcome
-                        our distinguished guests from the Parliament of the Federal Republic of
-                        Germany who are seated in the Speaker&apos;s Row. The delegation is led
-                        by Mr. Carl-Dieter Spranger; Deputy Chairman of the Foreign Affairs
-                        Committee of the German Bundestag.</text:p>
-                    <text:p text:style-name="P1"><text:tab/>He is accompanied by Mr. Joachim Tappe
-                        MdB, Chairman of the Germany-African Parliamentary Group, Mrs. Erika
-                        Reinhardt, MdB, Member of the Committee of Foreign Affairs of the German
-                        Bundestag; and His Excellency Jurgen Weerth, Ambassador to Kenya.</text:p>
-                    <text:p text:style-name="P1"><text:tab/>The delegation arrived in the country on
-                        Friday, 28th April, 2000, and will be with us until tomorrow, Wednesday, 3rd
-                        May, 2000. We wish them a very enjoyable and fruitful stay in our country. </text:p>
-                    <text:p text:style-name="P1"/>
-                    <text:p text:style-name="P9">
-                        <text:tab/>
-                    </text:p>
-                    <text:section text:style-name="Sect7" text:name="comment637824">
-                        <text:p text:style-name="P13">(Applause)</text:p>
-                    </text:section>
-                    <text:p text:style-name="P1"/>
-                    <text:p text:style-name="P1"><text:tab/>I also wish to welcome the delegation of
-                        the Ugandan Members of Parliamentary Sports Club who have been touring Kenya
-                        since 26th April, 2000, to play several football matches against our Bunge
-                        Football Club and to visit various projects in Western Kenya, Mombasa and
-                        Nairobi.</text:p>
-                    <text:p text:style-name="P18">They are the following:</text:p>
-                    <text:p text:style-name="P18">The Hon. Mrs. Mary Nsangi Kakembo, MP; Minister of
-                        State in Charge of Gender. She is the leader of the delegation.</text:p>
-                    <text:p text:style-name="P18">The Hon. Wanjusi Wasieba, M.P.</text:p>
-                    <text:p text:style-name="P18">The Hon. I. Timothy Mutesasira, M.P.</text:p>
-                    <text:p text:style-name="P18">The Hon. Wagidoso Madibo, M.P.</text:p>
-                    <text:p text:style-name="P18">The Hon. Clement Kandole, M.P.</text:p>
-                    <text:p text:style-name="P18">The Hon. (Dr.) Apollo Karubag, M.P.</text:p>
-                    <text:p text:style-name="P18">The Hon. Charles Egou, M.P.</text:p>
-                    <text:p text:style-name="P18">The Hon. Selaiman Sembajja, M.P.</text:p>
-                    <text:p text:style-name="P18"/>
-                    <text:p text:style-name="P18">The Hon. Ali Gabe, M.P.</text:p>
-                    <text:p text:style-name="P18">The Hon. Aston Kajara, M.P.</text:p>
-                    <text:p text:style-name="P18"><text:soft-page-break/>The Hon. Adome Lokwi, M.P.</text:p>
-                    <text:p text:style-name="P18">The Hon. Katwiremu Yerokamu, M.P.</text:p>
-                    <text:p text:style-name="P18">The Hon. Reagan Okumu, M.P.</text:p>
-                    <text:p text:style-name="P18">The Hon. Kabakumba Abwoli, M.P.</text:p>
-                    <text:p text:style-name="P18">The Hon. Christine Mwebesa, M.P.</text:p>
-                    <text:p text:style-name="P18">The Hon. Kakoba Onyango, M.P.</text:p>
-                    <text:p text:style-name="P18">The Hon. Seth Wambede, M.P.</text:p>
-                    <text:p text:style-name="P18">The Hon. Patrick Nabutaala, M.P.</text:p>
-                    <text:p text:style-name="P18">The Hon. Ofory Rugethe, M.P.</text:p>
-                    <text:p text:style-name="P18">The Hon. Akika Othieno, M.P.</text:p>
-                    <text:p text:style-name="P18">The Hon. Robert Kakooza, M.P.; and, </text:p>
-                    <text:p text:style-name="P18">The Hon. David Kamusalo, M.P.</text:p>
-                    <text:p text:style-name="P1"><text:tab/>Thank you.</text:p>
-                    <text:p text:style-name="P1"/>
-                </text:section>
-                <text:p text:style-name="P10">
-                    <text:tab/>
-                </text:p>
-                <text:section text:style-name="Sect3" text:name="comment645284">
-                    <text:p text:style-name="P14">(Applause)</text:p>
-                </text:section>
-                <text:p text:style-name="P1"/>
-                <text:section text:style-name="Sect8" text:name="questions903084">
-                    <text:p text:style-name="questions_5f_title"><text:tab/>ORAL ANSWERS TO
-                        QUESTIONS</text:p>
-                    <text:p text:style-name="P10"/>
-                    <text:section text:style-name="Sect9" text:name="qa38499">
-                        <text:p text:style-name="questions_5f_title"><text:tab/>Question No
-                                <text:reference-mark-start text:name="BungeniQuestionNo:126"
-                                />126<text:reference-mark-end text:name="BungeniQuestionNo:126"/></text:p>
-                        <text:p text:style-name="P1"/>
-                        <text:p text:style-name="questions_5f_subtitle">
-                            <text:span text:style-name="T1">
-                                <text:tab/>
-                            </text:span>
-                            <text:span text:style-name="T3">Number of City Residents </text:span>
+                    <text:section text:style-name="Sect5" text:name="speech28821">
+                        <text:p text:style-name="P5">
+                            <text:tab/>
                         </text:p>
-                        <text:p text:style-name="questions_5f_subtitle">
-                            <text:span text:style-name="T3"><text:tab/>Killed by Gangsters</text:span>
+                        <text:section text:style-name="Sect6" text:name="heading8837">
+                            <text:p text:style-name="P12">
+                                <text:span text:style-name="T2">Mr. Speaker:</text:span>
+                                <text:span text:style-name="T1"> </text:span>
+                            </text:p>
+                        </text:section>
+                        <text:p text:style-name="P1">Your Excellency, hon. Members, may I call upon
+                            the Spiritual Leaders to offer prayers for this new Session.</text:p>
+                    </text:section>
+                    <text:p text:style-name="P1"/>
+                    <text:section text:style-name="Sect7" text:name="comment00282">
+                        <text:p text:style-name="P7"><text:tab/>(Prayers were then said by the
+                            following:</text:p>
+                        <text:p text:style-name="P7"><text:tab/>The Rt. Rev. Peter Njenga Kariuki; </text:p>
+                        <text:p text:style-name="P7"><text:tab/>The Rt. Rev. Bishop Philip Sulumeti; </text:p>
+                        <text:p text:style-name="P7"><text:tab/>The Rt. Rev. (Dr) David M. Githii; </text:p>
+                        <text:p text:style-name="P7"><text:tab/>The Chief Kadhi Sheikh Hammad </text:p>
+                        <text:p text:style-name="P11">
+                            <text:span text:style-name="T3"><text:tab/>Kassim and Siopin Lekolool)</text:span>
                             <text:span text:style-name="T1"> </text:span>
                         </text:p>
+                    </text:section>
+                    <text:p text:style-name="P1"/>
+                </text:section>
+                <text:p text:style-name="P1"/>
+                <text:section text:style-name="Sect8" text:name="speech88372c">
+                    <text:h text:style-name="Heading_20_1" text:outline-level="1"
+                        ><text:soft-page-break/><text:tab/>COMMUNICATION FROM THE CHAIR</text:h>
+                    <text:p text:style-name="P5"/>
+                    <text:h text:style-name="Heading_20_2" text:outline-level="2">
+                        <text:tab/>
+                        <text:span text:style-name="T4">Welcome To His Excellency</text:span>
+                    </text:h>
+                    <text:h text:style-name="P15" text:outline-level="2"><text:tab/>The President</text:h>
+                    <text:p text:style-name="P1"/>
+                    <text:section text:style-name="Sect9" text:name="speech883720">
+                        <text:p text:style-name="P5">
+                            <text:tab/>
+                        </text:p>
+                        <text:section text:style-name="Sect10" text:name="heading88293">
+                            <text:p text:style-name="P12">
+                                <text:reference-mark-start text:name="BungeniSpeechAs:1"/>
+                                <text:span text:style-name="T2">Mr. Speaker</text:span>
+                                <text:reference-mark-end text:name="BungeniSpeechAs:1"/>
+                                <text:span text:style-name="T2">:</text:span>
+                                <text:span text:style-name="T1"> </text:span>
+                            </text:p>
+                        </text:section>
+                        <text:p text:style-name="P1">Your Excellency the President, hon. Members,
+                            distinguished guests, ladies and gentlemen, it is my pleasure, privilege
+                            and honour to address the House on this auspicious occasion of the
+                            Official State Opening of the Tenth Parliament. I must, however, hasten
+                            to note that the occasion is, unfortunately, clouded, coming against the
+                            backdrop of the loss of two hon. Members, namely, the hon. Member for
+                            Embakasi, Mr. Melitus Were and the hon. Member for Ainamoi, Mr. David
+                            Kimutai Too, through murders most foul since the inauguration on 15th
+                            January, 2008.</text:p>
+                        <text:p text:style-name="P1"><text:tab/>It is regrettable that the two hon.
+                            Members lost their lives without addressing this House even for a single
+                            moment. This House, and indeed the entire country, hopes that the two
+                            murders shall be fully investigated with speed so that the culprits are
+                            brought to book. This will go some way in helping law enforcement
+                            agencies regain public confidence in the ability to protect the people
+                            and their property. </text:p>
+                        <text:p text:style-name="P1"><text:tab/>All of us are aware that this has
+                            been an exceptionally difficult year for our country. No sooner had the
+                            results of the last general elections been announced than unprecedented
+                            mayhem ensued in several parts of the country. Most, if not all of us,
+                            have thus not been able to enjoy and celebrate our victory at the polls
+                            as is typical of us. </text:p>
+                        <text:p text:style-name="P1"><text:tab/>The irony of events as have taken
+                            place in Kenya is that several African countries which have had
+                            political upheavals were assisted by the international community to
+                            conduct credible general elections as a means of resolving their
+                            conflicts. It is because armed conflicts in Africa have tended to beset
+                            those countries where the leaders erroneously believe that seeking the
+                            mandate to govern from the governed is a luxury they can ill-afford. In
+                            contrast, the Kenyan conflict was triggered by events which took place
+                            after the people had successfully voted for their preferred candidates
+                            in the elections. </text:p>
+                        <text:p text:style-name="P1"><text:tab/>Hon. Members, it is for the
+                            foregoing reason that I would like to take this unique opportunity to
+                            congratulate all of you for having won your seats in the most
+                            competitive and yet, divisive and acrimonious elections Kenya has ever
+                            witnessed. For the first time in our history since 1963, the foundation
+                            of our nation faced a real threat. It appeared at times as if the forces
+                            of disintegration and disunity were too powerful for us to manage and
+                            control. </text:p>
+                        <text:p text:style-name="P1"><text:tab/>That the worst did not happen is due
+                            mainly to the tenacity of our people and their true love for this
+                            beautiful country which God created and bestowed upon us. We cannot also
+                            forget to commend our leaders, both temporal and spiritual, for having
+                            stood firm to defend and protect our national integrity.</text:p>
+                        <text:p text:style-name="P1"><text:tab/>Hon. Members, I have no appropriate
+                            words to commend our two heroes whose heads remain high above all the
+                            din and dint that characterised our public life to stay the course
+                            steadily and make great sacrifices even at the expense of disappointing
+                            their closest friends, supporters and admirers across the country.</text:p>
                         <text:p text:style-name="P1"/>
-                        <text:section text:style-name="Sect10" text:name="question38499">
-                            <text:p text:style-name="P19">
-                                <text:span text:style-name="T2">
-                                    <text:tab/>
-                                </text:span>
-                                <text:reference-mark-start text:name="BungeniQuestionBy:126"/>
-                                <text:span text:style-name="T2">Mr. Mwenje</text:span>
-                                <text:reference-mark-end text:name="BungeniQuestionBy:126"/>
-                                <text:span text:style-name="T2"> </text:span>
-                                <text:span text:style-name="T1">asked the </text:span>
-                                <text:reference-mark-start text:name="BungeniQuestionTo:126"/>
-                                <text:span text:style-name="T1">Minister of State, Office of the
-                                    president</text:span>
-                                <text:reference-mark-end text:name="BungeniQuestionTo:126"/>
-                                <text:span text:style-name="T1">:-</text:span>
-                            </text:p>
-                            <text:p text:style-name="question_5f_text"><text:tab/>(a) whether he
-                                could inform the House how many people have been killed by gangsters
-                                in Nairobi during the last one year; and,</text:p>
-                            <text:p text:style-name="question_5f_text"><text:tab/>(b) how many
-                                gangsters have been killed in Nairobi by security personnel within
-                                the same period.</text:p>
-                        </text:section>
-                        <text:p text:style-name="P6">
+                        <text:p text:style-name="P8">
                             <text:tab/>
                         </text:p>
-                        <text:section text:style-name="Sect11" text:name="speech993802">
-                            <text:section text:style-name="Sect12" text:name="heading883028">
-                                <text:p text:style-name="P1"><text:reference-mark-start
-                                        text:name="BungeniSpeechAs:1"/>The minister of state, Office
-                                    of the president<text:reference-mark-end
-                                        text:name="BungeniSpeechAs:1"/> (<text:reference-mark-start
-                                        text:name="BungeniSpeechBy:1"/>Maj.
-                                        Madoka<text:reference-mark-end text:name="BungeniSpeechBy:1"
-                                    />): </text:p>
-                            </text:section>
-                            <text:p text:style-name="P1">Mr. Speaker, Sir, I would like to request
-                                that I be allowed to answer this Question tomorrow. I got certain
-                                details which were not complete and I am doing some thorough
-                                investigation.</text:p>
-                        </text:section>
-                        <text:section text:style-name="Sect13" text:name="speech939004">
-                            <text:section text:style-name="Sect14" text:name="heading838209">
-                                <text:p text:style-name="P15">
-                                    <text:span text:style-name="T2">
-                                        <text:tab/>
-                                    </text:span>
-                                    <text:reference-mark-start text:name="BungeniSpeechAs:2"/>
-                                    <text:span text:style-name="T2">Mr. Speaker</text:span>
-                                    <text:reference-mark-end text:name="BungeniSpeechAs:2"/>
-                                    <text:span text:style-name="T1">: </text:span>
-                                </text:p>
-                            </text:section>
-                            <text:p text:style-name="P1">What is your reaction, Mr. Mwenje?</text:p>
-                        </text:section>
-                        <text:p text:style-name="P6">
-                            <text:tab/>
-                        </text:p>
-                        <text:section text:style-name="Sect15" text:name="speech993029">
-                            <text:section text:style-name="Sect16" text:name="heading927624">
-                                <text:p text:style-name="P15">
-                                    <text:reference-mark-start text:name="BungeniSpeechAs:4"/>
-                                    <text:span text:style-name="T2">Mr. Mwenje</text:span>
-                                    <text:reference-mark-end text:name="BungeniSpeechAs:4"/>
-                                    <text:span text:style-name="T1">:</text:span>
-                                </text:p>
-                            </text:section>
-                            <text:p text:style-name="P1"><text:s/>Mr. Speaker, Sir, that is very
-                                interesting! This Question was among the first Questions that I sent
-                                immediately Parliament was opened. Iut has taken all this long to be
-                                brought before this House. I do not see the reason why the Minister
-                                should now come and tell us that he is still not ready. He has not
-                                given even the answer that he thinks is not right and it has not
-                                been passed over to me.</text:p>
-                        </text:section>
-                        <text:section text:style-name="Sect17" text:name="speech987363">
-                            <text:section text:style-name="Sect18" text:name="heading827947">
-                                <text:p text:style-name="P15">
-                                    <text:span text:style-name="T2">
-                                        <text:tab/>
-                                    </text:span>
-                                    <text:reference-mark-start text:name="BungeniSpeechAs:5"/>
-                                    <text:span text:style-name="T2">Mr. Speaker</text:span>
-                                    <text:reference-mark-end text:name="BungeniSpeechAs:5"/>
-                                    <text:span text:style-name="T1">: </text:span>
-                                </text:p>
-                            </text:section>
-                            <text:p text:style-name="P1">Very well. What do you want me to do now,
-                                Mr. Mwenje?</text:p>
-                            <text:p text:style-name="P6"/>
-                        </text:section>
-                        <text:section text:style-name="Sect19" text:name="speech983702">
-                            <text:p text:style-name="P6">
-                                <text:tab/>
-                            </text:p>
-                            <text:section text:style-name="Sect18" text:name="heading892724">
-                                <text:p text:style-name="P15">
-                                    <text:reference-mark-start text:name="BungeniSpeechAs:6"/>
-                                    <text:span text:style-name="T2">Mr. Mwenje</text:span>
-                                    <text:reference-mark-end text:name="BungeniSpeechAs:6"/>
-                                    <text:span text:style-name="T1">: </text:span>
-                                </text:p>
-                            </text:section>
-                            <text:p text:style-name="P1">Mr. Speaker, Sir, first of all, could the
-                                Minister tell us what answer he has so that---</text:p>
+                        <text:section text:style-name="Sect3" text:name="comment3883">
+                            <text:p text:style-name="P8">(Applause)</text:p>
                             <text:p text:style-name="P1"/>
                         </text:section>
-                        <text:section text:style-name="Sect20" text:name="comment082037">
-                            <text:p text:style-name="P9"><text:tab/>(Loud consultations)</text:p>
-                        </text:section>
-                        <text:p text:style-name="P1"/>
-                        <text:p text:style-name="P6">
-                            <text:tab/>
-                        </text:p>
-                        <text:section text:style-name="Sect21" text:name="speech918293">
-                            <text:section text:style-name="Sect18" text:name="heading880208">
-                                <text:p text:style-name="P15">
-                                    <text:reference-mark-start text:name="BungeniSpeechAs:7"/>
-                                    <text:span text:style-name="T2">Mr. Speaker</text:span>
-                                    <text:reference-mark-end text:name="BungeniSpeechAs:7"/>
-                                    <text:span text:style-name="T1">: </text:span>
-                                </text:p>
-                            </text:section>
-                            <text:p text:style-name="P15">
-                                <text:span text:style-name="T1">Order! I consider it is best that we
-                                    have an answer rather than take our time on preliminaries which
-                                    will not help us in any way. But, Mr. Minister, you must be
-                                    mindful of the fact that, you are duty-bound to come to this
-                                    House </text:span>
-                                <text:soft-page-break/>
-                                <text:span text:style-name="T1">promptly and answer
-                                Questions.</text:span>
-                            </text:p>
-                            <text:p text:style-name="P1"><text:tab/>I will defer the Question to
-                                tomorrow afternoon.</text:p>
-                        </text:section>
+                        <text:p text:style-name="P1">This they this did with one very important
+                            message: None of us is better than all of us. This was
+                            <text:soft-page-break/>an active demonstration that Kenya is bigger than
+                            any single one of us.</text:p>
+                        <text:p text:style-name="P1"><text:tab/>As some leaders across the political
+                            divide sometimes issued inflammatory statements in the Press and hurled
+                            political insults at their opponents in public meetings, the two leaders
+                            cooled down political temperatures by assuring the public of their
+                            personal commitment to seek peaceful means to resolve the violent </text:p>
+                        <text:p text:style-name="P1">conflict that had suddenly broken out in many
+                            parts of the country. By the sheer weight of their personality,
+                            political acumen, honed skills on statecraft and their deep sense of
+                            responsibility, patriotism and statesmanship, they finally prevailed
+                            upon their supporters to respect each other and regard themselves as
+                            Kenyans. This is no mean achievement!</text:p>
                         <text:p text:style-name="P1"/>
                         <text:p text:style-name="P9">
                             <text:tab/>
                         </text:p>
-                        <text:section text:style-name="Sect22" text:name="comment827497">
-                            <text:p text:style-name="P13">(Question deferred)</text:p>
+                        <text:section text:style-name="Sect11" text:name="comment9838">
+                            <text:p text:style-name="P9">(Applause)</text:p>
                         </text:section>
                         <text:p text:style-name="P1"/>
+                        <text:p text:style-name="P1"><text:tab/>One would be extremely naive,
+                            disingenuous and callous not to give credit due to President Mwai Kibaki
+                            and hon. Raila Odinga for sacrificing their personal egos, to grant
+                            peace a chance and save Kenya from the political morass it had suddenly
+                            descended into. The two leaders have shown the world that, whereas it is
+                            our right to participate in any political competition, we must always
+                            close ranks and co-operate with one another if the integrity of our
+                            beloved country is at stake.</text:p>
+                        <text:p text:style-name="P1"><text:tab/>The action of the two leaders has
+                            created a new political reality - that while all of us many not win in
+                            an election, all of us do not have to lose just because any one of us
+                            did not win. We must create, develop and promote a political culture
+                            where the winner does not take everything and the loser remains with
+                            nothing including their dignity. This is possible if the political
+                            playing field is level and there is a strong democratic culture in our
+                            country. </text:p>
+                        <text:p text:style-name="P1"><text:tab/>Last but not least, let me commend
+                            the Group of Eminent Persons led by His Excellency, Dr. Kofi Annan, the
+                            immediate former United Nations (UN) Secretary-General together with Her
+                            Excellency Gracia Machel Mandela of South Africa and His Excellency
+                            Benjamin Mkapa of Tanzania. Their tireless efforts were generously
+                            supported by both the immediate and past African Union (AU) Chairmen,
+                            namely His Excellency John Kuffuor of Ghana and His Excellency Jakaya
+                            Kikwete of Tanzania, respectively, the President of Uganda, the United
+                            Nations, the European Union and its representatives in Kenya, the United
+                            States of America, the African Union and several international
+                            organisations and Kenya&apos;s development partners, especially
+                            embassies and missions based in Nairobi.</text:p>
+                        <text:p text:style-name="P1"><text:tab/>The clear message they sent to the
+                            Kenyan people and their leaders made several people confident that we
+                            were not alone. Indeed, in the current globalised world, international
+                            goodwill is an indispensable asset that no country can afford to ignore,
+                            not even the most powerful country in the world.</text:p>
+                        <text:p text:style-name="P1"><text:tab/>Hon. Members, in conclusion, let me
+                            observe the following sad facts about our country: The recent events
+                            have exposed the fault-lines in our system of governance. Kenyans went
+                            to the polls and voted largely freely and without compulsion. The
+                            genesis of the problems that afflicted the nation would appear to have
+                            had its epicentre at the Electoral Commission Headquarters. The
+                            situation dictates an evaluation of our electoral unit. I have this very
+                            humble submission to make: Democracy is not made by God, but by man.
+                            Everything created by man is normally brittle, fragile, frail and,
+                            therefore, can easily break and be destroyed completely.</text:p>
+                        <text:p text:style-name="P1"><text:tab/>Yes, we may believe and insist that
+                            building strong institutions is a prerequisite for establishing a
+                            functional democratic society, but the truth is that if Kenyans
+                            genuinely want to live in a multiparty democratic State, we must nurture
+                            democracy in our hearts and minds. Democracy must be part of our culture
+                            and upbringing. It must be in our homes, families and in schools. It
+                            must be in our offices and other workplaces. We must, therefore, be
+                            tolerant and prepared to accommodate and glorify our cultural
+                            differences, social diversity, economic variety and political pluralism.
+                            This is the path we must follow if it is really our desire that
+                            democracy <text:soft-page-break/>thrives in Kenya.</text:p>
+                        <text:p text:style-name="P1"><text:tab/>Hon. Members, let me finally </text:p>
+                        <text:p text:style-name="P1">reiterate what I said on the day of my election
+                            to the Chair. I promise, once again, to abide by the Standing Orders of
+                            the National Assembly while presiding over the proceedings of the House.
+                            I shall apply the rules of the House fairly and firmly and interpret
+                            them in the most transparent and accountable manner. I would like to
+                            urge the newly-elected hon. Members to quickly acquaint themselves with
+                            <text:s/>these rules of debate, so that they are able to participate
+                            effectively in the proceedings of the House.</text:p>
+                        <text:p text:style-name="P1"><text:tab/>At this moment in our history,
+                            Parliament must stand tall and high to make Kenyans proud. There is no
+                            time in our country when the institution has been required to defend the
+                            dignity and the integrity of its citizens more than now. Never before
+                            has the House been expected to show leadership by reconciling our people
+                            and giving them hope than at this moment in time. If Parliament descends
+                            into anarchy, despondency, despair, hopelessness and behaves like a
+                            rudderless vessel in the ocean, then the Kenyan nation will not just
+                            sink, it will drown.</text:p>
+                        <text:p text:style-name="P1"><text:tab/>The people of Kenya are going to
+                            watch us as their leaders and analyse every word uttered by every hon.
+                            Member. Remember, and I say this with all the humility that I can
+                            command, another set of five years is not so distant. Voters shall once
+                            again get a chance to audit and vet the Membership of this House
+                            thoroughly. They are now in Kenya renown for their very effective
+                            cost-profit analysis of political representation. Constantly bear in
+                            mind, hon. Members, that every day you come to the august House, that
+                            the Kenyan elector as empowered, votes without fear or favour, and many
+                            of us owe our presence here today to that trait.</text:p>
+                        <text:p text:style-name="P1"><text:tab/>With those few remarks, it is my
+                            pleasure to invite His Excellency the President to address the House and
+                            inaugurate the Second Session of the Tenth Parliament. </text:p>
+                        <text:p text:style-name="P1"><text:tab/>Thank you and may God bless
+                        Kenya.</text:p>
                     </text:section>
-                    <text:p text:style-name="P6">
+                </text:section>
+                <text:p text:style-name="P5">
+                    <text:tab/>
+                </text:p>
+                <text:section text:style-name="Sect12" text:name="speech883724">
+                    <text:section text:style-name="Sect13" text:name="heading99302">
+                        <text:p text:style-name="P12">
+                            <text:reference-mark-start text:name="BungeniSpeechAs:33-1"/>
+                            <text:span text:style-name="T2">His Excellency the President</text:span>
+                            <text:reference-mark-end text:name="BungeniSpeechAs:33-1"/>
+                            <text:span text:style-name="T1"> (</text:span>
+                            <text:reference-mark-start text:name="BungeniSpeechBy:33-1"/>
+                            <text:span text:style-name="T1">Mr. Kibaki)</text:span>
+                            <text:reference-mark-end text:name="BungeniSpeechBy:33-1"/>
+                            <text:span text:style-name="T1">: </text:span>
+                        </text:p>
+                    </text:section>
+                    <text:p text:style-name="P1">Thank you, Mr. Speaker, Sir.</text:p>
+                    <text:p text:style-name="P12">
+                        <text:span text:style-name="T1"><text:tab/>Mr. Speaker, Sir, it is my
+                            pleasure to welcome hon. Members to the Second Session of the Tenth
+                            Parliament. Let me begin by congratulating each one of the hon. Members
+                            for winning the confidence of </text:span>
+                        <text:span text:style-name="T3">wananchi</text:span>
+                        <text:span text:style-name="T1"> by being elected to this august House. I am
+                            especially pleased to welcome the new lady Members of Parliament, whose
+                            numbers have increased to 21.</text:span>
+                    </text:p>
+                    <text:p text:style-name="P1"/>
+                    <text:p text:style-name="P8">
                         <text:tab/>
                     </text:p>
-                    <text:section text:style-name="Sect23" text:name="speech899372">
-                        <text:section text:style-name="Sect24" text:name="heading820817">
-                            <text:p text:style-name="P15">
-                                <text:reference-mark-start text:name="BungeniSpeechAs:8"/>
-                                <text:span text:style-name="T2">Mr. Gatabaki</text:span>
-                                <text:reference-mark-end text:name="BungeniSpeechAs:8"/>
-                                <text:span text:style-name="T1">: </text:span>
-                            </text:p>
-                        </text:section>
-                        <text:p text:style-name="P1">On a point of order, Mr. Speaker, Sir. Is it in
-                            order for the Minister to be continuously following the President to the
-                            detriment of answering Questions?</text:p>
+                    <text:section text:style-name="Sect14" text:name="comment88373">
+                        <text:p text:style-name="P8">(Applause)</text:p>
+                        <text:p text:style-name="P1"/>
                     </text:section>
-                    <text:section text:style-name="Sect25" text:name="speech890297">
-                        <text:p text:style-name="P6">
-                            <text:tab/>
-                        </text:p>
-                        <text:section text:style-name="Sect26" text:name="heading722863">
-                            <text:p text:style-name="P15">
-                                <text:reference-mark-start text:name="BungeniSpeechAs:9"/>
-                                <text:span text:style-name="T2">Mr. Speaker</text:span>
-                                <text:reference-mark-end text:name="BungeniSpeechAs:9"/>
-                                <text:span text:style-name="T1">: </text:span>
-                            </text:p>
-                        </text:section>
-                        <text:p text:style-name="P1">Order! Order, hon. Gatabaki! Who would you wish
-                            rather he followed, anyway? </text:p>
-                        <text:p text:style-name="P1"><text:tab/>Next Question, Dr. Kulundu!</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, before proceeding with
+                        my remarks this afternoon, I wish, first of all, to request hon. Members to
+                        join me in paying our respects to our two colleagues who lost their lives
+                        under tragic circumstances. Those are the late Member of Parliament for
+                        Embakasi Constituency, hon. Melitus Mugabe Were, and the late Member of
+                        Parliament for Ainamoi Constituency, hon. David Kimutai Too, who both passed
+                        away in January this year. May I ask all of you to rise as we observe
+                        one-minute silence in their remembrance. </text:p>
+                    <text:p text:style-name="P1"/>
+                    <text:section text:style-name="Sect14" text:name="comment02382">
+                        <text:p text:style-name="P8"><text:tab/>(Hon. Members stood up and</text:p>
+                        <text:p text:style-name="P8"><text:tab/>observed a minute of
+                        silence)</text:p>
                     </text:section>
                     <text:p text:style-name="P1"/>
-                    <text:p text:style-name="P8"/>
-                    <text:p text:style-name="P8"/>
-                </text:section>
-                <text:p text:style-name="P4"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:section text:style-name="Sect27" text:name="comment993827">
-                    <text:p text:style-name="P7"><text:tab/>ADJOURNMENT</text:p>
-                </text:section>
-                <text:p text:style-name="P1"/>
-                <text:section text:style-name="Sect28" text:name="speech908727">
-                    <text:p text:style-name="P6">
+                    <text:p text:style-name="P1"><text:tab/>Thank you.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, as a nation, we have
+                        come through a challenging two months period since the 27th December, 2007
+                        General Elections. The post-election violence that saw more than 1,000
+                        people killed, over 300,000 people displaced and billions of shillings worth
+                        of property burnt or looted, shook our sense of nationhood. I ask you, once
+                        again, to rise and join <text:soft-page-break/>me in observing a minute of
+                        silence in remembrance of those who lost their lives during the
+                        post-election violence.</text:p>
+                    <text:p text:style-name="P1"/>
+                    <text:section text:style-name="Sect14" text:name="comment34272">
+                        <text:p text:style-name="P8"><text:tab/>(Hon. Members stood up and</text:p>
+                        <text:p text:style-name="P8"><text:tab/>observed a minute of
+                        silence)</text:p>
+                    </text:section>
+                    <text:p text:style-name="P1"/>
+                    <text:p text:style-name="P1"><text:tab/>Thank you.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, in addition to the
+                        death toll, the post-election violence disrupted lives and destroyed farms,
+                        businesses and residential properties. We cannot watch our brothers and
+                        sisters endure such hardships.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, my Government has set
+                        up a National <text:s/>Humanitarian Assistance Fund with an initial
+                        endowment of Kshs1 billion to provide humanitarian assistance and resettle
+                        the displaced persons. We have also established a new Directorate for
+                        Resettlement that will oversee the resettlement of Internally Displaced
+                        Persons (IDPs). Those institutions will assist IDPs in farming areas to
+                        regain their livelihoods through the provision of free seeds and other
+                        farming inputs. We are also designing an emergency programme for economic
+                        reconstruction and restoration.</text:p>
+                    <text:p text:style-name="P1"/>
+                    <text:section text:style-name="Sect14" text:name="comment88337">
+                        <text:p text:style-name="P13">
+                            <text:span text:style-name="T3"><text:tab/>(Applause)</text:span>
+                            <text:span text:style-name="T1"> </text:span>
+                        </text:p>
+                        <text:p text:style-name="P1"/>
+                    </text:section>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, the programme will
+                        mobilize resources locally and internationally to be used in repairing and
+                        reconstructing infrastructure that was badly damaged during the violence.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, the recent crisis has
+                        caused me to reflect deeply on the half a century of my active participation
+                        in the management of our public affairs. During this time, I have come to
+                        appreciate and respect the resilience of our people and our country. I have
+                        seen Kenya go through some very critical moments. Each time, our people have
+                        used the crisis as a crucial turning point from which they have come out
+                        more focused and determined to stay on course, so as to realize our
+                        collective vision of a free, just and prosperous nation.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, the events of the last
+                        two months have offered us an opportunity to look inwards, in order to fully
+                        comprehend the weaknesses and strengths, as well as the strengths and
+                        opportunities that we have as a nation. Indeed, Kenyans will always prefer
+                        peace over conflict, prosperity over desolation, unity over discord and
+                        justice over injustice. That is why on 28th February, 2008, I and hon. Raila
+                        Odinga accepted and signed the National Accord because our people had spoken
+                        clearly that they wanted one Kenya - a Kenya in which all lived in peace,
+                        justice and harmony.</text:p>
+                    <text:p text:style-name="P1"/>
+                    <text:section text:style-name="Sect14" text:name="comment77263">
+                        <text:p text:style-name="P8"><text:tab/>(Applause)</text:p>
+                        <text:p text:style-name="P1"/>
+                    </text:section>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, Kenyans expected no
+                        less from either one of us. The people have embraced the Accord with joy and
+                        renewed hope. We believe the Accord is the first step towards achieving a
+                        prosperous and stable future for all Kenyans. It opens a new chapter in the
+                        management of our national affairs. </text:p>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, I believe hon. Members
+                        will agree that the Accord is a victory for all Kenyans, laying the
+                        foundation for peace and stability in our country. The successful
+                        implementation of the Accord will require goodwill, unity, good faith and
+                        integrity from this House and all our leaders in this country. I urge hon.
+                        Members to ensure that all the necessary Bills to implement the Accord and
+                        other social and economic reforms are dealt with promptly, so that Kenya can
+                        be fully restored to, and even exceed its former glory. </text:p>
+                    <text:p text:style-name="P1"><text:tab/>In this regard, we will, as the
+                        Coalition Government, introduce four Bills that should be accorded the
+                        highest priority. They are:-</text:p>
+                    <text:list text:style-name="L1">
+                        <text:list-item>
+                            <text:p text:style-name="P20"><text:soft-page-break/>The National Accord
+                                and Reconciliation Bill.</text:p>
+                        </text:list-item>
+                        <text:list-item>
+                            <text:p text:style-name="P20">The Constitution of Kenya (Amendment)
+                                Bill.</text:p>
+                        </text:list-item>
+                        <text:list-item>
+                            <text:p text:style-name="P20">The Establishment of Truth, Justice and
+                                Reconciliation Commission Bill.</text:p>
+                        </text:list-item>
+                        <text:list-item>
+                            <text:p text:style-name="P20">The Establishment of the Ethnic Relations
+                                Commission of Kenya Bill.</text:p>
+                        </text:list-item>
+                    </text:list>
+                    <text:p text:style-name="P1"/>
+                    <text:p text:style-name="P8">
                         <text:tab/>
                     </text:p>
-                    <text:section text:style-name="Sect29" text:name="heading993728">
-                        <text:p text:style-name="P15">
-                            <text:reference-mark-start text:name="BungeniSpeechAs:12"/>
-                            <text:span text:style-name="T2">The Temporary Deputy Speaker</text:span>
-                            <text:span text:style-name="T1"> </text:span>
-                            <text:reference-mark-end text:name="BungeniSpeechAs:12"/>
-                            <text:span text:style-name="T1">(</text:span>
-                            <text:reference-mark-start text:name="BungeniSpeechBy:12"/>
-                            <text:span text:style-name="T1">Mr. Musila</text:span>
-                            <text:reference-mark-end text:name="BungeniSpeechBy:12"/>
-                            <text:span text:style-name="T1">): <text:s/></text:span>
+                    <text:section text:style-name="Sect14" text:name="comment88927">
+                        <text:p text:style-name="P2">(Applause)</text:p>
+                    </text:section>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, Kenya has witnessed
+                        some and real irreversible changes since the year 2003. In the political
+                        arena, Kenyans are now enjoying their freedoms of association and expression
+                        without fear. <text:s/>As a people, we are now fully aware of our rights and
+                        freedoms to do whatever we want. At times, however, it is evident that we
+                        are yet to fully comprehend that real freedom and liberty also comes with
+                        responsibility of ensuring that in enjoying our rights, we do not do harm to
+                        others. We have made impressive gains in the social sector. We have seen
+                        primary school enrolment grow by over two million children because of free
+                        primary education.</text:p>
+                    <text:p text:style-name="P1"><text:tab/> Similarly, secondary school enrolment
+                        has almost doubled in the last five years because of a higher transition
+                        rate and the recent introduction of free secondary education.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Moreover, our country is more caring of
+                        the weak and vulnerable among us. We now have a programme that provides
+                        financial support to HIV/AIDS affected orphans which will grow from 12,500
+                        participating households to more than 30,000 this year.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Children under five, pregnant mothers
+                        and patients suffering from HIV/AIDS, TB and malaria continue to receive
+                        free treatment and drugs in all our public health facilities. In addition,
+                        our economy has consistently performed well with the growth rate rising from
+                        0.2 per cent in the year 2002 to nearly 7 per cent last year. All sectors
+                        have performed well, with key sectors such as agriculture, transport,
+                        communications, tourism, manufacturing and trade all growing at an average
+                        rate of 5 to 10 per cent annually in the last three years. The informal
+                        sector has received policy attention with the passage of the Microfinance
+                        Act to support small and medium enterprises. </text:p>
+                    <text:p text:style-name="P1"><text:tab/>We have also made progress in building
+                        of markets to enable street vendors to do their business legally and without
+                        harassment. We have, as a nation, received commendations for our
+                        achievements. These include commendations for our improved business
+                        environment from the World Bank, and for our public service reforms from the
+                        United Nations among others. </text:p>
+                    <text:p text:style-name="P1"><text:tab/>Indeed, although we continue to face
+                        many challenges, we have a lot to celebrate about our country and we have
+                        created a solid foundation on which to build its future. </text:p>
+                    <text:p text:style-name="P1"><text:tab/>In this respect, I am confident that we
+                        will soon overcome the setbacks we have suffered recently and our country
+                        will resume its upward path in all of development once we begin to implement
+                        our Coalition Government Programme. </text:p>
+                    <text:p text:style-name="P1"><text:tab/>It is for this reason that we have put
+                        together a high level committee with five members each from both sides to
+                        harmonise and highlight priority policies and programmes proposed in the
+                        PNU, ODM and ODM-K manifestos into a joint policy and programme strategy. </text:p>
+                    <text:p text:style-name="P1"><text:tab/>This strategy will give priority to
+                        activities that positively affect the livelihood and conditions of our poor
+                        people while promoting equitable opportunities for development throughout
+                        the country. For instance, slum-upgrading, construction of public markets
+                        and support to small-scale farmers, livestock farmers and operators of small
+                        businesses will be accorded top priority.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>The joint medium term strategy will
+                        build on the foundations of the successful Economic Recovery Strategy for
+                        Wealth and Employment Creation. Later this year, we expect to table a
+                        Sessional Paper on Vision 2030. The Vision represents our collective
+                        commitment as Kenyans to transform our country into a middle income economy
+                        underpinned by political stability, social justice as well as equitable
+                        economic and social transformation. </text:p>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, I will now briefly
+                        outline our Government&apos;s legislative and policy proposals in
+                        several key sectors. Let me begin by thanking the Ninth Parliament </text:p>
+                    <text:p text:style-name="P1"><text:soft-page-break/>for passing 17 Bills into
+                        law last year. These include The Political Parties Bill, The Constituencies
+                        Development Fund Bill, The Media Bill and several labour sector laws. </text:p>
+                    <text:p text:style-name="P1"><text:tab/>These laws are expected to improve our
+                        country&apos;s social, political and economic environment. However, the
+                        Tenth Parliament faces an even more pressing agenda and cannot afford to
+                        conduct itself in the usual manner. I, therefore, expect the House to work
+                        twice as hard to achieve the ambitious legislative agenda that will be
+                        brought to this House. <text:tab/>I wish to point out that what I am
+                        proposing today as the Government&apos;s legislative and policy agenda
+                        to this House will be augmented further in the coming weeks and months. This
+                        will be done through new Bills and policies that will be developed from the
+                        synergy and harmonization of the manifestos of the three main parties to the
+                        coalition.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, the past five years
+                        have seen the agricultural sector perform robustly from the policies
+                        implemented by the Government. We, therefore, expect it to recover quickly
+                        from the recent setbacks. To improve market performance of several key
+                        commodities, we will propose the following legislative and policy agenda:-</text:p>
+                    <text:p text:style-name="P14"><text:s/>1. To amend the Coffee Act 2001 to
+                        provide direct sales of coffee.</text:p>
+                    <text:p text:style-name="P14">2. To amend the Sugar Act 2001 to restructure the
+                        sugar industry.</text:p>
+                    <text:p text:style-name="P14">3. To introduce Bills and Sessional Papers
+                        covering dairy, poultry and fishing, industries among others.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, another sector that
+                        has been performing extremely well is the tourism industry. Despite the
+                        recent downturn, the sector has enormous potential to recover and grow
+                        rapidly, providing foreign exchange and creating employment opportunities.
+                        To enable the sector perform even better, the Government will table three
+                        Bills, namely, the Environmental Impact Assessment Regulations Guidelines,
+                        the Tourism Bill and the Wildlife Bill. </text:p>
+                    <text:p text:style-name="P1"><text:tab/>As we undertake to deal decisively with
+                        poverty and inequitable development, my Government acknowledges the crucial
+                        role played by co-operatives in the production and marketing of produce as
+                        well as mobilizing savings and providing credit to the majority of Kenyans.
+                        In this regard, we will be tabling a Sessional Paper on Co-operative
+                        Development Policy, and a Bill on Savings and Credit Co-operatives. </text:p>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, while we have done
+                        well in implementing the free primary and secondary education programmes, we
+                        do require legislation to entrench the reforms in the entire education
+                        sector within our country&apos;s laws. In this regard, my Government
+                        plans to introduce legislation that will regulate the role of non-public
+                        entities such as the civil society and the international education
+                        providers, as well as propose the establishment of a Technical Industrial
+                        Vocation and Entrepreneurial Training Authority.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Moreover, we do recognise that we will
+                        not be able to achieve the goals of Vision 2030 without entrenching a
+                        culture of science, technology and innovation in our society. In this
+                        regard, my Government will present to the House several proposals, including
+                        a National Policy for Science, Technology and Innovation, a Bill to upgrade
+                        the National Council of Science and Technology to the National Commission of
+                        Science and Technology, and the creation of the National Science Foundation
+                        and National Innovation Agency.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, in the health sector,
+                        my Government proposes to review the Public Health Act, so as to consolidate
+                        23 different public health laws into a single Act of Parliament. We will
+                        also table in this House policy papers on Health Care Financing, Health
+                        Services Commission and Decentralised Funding of Health Facilities.</text:p>
+                    <text:p text:style-name="P5"/>
+                    <text:p text:style-name="P1"><text:tab/>With regard to the youths of this
+                        country, my Government will propose amendments to the Armed Forces Act to
+                        enable youths trained under the National Youth Service to be absorbed into
+                        the armed forces. We will also table before the House a Bill to provide for
+                        the creation of a National Youth Council. Further, my Government will
+                        re-table the Sessional Paper on Employment Policy for discussion in the
+                        House on the urgent and critical matter of providing enough jobs for our
+                        young people.</text:p>
+                    <text:p text:style-name="P1"><text:soft-page-break/><text:tab/>Mr. Speaker, Sir,
+                        with regard to gender, we will continue to support the current policy of
+                        ensuring that 30 per cent of public appointments and new employment
+                        opportunities are reserved for women. We now have more lady Members of
+                        Parliament than at any other time in the past, and I expect to see more
+                        gender friendly laws and policies emerge from the Tenth Parliament in
+                        relation to its predecessors.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>With regard to the protection of the
+                        family and children, we will propose amendments to the Children Act, 2001
+                        for better implementation.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, the proper management
+                        and regulation of our country&apos;s physical infrastructure is among
+                        the highest priorities of my Government. In this regard, we plan to
+                        introduce the Information Communication Technology Bill as a regulatory
+                        framework for broadcasting, electronic transactions and cyber crime.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>In the water sector, we will table the
+                        National Water Harvesting and Storage Policy to facilitate the harnessing
+                        and storage of recurrent flood waters, as well as the National Shared Water
+                        Resources Policy to promote equitable development of water resources
+                        nationally.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>We also expect to undertake the Second
+                        Mzima Springs Project to ensure sufficient water supply to Mombasa and its
+                        surroundings. And to ensure that our roads network is better constructed and
+                        maintained, my Government will make fully operational the Urban, Rural and
+                        National Highways Authorities that were legislated under the Roads Act in
+                        the last Parliament.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, we will further
+                        introduce a policy on the registration of contractors, as well as the
+                        creation of a national construction company to build capacity among local
+                        contractors. We will also introduce legislation touching on the protection
+                        of road reserves, registration of engineers, architects as well as quantity
+                        surveyors.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>With regard to local authorities, we
+                        propose to bring to the House, new amendments to the Local Government Act to
+                        enable the direct election of mayors and county council chairmen. This
+                        reform is long overdue, and this Parliament should deliberate on it as a
+                        matter of priority.</text:p>
+                    <text:p text:style-name="P1"/>
+                    <text:section text:style-name="Sect14" text:name="comment72693">
+                        <text:p text:style-name="P8"><text:tab/>(Applause)</text:p>
+                    </text:section>
+                    <text:p text:style-name="P1"/>
+                    <text:p text:style-name="P1"><text:tab/>To ensure proper planning and
+                        development of our urban areas, as well as the proper enforcement of laws
+                        and bylaws for regulation of urban development, we will table in the House
+                        proposals to set up a National Urban and Metropolitan Areas Authority. To
+                        promote the development of affordable housing, we will present the Housing
+                        Bill and a Landlord and Tenant Bill.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, with regard to
+                        national security, my Government will continue to propose legislation and
+                        policies that safeguard our national security, while also ensuring
+                        protection of our people&apos;s rights and freedoms. We propose to bring
+                        to the House several Bills touching on national security.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, we will table before
+                        the House the Organised Crimes Bill to contain the emergence of organised
+                        gangs and militias which bode ill for our society. We will also table the
+                        Anti-money Laundering Bill as well as introduce amendments to the Chiefs Act
+                        and Firearms Act.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Mr. Speaker, Sir, I wish to propose that
+                        Hon. Members become fully involved in promoting and leading the district
+                        peace and reconciliation committees. This is necessary because the
+                        post-election violence saw communal relations stretched to breaking point.
+                        Parliament, as the representative body of all Kenyans, must now rise to its
+                        historic responsibility and play its role fully in restoring peace, security
+                        as well as law and order in our beloved country.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Hon. Members, you must now become the
+                        ambassadors of peace and reconciliation in your constituencies, among your
+                        communities and throughout the country. Kenyans need to hear and be
+                        reassured by their political leaders that they can live, own property and do
+                        business in any part of the country without fear of prejudice, harassment or
+                        prosecution.</text:p>
+                    <text:p text:style-name="P1"><text:soft-page-break/><text:tab/>In this regard,
+                        we propose to bring to the House a comprehensive policy and accompanying
+                        legislation that will ensure that the threat to our national security and
+                        social cohesion caused by negative ethnicity is neutralised for the well
+                        being of our country.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>As I conclude my remarks, Mr. Speaker,
+                        allow me to reiterate the need to build and strengthen the capacity of hon.
+                        Members to do their work. In this regard, I urge the Parliamentary Service
+                        Commission to ensure that Members are provided with sufficient research and
+                        technical assistants as well as computer and office facilities during this
+                        Session. We have a chance to make the Tenth Parliament a meeting of minds
+                        and an avenue for a great competition of ideas that will reflect the highest
+                        levels of constructive debate in our nation&apos;s history.</text:p>
+                    <text:p text:style-name="P1"/>
+                    <text:p text:style-name="P9">
+                        <text:tab/>
+                    </text:p>
+                    <text:section text:style-name="Sect14" text:name="comment99372">
+                        <text:p text:style-name="P9">(Applause)</text:p>
+                    </text:section>
+                    <text:p text:style-name="P1"/>
+                    <text:p text:style-name="P1"><text:tab/>Finally, Mr. Speaker, I wish hon.
+                        Members a highly productive Session in which the agenda of building a new
+                        Kenya overrides any other individual or factional agendas. This is what
+                        Kenyans are asking of the Tenth Parliament, to undertake its historic task
+                        of building a new dispensation for a new Kenya.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>With these remarks, Mr. Speaker, it is
+                        my pleasure to declare the Second Session of the Tenth Parliament officially
+                        open.</text:p>
+                    <text:p text:style-name="P1"><text:tab/>Thank you and God bless you all. Please
+                        succeed and forget the history of what has happened, not because you want to
+                        put it aside, but because you want to do something much better and to
+                        improve much better. Welcome, ladies and gentlemen.</text:p>
+                    <text:p text:style-name="P1"/>
+                </text:section>
+                <text:p text:style-name="P8">
+                    <text:tab/>
+                </text:p>
+                <text:section text:style-name="Sect3" text:name="comment99382">
+                    <text:p text:style-name="P8">(Applause)</text:p>
+                </text:section>
+                <text:p text:style-name="P1"/>
+                <text:section text:style-name="Sect15" text:name="noticeofmotion8837">
+                    <text:h text:style-name="Heading_20_1" text:outline-level="1"><text:tab/>NOTICE
+                        OF MOTION</text:h>
+                    <text:p text:style-name="P1"/>
+                    <text:h text:style-name="Heading_20_2" text:outline-level="2"><text:tab/>Thanks
+                        For the Presidential Address</text:h>
+                    <text:p text:style-name="P1"/>
+                    <text:p text:style-name="P5">
+                        <text:tab/>
+                    </text:p>
+                    <text:section text:style-name="Sect16" text:name="speech38821">
+                        <text:section text:style-name="Sect17" text:name="heading88323">
+                            <text:p text:style-name="P12">
+                                <text:reference-mark-start text:name="BungeniSpeechAs:34"/>
+                                <text:span text:style-name="T2">The Vice-President and Minister for
+                                    Home Affairs </text:span>
+                                <text:reference-mark-end text:name="BungeniSpeechAs:34"/>
+                                <text:span text:style-name="T1">(</text:span>
+                                <text:reference-mark-start text:name="BungeniSpeechBy:34"/>
+                                <text:span text:style-name="T1">Mr. Musyoka</text:span>
+                                <text:reference-mark-end text:name="BungeniSpeechBy:34"/>
+                                <text:span text:style-name="T1">): </text:span>
+                            </text:p>
+                        </text:section>
+                        <text:p text:style-name="P1">Mr. Speaker, Sir, I beg to give notice of the
+                            following Motion:-</text:p>
+                        <text:p text:style-name="P14"><text:tab/>THAT, the thanks of this House be
+                            recorded for the exposition of public policy contained in His
+                            Excellency&apos;s Presidential Address from the Chair on Thursday,
+                            6th March, 2008.</text:p>
+                    </text:section>
+                </text:section>
+                <text:p text:style-name="P1"/>
+                <text:p text:style-name="P8">
+                    <text:tab/>
+                </text:p>
+                <text:section text:style-name="Sect3" text:name="comment800283">
+                    <text:p text:style-name="P8">(Applause)</text:p>
+                </text:section>
+                <text:p text:style-name="P1"/>
+                <text:p text:style-name="P6">
+                    <text:tab/>
+                </text:p>
+                <text:section text:style-name="Sect18" text:name="speech99382">
+                    <text:h text:style-name="P17" text:outline-level="1">DEPARTURE OF HIS EXCELLENCY
+                        <text:tab/>THE PRESIDENT</text:h>
+                    <text:p text:style-name="P5"/>
+                    <text:section text:style-name="Sect19" text:name="heading99283">
+                        <text:p text:style-name="P12">
+                            <text:span text:style-name="T2">
+                                <text:tab/>
+                            </text:span>
+                            <text:reference-mark-start text:name="BungeniSpeechAs:1-3"/>
+                            <text:span text:style-name="T2">Mr. Speaker</text:span>
+                            <text:reference-mark-end text:name="BungeniSpeechAs:1-3"/>
+                            <text:span text:style-name="T2">:</text:span>
                         </text:p>
                     </text:section>
-                    <text:p text:style-name="P1">Hon. Kibaki, you will continue with your
-                        contribution tomorrow.</text:p>
-                    <text:p text:style-name="P1"><text:tab/>Hon. Members, it is now time to
-                        interrupt the business of today. <text:s/>The House, therefore, is adjourned
-                        until tomorrow Wednesday, the 3rd of May, 2000, at 9.00 a.m.</text:p>
+                    <text:p text:style-name="P12">
+                        <text:span text:style-name="T2">
+                            <text:s/>
+                        </text:span>
+                        <text:span text:style-name="T1">Hon. Members, we have concluded
+                            today&apos;s business. Before, I adjourn the House, I would like to
+                            request hon. Members to remain standing while the Presidential and the
+                            Speaker&apos;s Procession </text:span>
+                        <text:soft-page-break/>
+                        <text:span text:style-name="T1">leave the Chamber, thereafter followed by
+                            Judges and Spiritual Leaders. In our usual dignity and decorum, the hon.
+                            Members will then leave the Chamber. I also wish to invite hon. Members
+                            for a formal group photograph of the Tenth Parliament with His
+                            Excellency the President near the fountain next to the pool overlooking
+                            the Members Lounge. Immediately after that, you will be required to
+                            proceed to Parliament Gardens for a reception.</text:span>
+                    </text:p>
                 </text:section>
                 <text:p text:style-name="P1"/>
-                <text:section text:style-name="Sect30" text:name="comment883783">
-                    <text:p text:style-name="P3"><text:tab/>The House rose at
-                            <text:reference-mark-start text:name="BungeniHouseRisingTime"/>6.30
-                            p.m<text:reference-mark-end text:name="BungeniHouseRisingTime"
-                    />.</text:p>
+                <text:section text:style-name="Sect3" text:name="comment88321">
+                    <text:p text:style-name="P9"><text:tab/>(Hon. Members rose in their places</text:p>
+                    <text:p text:style-name="P9"><text:tab/>while His Excellency the President</text:p>
+                    <text:p text:style-name="P9"><text:tab/>left the Chamber)</text:p>
                 </text:section>
                 <text:p text:style-name="P1"/>
+                <text:section text:style-name="Sect20" text:name="action88834">
+                    <text:p text:style-name="P6"><text:tab/>ADJOURNMENT</text:p>
+                    <text:p text:style-name="P5"/>
+                    <text:p text:style-name="P5">
+                        <text:tab/>
+                    </text:p>
+                    <text:section text:style-name="Sect21" text:name="speech883729">
+                        <text:section text:style-name="Sect22" text:name="heading883729">
+                            <text:p text:style-name="P12">
+                                <text:reference-mark-start text:name="BungeniSpeechAs:1-4"/>
+                                <text:span text:style-name="T2">Mr.Speaker</text:span>
+                                <text:reference-mark-end text:name="BungeniSpeechAs:1-4"/>
+                                <text:span text:style-name="T2">:</text:span>
+                            </text:p>
+                        </text:section>
+                        <text:p text:style-name="P1">Hon. Members, that concludes our business for
+                            today. Therefore, the House stands adjourned until Tuesday, 11th March,
+                            2008 at 2.30 p.m.</text:p>
+                    </text:section>
+                </text:section>
                 <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1">
-                    <text:soft-page-break/>
-                </text:p>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
-                <text:p text:style-name="P1"/>
+                <text:section text:style-name="Sect23" text:name="conclusion">
+                    <text:p text:style-name="P2"><text:tab/>The House rose at
+                            <text:reference-mark-start text:name="BungeniHouseRisingTime:883"/>3.50
+                            p.m<text:reference-mark-end text:name="BungeniHouseRisingTime:883"/>.
+                            <text:s text:c="13"/></text:p>
+                </text:section>
             </text:section>
         </office:text>
     </office:body>

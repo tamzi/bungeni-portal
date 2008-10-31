@@ -22,8 +22,9 @@
         <div>
             <xsl:attribute name="class">speech_hierarchy Papers</xsl:attribute>
 			<xsl:if test="@id">
-				<xsl:attribute name="id" select="@id" />
+				<xsl:attribute name="id"><xsl:value-of select="@id" /></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates />
         </div>
     </xsl:template>

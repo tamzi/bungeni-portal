@@ -15,19 +15,17 @@
                <i>[Mr. Speaker in the Chair]</i>
             </comment>
          </subdivision>
-         <subdivision name="s_prayers637994" id="s_prayers637994">
-            <comment>PRAYERS</comment>
+         <subdivision id="" name="">
+            <block name="P20">PRAYERS</block>
          </subdivision>
-         <Communication id="speech75638">
+         <speech by="#userSpeaker" to="#">
             <heading>COMMUNICATION FROM THE CHAIR</heading>
             <p>Distinguished Guests</p>
             <p>in the Speaker's Row</p>
             <from>
-               <p>
-                  <ref href="#BungeniSpeechAs:3">Mr. Speaker</ref>:</p>
-            </from>
+               <ref href="#BungeniSpeechAs:3">Mr. Speaker</ref>:</from>
             <p>
-               <span name="T1">Members, before I go to Order No.6, I would like to make the following Communication:</span>
+               <span>Members, before I go to Order No.6, I would like to make the following Communication:</span>
             </p>
             <p>It is with great pleasure that I welcome our distinguished guests from the Parliament of the Federal Republic of Germany who are seated in the Speaker's Row. The delegation is led by Mr. Carl-Dieter Spranger; Deputy Chairman of the Foreign Affairs Committee of the German Bundestag.</p>
             <p>He is accompanied by Mr. Joachim Tappe MdB, Chairman of the Germany-African Parliamentary Group, Mrs. Erika Reinhardt, MdB, Member of the Committee of Foreign Affairs of the German Bundestag; and His Excellency Jurgen Weerth, Ambassador to Kenya.</p>
@@ -61,7 +59,7 @@
             <p>The Hon. Robert Kakooza, M.P.; and,</p>
             <p>The Hon. David Kamusalo, M.P.</p>
             <p>Thank you.</p>
-         </Communication>
+         </speech>
          <subdivision name="s_comment645284" id="s_comment645284">
             <comment>
                <i>(Applause)</i>
@@ -73,147 +71,137 @@
                <heading>Question No<ref href="#BungeniQuestionNo:126">126</ref>
                </heading>
                <subheading>
-                  <span name="T3">Number of City Residents</span>
+                  <span>Number of City Residents</span>
                </subheading>
                <subheading>
-                  <span name="T3">Killed by Gangsters</span>
+                  <span>Killed by Gangsters</span>
                </subheading>
                <question by="#" to="#">
                   <p>
                      <ref href="#BungeniQuestionBy:126">
-                        <span name="T2">Mr. Mwenje</span>
+                        <span>Mr. Mwenje</span>
                      </ref>
-                     <span name="T1">asked the</span>
+                     <span>asked the</span>
                      <ref href="#BungeniQuestionTo:126">
-                        <span name="T1">Minister of State, Office of the president</span>
+                        <span>Minister of State, Office of the president</span>
                      </ref>
-                     <span name="T1">:-</span>
+                     <span>:-</span>
                   </p>
                   <p>(a) whether he could inform the House how many people have been killed by gangsters in Nairobi during the last one year; and,</p>
                   <p>(b) how many gangsters have been killed in Nairobi by security personnel within the same period.</p>
                </question>
-               <Communication id="speech993802">
+               <speech by="#userMadoka" to="#">
                   <from>
-                     <p>
-                        <ref href="#BungeniSpeechAs:1">The minister of state, Office of the president</ref>(<ref href="#BungeniSpeechBy:1">Maj. Madoka</ref>):</p>
-                  </from>
+                     <ref href="#BungeniSpeechAs:1">The minister of state, Office of the president</ref>(<ref href="#BungeniSpeechBy:1">Maj. Madoka</ref>):</from>
                   <p>Mr. Speaker, Sir, I would like to request that I be allowed to answer this Question tomorrow. I got certain details which were not complete and I am doing some thorough investigation.</p>
-               </Communication>
+               </speech>
                <Questions id="speech939004">
                   <from>
-                     <p>
-                        <ref href="#BungeniSpeechAs:2">
-                           <span name="T2">Mr. Speaker</span>
-                        </ref>
-                        <span name="T1">:</span>
-                     </p>
+                     <ref href="#BungeniSpeechAs:2">
+                        <span>Mr. Speaker</span>
+                     </ref>
+                     <span>:</span>
                   </from>
                   <p>What is your reaction, Mr. Mwenje?</p>
                </Questions>
-               <Communication id="speech993029">
+               <speech by="#userMwenje" to="#userSpeaker">
                   <from>
-                     <p>
-                        <ref href="#BungeniSpeechAs:4">
-                           <span name="T2">Mr. Mwenje</span>
-                        </ref>
-                        <span name="T1">:</span>
-                     </p>
+                     <ref href="#BungeniSpeechAs:4">
+                        <span>Mr. Mwenje</span>
+                     </ref>
+                     <span>:</span>
                   </from>
                   <p>Mr. Speaker, Sir, that is very interesting! This Question was among the first Questions that I sent immediately Parliament was opened. Iut has taken all this long to be brought before this House. I do not see the reason why the Minister should now come and tell us that he is still not ready. He has not given even the answer that he thinks is not right and it has not been passed over to me.</p>
-               </Communication>
-               <Communication id="speech987363">
+               </speech>
+               <speech by="#userSpeaker" to="#userMwenje">
                   <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:name="heading827947" text:style-name="Sect18">
                      <p>
                         <ref href="#BungeniSpeechAs:5">
-                           <span name="T2">Mr. Speaker</span>
+                           <span>Mr. Speaker</span>
                         </ref>
-                        <span name="T1">:</span>
+                        <span>:</span>
                      </p>
                   </text:section>
                   <p>Very well. What do you want me to do now, Mr. Mwenje?</p>
-               </Communication>
-               <Communication id="speech983702">
+               </speech>
+               <speech by="#userMwenje" to="#">
                   <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:name="heading892724" text:style-name="Sect18">
                      <p>
                         <ref href="#BungeniSpeechAs:6">
-                           <span name="T2">Mr. Mwenje</span>
+                           <span>Mr. Mwenje</span>
                         </ref>
-                        <span name="T1">:</span>
+                        <span>:</span>
                      </p>
                   </text:section>
                   <p>Mr. Speaker, Sir, first of all, could the Minister tell us what answer he has so that---</p>
-               </Communication>
-               <subdivision name="s_comment082037" id="s_comment082037">
-                  <comment>
-                     <i>(Loud consultations)</i>
-                  </comment>
-               </subdivision>
-               <Communication id="speech918293">
+               </speech>
+               <comment>
+                  <i>(Loud consultations)</i>
+               </comment>
+               <speech by="#userSpeaker" to="#">
                   <text:section xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0" text:name="heading880208" text:style-name="Sect18">
                      <p>
                         <ref href="#BungeniSpeechAs:7">
-                           <span name="T2">Mr. Speaker</span>
+                           <span>Mr. Speaker</span>
                         </ref>
-                        <span name="T1">:</span>
+                        <span>:</span>
                      </p>
                   </text:section>
                   <p>
-                     <span name="T1">Order! I consider it is best that we have an answer rather than take our time on preliminaries which will not help us in any way. But, Mr. Minister, you must be mindful of the fact that, you are duty-bound to come to this House</span>
+                     <span>Order! I consider it is best that we have an answer rather than take our time on preliminaries which will not help us in any way. But, Mr. Minister, you must be mindful of the fact that, you are duty-bound to come to this House</span>
                      <eol/>
-                     <span name="T1">promptly and answer Questions.</span>
+                     <span>promptly and answer Questions.</span>
                   </p>
                   <p>I will defer the Question to tomorrow afternoon.</p>
-               </Communication>
-               <subdivision id="" name="">
+               </speech>
+               <QuestionDeferred id="comment827497">
                   <p>(Question deferred)</p>
-               </subdivision>
+               </QuestionDeferred>
             </Questions>
-            <Communication id="speech899372">
-               <Communication id="heading820817">
+            <speech by="#userGatabaki" to="#">
+               <speech by="#userGatabaki" to="#">
                   <p>
                      <ref href="#BungeniSpeechAs:8">
-                        <span name="T2">Mr. Gatabaki</span>
+                        <span>Mr. Gatabaki</span>
                      </ref>
-                     <span name="T1">:</span>
+                     <span>:</span>
                   </p>
-               </Communication>
+               </speech>
                <p>On a point of order, Mr. Speaker, Sir. Is it in order for the Minister to be continuously following the President to the detriment of answering Questions?</p>
-            </Communication>
-            <Communication id="speech890297">
-               <Communication id="heading722863">
+            </speech>
+            <speech by="#userSpeaker" to="#">
+               <speech by="#" to="#">
                   <p>
                      <ref href="#BungeniSpeechAs:9">
-                        <span name="T2">Mr. Speaker</span>
+                        <span>Mr. Speaker</span>
                      </ref>
-                     <span name="T1">:</span>
+                     <span>:</span>
                   </p>
-               </Communication>
+               </speech>
                <p>Order! Order, hon. Gatabaki! Who would you wish rather he followed, anyway?</p>
                <p>Next Question, Dr. Kulundu!</p>
-            </Communication>
+            </speech>
          </subdivision>
-         <subdivision id="" name="">
+         <Adjournment id="comment993827">
             <p>ADJOURNMENT</p>
-         </subdivision>
-         <Communication id="speech908727">
+         </Adjournment>
+         <speech by="#userDySpeaker" to="#">
             <from>
-               <p>
-                  <ref href="#BungeniSpeechAs:12">
-                     <span name="T2">The Temporary Deputy Speaker</span>
-                  </ref>
-                  <span name="T1">(</span>
-                  <ref href="#BungeniSpeechBy:12">
-                     <span name="T1">Mr. Musila</span>
-                  </ref>
-                  <span name="T1">):</span>
-               </p>
+               <ref href="#BungeniSpeechAs:12">
+                  <span>The Temporary Deputy Speaker</span>
+               </ref>
+               <span>(</span>
+               <ref href="#BungeniSpeechBy:12">
+                  <span>Mr. Musila</span>
+               </ref>
+               <span>):</span>
             </from>
             <p>Hon. Kibaki, you will continue with your contribution tomorrow.</p>
             <p>Hon. Members, it is now time to interrupt the business of today.The House, therefore, is adjourned until tomorrow Wednesday, the 3rd of May, 2000, at 9.00 a.m.</p>
-         </Communication>
-         <subdivision id="" name="">
+         </speech>
+         <HouseClosing id="comment883783">
             <p>The House rose at<ref href="#BungeniHouseRisingTime">6.30 p.m</ref>.</p>
-         </subdivision>
+         </HouseClosing>
          <p>
             <eol/>
          </p>

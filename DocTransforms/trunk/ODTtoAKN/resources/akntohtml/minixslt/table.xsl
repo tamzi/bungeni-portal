@@ -21,13 +21,16 @@
     <xsl:template match="akn:table">
         <table>
             <xsl:attribute name="class">html_table table</xsl:attribute>
-			<xsl:if test="@border,cellspacing,cellpadding">
-				<xsl:attribute name="border" select="@border" />
-			</xsl:if>			<xsl:if test="@border,cellspacing,cellpadding">
-				<xsl:attribute name="cellspacing" select="@cellspacing" />
-			</xsl:if>			<xsl:if test="@border,cellspacing,cellpadding">
-				<xsl:attribute name="cellpadding" select="@cellpadding" />
+			<xsl:if test="@border">
+				<xsl:attribute name="border"><xsl:value-of select="@border" /></xsl:attribute>
 			</xsl:if>
+			<xsl:if test="@cellspacing">
+				<xsl:attribute name="cellspacing"><xsl:value-of select="@cellspacing" /></xsl:attribute>
+			</xsl:if>
+			<xsl:if test="@cellpadding">
+				<xsl:attribute name="cellpadding"><xsl:value-of select="@cellpadding" /></xsl:attribute>
+			</xsl:if>
+
             <xsl:apply-templates />
         </table>
     </xsl:template>

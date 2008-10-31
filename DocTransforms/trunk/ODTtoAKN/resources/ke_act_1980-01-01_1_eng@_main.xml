@@ -1,9 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../schemas/styles/kenya.xsl"?>
 <!--Akoma_Ntoso document-->
-<akomantoso xmlns="http://www.akomantoso.org/1.0">
+<akomantoso xmlns="http://www.akomantoso.org/1.0"
+			xmlns:bungeni="http://www.bungeni.org/proprietary" 
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+			xsi:schemaLocation="http://www.akomantoso.org/1.0 ../akomantoso10.xsd">
 	<act contains="OriginalVersion">
 		<meta>
-			<identification source="#cirsfid">
+			<identification source="#bungeni">
 				<FRBRWork>
 					<this value="/ke/act/1980-01-01/1/main"/>
 					<uri value="/ke/act/1980-01-01/1"/>
@@ -17,7 +21,7 @@
 					<this value="/ke/act/1980-01-01/1/eng@/main"/>
 					<uri value="/ke/act/1980-01-01/1/eng@"/>
 					<date date="2007-11-22" name="Generation"/>
-					<author href="#cirsfid" as="#jurist"/>
+					<author href="#bungeni" as="#jurist"/>
 					<components>
 						<component id="emain" href="#mmain" name="main" showAs="Main document"/>
 					</components>
@@ -26,22 +30,22 @@
 					<this value="/ke/act/1980-01-01/1/eng@/main.xml"/>
 					<uri value="/ke/act/1980-01-01/1/eng@.akn"/>
 					<date date="2007-11-22" name="Generation"/>
-					<author href="#cirsfid" as="#editor"/>
-					<author href="#fb" as="#editor"/>
+					<author href="#bungeni" as="#editor"/>
+					<author href="#be" as="#editor"/>
 					<components>
 						<component id="mmain" href="main.xml" name="main" showAs="Main document"/>
 					</components>
 				</FRBRManifestation>
 			</identification>
 			<publication name="" date="1980-01-01" showAs=""/>
-			<lifecycle source="#cirsfid">
+			<lifecycle source="#bungeni">
 				<event id="e1" date="1980-01-01" source="#ro1" type="Generation"/>
 			</lifecycle>
-			<references source="#cirsfid">
+			<references source="#bungeni">
 				<Original id="ro1" href="/ke/act/1980-01-01/1/eng@/main" showAs="Original"/>
-				<TLCOrganization id="cirsfid" href="/ontology/organization/it/unibo/it.cirsfid"
-					showAs="CIRSFID"/>
-				<TLCPerson id="fb" href="/ontology/person/editors/it.fb" showAs="Benigni"/>
+				<TLCOrganization id="bungeni" href="/ontology/organization/kn/bungeni/kn.bungeni"
+					showAs="bungeni"/>
+		        <TLCPerson id="be" href="/ontology/person/editors/kn.be" showAs="A Bungeni Editor"/>
 				<TLCOrganization id="parliament" href="/ontology/organization/ke/ke.parliament"
 					showAs="Parliament of Kenya"/>
 				<TLCRole id="editor" href="/ontology/roles/editor" showAs="Editor"/>

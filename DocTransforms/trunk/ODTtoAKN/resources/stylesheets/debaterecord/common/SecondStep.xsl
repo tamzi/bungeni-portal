@@ -62,10 +62,11 @@
 		  	</xsl:for-each>
         </xsl:element>
         <xsl:element name="debate">
-        	<xsl:for-each select="following-sibling::node()">
+        	<xsl:for-each select="following-sibling::node()[not(@text:name='conclusion')]">
 				<xsl:copy-of select="." />
 		  	</xsl:for-each>
         </xsl:element>
+        <xsl:copy-of select="//*[@text:name='conclusion']" />
     </xsl:template>
       
 	<xsl:template match="text()">

@@ -130,7 +130,29 @@
 			<xsl:apply-templates />
 		</xsl:element>    
 	</xsl:template>
-	
+
+	<xsl:template match="text:list">
+		<xsl:element name="ul">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+		    </xsl:for-each>
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
+	<xsl:template match="text:list-item">
+		<xsl:element name="li">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+		    </xsl:for-each>
+			<xsl:apply-templates />
+		</xsl:element>    
+	</xsl:template>
+
 	<xsl:template match="text:soft-page-break">
 		<eol />
 	</xsl:template>

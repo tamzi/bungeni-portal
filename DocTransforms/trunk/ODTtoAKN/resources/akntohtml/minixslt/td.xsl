@@ -21,11 +21,13 @@
     <xsl:template match="akn:td">
         <td>
             <xsl:attribute name="class">html_table_column td</xsl:attribute>
-			<xsl:if test="@colspan,rowspan">
-				<xsl:attribute name="colspan" select="@colspan" />
-			</xsl:if>			<xsl:if test="@colspan,rowspan">
-				<xsl:attribute name="rowspan" select="@rowspan" />
+			<xsl:if test="@colspan">
+				<xsl:attribute name="colspan"><xsl:value-of select="@colspan" /></xsl:attribute>
 			</xsl:if>
+			<xsl:if test="@rowspan">
+				<xsl:attribute name="rowspan"><xsl:value-of select="@rowspan" /></xsl:attribute>
+			</xsl:if>
+
             <xsl:apply-templates />
         </td>
     </xsl:template>

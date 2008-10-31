@@ -22,8 +22,9 @@
         <img>
             <xsl:attribute name="class">html_img img</xsl:attribute>
 			<xsl:if test="@href">
-				<xsl:attribute name="href" select="@href" />
+				<xsl:attribute name="href"><xsl:value-of select="@href" /></xsl:attribute>
 			</xsl:if>
+
             <xsl:apply-templates />
         </img>
     </xsl:template>

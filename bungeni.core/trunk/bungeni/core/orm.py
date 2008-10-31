@@ -377,6 +377,8 @@ mapper( domain.Debate, schema.debates )
 
 mapper( domain.MotionAmendment, schema.motion_amendments)
 
+mapper( domain.BillType, schema.bill_types )
+
 mapper( domain.BillChange, schema.bill_changes )
 mapper( domain.BillVersion, schema.bill_versions, 
         properties= {'change':relation( domain.BillChange, uselist=False)}

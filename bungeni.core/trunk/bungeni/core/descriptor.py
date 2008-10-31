@@ -806,6 +806,13 @@ class BillDescriptor( ModelDescriptor ):
     
     fields = [
         dict( name="bill_id", omit=True ),
+        dict( name="bill_type_id", property = schema.Choice(
+                                        title =_(u"Bill Type"),
+                                        source=DatabaseSource(domain.BillType, title_field='bill_type_name',
+                                                                token_field='bill_type_id',
+                                                                value_field='bill_type_id'),
+                                                                ),
+             ),                                                                
         dict( name="ministry_id", 
               property = schema.Choice( title=_(u"Ministry"), 
                                     source=DatabaseSource(domain.Ministry, 
@@ -816,7 +823,7 @@ class BillDescriptor( ModelDescriptor ):
                                     ), 
              listing = False,),
         dict( name="owner_id",                      
-              property = schema.Choice( title=_(u"Owner"), 
+              property = schema.Choice( title=_(u"Presenter"), 
                                         source=DatabaseSource(domain.ParliamentMember, 
                                             title_field='fullname', 
                                             token_field='user_id', 
@@ -825,7 +832,10 @@ class BillDescriptor( ModelDescriptor ):
                                     ), 
               listing = False,),                       
         dict( name="title", label=_(u"Title"), listing=True ),
-        dict( name="preamble", label=_(u"Preamble"), 
+        dict( name="long_title", label=_(u"Long Title"), 
+                property = schema.Text( title=_(u"Long Title"), required=False ),        
+                listing=False ),
+        dict( name="summary", label=_(u"Summary"), 
                 view_widget=widget.HTMLDisplay,
                 edit_widget=widget.RichTextEditor, 
                 add_widget=widget.RichTextEditor),
@@ -839,7 +849,7 @@ class BillDescriptor( ModelDescriptor ):
               edit_widget=SelectDateWidget, add_widget=SelectDateWidget,
               listing_column=day_column("submission_date", _(u"Submission Date")), ),
         dict( name="publication_date", label=_(u"Publication Date"),  edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),        
-        dict( name="status", label=_(u"Status"), listing=True ), #  edit=False, add=False,    
+        dict( name="status", label=_(u"Status"), listing=True, edit=False, add=False, view=False, ), 
         ]
 
 class QuestionDescriptor( ModelDescriptor ):

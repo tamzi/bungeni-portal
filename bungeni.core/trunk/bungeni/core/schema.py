@@ -686,15 +686,25 @@ motion_amendments = rdb.Table(
    rdb.Column( "vote_date", rdb.Date ),   
    )
 
+
+bill_types = rdb.Table(
+    "bill_types",
+    metadata,
+    rdb.Column("bill_type_id", rdb.Integer, primary_key=True ),
+    rdb.Column("bill_type_name", rdb.Unicode(80), nullable=False, unique=True),
+    )
+
 bills = rdb.Table(
    "bills",
    metadata,
    rdb.Column( "bill_id", rdb.Integer, ItemSequence, primary_key=True ),
+   rdb.Column( "bill_type_id", rdb.Integer, rdb.ForeignKey('bill_types.bill_type_id'), nullable = False ),
    rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('ministries.ministry_id') ),
-   rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),   
+   rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False ),   
    rdb.Column( "identifier",  rdb.Integer),
-   rdb.Column( "preamble", rdb.UnicodeText ),   
-   rdb.Column( "title", rdb.Unicode(80) ), 
+   rdb.Column( "summary", rdb.UnicodeText ),   
+   rdb.Column( "title", rdb.Unicode(80), nullable = False ), 
+   rdb.Column( "long_title", rdb.Unicode(1024) ),
    rdb.Column( "body_text",  rdb.UnicodeText ),
    rdb.Column( "submission_date", rdb.Date ),
    rdb.Column( "publication_date", rdb.Date ),

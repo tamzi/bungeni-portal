@@ -380,6 +380,11 @@ class MotionAmendment( Entity ):
     def short_name( self ):
         return ( self.title )     
 
+class BillType(object):
+    """
+    type of bill: public/ private, ....
+    """
+
 class Bill( ParliamentaryItem ):
 
     interface.implements( interfaces.IBill )

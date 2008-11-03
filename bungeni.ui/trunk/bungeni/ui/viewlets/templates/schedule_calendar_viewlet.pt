@@ -28,7 +28,7 @@
             <ol tal:attributes="id sitting/sittingid; class string:draglist" tal:define="sid sitting/sid">
                 <li tal:repeat="question python: view.getSittingQuestions(sid)" 
                  tal:content="question/subject"
-                 tal:attributes="id question/qid" />
+                 tal:attributes="id question/schedule_id" />
             </ol>
           </div>
         </div>

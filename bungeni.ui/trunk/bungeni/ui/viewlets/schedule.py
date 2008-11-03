@@ -29,6 +29,8 @@ from bungeni.core.workflows.question import states
 import bungeni.core.globalsettings as prefs
 
 import sqlalchemy.sql.expression as sql
+import sqlalchemy as rdb
+from sqlalchemy.orm import mapper
 
 import simplejson
 
@@ -69,6 +71,44 @@ import simplejson
 #       All scheduled Questions need to be printed/exported to then be forwarded on paper or electronically 
 #       to the various Ministries and the relevant offices informing them also of the day in which they are scheduled.
 #       Notifications will be sent to the Speaker and the Clerk listing all questions that have exceeded the limits stated above. 
+
+
+class ScheduledQuestionItems( object ):
+    """
+    Questions scheduled for a sitting
+    """
+_scheduled_questions = rdb.join( schema.questions, schema.items_schedule, 
+                                schema.questions.c.question_id == schema.items_schedule.c.item_id )
+                                
+scheduled_questions = mapper( ScheduledQuestionItems, _scheduled_questions)
+
+class ScheduledMotionItems ( object ):
+    """
+    Motions scheduled for a sitting
+    """
+_scheduled_motions = rdb.join( schema.motions, schema.items_schedule, 
+                                schema.motions.c.motion_id == schema.items_schedule.c.item_id )
+                                
+scheduled_questions = mapper( ScheduledMotionItems, _scheduled_motions)
+
+class ScheduledBillItems( object ):
+    """
+    Bills scheduled for a sitting
+    """
+_scheduled_bills = rdb.join( schema.bills, schema.items_schedule, 
+                                schema.bills.c.bill_id == schema.items_schedule.c.item_id )
+                                
+scheduled_bills = mapper( ScheduledBillItems, _scheduled_bills)
+
+
+def getScheduledItemId ( schedule_id ):
+    """
+    return the item_id for a given schedule_id
+    """
+    session = Session()
+    scheduled_item = session.query(domain.ItemSchedule).get(schedule_id)
+    return scheduled_item.item_id
+
 
 class QuestionJSONValidation( BrowserView ):
     """
@@ -139,6 +179,7 @@ class QuestionJSONValidation( BrowserView ):
         form_data = self.request.form
         sitting_questions = []
         if form_data:
+            #XXX some more cases to take care of!
             if form_data.has_key( 'sitting_id' ):
                 sitting_id = long(form_data['sitting_id'][4:])
             if form_data.has_key( 'question_id'):   
@@ -167,7 +208,7 @@ class QuestionJSONValidation( BrowserView ):
             warnings.append(result)
        
         #data = {'errors':['to many quesitions','question scheduled to early'], 'warnings': ['more than 1 question by mp...',]}
-        data = {'errors':errors, 'warnings': warnings}
+        data = {'errors': errors, 'warnings': warnings}
         return simplejson.dumps( data )
 
 def start_DateTime( Date ):
@@ -298,11 +339,14 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         sittings, self.Date = current_sitting_query(self.Date)    
         results = sittings.all()     
         for result in results:
-            self.sitting_ids.append(result.sitting_id)        
-        scheduled_questions = session.query(domain.Question).filter(schema.questions.c.sitting_id.in_(self.sitting_ids)).distinct()
+            self.sitting_ids.append(result.sitting_id)     
+        scheduled_question_filter = sql.and_(schema.items_schedule.c.sitting_id.in_(self.sitting_ids), 
+                                            schema.questions.c.status == states.scheduled)
+                                            #schema.items_schedule.c.status == states.scheduled)        
+        scheduled_questions = session.query(ScheduledQuestionItems).filter(scheduled_question_filter).distinct()
         results = scheduled_questions.all()
         for result in results:
-            self.scheduled_question_ids.append(result.question_id)    
+            self.scheduled_question_ids.append(result.schedule_id)    
             
     
     def render(self):
@@ -664,7 +708,7 @@ Event.onDOMReady(YAHOO.example.DDApp.init, YAHOO.example.DDApp, true);
         for qid in self.postponed_question_ids:
             DDList = DDList + 'new YAHOO.example.DDList("q_' + str(qid) +'"); \n'
         for qid in self.scheduled_question_ids:
-            DDList = DDList + 'new YAHOO.example.DDList("q_' + str(qid) +'"); \n'
+            DDList = DDList + 'new YAHOO.example.DDList("isid_' + str(qid) +'"); \n'
         DDTarget = ""    
         for sid in self.sitting_ids:
             #new YAHOO.util.DDTarget("ul"+i);
@@ -810,12 +854,13 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
         return all questions assigned to that sitting
         """
         session = Session()
-        questions = session.query(domain.Question).filter(schema.questions.c.sitting_id == sitting_id)
+        questions = session.query(ScheduledQuestionItems).filter(schema.items_schedule.c.sitting_id == sitting_id)
         data_list=[] 
         results = questions.all()
         for result in results:            
             data ={}
-            data['qid']= ( 'q_' + str(result.question_id) )                         
+            #data['qid']= ( 'q_' + str(result.question_id) ) 
+            data['schedule_id'] = ( 'isid_' + str(result.schedule_id) ) # isid for ItemSchedule ID                        
             data['subject'] = result.subject
             data['status'] = result.status
             data_list.append(data)            
@@ -837,13 +882,13 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
     def schedule_question(self, question_id, sitting_id, sort_id):
         print question_id, sitting_id, sort_id
         session = Session()
-        
+        item_schedule = domain.ItemSchedule()
         question = session.query(domain.Question).get(question_id)
         # set the question's parent to the application for security checks
         question.__parent__= self.context
         
-        question.context = self.context    
-        question.request = self.request    
+        #question.context = self.context    
+        #question.request = self.request    
         
         if question:
             if sitting_id:
@@ -854,7 +899,11 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                 if question.sitting_id is None:  
                     # our question is either admissible, deferred or postponed  
                     #XXX check_security=True
-                    question.sitting_id = sitting_id
+                    #question.sitting_id = sitting_id
+                    item_schedule.sitting_id = sitting_id
+                    item_schedule.item_id = question_id
+                    item_schedule.order = sort_id
+                    session.save(item_schedule)
                     IWorkflowInfo(question).fireTransitionToward(states.scheduled, check_security=True)
                     #if IWorkflowInfo(question).state().getState() == states.admissible:
                     #    IWorkflowInfo(question).fireTransition('schedule', check_security=True)
@@ -869,8 +918,8 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                     # a question with a sitting id is scheduled
                     assert IWorkflowInfo(question).state().getState() == states.scheduled                  
                     IWorkflowInfo(question).fireTransition('postpone', check_security=True)
-                    assert question.sitting_id is None
-                    question.sitting_id = sitting_id
+                    #assert question.sitting_id is None
+                    #question.sitting_id = sitting_id
                     IWorkflowInfo(question).fireTransition('schedule-postponed', check_security=True)
                 else:
                     #sitting stays the same - nothing to do
@@ -895,10 +944,22 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                             sort_id = sort_id + 1
                             question_id = long(qid[2:])
                             self.schedule_question(question_id, sitting_id, sort_id)
+                        elif (qid[:5] == 'isid_'):
+                            #this is a scheduled item
+                            sort_id = sort_id + 1
+                            schedule_id = long(qid[5:])
+                            question_id = getScheduledItemId(schedule_id)
+                            self.schedule_question(question_id, sitting_id, sort_id)
                 if type(qids) in StringTypes:
                     if qids[:2] == 'q_':
                         question_id = long(qids[2:])
-                        self.schedule_question(question_id, sitting_id, 1)
+                        self.schedule_question(question_id, sitting_id, 1)  
+                    elif (sitting[:5] == 'isid_'):
+                        sort_id = sort_id + 1
+                        schedule_id = long(qid[5:])
+                        question_id = getScheduledItemId(schedule_id)
+                        self.schedule_question(question_id, sitting_id, sort_id)
+                                          
             elif (sitting == 'admissible_questions') or (sitting == 'postponed_questions'):                
                 qids = form[sitting]
                 print sitting

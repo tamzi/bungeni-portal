@@ -228,12 +228,6 @@ class UserDescriptor( ModelDescriptor ):
         
     schema_invariants = [DeathBeforeLife, IsDeceased]
 
-    #view_permissions = {
-    #    'add':
-    #    'edit':
-    #    'view':
-    #    'listing':
-    #    }
 
 class MemberDescriptor( UserDescriptor ):
 
@@ -557,9 +551,6 @@ class PoliticalPartyDescriptor( GroupDescriptor ):
         dict(name="party_id", omit=True),                           
      ])
           
-     
-
-     
     schema_invariants = [EndAfterStart]
     
 class ExtensionGroupDescriptor( GroupDescriptor ):

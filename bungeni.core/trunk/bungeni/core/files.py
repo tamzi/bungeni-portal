@@ -1,12 +1,17 @@
 import os
 from os import path
-from zope import interface, component
 from datetime import date
-from bungeni.core import interfaces, schema as dbschema
-from ore.alchemist import Session
-from sqlalchemy import orm
+
+from zope import interface, component
+from zope.publisher.interfaces import NotFound
 from zope.security.proxy import removeSecurityProxy
+
+from sqlalchemy import orm
+from ore.alchemist import Session
 from ore.svn import SubversionContext
+from ore.svn.directory import SubversionDirectory
+
+from bungeni.core import interfaces, schema as dbschema
 
 
 class DefaultPathChooser( object ):
@@ -32,7 +37,7 @@ class DirectoryDescriptor( object ):
         
         attachments = DirectoryDescriptor()
         
-    file = foo().files.makeFile('rabbits.txt')
+    file = foo().attachments.makeFile('rabbits.txt')
     file.contents = "Hello World"
 
     you can then traverse to the file via
@@ -47,10 +52,38 @@ class DirectoryDescriptor( object ):
     def __get__( self, instance, owner):
         if instance is None:
             raise AttributeError
-        return interfaces.IDirectoryLocation( instance ).directory
-        
-class DirectoryLocation(object):
+        directory = interfaces.IDirectoryLocation( instance ).directory
+        interface.directlyProvides( directory, interfaces.IProxiedDirectory )
+        return directory
 
+class DirectoryDescriptorTraversal( object ):
+    """ traversal to directories  """
+    def __init__( self, context, request ):
+        self.context = context
+        self.request = request
+
+    def publishTraverse( self, request, name ):
+        if name == 'files':
+            return self.context.files
+        raise NotFound( self.context, name, request )
+
+class ContainedDirectory( SubversionDirectory ):
+
+    @classmethod
+    def fromDirectory( cls, context, directory ):
+        i = cls(directory.id, directory.svn_path, directory.__parent__ )
+        i.context = directory.getSVNContext()
+        i.__parent__ = context
+        i.__name__ = 'files'
+        return i
+    
+    def getSVNContext( self ):
+        return self.context
+    
+class DirectoryLocation(object):
+    """
+    persistent adapter which specs the file location for a given object
+    """
     def __init__(self, **kw):
         """docstring for __init__"""
         for k,v in kw.items():
@@ -59,17 +92,22 @@ class DirectoryLocation(object):
     @property
     def directory( self ):
         repo = component.getUtility( interfaces.IVersionedFileRepository )
-        return repo.get( self.repo_path )
+        directory = repo.get( self.repo_path )
+        return ContainedDirectory.fromDirectory( self.context,  repo.get( self.repo_path ) )    
 
 orm.mapper( DirectoryLocation, dbschema.directory_locations )        
 
 
 def location( content ):
+    """
+    factory for a directory location
+    """
+    
     repo = component.getUtility( interfaces.IVersionedFileRepository )
     location = repo.location( content )
 
     if location:
-        return
+        return location
     
     location = repo.new( content )
     return location
@@ -89,12 +127,14 @@ class _FileRepository( object ):
             object_id = primary_key,
             object_type = unwrapped.__class__.__name__
             ).first()
-            
+
+        if location is not None:
+            location.context = context
         return location
         
     def get( self, path ):
         return self.context.traverse( path )
-        
+                
     def new( self, context, path=None ):
         if not path:
             path = interfaces.IFilePathChooser( context ).path()
@@ -111,7 +151,10 @@ class _FileRepository( object ):
 
         # Create the subversion path for the content
         create_path( self.context.root, path )
-
+        self.context.getTransaction().commit()
+        
+        # Commit it
+        location.context = context
         return location
                                 
 

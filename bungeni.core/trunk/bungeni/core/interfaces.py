@@ -180,6 +180,12 @@ class IAssignmentFactory( interface.Interface ):
 ########################
 # Versioned Files
 
+class IFileAttachments( interface.Interface ):
+    """
+    for content that wants to have a locally scoped svn directory for file storage
+    """
+    files = interface.Attribute('an ore.svn/library directory instance')
+    
 class IDirectoryLocation( interface.Interface ):
 
     repo_path = schema.ASCIILine()
@@ -187,6 +193,11 @@ class IDirectoryLocation( interface.Interface ):
     object_type = schema.ASCIILine()
     #directory = schema.Object( interfaces.I)
 
+class IProxiedDirectory( interface.Interface ):
+    """ an interface for a contained directory we can attach menu links
+        to that point back to our parent
+    """
+    
 class IVersionedFileRepository( interface.Interface ):
 
     def locations( context ):

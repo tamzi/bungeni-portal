@@ -1,0 +1,14 @@
+<configure
+ xmlns="http://namespaces.zope.org/zope">
+
+  <class class=".domain.Committee">
+    <require permission="zope.Public" attributes="files"/>
+  </class>
+
+  <class class=".files.ContainedDirectory">
+    <require permission="zope.Public" like_class="ore.svn.directory.SubversionDirectory"/>
+    <require permission="zope.Public" attributes="keys get getLog __getitem__ items files directories"/>
+  </class>
+
+</configure>
+

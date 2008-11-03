@@ -16,6 +16,7 @@ from alchemist.traversal.managed import one2many
 
 import logging
 import interfaces
+import files
 
 logger = logging.getLogger('bungeni.core')
 
@@ -253,9 +254,12 @@ class Minister( UserGroupMembership ):
 class Committee( Group ):
     """ a parliamentary committee of MPs
     """
+    interface.implements( interfaces.IFileAttachments )
+    
     sittings = one2many("sittings", "bungeni.core.domain.GroupSittingContainer", "group_id")
     committeemembers = one2many("committeemembers", "bungeni.core.domain.CommitteeMemberContainer", "group_id")
     committeestaff = one2many("committeestaff", "bungeni.core.domain.CommitteeStaffContainer", "group_id")
+    files = files.DirectoryDescriptor()
 
 class CommitteeMember( UserGroupMembership ):
     """ A Member of a committee

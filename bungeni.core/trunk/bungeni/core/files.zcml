@@ -12,9 +12,27 @@
      />
 
   <adapter
+     for=".interfaces.IFileAttachments"
+     provides=".interfaces.IFilePathChooser"
+     factory=".files.DefaultPathChooser"
+     />
+
+  <adapter
      for=".interfaces.IBungeniContent"
      provides=".interfaces.IDirectoryLocation"
      factory=".files.location"
+     />
+
+  <adapter
+     for=".interfaces.IFileAttachments"
+     provides=".interfaces.IDirectoryLocation"
+     factory=".files.location"
+     />
+
+  <subscriber
+     provides="z3c.traverser.interfaces.ITraverserPlugin"
+     factory=".files.DirectoryDescriptorTraversal"
+     for=".interfaces.IFileAttachments zope.publisher.interfaces.IPublisherRequest"
      />
     
 </configure>

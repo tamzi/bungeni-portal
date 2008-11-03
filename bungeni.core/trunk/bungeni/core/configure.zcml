@@ -6,9 +6,8 @@
 
   <include package="ore.xapian" />
   <include package="ore.xapian" file="meta.zcml" />
-  <!--
   <include package="ore.library" />
-    -->
+
   <!-- Setup Database Connection -->	  
   <db:engine
      name="bungeni-db"
@@ -36,6 +35,9 @@
   
   <!-- Catalyze Domain Models -->
   <include file="catalyst.zcml"/>
+
+  <!-- Include Domain Models Custom Security/Interfaces -->
+  <include file="domain.zcml"/>
 
   <!-- Setup Domain Model Audit/ObjectLog Feature-->  
   <include file="audit.zcml"/>

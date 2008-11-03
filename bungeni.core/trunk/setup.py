@@ -19,6 +19,7 @@ setup(
     package_data = { '': ['*.txt', '*.zcml'] },
     namespace_packages=['bungeni'],
     install_requires = [ 'setuptools',
+                         'amara',
                          'SQLAlchemy',
                          'zope.schema',
                          'zope.interface',

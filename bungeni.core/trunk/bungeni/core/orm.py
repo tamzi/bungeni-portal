@@ -8,12 +8,13 @@ import domain
 # general representation of a person
 mapper ( domain.Person, schema.users,
           properties={
-           'fullname' : column_property(
-                             (schema.users.c.first_name + u" " + 
-                             schema.users.c.middle_name + u" " + 
-                             schema.users.c.last_name).label('fullname')
-                                           ),
-                       },
+             'fullname' : column_property(
+                 (schema.users.c.first_name + u" " + 
+                  schema.users.c.middle_name + u" " + 
+                  schema.users.c.last_name).label('fullname')
+                 ),
+             'user_description':schema.users.c.description,
+             },
  )
 
 # Users
@@ -23,6 +24,7 @@ mapper( domain.User, schema.users,
        )
 
 mapper (domain.Keyword, schema.keywords)
+
 # Groups
 mapper( domain.Group, schema.groups,
         properties={

@@ -12,7 +12,7 @@ from sqlalchemy import orm
 from schema import settings
 
 import datetime
-from interfaces import IBungeniSettings
+import interfaces
 
 class TypeSerializer( object ):
 
@@ -56,9 +56,16 @@ class SettingsBase( object ):
                                        settings.c.object_id == oid )
                              )
         d = {}
+        names = set()
         for r in values.execute():
             field = self.settings_schema.get( r.name )
+            if not field:
+                continue
             d[ r.name ] = TypeSerializer.deserialize( r.value, field )
+            names.add( r.name )
+        for i in ( set( self.settings_schema.names(1) ) - names ):
+            field = self.settings_schema[i]
+            d[i] = field.default
         return d
         
     def _context( self ):
@@ -164,12 +171,14 @@ def GlobalSettingFactory( iface ):
     return klass
 
 
-BungeniSettings = GlobalSettingFactory( IBungeniSettings )
+BungeniSettings = GlobalSettingFactory( interfaces.IBungeniSettings )
 
 class SettingsUtility( object ):
     """ allow for lookup of settings in a context less fashion.. ie
         settings = component.getUtility( IBungeniSettings )()
         """
-
     def __call__( self ):
         return BungeniSettings( None )
+
+UserSettings = UserSettingFactory( interfaces.IBungeniUserSettings )
+

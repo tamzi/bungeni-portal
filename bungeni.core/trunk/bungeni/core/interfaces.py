@@ -106,7 +106,10 @@ class IBungeniSettings( interface.Interface ):
     days_before_question_schedule = schema.Int( title=_(u"Days before question scheduled"), default=3 )
     max_mp_questions_sitting = schema.Int( title=_(u"Max Questions Per Sitting Per MP"), default=1  )
 
-        
+class IBungeniUserSettings( interface.Interface ):
+
+    # examples
+    email_delivery = schema.Bool( title=_(u"Email Notifications Enabled?"), default=True  )
     
 #####################
 # Versioned Object Interfaces

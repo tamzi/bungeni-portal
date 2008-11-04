@@ -1,0 +1,8 @@
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <!-- Authentication Principal Factory - This one lookups users in a database, so database users become principals-->
+  <adapter
+     factory="alchemist.security.auth.AuthenticatedPrincipalFactory"
+     />
+
+</configure>       

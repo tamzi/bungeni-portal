@@ -48,11 +48,17 @@
   <!-- Notifications -->
   <!--include file="workflowsnotification.zcml" /-->
 
-  <!-- Setup -->
+  <!-- Settings for the Portal-->
   <adapter
       for=".interfaces.IBungeniApplication"
       factory=".settings.BungeniSettings"
       provides=".interfaces.IBungeniSettings"/>
+
+  <!-- Settings for Users -->
+  <adapter
+      for=".interfaces.IBungeniUser"
+      factory=".settings.UserSettings"
+      provides=".interfaces.IBungeniUserSettings"/>
 
   <!-- Convience for Access for Settings without Context --> 
   <utility
@@ -129,6 +135,5 @@
      class=".app.BungeniAdmin">
      <allow interface="zope.app.container.interfaces.IReadContainer" />
   </class>
-
 
 </configure>

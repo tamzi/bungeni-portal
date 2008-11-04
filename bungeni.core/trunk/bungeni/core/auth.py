@@ -19,7 +19,6 @@ import zope.app.authentication.authentication
 def authUser( util ):
     return User
 
-
 class CookieCredentials( CookieCredentialsPlugin ):
 
     loginpagename = 'login'
@@ -73,7 +72,7 @@ class PluggableAuthentication( zope.app.authentication.authentication.PluggableA
                 return principal
         return None
     
-
+        
 class GlobalAuthDelegate( object ):
     """
     we where having some issues authenticating with users defined in zcml, tracing it down

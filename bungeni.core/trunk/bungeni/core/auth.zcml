@@ -2,11 +2,17 @@
 
   <include package="zope.component" file="meta.zcml" />
   
-  <!-- Authentication Utility -->
+  <!-- Authentication User Lookup for Credentials -->
   <adapter
      factory=".auth.authUser"
      />
-       
+
+  <!-- Authentication Principal Factory DB User Lookup -->
+  <adapter
+     for="zope.app.authentication.interfaces.IAuthenticatedPrincipalFactory"
+     factory=".auth.authUser"
+     />
+
   <!-- Database Authentication Utility -->
   <utility
      provides="zope.app.authentication.interfaces.IAuthenticatorPlugin"
@@ -20,7 +26,7 @@
      factory=".auth.GlobalAuthDelegate"
      name="global-auth"
      />
-     
+
  <!-- Global/Local Role/Permission/Principal Maps -->
  <adapter
      for=".interfaces.IBungeniApplication"

@@ -20,6 +20,15 @@
      permission="zope.ManageSite"
      />
 
+  <!-- only visible to currently authenticated users -->
+  <browser:page
+     for="*"
+     name="user-settings"
+     class=".admin.UserSettings"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     permission="zope.Public"
+     />
+
   <browser:page
      for="bungeni.core.interfaces.IAdminUserContainer"
      permission="zope.ManageSite"

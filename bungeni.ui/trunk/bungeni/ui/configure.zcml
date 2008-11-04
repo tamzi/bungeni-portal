@@ -48,6 +48,9 @@
   <!-- Javascript -->
   <include package="ore.yui"/>
   <include package="ore.yuiwidget"/>
+
+  <!-- Include Repository UI -->
+  <include package="ore.library"/>
   
   <!-- Application UI -->
   <browser:page

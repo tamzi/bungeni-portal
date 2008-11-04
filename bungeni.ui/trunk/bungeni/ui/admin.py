@@ -51,7 +51,20 @@ class Settings( content.EditForm ):
         self.adapters = { interfaces.IBungeniSettings : settings }
         super( Settings, self).update()
         
+class UserSettings( content.EditForm ):
+
+    form_fields = form.Fields( interfaces.IBungeniUserSettings, interfaces.IUser )
+    form_fields = form_fields.omit( 'user_id', 'login', 'date_of_death','status')
+    
+    def update( self ):
+        settings = interfaces.IBungeniUserSettings( self.request.principal, None )
+        if settings is None:
+            raise SyntaxError("User Settings Only For Database Users")
+        self.adapters = { interfaces.IBungeniUserSettings : settings,
+                          interfaces.IUser : self.request.principal }
         
+        super( UserSettings, self).update()
+    
 
 
 

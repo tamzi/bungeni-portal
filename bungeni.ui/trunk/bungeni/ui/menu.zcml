@@ -1,3 +1,4 @@
+
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser"
 	   xmlns:z3c="http://namespaces.zope.org/z3c"
@@ -87,6 +88,13 @@
 
    <browser:menuItem
      menu="context_actions"
+     for="bungeni.core.interfaces.IFileAttachments"
+     action="files/index.html"
+     title="Files"
+     />
+
+   <browser:menuItem
+     menu="context_actions"
      for="bungeni.core.interfaces.IAuditable"
      action="audit-log"
      title="Audit Log"
@@ -105,7 +113,6 @@
      action="similar"
      title="Similar"
      />       
-    
      
    <browser:menuItem
      menu="context_actions"
@@ -152,6 +159,17 @@
      permission="zope.Public"
      viewName="logout"
      weight="20"
+     />
+
+
+   <browser:viewlet
+     name="settings"
+     for="*"
+     class=".menu.LogoutAction"
+     manager="ploned.ui.interfaces.IPersonalBarMenu"
+     permission="zope.Public"
+     viewName="user-settings"
+     weight="25"
      />
 
    <!-- task actions -->

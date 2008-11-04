@@ -1,10 +1,13 @@
 import time
 
-from zope import schema
+from zope import schema, component
 from zope.publisher.browser import BrowserView
+from zope.formlib import form
 from bungeni.core import domain, interfaces
+from alchemist.ui import content
 
 import common, search
+from browser import table
 
 class UserFormatter( common.AjaxTableFormatter ):
     i = interfaces.IUser
@@ -38,6 +41,21 @@ class GroupQueryJSON( search.ConstraintQueryJSON ):
 
 class Index( BrowserView ):
     pass
+
+class Settings( content.EditForm ):
+
+    form_fields = form.Fields( interfaces.IBungeniSettings )
+        
+    def update( self ):
+        settings = component.getUtility( interfaces.IBungeniSettings )()
+        self.adapters = { interfaces.IBungeniSettings : settings }
+        super( Settings, self).update()
+        
+        
+
+
+
+
 
 
 

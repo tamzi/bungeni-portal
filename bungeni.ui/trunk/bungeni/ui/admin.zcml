@@ -5,13 +5,28 @@
 
   <!-- Reset Container UI on Users back to default-->
   <browser:page
+     for="bungeni.core.interfaces.IBungeniAdmin"
+     name="index.html"
+     template="templates/admin-index.pt"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     permission="zope.ManageSite"
+     />
+
+  <browser:page
+     for="bungeni.core.interfaces.IBungeniAdmin"
+     name="settings"
+     class=".admin.Settings"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     permission="zope.ManageSite"
+     />
+
+  <browser:page
      for="bungeni.core.interfaces.IAdminUserContainer"
      permission="zope.ManageSite"
      name="index"
      class=".admin.UserListing"
      layer="bungeni.ui.interfaces.IBungeniSkin"
      />
-
 
   <browser:page
      for="bungeni.core.interfaces.IGroupContainer"

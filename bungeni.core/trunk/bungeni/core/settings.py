@@ -10,7 +10,9 @@ from zope.security.proxy import removeSecurityProxy
 import sqlalchemy as rdb
 from sqlalchemy import orm
 from schema import settings
+
 import datetime
+from interfaces import IBungeniSettings
 
 class TypeSerializer( object ):
 
@@ -161,3 +163,13 @@ def GlobalSettingFactory( iface ):
                       
     return klass
 
+
+BungeniSettings = GlobalSettingFactory( IBungeniSettings )
+
+class SettingsUtility( object ):
+    """ allow for lookup of settings in a context less fashion.. ie
+        settings = component.getUtility( IBungeniSettings )()
+        """
+
+    def __call__( self ):
+        return BungeniSettings( None )

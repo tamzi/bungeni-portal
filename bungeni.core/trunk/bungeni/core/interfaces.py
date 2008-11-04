@@ -76,7 +76,38 @@ class IBungeniSetup( interface.Interface ):
         """
         setup the application on server start
         """
+
+class IBungeniSettings( interface.Interface ):
+    speakers_office_email = schema.TextLine(title=_(u"Speaker's Office Email") )
+    speakers_office_notification = schema.Bool( title=_(u"Speaker's Office Notification"),
+                                                description=_(
+                                                    u"true if the Speakers office wants to be alerted by mail" \
+                                                    u"whenever a bill, motion, question is submitted" ),
+                                                default=True
+                                                )
+    clerks_office_notification = schema.Bool( title=_("Clerk's Office Notification"),
+                                              description=_(
+                                                  u"true if the clerks office wants to be alerted by mail"
+                                                  u"whenever a bill, motion, question is submitted"),
+                                              default=True
+                                              )
+    clerks_office_email   = schema.TextLine(title=_(u"Clerks's Office Email") )
+    
+    administrators_email  = schema.TextLine(title=_(u"Administrator's Email") )
+    question_submission_allowed = schema.Bool( title=_(u"Allow Question Submission"), default=True )    
+    days_to_defer_question = schema.Int(title=_(u"Days to Defer Question"),
+                                        description=_(u"Time after which admissible questions are automatically deferred"),
+                                        default=10 )
+    days_to_notify_ministry_unanswered = schema.Int(title=_(u"Days to Notify Ministry of Pending Response"),
+                                                    description=_(u"Timeframe after which the clerksoffice and the ministry is alerted that" \
+                                                                  u"questions that are pending response are not yet answered"
+                                                                  )
+                                                    )
+    days_before_question_schedule = schema.Int( title=_(u"Days before question scheduled"), default=3 )
+    max_mp_questions_sitting = schema.Int( title=_(u"Max Questions Per Sitting Per MP"), default=1  )
+
         
+    
 #####################
 # Versioned Object Interfaces
 #     

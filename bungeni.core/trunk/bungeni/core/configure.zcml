@@ -48,6 +48,17 @@
   <!-- Notifications -->
   <!--include file="workflowsnotification.zcml" /-->
 
+  <!-- Setup -->
+  <adapter
+      for=".interfaces.IBungeniApplication"
+      factory=".settings.BungeniSettings"
+      provides=".interfaces.IBungeniSettings"/>
+
+  <!-- Convience for Access for Settings without Context --> 
+  <utility
+     provides=".interfaces.IBungeniSettings"
+     factory=".settings.SettingsUtility"/>
+
   <!-- Security Components -->
   <include file="auth.zcml"/>
   

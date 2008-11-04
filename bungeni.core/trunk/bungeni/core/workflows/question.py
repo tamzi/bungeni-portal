@@ -240,7 +240,7 @@ def postpone(info,context):
     A question that was scheduled but could not be debated,
     it is available for rescheduling.
     """
-    utils.setQuestionScheduleHistory(info,context)
+    #utils.setQuestionScheduleHistory(info,context)
     question = removeSecurityProxy(context)
     rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )  
     rpm.denyPermissionToRole( 'bungeni.response.add', u'bungeni.Clerk' )

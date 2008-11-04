@@ -5,6 +5,7 @@ from zope import interface
 from ore.workflow import workflow
 from ore.workflow.interfaces import IWorkflowInfo
 from ore.workflow.interfaces import IWorkflowState
+from zope.security.proxy import removeSecurityProxy
 
 def initializeWorkflow( object, event):
     """ in response to object created events """
@@ -34,7 +35,8 @@ class WorkflowState( object ):
         
     def setState( self, state):
         if state != self.getState():
-            self.context.status = state
+            context = removeSecurityProxy(self.context)
+            context.status = state
             
     def setId( self, id ):
         pass # print "setting id", id

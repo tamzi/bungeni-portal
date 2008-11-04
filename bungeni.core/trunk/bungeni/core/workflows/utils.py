@@ -53,12 +53,12 @@ def setMinistrySubmissionDate(info, context):
     instance = removeSecurityProxy(context)
     instance.ministry_submit_date = datetime.date.today()  
 
-def setQuestionScheduleHistory(info, context):
-    question_id = context.question_id
-    sitting_id = context.sitting_id
-    dbutils.insertQuestionScheduleHistory(question_id, sitting_id) 
-    instance = removeSecurityProxy(context)
-    instance.sitting_id = None       
+#def setQuestionScheduleHistory(info, context):
+    #question_id = context.question_id
+    #sitting_id = context.sitting_id
+    #dbutils.insertQuestionScheduleHistory(question_id, sitting_id) 
+    #instance = removeSecurityProxy(context)
+    #instance.sitting_id = None       
 
 def getQuestionMinistry(info, context):
     ministry_id = context.ministry_id

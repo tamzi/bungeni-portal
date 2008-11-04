@@ -310,16 +310,7 @@ Note that the questions workflow is tested separated (see workflows/question.txt
   >>> question.question_id
   1L
   
-Question history 
------------------
-when a question gets postponed we save the sitting and question id.  
 
-  >>> question_schedule = model.QuestionSchedule()
-  >>> question_schedule.question_id = question.question_id
-  >>> question_schedule.sitting_id = ssit.sitting_id
-  >>> session.save(question_schedule)
-  >>> session.flush()  
-  
   
 Responses
 ---------

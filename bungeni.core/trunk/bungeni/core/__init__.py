@@ -14,7 +14,7 @@ from domain import User, ParliamentMember, HansardReporter, StaffMember, Ministe
 from domain import GroupMembership, Group, Government, Parliament, PoliticalParty, Ministry, Committee
 from domain import GroupSitting, SittingType, GroupSittingAttendance, AttendanceType
 from domain import ParliamentSession
-from domain import Question, QuestionVersion, QuestionChange, QuestionScheduleHistory, QuestionSchedule
+from domain import Question, QuestionVersion, QuestionChange
 from domain import Motion, MotionVersion, MotionChange
 from domain import Bill, BillVersion, BillChange
 from domain import Constituency, Parliament

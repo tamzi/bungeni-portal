@@ -343,12 +343,13 @@ mapper( domain.Question, schema.questions,
              }
         )
 
-_question_schedules_history = rdb.join ( schema.question_schedules, schema.sittings,
-                            schema.question_schedules.c.sitting_id == schema.sittings.c.sitting_id )
+#_question_schedules_history = rdb.join ( schema.question_schedules, schema.sittings,
+#                            schema.question_schedules.c.sitting_id == schema.sittings.c.sitting_id )
 
-mapper( domain.QuestionScheduleHistory, _question_schedules_history )
-mapper (domain.QuestionSchedule, schema.question_schedules)
+#mapper( domain.QuestionScheduleHistory, _question_schedules_history )
+#mapper (domain.QuestionSchedule, schema.question_schedules)
 
+mapper( domain.ItemSchedule, schema.items_schedule )
 
 mapper( domain.ResponseChange, schema.response_changes )
 mapper( domain.ResponseVersion, schema.response_versions,

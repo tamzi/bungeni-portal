@@ -554,7 +554,8 @@ items_schedule = rdb.Table(
    rdb.Column( "schedule_id", rdb.Integer, primary_key=True ),
    rdb.Column( "item_id",  rdb.Integer, nullable=False ),
    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id'), nullable=False ),
-   rdb.Column( "order", rdb.Integer )
+   rdb.Column( "order", rdb.Integer ),
+   rdb.Column( "active", rdb.Boolean, default=True ), # item is scheduled for this sitting
    )
 
 # generic subscriptions, to any type
@@ -615,12 +616,12 @@ questions = rdb.Table(
 
 # if a scheduled question gets postponed we need to capture the sitting
 # and implicitly the date it was scheduled
-question_schedules = rdb.Table(
-    "question_schedules",
-    metadata,
-    rdb.Column( "question_id", rdb.Integer, rdb.ForeignKey('questions.question_id'), nullable=False, primary_key=True ),
-    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id'), nullable=False, primary_key=True  ),
-    )
+#question_schedules = rdb.Table(
+#    "question_schedules",
+#    metadata,
+#    rdb.Column( "question_id", rdb.Integer, rdb.ForeignKey('questions.question_id'), nullable=False, primary_key=True ),
+#    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id'), nullable=False, primary_key=True  ),
+#    )
 
 
 
@@ -640,7 +641,7 @@ responses = rdb.Table(
    #rdb.Column( "response_type", rdb.String(1), rdb.CheckConstraint("response_type in ('I','S')"), default=u"I"), # (I)nitial (S)ubsequent
    # 
    # for attachment to the debate record, but not actually scheduled on the floor
-   rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id') ),
+   #rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id') ),
    rdb.Column( "sitting_time", rdb.DateTime( timezone=False ) ),
    rdb.Column( "status",  rdb.Unicode(32) ),
    )

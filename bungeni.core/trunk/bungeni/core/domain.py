@@ -360,6 +360,9 @@ class Response( ParliamentaryItem ):
     """
     Response to a Question
     """
+    interface.implements( interfaces.IFileAttachments )
+    files = files.DirectoryDescriptor()
+    
 ResponseChange = ItemLog.makeLogFactory( "ResponseChange")
 ResponseVersion = ItemVersions.makeVersionFactory("ResponseVersion")   
 
@@ -390,9 +393,8 @@ class BillType(object):
     """
 
 class Bill( ParliamentaryItem ):
-
-    interface.implements( interfaces.IBill )
-
+    interface.implements( interfaces.IBill, interfaces.IFileAttachments )
+    files = files.DirectoryDescriptor()
     @property
     def short_name( self ):
         return ( self.title ) 
@@ -497,15 +499,22 @@ class MinistryInParliament( object ):
     """
     auxilliary class to get the parliament and government for a ministry
     """
-class QuestionSchedule(object):
+    
+class ItemSchedule(object):
     """
-    for which sitting was a question scheduled
+    for which sitting was a parliamentary item scheduled
     """ 
     
-class QuestionScheduleHistory( object ):
-    """
-    History of Sittings for which the question was scheduled
-    """
+    
+#class QuestionSchedule(object):
+#    """
+#    for which sitting was a question scheduled
+#    """ 
+    
+#class QuestionScheduleHistory( object ):
+#    """
+#    History of Sittings for which the question was scheduled
+#    """
     
         
     

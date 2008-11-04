@@ -312,12 +312,12 @@
      echo="False"
     />     
     
- <db:catalyst
+ <!--db:catalyst
      class=".domain.QuestionScheduleHistory"
      descriptor=".descriptor.QuestionScheduleHistoryDescriptor"
      interface_module=".interfaces"
      ui_module="bungeni.ui.content"
      echo="False"
-    />   
+    /-->   
         
 </configure>

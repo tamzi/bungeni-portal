@@ -22,7 +22,8 @@ To demonstrate let's create some groups and a content object which we'll attach 
   >>> country = domain.Country()
   >>> country.country_id = 'KE'
   >>> country.country_name = u"Kenya"
-  >>> session.save(country)  
+  >>> session.save(country)
+  >>> session.flush() 
   >>> mp_1 = domain.ParliamentMember(u"mp_1", 
   ...        first_name=u"a", 
   ...        last_name=u'ab', 

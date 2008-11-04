@@ -21,6 +21,16 @@
   
   <grant role="zope.Member"
          principal="zope.Authenticated" />
+
+  <grant role="bungeni.Owner"
+	 permission="zope.ManageContent"/>
+
+  <grant role="bungeni.Clerk"
+	 permission="zope.ManageContent"/>
+
+  <grant role="bungeni.Speaker"
+	 permission="zope.ManageContent"/>
+
   
   <grantAll role="zope.Manager" />
   

@@ -85,6 +85,7 @@
   <browser:defaultSkin name="bungeni.theme.private"/> 
   
   <!-- App Security -->
+  
   <include file="security.zcml"/>
-
+  <includeOverrides file="overrides.zcml" package="bungeni.core"/>
 </configure>

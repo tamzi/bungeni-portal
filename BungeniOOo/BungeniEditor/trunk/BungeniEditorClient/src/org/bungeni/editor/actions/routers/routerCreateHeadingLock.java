@@ -21,6 +21,9 @@ import com.sun.star.text.XTextCursor;
 import com.sun.star.text.XTextRange;
 import com.sun.star.text.XTextSection;
 import com.sun.star.uno.AnyConverter;
+import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.error.BungeniMsg;
@@ -38,7 +41,7 @@ public class routerCreateHeadingLock  extends defaultRouter {
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(routerCreateHeadingLock.class.getName());
  
     XTextRange beginRange = null, endRange = null;
-    
+    String fromRangeName = "", toRangeName = "", foundSectionType = "";
     /** Creates a new instance of routerCreateSection */
     public routerCreateHeadingLock() {
         super();
@@ -50,8 +53,9 @@ public class routerCreateHeadingLock  extends defaultRouter {
       //the heading lock is always from a source reference to a target referece
       // the source and target references are availabel in the subAction's value parameter
       String referenceRange = subAction.action_value();
-      String[] fromToRanges = referenceRange.split(",");
-      markSectionBetweenRanges(ooDocument,fromToRanges);
+      parseActionValue(referenceRange);
+      //String[] fromToRanges = referenceRange.split(",");
+      markSectionBetweenRanges(ooDocument);
       return new BungeniValidatorState(true, new BungeniMsg("SUCCESS"));
      /* boolean bState = ooDocument.setSelectedTextStyle(styleName);
       if (bState)
@@ -59,6 +63,34 @@ public class routerCreateHeadingLock  extends defaultRouter {
       else    
           return new BungeniValidatorState(true, new BungeniMsg("APPLY_STYLE_FAILURE")); */
 
+    }
+
+    private void parseActionValue (String actionValue) {
+        //e.g from(A,B);with(C)
+        //e.g. from(A);with(C)
+        String[] separateFromWith = actionValue.split(";");
+        String fromToRange = separateFromWith[0];
+        String withSecType = separateFromWith[1];
+        parseFromToRanges(fromToRange);
+        parseSecType(withSecType);
+    }
+    
+    private void parseSecType(String withSecType) {
+        Pattern p = Pattern.compile("with\\(([a-zA-Z]+)\\)");
+        Matcher m = p.matcher(withSecType);
+        if (m.find()) {
+            foundSectionType = m.group(1);
+        }
+    }
+    
+    private void parseFromToRanges(String strFromToRanges) {
+        Pattern p = Pattern.compile("from\\(([a-zA-Z]+),([a-zA-Z]+)\\)");
+        Matcher m = p.matcher(strFromToRanges);
+        if (m.find()) {
+            //group (0) is always the full match 
+            fromRangeName = m.group(1);
+            toRangeName = m.group(2);
+        } 
     }
 
     private void browsePortion (XEnumeration xPortionEnum, String fromRef, String toRef) {
@@ -104,13 +136,10 @@ public class routerCreateHeadingLock  extends defaultRouter {
        }
     }
     
-    private void markSectionBetweenRanges(OOComponentHelper ooDocument, String[] fromToRanges) {
+    private void markSectionBetweenRanges(OOComponentHelper ooDocument) {
         //names of from and to ranges to match
-        String fromRef = "", toRef = "";
+        String fromRef = this.fromRangeName, toRef = this.toRangeName;
         //get the from range
-        fromRef = fromToRanges[0]; 
-        //get the to range if it has been specified
-        if (fromToRanges.length > 1 ) toRef = fromToRanges[1];
         //begin and end ranges for references
         //XTextRange beginRange = null, endRange = null;
         XNameAccess xRefmarksAccess = ooDocument.getReferenceMarks();
@@ -222,6 +251,9 @@ public class routerCreateHeadingLock  extends defaultRouter {
                 String newSection = CommonDocumentUtilFunctions.getUniqueSectionName("heading", ooDocument);
                 XTextContent newSectionContent = ooDocument.createTextSection(newSection, (short)1);
                     ooDocument.getTextDocument().getText().insertTextContent(xLockCursor, newSectionContent, true);
+                HashMap<String,String> sectionMeta = new HashMap<String,String>();
+                sectionMeta.put("BungeniSectionType",this.foundSectionType);
+                ooDocument.setSectionMetadataAttributes(newSection, sectionMeta);    
             }
 
         } catch (IllegalArgumentException ex) {

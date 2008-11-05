@@ -5,8 +5,14 @@
    description=""
    initial_state="">
 
-  <state id="draft" title="a draft response"/>
-  <state id="submitted" title="response submitted"/>
+  <state id="draft" title="a draft response">
+  </state>
+
+  <state id="submitted" title="response submitted">
+    <grant permission="bungeni.question.edit" role="bungeni.Clerk"/>
+    <deny permission="bungeni.quesiton.edit" role="bungeni.Speaker"/>
+  </state>
+
   <state id="complete" title="response submitted"/>
 
   <transition 

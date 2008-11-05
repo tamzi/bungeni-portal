@@ -377,8 +377,8 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         for result in results:
             self.sitting_ids.append(result.sitting_id)     
         scheduled_question_filter = sql.and_(schema.items_schedule.c.sitting_id.in_(self.sitting_ids), 
-                                            schema.questions.c.status == states.scheduled)
-                                            #schema.items_schedule.c.status == states.scheduled)  
+                                            schema.questions.c.status == states.scheduled,
+                                            schema.items_schedule.c.active == True)
         #pdb.set_trace()                                                  
         scheduled_questions = session.query(ScheduledQuestionItems).filter(scheduled_question_filter).distinct()
         results = scheduled_questions.all()
@@ -891,9 +891,9 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
         return all questions assigned to that sitting
         """
         session = Session()
-        #active_sitting_items_filter = rdb.and_(schema.items_schedule.c.sitting_id == sitting_id, 
-        #                                        schema.items_schedule.c.active == True)
-        questions = session.query(ScheduledQuestionItems).filter(schema.items_schedule.c.sitting_id == sitting_id)
+        active_sitting_items_filter = rdb.and_(schema.items_schedule.c.sitting_id == sitting_id, 
+                                                schema.items_schedule.c.active == True)
+        questions = session.query(ScheduledQuestionItems).filter(active_sitting_items_filter).order_by(schema.items_schedule.c.order)
         data_list=[] 
         results = questions.all()
         for result in results:            
@@ -942,39 +942,131 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                 sitting = session.query(domain.GroupSitting).get(sitting_id)
             else:
                 sitting = None                
-            if sitting:
-                if question.sitting_id is None:  
-                    # our question is either admissible, deferred or postponed  
-                    #XXX check_security=True
-                    #question.sitting_id = sitting_id
-                    item_schedule.sitting_id = sitting_id
-                    item_schedule.item_id = question_id
-                    item_schedule.order = sort_id
-                    session.save(item_schedule)
-                    IWorkflowInfo(question).fireTransitionToward(states.scheduled, check_security=True)
-                    #if IWorkflowInfo(question).state().getState() == states.admissible:
-                    #    IWorkflowInfo(question).fireTransition('schedule', check_security=True)
-                    #elif IWorkflowInfo(question).state().getState() == states.deferred:
-                    #    IWorkflowInfo(question).fireTransition('schedule-deferred', check_security=True)
-                    #elif IWorkflowInfo(question).state().getState() == states.postponed:
-                    #    IWorkflowInfo(question).fireTransition('schedule-postponed', check_security=True)
-                    #else:
-                    #    print "invalid workflow state:", IWorkflowInfo(question).state().getState()
+            if sitting:             
+                # our question is either admissible, deferred or postponed  
+                item_schedule.sitting_id = sitting_id
+                item_schedule.item_id = question_id
+                item_schedule.order = sort_id
+                session.save(item_schedule)
+                IWorkflowInfo(question).fireTransitionToward(states.scheduled, check_security=True)
+                #if IWorkflowInfo(question).state().getState() == states.admissible:
+                #    IWorkflowInfo(question).fireTransition('schedule', check_security=True)
+                #elif IWorkflowInfo(question).state().getState() == states.deferred:
+                #    IWorkflowInfo(question).fireTransition('schedule-deferred', check_security=True)
+                #elif IWorkflowInfo(question).state().getState() == states.postponed:
+                #    IWorkflowInfo(question).fireTransition('schedule-postponed', check_security=True)
+                #else:
+                #    print "invalid workflow state:", IWorkflowInfo(question).state().getState()
                         
-                elif question.sitting_id != sitting_id:  
-                    # a question with a sitting id is scheduled
-                    assert IWorkflowInfo(question).state().getState() == states.scheduled                  
-                    IWorkflowInfo(question).fireTransition('postpone', check_security=True)
-                    #assert question.sitting_id is None
-                    #question.sitting_id = sitting_id
-                    IWorkflowInfo(question).fireTransition('schedule-postponed', check_security=True)
-                else:
-                    #sitting stays the same - nothing to do
-                    #print question.sitting_id == sitting_id
-                    pass
+#                elif question.sitting_id != sitting_id:  
+#                    # a question with a sitting id is scheduled
+#                    assert IWorkflowInfo(question).state().getState() == states.scheduled                  
+#                    IWorkflowInfo(question).fireTransition('postpone', check_security=True)
+#                    #assert question.sitting_id is None
+#                    #question.sitting_id = sitting_id
+#                    IWorkflowInfo(question).fireTransition('schedule-postponed', check_security=True)
+#                else:
+#                    #sitting stays the same - nothing to do
+#                    #print question.sitting_id == sitting_id
+#                    pass
             else:              
                 if IWorkflowInfo(question).state().getState() == states.scheduled:
                     IWorkflowInfo(question).fireTransition('postpone', check_security=True)
+                else:
+                    raise NotImplemented     
+    
+    def getScheduledItems( self, form ):
+        """
+        return all items currently scheduled on the calendar
+        """
+        sitting_ids = []
+        for targets in form.keys():
+            if target[4:] == 'sid_':
+                #this is a sitting
+                sitting_ids.append(long(target[4:]))
+        if len(sitting_ids) > 0:
+            # there are sittings on the calendar
+            session = Session()
+            scheduled_items =  session.query(ScheduledQuestionItems).filter(schema.items_schedule.c.sitting_id.in_(sitting_ids))
+            return scheduled_items
+        else:
+            return None
+    
+    
+    def insert_item_into_sitting( self, sitting_id, itemIds=[]):
+        """
+        an item was dropped on a sitting, or 
+        is already scheduled for this sitting
+        """      
+        session = Session()
+        sort_id = 0
+        for item_id in itemIds:
+            sort_id = sort_id + 1
+            if item_id[:2] == 'q_':
+                #a question, to be scheduled
+                question_id = long(item_id[2:])
+                self.schedule_question(question_id, sitting_id, sort_id)
+            elif item_id[:5] == 'isid_':
+                # a scheduled item to be rescheduled    
+                scheduled_item_id = long(item_id[5:])
+                item = session.query(ScheduledQuestionItems).filter(schema.items_schedule.c.schedule_id == scheduled_item_id).one()
+                if item.sitting_id == sitting_id:
+                    #same sitting no workflow actions just update the sort_id
+                    item.order = sort_id
+                else:
+                    #item was moved from one sitting to another  
+                    print item.sitting_id, '==>', sitting_id
+                    if type(item) == ScheduledQuestionItems:
+                        question_id = item.question_id
+                        self.schedule_question(question_id, None, 0)
+                        self.schedule_question(question_id, sitting_id, sort_id)
+                          
+    def remove_item_from_sitting( self,  sitting_id, itemIds=[]):
+        """
+        an item was dropped into the admissible or postponed questions
+        list
+        """
+        session = Session()
+        for item_id in itemIds:
+            if item_id[:5] == 'isid_':
+                scheduled_item_id = long(item_id[5:])
+                item = session.query(ScheduledQuestionItems).filter(schema.items_schedule.c.schedule_id == scheduled_item_id).one()
+                if type(item) == ScheduledQuestionItems:
+                    question_id = item.question_id
+                    self.schedule_question(question_id, None, 0)
+            elif item_id[:2] == 'q_':
+                # nothing to do here, either not moved
+                # or dropped from admissible to postponed or vice versa
+                pass
+                 
+    def insert_items( self, form ):
+        """
+        insert items into the calendar
+        """
+        for target in form.keys():
+            # the target is the list in which the item is in
+            if target[:4] == 'sid_':
+                # the target is a sitting
+                itemIds = form[target]
+                sitting_id = long(target[4:])
+                if type(itemIds) == ListType:
+                    self.insert_item_into_sitting(sitting_id, itemIds)                                
+                elif type(itemIds) in StringTypes:
+                    # only one item in this list
+                    self.insert_item_into_sitting(sitting_id, [itemIds,])                        
+                else:
+                    raise TypeError ("Form values must be of type string or list")
+            elif (target == 'admissible_questions') or (target == 'postponed_questions'):      
+                itemIds = form[target]
+                if type(itemIds) == ListType:
+                    self.remove_item_from_sitting(sitting_id, itemIds)
+                        
+                elif type(itemIds) in StringTypes:
+                    # only one item in this list
+                    self.remove_item_from_sitting(sitting_id, [itemIds,])
+                    
+        
+                            
                     
     def insert_questions(self, form):
         print form
@@ -1045,7 +1137,7 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
     
         if self.request.form:
             if not self.request.form.has_key('cancel'):
-                self.insert_questions(self.request.form) 
+                self.insert_items(self.request.form) 
                 
         self.Date = getDisplayDate(self.request)
         if not self.Date:

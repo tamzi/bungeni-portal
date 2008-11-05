@@ -86,6 +86,7 @@ import org.bungeni.utils.MessageBox;
 import org.bungeni.utils.BungeniBTree;
 import org.bungeni.utils.BungeniBNode;
 import org.bungeni.editor.BungeniEditorProperties;
+import org.bungeni.editor.dialogs.debaterecord.DebateRecordMetadata;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.CommonFileFunctions;
 /**
@@ -1589,6 +1590,10 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
                             else 
                                 bringEditorWindowToFront();
                         }
+                        String currentDocType = BungeniEditorPropertiesHelper.getCurrentDocType();
+                        if (currentDocType.equals("debaterecord")) {
+                            LaunchDebateMetadataSetter(xComp);
+                        }
                 }
             } catch (InterruptedException ex) {
                 log.error("openDocumentAgent : done: " + ex.getMessage());
@@ -1602,7 +1607,16 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
 }
    
 
-
+private void LaunchDebateMetadataSetter(XComponent xComp){
+        OOComponentHelper oohc = new OOComponentHelper (xComp, ComponentContext);
+        JFrame frm = new JFrame("DebateRecord Metadata");
+        DebateRecordMetadata meta = new DebateRecordMetadata(oohc, frm);
+        frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frm.setSize(new Dimension(410, 360));
+        frm.add(meta);
+        frm.setVisible(true);
+        frm.setAlwaysOnTop(true);
+}
 
 
 /*

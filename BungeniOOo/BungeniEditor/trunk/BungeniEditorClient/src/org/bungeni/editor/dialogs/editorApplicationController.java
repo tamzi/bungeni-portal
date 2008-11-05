@@ -8,6 +8,7 @@ package org.bungeni.editor.dialogs;
 
 import com.sun.star.comp.helper.Bootstrap;
 import com.sun.star.comp.helper.BootstrapException;
+import com.sun.star.comp.helper.ComponentContext;
 import com.sun.star.lang.XComponent;
 import com.sun.star.uno.XComponentContext;
 import java.awt.Component;
@@ -42,9 +43,12 @@ import org.bungeni.db.QueryResults;
 import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.BungeniEditorPropertiesHelper;
+import org.bungeni.editor.dialogs.debaterecord.DebateRecordMetadata;
 import org.bungeni.ooo.BungenioOoHelper;
+import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.CommonFileFunctions;
 import org.bungeni.utils.FileTableModel;
+import org.bungeni.utils.FrameLauncher;
 import org.bungeni.utils.Installation;
 import org.bungeni.utils.WebDavStore;
 import org.bungeni.utils.WebDavTableModel;
@@ -932,11 +936,29 @@ private void initoOoAndLaunchFrame(String templatePath, boolean isTemplate){
             String templateURL = BungenioOoHelper.convertPathToURL(templatePath);
             XComponent xComponent;
             log.debug("template URL= "+ templateURL);
-            if (isTemplate)
+            if (isTemplate) {
                 xComponent = openofficeObject.newDocument(templateURL);
+                initMeta(xComponent);
+            }
             else
                 xComponent = openofficeObject.openDocument(templateURL);
                initFrame(xComponent);
+}
+
+private void initMeta(XComponent xComp){
+    LaunchDebateMetadataSetter(xComp);
+}
+
+private void LaunchDebateMetadataSetter(XComponent xComp){
+        OOComponentHelper oohc = new OOComponentHelper (xComp, this.m_xContext );
+        JFrame frm = new JFrame("DebateRecord Metadata");
+        DebateRecordMetadata meta = new DebateRecordMetadata(oohc, frm);
+        frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        frm.setSize(new Dimension(410, 360));
+        frm.add(meta);
+        frm.setVisible(true);
+        FrameLauncher.CenterFrame(frm);
+        frm.setAlwaysOnTop(true);
 }
 
 class RunOpenOffice implements Runnable {

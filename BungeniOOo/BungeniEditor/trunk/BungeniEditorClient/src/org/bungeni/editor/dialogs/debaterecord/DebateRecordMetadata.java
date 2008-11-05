@@ -112,6 +112,7 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
     /** Creates new form DebateRecordMetadata */
     public DebateRecordMetadata(OOComponentHelper ooDoc, JFrame parentFrame) {
         this.parentFrame = parentFrame;
+        this.ooDocument = ooDoc;
         initComponents();
         initMetadata();
         initControls();
@@ -139,6 +140,8 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
         BungeniParliamentID = new javax.swing.JTextField();
         txtParliamentSession = new javax.swing.JTextField();
         txtParliamentSitting = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
 
         cboCountry.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         cboCountry.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -149,7 +152,7 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
             }
         });
 
-        cboLanguage.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
+        cboLanguage.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         cboLanguage.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cboLanguage.setName("fld.BungeniLanguageID"); // NOI18N
 
@@ -165,11 +168,11 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
         jLabel3.setText("Parliament ID");
         jLabel3.setName("lbl.BungeniParliamentID"); // NOI18N
 
-        jLabel4.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         jLabel4.setText("Parliament Session");
         jLabel4.setName("lbl.BungeniParliamentSession"); // NOI18N
 
-        jLabel5.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         jLabel5.setText("Parliament Sitting");
         jLabel5.setName("lbl.BungeniParliamentSitting"); // NOI18N
 
@@ -184,7 +187,7 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
         btnCancel.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         btnCancel.setText("Cancel");
 
-        BungeniParliamentID.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
+        BungeniParliamentID.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         BungeniParliamentID.setName("fld.BungeniParliamentID"); // NOI18N
         BungeniParliamentID.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -192,11 +195,18 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
             }
         });
 
-        txtParliamentSession.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
+        txtParliamentSession.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         txtParliamentSession.setName("fld.BungeniParliamentSession"); // NOI18N
 
-        txtParliamentSitting.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
+        txtParliamentSitting.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         txtParliamentSitting.setName("BungeniParliamentSitting"); // NOI18N
+
+        jTextArea1.setColumns(20);
+        jTextArea1.setLineWrap(true);
+        jTextArea1.setRows(5);
+        jTextArea1.setText("This is a new document, Please select and enter required metadata to initialize the document");
+        jTextArea1.setWrapStyleWord(true);
+        jScrollPane1.setViewportView(jTextArea1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -205,26 +215,29 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtParliamentSitting, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 220, Short.MAX_VALUE)
+                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboLanguage, 0, 204, Short.MAX_VALUE)
-                    .addComponent(cboCountry, 0, 204, Short.MAX_VALUE)
+                    .addComponent(cboLanguage, 0, 381, Short.MAX_VALUE)
+                    .addComponent(cboCountry, 0, 381, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(BungeniParliamentID, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
                     .addComponent(jLabel4)
+                    .addComponent(txtParliamentSitting, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(BungeniParliamentID, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE)
-                    .addComponent(txtParliamentSession, javax.swing.GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE))
+                    .addComponent(txtParliamentSession, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cboCountry, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -232,23 +245,23 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cboLanguage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addGap(1, 1, 1)
                 .addComponent(BungeniParliamentID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtParliamentSession, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(10, 10, 10)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtParliamentSitting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(4, 4, 4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnCancel)
-                    .addComponent(btnSave))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSave)
+                    .addComponent(btnCancel))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -291,6 +304,8 @@ private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField txtParliamentSession;
     private javax.swing.JTextField txtParliamentSitting;
     // End of variables declaration//GEN-END:variables

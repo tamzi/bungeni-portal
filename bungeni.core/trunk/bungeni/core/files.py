@@ -10,10 +10,23 @@ from sqlalchemy import orm
 from ore.alchemist import Session
 from ore.svn import SubversionContext
 from ore.svn.directory import SubversionDirectory
+from ore.metamime.interfaces import IMimeClassifier
+from ore.metamime.hachoir import HachoirFileClassifier, InputIOStream
 
 from bungeni.core import interfaces, schema as dbschema
 
 
+def fileClassifierSubscriber( ob, event ):
+    from zope.security.proxy import removeSecurityProxy
+    ob = removeSecurityProxy( ob )
+    classifier = IMimeClassifier( ob )
+    ob.mime_type = str( classifier.queryMimeType() )
+
+class FileClassifier( HachoirFileClassifier ):
+
+    def _stream( self ):
+        return InputIOStream( self.context.open() )
+    
 class DefaultPathChooser( object ):
 
     interface.implements( interfaces.IFilePathChooser )

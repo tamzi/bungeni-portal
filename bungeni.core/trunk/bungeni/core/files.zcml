@@ -29,6 +29,17 @@
      factory=".files.location"
      />
 
+  <adapter
+     for="ore.library.interfaces.ILibraryFile"
+     provides="ore.metamime.interfaces.IMimeClassifier"
+     factory=".files.FileClassifier"
+     />
+
+  <subscriber
+     for="ore.library.interfaces.ILibraryFile zope.lifecycleevent.interfaces.IObjectCreatedEvent"
+     handler=".files.fileClassifierSubscriber"
+     />
+
   <subscriber
      provides="z3c.traverser.interfaces.ITraverserPlugin"
      factory=".files.DirectoryDescriptorTraversal"

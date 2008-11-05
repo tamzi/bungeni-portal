@@ -30,7 +30,22 @@ def setQuestionMinistryId(question):
         sq = getQuestion(question.supplement_parent_id)
         question.ministry_id = sq.ministry_id
         
-            
+
+def removeQuestionFromItemSchedule(question_id):
+    """
+    when a question gets postponed the previous schedules of that
+    question are invalidated so the do not show up in the schedule 
+    calendar any more
+    """            
+    session = Session()
+    active_question_filter = rdb.and_( schema.items_schedule.c.item_id == question_id,
+                                       schema.items_schedule.c.active == True)
+    item_schedule = session.query(domain.ItemSchedule).filter(active_question_filter)
+    results = item_schedule.all()
+    assert (len(results) == 1)
+    results[0].active = False
+    
+    
     
 #def insertQuestionScheduleHistory(question_id, sitting_id):
 #    """

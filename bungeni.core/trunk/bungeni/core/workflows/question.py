@@ -6,23 +6,19 @@ from zope.component.interfaces import ObjectEvent
 import zope.securitypolicy.interfaces
 from zope.security.proxy import removeSecurityProxy
 
-
 #from sqlalchemy.orm import mapper
 #import bungeni.core.schema as schema
 import bungeni.core
 #import bungeni.core.domain as domain
 
-
-
 from ore.workflow import interfaces as iworkflow
 from ore.workflow import workflow
-
-
 
 import bungeni.core.workflows.interfaces as interfaces
 import bungeni.core.workflows.utils as utils
 
 from bungeni.core.i18n import _
+
 
 class states:
     draft = _(u"draft question") # a draft question of a MP
@@ -131,9 +127,11 @@ def recievedByClerk( info, context ):
 
 def withdraw( info, context ):
     """
-    a question can be withdrawn by the owner, it is than visible to
+    a question can be withdrawn by the owner, it is  visible to ...
     and cannot be edited by anyone
     """
+    if context.status == states.scheduled:
+        utils.setQuestionScheduleHistory(info,context)    
     question = removeSecurityProxy(context)
     denyAllWrites(question)
 
@@ -240,7 +238,7 @@ def postpone(info,context):
     A question that was scheduled but could not be debated,
     it is available for rescheduling.
     """
-    #utils.setQuestionScheduleHistory(info,context)
+    utils.setQuestionScheduleHistory(info,context)
     question = removeSecurityProxy(context)
     rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )  
     rpm.denyPermissionToRole( 'bungeni.response.add', u'bungeni.Clerk' )

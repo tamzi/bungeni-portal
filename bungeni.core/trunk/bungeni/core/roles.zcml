@@ -21,6 +21,9 @@
     <grant role="bungeni.Everybody" principal="zope.Authenticated" />
     
     <grant permission="bungeni.question.add" role="bungeni.MP" />
+    <grant permission="zope.View" role="bungeni.MP" />
+    <grant permission="zope.View" role="bungeni.Clerk" />
+    <grant permission="zope.View" role="bungeni.Speaker" /> 
     <grant permission="bungeni.question.edit" role="bungeni.Owner" />
     <grant permission="bungeni.question.delete" role="bungeni.Owner" />
     <grant permission="bungeni.question.view" role="bungeni.Owner" />

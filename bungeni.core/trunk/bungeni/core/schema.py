@@ -604,7 +604,7 @@ questions = rdb.Table(
    rdb.Column( "supplement_parent_id", rdb.Integer, rdb.ForeignKey('questions.question_id')  ),
      
    # after the question is scheduled
-   rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id')  ),
+   # rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id')  ),
    rdb.Column( "sitting_time", rdb.DateTime( timezone=False ) ),
    #
    # Receive Question Notifications -> triggers notification on workflow change

@@ -526,7 +526,8 @@ def create_question_workflow( ):
         title=_(u'Schedule'),
         #trigger = iworkflow. , #triggered by scheduling ?        
         source = states.admissible,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL,  
+        condition = utils.getQuestionSchedule,              
         action = schedule,
         destination = states.scheduled,
         permission = 'bungeni.question.Schedule',        
@@ -615,6 +616,7 @@ def create_question_workflow( ):
         #trigger = iworkflow. , #triggered by scheduling ?                
         trigger = iworkflow.MANUAL,                
         action = schedule,
+        condition = utils.getQuestionSchedule,                      
         destination = states.scheduled,
         permission = 'bungeni.question.Schedule',        
         ) )  
@@ -650,6 +652,7 @@ def create_question_workflow( ):
         title=_(u'Schedule'),
         source = states.postponed,
         trigger = iworkflow.MANUAL,            
+        condition = utils.getQuestionSchedule,                      
         action = schedule,    
         destination = states.scheduled,        
         permission = 'bungeni.question.Schedule',        

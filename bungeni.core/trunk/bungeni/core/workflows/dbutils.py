@@ -46,6 +46,52 @@ def removeQuestionFromItemSchedule(question_id):
     results[0].active = False
     
     
+def removeMotionFromItemSchedule(motion_id):
+    """
+    when a motion gets postponed the previous schedules of that
+    motion are invalidated so the do not show up in the schedule 
+    calendar any more
+    """            
+    session = Session()
+    active_motion_filter = rdb.and_( schema.items_schedule.c.item_id == motion_id,
+                                       schema.items_schedule.c.active == True)
+    item_schedule = session.query(domain.ItemSchedule).filter(active_motion_filter)
+    results = item_schedule.all()
+    assert (len(results) == 1)
+    results[0].active = False    
+    
+def setQuestionSerialNumber(question):
+    """
+     Approved questions are given a serial number enabling the clerks office
+     to record the order in which questions are recieved and hence enforce 
+     a first come first served policy in placing the questions on the order
+     paper. The serial number is re-initialized at the start of each session
+    """    
+    session = Session()
+    connection = session.connection(domain.Question)
+    sequence = rdb.Sequence('question_number_sequence')
+    question.question_number = connection.execute(sequence)
+
+def isQuestionScheduled(question_id):
+    session = Session()
+    active_question_filter = rdb.and_( schema.items_schedule.c.item_id == question_id,
+                                       schema.items_schedule.c.active == True)
+    item_schedule = session.query(domain.ItemSchedule).filter(active_question_filter)
+    results = item_schedule.all()
+    return (len(results) == 1)
+    
+def setMotionSerialNumber(motion):    
+    """
+     Number that indicate the order in which motions have been approved 
+     by the Speaker. The Number is reset at the start of each new session
+     with the first motion assigned the number 1    
+    """
+    session = Session()
+    connection = session.connection(domain.Motion)
+    sequence = rdb.Sequence('motion_number_sequence')
+    motion.motion_number = connection.execute(sequence)    
+
+
     
 #def insertQuestionScheduleHistory(question_id, sitting_id):
 #    """

@@ -48,6 +48,7 @@ def setApprovalDate(info, context):
     instance.approval_date = datetime.date.today()  
     versions =  bungeni.core.interfaces.IVersioned(instance)            
     versions.create('New Version, Question approved by speakers office')
+    dbutils.setQuestionSerialNumber(instance)
 
 def setMinistrySubmissionDate(info, context):
     instance = removeSecurityProxy(context)
@@ -64,7 +65,9 @@ def getQuestionMinistry(info, context):
     ministry_id = context.ministry_id
     return ministry_id != None
 
-
+def getQuestionSchedule(info, context):
+    question_id = context.question_id
+    return dbutils.isQuestionScheduled(question_id)
 
 
 def getQuestionSubmissionAllowed(info, context):    
@@ -101,5 +104,8 @@ def publishResponse( info, context ):
     question = dbutils.getQuestion(instance.response_id)
     IWorkflowInfo(question).fireTransition('answer')
     
+def setMotionHistory( info, context ):
+    motion_id = context.motion_id
+    dbutils.removeMotionFromItemSchedule(motion_id)
   
     

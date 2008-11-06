@@ -575,12 +575,17 @@ subscriptions = rdb.Table(
    )
 
 
+QuestionSequence = rdb.Sequence('question_number_sequence', metadata)
+# Approved questions are given a serial number enabling the clerks office
+# to record the order in which questions are recieved and hence enforce 
+# a first come first served policy in placing the questions on the order
+# paper. The serial number is re-initialized at the start of each session
 
 questions = rdb.Table(
    "questions",
    metadata,
    rdb.Column( "question_id", rdb.Integer, ItemSequence, primary_key=True ),
-   
+   rdb.Column( "question_number", rdb.Integer),
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
    rdb.Column( "clerk_submission_date", rdb.Date,),
    rdb.Column( "approval_date", rdb.Date,),  
@@ -649,11 +654,16 @@ responses = rdb.Table(
 response_changes = make_changes_table( responses, metadata )
 response_versions = make_versions_table( responses, metadata )
 
+MotionSequence = rdb.Sequence('motion_number_sequence', metadata)
+# Number that indicate the order in which motions have been approved 
+# by the Speaker. The Number is reset at the start of each new session
+# with the first motion assigned the number 1
 
 motions = rdb.Table(
    "motions",
    metadata,
    rdb.Column( "motion_id", rdb.Integer, ItemSequence, primary_key=True ),
+   rdb.Column( "motion_number", rdb.Integer),
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
    rdb.Column( "submission_date", rdb.Date ),
    rdb.Column( "public", rdb.Boolean ),

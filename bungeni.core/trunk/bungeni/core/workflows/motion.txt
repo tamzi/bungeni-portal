@@ -2,6 +2,30 @@ Motion workflow
 =================
 
   >>> from bungeni.core.domain import Motion
+  >>> import bungeni.core as model
+  >>> import datetime
+  
+  some setup for tests
+
+   >>> from zope import component
+   >>> from sqlalchemy import create_engine
+   >>> from ore.alchemist.interfaces import IDatabaseEngine
+   >>> from ore.alchemist import Session
+   >>> from bungeni import core as model
+   >>> from bungeni.core import domain, schema
+   
+Setting up Database Connection and Utilities:
+
+   >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
+   >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
+   >>> model.metadata.bind = db   
+   >>> model.metadata.create_all()
+   >>> schema.QuestionSequence.create(db) 
+   >>> from alchemist.security.schema import metadata  
+   >>> metadata.bind = db
+   >>> metadata.create_all()  
+   >>> session = Session()
+
 
 Setup
 -----
@@ -68,9 +92,35 @@ Permissions
   ...   state = info.state().getState()
   ...   return tuple(transition.permission for transition in wf.getTransitions(state))
 
+Schedule a motion
+-------------------
+  >>> def schedule_motion(motion_id):
+  ...   item_schedule = domain.ItemSchedule()
+  ...   item_schedule.sitting_id = sit1.sitting_id
+  ...   item_schedule.item_id = motion.motion_id
+  ...   session.save(item_schedule)
+  ...   session.flush()   
 
+Sitting to schedule the motion:
+-----------------------------
+  >>> st = model.SittingType()
+  >>> st.sitting_type = u"morning"
+  >>> session.save(st)
+  >>> session.flush()
+
+  >>> st.sitting_type_id
+  1L
+ 
+  >>> sit1 = model.GroupSitting()
+  >>> sit1.start_date = datetime.datetime.now()
+  >>> sit1.end_date = datetime.datetime.now()
+  >>> sit1.sitting_type = st.sitting_type_id
+  >>> session.save(sit1)
+  >>> session.flush() 
 
   >>> motion = Motion()
+  >>> session.save(motion)
+  >>> session.flush()
 
 First we initialize the workflow.
   
@@ -316,7 +366,7 @@ A motion can be withdrawn at (almost) any stage
   ('postpone', 'debate', 'withdraw-scheduled')
 
 schedule the motion
-
+  >>> schedule_motion(motion.motion_id)
   >>> result = IWorkflowInfo(motion).fireTransition('schedule')  
   
   >>> transitions(motion)

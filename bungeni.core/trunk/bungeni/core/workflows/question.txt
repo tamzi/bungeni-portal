@@ -30,7 +30,8 @@ Setting up Database Connection and Utilities:
    >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
    >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
    >>> model.metadata.bind = db   
-   >>> model.metadata.create_all() 
+   >>> model.metadata.create_all()
+   >>> schema.QuestionSequence.create(db) 
    >>> from alchemist.security.schema import metadata  
    >>> metadata.bind = db
    >>> metadata.create_all()  
@@ -217,6 +218,15 @@ Permissions
   ...   info = IWorkflowInfo(question)
   ...   state = info.state().getState()
   ...   return tuple(transition.permission for transition in wf.getTransitions(state))
+
+Schedule a question
+-------------------
+  >>> def schedule_question(question_id):
+  ...   item_schedule = domain.ItemSchedule()
+  ...   item_schedule.sitting_id = sit1.sitting_id
+  ...   item_schedule.item_id = question.question_id
+  ...   session.save(item_schedule)
+  ...   session.flush()   
 
 
 Add question to db
@@ -454,22 +464,30 @@ clerks recieves it
 
 
   
-Appove the question and set the approval date
+Appove the question and set the approval date and serial number
 
   >>> transitions(question)
   ('withdraw-complete', 'approve', 'require-amendment', 'reject')
 
   >>> question.approval_date
 
+  >>> question.question_number
+
   >>> result = IWorkflowInfo(question).fireTransition('approve')  
   
   >>> question.approval_date  == today 
   True
   
+  >>> question.question_number == None
+  False
+  
+  
   >>> transitions(question)
   ('defer', 'withdraw-admissible', 'send-ministry', 'schedule')
 
 A question can be withdrawn at (almost) any stage  
+  
+  
   
   >>> question_withdraw = copy.deepcopy(question)
   >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-admissible')   
@@ -557,13 +575,20 @@ A question can be withdrawn at (almost) any stage
   >>> question_withdraw.status
   u'Question withdrawn'  
 
+Reschedule the deferred question
+  >>> schedule_question(question.question_id)
+
   >>> result = IWorkflowInfo(question_defer).fireTransition('schedule-deferred')   
   >>> transitions(question_defer)     
   ('postpone', 'withdraw-scheduled', 'respond-sitting')
 
+and postpone it to make sure it is out of the calendar schedule
+  
+  >>> result = IWorkflowInfo(question_defer).fireTransition('postpone')  
+
 schedule the question
 
-  >>> question.sitting_id = sit1.sitting_id
+  >>> schedule_question(question.question_id)
 
   >>> result = IWorkflowInfo(question).fireTransition('schedule')  
   
@@ -579,6 +604,8 @@ A question can be withdrawn at (almost) any stage
   u'Question withdrawn'
 
 postpone the question
+
+  >>> schedule_question(question.question_id) 
   
   >>> result = IWorkflowInfo(question).fireTransition('postpone')  
   >>> transitions(question)
@@ -601,7 +628,8 @@ A question can be withdrawn at (almost) any stage
 
 and reschedule it for the second sitting
 
-  >>> question.sitting_id = sit2.sitting_id
+  >>> schedule_question(question.question_id)  
+
 
   >>> result = IWorkflowInfo(question).fireTransition('schedule-postponed')  
   

@@ -29,6 +29,11 @@ class states:
     debated = _(u"Motion debated") # a motion was debated 
     withdrawn = _(u"Motion withdrawn") # the owner of the motion can withdraw the motion
 
+def postpone(info,context):
+    utils.setMotionHistory(info,context)
+
+
+
 def create_motion_workflow( ):
     transitions = []
     add = transitions.append
@@ -256,7 +261,8 @@ def create_motion_workflow( ):
         transition_id = 'postpone',
         title=_(u'Postpone'),
         source = states.scheduled,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL, 
+        action = postpone,               
         destination = states.postponed,
         permission = 'bungeni.motion.Schedule',        
         ) )      

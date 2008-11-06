@@ -33,7 +33,8 @@ import org.bungeni.ooo.utils.CommonExceptionUtils;
 public class routerCreateSection extends defaultRouter {
    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(routerCreateSection.class.getName());
  
-
+    public String nameOfNewSection = "";
+    
     /** Creates a new instance of routerCreateSection */
     public routerCreateSection() {
         super();
@@ -85,6 +86,7 @@ public class routerCreateSection extends defaultRouter {
          } else {
              log.error("get_newSectionNameForAction: invalid action naming convention: "+ pAction.action_naming_convention());
          }
+         this.nameOfNewSection = newSectionName;
          return newSectionName;
     }
 

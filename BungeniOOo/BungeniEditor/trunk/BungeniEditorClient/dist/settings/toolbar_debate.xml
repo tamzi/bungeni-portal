@@ -68,15 +68,22 @@
 		-->
             </blockAction>
 	    
-	    <blockAction>
+	    <blockAction name="Speeches" title="Speech" target="null" visible="true" condition="none">
 		<action name="Speech.create" title="Mark text Speech" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.section_creation" visible="true" condition="textSelected:true :and: cursorInSection:qa[0-9]*" />
 		<action name="Speech.SpeechBy" title="Identify Speech By" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.speech_by" visible="true" condition="textSelected:true :and: cursorInSection:speech[0-9]*" />
 		<action name="Speech.SpeechAs" title="Identify Speech As" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.speech_as" visible="true" condition="textSelected:true :and: cursorInSection:speech[0-9]*" />
-		<action name="Speech.lockHead" title="Lock Speech By" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebatSpeechBlockSection.lock" visible="true" condition="textSelected:true :and: cursorInSection:speech[0-9]*" />			
-		<action name="Speech.unlockHead" title="Unlock Speech By" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.unlock" visible="true" condition="textSelected:true :and: cursorInSection:speech[0-9]*" />		
+		<action name="Speech.lockHead" title="Lock Speech By" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.lock:from(BungeniSpeechBy,BungeniSpeechAs);with(Person)" visible="true" condition="cursorInSection:speech[0-9]*" />			
+		<action name="Speech.unlockHead" title="Unlock Speech By" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.unlock:BungeniSpeechBy,BungeniSpeechAs" visible="true" condition="cursorInSection:speech[0-9]*" />		
 		<!--<action name="Speech.SpeechTo" title="Mark Speech To" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.speech_to" visible="true" conditiion="" />-->    
 	    </blockAction>
-        	
+            <blockAction name="GeneralActions" title="General Actions" target="null" visible="true" condition="none">
+	    	<action name="Observation.create" title="Mark as Observation" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeObservationAction.section_creation" visible="true" condition="textSelected:true" />
+	    	<action name="GroupActivity.create" title="Mark as Group Activity" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeGroupActivityAction.section_creation" visible="true" condition="textSelected:true" />
+		<action name="Communication.create" title="Mark as Communication" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeCommunicationAction.section_creation" visible="true" condition="textSelected:true" />
+	 </blockAction>
+	 <blockAction name="Event Markup" title="Markup Events" target="null" visible="true" condition="none">
+		<action name="Adjournment.create" title="Mark Adjournment" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeAdjournmentAction.mark_as_action:Adjournment" visible="true" condition="textSelected:true" />
+	</blockAction>	
 	<!--
             <blockAction name="QA" tooltip="Create a QA Section" title="Question-Answer Container" target="null" visible="true" condition="none" >
                 <action name="QA.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makeQASection" visible="true" condition="cursorInSection:debaterecord :and: sectionNotExists:qa." />

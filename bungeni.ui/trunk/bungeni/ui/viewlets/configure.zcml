@@ -36,6 +36,24 @@
     />        
      
   <browser:viewlet
+    name="bungeni.schedule.admissible-motions"   
+    manager=".interfaces.IScheduleCalendar"
+    class=".schedule.AdmissibleMotionViewlet"
+    permission="zope.Public"
+    weight="25"
+    />         
+     
+  <browser:viewlet
+    name="bungeni.schedule.postponed-motions"   
+    manager=".interfaces.IScheduleCalendar"
+    class=".schedule.PostponedMotionViewlet"
+    permission="zope.Public"
+    weight="26"
+    />
+   
+
+     
+  <browser:viewlet
     name="bungeni.schedule.calendar"   
     manager=".interfaces.IScheduleCalendar"
     class=".schedule.ScheduleCalendarViewlet"

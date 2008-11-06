@@ -72,7 +72,6 @@ class YUITabView( viewlet.ViewletBase ):
              <script type="text/javascript">
                 (function() {
                      var bungeni_tabView = new YAHOO.widget.TabView();
-                   	 //var bungeniViewTabs = new YAHOO.widget.TabView("bungeni-tabbed-nav"); 
                    	 var elements = YAHOO.util.Dom.getElementsByClassName('listing', 'div', 'bungeni-tabbed-nav' ); 
                    	 
                    	 for (i=0; i < elements.length; i++) 

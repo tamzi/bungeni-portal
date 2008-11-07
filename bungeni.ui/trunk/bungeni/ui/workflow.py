@@ -89,7 +89,7 @@ class WorkflowHistoryViewlet( viewlet.ViewletBase ):
         query = self._log_table.select().where(
             rdb.and_( self._log_table.c.content_id == rdb.bindparam('content_id'),
             rdb.and_(self._log_table.c.action == 'workflow') )
-            )
+            ).order_by(self._log_table.c.change_id.desc())
 
         content_id = mapper.primary_key_from_instance( instance )[0] 
         content_changes = query.execute( content_id = content_id )

@@ -286,25 +286,31 @@ class QuestionJSONValidation( BrowserView ):
 def start_DateTime( Date ):
     """
     return the start datetime for the query
-    i.e. first of month 00:00
-    """
-    return datetime.datetime(Date.year, Date.month, 1, 0, 0, 0)
+    i.e. first day to be displayed in the calendar 00:00
+    """    
+    cal = calendar.Calendar()
+    mcal = cal.monthdatescalendar(Date.year,Date.month)
+    firstday = mcal[0][0]
+    return datetime.datetime(firstday.year, firstday.month, firstday.day, 0, 0, 0)
     
     
 def end_DateTime( Date ):
     """
     return the end datetime for the query
-    i.e. last of month 23:59
+    i.e. last day to be displayed in the calendar 23:59
     """
-    if Date.month == 12:
-        month = 1
-        year = Date.year + 1
-    else:
-        month = Date.month + 1
-        year = Date.year    
-    return datetime.datetime(year, month, 1, 0, 0, 0)  - datetime.timedelta(seconds=1)       
+    cal = calendar.Calendar()
+    mcal = cal.monthdatescalendar(Date.year,Date.month)
+    lastday = mcal[-1][-1]
+    return datetime.datetime(lastday.year, lastday.month, lastday.day, 23, 59, 59)
     
     
+
+
+    
+    
+  
+           
     
              
   
@@ -987,11 +993,11 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                                     + ' (' + sit_types[result.sitting_type] + ')')
             data['start_date'] = str(result.start_date)
             data['end_date'] = str(result.end_date)
-            data['day'] = int(result.start_date.day)
+            data['day'] = result.start_date.date()
             data_list.append(data)            
         return data_list
 
-    def getSittingQuestions(self, sitting_id):
+    def getActiveSittingItems(self, sitting_id):
         """
         return all questions assigned to that sitting
         """
@@ -1018,15 +1024,41 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
             data_list.append(data)            
         return data_list
 
+    def getInactiveSittingItems(self, sitting_id):
+        """
+        return all questions assigned to that sitting
+        """
+        session = Session()
+        active_sitting_items_filter = rdb.and_(schema.items_schedule.c.sitting_id == sitting_id, 
+                                                schema.items_schedule.c.active == False)
+        items = session.query(ScheduledItems).filter(active_sitting_items_filter).order_by(schema.items_schedule.c.order)
+        data_list=[] 
+        results = items.all()
+        for result in results:            
+            data ={}
+            data['schedule_id'] = ( 'isid_' + str(result.schedule_id) ) # isid for ItemSchedule ID 
+            if type(result) == ScheduledQuestionItems:                       
+                data['subject'] = result.subject
+                data['type'] = "question"
+            elif type(result) == ScheduledMotionItems:    
+                data['subject'] = result.title
+                data['type'] = "motion"
+            elif type(result) == ScheduledBillItems:    
+                data['subject'] = result.title                
+                data['type'] = "bill"
+            data['status'] = result.status
+            data_list.append(data)            
+        return data_list
 
 
-    def GetSittings4Day(self, day):
+
+    def GetSittings4Day(self, Date):
         """
         return the sittings for that day
         """
-        day_data=[]
+        day_data=[]      
         for data in self.Data:
-            if data['day'] == int(day):
+            if data['day'] == Date:
                 day_data.append(data)
         return day_data                
        
@@ -1295,7 +1327,7 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
         self.query, self.Date = current_sitting_query(self.Date)        
         #print str(query)
         self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )
-        self.monthcalendar = calendar.monthcalendar(self.Date.year, self.Date.month)
+        self.monthcalendar = calendar.Calendar().monthdatescalendar(self.Date.year,self.Date.month)         
         self.monthname = datetime.date.strftime(self.Date,'%B %Y')
         self.Data = self.getData()
     

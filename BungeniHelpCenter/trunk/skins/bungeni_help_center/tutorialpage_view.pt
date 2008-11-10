@@ -58,9 +58,7 @@
            You must publish this page before it becomes visible to the public.
         </div>
 
-    <div metal:use-macro="here/phc_macros/macros/identityimage">
-      Identity Image 
-    </div>
+    <!--<div metal:use-macro="here/phc_macros/macros/identityimage">Identity Image</div>-->
 
     <span tal:omit-tag="" tal:condition="python:here.getTocType() == 'drop'">    
         <div class="jumpBox">

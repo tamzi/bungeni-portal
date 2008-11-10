@@ -21,7 +21,7 @@
       Folder Title
     </h1>
     
-    <a href="" tal:attributes="href python:here.absolute_url()">Default View</a><br/><br/>
+    <a href="" tal:attributes="href python:here.absolute_url()">Alphabetical View</a><br/><br/>
 
     <div metal:use-macro="here/phc_macros/macros/identityimage">
       Identity Image 
@@ -29,12 +29,13 @@
     
     <table class="sectionIndex" tal:condition="not:noSections">
         <thead>
-            <tr><th i18n:translate="phc_index_sections">Sections</th></tr>
+            <tr><th i18n:translate="phc_index_sections">Categories</th></tr>
         </thead>
         <tbody>
             <tr tal:repeat="section sections">
-                <td><a tal:attributes="href python:'%s#%s'% (here.absolute_url(), section['id'],)"
-                       tal:content="section/section" i18n:translate="">Section</a>
+                <td><a tal:attributes="href python:'%s/helplinkfolder_sections#%s'% (here.absolute_url(), section['id'],)">
+                        <span tal:content="python:here.trunc(section['section'])"/>
+                        <span tal:content="python:section['section']" class="hovertooltip"/></a>
                 </td>
             </tr>
         </tbody>
@@ -54,33 +55,35 @@
     <div tal:repeat="section sections">
 
         <h2 tal:condition="not:noSections">
-          <a class="link-anchor" 
+          <b><a class="link-anchor" 
               tal:content="section/section"
 	      i18n:translate=""
               tal:attributes="name section/id;
-                              href string:${here/absolute_url}#${section/id};">
+                              href python:'%s/helplinkfolder_sections#%s'% (here.absolute_url(), section['id'],)">
               Section Heading
-            </a>
+            </a></b>
         </h2>
 
-        <dl>
+        <ul>
             <tal:item tal:repeat="item python:section['items']">
-              
-            <dt>
-                <img metal:define-slot="item_icon" 
-                     tal:replace="structure here/helplink_icon.gif"/>
+            
+            <li>
+
                 <a href="" tal:content="item/Title"
-                   tal:attributes="href item/getURL;
-                                   class string:state-${item/review_state}">Item</a>
+                   tal:attributes="href python:str(item.getId) + '/helplink_view_section';">Item</a>
+
                 <img src="error_icon.gif" alt="!" class="outdatedMarker"
                      tal:condition="item/isOutdated"
                      title="This item applies to a previous version" 
                      i18n:attributes="title"/>
-            </dt>
+            </li>
+            
             
             <dd tal:content="item/Description">Description</dd>
           </tal:item>
-        </dl>
+        </ul>
+        <dl>[<a href="helplinkfolder_sections#portal-top">Back</a>]</dl>
+
 
     </div>
     <div metal:use-macro="here/helpcenter_references/macros/view_referenced_items">

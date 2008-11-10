@@ -72,7 +72,7 @@
                       <img metal:define-slot="item_icon"
                            tal:replace="structure here/tutorial_icon.gif" />
                       <a href="" tal:content="item/Title"
-                         tal:attributes="href item/getURL;
+                         tal:attributes="href string:${item/getURL}?ct=${section/section};
                                          class string:state-${item/review_state}">Item</a>
                       <img src="error_icon.gif" alt="!" class="outdatedMarker"
                            tal:condition="item/isOutdated"

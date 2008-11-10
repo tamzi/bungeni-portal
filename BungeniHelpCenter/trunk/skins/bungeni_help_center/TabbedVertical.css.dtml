@@ -12,5 +12,5 @@
 {
 	border-style: solid dotted solid dotted;
     display:block;
-    width:300px
+    width:350px
 }

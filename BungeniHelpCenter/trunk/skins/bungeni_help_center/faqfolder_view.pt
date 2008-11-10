@@ -32,10 +32,26 @@
           <span i18n:translate="phc_view_entire_faq">View entire FAQ in full</span>
         </a>
       </tal:entirefaq>
+    <div class="visualClear">&nbsp;</div>
+
+      <dl class="portlet visualNoPrint" id="faq"
+          tal:condition="not:noSections">
+        <dt class="portletHeaderSection"
+            i18n:translate="phc_index_sections">Categories</dt>
+        <dd class="portletItem">
+          <ol>
+            <li tal:repeat="section sections">
+                <a tal:attributes="href python:'%s#%s'% (here.absolute_url(), section['id'],)"
+                   tal:content="section/section">Section</a>
+             </li>
+          </ol>
+        </dd>
+      </dl>
 
     <div metal:use-macro="here/phc_macros/macros/identityimage">
       Identity Image 
     </div>
+
 
 
       <div class="documentDescription"
@@ -49,40 +65,27 @@
       Description
     </div>
 
-    <div class="visualClear">&nbsp;</div>
 
-      <dl class="portlet visualNoPrint" id="faq"
-          tal:condition="not:noSections">
-        <dt class="portletHeader"
-            i18n:translate="phc_index_sections">Sections</dt>
-        <dd class="portletItem">
-          <ol>
-            <li tal:repeat="section sections">
-                <a tal:attributes="href python:'%s#%s'% (here.absolute_url(), section['id'],)"
-                   tal:content="section/section">Section</a>
-             </li>
-          </ol>
-        </dd>
-      </dl>
+
 
       <div tal:repeat="section sections">
 
         
         <h2 tal:condition="not:noSections">
-          <a class="link-anchor"
+          <b><a class="link-anchor"
              tal:content="section/section"
              tal:attributes="name section/id">
             Section Heading
-          </a>
+          </a></b>
         </h2>
-
+       <br/>
         <tal:section condition="not:full">
-          <a class="link-expand"
+          <a class="link-expand-section"
             tal:attributes="href python:'%s/faqsection_view?section=%s' % (here.absolute_url(), pss.url_quote(section['section']) )">
             <span i18n:translate="phc_view_entire_section">
-            View section in full
+            View category in full
             </span>
-          </a> 
+          </a> <br/>
 
           <ol>
             <li tal:repeat="faq python:section['items']">

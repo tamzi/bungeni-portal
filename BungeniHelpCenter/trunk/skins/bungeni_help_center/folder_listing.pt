@@ -20,11 +20,11 @@
             Title or id
         </h1>
 
+        <div tal:replace="structure provider:plone.belowcontenttitle" />
+
         <p metal:use-macro="here/kss_generic_macros/macros/generic_description_view">
             Description
         </p>
-
-        <div tal:replace="structure here/getBody"/>
 
         <div tal:replace="structure provider:plone.abovecontentbody" />
 
@@ -69,14 +69,14 @@
                                        item_start item/start/ISO|item/StartDate|nothing;
                                        item_end item/end/ISO|item/EndDate|nothing;
                                    ">
-
+                    <div class="blockitem">
                     <dt metal:define-macro="listitem"
                         tal:attributes="class python:test(item_type == 'Event', 'vevent', '')">
 
                         <span class="summary"
                               tal:attributes="class string:$item_type_class summary"
                               tal:condition="python:item_type != 'Link'">
-                            <img tal:replace="structure item_icon/html_tag" />
+                            <!--img tal:replace="structure item_icon/html_tag" />-->
                             <a href="#"
                                tal:attributes="href python:test(item_type in use_view_action, item_url+'/view', item_url);
                                                class string:${item_wf_state_class} url"
@@ -88,13 +88,14 @@
                         <span class=""
                               tal:attributes="class string:$item_type_class"
                               tal:condition="python:item_type == 'Link'">
-                            <img tal:replace="structure item_icon/html_tag" />
+                            <!--<img tal:replace="structure item_icon/html_tag" />-->
                             <a href="#"
                                tal:content="item_title_or_id"
                                tal:attributes="href item/getRemoteUrl;
                                                class string:${item_wf_state_class} link-plain">
                                 External Link
                             </a>
+                         <br/>
                         </span>
 
                         <span class="documentByLine">
@@ -148,18 +149,16 @@
                                     </tal:comment>
                                 </metal:description>
                             </tal:byline>
-                        </span>
+                  
 
                     </dt>
 
-                    <dd>
-                        <span tal:omit-tag="" tal:condition="not:item_description"> 
-                            &nbsp; 
-                        </span> 
+                    <dd class="indItem">
                         <span class="description" tal:content="item_description">
                             description 
                         </span> 
                     </dd>
+                </div>
                 </tal:block>
                 </tal:entry>
             </dl>

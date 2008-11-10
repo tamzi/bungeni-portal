@@ -18,6 +18,15 @@
     float: right;
 }
 
+.link-expand-section {
+    background: transparent url(&dtml-portal_url;/arrowDown.gif) 4px 5px no-repeat;
+    padding: 1px 0px 1px 16px;
+    display: block;
+    font-size: &dtml-fontSmallSize;;
+    float: left;
+}
+
+
 .faqMarker {
     list-style-type: square;
     list-style-image: url(&dtml-portal_url;/faq_icon.gif);
@@ -163,12 +172,14 @@ h2.section-subheading {
 }
 
 .current {
-  font-weight:bold;
+  font-weight:normal;
 }
 
 #faq {
    float:right; 
-   margin: 0 0 1em 1em;"
+   margin: 0 0 0em 0em;
+   border:1px solid #74AE0B;
+   padding:2px 4px 2px 4px;  
 }
 
 .textcenter {
@@ -184,6 +195,11 @@ h2.section-subheading {
    float:right; 
    text-align: center; 
    margin: 1em 0 1em 1em;
+}
+
+.identityright {
+   clear:none;
+   align:right;
 }
 
 .floatleft {
@@ -210,5 +226,22 @@ h2.section-subheading {
    float: right;
    width:250px;
    border:1px solid #74AE0B;
+   margin: 0px 0px 2px 9px;
 }
+
+.portlet-toc-item a{
+color:#463229;
+text-decoration: none;
+}
+.portlet-toc-item a:hover {
+background-color: #EEEEEE;
+color:black;
+}
+
+.portlet-toc-item .current{
+color:#6A0803;
+background-color: transparent;
+}
+
 /* </dtml-with> */
+

@@ -254,7 +254,7 @@ tabberObj.prototype.init = function(e)
     DOM_a = document.createElement("a");
     DOM_span = document.createElement("span");
     
-    DOM_span.appendChild(document.createTextNode(t.headingText));
+    DOM_span.appendChild(document.createTextNode(t.headingText + " "));
     DOM_a.appendChild(DOM_span);
     
     DOM_a.href = "javascript:void(null);";
@@ -548,3 +548,4 @@ if (typeof tabberOptions == 'undefined') {
   }
 
 }
+

@@ -30,12 +30,16 @@
     <span tal:omit-tag="" tal:condition="python:here.getNavBarPosition() in ['both', 'top']">
     <div metal:use-macro="here/referencemanual_macros/macros/navigation_bar"/>
     </span>
-        
+    <br/>
+
+    <div metal:use-macro="here/phc_macros/macros/identityimage">
+      Identity Image 
+    </div>
     <h1 class="documentFirstHeading">
-        <img tal:replace="structure here/referencemanual_icon.gif" />
-        <span tal:replace="numbering">1.2.</span>
+        <span tal:replace="numbering" tal:condition="python:here.getNavType() == 'yes'">1.2.</span>
         <span tal:replace="here/Title">Title</span>
     </h1>
+
     
     <a href=""
            class="link-parent"
@@ -52,47 +56,6 @@
       You must publish this page before it becomes visible to the public.
     </div>
 
-    <div metal:use-macro="here/phc_macros/macros/identityimage">
-      Identity Image 
-    </div>
-
-    <span tal:omit-tag="" tal:condition="python:here.getTocType() == 'drop'">    
-    <div metal:use-macro="here/referencemanual_macros/macros/jump_box"/>
-    </span>
-    <span tal:omit-tag="" tal:condition="python:here.getTocType() == 'box'">
-        <div class="visualClear">&nbsp;</div>
-
-    <tal:block define="fullToc python:here.getTOC(current = context.aq_parent);
-                       tocInfo python:here.getTOCInfo(fullToc);
-                   toc  python:tocInfo['localTOC'] or fullToc;">
-    
-	<div metal:define-slot="sectiontoc">
-    <div class="stoc"
-         tal:define="parent python:context.aq_parent">
-      
-    <table>
-        <tr>
-                <td valign="top" tal:condition="python:len(toc)">                   
-                <span tal:content="python:toc[0]['numbering'][:-3]"></span>:
-                </td>
-                <td valign="top">                                     
-      <a href="" tal:attributes="href parent/absolute_url">
-        <span tal:content="string:${parent/Title}" tal:attributes="class
-        python:'state-'+here.portal_workflow.getInfoFor(parent, 'review_state')" />
-      </a>
-      <p class="pmargin">
-           <span tal:replace="parent/Description">Description</span>
-      </p>        
-        <metal:recursion use-macro="here/referencemanual_macros/macros/float_toc"/>
-                </td>
-        </tr>
-    </table>
-
-    </div>
-	</div>
-            
-    </tal:block>
-    </span>
     <span tal:omit-tag="" tal:condition="python:here.getDisType() == 'yes'">
 
     <div class="documentDescription"
@@ -126,6 +89,7 @@
                                             width="16"
                                             title="Edit subpage"/>
                         </a>
+                        <br/>
                         <h2 class="tabberHeading" tal:content="subpage/Title">Tab</h2>
                         <tal:content tal:define="batch_base_url string:${here/absolute_url}/${template_id};
                                                  here python: subpage;
@@ -142,7 +106,7 @@
     <div metal:use-macro="here/helpcenter_references/macros/view_referenced_items">
       see also - shows the references if this feature is switched on
     </div>
-
+    <br/>
     <span tal:omit-tag="" tal:condition="python:here.getNavBarPosition() in ['both', 'bottom']">
     <div metal:use-macro="here/referencemanual_macros/macros/navigation_bar"/>
     </span>

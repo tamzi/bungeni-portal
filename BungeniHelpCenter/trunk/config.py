@@ -17,6 +17,7 @@ TYPE_PARAMS['TabbedSubpages'] = { 'portal_type' : 'TabbedSubpages'
 
 BUNGENI_REFERENCEABLE_TYPES = (
     'BungeniHelpCenterReferenceManual',
+    'BungeniHelpCenterReferenceSection',
     'BungeniHelpCenterReferenceManualPage',
     'HelpCenterReferenceManual',
     'HelpCenterReferenceManualFolder',
@@ -26,6 +27,8 @@ BUNGENI_REFERENCEABLE_TYPES = (
     'HelpCenterTutorialFolder',
     'BungeniHelpCenterTutorial',
     'BungeniHelpCenterTutorialPage',
+    'HelpCenterTutorial',
+    'HelpCenterTutorialPage'
     'Document',
     'Event',
     'File',
@@ -46,4 +49,5 @@ BUNGENI_REFERENCEABLE_TYPES = (
     'HelpCenterHowToFolder',
     'HelpCenterLink',
     'HelpCenterLinkFolder',
+
 )

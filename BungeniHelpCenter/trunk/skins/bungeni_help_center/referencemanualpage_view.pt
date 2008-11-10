@@ -14,34 +14,23 @@
                       current    python:tocList[currentIdx];
                       numbering  current/numbering;
                       subpages python:here.objectValues(['TabbedSubpages',]);">
-                   
+    <br/>               
     <div metal:use-macro="here/document_actions/macros/document_actions">
       Document actions (print, sendto etc)
     </div>
+   <br/>
     <span tal:omit-tag="" tal:condition="python:here.getNavBarPosition() in ['both', 'top']">
     <div metal:use-macro="here/referencemanual_macros/macros/navigation_bar"/>
-    </span>
-        
+
+    </span><br/>
+
+
+ 
     <h1 class="documentFirstHeading">
-        <img tal:replace="structure here/referencemanual_icon.gif" />
-        <span tal:replace="numbering">1.2.</span>
+
+        <span tal:replace="numbering" tal:condition="python:here.getNavType() == 'yes'">1.2.</span>
         <span tal:replace="here/Title">Title</span>
     </h1>
-    
-    <a href=""
-           class="link-parent"
-           tal:define="parent_url python:here.navigationParent(here, template.getId())"
-           tal:condition="parent_url"
-           tal:attributes="href parent_url"
-           i18n:domain="plone"
-           i18n:translate="go_to_parent_url">
-        Up one level
-        </a>
-    <div class="portalMessage"
-         tal:condition="python:here.portal_workflow.getInfoFor(here, 'review_state') != 'published'"
-         i18n:translate="must_publish_before_visible_to_public">
-      You must publish this page before it becomes visible to the public.
-    </div>
 
     <div metal:use-macro="here/phc_macros/macros/identityimage">
       Identity Image 
@@ -51,7 +40,7 @@
         <div metal:use-macro="here/referencemanual_macros/macros/jump_box"/>
     </span>
     <span tal:omit-tag="" tal:condition="python:here.getTocType() == 'box'">
-        <div class="visualClear">&nbsp;</div>
+    <div class="visualClear">&nbsp;</div>
 
     <tal:block define="fullToc python:here.getTOC(current = context.aq_parent);
                        tocInfo python:here.getTOCInfo(fullToc);
@@ -60,22 +49,29 @@
 	<div metal:define-slot="sectiontoc">
     <div class="stoc"
          tal:define="parent python:context.aq_parent">
-      
+
+    <div class="portalMessage"
+         tal:condition="python:here.portal_workflow.getInfoFor(here, 'review_state') != 'published'"
+         i18n:translate="must_publish_before_visible_to_public">
+      You must publish this page before it becomes visible to the public.
+    </div>
+
+     
     <table>
         <tr>
                 <td valign="top" tal:condition="python:len(toc)">                   
-                <span tal:content="python:toc[0]['numbering'][:-3]"></span>:
+                <span tal:content="python:toc[0]['numbering'][:-3]" tal:condition="python:here.getNavType() == 'yes'" ></span>
+                <span tal:condition="python:here.getNavType() == 'yes'" >:</span>
                 </td>
                 <td valign="top">                                     
-      <a href="" tal:attributes="href parent/absolute_url">
-        <span tal:content="string:${parent/Title}" tal:attributes="class
-        python:'state-'+here.portal_workflow.getInfoFor(parent, 'review_state')" />
-      </a>
+      <!--<a href="" tal:attributes="href parent/absolute_url">-->
+        <span tal:content="string:${parent/Title}"/>
+      <!--</a>-->
       <p class="pmargin">
            <span tal:replace="parent/Description">Description</span>
       </p>        
         <metal:recursion use-macro="here/referencemanual_macros/macros/float_toc"/>
-                </td>
+      </td>
         </tr>
     </table>
 
@@ -122,7 +118,10 @@
     <div metal:use-macro="here/helpcenter_references/macros/view_referenced_items">
       see also - shows the references if this feature is switched on
     </div>
+
+    <br/><br/>
     <span tal:omit-tag="" tal:condition="python:here.getNavBarPosition() in ['both', 'bottom']">
+    <div class="visualClear">&nbsp;</div>
     <div metal:use-macro="here/referencemanual_macros/macros/navigation_bar"/>
     </span>
 
@@ -135,3 +134,4 @@
 
 </body>
 </html>
+

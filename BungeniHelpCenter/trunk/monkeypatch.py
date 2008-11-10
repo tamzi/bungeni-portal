@@ -8,11 +8,16 @@ try:
 except ImportError:
     from Products.CMFCore import CMFCorePermissions
 
+
 try:
     from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
+    from Products.SearchReferenceWidget.SearchReferenceWidget import SearchReferenceWidget
     PHCReferenceWidget = ReferenceBrowserWidget
+    #PHCReferenceWidget = SearchReferenceWidget
 except ImportError:
     PHCReferenceWidget = ReferenceWidget
+
+
 from Products.Archetypes.ClassGen import generateMethods
 import string
 from Products.CMFCore.utils import getToolByName
@@ -33,6 +38,16 @@ from Products.PloneHelpCenter.content import HowToFolder
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin, fti_meta_type
 from Products.PortalTaxonomy.fields import AttributeField, CategoryField
 from Products.ATContentTypes.content import folder
+
+def getExtraArgs(self):
+
+    """ return extra livesearch arguments """
+
+    # search only one level underneath current object
+    return {'path' : {'query' : '/'.join(self.getPhysicalPath()),
+                      'depth' : 1,
+                     }
+           }
 
 BodyField =  TextField(
         'body',
@@ -150,6 +165,8 @@ RightsField =  TextField(
                  ),
          )
 
+
+
 PositionField =  StringField('navbar_position',
                              accessor = 'getNavBarPosition',
                              mutator = 'setNavBarPosition',
@@ -181,11 +198,44 @@ def getLayout(self, **kw):
     if aliases.has_key("view") and aliases["view"]:
         return aliases["view"]
     raise Exception("Current Layout Failed")
+    
+def trunc(self,s,min_pos=0,max_pos=35,ellipsis=True):
+    # Sentinel value -1 returned by String function rfind
+    NOT_FOUND = -1
+    # Error message for max smaller than min positional error
+    ERR_MAXMIN = 'Minimum position cannot be greater than maximum position'
+    
+    # If the minimum position value is greater than max, throw an exception   
+    if max_pos < min_pos:
+        raise ValueError(ERR_MAXMIN)
+    # Change the ellipsis characters here if you want a true ellipsis
+    if ellipsis and len(s) > max_pos:
+        suffix = '...'
+    else:
+        suffix = ''
+    # Case 1: Return string if it is shorter (or equal to) than the limit
+    length = len(s)
+    if length <= max_pos:
+        return s + suffix
+    else:
+        # Case 2: Return it to nearest period if possible
+        try:
+            end = s.rindex('.',min_pos,max_pos)
+        except ValueError:
+            # Case 3: Return string to nearest space
+            end = s.rfind(' ',min_pos,max_pos)
+            if end == NOT_FOUND:
+                end = max_pos
+        return s[0:end] + suffix    
+          
 
 PHCContent.getLayout = getLayout.__get__(None, PHCContent)
 
 # Patching PHCFolder
 PHCFolder = PHCFolder.PHCFolder
+
+
+
 
 def _sectionCmpByCreation(a, b):
     # depends on cmp(True, False) == 1
@@ -272,7 +322,7 @@ HelpCenterGlossary.schema.moveField('categories', pos='bottom')
 HelpCenterGlossary.schema.moveField('attribs', pos='bottom')
 
 def alphabetise(self):
-    items = self.getFolderContents()
+    items = self.getFolderContents({'sort_on':'sortable_title'})
 
     alphabets = {}
     for x in string.uppercase:
@@ -288,7 +338,6 @@ def alphabetise(self):
             string.uppercase]
 
 HelpCenterGlossary.alphabetise = alphabetise.__get__(None, HelpCenterGlossary)
-
 generateMethods(HelpCenterGlossary, HelpCenterGlossary.schema.fields())
 
 # Patching HelpCenterDefinition
@@ -314,7 +363,7 @@ HelpCenterFAQFolder.schema.moveField('rights', pos='bottom')
 HelpCenterFAQFolder.schema.moveField('categories', pos='bottom')
 HelpCenterFAQFolder.schema.moveField('attribs', pos='bottom')
 
-
+HelpCenterFAQFolder.trunc = trunc
 generateMethods(HelpCenterFAQFolder, HelpCenterFAQFolder.schema.fields())
 
 # Patching FAQ
@@ -336,6 +385,7 @@ HelpCenterLinkFolder.schema.moveField('categories', pos='bottom')
 HelpCenterLinkFolder.schema.moveField('attribs', pos='bottom')
 
 HelpCenterLinkFolder.alphabetise = alphabetise.__get__(None, HelpCenterLinkFolder)
+HelpCenterLinkFolder.trunc = trunc
 
 generateMethods(HelpCenterLinkFolder, HelpCenterLinkFolder.schema.fields())
 
@@ -344,7 +394,7 @@ HelpCenterLink = Link.HelpCenterLink
 
 HelpCenterLinkFolder.schema['description'].required = 0
 
-HelpCenterLink.schema = HelpCenterLink.schema + Schema((BodyField),)
+HelpCenterLink.schema = HelpCenterLink.schema + Schema((BodyField, TaxCategoryField, TaxAttributesField),)
 HelpCenterLink.schema.moveField('url', pos='bottom')
 HelpCenterLink.schema.moveField('relatedItems', pos='bottom')
 HelpCenterLink.schema.moveField('sections', pos='bottom')
@@ -352,6 +402,8 @@ HelpCenterLink.schema.moveField('contributors', pos='bottom')
 HelpCenterLink.schema.moveField('subject', pos='bottom')
 HelpCenterLink.schema.moveField('startHere', pos='bottom')
 HelpCenterLink.schema.moveField('relatedItems', pos='bottom')
+HelpCenterLinkFolder.schema.moveField('categories', pos='bottom')
+HelpCenterLinkFolder.schema.moveField('attribs', pos='bottom')
 
 generateMethods(HelpCenterLink, HelpCenterLink.schema.fields())
 
@@ -368,14 +420,6 @@ generateMethods(HelpCenterReferenceManualFolder, HelpCenterReferenceManualFolder
 # Patching ReferenceManualPage
 
 # Patching ReferenceManualSection
-HelpCenterReferenceManualSection = ReferenceManualSection.HelpCenterReferenceManualSection
-
-HelpCenterReferenceManualSection.schema['description'].required = 0
-
-HelpCenterReferenceManualSection.schema = \
-    HelpCenterReferenceManualSection.schema + Schema((BodyField, RelatedItemsField),)
-
-generateMethods(HelpCenterReferenceManualSection, HelpCenterReferenceManualSection.schema.fields())
 
 # Patching TutorialFolder
 
@@ -389,6 +433,7 @@ HelpCenterTutorialFolder.schema = HelpCenterTutorialFolder.schema + \
 HelpCenterTutorialFolder.schema.moveField('sectionsVocab', pos='bottom')
 HelpCenterTutorialFolder.schema.moveField('contributors', pos='bottom')
 HelpCenterTutorialFolder.schema.moveField('relatedItems', pos='bottom')
+
 
 generateMethods(HelpCenterTutorialFolder, HelpCenterTutorialFolder.schema.fields())
 

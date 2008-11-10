@@ -58,10 +58,11 @@ def install(self, reinstall=False):
 
     tutorial_folder = types['HelpCenterReferenceManualFolder']
     tutorial_folder.allowed_content_types = ('BungeniHelpCenterReferenceManual',)
+    tutorial_folder.allowed_content_types = ('BungeniHelpCenterGlossary',)
 
     reference_section = types['HelpCenterReferenceManualSection']
     reference_section.allowed_content_types = ('BungeniHelpCenterReferenceManualPage', 'Image',\
-                                                   'HelpCenterReferenceManualSection')
+                                                   'BungeniHelpCenterReferenceManualSection')
 
     classes = listTypes(PROJECTNAME)
     installTypes(self, out,
@@ -76,6 +77,7 @@ def install(self, reinstall=False):
     return out.getvalue()
 
 def uninstall(self, reinstall=False):
+    portal = getToolByName(self,'portal_url').getPortalObject()
     out = StringIO()
     from Products.ResourceRegistries.config import CSSTOOLNAME, JSTOOLNAME
     

@@ -26,13 +26,17 @@
       <tal:toc>
         <a class="link-parent"
           tal:attributes="href here_url">
-	  <span i18n:translate="phc_up_to_toc">Up to Table of Contents</span>
+	  <span i18n:translate="phc_up_to_toc">View FAQ listing</span>
 	  </a>
       </tal:toc>
 
     <div metal:use-macro="here/phc_macros/macros/identityimage">
       Identity Image 
     </div>
+
+<br/><br/>
+
+<h2 class="section"><u> Category: <span tal:content="section"> Section Heading</span></u></h2>
 
       <div class="documentDescription"
         tal:content="here/Description">
@@ -45,14 +49,13 @@
       Description
     </div>
 
-      <h2 tal:content="section">Section Heading</h2>
+      
 
-      <div class="faqMarker" tal:repeat="faq python: here.getItemsBySection(section=section)">
+       <div class="faqMarker" tal:repeat="faq python: here.getItemsBySection(section=section)">
 
       <tal:faq define="faq faq/getObject">
 
         <h3>
-          <img tal:replace="structure here/faq_icon.gif" />
           <span tal:replace="faq/Title">Question</span>
           <img src="error_icon.gif" alt="!" class="outdatedMarker"
                      tal:condition="faq/isOutdated"

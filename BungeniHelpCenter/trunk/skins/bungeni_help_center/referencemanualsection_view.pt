@@ -16,27 +16,30 @@
     <div metal:use-macro="here/document_actions/macros/document_actions">
       Document actions (print, sendto etc)
     </div>
+
+
     <span tal:omit-tag="" tal:condition="python:here.getNavBarPosition() in ['both', 'top']">
     <div metal:use-macro="here/referencemanual_macros/macros/navigation_bar"/>
-    </span>
-    <h1 class="documentFirstHeading">
-        <img tal:replace="structure here/referencemanual_icon.gif" />
-        <span tal:content="currentInfo/numbering"></span>
-        <span tal:replace="here/Title">Title</span>
-    </h1>
-    
-    <a href=""
-           class="link-parent"
-           tal:define="parent_url python:here.navigationParent(here, template.getId())"
-           tal:condition="parent_url"
-           tal:attributes="href parent_url"
-           i18n:domain="plone"
-           i18n:translate="go_to_parent_url">
-        Up one level
-        </a>
+    </span><br />
+
+        <p class="visualNoPrint" tal:condition="nocall:toc">
+          <a href="referencemanual-all-pages"
+             i18n:translate="all_content_on_one_page">
+            All content on one page (useful for printing, presentation mode etc.)
+          </a>
+        </p>
+
     <div metal:use-macro="here/phc_macros/macros/identityimage">
       Identity Image 
     </div>
+
+    <h1 class="documentFirstHeading">
+        
+        <!--<span tal:content="currentInfo/numbering"></span>-->
+        <span tal:replace="here/Title">Title</span>
+    </h1>
+    
+
 
     <div class="portalMessage"
          tal:condition="python:here.portal_workflow.getInfoFor(here, 'review_state') != 'published'"
@@ -44,12 +47,6 @@
         You must publish this page before it becomes visible to the public.
     </div>
     
-    <p class="visualNoPrint" tal:condition="nocall:toc">
-      <img tal:replace="structure here/referencemanual_icon.gif" />
-      <a href="referencemanual-all-pages">
-      All content on one page (useful for printing, presentation mode etc.)
-      </a>
-    </p>
     
     <div class="documentDescription"
       tal:condition="here/Description"
@@ -63,21 +60,13 @@
       Description
     </div>
 
-    <metal:recursion use-macro="here/referencemanual_macros/macros/section_toc"/>
-        
-    <p tal:condition="not:nocall:toc" class="discreet">
-      <span i18n:translate="view_no_reference_manual1" tal:omit-tag="">There are no pages or sections in this Reference Manual.</span>
-      <tal:block condition="python:user.has_permission('Modify portal content', here)"
-                 i18n:translate="view_no_reference_manual2">
-        Use the 'add new item' menu to add Sections, Pages, Files, or Images.
-        Sections can be nested in an arbitrary depth, but we recommend not
-        using more than three or four levels for good legibility.
-      </tal:block>
-    </p>
+    
     <div metal:use-macro="here/helpcenter_references/macros/view_referenced_items">
       see also - shows the references if this feature is switched on
     </div>
-    
+     
+   <metal:recursion use-macro="here/referencemanual_macros/macros/section_title_collation"/>    
+<br/>
     <span tal:omit-tag="" tal:condition="python:here.getNavBarPosition() in ['both', 'bottom']">
     <div metal:use-macro="here/referencemanual_macros/macros/navigation_bar"/>
     </span>

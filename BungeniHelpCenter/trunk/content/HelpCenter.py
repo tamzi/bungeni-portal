@@ -14,13 +14,14 @@ from Products.PloneHelpCenter.content.PHCContent import PHCContent
 from Products.ATContentTypes.content.document import ATDocument
 
 from Products.PloneHelpCenter.content import ReferenceManual,\
-    Tutorial, TutorialPage, ReferenceManualPage
+    Tutorial, TutorialPage, ReferenceManualPage, ReferenceManualSection, Glossary
 from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin, fti_meta_type
 from Products.CMFCore.permissions import View
 from AccessControl import ClassSecurityInfo
 from Products.CMFPlone.browser.navtree import NavtreeStrategyBase, buildFolderTree
 from Products.PloneHelpCenter.config import DEFAULT_CONTENT_TYPES, REFERENCEABLE_TYPES, IMAGE_SIZES
 from Products.BungeniHelpCenter.config import BUNGENI_REFERENCEABLE_TYPES
+
 
 try:
     from Products.CMFDynamicViewFTI.interfaces import ISelectableBrowserDefault
@@ -29,11 +30,24 @@ except ImportError:
     HAS_ISBD = False
 try:
     from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import ReferenceBrowserWidget
+    from Products.SearchReferenceWidget.SearchReferenceWidget import SearchReferenceWidget
     PHCReferenceWidget = ReferenceBrowserWidget
+    #PHCReferenceWidget = SearchReferenceWidget
 except ImportError:
     PHCReferenceWidget = ReferenceWidget
 from Products.PortalTaxonomy.fields import AttributeField, CategoryField
 from Products.BungeniHelpCenter.content import roman
+
+def getExtraArgs(self):
+
+    """ return extra livesearch arguments """
+
+    # search only one level underneath current object
+    return {'path' : {'query' : '/'.join(self.getPhysicalPath()),
+                      'depth' : 1,
+                     }
+           }
+
 
 BodyField =  TextField(
         'body',
@@ -98,7 +112,8 @@ TocType =  StringField('toc_type',
                        mutator = 'setTocType',
                        vocabulary = DisplayList((
                                    ('drop', 'Drop Down'),
-                                   ('box', 'Box'),)),
+                                   ('box', 'Box'),
+				   ('none', 'None'),)),
                        searchable=0,
                        default= ('drop'),
                        widget=
@@ -127,6 +142,23 @@ DisType =  StringField('dis_type',
                                        ),
                        )
 
+NavType =  StringField('nav_type',
+                       accessor = 'getNavType',
+                       mutator = 'setNavType',
+                       vocabulary = DisplayList((
+                                   ('yes', 'Yes'),
+                                   ('no', 'No'),)),
+                       searchable=0,
+                       default= ('yes'),
+                       widget=
+                       SelectionWidget(label='Display Numbering',
+                                       label_msgid="label_nav_type",
+                                       description="Select numbering display option.",
+                                       description_msgid="help_nav_type",
+                                       i18n_domain="plone"
+                                       ),
+                       )
+
 ContributorsField =  LinesField(
         'contributors',
         accessor="Contributors",
@@ -151,6 +183,20 @@ RightsField =  TextField(
                  i18n_domain="plonehelpcenter"
                  ),
          )
+
+DatePublishedField =  DateTimeField(
+         'publishdate',
+         accessor="pub-date",
+         widget=CalendarWidget(
+                 show_hm=False,
+                 label='Date Published',
+                 description="Date on which this item was published.",
+                 label_msgid="phc_label_date_published",
+                 description_msgid="phc_label_date_published",
+                 i18n_domain="plonehelpcenter"
+                 ),
+         )
+
 
 PositionField =  StringField('navbar_position',
                              accessor = 'getNavBarPosition',
@@ -187,10 +233,12 @@ RelatedItemsField =  ReferenceField(
                 ),
     )
 
+
+
 HelpCenterReferenceManual = ReferenceManual.HelpCenterReferenceManual
 
 HelpCenterReferenceManualSchema = HelpCenterReferenceManual.schema + Schema((BodyField, IdentityField, IdentityPosition, RightsField,\
- PositionField, TocType, DisType, TaxCategoryField, TaxAttributesField),)
+ PositionField, TocType, DisType, NavType, TaxCategoryField, TaxAttributesField),)
 
 HelpCenterReferenceManualSchema['description'].required = 0
 HelpCenterReferenceManualSchema.moveField('relatedItems', pos='bottom')
@@ -205,26 +253,25 @@ HelpCenterReferenceManualSchema.moveField('categories', pos='bottom')
 HelpCenterReferenceManualSchema.moveField('attribs', pos='bottom')
 
 class BungeniHelpCenterReferenceManual(BrowserDefaultMixin,  HelpCenterReferenceManual):
-    """A reference manual containing ReferenceManualPages,
-    ReferenceManualSections, Files and Images.
-    """
+    """A document that is subdivided in chapters, sections and pages. It can also contain images and files"""
 
     __implements__ =(PHCContent.__implements__,
                       OrderedBaseFolder.__implements__,)
 
-    archetype_name = 'Reference Manual'
+    archetype_name = 'Hierarchical Document'
     meta_type='HelpCenterReferenceManual'
     content_icon = 'referencemanual_icon.gif'
     schema = HelpCenterReferenceManualSchema
+    
 
-    global_allow = 0
+    global_allow = 1
     filter_content_types = 1
     allowed_content_types =('BungeniHelpCenterReferenceManualPage', 
-                             'HelpCenterReferenceManualSection', 
+                             'BungeniHelpCenterReferenceManualSection', 
                              'Image', 'File')
     # allow_discussion = IS_DISCUSSABLE
 
-    typeDescription= 'A Reference Manual can contain Reference Manual Pages and Sections, Images and Files. Index order is decided by the folder order, use the normal up/down arrow in the folder content view to rearrange content.'
+    typeDescription= 'A Hierarchical Document can contain Sections, Pages, Images and Files.'
     typeDescMsgId  = 'description_edit_referencemanual'
 
     default_view = 'referencemanual_view'
@@ -275,6 +322,36 @@ class BungeniHelpCenterReferenceManual(BrowserDefaultMixin,  HelpCenterReference
                 ('bottom', 'Bottom'),
                 ))
 
+    security.declareProtected(CMFCorePermissions.View, 'trunc')
+    def trunc(self,s,min_pos=0,max_pos=35,ellipsis=True):
+        # Sentinel value -1 returned by String function rfind
+        NOT_FOUND = -1
+        # Error message for max smaller than min positional error
+        ERR_MAXMIN = 'Minimum position cannot be greater than maximum position'
+    
+        # If the minimum position value is greater than max, throw an exception   
+        if max_pos < min_pos:
+            raise ValueError(ERR_MAXMIN)
+        # Change the ellipsis characters here if you want a true ellipsis
+        if ellipsis and len(s) > max_pos:
+            suffix = '...'
+        else:
+            suffix = ''
+        # Case 1: Return string if it is shorter (or equal to) than the limit
+        length = len(s)
+        if length <= max_pos:
+            return s + suffix
+        else:
+            # Case 2: Return it to nearest period if possible
+            try:
+                end = s.rindex('.',min_pos,max_pos)
+            except ValueError:
+                # Case 3: Return string to nearest space
+                end = s.rfind(' ',min_pos,max_pos)
+                if end == NOT_FOUND:
+                    end = max_pos
+            return s[0:end] + suffix
+
     security.declareProtected(CMFCorePermissions.View, 'getTOC')
     def getTOC(self, current=None, root=None):
         """Get the table-of-contents of this manual. 
@@ -311,7 +388,7 @@ class BungeniHelpCenterReferenceManual(BrowserDefaultMixin,  HelpCenterReference
                 
         strategy = Strategy()
         query=  {'path'        : '/'.join(root.getPhysicalPath()),
-                 'portal_type' : ('HelpCenterReferenceManualSection',
+                 'portal_type' : ('BungeniHelpCenterReferenceManualSection',
                                    'BungeniHelpCenterReferenceManualPage',),
                  'sort_on'     : 'getObjPositionInParent'}
                 
@@ -351,7 +428,7 @@ registerType(BungeniHelpCenterReferenceManual, PROJECTNAME)
 HelpCenterTutorial = Tutorial.HelpCenterTutorial
 
 HelpCenterTutorialSchema = HelpCenterTutorial.schema +\
-    Schema((BodyField, PositionField, TocType, DisType, TaxCategoryField, TaxAttributesField),)
+    Schema((BodyField, PositionField, TocType, DisType, NavType, TaxCategoryField, TaxAttributesField),)
 
 HelpCenterTutorialSchema['description'].required = 0
 HelpCenterTutorialSchema.moveField('body', pos='top')
@@ -364,11 +441,11 @@ class BungeniHelpCenterTutorial(BrowserDefaultMixin, HelpCenterTutorial):
     __implements__ = (PHCContent.__implements__,
                       OrderedBaseFolder.__implements__,)
 
-    archetype_name = 'Tutorial'
-    meta_type = portal_type = 'HelpCenterTutorial'
+    archetype_name = 'Categorized Document'
+    meta_type = 'HelpCenterTutorial'
     content_icon = 'tutorial_icon.gif'
     schema = HelpCenterTutorialSchema
-    global_allow = 0
+    global_allow = 1
     filter_content_types = 1
     allowed_content_types = ('BungeniHelpCenterTutorialPage', 'Image', 'File')
     # allow_discussion = IS_DISCUSSABLE
@@ -573,7 +650,7 @@ class BungeniHelpCenterReferenceManualPage(BrowserDefaultMixin, OrderedBaseFolde
     # allow_discussion = IS_DISCUSSABLE
     _at_rename_after_creation = True
 
-    typeDescription= 'A Tutorial can contain Tutorial Pages, Images and Files. Index order is decided by the folder order, use the normal up/down arrow in the folder content view to rearrange content.'
+    typeDescription= 'A basic page.'
     typeDescMsgId  = 'description_edit_tutorial'
 
     default_view = 'referencemanualpage_view'
@@ -610,6 +687,7 @@ class BungeniHelpCenterReferenceManualPage(BrowserDefaultMixin, OrderedBaseFolde
         data = ' '.join(data)
         
         return data
+        
 
 
     actions = (
@@ -648,3 +726,197 @@ class BungeniHelpCenterReferenceManualPage(BrowserDefaultMixin, OrderedBaseFolde
         }
 
 registerType(BungeniHelpCenterReferenceManualPage, PROJECTNAME)
+
+
+
+HelpCenterReferenceManualSection = ReferenceManualSection.HelpCenterReferenceManualSection
+
+HelpCenterReferenceManualSection.schema['description'].required = 0
+HelpCenterReferenceManualSection.schema['body'].required = 0
+
+BungeniHelpCenterReferenceManualSectionSchema = \
+    HelpCenterReferenceManualSection.schema + Schema((RelatedItemsField),)
+
+class BungeniHelpCenterReferenceManualSection(BrowserDefaultMixin, OrderedBaseFolder, HelpCenterReferenceManualSection):
+    """A section of a hierarchical document. It can contain sections and pages.
+    """
+
+    __implements__ = (PHCContent.__implements__,
+                      OrderedBaseFolder.__implements__,)
+
+    archetype_name = 'Section'
+    meta_type='BungeniHelpCenterReferenceManualSection'
+    content_icon = 'document_icon.gif'
+    schema = BungeniHelpCenterReferenceManualSectionSchema
+    global_allow = 0
+    filter_content_types = 1
+    allowed_content_types =('BungeniHelpCenterReferenceManualSection', 
+                             'BungeniHelpCenterReferenceManualPage', 'Image', 'TabbedSubpages')
+    # allow_discussion = IS_DISCUSSABLE
+    _at_rename_after_creation = True
+
+    typeDescription= 'A Section can containPages, and other Sections. Index order is decided by the folder order, use the normal up/down arrow in the folder content view to rearrange content.'
+    typeDescMsgId  = 'description_edit_referencemanualsection'
+
+    default_view = 'referencemanualsection_view'
+    suppl_views = ('referencemanualpage_horizontal_tabs', 'referencemanualpage_vertical_tabs', 'referencemanualsection_view_page')
+    
+    security = ClassSecurityInfo()
+
+    security.declareProtected(View, 'getTargetObjectLayout')
+    def getTargetObjectLayout(self, target):
+        """
+        Returns target object 'view' action page template
+        """
+        
+        if HAS_ISBD and ISelectableBrowserDefault.isImplementedBy(target):
+            return target.getLayout()
+        else:
+            view = target.getTypeInfo().getActionById('view') or 'base_view'
+            
+            # If view action is view, try to guess correct template
+            if view == 'view':
+                view = target.portal_type.lower() + '_view'
+                
+            return view
+
+    def SearchableText(self):
+        """Append references' searchable fields."""
+        
+        data = [HelpCenterReferenceManualSection.SearchableText(self),]
+        
+        subpages = self.objectValues(['TabbedSubpages',])
+        for subpage in subpages:
+            data.append(subpage.SearchableText())
+            
+        data = ' '.join(data)
+        
+        return data
+         
+            
+
+
+    actions = (
+        {'id'          : 'view',
+         'name'        : 'View',
+         'action'      : 'string:${object_url}',
+         'permissions' : (CMFCorePermissions.View,)
+         },
+        {'id'          : 'edit',
+         'name'        : 'Edit',
+         'action'      : 'string:${object_url}/edit',
+         'permissions' : (CMFCorePermissions.ModifyPortalContent,),
+         },
+        {'id'          : 'metadata',
+         'name'        : 'Properties',
+         'action'      : 'string:${object_url}/properties',
+         'permissions' : (CMFCorePermissions.ModifyPortalContent,),
+         },
+        {'id'          : 'local_roles',
+         'name'        : 'Sharing',
+         'action'      : 'string:${object_url}/sharing',
+         'permissions' : (CMFCorePermissions.ManageProperties,),
+         },
+        )
+
+    aliases = {
+        '(Default)'  : '(dynamic view)',
+        'view'       : '(selected layout)',
+        'index.html' : '',
+        'edit'       : 'base_edit',
+        'properties' : 'base_metadata',
+        'sharing'    : 'folder_localrole_form',
+        'stats'      : 'phc_stats',
+        'gethtml'    : '',
+        'mkdir'      : '',
+        }
+
+registerType(BungeniHelpCenterReferenceManualSection, PROJECTNAME)
+
+
+
+HelpCenterGlossary = Glossary.HelpCenterGlossary
+HelpCenterGlossary.schema['description'].required = 0
+
+BungeniHelpCenterGlossarySchema = \
+    HelpCenterGlossary.schema + Schema((BodyField, IdentityField, IdentityPosition, ContributorsField, RelatedItemsField, TaxCategoryField, TaxAttributesField),)
+
+
+class BungeniHelpCenterGlossary(BrowserDefaultMixin, OrderedBaseFolder, HelpCenterGlossary):
+    """A Glossary containing definitions."""
+
+    __implements__ = (PHCContent.__implements__,
+                      OrderedBaseFolder.__implements__,)
+
+    archetype_name = 'Glossary'
+    meta_type='BungeniHelpCenterGlossary'
+    content_icon = 'document_icon.gif'
+    schema = BungeniHelpCenterGlossarySchema
+    global_allow = 0
+    filter_content_types = 1
+    allowed_content_types = ('HelpCenterDefinition',)
+    # allow_discussion = IS_DISCUSSABLE
+    _at_rename_after_creation = True
+
+    typeDescription= 'A Glossary can be used to hold definitions of common terms, listing them in a dictionary-like manner'
+    typeDescMsgId  = 'description_edit_glossary'
+
+    default_view = 'glossary_view'
+    
+    security = ClassSecurityInfo()
+
+    security.declareProtected(CMFCorePermissions.View, 'alphabetise')
+
+    def alphabetise(self):
+        items = self.getFolderContents()
+
+        alphabets = {}
+        for x in string.uppercase:
+            alphabets[x] = []
+
+        for item in items:
+            char = item.Title[0].upper()
+            if not alphabets.has_key(char):
+                continue
+            alphabets[char].append(item)
+
+        return [{'letter': x, 'items': alphabets[x]} for x in string.uppercase]
+            
+
+
+    actions = (
+        {'id'          : 'view',
+         'name'        : 'View',
+         'action'      : 'string:${object_url}',
+         'permissions' : (CMFCorePermissions.View,)
+         },
+        {'id'          : 'edit',
+         'name'        : 'Edit',
+         'action'      : 'string:${object_url}/edit',
+         'permissions' : (CMFCorePermissions.ModifyPortalContent,),
+         },
+        {'id'          : 'metadata',
+         'name'        : 'Properties',
+         'action'      : 'string:${object_url}/properties',
+         'permissions' : (CMFCorePermissions.ModifyPortalContent,),
+         },
+        {'id'          : 'local_roles',
+         'name'        : 'Sharing',
+         'action'      : 'string:${object_url}/sharing',
+         'permissions' : (CMFCorePermissions.ManageProperties,),
+         },
+        )
+
+    aliases = {
+        '(Default)'  : '(dynamic view)',
+        'view'       : '(selected layout)',
+        'index.html' : '',
+        'edit'       : 'base_edit',
+        'properties' : 'base_metadata',
+        'sharing'    : 'folder_localrole_form',
+        'stats'      : 'phc_stats',
+        'gethtml'    : '',
+        'mkdir'      : '',
+        }
+
+registerType(BungeniHelpCenterGlossary, PROJECTNAME)

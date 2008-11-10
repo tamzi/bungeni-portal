@@ -30,7 +30,7 @@
       Folder Title
     </h1>
 
-    <a href="" tal:attributes="href python:here.absolute_url()+'/helplinkfolder_sections'">Section Based View</a><br/><br/>
+    <a href="" tal:attributes="href python:here.absolute_url()+'/helplinkfolder_sections'">Category Based View</a><br/><br/>
 
     <div metal:use-macro="here/phc_macros/macros/identityimage">
       Identity Image 

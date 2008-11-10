@@ -4,10 +4,16 @@
     meta_type="Factory-based Type Information with dynamic views"/>
  <object name="BungeniHelpCenterTutorial"
     meta_type="Factory-based Type Information with dynamic views"/>
+ <object name="BungeniHelpCenterReferenceManualSection"
+    meta_type="Factory-based Type Information with dynamic views"/>
  <object name="TabbedSubpages"
+    meta_type="Factory-based Type Information with dynamic views"/>
+ <object name="CompositePage"
     meta_type="Factory-based Type Information with dynamic views"/>
  <object name="BungeniHelpCenterReferenceManualPage"
     meta_type="Factory-based Type Information with dynamic views"/>
  <object name="BungeniHelpCenterTutorialPage"
+    meta_type="Factory-based Type Information with dynamic views"/>
+ <object name="BungeniHelpCenterGlossary"
     meta_type="Factory-based Type Information with dynamic views"/>
 </object>

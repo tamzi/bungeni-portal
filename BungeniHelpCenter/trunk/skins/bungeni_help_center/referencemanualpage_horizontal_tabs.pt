@@ -21,19 +21,22 @@
                       current    python:tocList[currentIdx];
                       numbering  current/numbering;
                       subpages python:here.objectValues(['TabbedSubpages',]);">
-                   
+    <br/>              
     <div metal:use-macro="here/document_actions/macros/document_actions">
       Document actions (print, sendto etc)
     </div>
+    <br/>  
     <span tal:omit-tag="" tal:condition="python:here.getNavBarPosition() in ['both', 'top']">
     <div metal:use-macro="here/referencemanual_macros/macros/navigation_bar"/>
     </span>
+    <br/>  
         
     <h1 class="documentFirstHeading">
         <img tal:replace="structure here/referencemanual_icon.gif" />
-        <span tal:replace="numbering">1.2.</span>
+        <span tal:replace="numbering" tal:condition="python:here.getNavType() == 'yes'">1.2.</span>
         <span tal:replace="here/Title">Title</span>
     </h1>
+    <br/>  
     
     <a href=""
            class="link-parent"
@@ -70,7 +73,7 @@
     <table>
         <tr>
                 <td valign="top" tal:condition="python:len(toc)">                   
-                <span tal:content="python:toc[0]['numbering'][:-3]"></span>:
+                <span tal:content="python:toc[0]['numbering'][:-3]" tal:condition="python:here.getNavType() == 'yes'"></span>:
                 </td>
                 <td valign="top">                                     
       <a href="" tal:attributes="href parent/absolute_url">
@@ -155,3 +158,4 @@
 
 </body>
 </html>
+

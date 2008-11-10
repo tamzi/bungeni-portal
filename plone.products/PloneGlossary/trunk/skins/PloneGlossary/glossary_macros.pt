@@ -1,0 +1,82 @@
+<metal:master define-macro="azcss">
+      <style type="text/css">
+#nav, #nav ul { /* all lists */
+padding: 0;
+margin: 0;
+list-style: none;
+line-height: 1.5;
+}
+
+#nav a {
+display: block;
+
+}
+
+#nav a:hover {
+font-weight:normal;
+}
+
+#nav li ul a:hover {
+background-color:#fdf1ea;
+font-weight:normal;
+}
+
+#nav a:active {
+
+font-weight:bold;
+}
+#nav a:visited {
+/*text-decoration:none;*/
+font-weight:normal;
+}
+
+#nav li { /* all list items */
+float: left;
+width: 2.2em; /* width needed or else Opera goes nuts */
+margin:0em;
+}
+
+#nav li ul { /* second-level lists */
+padding:0em;
+position: absolute;
+width: 2.5em;
+left: -999em;
+background-color:#e3dede;
+}
+#nav li ul li div {
+ background-color:#e3dede;
+ width:20em;
+ padding:5px;
+}
+
+#nav li:hover ul, #nav li.sfhover ul { /* lists nested under hovered
+list items */
+left: auto;
+}
+a.linkSection {
+text-decoration: underline;
+}
+
+
+       </style>
+   
+</metal:master>
+
+<metal:master define-macro="azjs">
+<script type="text/javascript"><!--//--><![CDATA[//><!--
+
+sfHover = function() {
+var sfEls = document.getElementById("nav").getElementsByTagName("LI");
+for (var i=0; i<sfEls.length; i++) {
+sfEls[i].onmouseover=function() {
+this.className+=" sfhover";
+}
+sfEls[i].onmouseout=function() {
+this.className=this.className.replace(new RegExp(" sfhover\\b"), "");
+}
+}
+}
+if (window.attachEvent) window.attachEvent("onload", sfHover);
+
+//--><!]]></script>
+</metal:master>

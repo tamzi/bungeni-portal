@@ -1,0 +1,171 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      lang="en"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="ploneglossary">
+
+  <head>
+    <metal:block fill-slot="css_slot">
+      <metal:block metal:use-macro="here/glossary_macros/macros/azcss">
+      </metal:block>
+    </metal:block>
+    <metal:block fill-slot="javascript_head_slot">
+      <metal:block metal:use-macro="here/glossary_macros/macros/azjs">
+      </metal:block>
+    </metal:block>
+
+  </head>
+  <tal:comment replace="nothing">
+    ########################
+    Glossary definition view
+    ########################
+    $Id: ploneglossarydefinition_view.pt 54678 2007-11-29 17:26:50Z glenfant $
+  </tal:comment>
+  
+  <body>
+    <metal:main fill-slot="main">
+      <tal:main-macro metal:define-macro="main"
+                      tal:define="kssClassesView context/@@kss_field_decorator_view;
+                                  getKssClasses nocall:kssClassesView/getKssClassesInlineEditable;
+                                  text here/getDefinition;
+                                  variants here/getVariants;
+                                  chapters python:here.aq_parent.getFolderContents(contentFilter = {'portal_type' : ['PloneGlossaryDefinition'], 'sort_on':'sortable_title'});
+                                  sibl     python:[p for p in chapters];
+                                  num_sibl python:len(sibl);
+                                  pos      python: [i for i in range(num_sibl)  if sibl[i].getId == here.getId()][0];">
+
+
+
+
+        <tal:define define="results python:here.alphabetise();
+                       parent_url python:here.navigationParent(here, template.getId())">
+   <ul id="nav">
+     <span tal:omit-tag="" tal:repeat="item results">
+      <li tal:condition="python:not item['items']"
+      tal:content="item/letter" />
+      <li tal:condition="python:item['items']"><a href="#" tal:attributes="href python:parent_url + '#alpha' + item['letter']" tal:content="item/letter" />
+      <ul>
+          <li tal:repeat="definition python:item['items']"><div><a href="" tal:attributes="href definition/getURL" tal:content="definition/Title"></a></div>
+          </li>
+      </ul>
+      </li>
+      </span>
+   </ul>
+   </tal:define>
+<br/><br/>
+
+    <div class="listingBar" tal:condition="python: next or prev"
+              tal:define="next python:pos < num_sibl-1;
+                   prev python:pos != 0;">
+   <table class="navtable"><tr> 
+    <td class="leftcell">  
+               <span tal:condition="prev">
+                  <a class="listingPrevious"
+                     tal:define="prevsib python:sibl[pos-1]"
+                     tal:attributes="href prevsib/getURL"
+                     tabindex="2"
+                     href="">
+                    <img tal:replace="structure here/arrowLeft.gif" />
+                    <!--<span i18n:translate="label_previous">Previous: </span>-->
+                    <span tal:content="python:here.trunc(prevsib.Title)" /><span tal:content="prevsib/Title" class="hovertooltip" tal:condition="python:len(prevsib.Title) > len(here.trunc(prevsib.Title))"/> 
+                  </a>
+               </span>
+
+              
+               
+               
+               
+    </td>
+    <td class="rightcell">
+ 
+               <span tal:condition="next">
+                  <a class="listingNext"
+                   tal:define="nextsib python:sibl[pos+1]"
+                   tal:attributes="href nextsib/getURL"
+                   tabindex="1"
+                   href="">
+                  <!--<span i18n:translate="label_next">Next: </span>-->
+                  <span tal:content="python:here.trunc(nextsib.Title)" /><span tal:content="nextsib/Title" class="hovertooltip" tal:condition="python:len(nextsib.Title) > len(here.trunc(nextsib.Title))"/> 
+                  <img tal:replace="structure here/arrowRight.gif" /> 
+                   </a>
+               </span>
+</td></tr></table>
+</div> 
+<br/><br/>
+
+        <div id="glossary-definition">
+          <div tal:replace="structure provider:plone.abovecontenttitle" />
+          <h1 class="documentFirstHeading">
+            <metal:field use-macro="python:here.widget('title', mode='view')">
+              Title
+            </metal:field>
+          </h1>
+
+          <div tal:replace="structure provider:plone.belowcontenttitle" />
+          <div tal:replace="structure provider:plone.abovecontentbody" />
+
+          <p tal:condition="python: not text and is_editable"
+             i18n:domain="plone"
+             i18n:translate="no_body_text"
+             class="discreet">
+            This item does not have any body text, click the edit tab to change it.
+          </p><br/>
+          <metal:field use-macro="python:here.widget('definition', mode='view')">
+            Body text
+          </metal:field>
+          <tal:variants tal:condition="variants">
+            <hr />
+            <h3 i18n:translate="label_glossary_variants">Variants</h3>
+            <ul>
+              <li tal:repeat="variant variants" tal:content="variant" />
+            </ul>
+          </tal:variants>
+
+          <div metal:use-macro="here/document_relateditems/macros/relatedItems">
+            show related items if they exist
+          </div>
+      
+    <div class="listingBar" tal:condition="python: next or prev"
+              tal:define="next python:pos < num_sibl-1;
+                   prev python:pos != 0;">
+   <table class="navtable"><tr> 
+    <td class="leftcell">  
+               <span tal:condition="prev">
+                  <a class="listingPrevious"
+                     tal:define="prevsib python:sibl[pos-1]"
+                     tal:attributes="href prevsib/getURL"
+                     tabindex="2"
+                     href="">
+                    <img tal:replace="structure here/arrowLeft.gif" />
+                    <!--<span i18n:translate="label_previous">Previous: </span>-->
+                    <span tal:content="python:here.trunc(prevsib.Title)" /><span tal:content="prevsib/Title" class="hovertooltip" tal:condition="python:len(prevsib.Title) > len(here.trunc(prevsib.Title))"/> 
+                    
+                  </a>
+               </span>
+    </td>
+    <td class="rightcell">
+ 
+               <span tal:condition="next">
+                  <a class="listingNext"
+                   tal:define="nextsib python:sibl[pos+1]"
+                   tal:attributes="href nextsib/getURL"
+                   tabindex="1"
+                   href="">
+                  <!--<span i18n:translate="label_next">Next: </span>-->
+                  <span tal:content="python:here.trunc(nextsib.Title)" /><span tal:content="nextsib/Title" class="hovertooltip" tal:condition="python:len(nextsib.Title) > len(here.trunc(nextsib.Title))"/> 
+                  <img tal:replace="structure here/arrowRight.gif" /> 
+                   </a>
+               </span>
+</td></tr></table>
+
+    </div> 
+
+        </div>
+      </tal:main-macro>
+<br/>
+          <div tal:replace="structure provider:plone.belowcontentbody" />
+    </metal:main>
+  </body>
+</html>

@@ -1,0 +1,77 @@
+<metal:master define-macro="master">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+  lang="en"
+  metal:use-macro="here/main_template/macros/master"
+  i18n:domain="plonehelpcenter">
+
+  <head>
+    <metal:block fill-slot="css_slot">
+      <metal:block metal:use-macro="here/glossary_macros/macros/azcss">
+      </metal:block>
+    </metal:block>
+    <metal:block fill-slot="javascript_head_slot">
+      <metal:block metal:use-macro="here/glossary_macros/macros/azjs">
+      </metal:block>
+    </metal:block>
+
+  </head>
+
+  <body>
+    <div metal:fill-slot="main">
+    <div metal:define-macro="main">
+
+    <div metal:use-macro="here/document_actions/macros/document_actions">
+      Document actions (print, sendto etc)
+    </div>
+
+    <h1 tal:content="here/Title" class="documentFirstHeading">
+      Folder Title
+    </h1>
+
+
+
+   <tal:define define="results
+         python:here.alphabetise()">
+   <ul id="nav">
+     <span tal:omit-tag="" tal:repeat="item results">
+      <li tal:condition="python:not item['items']"
+      tal:content="item/letter" />
+      <li tal:condition="python:item['items']"><a href="#" tal:attributes="href python:'#alpha' + item['letter']" tal:content="item/letter" class="linkSection" />
+      <ul>
+          <li tal:repeat="definition python:item['items']"><div><a href="" tal:attributes="href definition/getURL" tal:content="definition/Title"></a></div></li>
+      </ul>
+      </li>
+      </span>
+   </ul>
+   <br/>
+   <br/>
+
+   <span tal:omit-tag="" tal:repeat="item results">
+     <span tal:omit-tag="" tal:condition="python:item['items']">
+
+     <div><b tal:attributes="id python:'alpha'+item['letter']"
+           tal:content="item/letter"></b>
+        <ul>
+          <span tal:omit-tag="" tal:repeat="definition python:item['items']">
+            <li><a href="" tal:attributes="href definition/getURL" tal:content="definition/Title"></a></li>
+          </span>
+        </ul>
+        <div class="floatright">
+         [<a href="#portal-top">Back</a>]
+        </div>
+
+
+     </div>
+     </span>
+   </span>
+
+   </tal:define>
+
+
+    </div>
+    </div>
+  </body>
+
+
+</html>
+</metal:master>

@@ -17,29 +17,7 @@
                     <subaction name="Masthead.selection.time" title="Markup Time" tooltip="Select some text to mark it up as a preface time" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateMastheadSection.debatetime" visible="true" condition="cursorInSection:masthead :and: textSelected:true" />
                     <subaction name="Masthead.selection.logo" title="Markup Logo" tooltip="Select some text to mark it up as a preface logo" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateMastheadSection.markup_logo:main_logo" visible="true" condition="imageSelectedIsNot:main_logo" />
              </action>
- 	<!--   
-         <blockAction name="MastHead" tooltip="Use these actions to create and manage the Masthead" title="Preface" target="null" visible="true" condition="none" >
-                <action name="MastHead.new" title="Create New" mode="TEXT_INSERTION" target="toolbarAction.makePrayerSection" visible="true" condition="sectionNotExists:masthead :and: cursorInSection:debaterecord" />
-                <action name="MastHead.edit" title="Edit Existing" mode="TEXT_EDIT" target="toolbarAction.makePrayerSection" visible="true" condition="cursorInSection:masthead" />                
-                <action name="MastHead.selection" tooltip="Create a Preface by marking up existing text" title="Define From Selection" target="null" visible="true" condition="sectionNotExists:masthead :and: textSelected:true" showChildren="true" >
-                    <subaction name="Masthead.selection" tooltip="Select some text to mark it up as Preface container" title="Define Section" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePrayerSection.section_creation" visible="true" condition="sectionNotExists:masthead :and: textSelected:true" />
-                    <subaction name="Masthead.selection.date" tooltip="Select some text to mark it up as a 'Document Date'" title="Markup Date" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePrayerSection.debatedate_entry" visible="true" condition="cursorInSection:masthead :and: textSelected:true :and: fieldNotExists:debaterecord_official_date" />
-                    <subaction name="Masthead.selection.time" tooltip="Select some text to mark it up as 'Document Time'" title="Markup Time" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePrayerSection.debatetime_entry" visible="true" condition="cursorInSection:masthead :and: textSelected:true :and: fieldNotExists:debaterecord_official_time" />
-                    <subaction name="Masthead.selection.logo" tooltip="Mark image as logo" title="Markup logo" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePrayerSection.markup_logo:main_logo" visible="true" condition="imageSelectedIsNot:main_logo" />
-                </action>
-            </blockAction>
-	-->
-	<!--		
-            <blockAction name="Papers" tooltip="Actions to create and manage the papers section" title="Papers" target="null" visible="true" condition="none" >
-                <action name="Papers.new" title="Create New" mode="TEXT_INSERTION" target="toolbarAction.makePaperSection" visible="true" condition="cursorInSection:debaterecord :and: sectionNotExists:papers" />
-                <action name="Papers.selection" title="Define From Selection" target="null" condition="cursorInSection:debaterecord :and: sectionNotExists:papers :and: textSelected:true" visible="true" showChildren="true" >
-                    <subaction name="Papers.selection" tooltip="Select some text to mark it up as Papers container" title="Define Section" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.section_creation" visible="true" condition="cursorInSection:debaterecord :and: sectionNotExists:papers :and: textSelected:true" />
-                    <subaction name="Papers.selection.title" tooltip="Markup selection as Papers title" title="Markup Title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.apply_style:papers" visible="true" condition="cursorInSection:papers :and: textSelected:true" />
-                    <subaction name="Papers.selection.details" tooltip="Markup selection as details" title="Markup Details" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.apply_style:paper-details" visible="true" condition="cursorInSection:papers :and: textSelected:true" />
-                    <subaction name="Papers.selection.import_tabled_documents" tooltip="Select tabled documents and insert into document" title="Import Tabled Documents" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePaperSection.import_tabled_documents" visible="true" condition="cursorInSection:papers" />
-                </action>
-            </blockAction>
-  	-->
+ 	
 	   <blockAction name="Questions" tooltip="Create a Questions Section" title="Questions" target="null" visible="true" condition="none" >
 		<!--creates a question container --> 		
 		<action name="QuestionsGroup.new" title="Create a container for All the Questions / Answers" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionGroupSection.section_creation" visible="true" condition="textSelected:true :and: cursorInSection:debaterecord" />
@@ -59,13 +37,6 @@
 		<action name="Questions.subheading" title="Markup Question Sub-Heading" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionBlockSection.apply_questiontext_style:question-title" visible="true" condition="textSelected:true :and: cursorInSection:question[0-9]*." />
 		<!-- markup question text-->
 		<action name="Questions.text.markup" title="Markup Question Text" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateQuestionBlockSection.apply_questiontext_style:question-subtitle" visible="true" condition="textSelected:true :and: cursorInSection:question[0-9]*." />
-		<!--	                
-		<action name="Questions.edit" title="Edit Existing" mode="TEXT_EDIT" target="toolbarAction.makeQuestionBlockSection" visible="true" condition="cursorInSectionType:Question" />
-                <action name="Questions.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQuestionBlockSection.section_creation" condition="cursorInSection:qa. :and: textSelected:true" visible="true" showChildren="true" >
-                    <subaction name="Questions.selection.title" tooltip="Markup selection as title" title="Markup Title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQuestionBlockSection.apply_style:question-title" visible="true" condition="cursorInSection:question. :and: textSelected:true" />
-                    <subaction name="Questions.selection.text" tooltip="Markup selection as text" title="Markup Text" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQuestionBlockSection.apply_style:question-text" visible="true" condition="cursorInSection:question. :and: textSelected:true" />
-                </action>
-		-->
             </blockAction>
 	    
 	    <blockAction name="Speeches" title="Speech" target="null" visible="true" condition="none">
@@ -74,34 +45,27 @@
 		<action name="Speech.SpeechAs" title="Identify Speech As" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.speech_as" visible="true" condition="textSelected:true :and: cursorInSection:speech[0-9]*" />
 		<action name="Speech.lockHead" title="Lock Speech By" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.lock:from(BungeniSpeechBy,BungeniSpeechAs);with(Person)" visible="true" condition="cursorInSection:speech[0-9]*" />			
 		<action name="Speech.unlockHead" title="Unlock Speech By" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.unlock:BungeniSpeechBy,BungeniSpeechAs" visible="true" condition="cursorInSection:speech[0-9]*" />		
-		<!--<action name="Speech.SpeechTo" title="Mark Speech To" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.speech_to" visible="true" conditiion="" />-->    
 	    </blockAction>
             <blockAction name="GeneralActions" title="General Actions" target="null" visible="true" condition="none">
 	    	<action name="Observation.create" title="Mark as Observation" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeObservationAction.section_creation" visible="true" condition="textSelected:true" />
 	    	<action name="GroupActivity.create" title="Mark as Group Activity" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeGroupActivityAction.section_creation" visible="true" condition="textSelected:true" />
 		<action name="Communication.create" title="Mark as Communication" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeCommunicationAction.section_creation" visible="true" condition="textSelected:true" />
-	 </blockAction>
+		<action name="ParliamentID.create" title="Mark Parliament ID" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeParliamentID.mark:BungeniParliamentID" visible="true" condition="textSelected:true" />
+		<action name="ParliamentSitting.create" title="Mark Parliament Sitting" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeParliamentSitting.mark:BungeniParliamentSitting" visible="true" condition="textSelected:true" />
+		<action name="ParliamentSession.create" title="Mark Parliament Session" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeParliamentSession.mark:BungeniParliamentSession" visible="true" condition="textSelected:true" />
+
+	</blockAction>
+
 	 <blockAction name="Event Markup" title="Markup Events" target="null" visible="true" condition="none">
-		<action name="Adjournment.create" title="Mark Adjournment" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeAdjournmentAction.mark_as_action:Adjournment" visible="true" condition="textSelected:true" />
+		<action name="Adjournment.create" title="Mark Adjournment" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeAdjournmentAction.mark_as_action:Adjournment" visible="true" condition="textSelected:true :and: cursorInSection:debaterecord" />
+		<action name="NoticeOfMotion.create" title="Mark Notice of Motion" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeNoticeOfMotionAction.mark_as_action:NoticeOfMotion" visible="true" condition="textSelected:true :and: cursorInSection:debaterecord" />	
 	</blockAction>	
-	<!--
-            <blockAction name="QA" tooltip="Create a QA Section" title="Question-Answer Container" target="null" visible="true" condition="none" >
-                <action name="QA.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makeQASection" visible="true" condition="cursorInSection:debaterecord :and: sectionNotExists:qa." />
-                 <action name="QA.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQASection.section_creation" condition="cursorInSection:debaterecord :and: sectionNotExists:qa. :and: textSelected:true" visible="true" showChildren="true" >
-                    <subaction name="QA.selection.title" tooltip="Markup selection as title" title="Markup Title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQASection.apply_style:qa-title" visible="true" condition="cursorInSection:qa. :and: textSelected:true" />
-                 </action>
-            </blockAction>
-	-->
-	<!--
-            <blockAction name="Questions" tooltip="Create a Questions Section" title="Questions" target="null" visible="true" condition="none" >
-                <action name="Questions.new" title="New" mode="TEXT_INSERTION" target="toolbarAction.makeQuestionBlockSection" visible="true" condition="cursorInSection:qa." />
-                <action name="Questions.edit" title="Edit Existing" mode="TEXT_EDIT" target="toolbarAction.makeQuestionBlockSection" visible="true" condition="cursorInSectionType:Question" />
-                <action name="Questions.selection" title="From Selection" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQuestionBlockSection.section_creation" condition="cursorInSection:qa. :and: textSelected:true" visible="true" showChildren="true" >
-                    <subaction name="Questions.selection.title" tooltip="Markup selection as title" title="Markup Title" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQuestionBlockSection.apply_style:question-title" visible="true" condition="cursorInSection:question. :and: textSelected:true" />
-                    <subaction name="Questions.selection.text" tooltip="Markup selection as text" title="Markup Text" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeQuestionBlockSection.apply_style:question-text" visible="true" condition="cursorInSection:question. :and: textSelected:true" />
-                </action>
-            </blockAction>
-	-->
-        </actionGroup>
+
+	<blockAction name="Conclusion Markup" title="Conclusion Actions" target="null" visible="true" condition="none">
+		<action name="Conclusion.create" title="Mark as Conclusion" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeConclusionSection.section_creation" visible="true" condition="cursorInSection:debaterecord :and: textSelected:true" />
+		<action name="Conclusion.markHouseClosing" title="Mark House Closing Time" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeConclusionSection.mark_house_closing" visible="true" condition="cursorInSection:concl[0-9]* :and: textSelected:true" />
+	</blockAction>
+        
+	</actionGroup>
     </root>
 </toolbar>

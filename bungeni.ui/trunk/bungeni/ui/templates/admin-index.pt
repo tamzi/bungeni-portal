@@ -1,13 +1,9 @@
 <html xmlns:tal="http://xml.zope.org/namespaces/tal"
       xmlns:metal="http://xml.zope.org/namespaces/metal"
+      i18n:domain="bungeni"
       metal:use-macro="context/@@standard_macros/page">
-
+  
   <div metal:fill-slot="body">
-    <ul class="admin-menu">
-      <li> <a href="users">Users</a> </li>
-      <li> <a href="groups">Groups</a> </li>
-      <li> <a href="settings">Settings</a> </li>
-
   </div>
 
 </html>

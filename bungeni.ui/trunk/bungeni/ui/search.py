@@ -125,12 +125,11 @@ class Search( BaseForm, ResultListing ):
         self.doc_count = searcher.get_doccount()
 
 class ConstraintQueryJSON( BrowserView ):
-
-    
+    """ Full Text Search w/ Constraint """
     def __call__( self ):
-        search_term = self.request.form.get( 'q_user_name' )
-        if not search_term:
-            return simplejson.dumps(None)
+        search_term = self.request.form.get( 'query' )
+        #if not search_term:
+        #    return simplejson.dumps(None)
         self.searcher = component.getUtility( interfaces.IIndexSearch )()
         results = self.query( search_term )
         return simplejson.dumps( results )
@@ -143,19 +142,33 @@ class ConstraintQueryJSON( BrowserView ):
         t = time.time()
         start, limit = self.getOffsets()
         query = self.composeQuery( search_term )
-        results = self.searcher.search( query, start, start+limit) 
+        sort_key, sort_dir = self.getSort()
+        if sort_dir == 'desc':
+            sort_key = '-'+sort_key
+            
+        results = self.searcher.search( query, start, start+limit, sortby=sort_key) 
         
         # prepare results
-        d['results'] = self.marshalResults( results )
-        d['search_time'] = time.time()-t
-        d['doc_count'] = self.searcher.get_doccount()
+        d['results'] = self.formatResults( results )
+        d['SearchTime'] = time.time()-t
+        d['length'] = results.matches_estimated
+        d["recordsReturned"]=len(results)
+        d['sort'] = sort_key
+        d['dir'] = sort_dir
+        d['start'] = start
 
         return d
 
     def composeQuery( self, search_term ):
-        query = self.searcher.query_parse( search_term )
+
+        if search_term:
+            query = self.searcher.query_parse( search_term )
+        else:
+            query = None
+            
         constraint = self.getConstraintQuery()
-        if constraint:
+
+        if constraint and query:
             query = self.searcher.query_multweight( query, 3.0 )
             if isinstance( constraint, list ):
                 constraint.insert(0, query )
@@ -164,6 +177,13 @@ class ConstraintQueryJSON( BrowserView ):
                 query = self.searcher.query_composite(
                     self.searcher.OP_AND, ( query, constraint )
                     )
+        elif constraint and not query:
+            return constraint
+        elif query and not constraint:
+            return query
+        else:
+            raise SyntaxError("invalid constraint query")
+        
         return query
     
     def getConstraintQuery( self ):
@@ -181,13 +201,18 @@ class ConstraintQueryJSON( BrowserView ):
             start, limit = 0, 30
         # xapian end range is not inclusive
         return start, limit + 1
+
+    def getSort( self ):
+        sort_key = self.request.get('sort', 'title')
+        sort_dir = self.request.get('dir', 'asc')
+        return sort_key, sort_dir
     
-    def marshallResults( self, results ):
+    def formatResults( self, results ):
         r = []
         for i in results:
             r.append(
                 dict( rank=i.rank,
-                      type=i.data.get('object_type'),
+                      object_type=i.data.get('object_type'),
                       title=i.data.get('title'),
                       weight = i.weight,
                       percent = i.percent )

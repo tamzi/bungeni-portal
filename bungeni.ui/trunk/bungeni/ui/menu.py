@@ -1,7 +1,9 @@
 
 from z3c.menu.ready2go import item
 from zope import component
+from zope.security.management import getInteraction
 from zope.app.component.hooks import getSite
+
 from zope.app.security.interfaces import IUnauthenticatedPrincipal
 from zope.app.publisher.browser.menu import BrowserMenu
 
@@ -42,6 +44,11 @@ class AdminAction( GlobalMenuItem ):
         site = getSite()
         return site['admin']
 
+    #@property
+    #def available( self ):
+    #    context = self.getURLContext()
+    #    return getInteraction().checkPermission( 'zope.ManageSite', context )  
+        
 class TaskMenu(BrowserMenu):
     def getMenuItems(self, object, request):
         spec = self.getMenuItemType()

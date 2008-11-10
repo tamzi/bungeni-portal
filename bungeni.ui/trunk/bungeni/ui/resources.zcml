@@ -8,6 +8,13 @@
      directory="css"
      layer="ploned.ui.interfaces.IPlonedSkin"
      />
+  
+  <!-- Application JS -->
+  <browser:resourceDirectory
+     name="bungeni-js"
+     directory="js"
+     layer="ploned.ui.interfaces.IPlonedSkin"
+     />
 
   <browser:viewlet
      name="bungeni-ui"

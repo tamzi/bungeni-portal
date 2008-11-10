@@ -161,7 +161,6 @@
      weight="20"
      />
 
-
    <browser:viewlet
      name="settings"
      for="*"
@@ -170,6 +169,16 @@
      permission="zope.Public"
      viewName="user-settings"
      weight="25"
+     />
+
+   <browser:viewlet
+     name="admin"
+     for="*"
+     class=".menu.AdminAction"
+     manager="ploned.ui.interfaces.IPersonalBarMenu"
+     permission="zope.ManageSite"
+     viewName=""
+     weight="30"
      />
 
    <!-- task actions -->

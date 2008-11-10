@@ -57,18 +57,26 @@ public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel
         getFormContext().setConditionSet(getConditionSet());
     }
      
+    public void commonInitFields(){
+        return;
+    } 
+     
     private void initFields(){
         switch (getDialogMode()) {
             case TEXT_SELECTED_EDIT:
+                commonInitFields();
                 initFieldsSelectedEdit();
                 return;
             case TEXT_SELECTED_INSERT:
+                commonInitFields();
                 initFieldsSelectedInsert();
                 return;
             case TEXT_INSERTION:
+                commonInitFields();
                 initFieldsInsert();
                 return;
             case TEXT_EDIT:  
+                commonInitFields();
                 initFieldsEdit();
                 return;
             default:

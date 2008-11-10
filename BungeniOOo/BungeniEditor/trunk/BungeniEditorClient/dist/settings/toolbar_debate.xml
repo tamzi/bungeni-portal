@@ -50,9 +50,9 @@
 	    	<action name="Observation.create" title="Mark as Observation" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeObservationAction.section_creation" visible="true" condition="textSelected:true" />
 	    	<action name="GroupActivity.create" title="Mark as Group Activity" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeGroupActivityAction.section_creation" visible="true" condition="textSelected:true" />
 		<action name="Communication.create" title="Mark as Communication" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeCommunicationAction.section_creation" visible="true" condition="textSelected:true" />
-		<action name="ParliamentID.create" title="Mark Parliament ID" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeParliamentID.mark:BungeniParliamentID" visible="true" condition="textSelected:true" />
-		<action name="ParliamentSitting.create" title="Mark Parliament Sitting" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeParliamentSitting.mark:BungeniParliamentSitting" visible="true" condition="textSelected:true" />
-		<action name="ParliamentSession.create" title="Mark Parliament Session" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeParliamentSession.mark:BungeniParliamentSession" visible="true" condition="textSelected:true" />
+		<action name="ParliamentID.create" title="Mark Parliament ID" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeMetadataReference.mark:BungeniParliamentID" visible="true" condition="textSelected:true" />
+		<action name="ParliamentSitting.create" title="Mark Parliament Sitting" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeMetadataReference.mark:BungeniParliamentSitting" visible="true" condition="textSelected:true" />
+		<action name="ParliamentSession.create" title="Mark Parliament Session" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeMetadataReference.mark:BungeniParliamentSession" visible="true" condition="textSelected:true" />
 
 	</blockAction>
 

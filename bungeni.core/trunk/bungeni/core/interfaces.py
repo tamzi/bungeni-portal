@@ -8,7 +8,9 @@ from ore.xapian.interfaces import IIndexable
 from i18n import _
 
 
-ENABLE_LOGGING = True
+
+DEBUG = True
+ENABLE_LOGGING = False
 
 class IBungeniApplication( IApplication ):
     """

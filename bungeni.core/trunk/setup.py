@@ -27,6 +27,12 @@ setup(
                          'alchemist.catalyst',
                          'alchemist.security',
                          'ore.alchemist'],
+    entry_points={
+        'console_scripts':[
+            'bungeni-reset-db = bungeni.core.schema:reset_database',
+            'bungeni-sync-index = bungeni.core.index:reset_index',
+            ]
+        },    
     zip_safe = False,
     )
 

@@ -792,6 +792,13 @@ transcripts = rdb.Table(
    rdb.Column( "reporter_id", rdb.Integer, rdb.ForeignKey('users.user_id')),   
    )
 
+def reset_database(  ):
+    import util
+    mdset = util.cli_setup()
+    for m in mdset:
+        m.drop_all( checkfirst=True )
+        m.create_all( checkfirst=True )
+
 if __name__ == '__main__':    
     import sys
 
@@ -810,7 +817,6 @@ if __name__ == '__main__':
     try:
         metadata.drop_all()        
         metadata.create_all()
-        print 'ugm', repr(user_group_memberships.c.user_id.table)
     except:
         import pdb, traceback, sys
         traceback.print_exc()

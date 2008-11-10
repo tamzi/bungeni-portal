@@ -19,6 +19,7 @@ from ore.library.library import Library
 
 from auth import PluggableAuthentication
 import domain
+
 import interfaces
 
 class BungeniApp( Application ):
@@ -42,10 +43,11 @@ class AppSetup( object ):
         self.context = context
         
     def setUp( self ):
-
-        # ensure indexing facilities are setup ( lazy )
-        import index
         
+        import index
+        # ensure indexing facilities are setup ( lazy )
+        index.setupFieldDefinitions(index.indexer)        
+
         # ensure version file are setup
         import files
         files.setup()
@@ -117,10 +119,11 @@ class AppSetup( object ):
         ##########
         # Admin User Interface
         self.context['admin'] = admin = BungeniAdmin()
-        admin['users'] = admin_user = domain.UserContainer()
-        interface.directlyProvides( admin_user, interfaces.IAdminUserContainer )
-
-        admin['groups'] = domain.GroupContainer()
+        
+        #admin['users'] = admin_user = domain.UserContainer()
+        #interface.directlyProvides( admin_user, interfaces.IAdminUserContainer )
+        #admin['groups'] = domain.GroupContainer()
+        
         ##########
         
         #titles = domain.MemberTitleContainer()

@@ -20,7 +20,7 @@ import org.bungeni.ooo.OOComponentHelper;
  */
 public class routerMarkAsAction extends defaultRouter {
 
-    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(routerCreateHeadingLock.class.getName());
+    private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(routerMarkAsAction.class.getName());
  
     XTextRange beginRange = null, endRange = null;
     String fromRangeName = "", toRangeName = "", foundSectionType = "";

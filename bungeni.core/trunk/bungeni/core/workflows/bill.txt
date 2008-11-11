@@ -110,4 +110,8 @@ Third Reading
 Vote - Approved/Rejected
 ------------------------
 
-
+cleanup
+-------
+  >>> session.flush()
+  >>> session.commit()
+  

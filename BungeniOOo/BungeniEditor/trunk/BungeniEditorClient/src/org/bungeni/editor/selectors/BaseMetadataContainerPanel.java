@@ -219,6 +219,7 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
                 return;
             }
         }
+        this.containerFrame.dispose();
     }
     
     public void displayErrors(){

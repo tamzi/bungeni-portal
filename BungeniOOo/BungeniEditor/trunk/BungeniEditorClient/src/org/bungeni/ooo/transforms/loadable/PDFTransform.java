@@ -11,15 +11,10 @@ package org.bungeni.ooo.transforms.loadable;
 
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.frame.XStorable;
-import com.sun.star.io.IOException;
-import com.sun.star.lang.XComponent;
 import java.util.ArrayList;
 import org.bungeni.ooo.OOComponentHelper;
-import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.ooo.transforms.impl.BungeniDocTransform;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
-import org.bungeni.utils.MessageBox;
-import org.bungeni.utils.MessageBox;
 
 /**
  *

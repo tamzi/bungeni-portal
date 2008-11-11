@@ -6,6 +6,14 @@
 	<volume>
 		<type>classpath</type>
 		<resource>jar:file:lib_path/external_libs/saxon/saxon9.jar!/</resource>
+		<resource>jar:file:lib_path/external_libs/saxon/saxon9-jdom.jar!/</resource>
+		<resource>jar:file:lib_path/external_libs/saxon/saxon9-xom.jar!/</resource>
+		<resource>jar:file:lib_path/external_libs/saxon/saxon9-xpath.jar!/</resource>
+		<resource>jar:file:lib_path/external_libs/saxon/saxon9-xom.jar!/</resource>
+		<resource>jar:file:lib_path/external_libs/saxon/saxon9-xqj.jar!/</resource>
+		<resource>jar:file:lib_path/external_libs/saxon/saxon9-s9api.jar!/</resource>
+		<resource>jar:file:lib_path/external_libs/saxon/saxon9-sql.jar!/</resource>
+		<resource>jar:file:lib_path/external_libs/saxon/saxon9-dom4j.jar!/</resource>
 	</volume>
 	<volume>
 		<type>src</type>

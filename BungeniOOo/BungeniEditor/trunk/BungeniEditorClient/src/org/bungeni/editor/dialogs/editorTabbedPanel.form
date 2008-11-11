@@ -59,7 +59,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnNewDocument" min="-2" pref="44" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btnSaveDocument" min="-2" pref="44" max="-2" attributes="0"/>
+                      <Component id="btnSaveDocument" min="-2" pref="47" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -84,9 +84,9 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnBringToFront" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnOpenDocument" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnNewDocument" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnSaveDocument" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnNewDocument" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnOpenDocument" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="lblCurrentMode" min="-2" max="-2" attributes="0"/>
@@ -140,7 +140,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="DejaVu Sans" size="10" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Bring to Front"/>
+        <Property name="text" type="java.lang.String" value="To Front"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBringToFrontActionPerformed"/>

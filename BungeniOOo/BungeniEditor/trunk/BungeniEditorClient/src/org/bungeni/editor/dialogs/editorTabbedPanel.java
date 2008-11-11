@@ -87,6 +87,9 @@ import org.bungeni.utils.BungeniBTree;
 import org.bungeni.utils.BungeniBNode;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.dialogs.debaterecord.DebateRecordMetadata;
+import org.bungeni.ooo.transforms.impl.BungeniTransformationTarget;
+import org.bungeni.ooo.transforms.impl.BungeniTransformationTargetFactory;
+import org.bungeni.ooo.transforms.impl.IBungeniDocTransform;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.CommonFileFunctions;
 /**
@@ -1410,7 +1413,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         lblCurrentlyOpenDocuments.setText("Currently Open Documents");
 
         btnBringToFront.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
-        btnBringToFront.setText("Bring to Front");
+        btnBringToFront.setText("To Front");
         btnBringToFront.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBringToFrontActionPerformed(evt);
@@ -1467,7 +1470,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(btnNewDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnSaveDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(btnSaveDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 47, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .add(layout.createSequentialGroup()
                 .add(8, 8, 8)
@@ -1487,9 +1490,9 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnBringToFront)
-                    .add(btnOpenDocument)
+                    .add(btnSaveDocument)
                     .add(btnNewDocument)
-                    .add(btnSaveDocument))
+                    .add(btnOpenDocument))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lblCurrentMode)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -1518,6 +1521,26 @@ private void btnNewDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GE
 
 private void btnSaveDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveDocumentActionPerformed
 // TODO add your handling code here:
+        BungeniTransformationTarget transform= new BungeniTransformationTarget ("ODT", "ODT (OpenDocument Format)", "odt" , "org.bungeni.ooo.transforms.loadable.ODTSaveTransform");
+        //BungeniTransformationTarget transform = (BungeniTransformationTarget) this.cboTransformFrom.getSelectedItem();
+        IBungeniDocTransform iTransform = BungeniTransformationTargetFactory.getTransformClass(transform);
+        
+        String exportPath = BungeniEditorProperties.getEditorProperty("defaultExportPath");
+        exportPath = exportPath.replace('/', File.separatorChar);
+        exportPath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH() + File.separator + exportPath;
+        exportPath = exportPath + File.separatorChar + OOComponentHelper.getFrameTitle(ooDocument.getTextDocument()).trim()+"."+transform.targetExt;
+        File fileExp = new File(exportPath);
+        String exportPathURL = "";
+            exportPathURL = fileExp.toURI().toString();
+        HashMap<String,Object> params = new HashMap<String,Object>();
+        params.put("StoreToUrl", exportPathURL);
+        
+        iTransform.setParams(params);
+        boolean bState= iTransform.transform(ooDocument);
+        if (bState ) {
+            MessageBox.OK(parentFrame, "Document was successfully Exported ");
+        } else
+            MessageBox.OK(parentFrame, "Document Export failed " );
 }//GEN-LAST:event_btnSaveDocumentActionPerformed
 
 public void newDocumentInPanel(){

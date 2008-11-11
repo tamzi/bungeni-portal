@@ -526,4 +526,23 @@ ul.draglist li {
     zoom: 1;
 }
 
+/* schedule calendar */
+
+strong.past-date {
+    text-decoration: line-through;    
+}
+
+strong.other-month {
+    font-weight: normal;
+    color: grey;
+}
+
+strong.current-date {
+    text-decoration: underline;
+    color: red;
+}
+
+td.invalid-date {
+    background-color: grey;
+}
 

@@ -1392,6 +1392,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         cboSwitchTabs = new javax.swing.JComboBox();
         lblSwitchTag = new javax.swing.JLabel();
         btnNewDocument = new javax.swing.JButton();
+        btnSaveDocument = new javax.swing.JButton();
 
         jScrollPane2.setViewportView(jTree1);
 
@@ -1427,7 +1428,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         lblCurrentMode.setForeground(java.awt.Color.red);
         lblCurrentMode.setText("CURRENT MODE : %s");
 
-        cboSwitchTabs.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        cboSwitchTabs.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         cboSwitchTabs.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         lblSwitchTag.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
@@ -1438,6 +1439,14 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         btnNewDocument.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewDocumentActionPerformed(evt);
+            }
+        });
+
+        btnSaveDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        btnSaveDocument.setText("Save");
+        btnSaveDocument.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveDocumentActionPerformed(evt);
             }
         });
 
@@ -1454,9 +1463,11 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                     .add(layout.createSequentialGroup()
                         .add(btnBringToFront)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnOpenDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 68, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(btnOpenDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 46, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnNewDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 62, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(btnNewDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(btnSaveDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .add(layout.createSequentialGroup()
                 .add(8, 8, 8)
@@ -1477,7 +1488,8 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnBringToFront)
                     .add(btnOpenDocument)
-                    .add(btnNewDocument))
+                    .add(btnNewDocument)
+                    .add(btnSaveDocument))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lblCurrentMode)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -1503,6 +1515,10 @@ private void btnNewDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GE
 // TODO add your handling code here:
     newDocumentInPanel();
 }//GEN-LAST:event_btnNewDocumentActionPerformed
+
+private void btnSaveDocumentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveDocumentActionPerformed
+// TODO add your handling code here:
+}//GEN-LAST:event_btnSaveDocumentActionPerformed
 
 public void newDocumentInPanel(){
     String templatePath = BungeniEditorProperties.getEditorProperty(BungeniEditorPropertiesHelper.getCurrentDocType()+"_template");
@@ -1792,6 +1808,7 @@ private void LaunchDebateMetadataSetter(XComponent xComp){
     private javax.swing.ButtonGroup btnGrpBodyMetadataTarget;
     private javax.swing.JButton btnNewDocument;
     private javax.swing.JButton btnOpenDocument;
+    private javax.swing.JButton btnSaveDocument;
     private javax.swing.JComboBox cboListDocuments;
     private javax.swing.JComboBox cboSwitchTabs;
     private javax.swing.JScrollPane jScrollPane2;

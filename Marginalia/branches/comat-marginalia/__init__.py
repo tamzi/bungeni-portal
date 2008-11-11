@@ -54,7 +54,7 @@ from Products.Archetypes.utils import capitalize
 from config import *
 
 DirectoryView.registerDirectory('skins', product_globals)
-DirectoryView.registerDirectory('skins/Marginalia',
+DirectoryView.registerDirectory('skins/marginalia-templates',
                                     product_globals)
 DirectoryView.registerDirectory('skins/marginalia',
                                     product_globals)

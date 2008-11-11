@@ -19,16 +19,16 @@
     </thead>
     <tbody>
     <tr tal:repeat="week view/monthcalendar">
-      <td tal:repeat="day week"> 
-        <b tal:content="python:day.day" tal:condition="day" />
+      <td tal:repeat="day week" tal:attributes="id python:view.getTdId(day)"> 
+        <strong tal:content="python:day.day" tal:condition="day" tal:attributes="class python:view.getDayClass(day)"/>
         <br />
         <div tal:condition="day">
-          <div tal:repeat="sitting python: view.GetSittings4Day(day)">
+          <div tal:repeat="sitting python: view.getSittings4Day(day)">
             <h4 tal:content="sitting/short_name" />
             <ol tal:attributes="id sitting/sittingid; class string:draglist" tal:define="sid sitting/sid">
                 <li tal:repeat="question python: view.getActiveSittingItems(sid)" 
                  tal:content="question/subject"
-                 tal:attributes="id question/schedule_id" />
+                 tal:attributes="id question/schedule_id; class question/schedule_date_class" />
             </ol>
             <ol tal:attributes="id sitting/sittingid; class string:inactive-list" tal:define="sid sitting/sid">
                 <li tal:repeat="question python: view.getInactiveSittingItems(sid)" 

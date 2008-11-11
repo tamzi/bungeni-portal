@@ -8,7 +8,7 @@
     <h4 i18n:translate="" tal:content="view/name" />
   
     <ul tal:attributes="id view/list_id; class string:draglist">
-      <li tal:repeat="result results" tal:attributes="id result/qid" tal:content="result/subject">
+      <li tal:repeat="result results" tal:attributes="id result/qid; class result/schedule_date_class" tal:content="result/subject">
        
       </li>
     </ul>

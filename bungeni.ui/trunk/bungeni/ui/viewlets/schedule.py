@@ -392,7 +392,7 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
     postponed_motion_ids =[]    
     scheduled_item_ids = []
     sitting_ids =[]
-    
+    table_date_ids = []
     
     
     def update(self):
@@ -405,6 +405,7 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         self.approved_motion_ids = []
         self.postponed_motion_ids =[]        
         self.sitting_ids =[]
+        self.table_date_ids = []
         self.Date = getDisplayDate(self.request)
         if not self.Date:
             self.Date=datetime.date.today()                
@@ -445,18 +446,19 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         results = scheduled_items.all()
         for result in results:
             self.scheduled_item_ids.append(result.schedule_id)    
-            
+        cal = calendar.Calendar()    
+        for t_date in cal.itermonthdates(self.Date.year, self.Date.month):
+            self.table_date_ids.append('"tdid-' + datetime.date.strftime(t_date,'%Y-%m-%d"'))                 
     
     def render(self):
         need('yui-dragdrop')
         need('yui-animation')    
-        #need('yui-logger')    #debug
+        need('yui-logger')    #debug
         need('yui-json')
         JScript = """
 <div id="user_actions">
  
 </div>
-<b id="list-counter"> 0 </b>
 <form name="make_schedule" method="POST" action="" enctype="multipart/form-data">
   <input type="button" id="saveButton" value="Save" />
   <input id="form.actions.cancel" class="context" type="submit" value="Cancel" name="cancel"/>
@@ -469,8 +471,7 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
 var Dom = YAHOO.util.Dom;
 var Event = YAHOO.util.Event;
 var DDM = YAHOO.util.DragDropMgr;
-var liProxyEl = document.createElement('li');
-liProxyEl.id = "li_proxy_id";
+
 
 //////////////////////////////////////////////////////////////////////////////
 // example app
@@ -533,14 +534,44 @@ YAHOO.example.DDList = function(id, sGroup, config) {
     this.lastY = 0;
     this.originalEl = document.createElement('li');
     this.originalEl.id = "original_proxy_id";
-     
-    //var originalEl, originalParent;
+    
+    this.tddArray =new Array(%(tddArray)s);
+    
 };
 
 YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
-    
-    
-     getQuestionValidation: function(url, passData) {
+        
+    getSchuleAfterId: function (obj) {
+                        
+                     if ( obj.className ) {
+                        // the classes are just a space separated list, so first get the list
+                        var arrList = obj.className.split(' ');
+                        this.logger.log(obj.className.substr(0,9) + " Class");
+                        for ( var i = 0; i < arrList.length; i++ ) {
+                                if (arrList[i].substr(0,9) == "sc-after-") {
+                                        return "tdid-" + arrList[i].substr(9,19)
+                                    }
+                            }
+                        }                                                    
+                    },
+    markScheduleDates: function (id) {
+                        var tdEl                         
+                        for ( var i = 0; i < this.tddArray.length; i++ ) {
+                            tdEl = document.getElementById(this.tddArray[i]);
+                            if (tdEl != null) {
+                                if (tdEl.id < id) {
+                                    Dom.addClass(tdEl.id, 'invalid-date')                                    
+                                }
+                                else {
+                                    Dom.removeClass(tdEl.id, 'invalid-date')                                
+                                }    
+                                    
+                            }
+                        }        
+                    },
+                    
+     
+    getQuestionValidation: function(url, passData) {
           this.logger.log("data :" + passData);
           if (window.XMLHttpRequest) {              
             AJAX=new XMLHttpRequest();              
@@ -567,7 +598,9 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
         // make the proxy look like the source element
         var dragEl = this.getDragEl();
         var clickEl = this.getEl();
-        var parentEl = clickEl.parentNode;          
+        var parentEl = clickEl.parentNode;    
+        var scheduleAfterId = this.getSchuleAfterId(clickEl);
+        this.markScheduleDates(scheduleAfterId);      
         // sometimes the proxy for the original element does
         // not get removed properly onDragDrop :(
         if (document.getElementById(this.originalEl.id) != null) {
@@ -588,10 +621,7 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
     },
 
 
-//    onMouseUp: function(e) {
-//            var srcPEl = this.originalEl.parentNode;
-//            srcPEl.removeChild(this.originalEl);
-//        },
+
 
 
     onInvalidDrop: function(e) {
@@ -625,6 +655,7 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
             });
         a.animate();
         //srcPEl.removeChild(this.originalEl); 
+        this.markScheduleDates("tdid-0000-00-00");
     },
 
     onDragDrop: function(e, id) {
@@ -646,8 +677,7 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
             var srcPEl = this.originalEl.parentNode;
             var valObject = { errors: [], warnings: []};
             var hasErrors = false;
-            if (destEl.nodeName.toLowerCase() == "ol") {
-                    Dom.removeClass(id, 'dragover');
+            if (destEl.nodeName.toLowerCase() == "ol") {                    
                     var queryStr="";
                     var items = destEl.getElementsByTagName("li");
                     var sitting = {
@@ -681,7 +711,8 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                             errors = errors + "\\n" + "schedule anyway?"    
                             hasErrors = !(confirm (errors));
                             }                      
-                        }    
+                        }
+                    Dom.removeClass(id, 'dragover');    
                 }
             if (destEl.nodeName.toLowerCase() == "li") {
                 var pEl = destEl.parentNode;
@@ -727,25 +758,17 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
 
 /////////////////////////////////////////////////
 /////////
-    setListCounter : function ( destEl ) {
-         // count the elements in the list
-         return;
-         var counterEl = Dom.get("list-counter");
-         var itemCount = destEl.getElementsByTagName("li").length;
-         counterEl.innerHTML = "- " + itemCount
-    },
+
 
     onDragEnter: function(e, id) {        
         var destEl = Dom.get(id);
         //Dom.setStyle(liProxyEl.id, "visibility", "");
-        if (destEl.nodeName.toLowerCase() == "ol") {
-            //this.setListCounter( destEl);
+        if (destEl.nodeName.toLowerCase() == "ol") {            
             Dom.addClass(id, 'dragover');
             }            
         if (destEl.nodeName.toLowerCase() == "li") {
             var pEl = destEl.parentNode;
-            if (pEl.nodeName.toLowerCase() == "ol") {
-                //this.setListCounter(pEl);
+            if (pEl.nodeName.toLowerCase() == "ol") {                
                 Dom.addClass(pEl.id, 'dragover');
                 }
             }
@@ -837,12 +860,15 @@ Event.onDOMReady(YAHOO.example.DDApp.init, YAHOO.example.DDApp, true);
         parseList = parseList +  'parseList(admissible_motions); \n'   
         parseList = parseList +  'parseList(postponed_motions);'        
         maxQuestionsPerSitting = prefs.getMaxQuestionsPerSitting()
+        tddArray = ", ".join(self.table_date_ids)
+        
         js_inserts= {
             'DDList':DDList,
             'DDTarget':DDTarget,
             'targetList': t_list,
             'parseList': parseList,
-            'maxQuestionsPerSitting': maxQuestionsPerSitting }
+            'maxQuestionsPerSitting': maxQuestionsPerSitting,
+            'tddArray' : tddArray }
         return JScript % js_inserts           
         
         
@@ -853,13 +879,15 @@ class QuestionInStateViewlet( viewlet.ViewletBase ):
     def getData(self):
         """
         return the data of the query
-        """      
+        """    
+        offset = datetime.timedelta(prefs.getNoOfDaysBeforeQuestionSchedule())  
         data_list = []
         results = self.query.all()
         for result in results:            
             data ={}
             data['qid']= ( 'q_' + str(result.question_id) )                         
             data['subject'] = result.subject
+            data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date + offset, '%Y-%m-%d')
             data_list.append(data)            
         return data_list
     
@@ -1007,6 +1035,7 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
         items = session.query(ScheduledItems).filter(active_sitting_items_filter).order_by(schema.items_schedule.c.order)
         data_list=[] 
         results = items.all()
+        q_offset = datetime.timedelta(prefs.getNoOfDaysBeforeQuestionSchedule())
         for result in results:            
             data ={}
             #data['qid']= ( 'q_' + str(result.question_id) ) 
@@ -1014,12 +1043,15 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
             if type(result) == ScheduledQuestionItems:                       
                 data['subject'] = result.subject
                 data['type'] = "question"
+                data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date + q_offset, '%Y-%m-%d')
             elif type(result) == ScheduledMotionItems:    
                 data['subject'] = result.title
                 data['type'] = "motion"
+                data['schedule_date_class'] = ''
             elif type(result) == ScheduledBillItems:    
                 data['subject'] = result.title                
                 data['type'] = "bill"
+                data['schedule_date_class'] = ''
             data['status'] = result.status
             data_list.append(data)            
         return data_list
@@ -1050,9 +1082,30 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
             data_list.append(data)            
         return data_list
 
+    def getTdId(self, Date):
+        """
+        return an Id for that td element:
+        consiting of tdid- + date
+        like tdid-2008-01-17
+        """
+        return 'tdid-' + datetime.date.strftime(Date,'%Y-%m-%d') 
+
+    def getDayClass(self, Date):
+        """
+        return the class settings for that calendar day
+        """
+        css_class = ""
+        if self.Date.month != Date.month:
+            css_class = css_class + "other-month "           
+        if Date < datetime.date.today():
+            css_class = css_class + "past-date "    
+        if Date == datetime.date.today():
+            css_class = css_class + "current-date "    
+        return css_class.strip()
+            
 
 
-    def GetSittings4Day(self, Date):
+    def getSittings4Day(self, Date):
         """
         return the sittings for that day
         """

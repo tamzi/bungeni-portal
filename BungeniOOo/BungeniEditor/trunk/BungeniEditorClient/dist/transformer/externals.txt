@@ -1,0 +1,4 @@
+akntohtml http://bungeni-portal.googlecode.com/svn/DocTransforms/trunk/ODTtoAKN/resources/akntohtml
+configurations http://bungeni-portal.googlecode.com/svn/DocTransforms/trunk/ODTtoAKN/resources/akntohtml
+maps http://bungeni-portal.googlecode.com/svn/DocTransforms/trunk/ODTtoAKN/resources/maps
+stylesheets http://bungeni-portal.googlecode.com/svn/DocTransforms/trunk/ODTtoAKN/resources/stylesheets

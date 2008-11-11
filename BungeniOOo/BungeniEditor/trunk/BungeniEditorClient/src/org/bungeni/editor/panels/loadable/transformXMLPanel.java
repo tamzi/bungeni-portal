@@ -47,6 +47,7 @@ public class transformXMLPanel extends BaseClassForITabbedPanel{
             this.exportDestName = name;
         }
 
+        @Override
         public String toString(){
             return this.exportDestDesc;
         }
@@ -56,7 +57,7 @@ public class transformXMLPanel extends BaseClassForITabbedPanel{
         ArrayList<BungeniTransformationTarget> transArr = new ArrayList<BungeniTransformationTarget>(0);
         transArr.add(new BungeniTransformationTarget("PDF", "PDF (Portable Document Format)", "pdf" , "org.bungeni.ooo.transforms.loadable.PDFTransform"));
         transArr.add(new BungeniTransformationTarget("HTML", "HTML (Hypertext Web Document)", "html", "org.bungeni.ooo.transforms.loadable.HTMLTransform"));
-        //transArr.add(new BungeniTransformationTarget("AN-XML", "AkomaNtoso Documents"));
+        transArr.add(new BungeniTransformationTarget("AN-XML", "AN (AkomaNtoso XML Document)", "xml", "org.bungeni.ooo.transforms.loadable.AnXmlTransform"));
         DefaultComboBoxModel model = new DefaultComboBoxModel(transArr.toArray());
         this.cboTransformFrom.setModel(model);
     }
@@ -132,18 +133,17 @@ public class transformXMLPanel extends BaseClassForITabbedPanel{
                         .addContainerGap()
                         .add(lblExportTo))
                     .add(layout.createSequentialGroup()
-                        .add(24, 24, 24)
-                        .add(btnExport, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 206, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 5, Short.MAX_VALUE))
-                    .add(layout.createSequentialGroup()
                         .addContainerGap()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
                             .add(org.jdesktop.layout.GroupLayout.LEADING, cboExportTo, 0, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .add(org.jdesktop.layout.GroupLayout.LEADING, cboTransformFrom, 0, 223, Short.MAX_VALUE)))
                     .add(layout.createSequentialGroup()
                         .add(49, 49, 49)
-                        .add(lblTransformFrom)))
-                .addContainerGap())
+                        .add(lblTransformFrom))
+                    .add(layout.createSequentialGroup()
+                        .add(41, 41, 41)
+                        .add(btnExport, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 143, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)

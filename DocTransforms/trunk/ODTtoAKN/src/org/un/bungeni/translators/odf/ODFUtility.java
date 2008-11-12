@@ -61,8 +61,18 @@ public class ODFUtility
 	{
 		//get the ODF package
 		OdfDocument odf = OdfDocument.loadDocument(anODFPath);
-		
+		File returnFile = commonMergeODF (odf);
+		return returnFile;
+	}
 	
+	public File mergeODF(File aDocumentHandle ) throws TransformerFactoryConfigurationError, Exception {
+		OdfDocument odf = OdfDocument.loadDocument(aDocumentHandle);
+		File returnFile = commonMergeODF (odf);
+		return returnFile;
+	}
+	
+	private File commonMergeODF (OdfDocument odf)  throws TransformerFactoryConfigurationError, Exception {
+		
 		//get the DOM of the content.xml file
 		Document odfDom = odf.getContentDom();
 		
@@ -92,5 +102,6 @@ public class ODFUtility
         
         //return the file
         return returnFile;
+		
 	}
 }

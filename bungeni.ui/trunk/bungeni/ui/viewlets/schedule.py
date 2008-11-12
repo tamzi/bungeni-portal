@@ -141,17 +141,24 @@ scheduled_motions = mapper(ScheduledMotionItems, _scheduled_motions, inherits=sc
     order_by= schema.motions.c.motion_number,
     concrete=True, polymorphic_identity='motions')
 
+def makeList( itemIds ):
+
+    if type(itemIds) == ListType:
+        return itemIds            
+    elif type(itemIds) in StringTypes:
+        # only one item in this list
+        return [itemIds,]
+    else:
+         raise TypeError ("Form values must be of type string or list")
 
 
-
-
-def getScheduledItemId ( schedule_id ):
+def getScheduledItem( schedule_id ):
     """
-    return the item_id for a given schedule_id
+    return the item for a given schedule_id
     """
     session = Session()
     scheduled_item = session.query(scheduled_items).filter(schema.items_schedule.c.schedule_id == schedule_id)[0]
-    return scheduled_item.item_id, type(scheduled_item)
+    return scheduled_item
 
 
 class QuestionJSONValidation( BrowserView ):
@@ -167,6 +174,8 @@ class QuestionJSONValidation( BrowserView ):
         the sitting date is before the question was approved
         so it cannot be scheduled for this sitting
         """
+        if sitting is None:
+            return
         if sitting.start_date.date() < question.approval_date:
             return "Question cannot be scheduled before it was approved by the clerk"
     
@@ -175,6 +184,8 @@ class QuestionJSONValidation( BrowserView ):
         """
         A question cannot be scheduled on n days after the week in which the question was presented
         """
+        if sitting is None:
+            return
         noOfDaysBeforeQuestionSchedule = prefs.getNoOfDaysBeforeQuestionSchedule()
         minScheduleDate = question.approval_date + datetime.timedelta(noOfDaysBeforeQuestionSchedule)
         if sitting.start_date.date() < minScheduleDate:
@@ -214,7 +225,75 @@ class QuestionJSONValidation( BrowserView ):
             username = u"%s %s" %( user.first_name, user.last_name )
             return "%s asked %s questions, a maximum of %s questions is allowed per MP and sitting" % (username, noOfQuestions, maxNoOfQuestions)
         
+    def QuestionScheduledInPast(self, sitting):
+        """
+        the question was dropped on a date in the past
+        """        
+        if sitting.start_date.date() < datetime.date.today():
+            return "A question cannot be scheduled in the past"
+
+    def MotionScheduledInPast(self, sitting):
+        """
+        the question was dropped on a date in the past
+        """        
+        if sitting.start_date.date() < datetime.date.today():
+            return "A motion cannot be scheduled in the past"            
+            
+    def postponeQuestion(self, question):
+        if type(question) == ScheduledQuestionItems or (type(question) == domain.Question):
+            if question.status == question_wf_state.postponed:                
+                return
+            elif question.status == question_wf_state.scheduled:
+                return
+            else:
+                return "You cannot postpone this question"    
+        elif type(question) == ScheduledMotionItems or (type(question) == domain.Motion):
+            return "To postpone a motion drag it to the 'postponed motions' area"
+        else:
+            return "Unknown Item Type - you cannot drag this thing here"
+            
+    def admitQuestion(self, question):
+        if type(question) == ScheduledQuestionItems or (type(question) == domain.Question):
+            if question.status == question_wf_state.postponed:                
+                return "This question is postponed, you can schedule it by dropping it on a sitting"
+            elif question.status == question_wf_state.scheduled:
+                return "To postpone a question drag it to the 'postponed questions' area"
+            elif question.status == question_wf_state.admissible:    
+                return
+            else:
+                return "You cannot make this question admissible"    
+        elif type(question) == ScheduledMotionItems or (type(question) == domain.Motion):
+            return "To postpone a motion drag it to the 'postponed motions' area"
+        else:
+            return "Unknown Item Type - you cannot drag this thing here"
+            
+    def admitMotion(self, motion):
+        if type(motion) == ScheduledMotionItems or (type(motion) == domain.Motion):
+            if motion.status == motion_wf_state.postponed:                
+                return "This motion is postponed, you can schedule it by dropping it on a sitting"
+            elif motion.status == motion_wf_state.scheduled:
+                return "To postpone a motion drag it to the 'postponed motions' area"
+            elif motion.status == motion_wf_state.admissible:  
+                return  
+            else:
+                return "You cannot make this motion admissible"    
+        elif type(motion) == ScheduledQuestionItems or (type(motion) == domain.Question):
+            return "To postpone a question drag it to the 'postponed questions' area"
+        else:
+            return "Unknown Item Type - you cannot drag this thing here"            
         
+    def postponeMotion(self, motion):    
+        if type(motion) == ScheduledMotionItems or (type(motion) == domain.Motion):
+            if motion.status == motion_wf_state.postponed:                
+                return 
+            elif motion.status == motion_wf_state.scheduled:
+                return
+            else:
+                return "You cannot postpone this motion"    
+        elif type(motion) == ScheduledQuestionItems or (type(motion) == domain.Question):
+            return "To postpone a Question drag it to the 'postponed questions' area"
+        else:
+            return "Unknown Item Type - you cannot drag this thing here"
         
     def __call__( self ):
         """
@@ -223,65 +302,111 @@ class QuestionJSONValidation( BrowserView ):
         """
         errors = []
         warnings = []        
+        data = {'errors': errors, 'warnings': warnings}
         form_data = self.request.form
         sitting_questions = []
         motion_id = None
         question_id = None
+        sitting_id = None
+        schedule_id = None
+        item = None         
+        session = Session()
+        #pdb.set_trace()
         if form_data:            
-            if form_data.has_key( 'sitting_id' ):
-                assert(form_data['sitting_id'][:4] == "sid_")
-                sitting_id = long(form_data['sitting_id'][4:])
             if form_data.has_key( 'question_id'): 
                 qid =  form_data['question_id']
                 if qid[:2] == 'q_': 
                     question_id = long(qid[2:])
+                    item =  session.query(domain.Question).get(question_id)
                 elif qid[:5] == 'isid_':
-                    isid = long(qid[5:])
-                    item_id, item_type = getScheduledItemId(isid)
-                    if item_type == ScheduledQuestionItems:
-                        question_id = item_id
-                    elif item_type == ScheduledMotionItems:
-                        motion_id = item_id
+                    schedule_id = long(qid[5:])
+                    item = getScheduledItem(schedule_id)
                 elif qid[:2] == 'm_':                                         
                     motion_id = long(qid[2:])
+                    item = session.query(domain.Motion).get(motion_id)
+            if form_data.has_key( 'sitting_id' ):
+                if (form_data['sitting_id'][:4] == "sid_"):
+                    sitting_id = long(form_data['sitting_id'][4:])
+                elif form_data['sitting_id'] == 'postponed_questions':  
+                    result = self.postponeQuestion(item)  
+                    if result:
+                        errors.append(result)
+                    data = {'errors': errors, 'warnings': warnings}                                    
+                    return simplejson.dumps( data )
+                elif form_data['sitting_id'] == 'admissible_questions': 
+                    result = self.admitQuestion(item)  
+                    if result:
+                        errors.append(result)
+                    data = {'errors': errors, 'warnings': warnings}                                    
+                    return simplejson.dumps( data )                   
+                   
+                elif form_data['sitting_id'] == 'admissible_motions':           
+                    result = self.admitMotion(item)  
+                    if result:
+                        errors.append(result)
+                    data = {'errors': errors, 'warnings': warnings}                                    
+                    return simplejson.dumps( data )                         
+                    
+                elif form_data['sitting_id'] == 'postponed_motions':        
+                    result = self.postponeMotion(item)  
+                    if result:
+                        errors.append(result)
+                    data = {'errors': errors, 'warnings': warnings}                                    
+                    return simplejson.dumps( data )                                                  
+                else:
+                    raise NotImplemented    
             if form_data.has_key('q_id'):
-                sq_ids = form_data['q_id']
+                sq_ids = makeList(form_data['q_id'])
                 for qid in sq_ids:
                     if qid[:2] == 'q_' :
                         sitting_questions.append(long(qid[2:]))
                     elif qid[:5] == 'isid_':
                         isid = long(qid[5:])
-                        q_id, item_type = getScheduledItemId(isid)                        
-                        if item_type == ScheduledQuestionItems:
-                            sitting_questions.append(q_id)
+                        s_item = getScheduledItem(isid)                        
+                        if type(s_item) == ScheduledQuestionItems:
+                            sitting_questions.append(s_item.question_id)
                         
-        session = Session()
+        if schedule_id and sitting_id:
+            if schedule_id != sitting_id:
+                pdb.set_trace()
+                errors.append("You cannot move scheduled items around the calendar")
+            
         questions = session.query(domain.Question).filter(schema.questions.c.question_id.in_(sitting_questions)).distinct().all()
-        sitting = session.query(domain.GroupSitting).get(sitting_id)
-        if question_id:
-            question = session.query(domain.Question).get(question_id)                
+        if sitting_id:
+            sitting = session.query(domain.GroupSitting).get(sitting_id)
+        else:
+            sitting = None    
+        if (type(item) == ScheduledQuestionItems) or (type(item) == domain.Question):
+            question = item                
                 
-                
+            #result = self.moveScheduledQuestion ( sitting, question )    
             result = self.sittingBeforeApproval( sitting, question )    
             if result:
                 errors.append(result)
             result = self.sittingToEarly( sitting, question)
             if result:
                 warnings.append(result)
-            result = self.sittingToManyQuestions( question_id, sitting_questions)
+            result = self.sittingToManyQuestions( question.question_id, sitting_questions)
             if result:
                 warnings.append(result)
             result = self.sittingToManyQuestionsByMP( question, questions )    
             if result:
                 warnings.append(result)
+            result = self.QuestionScheduledInPast(sitting)
+            if result:
+                errors.append(result)    
            
             #data = {'errors':['to many quesitions','question scheduled to early'], 'warnings': ['more than 1 question by mp...',]}
             data = {'errors': errors, 'warnings': warnings}
             return simplejson.dumps( data )
-        if motion_id:
+        if (type(item) == ScheduledMotionItems) or (type(item) == domain.Motion):
+            result = self.MotionScheduledInPast(sitting)
+            if result:
+                errors.append(result)  
             #data = {'errors':['to many motions','motion scheduled to early'], 'warnings': ['more than 1 motion by mp...',]}
             data = {'errors': errors, 'warnings': warnings}
             return simplejson.dumps( data )
+        return   simplejson.dumps({'errors':['Unknown Item',], 'warnings': []})
     
 def start_DateTime( Date ):
     """
@@ -495,7 +620,7 @@ YAHOO.example.DDApp = {
                 var el_select = document.createElement('select');
                 el_select.multiple = "multiple";  
                 el_select.name = ul.id;                                 
-                
+                Dom.setStyle(el_select, "display", "none");
                 for (i=0;i<items.length;i=i+1) {
                    
                     el_option=document.createElement("option");
@@ -555,10 +680,10 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                         }                                                    
                     },
     markScheduleDates: function (id) {
-                        var tdEl                         
+                        var tdEl;                                      
                         for ( var i = 0; i < this.tddArray.length; i++ ) {
                             tdEl = document.getElementById(this.tddArray[i]);
-                            if (tdEl != null) {
+                            if (tdEl != null) {                               
                                 if (tdEl.id < id) {
                                     Dom.addClass(tdEl.id, 'invalid-date')                                    
                                 }
@@ -600,6 +725,10 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
         var clickEl = this.getEl();
         var parentEl = clickEl.parentNode;    
         var scheduleAfterId = this.getSchuleAfterId(clickEl);
+        var currentDateId = %(currentDateId)s;
+        if (scheduleAfterId < currentDateId) {
+            scheduleAfterId = currentDateId;
+            };
         this.markScheduleDates(scheduleAfterId);      
         // sometimes the proxy for the original element does
         // not get removed properly onDragDrop :(
@@ -677,7 +806,7 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
             var srcPEl = this.originalEl.parentNode;
             var valObject = { errors: [], warnings: []};
             var hasErrors = false;
-            if (destEl.nodeName.toLowerCase() == "ol") {                    
+            if ((destEl.nodeName.toLowerCase() == "ol") || (destEl.nodeName.toLowerCase() == "ul")) {                    
                     var queryStr="";
                     var items = destEl.getElementsByTagName("li");
                     var sitting = {
@@ -713,12 +842,14 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                             }                      
                         }
                     Dom.removeClass(id, 'dragover');    
+                    Dom.removeClass(id, 'invalid-dragover');
                 }
             if (destEl.nodeName.toLowerCase() == "li") {
                 var pEl = destEl.parentNode;
                 alert( srcEl.id + " -> " + destEl.id);
                 if (pEl.nodeName.toLowerCase() == "ol") {                   
                     Dom.removeClass(pEl.id, 'dragover');
+                    Dom.removeClass(pEl.id, 'invalid-dragover');
                     }
                 }
             if (hasErrors) {
@@ -762,7 +893,7 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
 
     onDragEnter: function(e, id) {        
         var destEl = Dom.get(id);
-        //Dom.setStyle(liProxyEl.id, "visibility", "");
+
         if (destEl.nodeName.toLowerCase() == "ol") {            
             Dom.addClass(id, 'dragover');
             }            
@@ -779,9 +910,10 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
    
    onDragOut: function(e, id) {        
         var destEl = Dom.get(id);
-         //Dom.setStyle(liProxyEl.id, "visibility", "hidden");
+
          if (destEl.nodeName.toLowerCase() == "ol") {
              Dom.removeClass(id, 'dragover');
+             Dom.removeClass(id, 'invalid-dragover');
             }            
         if (destEl.nodeName.toLowerCase() == "li") {
             var pEl = destEl.parentNode;
@@ -856,19 +988,20 @@ Event.onDOMReady(YAHOO.example.DDApp.init, YAHOO.example.DDApp, true);
             #parseList(ul1, "List 1") +
             parseList = parseList + 'parseList(sid_'+ str(sid) + '); \n'
         parseList = parseList +  'parseList(admissible_questions); \n'   
-        parseList = parseList +  'parseList(postponed_questions);'
+        parseList = parseList +  'parseList(postponed_questions); \n'
         parseList = parseList +  'parseList(admissible_motions); \n'   
-        parseList = parseList +  'parseList(postponed_motions);'        
+        parseList = parseList +  'parseList(postponed_motions); \n'        
         maxQuestionsPerSitting = prefs.getMaxQuestionsPerSitting()
         tddArray = ", ".join(self.table_date_ids)
-        
+        currentDateId = '"tdid-' + datetime.date.strftime(datetime.date.today(),'%Y-%m-%d"')
         js_inserts= {
             'DDList':DDList,
             'DDTarget':DDTarget,
             'targetList': t_list,
             'parseList': parseList,
             'maxQuestionsPerSitting': maxQuestionsPerSitting,
-            'tddArray' : tddArray }
+            'tddArray' : tddArray,
+            'currentDateId': currentDateId }
         return JScript % js_inserts           
         
         
@@ -930,6 +1063,7 @@ class MotionInStateViewlet( viewlet.ViewletBase ):
             data ={}
             data['qid']= ( 'm_' + str(result.motion_id) )                         
             data['subject'] = result.title
+            data['schedule_date_class'] = 'sc-after-' # + datetime.date.strftime(result.approval_date + offset, '%Y-%m-%d')
             data_list.append(data)            
         return data_list
     
@@ -1276,15 +1410,10 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
             # the target is the list in which the item is in
             if target[:4] == 'sid_':
                 # the target is a sitting
-                itemIds = form[target]
-                sitting_id = long(target[4:])
-                if type(itemIds) == ListType:
-                    self.insert_item_into_sitting(sitting_id, itemIds)                                
-                elif type(itemIds) in StringTypes:
-                    # only one item in this list
-                    self.insert_item_into_sitting(sitting_id, [itemIds,])                        
-                else:
-                    raise TypeError ("Form values must be of type string or list")
+                itemIds = makeList(form[target])
+                sitting_id = long(target[4:])                
+                self.insert_item_into_sitting(sitting_id, itemIds)                                                                                     
+                   
             elif (target == 'admissible_questions') or (target == 'postponed_questions'):      
                 itemIds = form[target]
                 if type(itemIds) == ListType:
@@ -1303,54 +1432,35 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                     self.remove_item_from_sitting([itemIds,])                            
                     
     def insert_questions(self, form):
-        print form
         for sitting in form.keys():
             if sitting[:4] == 'sid_':
-                qids = form[sitting]
+                qids = makeList(form[sitting])
                 sitting_id = long(sitting[4:])     
-                sort_id = 0           
-                if type(qids) == ListType:
-                    for qid in qids:                        
-                        if qid[:2] == 'q_':
-                            sort_id = sort_id + 1
-                            question_id = long(qid[2:])
-                            self.schedule_question(question_id, sitting_id, sort_id)
-                        elif (qid[:5] == 'isid_'):
-                            #this is a scheduled item
-                            sort_id = sort_id + 1
-                            schedule_id = long(qid[5:])
-                            question_id = getScheduledItemId(schedule_id)
-                            self.schedule_question(question_id, sitting_id, sort_id)
-                if type(qids) in StringTypes:
-                    if qids[:2] == 'q_':
-                        question_id = long(qids[2:])
-                        self.schedule_question(question_id, sitting_id, 1)  
-                    elif (sitting[:5] == 'isid_'):
+                sort_id = 0                      
+                for qid in qids:                        
+                    if qid[:2] == 'q_':
+                        sort_id = sort_id + 1
+                        question_id = long(qid[2:])
+                        self.schedule_question(question_id, sitting_id, sort_id)
+                    elif (qid[:5] == 'isid_'):
+                        #this is a scheduled item
                         sort_id = sort_id + 1
                         schedule_id = long(qid[5:])
                         question_id = getScheduledItemId(schedule_id)
                         self.schedule_question(question_id, sitting_id, sort_id)
+ 
                                           
             elif (sitting == 'admissible_questions') or (sitting == 'postponed_questions'):                
-                qids = form[sitting]
-                print sitting
-                if type(qids) == ListType:            
-                    for qid in qids:                            
-                        if qid[:2] == 'q_':                            
-                            question_id = long(qid[2:])
-                            self.schedule_question(question_id, None, 0)
-                        elif (qid[:5] == 'isid_'):        
-                            schedule_id = long(qid[5:])
-                            question_id = getScheduledItemId(schedule_id)
-                            self.schedule_question(question_id, None, 0)                    
-                if type(qids) in StringTypes:
-                    if qids[:2] == 'q_':
-                        question_id = long(qids[2:])
+                qids = makeList(form[sitting])           
+                for qid in qids:                            
+                    if qid[:2] == 'q_':                            
+                        question_id = long(qid[2:])
                         self.schedule_question(question_id, None, 0)
                     elif (qid[:5] == 'isid_'):        
                         schedule_id = long(qid[5:])
                         question_id = getScheduledItemId(schedule_id)
-                        self.schedule_question(question_id, None, 0)                            
+                        self.schedule_question(question_id, None, 0)                    
+                        
 #            elif :
 #                qids = form['postponed_questions']
 #                if type(qids) == ListType:

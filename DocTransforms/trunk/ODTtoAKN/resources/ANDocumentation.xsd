@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema 
+targetNamespace="http://www.akomantoso.org/doc/1.0" 
+xmlns="http://www.akomantoso.org/doc/1.0" 
+elementFormDefault="qualified" 
+xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+>
+
+
+	<xsd:annotation>
+		<xsd:documentation>
+		 =====================================================================
+		AKOMA NTOSO Documentation schema
+		
+		Version  1.1
+		Release   19/04/2008
+		Fabio Vitali, Luca Cervone - UniBo
+		
+		===================================================================== 
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<xsd:complexType name="value"  >
+		<xsd:attribute name="value" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="href"  >
+		<xsd:attribute name="href" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="idref"  >
+		<xsd:attribute name="href" type="xsd:IDREF" use="required"/>
+	</xsd:complexType>
+	
+	<xsd:complexType name="descr"  >
+		<xsd:choice>
+			<xsd:any  minOccurs="0"  processContents="lax" namespace="http://www.w3.org/1999/xhtml"/>
+		</xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name="descrAndImages">
+		<xsd:complexContent>
+			<xsd:extension base="descr">
+				<xsd:sequence>
+					<xsd:element ref="images" minOccurs="0" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:complexType name="glossaryDescr">
+		<xsd:complexContent>
+			<xsd:extension base="descr">
+				<xsd:attribute name="name" />
+				<xsd:attribute name="id" type="xsd:ID" use="required"/>
+			</xsd:extension>
+		</xsd:complexContent>	
+	</xsd:complexType>
+	
+	<xsd:complexType name="any"  >
+		<xsd:choice>
+			<xsd:any  minOccurs="0"  processContents="lax" namespace="##other"/>
+		</xsd:choice>
+	</xsd:complexType>
+
+	<xsd:complexType name="imagesCM">
+		<xsd:choice>
+			<xsd:element ref="img"  minOccurs="0" maxOccurs="unbounded" />
+		</xsd:choice>
+	</xsd:complexType>
+	
+	<xsd:complexType name="imgCM">
+		<xsd:attribute name="title" use="required" type="xsd:string"/>
+		<xsd:attribute name="src" use="required" type="xsd:string"/>
+	</xsd:complexType>
+	
+	<xsd:element name="ANDocumentation" >
+		<xsd:complexType>
+			<xsd:choice minOccurs="1" maxOccurs="unbounded" >
+				<xsd:element ref="NSDoc" />
+				<xsd:element ref="elementDoc" />
+				<xsd:element ref="attributeDoc" />
+				<xsd:element ref="complexTypeDoc" />
+				<xsd:element ref="simpleTypeDoc" />
+				<xsd:element ref="attGroupDoc" />
+				<xsd:element ref="elmGroupDoc" />
+				<xsd:element ref="glossary" />
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="CM"  >
+		<xsd:sequence>
+			<xsd:element ref="semantical" />
+			<xsd:element ref="technical" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:NMTOKEN" use="required"/>
+		<xsd:attribute name="id" type="xsd:ID" use="required"/>
+		<xsd:attribute name="href" type="xsd:string"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="glossaryCM">
+		<xsd:sequence>
+			<xsd:element ref="glossaryDef" minOccurs="1" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+		
+	<xsd:element name="NSDoc"  type="CM" />
+	<xsd:element name="elementDoc"  type="CM" />
+	<xsd:element name="attributeDoc"  type="CM" />
+	<xsd:element name="complexTypeDoc"  type="CM" />
+	<xsd:element name="simpleTypeDoc"  type="CM" />
+	<xsd:element name="attGroupDoc"  type="CM" />
+	<xsd:element name="elmGroupDoc"  type="CM" />
+	<xsd:element name="glossary" type="glossaryCM" />
+
+	<xsd:element name="glossaryDef" type="glossaryDescr" />
+	
+	<xsd:element name="semantical" >
+		<xsd:complexType >
+			<xsd:sequence >
+				<xsd:element ref="role" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="purpose" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="usecase" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="correctExample" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="incorrectExample" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="references" minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	
+	<xsd:element name="technical" >
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="patterns" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="description" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="context" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="exception" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="validExample" minOccurs="0" maxOccurs="1"/>
+				<xsd:element ref="invalidExample" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="downstreamBehavior" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="references" minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="role"  type="descr" />
+	<xsd:element name="purpose"  type="descr" />
+	<xsd:element name="usecase"  type="descr" />
+	<xsd:element name="correctExample"  type="descr" />
+	<xsd:element name="incorrectExample"  type="descr" />
+	<xsd:element name="references">
+		<xsd:complexType >
+			<xsd:choice>
+				<xsd:element ref="external_reference" minOccurs="1" maxOccurs="unbounded" />
+				<xsd:element ref="internal_reference" minOccurs="1" maxOccurs="unbounded" />
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="patterns">
+		<xsd:complexType>
+			<xsd:sequence maxOccurs="unbounded">
+				<xsd:element ref="pattern" minOccurs="1" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="external_reference"  type="href" />
+	<xsd:element name="internal_reference"  type="idref" />
+	<xsd:element name="context"  type="descr" />
+	<xsd:element name="description"  type="descr" />
+	<xsd:element name="pattern"  type="value" />
+	<xsd:element name="exception"  type="descr" />
+	<xsd:element name="validExample"  type="any" />
+	<xsd:element name="invalidExample"  type="any" />
+	<xsd:element name="downstreamBehavior"  type="descrAndImages" />
+	<xsd:element name="images"  type="imagesCM" />
+	<xsd:element name="img"  type="imgCM" />
+</xsd:schema>

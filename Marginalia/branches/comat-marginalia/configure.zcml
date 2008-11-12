@@ -12,7 +12,7 @@
    <browser:page
       for=".interfaces.IAnnotatable.IAnnotatable"
       name="annotate"
-      template="skins/Marginalia/annotate.pt"
+      template="skins/marginalia-templates/annotate.pt"
       class=".content.AnnotationAdaptorAndView.AnnotationView"      
       permission="zope2.View"
       />
@@ -20,7 +20,7 @@
    <browser:page
       for=".interfaces.IAnnotatable.IAnnotatable"
       name="amendment"
-      template="skins/Marginalia/amendment.pt"
+      template="skins/marginalia-templates/amendment.pt"
       class=".content.AnnotationAdaptorAndView.AnnotationView"      
       permission="zope2.View"
       />

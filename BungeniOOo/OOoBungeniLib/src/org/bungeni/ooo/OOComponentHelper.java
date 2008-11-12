@@ -1657,6 +1657,20 @@ public XTextField getTextFieldByName(String fieldName) {
           }
     }
     
+    public boolean isDocumentOnDisk(){
+        XStorable xStore = ooQueryInterface.XStorable(this.m_xComponent);
+        return xStore.hasLocation();
+    }
+    public String getDocumentURL(){
+        XStorable xStore = ooQueryInterface.XStorable(this.m_xComponent);
+        if (xStore.hasLocation()) {
+            return xStore.getLocation();
+        } else {
+            return null;
+        }
+    }
+    
+    
     public static XComponent newDocument(String templatePath) {
         XComponent xComponent = null;
         

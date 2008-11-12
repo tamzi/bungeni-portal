@@ -1,0 +1,151 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="plone">
+  <head><title></title></head>
+  <body>
+
+    <metal:view_macro define-macro="view">
+      <tal:define define="
+                    edit_accessor python:field.getAccessor(here);
+                    getMethod python:(widget.populate and edit_accessor or accessor) or None;
+                    targets python:getMethod and getMethod(aslist=1);"
+                  condition="targets">      
+                          
+        <a href="#"
+           tal:define="obj python:targets[0]"
+           tal:condition="not:field/multiValued"
+           tal:attributes="href obj/absolute_url">
+                        <img src="" alt="" tal:define="icon python: obj.getIcon(1)"
+                                        tal:attributes="src string:${utool}/${icon};alt python:obj.Title() or obj.absolute_url(relative=1)" />
+        <span
+           tal:content="python:obj.Title() or obj.absolute_url(relative=1)">
+          Sole target object's title</span>
+        </a>
+      
+        <ul tal:condition="field/multiValued">
+          <li tal:repeat="obj targets">
+            <a href="#"
+	       tal:attributes="href obj/absolute_url">
+                        <img src="" alt="" tal:define="icon python: obj.getIcon(1)"
+                                        tal:attributes="src string:${utool}/${icon};alt python:obj.Title() or obj.absolute_url(relative=1)" />
+           <span	        
+	       tal:content="python:obj.Title() or obj.absolute_url(relative=1)">
+              Target Title</span>
+            </a>
+          </li>
+        </ul>
+
+      </tal:define>
+    </metal:view_macro>
+
+    <metal:edit_macro define-macro="edit">
+      <metal:use use-macro="field_macro | here/widgets/field/macros/edit">
+
+        <div metal:fill-slot="widget_body"
+             tal:define="multiVal field/multiValued;
+                         displayFieldId string:display_${fieldName};
+                         saveFieldId string:save_${fieldName};
+                         toolName string:${fieldName}_picker;
+                         fieldName python:fieldName+':lines';
+                         value python:test(multiVal, value, value and [value]);
+                         items python:here.itemsFromUIDs(value);
+                         allowed_types python:field.allowed_types">
+
+
+<div id="display_" tal:attributes="id displayFieldId">
+   <div tal:repeat="item python:[item for item in items if item]" tal:attributes="id item/UID|nothing">
+        <span tal:replace="item/title_or_id|nothing"></span>
+        <a href="#" tal:attributes="onclick string:${toolName}.removeReference('${item/UID|nothing}');;return false;">remove</a> &nbsp; 
+  </div>
+</div>
+
+<textarea style="display:none;" rows="6"
+        id="save_" name="field:lines"
+        tal:attributes="id saveFieldId;name fieldName;"
+	   tal:on-error="string:Big problem here! XXX"
+        tal:content="python:value and '\n'.join(value)or ''"></textarea>
+
+ 
+<script type="text/javascript" 
+   tal:define="single not:multiVal;
+        allowed python:','.join([repr(t) for t in field.allowed_types]);
+        basesearch python:here.popupstringize(widget.base_search);
+        descr python:repr(widget.Description(here));
+        base here/absolute_url;
+        posfactory python:base.find('/portal_factory/');
+        base python:posfactory > 0 and base[:posfactory+1] or base;"
+
+        tal:content="string:
+var ${toolName} = new SearchReference('${toolName}', '${displayFieldId}', '${saveFieldId}');
+${toolName}.allowed_types=new Array(${allowed});
+${toolName}.single=${single};
+${toolName}.windowTitle=${descr};
+${toolName}.base='${base}';
+${toolName}.base_search='${basesearch}';
+
+">
+</script>
+
+
+<metal:livesearch metal:use-macro="here/typedlivesearch/macros/livesearch">
+
+		<metal:slot metal:fill-slot="before_input">
+		<input class="querytarget" type="hidden"/>
+		<input class="min_chars" type="hidden" value="0"/>
+		</metal:slot>
+
+		<metal:slot metal:fill-slot="after_input">
+            <span class="field" tal:define="portal_types portal/portal_types;
+                        types python:here.plone_utils.getUserFriendlyTypes();
+                        types allowed_types|types">
+                        
+               <tal:ifonetype tal:condition="python: len(types)==1">
+                   <span tal:content="python:types[0]">Object</span>
+               </tal:ifonetype>
+               
+               <tal:ifmanytype tal:condition="python: len(types)>1">
+    
+                    <select name="portal_type">
+                    <option
+                           value=""
+                           >Any Type</option>
+
+
+                <tal:contenttypes repeat="type types">
+                    <option value="#"
+                           tal:attributes="value type; selected python:type == request.get('portal_type','')">
+                    <tal:content
+                           i18n:translate=""
+                           tal:define="ptype python: portal_types.getTypeInfo(type)"
+                           tal:content="ptype/Title|type"
+                           />
+                    </option>
+                </tal:contenttypes>
+
+                </select>
+			  </tal:ifmanytype>
+            </span>
+
+		</metal:slot>
+
+		<metal:slot metal:fill-slot="submit_button">
+		</metal:slot>
+
+
+</metal:livesearch> 
+ 
+<metal:addable metal:use-macro="here/widgets/addable_support/macros/addable"/>
+
+        </div>
+      </metal:use>
+
+    </metal:edit_macro>
+
+    <metal:search_macro define-macro="search">
+      <div metal:use-macro="here/widgets/reference/macros/edit"></div>
+    </metal:search_macro>
+
+  </body>
+</html>

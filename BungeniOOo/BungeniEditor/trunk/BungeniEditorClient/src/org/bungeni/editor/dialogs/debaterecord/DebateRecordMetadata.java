@@ -9,11 +9,21 @@ package org.bungeni.editor.dialogs.debaterecord;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerDateModel;
+import org.bungeni.editor.BungeniEditorProperties;
+import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooDocMetadata;
 
@@ -26,6 +36,7 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
     
     OOComponentHelper ooDocument  = null;
     JFrame parentFrame = null;
+    SelectorDialogModes dlgMode = null;
     
     class CountryCode {
         String countryCode;
@@ -72,9 +83,30 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
         
     }
     
+    private CountryCode findCountryCode (String countryCode) {
+        for (CountryCode c : countryCodes) {
+            if (c.countryCode.equals(countryCode)) {
+                return c;
+            }
+        }
+        return null;
+    }
+    
+    private LanguageCode findLanguageCode(String langCode) {
+        for (LanguageCode lc : languageCodes){
+            if (lc.languageCode.equals(langCode)){
+                return lc;
+            }
+        }
+        return null;
+    }
     private void initControls(){
         cboCountry.setModel(new DefaultComboBoxModel(countryCodes.toArray()));
         cboLanguage.setModel(new DefaultComboBoxModel(languageCodes.toArray()));
+         dt_initdebate_timeofhansard.setModel(new SpinnerDateModel(new Date(), null, null, Calendar.HOUR));
+        dt_initdebate_timeofhansard.setEditor(new JSpinner.DateEditor(dt_initdebate_timeofhansard, BungeniEditorProperties.getEditorProperty("metadataTimeFormat")));
+        ((JSpinner.DefaultEditor)dt_initdebate_timeofhansard.getEditor()).getTextField().setEditable(false);
+ 
     }
     
     public Component findComponentByName(Container container, String componentName) {
@@ -110,12 +142,44 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
     }
     
     /** Creates new form DebateRecordMetadata */
-    public DebateRecordMetadata(OOComponentHelper ooDoc, JFrame parentFrame) {
+    public DebateRecordMetadata(OOComponentHelper ooDoc, JFrame parentFrame, SelectorDialogModes aMode) {
         this.parentFrame = parentFrame;
         this.ooDocument = ooDoc;
         initComponents();
+        dlgMode = aMode;
+   
         initMetadata();
         initControls();
+        
+        if (aMode == SelectorDialogModes.TEXT_EDIT) {
+            try {
+                //retrieve metadata... and set in controls....
+                ooDocMetadata docMeta = new ooDocMetadata(ooDocument);
+                String sParlId = docMeta.GetProperty("BungeniParliamentID");
+                String sParlSitting = docMeta.GetProperty("BungeniParliamentSitting");
+                String sParlSession = docMeta.GetProperty("BungeniParliamentSession");
+                String sCountryCode = docMeta.GetProperty("BungeniCountryCode");
+                String sLanguageCode = docMeta.GetProperty("BungeniLanguageCode");
+                String sOfficDate = docMeta.GetProperty("BungeniDebateOfficialDate");
+                String sOfficTime = docMeta.GetProperty("BungeniDebateOfficialTime");
+
+                //official date
+                SimpleDateFormat formatter = new SimpleDateFormat(BungeniEditorProperties.getEditorProperty("metadataDateFormat"));
+                this.dt_initdebate_hansarddate.setDate(formatter.parse(sOfficDate));
+                //official time
+                SimpleDateFormat timeFormat = new SimpleDateFormat(BungeniEditorProperties.getEditorProperty("metadataTimeFormat"));
+                dt_initdebate_timeofhansard.setValue(timeFormat.parse(sOfficTime));
+                this.BungeniParliamentID.setText(sParlId);
+                this.txtParliamentSession.setText(sParlSession);
+                this.txtParliamentSitting.setText(sParlSitting);
+                this.cboCountry.setSelectedItem(findCountryCode(sCountryCode));
+                this.cboLanguage.setSelectedItem(findLanguageCode(sLanguageCode));
+                
+            } catch (ParseException ex) {
+                Logger.getLogger(DebateRecordMetadata.class.getName()).log(Level.SEVERE, null, ex);
+            }
+         
+        }
        // getComponentWithNames(this);
     }
 
@@ -142,6 +206,10 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
         txtParliamentSitting = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
+        dt_initdebate_hansarddate = new org.jdesktop.swingx.JXDatePicker();
+        jLabel6 = new javax.swing.JLabel();
+        dt_initdebate_timeofhansard = new javax.swing.JSpinner();
+        jLabel7 = new javax.swing.JLabel();
 
         cboCountry.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         cboCountry.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -208,6 +276,19 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
         jTextArea1.setWrapStyleWord(true);
         jScrollPane1.setViewportView(jTextArea1);
 
+        dt_initdebate_hansarddate.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
+
+        jLabel6.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        jLabel6.setText("Official Date");
+        jLabel6.setName("lbl.BungeniParliamentSitting"); // NOI18N
+
+        dt_initdebate_timeofhansard.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
+        dt_initdebate_timeofhansard.setName("dt_initdebate_timeofhansard"); // NOI18N
+
+        jLabel7.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        jLabel7.setText("Official TIme");
+        jLabel7.setName("lbl.BungeniParliamentSitting"); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -215,21 +296,36 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 220, Short.MAX_VALUE)
-                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cboLanguage, 0, 381, Short.MAX_VALUE)
                     .addComponent(cboCountry, 0, 381, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(BungeniParliamentID, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
-                    .addComponent(jLabel4)
-                    .addComponent(txtParliamentSitting, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtParliamentSession, javax.swing.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtParliamentSitting)
+                                        .addComponent(BungeniParliamentID, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(dt_initdebate_hansarddate, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(44, 44, 44))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(15, 15, 15)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(dt_initdebate_timeofhansard, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(txtParliamentSession, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
+                                .addGap(27, 27, 27))
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(23, 23, 23)
+                                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -246,22 +342,30 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(cboLanguage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(1, 1, 1)
-                .addComponent(BungeniParliamentID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(BungeniParliamentID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtParliamentSession, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtParliamentSession, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(10, 10, 10)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtParliamentSitting, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                .addGap(7, 7, 7)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(dt_initdebate_hansarddate, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(dt_initdebate_timeofhansard, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave)
                     .addComponent(btnCancel))
-                .addContainerGap())
+                .addGap(4, 4, 4))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -282,13 +386,23 @@ private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
     CountryCode selCountry = (CountryCode)this.cboCountry.getSelectedItem();
     LanguageCode selLanguage = (LanguageCode) this.cboLanguage.getSelectedItem();
     ooDocMetadata docMeta = new ooDocMetadata(ooDocument);
+    //get the official time
+        SimpleDateFormat tformatter = new SimpleDateFormat (BungeniEditorProperties.getEditorProperty("metadataTimeFormat"));
+       Object timeValue = this.dt_initdebate_timeofhansard.getValue();
+       Date hansardTime = (Date) timeValue;
+    final String strTimeOfHansard = tformatter.format(hansardTime);
+    //get the offical date
+       SimpleDateFormat dformatter = new SimpleDateFormat (BungeniEditorProperties.getEditorProperty("metadataDateFormat"));
+       final String strDebateDate = dformatter.format( dt_initdebate_hansarddate.getDate());
+    
     
     docMeta.AddProperty("BungeniParliamentID", sParliamentID);
     docMeta.AddProperty("BungeniParliamentSitting", sParliamentSitting);
     docMeta.AddProperty("BungeniParliamentSession", sParliamentSession);
     docMeta.AddProperty("BungeniCountryCode", selCountry.countryCode);
     docMeta.AddProperty("BungeniLanguageCode", selLanguage.languageCode);
-    
+    docMeta.AddProperty("BungeniDebateOfficialDate", strDebateDate);
+    docMeta.AddProperty("BungeniDebateOfficialTime", strTimeOfHansard);
     parentFrame.dispose();
 }//GEN-LAST:event_btnSaveActionPerformed
 
@@ -299,11 +413,15 @@ private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
     private javax.swing.JButton btnSave;
     private javax.swing.JComboBox cboCountry;
     private javax.swing.JComboBox cboLanguage;
+    private org.jdesktop.swingx.JXDatePicker dt_initdebate_hansarddate;
+    private javax.swing.JSpinner dt_initdebate_timeofhansard;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField txtParliamentSession;

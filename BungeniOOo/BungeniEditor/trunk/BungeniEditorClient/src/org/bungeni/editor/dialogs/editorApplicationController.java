@@ -44,6 +44,7 @@ import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.dialogs.debaterecord.DebateRecordMetadata;
+import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.CommonFileFunctions;
@@ -952,7 +953,7 @@ private void initMeta(XComponent xComp){
 private void LaunchDebateMetadataSetter(XComponent xComp){
         OOComponentHelper oohc = new OOComponentHelper (xComp, this.m_xContext );
         JFrame frm = new JFrame("DebateRecord Metadata");
-        DebateRecordMetadata meta = new DebateRecordMetadata(oohc, frm);
+        DebateRecordMetadata meta = new DebateRecordMetadata(oohc, frm, SelectorDialogModes.TEXT_INSERTION);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setSize(new Dimension(410, 360));
         frm.add(meta);

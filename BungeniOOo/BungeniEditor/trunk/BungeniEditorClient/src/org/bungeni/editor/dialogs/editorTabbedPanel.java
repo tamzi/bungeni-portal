@@ -87,6 +87,7 @@ import org.bungeni.utils.BungeniBTree;
 import org.bungeni.utils.BungeniBNode;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.dialogs.debaterecord.DebateRecordMetadata;
+import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.ooo.transforms.impl.BungeniTransformationTarget;
 import org.bungeni.ooo.transforms.impl.BungeniTransformationTargetFactory;
 import org.bungeni.ooo.transforms.impl.IBungeniDocTransform;
@@ -1420,8 +1421,9 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
             }
         });
 
-        btnOpenDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        btnOpenDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 9)); // NOI18N
         btnOpenDocument.setText("Open");
+        btnOpenDocument.setIconTextGap(2);
         btnOpenDocument.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnOpenDocumentActionPerformed(evt);
@@ -1437,7 +1439,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         lblSwitchTag.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         lblSwitchTag.setText("Switch Tabs :");
 
-        btnNewDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        btnNewDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 9)); // NOI18N
         btnNewDocument.setText("New");
         btnNewDocument.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1445,7 +1447,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
             }
         });
 
-        btnSaveDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        btnSaveDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 9)); // NOI18N
         btnSaveDocument.setText("Save");
         btnSaveDocument.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1466,11 +1468,11 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                     .add(layout.createSequentialGroup()
                         .add(btnBringToFront)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnOpenDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 46, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(btnOpenDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 56, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnNewDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 44, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(btnNewDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnSaveDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 47, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(btnSaveDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 52, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
             .add(layout.createSequentialGroup()
                 .add(8, 8, 8)
@@ -1483,16 +1485,16 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
+                .addContainerGap(14, Short.MAX_VALUE)
                 .add(lblCurrentlyOpenDocuments)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnBringToFront)
-                    .add(btnSaveDocument)
+                    .add(btnOpenDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(btnNewDocument)
-                    .add(btnOpenDocument))
+                    .add(btnSaveDocument))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lblCurrentMode)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -1649,7 +1651,7 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
 private void LaunchDebateMetadataSetter(XComponent xComp){
         OOComponentHelper oohc = new OOComponentHelper (xComp, ComponentContext);
         JFrame frm = new JFrame("DebateRecord Metadata");
-        DebateRecordMetadata meta = new DebateRecordMetadata(oohc, frm);
+        DebateRecordMetadata meta = new DebateRecordMetadata(oohc, frm, SelectorDialogModes.TEXT_INSERTION);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setSize(new Dimension(410, 360));
         frm.add(meta);

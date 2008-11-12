@@ -18,22 +18,45 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
-                      <Component id="btnSave" min="-2" pref="84" max="-2" attributes="0"/>
-                      <EmptySpace pref="220" max="32767" attributes="0"/>
-                      <Component id="btnCancel" min="-2" pref="77" max="-2" attributes="0"/>
-                  </Group>
                   <Component id="jScrollPane1" alignment="0" min="-2" pref="381" max="-2" attributes="0"/>
                   <Component id="jLabel2" alignment="0" min="-2" pref="185" max="-2" attributes="0"/>
                   <Component id="cboLanguage" alignment="0" pref="381" max="32767" attributes="1"/>
                   <Component id="cboCountry" alignment="0" pref="381" max="32767" attributes="1"/>
                   <Component id="jLabel1" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
-                  <Component id="jLabel3" alignment="0" min="-2" pref="111" max="-2" attributes="0"/>
-                  <Component id="BungeniParliamentID" alignment="0" pref="381" max="32767" attributes="0"/>
-                  <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtParliamentSitting" alignment="0" pref="381" max="32767" attributes="0"/>
-                  <Component id="jLabel5" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
-                  <Component id="txtParliamentSession" alignment="0" pref="381" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                      <Component id="txtParliamentSitting" alignment="0" max="32767" attributes="1"/>
+                                      <Component id="BungeniParliamentID" alignment="0" pref="155" max="32767" attributes="1"/>
+                                      <Component id="jLabel3" alignment="0" min="-2" pref="111" max="-2" attributes="0"/>
+                                      <Component id="jLabel5" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                                      <Component id="dt_initdebate_hansarddate" alignment="0" max="32767" attributes="1"/>
+                                  </Group>
+                                  <Component id="jLabel6" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="btnSave" min="-2" pref="84" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="dt_initdebate_timeofhansard" min="-2" pref="86" max="-2" attributes="0"/>
+                          <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="txtParliamentSession" pref="155" max="32767" attributes="1"/>
+                              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="jLabel7" alignment="0" min="-2" pref="110" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                              <Component id="btnCancel" min="-2" pref="77" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -53,23 +76,35 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="cboLanguage" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel4" alignment="3" min="-2" pref="13" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-              <Component id="BungeniParliamentID" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="BungeniParliamentID" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtParliamentSession" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabel4" min="-2" pref="13" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="txtParliamentSession" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="txtParliamentSitting" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="21" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="7" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="dt_initdebate_hansarddate" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="dt_initdebate_timeofhansard" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnSave" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="btnCancel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="4" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -219,5 +254,38 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="org.jdesktop.swingx.JXDatePicker" name="dt_initdebate_hansarddate">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="10" style="0"/>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel6">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="10" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Official Date"/>
+        <Property name="name" type="java.lang.String" value="lbl.BungeniParliamentSitting" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSpinner" name="dt_initdebate_timeofhansard">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="10" style="0"/>
+        </Property>
+        <Property name="name" type="java.lang.String" value="dt_initdebate_timeofhansard" noResource="true"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel7">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="10" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Official TIme"/>
+        <Property name="name" type="java.lang.String" value="lbl.BungeniParliamentSitting" noResource="true"/>
+      </Properties>
+    </Component>
   </SubComponents>
 </Form>

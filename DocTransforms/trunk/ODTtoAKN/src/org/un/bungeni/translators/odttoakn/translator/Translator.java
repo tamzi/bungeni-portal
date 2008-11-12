@@ -52,14 +52,40 @@ public class Translator implements TranslatorInterface
 	 */
 	public File translate(String aDocumentPath, String aConfigurationPath) throws TransformerFactoryConfigurationError, Exception 
 	{
+		//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
+		StreamSource ODFDocument = new StreamSource(ODFUtility.getInstance().mergeODF(aDocumentPath));
+
+		File resultFile = commonTranslate(ODFDocument, aConfigurationPath);
+		
+		//return the Source of the new document
+	    return resultFile;
+	}
+
+	/**
+	 * Transforms the document at the given path using the configuration at the given path 
+	 * @param aDocumentPath the path of the document to translate
+	 * @param aConfigurationPath the path of the configuration to use for the translation 
+	 * @return the translated document
+	 * @throws Exception 
+	 * @throws TransformerFactoryConfigurationError 
+	 */
+	public File translate(File aDocumentHandle, String aConfigurationPath) throws TransformerFactoryConfigurationError, Exception 
+	{
+		//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
+		StreamSource ODFDocument = new StreamSource(ODFUtility.getInstance().mergeODF(aDocumentHandle));
+
+	    File resultFile = commonTranslate(ODFDocument, aConfigurationPath);
+		//return the Source of the new document
+	    return resultFile;
+	}
+
+
+	private File commonTranslate(StreamSource ODFDocument, String aConfigurationPath) throws TransformerFactoryConfigurationError, Exception {
 		//get the File of the configuration 
 		Document configurationDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(aConfigurationPath);
 		
 		//create the configuration 
 		Configuration configuration = new Configuration(configurationDoc);
-
-		//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
-		StreamSource ODFDocument = new StreamSource(ODFUtility.getInstance().mergeODF(aDocumentPath));
 
 		//applies the input steps to the StreamSource of the ODF document
 		StreamSource iteratedDocument = InputStepsResolver.resolve(ODFDocument, configuration);
@@ -77,7 +103,6 @@ public class Translator implements TranslatorInterface
 		File resultFile = StreamSourceUtility.getInstance().writeToFile(resultStream);
 		
 		//return the Source of the new document
-	    return resultFile;
+	    return resultFile;	
 	}
-
 }

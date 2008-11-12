@@ -31,4 +31,5 @@ public interface TranslatorInterface
 	 * @throws TransformerFactoryConfigurationError 
 	 */
 	public File translate(String aDocumentPath, String aConfigurationPath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException, TransformerFactoryConfigurationError, Exception;
+	public File translate(File aDocumentHandle, String aConfigurationPath)  throws SAXException, IOException, ParserConfigurationException, XPathExpressionException, TransformerException, TransformerFactoryConfigurationError, Exception;
 }

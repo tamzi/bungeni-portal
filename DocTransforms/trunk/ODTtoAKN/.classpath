@@ -14,7 +14,6 @@
 	<classpathentry kind="lib" path="lib/saxon9-xqj.jar"/>
 	<classpathentry kind="lib" path="lib/saxon9.jar"/>
 	<classpathentry kind="lib" path="lib/junit.jar"/>
-	<classpathentry kind="lib" path="/Users/lucacervone/Documents/workspaces/eclipse/ODTtoAKN/lib/odfdom.jar"/>
 	<classpathentry kind="lib" path="/Users/lucacervone/Documents/workspaces/eclipse/ODTtoAKN/lib/xercesImpl.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,0 +1,33 @@
+Changes made to BungeniHelpCenter
+
+i, /skins/bungeni_help_center/phc_macros.pt - commented out the label to enlarge the image and the href link
+<metal:master define-macro="identityimage">
+   <span tal:omit-tag="" tal:condition="python:here.getIdentityPosition()=='right'">
+    <div class="floatright"
+         tal:condition="here/identity_thumb | nothing">
+         <a class="discreet"
+         tal:attributes="href string:${here/absolute_url}/identity/image_view_fullscreen">
+            <img tal:replace="structure here/identity_thumb" />
+            <br />
+            <img tal:replace="structure here/search_icon.gif" />
+            <span i18n:translate="label_click_to_enlarge">
+                Click to enlarge
+            </span>
+         </a>
+    </div>
+  </span>
+   <span tal:omit-tag="" tal:condition="python:here.getIdentityPosition()=='left'">
+    <div class="floatleft"
+         tal:condition="here/identity_thumb | nothing">
+         <a class="discreet"
+         tal:attributes="href string:${here/absolute_url}/identity/image_view_fullscreen">
+            <img tal:replace="structure here/identity_thumb" />
+            <br />
+            <img tal:replace="structure here/search_icon.gif" />
+            <span i18n:translate="label_click_to_enlarge">
+                Click to enlarge
+            </span>
+         </a>
+    </div>
+  </span>
+</metal:master>

@@ -17,11 +17,11 @@
 		</input>
 		<output>
 			<!-- Translates the generic elements -->
-			<xslt step="1" name="thirdstep" href="resources/stylesheets/debaterecord/common/ThirdStep.xsl" /> 
+<!--			<xslt step="1" name="thirdstep" href="resources/stylesheets/debaterecord/common/ThirdStep.xsl" /> -->
 			<!-- Delete empty (useless) elements  -->
-			<xslt step="2" name="fourthstep" href="resources/stylesheets/debaterecord/common/FourthStep.xsl" /> 
+<!--			<xslt step="2" name="fourthstep" href="resources/stylesheets/debaterecord/common/FourthStep.xsl" /> -->
 			<!-- Delete empty (useless) elements  -->
-			<xslt step="3" name="fifthstep" href="resources/stylesheets/debaterecord/common/FifthStep.xsl" /> 
+<!--			<xslt step="3" name="fifthstep" href="resources/stylesheets/debaterecord/common/FifthStep.xsl" /> -->
 		</output>
 	</stylesheets>
 </config>

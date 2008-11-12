@@ -60,7 +60,8 @@ public class ODFUtility
 	public File mergeODF(String anODFPath) throws TransformerFactoryConfigurationError, Exception
 	{
 		//get the ODF package
-		OdfDocument odf = OdfDocument.load(anODFPath);
+		OdfDocument odf = OdfDocument.loadDocument(anODFPath);
+		
 	
 		//get the DOM of the content.xml file
 		Document odfDom = odf.getContentDom();

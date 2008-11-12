@@ -732,7 +732,7 @@ registerType(BungeniHelpCenterReferenceManualPage, PROJECTNAME)
 HelpCenterReferenceManualSection = ReferenceManualSection.HelpCenterReferenceManualSection
 
 HelpCenterReferenceManualSection.schema['description'].required = 0
-HelpCenterReferenceManualSection.schema['body'].required = 0
+#HelpCenterReferenceManualSection.schema['body'].required = 0
 
 BungeniHelpCenterReferenceManualSectionSchema = \
     HelpCenterReferenceManualSection.schema + Schema((RelatedItemsField),)

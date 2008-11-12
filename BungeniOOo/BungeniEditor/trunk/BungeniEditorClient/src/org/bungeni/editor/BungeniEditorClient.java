@@ -38,12 +38,12 @@ public class BungeniEditorClient {
         //Use the Java look and feel.
         try {
            
-            UIManager.setLookAndFeel(
-               UIManager.getCrossPlatformLookAndFeelClassName());
+          //  UIManager.setLookAndFeel(
+          //     UIManager.getCrossPlatformLookAndFeelClassName());
         } catch (Exception e) { }
 
         //Make sure we have nice window decorations.
-       JFrame.setDefaultLookAndFeelDecorated(true);
+      // JFrame.setDefaultLookAndFeelDecorated(true);
        // JDialog.setDefaultLookAndFeelDecorated(true);
 
         //Instantiate the controlling class.

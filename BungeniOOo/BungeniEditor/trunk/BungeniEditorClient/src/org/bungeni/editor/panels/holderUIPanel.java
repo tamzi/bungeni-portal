@@ -189,7 +189,10 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
          Action sectionViewRefreshRunner = new AbstractAction() {
                 public void actionPerformed (ActionEvent e) {
                         updateCurrentSectionName();
-                        updateSectionTree();
+                        //***** crash warning *****
+                        //commented updateSectionTree 13-11-2008 to prevent crash on timed refresh... 
+                        //updateSectionTree();
+                        //***** crash warning *****
                     };
        };
         timerSectionTree = new Timer(3000, sectionViewRefreshRunner);
@@ -815,27 +818,37 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
         btnHideToolbarTree = new javax.swing.JRadioButton();
         btnHideTreeView = new javax.swing.JRadioButton();
         btnViewDefault = new javax.swing.JRadioButton();
-        lblCurrentSectionName = new javax.swing.JLabel();
         txtCurrentSectionName = new javax.swing.JTextField();
+        btnRefresh = new javax.swing.JButton();
 
         scrollToolbarTree.setViewportView(toolbarTree);
 
         scrollTreeView.setViewportView(sectionStructureTree);
 
+        cboChangeStructure.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
         cboChangeStructure.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         btnGroupSwitchView.add(btnHideToolbarTree);
+        btnHideToolbarTree.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
         btnHideToolbarTree.setText("Hide Toolbar Panel");
 
         btnGroupSwitchView.add(btnHideTreeView);
+        btnHideTreeView.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
         btnHideTreeView.setText("Hide Section View Panel");
 
         btnGroupSwitchView.add(btnViewDefault);
+        btnViewDefault.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
         btnViewDefault.setText("Switch to Default View");
 
-        lblCurrentSectionName.setText("Current Section Name:");
-
         txtCurrentSectionName.setEditable(false);
+
+        btnRefresh.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
+        btnRefresh.setText("Refresh Tree");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -845,31 +858,37 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnHideToolbarTree)
-                .addContainerGap(69, Short.MAX_VALUE))
+                .addContainerGap(97, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnViewDefault)
-                .addContainerGap(49, Short.MAX_VALUE))
+                .addContainerGap(77, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnHideTreeView)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(70, Short.MAX_VALUE))
             .addComponent(scrollToolbarTree, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
             .addComponent(scrollTreeView, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
-            .addComponent(lblCurrentSectionName, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
-            .addComponent(txtCurrentSectionName, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(62, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtCurrentSectionName, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(scrollToolbarTree, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
+                .addComponent(scrollToolbarTree, javax.swing.GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollTreeView, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                .addComponent(scrollTreeView, javax.swing.GroupLayout.DEFAULT_SIZE, 252, Short.MAX_VALUE)
+                .addGap(2, 2, 2)
+                .addComponent(btnRefresh, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblCurrentSectionName)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtCurrentSectionName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(8, 8, 8)
+                .addComponent(txtCurrentSectionName, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
                 .addComponent(cboChangeStructure, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnHideToolbarTree)
@@ -880,14 +899,19 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
         );
     }// </editor-fold>//GEN-END:initComponents
 
+private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+// TODO add your handling code here:
+    this.updateSectionTree();
+}//GEN-LAST:event_btnRefreshActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup btnGroupSwitchView;
     private javax.swing.JRadioButton btnHideToolbarTree;
     private javax.swing.JRadioButton btnHideTreeView;
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JRadioButton btnViewDefault;
     private javax.swing.JComboBox cboChangeStructure;
-    private javax.swing.JLabel lblCurrentSectionName;
     private javax.swing.JScrollPane scrollToolbarTree;
     private javax.swing.JScrollPane scrollTreeView;
     private javax.swing.JTree sectionStructureTree;

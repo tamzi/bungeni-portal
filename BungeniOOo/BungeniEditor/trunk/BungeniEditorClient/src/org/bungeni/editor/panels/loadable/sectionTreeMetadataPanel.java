@@ -128,8 +128,12 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
               public void actionPerformed(ActionEvent e) {
                 //refreshSectionMetadataTreeTable();
                  // captureTreeState();
+                  //*** crash warning ***
+                  /*
                   if (isVisible())
                   refreshTree();
+                   */ 
+                  //*** crash warning ***
                  // restoreTreeState();
               }
            });

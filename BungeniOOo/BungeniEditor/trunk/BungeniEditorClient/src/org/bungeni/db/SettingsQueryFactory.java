@@ -232,6 +232,13 @@ public class SettingsQueryFactory {
                 "number_decorators";
         return query;
     }
+    
+    
+    public static String Q_FETCH_TRANSFORM_CONFIG(String docType, String configName) {
+        String query = "select DOC_TYPE, CONFIG_NAME, CONFIG_FILE from TRANFORM_CONFIGURATIONS where " +
+                "DOC_TYPE = '"+docType+"' and CONFIG_NAME='"+configName+"'";
+        return query;
+    }
 }
 
 

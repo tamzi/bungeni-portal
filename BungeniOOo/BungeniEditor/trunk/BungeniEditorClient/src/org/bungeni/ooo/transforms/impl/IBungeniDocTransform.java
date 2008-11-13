@@ -10,6 +10,7 @@
 package org.bungeni.ooo.transforms.impl;
 
 import java.util.HashMap;
+import javax.swing.JFrame;
 import org.bungeni.ooo.OOComponentHelper;
 
 /**
@@ -17,6 +18,7 @@ import org.bungeni.ooo.OOComponentHelper;
  * @author Administrator
  */
 public interface IBungeniDocTransform {
+    public void setParentFrame(JFrame frm);
     public void setParams (HashMap<String, Object> params);
     public boolean transform(OOComponentHelper ooDocument);
    

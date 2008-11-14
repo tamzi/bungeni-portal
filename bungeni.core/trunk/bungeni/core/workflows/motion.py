@@ -3,6 +3,8 @@ from zope import interface
 from zope import component
 from zope.event import notify
 from zope.component.interfaces import ObjectEvent
+from zope.security.proxy import removeSecurityProxy
+import zope.securitypolicy.interfaces
 
 from ore.workflow import interfaces as iworkflow
 from ore.workflow import workflow
@@ -29,10 +31,103 @@ class states:
     debated = _(u"Motion debated") # a motion was debated 
     withdrawn = _(u"Motion withdrawn") # the owner of the motion can withdraw the motion
 
+def denyAllWrites(motion):
+    """
+    remove all rights to change the question from all involved roles
+    """
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
+    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Owner' )
+    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' )
+    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Speaker' )
+    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.MP' )
+    rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.Owner' )
+#    rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.Clerk' )
+#    rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.Speaker' )
+#    rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.MP' )    
+
+
 def postpone(info,context):
     utils.setMotionHistory(info,context)
 
+def create( info, context ):
+    user_id = utils.getUserId()
+    if not user_id:
+        user_id ='-'
+    zope.securitypolicy.interfaces.IPrincipalRoleMap( context ).assignRoleToPrincipal( u'bungeni.Owner', user_id)   
 
+def submit( info, context ):
+    utils.setSubmissionDate(info, context)
+    motion = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
+    rpm.grantPermissionToRole( 'bungeni.motion.view', u'bungeni.Clerk' )
+    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Owner' )
+    rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.Owner' )
+    
+def recieved_by_clerk( info, context ):
+    utils.createVersion(info, context)   
+    motion = removeSecurityProxy(context)     
+    zope.securitypolicy.interfaces.IRolePermissionMap( motion ).grantPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' )
+    
+def require_edit_by_mp( info, context ):
+    utils.createVersion(info,context)
+    motion = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
+    rpm.grantPermissionToRole( 'bungeni.motion.edit', u'bungeni.Owner' )
+    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' )   
+    
+def complete( info, context ):
+    utils.createVersion(info,context)
+    motion = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
+    rpm.grantPermissionToRole( 'bungeni.motion.view', u'bungeni.Speaker' )
+    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' )     
+
+def approve( info, context ):
+    motion = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )    
+    rpm.grantPermissionToRole( 'bungeni.motion.edit', u'bungeni.Speaker' )
+    utils.setApprovalDate(info,context)
+    
+    
+def reject( info, context ):
+    motion = removeSecurityProxy(context)
+    denyAllWrites(motion)
+    
+def require_amendment( info, context ):
+    utils.createVersion(info,context)
+    motion = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
+    rpm.grantPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' )
+    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Speaker' ) 
+    
+def complete_clarify( info, context ):
+    utils.createVersion(info,context)
+    motion = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
+    rpm.grantPermissionToRole( 'bungeni.motion.view', u'bungeni.Speaker' )
+    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' ) 
+    
+def mp_clarify( info, context ):
+    utils.createVersion(info,context)
+    motion = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )
+    rpm.grantPermissionToRole( 'bungeni.motion.edit', u'bungeni.Owner' )
+    rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Clerk' )   
+        
+def schedule( info, context ):
+    pass
+def defer( info, context):
+    pass
+def elapse( info, context ):
+    pass
+def schedule( info, context ):
+    pass
+def debate( info, context ):
+    pass
+    
+def withdraw( info, context ):
+    motion = removeSecurityProxy(context)
+    denyAllWrites(motion)    
 
 def create_motion_workflow( ):
     transitions = []
@@ -42,7 +137,8 @@ def create_motion_workflow( ):
         transition_id = 'create',
         title='Create',
         trigger = iworkflow.AUTOMATIC,
-        source = None,       
+        source = None,   
+        action = create,    
         destination = states.draft,
         #permission = "bungeni.motion.Create",
         ) )
@@ -71,7 +167,7 @@ def create_motion_workflow( ):
         title=_(u'Submit to Clerk'),
         source = states.draft,
         trigger = iworkflow.MANUAL,        
-        action = utils.createVersion,
+        action = submit,
         destination = states.submitted,
         permission = 'bungeni.motion.Submit',
         ) )    
@@ -80,7 +176,8 @@ def create_motion_workflow( ):
         transition_id = 'received-by-clerk',
         title=_(u'Receive'),
         source = states.submitted,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL,     
+        action = recieved_by_clerk,           
         destination = states.received,
         permission = 'bungeni.motion.Recieve',        
         ) )    
@@ -96,6 +193,7 @@ def create_motion_workflow( ):
         title=_(u'Needs Clarification by MP'),
         source = states.received,
         trigger = iworkflow.MANUAL,                
+        action = require_edit_by_mp,
         destination = states.clarify_mp,
         permission = 'bungeni.motion.clerk.Review',        
         ) )   
@@ -125,6 +223,7 @@ def create_motion_workflow( ):
         title=_(u'Complete'),
         source = states.received,
         trigger = iworkflow.MANUAL,                
+        action = complete,
         destination = states.complete,
         permission = 'bungeni.motion.clerk.Review',        
         ) ) 
@@ -142,6 +241,7 @@ def create_motion_workflow( ):
         title=_(u'Approve'),
         source = states.complete,
         trigger = iworkflow.MANUAL,                
+        action = approve,
         destination = states.admissible,
         permission = 'bungeni.motion.speaker.Review',        
         ) )     
@@ -151,6 +251,7 @@ def create_motion_workflow( ):
         title=_(u'Reject'),
         source = states.complete,
         trigger = iworkflow.MANUAL,                
+        action = reject,
         destination = states.inadmissible,
         permission = 'bungeni.motion.speaker.Review',        
         ) )    
@@ -160,7 +261,7 @@ def create_motion_workflow( ):
         title=_(u'Needs Clarification'),
         source = states.complete,
         trigger = iworkflow.MANUAL,                
-        action = utils.createVersion,        
+        action = require_amendment,        
         destination = states.clarify_clerk,
         permission = 'bungeni.motion.speaker.Review',        
         ) )                    
@@ -182,7 +283,8 @@ def create_motion_workflow( ):
         transition_id = 'mp-clarify',
         title=_(u'Needs Clarification by MP'),
         source = states.clarify_clerk,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL,   
+        action = mp_clarify,             
         destination = states.clarify_mp,
         permission = 'bungeni.motion.clerk.Review',        
         ) )         
@@ -195,7 +297,7 @@ def create_motion_workflow( ):
         title=_(u'Resubmit to clerk'),
         source = states.clarify_mp,
         trigger = iworkflow.MANUAL,                
-        action = utils.createVersion,
+        action = submit,
         destination = states.submitted,
         permission = 'bungeni.motion.Submit',       
         ) )          
@@ -211,7 +313,9 @@ def create_motion_workflow( ):
         title=_(u'Schedule'),
         #trigger = iworkflow. , #triggered by scheduling ?        
         source = states.admissible,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL,    
+        condition= utils.getMotionSchedule,            
+        action = schedule,
         destination = states.scheduled,
         permission = 'bungeni.motion.Schedule',        
         ) )         
@@ -227,6 +331,7 @@ def create_motion_workflow( ):
         title=_(u'Defer'),
         source = states.admissible,
         trigger = iworkflow.MANUAL,                
+        action = defer,
         destination = states.deferred,
         permission = 'bungeni.motion.Schedule',        
         ) )  
@@ -236,6 +341,7 @@ def create_motion_workflow( ):
         title=_(u'Elapse'),
         source = states.deferred,
         trigger = iworkflow.MANUAL,                
+        action = elapse,
         destination = states.elapsed,
         permission = 'bungeni.motion.Schedule',        
         ) )  
@@ -247,8 +353,10 @@ def create_motion_workflow( ):
         transition_id = 'schedule-deferred',
         title=_(u'Schedule'),
         source = states.deferred,
-        #trigger = iworkflow. , #triggered by scheduling ?                
+        #trigger = iworkflow. , #triggered by scheduling ?    
+        condition= utils.getMotionSchedule,                                
         trigger = iworkflow.MANUAL,                
+        action = schedule,
         destination = states.scheduled,
         permission = 'bungeni.motion.Schedule',        
         ) )  
@@ -272,6 +380,7 @@ def create_motion_workflow( ):
         title=_(u'Debate'),
         source = states.scheduled,
         trigger = iworkflow.MANUAL,                
+        action = debate,
         destination = states.debated,
         permission = 'bungeni.motion.Debate',        
         ) )      
@@ -282,7 +391,9 @@ def create_motion_workflow( ):
         transition_id = 'schedule-postponed',
         title=_(u'Schedule'),
         source = states.postponed,
-        trigger = iworkflow.MANUAL,                
+        trigger = iworkflow.MANUAL,      
+        condition= utils.getMotionSchedule,                              
+        action = schedule,
         destination = states.scheduled,        
         permission = 'bungeni.motion.Schedule',        
         ) )      
@@ -294,6 +405,7 @@ def create_motion_workflow( ):
         title=_(u'Elapse'),
         source = states.postponed,
         trigger = iworkflow.MANUAL,                
+        action = elapse,
         destination = states.elapsed,        
         permission = 'bungeni.motion.Schedule',        
         ) )    
@@ -319,6 +431,7 @@ def create_motion_workflow( ):
         source = states.submitted,
         trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
+        action = withdraw,
         permission = 'bungeni.motion.Withdraw',        
         ) )   
 
@@ -328,6 +441,7 @@ def create_motion_workflow( ):
         source = states.received,
         trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
+        action = withdraw,
         permission = 'bungeni.motion.Withdraw',        
         ) )   
     add( workflow.Transition(
@@ -336,6 +450,7 @@ def create_motion_workflow( ):
         source = states.complete,
         trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
+        action = withdraw,
         permission = 'bungeni.motion.Withdraw',        
         ) )   
     add( workflow.Transition(
@@ -344,6 +459,7 @@ def create_motion_workflow( ):
         source = states.admissible,
         trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
+        action = withdraw,
         permission = 'bungeni.motion.Withdraw',        
         ) )   
     add( workflow.Transition(
@@ -352,6 +468,7 @@ def create_motion_workflow( ):
         source = states.clarify_mp,
         trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
+        action = withdraw,
         permission = 'bungeni.motion.Withdraw',        
         ) )                           
     add( workflow.Transition(
@@ -360,6 +477,7 @@ def create_motion_workflow( ):
         source = states.scheduled,
         trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
+        action = withdraw,
         permission = 'bungeni.motion.Withdraw',        
         ) )   
     add( workflow.Transition(
@@ -368,6 +486,7 @@ def create_motion_workflow( ):
         source = states.deferred,
         trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
+        action = withdraw,
         permission = 'bungeni.motion.Withdraw',        
         ) )   
     add( workflow.Transition(
@@ -376,6 +495,7 @@ def create_motion_workflow( ):
         source = states.postponed,
         trigger = iworkflow.MANUAL,                
         destination = states.withdrawn,
+        action = withdraw,
         permission = 'bungeni.motion.Withdraw',        
         ) )   
 

@@ -39,7 +39,7 @@ def setQuestionDefaults(info, context):
 
 def setSubmissionDate(info, context):
     instance = removeSecurityProxy(context)
-    instance.clerk_submission_date = datetime.date.today()    
+    instance.submission_date = datetime.date.today()    
     versions =  bungeni.core.interfaces.IVersioned(instance)
     versions.create('New version created upon submission to clerks office')
     
@@ -47,8 +47,11 @@ def setApprovalDate(info, context):
     instance = removeSecurityProxy(context)
     instance.approval_date = datetime.date.today()  
     versions =  bungeni.core.interfaces.IVersioned(instance)            
-    versions.create('New Version, Question approved by speakers office')
-    dbutils.setQuestionSerialNumber(instance)
+    versions.create('New Version created upon approval by speakers office')
+    if type(instance) == domain.Question:
+        dbutils.setQuestionSerialNumber(instance)
+    elif type(instance) == domain.Motion:
+        dbutils.setMotionSerialNumber(instance)                
 
 def setMinistrySubmissionDate(info, context):
     instance = removeSecurityProxy(context)
@@ -67,7 +70,11 @@ def getQuestionMinistry(info, context):
 
 def getQuestionSchedule(info, context):
     question_id = context.question_id
-    return dbutils.isQuestionScheduled(question_id)
+    return dbutils.isItemScheduled(question_id)
+
+def getMotionSchedule(info, context):
+    motion_id = context.motion_id
+    return dbutils.isItemScheduled(motion_id)
 
 
 def getQuestionSubmissionAllowed(info, context):    

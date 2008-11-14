@@ -25,6 +25,13 @@
              set_schema=".interfaces.IQuestion" />
   </class>             
 
+  <class class=".domain.Motion">
+    <require permission="bungeni.motion.view"
+             interface=".interfaces.IMotion" />
+    <require permission="bungeni.motion.edit"
+             set_schema=".interfaces.IMotion" />
+  </class>             
+
 
 </configure>
 

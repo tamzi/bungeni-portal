@@ -72,13 +72,14 @@ def setQuestionSerialNumber(question):
     sequence = rdb.Sequence('question_number_sequence')
     question.question_number = connection.execute(sequence)
 
-def isQuestionScheduled(question_id):
+def isItemScheduled(item_id):
     session = Session()
-    active_question_filter = rdb.and_( schema.items_schedule.c.item_id == question_id,
+    active_question_filter = rdb.and_( schema.items_schedule.c.item_id == item_id,
                                        schema.items_schedule.c.active == True)
     item_schedule = session.query(domain.ItemSchedule).filter(active_question_filter)
     results = item_schedule.all()
     return (len(results) == 1)
+    
     
 def setMotionSerialNumber(motion):    
     """

@@ -587,8 +587,8 @@ questions = rdb.Table(
    rdb.Column( "question_id", rdb.Integer, ItemSequence, primary_key=True ),
    rdb.Column( "question_number", rdb.Integer),
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
-   rdb.Column( "clerk_submission_date", rdb.Date,),
-   rdb.Column( "approval_date", rdb.Date,),  
+   rdb.Column( "submission_date", rdb.Date,), # date it was submitted to clerk
+   rdb.Column( "approval_date", rdb.Date,),  # date speaker approved the question
    rdb.Column( "ministry_submit_date", rdb.Date, ), 
    rdb.Column( "question_type", rdb.Unicode(1), 
                 rdb.CheckConstraint("question_type in ('O', 'P')"), default=u"O" ), # (O)rdinary (P)rivate Notice
@@ -665,20 +665,20 @@ motions = rdb.Table(
    rdb.Column( "motion_id", rdb.Integer, ItemSequence, primary_key=True ),
    rdb.Column( "motion_number", rdb.Integer),
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
-   rdb.Column( "submission_date", rdb.Date ),
+   rdb.Column( "submission_date", rdb.Date,), # date it was submitted to clerk
+   rdb.Column( "approval_date", rdb.Date,),  # date speaker approved the question   
    rdb.Column( "public", rdb.Boolean ),
    rdb.Column( "title", rdb.Unicode(80) ),
-   rdb.Column( "identifier", rdb.Integer),
    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id') ),
    rdb.Column( "seconder_id", rdb.Integer, rdb.ForeignKey('users.user_id') ), 
    rdb.Column( "body_text", rdb.UnicodeText ),
-   rdb.Column( "received_date", rdb.Date ),
+   #rdb.Column( "received_date", rdb.Date ),
    rdb.Column( "entered_by", rdb.Integer, rdb.ForeignKey('users.user_id') ),   
    rdb.Column( "party_id", rdb.Integer, rdb.ForeignKey('political_parties.party_id')  ), # if the motion was sponsored by a party
    rdb.Column( "notice_date", rdb.Date ),
    # Receive  Notifications -> triggers notification on workflow change
    rdb.Column( "receive_notification", rdb.Boolean, default=True ),
-   rdb.Column( "status",  rdb.Unicode(32) ),
+   rdb.Column( "status",  rdb.Unicode(48) ),
    )
 
 motion_changes = make_changes_table( motions, metadata )

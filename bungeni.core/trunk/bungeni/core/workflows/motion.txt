@@ -20,7 +20,7 @@ Setting up Database Connection and Utilities:
    >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
    >>> model.metadata.bind = db   
    >>> model.metadata.create_all()
-   >>> schema.QuestionSequence.create(db) 
+   >>> schema.MotionSequence.create(db) 
    >>> from alchemist.security.schema import metadata  
    >>> metadata.bind = db
    >>> metadata.create_all()  
@@ -55,6 +55,30 @@ Setup
   ...    bungeni.core.version.ContextVersioned,
   ...    (bungeni.core.interfaces.IVersionable,),
   ...    bungeni.core.interfaces.IVersioned)
+  
+    
+Security Adapters
+
+  >>> import alchemist.security.permission
+  >>> import alchemist.security.role
+
+  
+  >>> component.provideAdapter(
+  ...    alchemist.security.role.GlobalPrincipalRoleMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.permission.GlobalRolePermissionMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.role.LocalPrincipalRoleMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.permission.LocalRolePermissionMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
   
 Transition events
 -----------------
@@ -360,10 +384,13 @@ A motion can be withdrawn at (almost) any stage
 
   >>> motion_withdraw.status
    u'Motion withdrawn'  
-
+   
+  >>> schedule_motion(motion_defer.motion_id)
   >>> result = IWorkflowInfo(motion_defer).fireTransition('schedule-deferred')   
   >>> transitions(motion_defer)     
   ('postpone', 'debate', 'withdraw-scheduled')
+
+  >>> result = IWorkflowInfo(motion_defer).fireTransition('postpone')   
 
 schedule the motion
   >>> schedule_motion(motion.motion_id)
@@ -403,6 +430,7 @@ A motion can be withdrawn at (almost) any stage
 
 and reschedule it
 
+  >>> schedule_motion(motion.motion_id)
   >>> result = IWorkflowInfo(motion).fireTransition('schedule-postponed')  
   
   >>> transitions(motion)

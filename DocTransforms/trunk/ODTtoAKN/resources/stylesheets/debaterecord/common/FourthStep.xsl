@@ -40,7 +40,7 @@
 		</xsl:element>    
 	</xsl:template>
 
-    <xsl:template match="comment[name(./parent::node()) = 'debate']">
+    <xsl:template match="scene[name(./parent::node()) = 'debate']">
         <subdivision>
             <xsl:attribute name="name" select="concat('s_',@text:name)" />
             <xsl:attribute name="id" select="concat('s_',@text:name)" />

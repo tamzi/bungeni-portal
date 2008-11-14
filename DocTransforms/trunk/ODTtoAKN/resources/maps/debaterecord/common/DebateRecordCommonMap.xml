@@ -4,7 +4,7 @@
 	<elements>
 		<element id="1" type="text:section" name="debaterecord" bungeniSectionType="debaterecord" result="debaterecord" />
 		<element id="2" type="text:section" name="masthead" bungeniSectionType="MastHead" result="preface" />
-		<element id="3" type="text:section" name="Observation" bungeniSectionType="Observation" result="comment"/>
+		<element id="3" type="text:section" name="Observation" bungeniSectionType="Observation" result="scene"/>
 		<element id="4" type="text:section" name="GroupActivity" bungeniSectionType="GroupActivity" result="subdivision"/>
  	    <element id="5" type="text:section" name="Speech" bungeniSectionType="Speech" result="speech" />
  		<element id="6" type="text:section" name="QuestionsContainer" bungeniSectionType="QuestionsContainer" result="subdivision"/>

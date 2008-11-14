@@ -80,7 +80,8 @@ public class Translator implements TranslatorInterface
 	}
 
 
-	private File commonTranslate(StreamSource ODFDocument, String aConfigurationPath) throws TransformerFactoryConfigurationError, Exception {
+	private File commonTranslate(StreamSource ODFDocument, String aConfigurationPath) throws TransformerFactoryConfigurationError, Exception 
+	{
 		//get the File of the configuration 
 		Document configurationDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(aConfigurationPath);
 		
@@ -91,7 +92,7 @@ public class Translator implements TranslatorInterface
 		StreamSource iteratedDocument = InputStepsResolver.resolve(ODFDocument, configuration);
 
 		//applies the map steps to the StreamSource of the ODF document
-		iteratedDocument = MapStepsResolver.resolve(iteratedDocument, configuration);
+		//iteratedDocument = MapStepsResolver.resolve(iteratedDocument, configuration);
 
 		//applies the map steps to the StreamSource of the ODF document
 		iteratedDocument = ReplaceStepsResolver.resolve(iteratedDocument, configuration);

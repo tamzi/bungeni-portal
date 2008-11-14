@@ -40,19 +40,19 @@
 		</xsl:element>    
 	</xsl:template>
 
-    <xsl:template match="comment">
-        <comment>
+    <xsl:template match="scene">
+        <scene>
             <xsl:apply-templates />
-        </comment>    
+        </scene>    
     </xsl:template>
 
-    <xsl:template match="comment/p">
+    <xsl:template match="scene/p">
         <i>
             <xsl:apply-templates />
         </i>    
     </xsl:template>
     
-    <xsl:template match="comment/block">
+    <xsl:template match="scene/block">
         <xsl:apply-templates />
     </xsl:template>
 

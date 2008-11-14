@@ -7,11 +7,13 @@
 package org.bungeni.editor.selectors.debaterecord.question;
 
 import java.awt.Component;
+import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.util.HashMap;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
+import org.bungeni.utils.CommonDocumentUtilFunctions;
 
 /**
  *
@@ -140,11 +142,14 @@ public String getPanelName() {
     public boolean processSelectInsert() {
         //copy question text to clipboard
         String strText = this.txtQuestionText.getText();
-        Clipboard clipBrd = new Clipboard("Clipboard.QuestionText");
+        CommonDocumentUtilFunctions.writeToClipboard(strText);
+        /*Clipboard clipBrd = new Clipboard("Clipboard.QuestionText");
         Transferable copyToClipboard = new StringSelection(strText);
-        clipBrd.setContents(copyToClipboard, null);
+        clipBrd.setContents(copyToClipboard, null);*/
         return true;
     }
+    
+    
 
     @Override
     public boolean postSelectInsert() {

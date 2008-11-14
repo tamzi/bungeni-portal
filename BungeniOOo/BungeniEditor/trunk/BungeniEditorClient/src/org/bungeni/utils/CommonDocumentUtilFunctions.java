@@ -5,6 +5,10 @@
 
 package org.bungeni.utils;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 import java.util.Random;
 import org.bungeni.ooo.OOComponentHelper;
 
@@ -38,4 +42,22 @@ public class CommonDocumentUtilFunctions {
                 return prefixName + nRandom;
         }
     }
+    
+    public static void writeToClipboard(String writeMe) {
+		// get the system clipboard
+		Clipboard systemClipboard =
+			Toolkit
+				.getDefaultToolkit()
+				.getSystemClipboard();
+		// set the textual content on the clipboard to our 
+		// Transferable object
+		// we use the 
+		Transferable transferableText =
+			new StringSelection(writeMe);
+		systemClipboard.setContents(
+			transferableText,
+			null);
+    }
+
+    
 }

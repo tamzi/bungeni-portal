@@ -11,7 +11,6 @@ import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextViewCursor;
-import com.sun.star.text.XTextViewCursor;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,6 +68,7 @@ public class Main extends BaseMetadataContainerPanel {
         return this;
     }
     
+    @Override
     public void updateAllPanels(){
         for (panelInfo p : m_activePanels) {
             p.getPanelObject().doUpdateEvent();

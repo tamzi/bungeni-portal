@@ -71,6 +71,7 @@ public class Main extends BaseMetadataContainerPanel {
         return this;
     }
     
+    @Override
     public void updateAllPanels(){
         for (panelInfo p : m_activePanels) {
             p.getPanelObject().doUpdateEvent();

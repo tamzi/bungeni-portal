@@ -354,7 +354,7 @@ class QuestionJSONValidation( BrowserView ):
                     data = {'errors': errors, 'warnings': warnings}                                    
                     return simplejson.dumps( data )                                                  
                 else:
-                    raise NotImplemented    
+                    raise NotImplementedError    
             if form_data.has_key('q_id'):
                 sq_ids = makeList(form_data['q_id'])
                 for qid in sq_ids:
@@ -368,7 +368,7 @@ class QuestionJSONValidation( BrowserView ):
                         
         if schedule_id and sitting_id:
             if schedule_id != sitting_id:
-                pdb.set_trace()
+                #pdb.set_trace()
                 errors.append("You cannot move scheduled items around the calendar")
             
         questions = session.query(domain.Question).filter(schema.questions.c.question_id.in_(sitting_questions)).distinct().all()
@@ -1019,7 +1019,7 @@ class QuestionInStateViewlet( viewlet.ViewletBase ):
         for result in results:            
             data ={}
             data['qid']= ( 'q_' + str(result.question_id) )                         
-            data['subject'] = result.subject
+            data['subject'] = u'Q ' + str(result.question_number) + u' ' + result.subject
             data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date + offset, '%Y-%m-%d')
             data_list.append(data)            
         return data_list
@@ -1030,7 +1030,10 @@ class QuestionInStateViewlet( viewlet.ViewletBase ):
         refresh the query
         """
         session = Session()
-        questions = session.query(domain.Question).filter(schema.questions.c.status == self.state)
+        qfilter = rdb.and_(schema.questions.c.response_type == u"O", 
+                            schema.questions.c.status == self.state)
+        
+        questions = session.query(domain.Question).filter(qfilter)
         self.query = questions        
         
 class PostponedQuestionViewlet( QuestionInStateViewlet ):
@@ -1062,8 +1065,8 @@ class MotionInStateViewlet( viewlet.ViewletBase ):
         for result in results:            
             data ={}
             data['qid']= ( 'm_' + str(result.motion_id) )                         
-            data['subject'] = result.title
-            data['schedule_date_class'] = 'sc-after-' # + datetime.date.strftime(result.approval_date + offset, '%Y-%m-%d')
+            data['subject'] = u'M ' + str(result.motion_number) + u' ' +  result.title
+            data['schedule_date_class'] = 'sc-after-'  + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
             data_list.append(data)            
         return data_list
     
@@ -1098,6 +1101,8 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
     display a calendar with all sittings in a month
     """
     
+    errors = []
+    
     @form.action((u"Save"), condition = None)                     
     def handleSaveAction(self, action, data):
         pdb.set_trace()    
@@ -1118,7 +1123,7 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
         self.Date=datetime.date.today()
         self.Data = []
         session = Session()
-        self.type_query = session.query(domain.SittingType)
+        self.type_query = session.query(domain.SittingType)        
         
     def previous(self):
         """
@@ -1175,13 +1180,13 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
             #data['qid']= ( 'q_' + str(result.question_id) ) 
             data['schedule_id'] = ( 'isid_' + str(result.schedule_id) ) # isid for ItemSchedule ID 
             if type(result) == ScheduledQuestionItems:                       
-                data['subject'] = result.subject
+                data['subject'] = u'Q ' + str(result.question_number) + u' ' +  result.subject
                 data['type'] = "question"
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date + q_offset, '%Y-%m-%d')
             elif type(result) == ScheduledMotionItems:    
-                data['subject'] = result.title
+                data['subject'] = u'M ' + str(result.motion_number) + u' ' +result.title
                 data['type'] = "motion"
-                data['schedule_date_class'] = ''
+                data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
             elif type(result) == ScheduledBillItems:    
                 data['subject'] = result.title                
                 data['type'] = "bill"
@@ -1263,12 +1268,19 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
             else:
                 sitting = None                
             if sitting:             
-                # our question is either admissible, deferred or postponed  
-                item_schedule.sitting_id = sitting_id
-                item_schedule.item_id = question_id
-                item_schedule.order = sort_id
-                session.save(item_schedule)
-                IWorkflowInfo(question).fireTransitionToward(question_wf_state.scheduled, check_security=True)
+                # our question is either admissible, deferred or postponed 
+                try: 
+                    session.begin()
+                    item_schedule.sitting_id = sitting_id
+                    item_schedule.item_id = question_id
+                    item_schedule.order = sort_id
+                    session.save(item_schedule)
+                    IWorkflowInfo(question).fireTransitionToward(question_wf_state.scheduled, check_security=True)
+                    session.commit()
+                except:
+                    session.rollback()
+                    self.errors.append("Question could not be scheduled")  
+                    
                 #if IWorkflowInfo(question).state().getState() == question_wf_state.admissible:
                 #    IWorkflowInfo(question).fireTransition('schedule', check_security=True)
                 #elif IWorkflowInfo(question).state().getState() == question_wf_state.deferred:
@@ -1293,7 +1305,7 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                 if IWorkflowInfo(question).state().getState() == question_wf_state.scheduled:
                     IWorkflowInfo(question).fireTransition('postpone', check_security=True)
                 else:
-                    raise NotImplemented     
+                    raise NotImplementedError     
     
     def schedule_motion(self, motion_id, sitting_id, sort_id):      
         session = Session()
@@ -1308,16 +1320,22 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                 sitting = None                
             if sitting:    
                 # our motion is either admissible, deferred or postponed  
-                item_schedule.sitting_id = sitting_id
-                item_schedule.item_id = motion_id
-                item_schedule.order = sort_id
-                session.save(item_schedule)
-                IWorkflowInfo(motion).fireTransitionToward(motion_wf_state.scheduled, check_security=True)   
+                try:
+                    session.begin()
+                    item_schedule.sitting_id = sitting_id
+                    item_schedule.item_id = motion_id
+                    item_schedule.order = sort_id
+                    session.save(item_schedule)                
+                    IWorkflowInfo(motion).fireTransitionToward(motion_wf_state.scheduled, check_security=True)   
+                    session.commit()
+                except:
+                    self.errors.append("Motion could not be scheduled")    
+                    session.rollback()
             else:
                 if IWorkflowInfo(motion).state().getState() == motion_wf_state.scheduled:
                       IWorkflowInfo(motion).fireTransition('postpone', check_security=True)
                 else:
-                    raise NotImplemented     
+                    raise NotImplementedError     
     
     def getScheduledItems( self, form ):
         """
@@ -1375,7 +1393,7 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                         self.schedule_motion(motion_id, None, 0)
                         self.schedule_motion(motion_id, sitting_id, sort_id)
                     else:
-                        raise NotImplemented      
+                        raise NotImplementedError      
                           
     def remove_item_from_sitting( self, itemIds=[]):
         """
@@ -1396,7 +1414,7 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                      motion_id = item.motion_id   
                      self.schedule_motion(motion_id, None, 0)    
                 else:
-                    raise NotImplemented                                           
+                    raise NotImplementedError                                           
             elif item_id[:2] == 'q_':
                 # nothing to do here, either not moved
                 # or dropped from admissible to postponed or vice versa
@@ -1478,17 +1496,15 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
         """
         refresh the query
         """
-    
+        self.errors = []
         if self.request.form:
             if not self.request.form.has_key('cancel'):
                 self.insert_items(self.request.form) 
                 
         self.Date = getDisplayDate(self.request)
         if not self.Date:
-            self.Date=datetime.date.today()            
-                
+            self.Date=datetime.date.today()                            
         self.query, self.Date = current_sitting_query(self.Date)        
-        #print str(query)
         self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )
         self.monthcalendar = calendar.Calendar().monthdatescalendar(self.Date.year,self.Date.month)         
         self.monthname = datetime.date.strftime(self.Date,'%B %Y')

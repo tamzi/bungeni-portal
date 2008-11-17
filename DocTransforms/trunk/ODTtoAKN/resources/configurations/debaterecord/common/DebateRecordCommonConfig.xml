@@ -4,9 +4,10 @@
 	<replacements>
 		<replacement step="1" name="replacerefmarkstart" pattern="&lt;text:reference-mark-start([^\/]+)/&gt;" replacement="&lt;ref$1&gt;" />
 		<replacement step="2" name="replacerefmarkend" pattern="&lt;text:reference-mark-end([^\/]+)/&gt;" replacement="&lt;/ref&gt;" />
-		<replacement step="3" name="replaceemptyp" pattern="&lt;text:p([^\/&gt;]+)/&gt;" replacement="" />
+		<replacement step="3" name="replaceemptyline" pattern="\n" replacement="" />
+	<!--	<replacement step="3" name="replaceemptyp" pattern="&lt;text:p([^\/&gt;]+)/&gt;" replacement="" />
 		<replacement step="4" name="replaceemptyp" pattern="&lt;text:h([^\/&gt;]+)/&gt;" replacement="" />
-		<replacement step="5" name="replaceemptyp" pattern="&lt;text:span([^\/&gt;]+)/&gt;" replacement="" />
+		<replacement step="5" name="replaceemptyp" pattern="&lt;text:span([^\/&gt;]+)/&gt;" replacement="" /> -->
  	</replacements>
 	<stylesheets>
 		<input>

@@ -25,7 +25,7 @@
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                 exclude-result-prefixes="xsl xsd xsi text office style table draw fo xlink dc meta number svg chart dr3d math form script ooo ooow oooc dom xforms"
 				version="2.0">
-    <xsl:output indent="yes" method="xml"/>
+    <xsl:output indent="yes" method="xml" />
     
     <xsl:template match="/">
         <xsl:apply-templates />
@@ -127,10 +127,12 @@
         </milestone>
     </xsl:template>
 
-    <xsl:template match="text:tab">
-    </xsl:template>
+    <xsl:template match="text:tab"></xsl:template>
 
-    <xsl:template match="text:s">
+    <xsl:template match="text:s"></xsl:template>
+
+    <xsl:template match="text()">
+        <xsl:value-of select="normalize-space(.)" />
     </xsl:template>
 
 </xsl:stylesheet>

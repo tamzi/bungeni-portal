@@ -316,13 +316,13 @@ class QuestionJSONValidation( BrowserView ):
             if form_data.has_key( 'question_id'): 
                 qid =  form_data['question_id']
                 if qid[:2] == 'q_': 
-                    question_id = long(qid[2:])
+                    question_id = long(qid[2:].split('_')[0])
                     item =  session.query(domain.Question).get(question_id)
                 elif qid[:5] == 'isid_':
-                    schedule_id = long(qid[5:])
+                    schedule_id = long(qid[5:].split('_')[0])
                     item = getScheduledItem(schedule_id)
                 elif qid[:2] == 'm_':                                         
-                    motion_id = long(qid[2:])
+                    motion_id = long(qid[2:].split('_')[0])
                     item = session.query(domain.Motion).get(motion_id)
             if form_data.has_key( 'sitting_id' ):
                 if (form_data['sitting_id'][:4] == "sid_"):
@@ -359,9 +359,9 @@ class QuestionJSONValidation( BrowserView ):
                 sq_ids = makeList(form_data['q_id'])
                 for qid in sq_ids:
                     if qid[:2] == 'q_' :
-                        sitting_questions.append(long(qid[2:]))
+                        sitting_questions.append(long(qid[2:].split('_')[0]))
                     elif qid[:5] == 'isid_':
-                        isid = long(qid[5:])
+                        isid = long(qid[5:].split('_')[0])
                         s_item = getScheduledItem(isid)                        
                         if type(s_item) == ScheduledQuestionItems:
                             sitting_questions.append(s_item.question_id)
@@ -612,6 +612,11 @@ YAHOO.example.DDApp = {
         YAHOO.widget.Logger.enableBrowserConsole();   
     },
 
+    addLi: function(id) {
+       new YAHOO.example.DDList(id); 
+    },
+
+
     showOrder: function() {
         var parseList = function(ul) {
             if (ul != null) {
@@ -666,6 +671,13 @@ YAHOO.example.DDList = function(id, sGroup, config) {
 
 YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
         
+    get_random: function() {
+                var ranNum= Math.floor(Math.random()*1000);
+                return ranNum;
+            },
+    
+        
+        
     getSchuleAfterId: function (obj) {
                         
                      if ( obj.className ) {
@@ -695,6 +707,18 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                         }        
                     },
                     
+    getDuplicateSchedule: function(srcEl, dParent){
+            // check if this element is already scheduled in this destination
+            var items = dParent.getElementsByTagName("li");           
+            for (i=0;i<items.length;i=i+1) {
+                if ((items[i].innerHTML.substr(0,15)  == srcEl.innerHTML.substr(0,15))
+                    && (items[i] != srcEl)) {
+                    alert("This item is already scheduled for this sitting");
+                    return true;
+                    }
+                }
+            return false;    
+        },
      
     getQuestionValidation: function(url, passData) {
           this.logger.log("data :" + passData);
@@ -831,7 +855,8 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                         alert (errors);
                         hasErrors = true;
                         }
-                    if (!(hasErrors)) {
+                    hasErrors = ( hasErrors || this.getDuplicateSchedule(srcEl,  destEl.parentNode));                            
+                    if (!(hasErrors)) {                    
                         if (Validation.warnings.length >0) {
                             var errors = "" ;
                             for (i=0;i<Validation.warnings.length;i=i+1) {
@@ -840,10 +865,13 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                             errors = errors + "\\n" + "schedule anyway?"    
                             hasErrors = !(confirm (errors));
                             }                      
-                        }
+                        }                        
                     Dom.removeClass(id, 'dragover');    
-                    Dom.removeClass(id, 'invalid-dragover');
+                    Dom.removeClass(id, 'invalid-dragover');                    
                 }
+                else {
+                    alert( srcEl.id + " -> " + destEl.id);
+                    }
             if (destEl.nodeName.toLowerCase() == "li") {
                 var pEl = destEl.parentNode;
                 alert( srcEl.id + " -> " + destEl.id);
@@ -858,18 +886,37 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                 //this.invalidDropEvent.fire()
                 this.logger.log("proxy parent: " + srcPEl.id);
                 srcPEl.insertBefore(srcEl, this.originalEl);                
-            }
-            // Check to see if we are over the source element's location.  We will
-            // append to the bottom of the list once we are sure it was a drop in
-            // the negative space (the area of the list without any list items)
-            else {
-            if (!region.intersect(pt)) {               
-                destEl.appendChild(srcEl);
-                destDD.isEmpty = false;                
-            }
             }           
-        }
-        srcPEl.removeChild(this.originalEl); 
+            else {
+                // get the srcElement and clone it if the 
+                // element can be scheduled multiple times
+                if (srcEl.id.substr(0,2) == "m_") {
+                    if (srcPEl != destEl) {
+                        // the element was NOT moved around (reordered) in the same list
+                        if ((destEl.id.substr(0,4) == "sid_") && (srcPEl.id.substr(0,4) != "sid_")) {
+                            // the destination is a sitting and the source is NOT a sitting
+                            var schedEl = srcEl.cloneNode(true);
+                            schedEl.id = srcEl.id + "_" + this.get_random();
+                            srcPEl.insertBefore(schedEl, this.originalEl);  
+                            //DDM.swapNode( srcEl, schedEl);    
+                            //alert (schedEl.id);             
+                            YAHOO.example.DDApp.addLi(schedEl.id);
+                            Dom.setStyle(schedEl, "visibility", "");
+                        }    
+                    }
+                }
+                
+                // Check to see if we are over the source element's location.  We will
+                // append to the bottom of the list once we are sure it was a drop in
+                // the negative space (the area of the list without any list items)
+                if (!region.intersect(pt)) {               
+                    destEl.appendChild(srcEl);
+                    destDD.isEmpty = false;                
+                }               
+                srcEl.innerHTML = (srcEl.innerHTML.substr(0,15) + '...');               
+            }      
+          srcPEl.removeChild(this.originalEl);        
+        }        
         DDM.refreshCache(); 
     },
 

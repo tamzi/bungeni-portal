@@ -38,15 +38,59 @@
  	}
  	/*put thrown together quickly... could clean up/simplify*/
  	function displayEditStreamFiles() {
- 		global $wgOut, $wgTitle, $wgScriptPath, $wgRequest, $wgUser;
+ 		global $wgOut, $wgTitle, $wgScriptPath, $wgRequest, $wgUser, $mvgScriptPath;
  		$html = '';
- 	
+ 		$wgOut->addLink(array( 'rel' => 'stylesheet',
+                     					'href' => $mvgScriptPath . '/skins/tabview/assets/border_tabs.css',
+                     					'type' => 'text/css' ) );
+		$wgOut->addLink(array( 'rel' => 'stylesheet',
+                     					'href' => $mvgScriptPath . '/skins/tabview/assets/skin-sam.css',
+                     					'type' => 'text/css' ) );
+                 $wgOut->addLink(array( 'rel' => 'stylesheet',
+                     					'href' => $mvgScriptPath . '/skins/tabview/assets/tabview.css',
+                     					'type' => 'text/css' ) );
+                 $wgOut->addLink(array( 'rel' => 'stylesheet',
+                     					'href' => $mvgScriptPath . '/skins/tabview/assets/tabview-core.css',
+                     					'type' => 'text/css' ) );
 		$streamFiles = $this->mArticle->mvTitle->mvStream->getFileList();
 		// proccess the requested changes
  		$this->proccessReq( $streamFiles );
 		if ( $this->status_error != '' )$html .= '<span class="error">' . htmlspecialchars( $this->status_error ) . '</span><br />';
 		if ( $this->status_ok != '' )$html .= $this->status_ok . '<br />';
 		
+		$html .= '<div class="admin_links"><a href='.htmlspecialchars($this->mTitle->getFullUrl() ).'>Back to Sitting</a></div>';
+		$html .= '<div class="yui-navset">'; 
+		$html .= '<ul class="yui-nav">'; 
+		if ($wgRequest->getText('new')=='true')
+		{
+	        	$html .= '<li><a href="'.'"><em>Sitting Details</em></a></li>'; 
+	        }
+	        if ($wgRequest->getText('new')=='true')
+		{
+	        	$html .= '<li class="selected"><a href="' . $this->mTitle->getFullUrl('action=edit&new=true') . '"><em>Media</em></a></li>'; 
+	        }
+	        else
+	        {
+	        	$html .= '<li class="selected"><a href="' . $this->mTitle->getFullUrl('action=edit') . '"><em>Media</em></a></li>'; 
+	        }
+	        if ($wgRequest->getText('new')=='true')
+		{
+	        	$html .= '<li><a href="'.$this->mTitle->getFullUrl('action=staff&new=true').'"><em>Staff</em></a></li>'; 
+	        }
+	        else
+	        {
+	        	$html .= '<li><a href="'.$this->mTitle->getFullUrl('action=staff').'"><em>Staff</em></a></li>'; 
+	        }
+	        if ($wgRequest->getText('new')=='true')
+		{
+	        	$html .= '<li><a href="'.$this->mTitle->getFullUrl('action=takes&new=true').'"><em>Takes</em></a></li>'; 
+	    	}
+	    	else
+	    	{
+	    		$html .= '<li><a href="'.$this->mTitle->getFullUrl('action=takes').'"><em>Takes</em></a></li>';
+	    	}
+	    	$html .= '</ul>';   
+	    	
 		if ( count( $streamFiles ) == 0 ) {
 			$html .= '<b>' . wfMsg( 'mv_no_stream_files' ) . '</b>';
 		} else {
@@ -93,6 +137,7 @@
 				$html .= '</td></tr></table></div>';
 				$wgOut->setPageTitle('Add New Sitting Media');
 		}	
+		$html.= '</div>';
 		$wgOut->addHTML( $html );
 		return true;
  	}

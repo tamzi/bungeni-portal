@@ -320,7 +320,7 @@ function mv_disp_add_mvd(mvdType, time_range){
 	//var sitting_id = document.getElementById("sitting_id").innerHTML;
 	sajax_request_type='GET';	
 	if (time_range == null)
-		//time_range = org_vid_src.substr( org_vid_src.indexOf('?t=')+3 );
+		time_range = org_vid_src.substr( org_vid_src.indexOf('?t=')+3 );
 	js_log('time range = '+time_range);
 	
 	sajax_do_call( "mv_add_disp",[wgTitle, mvdType, time_range], f );
@@ -365,7 +365,7 @@ function mv_disp_add_mvd(mvdType, time_range){
 				add_adjust_hooks('new'); 
 			}
 			//add edit buttons 
-			mwSetupToolbar();
+			//mwSetupToolbar();
 			//onLoadFCKeditor();
 			mwEditButtons = []; //empty edit buttons
 		}

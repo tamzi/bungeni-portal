@@ -113,6 +113,8 @@ Or you many want to <a href="$3">Add the stream</a>.',
 	'mv_click_to_edit' => 'click to edit',
 	
 	# mvd types:
+	'take_en'	=>	'Take',
+	
 	'ht_en' => 'Transcript',
 	'ht_en_desc' => 'English transcripts.
 This overlay type is for spoken text',

@@ -1158,7 +1158,7 @@ class MV_SpecialMediaSearch {
 
 		foreach($person_ary as $person_name=>$na){
 			// make sure the person page exists:
-			$personTitle = Title :: makeTitle( NS_MAIN, $person_name );
+			$personTitle = Title :: makeTitle( MV_NS_MEMBER_OF_PARLIAMENT, $person_name );
 			if ( $personTitle->exists() ) {
 				// dont try and get person full name from semantic table if available
 				$person_full_name = $person_name;				

@@ -41,10 +41,61 @@ if ( !defined( 'MEDIAWIKI' ) )  die( 1 );
 			$cond[] = 'AND end_time >= ' . $dbr->addQuotes( $start_time );
 		return $dbr->selectField( 'mv_mvd_index', 'COUNT(1)', $cond,  __METHOD__ );
 	}
+	
+	function getMVDInRange($stream_id, $start_time=null, $end_time=null, $mvd_type='all',$getText=false,$smw_properties='', $limit='LIMIT 0, 200'){
+ 		global $mvIndexTableName, $mvDefaultClipLength; 		
+ 		$dbr =& wfGetDB(DB_SLAVE);	 		
+ 		//set mvd_type if empty: 
+ 		if($mvd_type==null)$mvd_type='all';
+ 		if($start_time<0)$start_time=0;
+ 		
+ 		$sql_sel = "SELECT `mv_page_id` as `id`, `mvd_type`, `wiki_title`, `stream_id`, `start_time`, `end_time` ";
+ 		$sql_from=" FROM {$dbr->tableName(mv_mvd_index)} ";
+ 		//if($smw_properties!=''){
+ 		//	$smw_properties = (is_string($smw_properties))?array($smw_properties):$smw_properties; 			
+ 		//	foreach($smw_properties as $prop_name){
+ 		//		$sql_sel.=", `$prop_name`.`object_title` as `$prop_name`";
+ 		//		$sql_from.="LEFT JOIN `smw_relations` as `$prop_name` ON (`mv_mvd_index`.`mv_page_id`=`$prop_name`.`subject_id` " .
+	 	//				"AND `$prop_name`.`relation_title`='$prop_name') ";	
+ 		//	}					
+ 		//} 	
+ 		$sql = $sql_sel . $sql_from; 	
+ 		$sql.= "WHERE `stream_id`={$stream_id} ";
+		if($mvd_type!='all'){
+			$mvd_type=(is_object($mvd_type))?get_object_vars($mvd_type):$mvd_type;
+			//check if mvd_type is array:
+			if(is_array($mvd_type)){
+				$sql.=' AND (';
+				$or='';
+				foreach($mvd_type as $mtype){
+					//@@todo confirm its a valid mvd_type: 
+					$sql.=$or."`mvd_type`='{$mtype}' ";
+					$or='OR ';
+				}
+				$sql.=')';
+			}else{
+				//@@todo confirm its a valid mvd_type: 
+				$sql.="AND `mvd_type`='{$mvd_type}' ";
+			}
+		}
+		//print $sql;
+		//get any data that covers this rage: 
+		if($end_time)$sql.=" AND `start_time` <= " . $end_time;
+		if($start_time)$sql.=" AND `end_time` >= " . $start_time; 
+		//add in ordering 
+		$sql.=' ORDER BY `start_time` ASC ';
+		//add in limit of 200 by default for now
+		$sql.='LIMIT 0, 200';
+		//echo $sql;
+ 		$result =& $dbr->query( $sql, 'MV_Index:getMVDInRange'); 	 	
+ 		return $result;
+ 	} 
+ 		
 	/*
 	 * getMVDInRange returns the mvd titles that are in the given range
 	 * param list got kind of crazy long... @@todo re-factor int a request object or something cleaner
 	 */
+	/* new dale code doesnt work, reverting back to old code till sorted out
 	function getMVDInRange( $stream_id, $start_time = null, $end_time = null, $mvd_type = 'all', $getText = false, $smw_properties = '', $options = array() ) {
 		global $mvDefaultClipLength;
 		$dbr =& wfGetDB( DB_SLAVE );
@@ -74,6 +125,7 @@ if ( !defined( 'MEDIAWIKI' ) )  die( 1 );
 						// has to be rewritten with sub-queries or something more elaborate
 						// for now just do lookup after the fact
 						$do_smw_lookup = true;
+						*/
 						/*$esc_p = mysql_real_escape_string($prop_name);
 						$vars[] = $esc_p.'.`smw_title` AS `'.
 									$esc_p.'` ';
@@ -97,7 +149,7 @@ if ( !defined( 'MEDIAWIKI' ) )  die( 1 );
 						$conds[]=' `'.$esc_p.'stext`.`smw_title` = `mv_mvd_index`.`wiki_title` ';
 						break; 		
 						*/
-					} else {
+					/*} else {
 						$vars[] = mysql_real_escape_string( $prop_name ) . '.object_title as ' . mysql_real_escape_string( $prop_name );
 						$from_tables .= ' ' .
 							' LEFT JOIN ' . $dbr->tableName( 'smw_relations' ) .
@@ -218,6 +270,7 @@ if ( !defined( 'MEDIAWIKI' ) )  die( 1 );
 		// $result =& $dbr->query( $sql, 'MV_Index:time_index_query');
 		return $ret_ary;
 	}
+	*/
 	/*@@todo figure another way to get at this data...this is not a very fast query: */
 	function getMVDTypeInRange( $stream_id, $start_time = null, $end_time = null ) {
 		$dbr =& wfGetDB( DB_SLAVE );

@@ -119,6 +119,9 @@
 					'', '', 'title="' . htmlspecialchars( wfMsg( 'mv_export_cmml' ) ) . '"' );
 		}
 		$this->page_header .= '</span>';
+		if( $wgUser->isAllowed('edit_sitting') ){
+	$this->page_header .= '<div class="admin_links"><a href='.htmlspecialchars($this->article->mTitle->getFullUrl('action=edit') ).'>Sitting Settings</a></div>';
+			}
 		$this->page_title = $this->article->mvTitle->getStreamNameText() . ' ' . $this->article->mvTitle->getTimeDesc();
 	}
 	// grab semantic properties if availiable:

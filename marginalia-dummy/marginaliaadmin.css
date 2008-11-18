@@ -1,0 +1,27 @@
+.hentry em.annotation {
+   background: none;
+}
+
+.hentry em.annotation em.annotation {
+   background: none;     
+}
+
+.hentry em.annotation em.annotation em.annotation {
+   background: none;
+}
+
+.hentry em.annotation em.annotation em.annotation em.annotation {
+   background: none;
+}
+
+.hentry em.annotation em.annotation em.annotation em.annotation em.annotation {
+   background: none;
+}
+
+.hentry .entry-content em.annotation ins {
+   color:black;
+}
+
+.hentry .entry-content em.annotation del {
+   display:none;     
+}

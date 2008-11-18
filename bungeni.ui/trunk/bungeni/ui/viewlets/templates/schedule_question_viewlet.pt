@@ -2,7 +2,7 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       i18n_domain="bungeni.ui">
 
-  <div class="workspace-viewlet"
+  <div class="workspace-viewlet listing"
        tal:define="results view/getData"
        tal:attributes="id string:workspace-viewlet-${view/name}">
     <h4 i18n:translate="" tal:content="view/name" />

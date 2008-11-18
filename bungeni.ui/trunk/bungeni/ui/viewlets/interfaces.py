@@ -17,7 +17,11 @@ class ISittingCalendar( IViewletManager ):
     """ Sitting Calendar viewlet manager """     
 
 class IScheduleCalendar( IViewletManager ):    
-    """ Schedule Calendar viewlet manager """        
+    """ Schedule Calendar viewlet manager """    
+    
+class IScheduleItems( IViewletManager ):    
+    """ Schedule Calendar items viewlet manager """    
+        
     
 class ICurrentGovernment( IViewletManager ):    
     """ Current Government """

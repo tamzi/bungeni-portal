@@ -19,9 +19,16 @@
      permission="zope.View"
      />    
      
+  <browser:viewletManager
+     name="bungeni.schedule-items.manager"
+     provides=".interfaces.IScheduleItems"
+     class=".schedule.ScheduleCalendarItemsViewletManager"
+     permission="zope.View"
+     />         
+     
   <browser:viewlet
     name="bungeni.schedule.admissible-questions"   
-    manager=".interfaces.IScheduleCalendar"
+    manager=".interfaces.IScheduleItems"
     class=".schedule.AdmissibleQuestionViewlet"
     permission="zope.Public"
     weight="20"
@@ -29,7 +36,7 @@
     
   <browser:viewlet
     name="bungeni.schedule.postponed-questions"   
-    manager=".interfaces.IScheduleCalendar"
+    manager=".interfaces.IScheduleItems"
     class=".schedule.PostponedQuestionViewlet"
     permission="zope.Public"
     weight="21"
@@ -37,7 +44,7 @@
      
   <browser:viewlet
     name="bungeni.schedule.admissible-motions"   
-    manager=".interfaces.IScheduleCalendar"
+    manager=".interfaces.IScheduleItems"
     class=".schedule.AdmissibleMotionViewlet"
     permission="zope.Public"
     weight="25"
@@ -45,7 +52,7 @@
      
   <browser:viewlet
     name="bungeni.schedule.postponed-motions"   
-    manager=".interfaces.IScheduleCalendar"
+    manager=".interfaces.IScheduleItems"
     class=".schedule.PostponedMotionViewlet"
     permission="zope.Public"
     weight="26"
@@ -64,11 +71,22 @@
     
   <browser:viewlet
     name="bungeni.schedule.yui-dragdrop"   
-    manager=".interfaces.IScheduleCalendar"
+    manager=".interfaces.IScheduleItems"
     class=".schedule.YUIDragDropViewlet"
     permission="zope.Public"
     weight="50"
-    />        
+    /> 
+           
+ <browser:viewlet
+     name="bungeni.schedule.yui-tabs"
+     for="*"
+     manager=".interfaces.IScheduleItems"
+     class=".current.YUITabView"
+     permission="zope.View"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     weight="60"
+    />              
+         
          
   <!-- JSON View to validate questions -->         
   <browser:page

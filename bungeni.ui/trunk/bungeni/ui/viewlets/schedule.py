@@ -20,7 +20,7 @@ from zc.resourcelibrary import need
 from ore.alchemist import Session
 from ore.workflow.interfaces import IWorkflowInfo
 
-from interfaces import IScheduleCalendar
+from interfaces import IScheduleCalendar, IScheduleItems
 from bungeni.ui.utils import getDisplayDate
 import bungeni.core.schema as schema
 import bungeni.core.domain as domain
@@ -506,6 +506,12 @@ class ScheduleCalendarViewletManager( WeightOrderedViewletManager ):
     """
     zope.interface.implements(IScheduleCalendar) 
 
+
+class ScheduleCalendarItemsViewletManager( WeightOrderedViewletManager ):
+    """
+    manage the viewlets that make up the items to be scheduled view
+    """
+    zope.interface.implements(IScheduleItems) 
 
 class YUIDragDropViewlet( viewlet.ViewletBase ):
     """

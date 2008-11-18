@@ -23,7 +23,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * $Id: blockmarker-ui.js 245 2007-09-28 18:27:28Z geof.glass $
+ * $Id: blockmarker-ui.js 309 2008-11-13 21:32:55Z geof.glass $
  */
 
 AN_MARKERS_CLASS = 'markers';		// markers column (usually on the left)
@@ -49,8 +49,16 @@ function _showPerBlockUserCountsCallback( xmldoc )
 		var info = rangeInfos[ i ];
 		
 		// Only include markers for non-edit annotations by users other than the displayed one
-        var post = marginalia.listPosts( ).getPostByUrl( info.url );
-        post.showPerBlockUserCount( marginalia, info );
+		for ( var j = 0;  j < info.users.length;  ++j )
+		{
+			var user = info.users[ j ];
+			if ( user.noteCount > 0 && user.userid != marginalia.anusername )
+			{
+				var post = marginalia.listPosts( ).getPostByUrl( info.url );
+				post.showPerBlockUserCount( marginalia, info );
+				break;
+			}
+		}
 	}
 }
 
@@ -70,8 +78,8 @@ PostMicro.prototype.showPerBlockUserCount = function( marginalia, info )
 			var point = new SequencePoint( resolver.getPath() );
 			if ( point.compare( info.sequenceRange.end ) > 0 )
 				break;
-			//if ( ELEMENT_NODE == node.nodeType )
-			this.showBlockMarker( marginalia, info, resolver.getNode(), point );
+			if ( ELEMENT_NODE == node.nodeType )
+				this.showBlockMarker( marginalia, info, resolver.getNode(), point );
 		}
 		while ( resolver.next( ) );
 	}
@@ -95,11 +103,6 @@ PostMicro.prototype.getBlockMarkerClickFcn = function( marginalia, markerElement
 		}
 		else
 		{
-            var blockmarkers = document.getElementById("markers");
-            for ( var i = 0;  i < blockmarkers.childNodes.length;  ++i ) {
-                var blockmarker = blockmarkers.childNodes[i];
-                blockmarker.className = AN_MARKER_CLASS;            
-            }
 			domutil.addClass( markerElement, AN_ANNOTATIONSFETCHED_CLASS );
 			marginalia.showBlockAnnotations( url, pointStr );
 		}
@@ -121,9 +124,12 @@ PostMicro.prototype.hideBlockAnnotations = function( marginalia, pointStr )
 	for ( var i = 0;  i < annotations.length;  ++i )
 	{
 		var annotation = annotations[ i ];
-		var range = annotation.getRange( SEQUENCE_RANGE );
+		var range = annotation.getSequenceRange( );
 		if ( range )
 		{
+			if ( annotation.getUserId( ) != marginalia.anusername )
+			{
+				// if we've run past the last relevant annotation, don't bother with the rest
 				if ( range.start.comparePath( point ) > 0 )
 					break;
 				else if ( range.end.comparePath( point ) >= 0 )
@@ -140,20 +146,11 @@ PostMicro.prototype.hideBlockAnnotations = function( marginalia, pointStr )
 							repositionNote = nextNote;
 					}
 				}
+			}
 		}
 	}
 	if ( repositionNote )
 		this.repositionSubsequentNotes( marginalia, repositionNote );
-}
-
-function unique(a) {
-    var r = new Array();
-    o:for(var i = 0, n = a.length; i < n; i++) {
-        for(var x = 0, y = r.length; x < y; x++)
-            if(r[x]==a[i]) continue o;
-        r[r.length] = a[i];
-    }
-    return r;
 }
 
 PostMicro.prototype.showBlockMarker = function( marginalia, info, block, point )
@@ -170,7 +167,6 @@ PostMicro.prototype.showBlockMarker = function( marginalia, info, block, point )
 			block.blockMarkerUsers = [ ];
 
 			markerElement = domutil.element( 'div', {
-				id: AN_MARKER_CLASS,
 				className: AN_MARKER_CLASS,
 				blockElement: block
 			} );
@@ -197,33 +193,19 @@ PostMicro.prototype.showBlockMarker = function( marginalia, info, block, point )
 		{
 			var user = info.users[ i ];
 			// Don't include the currently-displayed user
-			//if ( user.noteCount > 0 )
-            block.blockMarkerUsers[ block.blockMarkerUsers.length ] = user;
+			if ( user.noteCount > 0 && user.userid != marginalia.anusername )
+				block.blockMarkerUsers[ block.blockMarkerUsers.length ] = user;
 		}
 		
-
-        var membernames = new Array;
-		for ( var i = 0;  i < block.blockMarkerUsers.length;  ++i ) {
+		var userStr = '';
+		for ( var i = 0;  i < block.blockMarkerUsers.length;  ++i )
+		{
 			var user = block.blockMarkerUsers[ i ];
-            membernames[i] = user.userid;
-        }
-
-        var uniquearray = unique(membernames)
-        var userStr = '';
-		for ( var i = 0;  i < uniquearray.length;  ++i ) {
-			var user = uniquearray[ i ];
-            var count = 0;
-            for ( var k = 0;  k < block.blockMarkerUsers.length;  ++k ) {
-                var userobj = block.blockMarkerUsers[ k ];
-                if (user == userobj.userid)
-                    count = count +1;
-            }
-            var user_repr = user + ' (' + count +')';
-            userStr += userStr ? ', ' + user_repr : user_repr;
-        }
-
-        countElement.setAttribute( 'title', userStr );
-        countElement.appendChild( document.createTextNode( String( block.blockMarkerUsers.length ) ) );
+			userStr += userStr ? ', ' + user.userid : user.userid;
+		}
+			
+		countElement.setAttribute( 'title', userStr );
+		countElement.appendChild( document.createTextNode( String( block.blockMarkerUsers.length ) ) );
 	}
 }
 

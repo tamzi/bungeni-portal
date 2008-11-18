@@ -1,42 +1,30 @@
-/********* Copy of the generic marginalia.css (index.css from the demo follows) ********/
-/* I would have done this properly if I knew how to configure Plone.  This should be split
- * into two files - marginalia.css in skins/marginalia, and call it "annotate.css" or
- * something similar that's Bungeni-specific in the skins directory. */
-
 /*
  * Highlights
  *
  * Use darker shades of yellow for overlapping highlights
  */
-
-/*Old Backgrounds
- *background: #fdf377;
- *background: #f4e373;
- *background: #ecd470;
- *background: #e0ce6c;
- *background: #d8c666;
- */
  
-.hentry em.annotation {
+.hentry .entry-content em.annotation {
 	background: #fdf377;
 	font-style: inherit;
 }
 
-.hentry em.annotation em.annotation {
-	background: #fdd577;
+.hentry .entry-content em.annotation em.annotation {
+	background: #f4e373;
 }
 
-.hentry em.annotation em.annotation em.annotation {
-	background: #fd8949;
+.hentry .entry-content em.annotation em.annotation em.annotation {
+	background: #ecd470;
 }
 
-.hentry em.annotation em.annotation em.annotation em.annotation {
-	background: #ef3b3b;
+.hentry .entry-content em.annotation em.annotation em.annotation em.annotation {
+	background: #e0ce6c;
 }
 
-.hentry em.annotation em.annotation em.annotation em.annotation em.annotation {
-	background: #d34d3c;
+.hentry .entry-content em.annotation em.annotation em.annotation em.annotation em.annotation {
+	background: #d8c666;
 }
+
 
 /*
  * Edit actions
@@ -49,7 +37,7 @@
 }
 
 .hentry .entry-content em.annotation del {
-	color: red;
+	color: darkred;
 	text-decoration: line-through;
 }
 
@@ -81,10 +69,9 @@
 
 .hentry button.createAnnotation {
 	height: 100%;
-	width: 2em;
+	width: 1em;
 	position: absolute;
 	top: 0 ;
-    background-color:#96A9C2;
 }
 .editing-note .hentry button.createAnnotation {
 	visibility: hidden;
@@ -97,10 +84,9 @@
 
 .hentry .notes ol {
 	list-style-type: none;
-	margin: 0 0 0 2em ;
+	margin: 0 0 0 1em ;
 	padding: 0 .5ex ;
 	height: 100%;
-    overflow: scroll;
 }
 
 .hentry .notes li {
@@ -128,8 +114,6 @@
 }
 .hentry .notes .username {
 	font-style: italic;
-    text-align:right;
-    display:block;
 }
 
 
@@ -222,50 +206,18 @@
 }
 
 .hentry .notes li button.annotation-access {
-	height: 1.5em;
-	width: 1.5em;
+	heigh: 1.2em;
+	width: 1em;
 }
 
-.hentry .notes li button#public{
-    color: green;
-}
-
-.hentry .notes li button#private{
-    color: red;
-}
-
-.hentry .notes li button.annotation-delete {
-	height: 1.5em;
-	width: 1.5em;
-}
-
-.hentry .notes li button.annotation-link {
-    background-image:url(/@@/imagesmarginalia/link.gif);
-    background-repeat: no-repeat;
-	height: 1.5em;
-	width: 2.5em;
-}
-
+/*
 .hentry .notes li.hover,
 .hentry .entry-content em.annotation.hover,
-.hentry .entry-content em.annotation em.annotation.hover,
-.hentry .entry-content em.annotation em.annotation em.annotation.hover,
-.hentry .entry-content em.annotation em.annotation em.annotation em.annotation.hover,
-.hentry .entry-content em.annotation em.annotation em.annotation em.annotation em.annotation.hover,
 .hentry .entry-content em.annotation.hover ins,
 .hentry .entry-content em.annotation.hover del {
-	z-index: 1;
-    background: #ffc323;
-/*	border: red 1px solid; 
-    border-collapse: collapse;*/
+	color: red;
 }
-
-.hentry .entry-content em.annotation.hover em.annotation {
-    background: #ffc323;
-/*	border: red 1px solid; 
-    border-collapse: collapse;*/
-}
-
+*/
 
 .hentry .notes li button.expand-edit {
 	position: absolute;
@@ -301,378 +253,3 @@
 	display: none;
 }
 
-
-/********* Copy of index.css from the marginalia demo: ********/
-
-h1 {
-	font-family: Georgia, serif;
-	text-align: center;
-	font-size: x-large;
-}
-
-h2 {
-	font-family: Georgia, serif;
-	font-size: large;
-	text-align: center;
-}
-
-p {
-	margin: 0.2px;
-}
-
-form {
-	margin-left: 11em;
-}
-
-#filterform {
-	margin-left: 0em;
-}
-/* General layout */
-
-#sidebar {
-	text-align: left;
-	position: absolute;
-	top: 0;
-	left: .5ex;
-	width: 11em;
-}
-
-#sidebar h3 {
-	margin: 1em 0 1ex 0;
-}
-
-#sidebar ul {
-	list-style-type: none;
-	margin: 1ex 0 1ex 1em;
-	padding: 0;
-}
-
-#sidebar ul li {
-	font-weight: bold;
-	margin: 1ex 0;
-	padding: 0;
-}
-
-#debug {
-	margin-left: 12em;
-}
-
-/* Annotation styles */
-ol#articles {
-	list-style-type: none;
-	position: relative ;
-	width: 40em ;
-	margin: 0;
-	margin-left: 11em;
-	padding: 0;
-}
-
-.hentry h3 {
-	margin: 1ex 0;
-}
-
-.hentry {
-	position: relative;
-	padding: 0 ;
-	margin: 1em 0 ;
-}
-
-.hentry .entry-content {
-	width: 60% ;
-	margin-left: 1em;
-	font-size: medium;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
-}
-
-.hentry p {
-	margin: 1ex 0;
-}
-
-.hentry .entry-content li {
-	margin: 1ex 0;
-}
-
-/* Action markers */
-.hentry .entry-content em.annotation del {
-	text-decoration: line-through;
-}
-
-.hentry .entry-content em.annotation ins {
-	color: blue;
-	text-decoration: none;
-}
-
-.hentry .entry-content em.annotation a,
-.hentry .entry-content a em.annotation {
-	text-decoration: underline;
-}
-
-.hentry .entry-content em.annotation sup a {
-	text-decoration: none;
-	background-color: inherit;
-	cursor: pointer;
-}
-
-.hentry .notes {
-	background: #eee;
-	position: absolute;
-	height: 100%;
-	width: 35%;
-	top: 0;
-	right: 0 ;
-	margin: 0;
-	padding: 0;
-}
-
-.hentry table {
-    border: 1px solid #8CACBB;
-}
-
-.hentry table td {
-	vertical-align: top;
-}
-
-.hentry .notes li {
-        background: #fff;
-	position: relative;
-	font-family: sans-serif;
-	font-size: 80%;	
-	margin: 0 ;
-	margin-bottom: 1ex;
-	padding: .25ex .5ex;
-	min-height: 1.2em;
-	width: 90%;
-	cursor: pointer;
-	border: #bbb 2px solid;
-}
-
-.hentry .notes li.dummy,
-.hentry .notes li li {
-     background: none;
-	border: none;
-}
-
-.hentry .notes li .note-type {
-	font-weight: bold;
-	float: left;
-	display: block;
-}
-
-.hentry .notes li p {
-	clear: both;
-	margin: 0;
-}
-
-.hentry .notes li.other-user {
-    background: #eee;
-	color: #555;
-}
-
-.hentry .notes li.quote-error p:before {
-	content: '!';
-	padding: 0 .75ex;
-	margin-right: .2ex;
-	background: red;
-	color: white;
-	font-weight: bold;
-}
-
-.hentry .notes li.collapsed {
-	overflow: hidden;
-}
-
-.hentry .notes li.collapsed p {
-	white-space: nowrap;
-}
-
-.hentry .notes li.dummyfirst {
-	height: 1px;
-	cursor: default;
-	border: none;
-	background: none;
-	margin: 0;
-	padding: 0;
-}
-
-.hentry .notes li .controls {
-	float: right;
-	/*display: none;*/
-}
-/*
-
-.hentry .notes li:hover .controls {
-	display: block;
-	position: absolute;
-	bottom:  100%;
-	left: 0;
-	width: 100%;
-	background: #ddd;
-}
-
-.hentry .notes li:hover button {
-	background: #ddd;
-	border: #ddd 1px solid;
-}
-*/
-
-.hentry .notes li textarea {
-	font-size: inherit;
-	font-family: sans-serif;
-	border: none;
-	background: white;
-	margin: 0;
-	width: 95%;
-}
-
-.hentry .notes li button.expand-edit {
-	position: absolute;
-	top: 0;
-	right: 100%;
-}
-
-/* Box a note while editing:
-.hentry .notes .editing-note {
-	border: black 1px solid;
-}
-*/
-
-.hentry .notes .editing-link label {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 1em;
-}
-
-.hentry .notes .editing-link input {
-	margin-left: 1.5em;
-	margin-right: 1.5em;
-	max-width: 80%;
-}
-
-.hentry .notes .editing-link button {
-	position: absolute;
-	top: 0;
-	right: 0;
-	width: 1em;
-}
-
-.hentry .notes .username {
-	font-style: italic;
-}
-
-.hentry .markers {
-	position: absolute;
-    right: 37%;
-	height: 100%;
-	margin: 0;
-	padding: 0;
-}
-
-.hentry .markers .marker {
-	position: absolute;
-}
-
-.hentry .markers .marker:hover {
-	background-image:  url( 'marker-tail.png' );
-	background-repeat:  repeat-y;
-	background-position:  top right;
-}
-
-.hentry .markers .annotation-user-count {
-    border: 1px solid #BBBBBB;    
-	cursor: pointer;
-	display:  block;
-	width: 1.5em;
-	text-align: center;
-	padding: .25ex .25ex;
-	font-family: sans-serif;
-	font-weight: bold;
-	color: black;
-}
-
-.hentry .markers .marker.fetched .annotation-user-count {
-	background: #96A9C2;
-}
-
-.hentry .markers .marker:hover .annotation-user-count {
-	background: #eee;
-}
-
-#range-caret {
-	width: 1px;
-	margin-right: -1px;
-	background: red;
-}
-
-.hentry .smart-copy {
-	display: none;
-}
-
-.notes div {
-}
-
-.plink {
-    font-size: 9px;
-    cursor: pointer;
-}
-
-.select_field {
-    margin-top: 5px;
-    font-size: 9px;
-}
-
-.searchfields {
-  margin:0px;
-  padding:0px;
-  float:right;
-  width: 35%;
-}
-
-.searchfields select {
-  border: 1px solid #8CACBB;
-}
-
-.input_field {
-    margin-top: 5px;
-    font-size: 9px;
-}
-
-.hentry .notes li.hover {
-    background: black;
-	border-color: orange;
-}
-
-.hentry .notes li.hover p,
-.hentry .notes li.hover .note-type {
-	color: orange;
-}
-
-.hentry .notes li.editing-note {
-    background: #fff;
-	border-color: red;
-}
-
-.hentry .notes li.editing-note .note-type {
-	color: black;
-}
-
-.hentry .entry-content em.editing-note {
-	outline: red 2px solid;
-}
-
-#content {
-    display:none;
-}
-
-.marginalia-usage {
-	background-color: #efc486;
-    width: 63%;
-    padding: 0.2em;
-}
-
-.annotation-select {
-  float : right;
-  font-family: sans-serif;
-  font-size: 80%;	
-  border: #ddd 1px solid;
-}

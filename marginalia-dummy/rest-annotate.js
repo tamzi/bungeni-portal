@@ -24,7 +24,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * $Id: rest-annotate.js 276 2007-11-27 05:19:27Z geof.glass $
+ * $Id: rest-annotate.js 312 2008-11-16 03:45:02Z geof.glass $
  */
 
 // If this is true, uses paths like annotate/nnn
@@ -110,7 +110,6 @@ function RestAnnotationService( serviceUrl, features )
  */
 RestAnnotationService.prototype.listBlocks = function( url, f )
 {
-    rest_loader('loader', 1);
 	var serviceUrl = this.serviceUrl + '?format=blocks&url=' + encodeURIParameter( url );
 	
 	// For demo debugging only
@@ -122,7 +121,6 @@ RestAnnotationService.prototype.listBlocks = function( url, f )
 	//xmlhttp.setRequestHeader( 'Accept', 'application/xml' );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
-            rest_loader('loader', 0);
 			if ( xmlhttp.status == 200 ) {
 				if ( null != f )
 				{
@@ -146,24 +144,15 @@ RestAnnotationService.prototype.listBlocks = function( url, f )
 /**
  * Fetch a list of annotations from the server
  */
-    RestAnnotationService.prototype.listAnnotations = function( url, username, block, f, filter_name, filter_group, filter_type, search_string)
+RestAnnotationService.prototype.listAnnotations = function( url, username, block, f )
 {
 	// exclude content to lighten the size across the wire
-    rest_loader('loader', 1);
 	var serviceUrl = this.serviceUrl;
 	serviceUrl += '?format=atom';
 	if ( block )
 		serviceUrl += '&block=' + encodeURIParameter( block );
 	if ( username )
 		serviceUrl += '&user=' + encodeURIParameter( username );
-	if ( filter_name )
-		serviceUrl += '&filter_name=' + encodeURIParameter(filter_name);
-	if ( filter_group )
-		serviceUrl += '&filter_group=' + encodeURIParameter(filter_group);
-	if ( filter_type )
-		serviceUrl += '&filter_type=' + encodeURIParameter(filter_type);
-	if ( search_string )
-		serviceUrl += '&search_string=' + encodeURIParameter(search_string);
 	serviceUrl += '&url=' + encodeURIParameter( url );
 	
 	// For demo debugging only
@@ -175,7 +164,6 @@ RestAnnotationService.prototype.listBlocks = function( url, f )
 	//xmlhttp.setRequestHeader( 'Accept', 'application/xml' );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
-            rest_loader('loader', 0);
 			if ( xmlhttp.status == 200 ) {
 				if ( null != f )
 				{
@@ -200,48 +188,30 @@ RestAnnotationService.prototype.listBlocks = function( url, f )
  */
 RestAnnotationService.prototype.createAnnotation = function( annotation, f )
 {
-    rest_loader('loader', 1);
-
 	var serviceUrl = this.serviceUrl;
 		
 	// For demo debugging only
 	if ( window.marginalia && window.marginalia.userInRequest )
 		serviceUrl += '?curuser=' + encodeURIParameter( window.marginalia.username );
-	
-    var edit_type = bungeni.editType(annotation);
-
-    if ( edit_type == "Comment:" && serviceUrl.match('annotate$') )
-        edit_type = 'annotate';
-    else if ( edit_type == "Comment:" )
-	    edit_type = 'comment';
-	else if ( edit_type == "Replace:" )
-        edit_type = 'replace';
-    else if ( edit_type == "Insert:" || edit_type == "Insert Before:" || edit_type == "Insert After:" )
-        edit_type = 'insert';
-	else if ( edit_type == "Delete" )
-	    edit_type = 'delete';
 
 	var body
 		= 'url=' + encodeURIParameter( annotation.getUrl() )
 		+ '&note=' + encodeURIParameter( annotation.getNote() )
 		+ '&access=' + encodeURIParameter( annotation.getAccess() )
-		+ '&status=' + encodeURIParameter( annotation.getStatus() )
 		+ '&quote=' + encodeURIParameter( annotation.getQuote() )
 		+ '&quote_title=' + encodeURIParameter( annotation.getQuoteTitle() )
 		+ '&quote_author=' + encodeURIParameter( annotation.getQuoteAuthor() )
 		+ '&link=' + encodeURIParameter( annotation.getLink() )
-		+ '&userid=' + encodeURIParameter( annotation.getUserId() )
-		+ '&edit_type=' + encodeURIParameter( edit_type );
-
+		+ '&userid=' + encodeURIParameter( annotation.getUserId() );
 	// userid shouldn't be trusted by the server of course, except for demo applications for
 	// which it can be useful.
 		
 	if ( annotation.getAction() )
 		body += '&action=' + encodeURIParameter (annotation.getAction() );
-	if ( annotation.getRange( SEQUENCE_RANGE ) )
-		body += '&sequence-range=' + encodeURIParameter( annotation.getRange( SEQUENCE_RANGE ).toString( ) );
-	if ( annotation.getRange( XPATH_RANGE ) )
-		body += '&xpath-range=' + encodeURIParameter( annotation.getRange( XPATH_RANGE ).toString( ) );
+	if ( annotation.getSequenceRange( ) )
+		body += '&sequence-range=' + encodeURIParameter( annotation.getSequenceRange( ).toString( ) );
+	if ( annotation.getXPathRange( ) )
+		body += '&xpath-range=' + encodeURIParameter( annotation.getXPathRange( ).toString( ) );
 	if ( annotation.getLinkTitle( ) )
 		+ '&linkTitle=' + encodeURIParameter( annotation.getLinkTitle( ) );
 
@@ -261,8 +231,6 @@ RestAnnotationService.prototype.createAnnotation = function( annotation, f )
 	xmlhttp.setRequestHeader( 'Content-length', body.length );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
-            rest_loader('loader', 0);
-
 			// No need for Safari hack, since Safari can't create annotations anyway.
 			if ( xmlhttp.status == 201 ) {
 				var url = xmlhttp.getResponseHeader( 'Location' );
@@ -288,8 +256,6 @@ RestAnnotationService.prototype.createAnnotation = function( annotation, f )
  */
 RestAnnotationService.prototype.updateAnnotation = function( annotation, f )
 {
-    rest_loader('loader', 1);
-
 	var serviceUrl = this.serviceUrl;
 	serviceUrl += this.niceUrls ? ( '/' + annotation.getId() ) : ( '?id=' + annotation.getId() );
 	
@@ -303,16 +269,14 @@ RestAnnotationService.prototype.updateAnnotation = function( annotation, f )
 		body = 'note=' + encodeURIParameter( annotation.getNote() );
 	if ( annotation.hasChanged( 'access' ) )
 		body += ( body == '' ? '' : '&' ) + 'access=' + encodeURIParameter( annotation.getAccess() );
-	if ( annotation.hasChanged( 'status' ) )
-		body += ( body == '' ? '' : '&' ) + 'status=' + encodeURIParameter( annotation.getStatus() );
 	if ( annotation.hasChanged( 'link' ) )
 		body += ( body == '' ? '' : '&' ) + 'link=' + encodeURIParameter( annotation.getLink() );
 	if ( annotation.hasChanged( 'linkTitle' ) )
 		body += ( body == '' ? '' : '&' ) + 'link_title=' + encodeURIParameter( annotation.getLinkTitle( ) );
-	if ( annotation.hasChanged( 'range/' + SEQUENCE_RANGE ) )
-		body += '&sequence-range=' + encodeURIParameter( annotation.getRange( SEQUENCE_RANGE ).toString( ) );
-	if ( annotation.hasChanged( 'range/' + XPATH_RANGE ) )
-		body += '&xpath-range=' + encodeURIParameter( annotation.getRange( XPATH_RANGE ).toString( ) );
+	if ( annotation.hasChanged( 'range/sequence' ) )
+		body += '&sequence-range=' + encodeURIParameter( annotation.getSequenceRange( ).toString( ) );
+	if ( annotation.hasChanged( 'range/xpath' ) )
+		body += '&xpath-range=' + encodeURIParameter( annotation.getXPathRange( ).toString( ) );
 
 // Cross-site request forgery protection (if present)
 	if ( this.csrfCookie )
@@ -333,8 +297,6 @@ RestAnnotationService.prototype.updateAnnotation = function( annotation, f )
 	xmlhttp.setRequestHeader( 'Content-length', body.length );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
-            rest_loader('loader', 0);
-
 			// Safari is braindead here:  any status code other than 200 is converted to undefined
 			// IE invents its own 1223 status code
 			// See http://www.trachtenberg.com/blog/?p=74
@@ -360,13 +322,10 @@ RestAnnotationService.prototype.updateAnnotation = function( annotation, f )
  */
 RestAnnotationService.prototype.bulkUpdate = function( oldNote, newNote, f )
 {
-    rest_loader('loader', 1);
-
 	var serviceUrl = this.serviceUrl;
+	serviceUrl += '?note=' + encodeURIComponent( oldNote );
 		
-	var body
-		= 'note=' + encodeURIComponent( oldNote )
-		+ '&new-note=' + encodeURIComponent( newNote );
+	var body = 'note=' + encodeURIComponent( newNote );
 		
 	// Cross-site request forgery protection (if present)
 	if ( this.csrfCookie )
@@ -391,9 +350,8 @@ RestAnnotationService.prototype.bulkUpdate = function( oldNote, newNote, f )
 	xmlhttp.setRequestHeader( 'Content-length', body.length );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
-            rest_loader('loader', 0);
 			// No need for Safari hack, since Safari can't create annotations anyway.
-			if ( xmlhttp.status == 201 ) {
+			if ( xmlhttp.status == 200 ) {
 				var url = xmlhttp.getResponseHeader( 'Location' );
 				if ( null != f )
 				{
@@ -417,8 +375,6 @@ RestAnnotationService.prototype.bulkUpdate = function( oldNote, newNote, f )
  */
 RestAnnotationService.prototype.deleteAnnotation = function( annotationId, f )
 {
-    rest_loader('loader', 1);
-
 	var serviceUrl = this.serviceUrl;
 	var hasParams = false;
 	
@@ -460,8 +416,6 @@ RestAnnotationService.prototype.deleteAnnotation = function( annotationId, f )
 	//xmlhttp.setRequestHeader( 'Accept', 'application/xml' );
 	xmlhttp.onreadystatechange = function( ) {
 		if ( xmlhttp.readyState == 4 ) {
-            rest_loader('loader', 0);
-
 			// Safari is braindead here:  any status code other than 200 is converted to undefined
 			// IE invents its own 1223 status code
 			if ( 204 == xmlhttp.status || xmlhttp.status == null || xmlhttp.status == 1223 ) {
@@ -475,13 +429,5 @@ RestAnnotationService.prototype.deleteAnnotation = function( annotationId, f )
 	}
 	trace( 'annotation-service', "AnnotationService.deleteAnnotation " + decodeURI( serviceUrl ) );
 	xmlhttp.send( null );
-}
-
-function rest_loader(id, display) {
-    var loader_div = document.getElementById(id);
-    if(display)
-        loader_div.style.display = '';
-    else
-        loader_div.style.display = 'none';
 }
 

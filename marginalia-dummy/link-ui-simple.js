@@ -41,7 +41,7 @@ SimpleLinkUi.prototype.clear = function( )
 	this.editNode = null;
 }
 
-SimpleLinkUi.prototype.old_show = function( )
+SimpleLinkUi.prototype.show = function( )
 {
 	var marginalia = this.marginalia;
 	var annotation = this.annotation;
@@ -73,69 +73,15 @@ SimpleLinkUi.prototype.old_show = function( )
 		onclick: SimpleLinkUi._deleteLink } ) );
 }
 
-SimpleLinkUi.prototype.show = function( )
-{
-	var marginalia = this.marginalia;
-	var annotation = this.annotation;
-	var post = this.postMicro;
-	var noteElement = this.noteElement;
-	var serviceUrl = this.marginalia.annotationsUrl + "/" + annotation.id + "/reference_edit"
-	var controlId =  annotation.getId() + '-linkedit';
-	
-	// add the link label
-	var refNode = domutil.element( 'div', {
-		id:  controlId,
-               } );
-
-	noteElement.appendChild(refNode);
-	noteElement.appendChild( domutil.button( {
-		className:  AN_LINKDELETEBUTTON_CLASS,
-		title:  getLocalized( 'delete annotation link button' ),
-		content:  'x',
-		annotationId:  annotation.getId(),
-		onclick: SimpleLinkUi._deleteLink } ) );
-
-	var xmlhttp = domutil.createAjaxRequest( );
-	
-	//xmlhttp.setRequestHeader( 'Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8' );
-	//xmlhttp.setRequestHeader( 'Accept', 'application/xml' );
-	//xmlhttp.setRequestHeader( 'Content-length', body.length );
-	xmlhttp.onreadystatechange = function( ) {
-		if ( xmlhttp.readyState == 4 ) {
-			if ( xmlhttp.status == 200 ) {
-                refNode.innerHTML=xmlhttp.responseText;
-			}
-			else {
-				trace( "Reference code block failed with error code " + xmlhttp.status + ":\n");
-			}
-			xmlhttp = null;
-		}
-	}
-	xmlhttp.open('GET', serviceUrl, true );
-	xmlhttp.send(null);
-}
-
 SimpleLinkUi.prototype.focus = function( )
 {
-	//	this.editNode.focus( );
+	this.editNode.focus( );
 }
 
 SimpleLinkUi.prototype.save = function( )
 {
-	    var children = domutil.childrenByTagClass( this.noteElement, 'input'); 
-        if (children.length==0 ) {
-           return
-        }
-        var editable_input = children[0];
-        var uid_input = children[1];
-        if ( editable_input.value.substring(0,7)=='http://' ) {
-        	this.annotation.setLink(editable_input.value);
-        	this.annotation.setLinkTitle('');
-        }
-        else {
-	        this.annotation.setLink(uid_input.value);
-        	this.annotation.setLinkTitle(editable_input.value);
-        }
+	this.annotation.setLink( this.editNode.value );
+	this.annotation.setLinkTitle( '' );
 }
 
 
@@ -145,13 +91,7 @@ SimpleLinkUi.prototype.save = function( )
 SimpleLinkUi._deleteLink = function( event )
 {
 	event.stopPropagation( );
-    var children = domutil.childrenByTagClass( window.marginalia.noteEditor.noteElement, 'input'); 
-    if (children.length!=0 ) {
-       var editable_input = children[0];
-       var uid_input = children[1];
-       uid_input.value = "";
-       editable_input.value = "";
-    }
-	//	window.marginalia.noteEditor.editNode.value = '';
+	window.marginalia.noteEditor.editNode.value = '';
 	_saveAnnotation( event );
 }
+

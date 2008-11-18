@@ -26,7 +26,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * $Id: marginalia-direct.js 240 2007-09-26 23:20:29Z geof.glass $
+ * $Id: marginalia-direct.js 309 2008-11-13 21:32:55Z geof.glass $
  */
  
 function MarginaliaDirect( marginaliaService )
@@ -121,8 +121,8 @@ MarginaliaDirect.prototype.updateAnnotation = function( listItem )
 	var direct = this;
 	var annotation = listItem.annotation;
 	annotation.setUrl( this.getFieldInput( listItem, 'md-annotation-url' ).value );
-	annotation.setRange( SEQUENCE_RANGE, new SequenceRange( this.getFieldInput( listItem, 'md-annotation-sequence-range' ).value ) );
-	annotation.setRange( XPATH_RANGE, new XPathRange( this.getFieldInput( listItem, 'md-annotation-xpath-range' ).value ) );
+	annotation.setSequenceRange( SequenceRange.fromString( this.getFieldInput( listItem, 'md-annotation-sequence-range' ).value ) );
+	annotation.setXPathRange( XPathRange.fromString( this.getFieldInput( listItem, 'md-annotation-xpath-range' ).value ) );
 	annotation.setQuote( this.getFieldInput( listItem, 'md-annotation-quote' ).value );
 	annotation.setNote( this.getFieldInput( listItem, 'md-annotation-note' ).value );
 	annotation.setLink( this.getFieldInput( listItem, 'md-annotation-link' ).value );
@@ -150,8 +150,8 @@ MarginaliaDirect.prototype.showAnnotation = function( annotation )
 	var direct = this;
 	var annotationList = document.getElementById( 'md-annotation-list' );
 
-	var xpathRange = annotation.getRange( XPATH_RANGE );
-	var sequenceRange = annotation.getRange( SEQUENCE_RANGE );
+	var xpathRange = annotation.getXPathRange( );
+	var sequenceRange = annotation.getSequenceRange( );
 	
 	var listItem = domutil.element( 'fieldset', {
 		annotation: annotation
@@ -164,7 +164,6 @@ MarginaliaDirect.prototype.showAnnotation = function( annotation )
 		this.newInputField( null, 'md-annotation-sequence-range', 'Sequence Range', sequenceRange.toString(), true ),
 		this.newInputField( null, 'md-annotation-xpath-range', 'XPath Range', 
 			xpathRange ? xpathRange.toString() : '', true ),
-		this.newInputField( null, 'md-annotation-status', 'Status', annotation.getStatus(), true ),
 		this.newInputField( null, 'md-annotation-access', 'Access', annotation.getAccess(), true ),
 
 		// Quote, Note, Link

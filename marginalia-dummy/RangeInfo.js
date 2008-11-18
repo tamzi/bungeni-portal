@@ -23,7 +23,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * $Id: RangeInfo.js 86 2007-07-26 02:45:21Z geof.glass $
+ * $Id: RangeInfo.js 302 2008-11-05 09:07:55Z geof.glass $
  */
  
 function parseRangeInfoXml( xmldoc )
@@ -72,9 +72,9 @@ RangeInfo.prototype.fromXml = function( blockElement )
 			{
 				var format = node.getAttribute( 'format' );
 				if ( 'xpath' == format )
-					this.xpathRange = new XPathRange( domutil.getNodeText( node ) );
+					this.xpathRange = XPathRange.fromString( domutil.getNodeText( node ) );
 				else if ( 'sequence' == format )
-					this.sequenceRange = new SequenceRange( domutil.getNodeText( node ) );
+					this.sequenceRange = SequenceRange.fromString( domutil.getNodeText( node ) );
 			}
 			else if ( 'user' == node.tagName )
 			{

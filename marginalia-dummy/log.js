@@ -23,7 +23,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * $Id: log.js 204 2007-09-09 02:55:24Z geof.glass $
+ * $Id: log.js 302 2008-11-05 09:07:55Z geof.glass $
  */
 
 /**
@@ -98,7 +98,9 @@ ErrorLogger.prototype.trace = function( topic, s )
 {
 	if ( this.on && ( !topic || this.traceSettings[ topic ] ) )
 	{
-		if ( window.dump )
+		if ( window.console && window.console.log )
+			window.console.log( s );
+		else if ( window.dump )
 			dump( s + "\n");
 		if ( this.popup )
 		{

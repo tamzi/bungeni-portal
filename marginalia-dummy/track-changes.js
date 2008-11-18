@@ -26,7 +26,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * $Id: track-changes.js 212 2007-09-10 03:41:55Z geof.glass $
+ * $Id: track-changes.js 309 2008-11-13 21:32:55Z geof.glass $
  */
  
 /**
@@ -195,12 +195,12 @@ trackchanges = {
 		// It may be a candidate for optimization (e.g. by caching the annotation
 		// list and/or doing a binary search).
 		var annotations = post.listAnnotations( );
-		var sequenceRange = annotation.getRange( SEQUENCE_RANGE );
+		var sequenceRange = annotation.getSequenceRange( );
 		for ( var i = 0;  i < annotations.length;  ++i  )
 		{
 			if ( annotations[ i ].getAction( ) == 'edit' && annotations[ i ].getId() != annotation.getId() )
 			{
-				var tRange = annotations[ i ].getRange( SEQUENCE_RANGE );
+				var tRange = annotations[ i ].getSequenceRange( );
 				if ( tRange.start.compare( sequenceRange.end ) <= 0 )
 				{
 					if ( tRange.end.compare( sequenceRange.start ) >= 0 )
@@ -217,18 +217,16 @@ trackchanges = {
 	makeInsertBefore: function( annotation )
 	{
 		annotation.setAction( 'edit' );
-		annotation.setEditType( 'insert before' );
-		annotation.getRange( SEQUENCE_RANGE ).collapseToStart( );
-		annotation.getRange( XPATH_RANGE ).collapseToStart( );
+		annotation.getSequenceRange( ).collapseToStart( );
+		annotation.getXPathRange( ).collapseToStart( );
 		annotation.setQuote( '' );
 	},
 	
 	makeInsertAfter: function( annotation )
 	{
 		annotation.setAction( 'edit' );
-		annotation.setEditType( 'insert after' );
-		annotation.getRange( SEQUENCE_RANGE ).collapseToEnd( );
-		annotation.getRange( XPATH_RANGE ).collapseToEnd( );
+		annotation.getSequenceRange( ).collapseToEnd( );
+		annotation.getXPathRange( ).collapseToEnd( );
 		annotation.setQuote( '' );
 	},
 

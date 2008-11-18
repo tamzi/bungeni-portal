@@ -23,7 +23,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * $Id: marginalia.js 300 2008-07-09 05:52:31Z geof.glass $
+ * $Id: marginalia.js 314 2008-11-16 07:33:27Z geof.glass $
  */
 
 // Features that can be switched on and off
@@ -73,12 +73,11 @@ AN_COOP_MAXTIME = 200;
  * cases, absolute URLs aren't desirable (e.g. because the annotated resources might be moved
  * to another host, in which case the URLs would all break).
  */
-function Marginalia( service, username, superuser, anusername, features )
+function Marginalia( service, username, anusername, features )
 {
 	this.annotationService = service;
 	this.username = username;
 	this.anusername = anusername;
-    this.superuser = superuser;
 	this.editing = null;	// annotation currently being edited (if any)
 	this.noteEditor = null;	// state for note currently being edited (if any) - should replace editing, above
 	
@@ -197,6 +196,9 @@ function Marginalia( service, username, superuser, anusername, features )
 	}
 }
 
+// Recorded in every annotation created by this client
+Marginalia.VERSION = 2;
+
 Marginalia.prototype.newEditor = function( annotation, editorName )
 {
 	var f = editorName ? this.editors[ editorName ] : this.editors[ 'default' ];
@@ -259,38 +261,41 @@ Marginalia.prototype.listPosts = function( )
 
 Marginalia.prototype.createAnnotation = function( annotation, f )
 {
-	this.annotationService.createAnnotation( annotation, f );
+	var f2 = null;
+	if ( this.keywordService )
+	{
+		var keywordService = this.keywordService;
+		f2 = function( url ) {
+			f( url );
+			keywordService.refresh( );
+		};
+	}
+	this.annotationService.createAnnotation( annotation, f2 ? f2 : f );
 }
 
 Marginalia.prototype.updateAnnotation = function( annotation )
 {
-	// Before storing the annotation, check whether it's using a denormalized sequence range.
-	// If it is, recalculate the block range and store the new (faster) format.
-	var sequenceRange = annotation.getRange( SEQUENCE_RANGE );
-	if ( sequenceRange && ! sequenceRange.normalized )
-	{
-		var post = this.listPosts( ).getPostByUrl( annotation.getUrl() );
-		if ( post )
-		{
-			var root = post.getContentElement( );
-			var wordRange = new WordRange( );
-			wordRange.fromSequenceRange( sequenceRange, root, this.skipContent );
-			annotation.setRange( SEQUENCE_RANGE, wordRange.toSequenceRange( root ) );
-		}
-	}
 	if ( annotation.hasChanged() )
 	{
-		var f = function( )
-		{
+		var marginalia = this;
+		var f = function( xml )	{
 			annotation.resetChanges();
-		}
+			if ( marginalia.keywordService )
+				marginalia.keywordService.refresh( );
+		};
 		this.annotationService.updateAnnotation( annotation, f );
 	}
 }
 
 Marginalia.prototype.deleteAnnotation = function( annotationId )
 {
-	this.annotationService.deleteAnnotation( annotationId, null );
+	var f = null;
+	if ( this.keywordService )
+	{
+		var keywordService = this.keywordService;
+		f = function( xml ) { keywordService.refresh( ); };
+	}
+	this.annotationService.deleteAnnotation( annotationId, f );
 }
 
 
@@ -312,20 +317,11 @@ Marginalia.prototype.showAnnotations = function( url, block )
 		function(xmldoc) { _showAnnotationsCallback( marginalia, url, xmldoc, true ) } );
 }
 
-Marginalia.prototype.redrawAnnotations = function( url, filter_name, filter_group, filter_type, search_string, block )
-{
-	var marginalia = this;
-	marginalia.hideAnnotations( );
-	this.annotationService.listAnnotations( url, this.anusername, block,
-                                            function(xmldoc) {_showAnnotationsCallback(marginalia, url, xmldoc, false ) }, filter_name, filter_group, filter_type, search_string);
-}
-
 Marginalia.prototype.showBlockAnnotations = function( url, block )
 {
 	// TODO: Push down calculations must be repaired where new annotations are added.
 	// Ideally this would happen automatically.
 	var marginalia = this;
-	marginalia.hideAnnotations( );
 	this.annotationService.listAnnotations( url, null, block,
 		function(xmldoc) { _showAnnotationsCallback( marginalia, url, xmldoc, false, true ) } );
 }
@@ -379,8 +375,6 @@ function _annotationDisplayCallback( marginalia, callbackUrl, doBlockMarkers, no
 	// Do this by merging the new annotations with those already displayed
 	// For this to work, annotations must be sorted by URL
 	var annotations = marginalia.annotationCache;
-    display_count("noresults", 1, annotations.length);
-
 	if ( annotations )
 	{
 		var url = null;			// there may be annotations for multiple URLs;  this is the current one
@@ -432,7 +426,10 @@ function _annotationDisplayCallback( marginalia, callbackUrl, doBlockMarkers, no
 					if ( ! noCountIncrement )
 						annotation.fetchCount += 1;
 					// Now insert before beforeNote
-					post.addAnnotation( marginalia, annotation, nextNode );
+					var success = post.addAnnotation( marginalia, annotation, nextNode );
+					
+					if ( success && annotation.getUserId( ) == marginalia.username )
+						marginalia.patchAnnotation( annotation, post );
 				}
 			}
 			
@@ -457,6 +454,74 @@ function _annotationDisplayCallback( marginalia, callbackUrl, doBlockMarkers, no
 	}
 }
 
+
+/**
+ * Older annotations may be using old path formats or other saved data which is
+ * incorrect or inconsistent with current formatting.  This function checks
+ * for the possibility, makes the changes, and submits the any updates to the
+ * server.  This only applies to annotations owned by the current user.
+ *
+ * Ranges can be out of date for the following reasons:
+ * - because there is no XPath range stored (older version lacked this)
+ * - because the sequence range is in word.char format (e.g. 215.0 215.3)
+ * - because the sequence range lacks a second block (e.g. /3/4/15.0 15.3)
+ * - because the sequence range lacks a line number (e.g. /3/4/15.0;/3/4/15.3)
+ * Current sequence range format looks like 3.4/1.15.0;3.4/1.15.3
+ */
+Marginalia.prototype.patchAnnotation = function( annotation, post )
+{
+	var root = post.contentElement;
+	var sequenceRange = annotation.getSequenceRange( );
+	var xpathRange = annotation.getXPathRange( );
+	
+	// Don't even try fixing xpath ranges if they can't be resolved on this browser
+	if ( sequenceRange.needsUpdate( ) || (
+			XPathRange.canResolve( root ) && ( null == xpathRange || xpathRange.needsUpdate( ) ) ) )
+	{
+		// Determine the physical word range in the document
+		var wordRange = post.wordRangeFromAnnotation( this, annotation );
+		var textRange = TextRange.fromWordRange( wordRange, this.skipContent );
+		wordRange = WordRange.fromTextRange( textRange, root, this.skipContent );
+		
+		// Update the annotation
+		var quote;
+		if ( sequenceRange.needsUpdate( ) )
+		{
+			var newSequenceRange = wordRange.toSequenceRange( root );
+			// Verify that the new sequence range is correct
+			// Don't want to break existing data because of bad resolution or a code bug
+			wordRange = WordRange.fromSequenceRange( newSequenceRange, root, this.skipContent );
+			textRange = TextRange.fromWordRange( wordRange, this.skipContent );
+			quote = getTextRangeContent( textRange, this.skipContent );
+			quote = quote.replace( /(\s|\u00a0)+/g, ' ' );
+			if ( annotation.getQuote( ) == quote )
+				annotation.setSequenceRange( newSequenceRange );
+		}
+		if ( XPathRange.canResolve( root ) && ( null == xpathRange || xpathRange.needsUpdate( ) ) )
+		{
+			var newXPathRange = wordRange.toXPathRange( root );
+			// Verify that the new xpath range is correct
+			// Don't want to break existing data because of bad resolution or a code bug
+			wordRange = WordRange.fromXPathRange( newSequenceRange, root, this.skipContent );
+			textRange = TextRange.fromWordRange( wordRange, this.skipContent );
+			quote = getTextRangeContent( textRange, this.skipContent );
+			quote = quote.replace( /(\s|\u00a0)+/g, ' ' );
+			if ( annotation.getQuote( ) == quote )
+				annotation.setXPathRange( newXPathRange );
+		}
+		marginalia.updateAnnotation( annotation, null );
+
+		// Replace the editable note display
+		post.removeNote( this, annotation );
+		var nextNode = post.getAnnotationNextNote( this, annotation );
+		noteElement = post.showNote( this, annotation, nextNode );
+		post.repositionNotes( this, noteElement.nextSibling );
+	
+		// Reposition block markers
+		post.repositionBlockMarkers( this );
+	}
+}
+
 /**
  * Hide all annotations on the page
  */
@@ -469,9 +534,6 @@ Marginalia.prototype.hideAnnotations = function( )
 	for ( var i = 0;  i < posts.length;  ++i )
 	{
 		var post = posts[ i ];
-        post.hideAllAnnotations();
-        //post.hideAnnotations();
-
 		// Should also destruct each annotation
 		var annotations = post.removeAnnotations( marginalia );
 		for ( var j = 0;  j < annotations.length;  ++j )
@@ -480,6 +542,17 @@ Marginalia.prototype.hideAnnotations = function( )
 	}
 }
 
+/* *****************************
+ * Additions to Annotation class
+ */
+ 
+/**
+ * Convenience method for getting the note element for a given annotation
+ */
+Annotation.prototype.getNoteElement = function( )
+{
+	return document.getElementById( AN_ID_PREFIX + this.getId() );
+}
 
 
 /* ************************ Add/Show Functions ************************ */
@@ -497,6 +570,7 @@ Marginalia.prototype.hideAnnotations = function( )
 
 /**
  * Add an annotation to the local annotation list and display.
+ * Returns true if the annotation highlight was located successfully
  */
 PostMicro.prototype.addAnnotation = function( marginalia, annotation, nextNode, editor )
 {
@@ -515,6 +589,7 @@ PostMicro.prototype.addAnnotation = function( marginalia, annotation, nextNode, 
 		r = this.showNote( marginalia, annotation, nextNode );
 	// Reposition any following notes that need it
 	this.repositionSubsequentNotes( marginalia, nextNode );
+	return quoteFound;
 }
 
 /**
@@ -565,30 +640,6 @@ PostMicro.prototype.removeAnnotations = function( marginalia )
 	return annotations;
 }
 
-PostMicro.prototype.hideAnnotations = function( marginalia )
-{
-	var notesElement = this.getNotesElement( marginalia );
-	var child = notesElement.firstChild;
-	var annotations = new Array( );
-	while ( null != child )
-	{
-		if ( child.annotation )
-		{
-			annotations[ annotations.length ] = child.annotation;
-			child.annotation = null;
-		}
-		notesElement.removeChild( child );
-		child = notesElement.firstChild;
-	}
-	var micro = this;
-	var stripTest = function( tnode )
-		{ return micro.highlightStripTest( tnode, null ); };
-	domutil.stripMarkup( this.contentElement, stripTest, true );
-	//portableNormalize( this.contentElement );
-	domutil.removeClass( this.element, AN_ANNOTATED_CLASS );
-	return annotations;
-}
-
 /**
  * Remove an individual annotation from a post
  */
@@ -602,24 +653,6 @@ PostMicro.prototype.removeAnnotation = function( marginalia, annotation )
 		this.repositionBlockMarkers( marginalia );
 	
 	return null == next ? null : next.annotation;
-}
-
-PostMicro.prototype.hideAllAnnotations = function( marginalia )
-{
-	var notesElement = this.getNotesElement( marginalia );
-	var child = notesElement.firstChild;
-	var annotations = new Array( );
-	while ( null != child )
-	{
-		if ( child.annotation )
-                {
-			annotations[ annotations.length ] = child.annotation;
-	               	this.removeHighlight( marginalia, child.annotation );
-                }
-		child = child.nextSibling;
-	}
-	return annotations;
-
 }
 
 /* ************************ Display Actions ************************ */
@@ -636,9 +669,9 @@ PostMicro.prototype.flagAnnotation = function( marginalia, annotation, className
 {
 	// Activate the note
 	var noteNode = document.getElementById( AN_ID_PREFIX + annotation.getId() );
-	if ( noteNode && flag )
+	if ( flag )
 		domutil.addClass( noteNode, className );
-	else if ( noteNode)
+	else
 		domutil.removeClass( noteNode, className );
 
 	// Activate the highlighted areas
@@ -725,30 +758,14 @@ PostMicro.prototype.saveAnnotation = function( marginalia, annotation )
 		return false;
 	
 	// Save any changes to the annotation
-	if ( marginalia.noteEditor.save ) 
+	if ( marginalia.noteEditor.save )
 		marginalia.noteEditor.save( );
-    else {
-        //Hides buttons when once one clicks outside the box
-		this.stopEditing( marginalia, annotation );
-        this.removeAnnotation(marginalia, annotation);
-        return false;
-    }
-        // 
-
 	
 	// ---- Validate the annotation ----
-    // Validates an empty note
-    var edit_type = bungeni.editType(annotation);
-	if ( (edit_type == "Annotate:" || edit_type == "Replace:" || edit_type == "Comment:") && annotation.getNote().replace(new RegExp(/^\s+/),"").length == 0 )
-	{
-		alert( getLocalized( 'blank note' ) );
-		marginalia.noteEditor.focus( );
-		return false;
-	}
+
 	// Check the length of the note.  If it's too long, do nothing, but restore focus to the note
 	// (which is awkward, but we can't save a note that's too long, we can't allow the note
-	// to appear saved, and truncating it automatically strikes me as an even
-	// worse solution.) 
+	// to appear saved, and truncating it automatically strikes me as an even worse solution.) 
 	if ( marginalia.noteEditor.annotation.getNote().length > MAX_NOTE_LENGTH )
 	{
 		alert( getLocalized( 'note too long' ) );
@@ -765,8 +782,8 @@ PostMicro.prototype.saveAnnotation = function( marginalia, annotation )
 	}
 	
 	// Note and quote length cannot both be zero
-	var sequenceRange = annotation.getRange( SEQUENCE_RANGE );
-	if ( sequenceRange.start.compare( sequenceRange.end ) == 0 && annotation.getNote().replace(new RegExp(/^\s+/),"").length == 0  )
+	var sequenceRange = annotation.getSequenceRange( );
+	if ( sequenceRange.start.compare( sequenceRange.end ) == 0 && annotation.getNote( ).length == 0 )
 	{
 		alert( getLocalized( 'blank quote and note' ) );
 		marginalia.noteEditor.focus( );
@@ -1120,9 +1137,9 @@ function createAnnotation( postId, warn, editor )
 	
 	// Strip off leading and trailing whitespace and preprocess so that
 	// conversion to WordRange will go smoothly.
-	var textRange = new TextRange( );
-	textRange.fromW3C( textRange0 );
-	if ( ! textRange.shrinkwrap( marginalia.skipContent ) )
+	var textRange = TextRange.fromW3C( textRange0 );
+	textRange = textRange.shrinkwrap( marginalia.skipContent );
+	if ( ! textRange )
 	{
 		// this happens if the shrinkwrapped range has no non-whitespace text in it
 		if ( warn )
@@ -1169,8 +1186,7 @@ function createAnnotation( postId, warn, editor )
 	// the text nodes used by the textRange for reference.
 	domutil.stripSubtree( post.contentElement, null, 'smart-copy' );
 
-	var wordRange = new WordRange( );
-	wordRange.fromTextRange( textRange, post.contentElement, marginalia.skipContent );
+	var wordRange = WordRange.fromTextRange( textRange, post.contentElement, marginalia.skipContent );
 	var sequenceRange = wordRange.toSequenceRange( post.contentElement );
 	var xpathRange = wordRange.toXPathRange( post.contentElement );
 	
@@ -1188,8 +1204,8 @@ function createAnnotation( postId, warn, editor )
 		return false;
 	}
 	
-	annotation.setRange( SEQUENCE_RANGE, sequenceRange );
-	annotation.setRange( XPATH_RANGE, xpathRange );
+	annotation.setSequenceRange( sequenceRange );
+	annotation.setXPathRange( xpathRange );
 
 	// TODO: test selection properly
 	if ( null == annotation )
@@ -1211,359 +1227,8 @@ function createAnnotation( postId, warn, editor )
 	
 	// If no editor is specified, use the default
 	if ( ! editor )
-        {
-        annotation.setAction('annotate');
 		editor = marginalia.newEditor( annotation );
-        }
 	
 	post.createAnnotation( marginalia, annotation, editor );
 	return true;
-}
-
-function hideAnnotations()
-{
-  var toggle_tag = document.getElementById('togglevisibility');
-  if (toggle_tag.name=='hide')
-      {
-          marginalia.hideAnnotations();
-          toggle_tag.name = 'search';
-      }
-  else {
-      var search_button = document.getElementById('search');
-      filterAnnotations(search_button);            
-      toggle_tag.name = 'hide';
-
-      }
-
-}
-
-function pausecomp(millis)
-{
-    var date = new Date();
-    var curDate = null;
-    do { curDate = new Date(); }
-    while(curDate-date < millis);
-} 
-
-function filterAnnotations(form_field)
-{
-  if ( marginalia.noteEditor )
-      return false;
-
-  var parent_node = form_field.parentNode;
-  var selectNodes = domutil.childrenByTagClass( parent_node, null, 'select_field', null, null );
-  var select_obj_owner = [];
-  var select_obj_group = [];
-  var select_obj_type = [];
-  if (selectNodes.length>=1)
-    var select_obj_owner = selectNodes[0];
-  if (selectNodes.length>=2)
-    var select_obj_group = selectNodes[1];
-  if (selectNodes.length>=3)
-    var select_obj_type = selectNodes[2];
-  var owner='';
-  for(i=0; i<select_obj_owner.length; i++)  {
-      if (select_obj_owner.options[i].selected)
-	  {
-	  owner = owner +';'+ select_obj_owner.options[i].value;
-          }
-      }
-  //removing first character from the string(i.e. removing',')
-  if (owner.length > 0)
-      {
-	  owner=owner.substring(1,owner.length )
-      }
-  var group='';
-  for(i=0; i<select_obj_group.length; i++)  {
-      if (select_obj_group.options[i].selected)
-	  {
-	  group = group +';'+ select_obj_group.options[i].value;
-          }
-      }
-  //removing first character from the string(i.e. removing',')
-  if (group.length > 0)
-      {
-	  group=group.substring(1,group.length )
-      }
-  var type='';
-  for(i=0; i<select_obj_type.length; i++)  {
-      if (select_obj_type.options[i].selected)
-	  {
-	  type = type +';'+ select_obj_type.options[i].value;
-      }
-      }
-  //removing first character from the string(i.e. removing',')
-  if (type.length > 0)
-      {
-	  type=type.substring(1,type.length )
-      }
-  var input_obj = domutil.childrenByTagClass( parent_node, null, 'input_field', null, null )[0];
-  var filter_name = owner;
-  var filter_group = group;
-  var filter_type = type;
-  var search_string = input_obj.value;
-  marginalia.hideAnnotations();
-  this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, filter_group, filter_type, search_string);
-  document.location.hash = "#filter_name=" + filter_name+"&filter_group=" + filter_group+"&filter_type=" + filter_type+"&search_string="+search_string;
-}
-
-function clearSearch(form_field) {
-  if ( marginalia.noteEditor )
-      return false;
-
-  var parent_node = form_field.parentNode;
-  var selectNodes = domutil.childrenByTagClass( parent_node, null, 'select_field', null, null );
-  var select_obj_owner = [];
-  var select_obj_group = [];
-  var select_obj_type = [];
-  if (selectNodes.length>=1)
-    var select_obj_owner = selectNodes[0];
-  if (selectNodes.length>=2)
-    var select_obj_group = selectNodes[1];
-  if (selectNodes.length>=3)
-    var select_obj_type = selectNodes[2];
-  for(i=0; i<select_obj_owner.length; i++)  {
-      if (select_obj_owner.options[i].value == "select_all") 
-          select_obj_owner.options[i].selected = true;
-      else
-          select_obj_owner.options[i].selected = false;
-      }
-  for(i=0; i<select_obj_group.length; i++)  {
-      if (select_obj_group.options[i].value == "select_all") 
-          select_obj_group.options[i].selected = true;
-      else
-          select_obj_group.options[i].selected = false;
-      }
-  for(i=0; i<select_obj_type.length; i++)  {
-      if (select_obj_type.options[i].value == "select_all") 
-          select_obj_type.options[i].selected = true;
-      else
-          select_obj_type.options[i].selected = false;
-      }
-  var input_obj = domutil.childrenByTagClass( parent_node, null, 'input_field', null, null )[0];
-  input_obj.value = "";
-  filterAnnotations(form_field);
-}
-
-function myAnnotations(form_field) {
-  if ( marginalia.noteEditor )
-      return false;
-  var parent_node = form_field.parentNode;
-  var selectNodes = domutil.childrenByTagClass( parent_node, null, 'select_field', null, null );
-  var select_obj_owner = [];
-  var select_obj_group = [];
-  var select_obj_type = [];
-  if (selectNodes.length>=1)
-    var select_obj_owner = selectNodes[0];
-  if (selectNodes.length>=2)
-    var select_obj_group = selectNodes[1];
-  if (selectNodes.length>=3)
-    var select_obj_type = selectNodes[2];
-
-  for(i=0; i<select_obj_owner.length; i++)  {
-      if ((select_obj_owner.options[i].text == "Myself") &&
-          (select_obj_owner.options[i].selected == true)) {
-          return true
-              }
-  }
-
-  for(i=0; i<select_obj_owner.length; i++)  {
-      if (select_obj_owner.options[i].text == "Myself") 
-          select_obj_owner.options[i].selected = true;
-      else
-          select_obj_owner.options[i].selected = false;
-      }
-  for(i=0; i<select_obj_group.length; i++)  {
-      if (select_obj_group.options[i].value == "select_all") 
-          select_obj_group.options[i].selected = true;
-      else
-          select_obj_group.options[i].selected = false;
-      }
-  for(i=0; i<select_obj_type.length; i++)  {
-      if (select_obj_type.options[i].value == "select_all") 
-          select_obj_type.options[i].selected = true;
-      else
-          select_obj_type.options[i].selected = false;
-      }
-  var input_obj = domutil.childrenByTagClass( parent_node, null, 'input_field', null, null )[0];
-  input_obj.value = "";
-  filterAnnotations(form_field);
-  return false
-}
-
-
-function membership(member_str, member_list){
-    var i;
-    for (i=0;i<member_list.length;i++) {
-        if (member_list[i] == member_str)
-            return true;
-    }
-    return false
-}
-
-function filterAnnotationsFromBookmark(){
-  var hash_string = document.location.hash;  
-  if (hash_string.search("filter_name") > -1)
-  {
-	var filter_name= hash_string.substring((hash_string.indexOf('filter_name')) + 12, hash_string.indexOf('&filter_group'));
-	var filter_group= hash_string.substring((hash_string.indexOf('filter_group')) + 13, hash_string.indexOf('&filter_type'));
-	var filter_type= hash_string.substring((hash_string.indexOf('filter_type')) + 12, hash_string.indexOf('&search_string'));
-	filter_name = filter_name.split(";");
-	filter_group = filter_group.split(";");
-	filter_type = filter_type.split(";");
-	var search_string= hash_string.substring((hash_string.indexOf('search_string')) + 14);
-    marginalia.hideAnnotations();
-    this.marginalia.redrawAnnotations(this.marginalia.orig_url, filter_name, filter_group, filter_type, search_string);
-    var selectNodes = domutil.childrenByTagClass(this.document.documentElement, null, 'select_field', null, null );
-    var select_name = false;
-    var select_group = false;
-    var select_type = false;
-    if (selectNodes.length>=1)
-        var select_name = selectNodes[0];
-    if (selectNodes.length>=2)
-        var select_group = selectNodes[1];
-    if (selectNodes.length>=3)
-        var select_type = selectNodes[2];
-    var input_child = domutil.childrenByTagClass(this.document.documentElement, null, 'input_field', null, null )[0];
-    input_child.value = search_string;
-    if (select_name)
-        {
-    for (i=0;i<select_name.options.length;i++)
-        {
-            var option = select_name.options[i];
-            if (membership(option.value, filter_name))
-                {
-                    option.selected = true;
-                }
-            else
-                {
-                    option.selected = false;
-                }
-        }
-        } 
-    if (select_group)
-        {
-    for (i=0;i<select_group.options.length;i++)
-        {
-            var option = select_group.options[i];
-            if (membership(option.value, filter_group))
-                {
-                    option.selected = true;
-                }
-            else
-                {
-                    option.selected = false;
-                }
-        } 
-        }
-    if (select_type)
-        {
-    for (i=0;i<select_type.options.length;i++)
-        {
-            var option = select_type.options[i];
-            if (membership(option.value, filter_type))
-                {
-                    option.selected = true;
-                }
-            else
-                {
-                    option.selected = false;
-                }
-        } 
-        }
-  }
-}
-
-function toggle_visibility(id) {
-    var e = document.getElementById(id);
-    if(e.style.display == 'block')
-        e.style.display = 'none';
-    else
-        e.style.display = 'block';
-}
-
-function visibility_handler(id, display) {
-    var loader_div = document.getElementById(id);
-    if(display)
-        loader_div.style.display = 'block';
-    else
-        loader_div.style.display = 'none';
-}
-
-function display_count(id, display, number) {
-    var loader_div = document.getElementById(id);
-    if(display) {
-        loader_div.style.display = 'block';
-    }
-    else {
-        loader_div.style.display = 'none';
-    } 
-    if (number==0)
-        loader_div.textContent = "No Comments Found";
-    else if (number==1)
-        loader_div.textContent = "1 Comment Found";
-    else
-        loader_div.textContent = number + " Comments Found";                
-}
-
-function onEnterKey (obj, e) {
-    var press;
-    if (window.event) {
-	press = window.event.keyCode;
-    } else if (e) {
-	press = e.which;
-    } else {
-	return true;
-    }
-    if (press == 13) {
-     <!--WHAT DO I DO HERE?-->
-        filterAnnotations(obj);
-	return false
-
-	    }
-  return true
-  }
-
-function downloadAnnotations(form_field)
-{
-    //    var toggle_tag = document.getElementById('togglevisibility');
-    //    var search_button = document.getElementById('search');
-    //    filterAnnotations(search_button);            
-    //    toggle_tag.name = 'hide';
-    if ( marginalia.noteEditor )
-        return false;
-
-    var entrycontent = document.getElementById('entry-content');
-    var submitcontent = document.getElementById('content');
-    var comments = ''
-    if (marginalia.posts.posts.length > 0) {
-        post = marginalia.posts.posts[0]; 
-        var annotations = post.listAnnotations();
-        var divNode = document.createElement( 'div' );			
-
-		for ( var annotation_i = 0;  annotation_i < annotations.length;  ++annotation_i )
-		{
-			// Don't want to fail completely just because one or more annotations are malformed
-			if ( null != annotations[ annotation_i ] )
-			{
-				var annotation = annotations[ annotation_i ];
-                var spanNode = document.createElement( 'span' );			
-                spanNode.setAttribute('author', annotation.quoteAuthor);
-                spanNode.setAttribute('date', annotation.updated);
-                spanNode.setAttribute('identifier', "annot" + annotation.getId());
-                // domutil.addClass( spanNode, "annot" + annotation.getId() );
-                var x = annotation.getNote();
-                spanNode.innerHTML= (x.replace(/^\W+/,'')).replace(/\W+$/,'');
-                // spanNode.innerHTML = annotation.getNote().replace(new RegExp(/^\s+/),"");
-                divNode.appendChild(spanNode)
-            }
-        }
-    }
-    var commentDivNode = document.createElement( 'div' );			
-    // var entryDivNode = document.createElement( 'div' );			
-
-    commentDivNode.appendChild(divNode);
-    // entryDivNode.appendChild(entrycontent);
-    submitcontent.value = entrycontent.innerHTML + commentDivNode.innerHTML;    
-    return true
 }

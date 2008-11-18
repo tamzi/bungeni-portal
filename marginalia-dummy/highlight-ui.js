@@ -23,27 +23,20 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * $Id: highlight-ui.js 265 2007-11-06 16:50:59Z geof.glass $
+ * $Id: highlight-ui.js 309 2008-11-13 21:32:55Z geof.glass $
  */
 
 AN_HIGHLIGHT_CLASS = 'annotation';// class given to em nodes for highlighting
 
 PostMicro.prototype.wordRangeFromAnnotation = function( marginalia, annotation )
 {
-	var wordRange = new WordRange( );
-	if ( annotation.getRange( XPATH_RANGE ) && this.contentElement.ownerDocument.evaluate)
-	{
-		// the extra test above is because IE doesn't support xpath
-		if ( wordRange.fromXPathRange( annotation.getRange( XPATH_RANGE ), this.contentElement, marginalia.skipContent ) )
-			return wordRange;
-	}
-	else if ( annotation.getRange( SEQUENCE_RANGE ) )
-	{
-		if ( wordRange.fromSequenceRange( annotation.getRange( SEQUENCE_RANGE ), this.contentElement, marginalia.skipContent ) )
-			return wordRange;
-		// TODO: Store XPathRange back to annotation on server
-	}
-	return null;
+	var wordRange;
+	// XPath range is faster, but we can only use it if the browser supports it
+	if ( annotation.getXPathRange( ) && this.contentElement.ownerDocument.evaluate )
+		wordRange = WordRange.fromXPathRange( annotation.getXPathRange( ), this.contentElement, marginalia.skipContent );
+	else if ( annotation.getSequenceRange( ) )
+		wordRange = WordRange.fromSequenceRange( annotation.getSequenceRange( ), this.contentElement, marginalia.skipContent );
+	return wordRange;
 }
 
 /**
@@ -85,7 +78,7 @@ PostMicro.prototype.showHighlight = function( marginalia, annotation )
 	{
 		// Older versions (before 2007-06-05) have some context calculation code which could be
 		// modified and used here.
-		var rangeStr = annotation.getRange( SEQUENCE_RANGE ) ? annotation.getRange( SEQUENCE_RANGE ).toString() : '';
+		var rangeStr = annotation.getSequenceRange( ) ? annotation.getSequenceRange( ).toString() : '';
 		trace( 'find-quote', 'Annotation ' + annotation.getId() + ' range (' + rangeStr + ') actual \"' + actual + '\" doesn\'t match quote "' + quote + '"' );
 		return false;
 	}
@@ -118,11 +111,9 @@ PostMicro.prototype.showHighlight = function( marginalia, annotation )
 				node.parentNode.insertBefore( newNode, node );
 			}
 			// replace node content with annotation
-			newNode = document.createElement( 'em' );			
+			newNode = document.createElement( 'em' );
+			
 			newNode.className = AN_HIGHLIGHT_CLASS + ' ' + AN_ID_PREFIX + annotation.getId();
-            newNode.setAttribute('author', annotation.quoteAuthor);
-            newNode.setAttribute('date', annotation.updated);
-            newNode.setAttribute('identifier', AN_ID_PREFIX + annotation.getId());
 			if ( marginalia.showActions && annotation.getAction() )
 				newNode.className += ' ' + AN_ACTIONPREFIX_CLASS + annotation.getAction();
 			newNode.onmouseover = _hoverAnnotation;
@@ -133,9 +124,6 @@ PostMicro.prototype.showHighlight = function( marginalia, annotation )
 			if ( marginalia.showActions && 'edit' == annotation.getAction() && annotation.getQuote() )
 			{
 				var delNode = document.createElement( 'del' );
-                delNode.setAttribute('author', annotation.quoteAuthor);
-                delNode.setAttribute('date', annotation.updated);
-                delNode.setAttribute('identifier', AN_ID_PREFIX + annotation.getId());
 				delNode.appendChild( node );
 				newNode.appendChild( delNode );
 			}
@@ -187,9 +175,6 @@ PostMicro.prototype.showActionInsert = function( marginalia, annotation )
 			// TODO: should check whether <ins> is valid in this position
 			var lastHighlight = highlights[ i ];
 			var insNode = document.createElement( 'ins' );
-            insNode.setAttribute('author', annotation.quoteAuthor);
-            insNode.setAttribute('date', annotation.updated);
-            insNode.setAttribute('identifier', AN_ID_PREFIX + annotation.getId());
 			insNode.appendChild( document.createTextNode( annotation.getNote() ) );
 			lastHighlight.appendChild( insNode );
 			trace( 'actions', 'Insert text is ' + annotation.getNote() );

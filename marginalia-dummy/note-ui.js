@@ -23,7 +23,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * $Id: note-ui.js 300 2008-07-09 05:52:31Z geof.glass $
+ * $Id: note-ui.js 309 2008-11-13 21:32:55Z geof.glass $
  */
 
 AN_NOTES_CLASS = 'notes';			// the notes portion of a fragment
@@ -36,7 +36,6 @@ MAX_NOTE_LENGTH = 250;
 MAX_NOTEHOVER_LENGTH = 24;
 
 // Classes to identify specific controls
-AN_SELECT_CLASS = 'annotation-select';
 AN_LINKBUTTON_CLASS = 'annotation-link';
 AN_ACCESSBUTTON_CLASS = 'annotation-access';
 AN_DELETEBUTTON_CLASS = 'annotation-delete';
@@ -46,10 +45,10 @@ AN_KEYWORDSCONTROL_CLASS = 'keywords';
 AN_SUN_SYMBOL = '\u25cb'; //'\u263c';
 AN_MOON_SYMBOL = '\u25c6'; //'\u2641';
 AN_LINK_ICON = '\u263c'; //'\u238b'; circle-arrow // \u2318 (point of interest) \u2020 (dagger) \u203b (reference mark) \u238b (circle arrow)
-AN_LINK_EDIT_ICON = ''; //'\u238b'; circle-arrow// \u2021 (double dagger)
+AN_LINK_EDIT_ICON = '\u263c'; //'\u238b'; circle-arrow// \u2021 (double dagger)
 AN_COLLAPSED_ICON = '+'; // '\u25b7'; triangle
 AN_EXPANDED_ICON = '-'; // '\u25bd';
-AN_LINKEDIT_LABEL = ''; // '\u238b'; circle-arrow
+AN_LINKEDIT_LABEL = '\u263c'; // '\u238b'; circle-arrow
 
 
 /**
@@ -245,7 +244,6 @@ Marginalia.prototype.bindNoteBehavior = function( node, property, value )
 	// Functions to associate with events (click etc.)
 	var eventMappings = { 
 		access: _toggleAnnotationAccess,
-		'status': _toggleAnnotationStatus,
 		'delete': _deleteAnnotation,
 //		edit: _editAnnotation,
 		save: _saveAnnotation };
@@ -266,13 +264,6 @@ Marginalia.prototype.bindNoteBehavior = function( node, property, value )
 			}
 			if ( f )
 				addEvent( node, 'click', f );
-			else
-				logError( 'Unknown note click behavior: ' + value );
-			break;
-		case 'change':
-			var f = eventMappings[ value ];
-			if ( f )
-				addEvent( node, 'change', f );
 			else
 				logError( 'Unknown note click behavior: ' + value );
 			break;
@@ -308,8 +299,7 @@ Marginalia.defaultDisplayNote = function( marginalia, annotation, noteElement, p
 			controls.appendChild( domutil.button( {
 				className:  AN_ACCESSBUTTON_CLASS,
 				title:  getLocalized( annotation.getAccess() == AN_PUBLIC_ACCESS ? 'public annotation' : 'private annotation' ),
-				content:  AN_MOON_SYMBOL,
-                id:  annotation.getAccess() == AN_PUBLIC_ACCESS ? 'public' : 'private'
+				content:  annotation.getAccess() == AN_PUBLIC_ACCESS ? AN_SUN_SYMBOL : AN_MOON_SYMBOL
 			} ) );
 		}
 		
@@ -327,7 +317,7 @@ Marginalia.defaultDisplayNote = function( marginalia, annotation, noteElement, p
 	} );
 	var titleText = null;
 
-	if ( ! params.quoteFound || ! annotation.getRange( SEQUENCE_RANGE ) )
+	if ( ! params.quoteFound || ! annotation.getSequenceRange( ) )
 		titleText = getLocalized( 'quote not found' ) + ': \n"' + annotation.getQuote() + '"';
 	else if ( params.keyword )
 		titleText = params.keyword.description;
@@ -344,7 +334,7 @@ Marginalia.defaultDisplayNote = function( marginalia, annotation, noteElement, p
 //		{
 			noteText.insertBefore( domutil.element( 'span', {
 				className:  'username',
-   			    content:  'author: ' + annotation.getUserId( ) } ), noteText.firstChild );
+				content:  annotation.getUserId( ) + ': ' } ), noteText.firstChild );
 //		}
 	}
 	noteElement.appendChild( noteText );
@@ -603,10 +593,10 @@ PostMicro.prototype.getNoteAlignElement = function( annotation )
 	// Try to find the matching highlight element
 	var alignElement = domutil.childByTagClass( this.contentElement, 'em', AN_ID_PREFIX + annotation.getId(), null );
 	// If there is no matching highlight element, pick the paragraph.  Prefer XPath range representation.
-	if ( null == alignElement && annotation.getRange( XPATH_RANGE ) )
-		alignElement = annotation.getRange( XPATH_RANGE ).start.getReferenceElement( this.contentElement );
-	if ( null == alignElement && annotation.getRange( SEQUENCE_RANGE ) )
-		alignElement = annotation.getRange( SEQUENCE_RANGE ).start.getReferenceElement( this.contentElement );
+	if ( null == alignElement && annotation.getXPathRange( ) )
+		alignElement = annotation.getXPathRange( ).start.getReferenceElement( this.contentElement );
+	if ( null == alignElement && annotation.getSequenceRange( ) )
+		alignElement = annotation.getSequenceRange( ).start.getReferenceElement( this.contentElement );
 	return alignElement;
 }
 
@@ -748,17 +738,6 @@ function _editAnnotation( event )
 	if ( marginalia.noteEditor && marginalia.noteEditor.annotation != annotation )
 		return;
 
-    var edit_type = bungeni.editType(annotation);
-    var note_value = annotation.getNote();
-    if ( marginalia.noteEditor )
-        note_value = marginalia.noteEditor.editNode.value;
-	if ( (edit_type == "Annotate:" || edit_type == "Replace:" || edit_type == "Comment:") && note_value.replace(new RegExp(/^\s+/),"").length == 0 )
-	{
-		alert( getLocalized( 'blank note' ) );
-		marginalia.noteEditor.focus( );
-		return false;
-	}
-
 	event.stopPropagation( );
 	
 //	var nextNode = post.removeNote( marginalia, annotation );
@@ -881,23 +860,8 @@ function _toggleAnnotationAccess( event )
 	window.marginalia.updateAnnotation( annotation, null );
 	while ( accessButton.firstChild )
 		accessButton.removeChild( accessButton.firstChild );
-	accessButton.appendChild( document.createTextNode( AN_MOON_SYMBOL ) );
+	accessButton.appendChild( document.createTextNode( annotation.getAccess() == 'public' ? AN_SUN_SYMBOL : AN_MOON_SYMBOL ) );
 	accessButton.setAttribute( 'title', annotation.getAccess() == 'public' ?
 		getLocalized( 'public annotation' ) : getLocalized( 'private annotation' ) );
-	accessButton.setAttribute( 'id', annotation.getAccess() == 'public' ? 'public' : 'private' );
-
-}
-
-function _toggleAnnotationStatus( event )
-{
-	event.stopPropagation( );
-	var target = domutil.getEventTarget( event );
-	
-	var annotation = domutil.nestedFieldValue( this, AN_ANNOTATION_FIELD );
-	var statusElement = target;
-    if (annotation.getStatus() != statusElement.value ) {
-        annotation.setStatus( statusElement.value );
-        window.marginalia.updateAnnotation( annotation, null );
-    }
 }
 

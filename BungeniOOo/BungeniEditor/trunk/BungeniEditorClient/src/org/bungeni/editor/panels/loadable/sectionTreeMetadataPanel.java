@@ -276,14 +276,15 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
         jScrollPane2 = new javax.swing.JScrollPane();
         tblSectionViewMetadata = new javax.swing.JTable();
         lblSectionTreeMetadataView = new javax.swing.JLabel();
+        btnRefresh = new javax.swing.JButton();
 
-        lblSectionMetadata.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        lblSectionMetadata.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         lblSectionMetadata.setText("Section Metadata");
 
-        treeSectionTreeMetadata.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        treeSectionTreeMetadata.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         jScrollPane1.setViewportView(treeSectionTreeMetadata);
 
-        tblSectionViewMetadata.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        tblSectionViewMetadata.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         tblSectionViewMetadata.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -297,20 +298,33 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
         ));
         jScrollPane2.setViewportView(tblSectionViewMetadata);
 
-        lblSectionTreeMetadataView.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        lblSectionTreeMetadataView.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         lblSectionTreeMetadataView.setText("Click on a section to view its Metadata");
+
+        btnRefresh.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
+        btnRefresh.setText("Refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, lblSectionTreeMetadataView)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, lblSectionMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 196, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(layout.createSequentialGroup()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, lblSectionTreeMetadataView)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, lblSectionMetadata, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 196, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)))
+                    .add(layout.createSequentialGroup()
+                        .add(73, 73, 73)
+                        .add(btnRefresh, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 92, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -318,7 +332,9 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
             .add(layout.createSequentialGroup()
                 .add(lblSectionTreeMetadataView)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 168, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 145, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(btnRefresh, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 15, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lblSectionMetadata)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -328,6 +344,11 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
 
         getAccessibleContext().setAccessibleDescription("Section Metadata");
     }// </editor-fold>//GEN-END:initComponents
+
+private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+// TODO add your handling code here:
+     refreshTree();
+}//GEN-LAST:event_btnRefreshActionPerformed
 
     
     public void initialize() {
@@ -342,6 +363,7 @@ public class sectionTreeMetadataPanel extends BaseClassForITabbedPanel {
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblSectionMetadata;

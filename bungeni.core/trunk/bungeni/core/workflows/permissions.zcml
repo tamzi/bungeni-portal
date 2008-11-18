@@ -23,5 +23,14 @@
   <permission id="bungeni.motion.Schedule" title="Schedule a motion" />
   <permission id="bungeni.motion.Debate" title="Mark a motion as debated" />
   <permission id="bungeni.motion.Withdraw" title="Withdraw a motion" />
+  <!-- Bill Workflow permissions -->
+  <permission id="bungeni.bill.Submit" title="Submit a bill" />
+  <permission id="bungeni.bill.Schedule" title="Schedule a bill" />
+  <permission id="bungeni.bill.SelectCommittee" title="Assign a bill to a committee" />
+  <permission id="bungeni.bill.ChangeStatus" title="Reject/Approve a bill" />
+  <permission id="bungeni.bill.Withdraw" title="Withdraw a bill" />
+
+              
+  
   
 </configure>

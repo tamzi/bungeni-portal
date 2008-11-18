@@ -25,5 +25,12 @@
   <grant permission="bungeni.motion.Schedule" role="zope.Member"/>
   <grant permission="bungeni.motion.Debate" role="zope.Member"/>
   <grant permission="bungeni.motion.Withdraw" role="zope.Member"/>
+  
+  <!-- Bill Workflow permissions -->
+  <grant permission="bungeni.bill.Submit" role="bungeni.Clerk" />
+  <grant permission="bungeni.bill.Schedule" role="bungeni.Clerk" />
+  <grant permission="bungeni.bill.SelectCommittee" role="bungeni.Clerk" />
+  <grant permission="bungeni.bill.ChangeStatus" role="bungeni.Speaker" />
+  <grant permission="bungeni.bill.Withdraw" role="bungeni.Clerk" />  
 
 </configure>

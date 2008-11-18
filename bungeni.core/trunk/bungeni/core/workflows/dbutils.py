@@ -93,17 +93,6 @@ def setMotionSerialNumber(motion):
     motion.motion_number = connection.execute(sequence)    
 
 
-    
-#def insertQuestionScheduleHistory(question_id, sitting_id):
-#    """
-#    inserts question and sitting when a question was postponed
-#    """
-#    session = Session() 
-#    question_schedule = domain.QuestionSchedule()
-#    question_schedule.question_id = question_id
-#    question_schedule.sitting_id = sitting_id
-#    session.save(question_schedule)
-#    session.flush()
 
 class _Minister(object):
     pass     

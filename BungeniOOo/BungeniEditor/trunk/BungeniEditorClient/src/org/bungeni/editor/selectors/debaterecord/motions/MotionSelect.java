@@ -43,6 +43,7 @@ public class MotionSelect extends BaseMetadataPanel {
 
         setName("Select a Question"); // NOI18N
 
+        btnSelectQuestion.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
         btnSelectQuestion.setText("Select a Motion...");
         btnSelectQuestion.setActionCommand("Select a Question");
         btnSelectQuestion.setName("btn_select_question"); // NOI18N
@@ -58,7 +59,7 @@ public class MotionSelect extends BaseMetadataPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(btnSelectQuestion)
-                .addContainerGap(129, Short.MAX_VALUE))
+                .addContainerGap(154, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

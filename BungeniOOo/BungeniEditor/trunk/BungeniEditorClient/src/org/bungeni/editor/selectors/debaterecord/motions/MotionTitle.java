@@ -36,8 +36,10 @@ public class MotionTitle extends BaseMetadataPanel {
         txtMotionTitle = new javax.swing.JTextField();
         lblQuestionTitle = new javax.swing.JLabel();
 
+        txtMotionTitle.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
         txtMotionTitle.setName("txt_question_title"); // NOI18N
 
+        lblQuestionTitle.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
         lblQuestionTitle.setText("Motion Title");
         lblQuestionTitle.setName("lbl_question_title"); // NOI18N
 
@@ -57,7 +59,7 @@ public class MotionTitle extends BaseMetadataPanel {
                 .addComponent(lblQuestionTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtMotionTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

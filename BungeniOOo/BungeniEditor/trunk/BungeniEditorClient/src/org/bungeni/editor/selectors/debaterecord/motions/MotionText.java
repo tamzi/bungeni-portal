@@ -37,10 +37,12 @@ public class MotionText extends BaseMetadataPanel {
 
         scrollQuestionText.setName("scroll_question_text"); // NOI18N
 
+        txtMotionText.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
         txtMotionText.setName("txt_question_text"); // NOI18N
         scrollQuestionText.setViewportView(txtMotionText);
 
-        lblQuestionText.setText("Question Text");
+        lblQuestionText.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
+        lblQuestionText.setText("Motion Text");
         lblQuestionText.setName("lbl_question_text"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -55,7 +57,7 @@ public class MotionText extends BaseMetadataPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(lblQuestionText)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(scrollQuestionText, javax.swing.GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE))
+                .addComponent(scrollQuestionText, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

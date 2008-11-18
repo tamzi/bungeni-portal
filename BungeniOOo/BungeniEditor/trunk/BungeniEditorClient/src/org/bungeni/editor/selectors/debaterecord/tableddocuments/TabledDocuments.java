@@ -183,6 +183,7 @@ public class TabledDocuments extends BaseMetadataPanel {
 
     @Override
     protected void initFieldsSelectedInsert() {
+        BungeniClientDB dbnew = new BungeniClientDB();
         return;
     }
 

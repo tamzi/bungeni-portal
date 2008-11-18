@@ -70,14 +70,14 @@ public class Main extends BaseMetadataContainerPanel {
     protected void setupPanels() {
         m_allPanels = new ArrayList<panelInfo>(){
                 {
-                    add(new panelInfo("Title","org.bungeni.editor.selectors.debaterecord.tableddocuments.Title"));
+                    //add(new panelInfo("Title","org.bungeni.editor.selectors.debaterecord.tableddocuments.Title"));
                     add(new panelInfo("TabledDocuments", "org.bungeni.editor.selectors.debaterecord.tableddocuments.TabledDocuments"));
                 }
         };
     
        m_activePanels = new ArrayList<panelInfo>(){
             {
-                    add(new panelInfo("Title","org.bungeni.editor.selectors.debaterecord.tableddocuments.Title"));
+                    //add(new panelInfo("Title","org.bungeni.editor.selectors.debaterecord.tableddocuments.Title"));
                     add(new panelInfo("TabledDocuments", "org.bungeni.editor.selectors.debaterecord.tableddocuments.TabledDocuments"));
             }
          };

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../styles/akomantoso.xsl"?>
+<akomantoso xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.akomantoso.org/1.0 ../schemas/akomantoso10.xsd"
+    xmlns="http://www.akomantoso.org/1.0">
+    <minutes>
+        <meta>
+            <descriptor>
+                <publication date="2005-07-19" type="internal"/>
+                <enactmentDate date="2005-07-19"/>
+                <editors>
+                    <editor date="2005-07-19" name="clerk123" id="ed01" contribution="markup"/>
+                </editors>
+                <uri href="urn:papi:gh_minutes_20050719_en"/>
+            </descriptor>
+            <persons>
+                <person id="per01" short="Mr. Speaker" long="Mr. Speaker"/>
+                <person id="per02" short="Mr. Opare-Hammond" long="Mr. Kwadjo Opare-Hammond"/>
+                <!-- etc. etc. -->
+                <person id="per07" short="Mr. J.K. Gidisu" long="Mr. Joe Kwashie Gidisu"/>
+                <person id="per08" short="Mr. Osafo-Maafo" long="Mr. Yaw Osafo-Maafo (Minister for
+                    Education and Sports)"/>
+                <!-- etc. etc. -->
+            </persons>
+        </meta>
+        <preface>
+            <p class="important">THE PARLIAMENT OF THE REPUBLIC OF GHANA</p>
+            <p class="important">SECOND MEETING, 2005</p>
+            <p class="center">Thursday, 19th July 2005</p>
+            <p class="center">The House met at 10.02 a.m.</p>
+            <p class="center">[MR. SPEAKER IN THE CHAIR]</p>
+        </preface>
+        <debate>
+            <subdivision id="prayers">
+                <title>PRAYERS</title>
+            </subdivision>
+            <subdivision id="corrections">
+                <title>CORRECTION OF VOTES AND PROCEEDINGS AND THE OFFICIAL REPORT </title>
+                <speech id="spe01" by="per01">
+                    <p>Order! Order! Hon. Members, we shall take item 2 –– Correction of Votes and
+                        Proceedings. Page 1... page 4</p>
+                </speech>
+                <speech id="spe02" by="per02">
+                    <p>Mr. Speaker, page 4 has a repetition of the numbers 25 to 47. I do not know
+                        whether it was a typographical error or from the printing. It needs to be
+                        corrected.</p>
+                </speech>
+                <!-- etc. etc. -->
+            </subdivision>
+            <subdivision id="answers">
+                <title>ORAL ANSWERS TO QUESTIONS</title>
+                <subdivision id="minsport">
+                    <title>MINISTRY OF EDUCATION AND SPORTS</title>
+                    <subdivision id="que41">
+                        <title>Professional and Trade Union Rights between GNAT and NAGRAT</title>
+                        <question id="spe16" by="per07">
+                            <p><b>Mr. Joe Kwashie Gidisu</b> asked the Minister for Education and
+                                Sports the organic relations between the Ghana National Association
+                                of Teachers (GNAT) and the National Association of Graduate Teachers
+                                (NAGRAT) in pursuance of the professional and trade union rights of
+                                teachers in the country. and trade union rights of teachers in the
+                                country, because the two are not the same. And in his Answer, he
+                                referred to professional rights of both members. Does it mean that
+                                the NAGRAT has no trade union rights as his Answer states? Because,
+                                the two are not the same. Professional rights are different from
+                                trade</p>
+                        </question>
+                        <speech by="per08" id="spe17">
+                            <p>Mr. Speaker, GNAT was the only umbrella professional body for
+                                teachers in the country until when some graduate teachers started
+                                agitation for recognition and finally broke away and formed the
+                                National Association of Graduate Teachers (NAGRAT). </p>
+                            <p> Currently, there are two (2) associations serving the interest of
+                                teachers in the GES. Whereas members of NAGRAT consist of a section
+                                of graduate teachers, GNAT covers nongraduates as well as graduate
+                                teachers.</p>
+                            <p> The professional rights of both members of GNAT and NAGRAT are
+                                assured as outlined in the Conditions and Scheme of Service for
+                                teachers. In the event, where a member of the Service has a problem,
+                                he approaches the association to which he belongs and that
+                                association handles the problem with GES in the light of the
+                                Conditions of Service.</p>
+                            <p> In the area of professional development, GNAT organizes in-service
+                                training for its members.</p>
+                            <p> Mr. Speaker, GNAT joins the ‘FORUM’ comprising the Judicial Service
+                                Staff Association of Ghana (JUSSAG), the Registered Nurses
+                                Association (GRNA) and the Civil Servants Association (CSA) for the
+                                negotiation of salaries for all teachers.</p>
+                        </speech>
+                        <!-- etc. etc. -->
+                    </subdivision>
+                </subdivision>
+            </subdivision>
+        </debate>
+        <conclusions>
+            <p class="important"> ADJOURNMENT</p>
+            <p>The House was adjourned at 2.07 p.m. till 20th July, 2005 at 10.00 a.m.</p>
+        </conclusions>
+    </minutes>
+</akomantoso>

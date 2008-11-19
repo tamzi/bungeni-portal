@@ -13,6 +13,7 @@ import org.apache.commons.chain.Catalog;
 import org.apache.commons.chain.Command;
 import org.bungeni.commands.chains.BungeniCatalogCommand;
 import org.bungeni.commands.chains.BungeniCommandsCatalogLoader;
+import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.editor.selectors.BaseMetadataContainerPanel.ConditionSet;
@@ -44,6 +45,8 @@ public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel
     }*/
     public void initVariables(BaseMetadataContainerPanel panel) {
         this.containerPanel = panel;
+        String popupDlgBackColor = BungeniEditorProperties.getEditorProperty("popupDialogBackColor");
+        this.setBackground(java.awt.Color.decode(popupDlgBackColor));
         createContext();
         initFields();
     }
@@ -58,7 +61,7 @@ public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel
     }
      
     public void commonInitFields(){
-        return;
+ 
     } 
      
     private void initFields(){

@@ -12,6 +12,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javax.swing.JFrame;
+import org.bungeni.editor.BungeniEditorProperties;
+import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.ooo.OOComponentHelper;
@@ -96,6 +98,9 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
     public BaseMetadataContainerPanel() {
         super();
         initComponents();
+        String popupDlgBackColor = BungeniEditorProperties.getEditorProperty("popupDialogBackColor");
+        this.setBackground(java.awt.Color.decode(popupDlgBackColor));
+    
         initListeners();
         conditionSet = new ConditionSet();
     }
@@ -351,9 +356,10 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
         //set null borders
         setBorder(null);
         paneMain.setBorder(null);
-        
+        paneMain.setBackground(BungeniEditorPropertiesHelper.getDialogBackColor());
         JTaskPaneGroup mainTPgroup = new JTaskPaneGroup();
         mainTPgroup.setTitle("Edit Metadata below ::");
+        mainTPgroup.setBackground(BungeniEditorPropertiesHelper.getDialogBackColor());
         for (panelInfo panelInf : getActivePanels()) {
             IMetadataPanel panel = panelInf.getPanelObject();
             panel.initVariables(this);

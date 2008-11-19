@@ -7,9 +7,16 @@
 package org.bungeni.editor.panels;
 
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.JFrame;
+import javax.swing.Timer;
+import org.bungeni.editor.actions.EditorActionFactory;
 import org.bungeni.editor.actions.IEditorActionEvent;
 import org.bungeni.editor.actions.toolbarAction;
+import org.bungeni.editor.dialogs.metadatapanel.SectionMetadataLoad;
 import org.bungeni.editor.panels.impl.IFloatingPanel;
 import org.bungeni.ooo.OOComponentHelper;
 
@@ -18,7 +25,11 @@ import org.bungeni.ooo.OOComponentHelper;
  * @author  undesa
  */
 public class floatingSectionMetadataPanel extends javax.swing.JPanel implements IFloatingPanel {
-
+    private OOComponentHelper ooDocument;
+    private JFrame parentFrame;
+    private Timer refreshTimer;
+    private Action sectionViewRefreshRunner;
+    
     /** Creates new form floatingSectionMetadataPanel */
     public floatingSectionMetadataPanel() {
         initComponents();
@@ -123,27 +134,55 @@ public class floatingSectionMetadataPanel extends javax.swing.JPanel implements 
     // End of variables declaration//GEN-END:variables
 
     public void setOOComponentHandle(OOComponentHelper ooComponent) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        ooDocument = ooComponent;
     }
 
     public Component getObjectHandle() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return this;
     }
 
     public IEditorActionEvent getEventClass(toolbarAction action) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        IEditorActionEvent event = EditorActionFactory.getEventClass(action);
+        return event;
     }
 
     public void setParentWindowHandle(JFrame c) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        parentFrame = c;
     }
 
     public JFrame getParentWindowHandle() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return parentFrame;
     }
 
     public void initUI() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        initTimers();
     }
 
+    public void updateSectionMetadataView(String sectionName) {
+          SectionMetadataLoad sectionMetadataTableModel = new SectionMetadataLoad(ooDocument,sectionName);
+          this.tblSectionmeta.setModel(sectionMetadataTableModel);
+          this.tblSectionmeta.setFont(new Font("Tahoma", Font.PLAIN, 11)); 
+    }
+    
+    private void initTimers(){
+       sectionViewRefreshRunner = new viewRefreshAction();
+        refreshTimer = new Timer(3000, sectionViewRefreshRunner);
+        refreshTimer.setInitialDelay(2000);
+        refreshTimer.start();
+    }
+
+    private class viewRefreshAction extends AbstractAction {
+        public String oldSectionName ; 
+        public String newSectionName;
+        public void actionPerformed(ActionEvent arg0) {
+            String sSect = ooDocument.currentSectionName();
+            newSectionName = sSect;
+            if (newSectionName.equals(oldSectionName)) {
+                
+            } else {
+                updateSectionMetadataView(newSectionName);
+                oldSectionName = newSectionName;
+            }
+        }
+    }
 }

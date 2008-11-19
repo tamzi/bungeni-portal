@@ -9,6 +9,8 @@
 
 package org.bungeni.editor;
 
+import java.awt.Color;
+
 /**
  *
  * @author Administrator
@@ -27,5 +29,12 @@ public class BungeniEditorPropertiesHelper {
 
     public static String getCurrentDocType() {
         return BungeniEditorProperties.getEditorProperty("activeDocumentMode");
+    }
+    
+    public static Color getDialogBackColor(){
+        String popColor = BungeniEditorProperties.getEditorProperty("popupDialogBackColor");
+        Color backColor = Color.decode(popColor);
+        return backColor;
+        
     }
 }

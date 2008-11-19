@@ -6,7 +6,7 @@
 
 import calendar
 import datetime
-from types import *
+from types import ListType, StringTypes
 
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.publisher.browser import BrowserView
@@ -238,6 +238,13 @@ class QuestionJSONValidation( BrowserView ):
         """        
         if sitting.start_date.date() < datetime.date.today():
             return "A motion cannot be scheduled in the past"            
+
+    def BillScheduledInPast(self, sitting):
+        """
+        the question was dropped on a date in the past
+        """        
+        if sitting.start_date.date() < datetime.date.today():
+            return "A bill cannot be scheduled in the past"   
             
     def postponeQuestion(self, question):
         if type(question) == ScheduledQuestionItems or (type(question) == domain.Question):
@@ -309,6 +316,7 @@ class QuestionJSONValidation( BrowserView ):
         question_id = None
         sitting_id = None
         schedule_id = None
+        schedule_sitting_id = None
         item = None         
         session = Session()
         #pdb.set_trace()
@@ -321,9 +329,13 @@ class QuestionJSONValidation( BrowserView ):
                 elif qid[:5] == 'isid_':
                     schedule_id = long(qid[5:].split('_')[0])
                     item = getScheduledItem(schedule_id)
+                    schedule_sitting_id = item.sitting_id
                 elif qid[:2] == 'm_':                                         
                     motion_id = long(qid[2:].split('_')[0])
                     item = session.query(domain.Motion).get(motion_id)
+                elif qid[:2] == 'b_':                                         
+                    bill_id = long(qid[2:].split('_')[0])
+                    item = session.query(domain.Bill).get(bill_id)                    
             if form_data.has_key( 'sitting_id' ):
                 if (form_data['sitting_id'][:4] == "sid_"):
                     sitting_id = long(form_data['sitting_id'][4:])
@@ -366,10 +378,10 @@ class QuestionJSONValidation( BrowserView ):
                         if type(s_item) == ScheduledQuestionItems:
                             sitting_questions.append(s_item.question_id)
                         
-        if schedule_id and sitting_id:
-            if schedule_id != sitting_id:
+        if schedule_sitting_id and sitting_id:
+            if schedule_sitting_id != sitting_id:
                 #pdb.set_trace()
-                errors.append("You cannot move scheduled items around the calendar")
+                errors.append("You cannot move scheduled items around the calendar") # %s %s" %( str(schedule_id), str(sitting_id)) )
             
         questions = session.query(domain.Question).filter(schema.questions.c.question_id.in_(sitting_questions)).distinct().all()
         if sitting_id:
@@ -399,14 +411,22 @@ class QuestionJSONValidation( BrowserView ):
             #data = {'errors':['to many quesitions','question scheduled to early'], 'warnings': ['more than 1 question by mp...',]}
             data = {'errors': errors, 'warnings': warnings}
             return simplejson.dumps( data )
-        if (type(item) == ScheduledMotionItems) or (type(item) == domain.Motion):
+        elif (type(item) == ScheduledMotionItems) or (type(item) == domain.Motion):
             result = self.MotionScheduledInPast(sitting)
             if result:
                 errors.append(result)  
             #data = {'errors':['to many motions','motion scheduled to early'], 'warnings': ['more than 1 motion by mp...',]}
             data = {'errors': errors, 'warnings': warnings}
             return simplejson.dumps( data )
-        return   simplejson.dumps({'errors':['Unknown Item',], 'warnings': []})
+        elif (type(item) == ScheduledBillItems) or (type(item) == domain.Bill):
+            result = self.BillScheduledInPast(sitting)
+            if result:
+                errors.append(result)  
+            #data = {'errors':['to many motions','motion scheduled to early'], 'warnings': ['more than 1 motion by mp...',]}
+            data = {'errors': errors, 'warnings': warnings}
+            return simplejson.dumps( data )   
+        else: 
+            return   simplejson.dumps({'errors':['Unknown Item',], 'warnings': []})
     
 def start_DateTime( Date ):
     """
@@ -520,7 +540,8 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
     approved_question_ids = []
     postponed_question_ids =[]
     approved_motion_ids = []
-    postponed_motion_ids =[]    
+    postponed_motion_ids =[] 
+    bill_ids = []   
     scheduled_item_ids = []
     sitting_ids =[]
     table_date_ids = []
@@ -534,8 +555,9 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         self.postponed_question_ids =[]
         self.scheduled_item_ids = []
         self.approved_motion_ids = []
-        self.postponed_motion_ids =[]        
-        self.sitting_ids =[]
+        self.postponed_motion_ids = []        
+        self.sitting_ids = []
+        self.bill_ids = []
         self.table_date_ids = []
         self.Date = getDisplayDate(self.request)
         if not self.Date:
@@ -557,6 +579,20 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         results = postponed_motions.all()              
         for result in results:
             self.postponed_motion_ids.append(result.motion_id) 
+        bills = session.query(domain.Bill).filter(schema.bills.c.status.in_( [bill_wf_state.submitted , 
+                                                                                bill_wf_state.first_reading_postponed ,
+                                                                                bill_wf_state.second_pending , 
+                                                                                bill_wf_state.second_reading_postponed , 
+                                                                                bill_wf_state.whole_house_postponed ,
+                                                                                bill_wf_state.house_pending ,
+                                                                                bill_wf_state.report_reading_postponed ,                                                                                
+                                                                                bill_wf_state.report_reading_pending , 
+                                                                                bill_wf_state.third_pending,
+                                                                                bill_wf_state.third_reading_postponed ]
+                                                                                ))  
+        results = bills.all()
+        for result in results:
+            self.bill_ids.append(result.bill_id)                                                                                            
         sittings, self.Date = current_sitting_query(self.Date)    
         results = sittings.all()     
         for result in results:
@@ -896,7 +932,8 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
             else {
                 // get the srcElement and clone it if the 
                 // element can be scheduled multiple times
-                if (srcEl.id.substr(0,2) == "m_") {
+                if ((srcEl.id.substr(0,2) == "m_") ||
+                    (srcEl.id.substr(0,2) == "b_")) {
                     if (srcPEl != destEl) {
                         // the element was NOT moved around (reordered) in the same list
                         if ((destEl.id.substr(0,4) == "sid_") && (srcPEl.id.substr(0,4) != "sid_")) {
@@ -947,7 +984,8 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
     onDragEnter: function(e, id) {        
         var destEl = Dom.get(id);
 
-        if (destEl.nodeName.toLowerCase() == "ol") {            
+        if ((destEl.nodeName.toLowerCase() == "ol") ||
+            (destEl.nodeName.toLowerCase() == "ul")) {            
             Dom.addClass(id, 'dragover');
             }            
         if (destEl.nodeName.toLowerCase() == "li") {
@@ -1019,6 +1057,8 @@ Event.onDOMReady(YAHOO.example.DDApp.init, YAHOO.example.DDApp, true);
             DDList = DDList + 'new YAHOO.example.DDList("m_' + str(mid) +'"); \n'            
         for qid in self.scheduled_item_ids:
             DDList = DDList + 'new YAHOO.example.DDList("isid_' + str(qid) +'"); \n'
+        for qid in self.bill_ids:
+            DDList = DDList + 'new YAHOO.example.DDList("b_' + str(qid) +'"); \n'            
         DDTarget = ""    
         for sid in self.sitting_ids:
             #new YAHOO.util.DDTarget("ul"+i);
@@ -1028,6 +1068,7 @@ Event.onDOMReady(YAHOO.example.DDApp.init, YAHOO.example.DDApp, true);
         DDTarget = DDTarget + 'new YAHOO.util.DDTarget("postponed_questions"); \n'
         DDTarget = DDTarget + 'new YAHOO.util.DDTarget("admissible_motions"); \n'
         DDTarget = DDTarget + 'new YAHOO.util.DDTarget("postponed_motions"); \n'
+        DDTarget = DDTarget + 'new YAHOO.util.DDTarget("schedule_bills"); \n'
         t_list = ""
         for sid in self.sitting_ids:
             # var ul1=Dom.get("ul1"), ul2=Dom.get("ul2"); 
@@ -1146,6 +1187,47 @@ class PostponedMotionViewlet( MotionInStateViewlet ):
     """
     name = state = motion_wf_state.postponed
     list_id = "postponed_motions"
+
+class BillItemsViewlet( viewlet.ViewletBase ): 
+    """
+    Display all bills that can be scheduled for a parliamentary sitting
+    """  
+    name  = u"Bills"
+    render = ViewPageTemplateFile ('templates/schedule_question_viewlet.pt')    
+    list_id = "schedule_bills"    
+    def getData(self):
+        """
+        return the data of the query
+        """      
+        data_list = []
+        results = self.query.all()
+        for result in results:            
+            data ={}
+            data['qid']= ( 'b_' + str(result.bill_id) )                         
+            data['subject'] = u'B ' + result.title
+            data['schedule_date_class'] = 'sc-after-'  + datetime.date.strftime(result.publication_date, '%Y-%m-%d')
+            data_list.append(data)            
+        return data_list
+    
+    
+    def update(self):
+        """
+        refresh the query
+        """
+        session = Session()
+        bills = session.query(domain.Bill).filter(schema.bills.c.status.in_( [bill_wf_state.submitted , 
+                                                                                bill_wf_state.first_reading_postponed ,
+                                                                                bill_wf_state.second_pending , 
+                                                                                bill_wf_state.second_reading_postponed , 
+                                                                                bill_wf_state.whole_house_postponed ,
+                                                                                bill_wf_state.house_pending ,
+                                                                                bill_wf_state.report_reading_postponed ,                                                                                
+                                                                                bill_wf_state.report_reading_pending , 
+                                                                                bill_wf_state.third_pending,
+                                                                                bill_wf_state.third_reading_postponed ]
+                                                                                ))
+        self.query = bills            
+
 
     
     
@@ -1359,6 +1441,33 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                     IWorkflowInfo(question).fireTransition('postpone', check_security=True)
                 else:
                     raise NotImplementedError     
+    def schedule_bill(self, bill_id, sitting_id, sort_id):
+        session = Session()
+        item_schedule = domain.ItemSchedule()
+        bill = session.query(domain.Bill).get(bill_id)
+        if bill:
+            bill.__parent__ = self.context
+            if sitting_id:
+                sitting = session.query(domain.GroupSitting).get(sitting_id)
+            else:
+                sitting = None                
+            if sitting:   
+                if bill.status in [bill_wf_state.submitted , 
+                    bill_wf_state.first_reading_postponed ,
+                    bill_wf_state.second_pending , 
+                    bill_wf_state.second_reading_postponed , 
+                    bill_wf_state.whole_house_postponed ,
+                    bill_wf_state.house_pending ,
+                    bill_wf_state.report_reading_postponed ,                                                                                
+                    bill_wf_state.report_reading_pending , 
+                    bill_wf_state.third_pending,
+                    bill_wf_state.third_reading_postponed ]:
+                    pass
+                else:
+                    raise NotImplementedError    
+                            
+        else:
+            raise NotImplementedError 
     
     def schedule_motion(self, motion_id, sitting_id, sort_id):      
         session = Session()
@@ -1378,8 +1487,10 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                     item_schedule.sitting_id = sitting_id
                     item_schedule.item_id = motion_id
                     item_schedule.order = sort_id
-                    session.save(item_schedule)                
-                    IWorkflowInfo(motion).fireTransitionToward(motion_wf_state.scheduled, check_security=True)   
+                    session.save(item_schedule)  
+                    if IWorkflowInfo(motion).state().getState() != motion_wf_state.scheduled:              
+                        # scheduling is possible for multipe sittings                    
+                        IWorkflowInfo(motion).fireTransitionToward(motion_wf_state.scheduled, check_security=True)   
                     session.commit()
                 except:
                     self.errors.append("Motion could not be scheduled")    
@@ -1395,7 +1506,7 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
         return all items currently scheduled on the calendar
         """
         sitting_ids = []
-        for targets in form.keys():
+        for target in form.keys():
             if target[4:] == 'sid_':
                 #this is a sitting
                 sitting_ids.append(long(target[4:]))
@@ -1419,15 +1530,18 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
             sort_id = sort_id + 1
             if item_id[:2] == 'q_':
                 #a question, to be scheduled
-                question_id = long(item_id[2:])
-                self.schedule_question(question_id, sitting_id, sort_id)
-                 
+                question_id = long(item_id[2:]) 
+                self.schedule_question(question_id, sitting_id, sort_id)                 
             elif item_id[:2] == 'm_':
                 #a motion, to be scheduled
-                motion_id = long(item_id[2:])
+                motion_id = long(item_id[2:].split('_')[0])
                 self.schedule_motion(motion_id, sitting_id, sort_id)
+            elif item_id[:2] == 'b_':
+                #a bill, to be scheduled
+                bill_id = long(item_id[2:].split('_')[0])
+                self.schedule_bill(bill_id, sitting_id, sort_id)                
             elif item_id[:5] == 'isid_':
-                # a scheduled item to be rescheduled    
+                # a scheduled item to be rescheduled                    
                 scheduled_item_id = long(item_id[5:])
                 item = session.query(ScheduledItems).filter(schema.items_schedule.c.schedule_id == scheduled_item_id).one()
                 if item.sitting_id == sitting_id:
@@ -1435,12 +1549,15 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                     item.order = sort_id
                 else:
                     #item was moved from one sitting to another                     
+                    raise NotImplementedError( "A scheduled item cannot be rescheduled" )
                     if type(item) == ScheduledQuestionItems:
                         question_id = item.question_id
                         self.schedule_question(question_id, None, 0)
                         self.schedule_question(question_id, sitting_id, sort_id)
                     elif type(item) == ScheduledBillItems:
-                        pass
+                        bill_id = item.question_id
+                        self.schedule_question(bill_id, None, 0)
+                        self.schedule_bill(bill_id, sitting_id, sort_id)
                     elif type(item) == ScheduledMotionItems:
                         motion_id = item.motion_id
                         self.schedule_motion(motion_id, None, 0)
@@ -1486,21 +1603,14 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                 self.insert_item_into_sitting(sitting_id, itemIds)                                                                                     
                    
             elif (target == 'admissible_questions') or (target == 'postponed_questions'):      
-                itemIds = form[target]
-                if type(itemIds) == ListType:
-                    self.remove_item_from_sitting( itemIds)
+                itemIds = makeList(form[target])               
+                self.remove_item_from_sitting( itemIds)
                         
-                elif type(itemIds) in StringTypes:
-                    # only one item in this list
-                    self.remove_item_from_sitting([itemIds,])                    
+                                   
             elif (target == 'admissible_motions') or (target == 'postponed_motions'):
-                itemIds = form[target]
-                if type(itemIds) == ListType:
-                    self.remove_item_from_sitting( itemIds)
-                        
-                elif type(itemIds) in StringTypes:
-                    # only one item in this list
-                    self.remove_item_from_sitting([itemIds,])                            
+                itemIds = makeList(form[target])
+                self.remove_item_from_sitting( itemIds)
+                                                              
                     
     def insert_questions(self, form):
         for sitting in form.keys():
@@ -1517,8 +1627,8 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                         #this is a scheduled item
                         sort_id = sort_id + 1
                         schedule_id = long(qid[5:])
-                        question_id = getScheduledItemId(schedule_id)
-                        self.schedule_question(question_id, sitting_id, sort_id)
+                        question = getScheduledItem(schedule_id)
+                        self.schedule_question(question.question_id, sitting_id, sort_id)
  
                                           
             elif (sitting == 'admissible_questions') or (sitting == 'postponed_questions'):                
@@ -1529,8 +1639,8 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                         self.schedule_question(question_id, None, 0)
                     elif (qid[:5] == 'isid_'):        
                         schedule_id = long(qid[5:])
-                        question_id = getScheduledItemId(schedule_id)
-                        self.schedule_question(question_id, None, 0)                    
+                        question = getScheduledItem(schedule_id)
+                        self.schedule_question(question.question_id, None, 0)                    
                         
 #            elif :
 #                qids = form['postponed_questions']

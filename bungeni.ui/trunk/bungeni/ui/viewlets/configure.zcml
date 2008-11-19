@@ -59,6 +59,14 @@
     />
    
 
+
+  <browser:viewlet
+    name="bungeni.schedule.bills"   
+    manager=".interfaces.IScheduleItems"
+    class=".schedule.BillItemsViewlet"
+    permission="zope.Public"
+    weight="27"
+    />
      
   <browser:viewlet
     name="bungeni.schedule.calendar"   

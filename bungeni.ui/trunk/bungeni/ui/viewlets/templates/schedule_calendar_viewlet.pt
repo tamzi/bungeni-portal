@@ -42,3 +42,6 @@
     </tbody>
   </table>
 </div>
+    <div id = "bungeni-tabbed-nav" >
+        <div tal:replace="structure provider:bungeni.schedule-items.manager" />
+    </div>  

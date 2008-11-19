@@ -6,6 +6,7 @@
 
 package org.bungeni.editor.dialogs.debaterecord;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -101,6 +102,8 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
         return null;
     }
     private void initControls(){
+        String popupDlgBackColor = BungeniEditorProperties.getEditorProperty("popupDialogBackColor");
+        this.setBackground(Color.decode(popupDlgBackColor));
         cboCountry.setModel(new DefaultComboBoxModel(countryCodes.toArray()));
         cboLanguage.setModel(new DefaultComboBoxModel(languageCodes.toArray()));
          dt_initdebate_timeofhansard.setModel(new SpinnerDateModel(new Date(), null, null, Calendar.HOUR));
@@ -146,6 +149,7 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
         this.parentFrame = parentFrame;
         this.ooDocument = ooDoc;
         initComponents();
+        
         dlgMode = aMode;
    
         initMetadata();
@@ -211,6 +215,8 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
         dt_initdebate_timeofhansard = new javax.swing.JSpinner();
         jLabel7 = new javax.swing.JLabel();
 
+        setBackground(java.awt.Color.lightGray);
+
         cboCountry.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         cboCountry.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cboCountry.setName("fld.BungeniCountryCode"); // NOI18N
@@ -269,20 +275,23 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
         txtParliamentSitting.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         txtParliamentSitting.setName("BungeniParliamentSitting"); // NOI18N
 
+        jTextArea1.setBackground(java.awt.Color.lightGray);
         jTextArea1.setColumns(20);
+        jTextArea1.setEditable(false);
         jTextArea1.setLineWrap(true);
         jTextArea1.setRows(5);
         jTextArea1.setText("This is a new document, Please select and enter required metadata to initialize the document");
         jTextArea1.setWrapStyleWord(true);
+        jTextArea1.setBorder(null);
         jScrollPane1.setViewportView(jTextArea1);
 
-        dt_initdebate_hansarddate.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
+        dt_initdebate_hansarddate.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
 
         jLabel6.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         jLabel6.setText("Official Date");
         jLabel6.setName("lbl.BungeniParliamentSitting"); // NOI18N
 
-        dt_initdebate_timeofhansard.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
+        dt_initdebate_timeofhansard.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         dt_initdebate_timeofhansard.setName("dt_initdebate_timeofhansard"); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("DejaVu Sans", 0, 10));

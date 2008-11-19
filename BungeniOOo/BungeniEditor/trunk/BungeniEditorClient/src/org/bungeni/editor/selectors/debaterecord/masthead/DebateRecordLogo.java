@@ -45,8 +45,10 @@ public class DebateRecordLogo extends BaseMetadataPanel {
         btn_initdebate_selectlogo = new javax.swing.JButton();
 
         txt_initdebate_selectlogo.setEditable(false);
+        txt_initdebate_selectlogo.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
         txt_initdebate_selectlogo.setName("txt_initdebate_selectlogo"); // NOI18N
 
+        btn_initdebate_selectlogo.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
         btn_initdebate_selectlogo.setText("Select Logo...");
         btn_initdebate_selectlogo.setName("btn_initdebate_selectlogo"); // NOI18N
         btn_initdebate_selectlogo.addActionListener(new java.awt.event.ActionListener() {
@@ -72,7 +74,7 @@ public class DebateRecordLogo extends BaseMetadataPanel {
                 .addComponent(btn_initdebate_selectlogo)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txt_initdebate_selectlogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

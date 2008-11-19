@@ -58,8 +58,10 @@ public class DebateRecordTime extends BaseMetadataPanel {
 
         setName("DebateRecord Time"); // NOI18N
 
+        dt_initdebate_timeofhansard.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
         dt_initdebate_timeofhansard.setName("dt_initdebate_timeofhansard"); // NOI18N
 
+        lbl_initdebate_timeofhansard.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
         lbl_initdebate_timeofhansard.setText("Hansard Time");
         lbl_initdebate_timeofhansard.setName("lbl_initdebate_timeofhansard"); // NOI18N
 

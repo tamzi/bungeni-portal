@@ -40,11 +40,17 @@
   <SubComponents>
     <Component class="javax.swing.JSpinner" name="dt_initdebate_timeofhansard">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="10" style="0"/>
+        </Property>
         <Property name="name" type="java.lang.String" value="dt_initdebate_timeofhansard" noResource="true"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lbl_initdebate_timeofhansard">
       <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="DejaVu Sans" size="10" style="0"/>
+        </Property>
         <Property name="text" type="java.lang.String" value="Hansard Time"/>
         <Property name="name" type="java.lang.String" value="lbl_initdebate_timeofhansard" noResource="true"/>
       </Properties>

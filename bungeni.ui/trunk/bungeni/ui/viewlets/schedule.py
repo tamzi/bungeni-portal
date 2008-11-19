@@ -1323,9 +1323,9 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                 data['type'] = "motion"
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
             elif type(result) == ScheduledBillItems:    
-                data['subject'] = result.title                
+                data['subject'] = u"B " + result.title                
                 data['type'] = "bill"
-                data['schedule_date_class'] = ''
+                data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.publication_date + q_offset, '%Y-%m-%d')
             data['status'] = result.status
             data_list.append(data)            
         return data_list
@@ -1441,6 +1441,7 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                     IWorkflowInfo(question).fireTransition('postpone', check_security=True)
                 else:
                     raise NotImplementedError     
+                    
     def schedule_bill(self, bill_id, sitting_id, sort_id):
         session = Session()
         item_schedule = domain.ItemSchedule()
@@ -1462,7 +1463,30 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                     bill_wf_state.report_reading_pending , 
                     bill_wf_state.third_pending,
                     bill_wf_state.third_reading_postponed ]:
-                    pass
+                    item_schedule.sitting_id = sitting_id
+                    item_schedule.item_id = bill_id
+                    item_schedule.order = sort_id
+                    session.save(item_schedule) 
+                    if bill.status in [bill_wf_state.submitted , bill_wf_state.first_reading_postponed]:
+                        IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.first_reading, check_security=True)
+                    elif bill.status in [bill_wf_state.second_pending, bill_wf_state.second_reading_postponed ]:
+                        IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.second_reading, check_security=True)
+                    elif bill.status in [bill_wf_state.report_reading_postponed ,bill_wf_state.report_reading_pending]:
+                        IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.report_reading, check_security=True)
+                    elif bill.status in [bill_wf_state.third_pending, bill_wf_state.third_reading_postponed ]:
+                        IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.third_reading, check_security=True)
+                    elif bill.status in [  bill_wf_state.house_pending, bill_wf_state.whole_house_postponed ]:
+                        IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.whole_house, check_security=True)                    
+                elif bill.status in [bill_wf_state.first_reading ,
+                    bill_wf_state.second_reading , 
+                    bill_wf_state.whole_house ,
+                    bill_wf_state.report_reading ,                                                                                
+                    bill_wf_state.third_reading]:
+                    # schedule on multiple days
+                    item_schedule.sitting_id = sitting_id
+                    item_schedule.item_id = bill_id
+                    item_schedule.order = sort_id
+                    session.save(item_schedule)  
                 else:
                     raise NotImplementedError    
                             

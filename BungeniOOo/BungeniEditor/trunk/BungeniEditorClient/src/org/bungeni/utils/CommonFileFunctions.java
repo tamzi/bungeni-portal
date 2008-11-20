@@ -15,6 +15,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileFilter;
+import org.bungeni.db.DefaultInstanceFactory;
 
 /**
  *
@@ -71,5 +72,13 @@ public static File getFileFromChooser(String basePath, FileFilter filter, int fi
         }
 }
 
+public static String convertRelativePathToFullPath (String relativePath) {
+       String fullPath = "";
+        //logoPath = BungeniEditorProperties.getEditorProperty("logoPath");
+       // log.debug("logo path = " + logoPath);
+        String strPath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH();
+        fullPath = strPath + File.separator + relativePath.replace('/', File.separatorChar);
+        return fullPath;
+}
 
 }

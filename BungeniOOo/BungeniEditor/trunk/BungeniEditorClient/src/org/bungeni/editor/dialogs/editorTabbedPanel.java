@@ -654,8 +654,41 @@ public class editorTabbedPanel extends javax.swing.JPanel {
            
             floatingFrame.setLocation(windowX, windowY);  // Don't use "f." inside constructor.
             floatingFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            
+            //load the section Floating pane
+            initFloatingSectionMetadataPanel(windowX, windowY, floatingFrame.getWidth());
+            
+            
     }
-    
+
+    private void initFloatingSectionMetadataPanel(int parentWindowX, int parentWindowY, int parentWindowWidth){
+            //JFrame.setDefaultLookAndFeelDecorated(false);
+            javax.swing.JFrame floatingFrame = new javax.swing.JFrame();
+            floatingFrame.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+            floatingFrame.setResizable(false);
+            //floatingFrame.setUndecorated(true);
+            //floatingFrame.setDefaultLookAndFeelDecorated(false);
+            IFloatingPanel floatingPanel = FloatingPanelFactory.getPanelClass("floatingSectionMetadataPanel");
+            floatingPanel.setOOComponentHandle(ooDocument);
+            floatingPanel.setParentWindowHandle(floatingFrame);
+            floatingPanel.initUI();
+            floatingFrame.setTitle(FloatingPanelFactory.panelDescription);
+            floatingPanelMap.put("floatingSectionMetadataPanel", floatingPanel);
+           //panel.setOOoHelper(this.openofficeObject);
+            floatingFrame.getContentPane().add(floatingPanel.getObjectHandle());
+            //frame.setSize(243, 650);
+            floatingFrame.setSize(Integer.parseInt(FloatingPanelFactory.panelWidth), Integer.parseInt(FloatingPanelFactory.panelHeight));
+            floatingFrame.pack();
+           // floatingFrame.setResizable(false);
+           
+            floatingFrame.setAlwaysOnTop(true);
+            floatingFrame.setVisible(true);
+            //position frame
+            
+           
+            floatingFrame.setLocation(parentWindowX - parentWindowWidth, parentWindowY);  // Don't use "f." inside constructor.
+            floatingFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+    }
     /*
     private void initCollapsiblePane(){
      try {
@@ -1413,8 +1446,9 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         lblCurrentlyOpenDocuments.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         lblCurrentlyOpenDocuments.setText("Currently Open Documents");
 
-        btnBringToFront.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        btnBringToFront.setFont(new java.awt.Font("DejaVu Sans", 0, 9)); // NOI18N
         btnBringToFront.setText("To Front");
+        btnBringToFront.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnBringToFront.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBringToFrontActionPerformed(evt);
@@ -1423,6 +1457,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
 
         btnOpenDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 9)); // NOI18N
         btnOpenDocument.setText("Open");
+        btnOpenDocument.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnOpenDocument.setIconTextGap(2);
         btnOpenDocument.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1441,6 +1476,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
 
         btnNewDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 9)); // NOI18N
         btnNewDocument.setText("New");
+        btnNewDocument.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnNewDocument.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNewDocumentActionPerformed(evt);
@@ -1449,6 +1485,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
 
         btnSaveDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 9)); // NOI18N
         btnSaveDocument.setText("Save");
+        btnSaveDocument.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnSaveDocument.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSaveDocumentActionPerformed(evt);
@@ -1485,16 +1522,16 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
+                .addContainerGap(24, Short.MAX_VALUE)
                 .add(lblCurrentlyOpenDocuments)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(btnBringToFront)
-                    .add(btnOpenDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(btnNewDocument)
-                    .add(btnSaveDocument))
+                    .add(btnSaveDocument)
+                    .add(btnOpenDocument))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(lblCurrentMode)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)

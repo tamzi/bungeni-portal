@@ -16,7 +16,7 @@ import org.bungeni.editor.BungeniEditorProperties;
  * @author Administrator
  */
 public class SettingsQueryFactory {
-    
+
     /** Creates a new instance of SettingsQueryFactory */
     public SettingsQueryFactory() {
     }
@@ -239,6 +239,13 @@ public class SettingsQueryFactory {
                 "DOC_TYPE = '"+docType+"' and CONFIG_NAME='"+configName+"'";
         return query;
     }
+
+    public static String Q_FETCH_MESSAGE_BUNDLES() {
+        String query = "select BUNDLE_NAME from RESOURCE_MESSAGE_BUNDLES ";
+        return query;
+    }
+    
+    
 }
 
 

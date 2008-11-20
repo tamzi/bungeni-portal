@@ -19,6 +19,8 @@ import javax.swing.table.AbstractTableModel;
 import org.apache.log4j.Logger;
 import org.bungeni.ooo.OOComponentHelper;
 import com.sun.star.beans.UnknownPropertyException;
+import org.bungeni.utils.BungeniResourceBundleFactory;
+import org.bungeni.utils.CommonResourceBundleHelperFunctions;
 
 /**
  *
@@ -28,7 +30,7 @@ public class SectionMetadataLoad extends AbstractTableModel{
     
      OOComponentHelper ooDocument;
      String sectionName;
-     private static String[] column_names = {"Section", "Value" };
+     private static String[] column_names = {"Metadata", "Value" };
      HashMap<String, String> sectionMetadataMap=new HashMap<String, String>();
       private static org.apache.log4j.Logger log = Logger.getLogger(SectionMetadataLoad.class.getName());
       Object[][] sectionMetadata;
@@ -47,12 +49,17 @@ public class SectionMetadataLoad extends AbstractTableModel{
          return column_names.length;
     }
     
+    @Override
   public String getColumnName(int column) {
     return column_names[column];
   }
 
     public Object getValueAt(int rowIndex, int columnIndex) {
+        if (columnIndex == 0 ) {
+            return CommonResourceBundleHelperFunctions.getSectionMetaString(sectionMetadata[rowIndex][columnIndex].toString());
+        } else 
         return sectionMetadata[rowIndex][columnIndex];
+    
     }
     
     public void getSectionMetadata(String sectionName){

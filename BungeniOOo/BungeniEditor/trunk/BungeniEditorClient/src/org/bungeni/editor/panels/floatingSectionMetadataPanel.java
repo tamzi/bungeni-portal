@@ -44,16 +44,43 @@ public class floatingSectionMetadataPanel extends javax.swing.JPanel implements 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblSectionmeta = new javax.swing.JTable();
         lblDisplaySectionName = new javax.swing.JLabel();
         lblSecName = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         btnEdit = new javax.swing.JButton();
         btnHide = new javax.swing.JButton();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblSectionmeta = new javax.swing.JTable();
 
-        tblSectionmeta.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
+        setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.lightGray));
+        setFont(new java.awt.Font("DejaVu Sans", 0, 9)); // NOI18N
+
+        lblDisplaySectionName.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        lblDisplaySectionName.setText("::");
+
+        lblSecName.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        lblSecName.setText("Current Section Name :");
+
+        jLabel3.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        jLabel3.setText("::");
+
+        jLabel4.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        jLabel4.setText("Current Section Type:");
+
+        btnEdit.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        btnEdit.setText("Edit ");
+        btnEdit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        btnHide.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        btnHide.setText("Hide");
+        btnHide.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jToggleButton1.setFont(new java.awt.Font("DejaVu Sans", 0, 9));
+        jToggleButton1.setText("EXPAND");
+        jToggleButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
         tblSectionmeta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -67,40 +94,24 @@ public class floatingSectionMetadataPanel extends javax.swing.JPanel implements 
         ));
         jScrollPane1.setViewportView(tblSectionmeta);
 
-        lblDisplaySectionName.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
-        lblDisplaySectionName.setText("::");
-
-        lblSecName.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
-        lblSecName.setText("Current Section Name :");
-
-        jLabel3.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
-        jLabel3.setText("::");
-
-        jLabel4.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
-        jLabel4.setText("Current Section Type:");
-
-        btnEdit.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
-        btnEdit.setText("Edit...");
-
-        btnHide.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
-        btnHide.setText("Hide");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblDisplaySectionName, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                    .addComponent(lblSecName, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(btnHide, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+                    .addComponent(lblSecName, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblDisplaySectionName, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnHide, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(18, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -113,11 +124,12 @@ public class floatingSectionMetadataPanel extends javax.swing.JPanel implements 
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jToggleButton1)
                     .addComponent(btnEdit)
-                    .addComponent(btnHide)))
+                    .addComponent(btnHide))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -128,6 +140,7 @@ public class floatingSectionMetadataPanel extends javax.swing.JPanel implements 
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JLabel lblDisplaySectionName;
     private javax.swing.JLabel lblSecName;
     private javax.swing.JTable tblSectionmeta;
@@ -155,10 +168,11 @@ public class floatingSectionMetadataPanel extends javax.swing.JPanel implements 
     }
 
     public void initUI() {
-        initTimers();
+       initTimers();
     }
 
     public void updateSectionMetadataView(String sectionName) {
+          this.lblDisplaySectionName.setText(sectionName);
           SectionMetadataLoad sectionMetadataTableModel = new SectionMetadataLoad(ooDocument,sectionName);
           this.tblSectionmeta.setModel(sectionMetadataTableModel);
           this.tblSectionmeta.setFont(new Font("Tahoma", Font.PLAIN, 11)); 
@@ -175,13 +189,17 @@ public class floatingSectionMetadataPanel extends javax.swing.JPanel implements 
         public String oldSectionName ; 
         public String newSectionName;
         public void actionPerformed(ActionEvent arg0) {
-            String sSect = ooDocument.currentSectionName();
-            newSectionName = sSect;
-            if (newSectionName.equals(oldSectionName)) {
-                
-            } else {
-                updateSectionMetadataView(newSectionName);
-                oldSectionName = newSectionName;
+            if (ooDocument != null ) {
+                String sSect = ooDocument.currentSectionName();
+                if (sSect != null) {
+                    newSectionName = sSect;
+                    if (newSectionName.equals(oldSectionName)) {
+                        //dont do anything
+                    } else {
+                        updateSectionMetadataView(newSectionName);
+                        oldSectionName = newSectionName;
+                    }
+                }
             }
         }
     }

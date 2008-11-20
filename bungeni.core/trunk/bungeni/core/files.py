@@ -32,7 +32,8 @@ def pk( ob ):
     unwrapped = removeSecurityProxy( ob )
     mapper = orm.object_mapper( ob )
     primary_key = mapper.primary_key_from_instance( ob )[0]    
-    
+    return primary_key
+
 class DefaultPathChooser( object ):
 
     interface.implements( interfaces.IFilePathChooser )

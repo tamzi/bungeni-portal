@@ -247,6 +247,8 @@ class QuestionJSONValidation( BrowserView ):
             return "A bill cannot be scheduled in the past"   
             
     def postponeQuestion(self, question):
+        if type(question) == ScheduledQuestionItems:
+            return "Questions cannot be postponed in the calendar, use the workflow of the question instead"     
         if type(question) == ScheduledQuestionItems or (type(question) == domain.Question):
             if question.status == question_wf_state.postponed:                
                 return
@@ -260,6 +262,8 @@ class QuestionJSONValidation( BrowserView ):
             return "Unknown Item Type - you cannot drag this thing here"
             
     def admitQuestion(self, question):
+        if type(question) == ScheduledQuestionItems:
+            return "Questions cannot be postponed in the calendar, use the workflow of the question instead" 
         if type(question) == ScheduledQuestionItems or (type(question) == domain.Question):
             if question.status == question_wf_state.postponed:                
                 return "This question is postponed, you can schedule it by dropping it on a sitting"
@@ -275,6 +279,8 @@ class QuestionJSONValidation( BrowserView ):
             return "Unknown Item Type - you cannot drag this thing here"
             
     def admitMotion(self, motion):
+        if type(motion) == ScheduledMotionItems:
+            return "Motions cannot be postponed in the calendar, use the workflow of the motion instead" 
         if type(motion) == ScheduledMotionItems or (type(motion) == domain.Motion):
             if motion.status == motion_wf_state.postponed:                
                 return "This motion is postponed, you can schedule it by dropping it on a sitting"
@@ -289,7 +295,9 @@ class QuestionJSONValidation( BrowserView ):
         else:
             return "Unknown Item Type - you cannot drag this thing here"            
         
-    def postponeMotion(self, motion):    
+    def postponeMotion(self, motion):  
+        if type(motion) == ScheduledMotionItems:
+            return "Motions cannot be postponed in the calendar, use the workflow of the motion instead"  
         if type(motion) == ScheduledMotionItems or (type(motion) == domain.Motion):
             if motion.status == motion_wf_state.postponed:                
                 return 
@@ -298,8 +306,16 @@ class QuestionJSONValidation( BrowserView ):
             else:
                 return "You cannot postpone this motion"    
         elif type(motion) == ScheduledQuestionItems or (type(motion) == domain.Question):
-            return "To postpone a Question drag it to the 'postponed questions' area"
+            return "To postpone a Motion drag it to the 'postponed motions' area"
         else:
+            return "Unknown Item Type - you cannot drag this thing here"
+
+    def postponeBill(self, bill):  
+        if type(bill) == ScheduledBillItems:
+            return "Billss cannot be postponed in the calendar, use the workflow of the bill instead"  
+        if type(bill) == domain.Bill:
+            return
+        else:   
             return "Unknown Item Type - you cannot drag this thing here"
         
     def __call__( self ):
@@ -364,7 +380,13 @@ class QuestionJSONValidation( BrowserView ):
                     if result:
                         errors.append(result)
                     data = {'errors': errors, 'warnings': warnings}                                    
-                    return simplejson.dumps( data )                                                  
+                    return simplejson.dumps( data )      
+                elif form_data['sitting_id'] == 'schedule_bills':        
+                    result = self.postponeBill(item)  
+                    if result:
+                        errors.append(result)
+                    data = {'errors': errors, 'warnings': warnings}                                    
+                    return simplejson.dumps( data )                                                                                   
                 else:
                     raise NotImplementedError    
             if form_data.has_key('q_id'):
@@ -382,7 +404,6 @@ class QuestionJSONValidation( BrowserView ):
             if schedule_sitting_id != sitting_id:
                 #pdb.set_trace()
                 errors.append("You cannot move scheduled items around the calendar") # %s %s" %( str(schedule_id), str(sitting_id)) )
-            
         questions = session.query(domain.Question).filter(schema.questions.c.question_id.in_(sitting_questions)).distinct().all()
         if sitting_id:
             sitting = session.query(domain.GroupSitting).get(sitting_id)
@@ -1002,7 +1023,8 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
    onDragOut: function(e, id) {        
         var destEl = Dom.get(id);
 
-         if (destEl.nodeName.toLowerCase() == "ol") {
+         if ((destEl.nodeName.toLowerCase() == "ol")||
+            (destEl.nodeName.toLowerCase() == "ul")) {
              Dom.removeClass(id, 'dragover');
              Dom.removeClass(id, 'invalid-dragover');
             }            
@@ -1594,6 +1616,7 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
         an item was dropped into the admissible or postponed questions
         list
         """
+        raise NotImplementedError  
         session = Session()
         for item_id in itemIds:
             if item_id[:5] == 'isid_':

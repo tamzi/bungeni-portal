@@ -78,7 +78,7 @@ def isItemScheduled(item_id):
                                        schema.items_schedule.c.active == True)
     item_schedule = session.query(domain.ItemSchedule).filter(active_question_filter)
     results = item_schedule.all()
-    return (len(results) == 1)
+    return (len(results) >= 1)
     
     
 def setMotionSerialNumber(motion):    

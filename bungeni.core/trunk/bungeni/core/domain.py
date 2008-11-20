@@ -407,6 +407,11 @@ BillChange = ItemLog.makeLogFactory( "BillChange")
 BillVersion = ItemVersions.makeVersionFactory("BillVersion")
 
 
+class BillConsignatory( Entity ):
+    """
+    Consignatories for a Bill
+    """
+
 #############
 
 class ParliamentSession( Entity ):

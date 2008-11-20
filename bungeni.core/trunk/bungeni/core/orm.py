@@ -392,6 +392,10 @@ mapper( domain.Bill, schema.bills,
              'changes':relation( domain.BillChange, backref='bill')
              }
         )
+        
+        
+mapper ( domain.BillConsignatory, schema.bill_consignatories)
+        
 ######################
 #
 

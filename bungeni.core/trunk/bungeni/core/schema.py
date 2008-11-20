@@ -728,6 +728,13 @@ bill_versions = make_versions_table( bills, metadata )
 committee_reports = ()
 #debates = ()
 
+bill_consignatories = rdb.Table(
+   "bill_consignatories",
+   metadata,
+   rdb.Column( "bill_id", rdb.Integer,rdb.ForeignKey('bills.bill_id'), nullable = False, primary_key=True ),
+   rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False, primary_key=True ),
+    )
+
 #######################
 # Files
 #######################

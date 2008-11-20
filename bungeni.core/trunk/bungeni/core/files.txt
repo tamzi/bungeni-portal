@@ -55,7 +55,7 @@ Now we can store attachements on some content
 
   >>> files = interfaces.IDirectoryLocation( bill ).directory
   >>> files
-  <ore.svn.directory.SubversionDirectory object at ...>
+  <bungeni.core.files.ContainedDirectory object at ...>
   
 For testing purposes, we'll commit the changes to the repository now, so we can 
 demonstrate the transaction integration next.
@@ -78,5 +78,24 @@ All changes are integrated with the zope transaction system, if we abort the tra
   >>> transaction.abort()
   >>> files.keys()
   []
+  
+Let's add a simple attachment file.
+
+  >>> file = files.makeFile('rabbit.txt')
+  >>> stream = StringIO("Hello World")
+  >>> file.writeStream( stream )
+  >>> file.svn_path == "/bill/%s-%s/%s/rabbit.txt"%( today.year, today.month, today.day )
+  True
+  
+  >>> files.keys()
+  ['rabbit.txt']  
+  
+All changes are integrated with the zope transaction system, if we commit the transaction, our modifications are comitted.
+
+  >>> transaction.commit()
+  >>> files.keys()
+  ['rabbit.txt']    
+  
+
   
 The api (readme.txt) for ore.svn is recommended reading on working with versioned files/directories

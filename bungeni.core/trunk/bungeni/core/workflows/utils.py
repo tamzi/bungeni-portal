@@ -59,10 +59,8 @@ def setMinistrySubmissionDate(info, context):
 
 def setQuestionScheduleHistory(info, context):
     question_id = context.question_id
-    #sitting_id = context.sitting_id
     dbutils.removeQuestionFromItemSchedule(question_id)
-    #instance = removeSecurityProxy(context)
-    #instance.sitting_id = None       
+  
 
 def getQuestionMinistry(info, context):
     ministry_id = context.ministry_id
@@ -81,13 +79,13 @@ def getQuestionSubmissionAllowed(info, context):
     return prefs.getQuestionSubmissionAllowed()
 
 
-def getPublicBillCondition(info, context): 
-    ministry_id = context.ministry_id
-    return ministry_id != None
+def setBillSubmissionDate( info, context ):
+    instance = removeSecurityProxy(context)
+    instance.submission_date = datetime.date.today()
 
-def getPrivateBillCondition(info, context): 
-    ministry_id = context.ministry_id
-    return ministry_id == None
+def setBillPublicationDate( info, context ):
+    instance = removeSecurityProxy(context)
+    instance.publication_date = datetime.date.today()
 
 def submitResponse( info, context ):
     """

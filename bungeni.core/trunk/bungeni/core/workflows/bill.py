@@ -20,22 +20,26 @@ class states:
     # present the finding directly to the house.
     # report_reading_1 = "report_reading_1"
     
-    # second_pending = "second_pending"
+    # to be scheduled for 2nd reading
+    second_pending = "second_pending"
     second_reading = "second_reading"
     second_reading_postponed = "second_reading_postponed"
 
-    # house_pending = "house_pending"
+    # to be scheduled for whole house
+    house_pending = "house_pending"
     whole_house ="whole_house"
     whole_house_postponed ="whole_house_postponed"
 
     second_committee = "second_committee"
 
+    # to be scheduled for report reading
+    report_reading_pending = "report_reading_pending"
     report_reading = "report_reading"
     report_reading_postponed = "report_reading_postponed"
 
 
     # is there a third pending state for a bill
-    #third_pending = "third_pending"
+    third_pending = "third_pending"
     third_reading = "third_reading"
     third_reading_postponed = "third_reading_postponed"
 
@@ -45,10 +49,20 @@ class states:
     rejected = "rejected"
     
 def create(info,context):
-    pass
+    utils.setBillSubmissionDate( info, context )
 
+def submit( info,context ):
+    utils.setBillPublicationDate( info, context )
+    
 def withdraw(info,context):
     pass
+    
+def schedule_first( info,context ):    
+    pass
+    
+def postpone_first( info,context ):
+    pass
+        
 
 def create_bill_workflow( ):
 
@@ -72,6 +86,7 @@ def create_bill_workflow( ):
         transition_id = 'submit-bill',
         title=_(u"Submit"),
         source = states.draft,
+        action = submit,
         destination = states.submitted,
         permission = "bungeni.bill.Submit"
         ) )
@@ -82,6 +97,7 @@ def create_bill_workflow( ):
         title=_(u"Schedule First Reading"),
         trigger = iworkflow.MANUAL,
         source = states.submitted,
+        action = schedule_first,
         destination = states.first_reading,
         permission = "bungeni.bill.Schedule",
         ) )
@@ -91,6 +107,7 @@ def create_bill_workflow( ):
         title=_(u"Postpone First Reading"),
         trigger = iworkflow.MANUAL,
         source = states.first_reading,
+        action = postpone_first,
         destination = states.first_reading_postponed,
         permission = "bungeni.bill.Schedule",
         ) )
@@ -100,6 +117,7 @@ def create_bill_workflow( ):
         title=_(u"Reschedule First Reading"),
         trigger = iworkflow.MANUAL,
         source = states.first_reading_postponed,
+        action = schedule_first,
         destination = states.first_reading,
         permission = "bungeni.bill.Schedule",
         ) )
@@ -119,21 +137,31 @@ def create_bill_workflow( ):
           
     add( workflow.Transition(
         transition_id = 'schedule-second-from-first-committee',
-        title = _(u"Schedule Second Reading"),
+        title = _(u"Second Reading schedule"),
         trigger = iworkflow.MANUAL,
         source = states.first_committee,
-        destination = states.second_reading,
+        destination = states.second_pending,
         permission = "bungeni.bill.Schedule"
         ))    
-
+        
     add( workflow.Transition(
         transition_id = 'schedule-second',
+        title = _(u"Schedule Second Reading"),
+        trigger = iworkflow.MANUAL,
+        source = states.second_pending,
+        destination = states.second_reading,
+        permission = "bungeni.bill.Schedule"
+        ))            
+
+    add( workflow.Transition(
+        transition_id = 'ma-schedule-second',
         title=_(u"Schedule Second Reading"),
         trigger = iworkflow.MANUAL,
         source = states.first_reading,
-        destination = states.second_reading,
+        destination = states.second_pending,
         permission = "bungeni.bill.Schedule",
         ) )
+        
 
     add( workflow.Transition(
         transition_id = 'postpone-second',
@@ -160,9 +188,18 @@ def create_bill_workflow( ):
         title=_(u"Schedule Whole House Committee"),
         trigger = iworkflow.MANUAL,
         source = states.second_reading,
-        destination = states.whole_house,
+        destination = states.house_pending,
         permission = "bungeni.bill.Schedule",
         ) )
+        
+    add( workflow.Transition(
+        transition_id = 'schedule-whole-house',
+        title=_(u"Do Schedule Whole House Committee"),
+        trigger = iworkflow.MANUAL,
+        source = states.house_pending,
+        destination = states.whole_house,
+        permission = "bungeni.bill.Schedule",
+        ) )        
         
     add( workflow.Transition(
         transition_id = 'postpone-whole-house',
@@ -203,13 +240,22 @@ def create_bill_workflow( ):
         ) )
         
     add( workflow.Transition(
-        transition_id = 'schedule-second-report-reading',
+        transition_id = 'ma-schedule-second-report-reading',
         title=_(u"Schedule Report Reading"),
         trigger = iworkflow.MANUAL,
         source = states.second_committee,
-        destination = states.report_reading,
+        destination = states.report_reading_pending,
         permission = "bungeni.bill.SelectCommittee",
         ) )        
+        
+    add( workflow.Transition(
+        transition_id = 'schedule-second-report-reading',
+        title=_(u"Schedule Report Reading"),
+        trigger = iworkflow.MANUAL,
+        source = states.report_reading_pending,
+        destination = states.report_reading,
+        permission = "bungeni.bill.SelectCommittee",
+        ) )                
 
     add( workflow.Transition(
         transition_id = 'postpone-second-report-reading',
@@ -234,14 +280,22 @@ def create_bill_workflow( ):
 
 
     add( workflow.Transition(
-        transition_id = 'second-committee-schedule-third-reading',
+        transition_id = 'ma-second-committee-schedule-third-reading',
         title=_(u"Schedule Third Reading"),
         trigger = iworkflow.MANUAL,
         source = states.report_reading,
-        destination = states.third_reading,
+        destination = states.third_pending,
         permission = "bungeni.bill.Schedule",
         ) )  
 
+    add( workflow.Transition(
+        transition_id = 'second-committee-schedule-third-reading',
+        title=_(u"Schedule Third Reading"),
+        trigger = iworkflow.MANUAL,
+        source = states.third_pending,
+        destination = states.third_reading,
+        permission = "bungeni.bill.Schedule",
+        ) )  
 
 
     add( workflow.Transition(
@@ -266,13 +320,14 @@ def create_bill_workflow( ):
 ##         ) )
 
     add( workflow.Transition(
-        transition_id = 'schedule-third-reading',
+        transition_id = 'ma-schedule-third-reading',
         title=_(u"Schedule Third Reading"),
         trigger = iworkflow.MANUAL,
         source = states.whole_house,
-        destination = states.third_reading,
+        destination = states.third_pending,
         permission = "bungeni.bill.Schedule",
         ) )
+
         
     add( workflow.Transition(
         transition_id = 'postpone-third-reading',

@@ -8,12 +8,13 @@ from zope.security.proxy import removeSecurityProxy
 
 from sqlalchemy import orm
 from ore.alchemist import Session
-from ore.svn import SubversionContext
+from ore.svn import SubversionContext, resource
 from ore.svn.directory import SubversionDirectory
 from ore.metamime.interfaces import IMimeClassifier
 from ore.metamime.hachoir import HachoirFileClassifier, InputIOStream
 
 from bungeni.core import interfaces, schema as dbschema
+
 
 
 def fileClassifierSubscriber( ob, event ):
@@ -163,8 +164,9 @@ class _FileRepository( object ):
         Session().save( location )                                
 
         # Create the subversion path for the content
-        create_path( self.context.root, path )
-        self.context.getTransaction().commit()
+        directory, created = create_path( self.context.root, path )
+        if created:
+            self.context.getTransaction().commit()
         
         # Commit it
         location.context = context
@@ -174,12 +176,14 @@ class _FileRepository( object ):
 def create_path( root, path ):
     segments = path.split('/')
     directory = root
+    created = False
     for s in segments:
         if s in directory:
             directory = directory[s]
         else:
             directory = directory.makeDirectory( s )
-    return directory
+            created = True
+    return directory, created
     
 FileRepository = _FileRepository()
 

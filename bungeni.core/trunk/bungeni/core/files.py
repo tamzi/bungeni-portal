@@ -27,6 +27,11 @@ class FileClassifier( HachoirFileClassifier ):
 
     def _stream( self ):
         return InputIOStream( self.context.open() )
+
+def pk( ob ):
+    unwrapped = removeSecurityProxy( ob )
+    mapper = orm.object_mapper( ob )
+    primary_key = mapper.primary_key_from_instance( ob )[0]    
     
 class DefaultPathChooser( object ):
 
@@ -40,6 +45,7 @@ class DefaultPathChooser( object ):
         segments = [ self.context.__class__.__name__.lower() ]
         segments.append( "%s-%s"%(today.year, today.month ) )
         segments.append( str( today.day ))
+        segments.append( str( pk( self.context )  ) )
         segments.insert(0, "")
         return '/'.join( segments )
 
@@ -133,9 +139,8 @@ class _FileRepository( object ):
     context = None
         
     def location( self, context ):
+        primary_key = pk( context )
         unwrapped = removeSecurityProxy( context )
-        mapper = orm.object_mapper( unwrapped )
-        primary_key = mapper.primary_key_from_instance( unwrapped )[0]
 
         location =  Session().query( DirectoryLocation ).filter_by(
             object_id = primary_key,

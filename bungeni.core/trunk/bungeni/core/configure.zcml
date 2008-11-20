@@ -11,7 +11,7 @@
   <!-- Setup Database Connection -->	  
   <db:engine
      name="bungeni-db"
-     url="postgres://localhost/bungeni"
+     url="postgres://bungeni:bgadmin@localhost:5432/bungeni"
      />
 
   <!-- Bind Application Model to Database -->

@@ -28,11 +28,11 @@ class FileClassifier( HachoirFileClassifier ):
     def _stream( self ):
         return InputIOStream( self.context.open() )
 
-def pk( ob ):
+def key( ob ):
     unwrapped = removeSecurityProxy( ob )
     mapper = orm.object_mapper( ob )
     primary_key = mapper.primary_key_from_instance( ob )[0]    
-    return primary_key
+    return primary_key, unwrapped.__class__.__name__
 
 class DefaultPathChooser( object ):
 
@@ -46,9 +46,11 @@ class DefaultPathChooser( object ):
         segments = [ self.context.__class__.__name__.lower() ]
         segments.append( "%s-%s"%(today.year, today.month ) )
         segments.append( str( today.day ))
-        segments.append( str( pk( self.context )  ) )
+        pk, type_name = key( self.context )  
+        segments.append( str( pk ) )
         segments.insert(0, "")
-        return '/'.join( segments )
+        path = '/'.join( segments )
+	return path
 
 class DirectoryDescriptor( object ):
     """
@@ -140,12 +142,10 @@ class _FileRepository( object ):
     context = None
         
     def location( self, context ):
-        primary_key = pk( context )
-        unwrapped = removeSecurityProxy( context )
-
+        primary_key, object_type = key( context )
         location =  Session().query( DirectoryLocation ).filter_by(
             object_id = primary_key,
-            object_type = unwrapped.__class__.__name__
+            object_type = object_type
             ).first()
 
         if location is not None:
@@ -153,26 +153,27 @@ class _FileRepository( object ):
         return location
         
     def get( self, path ):
-        return self.context.traverse( path )
+        try:
+            return self.context.traverse( path )
+        except KeyError:
+            return self.context.traverse( path )
                 
     def new( self, context, path=None ):
         if not path:
             path = interfaces.IFilePathChooser( context ).path()
 
         # Create a database relation to the content
-        unwrapped = removeSecurityProxy( context )            
-        mapper = orm.object_mapper( unwrapped )
-        primary_key = mapper.primary_key_from_instance( unwrapped )[0]            
-    
+        primary_key, object_type = key( context )
         location = DirectoryLocation( repo_path=path, 
                                       object_id = primary_key,
-                                      object_type = unwrapped.__class__.__name__ )
+                                      object_type = object_type )
         Session().save( location )                                
 
         # Create the subversion path for the content
         directory, created = create_path( self.context.root, path )
         if created:
             self.context.getTransaction().commit()
+            self.context.setRevision() # update to latest revision
         
         # Commit it
         location.context = context

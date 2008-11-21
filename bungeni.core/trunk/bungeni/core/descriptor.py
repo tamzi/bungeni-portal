@@ -846,12 +846,12 @@ class BillDescriptor( ModelDescriptor ):
 class BillConsignatoryDescriptor( ModelDescriptor ):
     display_name = _(u"Consignatory")
     
-    fileds =[
+    fields = [
         dict(name="bill_id", omit = True),
         dict( name="user_id",
               property=schema.Choice( title=_(u"Consignatory"), 
-                                      source=DatabaseSource(domain.Person,  'fullname', 'user_id')),
-              listing_column=member_fk_column("user_id", _(u'Consignatory')), listing=True,
+                                      source=DatabaseSource(domain.Person,  title_field='fullname', token_field='user_id', value_field = 'user_id')),
+              listing_column=member_fk_column("user_id", _(u'Consignatory')), listing=True, 
             ),  
     ]
 

@@ -127,6 +127,14 @@
      ui_module="bungeni.ui.content"
      echo="False"
      />
+
+  <db:catalyst
+     class=".domain.BillConsignatory"
+     descriptor=".descriptor.BillConsignatoryDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+     echo="False"
+     />     
      
   <db:catalyst
      class=".domain.Motion"

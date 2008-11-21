@@ -395,6 +395,9 @@ class BillType(object):
 class Bill( ParliamentaryItem ):
     interface.implements( interfaces.IBill, interfaces.IFileAttachments )
     files = files.DirectoryDescriptor()
+    
+    consignatory = one2many("consignatory", "bungeni.core.domain.BillConsignatoryContainer", "bill_id")
+     
     @property
     def short_name( self ):
         return ( self.title ) 

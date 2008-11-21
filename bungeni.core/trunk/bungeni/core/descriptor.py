@@ -843,6 +843,18 @@ class BillDescriptor( ModelDescriptor ):
         dict( name="status", label=_(u"Status"), listing=True, edit=False, add=False, view=False, ), 
         ]
 
+class BillConsignatoryDescriptor( ModelDescriptor ):
+    display_name = _(u"Consignatory")
+    
+    fileds =[
+        dict(name="bill_id", omit = True),
+        dict( name="user_id",
+              property=schema.Choice( title=_(u"Consignatory"), 
+                                      source=DatabaseSource(domain.Person,  'fullname', 'user_id')),
+              listing_column=member_fk_column("user_id", _(u'Consignatory')), listing=True,
+            ),  
+    ]
+
 class QuestionDescriptor( ModelDescriptor ):
 
     display_name = _(u"Question")

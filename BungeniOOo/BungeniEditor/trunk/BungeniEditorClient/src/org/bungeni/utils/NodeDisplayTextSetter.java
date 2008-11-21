@@ -48,6 +48,7 @@ public class NodeDisplayTextSetter implements INodeSetterCallback {
                 if (sectionName.equals(BungeniEditorPropertiesHelper.getDocumentRoot())) {
                     dispText = BungeniEditorPropertiesHelper.getDocumentRoot();
                 } else {
+                    sectionType = CommonResourceBundleHelperFunctions.getSectionTypeMetaString(sectionType);
                     dispText = aSection.getAnchor().getString();
                     dispText = (dispText == null ) ? "" : dispText;
                     dispText =  (dispText.length() > 15) ? dispText.substring(0,14) : dispText;

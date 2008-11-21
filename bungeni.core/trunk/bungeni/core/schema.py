@@ -735,6 +735,19 @@ bill_consignatories = rdb.Table(
    rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False, primary_key=True ),
     )
 
+#Tabled documents:
+#a tabled document captures metadata about the document (owner, date, title, description) 
+# and can have multiple physical documents attached.
+#    The tabled documents form should have the following :
+#-Document title
+#-Document link
+#-Upload field (s)
+#-Document source / author agency (who is providing the document)
+# 
+#-Document submitter (who is submitting the document - a person)
+#It must be possible to schedule a tabled document for a sitting
+# -> item sequence
+
 #######################
 # Files
 #######################

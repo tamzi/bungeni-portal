@@ -53,12 +53,14 @@
 		<action name="Motions.new" title="Add a new Motion" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateMotionBlockSection.section_creation" visible="true" condition="textSelected:true :and: cursorInSection:allmotions[0-9]*" />
 		<action name="Motions.heading" title="Markup Motion Heading" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateMotionBlockSection.markup_motion_title:heading_motion" visible="true" condition="textSelected:true :and: cursorInSection:motion[0-9]*" />
 		<action name="Motions.subheading" title="Markup Motion SubHeading" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateMotionBlockSection.markup_motion_title:subheading_motion" visible="true" condition="textSelected:true :and: cursorInSection:motion[0-9]*" />
-	    </blockAction>            
+		<action name="Speech.create" title="Mark text Speech" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.section_creation" visible="true" condition="textSelected:true :and: cursorInSection:motion[0-9]*" />
+		</blockAction>            
 	
     	  <blockAction name="Papers" title="papers" target="null" visible="true" condition="none">
 		<action name="Papers.new" title="Tabled Documents" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePapersLaidBlockSection.section_creation" visible="true" condition="textSelected:true :and: cursorInSection:debaterecord" />
+		<action name="Papers.doclist" title="List of Tabled Documents" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePapersLaidListSection.section_creation" visible="true" condition="textSelected:true :and: cursorInSection:papers[0-9]*" />
 		<action name="Papers.select" title="Select Tabled Documents" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePapersLaidBlockSection.select_documents" visible="true" condition="textSelected:true :and: cursorInSection:allpapers[0-9]*" />		
-		<action name="Papers.heading" title="Markup papers heading" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePapersLiadBlockSection.markup_papers_heading:heading_papers" visible="true" condition="textSelected:true :and: cursorInSection:papers[0-9]*" />
+		<action name="Papers.heading" title="Markup papers heading" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makePapersLaidBlockSection.markup_papers_heading:heading_papers" visible="true" condition="textSelected:true :and: cursorInSection:papers[0-9]*" />
 	    </blockAction>            
 	
 	    <blockAction name="GeneralActions" title="General Actions" target="null" visible="true" condition="none">
@@ -79,7 +81,9 @@
 	<blockAction name="Conclusion Markup" title="Conclusion Actions" target="null" visible="true" condition="none">
 		<action name="Conclusion.create" title="Mark as Conclusion" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeConclusionSection.section_creation" visible="true" condition="cursorInSection:debaterecord :and: textSelected:true" />
 		<action name="Conclusion.markHouseClosing" title="Mark House Closing Time" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeConclusionSection.mark_house_closing" visible="true" condition="cursorInSection:concl[0-9]* :and: textSelected:true" />
-	</blockAction>
+		<action name="Speech.create" title="Mark text Speech" mode="TEXT_SELECTED_INSERT" target="toolbarSubAction.makeDebateSpeechBlockSection.section_creation" visible="true" condition="textSelected:true :and: cursorInSection:concl[0-9]*" />
+
+</blockAction>
         
 	</actionGroup>
     </root>

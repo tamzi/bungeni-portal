@@ -1276,7 +1276,7 @@ class QuestionEdit( CustomEditForm ):
     """
     form_fields = form.Fields( IQuestionEdit ).select('question_type', 'response_type', 'owner_id', 'ministry_id',
                                                     'subject', 'question_text', 
-                                                    'clerk_submission_date', 'approval_date',                                                    
+                                                    'submission_date', 'approval_date',                                                    
                                                     'note', 'receive_notification' )
                     
                                                     
@@ -1284,7 +1284,7 @@ class QuestionEdit( CustomEditForm ):
     Adapts = IQuestionEdit
     form_fields["note"].custom_widget = widget.OneTimeEditor
     form_fields["question_text"].custom_widget = widget.RichTextEditor 
-    form_fields['clerk_submission_date'].for_display = True
+    form_fields['submission_date'].for_display = True
     form_fields['approval_date'].for_display = True    
     #form_fields['supplement_parent_id'].custom_widget = widget.SupplementaryQuestionDisplay
 #    form_fields['notes_display'].for_display = True  

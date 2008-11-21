@@ -2,7 +2,7 @@
 # download view to download a file or image
 from zope.interface import implements
 from zope.publisher.interfaces import IPublishTraverse
-from zope.app.publisher.browser import BrowserView
+from zope.publisher.browser import BrowserView
 from zope.security import proxy
 from tempfile import TemporaryFile
 

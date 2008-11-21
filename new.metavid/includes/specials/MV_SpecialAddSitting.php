@@ -13,6 +13,7 @@ class MV_SpecialAddSitting extends SpecialPage {
 		if( $wgUser->isAllowed('add_sitting') ){
 			$this->type = htmlspecialchars($wgRequest->getVal('type'));
 			$this->date_held = htmlspecialchars($wgRequest->getText('date_held'));
+			$this->duration = htmlspecialchars($wgRequest->getText('duration'));
 			$this->info = htmlspecialchars($wgRequest->getText('info'));
 		
 			$wgOut->addLink(array( 'rel' => 'stylesheet',
@@ -102,7 +103,7 @@ class MV_SpecialAddSitting extends SpecialPage {
 				else
 				{
 					$mvTitle = new MV_Title( $sitting_name );
-					$stream =& mvGetMVStream( array( 'name' => $sitting_name ) );
+					$stream =& mvGetMVStream( array( 'name' => $sitting_name, 'duration'=>$this->duration ) );
 					if ( $stream->insertStream( 'metavid_file' ) ) {
 						$article->doEdit($text, 'Sitting');
 						$article->doRedirect(false,'','action=edit&new=true');
@@ -221,19 +222,31 @@ $s .= <<< MOREHTML
 	        	<option value="30">30</option>
 	        	<option value="31">31</option>
 	        </select>
-			<input type="text" id="year" name="year" value="">
+			
 		</div>
 MOREHTML;
+		$s .= '<input type="text" id="date_held" name="date_held" value="">';
 		
 		$s .= '</td></tr>';
 		
 		$s .= '<tr><td>'; 
-		$s .= Xml::openElement('label', array('name'=>'Info'));
+		$s .= Xml::openElement('label', array('name'=>'lbl_duration'));
+		$s .= 'Duration ';
+		$s .= Xml::closeElement('label');
+		$s .= '</td><td>';
+		$s .= Xml::openElement('input', array('type'=>'text','name'=>'Info'));
+		$s .= Xml::closeElement('input');
+		$s .= '</td><tr>';
+		
+		$s .= '<tr><td>'; 
+		$s .= Xml::openElement('label', array('name'=>'duration'));
 		$s .= 'Info ';
 		$s .= Xml::closeElement('label');
 		$s .= '</td><td>';
 		$s .= Xml::textarea('info', $this->info, 40, 5);
 		$s .= '</td><tr>';
+		
+		
 		
 		$s .= '<tr><td>';
 		$s .= '<button type="button" onclick="window.location="'.$skin->makeSpecialUrl("Sittings").'"" name="cancel">Cancel</button>';

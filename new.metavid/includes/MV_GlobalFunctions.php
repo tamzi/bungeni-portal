@@ -94,7 +94,7 @@ function mvSetupExtension() {
 	$wgAjaxExportList[] = 'mv_date_obj';
 	
 	$wgAjaxExportList[] = 'mv_save_staff';
-	
+	$wgAjaxExportList[] = 'mv_save_status';
 	// media serving 
 	$wgAjaxExportList[] = 'mv_frame_server';
 	
@@ -135,6 +135,7 @@ function mvSetupExtension() {
 	//undesa
 	$wgAutoloadClasses['MV_ManageStaff'] =  dirname(__FILE__)  .'/MV_ManageStaff.php';
 	$wgAutoloadClasses['MV_Takes'] =  dirname(__FILE__)  .'/MV_Takes.php';
+	$wgAutoloadClasses['MV_Progress'] =  dirname(__FILE__)  .'/MV_Progress.php';
 	//undesa
 	
 	/**********************************************/
@@ -148,6 +149,9 @@ function mvSetupExtension() {
 
 	$wgAutoloadClasses['MV_SpecialListSittings']	= dirname( __FILE__ ) . '/specials/MV_SpecialListSittings.php';
 	$wgSpecialPages['Sittings']		   	= array( 'MV_SpecialListSittings' );
+	
+	$wgAutoloadClasses['MV_SpecialProgress']	= dirname( __FILE__ ) . '/specials/MV_SpecialProgress.php';
+	$wgSpecialPages['Progress']		   	= array( 'MV_SpecialProgress' );
 	
 	$wgAutoloadClasses['MV_SpecialListBills']	= dirname( __FILE__ ) . '/specials/MV_SpecialListBills.php';
 	$wgSpecialPages['Bills']		   	= array( 'MV_SpecialListBills' );

@@ -502,7 +502,7 @@ global $mv_default_take_duration;
 			
 			
 			$article = new Article($title);
-			$text = '[[Edited By::'.$editor_name.']], '.'[[Read By::'.$reader_name.']], '.'[[Reported By::'.$reporter_name.']], '.'[[Status::Incomplete]]';
+			$text = '[[Edited By::'.$editor_name.']], '.'[[Read By::'.$reader_name.']], '.'[[Reported By::'.$reporter_name.']], '.'[[Status::Incomplete]] [[Stream::'.$this->name.']]';
 			$article->doEdit($text,'Automatically Generated',EDIT_NEW);
 			if ($num_editor < ($editors_count-1))
 			{

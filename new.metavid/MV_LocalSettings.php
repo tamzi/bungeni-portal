@@ -11,6 +11,7 @@ include_once( dirname( __FILE__ )  . '/includes/MV_DefaultSettings.php' );
 $mvExternalImages = true;
 $mvExternalImgServerPath = 'http://localhost/metavid/index.php';
 $mvDispROEicon = true;
+$status_types = array('Incomplete', 'Complete', 'Verified','Disputed', 'Final');
 //used in the filter forms
 $mv_start_year = 2002;
 

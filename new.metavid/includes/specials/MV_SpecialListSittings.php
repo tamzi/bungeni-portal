@@ -49,7 +49,7 @@ class MV_SpecialListSittings extends SpecialPage {
 		// of the parameters then is governed by the UI structure, as opposed to being governed by reason).
 		global $wgRequest, $wgOut;
 		
-		$query_string = '[[Stream:+]]';
+		$query_string = '[[Stream:+]] ';
 		
 		if (isset($this->start_month) && isset($this->start_year))
 		{
@@ -90,7 +90,7 @@ class MV_SpecialListSittings extends SpecialPage {
 			$rawparams[] = $this->m_querystring;
 		}
 		// Check for param strings in po (printouts), appears in some links and in submits:
-		$paramstring = "? Date_Held \n? Type";
+		$paramstring = "? Date_Held \n? Type ";
 		if ($paramstring != '') { // parameters from HTML input fields
 			$ps = explode("\n", $paramstring); // params separated by newlines here (compatible with text-input for printouts)
 			foreach ($ps as $param) { // add initial ? if omitted (all params considered as printouts)

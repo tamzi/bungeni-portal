@@ -16,6 +16,7 @@
 		//'search',
 		'navigate',
 		'export',
+		'status'
 		//'embed',
 		//'overlay'
 	);
@@ -103,6 +104,9 @@
 			case 'menu':
 				$this->innerHTML = $this->getToolsListing();
 			break;
+			case 'status':
+				$this->innerHTML = $this->getStatus($title_str);
+			break;
 			default:
 				$this->status='error';
 				$this->innerHTML=wfMsg('mv_tool_missing', $tool_id);
@@ -175,6 +179,24 @@
 		}		
 		$out.='</ul>';
 		return '<h3>'.$heading.'</h3>' . $out;			
+	}
+	function getStatus($stream_title){
+		global $status_types;
+		$out = '';
+		$title = Title::newFromText($stream_title,MV_NS_STREAM);
+		$article = new Article($title);
+		$curRevision = Revision::newFromTitle($title);			
+		$wikiText = $curRevision->getRawText();
+		$smw_attr = MV_Overlay::get_and_strip_semantic_tags($wikiText);
+		$out .= "<div id=result></div>Current Status : <b>".$smw_attr['Status'].'</b><br/>';
+		$out .= 'New Status : <select id="sel_status">';
+		foreach($status_types as $type)
+		{
+			$out .= '<option value="'.$type.'">'.$type.'</option>';
+		}
+		$out .= '</select><br/>';
+		$out.='<input id="submit_status" type="submit" name="Update" value="Update></input>';
+		return $out;
 	}
 	//returns layers overview text 
 	function get_mang_layers_page($stream_title){

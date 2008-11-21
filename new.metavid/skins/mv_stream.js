@@ -999,6 +999,33 @@ function mv_proc_tool_result(tool_id, mv_result){
 					return false;
 				});
 			break;
+			
+			case 'status':
+				$j('#mv_tool_cont').html( mv_result['innerHTML']);
+				$j('#submit_status').click(function(){
+					var post_vars = new Object();
+					var args = new Object();
+					post_vars['title']=wgPageName;
+					post_vars['status'] = $j('#sel_status').val();
+					sajax_request_type='POST';
+					mv_sajax_do_call('mv_save_status',args, f, post_vars);	
+					function f( request ) {
+        					result = request.responseText;		 		 
+        					if (request.status != 200){
+         					result= "<div class='error'> " + request.status + " " + request.statusText + ": " + result + "</div>"; 
+						$j('#result').html(result) ;		
+        					}
+        					else
+        					{
+        						result= "<div> " + result + "</div>"; 
+							$j('#result').html(result) ;	
+							
+        					}
+        				}
+					return false;
+				});
+			
+			break;
 			default:
 				//set the content payload
   				$j('#mv_tool_cont').html( mv_result['innerHTML']);

@@ -281,6 +281,23 @@ function mv_edit_disp( $titleKey, $mvd_id ) {
 	$MV_Overlay = new MV_Overlay();
 	return $MV_Overlay->get_edit_disp( $titleKey, $mvd_id );
 }
+function mv_save_status()
+{
+	$out = '';
+	$title = Title::newFromText($_REQUEST['title']);
+	$article = new Article($title);
+	$curRevision = Revision::newFromTitle($title);			
+	$wikiText = $curRevision->getRawText();
+	$smw_attr = MV_Overlay::get_and_strip_semantic_tags($wikiText);	
+	$wikiText .= '[[Status::'.$_REQUEST['status'].'| ]]';
+	foreach ($smw_attr as $key=>$value)
+	{
+		if ($key != 'Status')
+			$wikitext .= '[['.$key.'::'.$value.'| ]]';
+	}
+	$article->doEdit($wikiText,'Status',EDIT_UPDATE);
+	return "Changes Saved";
+}
 /* genneral autocomplete */
 function mv_helpers_auto_complete( $val = null ) {
 	global $mvMetaDataHelpers, $wgRequest;
@@ -425,6 +442,7 @@ function mv_frame_server( $stream_name = '', $req_time = '', $req_size = '' ) {
 $wgHooks['UnknownAction'][] = 'mvStaff';
 	
 function mvStaff($action, $article) {
+	global $wgRequest;
 	if ($action == 'takes')
 	{
 		$takes = new MV_Takes($article);
@@ -435,6 +453,13 @@ function mvStaff($action, $article) {
 	{
 		$manage_staff = new MV_ManageStaff($article);
 		$manage_staff->edit();
+		return false;
+	}
+	else if ($action == 'progress')
+	{
+		$status = $wgRequest->getText('status');
+		$progress = new MV_Progress($article, $status);
+		$progress->execute();
 		return false;
 	}
 	else

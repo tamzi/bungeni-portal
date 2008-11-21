@@ -312,11 +312,18 @@ class QuestionJSONValidation( BrowserView ):
 
     def postponeBill(self, bill):  
         if type(bill) == ScheduledBillItems:
-            return "Billss cannot be postponed in the calendar, use the workflow of the bill instead"  
+            return "Bills cannot be postponed in the calendar, use the workflow of the bill instead"  
         if type(bill) == domain.Bill:
             return
         else:   
             return "Unknown Item Type - you cannot drag this thing here"
+            
+    def getDuplicateSchedule(self, item_id, sitting_items):
+        """
+        This item is already schedule for this sitting
+        """        
+        if item_id in sitting_items:
+            return "This item is already scheduled for this sitting"
         
     def __call__( self ):
         """
@@ -328,6 +335,8 @@ class QuestionJSONValidation( BrowserView ):
         data = {'errors': errors, 'warnings': warnings}
         form_data = self.request.form
         sitting_questions = []
+        sitting_motions = []
+        sitting_bills = []
         motion_id = None
         question_id = None
         sitting_id = None
@@ -394,11 +403,23 @@ class QuestionJSONValidation( BrowserView ):
                 for qid in sq_ids:
                     if qid[:2] == 'q_' :
                         sitting_questions.append(long(qid[2:].split('_')[0]))
+                    elif qid[:2] == 'm_' :
+                        sitting_motions.append(long(qid[2:].split('_')[0]))
+                    elif  qid[:2] == 'b_' :  
+                        sitting_bills.append(long(qid[2:].split('_')[0]))
                     elif qid[:5] == 'isid_':
                         isid = long(qid[5:].split('_')[0])
                         s_item = getScheduledItem(isid)                        
                         if type(s_item) == ScheduledQuestionItems:
                             sitting_questions.append(s_item.question_id)
+                        elif type(s_item) == ScheduledMotionItems:
+                            sitting_motions.append(s_item.motion_id)
+                        elif type(s_item) == ScheduledBillItems:                            
+                            sitting_bills.append(s_item.bill_id)
+                    elif qid ==  u'original_proxy_id':
+                        pass        
+                    else:
+                        raise NotImplementedError  
                         
         if schedule_sitting_id and sitting_id:
             if schedule_sitting_id != sitting_id:
@@ -428,7 +449,9 @@ class QuestionJSONValidation( BrowserView ):
             result = self.QuestionScheduledInPast(sitting)
             if result:
                 errors.append(result)    
-           
+            result = self.getDuplicateSchedule(question.question_id, sitting_questions)
+            if result:
+                errors.append(result)
             #data = {'errors':['to many quesitions','question scheduled to early'], 'warnings': ['more than 1 question by mp...',]}
             data = {'errors': errors, 'warnings': warnings}
             return simplejson.dumps( data )
@@ -436,6 +459,10 @@ class QuestionJSONValidation( BrowserView ):
             result = self.MotionScheduledInPast(sitting)
             if result:
                 errors.append(result)  
+            result = self.getDuplicateSchedule(item.motion_id, sitting_motions)
+            if result:
+                errors.append(result)
+    
             #data = {'errors':['to many motions','motion scheduled to early'], 'warnings': ['more than 1 motion by mp...',]}
             data = {'errors': errors, 'warnings': warnings}
             return simplejson.dumps( data )
@@ -443,6 +470,9 @@ class QuestionJSONValidation( BrowserView ):
             result = self.BillScheduledInPast(sitting)
             if result:
                 errors.append(result)  
+            result = self.getDuplicateSchedule(item.bill_id, sitting_bills)
+            if result:
+                errors.append(result)    
             #data = {'errors':['to many motions','motion scheduled to early'], 'warnings': ['more than 1 motion by mp...',]}
             data = {'errors': errors, 'warnings': warnings}
             return simplejson.dumps( data )   
@@ -770,18 +800,7 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                         }        
                     },
                     
-    getDuplicateSchedule: function(srcEl, dParent){
-            // check if this element is already scheduled in this destination
-            var items = dParent.getElementsByTagName("li");           
-            for (i=0;i<items.length;i=i+1) {
-                if ((items[i].innerHTML.substr(0,15)  == srcEl.innerHTML.substr(0,15))
-                    && (items[i] != srcEl)) {
-                    alert("This item is already scheduled for this sitting");
-                    return true;
-                    }
-                }
-            return false;    
-        },
+
      
     getQuestionValidation: function(url, passData) {
           this.logger.log("data :" + passData);
@@ -904,7 +923,9 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                     var sitting_questions=new Array();
                     for (i=0;i<items.length;i=i+1) {
                         sitting_questions[i] = items[i].id;
-                        queryStr = queryStr + "&q_id=" + items[i].id;
+                        if (sitting_questions[i] != srcEl.id) {
+                            queryStr = queryStr + "&q_id=" + items[i].id;
+                            }
                         }
                     sitting.questions = sitting_questions;  
                     var jsonStr = YAHOO.lang.JSON.stringify(sitting);
@@ -918,7 +939,7 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                         alert (errors);
                         hasErrors = true;
                         }
-                    hasErrors = ( hasErrors || this.getDuplicateSchedule(srcEl,  destEl.parentNode));                            
+                                               
                     if (!(hasErrors)) {                    
                         if (Validation.warnings.length >0) {
                             var errors = "" ;
@@ -1136,6 +1157,7 @@ class QuestionInStateViewlet( viewlet.ViewletBase ):
             data ={}
             data['qid']= ( 'q_' + str(result.question_id) )                         
             data['subject'] = u'Q ' + str(result.question_number) + u' ' + result.subject
+            data['title'] = result.subject
             data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date + offset, '%Y-%m-%d')
             data_list.append(data)            
         return data_list
@@ -1182,6 +1204,7 @@ class MotionInStateViewlet( viewlet.ViewletBase ):
             data ={}
             data['qid']= ( 'm_' + str(result.motion_id) )                         
             data['subject'] = u'M ' + str(result.motion_number) + u' ' +  result.title
+            data['title'] = result.title
             data['schedule_date_class'] = 'sc-after-'  + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
             data_list.append(data)            
         return data_list
@@ -1227,6 +1250,7 @@ class BillItemsViewlet( viewlet.ViewletBase ):
             data ={}
             data['qid']= ( 'b_' + str(result.bill_id) )                         
             data['subject'] = u'B ' + result.title
+            data['title'] = result.title
             data['schedule_date_class'] = 'sc-after-'  + datetime.date.strftime(result.publication_date, '%Y-%m-%d')
             data_list.append(data)            
         return data_list
@@ -1337,17 +1361,23 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
             #data['qid']= ( 'q_' + str(result.question_id) ) 
             data['schedule_id'] = ( 'isid_' + str(result.schedule_id) ) # isid for ItemSchedule ID 
             if type(result) == ScheduledQuestionItems:                       
-                data['subject'] = u'Q ' + str(result.question_number) + u' ' +  result.subject
+                data['subject'] = u'Q ' + str(result.question_number) + u' ' +  result.subject[:10]
+                data['title'] = result.subject
                 data['type'] = "question"
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date + q_offset, '%Y-%m-%d')
+                data['url'] = '/questions/obj-' + str(result.question_id)
             elif type(result) == ScheduledMotionItems:    
-                data['subject'] = u'M ' + str(result.motion_number) + u' ' +result.title
-                data['type'] = "motion"
+                data['subject'] = u'M ' + str(result.motion_number) + u' ' +result.title[:10]
+                data['title'] = result.title
+                data['type'] = "motion"                
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
+                data['url'] = '/motions/obj-' + str(result.motion_id)
             elif type(result) == ScheduledBillItems:    
-                data['subject'] = u"B " + result.title                
+                data['subject'] = u"B " + result.title[:10]  
+                data['title'] = result.title             
                 data['type'] = "bill"
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.publication_date + q_offset, '%Y-%m-%d')
+                data['url'] = '/bills/obj-' + str(result.bill_id)
             data['status'] = result.status
             data_list.append(data)            
         return data_list
@@ -1366,13 +1396,16 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
             data ={}
             data['schedule_id'] = ( 'isid_' + str(result.schedule_id) ) # isid for ItemSchedule ID 
             if type(result) == ScheduledQuestionItems:                       
-                data['subject'] = result.subject
+                data['subject'] = u'Q ' + str(result.question_number) + u' ' +  result.subject[:10]
+                data['title'] = result.subject
                 data['type'] = "question"
             elif type(result) == ScheduledMotionItems:    
-                data['subject'] = result.title
+                data['subject'] = u'M ' + str(result.motion_number) + u' ' +result.title[:10]
+                data['title'] = result.title 
                 data['type'] = "motion"
             elif type(result) == ScheduledBillItems:    
-                data['subject'] = result.title                
+                data['subject'] = u"B " + result.title[:10]             
+                data['title'] = result.title 
                 data['type'] = "bill"
             data['status'] = result.status
             data_list.append(data)            

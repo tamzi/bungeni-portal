@@ -26,14 +26,15 @@
           <div tal:repeat="sitting python: view.getSittings4Day(day)">
             <h4 tal:content="sitting/short_name" />
             <ol tal:attributes="id sitting/sittingid; class string:draglist" tal:define="sid sitting/sid">
-                <li tal:repeat="question python: view.getActiveSittingItems(sid)" 
-                 tal:content="question/subject"
-                 tal:attributes="id question/schedule_id; class question/schedule_date_class" />
+                <li tal:repeat="question python: view.getActiveSittingItems(sid)"                  
+                 tal:attributes="id question/schedule_id; class question/schedule_date_class">
+                 <a tal:content="question/subject" tal:attributes="title question/title; href question/url" />
+                 </li>
             </ol>
             <ol tal:attributes="id sitting/sittingid; class string:inactive-list" tal:define="sid sitting/sid">
                 <li tal:repeat="question python: view.getInactiveSittingItems(sid)" 
                  tal:content="question/subject"
-                 tal:attributes="id question/schedule_id" />
+                 tal:attributes="id question/schedule_id; title question/title" />
             </ol>
           </div>
         </div>

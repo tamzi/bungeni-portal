@@ -43,11 +43,12 @@ public class DocumentMetadataTableModel extends AbstractTableModel {
     }
     
     public int getColumnCount() {
-        return this.column_names.length;
+        return column_names.length;
     }
 
+    @Override
     public String getColumnName(int column) {
-        return this.column_names[column];
+        return column_names[column];
     }
     
  /*   public boolean isCellEditable(int row, int column) {

@@ -57,7 +57,7 @@ public class DocumentMetadataSupplier {
     }
     
     public DocumentMetadata[] getDocumentMetadata(){
-        debug();
+       // debug();
         return metadataMap.values().toArray(new DocumentMetadata[metadataMap.size()]);
     }
     
@@ -156,7 +156,9 @@ public class DocumentMetadataSupplier {
                    log.debug("fetching metaName = "+ metaName);
                    String metaDataType = tableRow.elementAt(METADATA_DATATYPE_COLUMN);
                    String metaType = tableRow.elementAt(METADATA_TYPE_COLUMN);
-                   String metaDisplay = tableRow.elementAt(METADATA_DISPLAYNAME_COLUMN);
+                   //metadata display name deprecated from database.. moved to properties file... 
+                   //String metaDisplay = tableRow.elementAt(METADATA_DISPLAYNAME_COLUMN);
+                   String metaDisplay = org.bungeni.utils.CommonResourceBundleHelperFunctions.getDocMetaString(metaName);
                    String visible = tableRow.elementAt(METADATA_VISIBLE_COLUMN);
                    DocumentMetadata meta = new DocumentMetadata(metaName, metaType , metaDataType, metaDisplay, Integer.parseInt(visible));
                    this.metadataMap.put (meta.getName(), meta);

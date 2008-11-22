@@ -10,6 +10,7 @@
 package org.bungeni.db;
 
 import org.bungeni.editor.BungeniEditorProperties;
+import org.bungeni.editor.BungeniEditorPropertiesHelper;
 
 /**
  *
@@ -241,7 +242,8 @@ public class SettingsQueryFactory {
     }
 
     public static String Q_FETCH_MESSAGE_BUNDLES() {
-        String query = "select BUNDLE_NAME from RESOURCE_MESSAGE_BUNDLES ";
+        String docType = BungeniEditorPropertiesHelper.getCurrentDocType();
+        String query = "select BUNDLE_NAME from RESOURCE_MESSAGE_BUNDLES where doc_type='" +docType+ "'";
         return query;
     }
     

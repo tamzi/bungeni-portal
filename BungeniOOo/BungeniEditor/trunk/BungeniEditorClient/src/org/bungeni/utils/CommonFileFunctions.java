@@ -11,6 +11,7 @@ package org.bungeni.utils;
 
 
 import java.io.File;
+import java.util.ArrayList;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.UIManager;
@@ -79,6 +80,19 @@ public static String convertRelativePathToFullPath (String relativePath) {
         String strPath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH();
         fullPath = strPath + File.separator + relativePath.replace('/', File.separatorChar);
         return fullPath;
+}
+
+public static String getPathFromParams (ArrayList<String> params, String fileNameExt) {
+    String fullPath = "";
+    String fileName ="";
+    for (int i=0; i < params.size() ; i++) {
+        fullPath = fullPath + params.get(i) + File.separator;
+        if (i == params.size() - 1)
+            fileName = fileName + params.get(i);
+        else
+            fileName = fileName + params.get(i) + "_";
+    }
+    return fullPath + File.separator + fileName            ;
 }
 
 }

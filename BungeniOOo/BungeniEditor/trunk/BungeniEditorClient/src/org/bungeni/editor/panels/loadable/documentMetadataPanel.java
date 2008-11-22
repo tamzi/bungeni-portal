@@ -6,18 +6,14 @@
 
 package org.bungeni.editor.panels.loadable;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.Timer;
 import org.bungeni.editor.dialogs.debaterecord.DebateRecordMetadata;
-import org.bungeni.editor.dialogs.editorTabbedPanel;
 import org.bungeni.editor.metadata.DocumentMetadataTableModel;
 import org.bungeni.editor.panels.impl.BaseClassForITabbedPanel;
-import org.bungeni.editor.panels.impl.ITabbedPanel;
 import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.utils.FrameLauncher;

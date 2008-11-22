@@ -746,7 +746,35 @@ bill_consignatories = rdb.Table(
 # 
 #-Document submitter (who is submitting the document - a person)
 #It must be possible to schedule a tabled document for a sitting
-# -> item sequence
+
+
+tabled_documents = rdb.Table(
+   "tabled_documents",
+   metadata,
+   rdb.Column( "tabled_document_id", rdb.Integer, ItemSequence, primary_key=True ),
+   rdb.Column( "title", rdb.Unicode(80), nullable = False ),
+   rdb.Column( "summary", rdb.UnicodeText ),   
+   rdb.Column( "link", rdb.String(256)),   
+   rdb.Column( "document_source", rdb.Unicode(80)),
+   rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False ),
+   rdb.Column( "table_date", rdb.Date ),
+   )
+
+#events with dates and possiblity to upload files.
+
+# events have a title, description and may be related to a sitting (house, committee or other group sittings)
+# and a date for items that are not related to a sitting.
+
+event_items = rdb.Table(
+   "event_items",
+   metadata,
+   rdb.Column( "event_item_id", rdb.Integer, ItemSequence, primary_key=True ),
+   rdb.Column( "title", rdb.Unicode(80), nullable = False ),
+   rdb.Column( "summary", rdb.UnicodeText ),   
+   rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False ),
+   rdb.Column( "event_date", rdb.Date ),
+   )
+
 
 #######################
 # Files

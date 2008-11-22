@@ -512,7 +512,45 @@ class ItemSchedule(object):
     """
     for which sitting was a parliamentary item scheduled
     """ 
+
+class TabledDocument( object):
+    """
+    Tabled documents:
+    a tabled document captures metadata about the document (owner, date, title, description) 
+    and can have multiple physical documents attached.
+
+        The tabled documents form should have the following :
+
+    -Document title
+    -Document link
+    -Upload field (s)
+    -Document source  / author agency (who is providing the document)
+    (=> new table agencies)
+
+    -Document submitter (who is submitting the document)
+    (a person -> normally mp can be other user)
+
+    It must be possible to schedule a tabled document for a sitting.
+    """
     
+class EventItem( object ):
+    """
+    Bill events with dates and possiblity to upload files.
+
+    bill events have a title, description and may be related to a sitting (house, committee or other group sittings)
+    via the sitting they acquire a date
+    and an additional date for items that are not related to a sitting.
+
+    Bill events:
+
+       1. workflow related. e.g. submission, first reading etc. (here we can use the same mechanism as in questions ... a comment can be written when clicking (schedule for first reading) then will appear in the calendar ... and cone schedule it will have a date
+       2. not workflow related events ... we need for the following fieds:
+              * date
+              * body
+              * attachments
+
+    All these "events" they may be listed together, in that case the "workflow" once should be ... e.g. in bold.
+    """    
     
 #class QuestionSchedule(object):
 #    """

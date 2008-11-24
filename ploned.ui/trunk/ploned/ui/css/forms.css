@@ -57,7 +57,7 @@ input[type=checkbox] {
 
 button {
     font-family: "Lucida Grande", Verdana, Lucida, Helvetica, Arial, sans-serif;
-    visibility: visible;
+    /*visibility: visible;*/ /* <= causes problems with yui calendar */
     border: 1px solid #8cacbb;
     color: Black;
     vertical-align: middle;

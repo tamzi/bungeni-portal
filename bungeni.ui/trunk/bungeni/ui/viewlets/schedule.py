@@ -997,8 +997,11 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                 if (!region.intersect(pt)) {               
                     destEl.appendChild(srcEl);
                     destDD.isEmpty = false;                
-                }               
-                srcEl.innerHTML = (srcEl.innerHTML.substr(0,15) + '...');               
+                } 
+                var lnk = srcEl.getElementsByTagName("a");
+                if (! lnk.length) {              
+                    srcEl.innerHTML = (srcEl.innerHTML.substr(0,15) + '...');               
+                    }
             }      
           srcPEl.removeChild(this.originalEl);        
         }        

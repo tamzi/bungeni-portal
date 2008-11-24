@@ -117,6 +117,7 @@ class RichTextEditor( TextAreaWidget ):
     def __call__( self ):
         # require yahoo rich text editor and dependencies
         need('yui-editor')
+        need('yui-resize')
         
         # render default input widget for text
         input_widget = super( RichTextEditor, self).__call__()
@@ -124,25 +125,53 @@ class RichTextEditor( TextAreaWidget ):
         # use '_' instead of '.' for js identifiers
         jsid = self.name.replace('.','_')
         
+        js_inserts = {'jsid': jsid, 'js_name': self.name}
+        
         # attach behavior to default input widget, disable titlebar
         input_widget += u"""
         <script language="javascript">
             options={ height:'300px', 
                       width:'530px', 
-                      dompath:false, 
+                      dompath:true, 
+                      animate:true,
                       focusAtStart:false};
-            var %s_editor = new YAHOO.widget.SimpleEditor('%s', options); 
+            var %(jsid)s_editor = new YAHOO.widget.SimpleEditor('%(js_name)s', options); 
             YAHOO.util.Event.on(
-                %s_editor.get('element').form, 
+                %(jsid)s_editor.get('element').form, 
                 'submit', 
                 function( ev ) { 
-                    %s_editor.saveHTML(); 
+                    %(jsid)s_editor.saveHTML(); 
                     }
                 );            
-            %s_editor._defaultToolbar.titlebar = false;
-            %s_editor.render();     
+            %(jsid)s_editor._defaultToolbar.titlebar = false;
+            %(jsid)s_editor.on('editorContentLoaded', function() { 
+	            resize = new YAHOO.util.Resize(%(jsid)s_editor.get('element_cont').get('element'), { 
+	                handles: ['br'], 
+	                autoRatio: true, 
+	                status: true, 
+	                proxy: true, 
+	                setSize: false //This is where the magic happens 
+	            }); 
+	            resize.on('startResize', function() { 
+	                this.hide(); 
+	                this.set('disabled', true); 
+	            },  %(jsid)s_editor, true); 
+	            resize.on('resize', function(args) { 
+	                var h = args.height; 
+	                var th = (this.toolbar.get('element').clientHeight + 2); //It has a 1px border.. 
+	                var dh = (this.dompath.clientHeight + 1); //It has a 1px top border.. 
+	                var newH = (h - th - dh); 
+	                this.set('width', args.width + 'px'); 
+	                this.set('height', newH + 'px'); 
+	                this.set('disabled', false); 
+	                this.show(); 
+	            },  %(jsid)s_editor, true); 
+	        }); 
+            
+            
+            %(jsid)s_editor.render();     
         </script>    
-        """%(jsid, self.name, jsid, jsid, jsid, jsid)
+        """% js_inserts #(jsid, self.name, jsid, jsid, jsid, jsid)
         
         # return the rendered input widget
         return input_widget

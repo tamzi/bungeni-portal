@@ -546,3 +546,8 @@ td.invalid-date {
     background-color: grey;
 }
 
+div.dompath span {
+/*display: none;*/
+visibility: hidden;
+}
+

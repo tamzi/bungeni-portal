@@ -247,7 +247,10 @@ public class SettingsQueryFactory {
         return query;
     }
     
-    
+    public static String Q_FETCH_TRANSFORM_TARGETS(String targetName){
+        String query = "SELECT target_name, target_desc, target_ext, target_class FROM TRANSFORM_TARGETS where target_name='"+targetName+"'";
+        return query;
+    }
 }
 
 

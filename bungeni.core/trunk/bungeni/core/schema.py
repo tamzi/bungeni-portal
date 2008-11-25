@@ -747,28 +747,37 @@ bill_consignatories = rdb.Table(
 #-Document submitter (who is submitting the document - a person)
 #It must be possible to schedule a tabled document for a sitting
 
+document_sources = rdb.Table(
+    "document_sources",
+    metadata,
+    rdb.Column( "document_source_id", rdb.Integer, primary_key=True),   
+    rdb.Column( "document_source", rdb.Unicode(80)),
+    )
 
 tabled_documents = rdb.Table(
-   "tabled_documents",
-   metadata,
-   rdb.Column( "tabled_document_id", rdb.Integer, ItemSequence, primary_key=True ),
-   rdb.Column( "title", rdb.Unicode(80), nullable = False ),
-   rdb.Column( "summary", rdb.UnicodeText ),   
-   rdb.Column( "link", rdb.String(256)),   
-   rdb.Column( "document_source", rdb.Unicode(80)),
-   rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False ),
-   rdb.Column( "table_date", rdb.Date ),
+    "tabled_documents",
+    metadata,
+    rdb.Column( "tabled_document_id", rdb.Integer, ItemSequence, primary_key=True ),
+    rdb.Column( "title", rdb.Unicode(80), nullable = False ),
+    rdb.Column( "summary", rdb.UnicodeText ),   
+    rdb.Column( "link", rdb.String(256)),   
+    rdb.Column( "document_source_id", rdb.Integer, rdb.ForeignKey('document_sources.document_source_id'), nullable = False ),
+    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False ),
+    rdb.Column( "table_date", rdb.Date, nullable = False ),
    )
 
+ 
 #events with dates and possiblity to upload files.
 
 # events have a title, description and may be related to a sitting (house, committee or other group sittings)
+# events are related to an parliamentary item (bill, motion, ...)
 # and a date for items that are not related to a sitting.
 
 event_items = rdb.Table(
    "event_items",
    metadata,
    rdb.Column( "event_item_id", rdb.Integer, ItemSequence, primary_key=True ),
+   rdb.Column( "item_id", rdb.Integer, nullable=False ),
    rdb.Column( "title", rdb.Unicode(80), nullable = False ),
    rdb.Column( "summary", rdb.UnicodeText ),   
    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False ),

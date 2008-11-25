@@ -151,6 +151,29 @@
     echo="False"   
     />
     
+  <db:catalyst
+    class=".domain.TabledDocument"
+    descriptor=".descriptor.TabledDocumentDescriptor"
+    interface_module=".interfaces"
+    ui_module="bungeni.ui.content" 
+    echo="False"   
+    />
+    
+  <db:catalyst
+    class=".domain.DocumentSource"
+    descriptor=".descriptor.DocumentSourceDescriptor"
+    interface_module=".interfaces"
+    ui_module="bungeni.ui.content" 
+    echo="False"   
+    />
+  <db:catalyst
+    class=".domain.EventItem"
+    descriptor=".descriptor.EventItemDescriptor"
+    interface_module=".interfaces"
+    ui_module="bungeni.ui.content" 
+    echo="False"   
+    />        
+    
   <!-- Domain Model -->
   <db:catalyst
      class=".domain.Constituency"

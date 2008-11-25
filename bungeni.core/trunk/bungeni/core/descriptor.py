@@ -1083,7 +1083,33 @@ class RotaDescriptor( ModelDescriptor ):
 #                                        required=True) ),
 #        ]        
 
+class EventItemDescriptor( ModelDescriptor ):
+    display_name =_(u"Event")
+    fields = [
+        dict( name="event_item_id", omit=True ),
+        dict( name="item_id", omit=True ),
+        dict( name="title", label=_(u"Title"), listing=True ),
+        dict( name="summary",  label=_(u"Summary") ),
+        dict( name="owner_id", label=_(u"Submitter") ),
+        dict( name="event_date", label=_(u"Date"), listing_column=day_column("event_date", _(u"Date")), listing=True, edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
+    ]
+ 
+class DocumentSourceDescriptor( ModelDescriptor ): 
+    display_name =_(u"Document Source")
+    fields = [
+        dict( name="document_source_id", omit=True ),
+        dict( name="document_source", label=_(u"Document Souce") ),
+    ] 
+    
+class TabledDocumentDescriptor( ModelDescriptor): 
+    display_name =_(u"Tabled Document")
+    fields = [
+        dict( name="tabled_document_id", omit=True ),
+        dict( name="title", label=_(u"Title"), listing=True ),
+        dict( name="summary",  label=_(u"Summary") ),
+        dict( name="owner_id", label=_(u"Submitter") ),
+        dict( name="table_date", label=_(u"Date"), listing_column=day_column("table_date", _(u"Date")), listing=True, edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
+    
+    ]
 
- 
- 
- 
+

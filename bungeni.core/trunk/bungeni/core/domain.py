@@ -397,6 +397,7 @@ class Bill( ParliamentaryItem ):
     files = files.DirectoryDescriptor()
     
     consignatory = one2many("consignatory", "bungeni.core.domain.BillConsignatoryContainer", "bill_id")
+    event = one2many("event", "bungeni.core.domain.EventItemContainer", "item_id" )
      
     @property
     def short_name( self ):
@@ -513,6 +514,7 @@ class ItemSchedule(object):
     for which sitting was a parliamentary item scheduled
     """ 
 
+
 class TabledDocument( object):
     """
     Tabled documents:
@@ -532,7 +534,14 @@ class TabledDocument( object):
 
     It must be possible to schedule a tabled document for a sitting.
     """
+    interface.implements( interfaces.ITabledDocument, interfaces.IFileAttachments )
+    files = files.DirectoryDescriptor()     
     
+class DocumentSource( object ):
+    """
+    Document source for a tabled document
+    """
+
 class EventItem( object ):
     """
     Bill events with dates and possiblity to upload files.
@@ -551,7 +560,7 @@ class EventItem( object ):
 
     All these "events" they may be listed together, in that case the "workflow" once should be ... e.g. in bold.
     """    
-    
+
 #class QuestionSchedule(object):
 #    """
 #    for which sitting was a question scheduled

@@ -32,10 +32,15 @@ public class ODTSaveTransform extends BungeniDocTransform {
     public boolean transform(OOComponentHelper ooDocument) {
         boolean bState = false;
        try {
-             XStorable docStore =ooDocument.getStorable();
+            if (!ooDocument.isDocumentOnDisk()) {
+                //document already exists
+            XStorable docStore =ooDocument.getStorable();
             String urlString = (String) getParams().get("StoreToUrl");
             PropertyValue[] props = getTransformProps().toArray(new PropertyValue[getTransformProps().size()]);
             docStore.storeAsURL(urlString, props);
+            } else {
+                ooDocument.saveDocument();
+            }
             bState= true;
        } catch (com.sun.star.io.IOException ex) {
             log.error("transform : "+ ex.getMessage());

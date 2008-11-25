@@ -10,11 +10,14 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
@@ -23,10 +26,16 @@ import javax.swing.JPanel;
 import javax.swing.JRootPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerDateModel;
+import org.bungeni.db.DefaultInstanceFactory;
 import org.bungeni.editor.BungeniEditorProperties;
+import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.ooDocMetadata;
+import org.bungeni.ooo.transforms.impl.BungeniTransformationTargetFactory;
+import org.bungeni.ooo.transforms.impl.IBungeniDocTransform;
+import org.bungeni.utils.BungeniFileSavePathFormat;
+import org.bungeni.utils.MessageBox;
 
 /**
  *
@@ -137,8 +146,76 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
   return null;
 }
 
+private void applySelectedMetadata(BungeniFileSavePathFormat spf){
     
-    class FieldAssociation {
+    String sParliamentID = this.BungeniParliamentID.getText();
+    String sParliamentSitting = this.txtParliamentSitting.getText();
+    String sParliamentSession = this.txtParliamentSession.getText();
+    CountryCode selCountry = (CountryCode)this.cboCountry.getSelectedItem();
+    LanguageCode selLanguage = (LanguageCode) this.cboLanguage.getSelectedItem();
+    ooDocMetadata docMeta = new ooDocMetadata(ooDocument);
+    //get the official time
+        SimpleDateFormat tformatter = new SimpleDateFormat (BungeniEditorProperties.getEditorProperty("metadataTimeFormat"));
+       Object timeValue = this.dt_initdebate_timeofhansard.getValue();
+       Date hansardTime = (Date) timeValue;
+    final String strTimeOfHansard = tformatter.format(hansardTime);
+    //get the offical date
+       SimpleDateFormat dformatter = new SimpleDateFormat (BungeniEditorProperties.getEditorProperty("metadataDateFormat"));
+       final String strDebateDate = dformatter.format( dt_initdebate_hansarddate.getDate());
+    
+    
+    docMeta.AddProperty("BungeniParliamentID", sParliamentID);
+    docMeta.AddProperty("BungeniParliamentSitting", sParliamentSitting);
+    docMeta.AddProperty("BungeniParliamentSession", sParliamentSession);
+    docMeta.AddProperty("BungeniCountryCode", selCountry.countryCode);
+    docMeta.AddProperty("BungeniLanguageCode", selLanguage.languageCode);
+    docMeta.AddProperty("BungeniDebateOfficialDate", strDebateDate);
+    docMeta.AddProperty("BungeniDebateOfficialTime", strTimeOfHansard);
+
+    spf.setSaveComponent("DocumentType", BungeniEditorPropertiesHelper.getCurrentDocType());
+    spf.setSaveComponent("CountryCode", selCountry.countryCode);
+    spf.setSaveComponent("LanguageCode", selLanguage.languageCode);
+    Date dtHansardDate = dt_initdebate_hansarddate.getDate();
+    GregorianCalendar debateCal = new GregorianCalendar();
+    debateCal.setTime(dtHansardDate);
+    spf.setSaveComponent("Year", debateCal.get(Calendar.YEAR));
+    spf.setSaveComponent("Month", debateCal.get(Calendar.MONTH));
+    spf.setSaveComponent("Day", debateCal.get(Calendar.DAY_OF_MONTH));
+    spf.setSaveComponent("FileName", spf.getFileName());
+}    
+
+private void saveDocumentToDisk(BungeniFileSavePathFormat spf){
+            
+        String exportPath = BungeniEditorProperties.getEditorProperty("defaultSavePath");
+        exportPath = exportPath.replace('/', File.separatorChar);
+        exportPath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH() + File.separator + exportPath + File.separator + spf.getSavePath();
+        File fDir = new File(exportPath);
+        if (!fDir.exists()) {
+            //if path does not exist, create it
+            fDir.mkdirs();
+        }
+        
+        
+        String fileFullPath = "";
+        fileFullPath = exportPath + File.separator + spf.getFileName();
+        File fFile = new File(fileFullPath);
+        //MessageBox.OK(parentFrame, exportPath);
+        String exportPathURL = "";
+            exportPathURL = fFile.toURI().toString();
+        HashMap<String,Object> params = new HashMap<String,Object>();
+        params.put("StoreToUrl", exportPathURL);
+        IBungeniDocTransform idocTrans = BungeniTransformationTargetFactory.getDocTransform("ODT");
+        idocTrans.setParams(params);
+        boolean bState= idocTrans.transform(ooDocument);
+        if (bState) 
+            MessageBox.OK(parentFrame, "Document was Saved!");
+        else
+            MessageBox.OK(parentFrame, "The Document could not be saved!");
+   
+}
+    
+
+class FieldAssociation {
         String mapKey;
         String fieldName;
         String labelName;
@@ -389,29 +466,9 @@ private void BungeniParliamentIDActionPerformed(java.awt.event.ActionEvent evt) 
 private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
 // TODO add your handling code here:
    //APPLY SELECTED METADATA... 
-    String sParliamentID = this.BungeniParliamentID.getText();
-    String sParliamentSitting = this.txtParliamentSitting.getText();
-    String sParliamentSession = this.txtParliamentSession.getText();
-    CountryCode selCountry = (CountryCode)this.cboCountry.getSelectedItem();
-    LanguageCode selLanguage = (LanguageCode) this.cboLanguage.getSelectedItem();
-    ooDocMetadata docMeta = new ooDocMetadata(ooDocument);
-    //get the official time
-        SimpleDateFormat tformatter = new SimpleDateFormat (BungeniEditorProperties.getEditorProperty("metadataTimeFormat"));
-       Object timeValue = this.dt_initdebate_timeofhansard.getValue();
-       Date hansardTime = (Date) timeValue;
-    final String strTimeOfHansard = tformatter.format(hansardTime);
-    //get the offical date
-       SimpleDateFormat dformatter = new SimpleDateFormat (BungeniEditorProperties.getEditorProperty("metadataDateFormat"));
-       final String strDebateDate = dformatter.format( dt_initdebate_hansarddate.getDate());
-    
-    
-    docMeta.AddProperty("BungeniParliamentID", sParliamentID);
-    docMeta.AddProperty("BungeniParliamentSitting", sParliamentSitting);
-    docMeta.AddProperty("BungeniParliamentSession", sParliamentSession);
-    docMeta.AddProperty("BungeniCountryCode", selCountry.countryCode);
-    docMeta.AddProperty("BungeniLanguageCode", selLanguage.languageCode);
-    docMeta.AddProperty("BungeniDebateOfficialDate", strDebateDate);
-    docMeta.AddProperty("BungeniDebateOfficialTime", strTimeOfHansard);
+    BungeniFileSavePathFormat spf = new BungeniFileSavePathFormat();
+    applySelectedMetadata(spf);
+    saveDocumentToDisk(spf);
     parentFrame.dispose();
 }//GEN-LAST:event_btnSaveActionPerformed
 

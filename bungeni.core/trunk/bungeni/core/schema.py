@@ -556,6 +556,7 @@ items_schedule = rdb.Table(
    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id'), nullable=False ),
    rdb.Column( "order", rdb.Integer ),
    rdb.Column( "active", rdb.Boolean, default=True ), # item is scheduled for this sitting
+   rdb.Column( "status", rdb.Unicode(64), #workflow status of the item for this schedule
    )
 
 # generic subscriptions, to any type
@@ -762,8 +763,7 @@ tabled_documents = rdb.Table(
     rdb.Column( "summary", rdb.UnicodeText ),   
     rdb.Column( "link", rdb.String(256)),   
     rdb.Column( "document_source_id", rdb.Integer, rdb.ForeignKey('document_sources.document_source_id'), nullable = False ),
-    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False ),
-    rdb.Column( "table_date", rdb.Date, nullable = False ),
+    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = True ),    
    )
 
  
@@ -777,7 +777,8 @@ event_items = rdb.Table(
    "event_items",
    metadata,
    rdb.Column( "event_item_id", rdb.Integer, ItemSequence, primary_key=True ),
-   rdb.Column( "item_id", rdb.Integer, nullable=False ),
+   rdb.Column( "item_id", rdb.Integer, nullable=True ),
+   rdb.Column( "document_id", rdb.Integer, nullable=True,  rdb.ForeignKey('tabled_documents.tabled_document_id') ),
    rdb.Column( "title", rdb.Unicode(80), nullable = False ),
    rdb.Column( "summary", rdb.UnicodeText ),   
    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False ),

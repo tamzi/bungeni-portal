@@ -9,8 +9,6 @@
 
 package org.bungeni.ooo.transforms.impl;
 
-import com.sun.star.frame.XStorable;
-import com.sun.star.lang.XComponent;
 import java.util.HashMap;
 import javax.swing.JFrame;
 import org.bungeni.ooo.OOComponentHelper;

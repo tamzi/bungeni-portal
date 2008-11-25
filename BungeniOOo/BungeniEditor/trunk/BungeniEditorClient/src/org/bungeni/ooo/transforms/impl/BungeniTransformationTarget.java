@@ -29,6 +29,7 @@ public class BungeniTransformationTarget {
             this.targetClass = sClass;
      }
 
+    @Override
     public String toString() {
             return this.targetDescription;
    } 

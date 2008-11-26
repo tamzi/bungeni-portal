@@ -63,7 +63,7 @@
                   <Component id="btnHide" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="177" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="103" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

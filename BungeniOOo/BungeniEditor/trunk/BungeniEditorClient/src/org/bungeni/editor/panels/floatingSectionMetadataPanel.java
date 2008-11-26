@@ -55,7 +55,7 @@ public class floatingSectionMetadataPanel extends javax.swing.JPanel implements 
         tblSectionmeta = new javax.swing.JTable();
 
         setBorder(javax.swing.BorderFactory.createLineBorder(java.awt.Color.lightGray));
-        setFont(new java.awt.Font("DejaVu Sans", 0, 9)); // NOI18N
+        setFont(new java.awt.Font("DejaVu Sans", 0, 9));
 
         lblDisplaySectionName.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         lblDisplaySectionName.setText("::");
@@ -129,7 +129,7 @@ public class floatingSectionMetadataPanel extends javax.swing.JPanel implements 
                     .addComponent(btnEdit)
                     .addComponent(btnHide))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

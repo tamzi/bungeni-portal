@@ -6,7 +6,6 @@
 
 package org.bungeni.editor.panels.loadable;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,7 +14,6 @@ import java.awt.event.MouseListener;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.ArrayList;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JTree;

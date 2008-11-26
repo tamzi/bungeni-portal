@@ -399,6 +399,8 @@ mapper( domain.BillConsignatory, schema.bill_consignatories)
 mapper( domain.DocumentSource, schema.document_sources )
 mapper( domain.TabledDocument, schema.tabled_documents )
 mapper( domain.EventItem, schema.event_items )
+
+mapper( domain.HolyDay, schema.holydays )
         
 ######################
 #

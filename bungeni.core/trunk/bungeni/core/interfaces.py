@@ -72,6 +72,12 @@ class IMotion( interface.Interface ):
     """ Parliamentary Motion
     """
 
+class ITabledDocument( interface.Interface ):
+    """
+    tabled document
+    """
+
+
 class IBungeniSetup( interface.Interface ):
 
     def setUp( app ):

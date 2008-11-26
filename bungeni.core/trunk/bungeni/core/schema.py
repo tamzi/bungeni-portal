@@ -556,7 +556,7 @@ items_schedule = rdb.Table(
    rdb.Column( "sitting_id", rdb.Integer, rdb.ForeignKey('group_sittings.sitting_id'), nullable=False ),
    rdb.Column( "order", rdb.Integer ),
    rdb.Column( "active", rdb.Boolean, default=True ), # item is scheduled for this sitting
-   rdb.Column( "status", rdb.Unicode(64), #workflow status of the item for this schedule
+   rdb.Column( "status", rdb.Unicode(64),) #workflow status of the item for this schedule
    )
 
 # generic subscriptions, to any type
@@ -778,7 +778,7 @@ event_items = rdb.Table(
    metadata,
    rdb.Column( "event_item_id", rdb.Integer, ItemSequence, primary_key=True ),
    rdb.Column( "item_id", rdb.Integer, nullable=True ),
-   rdb.Column( "document_id", rdb.Integer, nullable=True,  rdb.ForeignKey('tabled_documents.tabled_document_id') ),
+   rdb.Column( "document_id", rdb.Integer,  rdb.ForeignKey('tabled_documents.tabled_document_id'), nullable=True, ),
    rdb.Column( "title", rdb.Unicode(80), nullable = False ),
    rdb.Column( "summary", rdb.UnicodeText ),   
    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False ),
@@ -812,6 +812,14 @@ settings = rdb.Table( "settings", metadata,
                       rdb.Column("value", rdb.String(400) ),
                       rdb.Column("type", rdb.String(40) ),           
                       )	   
+
+
+holydays = rdb.Table(
+    "holydays",
+    metadata,
+    rdb.Column("holyday_id", rdb.Integer, primary_key=True ),
+    rdb.Column("holyday_date", rdb.Date ),
+   )  
 
 #######################
 # Hansard

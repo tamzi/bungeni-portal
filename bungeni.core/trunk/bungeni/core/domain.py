@@ -561,6 +561,12 @@ class EventItem( object ):
     All these "events" they may be listed together, in that case the "workflow" once should be ... e.g. in bold.
     """    
 
+class HolyDay( object ):
+    """
+    is this day a holyday?
+    if a date in in the table it is otherwise not
+    """
+
 #class QuestionSchedule(object):
 #    """
 #    for which sitting was a question scheduled

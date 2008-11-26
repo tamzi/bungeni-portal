@@ -9,7 +9,7 @@
 
 package org.bungeni.numbering.impl;
 
-import com.sun.org.apache.bcel.internal.classfile.JavaClass;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 

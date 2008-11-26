@@ -7,17 +7,17 @@
 
 package org.bungeni.editor;
 
-import com.sun.star.uno.XComponentContext;
-import com.sun.star.comp.helper.Bootstrap;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
 import org.bungeni.editor.dialogs.editorApplicationController;
+import org.bungeni.utils.BungeniFrame;
+import org.bungeni.utils.CommonTreeFunctions;
 
 /**
  *
@@ -26,7 +26,7 @@ import org.bungeni.editor.dialogs.editorApplicationController;
 public class BungeniEditorClient {
  //   private static XComponentContext m_xContext;
     private static String __WINDOW_TITLE__="BungeniEditor Launcher";
-    private static JFrame frame;
+    private static BungeniFrame frame;
     /** Creates a new instance of BungeniEditorClient */
     public BungeniEditorClient() {
     }
@@ -47,8 +47,10 @@ public class BungeniEditorClient {
        // JDialog.setDefaultLookAndFeelDecorated(true);
 
         //Instantiate the controlling class.
-       frame = new JFrame(__WINDOW_TITLE__);
+       frame = new BungeniFrame(__WINDOW_TITLE__);
        frame.setResizable(false);
+     //  ImageIcon iconApp = CommonTreeFunctions.loadIcon("bungeni.jpg");
+     //  frame.setIconImage(iconApp.getImage());
        //force prompting of exit message 
         frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         WindowListener panelListener = new WindowAdapter() {

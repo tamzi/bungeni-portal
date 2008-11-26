@@ -1,0 +1,41 @@
+<div>
+  <table class="">
+    <tr tal:repeat="months view/yearcalendar">
+      <td tal:repeat="month months">
+      
+          <table class="listing grid">
+            <thead>
+              <tr>        
+                <!--th colspan="1" tal:content="structure view/previous"> &lt;&lt; </th-->
+                <th colspan="8" tal:content="python:view.getmonthname(month[2][1])"> month </th>
+                <!--th colspan="1" tal:content="structure view/next"> &gt;&gt; </th-->
+              </tr>
+              <tr>        
+                <th width="13%">  </th> 
+                <th width="13%"> Mon </th>
+                <th width="13%"> Tue </th>
+                <th width="13%"> Wed </th>
+                <th width="13%"> Thu </th>
+                <th width="13%"> Fri </th>
+                <th width="13%"> Sat </th>
+                <th width="9%"> Sun </th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr tal:repeat="week month">
+              <th tal:content="python:view.getWeekNo(week[0])"> </th>
+              <td tal:repeat="day week" tal:attributes="id python:view.getTdId(day)"> 
+                <strong tal:content="python:day.day" tal:condition="day" tal:attributes="class python:view.getDayClass(day, month[2][1])"/>
+                                
+              </td>
+            </tr>
+            </tbody>
+          </table>      
+      
+      
+      
+      </td>
+    </tr>  
+  </table>
+
+</div>

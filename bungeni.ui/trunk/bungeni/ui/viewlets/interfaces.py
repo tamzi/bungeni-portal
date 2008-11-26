@@ -18,6 +18,10 @@ class ISittingCalendar( IViewletManager ):
 
 class IScheduleCalendar( IViewletManager ):    
     """ Schedule Calendar viewlet manager """    
+
+class IScheduleHolydayCalendar( IViewletManager ):    
+    """ Schedule Hollydays viewlet manager """       
+    
     
 class IScheduleItems( IViewletManager ):    
     """ Schedule Calendar items viewlet manager """    

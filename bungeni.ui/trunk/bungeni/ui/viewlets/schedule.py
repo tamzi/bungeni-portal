@@ -20,7 +20,7 @@ from zc.resourcelibrary import need
 from ore.alchemist import Session
 from ore.workflow.interfaces import IWorkflowInfo
 
-from interfaces import IScheduleCalendar, IScheduleItems
+from interfaces import IScheduleCalendar, IScheduleItems, IScheduleHolydayCalendar
 from bungeni.ui.utils import getDisplayDate
 import bungeni.core.schema as schema
 import bungeni.core.domain as domain
@@ -583,6 +583,19 @@ class ScheduleCalendarItemsViewletManager( WeightOrderedViewletManager ):
     manage the viewlets that make up the items to be scheduled view
     """
     zope.interface.implements(IScheduleItems) 
+
+class HolydayCalendar(BrowserView):
+    __call__ = ViewPageTemplateFile("templates/schedule_holyday.pt")
+    
+    
+class ScheduleHolydayCalendarViewletManager( WeightOrderedViewletManager ):
+    """
+    manage the viewlets that make up the calendar view
+    """
+    zope.interface.implements(IScheduleHolydayCalendar) 
+
+
+
 
 class YUIDragDropViewlet( viewlet.ViewletBase ):
     """
@@ -1435,6 +1448,11 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
             css_class = css_class + "current-date "    
         return css_class.strip()
             
+    def getWeekNo(self, Date):
+        """
+        return the weeknumber for a given date
+        """
+        return Date.isocalendar()[1]
 
 
     def getSittings4Day(self, Date):
@@ -1757,4 +1775,65 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
         self.Data = self.getData()
     
     render = ViewPageTemplateFile ('templates/schedule_calendar_viewlet.pt')
+    
+    
+class ScheduleHolyDaysViewlet( viewlet.ViewletBase ):
+    """
+    a calendar to allow you to schedule the holydays of a year
+    """    
+    def getmonthname(self, Date):
+        """
+        return the name of the month + year
+        """
+        return  datetime.date.strftime(Date,'%B %Y')
+    
+    def getWeekNo(self, Date):
+        """
+        return the weeknumber for a given date
+        """
+        return Date.isocalendar()[1]
+    
+    def getTdId(self, Date):
+        """
+        return an Id for that td element:
+        consiting of tdid- + date
+        like tdid-2008-01-17
+        """
+        return 'tdid-' + datetime.date.strftime(Date,'%Y-%m-%d')     
+    
+    
+    def getDayClass(self, Date, month):
+        """
+        return the class settings for that calendar day
+        """
+        css_class = ""
+        if Date.month != month.month:
+            css_class = css_class + "other-month "           
+        if Date < datetime.date.today():
+            css_class = css_class + "past-date "    
+        if Date == datetime.date.today():
+            css_class = css_class + "current-date "    
+        return css_class.strip()
+                
+    
+    def update(self):
+        """
+        refresh the query
+        """
+        self.errors = []
+        if self.request.form:
+            if not self.request.form.has_key('cancel'):
+                #self.insert_items(self.request.form) 
+                pass
+                
+        self.Date = getDisplayDate(self.request)
+        if not self.Date:
+            self.Date=datetime.date.today()                            
+        #self.query, self.Date = current_sitting_query(self.Date)        
+        self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )
+        self.yearcalendar = calendar.Calendar().yeardatescalendar(self.Date.year,3)         
+        #self.monthname = datetime.date.strftime(self.Date,'%B %Y')
+        #self.Data = self.getData()
+    
+    render = ViewPageTemplateFile ('templates/schedule_holyday_calendar.pt')
     

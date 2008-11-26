@@ -2,6 +2,30 @@
            xmlns:browser="http://namespaces.zope.org/browser"           
            i18n_domain="bungeni">
 
+  <!-- schedule holidays-->
+  <browser:page
+     for="bungeni.core.interfaces.IBungeniApplication"
+     permission="bungeni.question.Schedule"
+     name="schedule-holyday"
+     class=".schedule.HolydayCalendar"
+     />
+
+  <browser:viewletManager
+     name="bungeni.schedule-holydaycalendar.manager"
+     provides=".interfaces.IScheduleHolydayCalendar"
+     class=".schedule.ScheduleHolydayCalendarViewletManager"
+     permission="zope.View"
+     />    
+
+
+  <browser:viewlet
+    name="bungeni.schedule.holydaycalendar"   
+    manager=".interfaces.IScheduleHolydayCalendar"
+    class=".schedule.ScheduleHolyDaysViewlet"
+    permission="zope.Public"
+    weight="30"
+    />    
+
   <!-- Question Schedule -->
   <browser:page
      for="bungeni.core.interfaces.IBungeniApplication"

@@ -47,6 +47,7 @@ import org.bungeni.editor.dialogs.debaterecord.DebateRecordMetadata;
 import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.utils.BungeniFrame;
 import org.bungeni.utils.CommonFileFunctions;
 import org.bungeni.utils.FileTableModel;
 import org.bungeni.utils.FrameLauncher;
@@ -849,7 +850,7 @@ private void initProperties(java.io.File currentFolder) {
 public static int OPENOFFICE_HEIGHT_OFFSET =60;
 
 private void initFrame(XComponent component){
-            javax.swing.JFrame frame = new javax.swing.JFrame("BungeniEditor Control Panel");
+            BungeniFrame frame = new BungeniFrame("BungeniEditor Control Panel");
             //set the dimensions for the frame;
             frame.setSize(270, 540);
             //frame position information
@@ -952,7 +953,7 @@ private void initMeta(XComponent xComp){
 
 private void LaunchDebateMetadataSetter(XComponent xComp){
         OOComponentHelper oohc = new OOComponentHelper (xComp, this.m_xContext );
-        JFrame frm = new JFrame("DebateRecord Metadata");
+        BungeniFrame frm = new BungeniFrame("DebateRecord Metadata");
         DebateRecordMetadata meta = new DebateRecordMetadata(oohc, frm, SelectorDialogModes.TEXT_INSERTION);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setSize(new Dimension(410, 360));

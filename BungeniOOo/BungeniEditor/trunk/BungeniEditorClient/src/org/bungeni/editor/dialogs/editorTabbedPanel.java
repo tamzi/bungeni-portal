@@ -92,6 +92,7 @@ import org.bungeni.ooo.transforms.impl.BungeniTransformationTarget;
 import org.bungeni.ooo.transforms.impl.BungeniTransformationTargetFactory;
 import org.bungeni.ooo.transforms.impl.IBungeniDocTransform;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
+import org.bungeni.utils.BungeniFrame;
 import org.bungeni.utils.CommonFileFunctions;
 /**
  *
@@ -626,7 +627,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
     // added for Issue 246, http://code.google.com/p/bungeni-portal/issues/details?id=246
     private void initFloatingPane() {
             //load the map here 
-            javax.swing.JFrame floatingFrame = new javax.swing.JFrame();
+            BungeniFrame floatingFrame = new BungeniFrame();
             IFloatingPanel floatingPanel = FloatingPanelFactory.getPanelClass("toolbarUIPanel");
             floatingPanel.setOOComponentHandle(ooDocument);
             floatingPanel.setParentWindowHandle(floatingFrame);
@@ -663,7 +664,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
 
     private void initFloatingSectionMetadataPanel(int parentWindowX, int parentWindowY, int parentWindowWidth){
             //JFrame.setDefaultLookAndFeelDecorated(false);
-            javax.swing.JFrame floatingFrame = new javax.swing.JFrame();
+           BungeniFrame floatingFrame = new BungeniFrame();
             floatingFrame.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
             floatingFrame.setResizable(false);
             //floatingFrame.setUndecorated(true);
@@ -1687,7 +1688,7 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
 
 private void LaunchDebateMetadataSetter(XComponent xComp){
         OOComponentHelper oohc = new OOComponentHelper (xComp, ComponentContext);
-        JFrame frm = new JFrame("DebateRecord Metadata");
+        BungeniFrame frm = new BungeniFrame("DebateRecord Metadata");
         DebateRecordMetadata meta = new DebateRecordMetadata(oohc, frm, SelectorDialogModes.TEXT_INSERTION);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setSize(new Dimension(410, 360));

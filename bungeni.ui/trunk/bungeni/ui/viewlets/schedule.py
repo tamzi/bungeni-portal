@@ -5,7 +5,7 @@
 # to schedule drag the question to be scheduled to the sitting
 
 import calendar
-import datetime
+import datetime, time
 from types import ListType, StringTypes
 
 from zope.app.pagetemplate import ViewPageTemplateFile
@@ -1780,7 +1780,31 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
 class ScheduleHolyDaysViewlet( viewlet.ViewletBase ):
     """
     a calendar to allow you to schedule the holydays of a year
-    """    
+    """   
+    Date=datetime.date.today()
+    
+    def insert_items( self, form ):
+        """
+        insert the holydays from the form into
+        """
+        year = self.Date.year
+        year_start = datetime.date(year, 1, 1)
+        year_end = datetime.date(year, 12, 31)
+        session = Session()
+        connection = session.connection(domain.HolyDay)
+        del_dates = schema.holydays.delete(schema.holydays.c.holyday_date.between(year_start, year_end))
+        connection.execute(del_dates)
+        if form.has_key("hdd"):
+            datestrings = makeList(form["hdd"])
+            for datstr in datestrings:
+                holyday = domain.HolyDay()
+                dt = time.strptime(datstr,'%Y-%m-%d')
+                y = dt[0]
+                m = dt[1]
+                d = dt[2]
+                holyday.holyday_date = datetime.date(y,m,d)
+                session.save(holyday)
+         
     def getmonthname(self, Date):
         """
         return the name of the month + year
@@ -1801,6 +1825,8 @@ class ScheduleHolyDaysViewlet( viewlet.ViewletBase ):
         """
         return 'tdid-' + datetime.date.strftime(Date,'%Y-%m-%d')     
     
+    def getDateValue(self, Date):
+        return datetime.date.strftime(Date,'%Y-%m-%d')
     
     def getDayClass(self, Date, month):
         """
@@ -1815,20 +1841,30 @@ class ScheduleHolyDaysViewlet( viewlet.ViewletBase ):
             css_class = css_class + "current-date "    
         return css_class.strip()
                 
+    def inThisMonth(self, day, month):
+        return day.month == month.month
     
+    def isHolyday(self, day):
+        session = Session()
+        query = session.query(domain.HolyDay).filter(schema.holydays.c.holyday_date == day)
+        results = query.all()
+        if results:
+            return "checked"
+        else:
+            return
+                        
+        
     def update(self):
         """
         refresh the query
         """
         self.errors = []
-        if self.request.form:
-            if not self.request.form.has_key('cancel'):
-                #self.insert_items(self.request.form) 
-                pass
-                
         self.Date = getDisplayDate(self.request)
         if not self.Date:
-            self.Date=datetime.date.today()                            
+            self.Date=datetime.date.today() 
+        if self.request.form:
+            if self.request.form.has_key('save'):
+                self.insert_items(self.request.form)                                                          
         #self.query, self.Date = current_sitting_query(self.Date)        
         self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )
         self.yearcalendar = calendar.Calendar().yeardatescalendar(self.Date.year,3)         

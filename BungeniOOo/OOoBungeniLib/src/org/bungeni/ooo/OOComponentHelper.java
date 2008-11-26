@@ -36,6 +36,7 @@ import com.sun.star.frame.XDispatchProvider;
 import com.sun.star.frame.XFrame;
 import com.sun.star.frame.XModel;
 import com.sun.star.frame.XStorable;
+import com.sun.star.io.IOException;
 import com.sun.star.lang.EventObject;
 import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
@@ -72,6 +73,8 @@ import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
 
 
@@ -1661,6 +1664,23 @@ public XTextField getTextFieldByName(String fieldName) {
         XStorable xStore = ooQueryInterface.XStorable(this.m_xComponent);
         return xStore.hasLocation();
     }
+    
+    public boolean saveDocument(){
+        boolean bState = false; 
+        try {
+            XStorable xStore = ooQueryInterface.XStorable(this.m_xComponent);
+            if(xStore.hasLocation()) {
+                    xStore.store();
+            }
+            bState = true;
+        } catch (IOException ex) {
+                bState = false;
+             log.error("saveDocument : " + ex.getMessage());
+       } finally {
+           return true;
+       }
+    }
+    
     public String getDocumentURL(){
         XStorable xStore = ooQueryInterface.XStorable(this.m_xComponent);
         if (xStore.hasLocation()) {

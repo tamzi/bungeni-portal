@@ -365,14 +365,14 @@ class FieldAssociation {
         dt_initdebate_hansarddate.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
 
         jLabel6.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
-        jLabel6.setText("Official Date");
+        jLabel6.setText("Date");
         jLabel6.setName("lbl.BungeniParliamentSitting"); // NOI18N
 
         dt_initdebate_timeofhansard.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         dt_initdebate_timeofhansard.setName("dt_initdebate_timeofhansard"); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
-        jLabel7.setText("Official TIme");
+        jLabel7.setText("TIme");
         jLabel7.setName("lbl.BungeniParliamentSitting"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);

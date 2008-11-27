@@ -42,18 +42,20 @@ public class MotionSelect extends BaseMetadataPanel {
     class MotionSelector implements ActionListener {
 
         public void actionPerformed(ActionEvent arg0) {
-           ObjectMotion selectedMotion = (ObjectMotion)cboSelectMotion.getModel().getSelectedItem();
-         
-           HashMap<String,String> selData = new HashMap<String,String>();
-           selData.put("MOTION_ID", selectedMotion.motionId);
-           selData.put("MOTION_NAME", selectedMotion.motionName);
-           selData.put("MOTION_URI", selectedMotion.motionUri);
-           selData.put("MOTION_TEXT", selectedMotion.motionText);
-           selData.put("MOTION_TITLE", selectedMotion.motionTitle);
-           
-            ((Main)getContainerPanel()).selectionData = selData;
-            if ( ((Main)getContainerPanel()).selectionData.size() > 0 ) 
-                ((Main)getContainerPanel()).updateAllPanels();
+            if (cboSelectMotion.getSelectedIndex() != -1) {
+               ObjectMotion selectedMotion = (ObjectMotion)cboSelectMotion.getModel().getSelectedItem();
+
+               HashMap<String,String> selData = new HashMap<String,String>();
+               selData.put("MOTION_ID", selectedMotion.motionId);
+               selData.put("MOTION_NAME", selectedMotion.motionName);
+               selData.put("MOTION_URI", selectedMotion.motionUri);
+               selData.put("MOTION_TEXT", selectedMotion.motionText);
+               selData.put("MOTION_TITLE", selectedMotion.motionTitle);
+
+                ((Main)getContainerPanel()).selectionData = selData;
+                if ( ((Main)getContainerPanel()).selectionData.size() > 0 ) 
+                    ((Main)getContainerPanel()).updateAllPanels();
+            }
         }
         
     }
@@ -72,7 +74,7 @@ public class MotionSelect extends BaseMetadataPanel {
 
         setName("Select a Question"); // NOI18N
 
-        btnSelectQuestion.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
+        btnSelectQuestion.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         btnSelectQuestion.setText("Select a Motion...");
         btnSelectQuestion.setActionCommand("Select a Question");
         btnSelectQuestion.setContentAreaFilled(false);
@@ -84,8 +86,9 @@ public class MotionSelect extends BaseMetadataPanel {
         });
 
         cboSelectMotion.setEditable(true);
-        cboSelectMotion.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        cboSelectMotion.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
         cboSelectMotion.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboSelectMotion.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);

@@ -359,7 +359,8 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
         paneMain.setBackground(BungeniEditorPropertiesHelper.getDialogBackColor());
         JTaskPaneGroup mainTPgroup = new JTaskPaneGroup();
         mainTPgroup.setTitle("Edit Metadata below ::");
-        mainTPgroup.setBackground(BungeniEditorPropertiesHelper.getDialogBackColor());
+        mainTPgroup.getContentPane().setBackground(BungeniEditorPropertiesHelper.getDialogBackColor());
+        //mainTPgroup.setBackground(BungeniEditorPropertiesHelper.getDialogBackColor());
         for (panelInfo panelInf : getActivePanels()) {
             IMetadataPanel panel = panelInf.getPanelObject();
             panel.initVariables(this);

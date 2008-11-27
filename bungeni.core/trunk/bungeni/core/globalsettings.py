@@ -108,5 +108,15 @@ def getMaxQuestionsByMpPerSitting():
 def getNoOfDaysBeforeQuestionSchedule():
     return 3
         
-        
+def getWeekendDays():
+    """
+    (0 is Monday, 6 is Sunday)
+    """
+    return [5,6]
+
+def getFirstDayOfWeek():
+    """
+    (0 is Monday, 6 is Sunday)
+    """
+    return 0        
     

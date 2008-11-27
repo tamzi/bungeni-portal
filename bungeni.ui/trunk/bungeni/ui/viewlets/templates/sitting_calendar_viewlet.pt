@@ -22,12 +22,11 @@
       <td tal:repeat="day week"> 
         <b tal:content="day" tal:condition="day" />
         <br />
-        <div tal:condition="day">
-          <div tal:repeat="sitting python: view.GetSittings4Day(day)">
-            <a tal:content="sitting/short_name" tal:attributes="href sitting/url"/>
-            <br />
-          </div>
-        </div>
+        <ul tal:condition="day" tal:attributes="class string:draglist">
+          <li tal:repeat="sitting python: view.GetSittings4Day(day)">
+            <a tal:content="sitting/short_name" tal:attributes="href sitting/url"/>            
+          </li>
+        </ul>
       </td>
     </tr>
     </tbody>

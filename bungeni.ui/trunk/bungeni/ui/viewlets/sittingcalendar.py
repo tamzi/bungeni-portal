@@ -8,6 +8,8 @@ from zope.viewlet.manager import WeightOrderedViewletManager
 from zope.viewlet import viewlet
 import zope.interface
 from zope.security import proxy
+import sqlalchemy.sql.expression as sql
+
 from ore.alchemist.container import stringKey
 
 from ore.alchemist import Session
@@ -51,6 +53,47 @@ class SittingCalendarViewletManager( WeightOrderedViewletManager ):
     """
     zope.interface.implements(ISittingCalendar) 
     
+class SittingSessionTypesViewlet( viewlet.ViewletBase ):    
+    """
+    display the available sitting types for scheduling
+    """
+    render = ViewPageTemplateFile ('templates/schedule_sittings_viewlet.pt')    
+    session = Session()
+    query = session.query(domain.SittingType)
+    name = u"available sitting types"
+    list_id = "sitting-types"
+    
+    def getData(self):
+        results = self.query.all()
+        data_list = []
+        for result in results:
+            data ={}
+            data["stid"] = result.sitting_type_id
+            data["stname"] = result.sitting_type
+            data_list.append(data)            
+        return data_list
+    
+class SittingScheduleDDViewlet( viewlet.ViewletBase ):
+    """
+    returns the js for sitting schedule
+    if a sitting is dropped on the calendar a li element 
+    is created with the inner html of the dropped element + an input
+    element of type checkbox with the value : date of sitting + sitting type id.
+    name of the input element is sitting-schedule.
+    id of the <li> is  const string + date of sitting + sitting type id.
+    
+    on update get the 1st and last day of the calendar
+    add dd-targets for each day of the calendar
+    
+    on dragdrop check if an element of the same id as the above generated id exists, if yes
+    do not allow drop, else create the element.    
+    """
+
+
+
+
+
+
 class SittingCalendarViewlet( viewlet.ViewletBase ):
     """
     display a calendar with all sittings in a month
@@ -66,10 +109,12 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
         
     def get_filter(self):
         """
-        show only the sessions in the selected month
+        show only the sittings in the selected month
+        and session!
         """
-                
-        return schema.sittings.c.start_date.between(start_DateTime( self.Date ), end_DateTime( self.Date ))
+        session_id = self.context.__parent__.session_id        
+        return sql.and_( schema.sittings.c.start_date.between(start_DateTime( self.Date ), end_DateTime( self.Date )),
+                        schema.sittings.c.session_id == session_id)
             
         
     def __init__( self,  context, request, view, manager ):        

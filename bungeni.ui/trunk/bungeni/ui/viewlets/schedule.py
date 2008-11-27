@@ -484,7 +484,7 @@ def start_DateTime( Date ):
     return the start datetime for the query
     i.e. first day to be displayed in the calendar 00:00
     """    
-    cal = calendar.Calendar()
+    cal = calendar.Calendar(prefs.getFirstDayOfWeek())
     mcal = cal.monthdatescalendar(Date.year,Date.month)
     firstday = mcal[0][0]
     return datetime.datetime(firstday.year, firstday.month, firstday.day, 0, 0, 0)
@@ -495,7 +495,7 @@ def end_DateTime( Date ):
     return the end datetime for the query
     i.e. last day to be displayed in the calendar 23:59
     """
-    cal = calendar.Calendar()
+    cal = calendar.Calendar(prefs.getFirstDayOfWeek())
     mcal = cal.monthdatescalendar(Date.year,Date.month)
     lastday = mcal[-1][-1]
     return datetime.datetime(lastday.year, lastday.month, lastday.day, 23, 59, 59)
@@ -677,7 +677,7 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         results = scheduled_items.all()
         for result in results:
             self.scheduled_item_ids.append(result.schedule_id)    
-        cal = calendar.Calendar()    
+        cal = calendar.Calendar(prefs.getFirstDayOfWeek())    
         for t_date in cal.itermonthdates(self.Date.year, self.Date.month):
             self.table_date_ids.append('"tdid-' + datetime.date.strftime(t_date,'%Y-%m-%d"'))                 
     
@@ -1231,8 +1231,8 @@ class MotionInStateViewlet( viewlet.ViewletBase ):
         refresh the query
         """
         session = Session()
-        questions = session.query(domain.Motion).filter(schema.motions.c.status == self.state)
-        self.query = questions        
+        motions = session.query(domain.Motion).filter(schema.motions.c.status == self.state)
+        self.query = motions        
     
 class AdmissibleMotionViewlet( MotionInStateViewlet ):   
     """
@@ -1445,7 +1445,14 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
         if Date < datetime.date.today():
             css_class = css_class + "past-date "    
         if Date == datetime.date.today():
-            css_class = css_class + "current-date "    
+            css_class = css_class + "current-date "  
+        if Date.weekday() in prefs.getWeekendDays():
+            css_class = css_class + "weekend-date "             
+        session = Session()    
+        query = session.query(domain.HolyDay).filter(schema.holydays.c.holyday_date == Date)
+        results = query.all()
+        if results:        
+            css_class = css_class + "holyday-date "          
         return css_class.strip()
             
     def getWeekNo(self, Date):
@@ -1770,7 +1777,7 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
             self.Date=datetime.date.today()                            
         self.query, self.Date = current_sitting_query(self.Date)        
         self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )
-        self.monthcalendar = calendar.Calendar().monthdatescalendar(self.Date.year,self.Date.month)         
+        self.monthcalendar = calendar.Calendar(prefs.getFirstDayOfWeek()).monthdatescalendar(self.Date.year,self.Date.month)         
         self.monthname = datetime.date.strftime(self.Date,'%B %Y')
         self.Data = self.getData()
     
@@ -1867,7 +1874,7 @@ class ScheduleHolyDaysViewlet( viewlet.ViewletBase ):
                 self.insert_items(self.request.form)                                                          
         #self.query, self.Date = current_sitting_query(self.Date)        
         self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )
-        self.yearcalendar = calendar.Calendar().yeardatescalendar(self.Date.year,3)         
+        self.yearcalendar = calendar.Calendar(prefs.getFirstDayOfWeek()).yeardatescalendar(self.Date.year,3)         
         #self.monthname = datetime.date.strftime(self.Date,'%B %Y')
         #self.Data = self.getData()
     

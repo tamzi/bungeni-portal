@@ -293,7 +293,19 @@
      class=".sittingcalendar.SittingCalendarViewletManager"
      permission="zope.View"
      />    
-     
+          
+          
+  
+  <browser:viewlet
+    name="bungeni.sitting.types"   
+    manager=".interfaces.ISittingCalendar"
+    class=".sittingcalendar.SittingSessionTypesViewlet"
+    permission="zope.Public"
+    weight="2"
+    />    
+  
+  
+  
   <browser:viewlet
     name="bungeni.sitting.calendar"   
     manager=".interfaces.ISittingCalendar"

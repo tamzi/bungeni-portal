@@ -46,7 +46,8 @@ class SettingsBase( object ):
 
     def __init__( self, context ):
         self.context = context
-        self._data = self._fetch()
+        self._data, self._storedattrs = self._fetch()
+
         
     def _fetch( self ):
         oid, otype = self._context()        
@@ -66,7 +67,7 @@ class SettingsBase( object ):
         for i in ( set( self.settings_schema.names(1) ) - names ):
             field = self.settings_schema[i]
             d[i] = field.default
-        return d
+        return d, names
         
     def _context( self ):
         unwrapped = removeSecurityProxy( self.context )
@@ -90,13 +91,17 @@ class SettingsBase( object ):
                      value = svalue,
                      type = fs.__class__.__name__ )
         
-        if k not in self._data:
-            settings.insert(values=values).execute()
+        if k not in self._storedattrs:
+            statement = settings.insert(values=values)
+            self._storedattrs.add( k )
         else:
-            settings.update(values,
-                            rdb.and_( settings.c.propertysheet == self.settings_schema.__name__,
-                                      settings.c.object_type == otype,
-                                      settings.c.object_id == oid ) )
+            statement = settings.update(
+                whereclause=rdb.and_( settings.c.propertysheet == self.settings_schema.__name__,
+                          settings.c.object_type == otype,
+                          settings.c.object_id == oid ),
+                values=values,
+                )
+        statement.execute()
 
     # mapping interface
     

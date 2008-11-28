@@ -518,6 +518,9 @@ ul.draglist.dragover {
     background-color: green;
 }
 
+ul.draglist.invalid-dragover {
+    background-color: red;
+}
 
 ul.draglist li {
     margin: 1px;
@@ -541,6 +544,22 @@ strong.current-date {
     text-decoration: underline;
     color: red;
 }
+
+strong.weekend-date {
+    text-decoration: none;
+    color: black;
+    font-style: normal;
+    font-weight: lighter;
+}
+
+strong.holyday-date {
+    text-decoration: underline;
+    color: blue;
+    font-style: italic;
+    font-size: large;
+}
+
+
 
 td.invalid-date {
     background-color: grey;

@@ -372,7 +372,7 @@ global $mv_default_take_duration;
 				$h .= '</td></tr></table></div>';
 				$wgOut->setPageTitle('Create New Sitting Takes');
 		}							
-		if($dbr->numRows($result) == 0){
+		if($dbr->numRows($result) < 1){
 			return "No takes have been generated ".$this->name.' - '. $s->getStreamId().' - '.$s->getDuration() .$h;	
 		}else{
 			$i = 0;
@@ -380,6 +380,8 @@ global $mv_default_take_duration;
 			while($row = $dbr->fetchObject($result)){
 				$mvdTitle = new MV_Title( $row->wiki_title );
 				$curRevision = Revision::newFromTitle($mvdTitle);			
+				if ($curRevision)
+				{
 				$wikitext = $curRevision->getText();
 				$smw_attr = MV_Overlay::get_and_strip_semantic_tags($wikitext);
 				$temp[$i]['start_time'] = $row->start_time;
@@ -388,6 +390,7 @@ global $mv_default_take_duration;
 				$temp[$i]['Read by'] =''.$smw_attr['Read By'];
 				$temp[$i]['Edited by'] =''. $smw_attr['Edited By'];
 				$i++;
+				}
 			}
 			
 			
@@ -474,7 +477,7 @@ global $mv_default_take_duration;
 			$art = new Article( $title );
 			if ($art->exists())
 			{
-				$art->doDelete( "new takes generated", true);
+				$art->doDeleteArticle( "new takes generated", true);
 			}
 		}
 		
@@ -489,45 +492,52 @@ global $mv_default_take_duration;
 
 			$title_text = 'Take_en:'.$this->name.'/'.seconds2ntp($start_time).'/'.seconds2ntp($end_time);
 			$title = Title::newFromText($title_text, MV_NS_MVD);
-			$editor = User::newFromId($editors[$num_editor]);
-			$editor_name = $editor->getRealName();
-
-			$reader = User::newFromId($readers[$num_editor]);
-			$reader_name = $reader->getRealName();
-			
-			$reporter = User::newFromId($reporters[$num_editor]);
-			$reporter_name = $reporter->getRealName();
-			
-						
-			
-			
-			$article = new Article($title);
-			$text = '[[Edited By::'.$editor_name.']], '.'[[Read By::'.$reader_name.']], '.'[[Reported By::'.$reporter_name.']], '.'[[Status::Incomplete]] [[Stream::'.$this->name.']]';
-			$article->doEdit($text,'Automatically Generated',EDIT_NEW);
-			if ($num_editor < ($editors_count-1))
+			if ($num_editor < ($editors_count))
 			{
+				$editor = User::newFromId($editors[$num_editor]);
+				$editor_name = $editor->getRealName();
 				$num_editor++;
 			}
 			else
 			{
 				$num_editor = 0;
-			}	
-			if ($num_reader < ($readers_count-1))
+				$editor = User::newFromId($editors[$num_editor]);
+				$editor_name = $editor->getRealName();
+				$num_editor++;
+			}
+			if ($num_reader < ($readers_count))
 			{
+				$reader = User::newFromId($readers[$num_reader]);
+				$reader_name = $reader->getRealName();
 				$num_reader++;
 			}
 			else
 			{
 				$num_reader = 0;
-			}	
-			if ($num_reporter < ($reporters_count-1))
+				$reader = User::newFromId($readers[$num_reader]);
+				$reader_name = $reader->getRealName();
+				$num_reader++;
+			}
+			if ($num_reporter < ($reporters_count))
 			{
+				$reporter = User::newFromId($reporters[$num_reporter]);
+				$reporter_name = $reporter->getRealName();
 				$num_reporter++;
 			}
 			else
 			{
 				$num_reporter = 0;
+				$reporter = User::newFromId($reporters[$num_reporter]);
+				$reporter_name = $reporter->getRealName();
+				$num_reporter++;
 			}
+						
+			
+			
+			$article = new Article($title);
+			$text = 'Editor : [[Edited By::'.$editor_name.']] '."<br>".'Reader : [[Read By::'.$reader_name.']] '."<br>".'Reporter : [[Reported By::'.$reporter_name.']] '.'[[Status::Incomplete | ]] [[Stream::'.$this->name.' | ]]';
+			$article->doEdit($text,'Automatically Generated',EDIT_NEW);
+		
 		}
 		
 		$html .= 'Takes Successfully Generated';

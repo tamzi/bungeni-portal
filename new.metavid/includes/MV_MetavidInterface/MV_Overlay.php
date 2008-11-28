@@ -64,9 +64,9 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		//return '<a title="'.wfMsg('mv_mang_layers_title').'" href="javascript:mv_tool_disp(\'mang_layers\')">'.wfMsg('mv_mang_layers').'</a>' .
 		//	' | ' 
 		return '<a title="'.wfMsg('mv_new_ht_en').'" href="javascript:mv_disp_add_mvd(\'ht_en\')">'.wfMsg('mv_new_ht_en').'</a>' . 
-			' | ' . '<a href="javascript:mv_disp_add_mvd(\'anno_en\')">'.wfMsg('mv_new_anno_en').'</a>'.
-			' | ' . '<a href="javascript:mv_disp_add_mvd(\'take_en\')">'.wfMsg('mv_new_take_en').'</a>'
-			;
+			' | ' . '<a href="javascript:mv_disp_add_mvd(\'anno_en\')">'.wfMsg('mv_new_anno_en').'</a>';
+			//' | ' . '<a href="javascript:mv_disp_add_mvd(\'take_en\')">'.wfMsg('mv_new_take_en').'</a>'
+			//;
 		}
 		//else
 		//{

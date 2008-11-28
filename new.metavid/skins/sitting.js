@@ -59,6 +59,7 @@ YAHOO.util.Event.onContentReady("datefields", function () {
 					YAHOO.util.Dom.get("month").selectedIndex = (nMonth - 1);
 					YAHOO.util.Dom.get("day").selectedIndex = (nDay - 1);
 					YAHOO.util.Dom.get("year").value = nYear;
+					
 
 				}
 				

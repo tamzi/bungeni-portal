@@ -319,6 +319,7 @@ function mv_disp_add_mvd(mvdType, time_range){
 	mv_open_edit_mvd=mvdType;
 	//var sitting_id = document.getElementById("sitting_id").innerHTML;
 	sajax_request_type='GET';	
+	org_vid_src = $j('#embed_vid').get(0).src;
 	if (time_range == null)
 		time_range = org_vid_src.substr( org_vid_src.indexOf('?t=')+3 );
 	js_log('time range = '+time_range);

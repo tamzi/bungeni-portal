@@ -63,7 +63,9 @@ class SignUp( BaseForm ):
         info = principals.principalInfo( data['login'])
         if info is not None:
             self.status = _("Username already taken")
-
+            self.form_reset = False
+            return
+        
         # add principal to principal folder        
         # todo - should separate out a non event sending form lib set_data()
         u = User( data['login'] )

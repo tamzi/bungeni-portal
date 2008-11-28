@@ -8,14 +8,14 @@
         <!--th colspan="1" tal:content="structure view/next"> &gt;&gt; </th-->
       </tr>
       <tr>        
-        <th width="13%">  </th> 
-        <th width="13%"> Mon </th>
-        <th width="13%"> Tue </th>
-        <th width="13%"> Wed </th>
-        <th width="13%"> Thu </th>
-        <th width="13%"> Fri </th>
-        <th width="13%"> Sat </th>
-        <th width="9%"> Sun </th>
+        <th width="5%">  </th> 
+        <th width="14%"> Mon </th>
+        <th width="14%"> Tue </th>
+        <th width="14%"> Wed </th>
+        <th width="14%"> Thu </th>
+        <th width="14%"> Fri </th>
+        <th width="14%"> Sat </th>
+        <th width="11%"> Sun </th>
       </tr>
     </thead>
     <tbody>

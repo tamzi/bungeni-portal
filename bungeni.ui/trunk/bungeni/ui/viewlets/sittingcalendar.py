@@ -116,7 +116,6 @@ class SittingScheduleDDViewlet( viewlet.ViewletBase ):
         need('yui-dragdrop')
         need('yui-animation')    
         need('yui-logger')    #debug
-        #need('yui-json')
         session=Session()
         results = session.query(domain.SittingType).all()  
         for result in results:   
@@ -126,44 +125,6 @@ class SittingScheduleDDViewlet( viewlet.ViewletBase ):
         for day in calendar.Calendar(prefs.getFirstDayOfWeek()).itermonthdates(self.Date.year, self.Date.month):
             if startDate <= day <= endDate:
                 sitting_days.append(day)
-                   
-
-
-        
-        
-        js_string = """
-   (function() {
-    var Dom = YAHOO.util.Dom,
-        Event = YAHOO.util.Event;
-
-    var dd = new YAHOO.util.DD('demo');
-    dd.onDragDrop = function() {
-        Dom.setStyle('demo', 'top', '');
-        Dom.setStyle('demo', 'left', '');
-        Dom.removeClass('target', 'over');
-        var el = Dom.get('demo').cloneNode(true);
-        el.id = Dom.generateId();
-        el.innerHTML = 'Dropped';
-        Dom.get('target').appendChild(el);
-    };
-    dd.onInvalidDrop = function() {
-        Dom.setStyle('demo', 'top', '');
-        Dom.setStyle('demo', 'left', '');
-        Dom.removeClass('target', 'over');
-    };
-    dd.onDragOver = function() {
-        Dom.addClass('target', 'over');
-    };
-    dd.onDragOut = function() {
-        Dom.removeClass('target', 'over');
-    };
-    var tar = new YAHOO.util.DDTarget('target');
-    })();
-
-   
-    
-    """    
-
         js_string = """
 <script type="text/javascript">
 <!--
@@ -195,12 +156,7 @@ YAHOO.example.DDList = function(id, sGroup, config) {
     var el = this.getDragEl();
     Dom.setStyle(el, "opacity", 0.67); // The proxy is slightly transparent
 
-    //this.goingUp = false;
-    //this.lastY = 0;
-    //this.originalEl = document.createElement('li');
-    //this.originalEl.id = "original_proxy_id";
-    
-    //this.tddArray =new Array((tddArray)s);
+
     
 };
 
@@ -286,16 +242,10 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                 YAHOO.example.DDApp.addLi(el.id);
                 destDD.isEmpty = false; 
                 };
-            //destDD.isEmpty = false; 
             DDM.refreshCache(); 
     },
     
-//    onInvalidDrop : function(e) {
-//        Dom.setStyle('demo', 'top', '');
-//        Dom.setStyle('demo', 'left', '');
-//        Dom.removeClass('dragover', 'over');
-//    },
-    
+
 
     onDragEnter: function(e, id) {        
         var destEl = Dom.get(id);
@@ -531,6 +481,12 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
         return the id for that calendar day
         """
         return "dlid_" + datetime.date.strftime(day,'%Y-%m-%d')
+
+    def getWeekNo(self, Date):
+        """
+        return the weeknumber for a given date
+        """
+        return Date.isocalendar()[1]
 
 
     def isSessionDate(self, day):

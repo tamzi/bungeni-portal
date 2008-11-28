@@ -5,21 +5,24 @@
         <thead>
           <tr>        
             <th colspan="1" tal:content="structure view/previous"> &lt;&lt; </th>
-            <th colspan="5" tal:content="view/monthname"> month </th>
+            <th colspan="7" tal:content="view/monthname"> month </th>
             <th colspan="1" tal:content="structure view/next"> &gt;&gt; </th>
           </tr>
           <tr>        
-            <th width="15%"> Mon </th>
-            <th width="15%"> Tue </th>
-            <th width="15%"> Wed </th>
-            <th width="15%"> Thu </th>
-            <th width="15%"> Fri </th>
-            <th width="15%"> Sat </th>
-            <th width="10%"> Sun </th>
+            <th width="5%">  </th>
+            <th width="14"> Mon </th>
+            <th width="14%"> Mon </th>
+            <th width="14%"> Tue </th>
+            <th width="14%"> Wed </th>
+            <th width="14%"> Thu </th>
+            <th width="14%"> Fri </th>
+            <th width="14%"> Sat </th>
+            <th width="11%"> Sun </th>
           </tr>
         </thead>
         <tbody>
         <tr tal:repeat="week view/monthcalendar">
+          <th tal:content="python:view.getWeekNo(week[0])"> </th>
           <td tal:repeat="day week"> 
             <strong tal:content="python:day.day" tal:condition="day"  tal:attributes="class python:view.getDayClass(day)" />
             <br />

@@ -135,7 +135,7 @@ csv;
 from '%(directory)s/data/demodata/ministers.csv'
 csv;*/
 
-copy public.sitting_type (sitting_type_id, sitting_type)
+copy public.sitting_type (sitting_type_id, sitting_type, start_time, end_time)
 from '%(directory)s/data/demodata/sitting_type.csv'
 csv;
 

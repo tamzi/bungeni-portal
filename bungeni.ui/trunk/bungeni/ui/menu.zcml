@@ -147,7 +147,7 @@
      class=".menu.DashboardAction"
      manager="ploned.ui.interfaces.IPersonalBarMenu"
      permission="zope.Public"
-     viewName="dashboard"
+     viewName="workspace"
      weight="10"
      />
      

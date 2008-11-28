@@ -103,7 +103,7 @@ class SittingScheduleDDViewlet( viewlet.ViewletBase ):
     on dragdrop check if an element of the same id as the above generated id exists, if yes
     do not allow drop, else create the element.    
     """
-    Date = datetime.date.today()    
+    Date = datetime.date.today() 
     
     def render(self):
         self.Date = getDisplayDate(self.request)
@@ -116,7 +116,6 @@ class SittingScheduleDDViewlet( viewlet.ViewletBase ):
         need('yui-dragdrop')
         need('yui-animation')    
         need('yui-logger')    #debug
-        need('yui-min')
         #need('yui-json')
         session=Session()
         results = session.query(domain.SittingType).all()  
@@ -127,7 +126,9 @@ class SittingScheduleDDViewlet( viewlet.ViewletBase ):
         for day in calendar.Calendar(prefs.getFirstDayOfWeek()).itermonthdates(self.Date.year, self.Date.month):
             if startDate <= day <= endDate:
                 sitting_days.append(day)
-                
+                   
+
+
         
         
         js_string = """
@@ -180,7 +181,10 @@ YAHOO.example.DDApp = {
         %(DDList)s     
           
         YAHOO.widget.Logger.enableBrowserConsole();   
-    },         
+    },      
+    addLi: function(id) {
+       new YAHOO.example.DDList(id); 
+    },   
 };
 
 YAHOO.example.DDList = function(id, sGroup, config) {
@@ -221,33 +225,20 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
     endDrag: function(e) {
         var srcEl = this.getEl();
         var proxy = this.getDragEl();
-        //var srcPEl = this.originalEl.parentNode;
-        // Show the proxy element and animate it to the src element's location
-        //Dom.setStyle(proxy, "visibility", "");
-        //var a = new YAHOO.util.Motion( 
-        //    proxy, { 
-        //        points: { 
-        //            to: Dom.getXY(srcEl)
-        //        }
-        //    }, 
-        //    0.2, 
-        //    YAHOO.util.Easing.easeOut 
-        //)
         var proxyid = proxy.id;
         var thisid = this.id;      
-        // Hide the proxy and show the source element when finished with the animation
-        //a.onComplete.subscribe(function() {
-                Dom.setStyle(proxyid, "visibility", "hidden");
-                Dom.setStyle(thisid, "visibility", "");
-        //    });
-        //a.animate();
-        //srcPEl.removeChild(this.originalEl);        
+        Dom.setStyle(proxyid, "visibility", "hidden");
+        Dom.setStyle(thisid, "visibility", "");     
     },    
 
     onDragDrop : function(e,id) { 
             var srcEl = this.getEl();
+            var srcPEl = srcEl.parentNode;
             var destEl = Dom.get(id);
             var destDD = DDM.getDDById(id);
+            if (destEl.nodeName.toLowerCase() == "li") {
+                    destEl = destEl.parentNode; 
+                };                
             var proxy = this.getDragEl();               
             Dom.removeClass(id, 'dragover');
             var el = srcEl.cloneNode(true);
@@ -256,7 +247,7 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
             el.innerHTML = '<input type="hidden" name="ssi" value="' + generatedId + '" /> ' + el.innerHTML;
             Dom.setStyle(el, "visibility", "");
             if (document.getElementById(generatedId) != null) {
-                        var a = new YAHOO.util.Motion( 
+                    var a = new YAHOO.util.Motion( 
                         proxy, { 
                             points: { 
                                 to: Dom.getXY(srcEl)
@@ -276,10 +267,26 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                         });
                     a.animate();                                                    
                 }
+            else if ((destEl.id == 'sitting-types') &&
+                     (srcEl.id.substr(0,5) == "stid_")) {    
+                     DDM.refreshCache();
+                     return;                 
+                }           
+            else if ((destEl.id == 'sitting-types') &&
+                     (srcEl.id.substr(0,5) == "dlid_")) {
+                     srcPEl.removeChild(srcEl);                      
+                }            
+            else if ((destEl.id.substr(0,5) == "dlid_") &&
+                     (srcEl.id.substr(0,5) == "dlid_")) {
+                     DDM.refreshCache();
+                     return;
+                }                                 
             else {     
                 destEl.appendChild(el);
+                YAHOO.example.DDApp.addLi(el.id);
+                destDD.isEmpty = false; 
                 };
-            destDD.isEmpty = false; 
+            //destDD.isEmpty = false; 
             DDM.refreshCache(); 
     },
     
@@ -350,6 +357,8 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
     """
     display a calendar with all sittings in a month
     """
+    default_time_dict ={}
+    
     def get_parent_endDate(self):
         """
         get the end date of the parent object
@@ -448,14 +457,27 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
     def fullPath(self):
         return container.getFullPath(self.context)   
         
+    def getDefaults(self):
+        """
+            self.default_time_dict ={
+                1:{'start': datetime.time(9,0), 'end':datetime.time(12,0) },
+                2:{'start': datetime.time(13,0), 'end':datetime.time(18,0) },
+                3:{'start': datetime.time(9,0), 'end':datetime.time(18,0) },
+                }
+        """
+        self.sit_types ={}
+        self.default_time_dict = {}
+        type_results = self.type_query.all()
+        for sit_type in type_results:
+            self.sit_types[sit_type.sitting_type_id] = sit_type.sitting_type
+            self.default_time_dict[sit_type.sitting_type_id] = {'start': sit_type.start_time,
+                                                                'end': sit_type.end_time}
+            
+        
     def getData(self):
         """
         return the data of the query
-        """
-        sit_types ={}
-        type_results = self.type_query.all()
-        for sit_type in type_results:
-            sit_types[sit_type.sitting_type_id] = sit_type.sitting_type
+        """            
         data_list=[]      
         path = self.fullPath()       
         results = self.query.all()
@@ -463,7 +485,7 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
             data ={}
             data['url']= ( path + 'obj-' + str(result.sitting_id) )                         
             data['short_name'] = ( datetime.datetime.strftime(result.start_date,'%H:%M')
-                                    + ' (' + sit_types[result.sitting_type] + ')')
+                                    + ' (' + self.sit_types[result.sitting_type] + ')')
             data['start_date'] = str(result.start_date)
             data['end_date'] = str(result.end_date)
             data['day'] = result.start_date.date()
@@ -516,29 +538,22 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
     
     def insert_items(self, form):   
         if form.has_key('ssi'): 
-            item_ids = makeList(form['ssi'])
-            default_time_dict ={
-                1:{'start': datetime.time(9,0), 'end':datetime.time(12,0) },
-                2:{'start': datetime.time(13,0), 'end':datetime.time(18,0) },
-                3:{'start': datetime.time(9,0), 'end':datetime.time(18,0) },
-                }
-            
-            
+            item_ids = makeList(form['ssi'])                                    
             session=Session()
             for item_id in item_ids:
                 values = item_id.split('_')
                 assert( values[0] == 'dlid')
                 assert( values[2] == 'stid')
-                print values[1]
-                print values[3]
                 dt = time.strptime(values[1],'%Y-%m-%d')
                 y = dt[0]
                 m = dt[1]
                 d = dt[2]
                 st=long(values[3])
                 sitting = domain.GroupSitting()
-                sitting.start_date = datetime.datetime(y,m,d, default_time_dict[st]['start'].hour, default_time_dict[st]['start'].minute)
-                sitting.end_date = datetime.datetime(y,m,d, default_time_dict[st]['end'].hour, default_time_dict[st]['end'].minute)
+                sitting.start_date = datetime.datetime(y,m,d, self.default_time_dict[st]['start'].hour, 
+                                                        self.default_time_dict[st]['start'].minute)
+                sitting.end_date = datetime.datetime(y,m,d, self.default_time_dict[st]['end'].hour, 
+                                                        self.default_time_dict[st]['end'].minute)
                 sitting.sitting_type = long(values[3])
                 sitting.session_id = self.context.__parent__.session_id
                 session.save(sitting)
@@ -558,6 +573,7 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
             self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )   
         self.startDate = start_DateTime(self.Date,self.context).date()
         self.endDate = end_DateTime(self.Date, self.context).date() 
+        self.getDefaults()
         if self.request.form:
             if self.request.form.has_key('save'):
                 self.insert_items(self.request.form)         

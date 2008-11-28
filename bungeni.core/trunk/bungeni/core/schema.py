@@ -428,6 +428,8 @@ sitting_type = rdb.Table(
     metadata,
     rdb.Column( "sitting_type_id", rdb.Integer, primary_key=True ),
     rdb.Column( "sitting_type", rdb.Unicode(40)),
+    rdb.Column( "start_time", rdb.Time, nullable=False),
+    rdb.Column( "end_time", rdb.Time, nullable=False),
     )
 
 sitting_schedule = rdb.Table(

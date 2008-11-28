@@ -1,6 +1,6 @@
 # encoding: utf-8
 import calendar
-import datetime
+import datetime, time
 
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.publisher.browser import BrowserView
@@ -8,6 +8,9 @@ from zope.viewlet.manager import WeightOrderedViewletManager
 from zope.viewlet import viewlet
 import zope.interface
 from zope.security import proxy
+
+from zc.resourcelibrary import need
+
 import sqlalchemy.sql.expression as sql
 
 from ore.alchemist.container import stringKey
@@ -19,28 +22,40 @@ from bungeni.ui.utils import getDisplayDate
 import bungeni.core.schema as schema
 import bungeni.core.domain as domain
 from bungeni.ui.browser import container
+import bungeni.core.globalsettings as prefs
+from schedule import makeList
 
 
-def start_DateTime( Date ):
+def start_DateTime( Date, context ):
     """
     return the start datetime for the query
     i.e. first of month 00:00
     """
-    return datetime.datetime(Date.year, Date.month, 1, 0, 0, 0)
+    cal = calendar.Calendar(prefs.getFirstDayOfWeek())
+    mcal = cal.monthdatescalendar(Date.year,Date.month)
+    firstday = mcal[0][0]
+    if context.__parent__:
+        if context.__parent__.start_date:
+            if firstday < context.__parent__.start_date:
+                firstday = context.__parent__.start_date            
+    return datetime.datetime(firstday.year, firstday.month, firstday.day, 0, 0, 0)
     
     
-def end_DateTime( Date ):
+    
+def end_DateTime( Date, context ):
     """
     return the end datetime for the query
     i.e. last of month 23:59
     """
-    if Date.month == 12:
-        month = 1
-        year = Date.year + 1
-    else:
-        month = Date.month + 1
-        year = Date.year    
-    return datetime.datetime(year, month, 1, 0, 0, 0)  - datetime.timedelta(seconds=1)                
+    cal = calendar.Calendar(prefs.getFirstDayOfWeek())
+    mcal = cal.monthdatescalendar(Date.year,Date.month)
+    lastday = mcal[-1][-1]
+    if context.__parent__:
+        if context.__parent__.end_date:
+            if lastday > context.__parent__.end_date:
+                lastday = context.__parent__.end_date        
+    return datetime.datetime(lastday.year, lastday.month, lastday.day, 23, 59, 59)
+           
                 
 
 class Calendar(BrowserView):
@@ -68,7 +83,7 @@ class SittingSessionTypesViewlet( viewlet.ViewletBase ):
         data_list = []
         for result in results:
             data ={}
-            data["stid"] = result.sitting_type_id
+            data["stid"] = "stid_" + str(result.sitting_type_id)
             data["stname"] = result.sitting_type
             data_list.append(data)            
         return data_list
@@ -88,11 +103,248 @@ class SittingScheduleDDViewlet( viewlet.ViewletBase ):
     on dragdrop check if an element of the same id as the above generated id exists, if yes
     do not allow drop, else create the element.    
     """
+    Date = datetime.date.today()    
+    
+    def render(self):
+        self.Date = getDisplayDate(self.request)
+        if not self.Date:
+            self.Date = self.get_parent_endDate() 
+            if not self.Date:
+                self.Date=datetime.date.today()    
+        sitting_type_ids = []
+        sitting_days = []
+        need('yui-dragdrop')
+        need('yui-animation')    
+        need('yui-logger')    #debug
+        need('yui-min')
+        #need('yui-json')
+        session=Session()
+        results = session.query(domain.SittingType).all()  
+        for result in results:   
+            sitting_type_ids.append(result.sitting_type_id)
+        startDate = start_DateTime(self.Date,self.context).date()
+        endDate = end_DateTime(self.Date, self.context).date()
+        for day in calendar.Calendar(prefs.getFirstDayOfWeek()).itermonthdates(self.Date.year, self.Date.month):
+            if startDate <= day <= endDate:
+                sitting_days.append(day)
+                
+        
+        
+        js_string = """
+   (function() {
+    var Dom = YAHOO.util.Dom,
+        Event = YAHOO.util.Event;
+
+    var dd = new YAHOO.util.DD('demo');
+    dd.onDragDrop = function() {
+        Dom.setStyle('demo', 'top', '');
+        Dom.setStyle('demo', 'left', '');
+        Dom.removeClass('target', 'over');
+        var el = Dom.get('demo').cloneNode(true);
+        el.id = Dom.generateId();
+        el.innerHTML = 'Dropped';
+        Dom.get('target').appendChild(el);
+    };
+    dd.onInvalidDrop = function() {
+        Dom.setStyle('demo', 'top', '');
+        Dom.setStyle('demo', 'left', '');
+        Dom.removeClass('target', 'over');
+    };
+    dd.onDragOver = function() {
+        Dom.addClass('target', 'over');
+    };
+    dd.onDragOut = function() {
+        Dom.removeClass('target', 'over');
+    };
+    var tar = new YAHOO.util.DDTarget('target');
+    })();
+
+   
+    
+    """    
+
+        js_string = """
+<script type="text/javascript">
+<!--
+(function() {
+
+var Dom = YAHOO.util.Dom;
+var Event = YAHOO.util.Event;
+var DDM = YAHOO.util.DragDropMgr;    
+    
+YAHOO.example.DDApp = {
+    init: function() {
+
+
+        %(DDTarget)s
+        %(DDList)s     
+          
+        YAHOO.widget.Logger.enableBrowserConsole();   
+    },         
+};
+
+YAHOO.example.DDList = function(id, sGroup, config) {
+
+    YAHOO.example.DDList.superclass.constructor.call(this, id, sGroup, config);
+
+    this.logger = this.logger || YAHOO;
+    var el = this.getDragEl();
+    Dom.setStyle(el, "opacity", 0.67); // The proxy is slightly transparent
+
+    //this.goingUp = false;
+    //this.lastY = 0;
+    //this.originalEl = document.createElement('li');
+    //this.originalEl.id = "original_proxy_id";
+    
+    //this.tddArray =new Array((tddArray)s);
+    
+};
 
 
 
+YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
 
 
+    startDrag: function(x, y) {
+        this.logger.log(this.id + " startDrag");
+        // make the proxy look like the source element
+        var dragEl = this.getDragEl();
+        var clickEl = this.getEl();                                       
+        Dom.setStyle(clickEl, "visibility", "hidden");
+        dragEl.innerHTML = clickEl.innerHTML;    
+        Dom.setStyle(dragEl, "color", Dom.getStyle(clickEl, "color"));
+        Dom.setStyle(dragEl, "backgroundColor", Dom.getStyle(clickEl, "backgroundColor"));
+        Dom.setStyle(dragEl, "border", "2px solid gray");      
+        
+    },
+    
+    endDrag: function(e) {
+        var srcEl = this.getEl();
+        var proxy = this.getDragEl();
+        //var srcPEl = this.originalEl.parentNode;
+        // Show the proxy element and animate it to the src element's location
+        //Dom.setStyle(proxy, "visibility", "");
+        //var a = new YAHOO.util.Motion( 
+        //    proxy, { 
+        //        points: { 
+        //            to: Dom.getXY(srcEl)
+        //        }
+        //    }, 
+        //    0.2, 
+        //    YAHOO.util.Easing.easeOut 
+        //)
+        var proxyid = proxy.id;
+        var thisid = this.id;      
+        // Hide the proxy and show the source element when finished with the animation
+        //a.onComplete.subscribe(function() {
+                Dom.setStyle(proxyid, "visibility", "hidden");
+                Dom.setStyle(thisid, "visibility", "");
+        //    });
+        //a.animate();
+        //srcPEl.removeChild(this.originalEl);        
+    },    
+
+    onDragDrop : function(e,id) { 
+            var srcEl = this.getEl();
+            var destEl = Dom.get(id);
+            var destDD = DDM.getDDById(id);
+            var proxy = this.getDragEl();               
+            Dom.removeClass(id, 'dragover');
+            var el = srcEl.cloneNode(true);
+            generatedId = destEl.id + "_" + srcEl.id
+            el.id = generatedId;
+            el.innerHTML = '<input type="hidden" name="ssi" value="' + generatedId + '" /> ' + el.innerHTML;
+            Dom.setStyle(el, "visibility", "");
+            if (document.getElementById(generatedId) != null) {
+                        var a = new YAHOO.util.Motion( 
+                        proxy, { 
+                            points: { 
+                                to: Dom.getXY(srcEl)
+                            }
+                        }, 
+                        0.2, 
+                        YAHOO.util.Easing.easeOut 
+                    )
+                    Dom.addClass(id, 'invalid-dragover')
+                    var proxyid = proxy.id;
+                    var thisid = this.id;      
+                    // Hide the proxy and show the source element when finished with the animation
+                    a.onComplete.subscribe(function() {
+                            Dom.setStyle(proxyid, "visibility", "hidden");
+                            Dom.setStyle(thisid, "visibility", "");
+                            Dom.removeClass(id, 'invalid-dragover');
+                        });
+                    a.animate();                                                    
+                }
+            else {     
+                destEl.appendChild(el);
+                };
+            destDD.isEmpty = false; 
+            DDM.refreshCache(); 
+    },
+    
+//    onInvalidDrop : function(e) {
+//        Dom.setStyle('demo', 'top', '');
+//        Dom.setStyle('demo', 'left', '');
+//        Dom.removeClass('dragover', 'over');
+//    },
+    
+
+    onDragEnter: function(e, id) {        
+        var destEl = Dom.get(id);
+
+        if ((destEl.nodeName.toLowerCase() == "ol") ||
+            (destEl.nodeName.toLowerCase() == "ul")) {            
+            Dom.addClass(id, 'dragover');
+            }            
+        if (destEl.nodeName.toLowerCase() == "li") {
+            var pEl = destEl.parentNode;
+            if (pEl.nodeName.toLowerCase() == "ol") {                
+                Dom.addClass(pEl.id, 'dragover');
+                }
+            }
+        
+    },
+
+   
+   
+   onDragOut: function(e, id) {        
+        var destEl = Dom.get(id);
+
+         if ((destEl.nodeName.toLowerCase() == "ol")||
+            (destEl.nodeName.toLowerCase() == "ul")) {
+             Dom.removeClass(id, 'dragover');
+             Dom.removeClass(id, 'invalid-dragover');
+            }            
+        if (destEl.nodeName.toLowerCase() == "li") {
+            var pEl = destEl.parentNode;
+            if (pEl.nodeName.toLowerCase() == "ol") {
+                 //Dom.removeClass(pEl.id, 'dragover');
+                }
+            }        
+    },
+
+    });
+Event.onDOMReady(YAHOO.example.DDApp.init, YAHOO.example.DDApp, true);
+})();
+-->        
+</script>       
+        """
+        DDList = ""
+        for qid in sitting_type_ids:            
+            #new YAHOO.example.DDList("li" + i + "_" + j);
+            DDList = DDList + 'new YAHOO.example.DDList("stid_' + str(qid) +'"); \n'
+        DDTarget = ""    
+        for day in sitting_days:
+            #new YAHOO.util.DDTarget("ul"+i);
+            DDTarget = DDTarget + 'new YAHOO.util.DDTarget("dlid_' + datetime.date.strftime(day,'%Y-%m-%d')  +'"); \n'
+        
+        currentDateId = '"tdid-' + datetime.date.strftime(datetime.date.today(),'%Y-%m-%d"')    
+        js_inserts= {
+            'DDList':DDList,
+            'DDTarget':DDTarget,
+            'currentDateId': currentDateId }
+        return js_string % js_inserts        
 
 class SittingCalendarViewlet( viewlet.ViewletBase ):
     """
@@ -113,7 +365,7 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
         and session!
         """
         session_id = self.context.__parent__.session_id        
-        return sql.and_( schema.sittings.c.start_date.between(start_DateTime( self.Date ), end_DateTime( self.Date )),
+        return sql.and_( schema.sittings.c.start_date.between(start_DateTime( self.Date, self.context ), end_DateTime( self.Date, self.context )),
                         schema.sittings.c.session_id == session_id)
             
         
@@ -214,7 +466,9 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
                                     + ' (' + sit_types[result.sitting_type] + ')')
             data['start_date'] = str(result.start_date)
             data['end_date'] = str(result.end_date)
-            data['day'] = int(result.start_date.day)
+            data['day'] = result.start_date.date()
+            data['did'] = ('dlid_' +  datetime.datetime.strftime(result.start_date,'%Y-%m-%d') +
+                           '_stid_' + str( result.sitting_type))            
             data_list.append(data)            
         return data_list
 
@@ -224,10 +478,71 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
         """
         day_data=[]
         for data in self.Data:
-            if data['day'] == int(day):
+            if data['day'] == day:
                 day_data.append(data)
         return day_data                
        
+    def getDayClass(self, day):
+        """
+        return the class settings for that calendar day
+        """
+        css_class = ""
+        if self.Date.month != day.month:
+            css_class = css_class + "other-month " 
+        elif day < self.startDate or day > self.endDate:
+             css_class = css_class + "other-month "                       
+        if day < datetime.date.today():
+            css_class = css_class + "past-date "    
+        if day == datetime.date.today():
+            css_class = css_class + "current-date "  
+        if day.weekday() in prefs.getWeekendDays():
+            css_class = css_class + "weekend-date "             
+        session = Session()    
+        query = session.query(domain.HolyDay).filter(schema.holydays.c.holyday_date == day)
+        results = query.all()
+        if results:        
+            css_class = css_class + "holyday-date "          
+        return css_class.strip()
+
+    def getDayId(self, day):
+        """
+        return the id for that calendar day
+        """
+        return "dlid_" + datetime.date.strftime(day,'%Y-%m-%d')
+
+
+    def isSessionDate(self, day):
+        return self.startDate <= day <= self.endDate
+    
+    def insert_items(self, form):   
+        if form.has_key('ssi'): 
+            item_ids = makeList(form['ssi'])
+            default_time_dict ={
+                1:{'start': datetime.time(9,0), 'end':datetime.time(12,0) },
+                2:{'start': datetime.time(13,0), 'end':datetime.time(18,0) },
+                3:{'start': datetime.time(9,0), 'end':datetime.time(18,0) },
+                }
+            
+            
+            session=Session()
+            for item_id in item_ids:
+                values = item_id.split('_')
+                assert( values[0] == 'dlid')
+                assert( values[2] == 'stid')
+                print values[1]
+                print values[3]
+                dt = time.strptime(values[1],'%Y-%m-%d')
+                y = dt[0]
+                m = dt[1]
+                d = dt[2]
+                st=long(values[3])
+                sitting = domain.GroupSitting()
+                sitting.start_date = datetime.datetime(y,m,d, default_time_dict[st]['start'].hour, default_time_dict[st]['start'].minute)
+                sitting.end_date = datetime.datetime(y,m,d, default_time_dict[st]['end'].hour, default_time_dict[st]['end'].minute)
+                sitting.sitting_type = long(values[3])
+                sitting.session_id = self.context.__parent__.session_id
+                session.save(sitting)
+                
        
     def update(self):
         """
@@ -240,11 +555,16 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
             self.Date = self.get_parent_endDate() 
             if not self.Date:
                 self.Date=datetime.date.today()            
-            self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )       
+            self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )   
+        self.startDate = start_DateTime(self.Date,self.context).date()
+        self.endDate = end_DateTime(self.Date, self.context).date() 
+        if self.request.form:
+            if self.request.form.has_key('save'):
+                self.insert_items(self.request.form)         
         query=context._query
         self.query=query.filter(self.get_filter()).order_by('start_date')
         #print str(query)
-        self.monthcalendar = calendar.monthcalendar(self.Date.year, self.Date.month)
+        self.monthcalendar = calendar.Calendar(prefs.getFirstDayOfWeek()).monthdatescalendar(self.Date.year,self.Date.month)
         self.monthname = datetime.date.strftime(self.Date,'%B %Y')
         self.Data = self.getData()
     

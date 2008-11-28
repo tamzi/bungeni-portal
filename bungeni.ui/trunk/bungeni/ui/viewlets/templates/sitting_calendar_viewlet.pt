@@ -1,36 +1,40 @@
 <div class="listing">
   <em> Sittings </em>
-  <table class="listing grid">
-    <thead>
-      <tr>        
-        <th colspan="1" tal:content="structure view/previous"> &lt;&lt; </th>
-        <th colspan="5" tal:content="view/monthname"> month </th>
-        <th colspan="1" tal:content="structure view/next"> &gt;&gt; </th>
-      </tr>
-      <tr>        
-        <th width="15%"> Mon </th>
-        <th width="15%"> Tue </th>
-        <th width="15%"> Wed </th>
-        <th width="15%"> Thu </th>
-        <th width="15%"> Fri </th>
-        <th width="15%"> Sat </th>
-        <th width="10%"> Sun </th>
-      </tr>
-    </thead>
-    <tbody>
-    <tr tal:repeat="week view/monthcalendar">
-      <td tal:repeat="day week"> 
-        <b tal:content="day" tal:condition="day" />
-        <br />
-        <ul tal:condition="day" tal:attributes="class string:draglist">
-          <li tal:repeat="sitting python: view.GetSittings4Day(day)">
-            <a tal:content="sitting/short_name" tal:attributes="href sitting/url"/>            
-          </li>
-        </ul>
-      </td>
-    </tr>
-    </tbody>
-  </table>
+  <form method="post" action="" enctype="multipart/form-data">
+      <table class="listing grid">
+        <thead>
+          <tr>        
+            <th colspan="1" tal:content="structure view/previous"> &lt;&lt; </th>
+            <th colspan="5" tal:content="view/monthname"> month </th>
+            <th colspan="1" tal:content="structure view/next"> &gt;&gt; </th>
+          </tr>
+          <tr>        
+            <th width="15%"> Mon </th>
+            <th width="15%"> Tue </th>
+            <th width="15%"> Wed </th>
+            <th width="15%"> Thu </th>
+            <th width="15%"> Fri </th>
+            <th width="15%"> Sat </th>
+            <th width="10%"> Sun </th>
+          </tr>
+        </thead>
+        <tbody>
+        <tr tal:repeat="week view/monthcalendar">
+          <td tal:repeat="day week"> 
+            <strong tal:content="python:day.day" tal:condition="day"  tal:attributes="class python:view.getDayClass(day)" />
+            <br />
+            <ul tal:condition="python:view.isSessionDate(day)" tal:attributes="id python:view.getDayId(day); class string:draglist">
+              <li tal:repeat="sitting python: view.GetSittings4Day(day)">
+                <a tal:content="sitting/short_name" tal:attributes="href sitting/url; id sitting/did"/>            
+              </li>
+            </ul>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    <input id="saveButton" class="context" type="submit" name="save" value="Save"/>
+    <input id="cancelButton" class="context" type="submit" name="cancel" value="Cancel"/>
+  </form>
   <form action="add"
     tal:attributes="action string:${view/fullPath}add">
      <input type="submit" value=" Add " />

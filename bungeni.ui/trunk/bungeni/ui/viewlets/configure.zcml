@@ -314,6 +314,14 @@
     weight="3"
     />        
 
+  <browser:viewlet
+    name="bungeni.sitting.yuidd-schedulesitting"   
+    manager=".interfaces.ISittingCalendar"
+    class=".sittingcalendar.SittingScheduleDDViewlet"
+    permission="zope.Public"
+    weight="3"
+    />       
+
 
   
 

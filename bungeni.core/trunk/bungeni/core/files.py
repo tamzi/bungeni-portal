@@ -8,7 +8,7 @@ from zope.security.proxy import removeSecurityProxy
 
 from sqlalchemy import orm
 from ore.alchemist import Session
-from ore.svn import SubversionContext, resource
+from ore.svn import SubversionContext
 from ore.svn.directory import SubversionDirectory
 from ore.metamime.interfaces import IMimeClassifier
 from ore.metamime.hachoir import HachoirFileClassifier, InputIOStream
@@ -27,7 +27,7 @@ class FileClassifier( HachoirFileClassifier ):
 
     def _stream( self ):
         return InputIOStream( self.context.open() )
-
+    
 def key( ob ):
     unwrapped = removeSecurityProxy( ob )
     mapper = orm.object_mapper( ob )
@@ -80,7 +80,7 @@ class DirectoryDescriptor( object ):
         return directory
 
 class DirectoryDescriptorTraversal( object ):
-    """ traversal to directories  """
+    """ traversal through directory descriptors named 'files'  """
     def __init__( self, context, request ):
         self.context = context
         self.request = request
@@ -153,6 +153,9 @@ class _FileRepository( object ):
         return location
         
     def get( self, path ):
+        # set to the most recent repository revision, if not currently
+        # active.
+        self.context.setRevision()
         try:
             return self.context.traverse( path )
         except KeyError:

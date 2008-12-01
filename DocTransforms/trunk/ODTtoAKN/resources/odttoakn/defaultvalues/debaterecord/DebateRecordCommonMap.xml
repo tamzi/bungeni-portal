@@ -15,6 +15,9 @@
 		<element id="11" bungeniSectionType="Person" result="from"/>
 		<element id="12" bungeniSectionType="ActionEvent" result="ActionEvent"/>
 		<element id="13" bungeniSectionType="Communication" result="Communication"/>
-		<element id="13" bungeniSectionType="Conclusion" result="conclusions"/>
+		<element id="14" bungeniSectionType="Conclusion" result="conclusions"/>
+		<element id="15" bungeniSectionType="span" result="span"/>
+		<element id="16" bungeniSectionType="p" result="p"/>
+		<element id="17" bungeniSectionType="ref" result="ref"/>
 	</elements> 
 </map>

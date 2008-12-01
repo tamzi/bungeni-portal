@@ -1,4 +1,4 @@
-package org.un.bungeni.translators.streams;
+package org.un.bungeni.translators.utility.streams;
 
 import java.io.BufferedWriter;
 import java.io.File;

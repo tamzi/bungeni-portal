@@ -4,9 +4,9 @@ import java.io.File;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.un.bungeni.translators.odf.ODFUtility;
 import org.un.bungeni.translators.odttoakn.configurations.Configuration;
-import org.un.bungeni.translators.streams.StreamSourceUtility;
+import org.un.bungeni.translators.utility.odf.ODFUtility;
+import org.un.bungeni.translators.utility.streams.StreamSourceUtility;
 import org.w3c.dom.Document;
 
 import javax.xml.transform.*;

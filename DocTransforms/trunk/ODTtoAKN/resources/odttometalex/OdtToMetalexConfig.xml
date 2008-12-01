@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config name="DebateRecordCommon">
-	<map href="resources/odttoakn/defaultvalues/debaterecord/DebateRecordCommonMap.xml" />
+	<map href="resources/odttoakn/defaultvalues/debaterecord/map.xml" />
 	<replacements>
 		<!-- Normalise the produced ODF ref elements -->
 		<replacement step="1" name="replacerefmarkstart" pattern="&lt;text:reference-mark-start([^\/]+)/&gt;" replacement="&lt;ref$1&gt;" />

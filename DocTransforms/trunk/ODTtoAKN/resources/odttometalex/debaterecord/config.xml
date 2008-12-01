@@ -15,14 +15,14 @@
 		<!-- This steps are performed BEFORE the above regex replacement -->
 		<input>
 			<!-- Extract the styles -->
-			<xslt step="1" name="mergeStyles" href="resources/stylesheets/debaterecord/common/MergeStyles.xsl" />
+			<xslt step="1" name="mergeStyles" href="resources/odttometalex/debaterecord/MergeStyles.xsl" />
 			<!-- Transform the document to the META Language -->
-			<xslt step="2" name="ODFToMetaLanguage" href="resources/stylesheets/debaterecord/common/ODFToMetaLanguage.xsl" />
+			<xslt step="2" name="ODFToMetaLanguage" href="resources/odttometalex/debaterecord/ODFToMetaLanguage.xsl" />
 		</input>
 		<!-- This steps are performed AFTER the above regex replacement -->
 		<output>
 			<!-- Normalise the produced META document -->
-			<xslt step="1" name="MetaLanguageNormalisation" href="resources/stylesheets/debaterecord/common/MetaLanguageNormalisation.xsl" />
+			<xslt step="1" name="MetaLanguageNormalisation" href="resources/odttometalex/debaterecord/MetaLanguageNormalisation.xsl" />
 		</output>
 	</stylesheets>
 </config>

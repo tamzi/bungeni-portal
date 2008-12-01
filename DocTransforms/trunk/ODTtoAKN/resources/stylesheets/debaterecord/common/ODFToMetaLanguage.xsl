@@ -83,8 +83,12 @@
         </container>
     </xsl:template>
 
+    <xsl:template match="text:list-header">
+        <xsl:apply-templates />
+    </xsl:template>
+
     <xsl:template match="text:list-item">
-        <container name="li">
+        <container name="item">
             <xsl:for-each select="@*">
                 <xsl:attribute name="{local-name(.)}">
                     <xsl:value-of select="." />
@@ -111,11 +115,46 @@
         </inline>
     </xsl:template>
 
-    <xsl:template match="text:h">
+    <xsl:template match="text:a">
+        <inline name="a">
+            <xsl:attribute name="id" select="generate-id(.)" />
+            <xsl:attribute name="href" select="tokenize(@href,':')[position()=2]" />
+            <xsl:apply-templates />
+        </inline>
+    </xsl:template>
+
+    <xsl:template match="text:p[tokenize(@text:style-name,'_')[position()=1] = 'heading']">
         <htitle>
             <xsl:attribute name="id" select="generate-id(.)" />
-            <xsl:attribute name="name" select="@text:outline-level" />
-            <xsl:attribute name="class" select="@text:style-name" />
+            <xsl:attribute name="name" select="tokenize(@text:style-name,'_')[position()=1]" />
+            <xsl:attribute name="class" select="tokenize(@text:style-name,'_')[position()=2]" />
+            <xsl:apply-templates />
+        </htitle>
+    </xsl:template>
+
+    <xsl:template match="text:p[tokenize(@text:style-name,'_')[position()=1] = 'subheading']">
+        <htitle>
+            <xsl:attribute name="id" select="generate-id(.)" />
+            <xsl:attribute name="name" select="tokenize(@text:style-name,'_')[position()=1]" />
+            <xsl:attribute name="class" select="tokenize(@text:style-name,'_')[position()=2]" />
+            <xsl:apply-templates />
+        </htitle>
+    </xsl:template>
+
+    <xsl:template match="text:p[tokenize(@text:style-name,'_')[position()=1] = 'num']">
+        <htitle>
+            <xsl:attribute name="id" select="generate-id(.)" />
+            <xsl:attribute name="name" select="tokenize(@text:style-name,'_')[position()=1]" />
+            <xsl:attribute name="class" select="tokenize(@text:style-name,'_')[position()=2]" />
+            <xsl:apply-templates />
+        </htitle>
+    </xsl:template>
+
+    <xsl:template match="text:p[tokenize(@text:style-name,'_')[position()=1] = 'sidenote']">
+        <htitle>
+            <xsl:attribute name="id" select="generate-id(.)" />
+            <xsl:attribute name="name" select="tokenize(@text:style-name,'_')[position()=1]" />
+            <xsl:attribute name="class" select="tokenize(@text:style-name,'_')[position()=2]" />
             <xsl:apply-templates />
         </htitle>
     </xsl:template>

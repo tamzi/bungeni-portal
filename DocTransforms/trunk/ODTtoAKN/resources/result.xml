@@ -1,287 +1,111 @@
-<?xml version="1.0" encoding="UTF-8"?><root name="root" id="d3e1">   
+<?xml version="1.0" encoding="UTF-8"?>
+<root name="root" id="d3e1" xmlns="http://www.metalex.org/1.0">   
    <container id="debaterecord" class="Sect1" name="body">      
       <container id="masthead" class="Sect2" name="MastHead">         
-         <block name="p" id="d3e7" class="P18">NATIONAL ASSEMBLY</block>                  
-         <block name="p" id="d3e14" class="P10">OFFICIAL REPORT</block>                  
-         <block name="p" id="d3e21" class="P4">            
-            <inline name="ref" class="BungeniParliamentID" href="1" id="d5e19">Tenth Parliament</inline>-<inline name="ref" class="BungeniParliamentSession" href="2" id="d5e22">Second Session</inline>         
+         <block name="p" id="d3e7" class="P15">NATIONAL ASSEMBLY</block>                  
+         <block name="p" id="d3e14" class="P14">OFFICIAL REPORT</block>                  
+         <block name="p" id="d3e21" class="P7">            
+            <inline name="ref" class="mBungeniDebateOfficialDate" href="3036" id="d5e19">Thursday, 9th December, 2004</inline>         
          </block>                  
-         <block name="p" id="d3e37" class="P7">(Tenth Parliament established by proclamation -</block>         
-         <block name="p" id="d3e42" class="P7">Legal Notice No.24 of 29.2.2008)</block>                  
-         <block name="p" id="d3e49" class="P4">            
-            <inline name="ref" class="BungeniDebateOfficialDate" href="1" id="d5e39">Thursday, 6th March, 2008</inline>         
-         </block>                  
-         <block name="p" id="d3e61" class="P4">STATE OPENING OF A NEW SESSION</block>                  
-         <block name="p" id="d3e68" class="P7">The National Assembly met at</block>         
-         <block name="p" id="d3e73" class="P7">            
-            <inline name="ref" class="BungeniDebateOfficialTime" href="1" id="d5e56">Thirty minutes past Two o'clock</inline>at Parliament Buildings</block>         
-         <block name="p" id="d3e82" class="P7">on<inline name="ref" class="BungeniDebateOfficialDate" href="2" id="d5e62">Thursday, 6th March, 2008</inline>, it being</block>         
-         <block name="p" id="d3e91" class="P7">the first day of the<inline name="ref" class="BungeniParliamentSession" href="1" id="d5e68">Second Session</inline>.</block>      
+         <block name="p" id="d3e33" class="P3">The House met at<inline name="ref" class="mBungeniDebateOfficialTime" href="8094" id="d5e28">2.30 p.m.</inline>         
+         </block>               
       </container>            
-      <container id="comment88272" class="Sect3" name="Observation">         
-         <block name="p" id="d3e105" class="P4">ARRIVAL OF HIS EXCELLENCY</block>         
-         <block name="p" id="d3e110" class="P4">THE PRESIDENT</block>                  
-         <block name="p" id="d3e117" class="P7">[His Excellency the President (Mr. Mwai Kibaki),</block>         
-         <block name="p" id="d3e122" class="P7">escorted by the Speaker and accompanied by the Mace</block>         
-         <block name="p" id="d3e128" class="P7">of the National Assembly, entered the Chamber</block>         
-         <block name="p" id="d3e133" class="P7">at Thirty minutes past two o'clock]</block>                  
-         <block name="p" id="d3e140" class="P7">[His Excellency the President,</block>         
-         <block name="p" id="d3e145" class="P7">(Mr. Mwai Kibaki) took his</block>         
-         <block name="p" id="d3e150" class="P7">seat in the Chair of State]</block>                  
-         <block name="p" id="d3e158" class="P7">(The Mace of the National Assembly</block>         
-         <block name="p" id="d3e163" class="P7">was placed on the Table)</block>      
+      <container id="comment1" class="Sect3" name="Observation">         
+         <block name="p" id="d3e52" class="observation">[Mr. Deputy Speaker in the Chair]</block>      
       </container>                  
-      <hcontainer id="prayers28882" class="Sect4" name="GroupActivity">         
-         <htitle id="d3e179" name="1" class="P16">PRAYERS</htitle>                  
-         <container id="speech28821" class="Sect5" name="Speech">                        
-            <container BungeniPersonID="userSpeaker" BungeniSpeechBy="userSpeaker" id="heading8837" class="Sect6" name="Person">               
-               <block name="p" id="d3e193" class="P12">                  
-                  <inline name="span" id="d3e195" class="T2">Mr. Speaker:</inline>                                 
-               </block>            
-            </container>            
-            <block name="p" id="d3e202" class="P1">Your Excellency, hon. Members, may I call upon the Spiritual Leaders to offer prayers for this new Session.</block>         
+      <container id="comment2" class="Sect4" name="GroupActivity">         
+         <block name="p" id="d3e66" class="P3">PRAYERS</block>      
+      </container>            
+      <hcontainer id="papers1" class="Sect5" name="TabledDocuments">         
+         <htitle id="d3e74" name="heading" class="5f">PAPERS LAID</htitle>         
+         <htitle id="d3e77" name="subheading" class="5f">The following Papers were laid on the Table:-</htitle>                           
+         <container id="tbldocs1" class="Sect6" name="TabledDocumentsList">            
+            <container name="list" class="L1" id="d3e91">               
+               <container name="item" id="d3e93">                  
+                  <block name="p" id="d3e95" class="P16">The Report of the Commonwealth Parliamentary Association (CPA) Kenya branch delegation to the 35th CPA (Africa Region) conference held in Lobamba, Swaziland from 7th August, 2004 to 15th August, 2004.</block>               
+               </container>               
+               <container name="item" id="d3e99">                  
+                  <block name="p" id="d3e101" class="P16">The Report of the 45th Session of the Executive Committee and the 27th Conference of the African Parliamentary Union held in Algiers, Algeria on 27th November, 2004, to 1st December, 2004.</block>               
+               </container>            
+            </container>         
          </container>                  
-         <container id="comment00282" class="Sect7" name="">            
-            <block name="p" id="d3e210" class="P7">(Prayers were then said by the following:</block>            
-            <block name="p" id="d3e215" class="P7">The Rt. Rev. Peter Njenga Kariuki;</block>            
-            <block name="p" id="d3e220" class="P7">The Rt. Rev. Bishop Philip Sulumeti;</block>            
-            <block name="p" id="d3e225" class="P7">The Rt. Rev. (Dr) David M. Githii;</block>            
-            <block name="p" id="d3e230" class="P7">The Chief Kadhi Sheikh Hammad</block>            
-            <block name="p" id="d3e236" class="P11">               
-               <inline name="span" id="d3e238" class="T3">Kassim and Siopin Lekolool)</inline>                           
-            </block>         
-         </container>               
-      </hcontainer>            
-      <hcontainer id="speech88372c" class="Sect8" name="Communication">         
-         <htitle id="d3e255" name="1" class="Heading_20_1">            
-            <milestone name="eol" id="d3e257"/>COMMUNICATION FROM THE CHAIR</htitle>                  
-         <htitle id="d3e264" name="2" class="Heading_20_2">            
-            <inline name="span" id="d3e268" class="T4">Welcome To His Excellency</inline>         
-         </htitle>         
-         <htitle id="d3e272" name="2" class="P15">The President</htitle>                  
-         <container BungeniSpeechBy="userSpeaker" BungeniSpeechID="3882" id="speech883720" class="Sect9" name="Speech">                        
-            <container BungeniPersonID="1" BungeniSpeechBy="userSpeaker" id="heading88293" class="Sect10" name="Person">               
-               <block name="p" id="d3e289" class="P12">                  
-                  <inline name="ref" class="BungeniSpeechAs" href="1" id="d5e214">                  
-                     <inline name="span" id="d3e293" class="T2">Mr. Speaker</inline>                  
-                  </inline>                  
-                  <inline name="span" id="d3e298" class="T2">:</inline>                                 
-               </block>            
-            </container>            
-            <block name="p" id="d3e305" class="P1">Your Excellency the President, hon. Members, distinguished guests, ladies and gentlemen, it is my pleasure, privilege and honour to address the House on this auspicious occasion of the Official State Opening of the Tenth Parliament. I must, however, hasten to note that the occasion is, unfortunately, clouded, coming against the backdrop of the loss of two hon. Members, namely, the hon. Member for Embakasi, Mr. Melitus Were and the hon. Member for Ainamoi, Mr. David Kimutai Too, through murders most foul since the inauguration on 15th January, 2008.</block>            
-            <block name="p" id="d3e308" class="P1">It is regrettable that the two hon. Members lost their lives without addressing this House even for a single moment. This House, and indeed the entire country, hopes that the two murders shall be fully investigated with speed so that the culprits are brought to book. This will go some way in helping law enforcement agencies regain public confidence in the ability to protect the people and their property.</block>            
-            <block name="p" id="d3e313" class="P1">All of us are aware that this has been an exceptionally difficult year for our country. No sooner had the results of the last general elections been announced than unprecedented mayhem ensued in several parts of the country. Most, if not all of us, have thus not been able to enjoy and celebrate our victory at the polls as is typical of us.</block>            
-            <block name="p" id="d3e319" class="P1">The irony of events as have taken place in Kenya is that several African countries which have had political upheavals were assisted by the international community to conduct credible general elections as a means of resolving their conflicts. It is because armed conflicts in Africa have tended to beset those countries where the leaders erroneously believe that seeking the mandate to govern from the governed is a luxury they can ill-afford. In contrast, the Kenyan conflict was triggered by events which took place after the people had successfully voted for their preferred candidates in the elections.</block>            
-            <block name="p" id="d3e324" class="P1">Hon. Members, it is for the foregoing reason that I would like to take this unique opportunity to congratulate all of you for having won your seats in the most competitive and yet, divisive and acrimonious elections Kenya has ever witnessed. For the first time in our history since 1963, the foundation of our nation faced a real threat. It appeared at times as if the forces of disintegration and disunity were too powerful for us to manage and control.</block>            
-            <block name="p" id="d3e329" class="P1">That the worst did not happen is due mainly to the tenacity of our people and their true love for this beautiful country which God created and bestowed upon us. We cannot also forget to commend our leaders, both temporal and spiritual, for having stood firm to defend and protect our national integrity.</block>            
-            <block name="p" id="d3e334" class="P1">Hon. Members, I have no appropriate words to commend our two heroes whose heads remain high above all the din and dint that characterised our public life to stay the course steadily and make great sacrifices even at the expense of disappointing their closest friends, supporters and admirers across the country.</block>                                    
-            <container id="comment3883" class="Sect3" name="Observation">               
-               <block name="p" id="d3e349" class="P8">(Applause)</block>                           
-            </container>            
-            <block name="p" id="d3e355" class="P1">This they this did with one very important message: None of us is better than all of us. This was<milestone name="eol" id="d3e357"/>an active demonstration that Kenya is bigger than any single one of us.</block>            
-            <block name="p" id="d3e360" class="P1">As some leaders across the political divide sometimes issued inflammatory statements in the Press and hurled political insults at their opponents in public meetings, the two leaders cooled down political temperatures by assuring the public of their personal commitment to seek peaceful means to resolve the violent</block>            
-            <block name="p" id="d3e365" class="P1">conflict that had suddenly broken out in many parts of the country. By the sheer weight of their personality, political acumen, honed skills on statecraft and their deep sense of responsibility, patriotism and statesmanship, they finally prevailed upon their supporters to respect each other and regard themselves as Kenyans. This is no mean achievement!</block>                                    
-            <container BungeniSpeechBy="userSpeaker" BungeniSpeechID="3882" id="comment9838" class="Sect11" name="Observation">               
-               <block name="p" id="d3e378" class="P9">(Applause)</block>            
-            </container>                        
-            <block name="p" id="d3e384" class="P1">One would be extremely naive, disingenuous and callous not to give credit due to President Mwai Kibaki and hon. Raila Odinga for sacrificing their personal egos, to grant peace a chance and save Kenya from the political morass it had suddenly descended into. The two leaders have shown the world that, whereas it is our right to participate in any political competition, we must always close ranks and co-operate with one another if the integrity of our beloved country is at stake.</block>            
-            <block name="p" id="d3e389" class="P1">The action of the two leaders has created a new political reality - that while all of us many not win in an election, all of us do not have to lose just because any one of us did not win. We must create, develop and promote a political culture where the winner does not take everything and the loser remains with nothing including their dignity. This is possible if the political playing field is level and there is a strong democratic culture in our country.</block>            
-            <block name="p" id="d3e394" class="P1">Last but not least, let me commend the Group of Eminent Persons led by His Excellency, Dr. Kofi Annan, the immediate former United Nations (UN) Secretary-General together with Her Excellency Gracia Machel Mandela of South Africa and His Excellency Benjamin Mkapa of Tanzania. Their tireless efforts were generously supported by both the immediate and past African Union (AU) Chairmen, namely His Excellency John Kuffuor of Ghana and His Excellency Jakaya Kikwete of Tanzania, respectively, the President of Uganda, the United Nations, the European Union and its representatives in Kenya, the United States of America, the African Union and several international organisations and Kenya's development partners, especially embassies and missions based in Nairobi.</block>            
-            <block name="p" id="d3e399" class="P1">The clear message they sent to the Kenyan people and their leaders made several people confident that we were not alone. Indeed, in the current globalised world, international goodwill is an indispensable asset that no country can afford to ignore, not even the most powerful country in the world.</block>            
-            <block name="p" id="d3e405" class="P1">Hon. Members, in conclusion, let me observe the following sad facts about our country: The recent events have exposed the fault-lines in our system of governance. Kenyans went to the polls and voted largely freely and without compulsion. The genesis of the problems that afflicted the nation would appear to have had its epicentre at the Electoral Commission Headquarters. The situation dictates an evaluation of our electoral unit. I have this very humble submission to make: Democracy is not made by God, but by man. Everything created by man is normally brittle, fragile, frail and, therefore, can easily break and be destroyed completely.</block>            
-            <block name="p" id="d3e410" class="P1">Yes, we may believe and insist that building strong institutions is a prerequisite for establishing a functional democratic society, but the truth is that if Kenyans genuinely want to live in a multiparty democratic State, we must nurture democracy in our hearts and minds. Democracy must be part of our culture and upbringing. It must be in our homes, families and in schools. It must be in our offices and other workplaces. We must, therefore, be tolerant and prepared to accommodate and glorify our cultural differences, social diversity, economic variety and political pluralism. This is the path we must follow if it is really our desire that democracy<milestone name="eol" id="d3e414"/>thrives in Kenya.</block>            
-            <block name="p" id="d3e417" class="P1">Hon. Members, let me finally</block>            
-            <block name="p" id="d3e422" class="P1">reiterate what I said on the day of my election to the Chair. I promise, once again, to abide by the Standing Orders of the National Assembly while presiding over the proceedings of the House. I shall apply the rules of the House fairly and firmly and interpret them in the most transparent and accountable manner. I would like to urge the newly-elected hon. Members to quickly acquaint themselves withthese rules of debate, so that they are able to participate effectively in the proceedings of the House.</block>            
-            <block name="p" id="d3e427" class="P1">At this moment in our history, Parliament must stand tall and high to make Kenyans proud. There is no time in our country when the institution has been required to defend the dignity and the integrity of its citizens more than now. Never before has the House been expected to show leadership by reconciling our people and giving them hope than at this moment in time. If Parliament descends into anarchy, despondency, despair, hopelessness and behaves like a rudderless vessel in the ocean, then the Kenyan nation will not just sink, it will drown.</block>            
-            <block name="p" id="d3e432" class="P1">The people of Kenya are going to watch us as their leaders and analyse every word uttered by every hon. Member. Remember, and I say this with all the humility that I can command, another set of five years is not so distant. Voters shall once again get a chance to audit and vet the Membership of this House thoroughly. They are now in Kenya renown for their very effective cost-profit analysis of political representation. Constantly bear in mind, hon. Members, that every day you come to the august House, that the Kenyan elector as empowered, votes without fear or favour, and many of us owe our presence here today to that trait.</block>            
-            <block name="p" id="d3e438" class="P1">With those few remarks, it is my pleasure to invite His Excellency the President to address the House and inaugurate the Second Session of the Tenth Parliament.</block>            
-            <block name="p" id="d3e443" class="P1">Thank you and may God bless Kenya.</block>         
-         </container>      
-      </hcontainer>            
-      <container BungeniPersonID="33" BungeniSpeechBy="userKibaki" id="speech883724" class="Sect12" name="Speech">         
-         <container BungeniPersonID="33" BungeniSpeechBy="userKibaki" id="heading99302" class="Sect13" name="Person">            
-            <block name="p" id="d3e459" class="P12">               
-               <inline name="ref" class="BungeniSpeechAs" href="33-1" id="d5e336">               
-                  <inline name="span" id="d3e463" class="T2">His Excellency the President</inline>               
-               </inline>               
-               <inline name="span" id="d3e468" class="T1">(</inline>               
-               <inline name="ref" class="BungeniSpeechBy" href="33-1" id="d5e345">               
-                  <inline name="span" id="d3e474" class="T1">Mr. Kibaki)</inline>               
-               </inline>               
-               <inline name="span" id="d3e479" class="T1">:</inline>            
-            </block>         
-         </container>         
-         <block name="p" id="d3e484" class="P1">Thank you, Mr. Speaker, Sir.</block>         
-         <block name="p" id="d3e487" class="P12">            
-            <inline name="span" id="d3e489" class="T1">Mr. Speaker, Sir, it is my pleasure to welcome hon. Members to the Second Session of the Tenth Parliament. Let me begin by congratulating each one of the hon. Members for winning the confidence of</inline>            
-            <inline name="span" id="d3e494" class="T3">wananchi</inline>            
-            <inline name="span" id="d3e497" class="T1">by being elected to this august House. I am especially pleased to welcome the new lady Members of Parliament, whose numbers have increased to 21.</inline>         
-         </block>                           
-         <container BungeniPersonID="userKibaki" BungeniSpeechBy="userKibaki" id="comment88373" class="Sect14" name="Observation">            
-            <block name="p" id="d3e511" class="P8">(Applause)</block>                     
-         </container>         
-         <block name="p" id="d3e517" class="P1">Mr. Speaker, Sir, before proceeding with my remarks this afternoon, I wish, first of all, to request hon. Members to join me in paying our respects to our two colleagues who lost their lives under tragic circumstances. Those are the late Member of Parliament for Embakasi Constituency, hon. Melitus Mugabe Were, and the late Member of Parliament for Ainamoi Constituency, hon. David Kimutai Too, who both passed away in January this year. May I ask all of you to rise as we observe one-minute silence in their remembrance.</block>                  
-         <container BungeniPersonID="userKibaki" BungeniSpeechBy="userKibaki" id="comment02382" class="Sect14" name="Observation">            
-            <block name="p" id="d3e526" class="P8">(Hon. Members stood up and</block>            
-            <block name="p" id="d3e531" class="P8">observed a minute of silence)</block>         
-         </container>                  
-         <block name="p" id="d3e539" class="P1">Thank you.</block>         
-         <block name="p" id="d3e545" class="P1">Mr. Speaker, Sir, as a nation, we have come through a challenging two months period since the 27th December, 2007 General Elections. The post-election violence that saw more than 1,000 people killed, over 300,000 people displaced and billions of shillings worth of property burnt or looted, shook our sense of nationhood. I ask you, once again, to rise and join<milestone name="eol" id="d3e549"/>me in observing a minute of silence in remembrance of those who lost their lives during the post-election violence.</block>                  
-         <container BungeniPersonID="userKibaki" BungeniSpeechBy="userKibaki" id="comment34272" class="Sect14" name="Observation">            
-            <block name="p" id="d3e556" class="P8">(Hon. Members stood up and</block>            
-            <block name="p" id="d3e561" class="P8">observed a minute of silence)</block>         
-         </container>                  
-         <block name="p" id="d3e569" class="P1">Thank you.</block>         
-         <block name="p" id="d3e574" class="P1">Mr. Speaker, Sir, in addition to the death toll, the post-election violence disrupted lives and destroyed farms, businesses and residential properties. We cannot watch our brothers and sisters endure such hardships.</block>         
-         <block name="p" id="d3e580" class="P1">Mr. Speaker, Sir, my Government has set up a NationalHumanitarian Assistance Fund with an initial endowment of Kshs1 billion to provide humanitarian assistance and resettle the displaced persons. We have also established a new Directorate for Resettlement that will oversee the resettlement of Internally Displaced Persons (IDPs). Those institutions will assist IDPs in farming areas to regain their livelihoods through the provision of free seeds and other farming inputs. We are also designing an emergency programme for economic reconstruction and restoration.</block>                  
-         <container BungeniPersonID="userKibaki" BungeniSpeechBy="userKibaki" id="comment88337" class="Sect14" name="Observation">            
-            <block name="p" id="d3e591" class="P13">               
-               <inline name="span" id="d3e593" class="T3">(Applause)</inline>                           
-            </block>                     
-         </container>         
-         <block name="p" id="d3e604" class="P1">Mr. Speaker, Sir, the programme will mobilize resources locally and internationally to be used in repairing and reconstructing infrastructure that was badly damaged during the violence.</block>         
-         <block name="p" id="d3e609" class="P1">Mr. Speaker, Sir, the recent crisis has caused me to reflect deeply on the half a century of my active participation in the management of our public affairs. During this time, I have come to appreciate and respect the resilience of our people and our country. I have seen Kenya go through some very critical moments. Each time, our people have used the crisis as a crucial turning point from which they have come out more focused and determined to stay on course, so as to realize our collective vision of a free, just and prosperous nation.</block>         
-         <block name="p" id="d3e614" class="P1">Mr. Speaker, Sir, the events of the last two months have offered us an opportunity to look inwards, in order to fully comprehend the weaknesses and strengths, as well as the strengths and opportunities that we have as a nation. Indeed, Kenyans will always prefer peace over conflict, prosperity over desolation, unity over discord and justice over injustice. That is why on 28th February, 2008, I and hon. Raila Odinga accepted and signed the National Accord because our people had spoken clearly that they wanted one Kenya - a Kenya in which all lived in peace, justice and harmony.</block>                  
-         <container BungeniPersonID="userKibaki" BungeniSpeechBy="userKibaki" id="comment77263" class="Sect14" name="Observation">            
-            <block name="p" id="d3e624" class="P8">(Applause)</block>                     
-         </container>         
-         <block name="p" id="d3e632" class="P1">Mr. Speaker, Sir, Kenyans expected no less from either one of us. The people have embraced the Accord with joy and renewed hope. We believe the Accord is the first step towards achieving a prosperous and stable future for all Kenyans. It opens a new chapter in the management of our national affairs.</block>         
-         <block name="p" id="d3e637" class="P1">Mr. Speaker, Sir, I believe hon. Members will agree that the Accord is a victory for all Kenyans, laying the foundation for peace and stability in our country. The successful implementation of the Accord will require goodwill, unity, good faith and integrity from this House and all our leaders in this country. I urge hon. Members to ensure that all the necessary Bills to implement the Accord and other social and economic reforms are dealt with promptly, so that Kenya can be fully restored to, and even exceed its former glory.</block>         
-         <block name="p" id="d3e642" class="P1">In this regard, we will, as the Coalition Government, introduce four Bills that should be accorded the highest priority. They are:-</block>         
-         <container name="list" class="L1" id="d3e647">            
-            <container name="li" id="d3e649">               
-               <block name="p" id="d3e651" class="P20">                  
-                  <milestone name="eol" id="d3e653"/>The National Accord and Reconciliation Bill.</block>            
-            </container>            
-            <container name="li" id="d3e657">               
-               <block name="p" id="d3e659" class="P20">The Constitution of Kenya (Amendment) Bill.</block>            
-            </container>            
-            <container name="li" id="d3e663">               
-               <block name="p" id="d3e665" class="P20">The Establishment of Truth, Justice and Reconciliation Commission Bill.</block>            
-            </container>            
-            <container name="li" id="d3e669">               
-               <block name="p" id="d3e671" class="P20">The Establishment of the Ethnic Relations Commission of Kenya Bill.</block>            
+         <container id="comment3" class="Sect3" name="Observation">            
+            <block name="p" id="d3e115" class="observation">(By Mr. Khamasi)</block>         
+         </container>                           
+         <container id="tbldocs2" class="Sect6" name="TabledDocumentsList">            
+            <container name="list" class="L2" id="d3e131">               
+               <container name="item" id="d3e133">                  
+                  <block name="p" id="d3e135" class="P17">The Report of the first and second sessions of the Pan-African Parliament of the African Union.</block>               
+               </container>            
             </container>         
          </container>                           
-         <container BungeniPersonID="userKibaki" BungeniSpeechBy="userKibaki" id="comment88927" class="Sect14" name="Observation">            
-            <block name="p" id="d3e686" class="P2">(Applause)</block>         
-         </container>         
-         <block name="p" id="d3e690" class="P1">Mr. Speaker, Sir, Kenya has witnessed some and real irreversible changes since the year 2003. In the political arena, Kenyans are now enjoying their freedoms of association and expression without fear.As a people, we are now fully aware of our rights and freedoms to do whatever we want. At times, however, it is evident that we are yet to fully comprehend that real freedom and liberty also comes with responsibility of ensuring that in enjoying our rights, we do not do harm to others. We have made impressive gains in the social sector. We have seen primary school enrolment grow by over two million children because of free primary education.</block>         
-         <block name="p" id="d3e697" class="P1">Similarly, secondary school enrolment has almost doubled in the last five years because of a higher transition rate and the recent introduction of free secondary education.</block>         
-         <block name="p" id="d3e702" class="P1">Moreover, our country is more caring of the weak and vulnerable among us. We now have a programme that provides financial support to HIV/AIDS affected orphans which will grow from 12,500 participating households to more than 30,000 this year.</block>         
-         <block name="p" id="d3e708" class="P1">Children under five, pregnant mothers and patients suffering from HIV/AIDS, TB and malaria continue to receive free treatment and drugs in all our public health facilities. In addition, our economy has consistently performed well with the growth rate rising from 0.2 per cent in the year 2002 to nearly 7 per cent last year. All sectors have performed well, with key sectors such as agriculture, transport, communications, tourism, manufacturing and trade all growing at an average rate of 5 to 10 per cent annually in the last three years. The informal sector has received policy attention with the passage of the Microfinance Act to support small and medium enterprises.</block>         
-         <block name="p" id="d3e713" class="P1">We have also made progress in building of markets to enable street vendors to do their business legally and without harassment. We have, as a nation, received commendations for our achievements. These include commendations for our improved business environment from the World Bank, and for our public service reforms from the United Nations among others.</block>         
-         <block name="p" id="d3e718" class="P1">Indeed, although we continue to face many challenges, we have a lot to celebrate about our country and we have created a solid foundation on which to build its future.</block>         
-         <block name="p" id="d3e723" class="P1">In this respect, I am confident that we will soon overcome the setbacks we have suffered recently and our country will resume its upward path in all of development once we begin to implement our Coalition Government Programme.</block>         
-         <block name="p" id="d3e728" class="P1">It is for this reason that we have put together a high level committee with five members each from both sides to harmonise and highlight priority policies and programmes proposed in the PNU, ODM and ODM-K manifestos into a joint policy and programme strategy.</block>         
-         <block name="p" id="d3e733" class="P1">This strategy will give priority to activities that positively affect the livelihood and conditions of our poor people while promoting equitable opportunities for development throughout the country. For instance, slum-upgrading, construction of public markets and support to small-scale farmers, livestock farmers and operators of small businesses will be accorded top priority.</block>         
-         <block name="p" id="d3e739" class="P1">The joint medium term strategy will build on the foundations of the successful Economic Recovery Strategy for Wealth and Employment Creation. Later this year, we expect to table a Sessional Paper on Vision 2030. The Vision represents our collective commitment as Kenyans to transform our country into a middle income economy underpinned by political stability, social justice as well as equitable economic and social transformation.</block>         
-         <block name="p" id="d3e744" class="P1">Mr. Speaker, Sir, I will now briefly outline our Government's legislative and policy proposals in several key sectors. Let me begin by thanking the Ninth Parliament</block>         
-         <block name="p" id="d3e749" class="P1">            
-            <milestone name="eol" id="d3e751"/>for passing 17 Bills into law last year. These include The Political Parties Bill, The Constituencies Development Fund Bill, The Media Bill and several labour sector laws.</block>         
-         <block name="p" id="d3e754" class="P1">These laws are expected to improve our country's social, political and economic environment. However, the Tenth Parliament faces an even more pressing agenda and cannot afford to conduct itself in the usual manner. I, therefore, expect the House to work twice as hard to achieve the ambitious legislative agenda that will be brought to this House.I wish to point out that what I am proposing today as the Government's legislative and policy agenda to this House will be augmented further in the coming weeks and months. This will be done through new Bills and policies that will be developed from the synergy and harmonization of the manifestos of the three main parties to the coalition.</block>         
-         <block name="p" id="d3e761" class="P1">Mr. Speaker, Sir, the past five years have seen the agricultural sector perform robustly from the policies implemented by the Government. We, therefore, expect it to recover quickly from the recent setbacks. To improve market performance of several key commodities, we will propose the following legislative and policy agenda:-</block>         
-         <block name="p" id="d3e766" class="P14">1. To amend the Coffee Act 2001 to provide direct sales of coffee.</block>         
-         <block name="p" id="d3e772" class="P14">2. To amend the Sugar Act 2001 to restructure the sugar industry.</block>         
-         <block name="p" id="d3e775" class="P14">3. To introduce Bills and Sessional Papers covering dairy, poultry and fishing, industries among others.</block>         
-         <block name="p" id="d3e778" class="P1">Mr. Speaker, Sir, another sector that has been performing extremely well is the tourism industry. Despite the recent downturn, the sector has enormous potential to recover and grow rapidly, providing foreign exchange and creating employment opportunities. To enable the sector perform even better, the Government will table three Bills, namely, the Environmental Impact Assessment Regulations Guidelines, the Tourism Bill and the Wildlife Bill.</block>         
-         <block name="p" id="d3e783" class="P1">As we undertake to deal decisively with poverty and inequitable development, my Government acknowledges the crucial role played by co-operatives in the production and marketing of produce as well as mobilizing savings and providing credit to the majority of Kenyans. In this regard, we will be tabling a Sessional Paper on Co-operative Development Policy, and a Bill on Savings and Credit Co-operatives.</block>         
-         <block name="p" id="d3e788" class="P1">Mr. Speaker, Sir, while we have done well in implementing the free primary and secondary education programmes, we do require legislation to entrench the reforms in the entire education sector within our country's laws. In this regard, my Government plans to introduce legislation that will regulate the role of non-public entities such as the civil society and the international education providers, as well as propose the establishment of a Technical Industrial Vocation and Entrepreneurial Training Authority.</block>         
-         <block name="p" id="d3e793" class="P1">Moreover, we do recognise that we will not be able to achieve the goals of Vision 2030 without entrenching a culture of science, technology and innovation in our society. In this regard, my Government will present to the House several proposals, including a National Policy for Science, Technology and Innovation, a Bill to upgrade the National Council of Science and Technology to the National Commission of Science and Technology, and the creation of the National Science Foundation and National Innovation Agency.</block>         
-         <block name="p" id="d3e799" class="P1">Mr. Speaker, Sir, in the health sector, my Government proposes to review the Public Health Act, so as to consolidate 23 different public health laws into a single Act of Parliament. We will also table in this House policy papers on Health Care Financing, Health Services Commission and Decentralised Funding of Health Facilities.</block>                  
-         <block name="p" id="d3e806" class="P1">With regard to the youths of this country, my Government will propose amendments to the Armed Forces Act to enable youths trained under the National Youth Service to be absorbed into the armed forces. We will also table before the House a Bill to provide for the creation of a National Youth Council. Further, my Government will re-table the Sessional Paper on Employment Policy for discussion in the House on the urgent and critical matter of providing enough jobs for our young people.</block>         
-         <block name="p" id="d3e811" class="P1">            
-            <milestone name="eol" id="d3e813"/>Mr. Speaker, Sir, with regard to gender, we will continue to support the current policy of ensuring that 30 per cent of public appointments and new employment opportunities are reserved for women. We now have more lady Members of Parliament than at any other time in the past, and I expect to see more gender friendly laws and policies emerge from the Tenth Parliament in relation to its predecessors.</block>         
-         <block name="p" id="d3e818" class="P1">With regard to the protection of the family and children, we will propose amendments to the Children Act, 2001 for better implementation.</block>         
-         <block name="p" id="d3e823" class="P1">Mr. Speaker, Sir, the proper management and regulation of our country's physical infrastructure is among the highest priorities of my Government. In this regard, we plan to introduce the Information Communication Technology Bill as a regulatory framework for broadcasting, electronic transactions and cyber crime.</block>         
-         <block name="p" id="d3e829" class="P1">In the water sector, we will table the National Water Harvesting and Storage Policy to facilitate the harnessing and storage of recurrent flood waters, as well as the National Shared Water Resources Policy to promote equitable development of water resources nationally.</block>         
-         <block name="p" id="d3e834" class="P1">We also expect to undertake the Second Mzima Springs Project to ensure sufficient water supply to Mombasa and its surroundings. And to ensure that our roads network is better constructed and maintained, my Government will make fully operational the Urban, Rural and National Highways Authorities that were legislated under the Roads Act in the last Parliament.</block>         
-         <block name="p" id="d3e839" class="P1">Mr. Speaker, Sir, we will further introduce a policy on the registration of contractors, as well as the creation of a national construction company to build capacity among local contractors. We will also introduce legislation touching on the protection of road reserves, registration of engineers, architects as well as quantity surveyors.</block>         
-         <block name="p" id="d3e844" class="P1">With regard to local authorities, we propose to bring to the House, new amendments to the Local Government Act to enable the direct election of mayors and county council chairmen. This reform is long overdue, and this Parliament should deliberate on it as a matter of priority.</block>                  
-         <container BungeniPersonID="userKibaki" BungeniSpeechBy="userKibaki" id="comment72693" class="Sect14" name="Observation">            
-            <block name="p" id="d3e853" class="P8">(Applause)</block>         
+         <container id="comment4" class="Sect3" name="Observation">            
+            <block name="p" id="d3e151" class="observation">(By the Assistant Minister</block>            
+            <block name="p" id="d3e154" class="observation">for Finance (Mr. Obwocha)</block>         
+         </container>                           
+         <container id="tbldocs3" class="Sect6" name="TabledDocumentsList">            
+            <container name="list" class="L3" id="d3e169">               
+               <container name="item" id="d5e133">
+                  <block name="p" id="d3e173" class="P18">The Annual Report and Accounts of Moi Teaching and Referral Hospital for the year ended 30th June, 2001 and the Certificate thereof by the Controller and Auditor-General.</block>
+               </container>            
+            </container>                     
          </container>                  
-         <block name="p" id="d3e862" class="P1">To ensure proper planning and development of our urban areas, as well as the proper enforcement of laws and bylaws for regulation of urban development, we will table in the House proposals to set up a National Urban and Metropolitan Areas Authority. To promote the development of affordable housing, we will present the Housing Bill and a Landlord and Tenant Bill.</block>         
-         <block name="p" id="d3e867" class="P1">Mr. Speaker, Sir, with regard to national security, my Government will continue to propose legislation and policies that safeguard our national security, while also ensuring protection of our people's rights and freedoms. We propose to bring to the House several Bills touching on national security.</block>         
-         <block name="p" id="d3e872" class="P1">Mr. Speaker, Sir, we will table before the House the Organised Crimes Bill to contain the emergence of organised gangs and militias which bode ill for our society. We will also table the Anti-money Laundering Bill as well as introduce amendments to the Chiefs Act and Firearms Act.</block>         
-         <block name="p" id="d3e877" class="P1">Mr. Speaker, Sir, I wish to propose that Hon. Members become fully involved in promoting and leading the district peace and reconciliation committees. This is necessary because the post-election violence saw communal relations stretched to breaking point. Parliament, as the representative body of all Kenyans, must now rise to its historic responsibility and play its role fully in restoring peace, security as well as law and order in our beloved country.</block>         
-         <block name="p" id="d3e882" class="P1">Hon. Members, you must now become the ambassadors of peace and reconciliation in your constituencies, among your communities and throughout the country. Kenyans need to hear and be reassured by their political leaders that they can live, own property and do business in any part of the country without fear of prejudice, harassment or prosecution.</block>         
-         <block name="p" id="d3e888" class="P1">            
-            <milestone name="eol" id="d3e890"/>In this regard, we propose to bring to the House a comprehensive policy and accompanying legislation that will ensure that the threat to our national security and social cohesion caused by negative ethnicity is neutralised for the well being of our country.</block>         
-         <block name="p" id="d3e895" class="P1">As I conclude my remarks, Mr. Speaker, allow me to reiterate the need to build and strengthen the capacity of hon. Members to do their work. In this regard, I urge the Parliamentary Service Commission to ensure that Members are provided with sufficient research and technical assistants as well as computer and office facilities during this Session. We have a chance to make the Tenth Parliament a meeting of minds and an avenue for a great competition of ideas that will reflect the highest levels of constructive debate in our nation's history.</block>                           
-         <container BungeniPersonID="userKibaki" BungeniSpeechBy="userKibaki" id="comment99372" class="Sect14" name="Observation">            
-            <block name="p" id="d3e909" class="P9">(Applause)</block>         
-         </container>                  
-         <block name="p" id="d3e916" class="P1">Finally, Mr. Speaker, I wish hon. Members a highly productive Session in which the agenda of building a new Kenya overrides any other individual or factional agendas. This is what Kenyans are asking of the Tenth Parliament, to undertake its historic task of building a new dispensation for a new Kenya.</block>         
-         <block name="p" id="d3e921" class="P1">With these remarks, Mr. Speaker, it is my pleasure to declare the Second Session of the Tenth Parliament officially open.</block>         
-         <block name="p" id="d3e926" class="P1">Thank you and God bless you all. Please succeed and forget the history of what has happened, not because you want to put it aside, but because you want to do something much better and to improve much better. Welcome, ladies and gentlemen.</block>               
-      </container>            
-      <container id="comment99382" class="Sect3" name="Observation">         
-         <block name="p" id="d3e942" class="P8">(Applause)</block>      
-      </container>            
-      <hcontainer BungeniActionEvent="NoticeOfMotion" id="noticeofmotion8837" class="Sect15" name="ActionEvent">         
-         <htitle id="d3e950" name="1" class="Heading_20_1">NOTICE OF MOTION</htitle>                  
-         <htitle id="d3e957" name="2" class="Heading_20_2">Thanks For the Presidential Address</htitle>                           
-         <container BungeniSpeechBy="userMusyoka" BungeniSpeechID="883029" id="speech38821" class="Sect16" name="Speech">            
-            <container BungeniPersonID="34" BungeniSpeechBy="userMusyoka" id="heading88323" class="Sect17" name="Person">               
-               <block name="p" id="d3e974" class="P12">                  
-                  <inline name="ref" class="BungeniSpeechAs" href="34" id="d5e709">                  
-                     <inline name="span" id="d3e978" class="T2">The Vice-President and Minister for Home Affairs</inline>                  
-                  </inline>                  
-                  <inline name="span" id="d3e983" class="T1">(</inline>                  
-                  <inline name="ref" class="BungeniSpeechBy" href="34" id="d5e718">                  
-                     <inline name="span" id="d3e989" class="T1">Mr. Musyoka</inline>                  
-                  </inline>                  
-                  <inline name="span" id="d3e994" class="T1">):</inline>               
-               </block>            
-            </container>            
-            <block name="p" id="d3e999" class="P1">Mr. Speaker, Sir, I beg to give notice of the following Motion:-</block>            
-            <block name="p" id="d3e1002" class="P14">THAT, the thanks of this House be recorded for the exposition of public policy contained in His Excellency's Presidential Address from the Chair on Thursday, 6th March, 2008.</block>         
-         </container>      
+         <container id="comment5" class="Sect3" name="Observation">            
+            <block name="p" id="d3e189" class="observation">(By the Assistant Minister for</block>            
+            <block name="p" id="d3e192" class="observation">Finance (Mr. Obwocha) on behalf</block>            
+            <block name="p" id="d3e197" class="observation">of the Minister for Health)</block>         
+         </container>               
+      </hcontainer>      
+      <hcontainer id="allmotions1" class="Sect7" name="MotionsContainer">         
+         <htitle id="d3e208" name="heading" class="5f">            
+            <milestone name="eol" id="d3e210"/>NOTICES OF MOTIONS</htitle>                           
+         <hcontainer BungeniMotionName="Adoption of 35TH CPA &#x9;(Africa Region) Report " BungeniMotionNo="3" BungeniMotionURI="ken.motion.adjust_cpa" id="motion1" class="Sect8" name="Motion">            
+            <htitle id="d3e222" name="heading" class="5f">Adoption of 35TH CPA(Africa Region) Report</htitle>                        
+            <container BungeniMotionName="Adoption of 35TH CPA &#x9;(Africa Region) Report " BungeniMotionNo="3" BungeniMotionURI="ken.motion.adjust_cpa" BungeniQuestionNo="4" BungeniSpeechBy="Francis Acheka" BungeniSpeechByURI="ken.person.Francis.Acheka.1951-12-10" id="speech1" class="Sect9" name="Speech">               
+               <block name="p" id="d3e234" class="P12">                  
+                  <inline name="ref" class="BungeniSpeechBy" href="FrancisAcheka151" id="d5e180">Mr. Acheka:</inline>               
+               </block>                              
+               <block name="p" id="d3e246" class="P11">Mr. Deputy Speaker, Sir, I beg to give notice of the following Motions:-</block>               
+               <block name="p" id="d3e249" class="P11">THAT, this House adopts the Report of the Commonwealth Parliamentary Association (CPA), Kenya Branch delegation to the 35th CPA Africa Region Conference held in Lobamba, Swaziland from 7th August, 2004 to 15th August, 2004 laid on the Table of the House on Thursday, 9th December, 2004.</block>            
+            </container>         
+         </hcontainer>                  
+         <hcontainer BungeniMotionName="Adoption of 45th Session of Executive Committeeand 27th APU Conference Reports " BungeniMotionNo="4" BungeniMotionURI="ken.motion.adoption_of_report" id="motion3" class="Sect10" name="Motion">            
+            <htitle id="d3e261" name="heading" class="5f">               
+               <inline name="ref" class="DDE_LINK1" href="" id="d5e201">Adoption of Report of First and Second Sessions of Pan African Parliament</inline>            
+            </htitle>            
+            <container BungeniMotionName="Adoption of 45th Session of Executive Committeeand 27th APU Conference Reports " BungeniMotionNo="4" BungeniMotionURI="ken.motion.adoption_of_report" BungeniQuestionNo="169" BungeniSpeechBy="Joal Onyancha" BungeniSpeechByURI="ken.person.Joal.Onyancha.1964-11-27" id="speech2" class="Sect11" name="Speech">               
+               <block name="p" id="d3e270" class="P13">                  
+                  <inline name="ref" class="BungeniSpeechAs" href="2716" id="d5e209">                  
+                     <inline name="span" id="d3e274" class="T1">The Assistant Minister for Finance</inline>                                    
+                  </inline>               
+               </block>                              
+               <block name="p" id="d3e284" class="P11">Mr. Deputy Speaker, Sir, I beg to give notice of the following Motion:-</block>               
+               <block name="p" id="d3e289" class="P11">THAT, this House adopts the Report of the first and second sessions of the Pan African Parliament of the African Union laid on the Table of this House on Thursday, 9th December, 2004.</block>            
+            </container>         
+         </hcontainer>               
       </hcontainer>                  
-      <container id="comment800283" class="Sect3" name="Observation">         
-         <block name="p" id="d3e1018" class="P8">(Applause)</block>      
-      </container>                  
-      <hcontainer BungeniSpeechBy="userSpeaker" BungeniSpeechID="38821" id="speech99382" class="Sect18" name="Speech">         
-         <htitle id="d3e1032" name="1" class="P17">DEPARTURE OF HIS EXCELLENCYTHE PRESIDENT</htitle>                  
-         <container BungeniPersonID="1" BungeniSpeechBy="userSpeaker" BungeniSpeechID="38821" id="heading99283" class="Sect19" name="Person">            
-            <block name="p" id="d3e1041" class="P12">                              
-               <inline name="ref" class="BungeniSpeechAs" href="1-3" id="d5e765">               
-                  <inline name="span" id="d3e1050" class="T2">Mr. Speaker</inline>               
+      <hcontainer BungeniHouseClosingTime="21:50" id="concl1" class="Sect12" name="Conclusion">         
+         <htitle id="d3e306" name="heading" class="5f">ADJOURNEMENT</htitle>         
+         <container BungeniHouseClosingTime="21:50" BungeniQuestionNo="305" BungeniSpeechBy="Kipkalia Tegere" BungeniSpeechByURI="ken.person.Kipkalia.Tegere.1945-03-10" id="speech3" class="Sect13" name="Speech">            
+            <block name="p" id="d3e311" class="P9">               
+               <inline name="ref" class="BungeniSpeechBy" href="KipkaliaTegere7531" id="d5e245">               
+                  <inline name="span" id="d3e315" class="T1">Mr.Dy Speaker</inline>               
                </inline>               
-               <inline name="span" id="d3e1055" class="T2">:</inline>            
+               <inline name="span" id="d3e320" class="T1">(</inline>               
+               <inline name="ref" class="BungeniSpeechAs" href="3142" id="d5e254">               
+                  <inline name="span" id="d3e326" class="T1">Mr.Tegere)</inline>               
+               </inline>            
+            </block>            
+            <block name="p" id="d3e332" class="P9">               
+               <inline name="span" id="d3e334" class="T2">Hon. Members, the House is, therefore adjorned</inline>               
+               <inline name="span" id="d3e337" class="T3">sine die</inline>               
+               <inline name="span" id="d3e340" class="T2">.</inline>            
             </block>         
-         </container>         
-         <container name="speech" id="d5e776" class="autoGenerated">
-            <block name="p" id="d3e1060" class="P12">            
-               <inline name="span" id="d3e1062" class="T2"/>            
-               <inline name="span" id="d3e1067" class="T1">Hon. Members, we have concluded today's business. Before, I adjourn the House, I would like to request hon. Members to remain standing while the Presidential and the Speaker's Procession</inline>            
-               <milestone name="eol" id="d3e1070"/>            
-               <inline name="span" id="d3e1072" class="T1">leave the Chamber, thereafter followed by Judges and Spiritual Leaders. In our usual dignity and decorum, the hon. Members will then leave the Chamber. I also wish to invite hon. Members for a formal group photograph of the Tenth Parliament with His Excellency the President near the fountain next to the pool overlooking the Members Lounge. Immediately after that, you will be required to proceed to Parliament Gardens for a reception.</inline>         
+         </container>                  
+         <container id="d5e276" name="fixing_hcontainer">
+            <block name="p" id="d3e352" class="P10">The House rose at<inline name="ref" class="BungeniHouseClosingTime" href="8318" id="d5e278">9.50 p.m.</inline>         
             </block>
          </container>      
-      </hcontainer>            
-      <container id="comment88321" class="Sect3" name="Observation">         
-         <block name="p" id="d3e1081" class="P9">(Hon. Members rose in their places</block>         
-         <block name="p" id="d3e1086" class="P9">while His Excellency the President</block>         
-         <block name="p" id="d3e1091" class="P9">left the Chamber)</block>      
-      </container>            
-      <container BungeniActionEvent="Adjournment" id="action88834" class="Sect20" name="ActionEvent">         
-         <block name="p" id="d3e1102" class="P6">ADJOURNMENT</block>                           
-         <container BungeniActionEvent="Adjournment" BungeniSpeechBy="userSpeaker" BungeniSpeechID="38181" id="speech883729" class="Sect21" name="Speech">            
-            <container BungeniActionEvent="Adjournment" BungeniPersonID="1" BungeniSpeechBy="userSpeaker" id="heading883729" class="Sect22" name="Person">               
-               <block name="p" id="d3e1118" class="P12">                  
-                  <inline name="ref" class="BungeniSpeechAs" href="1-4" id="d5e822">                  
-                     <inline name="span" id="d3e1122" class="T2">Mr.Speaker</inline>                  
-                  </inline>                  
-                  <inline name="span" id="d3e1127" class="T2">:</inline>               
-               </block>            
-            </container>            
-            <block name="p" id="d3e1132" class="P1">Hon. Members, that concludes our business for today. Therefore, the House stands adjourned until Tuesday, 11th March, 2008 at 2.30 p.m.</block>         
-         </container>      
-      </container>            
-      <container BungeniHouseRisingTime="15:50" id="conclusion" class="Sect23" name="Conclusion">         
-         <block name="p" id="d3e1141" class="P2">The House rose at<inline name="ref" class="BungeniHouseRisingTime" href="883" id="d5e844">3.50 p.m</inline>.</block>      
-      </container>   
+      </hcontainer>         
    </container>
 </root>

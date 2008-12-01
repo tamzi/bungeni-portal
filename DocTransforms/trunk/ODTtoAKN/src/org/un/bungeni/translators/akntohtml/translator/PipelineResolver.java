@@ -8,7 +8,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.un.bungeni.translators.xpathresolver.XPathResolver;
+import org.un.bungeni.translators.utility.xpathresolver.XPathResolver;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

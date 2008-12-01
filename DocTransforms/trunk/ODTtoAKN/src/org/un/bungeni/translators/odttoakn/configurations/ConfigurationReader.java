@@ -12,7 +12,7 @@ import org.un.bungeni.translators.odttoakn.map.Map;
 import org.un.bungeni.translators.odttoakn.steps.MapStep;
 import org.un.bungeni.translators.odttoakn.steps.XSLTStep;
 import org.un.bungeni.translators.odttoakn.steps.ReplaceStep;
-import org.un.bungeni.translators.xpathresolver.XPathResolver;
+import org.un.bungeni.translators.utility.xpathresolver.XPathResolver;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

@@ -13,7 +13,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.un.bungeni.translators.odttoakn.configurations.Configuration;
 import org.un.bungeni.translators.odttoakn.steps.ReplaceStep;
-import org.un.bungeni.translators.streams.StreamSourceUtility;
+import org.un.bungeni.translators.utility.streams.StreamSourceUtility;
 
 /**
  * Used to resolve the REPLACE STEPS of a configuration file

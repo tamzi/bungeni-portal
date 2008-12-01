@@ -11,7 +11,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.un.bungeni.translators.streams.StreamSourceUtility;
 import org.un.bungeni.translators.utility.dom.DOMUtility;
-import org.un.bungeni.translators.xslttransformer.XSLTTransformer;
+import org.un.bungeni.translators.utility.xslttransformer.XSLTTransformer;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 

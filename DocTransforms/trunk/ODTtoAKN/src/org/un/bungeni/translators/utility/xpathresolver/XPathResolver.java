@@ -1,4 +1,4 @@
-package org.un.bungeni.translators.xpathresolver;
+package org.un.bungeni.translators.utility.xpathresolver;
 
 import java.util.Iterator;
 

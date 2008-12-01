@@ -1,4 +1,4 @@
-package org.un.bungeni.translators.xpathresolver;
+package org.un.bungeni.translators.utility.xpathresolver;
 
 import javax.xml.namespace.QName;
 import javax.xml.xpath.XPathExpressionException;

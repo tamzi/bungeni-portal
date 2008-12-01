@@ -10,7 +10,7 @@ import javax.xml.xpath.XPathExpressionException;
 
 import org.un.bungeni.translators.odttoakn.configurations.Configuration;
 import org.un.bungeni.translators.odttoakn.steps.MapStep;
-import org.un.bungeni.translators.xslttransformer.XSLTTransformer;
+import org.un.bungeni.translators.utility.xslttransformer.XSLTTransformer;
 
 /**
  * Used to resolve the MAP STEPS of a configuration file

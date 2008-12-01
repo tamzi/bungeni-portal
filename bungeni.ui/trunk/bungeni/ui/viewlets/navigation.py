@@ -9,7 +9,9 @@ from ore.alchemist.model import queryModelDescriptor
 from alchemist.traversal.managed import ManagedContainerDescriptor
 from bungeni.core.app import BungeniApp
 from bungeni.ui.utils import getDisplayDate
+import bungeni.core.globalsettings as prefs
 import datetime
+import urllib, simplejson
 
 class SiteActionsViewlet( viewlet.ViewletBase ):
     """
@@ -248,6 +250,46 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
     
     render = ViewPageTemplateFile( 'templates/bungeni-navigation-tree.pt' )
 
+        
+
+class PloneHorizontalNavigationViewlet( viewlet.ViewletBase ):
+    """
+    get the navigation menu from plone and display it
+    """
+    m_url = prefs.getPloneMenuUrl() 
+    mf = None
+    m_dict = {}
+       
+    def update(self):
+        self.mf = urllib.urlopen(self.m_url)
+        self.m_dict = simplejson.load(self.mf)
+         
+    def append_li(self, menulist): 
+        mstr = ''
+        for mi in menulist:   
+            #mstr = mstr + '<li id="' + mi['id'] + '" > <a href="' + mi['url'] + '">' + mi['title'] + '</a>'
+            if mi.has_key('submenu'):
+                mstr = mstr + '<li id="' + mi['id'] + '" > <a href="' + mi['url'] + '" class="hasDropDown">' + mi['title'] + '</a>'
+                mstr = mstr + '<ul>' + self.append_li(mi['submenu']) + '</ul>'
+            else:
+                mstr = mstr + '<li id="' + mi['id'] + '" > <a href="' + mi['url'] + '">' + mi['title'] + '</a>'
+            mstr = mstr + '</li>' 
+        return mstr   
+           
+    def dict2menu(self):
+        try:
+            mstr = '<div id="globalnav-wrapper">'
+            mstr = mstr + '<ul id="portal-globalnav">'                
+            #for mi in self.m_dict:
+                    #mstr = mstr + '<li id="' + mi['id'] + '" > <a href="' + mi['url'] + '">' + mi['title'] + '</a> </li>'
+            mstr = mstr + self.append_li(self.m_dict)
+            mstr = mstr + '</ul> <div id="post-sections-clear" class="visualClear"></div> </div>'
+            return mstr
+        except:
+            return ''
+    
+    def render(self):
+        return self.dict2menu()
         
 
         

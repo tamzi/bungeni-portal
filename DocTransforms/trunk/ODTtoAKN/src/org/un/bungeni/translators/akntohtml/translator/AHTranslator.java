@@ -9,8 +9,8 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.un.bungeni.translators.dom.DOMUtility;
 import org.un.bungeni.translators.streams.StreamSourceUtility;
+import org.un.bungeni.translators.utility.dom.DOMUtility;
 import org.un.bungeni.translators.xslttransformer.XSLTTransformer;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;

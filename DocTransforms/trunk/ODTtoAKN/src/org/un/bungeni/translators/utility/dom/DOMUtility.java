@@ -1,4 +1,4 @@
-package org.un.bungeni.translators.dom;
+package org.un.bungeni.translators.utility.dom;
 
 import java.io.File;
 import java.io.IOException;

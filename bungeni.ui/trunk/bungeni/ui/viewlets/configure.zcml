@@ -172,6 +172,16 @@
     weight="5"
     />     
     
+    
+  <browser:viewlet
+    name="bungeni.navigation.horizontal-plone-nav"
+    for="*"
+    manager="ploned.ui.interfaces.IPortalHeaderManager"
+    class=".navigation.PloneHorizontalNavigationViewlet"
+    permission="zope.View"
+    weight="4"
+    />         
+    
   <browser:viewlet
     name="bungeni.navigation.siteactions"
     for="*"

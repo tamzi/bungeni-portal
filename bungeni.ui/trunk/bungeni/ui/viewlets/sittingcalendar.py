@@ -105,6 +105,15 @@ class SittingScheduleDDViewlet( viewlet.ViewletBase ):
     """
     Date = datetime.date.today() 
     
+    def get_parent_endDate(self):
+        """
+        get the end date of the parent object
+        """
+        if self.context.__parent__ is not None:
+            return self.context.__parent__.end_date
+        else:
+            return datetime.date.today()    
+    
     def render(self):
         self.Date = getDisplayDate(self.request)
         if not self.Date:
@@ -215,6 +224,7 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                     Dom.addClass(id, 'invalid-dragover')
                     var proxyid = proxy.id;
                     var thisid = this.id;      
+                    alert ("A sitting of this type is already scheduled for this day");
                     // Hide the proxy and show the source element when finished with the animation
                     a.onComplete.subscribe(function() {
                             Dom.setStyle(proxyid, "visibility", "hidden");

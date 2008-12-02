@@ -424,6 +424,8 @@ form.searchPage input.searchButton {
     padding-right: 2em;
     text-transform: none;
     line-height: 1.6em;
+    /* fix for horizontal menue */
+    clear: both;
 }
 
 #portal-breadcrumbs a {

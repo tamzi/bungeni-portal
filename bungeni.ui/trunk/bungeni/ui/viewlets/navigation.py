@@ -269,10 +269,10 @@ class PloneHorizontalNavigationViewlet( viewlet.ViewletBase ):
         for mi in menulist:   
             #mstr = mstr + '<li id="' + mi['id'] + '" > <a href="' + mi['url'] + '">' + mi['title'] + '</a>'
             if mi.has_key('submenu'):
-                mstr = mstr + '<li id="' + mi['id'] + '" > <a href="' + mi['url'] + '" class="hasDropDown">' + mi['title'] + '</a>'
-                mstr = mstr + '<ul>' + self.append_li(mi['submenu']) + '</ul>'
+                mstr = mstr + '<li class="navTreeItem visualNoMarker" id="' + mi['id'] + '" > <a href="' + mi['url'] + '" class="hasDropDown">' + mi['title'] + '</a>'
+                mstr = mstr + '<ul class="submenu">' + self.append_li(mi['submenu']) + '</ul>'
             else:
-                mstr = mstr + '<li id="' + mi['id'] + '" > <a href="' + mi['url'] + '">' + mi['title'] + '</a>'
+                mstr = mstr + '<li class="navTreeItem visualNoMarker" id="' + mi['id'] + '" > <a href="' + mi['url'] + '">' + mi['title'] + '</a>'
             mstr = mstr + '</li>' 
         return mstr   
            

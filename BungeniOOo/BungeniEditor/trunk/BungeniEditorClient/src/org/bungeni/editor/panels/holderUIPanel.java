@@ -743,7 +743,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
             }
             setForeground(new java.awt.Color(0x00, 0x00,0x00));
       
-            setIcon(theIcon.enabledIcon);
+            //setIcon(theIcon.enabledIcon);
             setText(nodeProc.getTitle());
            // treeGeneralEditor.getModel().valueForPathChanged()
             //this.repaint();
@@ -758,7 +758,7 @@ public class holderUIPanel extends javax.swing.JPanel implements IFloatingPanel 
                 setToolTipText(ttText.replace('\n','-'));
             }
             setForeground(new java.awt.Color(0xFF, 0xCC,0xFF));
-            setIcon(theIcon.disabledIcon);
+            //setIcon(theIcon.disabledIcon);
             setText(nodeProc.getTitle());
                 //this.repaint();
             //tree.repaint();

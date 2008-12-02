@@ -13,6 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.un.bungeni.translators.odttoakn.translator.Translator;
+import org.un.bungeni.translators.odttoakn.xslprocbuilder.XSLProcBuilder;
 
 
 /**
@@ -56,7 +57,9 @@ public class OATranslatorTest
 	@Test
 	public final void testTranslate() throws Exception 
 	{
-		//perform a translation
+		
+		XSLProcBuilder.newInstance().createXSLProc("resources/odttoakn/minixslt/debaterecord/");
+		/*//perform a translation
 		File translation = myTranslator.translate("resources/debate_file_01.odt", "resources/odttometalex/debaterecord/config.xml");
 	
 		//input stream
@@ -82,7 +85,7 @@ public class OATranslatorTest
 		{
 		        if (fis != null) fis.close();
 		        if (fos != null) fos.close();
-		}	
+		}	*/
 		
 	}
 

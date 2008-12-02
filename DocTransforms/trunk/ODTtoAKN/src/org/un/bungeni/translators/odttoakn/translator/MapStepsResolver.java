@@ -1,6 +1,5 @@
 package org.un.bungeni.translators.odttoakn.translator;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -8,10 +7,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.un.bungeni.translators.odttoakn.configurations.Configuration;
 import org.un.bungeni.translators.odttoakn.map.Map;
 import org.un.bungeni.translators.odttoakn.steps.MapStep;
-import org.un.bungeni.translators.utility.xslttransformer.XSLTTransformer;
 
 /**
  * Used to resolve the MAP STEPS of a configuration file

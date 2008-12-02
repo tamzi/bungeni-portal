@@ -7,7 +7,7 @@
         <xsl:apply-templates/>
     </xsl:template>
 
-    <xsl:template match="*">
+    <xsl:template match="akn:*">
         <xsl:element name="{node-name(.)}">
             <xsl:for-each select="@*">
                 <xsl:attribute name="{name(.)}">
@@ -20,7 +20,6 @@
 
     <xsl:template match="element-to-replace">
         <new-element>
-            <xsl:attribute name="class">element-class</xsl:attribute>
 other-attributes
             <xsl:apply-templates />
         </new-element>

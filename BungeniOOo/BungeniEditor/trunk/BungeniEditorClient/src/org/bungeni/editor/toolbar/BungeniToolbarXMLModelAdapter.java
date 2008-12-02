@@ -47,12 +47,14 @@ public class BungeniToolbarXMLModelAdapter extends DefaultTreeModel {
         return node.index((BungeniToolbarXMLAdapterNode) child);
     }
    
+    @Override
     public int getChildCount(Object parent) {
         BungeniToolbarXMLAdapterNode jdomNode = (BungeniToolbarXMLAdapterNode)parent;
         return jdomNode.childCount();
     }
 
    //override from TreeModel
+    @Override
     public boolean isLeaf(Object node) {
         BungeniToolbarXMLAdapterNode jdomNode = (BungeniToolbarXMLAdapterNode)node;
         return (jdomNode.node.getTextTrim().length() > 0);

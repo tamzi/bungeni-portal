@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+
+<object name="portal_skins"
+        meta_type="Plone Skins Tool"
+        allow_any="False"
+        cookie_persistence="False"
+        request_varname="plone_skin">
+
+ <object name="bungeniremotecontent_styles"
+         meta_type="Filesystem Directory View"
+         directory="bungeniremotecontent/skins/bungeniremotecontent_styles"/>
+ <object name="bungeniremotecontent_templates"
+         meta_type="Filesystem Directory View"
+         directory="bungeniremotecontent/skins/bungeniremotecontent_templates"/>
+ <object name="bungeniremotecontent_images"
+         meta_type="Filesystem Directory View"
+         directory="bungeniremotecontent/skins/bungeniremotecontent_images"/>
+ 
+ <skin-path name="Plone Default">
+  <layer insert-after="custom" 
+         name="bungeniremotecontent_styles"/>
+  <layer insert-after="custom" 
+         name="bungeniremotecontent_templates"/>
+  <layer insert-after="custom" 
+         name="bungeniremotecontent_images"/>
+ </skin-path>
+
+</object>

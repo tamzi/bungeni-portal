@@ -15,8 +15,35 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public final class PipelineResolver 
+public final class AHPipelineResolver implements org.un.bungeni.translators.interfaces.PipelineResolver
 {
+	/* The instance of this resolver*/
+	private static AHPipelineResolver instance = null;
+	
+	/**
+	 * Private constructor used to create the PipelineResolver instance
+	 */
+	private AHPipelineResolver()
+	{
+		
+	}
+
+	/**
+	 * Get the current instance of the PipelineResolver 
+	 * @return the translator instance
+	 */
+	public static AHPipelineResolver getInstance()
+	{
+		//if the instance is null create a new instance
+		if (instance == null)
+		{
+			//create the instance
+			instance = new AHPipelineResolver();
+		}
+		//otherwise return the instance
+		return instance;
+	}
+	
 	/**
 	 * Returns a stream source obtained after all the XSLT steps of the AHConfiguration are applied to the document 
 	 * to translate
@@ -28,7 +55,7 @@ public final class PipelineResolver
 	 * @throws SAXException 
 	 * @throws XPathExpressionException 
 	 */
-	protected static Document resolve(String aPipelinePath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException 
+	public Document resolve(String aPipelinePath) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException 
 	{
 		//open the XSLT file into a DOM document
 		Document pipeline = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new File(aPipelinePath));

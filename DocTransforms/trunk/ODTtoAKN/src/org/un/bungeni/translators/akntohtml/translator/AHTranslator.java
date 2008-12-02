@@ -9,6 +9,7 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.un.bungeni.translators.interfaces.Translator;
 import org.un.bungeni.translators.utility.dom.DOMUtility;
 import org.un.bungeni.translators.utility.streams.StreamSourceUtility;
 import org.un.bungeni.translators.utility.xslttransformer.XSLTTransformer;
@@ -19,7 +20,7 @@ import org.xml.sax.SAXException;
  * This is the AKN->HTML translator object. 
  * It defines the translate method that is used to translate a AKN document into HTML
  */
-public class AHTranslator implements AHTranslatorInterface 
+public class AHTranslator implements Translator 
 {
 
 	/* The instance of this Translator*/
@@ -87,7 +88,7 @@ public class AHTranslator implements AHTranslatorInterface
 	public File buildXSLT(String aPipelinePath) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException
 	{
 		//create the XSLT document starting from the pipeline
-		Document pipeline = PipelineResolver.resolve(aPipelinePath);
+		Document pipeline = AHPipelineResolver.getInstance().resolve(aPipelinePath);
 				
 		//write the document to a File
 		File resultFile = DOMUtility.getInstance().writeToFile(pipeline);

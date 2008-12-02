@@ -59,7 +59,7 @@ public class OATranslatorTest
 	{
 		
 		XSLProcBuilder.newInstance().createXSLProc("resources/odttoakn/minixslt/debaterecord/");
-		/*//perform a translation
+		//perform a translation
 		File translation = myTranslator.translate("resources/debate_file_01.odt", "resources/odttometalex/debaterecord/config.xml");
 	
 		//input stream
@@ -85,7 +85,7 @@ public class OATranslatorTest
 		{
 		        if (fis != null) fis.close();
 		        if (fos != null) fos.close();
-		}	*/
+		}	
 		
 	}
 

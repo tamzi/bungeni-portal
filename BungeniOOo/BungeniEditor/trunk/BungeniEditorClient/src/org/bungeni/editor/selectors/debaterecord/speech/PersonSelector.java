@@ -7,10 +7,18 @@
 package org.bungeni.editor.selectors.debaterecord.speech;
 
 import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.HashMap;
+import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
+import org.bungeni.db.BungeniClientDB;
+import org.bungeni.db.BungeniRegistryFactory;
+import org.bungeni.db.QueryResults;
 import org.bungeni.db.registryQueryDialog;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
 import org.bungeni.ooo.OOComponentHelper;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
  *
@@ -25,6 +33,51 @@ public class PersonSelector extends  BaseMetadataPanel {
     public PersonSelector() {
         super();
         initComponents();
+        initComboSelect();
+        this.cboPersonSelect.addActionListener(new PersonSelect());
+        this.btn_SpeechBy.setVisible(false);
+    }
+    
+     private void initComboSelect(){
+            Vector<ObjectPerson> personObjects = new Vector<ObjectPerson>();
+           HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
+            BungeniClientDB dbInstance = new BungeniClientDB(registryMap);
+            dbInstance.Connect();
+            QueryResults qr = dbInstance.QueryResults("Select ID, FIRST_NAME, LAST_NAME, URI from persons order by last_name, first_name");
+            dbInstance.EndConnect();
+            String personId, personFirstName, personLastName, personURI;
+            if (qr.hasResults()) {
+                Vector<Vector<String>> theResults = qr.theResults();
+                for (Vector<String> row : theResults) {
+                     personId = qr.getField(row, "ID");
+                     personFirstName = qr.getField(row, "FIRST_NAME");
+                     personLastName = qr.getField(row, "LAST_NAME");
+                     personURI = qr.getField(row, "URI");
+                     ObjectPerson m = new ObjectPerson(personId, personFirstName, personLastName, personURI);
+                     personObjects.add(m);
+                }
+            }
+            this.cboPersonSelect.setModel(new DefaultComboBoxModel(personObjects));
+            AutoCompleteDecorator.decorate(cboPersonSelect);
+    }
+
+     class PersonSelect implements ActionListener {
+        public void actionPerformed(ActionEvent arg0) {
+            if (cboPersonSelect.getSelectedIndex() != -1) {
+               ObjectPerson selectedPerson = (ObjectPerson)cboPersonSelect.getModel().getSelectedItem();
+
+               HashMap<String,String> selData = new HashMap<String,String>();
+               selData.put("ID", selectedPerson.personId);
+               selData.put("FIRST_NAME", selectedPerson.firstName);
+               selData.put("LAST_NAME", selectedPerson.lastName);
+               selData.put("URI", selectedPerson.personURI);
+
+                ((Main)getContainerPanel()).selectionData = selData;
+                if ( ((Main)getContainerPanel()).selectionData.size() > 0 ) 
+                    ((Main)getContainerPanel()).updateAllPanels();
+            }
+        }
+        
     }
 
     /** This method is called from within the constructor to
@@ -37,9 +90,11 @@ public class PersonSelector extends  BaseMetadataPanel {
     private void initComponents() {
 
         btn_SpeechBy = new javax.swing.JButton();
+        cboPersonSelect = new javax.swing.JComboBox();
 
         setName("Person Selector"); // NOI18N
 
+        btn_SpeechBy.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
         btn_SpeechBy.setText("Select a Person...");
         btn_SpeechBy.setActionCommand("Select a Question");
         btn_SpeechBy.addActionListener(new java.awt.event.ActionListener() {
@@ -48,17 +103,27 @@ public class PersonSelector extends  BaseMetadataPanel {
             }
         });
 
+        cboPersonSelect.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
+        cboPersonSelect.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(btn_SpeechBy)
-                .addContainerGap(180, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cboPersonSelect, 0, 271, Short.MAX_VALUE)
+                    .addComponent(btn_SpeechBy, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(btn_SpeechBy)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cboPersonSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_SpeechBy))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -185,6 +250,7 @@ private void btn_SpeechByActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_SpeechBy;
+    private javax.swing.JComboBox cboPersonSelect;
     // End of variables declaration//GEN-END:variables
 
     @Override

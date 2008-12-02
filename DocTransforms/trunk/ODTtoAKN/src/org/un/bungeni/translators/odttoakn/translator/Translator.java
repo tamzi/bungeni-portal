@@ -55,7 +55,7 @@ public class Translator implements TranslatorInterface
 		//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
 		StreamSource ODFDocument = new StreamSource(ODFUtility.getInstance().mergeODF(aDocumentPath));
 
-		File resultFile = commonTranslate(ODFDocument, aConfigurationPath);
+		File resultFile = translateToMetalex(ODFDocument, aConfigurationPath);
 		
 		//return the Source of the new document
 	    return resultFile;
@@ -74,13 +74,20 @@ public class Translator implements TranslatorInterface
 		//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
 		StreamSource ODFDocument = new StreamSource(ODFUtility.getInstance().mergeODF(aDocumentHandle));
 
-	    File resultFile = commonTranslate(ODFDocument, aConfigurationPath);
+	    File resultFile = translateToMetalex(ODFDocument, aConfigurationPath);
 		//return the Source of the new document
 	    return resultFile;
 	}
 
-
-	private File commonTranslate(StreamSource ODFDocument, String aConfigurationPath) throws TransformerFactoryConfigurationError, Exception 
+	/**
+	 * Translate an ODF stream source to the METALEX format
+	 * @param ODFDocument the ODFStreamSource to translate
+	 * @param aConfigurationPath the path of the configuration file used for the translation
+	 * @return a File containing the document into the METALEX format
+	 * @throws TransformerFactoryConfigurationError
+	 * @throws Exception
+	 */
+	public File translateToMetalex(StreamSource ODFDocument, String aConfigurationPath) throws TransformerFactoryConfigurationError, Exception 
 	{
 		//get the File of the configuration 
 		Document configurationDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(aConfigurationPath);
@@ -90,9 +97,6 @@ public class Translator implements TranslatorInterface
 
 		//applies the input steps to the StreamSource of the ODF document
 		StreamSource iteratedDocument = InputStepsResolver.resolve(ODFDocument, configuration);
-
-		//applies the map steps to the StreamSource of the ODF document
-		//iteratedDocument = MapStepsResolver.resolve(iteratedDocument, configuration);
 
 		//applies the map steps to the StreamSource of the ODF document
 		iteratedDocument = ReplaceStepsResolver.resolve(iteratedDocument, configuration);

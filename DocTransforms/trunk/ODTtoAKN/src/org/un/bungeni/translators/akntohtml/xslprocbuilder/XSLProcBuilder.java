@@ -1,6 +1,9 @@
 package org.un.bungeni.translators.akntohtml.xslprocbuilder;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.InvalidPropertiesFormatException;
+import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -20,19 +23,38 @@ public class XSLProcBuilder
 	private static XSLProcBuilder instance;
 	
 	//the path of the document that contains the default values
-	private String defaultVauesPath = new String("resources/akntohtml/defaultvalues/default_values.xml");
+	private String defaultValuesPath;
 	
 	//the path of the document that contains the empty mini XSLT
-	private String emptyMiniXSLTPath = new String("resources/akntohtml/defaultvalues/empty_mini_xslt.xsl");
+	private String emptyMiniXSLTPath;
 
 	//the path of the document that contains the empty pipeline
-	private String emptyPipelinePath = new String("resources/akntohtml/defaultvalues/empty_pipeline.xsl");
+	private String emptyPipelinePath;
 
 	/**
 	 * Protected constructor
+	 * @throws IOException 
+	 * @throws InvalidPropertiesFormatException 
 	 */
-	protected XSLProcBuilder()
+	protected XSLProcBuilder() throws InvalidPropertiesFormatException, IOException
 	{
+		//create the Properties object
+		Properties properties = new Properties();
+	
+		//read the properties file
+		InputStream propertiesInputStream = this.getClass().getClassLoader().getResourceAsStream("configfiles/akntohtml/XSLProcConfig.xml");
+	
+		//load the properties
+		properties.loadFromXML(propertiesInputStream);
+		
+		//get the user name
+		this.defaultValuesPath = properties.getProperty("username");
+		
+		//get the password 
+		this.emptyMiniXSLTPath = properties.getProperty("password");
+
+		//get the URL
+		this.emptyPipelinePath = properties.getProperty("URL");
 	}
 	
 	/**
@@ -50,11 +72,18 @@ public class XSLProcBuilder
 		//if the Configuration Builder is not instanciated create a new instance 
 		else
 		{
-			//create the instance
-			instance = new XSLProcBuilder();
+			try
+			{
+				//create the instance
+				instance = new XSLProcBuilder();
 			
-			//return the instance
-			return instance;
+				//return the instance
+				return instance;
+			}
+			catch(Exception e)
+			{
+				return null;
+			}
 		}
 	}
 	
@@ -69,7 +98,7 @@ public class XSLProcBuilder
 	public void createXSLProc(String outputDirectory) throws SAXException, IOException, ParserConfigurationException, XPathExpressionException
 	{
 		//get the default values container
-		Document defaultValuesDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(this.defaultVauesPath);
+		Document defaultValuesDocument = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(this.defaultValuesPath);
 		
 		//retreive the XPath resolver instance 
 		XPathResolver xresolver = XPathResolver.getInstance();

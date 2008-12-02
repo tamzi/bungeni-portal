@@ -6,7 +6,6 @@ import java.util.HashMap;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.un.bungeni.translators.odttoakn.steps.MapStep;
 import org.un.bungeni.translators.odttoakn.steps.XSLTStep;
 import org.un.bungeni.translators.odttoakn.steps.ReplaceStep;
 import org.w3c.dom.Document;
@@ -79,34 +78,6 @@ public class Configuration implements ConfigurationInterface
 		
 		//return the gotten steps 
 		return resultSteps;
-	}
-
-	/**
-	 * Return an HashMap containing all the step of the map indexed by their id 
-	 * @return the HashMap containing all the step of the map indexed by their id
-	 * @throws XPathExpressionException 
-	 */
-	public HashMap<Integer, MapStep> getMapSteps() throws XPathExpressionException
-	{
-		//get the map steps from the map 
-		HashMap<Integer,MapStep> mapSteps = this.reader.getMapSteps();
-		
-		//return the MapSteps hash map
-		return mapSteps;
-	}
-	
-	/**
-	 * Returns a String containing the path of the map resolver 
-	 * @return a String containing the path of the map resolver 
-	 * @throws XPathExpressionException
-	 */
-	public String getMapResolver() throws XPathExpressionException
-	{
-		//get the location of the map resovlver
-		String mapLocation = this.reader.getMapResolver();
-		
-		//return the location of the map resolver
-		return mapLocation;
 	}
 
 }

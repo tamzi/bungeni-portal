@@ -6,21 +6,62 @@
 
 package org.bungeni.editor.selectors.debaterecord.tableddocuments;
 
+import com.sun.star.beans.PropertyValue;
+import com.sun.star.beans.PropertyVetoException;
+import com.sun.star.beans.UnknownPropertyException;
+import com.sun.star.beans.XPropertySet;
+import com.sun.star.container.XIndexAccess;
+import com.sun.star.container.XIndexReplace;
+import com.sun.star.lang.IllegalArgumentException;
+import com.sun.star.lang.IndexOutOfBoundsException;
+import com.sun.star.lang.WrappedTargetException;
+import com.sun.star.style.NumberingType;
+import com.sun.star.text.XParagraphCursor;
+import com.sun.star.text.XText;
+import com.sun.star.text.XTextCursor;
+import com.sun.star.text.XTextRange;
 import java.awt.Component;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
+import org.bungeni.db.BungeniClientDB;
+import org.bungeni.db.BungeniRegistryFactory;
+import org.bungeni.db.QueryResults;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
+import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.ooo.ooQueryInterface;
 
 /**
  *
  * @author  undesa
  */
 public class TabledDocuments extends BaseMetadataPanel {
-
+  private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(TabledDocuments.class.getName());
+ 
     /** Creates new form TabledDocuments */
     public TabledDocuments() {
         super();
         initComponents();
+        initTable();
     }
-
+    
+    private void initTable(){
+         HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
+            BungeniClientDB dbInstance = new BungeniClientDB(registryMap);
+            dbInstance.Connect();
+            QueryResults qr = dbInstance.QueryResults("select document_title, document_uri, document_date from tabled_documents");
+            dbInstance.EndConnect();
+            if (qr != null ) {
+                if (qr.hasResults()) {
+                Vector<Vector<String>> resultRows = new Vector<Vector<String>>();
+                resultRows = qr.theResults();
+                DefaultTableModel mdl = new DefaultTableModel();
+                mdl.setDataVector(resultRows, qr.getColumnsAsVector());
+                tbl_tabledDocs.setModel(mdl);
+                }
+            }
+     }
     /** This method is called from within the constructor to
      * initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is
@@ -87,6 +128,25 @@ public class TabledDocuments extends BaseMetadataPanel {
         return this;
     }
 
+      public HashMap<String,ArrayList<String>> getTableSelection() {
+
+         int[] selectedRows = tbl_tabledDocs.getSelectedRows();
+         ArrayList<String> docTitles = new ArrayList<String>();
+         ArrayList<String> docURIs = new ArrayList<String>();
+             for (int i=0; i < selectedRows.length; i++) {
+                 String docTitle = (String)tbl_tabledDocs.getModel().getValueAt(i, 0 );
+                 String docURI = (String) tbl_tabledDocs.getModel().getValueAt(i, 1);
+                 docTitles.add(docTitle);
+                 docURIs.add(docURI);
+             }
+        HashMap<String,ArrayList<String>> tblData = new HashMap<String,ArrayList<String>>();
+        tblData.put("tabled_document_titles", docTitles);
+        tblData.put("tabled_document_uris", docURIs);
+        return tblData;
+    
+      }
+        
+        
     @Override
     public boolean preFullEdit() {
         return true;
@@ -132,13 +192,84 @@ public class TabledDocuments extends BaseMetadataPanel {
         return true;
     }
 
+    private void applyBulletedList() {
+        try {
+        HashMap<String, ArrayList<String>> arrTableSelection = this.getTableSelection();
+        OOComponentHelper ooDocument = getContainerPanel().getOoDocument();
+        //oStart = docComponent.currentcontroller.getViewCursor().getStart()
+        XTextRange xStartRange = ooDocument.getViewCursor().getStart();
+        //oText = docComponent.currentController.getviewcursor().getText()
+        XText xCursorText = ooDocument.getViewCursor().getText();
+        //
+        XTextCursor startCur=xCursorText.createTextCursorByRange(xStartRange);
+        ArrayList<String> tblDocTitles = arrTableSelection.get("tabled_document_titles");
+        ArrayList<String> tblDocURIs = arrTableSelection.get("tabled_document_uris");
+       //For i=LBound(selectItemsArray) to UBound(selectItemsArray)
+        for (int i=0; i < tblDocTitles.size(); i++) {
+      
+                //oCur.HyperLinkURL="http://akomantoso.org/resolver/"+ listItemURIs(i)
+                XPropertySet xCurProps = ooQueryInterface.XPropertySet(startCur);
+                xCurProps.setPropertyValue("HyperLinkURL", tblDocURIs.get(i));
+                xCursorText.insertString(startCur, tblDocTitles.get(i), false);
+                xCursorText.insertControlCharacter(startCur, com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, false);
+        }
+        
+        setNumberingRules(ooDocument, startCur, xStartRange);
+        
+            } catch (UnknownPropertyException ex) {
+                log.error("applyBulletedList : " + ex.getMessage());
+            } catch (PropertyVetoException ex) {
+                log.error("applyBulletedList : " + ex.getMessage());
+            } catch (IllegalArgumentException ex) {
+                log.error("applyBulletedList : " + ex.getMessage());
+            } catch (WrappedTargetException ex) {
+                log.error("applyBulletedList : " + ex.getMessage());            
+            }
+        
+    }
+    
+    public void setNumberingRules(OOComponentHelper ooDocument, XTextCursor xCursor, XTextRange xStartRange ){
+        try {
+            Object objNumeringRules = ooDocument.createInstance("com.sun.star.text.NumberingRules");
+            XIndexAccess numIndexAccess = ooQueryInterface.XIndexAccess(objNumeringRules);
+            XIndexReplace indexReplace = ooQueryInterface.XIndexReplace(numIndexAccess);
+            PropertyValue[] pvProps = (PropertyValue[]) numIndexAccess.getByIndex(0);
+            for (int j = 0; j < pvProps.length; j++) {
+                if (pvProps[j].Name.equals("NumberingType")) {
+                    pvProps[j].Value = new Short(NumberingType.CHAR_SPECIAL);
+                    indexReplace.replaceByIndex(0, pvProps);
+                }
+            }
+            XParagraphCursor xParaCursor = ooQueryInterface.XParagraphCursor(xCursor);
+            xParaCursor.gotoPreviousParagraph(false);
+            xParaCursor.gotoRange(xStartRange, true);
+            XPropertySet xCurProps = ooQueryInterface.XPropertySet(objNumeringRules);
+            xCurProps.setPropertyValue("NumberingRules", objNumeringRules);
+        } catch (UnknownPropertyException ex) {
+           log.error("getNumberingRules : " + ex.getMessage());
+        } catch (PropertyVetoException ex) {
+           log.error("getNumberingRules : " + ex.getMessage());
+        } catch (IllegalArgumentException ex) {
+           log.error("getNumberingRules : " + ex.getMessage());
+        } catch (IndexOutOfBoundsException ex) {
+           log.error("getNumberingRules : " + ex.getMessage());
+        } catch (WrappedTargetException ex) {
+           log.error("getNumberingRules : " + ex.getMessage());
+        }
+  
+    }
+    
     @Override
     public boolean preSelectInsert() {
+        HashMap<String,ArrayList<String>> tblData = new HashMap<String,ArrayList<String>>();
+        
+        
         return true;
     }
 
     @Override
     public boolean processSelectInsert() {
+        applyBulletedList();
         return true;
     }
 

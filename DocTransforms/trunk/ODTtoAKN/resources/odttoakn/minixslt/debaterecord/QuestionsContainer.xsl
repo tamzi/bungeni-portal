@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:akn="http://www.akomantoso.org/1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
-    <xsl:output indent="yes" method="xml" encoding="UTF-8"/>
+    <xsl:output indent="yes" method="xhtml" encoding="UTF-8"/>
 
     <xsl:template match="/">
         <xsl:apply-templates/>
@@ -18,11 +18,11 @@
         </xsl:element>
     </xsl:template>
 
-    <xsl:template match="element-to-replace">
-        <new-element>
-other-attributes
+    <xsl:template match="*[@name='QuestionsContainer']">
+        <subdivision>
+ 
             <xsl:apply-templates />
-        </new-element>
+        </subdivision>
     </xsl:template>
     
     <xsl:template match="text()">

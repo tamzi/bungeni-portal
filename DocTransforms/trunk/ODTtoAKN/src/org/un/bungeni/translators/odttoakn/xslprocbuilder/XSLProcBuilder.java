@@ -42,7 +42,7 @@ public class XSLProcBuilder
 		Properties properties = new Properties();
 	
 		//read the properties file
-		InputStream propertiesInputStream = this.getClass().getClassLoader().getResourceAsStream("configfiles.odttoakn.XSLProcConfig.xml");
+		InputStream propertiesInputStream = this.getClass().getClassLoader().getResourceAsStream("configfiles/odttoakn/XSLProcConfig.xml");
 	
 		//load the properties
 		properties.loadFromXML(propertiesInputStream);
@@ -83,7 +83,6 @@ public class XSLProcBuilder
 			catch(Exception e)
 			{
 				e.printStackTrace();
-				System.out.println(e.getStackTrace().toString());
 				return null;
 			}
 		}
@@ -109,10 +108,10 @@ public class XSLProcBuilder
 		NodeList elements = (NodeList)xresolver.evaluate(defaultValuesDocument, "//element", XPathConstants.NODESET);
 
 		//get the empty XPROC string
-		//String emptyXPROCPipeline = FileUtility.getInstance().FileToString(this.emptyPipelinePath); 
+		String emptyXPROCPipeline = FileUtility.getInstance().FileToString(this.emptyPipelinePath); 
 		
 		//the pipeline steps to add
-		//String pipelineSteps = "";
+		String pipelineSteps = "";
 		
 		//for each element create a MINI XSLT
 		for (int i = 0; i < elements.getLength(); i++) 
@@ -127,7 +126,7 @@ public class XSLProcBuilder
 				String emptyXSLTString = FileUtility.getInstance().FileToString(this.emptyMiniXSLTPath);
 								
 				//replace the value of the current Element into the emptyMiniXSLTFile
-				emptyXSLTString = emptyXSLTString.replaceAll("element-to-replace","*[@name='" + element.getAttributes().getNamedItem("name").getNodeValue() + "']");
+				emptyXSLTString = emptyXSLTString.replaceAll("element-to-replace","*[@name='" + element.getAttributes().getNamedItem("bungeniSectionType").getNodeValue() + "']");
 				emptyXSLTString = emptyXSLTString.replaceAll("new-element", element.getAttributes().getNamedItem("result").getNodeValue());
 				
 				//add the attributes to mantain
@@ -174,10 +173,10 @@ public class XSLProcBuilder
 				emptyXSLTString = emptyXSLTString.replaceAll("other-attributes"," ");
 
 				//write the string to the file in the path composed by the given outputDirectory and the name of the element
-				FileUtility.getInstance().StringToFile(outputDirectory + element.getAttributes().getNamedItem("name").getNodeValue() + ".xsl", emptyXSLTString);
+				FileUtility.getInstance().StringToFile(outputDirectory + element.getAttributes().getNamedItem("bungeniSectionType").getNodeValue() + ".xsl", emptyXSLTString);
 			
 				//create the pipelinestep 
-				//pipelineSteps = pipelineSteps + "\t<xsl:template match=\"" + element.getAttributes().getNamedItem("name").getNodeValue() +  "\">\n\t\t<xslt step=\"" + i +  "\" name=\"" + element.getAttributes().getNamedItem("name").getNodeValue() + "\" href=\"" + outputDirectory + element.getAttributes().getNamedItem("name").getNodeValue() + ".xsl" + "\" />\n\t\t<xsl:apply-templates />\n\t</xsl:template>\n\n"; 
+				pipelineSteps = pipelineSteps + "\t<xsl:template match=\"*[@name='" + element.getAttributes().getNamedItem("bungeniSectionType").getNodeValue() +  "']\">\n\t\t<xslt step=\"" + i +  "\" name=\"" + element.getAttributes().getNamedItem("bungeniSectionType").getNodeValue() + "\" href=\"" + outputDirectory + element.getAttributes().getNamedItem("bungeniSectionType").getNodeValue() + ".xsl" + "\" />\n\t\t<xsl:apply-templates />\n\t</xsl:template>\n\n"; 
 			}
 			//otherwise the element will not be translated
 			else
@@ -186,24 +185,24 @@ public class XSLProcBuilder
 				String emptyXSLTString = FileUtility.getInstance().FileToString(this.emptyMiniXSLTPath);
 								
 				//replace the value of the current Element into the emptyMiniXSLTFile
-				emptyXSLTString = emptyXSLTString.replaceAll("element-to-replace","akn:" + element.getAttributes().getNamedItem("name").getNodeValue());
+				emptyXSLTString = emptyXSLTString.replaceAll("element-to-replace","*[@name='" + element.getAttributes().getNamedItem("bungeniSectionType").getNodeValue() + "']");
+				
+				//replace the value of the current Element into the emptyMiniXSLTFile
 				emptyXSLTString = emptyXSLTString.replaceAll("<new-element>", "");
-				emptyXSLTString = emptyXSLTString.replaceAll("<xsl:attribute name=\"class\">element-class</xsl:attribute>", "");
-				emptyXSLTString = emptyXSLTString.replaceAll("other-attributes", "");
 				emptyXSLTString = emptyXSLTString.replaceAll("</new-element>", "");
 						
 				//write the string to the file in the path composed by the given outputDirectory and the name of the element
-				FileUtility.getInstance().StringToFile(outputDirectory + element.getAttributes().getNamedItem("name").getNodeValue() + ".xsl", emptyXSLTString);
+				FileUtility.getInstance().StringToFile(outputDirectory + element.getAttributes().getNamedItem("bungeniSectionType").getNodeValue() + ".xsl", emptyXSLTString);
 			
 				//create the pipelinestep 
-				//pipelineSteps = pipelineSteps + "\t<xsl:template match=\"akn:" + element.getAttributes().getNamedItem("name").getNodeValue() +  "\">\n\t\t<xslt step=\"" + i +  "\" name=\"" + element.getAttributes().getNamedItem("name").getNodeValue() + "\" href=\"" + outputDirectory + element.getAttributes().getNamedItem("name").getNodeValue() + ".xsl" + "\" />\n\t\t<xsl:apply-templates />\n\t</xsl:template>\n\n"; 
+				pipelineSteps = pipelineSteps + "\t<xsl:template match=\"*[@name='" + element.getAttributes().getNamedItem("bungeniSectionType").getNodeValue() +  "']\">\n\t\t<xslt step=\"" + i +  "\" name=\"" + element.getAttributes().getNamedItem("bungeniSectionType").getNodeValue() + "\" href=\"" + outputDirectory + element.getAttributes().getNamedItem("bungeniSectionType").getNodeValue() + ".xsl" + "\" />\n\t\t<xsl:apply-templates />\n\t</xsl:template>\n\n"; 
 			}
 		}	
 		//fill the pipelines in the empty pipeline XSLT
-		//emptyXPROCPipeline = emptyXPROCPipeline.replaceAll("<xsl:template match=\"to_replace\"><XSLT_steps /></xsl:template>", pipelineSteps);
+		emptyXPROCPipeline = emptyXPROCPipeline.replaceAll("<xsl:template match=\"to_replace\"><XSLT_steps /></xsl:template>", pipelineSteps);
 		
 		//write the pipeline to a file
-		//FileUtility.getInstance().StringToFile(outputDirectory + "pipeline.xsl", emptyXPROCPipeline);
+		FileUtility.getInstance().StringToFile(outputDirectory + "pipeline.xsl", emptyXPROCPipeline);
 	}
 	
 }

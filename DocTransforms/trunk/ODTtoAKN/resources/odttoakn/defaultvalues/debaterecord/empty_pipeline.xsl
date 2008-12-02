@@ -9,7 +9,7 @@
         </stylesheets>
     </xsl:template>
 
-    <xsl:template match="akn:*">
+    <xsl:template match="*">
         <xsl:apply-templates />
     </xsl:template>
 

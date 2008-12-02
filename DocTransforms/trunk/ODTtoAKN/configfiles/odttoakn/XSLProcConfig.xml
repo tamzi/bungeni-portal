@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+<entry key="username">existrella</entry>
+<entry key="password">ex12ex</entry>
+<entry key="URL">http://137.204.140.137:8080/exist/rest/configuration_files/</entry>
+</properties>

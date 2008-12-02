@@ -3,7 +3,6 @@ package org.un.bungeni.translators.odttoakn.configurations;
 import java.util.HashMap;
 
 import javax.xml.xpath.XPathExpressionException;
-import org.un.bungeni.translators.odttoakn.steps.MapStep;
 import org.un.bungeni.translators.odttoakn.steps.XSLTStep;
 import org.un.bungeni.translators.odttoakn.steps.ReplaceStep;
 
@@ -35,18 +34,4 @@ public interface ConfigurationReaderInterface
 	 * @throws XPathExpressionException 
 	 */
 	public HashMap<Integer,ReplaceStep> getReplaceSteps() throws XPathExpressionException;
-	
-	/**
-	 * Return an HashMap containing all the step of the map indexed by their id 
-	 * @return the HashMap containing all the step of the map indexed by their id
-	 * @throws XPathExpressionException 
-	 */
-	public HashMap<Integer, MapStep> getMapSteps() throws XPathExpressionException;
-	
-	/**
-	 * Returns a String containing the path of the map resolver 
-	 * @return a String containing the path of the map resolver 
-	 * @throws XPathExpressionException
-	 */
-	public String getMapResolver() throws XPathExpressionException;
 }

@@ -63,7 +63,7 @@ public class OATranslatorTest
 		FileInputStream fis  = new FileInputStream(translation);
 		
 		//output stream 
-		FileOutputStream fos = new FileOutputStream("resources/result.xml");
+		FileOutputStream fos = new FileOutputStream("resources/resultAKN.xml");
 		
 		//copy the file
 		try 

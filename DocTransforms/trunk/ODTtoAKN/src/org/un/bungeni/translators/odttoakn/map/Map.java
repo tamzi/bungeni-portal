@@ -38,19 +38,5 @@ public class Map implements MapInterface
 		//return the gotten step 
 		return resultStep;
 	}
-
-	/**
-	 * Get the location (the path) of the resolver for this map  
-	 * @return the location (the path) of the resolver for this map
-	 * @throws XPathExpressionException 
-	 */
-	public String getMapResolver() throws XPathExpressionException
-	{
-		//ask the reader to get all location of the resolver
-		String resolverLocation = this.reader.getMapResolver();
-		
-		//return the gotten location of the resolver
-		return resolverLocation;
-	}
 	
 }

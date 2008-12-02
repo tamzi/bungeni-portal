@@ -3,13 +3,10 @@ package org.un.bungeni.translators.odttoakn.configurations;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.un.bungeni.translators.odttoakn.map.Map;
-import org.un.bungeni.translators.odttoakn.steps.MapStep;
 import org.un.bungeni.translators.odttoakn.steps.XSLTStep;
 import org.un.bungeni.translators.odttoakn.steps.ReplaceStep;
 import org.un.bungeni.translators.utility.xpathresolver.XPathResolver;
@@ -27,9 +24,6 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 	//the XML that contains the configurations
 	private Document configXML; 
 	
-	//this is the map object for this configuration reader 
-	private Map configMap;
-	
 	/**
 	 * Create a new Configuration reader object builded on the given Config XML file 
 	 * @param aConfigXML the XML file that contains the configuration 
@@ -42,9 +36,6 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 	{
 		//save the config XML
 		this.configXML = aConfigXML;
-		
-		//create the map object 
-		this.configMap = this.createMap();
 	}
 	
 	
@@ -170,57 +161,4 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 		return resultMap;
 	}
 	
-	/**
-	 * Return an HashMap containing all the step of the map indexed by their id 
-	 * @return the HashMap containing all the step of the map indexed by their id
-	 * @throws XPathExpressionException 
-	 */
-	public HashMap<Integer, MapStep> getMapSteps() throws XPathExpressionException
-	{
-		//get the map steps from the map 
-		HashMap<Integer,MapStep> mapSteps = this.configMap.getMapSteps();
-		
-		//return the MapSteps hash map
-		return mapSteps;
-	}
-	
-	/**
-	 * Returns a String containing the path of the map resolver 
-	 * @return a String containing the path of the map resolver 
-	 * @throws XPathExpressionException
-	 */
-	public String getMapResolver() throws XPathExpressionException
-	{
-		//get the location of the map resovlver
-		String mapLocation = this.configMap.getMapResolver();
-		
-		//return the location of the map resolver
-		return mapLocation;
-	}
-	
-	/**
-	 * Private method that creates the Map object builded on the map referred in this configuration
-	 * @return the map object contained in this configuration
-	 * @throws XPathExpressionException 
-	 * @throws ParserConfigurationException 
-	 * @throws IOException 
-	 * @throws SAXException 
-	 */
-	private Map createMap() throws XPathExpressionException, SAXException, IOException, ParserConfigurationException
-	{
-		//retreive the XPath resolver instance 
-		XPathResolver xresolver = XPathResolver.getInstance();
-		
-		//get the step with the given nama in this configuration
-		String mapLocation = (String)xresolver.evaluate(this.configXML, "//map/@href", XPathConstants.STRING);
-		
-		//create the map DOM 
-		Document mapDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(mapLocation);
-		
-		//create the Map Object builded on the mapDoc
-		Map resultMap = new Map(mapDoc);
-		
-		//returns the map object
-		return resultMap;
-	}
 }

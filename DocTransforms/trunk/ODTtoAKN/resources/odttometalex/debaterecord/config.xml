@@ -23,7 +23,7 @@
 		<output>
 			<!-- Normalise the produced META document -->
 			<xslt step="1" name="MetaLanguageNormalisation" href="resources/odttometalex/debaterecord/MetaLanguageNormalisation.xsl" />
-			<xslt step="2" name="MetaLanguageNormalisation" href="resources/odttometalex/debaterecord/try.xsl" />
+			<xslt step="2" name="MetaLanguageNormalisation" href="resources/odttometalex/debaterecord/pipe.xsl" />
 		</output>
 	</stylesheets>
 </config>

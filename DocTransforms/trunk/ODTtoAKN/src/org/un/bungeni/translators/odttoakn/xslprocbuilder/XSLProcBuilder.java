@@ -1,4 +1,4 @@
-package org.un.bungeni.translators.akntohtml.xslprocbuilder;
+package org.un.bungeni.translators.odttoakn.xslprocbuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,7 +42,7 @@ public class XSLProcBuilder
 		Properties properties = new Properties();
 	
 		//read the properties file
-		InputStream propertiesInputStream = this.getClass().getClassLoader().getResourceAsStream("configfiles/akntohtml/XSLProcConfig.xml");
+		InputStream propertiesInputStream = this.getClass().getClassLoader().getResourceAsStream("configfiles.odttoakn.XSLProcConfig.xml");
 	
 		//load the properties
 		properties.loadFromXML(propertiesInputStream);
@@ -82,6 +82,8 @@ public class XSLProcBuilder
 			}
 			catch(Exception e)
 			{
+				e.printStackTrace();
+				System.out.println(e.getStackTrace().toString());
 				return null;
 			}
 		}
@@ -107,10 +109,10 @@ public class XSLProcBuilder
 		NodeList elements = (NodeList)xresolver.evaluate(defaultValuesDocument, "//element", XPathConstants.NODESET);
 
 		//get the empty XPROC string
-		String emptyXPROCPipeline = FileUtility.getInstance().FileToString(this.emptyPipelinePath); 
+		//String emptyXPROCPipeline = FileUtility.getInstance().FileToString(this.emptyPipelinePath); 
 		
 		//the pipeline steps to add
-		String pipelineSteps = "";
+		//String pipelineSteps = "";
 		
 		//for each element create a MINI XSLT
 		for (int i = 0; i < elements.getLength(); i++) 
@@ -119,18 +121,17 @@ public class XSLProcBuilder
 			Node element = elements.item(i);
 			
 			//if the element must be translated create the mini XSLT
-			if (element.getAttributes().getNamedItem("transformTo").getNodeValue().compareTo("") != 0)
+			if (element.getAttributes().getNamedItem("result").getNodeValue().compareTo("") != 0)
 			{
 				//get the string of the mini XSLT
 				String emptyXSLTString = FileUtility.getInstance().FileToString(this.emptyMiniXSLTPath);
 								
 				//replace the value of the current Element into the emptyMiniXSLTFile
-				emptyXSLTString = emptyXSLTString.replaceAll("element-to-replace","akn:" + element.getAttributes().getNamedItem("name").getNodeValue());
-				emptyXSLTString = emptyXSLTString.replaceAll("new-element", element.getAttributes().getNamedItem("transformTo").getNodeValue());
-				emptyXSLTString = emptyXSLTString.replaceAll("element-class", element.getAttributes().getNamedItem("class").getNodeValue());
+				emptyXSLTString = emptyXSLTString.replaceAll("element-to-replace","*[@name='" + element.getAttributes().getNamedItem("name").getNodeValue() + "']");
+				emptyXSLTString = emptyXSLTString.replaceAll("new-element", element.getAttributes().getNamedItem("result").getNodeValue());
 				
 				//add the attributes to mantain
-				if(element.getAttributes().getNamedItem("mantain") != null)
+				if(element.getAttributes().getNamedItem("mantain") != null && element.getAttributes().getNamedItem("mantain").getNodeValue() != "")
 				{
 					//get all the attribute to mantain
 					String[] attributesToMantain = element.getAttributes().getNamedItem("mantain").getNodeValue().split(",");
@@ -176,7 +177,7 @@ public class XSLProcBuilder
 				FileUtility.getInstance().StringToFile(outputDirectory + element.getAttributes().getNamedItem("name").getNodeValue() + ".xsl", emptyXSLTString);
 			
 				//create the pipelinestep 
-				pipelineSteps = pipelineSteps + "\t<xsl:template match=\"akn:" + element.getAttributes().getNamedItem("name").getNodeValue() +  "\">\n\t\t<xslt step=\"" + i +  "\" name=\"" + element.getAttributes().getNamedItem("name").getNodeValue() + "\" href=\"" + outputDirectory + element.getAttributes().getNamedItem("name").getNodeValue() + ".xsl" + "\" />\n\t\t<xsl:apply-templates />\n\t</xsl:template>\n\n"; 
+				//pipelineSteps = pipelineSteps + "\t<xsl:template match=\"" + element.getAttributes().getNamedItem("name").getNodeValue() +  "\">\n\t\t<xslt step=\"" + i +  "\" name=\"" + element.getAttributes().getNamedItem("name").getNodeValue() + "\" href=\"" + outputDirectory + element.getAttributes().getNamedItem("name").getNodeValue() + ".xsl" + "\" />\n\t\t<xsl:apply-templates />\n\t</xsl:template>\n\n"; 
 			}
 			//otherwise the element will not be translated
 			else
@@ -195,14 +196,14 @@ public class XSLProcBuilder
 				FileUtility.getInstance().StringToFile(outputDirectory + element.getAttributes().getNamedItem("name").getNodeValue() + ".xsl", emptyXSLTString);
 			
 				//create the pipelinestep 
-				pipelineSteps = pipelineSteps + "\t<xsl:template match=\"akn:" + element.getAttributes().getNamedItem("name").getNodeValue() +  "\">\n\t\t<xslt step=\"" + i +  "\" name=\"" + element.getAttributes().getNamedItem("name").getNodeValue() + "\" href=\"" + outputDirectory + element.getAttributes().getNamedItem("name").getNodeValue() + ".xsl" + "\" />\n\t\t<xsl:apply-templates />\n\t</xsl:template>\n\n"; 
+				//pipelineSteps = pipelineSteps + "\t<xsl:template match=\"akn:" + element.getAttributes().getNamedItem("name").getNodeValue() +  "\">\n\t\t<xslt step=\"" + i +  "\" name=\"" + element.getAttributes().getNamedItem("name").getNodeValue() + "\" href=\"" + outputDirectory + element.getAttributes().getNamedItem("name").getNodeValue() + ".xsl" + "\" />\n\t\t<xsl:apply-templates />\n\t</xsl:template>\n\n"; 
 			}
 		}	
 		//fill the pipelines in the empty pipeline XSLT
-		emptyXPROCPipeline = emptyXPROCPipeline.replaceAll("<xsl:template match=\"to_replace\"><XSLT_steps /></xsl:template>", pipelineSteps);
+		//emptyXPROCPipeline = emptyXPROCPipeline.replaceAll("<xsl:template match=\"to_replace\"><XSLT_steps /></xsl:template>", pipelineSteps);
 		
 		//write the pipeline to a file
-		FileUtility.getInstance().StringToFile(outputDirectory + "pipeline.xsl", emptyXPROCPipeline);
+		//FileUtility.getInstance().StringToFile(outputDirectory + "pipeline.xsl", emptyXPROCPipeline);
 	}
 	
 }

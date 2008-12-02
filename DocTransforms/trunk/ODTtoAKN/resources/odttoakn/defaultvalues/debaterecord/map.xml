@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <map>
 	<elements>
-		<element id="1" bungeniSectionType="debaterecord" />
+		<element id="1" bungeniSectionType="debaterecord" result="debateRecord"/>
 		<element id="2" bungeniSectionType="MastHead" result="preface" />
 		<element id="3" bungeniSectionType="Observation" result="scene"/>
 		<element id="4" bungeniSectionType="GroupActivity" result="subdivision"/>
  	    <element id="5" bungeniSectionType="Speech" result="speech" />
  		<element id="6" bungeniSectionType="QuestionsContainer" result="subdivision"/>
-		<element id="7" bungeniSectionType="QuestionAnswer" result="Questions"/>
+		<element id="7" bungeniSectionType="QuestionAnswer" result="questions"/>
  		<element id="8" bungeniSectionType="Question" result="question"/>
-		<element id="9" bungeniSectionType="PointOfOrder" result="PointOfOrder"/>
-		<element id="10" bungeniSectionType="ProceduralMotion" result="ProceduralMotions"/>
+		<element id="9" bungeniSectionType="PointOfOrder" result="pointOfOrder"/>
+		<element id="10" bungeniSectionType="ProceduralMotion" result="proceduralMotions"/>
 		<element id="11" bungeniSectionType="Person" result="from"/>
-		<element id="12" bungeniSectionType="ActionEvent" result="ActionEvent"/>
-		<element id="13" bungeniSectionType="Communication" result="Communication"/>
+		<element id="12" bungeniSectionType="ActionEvent" result="actionEvent"/>
+		<element id="13" bungeniSectionType="Communication" result="communication"/>
 		<element id="14" bungeniSectionType="Conclusion" result="conclusions"/>
 		<element id="15" bungeniSectionType="span" result="span"/>
 		<element id="16" bungeniSectionType="p" result="p"/>
-		<element id="17" bungeniSectionType="ref" result="ref"/>
+		<element id="17" bungeniSectionType="ref" result="ref" mantain="href"/>
+		<element id="18" bungeniSectionType="heading" result="heading"/>
+		<element id="19" bungeniSectionType="subheading" result="subheading"/>
 	</elements> 
 </map>

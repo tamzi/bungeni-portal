@@ -17,10 +17,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class XSLProcBuilder 
+public class OAXSLProcBuilder 
 {
 	//the instance of this Configuration Builder
-	private static XSLProcBuilder instance;
+	private static OAXSLProcBuilder instance;
 	
 	//the path of the document that contains the default values
 	private String defaultValuesPath;
@@ -36,7 +36,7 @@ public class XSLProcBuilder
 	 * @throws IOException 
 	 * @throws InvalidPropertiesFormatException 
 	 */
-	protected XSLProcBuilder() throws InvalidPropertiesFormatException, IOException
+	protected OAXSLProcBuilder() throws InvalidPropertiesFormatException, IOException
 	{
 		//create the Properties object
 		Properties properties = new Properties();
@@ -61,7 +61,7 @@ public class XSLProcBuilder
 	 * Get a new instance of the Configuration Builder
 	 * @return the instance of the configuration builder
 	*/
-	public static XSLProcBuilder newInstance()
+	public static OAXSLProcBuilder newInstance()
 	{
 		//if there is already an active instance return the instance 
 		if(instance != null)
@@ -75,7 +75,7 @@ public class XSLProcBuilder
 			try
 			{
 				//create the instance
-				instance = new XSLProcBuilder();
+				instance = new OAXSLProcBuilder();
 			
 				//return the instance
 				return instance;

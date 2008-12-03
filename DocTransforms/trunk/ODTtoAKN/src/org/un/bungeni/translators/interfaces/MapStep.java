@@ -1,10 +1,10 @@
-package org.un.bungeni.translators.odttoakn.steps;
+package org.un.bungeni.translators.interfaces;
 
 /**
  * This is the interface for the map step object
  * A map step object is an object used to store each element of the mapping files
  */
-public interface MapStepInterface 
+public interface MapStep 
 {
 	/**
 	 * This method is used to get the id attribute of a map Step

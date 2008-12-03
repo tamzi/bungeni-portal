@@ -6,8 +6,9 @@ import java.util.HashMap;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.un.bungeni.translators.odttoakn.steps.XSLTStep;
-import org.un.bungeni.translators.odttoakn.steps.ReplaceStep;
+import org.un.bungeni.translators.interfaces.Configuration;
+import org.un.bungeni.translators.odttoakn.steps.OAXSLTStep;
+import org.un.bungeni.translators.odttoakn.steps.OAReplaceStep;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -15,10 +16,10 @@ import org.xml.sax.SAXException;
  * This is the configuration object. 
  * It is used to read a configuration, write a configuration and to create a new configuration
  */
-public class Configuration implements ConfigurationInterface 
+public class OAConfiguration implements Configuration 
 {
 	//the configuration reader
-	private ConfigurationReader reader;
+	private OAConfigurationReader reader;
 		
 	/**
 	 * Create the new configuration based on a given Configuration XML file
@@ -28,11 +29,11 @@ public class Configuration implements ConfigurationInterface
 	 * @throws SAXException 
 	 * @throws XPathExpressionException 
 	 */
-	public Configuration(Document aConfigXML) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException
+	public OAConfiguration(Document aConfigXML) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException
 	{
 		
 		//create the reader
-		this.reader = new ConfigurationReader(aConfigXML);
+		this.reader = new OAConfigurationReader(aConfigXML);
 	}
 
 	/**
@@ -41,10 +42,10 @@ public class Configuration implements ConfigurationInterface
 	 * @return the HashMap containing all the Steps of the configuration
 	 * @throws XPathExpressionException 
 	 */
-	public HashMap<Integer, XSLTStep> getInputSteps() throws XPathExpressionException 
+	public HashMap<Integer, OAXSLTStep> getInputSteps() throws XPathExpressionException 
 	{
 		//ask the reader to get the steps of the configuration
-		HashMap<Integer, XSLTStep> resultSteps = this.reader.getInputSteps();
+		HashMap<Integer, OAXSLTStep> resultSteps = this.reader.getInputSteps();
 		
 		//return the gotten steps 
 		return resultSteps;
@@ -56,10 +57,10 @@ public class Configuration implements ConfigurationInterface
 	 * @return the HashMap containing all the Steps of the configuration
 	 * @throws XPathExpressionException 
 	 */
-	public HashMap<Integer, XSLTStep> getOutputSteps() throws XPathExpressionException 
+	public HashMap<Integer, OAXSLTStep> getOutputSteps() throws XPathExpressionException 
 	{
 		//ask the reader to get the steps of the configuration
-		HashMap<Integer, XSLTStep> resultSteps = this.reader.getOutputSteps();
+		HashMap<Integer, OAXSLTStep> resultSteps = this.reader.getOutputSteps();
 		
 		//return the gotten steps 
 		return resultSteps;
@@ -71,10 +72,10 @@ public class Configuration implements ConfigurationInterface
 	 * @return the HashMap containing all the Replace Steps of the configuration
 	 * @throws XPathExpressionException 
 	 */
-	public HashMap<Integer,ReplaceStep> getReplaceSteps() throws XPathExpressionException
+	public HashMap<Integer,OAReplaceStep> getReplaceSteps() throws XPathExpressionException
 	{
 		//ask the reader to get the replace steps of the configuration
-		HashMap<Integer, ReplaceStep> resultSteps = this.reader.getReplaceSteps();
+		HashMap<Integer, OAReplaceStep> resultSteps = this.reader.getReplaceSteps();
 		
 		//return the gotten steps 
 		return resultSteps;

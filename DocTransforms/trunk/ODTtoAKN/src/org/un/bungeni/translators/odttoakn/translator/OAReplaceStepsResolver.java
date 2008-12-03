@@ -11,14 +11,14 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.un.bungeni.translators.odttoakn.configurations.Configuration;
-import org.un.bungeni.translators.odttoakn.steps.ReplaceStep;
+import org.un.bungeni.translators.odttoakn.configurations.OAConfiguration;
+import org.un.bungeni.translators.odttoakn.steps.OAReplaceStep;
 import org.un.bungeni.translators.utility.streams.StreamSourceUtility;
 
 /**
  * Used to resolve the REPLACE STEPS of a configuration file
  */
-public final class ReplaceStepsResolver 
+public final class OAReplaceStepsResolver 
 {
 	/**
 	 * Return the StreamSource obtained after all the result steps of the given 
@@ -31,13 +31,13 @@ public final class ReplaceStepsResolver
 	 * @throws TransformerException 
 	 * @throws IOException 
 	 */
-	protected static StreamSource resolve(StreamSource anODFDocument, Configuration aConfiguration) throws XPathExpressionException, TransformerException, IOException
+	protected static StreamSource resolve(StreamSource anODFDocument, OAConfiguration aConfiguration) throws XPathExpressionException, TransformerException, IOException
 	{
 		//get the replacement step from the configuration
-		HashMap<Integer,ReplaceStep> replaceSteps = aConfiguration.getReplaceSteps();
+		HashMap<Integer,OAReplaceStep> replaceSteps = aConfiguration.getReplaceSteps();
 		
 		//create an iterator on the hash map
-		Iterator<ReplaceStep> replaceIterator = replaceSteps.values().iterator();
+		Iterator<OAReplaceStep> replaceIterator = replaceSteps.values().iterator();
 
 		//get the Document String
 		String iteratedStringDocument = StreamSourceUtility.getInstance().writeToString(anODFDocument);
@@ -46,7 +46,7 @@ public final class ReplaceStepsResolver
 		while(replaceIterator.hasNext())
 		{
 			//get the next step
-			ReplaceStep nextStep = (ReplaceStep)replaceIterator.next();
+			OAReplaceStep nextStep = (OAReplaceStep)replaceIterator.next();
 
 			//get the pattern of the replace
 			String pattern = nextStep.getPattern();

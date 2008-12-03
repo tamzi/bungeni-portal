@@ -69,7 +69,7 @@
     <xsl:template match="ref">
         <inline name="ref">
             <xsl:attribute name="class" select="tokenize(@name,':')[position()=1]" />
-            <xsl:attribute name="href" select="tokenize(@name,':')[position()=2]" />
+            <xsl:attribute name="href" select="if (tokenize(@name,':')[position()=2]) then tokenize(@name,':')[position()=2] else @href" />
             <xsl:attribute name="id" select="generate-id(.)" />
             <xsl:apply-templates />
         </inline>

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
+<?xml version="1.0" encoding="UTF-8"?><xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
     <xsl:output indent="yes" method="xml"/>
 
     <xsl:template match="/">
@@ -14,11 +13,19 @@
        <xsl:value-of select="normalize-space(.)"/>
     </xsl:template> 
 
-	<xsl:template match="*[@name='debaterecord']">
+	<xsl:template match="*[@name='root']">
 		<debateRecord>
  
             <xsl:apply-templates/>
         </debateRecord>
+		
+	</xsl:template>
+
+	<xsl:template match="*[@name='body']">
+		<debate>
+ 
+            <xsl:apply-templates/>
+        </debate>
 		
 	</xsl:template>
 
@@ -38,9 +45,34 @@
 		
 	</xsl:template>
 
+	<xsl:template match="*[@name='TabledDocuments']">
+		<papers>
+			<xsl:if test="@id">
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+			</xsl:if>
+
+            <xsl:apply-templates/>
+        </papers>
+		
+	</xsl:template>
+
+	<xsl:template match="*[@name='TabledDocumentsList']">
+		<other>
+			<xsl:if test="@id">
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+			</xsl:if>
+
+            <xsl:apply-templates/>
+        </other>
+		
+	</xsl:template>
+
 	<xsl:template match="*[@name='GroupActivity']">
 		<subdivision>
- 
+			<xsl:if test="@id">
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+			</xsl:if>
+
             <xsl:apply-templates/>
         </subdivision>
 		
@@ -48,7 +80,10 @@
 
 	<xsl:template match="*[@name='Speech']">
 		<speech>
- 
+			<xsl:if test="@id">
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+			</xsl:if>
+
             <xsl:apply-templates/>
         </speech>
 		
@@ -56,7 +91,10 @@
 
 	<xsl:template match="*[@name='QuestionsContainer']">
 		<subdivision>
- 
+			<xsl:if test="@id">
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+			</xsl:if>
+
             <xsl:apply-templates/>
         </subdivision>
 		
@@ -64,7 +102,10 @@
 
 	<xsl:template match="*[@name='QuestionAnswer']">
 		<questions>
- 
+			<xsl:if test="@id">
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+			</xsl:if>
+
             <xsl:apply-templates/>
         </questions>
 		
@@ -72,7 +113,10 @@
 
 	<xsl:template match="*[@name='Question']">
 		<question>
- 
+			<xsl:if test="@id">
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+			</xsl:if>
+
             <xsl:apply-templates/>
         </question>
 		
@@ -80,7 +124,10 @@
 
 	<xsl:template match="*[@name='PointOfOrder']">
 		<pointOfOrder>
- 
+			<xsl:if test="@id">
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+			</xsl:if>
+
             <xsl:apply-templates/>
         </pointOfOrder>
 		
@@ -88,9 +135,34 @@
 
 	<xsl:template match="*[@name='ProceduralMotion']">
 		<proceduralMotions>
- 
+			<xsl:if test="@id">
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+			</xsl:if>
+
             <xsl:apply-templates/>
         </proceduralMotions>
+		
+	</xsl:template>
+
+	<xsl:template match="*[@name='MotionsContainer']">
+		<noticesOfMotion>
+			<xsl:if test="@id">
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+			</xsl:if>
+
+            <xsl:apply-templates/>
+        </noticesOfMotion>
+		
+	</xsl:template>
+
+	<xsl:template match="*[@name='Motion']">
+		<subdivision>
+			<xsl:if test="@id">
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+			</xsl:if>
+
+            <xsl:apply-templates/>
+        </subdivision>
 		
 	</xsl:template>
 
@@ -104,7 +176,10 @@
 
 	<xsl:template match="*[@name='ActionEvent']">
 		<actionEvent>
- 
+			<xsl:if test="@id">
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+			</xsl:if>
+
             <xsl:apply-templates/>
         </actionEvent>
 		
@@ -112,7 +187,10 @@
 
 	<xsl:template match="*[@name='Communication']">
 		<communication>
- 
+			<xsl:if test="@id">
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+			</xsl:if>
+
             <xsl:apply-templates/>
         </communication>
 		
@@ -120,7 +198,10 @@
 
 	<xsl:template match="*[@name='Conclusion']">
 		<conclusions>
- 
+			<xsl:if test="@id">
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+			</xsl:if>
+
             <xsl:apply-templates/>
         </conclusions>
 		
@@ -166,6 +247,28 @@
  
             <xsl:apply-templates/>
         </subheading>
+		
+	</xsl:template>
+
+	<xsl:template match="*[@name='list']">
+		<list>
+			<xsl:if test="@id">
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+			</xsl:if>
+
+            <xsl:apply-templates/>
+        </list>
+		
+	</xsl:template>
+
+	<xsl:template match="*[@name='item']">
+		<item>
+			<xsl:if test="@id">
+				<xsl:attribute name="id"><xsl:value-of select="@id"/></xsl:attribute>
+			</xsl:if>
+
+            <xsl:apply-templates/>
+        </item>
 		
 	</xsl:template>
 

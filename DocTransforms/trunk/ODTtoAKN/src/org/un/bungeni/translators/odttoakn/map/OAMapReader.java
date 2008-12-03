@@ -4,7 +4,9 @@ import java.util.HashMap;
 
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
-import org.un.bungeni.translators.odttoakn.steps.MapStep;
+
+import org.un.bungeni.translators.interfaces.MapReader;
+import org.un.bungeni.translators.odttoakn.steps.OAMapStep;
 import org.un.bungeni.translators.utility.xpathresolver.XPathResolver;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -14,7 +16,7 @@ import org.w3c.dom.NodeList;
  *  This is the map reader Object, 
  *  A map reader object is used to read a map xml and retrieve all te Map Steps of the map
  */
-public class MapReader implements MapReaderInterface
+public class OAMapReader implements MapReader
 {
 	//the XML that contains the map
 	private Document mapXML; 
@@ -23,7 +25,7 @@ public class MapReader implements MapReaderInterface
 	 * Create a new Map reader object builded on the given Map XML file 
 	 * @param aMapXML the XML file that contains the map 
 	 */
-	public MapReader(Document aMapXML)
+	public OAMapReader(Document aMapXML)
 	{
 		//save the map XML
 		this.mapXML = aMapXML;
@@ -34,10 +36,10 @@ public class MapReader implements MapReaderInterface
 	 * @return the HashMap containing all the step of the map indexed by their id
 	 * @throws XPathExpressionException 
 	 */
-	public HashMap<Integer, MapStep> getMapSteps() throws XPathExpressionException
+	public HashMap<Integer, OAMapStep> getMapSteps() throws XPathExpressionException
 	{
 		//the HashMap to return 
-		HashMap<Integer,MapStep> resultMap = new HashMap<Integer,MapStep>();
+		HashMap<Integer,OAMapStep> resultMap = new HashMap<Integer,OAMapStep>();
 		
 		//retreive the XPath resolver instance 
 		XPathResolver xresolver = XPathResolver.getInstance();
@@ -52,7 +54,7 @@ public class MapReader implements MapReaderInterface
 			Node stepNode = stepNodes.item(i);
 						
 			//create the Map Step 
-			MapStep resultStep = new MapStep(Integer.parseInt(stepNode.getAttributes().getNamedItem("id").getNodeValue()),
+			OAMapStep resultStep = new OAMapStep(Integer.parseInt(stepNode.getAttributes().getNamedItem("id").getNodeValue()),
  					 								 stepNode.getAttributes().getNamedItem("bungeniSectionType").getNodeValue(),
  					 								 stepNode.getAttributes().getNamedItem("result").getNodeValue());
 

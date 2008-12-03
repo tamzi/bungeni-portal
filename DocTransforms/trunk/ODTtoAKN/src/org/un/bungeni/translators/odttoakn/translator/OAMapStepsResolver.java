@@ -7,13 +7,13 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.un.bungeni.translators.odttoakn.map.Map;
-import org.un.bungeni.translators.odttoakn.steps.MapStep;
+import org.un.bungeni.translators.odttoakn.map.OAMap;
+import org.un.bungeni.translators.odttoakn.steps.OAMapStep;
 
 /**
  * Used to resolve the MAP STEPS of a configuration file
 */
-public final class MapStepsResolver 
+public final class OAMapStepsResolver 
 {
 	/**
 	 * Return the StreamSource obtained after all the MAP steps of the given 
@@ -24,19 +24,19 @@ public final class MapStepsResolver
 	 * @throws XPathExpressionException 
 	 * @throws TransformerException 
 	 */
-	protected static StreamSource resolve(Map aMap) throws XPathExpressionException, TransformerException
+	protected static StreamSource resolve(OAMap aMap) throws XPathExpressionException, TransformerException
 	{
 		//get the map steps from the map 
-		HashMap<Integer,MapStep> mapSteps = aMap.getMapSteps();
+		HashMap<Integer,OAMapStep> mapSteps = aMap.getMapSteps();
 	
 		//create an iterator on the hash map
-		Iterator<MapStep> mapStepsIterator = mapSteps.values().iterator();
+		Iterator<OAMapStep> mapStepsIterator = mapSteps.values().iterator();
 		
 		//while the Iterator has steps apply the transformation
 		while(mapStepsIterator.hasNext())
 		{
 			//get the next step
-			MapStep nextMapStep = (MapStep)mapStepsIterator.next();
+			OAMapStep nextMapStep = (OAMapStep)mapStepsIterator.next();
 
 			//the hash map that will contains the parametes
 			HashMap<String,Object> paramMap = new HashMap<String,Object>();

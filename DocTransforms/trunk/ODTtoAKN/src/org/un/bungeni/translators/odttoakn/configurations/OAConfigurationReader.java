@@ -7,8 +7,9 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
-import org.un.bungeni.translators.odttoakn.steps.XSLTStep;
-import org.un.bungeni.translators.odttoakn.steps.ReplaceStep;
+import org.un.bungeni.translators.interfaces.ConfigurationReader;
+import org.un.bungeni.translators.odttoakn.steps.OAXSLTStep;
+import org.un.bungeni.translators.odttoakn.steps.OAReplaceStep;
 import org.un.bungeni.translators.utility.xpathresolver.XPathResolver;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -19,7 +20,7 @@ import org.xml.sax.SAXException;
  * This is the reader of the configuration.
  * It supplies several methods to retrieve the Steps of a configuration 
  */
-public class ConfigurationReader implements ConfigurationReaderInterface 
+public class OAConfigurationReader implements ConfigurationReader 
 {
 	//the XML that contains the configurations
 	private Document configXML; 
@@ -32,7 +33,7 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 	 * @throws SAXException 
 	 * @throws XPathExpressionException 
 	 */
-	public ConfigurationReader(Document aConfigXML) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException
+	public OAConfigurationReader(Document aConfigXML) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException
 	{
 		//save the config XML
 		this.configXML = aConfigXML;
@@ -45,10 +46,10 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 	 * @return the HashMap containing all the Steps of the configuration
 	 * @throws XPathExpressionException 
 	 */
-	public HashMap<Integer,XSLTStep> getInputSteps() throws XPathExpressionException
+	public HashMap<Integer,OAXSLTStep> getInputSteps() throws XPathExpressionException
 	{
 		//the HashMap to return 
-		HashMap<Integer,XSLTStep> resultMap = new HashMap<Integer,XSLTStep>();
+		HashMap<Integer,OAXSLTStep> resultMap = new HashMap<Integer,OAXSLTStep>();
 		
 		//retreive the XPath resolver instance 
 		XPathResolver xresolver = XPathResolver.getInstance();
@@ -63,7 +64,7 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 			Node stepNode = stepNodes.item(i);
 			
 			//create the Step 
-			XSLTStep resultStep = new XSLTStep( stepNode.getAttributes().getNamedItem("name").getNodeValue(),
+			OAXSLTStep resultStep = new OAXSLTStep( stepNode.getAttributes().getNamedItem("name").getNodeValue(),
 						  				stepNode.getAttributes().getNamedItem("href").getNodeValue(),
 						  				Integer.parseInt(stepNode.getAttributes().getNamedItem("step").getNodeValue()));
 			
@@ -81,10 +82,10 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 	 * @return the HashMap containing all the Steps of the configuration
 	 * @throws XPathExpressionException 
 	 */
-	public HashMap<Integer,XSLTStep> getOutputSteps() throws XPathExpressionException
+	public HashMap<Integer,OAXSLTStep> getOutputSteps() throws XPathExpressionException
 	{
 		//the HashMap to return 
-		HashMap<Integer,XSLTStep> resultMap = new HashMap<Integer,XSLTStep>();
+		HashMap<Integer,OAXSLTStep> resultMap = new HashMap<Integer,OAXSLTStep>();
 		
 		//retreive the XPath resolver instance 
 		XPathResolver xresolver = XPathResolver.getInstance();
@@ -99,7 +100,7 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 			Node stepNode = stepNodes.item(i);
 			
 			//create the Step 
-			XSLTStep resultStep = new XSLTStep( stepNode.getAttributes().getNamedItem("name").getNodeValue(),
+			OAXSLTStep resultStep = new OAXSLTStep( stepNode.getAttributes().getNamedItem("name").getNodeValue(),
 						  				stepNode.getAttributes().getNamedItem("href").getNodeValue(),
 						  				Integer.parseInt(stepNode.getAttributes().getNamedItem("step").getNodeValue()));
 			
@@ -117,10 +118,10 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 	 * @return the HashMap containing all the ReplaceSteps of the configuration
 	 * @throws XPathExpressionException 
 	 */
-	public HashMap<Integer,ReplaceStep> getReplaceSteps() throws XPathExpressionException
+	public HashMap<Integer,OAReplaceStep> getReplaceSteps() throws XPathExpressionException
 	{
 		//the HashMap to return 
-		HashMap<Integer,ReplaceStep> resultMap = new HashMap<Integer,ReplaceStep>();
+		HashMap<Integer,OAReplaceStep> resultMap = new HashMap<Integer,OAReplaceStep>();
 		
 		//retrieve the XPath resolver instance 
 		XPathResolver xresolver = XPathResolver.getInstance();
@@ -135,20 +136,20 @@ public class ConfigurationReader implements ConfigurationReaderInterface
 			Node stepNode = stepNodes.item(i);
 			
 			//the result Step
-			ReplaceStep resultStep;
+			OAReplaceStep resultStep;
 			
 			//create the replace Step 
 			//if pattern attribute is not empty get the pattern from the attribute 
 			if (stepNode.getAttributes().getNamedItem("pattern") != null)
 			{
-				resultStep = new ReplaceStep( 	stepNode.getAttributes().getNamedItem("name").getNodeValue(),
+				resultStep = new OAReplaceStep( 	stepNode.getAttributes().getNamedItem("name").getNodeValue(),
 												stepNode.getAttributes().getNamedItem("replacement").getNodeValue(),
 						  					  	stepNode.getAttributes().getNamedItem("pattern").getNodeValue());
 			}
 			//otherwise get the value from the textValue of the node
 			else
 			{
-				resultStep = new ReplaceStep( 	stepNode.getAttributes().getNamedItem("name").getNodeValue(),
+				resultStep = new OAReplaceStep( 	stepNode.getAttributes().getNamedItem("name").getNodeValue(),
 												stepNode.getAttributes().getNamedItem("replacement").getNodeValue(),
 		  										stepNode.getFirstChild().getNodeValue());
 			}

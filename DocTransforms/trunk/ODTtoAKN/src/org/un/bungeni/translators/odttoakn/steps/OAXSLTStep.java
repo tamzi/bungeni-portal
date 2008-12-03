@@ -1,10 +1,12 @@
 package org.un.bungeni.translators.odttoakn.steps;
 
+import org.un.bungeni.translators.interfaces.XSLTStep;
+
 /**
  * The Step Object is the basic unit of the translations. A configuration contains several steps
  * that are performed sequentially.
 */
-public class XSLTStep implements XSLTStepInterface 
+public class OAXSLTStep implements XSLTStep 
 {
 	//the name of the step 
 	private String name;
@@ -19,7 +21,7 @@ public class XSLTStep implements XSLTStepInterface
 	 * @param aURI the href of the Step 
 	 * @param aPosition the position of the Step 
 	 */
-	public XSLTStep(String aName, String aURI, Integer aPosition)
+	public OAXSLTStep(String aName, String aURI, Integer aPosition)
 	{
 		//set the name of the Step 
 		this.name = aName;

@@ -1,10 +1,10 @@
-package org.un.bungeni.translators.odttoakn.steps;
+package org.un.bungeni.translators.interfaces;
 
 /**
  * This is the interface for the ReplaceStep Object. 
  * A replace step is a simple String replacement, having a pattern to search and the replacement string.
  */
-public interface ReplaceStepInterface 
+public interface ReplaceStep 
 {
 	/**
 	 * Return the name of this Replace Step

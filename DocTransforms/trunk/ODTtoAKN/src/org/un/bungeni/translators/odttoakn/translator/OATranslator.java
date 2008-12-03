@@ -10,7 +10,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.un.bungeni.translators.akntohtml.translator.AHPipelineResolver;
-import org.un.bungeni.translators.odttoakn.configurations.Configuration;
+import org.un.bungeni.translators.odttoakn.configurations.OAConfiguration;
 import org.un.bungeni.translators.utility.dom.DOMUtility;
 import org.un.bungeni.translators.utility.odf.ODFUtility;
 import org.un.bungeni.translators.utility.streams.StreamSourceUtility;
@@ -128,16 +128,16 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		Document configurationDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(aConfigurationPath);
 		
 		//create the configuration 
-		Configuration configuration = new Configuration(configurationDoc);
+		OAConfiguration configuration = new OAConfiguration(configurationDoc);
 
 		//applies the input steps to the StreamSource of the ODF document
-		StreamSource iteratedDocument = InputStepsResolver.resolve(ODFDocument, configuration);
+		StreamSource iteratedDocument = OAInputStepsResolver.resolve(ODFDocument, configuration);
 
 		//applies the map steps to the StreamSource of the ODF document
-		iteratedDocument = ReplaceStepsResolver.resolve(iteratedDocument, configuration);
+		iteratedDocument = OAReplaceStepsResolver.resolve(iteratedDocument, configuration);
 
 		//apply the OUTPUT XSLT to the StreamSource
-		StreamSource resultStream = OutputStepsResolver.resolve(iteratedDocument, configuration);
+		StreamSource resultStream = OAOutputStepsResolver.resolve(iteratedDocument, configuration);
 		
 		//write the source to a File
 		File resultFile = StreamSourceUtility.getInstance().writeToFile(resultStream);

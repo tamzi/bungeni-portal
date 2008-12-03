@@ -1,10 +1,12 @@
 package org.un.bungeni.translators.odttoakn.steps;
 
+import org.un.bungeni.translators.interfaces.MapStep;
+
 /**
  * This is the map step object
  * A map step object is an object used to store each element of the mapping files
  */
-public class MapStep implements MapStepInterface
+public class OAMapStep implements MapStep
 {
 	//the id of the step 
 	private Integer stepId;
@@ -21,7 +23,7 @@ public class MapStep implements MapStepInterface
 	 * @param aStepResult the result attribute of the step 
 	 * @param anAttributesList the string that contains all the operation to be done on the attributes of a particular element
 	 */
-	public MapStep(Integer aStepId, String aStepBungeniSectionType, String aStepResult)
+	public OAMapStep(Integer aStepId, String aStepBungeniSectionType, String aStepResult)
 	{
 		//set the id attribute of the step
 		this.stepId = aStepId;

@@ -1,10 +1,12 @@
 package org.un.bungeni.translators.odttoakn.steps;
 
+import org.un.bungeni.translators.interfaces.ReplaceStep;
+
 /**
  * This is the ReplaceStep Object. 
  * A ReplaceStep is a simple String replacement, having a pattern to search and the replacement string.
  */
-public class ReplaceStep implements ReplaceStepInterface
+public class OAReplaceStep implements ReplaceStep
 {
 	//the name of this replace step
 	private String name;
@@ -20,7 +22,7 @@ public class ReplaceStep implements ReplaceStepInterface
 	 * @param aReplacement the replacement String for the new ReplaceStep
 	 * @param aPattern the pattern String for the new ReplaceStep
 	 */
-	public ReplaceStep(String aName,String aReplacement, String aPattern)
+	public OAReplaceStep(String aName,String aReplacement, String aPattern)
 	{
 		//set the name
 		this.name = aName;

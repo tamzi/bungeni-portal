@@ -1,10 +1,10 @@
-package org.un.bungeni.translators.odttoakn.steps;
+package org.un.bungeni.translators.interfaces;
 
 /**
  * This is the interface for the step objects of the ODTtoAKN translator. 
  * A step contains all the informations related to a particular step of the translation.
  */
-public interface XSLTStepInterface 
+public interface XSLTStep 
 {
 	
 	/**

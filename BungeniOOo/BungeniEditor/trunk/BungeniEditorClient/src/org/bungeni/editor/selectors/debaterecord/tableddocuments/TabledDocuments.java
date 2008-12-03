@@ -75,10 +75,10 @@ public class TabledDocuments extends BaseMetadataPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_tabledDocs = new javax.swing.JTable();
 
-        lbl_tabledDocs.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        lbl_tabledDocs.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         lbl_tabledDocs.setText("Select Tabled Documents");
 
-        tbl_tabledDocs.setFont(new java.awt.Font("DejaVu Sans", 0, 11)); // NOI18N
+        tbl_tabledDocs.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         tbl_tabledDocs.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -99,8 +99,8 @@ public class TabledDocuments extends BaseMetadataPanel {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lbl_tabledDocs, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lbl_tabledDocs, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(13, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -108,7 +108,7 @@ public class TabledDocuments extends BaseMetadataPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(lbl_tabledDocs)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -211,6 +211,7 @@ public class TabledDocuments extends BaseMetadataPanel {
                 XPropertySet xCurProps = ooQueryInterface.XPropertySet(startCur);
                 xCurProps.setPropertyValue("HyperLinkURL", tblDocURIs.get(i));
                 xCursorText.insertString(startCur, tblDocTitles.get(i), false);
+               // if (!(i == tblDocTitles.size() -1 ))
                 xCursorText.insertControlCharacter(startCur, com.sun.star.text.ControlCharacter.PARAGRAPH_BREAK, false);
         }
         
@@ -241,10 +242,17 @@ public class TabledDocuments extends BaseMetadataPanel {
                 }
             }
             XParagraphCursor xParaCursor = ooQueryInterface.XParagraphCursor(xCursor);
-            xParaCursor.gotoPreviousParagraph(false);
-            xParaCursor.gotoRange(xStartRange, true);
-            XPropertySet xCurProps = ooQueryInterface.XPropertySet(objNumeringRules);
-            xCurProps.setPropertyValue("NumberingRules", objNumeringRules);
+            int selSize = getTableSelection().get("tabled_document_titles").size();
+            for (int i=0 ; i < selSize; i++) {
+                if (i == 0 )
+                    xParaCursor.gotoPreviousParagraph(false);
+                else
+                    xParaCursor.gotoPreviousParagraph(true);
+            }
+            //xParaCursor.gotoPreviousParagraph(false);
+            //xParaCursor.gotoRange(xStartRange, true);
+            XPropertySet xCurProps = ooQueryInterface.XPropertySet(xCursor);
+            xCurProps.setPropertyValue("NumberingRules", numIndexAccess);
         } catch (UnknownPropertyException ex) {
            log.error("getNumberingRules : " + ex.getMessage());
         } catch (PropertyVetoException ex) {

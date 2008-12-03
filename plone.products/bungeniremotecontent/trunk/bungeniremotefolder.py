@@ -34,14 +34,14 @@ schema = Schema((
         name='body_text',
         allowable_content_types=('text/plain', 'text/structured', 'text/html', 'application/msword',),
         widget=RichWidget(
-            label='Body_text',
+            label="About",
+            description="Detailed description of this folder listing",
             label_msgid='bungeniremotecontent_label_body_text',
+            description_msgid='bungeniremotecontent_help_body_text',
             i18n_domain='bungeniremotecontent',
         ),
-        required=False,
-        description="Detailed description of this folder listing",
-        title="Body Text",
         default_output_type='text/html',
+        required=False,
     ),
     StringField(
         name='source_url',
@@ -53,6 +53,18 @@ schema = Schema((
         required=True,
         read_permission="Add portal content",
         title="remote URL",
+    ),
+    IntegerField(
+        name='limit',
+        default=20,
+        widget=IntegerField._properties['widget'](
+            description="maximum rows shown in the listing",
+            label="Limit",
+            label_msgid='bungeniremotecontent_label_limit',
+            description_msgid='bungeniremotecontent_help_limit',
+            i18n_domain='bungeniremotecontent',
+        ),
+        read_permission="Add portal content",
     ),
 
 ),
@@ -90,25 +102,67 @@ class bungeniremotefolder(ATFolder):
     def getRemoteFolderListing(self):
         """
         """
+        request = self.REQUEST
         bungeni_tool = getToolByName(self, "portal_bungeniremotesettings")
-        lurl = bungeni_tool.host_url + self.source_url + bungeni_tool.json_listing
-        turl = bungeni_tool.host_url + self.source_url + bungeni_tool.json_headers
+        host_url = bungeni_tool.host_url
+        if host_url[-1] !='/':
+            host_url = host_url + '/'
+        source_url =self.source_url
+        if source_url[-1] != '/':
+            source_url = source_url + '/'
+        if source_url[0] == '/':
+            source_url = source_url[1:]
+        #get some info from the request
+        sort_by = request.get('sort', '')
+        sort_order = request.get('dir', 'asc')
+        querystr = "?dir=" + sort_order
+        start = request.get('start', '0')
+        limit = request.get('limit', str(self.limit))
+        if sort_by !='':
+            querystr = querystr + '&sort=' + sort_by
+        if limit !='':
+            querystr = querystr + '&limit=' + limit
+        querystr = querystr + '&start=' + start
+        lurl = bungeni_tool.host_url + source_url + bungeni_tool.json_listing + querystr
+        turl = bungeni_tool.host_url + source_url + bungeni_tool.json_headers
         lf = urllib.urlopen(lurl)
         results = simplejson.load(lf)
         tf = urllib.urlopen(turl)
         ths = simplejson.load(tf)
-        rs = "<table> <thead> <tr>"
+        if results.has_key("sort"):
+            sort_by = results['sort']
+        if results.has_key("dir"):
+            sort_order = results['dir']
+        if results.has_key("start"):
+            start=results['start']
+        if results.has_key("limit"):
+            limit=results['limit']
+
+        rs = '<table class="remote-table"> <thead> <tr>'
         for th in ths:
-            rs = rs + "<th> " + th['title'] +" </th>"
+            css_class = ''
+            collumn_sort_order = "asc"
+            if th['name'] == sort_by:
+                if sort_order == "desc":
+                    css_class = "sorted_desc"
+                else:
+                    css_class = "sorted_asc"
+                    collumn_sort_order = "desc"
+            else:
+                css_class = "sorted_unsorted"
+            rs = rs + '<th class="' + css_class + '"> '
+            lnk = '?dir=' + collumn_sort_order + '&sort=' + th['name'] + "&limit=" + limit +"&start=0"
+            rs = rs + '<a href="' + lnk + '" >' + th['title'] + "</a> </th>"
+
         rs = rs + "</tr> </thead> <tbody>"
         if results.has_key("nodes"):
             for tr in results['nodes']:
                 rs = rs + "<tr>"
-                for th in ths:                    
-                        rs = rs + "<td> " + tr[th['name']] + " </td>"
+                for th in ths:
+                        rs = rs + "<td> " + str(tr[th['name']]) + " </td>"
                 rs = rs + "</tr>"
-        rs = rs + "</tbody></table>"   
-        return rs        
+        rs = rs + "</tbody></table>"
+        return rs
 
 
 

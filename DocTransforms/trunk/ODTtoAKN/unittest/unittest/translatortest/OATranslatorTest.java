@@ -12,7 +12,7 @@ import java.io.FileOutputStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.un.bungeni.translators.odttoakn.translator.Translator;
+import org.un.bungeni.translators.odttoakn.translator.OATranslator;
 import org.un.bungeni.translators.odttoakn.xslprocbuilder.XSLProcBuilder;
 
 
@@ -22,7 +22,7 @@ import org.un.bungeni.translators.odttoakn.xslprocbuilder.XSLProcBuilder;
  */
 public class OATranslatorTest 
 {
-	private Translator myTranslator;
+	private OATranslator myTranslator;
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -30,7 +30,7 @@ public class OATranslatorTest
 	public void setUp() throws Exception 
 	{
 		//get the instance of the translator
-		myTranslator = Translator.getInstance();
+		myTranslator = OATranslator.getInstance();
 	}
 
 	/**
@@ -41,7 +41,7 @@ public class OATranslatorTest
 	}
 
 	/**
-	 * Test method for {@link org.un.bungeni.translators.odttoakn.translator.Translator#getInstance()}.
+	 * Test method for {@link org.un.bungeni.translators.odttoakn.translator.OATranslator#getInstance()}.
 	 */
 	@Test
 	public final void testGetInstance() 
@@ -51,7 +51,7 @@ public class OATranslatorTest
 	}
 
 	/**
-	 * Test method for {@link org.un.bungeni.translators.odttoakn.translator.Translator#translate(java.lang.String, java.lang.String)}.
+	 * Test method for {@link org.un.bungeni.translators.odttoakn.translator.OATranslator#translate(java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 */
 	@Test

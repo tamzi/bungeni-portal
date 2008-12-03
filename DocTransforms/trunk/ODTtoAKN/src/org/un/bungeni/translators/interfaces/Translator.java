@@ -27,8 +27,9 @@ public interface Translator
 	 * @throws IOException 
 	 * @throws SAXException 
 	 * @throws XPathExpressionException 
+	 * @throws Exception 
 	 */
-	public File translate(String aDocumentPath, String aPipelinePath) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException;
+	public File translate(String aDocumentPath, String aPipelinePath) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException, Exception;
 	
 	/**
 	 * Create and return an XSLT builded upon the instructions of the given pipeline. 

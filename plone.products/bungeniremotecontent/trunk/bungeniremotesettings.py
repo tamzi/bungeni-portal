@@ -40,6 +40,22 @@ schema = Schema((
         required=True,
         title="Remote Host",
     ),
+    StringField(
+        name='json_headers',
+        widget=StringField._properties['widget'](
+            label='Json_headers',
+            label_msgid='bungeniremotecontent_label_json_headers',
+            i18n_domain='bungeniremotecontent',
+        ),
+    ),
+    StringField(
+        name='json_listing',
+        widget=StringField._properties['widget'](
+            label='Json_listing',
+            label_msgid='bungeniremotecontent_label_json_listing',
+            i18n_domain='bungeniremotecontent',
+        ),
+    ),
 
 ),
 )

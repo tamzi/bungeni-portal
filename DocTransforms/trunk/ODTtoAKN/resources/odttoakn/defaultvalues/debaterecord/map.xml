@@ -7,7 +7,7 @@
 		<element id="4" bungeniSectionType="Observation" result="scene"/>
 		<element id="5" bungeniSectionType="TabledDocuments" result="papers" mantain="id"/>
  	    <element id="6" bungeniSectionType="TabledDocumentsList" result="other" mantain="id"/>
- 	    <element id="7" bungeniSectionType="GroupActivity" result="subdivision" mantain="id"/>
+ 	    <element id="7" bungeniSectionType="GroupActivity" result="subdivision" mantain="id,name"/>
  	    <element id="8" bungeniSectionType="Speech" result="speech" mantain="id"/>
  		<element id="9" bungeniSectionType="QuestionsContainer" result="subdivision" mantain="id,name"/>
 		<element id="10" bungeniSectionType="QuestionAnswer" result="questions" mantain="id"/>
@@ -15,7 +15,7 @@
 		<element id="12" bungeniSectionType="PointOfOrder" result="pointOfOrder" mantain="id"/>
 		<element id="13" bungeniSectionType="ProceduralMotion" result="proceduralMotions" mantain="id"/>
 		<element id="14" bungeniSectionType="MotionsContainer" result="noticesOfMotion" mantain="id"/>
-		<element id="15" bungeniSectionType="Motion" result="subdivision" mantain="id"/>
+		<element id="15" bungeniSectionType="Motion" result="subdivision" mantain="id,name"/>
 		<element id="16" bungeniSectionType="Person" result="from"/>
 		<element id="17" bungeniSectionType="ActionEvent" result="actionEvent" mantain="id"/>
 		<element id="18" bungeniSectionType="Communication" result="communication" mantain="id"/>
@@ -27,5 +27,6 @@
 		<element id="24" bungeniSectionType="subheading" result="subheading"/>
 		<element id="25" bungeniSectionType="list" result="list" mantain="id"/>
 		<element id="26" bungeniSectionType="item" result="item" mantain="id"/>
+		<element id="27" bungeniSectionType="a" result="a" mantain="id,href"/>
 	</elements> 
 </map>

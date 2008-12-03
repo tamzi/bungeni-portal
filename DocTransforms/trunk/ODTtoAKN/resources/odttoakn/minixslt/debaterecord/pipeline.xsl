@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="2.0">
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
+                version="2.0">
     <xsl:output indent="yes" method="xml"/>
 
     <xsl:template match="/">
@@ -143,6 +144,11 @@
 
 	<xsl:template match="*[@name='item']">
 		<xslt step="25" name="item" href="resources/odttoakn/minixslt/debaterecord/item.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
+	<xsl:template match="*[@name='a']">
+		<xslt step="26" name="a" href="resources/odttoakn/minixslt/debaterecord/a.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 

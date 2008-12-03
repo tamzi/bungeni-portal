@@ -9,7 +9,6 @@ import java.util.Properties;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.un.bungeni.translators.akntohtml.translator.AHPipelineResolver;
 import org.un.bungeni.translators.odttoakn.configurations.OAConfiguration;
 import org.un.bungeni.translators.utility.dom.DOMUtility;
 import org.un.bungeni.translators.utility.odf.ODFUtility;
@@ -102,7 +101,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	 * @throws Exception 
 	 * @throws TransformerFactoryConfigurationError 
 	 */
-	public File translate(File aDocumentHandle, String aConfigurationPath) throws TransformerFactoryConfigurationError, Exception 
+	public File translate(File aDocumentHandle, String aPipelinePath) throws TransformerFactoryConfigurationError, Exception 
 	{
 		//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
 		StreamSource ODFDocument = new StreamSource(ODFUtility.getInstance().mergeODF(aDocumentHandle));
@@ -160,7 +159,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	public File buildXSLT(String aPipelinePath) throws XPathExpressionException, SAXException, IOException, ParserConfigurationException, TransformerFactoryConfigurationError, TransformerException
 	{
 		//create the XSLT document starting from the pipeline
-		Document pipeline = AHPipelineResolver.getInstance().resolve(aPipelinePath);
+		Document pipeline = OAPipelineResolver.getInstance().resolve(aPipelinePath);
 				
 		//write the document to a File
 		File resultFile = DOMUtility.getInstance().writeToFile(pipeline);

@@ -24,6 +24,8 @@ from Products.ATContentTypes.content.folder import ATFolderSchema
 from Products.bungeniremotecontent.config import *
 
 ##code-section module-header #fill in your manual code here
+from Products.CMFCore.utils import getToolByName
+import urllib, simplejson
 ##/code-section module-header
 
 schema = Schema((
@@ -49,6 +51,7 @@ schema = Schema((
             i18n_domain='bungeniremotecontent',
         ),
         required=True,
+        read_permission="Add portal content",
         title="remote URL",
     ),
 
@@ -80,6 +83,33 @@ class bungeniremotefolder(ATFolder):
     ##/code-section class-header
 
     # Methods
+
+    # Manually created methods
+
+    security.declarePublic('getRemoteFolderListing')
+    def getRemoteFolderListing(self):
+        """
+        """
+        bungeni_tool = getToolByName(self, "portal_bungeniremotesettings")
+        lurl = bungeni_tool.host_url + self.source_url + bungeni_tool.json_listing
+        turl = bungeni_tool.host_url + self.source_url + bungeni_tool.json_headers
+        lf = urllib.urlopen(lurl)
+        results = simplejson.load(lf)
+        tf = urllib.urlopen(turl)
+        ths = simplejson.load(tf)
+        rs = "<table> <thead> <tr>"
+        for th in ths:
+            rs = rs + "<th> " + th['title'] +" </th>"
+        rs = rs + "</tr> </thead> <tbody>"
+        if results.has_key("nodes"):
+            for tr in results['nodes']:
+                rs = rs + "<tr>"
+                for th in ths:                    
+                        rs = rs + "<td> " + tr[th['name']] + " </td>"
+                rs = rs + "</tr>"
+        rs = rs + "</tbody></table>"   
+        return rs        
+
 
 
 registerType(bungeniremotefolder, PROJECTNAME)

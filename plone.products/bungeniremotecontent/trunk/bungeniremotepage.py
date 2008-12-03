@@ -22,6 +22,8 @@ from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
 from Products.bungeniremotecontent.config import *
 
 ##code-section module-header #fill in your manual code here
+from Products.CMFCore.utils import getToolByName
+import urllib, feedparser
 ##/code-section module-header
 
 schema = Schema((
@@ -65,6 +67,19 @@ class bungeniremotepage(BaseContent, BrowserDefaultMixin):
     ##/code-section class-header
 
     # Methods
+
+    # Manually created methods
+
+    security.declarePublic('getRemoteContent')
+    def getRemoteContent(self):
+        """
+        gets the data from a remote site (as a rss or atom feed)
+        and returns it as html
+        """
+        bungeni_tool = getToolByName(self, "portal_bungeniremotesettings")
+        url = bungeni_tool.host_url + self.source_url
+        feedparser.parse(url)
+
 
 
 registerType(bungeniremotepage, PROJECTNAME)

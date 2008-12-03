@@ -47,13 +47,13 @@ public class XSLProcBuilder
 		//load the properties
 		properties.loadFromXML(propertiesInputStream);
 		
-		//get the user name
+		//get the defaut values path
 		this.defaultValuesPath = properties.getProperty("defaultValuesPath");
 		
-		//get the password 
+		//get the empty mini XSLT path
 		this.emptyMiniXSLTPath = properties.getProperty("emptyMiniXSLTPath");
 
-		//get the URL
+		//get the empty pipeline path
 		this.emptyPipelinePath = properties.getProperty("emptyPipelinePath");
 	}
 	

@@ -33,7 +33,7 @@ public class AHTranslatorTest {
 	}
 
 	/**
-	 * Test method for {@link org.un.bungeni.translators.odttoakn.translator.Translator#translate(java.lang.String, java.lang.String)}.
+	 * Test method for {@link org.un.bungeni.translators.odttoakn.translator.OATranslator#translate(java.lang.String, java.lang.String)}.
 	 * @throws Exception 
 	 */
 	@Test

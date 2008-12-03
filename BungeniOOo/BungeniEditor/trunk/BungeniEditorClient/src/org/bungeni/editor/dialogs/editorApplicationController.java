@@ -6,6 +6,7 @@
 
 package org.bungeni.editor.dialogs;
 
+import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.comp.helper.Bootstrap;
 import com.sun.star.comp.helper.BootstrapException;
 import com.sun.star.comp.helper.ComponentContext;
@@ -28,6 +29,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -953,8 +956,20 @@ private void initMeta(XComponent xComp){
 
 private void LaunchDebateMetadataSetter(XComponent xComp){
         OOComponentHelper oohc = new OOComponentHelper (xComp, this.m_xContext );
+    
+        if (oohc.propertyExists("__BungeniDocMeta")) {
+            String docMetaValue = "";
+            try {
+                docMetaValue = oohc.getPropertyValue("__BungeniDocMeta");
+            } catch (UnknownPropertyException ex) {
+                log.error("LaunchDebateMetadataSetter : " + ex.getLocalizedMessage());
+            }
+            if (docMetaValue.equals("true")) //document already has metadata... 
+                return;
+        }
+        
         BungeniFrame frm = new BungeniFrame("DebateRecord Metadata");
-        DebateRecordMetadata meta = new DebateRecordMetadata(oohc, frm, SelectorDialogModes.TEXT_INSERTION);
+        DebateRecordMetadata meta = new DebateRecordMetadata(oohc, frm, SelectorDialogModes.TEXT_EDIT);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setSize(new Dimension(410, 360));
         frm.add(meta);

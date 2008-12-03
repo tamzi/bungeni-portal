@@ -13,6 +13,7 @@ import org.un.bungeni.translators.odttoakn.configurations.OAConfiguration;
 import org.un.bungeni.translators.utility.dom.DOMUtility;
 import org.un.bungeni.translators.utility.odf.ODFUtility;
 import org.un.bungeni.translators.utility.streams.StreamSourceUtility;
+import org.un.bungeni.translators.utility.xslttransformer.XSLTTransformer;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -87,10 +88,16 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		StreamSource ODFDocument = new StreamSource(ODFUtility.getInstance().mergeODF(aDocumentPath));
 
 		//translate the document to METALEX
-		File resultFile = translateToMetalex(ODFDocument, this.metalexConfigPath);
+		File metalexFile = translateToMetalex(ODFDocument, this.metalexConfigPath);
 		
-		//return the Source of the new document
-	    return resultFile;
+		//create the XSLT that transforms the metalex
+		File xslt = this.buildXSLT(aPipelinePath);
+		
+		//apply the XSLT to the document 
+		StreamSource result = XSLTTransformer.getInstance().transform(new StreamSource(metalexFile), new StreamSource(xslt));
+		
+		//write the stream to a File and return it
+		return StreamSourceUtility.getInstance().writeToFile(result);
 	}
 
 	/**
@@ -107,10 +114,16 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		StreamSource ODFDocument = new StreamSource(ODFUtility.getInstance().mergeODF(aDocumentHandle));
 
 		//translate the document to METALEX
-	    File resultFile = translateToMetalex(ODFDocument, this.metalexConfigPath);
+	    File metalexFile = translateToMetalex(ODFDocument, this.metalexConfigPath);
 		
-	    //return the Source of the new document
-	    return resultFile;
+		//create the XSLT that transforms the metalex
+		File xslt = this.buildXSLT(aPipelinePath);
+		
+		//apply the XSLT to the document 
+		StreamSource result = XSLTTransformer.getInstance().transform(new StreamSource(metalexFile), new StreamSource(xslt));
+		
+		//write the stream to a File and return it
+		return StreamSourceUtility.getInstance().writeToFile(result);
 	}
 
 	/**

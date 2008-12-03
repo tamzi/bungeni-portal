@@ -19,7 +19,10 @@
 
     <xsl:template match="*[@name='Question']">
         <question>
- 
+			<xsl:if test="@id">
+				<xsl:attribute name="id"><xsl:value-of select="@id" /></xsl:attribute>
+			</xsl:if>
+
             <xsl:apply-templates />
         </question>
     </xsl:template>

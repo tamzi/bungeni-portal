@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 //import org.un.bungeni.translators.akntohtml.translator.AHTranslator;
 import org.un.bungeni.translators.odttoakn.translator.OATranslator;
-import org.un.bungeni.translators.odttoakn.xslprocbuilder.OAXSLProcBuilder;
+//import org.un.bungeni.translators.odttoakn.xslprocbuilder.OAXSLProcBuilder;
 
 
 /**
@@ -59,36 +59,10 @@ public class OATranslatorTest
 	public final void testTranslate() throws Exception 
 	{
 		
-		OAXSLProcBuilder.newInstance().createXSLProc("resources/odttoakn/minixslt/debaterecord/");
-		File xslt = OATranslator.getInstance().buildXSLT("resources/odttoakn/minixslt/debaterecord/pipeline.xsl");
-		
-		//input stream
-		FileInputStream fis  = new FileInputStream(xslt);
-		
-		//output stream 
-		FileOutputStream fos = new FileOutputStream("resources/OAXSLTResult.xsl");
-		
-		//copy the file
-		try 
-		{
-			byte[] buf = new byte[1024];
-		    int i = 0;
-		    while ((i = fis.read(buf)) != -1) 
-		    {
-		            fos.write(buf, 0, i);
-		    }
-		} 
-		catch (Exception e) 
-		{
-		}
-		finally 
-		{
-		        if (fis != null) fis.close();
-		        if (fos != null) fos.close();
-		}	
+		//OAXSLProcBuilder.newInstance().createXSLProc("resources/odttoakn/minixslt/debaterecord/");
 		
 		//perform a translation
-		/*File translation = myTranslator.translate("resources/debate_file_01.odt", "resources/odttometalex/debaterecord/config.xml");
+		File translation = myTranslator.translate("resources/debate_file_01.odt", "resources/odttoakn/minixslt/debaterecord/pipeline.xsl");
 	
 		//input stream
 		FileInputStream fis  = new FileInputStream(translation);
@@ -113,7 +87,7 @@ public class OATranslatorTest
 		{
 		        if (fis != null) fis.close();
 		        if (fos != null) fos.close();
-		}	*/
+		}	
 		
 	}
 

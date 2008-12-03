@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<root name="root" id="d3e1" xmlns="http://www.metalex.org/1.0">
+<root name="root" id="d3e1">
     <container id="debaterecord" class="Sect1" name="body">
         <container id="masthead" class="Sect2" name="MastHead">
             <block name="p" id="d3e7" class="P15">NATIONAL ASSEMBLY</block>

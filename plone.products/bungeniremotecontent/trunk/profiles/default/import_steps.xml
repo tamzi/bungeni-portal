@@ -5,7 +5,7 @@
     id="bungeniremotecontent-Hide-Tools-From-Navigation" 
     handler="Products.bungeniremotecontent.setuphandlers.setupHideToolsFromNavigation"
     title="Hide Custom tools from Navigation for bungeniremotecontent"
-    version="2008-12-03T14:43:34.477936">
+    version="2008-12-03T19:06:13.327374">
    <dependency step="bungeniremotecontent-QI-dependencies"/>
    Hides custom tools from navigation tree for bungeniremotecontent
  </import-step>
@@ -14,7 +14,7 @@
     id="bungeniremotecontent-Fix-Tools" 
     handler="Products.bungeniremotecontent.setuphandlers.fixTools"
     title="Fix tools for bungeniremotecontent"
-    version="2008-12-03T14:43:34.477936">
+    version="2008-12-03T19:06:13.327374">
    <dependency step="bungeniremotecontent-QI-dependencies"/>
    call initializeArchetyps for tools in bungeniremotecontent
  </import-step>
@@ -24,7 +24,7 @@
     id="bungeniremotecontent-Update-RoleMappings" 
     handler="Products.bungeniremotecontent.setuphandlers.updateRoleMappings"
     title="Update Workflow role mappings for bungeniremotecontent"
-    version="2008-12-03T14:43:34.477936">
+    version="2008-12-03T19:06:13.327374">
    <dependency step="bungeniremotecontent-QI-dependencies"/>
    updates the workflow role mappings for bungeniremotecontent
  </import-step>
@@ -33,7 +33,7 @@
     id="bungeniremotecontent-postInstall" 
     handler="Products.bungeniremotecontent.setuphandlers.postInstall"
     title="manual coded post-install for bungeniremotecontent"
-    version="2008-12-03T14:43:34.477936">
+    version="2008-12-03T19:06:13.327374">
    <dependency step="bungeniremotecontent-QI-dependencies"/>
    manual coded post-install for bungeniremotecontent
  </import-step>

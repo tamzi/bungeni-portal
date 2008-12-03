@@ -6,7 +6,7 @@
       i18n:domain="plone">
   
   <body>
-    <div metal:define-macro="folderlisting" tal:on-error="nothing" >
+    <div metal:define-macro="folderlisting" >
     <b tal:content="structure here/getRemoteFolderListing"> getRemoteFolderListing </b>
     </div>
   </body>

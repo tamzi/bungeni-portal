@@ -42,6 +42,7 @@ schema = Schema((
     ),
     StringField(
         name='json_headers',
+        default="@@jsontableheaders",
         widget=StringField._properties['widget'](
             label='Json_headers',
             label_msgid='bungeniremotecontent_label_json_headers',
@@ -50,6 +51,7 @@ schema = Schema((
     ),
     StringField(
         name='json_listing',
+        default="@@jsonlisting",
         widget=StringField._properties['widget'](
             label='Json_listing',
             label_msgid='bungeniremotecontent_label_json_listing',

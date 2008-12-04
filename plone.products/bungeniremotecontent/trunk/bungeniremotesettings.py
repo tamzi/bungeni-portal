@@ -58,6 +58,15 @@ schema = Schema((
             i18n_domain='bungeniremotecontent',
         ),
     ),
+    StringField(
+        name='atom_content',
+        default="atom.xml",
+        widget=StringField._properties['widget'](
+            label='Atom_content',
+            label_msgid='bungeniremotecontent_label_atom_content',
+            i18n_domain='bungeniremotecontent',
+        ),
+    ),
 
 ),
 )

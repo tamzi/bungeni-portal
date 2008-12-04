@@ -25,7 +25,7 @@ from Products.bungeniremotecontent.config import *
 
 ##code-section module-header #fill in your manual code here
 from Products.CMFCore.utils import getToolByName
-import urllib, simplejson
+import urllib, simplejson, feedparser
 ##/code-section module-header
 
 schema = Schema((
@@ -64,6 +64,7 @@ schema = Schema((
             description_msgid='bungeniremotecontent_help_limit',
             i18n_domain='bungeniremotecontent',
         ),
+        required=True,
         read_permission="Add portal content",
     ),
 
@@ -96,7 +97,20 @@ class bungeniremotefolder(ATFolder):
 
     # Methods
 
-    # Manually created methods
+    security.declarePublic('getRemoteContent')
+    def getRemoteContent(self):
+        """
+        gets the data from a remote site (as a rss or atom feed)
+        and returns it as html
+        """
+        bungeni_tool = getToolByName(self, "portal_bungeniremotesettings")
+        h_url = bungeni_tool.host_url
+        s_url = self.source_url
+        ac = bungeni_tool.atom_content
+        sp = self.REQUEST.traverse_subpath[0]
+        url = h_url + s_url + '/' + sp + '/' + ac
+        results = feedparser.parse(url)
+        return results['entries']
 
     security.declarePublic('getRemoteFolderListing')
     def getRemoteFolderListing(self):
@@ -138,7 +152,7 @@ class bungeniremotefolder(ATFolder):
         if results.has_key("limit"):
             limit=results['limit']
 
-        rs = '<table class="remote-table"> <thead> <tr>'
+        rs = '<table class="remote-table" id="bungeni-remote-listing"> <thead> <tr>'
         for th in ths:
             css_class = ''
             collumn_sort_order = "asc"
@@ -159,11 +173,15 @@ class bungeniremotefolder(ATFolder):
             for tr in results['nodes']:
                 rs = rs + "<tr>"
                 for th in ths:
-                        rs = rs + "<td> " + str(tr[th['name']]) + " </td>"
+                        rs = rs + "<td> "
+                        if tr[th['name']] is not None:
+                            rs = rs + '<a href="bungeniremotepage_view/' + tr['object_id'] + '">'
+                            rs = rs + str(tr[th['name']])
+                            rs = rs + '</a>'
+                        rs = rs +  " </td>"
                 rs = rs + "</tr>"
         rs = rs + "</tbody></table>"
         return rs
-
 
 
 registerType(bungeniremotefolder, PROJECTNAME)

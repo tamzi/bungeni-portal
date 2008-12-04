@@ -68,8 +68,6 @@ class bungeniremotepage(BaseContent, BrowserDefaultMixin):
 
     # Methods
 
-    # Manually created methods
-
     security.declarePublic('getRemoteContent')
     def getRemoteContent(self):
         """
@@ -78,8 +76,8 @@ class bungeniremotepage(BaseContent, BrowserDefaultMixin):
         """
         bungeni_tool = getToolByName(self, "portal_bungeniremotesettings")
         url = bungeni_tool.host_url + self.source_url
-        feedparser.parse(url)
-
+        results = feedparser.parse(url)
+        return results['entries']
 
 
 registerType(bungeniremotepage, PROJECTNAME)

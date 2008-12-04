@@ -1,0 +1,64 @@
+# archgenxml generated POT File
+# unknown <unknown>, 2008.
+msgid ""
+msgstr ""
+"Project-Id-Version: bungeniremotecontent\n"
+"POT-Creation-Date: Thu Dec  4 19:15:31 2008\n"
+"PO-Revision-Date: Thu Dec  4 19:15:31 2008\n"
+"Last-Translator: unknown <unknown>\n"
+"Language-Team: unknown <unknown>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: en\n"
+"Language-Name: English\n"
+"Preferred-Encodings: latin1 utf-8\n"
+"Domain: bungeniremotecontent\n"
+
+#. Default: "Detailed description of this folder listing"
+#: bungeniremotefolder.py
+msgid "bungeniremotecontent_help_body_text"
+msgstr ""
+
+#. Default: "maximum rows shown in the listing"
+#: bungeniremotefolder.py
+msgid "bungeniremotecontent_help_limit"
+msgstr ""
+
+#. Default: "Atom_content"
+#: bungeniremotesettings.py
+msgid "bungeniremotecontent_label_atom_content"
+msgstr ""
+
+#. Default: "About"
+#: bungeniremotefolder.py
+msgid "bungeniremotecontent_label_body_text"
+msgstr ""
+
+#. Default: "Host_url"
+#: bungeniremotesettings.py
+msgid "bungeniremotecontent_label_host_url"
+msgstr ""
+
+#. Default: "Json_headers"
+#: bungeniremotesettings.py
+msgid "bungeniremotecontent_label_json_headers"
+msgstr ""
+
+#. Default: "Json_listing"
+#: bungeniremotesettings.py
+msgid "bungeniremotecontent_label_json_listing"
+msgstr ""
+
+#. Default: "Limit"
+#: bungeniremotefolder.py
+msgid "bungeniremotecontent_label_limit"
+msgstr ""
+
+#. Default: "Source_url"
+#: bungeniremotefolder.py
+#: bungeniremotepage.py
+msgid "bungeniremotecontent_label_source_url"
+msgstr ""
+

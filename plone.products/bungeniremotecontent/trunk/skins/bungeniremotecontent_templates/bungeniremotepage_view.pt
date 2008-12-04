@@ -1,0 +1,19 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"
+      metal:use-macro="here/@@standard_macros/page"
+      i18n:domain="plone">            
+  <body>
+    <div metal:fill-slot="body">         
+      <div id="bungeni-remote-content" tal:define="results here/getRemoteContent">
+        <tal:block tal:repeat="result results">
+            <h1 tal:content="result/title"> Title </h1>
+            <tal:block tal:repeat="content result/content">
+               <div tal:content="structure content/value">
+               main content
+               </div>                        
+            </tal:block>
+        </tal:block>
+      </div>
+    </div>
+  </body>
+</html>     

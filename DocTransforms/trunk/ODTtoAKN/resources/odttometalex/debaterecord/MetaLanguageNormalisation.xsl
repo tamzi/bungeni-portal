@@ -44,6 +44,29 @@
 		</xsl:element>    
 	</xsl:template>
 
+	<xsl:template match="root">
+        <xsl:element name="{name()}">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{local-name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+			</xsl:for-each>
+			<xsl:apply-templates select="*[@name != 'meta']"/>
+		</xsl:element>    
+	</xsl:template>
+
+	<xsl:template match="container[@name = 'body']">
+		<container>
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{local-name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+			</xsl:for-each>
+			<xsl:apply-templates select="//mcontainer[@name = 'meta']"/>
+			<xsl:apply-templates select="*[@name != 'meta']"/>
+		</container>
+	</xsl:template>
+
 	<xsl:template match="block[count(node()) = 0]">
 	    <xsl:apply-templates />
 	</xsl:template>

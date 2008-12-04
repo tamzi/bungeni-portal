@@ -8,6 +8,7 @@ from zope.publisher.browser import BrowserView
 from zope.viewlet.manager import WeightOrderedViewletManager
 from zope.viewlet import viewlet, interfaces
 from zope.security import proxy
+from zope.traversing.browser import absoluteURL
 
 import zc.resourcelibrary
 
@@ -16,6 +17,7 @@ import datetime
 
 from bungeni.ui.i18n import MessageFactory as _
 import bungeni.core.domain as domain
+import bungeni.core.schema as schema
 from bungeni.core.interfaces import IGroupSitting, IGroupSittingAttendance, IGroupSittingAttendanceContainer
 from bungeni.core.orm import _ugm_party
 
@@ -26,7 +28,7 @@ from interfaces import ICurrent, ICurrentGovernment, ITabManager
 from bungeni.ui.utils import getDisplayDate, getFilter
 
 import sqlalchemy.sql.expression as sql
-
+import simplejson
 
 
 def getDateFilter(request):
@@ -635,4 +637,40 @@ class CurrentPartymemberships( viewlet.ViewletBase ):
     
     render = ViewPageTemplateFile ('templates/current_partymembership_viewlet.pt')    
     
+class CurrentRootMenuTree( BrowserView):
+    Date = datetime.date.today()
     
+    #def getCurrentParliament(self):
+    def __call__( self ):
+        rooturl = absoluteURL( self.context, self.request )
+        self.Date = datetime.date.today()
+        cp_filter = sql.or_(
+            sql.between(self.Date, schema.user_group_memberships.c.start_date, schema.user_group_memberships.c.end_date),
+            sql.and_( schema.user_group_memberships.c.start_date <= self.Date, schema.user_group_memberships.c.end_date == None)
+            )
+        session = Session()
+        query = session.query(domain.Parliament).filter(cp_filter)
+        try:
+          current_parliament = query[0]
+        except:
+           current_parliament = None
+        if  current_parliament:
+            data = []
+            url = rooturl + '/parliament/obj-' + str(current_parliament.parliament_id)
+            node = []
+            node.append({'url' : url + '/committes/', 'name': 'Committee', 'node': None} )
+            node.append({'url' : url + '/sessions/', 'name': 'Parliamentary Session', 'node': None} )
+            node.append({'url' : url + '/parliamentmembers/', 'name': 'Member of Parliament', 'node': None} )
+            node.append({'url' : url + '/extensionmembers/', 'name': 'Group extensions', 'node': None} )
+            node.append({'url' : url + '/governments/', 'name': 'Government', 'node': None} )
+            node.append({'url' : url + '/politicalparties/', 'name': 'Political Party', 'node': None })  
+            pdata = [{'url' : url, 'name': current_parliament.short_name, 'node': node }]
+            data = [{'url' : rooturl + '/parliament/', 'name': 'Parliament', 'node': pdata }]
+            return simplejson.dumps(data) 
+        else:
+            data = [{'url' : rooturl + '/parliament/', 'name': 'Parliament', node: None}]
+            return simplejson.dumps(data)          
+           
+                       
+
+

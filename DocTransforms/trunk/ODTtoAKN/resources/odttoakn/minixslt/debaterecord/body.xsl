@@ -20,8 +20,12 @@
 
     <xsl:template match="*[@name='body']">
         <debate>
- 
-            <xsl:apply-templates />
+            <xsl:for-each select="*[@name='Observation']">
+                <subdivision name="SceneSubdivision" id="{generate-id(.)}">
+                        <xsl:apply-templates select="." />
+                </subdivision>
+            </xsl:for-each>
+             <xsl:apply-templates select="*[@name != 'MastHead' and @name != 'Conclusion' and @name != 'Observation']"/>
         </debate>
     </xsl:template>
     

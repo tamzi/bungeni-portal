@@ -20,8 +20,9 @@
 
     <xsl:template match="*[@name='root']">
         <debateRecord>
- 
+            <xsl:apply-templates select="//*[@name='MastHead']"/>
             <xsl:apply-templates />
+            <xsl:apply-templates select="//*[@name='Conclusion']"/>
         </debateRecord>
     </xsl:template>
     

@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <debateRecord xmlns="http://www.akomantoso.org/1.0">
+    <preface>
+        <p>NATIONAL ASSEMBLY</p>
+        <p>OFFICIAL REPORT</p>
+        <p>
+            <ref href="3036">Thursday, 9th December, 2004</ref>
+        </p>
+        <p>The House met at<ref href="8094">2.30 p.m.</ref>
+        </p>
+    </preface>
     <debate>
-        <preface>
-            <p>NATIONAL ASSEMBLY</p>
-            <p>OFFICIAL REPORT</p>
-            <p>
-                <ref href="3036">Thursday, 9th December, 2004</ref>
-            </p>
-            <p>The House met at<ref href="8094">2.30 p.m.</ref>
-            </p>
-        </preface>
-        <scene>
-            <span>[Mr. Deputy Speaker in the Chair]</span>
-        </scene>
+        <subdivision id="d7e26" name="SceneSubdivision">
+            <scene>
+                <span>[Mr. Deputy Speaker in the Chair]</span>
+            </scene>
+        </subdivision>
         <subdivision id="comment2" name="GroupActivity">
             <other>
                 <p>PRAYERS</p>
@@ -81,7 +83,7 @@
             <heading>NOTICES OF MOTIONS</heading>
             <subdivision id="motion1" name="Motion">
                 <heading>Adoption of 35TH CPA(Africa Region) Report</heading>
-                <speech id="speech1" by="someone">
+                <speech id="speech1" by="Francis Acheka">
                     <from>
                         <ref href="FrancisAcheka151">Mr. Acheka:</ref>
                     </from>
@@ -97,12 +99,12 @@
                     <ref href="">Adoption of Report of First and Second Sessions of Pan African
                         Parliament</ref>
                 </heading>
-                <speech id="speech2">
-                    <p>
+                <speech id="speech2" by="Joal Onyancha">
+                    <from>
                         <ref href="2716">
                             <span>The Assistant Minister for Finance</span>
                         </ref>
-                    </p>
+                    </from>
                     <p>Mr. Deputy Speaker, Sir, I beg to give notice of the following Motion:-</p>
                     <p>THAT, this House adopts the Report of the first and second sessions of the
                         Pan African Parliament of the African Union laid on the Table of this House
@@ -110,26 +112,26 @@
                 </speech>
             </subdivision>
         </noticesOfMotion>
-        <conclusions id="concl1">
-            <heading>ADJOURNEMENT</heading>
-            <speech id="speech3">
-                <p>
-                    <ref href="KipkaliaTegere7531">
-                        <span>Mr.Dy Speaker</span>
-                    </ref>
-                    <span>(</span>
-                    <ref href="3142">
-                        <span>Mr.Tegere)</span>
-                    </ref>
-                </p>
-                <p>
-                    <span>Hon. Members, the House is, therefore adjorned</span>
-                    <span>sine die</span>
-                    <span>.</span>
-                </p>
-            </speech>
-            <p>The House rose at<ref href="8318">9.50 p.m.</ref>
-            </p>
-        </conclusions>
     </debate>
+    <conclusions id="concl1">
+        <heading>ADJOURNEMENT</heading>
+        <speech id="speech3" by="Kipkalia Tegere">
+            <from>
+                <ref href="KipkaliaTegere7531">
+                    <span>Mr.Dy Speaker</span>
+                </ref>
+                <span>(</span>
+                <ref href="3142">
+                    <span>Mr.Tegere)</span>
+                </ref>
+            </from>
+            <p>
+                <span>Hon. Members, the House is, therefore adjorned</span>
+                <span>sine die</span>
+                <span>.</span>
+            </p>
+        </speech>
+        <p>The House rose at<ref href="8318">9.50 p.m.</ref>
+        </p>
+    </conclusions>
 </debateRecord>

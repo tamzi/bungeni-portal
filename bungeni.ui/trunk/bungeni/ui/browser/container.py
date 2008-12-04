@@ -127,7 +127,19 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
         path = absoluteURL( self.context, self.request ) 
         addurl = '%s/add' %( path ) 
         self.request.response.redirect(addurl)
-        
+
+
+
+
+
+class ContainerJSONTableHeaders( BrowserView ):
+
+    def __call__( self ):
+        fields = getFields( self.context)
+        th = []
+        for field in fields:
+            th.append({'name':  field.__name__, 'title': field.title })       
+        return simplejson.dumps( th )
 
 class ContainerJSONListing( BrowserView ):
     """

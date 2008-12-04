@@ -2,7 +2,7 @@
 # encoding: utf-8
 
 import pdb
-
+import datetime
 from zope import component
 
 from ore.alchemist.vocabulary import DatabaseSource
@@ -22,6 +22,7 @@ from zope.traversing.browser import absoluteURL
 from zope.security.proxy import removeSecurityProxy
 from zope.security.permission import checkPermission
 import zope.security.management
+from zope.publisher.browser import BrowserView
 
 import bungeni.core.vocabulary as vocabulary
 import bungeni.core.domain as domain
@@ -168,6 +169,7 @@ class BungeniAttributeDisplay( DynamicFields, DisplayFormViewlet ):
 
 
 
+
 #questions
 #class QuestionDisplay( BungeniAttributeDisplay ):
     
@@ -202,6 +204,39 @@ class BungeniAttributeDisplay( DynamicFields, DisplayFormViewlet ):
 ##################
 
 
+class BungeniAtomDisplay(BrowserView):   
+    __call__ = ViewPageTemplateFile('templates/atom-content-view.pt') 
+    form_name = None  
+
+    
+    def name(self):
+        if self.context.__parent__:
+            descriptor = queryModelDescriptor( self.context.__parent__.domain_model )
+        if descriptor:
+            name = getattr( descriptor, 'display_name', None)
+        if not name:
+            name = getattr( self.context.__parent__.domain_model, '__name__', None)  
+        return name 
+           
+    def title(self):            
+        if self.form_name:
+            title = self.form_name
+        else:
+            title = self.name()
+        return title
+            
+    def uid(self):     
+        #XXX       
+        return self.name() +  str(self.context)
+        
+    def url(self):    
+        return absoluteURL( self.context, self.request )       
+        
+    def updated(self)
+        return datetime.datetime.now().isoformat()          
+            
+class BungeniAtomDisplayMainViewlet( BungeniAttributeDisplay ): 
+    template = ViewPageTemplateFile('templates/display_atom_form.pt')
    
 
 

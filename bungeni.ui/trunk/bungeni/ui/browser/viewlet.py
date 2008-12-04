@@ -15,7 +15,7 @@ import alchemist.ui.viewlet
 
 
 from bungeni.ui.i18n import _
-from interfaces import ISubFormViewletManager, IResponeQuestionViewletManager
+from interfaces import ISubFormViewletManager, IResponeQuestionViewletManager, IAtomEntriesFormViewletManager, IAtomFormViewletManager
 
 class AttributesEditViewlet( alchemist.ui.core.DynamicFields, alchemist.ui.viewlet.EditFormViewlet ):
 
@@ -94,3 +94,12 @@ class ResponseQuestionViewlet( viewlet.ViewletBase ):
                 self.question_text = self.context.__parent__.question_text
 
     render = ViewPageTemplateFile ('templates/question.pt')  
+    
+    
+class AtomFormViewletManager ( manager.WeightOrderedViewletManager ):
+    interface.implements(IAtomFormViewletManager)
+
+class AtomEntriesFormViewletManager ( manager.WeightOrderedViewletManager ):   
+    interface.implements(IAtomEntriesFormViewletManager)
+    
+    

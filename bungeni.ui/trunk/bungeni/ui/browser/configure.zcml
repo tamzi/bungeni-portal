@@ -14,13 +14,56 @@
     />   
 
 
-<!-- json view -->
+<!-- json view of containers-->
   <browser:page
      for="ore.alchemist.interfaces.IAlchemistContainer"
      permission="zope.View"
      name="jsonlisting"
      class=".container.ContainerJSONListing"
      />
+     
+  <browser:page
+     for="ore.alchemist.interfaces.IAlchemistContainer"
+     permission="zope.View"
+     name="jsontableheaders"
+     class=".container.ContainerJSONTableHeaders"
+     />     
+
+<!-- Atom View of content -->
+
+  <browser:page
+     for="ore.alchemist.interfaces.IAlchemistContent"
+     permission="zope.View"
+     name="atom.xml"
+     class=".forms.BungeniAtomDisplay"
+     />
+
+  <browser:viewletManager
+     name="bungeni.atom-form.manager"
+     provides=".interfaces.IAtomFormViewletManager"
+     class=".viewlet.AtomFormViewletManager"
+     permission="zope.View"
+     />
+
+
+  <browser:viewlet
+    name="bungeni.atom.main-content.viewlet"   
+    manager=".interfaces.IAtomFormViewletManager"
+    class=".forms.BungeniAtomDisplayMainViewlet"
+    permission="zope.Public"
+    for="ore.alchemist.interfaces.IAlchemistContent"
+    weight="1"
+    />     
+
+
+  <browser:viewletManager
+     name="bungeni.atom-sub-form.manager"
+     provides=".interfaces.IAtomEntriesFormViewletManager"
+     class=".viewlet.AtomEntriesFormViewletManager"
+     permission="zope.View"
+     />
+
+
 
  <!-- Viewlet manager for subform -->
   
@@ -87,6 +130,7 @@
       allowed_interface="zope.formlib.interfaces.ISubPageForm"
       layer="bungeni.ui.interfaces.IBungeniSkin"      
       />
+
 
 
 

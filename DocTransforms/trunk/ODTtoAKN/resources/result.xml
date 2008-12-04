@@ -1,118 +1,173 @@
-<?xml version="1.0" encoding="UTF-8"?><root name="root" id="d3e1">   
-   <container id="debaterecord" class="Sect1" name="body">      
-      <container id="masthead" class="Sect2" name="MastHead">         
-         <block name="p" id="d3e7" class="P15">NATIONAL ASSEMBLY</block>                  
-         <block name="p" id="d3e14" class="P14">OFFICIAL REPORT</block>                  
-         <block name="p" id="d3e21" class="P7">            
-            <inline name="ref" class="mBungeniDebateOfficialDate" href="3036" id="d5e19">Thursday, 9th December, 2004</inline>         
-         </block>                  
-         <block name="p" id="d3e33" class="P3">The House met at<inline name="ref" class="mBungeniDebateOfficialTime" href="8094" id="d5e28">2.30 p.m.</inline>         
-         </block>               
-      </container>            
-      <container id="comment1" class="Sect3" name="Observation">         
-         <block name="p" id="d3e52" class="observation">[Mr. Deputy Speaker in the Chair]</block>      
-      </container>                  
-      <container id="comment2" class="Sect4" name="GroupActivity">         
-         <block name="p" id="d3e66" class="P3">PRAYERS</block>      
-      </container>            
-      <hcontainer id="papers1" class="Sect5" name="TabledDocuments">         
-         <htitle id="d3e74" name="heading" class="5f">PAPERS LAID</htitle>         
-         <htitle id="d3e77" name="subheading" class="5f">The following Papers were laid on the Table:-</htitle>                  
-         <container id="tbldocs1" class="Sect6" name="TabledDocumentsList">            
-            <container name="list" class="L1" id="d3e87">               
-               <container name="item" id="d3e89">                  
-                  <block name="p" id="d3e91" class="P16">                     
-                     <inline name="a" id="d3e93" href="ken/docs/2004/tabled/08/827739">The Report of the Commonwealth Parliamentary Association (CPA) Kenya branch delegation to the 35th CPA (Africa Region) conference held in Lobamba, Swaziland from 7th August, 2004 to 15th August, 2004.</inline>                  
-                  </block>               
-               </container>               
-               <container name="item" id="d3e98">                  
-                  <block name="p" id="d3e100" class="P16">                     
-                     <inline name="a" id="d3e102" href="ken/docs/2004/tabled/12/823339">The Report of the 45th Session of the Executive Committee and the 27th Conference of the African Parliamentary Union held in Algiers, Algeria on 27th November, 2004, to 1st December, 2004.</inline>                  
-                  </block>               
-               </container>            
-            </container>         
-         </container>                  
-         <container id="comment3" class="Sect3" name="Observation">            
-            <block name="p" id="d3e117" class="observation">(By Mr. Khamasi)</block>         
-         </container>                           
-         <container id="tbldocs2" class="Sect6" name="TabledDocumentsList">            
-            <container name="list" class="L2" id="d3e133">               
-               <container name="item" id="d3e135">                  
-                  <block name="p" id="d3e137" class="P17">                     
-                     <inline name="a" id="d3e139" href="ken/docs/2004/tabled/08/8277288">The Report of the first and second sessions of the Pan-African Parliament of the African Union.</inline>                  
-                  </block>               
-               </container>            
-            </container>         
-         </container>                           
-         <container id="comment4" class="Sect3" name="Observation">            
-            <block name="p" id="d3e156" class="observation">(By the Assistant Minister</block>            
-            <block name="p" id="d3e159" class="observation">for Finance (Mr. Obwocha)</block>         
-         </container>                           
-         <container id="tbldocs3" class="Sect6" name="TabledDocumentsList">            
-            <container name="list" class="L3" id="d3e174">               
-               <container name="item" id="d5e140">
-                  <block name="p" id="d3e178" class="P18">                  
-                     <inline name="a" id="d3e180" href="ken/docs/2001/tabled/08/271739">The Annual Report and Accounts of Moi Teaching and Referral Hospital for the year ended 30th June, 2001 and the Certificate thereof by the Controller and Auditor-General.</inline>               
-                  </block>
-               </container>            
-            </container>                     
-         </container>                  
-         <container id="comment5" class="Sect3" name="Observation">            
-            <block name="p" id="d3e196" class="observation">(By the Assistant Minister for</block>            
-            <block name="p" id="d3e199" class="observation">Finance (Mr. Obwocha) on behalf</block>            
-            <block name="p" id="d3e204" class="observation">of the Minister for Health)</block>         
-         </container>               
-      </hcontainer>      
-      <hcontainer id="allmotions1" class="Sect7" name="MotionsContainer">         
-         <htitle id="d3e216" name="heading" class="5f">            
-            <milestone name="eol" id="d3e218"/>NOTICES OF MOTIONS</htitle>                           
-         <hcontainer BungeniMotionName="Adoption of 35TH CPA &#x9;(Africa Region) Report " BungeniMotionNo="3" BungeniMotionURI="ken.motion.adjust_cpa" id="motion1" class="Sect8" name="Motion">            
-            <htitle id="d3e230" name="heading" class="5f">Adoption of 35TH CPA(Africa Region) Report</htitle>                        
-            <container BungeniMotionName="Adoption of 35TH CPA &#x9;(Africa Region) Report " BungeniMotionNo="3" BungeniMotionURI="ken.motion.adjust_cpa" BungeniQuestionNo="4" BungeniSpeechBy="Francis Acheka" BungeniSpeechByURI="ken.person.Francis.Acheka.1951-12-10" id="speech1" class="Sect9" name="Speech">               
-               <block name="p" id="d3e242" class="P12">                  
-                  <inline name="ref" class="BungeniSpeechBy" href="FrancisAcheka151" id="d5e190">Mr. Acheka:</inline>               
-               </block>                              
-               <block name="p" id="d3e254" class="P11">Mr. Deputy Speaker, Sir, I beg to give notice of the following Motions:-</block>               
-               <block name="p" id="d3e257" class="P11">THAT, this House adopts the Report of the Commonwealth Parliamentary Association (CPA), Kenya Branch delegation to the 35th CPA Africa Region Conference held in Lobamba, Swaziland from 7th August, 2004 to 15th August, 2004 laid on the Table of the House on Thursday, 9th December, 2004.</block>            
-            </container>         
-         </hcontainer>                  
-         <hcontainer BungeniMotionName="Adoption of 45th Session of Executive Committeeand 27th APU Conference Reports " BungeniMotionNo="4" BungeniMotionURI="ken.motion.adoption_of_report" id="motion3" class="Sect10" name="Motion">            
-            <htitle id="d3e269" name="heading" class="5f">               
-               <inline name="ref" class="DDE_LINK1" href="" id="d5e211">Adoption of Report of First and Second Sessions of Pan African Parliament</inline>            
-            </htitle>            
-            <container BungeniMotionName="Adoption of 45th Session of Executive Committeeand 27th APU Conference Reports " BungeniMotionNo="4" BungeniMotionURI="ken.motion.adoption_of_report" BungeniQuestionNo="169" BungeniSpeechBy="Joal Onyancha" BungeniSpeechByURI="ken.person.Joal.Onyancha.1964-11-27" id="speech2" class="Sect11" name="Speech">               
-               <block name="p" id="d3e278" class="P13">                  
-                  <inline name="ref" class="BungeniSpeechAs" href="2716" id="d5e219">                  
-                     <inline name="span" id="d3e282" class="T1">The Assistant Minister for Finance</inline>                                    
-                  </inline>               
-               </block>                              
-               <block name="p" id="d3e292" class="P11">Mr. Deputy Speaker, Sir, I beg to give notice of the following Motion:-</block>               
-               <block name="p" id="d3e297" class="P11">THAT, this House adopts the Report of the first and second sessions of the Pan African Parliament of the African Union laid on the Table of this House on Thursday, 9th December, 2004.</block>            
-            </container>         
-         </hcontainer>               
-      </hcontainer>                  
-      <hcontainer BungeniHouseClosingTime="21:50" id="concl1" class="Sect12" name="Conclusion">         
-         <htitle id="d3e314" name="heading" class="5f">ADJOURNEMENT</htitle>         
-         <container BungeniHouseClosingTime="21:50" BungeniQuestionNo="305" BungeniSpeechBy="Kipkalia Tegere" BungeniSpeechByURI="ken.person.Kipkalia.Tegere.1945-03-10" id="speech3" class="Sect13" name="Speech">            
-            <block name="p" id="d3e319" class="P9">               
-               <inline name="ref" class="BungeniSpeechBy" href="KipkaliaTegere7531" id="d5e255">               
-                  <inline name="span" id="d3e323" class="T1">Mr.Dy Speaker</inline>               
-               </inline>               
-               <inline name="span" id="d3e328" class="T1">(</inline>               
-               <inline name="ref" class="BungeniSpeechAs" href="3142" id="d5e264">               
-                  <inline name="span" id="d3e334" class="T1">Mr.Tegere)</inline>               
-               </inline>            
-            </block>            
-            <block name="p" id="d3e340" class="P9">               
-               <inline name="span" id="d3e342" class="T2">Hon. Members, the House is, therefore adjorned</inline>               
-               <inline name="span" id="d3e345" class="T3">sine die</inline>               
-               <inline name="span" id="d3e348" class="T2">.</inline>            
-            </block>         
-         </container>                  
-         <container id="d5e286" name="fixing_hcontainer">
-            <block name="p" id="d3e360" class="P10">The House rose at<inline name="ref" class="BungeniHouseClosingTime" href="8318" id="d5e288">9.50 p.m.</inline>         
+<?xml version="1.0" encoding="UTF-8"?>
+<root name="root" id="d3e1" xmlns="http://www.metalex.org/1.0">
+    <container id="debaterecord" class="Sect1" name="body">
+        <mcontainer name="meta">
+            <mcontainer name="identification"/>
+            <meta name="publication" date="2004-12-09"/>
+            <mcontainer name="references"/>
+        </mcontainer>
+        <container id="masthead" class="Sect2" name="MastHead">
+            <block name="p" id="d3e7" class="P15">NATIONAL ASSEMBLY</block>
+            <block name="p" id="d3e14" class="P14">OFFICIAL REPORT</block>
+            <block name="p" id="d3e21" class="P7">
+                <inline name="ref" class="mBungeniDebateOfficialDate" href="3036" id="d5e19"
+                    >Thursday, 9th December, 2004</inline>
             </block>
-         </container>      
-      </hcontainer>         
-   </container>
+            <block name="p" id="d3e33" class="P3">The House met at<inline name="ref"
+                    class="mBungeniDebateOfficialTime" href="8094" id="d5e28">2.30 p.m.</inline>
+            </block>
+        </container>
+        <container id="comment1" class="Sect3" name="Observation">
+            <block name="p" id="d3e52" class="observation">[Mr. Deputy Speaker in the Chair]</block>
+        </container>
+        <container id="comment2" class="Sect4" name="GroupActivity">
+            <block name="p" id="d3e66" class="P3">PRAYERS</block>
+        </container>
+        <hcontainer id="papers1" class="Sect5" name="TabledDocuments">
+            <htitle id="d3e74" name="heading" class="5f">PAPERS LAID</htitle>
+            <htitle id="d3e77" name="subheading" class="5f">The following Papers were laid on the
+                Table:-</htitle>
+            <container id="tbldocs1" class="Sect6" name="TabledDocumentsList">
+                <container name="list" class="L1" id="d3e87">
+                    <container name="item" id="d3e89">
+                        <block name="p" id="d3e91" class="P16">
+                            <inline name="a" id="d3e93" href="ken/docs/2004/tabled/08/827739">The
+                                Report of the Commonwealth Parliamentary Association (CPA) Kenya
+                                branch delegation to the 35th CPA (Africa Region) conference held in
+                                Lobamba, Swaziland from 7th August, 2004 to 15th August,
+                                2004.</inline>
+                        </block>
+                    </container>
+                    <container name="item" id="d3e98">
+                        <block name="p" id="d3e100" class="P16">
+                            <inline name="a" id="d3e102" href="ken/docs/2004/tabled/12/823339">The
+                                Report of the 45th Session of the Executive Committee and the 27th
+                                Conference of the African Parliamentary Union held in Algiers,
+                                Algeria on 27th November, 2004, to 1st December, 2004.</inline>
+                        </block>
+                    </container>
+                </container>
+            </container>
+            <container id="comment3" class="Sect3" name="Observation">
+                <block name="p" id="d3e117" class="observation">(By Mr. Khamasi)</block>
+            </container>
+            <container id="tbldocs2" class="Sect6" name="TabledDocumentsList">
+                <container name="list" class="L2" id="d3e133">
+                    <container name="item" id="d3e135">
+                        <block name="p" id="d3e137" class="P17">
+                            <inline name="a" id="d3e139" href="ken/docs/2004/tabled/08/8277288">The
+                                Report of the first and second sessions of the Pan-African
+                                Parliament of the African Union.</inline>
+                        </block>
+                    </container>
+                </container>
+            </container>
+            <container id="comment4" class="Sect3" name="Observation">
+                <block name="p" id="d3e156" class="observation">(By the Assistant Minister</block>
+                <block name="p" id="d3e159" class="observation">for Finance (Mr. Obwocha)</block>
+            </container>
+            <container id="tbldocs3" class="Sect6" name="TabledDocumentsList">
+                <container name="list" class="L3" id="d3e174">
+                    <container name="item" id="d5e140">
+                        <block name="p" id="d3e178" class="P18">
+                            <inline name="a" id="d3e180" href="ken/docs/2001/tabled/08/271739">The
+                                Annual Report and Accounts of Moi Teaching and Referral Hospital for
+                                the year ended 30th June, 2001 and the Certificate thereof by the
+                                Controller and Auditor-General.</inline>
+                        </block>
+                    </container>
+                </container>
+            </container>
+            <container id="comment5" class="Sect3" name="Observation">
+                <block name="p" id="d3e196" class="observation">(By the Assistant Minister
+                    for</block>
+                <block name="p" id="d3e199" class="observation">Finance (Mr. Obwocha) on
+                    behalf</block>
+                <block name="p" id="d3e204" class="observation">of the Minister for Health)</block>
+            </container>
+        </hcontainer>
+        <hcontainer id="allmotions1" class="Sect7" name="MotionsContainer">
+            <htitle id="d3e216" name="heading" class="5f">
+                <milestone name="eol" id="d3e218"/>NOTICES OF MOTIONS</htitle>
+            <hcontainer BungeniMotionName="Adoption of 35TH CPA &#x9;(Africa Region) Report "
+                BungeniMotionNo="3" BungeniMotionURI="ken.motion.adjust_cpa" id="motion1"
+                class="Sect8" name="Motion">
+                <htitle id="d3e230" name="heading" class="5f">Adoption of 35TH CPA(Africa Region)
+                    Report</htitle>
+                <container BungeniMotionName="Adoption of 35TH CPA &#x9;(Africa Region) Report "
+                    BungeniMotionNo="3" BungeniMotionURI="ken.motion.adjust_cpa"
+                    BungeniQuestionNo="4" BungeniSpeechBy="Francis Acheka"
+                    BungeniSpeechByURI="ken.person.Francis.Acheka.1951-12-10" id="speech1"
+                    class="Sect9" name="Speech">
+                    <block name="p" id="d3e242" class="P12">
+                        <inline name="ref" class="BungeniSpeechBy" href="FrancisAcheka151"
+                            id="d5e190">Mr. Acheka:</inline>
+                    </block>
+                    <block name="p" id="d3e254" class="P11">Mr. Deputy Speaker, Sir, I beg to give
+                        notice of the following Motions:-</block>
+                    <block name="p" id="d3e257" class="P11">THAT, this House adopts the Report of
+                        the Commonwealth Parliamentary Association (CPA), Kenya Branch delegation to
+                        the 35th CPA Africa Region Conference held in Lobamba, Swaziland from 7th
+                        August, 2004 to 15th August, 2004 laid on the Table of the House on
+                        Thursday, 9th December, 2004.</block>
+                </container>
+            </hcontainer>
+            <hcontainer
+                BungeniMotionName="Adoption of 45th Session of Executive Committeeand 27th APU Conference Reports "
+                BungeniMotionNo="4" BungeniMotionURI="ken.motion.adoption_of_report" id="motion3"
+                class="Sect10" name="Motion">
+                <htitle id="d3e269" name="heading" class="5f">
+                    <inline name="ref" class="DDE_LINK1" href="" id="d5e211">Adoption of Report of
+                        First and Second Sessions of Pan African Parliament</inline>
+                </htitle>
+                <container
+                    BungeniMotionName="Adoption of 45th Session of Executive Committeeand 27th APU Conference Reports "
+                    BungeniMotionNo="4" BungeniMotionURI="ken.motion.adoption_of_report"
+                    BungeniQuestionNo="169" BungeniSpeechBy="Joal Onyancha"
+                    BungeniSpeechByURI="ken.person.Joal.Onyancha.1964-11-27" id="speech2"
+                    class="Sect11" name="Speech">
+                    <block name="p" id="d3e278" class="P13">
+                        <inline name="ref" class="BungeniSpeechAs" href="2716" id="d5e219">
+                            <inline name="span" id="d3e282" class="T1">The Assistant Minister for
+                                Finance</inline>
+                        </inline>
+                    </block>
+                    <block name="p" id="d3e292" class="P11">Mr. Deputy Speaker, Sir, I beg to give
+                        notice of the following Motion:-</block>
+                    <block name="p" id="d3e297" class="P11">THAT, this House adopts the Report of
+                        the first and second sessions of the Pan African Parliament of the African
+                        Union laid on the Table of this House on Thursday, 9th December,
+                        2004.</block>
+                </container>
+            </hcontainer>
+        </hcontainer>
+        <hcontainer BungeniHouseClosingTime="21:50" id="concl1" class="Sect12" name="Conclusion">
+            <htitle id="d3e314" name="heading" class="5f">ADJOURNEMENT</htitle>
+            <container BungeniHouseClosingTime="21:50" BungeniQuestionNo="305"
+                BungeniSpeechBy="Kipkalia Tegere"
+                BungeniSpeechByURI="ken.person.Kipkalia.Tegere.1945-03-10" id="speech3"
+                class="Sect13" name="Speech">
+                <block name="p" id="d3e319" class="P9">
+                    <inline name="ref" class="BungeniSpeechBy" href="KipkaliaTegere7531" id="d5e255">
+                        <inline name="span" id="d3e323" class="T1">Mr.Dy Speaker</inline>
+                    </inline>
+                    <inline name="span" id="d3e328" class="T1">(</inline>
+                    <inline name="ref" class="BungeniSpeechAs" href="3142" id="d5e264">
+                        <inline name="span" id="d3e334" class="T1">Mr.Tegere)</inline>
+                    </inline>
+                </block>
+                <block name="p" id="d3e340" class="P9">
+                    <inline name="span" id="d3e342" class="T2">Hon. Members, the House is, therefore
+                        adjorned</inline>
+                    <inline name="span" id="d3e345" class="T3">sine die</inline>
+                    <inline name="span" id="d3e348" class="T2">.</inline>
+                </block>
+            </container>
+            <container id="d5e286" name="fixing_hcontainer">
+                <block name="p" id="d3e360" class="P10">The House rose at<inline name="ref"
+                        class="BungeniHouseClosingTime" href="8318" id="d5e288">9.50 p.m.</inline>
+                </block>
+            </container>
+        </hcontainer>
+    </container>
 </root>

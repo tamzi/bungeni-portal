@@ -70,26 +70,60 @@
         <xsl:apply-templates />
     </xsl:template>
 
-    <xsl:template match="office:meta">
-        <mcontainer>
-            <xsl:apply-templates />
-        </mcontainer>
-    </xsl:template>
-    
-    <xsl:template match="meta:*">
-        <meta>
-            <xsl:apply-templates />
-        </meta>
-    </xsl:template>
-
-    <xsl:template match="dc:*">
-        <meta>
-            <xsl:apply-templates />
-        </meta>
+    <xsl:template match="office:document-meta">
+        <xsl:apply-templates />
     </xsl:template>
 
     <xsl:template match="text:sequence-decls">
     </xsl:template>
+
+    <xsl:template match="office:meta">
+        <mcontainer name="meta">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+			</xsl:for-each>
+            <mcontainer name="identification">
+            </mcontainer>
+            <meta name="publication" date="{//meta:user-defined[@meta:name='BungeniDebateOfficialDate']}" />
+            <mcontainer name="references">
+            </mcontainer>
+        </mcontainer>
+    </xsl:template>
+
+
+<!--    <xsl:template match="meta:generation">
+    </xsl:template>
+
+    <xsl:template match="meta:initial-creator">
+    </xsl:template>
+
+    <xsl:template match="meta:creation-date">
+        <meta name="creationdate" value="{.}" />       
+    </xsl:template>
+
+    <xsl:template match="dc:creator">
+        <meta name="creator" value="{replace(.,' ','')}" />       
+    </xsl:template>
+
+    <xsl:template match="dc:date">
+    </xsl:template>
+
+    <xsl:template match="meta:editing-cycles">
+    </xsl:template>
+
+    <xsl:template match="meta:editing-duration">
+    </xsl:template>
+
+    <xsl:template match="meta:user-defined[contains(@meta:name,'Info')]">
+    </xsl:template>
+
+    <xsl:template match="meta:user-defined[@meta:name = 'BungeniDocAuthor']">
+    </xsl:template>
+
+    <xsl:template match="meta:user-defined[@meta:name = 'BungeniDebateOfficialTime']">
+    </xsl:template> -->
 
     <xsl:template match="text()">
         <xsl:value-of select="normalize-space(.)"/>

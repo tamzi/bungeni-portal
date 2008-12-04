@@ -261,8 +261,11 @@ class PloneHorizontalNavigationViewlet( viewlet.ViewletBase ):
     m_dict = {}
        
     def update(self):
-        self.mf = urllib.urlopen(self.m_url)
-        self.m_dict = simplejson.load(self.mf)
+        try:
+            self.mf = urllib.urlopen(self.m_url)
+            self.m_dict = simplejson.load(self.mf)
+        except:
+            pass            
          
     def append_li(self, menulist): 
         mstr = ''

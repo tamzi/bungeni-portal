@@ -70,6 +70,24 @@
         <xsl:apply-templates />
     </xsl:template>
 
+    <xsl:template match="office:meta">
+        <mcontainer>
+            <xsl:apply-templates />
+        </mcontainer>
+    </xsl:template>
+    
+    <xsl:template match="meta:*">
+        <meta>
+            <xsl:apply-templates />
+        </meta>
+    </xsl:template>
+
+    <xsl:template match="dc:*">
+        <meta>
+            <xsl:apply-templates />
+        </meta>
+    </xsl:template>
+
     <xsl:template match="text:sequence-decls">
     </xsl:template>
 

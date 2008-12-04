@@ -23,8 +23,19 @@
 			<xsl:if test="@id">
 				<xsl:attribute name="id"><xsl:value-of select="@id" /></xsl:attribute>
 			</xsl:if>
-
-            <xsl:apply-templates />
+            <xsl:if test="@BungeniSpeechBy">
+				<xsl:attribute name="by"><xsl:value-of select="@BungeniSpeechBy" /></xsl:attribute>
+			</xsl:if>
+            <xsl:if test="@BungeniSpeechTo">
+				<xsl:attribute name="to"><xsl:value-of select="@BungeniSpeechTo" /></xsl:attribute>
+			</xsl:if>
+            <xsl:if test="@BungeniSpeechAs">
+				<xsl:attribute name="as"><xsl:value-of select="@BungeniSpeechAs" /></xsl:attribute>
+			</xsl:if>
+            <from>
+                <xsl:apply-templates select="*[position()=1]/*" />
+            </from>
+            <xsl:apply-templates select="*[not(position()=1)]" />
         </speech>
     </xsl:template>
     

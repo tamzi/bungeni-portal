@@ -1,7 +1,11 @@
 package org.un.bungeni.translators.utility.odf;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -11,6 +15,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.openoffice.odf.doc.OdfDocument;
+import org.un.bungeni.translators.utility.dom.DOMUtility;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -71,20 +76,65 @@ public class ODFUtility
 		return returnFile;
 	}
 	
-	private File commonMergeODF (OdfDocument odf)  throws TransformerFactoryConfigurationError, Exception {
+	private File commonMergeODF (OdfDocument odf)  throws TransformerFactoryConfigurationError, Exception 
+	{
 		
 		//get the DOM of the content.xml file
 		Document odfDom = odf.getContentDom();
 		
 		//get the content of the style.xml file
 		Document odfStyle = odf.getStylesDom();
-	
-		//get all the style nodes contained in the in the style.xml file
-		Node prova = odfStyle.getElementsByTagName("office:styles").item(0);
 		
-		//appends the style nodes to the content.xml node 
-		odfDom.getElementsByTagName("office:document-content").item(0).appendChild(odfDom.adoptNode(prova));	
+		//get the content of the meta.xml file
+		InputStream odfMetaStream = odf.getMetaStream();
+		
+		//create the dom of the metadata from the stream 
+		Document odfMeta = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(odfMetaStream);
 	
+		/**
+		 * TO BE DELETED
+		 */
+		File metaf = DOMUtility.getInstance().writeToFile(odfMeta);
+		//input stream
+		FileInputStream fis  = new FileInputStream(metaf);
+		
+		//output stream 
+		FileOutputStream fos = new FileOutputStream("resources/meta.xml");
+		
+		//copy the file
+		try 
+		{
+			byte[] buf = new byte[1024];
+		    int i = 0;
+		    while ((i = fis.read(buf)) != -1) 
+		    {
+		            fos.write(buf, 0, i);
+		    }
+		} 
+		catch (Exception e) 
+		{
+		}
+		finally 
+		{
+		        if (fis != null) fis.close();
+		        if (fos != null) fos.close();
+		}	
+
+		/**
+		 * END TO BE DELETED
+		 */
+		//get all the style nodes contained in the in the style.xml file
+		Node stylesNodes = odfStyle.getElementsByTagName("office:styles").item(0);
+
+		//get all the meta nodes contained in the in the meta.xml file
+		Node metaNodes = odfMeta.getElementsByTagName("office:meta").item(0);
+
+		//appends the style nodes to the content.xml document 
+		odfDom.getElementsByTagName("office:document-content").item(0).appendChild(odfDom.adoptNode(stylesNodes));	
+
+		//appends the meta nodes to the content.xml document 
+		odfDom.getElementsByTagName("office:document-content").item(0).appendChild(odfDom.adoptNode(metaNodes));	
+
 		 // Prepare the DOM document for writing
         Source source = new DOMSource(odfDom);
 

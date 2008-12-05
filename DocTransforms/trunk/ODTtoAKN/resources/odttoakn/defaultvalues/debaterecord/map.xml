@@ -30,7 +30,7 @@
 		<element id="27" bungeniSectionType="a" result="a" mantain="id,href"/>
 		<!-- METADATA -->
 		<element id="28" bungeniSectionType="meta" result="meta"/>
-		<element id="29" bungeniSectionType="identification" result="meta" mantain="source"/>
+		<element id="29" bungeniSectionType="identification" result="identification" mantain="source"/>
 		<element id="30" bungeniSectionType="FRBRWork" result="FRBRWork"/>
 		<element id="31" bungeniSectionType="FRBRExpression" result="FRBRExpression"/>
 		<element id="32" bungeniSectionType="FRBRManifestation" result="FRBRManifestation"/>

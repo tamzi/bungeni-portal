@@ -13,7 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.un.bungeni.translators.odttoakn.translator.OATranslator;
-import org.un.bungeni.translators.odttoakn.xslprocbuilder.OAXSLProcBuilder;
+//import org.un.bungeni.translators.odttoakn.xslprocbuilder.OAXSLProcBuilder;
 
 
 /**
@@ -58,10 +58,10 @@ public class OATranslatorTest
 	public final void testTranslate() throws Exception 
 	{
 		
-		OAXSLProcBuilder.newInstance().createXSLProc("resources/odttoakn/minixslt/debaterecord/back/");
+		//OAXSLProcBuilder.newInstance().createXSLProc("resources/odttoakn/minixslt/debaterecord/back/");
 		
 		//perform a translation
-		File translation = myTranslator.translate("resources/debate_file_02.odt", "resources/odttoakn/minixslt/debaterecord/back/pipeline.xsl");
+		File translation = myTranslator.translate("resources/debate_file_02.odt", "resources/odttoakn/minixslt/debaterecord/pipeline.xsl");
 	
 		//input stream
 		FileInputStream fis  = new FileInputStream(translation);

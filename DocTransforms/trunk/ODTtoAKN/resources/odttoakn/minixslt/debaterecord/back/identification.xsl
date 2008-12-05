@@ -19,13 +19,13 @@
     </xsl:template>
 
     <xsl:template match="*[@name='identification']">
-        <meta>
+        <identification>
 			<xsl:if test="@source">
 				<xsl:attribute name="source"><xsl:value-of select="@source" /></xsl:attribute>
 			</xsl:if>
 
             <xsl:apply-templates />
-        </meta>
+        </identification>
     </xsl:template>
     
     <xsl:template match="text()">

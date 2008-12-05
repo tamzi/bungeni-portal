@@ -32,7 +32,7 @@
       <h5 class="hiddenStructure" i18n:translate="heading_sections">Sections</h5>
       
       <div id="portal-header">
-          <ul id="portal-globalnav">
+          <!--ul id="portal-globalnav">
             <tal:views repeat="action context/@@view_get_menu/site_actions">
               <li tal:define="selected action/selected;"
                   tal:attributes="class python:selected and 'selected' or 'plain'">
@@ -44,9 +44,10 @@
                 </a>
               </li>
             </tal:views>
-          </ul>      
+          </ul-->      
+          <tal:block replace="structure provider:plone.portalheader" />
       </div>
-      <tal:block replace="structure provider:plone.portalheader" />
+      <tal:block replace="structure provider:plone.portaltools" />
 
       
     </div>

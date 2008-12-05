@@ -11,6 +11,15 @@
      />
 
   <browser:viewletManager
+     name="plone.portaltools"
+     provides=".interfaces.IPortalToolsManager"
+     layer=".interfaces.IPlonedSkin"
+     class=".viewlet.WeightBasedSorter"
+     permission="zope.Public"
+     />
+
+
+  <browser:viewletManager
      name="plone.portalfooter"
      provides=".interfaces.IPortalFooterManager"
      layer=".interfaces.IPlonedSkin"
@@ -68,7 +77,7 @@
       manager=".interfaces.IPortalHeaderManager"
       template="templates/personaltools.pt"
       permission="zope.Public"
-      weight="15"
+      weight="50"
       />   
 
    <!-- TODO: The content actions viewlet should require zope.ManageContent -->
@@ -78,7 +87,7 @@
       for="*"
       manager=".interfaces.IContentViewsManager"
       template="templates/contentactions.pt"
-      permission="zope.Public"
+      permission="zope.ManageContent"
       weight="20"
       />
    

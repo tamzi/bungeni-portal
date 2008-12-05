@@ -53,6 +53,45 @@
         </root>
     </xsl:template>
 
+    <xsl:template match="office:meta">
+        <xsl:variable name="WORKUri" select="concat('/',//meta:user-defined[@meta:name='BungeniCountryCode'],'/',//meta:user-defined[@meta:name='BungeniDocType'],'/', //meta:user-defined[@meta:name='BungeniDebateOfficialDate'],'/', //meta:user-defined[@meta:name='BungeniParliamentSitting'])" />
+        <xsl:variable name="EXPRESSIONUri" select="concat($WORKUri,'/',//meta:user-defined[@meta:name='BungeniLanguageCode'],'@')" />
+        <xsl:variable name="MANIFESTATIONUri" select="concat($EXPRESSIONUri,'.akn')" />
+        <mcontainer name="meta">
+			<xsl:for-each select="@*">
+		    	<xsl:attribute name="{name(.)}">
+		        	<xsl:value-of select="."/>
+		        </xsl:attribute>
+			</xsl:for-each>
+            <mcontainer name="identification" id="identification_{generate-id()}">
+                <mcontainer name="FRBRWork" id="FRBRWork_{generate-id()}">
+                    <meta name="this" id="FRBRWork_this_{generate-id()}" value="{concat($WORKUri,'/','main')}"/>
+                    <meta name="uri" id="FRBRWork_uri_{generate-id()}" value="{$WORKUri}"/>
+                    <meta name="date" id="FRBRWork_date_{generate-id()}"/>
+                    <meta name="author" id="FRBRWork_author_{generate-id()}"/>
+                </mcontainer>
+                <mcontainer name="FRBRExpression" id="FRBRExpression_{generate-id()}">
+                    <meta name="this" id="FRBRExpression_this_{generate-id()}" value="{concat($EXPRESSIONUri,'/','main')}" />
+                    <meta name="uri" id="FRBRExpression_uri_{generate-id()}" value="{$EXPRESSIONUri}"/>
+                    <meta name="date" id="FRBRExpression_date_{generate-id()}" />
+                    <meta name="author" id="FRBRExpression_author_{generate-id()}" />
+                </mcontainer>
+                <mcontainer name="FRBRManifestation" id="FRBRManifestation_{generate-id()}">
+                    <meta name="this" id="FRBRManifestation_this_{generate-id()}" value="{concat($EXPRESSIONUri,'/','main.xml')}"/>
+                    <meta name="uri" id="FRBRManifestation_uri_{generate-id()}" value="{$MANIFESTATIONUri}"/>
+                    <meta name="date" id="FRBRManifestation_date_{generate-id()}" />
+                    <meta name="author" id="FRBRManifestation_author_{generate-id()}" />
+                </mcontainer>
+            </mcontainer>
+            <mcontainer name="publication_mcontainer" id="publication_container{generate-id()}">
+                <meta id="publication_{generate-id()}" name="publication" date="{//meta:user-defined[@meta:name='BungeniDebateOfficialDate']}" />
+            </mcontainer>
+            <mcontainer id="references_{generate-id()}" name="references">
+                <meta id="Parliament" name="TLCOrganization" href="{//meta:user-defined[@meta:name='BungeniParliamentID']}"  showAs="Parliament" />
+            </mcontainer>
+        </mcontainer>
+    </xsl:template>
+
     <xsl:template match="text:section">
         <container>
 			<xsl:for-each select="@*[   local-name(.)!='name' and 

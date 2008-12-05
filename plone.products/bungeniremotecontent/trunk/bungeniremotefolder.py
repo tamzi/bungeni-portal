@@ -148,6 +148,7 @@ class bungeniremotefolder(ATFolder):
         results = simplejson.load(lf)
         tf = urllib.urlopen(turl)
         ths = simplejson.load(tf)
+        length = '1'
         if results.has_key("sort"):
             sort_by = results['sort']
         if results.has_key("dir"):
@@ -156,7 +157,8 @@ class bungeniremotefolder(ATFolder):
             start=results['start']
         if results.has_key("limit"):
             limit=results['limit']
-
+        if results.has_key("length"):
+            length = results['length']
         rs = '<table class="remote-table" id="bungeni-remote-listing"> <thead> <tr>'
         for th in ths:
             css_class = ''
@@ -186,6 +188,30 @@ class bungeniremotefolder(ATFolder):
                         rs = rs +  " </td>"
                 rs = rs + "</tr>"
         rs = rs + "</tbody></table>"
+        pages = int(length) / int(limit)
+        currpage = int(start) / int(limit)
+        pl = range(0,int(length), int(limit))
+        #rs = rs + str(pl)
+        i = 0
+        rs = rs + '<table><tr>'
+        for p in pl:
+            i = i + 1
+            if i < len(pl):
+                if p <= currpage <= pl[i]:
+                    css_class = "thispage"
+                else:
+                    css_class =''
+            else:
+                if p <= currpage:
+                    css_class = "thispage"
+                else:
+                    css_class =''    
+            if sort_by is None:
+                sort_by = ''        
+            lnk = '?dir=' + sort_order + '&sort=' + sort_by + "&limit=" + limit +"&start=" + str(p)        
+            rs = rs + '<td> <a href="' + lnk + '" >' + str(i) + '</a> </td>'
+            
+        rs = rs + '</tr></table>'    
         return rs
 
 

@@ -6,7 +6,7 @@
     This static definetion is for demo purposes ONLY!
     to be revised after demo!
     -->
-    <a i18n:translate="tabs_home" href="http://localhost:8180/bungeni-public/">Home</a>
+    <a i18n:translate="tabs_home" tal:attributes="href view/getRootfolder">Home</a>
     <span tal:condition="view/path" class="breadcrumbSeparator"> &rarr; </span>
     <span tal:repeat="item view/path">
       <tal:last tal:define="is_last repeat/item/end">

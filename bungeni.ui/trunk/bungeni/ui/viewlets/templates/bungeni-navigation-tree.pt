@@ -9,7 +9,7 @@
     </dt>
     <dd class="portletItem lastItem">
       <ul class="portletNavigationTree navTreeLevel0">
-        <li class="navTreeItem visualNoMarker navTreeFolderish">
+        <!--li class="navTreeItem visualNoMarker navTreeFolderish">
           <div>
             <a tiptitle=
             "parliamentary activities at the plenary and committees level"
@@ -18,7 +18,7 @@
             class=
             "state-published navTreeFolderish"><span>business</span></a>
           </div>
-        </li>
+        </li-->
         <!-- this constructs the local navigationtree -->
         <li tal:replace="structure view/tree" tal:on-error="nothing"/>
         <!--
@@ -32,7 +32,7 @@
           </div>
         </li-->
 
-        <li class="navTreeItem visualNoMarker navTreeFolderish">
+        <!--li class="navTreeItem visualNoMarker navTreeFolderish">
           <div>
             <a tiptitle=
             "member of parliaments and political parties represented in parliament"
@@ -83,7 +83,7 @@
             class=
             "state-published navTreeFolderish"><span>resources</span></a>
           </div>
-        </li>
+        </li-->
       </ul>
     </dd>
   </dl>

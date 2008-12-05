@@ -218,7 +218,7 @@ class BungeniAtomDisplay(BrowserView):
             name = getattr( self.context.__parent__.domain_model, '__name__', None)  
         return name 
            
-    def title(self):            
+    def feedtitle(self):            
         if self.form_name:
             title = self.form_name
         else:
@@ -232,7 +232,7 @@ class BungeniAtomDisplay(BrowserView):
     def url(self):    
         return absoluteURL( self.context, self.request )       
         
-    def updated(self)
+    def updated(self):
         return datetime.datetime.now().isoformat()          
             
 class BungeniAtomDisplayMainViewlet( BungeniAttributeDisplay ): 

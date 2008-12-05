@@ -36,6 +36,7 @@ import com.sun.star.uno.XComponentContext;
 import com.sun.star.util.DateTime;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -87,6 +88,7 @@ import org.bungeni.utils.BungeniBTree;
 import org.bungeni.utils.BungeniBNode;
 import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.dialogs.debaterecord.DebateRecordMetadata;
+import org.bungeni.editor.dialogs.metadatapanel.SectionMetadataLoad;
 import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.ooo.transforms.impl.BungeniTransformationTarget;
 import org.bungeni.ooo.transforms.impl.BungeniTransformationTargetFactory;
@@ -214,6 +216,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
        initTabbedPanes();
        initModeLabel();
        initSwitchTabs();
+       initSectionMetadataDisplay();
        //metadataChecks();
        
     }
@@ -251,10 +254,59 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                 */
     }
 
+    
     private void updateTabbedPanes(){
         for (ITabbedPanel panel: m_tabbedPanelMap ) {
             panel.setOOComponentHandle(ooDocument);
             panel.refreshPanel();
+        }
+    }
+    
+    SectionMetadataDisplay objMetaDisplay;
+    private void initSectionMetadataDisplay(){
+           objMetaDisplay = new SectionMetadataDisplay();
+    }
+    
+    class SectionMetadataDisplay{
+        private Timer refreshTimer;
+        private Action sectionViewRefreshRunner;
+    
+        public SectionMetadataDisplay(){
+            tblSectionmeta.getTableHeader().setFont(new Font("Tahoma", Font.PLAIN, 11));
+            tblSectionmeta.setFont(new Font("Tahoma", Font.PLAIN, 11)); 
+            initTimers();
+        }
+        
+      private void initTimers(){
+        sectionViewRefreshRunner = new viewRefreshAction();
+        refreshTimer = new Timer(3000, sectionViewRefreshRunner);
+        refreshTimer.setInitialDelay(2000);
+        refreshTimer.start();
+    }  
+       public void updateSectionMetadataView(String sectionName) {
+          lblDisplaySectionName.setText(sectionName);
+          SectionMetadataLoad sectionMetadataTableModel = new SectionMetadataLoad(ooDocument,sectionName);
+          tblSectionmeta.setModel(sectionMetadataTableModel);
+    }
+          
+        private class viewRefreshAction extends AbstractAction {
+        public String oldSectionName ; 
+        public String newSectionName;
+        public void actionPerformed(ActionEvent arg0) {
+            if (ooDocument != null ) {
+                String sSect = ooDocument.currentSectionName();
+                if (sSect != null) {
+                    newSectionName = sSect;
+                    if (newSectionName.equals(oldSectionName)) {
+                        //dont do anything
+                    } else {
+                        updateSectionMetadataView(newSectionName);
+                        oldSectionName = newSectionName;
+                    }
+                }
+            }
+        }
+    
         }
     }
 /*
@@ -1431,6 +1483,11 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         lblSwitchTag = new javax.swing.JLabel();
         btnNewDocument = new javax.swing.JButton();
         btnSaveDocument = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblSectionmeta = new javax.swing.JTable();
+        lblDisplaySectionName = new javax.swing.JLabel();
+        lblSecName = new javax.swing.JLabel();
+        btnEdit = new javax.swing.JButton();
 
         jScrollPane2.setViewportView(jTree1);
 
@@ -1447,7 +1504,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         lblCurrentlyOpenDocuments.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         lblCurrentlyOpenDocuments.setText("Currently Open Documents");
 
-        btnBringToFront.setFont(new java.awt.Font("DejaVu Sans", 0, 9)); // NOI18N
+        btnBringToFront.setFont(new java.awt.Font("DejaVu Sans", 0, 9));
         btnBringToFront.setText("To Front");
         btnBringToFront.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnBringToFront.addActionListener(new java.awt.event.ActionListener() {
@@ -1456,7 +1513,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
             }
         });
 
-        btnOpenDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 9)); // NOI18N
+        btnOpenDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 9));
         btnOpenDocument.setText("Open");
         btnOpenDocument.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnOpenDocument.setIconTextGap(2);
@@ -1475,7 +1532,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         lblSwitchTag.setFont(new java.awt.Font("DejaVu Sans", 0, 11));
         lblSwitchTag.setText("Switch Tabs :");
 
-        btnNewDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 9)); // NOI18N
+        btnNewDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 9));
         btnNewDocument.setText("New");
         btnNewDocument.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnNewDocument.addActionListener(new java.awt.event.ActionListener() {
@@ -1484,7 +1541,7 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
             }
         });
 
-        btnSaveDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 9)); // NOI18N
+        btnSaveDocument.setFont(new java.awt.Font("DejaVu Sans", 0, 9));
         btnSaveDocument.setText("Save");
         btnSaveDocument.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         btnSaveDocument.addActionListener(new java.awt.event.ActionListener() {
@@ -1493,37 +1550,69 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
             }
         });
 
+        tblSectionmeta.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tblSectionmeta);
+
+        lblDisplaySectionName.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        lblDisplaySectionName.setText("::");
+
+        lblSecName.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        lblSecName.setText("Current Section Name :");
+
+        btnEdit.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        btnEdit.setText("Edit ");
+        btnEdit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(lblCurrentlyOpenDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 267, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
             .add(layout.createSequentialGroup()
-                .add(8, 8, 8)
+                .addContainerGap()
+                .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 235, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(layout.createSequentialGroup()
+                .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 247, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, lblCurrentMode, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
-                        .add(btnBringToFront)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnOpenDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 56, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnNewDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(btnSaveDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 52, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(8, 8, 8)
+                        .add(lblSwitchTag, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(18, 18, 18)
+                        .add(cboSwitchTabs, 0, 132, Short.MAX_VALUE)
+                        .addContainerGap())
+                    .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, lblCurrentMode, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, layout.createSequentialGroup()
+                            .add(btnBringToFront)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(btnOpenDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 56, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(btnNewDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 55, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(btnSaveDocument, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 52, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))))
+            .add(jTabsContainer, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
+            .add(layout.createSequentialGroup()
+                .add(lblSecName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 134, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .add(layout.createSequentialGroup()
-                .add(8, 8, 8)
-                .add(lblSwitchTag, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 91, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(18, 18, 18)
-                .add(cboSwitchTabs, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 138, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .add(jTabsContainer, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 267, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(lblDisplaySectionName, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 134, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 79, Short.MAX_VALUE)
+                .add(btnEdit, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 54, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
-                .addContainerGap(24, Short.MAX_VALUE)
                 .add(lblCurrentlyOpenDocuments)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(cboListDocuments, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -1539,8 +1628,17 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(lblSwitchTag)
                     .add(cboSwitchTabs, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(jTabsContainer, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 329, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(lblSecName)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jTabsContainer, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 394, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(lblDisplaySectionName)
+                    .add(btnEdit))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 157, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -1868,12 +1966,14 @@ private void LaunchDebateMetadataSetter(XComponent xComp){
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBringToFront;
+    private javax.swing.JButton btnEdit;
     private javax.swing.ButtonGroup btnGrpBodyMetadataTarget;
     private javax.swing.JButton btnNewDocument;
     private javax.swing.JButton btnOpenDocument;
     private javax.swing.JButton btnSaveDocument;
     private javax.swing.JComboBox cboListDocuments;
     private javax.swing.JComboBox cboSwitchTabs;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabsContainer;
@@ -1881,7 +1981,10 @@ private void LaunchDebateMetadataSetter(XComponent xComp){
     private javax.swing.JTree jTree2;
     private javax.swing.JLabel lblCurrentMode;
     private javax.swing.JLabel lblCurrentlyOpenDocuments;
+    private javax.swing.JLabel lblDisplaySectionName;
+    private javax.swing.JLabel lblSecName;
     private javax.swing.JLabel lblSwitchTag;
+    private javax.swing.JTable tblSectionmeta;
     // End of variables declaration//GEN-END:variables
 
     /*

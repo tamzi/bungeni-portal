@@ -333,10 +333,18 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
         show only the sittings in the selected month
         and session!
         """
-        session_id = self.context.__parent__.session_id        
-        return sql.and_( schema.sittings.c.start_date.between(start_DateTime( self.Date, self.context ), end_DateTime( self.Date, self.context )),
+        try:
+            session_id = self.context.__parent__.session_id        
+            return sql.and_( schema.sittings.c.start_date.between(start_DateTime( self.Date, self.context ), end_DateTime( self.Date, self.context )),
                         schema.sittings.c.session_id == session_id)
-            
+        except:
+            try:
+                group_id  = self.context.__parent__.group_id  
+                return sql.and_( schema.sittings.c.start_date.between(start_DateTime( self.Date, self.context ), end_DateTime( self.Date, self.context )),
+                        schema.sittings.c.group_id == group_id)   
+                
+            except:
+                return schema.sittings.c.start_date.between(start_DateTime( self.Date, self.context ), end_DateTime( self.Date, self.context )) 
         
     def __init__( self,  context, request, view, manager ):        
         self.context = context
@@ -521,7 +529,10 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
                 sitting.end_date = datetime.datetime(y,m,d, self.default_time_dict[st]['end'].hour, 
                                                         self.default_time_dict[st]['end'].minute)
                 sitting.sitting_type = long(values[3])
-                sitting.session_id = self.context.__parent__.session_id
+                try:
+                    sitting.session_id = self.context.__parent__.session_id
+                except:                    
+                    sitting.group_id = self.context.__parent__.group_id   
                 session.save(sitting)
                 
        

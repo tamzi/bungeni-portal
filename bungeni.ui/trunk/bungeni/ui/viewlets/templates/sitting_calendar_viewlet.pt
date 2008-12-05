@@ -5,7 +5,7 @@
         <thead>
           <tr>        
             <th colspan="1" tal:content="structure view/previous"> &lt;&lt; </th>
-            <th colspan="7" tal:content="view/monthname"> month </th>
+            <th colspan="6" tal:content="view/monthname"> month </th>
             <th colspan="1" tal:content="structure view/next"> &gt;&gt; </th>
           </tr>
           <tr>        

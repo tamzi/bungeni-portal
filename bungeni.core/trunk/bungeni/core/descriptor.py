@@ -897,7 +897,7 @@ class QuestionDescriptor( ModelDescriptor ):
         
             ),
         #label=_("Question"), description=_(u"The Question submitted")),        
-        dict( name="status", label=_(u"Status"), modes="listing"),         
+        dict( name="status", label=_(u"Status"), modes="listing", view_permission="zope.Public"),         
         dict( name="note", label=_(u"Notes"), description="Recommendation note", 
               property=schema.Text(title=_(u"Notes"),  description=_(u"Recommendation note"), required=False ),              
               edit = True, add = True, view = False, 

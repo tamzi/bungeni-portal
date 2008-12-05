@@ -120,3 +120,10 @@ def getFirstDayOfWeek():
     """
     return 0        
     
+    
+def getPloneMenuUrl():
+    """
+    URL at which the plone menu is returned as a json string
+    """    
+    return "http://192.168.0.14:40000/bungeni-public/sjMenuItems"
+    

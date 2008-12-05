@@ -28,5 +28,19 @@
 		<element id="25" bungeniSectionType="list" result="list" mantain="id"/>
 		<element id="26" bungeniSectionType="item" result="item" mantain="id"/>
 		<element id="27" bungeniSectionType="a" result="a" mantain="id,href"/>
+		<!-- METADATA -->
+		<element id="28" bungeniSectionType="meta" result="meta"/>
+		<element id="29" bungeniSectionType="identification" result="meta" mantain="source"/>
+		<element id="30" bungeniSectionType="FRBRWork" result="FRBRWork"/>
+		<element id="31" bungeniSectionType="FRBRExpression" result="FRBRExpression"/>
+		<element id="32" bungeniSectionType="FRBRManifestation" result="FRBRManifestation"/>
+		<element id="33" bungeniSectionType="this" result="this" mantain="value"/>
+		<element id="34" bungeniSectionType="uri" result="uri" mantain="value"/>
+		<element id="35" bungeniSectionType="date" result="date" mantain="date,mname"/>
+		<element id="36" bungeniSectionType="author" result="author" mantain="href,as"/>
+		<element id="37" bungeniSectionType="publication_mcontainer" result="" />
+		<element id="38" bungeniSectionType="publication" result="publication" mantain="date"/>
+		<element id="39" bungeniSectionType="references" result="references" />
+		<element id="40" bungeniSectionType="TLCOrganization" result="TLCOrganization" mantain="id,href,showAs" />
 	</elements> 
 </map>

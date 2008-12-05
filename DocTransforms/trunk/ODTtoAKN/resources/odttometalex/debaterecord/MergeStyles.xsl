@@ -77,20 +77,6 @@
     <xsl:template match="text:sequence-decls">
     </xsl:template>
 
-    <xsl:template match="office:meta">
-        <mcontainer name="meta">
-			<xsl:for-each select="@*">
-		    	<xsl:attribute name="{name(.)}">
-		        	<xsl:value-of select="."/>
-		        </xsl:attribute>
-			</xsl:for-each>
-            <mcontainer name="identification">
-            </mcontainer>
-            <meta name="publication" date="{//meta:user-defined[@meta:name='BungeniDebateOfficialDate']}" />
-            <mcontainer name="references">
-            </mcontainer>
-        </mcontainer>
-    </xsl:template>
 
 
 <!--    <xsl:template match="meta:generation">

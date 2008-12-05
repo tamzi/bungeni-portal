@@ -59,7 +59,9 @@ class BreadCrumbsViewlet( viewlet.ViewletBase ):
             path.append({'name' : name, 'url' : url} )                         
         return path
         
-        
+    def getRootfolder(self):
+        m_url = prefs.getPloneMenuUrl()
+        return '/'.join(m_url.split('/')[:-1])    
         
     def update( self ):
         """
@@ -238,7 +240,9 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
         return self._tree2html(items)
         
        
-        
+    def getRootfolder(self):
+        m_url = prefs.getPloneMenuUrl()
+        return '/'.join(m_url.split('/')[:-1])          
         
     
     def update( self ):

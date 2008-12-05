@@ -645,8 +645,8 @@ class CurrentRootMenuTree( BrowserView):
         rooturl = absoluteURL( self.context, self.request )
         self.Date = datetime.date.today()
         cp_filter = sql.or_(
-            sql.between(self.Date, schema.user_group_memberships.c.start_date, schema.user_group_memberships.c.end_date),
-            sql.and_( schema.user_group_memberships.c.start_date <= self.Date, schema.user_group_memberships.c.end_date == None)
+            sql.between(self.Date, schema.groups.c.start_date, schema.groups.c.end_date),
+            sql.and_( schema.groups.c.start_date <= self.Date, schema.groups.c.end_date == None)
             )
         session = Session()
         query = session.query(domain.Parliament).filter(cp_filter)
@@ -658,7 +658,7 @@ class CurrentRootMenuTree( BrowserView):
             data = []
             url = rooturl + '/parliament/obj-' + str(current_parliament.parliament_id)
             node = []
-            node.append({'url' : url + '/committes/', 'name': 'Committee', 'node': None} )
+            node.append({'url' : url + '/committees/', 'name': 'Committee', 'node': None} )
             node.append({'url' : url + '/sessions/', 'name': 'Parliamentary Session', 'node': None} )
             node.append({'url' : url + '/parliamentmembers/', 'name': 'Member of Parliament', 'node': None} )
             node.append({'url' : url + '/extensionmembers/', 'name': 'Group extensions', 'node': None} )

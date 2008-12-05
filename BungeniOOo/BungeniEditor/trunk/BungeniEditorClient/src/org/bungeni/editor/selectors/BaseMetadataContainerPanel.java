@@ -16,6 +16,7 @@ import org.bungeni.editor.BungeniEditorProperties;
 import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
+import org.bungeni.editor.selectors.metadata.SectionMetadataEditor;
 import org.bungeni.ooo.OOComponentHelper;
 
 /**
@@ -39,6 +40,9 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
     protected toolbarAction theAction = null;
     protected toolbarSubAction theSubAction = null;
     protected SelectorDialogModes dialogMode;
+    
+    protected SectionMetadataEditor sectionMetadataEditor = null;
+
     
     public class ConditionSet {
         
@@ -100,11 +104,26 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
         initComponents();
         String popupDlgBackColor = BungeniEditorProperties.getEditorProperty("popupDialogBackColor");
         this.setBackground(java.awt.Color.decode(popupDlgBackColor));
-    
+        if (ooDocument.currentSection() != null) {
+            sectionMetadataEditor = new SectionMetadataEditor (ooDocument.currentSectionName(), getMetadataEditorString());
+        }
         initListeners();
         conditionSet = new ConditionSet();
     }
     
+        private String getMetadataEditorString() {
+            if (theSubAction != null ) {
+                return "toolbarSubAction." + theAction.action_name() + "." + theSubAction.sub_action_name() ;
+            } else
+                return "toolbarAction." + theAction.action_name();
+        }
+        
+        protected void setMetadataEditableFlag (boolean bState) {
+            if (sectionMetadataEditor != null) {
+                sectionMetadataEditor.bMetadataEditable  = bState;
+            }
+        }
+        
     public class ErrorMessage {
         java.awt.Component originatingFrom;
         java.awt.Component focusField;
@@ -193,9 +212,22 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
         });
     }
     
+    /**
+     * Overridable from derived class to do processing before the contents of the form are applied
+     * @return
+     */
     public boolean preMainApply(){
         return true;
     }
+    
+    /**
+     * Overridable from derived class to do processing after the contents of the form have been applied
+     * @return
+     */
+    public boolean postMainApply(){
+        return true;
+    }
+  
     
     private void doApplies(){
        // getActivePanels()
@@ -224,6 +256,9 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
                 return;
             }
         }
+        
+        boolean bRetPostApply = postMainApply();
+        
         this.containerFrame.dispose();
     }
     

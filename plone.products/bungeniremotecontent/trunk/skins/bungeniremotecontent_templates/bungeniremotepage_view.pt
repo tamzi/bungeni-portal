@@ -12,6 +12,7 @@
                main content
                </div>                        
             </tal:block>
+            <a target="_blank" tal:attributes="href result/link"> Details </a> 
         </tal:block>
       </div>
     </div>

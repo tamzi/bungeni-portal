@@ -8,6 +8,7 @@ from zope import component
 from ore.alchemist.vocabulary import DatabaseSource
 from ore.alchemist.model import queryModelDescriptor
 from ore.alchemist import Session
+from ore.alchemist.container import stringKey
 from ore.workflow import interfaces
 
 from alchemist.ui.content import ContentAddForm, ContentDisplayForm
@@ -227,7 +228,7 @@ class BungeniAtomDisplay(BrowserView):
             
     def uid(self):     
         #XXX       
-        return self.name() +  str(self.context)
+        return self.context.__class__.__name__ + '__' + stringKey(removeSecurityProxy(self.context))
         
     def url(self):    
         return absoluteURL( self.context, self.request )       

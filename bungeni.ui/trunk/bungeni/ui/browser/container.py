@@ -8,6 +8,8 @@ from zope import schema
 from zope.publisher.browser import BrowserView
 import simplejson
 import sqlalchemy.sql.expression as sql
+#from zope.app.securitypolicy.interfaces import IPrincipalRoleManager, IPrincipalRoleMap
+from zope.securitypolicy.interfaces import IPrincipalRoleMap
 
 from ore.alchemist.model import queryModelDescriptor, queryModelInterface
 import alchemist.ui.container
@@ -75,6 +77,7 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
             )
         self.columns = columns
         self.actionUrl = '%s/' % ( absoluteURL( self.context, self.request ) )
+        #print self.getRoles()
 
         
     @property
@@ -129,7 +132,12 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
         self.request.response.redirect(addurl)
 
 
-
+    def getRoles(self):
+        #XXX
+        pn = self.request.principal.__name__ 
+        grants = IPrincipalRoleMap(self.context)
+        roles = grants.getRolesForPrincipal(pn)
+        return roles
 
 
 class ContainerJSONTableHeaders( BrowserView ):

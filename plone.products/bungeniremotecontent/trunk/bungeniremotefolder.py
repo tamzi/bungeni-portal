@@ -189,28 +189,36 @@ class bungeniremotefolder(ATFolder):
                 rs = rs + "</tr>"
         rs = rs + "</tbody></table>"
         pages = int(length) / int(limit)
-        currpage = int(start) / int(limit)
+        currpage = int(start) 
         pl = range(0,int(length), int(limit))
         #rs = rs + str(pl)
         i = 0
-        rs = rs + '<table><tr>'
+        prevpage = (((int(start) ) / int(limit)) -1) * int(limit)
+        nextpage = (((int(start)) / int(limit)) + 1) * int(limit)
+        if sort_by is None:
+            sort_by = ''
+        rs = rs + '<table id="remote-listing-pager"><tr>'
+        if prevpage >= 0:
+            lnk = '?dir=' + sort_order + '&sort=' + sort_by + "&limit=" + limit +"&start=" + str(prevpage) 
+            rs = rs + '<td class="next-remote-page"> <a href="' + lnk + '" > &lt;&lt; </a> </td>'
         for p in pl:
             i = i + 1
             if i < len(pl):
-                if p <= currpage <= pl[i]:
-                    css_class = "thispage"
+                if p <= currpage < pl[i]:
+                    css_class = "this-remote-page"
                 else:
                     css_class =''
             else:
                 if p <= currpage:
-                    css_class = "thispage"
+                    css_class = "this-remote-page"
                 else:
                     css_class =''    
-            if sort_by is None:
-                sort_by = ''        
+                    
             lnk = '?dir=' + sort_order + '&sort=' + sort_by + "&limit=" + limit +"&start=" + str(p)        
-            rs = rs + '<td> <a href="' + lnk + '" >' + str(i) + '</a> </td>'
-            
+            rs = rs + '<td class="' + css_class + '"> <a href="' + lnk + '" >' + str(i) + '</a> </td>'
+        if nextpage <= int(length):    
+            lnk = '?dir=' + sort_order + '&sort=' + sort_by + "&limit=" + limit +"&start=" + str(nextpage) 
+            rs = rs + '<td class="next-remote-page"> <a href="' + lnk + '" > &gt;&gt; </a> </td>'    
         rs = rs + '</tr></table>'    
         return rs
 

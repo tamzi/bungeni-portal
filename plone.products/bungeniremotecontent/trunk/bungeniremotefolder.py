@@ -177,8 +177,14 @@ class bungeniremotefolder(ATFolder):
 
         rs = rs + "</tr> </thead> <tbody>"
         if results.has_key("nodes"):
+            i = 0
             for tr in results['nodes']:
-                rs = rs + "<tr>"
+                i = i + 1
+                if i % 2 == 0:
+                    css_class = "even"
+                else:
+                    css_class = "odd"
+                rs = rs + '<tr class="' + css_class+ '" >'
                 for th in ths:
                         rs = rs + "<td> "
                         if tr[th['name']] is not None:

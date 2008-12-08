@@ -86,6 +86,8 @@ def approve( info, context ):
     motion = removeSecurityProxy(context)
     rpm = zope.securitypolicy.interfaces.IRolePermissionMap( motion )    
     rpm.grantPermissionToRole( 'bungeni.motion.edit', u'bungeni.Speaker' )
+    rpm.grantPermissionToRole( 'zope.View', u'zope.Anybody')
+    rpm.grantPermissionToRole( 'bungeni.motion.view', u'zope.Everybody')
     utils.setApprovalDate(info,context)
     
     

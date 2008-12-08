@@ -327,6 +327,7 @@ def approve(info,context):
     question = removeSecurityProxy(context)
     rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )    
     rpm.grantPermissionToRole( 'bungeni.question.edit', u'bungeni.Speaker' )
+    rpm.grantPermissionToRole( 'bungeni.question.view', u'zope.Everybody')
     utils.setApprovalDate(info,context)
    
 

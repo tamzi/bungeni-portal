@@ -40,6 +40,7 @@ import bungeni.core.globalsettings as prefs
 from bungeni.ui.datetimewidget import  SelectDateTimeWidget, SelectDateWidget
 from bungeni.ui import widget
 #from bungeni.ui.workflow import bindTransitions
+import base64
 
 
 from ore.yuiwidget import calendar
@@ -228,7 +229,7 @@ class BungeniAtomDisplay(BrowserView):
             
     def uid(self):     
         #XXX       
-        return self.context.__class__.__name__ + '__' + stringKey(removeSecurityProxy(self.context))
+        return base64.urlsafe_b64encode(self.context.__class__.__name__ + ':' + stringKey(removeSecurityProxy(self.context)))
         
     def url(self):    
         return absoluteURL( self.context, self.request )       

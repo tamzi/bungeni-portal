@@ -58,7 +58,7 @@ def submit( info,context ):
     utils.setSubmissionDate(info, context)
     bill = removeSecurityProxy(context)
     rpm = zope.securitypolicy.interfaces.IRolePermissionMap( bill )
-    rpm.grantPermissionToRole( 'zope.View', u'zope.Anybody' )
+    rpm.grantPermissionToRole( 'zope.View', u'zope.Everybody' )
     #rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Owner' )
     #rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.Owner' )
     

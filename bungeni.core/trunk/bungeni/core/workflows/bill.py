@@ -5,6 +5,8 @@ from ore.workflow import workflow
 from ore.workflow import interfaces as iworkflow
 from bungeni.core.i18n import _
 import bungeni.core.workflows.utils as utils
+from zope.security.proxy import removeSecurityProxy
+import zope.securitypolicy.interfaces
 
 class states:
 
@@ -53,6 +55,12 @@ def create(info,context):
 
 def submit( info,context ):
     utils.setBillPublicationDate( info, context )
+    utils.setSubmissionDate(info, context)
+    bill = removeSecurityProxy(context)
+    rpm = zope.securitypolicy.interfaces.IRolePermissionMap( bill )
+    rpm.grantPermissionToRole( 'zope.View', u'zope.Anybody' )
+    #rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Owner' )
+    #rpm.denyPermissionToRole( 'bungeni.motion.delete', u'bungeni.Owner' )
     
 def withdraw(info,context):
     pass

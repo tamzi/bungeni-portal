@@ -23,7 +23,7 @@ import bungeni.core.schema as schema
 import bungeni.core.domain as domain
 from bungeni.ui.browser import container
 import bungeni.core.globalsettings as prefs
-from schedule import makeList
+from schedule import makeList, ScheduledItems, ScheduledQuestionItems, ScheduledMotionItems, ScheduledBillItems
 
 
 def start_DateTime( Date, context ):
@@ -331,7 +331,8 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
     def get_filter(self):
         """
         show only the sittings in the selected month
-        and session!
+        and session or group context, or if the calendar is
+        called outside get all items for this month
         """
         try:
             session_id = self.context.__parent__.session_id        
@@ -451,6 +452,7 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
         results = self.query.all()
         for result in results:            
             data ={}
+            data['sittingid']= ('sid_' + str(result.sitting_id) )  
             data['url']= ( path + 'obj-' + str(result.sitting_id) )                         
             data['short_name'] = ( datetime.datetime.strftime(result.start_date,'%H:%M')
                                     + ' (' + self.sit_types[result.sitting_type] + ')')
@@ -458,7 +460,8 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
             data['end_date'] = str(result.end_date)
             data['day'] = result.start_date.date()
             data['did'] = ('dlid_' +  datetime.datetime.strftime(result.start_date,'%Y-%m-%d') +
-                           '_stid_' + str( result.sitting_type))            
+                           '_stid_' + str( result.sitting_type))  
+            data['sid'] = result.sitting_id                         
             data_list.append(data)            
         return data_list
 
@@ -471,6 +474,44 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
             if data['day'] == day:
                 day_data.append(data)
         return day_data                
+       
+    def getActiveSittingItems(self, sitting_id):
+        """
+        return all questions assigned to that sitting
+        """
+        session = Session()
+        active_sitting_items_filter = sql.and_(schema.items_schedule.c.sitting_id == sitting_id, 
+                                                schema.items_schedule.c.active == True)
+        items = session.query(ScheduledItems).filter(active_sitting_items_filter).order_by(schema.items_schedule.c.order)
+        data_list=[] 
+        results = items.all()
+        q_offset = datetime.timedelta(prefs.getNoOfDaysBeforeQuestionSchedule())
+        for result in results:            
+            data ={}
+            #data['qid']= ( 'q_' + str(result.question_id) ) 
+            data['schedule_id'] = ( 'isid_' + str(result.schedule_id) ) # isid for ItemSchedule ID 
+            if type(result) == ScheduledQuestionItems:                       
+                data['subject'] = u'Q ' + str(result.question_number) + u' ' +  result.subject[:10]
+                data['title'] = result.subject
+                data['type'] = "question"
+                data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date + q_offset, '%Y-%m-%d')
+                data['url'] = '/questions/obj-' + str(result.question_id)
+            elif type(result) == ScheduledMotionItems:    
+                data['subject'] = u'M ' + str(result.motion_number) + u' ' +result.title[:10]
+                data['title'] = result.title
+                data['type'] = "motion"                
+                data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
+                data['url'] = '/motions/obj-' + str(result.motion_id)
+            elif type(result) == ScheduledBillItems:    
+                data['subject'] = u"B " + result.title[:10]  
+                data['title'] = result.title             
+                data['type'] = "bill"
+                data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.publication_date + q_offset, '%Y-%m-%d')
+                data['url'] = '/bills/obj-' + str(result.bill_id)
+            data['status'] = result.status
+            data_list.append(data)            
+        return data_list       
+       
        
     def getDayClass(self, day):
         """

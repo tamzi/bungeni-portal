@@ -30,6 +30,8 @@ from bungeni.core.workflows.motion import states as motion_wf_state
 from bungeni.core.workflows.bill import states as bill_wf_state
 import bungeni.core.globalsettings as prefs
 
+
+
 import sqlalchemy.sql.expression as sql
 import sqlalchemy as rdb
 from sqlalchemy.orm import mapper, polymorphic_union
@@ -1676,11 +1678,11 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
         """
         an item was dropped into the admissible or postponed questions
         list
-        """
-        raise NotImplementedError  
+        """          
         session = Session()
         for item_id in itemIds:
             if item_id[:5] == 'isid_':
+                raise NotImplementedError
                 scheduled_item_id = long(item_id[5:])
                 item = session.query(ScheduledItems).filter(schema.items_schedule.c.schedule_id == scheduled_item_id).one()
                 if type(item) == ScheduledQuestionItems:
@@ -1696,6 +1698,10 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
             elif item_id[:2] == 'q_':
                 # nothing to do here, either not moved
                 # or dropped from admissible to postponed or vice versa
+                pass
+            elif item_id[:2] == 'b_':
+                pass
+            elif item_id[:2] == 'm_':
                 pass
                  
     def insert_items( self, form ):
@@ -1783,6 +1789,12 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
     
     render = ViewPageTemplateFile ('templates/schedule_calendar_viewlet.pt')
     
+
+class SittingCalendarAtomViewlet(ScheduleCalendarViewlet):
+    """
+    just another template for display
+    """
+
     
 class ScheduleHolyDaysViewlet( viewlet.ViewletBase ):
     """

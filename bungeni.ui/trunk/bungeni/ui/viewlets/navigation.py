@@ -12,12 +12,17 @@ from bungeni.ui.utils import getDisplayDate
 import bungeni.core.globalsettings as prefs
 import datetime
 import urllib, simplejson
+from zope.traversing.browser import absoluteURL 
 
 class SiteActionsViewlet( viewlet.ViewletBase ):
     """
     Siteactions copied 1 to 1 from plone 
     return the pure html template only
     """
+    def getRootfolder(self):
+        m_url = prefs.getPloneMenuUrl()
+        return '/'.join(m_url.split('/')[:-1])   
+            
     render = ViewPageTemplateFile( 'templates/siteactions.pt' )
 
 class BreadCrumbsViewlet( viewlet.ViewletBase ):
@@ -96,7 +101,8 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
         path = []
         context = proxy.removeSecurityProxy( context )
         if context.__parent__ is not None:            
-            path = path + self._get_object_path(context.__parent__, '../' + url )     
+            url = absoluteURL( context, self.request ) + '/'
+            path = path + self._get_object_path(context.__parent__, '../' + url )                 
         else:            
             return []
         path.append({'obj':context, 'url':url})            

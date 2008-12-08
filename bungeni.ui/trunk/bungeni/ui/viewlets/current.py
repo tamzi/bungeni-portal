@@ -702,6 +702,8 @@ class RedirectToCurrent( BrowserView ):
         #    return
         #fname = self.traverse_subpath[0]     
         qstr =  self.request['QUERY_STRING']
+        if 'date' not in self.request.form:
+            qstr = qstr + '&date=' + datetime.date.strftime(datetime.date.today(),'%Y-%m-%d')
         url = rooturl + '/parliament/'
         if len(self.traverse_subpath) >= 1:
             # we have a traversal to redirect to

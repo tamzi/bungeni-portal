@@ -195,7 +195,7 @@ class bungeniremotefolder(ATFolder):
                 rs = rs + "</tr>"
         rs = rs + "</tbody></table>"
         pages = int(length) / int(limit)
-        currpage = int(start) 
+        currpage = int(start)
         pl = range(0,int(length), int(limit))
         #rs = rs + str(pl)
         i = 0
@@ -205,7 +205,7 @@ class bungeniremotefolder(ATFolder):
             sort_by = ''
         rs = rs + '<table id="remote-listing-pager"><tr>'
         if prevpage >= 0:
-            lnk = '?dir=' + sort_order + '&sort=' + sort_by + "&limit=" + limit +"&start=" + str(prevpage) 
+            lnk = '?dir=' + sort_order + '&sort=' + sort_by + "&limit=" + limit +"&start=" + str(prevpage)
             rs = rs + '<td class="next-remote-page"> <a href="' + lnk + '" > &lt;&lt; </a> </td>'
         for p in pl:
             i = i + 1
@@ -218,14 +218,14 @@ class bungeniremotefolder(ATFolder):
                 if p <= currpage:
                     css_class = "this-remote-page"
                 else:
-                    css_class =''    
-                    
-            lnk = '?dir=' + sort_order + '&sort=' + sort_by + "&limit=" + limit +"&start=" + str(p)        
+                    css_class =''
+
+            lnk = '?dir=' + sort_order + '&sort=' + sort_by + "&limit=" + limit +"&start=" + str(p)
             rs = rs + '<td class="' + css_class + '"> <a href="' + lnk + '" >' + str(i) + '</a> </td>'
-        if nextpage <= int(length):    
-            lnk = '?dir=' + sort_order + '&sort=' + sort_by + "&limit=" + limit +"&start=" + str(nextpage) 
-            rs = rs + '<td class="next-remote-page"> <a href="' + lnk + '" > &gt;&gt; </a> </td>'    
-        rs = rs + '</tr></table>'    
+        if nextpage <= int(length):
+            lnk = '?dir=' + sort_order + '&sort=' + sort_by + "&limit=" + limit +"&start=" + str(nextpage)
+            rs = rs + '<td class="next-remote-page"> <a href="' + lnk + '" > &gt;&gt; </a> </td>'
+        rs = rs + '</tr></table>'
         return rs
 
 

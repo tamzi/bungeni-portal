@@ -110,7 +110,7 @@ class bungeniremotefolder(ATFolder):
         sp = self.REQUEST.traverse_subpath[0]
         url = h_url + s_url + '/' + sp + '/' + ac
         results = feedparser.parse(url)
-        if results['status'] != 200:
+        if results['status'] >= 400:
             print results
             entries = results['entries']
             entries.append ({'title' : 'error: ' + str(results['status']), 'content': [{'value':'Error retriving data'}]})

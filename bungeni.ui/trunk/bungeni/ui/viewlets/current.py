@@ -9,6 +9,8 @@ from zope.viewlet.manager import WeightOrderedViewletManager
 from zope.viewlet import viewlet, interfaces
 from zope.security import proxy
 from zope.traversing.browser import absoluteURL
+from zope.interface import implements
+from zope.publisher.interfaces import IPublishTraverse
 
 import zc.resourcelibrary
 
@@ -20,6 +22,7 @@ import bungeni.core.domain as domain
 import bungeni.core.schema as schema
 from bungeni.core.interfaces import IGroupSitting, IGroupSittingAttendance, IGroupSittingAttendanceContainer
 from bungeni.core.orm import _ugm_party
+import bungeni.core.globalsettings as prefs
 
 from ore.alchemist import Session
 from ore.alchemist.interfaces import IAlchemistContainer, IAlchemistContent
@@ -672,5 +675,41 @@ class CurrentRootMenuTree( BrowserView):
             return simplejson.dumps(data)          
            
                        
+class RedirectToCurrent( BrowserView ):
+    """
+    goto a url like
+    current/parliamentmembers or current/committees and you will be redirected to
+    the apropriate container
+    """
+    implements(IPublishTraverse)
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        self.traverse_subpath = []
+        self.currParliament = prefs.getCurrentParliamentId()
+
+    def publishTraverse(self, request, name):
+        self.traverse_subpath.append(name)
+        return self
+        
+    def __call__(self):
+        """redirect to container"""
+        #context = proxy.removeSecurityProxy( self.context )        
+        response = self.request.response
+        rooturl = absoluteURL( self.context, self.request )
+        #response.setHeader('Content-Type', 'application/octect-stream')
+        #if len(self.traverse_subpath) != 1:
+        #    return
+        #fname = self.traverse_subpath[0]     
+        qstr =  self.request['QUERY_STRING']
+        url = rooturl + '/parliament/'
+        if len(self.traverse_subpath) >= 1:
+            # we have a traversal to redirect to
+            if self.traverse_subpath[0] == 'parliament':
+                url = rooturl + '/parliament/obj-' + str(self.currParliament) + '/' + '/'.join(self.traverse_subpath[1:]) +'?' + qstr
+        return response.redirect( url )   
+        
+                
+
 
 

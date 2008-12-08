@@ -2,6 +2,16 @@
            xmlns:browser="http://namespaces.zope.org/browser"           
            i18n_domain="bungeni">
 
+  <!-- redirect to current -->
+  
+  <browser:page
+     for="bungeni.core.interfaces.IBungeniApplication"
+     permission="zope.View"
+     name="current"
+     class=".current.RedirectToCurrent"
+     />
+
+
   <!-- schedule holidays-->
   <browser:page
      for="bungeni.core.interfaces.IBungeniApplication"

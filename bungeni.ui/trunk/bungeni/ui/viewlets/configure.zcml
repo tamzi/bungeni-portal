@@ -26,7 +26,7 @@
     weight="30"
     />    
 
-  <!-- Question Schedule -->
+  <!-- Question, Motion, Bill Schedule -->
   <browser:page
      for="bungeni.core.interfaces.IBungeniApplication"
      permission="bungeni.question.Schedule"
@@ -200,12 +200,22 @@
         
   <browser:viewlet
     name="bungeni.navigation.navtree"
-    for="*"
+    for="ore.alchemist.interfaces.IAlchemistContainer"         
     manager="ploned.ui.interfaces.ILeftColumnManager"
     class=".navigation.NavigationTreeViewlet"
     permission="zope.View"
     weight="1"
     />    
+    
+<browser:viewlet
+    name="bungeni.navigation.navtree"
+    for="ore.alchemist.interfaces.IAlchemistContent"         
+    manager="ploned.ui.interfaces.ILeftColumnManager"
+    class=".navigation.NavigationTreeViewlet"
+    permission="zope.View"
+    weight="1"
+    />        
+    
     
   <!--YUI Tabs -->
   <browser:viewletManager

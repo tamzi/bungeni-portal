@@ -27,7 +27,13 @@
             <br />
             <ul tal:condition="python:view.isSessionDate(day)" tal:attributes="id python:view.getDayId(day); class string:draglist">
               <li tal:repeat="sitting python: view.GetSittings4Day(day)">
-                <a tal:content="sitting/short_name" tal:attributes="href sitting/url; id sitting/did"/>            
+                <a tal:content="sitting/short_name" tal:attributes="href sitting/url; id sitting/did"/>    
+                 <ol tal:attributes="id sitting/sittingid; class string:no_draglist" tal:define="sid sitting/sid">
+                    <li tal:repeat="question python: view.getActiveSittingItems(sid)"                  
+                     tal:attributes="id question/schedule_id; class question/schedule_date_class">
+                     <a tal:content="question/subject" tal:attributes="title question/title; href question/url" />
+                    </li>
+                </ol>        
               </li>
             </ul>
           </td>

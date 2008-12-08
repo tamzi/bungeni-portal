@@ -1,0 +1,155 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package org.bungeni.marginalia;
+
+/**
+ *
+ * @author undesa
+ */
+public class RangeImporter {
+
+    /*
+     * Type MarginaliaRange
+	REM &quot;block&quot; or &quot;string&quot; to identify between xpath style (p[1] and word(3) )
+	rangeType as string
+	REM name of the range p or char or word
+	rangeName as String
+	REM sequence of the range element - this is probbly redundant because the
+	REM ranges are returned in a sequential array
+	rangeOrder as integer
+	REM the rangeNumber begins with a 0-index only for the &quot;char&quot; range name
+	rangeNumber as integer
+End Type
+
+ Type MarginaliaRangeMeasure
+	REM array of marginalia range objects (MarginaliaRange() ) indicating the From range
+	MFrom as Variant
+	REM array of marginalia range objects indicating the two range
+	MTo as variant
+End Type
+
+
+REM Function to test the library
+REM returns a MarginaliaRangeMeasure object
+Sub Main
+	Dim test as MarginaliaRangeMeasure
+	test = getMarginaliaRangeMeasure(&quot;p[1]/word(2)/char(0);p[1]/word(2)/char(6)&quot;)
+	if (IsArray(test.MFrom)) then
+	Msgbox &quot;test successful for From range&quot;
+	end if
+	if (IsArray(test.MTo)) then
+	Msgbox &quot;test successful for to range&quot;
+	end if
+	
+End Sub
+
+REM returns a new MarginaliaRangeMeasure object
+REM this is required because OOBasic does not you declare modularized 
+REM types directly
+Function newMarginaliaRangeMeasure as MarginaliaRangeMeasure
+	Dim mrm as New MarginaliaRangeMeasure
+	newMarginaliaRangeMeasure = mrm	
+End Function
+
+
+Function getMarginaliaRangeMeasure (strRange as String) as MarginaliaRangeMeasure
+	Dim arr()
+	Dim ObjMarginaliaRangeMeasure as New MarginaliaRangeMeasure
+	arr = split(strRange, &quot;;&quot;)
+	If UBound(arr) = 0 then
+		rem array has a single range
+		ObjMarginaliaRangeMeasure = MakeMarginaliaRange (arr, True)
+	Else
+		ObjMarginaliaRangeMeasure = MakeMarginaliaRange (arr, False)
+	End If		
+	
+	getMarginaliaRangeMeasure = ObjMarginaliaRangeMeasure
+	
+End Function
+
+Function MakeMarginaliaRange (arrayOfRange as Variant, singleRange as Boolean) as MarginaliaRangeMeasure
+	Dim i as integer
+	Dim inputRangeMeasure as MarginaliaRangeMeasure
+	Dim mRange as MarginaliaRange
+	rem split the range into its components
+	rem the left most component is the beginning of the range
+	Dim rangeComponentsFrom()
+	rangeComponentsFrom = split (arrayOfRange(LBound(arrayOfRange)), &quot;/&quot;)
+	inputRangeMeasure.MFrom() = TransformRangeComponents (rangeComponentsFrom)
+	if (Lbound(arrayOfRange) &lt; UBound(arrayOfRange) ) then
+		Dim rangeComponentsTo()
+		rangeComponentsTo =  split (arrayOfRange(UBound(arrayOfRange)), &quot;/&quot;)
+		inputRangeMeasure.MTo() = TransformRangeComponents (rangeComponentsTo)
+	End if	
+	
+	MakeMarginaliaRange = inputRangeMeasure 
+
+	
+End Function
+
+REM RETURNS AN ARRAY OF MARGINALIA RANGE OBJECTS
+
+
+
+REM returns an Array of MarginaliaRange objects representing a single range description
+Function TransformRangeComponents  (rangeComponents as Variant)
+	Dim i as integer
+	Dim myMarginaliaRanges()
+	Redim myMarginaliaRanges(Ubound(rangeComponents)) as Variant
+	Dim subRangeComponent as string
+	Dim subRangeComponentPos as string
+	
+	For i=LBound(rangeComponents) to UBound(rangeComponents)
+		Dim rangeComponent as string
+		rangeComponent = rangeComponents(i)
+		rem check if he range component is a block type, look for block brackets
+		if ((instr(rangeComponent, &quot;[&quot;) &lt;&gt; 0 ) and (instr(rangeComponent, &quot;]&quot;))) then
+			myMarginaliaRanges(i) =  ParseComponent(rangeComponent, &quot;[,]&quot;, &quot;block&quot;, i)
+		End if
+
+		if ((instr(rangeComponent, &quot;(&quot;) &lt;&gt; 0 ) and (instr(rangeComponent, &quot;)&quot;))) then
+			rem if yes look split the string
+			myMarginaliaRanges(i) = ParseComponent(rangeComponent, &quot;(,)&quot;, &quot;string&quot; , i)
+		
+		End if
+			
+	Next
+
+	TransformRangeComponents = myMarginaliaRanges
+	
+End Function
+
+
+Rem parses components based on input componentType = [,] or (,)
+Rem returns a marginaliaRange object
+Function ParseComponent(rangeComponent as string, componentType as string, rangeType as string, pos as Integer)
+		
+		Dim posOpenBracket, posCloseBracket as integer
+		Dim rangeBrackets()
+		Dim subRangeComponent, subRangeComponentPos as string
+		
+		rangeBrackets = split(componentType, &quot;,&quot;)
+		
+		
+		posOpenBracket = instr(rangeComponent, rangeBrackets(LBound(rangeBrackets)))
+		posCloseBracket = instr(rangeComponent,rangeBrackets(UBound(rangeBrackets)))
+		
+		rem indexes of brackets
+		subRangeComponent = left(rangeComponent, posOpenBracket - 1 )			
+		subRangeComponentPos = mid(rangeComponent, posOpenBracket + 1 , posCloseBracket - posOpenBracket - 1 )
+		
+		rem make range object
+		dim mRange as MarginaliaRange
+		mRange.rangeType = rangeType 
+		mRange.rangeName = subRangeComponent
+		mRange.rangeOrder = pos + 1
+		mRange.rangeNumber = Cint(subRangeComponentPos)
+			
+		ParseComponent = mRange
+
+End Function
+     */ 
+}

@@ -10,10 +10,10 @@ package org.bungeni.editor.metadata;
  * @author undesa
  */
  public class LanguageCode {
-        String languageCode;
-        String languageName;
+        public String languageCode;
+        public String languageName;
         
-        LanguageCode(String langC, String langN) {
+        public LanguageCode(String langC, String langN) {
             languageCode = langC;
             languageName = langN;
         }

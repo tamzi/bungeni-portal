@@ -13,10 +13,10 @@ package org.bungeni.editor.metadata;
         public String countryCode;
         public String countryName;
         
-        CountryCode(){
+        public CountryCode(){
             countryCode = countryName = "";
         }
-        CountryCode(String countryC, String countryN) {
+        public CountryCode(String countryC, String countryN) {
             countryCode = countryC;
             countryName = countryN;
         }

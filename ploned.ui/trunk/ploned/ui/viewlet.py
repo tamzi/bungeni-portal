@@ -2,9 +2,10 @@
 $Id:
 
 """
+from zope.viewlet.manager import WeightOrderedViewletManager
 
-class WeightBasedSorter( object ):
-
-    def sort( self, viewlets ):
-        return sorted( viewlets,
-                       lambda x, y: cmp(x[1].weight, y[1].weight ) )
+class WeightBasedSorter( WeightOrderedViewletManager ):
+    """
+    No need to do a custom sort implementation - it did not work anyway
+    """
+ 

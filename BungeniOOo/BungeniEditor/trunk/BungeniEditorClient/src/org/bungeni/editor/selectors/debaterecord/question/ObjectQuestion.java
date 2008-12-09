@@ -29,4 +29,13 @@ public class ObjectQuestion {
         return questionTitle;
     }
     
+   
+    
+    public boolean compare(Object o){
+        ObjectQuestion oq = (ObjectQuestion) o;
+        if (this.questionId.equals(oq.questionId)) {
+            return true;
+        } else
+            return false;
+    }
 }

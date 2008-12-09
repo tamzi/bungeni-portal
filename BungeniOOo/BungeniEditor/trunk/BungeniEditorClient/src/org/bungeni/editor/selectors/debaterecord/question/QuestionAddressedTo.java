@@ -6,6 +6,7 @@
 
 package org.bungeni.editor.selectors.debaterecord.question;
 
+import com.sun.star.text.XTextSection;
 import java.awt.Component;
 import java.util.HashMap;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
@@ -166,7 +167,16 @@ public String getPanelName() {
         return true;
     }
 
-        @Override
+    @Override
+    public void commonInitFields(){
+          switch (getDialogMode()) {
+            case TEXT_EDIT:
+                return;
+              default: return;
+          }
+    }
+    
+    @Override
     protected void initFieldsSelectedEdit() {
         return;
     }
@@ -183,13 +193,18 @@ public String getPanelName() {
 
     @Override
     protected void initFieldsEdit() {
+        //connect fields to metadata... 
+        this.txtAddressedTo.setText(getSectionMetadataValue("BungeniQuestionTo"));
         return;
     }
     
     @Override
     public boolean doUpdateEvent(){
         HashMap<String,String> selectionData = ((Main)getContainerPanel()).selectionData;   
-        this.txtAddressedTo.setText(selectionData.get("QUESTION_TO"));
+        if (selectionData != null ) {
+            if (selectionData.containsKey("QUESTION_TO"))
+            this.txtAddressedTo.setText(selectionData.get("QUESTION_TO"));
+        }
         return true;
     }
 }

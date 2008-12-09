@@ -5,6 +5,7 @@
 
 package org.bungeni.editor.selectors;
 
+import com.sun.star.text.XTextSection;
 import java.awt.Component;
 import java.util.HashMap;
 import javax.swing.JFrame;
@@ -337,5 +338,20 @@ public abstract class BaseMetadataPanel extends JPanel implements IMetadataPanel
     public boolean doUpdateEvent(){
         
         return true;
+    }
+    
+    public String getSectionMetadataValue(String valueName) {
+        //connect fields to metadata... 
+        OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
+        XTextSection currentSection  = ooDoc.currentSection();
+        HashMap<String,String> sectionMeta = new HashMap<String,String>();
+         if (currentSection != null ) {
+             sectionMeta=  ooDoc.getSectionMetadataAttributes(currentSection); 
+             if (sectionMeta.containsKey(valueName)) {
+                 return sectionMeta.get(valueName);
+             }
+         }
+        //return blank if not found
+        return new String("");
     }
 }

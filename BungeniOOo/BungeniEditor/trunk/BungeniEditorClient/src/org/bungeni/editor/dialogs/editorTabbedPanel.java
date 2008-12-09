@@ -68,7 +68,10 @@ import javax.swing.Timer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import org.bungeni.db.BungeniClientDB;
 import org.bungeni.db.DefaultInstanceFactory;
+import org.bungeni.db.QueryResults;
+import org.bungeni.db.SettingsQueryFactory;
 import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.macro.ExternalMacro;
 import org.bungeni.editor.macro.ExternalMacroFactory;
@@ -87,15 +90,21 @@ import org.bungeni.utils.MessageBox;
 import org.bungeni.utils.BungeniBTree;
 import org.bungeni.utils.BungeniBNode;
 import org.bungeni.editor.BungeniEditorProperties;
+import org.bungeni.editor.actions.EditorActionFactory;
+import org.bungeni.editor.actions.IEditorActionEvent;
+import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.editor.dialogs.debaterecord.DebateRecordMetadata;
 import org.bungeni.editor.dialogs.metadatapanel.SectionMetadataLoad;
 import org.bungeni.editor.selectors.SelectorDialogModes;
+import org.bungeni.editor.selectors.metadata.SectionMetadataEditor;
+import org.bungeni.editor.toolbar.BungeniToolbarTargetProcessor;
 import org.bungeni.ooo.transforms.impl.BungeniTransformationTarget;
 import org.bungeni.ooo.transforms.impl.BungeniTransformationTargetFactory;
 import org.bungeni.ooo.transforms.impl.IBungeniDocTransform;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.bungeni.utils.BungeniFrame;
 import org.bungeni.utils.CommonFileFunctions;
+import org.bungeni.utils.CommonStringFunctions;
 /**
  *
  * @author  Administrator
@@ -288,6 +297,14 @@ public class editorTabbedPanel extends javax.swing.JPanel {
           SectionMetadataLoad sectionMetadataTableModel = new SectionMetadataLoad(ooDocument,sectionName);
           tblSectionmeta.setModel(sectionMetadataTableModel);
     }
+       
+       public void updateSectionMetadataEditButton(String newSectionName) {
+           HashMap<String,String> sectionMeta = ooDocument.getSectionMetadataAttributes(newSectionName);
+           if (sectionMeta.containsKey(SectionMetadataEditor.MetaEditor)) {
+               btnEdit.setEnabled(true);
+           } else
+               btnEdit.setEnabled(false);
+       }
           
         private class viewRefreshAction extends AbstractAction {
         public String oldSectionName ; 
@@ -301,6 +318,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
                         //dont do anything
                     } else {
                         updateSectionMetadataView(newSectionName);
+                        updateSectionMetadataEditButton(newSectionName);
                         oldSectionName = newSectionName;
                     }
                 }
@@ -708,40 +726,9 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             floatingFrame.setLocation(windowX, windowY);  // Don't use "f." inside constructor.
             floatingFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             
-            //load the section Floating pane
-            initFloatingSectionMetadataPanel(windowX, windowY, floatingFrame.getWidth());
-            
-            
+      
     }
 
-    private void initFloatingSectionMetadataPanel(int parentWindowX, int parentWindowY, int parentWindowWidth){
-            //JFrame.setDefaultLookAndFeelDecorated(false);
-           BungeniFrame floatingFrame = new BungeniFrame();
-            floatingFrame.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
-            floatingFrame.setResizable(false);
-            //floatingFrame.setUndecorated(true);
-            //floatingFrame.setDefaultLookAndFeelDecorated(false);
-            IFloatingPanel floatingPanel = FloatingPanelFactory.getPanelClass("floatingSectionMetadataPanel");
-            floatingPanel.setOOComponentHandle(ooDocument);
-            floatingPanel.setParentWindowHandle(floatingFrame);
-            floatingPanel.initUI();
-            floatingFrame.setTitle(FloatingPanelFactory.panelDescription);
-            floatingPanelMap.put("floatingSectionMetadataPanel", floatingPanel);
-           //panel.setOOoHelper(this.openofficeObject);
-            floatingFrame.getContentPane().add(floatingPanel.getObjectHandle());
-            //frame.setSize(243, 650);
-            floatingFrame.setSize(Integer.parseInt(FloatingPanelFactory.panelWidth), Integer.parseInt(FloatingPanelFactory.panelHeight));
-            floatingFrame.pack();
-           // floatingFrame.setResizable(false);
-           
-            floatingFrame.setAlwaysOnTop(true);
-            floatingFrame.setVisible(true);
-            //position frame
-            
-           
-            floatingFrame.setLocation(parentWindowX - parentWindowWidth, parentWindowY);  // Don't use "f." inside constructor.
-            floatingFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-    }
     /*
     private void initCollapsiblePane(){
      try {
@@ -1569,9 +1556,14 @@ public class DocStructureListElementRenderer extends JLabel implements ListCellR
         lblSecName.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
         lblSecName.setText("Current Section Name :");
 
-        btnEdit.setFont(new java.awt.Font("DejaVu Sans", 0, 10));
+        btnEdit.setFont(new java.awt.Font("DejaVu Sans", 0, 10)); // NOI18N
         btnEdit.setText("Edit ");
         btnEdit.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -1681,6 +1673,12 @@ private void btnSaveDocumentActionPerformed(java.awt.event.ActionEvent evt) {//G
             MessageBox.OK(parentFrame, "Document Export failed " );
 }//GEN-LAST:event_btnSaveDocumentActionPerformed
 
+private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+// TODO add your handling code here:
+   launchSectionMetadataEditor();
+}//GEN-LAST:event_btnEditActionPerformed
+
+   
 public void newDocumentInPanel(){
     String templatePath = BungeniEditorProperties.getEditorProperty(BungeniEditorPropertiesHelper.getCurrentDocType()+"_template");
     Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
@@ -1712,6 +1710,47 @@ public synchronized void loadDocumentInPanel(){
     
 }
 
+   /**
+    * Launches the metadata editor of the seciton
+    */
+   private void launchSectionMetadataEditor(){
+        //get the section metadata
+       HashMap<String, String> currentSec = ooDocument.getSectionMetadataAttributes(ooDocument.currentSectionName());
+       //check if the section has a metadata editor
+       if (currentSec.containsKey(SectionMetadataEditor.MetaEditor)) {
+            //parse the metadata editor string into a subAction object
+           String metaEditorString = currentSec.get(SectionMetadataEditor.MetaEditor);
+           BungeniToolbarTargetProcessor btp = new BungeniToolbarTargetProcessor(metaEditorString);
+           String documentType = BungeniEditorPropertiesHelper.getCurrentDocType();
+           //create the subAction object out of the settings metadata
+           BungeniClientDB instance = new BungeniClientDB (DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
+           instance.Connect();
+            String actionQuery = SettingsQueryFactory.Q_FETCH_SUB_ACTIONS(documentType, btp.actionName, btp.subActionName);
+             //   log.info("processSelection: "+ actionQuery); 
+                QueryResults qr = instance.QueryResults(actionQuery);
+                 instance.EndConnect();
+                 if (qr == null ) {
+                     log.info("launchSectionMetadataEditor : queryResults :" + actionQuery + " were null, metadata incorrectly setup");
+                     return;
+                 }
+                 if (qr.hasResults()) {
+                    //this should return only a single toolbarSubAction
+                    //create the subAction object here 
+                     toolbarSubAction subActionObj =  new toolbarSubAction(qr.theResults().elementAt(0), qr.columnNameMap());
+                     if (!CommonStringFunctions.emptyOrNull(btp.actionValue)) 
+                         subActionObj.setActionValue(btp.actionValue);
+                     subActionObj.setSelectorDialogMode(SelectorDialogModes.TEXT_EDIT);
+                     IEditorActionEvent event = EditorActionFactory.getEventClass(subActionObj);
+                     if (event != null ) {
+                        event.doCommand(ooDocument, subActionObj, parentFrame);
+                     } else {
+                         log.info("launchSectionMetadataEditor : no IEditorActionEvent object was created for " + subActionObj.sub_action_name());
+                     }
+                 }
+
+       }    
+   }
+   
 /**
  * Opens an OOo document in the swingworker thread.
  * The agent opens the document and positions 

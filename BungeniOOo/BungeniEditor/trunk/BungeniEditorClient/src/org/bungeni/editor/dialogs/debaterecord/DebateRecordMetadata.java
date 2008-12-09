@@ -9,7 +9,6 @@ package org.bungeni.editor.dialogs.debaterecord;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,6 +42,8 @@ import org.bungeni.utils.MessageBox;
  */
 public class DebateRecordMetadata extends javax.swing.JPanel {
 
+     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(DebateRecordMetadata.class.getName());
+ 
     
     OOComponentHelper ooDocument  = null;
     JFrame parentFrame = null;
@@ -146,8 +147,9 @@ public class DebateRecordMetadata extends javax.swing.JPanel {
   return null;
 }
 
-private void applySelectedMetadata(BungeniFileSavePathFormat spf){
-    
+private boolean applySelectedMetadata(BungeniFileSavePathFormat spf){
+    boolean bState = false;
+    try {
     String sParliamentID = this.BungeniParliamentID.getText();
     String sParliamentSitting = this.txtParliamentSitting.getText();
     String sParliamentSession = this.txtParliamentSession.getText();
@@ -182,10 +184,17 @@ private void applySelectedMetadata(BungeniFileSavePathFormat spf){
     spf.setSaveComponent("Month", debateCal.get(Calendar.MONTH));
     spf.setSaveComponent("Day", debateCal.get(Calendar.DAY_OF_MONTH));
     spf.setSaveComponent("FileName", spf.getFileName());
+    docMeta.AddProperty("__BungeniDocMeta", "true");
+    bState = true;
+    } catch (Exception ex) {
+        log.error("applySelectedMetadata : " + ex.getMessage());
+        bState = false;
+    } finally {
+        return bState;
+    }
 }    
 
-private void saveDocumentToDisk(BungeniFileSavePathFormat spf){
-            
+private boolean saveDocumentToDisk(BungeniFileSavePathFormat spf){
         String exportPath = BungeniEditorProperties.getEditorProperty("defaultSavePath");
         exportPath = exportPath.replace('/', File.separatorChar);
         exportPath = DefaultInstanceFactory.DEFAULT_INSTALLATION_PATH() + File.separator + exportPath + File.separator + spf.getSavePath();
@@ -195,10 +204,13 @@ private void saveDocumentToDisk(BungeniFileSavePathFormat spf){
             fDir.mkdirs();
         }
         
-        
         String fileFullPath = "";
         fileFullPath = exportPath + File.separator + spf.getFileName();
         File fFile = new File(fileFullPath);
+        if (fFile.exists()) {
+            MessageBox.OK(parentFrame, "A file with these attributes already exists, \n please edit the existing file or amend the attributes to save as a different file");
+            return false;
+        }
         //MessageBox.OK(parentFrame, exportPath);
         String exportPathURL = "";
             exportPathURL = fFile.toURI().toString();
@@ -207,11 +219,13 @@ private void saveDocumentToDisk(BungeniFileSavePathFormat spf){
         IBungeniDocTransform idocTrans = BungeniTransformationTargetFactory.getDocTransform("ODT");
         idocTrans.setParams(params);
         boolean bState= idocTrans.transform(ooDocument);
-        if (bState) 
+        if (bState) {
             MessageBox.OK(parentFrame, "Document was Saved!");
-        else
+            return true;
+        } else {
             MessageBox.OK(parentFrame, "The Document could not be saved!");
-   
+            return false;
+        }
 }
     
 
@@ -221,6 +235,12 @@ class FieldAssociation {
         String labelName;
     }
     
+private boolean emptyOrNull(String value) {
+    if (value == null ) return true;
+    if (value.length() == 0) return true;
+    return false;
+}
+
     /** Creates new form DebateRecordMetadata */
     public DebateRecordMetadata(OOComponentHelper ooDoc, JFrame parentFrame, SelectorDialogModes aMode) {
         this.parentFrame = parentFrame;
@@ -245,16 +265,25 @@ class FieldAssociation {
                 String sOfficTime = docMeta.GetProperty("BungeniDebateOfficialTime");
 
                 //official date
+                if (!emptyOrNull(sOfficDate)) {
                 SimpleDateFormat formatter = new SimpleDateFormat(BungeniEditorProperties.getEditorProperty("metadataDateFormat"));
                 this.dt_initdebate_hansarddate.setDate(formatter.parse(sOfficDate));
+                }
                 //official time
-                SimpleDateFormat timeFormat = new SimpleDateFormat(BungeniEditorProperties.getEditorProperty("metadataTimeFormat"));
-                dt_initdebate_timeofhansard.setValue(timeFormat.parse(sOfficTime));
-                this.BungeniParliamentID.setText(sParlId);
-                this.txtParliamentSession.setText(sParlSession);
-                this.txtParliamentSitting.setText(sParlSitting);
-                this.cboCountry.setSelectedItem(findCountryCode(sCountryCode));
-                this.cboLanguage.setSelectedItem(findLanguageCode(sLanguageCode));
+                if (!emptyOrNull(sOfficTime) ) {
+                    SimpleDateFormat timeFormat = new SimpleDateFormat(BungeniEditorProperties.getEditorProperty("metadataTimeFormat"));
+                    dt_initdebate_timeofhansard.setValue(timeFormat.parse(sOfficTime));
+                }
+                if (!emptyOrNull(sParlId))
+                    this.BungeniParliamentID.setText(sParlId);
+                if (!emptyOrNull(sParlSession))
+                    this.txtParliamentSession.setText(sParlSession);
+                if (!emptyOrNull(sParlSitting))
+                    this.txtParliamentSitting.setText(sParlSitting);
+                if (!emptyOrNull(sCountryCode))
+                    this.cboCountry.setSelectedItem(findCountryCode(sCountryCode));
+                if (!emptyOrNull(sLanguageCode))
+                    this.cboLanguage.setSelectedItem(findLanguageCode(sLanguageCode));
                 
             } catch (ParseException ex) {
                 Logger.getLogger(DebateRecordMetadata.class.getName()).log(Level.SEVERE, null, ex);
@@ -467,9 +496,11 @@ private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST
 // TODO add your handling code here:
    //APPLY SELECTED METADATA... 
     BungeniFileSavePathFormat spf = new BungeniFileSavePathFormat();
-    applySelectedMetadata(spf);
-    saveDocumentToDisk(spf);
-    parentFrame.dispose();
+    if (applySelectedMetadata(spf)) {
+        if (saveDocumentToDisk(spf)) {
+            parentFrame.dispose();
+        }
+    }
 }//GEN-LAST:event_btnSaveActionPerformed
 
 

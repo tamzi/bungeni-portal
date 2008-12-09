@@ -18,4 +18,10 @@ public class CommonStringFunctions {
     public static String makeReferenceFriendlyString(String s) {
         return stripNonAlphanumeric(s);
     }
+    
+    public static boolean emptyOrNull(String s) {
+        if (s == null ) return true;
+        if (s.trim().length() == 0 ) return true;
+        return false;
+    }
 }

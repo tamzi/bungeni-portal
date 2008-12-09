@@ -62,12 +62,15 @@
      permission="zope.ManageContent"
      />
 
+
+ <!-- TODO: The content actions viewlet should require zope.ManageContent -->
+ 
    <browser:viewlet
       name="plone.content.tabs"
       for="*"
       manager=".interfaces.IContentViewsManager"
       template="templates/contentviews.pt"
-      permission="zope.Public"
+      permission="zope.ManageContent"
       weight="10"
       />
          

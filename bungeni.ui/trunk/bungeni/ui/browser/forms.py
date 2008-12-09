@@ -227,9 +227,12 @@ class BungeniAtomDisplay(BrowserView):
             title = self.name()
         return title
             
+    def feedUid(self):
+        return  absoluteURL( self.context, self.request ) + 'atom.xml'
+               
     def uid(self):     
         #XXX       
-        return base64.urlsafe_b64encode(self.context.__class__.__name__ + ':' + stringKey(removeSecurityProxy(self.context)))
+        return "urn:uuid:" + base64.urlsafe_b64encode(self.context.__class__.__name__ + ':' + stringKey(removeSecurityProxy(self.context)))
         
     def url(self):    
         return absoluteURL( self.context, self.request )       
@@ -915,6 +918,20 @@ class ResponseAdd( CustomAddForm ):
 ##############
 #Generic Custom Edit form   
 
+
+def hasDeletePermission(context):
+    """"
+    generic check if the user has rights to delete the object
+    the permission must follow the convention:
+    bungeni.classname.delete where classname is the lowercase of the python class
+    """
+    interaction = zope.security.management.getInteraction()
+    class_name = context.__class__.__name__ 
+    permission_name = 'bungeni.' + class_name.lower() +'.delete'
+    return interaction.checkPermission(permission_name, context)
+
+
+
 ####
 # Display invariant errors /  custom validation errors in the context of the field
 # that raised the error.
@@ -975,6 +992,21 @@ class CustomEditForm ( EditFormViewlet ):
         """ All invariant errors should be handled by the fields that raised them """
         return []    
     
+    def can_delete( self, action):
+        return hasDeletePermission(self.context)
+    
+    
+    @form.action(_(u"delete"), condition=can_delete, validator=null_validator)
+    def handle_delete_action( self, action, data):    
+        """
+        deletes the current content and takes you to the listing
+        """        
+        if self.can_delete(action):
+            context = removeSecurityProxy(self.context)
+            session = Session()
+            session.delete(context)
+            url = absoluteURL( self.context.__parent__, self.request )  + '?portal_status_message=Object deleted'
+            return self.request.response.redirect( url )
     
     @form.action(_(u"Cancel"), condition=form.haveInputWidgets, validator=null_validator)
     def handle_cancel_action( self, action, data ):

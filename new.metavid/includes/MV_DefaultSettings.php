@@ -160,6 +160,67 @@ $mvDo_SQL_CALC_FOUND_ROWS = true;
 
 
 $mvEnableStreamNotice = false;
+$wgGroupPermissions['*']['createaccount'] = false;
+$wgGroupPermissions['*']['read'] = true;
+$wgGroupPermissions['*']['edit'] = false;
+$wgGroupPermissions['*']['createpage'] = false;
+$wgGroupPermissions['*']['createtalk'] = false;
+$wgGroupPermissions['sysop']['autopatrol'] = true;
+$wgGroupPermissions['sysop']['protect'] = true;
+$wgGroupPermissions['sysop']['proxyunbannable'] = true;
+$wgGroupPermissions['sysop']['rollback'] = true;
+$wgGroupPermissions['sysop']['trackback'] = true;
+$wgGroupPermissions['sysop']['upload'] = true;
+$wgGroupPermissions['sysop']['reupload'] = true;
+$wgGroupPermissions['sysop']['reupload-shared'] = true;
+$wgGroupPermissions['sysop']['mv_edit_stream'] = true;
+$wgGroupPermissions['sysop']['mv_edit_sitting'] = true;
+$wgGroupPermissions['sysop']['managestaff'] = true;
+$wgGroupPermissions['sysop']['newtranscript'] = true;
+$wgGroupPermissions['editor']['managestaff'] = false;
+$wgGroupPermissions['editor']['newtranscript'] = true;
+$wgGroupPermissions['editor']['read'] = true;
+$wgGroupPermissions['editor']['edit'] = true;
+$wgGroupPermissions['editor']['createpage'] = true;
+$wgGroupPermissions['editor']['upload'] = false;
+$wgGroupPermissions['reader']['managestaff'] = false;
+$wgGroupPermissions['reader']['newtranscript'] = false;
+$wgGroupPermissions['reader']['read'] = true;
+$wgGroupPermissions['reader']['edit'] = true;
+$wgGroupPermissions['reader']['createpage'] = true;
+$wgGroupPermissions['reporter']['managestaff'] = false;
+$wgGroupPermissions['reporter']['newtranscript'] = false;
+$wgGroupPermissions['reporter']['read'] = true;
+$wgGroupPermissions['reporter']['edit'] = true;
+$wgGroupPermissions['reporter']['createpage'] = true;
+//permissions
+$wgGroupPermissions['sysop']['view_sittings']    = true;
+$wgGroupPermissions['*'    ]['view_sittings']    = true;
+
+$wgGroupPermissions['sysop']['progress_sittings']    = true;
+$wgGroupPermissions['*'    ]['progress_sittings']    = true;
+
+$wgGroupPermissions['sysop']['view_mps']    = true;
+$wgGroupPermissions['sysop']['add_mp']    = true;
+$wgGroupPermissions['*'    ]['view_mps']    = true;
+$wgGroupPermissions['*']['add_mp']    = false;
+
+$wgGroupPermissions['sysop']['view_bills']    = true;
+$wgGroupPermissions['*'    ]['view_bills']    = true;
+
+$wgGroupPermissions['sysop']['view_users']    = true;
+$wgGroupPermissions['*'    ]['view_users']    = false;
+
+$wgGroupPermissions['sysop']['administration']    = true;
+$wgGroupPermissions['*'    ]['administration']    = false;
+
+$wgGroupPermissions['sysop']['add_sitting']    = true;
+$wgGroupPermissions['*'    ]['add_sitting']    = false;
+$wgGroupPermissions['sysop']['edit_sitting']    = true;
+$wgGroupPermissions['*'    ]['edit_sitting']    = false;
+$wgGroupPermissions['sysop']['add_user']    = true;
+$wgGroupPermissions['*'    ]['add_user']    = false;
+//permissions
 
 # ########
 # Stream Types & User Rights

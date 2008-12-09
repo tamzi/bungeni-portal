@@ -104,9 +104,7 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
         initComponents();
         String popupDlgBackColor = BungeniEditorProperties.getEditorProperty("popupDialogBackColor");
         this.setBackground(java.awt.Color.decode(popupDlgBackColor));
-        if (ooDocument.currentSection() != null) {
-            sectionMetadataEditor = new SectionMetadataEditor (ooDocument.currentSectionName(), getMetadataEditorString());
-        }
+    
         initListeners();
         conditionSet = new ConditionSet();
     }
@@ -192,8 +190,17 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
     public void initialize(){
         //setupPanels();
         init();
+        if (ooDocument.currentSection() != null) {
+            sectionMetadataEditor = new SectionMetadataEditor ( getMetadataEditorString());
+        }
     }
       
+    
+    protected void makeMetaEditable(){
+        if (sectionMetadataEditor != null) {
+            sectionMetadataEditor.bMetadataEditable = true;
+        }
+    }
     private void initListeners(){
         btnApply.addActionListener(new ActionListener(){
 
@@ -217,17 +224,73 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
      * @return
      */
     public boolean preMainApply(){
+          switch (getDialogMode()) {
+            case TEXT_SELECTED_EDIT:
+                return preApplySelectedEdit();
+            case TEXT_SELECTED_INSERT:
+                return preApplySelectedInsert();
+            case TEXT_INSERTION:
+                return preApplyInsert();
+            case TEXT_EDIT:  
+                return preApplyEdit();
+            default:
+                return false;
+          }
+    }
+
+    
+    public boolean preApplySelectedEdit(){
         return true;
     }
+    
+    public boolean preApplySelectedInsert(){
+        return true;
+    }
+    
+    public boolean preApplyInsert(){
+        return true;
+    }
+    
+    public boolean preApplyEdit(){
+        return true;
+    }
+    
     
     /**
      * Overridable from derived class to do processing after the contents of the form have been applied
      * @return
      */
     public boolean postMainApply(){
+          switch (getDialogMode()) {
+            case TEXT_SELECTED_EDIT:
+                return postApplySelectedEdit();
+            case TEXT_SELECTED_INSERT:
+                return postApplySelectedInsert();
+            case TEXT_INSERTION:
+                return postApplyInsert();
+            case TEXT_EDIT:  
+                return postApplyEdit();
+            default:
+                return false;
+          }
+    }
+    
+    public boolean postApplySelectedEdit(){
         return true;
     }
   
+    public boolean postApplySelectedInsert(){
+        return true;
+    }
+    
+    public boolean postApplyInsert(){
+        return true;
+    }
+    
+    public boolean postApplyEdit(){
+        return true;
+    }
+    
     
     private void doApplies(){
        // getActivePanels()

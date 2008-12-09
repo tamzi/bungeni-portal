@@ -29,15 +29,15 @@ public class SectionMetadataEditor {
      */ 
     public static final String MetaEditor = "__BungeniMetaEditor";
     
-    private String editableSectionName = "";
+    //private String editableSectionName = "";
     private String metadataEditorString = "";
     /**
      * Constructor to setup a metadata editor object
      * @param sectionName - current section name
      * @param metadataEditor - metadata editor string (toolbarSubAction.ActionName.SubActionName)
      */
-    public SectionMetadataEditor(String sectionName, String metadataEditor) {
-        editableSectionName = sectionName;
+    public SectionMetadataEditor(String metadataEditor) {
+        //editableSectionName = sectionName;
         metadataEditorString = metadataEditor;
     }
     
@@ -46,13 +46,13 @@ public class SectionMetadataEditor {
      * @param ooDoc - Openoffice component handle
      * @return - true / false indicating success / failure
      */
-    public boolean setMetadataEditableFlag(OOComponentHelper ooDoc){
+    public boolean setMetadataEditableFlag(OOComponentHelper ooDoc, String eSectionName){
         boolean bState =false;
         try {
             HashMap<String,String>metaMap = new HashMap<String,String>();
             metaMap.put(MetaEditableFlag, "true");
             metaMap.put(MetaEditor, metadataEditorString);
-            ooDoc.setSectionMetadataAttributes(editableSectionName, metaMap);
+            ooDoc.setSectionMetadataAttributes(eSectionName, metaMap);
             bState = true;
         } catch(Exception ex) {
             log.error("setMetadataEditableFlag : " + ex.getMessage());
@@ -61,8 +61,8 @@ public class SectionMetadataEditor {
         }
     }
     
-    public boolean hasMetadataEditableFlag(OOComponentHelper ooDoc) {
-        HashMap<String,String> metaMap = ooDoc.getSectionMetadataAttributes(editableSectionName);
+    public boolean hasMetadataEditableFlag(OOComponentHelper ooDoc, String eSectionName) {
+        HashMap<String,String> metaMap = ooDoc.getSectionMetadataAttributes(eSectionName);
         if (metaMap.containsKey(MetaEditableFlag)) {
             if (metaMap.containsKey(MetaEditor)) {
                 return true;

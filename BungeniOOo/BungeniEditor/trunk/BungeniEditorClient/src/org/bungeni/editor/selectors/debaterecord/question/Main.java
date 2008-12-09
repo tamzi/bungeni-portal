@@ -11,7 +11,6 @@ import com.sun.star.text.XText;
 import com.sun.star.text.XTextContent;
 import com.sun.star.text.XTextSection;
 import com.sun.star.text.XTextViewCursor;
-import com.sun.star.text.XTextViewCursor;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,18 +72,28 @@ public class Main extends BaseMetadataContainerPanel {
     
     @Override
     public void updateAllPanels(){
+        try {
         for (panelInfo p : m_activePanels) {
             p.getPanelObject().doUpdateEvent();
+        }
+        } catch (Exception ex) {
+            log.error("updateAllPanels : " + ex.getMessage());
         }
     }
     
     private final short SECTION_COLUMNS = 1;
+    private String m_questionSectionName = "";
+    
     @Override
-    public boolean preMainApply(){
+    public boolean preApplySelectedInsert(){
+        //
+        makeMetaEditable();
         //create the section if it doesnt exist over here...
+        
         String newSection = getActionSectionName();
         if (!ooDocument.hasSection(newSection)) {
             //creat ethe new section
+            m_questionSectionName = newSection;
             XTextViewCursor xCursor = ooDocument.getViewCursor();
             XText xText = xCursor.getText();
             XTextContent xSectionContent = ooDocument.createTextSection(newSection, SECTION_COLUMNS);
@@ -128,7 +137,22 @@ public class Main extends BaseMetadataContainerPanel {
         }
         return true;
     }
-
+    
+    @Override
+    public boolean postApplySelectedInsert(){
+                if (sectionMetadataEditor != null ) {
+            if (sectionMetadataEditor.bMetadataEditable) {
+                if (m_questionSectionName.length() > 0 ) {
+                    if (!sectionMetadataEditor.hasMetadataEditableFlag(ooDocument, m_questionSectionName))
+                        sectionMetadataEditor.setMetadataEditableFlag(ooDocument, m_questionSectionName);
+                    else
+                        sectionMetadataEditor.setMetadataEditableFlag(ooDocument, m_questionSectionName);
+                }
+            }
+        }
+        return true;
+    }
+    
     @SuppressWarnings("empty-statement")
         public String getActionSectionName() {
         //get the action naming convention

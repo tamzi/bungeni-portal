@@ -7,11 +7,9 @@
 package org.bungeni.editor.selectors.debaterecord.question;
 
 import java.awt.Component;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
 import java.util.HashMap;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
+import org.bungeni.ooo.OOComponentHelper;
 
 /**
  *
@@ -102,10 +100,7 @@ public String getPanelName() {
 
     @Override
     public boolean processFullInsert() {
-        String strText = this.txtQuestionTitle.getText();
-        Clipboard clipBrd = new Clipboard("Clipboard.QuestionTitle");
-        Transferable copyToClipboard = new StringSelection(strText);
-        clipBrd.setContents(copyToClipboard, null);
+
         return true;
     }
 
@@ -136,6 +131,11 @@ public String getPanelName() {
 
     @Override
     public boolean processSelectInsert() {
+        OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
+        HashMap<String,String> sectionMeta = new HashMap<String,String>();
+        String newSectionName = ((Main)getContainerPanel()).mainSectionName;
+        sectionMeta.put("BungeniQuestionTitle", this.txtQuestionTitle.getText());
+        ooDoc.setSectionMetadataAttributes(newSectionName, sectionMeta);
         return true;
     }
 
@@ -186,13 +186,17 @@ public String getPanelName() {
 
     @Override
     protected void initFieldsEdit() {
+        this.txtQuestionTitle.setText(getSectionMetadataValue("BungeniQuestionTitle"));
         return;
     }
     
     @Override
     public boolean doUpdateEvent(){
         HashMap<String,String> selectionData = ((Main)getContainerPanel()).selectionData;
-        this.txtQuestionTitle.setText(selectionData.get("QUESTION_TITLE"));
+        if (selectionData != null ) {
+            if (selectionData.containsKey("QUESTION_TITLE"))
+                this.txtQuestionTitle.setText(selectionData.get("QUESTION_TITLE"));
+        }
         return true;
     }
 

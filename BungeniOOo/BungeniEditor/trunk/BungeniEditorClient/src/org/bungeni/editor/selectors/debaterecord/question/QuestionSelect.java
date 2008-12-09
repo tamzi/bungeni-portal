@@ -6,9 +6,12 @@
 
 package org.bungeni.editor.selectors.debaterecord.question;
 
+import com.sun.star.text.XTextSection;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
@@ -19,6 +22,7 @@ import org.bungeni.db.QueryResults;
 import org.bungeni.db.registryQueryDialog;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
@@ -30,17 +34,54 @@ public class QuestionSelect extends BaseMetadataPanel {
     registryQueryDialog rqs;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(QuestionSelect.class.getName());
    // HashMap<String, String> selectionData = new HashMap<String,String>();
-  
     /** Creates new form QuestionSelect */
     public QuestionSelect() {
+        super();
         initComponents();
-        initComboSelect();
+     //   initComboSelect();
         this.btnSelectQuestion.setVisible(false);
     }
 
+    
+    @Override
+    public void commonInitFields(){
+        initComboSelect();
+    }
+    
+    private Vector<ObjectQuestion> getQuestionObjects(String byQuestionNo) {
+        
+           Vector<ObjectQuestion> questionObjects = new Vector<ObjectQuestion>();
+           HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
+           
+           String qQuery = "";
+           if (byQuestionNo.length() == 0 )
+             qQuery = "Select ID, QUESTION_TITLE, QUESTION_FROM, QUESTION_TO, QUESTON_TEXT as QUESTION_TEXT from questions order by question_title " ;
+           else
+             qQuery = "Select ID, QUESTION_TITLE, QUESTION_FROM, QUESTION_TO, QUESTON_TEXT as QUESTION_TEXT from questions Where ID = '"+ byQuestionNo+ "' order by question_title " ;
+               
+           BungeniClientDB dbInstance = new BungeniClientDB(registryMap);
+            dbInstance.Connect();
+            QueryResults qr = dbInstance.QueryResults(qQuery);
+            dbInstance.EndConnect();
+            String questionId, questionTitle, questionFrom, questionTo, questionText ;
+            if (qr.hasResults()) {
+                Vector<Vector<String>> theResults = qr.theResults();
+                for (Vector<String> row : theResults) {
+                     questionId = qr.getField(row, "ID");
+                     questionTitle = qr.getField(row, "QUESTION_TITLE");
+                     questionFrom = qr.getField(row, "QUESTION_FROM");
+                     questionTo = qr.getField(row, "QUESTION_TO");
+                     questionText = qr.getField(row, "QUESTION_TEXT");
+                    ObjectQuestion m = new ObjectQuestion(questionId, questionTitle, questionFrom, questionTo, questionText);
+                    questionObjects.add(m);
+                }
+            }
+        return questionObjects;
+    } 
+    
         private void initComboSelect(){
             Vector<ObjectQuestion> questionObjects = new Vector<ObjectQuestion>();
-           HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
+             /*HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
             BungeniClientDB dbInstance = new BungeniClientDB(registryMap);
             dbInstance.Connect();
             QueryResults qr = dbInstance.QueryResults("Select ID, QUESTION_TITLE, QUESTION_FROM, QUESTION_TO, QUESTON_TEXT as QUESTION_TEXT from questions order by question_title");
@@ -57,32 +98,42 @@ public class QuestionSelect extends BaseMetadataPanel {
                     ObjectQuestion m = new ObjectQuestion(questionId, questionTitle, questionFrom, questionTo, questionText);
                     questionObjects.add(m);
                 }
-            }
-            this.cboQuestionSelect.setModel(new DefaultComboBoxModel(questionObjects));
+            }*/
+            questionObjects = getQuestionObjects("");
             this.cboQuestionSelect.addActionListener(new QuestionSelector());
+            this.cboQuestionSelect.setModel(new DefaultComboBoxModel(questionObjects));
             AutoCompleteDecorator.decorate(cboQuestionSelect);
     }
 
         class QuestionSelector implements ActionListener {
 
-        public void actionPerformed(ActionEvent arg0) {
-            if (cboQuestionSelect.getSelectedIndex() != -1) {
-               ObjectQuestion selectedQuestion = (ObjectQuestion)cboQuestionSelect.getModel().getSelectedItem();
+            public void actionPerformed(ActionEvent arg0) {
+                try {
+                    
+                if (cboQuestionSelect.getSelectedIndex() != -1) {
+                   ObjectQuestion selectedQuestion = (ObjectQuestion)cboQuestionSelect.getSelectedItem();
+                   updateQuestionSelection(selectedQuestion); 
+                   /*
+                   HashMap<String,String> selData = new HashMap<String,String>();
+                   selData.put("ID", selectedQuestion.questionId);
+                   selData.put("QUESTION_TITLE", selectedQuestion.questionTitle);
+                   selData.put("QUESTION_FROM", selectedQuestion.questionFrom);
+                   selData.put("QUESTION_TO", selectedQuestion.questionTo);
+                   selData.put("QUESTION_TEXT", selectedQuestion.questionText);
 
-               HashMap<String,String> selData = new HashMap<String,String>();
-               selData.put("ID", selectedQuestion.questionId);
-               selData.put("QUESTION_TITLE", selectedQuestion.questionTitle);
-               selData.put("QUESTION_FROM", selectedQuestion.questionFrom);
-               selData.put("QUESTION_TO", selectedQuestion.questionTo);
-               selData.put("QUESTION_TEXT", selectedQuestion.questionText);
-
-                ((Main)getContainerPanel()).selectionData = selData;
-                if ( ((Main)getContainerPanel()).selectionData.size() > 0 ) 
-                    ((Main)getContainerPanel()).updateAllPanels();
-            }
+                    ((Main)getContainerPanel()).selectionData = selData;
+                    if ( ((Main)getContainerPanel()).selectionData.size() > 0 ) 
+                        ((Main)getContainerPanel()).updateAllPanels();
+                     */ 
+                } else {
+                    log.error("QuestionSelect:actionperformed : for -1 index");
+                }
+        } catch (Exception ex) {
+            log.error("QuestionSelector:actionPerformed : " + ex.getMessage());
         }
-        
     }
+
+        }
         
     /** This method is called from within the constructor to
      * initialize the form.
@@ -288,8 +339,65 @@ private void btnSelectQuestionActionPerformed(java.awt.event.ActionEvent evt) {/
         return;
     }
 
+  
+        
+   
     @Override
     protected void initFieldsEdit() {
-        return;
+        //get the combo model and select the found question
+        try {
+        OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
+        DefaultComboBoxModel model = (DefaultComboBoxModel)this.cboQuestionSelect.getModel();
+        HashMap<String,String> sectionMeta = new HashMap<String,String>();
+        XTextSection currentSection  = ooDoc.currentSection();
+         if (currentSection != null ) {
+             sectionMeta=  ooDoc.getSectionMetadataAttributes(currentSection);
+             if (sectionMeta.containsKey("BungeniQuestionNo")) {
+                 String questionNo =     sectionMeta.get("BungeniQuestionNo");
+                 Vector<ObjectQuestion> vQuestion = getQuestionObjects(questionNo);
+                 ObjectQuestion oq = vQuestion.elementAt(0);
+                 int nIndex = findItem(oq);
+                 if (nIndex  != -1) {
+                   this.cboQuestionSelect.setSelectedIndex(nIndex);
+                   //this.cboQuestionSelect.setPopupVisible(true);
+                   this.cboQuestionSelect.showPopup();
+                  // updateQuestionSelection(oq);
+                 }
+                // this.cboQuestionSelect.setSelectedItem(oq);
+             }
+         }
+        } catch (NullPointerException ex) {
+            log.error("initFieldsEdit : " + ex.getMessage());
+            log.error("initFieldsEdit : " + CommonExceptionUtils.getStackTrace(ex));
+        } finally {
+            return; 
+        }
     }
+
+
+    private void updateQuestionSelection(ObjectQuestion selectedQuestion) {
+        
+                   HashMap<String,String> selData = new HashMap<String,String>();
+                   selData.put("ID", selectedQuestion.questionId);
+                   selData.put("QUESTION_TITLE", selectedQuestion.questionTitle);
+                   selData.put("QUESTION_FROM", selectedQuestion.questionFrom);
+                   selData.put("QUESTION_TO", selectedQuestion.questionTo);
+                   selData.put("QUESTION_TEXT", selectedQuestion.questionText);
+
+                    ((Main)getContainerPanel()).selectionData = selData;
+                    if ( ((Main)getContainerPanel()).selectionData.size() > 0 ) 
+                        ((Main)getContainerPanel()).updateAllPanels();
+    }
+    
+    private int findItem(ObjectQuestion oq) {
+        for (int i=0 ;  i < cboQuestionSelect.getItemCount(); i++ ) {
+            ObjectQuestion oQuestion = (ObjectQuestion) cboQuestionSelect.getItemAt(i);
+            if (oQuestion.compare(oq)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+
 }

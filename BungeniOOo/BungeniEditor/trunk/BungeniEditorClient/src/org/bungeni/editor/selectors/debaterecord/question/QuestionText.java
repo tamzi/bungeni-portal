@@ -192,13 +192,17 @@ public String getPanelName() {
 
     @Override
     protected void initFieldsEdit() {
+        this.txtQuestionText.setEnabled(false);
         return;
     }
     
     @Override
     public boolean doUpdateEvent(){
-        HashMap<String,String> selectionData = ((Main)getContainerPanel()).selectionData;   
-        this.txtQuestionText.setText(selectionData.get("QUESTION_TEXT"));
+        HashMap<String,String> selectionData = ((Main)getContainerPanel()).selectionData;
+        if (selectionData != null) {
+            if (selectionData.containsKey("QUESTION_TEXT"))
+                this.txtQuestionText.setText(selectionData.get("QUESTION_TEXT"));
+        }
         return true;
     }
 }

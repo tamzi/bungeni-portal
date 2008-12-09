@@ -31,7 +31,7 @@ public class routerTabledDocuments extends defaultRouter {
     
     @Override
     public BungeniValidatorState route_TextSelectedInsert(toolbarAction action, toolbarSubAction subAction, javax.swing.JFrame pFrame,OOComponentHelper ooDocument) {
-        BungeniValidatorState stateObj = CommonRouterActions.displayFilteredDialog(action, subAction, ooDocument);
+       BungeniValidatorState stateObj = CommonRouterActions.displaySelectorDialog(action, subAction, pFrame, ooDocument);
       return new BungeniValidatorState(true, new BungeniMsg("SUCCESS")); 
     }
 

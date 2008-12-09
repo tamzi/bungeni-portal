@@ -27,6 +27,21 @@ public class routerDebateRecordSelectQuestion extends defaultRouter {
        BungeniValidatorState stateObj = CommonRouterActions.displaySelectorDialog(action, subAction, pFrame, ooDocument);
       return new BungeniValidatorState(true, new BungeniMsg("SUCCESS")); 
     }
+
+    /**
+     * Overriden function to router TEXT_EDIT events from the editor client to the the word processor
+     * @param action
+     * @param subAction
+     * @param pFrame
+     * @param ooDocument
+     * @return
+     */
+    @Override
+    public BungeniValidatorState route_FullEdit(toolbarAction action, toolbarSubAction subAction, javax.swing.JFrame pFrame, OOComponentHelper ooDocument) {
+       BungeniValidatorState stateObj = CommonRouterActions.displaySelectorDialog(action, subAction, pFrame, ooDocument);
+      return new BungeniValidatorState(true, new BungeniMsg("SUCCESS")); 
+    }
+    
       
 
 

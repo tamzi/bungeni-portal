@@ -18,16 +18,26 @@ import org.bungeni.error.BungeniValidatorState;
 import org.bungeni.ooo.OOComponentHelper;
 
 /**
- *
+ * This is the action router base class, used for routing actions from the editor application into the openoffice editor
  * @author Administrator
  */
 public class defaultRouter implements IBungeniActionRouter {
     protected BungeniClientDB dbSettings;
-    /** Creates a new instance of defaultRouter */
+    /**
+     * default constructor, inititlizaed from the base class via super();
+     */
     public defaultRouter() {
           dbSettings = new BungeniClientDB (DefaultInstanceFactory.DEFAULT_INSTANCE(), DefaultInstanceFactory.DEFAULT_DB());
     }
 
+    /**
+     * This is the main action router switch construtor. It is almost never neccessary to override this, instead overrid the action specific events called from the switch case
+     * @param action
+     * @param subAction
+     * @param pFrame
+     * @param ooDoc
+     * @return
+     */
     public BungeniValidatorState route(toolbarAction action, toolbarSubAction subAction, javax.swing.JFrame pFrame, OOComponentHelper ooDoc) {
       switch(subAction.getSelectorDialogMode()) {
             case TEXT_INSERTION:

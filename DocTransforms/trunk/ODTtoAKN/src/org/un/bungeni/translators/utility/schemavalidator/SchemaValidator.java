@@ -1,6 +1,14 @@
 package org.un.bungeni.translators.utility.schemavalidator;
 
+import java.io.File;
+import java.io.IOException;
+
 import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
+import org.xml.sax.SAXException;
+import net.sf.saxon.s9api.SaxonApiException;
 
 
 /**
@@ -12,13 +20,20 @@ public class SchemaValidator implements SchemaValidatorInterface
 
 	/* The instance of this Schema Validator*/
 	private static SchemaValidator instance = null;
-		
+	
+	/* The schema manager of this Validator*/
+	private SchemaFactory schemaFactory; 
+	
 	/**
 	 * Private constructor used to create the Schema Validator instance
 	 */
 	private SchemaValidator()
 	{		
-	 
+	    //set the system to use saxon 
+		System.setProperty("javax.xml.validation.SchemaFactory:http://www.w3.org/2001/XMLSchema","com.saxonica.jaxp.SchemaFactoryImpl");
+
+		//create the schema factory
+		this.schemaFactory = SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
 	}
 	
 	/**
@@ -41,11 +56,23 @@ public class SchemaValidator implements SchemaValidatorInterface
 	 * This method validate a document through a schema
 	 * @param aDocumentSource the source of the document to validate
 	 * @param aSchemaPath the path of the schema that must be used for the validation 
-	 * @return true if the document is valid
+	 * @throws SaxonApiException 
+	 * @throws SAXException 
+	 * @throws IOException 
 	 */
-	public boolean validate(StreamSource aDocumentSource, String aSchemaPath)
+	public void validate(StreamSource aDocumentSource, String aSchemaPath) throws SAXException, IOException
 	{
-		return true;
+		//create the stream source of the schema 
+		StreamSource schemaSource = new StreamSource(new File(aSchemaPath));
+
+		//create the Schema
+		Schema schema = this.schemaFactory.newSchema(schemaSource);
+		
+		//create a validator
+		Validator validator = schema.newValidator();
+		
+		//validate the document
+		validator.validate(aDocumentSource);
 	}
 
 }

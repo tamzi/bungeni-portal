@@ -14,6 +14,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.un.bungeni.translators.odttoakn.configurations.OAConfiguration;
 import org.un.bungeni.translators.utility.dom.DOMUtility;
 import org.un.bungeni.translators.utility.odf.ODFUtility;
+import org.un.bungeni.translators.utility.schemavalidator.SchemaValidator;
 import org.un.bungeni.translators.utility.streams.StreamSourceUtility;
 import org.un.bungeni.translators.utility.xslttransformer.XSLTTransformer;
 import org.w3c.dom.Document;
@@ -31,6 +32,9 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 	
 	/* The configuration for the metalex translation*/
 	private String metalexConfigPath;
+	
+	/* The path of the AKOMA NTOSO schema*/
+	private String akomantosoSchemaPath;
 	
 	/**
 	 * Private constructor used to create the Translator instance
@@ -50,6 +54,9 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		
 		//get the metalex configuration path
 		this.metalexConfigPath = properties.getProperty("metalexConfigPath");
+
+		//get the path of the AKOMA NTOSO schema
+		this.akomantosoSchemaPath = properties.getProperty("akomantosoSchemaPath");
 		
 	}
 	
@@ -97,6 +104,9 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		
 		//apply the XSLT to the document 
 		StreamSource result = XSLTTransformer.getInstance().transform(new StreamSource(metalexFile), new StreamSource(xslt));
+		
+		//validate the produced document
+		SchemaValidator.getInstance().validate(result, this.akomantosoSchemaPath);
 		
 		//write the stream to a File and return it
 		return StreamSourceUtility.getInstance().writeToFile(result);

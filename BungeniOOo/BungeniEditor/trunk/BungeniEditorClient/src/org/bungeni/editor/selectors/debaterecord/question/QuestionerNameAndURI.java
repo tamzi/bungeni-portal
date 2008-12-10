@@ -105,6 +105,14 @@ public String getPanelName() {
 
     @Override
     public boolean processFullEdit() {
+         String editSectionName = getContainerPanel().getEditSectionName();
+        if (editSectionName.length() > 0 ) {
+            HashMap<String,String> sectionMeta = new HashMap<String,String>();
+            sectionMeta.put("BungeniQuestionBy", this.txtPersonName.getText());
+            sectionMeta.put("BungeniQuestionByURI", this.txtPersonURI.getText());
+            getContainerPanel().getOoDocument().setSectionMetadataAttributes(editSectionName, sectionMeta);
+            
+        }
         return true;
     }
 

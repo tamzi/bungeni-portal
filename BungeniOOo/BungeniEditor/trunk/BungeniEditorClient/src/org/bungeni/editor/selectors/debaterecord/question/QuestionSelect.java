@@ -245,6 +245,16 @@ private void btnSelectQuestionActionPerformed(java.awt.event.ActionEvent evt) {/
 
     @Override
     public boolean processFullEdit() {
+        Object selItem = this.cboQuestionSelect.getSelectedItem();
+        if (selItem != null) {
+            if (selItem.getClass().getName().equals(ObjectQuestion.class.getName())) {
+                ObjectQuestion selQuestion = (ObjectQuestion) selItem;
+                HashMap<String,String> sectionmeta = new HashMap<String,String>();
+                sectionmeta.put("BungeniQuestionNo", selQuestion.questionId);
+                OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
+                ooDoc.setSectionMetadataAttributes(getContainerPanel().getEditSectionName(), sectionmeta);
+            }
+        }
         return true;
     }
 

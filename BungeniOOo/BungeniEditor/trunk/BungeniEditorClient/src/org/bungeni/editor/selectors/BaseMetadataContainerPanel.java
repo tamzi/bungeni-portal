@@ -42,7 +42,7 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
     protected SelectorDialogModes dialogMode;
     
     protected SectionMetadataEditor sectionMetadataEditor = null;
-
+    protected String editSectionName = "";
     
     public class ConditionSet {
         
@@ -192,9 +192,19 @@ public abstract class BaseMetadataContainerPanel extends javax.swing.JPanel impl
         init();
         if (ooDocument.currentSection() != null) {
             sectionMetadataEditor = new SectionMetadataEditor ( getMetadataEditorString());
+            if (getDialogMode() == SelectorDialogModes.TEXT_EDIT) {
+                editSectionName = ooDocument.currentSectionName();
+            }
         }
     }
-      
+    
+    /**
+     * current section name in edit mode, in all other modes, returns blank
+     * @return
+     */
+    public String getEditSectionName(){
+        return editSectionName;
+    }
     
     protected void makeMetaEditable(){
         if (sectionMetadataEditor != null) {

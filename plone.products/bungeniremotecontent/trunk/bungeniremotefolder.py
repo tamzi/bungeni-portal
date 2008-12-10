@@ -185,12 +185,16 @@ class bungeniremotefolder(ATFolder):
                 else:
                     css_class = "odd"
                 rs = rs + '<tr class="' + css_class+ '" >'
+                j = 0
                 for th in ths:
                         rs = rs + "<td> "
+                        j = j + 1
                         if tr[th['name']] is not None:
-                            rs = rs + '<a href="bungeniremotepage_view/' + tr['object_id'] + '">'
+                            if j == 1:
+                                rs = rs + '<a href="bungeniremotepage_view/' + tr['object_id'] + '">'
                             rs = rs + str(tr[th['name']])
-                            rs = rs + '</a>'
+                            if j == 1:
+                                rs = rs + '</a>'
                         rs = rs +  " </td>"
                 rs = rs + "</tr>"
         rs = rs + "</tbody></table>"
@@ -206,7 +210,7 @@ class bungeniremotefolder(ATFolder):
         rs = rs + '<table id="remote-listing-pager"><tr>'
         if prevpage >= 0:
             lnk = '?dir=' + sort_order + '&sort=' + sort_by + "&limit=" + limit +"&start=" + str(prevpage)
-            rs = rs + '<td class="next-remote-page"> <a href="' + lnk + '" > &lt;&lt; </a> </td>'
+            rs = rs + '<td class="prev-remote-page"> <a href="' + lnk + '" > &lt;&lt; </a> </td>'
         for p in pl:
             i = i + 1
             if i < len(pl):

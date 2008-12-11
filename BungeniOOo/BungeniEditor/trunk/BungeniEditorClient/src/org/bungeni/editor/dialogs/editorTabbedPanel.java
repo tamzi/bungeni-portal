@@ -1828,7 +1828,7 @@ private void LaunchDebateMetadataSetter(XComponent xComp){
         BungeniFrame frm = new BungeniFrame("DebateRecord Metadata");
         DebateRecordMetadata meta = new DebateRecordMetadata(oohc, frm, SelectorDialogModes.TEXT_INSERTION);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frm.setSize(new Dimension(410, 360));
+        frm.setSize(new Dimension(410, 424));
         frm.add(meta);
         frm.setVisible(true);
         frm.setAlwaysOnTop(true);

@@ -3,4 +3,5 @@
 <properties>
 <entry key="metalexConfigPath">resources/odttometalex/debaterecord/config.xml</entry>
 <entry key="akomantosoSchemaPath">resources/odttoakn/schema/akomantoso10.xsd</entry>
+<entry key="akomantosoAddNamespaceXSLTPath">resources/odttoakn/defaultvalues/debaterecord/OdtToAknAddNamespace.xsl</entry>
 </properties>

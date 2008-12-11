@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><akomaNtoso xmlns:saxon="http://saxon.sf.net/">http://www.akomantoso.org/1.0<debateRecord>
+<?xml version="1.0" encoding="UTF-8"?><akomaNtoso xmlns="http://www.akomantoso.org/1.0">
+   <debateRecord>
       <meta>
          <identification>
             <FRBRWork>
@@ -35,10 +36,8 @@
          </p>
       </preface>
       <debate>
-         <subdivision id="d7e75" name="SceneSubdivision">
-            <scene>
-               <span>[Mr. Deputy Speaker in the Chair]</span>
-            </scene>
+         <subdivision id="d9e75" name="SceneSubdivision">
+            <scene/>
          </subdivision>
          <subdivision id="comment2" name="GroupActivity">
             <other>
@@ -62,9 +61,7 @@
                   </item>
                </list>
             </other>
-            <scene>
-               <span>(By Mr. Khamasi)</span>
-            </scene>
+            <scene/>
             <other id="tbldocs2">
                <list id="d3e133">
                   <item id="d3e135">
@@ -74,10 +71,7 @@
                   </item>
                </list>
             </other>
-            <scene>
-               <span>(By the Assistant Minister</span>
-               <span>for Finance (Mr. Obwocha)</span>
-            </scene>
+            <scene/>
             <other id="tbldocs3">
                <list id="d3e174">
                   <item id="d5e140">
@@ -87,11 +81,7 @@
                   </item>
                </list>
             </other>
-            <scene>
-               <span>(By the Assistant Minister for</span>
-               <span>Finance (Mr. Obwocha) on behalf</span>
-               <span>of the Minister for Health)</span>
-            </scene>
+            <scene/>
          </papers>
          <noticesOfMotion id="allmotions1">
             <heading>NOTICES OF MOTIONS</heading>

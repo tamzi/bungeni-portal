@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><root name="root" id="d3e1">
+<?xml version="1.0" encoding="UTF-8"?><root xmlns="http://www.metalex.org/1.0" name="root" id="d3e1">
    <container id="debaterecord" class="Sect1" name="body">
       <mcontainer name="meta">      
          <mcontainer name="identification" id="identification_d3e373">         

@@ -7,10 +7,6 @@
 package org.bungeni.editor.selectors.debaterecord.question;
 
 import java.awt.Component;
-import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
-import java.awt.datatransfer.Transferable;
 import java.util.HashMap;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
 import org.bungeni.utils.CommonDocumentUtilFunctions;
@@ -95,6 +91,8 @@ public String getPanelName() {
 
     @Override
     public boolean processFullEdit() {
+            String strText = this.txtQuestionText.getText();
+        CommonDocumentUtilFunctions.writeToClipboard(strText);
         return true;
     }
 

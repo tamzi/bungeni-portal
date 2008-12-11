@@ -23,6 +23,8 @@
 		<output>
 			<!-- Normalise the produced META document -->
 			<xslt step="1" name="MetaLanguageNormalisation" href="resources/odttometalex/debaterecord/MetaLanguageNormalisation.xsl" />
+			<!-- Add the METALEX namespace -->
+			<xslt step="2" name="MetaLanguageAddNamespace" href="resources/odttometalex/debaterecord/MetaLanguageAddNamespace.xsl" />
 		</output>
 	</stylesheets>
 </config>

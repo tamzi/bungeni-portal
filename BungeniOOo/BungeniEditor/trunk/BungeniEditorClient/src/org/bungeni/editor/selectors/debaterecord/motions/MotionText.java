@@ -93,6 +93,8 @@ public String getPanelName() {
 
     @Override
     public boolean processFullEdit() {
+             String strText = this.txtMotionText.getText();
+        CommonDocumentUtilFunctions.writeToClipboard(strText);
         return true;
     }
 

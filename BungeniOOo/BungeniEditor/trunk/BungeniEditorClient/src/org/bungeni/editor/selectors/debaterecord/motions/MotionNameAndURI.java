@@ -8,10 +8,6 @@ package org.bungeni.editor.selectors.debaterecord.motions;
 
 import java.awt.Component;
 import java.util.HashMap;
-import org.bungeni.db.BungeniClientDB;
-import org.bungeni.db.BungeniRegistryFactory;
-import org.bungeni.db.GeneralQueryFactory;
-import org.bungeni.db.QueryResults;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
 import org.bungeni.ooo.OOComponentHelper;
 
@@ -110,6 +106,14 @@ public String getPanelName() {
 
     @Override
     public boolean processFullEdit() {
+         String editSectionName = getContainerPanel().getEditSectionName();
+        if (editSectionName.length() > 0 ) {
+            HashMap<String,String> sectionMeta = new HashMap<String,String>();
+            sectionMeta.put("BungeniMotionName", this.txtMotionName.getText());
+            sectionMeta.put("BungeniMotionURI", this.txtMotionURI.getText());
+            getContainerPanel().getOoDocument().setSectionMetadataAttributes(editSectionName, sectionMeta);
+            
+        }
         return true;
     }
 

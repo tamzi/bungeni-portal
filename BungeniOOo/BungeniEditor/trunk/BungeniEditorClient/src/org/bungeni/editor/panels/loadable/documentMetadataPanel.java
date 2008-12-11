@@ -142,7 +142,7 @@ private void btnEditMetadataActionPerformed(java.awt.event.ActionEvent evt) {
         JFrame frm = new JFrame("DebateRecord Metadata");
         DebateRecordMetadata meta = new DebateRecordMetadata(ooDocument, frm, SelectorDialogModes.TEXT_EDIT);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        frm.setSize(new Dimension(410, 360));
+        frm.setSize(new Dimension(410, 424));
         frm.add(meta);
         frm.setVisible(true);
         FrameLauncher.CenterFrame(frm);

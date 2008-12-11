@@ -14,11 +14,14 @@ public class ObjectPerson {
     String firstName;
     String lastName;
     String personURI;
-    public ObjectPerson(String pId, String fName, String lName, String uri) {
+    String personRole;
+    
+    public ObjectPerson(String pId, String fName, String lName, String uri, String role) {
         this.personId = pId;
         this.firstName = fName;
         this.lastName = lName;
         this.personURI = uri;
+        this.personRole = role;
     }
     
     @Override

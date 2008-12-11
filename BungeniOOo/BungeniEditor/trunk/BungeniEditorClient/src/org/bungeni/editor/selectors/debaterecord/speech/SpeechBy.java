@@ -83,6 +83,13 @@ public class SpeechBy extends  BaseMetadataPanel {
 
     @Override
     public boolean processFullEdit() {
+          OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
+        HashMap<String,String> sectionMeta = new HashMap<String,String>();
+        String editSection = ((Main)getContainerPanel()).getEditSectionName();
+        sectionMeta.put("BungeniSpeechBy", this.txt_SpeechBy.getText());
+        //sectionMeta.put("BungeniQuestionByURI", this.txtPersonURI.getText());
+        ooDoc.setSectionMetadataAttributes(editSection, sectionMeta);      
+        
         return true;
     }
 
@@ -140,8 +147,9 @@ public class SpeechBy extends  BaseMetadataPanel {
 
     @Override
     public boolean doUpdateEvent(){
-        HashMap<String,String> selectionData = ((Main)getContainerPanel()).selectionData;   
-        this.txt_SpeechBy.setText(selectionData.get("FIRST_NAME") + " " + selectionData.get("LAST_NAME"));
+        HashMap<String,String> selectionData = ((Main)getContainerPanel()).selectionData;
+        if (selectionData.containsKey("FIRST_NAME"))
+            this.txt_SpeechBy.setText(selectionData.get("FIRST_NAME") + " " + selectionData.get("LAST_NAME"));
         return true;
     }
     @Override
@@ -191,6 +199,7 @@ public class SpeechBy extends  BaseMetadataPanel {
 
     @Override
     protected void initFieldsEdit() {
+        this.txt_SpeechBy.setText(getSectionMetadataValue("BungeniSpeechBy"));
         return;
     }
 }

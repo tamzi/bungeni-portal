@@ -25,6 +25,7 @@ public class BungeniFileSavePathFormat {
             put("Month", "");
             put("Day", "");
             put("Identifier", "");
+            put("PartName", "");
             put("FileName", "");
         }
     };

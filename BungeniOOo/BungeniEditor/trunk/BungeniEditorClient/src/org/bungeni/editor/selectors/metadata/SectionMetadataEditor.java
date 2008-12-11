@@ -61,6 +61,7 @@ public class SectionMetadataEditor {
         }
     }
     
+    
     public boolean hasMetadataEditableFlag(OOComponentHelper ooDoc, String eSectionName) {
         HashMap<String,String> metaMap = ooDoc.getSectionMetadataAttributes(eSectionName);
         if (metaMap.containsKey(MetaEditableFlag)) {

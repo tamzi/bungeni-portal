@@ -26,5 +26,12 @@ public class routerDebateRecordSelectSpeech extends defaultRouter {
        BungeniValidatorState stateObj = CommonRouterActions.displaySelectorDialog(action, subAction, pFrame, ooDocument);
       return new BungeniValidatorState(true, new BungeniMsg("SUCCESS")); 
     }
+
+      
+    @Override
+    public BungeniValidatorState route_FullEdit(toolbarAction action, toolbarSubAction subAction, javax.swing.JFrame pFrame, OOComponentHelper ooDocument) {
+       BungeniValidatorState stateObj = CommonRouterActions.displaySelectorDialog(action, subAction, pFrame, ooDocument);
+      return new BungeniValidatorState(true, new BungeniMsg("SUCCESS")); 
+    }
       
 }

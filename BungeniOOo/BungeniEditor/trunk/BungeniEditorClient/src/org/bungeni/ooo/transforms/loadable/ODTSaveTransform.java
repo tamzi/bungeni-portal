@@ -12,6 +12,7 @@ package org.bungeni.ooo.transforms.loadable;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.frame.XStorable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import org.bungeni.ooo.OOComponentHelper;
 import org.bungeni.ooo.transforms.impl.BungeniDocTransform;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
@@ -32,21 +33,37 @@ public class ODTSaveTransform extends BungeniDocTransform {
     public boolean transform(OOComponentHelper ooDocument) {
         boolean bState = false;
        try {
-            if (!ooDocument.isDocumentOnDisk()) {
+            //if (!ooDocument.isDocumentOnDisk()) {
                 //document already exists
+            //getParams().containsKey("StoreToURL");
+           HashMap<String,Object> saveParms = getParams();
             XStorable docStore =ooDocument.getStorable();
-            String urlString = (String) getParams().get("StoreToUrl");
-            PropertyValue[] props = getTransformProps().toArray(new PropertyValue[getTransformProps().size()]);
-            docStore.storeAsURL(urlString, props);
-            } else {
-                ooDocument.saveDocument();
+            if (getParams().containsKey("StoreToURL")) {
+                if (ooDocument.isDocumentOnDisk()) {
+                    bState = ooDocument.saveDocument();
+                } else {
+                    String urlString = (String) saveParms.get("StoreToURL");
+                    PropertyValue[] props = getTransformProps().toArray(new PropertyValue[getTransformProps().size()]);
+                    docStore.storeToURL(urlString, props);
+                    bState = true;
+                }
+            } else if (getParams().containsKey("StoreAsURL")) {
+                String urlString = (String) saveParms.get("StoreAsURL");
+                PropertyValue[] props = getTransformProps().toArray(new PropertyValue[getTransformProps().size()]);
+                docStore.storeAsURL(urlString, props);
+                bState = true;
             }
-            bState= true;
+            //} else {
+                    
+            //    ooDocument.saveDocument();
+            //}
        } catch (com.sun.star.io.IOException ex) {
             log.error("transform : "+ ex.getMessage());
             log.error("transform : " + CommonExceptionUtils.getStackTrace(ex));
-       }
+            bState = false;
+       } finally {
         return bState;
+       }
     }
     
     private ArrayList<PropertyValue> getTransformProps(){

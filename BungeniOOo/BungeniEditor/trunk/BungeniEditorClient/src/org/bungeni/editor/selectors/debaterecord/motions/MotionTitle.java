@@ -12,6 +12,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.util.HashMap;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
+import org.bungeni.ooo.OOComponentHelper;
 
 /**
  *
@@ -89,6 +90,13 @@ public String getPanelName() {
 
     @Override
     public boolean processFullEdit() {
+               String editSectionName = getContainerPanel().getEditSectionName();
+        if (editSectionName.length() > 0 ) {
+            HashMap<String,String> sectionMeta = new HashMap<String,String>();
+            sectionMeta.put("BungeniMotionTitle", this.txtMotionTitle.getText());
+             getContainerPanel().getOoDocument().setSectionMetadataAttributes(editSectionName, sectionMeta);
+            
+        }
         return true;
     }
 
@@ -104,11 +112,9 @@ public String getPanelName() {
 
     @Override
     public boolean processFullInsert() {
-        String strText = this.txtMotionTitle.getText();
-        Clipboard clipBrd = new Clipboard("Clipboard.QuestionTitle");
-        Transferable copyToClipboard = new StringSelection(strText);
-        clipBrd.setContents(copyToClipboard, null);
+ 
         return true;
+     
     }
 
     @Override
@@ -138,6 +144,11 @@ public String getPanelName() {
 
     @Override
     public boolean processSelectInsert() {
+                OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
+        HashMap<String,String> sectionMeta = new HashMap<String,String>();
+        String newSectionName = ((Main)getContainerPanel()).mainSectionName;
+        sectionMeta.put("BungeniMotionTitle", this.txtMotionTitle.getText());
+        ooDoc.setSectionMetadataAttributes(newSectionName, sectionMeta);
         return true;
     }
 

@@ -6,9 +6,11 @@
 
 package org.bungeni.editor.selectors.debaterecord.motions;
 
+import com.sun.star.text.XTextSection;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.Vector;
@@ -19,6 +21,7 @@ import org.bungeni.db.QueryResults;
 import org.bungeni.db.registryQueryDialog;
 import org.bungeni.editor.selectors.BaseMetadataPanel;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.ooo.utils.CommonExceptionUtils;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 /**
@@ -30,7 +33,8 @@ public class MotionSelect extends BaseMetadataPanel {
     registryQueryDialog rqs;
     private static org.apache.log4j.Logger log = org.apache.log4j.Logger.getLogger(MotionSelect.class.getName());
    // HashMap<String, String> selectionData = new HashMap<String,String>();
-  
+  ArrayList<ObjectMotion> motions = new ArrayList<ObjectMotion>(0);
+       
     /** Creates new form QuestionSelect */
     public MotionSelect() {
         initComponents();
@@ -42,9 +46,10 @@ public class MotionSelect extends BaseMetadataPanel {
     class MotionSelector implements ActionListener {
 
         public void actionPerformed(ActionEvent arg0) {
+            try {
             if (cboSelectMotion.getSelectedIndex() != -1) {
                ObjectMotion selectedMotion = (ObjectMotion)cboSelectMotion.getModel().getSelectedItem();
-
+               
                HashMap<String,String> selData = new HashMap<String,String>();
                selData.put("MOTION_ID", selectedMotion.motionId);
                selData.put("MOTION_NAME", selectedMotion.motionName);
@@ -56,8 +61,10 @@ public class MotionSelect extends BaseMetadataPanel {
                 if ( ((Main)getContainerPanel()).selectionData.size() > 0 ) 
                     ((Main)getContainerPanel()).updateAllPanels();
             }
+        } catch (Exception ex) {
+            log.error("MotionSelector:actionPerformed : " + ex.getMessage());
         }
-        
+        }
     }
     
     /** This method is called from within the constructor to
@@ -138,8 +145,8 @@ private void btnSelectQuestionActionPerformed(java.awt.event.ActionEvent evt) {/
     // End of variables declaration//GEN-END:variables
 
     private void initComboSelect(){
-            Vector<ObjectMotion> motionObjects = new Vector<ObjectMotion>();
-           HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
+        /*
+                       HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
             BungeniClientDB dbInstance = new BungeniClientDB(registryMap);
             dbInstance.Connect();
             QueryResults qr = dbInstance.QueryResults("Select MOTION_ID, MOTION_TITLE, MOTION_NAME, MOTION_TEXT, MOTION_URI from motions order by motion_name");
@@ -154,13 +161,44 @@ private void btnSelectQuestionActionPerformed(java.awt.event.ActionEvent evt) {/
                      motionText = qr.getField(row, "MOTION_TITLE");
                      motionURI = qr.getField(row, "MOTION_URI");
                     ObjectMotion m = new ObjectMotion(motionId, motionTitle, motionName, motionText, motionURI);
-                    motionObjects.add(m);
+                    motions.add(m);
                 }
-            }
-            this.cboSelectMotion.setModel(new DefaultComboBoxModel(motionObjects));
+            }*/
+            motions = getMotionObjects("");
+            this.cboSelectMotion.setModel(new DefaultComboBoxModel(motions.toArray()));
             AutoCompleteDecorator.decorate(cboSelectMotion);
     }
 
+    public ArrayList<ObjectMotion> getMotionObjects (String byMotion) {
+            ArrayList<ObjectMotion> listofMotions  = new ArrayList<ObjectMotion>(0);
+            HashMap<String,String> registryMap = BungeniRegistryFactory.fullConnectionString();  
+            BungeniClientDB dbInstance = new BungeniClientDB(registryMap);
+            dbInstance.Connect();
+            String sQuery = "";
+            if (byMotion.length() == 0)
+                sQuery = "Select MOTION_ID, MOTION_TITLE, MOTION_NAME, MOTION_TEXT, MOTION_URI from motions order by motion_name";
+            else
+                sQuery = "Select MOTION_ID, MOTION_TITLE, MOTION_NAME, MOTION_TEXT, MOTION_URI from motions where MOTION_ID = '" + byMotion +"'";
+            
+            
+            QueryResults qr = dbInstance.QueryResults("Select MOTION_ID, MOTION_TITLE, MOTION_NAME, MOTION_TEXT, MOTION_URI from motions order by motion_name");
+            dbInstance.EndConnect();
+            String motionId, motionTitle, motionName, motionText, motionURI;
+            if (qr.hasResults()) {
+                Vector<Vector<String>> theResults = qr.theResults();
+                for (Vector<String> row : theResults) {
+                     motionId = qr.getField(row, "MOTION_ID");
+                     motionTitle = qr.getField(row, "MOTION_TITLE");
+                     motionName = qr.getField(row, "MOTION_NAME");
+                     motionText = qr.getField(row, "MOTION_TITLE");
+                     motionURI = qr.getField(row, "MOTION_URI");
+                    ObjectMotion m = new ObjectMotion(motionId, motionTitle, motionName, motionText, motionURI);
+                    listofMotions.add(m);
+                }
+            }
+            return listofMotions;
+    }
+    
     public String getPanelName() {
         return "Title";
     }
@@ -187,6 +225,16 @@ private void btnSelectQuestionActionPerformed(java.awt.event.ActionEvent evt) {/
 
     @Override
     public boolean processFullEdit() {
+         Object selItem = this.cboSelectMotion.getSelectedItem();
+        if (selItem != null) {
+            if (selItem.getClass().getName().equals(ObjectMotion.class.getName())) {
+                ObjectMotion selMotion = (ObjectMotion) selItem;
+                HashMap<String,String> sectionmeta = new HashMap<String,String>();
+                sectionmeta.put("BungeniMotionNo", selMotion.motionId);
+                OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
+                ooDoc.setSectionMetadataAttributes(getContainerPanel().getEditSectionName(), sectionmeta);
+            }
+        }
         return true;
     }
 
@@ -284,6 +332,44 @@ private void btnSelectQuestionActionPerformed(java.awt.event.ActionEvent evt) {/
 
     @Override
     protected void initFieldsEdit() {
-        return;
+          try {
+        OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
+        DefaultComboBoxModel model = (DefaultComboBoxModel)this.cboSelectMotion.getModel();
+        HashMap<String,String> sectionMeta = new HashMap<String,String>();
+        XTextSection currentSection  = ooDoc.currentSection();
+         if (currentSection != null ) {
+             sectionMeta=  ooDoc.getSectionMetadataAttributes(currentSection);
+             if (sectionMeta.containsKey("BungeniMotionNo")) {
+                 String motionNo =     sectionMeta.get("BungeniMotionNo");
+                 //ArrayList<ObjectMotion> vQuestion = getMotionObjects(motionNo);
+                // ObjectMotion oq = vQuestion.get(0);
+                 int nIndex = findMotion(motionNo);
+                 if (nIndex  != -1) {
+                   this.cboSelectMotion.setSelectedIndex(nIndex);
+                   this.cboSelectMotion.setPopupVisible(true);
+                   this.cboSelectMotion.showPopup();
+                  // updateQuestionSelection(oq);
+                 }
+                // this.cboQuestionSelect.setSelectedItem(oq);
+             }
+         }
+        } catch (NullPointerException ex) {
+            log.error("initFieldsEdit : " + ex.getMessage());
+            log.error("initFieldsEdit : " + CommonExceptionUtils.getStackTrace(ex));
+        } finally {
+            return; 
+        }
+
+    }
+    
+       private int findMotion (String motionId) {
+           int i = 0;
+        for (ObjectMotion c : motions) {
+            if (c.motionId.equals(motionId)) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
     }
 }

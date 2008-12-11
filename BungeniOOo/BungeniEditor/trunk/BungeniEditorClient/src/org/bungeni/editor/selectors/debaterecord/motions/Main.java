@@ -76,11 +76,15 @@ public class Main extends BaseMetadataContainerPanel {
     }
     
     private final short SECTION_COLUMNS = 1;
+    private String m_motionSectionName = "";
     @Override
-    public boolean preMainApply(){
+    public boolean preApplySelectedInsert(){
+        makeMetaEditable();
+        
         //create the section if it doesnt exist over here...
         String newSection = getActionSectionName();
         if (!ooDocument.hasSection(newSection)) {
+            m_motionSectionName = newSection;
             //creat ethe new section
             XTextViewCursor xCursor = ooDocument.getViewCursor();
             XText xText = xCursor.getText();
@@ -125,6 +129,22 @@ public class Main extends BaseMetadataContainerPanel {
         }
         return true;
     }
+    
+        @Override
+    public boolean postApplySelectedInsert(){
+                if (sectionMetadataEditor != null ) {
+            if (sectionMetadataEditor.bMetadataEditable) {
+                if (m_motionSectionName.length() > 0 ) {
+                    if (!sectionMetadataEditor.hasMetadataEditableFlag(ooDocument, m_motionSectionName))
+                        sectionMetadataEditor.setMetadataEditableFlag(ooDocument, m_motionSectionName);
+                    else
+                        sectionMetadataEditor.setMetadataEditableFlag(ooDocument, m_motionSectionName);
+                }
+            }
+        }
+        return true;
+    }
+    
 
     @SuppressWarnings("empty-statement")
         public String getActionSectionName() {

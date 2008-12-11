@@ -45,7 +45,9 @@ public class BaseEditorDocMetaModel implements IEditorDocMetaModel {
         docMeta.put("BungeniManAuthorURI", "");
         docMeta.put("BungeniManDate", "");
         docMeta.put("BungeniManDateName","");
-        docMeta.put("BungeniExpURI", "");
+        docMeta.put("BungeniManURI", "");
+        //metadata exists
+        //docMeta.put("__BungeniDocMeta", "");
     }             
    
     
@@ -87,6 +89,18 @@ public class BaseEditorDocMetaModel implements IEditorDocMetaModel {
         while (iterKeys.hasNext()) {
             String nextKey = iterKeys.next();
             docM.AddProperty(nextKey,docMeta.get(nextKey));
+        }
+    }
+    
+    public void loadModel(OOComponentHelper ooDoc){
+        ooDocMetadata docM = new ooDocMetadata(ooDoc);
+        Iterator<String> iterKeys = docMeta.keySet().iterator();
+        while (iterKeys.hasNext()) {
+            String nextKey = iterKeys.next();
+            if (docM.PropertyExists(nextKey)) {
+                String docPropValue = docM.GetProperty(nextKey);
+                docMeta.put(nextKey, docPropValue);
+            }
         }
     }
     

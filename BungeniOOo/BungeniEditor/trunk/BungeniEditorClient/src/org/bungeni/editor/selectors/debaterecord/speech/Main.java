@@ -69,8 +69,10 @@ public class Main extends BaseMetadataContainerPanel {
     
      private final short SECTION_COLUMNS = 1;
     @Override
-    public boolean preMainApply(){
+    public boolean preApplySelectedInsert(){
         //create the section if it doesnt exist over here...
+        makeMetaEditable();
+        
         String newSection = getActionSectionName();
         if (!ooDocument.hasSection(newSection)) {
             //creat ethe new section
@@ -134,4 +136,19 @@ public class Main extends BaseMetadataContainerPanel {
             return theAction.action_naming_convention();
     }
 
+    
+     @Override
+    public boolean postApplySelectedInsert(){
+                if (sectionMetadataEditor != null ) {
+            if (sectionMetadataEditor.bMetadataEditable) {
+                if (mainSectionName.length() > 0 ) {
+                    if (!sectionMetadataEditor.hasMetadataEditableFlag(ooDocument, mainSectionName))
+                        sectionMetadataEditor.setMetadataEditableFlag(ooDocument, mainSectionName);
+                    else
+                        sectionMetadataEditor.setMetadataEditableFlag(ooDocument, mainSectionName);
+                }
+            }
+        }
+        return true;
+    }
 }

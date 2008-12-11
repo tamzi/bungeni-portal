@@ -81,6 +81,12 @@ public class PersonURI extends  BaseMetadataPanel {
 
     @Override
     public boolean processFullEdit() {
+        OOComponentHelper ooDoc = getContainerPanel().getOoDocument();
+        HashMap<String,String> sectionMeta = new HashMap<String,String>();
+        String editSection = ((Main)getContainerPanel()).getEditSectionName();
+        sectionMeta.put("BungeniSpeechByURI", this.txt_URIofPerson.getText());
+        //sectionMeta.put("BungeniQuestionByURI", this.txtPersonURI.getText());
+        ooDoc.setSectionMetadataAttributes(editSection, sectionMeta);  
         return true;
     }
 
@@ -137,8 +143,9 @@ public class PersonURI extends  BaseMetadataPanel {
     
     @Override
     public boolean doUpdateEvent(){
-        HashMap<String,String> selectionData = ((Main)getContainerPanel()).selectionData;   
-        this.txt_URIofPerson.setText(selectionData.get("URI"));
+        HashMap<String,String> selectionData = ((Main)getContainerPanel()).selectionData;
+        if (selectionData.containsKey("URI"))
+            this.txt_URIofPerson.setText(selectionData.get("URI"));
         return true;
     }
 
@@ -190,6 +197,7 @@ public class PersonURI extends  BaseMetadataPanel {
 
     @Override
     protected void initFieldsEdit() {
+        this.txt_URIofPerson.setText(getSectionMetadataValue("BungeniSpeechByURI"));
         return;
     }
     

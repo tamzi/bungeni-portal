@@ -20,6 +20,7 @@ import org.bungeni.editor.actions.toolbarAction;
 import org.bungeni.editor.actions.toolbarSubAction;
 import org.bungeni.editor.document.DocumentSection;
 import org.bungeni.editor.document.DocumentSectionsContainer;
+import org.bungeni.editor.selectors.metadata.SectionMetadataEditor;
 import org.bungeni.error.BungeniMsg;
 import org.bungeni.error.BungeniValidatorState;
 import org.bungeni.ooo.OOComponentHelper;
@@ -109,6 +110,7 @@ public class routerCreateSection extends defaultRouter {
      private HashMap<String,String> get_newSectionMetadata(toolbarAction pAction) {
          HashMap<String,String> metaMap = new HashMap<String,String>();
          metaMap.put("BungeniSectionType", pAction.action_section_type());
+         metaMap.put(SectionMetadataEditor.MetaEditableFlag, "false");
          return metaMap;
      }
 

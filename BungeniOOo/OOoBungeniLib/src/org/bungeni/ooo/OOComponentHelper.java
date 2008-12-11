@@ -73,8 +73,6 @@ import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.bungeni.ooo.utils.CommonExceptionUtils;
 
 
@@ -660,12 +658,8 @@ public  class OOComponentHelper {
         
     }
     
-    
-    public void createInstance(){
-       
-    }
-   
-    public Object getCurrentSelection(){
+     
+   public Object getCurrentSelection(){
         XController xDocController = this.getDocumentModel().getCurrentController();
         com.sun.star.view.XSelectionSupplier xSelSupplier = ooQueryInterface.XSelectionSupplier(xDocController);
         Object oSelection = xSelSupplier.getSelection();

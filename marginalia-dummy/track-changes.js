@@ -26,7 +26,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * $Id: track-changes.js 309 2008-11-13 21:32:55Z geof.glass $
+ * $Id: track-changes.js 320 2008-11-22 02:14:18Z geof.glass $
  */
  
 /**
@@ -217,16 +217,16 @@ trackchanges = {
 	makeInsertBefore: function( annotation )
 	{
 		annotation.setAction( 'edit' );
-		annotation.getSequenceRange( ).collapseToStart( );
-		annotation.getXPathRange( ).collapseToStart( );
+		annotation.setSequenceRange( annotation.getSequenceRange( ).collapsedToStart( ) );
+		annotation.setXPathRange( annotation.getXPathRange( ).collapsedToStart( ) );
 		annotation.setQuote( '' );
 	},
 	
 	makeInsertAfter: function( annotation )
 	{
 		annotation.setAction( 'edit' );
-		annotation.getSequenceRange( ).collapseToEnd( );
-		annotation.getXPathRange( ).collapseToEnd( );
+		annotation.setSequenceRange( annotation.getSequenceRange( ).collapsedToEnd( ) );
+		annotation.setXPathRange( annotation.getXPathRange( ).collapsedToEnd( ) );
 		annotation.setQuote( '' );
 	},
 

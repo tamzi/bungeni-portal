@@ -118,6 +118,12 @@ class ScheduledBillItems( ScheduledItems ):
 _scheduled_bills = rdb.join( schema.bills, schema.items_schedule, 
                                 schema.bills.c.bill_id == schema.items_schedule.c.item_id )
                                 
+class ScheduledAgendaItems( ScheduledItems ):
+    """
+    agenda items for a sitting
+    """
+_scheduled_agenda_items = rdb.join( schema.agenda_items, schema.items_schedule, 
+                                schema.agenda_items.c.agenda_item_id == schema.items_schedule.c.item_id )
 
 
 #polymorphic join for Concrete Inheritance
@@ -127,7 +133,8 @@ join_scheduled_items = polymorphic_union({
     'items': _scheduled_items,
     'questions': _scheduled_questions,
     'motions': _scheduled_motions,
-    'bills': _scheduled_bills}, 
+    'bills': _scheduled_bills,
+    'agendaitems':_scheduled_agenda_items}, 
     'type', 'join_scheduled_items')
 
 scheduled_items = mapper(ScheduledItems,  _scheduled_items, 
@@ -142,6 +149,10 @@ scheduled_bills = mapper(ScheduledBillItems, _scheduled_bills, inherits=schedule
 scheduled_motions = mapper(ScheduledMotionItems, _scheduled_motions, inherits=scheduled_items, 
     order_by= schema.motions.c.motion_number,
     concrete=True, polymorphic_identity='motions')
+scheduled_agenda_items = mapper(ScheduledAgendaItems, _scheduled_agenda_items, inherits=scheduled_items, 
+    order_by= schema.agenda_items.c.agenda_item_id,
+    concrete=True, polymorphic_identity='agendaitems')
+
 
 def makeList( itemIds ):
 
@@ -311,7 +322,15 @@ class QuestionJSONValidation( BrowserView ):
             return "To postpone a Motion drag it to the 'postponed motions' area"
         else:
             return "Unknown Item Type - you cannot drag this thing here"
-
+            
+    def postponeAgendaItem(self, agendaitem):
+        if type(agendaitem) ==ScheduledAgendaItems:
+            return "AgendaItems cannot be postponed in the calendar"
+        elif type(agendaitem) == domain.AgendaItem:
+            return
+        else:
+            return "Unknown Item Type - you cannot drag this thing here"                        
+             
     def postponeBill(self, bill):  
         if type(bill) == ScheduledBillItems:
             return "Bills cannot be postponed in the calendar, use the workflow of the bill instead"  
@@ -339,6 +358,7 @@ class QuestionJSONValidation( BrowserView ):
         sitting_questions = []
         sitting_motions = []
         sitting_bills = []
+        sitting_agenda_items = []
         motion_id = None
         question_id = None
         sitting_id = None
@@ -362,7 +382,10 @@ class QuestionJSONValidation( BrowserView ):
                     item = session.query(domain.Motion).get(motion_id)
                 elif qid[:2] == 'b_':                                         
                     bill_id = long(qid[2:].split('_')[0])
-                    item = session.query(domain.Bill).get(bill_id)                    
+                    item = session.query(domain.Bill).get(bill_id)  
+                elif qid[:2] == 'a_':                                         
+                    item_id = long(qid[2:].split('_')[0])
+                    item = session.query(domain.AgendaItem).get(item_id)                                         
             if form_data.has_key( 'sitting_id' ):
                 if (form_data['sitting_id'][:4] == "sid_"):
                     sitting_id = long(form_data['sitting_id'][4:])
@@ -397,7 +420,13 @@ class QuestionJSONValidation( BrowserView ):
                     if result:
                         errors.append(result)
                     data = {'errors': errors, 'warnings': warnings}                                    
-                    return simplejson.dumps( data )                                                                                   
+                    return simplejson.dumps( data )   
+                elif form_data['sitting_id'] == 'schedule_agenda_items':        
+                    result = self.postponeAgendaItem(item)  
+                    if result:
+                        errors.append(result)
+                    data = {'errors': errors, 'warnings': warnings}                                    
+                    return simplejson.dumps( data )                                                                                                          
                 else:
                     raise NotImplementedError    
             if form_data.has_key('q_id'):
@@ -418,6 +447,8 @@ class QuestionJSONValidation( BrowserView ):
                             sitting_motions.append(s_item.motion_id)
                         elif type(s_item) == ScheduledBillItems:                            
                             sitting_bills.append(s_item.bill_id)
+                    elif qid[:2] == 'a_' :
+                        sitting_agenda_items.append(long(qid[2:].split('_')[0]))        
                     elif qid ==  u'original_proxy_id':
                         pass        
                     else:
@@ -478,6 +509,16 @@ class QuestionJSONValidation( BrowserView ):
             #data = {'errors':['to many motions','motion scheduled to early'], 'warnings': ['more than 1 motion by mp...',]}
             data = {'errors': errors, 'warnings': warnings}
             return simplejson.dumps( data )   
+        elif (type(item) == ScheduledAgendaItems) or (type(item) == domain.AgendaItem):
+            #result = self.BillScheduledInPast(sitting)
+            #if result:
+            #    errors.append(result)  
+            #result = self.getDuplicateSchedule(item.bill_id, sitting_bills)
+            #if result:
+            #    errors.append(result)    
+            #data = {'errors':['to many motions','motion scheduled to early'], 'warnings': ['more than 1 motion by mp...',]}
+            data = {'errors': errors, 'warnings': warnings}
+            return simplejson.dumps( data )               
         else: 
             return   simplejson.dumps({'errors':['Unknown Item',], 'warnings': []})
     
@@ -625,6 +666,7 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         self.sitting_ids = []
         self.bill_ids = []
         self.table_date_ids = []
+        self.agenda_item_ids =[]
         self.Date = getDisplayDate(self.request)
         if not self.Date:
             self.Date=datetime.date.today()                
@@ -633,6 +675,10 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         results = approved_questions.all()
         for result in results:
             self.approved_question_ids.append(result.question_id)
+        agenda_items = session.query(domain.AgendaItem)
+        results = agenda_items.all()
+        for result in results:
+            self.agenda_item_ids.append(result.agenda_item_id)                
         postponed_questions = session.query(domain.Question).filter(schema.questions.c.status == question_wf_state.postponed).distinct()
         results = postponed_questions.all()
         for result in results:
@@ -1119,7 +1165,9 @@ Event.onDOMReady(YAHOO.example.DDApp.init, YAHOO.example.DDApp, true);
         for qid in self.scheduled_item_ids:
             DDList = DDList + 'new YAHOO.example.DDList("isid_' + str(qid) +'"); \n'
         for qid in self.bill_ids:
-            DDList = DDList + 'new YAHOO.example.DDList("b_' + str(qid) +'"); \n'            
+            DDList = DDList + 'new YAHOO.example.DDList("b_' + str(qid) +'"); \n'        
+        for qid in self.agenda_item_ids:
+            DDList = DDList + 'new YAHOO.example.DDList("a_' + str(qid) +'"); \n'                   
         DDTarget = ""    
         for sid in self.sitting_ids:
             #new YAHOO.util.DDTarget("ul"+i);
@@ -1130,6 +1178,7 @@ Event.onDOMReady(YAHOO.example.DDApp.init, YAHOO.example.DDApp, true);
         DDTarget = DDTarget + 'new YAHOO.util.DDTarget("admissible_motions"); \n'
         DDTarget = DDTarget + 'new YAHOO.util.DDTarget("postponed_motions"); \n'
         DDTarget = DDTarget + 'new YAHOO.util.DDTarget("schedule_bills"); \n'
+        DDTarget = DDTarget + 'new YAHOO.util.DDTarget("schedule_agenda_items"); \n'
         t_list = ""
         for sid in self.sitting_ids:
             # var ul1=Dom.get("ul1"), ul2=Dom.get("ul2"); 
@@ -1293,6 +1342,41 @@ class BillItemsViewlet( viewlet.ViewletBase ):
         self.query = bills            
 
 
+class AgendaItemsViewlet( viewlet.ViewletBase ): 
+    """
+    Agenda Items that can be scheduled
+    """    
+    name  = u"Agenda Items"
+    render = ViewPageTemplateFile ('templates/schedule_question_viewlet.pt')    
+    list_id = "schedule_agenda_items"       
+
+    def getData(self):
+        """
+        return the data of the query
+        """      
+        data_list = []
+        results = self.query.all()
+        for result in results:            
+            data ={}
+            data['qid']= ( 'a_' + str(result.agenda_item_id) )                         
+            data['subject'] = u'' + result.title
+            data['title'] = result.title
+            data['schedule_date_class'] = 'sc-after-'  + datetime.date.strftime(datetime.date.today(), '%Y-%m-%d')
+            data_list.append(data)            
+        return data_list    
+    
+    
+    def update(self):
+        """
+        refresh the query
+        """
+        session = Session()
+        agendaitems = session.query(domain.AgendaItem).select_from(
+                                sql.outerjoin(
+                                    schema.agenda_items, schema.items_schedule, 
+                                    schema.agenda_items.c.agenda_item_id == schema.items_schedule.c.item_id)).filter(
+                                                    schema.items_schedule.c.schedule_id == None)       
+        self.query = agendaitems    
     
     
 class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
@@ -1360,6 +1444,9 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
             data['start_date'] = str(result.start_date)
             data['end_date'] = str(result.end_date)
             data['day'] = result.start_date.date()
+            data['url']= ( path + 'obj-' + str(result.sitting_id) )   
+            data['did'] = ('dlid_' +  datetime.datetime.strftime(result.start_date,'%Y-%m-%d') +
+                           '_stid_' + str( result.sitting_type))                                                
             data_list.append(data)            
         return data_list
 
@@ -1379,23 +1466,30 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
             #data['qid']= ( 'q_' + str(result.question_id) ) 
             data['schedule_id'] = ( 'isid_' + str(result.schedule_id) ) # isid for ItemSchedule ID 
             if type(result) == ScheduledQuestionItems:                       
-                data['subject'] = u'Q ' + str(result.question_number) + u' ' +  result.subject[:10]
+                data['subject'] = u'Q ' + str(result.question_number) + u' ' +  result.subject[:10] + u'... '
                 data['title'] = result.subject
                 data['type'] = "question"
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date + q_offset, '%Y-%m-%d')
                 data['url'] = '/questions/obj-' + str(result.question_id)
             elif type(result) == ScheduledMotionItems:    
-                data['subject'] = u'M ' + str(result.motion_number) + u' ' +result.title[:10]
+                data['subject'] = u'M ' + str(result.motion_number) + u' ' +result.title[:10] + u'... '
                 data['title'] = result.title
                 data['type'] = "motion"                
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
                 data['url'] = '/motions/obj-' + str(result.motion_id)
             elif type(result) == ScheduledBillItems:    
-                data['subject'] = u"B " + result.title[:10]  
+                data['subject'] = u"B " + result.title[:10]  + u'... '
                 data['title'] = result.title             
                 data['type'] = "bill"
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.publication_date + q_offset, '%Y-%m-%d')
                 data['url'] = '/bills/obj-' + str(result.bill_id)
+            elif type(result) == ScheduledAgendaItems:    
+                data['subject'] = u"" + result.title[:10]  + u'... '
+                data['title'] = result.title             
+                data['type'] = "agenda_item"
+                data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(datetime.date.today(), '%Y-%m-%d')
+                data['url'] = '/agendaitems/obj-' + str(result.agenda_item_id)                
+                
             data['status'] = result.status
             data_list.append(data)            
         return data_list
@@ -1417,14 +1511,17 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                 data['subject'] = u'Q ' + str(result.question_number) + u' ' +  result.subject[:10]
                 data['title'] = result.subject
                 data['type'] = "question"
+                data['url'] = '/questions/obj-' + str(result.question_id)                
             elif type(result) == ScheduledMotionItems:    
                 data['subject'] = u'M ' + str(result.motion_number) + u' ' +result.title[:10]
                 data['title'] = result.title 
                 data['type'] = "motion"
+                data['url'] = '/motions/obj-' + str(result.motion_id)
             elif type(result) == ScheduledBillItems:    
                 data['subject'] = u"B " + result.title[:10]             
                 data['title'] = result.title 
                 data['type'] = "bill"
+                data['url'] = '/bills/obj-' + str(result.bill_id)
             data['status'] = result.status
             data_list.append(data)            
         return data_list
@@ -1475,8 +1572,7 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
         return day_data                
        
        
-    def schedule_question(self, question_id, sitting_id, sort_id):
-        print question_id, sitting_id, sort_id
+    def schedule_question(self, question_id, sitting_id, sort_id):        
         session = Session()
         item_schedule = domain.ItemSchedule()
         question = session.query(domain.Question).get(question_id)
@@ -1489,8 +1585,8 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                 sitting = None                
             if sitting:             
                 # our question is either admissible, deferred or postponed 
-                try: 
-                    session.begin()
+                session.begin()
+                try:                     
                     item_schedule.sitting_id = sitting_id
                     item_schedule.item_id = question_id
                     item_schedule.order = sort_id
@@ -1499,6 +1595,8 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                     session.commit()
                 except:
                     session.rollback()
+                    #rollback leave a inactive session behind, so it has to be closed manually
+                    session.close()
                     self.errors.append("Question could not be scheduled")  
                     
                 #if IWorkflowInfo(question).state().getState() == question_wf_state.admissible:
@@ -1591,8 +1689,8 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                 sitting = None                
             if sitting:    
                 # our motion is either admissible, deferred or postponed  
-                try:
-                    session.begin()
+                session.begin()
+                try:                    
                     item_schedule.sitting_id = sitting_id
                     item_schedule.item_id = motion_id
                     item_schedule.order = sort_id
@@ -1604,11 +1702,40 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                 except:
                     self.errors.append("Motion could not be scheduled")    
                     session.rollback()
+                    session.close()
             else:
                 if IWorkflowInfo(motion).state().getState() == motion_wf_state.scheduled:
                       IWorkflowInfo(motion).fireTransition('postpone', check_security=True)
                 else:
                     raise NotImplementedError     
+    
+    def schedule_agenda_item(self, agenda_item_id, sitting_id, sort_id):
+        session =Session()
+        item_schedule = domain.ItemSchedule()
+        agenda_item = session.query(domain.AgendaItem).get(agenda_item_id)
+        if agenda_item:
+            #agenda_item.__parent__ = self.context   
+            if sitting_id:
+                sitting = session.query(domain.GroupSitting).get(sitting_id)
+            else:
+                sitting = None
+            if sitting:
+                session.begin()
+                try:
+                    item_schedule.sitting_id = sitting_id
+                    item_schedule.item_id = agenda_item_id
+                    item_schedule.order = sort_id
+                    session.save(item_schedule) 
+                    session.commit()
+                except:
+                    self.errors.append("Agenda Item could not be scheduled") 
+                    session.rollback()    
+                    session.close()
+            else:
+                pass
+        else:
+            self.errors.append("Agenda Item could not be scheduled")             
+        
     
     def getScheduledItems( self, form ):
         """
@@ -1648,7 +1775,11 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
             elif item_id[:2] == 'b_':
                 #a bill, to be scheduled
                 bill_id = long(item_id[2:].split('_')[0])
-                self.schedule_bill(bill_id, sitting_id, sort_id)                
+                self.schedule_bill(bill_id, sitting_id, sort_id)  
+            elif item_id[:2] == 'a_':
+                #agenda item
+                agenda_item_id = long(item_id[2:].split('_')[0])
+                self.schedule_agenda_item(agenda_item_id, sitting_id, sort_id)                  
             elif item_id[:5] == 'isid_':
                 # a scheduled item to be rescheduled                    
                 scheduled_item_id = long(item_id[5:])
@@ -1789,12 +1920,53 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
     
     render = ViewPageTemplateFile ('templates/schedule_calendar_viewlet.pt')
     
+class SittingCalendarWeekViewlet(ScheduleCalendarViewlet):
+    """
+    display only the current week
+    """
+    render = ViewPageTemplateFile('templates/sitting_week_calendar_viewlet.pt')
 
-class SittingCalendarAtomViewlet(ScheduleCalendarViewlet):
+    def getWeek(self):
+        for week in self.monthcalendar:
+            if self.Date in week:
+                return week
+                
+
+class SittingCalendarAtomWeek(BrowserView):
     """
     just another template for display
-    """
-
+    """    
+    __call__ = ViewPageTemplateFile("templates/atom-calendar-view.pt")
+    def name(self):
+        return "Calendar"
+        if self.context.__parent__:
+            descriptor = queryModelDescriptor( self.context.__parent__.domain_model )
+        if descriptor:
+            name = getattr( descriptor, 'display_name', None)
+        if not name:
+            name = getattr( self.context.__parent__.domain_model, '__name__', None)  
+        return name 
+           
+    def feedtitle(self):            
+        if self.form_name:
+            title = self.form_name
+        else:
+            title = self.name()
+        return title
+            
+    def feedUid(self):
+        return  absoluteURL( self.context, self.request ) + 'atom.xml'
+               
+    def uid(self):     
+        #XXX       
+        return "urn:uuid:" + base64.urlsafe_b64encode(self.context.__class__.__name__ + ':' + stringKey(removeSecurityProxy(self.context)))
+        
+    def url(self):    
+        return absoluteURL( self.context, self.request )       
+        
+    def updated(self):
+        return datetime.datetime.now().isoformat()              
+    
     
 class ScheduleHolyDaysViewlet( viewlet.ViewletBase ):
     """

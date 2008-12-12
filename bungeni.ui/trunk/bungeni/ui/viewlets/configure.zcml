@@ -102,6 +102,16 @@
     weight="27"
     />
      
+ <browser:viewlet
+    name="bungeni.schedule.agenda-items"   
+    manager=".interfaces.IScheduleItems"
+    class=".schedule.AgendaItemsViewlet"
+    permission="zope.Public"
+    weight="28"
+    />    
+     
+     
+     
   <browser:viewlet
     name="bungeni.schedule.calendar"   
     manager=".interfaces.IScheduleCalendar"
@@ -109,6 +119,14 @@
     permission="zope.Public"
     weight="30"
     />    
+    
+  <!--browser:viewlet
+    name="bungeni.schedule.week.calendar"   
+    manager=".interfaces.IScheduleCalendar"
+    class=".schedule.SittingCalendarWeekViewlet"
+    permission="zope.Public"
+    weight="40"
+    /-->        
     
     
   <browser:viewlet
@@ -205,7 +223,7 @@
     manager="ploned.ui.interfaces.IPortalHeaderManager"
     class=".navigation.SiteActionsViewlet"
     permission="zope.View"
-    weight="10"
+    weight="5"
     />    
         
   <browser:viewlet
@@ -360,6 +378,30 @@
     />       
 
 
+  <!-- schedule sittings for parliamentary session and group sittings in one calendar -->
+
+  <browser:page
+     for="bungeni.core.interfaces.IBungeniApplication"
+     permission="zope.Public"
+     name="schedule-sitting-calendar"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     class=".schedulesittingcalendar.Calendar"
+     />     
+
+  <browser:viewletManager
+     name="bungeni.schedule-sitting-calendar.manager"
+     provides=".interfaces.IScheduleSittingCalendar"
+     class=".schedulesittingcalendar.ScheduleCalendarViewletManager"
+     permission="zope.View"
+     />  
+
+  <browser:viewlet
+    name="bungeni.schedule-sitting.calendar"   
+    manager=".interfaces.IScheduleSittingCalendar"
+    class=".schedulesittingcalendar.ScheduleSittingCalendar"
+    permission="zope.Public"
+    weight="3"
+    />     
   
 
 

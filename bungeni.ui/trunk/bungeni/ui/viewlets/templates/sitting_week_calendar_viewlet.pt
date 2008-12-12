@@ -1,0 +1,25 @@
+<div class="listing">
+  <em> Sittings </em>
+ 
+     
+        <dl>
+          <!--th tal:content="python:view.getWeekNo(week[0])"> </th-->
+          <tal:loop tal:repeat="day view/getWeek">
+            <dt tal:content="python:day.day" tal:condition="day"  tal:attributes="class python:view.getDayClass(day)" /> 
+              <dd>
+                <ul>
+                  <li tal:repeat="sitting python: view.getSittings4Day(day)">
+                    <a tal:content="sitting/short_name" tal:attributes="href sitting/url; id sitting/did"/>    
+                     <ol tal:attributes="id sitting/sittingid; class string:no_draglist" tal:define="sid sitting/sid">
+                        <li tal:repeat="question python: view.getActiveSittingItems(sid)"                  
+                         tal:attributes="id question/schedule_id; class question/schedule_date_class">
+                         <a tal:content="question/subject" tal:attributes="title question/title; href question/url" />
+                        </li>
+                    </ol>        
+                  </li>
+                </ul>
+              </dd>
+          </tal:loop>
+        </dl>
+   
+</div>

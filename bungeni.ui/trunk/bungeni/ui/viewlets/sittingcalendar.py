@@ -23,7 +23,7 @@ import bungeni.core.schema as schema
 import bungeni.core.domain as domain
 from bungeni.ui.browser import container
 import bungeni.core.globalsettings as prefs
-from schedule import makeList, ScheduledItems, ScheduledQuestionItems, ScheduledMotionItems, ScheduledBillItems
+from schedule import makeList, ScheduledItems, ScheduledQuestionItems, ScheduledMotionItems, ScheduledBillItems, ScheduledAgendaItems
 
 
 def start_DateTime( Date, context ):
@@ -324,7 +324,10 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
         get the end date of the parent object
         """
         if self.context.__parent__ is not None:
-            return self.context.__parent__.end_date
+            try:
+                return self.context.__parent__.end_date
+            except:
+                return datetime.date.today()    
         else:
             return datetime.date.today()
         
@@ -508,6 +511,12 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
                 data['type'] = "bill"
                 data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.publication_date + q_offset, '%Y-%m-%d')
                 data['url'] = '/bills/obj-' + str(result.bill_id)
+            elif type(result) == ScheduledAgendaItems:    
+                data['subject'] = u"B " + result.title[:10]  
+                data['title'] = result.title             
+                data['type'] = "agenda-item"
+                data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(datetime.date.today(), '%Y-%m-%d')
+                data['url'] = '/agendaitems/obj-' + str(result.agenda_item_id)                
             data['status'] = result.status
             data_list.append(data)            
         return data_list       
@@ -603,4 +612,16 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
         self.Data = self.getData()
     
     render = ViewPageTemplateFile ('templates/sitting_calendar_viewlet.pt')
+    
+#def SittingWeekCalendarViewlet(SittingCalendarViewlet):
+#    """
+#    all sittings in a given week
+#    """    
+#    render = viewPageTemplateFile('templates/sitting_week_calendar.pt')
+#    
+#    def getWeek(self):
+#        for week in self.monthcalendar:
+#            if self.Date in week:
+#                return week
+                
     

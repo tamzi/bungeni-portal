@@ -19,8 +19,8 @@
       </tr>
     </thead>
     <tbody>
-    <tr tal:repeat="week view/monthcalendar">
-      <th tal:content="python:view.getWeekNo(week[0])"> </th>
+    <tr tal:repeat="week view/monthcalendar" class="colapse-calender-row">
+      <th tal:define="weekno python:view.getWeekNo(week[0])" tal:attributes="id string:calender-week-${weekno}"> <span tal:content="weekno"> 12</span>  </th>
       <td tal:repeat="day week" tal:attributes="id python:view.getTdId(day)"> 
         <strong tal:content="python:day.day" tal:condition="day" tal:attributes="class python:view.getDayClass(day)"/>
         <br />

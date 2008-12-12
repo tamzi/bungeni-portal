@@ -1,0 +1,30 @@
+<div id="">
+    <table id="" class="listing grid">
+        <theader>
+          <tr>
+            <th> Date </th>
+            <th tal:repeat="session view/sessions"> <b tal:replace="session/short_name"> parliament </b> </th>
+            <th tal:repeat="committee view/committees"> <b tal:replace="committee/short_name"> committee </b> </th>
+          </tr>  
+        </theader>
+        <tbody>
+          <tr tal:repeat="day view/weekcalendar">
+            <th tal:content="python:view.formatDay(day)"> Date </th>
+            <td tal:repeat="session view/sessions"> 
+              <div tal:repeat="sitting python: view.getScheduledParliamentSittings(day, session.session_id)">
+                <h4 tal:content="sitting/short_name" />
+              </div>
+            </td>
+            <td tal:repeat="committee view/committees"> 
+              <div tal:repeat="sitting python: view.getScheduledCommitteeSittings(day, committee.committee_id)">
+                <h4 tal:content="sitting/short_name" />
+              </div>
+            </td>
+          </tr>  
+        </tbody>
+    </table>
+</div>
+
+
+
+

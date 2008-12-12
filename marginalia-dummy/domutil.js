@@ -23,7 +23,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
- * $Id: domutil.js 302 2008-11-05 09:07:55Z geof.glass $
+ * $Id: domutil.js 319 2008-11-20 23:32:24Z geof.glass $
  */
 
 	
@@ -72,6 +72,104 @@ parseIsoDate: function( s )
 		return new Date( matches[1], matches[2]-1, matches[3], matches[4], matches[5] );
 	}
 },
+
+htmlEncode: function( s )
+{
+	s = s.replace( /&/, '&amp;' );
+	s = s.replace( /</, '&lt;' );
+	s = s.replace( />/, '&gt;' );
+	return s;
+},
+
+// Cookies
+// Based on code from Peter-Paul Koch's Quirksmode at
+// http://www.quirksmode.org/js/cookies.html
+
+createCookie: function( name, value, days, hours, minutes, milliseconds )
+{
+	if ( days || hours || minutes || minutes || milliseconds )
+	{
+		var date = new Date();
+		var expireDate = date.getTime( )
+			+ ( days ? days * 24 * 60 * 60 * 1000 : 0 )
+			+ ( hours ? hours * 60 * 60 + 1000 : 0 )
+			+ ( minutes ? minutes * 60 * 1000 : 0 )
+			+ ( milliseconds ? milliseconds * 1000 : 0 );
+		date.setTime( expireDate );
+		var expires = "; expires=" + date.toGMTString( );
+	}
+	else
+		var expires = "";
+	// Espace semicolons (Used to separate cookie records)
+	if ( value && 'string' == typeof value )
+	{
+		value = value.replace( '$', '$S' );
+		value = value.replace( ';', '$:' );
+	}
+	document.cookie = name + "=" + value + expires + "; path=/";
+},
+
+readCookie: function( name )
+{
+	var nameEQ = name + "=";
+	var ca = document.cookie.split( ';' );
+	for( var i = 0;  i < ca.length;  i++)
+	{
+		var c = ca[ i ];
+		while ( c.charAt( 0 ) == ' ')
+			c = c.substring( 1, c.length );
+		if ( c.indexOf( nameEQ ) == 0)
+		{
+			var value = c.substring( nameEQ.length, c.length );
+			value.replace( '$:', ';' );
+			value.replace( '$S', '$' );
+			return value;
+		}
+	}
+	return null;
+},
+
+removeCookie: function( name )
+{
+	createCookie( name, "", -1);
+},
+
+
+/**
+ * Read all cookies with a given name prefix
+ * returns hash on names
+ * Based on the readCookie code at quirksmode.org
+ */
+readCookiePrefix: function( prefix )
+{
+	var result = [ ];
+	var cookies = document.cookie.split( /;/ );
+	for ( var i = 0;  i < cookies.length;  ++i )
+	{
+		// Strip leading whitespace
+		var c = cookies[ i ];
+		while ( ' ' == c.charAt( 0 ) )
+			c = c.substring( 1, c.length );
+		
+		// Check for prefix match
+		if ( 0 == c.indexOf( prefix ) )
+		{
+			var parts = c.split( /=/ );
+			if ( 2 == parts.length )
+			{
+				var value = parts[ 1 ];
+				value.replace( '$:', ';' );
+				value.replace( '$S', '$' );
+				result[ result.length ] = {
+					name: parts[ 0 ],
+					value: value 
+				};
+			}
+		}
+	}
+	return result;
+},
+
 
 // W3C/IE event handling:
 
@@ -1267,3 +1365,150 @@ DOMWalker.prototype.walk = function( gointo, reverse )
 	return null == this.node ? false : true;
 }
 
+
+/**
+ * Simple publish/subscribe between browser windows using cookies
+ * Will only work within a domain of course
+ * Multiple publish attempts will overwrite each other
+ * (I'm only using it for single publish items anyway)
+ * Beware: if different browser windows run Javascript in different threads,
+ * there could be concurrency issues (ouch).  So this should not be used for
+ * critical communications (I'm using it for quoting, which should be ok).
+ *
+ * Cookies used are:
+ * <name>_subscribers - the number of subscribers to the bus
+ * <name>_read_counts - array of [ publication #, count ] of how many subscribers
+ *                      have read a given publication
+ * <name>_publication_n - content of publication #n
+ * <name>_publish_count - maximum publication # used so far
+ */
+function CookieBus( cookieName )
+{
+	this.cookieName = cookieName;
+	this.subscribed = false;
+	this.interval = null;
+	this.readPubs = new Object( );
+}
+
+CookieBus.prototype.getPublication = function( name )
+{
+	var rawPub = domutil.readCookie( this.cookieName + '_publication_' + name );
+	if ( rawPub )
+	{
+		return {
+			name: name,
+			value: rawPub
+		};
+	}
+	else
+		return null;
+}	
+
+CookieBus.prototype.getAllPublications = function( )
+{
+	var prefix = this.cookieName + '_publication_';
+	var rawPubs = domutil.readCookiePrefix( prefix );
+	var publications = [ ];
+	for ( var i = 0;  i < rawPubs.length;  ++i )
+	{
+		var pub = rawPubs[ i ];
+		publications[ publications.length ] = {
+			name: pub.name.substring( prefix.length, pub.name.length ),
+			value: pub.value
+		};
+	}
+	return publications;
+}
+
+/**
+ * If f is called, the bus is automatically closed down
+ */
+CookieBus.prototype.subscribe = function( interval, f, opts )
+{
+	if ( ! this.subscribed )
+	{
+		this.subscribed = true;
+		
+		// We won't read existing publications, so record them as read
+		var publications = this.getAllPublications( );
+		for ( var i = 0;  i < publications.length;  ++i )
+		{
+			var pub = publications[ i ];
+			this.readPubs[ pub.name ] = true;
+		}
+		
+		if ( interval && f )
+		{
+			var bus = this;
+			this.interval = setInterval( function( ) {
+				while ( bus.subscribed )
+				{
+					var pub = bus.read( );
+					if ( pub )
+						f( pub );
+					else
+						break;
+				}
+			}, interval );
+		}
+	}
+}
+
+CookieBus.prototype.unsubscribe = function( )
+{
+	if ( this.subscribed )
+	{
+		this.subscribed = false;
+		
+		if ( this.interval )
+		{
+			this.clearInterval( this.interval );
+			this.interval = null;
+		}
+	}
+}
+
+CookieBus.prototype.terminate = function( )
+{
+	domutil.removeCookie( this.cookieName + '_publish_count' );
+	var publications = domutil.readCookiePrefix( this.cookieName + '_publication_' );
+	for ( var i = 0;  i < publications.length;  ++i )
+		domutil.removeCookie( publications[ i ].name );
+}
+
+CookieBus.prototype.publish = function( s )
+{
+	// Find the highest publish count
+	var n = domutil.readCookie( this.cookieName + '_publish_count' );
+	n = n ? Number( n ) + 1 : 1;
+	
+	// Publish a new item
+	// Item expires in 1 minute
+	// Count expires in 2 minutes
+	domutil.createCookie( this.cookieName + '_publish_count', n, 0, 0, 2 );
+	domutil.createCookie( this.cookieName + '_publication_' + n, s, 0, 0, 1 );
+	return n;
+}
+
+CookieBus.prototype.unpublish = function( n )
+{
+	domutil.removeCookie( this.cookieName + '_publication_' + n );
+}
+
+CookieBus.prototype.read = function( )
+{
+	if ( this.subscribed )
+	{
+		var publications = this.getAllPublications( );
+		for ( var i = 0;  i < publications.length;  ++i )
+		{
+			var pub = publications[ i ];
+			if ( ! this.readPubs[ pub.name ] )
+			{
+				this.readPubs[ pub.name ] = true;
+				return pub;
+			}
+		}
+	}
+	return null;
+}

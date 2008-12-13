@@ -92,7 +92,7 @@ def create_bill_workflow( ):
 
     add( workflow.Transition(
         transition_id = 'submit-bill',
-        title=_(u"Submit"),
+        title=_(u"Publish in Gazette"),
         source = states.draft,
         action = submit,
         destination = states.submitted,
@@ -107,6 +107,7 @@ def create_bill_workflow( ):
         source = states.submitted,
         action = schedule_first,
         destination = states.first_reading,
+        condition = utils.getBillSchedule,
         permission = "bungeni.bill.Schedule",
         ) )
 

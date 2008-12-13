@@ -836,10 +836,12 @@ class BillDescriptor( ModelDescriptor ):
                 add_widget=widget.RichTextEditor),                
         dict( name="session_id", label=_(u"Session") ),
         dict( name="identifier", label=_(u"Identifer") ),
-        dict( name="submission_date", label=_(u"Submission Date"), listing=True,  
+        dict( name="submission_date", label=_(u"Submission Date"), listing=False,  
               edit_widget=SelectDateWidget, add_widget=SelectDateWidget,
-              listing_column=day_column("submission_date", _(u"Submission Date")), ),
-        dict( name="publication_date", label=_(u"Publication Date"),  edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),        
+               ),
+        dict( name="publication_date", label=_(u"Publication Date"), listing=True,  
+                edit_widget=SelectDateWidget, add_widget=SelectDateWidget ,
+                listing_column=day_column("submission_date", _(u"Publication Date")), ),        
         dict( name="status", label=_(u"Status"), listing=True, edit=False, add=False, view=False, ), 
         ]
 
@@ -1107,9 +1109,31 @@ class TabledDocumentDescriptor( ModelDescriptor):
         dict( name="tabled_document_id", omit=True ),
         dict( name="title", label=_(u"Title"), listing=True ),
         dict( name="summary",  label=_(u"Summary") ),
-        dict( name="owner_id", label=_(u"Submitter") ),
+        dict( name="owner_id", 
+              property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, title_field='fullname', token_field='user_id', value_field = 'user_id' )), 
+              listing_column=vocab_column( "owner_id" , _(u'Owner'),
+               DatabaseSource(domain.ParliamentMember, title_field='fullname', token_field='user_id', value_field = 'user_id' ), ),              
+              listing = True 
+            ),        
         dict( name="table_date", label=_(u"Date"), listing_column=day_column("table_date", _(u"Date")), listing=True, edit_widget=SelectDateWidget, add_widget=SelectDateWidget ),
     
     ]
 
-
+class AgendaItemDescriptor( ModelDescriptor): 
+    display_name =_(u"Agenda Items")
+    fields = [
+        dict( name="agenda_item_id", omit=True ),
+       dict( name="owner_id", 
+              property = schema.Choice( title=_(u"Owner"), source=DatabaseSource(domain.ParliamentMember, title_field='fullname', token_field='user_id', value_field = 'user_id' )), 
+              listing_column=vocab_column( "owner_id" , _(u'Owner'),
+               DatabaseSource(domain.ParliamentMember, title_field='fullname', token_field='user_id', value_field = 'user_id' ), ),              
+              listing = True 
+            ),
+        dict( name="title", label=_(u"Title"), listing=True ),
+        dict( name="description",  label=_(u"Summary") ),
+        dict( name="body_text", property=schema.Text(title=_(u"Question"), required=True ),
+              view_widget=widget.HTMLDisplay,
+              edit_widget=widget.RichTextEditor, 
+              add_widget=widget.RichTextEditor        
+            ),       
+    ]

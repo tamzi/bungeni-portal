@@ -343,6 +343,14 @@
      echo="False"
     />     
     
+ <db:catalyst
+     class=".domain.AgendaItem"
+     descriptor=".descriptor.AgendaItemDescriptor"
+     interface_module=".interfaces"
+     ui_module="bungeni.ui.content"
+     echo="False"
+    />       
+    
  <!--db:catalyst
      class=".domain.QuestionScheduleHistory"
      descriptor=".descriptor.QuestionScheduleHistoryDescriptor"

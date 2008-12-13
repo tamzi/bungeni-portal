@@ -401,7 +401,7 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
             Dom.removeClass(id, 'dragover');
             var el = document.createElement('h5');
             generatedId = destEl.id + "_" + srcEl.id;
-            el.id = generatedId;
+            el.id = generatedId;            
             /*el.innerHTML = '<input type="hidden" name="ssi" value="' + generatedId + '" /> ' + el.innerHTML + '<input name="' + generatedId + '_start" type="text" size="5" maxlength="5" value="00:00" /> - <input name="' + generatedId + '_end" type="text" size="5" maxlength="5" value="00:00" />';*/
             el.innerHTML =  proxy.innerHTML;
             Dom.setStyle(el, "visibility", "");
@@ -450,8 +450,9 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                 }                                 
             else {     
                 destEl.appendChild(el);
+                Dom.addClass(el.id, 'dragable');
                 YAHOO.example.DDApp.addLi(el.id);
-                var formEl = document.createElement('span');
+                var formEl = document.createElement('span');                
                 var idArr = new Array();
                 idArr = el.id.split('_');
 

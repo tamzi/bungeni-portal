@@ -400,9 +400,24 @@
     manager=".interfaces.IScheduleSittingCalendar"
     class=".schedulesittingcalendar.ScheduleSittingCalendar"
     permission="zope.Public"
-    weight="3"
+    weight="10"
     />     
   
+  <browser:viewlet
+    name="bungeni.schedule-sittingtype.calendar"   
+    manager=".interfaces.IScheduleSittingCalendar"
+    class=".schedulesittingcalendar.ScheduleSittingTypeViewlet"
+    permission="zope.Public"
+    weight="20"
+    />     
+  
+  <browser:viewlet
+    name="bungeni.schedule-sitting.yuidd-schedulesitting"   
+    manager=".interfaces.IScheduleSittingCalendar"
+    class=".schedulesittingcalendar.SittingScheduleDDViewlet"
+    permission="zope.Public"
+    weight="30"
+    />         
 
 
   <!-- Government -->  

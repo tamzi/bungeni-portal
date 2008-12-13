@@ -129,13 +129,13 @@
     /-->        
     
     
-  <browser:viewlet
+  <!--browser:viewlet
     name="bungeni.schedule.yui-dragdrop"   
     manager=".interfaces.IScheduleItems"
     class=".schedule.YUIDragDropViewlet"
     permission="zope.Public"
     weight="50"
-    /> 
+    /--> 
            
  <browser:viewlet
      name="bungeni.schedule.yui-tabs"
@@ -428,6 +428,14 @@
     />         
 
 
+  <!-- schedule parliamentary items for a sitting --> 
+  <browser:page
+     for="bungeni.core.interfaces.IBungeniApplication"
+     permission="zope.Public"
+     name="schedule-sitting-items-calendar"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     class=".scheduleitemscalendar.Calendar"
+     />    
 
 
   <!-- Government -->  

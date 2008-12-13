@@ -1218,8 +1218,9 @@ class QuestionInStateViewlet( viewlet.ViewletBase ):
         return the data of the query
         """    
         offset = datetime.timedelta(prefs.getNoOfDaysBeforeQuestionSchedule())  
-        data_list = []
+        data_list = []       
         results = self.query.all()
+        print str(self.query)
         for result in results:            
             data ={}
             data['qid']= ( 'q_' + str(result.question_id) )                         
@@ -1267,6 +1268,7 @@ class MotionInStateViewlet( viewlet.ViewletBase ):
         """      
         data_list = []
         results = self.query.all()
+        print str(self.query)        
         for result in results:            
             data ={}
             data['qid']= ( 'm_' + str(result.motion_id) )                         
@@ -1313,6 +1315,7 @@ class BillItemsViewlet( viewlet.ViewletBase ):
         """      
         data_list = []
         results = self.query.all()
+        print str(self.query)        
         for result in results:            
             data ={}
             data['qid']= ( 'b_' + str(result.bill_id) )                         
@@ -1356,6 +1359,7 @@ class AgendaItemsViewlet( viewlet.ViewletBase ):
         """      
         data_list = []
         results = self.query.all()
+        print str(self.query)                
         for result in results:            
             data ={}
             data['qid']= ( 'a_' + str(result.agenda_item_id) )                         

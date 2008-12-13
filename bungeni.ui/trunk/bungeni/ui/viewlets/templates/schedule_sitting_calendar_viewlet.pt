@@ -9,7 +9,7 @@
           </tr>
           <tr>
             <th tal:content="view/week_no"> Week number </th>
-            <th tal:repeat="session view/sessions"> Plenary:<br/><b tal:replace="session/short_name"> parliament </b> </th>
+            <th tal:repeat="session view/sessions"> Plenary<!--br/><b tal:replace="session/short_name"> parliament </b--> </th>
             <th tal:repeat="committee view/committees"> <span tal:content="committee/short_name" tal:attributes="title committee/full_name"> committee </span> </th>
           </tr>  
         </theader>

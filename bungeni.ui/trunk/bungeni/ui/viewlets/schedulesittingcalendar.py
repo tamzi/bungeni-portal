@@ -12,6 +12,9 @@ from zope.viewlet.manager import WeightOrderedViewletManager
 import zope.interface
 from zope.app.pagetemplate import ViewPageTemplateFile
 
+from zc.resourcelibrary import need
+
+
 import sqlalchemy.sql.expression as sql
 
 from ore.alchemist import Session
@@ -23,6 +26,10 @@ import bungeni.core.globalsettings as prefs
 from bungeni.ui.utils import getDisplayDate
 
 import interfaces
+
+
+import pdb
+
 
 class ScheduleCalendarViewletManager( WeightOrderedViewletManager ):
     """
@@ -39,6 +46,8 @@ class ScheduleSittingCalendar( viewlet.ViewletBase ):
     sessions = None
     committees = None
     sittings = None
+    # sitting types is a dict for ease of use
+    sitting_types = {}
     # initialize some variables
     Date = None
     monthcalendar = None
@@ -59,6 +68,19 @@ class ScheduleSittingCalendar( viewlet.ViewletBase ):
     def formatDay(self, day):
         return  datetime.date.strftime(day, '%a, %d %b %y')
 
+
+    def getSessionTdId( self, day, session_id):        
+        return 'stdid_' + datetime.date.strftime(day,'%Y-%m-%d') + '_' + str(session_id)
+        
+    def getSessionTdClass( self, session_id):
+        return 'stdclass_' + str(session_id)
+            
+    def getCommitteeTdId( self, day, session_id):    
+        return 'ctdid_' + datetime.date.strftime(day,'%Y-%m-%d') + '_' + str(session_id)
+        
+    def getCommitteeTdClass( self,  session_id):    
+        return 'ctdclass_' + str(session_id)
+        
     def getScheduledCommitteeSittings( self, day, committee_id ):
         """
         get the scheduled sittings for that committee and date
@@ -79,7 +101,8 @@ class ScheduleSittingCalendar( viewlet.ViewletBase ):
                 #data['day'] = result.start_date.date()
                 #data['did'] = ('dlid_' +  datetime.datetime.strftime(result.start_date,'%Y-%m-%d') +
                 #               '_stid_' + str( result.sitting_type))  
-                data['sid'] = sitting.sitting_id                         
+                data['sid'] = sitting.sitting_id      
+                data['s_type'] =  self.sitting_types[sitting.sitting_type]['type']                    
                 data_list.append(data)                               
         return data_list
     
@@ -102,9 +125,30 @@ class ScheduleSittingCalendar( viewlet.ViewletBase ):
                 #data['day'] = result.start_date.date()
                 #data['did'] = ('dlid_' +  datetime.datetime.strftime(result.start_date,'%Y-%m-%d') +
                 #               '_stid_' + str( result.sitting_type))  
-                data['sid'] = sitting.sitting_id                         
+                data['sid'] = sitting.sitting_id  
+                data['s_type'] =  self.sitting_types[sitting.sitting_type]['type']                      
                 data_list.append(data)
         return data_list
+        
+    def _getSittingTypes( self ):
+        """
+        returns a dictionary like:
+                {
+                1:{'start': datetime.time(9,0), 'end':datetime.time(12,0), 'type':'morning' },
+                2:{'start': datetime.time(13,0), 'end':datetime.time(18,0), 'type':'afternoon' },
+                3:{'start': datetime.time(9,0), 'end':datetime.time(18,0), 'type':'extraordinary' },
+                }
+        """
+        session = Session()
+        sitting_types = session.query( domain.SittingType ).all()
+        data = {}
+        for sitting_type in sitting_types:
+            data[sitting_type.sitting_type_id] = {'start': sitting_type.start_time,
+                                                  'end': sitting_type.end_time,
+                                                  'type': sitting_type.sitting_type }
+        return data                                                  
+        
+         
         
     def _getSittings( self ):
         firstday = self.getStartDate()    
@@ -170,6 +214,7 @@ class ScheduleSittingCalendar( viewlet.ViewletBase ):
         self.sessions = self._getSessions()
         self.committees = self._getCommittees()
         self.sittings = self._getSittings()
+        self.sitting_types = self._getSittingTypes()
     
     
     
@@ -177,4 +222,263 @@ class ScheduleSittingCalendar( viewlet.ViewletBase ):
     
     render = ViewPageTemplateFile ('templates/schedule_sitting_calendar_viewlet.pt')
     
+class ScheduleSittingTypeViewlet ( viewlet.ViewletBase ):
+    """
+    returns the sitting types that may be scheduled
+    with their default times
+    """
+    render = ViewPageTemplateFile ('templates/schedule_sittingtypes_viewlet.pt')    
+    session = Session()
+    query = session.query(domain.SittingType)
+    name = u"available sitting types"
+    list_id = "sitting-types"
+    
+    def getData(self):
+        results = self.query.all()
+        data_list = []
+        for result in results:
+            data ={}
+            data["stid"] = "stid_" + str(result.sitting_type_id) + '_' + datetime.time.strftime(result.start_time,'%H-%M') + '_' + datetime.time.strftime(result.end_time,'%H-%M')
+            data["stname"] = result.sitting_type            
+            data_list.append(data)            
+        return data_list
+
+class SittingScheduleDDViewlet( ScheduleSittingCalendar ):
+    """
+    returns the js for sitting schedule
+    if a sitting is dropped on the calendar a li element 
+    is created with the inner html of the dropped element + an input
+    element of type checkbox with the value : date of sitting + sitting type id.
+    name of the input element is sitting-schedule.
+    id of the <li> is  const string + date of sitting + sitting type id.
+    
+    on update get the 1st and last day of the calendar
+    add dd-targets for each day of the calendar
+    
+    on dragdrop check if an element of the same id as the above generated id exists, if yes
+    do not allow drop, else create the element.    
+    """
+    def _getTargets(self):
+        targets = []
+        for day in self.weekcalendar:
+            for session in self.sessions:
+                targets.append( 'stdid_' + datetime.date.strftime(day,'%Y-%m-%d') + '_' + str(session.session_id))
+            for committee in self.committees:
+                targets.append('ctdid_' + datetime.date.strftime(day,'%Y-%m-%d') + '_' + str(committee.committee_id))
+        return targets                
+                
+    def _getList(self):
+        id_list = []
+        for st_id in self.sitting_types.keys():
+            id_list.append( "stid_" + str(st_id) + '_' + 
+            datetime.time.strftime(self.sitting_types[st_id]['start'],'%H-%M') + '_' + 
+            datetime.time.strftime(self.sitting_types[st_id]['end'],'%H-%M'))
+        return id_list            
+
+    def render(self):
+        need('yui-dragdrop')
+        need('yui-animation')    
+        need('yui-logger')    #debug
+        targets = self._getTargets()
+        
+        sitting_type_ids = self._getList()    
+            
+        DDList = ""
+        for stid in sitting_type_ids:            
+            #new YAHOO.example.DDList("li" + i + "_" + j);
+            DDList = DDList + 'new YAHOO.example.DDList("' + stid +'"); \n'
+            
+        DDTarget = ""    
+        for target in targets:
+            #new YAHOO.util.DDTarget("ul"+i);
+            DDTarget = DDTarget + 'new YAHOO.util.DDTarget("' + target +'"); \n'
+        
+        currentDateId = '"tdid-' + datetime.date.strftime(datetime.date.today(),'%Y-%m-%d"')    
+        js_inserts= {
+            'DDList':DDList,
+            'DDTarget':DDTarget,
+            'currentDateId': currentDateId }            
+                
+        js_string = """
+<script type="text/javascript">
+<!--
+(function() {
+
+var Dom = YAHOO.util.Dom;
+var Event = YAHOO.util.Event;
+var DDM = YAHOO.util.DragDropMgr;    
+    
+YAHOO.example.DDApp = {
+    init: function() {
+
+
+        %(DDTarget)s
+        %(DDList)s     
+          
+        YAHOO.widget.Logger.enableBrowserConsole();   
+    },      
+    addLi: function(id) {
+       new YAHOO.example.DDList(id); 
+    },   
+};
+
+YAHOO.example.DDList = function(id, sGroup, config) {
+
+    YAHOO.example.DDList.superclass.constructor.call(this, id, sGroup, config);
+
+    this.logger = this.logger || YAHOO;
+    var el = this.getDragEl();
+    Dom.setStyle(el, "opacity", 0.67); // The proxy is slightly transparent
+
+
+    
+};
+
+
+
+YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
+
+
+    startDrag: function(x, y) {
+        this.logger.log(this.id + " startDrag");
+        // make the proxy look like the source element
+        var dragEl = this.getDragEl();
+        var clickEl = this.getEl();                                       
+        Dom.setStyle(clickEl, "visibility", "hidden");
+        dragEl.innerHTML = clickEl.innerHTML;    
+        Dom.setStyle(dragEl, "color", Dom.getStyle(clickEl, "color"));
+        Dom.setStyle(dragEl, "backgroundColor", Dom.getStyle(clickEl, "backgroundColor"));
+        Dom.setStyle(dragEl, "border", "2px solid gray");      
+        
+    },
+    
+    endDrag: function(e) {
+        var srcEl = this.getEl();
+        var proxy = this.getDragEl();
+        var proxyid = proxy.id;
+        var thisid = this.id;      
+        Dom.setStyle(proxyid, "visibility", "hidden");
+        Dom.setStyle(thisid, "visibility", "");     
+    },    
+
+    onDragDrop : function(e,id) { 
+            var srcEl = this.getEl();
+            var srcPEl = srcEl.parentNode;
+            var destEl = Dom.get(id);
+            var destDD = DDM.getDDById(id);
+            if (destEl.nodeName.toLowerCase() == "li") {
+                    destEl = destEl.parentNode; 
+                };                
+            var proxy = this.getDragEl();               
+            Dom.removeClass(id, 'dragover');
+            var el = document.createElement('h5');
+            generatedId = destEl.id + "_" + srcEl.id;
+            el.id = generatedId;
+            /*el.innerHTML = '<input type="hidden" name="ssi" value="' + generatedId + '" /> ' + el.innerHTML + '<input name="' + generatedId + '_start" type="text" size="5" maxlength="5" value="00:00" /> - <input name="' + generatedId + '_end" type="text" size="5" maxlength="5" value="00:00" />';*/
+            el.innerHTML = '<input type="hidden" name="ssi" value="' + generatedId + '" /> ' + proxy.innerHTML;
+            Dom.setStyle(el, "visibility", "");
+            if (document.getElementById(generatedId) != null) {
+                    var a = new YAHOO.util.Motion( 
+                        proxy, { 
+                            points: { 
+                                to: Dom.getXY(srcEl)
+                            }
+                        }, 
+                        0.2, 
+                        YAHOO.util.Easing.easeOut 
+                    )
+                    Dom.addClass(id, 'invalid-dragover')
+                    var proxyid = proxy.id;
+                    var thisid = this.id;      
+                    alert ("A sitting of this type is already scheduled for this day");
+                    // Hide the proxy and show the source element when finished with the animation
+                    a.onComplete.subscribe(function() {
+                            Dom.setStyle(proxyid, "visibility", "hidden");
+                            Dom.setStyle(thisid, "visibility", "");
+                            Dom.removeClass(id, 'invalid-dragover');
+                        });
+                    a.animate();                                                    
+                }
+            else if ((destEl.id == 'sitting-types') &&
+                     (srcEl.id.substr(0,5) == "stid_")) {    
+                     DDM.refreshCache();
+                     return;                 
+                }           
+            else if ((destEl.id == 'sitting-types') &&
+                     ((srcEl.id.substr(0,6) == "ctdid_") ||
+                     (srcEl.id.substr(0,6) == "stdid_"))                     
+                     ) {
+                     var formEl = document.getElementById(srcEl.id + '_form');
+                     srcPEl.removeChild(srcEl);                      
+                     srcPEl.removeChild(formEl);
+                }            
+            else if (((destEl.id.substr(0,6) == "ctdid_") ||
+                        (destEl.id.substr(0,6) == "stdid_"))
+                        &&
+                     ((srcEl.id.substr(0,6) == "stdid_") ||
+                     (srcEl.id.substr(0,6) == "ctdid_"))) {
+                     DDM.refreshCache();
+                     return;
+                }                                 
+            else {     
+                destEl.appendChild(el);
+                YAHOO.example.DDApp.addLi(el.id);
+                var formEl = document.createElement('span');
+                var idArr = new Array();
+                idArr = el.id.split('_');
+
+                formEl.id = el.id + '_form';                
+                formEl.innerHTML = '<input name="' + generatedId + '_start" type="text" size="5" maxlength="5" value="' + idArr[5].replace('-',':') + '" />' + 
+                                    '&nbsp;-&nbsp;<input name="' + generatedId + '_end" type="text" size="5" maxlength="5" value="' + idArr[6].replace('-',':') + '" />';
+                destEl.appendChild(formEl);
+                Dom.setStyle(formEl.id, "white-space", "nowrap");
+                destDD.isEmpty = false; 
+                };
+            DDM.refreshCache(); 
+    },
+    
+
+
+    onDragEnter: function(e, id) {        
+        var destEl = Dom.get(id);
+
+        if ((destEl.nodeName.toLowerCase() == "td") ||
+            (destEl.nodeName.toLowerCase() == "ul")) {            
+            Dom.addClass(id, 'dragover');
+            }            
+        if (destEl.nodeName.toLowerCase() == "li") {
+            var pEl = destEl.parentNode;
+            if (pEl.nodeName.toLowerCase() == "ol") {                
+                Dom.addClass(pEl.id, 'dragover');
+                }
+            }
+        
+    },
+
+   
+   
+   onDragOut: function(e, id) {        
+        var destEl = Dom.get(id);
+
+         if ((destEl.nodeName.toLowerCase() == "td")||
+            (destEl.nodeName.toLowerCase() == "ul")) {
+             Dom.removeClass(id, 'dragover');
+             Dom.removeClass(id, 'invalid-dragover');
+            }            
+        if (destEl.nodeName.toLowerCase() == "li") {
+            var pEl = destEl.parentNode;
+            if (pEl.nodeName.toLowerCase() == "ol") {
+                 //Dom.removeClass(pEl.id, 'dragover');
+                }
+            }        
+    },
+
+    });
+Event.onDOMReady(YAHOO.example.DDApp.init, YAHOO.example.DDApp, true);
+})();
+-->        
+</script>       
+        """
+        return js_string % js_inserts        
+
     

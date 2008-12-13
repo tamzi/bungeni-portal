@@ -85,6 +85,8 @@ class SittingSessionTypesViewlet( viewlet.ViewletBase ):
             data ={}
             data["stid"] = "stid_" + str(result.sitting_type_id)
             data["stname"] = result.sitting_type
+            data["start"] = datetime.datetime.strftime(result.start_time,'%H-%M')
+            data["end"] = datetime.datetime.strftime(result.start_time,'%H-%M')
             data_list.append(data)            
         return data_list
     
@@ -207,8 +209,9 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
             var proxy = this.getDragEl();               
             Dom.removeClass(id, 'dragover');
             var el = srcEl.cloneNode(true);
-            generatedId = destEl.id + "_" + srcEl.id
+            generatedId = destEl.id + "_" + srcEl.id;
             el.id = generatedId;
+            /*el.innerHTML = '<input type="hidden" name="ssi" value="' + generatedId + '" /> ' + el.innerHTML + '<input name="' + generatedId + '_start" type="text" size="5" maxlength="5" value="00:00" /> - <input name="' + generatedId + '_end" type="text" size="5" maxlength="5" value="00:00" />';*/
             el.innerHTML = '<input type="hidden" name="ssi" value="' + generatedId + '" /> ' + el.innerHTML;
             Dom.setStyle(el, "visibility", "");
             if (document.getElementById(generatedId) != null) {
@@ -240,7 +243,9 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                 }           
             else if ((destEl.id == 'sitting-types') &&
                      (srcEl.id.substr(0,5) == "dlid_")) {
+                     var formEl = document.getElementById(srcEl.id + '_form');
                      srcPEl.removeChild(srcEl);                      
+                     srcPEl.removeChild(formEl);
                 }            
             else if ((destEl.id.substr(0,5) == "dlid_") &&
                      (srcEl.id.substr(0,5) == "dlid_")) {
@@ -250,6 +255,11 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
             else {     
                 destEl.appendChild(el);
                 YAHOO.example.DDApp.addLi(el.id);
+                var formEl = document.createElement('li');
+                formEl.id = el.id + '_form';                
+                formEl.innerHTML = '<input name="' + generatedId + '_start" type="text" size="5" maxlength="5" value="00:00" />&nbsp;-&nbsp;<input name="' + generatedId + '_end" type="text" size="5" maxlength="5" value="00:00" />';
+                destEl.appendChild(formEl);
+                Dom.setStyle(formEl.id, "white-space", "nowrap");
                 destDD.isEmpty = false; 
                 };
             DDM.refreshCache(); 

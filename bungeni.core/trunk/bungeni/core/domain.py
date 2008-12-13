@@ -334,6 +334,11 @@ class ParliamentaryItem( Entity ):
     def workflow( self ):
         return component.getAdapter( self, IWorkflowInfo )
 
+class AgendaItem( Entity ):    
+    """
+    Generic Agenda Item that can be scheduled on a sitting
+    """
+
 class Question( ParliamentaryItem ):
 
     interface.implements( interfaces.IQuestion )

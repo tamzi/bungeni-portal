@@ -92,6 +92,9 @@ class AppSetup( object ):
         #users = domain.UsersContainer()
         #self.context['users'] = users
         
+        agendaitems = domain.AgendaItemContainer()
+        self.context['agendaitems'] = agendaitems
+        
         parliament_members = domain.ParliamentMemberContainer()
         self.context['persons'] = parliament_members
         

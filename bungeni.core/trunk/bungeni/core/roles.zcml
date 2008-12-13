@@ -9,14 +9,23 @@
     <role id="bungeni.Speaker" title="Speaker Office" />    
     <role id="bungeni.Everybody" title="Everybody" />
     <role id="bungeni.Admin" title="Bungeni Admin"/>
+    <role id="bungeni.Anonymous" title="Bungeni Admin"/>
 
+    <grant permission="bungeni.Speaker" role="bungeni.Speaker" />
+    <grant permission="bungeni.Clerk" role="bungeni.Clerk"  />
+    <grant permission="bungeni.MP" role="bungeni.MP" />
+    <grant permission="bungeni.Admin" role="bungeni.Admin" />
+    <grant permission="bungeni.Anonymous" role="bungeni.Anonymous" />
    
+   
+      
     <!-- the role grants are for testing only! to be removed! -->
    
     <!--grant role="bungeni.MP" principal="zope.Authenticated" />
     <grant role="bungeni.Owner" principal="zope.Authenticated" />
     <grant role="bungeni.Minister" principal="zope.Authenticated" />
     <grant role="bungeni.Clerk" principal="zope.Authenticated" /-->
+    <grant role="bungeni.Anonymous" principal="zope.anybody" />
     <grant role="bungeni.Everybody" principal="zope.Anybody" />
     <grant role="bungeni.Everybody" principal="zope.Authenticated" />
     
@@ -27,7 +36,7 @@
     <grant permission="bungeni.question.edit" role="bungeni.Owner" />
     <grant permission="bungeni.question.delete" role="bungeni.Owner" />
     <grant permission="bungeni.question.view" role="bungeni.Owner" />
-      
+
     <grant permission="bungeni.motion.add" role="bungeni.MP" />
     <grant permission="bungeni.motion.edit" role="bungeni.Owner" />
     <grant permission="bungeni.motion.delete" role="bungeni.Owner" />
@@ -46,6 +55,7 @@
     <grant permission="bungeni.bill.add" role="bungeni.MP" />
     <grant permission="bungeni.bill.edit" role="bungeni.Owner" />
     <grant permission="bungeni.bill.delete" role="bungeni.Owner" />
+    <grant permission="bungeni.bill.delete" role="zope.Manager" />
     <grant permission="bungeni.bill.view" role="bungeni.Owner" />  
     
     <!--

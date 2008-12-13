@@ -729,7 +729,7 @@ bill_changes = make_changes_table( bills, metadata )
 bill_versions = make_versions_table( bills, metadata )
 
 committee_reports = ()
-#debates = ()
+
 
 bill_consignatories = rdb.Table(
    "bill_consignatories",
@@ -737,6 +737,23 @@ bill_consignatories = rdb.Table(
    rdb.Column( "bill_id", rdb.Integer,rdb.ForeignKey('bills.bill_id'), nullable = False, primary_key=True ),
    rdb.Column( "user_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False, primary_key=True ),
     )
+
+#Agenda Items:
+# generic items to be put on the agenda
+# they can be scheduled for a sitting
+
+agenda_items = rdb.Table(
+   "agenda_items",
+   metadata,
+   rdb.Column( "agenda_item_id", rdb.Integer, ItemSequence, primary_key=True ),
+   rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False ),      
+   rdb.Column( "title", rdb.Unicode(80), nullable = False ), 
+   rdb.Column( "description", rdb.Unicode(1024) ),
+   rdb.Column( "body_text",  rdb.UnicodeText ),
+   )
+   
+
+
 
 #Tabled documents:
 #a tabled document captures metadata about the document (owner, date, title, description) 

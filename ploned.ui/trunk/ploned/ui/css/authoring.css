@@ -487,7 +487,8 @@ div.formControls input.hidden {
 ol.draglist { 
     position: relative;
     background: #f7f7f7;
-    border: 1px solid gray;
+    /*border: 1px solid gray;*/
+    border: none;
     margin:0;
     padding-bottom:1em;
 
@@ -500,7 +501,7 @@ ol.draglist.dragover {
 ol.draglist li {
     margin: 1px;
     cursor: move;
-    border: 1px solid black;
+    border-bottom: 1px solid black;
     zoom: 1;
 }
 
@@ -508,13 +509,18 @@ ol.draglist li {
 ul.draglist { 
     position: relative;
     background: #f7f7f7;
-    border: 1px solid gray;
+    /*border: 1px solid gray;*/
+    border: none;
     list-style: none;
     margin:0;    
     padding-bottom:1em;
 }
 
 ul.draglist.dragover {
+    background-color: green;
+}
+
+td.dragover {
     background-color: green;
 }
 
@@ -525,7 +531,7 @@ ul.draglist.invalid-dragover {
 ul.draglist li {
     margin: 1px;
     cursor: move;
-    border: 1px solid black;
+    border-bottom: 1px solid black;
     zoom: 1;
 }
 

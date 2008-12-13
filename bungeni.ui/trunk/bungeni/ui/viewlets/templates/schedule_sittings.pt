@@ -6,7 +6,7 @@
 <body>
 
   <div metal:fill-slot="body">
-    <!--h1 i18n:translate="">Sittings</h1-->
+    <h1 i18n:translate="">Schedule Sittings</h1>
     <div tal:replace="structure provider:bungeni.datechooser.manager" />
     <div tal:replace="structure provider:bungeni.schedule-sitting-calendar.manager" />  
    

@@ -419,6 +419,16 @@
     weight="30"
     />         
 
+  <browser:viewlet
+    name="bungeni.schedule-sitting.submit-schedulesitting"   
+    manager=".interfaces.IScheduleSittingCalendar"
+    class=".schedulesittingcalendar.ScheduleSittingSubmitViewlet"
+    permission="zope.Public"
+    weight="1"
+    />         
+
+
+
 
   <!-- Government -->  
   <!--browser:page

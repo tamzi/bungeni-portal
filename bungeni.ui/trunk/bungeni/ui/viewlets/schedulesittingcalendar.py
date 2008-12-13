@@ -26,7 +26,7 @@ import bungeni.core.globalsettings as prefs
 from bungeni.ui.utils import getDisplayDate
 
 import interfaces
-
+from schedule import makeList
 
 import pdb
 
@@ -53,6 +53,15 @@ class ScheduleSittingCalendar( viewlet.ViewletBase ):
     monthcalendar = None
     monthname =""
     weekcalendar = None
+    no_of_columns = 0
+    
+    def getNextWeek(self):
+        td = datetime.timedelta(7)
+        return '?date=' + datetime.date.strftime((self.Date + td),'%Y-%m-%d')
+        
+    def getPrevWeek(self):
+        td = datetime.timedelta(7)
+        return '?date=' + datetime.date.strftime((self.Date - td),'%Y-%m-%d')        
     
     def getStartDate(self):
         return self.weekcalendar[0]
@@ -66,9 +75,9 @@ class ScheduleSittingCalendar( viewlet.ViewletBase ):
                 return week
 
     def formatDay(self, day):
-        return  datetime.date.strftime(day, '%a, %d %b %y')
+        return  datetime.date.strftime(day, '%a, %d')
 
-
+    
     def getSessionTdId( self, day, session_id):        
         return 'stdid_' + datetime.date.strftime(day,'%Y-%m-%d') + '_' + str(session_id)
         
@@ -205,7 +214,8 @@ class ScheduleSittingCalendar( viewlet.ViewletBase ):
                 
         self.Date = getDisplayDate(self.request)
         if not self.Date:
-            self.Date=datetime.date.today()                                           
+            self.Date=datetime.date.today()   
+        self.week_no = self.Date.isocalendar()[1]                                         
         self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )
         self.monthcalendar = calendar.Calendar(prefs.getFirstDayOfWeek()).monthdatescalendar(self.Date.year,self.Date.month)         
         self.monthname = datetime.date.strftime(self.Date,'%B %Y')
@@ -215,7 +225,10 @@ class ScheduleSittingCalendar( viewlet.ViewletBase ):
         self.committees = self._getCommittees()
         self.sittings = self._getSittings()
         self.sitting_types = self._getSittingTypes()
-    
+        if self.sessions:
+            self.no_of_columns = len(self.sessions) 
+        if self.committees:    
+            self.no_of_columns = self.no_of_columns + len(self.committees)
     
     
     
@@ -258,13 +271,28 @@ class SittingScheduleDDViewlet( ScheduleSittingCalendar ):
     on dragdrop check if an element of the same id as the above generated id exists, if yes
     do not allow drop, else create the element.    
     """
+    def _isValidSittingDate(self, day, targetOb):
+        """
+        check if date is in range between start and end
+        """        
+        if targetOb.start_date:
+           if day < targetOb.start_date:
+                return False
+        if targetOb.end_date:
+            if day > targetOb.end_date:
+                return False
+        return True                                
+    
+    
     def _getTargets(self):
         targets = []
         for day in self.weekcalendar:
             for session in self.sessions:
-                targets.append( 'stdid_' + datetime.date.strftime(day,'%Y-%m-%d') + '_' + str(session.session_id))
+                if self._isValidSittingDate(day,session):
+                    targets.append( 'stdid_' + datetime.date.strftime(day,'%Y-%m-%d') + '_' + str(session.session_id))
             for committee in self.committees:
-                targets.append('ctdid_' + datetime.date.strftime(day,'%Y-%m-%d') + '_' + str(committee.committee_id))
+                if self._isValidSittingDate(day, committee):
+                    targets.append('ctdid_' + datetime.date.strftime(day,'%Y-%m-%d') + '_' + str(committee.committee_id))
         return targets                
                 
     def _getList(self):
@@ -375,7 +403,7 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
             generatedId = destEl.id + "_" + srcEl.id;
             el.id = generatedId;
             /*el.innerHTML = '<input type="hidden" name="ssi" value="' + generatedId + '" /> ' + el.innerHTML + '<input name="' + generatedId + '_start" type="text" size="5" maxlength="5" value="00:00" /> - <input name="' + generatedId + '_end" type="text" size="5" maxlength="5" value="00:00" />';*/
-            el.innerHTML = '<input type="hidden" name="ssi" value="' + generatedId + '" /> ' + proxy.innerHTML;
+            el.innerHTML =  proxy.innerHTML;
             Dom.setStyle(el, "visibility", "");
             if (document.getElementById(generatedId) != null) {
                     var a = new YAHOO.util.Motion( 
@@ -428,8 +456,9 @@ YAHOO.extend(YAHOO.example.DDList, YAHOO.util.DDProxy, {
                 idArr = el.id.split('_');
 
                 formEl.id = el.id + '_form';                
-                formEl.innerHTML = '<input name="' + generatedId + '_start" type="text" size="5" maxlength="5" value="' + idArr[5].replace('-',':') + '" />' + 
-                                    '&nbsp;-&nbsp;<input name="' + generatedId + '_end" type="text" size="5" maxlength="5" value="' + idArr[6].replace('-',':') + '" />';
+                formEl.innerHTML = '<input type="hidden" name="ssi" value="' + generatedId + '" /> ' +
+                                    '<input name="start_' + generatedId + '" type="text" size="5" maxlength="5" value="' + idArr[5].replace('-',':') + '" />' + 
+                                    ' - <input name="end_' + generatedId + '" type="text" size="5" maxlength="5" value="' + idArr[6].replace('-',':') + '" />';
                 destEl.appendChild(formEl);
                 Dom.setStyle(formEl.id, "white-space", "nowrap");
                 destDD.isEmpty = false; 
@@ -480,5 +509,60 @@ Event.onDOMReady(YAHOO.example.DDApp.init, YAHOO.example.DDApp, true);
 </script>       
         """
         return js_string % js_inserts        
+
+
+class ScheduleSittingSubmitViewlet ( viewlet.ViewletBase ):
+    """
+    this only gets the posted values and inserts them into the db           
+    and reports any errors the might occur
+    """
+    errors = []
+       
+    def scheduleSitting(self, scstr, start, end):
+        l = scstr.split('_')
+        d = l[1].split('-')
+        s = start.split(':')
+        e = end.split(':')
+        start_date = datetime.datetime(int(d[0]), int(d[1]), int(d[2]), int(s[0]), int(s[1]))
+        end_date = datetime.datetime(int(d[0]), int(d[1]), int(d[2]), int(e[0]), int(e[1]))
+        gsid = long(l[2])
+        assert(l[3] == 'stid')  
+        stid = long(l[4])  
+        session = Session()              
+        if l[0] == 'stdid':
+            #TODO validate -> form validation
+            sitting = domain.GroupSitting()
+            sitting.group_id = None
+            sitting.session_id = gsid
+            sitting.start_date = start_date
+            sitting.end_date = end_date
+            sitting.sitting_type = stid
+            session.save(sitting)
+        elif l[0] == 'ctdid':  
+            sitting = domain.GroupSitting()
+            sitting.group_id = gsid
+            sitting.session_id = None
+            sitting.start_date = start_date
+            sitting.end_date = end_date
+            sitting.sitting_type = stid
+            session.save(sitting)                    
+        else:                       
+            raise NotImplementedError    
+        
+    def insert_items(self, form):
+        if form.has_key('ssi'):
+            scheduleitems = makeList(form['ssi'])
+            for k in scheduleitems:                
+                start = form['start_' + k ]    
+                end = form['end_' + k]
+                self.scheduleSitting(k, start, end)               
+                
+    
+    def update(self):
+        if self.request.form:
+            if self.request.form.has_key('save'):
+                self.insert_items(self.request.form)   
+        
+    render =  ViewPageTemplateFile ('templates/schedule_sitting_submit_viewlet.pt')
 
     

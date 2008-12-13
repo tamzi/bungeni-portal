@@ -1,8 +1,14 @@
 <div id="">
+   <form enctype="multipart/form-data" action="" method="post" >
     <table id="" class="listing grid">
         <theader>
           <tr>
-            <th> Date </th>
+          <th><a tal:attributes="href view/getPrevWeek">&lt;&lt;</a></th>
+          <th tal:attributes="colspan python:(view.no_of_columns -1)"> <strong tal:content="view/monthname"> Month - year </strong></th>
+          <th><a tal:attributes="href view/getNextWeek">&gt;&gt;</a></th>
+          </tr>
+          <tr>
+            <th tal:content="view/week_no"> Week number </th>
             <th tal:repeat="session view/sessions"> Plenary:<br/><b tal:replace="session/short_name"> parliament </b> </th>
             <th tal:repeat="committee view/committees"> <span tal:content="committee/short_name" tal:attributes="title committee/full_name"> committee </span> </th>
           </tr>  
@@ -13,18 +19,21 @@
             <td tal:repeat="session view/sessions" tal:attributes="id python:view.getSessionTdId(day, session.session_id); 
                                                                     class python:view.getSessionTdClass(session.session_id)"> 
               <div tal:repeat="sitting python: view.getScheduledParliamentSittings(day, session.session_id)">
-                <h4 tal:content="sitting/short_name" tal:attributes="title sitting/s_type" />
+                <span tal:content="sitting/short_name" tal:attributes="title sitting/s_type" /><hr/>
               </div>
             </td>
             <td tal:repeat="committee view/committees" tal:attributes="id python:view.getCommitteeTdId(day, committee.committee_id); 
                                                                         class python:view.getCommitteeTdClass(committee.committee_id)"> 
               <div tal:repeat="sitting python: view.getScheduledCommitteeSittings(day, committee.committee_id)">
-                <h4 tal:content="sitting/short_name" tal:attributes="title sitting/s_type" />
+                <span tal:content="sitting/short_name" tal:attributes="title sitting/s_type" /><hr/>
               </div>
             </td>
           </tr>  
         </tbody>
     </table>
+    <input id="saveButton" class="context" type="submit" name="save" value="Save"/>
+    <input id="form.actions.cancel" class="context" type="submit" name="cancel" value="Cancel"/>
+  </form>
 </div>
 
 

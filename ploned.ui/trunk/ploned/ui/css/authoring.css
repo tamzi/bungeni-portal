@@ -535,6 +535,10 @@ ul.draglist li {
     zoom: 1;
 }
 
+h5.dragable {
+    background-color: #f7f7f7;
+}
+
 /* schedule calendar */
 
 strong.past-date {

@@ -165,12 +165,15 @@ class MetavidTemplate extends QuickTemplate {
 if( $wgUser->isAllowed('view_sittings') ){
 	$rlink=$skin->makeLinkObj( Title::makeTitle(NS_SPECIAL, 'Sittings' ), 'Sittings'); echo $rlink;
 }
+//if( $wgUser->isAllowed('progress_sittings') ){
+//	$rlink=$skin->makeLinkObj( Title::makeTitle(NS_SPECIAL, 'Progress' ), 'Progress'); echo $rlink;
+//}
 if( $wgUser->isAllowed('view_mps') ){
 	$rlink=$skin->makeLinkObj( Title::makeTitle(NS_SPECIAL, 'Members_of_Parliament' ), 'Members of Parliament'); echo $rlink;
 }
-if( $wgUser->isAllowed('view_bills') ){
-	$rlink=$skin->makeLinkObj( Title::makeTitle(NS_SPECIAL, 'Bills' ), 'Bills'); echo $rlink;
-}
+//if( $wgUser->isAllowed('view_bills') ){
+//	$rlink=$skin->makeLinkObj( Title::makeTitle(NS_SPECIAL, 'Bills' ), 'Bills'); echo $rlink;
+//}
 if( $wgUser->isAllowed('view_users') ){
 	$rlink=$skin->makeLinkObj( Title::makeTitle(NS_SPECIAL, 'ListUsers' ), 'Users'); echo $rlink;
 }

@@ -139,14 +139,14 @@ $mvEnableStreamNotice=true;
  * Different languages should be in different tracks and documentation should be clear
  * to insure data goes into its associative layer.
  */
-$mvMVDTypeAllAvailable = array( 'ht_en', 'anno_en', 'take_en', 'mp_en' );
+$mvMVDTypeAllAvailable = array( 'ht_en', 'anno_en', 'take_en', 'Mp_names' );
 
 /*
  * the default display set of layers (must be a subset of $mvMVDTypeAllAvaliable)
  * note: this is equivalent to ?mvd_tracks=ht_en,anno_en  in the url for the stream page.
  * this also dictates the default search layers
 */
-$mvMVDTypeDefaultDisp = array( 'ht_en', 'take_en', 'mp_en' );
+$mvMVDTypeDefaultDisp = array( 'ht_en', 'take_en', 'Mp_names' );
 
 # ##################
 # Special Pages with Interface functions

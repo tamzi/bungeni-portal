@@ -129,11 +129,13 @@
 	// grab semantic properties if availiable:
 	// @@todo we need to think this through a bit
 	function grabSemanticProp() {
+		/*
 		if ( SMW_VERSION ) {
 			// global $smwgIP;
 			$smwStore =& smwfGetStore();
 			foreach ( $this->smwProperties as $propKey => $val ) {
 				$propTitle = Title::newFromText( $propKey, SMW_NS_PROPERTY );
+				
 				$smwProps = $smwStore->getPropertyValues( $this->article->mTitle, $propTitle );
 				// just a temp hack .. we need to think about this abstraction a bit...
 				if ( count( $smwProps ) != 0 ) {
@@ -142,6 +144,7 @@
 				}
 			}
 		}
+		*/
 	}
 	/*
 	 * renders the full page  to the wgOut object

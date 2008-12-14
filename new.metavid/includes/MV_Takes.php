@@ -479,6 +479,7 @@ global $mv_default_take_duration;
 			{
 				$art->doDeleteArticle( "new takes generated", true);
 			}
+			$result2 = $dbr->delete('mv_mvd_index',array('wiki_title'=>$row->wiki_title));
 		}
 		
 		$num_editor = 0;

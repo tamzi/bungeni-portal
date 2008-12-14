@@ -63,9 +63,9 @@ function mv_load_interface_libs(){
 			'$j.autocomplete':'jquery/plugins/jquery.autocomplete.js',
 			'$j.fn.hoverIntent':'jquery/plugins/jquery.hoverIntent.js',
 			'$j.ui.resizable':'jquery/plugins/ui.resizable.js',
-			'$j.ui.draggable':'jquery/plugins/ui.draggable.js',
-			'$j.fn.question':'jquery/plugins/jquery.question.js',
-			'$j.fn.answer':'jquery/plugins/jquery.answer.js'
+			'$j.ui.draggable':'jquery/plugins/ui.draggable.js'
+			//'$j.fn.question':'jquery/plugins/jquery.question.js',
+			//'$j.fn.answer':'jquery/plugins/jquery.answer.js'
 			//'$j.fn.managerandr':'jquery/plugins/jquery.managerandr.js'
 	  	},function(){   
 	  		//now extend draggable
@@ -366,7 +366,7 @@ function mv_disp_add_mvd(mvdType, time_range){
 				add_adjust_hooks('new'); 
 			}
 			//add edit buttons 
-			//mwSetupToolbar();
+			mwSetupToolbar();
 			//onLoadFCKeditor();
 			mwEditButtons = []; //empty edit buttons
 		}

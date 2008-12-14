@@ -34,7 +34,7 @@
  			// that way we don't run importFormData with empty POST
  			$_SERVER['REQUEST_METHOD'] = 'GET';
  		}
- 		//parent::edit();
+ 		parent::edit();
  	}
  	/*put thrown together quickly... could clean up/simplify*/
  	function displayEditStreamFiles() {

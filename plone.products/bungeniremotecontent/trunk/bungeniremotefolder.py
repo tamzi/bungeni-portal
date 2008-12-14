@@ -113,7 +113,7 @@ class bungeniremotefolder(ATFolder):
         if results['status'] >= 400:
             print results
             entries = results['entries']
-            entries.append ({'title' : 'error: ' + str(results['status']), 'content': [{'value':'Error retriving data'}]})
+            entries.append ({'title' : 'error: ' + str(results['status']),'link':'#', 'content': [{'value':'Error retriving data'}]})
             return entries
         return results['entries']
 
@@ -231,6 +231,19 @@ class bungeniremotefolder(ATFolder):
             rs = rs + '<td class="next-remote-page"> <a href="' + lnk + '" > &gt;&gt; </a> </td>'
         rs = rs + '</tr></table>'
         return rs
+
+    security.declarePublic('getLocalFolderListing')
+    def getLocalFolderListing(self, url):
+        """
+        """
+        #print url
+        results = feedparser.parse(url)
+        if results['status'] >= 400:
+            print results
+            entries = results['entries']
+            entries.append ({'title' : 'error: ' + str(results['status']), 'link':'#', 'description': [{'value':'Error retriving data'}]})
+            return entries
+        return results['entries']
 
 
 registerType(bungeniremotefolder, PROJECTNAME)

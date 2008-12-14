@@ -72,10 +72,10 @@ margin: 0 0.5em 0.5em 2.0em;
 .admin_links {
 	text-align : right;
  	top: 1.9em;
-    	right: 2em;
+    	right: 2.5em;
 	position: absolute;
     	float: right;
-	z-index: 0;
+	z-index: 1;
     	width: 25%;
 }
 .admin_links a {
@@ -89,6 +89,28 @@ margin: 0 0.5em 0.5em 2.0em;
 	color: #df7e16;
 }
 .admin_links a:active {
+	color: #df7e16;
+}
+.progress_links {
+	text-align : left;
+ 	top: 4.0em;
+    	left: 0em;
+	position: absolute;
+    	float: left;
+	z-index: 0;
+    	width: 25%;
+}
+.progress_links a {
+	font: x-small sans-serif;
+	font-size : 130%;
+	color: #df7e16;
+	margin: 0;
+	padding: 1.0em;
+}
+.progress_links a:visited {
+	color: #df7e16;
+}
+.progress_links a:active {
 	color: #df7e16;
 }
 /* the left column width is specified in class .portlet */

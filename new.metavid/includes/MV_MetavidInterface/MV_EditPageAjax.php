@@ -58,7 +58,7 @@
 	}
 	/*template for transcripts includes a person autocomplete on the left: */
 	function do_pre_htEdit(){
-		global $wgOut, $wgUser,$semantic_data;
+		global $wgOut, $wgUser,$semantic_data,$mvgScriptPath;
 		$this->loadEditText();
 			
 		$MvOverlay = new MV_Overlay();
@@ -94,7 +94,8 @@
 					$img = wfLocalFile( $imgTitle );					
 				}
 			}
-			$wgOut->addHTML("<img id=\"mv_edit_im_{$this->mvd_id}\" style=\"display: block;margin-left: auto;margin-right: auto;\" src=\"{$img->getURL()}\" width=\"44\">");				
+			$wgOut->addHTML("<img id=\"mv_edit_im_{$this->mvd_id}\" style=\"display: block;margin-left: auto;margin-right: auto;\" src=\"{$img->getURL()}\" width=\"44\">");
+			//$wgOut->addHTML("<img id=\"mv_edit_im_{$this->mvd_id}\" style=\"display: block;margin-left: auto;margin-right: auto;\" src=\"{$mvgScriptPath}/skins/images/Feed-icon_cmml.png\" width=\"44\">");				
 				$wgOut->addHTML('<input style="font-size:x-small" 
 						value="'.$semantic_data['Spoken By'].'" 
 						name="smw_Spoken_By"
@@ -697,28 +698,22 @@
 			$summarypreview = $summarytext && $this->preview ? "<div class=\"mw-summary-preview\">".wfMsg('summary-preview').':'.$sk->commentBlock( $this->summary, $this->mTitle )."</div>\n" : '';
 			$subjectpreview = '';
 		}
-		//if(!isset($semantic_data['Question_No']))$semantic_data['Question No']='';
 		$MV_Title = new MV_Title($this->mTitle);
 		$this->stream_id = $MV_Title->getStreamId();
-		 global $stream_editor, $stream_reporter, $stream_reader, $semantic_data, $editorsTable, $readersTable, $reportersTable;
-		
+		// global $stream_editor, $stream_reporter, $stream_reader, $semantic_data, $editorsTable, $readersTable, $reportersTable;
+	/*	
 		if (($editFormType !='anno_en') && ($wgUser->isAllowed('managestaff')))
         {
        
        
         $dbr =& wfGetDB(DB_SLAVE);
-        //$result = $dbr->select(array($dbr->tableName($sitting_assignments), $dbr->tableName($user_group)),'*',array('sitting_id'=>$this->sitting_id));
         $sql = 'SELECT ug_user FROM user_groups WHERE ug_user IN (SELECT user_id FROM stream_assignment WHERE stream_id='.$this->stream_id.') and ug_group="editor"';
         $result = $dbr->query($sql);
         $wgOut->addHTML('<table><tr><td width="50">Editor</td><td width="50">Reader</td><td width="50">Reporter</td><td width="50">Status</td></tr>');
-        //get editor names and id
+        
         $wgOut->addHTML('<tr><td><select name="smw_Edited_By">');
-        //$MvOverlay = new MV_Overlay();
-        //$semantic_data = $MvOverlay->get_and_strip_semantic_tags($this->stripped_edit_text);
         while($row = $dbr->fetchObject($result))
         {
-        	//$result2 = $dbr->select($dbr->tableName($editorsTable),'*',array('id'=>$row->editor_id));
-        	//$row2 = $dbr->fetchObject($result2);
         	$user = User::newFromId($row->ug_user);
         	$name = $user->getRealName();
         	$html .= '<option value='.$row->ug_user;
@@ -731,15 +726,11 @@
         $wgOut->addHTMl('</select></td>');
        
         $wgOut->addHTML('<td><select name="smw_Read_By">');
-        //$result = $dbr->select($dbr->tableName($sitting_reader),'*', array('sitting_id'=>$this->sitting_id));
-        //get readers names and id
          $sql = 'SELECT ug_user FROM user_groups WHERE ug_user IN (SELECT user_id FROM stream_assignment WHERE stream_id='.$this->stream_id.') and ug_group="reader"';
         $result = $dbr->query($sql);
         $html = '';
         while($row = $dbr->fetchObject($result))
         {
-        	//$result2 = $dbr->select($dbr->tableName($readersTable),'*',array('id'=>$row->reader_id));
-        	//$row2 = $dbr->fetchObject($result2);
         	$user = User::newFromId($row->ug_user);
         	$name = $user->getRealName();
         	
@@ -752,14 +743,11 @@
         $wgOut->addHTMl('</select></td>');
   		
   		$wgOut->addHTML('<td><select name="smw_Reported_By">');
-        //$result = $dbr->select($dbr->tableName($sitting_reporter),'*', array('sitting_id'=>$this->sitting_id));
         $sql = 'SELECT ug_user FROM user_groups WHERE ug_user IN (SELECT user_id FROM stream_assignment WHERE stream_id='.$this->stream_id.') and ug_group="reporter"';
         $result = $dbr->query($sql);
         $html = '';
         while($row = $dbr->fetchObject($result))
         {
-        	//$result2 = $dbr->select($dbr->tableName($reportersTable),'*',array('id'=>$row->reporter_id));
-        	//$row2 = $dbr->fetchObject($result2);
         	$user = User::newFromId($row->ug_user);
         	$name = $user->getRealName();
         	
@@ -770,7 +758,7 @@
         }
         $wgOut->addHTML($html);
         $wgOut->addHTMl('</select></td>');
-        
+        */
         //get reporters names and id
         /*
         if(!(isset($semantic_data['Reported By'])))
@@ -800,6 +788,7 @@
         	$wgOut->addHTMl('</select></td>');
         }	
         */
+        /*
         $wgOut->addHTML('<td><select name="smw_Status">');
         $wgOut->addHTML('<option>Incomplete</option>');
         $wgOut->addHTML('<option>Complete</option>');
@@ -818,6 +807,7 @@
         	$wgOut->addHTML('</select></td>');
         	$wgOut->addHTML('</tr></table>');
         }
+        */
         if ($editFormType=='question_en')
         {
             $wgOut->addHTML('<p>Question Number<select name="smw_Question_No" id="smw_Question_No"></select>');

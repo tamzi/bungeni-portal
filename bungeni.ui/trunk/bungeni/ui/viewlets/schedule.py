@@ -709,19 +709,12 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         results = sittings.all()     
         for result in results:
             self.sitting_ids.append(result.sitting_id)     
-        scheduled_items_filter = sql.and_(schema.items_schedule.c.sitting_id.in_(self.sitting_ids), 
-                                            sql.or_(schema.questions.c.status == question_wf_state.scheduled,
-                                                    schema.motions.c.status == motion_wf_state.scheduled,
-                                                    schema.bills.c.status.in_( [bill_wf_state.first_reading , 
-                                                                                bill_wf_state.second_reading , 
-                                                                                bill_wf_state.whole_house , 
-                                                                                bill_wf_state.report_reading , 
-                                                                                bill_wf_state.third_reading ]
-                                                                                ),                                                        
-                                                    ),
-                                            schema.items_schedule.c.active == True)
-        #pdb.set_trace()                                                  
-        scheduled_items = session.query(ScheduledItems).filter(scheduled_items_filter).distinct()
+       
+        scheduled_items =  session.query(domain.ItemSchedule).filter( rdb.and_(schema.items_schedule.c.sitting_id.in_(self.sitting_ids), 
+                                                                    schema.items_schedule.c.active == True))
+        
+        
+        
         results = scheduled_items.all()
         for result in results:
             self.scheduled_item_ids.append(result.schedule_id)    
@@ -1220,7 +1213,7 @@ class QuestionInStateViewlet( viewlet.ViewletBase ):
         offset = datetime.timedelta(prefs.getNoOfDaysBeforeQuestionSchedule())  
         data_list = []       
         results = self.query.all()
-        print str(self.query)
+        
         for result in results:            
             data ={}
             data['qid']= ( 'q_' + str(result.question_id) )                         
@@ -1268,7 +1261,7 @@ class MotionInStateViewlet( viewlet.ViewletBase ):
         """      
         data_list = []
         results = self.query.all()
-        print str(self.query)        
+       
         for result in results:            
             data ={}
             data['qid']= ( 'm_' + str(result.motion_id) )                         
@@ -1315,7 +1308,7 @@ class BillItemsViewlet( viewlet.ViewletBase ):
         """      
         data_list = []
         results = self.query.all()
-        print str(self.query)        
+      
         for result in results:            
             data ={}
             data['qid']= ( 'b_' + str(result.bill_id) )                         
@@ -1359,7 +1352,7 @@ class AgendaItemsViewlet( viewlet.ViewletBase ):
         """      
         data_list = []
         results = self.query.all()
-        print str(self.query)                
+             
         for result in results:            
             data ={}
             data['qid']= ( 'a_' + str(result.agenda_item_id) )                         
@@ -1908,7 +1901,7 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
         """
         refresh the query
         """
-        self.errors = []
+        self.errors = []        
         if self.request.form:
             if not self.request.form.has_key('cancel'):
                 self.insert_items(self.request.form) 

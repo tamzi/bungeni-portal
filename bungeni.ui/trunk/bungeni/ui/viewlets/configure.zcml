@@ -129,13 +129,13 @@
     /-->        
     
     
-  <!--browser:viewlet
+  <browser:viewlet
     name="bungeni.schedule.yui-dragdrop"   
     manager=".interfaces.IScheduleItems"
     class=".schedule.YUIDragDropViewlet"
     permission="zope.Public"
     weight="50"
-    /--> 
+    /> 
            
  <browser:viewlet
      name="bungeni.schedule.yui-tabs"

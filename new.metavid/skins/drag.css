@@ -75,16 +75,16 @@ li.list6 {
 {
 	   position:absolute;
 	   width: 220px;
-	top:50px;
-	left:300px;
+	top:350px;
+	left:50px;
 }
 
 #unassignedReaders
 {
 	   position:absolute;
 	   width: 220px;
-	top:350px;
-	left:50px;
+	top:50px;
+	left:300px;
 }
 #assignedReaders
 {
@@ -97,21 +97,21 @@ li.list6 {
 {
 	   position:absolute;
 	   width: 220px;
-	top:650px;
-	left:50px;
+	top:50px;
+	left:550px;
 }
 #assignedReporters
 {
 	   position:absolute;
 	   width: 220px;
-	top:650px;
-	left:300px;
+	top:350px;
+	left:550px;
 }
 #user_actions {
  	 position:absolute;
 	   width: 220px;
-	top:950px;
-	left:375px;
+	top:650px;
+	left:550px;
  }
 #sitting_id
 {

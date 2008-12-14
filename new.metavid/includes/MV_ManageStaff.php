@@ -94,16 +94,24 @@ class MV_ManageStaff extends EditPage{
 			
 			$html .= $this->getAvailableReporters($this->stream_id);
 			$html .= $this->getAssignedReporters($this->stream_id);
-			$html .= '<div id="user_actions"><input id="showButton" type="button" value="Save Changes"/></div>';
+			
 			if ($wgRequest->getText('new')=='true')
 			{
-				$html .= '<div class="navigation"><table><tr><td>';
+				$html .= '<div id="user_actions"><table><tr><td>';
+				$html .= '<input id="showButton" type="button" value="Save Changes"/>';
+				$html .= '</td>';
+				$html .= '<td>';
 				$html .= '<button onclick=location.href="'.$this->mTitle->getFullUrl('action=edit&new=true').'">Back</button>';
 				$html .= '</td>';
 				$html .= '<td>';
+				//$html .= '<button onclick=location.href="'.$this->mTitle->getFullUrl('action=takes&new=true').'">Next</button>';
 				$html .= '<button onclick=location.href="'.$this->mTitle->getFullUrl('action=takes&new=true').'">Next</button>';
 				$html .= '</td></tr></table></div>';
 				$wgOut->setPageTitle('Create New Sitting Takes');
+			}
+			else
+			{
+				$html .= '<div id="user_actions"><input id="showButton" type="button" value="Save Changes"/></div>';
 			}	
 			
 			

@@ -467,7 +467,7 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		//@@TODO set up conditional display: (view source if not logged on, protect, remove if given permission)  
 		$out.=$plink;
 		$mvdType = $mvd_page->mvd_type;
-		if ($mvdType !='Mp_names')
+		if (($mvdType != 'Mp_names') && ($mvdType !='Take_en'))
 		{
 			$out.="| $elink | $hlink | $dlink ";
 			if(($wgUser->isAllowed('mv_delete_mvd')) ){
@@ -632,7 +632,7 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		//set up the title /article
 		$wgTitle = Title::newFromText($titleKey, MV_NS_MVD);
 		$Article = new Article($wgTitle);
-		if ($type != 'Anno_en'){
+		if ($type == 'Ht_en'){
 			$tit = Title::newFromText($nameKey, MV_NS_MVD);
 			$art = new Article($tit);
 			if (!$art->exists())
@@ -649,12 +649,12 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 		//xxxx
 		
 		//add all semantic form based attributes/relations to the posted body text
-		foreach($_POST as $key=>$val){
+		foreach($_REQUEST as $key=>$val){
 			$do_swm_include=true;
 			if(substr($key, 0, 4)=='smw_'){
 				//try attribute		
 				$swmTitle = Title::newFromText(substr($key, 4), SMW_NS_PROPERTY);
-				if($swmTitle->exists()){																	
+				//if($swmTitle->exists())//{																	
 					//make sure the person is not empty: 
 					if(trim($val)!=''){
 						//@@todo update for other smw types: 
@@ -682,7 +682,7 @@ $smwgShowFactbox=SMW_FACTBOX_HIDDEN;
 						    $wgRequest->data['wpTextbox1'] .= " [[".$swmTitle->getText().':='.$val.']] ';
 						}
 					}				
-				}
+				//}
 				
 			}
 		}			

@@ -10,10 +10,12 @@ public class Messages_en_KE extends ListResourceBundle {
 	//The List that contains the messages for kenya
 	static Object[][] contents = 
 	{
-	    { "HELLO_TEXT",
-	      "Hello, world!" },
-	    { "GOODBYE_TEXT",
-	      "Goodbye everyone!" },
+	    { "MISSING_ATTRIBUTE_LEFT_TEXT",
+	      "The additional info '" },
+	    { "MISSING_ATTRIBUTE_CENTER_TEXT",
+	      "' is mandatory for the section '" },
+		{ "MISSING_ATTRIBUTE_RIGHT_TEXT",
+		  "'" },
 	};
 	
 	

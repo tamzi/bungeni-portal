@@ -351,13 +351,13 @@
           
           
   
-  <browser:viewlet
+  <!--browser:viewlet
     name="bungeni.sitting.types"   
     manager=".interfaces.ISittingCalendar"
     class=".sittingcalendar.SittingSessionTypesViewlet"
     permission="zope.Public"
     weight="2"
-    />    
+    /-->    
   
   
   
@@ -369,13 +369,13 @@
     weight="3"
     />        
 
-  <browser:viewlet
+  <!--browser:viewlet
     name="bungeni.sitting.yuidd-schedulesitting"   
     manager=".interfaces.ISittingCalendar"
     class=".sittingcalendar.SittingScheduleDDViewlet"
     permission="zope.Public"
     weight="3"
-    />       
+    /-->       
 
 
   <!-- schedule sittings for parliamentary session and group sittings in one calendar -->

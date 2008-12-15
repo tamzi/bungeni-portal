@@ -85,8 +85,8 @@ class SittingSessionTypesViewlet( viewlet.ViewletBase ):
             data ={}
             data["stid"] = "stid_" + str(result.sitting_type_id)
             data["stname"] = result.sitting_type
-            data["start"] = datetime.datetime.strftime(result.start_time,'%H-%M')
-            data["end"] = datetime.datetime.strftime(result.start_time,'%H-%M')
+            data["start"] = datetime.time.strftime(result.start_time,'%H-%M')
+            data["end"] = datetime.time.strftime(result.end_time,'%H-%M')
             data_list.append(data)            
         return data_list
     

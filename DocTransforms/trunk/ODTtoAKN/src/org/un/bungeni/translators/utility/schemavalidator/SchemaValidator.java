@@ -7,6 +7,8 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
+
+import org.un.bungeni.translators.exceptions.MissingAttributeException;
 import org.un.bungeni.translators.utility.exceptionmanager.ExceptionManager;
 import org.xml.sax.SAXException;
 
@@ -58,8 +60,9 @@ public class SchemaValidator implements SchemaValidatorInterface
 	 * @param aSchemaPath the path of the schema that must be used for the validation 
 	 * @throws SAXException 
 	 * @throws IOException 
+	 * @throws MissingAttributeException 
 	 */
-	public void validate(StreamSource aDocumentSource, String aSchemaPath) throws SAXException, IOException
+	public void validate(StreamSource aDocumentSource, String aSchemaPath) throws SAXException, IOException, MissingAttributeException
 	{
 		//create the stream source of the schema 
 		StreamSource schemaSource = new StreamSource(new File(aSchemaPath));

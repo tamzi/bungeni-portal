@@ -3,6 +3,8 @@ package org.un.bungeni.translators.utility.schemavalidator;
 
 import java.io.IOException;
 import javax.xml.transform.stream.StreamSource;
+
+import org.un.bungeni.translators.exceptions.MissingAttributeException;
 import org.xml.sax.SAXException;
 
 /**
@@ -17,7 +19,8 @@ public interface SchemaValidatorInterface
 	 * @param aSchemaPath the path of the schema that must be used for the validation 
 	 * @throws SAXException 
 	 * @throws IOException 
+	 * @throws MissingAttributeException 
 	 */
-	public void validate(StreamSource aDocumentSource, String aSchemaPath) throws SAXException, IOException;
+	public void validate(StreamSource aDocumentSource, String aSchemaPath) throws SAXException, IOException, MissingAttributeException;
 	
 }

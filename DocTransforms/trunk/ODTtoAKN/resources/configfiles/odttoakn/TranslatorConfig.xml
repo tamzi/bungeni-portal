@@ -4,4 +4,5 @@
 <entry key="metalexConfigPath">resources/odttometalex/debaterecord/config.xml</entry>
 <entry key="akomantosoSchemaPath">resources/odttoakn/schema/akomantoso10.xsd</entry>
 <entry key="akomantosoAddNamespaceXSLTPath">resources/odttoakn/defaultvalues/debaterecord/OdtToAknAddNamespace.xsl</entry>
+<entry key="resourceBundlePath">org.un.bungeni.translators.localization.Messages</entry>
 </properties>

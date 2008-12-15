@@ -142,8 +142,14 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		//apply the XSLT to the document 
 		StreamSource result = XSLTTransformer.getInstance().transform(new StreamSource(metalexFile), new StreamSource(xslt));
 		
+		//apply to the result the XSLT that insert the namespace
+		StreamSource resultWithNamespace = XSLTTransformer.getInstance().transform(result, new StreamSource(new File(this.akomantosoAddNamespaceXSLTPath)));
+		
+		//validate the produced document
+		SchemaValidator.getInstance().validate(resultWithNamespace, this.akomantosoSchemaPath);
+		
 		//write the stream to a File and return it
-		return StreamSourceUtility.getInstance().writeToFile(result);
+		return StreamSourceUtility.getInstance().writeToFile(resultWithNamespace);
 	}
 
 	/**

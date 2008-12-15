@@ -7,8 +7,8 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
+import org.un.bungeni.translators.utility.exceptionmanager.ExceptionManager;
 import org.xml.sax.SAXException;
-import net.sf.saxon.s9api.SaxonApiException;
 
 
 /**
@@ -56,7 +56,6 @@ public class SchemaValidator implements SchemaValidatorInterface
 	 * This method validate a document through a schema
 	 * @param aDocumentSource the source of the document to validate
 	 * @param aSchemaPath the path of the schema that must be used for the validation 
-	 * @throws SaxonApiException 
 	 * @throws SAXException 
 	 * @throws IOException 
 	 */
@@ -71,8 +70,18 @@ public class SchemaValidator implements SchemaValidatorInterface
 		//create a validator
 		Validator validator = schema.newValidator();
 		
-		//validate the document
-		validator.validate(aDocumentSource);
+		//try to validate the document
+		try
+		{
+			//validate the document
+			validator.validate(aDocumentSource);
+		}
+		//if the validation fails send the exception to the exception manager
+		catch(SAXException e)
+		{
+			//send the exception to the exception manager
+			ExceptionManager.getInstance().parseException(e);
+		}
 	}
 
 }

@@ -1,0 +1,7 @@
+
+  <browser:page
+     for="bungeni.core.interfaces.IBungeniApplication"
+     permission="zope.Public"
+     name="login_proxy"
+     class=".login_proxy.LoginProxy"
+     />

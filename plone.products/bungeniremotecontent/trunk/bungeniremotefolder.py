@@ -51,7 +51,7 @@ schema = Schema((
             i18n_domain='bungeniremotecontent',
         ),
         required=True,
-        read_permission="Add portal content",
+        #read_permission="Add portal content",
         title="remote URL",
     ),
     IntegerField(
@@ -65,7 +65,7 @@ schema = Schema((
             i18n_domain='bungeniremotecontent',
         ),
         required=True,
-        read_permission="Add portal content",
+        #read_permission="Add portal content",
     ),
 
 ),

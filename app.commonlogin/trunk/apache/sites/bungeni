@@ -8,6 +8,6 @@ ServerSignature On
 CustomLog /var/log/apache2/bungeni.lan-access.log combined
 ErrorLog  /var/log/apache2/bungeni.org-error.log
 RewriteEngine On
-RewriteRule  ^/(.*) http://localhost:8080/VirtualHostBase/http/plone.bungenisrv.local:80/MyPlone/VirtualHostRoot/$1 [L,P]
+RewriteRule  ^/(.*) http://localhost:8080/VirtualHostBase/http/plone.bungenisrv.local:80/bungeni-public/VirtualHostRoot/$1 [L,P]
 </VirtualHost>
 

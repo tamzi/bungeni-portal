@@ -1,0 +1,109 @@
+body {
+background-color:#3a3636;
+font-family:Verdana,sans-serif;
+font-size:69%;
+font-size-adjust:none;
+font-stretch:normal;
+font-style:normal;
+font-variant:normal;
+font-weight:normal;
+line-height:normal;
+margin:0pt;
+padding:0pt;
+text-align:justify;
+}
+
+#visual-portal-wrapper {
+background-color:#FFFFFF;
+margin-left:auto !important;
+margin-right:auto !important;
+position:relative;
+text-align:left;
+width:954px !important;
+}
+
+#portal-breadcrumbs {
+background-color:transparent;
+border-bottom:1px solid #FBAD61;
+display:block;
+height:100%;
+margin-bottom:0pt !important;
+margin-left:0pt;
+margin-right:0pt;
+margin-top:25px;
+padding:0.3em 0.3em 1em;
+width:100%;
+}
+
+
+
+#portal-columns {
+border-collapse:collapse;
+border-spacing:0pt;
+width:100% !important;
+}
+
+
+#portal-column-content {
+border-collapse:collapse;
+margin:0em 0em 2em;
+padding:1em 1em 0pt;
+vertical-align:top;
+margin-left:1em;
+margin-right:1em;
+margin-top:0pt;
+padding-top:0pt;
+}
+
+#region-content {
+border:1px solid #CECECE;
+padding:1em 0.5em 1em 1em;
+width:750px;
+}
+
+#login-form {
+margin:0pt auto;
+max-width:30em;
+}
+#login-form {
+margin:0pt auto;
+max-width:30em;
+}
+fieldset {
+border:1px solid #CCCCCC;
+line-height:1.5em;
+margin:1em 0em;
+padding:0em 1em 1em;
+width:auto;
+}
+
+
+* { margin: 0px; padding: 0px; }
+#navigation { position: absolute; margin-top: 65px; left: 15px; width: 155px; margin-right:20px;}
+
+#menu {
+	position: relative;
+	top: 0px;
+	left: 0px;
+	margin: 6px 0px 2px 0px;
+	padding: 3px 4px 3px 22px;
+	border: 1px solid #050f9b;
+	color: #463229;
+	list-style-type: square;
+}
+
+#menu LI { font-size: 7pt; margin: 0px 0px 1px 0px; padding: 0px 0px 2px 0px; }
+#menu LI UL { margin: 0px 0px 0px 15px; list-style-type: none; }
+html>body #menu LI UL { margin: 0px 0px 0px 12px; }
+
+#menu A {
+	display: block;
+	line-height: 10pt;
+	font-weight: bold;
+	text-decoration: none;
+	color: #463229;
+    background-color: #ffffff !important;
+}
+#menu A:visited { color: #463229;}
+#menu A:active { color: #463229;}
+#menu A:hover { color: #091a9d; background-color: #091a9d; }

@@ -740,6 +740,30 @@
       permission="zope.View"
       weight="10"
       />    
+      
+  <!-- bills -->
+        
+   <browser:viewlet
+      name="bungeni.subform.bill-consignatory"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.ConsignatoryViewlet"
+      for="bungeni.core.interfaces.IBill"
+      permission="zope.View"
+      weight="10"
+      />    
+  
+  
+  <!-- PartyMemberAtomViewlet -->
+  
+   <browser:viewlet
+      name="bungeni.subform.atom-party-members"
+      manager=".interfaces.IAtomEntriesFormViewletManager"
+      class=".subforms.PartyMemberAtomViewlet"
+      for="bungeni.core.interfaces.IPoliticalParty"
+      permission="zope.View"
+      weight="10"
+      />      
+  
   
   <!-- Partymembership -->
      <browser:view

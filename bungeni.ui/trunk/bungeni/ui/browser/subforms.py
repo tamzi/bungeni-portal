@@ -50,6 +50,18 @@ class SessionViewlet( SubformViewlet ):
         self.query = None
 
 
+class ConsignatoryViewlet( SubformViewlet ):
+
+
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.consignatory
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+        
+
 class GovernmentViewlet( SubformViewlet ):
 
 
@@ -233,6 +245,19 @@ class PartyMemberViewlet( SubformViewlet ):
         self.__parent__= context
         self.manager = manager
         self.query = None
+        
+class PartyMemberAtomViewlet( AtomSubformViewlet ):
+    """
+    """        
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.partymembers
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+            
+        
     
 class PartyMembershipViewlet( SubformViewlet ):
     def __init__( self,  context, request, view, manager ):        

@@ -85,49 +85,7 @@
                 fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
                 fo:hyphenation-push-char-count="2"/>
         </style:style>
-        <style:style style:name="P6" style:family="paragraph" style:parent-style-name="Standard"
-            style:list-style-name="L4">
-            <style:paragraph-properties style:line-height-at-least="0.1665in"
-                fo:text-align="justify" style:justify-single-word="false"
-                fo:hyphenation-ladder-count="no-limit">
-                <style:tab-stops>
-                    <style:tab-stop style:position="-0.5in"/>
-                </style:tab-stops>
-            </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman2" fo:letter-spacing="-0.002in"
-                fo:language="en" fo:country="GB" style:font-name-complex="Times New Roman2"
-                fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
-                fo:hyphenation-push-char-count="2"/>
-        </style:style>
-        <style:style style:name="P7" style:family="paragraph" style:parent-style-name="Standard"
-            style:list-style-name="L5">
-            <style:paragraph-properties style:line-height-at-least="0.1665in"
-                fo:text-align="justify" style:justify-single-word="false"
-                fo:hyphenation-ladder-count="no-limit">
-                <style:tab-stops>
-                    <style:tab-stop style:position="-0.5in"/>
-                </style:tab-stops>
-            </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman2" fo:letter-spacing="-0.002in"
-                fo:language="en" fo:country="GB" style:font-name-complex="Times New Roman2"
-                fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
-                fo:hyphenation-push-char-count="2"/>
-        </style:style>
-        <style:style style:name="P8" style:family="paragraph" style:parent-style-name="Standard"
-            style:list-style-name="L6">
-            <style:paragraph-properties style:line-height-at-least="0.1665in"
-                fo:text-align="justify" style:justify-single-word="false"
-                fo:hyphenation-ladder-count="no-limit">
-                <style:tab-stops>
-                    <style:tab-stop style:position="-0.5in"/>
-                </style:tab-stops>
-            </style:paragraph-properties>
-            <style:text-properties style:font-name="Times New Roman2" fo:letter-spacing="-0.002in"
-                fo:language="en" fo:country="GB" style:font-name-complex="Times New Roman2"
-                fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
-                fo:hyphenation-push-char-count="2"/>
-        </style:style>
-        <style:style style:name="P9" style:family="paragraph" style:parent-style-name="Standard">
+        <style:style style:name="P6" style:family="paragraph" style:parent-style-name="Standard">
             <style:paragraph-properties style:line-height-at-least="0.1665in"
                 fo:text-align="justify" style:justify-single-word="false"
                 fo:hyphenation-ladder-count="no-limit">
@@ -140,7 +98,7 @@
                 fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
                 fo:hyphenation-push-char-count="2"/>
         </style:style>
-        <style:style style:name="P10" style:family="paragraph" style:parent-style-name="Standard">
+        <style:style style:name="P7" style:family="paragraph" style:parent-style-name="Standard">
             <style:paragraph-properties style:line-height-at-least="0.1665in" fo:text-align="center"
                 style:justify-single-word="false" fo:hyphenation-ladder-count="no-limit">
                 <style:tab-stops>
@@ -152,13 +110,13 @@
                 fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
                 fo:hyphenation-push-char-count="2"/>
         </style:style>
-        <style:style style:name="P11" style:family="paragraph" style:parent-style-name="Standard">
+        <style:style style:name="P8" style:family="paragraph" style:parent-style-name="Standard">
             <style:text-properties style:font-name="Times New Roman2" fo:letter-spacing="-0.002in"
                 fo:language="en" fo:country="GB" fo:font-weight="bold"
                 style:font-weight-asian="bold" style:font-name-complex="Times New Roman2"
                 style:font-weight-complex="bold"/>
         </style:style>
-        <style:style style:name="P12" style:family="paragraph" style:parent-style-name="Standard">
+        <style:style style:name="P9" style:family="paragraph" style:parent-style-name="Standard">
             <style:paragraph-properties style:line-height-at-least="0.1665in"
                 fo:text-align="justify" style:justify-single-word="false"
                 fo:hyphenation-ladder-count="no-limit">
@@ -172,7 +130,7 @@
                 style:font-weight-complex="bold" fo:hyphenate="false"
                 fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
         </style:style>
-        <style:style style:name="P13" style:family="paragraph" style:parent-style-name="Standard">
+        <style:style style:name="P10" style:family="paragraph" style:parent-style-name="Standard">
             <style:paragraph-properties style:line-height-at-least="0.1665in"
                 fo:text-align="justify" style:justify-single-word="false"
                 fo:hyphenation-ladder-count="no-limit">
@@ -186,7 +144,7 @@
                 style:font-weight-complex="bold" fo:hyphenate="false"
                 fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
         </style:style>
-        <style:style style:name="P14" style:family="paragraph" style:parent-style-name="Standard">
+        <style:style style:name="P11" style:family="paragraph" style:parent-style-name="Standard">
             <style:paragraph-properties style:line-height-at-least="0.1665in"
                 fo:text-align="justify" style:justify-single-word="false"
                 fo:hyphenation-ladder-count="no-limit">
@@ -199,7 +157,7 @@
                 style:font-name-complex="Times New Roman2" fo:hyphenate="false"
                 fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
         </style:style>
-        <style:style style:name="P15" style:family="paragraph" style:parent-style-name="Standard">
+        <style:style style:name="P12" style:family="paragraph" style:parent-style-name="Standard">
             <style:paragraph-properties style:line-height-at-least="0.1665in"
                 fo:text-align="justify" style:justify-single-word="false"
                 fo:hyphenation-ladder-count="no-limit">
@@ -210,7 +168,7 @@
             <style:text-properties fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
                 fo:hyphenation-push-char-count="2"/>
         </style:style>
-        <style:style style:name="P16" style:family="paragraph" style:parent-style-name="Standard">
+        <style:style style:name="P13" style:family="paragraph" style:parent-style-name="Standard">
             <style:paragraph-properties fo:margin-left="0.5in" fo:margin-right="0.5in"
                 style:line-height-at-least="0.1665in" fo:text-align="justify"
                 style:justify-single-word="false" fo:hyphenation-ladder-count="no-limit"
@@ -226,7 +184,7 @@
                 style:font-weight-complex="bold" fo:hyphenate="false"
                 fo:hyphenation-remain-char-count="2" fo:hyphenation-push-char-count="2"/>
         </style:style>
-        <style:style style:name="P17" style:family="paragraph" style:parent-style-name="Standard">
+        <style:style style:name="P14" style:family="paragraph" style:parent-style-name="Standard">
             <style:paragraph-properties fo:margin-left="0.5in" fo:margin-right="0.5in"
                 style:line-height-at-least="0.1665in" fo:text-align="justify"
                 style:justify-single-word="false" fo:hyphenation-ladder-count="no-limit"
@@ -241,7 +199,7 @@
                 fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
                 fo:hyphenation-push-char-count="2"/>
         </style:style>
-        <style:style style:name="P18" style:family="paragraph" style:parent-style-name="Standard">
+        <style:style style:name="P15" style:family="paragraph" style:parent-style-name="Standard">
             <style:paragraph-properties fo:margin-left="0.5in" fo:margin-right="0.5in"
                 style:line-height-at-least="0.1665in" fo:text-align="justify"
                 style:justify-single-word="false" fo:hyphenation-ladder-count="no-limit"
@@ -252,6 +210,48 @@
                 </style:tab-stops>
             </style:paragraph-properties>
             <style:text-properties fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
+                fo:hyphenation-push-char-count="2"/>
+        </style:style>
+        <style:style style:name="P16" style:family="paragraph" style:parent-style-name="Standard"
+            style:list-style-name="L1">
+            <style:paragraph-properties style:line-height-at-least="0.1665in"
+                fo:text-align="justify" style:justify-single-word="false"
+                fo:hyphenation-ladder-count="no-limit">
+                <style:tab-stops>
+                    <style:tab-stop style:position="-0.5in"/>
+                </style:tab-stops>
+            </style:paragraph-properties>
+            <style:text-properties style:font-name="Times New Roman2" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" style:font-name-complex="Times New Roman2"
+                fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
+                fo:hyphenation-push-char-count="2"/>
+        </style:style>
+        <style:style style:name="P17" style:family="paragraph" style:parent-style-name="Standard"
+            style:list-style-name="L2">
+            <style:paragraph-properties style:line-height-at-least="0.1665in"
+                fo:text-align="justify" style:justify-single-word="false"
+                fo:hyphenation-ladder-count="no-limit">
+                <style:tab-stops>
+                    <style:tab-stop style:position="-0.5in"/>
+                </style:tab-stops>
+            </style:paragraph-properties>
+            <style:text-properties style:font-name="Times New Roman2" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" style:font-name-complex="Times New Roman2"
+                fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
+                fo:hyphenation-push-char-count="2"/>
+        </style:style>
+        <style:style style:name="P18" style:family="paragraph" style:parent-style-name="Standard"
+            style:list-style-name="L3">
+            <style:paragraph-properties style:line-height-at-least="0.1665in"
+                fo:text-align="justify" style:justify-single-word="false"
+                fo:hyphenation-ladder-count="no-limit">
+                <style:tab-stops>
+                    <style:tab-stop style:position="-0.5in"/>
+                </style:tab-stops>
+            </style:paragraph-properties>
+            <style:text-properties style:font-name="Times New Roman2" fo:letter-spacing="-0.002in"
+                fo:language="en" fo:country="GB" style:font-name-complex="Times New Roman2"
+                fo:hyphenate="false" fo:hyphenation-remain-char-count="2"
                 fo:hyphenation-push-char-count="2"/>
         </style:style>
         <style:style style:name="T1" style:family="text">
@@ -418,57 +418,62 @@
         <text:list-style style:name="L1">
             <text:list-level-style-bullet text:level="1" text:style-name="Bullet_20_Symbols"
                 style:num-suffix="." text:bullet-char="●">
-                <style:list-level-properties text:space-before="0.25in"
+                <style:list-level-properties text:space-before="0.2425in"
                     text:min-label-width="0.25in"/>
                 <style:text-properties style:font-name="StarSymbol"/>
             </text:list-level-style-bullet>
             <text:list-level-style-bullet text:level="2" text:style-name="Bullet_20_Symbols"
                 style:num-suffix="." text:bullet-char="○">
-                <style:list-level-properties text:space-before="0.5in" text:min-label-width="0.25in"/>
+                <style:list-level-properties text:space-before="0.7425in"
+                    text:min-label-width="0.25in"/>
                 <style:text-properties style:font-name="StarSymbol"/>
             </text:list-level-style-bullet>
             <text:list-level-style-bullet text:level="3" text:style-name="Bullet_20_Symbols"
                 style:num-suffix="." text:bullet-char="■">
-                <style:list-level-properties text:space-before="0.75in"
+                <style:list-level-properties text:space-before="1.2425in"
                     text:min-label-width="0.25in"/>
                 <style:text-properties style:font-name="StarSymbol"/>
             </text:list-level-style-bullet>
             <text:list-level-style-bullet text:level="4" text:style-name="Bullet_20_Symbols"
                 style:num-suffix="." text:bullet-char="●">
-                <style:list-level-properties text:space-before="1in" text:min-label-width="0.25in"/>
+                <style:list-level-properties text:space-before="1.7425in"
+                    text:min-label-width="0.25in"/>
                 <style:text-properties style:font-name="StarSymbol"/>
             </text:list-level-style-bullet>
             <text:list-level-style-bullet text:level="5" text:style-name="Bullet_20_Symbols"
                 style:num-suffix="." text:bullet-char="○">
-                <style:list-level-properties text:space-before="1.25in"
+                <style:list-level-properties text:space-before="2.2425in"
                     text:min-label-width="0.25in"/>
                 <style:text-properties style:font-name="StarSymbol"/>
             </text:list-level-style-bullet>
             <text:list-level-style-bullet text:level="6" text:style-name="Bullet_20_Symbols"
                 style:num-suffix="." text:bullet-char="■">
-                <style:list-level-properties text:space-before="1.5in" text:min-label-width="0.25in"/>
+                <style:list-level-properties text:space-before="2.7425in"
+                    text:min-label-width="0.25in"/>
                 <style:text-properties style:font-name="StarSymbol"/>
             </text:list-level-style-bullet>
             <text:list-level-style-bullet text:level="7" text:style-name="Bullet_20_Symbols"
                 style:num-suffix="." text:bullet-char="●">
-                <style:list-level-properties text:space-before="1.75in"
+                <style:list-level-properties text:space-before="3.2425in"
                     text:min-label-width="0.25in"/>
                 <style:text-properties style:font-name="StarSymbol"/>
             </text:list-level-style-bullet>
             <text:list-level-style-bullet text:level="8" text:style-name="Bullet_20_Symbols"
                 style:num-suffix="." text:bullet-char="○">
-                <style:list-level-properties text:space-before="2in" text:min-label-width="0.25in"/>
+                <style:list-level-properties text:space-before="3.7425in"
+                    text:min-label-width="0.25in"/>
                 <style:text-properties style:font-name="StarSymbol"/>
             </text:list-level-style-bullet>
             <text:list-level-style-bullet text:level="9" text:style-name="Bullet_20_Symbols"
                 style:num-suffix="." text:bullet-char="■">
-                <style:list-level-properties text:space-before="2.25in"
+                <style:list-level-properties text:space-before="4.2425in"
                     text:min-label-width="0.25in"/>
                 <style:text-properties style:font-name="StarSymbol"/>
             </text:list-level-style-bullet>
             <text:list-level-style-bullet text:level="10" text:style-name="Bullet_20_Symbols"
                 style:num-suffix="." text:bullet-char="●">
-                <style:list-level-properties text:space-before="2.5in" text:min-label-width="0.25in"/>
+                <style:list-level-properties text:space-before="4.7425in"
+                    text:min-label-width="0.25in"/>
                 <style:text-properties style:font-name="StarSymbol"/>
             </text:list-level-style-bullet>
         </text:list-style>
@@ -586,182 +591,6 @@
                 <style:text-properties style:font-name="StarSymbol"/>
             </text:list-level-style-bullet>
         </text:list-style>
-        <text:list-style style:name="L4">
-            <text:list-level-style-bullet text:level="1" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="●">
-                <style:list-level-properties text:space-before="0.25in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="2" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="○">
-                <style:list-level-properties text:space-before="0.5in" text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="3" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="■">
-                <style:list-level-properties text:space-before="0.75in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="4" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="●">
-                <style:list-level-properties text:space-before="1in" text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="5" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="○">
-                <style:list-level-properties text:space-before="1.25in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="6" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="■">
-                <style:list-level-properties text:space-before="1.5in" text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="7" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="●">
-                <style:list-level-properties text:space-before="1.75in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="8" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="○">
-                <style:list-level-properties text:space-before="2in" text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="9" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="■">
-                <style:list-level-properties text:space-before="2.25in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="10" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="●">
-                <style:list-level-properties text:space-before="2.5in" text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-        </text:list-style>
-        <text:list-style style:name="L5">
-            <text:list-level-style-bullet text:level="1" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="●">
-                <style:list-level-properties text:space-before="0.25in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="2" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="○">
-                <style:list-level-properties text:space-before="0.5in" text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="3" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="■">
-                <style:list-level-properties text:space-before="0.75in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="4" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="●">
-                <style:list-level-properties text:space-before="1in" text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="5" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="○">
-                <style:list-level-properties text:space-before="1.25in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="6" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="■">
-                <style:list-level-properties text:space-before="1.5in" text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="7" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="●">
-                <style:list-level-properties text:space-before="1.75in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="8" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="○">
-                <style:list-level-properties text:space-before="2in" text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="9" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="■">
-                <style:list-level-properties text:space-before="2.25in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="10" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="●">
-                <style:list-level-properties text:space-before="2.5in" text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-        </text:list-style>
-        <text:list-style style:name="L6">
-            <text:list-level-style-bullet text:level="1" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="●">
-                <style:list-level-properties text:space-before="0.2425in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="2" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="○">
-                <style:list-level-properties text:space-before="0.7425in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="3" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="■">
-                <style:list-level-properties text:space-before="1.2425in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="4" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="●">
-                <style:list-level-properties text:space-before="1.7425in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="5" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="○">
-                <style:list-level-properties text:space-before="2.2425in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="6" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="■">
-                <style:list-level-properties text:space-before="2.7425in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="7" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="●">
-                <style:list-level-properties text:space-before="3.2425in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="8" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="○">
-                <style:list-level-properties text:space-before="3.7425in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="9" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="■">
-                <style:list-level-properties text:space-before="4.2425in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-            <text:list-level-style-bullet text:level="10" text:style-name="Bullet_20_Symbols"
-                style:num-suffix="." text:bullet-char="●">
-                <style:list-level-properties text:space-before="4.7425in"
-                    text:min-label-width="0.25in"/>
-                <style:text-properties style:font-name="StarSymbol"/>
-            </text:list-level-style-bullet>
-        </text:list-style>
     </office:automatic-styles>
     <office:body>
         <office:text text:use-soft-page-breaks="true">
@@ -778,13 +607,13 @@
                     <text:p text:style-name="P3"><text:s/>NATIONAL ASSEMBLY</text:p>
                     <text:p text:style-name="P5"/>
                     <text:p text:style-name="P2"><text:tab/>OFFICIAL REPORT</text:p>
-                    <text:p text:style-name="P12"/>
-                    <text:p text:style-name="P13"><text:tab/><text:reference-mark-start
+                    <text:p text:style-name="P9"/>
+                    <text:p text:style-name="P10"><text:tab/><text:reference-mark-start
                             text:name="mBungeniDebateOfficialDate:5332"/>Thursday 17<text:span
                             text:style-name="T4">th</text:span> December
                             2008<text:reference-mark-end text:name="mBungeniDebateOfficialDate:5332"
                         /></text:p>
-                    <text:p text:style-name="P12"/>
+                    <text:p text:style-name="P9"/>
                     <text:p text:style-name="P4"><text:tab/>The House met at
                             <text:reference-mark-start text:name="mBungeniDebateOfficialTime:5616"
                         />8:22 AM<text:reference-mark-end
@@ -800,7 +629,7 @@
                     <text:tab/>
                 </text:p>
                 <text:section text:style-name="Sect4" text:name="comment2">
-                    <text:p text:style-name="P10">PRAYERS</text:p>
+                    <text:p text:style-name="P7">PRAYERS</text:p>
                 </text:section>
                 <text:p text:style-name="P4"/>
                 <text:section text:style-name="Sect5" text:name="papers1">
@@ -808,15 +637,15 @@
                     <text:p text:style-name="subheading_5f_papers"><text:tab/>The following Papers
                         were laid on the Table:-</text:p>
                     <text:section text:style-name="Sect6" text:name="tbldocs1">
-                        <text:list text:style-name="L6">
+                        <text:list text:style-name="L1">
                             <text:list-item>
-                                <text:p text:style-name="P8">The Report of the Commonwealth
+                                <text:p text:style-name="P16">The Report of the Commonwealth
                                     Parliamentary Association (CPA) Kenya branch delegation to the
                                     35th CPA (Africa Region) conference held in Lobamba, Swaziland
                                     from 7th August, 2004 to 15th August, 2004.</text:p>
                             </text:list-item>
                             <text:list-item>
-                                <text:p text:style-name="P8">The Report of the 45th Session of the
+                                <text:p text:style-name="P16">The Report of the 45th Session of the
                                     Executive Committee and the 27th Conference of the African
                                     Parliamentary Union held in Algiers, Algeria on 27th November,
                                     2004, to 1st December, 2004.</text:p>
@@ -836,9 +665,9 @@
                         <text:tab/>
                     </text:p>
                     <text:section text:style-name="Sect6" text:name="tbldocs2">
-                        <text:list text:style-name="L4">
+                        <text:list text:style-name="L2">
                             <text:list-item>
-                                <text:p text:style-name="P6">The Report of the first and second
+                                <text:p text:style-name="P17">The Report of the first and second
                                     sessions of the Pan-African Parliament of the African
                                     Union.</text:p>
                             </text:list-item>
@@ -854,13 +683,13 @@
                             Obwocha)</text:p>
                         <text:p text:style-name="observation"/>
                     </text:section>
-                    <text:p text:style-name="P9">
+                    <text:p text:style-name="P6">
                         <text:tab/>
                     </text:p>
                     <text:section text:style-name="Sect6" text:name="tbldocs3">
-                        <text:list text:style-name="L5">
+                        <text:list text:style-name="L3">
                             <text:list-item>
-                                <text:p text:style-name="P7">The Annual Report and Accounts of Moi
+                                <text:p text:style-name="P18">The Annual Report and Accounts of Moi
                                     Teaching and Referral Hospital for the year ended 30th June,
                                     2001 and the Certificate thereof by the Controller and
                                     Auditor-General.</text:p>
@@ -884,26 +713,26 @@
                     <text:p text:style-name="heading_5f_motion"><text:soft-page-break/>NOTICES OF
                         MOTIONS</text:p>
                     <text:p text:style-name="P5"/>
-                    <text:p text:style-name="P14">
+                    <text:p text:style-name="P11">
                         <text:tab/>
                     </text:p>
                     <text:section text:style-name="Sect9" text:name="motion1">
                         <text:p text:style-name="heading_5f_motion">Adoption of 35TH CPA
                             <text:s/>(Africa Region) Report</text:p>
-                        <text:p text:style-name="P16">
+                        <text:p text:style-name="P13">
                             <text:tab/>
                         </text:p>
                         <text:section text:style-name="Sect10" text:name="speech1">
-                            <text:p text:style-name="P16"><text:reference-mark-start
+                            <text:p text:style-name="P13"><text:reference-mark-start
                                     text:name="BungeniSpeechBy:FrancisAcheka7081"/>Mr
                                     Acheka:<text:reference-mark-end
                                     text:name="BungeniSpeechBy:FrancisAcheka7081"/></text:p>
-                            <text:p text:style-name="P11">
+                            <text:p text:style-name="P8">
                                 <text:s/>
                             </text:p>
-                            <text:p text:style-name="P17">Mr. Deputy Speaker, Sir, I beg to give
+                            <text:p text:style-name="P14">Mr. Deputy Speaker, Sir, I beg to give
                                 notice of the following Motions:-</text:p>
-                            <text:p text:style-name="P17"><text:tab/>THAT, this House adopts the
+                            <text:p text:style-name="P14"><text:tab/>THAT, this House adopts the
                                 Report of the Commonwealth Parliamentary Association (CPA), Kenya
                                 Branch delegation to the 35th CPA Africa Region Conference held in
                                 Lobamba, Swaziland from 7th August, 2004 to 15th August, 2004 laid
@@ -917,7 +746,7 @@
                             Sessions of Pan African Parliament<text:bookmark-end
                                 text:name="DDE_LINK1"/></text:p>
                         <text:section text:style-name="Sect12" text:name="speech2">
-                            <text:p text:style-name="P18">
+                            <text:p text:style-name="P15">
                                 <text:reference-mark-start
                                     text:name="BungeniSpeechBy:FrancisNoKibaki9586"/>
                                 <text:span text:style-name="T2">Mr. NoKibaki </text:span>
@@ -928,23 +757,23 @@
                                     Finance)</text:span>
                                 <text:reference-mark-end text:name="BungeniSpeechAs:5420"/>
                             </text:p>
-                            <text:p text:style-name="P17"/>
-                            <text:p text:style-name="P17"><text:s/>Mr. Deputy Speaker, Sir, I beg to
+                            <text:p text:style-name="P14"/>
+                            <text:p text:style-name="P14"><text:s/>Mr. Deputy Speaker, Sir, I beg to
                                 give notice of the following Motion:-</text:p>
-                            <text:p text:style-name="P17"><text:tab/>THAT, this House adopts the
+                            <text:p text:style-name="P14"><text:tab/>THAT, this House adopts the
                                 Report of the first and second sessions of the Pan African
                                 Parliament of the African Union laid on the Table of this House on
                                 Thursday, 9th December, 2004.</text:p>
                         </text:section>
                     </text:section>
-                    <text:p text:style-name="P17"/>
+                    <text:p text:style-name="P14"/>
                 </text:section>
                 <text:p text:style-name="Standard"/>
                 <text:p text:style-name="Standard"/>
                 <text:section text:style-name="Sect13" text:name="actionevt1">
                     <text:p text:style-name="heading_5f_general">ADJOURNEMENT </text:p>
                     <text:section text:style-name="Sect14" text:name="speech3">
-                        <text:p text:style-name="P15">
+                        <text:p text:style-name="P12">
                             <text:reference-mark-start
                                 text:name="BungeniSpeechBy:KipkaliaTegere7531"/>
                             <text:span text:style-name="T1">Mr.Dy Speaker</text:span>
@@ -954,7 +783,7 @@
                             <text:span text:style-name="T1">Mr.Tegere)</text:span>
                             <text:reference-mark-end text:name="BungeniSpeechAs:3142"/>
                         </text:p>
-                        <text:p text:style-name="P15">
+                        <text:p text:style-name="P12">
                             <text:span text:style-name="T2">Hon. Members, the House is, therefore
                                 adjorned </text:span>
                             <text:span text:style-name="T3">sine die</text:span>

@@ -217,5 +217,9 @@
 		<xsl:apply-templates />
 	</xsl:template>
 
+	<xsl:template match="*[@name='TLCPerson']">
+		<xslt step="40" name="TLCPerson" href="resources/odttoakn/minixslt/debaterecord/TLCPerson.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
 
 </xsl:stylesheet>

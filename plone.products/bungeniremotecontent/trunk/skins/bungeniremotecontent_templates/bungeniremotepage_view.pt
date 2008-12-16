@@ -4,8 +4,8 @@
       i18n:domain="plone">            
   <body>
     <div metal:fill-slot="body">         
-      <div id="bungeni-remote-content" tal:define="results here/getRemoteContent">
-        <div tal:repeat="result results">
+      <div class="tabber" id="bungeni-remote-content" tal:define="results here/getRemoteContent">
+        <div class="tabbertab" tal:repeat="result results" tal:attributes="title result/title; id python:'tab-' + str(random.randint(100,999))">
             <h1> <a tal:content="result/title" tal:attributes="href here/absolute_url">Title</a> </h1>
             <tal:block tal:repeat="content result/content">
                <div tal:content="structure content/value">
@@ -14,7 +14,7 @@
             </tal:block>
             <a target="_blank" tal:attributes="href result/link"> Details </a> 
         </div>
-        <div tal:define="sp python:here.source_url.split('/')[-1];
+        <div class="tabbertab" title="workspace" id="tab-ws" tal:define="sp python:here.source_url.split('/')[-1];
                          tsp traverse_subpath;
                         obj_id python:tsp[0];" tal:condition="python: sp=='committees'">         
             Committee workspace

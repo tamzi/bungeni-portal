@@ -114,7 +114,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		StreamSource resultWithNamespace = XSLTTransformer.getInstance().transform(result, new StreamSource(new File(this.akomantosoAddNamespaceXSLTPath)));
 		
 		//validate the produced document
-		SchemaValidator.getInstance().validate(resultWithNamespace, this.akomantosoSchemaPath);
+		//SchemaValidator.getInstance().validate(resultWithNamespace, this.akomantosoSchemaPath);
 		
 		//write the stream to a File and return it
 		return StreamSourceUtility.getInstance().writeToFile(resultWithNamespace);

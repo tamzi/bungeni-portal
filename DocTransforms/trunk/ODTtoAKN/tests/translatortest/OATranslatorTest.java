@@ -61,7 +61,7 @@ public class OATranslatorTest
 		//OAXSLProcBuilder.newInstance().createXSLProc("resources/odttoakn/minixslt/debaterecord/back/");
 		
 		//perform a translation
-		File translation = myTranslator.translate("resources/debate_file_02.odt", "resources/odttoakn/minixslt/debaterecord/pipeline.xsl");
+		File translation = myTranslator.translate("resources/debaterecord_ken_eng_2008_12_17_main.odt", "resources/odttoakn/minixslt/debaterecord/pipeline.xsl");
 	
 		//input stream
 		FileInputStream fis  = new FileInputStream(translation);

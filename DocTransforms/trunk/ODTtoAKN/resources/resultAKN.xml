@@ -27,6 +27,12 @@
                 <TLCOrganization id="Parliament" href="2" showAs="Parliament"/>
                 <TLCPerson id="clerk.aClerk" href="clerk.aClerk" showAs="Author"/>
                 <TLCPerson id="user.Ashok" href="user.Ashok" showAs="Author"/>
+                <TLCPerson id="4" href="ken.person.Francis.Acheka.1951-12-10"
+                    showAs="Francis Acheka"/>
+                <TLCPerson id="2" href="ken.person.Francis.NoKibaki.1951-12-08"
+                    showAs="Francis NoKibaki"/>
+                <TLCPerson id="305" href="ken.person.Kipkalia.Tegere.1945-03-10"
+                    showAs="Kipkalia Tegere"/>
             </references>
         </meta>
         <preface>
@@ -39,7 +45,7 @@
             </p>
         </preface>
         <debate>
-            <subdivision id="d9e82" name="SceneSubdivision">
+            <subdivision id="d9e89" name="SceneSubdivision">
                 <scene>
                     <span>[Mr. Deputy Speaker in the Chair]</span>
                 </scene>
@@ -100,7 +106,7 @@
                 <heading>NOTICES OF MOTIONS</heading>
                 <subdivision id="motion1" name="Motion">
                     <heading>Adoption of 35TH CPA(Africa Region) Report</heading>
-                    <speech id="speech1" by="Francis Acheka">
+                    <speech id="speech1" by="4">
                         <from>
                             <ref href="FrancisAcheka7081">Mr Acheka:</ref>
                         </from>
@@ -118,7 +124,7 @@
                         <ref href="">Adoption of Report of First and Second Sessions of Pan African
                             Parliament</ref>
                     </heading>
-                    <speech id="speech2" by="Francis NoKibaki">
+                    <speech id="speech2" by="2">
                         <from>
                             <ref href="FrancisNoKibaki9586">
                                 <span>Mr. NoKibaki</span>
@@ -137,7 +143,7 @@
             </noticesOfMotion>
             <subdivision id="actionevt1" name="Adjournment">
                 <heading>ADJOURNEMENT</heading>
-                <speech id="speech3" by="Kipkalia Tegere">
+                <speech id="speech3" by="305">
                     <from>
                         <ref href="KipkaliaTegere7531">
                             <span>Mr.Dy Speaker</span>

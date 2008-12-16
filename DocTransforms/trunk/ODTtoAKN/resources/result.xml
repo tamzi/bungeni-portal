@@ -27,7 +27,10 @@
          <mcontainer id="references_d3e379" name="references" source="#bungeni">         
             <meta id="Parliament" name="TLCOrganization" href="2" showAs="Parliament"/>         
             <meta name="TLCPerson" id="clerk.aClerk" href="clerk.aClerk" showAs="Author"/>         
-            <meta name="TLCPerson" id="user.Ashok" href="user.Ashok" showAs="Author"/>               
+            <meta name="TLCPerson" id="user.Ashok" href="user.Ashok" showAs="Author"/>                  
+            <meta name="TLCPerson" id="4" href="ken.person.Francis.Acheka.1951-12-10" showAs="Francis Acheka"/>         
+            <meta name="TLCPerson" id="2" href="ken.person.Francis.NoKibaki.1951-12-08" showAs="Francis NoKibaki"/>         
+            <meta name="TLCPerson" id="305" href="ken.person.Kipkalia.Tegere.1945-03-10" showAs="Kipkalia Tegere"/>      
          </mcontainer>   
       </mcontainer>
       <container __BungeniMetaEditable="false" id="masthead" class="Sect2" name="MastHead">         

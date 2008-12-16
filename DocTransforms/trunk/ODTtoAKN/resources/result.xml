@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?><root xmlns="http://www.metalex.org/1.0" name="root" id="d3e1">
    <container id="debaterecord" class="Sect1" name="body">
       <mcontainer name="meta">      
-         <mcontainer name="identification" id="identification_d3e379">         
+         <mcontainer name="identification" id="identification_d3e379" source="#bungeni">         
             <mcontainer name="FRBRWork" id="FRBRWork_d3e379">            
                <meta name="this" id="FRBRWork_this_d3e379" value="/ken/debaterecord/2008-12-17/4/main"/>            
                <meta name="uri" id="FRBRWork_uri_d3e379" value="/ken/debaterecord/2008-12-17/4"/>            
-               <meta name="date" id="FRBRWork_date_d3e379"/>            
-               <meta name="author" id="FRBRWork_author_d3e379"/>         
+               <meta name="date" id="FRBRWork_date_d3e379" contentName="" date="2008-12-17"/>            
+               <meta name="author" id="FRBRWork_author_d3e379" href=""/>         
             </mcontainer>         
             <mcontainer name="FRBRExpression" id="FRBRExpression_d3e379">            
                <meta name="this" id="FRBRExpression_this_d3e379" value="/ken/debaterecord/2008-12-17/4/eng@/main"/>            
                <meta name="uri" id="FRBRExpression_uri_d3e379" value="/ken/debaterecord/2008-12-17/4/eng@"/>            
-               <meta name="date" id="FRBRExpression_date_d3e379"/>            
-               <meta name="author" id="FRBRExpression_author_d3e379"/>         
+               <meta name="date" id="FRBRExpression_date_d3e379" contentName="" date="2008-12-16"/>            
+               <meta name="author" id="FRBRExpression_author_d3e379" href=""/>         
             </mcontainer>         
             <mcontainer name="FRBRManifestation" id="FRBRManifestation_d3e379">            
                <meta name="this" id="FRBRManifestation_this_d3e379" value="/ken/debaterecord/2008-12-17/4/eng@/main.xml"/>            
                <meta name="uri" id="FRBRManifestation_uri_d3e379" value="/ken/debaterecord/2008-12-17/4/eng@.akn"/>            
-               <meta name="date" id="FRBRManifestation_date_d3e379"/>            
-               <meta name="author" id="FRBRManifestation_author_d3e379"/>         
+               <meta name="date" id="FRBRManifestation_date_d3e379" contentName="" date="2008-12-16"/>            
+               <meta name="author" id="FRBRManifestation_author_d3e379" href=""/>         
             </mcontainer>      
          </mcontainer>      
          <mcontainer name="publication_mcontainer" id="publication_containerd3e379">         
-            <meta id="publication_d3e379" name="publication" date="2008-12-17"/>      
+            <meta id="publication_d3e379" name="publication" contentName="Debate Record" date="2008-12-17" showAs=""/>      
          </mcontainer>      
-         <mcontainer id="references_d3e379" name="references">         
+         <mcontainer id="references_d3e379" name="references" source="#bungeni">         
             <meta id="Parliament" name="TLCOrganization" href="2" showAs="Parliament"/>      
          </mcontainer>   
       </mcontainer>

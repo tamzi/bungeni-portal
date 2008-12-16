@@ -19,10 +19,7 @@
     </xsl:template>
 
     <xsl:template match="*[@name='publication_mcontainer']">
-        
-other-attributes
             <xsl:apply-templates />
-        
     </xsl:template>
     
     <xsl:template match="text()">

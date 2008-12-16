@@ -63,30 +63,30 @@
 		        	<xsl:value-of select="."/>
 		        </xsl:attribute>
 			</xsl:for-each>
-            <mcontainer name="identification" id="identification_{generate-id()}">
+            <mcontainer name="identification" id="identification_{generate-id()}" source="#bungeni">
                 <mcontainer name="FRBRWork" id="FRBRWork_{generate-id()}">
-                    <meta name="this" id="FRBRWork_this_{generate-id()}" value="{concat($WORKUri,'/','main')}"/>
+                    <meta name="this" id="FRBRWork_this_{generate-id()}" value="{concat($WORKUri,'/',//meta:user-defined[@meta:name='BungeniDocPart'])}"/>
                     <meta name="uri" id="FRBRWork_uri_{generate-id()}" value="{$WORKUri}"/>
-                    <meta name="date" id="FRBRWork_date_{generate-id()}"/>
-                    <meta name="author" id="FRBRWork_author_{generate-id()}"/>
+                    <meta name="date" id="FRBRWork_date_{generate-id()}" contentName="{//meta:user-defined[@meta:name='BungeniWorkDateName']}" date="{//meta:user-defined[@meta:name='BungeniWorkDate']}"/>
+                    <meta name="author" id="FRBRWork_author_{generate-id()}" href=""/>
                 </mcontainer>
                 <mcontainer name="FRBRExpression" id="FRBRExpression_{generate-id()}">
-                    <meta name="this" id="FRBRExpression_this_{generate-id()}" value="{concat($EXPRESSIONUri,'/','main')}" />
+                    <meta name="this" id="FRBRExpression_this_{generate-id()}" value="{concat($EXPRESSIONUri,'/',//meta:user-defined[@meta:name='BungeniDocPart'])}" />
                     <meta name="uri" id="FRBRExpression_uri_{generate-id()}" value="{$EXPRESSIONUri}"/>
-                    <meta name="date" id="FRBRExpression_date_{generate-id()}" />
-                    <meta name="author" id="FRBRExpression_author_{generate-id()}" />
+                    <meta name="date" id="FRBRExpression_date_{generate-id()}" contentName="{//meta:user-defined[@meta:name='BungeniExpDateName']}" date="{//meta:user-defined[@meta:name='BungeniExpDate']}"/>
+                    <meta name="author" id="FRBRExpression_author_{generate-id()}" href=""/>
                 </mcontainer>
                 <mcontainer name="FRBRManifestation" id="FRBRManifestation_{generate-id()}">
-                    <meta name="this" id="FRBRManifestation_this_{generate-id()}" value="{concat($EXPRESSIONUri,'/','main.xml')}"/>
+                    <meta name="this" id="FRBRManifestation_this_{generate-id()}" value="{concat($EXPRESSIONUri,'/',//meta:user-defined[@meta:name='BungeniDocPart'],'.xml')}"/>
                     <meta name="uri" id="FRBRManifestation_uri_{generate-id()}" value="{$MANIFESTATIONUri}"/>
-                    <meta name="date" id="FRBRManifestation_date_{generate-id()}" />
-                    <meta name="author" id="FRBRManifestation_author_{generate-id()}" />
+                    <meta name="date" id="FRBRManifestation_date_{generate-id()}" contentName="{//meta:user-defined[@meta:name='BungeniManDateName']}" date="{//meta:user-defined[@meta:name='BungeniManDate']}" />
+                    <meta name="author" id="FRBRManifestation_author_{generate-id()}" href=""/>
                 </mcontainer>
             </mcontainer>
             <mcontainer name="publication_mcontainer" id="publication_container{generate-id()}">
-                <meta id="publication_{generate-id()}" name="publication" date="{//meta:user-defined[@meta:name='BungeniDebateOfficialDate']}" />
+                <meta id="publication_{generate-id()}" name="publication" contentName="{//meta:user-defined[@meta:name='BungeniPublicationName']}" date="{//meta:user-defined[@meta:name='BungeniPublicationDate']}" showAs=""/>
             </mcontainer>
-            <mcontainer id="references_{generate-id()}" name="references">
+            <mcontainer id="references_{generate-id()}" name="references" source="#bungeni">
                 <meta id="Parliament" name="TLCOrganization" href="{//meta:user-defined[@meta:name='BungeniParliamentID']}"  showAs="Parliament" />
             </mcontainer>
         </mcontainer>

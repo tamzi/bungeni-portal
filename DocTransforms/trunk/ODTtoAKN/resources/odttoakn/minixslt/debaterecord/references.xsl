@@ -20,7 +20,9 @@
 
     <xsl:template match="*[@name='references']">
         <references>
- 
+			<xsl:if test="@source">
+				<xsl:attribute name="source"><xsl:value-of select="@source" /></xsl:attribute>
+			</xsl:if>
             <xsl:apply-templates />
         </references>
     </xsl:template>

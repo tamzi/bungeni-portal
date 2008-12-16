@@ -112,12 +112,15 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		
 		//apply to the result the XSLT that insert the namespace
 		StreamSource resultWithNamespace = XSLTTransformer.getInstance().transform(result, new StreamSource(new File(this.akomantosoAddNamespaceXSLTPath)));
+
+		//create the file that will be returned in case the validation do not fail
+		File fileToReturn = StreamSourceUtility.getInstance().writeToFile(resultWithNamespace);
 		
 		//validate the produced document
-		//SchemaValidator.getInstance().validate(resultWithNamespace, this.akomantosoSchemaPath);
+		SchemaValidator.getInstance().validate(new StreamSource(fileToReturn), this.akomantosoSchemaPath);
 		
 		//write the stream to a File and return it
-		return StreamSourceUtility.getInstance().writeToFile(resultWithNamespace);
+		return fileToReturn;
 	}
 
 	/**
@@ -145,11 +148,14 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		//apply to the result the XSLT that insert the namespace
 		StreamSource resultWithNamespace = XSLTTransformer.getInstance().transform(result, new StreamSource(new File(this.akomantosoAddNamespaceXSLTPath)));
 		
+		//create the file that will be returned in case the validation do not fail
+		File fileToReturn = StreamSourceUtility.getInstance().writeToFile(resultWithNamespace);
+		
 		//validate the produced document
-		SchemaValidator.getInstance().validate(resultWithNamespace, this.akomantosoSchemaPath);
+		SchemaValidator.getInstance().validate(new StreamSource(fileToReturn), this.akomantosoSchemaPath);
 		
 		//write the stream to a File and return it
-		return StreamSourceUtility.getInstance().writeToFile(resultWithNamespace);
+		return fileToReturn;
 	}
 
 	/**

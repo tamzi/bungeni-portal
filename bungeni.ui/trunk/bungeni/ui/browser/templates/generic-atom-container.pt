@@ -1,0 +1,14 @@
+
+<entry>  
+    <title tal:content="view/form_name">Container   Listing</title>    
+    <updated tal:content="view/updated">2003-12-13T18:30:02Z</updated>    
+    <id tal:content="view/uid">urn:uuid:870a76c80-d399-11d9-b93C-0003939e0af6</id>
+    <content type="html" tal:content="view/listing">
+     contents 
+    </content>
+    <link rel="alternate" tal:attributes="href request/URL" /> 
+</entry>   
+
+
+
+

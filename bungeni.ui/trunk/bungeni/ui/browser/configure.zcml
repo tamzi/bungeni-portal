@@ -57,7 +57,7 @@
 
 
   <browser:viewletManager
-     name="bungeni.atom-sub-form.manager"
+     name="bungeni.atom-subform.manager"
      provides=".interfaces.IAtomEntriesFormViewletManager"
      class=".viewlet.AtomEntriesFormViewletManager"
      permission="zope.View"
@@ -268,6 +268,21 @@
       weight="20"
       />
 
+
+
+ <!--AtomPersonInfo -->
+
+
+  <browser:viewlet
+      name="bungeni.subform.mp-atom-personal-info"
+      manager=".interfaces.IAtomEntriesFormViewletManager"
+      class=".subforms.AtomPersonInfo"
+      for="bungeni.core.interfaces.IMemberOfParliament"
+      permission="zope.View"
+      weight="10"
+      />      
+
+
  <!--browser:viewlet
       name="bungeni.subform.mp-partymembership"
       manager=".interfaces.ISubFormViewletManager"
@@ -303,6 +318,18 @@
       permission="zope.View"
       weight="10"
       />
+      
+ <browser:viewlet
+      name="bungeni.subform.atom-committee-members"
+      manager=".interfaces.IAtomEntriesFormViewletManager"
+      class=".subforms.CommitteeMemberAtomViewlet"
+      for="bungeni.core.interfaces.ICommittee"
+      permission="zope.View"
+      weight="10"
+      />      
+      
+      
+      
       
  <browser:viewlet
       name="bungeni.subform.committee-staff"

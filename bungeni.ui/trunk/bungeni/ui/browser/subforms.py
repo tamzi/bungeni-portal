@@ -1,4 +1,6 @@
 # utf-8
+import datetime
+import base64
 from zope.viewlet import viewlet, interfaces
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.traversing.browser import absoluteURL 
@@ -6,10 +8,12 @@ import bungeni.core.domain as domain
 from bungeni.core.interfaces import IMemberOfParliament
 from ore.alchemist import Session
 from ore.alchemist.model import queryModelDescriptor
+from ore.alchemist.container import stringKey
+from zope.security.proxy import removeSecurityProxy
 from bungeni.core.i18n import _
 import bungeni.core.domain as domain
 from forms import BungeniAttributeDisplay
-from container import ContainerListing
+from container import ContainerListing, AtomContainerListing
 from bungeni.core.workflows.question import states as qw_state
 
 from alchemist.ui.viewlet import EditFormViewlet, AttributesViewViewlet, DisplayFormViewlet
@@ -28,7 +32,11 @@ class SubformViewlet ( AjaxContainerListing ):
     render = ViewPageTemplateFile ('templates/generic-sub-container.pt')  
     for_display = True
 
-        
+class AtomSubformViewlet( AtomContainerListing ):
+    """
+    """
+    for_display = True        
+
 
 class SessionViewlet( SubformViewlet ):
 
@@ -177,6 +185,16 @@ class CommitteeMemberViewlet( SubformViewlet ):
         self.query = None
 
 
+class CommitteeMemberAtomViewlet( AtomSubformViewlet ):
+
+    def __init__( self,  context, request, view, manager ):        
+
+        self.context = context.committeemembers                     
+        self.request = request
+        self.__parent__= context
+        self.manager = manager
+        self.query = None
+
     
 class TitleViewlet ( SubformViewlet ):
 
@@ -247,7 +265,7 @@ class PersonInfo( BungeniAttributeDisplay ):
     def __init__( self,  context, request, view, manager ):        
         self.context = context
         self.request = request
-        self.__parent__= view
+        self.__parent__= context.__parent__
         self.manager = manager
         self.query = None
         md = queryModelDescriptor(domain.ParliamentMember)          
@@ -259,10 +277,32 @@ class PersonInfo( BungeniAttributeDisplay ):
         """       
         session = Session()
         user_id = self.context.user_id
+        parent = self.context.__parent__
         self.query = session.query(domain.ParliamentMember).filter(domain.ParliamentMember.c.user_id == user_id) 
         self.context = self.query.all()[0]
-        self.context.__parent__=None
+        self.context.__parent__= parent
         super( PersonInfo, self).update()
+
+class AtomPersonInfo( PersonInfo ):
+    template = ViewPageTemplateFile('templates/generic-atom-container.pt')
+    
+    def name(self):
+        return self.form_name
+        
+    def listing(self):
+        return  ViewPageTemplateFile('templates/display_atom_form.pt').__call__(self)
+        
+    def uid(self):     
+        #XXX       
+        return "urn:uuid:" + base64.urlsafe_b64encode(self.context.__class__.__name__ + ':' + stringKey(removeSecurityProxy(self.context)))
+        
+    def url(self):    
+        return absoluteURL( self.context, self.request )       
+        
+    def updated(self):
+        return datetime.datetime.now().isoformat()          
+                       
+        
 
 class SupplementaryQuestionsViewlet( SubformViewlet ):
     form_name = (u"Supplementary Questions")    

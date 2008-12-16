@@ -6,6 +6,8 @@ from zc.table import  table, column
 from zope.formlib import form
 from zope import schema
 from zope.publisher.browser import BrowserView
+from zope.app.pagetemplate import ViewPageTemplateFile
+
 import simplejson
 import sqlalchemy.sql.expression as sql
 #from zope.app.securitypolicy.interfaces import IPrincipalRoleManager, IPrincipalRoleMap
@@ -20,7 +22,7 @@ from zope.traversing.browser import absoluteURL
 
 from bungeni.core.i18n import _
 from bungeni.ui.utils import getDisplayDate, getFilter
-
+import base64
 
 
 def dateFilter( request ):
@@ -132,12 +134,41 @@ class ContainerListing( alchemist.ui.container.ContainerListing ):
         self.request.response.redirect(addurl)
 
 
+    def parents( self, ctx ):
+          p = ctx.__parent__
+          while p:
+             yield p
+             p = p.__parent__
+
+    def nearest_prm( self, ctx ):
+        prm = IPrincipalRoleMap( ctx, None )
+        if prm: return prm
+        for p in self.parents( ctx ):
+            prm = IPrincipalRoleMap( ctx, None )
+            if prm: return prm
+        raise AttributeError("Invalid Containment Chain")
+
+
     def getRoles(self):
         #XXX
         pn = self.request.principal.__name__ 
-        grants = IPrincipalRoleMap(self.context)
+        grants = self.nearest_prm(self.context)
         roles = grants.getRolesForPrincipal(pn)
         return roles
+
+class AtomContainerListing( ContainerListing ):
+    uid = ""
+    updated = ""
+    render =  ViewPageTemplateFile('templates/generic-atom-container.pt')
+    
+    def update( self ):
+        super( ContainerListing, self).update()
+        context = proxy.removeSecurityProxy( self.context )
+        columns = alchemist.ui.core.setUpColumns( context.domain_model )        
+        self.columns = columns
+        self.uid = "urn:uuid:" + base64.urlsafe_b64encode(self.context.__class__.__name__ + ':' + ( absoluteURL( self.context, self.request ) ) )        
+        self.updated = datetime.datetime.now().isoformat()
+
 
 
 class ContainerJSONTableHeaders( BrowserView ):

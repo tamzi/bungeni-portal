@@ -23,8 +23,9 @@
 			<xsl:if test="@date">
 				<xsl:attribute name="date"><xsl:value-of select="@date" /></xsl:attribute>
 			</xsl:if>
-
-            <xsl:apply-templates />
+	        <xsl:attribute name="name"><xsl:value-of select="@contentName" /></xsl:attribute>
+		    <xsl:attribute name="showAs"><xsl:value-of select="@showAs" /></xsl:attribute>
+		    <xsl:apply-templates />
         </publication>
     </xsl:template>
     

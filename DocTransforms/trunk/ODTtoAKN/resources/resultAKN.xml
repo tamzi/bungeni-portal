@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?><akomaNtoso xmlns="http://www.akomantoso.org/1.0">
    <debateRecord>
       <meta>
-         <identification>
+         <identification source="#bungeni">
             <FRBRWork>
                <this value="/ken/debaterecord/2008-12-17/4/main"/>
                <uri value="/ken/debaterecord/2008-12-17/4"/>
-               <date/>
-               <author/>
+               <date date="2008-12-17" name=""/>
+               <author href=""/>
             </FRBRWork>
             <FRBRExpression>
                <this value="/ken/debaterecord/2008-12-17/4/eng@/main"/>
                <uri value="/ken/debaterecord/2008-12-17/4/eng@"/>
-               <date/>
-               <author/>
+               <date date="2008-12-16" name=""/>
+               <author href=""/>
             </FRBRExpression>
             <FRBRManifestation>
                <this value="/ken/debaterecord/2008-12-17/4/eng@/main.xml"/>
                <uri value="/ken/debaterecord/2008-12-17/4/eng@.akn"/>
-               <date/>
-               <author/>
+               <date date="2008-12-16" name=""/>
+               <author href=""/>
             </FRBRManifestation>
          </identification>
-         <publication date="2008-12-17"/>
-         <references>
+         <publication date="2008-12-17" name="Debate Record" showAs=""/>
+         <references source="#bungeni">
             <TLCOrganization id="Parliament" href="2" showAs="Parliament"/>
          </references>
       </meta>

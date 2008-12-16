@@ -24,14 +24,14 @@
 				<xsl:attribute name="id"><xsl:value-of select="@id" /></xsl:attribute>
 			</xsl:if>
             <xsl:if test="@BungeniSpeechBy">
-				<xsl:attribute name="by"><xsl:value-of select="@BungeniSpeechBy" /></xsl:attribute>
+				<xsl:attribute name="by"><xsl:value-of select="@BungeniPersonID" /></xsl:attribute>
 			</xsl:if>
             <xsl:if test="@BungeniSpeechTo">
 				<xsl:attribute name="to"><xsl:value-of select="@BungeniSpeechTo" /></xsl:attribute>
 			</xsl:if>
-            <xsl:if test="@BungeniSpeechAs">
-				<xsl:attribute name="as"><xsl:value-of select="@BungeniSpeechAs" /></xsl:attribute>
-			</xsl:if>
+        <!--    <xsl:if test="@BungeniPersonRole">
+				<xsl:attribute name="as"><xsl:value-of select="@BungeniPersonRole" /></xsl:attribute>
+			</xsl:if> -->
             <from>
                 <xsl:apply-templates select="*[position()=1]/*" />
             </from>

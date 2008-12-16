@@ -923,7 +923,7 @@ def hasDeletePermission(context):
     """"
     generic check if the user has rights to delete the object
     the permission must follow the convention:
-    bungeni.classname.delete where classname is the lowercase of the python class
+    bungeni.classname.delete where classname is the lowercase of the name of the python class
     """
     interaction = zope.security.management.getInteraction()
     class_name = context.__class__.__name__ 

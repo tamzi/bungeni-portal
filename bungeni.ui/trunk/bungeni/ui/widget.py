@@ -5,8 +5,10 @@ from zope.app.form.interfaces import ConversionError
 from zope.security.proxy import removeSecurityProxy
 from zc.resourcelibrary import need
 from zope.app.form.browser.itemswidgets import  RadioWidget
+from zope.traversing.browser import absoluteURL 
 from zope.app.pagetemplate.viewpagetemplatefile import ViewPageTemplateFile
 from bungeni.core.i18n import _
+
 
 #import bungeni.core.domain as domain
 #from ore.alchemist import Session
@@ -99,6 +101,8 @@ class ImageInputWidget(FileWidget):
 
 class ImageDisplayWidget(DisplayWidget):
     def __call__(self):
+        #url = absoluteURL( self.__parent__.context, self.request )
+        #return '<img src="' + url + '/@@file-image/%s" />' % self.context.__name__
         return '<img src="@@file-image/%s" />' % self.context.__name__
 
 class HTMLDisplay(UnicodeDisplayWidget):

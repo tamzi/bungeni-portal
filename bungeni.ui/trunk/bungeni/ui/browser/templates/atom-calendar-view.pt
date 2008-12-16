@@ -19,7 +19,5 @@
     
    </entry>
    <!-- feedentries of subpages -->
-   <entries tal:replace="structure provider:bungeni.atom-subform.manager" />
-   
    
  </feed>           

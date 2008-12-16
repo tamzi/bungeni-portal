@@ -1,146 +1,143 @@
 <?xml version="1.0" encoding="UTF-8"?><root xmlns="http://www.metalex.org/1.0" name="root" id="d3e1">
    <container id="debaterecord" class="Sect1" name="body">
       <mcontainer name="meta">      
-         <mcontainer name="identification" id="identification_d3e373">         
-            <mcontainer name="FRBRWork" id="FRBRWork_d3e373">            
-               <meta name="this" id="FRBRWork_this_d3e373" value="/ken/debaterecord/2004-12-09/2/main"/>            
-               <meta name="uri" id="FRBRWork_uri_d3e373" value="/ken/debaterecord/2004-12-09/2"/>            
-               <meta name="date" id="FRBRWork_date_d3e373"/>            
-               <meta name="author" id="FRBRWork_author_d3e373"/>         
+         <mcontainer name="identification" id="identification_d3e379">         
+            <mcontainer name="FRBRWork" id="FRBRWork_d3e379">            
+               <meta name="this" id="FRBRWork_this_d3e379" value="/ken/debaterecord/2008-12-17/4/main"/>            
+               <meta name="uri" id="FRBRWork_uri_d3e379" value="/ken/debaterecord/2008-12-17/4"/>            
+               <meta name="date" id="FRBRWork_date_d3e379"/>            
+               <meta name="author" id="FRBRWork_author_d3e379"/>         
             </mcontainer>         
-            <mcontainer name="FRBRExpression" id="FRBRExpression_d3e373">            
-               <meta name="this" id="FRBRExpression_this_d3e373" value="/ken/debaterecord/2004-12-09/2/eng@/main"/>            
-               <meta name="uri" id="FRBRExpression_uri_d3e373" value="/ken/debaterecord/2004-12-09/2/eng@"/>            
-               <meta name="date" id="FRBRExpression_date_d3e373"/>            
-               <meta name="author" id="FRBRExpression_author_d3e373"/>         
+            <mcontainer name="FRBRExpression" id="FRBRExpression_d3e379">            
+               <meta name="this" id="FRBRExpression_this_d3e379" value="/ken/debaterecord/2008-12-17/4/eng@/main"/>            
+               <meta name="uri" id="FRBRExpression_uri_d3e379" value="/ken/debaterecord/2008-12-17/4/eng@"/>            
+               <meta name="date" id="FRBRExpression_date_d3e379"/>            
+               <meta name="author" id="FRBRExpression_author_d3e379"/>         
             </mcontainer>         
-            <mcontainer name="FRBRManifestation" id="FRBRManifestation_d3e373">            
-               <meta name="this" id="FRBRManifestation_this_d3e373" value="/ken/debaterecord/2004-12-09/2/eng@/main.xml"/>            
-               <meta name="uri" id="FRBRManifestation_uri_d3e373" value="/ken/debaterecord/2004-12-09/2/eng@.akn"/>            
-               <meta name="date" id="FRBRManifestation_date_d3e373"/>            
-               <meta name="author" id="FRBRManifestation_author_d3e373"/>         
+            <mcontainer name="FRBRManifestation" id="FRBRManifestation_d3e379">            
+               <meta name="this" id="FRBRManifestation_this_d3e379" value="/ken/debaterecord/2008-12-17/4/eng@/main.xml"/>            
+               <meta name="uri" id="FRBRManifestation_uri_d3e379" value="/ken/debaterecord/2008-12-17/4/eng@.akn"/>            
+               <meta name="date" id="FRBRManifestation_date_d3e379"/>            
+               <meta name="author" id="FRBRManifestation_author_d3e379"/>         
             </mcontainer>      
          </mcontainer>      
-         <mcontainer name="publication_mcontainer" id="publication_containerd3e373">         
-            <meta id="publication_d3e373" name="publication" date="2004-12-09"/>      
+         <mcontainer name="publication_mcontainer" id="publication_containerd3e379">         
+            <meta id="publication_d3e379" name="publication" date="2008-12-17"/>      
          </mcontainer>      
-         <mcontainer id="references_d3e373" name="references">         
-            <meta id="Parliament" name="TLCOrganization" href="1" showAs="Parliament"/>      
+         <mcontainer id="references_d3e379" name="references">         
+            <meta id="Parliament" name="TLCOrganization" href="2" showAs="Parliament"/>      
          </mcontainer>   
       </mcontainer>
-      <container id="masthead" class="Sect2" name="MastHead">         
-         <block name="p" id="d3e7" class="P15">NATIONAL ASSEMBLY</block>                  
-         <block name="p" id="d3e14" class="P14">OFFICIAL REPORT</block>                  
-         <block name="p" id="d3e21" class="P7">            
-            <inline name="ref" class="mBungeniDebateOfficialDate" href="3036" id="d5e19">Thursday, 9th December, 2004</inline>         
+      <container __BungeniMetaEditable="false" id="masthead" class="Sect2" name="MastHead">         
+         <block name="p" id="d3e9" class="P3">NATIONAL ASSEMBLY</block>                  
+         <block name="p" id="d3e16" class="P2">OFFICIAL REPORT</block>                  
+         <block name="p" id="d3e23" class="P13">            
+            <inline name="ref" class="mBungeniDebateOfficialDate" href="5332" id="d5e21">Thursday 17<inline name="span" id="d3e29" class="T4">th</inline>December 2008</inline>         
          </block>                  
-         <block name="p" id="d3e33" class="P3">The House met at<inline name="ref" class="mBungeniDebateOfficialTime" href="8094" id="d5e28">2.30 p.m.</inline>         
+         <block name="p" id="d3e38" class="P4">The House met at<inline name="ref" class="mBungeniDebateOfficialTime" href="5616" id="d5e33">8:22 AM</inline>         
          </block>               
       </container>
       <container id="comment1" class="Sect3" name="Observation">         
-         <block name="p" id="d3e52" class="observation">[Mr. Deputy Speaker in the Chair]</block>      
+         <block name="p" id="d3e54" class="observation">[Mr. Deputy Speaker in the Chair]</block>      
       </container>
-      <container id="comment2" class="Sect4" name="GroupActivity">         
-         <block name="p" id="d3e66" class="P3">PRAYERS</block>      
+      <container __BungeniMetaEditable="false" id="comment2" class="Sect4" name="GroupActivity">         
+         <block name="p" id="d3e66" class="P10">PRAYERS</block>      
       </container>
-      <hcontainer id="papers1" class="Sect5" name="TabledDocuments">         
+      <hcontainer __BungeniMetaEditable="false" id="papers1" class="Sect5" name="TabledDocuments">         
          <htitle id="d3e74" name="heading" class="5f">PAPERS LAID</htitle>         
-         <htitle id="d3e77" name="subheading" class="5f">The following Papers were laid on the Table:-</htitle>                  
-         <container id="tbldocs1" class="Sect6" name="TabledDocumentsList">            
-            <container name="list" class="L1" id="d3e87">               
-               <container name="item" id="d3e89">                  
-                  <block name="p" id="d3e91" class="P16">                     
-                     <inline name="a" id="d3e93" href="ken/docs/2004/tabled/08/827739">The Report of the Commonwealth Parliamentary Association (CPA) Kenya branch delegation to the 35th CPA (Africa Region) conference held in Lobamba, Swaziland from 7th August, 2004 to 15th August, 2004.</inline>                  
-                  </block>               
+         <htitle id="d3e77" name="subheading" class="5f">The following Papers were laid on the Table:-</htitle>         
+         <container __BungeniMetaEditable="false" id="tbldocs1" class="Sect6" name="TabledDocumentsList">            
+            <container name="list" class="L6" id="d3e84">               
+               <container name="item" id="d3e86">                  
+                  <block name="p" id="d3e88" class="P8">The Report of the Commonwealth Parliamentary Association (CPA) Kenya branch delegation to the 35th CPA (Africa Region) conference held in Lobamba, Swaziland from 7th August, 2004 to 15th August, 2004.</block>               
                </container>               
-               <container name="item" id="d3e98">                  
-                  <block name="p" id="d3e100" class="P16">                     
-                     <inline name="a" id="d3e102" href="ken/docs/2004/tabled/12/823339">The Report of the 45th Session of the Executive Committee and the 27th Conference of the African Parliamentary Union held in Algiers, Algeria on 27th November, 2004, to 1st December, 2004.</inline>                  
-                  </block>               
+               <container name="item" id="d3e92">                  
+                  <block name="p" id="d3e94" class="P8">The Report of the 45th Session of the Executive Committee and the 27th Conference of the African Parliamentary Union held in Algiers, Algeria on 27th November, 2004, to 1st December, 2004.</block>               
                </container>            
             </container>         
          </container>                  
-         <container id="comment3" class="Sect3" name="Observation">            
-            <block name="p" id="d3e117" class="observation">(By Mr. Khamasi)</block>         
+         <container __BungeniMetaEditable="false" id="comment3" class="Sect7" name="Observation">            
+            <block name="p" id="d3e107" class="observation">(By Mr. Khamasi)</block>         
          </container>                           
-         <container id="tbldocs2" class="Sect6" name="TabledDocumentsList">            
-            <container name="list" class="L2" id="d3e133">               
-               <container name="item" id="d3e135">                  
-                  <block name="p" id="d3e137" class="P17">                     
-                     <inline name="a" id="d3e139" href="ken/docs/2004/tabled/08/8277288">The Report of the first and second sessions of the Pan-African Parliament of the African Union.</inline>                  
-                  </block>               
-               </container>            
-            </container>         
-         </container>                           
-         <container id="comment4" class="Sect3" name="Observation">            
-            <block name="p" id="d3e156" class="observation">(By the Assistant Minister</block>            
-            <block name="p" id="d3e159" class="observation">for Finance (Mr. Obwocha)</block>         
-         </container>                           
-         <container id="tbldocs3" class="Sect6" name="TabledDocumentsList">            
-            <container name="list" class="L3" id="d3e174">               
-               <container name="item" id="d5e140">
-                  <block name="p" id="d3e178" class="P18">                  
-                     <inline name="a" id="d3e180" href="ken/docs/2001/tabled/08/271739">The Annual Report and Accounts of Moi Teaching and Referral Hospital for the year ended 30th June, 2001 and the Certificate thereof by the Controller and Auditor-General.</inline>               
-                  </block>
+         <container __BungeniMetaEditable="false" id="tbldocs2" class="Sect6" name="TabledDocumentsList">            
+            <container name="list" class="L4" id="d3e124">               
+               <container name="item" id="d3e126">                  
+                  <block name="p" id="d3e128" class="P6">The Report of the first and second sessions of the Pan-African Parliament of the African Union.</block>               
                </container>            
             </container>                     
          </container>                  
-         <container id="comment5" class="Sect3" name="Observation">            
-            <block name="p" id="d3e196" class="observation">(By the Assistant Minister for</block>            
-            <block name="p" id="d3e199" class="observation">Finance (Mr. Obwocha) on behalf</block>            
-            <block name="p" id="d3e204" class="observation">of the Minister for Health)</block>         
+         <container __BungeniMetaEditable="false" id="comment4" class="Sect7" name="Observation">            
+            <block name="p" id="d3e143" class="observation">(By the Assistant Minister</block>            
+            <block name="p" id="d3e146" class="observation">for Finance (Mr. Obwocha)</block>                     
+         </container>                  
+         <container __BungeniMetaEditable="false" id="tbldocs3" class="Sect6" name="TabledDocumentsList">            
+            <container name="list" class="L5" id="d3e162">               
+               <container name="item" id="d3e164">                  
+                  <block name="p" id="d3e166" class="P7">The Annual Report and Accounts of Moi Teaching and Referral Hospital for the year ended 30th June, 2001 and the Certificate thereof by the Controller and Auditor-General.</block>               
+               </container>            
+            </container>                     
+         </container>                  
+         <container __BungeniMetaEditable="false" id="comment5" class="Sect7" name="Observation">            
+            <block name="p" id="d3e181" class="observation">(By the Assistant Minister for</block>            
+            <block name="p" id="d3e184" class="observation">Finance (Mr. Obwocha) on behalf</block>            
+            <block name="p" id="d3e189" class="observation">of the Minister for Health)</block>         
          </container>               
       </hcontainer>
-      <hcontainer id="allmotions1" class="Sect7" name="MotionsContainer">         
-         <htitle id="d3e216" name="heading" class="5f">            
-            <milestone name="eol" id="d3e218"/>NOTICES OF MOTIONS</htitle>                           
-         <hcontainer BungeniMotionName="Adoption of 35TH CPA &#x9;(Africa Region) Report " BungeniMotionNo="3" BungeniMotionURI="ken.motion.adjust_cpa" id="motion1" class="Sect8" name="Motion">            
-            <htitle id="d3e230" name="heading" class="5f">Adoption of 35TH CPA(Africa Region) Report</htitle>                        
-            <container BungeniMotionName="Adoption of 35TH CPA &#x9;(Africa Region) Report " BungeniMotionNo="3" BungeniMotionURI="ken.motion.adjust_cpa" BungeniQuestionNo="4" BungeniSpeechBy="Francis Acheka" BungeniSpeechByURI="ken.person.Francis.Acheka.1951-12-10" id="speech1" class="Sect9" name="Speech">               
-               <block name="p" id="d3e242" class="P12">                  
-                  <inline name="ref" class="BungeniSpeechBy" href="FrancisAcheka151" id="d5e190">Mr. Acheka:</inline>               
+      <hcontainer __BungeniMetaEditable="false" id="allmotions1" class="Sect8" name="MotionsContainer">         
+         <htitle id="d3e200" name="heading" class="5f">            
+            <milestone name="eol" id="d3e202"/>NOTICES OF MOTIONS</htitle>                           
+         <hcontainer BungeniMotionName="Adoption of 35TH CPA &#x9;(Africa Region) Report " BungeniMotionNo="3" BungeniMotionTitle="Adoption of CPA" BungeniMotionURI="ken.motion.adjust_cpa" __BungeniMetaEditable="true" __BungeniMetaEditor="toolbarSubAction.makeDebateMotionBlockSection.section_creation" id="motion1" class="Sect9" name="Motion">            
+            <htitle id="d3e214" name="heading" class="5f">Adoption of 35TH CPA(Africa Region) Report</htitle>                        
+            <container BungeniMotionName="Adoption of 35TH CPA &#x9;(Africa Region) Report " BungeniMotionNo="3" BungeniMotionTitle="Adoption of CPA" BungeniMotionURI="ken.motion.adjust_cpa" BungeniPersonID="4" BungeniPersonRole="4" BungeniSpeechBy="Francis Acheka" BungeniSpeechByURI="ken.person.Francis.Acheka.1951-12-10" __BungeniMetaEditable="true" __BungeniMetaEditor="toolbarSubAction.makeDebateSpeechBlockSection.section_creation" id="speech1" class="Sect10" name="Speech">               
+               <block name="p" id="d3e226" class="P16">                  
+                  <inline name="ref" class="BungeniSpeechBy" href="FrancisAcheka7081" id="d5e181">Mr Acheka:</inline>               
                </block>                              
-               <block name="p" id="d3e254" class="P11">Mr. Deputy Speaker, Sir, I beg to give notice of the following Motions:-</block>               
-               <block name="p" id="d3e257" class="P11">THAT, this House adopts the Report of the Commonwealth Parliamentary Association (CPA), Kenya Branch delegation to the 35th CPA Africa Region Conference held in Lobamba, Swaziland from 7th August, 2004 to 15th August, 2004 laid on the Table of the House on Thursday, 9th December, 2004.</block>            
-            </container>         
-         </hcontainer>                  
-         <hcontainer BungeniMotionName="Adoption of 45th Session of Executive Committeeand 27th APU Conference Reports " BungeniMotionNo="4" BungeniMotionURI="ken.motion.adoption_of_report" id="motion3" class="Sect10" name="Motion">            
-            <htitle id="d3e269" name="heading" class="5f">               
-               <inline name="ref" class="DDE_LINK1" href="" id="d5e211">Adoption of Report of First and Second Sessions of Pan African Parliament</inline>            
+               <block name="p" id="d3e238" class="P17">Mr. Deputy Speaker, Sir, I beg to give notice of the following Motions:-</block>               
+               <block name="p" id="d3e241" class="P17">THAT, this House adopts the Report of the Commonwealth Parliamentary Association (CPA), Kenya Branch delegation to the 35th CPA Africa Region Conference held in Lobamba, Swaziland from 7th August, 2004 to 15th August, 2004 laid on the Table of the House on Thursday, 9th December, 2004.</block>            
+            </container>                     
+         </hcontainer>         
+         <hcontainer BungeniMotionName="Adoption of 45th Session of Executive Committeeand 27th APU Conference Reports " BungeniMotionNo="4" BungeniMotionTitle="Adoption of 45th Session of Executive Committeeand 27th APU Conference Reports " BungeniMotionURI="ken.motion.adoption_of_report" __BungeniMetaEditable="true" __BungeniMetaEditor="toolbarSubAction.makeDebateMotionBlockSection.section_creation" id="motion2" class="Sect11" name="Motion">            
+            <htitle id="d3e252" name="heading" class="5f">               
+               <inline name="ref" class="DDE_LINK1" href="" id="d5e201">Adoption of Report of First and Second Sessions of Pan African Parliament</inline>            
             </htitle>            
-            <container BungeniMotionName="Adoption of 45th Session of Executive Committeeand 27th APU Conference Reports " BungeniMotionNo="4" BungeniMotionURI="ken.motion.adoption_of_report" BungeniQuestionNo="169" BungeniSpeechBy="Joal Onyancha" BungeniSpeechByURI="ken.person.Joal.Onyancha.1964-11-27" id="speech2" class="Sect11" name="Speech">               
-               <block name="p" id="d3e278" class="P13">                  
-                  <inline name="ref" class="BungeniSpeechAs" href="2716" id="d5e219">                  
-                     <inline name="span" id="d3e282" class="T1">The Assistant Minister for Finance</inline>                                    
+            <container BungeniMotionName="Adoption of 45th Session of Executive Committeeand 27th APU Conference Reports " BungeniMotionNo="4" BungeniMotionTitle="Adoption of 45th Session of Executive Committeeand 27th APU Conference Reports " BungeniMotionURI="ken.motion.adoption_of_report" BungeniPersonID="2" BungeniPersonRole="Speaker" BungeniSpeechBy="Francis NoKibaki" BungeniSpeechByURI="ken.person.Francis.NoKibaki.1951-12-08" __BungeniMetaEditable="true" __BungeniMetaEditor="toolbarSubAction.makeDebateSpeechBlockSection.section_creation" id="speech2" class="Sect12" name="Speech">               
+               <block name="p" id="d3e261" class="P18">                  
+                  <inline name="ref" class="BungeniSpeechBy" href="FrancisNoKibaki9586" id="d5e209">                  
+                     <inline name="span" id="d3e265" class="T2">Mr. NoKibaki</inline>                  
+                  </inline>                  
+                  <inline name="ref" class="BungeniSpeechAs" href="5420" id="d5e215">                  
+                     <inline name="span" id="d3e272" class="T2">(Assistant Minister of Finance)</inline>                  
                   </inline>               
                </block>                              
-               <block name="p" id="d3e292" class="P11">Mr. Deputy Speaker, Sir, I beg to give notice of the following Motion:-</block>               
-               <block name="p" id="d3e297" class="P11">THAT, this House adopts the Report of the first and second sessions of the Pan African Parliament of the African Union laid on the Table of this House on Thursday, 9th December, 2004.</block>            
+               <block name="p" id="d3e281" class="P17">Mr. Deputy Speaker, Sir, I beg to give notice of the following Motion:-</block>               
+               <block name="p" id="d3e286" class="P17">THAT, this House adopts the Report of the first and second sessions of the Pan African Parliament of the African Union laid on the Table of this House on Thursday, 9th December, 2004.</block>            
             </container>         
          </hcontainer>               
       </hcontainer>
-      <hcontainer BungeniHouseClosingTime="21:50" id="concl1" class="Sect12" name="Conclusion">         
-         <htitle id="d3e314" name="heading" class="5f">ADJOURNEMENT</htitle>         
-         <container BungeniHouseClosingTime="21:50" BungeniQuestionNo="305" BungeniSpeechBy="Kipkalia Tegere" BungeniSpeechByURI="ken.person.Kipkalia.Tegere.1945-03-10" id="speech3" class="Sect13" name="Speech">            
-            <block name="p" id="d3e319" class="P9">               
-               <inline name="ref" class="BungeniSpeechBy" href="KipkaliaTegere7531" id="d5e255">               
-                  <inline name="span" id="d3e323" class="T1">Mr.Dy Speaker</inline>               
+      <hcontainer BungeniActionEvent="Adjournment" __BungeniMetaEditable="false" id="actionevt1" class="Sect13" name="ActionEvent">         
+         <htitle id="d3e304" name="heading" class="5f">ADJOURNEMENT</htitle>         
+         <container BungeniActionEvent="Adjournment" BungeniPersonID="305" BungeniPersonRole="305" BungeniSpeechBy="Kipkalia Tegere" BungeniSpeechByURI="ken.person.Kipkalia.Tegere.1945-03-10" __BungeniMetaEditable="true" __BungeniMetaEditor="toolbarSubAction.makeDebateSpeechBlockSection.section_creation" id="speech3" class="Sect14" name="Speech">            
+            <block name="p" id="d3e309" class="P15">               
+               <inline name="ref" class="BungeniSpeechBy" href="KipkaliaTegere7531" id="d5e250">               
+                  <inline name="span" id="d3e313" class="T1">Mr.Dy Speaker</inline>               
                </inline>               
-               <inline name="span" id="d3e328" class="T1">(</inline>               
-               <inline name="ref" class="BungeniSpeechAs" href="3142" id="d5e264">               
-                  <inline name="span" id="d3e334" class="T1">Mr.Tegere)</inline>               
+               <inline name="span" id="d3e318" class="T1">(</inline>               
+               <inline name="ref" class="BungeniSpeechAs" href="3142" id="d5e259">               
+                  <inline name="span" id="d3e324" class="T1">Mr.Tegere)</inline>               
                </inline>            
             </block>            
-            <block name="p" id="d3e340" class="P9">               
-               <inline name="span" id="d3e342" class="T2">Hon. Members, the House is, therefore adjorned</inline>               
-               <inline name="span" id="d3e345" class="T3">sine die</inline>               
-               <inline name="span" id="d3e348" class="T2">.</inline>            
+            <block name="p" id="d3e330" class="P15">               
+               <inline name="span" id="d3e332" class="T2">Hon. Members, the House is, therefore adjorned</inline>               
+               <inline name="span" id="d3e335" class="T3">sine die</inline>               
+               <inline name="span" id="d3e338" class="T2">.</inline>            
             </block>         
-         </container>                  
-         <container id="d5e286" name="fixing_hcontainer">
-            <block name="p" id="d3e360" class="P10">The House rose at<inline name="ref" class="BungeniHouseClosingTime" href="8318" id="d5e288">9.50 p.m.</inline>         
-            </block>
          </container>      
       </hcontainer>
+      <container __BungeniMetaEditable="false" id="concl1" class="Sect15" name="Conclusion">                  
+         <container __BungeniMetaEditable="false" id="comment6" class="Sect7" name="Observation">            
+            <block name="p" id="d3e360" class="observation">The House rose at<inline name="ref" class="BungeniHouseClosingTime" href="8318" id="d5e290">9.50 p.m.</inline>            
+            </block>         
+         </container>      
+      </container>
    </container>
 </root>

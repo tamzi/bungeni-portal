@@ -20,7 +20,7 @@
 
     <xsl:template match="*[@name='Observation']">
         <scene>
-            <xsl:for-each select="block">
+            <xsl:for-each select="*:block">
                 <span>
                     <xsl:apply-templates />
                 </span>

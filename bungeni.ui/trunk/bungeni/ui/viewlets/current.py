@@ -617,7 +617,7 @@ class CurrentPartymemberships( viewlet.ViewletBase ):
             self.query = query.filter( self.getFilter() )
         else:
             self.query=query
-            
+
 
     def getData(self):
         """

@@ -3,16 +3,22 @@ from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.viewlet.viewlet import ViewletBase
 
 class LogoViewlet(ViewletBase):
+    def do_display(self):
+        return self.request.principal.id != 'zope.manager'
+        
     render = ViewPageTemplateFile('publiclogo.pt')
     
-class AdminLogoViewlet(ViewletBase):   
+class AdminLogoViewlet(LogoViewlet):   
     render = ViewPageTemplateFile('adminlogo.pt')
 
-class MPLogoViewlet(ViewletBase):   
+class MPLogoViewlet(LogoViewlet):   
     render = ViewPageTemplateFile('mplogo.pt')
 
-class ClerkLogoViewlet(ViewletBase):   
+class ClerkLogoViewlet(LogoViewlet):   
     render = ViewPageTemplateFile('clerklogo.pt')
  
-class SpeakerLogoViewlet(ViewletBase):   
+class SpeakerLogoViewlet(LogoViewlet):   
     render = ViewPageTemplateFile('speakerlogo.pt')
+    
+class AdminLogoViewlet(ViewletBase):   
+    render = ViewPageTemplateFile('adminlogo.pt')    

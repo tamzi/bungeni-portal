@@ -42,6 +42,7 @@ from bungeni.ui import widget
 #from bungeni.ui.workflow import bindTransitions
 import base64
 
+import bungeni.core.schema as db_schema
 
 from ore.yuiwidget import calendar
 
@@ -56,6 +57,17 @@ def createVersion(context, comment = ''):
     if not comment:
         comment =''
     versions.create(u'New version created upon edit.' + comment)
+
+
+def getUserId( name ):
+    session = Session()
+    userq = session.query(domain.User).filter(db_schema.users.c.login == name )
+    results = userq.all()
+    if results:
+        user_id = results[0].user_id
+    else:
+        user_id = None
+    return user_id                
 
 
 #################################
@@ -841,7 +853,8 @@ class QuestionAdd( CustomAddForm ):
     CustomValidation =  validations.QuestionAdd 
     form_fields["note"].custom_widget = widget.OneTimeEditor
     form_fields["question_text"].custom_widget = widget.RichTextEditor 
-
+    #getUserId( name )
+    
     def update( self ):      
         ministry_id = getattr(self.context.__parent__, 'ministry_id', None)   
         if self.context.__parent__.__class__  == domain.Question:    
@@ -850,7 +863,13 @@ class QuestionAdd( CustomAddForm ):
             #self.form_fields["ministry_id"].for_display = True
             self.form_fields = self.form_fields.omit("ministry_id")
         super( QuestionAdd, self ).update()  
-
+        try:
+            user_id = self.request.principal.user_id    
+            #self.form_fields['owner_id'].field.default = [user_id]       
+        except:
+            pass            
+         
+        
     def can_submit( self, action):
         result = form.haveInputWidgets( self, action)
         result = result and prefs.getQuestionSubmissionAllowed()
@@ -896,7 +915,11 @@ class QuestionAdd( CustomAddForm ):
         createVersion(ob, notes)                                                                    
         info.fireTransition( 'submit-to-clerk', notes )                          
         name = self.context.domain_model.__name__
-        self._next_url = absoluteURL( ob, self.request ) + "/?portal_status_message=%s Added"%name        
+        self._next_url = absoluteURL( ob, self.request ) + "/?portal_status_message=%s Added"%name    
+            
+
+
+     
         
 class ResponseAdd( CustomAddForm ):
     """

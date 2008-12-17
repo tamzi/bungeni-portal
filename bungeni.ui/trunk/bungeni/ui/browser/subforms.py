@@ -327,7 +327,9 @@ class AtomPersonInfo( PersonInfo ):
     def updated(self):
         return datetime.datetime.now().isoformat()          
                        
-        
+    def update(self):    
+        super( PersonInfo, self).update()
+        self.form_name = _(u"Bio Info")
 
 class SupplementaryQuestionsViewlet( SubformViewlet ):
     form_name = (u"Supplementary Questions")    

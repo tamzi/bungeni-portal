@@ -26,7 +26,7 @@ class Manager(WeightOrderedViewletManager):
 
 class QuestionInStateViewlet( viewlet.ViewletBase ):
     name = state = None
-    render = ViewPageTemplateFile ('templates/schedule_question_viewlet.pt')    
+    render = ViewPageTemplateFile ('templates/workspace_item_viewlet.pt')    
     list_id = "_questions"    
     def getData(self):
         """
@@ -38,10 +38,14 @@ class QuestionInStateViewlet( viewlet.ViewletBase ):
         
         for result in results:            
             data ={}
-            data['qid']= ( 'q_' + str(result.question_id) )                         
-            data['subject'] = u'Q ' + str(result.question_number) + u' ' + result.subject
+            data['qid']= ( 'q_' + str(result.question_id) )  
+            if result.question_number:                       
+                data['subject'] = u'Q ' + str(result.question_number) + u' ' + result.subject
+            else:
+                data['subject'] = result.subject
             data['title'] = result.subject
             data['schedule_date_class'] = 'sc-after-' #+ datetime.date.strftime(result.approval_date + offset, '%Y-%m-%d')
+            data['url'] = '/questions/obj-' + str(result.question_id)
             data_list.append(data)            
         return data_list
     
@@ -56,6 +60,83 @@ class QuestionInStateViewlet( viewlet.ViewletBase ):
         questions = session.query(domain.Question).filter(qfilter)
         self.query = questions        
 
+class MyQuestionsViewlet( viewlet.ViewletBase ):
+    name = u"My Questions"
+    render = ViewPageTemplateFile ('templates/workspace_item_viewlet.pt')    
+    list_id = "my_questions"    
+    def getData(self):
+        """
+        return the data of the query
+        """    
+        offset = datetime.timedelta(prefs.getNoOfDaysBeforeQuestionSchedule())  
+        data_list = []       
+        results = self.query.all()
+        
+        for result in results:            
+            data ={}
+            data['qid']= ( 'q_' + str(result.question_id) )  
+            if result.question_number:                       
+                data['subject'] = u'Q ' + str(result.question_number) + u' ' + result.subject + ' (' + result.status + ')'
+            else:
+                data['subject'] = result.subject + ' (' + result.status + ')'
+            data['title'] = result.subject + ' (' + result.status + ')'
+            data['schedule_date_class'] = 'sc-after-' #+ datetime.date.strftime(result.approval_date + offset, '%Y-%m-%d')
+            data['url'] = '/questions/obj-' + str(result.question_id)
+            data_list.append(data)            
+        return data_list
+    
+    
+    def update(self):
+        """
+        refresh the query
+        """
+        session = Session()
+        try:
+            user_id = self.request.principal.user_id    
+        except:
+            user_id = None     
+        qfilter = ( schema.questions.c.owner_id == user_id )
+        
+        questions = session.query(domain.Question).filter(qfilter).order_by(schema.questions.c.question_id.desc())
+        self.query = questions        
+            
+class MyMotionsViewlet( viewlet.ViewletBase ):
+    name = "My Motions"
+    render = ViewPageTemplateFile ('templates/workspace_item_viewlet.pt')    
+    list_id = "my_motions"    
+    def getData(self):
+        """
+        return the data of the query
+        """      
+        data_list = []
+        results = self.query.all()
+       
+        for result in results:            
+            data ={}
+            data['qid']= ( 'm_' + str(result.motion_id) )  
+            if result.motion_number:                       
+                data['subject'] = u'M ' + str(result.motion_number) + u' ' +  result.title  + ' (' + result.status + ')'
+            else:
+                data['subject'] =  result.title  + ' (' + result.status + ')'
+            data['title'] = result.title  + ' (' + result.status + ')'
+            data['schedule_date_class'] = 'sc-after-'  #+ datetime.date.strftime(result.approval_date, '%Y-%m-%d')
+            data['url'] = '/motions/obj-' + str(result.motion_id)
+            data_list.append(data)            
+        return data_list
+    
+    
+    def update(self):
+        """
+        refresh the query
+        """
+        session = Session()
+        try:
+            user_id = self.request.principal.user_id    
+        except:
+            user_id = None     
+        qfilter = ( schema.motions.c.owner_id == user_id )        
+        motions = session.query(domain.Motion).filter(qfilter)
+        self.query = motions        
 
 
 
@@ -163,6 +244,8 @@ class WithdrawnQuestionViewlet( QuestionInStateViewlet ):
     list_id = "withdrawn_questions" 
 
 
+
+
  
 class MotionInStateViewlet( viewlet.ViewletBase ):  
     name = state = None
@@ -181,6 +264,7 @@ class MotionInStateViewlet( viewlet.ViewletBase ):
             data['subject'] = u'M ' + str(result.motion_number) + u' ' +  result.title
             data['title'] = result.title
             data['schedule_date_class'] = 'sc-after-'  + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
+            data['url'] = '/motions/obj-' + str(result.motion_id)
             data_list.append(data)            
         return data_list
     

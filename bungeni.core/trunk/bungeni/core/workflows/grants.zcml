@@ -1,6 +1,7 @@
 <configure xmlns="http://namespaces.zope.org/zope">
   <!-- question workflow permissions -->
   <grant permission="bungeni.question.Create" role="bungeni.MP" />
+  <grant permission="bungeni.question.Create" role="bungeni.Clerk" />  
   <grant permission="bungeni.question.Submit" role="bungeni.Owner"/>
   <grant permission="bungeni.question.Recieve" role="bungeni.Clerk"/>
   <grant permission="bungeni.question.clerk.Review" role="bungeni.Clerk"/>

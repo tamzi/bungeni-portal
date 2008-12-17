@@ -20,7 +20,7 @@
                         tal:condition="python: (sp=='committees' or sp=='bills')"
                         tal:on-error="nothing" >
           <div class="tabbertab" title="workspace" id="tab-ws" >         
-            Workspace
+            <h3>Workspace</h3>
             <dl tal:define="results python:here.getLocalFolderListing(here.portal_url() + '/' + sp + '/' + obj_id + '/RSS')">
                <tal:block tal:repeat="result results">
                 <dt> <a tal:attributes="href result/link" tal:content="result/title" /> </dt>

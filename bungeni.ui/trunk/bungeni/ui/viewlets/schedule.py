@@ -20,7 +20,7 @@ from zc.resourcelibrary import need
 from ore.alchemist import Session
 from ore.workflow.interfaces import IWorkflowInfo
 
-from interfaces import IScheduleCalendar, IScheduleItems, IScheduleHolydayCalendar
+from interfaces import IScheduleCalendar, IScheduleItems, IScheduleHolydayCalendar, IPlenaryCalendar
 from bungeni.ui.utils import getDisplayDate
 import bungeni.core.schema as schema
 import bungeni.core.domain as domain
@@ -1374,26 +1374,24 @@ class AgendaItemsViewlet( viewlet.ViewletBase ):
                                     schema.agenda_items.c.agenda_item_id == schema.items_schedule.c.item_id)).filter(
                                                     schema.items_schedule.c.schedule_id == None)       
         self.query = agendaitems    
-    
-    
-class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
+
+
+class PlenaryCalendar(BrowserView):
+    __call__ = ViewPageTemplateFile("templates/plenary.pt")
+
+
+class PlenaryCalendarViewletManager( WeightOrderedViewletManager ):
+    """
+    manage the viewlets that make up the calendar view
+    """
+    zope.interface.implements(IPlenaryCalendar) 
+
+
+
+class PlenarySittingCalendarViewlet( viewlet.ViewletBase ):
     """
     display a calendar with all sittings in a month
     """
-    
-    errors = []
-    
-    @form.action((u"Save"), condition = None)                     
-    def handleSaveAction(self, action, data):
-        pdb.set_trace()    
-        
-    @form.action((u"Cancel"))                     
-    def handleSaveAction(self, action, data):
-        pdb.set_trace()          
-    
-    
-    
-        
     def __init__( self,  context, request, view, manager ):        
         self.context = context
         self.request = request
@@ -1404,23 +1402,48 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
         self.Data = []
         session = Session()
         self.type_query = session.query(domain.SittingType)        
-        
+
     def previous(self):
         """
         return link to the previous month 
         if the session start date is prior to the current month
-        """            
-        return ''
+        """                   
+        if self.Date.month == 1:
+            month = 12
+            year = self.Date.year - 1
+        else:
+            month = self.Date.month -1
+            year = self.Date.year  
+        try:
+            prevdate = datetime.date(year,month,self.Date.day)
+        except:
+            # in case we try to move to Feb 31st (or so)                      
+            prevdate = datetime.date(year,month,15)
+        return ('<a href="?date=' 
+                + datetime.date.strftime(prevdate,'%Y-%m-%d') 
+                + '"> &lt;&lt; </a>' )
         
     def next(self):
         """
         return link to the next month if the end date
         of the session is after the 1st of the next month
         """        
-        return ''
+        if self.Date.month == 12:
+            month = 1
+            year = self.Date.year + 1
+        else:
+            month = self.Date.month + 1
+            year = self.Date.year        
+        try:
+            nextdate = datetime.date(year,month,self.Date.day)
+        except:
+            # if we try to move from 31 of jan to 31 of feb or so
+            nextdate = datetime.date(year,month,15)            
+        return ('<a href="?date=' 
+                + datetime.date.strftime(nextdate,'%Y-%m-%d' )
+                + '"> &gt;&gt; </a>' )
 
 
-        
     def getData(self):
         """
         return the data of the query
@@ -1446,6 +1469,81 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
                            '_stid_' + str( result.sitting_type))                                                
             data_list.append(data)            
         return data_list
+
+    def getTdId(self, Date):
+        """
+        return an Id for that td element:
+        consiting of tdid- + date
+        like tdid-2008-01-17
+        """
+        return 'tdid-' + datetime.date.strftime(Date,'%Y-%m-%d') 
+
+    def getDayClass(self, Date):
+        """
+        return the class settings for that calendar day
+        """
+        css_class = ""
+        if self.Date.month != Date.month:
+            css_class = css_class + "other-month "           
+        if Date < datetime.date.today():
+            css_class = css_class + "past-date "    
+        if Date == datetime.date.today():
+            css_class = css_class + "current-date "  
+        if Date.weekday() in prefs.getWeekendDays():
+            css_class = css_class + "weekend-date "             
+        session = Session()    
+        query = session.query(domain.HolyDay).filter(schema.holydays.c.holyday_date == Date)
+        results = query.all()
+        if results:        
+            css_class = css_class + "holyday-date "          
+        return css_class.strip()
+            
+    def getWeekNo(self, Date):
+        """
+        return the weeknumber for a given date
+        """
+        return Date.isocalendar()[1]
+
+
+    def getSittings4Day(self, Date):
+        """
+        return the sittings for that day
+        """
+        day_data=[]      
+        for data in self.Data:
+            if data['day'] == Date:
+                day_data.append(data)
+        return day_data                
+        
+
+    def update(self):
+        """
+        refresh the query
+        """                
+        self.Date = getDisplayDate(self.request)
+        if not self.Date:
+            self.Date=datetime.date.today()                            
+        self.query, self.Date = current_sitting_query(self.Date)        
+        self.request.response.setCookie('display_date', datetime.date.strftime(self.Date,'%Y-%m-%d') )
+        self.monthcalendar = calendar.Calendar(prefs.getFirstDayOfWeek()).monthdatescalendar(self.Date.year,self.Date.month)         
+        self.monthname = datetime.date.strftime(self.Date,'%B %Y')
+        self.Data = self.getData()
+    
+    render = ViewPageTemplateFile ('templates/plenary_calendar_viewlet.pt')
+
+    
+    
+class ScheduleCalendarViewlet( PlenarySittingCalendarViewlet ):
+    """
+    display a calendar with all sittings in a month to schedule items
+    """
+    
+    errors = []
+    
+    
+
+        
+
 
     def getActiveSittingItems(self, sitting_id):
         """
@@ -1523,50 +1621,7 @@ class ScheduleCalendarViewlet( viewlet.ViewletBase, form.FormBase ):
             data_list.append(data)            
         return data_list
 
-    def getTdId(self, Date):
-        """
-        return an Id for that td element:
-        consiting of tdid- + date
-        like tdid-2008-01-17
-        """
-        return 'tdid-' + datetime.date.strftime(Date,'%Y-%m-%d') 
 
-    def getDayClass(self, Date):
-        """
-        return the class settings for that calendar day
-        """
-        css_class = ""
-        if self.Date.month != Date.month:
-            css_class = css_class + "other-month "           
-        if Date < datetime.date.today():
-            css_class = css_class + "past-date "    
-        if Date == datetime.date.today():
-            css_class = css_class + "current-date "  
-        if Date.weekday() in prefs.getWeekendDays():
-            css_class = css_class + "weekend-date "             
-        session = Session()    
-        query = session.query(domain.HolyDay).filter(schema.holydays.c.holyday_date == Date)
-        results = query.all()
-        if results:        
-            css_class = css_class + "holyday-date "          
-        return css_class.strip()
-            
-    def getWeekNo(self, Date):
-        """
-        return the weeknumber for a given date
-        """
-        return Date.isocalendar()[1]
-
-
-    def getSittings4Day(self, Date):
-        """
-        return the sittings for that day
-        """
-        day_data=[]      
-        for data in self.Data:
-            if data['day'] == Date:
-                day_data.append(data)
-        return day_data                
        
        
     def schedule_question(self, question_id, sitting_id, sort_id):        

@@ -5,12 +5,13 @@
 # to schedule the sitting to be scheduled to the date
 import datetime
 import calendar
-
+import base64
 from zope.viewlet import viewlet
 from zope.publisher.browser import BrowserView
 from zope.viewlet.manager import WeightOrderedViewletManager
 import zope.interface
 from zope.app.pagetemplate import ViewPageTemplateFile
+from zope.traversing.browser.absoluteurl import absoluteURL
 
 from zc.resourcelibrary import need
 
@@ -26,7 +27,7 @@ import bungeni.core.globalsettings as prefs
 from bungeni.ui.utils import getDisplayDate
 
 import interfaces
-from schedule import makeList
+from schedule import makeList, ScheduledItems, ScheduledQuestionItems, ScheduledMotionItems, ScheduledBillItems, ScheduledAgendaItems
 
 import pdb
 
@@ -40,6 +41,8 @@ class ScheduleCalendarViewletManager( WeightOrderedViewletManager ):
 
 class Calendar(BrowserView):
     __call__ = ViewPageTemplateFile("templates/schedule_sittings.pt")
+    
+    
 
 class ScheduleSittingCalendar( viewlet.ViewletBase ):
     # sessions and committees are query results
@@ -566,4 +569,90 @@ class ScheduleSittingSubmitViewlet ( viewlet.ViewletBase ):
         
     render =  ViewPageTemplateFile ('templates/schedule_sitting_submit_viewlet.pt')
 
+
+class WeekCalendar(BrowserView):
+    __call__ = ViewPageTemplateFile("templates/week_sittings.pt")
+
+class WeekAtomCalendar(BrowserView):
+    """
+    an atom view of the calendar - just to display in plone
+    """
+    __call__ = ViewPageTemplateFile("templates/week_atom_sittings.pt")
+    
+    
+    def feedtitle(self):            
+        return "Weekly Calendar"
+            
+    def feedUid(self):
+        return  absoluteURL( self.context, self.request ) + '.xml'
+               
+    def uid(self):     
+        #XXX       
+        return "urn:uuid:" + base64.urlsafe_b64encode('sitting-week-calendar:' + datetime.datetime.now().isoformat() )
+        
+    def url(self):    
+        return absoluteURL( self.context, self.request )       
+        
+    def updated(self):
+        return datetime.datetime.now().isoformat()    
+            
+
+class WeekCalendarViewletManager( WeightOrderedViewletManager ):
+    """
+    manage the viewlets that make up the calendar view
+    """
+    zope.interface.implements(interfaces.IWeekSittingCalendar) 
+
+
+class SittingItemsWeekCalendar( ScheduleSittingCalendar ):
+    """
+    whats on: give an overview over all items scheduled for sittings that
+    week
+    """
+    
+    def getActiveSittingItems(self, sitting_id):
+        """
+        return all questions assigned to that sitting
+        """
+        session = Session()
+        active_sitting_items_filter = sql.and_(schema.items_schedule.c.sitting_id == sitting_id, 
+                                                schema.items_schedule.c.active == True)
+        items = session.query(ScheduledItems).filter(active_sitting_items_filter).order_by(schema.items_schedule.c.order)
+        data_list=[] 
+        results = items.all()
+        q_offset = datetime.timedelta(prefs.getNoOfDaysBeforeQuestionSchedule())
+        for result in results:            
+            data ={}
+            #data['qid']= ( 'q_' + str(result.question_id) ) 
+            data['schedule_id'] = ( 'isid_' + str(result.schedule_id) ) # isid for ItemSchedule ID 
+            if type(result) == ScheduledQuestionItems:                       
+                data['subject'] = u'Q ' + str(result.question_number) + u' ' +  result.subject[:10] + u'... '
+                data['title'] = result.subject
+                data['type'] = "question"
+                data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date + q_offset, '%Y-%m-%d')
+                data['url'] = '/questions/obj-' + str(result.question_id)
+            elif type(result) == ScheduledMotionItems:    
+                data['subject'] = u'M ' + str(result.motion_number) + u' ' +result.title[:10] + u'... '
+                data['title'] = result.title
+                data['type'] = "motion"                
+                data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.approval_date, '%Y-%m-%d')
+                data['url'] = '/motions/obj-' + str(result.motion_id)
+            elif type(result) == ScheduledBillItems:    
+                data['subject'] = u"B " + result.title[:10]  + u'... '
+                data['title'] = result.title             
+                data['type'] = "bill"
+                data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(result.publication_date + q_offset, '%Y-%m-%d')
+                data['url'] = '/bills/obj-' + str(result.bill_id)
+            elif type(result) == ScheduledAgendaItems:    
+                data['subject'] = u"" + result.title[:10]  + u'... '
+                data['title'] = result.title             
+                data['type'] = "agenda_item"
+                data['schedule_date_class'] = 'sc-after-' + datetime.date.strftime(datetime.date.today(), '%Y-%m-%d')
+                data['url'] = '/agendaitems/obj-' + str(result.agenda_item_id)                
+                
+            data['status'] = result.status
+            data_list.append(data)            
+        return data_list    
+        
+    render =  ViewPageTemplateFile ('templates/week_calendar_viewlet.pt')        
     

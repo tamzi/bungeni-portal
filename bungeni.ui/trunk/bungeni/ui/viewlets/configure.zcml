@@ -36,6 +36,31 @@
     weight="30"
     />    
 
+  <!-- plenary calendar -->
+
+  <browser:page
+     for="bungeni.core.interfaces.IBungeniApplication"
+     permission="zope.View"
+     name="plenary-calendar"
+     class=".schedule.PlenaryCalendar"
+     />
+
+  <browser:viewletManager
+     name="bungeni.plenary-calendar.manager"
+     provides=".interfaces.IPlenaryCalendar"
+     class=".schedule.PlenaryCalendarViewletManager"
+     permission="zope.View"
+     />    
+
+  <browser:viewlet
+    name="bungeni.plenary.calendar"   
+    manager=".interfaces.IPlenaryCalendar"
+    class=".schedule.PlenarySittingCalendarViewlet"
+    permission="zope.Public"
+    weight="30"
+    />    
+
+
   <!-- Question, Motion, Bill Schedule -->
   <browser:page
      for="bungeni.core.interfaces.IBungeniApplication"
@@ -432,6 +457,7 @@
     /-->       
 
 
+
   <!-- schedule sittings for parliamentary session and group sittings in one calendar -->
 
   <browser:page
@@ -491,6 +517,41 @@
      class=".scheduleitemscalendar.Calendar"
      />    
 
+
+  <!-- Week calendar - whats on -->
+
+  <browser:page
+     for="bungeni.core.interfaces.IBungeniApplication"
+     permission="zope.Public"
+     name="sitting-week-calendar"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     class=".schedulesittingcalendar.WeekCalendar"
+     />     
+
+  <browser:viewletManager
+     name="bungeni.week-sitting-calendar.manager"
+     provides=".interfaces.IWeekSittingCalendar"
+     class=".schedulesittingcalendar.WeekCalendarViewletManager"
+     permission="zope.View"
+     />  
+
+  <browser:viewlet
+    name="bungeni.week-sitting.calendar"   
+    manager=".interfaces.IWeekSittingCalendar"
+    class=".schedulesittingcalendar.SittingItemsWeekCalendar"
+    permission="zope.Public"
+    weight="10"
+    />     
+
+  <!-- Atom view of Week calendar - whats on -->
+  
+  <browser:page
+     for="bungeni.core.interfaces.IBungeniApplication"
+     permission="zope.Public"
+     name="atom-week-calendar.xml"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     class=".schedulesittingcalendar.WeekAtomCalendar"
+     />   
 
   <!-- Government -->  
   <!--browser:page

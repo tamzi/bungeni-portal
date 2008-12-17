@@ -16,9 +16,9 @@
         </div>
         <div class="tabbertab" title="workspace" id="tab-ws" tal:define="sp python:here.source_url.split('/')[-1];
                          tsp traverse_subpath;
-                        obj_id python:tsp[0];" tal:condition="python: sp=='committees'"
+                        obj_id python:tsp[0];" tal:condition="python: (sp=='committees' or sp=='bills')"
                         tal:on-error="nothing">         
-            Committee workspace
+            Workspace
             <dl tal:define="results python:here.getLocalFolderListing(here.portal_url() + '/' + sp + '/' + obj_id + '/RSS')">
                <tal:block tal:repeat="result results">
                 <dt> <a tal:attributes="href result/link" tal:content="result/title" /> </dt>

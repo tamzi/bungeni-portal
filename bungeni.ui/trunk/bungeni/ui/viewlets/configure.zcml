@@ -231,14 +231,33 @@
      permission="zope.View"
      /-->
      
-  <browser:viewlet
+  <!--browser:viewlet
      name="bungeni.workspace.questions-draft"
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.DraftQuestionViewlet"
      permission="bungeni.MP"
      weight="60"
+     /-->   
+
+  <browser:viewlet
+     name="bungeni.workspace.my-questions"
+     for="*"
+     manager=".interfaces.IWorkspace"
+     class=".workspace.MyQuestionsViewlet"
+     permission="bungeni.MP"
+     weight="60"
      />   
+
+  <browser:viewlet
+     name="bungeni.workspace.my-motions"
+     for="*"
+     manager=".interfaces.IWorkspace"
+     class=".workspace.MyMotionsViewlet"
+     permission="bungeni.MP"
+     weight="70"
+     />   
+
 
   <browser:viewlet
      name="bungeni.workspace.questions-submitted.clerk"
@@ -263,18 +282,18 @@
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.PostponedQuestionViewlet"
-     permission="zope.View"
+     permission="bungeni.Clerk"
      weight="60"
      />    
 
-  <browser:viewlet
+  <!--browser:viewlet
      name="bungeni.workspace.questions-submitted.mp"
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.SubmittedQuestionViewlet"
      permission="bungeni.MP"
      weight="10"
-     />        
+     /-->        
      
   <!-- Navigation Viewlets -->
   <browser:viewlet

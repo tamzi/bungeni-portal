@@ -36,6 +36,7 @@ class BreadCrumbsViewlet( viewlet.ViewletBase ):
         self.manager = manager
         self.path = []
         self.navigation_root_url ='/'
+        self.user_name = ''
 
     def _get_path( self, context, url = '' ): 
         """
@@ -66,13 +67,20 @@ class BreadCrumbsViewlet( viewlet.ViewletBase ):
         
     def getRootfolder(self):
         m_url = prefs.getPloneMenuUrl()
-        return '/'.join(m_url.split('/')[:-1])    
+        r_url = '/'.join(m_url.split('/')[:-1])    
+        r_url = r_url + '/Members/' + self.user_name + '/index_html/view_main'
+        return r_url
         
     def update( self ):
         """
         prepare the data needed to render the viewlet.        
         """
-        self.path = self._get_path(self.context)       
+        self.path = self._get_path(self.context)    
+        try:
+            self.user_name = self.request.principal.login          
+        except:
+            pass
+                        
         
     render = ViewPageTemplateFile( 'templates/breadcrumbs.pt' )        
     

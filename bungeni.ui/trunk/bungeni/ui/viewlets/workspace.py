@@ -93,8 +93,76 @@ class AdmissibleQuestionViewlet( QuestionInStateViewlet ):
     display the admissible questions
     """    
     name = state = question_wf_state.admissible
-    render = ViewPageTemplateFile ('templates/schedule_question_viewlet.pt')    
     list_id = "admissible_questions"
+   
+class InadmissibleQuestionViewlet( QuestionInStateViewlet ):
+    """
+    display the admissible questions
+    """    
+    name = state = question_wf_state.inadmissible
+    list_id = "inadmissible_questions"
+  
+class ClarifyMPQuestionViewlet( QuestionInStateViewlet ):
+    """
+    display the admissible questions
+    """    
+    name = state = question_wf_state.clarify_mp
+    list_id = "clarify_mp_questions"  
+ 
+
+class ClarifyClerkQuestionViewlet( QuestionInStateViewlet ):
+    """
+    display the admissible questions
+    """    
+    name = state = question_wf_state.clarify_clerk
+    list_id = "clarify_clerk_questions"  
+
+class ResponsePendingQuestionViewlet( QuestionInStateViewlet ):
+    """
+    display the admissible questions
+    """    
+    name = state = question_wf_state.response_pending
+    list_id = "response_pending_questions" 
+
+
+
+class DeferredQuestionViewlet( QuestionInStateViewlet ):
+    """
+    display the admissible questions
+    """    
+    name = state = question_wf_state.deferred
+    list_id = "deferred_questions" 
+
+class ElapsedQuestionViewlet( QuestionInStateViewlet ):
+    """
+    display the admissible questions
+    """    
+    name = state = question_wf_state.elapsed
+    list_id = "elapsed_questions" 
+
+
+class RespondedQuestionViewlet( QuestionInStateViewlet ):
+    """
+    display the admissible questions
+    """    
+    name = state = question_wf_state.responded
+    list_id = "responded_questions" 
+
+class AnsweredQuestionViewlet( QuestionInStateViewlet ):
+    """
+    display the admissible questions
+    """    
+    name = state = question_wf_state.answered
+    list_id = "answered_questions" 
+
+class WithdrawnQuestionViewlet( QuestionInStateViewlet ):
+    """
+    display the admissible questions
+    """    
+    name = state = question_wf_state.withdrawn
+    list_id = "withdrawn_questions" 
+
+
  
 class MotionInStateViewlet( viewlet.ViewletBase ):  
     name = state = None

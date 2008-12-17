@@ -27,7 +27,12 @@ class IScheduleSittingCalendar( IViewletManager ):
     
 class IScheduleItems( IViewletManager ):    
     """ Schedule Calendar items viewlet manager """    
-        
+
+class IWeekSittingCalendar( IViewletManager ):    
+    """ Week Calendar show all items viewlet manager """        
+    
+class IPlenaryCalendar( IViewletManager ):    
+    """ monthly Calendar show all plenary sittings viewlet manager """     
     
 class ICurrentGovernment( IViewletManager ):    
     """ Current Government """

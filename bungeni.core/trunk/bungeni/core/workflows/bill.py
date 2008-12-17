@@ -10,42 +10,42 @@ import zope.securitypolicy.interfaces
 
 class states:
 
-    draft = "draft_bill"
+    draft = "draft bill"
     #member_draft = "member_draft"
     
-    submitted = "bill_published_in_gazette"
-    first_reading = "first_reading"
-    first_reading_postponed = "first_reading_postponed"
-    first_committee = "first_committee"
+    submitted = "bill published in gazette"
+    first_reading = "first reading"
+    first_reading_postponed = "first reading postponed"
+    first_committee = "first committee"
 
     # after a committee, there is an option to
     # present the finding directly to the house.
     # report_reading_1 = "report_reading_1"
     
     # to be scheduled for 2nd reading
-    second_pending = "second_pending"
-    second_reading = "second_reading"
-    second_reading_postponed = "second_reading_postponed"
+    second_pending = "second reading pending"
+    second_reading = "second reading"
+    second_reading_postponed = "second reading postponed"
 
     # to be scheduled for whole house
-    house_pending = "house_pending"
-    whole_house ="whole_house"
-    whole_house_postponed ="whole_house_postponed"
+    house_pending = "house pending"
+    whole_house ="whole house"
+    whole_house_postponed ="whole house postponed"
 
-    second_committee = "second_committee"
+    second_committee = "second committee"
 
     # to be scheduled for report reading
-    report_reading_pending = "report_reading_pending"
-    report_reading = "report_reading"
-    report_reading_postponed = "report_reading_postponed"
+    report_reading_pending = "report reading pending"
+    report_reading = "report reading"
+    report_reading_postponed = "report reading postponed"
 
 
     # is there a third pending state for a bill
-    third_pending = "third_pending"
-    third_reading = "third_reading"
-    third_reading_postponed = "third_reading_postponed"
+    third_pending = "third reading pending"
+    third_reading = "third reading"
+    third_reading_postponed = "third reading postponed"
 
-    withdrawn ="bill_withdrawn"
+    withdrawn ="bill withdrawn"
 
     approved = "approved"
     rejected = "rejected"

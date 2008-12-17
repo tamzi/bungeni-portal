@@ -79,6 +79,14 @@ def lookup_fk_column(name, title, domain_model, field, default=""):
     return column.GetterColumn( title, getter )
      
      
+def inActiveDead_Column( name, title, default):
+    #[(_(u"active"),'A'),(_(u"inactive"), 'I'),(_(u"deceased"), 'D')]
+    aid = { 'A': _(u"active"),
+        'I': _(u"inactive"),
+        'D': _(u"deceased")}    
+    renderer = lambda x: aid[x]
+    return _column( name, title, renderer, default)  
+     
 ####
 #  Constraints / Invariants
 #  
@@ -203,13 +211,14 @@ class UserDescriptor( ModelDescriptor ):
                                         required=True ),             
             ),
         dict( name="date_of_death", label=_(u"Date of Death"),
-              view_permission="bungeni.user.AdminRecord",
+              #view_permission="bungeni.user.AdminRecord",
               edit_permission="bungeni.user.AdminRecord",
               edit_widget=calendar.CalendarWidget, add_widget=calendar.CalendarWidget),
         dict( name="password", omit=True ),
-                dict( name="active_p", label=_(u"Status"), 
+        dict( name="active_p", label=_(u"Status"), 
               property = schema.Choice( title=_(u"Status"), source=vocabulary.InActiveDead, default='A' ),
-              view_permission="bungeni.user.AdminRecord",
+             listing_column=inActiveDead_Column("active_p", _(u'Status'), ''),
+              #view_permission="bungeni.user.AdminRecord",
               edit_permission="bungeni.user.AdminRecord",  listing=True,
               edit_widget=widget.CustomRadioWidget),
         dict( name="description", 

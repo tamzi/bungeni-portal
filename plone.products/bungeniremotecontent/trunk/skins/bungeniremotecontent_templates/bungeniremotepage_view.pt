@@ -14,18 +14,21 @@
             </tal:block>
             <a target="_blank" tal:attributes="href result/link"> Details </a> 
         </div>
-        <div class="tabbertab" title="workspace" id="tab-ws" tal:define="sp python:here.source_url.split('/')[-1];
-                         tsp traverse_subpath;
-                        obj_id python:tsp[0];" tal:condition="python: (sp=='committees' or sp=='bills')"
-                        tal:on-error="nothing">         
-            <h3>Workspace</h3>
+        <tal:block tal:define="sp python:here.source_url.split('/')[-1];
+                               tsp traverse_subpath;
+                               obj_id python:tsp[0];" 
+                        tal:condition="python: (sp=='committees' or sp=='bills')"
+                        tal:on-error="nothing" >
+          <div class="tabbertab" title="workspace" id="tab-ws" >         
+            Workspace
             <dl tal:define="results python:here.getLocalFolderListing(here.portal_url() + '/' + sp + '/' + obj_id + '/RSS')">
                <tal:block tal:repeat="result results">
                 <dt> <a tal:attributes="href result/link" tal:content="result/title" /> </dt>
                 <dd tal:content="result/description" />
                </tal:block> 
             </dl>
-        </div> 
+          </div> 
+        </tal:block>
       </div>
     </div>
   </body>

@@ -58,5 +58,32 @@
      class=".taskmenu.SpeakersTaskMenuViewlet"
      />       
           
+ <browser:viewlet
+     name="bungeni.taskmenu.interact-s"
+     for="*"
+     layer="..interfaces.IBungeniSkin"
+     permission="bungeni.Speaker"
+     manager="ploned.ui.interfaces.ILeftColumnManager"
+     class=".taskmenu.InteractMenuViewlet"
+     />       
+
+ <browser:viewlet
+     name="bungeni.taskmenu.interact-c"
+     for="*"
+     layer="..interfaces.IBungeniSkin"
+     permission="bungeni.Clerk"
+     manager="ploned.ui.interfaces.ILeftColumnManager"
+     class=".taskmenu.InteractMenuViewlet"
+     />   
+     
+ <browser:viewlet
+     name="bungeni.taskmenu.interact-m"
+     for="*"
+     layer="..interfaces.IBungeniSkin"
+     permission="bungeni.MP"
+     manager="ploned.ui.interfaces.ILeftColumnManager"
+     class=".taskmenu.InteractMenuViewlet"
+     />                  
+
 
 </configure>

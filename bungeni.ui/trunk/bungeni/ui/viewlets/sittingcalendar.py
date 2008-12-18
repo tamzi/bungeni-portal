@@ -623,15 +623,29 @@ class SittingCalendarViewlet( viewlet.ViewletBase ):
     
     render = ViewPageTemplateFile ('templates/sitting_calendar_viewlet.pt')
     
-#def SittingWeekCalendarViewlet(SittingCalendarViewlet):
-#    """
-#    all sittings in a given week
-#    """    
-#    render = viewPageTemplateFile('templates/sitting_week_calendar.pt')
-#    
-#    def getWeek(self):
-#        for week in self.monthcalendar:
-#            if self.Date in week:
-#                return week
-                
+class AtomCalendar(BrowserView):
+    """
+    an atom view of the calendar - just to display in plone
+    """
+    __call__ = ViewPageTemplateFile("templates/atom_sittings.pt")
+    
+    
+    def feedtitle(self):            
+        return "Sitting Calendar"
+            
+    def feedUid(self):
+        return  absoluteURL( self.context, self.request ) + '.xml'
+               
+    def uid(self):     
+        #XXX       
+        return "urn:uuid:" + base64.urlsafe_b64encode('sitting-week-calendar:' + datetime.datetime.now().isoformat() )
+        
+    def url(self):    
+        return absoluteURL( self.context, self.request )       
+        
+    def updated(self):
+        return datetime.datetime.now().isoformat()    
+            
+
+ 
     

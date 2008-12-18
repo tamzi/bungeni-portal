@@ -45,6 +45,15 @@
      class=".schedule.PlenaryCalendar"
      />
 
+
+  <browser:page
+     for="bungeni.core.interfaces.IBungeniApplication"
+     permission="zope.View"
+     name="plenary-calendar-atom.xml"
+     class=".schedule.PlenaryAtomCalendar"
+     />
+
+
   <browser:viewletManager
      name="bungeni.plenary-calendar.manager"
      provides=".interfaces.IPlenaryCalendar"
@@ -571,6 +580,16 @@
      layer="bungeni.ui.interfaces.IBungeniSkin"
      class=".schedulesittingcalendar.WeekAtomCalendar"
      />   
+  <!-- atom view of sitting (month calendar -->
+  
+  <browser:page
+     for="bungeni.core.interfaces.IBungeniApplication"
+     permission="zope.Public"
+     name="atom-month-calendar.xml"
+     layer="bungeni.ui.interfaces.IBungeniSkin"
+     class=".sittingcalendar.AtomCalendar"
+     />   
+
 
   <!-- Government -->  
   <!--browser:page

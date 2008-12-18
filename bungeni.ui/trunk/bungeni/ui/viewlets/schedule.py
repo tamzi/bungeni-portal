@@ -4,7 +4,7 @@
 # below you have a calendar that displays the sittings
 # to schedule drag the question to be scheduled to the sitting
 
-import calendar
+import calendar, base64
 import datetime, time
 from types import ListType, StringTypes
 
@@ -15,6 +15,8 @@ from zope.viewlet import viewlet
 import zope.interface
 from zope.security import proxy
 from zope.formlib import form
+from zope.traversing.browser.absoluteurl import absoluteURL
+
 from ore.alchemist.container import stringKey
 from zc.resourcelibrary import need
 from ore.alchemist import Session
@@ -1378,6 +1380,26 @@ class AgendaItemsViewlet( viewlet.ViewletBase ):
 
 class PlenaryCalendar(BrowserView):
     __call__ = ViewPageTemplateFile("templates/plenary.pt")
+
+class PlenaryAtomCalendar( BrowserView ):
+    __call__ = ViewPageTemplateFile("templates/plenary-atom.pt")
+
+    def feedtitle(self):            
+        return "Weekly Calendar"
+            
+    def feedUid(self):
+        return  absoluteURL( self.context, self.request ) + '.xml'
+               
+    def uid(self):     
+        #XXX       
+        return "urn:uuid:" + base64.urlsafe_b64encode('sitting-week-calendar:' + datetime.datetime.now().isoformat() )
+        
+    def url(self):    
+        return absoluteURL( self.context, self.request )       
+        
+    def updated(self):
+        return datetime.datetime.now().isoformat()   
+        
 
 
 class PlenaryCalendarViewletManager( WeightOrderedViewletManager ):

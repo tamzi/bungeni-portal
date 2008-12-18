@@ -1,0 +1,15 @@
+<dl class="portlet"
+    i18n:domain="bungeni">
+
+    <dt class="portletHeader">
+        <span class="portletTopLeft"></span>
+        INTERACT
+        <span class="portletTopRight"></span>
+    </dt>
+
+        <dd class="portletItem"><a tal:attributes="href string:${view/getRootUrl}/createObject?type_name=News+Item">Post News</a><br></dd>
+
+        <dd class="portletItem"><a tal:attributes="href string:${view/getRootUrl}/createObject?type_name=PlonePopoll">Post e-Polls</a><br></dd>
+        <dd class="portletItem"><a tal:attributes="href string:${view/getRootUrl}/createObject?type_name=PressClip">Post Press Clip</a></dd>         
+        <dd class="portletItem"><a tal:attributes="href string:${view/getRootUrl}/createObject?type_name=AnnotatableDocument">Post Document</a></dd>                   
+</dl>

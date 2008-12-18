@@ -249,13 +249,23 @@
      weight="60"
      /-->   
 
+<!-- MPs Workspace -->
+  <browser:viewlet
+     name="bungeni.workspace.questions-mp-clarify"
+     for="*"
+     manager=".interfaces.IWorkspace"
+     class=".workspace.ClarifyMPQuestionViewlet"
+     permission="bungeni.MP"
+     weight="10"
+     />  
+
   <browser:viewlet
      name="bungeni.workspace.my-questions"
      for="*"
      manager=".interfaces.IWorkspace"
      class=".workspace.MyQuestionsViewlet"
      permission="bungeni.MP"
-     weight="60"
+     weight="20"
      />   
 
   <browser:viewlet
@@ -267,6 +277,8 @@
      weight="70"
      />   
 
+
+<!-- clerks workspace -->
 
   <browser:viewlet
      name="bungeni.workspace.questions-submitted.clerk"
@@ -283,8 +295,36 @@
      manager=".interfaces.IWorkspace"
      class=".workspace.ReceivedQuestionViewlet"
      permission="bungeni.Clerk"
-     weight="10"
+     weight="20"
      />      
+
+  <browser:viewlet
+     name="bungeni.workspace.questions-clerk-clarify"
+     for="*"
+     manager=".interfaces.IWorkspace"
+     class=".workspace.ClarifyClerkQuestionViewlet"
+     permission="bungeni.Clerk"
+     weight="5"
+     />  
+     
+     
+  <browser:viewlet
+     name="bungeni.workspace.questions-clerk-deferred"
+     for="*"
+     manager=".interfaces.IWorkspace"
+     class=".workspace.DeferredQuestionViewlet"
+     permission="bungeni.Clerk"
+     weight="40"
+     />       
+     
+  <browser:viewlet
+     name="bungeni.workspace.questions-clerk-responded"
+     for="*"
+     manager=".interfaces.IWorkspace"
+     class=".workspace.RespondedQuestionViewlet"
+     permission="bungeni.Clerk"
+     weight="50"
+     />         
      
   <browser:viewlet
      name="bungeni.workspace.questions-postponed"
@@ -292,8 +332,62 @@
      manager=".interfaces.IWorkspace"
      class=".workspace.PostponedQuestionViewlet"
      permission="bungeni.Clerk"
+     weight="35"
+     />    
+
+
+  <browser:viewlet
+     name="bungeni.workspace.motions-submitted"
+     for="*"
+     manager=".interfaces.IWorkspace"
+     class=".workspace.SubmittedMotionViewlet"
+     permission="bungeni.Clerk"
      weight="60"
      />    
+
+  <browser:viewlet
+     name="bungeni.workspace.motions-recieved"
+     for="*"
+     manager=".interfaces.IWorkspace"
+     class=".workspace.ReceivedMotionViewlet"
+     permission="bungeni.Clerk"
+     weight="70"
+     />  
+
+  <browser:viewlet
+     name="bungeni.workspace.motions-clarify-clerk"
+     for="*"
+     manager=".interfaces.IWorkspace"
+     class=".workspace.ClarifyClerkMotionViewlet"
+     permission="bungeni.Clerk"
+     weight="80"
+     />  
+
+
+
+
+<!-- speakers workspace -->
+
+  <browser:viewlet
+     name="bungeni.workspace.questions-complete"
+     for="*"
+     manager=".interfaces.IWorkspace"
+     class=".workspace.CompleteQuestionViewlet"
+     permission="bungeni.Speaker"
+     weight="10"
+     />    
+          
+  <browser:viewlet
+     name="bungeni.workspace.motions-complete"
+     for="*"
+     manager=".interfaces.IWorkspace"
+     class=".workspace.CompleteMotionViewlet"
+     permission="bungeni.Speaker"
+     weight="15"
+     />    
+          
+
+     
 
   <!--browser:viewlet
      name="bungeni.workspace.questions-submitted.mp"

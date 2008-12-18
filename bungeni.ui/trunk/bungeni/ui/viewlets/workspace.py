@@ -205,7 +205,12 @@ class ResponsePendingQuestionViewlet( QuestionInStateViewlet ):
     name = state = question_wf_state.response_pending
     list_id = "response_pending_questions" 
 
-
+class CompleteQuestionViewlet( QuestionInStateViewlet ):
+    """
+    display the admissible questions
+    """    
+    name = state = question_wf_state.complete
+    list_id = "complete_questions" 
 
 class DeferredQuestionViewlet( QuestionInStateViewlet ):
     """
@@ -276,6 +281,54 @@ class MotionInStateViewlet( viewlet.ViewletBase ):
         session = Session()
         motions = session.query(domain.Motion).filter(schema.motions.c.status == self.state)
         self.query = motions        
+
+
+class SubmittedMotionViewlet( MotionInStateViewlet ):   
+    """
+    display the submitted Motions
+    """
+    name = state = motion_wf_state.submitted
+    list_id = "submitted_motions"
+
+
+class ReceivedMotionViewlet( MotionInStateViewlet ):   
+    """
+    display the submitted Motions
+    """
+    name = state = motion_wf_state.received
+    list_id = "received_motions"
+
+class CompleteMotionViewlet( MotionInStateViewlet ):   
+    """
+    display the submitted Motions
+    """
+    name = state = motion_wf_state.complete
+    list_id = "complete_motions"
+    
+   
+
+class ClarifyMpMotionViewlet( MotionInStateViewlet ):   
+    """
+    display the submitted Motions
+    """
+    name = state = motion_wf_state.clarify_mp
+    list_id = "clarify_mp_motions"
+    
+class ClarifyClerkMotionViewlet( MotionInStateViewlet ):   
+    """
+    display the submitted Motions
+    """
+    name = state = motion_wf_state.clarify_clerk
+    list_id = "clarify_clerk_motions"    
+
+class DeferredMotionViewlet( MotionInStateViewlet ):   
+    """
+    display the submitted Motions
+    """
+    name = state = motion_wf_state.deferred
+    list_id = "deferred_motions"    
+    
+    
     
 class AdmissibleMotionViewlet( MotionInStateViewlet ):   
     """

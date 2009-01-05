@@ -350,6 +350,7 @@ public class sectionNumbererPanel extends  BaseClassForITabbedPanel {
         return numberedContainers;*/
          log.debug("findNumberedContainers : starting ");
          findNumberedContainersListener findNumberedContainers = new findNumberedContainersListener();
+         DocumentSectionProvider.SectionTree.ignoreTheseSections = new ArrayList<String>(0);
          DocumentSectionIterator iterateNumberedContainers = new DocumentSectionIterator(findNumberedContainers);
          iterateNumberedContainers.startIterator();
          log.debug("findNumberedContainers : returning numbered containers : " + findNumberedContainers.numberedContainers.toString() );

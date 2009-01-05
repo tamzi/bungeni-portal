@@ -6,6 +6,7 @@
 
 package org.bungeni.editor.dialogs;
 
+import com.sun.star.awt.XWindow;
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.beans.XPropertySetInfo;
@@ -154,6 +155,7 @@ public class editorTabbedPanel extends javax.swing.JPanel {
 
     private JFrame metadataPanelParentFrame = null;
 
+    public static int coordX , coordY;
     /** Creates new form SwingTabbedJPanel */
     public editorTabbedPanel() {
         initComponents();
@@ -722,8 +724,15 @@ public class editorTabbedPanel extends javax.swing.JPanel {
             //int windowY = (screenSize.height - floatingFrame.getHeight())/2;
             int windowY = editorApplicationController.getFrameWindowDimension().y;
             log.debug("initFloatingPane : Window Y =  "+ windowY);
-           
-            floatingFrame.setLocation(windowX, windowY);  // Don't use "f." inside constructor.
+            /*XModel xModel = ooQueryInterface.XModel(ooDocument.getComponent());
+            XWindow xCompWindow = xModel.getCurrentController().getFrame().getComponentWindow();
+            XWindow xContWindow = xModel.getCurrentController().getFrame().getContainerWindow();
+            com.sun.star.awt.Rectangle rSize = xCompWindow.getPosSize();
+            com.sun.star.awt.Rectangle rContSize = xContWindow.getPosSize();*/
+            
+           // floatingFrame.setLocation(editorTabbedPanel.coordX, editorTabbedPanel.coordY);
+            
+          floatingFrame.setLocation(windowX, editorTabbedPanel.coordY + 50);  // Don't use "f." inside constructor.
             floatingFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             
       
@@ -1825,7 +1834,8 @@ class OpenDocumentAgent extends SwingWorker <XComponent, Void> {
 
 private void LaunchDebateMetadataSetter(XComponent xComp){
         OOComponentHelper oohc = new OOComponentHelper (xComp, ComponentContext);
-        BungeniFrame frm = new BungeniFrame("DebateRecord Metadata");
+        String docType = BungeniEditorPropertiesHelper.getCurrentDocType();
+        BungeniFrame frm = new BungeniFrame(docType + " Metadata");
         DebateRecordMetadata meta = new DebateRecordMetadata(oohc, frm, SelectorDialogModes.TEXT_INSERTION);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setSize(new Dimension(410, 424));

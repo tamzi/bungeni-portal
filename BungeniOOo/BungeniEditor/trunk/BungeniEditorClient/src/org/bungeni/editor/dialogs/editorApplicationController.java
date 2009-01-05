@@ -6,14 +6,17 @@
 
 package org.bungeni.editor.dialogs;
 
+import com.sun.star.awt.XWindow;
 import com.sun.star.beans.UnknownPropertyException;
 import com.sun.star.comp.helper.Bootstrap;
 import com.sun.star.comp.helper.BootstrapException;
+import com.sun.star.frame.XModel;
 import com.sun.star.lang.XComponent;
 import com.sun.star.uno.XComponentContext;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -47,6 +50,7 @@ import org.bungeni.editor.dialogs.debaterecord.DebateRecordMetadata;
 import org.bungeni.editor.selectors.SelectorDialogModes;
 import org.bungeni.ooo.BungenioOoHelper;
 import org.bungeni.ooo.OOComponentHelper;
+import org.bungeni.ooo.ooQueryInterface;
 import org.bungeni.utils.BungeniFrame;
 import org.bungeni.utils.CommonFileFunctions;
 import org.bungeni.utils.FileTableModel;
@@ -865,6 +869,17 @@ private void initFrame(XComponent component){
             WINDOW_X = windowX;
             WINDOW_Y = windowY;
             
+            XModel xModel = ooQueryInterface.XModel(component);
+            XWindow xCompWindow = xModel.getCurrentController().getFrame().getComponentWindow();
+            XWindow xContWindow = xModel.getCurrentController().getFrame().getContainerWindow();
+            com.sun.star.awt.Rectangle rSize = xCompWindow.getPosSize();
+            com.sun.star.awt.Rectangle rContSize = xContWindow.getPosSize();
+            int coordX = rSize.X + rContSize.X;
+            int coordY =  rContSize.Y + rSize.Y + 40;
+            
+            editorTabbedPanel.coordX = coordX;
+            editorTabbedPanel.coordY = coordY;
+            
             panel = new org.bungeni.editor.dialogs.editorTabbedPanel(component, this.openofficeObject, frame);
             //panel.setOOoHelper(this.openofficeObject);
             frame.add(panel);
@@ -918,8 +933,9 @@ private void initFrame(XComponent component){
             frame.setVisible(true);
             //prevent closing of main editor panel
             frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-           
-            frame.setLocation(windowX, windowY );  // Don't use "f." inside constructor.
+       
+            frame.setLocation(editorTabbedPanel.coordX, editorTabbedPanel.coordY);
+            //frame.setLocation(windowX, windowY );  // Don't use "f." inside constructor.
 }
 
 private static int WINDOW_X = 0;
@@ -945,6 +961,38 @@ private void initoOoAndLaunchFrame(String templatePath, boolean isTemplate){
             else
                 xComponent = openofficeObject.openDocument(templateURL);
                initFrame(xComponent);
+              // testFrame(xComponent);
+}
+
+public void testFrame(XComponent xComp){
+     BungeniFrame frame = new BungeniFrame("BungeniEditor Control Panel @@@");
+            //set the dimensions for the frame;
+            frame.setSize(270, 400);
+            //frame position information
+            //position frame
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            Dimension windowSize = frame.getSize();
+            log.debug("screen size = "+ screenSize);
+            log.debug("window size = "+ windowSize);
+            
+            int windowX = 5; //Math.max(0, (screenSize.width  - windowSize.width));
+            int windowY = Math.max(0, (screenSize.height - windowSize.height) / 2) + OPENOFFICE_HEIGHT_OFFSET;
+            WINDOW_X = windowX;
+            WINDOW_Y = windowY;
+            XModel xModel = ooQueryInterface.XModel(xComp);
+            XWindow xCompWindow = xModel.getCurrentController().getFrame().getComponentWindow();
+            XWindow xContWindow = xModel.getCurrentController().getFrame().getContainerWindow();
+            com.sun.star.awt.Rectangle rSize = xCompWindow.getPosSize();
+            com.sun.star.awt.Rectangle rContSize = xContWindow.getPosSize();
+            
+            frame.setLocation(rSize.X + rContSize.X, rSize.Y + rContSize.Y + 40);
+            
+            frame.setResizable(false);
+            frame.setAlwaysOnTop(true);
+           //s frame.pack();
+            frame.setVisible(true);
+            //prevent closing of main editor panel
+            frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 }
 
 private void initMeta(XComponent xComp){
@@ -965,7 +1013,10 @@ private void LaunchDebateMetadataSetter(XComponent xComp){
                 return;
         }
         
-        BungeniFrame frm = new BungeniFrame("DebateRecord Metadata");
+
+        String docType = BungeniEditorPropertiesHelper.getCurrentDocType();
+     
+        BungeniFrame frm = new BungeniFrame(docType + " Metadata");
         DebateRecordMetadata meta = new DebateRecordMetadata(oohc, frm, SelectorDialogModes.TEXT_EDIT);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setSize(new Dimension(410, 424));

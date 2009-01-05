@@ -10,7 +10,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.io.File;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -179,7 +178,7 @@ private boolean applySelectedMetadata(BungeniFileSavePathFormat spf){
     docMetaModel.updateItem("BungeniManDate", strCurrentDate);
     docMetaModel.updateItem("BungeniPublicationDate", strPubDate);
     docMetaModel.updateItem("BungeniPublicationName", strPubName);
-    
+    docMetaModel.updateItem("BungeniDocAuthor", "Ashok");
     
     docMetaModel.updateItem("BungeniDebateOfficialTime", strTimeOfHansard);
     docMetaModel.updateItem("BungeniDocPart", selPart.PartName);

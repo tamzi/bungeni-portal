@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.Timer;
+import org.bungeni.editor.BungeniEditorPropertiesHelper;
 import org.bungeni.editor.dialogs.debaterecord.DebateRecordMetadata;
 import org.bungeni.editor.metadata.DocumentMetadataTableModel;
 import org.bungeni.editor.panels.impl.BaseClassForITabbedPanel;
@@ -139,7 +140,8 @@ public class documentMetadataPanel extends BaseClassForITabbedPanel {
 
 private void btnEditMetadataActionPerformed(java.awt.event.ActionEvent evt) {
 // TODO add your handling code here:
-        JFrame frm = new JFrame("DebateRecord Metadata");
+        String docType = BungeniEditorPropertiesHelper.getCurrentDocType();
+        JFrame frm = new JFrame(docType + " Metadata");
         DebateRecordMetadata meta = new DebateRecordMetadata(ooDocument, frm, SelectorDialogModes.TEXT_EDIT);
         frm.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frm.setSize(new Dimension(410, 424));

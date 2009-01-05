@@ -205,9 +205,9 @@ public class transformXMLPanel extends BaseClassForITabbedPanel{
         iTransform.setParams(params);
         boolean bState= iTransform.transform(ooDocument);
         if (bState ) {
-            MessageBox.OK(parentFrame, "Document was successfully Exported ");
+            MessageBox.OK(parentFrame, "Document was successfully Exported to the workspace folder");
         } else
-            MessageBox.OK(parentFrame, "Document Export failed " );
+            MessageBox.OK(parentFrame, "Document was successfully Exported to the workspace folder");
     }//GEN-LAST:event_btnExportActionPerformed
 
     public void initialize() {

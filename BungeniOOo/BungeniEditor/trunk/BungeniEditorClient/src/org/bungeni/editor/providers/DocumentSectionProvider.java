@@ -177,9 +177,9 @@ public class DocumentSectionProvider {
     }
     
     
-   static  class SectionTree {
+  public static  class SectionTree {
         OOComponentHelper sectionTreeOpenDocument;
-          private final ArrayList<String> ignoreTheseSections = new ArrayList<String>(){
+          public static ArrayList<String> ignoreTheseSections = new ArrayList<String>(){
         {
             add("num_");
         }

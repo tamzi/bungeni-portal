@@ -12,7 +12,7 @@ some setup for tests
    >>> from ore.alchemist.interfaces import IDatabaseEngine
    >>> from ore.alchemist import Session
    >>> from bungeni import core as model
-   >>> from datetime import datetime
+   >>> import datetime
 
    >>> from sqlalchemy.orm import mapper
    >>> from bungeni.core import domain, schema
@@ -72,20 +72,20 @@ Members of Parliament
   ...        last_name=u'ab', 
   ...        birth_country="KE",
   ...        email=u"mp1@example.com", 
-  ...        date_of_birth=datetime.now(),
+  ...        date_of_birth=datetime.datetime.now(),
   ...        gender='M')
   >>> mp_2 = model.ParliamentMember(u"mp_2", 
   ...        first_name=u"b", 
   ...        last_name=u"bc", 
   ...        birth_country="KE",  
-  ...        date_of_birth=datetime.now(),
+  ...        date_of_birth=datetime.datetime.now(),
   ...        email=u"mp2@example.com",
   ...        gender='M')
   >>> mp_3 = model.ParliamentMember(u"mp_3",
   ...        first_name=u"c", 
   ...        birth_country="KE",  
   ...        last_name=u"cd",
-  ...        date_of_birth=datetime.now(),
+  ...        date_of_birth=datetime.datetime.now(),
   ...        email=u"mp3@example.com", 
   ...        gender='F')
 
@@ -98,9 +98,9 @@ different table. Bungeni uses this feature to model parliaments, committees,
 political parties, etc. Let's create some groups in the system to examine how
 they work.
 
-  >>> parliament = model.Parliament( short_name=u"p_1", start_date=datetime.now(), election_date=datetime.now())
-  >>> political_party_a = model.PoliticalParty(short_name=u"pp_1", start_date=datetime.now())
-  >>> political_party_b = model.PoliticalParty(short_name=u"pp_2", start_date=datetime.now())
+  >>> parliament = model.Parliament( short_name=u"p_1", start_date=datetime.datetime.now(), election_date=datetime.datetime.now())
+  >>> political_party_a = model.PoliticalParty(short_name=u"pp_1", start_date=datetime.datetime.now())
+  >>> political_party_b = model.PoliticalParty(short_name=u"pp_2", start_date=datetime.datetime.now())
   >>> session.save( parliament )
   >>> session.save(political_party_a)
   >>> session.save(political_party_b)
@@ -109,7 +109,7 @@ they work.
   >>> session.save( mp_3 )      
   >>> session.flush()
   
-  >>> committee_a = model.Committee(short_name=u"commitee_1", start_date=datetime.now())
+  >>> committee_a = model.Committee(short_name=u"commitee_1", start_date=datetime.datetime.now())
   >>> committee_a.parliament_id = parliament.parliament_id
   >>> session.save(committee_a)
   >>> session.flush()
@@ -141,7 +141,7 @@ Check that we can access the membership through the containment object
 
 Government
 ----------
-  >>> gov = model.Government(short_name=u"gov_1", start_date=datetime.now())
+  >>> gov = model.Government(short_name=u"gov_1", start_date=datetime.datetime.now())
   >>> gov.parliament_id = parliament.parliament_id
   >>> session.save(gov)
   >>> session.flush()  
@@ -149,7 +149,7 @@ Government
 
 Ministries
 -----------
-  >>> ministry = model.Ministry(short_name=u"ministry", start_date=datetime.now())
+  >>> ministry = model.Ministry(short_name=u"ministry", start_date=datetime.datetime.now())
   >>> ministry.government_id = gov.government_id
   >>> session.save(ministry)
   >>> session.flush()
@@ -165,7 +165,7 @@ Constituencies have a fk on regions and provinces:
  >>> constituency.name = u"Nairobi/Westlands"
  >>> constituency.region = 1
  >>> constituency.province = 1
- >>> constituency.start_date = datetime.now()
+ >>> constituency.start_date = datetime.datetime.now()
 
  >>> session.save(constituency)
  >>> session.flush()
@@ -197,7 +197,7 @@ the parliaments group and additional attributes.
   >>> mp4 = model.MemberOfParliament()
   >>> mp4.group_id = parliament.group_id
   >>> mp4.user_id = mp_1.user_id
-  >>> mp4.start_date = datetime.now()
+  >>> mp4.start_date = datetime.datetime.now()
   >>> mp4.constituency_id = 1
   >>> mp4.elected_nominated = 'E'
   >>> session.save(mp4)
@@ -212,7 +212,7 @@ Members have a title in their groups
   >>> mt1 = model.MemberRoleTitle()
   >>> mt1.membership_id = mp4.membership_id
   >>> mt1.title_name_id = 1
-  >>> mt1.start_date = datetime.now()
+  >>> mt1.start_date = datetime.datetime.now()
   >>> mt1.title_name_id = mrt1.user_role_type_id   
   >>> session.save(mt1)
       
@@ -225,6 +225,8 @@ meeting of the group by the system.
 
  >>> st = model.SittingType()
  >>> st.sitting_type = u"morning"
+ >>> st.start_time = datetime.time(8,30)
+ >>> st.end_time = datetime.time(12,30)
  >>> session.save(st)
  >>> session.flush()
  
@@ -234,8 +236,8 @@ meeting of the group by the system.
 
  >>> sit = model.GroupSitting()
  >>> sit.group_id = committee_a.group_id
- >>> sit.start_date = datetime.now()
- >>> sit.end_date = datetime.now()
+ >>> sit.start_date = datetime.datetime.now()
+ >>> sit.end_date = datetime.datetime.now()
  >>> sit.sitting_type = st.sitting_type_id
  >>> session.save(sit)
  >>> session.flush() 
@@ -264,8 +266,8 @@ A parliamentary Session
  >>> sess = model.ParliamentSession()
  >>> sess.parliament_id = parliament.parliament_id
  >>> sess.short_name = u"First Session"
- >>> sess.start_date = datetime.now()
- >>> sess.end_date = datetime.now()
+ >>> sess.start_date = datetime.datetime.now()
+ >>> sess.end_date = datetime.datetime.now()
  >>> session.save(sess)
  >>> session.flush() 
  
@@ -276,8 +278,8 @@ Sitting in this session
  
  >>> ssit = model.GroupSitting()
  >>> ssit.session_id = sess.session_id
- >>> ssit.start_date = datetime.now()
- >>> ssit.end_date = datetime.now()
+ >>> ssit.start_date = datetime.datetime.now()
+ >>> ssit.end_date = datetime.datetime.now()
  >>> ssit.sitting_type = st.sitting_type_id
  >>> session.save(ssit)
  >>> session.flush() 

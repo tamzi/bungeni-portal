@@ -160,6 +160,8 @@ meeting of the group by the system.
 
  >>> st = model.SittingType()
  >>> st.sitting_type = u"morning"
+ >>> st.start_time = datetime.time(8,30)
+ >>> st.end_time = datetime.time(12,30) 
  >>> session.save(st)
  >>> session.flush()
 
@@ -291,7 +293,7 @@ and can be put into draft state at a later time
    ('make-private', 'submit-to-clerk')
 
 the question does not yet have a submitted date
-   >>> question.clerk_submission_date 
+   >>> question.submission_date 
    
    
 When we submit the question, a new version is created.
@@ -305,7 +307,7 @@ instance is still active.
   True
 
 and the date  was set to clerk_submission_date today
-   >>> question.clerk_submission_date == today
+   >>> question.submission_date == today
    True
 
 Verify that a new version was issued.
@@ -674,4 +676,4 @@ cleanup
 -------
   >>> session.flush()
   >>> session.commit()
-  
+  >>> session.close()  

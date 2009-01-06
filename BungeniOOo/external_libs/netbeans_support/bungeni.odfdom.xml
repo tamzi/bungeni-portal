@@ -6,6 +6,7 @@
 	<volume>
 		<type>classpath</type>
 		<resource>jar:file:lib_path/external_libs/odfdom/odfdom.jar!/</resource>
+		<resource>jar:file:lib_path/external_libs/odfdom/xercesImpl.jar!/</resource>
 	</volume>
 	<volume>
 		<type>src</type>

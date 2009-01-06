@@ -69,6 +69,7 @@ public  class InitPapers extends selectorTemplatePanel implements IBungeniForm {
           super.createContext();
           formContext.setBungeniForm(this);
       }
+    @Override
     public void initObject(OOComponentHelper ooDoc, JDialog dlg, toolbarAction act, toolbarSubAction subAct) {
         super.initObject( ooDoc, dlg, act, subAct);
             init();

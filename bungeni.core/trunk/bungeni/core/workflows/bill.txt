@@ -11,6 +11,9 @@ Setup
   >>> import bungeni.core.interfaces
   >>> from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
   >>> import ore.workflow
+  >>> from ore.alchemist import Session  
+  
+  >>> session = Session()  
   
   >>> component.provideAdapter(
   ...    bungeni.core.workflows.WorkflowState,
@@ -114,4 +117,4 @@ cleanup
 -------
   >>> session.flush()
   >>> session.commit()
-  
+  >>> session.close()

@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/zope">
   <!-- question workflow permissions -->
   <grant permission="bungeni.question.Create" role="bungeni.MP" />

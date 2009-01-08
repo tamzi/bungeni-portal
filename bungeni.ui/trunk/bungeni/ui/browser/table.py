@@ -39,29 +39,55 @@ table_js_template ="""
     
     // A custom function to translate the js paging request into a datasource query 
     var buildQueryString = function (state,dt) {
-        sDir = (dt.get("sortedBy").dir === "asc"||dt.get("sortedBy").dir == "") ? "" : "desc";
+        var sDir = (dt.get("sortedBy").dir === "asc" || dt.get("sortedBy").dir == "") ? "" : "desc";
         var query_url = "start=" + state.pagination.recordOffset + "&limit=" + state.pagination.rowsPerPage + "&sort=" + dt.get("sortedBy").key  + "&dir="+sDir;
         return query_url
     };
     
-    config = {
-       paginator : %(paginator)s,
+    var RequestBuilder = function(oState, oSelf) {
+        // Get states or use defaults
+        oState = oState || {pagination:null, sortedBy:null};
+        var sort = (oState.sortedBy) ? oState.sortedBy.key : "";
+        var dir = (oState.sortedBy && oState.sortedBy.dir === YAHOO.widget.DataTable.CLASS_DESC) ? "" : "desc";
+        var startIndex = (oState.pagination) ? oState.pagination.recordOffset : 0;
+        var results = (oState.pagination) ? oState.pagination.rowsPerPage : 100;
+        
+        // Build custom request
+        return  "sort=" + sort +
+                "&dir=" + dir +
+                "&start=" + startIndex +
+                "&limit=" +  results;
+    };
+
+    
+    
+    config = {        
+       paginator : %(paginator)s,        
        initialRequest : 'start=0&limit=20',
-       generateRequest : buildQueryString,
-       sortedBy : { key: "firstName", dir : "asc" },
-       paginationEventHandler : YAHOO.widget.DataTable.handleDataSourcePagination 
+       generateRequest : RequestBuilder, //buildQueryString,
+       sortedBy : { key: "", dir : "asc" },
+       dynamicData: true, // Enables dynamic server-driven data 
+       //paginationEventHandler : YAHOO.widget.DataTable.handleDataSourcePagination 
     }
 
-    table = new YAHOO.widget.DataTable( YAHOO.util.Dom.get("%(table_id)s"), columns, datasource, config  )
+    table = new YAHOO.widget.DataTable( YAHOO.util.Dom.get("%(table_id)s"), columns, datasource, config  );
+    // Update totalRecords on the fly with value from server 
+	table.handleDataReturnPayload = function(oRequest, oResponse, oPayload) { 
+	        oPayload.totalRecords = oResponse.meta.totalRecords; 
+	        oPayload.pagination = oPayload.pagination || {};
+            oPayload.pagination.recordOffset = oResponse.meta.paginationRecordOffset; 
+	        return oPayload; 
+	    };
 
     table.sortColumn = function(oColumn) {
         // Default ascending
-        var sDir = "asc";
-        
-        // If already sorted, sort in opposite direction
+        sDir = "asc";
+        // If already sorted, sort in opposite direction        
         if(oColumn.key === this.get("sortedBy").key) {
-           sDir = (this.get("sortedBy").dir === "asc"||this.get("sortedBy").dir == "") ? "desc" : "asc";
-           }
+           sDir = (this.get("sortedBy").dir === "asc" || this.get("sortedBy").dir == "") ? "desc" : "asc";
+           };
+       
+
 
         // Pass in sort values to server request
         var newRequest = "sort=" + oColumn.key + "&dir=" + sDir + "&start=0";
@@ -74,11 +100,11 @@ table_js_template ="""
                     // Pass in sort values so UI can be updated in callback function
                     sorting: {
                         key: oColumn.key,
-                        dir: (sDir === "asc") ? YAHOO.widget.DataTable.CLASS_ASC : YAHOO.widget.DataTable.CLASS_DESC
+                        dir: (sDir === "asc") ? YAHOO.widget.DataTable.CLASS_ASC : YAHOO.widget.DataTable.CLASS_DESC,
                     }
                 }
-            }
-            
+            };
+                        
         // Send the request
         this.getDataSource().sendRequest(newRequest, oCallback);
         };
@@ -139,6 +165,7 @@ class ContextDataTableFormatter( BaseDataTableFormatter ):
 
     def renderExtra( self ):
         need('yui-datatable')
+        need('yui-paginator')
         extra = table_js_template%(self.getDataTableConfig())
         return extra
 

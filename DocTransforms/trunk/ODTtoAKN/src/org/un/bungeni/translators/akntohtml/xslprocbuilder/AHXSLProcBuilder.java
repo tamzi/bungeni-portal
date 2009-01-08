@@ -10,6 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.un.bungeni.translators.utility.files.FileUtility;
 import org.un.bungeni.translators.utility.xpathresolver.XPathResolver;
 import org.w3c.dom.Document;
@@ -30,7 +31,7 @@ public class AHXSLProcBuilder
 
 	//the path of the document that contains the empty pipeline
 	private String emptyPipelinePath;
-
+	
 	/**
 	 * Protected constructor
 	 * @throws IOException 
@@ -42,7 +43,7 @@ public class AHXSLProcBuilder
 		Properties properties = new Properties();
 	
 		//read the properties file
-		InputStream propertiesInputStream = this.getClass().getClassLoader().getResourceAsStream("configfiles/akntohtml/XSLProcConfig.xml");
+		InputStream propertiesInputStream = this.getClass().getClassLoader().getResourceAsStream(GlobalConfigurations.getApplicationPathPrefix() + "configfiles/akntohtml/XSLProcConfig.xml");
 	
 		//load the properties
 		properties.loadFromXML(propertiesInputStream);
@@ -86,7 +87,7 @@ public class AHXSLProcBuilder
 			}
 		}
 	}
-	
+		
 	/**
 	 * Create a new set of mini XSLT and the XSLT (pipeline) that manages all the transformation operations
 	 * @param outputDirectory The directory in which the mini XSLT and the pipeline will be written

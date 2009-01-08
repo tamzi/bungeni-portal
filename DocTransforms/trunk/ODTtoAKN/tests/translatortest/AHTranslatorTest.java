@@ -12,7 +12,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 //import org.un.bungeni.translators.akntohtml.configurations.AHConfigurationBuilder;
 import org.un.bungeni.translators.akntohtml.translator.AHTranslator;
-//import org.un.bungeni.translators.akntohtml.xslprocbuilder.XSLProcBuilder;
+import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
+//import org.un.bungeni.translators.akntohtml.xslprocbuilder.AHXSLProcBuilder;
+//import org.un.bungeni.translators.utility.exceptionmanager.ExceptionManager;
 
 public class AHTranslatorTest {
 
@@ -39,8 +41,11 @@ public class AHTranslatorTest {
 	@Test
 	public final void testTranslate() throws Exception 
 	{
+		//set the application path prefix
+		GlobalConfigurations.setApplicationPathPrefix("");
+		
 		//perform a translation
-		//XSLProcBuilder.newInstance().createXSLProc("resources/akntohtml/minixslt/");
+		//AHXSLProcBuilder.newInstance().createXSLProc("resources/akntohtml/minixslt/");
 		File translation = AHTranslator.getInstance().translate("resources/ke_act_2003-12-10_8_eng@_main.xml", "resources/akntohtml/minixslt/pipeline.xsl");
 	
 		//input stream

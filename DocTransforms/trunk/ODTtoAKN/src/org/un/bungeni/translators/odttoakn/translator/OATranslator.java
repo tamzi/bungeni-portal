@@ -11,6 +11,7 @@ import java.util.Properties;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.un.bungeni.translators.odttoakn.configurations.OAConfiguration;
 import org.un.bungeni.translators.utility.dom.DOMUtility;
 import org.un.bungeni.translators.utility.odf.ODFUtility;
@@ -50,7 +51,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		Properties properties = new Properties();
 	
 		//read the properties file
-		InputStream propertiesInputStream = this.getClass().getClassLoader().getResourceAsStream("configfiles/odttoakn/TranslatorConfig.xml");
+		InputStream propertiesInputStream = this.getClass().getClassLoader().getResourceAsStream(GlobalConfigurations.getApplicationPathPrefix() + "configfiles/odttoakn/TranslatorConfig.xml");
 	
 		//load the properties
 		properties.loadFromXML(propertiesInputStream);
@@ -64,7 +65,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		//get the path of the XSLT that add the namespace to AKOMA NTOSO produced files
 		this.akomantosoAddNamespaceXSLTPath = properties.getProperty("akomantosoAddNamespaceXSLTPath");
 	}
-	
+
 	/**
 	 * Get the current instance of the Translator 
 	 * @return the translator instance

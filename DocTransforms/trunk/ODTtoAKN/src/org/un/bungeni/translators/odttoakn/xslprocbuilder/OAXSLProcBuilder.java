@@ -10,6 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.un.bungeni.translators.utility.files.FileUtility;
 import org.un.bungeni.translators.utility.xpathresolver.XPathResolver;
 import org.w3c.dom.Document;
@@ -42,7 +43,7 @@ public class OAXSLProcBuilder
 		Properties properties = new Properties();
 	
 		//read the properties file
-		InputStream propertiesInputStream = this.getClass().getClassLoader().getResourceAsStream("configfiles/odttoakn/XSLProcConfig.xml");
+		InputStream propertiesInputStream = this.getClass().getClassLoader().getResourceAsStream(GlobalConfigurations.getApplicationPathPrefix() + "configfiles/odttoakn/XSLProcConfig.xml");
 	
 		//load the properties
 		properties.loadFromXML(propertiesInputStream);

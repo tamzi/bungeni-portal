@@ -9,6 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.un.bungeni.translators.exceptions.MissingAttributeException;
+import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 
 /**
  * This object parse a SAXEception understand what type of exception is and throws an 
@@ -33,7 +34,7 @@ public class ExceptionManager
 		Properties properties = new Properties();
 	
 		//read the properties file
-		InputStream propertiesInputStream = this.getClass().getClassLoader().getResourceAsStream("configfiles/odttoakn/TranslatorConfig.xml");
+		InputStream propertiesInputStream = this.getClass().getClassLoader().getResourceAsStream(GlobalConfigurations.getApplicationPathPrefix() + "configfiles/odttoakn/TranslatorConfig.xml");
 	
 		//load the properties
 		properties.loadFromXML(propertiesInputStream);

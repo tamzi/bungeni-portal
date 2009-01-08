@@ -12,8 +12,10 @@ import java.io.FileOutputStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.un.bungeni.translators.odttoakn.translator.OATranslator;
 //import org.un.bungeni.translators.odttoakn.xslprocbuilder.OAXSLProcBuilder;
+//import org.un.bungeni.translators.utility.exceptionmanager.ExceptionManager;
 
 
 /**
@@ -29,6 +31,9 @@ public class OATranslatorTest
 	@Before
 	public void setUp() throws Exception 
 	{
+		//set the application path prefix
+		GlobalConfigurations.setApplicationPathPrefix("");
+
 		//get the instance of the translator
 		myTranslator = OATranslator.getInstance();
 	}
@@ -56,10 +61,9 @@ public class OATranslatorTest
 	 */
 	@Test
 	public final void testTranslate() throws Exception 
-	{
-		
+	{		
 		//OAXSLProcBuilder.newInstance().createXSLProc("resources/odttoakn/minixslt/debaterecord/back/");
-		
+				
 		//perform a translation
 		File translation = myTranslator.translate("resources/debaterecord_ken_eng_2008_12_17_main.odt", "resources/odttoakn/minixslt/debaterecord/pipeline.xsl");
 	

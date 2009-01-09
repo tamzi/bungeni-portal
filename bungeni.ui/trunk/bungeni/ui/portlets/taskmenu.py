@@ -36,8 +36,11 @@ class InteractMenuViewlet( viewlet.ViewletBase ):
     
     def getRootUrl(self):
         m_url = prefs.getPloneMenuUrl()
-        r_url = '/'.join(m_url.split('/')[:-1])    
-        r_url = r_url + '/Members/' + self.user_name 
+        r_url = '/'.join(m_url.split('/')[:-1])   
+        try: 
+            r_url = r_url + '/Members/' + self.user_name 
+        except:
+            r_url = r_url + '/Members/'
         return r_url
         
     def update( self ):

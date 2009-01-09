@@ -89,7 +89,7 @@
    <browser:menuItem
      menu="context_actions"
      for="bungeni.core.interfaces.IFileAttachments"
-     action="files/index.html"
+     action="files/"
      title="Files"
      />
 

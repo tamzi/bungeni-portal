@@ -805,6 +805,7 @@ class BillDescriptor( ModelDescriptor ):
     display_name = _(u"Bill")
     
     fields = [
+        dict( name="files", omit=True),
         dict( name="bill_id", omit=True ),
         dict( name="bill_type_id", property = schema.Choice(
                                         title =_(u"Bill Type"),

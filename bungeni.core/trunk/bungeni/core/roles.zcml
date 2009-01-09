@@ -44,6 +44,7 @@
     <grant permission="bungeni.motion.view" role="bungeni.Owner" />
     
     <grant permission="bungeni.response.add" role="bungeni.Minister" />
+    <grant permission="bungeni.response.add" role="bungeni.Clerk" />    
     <grant permission="bungeni.response.edit" role="bungeni.Owner" />
     <!--grant permission="bungeni.response.delete" role="bungeni.Owner" /-->
     <!--grant permission="bungeni.response.view" role="bungeni.Everybody" /-->
@@ -58,6 +59,17 @@
     <grant permission="bungeni.bill.delete" role="bungeni.Owner" />
     <grant permission="bungeni.bill.delete" role="zope.Manager" />
     <grant permission="bungeni.bill.view" role="bungeni.Owner" />  
+    
+    <grant permission="bungeni.bill.add" role="bungeni.Clerk" />
+    <grant permission="bungeni.bill.edit" role="bungeni.Clerk" />    
+    <grant permission="bungeni.bill.view" role="bungeni.Clerk" />  
+    
+    
+    <grant permission="bungeni.bill.add" role="bungeni.Speaker" />
+    <grant permission="bungeni.bill.edit" role="bungeni.Speaker" /> 
+    <grant permission="bungeni.bill.view" role="bungeni.Speaker" /> 
+    
+          
     
     <!--
     TODO:

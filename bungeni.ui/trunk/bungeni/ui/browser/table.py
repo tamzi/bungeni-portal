@@ -62,7 +62,13 @@ table_js_template ="""
     
     
     config = {        
-       paginator : %(paginator)s,        
+       //paginator : %(paginator)s,
+       paginator: new YAHOO.widget.Paginator({ 
+	                rowsPerPage: 25, 
+	                template: YAHOO.widget.Paginator.TEMPLATE_ROWS_PER_PAGE, 
+	                rowsPerPageOptions: [10,25,50,100], 
+	                //pageLinks: 5 
+	            }),        
        initialRequest : 'start=0&limit=20',
        generateRequest : RequestBuilder, //buildQueryString,
        sortedBy : { key: "", dir : "asc" },

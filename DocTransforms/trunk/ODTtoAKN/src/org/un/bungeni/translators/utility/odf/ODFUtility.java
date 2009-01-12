@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.InputStream;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -111,6 +112,9 @@ public class ODFUtility
 
         // get the instance of the transformer
         Transformer xformer = TransformerFactory.newInstance().newTransformer();
+        
+        //set the UTF-8 encoding
+        xformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8"); 
         
         //Write the DOM document to the file
         xformer.transform(source, result);

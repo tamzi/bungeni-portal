@@ -32,7 +32,7 @@ public class OATranslatorTest
 	public void setUp() throws Exception 
 	{
 		//set the application path prefix
-		GlobalConfigurations.setApplicationPathPrefix("");
+		GlobalConfigurations.setApplicationPathPrefix("resources/");
 
 		//get the instance of the translator
 		myTranslator = OATranslator.getInstance();

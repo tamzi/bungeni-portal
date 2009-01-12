@@ -1,5 +1,6 @@
 package org.un.bungeni.translators.akntohtml.xslprocbuilder;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.InvalidPropertiesFormatException;
@@ -43,7 +44,7 @@ public class AHXSLProcBuilder
 		Properties properties = new Properties();
 	
 		//read the properties file
-		InputStream propertiesInputStream = this.getClass().getClassLoader().getResourceAsStream(GlobalConfigurations.getApplicationPathPrefix() + "configfiles/akntohtml/XSLProcConfig.xml");
+		InputStream propertiesInputStream =  new FileInputStream(GlobalConfigurations.getApplicationPathPrefix() + "configfiles/akntohtml/XSLProcConfig.xml");//this.getClass().getClassLoader().getResourceAsStream(GlobalConfigurations.getApplicationPathPrefix() + "configfiles/akntohtml/XSLProcConfig.xml");
 	
 		//load the properties
 		properties.loadFromXML(propertiesInputStream);

@@ -54,6 +54,7 @@ def create( info, context ):
     if not user_id:
         user_id ='-'
     zope.securitypolicy.interfaces.IPrincipalRoleMap( context ).assignRoleToPrincipal( u'bungeni.Owner', user_id)   
+    utils.setParliamentId(info, context)
 
 def submit( info, context ):
     utils.setSubmissionDate(info, context)

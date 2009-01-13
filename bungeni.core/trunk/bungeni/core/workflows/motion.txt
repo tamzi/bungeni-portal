@@ -25,6 +25,7 @@ Setting up Database Connection and Utilities:
    >>> metadata.bind = db
    >>> metadata.create_all()  
    >>> session = Session()
+   >>> i = 0
 
 
 Setup
@@ -196,8 +197,10 @@ Verify that a new version was issued.
 
   >>> from bungeni.core.interfaces import IVersioned
   >>> versions = IVersioned(motion)
-  >>> len(list(versions.values()))
-  1
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+  
 
 Let's examine the version.
 
@@ -225,6 +228,10 @@ Received:
 
   >>> transitions(motion)
   ('require-edit-by-mp', 'complete', 'withdraw-received')
+  
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True  
 
 A motion can be withdrawn at (almost) any stage  
   
@@ -245,20 +252,32 @@ If it needs clarification this sets it back to draft and it must be submitted ag
   >>> transitions(motion)
   ('resubmit-clerk', 'withdraw-amend')
 
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
     
   >>> result = IWorkflowInfo(motion).fireTransition('resubmit-clerk')
   
 versioned again
   
-  >>> len(list(versions.values()))
-  2    
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+      
     
   >>> IWorkflowInfo(motion).fireTransition('received-by-clerk')
+  
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True  
     
 complete the motion
 
   >>> result = IWorkflowInfo(motion).fireTransition('complete')  
-    
+
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True    
   
 The speakers office now has to review the motion
 
@@ -295,8 +314,10 @@ and has to be resubmitted
   >>> result = IWorkflowInfo(motion_amend).fireTransition('require-amendment')   
   
 it gets versioned before amendment
-  >>> len(list(versions.values()))
-  3  
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+    
   
   >>> transitions(motion_amend)
   ('complete-clarify', 'mp-clarify')
@@ -315,7 +336,9 @@ or the motion can be send back to the mp for further clarification
   >>> transitions(motion_amend)
   ('resubmit-clerk', 'withdraw-amend')
 
-
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
 
 
 
@@ -331,8 +354,10 @@ A motion can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(motion_amend).fireTransition('resubmit-clerk')  
 
 it gets versioned by resubmitting after amendment
-  >>> len(list(versions.values()))
-  4
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+  
 
   >>> transitions(motion_amend)   
   ('withdraw-submitted', 'received-by-clerk')

@@ -115,5 +115,13 @@ def publishResponse( info, context ):
 def setMotionHistory( info, context ):
     motion_id = context.motion_id
     dbutils.removeMotionFromItemSchedule(motion_id)
+
+def setParliamentId( info, context):
+    instance = removeSecurityProxy(context)
+    if not instance.parliament_id:
+        parliamentId = prefs.getCurrentParliamentId()
+        instance.parliament_id = parliamentId
+    
+    
   
     

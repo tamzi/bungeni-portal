@@ -194,7 +194,7 @@ def create_bill_workflow( ):
 
 
     add( workflow.Transition(
-        transition_id = 'schedule-whole-house',
+        transition_id = 'ma-schedule-whole-house',
         title=_(u"Schedule Whole House Committee"),
         trigger = iworkflow.MANUAL,
         source = states.second_reading,

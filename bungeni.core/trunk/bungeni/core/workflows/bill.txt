@@ -12,8 +12,32 @@ Setup
   >>> from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
   >>> import ore.workflow
   >>> from ore.alchemist import Session  
+  >>> import copy  
   
   >>> session = Session()  
+  
+  >>> import bungeni.core as model
+  >>> import datetime
+  
+  some setup for tests
+
+   >>> from zope import component
+   >>> from sqlalchemy import create_engine
+   >>> from ore.alchemist.interfaces import IDatabaseEngine
+   >>> from bungeni import core as model
+   >>> from bungeni.core import domain, schema
+   
+Setting up Database Connection and Utilities:
+
+   >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
+   >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
+   >>> model.metadata.bind = db   
+   >>> model.metadata.create_all()
+   >>> from alchemist.security.schema import metadata  
+   >>> metadata.bind = db
+   >>> metadata.create_all()  
+   >>> session = Session()
+   >>> i = 0  
   
   >>> component.provideAdapter(
   ...    bungeni.core.workflows.WorkflowState,
@@ -31,53 +55,150 @@ Setup
   ...     wf = IWorkflow(content)
   ...     return tuple(transition.transition_id for transition in wf.getTransitions( content.status ) )
 
+
+
+Security Adapters
+-----------------
+
+  >>> import alchemist.security.permission
+  >>> import alchemist.security.role
+
+  
+  >>> component.provideAdapter(
+  ...    alchemist.security.role.GlobalPrincipalRoleMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.permission.GlobalRolePermissionMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.role.LocalPrincipalRoleMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.permission.LocalRolePermissionMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> import bungeni.core.version
+  >>> component.provideAdapter(
+  ...    bungeni.core.version.ContextVersioned,
+  ...    (bungeni.core.interfaces.IVersionable,),
+  ...    bungeni.core.interfaces.IVersioned)
+
+Transition events
+-----------------
+
+We set up event subscribers to make sure all registered transition
+events are called.
+
+#XXX
+  
+Permissions
+-----------
+  >>> def permission(bill):
+  ...   wf = IWorkflow(bill)
+  ...   info = IWorkflowInfo(bill)
+  ...   state = info.state().getState()
+  ...   return tuple(transition.permission for transition in wf.getTransitions(state))
+    
+Schedule a bill
+-------------------
+  >>> def schedule_bill(bill_id):
+  ...   item_schedule = domain.ItemSchedule()
+  ...   item_schedule.sitting_id = sit1.sitting_id
+  ...   item_schedule.item_id = bill.bill_id
+  ...   session.save(item_schedule)
+  ...   session.flush()   
+
+Sitting to schedule the bill:
+-----------------------------
+  >>> st = model.SittingType()
+  >>> st.sitting_type = u"morning"
+  >>> st.start_time = datetime.time(8,30)
+  >>> st.end_time = datetime.time(12,30)  
+  >>> session.save(st)
+  >>> session.flush()
+
+  >>> st.sitting_type_id
+  1L
+ 
+  >>> sit1 = model.GroupSitting()
+  >>> sit1.start_date = datetime.datetime.now()
+  >>> sit1.end_date = datetime.datetime.now()
+  >>> sit1.sitting_type = st.sitting_type_id
+  >>> session.save(sit1)
+  >>> session.flush() 
+  
+Owner of the bill
+-----------------
+  >>> country = model.Country()
+  >>> country.country_id = 'KE'
+  >>> country.country_name = u"Kenya"
+  >>> session.save(country)
+  >>> session.flush()
+ 
+  >>> mp_1 = model.ParliamentMember(u"mp_1", 
+  ...        first_name=u"a", 
+  ...        last_name=u'ab', 
+  ...        birth_country="KE",
+  ...        email=u"mp1@example.com", 
+  ...        date_of_birth=datetime.datetime.now(),
+  ...        gender='M') 
+  
+  >>> session.save(mp_1)
+  >>> session.flush()
+
+Bill Types
+----------
+  >>> bt = model.BillType()
+  >>> bt.bill_type_name = u"Private Bill"
+  >>> session.save(bt)
+  >>> session.flush()
+
+
+  >>> bill = Bill()
+  >>> bill.bill_type_id = bt.bill_type_id
+  >>> bill.owner_id = mp_1.user_id
+  >>> bill.title = u"New Bill"
+  >>> session.save(bill)
+  >>> session.flush()
+
+
+
 Drafting A Bill
 ---------------
-
-A bill can be submitted by either a private member or a ministry, we've labled these below as a private
-or public bill respectively.
-
-  >>> private_bill = Bill()
-  >>> public_bill  = Bill()
-
-The application is responsible for transition bills to their initial state, depending on their method
-of creation.
   
-  >>> public_bill.status = states.ministry_draft
-  >>> transitions( public_bill )
-  ('ministry-submit',)
+  >>> transitions( bill )
+  ('create-bill',)
+    
+  >>> bill.workflow.fireTransition('create-bill')  
 
-A ministry member can then submit a bill, as long as they have the corresponding 
-'bungeni.bill.MinistrySubmit' permission.
-
-  >>> public_bill.workflow.fireTransition('ministry-submit')
-  >>> public_bill.status
-  'submitted'
-
-The process is simliar to for a private member submitting a bill, although with different transition
-names ( the ui labels on these are the same).
-
-  >>> private_bill.status = states.member_draft
-  >>> transitions(private_bill)
-  ('member-submit',)
-  >>> private_bill.workflow.fireTransition('member-submit')
-  >>> private_bill.status
-  'submitted'
-
-From this point the workflow for the two types of bills is the same.
-
+  >>> transitions( bill )
+   ('submit-bill',)
+   
+Publish Bill in gazette
+-----------------------
+  >>> bill.workflow.fireTransition('submit-bill')  
+  >>> transitions( bill )
+  ('withdraw-submitted', 'schedule-first')
+  
+A Bill can be withdrawn at (almost) any stage:
+----------------------------------------------
+  >>> bill_withdraw = copy.deepcopy(bill)     
+  >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-submitted')     
+  >>> bill_withdraw.status  
+  'bill withdrawn'
+  >>> transitions( bill_withdraw ) 
+  ()
+  
+  
 First Reading
 -------------
 First step for a bill is to be scheduled for a public reading, the user interface
 presents a transition specific ui viewlet to be used for scheduling the reading.
 
-  >>> private_bill.workflow.fireTransition('schedule-first')
-  >>> transitions( private_bill )
-  ('schedule-second', 'select-first-committee')
- 
-  >>> public_bill.workflow.fireTransition('schedule-first')
-  >>> transitions( public_bill )
-  ('schedule-second', 'select-first-committee')
+
 
 Committees
 ----------
@@ -86,9 +207,7 @@ Next step, optionally is to send the bill to a committee. After a bill is
 sent to committee, it can either be scheduled for a second reading, or
 for the committee's report to be read.
   
-  >>> public_bill.workflow.fireTransition('select-first-committee')
-  >>> transitions( public_bill )
-  ('schedule-first-report-reading', 'schedule-second-from-first-committee')
+
   
 
 Second Reading
@@ -97,9 +216,6 @@ Second Reading
 We can then schedule a second reading, again in the ui, this presents a workflow
 viewlet for scheduling the bill.
  
-  >>> private_bill.workflow.fireTransition('schedule-second')
-  >>> transitions( private_bill )
-  ('select-second-committee', 'schedule-whole-house')
 
 
 Committee of the Whole House

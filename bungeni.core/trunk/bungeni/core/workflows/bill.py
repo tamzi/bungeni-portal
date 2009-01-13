@@ -52,6 +52,7 @@ class states:
     
 def create(info,context):
     utils.setBillSubmissionDate( info, context )
+    utils.setParliamentId(info, context)
 
 def submit( info,context ):
     utils.setBillPublicationDate( info, context )

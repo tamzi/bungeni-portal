@@ -248,6 +248,9 @@ set up a security mapping
   >>> import zope.security.management
   >>> #zope.security.management.endInteraction()
   >>> #zope.security.management.newInteraction(Participation(bob))
+
+just a variable to count the versions:
+  >>> i = 0
  
   
 First we initialize the workflow.
@@ -314,9 +317,10 @@ Verify that a new version was issued.
 
   >>> from bungeni.core.interfaces import IVersioned
   >>> versions = IVersioned(question)
-  >>> len(list(versions.values()))
-  1
-
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+  
 Let's examine the version.
 
   >>> version = list(versions.values())[0]
@@ -338,8 +342,10 @@ A question can be withdrawn at (almost) any stage
 
   >>> IWorkflowInfo(question).fireTransition('received-by-clerk')
 
-  >>> len(list(versions.values()))
-  2    
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+  
 
 Received:
 
@@ -365,22 +371,34 @@ If it needs clarification this sets it back to draft and it must be submitted ag
   >>> transitions(question)
   ('resubmit-clerk', 'withdraw-amend')
 
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+
     
   >>> result = IWorkflowInfo(question).fireTransition('resubmit-clerk')
   
 versioned again
   
-  >>> len(list(versions.values()))
-  3   
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+     
     
   >>> IWorkflowInfo(question).fireTransition('received-by-clerk')
+    
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True    
     
 complete the question
 
   >>> result = IWorkflowInfo(question).fireTransition('complete')  
     
-  >>> len(list(versions.values()))
-  4  
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+    
       
   
 The speakers office now has to review the question
@@ -418,8 +436,10 @@ and has to be resubmitted
   >>> result = IWorkflowInfo(question_amend).fireTransition('require-amendment')   
   
 it gets versioned before amendment
-  >>> len(list(versions.values()))
-  5  
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+    
   
   >>> transitions(question_amend)
   ('complete-clarify', 'mp-clarify')
@@ -431,6 +451,10 @@ The clerks office can resubmit the question
   >>> transitions(question_clerk_resubmit)
   ('withdraw-complete', 'approve', 'require-amendment', 'reject')
 
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True  
+
 
 or the question can be send back to the mp for further clarification
 
@@ -438,7 +462,9 @@ or the question can be send back to the mp for further clarification
   >>> transitions(question_amend)
   ('resubmit-clerk', 'withdraw-amend')
 
-
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True  
 
 
 
@@ -454,8 +480,9 @@ A question can be withdrawn at (almost) any stage
   >>> result = IWorkflowInfo(question_amend).fireTransition('resubmit-clerk')  
 
 it gets versioned by resubmitting after amendment
-  >>> len(list(versions.values()))
-  6
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
 
   >>> transitions(question_amend)   
   ('withdraw-submitted', 'received-by-clerk')
@@ -486,6 +513,7 @@ Appove the question and set the approval date and serial number
   
   >>> transitions(question)
   ('defer', 'withdraw-admissible', 'send-ministry', 'schedule')
+  
 
 A question can be withdrawn at (almost) any stage  
   

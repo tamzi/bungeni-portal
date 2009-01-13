@@ -137,6 +137,7 @@ check the audit table:
 
 Clean up:
   >>> session.flush()
+  >>> session.commit()
   >>> session.close()
   
   

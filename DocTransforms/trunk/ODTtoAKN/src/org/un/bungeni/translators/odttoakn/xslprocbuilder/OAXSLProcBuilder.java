@@ -44,7 +44,7 @@ public class OAXSLProcBuilder
 		Properties properties = new Properties();
 	
 		//read the properties file
-		InputStream propertiesInputStream = new FileInputStream(GlobalConfigurations.getApplicationPathPrefix() + "configfiles/odttoakn/XSLProcConfig.xml");//this.getClass().getClassLoader().getResourceAsStream(GlobalConfigurations.getApplicationPathPrefix() + "configfiles/odttoakn/XSLProcConfig.xml");
+		InputStream propertiesInputStream = new FileInputStream(GlobalConfigurations.getApplicationPathPrefix() + "configfiles/odttoakn/XSLProcConfig.xml");
 	
 		//load the properties
 		properties.loadFromXML(propertiesInputStream);

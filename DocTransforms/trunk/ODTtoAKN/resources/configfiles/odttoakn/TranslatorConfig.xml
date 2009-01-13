@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 <properties>
-<entry key="metalexConfigPath">resources/odttometalex/debaterecord/config.xml</entry>
+<!-- DEBATERECORD -->
+<!--<entry key="metalexConfigPath">resources/odttometalex/debaterecord/config.xml</entry>
 <entry key="akomantosoSchemaPath">resources/odttoakn/schema/akomantoso10.xsd</entry>
 <entry key="akomantosoAddNamespaceXSLTPath">resources/odttoakn/defaultvalues/debaterecord/OdtToAknAddNamespace.xsl</entry>
+<entry key="resourceBundlePath">org.un.bungeni.translators.localization.Messages</entry> -->
+<!-- BILL -->
+<entry key="metalexConfigPath">resources/odttometalex/bill/config.xml</entry>
+<entry key="akomantosoSchemaPath">resources/odttoakn/schema/akomantoso10.xsd</entry>
+<entry key="akomantosoAddNamespaceXSLTPath">resources/odttoakn/defaultvalues/bill/OdtToAknAddNamespace.xsl</entry>
 <entry key="resourceBundlePath">org.un.bungeni.translators.localization.Messages</entry>
 </properties>

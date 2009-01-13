@@ -35,7 +35,7 @@ public class ExceptionManager
 		Properties properties = new Properties();
 	
 		//read the properties file
-		InputStream propertiesInputStream = new FileInputStream(GlobalConfigurations.getApplicationPathPrefix() + "configfiles/odttoakn/TranslatorConfig.xml");//this.getClass().getClassLoader().getResourceAsStream(GlobalConfigurations.getApplicationPathPrefix() + "configfiles/odttoakn/TranslatorConfig.xml");
+		InputStream propertiesInputStream = new FileInputStream(GlobalConfigurations.getApplicationPathPrefix() + "configfiles/odttoakn/TranslatorConfig.xml");
 	
 		//load the properties
 		properties.loadFromXML(propertiesInputStream);

@@ -489,7 +489,11 @@ Transition events check
   (u'Motion submitted', u'Motion received by clerks office'): True}
 
 
-
+cleanup
+-------
+  >>> session.flush()
+  >>> session.commit()
+  >>> session.close()
 
 
 

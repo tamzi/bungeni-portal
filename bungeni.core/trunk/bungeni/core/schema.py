@@ -666,6 +666,7 @@ motions = rdb.Table(
    "motions",
    metadata,
    rdb.Column( "motion_id", rdb.Integer, ItemSequence, primary_key=True ),
+   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id')), #, nullable=False),   
    rdb.Column( "motion_number", rdb.Integer),
    rdb.Column( "session_id", rdb.Integer, rdb.ForeignKey('sessions.session_id')),
    rdb.Column( "submission_date", rdb.Date,), # date it was submitted to clerk
@@ -712,6 +713,7 @@ bills = rdb.Table(
    "bills",
    metadata,
    rdb.Column( "bill_id", rdb.Integer, ItemSequence, primary_key=True ),
+   rdb.Column( "parliament_id", rdb.Integer, rdb.ForeignKey('parliaments.parliament_id')), #, nullable=False),
    rdb.Column( "bill_type_id", rdb.Integer, rdb.ForeignKey('bill_types.bill_type_id'), nullable = False ),
    rdb.Column( "ministry_id", rdb.Integer, rdb.ForeignKey('ministries.ministry_id') ),
    rdb.Column( "owner_id", rdb.Integer, rdb.ForeignKey('users.user_id'), nullable = False ),   

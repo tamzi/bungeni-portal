@@ -14,7 +14,7 @@ Setup
   >>> from ore.alchemist import Session  
   >>> import copy  
   
-  >>> session = Session()  
+
   
   >>> import bungeni.core as model
   >>> import datetime

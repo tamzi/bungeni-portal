@@ -51,7 +51,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		Properties properties = new Properties();
 	
 		//read the properties file
-		InputStream propertiesInputStream = new FileInputStream(GlobalConfigurations.getApplicationPathPrefix() + "configfiles/odttoakn/TranslatorConfig.xml");//this.getClass().getClassLoader().getResourceAsStream(GlobalConfigurations.getApplicationPathPrefix() + "configfiles/odttoakn/TranslatorConfig.xml");
+		InputStream propertiesInputStream = new FileInputStream(GlobalConfigurations.getApplicationPathPrefix() + "configfiles/odttoakn/TranslatorConfig.xml");
 	
 		//load the properties
 		properties.loadFromXML(propertiesInputStream);
@@ -102,34 +102,6 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		//get the document stream obtained after the merge of all the ODF XML contained in the given ODF pack
 		StreamSource ODFDocument = new StreamSource(ODFUtility.getInstance().mergeODF(aDocumentPath));
 
-		/** TO BE DELETED **/
-		/*File fileToReturn = StreamSourceUtility.getInstance().writeToFile(ODFDocument);
-		//input stream
-		FileInputStream fis  = new FileInputStream(fileToReturn);
-		
-		//output stream 
-		FileOutputStream fos = new FileOutputStream("resources/MergedODF.xml");
-		
-		//copy the file
-		try 
-		{
-			byte[] buf = new byte[1024];
-		    int i = 0;
-		    while ((i = fis.read(buf)) != -1) 
-		    {
-		            fos.write(buf, 0, i);
-		    }
-		} 
-		catch (Exception e) 
-		{
-		}
-		finally 
-		{
-		        if (fis != null) fis.close();
-		        if (fos != null) fos.close();
-		}	*/
-		/** END TO BE DELETED **/
-		
 		//translate the document to METALEX
 		File metalexFile = translateToMetalex(ODFDocument, this.metalexConfigPath);
 		

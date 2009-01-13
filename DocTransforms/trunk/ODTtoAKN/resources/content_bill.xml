@@ -42,12 +42,12 @@
                 style:font-size-asian="7pt" style:font-style-asian="italic"
                 style:font-size-complex="7pt" style:font-style-complex="italic"/>
         </style:style>
-        <style:style style:name="P2" style:family="paragraph" style:parent-style-name="Heading_20_1">
-            <style:paragraph-properties fo:text-align="center" style:justify-single-word="false"
-                fo:break-before="page"/>
-        </style:style>
-        <style:style style:name="P3" style:family="paragraph" style:parent-style-name="Standard">
+        <style:style style:name="P2" style:family="paragraph" style:parent-style-name="Standard">
             <style:paragraph-properties fo:text-align="center" style:justify-single-word="false"/>
+        </style:style>
+        <style:style style:name="P3" style:family="paragraph"
+            style:parent-style-name="heading_5f_general">
+            <style:paragraph-properties fo:break-before="page"/>
         </style:style>
         <style:style style:name="P4" style:family="paragraph" style:parent-style-name="Standard"
             style:list-style-name="L1"/>
@@ -925,22 +925,22 @@
             </text:sequence-decls>
             <text:section text:style-name="Sect1" text:name="bill">
                 <text:section text:style-name="Sect2" text:name="preface">
-                    <text:p text:style-name="P2">THE KENYA INFORMATION AND COMMUNICATIONS BILL
+                    <text:p text:style-name="P3">THE KENYA INFORMATION AND COMMUNICATIONS BILL
                         2006</text:p>
-                    <text:p text:style-name="P3"><text:reference-mark-start
+                    <text:p text:style-name="P2"><text:reference-mark-start
                             text:name="mBungeniBillNo"/>No.8 of 2006<text:reference-mark-end
                             text:name="mBungeniBillNo"/></text:p>
-                    <text:p text:style-name="P3">Date of Assent: <text:reference-mark-start
+                    <text:p text:style-name="P2">Date of Assent: <text:reference-mark-start
                             text:name="mBungeniDateOfAssent"/>10<text:span text:style-name="T1"
                             >th</text:span> December 2006<text:reference-mark-end
                             text:name="mBungeniDateOfAssent"/></text:p>
-                    <text:p text:style-name="P3">Date of Commencement: <text:reference-mark-start
+                    <text:p text:style-name="P2">Date of Commencement: <text:reference-mark-start
                             text:name="mBungeniDateOfCommencement"/>19<text:span
                             text:style-name="T1">th</text:span> December
                             2006<text:reference-mark-end text:name="mBungeniDateOfCommencement"
                         /></text:p>
                 </text:section>
-                <text:p text:style-name="P3"/>
+                <text:p text:style-name="P2"/>
                 <text:p text:style-name="Standard"/>
                 <text:section text:style-name="Sect3" text:name="preamble">
                     <text:p text:style-name="Standard">AN ACT of Parliament to promote and develop
@@ -950,9 +950,9 @@
                         the establishment of an appeals tribunal and for connected
                         purposes.</text:p>
                     <text:p text:style-name="Standard"/>
-                    <text:p text:style-name="Standard">WHEREAS it is considered necessary— </text:p>
+                    <text:p text:style-name="Standard">WHEREAS it is considered necessary </text:p>
                     <text:p text:style-name="Standard"/>
-                    <text:list xml:id="list1211650484" text:style-name="L1">
+                    <text:list xml:id="list1958991856" text:style-name="L1">
                         <text:list-item>
                             <text:p text:style-name="P4">to facilitate development of a national
                                 infrastructure for an <text:s/>information based society, and to
@@ -994,7 +994,7 @@
                 <text:section text:style-name="Sect4" text:name="part1">
                     <text:section text:style-name="Sect5"
                         text:name="num_99ed6c91-e01d-11dd-bc10-01a277088790" text:protected="true">
-                        <text:h text:style-name="part_5f_title" text:outline-level="3"
+                        <text:h text:style-name="part_5f_heading" text:outline-level="3"
                                 >&lt;<text:reference-mark-start
                                 text:name="nrf_99ed6c91-e01d-11dd-bc10-01a277088790"/>A
                                 -<text:reference-mark-end
@@ -1009,7 +1009,7 @@
                         <text:section text:style-name="Sect7"
                             text:name="num_a1cef0f2-e01d-11dd-bc10-01a277088790"
                             text:protected="true">
-                            <text:p text:style-name="chapter_5f_title"
+                            <text:p text:style-name="chapter_5f_heading"
                                     >&lt;<text:reference-mark-start
                                     text:name="nrf_a1cef0f2-e01d-11dd-bc10-01a277088790"
                                     />I<text:reference-mark-end
@@ -1031,7 +1031,7 @@
                         <text:section text:style-name="Sect8"
                             text:name="num_ad7349b3-e01d-11dd-bc10-01a277088790"
                             text:protected="true">
-                            <text:p text:style-name="chapter_5f_title"
+                            <text:p text:style-name="chapter_5f_heading"
                                     >&lt;<text:reference-mark-start
                                     text:name="nrf_ad7349b3-e01d-11dd-bc10-01a277088790"
                                     />II<text:reference-mark-end
@@ -1049,7 +1049,7 @@
                         <text:section text:style-name="Sect9" text:name="subchapter1">
                             <text:section text:style-name="Sect10"
                                 text:name="num_e99f88d2-e01e-11dd-88fd-030925606c6d">
-                                <text:p text:style-name="subchapter_5f_title"
+                                <text:p text:style-name="subchapter_5f_heading"
                                         >&lt;<text:reference-mark-start
                                         text:name="nrf_e99f88d2-e01e-11dd-88fd-030925606c6d"
                                         />I.<text:reference-mark-end
@@ -1057,10 +1057,10 @@
                                     />&gt; </text:p>
                             </text:section>
                             <text:p text:style-name="Standard">In this Act unless, the context
-                                otherwise requires –</text:p>
+                                otherwise requires</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“Board’ means the Board of Directors
-                                constituted under section 8;</text:p>
+                            <text:p text:style-name="Standard">&quot;Board&quot; means the
+                                Board of Directors constituted under section 8;</text:p>
                             <text:p text:style-name="Standard"/>
                             <text:p text:style-name="Standard">&quot;broadcaster&quot; means
                                 any legal or natural person who composes or packages or distributes
@@ -1068,10 +1068,10 @@
                                 public or sections of the public or subscribers to such a service
                                 irrespective of technology used;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“broadcasting” means unidirectional
-                                conveyance of sounds or television programmes, <text:s/>whether
-                                encrypted or not by radio or other means of telecommunications for
-                                reception by the public;</text:p>
+                            <text:p text:style-name="Standard">&quot;broadcasting&quot;
+                                means unidirectional conveyance of sounds or television programmes,
+                                <text:s/>whether encrypted or not by radio or other means of
+                                telecommunications for reception by the public;</text:p>
                             <text:p text:style-name="Standard"/>
                             <text:p text:style-name="Standard">&quot;broadcasting signal
                                 distribution &quot; means the process whereby the output signal
@@ -1082,31 +1082,33 @@
                                 process and includes multi-channel distribution;</text:p>
                             <text:p text:style-name="Standard"/>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“broadcasting service” means any
-                                service, which consists of the broadcasting of television or sound
-                                broadcasting programs to the public, sections of the public or
-                                subscribers to such a service;</text:p>
+                            <text:p text:style-name="Standard">&quot;broadcasting
+                                service&quot; means any service, which consists of the
+                                broadcasting of television or sound broadcasting programs to the
+                                public, sections of the public or subscribers to such a
+                                service;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“Certificate” means a record which is
-                                issued by a Certification Service Provider for the purpose of
-                                supporting a digital signature which purports to confirm the
-                                identity or other significant characteristics of the person who
+                            <text:p text:style-name="Standard">&quot;Certificate&quot; means
+                                a record which is issued by a Certification Service Provider for the
+                                purpose of supporting a digital signature which purports to confirm
+                                the identity or other significant characteristics of the person who
                                 holds a particular key pair; identifies the certification Service
                                 Provider issuing it; names or identifies the person to whom it is
                                 issued; contains the public key of the person to whom it is issued;
                                 and is signed by a responsible officer of the Certification Service
                                 Provider issuing it.</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“Certification Service Provider”
-                                means a person who has been granted a licence to issue a Digital
-                                Signature Certificate.</text:p>
+                            <text:p text:style-name="Standard">&quot;Certification Service
+                                Provider&quot; means a person who has been granted a licence to
+                                issue a Digital Signature Certificate.</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“Commercial broadcaster’ means a
-                                person licensed by the Commission under this Act to provide
-                                commercial broadcast services;</text:p>
+                            <text:p text:style-name="Standard">&quot;Commercial
+                                broadcaster&apos; means a person licensed by the Commission
+                                under this Act to provide commercial broadcast services;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“Commission” means the Communications
-                                Commission of Kenya established under section 3;</text:p>
+                            <text:p text:style-name="Standard">&quot;Commission&quot; means
+                                the Communications Commission of Kenya established under section
+                                3;</text:p>
                             <text:p text:style-name="Standard"/>
                             <text:p text:style-name="Standard">&quot;community&quot;
                                 includes a geographically founded community or any group of persons
@@ -1116,7 +1118,7 @@
                             <text:p text:style-name="Standard">&quot;community broadcasting
                                 service&quot; means a broadcasting service which-</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:list xml:id="list976225615" text:style-name="L2">
+                            <text:list xml:id="list1705992081" text:style-name="L2">
                                 <text:list-item>
                                     <text:p text:style-name="P5">is fully controlled by a non-profit
                                         entity and carried on for non-profitable purposes;</text:p>
@@ -1143,220 +1145,239 @@
                                 </text:list-item>
                             </text:list>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“Computer System” means a device or
-                                collection of devices including input and output devices but
-                                excluding calculators which are not programmable and capable of
-                                being used in conjunction with external files which contain computer
-                                programmes, electronic instructions and data that perform logic,
-                                arithmetic, data storage, data retrieval, communication control and
-                                other functions;</text:p>
+                            <text:p text:style-name="Standard">&quot;Computer System&quot;
+                                means a device or collection of devices including input and output
+                                devices but excluding calculators which are not programmable and
+                                capable of being used in conjunction with external files which
+                                contain computer programmes, electronic instructions and data that
+                                perform logic, arithmetic, data storage, data retrieval,
+                                communication control and other functions;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“Computer” means any electronic,
-                                magnetic, optical or other high-speed data processing device or
-                                system which performs logical, arithmetic and memory
-                                <text:s/>functions by manipulations of electronic, magnetic or
-                                optical impulses, and includes all input, output, processing,
+                            <text:p text:style-name="Standard">&quot;Computer&quot; means
+                                any electronic, magnetic, optical or other high-speed data
+                                processing device or system which performs logical, arithmetic and
+                                memory <text:s/>functions by manipulations of electronic, magnetic
+                                or optical impulses, and includes all input, output, processing,
                                 storage, software and communication facilities which are connected
                                 or related as a system or network;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">‘courier services’ means any
-                                specialised service for the collection, despatch, conveyance,
-                                handling and delivery of postal articles;</text:p>
+                            <text:p text:style-name="Standard">&apos;courier services&apos;
+                                means any specialised service for the collection, despatch,
+                                conveyance, handling and delivery of postal articles;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“Digital Signature Certificate” means
-                                trusted electronic credentials that enable access control, secure
-                                messaging, and transaction security. Digital Certificates are issued
-                                by a trusted third party generally referred to as a Certification
-                                Service Provider;</text:p>
+                            <text:p text:style-name="Standard">&quot;Digital Signature
+                                Certificate&quot; means trusted electronic credentials that
+                                enable access control, secure messaging, and transaction security.
+                                Digital Certificates are issued by a trusted third party generally
+                                referred to as a Certification Service Provider;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“direct to home” means a broadcast
-                                via satellite directly to the subscribers;</text:p>
+                            <text:p text:style-name="Standard">&quot;direct to home&quot;
+                                means a broadcast via satellite directly to the
+                                subscribers;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“Director-General” means the Director
-                                General of the Commission appointed under section 13;</text:p>
+                            <text:p text:style-name="Standard">&quot;Director-General&quot;
+                                means the Director General of the Commission appointed under section
+                                13;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“e-Government services” means public
-                                service provided electronically by a Ministry or Government
-                                Department, local authority, or body established by or under any law
-                                or controlled or funded by the Government;</text:p>
+                            <text:p text:style-name="Standard">&quot;e-Government
+                                services&quot; means public service provided electronically by a
+                                Ministry or Government Department, local authority, or body
+                                established by or under any law or controlled or funded by the
+                                Government;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“electronic form”, with reference to
-                                information, means any information generated, sent, received or
-                                stored in magnetic, optical, computer memory, microfilm or similar
-                                device;</text:p>
+                            <text:p text:style-name="Standard">&quot;electronic form&quot;,
+                                with reference to information, means any information generated,
+                                sent, received or stored in magnetic, optical, computer memory,
+                                microfilm or similar device;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“electronic gazette” means the
-                                Government Gazette published in electronic form;</text:p>
+                            <text:p text:style-name="Standard">&quot;electronic
+                                gazette&quot; means the Government Gazette published in
+                                electronic form;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“electronic record” means a record
-                                generated in digital form by an information system, which can be
-                                <text:s/>transmitted within an information system or from one
-                                information system to another; and stored in an information system
-                                or other medium;</text:p>
+                            <text:p text:style-name="Standard">&quot;electronic record&quot;
+                                means a record generated in digital form by an information system,
+                                which can be <text:s/>transmitted within an information system or
+                                from one information system to another; and stored in an information
+                                system or other medium;</text:p>
                             <text:p text:style-name="Standard"/>
                             <text:p text:style-name="Standard"/>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“electronic signature” means data in
-                                electronic form affixed to or logically associated with other
-                                electronic data which may be used to identify the signatory in
-                                relation to the data message and to indicate the signatory’s
-                                approval of the information contained in the data message;</text:p>
+                            <text:p text:style-name="Standard">&quot;electronic
+                                signature&quot; means data in electronic form affixed to or
+                                logically associated with other electronic data which may be used to
+                                identify the signatory in relation to the data message and to
+                                indicate the signatory&apos;s approval of the information
+                                contained in the data message;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“encryption” means a method
-                                transforming signals in a systematic way so that the signal would be
-                                unintelligible without a suitable receiving apparatus;</text:p>
+                            <text:p text:style-name="Standard">&quot;encryption&quot; means
+                                a method transforming signals in a systematic way so that the signal
+                                would be unintelligible without a suitable receiving
+                                apparatus;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard"><text:soft-page-break/>“equipment”
-                                includes any appliance, apparatus or accessory used or intended to
-                                be used for Communication services;</text:p>
+                            <text:p text:style-name="Standard"
+                                ><text:soft-page-break/>&quot;equipment&quot; includes any
+                                appliance, apparatus or accessory used or intended to be used for
+                                Communication services;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“financial year” means a financial
-                                year within the meaning of section 20;</text:p>
-                            <text:p text:style-name="Standard">“franking machine” means a machine
-                                for the purpose of making impressions on postal articles to denote
-                                pre payment of postage and includes any meter or meters and any
-                                franking or date-stamping die incidental thereto;</text:p>
+                            <text:p text:style-name="Standard">&quot;financial year&quot;
+                                means a financial year within the meaning of section 20;</text:p>
+                            <text:p text:style-name="Standard">&quot;franking machine&quot;
+                                means a machine for the purpose of making impressions on postal
+                                articles to denote pre payment of postage and includes any meter or
+                                meters and any franking or date-stamping die incidental
+                                thereto;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“free-to-air service” means a service
-                                which is broadcast without encryption and capable of being received
-                                by conventional broadcasting receiving apparatus;</text:p>
-                            <text:p text:style-name="Standard">“installation or plant used for
-                                posts” includes all buildings, lands, structures, machinery,
-                                equipment, boxes and receptacles used or intended for use in
-                                connection with the transmission of postal articles by
+                            <text:p text:style-name="Standard">&quot;free-to-air
+                                service&quot; means a service which is broadcast without
+                                encryption and capable of being received by conventional
+                                broadcasting receiving apparatus;</text:p>
+                            <text:p text:style-name="Standard">&quot;installation or plant used
+                                for posts&quot; includes all buildings, lands, structures,
+                                machinery, equipment, boxes and receptacles used or intended for use
+                                in connection with the transmission of postal articles by
                                 post;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“Fund” means the Universal Service
-                                Fund established by section 132 of this Act;</text:p>
+                            <text:p text:style-name="Standard">&quot;Fund&quot; means the
+                                Universal Service Fund established by section 132 of this
+                                Act;</text:p>
                             <text:p text:style-name="Standard"/>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“Kenyan programme” means sounds or
-                                vision or a combination of both whose content comply with the
-                                classification of local content as may be required by the Commission
-                                from time to time;</text:p>
+                            <text:p text:style-name="Standard">&quot;Kenyan programme&quot;
+                                means sounds or vision or a combination of both whose content comply
+                                with the classification of local content as may be required by the
+                                Commission from time to time;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“letter” means any written or printed
-                                communication conveying from one person to another particular
-                                information upon matters personal to such persons or information
-                                upon which it is intended that the recipient should reply, act or
-                                refrain from acting, but does not include any written or printed
-                                communication which is a newspaper or a periodical -accompanied by
-                                any other communication;</text:p>
+                            <text:p text:style-name="Standard">&quot;letter&quot; means any
+                                written or printed communication conveying from one person to
+                                another particular information upon matters personal to such persons
+                                or information upon which it is intended that the recipient should
+                                reply, act or refrain from acting, but does not include any written
+                                or printed communication which is a newspaper or a periodical
+                                -accompanied by any other communication;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“licence” means any licence issued
-                                under this Act;</text:p>
+                            <text:p text:style-name="Standard">&quot;licence&quot; means any
+                                licence issued under this Act;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“mail bag” means any bag, container,
-                                envelope or covering in which postal articles are conveyed;</text:p>
+                            <text:p text:style-name="Standard">&quot;mail bag&quot; means
+                                any bag, container, envelope or covering in which postal articles
+                                are conveyed;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“Minister” means the Minister for the
-                                time being responsible for Information and communications;</text:p>
+                            <text:p text:style-name="Standard">&quot;Minister&quot; means
+                                the Minister for the time being responsible for Information and
+                                communications;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“multi-channel distributions’ means a
-                                service which conveys more than one broadcast channel at the same
-                                time by means of radio waves or any other form of
-                                telecommunications;</text:p>
+                            <text:p text:style-name="Standard">&quot;multi-channel
+                                distributions&apos; means a service which conveys more than one
+                                broadcast channel at the same time by means of radio waves or any
+                                other form of telecommunications;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“parcel” means a postal article which
-                                is posted at the office of a licensee as a parcel or is received at
-                                another office.</text:p>
+                            <text:p text:style-name="Standard">&quot;parcel&quot; means a
+                                postal article which is posted at the office of a licensee as a
+                                parcel or is received at another office.</text:p>
                             <text:p text:style-name="Standard"/>
                             <text:p text:style-name="Standard">Provided that the said parcel is not
                                 smaller than the minimum size or heavier than the maximum weight
                                 prescribed;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“possession”, “be in possession of’
-                                and “have in possession” have the meanings assigned to such
-                                expressions in section 4 of the Penal Code;</text:p>
+                            <text:p text:style-name="Standard">&quot;possession&quot;,
+                                &quot;be in possession of&apos; and &quot;have in
+                                possession&quot; have the meanings assigned to such expressions
+                                in section 4 of the Penal Code;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“post office” means any building,
-                                house, room, receptacle, vessel, vehicle or place where postal
-                                articles are received, delivered, sorted, made up or
+                            <text:p text:style-name="Standard">&quot;post office&quot; means
+                                any building, house, room, receptacle, vessel, vehicle or place
+                                where postal articles are received, delivered, sorted, made up or
                                 despatched;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard"><text:soft-page-break/>“post”
-                                (i)<text:tab/>when used with reference to telecommunication includes
-                                any pole, standard, stay, strut or other above-ground contrivance
-                                for installing, carrying, supporting or suspending a
-                                telecommunication line; and</text:p>
+                            <text:p text:style-name="Standard"
+                                ><text:soft-page-break/>&quot;post&quot; (i)<text:tab/>when
+                                used with reference to telecommunication includes any pole,
+                                standard, stay, strut or other above-ground contrivance for
+                                installing, carrying, supporting or suspending a telecommunication
+                                line; and</text:p>
                             <text:p text:style-name="Standard"/>
                             <text:p text:style-name="Standard">(ii) when used with reference to the
                                 transmission of postal articles by post, means any system for the
                                 collection, despatch, conveyance, handling and delivery of postal
                                 articles;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“postage stamp” means any label or
-                                stamp for denoting any postage or other sum payable in respect of a
-                                postal article, and includes an adhesive postage stamp or a stamp
-                                printed, impressed or otherwise indicated on a postal article,
-                                whether issued by the Government of Kenya or any other
-                                country;</text:p>
+                            <text:p text:style-name="Standard">&quot;postage stamp&quot;
+                                means any label or stamp for denoting any postage or other sum
+                                payable in respect of a postal article, and includes an adhesive
+                                postage stamp or a stamp printed, impressed or otherwise indicated
+                                on a postal article, whether issued by the Government of Kenya or
+                                any other country;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“postage” means the fee chargeable
-                                for the transmission by post of postal articles;</text:p>
+                            <text:p text:style-name="Standard">&quot;postage&quot; means the
+                                fee chargeable for the transmission by post of postal
+                                articles;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“postal article” means any article or
-                                thing transmissible by post, including but not limited to letters,
-                                aerogrammes, postcards and parcels but does include such article or
-                                thing as the Commission determines not to be transmissible by
-                                post.</text:p>
+                            <text:p text:style-name="Standard">&quot;postal article&quot;
+                                means any article or thing transmissible by post, including but not
+                                limited to letters, aerogrammes, postcards and parcels but does
+                                include such article or thing as the Commission determines not to be
+                                transmissible by post.</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“postal service” means any service by
-                                post;</text:p>
+                            <text:p text:style-name="Standard">&quot;postal service&quot;
+                                means any service by post;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“postcard” means a card recognised as
-                                a postcard in accordance with the terms of the Convention regulating
-                                the affairs of the Universal Postal Union;</text:p>
+                            <text:p text:style-name="Standard">&quot;postcard&quot; means a
+                                card recognised as a postcard in accordance with the terms of the
+                                Convention regulating the affairs of the Universal Postal
+                                Union;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“posting box” includes any pillar
-                                box, wall box, any other box or receptacle provided by or under the
-                                authority of the public postal licensee for the purpose of receiving
-                                postal articles for transmission by or under the authority of the
-                                public postal licensee;</text:p>
+                            <text:p text:style-name="Standard">&quot;posting box&quot;
+                                includes any pillar box, wall box, any other box or receptacle
+                                provided by or under the authority of the public postal licensee for
+                                the purpose of receiving postal articles for transmission by or
+                                under the authority of the public postal licensee;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“private letter box/bag” means any
-                                receptacle whether identified by a distinctive number or not rented
-                                to a person for the receipt of postal articles and capable of being
-                                used whether the person or company renting it has his business
-                                premises open or not.</text:p>
+                            <text:p text:style-name="Standard">&quot;private letter
+                                box/bag&quot; means any receptacle whether identified by a
+                                distinctive number or not rented to a person for the receipt of
+                                postal articles and capable of being used whether the person or
+                                company renting it has his business premises open or not.</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“programme” means sound, vision or a
-                                combination of both, intended to inform, educate or entertain, but
-                                does not include text or data;</text:p>
+                            <text:p text:style-name="Standard">&quot;programme&quot; means
+                                sound, vision or a combination of both, intended to inform, educate
+                                or entertain, but does not include text or data;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“public broadcaster” means the Kenya
-                                Broadcasting Corporation established by the Kenya Broadcasting
-                                Corporation Act Cap. 221;</text:p>
+                            <text:p text:style-name="Standard">&quot;public
+                                broadcaster&quot; means the Kenya Broadcasting Corporation
+                                established by the Kenya Broadcasting Corporation Act Cap.
+                                221;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“public broadcasting services”: means
-                                broadcasting services of the public broadcaster;</text:p>
+                            <text:p text:style-name="Standard">&quot;public broadcasting
+                                services&quot;: means broadcasting services of the public
+                                broadcaster;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“public postal licensee’s
-                                installation or plant” means any installation or plant used for
-                                postal purposes belonging to or used by the public postal
-                                licensee;</text:p>
+                            <text:p text:style-name="Standard">&quot;public postal
+                                licensee&apos;s installation or plant&quot; means any
+                                installation or plant used for postal purposes belonging to or used
+                                by the public postal licensee;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“public postal licensee” means the
-                                Postal Corporation of Kenya established under the Postal Corporation
-                                of Kenya Act, 1998;</text:p>
+                            <text:p text:style-name="Standard">&quot;public postal
+                                licensee&quot; means the Postal Corporation of Kenya established
+                                under the Postal Corporation of Kenya Act, 1998;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“radio-communication apparatus” means
-                                any apparatus capable of being used or adapted for radio
-                                communication and where the context so requires, includes a radio
-                                communication station;</text:p>
+                            <text:p text:style-name="Standard">&quot;radio-communication
+                                apparatus&quot; means any apparatus capable of being used or
+                                adapted for radio communication and where the context so requires,
+                                includes a radio communication station;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“radio-communication station” means
-                                any telecommunication station capable of being used or
-                                <text:soft-page-break/>being adapted for
+                            <text:p text:style-name="Standard">&quot;radio-communication
+                                station&quot; means any telecommunication station capable of
+                                being used or <text:soft-page-break/>being adapted for
                                 radio-communication;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“radio-communication” means the
-                                emitting or receiving over paths which are not provided by any
-                                material substance constructed or arranged for that purpose, of
+                            <text:p text:style-name="Standard"
+                                >&quot;radio-communication&quot; means the emitting or
+                                receiving over paths which are not provided by any material
+                                substance constructed or arranged for that purpose, of
                                 electro-magnetic energy of a frequency not exceeding three million
                                 megahertz being energy which either</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:list xml:id="list1188202189" text:style-name="L3">
+                            <text:list xml:id="list421542932" text:style-name="L3">
                                 <text:list-item>
                                     <text:p text:style-name="P6">is capable of being transmitted
                                         through a telecommunication system; or</text:p>
@@ -1369,16 +1390,16 @@
                                     <text:p text:style-name="P6"/>
                                 </text:list-item>
                             </text:list>
-                            <text:p text:style-name="Standard">“satellite broadcasting service”
-                                means a service in which signals transmitted from aboard a space
-                                station are intended for direct reception by the general
-                                public;</text:p>
+                            <text:p text:style-name="Standard">&quot;satellite broadcasting
+                                service&quot; means a service in which signals transmitted from
+                                aboard a space station are intended for direct reception by the
+                                general public;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“secure electronic signature” means
-                                an electronic signature which meets the following
-                                requirements:</text:p>
+                            <text:p text:style-name="Standard">&quot;secure electronic
+                                signature&quot; means an electronic signature which meets the
+                                following requirements:</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:list xml:id="list1096806646" text:style-name="L4">
+                            <text:list xml:id="list350522949" text:style-name="L4">
                                 <text:list-item>
                                     <text:p text:style-name="P7">it is uniquely linked to the
                                         signatory;</text:p>
@@ -1401,44 +1422,46 @@
                                 </text:list-item>
                             </text:list>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“sound broadcasting service” means a
-                                broadcasting service destined for direct reception by the general
-                                public with the help of sound radio receiving apparatus;</text:p>
+                            <text:p text:style-name="Standard">&quot;sound broadcasting
+                                service&quot; means a broadcasting service destined for direct
+                                reception by the general public with the help of sound radio
+                                receiving apparatus;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard"><text:s/>“telecommunication
-                                apparatus” means apparatus constructed or adapted for use in
-                                transmitting anything which is transmissible by a telecommunication
-                                system, or in conveying anything which is transmitted through such a
-                                system;</text:p>
+                            <text:p text:style-name="Standard"><text:s/>&quot;telecommunication
+                                apparatus&quot; means apparatus constructed or adapted for use
+                                in transmitting anything which is transmissible by a
+                                telecommunication system, or in conveying anything which is
+                                transmitted through such a system;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“telecommunication line” means any
-                                wire, cable, tube, pipe or other similar thing which is designed or
-                                adapted for use in connection with the operation of a
-                                telecommunication system or a radio-communication apparatus with any
-                                casing, coating, tube or pipe enclosing the same and any appliances
-                                and apparatus connected therewith for the same; and includes any
-                                structure, post or other thing in, by or from which any
-                                telecommunication and radio-communication apparatus is or may be
+                            <text:p text:style-name="Standard">&quot;telecommunication
+                                line&quot; means any wire, cable, tube, pipe or other similar
+                                thing which is designed or adapted for use in connection with the
+                                operation of a telecommunication system or a radio-communication
+                                apparatus with any casing, coating, tube or pipe enclosing the same
+                                and any appliances and apparatus connected therewith for the same;
+                                and includes any structure, post or other thing in, by or from which
+                                any telecommunication and radio-communication apparatus is or may be
                                 installed, supported, carried or suspended;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“telecommunication officer” means any
-                                person employed either permanently or temporarily by a
-                                telecommunication operator in connection with a telecommunication
-                                system licensed under section 73;</text:p>
+                            <text:p text:style-name="Standard">&quot;telecommunication
+                                officer&quot; means any person employed either permanently or
+                                temporarily by a telecommunication operator in connection with a
+                                telecommunication system licensed under section 73;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“telecommunication operator” means a
-                                telecommunication operator licensed under section 73;</text:p>
+                            <text:p text:style-name="Standard">&quot;telecommunication
+                                operator&quot; means a telecommunication operator licensed under
+                                section 73;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“telecommunication service” means any
-                                of the following-</text:p>
+                            <text:p text:style-name="Standard">&quot;telecommunication
+                                service&quot; means any of the following-</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:list xml:id="list1450177360" text:style-name="L5">
+                            <text:list xml:id="list1087455756" text:style-name="L5">
                                 <text:list-item>
                                     <text:p text:style-name="P8">a service consisting of the
                                         conveyance by means of a telecommunication system of
                                         anything falling within sub-paragraphs (i) to (v) in the
-                                        definition of “telecommunication
-                                        <text:soft-page-break/>system”;</text:p>
+                                        definition of &quot;telecommunication
+                                        <text:soft-page-break/>system&quot;;</text:p>
                                     <text:p text:style-name="P8"/>
                                 </text:list-item>
                                 <text:list-item>
@@ -1458,15 +1481,15 @@
                                 </text:list-item>
                             </text:list>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“telecommunication, system” means a
-                                system for the conveyance, through the agency of electric, magnetic,
-                                electro-magnetic, electro-chemical or electro-mechanical energy, of
-                                –</text:p>
+                            <text:p text:style-name="Standard">&quot;telecommunication,
+                                system&quot; means a system for the conveyance, through the
+                                agency of electric, magnetic, electro-magnetic, electro-chemical or
+                                electro-mechanical energy, of -</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:list xml:id="list406096272" text:style-name="L6">
+                            <text:list xml:id="list253104879" text:style-name="L6">
                                 <text:list-item>
                                     <text:p text:style-name="P9">speech, music and other
-                                        sounds;.</text:p>
+                                        sounds;</text:p>
                                 </text:list-item>
                                 <text:list-item>
                                     <text:p text:style-name="P9">visual images;</text:p>
@@ -1488,34 +1511,34 @@
                                 </text:list-item>
                             </text:list>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“television broadcasting service”
-                                means a broadcasting service consisting of sending of visual images
-                                or other visible signals whether with or without accompanying
-                                sounds, where visual images are such that sequences of them are seen
-                                as moving pictures;</text:p>
+                            <text:p text:style-name="Standard">&quot;television broadcasting
+                                service&quot; means a broadcasting service consisting of sending
+                                of visual images or other visible signals whether with or without
+                                accompanying sounds, where visual images are such that sequences of
+                                them are seen as moving pictures;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“television” means the transmission
-                                or reproduction by radio-communication, satellite, cable or other
-                                electromagnetic system, of images of objects in movement or at
-                                rest;</text:p>
+                            <text:p text:style-name="Standard">&quot;television&quot; means
+                                the transmission or reproduction by radio-communication, satellite,
+                                cable or other electromagnetic system, of images of objects in
+                                movement or at rest;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“terrestrial broadcasting service”
-                                means a service that is broadcast from the transmitter situated upon
-                                the earth’s surface.</text:p>
+                            <text:p text:style-name="Standard">&quot;terrestrial broadcasting
+                                service&quot; means a service that is broadcast from the
+                                transmitter situated upon the earth&apos;s surface.</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“Tribunal” means the Appeals Tribunal
-                                set up under section 158 of this Act;</text:p>
+                            <text:p text:style-name="Standard">&quot;Tribunal&quot; means
+                                the Appeals Tribunal set up under section 158 of this Act;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard">“vessel” includes any ship, boat,
-                                air-cushioned vehicle or floating rig or platform used in
-                                navigation.</text:p>
+                            <text:p text:style-name="Standard">&quot;vessel&quot; includes
+                                any ship, boat, air-cushioned vehicle or floating rig or platform
+                                used in navigation.</text:p>
                             <text:p text:style-name="Standard"/>
                         </text:section>
                         <text:p text:style-name="Standard"/>
                         <text:section text:style-name="Sect9" text:name="subchapter2">
                             <text:section text:style-name="Sect11"
                                 text:name="num_f6359493-e01e-11dd-88fd-030925606c6d">
-                                <text:p text:style-name="subchapter_5f_title"
+                                <text:p text:style-name="subchapter_5f_heading"
                                         >&lt;<text:reference-mark-start
                                         text:name="nrf_f6359493-e01e-11dd-88fd-030925606c6d"
                                         />II.<text:reference-mark-end
@@ -1530,7 +1553,7 @@
                         <text:section text:style-name="Sect9" text:name="subchapter3">
                             <text:section text:style-name="Sect12"
                                 text:name="num_fb22df34-e01e-11dd-88fd-030925606c6d">
-                                <text:p text:style-name="subchapter_5f_title"
+                                <text:p text:style-name="subchapter_5f_heading"
                                         >&lt;<text:reference-mark-start
                                         text:name="nrf_fb22df34-e01e-11dd-88fd-030925606c6d"
                                         />III.<text:reference-mark-end
@@ -1546,7 +1569,7 @@
                             <text:p text:style-name="Standard">
                                 <text:soft-page-break/>
                             </text:p>
-                            <text:list xml:id="list2099338517" text:style-name="L7">
+                            <text:list xml:id="list1829035829" text:style-name="L7">
                                 <text:list-item>
                                     <text:p text:style-name="P10">to the addressee, if it is
                                         delivered into the private letter box of the addressee,
@@ -1584,7 +1607,7 @@
                                 computer resource for the purpose of receiving electronic
                                 record:</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:list xml:id="list246169056" text:style-name="L8">
+                            <text:list xml:id="list397043306" text:style-name="L8">
                                 <text:list-item>
                                     <text:p text:style-name="P11">receipt occurs at the time when
                                         the electronic record enters the designated computer

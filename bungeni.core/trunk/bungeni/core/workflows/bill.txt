@@ -198,37 +198,263 @@ First Reading
 First step for a bill is to be scheduled for a public reading, the user interface
 presents a transition specific ui viewlet to be used for scheduling the reading.
 
+  >>> schedule_bill(bill.bill_id)
+  >>> bill.workflow.fireTransition('schedule-first')    
+  >>> transitions( bill )
+  ('postpone-first', 'ma-schedule-second', 'withdraw-first-reading', 'select-first-committee')
+  
+The first reading can be postponed:
+
+  >>> bill.workflow.fireTransition('postpone-first')    
+  >>> transitions( bill )
+  ('reschedule-first',) 
+
+and rescheduled:
+  >>> bill.workflow.fireTransition('reschedule-first')    
+  >>> transitions( bill )
+  ('postpone-first', 'ma-schedule-second', 'withdraw-first-reading', 'select-first-committee')
+
+
+A Bill can be withdrawn at (almost) any stage:
+----------------------------------------------
+  >>> bill_withdraw = copy.deepcopy(bill)     
+  >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-first-reading')     
+  >>> bill_withdraw.status  
+  'bill withdrawn'
+  >>> transitions( bill_withdraw ) 
+  ()
 
 
 Committees
 ----------
 
 Next step, optionally is to send the bill to a committee. After a bill is 
-sent to committee, it can either be scheduled for a second reading, or
-for the committee's report to be read.
+sent to committee, it can be scheduled for a second reading
   
+  >>> bill_1st_committee = copy.deepcopy(bill)     
+  >>> result = IWorkflowInfo(bill_1st_committee).fireTransition('select-first-committee')     
+  >>> bill_1st_committee.status  
+  'first committee'
+  >>> transitions( bill_1st_committee ) 
+  ('withdraw-first-committee', 'schedule-second-from-first-committee')
+  
+A Bill can be withdrawn at (almost) any stage:
+----------------------------------------------
+  >>> bill_withdraw = copy.deepcopy(bill_1st_committee)     
+  >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-first-committee')     
+  >>> bill_withdraw.status  
+  'bill withdrawn'
+  >>> transitions( bill_withdraw ) 
+  ()
 
-  
+or made avaliable for scheduling for the 2nd committee
+------------------------------------------------------
+  >>> result = IWorkflowInfo(bill_1st_committee).fireTransition('schedule-second-from-first-committee')     
+  >>> bill_1st_committee.status  
+  'second reading pending'
+  >>> transitions( bill_1st_committee ) 
+  ('schedule-second',)
+
 
 Second Reading
 --------------
-
 We can then schedule a second reading, again in the ui, this presents a workflow
 viewlet for scheduling the bill.
  
+The Bill can be made available for scheduling from the 1st reading
+
+  >>> bill.workflow.fireTransition('ma-schedule-second')    
+  >>> transitions( bill ) 
+  ('schedule-second',) 
+
+and finally scheduled for the second reading
+
+  >>> bill.workflow.fireTransition('schedule-second')    
+  >>> transitions( bill ) 
+  ('ma-schedule-whole-house', 'withdraw-second-reading', 'postpone-second')
+
+A Bill can be withdrawn at (almost) any stage:
+----------------------------------------------
+  >>> bill_withdraw = copy.deepcopy(bill)     
+  >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-second-reading')     
+  >>> bill_withdraw.status  
+  'bill withdrawn'
+  >>> transitions( bill_withdraw ) 
+  ()
+
+The second reading can be postponed:
+
+  >>> bill.workflow.fireTransition('postpone-second')    
+  >>> transitions( bill ) 
+  ('reschedule-second',)
+
+and rescheduled:
+  >>> bill.workflow.fireTransition('reschedule-second')    
+  >>> transitions( bill ) 
+  ('ma-schedule-whole-house', 'withdraw-second-reading', 'postpone-second')
 
 
 Committee of the Whole House
 ----------------------------
+make the bill available for scheduling:
+ 
+  >>> bill.workflow.fireTransition('ma-schedule-whole-house')    
+  >>> transitions( bill ) 
+  ('schedule-whole-house',)
 
+and schedule it:
+
+  >>> bill.workflow.fireTransition('schedule-whole-house')    
+  >>> transitions( bill ) 
+   ('select-second-committee', 'withdraw-whole-house', 'ma-schedule-third-reading', 'postpone-second-reading-and-whole-house', 'postpone-whole-house')
+
+A Bill can be withdrawn at (almost) any stage:
+----------------------------------------------
+  >>> bill_withdraw = copy.deepcopy(bill)     
+  >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-whole-house')     
+  >>> bill_withdraw.status  
+  'bill withdrawn'
+  >>> transitions( bill_withdraw ) 
+  ()
+
+postpone whole house
+
+  >>> bill.workflow.fireTransition('postpone-whole-house')    
+  >>> transitions( bill ) 
+  ('reschedule-whole-house',)
+
+and reschedule whole house
+
+  >>> bill.workflow.fireTransition('reschedule-whole-house')    
+  >>> transitions( bill ) 
+   ('select-second-committee', 'withdraw-whole-house', 'ma-schedule-third-reading', 'postpone-second-reading-and-whole-house', 'postpone-whole-house')
+
+if the second reading and the committee of the whole house did not take place
+you can postpone both:
+
+  >>> bill_whp2 = copy.deepcopy(bill)     
+  >>> result = IWorkflowInfo(bill_whp2).fireTransition('postpone-second-reading-and-whole-house')     
+  >>> transitions(bill_whp2)
+  ('reschedule-second',)
 
 
 Third Reading
 -------------
+from the second reading the third reading can be scheduled directly:
 
+  >>> bill_tr = copy.deepcopy(bill)     
+  >>> result = IWorkflowInfo(bill_tr).fireTransition('ma-schedule-third-reading')     
+  >>> transitions(bill_tr)
+  ('second-committee-schedule-third-reading',)
+
+or it can be send to a second committee first.
+Second Committee:
+-----------------
+
+  >>> bill.workflow.fireTransition('select-second-committee')    
+  >>> transitions( bill ) 
+  ('withdraw-second-committee', 'ma-schedule-second-report-reading')
+
+A Bill can be withdrawn at (almost) any stage:
+----------------------------------------------
+  >>> bill_withdraw = copy.deepcopy(bill)     
+  >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-second-committee')     
+  >>> bill_withdraw.status  
+  'bill withdrawn'
+  >>> transitions( bill_withdraw ) 
+  ()
+
+The report of the 2nd committee is to be read:
+---------------------------------------------
+make available for scheduling 
+
+  >>> bill.workflow.fireTransition('ma-schedule-second-report-reading')    
+  >>> transitions( bill ) 
+  ('schedule-second-report-reading',)
+  
+and schedule:
+
+  >>> bill.workflow.fireTransition('schedule-second-report-reading')    
+  >>> transitions( bill ) 
+  ('ma-second-committee-schedule-third-reading', 'postpone-second-report-reading', 'recommit-second-committee', 'withdraw-report-reading')
+
+A Bill can be withdrawn at (almost) any stage:
+----------------------------------------------
+  >>> bill_withdraw = copy.deepcopy(bill)     
+  >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-report-reading')     
+  >>> bill_withdraw.status  
+  'bill withdrawn'
+  >>> transitions( bill_withdraw ) 
+  ()
+
+The report reading can be postponed:
+
+  >>> bill.workflow.fireTransition('postpone-second-report-reading')    
+  >>> transitions( bill ) 
+  ('reschedule-second-report-reading',)
+  
+and rescheduled:
+
+  >>> bill.workflow.fireTransition('reschedule-second-report-reading')    
+  >>> transitions( bill ) 
+  ('ma-second-committee-schedule-third-reading', 'postpone-second-report-reading', 'recommit-second-committee', 'withdraw-report-reading')
+  
+
+After the reading the bill can be send back to the committee:
+
+  >>> bill_2ndc = copy.deepcopy(bill)     
+  >>> result = IWorkflowInfo(bill_2ndc).fireTransition('recommit-second-committee') 
+  >>> transitions( bill_2ndc )   
+  ('withdraw-second-committee', 'ma-schedule-second-report-reading')
+  
+or made available for the 3rd reading:  
+  >>> bill.workflow.fireTransition('ma-second-committee-schedule-third-reading')    
+  >>> transitions( bill )   
+  ('second-committee-schedule-third-reading',)
+  
+Third Reading:
+--------------
+schedule it for the third reading:
+
+  >>> bill.workflow.fireTransition('second-committee-schedule-third-reading')    
+  >>> transitions( bill )   
+  ('withdraw-third-reading', 'reject', 'approve', 'postpone-third-reading')
+
+A Bill can be withdrawn at (almost) any stage:
+----------------------------------------------
+  >>> bill_withdraw = copy.deepcopy(bill)     
+  >>> result = IWorkflowInfo(bill_withdraw).fireTransition('withdraw-third-reading')     
+  >>> bill_withdraw.status  
+  'bill withdrawn'
+  >>> transitions( bill_withdraw ) 
+  ()
+
+the third reading can be postponed:
+
+  >>> bill.workflow.fireTransition('postpone-third-reading')    
+  >>> transitions( bill )   
+  ('reschedule-third-reading',)
+
+and rescheduled:
+  >>> bill.workflow.fireTransition('reschedule-third-reading')    
+  >>> transitions( bill )   
+  ('withdraw-third-reading', 'reject', 'approve', 'postpone-third-reading')
+
+  
 Vote - Approved/Rejected
 ------------------------
-
+either the bill gets approved:
+  >>> bill_approve = copy.deepcopy(bill) 
+  >>> bill_approve.workflow.fireTransition('approve') 
+  >>> transitions( bill_approve ) 
+  ()
+    
+or rejected:
+  >>> bill.workflow.fireTransition('reject')    
+  >>> transitions( bill ) 
+  ()
+  
+  
 cleanup
 -------
   >>> session.flush()

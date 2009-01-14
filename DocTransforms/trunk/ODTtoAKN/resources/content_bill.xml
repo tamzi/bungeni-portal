@@ -102,13 +102,14 @@
             </style:section-properties>
         </style:style>
         <style:style style:name="Sect5" style:family="section">
-            <style:section-properties BungeniSectionType="NumberedContainer"
-                __BungeniMetaEditable="false"
+            <style:section-properties fo:background-color="#ffffa1"
+                BungeniSectionType="NumberedContainer" __BungeniMetaEditable="false"
                 BungeniSectionUUID="99ed6c91-e01d-11dd-bc10-01a277088790"
                 BungeniSectionVisibility="system" BungeniAppliedNumber="A -"
                 BungeniAppliedTrueNumber="1" BungeniNumberingScheme="ALPHABETICAL"
                 BungeniParentPrefix="" style:editable="false">
                 <style:columns fo:column-count="1" fo:column-gap="0in"/>
+                <style:background-image/>
             </style:section-properties>
         </style:style>
         <style:style style:name="Sect6" style:family="section">
@@ -952,7 +953,7 @@
                     <text:p text:style-name="Standard"/>
                     <text:p text:style-name="Standard">WHEREAS it is considered necessary </text:p>
                     <text:p text:style-name="Standard"/>
-                    <text:list xml:id="list1958991856" text:style-name="L1">
+                    <text:list xml:id="list441595370" text:style-name="L1">
                         <text:list-item>
                             <text:p text:style-name="P4">to facilitate development of a national
                                 infrastructure for an <text:s/>information based society, and to
@@ -993,16 +994,15 @@
                 <text:p text:style-name="Standard"/>
                 <text:section text:style-name="Sect4" text:name="part1">
                     <text:section text:style-name="Sect5"
-                        text:name="num_99ed6c91-e01d-11dd-bc10-01a277088790" text:protected="true">
-                        <text:h text:style-name="part_5f_heading" text:outline-level="3"
-                                >&lt;<text:reference-mark-start
+                        text:name="num_99ed6c91-e01d-11dd-bc10-01a277088790">
+                        <text:p text:style-name="part_5f_heading">&lt;<text:reference-mark-start
                                 text:name="nrf_99ed6c91-e01d-11dd-bc10-01a277088790"/>A
                                 -<text:reference-mark-end
                                 text:name="nrf_99ed6c91-e01d-11dd-bc10-01a277088790"/>&gt;
                                 ~<text:reference-mark-start
                                 text:name="hdrf_99ed6c91-e01d-11dd-bc10-01a277088790"/>PART -
                                 PRELIMINARY<text:reference-mark-end
-                                text:name="hdrf_99ed6c91-e01d-11dd-bc10-01a277088790"/>~</text:h>
+                                text:name="hdrf_99ed6c91-e01d-11dd-bc10-01a277088790"/>~</text:p>
                     </text:section>
                     <text:p text:style-name="Standard"/>
                     <text:section text:style-name="Sect6" text:name="chapter1">
@@ -1043,14 +1043,12 @@
                                 />~</text:p>
                         </text:section>
                         <text:p text:style-name="Standard"/>
-                        <text:p text:style-name="Standard">
-                            <text:soft-page-break/>
-                        </text:p>
+                        <text:p text:style-name="Standard"/>
                         <text:section text:style-name="Sect9" text:name="subchapter1">
                             <text:section text:style-name="Sect10"
                                 text:name="num_e99f88d2-e01e-11dd-88fd-030925606c6d">
                                 <text:p text:style-name="subchapter_5f_heading"
-                                        >&lt;<text:reference-mark-start
+                                        ><text:soft-page-break/>&lt;<text:reference-mark-start
                                         text:name="nrf_e99f88d2-e01e-11dd-88fd-030925606c6d"
                                         />I.<text:reference-mark-end
                                         text:name="nrf_e99f88d2-e01e-11dd-88fd-030925606c6d"
@@ -1118,7 +1116,7 @@
                             <text:p text:style-name="Standard">&quot;community broadcasting
                                 service&quot; means a broadcasting service which-</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:list xml:id="list1705992081" text:style-name="L2">
+                            <text:list xml:id="list1339935907" text:style-name="L2">
                                 <text:list-item>
                                     <text:p text:style-name="P5">is fully controlled by a non-profit
                                         entity and carried on for non-profitable purposes;</text:p>
@@ -1131,12 +1129,13 @@
                                 </text:list-item>
                                 <text:list-item>
                                     <text:p text:style-name="P5">encourages members of the community
-                                        served by it or persons associated with or
-                                        <text:soft-page-break/>promoting the interests of such
-                                        <text:s/>community to participate in the selection and
-                                        provision of programmes to be broadcast in the course of
-                                        such <text:s/>broadcasting service; and</text:p>
-                                    <text:p text:style-name="P5"/>
+                                        served by it or persons associated with or promoting the
+                                        interests of such <text:s/>community to participate in the
+                                        selection and provision of programmes to be broadcast in the
+                                        course of such <text:s/>broadcasting service; and</text:p>
+                                    <text:p text:style-name="P5">
+                                        <text:soft-page-break/>
+                                    </text:p>
                                 </text:list-item>
                                 <text:list-item>
                                     <text:p text:style-name="P5">may be funded by donations, grants,
@@ -1214,11 +1213,12 @@
                                 would be unintelligible without a suitable receiving
                                 apparatus;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard"
-                                ><text:soft-page-break/>&quot;equipment&quot; includes any
-                                appliance, apparatus or accessory used or intended to be used for
-                                Communication services;</text:p>
-                            <text:p text:style-name="Standard"/>
+                            <text:p text:style-name="Standard">&quot;equipment&quot;
+                                includes any appliance, apparatus or accessory used or intended to
+                                be used for Communication services;</text:p>
+                            <text:p text:style-name="Standard">
+                                <text:soft-page-break/>
+                            </text:p>
                             <text:p text:style-name="Standard">&quot;financial year&quot;
                                 means a financial year within the meaning of section 20;</text:p>
                             <text:p text:style-name="Standard">&quot;franking machine&quot;
@@ -1289,12 +1289,11 @@
                                 where postal articles are received, delivered, sorted, made up or
                                 despatched;</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:p text:style-name="Standard"
-                                ><text:soft-page-break/>&quot;post&quot; (i)<text:tab/>when
-                                used with reference to telecommunication includes any pole,
-                                standard, stay, strut or other above-ground contrivance for
-                                installing, carrying, supporting or suspending a telecommunication
-                                line; and</text:p>
+                            <text:p text:style-name="Standard">&quot;post&quot;
+                                (i)<text:tab/>when used with reference to telecommunication includes
+                                any pole, standard, stay, strut or other above-ground contrivance
+                                for installing, carrying, supporting or suspending a
+                                <text:soft-page-break/>telecommunication line; and</text:p>
                             <text:p text:style-name="Standard"/>
                             <text:p text:style-name="Standard">(ii) when used with reference to the
                                 transmission of postal articles by post, means any system for the
@@ -1367,17 +1366,16 @@
                             <text:p text:style-name="Standard"/>
                             <text:p text:style-name="Standard">&quot;radio-communication
                                 station&quot; means any telecommunication station capable of
-                                being used or <text:soft-page-break/>being adapted for
-                                radio-communication;</text:p>
+                                being used or being adapted for radio-communication;</text:p>
                             <text:p text:style-name="Standard"/>
                             <text:p text:style-name="Standard"
-                                >&quot;radio-communication&quot; means the emitting or
-                                receiving over paths which are not provided by any material
-                                substance constructed or arranged for that purpose, of
+                                ><text:soft-page-break/>&quot;radio-communication&quot;
+                                means the emitting or receiving over paths which are not provided by
+                                any material substance constructed or arranged for that purpose, of
                                 electro-magnetic energy of a frequency not exceeding three million
                                 megahertz being energy which either</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:list xml:id="list421542932" text:style-name="L3">
+                            <text:list xml:id="list791819209" text:style-name="L3">
                                 <text:list-item>
                                     <text:p text:style-name="P6">is capable of being transmitted
                                         through a telecommunication system; or</text:p>
@@ -1399,7 +1397,7 @@
                                 signature&quot; means an electronic signature which meets the
                                 following requirements:</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:list xml:id="list350522949" text:style-name="L4">
+                            <text:list xml:id="list1299321553" text:style-name="L4">
                                 <text:list-item>
                                     <text:p text:style-name="P7">it is uniquely linked to the
                                         signatory;</text:p>
@@ -1455,20 +1453,21 @@
                             <text:p text:style-name="Standard">&quot;telecommunication
                                 service&quot; means any of the following-</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:list xml:id="list1087455756" text:style-name="L5">
+                            <text:list xml:id="list1086171277" text:style-name="L5">
                                 <text:list-item>
                                     <text:p text:style-name="P8">a service consisting of the
                                         conveyance by means of a telecommunication system of
                                         anything falling within sub-paragraphs (i) to (v) in the
                                         definition of &quot;telecommunication
-                                        <text:soft-page-break/>system&quot;;</text:p>
+                                        system&quot;;</text:p>
                                     <text:p text:style-name="P8"/>
                                 </text:list-item>
                                 <text:list-item>
-                                    <text:p text:style-name="P8">a service consisting of the
-                                        installation, maintenance, adjustment, repair, alteration,
-                                        moving, removal or replacement of apparatus which is or is
-                                        to be connected to a telecommunication system; or</text:p>
+                                    <text:p text:style-name="P8"><text:soft-page-break/>a service
+                                        consisting of the installation, maintenance, adjustment,
+                                        repair, alteration, moving, removal or replacement of
+                                        apparatus which is or is to be connected to a
+                                        telecommunication system; or</text:p>
                                     <text:p text:style-name="P8"/>
                                 </text:list-item>
                                 <text:list-item>
@@ -1486,7 +1485,7 @@
                                 agency of electric, magnetic, electro-magnetic, electro-chemical or
                                 electro-mechanical energy, of -</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:list xml:id="list253104879" text:style-name="L6">
+                            <text:list xml:id="list672205741" text:style-name="L6">
                                 <text:list-item>
                                     <text:p text:style-name="P9">speech, music and other
                                         sounds;</text:p>
@@ -1566,19 +1565,17 @@
                             </text:p>
                             <text:p text:style-name="Standard">(a) a postal article shall be deemed
                                 to have been delivered -</text:p>
-                            <text:p text:style-name="Standard">
-                                <text:soft-page-break/>
-                            </text:p>
-                            <text:list xml:id="list1829035829" text:style-name="L7">
+                            <text:p text:style-name="Standard"/>
+                            <text:list xml:id="list1000458469" text:style-name="L7">
                                 <text:list-item>
                                     <text:p text:style-name="P10">to the addressee, if it is
                                         delivered into the private letter box of the addressee,
-                                        leaving it at the house, or office of the addressee as set
-                                        out thereon, or with his employee or agent or other persons
-                                        authorised to receive it and, where the addressee is a guest
-                                        or is resident at a hotel, hostel or lodgings, it is left
-                                        with the proprietor or manager thereof or with his agent;
-                                        or</text:p>
+                                        leaving it at <text:soft-page-break/>the house, or office of
+                                        the addressee as set out thereon, or with his employee or
+                                        agent or other persons authorised to receive it and, where
+                                        the addressee is a guest or is resident at a hotel, hostel
+                                        or lodgings, it is left with the proprietor or manager
+                                        thereof or with his agent; or</text:p>
                                     <text:p text:style-name="P12"/>
                                 </text:list-item>
                                 <text:list-item>
@@ -1607,7 +1604,7 @@
                                 computer resource for the purpose of receiving electronic
                                 record:</text:p>
                             <text:p text:style-name="Standard"/>
-                            <text:list xml:id="list397043306" text:style-name="L8">
+                            <text:list xml:id="list1058568822" text:style-name="L8">
                                 <text:list-item>
                                     <text:p text:style-name="P11">receipt occurs at the time when
                                         the electronic record enters the designated computer

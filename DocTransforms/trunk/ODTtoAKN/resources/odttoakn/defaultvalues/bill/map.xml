@@ -29,6 +29,8 @@
 		<element id="26" bungeniSectionType="list" result="list" mantain="id"/>
 		<element id="27" bungeniSectionType="item" result="item" mantain="id"/>
 		<element id="28" bungeniSectionType="a" result="a" mantain="id,href"/>
+		
+		<element id="43" bungeniSectionType="content" result="content"/>
 		<!-- METADATA -->
 		<element id="29" bungeniSectionType="meta" result="meta"/>
 		<element id="30" bungeniSectionType="identification" result="identification" mantain="source"/>

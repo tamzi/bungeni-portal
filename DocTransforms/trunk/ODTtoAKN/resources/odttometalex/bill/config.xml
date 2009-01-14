@@ -23,8 +23,10 @@
 		<output>
 			<!-- Normalise the produced META document -->
 			<xslt step="1" name="MetaLanguageNormalisation" href="resources/odttometalex/bill/MetaLanguageNormalisation.xsl" /> 
+			<!-- Normalise the produced META document (Step 2 Delete Empty Container) -->
+			<xslt step="2" name="MetaLanguageNormalisation_DeleteEmptyContainer" href="resources/odttometalex/bill/MetaLanguageNormalisationDeleteEmptyContainer.xsl" /> 
 			<!-- Add the METALEX namespace -->
-			<xslt step="2" name="MetaLanguageAddNamespace" href="resources/odttometalex/bill/MetaLanguageAddNamespace.xsl" />
+			<xslt step="3" name="MetaLanguageAddNamespace" href="resources/odttometalex/bill/MetaLanguageAddNamespace.xsl" />
 		</output>
 	</stylesheets>
 </config>

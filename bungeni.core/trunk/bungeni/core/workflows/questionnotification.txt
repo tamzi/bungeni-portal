@@ -114,7 +114,7 @@ is dispatched.
 
   >>> question.receive_notification = True
   >>> notification.sendNotificationToMemberUponReceipt(ObjectEvent(question))
-  From: clerks.office@parliament.gov.ke
+  From: clerks.office@parliament.go.tld
   To: "John Doe" <john.doe@localhost>...
   Subject: Question received: My subject...
   
@@ -125,7 +125,7 @@ HARDCODED in the preferences so we cannot test this yet!
 
     >>> notification.sendNotificationToClerkUponSubmit(ObjectEvent(question))
     From: "John Doe" <john.doe@localhost>
-    To: clerks.office@parliament.gov.ke ...
+    To: clerks.office@parliament.go.tld ...
     Subject: Question submitted: My subject ...
 
 the question is marked as “complete” and is made available / forwarded to the Speaker's Office 
@@ -133,7 +133,7 @@ for reviewing and to make it “admissible”.
    
 
    >>> notification.sendNotificationsUponComplete(ObjectEvent(question))
-    From: clerks.office@parliament.gov.ke
+    From: clerks.office@parliament.go.tld
     To: "John Doe" <john.doe@localhost>...
     Question completed for review at the speakers office.
 
@@ -141,59 +141,63 @@ At the same time the question is also forwarded to the ministry.
 
    >>> question.ministry_id = ministry.group_id
    >>> notification.sendNotificationsUponComplete(ObjectEvent(question))  
-    From: clerks.office@parliament.gov.ke
+    From: clerks.office@parliament.go.tld
     To: "a ab" <mp1@example.com> ,"b bc" <mp2@example.com> ...
     Question assigned to ministry
-    From: clerks.office@parliament.gov.ke
+    From: clerks.office@parliament.go.tld
     To: "John Doe" <john.doe@localhost> ...
     Question completed for review at the speakers office.
    
   
 A question was rejected by the speakers office.
     >>> notification.sendNotificationToMemberUponReject(ObjectEvent(question))
-    From: speakers.office@parliament.gov.ke
+    From: speakers.office@parliament.go.tld
     To: "John Doe" <john.doe@localhost> ...
     Subject: Question rejected: My subject ...
   
 
 A question needs clarification by the MP
     >>> notification.sendNotificationToMemberUponNeedsClarification(ObjectEvent(question))
-    From: clerks.office@parliament.gov.ke
+    From: clerks.office@parliament.go.tld
     To: "John Doe" <john.doe@localhost> ...
     Subject: Question needs clarification: My subject ...
 
 
 A question was deferred by Clerk's office.
     >>> notification.sendNotificationToMemberUponDeferred(ObjectEvent(question))
-    From: speakers.office@parliament.gov.ke
+    From: speakers.office@parliament.go.tld
     To: "John Doe" <john.doe@localhost> ...
     Subject: Question deferred: My subject ...
 
 A question was scheduled by Speakers office.
     >>> notification.sendNotificationToMemberUponSchedule(ObjectEvent(question))
-    From: clerks.office@parliament.gov.ke
+    From: clerks.office@parliament.go.tld
     To: "John Doe" <john.doe@localhost> ...
     Subject: Question scheduled: My subject ...
 
 A question was postponed by the speakers office.
     >>> notification.sendNotificationToMemberUponPostponed(ObjectEvent(question))  
-    From: clerks.office@parliament.gov.ke
+    From: clerks.office@parliament.go.tld
     To: "John Doe" <john.doe@localhost> ...
     Subject: Question postponed: My subject ...
   
 
 A question was sent to a ministry for written response.
     >>> notification.sendNotificationToMemberUponSentToMinistry(ObjectEvent(question))
-    From: clerks.office@parliament.gov.ke
+    From: clerks.office@parliament.go.tld
     To: "John Doe" <john.doe@localhost> ...
     Subject: Question sent to ministry: My subject ...
   
 
 A questions answer was reviewed by Clerk's office.
     >>> notification.sendNotificationToMemberUponAnswer(ObjectEvent(question))  
-    From: clerks.office@parliament.gov.ke
+    From: clerks.office@parliament.go.tld
     To: "John Doe" <john.doe@localhost> ...
     Subject: Question answered: My subject ...
   
-  
+cleanup
+-------
+  >>> session.flush()
+  >>> session.commit()
+  >>> session.close()  
   

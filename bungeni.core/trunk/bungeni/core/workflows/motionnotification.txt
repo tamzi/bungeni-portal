@@ -48,7 +48,7 @@ is dispatched.
 
   >>> motion.receive_notification = True
   >>> notification.sendNotificationToMemberUponReceipt(ObjectEvent(motion))
-  From: clerks.office@parliament.gov.ke
+  From: clerks.office@parliament.go.tld
   To: "John Doe" <john.doe@localhost>...
   Subject: Motion received: My subject...
   
@@ -59,39 +59,39 @@ HARDCODED in the preferences so we cannot test this yet!
 
     >>> notification.sendNotificationToClerkUponSubmit(ObjectEvent(motion))
     From: "John Doe" <john.doe@localhost>
-    To: clerks.office@parliament.gov.ke ...
+    To: clerks.office@parliament.go.tld ...
     Subject: Motion submitted: My subject ...
 
   
 A motion was rejected by the speakers office.
     >>> notification.sendNotificationToMemberUponReject(ObjectEvent(motion))
-    From: speakers.office@parliament.gov.ke
+    From: speakers.office@parliament.go.tld
     To: "John Doe" <john.doe@localhost> ...
     Subject: Motion rejected: My subject ...
   
 
 A motion needs clarification by the MP
     >>> notification.sendNotificationToMemberUponNeedsClarification(ObjectEvent(motion))
-    From: clerks.office@parliament.gov.ke
+    From: clerks.office@parliament.go.tld
     To: "John Doe" <john.doe@localhost> ...
     Subject: Motion needs clarification: My subject ...
 
 
 A motion was deferred by Clerk's office.
     >>> notification.sendNotificationToMemberUponDeferred(ObjectEvent(motion))
-    From: speakers.office@parliament.gov.ke
+    From: speakers.office@parliament.go.tld
     To: "John Doe" <john.doe@localhost> ...
     Subject: Motion deferred: My subject ...
 
 A motion was scheduled by Speakers office.
     >>> notification.sendNotificationToMemberUponSchedule(ObjectEvent(motion))
-    From: clerks.office@parliament.gov.ke
+    From: clerks.office@parliament.go.tld
     To: "John Doe" <john.doe@localhost> ...
     Subject: Motion scheduled: My subject ...
 
 A motion was postponed by the speakers office.
     >>> notification.sendNotificationToMemberUponPostponed(ObjectEvent(motion))  
-    From: clerks.office@parliament.gov.ke
+    From: clerks.office@parliament.go.tld
     To: "John Doe" <john.doe@localhost> ...
     Subject: Motion postponed: My subject ...
   
@@ -100,10 +100,14 @@ A motion was postponed by the speakers office.
 
 A motions answer was debated.
     >>> notification.sendNotificationToMemberUponDebated(ObjectEvent(motion))  
-    From: clerks.office@parliament.gov.ke
+    From: clerks.office@parliament.go.tld
     To: "John Doe" <john.doe@localhost> ...
     Subject: Motion was debated: My subject ...
 
   
-  
+cleanup
+-------
+  >>> session.flush()
+  >>> session.commit()
+  >>> session.close()  
   

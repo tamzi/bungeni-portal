@@ -4,22 +4,25 @@
 global settings
 """
 
-#XXX For the time being for test purposes everything is hardcoded here.
-#this is to be moved into the DB
+
+# the schema for the settings is in interfaces
+
 
 import sqlalchemy.sql.expression as sql
 from ore.alchemist import Session
 
 import bungeni.core.domain as domain
 import bungeni.core.schema as schema
+import bungeni.core.settings as settings
 from bungeni.core.i18n import _
+from bungeni.core.app import BungeniApp
 
 import datetime
 
 
 
 
-                
+app = BungeniApp()                
 
 
 def getCurrentParliamentId(date = None):
@@ -52,58 +55,61 @@ def getSpeakersOfficeEmail():
     return the official email address 
     of the speakers office
     """
-    return "speakers.office@parliament.gov.ke"
+    email = settings.BungeniSettings(app).speakers_office_email
+    return email
     
 def getSpeakersOfficeRecieveNotification():
     """
     returns true if the Speakers office wants to be alerted by mail
     whenever a bill, motion, question is submitted 
     """
-    return True   
+    return settings.BungeniSettings(app).speakers_office_notification
             
 def getClerksOfficeEmail():        
     """
     return the official email address 
     of the clerks office
     """
-    return "clerks.office@parliament.gov.ke"
+    return settings.BungeniSettings(app).clerks_office_email
     
 def getClerksOfficeRecieveNotification():
     """
     returns true if the clerks office wants to be alerted by mail
     whenever a bill, motion, question is submitted 
     """
-    return True                
+    return settings.BungeniSettings(app).clerks_office_notification             
     
     
 def getAdministratorsEmail():
     """
     email of the site admin
     """
-    return "webmaster@parliament.gov.ke"        
+    return settings.BungeniSettings(app).administrators_email    
         
         
 def getDaysToDeferAdmissibleQuestions():
     """
     time after which admissible questions are automatically deferred
-    """        
-    return datetime.timedelta(10)    
+    """       
+     
+    return datetime.timedelta(settings.BungeniSettings(app).days_to_defer_question)    
     
 def getDaysToNotifyMinistriesQuestionsPendingResponse():
     """
     timeframe after which the clerksoffice and the ministry is alerted that
     questions that are pending response are not yet answered
     """    
-    return datetime.timedelta(1)  
+    
+    return datetime.timedelta(settings.BungeniSettings(app).days_to_notify_ministry_unanswered)  
   
 def getQuestionSubmissionAllowed():
-    return True
+    return settings.BungeniSettings(app).question_submission_allowed
     
 def getMaxQuestionsPerSitting():
-    return 3
+    return settings.BungeniSettings(app).max_questions_sitting
         
 def getMaxQuestionsByMpPerSitting():
-    return 1
+    return settings.BungeniSettings(app).max_mp_questions_sitting
     
 def getNoOfDaysBeforeQuestionSchedule():
     return 3

@@ -23,7 +23,8 @@ To demonstrate let's create some groups and a content object.
   >>> country = domain.Country()
   >>> country.country_id = 'KE'
   >>> country.country_name = u"Kenya"
-  >>> session.save(country)  
+  >>> session.save(country)
+  >>> session.flush()  
   >>> mp_1 = domain.ParliamentMember(u"mp_1", 
   ...        first_name=u"a", 
   ...        last_name=u'ab', 
@@ -69,4 +70,9 @@ group.
   >>> list( interfaces.IContextAssignments( committee ) )
   [<bungeni.core.assignment.GroupAssignment object at ...>, <bungeni.core.assignment.GroupAssignment object at ...>]
 
-
+Clean up commit outstanding transactions
+-----------------------------------------
+ >>> session.flush() 
+ >>> session.commit()
+ >>> session.close()
+ 

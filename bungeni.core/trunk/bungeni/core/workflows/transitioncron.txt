@@ -95,7 +95,9 @@ defer admissible question older than today
   >>> len(questions)  
   2        
   
-cleanup:
-
-  >>> session.flush()    
+cleanup
+-------
+  >>> session.flush()
+  >>> session.commit()
+  >>> session.close()
   

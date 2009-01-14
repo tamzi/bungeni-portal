@@ -86,7 +86,8 @@ class IBungeniSetup( interface.Interface ):
         """
 
 class IBungeniSettings( interface.Interface ):
-    speakers_office_email = schema.TextLine(title=_(u"Speaker's Office Email") )
+    speakers_office_email = schema.TextLine(title=_(u"Speaker's Office Email"), 
+                                            default=u"speakers.office@parliament.go.tld")
     speakers_office_notification = schema.Bool( title=_(u"Speaker's Office Notification"),
                                                 description=_(
                                                     u"true if the Speakers office wants to be alerted by mail" \
@@ -99,7 +100,8 @@ class IBungeniSettings( interface.Interface ):
                                                   u"whenever a bill, motion, question is submitted"),
                                               default=True
                                               )
-    clerks_office_email   = schema.TextLine(title=_(u"Clerks's Office Email") )
+    clerks_office_email   = schema.TextLine(title=_(u"Clerks's Office Email"),
+                                            default=u"clerks.office@parliament.go.tld" )
     
     administrators_email  = schema.TextLine(title=_(u"Administrator's Email") )
     question_submission_allowed = schema.Bool( title=_(u"Allow Question Submission"), default=True )    
@@ -112,6 +114,7 @@ class IBungeniSettings( interface.Interface ):
                                                                   )
                                                     )
     days_before_question_schedule = schema.Int( title=_(u"Days before question scheduled"), default=3 )
+    max_questions_sitting = schema.Int( title=_(u"Max Questions Per Sitting Per MP"), default=15  )
     max_mp_questions_sitting = schema.Int( title=_(u"Max Questions Per Sitting Per MP"), default=1  )
 
 class IBungeniUserSettings( interface.Interface ):

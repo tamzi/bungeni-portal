@@ -56,3 +56,4 @@ commit all outstanding transactions
 -----------------------------------  
   >>> session.flush()
   >>> session.commit()
+  >>> session.close()  

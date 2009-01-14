@@ -106,7 +106,11 @@
 					<xsl:value-of select="."/>
 				</xsl:attribute>
 			</xsl:for-each>
-			<xsl:apply-templates/>
+			<xsl:apply-templates select="container/htitle" />
+			<xsl:apply-templates select="container[./child::container/child::htitle]"/>
+			<container name="content" id="{generate-id(.)}">
+				<xsl:apply-templates select="*[not(child::htitle) and not(child::container/child::htitle) and not(container[./child::container/child::htitle])]"/>
+			</container> 
 		</hcontainer>
 	</xsl:template>
 

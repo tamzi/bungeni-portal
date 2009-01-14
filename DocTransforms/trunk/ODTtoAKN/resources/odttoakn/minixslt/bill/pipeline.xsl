@@ -157,73 +157,78 @@
 		<xsl:apply-templates />
 	</xsl:template>
 
+	<xsl:template match="*[@name='content']">
+		<xslt step="28" name="content" href="resources/odttoakn/minixslt/bill/content.xsl" />
+		<xsl:apply-templates />
+	</xsl:template>
+
 	<xsl:template match="*[@name='meta']">
-		<xslt step="28" name="meta" href="resources/odttoakn/minixslt/bill/meta.xsl" />
+		<xslt step="29" name="meta" href="resources/odttoakn/minixslt/bill/meta.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='identification']">
-		<xslt step="29" name="identification" href="resources/odttoakn/minixslt/bill/identification.xsl" />
+		<xslt step="30" name="identification" href="resources/odttoakn/minixslt/bill/identification.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='FRBRWork']">
-		<xslt step="30" name="FRBRWork" href="resources/odttoakn/minixslt/bill/FRBRWork.xsl" />
+		<xslt step="31" name="FRBRWork" href="resources/odttoakn/minixslt/bill/FRBRWork.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='FRBRExpression']">
-		<xslt step="31" name="FRBRExpression" href="resources/odttoakn/minixslt/bill/FRBRExpression.xsl" />
+		<xslt step="32" name="FRBRExpression" href="resources/odttoakn/minixslt/bill/FRBRExpression.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='FRBRManifestation']">
-		<xslt step="32" name="FRBRManifestation" href="resources/odttoakn/minixslt/bill/FRBRManifestation.xsl" />
+		<xslt step="33" name="FRBRManifestation" href="resources/odttoakn/minixslt/bill/FRBRManifestation.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='this']">
-		<xslt step="33" name="this" href="resources/odttoakn/minixslt/bill/this.xsl" />
+		<xslt step="34" name="this" href="resources/odttoakn/minixslt/bill/this.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='uri']">
-		<xslt step="34" name="uri" href="resources/odttoakn/minixslt/bill/uri.xsl" />
+		<xslt step="35" name="uri" href="resources/odttoakn/minixslt/bill/uri.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='date']">
-		<xslt step="35" name="date" href="resources/odttoakn/minixslt/bill/date.xsl" />
+		<xslt step="36" name="date" href="resources/odttoakn/minixslt/bill/date.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='author']">
-		<xslt step="36" name="author" href="resources/odttoakn/minixslt/bill/author.xsl" />
+		<xslt step="37" name="author" href="resources/odttoakn/minixslt/bill/author.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='publication_mcontainer']">
-		<xslt step="37" name="publication_mcontainer" href="resources/odttoakn/minixslt/bill/publication_mcontainer.xsl" />
+		<xslt step="38" name="publication_mcontainer" href="resources/odttoakn/minixslt/bill/publication_mcontainer.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='publication']">
-		<xslt step="38" name="publication" href="resources/odttoakn/minixslt/bill/publication.xsl" />
+		<xslt step="39" name="publication" href="resources/odttoakn/minixslt/bill/publication.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='references']">
-		<xslt step="39" name="references" href="resources/odttoakn/minixslt/bill/references.xsl" />
+		<xslt step="40" name="references" href="resources/odttoakn/minixslt/bill/references.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='TLCOrganization']">
-		<xslt step="40" name="TLCOrganization" href="resources/odttoakn/minixslt/bill/TLCOrganization.xsl" />
+		<xslt step="41" name="TLCOrganization" href="resources/odttoakn/minixslt/bill/TLCOrganization.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 
 	<xsl:template match="*[@name='TLCPerson']">
-		<xslt step="41" name="TLCPerson" href="resources/odttoakn/minixslt/bill/TLCPerson.xsl" />
+		<xslt step="42" name="TLCPerson" href="resources/odttoakn/minixslt/bill/TLCPerson.xsl" />
 		<xsl:apply-templates />
 	</xsl:template>
 

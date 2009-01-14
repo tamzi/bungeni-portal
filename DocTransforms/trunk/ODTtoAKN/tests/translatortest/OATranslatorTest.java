@@ -14,7 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.un.bungeni.translators.odttoakn.translator.OATranslator;
-import org.un.bungeni.translators.odttoakn.xslprocbuilder.OAXSLProcBuilder;
+//import org.un.bungeni.translators.odttoakn.xslprocbuilder.OAXSLProcBuilder;
 //import org.un.bungeni.translators.utility.exceptionmanager.ExceptionManager;
 
 
@@ -61,8 +61,9 @@ public class OATranslatorTest
 	 */
 	@Test
 	public final void testTranslate() throws Exception 
-	{		
-		OAXSLProcBuilder.newInstance().createXSLProc("resources/odttoakn/minixslt/bill/");
+	{
+		//create the mini xslt for the transaltion of the bill
+		//OAXSLProcBuilder.newInstance().createXSLProc("resources/odttoakn/minixslt/bill/");
 				
 		//perform a translation
 		File translation = myTranslator.translate("resources/ken_bill_2009_1_10_eng_main.odt", "resources/odttoakn/minixslt/bill/pipeline.xsl");
@@ -71,7 +72,7 @@ public class OATranslatorTest
 		FileInputStream fis  = new FileInputStream(translation);
 		
 		//output stream 
-		FileOutputStream fos = new FileOutputStream("resources/resultAKN.xml");
+		FileOutputStream fos = new FileOutputStream("resources/resultAKN_bill.xml");
 		
 		//copy the file
 		try 

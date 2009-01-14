@@ -128,6 +128,7 @@ class EndDateTestCase ( unittest.TestCase ):
 def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite( StartDateTestCase ))
+    suite.addTest(unittest.makeSuite( EndDateTestCase ))
     return suite
     
 if __name__ == '__main__':

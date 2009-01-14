@@ -39,7 +39,7 @@ table_js_template ="""
     
     // A custom function to translate the js paging request into a datasource query 
     var buildQueryString = function (state,dt) {
-        var sDir = (dt.get("sortedBy").dir === "asc" || dt.get("sortedBy").dir == "") ? "" : "desc";
+        var sDir = (dt.get("sortedBy").dir === YAHOO.widget.DataTable.CLASS_ASC || dt.get("sortedBy").dir == "") ? "" : "desc";
         var query_url = "start=" + state.pagination.recordOffset + "&limit=" + state.pagination.rowsPerPage + "&sort=" + dt.get("sortedBy").key  + "&dir="+sDir;
         return query_url
     };
@@ -71,7 +71,7 @@ table_js_template ="""
 	            }),        
        initialRequest : 'start=0&limit=20',
        generateRequest : RequestBuilder, //buildQueryString,
-       sortedBy : { key: "", dir : "asc" },
+       sortedBy : { dir : YAHOO.widget.DataTable.CLASS_ASC },
        dynamicData: true, // Enables dynamic server-driven data 
        //paginationEventHandler : YAHOO.widget.DataTable.handleDataSourcePagination 
     }
@@ -85,18 +85,24 @@ table_js_template ="""
 	        return oPayload; 
 	    };
 
-    table.sortColumn = function(oColumn) {
+    table.sortColumn = function(oColumn, sDir) {
         // Default ascending
-        sDir = "asc";
-        // If already sorted, sort in opposite direction        
-        if(oColumn.key === this.get("sortedBy").key) {
-           sDir = (this.get("sortedBy").dir === "asc" || this.get("sortedBy").dir == "") ? "desc" : "asc";
-           };
+        cDir = "asc";
+        // If already sorted, sort in opposite direction     
+        //var key =   this.get("sortedBy").key;
+        //if(oColumn.key == this.get("sortedBy").key) {
+        //   cDir = (this.get("sortedBy").dir === YAHOO.widget.DataTable.CLASS_ASC || this.get("sortedBy").dir == "") ? "desc" : "asc";
+        //   };
        
-
+        if (sDir == YAHOO.widget.DataTable.CLASS_ASC) {
+            cDir = "asc"
+        }
+        else if (sDir == YAHOO.widget.DataTable.CLASS_DESC) {
+            cDir = "desc"
+        };
 
         // Pass in sort values to server request
-        var newRequest = "sort=" + oColumn.key + "&dir=" + sDir + "&start=0";
+        var newRequest = "sort=" + oColumn.key + "&dir=" + cDir + "&start=0";
         // Create callback for data request
         var oCallback = {
                 success: this.onDataReturnInitializeTable,
@@ -106,7 +112,7 @@ table_js_template ="""
                     // Pass in sort values so UI can be updated in callback function
                     sorting: {
                         key: oColumn.key,
-                        dir: (sDir === "asc") ? YAHOO.widget.DataTable.CLASS_ASC : YAHOO.widget.DataTable.CLASS_DESC,
+                        dir: (cDir === "asc") ? YAHOO.widget.DataTable.CLASS_ASC : YAHOO.widget.DataTable.CLASS_DESC,
                     }
                 }
             };

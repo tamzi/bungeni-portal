@@ -118,7 +118,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		File fileToReturn = StreamSourceUtility.getInstance().writeToFile(resultWithNamespace);
 		
 		//validate the produced document
-		SchemaValidator.getInstance().validate(new StreamSource(fileToReturn), this.akomantosoSchemaPath);
+		//SchemaValidator.getInstance().validate(new StreamSource(fileToReturn), this.akomantosoSchemaPath);
 		
 		//write the stream to a File and return it
 		return fileToReturn;
@@ -194,7 +194,7 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		FileInputStream fis  = new FileInputStream(resultFile);
 		
 		//output stream 
-		FileOutputStream fos = new FileOutputStream("resources/result.xml");
+		FileOutputStream fos = new FileOutputStream("resources/result_bill.xml");
 		
 		//copy the file
 		try 

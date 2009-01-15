@@ -431,7 +431,7 @@ sitting_type = rdb.Table(
     rdb.Column( "start_time", rdb.Time, nullable=False),
     rdb.Column( "end_time", rdb.Time, nullable=False),
     )
-
+#XXX ? what is this for we have item_schedule ?
 sitting_schedule = rdb.Table(
    "sitting_schedule",
    metadata,

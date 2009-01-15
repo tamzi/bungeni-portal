@@ -1,0 +1,19 @@
+<div>
+    <div class="listing">
+      <em> Bill Timeline </em>
+      <table class="listing">
+        <thead>
+          <tr>
+            <th> Title </th>
+            <th> Date </th>            
+          </tr>
+        </thead>
+        <tbody>
+          <tr tal:repeat="data view/results"> 
+            <td tal:content="data/title"> party name </td>
+            <td tal:content="data/adate" > </td>           
+          </tr>
+        </tbody>  
+      </table>
+    </div>
+</div>

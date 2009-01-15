@@ -1666,6 +1666,7 @@ class ScheduleCalendarViewlet( PlenarySittingCalendarViewlet ):
                     item_schedule.order = sort_id
                     session.save(item_schedule)
                     IWorkflowInfo(question).fireTransitionToward(question_wf_state.scheduled, check_security=True)
+                    item_schedule.status = IWorkflowInfo(question).state().getState()
                     session.commit()
                 except:
                     session.rollback()
@@ -1733,7 +1734,8 @@ class ScheduleCalendarViewlet( PlenarySittingCalendarViewlet ):
                     elif bill.status in [bill_wf_state.third_pending, bill_wf_state.third_reading_postponed ]:
                         IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.third_reading, check_security=True)
                     elif bill.status in [  bill_wf_state.house_pending, bill_wf_state.whole_house_postponed ]:
-                        IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.whole_house, check_security=True)                    
+                        IWorkflowInfo(bill).fireTransitionToward(bill_wf_state.whole_house, check_security=True)   
+                    item_schedule.status = bill.status                     
                 elif bill.status in [bill_wf_state.first_reading ,
                     bill_wf_state.second_reading , 
                     bill_wf_state.whole_house ,
@@ -1743,6 +1745,7 @@ class ScheduleCalendarViewlet( PlenarySittingCalendarViewlet ):
                     item_schedule.sitting_id = sitting_id
                     item_schedule.item_id = bill_id
                     item_schedule.order = sort_id
+                    item_schedule.status = bill.status 
                     session.save(item_schedule)  
                 else:
                     raise NotImplementedError    
@@ -1772,6 +1775,7 @@ class ScheduleCalendarViewlet( PlenarySittingCalendarViewlet ):
                     if IWorkflowInfo(motion).state().getState() != motion_wf_state.scheduled:              
                         # scheduling is possible for multipe sittings                    
                         IWorkflowInfo(motion).fireTransitionToward(motion_wf_state.scheduled, check_security=True)   
+                    item_schedule.status = IWorkflowInfo(motion).state().getState()
                     session.commit()
                 except:
                     self.errors.append("Motion could not be scheduled")    

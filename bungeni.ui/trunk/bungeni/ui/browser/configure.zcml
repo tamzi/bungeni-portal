@@ -753,6 +753,15 @@
       weight="10"
       />    
   
+     <browser:viewlet
+      name="bungeni.subform.bill-timeline"
+      manager=".interfaces.ISubFormViewletManager"
+      class=".subforms.BillTimeLineViewlet"
+      for="bungeni.core.interfaces.IBill"
+      permission="zope.View"
+      weight="20"
+      />  
+  
   
   <!-- PartyMemberAtomViewlet -->
   

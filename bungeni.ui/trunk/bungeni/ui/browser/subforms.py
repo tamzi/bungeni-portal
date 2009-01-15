@@ -1,28 +1,31 @@
 # utf-8
 import datetime
 import base64
+
 from zope.viewlet import viewlet, interfaces
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.traversing.browser import absoluteURL 
-import bungeni.core.domain as domain
-from bungeni.core.interfaces import IMemberOfParliament
+from zope.security.proxy import removeSecurityProxy
+from zope.formlib import form
+
+import sqlalchemy.orm
+
 from ore.alchemist import Session
 from ore.alchemist.model import queryModelDescriptor
 from ore.alchemist.container import stringKey
-from zope.security.proxy import removeSecurityProxy
-from bungeni.core.i18n import _
-import bungeni.core.domain as domain
-from forms import BungeniAttributeDisplay
-from container import ContainerListing, AtomContainerListing
-from bungeni.core.workflows.question import states as qw_state
 
 from alchemist.ui.viewlet import EditFormViewlet, AttributesViewViewlet, DisplayFormViewlet
-#from alchemist.ui.core import DynamicFields
 
-from zope.formlib import form
+import bungeni.core.domain as domain
+from bungeni.core.interfaces import IMemberOfParliament
+from bungeni.core.i18n import _
+import bungeni.core.domain as domain
+from bungeni.core.workflows.question import states as qw_state
 
 from bungeni.ui.viewlets.sittingcalendar import SittingCalendarViewlet
 
+from forms import BungeniAttributeDisplay
+from container import ContainerListing, AtomContainerListing
 from table import AjaxContainerListing
 
 class SubformViewlet ( AjaxContainerListing ):
@@ -428,6 +431,49 @@ class ResponseViewlet( BungeniAttributeDisplay ):
             self.has_data = False             
             self.actions = self.add_action.actions
         super( ResponseViewlet, self).update()
-    
+
+
+
+
+
             
+class BillTimeLineViewlet( viewlet.ViewletBase ):
+    """
+    tracker/timeline view:
+    Chronological changes are aggregated from : bill workflow, bill
+    audit, bill scheduling and bill event records. 
+    """
+    for_display = True    
+    # sqlalchemy give me a rough time sorting a union, with hand coded sql it is much easier.
+    _sql_timeline = """
+            SELECT "items_schedule"."item_id" AS "item_id", "items_schedule"."status" AS "title", "group_sittings"."start_date" AS "adate" 
+            FROM "public"."items_schedule" AS "items_schedule", "public"."group_sittings" AS "group_sittings" 
+            WHERE "items_schedule"."sitting_id" = "group_sittings"."sitting_id" 
+            AND "items_schedule"."active" = True
+            AND "items_schedule"."item_id" = %(item_id)s
+            UNION
+            SELECT "item_id", "title", "event_date" AS "adate" 
+            FROM "public"."event_items" AS "event_items"
+            WHERE "item_id" = %(item_id)s
+            ORDER BY adate
+                """
+    def __init__( self,  context, request, view, manager ):        
+        self.context = context
+        self.request = request
+        self.__parent__= view
+        self.manager = manager
+        self.query = None            
     
+    def update(self):
+        """
+        refresh the query
+        """       
+        session = Session()
+        bill_id = self.context.bill_id
+        connection = session.connection(domain.Bill)
+        self.results = connection.execute( self._sql_timeline % {'item_id' : bill_id} )
+        path = absoluteURL( self.context, self.request ) 
+         
+    
+    
+    render = ViewPageTemplateFile ('templates/bill_timeline_viewlet.pt')    

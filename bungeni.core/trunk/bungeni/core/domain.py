@@ -219,6 +219,9 @@ class Parliament( Group ):
     extensionmembers = one2many("extensionmembers", "bungeni.core.domain.ExtensionGroupContainer",
                                  "parliament_id")
     politicalparties = one2many("politicalparties", "bungeni.core.domain.PoliticalPartyContainer", "parliament_id")
+    bills = one2many("bills", "bungeni.core.domain.BillContainer", "parliament_id")
+    questions = one2many("questions", "bungeni.core.domain.QuestionContainer", "parliament_id")
+    motions = one2many("motions", "bungeni.core.domain.MotionContainer", "parliament_id")        
 
     
 class PoliticalParty( Group ):

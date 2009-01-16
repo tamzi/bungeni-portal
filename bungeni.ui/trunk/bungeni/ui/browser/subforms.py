@@ -443,19 +443,25 @@ class BillTimeLineViewlet( viewlet.ViewletBase ):
     Chronological changes are aggregated from : bill workflow, bill
     audit, bill scheduling and bill event records. 
     """
+    add_action = form.Actions( form.Action(_(u'add event'), success='handle_event_add_action'), )
     for_display = True    
     # sqlalchemy give me a rough time sorting a union, with hand coded sql it is much easier.
     _sql_timeline = """
-            SELECT "items_schedule"."item_id" AS "item_id", "items_schedule"."status" AS "title", "group_sittings"."start_date" AS "adate" 
+            SELECT 'schedule' AS "atype",  "items_schedule"."item_id" AS "item_id", "items_schedule"."status" AS "title", "group_sittings"."start_date" AS "adate" 
             FROM "public"."items_schedule" AS "items_schedule", "public"."group_sittings" AS "group_sittings" 
             WHERE "items_schedule"."sitting_id" = "group_sittings"."sitting_id" 
             AND "items_schedule"."active" = True
             AND "items_schedule"."item_id" = %(item_id)s
-            UNION
-            SELECT "item_id", "title", "event_date" AS "adate" 
+         UNION
+            SELECT 'event' AS "atype", "item_id", "title", "event_date" AS "adate" 
             FROM "public"."event_items" AS "event_items"
             WHERE "item_id" = %(item_id)s
-            ORDER BY adate
+         UNION
+            SELECT "action" as "atype", "content_id" AS "item_id", "description" AS "title", "date" AS "adate" 
+            FROM "public"."bill_changes" AS "bill_changes" 
+            WHERE "action" = 'workflow'
+            AND "content_id" = %(item_id)s
+         ORDER BY adate
                 """
     def __init__( self,  context, request, view, manager ):        
         self.context = context
@@ -464,6 +470,9 @@ class BillTimeLineViewlet( viewlet.ViewletBase ):
         self.manager = manager
         self.query = None            
     
+    def handle_event_add_action( self, action, data ):
+        self.request.response.redirect(self.addurl)    
+    
     def update(self):
         """
         refresh the query
@@ -471,8 +480,9 @@ class BillTimeLineViewlet( viewlet.ViewletBase ):
         session = Session()
         bill_id = self.context.bill_id
         connection = session.connection(domain.Bill)
-        self.results = connection.execute( self._sql_timeline % {'item_id' : bill_id} )
+        self.results = connection.execute( self._sql_timeline % {'item_id' : bill_id} )       
         path = absoluteURL( self.context, self.request ) 
+        self.addurl = '%s/event/add' %( path )
          
     
     

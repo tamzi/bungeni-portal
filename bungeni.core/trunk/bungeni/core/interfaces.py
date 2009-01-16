@@ -11,6 +11,10 @@ from i18n import _
 
 DEBUG = True
 ENABLE_LOGGING = False
+ENABLE_EVENT_LOGGING = False
+
+if ENABLE_EVENT_LOGGING:
+    import eventlog
 
 class IBungeniApplication( IApplication ):
     """
@@ -23,7 +27,21 @@ class IBungeniAdmin( IContainer ):
     """
 
 class IAdminUserContainer( interface.Interface ):
+    """
+    a container that returns object for the admin ui, marked with admin interface markers
+    """
+
+class IAdminGroupContainer( interface.Interface ):
     pass
+
+class IUserAdmin( interface.Interface ):
+    """
+    marker interface attached to user objects viewed in the admin for admin views
+    """
+class IGroupAdmin( interface.Interface ):
+    """
+    marker interface attached to user objects viewed in the admin for admin views    
+    """
 
 ####################
 # Feature - Marker Interfaces 

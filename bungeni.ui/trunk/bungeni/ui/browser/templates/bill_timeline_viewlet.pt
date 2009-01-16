@@ -4,16 +4,21 @@
       <table class="listing">
         <thead>
           <tr>
-            <th> Title </th>
+            <th> Type </th>
+            <th> Description </th>
             <th> Date </th>            
           </tr>
         </thead>
         <tbody>
           <tr tal:repeat="data view/results"> 
-            <td tal:content="data/title"> party name </td>
-            <td tal:content="data/adate" > </td>           
+            <td tal:content="data/atype"> Type  </td>
+            <td tal:content="data/title"> description / Title </td>
+            <td tal:content="data/adate" >  1/1/2000 </td>           
           </tr>
         </tbody>  
       </table>
+      <form enctype="multipart/form-data" action="event/add" method="get" >
+        <input id="addButton" class="context" type="submit" name="add" value="Add Event"/>
+      </form>
     </div>
 </div>

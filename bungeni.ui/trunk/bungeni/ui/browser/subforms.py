@@ -461,7 +461,7 @@ class BillTimeLineViewlet( viewlet.ViewletBase ):
             FROM "public"."bill_changes" AS "bill_changes" 
             WHERE "action" = 'workflow'
             AND "content_id" = %(item_id)s
-         ORDER BY adate
+         ORDER BY adate DESC
                 """
     def __init__( self,  context, request, view, manager ):        
         self.context = context

@@ -762,6 +762,13 @@
       weight="20"
       />  
   
+   <browser:page
+       name="event-rss.xml"
+       for="bungeni.core.interfaces.IBill"
+       class=".forms.BungeniRSSEventView"
+       permission="zope.View"
+       />  
+  
   
   <!-- PartyMemberAtomViewlet -->
   

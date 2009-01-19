@@ -4,24 +4,23 @@
     xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0"
     xmlns:ooo="http://openoffice.org/2004/office" office:version="1.2">
     <office:meta>
-        <meta:generator>OpenOffice.org/3.0$Unix
+        <meta:generator>OpenOffice.org/3.0$Linux
             OpenOffice.org_project/300m9$Build-9358</meta:generator>
         <meta:creation-date>2009-01-10T11:47:57</meta:creation-date>
-        <meta:editing-cycles>35</meta:editing-cycles>
-        <meta:editing-duration>PT32H57M05S</meta:editing-duration>
+        <meta:editing-cycles>39</meta:editing-cycles>
+        <meta:editing-duration>PT33H33M39S</meta:editing-duration>
         <meta:initial-creator>ashok hariharan</meta:initial-creator>
-        <dc:date>2009-01-13T23:42:59</dc:date>
+        <dc:date>2009-01-19T13:48:28</dc:date>
+        <dc:creator>ashok hariharan</dc:creator>
         <meta:document-statistic meta:table-count="0" meta:image-count="0" meta:object-count="0"
             meta:page-count="8" meta:paragraph-count="121" meta:word-count="2714"
-            meta:character-count="17745"/>
+            meta:character-count="17746"/>
         <meta:user-defined meta:name="BungeniBillNo">2006/8</meta:user-defined>
-        <meta:user-defined meta:name="BungeniBillOfficialDate"/>
+        <meta:user-defined meta:name="BungeniBillOfficialDate">2009-01-09</meta:user-defined>
         <meta:user-defined meta:name="BungeniBillOfficialTime"/>
         <meta:user-defined meta:name="BungeniCountryCode">ken</meta:user-defined>
         <meta:user-defined meta:name="BungeniDateOfAssent">2006-12-10</meta:user-defined>
         <meta:user-defined meta:name="BungeniDateOfCommencement">2006-12-19</meta:user-defined>
-        <meta:user-defined meta:name="BungeniDebateOfficialDate">2009-01-10</meta:user-defined>
-        <meta:user-defined meta:name="BungeniDebateOfficialTime"/>
         <meta:user-defined meta:name="BungeniDocAuthor">user.Ashok</meta:user-defined>
         <meta:user-defined meta:name="BungeniDocPart">main</meta:user-defined>
         <meta:user-defined meta:name="BungeniDocType">bill</meta:user-defined>
@@ -40,6 +39,8 @@
         <meta:user-defined meta:name="BungeniManDateName"/>
         <meta:user-defined meta:name="BungeniManURI"
             >/ken/bill/2009-01-10/8/ict_bill/eng/main.odt</meta:user-defined>
+        <meta:user-defined meta:name="BungeniOfficialDate">2006-12-01</meta:user-defined>
+        <meta:user-defined meta:name="BungeniOfficialTime">12:00</meta:user-defined>
         <meta:user-defined meta:name="BungeniParliamentID">2</meta:user-defined>
         <meta:user-defined meta:name="BungeniParliamentSession">3</meta:user-defined>
         <meta:user-defined meta:name="BungeniParliamentSitting">5</meta:user-defined>

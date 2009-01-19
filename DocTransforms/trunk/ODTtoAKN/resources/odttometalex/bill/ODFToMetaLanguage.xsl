@@ -168,37 +168,37 @@
         </inline>
     </xsl:template>
  
-    <xsl:template match="text:p[tokenize(@text:style-name,'_')[position()=3] = 'heading']">
+    <xsl:template match="text:p[tokenize(@text:style-name,'_')[position()=1] = 'heading']">
         <htitle>
             <xsl:attribute name="id" select="generate-id(.)" />
-            <xsl:attribute name="name" select="tokenize(@text:style-name,'_')[position()=3]" />
+            <xsl:attribute name="name" select="tokenize(@text:style-name,'_')[position()=1]" />
             <xsl:attribute name="class" select="tokenize(@text:style-name,'_')[position()=2]" />
             <xsl:apply-templates />
         </htitle>
     </xsl:template>
 
-    <xsl:template match="text:p[tokenize(@text:style-name,'_')[position()=3] = 'subheading']">
+    <xsl:template match="text:p[tokenize(@text:style-name,'_')[position()=1] = 'subheading']">
         <htitle>
             <xsl:attribute name="id" select="generate-id(.)" />
-            <xsl:attribute name="name" select="tokenize(@text:style-name,'_')[position()=3]" />
+            <xsl:attribute name="name" select="tokenize(@text:style-name,'_')[position()=1]" />
             <xsl:attribute name="class" select="tokenize(@text:style-name,'_')[position()=2]" />
             <xsl:apply-templates />
         </htitle>
     </xsl:template>
 
-    <xsl:template match="text:p[tokenize(@text:style-name,'_')[position()=3] = 'num']">
+    <xsl:template match="text:p[tokenize(@text:style-name,'_')[position()=1] = 'num']">
         <htitle>
             <xsl:attribute name="id" select="generate-id(.)" />
-            <xsl:attribute name="name" select="tokenize(@text:style-name,'_')[position()=3]" />
+            <xsl:attribute name="name" select="tokenize(@text:style-name,'_')[position()=1]" />
             <xsl:attribute name="class" select="tokenize(@text:style-name,'_')[position()=2]" />
             <xsl:apply-templates />
         </htitle>
     </xsl:template>
 
-    <xsl:template match="text:p[tokenize(@text:style-name,'_')[position()=3] = 'sidenote']">
+    <xsl:template match="text:p[tokenize(@text:style-name,'_')[position()=1] = 'sidenote']">
         <htitle>
             <xsl:attribute name="id" select="generate-id(.)" />
-            <xsl:attribute name="name" select="tokenize(@text:style-name,'_')[position()=3]" />
+            <xsl:attribute name="name" select="tokenize(@text:style-name,'_')[position()=1]" />
             <xsl:attribute name="class" select="tokenize(@text:style-name,'_')[position()=2]" />
             <xsl:apply-templates />
         </htitle>

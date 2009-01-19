@@ -27,7 +27,8 @@
 				<xsl:attribute name="mname"><xsl:value-of select="@mname" /></xsl:attribute>
 			</xsl:if>
 
-            <xsl:apply-templates />
+         	<xsl:attribute name="name"><xsl:value-of select="@contentName" /></xsl:attribute>
+		   <xsl:apply-templates />
         </date>
     </xsl:template>
     

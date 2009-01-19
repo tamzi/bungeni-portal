@@ -2,81 +2,56 @@
 <office:document-meta xmlns:office="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
     xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/"
     xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0"
-    xmlns:ooo="http://openoffice.org/2004/office" office:version="1.1">
+    xmlns:ooo="http://openoffice.org/2004/office" office:version="1.2">
     <office:meta>
-        <meta:generator>OpenOffice.org/2.4$Linux
-            OpenOffice.org_project/680m17$Build-9310</meta:generator>
+        <meta:generator>OpenOffice.org/3.0$Linux
+            OpenOffice.org_project/300m9$Build-9358</meta:generator>
         <meta:initial-creator>ashok hariharan</meta:initial-creator>
         <meta:creation-date>2008-12-16T08:22:07</meta:creation-date>
         <dc:creator>ashok hariharan</dc:creator>
-        <dc:date>2008-12-16T13:39:24</dc:date>
-        <meta:editing-cycles>4</meta:editing-cycles>
-        <meta:editing-duration>PT43M30S</meta:editing-duration>
+        <dc:date>2009-01-19T14:03:11</dc:date>
+        <meta:editing-cycles>7</meta:editing-cycles>
+        <meta:editing-duration>PT00H49M19S</meta:editing-duration>
+        <meta:document-statistic meta:table-count="0" meta:image-count="0" meta:object-count="0"
+            meta:page-count="2" meta:paragraph-count="44" meta:word-count="320"
+            meta:character-count="1954"/>
+        <meta:user-defined meta:name="BungeniCountryCode">ken</meta:user-defined>
+        <meta:user-defined meta:name="BungeniDocAuthor">user.Ashok</meta:user-defined>
+        <meta:user-defined meta:name="BungeniDocPart">main</meta:user-defined>
+        <meta:user-defined meta:name="BungeniDocType">debaterecord</meta:user-defined>
+        <meta:user-defined meta:name="BungeniExpAuthor">user.Ashok</meta:user-defined>
+        <meta:user-defined meta:name="BungeniExpAuthorURI">user.Ashok</meta:user-defined>
+        <meta:user-defined meta:name="BungeniExpDate">2008-12-16</meta:user-defined>
+        <meta:user-defined meta:name="BungeniExpDateName">expDate</meta:user-defined>
+        <meta:user-defined meta:name="BungeniExpURI"
+            >/ken/debaterecord/2008-12-16/eng@/main</meta:user-defined>
+        <meta:user-defined meta:name="BungeniLanguageCode">eng</meta:user-defined>
+        <meta:user-defined meta:name="BungeniManAuthor">user.Ashok</meta:user-defined>
+        <meta:user-defined meta:name="BungeniManAuthorURI">user.Ashok</meta:user-defined>
+        <meta:user-defined meta:name="BungeniManDate">2008-12-16</meta:user-defined>
+        <meta:user-defined meta:name="BungeniManDateName">manDate</meta:user-defined>
+        <meta:user-defined meta:name="BungeniManURI"
+            >/ken/debaterecord/2008-12-16/eng@/main.xml</meta:user-defined>
+        <meta:user-defined meta:name="BungeniOfficialDate">2008-12-17</meta:user-defined>
+        <meta:user-defined meta:name="BungeniOfficialTime">08:22</meta:user-defined>
+        <meta:user-defined meta:name="BungeniParliamentID">2</meta:user-defined>
+        <meta:user-defined meta:name="BungeniParliamentSession">3</meta:user-defined>
+        <meta:user-defined meta:name="BungeniParliamentSitting">4</meta:user-defined>
+        <meta:user-defined meta:name="BungeniPublicationDate">2008-12-17</meta:user-defined>
+        <meta:user-defined meta:name="BungeniPublicationName">Debate Record</meta:user-defined>
+        <meta:user-defined meta:name="BungeniPublicationNameFull"/>
+        <meta:user-defined meta:name="BungeniWorkAuthor">clerk.aClerk</meta:user-defined>
+        <meta:user-defined meta:name="BungeniWorkAuthorURI">clerk.aClerk</meta:user-defined>
+        <meta:user-defined meta:name="BungeniWorkDate">2008-12-17</meta:user-defined>
+        <meta:user-defined meta:name="BungeniWorkDateName">workDate</meta:user-defined>
+        <meta:user-defined meta:name="BungeniWorkURI"
+            >/ken/debaterecord/2008-12-16/main</meta:user-defined>
         <meta:user-defined meta:name="Info 1"/>
         <meta:user-defined meta:name="Info 2"/>
         <meta:user-defined meta:name="Info 3"/>
         <meta:user-defined meta:name="Info 4"/>
-        <meta:user-defined meta:name="BungeniDocAuthor" meta:value-type="string"
-            >user.Ashok</meta:user-defined>
-        <meta:user-defined meta:name="BungeniManAuthor" meta:value-type="string"
-            >user.Ashok</meta:user-defined>
-        <meta:user-defined meta:name="BungeniDebateOfficialTime" meta:value-type="string"
-            >08:22</meta:user-defined>
-        <meta:user-defined meta:name="BungeniParliamentSession" meta:value-type="string"
-            >3</meta:user-defined>
-        <meta:user-defined meta:name="BungeniWorkDate" meta:value-type="string"
-            >2008-12-17</meta:user-defined>
-        <meta:user-defined meta:name="BungeniExpDateName" meta:value-type="string"
-            >expDate</meta:user-defined>
-        <meta:user-defined meta:name="BungeniParliamentID" meta:value-type="string"
-            >2</meta:user-defined>
-        <meta:user-defined meta:name="BungeniPublicationNameFull" meta:value-type="string"/>
-        <meta:user-defined meta:name="__BungeniDocMeta" meta:value-type="string"
-            >true</meta:user-defined>
-        <meta:user-defined meta:name="BungeniExpDate" meta:value-type="string"
-            >2008-12-16</meta:user-defined>
-        <meta:user-defined meta:name="BungeniWorkAuthorURI" meta:value-type="string"
-            >clerk.aClerk</meta:user-defined>
-        <meta:user-defined meta:name="BungeniExpURI" meta:value-type="string"
-            >/ken/debaterecord/2008-12-16/eng@/main</meta:user-defined>
-        <meta:user-defined meta:name="BungeniWorkDateName" meta:value-type="string"
-            >workDate</meta:user-defined>
-        <meta:user-defined meta:name="bungeniEditorNotes" meta:value-type="string"
+        <meta:user-defined meta:name="__BungeniDocMeta">true</meta:user-defined>
+        <meta:user-defined meta:name="bungeniEditorNotes"
             >&amp;lt;notes&amp;gt;&amp;lt;/notes&amp;gt;</meta:user-defined>
-        <meta:user-defined meta:name="BungeniManDateName" meta:value-type="string"
-            >manDate</meta:user-defined>
-        <meta:user-defined meta:name="BungeniDocType" meta:value-type="string"
-            >debaterecord</meta:user-defined>
-        <meta:user-defined meta:name="BungeniManAuthorURI" meta:value-type="string"
-            >user.Ashok</meta:user-defined>
-        <meta:user-defined meta:name="BungeniWorkAuthor" meta:value-type="string"
-            >clerk.aClerk</meta:user-defined>
-        <meta:user-defined meta:name="BungeniManURI" meta:value-type="string"
-            >/ken/debaterecord/2008-12-16/eng@/main.xml</meta:user-defined>
-        <meta:user-defined meta:name="BungeniWorkURI" meta:value-type="string"
-            >/ken/debaterecord/2008-12-16/main</meta:user-defined>
-        <meta:user-defined meta:name="BungeniExpAuthorURI" meta:value-type="string"
-            >user.Ashok</meta:user-defined>
-        <meta:user-defined meta:name="BungeniManDate" meta:value-type="string"
-            >2008-12-16</meta:user-defined>
-        <meta:user-defined meta:name="BungeniDebateOfficialDate" meta:value-type="string"
-            >2008-12-17</meta:user-defined>
-        <meta:user-defined meta:name="BungeniCountryCode" meta:value-type="string"
-            >ken</meta:user-defined>
-        <meta:user-defined meta:name="BungeniLanguageCode" meta:value-type="string"
-            >eng</meta:user-defined>
-        <meta:user-defined meta:name="BungeniPublicationDate" meta:value-type="string"
-            >2008-12-17</meta:user-defined>
-        <meta:user-defined meta:name="BungeniDocPart" meta:value-type="string"
-            >main</meta:user-defined>
-        <meta:user-defined meta:name="BungeniExpAuthor" meta:value-type="string"
-            >user.Ashok</meta:user-defined>
-        <meta:user-defined meta:name="BungeniParliamentSitting" meta:value-type="string"
-            >4</meta:user-defined>
-        <meta:user-defined meta:name="BungeniPublicationName" meta:value-type="string">Debate
-            Record</meta:user-defined>
-        <meta:document-statistic meta:table-count="0" meta:image-count="0" meta:object-count="0"
-            meta:page-count="2" meta:paragraph-count="44" meta:word-count="319"
-            meta:character-count="1953"/>
     </office:meta>
 </office:document-meta>

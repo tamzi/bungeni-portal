@@ -37,9 +37,9 @@
          <block name="p" id="d3e9" class="P3">NATIONAL ASSEMBLY</block>                  
          <block name="p" id="d3e16" class="P2">OFFICIAL REPORT</block>                  
          <block name="p" id="d3e23" class="P10">            
-            <inline name="ref" class="mBungeniDebateOfficialDate" href="5332" id="d5e21">Thursday 17<inline name="span" id="d3e29" class="T4">th</inline>December 2008</inline>         
+            <inline name="ref" class="mBungeniOfficialDate" href="5332" id="d5e21">Thursday 17<inline name="span" id="d3e29" class="T4">th</inline>December 2008</inline>         
          </block>                  
-         <block name="p" id="d3e38" class="P4">The House met at<inline name="ref" class="mBungeniDebateOfficialTime" href="5616" id="d5e33">8:22 AM</inline>         
+         <block name="p" id="d3e38" class="P4">The House met at<inline name="ref" class="mBungeniOfficialTime" href="4028" id="d5e33">8:22</inline>         
          </block>               
       </container>
       <container id="comment1" class="Sect3" name="Observation">         

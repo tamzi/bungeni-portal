@@ -17,7 +17,10 @@
     xmlns:ooo="http://openoffice.org/2004/office" xmlns:ooow="http://openoffice.org/2004/writer"
     xmlns:oooc="http://openoffice.org/2004/calc" xmlns:dom="http://www.w3.org/2001/xml-events"
     xmlns:xforms="http://www.w3.org/2002/xforms" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:rpt="http://openoffice.org/2005/report"
+    xmlns:of="urn:oasis:names:tc:opendocument:xmlns:of:1.2"
+    xmlns:rdfa="http://docs.oasis-open.org/opendocument/meta/rdfa#">
     <office:scripts/>
     <office:font-face-decls>
         <style:font-face style:name="StarSymbol" svg:font-family="StarSymbol"/>
@@ -609,15 +612,15 @@
                     <text:p text:style-name="P2"><text:tab/>OFFICIAL REPORT</text:p>
                     <text:p text:style-name="P9"/>
                     <text:p text:style-name="P10"><text:tab/><text:reference-mark-start
-                            text:name="mBungeniDebateOfficialDate:5332"/>Thursday 17<text:span
+                            text:name="mBungeniOfficialDate:5332"/>Thursday 17<text:span
                             text:style-name="T4">th</text:span> December
-                            2008<text:reference-mark-end text:name="mBungeniDebateOfficialDate:5332"
+                            2008<text:reference-mark-end text:name="mBungeniOfficialDate:5332"
                         /></text:p>
                     <text:p text:style-name="P9"/>
                     <text:p text:style-name="P4"><text:tab/>The House met at
-                            <text:reference-mark-start text:name="mBungeniDebateOfficialTime:5616"
-                        />8:22 AM<text:reference-mark-end
-                            text:name="mBungeniDebateOfficialTime:5616"/></text:p>
+                            <text:reference-mark-start text:name="mBungeniOfficialTime:4028"
+                            />8:22<text:reference-mark-end text:name="mBungeniOfficialTime:4028"
+                        /></text:p>
                     <text:p text:style-name="Standard"/>
                 </text:section>
                 <text:p text:style-name="Standard"/>
@@ -637,7 +640,7 @@
                     <text:p text:style-name="subheading_5f_papers"><text:tab/>The following Papers
                         were laid on the Table:-</text:p>
                     <text:section text:style-name="Sect6" text:name="tbldocs1">
-                        <text:list text:style-name="L1">
+                        <text:list xml:id="list833646451" text:style-name="L1">
                             <text:list-item>
                                 <text:p text:style-name="P16">The Report of the Commonwealth
                                     Parliamentary Association (CPA) Kenya branch delegation to the
@@ -665,7 +668,7 @@
                         <text:tab/>
                     </text:p>
                     <text:section text:style-name="Sect6" text:name="tbldocs2">
-                        <text:list text:style-name="L2">
+                        <text:list xml:id="list1644587178" text:style-name="L2">
                             <text:list-item>
                                 <text:p text:style-name="P17">The Report of the first and second
                                     sessions of the Pan-African Parliament of the African
@@ -687,7 +690,7 @@
                         <text:tab/>
                     </text:p>
                     <text:section text:style-name="Sect6" text:name="tbldocs3">
-                        <text:list text:style-name="L3">
+                        <text:list xml:id="list1585649035" text:style-name="L3">
                             <text:list-item>
                                 <text:p text:style-name="P18">The Annual Report and Accounts of Moi
                                     Teaching and Referral Hospital for the year ended 30th June,

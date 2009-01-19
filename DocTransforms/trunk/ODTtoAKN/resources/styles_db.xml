@@ -15,7 +15,10 @@
     xmlns:form="urn:oasis:names:tc:opendocument:xmlns:form:1.0"
     xmlns:script="urn:oasis:names:tc:opendocument:xmlns:script:1.0"
     xmlns:ooo="http://openoffice.org/2004/office" xmlns:ooow="http://openoffice.org/2004/writer"
-    xmlns:oooc="http://openoffice.org/2004/calc" xmlns:dom="http://www.w3.org/2001/xml-events">
+    xmlns:oooc="http://openoffice.org/2004/calc" xmlns:dom="http://www.w3.org/2001/xml-events"
+    xmlns:rpt="http://openoffice.org/2005/report"
+    xmlns:of="urn:oasis:names:tc:opendocument:xmlns:of:1.2"
+    xmlns:rdfa="http://docs.oasis-open.org/opendocument/meta/rdfa#">
     <office:font-face-decls>
         <style:font-face style:name="StarSymbol" svg:font-family="StarSymbol"/>
         <style:font-face style:name="Tahoma1" svg:font-family="Tahoma"/>
@@ -581,7 +584,7 @@
         </style:style>
         <style:style style:name="Line_20_numbering" style:display-name="Line numbering"
             style:family="text"/>
-        <text:outline-style>
+        <text:outline-style style:name="Outline">
             <text:outline-level-style text:level="1" style:num-format="">
                 <style:list-level-properties text:min-label-distance="0.15in"/>
             </text:outline-level-style>
@@ -622,12 +625,12 @@
             text:number-position="left" text:increment="5"/>
     </office:styles>
     <office:automatic-styles>
-        <style:style style:name="P1" style:family="paragraph" style:parent-style-name="Header">
+        <style:style style:name="MP1" style:family="paragraph" style:parent-style-name="Header">
             <style:text-properties fo:font-size="7pt" fo:font-style="italic"
                 style:font-size-asian="7pt" style:font-style-asian="italic"
                 style:font-size-complex="7pt" style:font-style-complex="italic"/>
         </style:style>
-        <style:page-layout style:name="pm1">
+        <style:page-layout style:name="Mpm1">
             <style:page-layout-properties fo:page-width="8.5in" fo:page-height="11in"
                 style:num-format="1" style:print-orientation="portrait" fo:margin-top="0.25in"
                 fo:margin-bottom="0.7874in" fo:margin-left="0.7874in" fo:margin-right="0.7874in"
@@ -644,9 +647,9 @@
         </style:page-layout>
     </office:automatic-styles>
     <office:master-styles>
-        <style:master-page style:name="Standard" style:page-layout-name="pm1">
+        <style:master-page style:name="Standard" style:page-layout-name="Mpm1">
             <style:header>
-                <text:p text:style-name="P1">HANSARD DRAFT</text:p>
+                <text:p text:style-name="MP1">HANSARD DRAFT</text:p>
             </style:header>
         </style:master-page>
     </office:master-styles>

@@ -1,20 +1,11 @@
 
 # encoding: utf-8
 
-import pdb
+#import pdb
 import datetime
+import base64
+
 from zope import component
-
-from ore.alchemist.vocabulary import DatabaseSource
-from ore.alchemist.model import queryModelDescriptor
-from ore.alchemist import Session
-from ore.alchemist.container import stringKey
-from ore.workflow import interfaces
-
-from alchemist.ui.content import ContentAddForm, ContentDisplayForm
-from alchemist.ui.viewlet import EditFormViewlet, AttributesViewViewlet, DisplayFormViewlet
-from alchemist.ui.core import DynamicFields, null_validator, handle_edit_action
-
 from zope.formlib import form, namedtemplate
 from zope import schema, interface
 from zope.formlib.namedtemplate import NamedTemplate
@@ -24,6 +15,19 @@ from zope.security.proxy import removeSecurityProxy
 from zope.security.permission import checkPermission
 import zope.security.management
 from zope.publisher.browser import BrowserView
+
+from ore.alchemist.vocabulary import DatabaseSource
+from ore.alchemist.model import queryModelDescriptor
+from ore.alchemist import Session
+from ore.alchemist.container import stringKey
+from ore.workflow import interfaces
+
+from ore.yuiwidget import calendar
+
+from alchemist.ui.content import ContentAddForm, ContentDisplayForm
+from alchemist.ui.viewlet import EditFormViewlet, AttributesViewViewlet, DisplayFormViewlet
+from alchemist.ui.core import DynamicFields, null_validator, handle_edit_action
+
 
 import bungeni.core.vocabulary as vocabulary
 import bungeni.core.domain as domain
@@ -36,19 +40,15 @@ from bungeni.core.interfaces import IGroupSitting, IParliamentSession, IMemberOf
 import bungeni.core.workflows.utils
 from bungeni.core.workflows.question import states as question_states
 import bungeni.core.globalsettings as prefs
+import bungeni.core.schema as db_schema
+from bungeni.core.interfaces import IVersioned 
 
 from bungeni.ui.datetimewidget import  SelectDateTimeWidget, SelectDateWidget
 from bungeni.ui import widget
-#from bungeni.ui.workflow import bindTransitions
-import base64
-
-import bungeni.core.schema as db_schema
-
-from ore.yuiwidget import calendar
 
 import validations
 
-from bungeni.core.interfaces import IVersioned 
+
 
 def createVersion(context, comment = ''):
     """Create a new version of an object and return it."""
@@ -1483,5 +1483,86 @@ class ResponseEdit ( CustomEditForm ):
     #form_fields["response_type"].custom_widget=widget.CustomRadioWidget
     CustomValidations =  validations.ResponseEdit
     template = ViewPageTemplateFile('templates/response-edit.pt')        
+
+
+class BungeniRSSEventView(BrowserView):   
+    __call__ = ViewPageTemplateFile('templates/rss-event-view.pt') 
+    form_name = None  
+
+
+    _sql_timeline = """
+            SELECT 'schedule' AS "atype",  "items_schedule"."item_id" AS "item_id", "items_schedule"."status" AS "title", "group_sittings"."start_date" AS "adate" 
+            FROM "public"."items_schedule" AS "items_schedule", "public"."group_sittings" AS "group_sittings" 
+            WHERE "items_schedule"."sitting_id" = "group_sittings"."sitting_id" 
+            AND "items_schedule"."active" = True
+            AND "items_schedule"."item_id" = %(item_id)s
+         UNION
+            SELECT 'event' AS "atype", "item_id", "title", "event_date" AS "adate" 
+            FROM "public"."event_items" AS "event_items"
+            WHERE "item_id" = %(item_id)s
+         UNION
+            SELECT "action" as "atype", "content_id" AS "item_id", "description" AS "title", "date" AS "adate" 
+            FROM "public"."bill_changes" AS "bill_changes" 
+            WHERE "action" = 'workflow'
+            AND "content_id" = %(item_id)s
+         ORDER BY adate DESC
+                """
+
+
+    # Required channel elements:
+    
+    def rssTitle( self ):
+        """
+        title	The name of the channel. 
+        It's how people refer to your service. 
+        If you have an HTML website that contains the same information as your RSS file, 
+        the title of your channel should be the same as the title of your website.
+        """ 
+        return self.context.title
+        
+    def rssDescription ( self ):
+        """
+        description       	Phrase or sentence describing the channel.
+        """
+        return self.context.summary
+        
+    def rssLink( self ):
+        """
+        link	The URL to the HTML website corresponding to the channel.
+        """
+        return absoluteURL( self.context, self.request )                    
+        
+    # items of a channel:
+    
+    def rssItems( self ):
+        """
+        Elements of <item> 
+        A channel may contain any number of <item>s. 
+        An item may represent a "story" -- much like a story in a newspaper or magazine; 
+        if so its description is a synopsis of the story, and the link points to the full story. 
+        An item may also be complete in itself, if so, the description contains the text (entity-encoded HTML is allowed; 
+        see examples), and the link and title may be omitted. 
+        All elements of an item are optional, 
+        however at least one of title or description must be present. 
+        
+        title	The title of the item.
+        link	The URL of the item.
+        description     	The item synopsis.
+        pubDate	Indicates when the item was published. 
+                
+        """
+        
+        session = Session()
+        bill_id = self.context.bill_id
+        connection = session.connection(domain.Bill)
+        results = connection.execute( self._sql_timeline % {'item_id' : bill_id} )       
+        path = absoluteURL( self.context, self.request ) 
+        rlist = []
+        for result in results:
+            rlist.append({'title': result.atype, 'description': result.title, 'date': result.adate.isoformat()})
+        return rlist           
+                
+
+
 
         

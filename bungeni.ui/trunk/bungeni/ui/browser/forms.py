@@ -1,7 +1,7 @@
-
 # encoding: utf-8
 
 #import pdb
+
 import datetime
 import base64
 
@@ -41,7 +41,7 @@ import bungeni.core.workflows.utils
 from bungeni.core.workflows.question import states as question_states
 import bungeni.core.globalsettings as prefs
 import bungeni.core.schema as db_schema
-from bungeni.core.interfaces import IVersioned 
+from bungeni.core.interfaces import IVersioned, IFileAttachments 
 
 from bungeni.ui.datetimewidget import  SelectDateTimeWidget, SelectDateWidget
 from bungeni.ui import widget
@@ -875,6 +875,11 @@ class QuestionAdd( CustomAddForm ):
         result = result and prefs.getQuestionSubmissionAllowed()
         return result
 
+#    def can_attach( self, action):
+#        result = form.haveInputWidgets( self, action)
+#        result = result and IFileAttachments.implementedBy( self.context )       
+#        return result  
+
     @form.action(_(u"Save"), condition=form.haveInputWidgets)
     def handle_add_save(self, action, data ):
         """
@@ -917,7 +922,11 @@ class QuestionAdd( CustomAddForm ):
         name = self.context.domain_model.__name__
         self._next_url = absoluteURL( ob, self.request ) + "/?portal_status_message=%s Added"%name    
             
-
+#    @form.action(_(u"Save and attach files"), condition=can_attach, validator='validateAdd')
+#    def handle_add_attach( self, action, data ):
+#        self.createAndAdd( data )
+#        name = self.context.domain_model.__name__
+#        self._next_url = absoluteURL( self.context, self.request ) + '/files?portal_status_message=%s Added'%name          
 
      
         
@@ -991,11 +1000,54 @@ class CustomEditForm ( EditFormViewlet ):
     CustomValidations = None
     template = NamedTemplate('alchemist.subform')       
     
+    def _can_edit(self):
+        """
+        check for edit permissions
+        """
+        #TODO
+        return True
+    
+    
+    def _can_delete( self ):
+        return hasDeletePermission(self.context)
+
+    def _can_attach( self ):
+        #result = form.haveInputWidgets( self, action)
+        result =  IFileAttachments.providedBy( self.context )    
+        return result      
+    
+    def _getDefaultActions(self):
+        actions = []
+        if self._can_edit():
+            action = form.Action(_(u'Save'), success='handle_edit_action')
+            action.form = self
+            actions.append(action)
+        if self._can_attach():
+            action = form.Action(_(u'Attach a file'), success='handle_save_attach')
+            action.form = self
+            actions.append(action)
+                            
+        #cancel is allways available... 
+        action = form.Action(_(u'Cancel'), success= 'handle_cancel_action')
+        action.form = self   
+        actions.append(action)
+
+        if self._can_delete():                  
+            action = form.Action(_(u'Delete'), success= 'handle_delete_action')
+            action.form = self
+            actions.append(action)   
+        return actions          
+     
+
+    def setupActions( self ):
+        self.actions = self._getDefaultActions()    
+          
           
     def update( self ):
         """
         adapt the custom fields to our object
         """
+        self.setupActions()  
         self.adapters = {self.Adapts  : self.context }    
         super( CustomEditForm, self).update()        
         set_widget_errors(self.widgets, self.errors)   
@@ -1014,12 +1066,9 @@ class CustomEditForm ( EditFormViewlet ):
     def invariantErrors( self ):        
         """ All invariant errors should be handled by the fields that raised them """
         return []    
+        
     
-    def can_delete( self, action):
-        return hasDeletePermission(self.context)
-    
-    
-    @form.action(_(u"delete"), condition=can_delete, validator=null_validator)
+    #form.action(_(u"delete"), condition=can_delete, validator=null_validator)
     def handle_delete_action( self, action, data):    
         """
         deletes the current content and takes you to the listing
@@ -1031,7 +1080,7 @@ class CustomEditForm ( EditFormViewlet ):
             url = absoluteURL( self.context.__parent__, self.request )  + '?portal_status_message=Object deleted'
             return self.request.response.redirect( url )
     
-    @form.action(_(u"Cancel"), condition=form.haveInputWidgets, validator=null_validator)
+    #form.action(_(u"Cancel"), condition=form.haveInputWidgets, validator=null_validator)
     def handle_cancel_action( self, action, data ):
         """ the cancel action will take us back to the display view"""
         #return handle_edit_action( self, action, data )                    
@@ -1040,7 +1089,7 @@ class CustomEditForm ( EditFormViewlet ):
         
                 
         
-    @form.action(_(u"Save"), condition=form.haveInputWidgets)
+    #form.action(_(u"Save"), condition=form.haveInputWidgets)
     def handle_edit_action( self, action, data ):
         """ Save action will take us: 
         If there were no errors to the display view
@@ -1051,7 +1100,17 @@ class CustomEditForm ( EditFormViewlet ):
             return result
         else:            
             url = absoluteURL( self.context, self.request )  
-            return self.request.response.redirect( url )                    
+            return self.request.response.redirect( url )        
+
+    #form.action(_(u"Save and attach files"), condition=can_attach )
+    def handle_save_attach( self, action, data ):        
+        result = handle_edit_action( self, action, data )                                 
+        if self.errors: 
+            return result
+        else:            
+            url = absoluteURL( self.context, self.request )   + '/files'
+            return self.request.response.redirect( url  )    
+                        
                       
 #################
 # return only current member

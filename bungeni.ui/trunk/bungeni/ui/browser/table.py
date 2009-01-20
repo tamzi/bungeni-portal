@@ -89,10 +89,11 @@ table_js_template ="""
         // Default ascending
         cDir = "asc";
         // If already sorted, sort in opposite direction     
-        //var key =   this.get("sortedBy").key;
-        //if(oColumn.key == this.get("sortedBy").key) {
-        //   cDir = (this.get("sortedBy").dir === YAHOO.widget.DataTable.CLASS_ASC || this.get("sortedBy").dir == "") ? "desc" : "asc";
-        //   };
+        var sorted_by =   this.get("sortedBy");
+        sorted_by = sorted_by || {key:null, dir:null};
+        if(oColumn.key == sorted_by.key) {
+           cDir = (sorted_by.dir === YAHOO.widget.DataTable.CLASS_ASC || sorted_by.dir == "") ? "desc" : "asc";
+           };
        
         if (sDir == YAHOO.widget.DataTable.CLASS_ASC) {
             cDir = "asc"

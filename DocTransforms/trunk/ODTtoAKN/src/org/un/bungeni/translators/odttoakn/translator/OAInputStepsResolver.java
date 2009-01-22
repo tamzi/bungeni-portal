@@ -9,6 +9,7 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.xpath.XPathExpressionException;
 
+import org.un.bungeni.translators.globalconfigurations.GlobalConfigurations;
 import org.un.bungeni.translators.odttoakn.configurations.OAConfiguration;
 import org.un.bungeni.translators.odttoakn.steps.OAXSLTStep;
 import org.un.bungeni.translators.utility.xslttransformer.XSLTTransformer;
@@ -47,7 +48,7 @@ public final class OAInputStepsResolver
 			OAXSLTStep nextStep = (OAXSLTStep)mapIterator.next();
 			
 			//get the href from the step 
-			String stepHref = nextStep.getHref();
+			String stepHref = GlobalConfigurations.getApplicationPathPrefix() + nextStep.getHref();
 			
 			//create a stream source by the href of the XSLT
 			StreamSource xsltStream = new StreamSource(new File(stepHref));

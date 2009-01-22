@@ -50,13 +50,13 @@ public class OAXSLProcBuilder
 		properties.loadFromXML(propertiesInputStream);
 		
 		//get the defaut values path
-		this.defaultValuesPath = properties.getProperty("defaultValuesPath");
+		this.defaultValuesPath = GlobalConfigurations.getApplicationPathPrefix() + properties.getProperty("defaultValuesPath");
 		
 		//get the empty mini XSLT path
-		this.emptyMiniXSLTPath = properties.getProperty("emptyMiniXSLTPath");
+		this.emptyMiniXSLTPath = GlobalConfigurations.getApplicationPathPrefix() + properties.getProperty("emptyMiniXSLTPath");
 
 		//get the empty pipeline path
-		this.emptyPipelinePath = properties.getProperty("emptyPipelinePath");
+		this.emptyPipelinePath = GlobalConfigurations.getApplicationPathPrefix() + properties.getProperty("emptyPipelinePath");
 	}
 	
 	/**

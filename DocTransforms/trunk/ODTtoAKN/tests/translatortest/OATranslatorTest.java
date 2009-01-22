@@ -32,7 +32,7 @@ public class OATranslatorTest
 	public void setUp() throws Exception 
 	{
 		//set the application path prefix
-		GlobalConfigurations.setApplicationPathPrefix("resources/");
+		GlobalConfigurations.setApplicationPathPrefix("/Users/lucacervone/Documents/AKNTranslatorData/resources/");
 
 		//get the instance of the translator
 		myTranslator = OATranslator.getInstance();
@@ -63,10 +63,10 @@ public class OATranslatorTest
 	public final void testTranslate() throws Exception 
 	{
 		//create the mini xslt for the transaltion of the bill
-		//OAXSLProcBuilder.newInstance().createXSLProc("resources/odttoakn/minixslt/bill/");
+		//OAXSLProcBuilder.newInstance().createXSLProc(GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/bill/");
 				
 		//perform a translation
-		File translation = myTranslator.translate("resources/ken_bill_2009_1_10_eng_main.odt", "resources/odttoakn/minixslt/bill/pipeline.xsl");
+		File translation = myTranslator.translate("resources/ken_bill_2009_1_10_eng_main.odt", GlobalConfigurations.getApplicationPathPrefix() + "odttoakn/minixslt/bill/pipeline.xsl");
 	
 		//input stream
 		FileInputStream fis  = new FileInputStream(translation);

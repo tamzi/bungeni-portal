@@ -57,13 +57,13 @@ public class OATranslator implements org.un.bungeni.translators.interfaces.Trans
 		properties.loadFromXML(propertiesInputStream);
 		
 		//get the metalex configuration path
-		this.metalexConfigPath = properties.getProperty("metalexConfigPath");
+		this.metalexConfigPath = GlobalConfigurations.getApplicationPathPrefix() + properties.getProperty("metalexConfigPath");
 
 		//get the path of the AKOMA NTOSO schema
-		this.akomantosoSchemaPath = properties.getProperty("akomantosoSchemaPath");
+		this.akomantosoSchemaPath = GlobalConfigurations.getApplicationPathPrefix() + properties.getProperty("akomantosoSchemaPath");
 		
 		//get the path of the XSLT that add the namespace to AKOMA NTOSO produced files
-		this.akomantosoAddNamespaceXSLTPath = properties.getProperty("akomantosoAddNamespaceXSLTPath");
+		this.akomantosoAddNamespaceXSLTPath = GlobalConfigurations.getApplicationPathPrefix() + properties.getProperty("akomantosoAddNamespaceXSLTPath");
 	}
 
 	/**

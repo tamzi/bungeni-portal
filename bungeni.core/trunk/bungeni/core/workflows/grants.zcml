@@ -35,5 +35,7 @@
   <grant permission="bungeni.bill.SelectCommittee" role="bungeni.Clerk" />
   <grant permission="bungeni.bill.ChangeStatus" role="bungeni.Speaker" />
   <grant permission="bungeni.bill.Withdraw" role="bungeni.Clerk" />  
+  <grant permission="bungeni.bill.Add" role="bungeni.Clerk" />
+  <grant permission="bungeni.bill.View" role="bungeni.Clerk" />
 
 </configure>

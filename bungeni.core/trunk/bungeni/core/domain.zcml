@@ -8,9 +8,9 @@
   
   <class class=".domain.Bill">
     <require permission="zope.Public" attributes="files"/>
-    <require permission="bungeni.bill.view"
+    <require permission="bungeni.bill.View"
              interface=".interfaces.IBill" />
-    <require permission="bungeni.bill.edit"
+    <require permission="bungeni.bill.Edit"
              set_schema=".interfaces.IBill" />    
   </class>
   

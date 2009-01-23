@@ -90,6 +90,12 @@ class IMotion( interface.Interface ):
     """ Parliamentary Motion
     """
 
+class IResponse( interface.Interface ):
+    """
+    response to a question
+    """
+
+
 class ITabledDocument( interface.Interface ):
     """
     tabled document

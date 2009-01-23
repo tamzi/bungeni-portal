@@ -344,7 +344,7 @@ class AgendaItem( Entity ):
 
 class Question( ParliamentaryItem ):
 
-    interface.implements( interfaces.IQuestion )
+    interface.implements( interfaces.IQuestion, interfaces.IFileAttachments )
     responses = one2many("responses", "bungeni.core.domain.ResponseContainer", "response_id")
     supplementaryquestions = one2many("supplementaryquestions", "bungeni.core.domain.QuestionContainer", "supplement_parent_id")
     @property
@@ -368,7 +368,7 @@ class Response( ParliamentaryItem ):
     """
     Response to a Question
     """
-    interface.implements( interfaces.IFileAttachments )
+    interface.implements( interfaces.IResponse, interfaces.IFileAttachments )
     files = files.DirectoryDescriptor()
     
 ResponseChange = ItemLog.makeLogFactory( "ResponseChange")

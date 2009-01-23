@@ -30,8 +30,8 @@
   <permission id="bungeni.bill.SelectCommittee" title="Assign a bill to a committee" />
   <permission id="bungeni.bill.ChangeStatus" title="Reject/Approve a bill" />
   <permission id="bungeni.bill.Withdraw" title="Withdraw a bill" />
-
-              
-  
+  <permission id="bungeni.bill.Edit" title="Edit bill" />
+  <permission id="bungeni.bill.Add" title="Create a bill" />
+  <permission id="bungeni.bill.View" title="View bill" />
   
 </configure>

@@ -23,7 +23,7 @@ class Versioned( container.PartialContainer ):
                 continue
             field.set( dest, value )
             
-    def create( self, message ):
+    def create( self, message, manual = False ):
         """
         store the existing state of the adapted context as a new version
         """
@@ -39,6 +39,8 @@ class Versioned( container.PartialContainer ):
         # manually inspect and look for one, by hand to save on the new version
         mapper = orm.object_mapper( trusted_ctx )
         version.content_id = mapper.primary_key_from_instance( trusted_ctx )[0]
+        
+        version.manual = manual
         
         # we rely on change handler to attach the change object to the version
         event.notify( interfaces.VersionCreated( self.__parent__, self, version, message  ) )
@@ -61,7 +63,7 @@ class Versioned( container.PartialContainer ):
         self._copyFields(  version, self.__parent__,
                            model.queryModelInterface( ctx_class ) )                  
         if has_wf_status:
-            trusted_ctx.status = wf_status                           
+            trusted_ctx.status = wf_status                                       
         msg = (_(u"reverted to previous version %s") %(version.version_id)) + u" - " + message        
         event.notify( interfaces.VersionReverted( self.__parent__, self, version, msg  ) )
         self.create( message=msg )

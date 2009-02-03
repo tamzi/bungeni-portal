@@ -3,6 +3,11 @@
    xmlns="http://namespaces.zope.org/zope"
    i18n_domain="bungeni">
    
+   
+   <!-- permissions for workflow are defined in bungeni.core.workflow 
+   roles
+   
+   
     <role id="bungeni.MP" title="Member of parliament" />
     <role id="bungeni.Owner" title="Owner" />
     <role id="bungeni.Minister" title="Minister" />
@@ -26,14 +31,17 @@
     <grant role="bungeni.Owner" principal="zope.Authenticated" />
     <grant role="bungeni.Minister" principal="zope.Authenticated" />
     <grant role="bungeni.Clerk" principal="zope.Authenticated" /-->
+    
+    
     <grant role="bungeni.Anonymous" principal="zope.anybody" />
     <grant role="bungeni.Everybody" principal="zope.Anybody" />
-    <grant role="bungeni.Everybody" principal="zope.Authenticated" />
+    <grant role="bungeni.Everybody" principal="zope.Authenticated" />        
     
-    <grant permission="bungeni.question.add" role="bungeni.MP" />
     <grant permission="zope.View" role="bungeni.MP" />
     <grant permission="zope.View" role="bungeni.Clerk" />
     <grant permission="zope.View" role="bungeni.Speaker" /> 
+    
+    <grant permission="bungeni.question.add" role="bungeni.MP" />    
     <grant permission="bungeni.question.edit" role="bungeni.Owner" />
     <grant permission="bungeni.question.delete" role="bungeni.Owner" />
     <grant permission="bungeni.question.view" role="bungeni.Owner" />

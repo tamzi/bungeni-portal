@@ -8,6 +8,9 @@
      title="Submit question" /-->
 
 
+    <!-- Permissions for workflow transitions are defined in:
+    bungeni.core.workflow grants/permissions -->
+
     <permission id="bungeni.question.add" title="Add Question" />
     <permission id="bungeni.question.edit" title="Edit Question" />
     <permission id="bungeni.question.delete" title="Delete Question" />

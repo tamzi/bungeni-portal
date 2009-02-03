@@ -5,7 +5,7 @@
    
    
    <!-- permissions for workflow are defined in bungeni.core.workflow 
-   roles
+   roles / permissions -->
    
    
     <role id="bungeni.MP" title="Member of parliament" />

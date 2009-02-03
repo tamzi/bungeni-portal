@@ -548,6 +548,21 @@ def create_question_workflow( ):
         permission = 'bungeni.question.Schedule',        
         ) )  
 
+    # questions can be forwarded to another ministry to be answered.
+    
+    add( workflow.Transition(
+        transition_id = 'forward-ministry',
+        title=_(u'Send to ministry'),
+        source = states.response_pending,
+        trigger = iworkflow.MANUAL,   
+        condition = utils.getQuestionMinistry,    
+        action = sendToMinistry,               
+        destination = states.response_pending,
+        permission = 'bungeni.question.write_answer',        
+        ) )  
+    
+
+
 
     add( workflow.Transition(
         transition_id = 'respond-writing',
@@ -796,6 +811,7 @@ workflow_transition_event_map = {
     (states.admissible, states.scheduled): interfaces.IQuestionScheduledEvent,
     (states.scheduled, states.postponed): interfaces.IQuestionPostponedEvent,
     (states.deferred, states.response_pending): interfaces.IQuestionSentToMinistryEvent,
+    (states.response_pending, states.response_pending): interfaces.IQuestionSentToMinistryEvent,
     (states.admissible, states.response_pending): interfaces.IQuestionSentToMinistryEvent,    
     (states.postponed, states.response_pending): interfaces.IQuestionSentToMinistryEvent, 
     (states.postponed, states.scheduled): interfaces.IQuestionScheduledEvent,       

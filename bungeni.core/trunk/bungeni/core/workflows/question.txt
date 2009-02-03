@@ -541,7 +541,15 @@ A written response to the question
   True
   
   >>> transitions(question_written_response)
-   ('elapse-pending', 'respond-writing')
+   ('elapse-pending', 'respond-writing', 'forward-ministry')
+   
+The question can be forwarded to another ministry.
+
+  >>> result = IWorkflowInfo(question_written_response).fireTransition('forward-ministry')  
+  
+  >>> transitions(question_written_response)
+   ('elapse-pending', 'respond-writing', 'forward-ministry')  
+   
 
 A question can elapse if no answer is given
 
@@ -582,7 +590,7 @@ A deferred question can be assigned to a ministry for a written response
   True
   
   >>> transitions(question_defer_response)
-  ('elapse-pending', 'respond-writing')
+  ('elapse-pending', 'respond-writing', 'forward-ministry')  
 
   >>> result = IWorkflowInfo(question_defer_response).fireTransition('respond-writing')  
   
@@ -686,6 +694,7 @@ Transition events check
   >>> print check_transition_events
   {(u'Question received by clerk', u'Question complete'): True, 
   (u'admissible Question', u'Question scheduled'): True, 
+  (u'Question pending response', u'Question pending response'): True, 
   (u'Question scheduled', u'Question postponed'): True, 
   (u'admissible Question', u'Question deferred'): True, 
   (u'Question complete', u'inadmissible Question'): True, 
@@ -697,6 +706,7 @@ Transition events check
   (u'Question submitted to clerk', u'Question received by clerk'): True, 
   (u'Question postponed', u'Question scheduled'): True, 
   (u'Question responded', u'Question answered'): True}
+
 
 
 

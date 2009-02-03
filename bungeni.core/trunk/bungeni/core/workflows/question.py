@@ -552,13 +552,13 @@ def create_question_workflow( ):
     
     add( workflow.Transition(
         transition_id = 'forward-ministry',
-        title=_(u'Send to ministry'),
+        title=_(u'Forward to another ministry'),
         source = states.response_pending,
         trigger = iworkflow.MANUAL,   
         condition = utils.getQuestionMinistry,    
         action = sendToMinistry,               
         destination = states.response_pending,
-        permission = 'bungeni.question.write_answer',        
+        permission = 'bungeni.question.Write_answer',        
         ) )  
     
 
@@ -571,7 +571,7 @@ def create_question_workflow( ):
         trigger = iworkflow.SYSTEM,   
         action = respondWriting,             
         destination = states.responded,
-        permission = 'bungeni.question.write_answer',        
+        permission = 'bungeni.question.Write_answer',        
         ) )         
     
     add( workflow.Transition(
@@ -581,7 +581,7 @@ def create_question_workflow( ):
         trigger = iworkflow.MANUAL,                
         action = elapse,
         destination = states.elapsed,
-        permission = 'bungeni.question.write_answer',        
+        permission = 'bungeni.question.Write_answer',        
         ) )            
     
     

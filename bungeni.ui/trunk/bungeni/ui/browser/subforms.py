@@ -461,8 +461,16 @@ class BillTimeLineViewlet( viewlet.ViewletBase ):
             FROM "public"."bill_changes" AS "bill_changes" 
             WHERE "action" = 'workflow'
             AND "content_id" = %(item_id)s
+         UNION
+            SELECT 'version' AS "atype", "bill_changes"."change_id" AS "item_id", 
+                "bill_changes"."description" AS "title", "bill_changes"."date" AS "adate" 
+            FROM "public"."bill_versions" AS "bill_versions", "public"."bill_changes" AS "bill_changes" 
+            WHERE "bill_versions"."change_id" = "bill_changes"."change_id" 
+            AND "bill_versions"."manual" = True           
+            AND "bill_changes"."content_id" = %(item_id)s            
          ORDER BY adate DESC
                 """
+                
     def __init__( self,  context, request, view, manager ):        
         self.context = context
         self.request = request

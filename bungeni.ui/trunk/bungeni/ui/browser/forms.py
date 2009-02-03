@@ -211,12 +211,7 @@ class BungeniAttributeDisplay( DynamicFields, DisplayFormViewlet ):
 #        self.wf_status = wf_state            
         
 
-        
-#############
-## ADD 
-
-##################
-
+       
 
 class BungeniAtomDisplay(BrowserView):   
     __call__ = ViewPageTemplateFile('templates/atom-content-view.pt') 
@@ -255,6 +250,10 @@ class BungeniAtomDisplay(BrowserView):
 class BungeniAtomDisplayMainViewlet( BungeniAttributeDisplay ): 
     template = ViewPageTemplateFile('templates/display_atom_form.pt')
    
+#############
+## ADD 
+
+##################
 
 
 #####################
@@ -271,14 +270,14 @@ class CustomAddForm( ContentAddForm ):
          self.status = self.request.get('portal_status_message','')
          form.AddForm.update( self )
          set_widget_errors(self.widgets, self.errors)
-         
+
 
     def finishConstruction( self, ob ):
         """
         adapt the custom fields to the object
         """
         self.adapters = { self.Adapts : ob }    
-         
+
              
     def validate(self, action, data):    
         """
@@ -1550,7 +1549,7 @@ class BungeniRSSEventView(BrowserView):
 
 
     _sql_timeline = """
-            SELECT 'schedule' AS "atype",  "items_schedule"."item_id" AS "item_id", "items_schedule"."status" AS "title", "group_sittings"."start_date" AS "adate" 
+         SELECT 'schedule' AS "atype",  "items_schedule"."item_id" AS "item_id", "items_schedule"."status" AS "title", "group_sittings"."start_date" AS "adate" 
             FROM "public"."items_schedule" AS "items_schedule", "public"."group_sittings" AS "group_sittings" 
             WHERE "items_schedule"."sitting_id" = "group_sittings"."sitting_id" 
             AND "items_schedule"."active" = True
@@ -1564,6 +1563,13 @@ class BungeniRSSEventView(BrowserView):
             FROM "public"."bill_changes" AS "bill_changes" 
             WHERE "action" = 'workflow'
             AND "content_id" = %(item_id)s
+         UNION
+            SELECT 'version' AS "atype", "bill_changes"."change_id" AS "item_id", 
+                "bill_changes"."description" AS "title", "bill_changes"."date" AS "adate" 
+            FROM "public"."bill_versions" AS "bill_versions", "public"."bill_changes" AS "bill_changes" 
+            WHERE "bill_versions"."change_id" = "bill_changes"."change_id" 
+            AND "bill_versions"."manual" = True           
+            AND "bill_changes"."content_id" = %(item_id)s   
          ORDER BY adate DESC
                 """
 

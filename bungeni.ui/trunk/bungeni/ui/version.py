@@ -39,7 +39,8 @@ class VersionLogViewlet(BaseForm , viewlet.ViewletBase ):
     
     columns = [
         column.SelectionColumn( lambda item: str(item.version_id), name="selection"),
-        column.GetterColumn( title=_(u"version"), getter=lambda i,f:i.version_id ),    
+        column.GetterColumn( title=_(u"version"), getter=lambda i,f:i.version_id ),  
+        column.GetterColumn( title=_(u"manual"), getter=lambda i,f:i.manual ),          
         column.GetterColumn( title=_(u"modified"), getter=lambda i,f: i.change.date ),
         column.GetterColumn( title=_(u"by"), getter=lambda i,f:i.change.user_id ),
         column.GetterColumn( title=_(u"message"), getter=lambda i,f:i.change.description ),
@@ -62,7 +63,7 @@ class VersionLogViewlet(BaseForm , viewlet.ViewletBase ):
             
     @form.action(label=_("New Version") )
     def handle_new_version( self, action, data ):
-        self._versions.create( message = data['commit_message'] )        
+        self._versions.create( message = data['commit_message'], manual=True )        
         self.status = _(u"New Version Created")
 
     #def validate_diff_version( self, ):

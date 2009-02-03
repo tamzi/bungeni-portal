@@ -1,7 +1,9 @@
 <?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/zope">
   <!-- Question Workflow permissions -->
-  <permission id="bungeni.question.Create" title="Create a question" />
+  <!-- Permissions that are not related to workflow transitions (add, edit, delete,...) 
+    are to be defined in bungeni.core.roles/permissions -->
+  <!--permission id="bungeni.question.Create" title="Create a question" /-->
   <permission id="bungeni.question.Submit" title="Submit a question" />
   <permission id="bungeni.question.Recieve" title="Recieve a question" />
   <permission id="bungeni.question.clerk.Review" title="Review a question" />
@@ -10,13 +12,13 @@
   <permission id="bungeni.question.Respond" title="Respond to a question" />
   <permission id="bungeni.question.Answer" title="Answer a question" />
   <permission id="bungeni.question.Withdraw" title="Withdraw a question" />
-  <permission id="bungeni.question.write_answer" title="Answer a question in writing" />
+  <permission id="bungeni.question.Write_answer" title="Answer a question in writing" />
   <!-- Response Workflow permissions -->
-  <permission id="bungeni.response.Create" title="Create a Respose" />
+  <!--permission id="bungeni.response.Create" title="Create a Respose" /-->
   <permission id="bungeni.response.Submit" title="Submit a Response" />
   <permission id="bungeni.response.Complete" title="Complete a Response" />    
   <!-- Motion Workflow permissions -->
-  <permission id="bungeni.motion.Create" title="Create a motion" />
+  <!--permission id="bungeni.motion.Create" title="Create a motion" /-->
   <permission id="bungeni.motion.Submit" title="Submit a motion" />
   <permission id="bungeni.motion.Recieve" title="Recieve a motion" />
   <permission id="bungeni.motion.clerk.Review" title="Review a motion" />
@@ -25,14 +27,14 @@
   <permission id="bungeni.motion.Debate" title="Mark a motion as debated" />
   <permission id="bungeni.motion.Withdraw" title="Withdraw a motion" />
   <!-- Bill Workflow permissions -->
-  <permission id="bungeni.bill.Create" title="Create a bill" />  
+  <!--permission id="bungeni.bill.Create" title="Create a bill" /-->  
   <permission id="bungeni.bill.Submit" title="Submit a bill" />
   <permission id="bungeni.bill.Schedule" title="Schedule a bill" />
   <permission id="bungeni.bill.SelectCommittee" title="Assign a bill to a committee" />
   <permission id="bungeni.bill.ChangeStatus" title="Reject/Approve a bill" />
   <permission id="bungeni.bill.Withdraw" title="Withdraw a bill" />
-  <permission id="bungeni.bill.Edit" title="Edit bill" />
+  <!--permission id="bungeni.bill.Edit" title="Edit bill" />
   <permission id="bungeni.bill.Add" title="Create a bill" />
-  <permission id="bungeni.bill.View" title="View bill" />
+  <permission id="bungeni.bill.View" title="View bill" /-->
   
 </configure>

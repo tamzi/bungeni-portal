@@ -11,12 +11,13 @@
              />
 
   <!-- Replace the following directive if you don't want public access -->
+  <!--
   <grant permission="zope.View"
          principal="zope.anybody" />         
 
   <grant permission="zope.View"
          role="zope.Member" />         
-
+  -->
   <!-- authenticated users are members -->
   
   <grant role="zope.Member"

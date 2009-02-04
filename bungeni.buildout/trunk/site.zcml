@@ -2,6 +2,11 @@
            xmlns:browser="http://namespaces.zope.org/browser"
            i18n_domain="bungeni">
 
+  <include package="repoze.whooze" file="integration.zcml" />
+  <includeOverrides package="repoze.whooze" file="overrides.zcml" />
+  <include package="zope.app.security" />
+  
+
   <!-- Exclude ZCML Directives -->
   <include package="zc.configuration" file="meta.zcml" />
   
@@ -30,7 +35,6 @@
   <include package="ore.alchemist" file="meta.zcml" />
   <include package="ore.alchemist"/>  
   <include package="alchemist.catalyst" file="meta.zcml" />
-  <include package="alchemist.ui" />
 
   <!-- configure menu subsystem -->
   <include package="z3c.template" file="meta.zcml"/>  
@@ -38,7 +42,9 @@
   <include package="z3c.menu.ready2go" />
 
   <!-- include cookie authentication -->
+  <!-- 
   <include package="wc.cookiecredentials"/>
+  -->
   
   <!-- default indexing setup -->
   <include package="ore.xapian" />
@@ -75,6 +81,9 @@
 
   <!-- Application UI -->
   <include package="bungeni.ui" />
+
+  <!-- Alchemist UI -->
+  <include package="alchemist.ui" />
 
   <!-- Application Theme -->
   <include package="bungeni.theme.private" />

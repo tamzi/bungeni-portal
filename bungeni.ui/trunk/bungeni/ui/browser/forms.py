@@ -48,7 +48,9 @@ from bungeni.ui import widget
 
 import validations
 
-
+FormTemplate = namedtemplate.NamedTemplateImplementation(
+    ViewPageTemplateFile('templates/form.pt')
+    )
 
 def createVersion(context, comment = ''):
     """Create a new version of an object and return it."""

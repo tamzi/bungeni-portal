@@ -10,9 +10,8 @@
 <metal:block define-macro="form"
              i18n:domain="alchemist">
              
-         
   <form action="."
-        tal:attributes="action request/URL" 
+        tal:attributes="action view/action_url|request/URL" 
 	method="post"
 	enctype="multipart/form-data">
 
@@ -30,6 +29,10 @@
                 The status message.                                                                                                                 
             </dd>                                                                                                                                   
         </dl>        
+        
+        <input type="hidden" name="came_from"
+               tal:condition="view/came_from|nothing"
+               tal:attributes="value view/came_from" />
         
     <div class="invariant-errors" tal:condition="view/invariantErrors|nothing">
         <ul>

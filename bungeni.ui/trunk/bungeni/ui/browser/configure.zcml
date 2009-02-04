@@ -1,10 +1,7 @@
 <?xml version="1.0"?>
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser" >
-           
-    
-    
-    
+
   <!-- Expose form for use as macro -->
   <browser:page
     for="*"

@@ -27,7 +27,7 @@ GRANT = 1
 DENY  = 0
 
 def load( uri ):
-    print uri
+    #print uri
     doc = parse( uri )
     
     return _load( doc.workflow )
@@ -74,13 +74,13 @@ def _load( workflow ):
             kw['trigger'] = v
 
         # optional python resolvables
-        for i in('condition', 'action'):
+        for i in('condition', 'action', 'event'):
             val = getattr( t,i,None)
             if not val:
                 continue
-            val = resolve( val, 'bungeni.core.workflows' ) # raises importerror/nameerror
+            val = resolve( val , 'bungeni.core.workflows' ) # raises importerror/nameerror
             kw[i] = val
-            
+            print val
         transitions.append( Transition( *args, **kw ) )
 
     return StateWorkflow( transitions, states )
@@ -136,8 +136,7 @@ class StateWorkflowInfo( WorkflowInfo ):
 
 if __name__ == '__main__':
     import sys
-    workflow = load( sys.argv[1] )
-
+    workflow = load( sys.argv[1] )    
     try:
         print "Transitions"
         for t in workflow._id_transitions.values():

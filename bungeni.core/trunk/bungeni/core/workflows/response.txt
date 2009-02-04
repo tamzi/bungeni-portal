@@ -94,11 +94,15 @@ some setup for tests
    
 Setting up Database Connection and Utilities:
 
-   >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
+   >>> db = create_engine(u'postgres://localhost/bungeni-test', echo=False)
    >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
    >>> model.metadata.bind = db   
-   >>> model.metadata.create_all() 
-   >>> session = Session()
+   >>> model.metadata.create_all()    
+   >>> from alchemist.security.schema import metadata  
+   >>> metadata.bind = db
+   >>> metadata.create_all()  
+   >>> session = Session()   
+
      
 Transition events
 -----------------
@@ -169,12 +173,12 @@ Responses
 First we initialize the workflow.
   
   >>> transitions(response)
-  ('create',)
+  (u'create',)
 
   >>> permission(response)
   (Global(CheckerPublic,zope.security.checker),)
 
-  >>> IWorkflowInfo(response).fireTransition('create')
+  >>> IWorkflowInfo(response).fireTransition(u'create')
 
   >>> session.flush()
 
@@ -182,33 +186,33 @@ The response is now in a draft state.
 
 
   >>> transitions(response)
-   ('submit',)
+   (u'submit',)
     
 submit the response to the clerks office:
     
   >>> permission(response)
-  ('bungeni.response.Submit',)
+  (u'bungeni.response.Submit',)
 
   >>> session.flush()
 
   
 The ministry sends the answer to the clerks office
 
-  >>> IWorkflowInfo(response).fireTransition('submit')
+  >>> IWorkflowInfo(response).fireTransition(u'submit')
   
   >>> transitions(response)
-   ('complete',)
+   (u'complete',)
 
   >>> session.flush()
 
 submitting the response triggers a workflow transition of the question
 
   >>> transitions(question)
-  ('answer',)
+  (u'answer',)
 
 The response is reviewed by the clerk and published
 
-  >>> IWorkflowInfo(response).fireTransition('complete')
+  >>> IWorkflowInfo(response).fireTransition(u'complete')
   
   >>> transitions(response)
   ()

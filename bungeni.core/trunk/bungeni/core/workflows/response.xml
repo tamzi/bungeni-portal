@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<workflow
+   id="response-workflow"
+   title="Response Workflow"
+   description="Response to a question"
+   initial_state="">
+
+  <state id="draft" title="a draft response">
+    <grant permission="bungeni.response.edit" role="bungeni.Owner" />
+  </state>
+
+  <state id="submitted" title="response submitted">
+    <grant permission="bungeni.response.edit" role="bungeni.Clerk"/>
+    <grant permission="bungeni.response.view" role="bungeni.Clerk"/>    
+    <deny permission="bungeni.response.edit" role="bungeni.Owner"/>
+    <deny permission="bungeni.response.delete" role="bungeni.Owner" />
+  </state>
+
+  <state id="complete" title="response completed">
+    <deny permission="bungeni.response.edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.response.view" role="bungeni.Everybody" />
+  </state>
+
+  <transition 
+     id="create"
+     title="Create"
+     trigger="automatic"
+     source=""
+     destination="draft"
+     action="bungeni.core.workflows.responseactions.create"
+     event=""
+     />
+
+  <transition 
+     id="submit"
+     title="Submit Response"
+     trigger="manual"
+     source="draft"
+     destination="submitted"
+     permission="bungeni.response.Submit" 
+     action="bungeni.core.workflows.responseactions.submit"
+     event="bungeni.core.workflows.interfaces.IResponseSubmittedEvent"
+     />
+
+  <transition 
+     id="complete"
+     title="Complete Response"
+     trigger="manual"
+     source="submitted"
+     destination="complete"
+     permission="bungeni.response.Complete" 
+     action="bungeni.core.workflows.responseactions.complete"
+     event="bungeni.core.workflows.interfaces.IResponseCompletedEvent"     
+     />
+     
+   
+
+</workflow>
+
+
+   
+   
+       
+       

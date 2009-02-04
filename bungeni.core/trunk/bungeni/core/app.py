@@ -6,10 +6,7 @@ import os
 from os import path
 
 from zope import interface
-from zope.app.security.interfaces import IAuthentication
 
-
-#from from zope.app.authentication import PluggableAuthentication
 from zope.app.component import site
 from zope.app.container.sample import SampleContainer
 
@@ -17,7 +14,6 @@ from ore.wsgiapp.app import Application
 from ore.svn import repos
 from ore.library.library import Library
 
-from auth import PluggableAuthentication
 import domain
 
 import interfaces
@@ -34,7 +30,6 @@ def setUpSubscriber( object, event ):
     initializer = interfaces.IBungeniSetup( object )
     initializer.setUp()
 
-    
 class AppSetup( object ):
 
     interface.implements( interfaces.IBungeniSetup )
@@ -54,15 +49,6 @@ class AppSetup( object ):
         
         sm = site.LocalSiteManager( self.context )
         self.context.setSiteManager( sm )
-
-        # setup authentication plugin
-        auth = PluggableAuthentication()
-        auth.credentialsPlugins = ('Cookie Credentials',)
-        auth.authenticatorPlugins = ('rdb-auth', 'global-auth')
-        sm.registerUtility( auth, IAuthentication )
-
-        # setup app structure
-        # 
 
         # domain objects
         #governments = domain.GovernmentContainer()

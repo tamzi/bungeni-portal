@@ -3,6 +3,10 @@
            xmlns:browser="http://namespaces.zope.org/browser"           
            i18n_domain="bungeni">
 
+  <!-- Alchemist UI overrides -->
+  <include package="alchemist.ui" />
+  <includeOverrides package=".browser" file="overrides.zcml" />
+  
   <!-- Site Menus Definition -->
   <include file="menu.zcml"/>
 

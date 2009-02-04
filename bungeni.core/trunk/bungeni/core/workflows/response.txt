@@ -222,6 +222,14 @@ reviewing the response triggers a workflow transition of the question
   >>> transitions(question)
   ()
 
+Transition events check
+-----------------------
+
+  >>> print check_transition_events
+   {(u'draft', u'submitted'): True, 
+   (u'submitted', u'complete'): True}
+
+
 cleanup
 -------
   >>> session.flush()

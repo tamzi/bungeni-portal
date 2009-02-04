@@ -17,17 +17,27 @@ from bungeni.core.workflow import load
 
 
 
-class states:
-    draft = _(u"draft response") # a draft response of a Ministry
-    submitted = _(u"response submitted") # response submitted to clerks office for review
-    complete = _(u"response complete") # response reviewed by clerks office
-    
 
     
-workflow_transition_event_map = {    
-    (states.draft, states.submitted): interfaces.IResponseSubmittedEvent,
-    (states.submitted, states.complete): interfaces.IResponseCompletedEvent,
-    }
+
+# the xml definition must ! be in the same directory  
+
+path = os.path.split(os.path.abspath( __file__ ))[0] +  os.path.sep      
+try:
+    wf = load(path + 'response.xml') 
+except:
+    wf = load('response.xml') 
+
+    
+workflow_transition_event_map = {}
+for t in wf._id_transitions.values():
+    if t.event:
+        workflow_transition_event_map[(t.source, t.destination)] = t.event
+
+    #{    
+    #(states.draft, states.submitted): interfaces.IResponseSubmittedEvent,
+    #(states.submitted, states.complete): interfaces.IResponseCompletedEvent,
+    #}
 
 @component.adapter(iworkflow.IWorkflowTransitionEvent)
 def workflowTransitionEventDispatcher(event):
@@ -40,15 +50,7 @@ def workflowTransitionEventDispatcher(event):
         interface.alsoProvides(transition_event, iface)
         notify(transition_event)
 
-
-  
-# the xml definition must ! be in the same directory  
-
-path = os.path.split(os.path.abspath( __file__ ))[0] +  os.path.sep      
-try:
-    ResponseWorkflowAdapter = workflow.AdaptedWorkflow( load(path + 'response.xml') )
-except:
-    ResponseWorkflowAdapter = workflow.AdaptedWorkflow( load('response.xml') )
+ResponseWorkflowAdapter = workflow.AdaptedWorkflow(wf)
 
 if __name__ == '__main__':
     #wf = ResponseWorkflow()

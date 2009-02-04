@@ -28,7 +28,6 @@
      source=""
      destination="draft"
      action="bungeni.core.workflows.responseactions.create"
-     event=""
      />
 
   <transition 

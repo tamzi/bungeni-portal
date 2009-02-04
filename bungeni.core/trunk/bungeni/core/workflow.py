@@ -12,7 +12,7 @@ import bungeni.core
 from zope.dottedname.resolve import resolve
 import zope.securitypolicy.interfaces
 
-from ore.workflow.workflow import Workflow, WorkflowInfo, Transition
+from ore.workflow.workflow import Workflow, WorkflowInfo, Transition, NullCondition, NullAction, MANUAL, CheckerPublic
 from ore.workflow import interfaces
 from zope.i18nmessageid import Message
 
@@ -80,8 +80,7 @@ def _load( workflow ):
                 continue
             val = resolve( val , 'bungeni.core.workflows' ) # raises importerror/nameerror
             kw[i] = val
-            print val
-        transitions.append( Transition( *args, **kw ) )
+        transitions.append( StateTransition( *args, **kw ) )
 
     return StateWorkflow( transitions, states )
 
@@ -100,6 +99,24 @@ class State( object ):
                rpm.grantPermissionToRole( permission, role )
             if action == DENY:
                rpm.denyPermissionToRole( permission, role ) 
+
+class StateTransition( Transition ):
+    def __init__(self, transition_id, title, source, destination,
+                 condition=NullCondition,
+                 action=NullAction,
+                 trigger=MANUAL,
+                 permission=CheckerPublic,
+                 order=0,
+                 event=None,
+                 **user_data):    
+            super( StateTransition, self).__init__( transition_id, title, source, destination,
+                    condition,
+                    action,
+                    trigger,
+                    permission,
+                    order=0,
+                    **user_data)   
+            self.event = event                 
 
 class StateWorkflow( Workflow ):
 
@@ -140,7 +157,7 @@ if __name__ == '__main__':
     try:
         print "Transitions"
         for t in workflow._id_transitions.values():
-            print  t.transition_id, "|", t.source, "->", t.destination, t.permission, t.condition
+            print  t.transition_id, "|", t.source, "->", t.destination, t.permission, t.condition, t.event
 
         print
         print "States"

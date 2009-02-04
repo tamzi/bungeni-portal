@@ -20,7 +20,7 @@ from bungeni.core import User, vocabulary
 class ILoginForm( interface.Interface ):
     login = schema.TextLine( title=_(u"Username"))
     password = schema.Password( title=_(u"Password"))    
-
+    
 class NotAnEmailAddress(schema.ValidationError):
     """This is not a valid email address"""
 
@@ -85,28 +85,26 @@ class SignUp( BaseForm ):
 
         
 class Login( BaseForm ):
-
     form_fields = form.Fields( ILoginForm )
     prefix = ""
     form_name = _(u"Login")
     
-    def update( self ):
-        self.status = self.request.get('status_message', '')
-        super( Login, self).update()
+    @property
+    def came_from(self):
+        site_url = absoluteURL(getSite(), self.request)
+        return '%s/workspace' % site_url
         
     @form.action( _(u"Login") )
-    def handle_login( self, action, data ):
+    def handle_login(self, action, data):
         if IUnauthenticatedPrincipal.providedBy(self.request.principal):
-            self.status=_(u"Invalid Account Credentials")
+            self.status = _(u"Invalid account credentials")
         else:
             site_url = absoluteURL(getSite(), self.request)
             camefrom = self.request.get('camefrom', site_url+'/workspace')
             self.status = _("You are now logged in")
-            self.request.response.redirect( camefrom )
-            
+            self.request.response.redirect( camefrom )            
 
 class Logout( BrowserView ):
-
     def __call__( self ):
         self.request.response.expireCookie( "wc.cookiecredentials" )
         site_url = absoluteURL( getSite(), self.request )

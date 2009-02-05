@@ -2,14 +2,16 @@
 <ruleset>
   <theme href="/static/themes/layout.html" />
 
-  <rule>
-    <drop content="children:head" />
-  </rule>
+  <!-- head section -->
   
   <rule>
-    <!-- replace the title -->
     <replace content="children:title" theme="children:h1" />
-    
+    <drop content="children:head" />
   </rule>
+
+  <rule>
+    <append content="img" theme="body" />
+  </rule>
+  
   
 </ruleset>

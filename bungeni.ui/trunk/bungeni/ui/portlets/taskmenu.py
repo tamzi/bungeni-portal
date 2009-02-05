@@ -30,25 +30,3 @@ class MpsTaskMenuViewlet( viewlet.ViewletBase ):
 class SpeakersTaskMenuViewlet( viewlet.ViewletBase ):  
     render = ViewPageTemplateFile("templates/speakers-task-menu.pt")        
     
-    
-class InteractMenuViewlet( viewlet.ViewletBase ):  
-    render = ViewPageTemplateFile("templates/interact-menu.pt")       
-    
-    def getRootUrl(self):
-        m_url = prefs.getPloneMenuUrl()
-        r_url = '/'.join(m_url.split('/')[:-1])   
-        try: 
-            r_url = r_url + '/Members/' + self.user_name 
-        except:
-            r_url = r_url + '/Members/'
-        return r_url
-        
-    def update( self ):
-        """
-        prepare the data needed to render the viewlet.        
-        """
-        try:
-            self.user_name = self.request.principal.login          
-        except:
-            pass
-            

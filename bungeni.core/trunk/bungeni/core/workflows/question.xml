@@ -92,7 +92,7 @@
      permission="bungeni.question.Submit"
      action="bungeni.core.workflows.question.submitToClerk"
      condition=""
-     event=""
+     event=".interfaces.IQuestionSubmittedEvent"
      />
   <transition 
      id="received-by-clerk"
@@ -103,7 +103,7 @@
      permission="bungeni.question.Recieve"
      action="bungeni.core.workflows.question.recievedByClerk"
      condition=""
-     event=""
+     event=".interfaces.IQuestionReceivedEvent"
      />
      
     <!--If a question is flagged by the Clerk /' Speakers office as 
@@ -121,7 +121,7 @@
      permission="bungeni.question.clerk.Review"
      action="bungeni.core.workflows.question.requireEditByMp"
      condition=""
-     event=""
+     event=".interfaces.IQuestionClarifyEvent"
      />
      
   <!--After the Clerk's Office is through with the Notices reviews and there are satisfied 
@@ -142,7 +142,7 @@
      permission="bungeni.question.clerk.Review"
      action="bungeni.core.workflows.question.complete"
      condition=""
-     event=""
+     event=".interfaces.IQuestionCompleteEvent"
      />
   <!--the Speaker's office may decide that a proposed Question is “admissible”, “inadmissible” 
     or “requires amendment”.
@@ -173,7 +173,7 @@
      permission="bungeni.question.speaker.Review"
      action="bungeni.core.workflows.question.reject"
      condition=""
-     event=""
+     event=".interfaces.IQuestionRejectedEvent"
      />
   <transition 
      id="require-amendment"
@@ -251,7 +251,7 @@
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.schedule"
      condition=".utils.getQuestionSchedule"
-     event=""
+     event=".interfaces.IQuestionScheduledEvent"
      />
      
   <!--
@@ -268,7 +268,7 @@
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.sendToMinistry"
      condition=".utils.getQuestionMinistry"
-     event=""
+     event=".interfaces.IQuestionSentToMinistryEvent"
      />
      
   <!--
@@ -284,7 +284,7 @@
      permission="bungeni.question.Write_answer"
      action="bungeni.core.workflows.question.sendToMinistry"
      condition=".utils.getQuestionMinistry"
-     event=""
+     event=".interfaces.IQuestionSentToMinistryEvent"
      />
 
   <!-- Submission of an response triggers this -->     
@@ -328,7 +328,7 @@
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.defer"
      condition=""
-     event=""
+     event=".interfaces.IQuestionDeferredEvent"
      />
   <transition 
      id="elapse-defered"
@@ -355,7 +355,7 @@
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.sendToMinistry"
      condition=".utils.getQuestionMinistry"
-     event=""
+     event=".interfaces.IQuestionSentToMinistryEvent"
      />
 
   <!--
@@ -387,7 +387,7 @@
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.postpone"
      condition=""
-     event=""
+     event=".interfaces.IQuestionPostponedEvent"
      />          
   <transition 
      id="respond-sitting"
@@ -414,7 +414,7 @@
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.schedule"
      condition=".utils.getQuestionSchedule"
-     event=""
+     event=".interfaces.IQuestionScheduledEvent"
      />
      
   <!--
@@ -446,7 +446,7 @@
      permission="bungeni.question.Schedule"
      action="bungeni.core.workflows.question.sendToMinistry"
      condition=".utils.getQuestionMinistry"
-     event=""
+     event=".interfaces.IQuestionSentToMinistryEvent"
      />
  
   <!--
@@ -463,7 +463,7 @@
      permission="bungeni.question.Answer"
      action="bungeni.core.workflows.question.answer"
      condition=""
-     event=""
+     event=".interfaces.IQuestionAnsweredEvent"
      />
   <!--
     the MP can withdraw his question at (almost) any stage

@@ -19,6 +19,8 @@ import bungeni.core.workflows.utils as utils
 
 from bungeni.core.i18n import _
 
+from bungeni.core.workflow import load
+
 
 class states:
     draft = _(u"draft question") # a draft question of a MP
@@ -837,7 +839,8 @@ class QuestionWorkflow( workflow.Workflow ):
 QuestionWorkflowAdapter = workflow.AdaptedWorkflow( QuestionWorkflow() )
 
 if __name__ == '__main__':
-    wf = QuestionWorkflow()
+    #wf = QuestionWorkflow()
+    wf = load('question.xml')
     print wf.dot()
 
 

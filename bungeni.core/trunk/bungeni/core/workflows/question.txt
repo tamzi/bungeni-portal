@@ -273,27 +273,12 @@ First we initialize the workflow.
 The question is now in a draft state.
 
   >>> transitions(question)
-   ('make-private', 'submit-to-clerk')
+   ('submit-to-clerk',)
     
   >>> permission(question)
-  ('bungeni.question.Submit', 'bungeni.question.Submit')
+  ('bungeni.question.Submit',)
 
-The Question can be made a private draft
 
- 
-  >>> rpm.grantPermissionToRole( u'bungeni.question.Submit', Bob.id )
-  
-  >>> result = IWorkflowInfo(question).fireTransition('make-private')
-    
-  >>> transitions(question)
-  ('re-draft',)  
-
-and can be put into draft state at a later time
-
-  >>> result = IWorkflowInfo(question).fireTransition('re-draft')
-  
-  >>> transitions(question)
-   ('make-private', 'submit-to-clerk')
 
 the question does not yet have a submitted date
    >>> question.submission_date 

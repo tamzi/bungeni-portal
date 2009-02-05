@@ -22,7 +22,7 @@ from bungeni.core.i18n import _
 
 class states:
     draft = _(u"draft question") # a draft question of a MP
-    private = _("private question") # private draft of a MP
+    #private = _("private question") # private draft of a MP
     submitted = _(u"Question submitted to clerk") # submitted from MP to clerks office
     received = _(u"Question received by clerk") # recieved by clerks office
     complete = _(u"Question complete") # reviewed by clers office sent to speakers office
@@ -351,25 +351,25 @@ def create_question_workflow( ):
         #permission = "bungeni.question.Create",
         ) )
 
-    add( workflow.Transition(
-        transition_id = 'make-private',
-        title=_(u'Make private'),
-        source = states.draft,
-        trigger = iworkflow.MANUAL,  
-        action = makePrivate,      
-        destination = states.private,
-        permission = 'bungeni.question.Submit',
-        ) )    
+#    add( workflow.Transition(
+#        transition_id = 'make-private',
+#        title=_(u'Make private'),
+#        source = states.draft,
+#        trigger = iworkflow.MANUAL,  
+#        action = makePrivate,      
+#        destination = states.private,
+#        permission = 'bungeni.question.Submit',
+#        ) )    
 
-    add( workflow.Transition(
-        transition_id = 're-draft',
-        title=_(u'Re draft'),
-        source = states.private,
-        trigger = iworkflow.MANUAL,        
-        action=reDraft,
-        destination = states.draft,
-        permission = 'bungeni.question.Submit',
-        ) )    
+#    add( workflow.Transition(
+#        transition_id = 're-draft',
+#        title=_(u'Re draft'),
+#        source = states.private,
+#        trigger = iworkflow.MANUAL,        
+#        action=reDraft,
+#        destination = states.draft,
+#        permission = 'bungeni.question.Submit',
+#        ) )    
 
 
     add( workflow.Transition(

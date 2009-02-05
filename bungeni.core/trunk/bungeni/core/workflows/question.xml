@@ -1,0 +1,466 @@
+<?xml version="1.0"?>
+<workflow
+   id="question-workflow"
+   title="Question Workflow"
+   description="A question"
+   initial_state="">
+
+  <state id="draft" title="draft question">
+    <grant permission="bungeni.question.edit" role="bungeni.Owner" />
+    <grant permission="bungeni.question.view" role="bungeni.Owner" />    
+    <grant permission="bungeni.question.delete" role="bungeni.Owner" />    
+  </state>
+
+  <state id="submitted" title="Question submitted to clerk">
+    <deny permission="bungeni.question.edit" role="bungeni.Owner" />
+    <grant permission="bungeni.question.view" role="bungeni.Clerk" />    
+    <deny permission="bungeni.question.delete" role="bungeni.Owner" />     
+  </state>
+
+  <state id="received" title="Question received by clerk">
+    <grant permission="bungeni.question.edit" role="bungeni.Clerk" />
+  </state>
+
+  <state id="complete" title="Question complete">
+    <deny permission="bungeni.question.edit" role="bungeni.Clerk" />  
+    <grant permission="bungeni.question.edit" role="bungeni.Speaker" />
+  </state>
+
+  <state id="admissible" title="admissible Question">
+    <grant permission="bungeni.question.view" role="bungeni.Everybody" />      
+  </state>
+
+  <state id="inadmissible" title="inadmissible Question">
+    <grant permission="bungeni.question.view" role="bungeni.Everybody" />      
+  </state>
+
+  <state id="clarify_mp" title="Question needs MP clarification">
+    <deny permission="bungeni.question.edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.question.edit" role="bungeni.Owner" />  
+  </state>
+
+  <state id="clarify_clerk" title="Question needs Clerks clarification">
+    <deny permission="bungeni.question.edit" role="bungeni.Speaker" />
+    <grant permission="bungeni.question.edit" role="bungeni.Clerk" />      
+  </state>
+
+  <state id="scheduled" title="Question scheduled">
+    <deny permission="bungeni.question.edit" role="bungeni.Speaker" />  
+  </state>
+
+  <state id="response_pending" title="Question pending response">
+    <deny permission="bungeni.question.edit" role="bungeni.Speaker" />    
+  </state>
+
+  <state id="deferred" title="Question deferred">
+  </state>
+
+  <state id="postponed" title="Question postponed">
+  </state>
+
+  <state id="elapsed" title="Question elapsed">
+  </state>
+
+  <state id="responded" title="Question responded">
+  </state>
+
+  <state id="answered" title="Question answered">
+  </state>
+
+  <state id="withdrawn" title="Question withdrawn">
+    <deny permission="bungeni.question.edit" role="bungeni.Speaker" />  
+    <deny permission="bungeni.question.edit" role="bungeni.Clerk" />  
+    <deny permission="bungeni.question.edit" role="bungeni.Owner" />            
+  </state>
+
+  <transition 
+     id="create"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+
+  <transition 
+     id="submit-to-clerk"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+  <transition 
+     id="received-by-clerk"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+     
+    <!--If a question is flagged by the Clerk /' Speakers office as 
+    "requiring editing by the MP" (e.g. missing data etc.) the system sends 
+    a notification to the MP to access the question and review it according 
+    to Speaker/Clerk's  office remarks. 
+    A new version of the question will be created, once the question is modified and saved.
+    -->     
+  <transition 
+     id="require-edit-by-mp"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+     
+  <!--After the Clerk's Office is through with the Notices reviews and there are satisfied 
+    that the Questions have all the formal requirements – the question is marked as “complete” 
+    and is made available / forwarded to the Speaker's Office for reviewing and to make it 
+    “admissible”. At the same time the question is also forwarded to the ministry. 
+    While the ministry can preview the question the ministry cannot respond until 
+    the state of the question has been set to “admissible” by the Speaker's office 
+    (for details about questions being set to “admissible” see Approval of Questions )
+  -->    
+     
+  <transition 
+     id="complete"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+  <!--the Speaker's office may decide that a proposed Question is “admissible”, “inadmissible” 
+    or “requires amendment”.
+    
+    An inadmissible Question is rejected and the Member who proposed the Question 
+    will be notified accordingly via their workspace and optionally by email.
+    Question that require amendments may be modified and re-submitted
+    Questions marked as “admissible” are then made available for Scheduling   
+  -->
+     
+  <transition 
+     id="approve"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+  <transition 
+     id="reject"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+  <transition 
+     id="require-amendment"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+     
+  <!--
+    a question that requires clarification/amendmends
+    can be resubmitted by the clerks office
+  -->        
+  
+  <transition 
+     id="complete-clarify"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+  <!--
+     or send to the mp for clarification
+  -->           
+     
+  <transition 
+     id="mp-clarify"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+
+  <!--
+     after a question is amended it can be resubmitted to the clerks office
+  -->           
+     
+  <transition 
+     id="resubmit-clerk"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+     
+  <!--
+    Among the “admissible” questions the Speaker or the Clerk's office will 
+    select questions for scheduling for a specific sitting
+    Questions when “admissible” are made available for “scheduling”
+    Questions with the “require a Written response” flag do not appear as questions available for scheduling.
+  -->    
+     
+  <transition 
+     id="schedule"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+     
+  <!--
+     questions which are flagged as “requiring written response” are never scheduled,
+     but are answered directly by the ministry 
+  -->    
+     
+  <transition 
+     id="send-ministry"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+     
+  <!--
+     questions can be forwarded to another ministry to be answered.
+  -->      
+     
+  <transition 
+     id="forward-ministry"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+
+  <!-- Submission of an response triggers this -->     
+     
+  <transition 
+     id="respond-writing"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+     
+     
+  <transition 
+     id="elapse-pending"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+     
+  <!--
+    all admissible questions awaiting an oral response etc. and flag them for “scheduling” for a later day 
+    or otherwise drop them from the pending ones. Dropping a question sets its status to “Deferred” 
+  -->          
+     
+  <transition 
+     id="defer"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+  <transition 
+     id="elapse-defered"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+     
+  <!--
+    a deferred question may be send to a ministry for a written response     
+  -->
+  
+  <transition 
+     id="defer-ministry"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+
+  <!--
+    A defered question can be rescheduled later       
+  -->
+     
+  <transition 
+     id="schedule-deferred"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+
+  <!--
+    in a sitting the question is either answered or it gets postopned  
+  -->
+    
+  <transition 
+     id="postpone"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />          
+  <transition 
+     id="respond-sitting"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+
+  <!--
+    postponed questions are rescheduled
+  -->           
+     
+  <transition 
+     id="schedule-postponed"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+     
+  <!--
+     postponed question can elapse
+  -->           
+     
+  <transition 
+     id="elapse-postponed"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+     
+  <!--
+    postponed question can be send to a ministry for a written response       
+  -->    
+     
+  <transition 
+     id="postponed-ministry"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+ 
+  <!--
+    The response is sent to the Clerk's office, before being sent to the MP.
+    XXX come up with something better than answered  
+  -->     
+     
+  <transition 
+     id="answer"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+  <!--
+    the MP can withdraw his question at (almost) any stage
+    i.e the stages where it can still be presented to the 
+    ministry/house
+  -->         
+     
+  <transition 
+     id="withdraw-submitted"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+  <transition 
+     id="withdraw-received"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+  <transition 
+     id="withdraw-complete"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+  <transition 
+     id="withdraw-admissible"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+  <transition 
+     id="withdraw-amend"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+  <transition 
+     id="withdraw-scheduled"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+  <transition 
+     id="withdraw-deferred"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+
+  <transition 
+     id="withdraw-postponed"
+     title=""
+     trigger=""
+     source=""
+     destination=""
+     action=""
+     />
+     
+ 
+                              
+</workflow>  

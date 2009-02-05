@@ -2,10 +2,6 @@
 <ruleset>
   <theme href="/static/themes/layout.html" />
 
-  <server-settings>
-    <server>127.0.0.1:8000</server>
-  </server-settings>
-  
   <rule>
     <drop content="children:head" />
   </rule>

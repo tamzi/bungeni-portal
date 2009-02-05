@@ -1,3 +1,3 @@
 <div id="portal-logo-public" tal:condition="view/do_display">
-    <img src="/++resource++images/bungeni-portal.png" alt="Bungeni Portal"/>
+  <img tal:attributes="src context/++resource++images/bungeni-portal.png/@@absolute_url" alt="Bungeni Portal"/>
 </div>

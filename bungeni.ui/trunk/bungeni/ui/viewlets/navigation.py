@@ -54,11 +54,11 @@ class BreadCrumbsViewlet( viewlet.ViewletBase ):
             path.append({'name' : name, 'url' : url} )                         
         return path
         
-    def getRootfolder(self):
-        m_url = prefs.getPloneMenuUrl()
-        r_url = '/'.join(m_url.split('/')[:-1])    
-        r_url = r_url + '/Members/' + self.user_name + '/index_html/view_main'
-        return r_url
+    #def getRootfolder(self):
+    #    m_url = prefs.getPloneMenuUrl()
+    #    r_url = '/'.join(m_url.split('/')[:-1])    
+    #    r_url = r_url + '/Members/' + self.user_name + '/index_html/view_main'
+    #    return r_url
         
     def update( self ):
         """
@@ -243,9 +243,9 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
         return self._tree2html(items)
         
        
-    def getRootfolder(self):
-        m_url = prefs.getPloneMenuUrl()
-        return '/'.join(m_url.split('/')[:-1])          
+    #def getRootfolder(self):
+    #    m_url = prefs.getPloneMenuUrl()
+    #    return '/'.join(m_url.split('/')[:-1])          
         
     
     def update( self ):
@@ -258,48 +258,6 @@ class NavigationTreeViewlet( viewlet.ViewletBase ):
     render = ViewPageTemplateFile( 'templates/bungeni-navigation-tree.pt' )
 
         
-
-class PloneHorizontalNavigationViewlet( viewlet.ViewletBase ):
-    """
-    get the navigation menu from plone and display it
-    """
-    m_url = prefs.getPloneMenuUrl() 
-    mf = None
-    m_dict = {}
-       
-    def update(self):
-        try:
-            self.mf = urllib.urlopen(self.m_url)
-            self.m_dict = simplejson.load(self.mf)
-        except:
-            pass            
-         
-    def append_li(self, menulist): 
-        mstr = ''
-        for mi in menulist:   
-            #mstr = mstr + '<li id="' + mi['id'] + '" > <a href="' + mi['url'] + '">' + mi['title'] + '</a>'
-            if mi.has_key('submenu'):
-                mstr = mstr + '<li class="navTreeItem visualNoMarker" id="' + mi['id'] + '" > <a href="' + mi['url'] + '" class="hasDropDown">' + mi['title'] + '</a>'
-                mstr = mstr + '<ul class="submenu">' + self.append_li(mi['submenu']) + '</ul>'
-            else:
-                mstr = mstr + '<li class="navTreeItem visualNoMarker" id="' + mi['id'] + '" > <a href="' + mi['url'] + '">' + mi['title'] + '</a>'
-            mstr = mstr + '</li>' 
-        return mstr   
-           
-    def dict2menu(self):
-        try:
-            mstr = '<div id="globalnav-wrapper">'
-            mstr = mstr + '<ul id="portal-globalnav">'                
-            #for mi in self.m_dict:
-                    #mstr = mstr + '<li id="' + mi['id'] + '" > <a href="' + mi['url'] + '">' + mi['title'] + '</a> </li>'
-            mstr = mstr + self.append_li(self.m_dict)
-            mstr = mstr + '</ul> <div id="post-sections-clear" class="visualClear"></div> </div>'
-            return mstr
-        except:
-            return ''
-    
-    def render(self):
-        return self.dict2menu()
         
 
         

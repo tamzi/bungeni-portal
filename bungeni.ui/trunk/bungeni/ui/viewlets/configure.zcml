@@ -409,16 +409,6 @@
     weight="60"
     />     
     
-    
-  <!--browser:viewlet
-    name="bungeni.navigation.horizontal-plone-nav"
-    for="*"
-    manager="ploned.ui.interfaces.IPortalToolsManager"
-    class=".navigation.PloneHorizontalNavigationViewlet"
-    permission="zope.View"
-    weight="40"
-    /-->         
-    
   <browser:viewlet
     name="bungeni.navigation.navtree"
     for="ore.alchemist.interfaces.IAlchemistContainer"         

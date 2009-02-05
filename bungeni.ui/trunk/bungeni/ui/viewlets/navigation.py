@@ -14,17 +14,6 @@ import datetime
 import urllib, simplejson
 from zope.traversing.browser import absoluteURL 
 
-class SiteActionsViewlet( viewlet.ViewletBase ):
-    """
-    Siteactions copied 1 to 1 from plone 
-    return the pure html template only
-    """
-    def getRootfolder(self):
-        m_url = prefs.getPloneMenuUrl()
-        return '/'.join(m_url.split('/')[:-1])   
-            
-    render = ViewPageTemplateFile( 'templates/siteactions.pt' )
-
 class BreadCrumbsViewlet( viewlet.ViewletBase ):
     """
     render the Breadcrumbs to show a user his current context

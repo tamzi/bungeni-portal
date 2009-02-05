@@ -14,6 +14,8 @@ from zope.publisher.interfaces.browser import IBrowserRequest, IBrowserPublisher
 
 from zope.app.publisher.browser.directoryresource import DirectoryResource, Directory, _marker
 
+from zope.traversing.browser.absoluteurl import AbsoluteURL
+
 import interfaces
 import dtmlresource
 
@@ -70,3 +72,13 @@ class SkinDirectoryFactory(object):
         resource.__Security_checker__ = self.__checker
         resource.__name__ = self.__name
         return resource
+
+class FileResourceAbsoluteURL(AbsoluteURL):
+    def _getContextName(self, context):
+        if interfaces.ISkinDirectory.providedBy(context.__parent__):
+            return context.__name__.split('/', 1)[-1]
+        return context.__name__
+
+class SkinDirectoryAbsoluteURL(AbsoluteURL):
+    def _getContextName(self, context):
+        return "++resource++%s" % getattr(context, '__name__', None)

@@ -1,0 +1,2 @@
+# theme package
+bungeni.portal https://bungeni-portal.googlecode.com/svn/bungeni.portal/trunk

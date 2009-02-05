@@ -7,6 +7,8 @@
 
   <state id="draft" title="a draft response">
     <grant permission="bungeni.response.edit" role="bungeni.Owner" />
+    <grant permission="bungeni.response.view" role="bungeni.Owner" />    
+    <grant permission="bungeni.response.delete" role="bungeni.Owner" />    
   </state>
 
   <state id="submitted" title="response submitted">

@@ -75,28 +75,35 @@
 
   <transition 
      id="create"
-     title=""
-     trigger=""
+     title="Create"
+     trigger="automatic"
      source=""
-     destination=""
-     action=""
+     destination="draft"
+     action="create"
+     condition=""
      />
 
   <transition 
      id="submit-to-clerk"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Submit to Clerk"
+     trigger="manual"
+     source="draft"
+     destination="submitted"
+     permission="bungeni.question.Submit"
+     action="submitToClerk"
+     condition=""
+     event=""
      />
   <transition 
      id="received-by-clerk"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Receive"
+     trigger="manual"
+     source="submitted"
+     destination="received"
+     permission="bungeni.question.Recieve"
+     action="recievedByClerk"
+     condition=""
+     event=""
      />
      
     <!--If a question is flagged by the Clerk /' Speakers office as 
@@ -107,11 +114,14 @@
     -->     
   <transition 
      id="require-edit-by-mp"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Needs Clarification by MP"
+     trigger="manual"
+     source="received"
+     destination="clarify_mp"
+     permission="bungeni.question.clerk.Review"
+     action="requireEditByMp"
+     condition=""
+     event=""
      />
      
   <!--After the Clerk's Office is through with the Notices reviews and there are satisfied 
@@ -125,11 +135,14 @@
      
   <transition 
      id="complete"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Complete"
+     trigger="manual"
+     source="received"
+     destination="complete"
+     permission="bungeni.question.clerk.Review"
+     action="complete"
+     condition=""
+     event=""
      />
   <!--the Speaker's office may decide that a proposed Question is “admissible”, “inadmissible” 
     or “requires amendment”.
@@ -142,27 +155,36 @@
      
   <transition 
      id="approve"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Approve"
+     trigger="manual"
+     source="complete"
+     destination="admissible"
+     permission="bungeni.question.speaker.Review"
+     action="approve"
+     condition=""
+     event=""
      />
   <transition 
      id="reject"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Reject"
+     trigger="manual"
+     source="complete"
+     destination="inadmissible"
+     permission="bungeni.question.speaker.Review"
+     action="reject"
+     condition=""
+     event=""
      />
   <transition 
      id="require-amendment"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Needs Clarification"
+     trigger="manual"
+     source="complete"
+     destination="clarify_clerk"
+     permission="bungeni.question.speaker.Review"
+     action="requireAmendment"
+     condition=""
+     event=""
      />
      
   <!--
@@ -172,11 +194,14 @@
   
   <transition 
      id="complete-clarify"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Complete"
+     trigger="manual"
+     source="clarify_clerk"
+     destination="complete"
+     permission="bungeni.question.clerk.Review"
+     action="completeClarify"
+     condition=""
+     event=""
      />
   <!--
      or send to the mp for clarification
@@ -184,11 +209,14 @@
      
   <transition 
      id="mp-clarify"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Needs Clarification by MP"
+     trigger="manual"
+     source="clarify_clerk"
+     destination="clarify_mp"
+     permission="bungeni.question.clerk.Review"
+     action="mpClarify"
+     condition=""
+     event=""
      />
 
   <!--
@@ -197,11 +225,14 @@
      
   <transition 
      id="resubmit-clerk"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Resubmit to clerk"
+     trigger="manual"
+     source="clarify_mp"
+     destination="submitted"
+     permission="bungeni.question.Submit"
+     action="submitToClerk"
+     condition=""
+     event=""
      />
      
   <!--
@@ -213,11 +244,14 @@
      
   <transition 
      id="schedule"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Schedule"
+     trigger="manual"
+     source="admissible"
+     destination="scheduled"
+     permission="bungeni.question.Schedule"
+     action="schedule"
+     condition=".utils.getQuestionSchedule"
+     event=""
      />
      
   <!--
@@ -227,11 +261,14 @@
      
   <transition 
      id="send-ministry"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Send to ministry"
+     trigger="manual"
+     source="admissible"
+     destination="response_pending"
+     permission="bungeni.question.Schedule"
+     action="sendToMinistry"
+     condition="utils.getQuestionMinistry"
+     event=""
      />
      
   <!--
@@ -240,32 +277,41 @@
      
   <transition 
      id="forward-ministry"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Forward to another ministry"
+     trigger="manual"
+     source="response_pending"
+     destination="response_pending"
+     permission="bungeni.question.Write_answer"
+     action="sendToMinistry"
+     condition="utils.getQuestionMinistry"
+     event=""
      />
 
   <!-- Submission of an response triggers this -->     
      
   <transition 
      id="respond-writing"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Respond"
+     trigger="system"
+     source="response_pending"
+     destination="responded"
+     permission="bungeni.question.Write_answer"
+     action="respondWriting"
+     condition=""
+     event=""
      />
      
      
   <transition 
      id="elapse-pending"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Elapse"
+     trigger="manual"
+     source="response_pending"
+     destination="elapsed"
+     permission="bungeni.question.Write_answer"
+     action="elapse"
+     condition=""
+     event=""
      />
      
   <!--
@@ -275,19 +321,25 @@
      
   <transition 
      id="defer"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Defer"
+     trigger="manual"
+     source="admissible"
+     destination="deferred"
+     permission="bungeni.question.Schedule"
+     action="defer"
+     condition=""
+     event=""
      />
   <transition 
      id="elapse-defered"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Elapse"
+     trigger="manual"
+     source="deferred"
+     destination="elapsed"
+     permission="bungeni.question.Schedule"
+     action="elapse"
+     condition=""
+     event=""
      />
      
   <!--
@@ -296,11 +348,14 @@
   
   <transition 
      id="defer-ministry"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Send to ministry"
+     trigger="manual"
+     source="deferred"
+     destination="response_pending"
+     permission="bungeni.question.Schedule"
+     action="sendToMinistry"
+     condition="utils.getQuestionMinistry"
+     event=""
      />
 
   <!--
@@ -309,11 +364,14 @@
      
   <transition 
      id="schedule-deferred"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Schedule"
+     trigger="manual"
+     source="deferred"
+     destination="scheduled"
+     permission="bungeni.question.Schedule"
+     action="schedule"
+     condition="utils.getQuestionSchedule"
+     event=""
      />
 
   <!--
@@ -322,19 +380,25 @@
     
   <transition 
      id="postpone"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Postpone"
+     trigger="manual"
+     source="scheduled"
+     destination="postponed"
+     permission="bungeni.question.Schedule"
+     action="postpone"
+     condition=""
+     event=""
      />          
   <transition 
      id="respond-sitting"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Respond"
+     trigger="system"
+     source="scheduled"
+     destination="responded"
+     permission="bungeni.question.Respond"
+     action="respondSitting"
+     condition=""
+     event=""
      />
 
   <!--
@@ -343,11 +407,14 @@
      
   <transition 
      id="schedule-postponed"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Schedule"
+     trigger="manual"
+     source="postponed"
+     destination="scheduled"
+     permission="bungeni.question.Schedule"
+     action="schedule"
+     condition="utils.getQuestionSchedule"
+     event=""
      />
      
   <!--
@@ -356,11 +423,14 @@
      
   <transition 
      id="elapse-postponed"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Elapse"
+     trigger="manual"
+     source="postponed"
+     destination="elapsed"
+     permission="bungeni.question.Schedule"
+     action="elapse"
+     condition=""
+     event=""
      />
      
   <!--
@@ -369,11 +439,14 @@
      
   <transition 
      id="postponed-ministry"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Send to Ministry"
+     trigger="manual"
+     source="postponed"
+     destination="response_pending"
+     permission="bungeni.question.Schedule"
+     action="sendToMinistry"
+     condition="tils.getQuestionMinistry"
+     event=""
      />
  
   <!--
@@ -383,11 +456,14 @@
      
   <transition 
      id="answer"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Answer"
+     trigger="system"
+     source="responded"
+     destination="answered"
+     permission="bungeni.question.Answer"
+     action="answer"
+     condition=""
+     event=""
      />
   <!--
     the MP can withdraw his question at (almost) any stage
@@ -397,68 +473,92 @@
      
   <transition 
      id="withdraw-submitted"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Withdraw"
+     trigger="manual"
+     source="submitted"
+     destination="withdrawn"
+     permission="bungeni.question.Withdraw"
+     action="withdraw"
+     condition=""
+     event=""
      />
   <transition 
      id="withdraw-received"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Withdraw"
+     trigger="manual"
+     source="received"
+     destination="withdrawn"
+     permission="bungeni.question.Withdraw"
+     action="withdraw"
+     condition=""
+     event=""
      />
   <transition 
      id="withdraw-complete"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Withdraw"
+     trigger="manual"
+     source="complete"
+     destination="withdrawn"
+     permission="bungeni.question.Withdraw"
+     action="withdraw"
+     condition=""
+     event=""
      />
   <transition 
      id="withdraw-admissible"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Withdraw"
+     trigger="manual"
+     source="admissible"
+     destination="withdrawn"
+     permission="bungeni.question.Withdraw"
+     action="withdraw"
+     condition=""
+     event=""
      />
   <transition 
      id="withdraw-amend"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Withdraw"
+     trigger="manual"
+     source="clarify_mp"
+     destination="withdrawn"
+     permission="bungeni.question.Withdraw"
+     action="withdraw"
+     condition=""
+     event=""
      />
   <transition 
      id="withdraw-scheduled"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Withdraw"
+     trigger="manual"
+     source="scheduled"
+     destination="withdrawn"
+     permission="bungeni.question.Withdraw"
+     action="withdraw"
+     condition=""
+     event=""
      />
   <transition 
      id="withdraw-deferred"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Withdraw"
+     trigger="manual"
+     source="deferred"
+     destination="withdrawn"
+     permission="bungeni.question.Withdraw"
+     action="withdraw"
+     condition=""
+     event=""
      />
 
   <transition 
      id="withdraw-postponed"
-     title=""
-     trigger=""
-     source=""
-     destination=""
-     action=""
+     title="Withdraw"
+     trigger="manual"
+     source="postponed"
+     destination="withdrawn"
+     permission="bungeni.question.Withdraw"
+     action="withdraw"
+     condition=""
+     event=""
      />
      
  

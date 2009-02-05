@@ -23,7 +23,7 @@ setup(
         ],
     entry_points = """\
     [paste.filter_app_factory]
-    main = bungeni.portal.middleware:make_deliverance_middleware
+    deliverance = bungeni.portal.middleware:make_deliverance_middleware
 
     [paste.app_factory]
     static = bungeni.portal.app:make_static_serving_app

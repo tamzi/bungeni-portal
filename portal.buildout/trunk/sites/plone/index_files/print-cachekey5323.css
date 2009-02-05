@@ -1,0 +1,42 @@
+
+/* - print.css - */
+@media print {
+/* http://plone.org/portal_css/print.css?original=1 */
+body{font-family:Baskerville,Georgia,Garamond,Times,serif;font-size:11pt !important;}
+h1,h2,h3,h4,h5,h6{border:none;font-family:Baskerville,Georgia,Garamond,Times,serif;}
+div,p,ul,dl,ol{width:auto;}
+ul,ol,dl{padding-right:0.5em;}
+ul{list-style-type:square;}
+.documentDescription{font-weight:bold;}
+pre{border:1pt dotted black;white-space:pre;font-size:8pt;overflow:auto;padding:1em 0;}
+table.listing,table.listing td{border:1pt solid black;border-collapse:collapse;}
+a{color:Black !important;padding:0 !important;text-decoration:none !important;}
+a:link,a:visited{color:#520;background:transparent;}
+div.pageBreak{page-break-before:always;}
+div.top,#portal-logo,#portal-siteactions,.hiddenStructure,#portal-searchbox,#portal-globalnav,#portal-personaltools,#portal-breadcrumbs,#portal-column-one,#portal-column-two,#portal-languageselector,.contentViews,.contentActions,.help,.legend,.portalMessage,.documentActions,.documentByLine,.netscape4,#portal-footer,#portal-colophon,.skipnav,#kss-spinner,#review-history,#content-history,.listingBar,.visualNoPrint{display:none;}
+
+}
+
+
+/* - ploneCustom.css - */
+@media all {
+/* http://plone.org/portal_css/ploneCustom.css?original=1 */
+#portal-globalnav{text-align:center;}
+.addition{color:red;}
+.striken{text-decoration:line-through;}
+
+}
+
+
+/* - helpcenter_print.css - */
+@media print {
+/* http://plone.org/portal_css/helpcenter_print.css?original=1 */
+/* */
+/* */
+.link-parent, .link-expand, .jumpBox, .listingBar,
+.sectionIndex, .link-anchor {
+display: none;
+}
+/* */
+}
+

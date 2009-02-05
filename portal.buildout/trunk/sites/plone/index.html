@@ -1,0 +1,1413 @@
+
+
+
+<!DOCTYPE html PUBLIC
+  "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      lang="en"><!-- Source is http://localhost:8000/plone -->
+
+  
+    
+    
+    
+    
+    
+    
+
+  
+
+  <head>
+
+    <meta http-equiv="Content-Type"
+          content="text/html;charset=utf-8" />
+
+    
+      <!--<base href="http://plone.org/" />--><!--[if lt IE 7]></base><![endif]-->
+    
+
+    <meta name="generator" content="Plone - http://plone.org" />
+
+    <link rel="kss-base-url" href="http://plone.org" />
+
+  
+  
+    
+      <script type="text/javascript"
+              src="index_files/jquery-cachekey4598.js">
+      </script>
+    
+    
+  
+
+  
+  
+    
+    
+      <style type="text/css"><!-- @import url(index_files/print-cachekey5323.css); --></style>
+    
+    
+  
+
+  
+    
+    
+      <style type="text/css"><!-- @import url(index_files/base-cachekey7333.css); --></style>
+    
+    
+  
+
+  
+  <link rel="kinetic-stylesheet" type="text/css"
+        href="http://plone.org/portal_kss/Plone%20Default/at-cachekey5875.kss" />
+
+
+<title>Plone CMS: Open Source Content Management</title>
+
+    <meta content="Leading open source CMS for Content Management, Document Management and Knowledge Management. Get your intranet, portal, web site or community site up and running in minutes!"
+          name="description" />
+
+    <!-- Internet Explorer CSS Fixes -->
+    <!--[if IE]>
+        <style type="text/css" media="all">@import url(http://plone.org/IEFixes.css);</style>
+    <![endif]-->
+
+    
+    <link rel="author" href="http://plone.org/author/"
+          title="Author information" />
+
+
+
+    <link rel="shortcut icon" type="image/x-icon"
+          href="http://plone.org/favicon.ico" />
+
+
+
+    <link rel="home" href="http://plone.org"
+          title="Front page" />
+
+    <link rel="contents" href="http://plone.org/sitemap"
+          title="Site Map" />
+
+
+
+
+<link rel="alternate" href="http://plone.org/RSS"
+      title="RSS 1.0" type="application/rss+xml" />
+
+
+    <link rel="search" href="http://plone.org/search_form"
+          title="Search this site" />
+
+
+
+    <!-- Disable IE6 image toolbar -->
+    <meta http-equiv="imagetoolbar" content="no" />
+    
+    
+    
+
+    
+    
+
+    
+    
+    
+    <style type="text/css" media="all">
+    .quoteinfo {
+        font-style: italic;
+    }
+
+    .feature { /* box element showing feature */
+        width: 48%;
+        margin: 0 0 4% 0;
+        float: left;
+        display: block;
+    }
+
+    .lastFeature {
+        margin: 2em auto !important;
+        float: none;
+        margin-bottom: 2em !important;
+    }
+
+    .thumbnail { /* box element with icon and circle bg */
+        background: transparent url(index_files/frontpage_sprite.png) 0 0 no-repeat;
+        width: 32px; 
+        height: 32px;
+        margin: 0.25em 0.5em 0 0;
+        float: left;
+    /*    background: url(/img/products/desktop/bgcirc.png); */
+    }
+
+    .feature h3 {
+        font-size: 100%;
+        margin: 0;
+        float: left;
+        width: 80%;
+    }
+
+    .feature p {
+        float: left;
+        display: block;
+        margin: 0;
+        width: 85%;
+    }
+
+#battery  { background-position: 0    0   }
+#locale   { background-position: 0  -32px }
+#grin     { background-position: 0  -64px }
+#heart    { background-position: 0  -96px }
+#edit     { background-position: 0 -128px }
+#search   { background-position: 0 -160px }
+#thumbs   { background-position: 0 -192px }
+#theme    { background-position: 0 -224px }
+#wf       { background-position: 0 -256px }
+#speed    { background-position: 0 -288px }
+#secure   { background-position: 0 -320px }
+#feed     { background-position: 0 -352px }
+#a11y     { background-position: 0 -384px }
+#seo      { background-position: 0 -416px }
+#network  { background-position: 0 -448px }
+#users    { background-position: 0 -480px }
+#support  { background-position: 0 -512px }
+#oss      { background-position: 0 -544px }
+#docs     { background-position: 0 -576px }
+#innovate { background-position: 0 -608px }
+#protect  { background-position: 0 -640px }
+#company  { background-position: 0 -672px }
+#secret   { background-position: 0 -704px }
+
+    </style>
+
+    <style type="text/css" media="screen">
+
+/*
+body {max-width: 80em; margin: 0 auto; background-color: Black;}
+#visual-portal-wrapper { background-color: white;}
+*/
+
+
+#portal-breadcrumbs { display: none;}    
+
+/*
+#portal-globalnav { text-align: center;}
+*/
+
+.topSection {
+/*    border: 1px solid #ccc; */
+}
+
+.topSection dl {
+    float:left; 
+    width: 24%;
+}
+
+.topSection dl { text-align: center;}
+.topSection dt { font-size: 150%; font-weight: normal;}
+.topSection dd { margin: 0 0 0.25em 0; }
+
+.portlet {
+    float:left; 
+    width: 23%;
+    margin-right: 1em !important;
+}
+
+#region-content .portlet {
+    font-size: 93%;
+}
+.portletItem {
+    min-height: 6em;
+}
+
+blockquote {
+    text-align: center;
+    border: none;
+}
+
+/* Form tabs */
+.tabberlive .tabbertabhide {
+ display:none;
+}
+
+/*--------------------------------------------------
+  .tabber = before the tabber interface is set up
+  .tabberlive = after the tabber interface is set up
+  --------------------------------------------------*/
+.tabber {
+}
+.tabberlive {
+    margin-bottom: 1em;
+}
+
+/*--------------------------------------------------
+  ul.tabbernav = the tab navigation list
+  li.tabberactive = the active tab
+  --------------------------------------------------*/
+ul.tabbernav
+{
+ margin:0;
+ padding: 1px 0;
+ border-bottom: 1px solid #74ae0b;
+ text-align: center;
+}
+
+ul.tabbernav li
+{
+ list-style: none;
+ margin: 0;
+ display: inline;
+}
+
+ul.tabbernav li a
+{
+ padding: 3px 0.5em;
+ margin-left: 0;
+ border: 1px solid #74ae0b;
+ border-style: solid none solid dotted;
+ text-decoration: none;
+ color: #5d8811;
+ position: relative;
+ top: 1em;
+ background-color: White;
+}
+
+ul.tabbernav li a:hover
+{
+ background-color: #cde2a7;
+ border-color: #74ae0b;
+}
+
+ul.tabbernav li a:active {
+ color: #5d8811;
+}
+
+
+ul.tabbernav li.tabberactive a
+{
+ background-color: #cde2a7;
+ color: #5d8811;
+}
+
+ul.tabbernav li.tabberactive a:hover
+{
+ background-color: #cde2a7;
+}
+
+/*--------------------------------------------------
+  .tabbertab = the tab content
+  Add style only after the tabber interface is set up (.tabberlive)
+  --------------------------------------------------*/
+.tabberlive .tabbertab {
+ padding: 3em 0 0 1em;
+ border:1px solid #74ae0b;
+ border-top:0;
+
+ /* If you don't want the tab size changing whenever a tab is changed
+    you can set a fixed height */
+
+ /* height:200px; */
+
+ /* If you set a fix height set overflow to auto and you will get a
+    scrollbar when necessary */
+
+ /* overflow:auto; */
+}
+
+/* If desired, hide the heading since a heading is provided by the tab */
+.tabberlive .tabbertab h2 {
+ display:none;
+}
+
+/* End form tabs */
+
+#undefinednav1 { border-left: 1px solid #74ae0b;;}
+#undefinednav6 { border-right: 1px solid #74ae0b;;}
+
+.tabbertab { min-height: 24em;}
+
+* html .tabbertab {height: 1%} /* IE fix */
+
+.summaryColumn {
+    border-right: 1px solid #8cacbb;
+}
+
+#portal-globalnav {
+    text-align: center;
+}
+
+.visualOnlyPrint {display: none;}
+
+.link-external {
+    background: none;
+    padding-left: 0;
+}
+
+    </style>
+    
+    <style type="text/css" media="print">
+    ul.tabbernav { display: none; }
+    h1, h2 { text-align: center; }
+    .feature { margin-bottom: 1em; }
+    .visualClear { height: 0; }
+
+    </style>
+
+    
+
+    
+    
+        <script type="text/javascript">
+        var tabberOptions = {manualStartup:true};
+        </script>
+        <script type="text/javascript" src="index_files/tabber-minimized.js"></script>
+        <script type="text/javascript">
+        /* \x3C is the hexcode for 'less than' (&lt;)
+           \x3E is the hexcode for 'greater than' (&gt;)
+           it's needed for proper XHTML validation */ 
+        document.write('\x3Cstyle type="text/css"\x3E.tabber{display:none;}\x3C/style\x3E');
+        </script>
+    
+
+  </head>
+
+  <body class=" template-ploneorg_frontpage" dir="ltr">
+    <div id="visual-portal-wrapper">
+
+      <div id="portal-top">
+        <div id="portal-header">
+<p class="hiddenStructure">
+  <a accesskey="2" href="http://plone.org/#documentContent">Skip to content.</a> |
+
+  <a accesskey="6"
+     href="http://plone.org/#portlet-navigation-tree">Skip to navigation</a>
+</p>
+
+
+
+<div id="portal-searchbox">
+    <form name="searchform" action="http://plone.org/search">
+
+        <label for="searchGadget" class="hiddenStructure">Search Site</label>
+
+        <div class="LSBox">
+        <input name="SearchableText" type="text" size="18"
+               title="Search Site" accesskey="4"
+               class="inputLabel" id="" />
+
+        <input class="searchButton" type="submit"
+               value="Search" />
+    
+        <div class="searchSection">
+            <input id="searchbox_currentfolder_only"
+                   class="noborder" type="checkbox"
+                   name="path" value="/plone.org" />
+            <label for="searchbox_currentfolder_only"
+                   style="cursor: pointer">
+                only in current section
+            </label>
+        </div>
+
+        <div class="LSResult" id="LSResult" style=""><div class="LSShadow" id="LSShadow"></div></div>
+        </div>
+    </form>
+
+    <div id="portal-advanced-search" class="hiddenStructure">
+        <a href="http://plone.org/search_form" accesskey="5">
+            Advanced Search&hellip;
+        </a>
+    </div>
+
+</div>
+
+<a id="portal-logo" accesskey="1" href="http://plone.org">
+    <img src="index_files/logo.jpg" alt="" title="Plone" height="57" width="252" /></a>
+
+
+    <h5 class="hiddenStructure">Sections</h5>
+
+    <ul id="portal-globalnav">
+        <li id="portaltab-index_html" class="selected"><a
+    href="http://plone.org" title="">Home</a></li>
+        <li id="portaltab-products" class="plain"><a
+    href="http://plone.org/products"
+    title="Plone releases and available add-on products for Plone. Make sure you have Plone installed before downloading the add-ons — and make sure you are using add-ons that have been certified for use with your particular version.">Downloads</a></li>
+        <li id="portaltab-documentation" class="plain"><a
+    href="http://plone.org/documentation"
+    title="The primary source for Plone documentation.">Documentation</a></li>
+        <li id="portaltab-development" class="plain"><a
+    href="http://plone.org/development"
+    title="Contains all developer-related material.">Development</a></li>
+        <li id="portaltab-foundation" class="plain"><a
+    href="http://plone.org/foundation"
+    title="The Plone Foundation exists to further the development, marketing, and legal affairs of Plone and the Plone community.">Plone Foundation</a></li>
+        <li id="portaltab-support" class="plain"><a
+    href="http://plone.org/support"
+    title="Contact details for the Plone project.">Support</a></li>
+    </ul>
+
+</div>
+
+<div id="portal-personaltools-wrapper">
+
+<h5 class="hiddenStructure">Personal tools</h5>
+
+<ul id="portal-personaltools" class="visualInline">
+   
+
+    
+        <li>
+            <a href="http://plone.org/login_form">Log in</a>
+        </li>
+    
+    
+        <li>
+            <a href="http://plone.org/join_form">Register</a>
+        </li>
+    
+
+</ul>
+</div>
+
+
+    
+
+
+<div id="portal-breadcrumbs">
+
+    <span id="breadcrumbs-you-are-here">You
+are here:</span>
+    <a href="http://plone.org">Home</a>
+    
+
+</div>
+
+      </div>
+
+      <div class="visualClear" id="clear-space-before-wrapper-table"><!-- --></div>
+
+      <table id="portal-columns">
+        <tbody>
+          <tr>
+            
+            
+            
+
+            
+            <td id="portal-column-content">
+
+              
+                <div class="">
+
+                  
+
+
+                  <div id="region-content" class="documentContent">
+
+                    <span id="contentTopLeft"></span>
+                    <span id="contentTopRight"></span>
+                    
+                    <a name="documentContent"></a>
+
+                    
+
+    <dl class="portalMessage info" id="kssPortalMessage" style="display:none">
+        <dt>Info</dt>
+        <dd></dd>
+    </dl>
+
+
+                    
+                    <div id="viewlet-above-content"></div>
+
+                    
+                    
+                    <div id="content">
+                      
+                      
+
+<h1 class="visualOnlyPrint">
+Plone CMS, a user-friendly and powerful open source Content Management System
+</h1>
+
+<div class="topSection visualNoPrint">
+    <dl class="summaryColumn">
+        <dt>What is Plone?</dt>
+        <dd><span class="discreet">Plone helps you manage your content.</span></dd>
+        <dd><a href="/about/movies">Watch a Demo Movie</a></dd>
+        <dd><a href="/about/what-is-a-cms">What is a CMS?</a></dd>
+
+        <dd><a class="link-plain" href="http://plone.net/sites">Sites Using Plone</a></dd>
+        <dd>&nbsp;</dd>
+    </dl>
+
+    <dl class="summaryColumn">
+        <dt>Get Plone</dt>
+        <dd><span class="discreet">Latest release: Plone 3.1.7 (November 2008)</span></dd>
+        <dd><a href="/products/plone">Download Plone</a></dd>
+        <dd><a href="/products/plone/features/3.0">What's New in Plone 3?</a></dd>
+        <dd><a href="/products/plone/roadmap">Roadmap</a></dd>
+        <dd><a href="/products">Add-on Products</a></dd>
+    </dl>
+
+    <dl class="summaryColumn">
+        <dt>Learn Plone</dt>
+        <dd><a href="/documentation">Documentation</a></dd>
+        <dd><a href="/documentation/books">Buy Books</a></dd>
+        <dd><a href="/support">Forums &amp; Chat Rooms</a></dd>
+        <dd><a href="/events/training">Find Plone Training</a></dd>
+        <dd><a class="link-plain" href="http://plone.net">Commercial Support</a></dd>
+    </dl>
+
+    <dl>
+        <dt>Get Involved</dt>
+        <dd><a class="link-plain" href="http://dev.plone.org/plone">Report Bugs</a></dd>
+        <dd><a href="/development/code">Write Code</a></dd>
+        <dd><a href="/about/contributing">Translate, Document, Test</a></dd>
+        <dd><a href="/foundation">Support the Plone Foundation</a></dd>
+        <dd><a href="http://planet.plone.org">Plone Blogs</a></dd>
+    </dl>
+<div class="visualClear">&nbsp;</div>
+</div>
+
+
+<!-- WorldPloneDay 2008 -->
+
+
+<!-- End of WorldPloneDay 2008 -->
+
+
+<div class="visualClear">&nbsp;</div>
+
+<div class="tabber">
+
+<div class="tabbertab">
+    <h2>Easy to Get Started</h2>
+
+    <div class="feature">
+        <div id="battery" class="thumbnail"></div>
+        <h3>Batteries Included</h3>
+        <p>
+            Supports Linux, Windows, Mac OS X, FreeBSD, Solaris. 
+            The installers get you up and running 
+            within minutes. No complex set-up procedures.
+        </p>
+    </div>
+
+    <div class="feature">
+        <div id="locale" class="thumbnail"></div>
+        <h3>Speaks Your Language</h3>
+        <p>
+            Available in over 35 languages, Plone was designed from the ground
+            up for multilingual content management.  It handles Chinese, 
+            Japanese, and even right-to-left languages such as Arabic and Hebrew 
+            with ease.
+        </p>
+    </div>
+
+    <div class="visualClear">&nbsp;</div>
+
+    <div class="feature">
+        <div id="grin" class="thumbnail"></div>
+        <h3>Nicest Kid on the Block</h3>
+        <p>
+            The Plone Team includes leading usability experts who have made 
+            Plone easy and productive to work with.
+        </p>
+    </div>
+
+    <div class="feature">
+        <div id="heart" class="thumbnail"></div>
+        <h3>Everybody Loves Plone</h3>
+        <p>
+        &#8220;An eWeek Labs Analyst's Choice award winner, this open-source product 
+        is one of the best solutions &mdash; period &mdash; for company portals and 
+        intranets&#8221;<br />
+        &mdash; <em style="text-align: right"><a class="link-plain" href="http://www.eweek.com">eWeek</a>, April 2006 issue</em>
+        </p>
+    </div>
+
+    <div class="visualClear">&nbsp;</div>
+</div>
+
+<div class="tabbertab">
+    <h2>User Friendly</h2>
+
+    <div class="feature">
+        <div id="edit" class="thumbnail"></div>
+        <h3>Gets Out of Your Way and Lets You Write</h3>
+        <p>
+            Plone includes a powerful, rich editor with text formatting, 
+            image and link insertion abilities. If you're used to working with 
+            an office suite, you'll feel right at home.
+        </p>
+    </div>
+
+    <div class="feature">
+        <div id="search" class="thumbnail"></div>
+        <h3>Instant, Full-text Searching</h3>
+        <p>
+            All content is searchable immediately; even Word documents and PDF
+            files. LiveSearch puts it all at your fingertips. Try the
+            search box on this site for a demo.
+        </p>
+    </div>
+
+    <div class="visualClear">&nbsp;</div>
+
+    <div class="feature">
+        <div id="thumbs" class="thumbnail"></div>
+        <h3>Built-in Image Resizing</h3>
+        <p>
+            Upload an image, and it's automatically rescaled to a variety of 
+            sizes, ready to be used in your content. No Photoshop needed.
+        </p>
+    </div>
+
+    <div class="feature">
+        <div id="theme" class="thumbnail"></div>
+        <h3>Look Your Best</h3>
+        <p>
+            Plone is easy to theme. It can seamlessly blend with your existing 
+            look, or allow you to create a bold new style that's all your own.
+        </p>
+    </div>
+
+    <div class="visualClear">&nbsp;</div>
+</div>
+
+<div class="tabbertab">
+    <h2>Powerful</h2>
+
+    <div class="feature">
+        <div id="wf" class="thumbnail"></div>
+        <h3>Powerful Workflow Engine</h3>
+        <p>
+            Make your business processes part of the document workflow &mdash;
+            complemented by fool-proof security management.
+        </p>
+    </div>
+
+    <div class="feature">
+        <div id="speed" class="thumbnail"></div>
+        <h3>Speed and Scalability</h3>
+        <p>
+            Comes out-of-the-box with clustering capability and intelligent 
+            caching proxy integration.
+        </p>
+    </div>
+
+    <div class="visualClear">&nbsp;</div>
+
+    <div class="feature">
+        <div id="secure" class="thumbnail"></div>
+        <h3>Security and Flexibility</h3>
+        <p>
+            Fine-grained role-based security model secures your content. 
+            Plone's sandbox architecture ensures that even if your system 
+            should be compromised, intruders will not have access to your 
+            server or your network.
+        </p>
+    </div>
+
+    <div class="feature">
+        <div id="feed" class="thumbnail"></div>
+        <h3>Syndicate and Aggregate</h3>
+        <p>
+            Smart folders and smart updates. Plone automatically produces RSS 
+            feeds from folders, search results and more &mdash; the ideal way 
+            of staying on top of the information explosion and customize 
+            information delivery. 
+        </p>
+    </div>
+
+    <div class="visualClear">&nbsp;</div>
+
+</div>
+
+<div class="tabbertab">
+    <h2>Standards Compliant</h2>
+
+    <div class="feature">
+        <div id="a11y" class="thumbnail"></div>
+        <h3>Accessibility Compliant</h3>
+        <p>
+            Meets or exceeds U.S. Government Section 508 and W3C's WAI-AA 
+            standards for sight and motor impaired individuals. All Javascript
+            usage comes with fallback modes that work in any web browser.
+        </p>
+    </div>
+
+    <div class="feature">
+        <div id="seo" class="thumbnail"></div>
+        <h3>Outstanding Search Engine Visibility</h3>
+        <p>
+            100% valid XHTML and CSS keeps search engines and 
+            web browsers happy. Plone sites are consistently ranked well
+            in Google search results.
+        </p>
+    </div>
+
+    <div class="visualClear">&nbsp;</div>
+
+    <div class="feature">
+        <div id="network" class="thumbnail"></div>
+        <h3>Plays Well with Others</h3>
+        <p>
+            LDAP, SQL, SOAP, Web Services (WSDL) and WebDAV &mdash; Plone works with 
+            them all.
+        </p>
+    </div>
+
+    <div class="feature">
+        <div id="users" class="thumbnail"></div>
+        <h3>Pluggable Authentication</h3>
+        <p>
+            Easy integration with LDAP, Active Directory and SQL databases.
+            You name it, Plone talks to it.
+        </p>
+    </div>
+
+    <div class="visualClear">&nbsp;</div>
+</div>
+
+
+<div class="tabbertab">
+    
+    <h2>Supported</h2>
+
+
+    <div class="feature">
+        <div id="support" class="thumbnail"></div>
+        <h3>World-class Support</h3>
+        <p>
+            Whether you use the online documentation, mailing lists and chat 
+            rooms &mdash; or the services
+            of the hundreds of companies around the world that support Plone 
+            &mdash; you're never alone. 
+        </p>
+    </div>
+
+    <div class="feature">
+        <div id="oss" class="thumbnail"></div>
+        <h3>Open Source, Open Standards</h3>
+        <p>
+            Plone is available under the same open source license as
+            Linux, and uses the open source Python programming language and 
+            Zope application server. 
+            This avoids vendor lock-in, expensive licenses, and 
+            gives you a predictable future &mdash; and the freedom 
+            to innovate.
+        </p>
+    </div>
+
+<div class="visualClear">&nbsp;</div>
+
+
+    <div class="feature">
+        <div id="docs" class="thumbnail"></div>
+        <h3>Great Documentation, in Print and Online</h3>
+        <p>
+            Currently, there are five published books about Plone, 
+            which have been translated into German, Japanese and several other
+            languages.
+        </p>
+    </div>
+
+    <div class="feature">
+        <div id="innovate" class="thumbnail"></div>
+        <h3>Innovative and Extensible</h3>
+        <p>
+            Hundreds of add-on products are available &mdash; forums, 
+            issue trackers, blogs and collaboration tools.
+        </p>
+    </div>
+
+    <div class="visualClear">&nbsp;</div>
+</div>
+
+<div class="tabbertab">
+    <h2>Mature</h2>
+    
+    <div class="feature">
+        <div id="protect" class="thumbnail"></div>
+        <h3>Protected and Mature</h3>
+        <p>
+            Plone has been around for over five years, and the nonprofit, 
+            community-governed <a href="/foundation">Plone Foundation</a> owns
+            and protects all intellectual property and trademarks. Plone also 
+            has legal backing from the experts at
+            <a class="link-plain" href="http://www.softwarefreedom.org">Software Freedom Law Center</a>.
+        </p>
+    </div>
+
+    <div class="feature">
+        <div id="company" class="thumbnail"></div>
+        <h3>In Good Company</h3>
+        <p>
+            Organizations as diverse as 
+            <a class="link-plain" href="http://www.nasa.gov">NASA</a>, 
+            <a class="link-plain" href="http://www.oxfam.org">Oxfam</a>, 
+            <a class="link-plain" href="http://www.ebay.com">eBay</a>, 
+            <a class="link-plain" href="http://www.trolltech.com">Trolltech</a>, 
+            <a class="link-plain" href="http://www.nokia.com">Nokia</a>,
+            <a class="link-plain" href="http://www.usu.edu">Utah State University</a>, and
+            <a class="link-plain" href="http://www.novell.com">Novell</a> 
+            use Plone for content management. We'd love to welcome you to the
+            Plone community.
+        </p>
+    </div>
+
+    <div class="visualClear">&nbsp;</div>
+
+
+    <div class="feature lastFeature">
+        <div id="secret" class="thumbnail"></div>
+        <h3>Plone is Your Secret Weapon</h3>
+        <p>
+            Whether used for a company intranet or for a community web site,
+            Plone delivers.
+        </p>
+    </div>
+
+    <div class="visualClear">&nbsp;</div>
+
+</div>
+</div> <!-- end tabs -->
+
+
+<p class="discreet" style="text-align:center; border-bottom: 2em; clear: both">
+Some of the functionality described requires additional (but free)
+add-on products to be installed.
+</p>
+
+<div class="visualClear">&nbsp;</div>
+
+<div class="visualNoPrint">
+
+<div>
+
+    <dl class="portlet" id="portlet-news">
+
+        <dt class="portletHeader">
+            <a href="feed://plone.org/news/newslisting/RSS" class="feedButton link-plain">
+                <img alt="RSS"
+                     title="RSS subscription feed for news items"
+                     src="index_files/rss.gif" />
+            </a>
+
+            <a href="http://plone.org/news">News</a>
+            
+        </dt>
+
+        
+        <dd class="portletItem odd">
+
+            <a href="http://plone.org/news/practical-plone-3-released"
+               title="The long-awaited introductory-level book for Plone 3, &quot;Practical Plone 3,&quot; has been released — order your copy today!">
+                <img src="index_files/newsitem_icon.gif" alt="" title="News" height="16" width="16" />
+                Practical Plone 3 Hits the Shelves
+                <span class="portletItemDetails">Feb 03, 2009</span>
+            </a>
+        </dd>
+        
+        
+        <dd class="portletItem even">
+
+            <a href="http://plone.org/events/regional/plone-symposium-east-2009/call-for-proposals-plone-symposium-east-2009"
+               title="Give a talk, and WebLion will make sure you get lasting fame, heartfelt admiration, $75 off registration, and a free name tag!">
+                <img src="index_files/newsitem_icon.gif" alt="" title="News" height="16" width="16" />
+                Call for Proposals: Plone Symposium East 2009
+                <span class="portletItemDetails">Jan 29, 2009</span>
+            </a>
+        </dd>
+        
+        
+        <dd class="portletItem odd">
+
+            <a href="http://plone.org/news/world-plone-day-2008-a-success"
+               title="With high percentage of the event sites reporting in, the first World Plone Day can claim success. Friday 7 November was World Plone Day, a coordinated worldwide series of meetups, seminars, and workshops. Events were scheduled from Buenos Aires, Argentina to Hanoi, Viet Nam with a healthy representation in North America and Europe. Truly an international day of Plone, 30 countries on five continents were involved.">
+                <img src="index_files/newsitem_icon.gif" alt="" title="News" height="16" width="16" />
+                World Plone Day 2008 a success
+                <span class="portletItemDetails">Jan 29, 2009</span>
+            </a>
+        </dd>
+        
+        
+        <dd class="portletItem even">
+
+            <a href="http://plone.org/news/join-world-plone-day-2009"
+               title="The Plone evangelism group invites you to promote Plone by organizing an introductory talk in your town as part of World Plone Day 2009.">
+                <img src="index_files/newsitem_icon.gif" alt="" title="News" height="16" width="16" />
+                Join World Plone Day 2009
+                <span class="portletItemDetails">Jan 13, 2009</span>
+            </a>
+        </dd>
+        
+        
+        <dd class="portletItem odd">
+
+            <a href="http://plone.org/news/plone-4-release-manager-hanno-schlichting"
+               title="The Plone Foundation has confirmed Hanno Schlichting as Release Manager for Plone 4">
+                <img src="index_files/newsitem_icon.gif" alt="" title="News" height="16" width="16" />
+                Plone 4 Release Manager: Hanno Schlichting
+                <span class="portletItemDetails">Jan 11, 2009</span>
+            </a>
+        </dd>
+        
+
+        <dd class="portletFooter">
+          
+            <a href="http://plone.org/news/createObject?type_name=News%20Item"
+               title="Add News Item"
+               style="float: left; margin-left: -0.5em">
+                <img src="index_files/add_icon.gif" alt="" title="Add" height="16" width="16" />Add&hellip;
+            </a>
+
+            <a href="http://plone.org/news">
+              More news&hellip;
+            </a>
+
+            
+        </dd>
+    </dl>
+
+</div>
+<div>
+
+<dl class="portlet" id="portlet-events">
+  
+    <dt class="portletHeader">
+        <a href="feed://plone.org/events/community/upcoming-events/RSS" class="feedButton link-plain">
+            <img alt="RSS"
+                 title="RSS subscription feed for upcoming events"
+                 src="index_files/rss.gif" />
+        </a>
+        <a href="http://plone.org/events/community">
+            Upcoming Events
+        </a>
+
+        
+    </dt>
+
+    
+    <dd class="portletItem odd">
+        <a href="http://plone.org/events/sprints/berlinale-sprint-2009/berlinale-sprint-2009"
+           title="Spent your 10% time with us in Berlin!">
+            <img src="index_files/event_icon.gif" alt="" title="Event" height="16" width="16" />
+            Berlinale Sprint 2009
+            <span class="portletItemDetails">
+                
+                    Berlin, Germany<br />
+                
+                Feb 09, 2009
+            </span>
+        </a>
+    </dd>
+    
+    
+    <dd class="portletItem even">
+        <a href="http://plone.org/events/training/7-tech-nw-online-plone-3-short-overview-9"
+           title="Regular 2 hour Plone 3 Overview online training sessions offered at least twice a month. All times are GMT-8. ">
+            <img src="index_files/event_icon.gif" alt="" title="Event" height="16" width="16" />
+            7 Tech NW: Online Plone 3 Short Overview
+            <span class="portletItemDetails">
+                
+                    Online: GoToWebinar<br />
+                
+                Mar 03, 2009
+            </span>
+        </a>
+    </dd>
+    
+    
+    <dd class="portletItem odd">
+        <a href="http://plone.org/events/community/pycon-2009"
+           title="PyCon is a conference for the Python community, organized by members of the Python community. PyCon is for Python enthusiasts of all experience levels, from new users to core developers.">
+            <img src="index_files/event_icon.gif" alt="" title="Event" height="16" width="16" />
+            PyCon 2009
+            <span class="portletItemDetails">
+                
+                    Chicago, USA<br />
+                
+                Mar 25, 2009
+            </span>
+        </a>
+    </dd>
+    
+    
+    <dd class="portletItem even">
+        <a href="http://plone.org/events/wpd/wpd-2009"
+           title="No matter where you are, meet Plone and discover the benefits of using it in education, government, ngos, and in business.">
+            <img src="index_files/event_icon.gif" alt="" title="Event" height="16" width="16" />
+            World Plone Day, April 22th 2009
+            <span class="portletItemDetails">
+                
+                    Worldwide<br />
+                
+                Apr 22, 2009
+            </span>
+        </a>
+    </dd>
+    
+    
+    <dd class="portletItem odd">
+        <a href="http://plone.org/events/wpd/2009/rome-italy"
+           title="">
+            <img src="index_files/event_icon.gif" alt="" title="Event" height="16" width="16" />
+            World Plone Day - Rome, Italy
+            <span class="portletItemDetails">
+                
+                Apr 22, 2009
+            </span>
+        </a>
+    </dd>
+    
+  
+    <dd class="portletFooter">
+        <a href="http://plone.org/events/community/createObject?type_name=Event"
+           title="Add Event"
+           style="float: left; margin-left: -0.5em">
+            <img src="index_files/add_icon.gif" alt="" title="Add" height="16" width="16" />Add&hellip;
+        </a>
+
+        <a href="http://plone.org/events/community">
+                Upcoming events&hellip;
+        </a>
+
+        
+
+    </dd>
+  
+</dl>
+
+
+</div>
+<div>
+
+<dl class="portlet" id="portlet-releases">
+
+    <dt class="portletHeader">
+        
+           <a class="feedButton"
+              href="http://plone.org/search_rss?portal_type=PSCRelease&amp;sort_on=Date&amp;sort_order=reverse&amp;review_state=alpha&amp;review_state=beta&amp;review_state=release-candidate&amp;review_state=final">
+              <img src="index_files/rss.gif"
+                   alt="RSS Feed"
+                   title="RSS feed of the latest releases" />
+           </a>
+        
+        <a href="http://plone.org/products">
+        Latest releases
+        </a>
+    </dt>
+
+    
+    <dd class="portletItem odd">
+
+        <a href="http://plone.org/products/ecassignmentbox"
+           title=" This release adds Plone 3.x support and breaks backward compatibility. 
+">
+            <img src="index_files/product_icon.gif" alt="" title="Product" height="16" width="16" />
+            ECAssignmentBox 1.4
+        </a>
+        
+        <div class="discreet">Educational</div>
+
+        <div class="portletDetails">Feb 04, 2009</div>
+    </dd>
+    
+    
+    <dd class="portletItem even">
+
+        <a href="http://plone.org/products/noheaderfieldcontinuation"
+           title="Initial, and perhaps final, release.">
+            <img src="index_files/product_icon.gif" alt="" title="Product" height="16" width="16" />
+            NoHeaderFieldContinuation 0.1
+        </a>
+        
+        <div class="discreet">Miscellaneous</div>
+
+        <div class="portletDetails">Feb 04, 2009</div>
+    </dd>
+    
+    
+    <dd class="portletItem odd">
+
+        <a href="http://plone.org/products/carousel"
+           title="">
+            <img src="index_files/product_icon.gif" alt="" title="Product" height="16" width="16" />
+            products-carousel 1.0b2 (Beta release)
+        </a>
+        
+        <div class="discreet">Layout and presentation, Theming tools</div>
+
+        <div class="portletDetails">Feb 04, 2009</div>
+    </dd>
+    
+    
+    <dd class="portletItem even">
+
+        <a href="http://plone.org/products/carousel"
+           title="Initial proof-of-concept release.">
+            <img src="index_files/product_icon.gif" alt="" title="Product" height="16" width="16" />
+            products-carousel 1.0b1 (Beta release)
+        </a>
+        
+        <div class="discreet">Layout and presentation, Theming tools</div>
+
+        <div class="portletDetails">Feb 04, 2009</div>
+    </dd>
+    
+    
+    <dd class="portletItem odd">
+
+        <a href="http://plone.org/products/estate-lite-plone-theme"
+           title="Initial release of the  Estate Lite Plone Theme for Plone 3. The skin is available for download as tar archive and egg.">
+            <img src="index_files/product_icon.gif" alt="" title="Product" height="16" width="16" />
+            Estate Lite Plone Theme 1.0
+        </a>
+        
+        <div class="discreet">Themes</div>
+
+        <div class="portletDetails">Feb 02, 2009</div>
+    </dd>
+    
+
+    <dd class="portletFooter">
+
+        <a href="http://plone.org/products"
+           class="portletMore">
+            More Releases&hellip;
+        </a>
+
+    </dd>
+</dl>
+
+</div>
+<div>
+
+<dl class="portlet" id="portlet-training">
+
+    <dt class="portletHeader">
+        <a href="feed://plone.org/events/community/training/training-announcements/RSS" class="feedButton link-plain">
+            <img alt="RSS"
+                 title="RSS subscription feed for training"
+                 src="index_files/rss.gif" />
+        </a>
+        <a href="http://plone.org/events/training">
+            Upcoming training
+        </a>
+    </dt>
+
+    
+    <dd class="portletItem odd">
+        <a href="http://plone.org/events/training/redomino-plone-3-customization-training-1"
+           title="Intensive course for site managers, integrators, designers and developers who want to customize Plone for their projects.  ">
+            <img src="index_files/event_icon.gif" alt="" title="Event" height="16" width="16" />
+            Redomino: Plone 3 Customization Training  
+            <span class="portletItemDetails">
+                
+                    Turin, Italy  <br />
+                
+                Feb 10, 2009
+            </span>
+        </a>
+    </dd>
+    
+    
+    <dd class="portletItem even">
+        <a href="http://plone.org/events/training/7-tech-nw-online-plone-3-short-overview-8"
+           title="Regular 2 hour Plone 3 Overview online training sessions offered at least twice a month. All times are GMT-8. ">
+            <img src="index_files/event_icon.gif" alt="" title="Event" height="16" width="16" />
+            7 Tech NW: Online Plone 3 Short Overview
+            <span class="portletItemDetails">
+                
+                    Online: GoToWebinar<br />
+                
+                Feb 11, 2009
+            </span>
+        </a>
+    </dd>
+    
+    
+    <dd class="portletItem odd">
+        <a href="http://plone.org/events/training/7-tech-nw-online-plone-content-management-fundamentals-1"
+           title="This 3 day online training will explore how to leverage Plone as a powerful Content Management system by understanding how it works, what addon products are available, how to leverage the Plone community, and how to get effective help from Plone developers. ">
+            <img src="index_files/event_icon.gif" alt="" title="Event" height="16" width="16" />
+            7 Tech NW: Online - Plone Content Management Fundamentals
+            <span class="portletItemDetails">
+                
+                Feb 17, 2009
+            </span>
+        </a>
+    </dd>
+    
+    
+    <dd class="portletItem even">
+        <a href="http://plone.org/events/training/plone-3.0-cms-training-feb-18-20-by-cignex"
+           title=" This course is designed for both the content managers and developers. This is a 3 day hands-on session covering the latest offerings of Plone 3.0 like Content Versioning, Pluggable Authentication Service (PAS), Content Rules Engine, Portlets Engine, Buildout etc. Participants will get Latest training material, Course completion Certificate, a CD with code samples.">
+            <img src="index_files/event_icon.gif" alt="" title="Event" height="16" width="16" />
+             Plone 3.0 CMS Training Feb 18 - 20, by CIGNEX
+            <span class="portletItemDetails">
+                
+                    Santa Clara, CA, USA<br />
+                
+                Feb 18, 2009
+            </span>
+        </a>
+    </dd>
+    
+    
+    <dd class="portletItem odd">
+        <a href="http://plone.org/events/training/ingeniweb-plone-training-10"
+           title="A training for understanding Plone configuration and integration practices, organized in Paris for a french-speaking audience. This 4 days session is organized by Anaska, the company specialized in training services within the AlterWay group, and lead by an Ingeniweb expert.">
+            <img src="index_files/event_icon.gif" alt="" title="Event" height="16" width="16" />
+            Ingeniweb: Plone Training
+            <span class="portletItemDetails">
+                
+                    Paris<br />
+                
+                Feb 24, 2009
+            </span>
+        </a>
+    </dd>
+    
+  
+    <dd class="portletFooter">
+        <a href="http://plone.org/events/training/createObject?type_name=Event"
+           title="Add Training"
+           style="float: left; margin-left: -0.5em">
+            <img src="index_files/add_icon.gif" alt="" title="Add" height="16" width="16" />Add&hellip;
+        </a>
+
+        <a href="http://plone.org/events/training">
+                Upcoming training&hellip;
+        </a>
+
+    </dd>
+  
+</dl>
+
+</div>
+</div>
+<div class="visualClear">&nbsp;</div>
+
+<script type="text/javascript">
+  tabberAutomatic(tabberOptions);
+</script>
+
+
+                    </div>
+                    
+
+                    
+                    
+                      
+
+                    
+                    
+
+                    <span id="contentBottomLeft"></span>
+                    <span id="contentBottomRight"></span>
+
+                  </div>
+
+                </div>
+
+              
+            </td>
+            
+
+            
+            
+            
+          </tr>
+        </tbody>
+      </table>
+      
+
+      <div class="visualClear" id="clear-space-before-footer"><!-- --></div>
+      
+      
+
+      
+
+        <div id="portal-footer">
+
+<p>
+    
+    The
+    <a href="http://plone.org">Plone<sup>&reg;</sup> CMS &mdash; Open Source Content Management System</a>
+    is
+    <acronym title="Copyright">&copy;</acronym>
+    2000-2009
+    by the
+    <a href="http://plone.org/foundation">Plone Foundation</a>
+    et al.
+    
+</p>
+
+<p>
+    
+    Plone<sup>&reg;</sup> and the Plone logo are registered trademarks of the
+        <a href="http://plone.org/foundation">Plone Foundation</a>.
+    
+
+    
+    Distributed under the
+        <a href="http://creativecommons.org/licenses/GPL/2.0/">GNU GPL license</a>.
+    
+</p>
+
+</div>
+
+  <div id="portal-colophon">
+      
+
+      
+
+      <div class="colophonWrapper">
+      <ul>
+        <li>
+          <a href="http://plone.org"
+             title="This site was built using Plone CMS, the Open Source Content Management System. Click for more information.">
+            Powered by Plone</a>
+        </li>
+        <li>
+          <a href="http://validator.w3.org/check/referer"
+             title="This site is valid XHTML.">
+            Valid XHTML</a>
+        </li>
+        <li>
+          <a href="http://jigsaw.w3.org/css-validator/check/referer&amp;warning=no&amp;profile=css3&amp;usermedium=all"
+             title="This site was built with valid CSS.">
+            Valid CSS</a>
+        </li>
+        <li>
+          <a href="http://www.section508.gov"
+             title="This site conforms to the US Government Section 508 Accessibility Guidelines.">
+            Section 508</a>
+        </li>
+        <li>
+          <a href="http://www.w3.org/WAI/WCAG1AA-Conformance"
+             title="This site conforms to the W3C-WAI Web Content Accessibility Guidelines.">
+            WCAG</a>
+        </li>
+      </ul>
+      </div>
+
+    </div>
+
+<script type="text/javascript"> var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www."); document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E")); </script> <script type="text/javascript"> var pageTracker = _gat._getTracker("UA-1907133-2"); pageTracker._trackPageview(); </script>
+
+      
+
+      <div class="visualClear"><!-- --></div>
+    </div>
+<div id="kss-spinner"><img alt=""
+                           src="index_files/spinner.gif" /></div>
+</body>
+</html>
+

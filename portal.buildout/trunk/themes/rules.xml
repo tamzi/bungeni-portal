@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<rules xmlns:xi="http://www.w3.org/2001/XInclude" 
-       xmlns="http://www.plone.org/deliverance">
+<ruleset>
+  <theme href="/themes/layout.html" />
   
-  <replace href="/plone"
-           content=".//*[@id='content']" theme=".//*[@id='content']" />
+  <rule>
+    <!-- replace the title -->
+    <replace content="children:title" theme="children:h1" />
+    <replace content="#visual-portal-wrapper" theme="#content" />
+  </rule>
   
-</rules>
+</ruleset>

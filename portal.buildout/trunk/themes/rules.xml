@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ruleset>
   <theme href="/themes/layout.html" />
+
+  <rule>
+    <replace content="children:head" theme="children:head" />
+  </rule>
   
   <rule>
     <!-- replace the title -->

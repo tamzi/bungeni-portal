@@ -1,4 +1,6 @@
 # encoding: utf-8
+import os
+
 from zope import interface
 from zope import component
 from zope.event import notify
@@ -803,22 +805,36 @@ def create_question_workflow( ):
                 
     return transitions
 
-workflow_transition_event_map = {
-    (states.submitted, states.received): interfaces.IQuestionReceivedEvent,
-    (states.draft, states.submitted): interfaces.IQuestionSubmittedEvent,
-    (states.complete, states.inadmissible): interfaces.IQuestionRejectedEvent,
-    (states.received, states.complete) : interfaces.IQuestionCompleteEvent,
-    (states.received, states.clarify_mp): interfaces.IQuestionClarifyEvent,
-    (states.admissible, states.deferred): interfaces.IQuestionDeferredEvent,
-    (states.admissible, states.scheduled): interfaces.IQuestionScheduledEvent,
-    (states.scheduled, states.postponed): interfaces.IQuestionPostponedEvent,
-    (states.deferred, states.response_pending): interfaces.IQuestionSentToMinistryEvent,
-    (states.response_pending, states.response_pending): interfaces.IQuestionSentToMinistryEvent,
-    (states.admissible, states.response_pending): interfaces.IQuestionSentToMinistryEvent,    
-    (states.postponed, states.response_pending): interfaces.IQuestionSentToMinistryEvent, 
-    (states.postponed, states.scheduled): interfaces.IQuestionScheduledEvent,       
-    (states.responded, states.answered): interfaces.IQuestionAnsweredEvent,
-    }
+
+
+path = os.path.split(os.path.abspath( __file__ ))[0] +  os.path.sep      
+try:
+    wf = load(path + 'question.xml') 
+except:
+    wf = load('question.xml') 
+
+
+workflow_transition_event_map = {}
+for t in wf._id_transitions.values():
+    if t.event:
+        workflow_transition_event_map[(t.source, t.destination)] = t.event
+
+#workflow_transition_event_map = {
+#    (states.submitted, states.received): interfaces.IQuestionReceivedEvent,
+#    (states.draft, states.submitted): interfaces.IQuestionSubmittedEvent,
+#    (states.complete, states.inadmissible): interfaces.IQuestionRejectedEvent,
+#    (states.received, states.complete) : interfaces.IQuestionCompleteEvent,
+#    (states.received, states.clarify_mp): interfaces.IQuestionClarifyEvent,
+#    (states.admissible, states.deferred): interfaces.IQuestionDeferredEvent,
+#    (states.admissible, states.scheduled): interfaces.IQuestionScheduledEvent,
+#    (states.scheduled, states.postponed): interfaces.IQuestionPostponedEvent,
+#    (states.deferred, states.response_pending): interfaces.IQuestionSentToMinistryEvent,
+#    (states.response_pending, states.response_pending): interfaces.IQuestionSentToMinistryEvent,
+#    (states.admissible, states.response_pending): interfaces.IQuestionSentToMinistryEvent,    
+#    (states.postponed, states.response_pending): interfaces.IQuestionSentToMinistryEvent, 
+#    (states.postponed, states.scheduled): interfaces.IQuestionScheduledEvent,       
+#    (states.responded, states.answered): interfaces.IQuestionAnsweredEvent,
+#    }
 
 @component.adapter(iworkflow.IWorkflowTransitionEvent)
 def workflowTransitionEventDispatcher(event):
@@ -831,12 +847,11 @@ def workflowTransitionEventDispatcher(event):
         interface.alsoProvides(transition_event, iface)
         notify(transition_event)
 
-class QuestionWorkflow( workflow.Workflow ):
+#class QuestionWorkflow( workflow.Workflow ):
+#    def __init__( self ):
+#        super( QuestionWorkflow, self).__init__( create_question_workflow() )
 
-    def __init__( self ):
-        super( QuestionWorkflow, self).__init__( create_question_workflow() )
-
-QuestionWorkflowAdapter = workflow.AdaptedWorkflow( QuestionWorkflow() )
+QuestionWorkflowAdapter = workflow.AdaptedWorkflow( wf )
 
 if __name__ == '__main__':
     #wf = QuestionWorkflow()

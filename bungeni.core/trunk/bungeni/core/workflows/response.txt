@@ -227,9 +227,8 @@ Transition events check
 -----------------------
 
   >>> print check_transition_events
-   {(u'draft', u'submitted'): True, 
-   (u'submitted', u'complete'): True}
-
+  {(u'response submitted', u'response complete'): True, 
+  (u'draft response', u'response submitted'): True}
 
 cleanup
 -------

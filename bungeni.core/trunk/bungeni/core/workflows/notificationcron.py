@@ -28,7 +28,7 @@ import bungeni.core.workflow.dbutils as dbutils
 import bungeni.core.domain as domain
 import bungeni.core.schema as schema
 import bungeni.core.globalsettings as prefs
-from bungeni.core.workflows.question import states as q_state
+#from bungeni.core.workflows.question import states as q_state
 from bungeni.server.smtp import dispatch
 
 ##############################
@@ -45,7 +45,7 @@ def _getQuestionsPendingResponse(date, ministry):
     'pending written response from a ministry'
     and were sent to the ministry before this date
     """
-    status = q_state.response_pending
+    status = u"Question pending response" #q_state.response_pending
     session = Session()
     qfilter=sql.and_(
                 (domain.Question.c.ministry_submit_date < date ),
@@ -86,7 +86,7 @@ def sendNotificationToMP(date):
     send a mail to the MP asking the question that the deadline 
     of the question is aproaching
     """
-    status = q_state.response_pending
+    status = u"Question pending response" #q_state.response_pending
     text = translate('notification_email_to_mp_question_pending_response',
                      target_language='en',
                      domain='bungeni.core',

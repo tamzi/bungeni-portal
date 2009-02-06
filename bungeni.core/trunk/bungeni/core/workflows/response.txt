@@ -7,7 +7,6 @@ Setup
 -----
 
   >>> import bungeni.core.workflows.response
-  >>> from bungeni.core.workflows.question import states as q_states  
   >>> import bungeni.core.interfaces
   >>> import ore.workflow
   >>> import copy
@@ -149,7 +148,7 @@ we need to have a question in this state (pending response) so that the actions 
 gets fired by the response transitions succeed.
 
   >>> question = domain.Question()
-  >>> question.status = q_states.response_pending
+  >>> question.status = u"Question pending response" #q_states.response_pending
   >>> session.save(question)
   >>> session.flush()
   

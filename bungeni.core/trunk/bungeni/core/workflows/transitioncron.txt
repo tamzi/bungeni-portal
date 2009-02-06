@@ -48,7 +48,7 @@ Questions
 
   >>> question = domain.Question()
   >>> question.approval_date = datetime.date.today() - datetime.timedelta(5)
-  >>> question.status = question_workflow.states.admissible  
+  >>> question.status ="admissible Question"  #question_workflow.states.admissible  
   >>> session.save(question)
   >>> session.flush()
   
@@ -57,24 +57,24 @@ Questions
   
   >>> question2 = domain.Question()
   >>> question2.approval_date = datetime.date.today() - datetime.timedelta(1)
-  >>> question2.status = question_workflow.states.admissible  
+  >>> question2.status = "admissible Question" #question_workflow.states.admissible  
   >>> session.save(question2)
   >>> session.flush()
   
     
   >>> question3 = domain.Question()
   >>> question3.approval_date = datetime.date.today() - datetime.timedelta(1)
-  >>> question3.status = question_workflow.states.complete  
+  >>> question3.status = "Question complete" #question_workflow.states.complete  
   >>> session.save(question3)
   >>> session.flush()
   
 get the questions that are in the workflow state:
   
-  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), question_workflow.states.admissible)  
+  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), "admissible Question")  
   >>> len(questions)
   2
   
-  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), question_workflow.states.complete)  
+  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), "Question complete")  
   >>> len(questions)  
   1  
     
@@ -83,15 +83,15 @@ defer admissible question older than today
   >>> cron._deferAdmissibleQuestionsBefore(datetime.date.today()) 
   >>> session.flush()     
  
-  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), question_workflow.states.admissible)  
+  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), "admissible Question")  
   >>> len(questions)
   0
   
-  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), question_workflow.states.complete)  
+  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), "Question complete")  
   >>> len(questions)  
   1      
 
-  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), question_workflow.states.deferred)  
+  >>> questions = cron._getQuestionsApprovedBefore(datetime.date.today(), "Question deferred")  
   >>> len(questions)  
   2        
   

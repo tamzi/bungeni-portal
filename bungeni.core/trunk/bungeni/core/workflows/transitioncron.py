@@ -15,7 +15,7 @@ import bungeni.core.domain as domain
 import bungeni.core.schema as schema
 import bungeni.core.audit as audit
 
-import bungeni.core.workflows.question as question_workflow
+#import bungeni.core.workflows.question as question_workflow
 import bungeni.core.globalsettings as prefs
 import bungeni.core.workflows.dbutils as dbutils
 
@@ -53,7 +53,7 @@ def _deferAdmissibleQuestionsBefore(date):
     set all admissible Questions before this
     date to defered
     """    
-    status = question_workflow.states.admissible
+    status = u"admissible Question" #question_workflow.states.admissible
     admissibleQuestions = _getQuestionsApprovedBefore(date, status)
     for question in admissibleQuestions:
         IWorkflowInfo(question).fireTransition('defer')   

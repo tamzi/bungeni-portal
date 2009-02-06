@@ -5,7 +5,7 @@
    description="A question"
    initial_state="">
 
-  <state id="draft question" title="draft question">
+  <state id="draft question" title="a draft question of a MP">
     <grant permission="bungeni.question.edit" role="bungeni.Owner" />
     <grant permission="bungeni.question.view" role="bungeni.Owner" />    
     <grant permission="bungeni.question.delete" role="bungeni.Owner" />    
@@ -17,20 +17,20 @@
     <deny permission="bungeni.question.delete" role="bungeni.Owner" />     
   </state>
 
-  <state id="Question received by clerk" title="Question received by clerk">
+  <state id="Question received by clerk" title="Question received by clerks office">
     <grant permission="bungeni.question.edit" role="bungeni.Clerk" />
   </state>
 
-  <state id="Question complete" title="Question complete">
+  <state id="Question complete" title="Question complete, reviewed by clerks office sent to speakers office">
     <deny permission="bungeni.question.edit" role="bungeni.Clerk" />  
     <grant permission="bungeni.question.edit" role="bungeni.Speaker" />
   </state>
 
-  <state id="admissible Question" title="admissible Question">
+  <state id="admissible Question" title="admissible Question, reviewed by speakers office">
     <grant permission="bungeni.question.view" role="bungeni.Everybody" />      
   </state>
 
-  <state id="inadmissible Question" title="inadmissible Question">
+  <state id="inadmissible Question" title="inadmissible Question, rejected by speakers office">
     <grant permission="bungeni.question.view" role="bungeni.Everybody" />      
   </state>
 
@@ -64,10 +64,10 @@
   <state id="Question responded" title="Question responded">
   </state>
 
-  <state id="Question answered" title="Question answered">
+  <state id="Question answered" title="Question answered, the written answer was reviewed by the clerks office or debate reference input by clerks office">
   </state>
 
-  <state id="Question withdrawn" title="Question withdrawn">
+  <state id="Question withdrawn" title="Question withdrawn, the owner of the question can withdraw the question">
     <deny permission="bungeni.question.edit" role="bungeni.Speaker" />  
     <deny permission="bungeni.question.edit" role="bungeni.Clerk" />  
     <deny permission="bungeni.question.edit" role="bungeni.Owner" />            

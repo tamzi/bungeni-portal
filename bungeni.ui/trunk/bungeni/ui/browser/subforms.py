@@ -20,7 +20,7 @@ import bungeni.core.domain as domain
 from bungeni.core.interfaces import IMemberOfParliament
 from bungeni.core.i18n import _
 import bungeni.core.domain as domain
-from bungeni.core.workflows.question import states as qw_state
+#from bungeni.core.workflows.question import states as qw_state
 
 from bungeni.ui.viewlets.sittingcalendar import SittingCalendarViewlet
 
@@ -339,7 +339,7 @@ class SupplementaryQuestionsViewlet( SubformViewlet ):
     
     @property
     def for_display(self):
-        return self.context.__parent__.status == qw_state.answered   
+        return self.context.__parent__.status == u"Question answered" #qw_state.answered   
     
     def __init__( self,  context, request, view, manager ):        
 

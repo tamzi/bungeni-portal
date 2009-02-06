@@ -9,7 +9,7 @@ from zope.viewlet.manager import WeightOrderedViewletManager
 
 from ore.alchemist import Session
 
-from bungeni.core.workflows.question import states as question_wf_state
+#from bungeni.core.workflows.question import states as question_wf_state
 from bungeni.core.workflows.motion import states as motion_wf_state
 from bungeni.core.workflows.bill import states as bill_wf_state
 import bungeni.core.schema as schema
@@ -142,30 +142,34 @@ class MyMotionsViewlet( viewlet.ViewletBase ):
 
 class DraftQuestionViewlet( QuestionInStateViewlet ):
     """
-    display the postponed questions
+    display the draft questions
     """    
-    name = state = question_wf_state.draft
+    name = state = u"draft question" #question_wf_state.draft
     list_id = "draft_questions"
 
 class SubmittedQuestionViewlet( QuestionInStateViewlet ):
     """
-    display the postponed questions
+    display the submitted questions
     """    
-    name = state = question_wf_state.submitted   
+    name = state = u"Question submitted to clerk" # question_wf_state.submitted   
     list_id = "submitted_questions"  
     
 class ReceivedQuestionViewlet( QuestionInStateViewlet ):
     """
-    display the postponed questions
+    display the recieved questions
     """    
-    name = state = question_wf_state.received   
+    name = state = u"Question received by clerk" #question_wf_state.received   
     list_id = "recieved_questions"     
+    
+class ScheduledQuestionViewlet( QuestionInStateViewlet ): 
+    name = state = "Question scheduled"   
+    list_id = "scheduled_questions"     
         
 class PostponedQuestionViewlet( QuestionInStateViewlet ):
     """
     display the postponed questions
     """    
-    name = state = question_wf_state.postponed   
+    name = state = u"Question postponed" #question_wf_state.postponed   
     list_id = "postponed_questions"    
     
     
@@ -173,21 +177,21 @@ class AdmissibleQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = state = question_wf_state.admissible
+    name = state = u"admissible Question" #question_wf_state.admissible
     list_id = "admissible_questions"
    
 class InadmissibleQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = state = question_wf_state.inadmissible
+    name = state = u"inadmissible Question" #question_wf_state.inadmissible
     list_id = "inadmissible_questions"
   
 class ClarifyMPQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = state = question_wf_state.clarify_mp
+    name = state = u"Question needs MP clarification" #question_wf_state.clarify_mp
     list_id = "clarify_mp_questions"  
  
 
@@ -195,35 +199,35 @@ class ClarifyClerkQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = state = question_wf_state.clarify_clerk
+    name = state = u"Question needs Clerks clarification" #question_wf_state.clarify_clerk
     list_id = "clarify_clerk_questions"  
 
 class ResponsePendingQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = state = question_wf_state.response_pending
+    name = state = u"Question pending response" #question_wf_state.response_pending
     list_id = "response_pending_questions" 
 
 class CompleteQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = state = question_wf_state.complete
+    name = state = u"Question complete" #question_wf_state.complete
     list_id = "complete_questions" 
 
 class DeferredQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = state = question_wf_state.deferred
+    name = state = u"Question deferred" #question_wf_state.deferred
     list_id = "deferred_questions" 
 
 class ElapsedQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = state = question_wf_state.elapsed
+    name = state = u"Question elapsed" #question_wf_state.elapsed
     list_id = "elapsed_questions" 
 
 
@@ -231,24 +235,24 @@ class RespondedQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = state = question_wf_state.responded
+    name = state = u"Question responded" #question_wf_state.responded
     list_id = "responded_questions" 
 
 class AnsweredQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = state = question_wf_state.answered
+    name = state = u"Question answered" #question_wf_state.answered
     list_id = "answered_questions" 
 
 class WithdrawnQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = state = question_wf_state.withdrawn
+    name = state = u"Question withdrawn" #question_wf_state.withdrawn
     list_id = "withdrawn_questions" 
 
-
+#"Question pending response"
 
 
  

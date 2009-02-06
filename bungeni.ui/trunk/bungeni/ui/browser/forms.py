@@ -38,7 +38,6 @@ from bungeni.core.interfaces import IGroupSitting, IParliamentSession, IMemberOf
     IMemberOfParty, IPoliticalParty, IQuestion, IResponse
 
 import bungeni.core.workflows.utils
-from bungeni.core.workflows.question import states as question_states
 import bungeni.core.globalsettings as prefs
 import bungeni.core.schema as db_schema
 from bungeni.core.interfaces import IVersioned, IFileAttachments 

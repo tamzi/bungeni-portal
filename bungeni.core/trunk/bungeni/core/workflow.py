@@ -12,9 +12,14 @@ import bungeni.core
 from zope.dottedname.resolve import resolve
 import zope.securitypolicy.interfaces
 
+from zope import interface 
+
+
 from ore.workflow.workflow import Workflow, WorkflowInfo, Transition, NullCondition, NullAction, MANUAL, CheckerPublic
 from ore.workflow import interfaces
 from zope.i18nmessageid import Message
+
+#import bungeni.core.interfaces
 
 
 trigger_value_map = {
@@ -101,6 +106,9 @@ class State( object ):
                rpm.denyPermissionToRole( permission, role ) 
 
 class StateTransition( Transition ):
+    """
+    the xml file contains the transition events as well.        
+    """
     def __init__(self, transition_id, title, source, destination,
                  condition=NullCondition,
                  action=NullAction,
@@ -141,6 +149,8 @@ class StateWorkflow( Workflow ):
             raise SyntaxError("Workflow Contains Unreachable States %s"%(unreachable_states ) )
 
 class StateWorkflowInfo( WorkflowInfo ):
+
+    #interface.implements(interfaces.IWorkflowInfo)
 
     def _setState( self, state_id ):
         wf = self.workflow()

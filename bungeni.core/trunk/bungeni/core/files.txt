@@ -67,8 +67,9 @@ Let's add a simple attachment file.
   >>> file = files.makeFile('rabbit.txt')
   >>> stream = StringIO("Hello World")
   >>> file.writeStream( stream )
-  >>> file.svn_path == "/bill/%s-%s/%s/rabbit.txt"%( today.year, today.month, today.day )
+  >>> file.svn_path == "/bill/%s-%s/%s/%s/rabbit.txt"%( today.year, today.month, today.day, bill.bill_id )
   True
+  
   
   >>> files.keys()
   ['rabbit.txt']  
@@ -84,8 +85,9 @@ Let's add a simple attachment file.
   >>> file = files.makeFile('rabbit.txt')
   >>> stream = StringIO("Hello World")
   >>> file.writeStream( stream )
-  >>> file.svn_path == "/bill/%s-%s/%s/rabbit.txt"%( today.year, today.month, today.day )
+  >>> file.svn_path == "/bill/%s-%s/%s/%s/rabbit.txt"%( today.year, today.month, today.day, bill.bill_id )
   True
+  
   
   >>> files.keys()
   ['rabbit.txt']  

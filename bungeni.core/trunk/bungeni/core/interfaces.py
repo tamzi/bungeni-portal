@@ -7,7 +7,7 @@ from ore.wsgiapp.interfaces import IApplication
 from ore.xapian.interfaces import IIndexable
 from i18n import _
 
-
+from ore.workflow import interfaces as iworkflow
 
 DEBUG = True
 ENABLE_LOGGING = False
@@ -290,5 +290,17 @@ class IFilePathChooser( interface.Interface ):
         """
         return the path to store a context's files within the repo 
         """        
+
+
+
+##################
+# general workflow 
+##################
+
+class IStateWorkflowInfo( iworkflow.IWorkflowInfo ):
+    """
+    Interface for bungeni.core.workflow.StateWorkflowInfo
+    """
+
     
     

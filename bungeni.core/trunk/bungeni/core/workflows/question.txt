@@ -256,7 +256,7 @@ just a variable to count the versions:
 First we initialize the workflow.
   
   >>> transitions(question)
-  ('create',)
+  (u'create',)
 
   >>> permission(question)
   (Global(CheckerPublic,zope.security.checker),)
@@ -273,10 +273,10 @@ First we initialize the workflow.
 The question is now in a draft state.
 
   >>> transitions(question)
-   ('submit-to-clerk',)
+   (u'submit-to-clerk',)
     
   >>> permission(question)
-  ('bungeni.question.Submit',)
+  (u'bungeni.question.Submit',)
 
 
 
@@ -315,7 +315,7 @@ Let's examine the version.
 Submitted:
 
   >>> transitions(question)
-  ('withdraw-submitted', 'received-by-clerk')
+  (u'withdraw-submitted', u'received-by-clerk')
 
 A question can be withdrawn at (almost) any stage  
   
@@ -335,7 +335,7 @@ A question can be withdrawn at (almost) any stage
 Received:
 
   >>> transitions(question)
-  ('require-edit-by-mp', 'complete', 'withdraw-received')
+  (u'require-edit-by-mp', u'complete', u'withdraw-received')
 
 A question can be withdrawn at (almost) any stage  
   
@@ -354,7 +354,7 @@ If it needs clarification this sets it back to draft and it must be submitted ag
   
 
   >>> transitions(question)
-  ('resubmit-clerk', 'withdraw-amend')
+  (u'resubmit-clerk', u'withdraw-amend')
 
   >>> i = i + 1
   >>> len(list(versions.values())) == i
@@ -389,7 +389,7 @@ complete the question
 The speakers office now has to review the question
 
   >>> transitions(question)
-  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
+  (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
 
 A question can be withdrawn at (almost) any stage  
   
@@ -404,7 +404,7 @@ Reject the question
 
   >>> question_reject = copy.deepcopy(question)
   >>> transitions(question_reject)
-  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
+  (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
 
   >>> result = IWorkflowInfo(question_reject).fireTransition('reject') 
 
@@ -415,7 +415,7 @@ If the questions requires amendment it is sent back to the owner
 and has to be resubmitted 
 
   >>> transitions(question)
-  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
+  (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
 
   >>> question_amend = copy.deepcopy(question)
   >>> result = IWorkflowInfo(question_amend).fireTransition('require-amendment')   
@@ -427,14 +427,14 @@ it gets versioned before amendment
     
   
   >>> transitions(question_amend)
-  ('complete-clarify', 'mp-clarify')
+  (u'complete-clarify', u'mp-clarify')
 
 The clerks office can resubmit the question
 
   >>> question_clerk_resubmit = copy.deepcopy(question_amend)
   >>> result = IWorkflowInfo(question_clerk_resubmit).fireTransition('complete-clarify')    
   >>> transitions(question_clerk_resubmit)
-  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
+  (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
 
   >>> i = i + 1
   >>> len(list(versions.values())) == i
@@ -445,7 +445,7 @@ or the question can be send back to the mp for further clarification
 
   >>> result = IWorkflowInfo(question_amend).fireTransition('mp-clarify')  
   >>> transitions(question_amend)
-  ('resubmit-clerk', 'withdraw-amend')
+  (u'resubmit-clerk', u'withdraw-amend')
 
   >>> i = i + 1
   >>> len(list(versions.values())) == i
@@ -470,7 +470,7 @@ it gets versioned by resubmitting after amendment
   True
 
   >>> transitions(question_amend)   
-  ('withdraw-submitted', 'received-by-clerk')
+  (u'withdraw-submitted', u'received-by-clerk')
 
 clerks recieves it
 
@@ -481,7 +481,7 @@ clerks recieves it
 Appove the question and set the approval date and serial number
 
   >>> transitions(question)
-  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
+  (u'withdraw-complete', u'approve', u'require-amendment', u'reject')
 
   >>> question.approval_date
 
@@ -497,7 +497,7 @@ Appove the question and set the approval date and serial number
   
   
   >>> transitions(question)
-  ('defer', 'withdraw-admissible', 'send-ministry', 'schedule')
+  (u'defer', u'withdraw-admissible', u'send-ministry', u'schedule')
   
 
 A question can be withdrawn at (almost) any stage  
@@ -526,14 +526,14 @@ A written response to the question
   True
   
   >>> transitions(question_written_response)
-   ('elapse-pending', 'respond-writing', 'forward-ministry')
+   (u'elapse-pending', u'respond-writing', u'forward-ministry')
    
 The question can be forwarded to another ministry.
 
   >>> result = IWorkflowInfo(question_written_response).fireTransition('forward-ministry')  
   
   >>> transitions(question_written_response)
-   ('elapse-pending', 'respond-writing', 'forward-ministry')  
+   (u'elapse-pending', u'respond-writing', u'forward-ministry')  
    
 
 A question can elapse if no answer is given
@@ -551,7 +551,7 @@ Or the question can be responded to in writing
   >>> result = IWorkflowInfo(question_written_response).fireTransition('respond-writing')  
   
   >>> transitions(question_written_response)
-  ('answer',)  
+  (u'answer',)  
 
 defer the question
 
@@ -559,7 +559,7 @@ defer the question
   >>> result = IWorkflowInfo(question_defer).fireTransition('defer')   
   
   >>> transitions(question_defer)     
-  ('schedule-deferred', 'elapse-defered', 'defer-ministry', 'withdraw-deferred')
+  (u'schedule-deferred', u'elapse-defered', u'defer-ministry', u'withdraw-deferred')
   
 A deferred question can be assigned to a ministry for a written response
 
@@ -575,12 +575,12 @@ A deferred question can be assigned to a ministry for a written response
   True
   
   >>> transitions(question_defer_response)
-  ('elapse-pending', 'respond-writing', 'forward-ministry')  
+  (u'elapse-pending', u'respond-writing', u'forward-ministry')  
 
   >>> result = IWorkflowInfo(question_defer_response).fireTransition('respond-writing')  
   
   >>> transitions(question_defer_response)
-  ('answer',)  
+  (u'answer',)  
   
   
 A queston can elapse if no answer is given
@@ -603,7 +603,7 @@ Reschedule the deferred question
 
   >>> result = IWorkflowInfo(question_defer).fireTransition('schedule-deferred')   
   >>> transitions(question_defer)     
-  ('postpone', 'withdraw-scheduled', 'respond-sitting')
+  (u'postpone', u'withdraw-scheduled', u'respond-sitting')
 
 and postpone it to make sure it is out of the calendar schedule
   
@@ -616,7 +616,7 @@ schedule the question
   >>> result = IWorkflowInfo(question).fireTransition('schedule')  
   
   >>> transitions(question)
-  ('postpone', 'withdraw-scheduled', 'respond-sitting')
+  (u'postpone', u'withdraw-scheduled', u'respond-sitting')
 
 A question can be withdrawn at (almost) any stage  
   
@@ -632,7 +632,7 @@ postpone the question
   
   >>> result = IWorkflowInfo(question).fireTransition('postpone')  
   >>> transitions(question)
-  ('schedule-postponed', 'elapse-postponed', 'postponed-ministry', 'withdraw-postponed')
+  (u'schedule-postponed', u'elapse-postponed', u'postponed-ministry', u'withdraw-postponed')
  
 A question can elapse without an answer 
 
@@ -657,14 +657,14 @@ and reschedule it for the second sitting
   >>> result = IWorkflowInfo(question).fireTransition('schedule-postponed')  
   
   >>> transitions(question)
-  ('postpone', 'withdraw-scheduled', 'respond-sitting')
+  (u'postpone', u'withdraw-scheduled', u'respond-sitting')
 
 
 respond to the question
 
   >>> result = IWorkflowInfo(question).fireTransition('respond-sitting')  
   >>> transitions(question)
-  ('answer',)
+  (u'answer',)
 
 the question gets marked as answered
 
@@ -676,21 +676,21 @@ the question gets marked as answered
 Transition events check
 -----------------------
 
-  >>> print check_transition_events
-  {(u'Question received by clerk', u'Question complete'): True, 
-  (u'admissible Question', u'Question scheduled'): True, 
-  (u'Question pending response', u'Question pending response'): True, 
-  (u'Question scheduled', u'Question postponed'): True, 
-  (u'admissible Question', u'Question deferred'): True, 
-  (u'Question complete', u'inadmissible Question'): True, 
-  (u'Question deferred', u'Question pending response'): True, 
-  (u'admissible Question', u'Question pending response'): True, 
-  (u'Question postponed', u'Question pending response'): True, 
-  (u'draft question', u'Question submitted to clerk'): True, 
-  (u'Question received by clerk', u'Question needs MP clarification'): True, 
-  (u'Question submitted to clerk', u'Question received by clerk'): True, 
-  (u'Question postponed', u'Question scheduled'): True, 
-  (u'Question responded', u'Question answered'): True}
+  >>> print check_transition_events ==  {(u'Question received by clerk', u'Question complete'): True, 
+  ... (u'admissible Question', u'Question scheduled'): True, 
+  ... (u'Question pending response', u'Question pending response'): True, 
+  ... (u'Question scheduled', u'Question postponed'): True, 
+  ... (u'admissible Question', u'Question deferred'): True, 
+  ... (u'Question complete', u'inadmissible Question'): True, 
+  ... (u'Question deferred', u'Question pending response'): True, 
+  ... (u'admissible Question', u'Question pending response'): True, 
+  ... (u'Question postponed', u'Question pending response'): True, 
+  ... (u'draft question', u'Question submitted to clerk'): True, 
+  ... (u'Question received by clerk', u'Question needs MP clarification'): True, 
+  ... (u'Question submitted to clerk', u'Question received by clerk'): True, 
+  ... (u'Question postponed', u'Question scheduled'): True, 
+  ... (u'Question responded', u'Question answered'): True}
+  True
 
 
 

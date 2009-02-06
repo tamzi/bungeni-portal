@@ -42,8 +42,8 @@ def removeQuestionFromItemSchedule(question_id):
                                        schema.items_schedule.c.active == True)
     item_schedule = session.query(domain.ItemSchedule).filter(active_question_filter)
     results = item_schedule.all()
-    assert (len(results) == 1)
-    results[0].active = False
+    if (len(results) == 1):
+        results[0].active = False
     
     
 def removeMotionFromItemSchedule(motion_id):

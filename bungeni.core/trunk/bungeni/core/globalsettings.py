@@ -112,7 +112,16 @@ def getMaxQuestionsByMpPerSitting():
     return settings.BungeniSettings(app).max_mp_questions_sitting
     
 def getNoOfDaysBeforeQuestionSchedule():
-    return 3
+    return settings.BungeniSettings(app).days_before_question_schedule
+    
+    
+def getNoOfDaysBeforeBillSchedule():
+    """
+    Parameter  : Elapsed days from date of publication for placement of bill	
+    Configurable numeric value describing number of days after date of publication 
+    of bill after which bill can be placed before the house
+    """
+    return settings.BungeniSettings(app).days_before_bill_schedule
         
 def getWeekendDays():
     """

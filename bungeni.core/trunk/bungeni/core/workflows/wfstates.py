@@ -49,7 +49,7 @@ class billstates:
     # report_reading_1 = "report_reading_1"
     
     # to be scheduled for 2nd reading
-    second_pending = _(u"second reading pending")
+    second_reading_pending = _(u"second reading pending")
     second_reading = _(u"second reading")
     second_reading_postponed = _(u"second reading postponed")
 
@@ -67,7 +67,7 @@ class billstates:
 
 
     # is there a third pending state for a bill
-    third_pending = _(u"third reading pending")
+    third_reading_pending = _(u"third reading pending")
     third_reading = _(u"third reading")
     third_reading_postponed = _(u"third reading postponed")
 

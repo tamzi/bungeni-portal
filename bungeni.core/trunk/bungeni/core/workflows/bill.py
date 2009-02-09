@@ -10,7 +10,7 @@ import zope.securitypolicy.interfaces
 
 from bungeni.core.workflows.wfstates import billstates as states
 
-
+from bungeni.core.workflow import load
     
 def create(info,context):
     utils.setBillSubmissionDate( info, context )
@@ -112,7 +112,7 @@ def create_bill_workflow( ):
         title = _(u"Second Reading schedule"),
         trigger = iworkflow.MANUAL,
         source = states.first_committee,
-        destination = states.second_pending,
+        destination = states.second_reading_pending,
         permission = "bungeni.bill.Schedule"
         ))    
         
@@ -120,7 +120,7 @@ def create_bill_workflow( ):
         transition_id = 'schedule-second',
         title = _(u"Schedule Second Reading"),
         trigger = iworkflow.MANUAL,
-        source = states.second_pending,
+        source = states.second_reading_pending,
         destination = states.second_reading,
         permission = "bungeni.bill.Schedule"
         ))            
@@ -130,7 +130,7 @@ def create_bill_workflow( ):
         title=_(u"Schedule Second Reading"),
         trigger = iworkflow.MANUAL,
         source = states.first_reading,
-        destination = states.second_pending,
+        destination = states.second_reading_pending,
         permission = "bungeni.bill.Schedule",
         ) )
         
@@ -256,7 +256,7 @@ def create_bill_workflow( ):
         title=_(u"Schedule Third Reading"),
         trigger = iworkflow.MANUAL,
         source = states.report_reading,
-        destination = states.third_pending,
+        destination = states.third_reading_pending,
         permission = "bungeni.bill.Schedule",
         ) )  
 
@@ -264,7 +264,7 @@ def create_bill_workflow( ):
         transition_id = 'second-committee-schedule-third-reading',
         title=_(u"Schedule Third Reading"),
         trigger = iworkflow.MANUAL,
-        source = states.third_pending,
+        source = states.third_reading_pending,
         destination = states.third_reading,
         permission = "bungeni.bill.Schedule",
         ) )  
@@ -296,7 +296,7 @@ def create_bill_workflow( ):
         title=_(u"Schedule Third Reading"),
         trigger = iworkflow.MANUAL,
         source = states.whole_house,
-        destination = states.third_pending,
+        destination = states.third_reading_pending,
         permission = "bungeni.bill.Schedule",
         ) )
 
@@ -438,6 +438,22 @@ BillWorkflowAdapter = workflow.AdaptedWorkflow( BillWorkflow() )
 
 if __name__ == '__main__':
     wf = BillWorkflow()
+    transitions = create_bill_workflow()
+    for t in transitions:
+        print "<transition" 
+        print 'id="' + t.transition_id + '"'
+        print 'title="' + t.title + '"'
+        print 'trigger="' + str(t.trigger) + '"'        
+        print 'source="' + str(t.source).replace(' ', '_') + '"'           
+        print 'destination="' + t.destination.replace(' ', '_') + '"'
+        try: 
+            print 'permission="' + t.permission + '"'
+        except:
+            pass    
+        print 'action="' + str(t.action) + '"'
+        print 'condition="' + str(t.condition) + '"'        
+        print "/>"
+    wf = load('bill.xml')    
     print wf.dot()
     
          

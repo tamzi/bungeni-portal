@@ -440,19 +440,19 @@ if __name__ == '__main__':
     wf = BillWorkflow()
     transitions = create_bill_workflow()
     for t in transitions:
-        print "<transition" 
-        print 'id="' + t.transition_id + '"'
-        print 'title="' + t.title + '"'
-        print 'trigger="' + str(t.trigger) + '"'        
-        print 'source="' + str(t.source).replace(' ', '_') + '"'           
-        print 'destination="' + t.destination.replace(' ', '_') + '"'
+        print "  <transition" 
+        print '    id="' + t.transition_id + '"'
+        print '    title="' + t.title + '"'
+        print '    trigger="' + str(t.trigger) + '"'        
+        print '    source="' + str(t.source).replace(' ', '_') + '"'           
+        print '    destination="' + t.destination.replace(' ', '_') + '"'
         try: 
-            print 'permission="' + t.permission + '"'
+            print '    permission="' + t.permission + '"'
         except:
-            pass    
-        print 'action="' + str(t.action) + '"'
-        print 'condition="' + str(t.condition) + '"'        
-        print "/>"
+            print '    permission=""'   
+        print '    action="' + str(t.action) + '"'
+        print '    condition="' + str(t.condition) + '"'        
+        print "  />"
     wf = load('bill.xml')    
     print wf.dot()
     

@@ -527,5 +527,20 @@ def workflowTransitionEventDispatcher(event):
 
 if __name__ == '__main__':
     wf = MotionWorkflow()
-    print wf.dot()
+    transitions = create_motion_workflow()
+    for t in transitions:
+        print "  <transition" 
+        print '    id="' + t.transition_id + '"'
+        print '    title="' + t.title + '"'
+        print '    trigger="' + str(t.trigger) + '"'        
+        print '    source="bungeni.core.workflows.wfstates.motionstates.' + str(t.source).replace(' ', '_') + '"'           
+        print '    destination="bungeni.core.workflows.wfstates.motionstates.' + t.destination.replace(' ', '_') + '"'
+        try: 
+            print '    permission="' + t.permission + '"'
+        except:
+            print '    permission=""'   
+        print '    action="bungeni.core.workflows.motionactions' + str(t.action) + '"'
+        print '    condition="' + str(t.condition) + '"'        
+        print "  />"    
+    #print wf.dot()
     

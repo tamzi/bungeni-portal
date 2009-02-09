@@ -529,6 +529,7 @@ if __name__ == '__main__':
     wf = MotionWorkflow()
     transitions = create_motion_workflow()
     for t in transitions:
+        continue
         print "  <transition" 
         print '    id="' + t.transition_id + '"'
         print '    title="' + t.title + '"'
@@ -542,5 +543,5 @@ if __name__ == '__main__':
         print '    action="bungeni.core.workflows.motionactions' + str(t.action) + '"'
         print '    condition="' + str(t.condition) + '"'        
         print "  />"    
-    #print wf.dot()
+    print wf.dot()
     

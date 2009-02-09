@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   i18n_domain="bungeni">
+  
+  <!--permission
+     id="bungeni.SubmitQuestion"
+     title="Submit question" /-->
+
+
+    <!-- Permissions for workflow transitions are defined in:
+    bungeni.core.workflow grants/permissions -->
+
+    <permission id="bungeni.question.add" title="Add Question" />
+    <permission id="bungeni.question.edit" title="Edit Question" />
+    <permission id="bungeni.question.delete" title="Delete Question" />
+    <permission id="bungeni.question.view" title="View Question" />
+
+     
+    <permission id="bungeni.motion.add" title="Add Motion" />
+    <permission id="bungeni.motion.edit" title="Edit Motion" />
+    <permission id="bungeni.motion.delete" title="Delete Motion" />
+    <permission id="bungeni.motion.view" title="View Motion" />
+    
+    <permission id="bungeni.response.add" title="Add Response" />
+    <permission id="bungeni.response.edit" title="Edit Response" />
+    <permission id="bungeni.response.delete" title="Delete Response" />
+    <permission id="bungeni.response.view" title="View Response" />
+     
+    <permission id="bungeni.parliament.add" title="Add Parliament" />
+    <permission id="bungeni.parliament.edit" title="Edit Parliament" />
+    <permission id="bungeni.parliament.delete" title="Delete Parliament" />
+    <permission id="bungeni.parliament.view" title="View Parliament" />    
+    
+    <permission id="bungeni.bill.add" title="Add Bill" />
+    <permission id="bungeni.bill.edit" title="Edit Bill" />
+    <permission id="bungeni.bill.delete" title="Delete Bill" />
+    <permission id="bungeni.bill.view" title="View Bill" />  
+
+    <permission id="bungeni.user.AdminRecord" title="Admin User Record" />
+
+    <permission id="bungeni.Speaker" title=" generic permission for speakers office" />
+    <permission id="bungeni.Clerk" title=" generic permission for clerks office" />
+    <permission id="bungeni.MP" title=" generic permission for Members of parliament" />
+    <permission id="bungeni.Admin" title=" generic permission for Administrators" />
+    <permission id="bungeni.Anonymous" title=" generic permission for anonymous users" />
+
+
+
+</configure>
+           

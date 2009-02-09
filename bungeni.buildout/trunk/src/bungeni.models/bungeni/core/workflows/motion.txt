@@ -1,0 +1,499 @@
+Motion workflow
+=================
+
+  >>> from bungeni.core.domain import Motion
+  >>> import bungeni.core as model
+  >>> import datetime
+  
+  some setup for tests
+
+   >>> from zope import component
+   >>> from sqlalchemy import create_engine
+   >>> from ore.alchemist.interfaces import IDatabaseEngine
+   >>> from ore.alchemist import Session
+   >>> from bungeni import core as model
+   >>> from bungeni.core import domain, schema
+   
+Setting up Database Connection and Utilities:
+
+   >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
+   >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
+   >>> model.metadata.bind = db   
+   >>> model.metadata.create_all()
+   >>> schema.MotionSequence.create(db) 
+   >>> from alchemist.security.schema import metadata  
+   >>> metadata.bind = db
+   >>> metadata.create_all()  
+   >>> session = Session()
+   >>> i = 0
+
+
+Setup
+-----
+
+  >>> import bungeni.core.workflows.motion
+  >>> import bungeni.core.interfaces
+  >>> import ore.workflow
+  >>> import copy
+  
+  >>> component.provideAdapter(
+  ...    bungeni.core.workflows.WorkflowState,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    bungeni.core.workflows.motion.MotionWorkflowAdapter,
+  ...    (Motion,))
+
+  >>> component.provideAdapter(
+  ...    ore.workflow.workflow.WorkflowInfo,
+  ...    (Motion,))
+
+  >>> component.provideHandler(
+  ...    bungeni.core.workflows.motion.workflowTransitionEventDispatcher)
+
+  >>> import bungeni.core.version
+  >>> component.provideAdapter(
+  ...    bungeni.core.version.ContextVersioned,
+  ...    (bungeni.core.interfaces.IVersionable,),
+  ...    bungeni.core.interfaces.IVersioned)
+  
+    
+Security Adapters
+
+  >>> import alchemist.security.permission
+  >>> import alchemist.security.role
+
+  
+  >>> component.provideAdapter(
+  ...    alchemist.security.role.GlobalPrincipalRoleMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.permission.GlobalRolePermissionMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.role.LocalPrincipalRoleMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.permission.LocalRolePermissionMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  
+Transition events
+-----------------
+
+We set up event subscribers to make sure all registered transition
+events are called.
+
+  >>> map = bungeni.core.workflows.motion.workflow_transition_event_map
+  >>> check_transition_events = dict((states, False) for states in map.keys())
+
+  >>> for states, iface in map.items():
+  ...     def generate(key):
+  ...         def handler(event):
+  ...             check_transition_events[key] = True
+  ...         return handler
+  ...     component.provideHandler(generate(states), adapts=(iface,))
+  
+Workflow
+--------
+
+  >>> from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
+
+  >>> def transitions(motion):
+  ...     wf = IWorkflow(motion)
+  ...     info = IWorkflowInfo(motion)
+  ...     state = info.state().getState()
+  ...     return tuple(transition.transition_id for transition in wf.getTransitions(state))
+
+
+Permissions
+-----------
+  >>> def permission(motion):
+  ...   wf = IWorkflow(motion)
+  ...   info = IWorkflowInfo(motion)
+  ...   state = info.state().getState()
+  ...   return tuple(transition.permission for transition in wf.getTransitions(state))
+
+Schedule a motion
+-------------------
+  >>> def schedule_motion(motion_id):
+  ...   item_schedule = domain.ItemSchedule()
+  ...   item_schedule.sitting_id = sit1.sitting_id
+  ...   item_schedule.item_id = motion.motion_id
+  ...   session.save(item_schedule)
+  ...   session.flush()   
+
+Sitting to schedule the motion:
+-----------------------------
+  >>> st = model.SittingType()
+  >>> st.sitting_type = u"morning"
+  >>> st.start_time = datetime.time(8,30)
+  >>> st.end_time = datetime.time(12,30)  
+  >>> session.save(st)
+  >>> session.flush()
+
+  >>> st.sitting_type_id
+  1L
+ 
+  >>> sit1 = model.GroupSitting()
+  >>> sit1.start_date = datetime.datetime.now()
+  >>> sit1.end_date = datetime.datetime.now()
+  >>> sit1.sitting_type = st.sitting_type_id
+  >>> session.save(sit1)
+  >>> session.flush() 
+
+  >>> motion = Motion()
+  >>> session.save(motion)
+  >>> session.flush()
+
+First we initialize the workflow.
+  
+  >>> transitions(motion)
+  ('create',)
+
+  >>> permission(motion)
+  (Global(CheckerPublic,zope.security.checker),)
+
+  >>> IWorkflowInfo(motion).fireTransition('create')
+
+The motion is now in a draft state.
+
+
+  >>> transitions(motion)
+   ('make-private', 'submit-to-clerk')
+    
+  >>> permission(motion)
+  ('bungeni.motion.Submit', 'bungeni.motion.Submit')
+
+The Question can be made a private draft
+
+  >>> result = IWorkflowInfo(motion).fireTransition('make-private')
+  
+  >>> transitions(motion)
+  ('re-draft',)  
+
+and can be put into draft state at a later time
+
+  >>> result = IWorkflowInfo(motion).fireTransition('re-draft')
+  
+  >>> transitions(motion)
+   ('make-private', 'submit-to-clerk')
+
+
+When we submit the motion, a new version is created.
+  
+  >>> result = IWorkflowInfo(motion).fireTransition('submit-to-clerk')
+
+The transition action returns None, indicating that the the current
+instance is still active.
+
+  >>> result is None
+  True
+
+Verify that a new version was issued.
+
+  >>> from bungeni.core.interfaces import IVersioned
+  >>> versions = IVersioned(motion)
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+  
+
+Let's examine the version.
+
+  >>> version = list(versions.values())[0]
+  >>> version.status
+  u'draft motion'
+
+Submitted:
+
+  >>> transitions(motion)
+  ('withdraw-submitted', 'received-by-clerk')
+
+A motion can be withdrawn at (almost) any stage  
+  
+  >>> motion_withdraw = copy.deepcopy(motion)
+  >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-submitted')   
+
+  >>> motion_withdraw.status
+   u'Motion withdrawn'  
+
+  >>> IWorkflowInfo(motion).fireTransition('received-by-clerk')
+
+
+Received:
+
+  >>> transitions(motion)
+  ('require-edit-by-mp', 'complete', 'withdraw-received')
+  
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True  
+
+A motion can be withdrawn at (almost) any stage  
+  
+  >>> motion_withdraw = copy.deepcopy(motion)
+  >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-received')   
+
+  >>> motion_withdraw.status
+   u'Motion withdrawn'  
+  
+  
+
+  
+If it needs clarification this sets it back to draft and it must be submitted again  
+  
+  >>> result = IWorkflowInfo(motion).fireTransition('require-edit-by-mp')
+  
+
+  >>> transitions(motion)
+  ('resubmit-clerk', 'withdraw-amend')
+
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+    
+  >>> result = IWorkflowInfo(motion).fireTransition('resubmit-clerk')
+  
+versioned again
+  
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+      
+    
+  >>> IWorkflowInfo(motion).fireTransition('received-by-clerk')
+  
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True  
+    
+complete the motion
+
+  >>> result = IWorkflowInfo(motion).fireTransition('complete')  
+
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True    
+  
+The speakers office now has to review the motion
+
+  >>> transitions(motion)
+  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
+
+A motion can be withdrawn at (almost) any stage  
+  
+  >>> motion_withdraw = copy.deepcopy(motion)
+  >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-complete')   
+
+  >>> motion_withdraw.status
+   u'Motion withdrawn'
+
+
+Reject the motion
+
+  >>> motion_reject = copy.deepcopy(motion)
+  >>> transitions(motion_reject)
+  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
+
+  >>> result = IWorkflowInfo(motion_reject).fireTransition('reject') 
+
+  >>> transitions(motion_reject)
+  ()     
+
+If the motions requires amendment it is sent back to the owner
+and has to be resubmitted 
+
+  >>> transitions(motion)
+  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
+
+  >>> motion_amend = copy.deepcopy(motion)
+  >>> result = IWorkflowInfo(motion_amend).fireTransition('require-amendment')   
+  
+it gets versioned before amendment
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+    
+  
+  >>> transitions(motion_amend)
+  ('complete-clarify', 'mp-clarify')
+
+The clerks office can resubmit the motion
+
+  >>> motion_clerk_resubmit = copy.deepcopy(motion_amend)
+  >>> result = IWorkflowInfo(motion_clerk_resubmit).fireTransition('complete-clarify')    
+  >>> transitions(motion_clerk_resubmit)
+  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
+
+
+or the motion can be send back to the mp for further clarification
+
+  >>> result = IWorkflowInfo(motion_amend).fireTransition('mp-clarify')  
+  >>> transitions(motion_amend)
+  ('resubmit-clerk', 'withdraw-amend')
+
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+
+
+
+A motion can be withdrawn at (almost) any stage  
+  
+  >>> motion_withdraw = copy.deepcopy(motion_amend)
+  >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-amend')   
+
+  >>> motion_withdraw.status
+   u'Motion withdrawn'
+
+
+  >>> result = IWorkflowInfo(motion_amend).fireTransition('resubmit-clerk')  
+
+it gets versioned by resubmitting after amendment
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+  
+
+  >>> transitions(motion_amend)   
+  ('withdraw-submitted', 'received-by-clerk')
+
+clerks recieves it
+
+  >>> result = IWorkflowInfo(motion_amend).fireTransition('received-by-clerk')  
+
+
+  
+Appove the motion
+
+  >>> transitions(motion)
+  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
+
+  >>> result = IWorkflowInfo(motion).fireTransition('approve')  
+  
+  >>> transitions(motion)
+  ('defer', 'withdraw-admissible', 'schedule')
+
+A motion can be withdrawn at (almost) any stage  
+  
+  >>> motion_withdraw = copy.deepcopy(motion)
+  >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-admissible')   
+
+  >>> motion_withdraw.status
+   u'Motion withdrawn'
+
+
+defer the motion
+
+  >>> motion_defer = copy.deepcopy(motion)
+  >>> result = IWorkflowInfo(motion_defer).fireTransition('defer')   
+  
+  >>> transitions(motion_defer)     
+  ('schedule-deferred', 'elapse-defered',  'withdraw-deferred')
+  
+  
+  
+A motion can elapse if no answer is given
+  >>> motion_elapse_defered = copy.deepcopy(motion_defer)
+  
+  >>> result = IWorkflowInfo(motion_elapse_defered).fireTransition('elapse-defered')    
+  >>> transitions(motion_elapse_defered)
+  ()
+
+A motion can be withdrawn at (almost) any stage  
+  
+  >>> motion_withdraw = copy.deepcopy(motion_defer)
+  >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-deferred')   
+
+  >>> motion_withdraw.status
+   u'Motion withdrawn'  
+   
+  >>> schedule_motion(motion_defer.motion_id)
+  >>> result = IWorkflowInfo(motion_defer).fireTransition('schedule-deferred')   
+  >>> transitions(motion_defer)     
+  ('postpone', 'debate', 'withdraw-scheduled')
+
+  >>> result = IWorkflowInfo(motion_defer).fireTransition('postpone')   
+
+schedule the motion
+  >>> schedule_motion(motion.motion_id)
+  >>> result = IWorkflowInfo(motion).fireTransition('schedule')  
+  
+  >>> transitions(motion)
+  ('postpone', 'debate', 'withdraw-scheduled')
+
+A motion can be withdrawn at (almost) any stage  
+  
+  >>> motion_withdraw = copy.deepcopy(motion)
+  >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-scheduled')   
+
+  >>> motion_withdraw.status
+   u'Motion withdrawn'
+
+postpone the motion
+  
+  >>> result = IWorkflowInfo(motion).fireTransition('postpone')  
+  >>> transitions(motion)
+  ('schedule-postponed', 'elapse-postponed', 'withdraw-postponed')
+ 
+A motion can elapse without an answer 
+
+  >>> motion_elapse_postponed = copy.deepcopy(motion)
+  >>> result = IWorkflowInfo(motion_elapse_postponed).fireTransition('elapse-postponed')   
+  >>> transitions(motion_elapse_postponed)
+  ()
+  
+A motion can be withdrawn at (almost) any stage  
+  
+  >>> motion_withdraw = copy.deepcopy(motion)
+  >>> result = IWorkflowInfo(motion_withdraw).fireTransition('withdraw-postponed')   
+
+  >>> motion_withdraw.status
+   u'Motion withdrawn'
+
+and reschedule it
+
+  >>> schedule_motion(motion.motion_id)
+  >>> result = IWorkflowInfo(motion).fireTransition('schedule-postponed')  
+  
+  >>> transitions(motion)
+  ('postpone', 'debate', 'withdraw-scheduled')
+
+
+
+The motion was debated
+
+  >>> result = IWorkflowInfo(motion).fireTransition('debate')  
+  >>> transitions(motion)
+  ()
+
+
+
+Transition events check
+-----------------------
+
+  >>> print check_transition_events
+  {(u'Motion received by clerks office', u'Motion needs clarification by MP'): True, 
+  (u'Motion complete', u'Motion inadmissible'): True, 
+  (u'Motion postponed', u'Motion scheduled'): True, 
+  (u'Motion scheduled', u'Motion debated'): True, 
+  (u'Motion needs clarification by Clerks Office', u'Motion needs clarification by MP'): True, 
+  (u'Motion scheduled', u'Motion postponed'): True, 
+  (u'Motion admissible', u'Motion deferred'): True, 
+  (u'draft motion', u'Motion submitted'): True, 
+  (u'Motion admissible', u'Motion scheduled'): True, 
+  (u'Motion submitted', u'Motion received by clerks office'): True}
+
+
+cleanup
+-------
+  >>> session.flush()
+  >>> session.commit()
+  >>> session.close()
+
+
+

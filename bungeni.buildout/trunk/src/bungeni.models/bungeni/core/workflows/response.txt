@@ -1,0 +1,225 @@
+Response workflow
+=================
+
+  >>> from bungeni.core.domain import Response
+
+Setup
+-----
+
+  >>> import bungeni.core.workflows.response
+  >>> from bungeni.core.workflows.question import states as q_states  
+  >>> import bungeni.core.interfaces
+  >>> import ore.workflow
+  >>> import copy
+  
+  >>> component.provideAdapter(
+  ...    bungeni.core.workflows.WorkflowState,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    bungeni.core.workflows.response.ResponseWorkflowAdapter,
+  ...    (Response,))
+
+  >>> component.provideAdapter(
+  ...    ore.workflow.workflow.WorkflowInfo,
+  ...    (Response,))
+
+  >>> component.provideHandler(
+  ...    bungeni.core.workflows.response.workflowTransitionEventDispatcher)
+
+  >>> import bungeni.core.version
+  >>> component.provideAdapter(
+  ...    bungeni.core.version.ContextVersioned,
+  ...    (bungeni.core.interfaces.IVersionable,),
+  ...    bungeni.core.interfaces.IVersioned)
+
+Security Adapters
+
+  >>> import alchemist.security.permission
+  >>> import alchemist.security.role
+
+  
+  >>> component.provideAdapter(
+  ...    alchemist.security.role.GlobalPrincipalRoleMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.permission.GlobalRolePermissionMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.role.LocalPrincipalRoleMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.permission.LocalRolePermissionMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+
+  
+question setup
+
+  >>> from bungeni.core.domain import Question
+  >>> import bungeni.core.workflows.question
+  
+  >>> component.provideAdapter(
+  ...    bungeni.core.workflows.WorkflowState,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    bungeni.core.workflows.question.QuestionWorkflowAdapter,
+  ...    (Question,))
+
+  >>> component.provideAdapter(
+  ...    ore.workflow.workflow.WorkflowInfo,
+  ...    (Question,))
+
+  >>> component.provideHandler(
+  ...    bungeni.core.workflows.question.workflowTransitionEventDispatcher)
+  
+
+
+  
+some setup for tests
+
+   >>> from zope import component
+   >>> from sqlalchemy import create_engine
+   >>> from ore.alchemist.interfaces import IDatabaseEngine
+   >>> from ore.alchemist import Session
+   >>> from bungeni import core as model
+   >>> from bungeni.core import domain, schema
+   >>> from bungeni.core.workflows import dbutils
+
+   
+   
+Setting up Database Connection and Utilities:
+
+   >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
+   >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
+   >>> model.metadata.bind = db   
+   >>> model.metadata.create_all() 
+   >>> session = Session()
+     
+Transition events
+-----------------
+
+We set up event subscribers to make sure all registered transition
+events are called.
+
+  >>> map = bungeni.core.workflows.response.workflow_transition_event_map
+  >>> check_transition_events = dict((states, False) for states in map.keys())
+
+  >>> for states, iface in map.items():
+  ...     def generate(key):
+  ...         def handler(event):
+  ...             check_transition_events[key] = True
+  ...         return handler
+  ...     component.provideHandler(generate(states), adapts=(iface,))
+  
+Workflow
+--------
+
+  >>> from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
+
+  >>> def transitions(response):
+  ...     wf = IWorkflow(response)
+  ...     info = IWorkflowInfo(response)
+  ...     state = info.state().getState()
+  ...     return tuple(transition.transition_id for transition in wf.getTransitions(state))
+
+
+Permissions
+-----------
+  >>> def permission(response):
+  ...   wf = IWorkflow(response)
+  ...   info = IWorkflowInfo(response)
+  ...   state = info.state().getState()
+  ...   return tuple(transition.permission for transition in wf.getTransitions(state))
+
+
+
+
+Questions
+we need to have a question in this state (pending response) so that the actions that
+gets fired by the response transitions succeed.
+
+  >>> question = domain.Question()
+  >>> question.status = q_states.response_pending
+  >>> session.save(question)
+  >>> session.flush()
+  
+  >>> question.question_id
+  1L
+  
+Responses
+
+  >>> response = domain.Response()
+  >>> response.response_id = question.question_id
+  >>> session.save(response)
+  >>> session.flush()
+ 
+  >>> question.question_id
+  1L
+  
+  >>> response.response_id
+  1L
+  
+
+
+First we initialize the workflow.
+  
+  >>> transitions(response)
+  ('create',)
+
+  >>> permission(response)
+  (Global(CheckerPublic,zope.security.checker),)
+
+  >>> IWorkflowInfo(response).fireTransition('create')
+
+  >>> session.flush()
+
+The response is now in a draft state.
+
+
+  >>> transitions(response)
+   ('submit',)
+    
+submit the response to the clerks office:
+    
+  >>> permission(response)
+  ('bungeni.response.Submit',)
+
+  >>> session.flush()
+
+  
+The ministry sends the answer to the clerks office
+
+  >>> IWorkflowInfo(response).fireTransition('submit')
+  
+  >>> transitions(response)
+   ('complete',)
+
+  >>> session.flush()
+
+submitting the response triggers a workflow transition of the question
+
+  >>> transitions(question)
+  ('answer',)
+
+The response is reviewed by the clerk and published
+
+  >>> IWorkflowInfo(response).fireTransition('complete')
+  
+  >>> transitions(response)
+  ()
+
+reviewing the response triggers a workflow transition of the question
+
+  >>> transitions(question)
+  ()
+
+cleanup
+-------
+  >>> session.flush()
+  >>> session.commit()
+  >>> session.close()

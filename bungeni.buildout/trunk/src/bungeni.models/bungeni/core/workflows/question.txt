@@ -1,0 +1,717 @@
+Question workflow
+=================
+
+  >>> from bungeni.core.domain import Question
+
+Setup
+-----
+
+  >>> import bungeni.core.workflows.question
+  >>> import bungeni.core.interfaces
+  >>> import ore.workflow
+  >>> import copy
+  >>> import datetime
+  
+  
+some setup for tests
+
+   >>> from zope import component
+   >>> from sqlalchemy import create_engine
+   >>> from ore.alchemist.interfaces import IDatabaseEngine
+   >>> from ore.alchemist import Session
+   >>> from bungeni import core as model
+   >>> from bungeni.core import domain, schema
+
+
+   
+   
+Setting up Database Connection and Utilities:
+
+   >>> db = create_engine('postgres://localhost/bungeni-test', echo=False)
+   >>> component.provideUtility( db, IDatabaseEngine, 'bungeni-db' )
+   >>> model.metadata.bind = db   
+   >>> model.metadata.create_all()
+   >>> schema.QuestionSequence.create(db) 
+   >>> from alchemist.security.schema import metadata  
+   >>> metadata.bind = db
+   >>> metadata.create_all()  
+   >>> session = Session()
+
+
+
+
+Get some standard dates for testing   
+   >>> today = datetime.date.today()
+   >>> yesterday = today - datetime.timedelta(1)
+   >>> tomorrow = today + datetime.timedelta(1)
+   >>> dayat = today + datetime.timedelta(2)
+
+
+set up utilities
+---------------  
+  
+  >>> today = datetime.date.today()
+  
+  
+  >>> component.provideAdapter(
+  ...    bungeni.core.workflows.WorkflowState,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    bungeni.core.workflows.question.QuestionWorkflowAdapter,
+  ...    (Question,))
+
+  >>> component.provideAdapter(
+  ...    ore.workflow.workflow.WorkflowInfo,
+  ...    (Question,))
+
+  >>> component.provideHandler(
+  ...    bungeni.core.workflows.question.workflowTransitionEventDispatcher)
+
+  >>> import bungeni.core.version
+  >>> component.provideAdapter(
+  ...    bungeni.core.version.ContextVersioned,
+  ...    (bungeni.core.interfaces.IVersionable,),
+  ...    bungeni.core.interfaces.IVersioned)
+  
+Security Adapters
+
+  >>> import alchemist.security.permission
+  >>> import alchemist.security.role
+
+  
+  >>> component.provideAdapter(
+  ...    alchemist.security.role.GlobalPrincipalRoleMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.permission.GlobalRolePermissionMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.role.LocalPrincipalRoleMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+  >>> component.provideAdapter(
+  ...    alchemist.security.permission.LocalRolePermissionMap,
+  ...    (bungeni.core.interfaces.IBungeniContent,))
+
+
+In order to create a participation, we need a principal:
+
+  >>> import zope.security.interfaces
+  >>> import zope.interface 
+  >>> class Bob:
+  ...     zope.interface.implements(zope.security.interfaces.IPrincipal)
+  ...     id = 'bob'
+  ...     title = description = ''
+  >>> bob = Bob()
+
+Now we can create a participation:
+
+  >>> import zope.publisher.interfaces
+  >>> class Participation(object):
+  ...     zope.interface.implements(
+  ...         zope.security.interfaces.IParticipation,
+  ...         zope.publisher.interfaces.IRequest)
+  ...     interaction = principal = None
+  ...
+  ...     def __init__(self, principal):
+  ...         self.principal = principal
+  ...
+  ...     def __repr__(self):
+  ...         return '<%s %r>' %(self.__class__.__name__, self.principal)
+
+
+  >>> import zope.securitypolicy.interfaces
+
+  >>> from zope.publisher.browser import TestRequest
+  >>> from zope.app.security.interfaces import IUnauthenticatedPrincipal  
+  >>> from zope.app.security.principalregistry import UnauthenticatedPrincipal
+
+  
+
+
+setup parliament, gov and ministry
+----------------------------------
+  >>> parliament = model.Parliament( short_name=u"p_1", start_date=yesterday, election_date=yesterday)
+  >>> session.save(parliament)
+  >>> session.flush()
+  
+  >>> gov = model.Government(short_name=u"gov_1", start_date=yesterday)
+  >>> gov.parliament_id = parliament.parliament_id
+  >>> session.save(gov)
+  >>> session.flush()  
+  
+  >>> ministry = model.Ministry(short_name=u"ministry", start_date=yesterday)
+  >>> ministry.government_id = gov.government_id
+  >>> session.save(ministry)
+  >>> session.flush()
+
+
+
+
+setup a sitting
+Sittings
+--------
+
+any group can schedule a sitting, a sitting is treated as a physical
+meeting of the group by the system. 
+
+ >>> st = model.SittingType()
+ >>> st.sitting_type = u"morning"
+ >>> st.start_time = datetime.time(8,30)
+ >>> st.end_time = datetime.time(12,30) 
+ >>> session.save(st)
+ >>> session.flush()
+
+ >>> st.sitting_type_id
+ 1L
+ 
+ >>> sit1 = model.GroupSitting()
+ >>> sit1.start_date = datetime.datetime.now()
+ >>> sit1.end_date = datetime.datetime.now()
+ >>> sit1.sitting_type = st.sitting_type_id
+ >>> session.save(sit1)
+ >>> session.flush()   
+ 
+ >>> sit2 = model.GroupSitting()
+ >>> sit2.start_date = datetime.datetime.now()
+ >>> sit2.end_date = datetime.datetime.now()
+ >>> sit2.sitting_type = st.sitting_type_id
+ >>> session.save(sit2)
+ >>> session.flush()   
+ 
+ 
+    
+  
+Transition events
+-----------------
+
+We set up event subscribers to make sure all registered transition
+events are called.
+
+  >>> map = bungeni.core.workflows.question.workflow_transition_event_map
+  >>> check_transition_events = dict((states, False) for states in map.keys())
+
+  >>> for states, iface in map.items():
+  ...     def generate(key):
+  ...         def handler(event):
+  ...             check_transition_events[key] = True
+  ...         return handler
+  ...     component.provideHandler(generate(states), adapts=(iface,))
+  
+Workflow
+--------
+
+  >>> from ore.workflow.interfaces import IWorkflow, IWorkflowInfo
+
+  >>> def transitions(question):
+  ...     wf = IWorkflow(question)
+  ...     info = IWorkflowInfo(question)
+  ...     state = info.state().getState()
+  ...     return tuple(transition.transition_id for transition in wf.getTransitions(state))
+
+
+Permissions
+-----------
+  >>> def permission(question):
+  ...   wf = IWorkflow(question)
+  ...   info = IWorkflowInfo(question)
+  ...   state = info.state().getState()
+  ...   return tuple(transition.permission for transition in wf.getTransitions(state))
+
+Schedule a question
+-------------------
+  >>> def schedule_question(question_id):
+  ...   item_schedule = domain.ItemSchedule()
+  ...   item_schedule.sitting_id = sit1.sitting_id
+  ...   item_schedule.item_id = question.question_id
+  ...   session.save(item_schedule)
+  ...   session.flush()   
+
+
+Add question to db
+------------------
+
+  >>> question = Question()
+  >>> question.subject = u"subject of the question"
+  >>> question.question_text = u"The question"
+  >>> session.save(question)
+  >>> session.flush()
+
+set up a security mapping
+#XXX permisssion as yet untested 
+
+  >>> rpm = zope.securitypolicy.interfaces.IRolePermissionMap( question )
+ 
+  >>> import zope.security.management
+  >>> #zope.security.management.endInteraction()
+  >>> #zope.security.management.newInteraction(Participation(bob))
+
+just a variable to count the versions:
+  >>> i = 0
+ 
+  
+First we initialize the workflow.
+  
+  >>> transitions(question)
+  ('create',)
+
+  >>> permission(question)
+  (Global(CheckerPublic,zope.security.checker),)
+
+  >>> IWorkflowInfo(question).fireTransition('create')
+
+  >>> question.question_id == None
+  False
+
+  >>> question.parliament_id == None
+  False
+
+
+The question is now in a draft state.
+
+  >>> transitions(question)
+   ('make-private', 'submit-to-clerk')
+    
+  >>> permission(question)
+  ('bungeni.question.Submit', 'bungeni.question.Submit')
+
+The Question can be made a private draft
+
+ 
+  >>> rpm.grantPermissionToRole( u'bungeni.question.Submit', Bob.id )
+  
+  >>> result = IWorkflowInfo(question).fireTransition('make-private')
+    
+  >>> transitions(question)
+  ('re-draft',)  
+
+and can be put into draft state at a later time
+
+  >>> result = IWorkflowInfo(question).fireTransition('re-draft')
+  
+  >>> transitions(question)
+   ('make-private', 'submit-to-clerk')
+
+the question does not yet have a submitted date
+   >>> question.submission_date 
+   
+   
+When we submit the question, a new version is created.
+  
+  >>> result = IWorkflowInfo(question).fireTransition('submit-to-clerk')
+
+The transition action returns None, indicating that the the current
+instance is still active.
+
+  >>> result is None
+  True
+
+and the date  was set to clerk_submission_date today
+   >>> question.submission_date == today
+   True
+
+Verify that a new version was issued.
+
+  >>> from bungeni.core.interfaces import IVersioned
+  >>> versions = IVersioned(question)
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+  
+Let's examine the version.
+
+  >>> version = list(versions.values())[0]
+  >>> version.status
+  u'draft question'
+
+Submitted:
+
+  >>> transitions(question)
+  ('withdraw-submitted', 'received-by-clerk')
+
+A question can be withdrawn at (almost) any stage  
+  
+  >>> question_withdraw = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-submitted')   
+
+  >>> question_withdraw.status
+  u'Question withdrawn'  
+
+  >>> IWorkflowInfo(question).fireTransition('received-by-clerk')
+
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+  
+
+Received:
+
+  >>> transitions(question)
+  ('require-edit-by-mp', 'complete', 'withdraw-received')
+
+A question can be withdrawn at (almost) any stage  
+  
+  >>> question_withdraw = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-received')   
+
+  >>> question_withdraw.status
+  u'Question withdrawn'  
+  
+  
+
+  
+If it needs clarification this sets it back to draft and it must be submitted again  
+  
+  >>> result = IWorkflowInfo(question).fireTransition('require-edit-by-mp')
+  
+
+  >>> transitions(question)
+  ('resubmit-clerk', 'withdraw-amend')
+
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+
+    
+  >>> result = IWorkflowInfo(question).fireTransition('resubmit-clerk')
+  
+versioned again
+  
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+     
+    
+  >>> IWorkflowInfo(question).fireTransition('received-by-clerk')
+    
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True    
+    
+complete the question
+
+  >>> result = IWorkflowInfo(question).fireTransition('complete')  
+    
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+    
+      
+  
+The speakers office now has to review the question
+
+  >>> transitions(question)
+  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
+
+A question can be withdrawn at (almost) any stage  
+  
+  >>> question_withdraw = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-complete')   
+
+  >>> question_withdraw.status
+  u'Question withdrawn'
+
+
+Reject the question
+
+  >>> question_reject = copy.deepcopy(question)
+  >>> transitions(question_reject)
+  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
+
+  >>> result = IWorkflowInfo(question_reject).fireTransition('reject') 
+
+  >>> transitions(question_reject)
+  ()     
+
+If the questions requires amendment it is sent back to the owner
+and has to be resubmitted 
+
+  >>> transitions(question)
+  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
+
+  >>> question_amend = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_amend).fireTransition('require-amendment')   
+  
+it gets versioned before amendment
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+    
+  
+  >>> transitions(question_amend)
+  ('complete-clarify', 'mp-clarify')
+
+The clerks office can resubmit the question
+
+  >>> question_clerk_resubmit = copy.deepcopy(question_amend)
+  >>> result = IWorkflowInfo(question_clerk_resubmit).fireTransition('complete-clarify')    
+  >>> transitions(question_clerk_resubmit)
+  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
+
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True  
+
+
+or the question can be send back to the mp for further clarification
+
+  >>> result = IWorkflowInfo(question_amend).fireTransition('mp-clarify')  
+  >>> transitions(question_amend)
+  ('resubmit-clerk', 'withdraw-amend')
+
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True  
+
+
+
+A question can be withdrawn at (almost) any stage  
+  
+  >>> question_withdraw = copy.deepcopy(question_amend)
+  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-amend')   
+
+  >>> question_withdraw.status
+  u'Question withdrawn'
+
+
+  >>> result = IWorkflowInfo(question_amend).fireTransition('resubmit-clerk')  
+
+it gets versioned by resubmitting after amendment
+  >>> i = i + 1
+  >>> len(list(versions.values())) == i
+  True
+
+  >>> transitions(question_amend)   
+  ('withdraw-submitted', 'received-by-clerk')
+
+clerks recieves it
+
+  >>> result = IWorkflowInfo(question_amend).fireTransition('received-by-clerk')  
+
+
+  
+Appove the question and set the approval date and serial number
+
+  >>> transitions(question)
+  ('withdraw-complete', 'approve', 'require-amendment', 'reject')
+
+  >>> question.approval_date
+
+  >>> question.question_number
+
+  >>> result = IWorkflowInfo(question).fireTransition('approve')  
+  
+  >>> question.approval_date  == today 
+  True
+  
+  >>> question.question_number == None
+  False
+  
+  
+  >>> transitions(question)
+  ('defer', 'withdraw-admissible', 'send-ministry', 'schedule')
+  
+
+A question can be withdrawn at (almost) any stage  
+  
+  
+  
+  >>> question_withdraw = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-admissible')   
+
+  >>> question_withdraw.status
+  u'Question withdrawn'
+
+
+A written response to the question
+
+  >>> question_written_response = copy.deepcopy(question)
+
+  >>> question_written_response.ministry_submit_date
+
+  >>> question_written_response.ministry_id = ministry.ministry_id
+
+
+  >>> result = IWorkflowInfo(question_written_response).fireTransition('send-ministry')  
+  
+  >>> question_written_response.ministry_submit_date == today  
+  True
+  
+  >>> transitions(question_written_response)
+   ('elapse-pending', 'respond-writing', 'forward-ministry')
+   
+The question can be forwarded to another ministry.
+
+  >>> result = IWorkflowInfo(question_written_response).fireTransition('forward-ministry')  
+  
+  >>> transitions(question_written_response)
+   ('elapse-pending', 'respond-writing', 'forward-ministry')  
+   
+
+A question can elapse if no answer is given
+
+  >>> question_written_response_elapse = copy.deepcopy(question_written_response)
+
+
+  >>> result = IWorkflowInfo(question_written_response_elapse).fireTransition('elapse-pending')  
+  
+  >>> transitions(question_written_response_elapse)
+   ()
+
+Or the question can be responded to in writing
+
+  >>> result = IWorkflowInfo(question_written_response).fireTransition('respond-writing')  
+  
+  >>> transitions(question_written_response)
+  ('answer',)  
+
+defer the question
+
+  >>> question_defer = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_defer).fireTransition('defer')   
+  
+  >>> transitions(question_defer)     
+  ('schedule-deferred', 'elapse-defered', 'defer-ministry', 'withdraw-deferred')
+  
+A deferred question can be assigned to a ministry for a written response
+
+  >>> question_defer_response = copy.deepcopy(question_defer)
+
+  >>> question_defer_response.ministry_submit_date
+
+  >>> question_defer_response.ministry_id = ministry.ministry_id
+
+  >>> result = IWorkflowInfo(question_defer_response).fireTransition('defer-ministry')  
+  
+  >>> question_defer_response.ministry_submit_date  == today
+  True
+  
+  >>> transitions(question_defer_response)
+  ('elapse-pending', 'respond-writing', 'forward-ministry')  
+
+  >>> result = IWorkflowInfo(question_defer_response).fireTransition('respond-writing')  
+  
+  >>> transitions(question_defer_response)
+  ('answer',)  
+  
+  
+A queston can elapse if no answer is given
+  >>> question_elapse_defered = copy.deepcopy(question_defer)
+  
+  >>> result = IWorkflowInfo(question_elapse_defered).fireTransition('elapse-defered')    
+  >>> transitions(question_elapse_defered)
+  ()
+
+A question can be withdrawn at (almost) any stage  
+  
+  >>> question_withdraw = copy.deepcopy(question_defer)
+  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-deferred')   
+
+  >>> question_withdraw.status
+  u'Question withdrawn'  
+
+Reschedule the deferred question
+  >>> schedule_question(question.question_id)
+
+  >>> result = IWorkflowInfo(question_defer).fireTransition('schedule-deferred')   
+  >>> transitions(question_defer)     
+  ('postpone', 'withdraw-scheduled', 'respond-sitting')
+
+and postpone it to make sure it is out of the calendar schedule
+  
+  >>> result = IWorkflowInfo(question_defer).fireTransition('postpone')  
+
+schedule the question
+
+  >>> schedule_question(question.question_id)
+
+  >>> result = IWorkflowInfo(question).fireTransition('schedule')  
+  
+  >>> transitions(question)
+  ('postpone', 'withdraw-scheduled', 'respond-sitting')
+
+A question can be withdrawn at (almost) any stage  
+  
+  >>> question_withdraw = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-scheduled')   
+
+  >>> question_withdraw.status
+  u'Question withdrawn'
+
+postpone the question
+
+  >>> schedule_question(question.question_id) 
+  
+  >>> result = IWorkflowInfo(question).fireTransition('postpone')  
+  >>> transitions(question)
+  ('schedule-postponed', 'elapse-postponed', 'postponed-ministry', 'withdraw-postponed')
+ 
+A question can elapse without an answer 
+
+  >>> question_elapse_postponed = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_elapse_postponed).fireTransition('elapse-postponed')   
+  >>> transitions(question_elapse_postponed)
+  ()
+  
+A question can be withdrawn at (almost) any stage  
+  
+  >>> question_withdraw = copy.deepcopy(question)
+  >>> result = IWorkflowInfo(question_withdraw).fireTransition('withdraw-postponed')   
+
+  >>> question_withdraw.status
+  u'Question withdrawn'
+
+and reschedule it for the second sitting
+
+  >>> schedule_question(question.question_id)  
+
+
+  >>> result = IWorkflowInfo(question).fireTransition('schedule-postponed')  
+  
+  >>> transitions(question)
+  ('postpone', 'withdraw-scheduled', 'respond-sitting')
+
+
+respond to the question
+
+  >>> result = IWorkflowInfo(question).fireTransition('respond-sitting')  
+  >>> transitions(question)
+  ('answer',)
+
+the question gets marked as answered
+
+ >>> result = IWorkflowInfo(question).fireTransition('answer')  
+ >>> transitions(question)
+  ()      
+
+  
+Transition events check
+-----------------------
+
+  >>> print check_transition_events
+  {(u'Question received by clerk', u'Question complete'): True, 
+  (u'admissible Question', u'Question scheduled'): True, 
+  (u'Question pending response', u'Question pending response'): True, 
+  (u'Question scheduled', u'Question postponed'): True, 
+  (u'admissible Question', u'Question deferred'): True, 
+  (u'Question complete', u'inadmissible Question'): True, 
+  (u'Question deferred', u'Question pending response'): True, 
+  (u'admissible Question', u'Question pending response'): True, 
+  (u'Question postponed', u'Question pending response'): True, 
+  (u'draft question', u'Question submitted to clerk'): True, 
+  (u'Question received by clerk', u'Question needs MP clarification'): True, 
+  (u'Question submitted to clerk', u'Question received by clerk'): True, 
+  (u'Question postponed', u'Question scheduled'): True, 
+  (u'Question responded', u'Question answered'): True}
+
+
+
+
+cleanup
+-------
+  >>> session.flush()
+  >>> session.commit()
+  >>> session.close()  

@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <adapter
+     for=".interfaces.IBungeniContent .interfaces.IBungeniGroup"
+     provides=".interfaces.IAssignmentFactory"
+     factory=".assignment.GroupAssignmentFactory"
+     />
+
+  <adapter
+     for=".interfaces.IBungeniContent"
+     provides=".interfaces.IContentAssignments"
+     factory=".assignment.ContentAssignments"
+     />
+
+  <adapter
+     for=".interfaces.IBungeniGroup"
+     provides=".interfaces.IContextAssignments"
+     factory=".assignment.GroupContextAssignments"
+     />
+    
+</configure>

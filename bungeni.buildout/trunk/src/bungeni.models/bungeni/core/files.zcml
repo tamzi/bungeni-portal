@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<configure xmlns="http://namespaces.zope.org/zope">
+
+  <utility
+     provides=".interfaces.IVersionedFileRepository"
+     component=".files.FileRepository"
+     />
+
+  <adapter
+     for=".interfaces.IBungeniContent"
+     provides=".interfaces.IFilePathChooser"
+     factory=".files.DefaultPathChooser"
+     />
+
+  <adapter
+     for=".interfaces.IFileAttachments"
+     provides=".interfaces.IFilePathChooser"
+     factory=".files.DefaultPathChooser"
+     />
+
+  <adapter
+     for=".interfaces.IBungeniContent"
+     provides=".interfaces.IDirectoryLocation"
+     factory=".files.location"
+     />
+
+  <adapter
+     for=".interfaces.IFileAttachments"
+     provides=".interfaces.IDirectoryLocation"
+     factory=".files.location"
+     />
+
+  <adapter
+     for="ore.library.interfaces.ILibraryFile"
+     provides="ore.metamime.interfaces.IMimeClassifier"
+     factory=".files.FileClassifier"
+     />
+
+  <subscriber
+     for="ore.library.interfaces.ILibraryFile zope.lifecycleevent.interfaces.IObjectCreatedEvent"
+     handler=".files.fileClassifierSubscriber"
+     />
+
+  <subscriber
+     provides="z3c.traverser.interfaces.ITraverserPlugin"
+     factory=".files.DirectoryDescriptorTraversal"
+     for=".interfaces.IFileAttachments zope.publisher.interfaces.IPublisherRequest"
+     />
+    
+</configure>

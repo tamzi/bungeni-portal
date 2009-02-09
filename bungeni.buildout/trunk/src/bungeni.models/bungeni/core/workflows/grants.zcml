@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<configure xmlns="http://namespaces.zope.org/zope">
+  <!-- question workflow permissions -->
+  <!--grant permission="bungeni.question.Create" role="bungeni.MP" />
+  <grant permission="bungeni.question.Create" role="bungeni.Clerk" /-->  
+  <grant permission="bungeni.question.Submit" role="bungeni.Owner"/>
+  <grant permission="bungeni.question.Recieve" role="bungeni.Clerk"/>
+  <grant permission="bungeni.question.clerk.Review" role="bungeni.Clerk"/>
+  <grant permission="bungeni.question.speaker.Review"  role="bungeni.Speaker"/>
+  <grant permission="bungeni.question.Schedule" role="bungeni.Speaker"/>
+  <grant permission="bungeni.question.Schedule" role="bungeni.Clerk"/>
+  <grant permission="bungeni.question.Respond" role="bungeni.Clerk"/>
+  <grant permission="bungeni.question.Answer" role="bungeni.Clerk"/>
+  <grant permission="bungeni.question.Withdraw" role="bungeni.Owner"/>
+  <grant permission="bungeni.question.Write_answer" role="bungeni.Minister" />  
+  <!-- response workflow permissions -->
+  <!--grant permission="bungeni.response.Create" role="zope.Member" /-->
+  <!-- TODO the permission should be granted to the clerks office upon scheduling,
+  or to the relevant ministry upon assignment to answer in writing -->
+  <grant permission="bungeni.response.Submit" role="bungeni.Owner"/>
+  <grant permission="bungeni.response.Complete" role="bungeni.Clerk"/>  
+  <!--TODO motion workflow permissions -->
+  <!--grant permission="bungeni.motion.Create" role="zope.Member" /-->
+  <grant permission="bungeni.motion.Submit" role="zope.Member"/>
+  <grant permission="bungeni.motion.Recieve" role="zope.Member"/>
+  <grant permission="bungeni.motion.clerk.Review" role="zope.Member"/>
+  <grant permission="bungeni.motion.speaker.Review"  role="zope.Member"/>
+  <grant permission="bungeni.motion.Schedule" role="zope.Member"/>
+  <grant permission="bungeni.motion.Debate" role="zope.Member"/>
+  <grant permission="bungeni.motion.Withdraw" role="zope.Member"/>
+  
+  <!-- Bill Workflow permissions -->
+  <grant permission="bungeni.bill.Submit" role="bungeni.Clerk" />
+  <grant permission="bungeni.bill.Schedule" role="bungeni.Clerk" />
+  <grant permission="bungeni.bill.SelectCommittee" role="bungeni.Clerk" />
+  <grant permission="bungeni.bill.ChangeStatus" role="bungeni.Speaker" />
+  <grant permission="bungeni.bill.Withdraw" role="bungeni.Clerk" />  
+  <!--grant permission="bungeni.bill.Add" role="bungeni.Clerk" />
+  <grant permission="bungeni.bill.View" role="bungeni.Clerk" /-->
+
+</configure>

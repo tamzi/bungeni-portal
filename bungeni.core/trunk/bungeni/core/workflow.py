@@ -56,12 +56,18 @@ def _load( workflow ):
             permissions.append(
                 (DENY, d.permission, d.role )
                 )
-        states.append( State( s.id, Message(s.title, domain), permissions ) )
+        state_id =  resolve( s.id , 'bungeni.core.workflows' )       
+        states.append( State( state_id, Message(s.title, domain), permissions ) )
     
     for t in workflow.transition:
         try:
             source = t.source and t.source or None
-            args = ( t.id, Message( t.title, domain), source, t.destination )
+            if source:
+                tsource = resolve( source , 'bungeni.core.workflows' )  
+            else:
+                tsource = None       
+            tdestination = resolve( t.destination , 'bungeni.core.workflows' )         
+            args = ( t.id, Message( t.title, domain), tsource, tdestination )
             kw = {}
         except AttributeError:
             raise SyntaxError( t.toxml() )

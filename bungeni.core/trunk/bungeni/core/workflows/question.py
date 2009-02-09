@@ -12,7 +12,7 @@ from ore.workflow import workflow
 
 import bungeni.core.workflows.interfaces as interfaces
 
-
+from bungeni.core.workflows.wfstates import questionstates as states
 
 from bungeni.core.workflow import load
 

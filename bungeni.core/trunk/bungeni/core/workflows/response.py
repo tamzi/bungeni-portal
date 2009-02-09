@@ -16,7 +16,7 @@ from bungeni.core.i18n import _
 from bungeni.core.workflow import load
 
 
-
+from bungeni.core.workflows.wfstates import responsestates as states
 
     
 

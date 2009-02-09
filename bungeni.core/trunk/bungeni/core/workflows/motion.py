@@ -14,22 +14,8 @@ import bungeni.core.workflows.utils as utils
 
 from bungeni.core.i18n import _
 
-class states:
-    draft = _(u"draft motion") # a draft motion of a MP
-    private = _("private motion") # private draft of a MP
-    submitted = _(u"Motion submitted") # submitted from MP to clerks office
-    received = _(u"Motion received by clerks office") # recieved by clerks office
-    complete = _(u"Motion complete") # reviewed by clers office sent to speakers office
-    admissible = _(u"Motion admissible") # reviewed by speakers office available for scheduling
-    inadmissible = _(u"Motion inadmissible") # rejected by speakers office
-    clarify_mp = _(u"Motion needs clarification by MP") # clerks office needs clarification by MP
-    clarify_clerk = _("Motion needs clarification by Clerks Office") # speakers office needs clarification by clerks office
-    scheduled =_(u"Motion scheduled") # is scheduled for debate at a sitting
-    deferred = _(u"Motion deferred") # admissable motion that cannot be debated 
-    postponed = _(u"Motion postponed") # motion was scheduled for but not debated at the sitting
-    elapsed = _(u"Motion elapsed") # defered or postponed motion that were not debated
-    debated = _(u"Motion debated") # a motion was debated 
-    withdrawn = _(u"Motion withdrawn") # the owner of the motion can withdraw the motion
+from bungeni.core.workflows.wfstates import motionstates as states
+
 
 def denyAllWrites(motion):
     """

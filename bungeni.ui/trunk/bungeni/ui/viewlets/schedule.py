@@ -27,7 +27,7 @@ from bungeni.ui.utils import getDisplayDate
 import bungeni.core.schema as schema
 import bungeni.core.domain as domain
 from bungeni.ui.browser import container
-#from bungeni.core.workflows.question import states as question_wf_state
+from bungeni.core.workflows.question import states as question_wf_state
 from bungeni.core.workflows.motion import states as motion_wf_state
 from bungeni.core.workflows.bill import states as bill_wf_state
 import bungeni.core.globalsettings as prefs
@@ -278,11 +278,9 @@ class QuestionJSONValidation( BrowserView ):
         if type(question) == ScheduledQuestionItems:
             return "Questions cannot be postponed in the calendar, use the workflow of the question instead"     
         if type(question) == ScheduledQuestionItems or (type(question) == domain.Question):
-            if question.status == u"Question postponed": 
-                #question_wf_state.postponed:                
+            if question.status == question_wf_state.postponed:                
                 return
-            elif question.status == u"Question scheduled": 
-                #question_wf_state.scheduled:
+            elif question.status == question_wf_state.scheduled:
                 return
             else:
                 return "You cannot postpone this question"    
@@ -295,14 +293,11 @@ class QuestionJSONValidation( BrowserView ):
         if type(question) == ScheduledQuestionItems:
             return "Questions cannot be postponed in the calendar, use the workflow of the question instead" 
         if type(question) == ScheduledQuestionItems or (type(question) == domain.Question):
-            if question.status == u"Question postponed": 
-                #question_wf_state.postponed:                
+            if question.status == question_wf_state.postponed:                
                 return "This question is postponed, you can schedule it by dropping it on a sitting"
-            elif question.status == u"Question scheduled": 
-                #question_wf_state.scheduled:
+            elif question.status == question_wf_state.scheduled:
                 return "To postpone a question drag it to the 'postponed questions' area"
-            elif question.status == u"admissible Question": 
-                #question_wf_state.admissible:    
+            elif question.status == question_wf_state.admissible:    
                 return
             else:
                 return "You cannot make this question admissible"    
@@ -694,7 +689,7 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         if not self.Date:
             self.Date=datetime.date.today()                
         session = Session()
-        approved_questions = session.query(domain.Question).filter(schema.questions.c.status == u"admissible Question" ).distinct()
+        approved_questions = session.query(domain.Question).filter(schema.questions.c.status == question_wf_state.admissible ).distinct()
         results = approved_questions.all()
         for result in results:
             self.approved_question_ids.append(result.question_id)
@@ -702,7 +697,7 @@ class YUIDragDropViewlet( viewlet.ViewletBase ):
         results = agenda_items.all()
         for result in results:
             self.agenda_item_ids.append(result.agenda_item_id)                
-        postponed_questions = session.query(domain.Question).filter(schema.questions.c.status == u"Question postponed").distinct()
+        postponed_questions = session.query(domain.Question).filter(schema.questions.c.status == question_wf_state.postponed).distinct()
         results = postponed_questions.all()
         for result in results:
             self.postponed_question_ids.append(result.question_id)  
@@ -1262,7 +1257,7 @@ class PostponedQuestionViewlet( QuestionInStateViewlet ):
     """
     display the postponed questions
     """    
-    name = state = u"Question postponed" #question_wf_state.postponed   
+    name = state = question_wf_state.postponed   
     list_id = "postponed_questions"    
     
     
@@ -1270,7 +1265,7 @@ class AdmissibleQuestionViewlet( QuestionInStateViewlet ):
     """
     display the admissible questions
     """    
-    name = state = u"admissible Question" #question_wf_state.admissible
+    name = state = question_wf_state.admissible
     render = ViewPageTemplateFile ('templates/schedule_question_viewlet.pt')    
     list_id = "admissible_questions"
  
@@ -1686,7 +1681,7 @@ class ScheduleCalendarViewlet( PlenarySittingCalendarViewlet ):
                     item_schedule.item_id = question_id
                     item_schedule.order = sort_id
                     session.save(item_schedule)
-                    IWorkflowInfo(question).fireTransitionToward("Question scheduled", check_security=True)
+                    IWorkflowInfo(question).fireTransitionToward(question_wf_state.scheduled, check_security=True)
                     item_schedule.status = IWorkflowInfo(question).state().getState()
                     session.commit()
                 except:
@@ -1716,8 +1711,7 @@ class ScheduleCalendarViewlet( PlenarySittingCalendarViewlet ):
 #                    #print question.sitting_id == sitting_id
 #                    pass
             else:              
-                if IWorkflowInfo(question).state().getState() == u"Question scheduled":
-                     #question_wf_state.scheduled:
+                if IWorkflowInfo(question).state().getState() == question_wf_state.scheduled:
                     IWorkflowInfo(question).fireTransition('postpone', check_security=True)
                 else:
                     raise NotImplementedError     

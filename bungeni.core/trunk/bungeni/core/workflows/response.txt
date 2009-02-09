@@ -1,5 +1,9 @@
 Response workflow
 =================
+Note that the response workflow triggers question workflow actions.
+If the question workflow does not pass the tests there is no use testing
+the response workflow.
+
 
   >>> from bungeni.core.domain import Response
 

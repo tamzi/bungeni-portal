@@ -19,7 +19,7 @@ from zope.app.security.interfaces import IUnauthenticatedPrincipal
 from zope.securitypolicy.interfaces import IPrincipalRoleMap
 from zope import interface, schema, component
 
-from bungeni.core import domain
+from bungeni.models import domain
 
 def distictgroups_for_membernames(usernames):
     groups = {}

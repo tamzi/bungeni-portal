@@ -16,7 +16,7 @@ from alchemist.ui.core import BaseForm
 from bungeni.core.i18n import _
 
 from bungeni.models import User
-from bungeni.core import vocabulary
+from bungeni.models import vocabulary
 
 class ILoginForm( interface.Interface ):
     login = schema.TextLine( title=_(u"Username"))

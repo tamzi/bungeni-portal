@@ -8,7 +8,9 @@ from ore.alchemist import container, model, Session
 from zope.security.proxy import removeSecurityProxy
 
 from i18n import _
-import domain
+
+from bungeni.models import domain
+
 import interfaces
 
 

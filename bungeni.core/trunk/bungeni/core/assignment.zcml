@@ -2,19 +2,20 @@
 <configure xmlns="http://namespaces.zope.org/zope">
 
   <adapter
-     for=".interfaces.IBungeniContent .interfaces.IBungeniGroup"
+     for="bungeni.models.interfaces.IBungeniContent
+          bungeni.models.interfaces.IBungeniGroup"
      provides=".interfaces.IAssignmentFactory"
      factory=".assignment.GroupAssignmentFactory"
      />
 
   <adapter
-     for=".interfaces.IBungeniContent"
+     for="bungeni.models.interfaces.IBungeniContent"
      provides=".interfaces.IContentAssignments"
      factory=".assignment.ContentAssignments"
      />
 
   <adapter
-     for=".interfaces.IBungeniGroup"
+     for="bungeni.models.interfaces.IBungeniGroup"
      provides=".interfaces.IContextAssignments"
      factory=".assignment.GroupContextAssignments"
      />

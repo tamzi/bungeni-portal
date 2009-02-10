@@ -10,9 +10,9 @@ from ore.workflow.interfaces import IWorkflowInfo
 import ore.workflow.workflow
 
 import bungeni.core.interfaces
-import bungeni.core.domain as domain
+import bungeni.models.interfaces
+import bungeni.models.domain as domain
 import bungeni.core.globalsettings as prefs
-
 
 import dbutils
 

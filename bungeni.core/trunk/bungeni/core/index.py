@@ -33,9 +33,9 @@ from sqlalchemy import exceptions
 from ore.alchemist import container, model
 from ore.xapian import search, queue, interfaces as iindex
 
-from schema import metadata
-
-import interfaces, domain
+from bungeni.models.schema import metadata
+from bungeni.models import interfaces
+from bungeni.models import domain
 
 log = logging.getLogger('bungeni.index')
 

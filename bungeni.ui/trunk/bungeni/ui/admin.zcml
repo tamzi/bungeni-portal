@@ -6,7 +6,7 @@
 
   <!-- Reset Container UI on Users back to default-->
   <browser:page
-     for="bungeni.core.interfaces.IBungeniAdmin"
+     for="bungeni.models.interfaces.IBungeniAdmin"
      name="index.html"
      template="templates/admin-index.pt"
      layer="bungeni.ui.interfaces.IBungeniSkin"
@@ -14,7 +14,7 @@
      />
 
   <browser:page
-     for="bungeni.core.interfaces.IBungeniAdmin"
+     for="bungeni.models.interfaces.IBungeniAdmin"
      name="settings"
      class=".admin.Settings"
      layer="bungeni.ui.interfaces.IBungeniSkin"
@@ -31,7 +31,7 @@
      />
 
   <browser:page
-     for="bungeni.core.interfaces.IBungeniAdmin"
+     for="bungeni.models.interfaces.IBungeniAdmin"
      permission="zope.ManageSite"
      name="users"
      class=".admin.UserListing"
@@ -40,7 +40,7 @@
      />
 
   <browser:page
-     for="bungeni.core.interfaces.IBungeniAdmin"
+     for="bungeni.models.interfaces.IBungeniAdmin"
      permission="zope.ManageSite"
      name="query-users"
      class=".admin.UserQueryJSON"
@@ -48,7 +48,7 @@
      />
 
   <browser:page
-     for="bungeni.core.interfaces.IBungeniAdmin"
+     for="bungeni.models.interfaces.IBungeniAdmin"
      permission="zope.ManageSite"
      name="groups"
      class=".admin.GroupListing"
@@ -58,7 +58,7 @@
   <browser:viewlet
       name="bungeni.admin"
       manager="ploned.ui.interfaces.ILeftColumnManager"
-      for="bungeni.core.interfaces.IBungeniAdmin"
+      for="bungeni.models.interfaces.IBungeniAdmin"
       layer=".interfaces.IBungeniSkin"
       class=".admin.Menu"
       permission="zope.ManageSite"

@@ -18,10 +18,10 @@ import zope.interface
 import datetime
 
 from bungeni.ui.i18n import MessageFactory as _
-import bungeni.core.domain as domain
-import bungeni.core.schema as schema
-from bungeni.core.interfaces import IGroupSitting, IGroupSittingAttendance, IGroupSittingAttendanceContainer
-from bungeni.core.orm import _ugm_party
+import bungeni.models.domain as domain
+import bungeni.models.schema as schema
+from bungeni.models.interfaces import IGroupSitting, IGroupSittingAttendance, IGroupSittingAttendanceContainer
+from bungeni.models.orm import _ugm_party
 import bungeni.core.globalsettings as prefs
 
 from ore.alchemist import Session

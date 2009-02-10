@@ -19,8 +19,8 @@ from ore.alchemist import Session
 
 from interfaces import ISittingCalendar
 from bungeni.ui.utils import getDisplayDate
-import bungeni.core.schema as schema
-import bungeni.core.domain as domain
+import bungeni.models.schema as schema
+import bungeni.models.domain as domain
 from bungeni.ui.browser import container
 import bungeni.core.globalsettings as prefs
 from schedule import makeList, ScheduledItems, ScheduledQuestionItems, ScheduledMotionItems, ScheduledBillItems, ScheduledAgendaItems

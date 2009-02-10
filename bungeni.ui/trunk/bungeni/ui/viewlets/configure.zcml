@@ -6,7 +6,7 @@
   <!-- redirect to current -->
   
   <browser:page
-     for="bungeni.core.interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.View"
      name="current"
      class=".current.RedirectToCurrent"
@@ -15,7 +15,7 @@
 
   <!-- schedule holidays-->
   <browser:page
-     for="bungeni.core.interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IBungeniApplication"
      permission="bungeni.question.Schedule"
      name="schedule-holyday"
      class=".schedule.HolydayCalendar"
@@ -40,7 +40,7 @@
   <!-- plenary calendar -->
 
   <browser:page
-     for="bungeni.core.interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.View"
      name="plenary-calendar"
      class=".schedule.PlenaryCalendar"
@@ -48,7 +48,7 @@
 
 
   <browser:page
-     for="bungeni.core.interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.View"
      name="plenary-calendar-atom.xml"
      class=".schedule.PlenaryAtomCalendar"
@@ -73,7 +73,7 @@
 
   <!-- Question, Motion, Bill Schedule -->
   <browser:page
-     for="bungeni.core.interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IBungeniApplication"
      permission="bungeni.question.Schedule"
      name="schedule"
      class=".schedule.Calendar"
@@ -464,7 +464,7 @@
   <!-- current parliament -->    
 
   <browser:page
-     for="bungeni.core.interfaces.IParliamentContainer"
+     for="bungeni.models.interfaces.IParliamentContainer"
      permission="zope.Public"
      name="index"
      layer="bungeni.ui.interfaces.IBungeniSkin"
@@ -519,7 +519,7 @@
     /-->      
   <!-- sittings -->
   <browser:page
-     for="bungeni.core.interfaces.IGroupSittingContainer"
+     for="bungeni.models.interfaces.IGroupSittingContainer"
      permission="zope.Public"
      name="index"
      layer="bungeni.ui.interfaces.IBungeniSkin"
@@ -565,7 +565,7 @@
   <!-- schedule sittings for parliamentary session and group sittings in one calendar -->
 
   <browser:page
-     for="bungeni.core.interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.Public"
      name="schedule-sitting-calendar"
      layer="bungeni.ui.interfaces.IBungeniSkin"
@@ -614,7 +614,7 @@
 
   <!-- schedule parliamentary items for a sitting --> 
   <browser:page
-     for="bungeni.core.interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.Public"
      name="schedule-sitting-items-calendar"
      layer="bungeni.ui.interfaces.IBungeniSkin"
@@ -625,7 +625,7 @@
   <!-- Week calendar - whats on -->
 
   <browser:page
-     for="bungeni.core.interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.Public"
      name="sitting-week-calendar"
      layer="bungeni.ui.interfaces.IBungeniSkin"
@@ -650,7 +650,7 @@
   <!-- Atom view of Week calendar - whats on -->
   
   <browser:page
-     for="bungeni.core.interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.Public"
      name="atom-week-calendar.xml"
      layer="bungeni.ui.interfaces.IBungeniSkin"
@@ -659,7 +659,7 @@
   <!-- atom view of sitting (month calendar -->
   
   <browser:page
-     for="bungeni.core.interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IBungeniApplication"
      permission="zope.Public"
      name="atom-month-calendar.xml"
      layer="bungeni.ui.interfaces.IBungeniSkin"
@@ -707,7 +707,7 @@
     name="bungeni.current.partymembership"   
     manager="bungeni.ui.browser.interfaces.ISubFormViewletManager"
     class=".current.CurrentPartymemberships"
-    for="bungeni.core.interfaces.IMemberOfParliament"
+    for="bungeni.models.interfaces.IMemberOfParliament"
     permission="zope.Public"
     weight="40"
     />

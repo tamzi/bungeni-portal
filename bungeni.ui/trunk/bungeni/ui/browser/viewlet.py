@@ -1,18 +1,16 @@
 # encoding: utf-8
 from zope import interface
 from zope.viewlet import viewlet, manager
-from zope.formlib import form
 from zope.formlib.namedtemplate import NamedTemplate
 from zope.app.pagetemplate import ViewPageTemplateFile
 
 from zc.resourcelibrary import need
 
 from ore.alchemist import Session
-import bungeni.core.domain as domain
+import bungeni.models.domain as domain
 
 import alchemist.ui.core
 import alchemist.ui.viewlet
-
 
 from bungeni.ui.i18n import _
 from interfaces import ISubFormViewletManager, IResponeQuestionViewletManager, IAtomEntriesFormViewletManager, IAtomFormViewletManager

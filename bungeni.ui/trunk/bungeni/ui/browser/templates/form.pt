@@ -11,7 +11,7 @@
              i18n:domain="alchemist">
              
   <form action="."
-        tal:attributes="action view/action_url|request/URL" 
+        tal:attributes="action view/action_url|request/URL"
 	method="post"
 	enctype="multipart/form-data">
 
@@ -71,7 +71,8 @@
                      error widget/error;
                      odd repeat/widget/odd;
                      changed widget/changed | nothing"
-         tal:attributes="class python:'field'+(error and ' error' or '') + (odd and ' odd' or ' even')">
+         tal:attributes="class python:'field'+(error and ' error' or '') + (odd and ' odd' or ' even');
+                         id python: widget.name.replace('_', '-')">
          <td>
           <label tal:attributes="for widget/name">
             <span i18n:translate=""

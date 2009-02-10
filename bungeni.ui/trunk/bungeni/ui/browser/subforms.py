@@ -2,30 +2,26 @@
 import datetime
 import base64
 
-from zope.viewlet import viewlet, interfaces
+from zope.viewlet import viewlet
 from zope.app.pagetemplate import ViewPageTemplateFile
 from zope.traversing.browser import absoluteURL 
 from zope.security.proxy import removeSecurityProxy
 from zope.formlib import form
 
-import sqlalchemy.orm
-
 from ore.alchemist import Session
 from ore.alchemist.model import queryModelDescriptor
 from ore.alchemist.container import stringKey
 
-from alchemist.ui.viewlet import EditFormViewlet, AttributesViewViewlet, DisplayFormViewlet
 
-import bungeni.core.domain as domain
-from bungeni.core.interfaces import IMemberOfParliament
+
+import bungeni.models.domain as domain
 from bungeni.core.i18n import _
-import bungeni.core.domain as domain
 from bungeni.core.workflows.question import states as qw_state
 
 from bungeni.ui.viewlets.sittingcalendar import SittingCalendarViewlet
 
 from forms import BungeniAttributeDisplay
-from container import ContainerListing, AtomContainerListing
+from container import AtomContainerListing
 from table import AjaxContainerListing
 
 class SubformViewlet ( AjaxContainerListing ):

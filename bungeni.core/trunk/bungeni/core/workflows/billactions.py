@@ -9,7 +9,7 @@ def create(info,context):
 def submit( info,context ):
     utils.setBillPublicationDate( info, context )
     utils.setSubmissionDate(info, context)
-    bill = removeSecurityProxy(context)
+    #bill = removeSecurityProxy(context)
     #rpm = zope.securitypolicy.interfaces.IRolePermissionMap( bill )
     #rpm.grantPermissionToRole( 'bungeni.bill.view', u'bungeni.Everybody' )
     #rpm.denyPermissionToRole( 'bungeni.motion.edit', u'bungeni.Owner' )

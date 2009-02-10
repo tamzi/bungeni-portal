@@ -5,52 +5,134 @@
    description="A bill"
    initial_state="">
 
+  <state id="bungeni.core.workflows.wfstates.motionstates.draft" title="draft motion">
+    <grant permission="bungeni.motion.edit" role="bungeni.Owner" />
+    <grant permission="bungeni.motion.view" role="bungeni.Owner" />    
+    <grant permission="bungeni.motion.delete" role="bungeni.Owner" />    
+  </state>
+
+  <state id="bungeni.core.workflows.wfstates.motionstates.submitted" title="Motion submitted">
+    <deny permission="bungeni.motion.edit" role="bungeni.Owner" />
+    <!--deny permission="bungeni.motion.view" role="bungeni.Owner" /-->    
+    <deny permission="bungeni.motion.delete" role="bungeni.Owner" />    
+    <!--grant permission="bungeni.motion.edit" role="bungeni.Clerk" /-->
+    <grant permission="bungeni.motion.view" role="bungeni.Clerk" />      
+  </state>
+
+  <state id="bungeni.core.workflows.wfstates.motionstates.received" title="Motion received by clerks office">  
+    <grant permission="bungeni.motion.edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.motion.view" role="bungeni.Clerk" />      
+  </state>
+
+  <state id="bungeni.core.workflows.wfstates.motionstates.complete" title="Motion complete">  
+    <deny permission="bungeni.motion.edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.motion.edit" role="bungeni.Speaker" />
+    <grant permission="bungeni.motion.view" role="bungeni.Speaker" />         
+  </state>
+
+  <state id="bungeni.core.workflows.wfstates.motionstates.admissible" title="Motion admissible">  
+      <grant permission="bungeni.motion.view" role="bungeni.Everybody" />         
+  </state>    
+
+  <state id="bungeni.core.workflows.wfstates.motionstates.inadmissible" title="Motion inadmissible">     
+    <deny permission="bungeni.motion.edit" role="bungeni.Speaker" />
+  </state>
+      
+  <state id="bungeni.core.workflows.wfstates.motionstates.clarify_clerk" title="Motion needs clarification by Clerks Office">     
+    <deny permission="bungeni.motion.edit" role="bungeni.Speaker" />    
+    <grant permission="bungeni.motion.edit" role="bungeni.Clerk" />
+  </state>
+
+  <state id="bungeni.core.workflows.wfstates.motionstates.clarify_mp" title="Motion needs clarification by MP">  
+    <deny permission="bungeni.motion.edit" role="bungeni.Clerk" />
+    <grant permission="bungeni.motion.edit" role="bungeni.Speaker" />    
+    <deny permission="bungeni.motion.edit" role="bungeni.Owner" />         
+  </state>
+
+
+
+
+
+  <!-- is scheduled for debate at a sitting -->
+  <state id="bungeni.core.workflows.wfstates.motionstates.scheduled" title="Motion scheduled">  
+    <deny permission="bungeni.motion.edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.motion.edit" role="bungeni.Speaker" />
+  </state>    
+  <!-- admissable motion that cannot be debated -->
+  <state id="bungeni.core.workflows.wfstates.motionstates.deferred" title="Motion deferred">  
+
+  </state>    
+  <!--motion was scheduled for but not debated at the sitting -->
+  <state id="bungeni.core.workflows.wfstates.motionstates.postponed" title="Motion postponed">  
+
+  </state>    
+  <!--defered or postponed motion that were not debated -->
+  <state id="bungeni.core.workflows.wfstates.motionstates.elapsed" title="Motion elapsed">  
+    <deny permission="bungeni.motion.edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.motion.edit" role="bungeni.Speaker" />
+  </state>    
+  <!--a motion was debated  -->
+  <state id="bungeni.core.workflows.wfstates.motionstates.debated" title="Motion debated">  
+    <deny permission="bungeni.motion.edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.motion.edit" role="bungeni.Speaker" />
+  </state>
+  
+
+  <state id="bungeni.core.workflows.wfstates.motionstates.withdrawn" title="Motion withdrawn">  
+    <deny permission="bungeni.motion.edit" role="bungeni.Clerk" />      
+    <deny permission="bungeni.motion.edit" role="bungeni.Speaker" />
+    <deny permission="bungeni.motion.edit" role="bungeni.Owner" /> 
+  </state>
+
+
   <transition
     id="create"
     title="Create"
-    trigger="1"
-    source="bungeni.core.workflows.wfstates.motionstates.None"
-    destination="bungeni.core.workflows.wfstates.motionstates.draft_motion"
+    trigger="automatic"
+    source=""
+    destination="bungeni.core.workflows.wfstates.motionstates.draft"
     permission=""
     action="bungeni.core.workflows.motionactions.create"
     condition=""
   />
-  <transition
+  <!--transition
     id="make-private"
     title="Make private"
-    trigger="0"
+    trigger="manual"
     source="bungeni.core.workflows.wfstates.motionstates.draft_motion"
     destination="bungeni.core.workflows.wfstates.motionstates.private_motion"
     permission="bungeni.motion.Submit"
     action=""
     condition=""
-  />
-  <transition
+  /-->
+  <!--transition
     id="re-draft"
     title="Re draft"
-    trigger="0"
+    trigger="manual"
     source="bungeni.core.workflows.wfstates.motionstates.private_motion"
     destination="bungeni.core.workflows.wfstates.motionstates.draft_motion"
     permission="bungeni.motion.Submit"
     action=""
     condition=""
-  />
+  /-->
+  
   <transition
     id="submit-to-clerk"
     title="Submit to Clerk"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.draft_motion"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_submitted"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.draft"
+    destination="bungeni.core.workflows.wfstates.motionstates.submitted"
     permission="bungeni.motion.Submit"
     action="bungeni.core.workflows.motionactions.submit"
     condition=""
   />
+  
   <transition
     id="received-by-clerk"
     title="Receive"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_submitted"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_received_by_clerks_office"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.submitted"
+    destination="bungeni.core.workflows.wfstates.motionstates.received"
     permission="bungeni.motion.Recieve"
     action="bungeni.core.workflows.motionactions.recieved_by_clerk"
     condition=""
@@ -58,9 +140,9 @@
   <transition
     id="require-edit-by-mp"
     title="Needs Clarification by MP"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_received_by_clerks_office"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_needs_clarification_by_MP"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.received"
+    destination="bungeni.core.workflows.wfstates.motionstates.clarify_mp"
     permission="bungeni.motion.clerk.Review"
     action="bungeni.core.workflows.motionactions.require_edit_by_mp"
     condition=""
@@ -68,9 +150,9 @@
   <transition
     id="complete"
     title="Complete"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_received_by_clerks_office"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_complete"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.received"
+    destination="bungeni.core.workflows.wfstates.motionstates.complete"
     permission="bungeni.motion.clerk.Review"
     action="bungeni.core.workflows.motionactions.complete"
     condition=""
@@ -78,9 +160,9 @@
   <transition
     id="approve"
     title="Approve"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_complete"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_admissible"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.complete"
+    destination="bungeni.core.workflows.wfstates.motionstates.admissible"
     permission="bungeni.motion.speaker.Review"
     action="bungeni.core.workflows.motionactions.approve"
     condition=""
@@ -88,9 +170,9 @@
   <transition
     id="reject"
     title="Reject"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_complete"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_inadmissible"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.complete"
+    destination="bungeni.core.workflows.wfstates.motionstates.inadmissible"
     permission="bungeni.motion.speaker.Review"
     action="bungeni.core.workflows.motionactions.reject"
     condition=""
@@ -98,9 +180,9 @@
   <transition
     id="require-amendment"
     title="Needs Clarification"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_complete"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_needs_clarification_by_Clerks_Office"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.complete"
+    destination="bungeni.core.workflows.wfstates.motionstates.clarify_clerk"
     permission="bungeni.motion.speaker.Review"
     action="bungeni.core.workflows.motionactions.require_amendment"
     condition=""
@@ -108,9 +190,9 @@
   <transition
     id="complete-clarify"
     title="Complete"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_needs_clarification_by_Clerks_Office"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_complete"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.clarify_clerk"
+    destination="bungeni.core.workflows.wfstates.motionstates.complete"
     permission="bungeni.motion.clerk.Review"
     action=""
     condition=""
@@ -118,9 +200,9 @@
   <transition
     id="mp-clarify"
     title="Needs Clarification by MP"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_needs_clarification_by_Clerks_Office"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_needs_clarification_by_MP"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.clarify_clerk"
+    destination="bungeni.core.workflows.wfstates.motionstates.clarify_mp"
     permission="bungeni.motion.clerk.Review"
     action="bungeni.core.workflows.motionactions.mp_clarify"
     condition=""
@@ -128,9 +210,9 @@
   <transition
     id="resubmit-clerk"
     title="Resubmit to clerk"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_needs_clarification_by_MP"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_submitted"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.clarify_mp"
+    destination="bungeni.core.workflows.wfstates.motionstates.submitted"
     permission="bungeni.motion.Submit"
     action="bungeni.core.workflows.motionactions.submit"
     condition=""
@@ -138,19 +220,19 @@
   <transition
     id="schedule"
     title="Schedule"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_admissible"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_scheduled"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.admissible"
+    destination="bungeni.core.workflows.wfstates.motionstates.scheduled"
     permission="bungeni.motion.Schedule"
     action="bungeni.core.workflows.motionactions.schedule"
-    condition=".getMotionSchedule at 0x92e825c>"
+    condition="bungeni.core.workflows.utils.getMotionSchedule"
   />
   <transition
     id="defer"
     title="Defer"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_admissible"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_deferred"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.admissible"
+    destination="bungeni.core.workflows.wfstates.motionstates.deferred"
     permission="bungeni.motion.Schedule"
     action="bungeni.core.workflows.motionactions.defer"
     condition=""
@@ -158,9 +240,9 @@
   <transition
     id="elapse-defered"
     title="Elapse"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_deferred"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_elapsed"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.deferred"
+    destination="bungeni.core.workflows.wfstates.motionstates.elapsed"
     permission="bungeni.motion.Schedule"
     action="bungeni.core.workflows.motionactions.elapse"
     condition=""
@@ -168,19 +250,19 @@
   <transition
     id="schedule-deferred"
     title="Schedule"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_deferred"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_scheduled"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.deferred"
+    destination="bungeni.core.workflows.wfstates.motionstates.scheduled"
     permission="bungeni.motion.Schedule"
     action="bungeni.core.workflows.motionactions.schedule"
-    condition=".getMotionSchedule at 0x92e825c>"
+    condition="bungeni.core.workflows.utils.getMotionSchedule"
   />
   <transition
     id="postpone"
     title="Postpone"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_scheduled"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_postponed"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.scheduled"
+    destination="bungeni.core.workflows.wfstates.motionstates.postponed"
     permission="bungeni.motion.Schedule"
     action="bungeni.core.workflows.motionactions.postpone"
     condition=""
@@ -188,9 +270,9 @@
   <transition
     id="debate"
     title="Debate"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_scheduled"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_debated"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.scheduled"
+    destination="bungeni.core.workflows.wfstates.motionstates.debated"
     permission="bungeni.motion.Debate"
     action="bungeni.core.workflows.motionactions.debate"
     condition=""
@@ -198,19 +280,19 @@
   <transition
     id="schedule-postponed"
     title="Schedule"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_postponed"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_scheduled"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.postponed"
+    destination="bungeni.core.workflows.wfstates.motionstates.scheduled"
     permission="bungeni.motion.Schedule"
     action="bungeni.core.workflows.motionactions.schedule"
-    condition=".utils.getMotionSchedule"
+    condition="bungeni.core.workflows.utils.getMotionSchedule"
   />
   <transition
     id="elapse-postponed"
     title="Elapse"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_postponed"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_elapsed"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.postponed"
+    destination="bungeni.core.workflows.wfstates.motionstates.elapsed"
     permission="bungeni.motion.Schedule"
     action="bungeni.core.workflows.motionactions.elapse"
     condition=""
@@ -218,9 +300,9 @@
   <transition
     id="withdraw-submitted"
     title="Withdraw"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_submitted"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_withdrawn"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.submitted"
+    destination="bungeni.core.workflows.wfstates.motionstates.withdrawn"
     permission="bungeni.motion.Withdraw"
     action="bungeni.core.workflows.motionactions.withdraw"
     condition=""
@@ -228,9 +310,9 @@
   <transition
     id="withdraw-received"
     title="Withdraw"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_received_by_clerks_office"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_withdrawn"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.received"
+    destination="bungeni.core.workflows.wfstates.motionstates.withdrawn"
     permission="bungeni.motion.Withdraw"
     action="bungeni.core.workflows.motionactions.withdraw"
     condition=""
@@ -238,9 +320,9 @@
   <transition
     id="withdraw-complete"
     title="Withdraw"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_complete"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_withdrawn"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.complete"
+    destination="bungeni.core.workflows.wfstates.motionstates.withdrawn"
     permission="bungeni.motion.Withdraw"
     action="bungeni.core.workflows.motionactions.withdraw"
     condition=""
@@ -248,9 +330,9 @@
   <transition
     id="withdraw-admissible"
     title="Withdraw"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_admissible"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_withdrawn"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.admissible"
+    destination="bungeni.core.workflows.wfstates.motionstates.withdrawn"
     permission="bungeni.motion.Withdraw"
     action="bungeni.core.workflows.motionactions.withdraw"
     condition=""
@@ -258,9 +340,9 @@
   <transition
     id="withdraw-amend"
     title="Withdraw"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_needs_clarification_by_MP"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_withdrawn"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.clarify_mp"
+    destination="bungeni.core.workflows.wfstates.motionstates.withdrawn"
     permission="bungeni.motion.Withdraw"
     action="bungeni.core.workflows.motionactions.withdraw"
     condition=""
@@ -268,9 +350,9 @@
   <transition
     id="withdraw-scheduled"
     title="Withdraw"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_scheduled"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_withdrawn"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.scheduled"
+    destination="bungeni.core.workflows.wfstates.motionstates.withdrawn"
     permission="bungeni.motion.Withdraw"
     action="bungeni.core.workflows.motionactions.withdraw"
     condition=""
@@ -278,9 +360,9 @@
   <transition
     id="withdraw-deferred"
     title="Withdraw"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_deferred"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_withdrawn"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.deferred"
+    destination="bungeni.core.workflows.wfstates.motionstates.withdrawn"
     permission="bungeni.motion.Withdraw"
     action="bungeni.core.workflows.motionactions.withdraw"
     condition=""
@@ -288,9 +370,9 @@
   <transition
     id="withdraw-postponed"
     title="Withdraw"
-    trigger="0"
-    source="bungeni.core.workflows.wfstates.motionstates.Motion_postponed"
-    destination="bungeni.core.workflows.wfstates.motionstates.Motion_withdrawn"
+    trigger="manual"
+    source="bungeni.core.workflows.wfstates.motionstates.postponed"
+    destination="bungeni.core.workflows.wfstates.motionstates.withdrawn"
     permission="bungeni.motion.Withdraw"
     action="bungeni.core.workflows.motionactions.withdraw"
     condition=""

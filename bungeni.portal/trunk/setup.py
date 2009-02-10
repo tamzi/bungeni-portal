@@ -20,7 +20,9 @@ setup(
     namespace_packages=['bungeni'],
     install_requires = [
         'Deliverance',
+        'ore.alchemist',
         'bungeni.models',
+        'alchemist.security',
         ],
     entry_points = """\
     [paste.filter_app_factory]

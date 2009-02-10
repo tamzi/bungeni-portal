@@ -4,16 +4,16 @@ some database value population scripts
 
 import transaction
 
-from bungeni import core
-from bungeni.core import schema
+from bungeni import models
+from bungeni.models import schema
 from ore.alchemist import Session
 from alchemist import security
 from marginalia import schema as marginalia_schema
 from sqlalchemy import create_engine
 
-core.metadata.bind = db = create_engine('postgres://localhost/bungeni')
-core.metadata.drop_all()
-core.metadata.create_all()
+models.metadata.bind = db = create_engine('postgres://localhost/bungeni')
+models.metadata.drop_all()
+models.metadata.create_all()
 # the unbound sequences wont get created so we have to
 # create them maunually
 schema.QuestionSequence.create(db)

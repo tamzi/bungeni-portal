@@ -176,8 +176,6 @@ def GlobalSettingFactory( iface ):
     return klass
 
 
-BungeniSettings = GlobalSettingFactory( interfaces.IBungeniSettings )
-
 class SettingsUtility( object ):
     """ allow for lookup of settings in a context less fashion.. ie
         settings = component.getUtility( IBungeniSettings )()

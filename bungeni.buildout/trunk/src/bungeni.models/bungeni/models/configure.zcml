@@ -1,140 +1,28 @@
 <?xml version="1.0"?>
-<configure xmlns="http://namespaces.zope.org/zope"
-           xmlns:browser="http://namespaces.zope.org/browser"           
-           xmlns:db="http://namespaces.objectrealms.net/rdb"
-           xmlns:xapian="http://namespaces.objectrealms.net/xapian"
-           i18n_domain="bungeni">
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:db="http://namespaces.objectrealms.net/rdb"
+   xmlns:xapian="http://namespaces.objectrealms.net/xapian"
+   i18n_domain="bungeni">
 
-  <include package="ore.xapian" />
-  <include package="ore.xapian" file="meta.zcml" />
-  <include package="ore.library" />
-
-  <!-- Setup Database Connection -->	  
-  <db:engine
-     name="bungeni-db"
-     url="postgres://localhost/bungeni"
-     />
-
-  <!-- Bind Application Model to Database -->
-  <db:bind
-     engine="bungeni-db"
-     metadata=".schema.metadata" />
-  
-  <!-- Bind Security Model to Database (role, permission maps) -->
-  <db:bind
-     engine="bungeni-db"
-     metadata="alchemist.security.schema.metadata" />
-
-  <!-- Application to publish -->
-  <utility
-     provides="ore.wsgiapp.interfaces.IApplication"
-     factory=".app.BungeniApp"
-     />
-
-  <!-- Custom permissions -->
-  <include file="permissions.zcml" />
-  
   <!-- Catalyze Domain Models -->
   <include file="catalyst.zcml"/>
-
+  
   <!-- Include Domain Models Custom Security/Interfaces -->
   <include file="domain.zcml"/>
 
-  <!-- Setup Domain Model Audit/ObjectLog Feature-->  
-  <include file="audit.zcml"/>
+  <!-- Security Components -->
+  <include file="auth.zcml"/>
   
-  <!-- Setup Domain Model Versioning Feature-->
-  <include file="version.zcml"/>
-
-  <!-- Notifications -->
-  <!--include file="workflowsnotification.zcml" /-->
-
-  <!-- Settings for the Portal-->
-  <adapter
-      for=".interfaces.IBungeniApplication"
-      factory=".settings.BungeniSettings"
-      provides=".interfaces.IBungeniSettings"/>
-
   <!-- Settings for Users -->
   <adapter
-      for=".interfaces.IBungeniUser"
-      factory=".settings.UserSettings"
-      provides=".interfaces.IBungeniUserSettings"/>
+     for=".interfaces.IBungeniUser"
+     factory=".settings.UserSettings"
+     provides=".interfaces.IBungeniUserSettings"/>
 
   <!-- Convience for Access for Settings without Context --> 
   <utility
      provides=".interfaces.IBungeniSettings"
      factory=".settings.SettingsUtility"/>
-
-  <!-- Security Components -->
-  <include file="auth.zcml"/>
   
-  <!-- Roles and permissions -->
-  <include file="permissions.zcml" />
-  <include file="roles.zcml" />
-
-  <!-- Assignment Infrastructure -->
-  <include file="assignment.zcml"/>
-
-  <!-- Versioned File Infrastructure -->
-  <include file="files.zcml" />
-
-  <!-- Searching -->
-  <utility component=".index.searcher" />
-  
-  <adapter 
-      for=".interfaces.IBungeniContent"
-      factory=".index.ContentIndexer"/>
-
-  <adapter 
-      for=".interfaces.IBungeniUser"
-      factory=".index.ContentIndexer"/>
-
-  <adapter 
-      for=".interfaces.IBungeniGroup"
-      factory=".index.ContentIndexer"/>
-      
-  <utility factory=".index.ContentResolver" />
-
-  <xapian:queue
-     indexer=".index.indexer"
-     />
-
-  <!-- Workflow -->
-  <include package=".workflows" />
-  
-      
-  <!-- Pluggable Traversal for Parliamentary Content -->
-  <adapter
-      for=".interfaces.IBungeniContent
-           zope.publisher.interfaces.IPublisherRequest"
-      factory="z3c.traverser.traverser.PluggableTraverser"
-      provides="zope.publisher.interfaces.IPublishTraverse"/>
-
-  
-          
-  <!-- Application Setup Event Dispatcher -->
-  <subscriber
-     for=".interfaces.IBungeniApplication
-          ore.wsgiapp.interfaces.IWSGIApplicationCreatedEvent"
-     handler=".app.setUpSubscriber"
-     />
-
-  <!-- Application Setup -->
-  
-  <adapter
-     for=".interfaces.IBungeniApplication"
-     factory=".app.AppSetup"
-     />
-
-  <class 
-     class=".app.BungeniApp">
-     <allow interface="zope.app.container.interfaces.IReadContainer" />
-  </class>
-
-  <class 
-     class=".app.BungeniAdmin">
-     <allow interface="zope.app.container.interfaces.IReadContainer" />
-  </class>
-
 </configure>

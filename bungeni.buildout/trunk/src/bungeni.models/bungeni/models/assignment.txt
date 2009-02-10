@@ -6,7 +6,7 @@ the assignment.
 
 First some setup code..
 
-  >>> from bungeni.core import domain, interfaces
+  >>> from bungeni.models import domain, interfaces
   >>> from zope.component import getMultiAdapter
   >>> from ore.alchemist import Session
   >>> from datetime import datetime
@@ -50,25 +50,25 @@ To demonstrate let's create some groups and a content object.
 Now we can assign the bill to a committee.
 
   >>> getMultiAdapter( (bill, committee ), interfaces.IAssignmentFactory).new()
-  <bungeni.core.assignment.GroupAssignment object at ...>
+  <bungeni.models.assignment.GroupAssignment object at ...>
 
   >>> getMultiAdapter( (bill, committee2 ), interfaces.IAssignmentFactory).new()
-  <bungeni.core.assignment.GroupAssignment object at ...>
+  <bungeni.models.assignment.GroupAssignment object at ...>
 
   >>> getMultiAdapter( (bill2, committee ), interfaces.IAssignmentFactory).new()
-  <bungeni.core.assignment.GroupAssignment object at ...>
+  <bungeni.models.assignment.GroupAssignment object at ...>
 
 We can now utilize the content assignments adapter to find all the assignments of this
 content to any group.
 
  >>> list( interfaces.IContentAssignments( bill ) )
- [<bungeni.core.assignment.GroupAssignment object at ...>, <bungeni.core.assignment.GroupAssignment object at ...>]
+ [<bungeni.models.assignment.GroupAssignment object at ...>, <bungeni.models.assignment.GroupAssignment object at ...>]
 
 Or use the context assignments adapter to find all the assignments of a particular
 group.
 
   >>> list( interfaces.IContextAssignments( committee ) )
-  [<bungeni.core.assignment.GroupAssignment object at ...>, <bungeni.core.assignment.GroupAssignment object at ...>]
+  [<bungeni.models.assignment.GroupAssignment object at ...>, <bungeni.models.assignment.GroupAssignment object at ...>]
 
 Clean up commit outstanding transactions
 -----------------------------------------

@@ -11,7 +11,10 @@ from zope.dottedname.resolve import resolve
 from sqlalchemy import orm
 from datetime import datetime
 
-import interfaces, schema
+import interfaces
+
+from bungeni.models import schema
+from bungeni.models.interfaces import IAssignment
     
 class GroupContextAssignments( object ):
     
@@ -67,7 +70,7 @@ class GroupAssignmentFactory( object ):
     
 class GroupAssignment( object ):
 
-    interface.implements( interfaces.IAssignment )
+    interface.implements( IAssignment )
 
     @property
     def context( self ):

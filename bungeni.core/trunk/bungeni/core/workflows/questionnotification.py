@@ -3,7 +3,7 @@ from zope import component
 from zope.i18n import translate
 
 import bungeni.core.workflows.interfaces as interfaces
-import bungeni.core.domain as domain
+import bungeni.models.domain as domain
 import bungeni.core.globalsettings as prefs
 import bungeni.core.workflows.dbutils as dbutils
 from email.mime.text import MIMEText

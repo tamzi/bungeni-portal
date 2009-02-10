@@ -2,7 +2,7 @@ from zope import component
 from zope.i18n import translate
 
 import bungeni.core.workflows.interfaces as interfaces
-from bungeni.core.domain import User
+from bungeni.models.domain import User
 import bungeni.core.globalsettings as prefs
 
 from email.mime.text import MIMEText

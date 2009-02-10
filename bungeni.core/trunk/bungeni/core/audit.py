@@ -12,7 +12,7 @@ from zope import lifecycleevent
 from ore.alchemist.interfaces import IRelationChange
 from sqlalchemy import orm
 
-import schema
+from bungeni.models import schema
 
 from i18n import _ 
 

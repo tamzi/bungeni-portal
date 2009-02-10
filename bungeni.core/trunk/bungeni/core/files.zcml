@@ -7,26 +7,26 @@
      />
 
   <adapter
-     for=".interfaces.IBungeniContent"
+     for="bungeni.models.interfaces.IBungeniContent"
      provides=".interfaces.IFilePathChooser"
      factory=".files.DefaultPathChooser"
      />
 
   <adapter
-     for=".interfaces.IFileAttachments"
+     for="bungeni.models.interfaces.IFileAttachments"
      provides=".interfaces.IFilePathChooser"
      factory=".files.DefaultPathChooser"
      />
 
   <adapter
-     for=".interfaces.IBungeniContent"
-     provides=".interfaces.IDirectoryLocation"
+     for="bungeni.models.interfaces.IBungeniContent"
+     provides="bungeni.models.interfaces.IDirectoryLocation"
      factory=".files.location"
      />
 
   <adapter
-     for=".interfaces.IFileAttachments"
-     provides=".interfaces.IDirectoryLocation"
+     for="bungeni.models.interfaces.IFileAttachments"
+     provides="bungeni.models.interfaces.IDirectoryLocation"
      factory=".files.location"
      />
 
@@ -37,14 +37,24 @@
      />
 
   <subscriber
-     for="ore.library.interfaces.ILibraryFile zope.lifecycleevent.interfaces.IObjectCreatedEvent"
+     for="ore.library.interfaces.ILibraryFile
+          zope.lifecycleevent.interfaces.IObjectCreatedEvent"
      handler=".files.fileClassifierSubscriber"
      />
 
   <subscriber
      provides="z3c.traverser.interfaces.ITraverserPlugin"
      factory=".files.DirectoryDescriptorTraversal"
-     for=".interfaces.IFileAttachments zope.publisher.interfaces.IPublisherRequest"
+     for="bungeni.models.interfaces.IFileAttachments
+          zope.publisher.interfaces.IPublisherRequest"
      />
-    
+
+  <class class=".files.ContainedDirectory">
+    <require permission="zope.Public"
+             like_class="ore.svn.directory.SubversionDirectory"/>
+    <require permission="zope.Public"
+             attributes="__call__ keys get getLog __getitem__ items files directories"/>
+  </class>
+  
+
 </configure>

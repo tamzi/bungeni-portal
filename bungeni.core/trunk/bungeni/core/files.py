@@ -13,9 +13,8 @@ from ore.svn.directory import SubversionDirectory
 from ore.metamime.interfaces import IMimeClassifier
 from ore.metamime.hachoir import HachoirFileClassifier, InputIOStream
 
-from bungeni.core import interfaces, schema as dbschema
-
-
+from bungeni.core import interfaces
+from bungeni.models import schema as dbschema
 
 def fileClassifierSubscriber( ob, event ):
     from zope.security.proxy import removeSecurityProxy
@@ -51,44 +50,6 @@ class DefaultPathChooser( object ):
         segments.insert(0, "")
         path = '/'.join( segments )
 	return path
-
-class DirectoryDescriptor( object ):
-    """
-    you can place this on a content object to get easy access to its files.
-    
-    class foo( object ):
-        
-        attachments = DirectoryDescriptor()
-        
-    file = foo().attachments.makeFile('rabbits.txt')
-    file.contents = "Hello World"
-
-    you can then traverse to the file via
-    
-      base_url/foo_name/attachments/rabbits.txt
-      
-    # streaming interface also available see ore.svn docs
-    """
-        
-    # assumes one directory per content context
-
-    def __get__( self, instance, owner):
-        if instance is None:
-            raise AttributeError
-        directory = interfaces.IDirectoryLocation( instance ).directory
-        interface.directlyProvides( directory, interfaces.IProxiedDirectory )
-        return directory
-
-class DirectoryDescriptorTraversal( object ):
-    """ traversal through directory descriptors named 'files'  """
-    def __init__( self, context, request ):
-        self.context = context
-        self.request = request
-
-    def publishTraverse( self, request, name ):
-        if name == 'files':
-            return self.context.files
-        raise NotFound( self.context, name, request )
 
 class ContainedDirectory( SubversionDirectory ):
 
@@ -182,6 +143,16 @@ class _FileRepository( object ):
         location.context = context
         return location
                                 
+class DirectoryDescriptorTraversal( object ):
+    """ traversal through directory descriptors named 'files'  """
+    def __init__( self, context, request ):
+        self.context = context
+        self.request = request
+
+    def publishTraverse( self, request, name ):
+        if name == 'files':
+            return self.context.files
+        raise NotFound( self.context, name, request )
 
 def create_path( root, path ):
     segments = path.split('/')

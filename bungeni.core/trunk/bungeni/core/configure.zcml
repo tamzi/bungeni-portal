@@ -8,7 +8,9 @@
   <include package="ore.xapian" />
   <include package="ore.xapian" file="meta.zcml" />
   <include package="ore.library" />
-
+  
+  <include package="bungeni.models" />
+  
   <!-- Setup Database Connection -->	  
   <db:engine
      name="bungeni-db"
@@ -18,7 +20,7 @@
   <!-- Bind Application Model to Database -->
   <db:bind
      engine="bungeni-db"
-     metadata=".schema.metadata" />
+     metadata="bungeni.models.schema.metadata" />
   
   <!-- Bind Security Model to Database (role, permission maps) -->
   <db:bind
@@ -34,12 +36,6 @@
   <!-- Custom permissions -->
   <include file="permissions.zcml" />
   
-  <!-- Catalyze Domain Models -->
-  <include file="catalyst.zcml"/>
-
-  <!-- Include Domain Models Custom Security/Interfaces -->
-  <include file="domain.zcml"/>
-
   <!-- Setup Domain Model Audit/ObjectLog Feature-->  
   <include file="audit.zcml"/>
   
@@ -51,24 +47,11 @@
 
   <!-- Settings for the Portal-->
   <adapter
-      for=".interfaces.IBungeniApplication"
-      factory=".settings.BungeniSettings"
-      provides=".interfaces.IBungeniSettings"/>
+     for="bungeni.models.interfaces.IBungeniApplication"
+     provides="bungeni.models.interfaces.IBungeniSettings"
+     factory=".globalsettings.BungeniSettings"
+     />
 
-  <!-- Settings for Users -->
-  <adapter
-      for=".interfaces.IBungeniUser"
-      factory=".settings.UserSettings"
-      provides=".interfaces.IBungeniUserSettings"/>
-
-  <!-- Convience for Access for Settings without Context --> 
-  <utility
-     provides=".interfaces.IBungeniSettings"
-     factory=".settings.SettingsUtility"/>
-
-  <!-- Security Components -->
-  <include file="auth.zcml"/>
-  
   <!-- Roles and permissions -->
   <include file="permissions.zcml" />
   <include file="roles.zcml" />
@@ -83,15 +66,15 @@
   <utility component=".index.searcher" />
   
   <adapter 
-      for=".interfaces.IBungeniContent"
+      for="bungeni.models.interfaces.IBungeniContent"
       factory=".index.ContentIndexer"/>
 
   <adapter 
-      for=".interfaces.IBungeniUser"
+      for="bungeni.models.interfaces.IBungeniUser"
       factory=".index.ContentIndexer"/>
 
   <adapter 
-      for=".interfaces.IBungeniGroup"
+      for="bungeni.models.interfaces.IBungeniGroup"
       factory=".index.ContentIndexer"/>
       
   <utility factory=".index.ContentResolver" />
@@ -100,13 +83,35 @@
      indexer=".index.indexer"
      />
 
+  <!-- Marker interfaces -->
+
+  <class class="bungeni.models.domain.User">
+    <implements interface="ore.xapian.interfaces.IIndexable" />
+  </class>
+
+  <class class="bungeni.models.domain.Group">
+    <implements interface="ore.xapian.interfaces.IIndexable" />
+  </class>
+  
+  <class class="bungeni.models.domain.ParliamentaryItem">
+    <implements interface="ore.xapian.interfaces.IIndexable" />
+  </class>
+
+  <class class="bungeni.models.domain.ParliamentaryItem">
+    <implements interface=".interfaces.IAuditable" />
+  </class>
+
+  <class class="bungeni.models.domain.ParliamentaryItem">
+    <implements interface=".interfaces.IVersionable" />
+  </class>
+  
   <!-- Workflow -->
   <include package=".workflows" />
   
       
   <!-- Pluggable Traversal for Parliamentary Content -->
   <adapter
-      for=".interfaces.IBungeniContent
+      for="bungeni.models.interfaces.IBungeniContent
            zope.publisher.interfaces.IPublisherRequest"
       factory="z3c.traverser.traverser.PluggableTraverser"
       provides="zope.publisher.interfaces.IPublishTraverse"/>
@@ -115,7 +120,7 @@
           
   <!-- Application Setup Event Dispatcher -->
   <subscriber
-     for=".interfaces.IBungeniApplication
+     for="bungeni.models.interfaces.IBungeniApplication
           ore.wsgiapp.interfaces.IWSGIApplicationCreatedEvent"
      handler=".app.setUpSubscriber"
      />
@@ -123,7 +128,7 @@
   <!-- Application Setup -->
   
   <adapter
-     for=".interfaces.IBungeniApplication"
+     for="bungeni.models.interfaces.IBungeniApplication"
      factory=".app.AppSetup"
      />
 

@@ -2,39 +2,39 @@
 <configure xmlns="http://namespaces.zope.org/zope">
   
   <subscriber
-     for=".interfaces.IAuditable
+     for="bungeni.core.interfaces.IAuditable
           zope.lifecycleevent.IObjectModifiedEvent"
      handler=".audit.objectModified"
      trusted="True"
      />
      
   <subscriber
-     for=".interfaces.IAuditable
+     for="bungeni.core.interfaces.IAuditable
           zope.lifecycleevent.IObjectCreatedEvent"
      handler=".audit.objectAdded"
      trusted="True"
      />
      
   <subscriber
-     for=".interfaces.IAuditable
-        zope.app.container.interfaces.IObjectRemovedEvent"
+     for="bungeni.core.interfaces.IAuditable
+          zope.app.container.interfaces.IObjectRemovedEvent"
      handler=".audit.objectDeleted"
      trusted="True"
      />
      
   <subscriber
-      for=".interfaces.IAuditable
+      for="bungeni.core.interfaces.IAuditable
            ore.workflow.interfaces.IWorkflowTransitionEvent"
       handler=".audit.objectStateChange"
       />
 
   <subscriber
-     for=".interfaces.IAuditable
+     for="bungeni.core.interfaces.IAuditable
           .interfaces.IVersionCreated"
      handler=".audit.objectNewVersion" />
      
   <subscriber
-     for=".interfaces.IAuditable
+     for="bungeni.core.interfaces.IAuditable
           .interfaces.IVersionReverted"
      handler=".audit.objectRevertedVersion" />     
   

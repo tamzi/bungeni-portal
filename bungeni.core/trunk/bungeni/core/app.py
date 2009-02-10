@@ -14,9 +14,8 @@ from ore.wsgiapp.app import Application
 from ore.svn import repos
 from ore.library.library import Library
 
-import domain
-
-import interfaces
+from bungeni.models import domain
+from bungeni.models import interfaces
 
 class BungeniApp( Application ):
 

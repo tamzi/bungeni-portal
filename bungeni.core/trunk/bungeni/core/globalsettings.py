@@ -7,20 +7,19 @@ global settings
 
 # the schema for the settings is in interfaces
 
+import datetime
 
 import sqlalchemy.sql.expression as sql
 from ore.alchemist import Session
 
-import bungeni.core.domain as domain
-import bungeni.core.schema as schema
-import bungeni.core.settings as settings
 from bungeni.core.i18n import _
 from bungeni.core.app import BungeniApp
 
-import datetime
-
-
-
+from bungeni.models import domain
+from bungeni.models import schema
+from bungeni.models import settings
+from bungeni.models.interfaces import IBungeniSettings
+from bungeni.models.settings import GlobalSettingFactory
 
 app = BungeniApp()                
 
@@ -142,3 +141,5 @@ def getPloneMenuUrl():
 
     raise NotImplementedError(
         "This method should not be used.")    
+
+BungeniSettings = GlobalSettingFactory(IBungeniSettings)

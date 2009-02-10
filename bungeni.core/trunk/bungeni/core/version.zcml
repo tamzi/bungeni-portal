@@ -3,7 +3,7 @@
 
 
   <adapter
-     for=".interfaces.IVersionable"
+     for="bungeni.core.interfaces.IVersionable"
      provides=".interfaces.IVersioned"
      factory=".version.ContextVersioned"
      />

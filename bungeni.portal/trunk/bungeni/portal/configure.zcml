@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:db="http://namespaces.objectrealms.net/rdb"
+           i18n_domain="bungeni">
+
+  <include package="ore.alchemist" file="meta.zcml" />
+  
+  <!-- Setup Database Connection -->
+  <db:engine
+     name="bungeni-db"
+     url="postgres://localhost/bungeni"
+     />
+
+  <!-- Bind Application Model to Database -->
+  <db:bind
+     engine="bungeni-db"
+     metadata="bungeni.models.schema.metadata" />
+  
+  <!-- Bind Security Model to Database (role, permission maps) -->
+  <db:bind
+     engine="bungeni-db"
+     metadata="alchemist.security.schema.metadata" />
+
+</configure>

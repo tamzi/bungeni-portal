@@ -78,7 +78,7 @@ class billstates:
     
 class motionstates:
     draft = _(u"draft motion") # a draft motion of a MP
-    private = _("private motion") # private draft of a MP
+    #private = _("private motion") # private draft of a MP
     submitted = _(u"Motion submitted") # submitted from MP to clerks office
     received = _(u"Motion received by clerks office") # recieved by clerks office
     complete = _(u"Motion complete") # reviewed by clers office sent to speakers office

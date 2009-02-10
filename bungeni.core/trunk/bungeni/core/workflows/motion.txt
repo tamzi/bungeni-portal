@@ -163,24 +163,10 @@ The motion is now in a draft state.
 
 
   >>> transitions(motion)
-   ('make-private', 'submit-to-clerk')
+   (u'submit-to-clerk')
     
   >>> permission(motion)
   ('bungeni.motion.Submit', 'bungeni.motion.Submit')
-
-The Question can be made a private draft
-
-  >>> result = IWorkflowInfo(motion).fireTransition('make-private')
-  
-  >>> transitions(motion)
-  ('re-draft',)  
-
-and can be put into draft state at a later time
-
-  >>> result = IWorkflowInfo(motion).fireTransition('re-draft')
-  
-  >>> transitions(motion)
-   ('make-private', 'submit-to-clerk')
 
 
 When we submit the motion, a new version is created.

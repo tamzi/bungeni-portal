@@ -10,23 +10,8 @@
   <include package="ore.library" />
   
   <include package="bungeni.models" />
+  <include package="bungeni.portal" />
   
-  <!-- Setup Database Connection -->	  
-  <db:engine
-     name="bungeni-db"
-     url="postgres://localhost/bungeni"
-     />
-
-  <!-- Bind Application Model to Database -->
-  <db:bind
-     engine="bungeni-db"
-     metadata="bungeni.models.schema.metadata" />
-  
-  <!-- Bind Security Model to Database (role, permission maps) -->
-  <db:bind
-     engine="bungeni-db"
-     metadata="alchemist.security.schema.metadata" />
-
   <!-- Application to publish -->
   <utility
      provides="ore.wsgiapp.interfaces.IApplication"
